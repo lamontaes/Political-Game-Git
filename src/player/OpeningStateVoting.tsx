@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
+import type { World } from "../simulation/types";
+import {
+  currentWorldVotingEstimate,
+  currentWorldEstimateCaption,
+} from "../presentation/current-world-peer-estimates";
 import { GameSelect } from "./controls/GameSelect";
 import {
   queryStateVotingContext,
-  NO_SURVEY_TOTAL_REASON,
   type CpsVotingCell,
   type StateVotingContext,
 } from "../presentation/state-voting-context";
-import { NATIONAL_REPORTED_VOTING_2024 } from "../presentation/opening-state-estimates";
 
 type Breakdown = "sex" | "age" | "raceAndHispanicOrigin";
 
@@ -39,9 +42,11 @@ export function plainRate(value: CpsVotingCell, margin: CpsVotingCell): string {
 export function OpeningStateVoting({
   stateUsps,
   asOf,
+  world,
 }: {
   readonly stateUsps: string | null;
   readonly asOf: string;
+  readonly world?: World;
 }) {
   const [result, setResult] = useState<StateVotingContext | null>(null);
   const [failed, setFailed] = useState<string | null>(null);
@@ -66,22 +71,33 @@ export function OpeningStateVoting({
     result?.stateUsps === stateUsps && result.asOf === asOf ? result : null;
   const totals = ready?.totals;
   const groups = ready?.breakdowns[breakdown] ?? [];
+  const estimate =
+    world && stateUsps ? currentWorldVotingEstimate(world, stateUsps) : null;
   return (
     <section data-testid="opening-state-voting">
-      <h3>Reported voting · November 2024</h3>
+      <h3>
+        {!totals && estimate
+          ? "Voting in the current game"
+          : "Reported voting · November 2024"}
+      </h3>
       {!totals ? (
-        <p role="status">
-          {(ready?.unavailableReason !== NO_SURVEY_TOTAL_REASON
-            ? ready?.unavailableReason
-            : null) ??
-            (stateUsps
-              ? `Estimated from the national average: about ${Math.round(NATIONAL_REPORTED_VOTING_2024.votedPercent)}% of citizen adults said they voted${
-                  failed === key || ready
-                    ? "."
-                    : ". The survey for this state replaces it when it arrives."
-                }`
-              : "Voting survey information is unavailable.")}
-        </p>
+        estimate ? (
+          <>
+            <p>Estimated turnout: about {Math.round(estimate.mean)}%.</p>
+            <p>{currentWorldEstimateCaption(estimate)}</p>
+            <p>
+              This is simulated turnout, not a survey of registration or
+              reported voting in November 2024.
+            </p>
+          </>
+        ) : (
+          <p role="status">
+            {ready?.unavailableReason ??
+              (!stateUsps || failed === key
+                ? "Voting survey information is unavailable."
+                : "No current-game turnout records are available yet.")}
+          </p>
+        )
       ) : (
         <>
           <p>

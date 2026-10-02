@@ -631,11 +631,13 @@ export function WorldOrientationPanel({
                       ) : null}
                     </section>
                     <OpeningStatePopulation
+                      world={world ?? undefined}
                       stateUsps={homeStateUsps}
                       asOf={world?.currentDate ?? regionalContext?.asOf ?? ""}
                     />
                     {isTerritoryUsps(homeStateUsps) ? null : (
                       <OpeningStateVoting
+                        world={world ?? undefined}
                         stateUsps={homeStateUsps}
                         asOf={world?.currentDate ?? regionalContext?.asOf ?? ""}
                       />

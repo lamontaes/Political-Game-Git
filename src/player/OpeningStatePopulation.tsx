@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
+import type { World } from "../simulation/types";
+import {
+  currentWorldPopulationEstimate,
+  currentWorldEstimateCaption,
+} from "../presentation/current-world-peer-estimates";
 import { isTerritoryUsps } from "../simulation/state-reference";
 import { districtIdentityCatalog } from "../districts/catalog";
-import { estimatedStatePopulation } from "../presentation/opening-state-estimates";
 import {
   queryMapPlaceDemography,
   type MapPlaceDemography,
@@ -16,12 +20,13 @@ stateFips.set("DC", "11");
 export function OpeningStatePopulation({
   stateUsps,
   asOf,
+  world,
 }: {
   readonly stateUsps: string | null;
   readonly asOf: string;
+  readonly world?: World;
 }) {
   const [result, setResult] = useState<MapPlaceDemography | null>(null);
-  const [failed, setFailed] = useState<string | null>(null);
   const key = `${stateUsps}:${asOf}`;
   const geoid = stateUsps ? stateFips.get(stateUsps) : undefined;
   useEffect(() => {
@@ -37,7 +42,7 @@ export function OpeningStatePopulation({
         if (active) setResult(next);
       },
       () => {
-        if (active) setFailed(key);
+        if (active) setResult(null);
       },
     );
     return () => {
@@ -49,6 +54,10 @@ export function OpeningStatePopulation({
       ? result
       : null;
   const population = ready?.population;
+  const estimate =
+    world && stateUsps
+      ? currentWorldPopulationEstimate(world, stateUsps)
+      : null;
   return (
     <section data-testid="opening-state-population">
       <h3>
@@ -72,19 +81,16 @@ export function OpeningStatePopulation({
             {population.estimated ? " estimate" : ""}
           </figcaption>
         </figure>
-      ) : stateUsps ? (
+      ) : estimate ? (
         <figure className="pg-state-population-figure">
           <p className="pg-state-population-number">
             <span className="pg-state-population-value">
-              About{" "}
-              {estimatedStatePopulation(stateUsps).toLocaleString("en-US")}
+              About {Math.round(estimate.mean).toLocaleString("en-US")}
             </span>{" "}
             <span className="pg-state-population-unit">people</span>
           </p>
           <figcaption className="pg-state-population-caption">
-            {failed === key
-              ? "Estimated from the average House district"
-              : "Estimated from the average House district; the exact count replaces it when it arrives"}
+            {currentWorldEstimateCaption(estimate)}
           </figcaption>
         </figure>
       ) : (
