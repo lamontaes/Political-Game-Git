@@ -4,7 +4,7 @@ import {
   generateOpeningLife,
   prepareOpeningLife,
 } from "../presentation/opening-life";
-import { lifePlaces } from "./life-places";
+import { lifePlaceStateIdentities, searchLifePlaces } from "./life-places";
 import { SeededRng } from "./rng";
 import { personName } from "./people";
 
@@ -39,9 +39,14 @@ let borrowerId: EntityId;
 let home: EntityId;
 let recorded: MacroMonthRecord;
 beforeAll(() => {
-  const place = new SeededRng(seed).pick(
-    lifePlaces().filter((row) => row.scope === "locality"),
-  );
+  const rng = new SeededRng(seed);
+  const state = rng.pick(lifePlaceStateIdentities());
+  const places = searchLifePlaces("", Number.MAX_SAFE_INTEGER, {
+    stateJurisdictionKey: state.jurisdictionKey,
+    scope: "locality",
+  });
+  expect(places.length).toBeGreaterThan(0);
+  const place = rng.pick(places);
   const game = generateOpeningLife(
     prepareOpeningLife({
       ...explicitNewGameSetup({ placeKey: place.key, seed }),
@@ -99,6 +104,8 @@ beforeAll(() => {
       seed,
       place: place.displayName,
       placeKey: place.key,
+      selectedState: state.name,
+      eligibleLocalities: places.length,
       currentDate: opening.currentDate,
       person: personName(opening.people[borrowerId]!),
       personId: borrowerId,
