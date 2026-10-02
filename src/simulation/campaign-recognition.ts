@@ -4,6 +4,7 @@ import {
 } from "./campaign-queries";
 import { ageOnDate } from "./dates";
 import { eventById } from "./event-index";
+import { householdMembershipsAt } from "./life-queries";
 import { recordsByKey } from "./history-index";
 import type { CampaignRecord, EntityId, World } from "./types";
 
@@ -56,12 +57,18 @@ export function doorKnockingReturn(
   const won = racesWonBefore(world, campaign);
   const adultResidentIds = [...new Set(world.personOrder)].filter((id) => {
     const person = world.people[id];
-    return (
-      person &&
-      id !== campaign.candidatePersonId &&
-      person.homeJurisdictionId === campaign.jurisdictionId &&
-      ageOnDate(person.birthDate, world.currentDate) >= 18
+    if (
+      !person ||
+      id === campaign.candidatePersonId ||
+      ageOnDate(person.birthDate, world.currentDate) < 18
+    )
+      return false;
+    const homes = householdMembershipsAt(world, id).flatMap((row) =>
+      row.location ? [row.location.jurisdictionId] : [],
     );
+    return homes.length
+      ? homes.includes(campaign.jurisdictionId)
+      : person.homeJurisdictionId === campaign.jurisdictionId;
   });
   const residents = new Set(adultResidentIds);
   const excludedEvents = new Set(

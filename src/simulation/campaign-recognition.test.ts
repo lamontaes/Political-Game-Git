@@ -9,6 +9,11 @@ import { campaigns } from "./campaign-queries";
 import { doorKnockingReturn } from "./campaign-recognition";
 import { requestedCampaignFieldGainBasisPoints } from "./campaigns";
 import { addDays, ageOnDate, makeIsoDate } from "./dates";
+import {
+  createHousehold,
+  recordHouseholdLocation,
+  startHouseholdMembership,
+} from "./life";
 import { lifePlaceStateIdentities } from "./life-places";
 import { recordRelationshipInteraction } from "./records";
 import { pickDistinct, SeededRng } from "./rng";
@@ -195,6 +200,45 @@ describe(`recognition from recorded contacts (${place!.name}; seed ${seed})`, ()
     expect(read(earlier).percent).toBe(0);
     expect(read(met).percent).toBe(100 / residents.length);
     expect(read(deserializeWorld(serializeWorld(met)))).toEqual(read(met));
+  });
+  it("reads a newly recorded household location instead of keeping the person's old home jurisdiction", () => {
+    let world = contact(base, person, "recognition:before-household-move");
+    const provenance = {
+      kind: "authored" as const,
+      note: "Explicit household-location reader control.",
+    };
+    world = createHousehold(world, {
+      stableKey: "recognition:moved-household",
+      formedAt: world.currentDate,
+      label: "Reader fixture household",
+      provenance,
+    });
+    const householdId = world.history.households.at(-1)!.id;
+    world = recordHouseholdLocation(world, {
+      stableKey: "recognition:moved-location",
+      householdId,
+      effectiveAt: world.currentDate,
+      jurisdictionId: small.stateJurisdictionId,
+      label: "Recorded different jurisdiction",
+      kind: "residence:home",
+      provenance,
+      supersedesLocationId: null,
+    });
+    world = startHouseholdMembership(world, {
+      stableKey: "recognition:moved-member",
+      personId: person,
+      householdId,
+      startedAt: world.currentDate,
+      residenceRole: "primary",
+      kind: "resident:member",
+      provenance,
+    });
+    expect(world.people[person]!.homeJurisdictionId).toBe(
+      campaign.jurisdictionId,
+    );
+    expect(read(world).adultResidentIds).not.toContain(person);
+    expect(read(world).percent).toBe(0);
+    expect(read(deserializeWorld(serializeWorld(world)))).toEqual(read(world));
   });
   it("retains prior-win diagnostics without inventing a recognition bonus", () => {
     const own = base.history.electionContests!.find(

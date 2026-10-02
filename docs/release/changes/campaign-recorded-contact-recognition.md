@@ -10,7 +10,8 @@ share of recorded adult residents who have actually met the candidate in saved
 campaign-contact events. Repeated encounters count a person once. Both people
 must be recorded as present or acting in the dated source event; untagged
 relationships, mentions, children, outsiders and future contacts do not count.
-The reader exposes the actual resident, recognized-person and contact-record IDs.
+Current household-location records govern residency; the saved person home is
+used when no household location is recorded. The reader exposes the actual resident, recognized-person and contact-record IDs.
 An action's own outcome does not supply its prior recognition.
 
 Completed afternoon and prior-win counts remain informational. No win, newcomer
