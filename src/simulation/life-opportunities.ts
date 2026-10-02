@@ -20,7 +20,7 @@ import { createScheduledActivity, createWorkItem } from "./time-work";
 import { settleLivingCosts } from "./cost-of-living";
 import { settleOfficeSalaries } from "./office-salary";
 import { advanceJobMarket } from "./job-market";
-import { settleMortgages } from "./home-purchase";
+import { settleHouseholdLoanPayments } from "./household-loans";
 import { recordWorldEvent } from "./world";
 import { ensurePeopleTraits } from "./people-traits";
 import {
@@ -457,7 +457,7 @@ export function refreshLifeOpportunities(
   let next = world;
   next = settleOfficeSalaries(next, personId);
   next = advanceJobMarket(next, personId);
-  next = settleMortgages(next, personId);
+  next = settleHouseholdLoanPayments(next, personId);
   next = settleLivingCosts(next, personId);
   next = writeNextOpportunity(next, personId);
   return next;

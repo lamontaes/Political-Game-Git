@@ -62,6 +62,7 @@ import type {
 import { recordWorldEvent } from "../world";
 import { TOWN_RESIDENTS_VERSION } from "./town-residents";
 import { startTownJobPay } from "./town-pay";
+import { ensureOpeningMortgages } from "./opening-mortgages";
 import { homePurchaseTerms } from "../home-purchase";
 import {
   householdHousingFacts,
@@ -525,7 +526,7 @@ export function ensureTownHomes(world: World, town: EntityId): World {
       provenance,
     );
   }
-  return writer.world;
+  return ensureOpeningMortgages(writer.world, town);
 }
 
 /** One quarterly turn of the town's homes, on the world's current date. */
