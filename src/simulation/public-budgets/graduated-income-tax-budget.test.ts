@@ -381,6 +381,12 @@ it.each([100_000, 300_000])(
       payments[0]!.amount.minorUnits,
     );
     expect(recorded.revenueMinorUnits[incomeIndex]).toBe(actualReceipts);
+    // Representation identifies the actual payer; it never subtracts a
+    // modeled per-resident receipt from the government's paid cash.
+    expect(readFlows.flows.represented.get(jurisdictionKey)).toBe(1);
+    expect(readFlows.flows.withheld.get(jurisdictionKey)).toBe(
+      actualReceipts / 100,
+    );
     expect(recorded.sourceRecordIds).toContain(collection.id);
     const settled = settleGovernmentMonth(
       world,
