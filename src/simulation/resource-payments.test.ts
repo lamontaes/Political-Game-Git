@@ -118,6 +118,55 @@ describe.each(cases)("dated cash for $kind in $place", ({ kind, place }) => {
     }
   });
 
+  it("does not retain a live boundary reading before newly recorded income", () => {
+    const { payer, small, world: initial } = fixture();
+    let world = createResourcePosition(initial, {
+      stableKey: "dated-cash:income-batch-position",
+      owner: payer,
+      openedAt: initial.currentDate,
+      openingBalance: money(100, "USD"),
+      provenance,
+    });
+    world = createResourceFlows(world, [
+      {
+        stableKey: "dated-cash:income-batch-flow",
+        source: { kind: "person", personId: world.personOrder[1]! },
+        recipient: payer,
+        startsAt: world.currentDate,
+        amount: money(80, "USD"),
+        cadenceKind: "schedule:once",
+        basisKind: "custom:payment-fixture",
+        basisReference: { kind: "general" },
+        restrictionKind: null,
+        jurisdictionId: small.jurisdictionId,
+        provenance,
+      },
+    ]);
+    const read = createDatedCashPaymentReader(world);
+    expect(
+      read(world, payer, money(200, "USD"), world.currentDate).availableMinor,
+    ).toBe(100);
+    world = recordResourceTransferOutcome(world, {
+      stableKey: "dated-cash:income-batch-outcome",
+      resourceFlowId: world.history.resourceFlows.at(-1)!.id,
+      periodStartsAt: world.currentDate,
+      periodEndsAt: world.currentDate,
+      occurredAt: world.currentDate,
+      status: "completed",
+      attemptedAmount: money(80, "USD"),
+      transferredAmount: money(80, "USD"),
+      reasonKind: null,
+      note: "Recorded fixture income.",
+      provenance,
+    });
+    expect(read(world, payer, money(200, "USD"), world.currentDate)).toEqual(
+      paymentFromDatedCash(world, payer, money(200, "USD"), world.currentDate),
+    );
+    expect(
+      read(world, payer, money(200, "USD"), world.currentDate).availableMinor,
+    ).toBe(180);
+  });
+
   it("distinguishes unknown cash from recorded zero without writing", () => {
     const { payer, world: initial } = fixture();
     let world = initial;
