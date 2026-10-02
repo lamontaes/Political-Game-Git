@@ -1,3 +1,5 @@
+import { aggregateCustomers } from "./aggregate-customers";
+export { aggregateCustomers } from "./aggregate-customers";
 import {
   LOCAL_BUSINESS_PLACEHOLDER,
   localBusinessWageMinor,
@@ -320,32 +322,6 @@ function yearsBefore(date: IsoDate, years: number): IsoDate {
 
 function later(a: IsoDate, b: IsoDate): IsoDate {
   return a > b ? a : b;
-}
-
-function aggregateCustomers(
-  world: World,
-  jurisdictionId: EntityId,
-): { world: World; organizationId: EntityId } {
-  const stableKey = `local-customers:${jurisdictionId}`;
-  const existing = world.history.organizations.find(
-    (organization) => organization.stableKey === stableKey,
-  );
-  if (existing) return { world, organizationId: existing.id };
-  const next = createOrganization(world, {
-    stableKey,
-    formedAt: world.currentDate,
-    detailLevel: "lightweight",
-    provenance: {
-      kind: "authored",
-      note: "An aggregate counterparty for what a town's customers spend at its businesses. The game has no individual shoppers and does not pretend to model them.",
-    },
-    initialProfile: {
-      name: "Local customers",
-      classification: "custom:aggregate-customers",
-      locationJurisdictionId: jurisdictionId,
-    },
-  });
-  return { world: next, organizationId: next.history.organizations.at(-1)!.id };
 }
 
 /**
