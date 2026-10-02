@@ -1,3 +1,4 @@
+import { initializeAllOfficeSalaryFlows } from "../simulation/office-salary";
 import { initializeWorkPayCoverage } from "../simulation/pay-coverage";
 import { recoverOverdueProsecutions } from "../simulation/justice/prosecution-transitions";
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
@@ -375,7 +376,8 @@ function completeOpeningLife(
     session.setup.openingDataVersion,
     session.setup.livingWorldMemberNameVersion,
   );
-  const world = initializeWorkPayCoverage(opened);
+  const withOfficeSalaries = initializeAllOfficeSalaryFlows(opened);
+  const world = initializeWorkPayCoverage(withOfficeSalaries);
   return {
     ...session,
     phase: "world",
