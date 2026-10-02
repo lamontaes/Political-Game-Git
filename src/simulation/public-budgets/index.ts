@@ -143,10 +143,18 @@ export function ensurePublicBudgets(world: World): World {
     adjustments: [],
     unknown: [],
   };
-  const opened: World = ensureOpeningGovernmentAccounts({
+  const accountsOpened: World = ensureOpeningGovernmentAccounts({
     ...world,
     publicBudgets: withOpenedBudgets(world, empty, today),
   });
+  const opened: World = {
+    ...accountsOpened,
+    publicBudgets: withFederalBudget(
+      accountsOpened,
+      accountsOpened.publicBudgets!,
+      today,
+    ),
+  };
   const dueAt = firstOfNextMonth(today);
   return scheduleFutureDueItem(opened, {
     stableKey: `${PUBLIC_BUDGETS_VERSION}:pass:${dueAt.slice(0, 7)}`,

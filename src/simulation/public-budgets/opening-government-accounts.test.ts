@@ -4,6 +4,10 @@ import { stableHash } from "../ids";
 import { lifePlaceStateIdentities } from "../life-places";
 import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
 import { ensureStateJurisdictionForKey } from "../nationwide-world/state-executives";
+import {
+  ensureNationalElectionJurisdiction,
+  NATIONAL_ELECTION_JURISDICTION,
+} from "../national-election-geography";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import {
   ensurePublicGovernmentAccount,
@@ -11,7 +15,10 @@ import {
 } from "../tax-policy";
 import type { EntityId, World } from "../types";
 import { createWorld } from "../world";
-import { ensureWorldStartingConditions } from "../world-setup/conditions";
+import {
+  ensureWorldStartingConditions,
+  worldOpeningRecord,
+} from "../world-setup/conditions";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import { ensurePublicBudgets, settlePublicBudgets } from "./index";
 import { readMonthFlows } from "./month";
@@ -59,6 +66,69 @@ function position(world: World, jurisdictionId: EntityId) {
 }
 
 describe("A33 sourced opening cash uses the existing government account", () => {
+  it("materializes the saved federal opening and settles the common account without new receipts", () => {
+    const before = fixture();
+    const profile = worldOpeningRecord(before)?.publicCashOpening;
+    expect(profile).toBeDefined();
+    const world = ensurePublicBudgets(before);
+    const government = world.publicBudgets!.federalGovernment;
+    expect(government?.jurisdictionId).toBe(NATIONAL_ELECTION_JURISDICTION.id);
+    const saved = position(world, NATIONAL_ELECTION_JURISDICTION.id);
+    expect(saved.openingBalance.minorUnits).toBe(profile!.federalMinorUnits);
+    expect(saved.provenance).toMatchObject({
+      note: expect.stringContaining(profile!.contractVersion),
+    });
+    const settled = settlePublicBudgets(world, month);
+    const row = settled.publicBudgets!.federalGovernment!.months[0]!;
+    expect(row.cashSettlement?.positionId).toBe(saved.id);
+    expect(row.balance).toBe(profile!.federalMinorUnits / 100);
+    expect(row.revenue).toEqual(row.revenue.map(() => 0));
+    expect(row.spending).toEqual(row.spending.map(() => 0));
+    expect(row.cashSettlement?.sourceRecordIds).toEqual([]);
+    expect(settled.history.resourceFlows).toEqual(before.history.resourceFlows);
+    expect(settled.history.resourceTransferOutcomes).toEqual(
+      before.history.resourceTransferOutcomes,
+    );
+    expect(settled.history.resourcePositions).toEqual(
+      world.history.resourcePositions,
+    );
+    const bytes = serializeWorld(settled);
+    expect(
+      serializeWorld(ensureOpeningGovernmentAccounts(deserializeWorld(bytes))),
+    ).toBe(bytes);
+    expect(
+      settlePublicBudgets(settled, month).publicBudgets!.federalGovernment!
+        .months,
+    ).toHaveLength(1);
+  });
+
+  it("does not substitute zero federal opening cash when the saved profile is absent", () => {
+    const before = ensureNationalElectionJurisdiction(fixture());
+    const world: World = {
+      ...before,
+      history: {
+        ...before.history,
+        worldConditions: before.history.worldConditions!.map((record) => {
+          if (record.kind !== "world-opening") return record;
+          const legacy = { ...record };
+          delete legacy.publicCashOpening;
+          return legacy;
+        }),
+      },
+    };
+    const next = ensureOpeningGovernmentAccounts(world);
+    expect(
+      next.history.organizations.some(
+        (record) =>
+          record.stableKey ===
+          publicOrganizationKey(NATIONAL_ELECTION_JURISDICTION.id),
+      ),
+    ).toBe(false);
+    expect(next.history.resourceTransferOutcomes).toEqual(
+      world.history.resourceTransferOutcomes,
+    );
+  });
+
   it("opens all 56 actual government identities with one sourced estimated position each", () => {
     const before = fixture();
     const world = ensurePublicBudgets(before);
