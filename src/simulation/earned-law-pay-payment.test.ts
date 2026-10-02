@@ -4,6 +4,7 @@ import { addDays, daysBetween, simulationMinutesBetween } from "./dates";
 import { createScenarioWorld } from "./demo";
 import { applyLawConsequences } from "./enacted-law-effects";
 import { advanceWorld } from "./world";
+import { settleJobPay } from "./job-market";
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";
 import {
   scheduleLifePathSession,
@@ -857,4 +858,37 @@ it("A38 ordinary weekly payment preserves actual saved-rule authority and withho
     withheldMinor: stub.withheld.minorUnits,
     netMinor: stub.netPaid.minorUnits,
   });
+});
+
+it("A38 weekly job caller uses only stamped canonical pay terms and replays once", () => {
+  const { law, f, clause, enactment } = savedWeeklyRuleFixture();
+  const due = advanceWorld(
+    { ...f.world, control: { kind: "person", personId: f.personId } },
+    7,
+    createFutureTransitionHandlerRegistry([]),
+  );
+  const paid = settleJobPay(due, f.personId);
+  const terms = resourceFlowTermsAt(paid, f.flow.id)!;
+  expect(terms.amount).toEqual(money(72000, "USD"));
+  expect(terms.lawEffectStamps).toEqual([
+    expect.objectContaining({
+      effectKind: "pay",
+      governingLawKey: law.measureId,
+      ruleAuthority: {
+        ruleChangeProvisionId: clause.id,
+        enactmentId: enactment.id,
+        field: "labor.minimumWage.hourlyCents",
+      },
+    }),
+  ]);
+  const stubs = recordedPayStubs(paid, f.personId).filter(
+    (row) => row.paycheck.resourceFlowId === f.flow.id,
+  );
+  expect(stubs).toHaveLength(1);
+  expect(stubs[0]!.paidGross).toEqual(money(72000, "USD"));
+  expect(stubs[0]!.withheld.minorUnits).toBeGreaterThan(0);
+  expect(stubs[0]!.assessmentStatus).toBe("recorded");
+  expect(settleJobPay(paid, f.personId)).toBe(paid);
+  const reopened = deserializeWorld(serializeWorld(paid));
+  expect(settleJobPay(reopened, f.personId)).toBe(reopened);
 });

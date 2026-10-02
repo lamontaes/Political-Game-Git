@@ -1,8 +1,6 @@
 import { assessedCompletedHourlyGrossMinor } from "../completed-hourly-gross";
 import { payWorkplaceAt } from "../pay-coverage-predicates";
 import { attributePaycheckTaxLaws } from "../paycheck-law-attribution";
-import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
-import { FEDERAL_MINIMUM_WAGE_QUESTION_KEY } from "../minimum-wage";
 import { lawEffectStamp } from "../law-effect-stamp";
 import { lawInForce } from "../governing/law-in-force";
 import { applyLawConsequences } from "../enacted-law-effects";
@@ -42,7 +40,7 @@ import { createStableId } from "../ids";
  * A state or federal law that raises the minimum wage raises every town job
  * paid below it, from the first pay period that begins on or after the law
  * takes effect
- * (`raiseTownPayToMinimum`). A period already running that day is paid at the
+ * through the registered pay consequence. A period already running that day is paid at the
  * old rate, because a period's pay is fixed when it begins (labeled game
  * simplification: real pay changes for hours worked from the effective day).
  *
@@ -58,10 +56,8 @@ import {
 } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import {
-  enactedRuleChanges,
   enactedRuleChangeAt,
   laborLawOfficeKey,
-  type EnactedRuleChange,
 } from "../enacted-rule-changes";
 import { countyGeoidsForPlace } from "../government-units";
 import {
@@ -82,14 +78,7 @@ import {
   stateJurisdictionForKey,
   stateKeyForJurisdiction,
 } from "../life-places";
-import {
-  FEDERAL_MINIMUM_HOURLY_MINOR,
-  federalMinimumSchedule,
-  minimumHourlyAt,
-  minimumWageSettingAt,
-  anyMinimumWageQuestionEnacted,
-  startingMinimumHourly,
-} from "../minimum-wage";
+import { minimumHourlyAt, startingMinimumHourly } from "../minimum-wage";
 import {
   menPartneredWithMen,
   payAtHire,
@@ -837,20 +826,6 @@ export function startTownJobPay(
   return createResourceFlows(world, inputs);
 }
 
-/** Enacted minimum-wage changes by state postal code, in operative order. */
-function minimumWageLaws(
-  world: World,
-): ReadonlyMap<string, readonly EnactedRuleChange[]> {
-  const byState = new Map<string, EnactedRuleChange[]>();
-  for (const change of enactedRuleChanges(world)) {
-    if (change.field !== "labor.minimumWage.hourlyCents") continue;
-    const list = byState.get(change.stateUsps) ?? [];
-    list.push(change);
-    byState.set(change.stateUsps, list);
-  }
-  return byState;
-}
-
 /**
  * The day each job ended, when its latest status ended it: every payday's pay
  * floors read this, and reading every status ever recorded to find it grew
@@ -1334,141 +1309,6 @@ export function applyLawPayConsequence(
   });
 }
 
-export function raiseTownPayToMinimum(
-  world: World,
-  exceptPersonId: EntityId | null,
-): World {
-  const laws = minimumWageLaws(world);
-  const federalRaised = federalMinimumSchedule(world).some(
-    (step) => step.hourlyMinor > FEDERAL_MINIMUM_HOURLY_MINOR,
-  );
-  // Only a law can move the floor after pay began.
-  if (
-    laws.size === 0 &&
-    !federalRaised &&
-    !anyMinimumWageQuestionEnacted(world)
-  )
-    return world;
-  const recordedOn = new Map<EntityId, IsoDate>();
-  const eventOf = new Map<EntityId, EntityId>();
-  for (const enactment of world.history.legislativeEnactments ?? []) {
-    recordedOn.set(enactment.measureId, enactment.resolvedAt);
-    eventOf.set(enactment.measureId, enactment.outcomeEventId);
-  }
-  const roles = latestRoles(world);
-  const termsByFlow = termsByPayFlow(world);
-  // The day each job ended, if it did: a job that has ended has no pay to raise.
-  const endedOn = growingIndex(JOB_ENDINGS, world.history.workStatuses);
-  const lastPaid = growingIndex(
-    LAST_PERIOD_PAID,
-    world.history.resourceTransferOutcomes,
-  );
-  let next = world;
-  for (const flow of world.history.resourceFlows) {
-    if (
-      !flow.stableKey.startsWith(PAY_KEY_PREFIX) ||
-      flow.basisReference.kind !== "work" ||
-      (flow.recipient.kind === "person" &&
-        flow.recipient.personId === exceptPersonId)
-    )
-      continue;
-    const role = roles.get(flow.basisReference.workRelationshipId);
-    if (!role) continue;
-    let current = termsByFlow.get(flow.id)?.at(-1);
-    const note = current ? payNoteOf(current.cadenceKind) : null;
-    if (!current || current.status !== "active" || !note) continue;
-    const weeklyHours = weeklyHoursOf(role);
-    // The first period that begins after the current terms and the last
-    // paycheck, within one transition's catch-up.
-    const after = [
-      current.effectiveAt,
-      lastPaid.get(flow.id) ?? current.effectiveAt,
-      addDays(world.currentDate, -CATCH_UP_LIMIT_DAYS),
-    ].reduce((a, b) => (a > b ? a : b));
-    for (
-      let day = addDays(after, 1);
-      day <= world.currentDate;
-      day = addDays(day, 1)
-    ) {
-      if (!payPeriodEndingOn(note.period, addDays(day, -1), note.phase))
-        continue;
-      const ended = endedOn.get(flow.basisReference.workRelationshipId);
-      if (ended !== undefined && ended <= day) break;
-      // Only a law enacted in play raises pay after it began: the rate on
-      // file at the start, and the unraised federal rate, set nothing to
-      // raise to. A law counts from the day it was recorded.
-      const setting = minimumWageSettingAt(
-        world,
-        role.locationJurisdictionId ?? null,
-        day,
-      );
-      if (
-        !setting ||
-        setting.measureId === null ||
-        (recordedOn.get(setting.measureId) ?? day) > day
-      )
-        continue;
-      const hourly = setting.hourlyMinor / 100;
-      // The same arithmetic as a new job's pay, so a job hired at the floor
-      // is never "raised" by a cent of rounding.
-      const amount = Math.round(
-        (Math.round(hourly * 100) * weeklyHours * 52) /
-          PERIODS_PER_YEAR[note.period],
-      );
-      if (amount <= current.amount.minorUnits) continue;
-      const setBy = {
-        measureId: setting.measureId,
-        designation: setting.designation ?? "A law",
-      };
-      const event = eventOf.get(setBy.measureId);
-      const rate = `$${hourly.toFixed(2)} an hour`;
-      const which = setting.level === "local" ? "city" : setting.level;
-      const question =
-        setting.level === "federal"
-          ? Object.values(world.policyCatalog.propositions).find(
-              (p) => p.stableKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
-            )
-          : undefined;
-      const governing = question
-        ? lawInForce(world, NATIONAL_ELECTION_JURISDICTION.id, question.id, day)
-        : null;
-      const stamp =
-        governing?.measureId === setting.measureId
-          ? lawEffectStamp(governing, {
-              effectKind: "minimum-wage-compensation",
-              questionKey: FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
-              jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-              appliedAt: day,
-              sourceRecordIds: [
-                flow.id,
-                current.id,
-                flow.basisReference.workRelationshipId,
-              ],
-            })
-          : null;
-      next = recordResourceFlowTerms(next, {
-        ...(stamp ? { lawEffectStamps: [stamp] } : {}),
-        stableKey: `${flow.stableKey}:minimum-wage:${day}`,
-        resourceFlowId: flow.id,
-        effectiveAt: day,
-        status: "active",
-        amount: money(amount, current.amount.currency),
-        cadenceKind: current.cadenceKind,
-        reason: `${setBy.designation} raised the ${which} minimum wage to ${rate}.`,
-        provenance: event
-          ? { kind: "simulated-event", eventId: event }
-          : {
-              kind: "authored",
-              note: `${TOWN_PAY_VERSION}: raised to the minimum wage ${setBy.designation} set, ${rate}.`,
-            },
-        supersedesTermsId: current.id,
-      });
-      current = next.history.resourceFlowTerms.at(-1)!;
-    }
-  }
-  return next;
-}
-
 /**
  * The state's minimum teacher salary for this job on `onDate`: a public
  * school's teacher only, and only where a law enacted in play set one.
@@ -1505,7 +1345,7 @@ function floorHourlyMinorOf(floor: TeacherSalaryFloor): number {
  * Raises every public school teacher paid below the state's minimum teacher
  * salary (`teacher-salary-floor.ts`), from the first pay period that begins
  * on or after the floor's school year starts and after the last period
- * already paid, as `raiseTownPayToMinimum` does for the minimum wage. Each
+ * already paid. Each
  * raise names its law. A law that ends the floor cuts nobody's pay. Run
  * before paying, so the period is paid at the new rate.
  */
