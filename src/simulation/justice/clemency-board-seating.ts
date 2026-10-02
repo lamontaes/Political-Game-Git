@@ -32,6 +32,19 @@ function recordedQualification(
 ): boolean {
   if (profile.experienceYears === null || profile.experienceFields.length === 0)
     return false;
+  if (
+    profile.qualifications &&
+    world.currentDate <= profile.qualifications.appointmentsAfter
+  )
+    return false; // Prior qualification text has not been acquired.
+  // An unrecorded accredited degree does not activate the shorter alternative.
+  // The longer experience route suffices whether or not a degree exists.
+  // Grandfathering requires actual membership on the cited date, never age.
+  const requiredYears =
+    profile.qualifications &&
+    world.currentDate > profile.qualifications.appointmentsAfter
+      ? profile.qualifications.withoutAccreditedBachelorsExperienceYears
+      : profile.experienceYears;
   const cutoff = currentLifeCutoff(world);
   for (const work of workRelationshipHistoryForPerson(
     world,
@@ -60,7 +73,7 @@ function recordedQualification(
       continue;
     if (
       completedMonthsBetween(work.startedAt, world.currentDate) >=
-      profile.experienceYears * 12
+      requiredYears * 12
     )
       return true;
   }
@@ -83,7 +96,15 @@ export function ensureOpeningClemencyBoardAppointments(world: World): World {
     const office = governorOfficeForJurisdiction(next, profile.jurisdictionKey);
     if (!office || !next.people[office.holderPersonId]) continue;
     const boardKey = organizationKey(profile);
-    for (let ordinal = 1; ordinal <= profile.seatCount; ordinal++) {
+    // No qualifying advocacy organization/list is bound yet. Keep its required
+    // capacity open instead of substituting an ordinary nominee for that route.
+    const reservedForAdvocacy =
+      profile.victimAdvocacyNomination &&
+      next.currentDate > profile.victimAdvocacyNomination.appointmentsAfter
+        ? profile.victimAdvocacyNomination.minimumMembers
+        : 0;
+    const ordinarySeatCount = profile.seatCount - reservedForAdvocacy;
+    for (let ordinal = 1; ordinal <= ordinarySeatCount; ordinal++) {
       const seatKey = `${boardKey}:seat:${ordinal}`;
       const nominationKey = `${seatKey}:nomination`;
       if (

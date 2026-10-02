@@ -16,10 +16,12 @@
         "law",
         "education",
         "social-work",
-        "medicine"
+        "medicine",
+        "psychology",
+        "psychiatry"
       ],
       "termMonths": null,
-      "quorum": null,
+      "quorum": 4,
       "sources": [
         {
           "citation": "Louisiana Department of Public Safety and Corrections, About the Board of Pardons & Committee on Parole",
@@ -32,18 +34,113 @@
             "experienceFields"
           ],
           "quote": "All members of the Board are appointed by the governor and confirmed by the Louisiana Senate. The Board of Pardons has five members."
+        },
+        {
+          "url": "https://www.legis.la.gov/legis/Law.aspx?d=79203",
+          "readAt": "2026-10-02",
+          "handoff": "Owner-authorized coordinator source recovery; independently retrieved correct RS15:572.1 on 2026-10-02; no raw hash asserted.",
+          "citation": "La. R.S. 15:572.1(A(1)(a))",
+          "fields": ["seatCount", "termRule"],
+          "quote": "A.(1)(a) \u00a0The Board of Pardons shall consist of five members, who shall be appointed by the governor to serve terms concurrent with the governor making the appointments, or until their successors are appointed and take office."
+        },
+        {
+          "url": "https://www.legis.la.gov/legis/Law.aspx?d=79203",
+          "readAt": "2026-10-02",
+          "handoff": "Owner-authorized coordinator source recovery; independently retrieved correct RS15:572.1 on 2026-10-02; no raw hash asserted.",
+          "citation": "La. R.S. 15:572.1(A(1)(b))",
+          "fields": ["victimAdvocacyNomination"],
+          "quote": "(b) \u00a0Beginning with appointments made to the board, or appointments to fill a vacancy on the board, which occur after August 15, 2010, at least one of the members shall be appointed from a list of names submitted by any victim's rights advocacy organization which is recognized as a nonprofit with the Internal Revenue Service, incorporated or organized in the state of Louisiana and in good standing, and does not engage in political activity, with each organization submitting a list of three names; however, no person nominated by any victim's rights advocacy organization shall be appointed to serve as a member of the board who has previously been confirmed by the Senate and has served as a member of the board."
+        },
+        {
+          "url": "https://www.legis.la.gov/legis/Law.aspx?d=79203",
+          "readAt": "2026-10-02",
+          "handoff": "Owner-authorized coordinator source recovery; independently retrieved correct RS15:572.1 on 2026-10-02; no raw hash asserted.",
+          "citation": "La. R.S. 15:572.1(A(1)(c))",
+          "fields": ["qualifications", "experienceFields"],
+          "quote": "(c) \u00a0\u00a0Beginning with appointments made to the board, or appointments to fill a vacancy on the board, which occur after August 1, 2014, all members, except for the ex officio member, shall have not less than a bachelor's degree from an accredited college or university, and shall possess not less than five years actual experience in the field of penology, corrections, law enforcement, sociology, law, education, social work, medicine, psychology, psychiatry, or a combination thereof. \u00a0If a member does not have a bachelor's degree from an accredited college or university, he shall have no less than seven years experience in a field listed in this Subparagraph. \u00a0The provisions of this Subparagraph shall not apply to any person serving as a member of the board on August 1, 2012."
+        },
+        {
+          "url": "https://www.legis.la.gov/legis/Law.aspx?d=79203",
+          "readAt": "2026-10-02",
+          "handoff": "Owner-authorized coordinator source recovery; independently retrieved correct RS15:572.1 on 2026-10-02; no raw hash asserted.",
+          "citation": "La. R.S. 15:572.1(A(1)(d))",
+          "fields": ["requiresSenateConfirmation"],
+          "quote": "(d) \u00a0All appointments shall be subject to confirmation by the Senate. \u00a0The governor shall designate the chairman of the board."
+        },
+        {
+          "url": "https://www.legis.la.gov/legis/Law.aspx?d=79203",
+          "readAt": "2026-10-02",
+          "handoff": "Owner-authorized coordinator source recovery; independently retrieved correct RS15:572.1 on 2026-10-02; no raw hash asserted.",
+          "citation": "La. R.S. 15:572.1(E)",
+          "fields": ["quorum", "minimumFavorableVotes"],
+          "quote": "E. \u00a0Four members of the board shall constitute a quorum for the transaction of business, and all actions of the board shall require the favorable vote of at least four members of the board."
+        },
+        {
+          "url": "https://www.legis.la.gov/legis/Law.aspx?d=79203",
+          "readAt": "2026-10-02",
+          "handoff": "Owner-authorized coordinator source recovery; independently retrieved correct RS15:572.1 on 2026-10-02; no raw hash asserted.",
+          "citation": "La. R.S. 15:572.1(F)",
+          "fields": ["fullTimeService", "employmentRestrictions"],
+          "quote": "F. \u00a0Each member of the board, except for the ex officio member, shall devote full time to the duties of his office, and shall be prohibited from holding any elective, appointive, or public employment; or from engaging in any private business or employment which is in conflict with his duties as a member of the board."
+        },
+        {
+          "url": "https://www.legis.la.gov/legis/Law.aspx?d=79203",
+          "readAt": "2026-10-02",
+          "handoff": "Owner-authorized coordinator source recovery; independently retrieved correct RS15:572.1 on 2026-10-02; no raw hash asserted.",
+          "citation": "La. R.S. 15:572.1(G(2))",
+          "fields": ["exOfficio"],
+          "quote": "(2) \u00a0The ex officio member shall not be a voting member and shall not be counted or permitted to be counted for purposes of the number of members necessary to take board action or the number of members necessary to establish a quorum."
         }
       ],
       "missing": [
-        "term/holdover rule from R.S. 15:572.1",
-        "quorum and voting denominator",
         "shared Senate confirmation binding",
-        "recorded qualification fields for opening people"
+        "actual qualifying victim-advocacy organization and submitted three-name list",
+        "accredited bachelor degree evidence binding and actual grandfathered membership evidence",
+        "recorded qualification fields for opening people and combined work intervals",
+        "actual post-confirmation employment/office conflict and governor-designated chair joins"
       ],
       "notes": [
-        "Two additional at-large members serve only on the Committee on Parole. The facility warden is nonvoting and not counted toward quorum.",
-        "The official page requires at least five years in the listed fields or a combination; exact professional occupation records can establish a field, never a person's title alone."
-      ]
+        "Current statutory text governs the recovered profile; the older DOC summary alone did not include the seven-year alternative or degree condition.",
+        "Term is tied to the appointing governor and holdover; no fixed month duration invented.",
+        "At least one member must come from the legally qualified advocacy-list route. Until actual list records are bound, ordinary nominees cannot consume the final required capacity.",
+        "No retrieval date is treated as an operative date. Only the exact appointment cutoffs explicitly given in the statute are dated.",
+        "Unknown accredited degree is not treated as a degree: seven recorded years suffice under both alternatives; five-year degree and grandfather paths stay pending absent actual evidence.",
+        "No active participation or vote exists until the shared Senate confirmation route is wired."
+      ],
+      "qualifications": {
+        "appointmentsAfter": "2014-08-01",
+        "withAccreditedBachelorsExperienceYears": 5,
+        "withoutAccreditedBachelorsExperienceYears": 7,
+        "grandfatheredIfServingOn": "2012-08-01"
+      },
+      "termRule": {
+        "kind": "appointing-governor-concurrent",
+        "holdoverUntilSuccessorAppointedAndTakesOffice": true
+      },
+      "minimumFavorableVotes": 4,
+      "victimAdvocacyNomination": {
+        "appointmentsAfter": "2010-08-15",
+        "minimumMembers": 1,
+        "listSizePerOrganization": 3,
+        "organizationConditions": [
+          "IRS-recognized nonprofit",
+          "incorporated or organized in Louisiana",
+          "in good standing",
+          "does not engage in political activity"
+        ],
+        "nomineeCannotPreviouslyHaveBeenSenateConfirmedAndServedOnBoard": true
+      },
+      "exOfficio": {
+        "kind": "facility-warden-or-deputy",
+        "voting": false,
+        "countsTowardQuorum": false,
+        "countsTowardActionThreshold": false
+      },
+      "fullTimeService": true,
+      "employmentRestrictions": {
+        "prohibitsOtherElectiveOrAppointiveOfficeOrPublicEmployment": true,
+        "prohibitsConflictingPrivateBusinessOrEmployment": true
+      }
     },
     {
       "jurisdictionKey": "US-CT",
@@ -59,7 +156,14 @@
       "missing": [
         "Acquire approved Gen. Stat. 54-124a: count, appointing/confirmation authority, terms, qualifications and quorum; official chapter request returned HTTP503"
       ],
-      "notes": ["No numeric appointment facts inferred from gate metadata."]
+      "notes": ["No numeric appointment facts inferred from gate metadata."],
+      "qualifications": null,
+      "termRule": null,
+      "minimumFavorableVotes": null,
+      "victimAdvocacyNomination": null,
+      "exOfficio": null,
+      "fullTimeService": null,
+      "employmentRestrictions": null
     },
     {
       "jurisdictionKey": "US-TX",
@@ -77,7 +181,14 @@
       ],
       "notes": [
         "Homepage HTML is not statutory evidence; no guessed appointment values."
-      ]
+      ],
+      "qualifications": null,
+      "termRule": null,
+      "minimumFavorableVotes": null,
+      "victimAdvocacyNomination": null,
+      "exOfficio": null,
+      "fullTimeService": null,
+      "employmentRestrictions": null
     }
   ]
 }

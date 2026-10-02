@@ -3,6 +3,7 @@ import { smallWorld } from "../../../tests/fixtures/small-world";
 import { dateAtAge, ageOnDate } from "../dates";
 import { governorOfficeForJurisdiction } from "../governing/state-governing";
 import { createOrganization, createWorkRelationship } from "../life";
+import type { CreateWorkRelationshipInput } from "../life";
 import { lifePlaceStateIdentities } from "../life-places";
 import { recordRelationshipInteraction } from "../records";
 import { pickDistinct, SeededRng } from "../rng";
@@ -57,7 +58,7 @@ describe("R16 recorded board nominations", () => {
           ageOnDate(
             small.world.people[id]!.birthDate,
             small.world.currentDate,
-          ) >= 26,
+          ) >= 28,
       );
       expect(candidate).toBeDefined();
       let world = recordRelationshipInteraction(small.world, {
@@ -86,7 +87,8 @@ describe("R16 recorded board nominations", () => {
           locationJurisdictionId: office!.jurisdictionId,
         },
       });
-      world = createWorkRelationship(world, {
+      const beforeWork = world;
+      const workInput: CreateWorkRelationshipInput = {
         stableKey: "fixture:board-professional-work",
         personId: candidate!,
         organizationId: world.history.organizations.at(-1)!.id,
@@ -113,7 +115,26 @@ describe("R16 recorded board nominations", () => {
             locationJurisdictionId: office!.jurisdictionId,
           },
         },
-      });
+      };
+      world = createWorkRelationship(world, workInput);
+      if (profile.qualifications !== null) {
+        const shorter = createWorkRelationship(beforeWork, {
+          ...workInput,
+          startedAt: dateAtAge(
+            world.people[candidate!]!.birthDate,
+            ageOnDate(world.people[candidate!]!.birthDate, world.currentDate) -
+              6,
+          ),
+        });
+        // Six recorded years cannot use the five-year alternative without
+        // actual accredited bachelor evidence; neither age nor a title is it.
+        expect(ensureOpeningClemencyBoardAppointments(shorter)).toBe(shorter);
+        expect(
+          shorter.history.events.filter(
+            (event) => event.type === CLEMENCY_BOARD_NOMINATED,
+          ),
+        ).toHaveLength(0);
+      }
       const prepared = ensureOpeningClemencyBoardAppointments(world);
       const nominations = prepared.history.events.filter(
         (event) => event.type === CLEMENCY_BOARD_NOMINATED,
