@@ -47,6 +47,13 @@ describe("primary voter access from the existing sourced table", () => {
           expect(admit("party-b")).toBe("ineligible");
           expect(admit("party-a")).toBe("eligible");
           break;
+        case "Partially closed":
+        case "Partially open":
+          expect(admit("party-a")).toBe("eligible");
+          expect(admit(undefined)).toBe("requires-record");
+          expect(admit(null)).toBe("requires-record");
+          expect(admit("party-b")).toBe("requires-record");
+          break;
         case "Open to unaffiliated voters":
           expect(admit(undefined)).toBe("requires-record");
           expect(admit(null)).toBe("eligible");

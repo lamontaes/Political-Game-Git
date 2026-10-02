@@ -61,6 +61,7 @@ export function choosePrimaryPartyBallot(
     jurisdictionId: input.jurisdictionId,
     electionStableKey: input.stableKey,
     selectedPartyId: input.selectedPartyId,
+    selectedAt: input.electionDate,
   });
 }
 
@@ -73,7 +74,7 @@ export function considerPrimaryPartyBallots(
   world: World,
   input: PrimaryBallotActionField,
 ): World {
-  if (world.currentDate !== input.electionDate || input.entrants.length === 0)
+  if (world.currentDate < input.electionDate || input.entrants.length === 0)
     return world;
   const candidateParties = new Map(
     input.entrants.map((entrant) => [entrant.personId, entrant.party]),
@@ -138,7 +139,14 @@ export function considerPrimaryPartyBallots(
     );
     if (!selectedPartyId) continue;
     next = recordDurableDecisionTrace(next, evaluation);
-    next = choosePrimaryPartyBallot(next, { ...action, selectedPartyId });
+    next = recordPrimaryBallotSelection(next, {
+      stableKey: `${input.stableKey}:ballot-choice:${personId}`,
+      personId,
+      jurisdictionId: input.jurisdictionId,
+      electionStableKey: input.stableKey,
+      selectedPartyId,
+      selectedAt: input.electionDate,
+    });
   }
   return next;
 }

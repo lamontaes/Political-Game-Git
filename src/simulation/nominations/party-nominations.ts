@@ -248,6 +248,7 @@ export function holdNominationPrimary(
     party: string;
   }[] = [];
   const runoffParties: string[] = [];
+  const pendingParties: string[] = [];
   if (!isAllParty(plan.method)) {
     next = considerPrimaryPartyBallots(next, {
       stableKey: input.stableKey,
@@ -294,7 +295,10 @@ export function holdNominationPrimary(
               primaryPartyId: group.party,
             }),
     );
-    if (!tallies) return next;
+    if (!tallies) {
+      pendingParties.push(group.party);
+      continue;
+    }
     if (isAllParty(plan.method)) {
       const majority =
         plan.method === "all-party-majority" &&
@@ -363,6 +367,7 @@ export function holdNominationPrimary(
     );
     if (needsRunoff) runoffParties.push(group.party);
   }
+  if (rows.length === 0) return next;
   const runoffDate = runoffParties.length ? plan.runoff!.date : null;
   return recordWorldEvent(next, {
     stableKey,
@@ -393,10 +398,15 @@ export function holdNominationPrimary(
       `state:${plan.stateUsps}`,
       `date-basis:${plan.dateBasis}`,
       ...plan.estimated.map((part) => `estimated-from-average:${part}`),
+      ...pendingParties.map((party) => `pending-party:${party}`),
       ...runoffParties.map((party) => `runoff-party:${party}`),
       ...(runoffDate ? [`runoff-date:${runoffDate}`] : []),
     ],
-    summary: nominationSummary(input.title, plan.method, rows, runoffParties),
+    summary:
+      nominationSummary(input.title, plan.method, rows, runoffParties) +
+      (pendingParties.length
+        ? ` The ${pendingParties.join(" and ")} count remains pending.`
+        : ""),
     context: {
       location: null,
       socialContext: null,

@@ -16,6 +16,7 @@ import { nominationPlan, nominationRuleRow } from "./nomination-rules";
 import {
   holdNominationPrimary,
   nominationPrimaryRecord,
+  nominationNominees,
 } from "./party-nominations";
 import {
   primaryVoterAccessFor,
@@ -136,6 +137,73 @@ describe("ordinary primary ballot actions", () => {
         personId: f.voter,
       }),
     ).toBe("party-a");
+  });
+
+  it("a clock step crossing primary day records the dated NPC decision without allowing a late player choice", () => {
+    const f = setup("Open", "a114-crossed-primary-date");
+    const after = advanceWorld(
+      support(f.world, f.voter, f.field.entrants[0]!.personId),
+      1,
+    );
+    expect(
+      choosePrimaryPartyBallot(after, {
+        ...f.field,
+        personId: f.voter,
+        selectedPartyId: "party-a",
+      }),
+    ).toBe(after);
+    const held = considerPrimaryPartyBallots(after, f.field);
+    const choice = held.history.events.find(
+      (event) => event.type === "election.primary-ballot-selection",
+    );
+    expect(choice?.occurredAt).toBe(f.field.electionDate);
+    expect(choice?.recordedAt).toBe(after.currentDate);
+    expect(
+      recordedPrimaryBallotSelectionAt(held, {
+        ...f.field,
+        electionStableKey: f.field.stableKey,
+        personId: f.voter,
+      }),
+    ).toBe("party-a");
+    expect(considerPrimaryPartyBallots(held, f.field)).toBe(held);
+  });
+
+  it("keeps a resolved unopposed group when another party has no admitted count", () => {
+    const f = setup("Open", "a114-partial-field-preserved");
+    const unopposed = f.secondVoter;
+    const held = holdNominationPrimary(f.world, {
+      ...f.field,
+      plan: f.plan,
+      seatKey: "partial-action-seat",
+      title: "Partially resolved field",
+      involvedEntityIds: f.field.entrants.map((row) => row.personId),
+      entrants: [
+        ...f.field.entrants,
+        {
+          personId: unopposed,
+          party: "party-b",
+          incumbent: false,
+          partyBacked: false,
+        },
+      ],
+      partyShare: () => null,
+    });
+    const record = nominationPrimaryRecord(held, f.field.stableKey)!;
+    expect(record.tags).toContain("pending-party:party-a");
+    expect(record.participants.map((row) => row.personId)).toEqual([unopposed]);
+    expect(nominationNominees(held, f.field.stableKey)).toEqual([
+      { personId: unopposed, party: "party-b" },
+    ]);
+    expect(
+      holdNominationPrimary(held, {
+        ...f.field,
+        plan: f.plan,
+        seatKey: "partial-action-seat",
+        title: "Partially resolved field",
+        involvedEntityIds: [],
+        partyShare: () => null,
+      }),
+    ).toBe(held);
   });
 
   it("missing views and tied candidate views produce no invented ballot or trace", () => {

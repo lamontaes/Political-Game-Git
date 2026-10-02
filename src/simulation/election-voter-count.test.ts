@@ -1,3 +1,6 @@
+import { recordOpeningPrimaryRegistrations } from "./nominations/primary-registration-opening";
+import { publicPartyAffiliation } from "./living-world/congress";
+import { partyUnits } from "./living-world/party-registry";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
 import { randomUUID } from "node:crypto";
 import {
@@ -350,6 +353,28 @@ it(`opens a new game in ${openingPlace.displayName}, ${openingPlace.stateJurisdi
   expect(game.world.people[game.playerPersonId]!.homeJurisdictionId).toBe(
     openingPlace.context.jurisdiction.id,
   );
+  const registrations = game.world.history.events.filter(
+    (event) => event.type === "election.party-registration",
+  );
+  expect(registrations.length).toBeGreaterThan(0);
+  const partyKeys = new Map(
+    partyUnits(game.world).map((unit) => [unit.organizationId, unit.partyKey]),
+  );
+  for (const event of registrations) {
+    const personId = event.participants[0]!.personId;
+    expect(
+      isEligibleVoterIn(
+        game.world,
+        personId,
+        event.jurisdictionId!,
+        game.world.currentDate,
+      ),
+    ).toBe(true);
+    expect(event.participants[0]!.detail).toBe(
+      partyKeys.get(publicPartyAffiliation(game.world, personId)!),
+    );
+  }
+  expect(recordOpeningPrimaryRegistrations(game.world)).toBe(game.world);
   expect(game.world.control).toEqual({
     kind: "person",
     personId: game.playerPersonId,

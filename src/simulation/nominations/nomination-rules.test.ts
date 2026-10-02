@@ -1,3 +1,5 @@
+import { recordPrimaryFixtureViews } from "../../../tests/fixtures/recorded-primary-electorate";
+import { primaryVoterAccessFor } from "./primary-voter-access";
 import { describe, expect, it } from "vitest";
 
 import nominationRules from "../../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
@@ -269,7 +271,12 @@ describe("A114: a primary is decided by the entrants' records, not a draw", () =
   const placeWhere = (seed: string, fits: (plan: KnownPlan) => boolean) => {
     const place = drawRandomPlace(seed, (candidate) => {
       const plan = planOf(candidate.stateJurisdictionKey!.slice(3));
-      return plan.known && fits(plan);
+      return (
+        plan.known &&
+        fits(plan) &&
+        primaryVoterAccessFor(candidate.stateJurisdictionKey!.slice(3)) ===
+          "Open"
+      );
     });
     const usps = place.stateJurisdictionKey!.slice(3);
     const plan = planOf(usps);
@@ -303,8 +310,8 @@ describe("A114: a primary is decided by the entrants' records, not a draw", () =
     const state = stateJurisdictionForKey(`US-${usps}`)!;
     return createWorld({
       seed: "a114-entrants",
-      currentDate: makeIsoDate("2026-12-31"),
-      people: [0, 1, 2, 3].map((index) => person(index, state.id)),
+      currentDate: makeIsoDate("2026-01-05"),
+      people: Array.from({ length: 60 }, (_, index) => person(index, state.id)),
       jurisdictions: [state],
     });
   };
@@ -330,9 +337,26 @@ describe("A114: a primary is decided by the entrants' records, not a draw", () =
     entrants: readonly NominationEntrant[],
   ) {
     const base = entrantsWorld(usps);
-    const world: World = { ...base, seed };
+    let world: World = base;
+    const votes =
+      seed.includes("runoff-tie") || seed === "a114-tie"
+        ? [0, 1, 1]
+        : seed === "a114-runoff"
+          ? [6, 5, 4]
+          : [3, 2, 5, 4];
+    world = recordPrimaryFixtureViews(
+      world,
+      stateJurisdictionForKey(`US-${usps}`)!.id,
+      entrants.map((row) => row.personId),
+      votes,
+    );
+    world = {
+      ...world,
+      currentDate: plan.primaryDate,
+      currentMoment: { ...world.currentMoment, date: plan.primaryDate },
+    };
     const input = {
-      stableKey: `a114:us-house-${usps}-01:2026`,
+      stableKey: `a114:us-house-${usps}-01:2026:${seed}`,
       seatKey: `us-house-${usps}-01`,
       title: `${STATES[usps]!.name}'s 1st District`,
       jurisdictionId: stateJurisdictionForKey(`US-${usps}`)!.id,
@@ -345,7 +369,17 @@ describe("A114: a primary is decided by the entrants' records, not a draw", () =
       partyShare: () => null,
     });
     return {
-      world: holdNominationRunoff(held, input),
+      world: holdNominationRunoff(
+        {
+          ...held,
+          currentDate: plan.runoff?.date ?? plan.primaryDate,
+          currentMoment: {
+            ...held.currentMoment,
+            date: plan.runoff?.date ?? plan.primaryDate,
+          },
+        },
+        input,
+      ),
       record: nominationPrimaryRecord(held, input.stableKey)!,
       stableKey: input.stableKey,
     };
@@ -376,7 +410,7 @@ describe("A114: a primary is decided by the entrants' records, not a draw", () =
   const where = (drawn: { usps: string; name: string; seed: string }) =>
     `${drawn.name}, ${drawn.usps}, place seed ${drawn.seed}`;
 
-  it(`nominates the same person with the same shares under two seeds (${where(outright)})`, () => {
+  it(`nominates from the same saved votes independent of field key (${where(outright)})`, () => {
     const field = [
       entrant(first, "republican", "incumbent"),
       entrant(second, "republican", "self-starter"),
@@ -390,8 +424,7 @@ describe("A114: a primary is decided by the entrants' records, not a draw", () =
       "a114-second-seed",
       field,
     );
-    // Shares are per 1,000 primary votes in each party: a sitting member 1.5
-    // to 1, a party recruit 1.25 to 1.
+    // The saved electors supply 3:2 and 5:4 votes, independent of entrant standing.
     expect(results(one.record)).toEqual({
       [first]: "republican|600|nominated",
       [second]: "republican|400|lost",
@@ -421,17 +454,18 @@ describe("A114: a primary is decided by the entrants' records, not a draw", () =
       [second]: "republican|333|runoff",
       [third]: "republican|267|lost",
     });
-    // 400 to 333 in the primary is 546 to 454 between the two.
+    // Six and five saved electors choose the finalists; the third candidate
+    // receives no invented transfer.
     expect(results(runoffOf(world, stableKey))).toEqual({
-      [first]: "republican|546|nominated",
-      [second]: "republican|454|lost",
+      [first]: "republican|545|nominated",
+      [second]: "republican|455|lost",
     });
     expect(nominationNominees(world, stableKey)).toEqual([
       { personId: first, party: "republican" },
     ]);
   });
 
-  it(`records a tied primary as tied and nominates nobody, not a coin toss (${where(noRunoff)})`, () => {
+  it(`preserves an unopposed group while a tied count stays pending (${where(noRunoff)})`, () => {
     const { world, record, stableKey } = primary(
       noRunoff.usps,
       noRunoff.plan,
@@ -443,17 +477,15 @@ describe("A114: a primary is decided by the entrants' records, not a draw", () =
       ],
     );
     expect(results(record)).toEqual({
-      [first]: "republican|1000|unopposed",
-      [second]: "democratic|500|tied",
-      [third]: "democratic|500|tied",
+      [first]: "republican||unopposed",
     });
-    expect(record.summary).toContain("ended in a tie");
+    expect(record.tags).toContain("pending-party:democratic");
     expect(nominationNominees(world, stableKey)).toEqual([
       { personId: first, party: "republican" },
     ]);
   });
 
-  it(`sends a tie to the runoff where the law holds one, and a tied runoff nominates nobody (${where(runoffAtHalf)})`, () => {
+  it(`keeps an unresolved tied count pending without inventing a runoff tally (${where(runoffAtHalf)})`, () => {
     const { world, record, stableKey } = primary(
       runoffAtHalf.usps,
       runoffAtHalf.plan,
@@ -465,16 +497,10 @@ describe("A114: a primary is decided by the entrants' records, not a draw", () =
       ],
     );
     expect(results(record)).toEqual({
-      [first]: "republican|1000|unopposed",
-      [second]: "democratic|500|runoff",
-      [third]: "democratic|500|runoff",
+      [first]: "republican||unopposed",
     });
-    const runoff = runoffOf(world, stableKey);
-    expect(results(runoff)).toEqual({
-      [second]: "democratic|500|tied",
-      [third]: "democratic|500|tied",
-    });
-    expect(runoff?.summary).toContain("ended in a tie");
+    expect(record.tags).toContain("pending-party:democratic");
+    expect(runoffOf(world, stableKey)).toBeUndefined();
     expect(nominationNominees(world, stableKey)).toEqual([
       { personId: first, party: "republican" },
     ]);

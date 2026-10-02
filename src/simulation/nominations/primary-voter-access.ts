@@ -67,6 +67,7 @@ export function recordPrimaryBallotSelection(
     readonly jurisdictionId: EntityId;
     readonly electionStableKey: string;
     readonly selectedPartyId: string;
+    readonly selectedAt?: IsoDate;
   },
 ): World {
   if (!input.electionStableKey.trim() || !input.selectedPartyId.trim())
@@ -99,6 +100,7 @@ function recordAccessAction(
     readonly stableKey: string;
     readonly personId: EntityId;
     readonly jurisdictionId: EntityId;
+    readonly selectedAt?: IsoDate;
   },
   type: typeof REGISTRATION | typeof SELECTION,
   party: string | null,
@@ -112,7 +114,7 @@ function recordAccessAction(
   return recordWorldEvent(world, {
     stableKey: input.stableKey,
     type,
-    occurredAt: world.currentDate,
+    occurredAt: input.selectedAt ?? world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: input.jurisdictionId,
     involvedEntityIds: [input.personId],
@@ -244,6 +246,13 @@ export function primaryPartyBallotAdmission(
     case "Closed":
       if (registeredPartyId === undefined) return "requires-record";
       return registeredPartyId === primaryPartyId ? "eligible" : "ineligible";
+    case "Partially closed":
+    case "Partially open":
+      // Enrollment in this party admits its own ballot. Crossover and
+      // unaffiliated access still need the missing election-specific rule.
+      return registeredPartyId === primaryPartyId
+        ? "eligible"
+        : "requires-record";
     case "Open to unaffiliated voters":
       if (registeredPartyId === undefined) return "requires-record";
       return registeredPartyId === null || registeredPartyId === primaryPartyId
