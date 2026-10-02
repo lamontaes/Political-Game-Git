@@ -1,0 +1,217 @@
+{
+  "schemaVersion": 1,
+  "scope": "United States national annual observations; actual years are options, never independent component picks or a probability distribution.",
+  "latestCompleteYear": 2024,
+  "sources": {
+    "unemployment": {
+      "seriesId": "UNRATE",
+      "provider": "FRED; original provider BLS",
+      "seriesUrl": "https://fred.stlouisfed.org/series/UNRATE",
+      "downloadUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=UNRATE&cosd=2015-01-01&coed=2025-12-31&fq=Annual&fam=avg",
+      "retrievedAt": "2026-10-02",
+      "downloadSha256": "4d1335715d06db02952f98c74a1a7ab81de4c5bc156142281be552fef1f54197",
+      "aggregation": "FRED annual average of monthly observations, as returned by FRED"
+    },
+    "consumerPrices": {
+      "seriesId": "CPIAUCSL",
+      "provider": "FRED; original provider BLS",
+      "seriesUrl": "https://fred.stlouisfed.org/series/CPIAUCSL",
+      "downloadUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=CPIAUCSL&cosd=2014-01-01&coed=2025-12-31&fq=Annual&fam=avg",
+      "retrievedAt": "2026-10-02",
+      "downloadSha256": "cb9778238317265069f58d67ba5357c4497f17a5aa6ca0f1a93bb237c59f951f",
+      "aggregation": "FRED annual average of monthly observations, as returned by FRED"
+    },
+    "realOutput": {
+      "seriesId": "GDPCA",
+      "provider": "FRED; original provider BEA",
+      "seriesUrl": "https://fred.stlouisfed.org/series/GDPCA",
+      "downloadUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=GDPCA&cosd=2014-01-01&coed=2025-12-31",
+      "retrievedAt": "2026-10-02",
+      "downloadSha256": "6d93a601c8a1ad61600a06a5e9d108c4d11a308bdabe06e2e57f12e532645669",
+      "aggregation": "Native annual level"
+    },
+    "federalFunds": {
+      "seriesId": "FEDFUNDS",
+      "provider": "FRED; original provider Federal Reserve Board",
+      "seriesUrl": "https://fred.stlouisfed.org/series/FEDFUNDS",
+      "downloadUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=FEDFUNDS&cosd=2015-01-01&coed=2025-12-31&fq=Annual&fam=avg",
+      "retrievedAt": "2026-10-02",
+      "downloadSha256": "37eeccdcad8f263149a621c9fae91647fd939f3fd27ea67321b743ee8300ec86",
+      "aggregation": "FRED annual average of monthly observations, as returned by FRED"
+    }
+  },
+  "calculations": {
+    "inflationAnnualAveragePct": "100 * (annual CPI average / prior annual CPI average - 1); not December-over-December inflation",
+    "realGdpGrowthAnnualPct": "100 * (annual real GDP / prior annual real GDP - 1)",
+    "realGrowthContinuouslyCompoundedAnnualPct": "100 * ln(annual real GDP / prior annual real GDP)"
+  },
+  "incompleteYears": [
+    {
+      "year": 2025,
+      "reason": "FRED annual UNRATE and CPIAUCSL observations are blank in the retrieved CSVs; do not fill or combine years.",
+      "unemploymentAnnualAveragePct": null,
+      "consumerPriceIndexAnnualAverage": null,
+      "realGdpBillionsChained2017Usd": 23943.305,
+      "effectiveFederalFundsAnnualAveragePct": 4.21
+    }
+  ],
+  "missingContract": [
+    "No recorded regime or admitted mapping to near-reference/modest/major.",
+    "Housing supply/demand ratio not in these four sources.",
+    "Federal funds is a percent interest rate, not a measured 0..1 credit-tightness score.",
+    "Legacy macro volatilityScale and cycle/cost/housing/credit latents are model fields, not observations in these sources.",
+    "Annual-average CPI change must not be mislabeled as a December 12-month rate."
+  ],
+  "rows": [
+    {
+      "year": 2015,
+      "unemploymentAnnualAveragePct": 5.3,
+      "consumerPriceIndexAnnualAverage": 237.002,
+      "priorConsumerPriceIndexAnnualAverage": 236.715,
+      "inflationAnnualAveragePct": 0.12124284477113001,
+      "realGdpBillionsChained2017Usd": 18799.622,
+      "priorRealGdpBillionsChained2017Usd": 18261.714,
+      "realGdpGrowthAnnualPct": 2.945550455997714,
+      "realGrowthContinuouslyCompoundedAnnualPct": 2.9030026114549488,
+      "effectiveFederalFundsAnnualAveragePct": 0.13,
+      "regime": null,
+      "housingSupplyDemandRatio": null,
+      "creditTightness": null
+    },
+    {
+      "year": 2016,
+      "unemploymentAnnualAveragePct": 4.9,
+      "consumerPriceIndexAnnualAverage": 240.005,
+      "priorConsumerPriceIndexAnnualAverage": 237.002,
+      "inflationAnnualAveragePct": 1.2670779149543066,
+      "realGdpBillionsChained2017Usd": 19141.672,
+      "priorRealGdpBillionsChained2017Usd": 18799.622,
+      "realGdpGrowthAnnualPct": 1.8194514762052139,
+      "realGrowthContinuouslyCompoundedAnnualPct": 1.8030975280517232,
+      "effectiveFederalFundsAnnualAveragePct": 0.4,
+      "regime": null,
+      "housingSupplyDemandRatio": null,
+      "creditTightness": null
+    },
+    {
+      "year": 2017,
+      "unemploymentAnnualAveragePct": 4.4,
+      "consumerPriceIndexAnnualAverage": 245.121,
+      "priorConsumerPriceIndexAnnualAverage": 240.005,
+      "inflationAnnualAveragePct": 2.1316222578696253,
+      "realGdpBillionsChained2017Usd": 19612.102,
+      "priorRealGdpBillionsChained2017Usd": 19141.672,
+      "realGdpGrowthAnnualPct": 2.4576223017508614,
+      "realGrowthContinuouslyCompoundedAnnualPct": 2.4279086141565958,
+      "effectiveFederalFundsAnnualAveragePct": 1.0,
+      "regime": null,
+      "housingSupplyDemandRatio": null,
+      "creditTightness": null
+    },
+    {
+      "year": 2018,
+      "unemploymentAnnualAveragePct": 3.9,
+      "consumerPriceIndexAnnualAverage": 251.1,
+      "priorConsumerPriceIndexAnnualAverage": 245.121,
+      "inflationAnnualAveragePct": 2.439203495416553,
+      "realGdpBillionsChained2017Usd": 20193.896,
+      "priorRealGdpBillionsChained2017Usd": 19612.102,
+      "realGdpGrowthAnnualPct": 2.966505069165981,
+      "realGrowthContinuouslyCompoundedAnnualPct": 2.923355585142827,
+      "effectiveFederalFundsAnnualAveragePct": 1.83,
+      "regime": null,
+      "housingSupplyDemandRatio": null,
+      "creditTightness": null
+    },
+    {
+      "year": 2019,
+      "unemploymentAnnualAveragePct": 3.7,
+      "consumerPriceIndexAnnualAverage": 255.653,
+      "priorConsumerPriceIndexAnnualAverage": 251.1,
+      "inflationAnnualAveragePct": 1.8132218239745201,
+      "realGdpBillionsChained2017Usd": 20715.671,
+      "priorRealGdpBillionsChained2017Usd": 20193.896,
+      "realGdpGrowthAnnualPct": 2.5838253301888825,
+      "realGrowthContinuouslyCompoundedAnnualPct": 2.551008646693919,
+      "effectiveFederalFundsAnnualAveragePct": 2.16,
+      "regime": null,
+      "housingSupplyDemandRatio": null,
+      "creditTightness": null
+    },
+    {
+      "year": 2020,
+      "unemploymentAnnualAveragePct": 8.1,
+      "consumerPriceIndexAnnualAverage": 258.856,
+      "priorConsumerPriceIndexAnnualAverage": 255.653,
+      "inflationAnnualAveragePct": 1.2528701012700871,
+      "realGdpBillionsChained2017Usd": 20284.5,
+      "priorRealGdpBillionsChained2017Usd": 20715.671,
+      "realGdpGrowthAnnualPct": -2.08137597860093,
+      "realGrowthContinuouslyCompoundedAnnualPct": -2.1033419391852113,
+      "effectiveFederalFundsAnnualAveragePct": 0.38,
+      "regime": null,
+      "housingSupplyDemandRatio": null,
+      "creditTightness": null
+    },
+    {
+      "year": 2021,
+      "unemploymentAnnualAveragePct": 5.4,
+      "consumerPriceIndexAnnualAverage": 270.973,
+      "priorConsumerPriceIndexAnnualAverage": 258.856,
+      "inflationAnnualAveragePct": 4.680980931483147,
+      "realGdpBillionsChained2017Usd": 21556.002,
+      "priorRealGdpBillionsChained2017Usd": 20284.5,
+      "realGdpGrowthAnnualPct": 6.268342823338013,
+      "realGrowthContinuouslyCompoundedAnnualPct": 6.079724525345092,
+      "effectiveFederalFundsAnnualAveragePct": 0.08,
+      "regime": null,
+      "housingSupplyDemandRatio": null,
+      "creditTightness": null
+    },
+    {
+      "year": 2022,
+      "unemploymentAnnualAveragePct": 3.7,
+      "consumerPriceIndexAnnualAverage": 292.626,
+      "priorConsumerPriceIndexAnnualAverage": 270.973,
+      "inflationAnnualAveragePct": 7.990833035025613,
+      "realGdpBillionsChained2017Usd": 22079.726,
+      "priorRealGdpBillionsChained2017Usd": 21556.002,
+      "realGdpGrowthAnnualPct": 2.4295971024682617,
+      "realGrowthContinuouslyCompoundedAnnualPct": 2.400551905876915,
+      "effectiveFederalFundsAnnualAveragePct": 1.68,
+      "regime": null,
+      "housingSupplyDemandRatio": null,
+      "creditTightness": null
+    },
+    {
+      "year": 2023,
+      "unemploymentAnnualAveragePct": 3.6,
+      "consumerPriceIndexAnnualAverage": 304.703,
+      "priorConsumerPriceIndexAnnualAverage": 292.626,
+      "inflationAnnualAveragePct": 4.127111056433819,
+      "realGdpBillionsChained2017Usd": 22724.135,
+      "priorRealGdpBillionsChained2017Usd": 22079.726,
+      "realGdpGrowthAnnualPct": 2.918555239317744,
+      "realGrowthContinuouslyCompoundedAnnualPct": 2.876776362110971,
+      "effectiveFederalFundsAnnualAveragePct": 5.02,
+      "regime": null,
+      "housingSupplyDemandRatio": null,
+      "creditTightness": null
+    },
+    {
+      "year": 2024,
+      "unemploymentAnnualAveragePct": 4.0,
+      "consumerPriceIndexAnnualAverage": 313.698,
+      "priorConsumerPriceIndexAnnualAverage": 304.703,
+      "inflationAnnualAveragePct": 2.9520549518711636,
+      "realGdpBillionsChained2017Usd": 23394.892,
+      "priorRealGdpBillionsChained2017Usd": 22724.135,
+      "realGdpGrowthAnnualPct": 2.9517383169920475,
+      "realGrowthContinuouslyCompoundedAnnualPct": 2.909013240378789,
+      "effectiveFederalFundsAnnualAveragePct": 5.14,
+      "regime": null,
+      "housingSupplyDemandRatio": null,
+      "creditTightness": null
+    }
+  ]
+}
