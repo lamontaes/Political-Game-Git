@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { authoredWageTerm } from "../../tests/fixtures/authored-wage-term";
 import { smallWorld } from "../../tests/fixtures/small-world";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate, simulationMomentOnLocalDate } from "./dates";
 import {
   lifePlaceStateIdentities,
   type LifePlaceStateIdentity,
@@ -171,11 +171,28 @@ describe("A38 adopted federal floor through one reader", () => {
     const phaseAt = makeIsoDate("2026-07-01");
     const { world, jurisdictionId } = smallWorld({
       place: "DC",
-      date: beforePhase,
+      date: enactedAt,
       seed: `${SEED}:prestart-statutory-phase`,
     });
-    const prestart = { ...world, startedAt: makeIsoDate("1900-01-01") };
-    const later = { ...prestart, currentDate: phaseAt };
+    // Start with the valid opening moment, then let the zone-aware constructor
+    // resolve each dated snapshot, including its daylight-saving offset.
+    const prestart = {
+      ...world,
+      startedAt: makeIsoDate("1900-01-01"),
+      currentDate: beforePhase,
+      currentMoment: simulationMomentOnLocalDate(
+        world.currentMoment,
+        beforePhase,
+      ),
+    };
+    const later = {
+      ...prestart,
+      currentDate: phaseAt,
+      currentMoment: simulationMomentOnLocalDate(
+        prestart.currentMoment,
+        phaseAt,
+      ),
+    };
     const change = outcomeMeasure("labor.minimum-wage-change-pct");
     expect(change).not.toBeNull();
     expect(stateMinimumSettingAt(prestart, "US-DC", beforePhase)).toMatchObject(
