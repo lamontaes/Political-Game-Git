@@ -3,6 +3,7 @@ import { addDays, makeIsoDate } from "../dates";
 import { lawInForceAtStart } from "../governing/law-in-force";
 import { stateJurisdictionForKey } from "../life-places";
 import { STATES } from "../state-reference";
+import { createWorld } from "../world";
 import type {
   EntityId,
   LegislativeEnactmentRecord,
@@ -292,6 +293,29 @@ describe("laws as causes", () => {
     ]);
   });
 
+  it("two seeds yield the same ranged law effect after its saved operative date and lag", () => {
+    const date = makeIsoDate("2027-03-01");
+    const first = outcomeFactor(
+      { ...worldWith(date, "yes", noLimit), seed: "a127:law:first" },
+      noLimit,
+      "births.rate",
+      date,
+    );
+    const second = outcomeFactor(
+      { ...worldWith(date, "yes", noLimit), seed: "a127:law:second" },
+      noLimit,
+      "births.rate",
+      date,
+    );
+    expect(first).toEqual(second);
+    const ranged = OUTCOME_LINKS.find(
+      (candidate) => candidate.key === "abortion-ban-to-births",
+    )!;
+    expect(ranged.range).toBeDefined();
+    expect(first.multiplier).toBe(1 + ranged.size!);
+    expect(first.causes.map((cause) => cause.key)).toEqual([ranged.key]);
+  });
+
   it("a law that says no, or no law at all, leaves births at the base rate", () => {
     for (const answer of ["no", null] as const) {
       const reading = outcomeFactor(
@@ -330,30 +354,48 @@ describe("laws as causes", () => {
   });
 });
 
-describe("sizes are a baseline, not literal numbers", () => {
+describe("recorded central effect sizes", () => {
   const link = OUTCOME_LINKS.find(
     (candidate) => candidate.key === "unemployment-to-poverty",
   )!;
   const place = "place_a" as EntityId;
   const seeded = (seed: string) => ({ seed }) as unknown as World;
 
-  it("each world draws each place's size within the research range, and keeps it", () => {
+  it("each world and place uses the same recorded central size inside the research bounds", () => {
     const [low, high] = link.range!;
-    const sizes = new Set<number>();
+    expect(link.size).toBeGreaterThanOrEqual(low);
+    expect(link.size).toBeLessThanOrEqual(high);
     for (let index = 0; index < 40; index += 1) {
-      const size = drawnLinkSize(seeded(`world-${index}`), link, place);
-      expect(size).toBeGreaterThanOrEqual(low);
-      expect(size).toBeLessThanOrEqual(high);
-      expect(drawnLinkSize(seeded(`world-${index}`), link, place)).toBe(size);
-      sizes.add(size);
+      expect(drawnLinkSize(seeded(`world-${index}`), link, place)).toBe(
+        link.size,
+      );
     }
-    // Different worlds play out differently.
-    expect(sizes.size).toBeGreaterThan(30);
-    // So do different places in one world.
-    expect(drawnLinkSize(seeded("w"), link, "place_b" as EntityId)).not.toBe(
-      drawnLinkSize(seeded("w"), link, place),
+    expect(drawnLinkSize(seeded("w"), link, "place_b" as EntityId)).toBe(
+      link.size,
     );
   });
+
+  it.each(Object.keys(STATES))(
+    "uses exact recorded global or place-specific central sizes in seeded small worlds (%s)",
+    (usps) => {
+      const jurisdiction = stateJurisdictionForKey(`US-${usps}`)!;
+      for (const seed of [`a127:${usps}:first`, `a127:${usps}:second`]) {
+        const world = createWorld({
+          seed,
+          currentDate: makeIsoDate(OUTCOME_WEB_CALIBRATED_AT),
+          jurisdictions: [jurisdiction],
+          people: [],
+        });
+        for (const candidate of OUTCOME_LINKS) {
+          const own = candidate.sizeByPlace?.[`US-${usps}`];
+          expect(
+            drawnLinkSize(world, candidate, jurisdiction.id),
+            candidate.key,
+          ).toBe(own?.size ?? candidate.size ?? 0);
+        }
+      }
+    },
+  );
 
   it("a link without a researched range uses exactly its central size for every evidence label", () => {
     for (const evidence of EVIDENCE) {
