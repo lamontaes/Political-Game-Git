@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { fundRecordedPayrollControl } from "../fixtures/recorded-payroll-capital";
 
 import {
   generateOpeningLife,
@@ -42,7 +43,6 @@ import {
   paydayHandler,
   payPeriodEndingOn,
   type TownPayPeriod,
-  townMinimumHourly,
   townMinimumHourlyAt,
 } from "../../src/simulation/living-world/town-pay";
 import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/place-population.generated";
@@ -207,7 +207,7 @@ function runPaydays(
   days: number,
   every = true,
 ): World {
-  let world = start;
+  let world = fundRecordedPayrollControl(start, days, 2_000);
   let paidThrough = since;
   const until = addDays(since, days);
   const paydays: IsoDate[] = [];
@@ -237,6 +237,46 @@ function runPaydays(
   return world;
 }
 
+/** Read the saved law at the requested snapshot, including future controls. */
+function rateOn(world: World, jurisdictionId: EntityId, onDate: IsoDate) {
+  return townMinimumHourlyAt(
+    {
+      ...world,
+      currentDate: onDate,
+      currentMoment: simulationMomentOnLocalDate(world.currentMoment, onDate),
+    },
+    jurisdictionId,
+    onDate,
+  );
+}
+
+function raisesFromBills(world: World) {
+  const measures = new Set(
+    world.history
+      .legislativeMeasures!.filter((row) =>
+        row.stableKey.startsWith("minimum-wage:"),
+      )
+      .map((row) => row.id),
+  );
+  return world.history.resourceFlowTerms.filter((terms) =>
+    terms.lawEffectStamps?.some(
+      (stamp) =>
+        stamp.effectKind === "pay" && measures.has(stamp.governingLawKey),
+    ),
+  );
+}
+
+function lawDesignation(
+  world: World,
+  terms: World["history"]["resourceFlowTerms"][number],
+) {
+  const stamp = terms.lawEffectStamps?.find((row) => row.effectKind === "pay");
+  expect(stamp).toBeDefined();
+  return world.history.legislativeEnactments!.find(
+    (row) => row.measureId === stamp!.governingLawKey,
+  )!.actDesignation;
+}
+
 /** The first day of a pay period on or after `date`. */
 function firstPeriodStart(cadenceKind: string, date: IsoDate): IsoDate {
   const note = /town-(\w+?)(?:-(\d))?$/.exec(cadenceKind)!;
@@ -261,22 +301,22 @@ describe(
       const effectiveAt = addDays(opened, LB_900.effectiveInDays);
       const omaha = lifePlaceByKey("3137000")!.context.jurisdiction.id;
       // Nebraska's own rate before the law, the law's rate from its effective date.
-      expect(townMinimumHourlyAt(enacted, omaha, opened)).toBe(
-        townMinimumHourly(omaha),
+      expect(rateOn(enacted, omaha, opened)).toBe(
+        rateOn(omahaWithMinimumWageLaws([]).world, omaha, opened),
       );
-      expect(townMinimumHourly(omaha)).toBeLessThan(18);
       expect(
-        townMinimumHourlyAt(enacted, omaha, addDays(effectiveAt, -1)),
-      ).toBe(townMinimumHourly(omaha));
-      expect(townMinimumHourlyAt(enacted, omaha, effectiveAt)).toBe(18);
+        rateOn(omahaWithMinimumWageLaws([]).world, omaha, opened),
+      ).toBeLessThan(18);
+      expect(rateOn(enacted, omaha, addDays(effectiveAt, -1))).toBe(
+        rateOn(omahaWithMinimumWageLaws([]).world, omaha, opened),
+      );
+      expect(rateOn(enacted, omaha, effectiveAt)).toBe(18);
 
       const world = runPaydays(enacted, opened, 100);
       const payFlows = world.history.resourceFlows.filter((flow) =>
         flow.stableKey.startsWith("town-pay-v2:job-pay:"),
       );
-      const raises = world.history.resourceFlowTerms.filter((terms) =>
-        terms.stableKey.includes(":minimum-wage:"),
-      );
+      const raises = raisesFromBills(world);
       expect(payFlows.length).toBeGreaterThan(20);
       expect(raises.length).toBeGreaterThan(0);
 
@@ -293,9 +333,7 @@ describe(
         expect(raise.amount.minorUnits).toBeGreaterThan(
           before.amount.minorUnits,
         );
-        expect(raise.reason).toBe(
-          "LB 900, 2026 raised the state minimum wage to $18.00 an hour.",
-        );
+        expect(lawDesignation(world, raise)).toBe("LB 900, 2026");
         expect(raise.provenance.kind).toBe("simulated-event");
         for (const paycheck of world.history.resourceTransferOutcomes) {
           if (paycheck.resourceFlowId !== flow.id) continue;
@@ -356,6 +394,7 @@ describe(
 
     it("reaches Nebraska alone: every other state, D.C. and territory keeps its own rate", () => {
       const { world, opened } = omahaWithMinimumWageLaws([LB_900]);
+      const baseline = omahaWithMinimumWageLaws([]).world;
       const effectiveAt = addDays(opened, LB_900.effectiveInDays);
       const largest = new Map<string, string>();
       const people = new Map<string, number>();
@@ -376,10 +415,10 @@ describe(
       for (const key of largest.values()) {
         const place = lifePlaceByKey(key)!;
         const jurisdiction = place.context.jurisdiction.id;
-        expect(townMinimumHourlyAt(world, jurisdiction, effectiveAt), key).toBe(
+        expect(rateOn(world, jurisdiction, effectiveAt), key).toBe(
           place.stateJurisdictionKey === "US-NE"
             ? 18
-            : townMinimumHourly(jurisdiction),
+            : rateOn(baseline, jurisdiction, effectiveAt),
         );
       }
     });
@@ -396,9 +435,7 @@ describe(
         LB_901,
       ]);
       const world = runPaydays(enacted, opened, 100, false);
-      const raises = world.history.resourceFlowTerms.filter((terms) =>
-        terms.stableKey.includes(":minimum-wage:"),
-      );
+      const raises = raisesFromBills(world);
       const byFlow = new Map<string, typeof raises>();
       for (const raise of raises)
         byFlow.set(raise.resourceFlowId, [
@@ -409,8 +446,8 @@ describe(
       const twice = [...byFlow.values()].filter((list) => list.length === 2);
       expect(twice.length).toBeGreaterThan(0);
       for (const [first, second] of twice) {
-        expect(first!.reason).toContain("LB 900, 2026");
-        expect(second!.reason).toContain("LB 901, 2026");
+        expect(lawDesignation(world, first!)).toBe("LB 900, 2026");
+        expect(lawDesignation(world, second!)).toBe("LB 901, 2026");
         expect(first!.effectiveAt).toBe(
           firstPeriodStart(
             first!.cadenceKind,

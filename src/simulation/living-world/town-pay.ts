@@ -1,6 +1,6 @@
 import { settleAllOfficeSalaries } from "../office-salary";
 import { assessedCompletedHourlyGrossMinor } from "../completed-hourly-gross";
-import { payWorkplaceAt } from "../pay-coverage-predicates";
+import { payPayerAt, payWorkplaceAt } from "../pay-coverage-predicates";
 import {
   ensureLocalPublicAccount,
   ensureTaxPublicAccount,
@@ -997,18 +997,12 @@ export function applyLawPayConsequence(
   let governing: Parameters<typeof lawEffectStamp>[0] = null;
   const work = recordById(world.history.workRelationships, resolved.workId);
   const flow = recordById(world.history.resourceFlows, resolved.payFlowId);
-  const employerIdentity = work?.organizationId
-    ? organizationProfileAt(world, work.organizationId, {
+  const payerId = work
+    ? payPayerAt(world, work.id, {
         asOfDate: effectiveAt,
         historySequenceExclusive: world.history.nextSequence,
-      })?.publicGovernmentIdentity
-    : undefined;
-  const payerId = employerIdentity
-    ? publicTaxAccountForIdentity(world, employerIdentity, {
-        asOfDate: effectiveAt,
-        historySequenceExclusive: world.history.nextSequence,
-      })?.organizationId
-    : work?.organizationId;
+      })
+    : null;
   if (!world.people[resolved.personId] || work?.personId !== resolved.personId)
     refuse("pay.worker-and-job.binding");
   if (
@@ -1662,16 +1656,7 @@ export function settleTownCompensations(
       asOfDate: period.periodStartsAt,
       historySequenceExclusive: next.history.nextSequence,
     };
-    const employer = work?.organizationId
-      ? organizationProfileAt(next, work.organizationId, payerCutoff)
-      : undefined;
-    const payerId = employer?.publicGovernmentIdentity
-      ? publicTaxAccountForIdentity(
-          next,
-          employer.publicGovernmentIdentity,
-          payerCutoff,
-        )?.organizationId
-      : work?.organizationId;
+    const payerId = work ? payPayerAt(next, work.id, payerCutoff) : null;
     if (
       !work ||
       work.personId !== flow.recipient.personId ||

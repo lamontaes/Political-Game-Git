@@ -1,4 +1,6 @@
 import { paidOfficeOf } from "./office-pay";
+import { stateJurisdictionForKey } from "./life-places";
+import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import type { LawConsequencePredicate } from "./law-consequence-types";
 import { recordById } from "./history-index";
 import { publicTaxAccountForIdentity } from "./tax-policy";
@@ -20,6 +22,25 @@ export function payPayerAt(
 ): EntityId | null {
   const work = recordById(world.history.workRelationships, workId);
   if (!work?.organizationId) return null;
+  const held = paidOfficeOf(world, work, cutoff);
+  if (held) {
+    // Reuse the office salary writer's saved office-to-government join.
+    const jurisdiction =
+      held.state === "US"
+        ? NATIONAL_ELECTION_JURISDICTION
+        : stateJurisdictionForKey(`US-${held.state}`);
+    const account = jurisdiction
+      ? publicTaxAccountForIdentity(
+          world,
+          {
+            kind: "jurisdiction",
+            jurisdictionId: jurisdiction.id,
+          },
+          cutoff,
+        )
+      : null;
+    return account?.organizationId ?? work.organizationId;
+  }
   const profile = organizationProfileAt(world, work.organizationId, cutoff);
   const identity = profile?.publicGovernmentIdentity;
   return identity

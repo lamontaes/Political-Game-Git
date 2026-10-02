@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { fundRecordedPayrollControl } from "../fixtures/recorded-payroll-capital";
+import { settleAllOfficeSalaries } from "../../src/simulation/office-salary";
 import {
   generateOpeningLife,
   prepareOpeningLife,
@@ -23,8 +25,8 @@ import {
 } from "../../src/simulation/living-world/town-pay";
 import { noticeLawPayChanges } from "../../src/simulation/law-effects-noticed";
 import {
-  createResourcePosition,
   createWorkCompensation,
+  recordWorkCompensationTerms,
   money,
 } from "../../src/simulation/resources";
 import { ensureLifePathPersonalPosition } from "../../src/simulation/life-paths2-resources";
@@ -33,7 +35,10 @@ import {
   scheduleFutureDueItem,
   cancelFutureDueItem,
 } from "../../src/simulation/future-transitions";
-import { resourcePositionAt } from "../../src/simulation/resource-queries";
+import {
+  resourceFlowTermsAt,
+  resourcePositionAt,
+} from "../../src/simulation/resource-queries";
 import {
   serializeWorld,
   deserializeWorld,
@@ -71,6 +76,7 @@ function npcPayday(world: World, due: FutureDueItem): World {
     world.control.kind === "person" ? world.control.personId : null;
   let next = startTownJobPay(world, played, since);
   next = raiseTeacherPayToFloor(next, played);
+  next = settleAllOfficeSalaries(next);
   next = noticeLawPayChanges(next, since);
   next = payTownPaydays(next, since, played);
   return scheduleFutureDueItem(next, {
@@ -106,19 +112,41 @@ describe.each(allPlaces())(
       expect(work, key).toBeDefined();
       // Identical authored contract controls the comparison; it is not a new
       // population wage/rate assumption. The actor/job/employer are generated.
-      let base = createWorkCompensation(game.world, {
-        stableKey: `${TOWN_PAY_VERSION}:job-pay:${work.id}`,
-        workRelationshipId: work.id,
-        startsAt: since,
-        amount: money(200_000, "USD"),
-        cadenceKind: "schedule:town-weekly",
-        restrictionKind: null,
-        jurisdictionId: null,
-        provenance: {
-          kind: "authored",
-          note: "Parity fixture: identical weekly contract, not empirical pay.",
-        },
-      });
+      const openingFlow = game.world.history.resourceFlows.find(
+        (flow) =>
+          flow.basisReference.kind === "work" &&
+          flow.basisReference.workRelationshipId === work.id,
+      )!;
+      const openingTerms = openingFlow
+        ? resourceFlowTermsAt(game.world, openingFlow.id)!
+        : null;
+      const provenance = {
+        kind: "authored" as const,
+        note: "Parity fixture: identical weekly contract, not empirical pay.",
+      };
+      let base = openingTerms
+        ? recordWorkCompensationTerms(game.world, {
+            stableKey: `fixture:weekly-contract:${work.id}`,
+            workRelationshipId: work.id,
+            effectiveAt: since,
+            status: "active",
+            amount: money(200_000, "USD"),
+            cadenceKind: "schedule:town-weekly",
+            supersedesTermsId: openingTerms.id,
+            reason: "Identical authored weekly contract for played/NPC parity.",
+            provenance,
+          })
+        : createWorkCompensation(game.world, {
+            stableKey: `${TOWN_PAY_VERSION}:job-pay:${work.id}`,
+            workRelationshipId: work.id,
+            startsAt: since,
+            amount: money(200_000, "USD"),
+            cadenceKind: "schedule:town-weekly",
+            restrictionKind: null,
+            jurisdictionId: null,
+            provenance,
+          });
+      base = fundRecordedPayrollControl(base, 31, 200_000);
       let date = nextPaydayDate(addDays(since, 7));
       // The shared calendar also contains semimonthly paydays. Select a full
       // weekly period for this contract rather than assuming its next date fits.
@@ -145,21 +173,6 @@ describe.each(allPlaces())(
           currentMoment: simulationMomentOnLocalDate(next.currentMoment, date),
         };
       });
-      const employer = {
-        kind: "organization" as const,
-        organizationId: work.organizationId!,
-      };
-      if (!resourcePositionAt(base, employer, money(0, "USD").currency))
-        base = createResourcePosition(base, {
-          stableKey: `fixture:payroll-cash:${work.organizationId}`,
-          owner: employer,
-          openedAt: date,
-          openingBalance: money(10_000_000, "USD"),
-          provenance: {
-            kind: "authored",
-            note: "Identical employer-cash test control; not a population estimate.",
-          },
-        });
       base = ensureLifePathPersonalPosition(
         base,
         work.personId,
