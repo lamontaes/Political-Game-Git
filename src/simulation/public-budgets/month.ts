@@ -38,8 +38,8 @@ import { actuarialContribution } from "./opening";
 import { pensionFlows, pensionPayment } from "./pension-share";
 import { reserveRule } from "./reserve-rule";
 import { roadChargeFactor } from "./road-usage-charge";
-import { federalAidFactor } from "../federal-outlay-laws";
 import { tuitionFreezeFactor } from "./tuition-freeze";
+import { federalAidFactor } from "../federal-outlay-laws";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import { principledLeaning } from "../governing/officeholder-principles";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
@@ -604,7 +604,7 @@ function monthsInto(year: AdoptedBudget, month: IsoDate): number {
  * income tax question). Income tax is read on January 1
  * of the date's year, the law paychecks withhold under for that tax year
  * (`stateIncomeTaxUnderLaw`), so the budget collects what paychecks withhold.
- * The fuel
+ * A tuition freeze moves charges and fees (`tuition-freeze.ts`). The fuel
  * tax erodes, and a road charge holds it (`road-usage-charge.ts`); given
  * `erodedOn`, the erosion is read on that date instead, so two dates' laws
  * compare over the same fleet.
