@@ -298,7 +298,7 @@ describe(`chronic conditions from recorded health (${STATE.name}, ${STATE.usps},
   );
 
   it(
-    "brings a condition sooner for a person below the poverty line, from their coverage record",
+    "does not apply unsupported poverty or coverage multipliers to onset",
     () => {
       // A coverage record reads the household's income. The first seed from
       // `ruling-38-poverty-0` whose place, drawn from all 56, writes one for
@@ -331,7 +331,7 @@ describe(`chronic conditions from recorded health (${STATE.name}, ${STATE.usps},
       // the poverty line on the coverage record.
       expect(strain.coverage.at(-1)!.monthlyIncomeMinor).toBe(0);
       const horizon = addDays(read.currentDate, 365 * 80);
-      let sooner = 0;
+      let checked = 0;
       for (const key of ["heart-disease", "diabetes"]) {
         if (strain.held.has(key)) continue;
         const own = { seed: read.seed, personId };
@@ -345,13 +345,10 @@ describe(`chronic conditions from recorded health (${STATE.name}, ${STATE.usps},
           read.currentDate,
           horizon,
         );
-        // The recorded cause never delays a condition: it begins sooner, or
-        // begins where it otherwise would not within the span.
-        if (without !== null)
-          expect(withRecord !== null && withRecord < without, key).toBe(true);
-        if (withRecord !== null) sooner += 1;
+        expect(withRecord, key).toBe(without);
+        checked += 1;
       }
-      expect(sooner).toBeGreaterThan(0);
+      expect(checked).toBeGreaterThan(0);
     },
     CASE_LIMIT,
   );

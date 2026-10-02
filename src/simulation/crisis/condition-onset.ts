@@ -6,7 +6,6 @@ import {
   conditionHazard,
   conditionOfOnsetItem,
   conditionOnsetDay,
-  onsetCauseFactor,
 } from "./condition-pack";
 import { beginHealthEpisode } from "./health";
 import { conditionStrainInput } from "./mortality";
@@ -16,8 +15,7 @@ import { conditionStrainInput } from "./mortality";
  * threshold (Ruling 38, step 2; conditionOnsetDay), through the ordinary
  * health-episode writer. The
  * crossing is re-read from the records as they stand; an item a later record
- * change moved begins nothing. The episode cites the coverage record whose
- * causes pushed the strain, when one did.
+ * change moved begins nothing. The episode cites its scheduled onset item.
  */
 export const conditionOnsetHandler: FutureTransitionHandler = (world, item) => {
   const personId = item.entityIds[0];
@@ -51,9 +49,6 @@ export const conditionOnsetHandler: FutureTransitionHandler = (world, item) => {
     ) === null
   )
     return cancelled("A later record change moved the day the strain crosses.");
-  const pushedBy = strain.coverage
-    .filter((record) => record.effectiveAt <= today)
-    .at(-1);
   const next = beginHealthEpisode(world, {
     stableKey: `condition:${key}:${personId}:${today}`,
     personId,
@@ -61,10 +56,7 @@ export const conditionOnsetHandler: FutureTransitionHandler = (world, item) => {
     initialLimitation: "none",
     origin: CONDITION_PACK_ORIGIN,
     conditionKey: key,
-    causalParentIds: [
-      item.id,
-      ...(pushedBy && onsetCauseFactor(pushedBy) !== 1 ? [pushedBy.id] : []),
-    ],
+    causalParentIds: [item.id],
     hazard: conditionHazard(
       world.seed,
       personId,

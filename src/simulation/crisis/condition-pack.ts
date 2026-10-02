@@ -4,7 +4,6 @@ import { scheduleFutureDueItem } from "../future-transitions";
 import { stableHash } from "../ids";
 import type { EntityId, IsoDate, World } from "../types";
 import { MULTIPLIER_ONE } from "./hazard";
-import { annualPovertyLineMinor } from "../household-pay";
 import type { MortalityCalibrationCategory } from "./mortality-table";
 import { appendCrisisRecords, crisisRecordId } from "./records";
 import type {
@@ -27,8 +26,7 @@ import type {
  * source; nothing is rolled while the world runs. A condition that begins
  * during life begins on the day its own strain reaches the person's
  * threshold from that same place: the strain rises with the pack's own rise
- * in prevalence between age bands, and faster while a recorded cause pushes
- * it (conditionOnsetDay). The onset scale in the data file only marks which
+ * in prevalence between age bands (conditionOnsetDay). The onset scale in the data file only marks which
  * conditions can begin during life.
  */
 
@@ -56,7 +54,6 @@ interface PackCondition {
 export const CONDITION_PACK_KEY = pack.packKey;
 export const CONDITION_PACK: readonly PackCondition[] =
   pack.conditions as readonly PackCondition[];
-const ONSET_CAUSES = pack.onsetCauses;
 
 /** The due item for the day a condition's own strain crosses the threshold. */
 export const CONDITION_ONSET_KEY = "crisis:condition-onset" as const;
@@ -306,35 +303,6 @@ export function recordStartingConditions(
   return appendCrisisRecords(world, inputs);
 }
 
-const INCOME_KNOWN = new Set([
-  "covered",
-  "lost:work-requirement",
-  "outside:income",
-]);
-
-/**
- * How strongly the recorded causes push a condition's strain, from one
- * coverage record: household income under the poverty line, and coverage
- * lost. A record that does not establish a fact leaves it unread (1), never
- * counted as present.
- */
-export function onsetCauseFactor(record: HealthCoverageRecord): number {
-  const incomeKnown = INCOME_KNOWN.has(record.reasonKey) && !!record.stateKey;
-  const poor =
-    incomeKnown &&
-    record.monthlyIncomeMinor * 12 <
-      annualPovertyLineMinor(
-        record.stateKey!,
-        record.householdSize,
-        record.effectiveAt,
-      );
-  const uncovered = record.reasonKey === "lost:work-requirement";
-  return (
-    (poor ? ONSET_CAUSES.belowPovertyLine.value : 1) *
-    (uncovered ? ONSET_CAUSES.uncovered.value : 1)
-  );
-}
-
 /**
  * A condition's onset strain at `age`: minus the log of the share of people
  * that age who do not hold it, taking the highest share at any age up to
@@ -372,10 +340,9 @@ export interface ConditionOnsetInput {
  * The day in [from, to) on which a person begins a condition they do not
  * hold, or null. Their threshold is minus the log of one less their seeded
  * place, the same place that decided whether they started with it. Their
- * strain starts at the condition's onset strain for their age on their first
- * tracked day and rises with it, faster in proportion while a recorded cause
- * (income under the poverty line, coverage lost) pushes it. With no cause on
- * record, the day is the one on which the share of people their age holding
+ * strain follows the pack's prevalence-derived rise with age. Poverty and
+ * coverage records do not change onset without sourced multipliers.
+ * The day is the one on which the share of people their age holding
  * the condition passes their place, so the pack's prevalence holds as people
  * age. Nothing is rolled; the place is chosen once.
  */
@@ -396,30 +363,8 @@ export function conditionOnsetDay(
       daysBetween(input.birthDate, date) / 365.25,
       input.category,
     );
-  // Each cause holds from its record's day until the next record's.
-  const causes = [
-    { from: input.exposureStart, factor: 1 },
-    ...input.coverage.map((record) => ({
-      from:
-        record.effectiveAt < input.exposureStart
-          ? input.exposureStart
-          : record.effectiveAt,
-      factor: onsetCauseFactor(record),
-    })),
-  ].sort((a, b) => (a.from < b.from ? -1 : a.from > b.from ? 1 : 0));
-  const atExposure = strainAt(input.exposureStart);
-  const strainOn = (date: IsoDate): number => {
-    let total = atExposure;
-    for (let index = 0; index < causes.length; index += 1) {
-      const cause = causes[index]!;
-      if (cause.from >= date) break;
-      const next = causes[index + 1]?.from;
-      const until = next !== undefined && next < date ? next : date;
-      if (until > cause.from)
-        total += cause.factor * (strainAt(until) - strainAt(cause.from));
-    }
-    return total;
-  };
+  // No sourced poverty or coverage multiplier is installed.
+  const strainOn = strainAt;
   // The strain never falls, so the first day at or past the threshold is
   // found by halving the span.
   if (strainOn(from) >= threshold) return from;
