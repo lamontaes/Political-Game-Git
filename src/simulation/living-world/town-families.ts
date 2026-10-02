@@ -1,3 +1,4 @@
+import { evaluateTownCoupleActors } from "./town-couple-actor-adapter";
 /**
  * The town's families change as time passes: people start dating, move in
  * together, marry, break up and have children.
@@ -81,7 +82,7 @@ import {
   marketRentMinor,
   monthlyPayByPerson,
 } from "./town-rent";
-import { jobsLostBy, townUnemploymentPressure } from "./town-labor-market";
+import { jobsLostBy } from "./town-labor-market";
 
 export const TOWN_FAMILIES_VERSION = "town-families-v1";
 
@@ -131,10 +132,6 @@ function byAge(
   let chance = 0;
   for (const [from, value] of table) if (age >= from) chance = value;
   return chance;
-}
-
-function yearsBetween(from: IsoDate, to: IsoDate): number {
-  return (Date.parse(to) - Date.parse(from)) / (365.25 * 86_400_000);
 }
 
 interface Couple {
@@ -402,7 +399,6 @@ export function reviewTownFamilies(
   const view = readFamilies(world, town);
   if (view.people.size === 0) return world;
   const today = view.today;
-  const pressure = Math.sqrt(townUnemploymentPressure(world, town));
   const rngFor = (key: string) =>
     new SeededRng(world.seed).fork(`${prefix}${key}`);
   const touched = new Set<EntityId>();
@@ -410,12 +406,6 @@ export function reviewTownFamilies(
   let next = world;
 
   const householdOf = (id: EntityId) => view.household.get(id) ?? null;
-  const childUnder = (householdId: EntityId | null, years: number) =>
-    householdId !== null &&
-    (view.householdMembers.get(householdId) ?? []).some(
-      (id) => (view.people.get(id)?.age ?? 99) < years,
-    );
-
   const event = (
     key: string,
     type: `${string}.${string}`,
@@ -600,36 +590,28 @@ export function reviewTownFamilies(
     const personB = view.people.get(b);
     if (!personA || !personB) continue;
     const key = `couple:${couple.partnership.id}`;
-    const rng = rngFor(key);
-    const years = yearsBetween(couple.partnership.startedAt, today);
+    const decision = evaluateTownCoupleActors(next, {
+      stableKey: `${prefix}${key}:stage`,
+      personIds: [a, b],
+      stage: couple.stage,
+      startedAt: couple.partnership.startedAt,
+    });
+    const admits = (optionKey: string) =>
+      decision.admittedOptions.some((option) => option.key === optionKey);
     const homeA = householdOf(a);
     const together = homeA !== null && homeA === householdOf(b);
     const names = `${personName(personA.person)} and ${personName(personB.person)}`;
 
-    let breakUp = TOWN_FAMILY_CHANCES.breakUp[couple.stage] * pressure;
-    if (couple.stage !== "dating") {
-      if (years < 3) breakUp *= 1.5;
-      else if (years >= 15) breakUp *= 0.5;
-    }
-    if (view.laidOffThisYear.has(a) || view.laidOffThisYear.has(b))
-      breakUp *= 1.6;
-    if (
-      !view.working.has(a) &&
-      !view.working.has(b) &&
-      personA.age < 67 &&
-      personB.age < 67
-    )
-      breakUp *= 1.3;
-    if (together && childUnder(homeA, 6)) breakUp *= 0.75;
-    if (rng.fork("break-up").next() < breakUp) {
+    if (admits("break-up") || admits("separate")) {
       const married = couple.stage === "married";
+      if (married && !together) continue;
       const provenance = event(
         key,
-        married ? TOWN_FAMILY_EVENTS.divorced : TOWN_FAMILY_EVENTS.brokeUp,
+        married ? "life.couple-separated" : TOWN_FAMILY_EVENTS.brokeUp,
         [a, b],
-        married ? `${names} divorced.` : `${names} broke up.`,
+        married ? `${names} separated.` : `${names} broke up.`,
       );
-      endPartnership(couple, key, provenance);
+      if (!married) endPartnership(couple, key, provenance);
       if (together && couple.stage !== "dating") {
         const [leaving, staying] = leavesAfterBreakUp(a, b);
         const home = newHousehold(
@@ -643,13 +625,7 @@ export function reviewTownFamilies(
       continue;
     }
 
-    const bothWork = view.working.has(a) && view.working.has(b) ? 1.2 : 1;
-    if (
-      couple.stage === "dating" &&
-      years >= 0.5 &&
-      rng.fork("move-in").next() <
-        (TOWN_FAMILY_CHANCES.moveIn * bothWork) / pressure
-    ) {
+    if (admits("move-in")) {
       const provenance = event(
         key,
         TOWN_FAMILY_EVENTS.movedIn,
@@ -681,12 +657,7 @@ export function reviewTownFamilies(
       touched.add(a).add(b);
       continue;
     }
-    if (
-      couple.stage === "cohabiting" &&
-      years >= 1 &&
-      rng.fork("marry").next() <
-        (TOWN_FAMILY_CHANCES.marry * bothWork) / pressure
-    ) {
+    if (admits("marry")) {
       const provenance = event(
         key,
         TOWN_FAMILY_EVENTS.married,
