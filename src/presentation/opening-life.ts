@@ -43,7 +43,10 @@ import {
 } from "../simulation";
 import { ensureMigrationSchedule } from "../simulation/migration";
 import { ensurePaydaySchedule } from "../simulation/living-world/town-pay";
-import { ensureRentDaySchedule } from "../simulation/living-world/town-rent";
+import {
+  ensureRentDaySchedule,
+  startTownLeases,
+} from "../simulation/living-world/town-rent";
 import { ensureCrimeProduction } from "../simulation/crime";
 import { ensureEpidemicProduction } from "../simulation/crisis/epidemic";
 import { ensurePlaceOutcomes } from "../simulation/outcome-web/place-outcomes";
@@ -467,7 +470,11 @@ function openedWorld(
     ),
   );
   return openingDataVersion === "playtest65-v3"
-    ? ensureOpeningJudiciary(opened, memberNameVersion)
+    ? ensureOpeningJudiciary(
+        // Record the existing tenancies' terms now; payment still waits for rent day.
+        startTownLeases(opened, opened.currentDate),
+        memberNameVersion,
+      )
     : opened;
 }
 
