@@ -346,7 +346,9 @@ describe("talking to somebody", () => {
 
 describe("release identity", () => {
   it("is read from the checkout rather than restated", async () => {
-    const packageJson = await import("../../package.json", { with: { type: "json" } });
+    const packageJson = await import("../../package.json", {
+      with: { type: "json" },
+    });
     expect(CANONICAL_VERSION).toBe(packageJson.default.version);
   });
 

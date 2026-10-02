@@ -1,0 +1,869 @@
+{
+  "base": "6ad1064aa280441713da222ea4054410e0360343",
+  "newlySupportedPairs": [
+    "US-CA",
+    "US-MD",
+    "US-NE",
+    "US-MN",
+    "US-NJ",
+    "US-MT"
+  ],
+  "tests": {
+    "pass": 33,
+    "todo": 38,
+    "fail": 0,
+    "changedFiles": 2,
+    "seconds": 14.7
+  },
+  "scopedTypes": {
+    "changedRoots": 4,
+    "changedFileDiagnostics": 0
+  },
+  "audit": {
+    "item": "A86",
+    "before": 4,
+    "after": 4,
+    "total": 4,
+    "flipped": []
+  },
+  "coverage": {
+    "seed": "source-backed-ratification-bridges-20261002",
+    "home": "US-MP",
+    "startingPlaces": 56,
+    "admitted": [
+      "US-AK",
+      "US-AR",
+      "US-CA",
+      "US-CO",
+      "US-DE",
+      "US-MD",
+      "US-ME",
+      "US-MN",
+      "US-MT",
+      "US-ND",
+      "US-NE",
+      "US-NJ"
+    ],
+    "sample": [
+      "US-MT",
+      "US-NE",
+      "US-NJ",
+      "US-MN",
+      "US-MD"
+    ],
+    "pending": [
+      "US-AL",
+      "US-AZ",
+      "US-CT",
+      "US-FL",
+      "US-GA",
+      "US-HI",
+      "US-IA",
+      "US-ID",
+      "US-IL",
+      "US-IN",
+      "US-KS",
+      "US-KY",
+      "US-LA",
+      "US-MA",
+      "US-MI",
+      "US-MO",
+      "US-MS",
+      "US-NC",
+      "US-NH",
+      "US-NM",
+      "US-NV",
+      "US-NY",
+      "US-OH",
+      "US-OK",
+      "US-OR",
+      "US-PA",
+      "US-RI",
+      "US-SC",
+      "US-SD",
+      "US-TN",
+      "US-TX",
+      "US-UT",
+      "US-VA",
+      "US-VT",
+      "US-WA",
+      "US-WI",
+      "US-WV",
+      "US-WY"
+    ]
+  },
+  "actualStateVotes": [
+    {
+      "seed": "source-backed-ratification-bridges-20261002",
+      "state": "US-MT",
+      "approved": false,
+      "chambers": [
+        {
+          "body": "house",
+          "outcome": "failed",
+          "tally": {
+            "yea": 0,
+            "nay": 100,
+            "presentNotVoting": 0,
+            "absent": 0,
+            "excused": 0
+          },
+          "requiredVotes": 51,
+          "denominator": 100,
+          "threshold": "Passes with more than half of the members present and voting, a quorum being present; absent members drop out of the denominator.",
+          "reasons": [
+            {
+              "personId": "person_bee97b6a86c486f5",
+              "disposition": "nay",
+              "reason": "member:constitutional-bar"
+            },
+            {
+              "personId": "person_4bfc932097811502",
+              "disposition": "nay",
+              "reason": "member:constitutional-bar"
+            },
+            {
+              "personId": "person_bd39f7b82617fe83",
+              "disposition": "nay",
+              "reason": "member:constitutional-bar"
+            }
+          ]
+        },
+        {
+          "body": "senate",
+          "outcome": "failed",
+          "tally": {
+            "yea": 0,
+            "nay": 50,
+            "presentNotVoting": 0,
+            "absent": 0,
+            "excused": 0
+          },
+          "requiredVotes": 26,
+          "denominator": 50,
+          "threshold": "Passes with more than half of the members present and voting, a quorum being present; absent members drop out of the denominator.",
+          "reasons": [
+            {
+              "personId": "person_a8e892bded51f585",
+              "disposition": "nay",
+              "reason": "member:constitutional-bar"
+            },
+            {
+              "personId": "person_34f7e75e2c2276d2",
+              "disposition": "nay",
+              "reason": "member:constitutional-bar"
+            },
+            {
+              "personId": "person_9de8be010facc213",
+              "disposition": "nay",
+              "reason": "member:constitutional-bar"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": "source-backed-ratification-bridges-20261002",
+      "state": "US-NE",
+      "approved": false,
+      "chambers": [
+        {
+          "body": "legislature",
+          "outcome": "failed",
+          "tally": {
+            "yea": 0,
+            "nay": 49,
+            "presentNotVoting": 0,
+            "absent": 0,
+            "excused": 0
+          },
+          "requiredVotes": 25,
+          "denominator": 49,
+          "threshold": "Passes only with more than half of all members elected (floor(members/2)+1 yes votes); absent members count in the denominator. (49 members: 25.)",
+          "reasons": [
+            {
+              "personId": "person_387ee482521e9cd4",
+              "disposition": "nay",
+              "reason": "member:constitutional-bar"
+            },
+            {
+              "personId": "person_577b1a221d2eb6c3",
+              "disposition": "nay",
+              "reason": "member:constitutional-bar"
+            },
+            {
+              "personId": "person_5541ad15043d4c42",
+              "disposition": "nay",
+              "reason": "member:constitutional-bar"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": "source-backed-ratification-bridges-20261002",
+      "state": "US-NJ",
+      "approved": false,
+      "chambers": [
+        {
+          "body": "house",
+          "outcome": "failed",
+          "tally": {
+            "yea": 0,
+            "nay": 80,
+            "presentNotVoting": 0,
+            "absent": 0,
+            "excused": 0
+          },
+          "requiredVotes": 41,
+          "denominator": 80,
+          "threshold": "Passes only with more than half of all members elected (floor(members/2)+1 yes votes); absent members count in the denominator. (80 members: 41; the Senate rule names the equivalent count for the Senate.)",
+          "reasons": [
+            {
+              "personId": "person_2f14a07a0a2d46ee",
+              "disposition": "nay",
+              "reason": "member:constitutional-bar"
+            },
+            {
+              "personId": "person_5fddfe04ab71f091",
+              "disposition": "nay",
+              "reason": "member:constitutional-bar"
+            },
+            {
+              "personId": "person_2affc8d9b0355b80",
+              "disposition": "nay",
+              "reason": "member:constitutional-bar"
+            }
+          ]
+        },
+        {
+          "body": "senate",
+          "outcome": "failed",
+          "tally": {
+            "yea": 0,
+            "nay": 40,
+            "presentNotVoting": 0,
+            "absent": 0,
+            "excused": 0
+          },
+          "requiredVotes": 21,
+          "denominator": 40,
+          "threshold": "At least 21 of the 40 Senators, which is a majority of all members.",
+          "reasons": [
+            {
+              "personId": "person_1db213f0106f5014",
+              "disposition": "nay",
+              "reason": "member:constitutional-bar"
+            },
+            {
+              "personId": "person_9334498af3827203",
+              "disposition": "nay",
+              "reason": "member:constitutional-bar"
+            },
+            {
+              "personId": "person_21f6e4f364eb8882",
+              "disposition": "nay",
+              "reason": "member:constitutional-bar"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": "source-backed-ratification-bridges-20261002",
+      "state": "US-MN",
+      "approved": false,
+      "chambers": [
+        {
+          "body": "house",
+          "outcome": "failed",
+          "tally": {
+            "yea": 0,
+            "nay": 134,
+            "presentNotVoting": 0,
+            "absent": 0,
+            "excused": 0
+          },
+          "requiredVotes": 68,
+          "denominator": 134,
+          "threshold": "More than half of all members elected, under the chamber rule that joint resolutions follow bill procedure and Constitution article IV, section 22.",
+          "reasons": [
+            {
+              "personId": "person_69b42a8239e95707",
+              "disposition": "nay",
+              "reason": "member:constitutional-bar"
+            },
+            {
+              "personId": "person_6b71268c7635e608",
+              "disposition": "nay",
+              "reason": "member:constitutional-bar"
+            },
+            {
+              "personId": "person_fbb0a49a7afbd2b9",
+              "disposition": "nay",
+              "reason": "member:constitutional-bar"
+            }
+          ]
+        },
+        {
+          "body": "senate",
+          "outcome": "failed",
+          "tally": {
+            "yea": 0,
+            "nay": 67,
+            "presentNotVoting": 0,
+            "absent": 0,
+            "excused": 0
+          },
+          "requiredVotes": 34,
+          "denominator": 67,
+          "threshold": "More than half of all members elected, under the chamber rule that joint resolutions follow bill procedure and Constitution article IV, section 22.",
+          "reasons": [
+            {
+              "personId": "person_3d46691c206e33d3",
+              "disposition": "nay",
+              "reason": "member:constitutional-bar"
+            },
+            {
+              "personId": "person_8032f5c013c4b624",
+              "disposition": "nay",
+              "reason": "member:constitutional-bar"
+            },
+            {
+              "personId": "person_ba9b0294d9721345",
+              "disposition": "nay",
+              "reason": "member:constitutional-bar"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": "source-backed-ratification-bridges-20261002",
+      "state": "US-MD",
+      "approved": false,
+      "chambers": [
+        {
+          "body": "house",
+          "outcome": "failed",
+          "tally": {
+            "yea": 0,
+            "nay": 141,
+            "presentNotVoting": 0,
+            "absent": 0,
+            "excused": 0
+          },
+          "requiredVotes": 71,
+          "denominator": 141,
+          "threshold": "Passes only with more than half of all members elected (floor(members/2)+1 yes votes); absent members count in the denominator.",
+          "reasons": [
+            {
+              "personId": "person_3c449433eb089eab",
+              "disposition": "nay",
+              "reason": "member:constitutional-bar"
+            },
+            {
+              "personId": "person_8ab8b3125fd457fc",
+              "disposition": "nay",
+              "reason": "member:constitutional-bar"
+            },
+            {
+              "personId": "person_3170e42e1e77889d",
+              "disposition": "nay",
+              "reason": "member:constitutional-bar"
+            }
+          ]
+        },
+        {
+          "body": "senate",
+          "outcome": "failed",
+          "tally": {
+            "yea": 0,
+            "nay": 47,
+            "presentNotVoting": 0,
+            "absent": 0,
+            "excused": 0
+          },
+          "requiredVotes": 24,
+          "denominator": 47,
+          "threshold": "Passes only with more than half of all members elected (floor(members/2)+1 yes votes); absent members count in the denominator.",
+          "reasons": [
+            {
+              "personId": "person_f0152ab1ef7547d7",
+              "disposition": "nay",
+              "reason": "member:constitutional-bar"
+            },
+            {
+              "personId": "person_f9177d6864bec818",
+              "disposition": "nay",
+              "reason": "member:constitutional-bar"
+            },
+            {
+              "personId": "person_0a3aee48b61e6c09",
+              "disposition": "nay",
+              "reason": "member:constitutional-bar"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "qualification": "Congress approval is supplied on actual saved members; all state dispositions are unsupplied. All five sampled state actions refused ratification with member:constitutional-bar. No positive state approval is claimed.",
+  "officialGate": "NOT RUN; Claude owns gates",
+  "logs": [
+    {
+      "path": "/tmp/team1-ratification-provenance-tests.log",
+      "sha256": "73490c092a4bbfe8357b6c3b2693ddd454224475365c327273c49c60332503b8"
+    },
+    {
+      "path": "/tmp/team1-ratification-provenance-types.log",
+      "sha256": "13097e22435adf4c747581384ee0ff329a46425bd88fdf756b3859ad9165cc07"
+    },
+    {
+      "path": "/tmp/team1-ratification-final-lint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/team1-ratification-main-6ad-audit.json",
+      "sha256": "a9f55750868adb58eb193d8f22f191835cd3e7fdd99725e622c904d61e491ad2"
+    },
+    {
+      "path": "/tmp/team1-ratification-candidate-audit.json",
+      "sha256": "a9f55750868adb58eb193d8f22f191835cd3e7fdd99725e622c904d61e491ad2"
+    }
+  ],
+  "consumerAdmissionValidation": {
+    "previousPublishedHead": "a1b703192dcf53ac6fda1b9009b9719c60661531",
+    "scope": "Direct and bridged sourced rules require valid quote, HTTPS URL, real retrieval date, finite positive vote fraction and explicit denominator. Independent quorum citations are validated. No new law, research row or modal fallback.",
+    "tests": {
+      "pass": 54,
+      "todo": 38,
+      "fail": 0,
+      "changedFiles": 2,
+      "seconds": 16.15
+    },
+    "firstScopedTypes": {
+      "changedRoots": 4,
+      "changedFileDiagnostics": 2,
+      "result": "Corrected test-only unknown-field narrowing; preserved original log."
+    },
+    "finalScopedTypes": {
+      "changedRoots": 4,
+      "changedFileDiagnostics": 0
+    },
+    "audit": {
+      "item": "A86",
+      "mainRef": "6ad1064aa280441713da222ea4054410e0360343",
+      "before": 4,
+      "after": 4,
+      "total": 4,
+      "flipped": []
+    },
+    "nextDependency": "CTO08:28 central Claude legal-rules-2026-10-02.md; no independent lookup or legal-mode estimate authorized.",
+    "officialGate": "NOT RUN; Claude owns gates",
+    "sourceHashes": [
+      {
+        "path": "src/simulation/constitutional-ratification-rules.ts",
+        "sha256": "29f7afc9ea2cec16454ef4cef6d0f21fe5ff9929f8c30de28cc7d7eacaf9b40f"
+      },
+      {
+        "path": "src/simulation/constitutional-ratification-rules.test.ts",
+        "sha256": "8112655298d582750ab9de89944ad68f08b998e915fd7ba633904faa649cc123"
+      }
+    ],
+    "logs": [
+      {
+        "path": "/tmp/team1-ratification-admission-tests.log",
+        "sha256": "109a28b47f318ce1ba43731047d6513e01084844b43e65dfd01012b890816103"
+      },
+      {
+        "path": "/tmp/team1-ratification-admission-types.log",
+        "sha256": "4e31ea0ad9ba1d56860412f9c9c6b2d9a8cedd359f19230abd6055f7d746dd1f"
+      },
+      {
+        "path": "/tmp/team1-ratification-admission-final-tests.log",
+        "sha256": "4a627c3b48f7f3db43afac0541ee7ec0c157e4a7f7d0e51d5ba15bb237680893"
+      },
+      {
+        "path": "/tmp/team1-ratification-admission-final-types.log",
+        "sha256": "13097e22435adf4c747581384ee0ff329a46425bd88fdf756b3859ad9165cc07"
+      },
+      {
+        "path": "/tmp/team1-ratification-admission-final-lint.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/tmp/team1-ratification-admission-candidate-audit.json",
+        "sha256": "a9f55750868adb58eb193d8f22f191835cd3e7fdd99725e622c904d61e491ad2"
+      }
+    ]
+  },
+  "ctoSourceCheckpoint": {
+    "previousPublishedHead": "a1b703192dcf53ac6fda1b9009b9719c60661531",
+    "ruling": "CTO08:28 central legal-file research; CTO5952152127 Minnesota inference label and sourced-data admission expectation remain required.",
+    "scope": "Existing Minnesota bill-procedure inference labeled INFERRED/partial; vote fields and source quotes unchanged. Stale fixed-six assertion replaced with sourced data identity check. Original receipt loop split per sourced state; every original assertion and timeout retained.",
+    "failedRuns": [
+      {
+        "log": "/tmp/team1-ratification-ctorepair-tests.log",
+        "pass": 17,
+        "fail": 1,
+        "failedSuites": 1,
+        "reason": "Unimplemented optional-note narrowing; original rows can omit notes. Corrected."
+      },
+      {
+        "log": "/tmp/team1-ratification-ctorepair-final-tests.log",
+        "pass": 59,
+        "fail": 1,
+        "todo": 38,
+        "reason": "Expanded twelve-state receipt case exceeded existing 30000ms. Only that case split; no timeout increased."
+      }
+    ],
+    "passingEvidence": [
+      {
+        "files": [
+          "src/simulation/constitutional-ratification-rules.test.ts",
+          "scripts/research/check-ratification-rules.test.ts"
+        ],
+        "pass": 54,
+        "todo": 38,
+        "fail": 0,
+        "log": "/tmp/team1-ratification-ctorepair-final-tests.log",
+        "qualification": "Two passing files retained from the run whose original combined chamber case timed out; these files and their production inputs unchanged afterward."
+      },
+      {
+        "files": [
+          "src/simulation/living-world/federal-term-limit-chamber-vote.test.ts"
+        ],
+        "pass": 19,
+        "todo": 0,
+        "fail": 0,
+        "seconds": 86.56,
+        "log": "/tmp/team1-ratification-split-receipts-tests.log"
+      }
+    ],
+    "currentFileEvidenceTotals": {
+      "changedTestFiles": 3,
+      "pass": 73,
+      "todo": 38,
+      "qualification": "Results combined from two terminal commands; no single all-green three-file command claimed."
+    },
+    "scopedTypes": {
+      "changedRoots": 5,
+      "changedFileDiagnostics": 0
+    },
+    "actualStateReceiptCases": {
+      "seed": "A79-recorded-term-limit-chamber",
+      "admitted": [
+        "US-AK",
+        "US-AR",
+        "US-CA",
+        "US-CO",
+        "US-DE",
+        "US-ME",
+        "US-MD",
+        "US-MN",
+        "US-MT",
+        "US-NE",
+        "US-NJ",
+        "US-ND"
+      ],
+      "refused": 38,
+      "chamberCount": 23,
+      "examples": [
+        {
+          "stateKey": "US-AK",
+          "body": "house",
+          "person": "Miriam Payne",
+          "ballot": "nay",
+          "reason": "member:other-party",
+          "required": 21,
+          "denominator": 40,
+          "approved": false
+        },
+        {
+          "stateKey": "US-AK",
+          "body": "senate",
+          "person": "Ryan Donovan",
+          "ballot": "yea",
+          "reason": "member:presidents-party",
+          "required": 11,
+          "denominator": 20,
+          "approved": false
+        },
+        {
+          "stateKey": "US-AR",
+          "body": "house",
+          "person": "Anna Mejia",
+          "ballot": "nay",
+          "reason": "member:other-party",
+          "required": 51,
+          "denominator": 100,
+          "approved": false
+        },
+        {
+          "stateKey": "US-AR",
+          "body": "senate",
+          "person": "Jasper Newton",
+          "ballot": "nay",
+          "reason": "member:other-party",
+          "required": 18,
+          "denominator": 35,
+          "approved": false
+        },
+        {
+          "stateKey": "US-CA",
+          "body": "house",
+          "person": "Morgan Fletcher",
+          "ballot": "yea",
+          "reason": "member:presidents-party",
+          "required": 41,
+          "denominator": 80,
+          "approved": true
+        },
+        {
+          "stateKey": "US-CA",
+          "body": "senate",
+          "person": "Sage Walker",
+          "ballot": "yea",
+          "reason": "member:presidents-party",
+          "required": 21,
+          "denominator": 40,
+          "approved": true
+        },
+        {
+          "stateKey": "US-CO",
+          "body": "house",
+          "person": "Maria Fisher",
+          "ballot": "nay",
+          "reason": "member:other-party",
+          "required": 44,
+          "denominator": 65,
+          "approved": true
+        },
+        {
+          "stateKey": "US-CO",
+          "body": "senate",
+          "person": "Holly Hester",
+          "ballot": "yea",
+          "reason": "member:presidents-party",
+          "required": 18,
+          "denominator": 35,
+          "approved": true
+        },
+        {
+          "stateKey": "US-DE",
+          "body": "house",
+          "person": "Douglas Hudson",
+          "ballot": "nay",
+          "reason": "member:other-party",
+          "required": 21,
+          "denominator": 41,
+          "approved": true
+        },
+        {
+          "stateKey": "US-DE",
+          "body": "senate",
+          "person": "Derek Fisher",
+          "ballot": "yea",
+          "reason": "member:presidents-party",
+          "required": 11,
+          "denominator": 21,
+          "approved": true
+        },
+        {
+          "stateKey": "US-ME",
+          "body": "house",
+          "person": "Morgan Rios",
+          "ballot": "nay",
+          "reason": "member:other-party",
+          "required": 76,
+          "denominator": 151,
+          "approved": true
+        },
+        {
+          "stateKey": "US-ME",
+          "body": "senate",
+          "person": "Keanu Collins",
+          "ballot": "yea",
+          "reason": "member:presidents-party",
+          "required": 18,
+          "denominator": 35,
+          "approved": true
+        },
+        {
+          "stateKey": "US-MD",
+          "body": "house",
+          "person": "Paul Peters",
+          "ballot": "yea",
+          "reason": "member:presidents-party",
+          "required": 71,
+          "denominator": 141,
+          "approved": true
+        },
+        {
+          "stateKey": "US-MD",
+          "body": "senate",
+          "person": "Alexis O'Connor",
+          "ballot": "yea",
+          "reason": "member:presidents-party",
+          "required": 24,
+          "denominator": 47,
+          "approved": true
+        },
+        {
+          "stateKey": "US-MN",
+          "body": "house",
+          "person": "Dawn Webb",
+          "ballot": "yea",
+          "reason": "member:presidents-party",
+          "required": 68,
+          "denominator": 134,
+          "approved": true
+        },
+        {
+          "stateKey": "US-MN",
+          "body": "senate",
+          "person": "Nadia O'Neill",
+          "ballot": "yea",
+          "reason": "member:presidents-party",
+          "required": 34,
+          "denominator": 67,
+          "approved": true
+        },
+        {
+          "stateKey": "US-MT",
+          "body": "house",
+          "person": "Megan Wilcox",
+          "ballot": "nay",
+          "reason": "member:other-party",
+          "required": 51,
+          "denominator": 100,
+          "approved": false
+        },
+        {
+          "stateKey": "US-MT",
+          "body": "senate",
+          "person": "Levi Ray",
+          "ballot": "nay",
+          "reason": "member:other-party",
+          "required": 26,
+          "denominator": 50,
+          "approved": false
+        },
+        {
+          "stateKey": "US-NE",
+          "body": "legislature",
+          "person": "Jessica Shields",
+          "ballot": "nay",
+          "reason": "member:other-party",
+          "required": 25,
+          "denominator": 49,
+          "approved": false
+        },
+        {
+          "stateKey": "US-NJ",
+          "body": "house",
+          "person": "Alexis Fleming",
+          "ballot": "yea",
+          "reason": "member:presidents-party",
+          "required": 41,
+          "denominator": 80,
+          "approved": true
+        },
+        {
+          "stateKey": "US-NJ",
+          "body": "senate",
+          "person": "Paul Zimmerman",
+          "ballot": "yea",
+          "reason": "member:presidents-party",
+          "required": 21,
+          "denominator": 40,
+          "approved": true
+        },
+        {
+          "stateKey": "US-ND",
+          "body": "house",
+          "person": "Sofia Stewart",
+          "ballot": "nay",
+          "reason": "member:other-party",
+          "required": 48,
+          "denominator": 94,
+          "approved": false
+        },
+        {
+          "stateKey": "US-ND",
+          "body": "senate",
+          "person": "Emmanuel Howell",
+          "ballot": "nay",
+          "reason": "member:other-party",
+          "required": 24,
+          "denominator": 47,
+          "approved": false
+        }
+      ]
+    },
+    "stateCaseQualification": "Each state case starts from the same existing supplied supportedWorld proposal fixture and records one independent state action. Seven independent state cases approve; this is not seven cumulative approvals in one World or completed ratification. Existing party-based member reasons are unchanged.",
+    "status": "SOURCE CHECKPOINT; NOT READY for full fifty-state coverage; central legal-rules file required.",
+    "officialGate": "NOT RUN at this new checkpoint; prior a1b Claude FAIL receipt remains historical.",
+    "audit": {
+      "item": "A86",
+      "before": 4,
+      "after": 4,
+      "total": 4,
+      "mainRef": "6ad1064aa280441713da222ea4054410e0360343",
+      "flipped": []
+    },
+    "sourceHashes": [
+      {
+        "path": "src/simulation/constitutional-ratification-rules.ts",
+        "sha256": "3e8bc3710eaa1142f99b6903966dae9d55211c0d75ae880181cd3cc247d9bf32"
+      },
+      {
+        "path": "src/simulation/constitutional-ratification-rules.test.ts",
+        "sha256": "28b72f1f058ad122fa52c0398af453988356b141bc279c6788a051e588c43105"
+      },
+      {
+        "path": "src/simulation/living-world/federal-term-limit-chamber-vote.test.ts",
+        "sha256": "8a6d82640af7ec4eca7b0eae20549d5b5c9f48d17d3cfefa5a728adbb8585d22"
+      },
+      {
+        "path": "data/research/legislature/federal-amendment-ratification-rules-2026.json",
+        "sha256": "4b89582526632adbb6d1766e9526612d9c488559cd364f5edec6a046918980cb"
+      }
+    ],
+    "logs": [
+      {
+        "path": "/tmp/team1-ratification-ctorepair-tests.log",
+        "sha256": "d61451c8589d182c70b171c0a17c4602610988278f69b648af18849d697c9df2"
+      },
+      {
+        "path": "/tmp/team1-ratification-ctorepair-types.log",
+        "sha256": "ff1ecba554a93e252d18a9d787bec51a6b016aa7c1ed39ce35011ed9b8ae8cb7"
+      },
+      {
+        "path": "/tmp/team1-ratification-ctorepair-final-tests.log",
+        "sha256": "81302f36eb7ed19eac644a704c9799ce0d908584f58370104f7c1ebc34d32b2a"
+      },
+      {
+        "path": "/tmp/team1-ratification-ctorepair-final-types.log",
+        "sha256": "85fb91dabd28ee04e4e83408084edd1bba48c221beb8f5cb641f45e252ab6918"
+      },
+      {
+        "path": "/tmp/team1-ratification-split-receipts-tests.log",
+        "sha256": "fd936303dad5c892bc4a4f6c9f0ff03bac96f559f6d37a1be1c624c6109df474"
+      },
+      {
+        "path": "/tmp/team1-ratification-split-receipts-types.log",
+        "sha256": "85fb91dabd28ee04e4e83408084edd1bba48c221beb8f5cb641f45e252ab6918"
+      },
+      {
+        "path": "/tmp/team1-ratification-split-receipts-lint.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/tmp/team1-ratification-ctorepair-candidate-audit.json",
+        "sha256": "a9f55750868adb58eb193d8f22f191835cd3e7fdd99725e622c904d61e491ad2"
+      }
+    ]
+  }
+}

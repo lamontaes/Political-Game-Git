@@ -8,6 +8,11 @@ import {
 import { countyLandSharesForPlace } from "./government-units";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { placeReferencePopulation } from "./nationwide-world/place-population";
+import { NATIONAL_PLACES_ROWS } from "./national-places.generated";
+import {
+  PLACE_COUNTY_RELATIONS_META,
+  PLACE_COUNTY_RELATIONS_ROWS,
+} from "./place-county-relations.generated";
 import type { EntityId } from "./types";
 
 export { LOCAL_BUSINESS_COUNTS_META, LOCAL_BUSINESS_COUNT_KINDS };
@@ -42,6 +47,8 @@ export interface LocalBusinessSupply {
   readonly salesPerEmployeeDollars: number;
   /** The geography the rate came from, for the largest part of the town. */
   readonly basis: "county" | "state" | "nation";
+  /** ESTIMATED projection from published rates, never an observed local count. */
+  readonly estimateBasis: string;
 }
 
 const KIND_COUNT = LOCAL_BUSINESS_COUNT_KINDS.length;
@@ -135,23 +142,93 @@ function stateRate(
   };
 }
 
-/**
- * The town's businesses by kind, or null when the town's population is not
- * held (unknown is unknown; the caller keeps its marked placeholder).
- */
+let populationTotals: ReadonlyMap<string, number> | null = null;
+let populationMeans: ReadonlyMap<
+  string,
+  { population: number; places: number; stateFips: string }
+> | null = null;
+
+/** Recorded 2020 county-part totals and arithmetic means of real populated places. */
+function populationBasis(
+  place: NonNullable<ReturnType<typeof lifePlaceByJurisdictionId>>,
+) {
+  const geoid = place.sourceGeoid;
+  const reference = geoid ? placeReferencePopulation(geoid) : null;
+  if (reference && reference.value > 0)
+    return {
+      value: reference.value,
+      stateFips: geoid!.slice(0, 2),
+      note: reference.source,
+    };
+  if (!populationTotals) {
+    const totals = new Map<string, number>();
+    for (const [key, , , population] of JSON.parse(
+      PLACE_COUNTY_RELATIONS_ROWS,
+    ) as [string, string, number, number][])
+      totals.set(key, (totals.get(key) ?? 0) + population);
+    populationTotals = totals;
+  }
+  const historical = geoid ? populationTotals.get(geoid) : undefined;
+  if (historical !== undefined && historical > 0)
+    return {
+      value: historical,
+      stateFips: geoid!.slice(0, 2),
+      note: `Census POP100 county-part total, ${PLACE_COUNTY_RELATIONS_META.geographyAsOf}`,
+    };
+  if (!populationMeans) {
+    const means = new Map<
+      string,
+      { population: number; places: number; stateFips: string }
+    >();
+    for (const [key, , usps] of JSON.parse(NATIONAL_PLACES_ROWS) as [
+      string,
+      string,
+      string,
+    ][]) {
+      const reference = placeReferencePopulation(key);
+      const value =
+        reference && reference.value > 0
+          ? reference.value
+          : populationTotals.get(key);
+      if (value === undefined || value <= 0) continue;
+      for (const region of [usps, "US"]) {
+        const prior = means.get(region) ?? {
+          population: 0,
+          places: 0,
+          stateFips: key.slice(0, 2),
+        };
+        means.set(region, {
+          population: prior.population + value,
+          places: prior.places + 1,
+          stateFips: prior.stateFips,
+        });
+      }
+    }
+    populationMeans = means;
+  }
+  const region = place.stateJurisdictionKey?.replace(/^US-/, "") ?? "US";
+  const regional = populationMeans.get(region);
+  const mean = regional ?? populationMeans.get("US")!;
+  return {
+    value: mean.population / mean.places,
+    stateFips: regional ? mean.stateFips : "US",
+    note: `ESTIMATED FROM AVERAGE: ${regional ? region : "national"} mean of ${mean.places} real populated Census places (${mean.population} residents / ${mean.places} places); local population/size not recorded`,
+  };
+}
+
+/** The town's estimated businesses from recorded regional rates and population. */
 export function localBusinessSupplyFor(
   jurisdictionId: EntityId | null,
 ): readonly LocalBusinessSupply[] | null {
   const place = jurisdictionId
     ? lifePlaceByJurisdictionId(jurisdictionId)
     : null;
-  const geoid = place?.sourceGeoid ?? null;
-  const population = geoid
-    ? (placeReferencePopulation(geoid)?.value ?? null)
-    : null;
-  if (!geoid || population === null || population <= 0) return null;
-  const parts = countyLandSharesForPlace(geoid);
-  const stateFips = geoid.slice(0, 2);
+  if (!place) return null;
+  const geoid = place.sourceGeoid;
+  const populationSource = populationBasis(place);
+  const population = populationSource.value;
+  const parts = geoid ? countyLandSharesForPlace(geoid) : [];
+  const stateFips = populationSource.stateFips;
   const nation = stateCounts().get("US")!;
   const sale = salesPerEmployee();
   const stateSales = sale.get(stateFips);
@@ -195,6 +272,7 @@ export function localBusinessSupplyFor(
       staffPerBusiness: Math.max(1, staff),
       salesPerEmployeeDollars: perEmployee,
       basis: sources[0]![0].basis,
+      estimateBasis: `ESTIMATED FROM AVERAGE: CBP 2023 establishments per resident (${sources[0]![0].basis}), scaled by ${populationSource.note} population ${population}; staff from ${staffWeight > 0 ? "weighted geographic" : "national"} CBP employees/establishment; sales from Economic Census 2022 receipts/employee (${stateSales && stateSales[index]! > 0 ? "state" : "nation"}).`,
     };
   });
 }

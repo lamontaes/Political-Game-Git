@@ -18,7 +18,9 @@ import { deserializeWorld, serializeWorld } from "../serialization";
 import * as placeReference from "../state-reference";
 import { advanceWorld } from "../world";
 import * as censusRegions from "../world-setup/census-regions";
-import { calibrationRow } from "../world-setup/political-start";
+import * as nationalMood from "../national-mood";
+import { applySwing, calibrationRow } from "../world-setup/political-start";
+import { roundTo } from "../world-setup/deterministic-math";
 import {
   PRESIDENTIAL_ELECTION_DAY,
   presidentialElectionDayHandler,
@@ -26,7 +28,7 @@ import {
 
 afterEach(() => vi.restoreAllMocks());
 
-describe("presidential regional residual follows existing jurisdiction-kind data", () => {
+describe("presidential jurisdiction rules preserve the recorded-mood driver", () => {
   it("preserves the old skip predicate for all 56 places and unread codes", () => {
     const codes = Object.keys(placeReference.STATES);
     expect(codes).toHaveLength(56);
@@ -37,8 +39,8 @@ describe("presidential regional residual follows existing jurisdiction-kind data
     }
     expect(placeReference.isFederalDistrictUsps(null)).toBe(false);
     expect(placeReference.isFederalDistrictUsps(undefined)).toBe(false);
-    // The Census classification is retained; zero residual is the existing
-    // presidential driver's behavior, not a replacement geographic fact.
+    // Geographic classification remains data even though the current count
+    // driver no longer applies a regional residual.
     expect(censusRegions.censusRegionOf("DC")).toBe("south");
   });
 
@@ -101,6 +103,7 @@ describe("presidential regional residual follows existing jurisdiction-kind data
     });
     const regionRead = vi.spyOn(censusRegions, "censusRegionOf");
     const kindRead = vi.spyOn(placeReference, "isFederalDistrictUsps");
+    const moodRead = vi.spyOn(nationalMood, "nationalMoodDemocraticShift");
     const registry = createFutureTransitionHandlerRegistry([
       [PRESIDENTIAL_ELECTION_DAY, presidentialElectionDayHandler],
     ]);
@@ -113,14 +116,16 @@ describe("presidential regional residual follows existing jurisdiction-kind data
       nationalElectionRules(2028).units.map((unit) => unit.key),
     );
     const regionCodes = regionRead.mock.calls.map(([code]) => code);
-    expect([...new Set(regionCodes)].sort()).toEqual(
-      Object.entries(placeReference.STATES)
-        .filter(([, reference]) => reference.jurisdictionKind === "state")
-        .map(([code]) => code)
-        .sort(),
-    );
+    expect(regionCodes).toEqual([]);
     expect(regionCodes).not.toContain("DC");
-    expect(kindRead.mock.calls.some(([code]) => code === "DC")).toBe(true);
+    expect(kindRead).not.toHaveBeenCalled();
+    expect(moodRead).toHaveBeenCalledOnce();
+    expect(moodRead).toHaveBeenCalledWith(
+      expect.objectContaining({ id: world.id }),
+      nationalElectionRules(2028).electionDate,
+    );
+    const mood = moodRead.mock.results[0]!.value as number;
+    expect(mood).toBeTypeOf("number");
     for (const result of results) {
       const unit = nationalElectionRules(2028).units.find(
         (candidate) => candidate.key === result.unitKey,
@@ -129,6 +134,20 @@ describe("presidential regional residual follows existing jurisdiction-kind data
         result.tallies.reduce((sum, tally) => sum + tally.votes, 0),
         unit.key,
       ).toBe(calibrationRow(`us-president:${unit.state}`)?.totalVotes ?? 0);
+      const row = calibrationRow(`us-president:${unit.state}`);
+      expect(row, unit.key).toBeDefined();
+      if (
+        !row ||
+        row.totalVotes === null ||
+        row.democraticTwoPartyShare === null
+      )
+        throw new Error(`Missing recorded calibration for ${unit.key}.`);
+      expect(result.tallies[0]!.votes, unit.key).toBe(
+        Math.round(
+          row.totalVotes *
+            roundTo(applySwing(row.democraticTwoPartyShare, mood * 100)),
+        ),
+      );
     }
     const reopened = deserializeWorld(serializeWorld(counted));
     expect(nationalRecords(reopened, electionId)).toEqual(

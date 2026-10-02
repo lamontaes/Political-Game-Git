@@ -1,4 +1,3 @@
-import { isFederalDistrictUsps } from "../state-reference";
 import { inventedPersonBirthDate } from "../invented-person-age";
 import { decideAnotherTerm } from "../careers/another-term";
 import {
@@ -54,16 +53,12 @@ import type {
   NationalUnitResult,
   PresidentialTicket,
 } from "../national-election-types";
+import { nationalMoodDemocraticShift } from "../national-mood";
 import { drawCanonicalNamedIdentity } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
-import {
-  CENSUS_REGION_ORDER,
-  censusRegionOf,
-} from "../world-setup/census-regions";
 import { politicalStartingConditions } from "../world-setup/conditions";
-import { roundTo, standardNormal } from "../world-setup/deterministic-math";
-import { CRUNCH46_POLICY } from "../world-setup/policy";
+import { roundTo } from "../world-setup/deterministic-math";
 import { applySwing, calibrationRow } from "../world-setup/political-start";
 import { recordWorldEvent } from "../world";
 import {
@@ -732,23 +727,14 @@ export function presidentialElectionDayHandler(
   if (!found) return done(world, "No presidential election is registered.");
   const { cycle, election } = found;
   const key = cycleKey(cycle);
-  const political = politicalStartingConditions(world);
-  const regime = political?.regime ?? "near-reference";
-  const policy = CRUNCH46_POLICY.political;
-  const rng = new SeededRng(world.seed).fork(`${key}:swing`);
-  const national =
-    policy.nationalSwingSd[regime] * standardNormal(rng.fork("national"));
-  const regional = Object.fromEntries(
-    CENSUS_REGION_ORDER.map((region) => [
-      region,
-      policy.censusRegionResidualSd[regime] *
-        standardNormal(rng.fork(`region:${region}`)),
-    ]),
-  );
+  const rules = nationalElectionRules(cycle);
+  // The same national mood every other race reads, in points of the
+  // two-party vote (zero in a presidential year by its own measured rule).
+  const mood = nationalMoodDemocraticShift(world, rules.electionDate);
   const [democratic, republican] = election.tickets;
   const stateResults = new Map<string, { share: number; total: number }>();
   let next = world;
-  for (const unit of nationalElectionRules(cycle).units) {
+  for (const unit of rules.units) {
     if (
       nationalRecords(next, election.id).some(
         (record) =>
@@ -758,28 +744,25 @@ export function presidentialElectionDayHandler(
       continue;
     if (!stateResults.has(unit.state)) {
       const row = calibrationRow(`us-president:${unit.state}`);
-      const swing =
-        national +
-        (isFederalDistrictUsps(unit.state)
-          ? 0
-          : (regional[censusRegionOf(unit.state)] ?? 0)) +
-        policy.stateResidualSd[regime] *
-          standardNormal(rng.fork(`state:${unit.state}`));
       stateResults.set(unit.state, {
-        share: roundTo(applySwing(row?.democraticTwoPartyShare ?? 0.5, swing)),
+        share: roundTo(
+          applySwing(row?.democraticTwoPartyShare ?? 0.5, mood * 100),
+        ),
         total: row?.totalVotes ?? 0,
       });
     }
     const { share, total } = stateResults.get(unit.state)!;
     const democraticVotes = Math.round(total * share);
+    const republicanVotes = total - democraticVotes;
+    // The counted votes decide. An exact tie is not broken here: the state's
+    // result is recorded without a winner, so its electors are not appointed
+    // and the count waits, as it would on the state's own recount or lot.
     const winner =
-      share > 0.5
+      democraticVotes > republicanVotes
         ? democratic!.presidentPersonId
-        : share < 0.5
+        : democraticVotes < republicanVotes
           ? republican!.presidentPersonId
-          : rng.fork(`tie:${unit.state}`).integer(0, 2) === 0
-            ? democratic!.presidentPersonId
-            : republican!.presidentPersonId;
+          : null;
     next = appendNationalRecord(next, {
       kind: "unit-result",
       stableKey: `${key}:unit:${unit.key}`,
@@ -792,7 +775,7 @@ export function presidentialElectionDayHandler(
         },
         {
           candidatePersonId: republican!.presidentPersonId,
-          votes: total - democraticVotes,
+          votes: republicanVotes,
         },
       ],
       sourceContestResultId: null,
@@ -801,13 +784,13 @@ export function presidentialElectionDayHandler(
         method: "simulated",
         sourceEntityIds: [election.id],
         note: unit.countsPopular
-          ? `${PRESIDENTIAL_TURNOVER_PROFILE.id}: the state's certified 2024 two-party share moved by this cycle's drawn swing. Placeholder, not research.`
+          ? `${PRESIDENTIAL_TURNOVER_PROFILE.id}: the state's certified 2024 two-party share moved by the national mood. PLACEHOLDER: the economy's effect on the vote awaits an approved rule, so until then each state repeats its 2024 share outside a midterm shift.`
           : `${PRESIDENTIAL_TURNOVER_PROFILE.id}: district electors follow their state's result; district presidential results are not modeled.`,
       },
     });
   }
   const carried = new Map<EntityId, number>();
-  for (const unit of nationalElectionRules(cycle).units) {
+  for (const unit of rules.units) {
     const result = nationalRecords(next, election.id).find(
       (record): record is NationalUnitResult =>
         record.kind === "unit-result" && record.unitKey === unit.key,

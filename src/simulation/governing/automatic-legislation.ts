@@ -36,7 +36,6 @@ import {
   draftParameterValues,
   recordDraftLineage,
 } from "../legislation-draft-lineage";
-import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import {
   npcEligibleProgramConfigurations,
@@ -476,13 +475,11 @@ function profileContextForMapping(
     rulePackId = pack.packId;
     scenarioKey = legislativeWorkKey(pack);
   } else if (governmentLevel === "federal") {
-    if (jurisdictionId !== NATIONAL_ELECTION_JURISDICTION.id) return null;
-    const pack = legislativePackForWorkKey(
-      `institution:${US_CONGRESS_PACK_ID}`,
-    );
-    if (!pack || pack.packId !== US_CONGRESS_PACK_ID) return null;
+    if (world.jurisdictions[jurisdictionId]?.kind !== "federal") return null;
+    const pack = legislativePackForJurisdiction(jurisdictionId);
+    if (!pack) return null;
     rulePackId = pack.packId;
-    scenarioKey = `institution:${pack.packId}`;
+    scenarioKey = legislativeWorkKey(pack);
   } else {
     return null;
   }
@@ -666,14 +663,13 @@ function contextSupportsMapping(
       return false;
   }
   const pack =
-    mapping.governmentLevel === "state"
+    mapping.governmentLevel === "state" || mapping.governmentLevel === "federal"
       ? legislativePackForJurisdiction(jurisdictionId)
       : legislativePackForWorkKey(context.scenarioKey);
   if (!pack || pack.packId !== context.rulePackId) return false;
   if (
     mapping.governmentLevel === "federal" &&
-    (pack.packId !== US_CONGRESS_PACK_ID ||
-      jurisdictionId !== NATIONAL_ELECTION_JURISDICTION.id)
+    context.scenarioKey !== legislativeWorkKey(pack)
   )
     return false;
   return true;
