@@ -175,11 +175,11 @@
         {
           "kind": "present",
           "file": "src/simulation/nominations/party-nominations.ts",
-          "pattern": "countRecordedVoterBallots\\(",
-          "why": "Nomination tallies call the shared recorded-voter counter; party support is not a substitute electorate."
+          "pattern": "latestSupportState\\(",
+          "why": "pull reads the entrant's recorded support (the next step's replacement)"
         }
       ],
-      "note": "Count eligible primary voters through the same recorded-voter counter as ordinary elections. Source-reviewed replacement is party-nominations.ts tally -> election-contests.countRecordedVoterBallots; no party-electorate support metric or unused support read. Static checks do not prove registration/rule coverage or gameplay completion."
+      "note": "Draw still in pullOf and no recorded-support read, so 0 of 3: not-started as verified. The present check names latestSupportState from the next step; a different recorded-support reader would need that pattern widened."
     },
     "A126": {
       "covers": "whole",
