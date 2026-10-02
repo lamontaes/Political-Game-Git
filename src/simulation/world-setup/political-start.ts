@@ -1,3 +1,5 @@
+import houseCohortJson from "./house-opening-cohort.generated.json" with { type: "json" };
+import { worldSetupRng } from "./conditions";
 import { canonicalJson } from "../canonical-json";
 import { ELECTORAL_ALLOCATION } from "../national-election-rules";
 import { sha256Hex } from "../sha256";
@@ -319,12 +321,55 @@ export function generatePoliticalStartingConditions(
   world: World,
   regime: StartingRegime | null,
 ): Draft {
-  return referenceReconstruction(world, regime);
+  const reference = referenceReconstruction(world, regime);
+  // One whole observed House roster is a starting circumstance, selected
+  // among retained real options. No seat is independently flipped and no
+  // authored swing or probability decides an election or affiliation.
+  const cohort = worldSetupRng(world, "politics:observed-house-cohort").pick([
+    "current-reference",
+    "historical-reference",
+  ] as const);
+  if (cohort === "current-reference") {
+    return {
+      ...reference,
+      houseOpeningReference: {
+        basis: "estimated-from-recorded-cohort",
+        electionDate: calibrationRows("us-house")[0]!.referenceDate,
+        sourceSha256: electoralCalibrationSha256(),
+      },
+    };
+  }
+  const historical = new Map(
+    houseCohortJson.seats.map((seat) => [seat.seatKey, seat]),
+  );
+  return {
+    ...reference,
+    houseOpeningReference: {
+      basis: "estimated-from-recorded-cohort",
+      electionDate: houseCohortJson.electionDate,
+      sourceSha256: sha256Hex(canonicalJson(houseCohortJson)),
+    },
+    seats: reference.seats.map((seat) => {
+      const recorded = historical.get(seat.seatKey);
+      if (!recorded) return seat;
+      return {
+        ...seat,
+        baselineKind: "reference-affiliation-preserved" as const,
+        baselineShare: null,
+        seatResidualPp: null,
+        generatedShare: null,
+        affiliation: recorded.affiliation,
+        caucus: MAJOR.has(recorded.affiliation) ? recorded.affiliation : null,
+        referenceWinner: recorded.affiliation,
+        uncertaintyReason: `${houseCohortJson.limitation} Recorded affiliation: ${recorded.sourceRef}; ${recorded.winnerBasis}.`,
+      };
+    }),
+  };
 }
 
 /**
  * Reconstructs the compiled input identities, shares and affiliations.
- * New political openings use this same certified-record projection.
+ * The diagnostic always uses the current compiled certified-record projection.
  */
 export function referenceReconstruction(
   world: World,

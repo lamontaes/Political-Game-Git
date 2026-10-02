@@ -99,6 +99,12 @@ export interface PoliticalStartingConditionsRecord extends ConditionRecordBase {
   readonly regime: StartingRegime | null;
   readonly calibrationSchema: string;
   readonly calibrationSha256: string;
+  /** Whole observed House roster used as an estimated opening circumstance. */
+  readonly houseOpeningReference?: {
+    readonly basis: "estimated-from-recorded-cohort";
+    readonly electionDate: string;
+    readonly sourceSha256: string;
+  };
   readonly nationalSwingPp: number;
   readonly regionSwingPp: Readonly<Record<CensusRegion, number>>;
   readonly stateSwingPp: Readonly<Record<string, number>>;

@@ -1,3 +1,4 @@
+import houseCohortJson from "./house-opening-cohort.generated.json" with { type: "json" };
 import { describe, expect, it } from "vitest";
 import { ELECTORAL_ALLOCATION } from "../national-election-rules";
 import { SeededRng } from "../rng";
@@ -212,7 +213,7 @@ describe("political starting conditions", () => {
     expect(flipsAt(-7.5)).toBeGreaterThan(0);
   });
 
-  it("every seed and regime preserves each office's certified record", () => {
+  it("every seed and regime preserves its selected whole recorded House cohort", () => {
     for (const regime of CRUNCH46_POLICY.regimes.order) {
       for (const seed of ["certified-opening-a", "certified-opening-b"]) {
         const record = generatePoliticalStartingConditions(
@@ -229,7 +230,21 @@ describe("political starting conditions", () => {
         expect(record.seats).toHaveLength(535);
         for (const seat of record.seats) {
           const row = calibrationRow(seat.seatKey)!;
-          expect(seat.affiliation, seat.seatKey).toBe(row.referenceAffiliation);
+          const historical =
+            record.houseOpeningReference!.electionDate ===
+            houseCohortJson.electionDate
+              ? houseCohortJson.seats.find(
+                  (item) => item.seatKey === seat.seatKey,
+                )
+              : undefined;
+          expect(seat.affiliation, seat.seatKey).toBe(
+            historical?.affiliation ?? row.referenceAffiliation,
+          );
+          if (historical) {
+            expect(seat.referenceWinner).toBe(historical.affiliation);
+            expect(seat.baselineShare).toBeNull();
+            expect(seat.uncertaintyReason).toContain(historical.sourceRef);
+          }
           if (seat.baselineKind === "certified-two-party") {
             expect(seat.generatedShare, seat.seatKey).toBeCloseTo(
               row.democraticTwoPartyShare!,
@@ -251,6 +266,26 @@ describe("political starting conditions", () => {
         ).toBe(Object.values(ELECTORAL_ALLOCATION).reduce((a, b) => a + b, 0));
       }
     }
+  });
+
+  it("varies whole observed House rosters without seat flips and replays the source choice", () => {
+    const dates = new Set<string>();
+    const totals = new Set<number>();
+    for (const suffix of ["a", "b", "c", "d", "e", "f"]) {
+      const world = seedWorld(`alive43-w1-${suffix}`);
+      const record = generatePoliticalStartingConditions(world, null);
+      expect(generatePoliticalStartingConditions(world, null)).toEqual(record);
+      dates.add(record.houseOpeningReference!.electionDate);
+      const house = record.seats.filter((seat) =>
+        seat.seatKey.startsWith("us-house:"),
+      );
+      expect(new Set(house.map((seat) => seat.seatKey)).size).toBe(435);
+      totals.add(
+        house.filter((seat) => seat.affiliation === "democratic").length,
+      );
+    }
+    expect(dates.size).toBeGreaterThan(1);
+    expect(totals.size).toBeGreaterThan(1);
   });
 
   it("a tied or conflicting share preserves the office's recorded winner", () => {

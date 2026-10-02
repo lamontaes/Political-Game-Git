@@ -1,0 +1,2624 @@
+{
+  "schema": "observed-house-opening-cohort/v1",
+  "electionDate": "2022-11-08",
+  "source": {
+    "artifactId": "clerk-2022",
+    "sha256": "ef9b8cefcc44bebbdc4928bf346b50e00a72dd3bb54a71ed93ec60d4ebf47690",
+    "url": "https://clerk.house.gov/member_info/electionInfo/2022/statistics2022.pdf",
+    "retrievedAt": "2026-09-17T03:05:00Z"
+  },
+  "basis": "ESTIMATED FROM RECORDED COHORT",
+  "limitation": "Historical House roster only. District boundaries have not been compared with the current map; no historical district vote margin is transferred to current geography. No simulated election decision or forecast.",
+  "seats": [
+    {
+      "seatKey": "us-house:AK-00",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p4;clerk-2022#p58",
+      "winnerBasis": "residual-of-clerk-political-divisions"
+    },
+    {
+      "seatKey": "us-house:AL-01",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p3",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:AL-02",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p3",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:AL-03",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p3",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:AL-04",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p3",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:AL-05",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p3",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:AL-06",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p3",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:AL-07",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p3",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:AR-01",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p6",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:AR-02",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p6",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:AR-03",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p6",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:AR-04",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p6",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:AZ-01",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p4",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:AZ-02",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p4",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:AZ-03",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p4",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:AZ-04",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p4",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:AZ-05",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p4",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:AZ-06",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p4",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:AZ-07",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p4",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:AZ-08",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p4",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:AZ-09",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p4",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-01",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p6",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-02",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p6",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-03",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p6",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-04",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p6",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-05",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p6",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-06",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p6",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-07",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p6",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-08",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p6",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-09",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p7",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-10",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p7",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-11",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p7",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-12",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p7",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-13",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p7",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-14",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p7",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-15",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p7",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-16",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p7",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-17",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p7",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-18",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p7",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-19",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p7",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-20",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p7",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-21",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p7",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-22",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p7",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-23",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p7",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-24",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p7",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-25",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p7",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-26",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p7",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-27",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p7",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-28",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p7",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-29",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p7",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-30",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p7",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-31",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p8",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-32",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p8",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-33",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p8",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-34",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p8",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-35",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p8",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-36",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p8",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-37",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p8",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-38",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p8",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-39",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p8",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-40",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p8",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-41",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p8",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-42",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p8",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-43",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p8",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-44",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p8",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-45",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p8",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-46",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p8",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-47",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p8",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-48",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p8",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-49",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p8",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-50",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p8",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-51",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p8",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CA-52",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p8",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CO-01",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p10",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CO-02",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p10",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CO-03",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p10",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CO-04",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p10",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CO-05",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p10",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CO-06",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p10",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CO-07",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p10",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CO-08",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p10",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CT-01",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p12",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CT-02",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p12",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CT-03",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p12",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CT-04",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p12",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:CT-05",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p12",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:DE-00",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p12",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:FL-01",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p13",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:FL-02",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p13",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:FL-03",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p13",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:FL-04",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p13",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:FL-05",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p13",
+      "winnerBasis": "unopposed-no-tally"
+    },
+    {
+      "seatKey": "us-house:FL-06",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p13",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:FL-07",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p13",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:FL-08",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p13",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:FL-09",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p13",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:FL-10",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p13",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:FL-11",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p13",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:FL-12",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p13",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:FL-13",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p13",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:FL-14",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p13",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:FL-15",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p13",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:FL-16",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p13",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:FL-17",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p14",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:FL-18",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p14",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:FL-19",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p14",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:FL-20",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p14",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:FL-21",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p14",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:FL-22",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p14",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:FL-23",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p14",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:FL-24",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p14",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:FL-25",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p14",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:FL-26",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p14",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:FL-27",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p14",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:FL-28",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p14",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:GA-01",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p15",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:GA-02",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p15",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:GA-03",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p15",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:GA-04",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p15",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:GA-05",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p15",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:GA-06",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p15",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:GA-07",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p15",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:GA-08",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p15",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:GA-09",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p15",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:GA-10",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p15",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:GA-11",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p15",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:GA-12",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p15",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:GA-13",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p15",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:GA-14",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p15",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:HI-01",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p16",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:HI-02",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p16",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IA-01",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p19",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IA-02",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p20",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IA-03",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p20",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IA-04",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p20",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:ID-01",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p17",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:ID-02",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p17",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IL-01",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p17",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IL-02",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p17",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IL-03",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p17",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IL-04",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p17",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IL-05",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p17",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IL-06",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p17",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IL-07",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p17",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IL-08",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p17",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IL-09",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p17",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IL-10",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p17",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IL-11",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p18",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IL-12",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p18",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IL-13",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p18",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IL-14",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p18",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IL-15",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p18",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IL-16",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p18",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IL-17",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p18",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IN-01",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p18",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IN-02",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p19",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IN-03",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p19",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IN-04",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p19",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IN-05",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p19",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IN-06",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p19",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IN-07",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p19",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IN-08",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p19",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:IN-09",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p19",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:KS-01",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p20",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:KS-02",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p20",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:KS-03",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p20",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:KS-04",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p20",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:KY-01",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p21",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:KY-02",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p21",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:KY-03",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p21",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:KY-04",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p21",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:KY-05",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p21",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:KY-06",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p21",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:LA-01",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p21",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:LA-02",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p21",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:LA-03",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p22",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:LA-04",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p22",
+      "winnerBasis": "unopposed-no-tally"
+    },
+    {
+      "seatKey": "us-house:LA-05",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p22",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:LA-06",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p22",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MA-01",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p23",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MA-02",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p24",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MA-03",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p24",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MA-04",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p24",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MA-05",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p24",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MA-06",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p24",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MA-07",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p24",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MA-08",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p24",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MA-09",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p24",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MD-01",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p23",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MD-02",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p23",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MD-03",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p23",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MD-04",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p23",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MD-05",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p23",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MD-06",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p23",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MD-07",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p23",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MD-08",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p23",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:ME-01",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p22",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:ME-02",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p22",
+      "winnerBasis": "printed-rcv-final-round"
+    },
+    {
+      "seatKey": "us-house:MI-01",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p24",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MI-02",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p25",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MI-03",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p25",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MI-04",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p25",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MI-05",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p25",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MI-06",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p25",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MI-07",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p25",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MI-08",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p25",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MI-09",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p25",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MI-10",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p25",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MI-11",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p25",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MI-12",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p25",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MI-13",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p25",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MN-01",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p26",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MN-02",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p26",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MN-03",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p26",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MN-04",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p26",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MN-05",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p26",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MN-06",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p26",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MN-07",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p26",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MN-08",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p26",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MO-01",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p27",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MO-02",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p27",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MO-03",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p27",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MO-04",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p27",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MO-05",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p28",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MO-06",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p28",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MO-07",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p28",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MO-08",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p28",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MS-01",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p27",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MS-02",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p27",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MS-03",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p27",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MS-04",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p27",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MT-01",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p28",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:MT-02",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p28",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NC-01",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p39",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NC-02",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p39",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NC-03",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p39",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NC-04",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p39",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NC-05",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p39",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NC-06",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p39",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NC-07",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p39",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NC-08",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p39",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NC-09",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p39",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NC-10",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p39",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NC-11",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p39",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NC-12",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p39",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NC-13",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p39",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NC-14",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p39",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:ND-00",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p40",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NE-01",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p28",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NE-02",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p28",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NE-03",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p28",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NH-01",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p29",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NH-02",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p29",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NJ-01",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p30",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NJ-02",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p30",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NJ-03",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p30",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NJ-04",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p30",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NJ-05",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p30",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NJ-06",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p30",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NJ-07",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p30",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NJ-08",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p30",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NJ-09",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p30",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NJ-10",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p31",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NJ-11",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p31",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NJ-12",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p31",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NM-01",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p33",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NM-02",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p33",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NM-03",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p33",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NV-01",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p29",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NV-02",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p29",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NV-03",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p29",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NV-04",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p29",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NY-01",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p33",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NY-02",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p33",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NY-03",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p33",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NY-04",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p33",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NY-05",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p34",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NY-06",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p34",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NY-07",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p34",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NY-08",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p34",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NY-09",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p34",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NY-10",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p34",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NY-11",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p34",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NY-12",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p34",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NY-13",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p34",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NY-14",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p34",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NY-15",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p35",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NY-16",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p35",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NY-17",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p35",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NY-18",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p35",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NY-19",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p35",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NY-20",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p35",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NY-21",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p35",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NY-22",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p35",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NY-23",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p35",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NY-24",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p36",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NY-25",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p36",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:NY-26",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p36",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:OH-01",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p40",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:OH-02",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p40",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:OH-03",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p40",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:OH-04",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p40",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:OH-05",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p40",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:OH-06",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p40",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:OH-07",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p41",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:OH-08",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p41",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:OH-09",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p41",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:OH-10",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p41",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:OH-11",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p41",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:OH-12",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p41",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:OH-13",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p41",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:OH-14",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p41",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:OH-15",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p41",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:OK-01",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p42",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:OK-02",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p42",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:OK-03",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p42",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:OK-04",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p42",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:OK-05",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p42",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:OR-01",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p42",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:OR-02",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p42",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:OR-03",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p42",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:OR-04",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p42",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:OR-05",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p42",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:OR-06",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p43",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:PA-01",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p43",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:PA-02",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p43",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:PA-03",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p43",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:PA-04",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p43",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:PA-05",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p43",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:PA-06",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p43",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:PA-07",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p43",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:PA-08",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p43",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:PA-09",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p43",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:PA-10",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p43",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:PA-11",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p43",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:PA-12",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p43",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:PA-13",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p44",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:PA-14",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p44",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:PA-15",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p44",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:PA-16",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p44",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:PA-17",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p44",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:RI-01",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p44",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:RI-02",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p44",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:SC-01",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p45",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:SC-02",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p45",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:SC-03",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p45",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:SC-04",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p45",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:SC-05",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p45",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:SC-06",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p45",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:SC-07",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p45",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:SD-00",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p45",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TN-01",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p46",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TN-02",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p46",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TN-03",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p46",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TN-04",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p46",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TN-05",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p46",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TN-06",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p46",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TN-07",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p46",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TN-08",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p46",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TN-09",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p46",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-01",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p47",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-02",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p47",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-03",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p47",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-04",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p47",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-05",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p47",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-06",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p47",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-07",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p47",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-08",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p47",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-09",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p47",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-10",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p47",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-11",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p47",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-12",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p47",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-13",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p47",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-14",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p47",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-15",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p47",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-16",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p47",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-17",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p47",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-18",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p47",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-19",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p47",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-20",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p48",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-21",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p48",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-22",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p48",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-23",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p48",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-24",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p48",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-25",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p48",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-26",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p48",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-27",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p48",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-28",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p48",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-29",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p48",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-30",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p48",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-31",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p48",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-32",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p48",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-33",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p48",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-34",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p48",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-35",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p48",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-36",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p48",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-37",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p48",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:TX-38",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p49",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:UT-01",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p49",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:UT-02",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p49",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:UT-03",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p50",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:UT-04",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p50",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:VA-01",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p51",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:VA-02",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p51",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:VA-03",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p51",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:VA-04",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p51",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:VA-05",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p51",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:VA-06",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p51",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:VA-07",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p51",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:VA-08",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p51",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:VA-09",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p51",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:VA-10",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p51",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:VA-11",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p51",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:VT-00",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p50",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:WA-01",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p52",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:WA-02",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p52",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:WA-03",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p52",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:WA-04",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p52",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:WA-05",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p52",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:WA-06",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p52",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:WA-07",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p52",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:WA-08",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p52",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:WA-09",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p52",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:WA-10",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p52",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:WI-01",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p53",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:WI-02",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p53",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:WI-03",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p53",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:WI-04",
+      "affiliation": "democratic",
+      "sourceRef": "clerk-2022#p53",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:WI-05",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p53",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:WI-06",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p53",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:WI-07",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p53",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:WI-08",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p53",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:WV-01",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p53",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:WV-02",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p53",
+      "winnerBasis": "plurality-of-printed-totals"
+    },
+    {
+      "seatKey": "us-house:WY-00",
+      "affiliation": "republican",
+      "sourceRef": "clerk-2022#p55",
+      "winnerBasis": "plurality-of-printed-totals"
+    }
+  ]
+}
