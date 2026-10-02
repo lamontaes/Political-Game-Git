@@ -850,20 +850,6 @@
       "code": "allocationWinnerPersonId: input.unitKey.startsWith(\"ME\")"
     },
     {
-      "file": "src/simulation/national-election-rules.ts",
-      "kind": "place-in-logic",
-      "build": "Build 27",
-      "count": 1,
-      "code": ".filter((key) => key !== \"DC\")"
-    },
-    {
-      "file": "src/simulation/national-election-rules.ts",
-      "kind": "place-in-logic",
-      "build": "Build 27",
-      "count": 1,
-      "code": "if (state === \"ME\" || state === \"NE\")"
-    },
-    {
       "file": "src/simulation/national-elections.ts",
       "kind": "place-in-logic",
       "build": "Build 27",
@@ -876,13 +862,6 @@
       "build": "Build 27",
       "count": 1,
       "code": "if (roll < 0) return usps;"
-    },
-    {
-      "file": "src/simulation/nationwide-world/presidential-turnover.ts",
-      "kind": "place-in-logic",
-      "build": "Build 27",
-      "count": 1,
-      "code": "(unit.state === \"DC\""
     },
     {
       "file": "src/simulation/nationwide-world/presidential-turnover.ts",
