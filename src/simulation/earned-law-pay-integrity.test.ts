@@ -41,7 +41,7 @@ import {
 } from "./earned-law-pay-integrity";
 import type { EarnedLawPayAssessmentRecord } from "./types";
 import type { ResolvedHourlyLawPayConsequence } from "./law-consequence-types";
-import type { World } from "./types";
+import type { EntityId, World } from "./types";
 
 let world: World;
 let assessment: EarnedLawPayAssessmentRecord;
@@ -395,6 +395,37 @@ describe("saved earned-law assessment integrity", () => {
 });
 
 describe("earned-pay coverage authority integrity", () => {
+  it("still registers duplicate entity IDs after coverage validation is cached", () => {
+    assertWorkPayCoverageIntegrity(world);
+    const records = world.history.workPayCoverageDeterminations!;
+    expect(records.length).toBeGreaterThan(0);
+    const ids = new Set<EntityId>();
+    assertWorkPayCoverageIntegrity(world, ids);
+    expect(ids.size).toBe(records.length);
+    expect(() =>
+      assertWorkPayCoverageIntegrity(world, new Set([records[0]!.id])),
+    ).toThrow(/Duplicate world entity ID/);
+  });
+
+  it("rechecks saved authority when the catalog changes on a cached coverage array", () => {
+    assertWorkPayCoverageIntegrity(world);
+    const changed: World = {
+      ...world,
+      policyCatalog: {
+        ...world.policyCatalog,
+        propositions: Object.fromEntries(
+          Object.entries(world.policyCatalog.propositions).filter(
+            ([, question]) =>
+              question.stableKey !== FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+          ),
+        ),
+      },
+    };
+    expect(() => assertWorkPayCoverageIntegrity(changed)).toThrow(
+      /Pay coverage governing law/,
+    );
+  });
+
   it.each([
     [
       "forged exception row",

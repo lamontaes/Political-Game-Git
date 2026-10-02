@@ -1,3 +1,4 @@
+import { policyPropositionsByKey } from "./policy-proposition-index";
 import { lawInForce } from "./governing/law-in-force";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import {
@@ -46,6 +47,12 @@ const VALIDATED = new WeakMap<
     profiles: World["history"]["organizationProfiles"];
     statuses: World["history"]["workStatuses"];
     latestDate: IsoDate;
+    worldId: EntityId;
+    catalog: World["policyCatalog"];
+    lawHistory: readonly unknown[];
+    validatedLength: number;
+    recordIds: readonly EntityId[];
+    workIds: ReadonlySet<EntityId>;
   }
 >();
 
@@ -55,8 +62,36 @@ export function assertWorkPayCoverageIntegrity(
 ): void {
   const records = world.history.workPayCoverageDeterminations;
   if (!records?.length) return;
-  // Register identity on every call, even when the dated facts are cached.
-  for (const record of records) {
+  const cached = VALIDATED.get(records);
+  const lawHistory = coverageLawHistory(world);
+  const hit =
+    cached &&
+    cached.worldId === world.id &&
+    cached.catalog === world.policyCatalog &&
+    cached.lawHistory.length === lawHistory.length &&
+    cached.lawHistory.every(
+      (frontier, index) => frontier === lawHistory[index],
+    ) &&
+    cached.work === world.history.workRelationships &&
+    cached.roles === world.history.workRoles &&
+    cached.profiles === world.history.organizationProfiles &&
+    cached.statuses === world.history.workStatuses &&
+    cached.latestDate <= world.currentDate &&
+    cached.validatedLength <= records.length;
+  // Duplicate registration remains mandatory, including validated records.
+  if (hit) {
+    for (const id of cached.recordIds) {
+      if (ids.has(id)) throw new Error(`Duplicate world entity ID: ${id}`);
+      ids.add(id);
+    }
+    if (cached.validatedLength === records.length) return;
+  }
+  const from = hit ? cached.validatedLength : 0;
+  const seen = new Set<EntityId>(hit ? cached.workIds : []);
+  const recordIds = hit ? [...cached.recordIds] : [];
+  let latestDate = hit ? cached.latestDate : records[0]!.determinedAt;
+  for (let at = from; at < records.length; at += 1) {
+    const record = records[at]!;
     if (ids.has(record.id))
       throw new Error(`Duplicate world entity ID: ${record.id}`);
     const stableKey = `work-pay-coverage:${record.workRelationshipId}:initial`;
@@ -67,22 +102,8 @@ export function assertWorkPayCoverageIntegrity(
     )
       throw new Error("Pay coverage ID must match its canonical stable key");
     ids.add(record.id);
-  }
-  // Authority depends on catalog and legal history, so recheck even on a fact-cache hit.
-  for (const record of records) assertCoverageAuthority(world, record);
-  const cached = VALIDATED.get(records);
-  if (
-    cached &&
-    cached.work === world.history.workRelationships &&
-    cached.roles === world.history.workRoles &&
-    cached.profiles === world.history.organizationProfiles &&
-    cached.statuses === world.history.workStatuses &&
-    cached.latestDate <= world.currentDate
-  )
-    return;
-  const seen = new Set<EntityId>();
-  let latestDate = records[0]!.determinedAt;
-  for (const record of records) {
+    recordIds.push(record.id);
+    assertCoverageAuthority(world, record);
     const work = recordById(
       world.history.workRelationships,
       record.workRelationshipId,
@@ -173,7 +194,32 @@ export function assertWorkPayCoverageIntegrity(
     profiles: world.history.organizationProfiles,
     statuses: world.history.workStatuses,
     latestDate,
+    worldId: world.id,
+    catalog: world.policyCatalog,
+    lawHistory,
+    validatedLength: records.length,
+    recordIds,
+    workIds: seen,
   });
+}
+
+/** Every legal frontier read by the dated authority path invalidates reuse. */
+function coverageLawHistory(world: World): readonly unknown[] {
+  return [
+    world.jurisdictions,
+    world.history.events,
+    world.history.ruleChangeProvisions,
+    world.history.itemVetoes,
+    world.history.electionContests,
+    world.history.electionContestResults,
+    ...Object.entries(world.history)
+      .filter(
+        ([family]) =>
+          family.startsWith("legislative") ||
+          family.startsWith("constitutional"),
+      )
+      .map(([, records]) => records),
+  ];
 }
 
 /** Revalidate saved exception authority from the same dated facts used at determination. */
@@ -188,7 +234,13 @@ function assertCoverageAuthority(
   const workplace = payWorkplaceAt(world, record.workRelationshipId, cutoff);
   const expectedLawKeys = new Set<string>();
   const expectedExceptionKeys = new Set<string>();
-  for (const question of Object.values(world.policyCatalog.propositions)) {
+  const questions = policyPropositionsByKey(world.policyCatalog.propositions);
+  for (const key of [
+    FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+    STATE_MINIMUM_WAGE_QUESTION_KEY,
+  ]) {
+    const question = questions.get(key);
+    if (!question) continue;
     if (
       ![
         FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
@@ -245,9 +297,7 @@ function assertCoverageAuthority(
   }
   const seenLaws = new Set<string>();
   for (const saved of record.governingLaws) {
-    const question = Object.values(world.policyCatalog.propositions).find(
-      (p) => p.stableKey === saved.questionKey,
-    );
+    const question = questions.get(saved.questionKey);
     const jurisdictionId =
       workplace.jurisdictionId ??
       (saved.questionKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY
@@ -285,9 +335,7 @@ function assertCoverageAuthority(
   }
   const seenExceptions = new Set<string>();
   for (const saved of record.exceptions) {
-    const question = Object.values(world.policyCatalog.propositions).find(
-      (p) => p.stableKey === saved.questionKey,
-    );
+    const question = questions.get(saved.questionKey);
     const row = question?.consequences?.find((r) => r.id === saved.rowId);
     if (
       !seenLaws.has(saved.questionKey) ||

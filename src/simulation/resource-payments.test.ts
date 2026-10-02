@@ -4,7 +4,10 @@ import { makeIsoDate, simulationMomentOnLocalDate } from "./dates";
 import { createOrganization } from "./life";
 import { lifePlaceStateIdentities } from "./life-places";
 import { SeededRng, pickDistinct } from "./rng";
-import { paymentFromDatedCash } from "./resource-payments";
+import {
+  createDatedCashPaymentReader,
+  paymentFromDatedCash,
+} from "./resource-payments";
 import {
   createResourceFlows,
   createResourcePosition,
@@ -56,9 +59,69 @@ describe.each(cases)("dated cash for $kind in $place", ({ kind, place }) => {
     return { world, payer, small };
   }
 
+  it("scoped checkpoint reuse reads every prior debit before the next payment", () => {
+    const { payer, small, world: initial } = fixture();
+    let world = createResourcePosition(initial, {
+      stableKey: "dated-cash:batch-position",
+      owner: payer,
+      openedAt: initial.currentDate,
+      openingBalance: money(100, "USD"),
+      provenance,
+    });
+    world = createResourceFlows(
+      world,
+      Array.from({ length: 2 }, (_, index) => ({
+        stableKey: `dated-cash:batch-expense:${index}`,
+        source: payer,
+        recipient: { kind: "person", personId: world.personOrder[1]! },
+        startsAt: world.currentDate,
+        amount: money(40, "USD"),
+        cadenceKind: "schedule:once",
+        basisKind: "custom:payment-fixture",
+        basisReference: { kind: "general" },
+        restrictionKind: null,
+        jurisdictionId: small.jurisdictionId,
+        provenance,
+      })),
+    );
+    const flows = world.history.resourceFlows.slice(-2);
+    const read = createDatedCashPaymentReader(world);
+    expect(
+      read(world, payer, money(100, "USD"), world.currentDate).availableMinor,
+    ).toBe(100);
+    for (let index = 0; index < 2; index += 1) {
+      world = recordResourceTransferOutcome(world, {
+        stableKey: `dated-cash:batch-expense:${index}`,
+        resourceFlowId: flows[index]!.id,
+        periodStartsAt: world.currentDate,
+        periodEndsAt: world.currentDate,
+        occurredAt: world.currentDate,
+        status: "completed",
+        attemptedAmount: money(40, "USD"),
+        transferredAmount: money(40, "USD"),
+        reasonKind: null,
+        note: "Recorded fixture transfer.",
+        provenance,
+      });
+      const expected = paymentFromDatedCash(
+        world,
+        payer,
+        money(100, "USD"),
+        world.currentDate,
+      );
+      expect(read(world, payer, money(100, "USD"), world.currentDate)).toEqual(
+        expected,
+      );
+      expect(
+        read(world, payer, money(100, "USD"), world.currentDate).availableMinor,
+      ).toBe(100 - 40 * (index + 1));
+    }
+  });
+
   it("distinguishes unknown cash from recorded zero without writing", () => {
     const { payer, world: initial } = fixture();
     let world = initial;
+    const cachedRead = createDatedCashPaymentReader(world);
     const before = serializeWorld(world);
     expect(
       paymentFromDatedCash(world, payer, money(100, "USD"), world.currentDate),
@@ -67,6 +130,10 @@ describe.each(cases)("dated cash for $kind in $place", ({ kind, place }) => {
       availableMinor: null,
       reasonKind: "capacity:money-unknown",
     });
+    expect(
+      cachedRead(world, payer, money(100, "USD"), world.currentDate)
+        .availableMinor,
+    ).toBeNull();
     expect(serializeWorld(world)).toBe(before);
     world = createResourcePosition(world, {
       stableKey: "dated-cash:position",
@@ -82,6 +149,10 @@ describe.each(cases)("dated cash for $kind in $place", ({ kind, place }) => {
       availableMinor: 0,
       reasonKind: "capacity:insufficient-funds",
     });
+    expect(
+      cachedRead(world, payer, money(100, "USD"), world.currentDate)
+        .availableMinor,
+    ).toBe(0);
   });
 
   it.each(["2026-01-10", "2026-01-20"])(
@@ -147,6 +218,14 @@ describe.each(cases)("dated cash for $kind in $place", ({ kind, place }) => {
         money(100, "USD"),
         makeIsoDate("2026-01-05"),
       );
+      expect(
+        createDatedCashPaymentReader(reopened)(
+          reopened,
+          payer,
+          money(100, "USD"),
+          makeIsoDate("2026-01-05"),
+        ),
+      ).toEqual(payment);
       expect(payment.status).toBe("partial");
       expect(payment.availableMinor).toBe(20);
       expect(payment.transferredAmount.minorUnits).toBe(20);
