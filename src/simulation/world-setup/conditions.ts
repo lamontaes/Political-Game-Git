@@ -158,15 +158,6 @@ export function seatStartingCondition(
   );
 }
 
-/** Reuses a saved macro start; missing observed levels remain unavailable. */
-export function drawMacroStartingConditions(
-  world: World,
-  regime: StartingRegime | null,
-): Draft<MacroStartingConditionsRecord> | null {
-  const saved = macroStartingConditions(world);
-  return saved && (regime === null || saved.regime === regime) ? saved : null;
-}
-
 export interface WorldStartingConditionsOptions {
   readonly openingVersion: WorldOpeningVersion;
   /** Supplied by the political initializer; absent in a macro-only test. */

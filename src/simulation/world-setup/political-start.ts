@@ -118,14 +118,6 @@ export function zeroPoliticalLatents(
   };
 }
 
-/** Compatibility shape: certified opening records have no simulated swing. */
-export function drawPoliticalLatents(
-  _world: World,
-  regime: StartingRegime | null,
-): PoliticalLatents {
-  return zeroPoliticalLatents(regime);
-}
-
 export function sharedSwing(
   latents: PoliticalLatents,
   stateUsps: string,

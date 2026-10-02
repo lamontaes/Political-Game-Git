@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { ELECTORAL_ALLOCATION } from "../national-election-rules";
 import { SeededRng } from "../rng";
 import type { World } from "../types";
-import { drawMacroStartingConditions, drawStartingRegime } from "./conditions";
+import { macroStartingConditions, drawStartingRegime } from "./conditions";
 import {
   detExp,
   detLog,
@@ -15,7 +15,6 @@ import {
   applySwing,
   calibrationRow,
   calibrationRows,
-  drawPoliticalLatents,
   generateContest,
   generatePoliticalStartingConditions,
   generateStateExecutiveAffiliation,
@@ -58,7 +57,7 @@ describe("starting regime and macro evidence", () => {
         history: { worldConditions: [] },
       } as unknown as World;
       expect(drawStartingRegime(world)).toBeNull();
-      expect(drawMacroStartingConditions(world, null)).toBeNull();
+      expect(macroStartingConditions(world)).toBeNull();
     }
   });
 });
@@ -157,7 +156,7 @@ describe("political starting conditions", () => {
     for (const regime of CRUNCH46_POLICY.regimes.order) {
       for (let i = 0; i < 12; i += 1) {
         const world = seedWorld(`missing-margin-${regime}-${i}`);
-        const latents = drawPoliticalLatents(world, regime);
+        const latents = zeroPoliticalLatents(regime);
         for (const row of withoutMargin) {
           const seat = generateContest(world, latents, row);
           expect(seat.affiliation, row.contestKey).toBe(
@@ -184,7 +183,7 @@ describe("political starting conditions", () => {
     for (const regime of CRUNCH46_POLICY.regimes.order) {
       for (let i = 0; i < 8; i += 1) {
         const world = seedWorld(`governor-${regime}-${i}`);
-        const latents = drawPoliticalLatents(world, regime);
+        const latents = zeroPoliticalLatents(regime);
         for (const row of crossParty) {
           const generated = generateStateExecutiveAffiliation(
             world,
