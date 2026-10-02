@@ -4,7 +4,7 @@ import { lawInForceAtStart } from "../governing/law-in-force";
 import { lawInForce } from "../governing/law-in-force";
 import { stateJurisdictionForKey } from "../life-places";
 import { createProductionPolicyCatalog } from "../production-catalog";
-import type { EntityId, LegislativeMeasureRecord } from "../types";
+import type { EntityId, LegislativeMeasureRecord, World } from "../types";
 import { createWorld } from "../world";
 import { createStableId } from "../ids";
 import { enactCostLawFixture } from "../../../tests/fixtures/enacted-cost-law-fixture";
@@ -17,18 +17,25 @@ const CONSUMER_PRIVACY_COST_QUESTION =
 import { withOpenedBudgets } from "./index";
 import {
   lawSpendingForMonth,
+  readMonthFlows,
   settleGovernmentMonth,
-  type MonthFlows,
 } from "./month";
 import { SPENDING_QUESTION_EFFECTS } from "./rules";
-import { BUDGET_PROGRAMS, PUBLIC_BUDGETS_VERSION } from "./store";
+import {
+  BUDGET_PROGRAMS,
+  PUBLIC_BUDGETS_VERSION,
+  type PublicBudgetGovernment,
+} from "./store";
+import { ensureOpeningGovernmentAccounts } from "./opening-government-accounts";
 
-const flows: MonthFlows = {
-  withheld: new Map(),
-  represented: new Map(),
-  levies: new Map(),
-  payments: new Map(),
-};
+const flowsFor = (world: World, government: PublicBudgetGovernment) =>
+  readMonthFlows(world, {
+    version: PUBLIC_BUDGETS_VERSION,
+    cursor: { flows: 0, outcomes: 0 },
+    governments: [government],
+    adjustments: [],
+    unknown: [],
+  }).flows;
 const states = ["US-MD", "US-ID", "US-IN", "US-CA", "US-WA"];
 
 describe("consumer privacy without an appropriation or actual hires produces no invoice", () => {
@@ -43,13 +50,15 @@ describe("consumer privacy without an appropriation or actual hires produces no 
       const age = Object.values(catalog.propositions).find(
         (entry) => entry.stableKey === AGE_VERIFICATION_COST_QUESTION,
       )!;
-      const base = createWorld({
-        seed: "team8-consumer-privacy-stamp:" + key,
-        currentDate: makeIsoDate("2026-01-05"),
-        jurisdictions: [state],
-        people: [],
-        policyCatalog: catalog,
-      });
+      const base = ensureOpeningGovernmentAccounts(
+        createWorld({
+          seed: "team8-consumer-privacy-stamp:" + key,
+          currentDate: makeIsoDate("2026-01-05"),
+          jurisdictions: [state],
+          people: [],
+          policyCatalog: catalog,
+        }),
+      );
       const opening = lawInForceAtStart(
         base,
         state.id,
@@ -111,13 +120,13 @@ describe("consumer privacy without an appropriation or actual hires produces no 
         ageOnly,
         government,
         month,
-        flows,
+        flowsFor(ageOnly, government),
       ).government.months.at(-1)!;
       const savedGovernment = settleGovernmentMonth(
         world,
         government,
         month,
-        flows,
+        flowsFor(world, government),
       ).government;
       const saved = savedGovernment.months.at(-1)!;
       expect(lawInForce(world, state.id, privacy.id, month)?.measureId).toBe(
@@ -153,7 +162,12 @@ describe("consumer privacy without an appropriation or actual hires produces no 
       expect(serializeWorld(loaded)).toBe(bytes);
       expect(loaded.publicBudgets!.governments[0]).toEqual(savedGovernment);
       expect(
-        settleGovernmentMonth(world, savedGovernment, month, flows).government,
+        settleGovernmentMonth(
+          world,
+          savedGovernment,
+          month,
+          flowsFor(world, savedGovernment),
+        ).government,
       ).toBe(savedGovernment);
       expect(
         lawSpendingForMonth(world, { ...government, level: "county" }, month),

@@ -19,6 +19,7 @@ import {
   primaryReading,
 } from "../municipal-government";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
+import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
 import { placePopulation } from "../nationwide-world/place-population";
 import { STATES } from "../state-reference";
 import type { EntityId, IsoDate, World } from "../types";
@@ -300,7 +301,7 @@ export function budgetCandidates(world: World): {
   const townIds = new Set(stateTowns.values());
   for (const usps of Object.keys(STATES)) {
     const key = `US-${usps}`;
-    const jurisdiction = stateJurisdictionForKey(key);
+    const jurisdiction = chiefExecutiveJurisdiction(usps);
     if (!jurisdiction) continue;
     stateIds.add(jurisdiction.id);
     candidates.push({
