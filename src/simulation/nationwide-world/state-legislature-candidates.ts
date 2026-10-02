@@ -2,7 +2,7 @@ import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
 } from "../character-history";
-import { addDays, ageOnDate, makeIsoDate } from "../dates";
+import { addDays, ageOnDate, isoDateFromParts, makeIsoDate } from "../dates";
 import { legislativeTermDates } from "../legislative-office-terms";
 import {
   electionProspectInput,
@@ -32,6 +32,7 @@ import { personName } from "../people";
 import {
   officeFamilyForChamberKey,
   officeQualifications,
+  durationMonths,
 } from "../office-qualification-rules";
 import { standInQualification } from "../office-qualification-profile";
 import { activeOrganizationParticipationsAt } from "../life-queries";
@@ -41,7 +42,6 @@ import {
   returningCandidate,
   type PastCandidate,
 } from "../nominations/candidate-pool";
-import { SeededRng } from "../rng";
 import type {
   DistrictSeatBinding,
   EntityId,
@@ -214,9 +214,8 @@ function prospectKey(seatKey: string, year: number, party: string): string {
 }
 
 /**
- * PLACEHOLDER(overnight): a seeded fictional biography, recorded as dated
- * facts rather than inferred from birthplace. Some prospects lack the years
- * a known rule requires; they never enter the slate.
+ * Fictional residence starts at the sourced chamber requirement. An unread
+ * requirement is recorded as unknown, with no invented prior duration.
  */
 function recordFictionalResidence(
   world: World,
@@ -228,21 +227,71 @@ function recordFictionalResidence(
 ): World {
   const person = world.people[personId]!;
   const jurisdictionId = stateJurisdictionForKey(plan.jurisdictionKey)!.id;
-  const rng = new SeededRng(world.seed).fork(
-    `${prospectKey(seatKey, year, party)}:residence`,
+  const rules = candidateQualificationRuleSet(
+    plan.packId,
+    plan.officeKey,
+    plan.intakeDate,
   );
-  const stateYears = rng.integer(1, 13);
-  const districtYears = rng.integer(0, Math.min(stateYears, 6) + 1);
-  const stateSince = addDays(plan.intakeDate, -365 * stateYears);
-  const districtSince = addDays(plan.intakeDate, -365 * districtYears);
+  const family = officeFamilyForChamberKey(
+    plan.officeKey.split(":").at(-1) ?? "",
+  );
+  const rows = family
+    ? officeQualifications(plan.jurisdictionKey, family, plan.intakeDate)
+    : [];
+  const requiredMonths = (field: "STATE_RESIDENCE" | "DISTRICT_RESIDENCE") => {
+    const value =
+      field === "STATE_RESIDENCE"
+        ? rules?.stateResidenceYears
+        : rules?.districtResidenceYears;
+    const months = rows
+      .filter(
+        (row) =>
+          row.field === field &&
+          row.sourceState === "KNOWN" &&
+          row.temporalApplicability.state === "SUPPORTED",
+      )
+      .flatMap((row) => {
+        const duration = durationMonths(row);
+        return duration ? [duration.months] : [];
+      });
+    if (value?.state === "KNOWN") months.push(value.value * 12);
+    return months.length ? Math.max(...months) : null;
+  };
+  const startFor = (months: number | null): IsoDate => {
+    if (months === null) return plan.intakeDate;
+    const date = new Date(
+      Date.UTC(
+        Number(plan.intakeDate.slice(0, 4)),
+        Number(plan.intakeDate.slice(5, 7)) - 1 - months,
+        1,
+      ),
+    );
+    const lastDay = new Date(
+      Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, 0),
+    ).getUTCDate();
+    return isoDateFromParts(
+      date.getUTCFullYear(),
+      date.getUTCMonth() + 1,
+      Math.min(Number(plan.intakeDate.slice(8, 10)), lastDay),
+    );
+  };
+  const stateMonths = requiredMonths("STATE_RESIDENCE");
+  const districtMonths = requiredMonths("DISTRICT_RESIDENCE");
+  const stateSince = startFor(stateMonths);
+  const districtSince = startFor(districtMonths);
   const stateStart =
     stateSince < person.birthDate ? person.birthDate : stateSince;
-  const districtStart = districtSince < stateStart ? stateStart : districtSince;
+  const districtStart =
+    districtSince < person.birthDate ? person.birthDate : districtSince;
+  const homeStart =
+    plan.districtBinding && districtStart < stateStart
+      ? districtStart
+      : stateStart;
   const stateKey = `${prospectKey(seatKey, year, party)}:residence-background`;
   let next = recordWorldEvent(world, {
     stableKey: stateKey,
     type: "life.fictional-candidate-residence-background",
-    occurredAt: plan.districtBinding ? districtStart : stateStart,
+    occurredAt: homeStart,
     recordedAt: world.currentDate,
     jurisdictionId,
     involvedEntityIds: [personId],
@@ -254,11 +303,15 @@ function recordFictionalResidence(
     tags: [
       STATE_LEGISLATURE_CANDIDATE_VERSION,
       STATE_LEGISLATURE_CANDIDATE_PROFILE.id,
-      `state-residence-since:${stateStart}`,
+      stateMonths === null
+        ? "state-residence-requirement:unknown"
+        : `state-residence-since:${stateStart}`,
       ...(plan.districtBinding
         ? [
             `district:${plan.districtBinding.recordId}`,
-            `district-residence-since:${districtStart}`,
+            districtMonths === null
+              ? "district-residence-requirement:unknown"
+              : `district-residence-since:${districtStart}`,
           ]
         : []),
     ],
@@ -281,14 +334,14 @@ function recordFictionalResidence(
   };
   next = createHousehold(next, {
     stableKey: householdKey,
-    formedAt: stateStart,
+    formedAt: homeStart,
     label: `${personName(person)}'s recorded home`,
     provenance: generated,
   });
   next = recordHouseholdLocation(next, {
     stableKey: `${householdKey}:location`,
     householdId,
-    effectiveAt: stateStart,
+    effectiveAt: homeStart,
     jurisdictionId,
     label: "Fictional state home",
     kind: "residence:home",
@@ -299,7 +352,7 @@ function recordFictionalResidence(
     stableKey: `${householdKey}:membership`,
     personId,
     householdId,
-    startedAt: stateStart,
+    startedAt: homeStart,
     residenceRole: "primary",
     kind: "resident:member",
     provenance: generated,
