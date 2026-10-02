@@ -1,12 +1,13 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { EngineRecipe } from "./pack";
+import type * as RuntimePack from "./pack";
 
 // Controlled browser decoding/composition isolates cache behavior; no pixel proof.
 vi.mock("../optional-glob", () => ({
   optionalGlob: () => new Proxy({}, { get: (_target, key) => String(key) }),
 }));
 vi.mock("./pack", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("./pack")>()),
+  ...(await importOriginal<typeof RuntimePack>()),
   composeEnginePerson: () => ({
     raster: { width: 1, height: 1, data: new Uint8ClampedArray(4) },
     anchors: {
