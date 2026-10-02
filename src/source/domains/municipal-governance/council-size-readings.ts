@@ -16,7 +16,7 @@
  * mayor).
  */
 
-import readings from "../../../../data/source/municipal-governance/council-size-readings.json";
+import readings from "../../../../data/source/municipal-governance/council-size-readings.json" with { type: "json" };
 import type { ResearchGovernment } from "./national-research";
 
 interface CouncilSizeReading {

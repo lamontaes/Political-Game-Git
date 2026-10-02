@@ -35,7 +35,7 @@ import { chamberByKey, floorStageByKey } from "../simulation/legislature-rules";
 import { futureDueItemStateAt } from "../simulation/future-transitions";
 import { passOrdinaryDays } from "./ordinary-life";
 import { COMMITTEE_HEARING_TRANSITION_KEY } from "../simulation/legislation";
-import { daysBetween } from "../simulation/dates";
+import { daysBetween, spokenDate } from "../simulation/dates";
 import { enactingGovernmentForPack } from "../simulation/legislation-drafting";
 import { nextSessionCalendarDate } from "../simulation/legislative-session-calendar";
 import { LEGISLATIVE_SESSION_CALENDARS } from "../simulation/legislative-session-calendar-data";
@@ -51,7 +51,9 @@ import { memberBallotOn } from "../simulation/governing/member-ballots";
 import { executiveDesk } from "../simulation/governing/state-governing";
 import {
   applyInstitutionStep,
+  applyInstitutionSessionEnd,
   legislativeBlueprintForMeasure,
+  referralCommittee,
 } from "../simulation/governing/legislative-clock";
 import { dispositionsHonoringOfficeInstructions } from "./office-vote-instruction";
 
@@ -161,6 +163,19 @@ export function applyLegislativeStep(
   step: MeasureStepKey,
 ): StepResult {
   const measureId = scenario.measureId;
+  const sessionEnd = applyInstitutionSessionEnd(world, measureId);
+  if (sessionEnd)
+    return {
+      world: "world" in sessionEnd ? (sessionEnd.world ?? world) : world,
+      message:
+        sessionEnd.kind === "blocked"
+          ? sessionEnd.reason
+          : sessionEnd.kind === "ended"
+            ? "The bill died when the session adjourned."
+            : sessionEnd.kind === "wait-until"
+              ? `The bill waits until ${spokenDate(sessionEnd.date)}.`
+              : "The bill has no further legislative step to take.",
+    };
   const position = measurePosition(world, measureId);
   const pack = scenario.pack;
   const chamberKey = position.chamberKey ?? pack.chamberOrder[0]!;
@@ -182,7 +197,12 @@ export function applyLegislativeStep(
 
   switch (step) {
     case "request-referral": {
-      const committee = chamber.committees[0]!;
+      const committee = referralCommittee(world, measureId, chamberKey);
+      if (!committee)
+        return {
+          world,
+          message: `The ${chamber.name}'s committees are not compiled, so no referral is made.`,
+        };
       return {
         world: referMeasure(world, {
           stableKey: key(`refer:${chamberKey}`),
@@ -205,7 +225,9 @@ export function applyLegislativeStep(
       const government = enactingGovernmentForPack(pack)?.government;
       const calendar =
         pack.session.sittingCalendar ??
-        (government === "state" || government === "federal"
+        (government === "state" ||
+        government === "territory" ||
+        government === "federal"
           ? LEGISLATIVE_SESSION_CALENDARS.state
           : undefined);
       if (!pending && !calendar)
@@ -408,11 +430,13 @@ export function applyLegislativeStep(
           : null;
       if (driven && driven.kind !== "applied")
         return {
-          world,
+          world: driven.kind === "ended" ? driven.world : world,
           message:
             driven.kind === "blocked"
               ? driven.reason
-              : "The bill has no floor vote to take.",
+              : driven.kind === "ended"
+                ? "The bill died when the session adjourned."
+                : "The bill has no floor vote to take.",
         };
       const next =
         driven?.kind === "applied"

@@ -21,6 +21,7 @@ import type { CourtCase } from "../justice/court-reasoning";
 import {
   PROSECUTION_SENTENCED_EVENT,
   SENTENCE_MONTHS_TAG,
+  SENTENCE_LIFE_TAG,
 } from "../justice/jail-terms";
 
 export const MINIMUM_CUSTODY_QUESTION =
@@ -220,7 +221,9 @@ export const legalOutcomeRegistration: LawConsequenceKindRegistration = {
         .find((tag) => tag.startsWith(SENTENCE_MONTHS_TAG))
         ?.slice(SENTENCE_MONTHS_TAG.length),
     );
-    if (!Number.isFinite(months) || months < resolved.value.value) return world;
+    const life = event.tags.includes(SENTENCE_LIFE_TAG);
+    if (!life && (!Number.isFinite(months) || months < resolved.value.value))
+      return world;
     const stamp = lawEffectStamp(resolved.law, {
       effectKind: "legal-outcome",
       questionKey: resolved.questionKey,
@@ -300,8 +303,8 @@ export function assertLegalOutcomeConsequenceIntegrity(world: World): void {
         (p) =>
           p.role === "focus:defendant" && p.personId === record.subjectPersonId,
       ) ||
-      !Number.isFinite(months) ||
-      months < record.minimumMonths ||
+      (!event.tags.includes(SENTENCE_LIFE_TAG) &&
+        (!Number.isFinite(months) || months < record.minimumMonths)) ||
       record.lawEffectStamps?.length !== 1 ||
       !isLawEffectStamp(stamp) ||
       stamp.appliedAt !== record.appliedAt ||

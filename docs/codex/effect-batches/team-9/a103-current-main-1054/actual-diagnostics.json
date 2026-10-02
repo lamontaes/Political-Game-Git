@@ -1,0 +1,2357 @@
+[
+  {
+    "seed": "team9-g10-floor:US-IA",
+    "state": "US-IA",
+    "personId": "person_ed9c1b53516e3b3b",
+    "measureId": "legislative-measure_530f417efc72546f",
+    "currentDate": "2027-08-19",
+    "effectiveAt": "2027-01-19",
+    "referralId": "event_9b98bcfeedb801f1",
+    "range": {
+      "rowId": "sentencing-ranges-2026-v2:US-IA:crime:robbery",
+      "offenseGrade": "robbery in the second degree",
+      "minMonths": 0,
+      "maxMonths": 120,
+      "maxLife": false,
+      "presumptiveMonths": null,
+      "basis": "SOURCED",
+      "citations": [
+        "Iowa Code 711.3",
+        "Iowa Code 902.9(1)(d)"
+      ],
+      "sources": [
+        "https://www.legis.iowa.gov/docs/code/711.3.pdf",
+        "https://www.legis.iowa.gov/docs/code/902.9.pdf"
+      ],
+      "estimateMethod": null,
+      "contributors": []
+    },
+    "floor": {
+      "months": 120,
+      "law": {
+        "answer": "yes",
+        "measureId": "legislative-measure_530f417efc72546f",
+        "origin": "enacted",
+        "level": "state-statute",
+        "operativeAt": "2027-01-19",
+        "operativeBasis": "enacted-date"
+      },
+      "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+      "sourceRecordIds": [
+        "legislative-measure_530f417efc72546f",
+        "legislative-enactment_95c511741229d6dd",
+        "legislative-provision_d0c141622672b340"
+      ]
+    },
+    "bounds": {
+      "range": {
+        "rowId": "sentencing-ranges-2026-v2:US-IA:crime:robbery",
+        "offenseGrade": "robbery in the second degree",
+        "minMonths": 0,
+        "maxMonths": 120,
+        "maxLife": false,
+        "presumptiveMonths": null,
+        "basis": "SOURCED",
+        "citations": [
+          "Iowa Code 711.3",
+          "Iowa Code 902.9(1)(d)"
+        ],
+        "sources": [
+          "https://www.legis.iowa.gov/docs/code/711.3.pdf",
+          "https://www.legis.iowa.gov/docs/code/902.9.pdf"
+        ],
+        "estimateMethod": null,
+        "contributors": []
+      },
+      "minimumMonths": 120,
+      "maximumMonths": 120
+    },
+    "selectedSentence": {
+      "id": "event_86213720d0b54a6b",
+      "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.sentenced",
+      "sequence": 977,
+      "type": "justice.sentenced",
+      "occurredAt": "2027-08-19",
+      "recordedAt": "2027-08-19",
+      "jurisdictionId": "jurisdiction_a3e4f4601cec2839",
+      "involvedEntityIds": [
+        "person_2e80f8935e516155",
+        "person_ed9c1b53516e3b3b"
+      ],
+      "participants": [
+        {
+          "personId": "person_2e80f8935e516155",
+          "role": "agency:decided",
+          "detail": "Judge"
+        },
+        {
+          "personId": "person_ed9c1b53516e3b3b",
+          "role": "focus:defendant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "public",
+      "tags": [
+        "justice.follows-event:event_bb8d8485a5a661e1",
+        "justice.offense:crime:robbery",
+        "justice.referral:event_9b98bcfeedb801f1",
+        "justice.sentence-basis:SOURCED",
+        "justice.sentence-citation:Iowa Code 711.3",
+        "justice.sentence-citation:Iowa Code 902.9(1)(d)",
+        "justice.sentence-months:120",
+        "justice.sentence-range:sentencing-ranges-2026-v2:US-IA:crime:robbery",
+        "justice.sentence-source:https://www.legis.iowa.gov/docs/code/711.3.pdf",
+        "justice.sentence-source:https://www.legis.iowa.gov/docs/code/902.9.pdf",
+        "justice.sentence-term-decision:prosecution-decided-v3:referral:g10-floor-fixture:custody-term",
+        "justice.sentence:jail",
+        "prosecution-decided-v3"
+      ],
+      "summary": "Ramon Munoz was sentenced to 120 months in jail for robbery.",
+      "context": {
+        "location": null,
+        "socialContext": "Criminal case",
+        "pressure": null,
+        "choice": null,
+        "motivation": "They had been found at fault for the same thing before. The law requires at least 120 months in custody for this offense. The offense was violent. Use the least term sufficient within the recorded legal range. They accepted responsibility through the saved guilty plea.",
+        "immediateReaction": null
+      }
+    },
+    "caseStages": [
+      {
+        "id": "event_26b4d5f06d6e2598",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.charged",
+        "sequence": 619,
+        "type": "justice.charged",
+        "occurredAt": "2027-03-20",
+        "recordedAt": "2027-03-20",
+        "jurisdictionId": "jurisdiction_a3e4f4601cec2839",
+        "involvedEntityIds": [
+          "person_ed9c1b53516e3b3b"
+        ],
+        "participants": [
+          {
+            "personId": "person_ed9c1b53516e3b3b",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.cash-bail-amount:7503200",
+          "justice.court:us-ia:general_trial",
+          "justice.follows-event:event_9b98bcfeedb801f1",
+          "justice.offense:crime:robbery",
+          "justice.referral:event_9b98bcfeedb801f1",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Prosecutors charged Ramon Munoz with robbery.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "The records would probably be enough to convict.",
+          "immediateReaction": null
+        }
+      },
+      {
+        "id": "event_0b132029828a1978",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.held-before-trial",
+        "sequence": 622,
+        "type": "justice.held-before-trial",
+        "occurredAt": "2027-03-20",
+        "recordedAt": "2027-03-20",
+        "jurisdictionId": "jurisdiction_a3e4f4601cec2839",
+        "involvedEntityIds": [
+          "person_ed9c1b53516e3b3b"
+        ],
+        "participants": [
+          {
+            "personId": "person_ed9c1b53516e3b3b",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice-pretrial-v1",
+          "justice.bail:7503200",
+          "justice.follows-event:event_26b4d5f06d6e2598",
+          "justice.offense:crime:robbery",
+          "justice.referral:event_9b98bcfeedb801f1",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Ramon Munoz's cash-bail payment remains unresolved because its saved court or government account is unavailable.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "No cash payment or recipient is inferred from missing saved records.",
+          "immediateReaction": null
+        },
+        "lawEffectStamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "starting-law:US-IA:us-policy-positions:justice-public-safety.end-cash-bail",
+            "source": "in-force-at-start",
+            "effectKind": "justice.held-before-trial",
+            "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
+            "jurisdictionId": "jurisdiction_a3e4f4601cec2839",
+            "operativeAt": "2000-01-01",
+            "appliedAt": "2027-03-20",
+            "sourceRecordIds": [
+              "event_9b98bcfeedb801f1",
+              "event_26b4d5f06d6e2598",
+              "event_0b132029828a1978"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "event_3ce842deeee44c28",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.plea-entered",
+        "sequence": 624,
+        "type": "justice.plea-entered",
+        "occurredAt": "2027-03-20",
+        "recordedAt": "2027-03-20",
+        "jurisdictionId": "jurisdiction_a3e4f4601cec2839",
+        "involvedEntityIds": [
+          "person_ed9c1b53516e3b3b"
+        ],
+        "participants": [
+          {
+            "personId": "person_ed9c1b53516e3b3b",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.follows-event:event_26b4d5f06d6e2598",
+          "justice.offense:crime:robbery",
+          "justice.plea:guilty",
+          "justice.referral:event_9b98bcfeedb801f1",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Ramon Munoz told the court they would plead guilty to robbery.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": null,
+          "immediateReaction": null
+        }
+      },
+      {
+        "id": "event_bb8d8485a5a661e1",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.case-ended",
+        "sequence": 974,
+        "type": "justice.case-ended",
+        "occurredAt": "2027-08-19",
+        "recordedAt": "2027-08-19",
+        "jurisdictionId": "jurisdiction_a3e4f4601cec2839",
+        "involvedEntityIds": [
+          "person_ed9c1b53516e3b3b"
+        ],
+        "participants": [
+          {
+            "personId": "person_ed9c1b53516e3b3b",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.follows-event:event_26b4d5f06d6e2598",
+          "justice.offense:crime:robbery",
+          "justice.outcome:plea",
+          "justice.referral:event_9b98bcfeedb801f1",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Ramon Munoz pleaded guilty to robbery.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "They chose to plead guilty.",
+          "immediateReaction": null
+        }
+      },
+      {
+        "id": "event_86213720d0b54a6b",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.sentenced",
+        "sequence": 977,
+        "type": "justice.sentenced",
+        "occurredAt": "2027-08-19",
+        "recordedAt": "2027-08-19",
+        "jurisdictionId": "jurisdiction_a3e4f4601cec2839",
+        "involvedEntityIds": [
+          "person_2e80f8935e516155",
+          "person_ed9c1b53516e3b3b"
+        ],
+        "participants": [
+          {
+            "personId": "person_2e80f8935e516155",
+            "role": "agency:decided",
+            "detail": "Judge"
+          },
+          {
+            "personId": "person_ed9c1b53516e3b3b",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.follows-event:event_bb8d8485a5a661e1",
+          "justice.offense:crime:robbery",
+          "justice.referral:event_9b98bcfeedb801f1",
+          "justice.sentence-basis:SOURCED",
+          "justice.sentence-citation:Iowa Code 711.3",
+          "justice.sentence-citation:Iowa Code 902.9(1)(d)",
+          "justice.sentence-months:120",
+          "justice.sentence-range:sentencing-ranges-2026-v2:US-IA:crime:robbery",
+          "justice.sentence-source:https://www.legis.iowa.gov/docs/code/711.3.pdf",
+          "justice.sentence-source:https://www.legis.iowa.gov/docs/code/902.9.pdf",
+          "justice.sentence-term-decision:prosecution-decided-v3:referral:g10-floor-fixture:custody-term",
+          "justice.sentence:jail",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Ramon Munoz was sentenced to 120 months in jail for robbery.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "They had been found at fault for the same thing before. The law requires at least 120 months in custody for this offense. The offense was violent. Use the least term sufficient within the recorded legal range. They accepted responsibility through the saved guilty plea.",
+          "immediateReaction": null
+        }
+      }
+    ],
+    "termDecisions": [
+      {
+        "decisionId": "decision_65468a32c5a60f01",
+        "context": {
+          "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term",
+          "decisionType": "justice.sentence-term",
+          "actorPersonId": "person_2e80f8935e516155",
+          "cutoff": {
+            "asOfDate": "2027-08-19",
+            "historySequenceExclusive": 976
+          },
+          "subject": {
+            "kind": "context:criminal-case",
+            "key": "prosecution-decided-v3:referral:g10-floor-fixture",
+            "entityId": null
+          },
+          "options": [
+            {
+              "key": "term:maximum",
+              "label": "120 months",
+              "description": "Choose this term from the applicable recorded sentencing range."
+            },
+            {
+              "key": "term:minimum",
+              "label": "120 months",
+              "description": "Choose this term from the applicable recorded sentencing range."
+            }
+          ],
+          "constraints": [],
+          "considerations": [
+            {
+              "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:findings",
+              "optionKey": "term:maximum",
+              "sourceType": "context:sentencing-law",
+              "direction": "supports",
+              "importance": "moderate",
+              "confidence": "high",
+              "explanation": "The case contains repeated standing findings.",
+              "sourceRefs": []
+            },
+            {
+              "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:parsimony",
+              "optionKey": "term:minimum",
+              "sourceType": "context:sentencing-law",
+              "direction": "supports",
+              "importance": "slight",
+              "confidence": "high",
+              "explanation": "Use the least term sufficient within the recorded legal range.",
+              "sourceRefs": []
+            },
+            {
+              "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:plea",
+              "optionKey": "term:minimum",
+              "sourceType": "context:sentencing-law",
+              "direction": "supports",
+              "importance": "moderate",
+              "confidence": "high",
+              "explanation": "They accepted responsibility through the saved guilty plea.",
+              "sourceRefs": []
+            }
+          ],
+          "perceptionIds": [],
+          "randomness": "none",
+          "retention": "durable"
+        },
+        "optionEvaluations": [
+          {
+            "optionKey": "term:maximum",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [
+              "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:findings"
+            ],
+            "preference": "supported",
+            "randomContribution": "none",
+            "finalRank": 2
+          },
+          {
+            "optionKey": "term:minimum",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [
+              "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:parsimony",
+              "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:plea"
+            ],
+            "preference": "strongly-supported",
+            "randomContribution": "none",
+            "finalRank": 1
+          }
+        ],
+        "outcomeKind": "selected",
+        "selectedOptionKey": "term:minimum",
+        "sourceSnapshots": [],
+        "rngVersion": "decision-rng-v1",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:trace",
+        "recordedAt": "2027-08-19",
+        "id": "decision-trace_cb086116cebfccd2",
+        "sequence": 976
+      }
+    ]
+  },
+  {
+    "seed": "team9-g10-floor:US-LA",
+    "state": "US-LA",
+    "personId": "person_f55b52dc6caea87e",
+    "measureId": "legislative-measure_9c141773680d0c1d",
+    "currentDate": "2027-07-20",
+    "effectiveAt": "2027-01-19",
+    "referralId": "event_6203f08fd4223d40",
+    "range": {
+      "rowId": "sentencing-ranges-2026-v2:US-LA:crime:robbery",
+      "offenseGrade": "simple robbery",
+      "minMonths": 0,
+      "maxMonths": 84,
+      "maxLife": false,
+      "presumptiveMonths": null,
+      "basis": "SOURCED",
+      "citations": [
+        "La. R.S. 14:65"
+      ],
+      "sources": [
+        "https://legis.la.gov/legis/Law.aspx?d=78602"
+      ],
+      "estimateMethod": null,
+      "contributors": []
+    },
+    "floor": {
+      "months": 120,
+      "law": {
+        "answer": "yes",
+        "measureId": "legislative-measure_9c141773680d0c1d",
+        "origin": "enacted",
+        "level": "state-statute",
+        "operativeAt": "2027-01-19",
+        "operativeBasis": "enacted-date"
+      },
+      "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+      "sourceRecordIds": [
+        "legislative-measure_9c141773680d0c1d",
+        "legislative-enactment_f5bec07436312482",
+        "legislative-provision_fc1a1a7d694fb9e7"
+      ]
+    },
+    "bounds": {
+      "range": {
+        "rowId": "sentencing-ranges-2026-v2:US-LA:crime:robbery",
+        "offenseGrade": "simple robbery",
+        "minMonths": 0,
+        "maxMonths": 84,
+        "maxLife": false,
+        "presumptiveMonths": null,
+        "basis": "SOURCED",
+        "citations": [
+          "La. R.S. 14:65"
+        ],
+        "sources": [
+          "https://legis.la.gov/legis/Law.aspx?d=78602"
+        ],
+        "estimateMethod": null,
+        "contributors": []
+      },
+      "minimumMonths": 120,
+      "maximumMonths": 120
+    },
+    "selectedSentence": {
+      "id": "event_48fc788ce9348d16",
+      "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.sentenced",
+      "sequence": 3381,
+      "type": "justice.sentenced",
+      "occurredAt": "2027-07-20",
+      "recordedAt": "2027-07-20",
+      "jurisdictionId": "jurisdiction_1d1fb29e9cc5bdb4",
+      "involvedEntityIds": [
+        "person_98d30b8cacc5ad36",
+        "person_f55b52dc6caea87e"
+      ],
+      "participants": [
+        {
+          "personId": "person_98d30b8cacc5ad36",
+          "role": "agency:decided",
+          "detail": "Judge"
+        },
+        {
+          "personId": "person_f55b52dc6caea87e",
+          "role": "focus:defendant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "public",
+      "tags": [
+        "justice.follows-event:event_a7bd03d91a0371a6",
+        "justice.offense:crime:robbery",
+        "justice.referral:event_6203f08fd4223d40",
+        "justice.sentence-basis:SOURCED",
+        "justice.sentence-citation:La. R.S. 14:65",
+        "justice.sentence-months:120",
+        "justice.sentence-range:sentencing-ranges-2026-v2:US-LA:crime:robbery",
+        "justice.sentence-source:https://legis.la.gov/legis/Law.aspx?d=78602",
+        "justice.sentence-term-decision:prosecution-decided-v3:referral:g10-floor-fixture:custody-term",
+        "justice.sentence:jail",
+        "prosecution-decided-v3"
+      ],
+      "summary": "Zara Patton was sentenced to 120 months in jail for robbery.",
+      "context": {
+        "location": null,
+        "socialContext": "Criminal case",
+        "pressure": null,
+        "choice": null,
+        "motivation": "They had been found at fault for the same thing before. The law requires at least 120 months in custody for this offense. The offense was violent. Use the least term sufficient within the recorded legal range. They accepted responsibility through the saved guilty plea.",
+        "immediateReaction": null
+      }
+    },
+    "caseStages": [
+      {
+        "id": "event_a183b93539c437d1",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.charged",
+        "sequence": 2882,
+        "type": "justice.charged",
+        "occurredAt": "2027-03-20",
+        "recordedAt": "2027-03-20",
+        "jurisdictionId": "jurisdiction_1d1fb29e9cc5bdb4",
+        "involvedEntityIds": [
+          "person_f55b52dc6caea87e"
+        ],
+        "participants": [
+          {
+            "personId": "person_f55b52dc6caea87e",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.cash-bail-amount:7503200",
+          "justice.court:us-la:general_trial",
+          "justice.follows-event:event_6203f08fd4223d40",
+          "justice.offense:crime:robbery",
+          "justice.referral:event_6203f08fd4223d40",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Prosecutors charged Zara Patton with robbery.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "The records would probably be enough to convict.",
+          "immediateReaction": null
+        }
+      },
+      {
+        "id": "event_bf666ef9893b4dd5",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.held-before-trial",
+        "sequence": 2885,
+        "type": "justice.held-before-trial",
+        "occurredAt": "2027-03-20",
+        "recordedAt": "2027-03-20",
+        "jurisdictionId": "jurisdiction_1d1fb29e9cc5bdb4",
+        "involvedEntityIds": [
+          "person_f55b52dc6caea87e"
+        ],
+        "participants": [
+          {
+            "personId": "person_f55b52dc6caea87e",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice-pretrial-v1",
+          "justice.bail:7503200",
+          "justice.follows-event:event_a183b93539c437d1",
+          "justice.offense:crime:robbery",
+          "justice.referral:event_6203f08fd4223d40",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Zara Patton's cash-bail payment remains unresolved because its saved court or government account is unavailable.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "No cash payment or recipient is inferred from missing saved records.",
+          "immediateReaction": null
+        },
+        "lawEffectStamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "starting-law:US-LA:us-policy-positions:justice-public-safety.end-cash-bail",
+            "source": "in-force-at-start",
+            "effectKind": "justice.held-before-trial",
+            "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
+            "jurisdictionId": "jurisdiction_1d1fb29e9cc5bdb4",
+            "operativeAt": "2000-01-01",
+            "appliedAt": "2027-03-20",
+            "sourceRecordIds": [
+              "event_6203f08fd4223d40",
+              "event_a183b93539c437d1",
+              "event_bf666ef9893b4dd5"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "event_209743eb50f92b8b",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.plea-entered",
+        "sequence": 2887,
+        "type": "justice.plea-entered",
+        "occurredAt": "2027-03-20",
+        "recordedAt": "2027-03-20",
+        "jurisdictionId": "jurisdiction_1d1fb29e9cc5bdb4",
+        "involvedEntityIds": [
+          "person_f55b52dc6caea87e"
+        ],
+        "participants": [
+          {
+            "personId": "person_f55b52dc6caea87e",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.follows-event:event_a183b93539c437d1",
+          "justice.offense:crime:robbery",
+          "justice.plea:guilty",
+          "justice.referral:event_6203f08fd4223d40",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Zara Patton told the court they would plead guilty to robbery.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": null,
+          "immediateReaction": null
+        }
+      },
+      {
+        "id": "event_a7bd03d91a0371a6",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.case-ended",
+        "sequence": 3378,
+        "type": "justice.case-ended",
+        "occurredAt": "2027-07-20",
+        "recordedAt": "2027-07-20",
+        "jurisdictionId": "jurisdiction_1d1fb29e9cc5bdb4",
+        "involvedEntityIds": [
+          "person_f55b52dc6caea87e"
+        ],
+        "participants": [
+          {
+            "personId": "person_f55b52dc6caea87e",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.follows-event:event_a183b93539c437d1",
+          "justice.offense:crime:robbery",
+          "justice.outcome:plea",
+          "justice.referral:event_6203f08fd4223d40",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Zara Patton pleaded guilty to robbery.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "They chose to plead guilty.",
+          "immediateReaction": null
+        }
+      },
+      {
+        "id": "event_48fc788ce9348d16",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.sentenced",
+        "sequence": 3381,
+        "type": "justice.sentenced",
+        "occurredAt": "2027-07-20",
+        "recordedAt": "2027-07-20",
+        "jurisdictionId": "jurisdiction_1d1fb29e9cc5bdb4",
+        "involvedEntityIds": [
+          "person_98d30b8cacc5ad36",
+          "person_f55b52dc6caea87e"
+        ],
+        "participants": [
+          {
+            "personId": "person_98d30b8cacc5ad36",
+            "role": "agency:decided",
+            "detail": "Judge"
+          },
+          {
+            "personId": "person_f55b52dc6caea87e",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.follows-event:event_a7bd03d91a0371a6",
+          "justice.offense:crime:robbery",
+          "justice.referral:event_6203f08fd4223d40",
+          "justice.sentence-basis:SOURCED",
+          "justice.sentence-citation:La. R.S. 14:65",
+          "justice.sentence-months:120",
+          "justice.sentence-range:sentencing-ranges-2026-v2:US-LA:crime:robbery",
+          "justice.sentence-source:https://legis.la.gov/legis/Law.aspx?d=78602",
+          "justice.sentence-term-decision:prosecution-decided-v3:referral:g10-floor-fixture:custody-term",
+          "justice.sentence:jail",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Zara Patton was sentenced to 120 months in jail for robbery.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "They had been found at fault for the same thing before. The law requires at least 120 months in custody for this offense. The offense was violent. Use the least term sufficient within the recorded legal range. They accepted responsibility through the saved guilty plea.",
+          "immediateReaction": null
+        }
+      }
+    ],
+    "termDecisions": [
+      {
+        "decisionId": "decision_78c8df76715f163b",
+        "context": {
+          "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term",
+          "decisionType": "justice.sentence-term",
+          "actorPersonId": "person_98d30b8cacc5ad36",
+          "cutoff": {
+            "asOfDate": "2027-07-20",
+            "historySequenceExclusive": 3380
+          },
+          "subject": {
+            "kind": "context:criminal-case",
+            "key": "prosecution-decided-v3:referral:g10-floor-fixture",
+            "entityId": null
+          },
+          "options": [
+            {
+              "key": "term:maximum",
+              "label": "120 months",
+              "description": "Choose this term from the applicable recorded sentencing range."
+            },
+            {
+              "key": "term:minimum",
+              "label": "120 months",
+              "description": "Choose this term from the applicable recorded sentencing range."
+            }
+          ],
+          "constraints": [],
+          "considerations": [
+            {
+              "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:findings",
+              "optionKey": "term:maximum",
+              "sourceType": "context:sentencing-law",
+              "direction": "supports",
+              "importance": "moderate",
+              "confidence": "high",
+              "explanation": "The case contains repeated standing findings.",
+              "sourceRefs": []
+            },
+            {
+              "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:parsimony",
+              "optionKey": "term:minimum",
+              "sourceType": "context:sentencing-law",
+              "direction": "supports",
+              "importance": "slight",
+              "confidence": "high",
+              "explanation": "Use the least term sufficient within the recorded legal range.",
+              "sourceRefs": []
+            },
+            {
+              "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:plea",
+              "optionKey": "term:minimum",
+              "sourceType": "context:sentencing-law",
+              "direction": "supports",
+              "importance": "moderate",
+              "confidence": "high",
+              "explanation": "They accepted responsibility through the saved guilty plea.",
+              "sourceRefs": []
+            }
+          ],
+          "perceptionIds": [],
+          "randomness": "none",
+          "retention": "durable"
+        },
+        "optionEvaluations": [
+          {
+            "optionKey": "term:maximum",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [
+              "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:findings"
+            ],
+            "preference": "supported",
+            "randomContribution": "none",
+            "finalRank": 2
+          },
+          {
+            "optionKey": "term:minimum",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [
+              "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:parsimony",
+              "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:plea"
+            ],
+            "preference": "strongly-supported",
+            "randomContribution": "none",
+            "finalRank": 1
+          }
+        ],
+        "outcomeKind": "selected",
+        "selectedOptionKey": "term:minimum",
+        "sourceSnapshots": [],
+        "rngVersion": "decision-rng-v1",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:trace",
+        "recordedAt": "2027-07-20",
+        "id": "decision-trace_6a5bdd3c8fdb741d",
+        "sequence": 3380
+      }
+    ]
+  },
+  {
+    "seed": "team9-g10-floor:US-TX",
+    "state": "US-TX",
+    "personId": "person_b8dfa6b0571a0178",
+    "measureId": "legislative-measure_bf49bb7374a06edf",
+    "currentDate": "2027-07-20",
+    "effectiveAt": "2027-01-19",
+    "referralId": "event_d1ea57b98adc1fa2",
+    "range": {
+      "rowId": "sentencing-ranges-2026-v2:US-TX:crime:robbery",
+      "offenseGrade": "robbery",
+      "minMonths": 24,
+      "maxMonths": 240,
+      "maxLife": false,
+      "presumptiveMonths": null,
+      "basis": "SOURCED",
+      "citations": [
+        "Tex. Penal Code 29.02(b)",
+        "Tex. Penal Code 12.33(a)"
+      ],
+      "sources": [
+        "https://tcss.legis.texas.gov/resources/PE/htm/PE.29.htm",
+        "https://tcss.legis.texas.gov/resources/PE/htm/PE.12.htm"
+      ],
+      "estimateMethod": null,
+      "contributors": []
+    },
+    "floor": {
+      "months": 120,
+      "law": {
+        "answer": "yes",
+        "measureId": "legislative-measure_bf49bb7374a06edf",
+        "origin": "enacted",
+        "level": "state-statute",
+        "operativeAt": "2027-01-19",
+        "operativeBasis": "enacted-date"
+      },
+      "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+      "sourceRecordIds": [
+        "legislative-measure_bf49bb7374a06edf",
+        "legislative-enactment_427c8ed18df6d197",
+        "legislative-provision_1e8478bb15c312da"
+      ]
+    },
+    "bounds": {
+      "range": {
+        "rowId": "sentencing-ranges-2026-v2:US-TX:crime:robbery",
+        "offenseGrade": "robbery",
+        "minMonths": 24,
+        "maxMonths": 240,
+        "maxLife": false,
+        "presumptiveMonths": null,
+        "basis": "SOURCED",
+        "citations": [
+          "Tex. Penal Code 29.02(b)",
+          "Tex. Penal Code 12.33(a)"
+        ],
+        "sources": [
+          "https://tcss.legis.texas.gov/resources/PE/htm/PE.29.htm",
+          "https://tcss.legis.texas.gov/resources/PE/htm/PE.12.htm"
+        ],
+        "estimateMethod": null,
+        "contributors": []
+      },
+      "minimumMonths": 120,
+      "maximumMonths": 240
+    },
+    "selectedSentence": {
+      "id": "event_51a0ff300bffb61c",
+      "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.sentenced",
+      "sequence": 1145,
+      "type": "justice.sentenced",
+      "occurredAt": "2027-07-20",
+      "recordedAt": "2027-07-20",
+      "jurisdictionId": "jurisdiction_00bf606d2531f337",
+      "involvedEntityIds": [
+        "person_3e13fea401394f78",
+        "person_b8dfa6b0571a0178"
+      ],
+      "participants": [
+        {
+          "personId": "person_3e13fea401394f78",
+          "role": "agency:decided",
+          "detail": "Judge"
+        },
+        {
+          "personId": "person_b8dfa6b0571a0178",
+          "role": "focus:defendant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "public",
+      "tags": [
+        "justice.follows-event:event_73a1457f17c86e44",
+        "justice.offense:crime:robbery",
+        "justice.referral:event_d1ea57b98adc1fa2",
+        "justice.sentence-basis:SOURCED",
+        "justice.sentence-citation:Tex. Penal Code 12.33(a)",
+        "justice.sentence-citation:Tex. Penal Code 29.02(b)",
+        "justice.sentence-months:120",
+        "justice.sentence-range:sentencing-ranges-2026-v2:US-TX:crime:robbery",
+        "justice.sentence-source:https://tcss.legis.texas.gov/resources/PE/htm/PE.12.htm",
+        "justice.sentence-source:https://tcss.legis.texas.gov/resources/PE/htm/PE.29.htm",
+        "justice.sentence-term-decision:prosecution-decided-v3:referral:g10-floor-fixture:custody-term",
+        "justice.sentence:jail",
+        "prosecution-decided-v3"
+      ],
+      "summary": "Adam Tate was sentenced to 120 months in jail for robbery.",
+      "context": {
+        "location": null,
+        "socialContext": "Criminal case",
+        "pressure": null,
+        "choice": null,
+        "motivation": "They had been found at fault for the same thing before. The law requires at least 120 months in custody for this offense. The offense was violent. Use the least term sufficient within the recorded legal range. They accepted responsibility through the saved guilty plea.",
+        "immediateReaction": null
+      }
+    },
+    "caseStages": [
+      {
+        "id": "event_3efd24143b64bd2b",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.charged",
+        "sequence": 731,
+        "type": "justice.charged",
+        "occurredAt": "2027-03-20",
+        "recordedAt": "2027-03-20",
+        "jurisdictionId": "jurisdiction_00bf606d2531f337",
+        "involvedEntityIds": [
+          "person_b8dfa6b0571a0178"
+        ],
+        "participants": [
+          {
+            "personId": "person_b8dfa6b0571a0178",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.cash-bail-amount:7503200",
+          "justice.court:us-tx:general_trial",
+          "justice.follows-event:event_d1ea57b98adc1fa2",
+          "justice.offense:crime:robbery",
+          "justice.referral:event_d1ea57b98adc1fa2",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Prosecutors charged Adam Tate with robbery.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "The records would probably be enough to convict.",
+          "immediateReaction": null
+        }
+      },
+      {
+        "id": "event_ec6c90381518c557",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.held-before-trial",
+        "sequence": 734,
+        "type": "justice.held-before-trial",
+        "occurredAt": "2027-03-20",
+        "recordedAt": "2027-03-20",
+        "jurisdictionId": "jurisdiction_00bf606d2531f337",
+        "involvedEntityIds": [
+          "person_b8dfa6b0571a0178"
+        ],
+        "participants": [
+          {
+            "personId": "person_b8dfa6b0571a0178",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice-pretrial-v1",
+          "justice.bail:7503200",
+          "justice.follows-event:event_3efd24143b64bd2b",
+          "justice.offense:crime:robbery",
+          "justice.referral:event_d1ea57b98adc1fa2",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Adam Tate's cash-bail payment remains unresolved because its saved court or government account is unavailable.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "No cash payment or recipient is inferred from missing saved records.",
+          "immediateReaction": null
+        },
+        "lawEffectStamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "starting-law:US-TX:us-policy-positions:justice-public-safety.end-cash-bail",
+            "source": "in-force-at-start",
+            "effectKind": "justice.held-before-trial",
+            "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
+            "jurisdictionId": "jurisdiction_00bf606d2531f337",
+            "operativeAt": "2000-01-01",
+            "appliedAt": "2027-03-20",
+            "sourceRecordIds": [
+              "event_d1ea57b98adc1fa2",
+              "event_3efd24143b64bd2b",
+              "event_ec6c90381518c557"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "event_fe7d88f3de2b76d5",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.plea-entered",
+        "sequence": 736,
+        "type": "justice.plea-entered",
+        "occurredAt": "2027-03-20",
+        "recordedAt": "2027-03-20",
+        "jurisdictionId": "jurisdiction_00bf606d2531f337",
+        "involvedEntityIds": [
+          "person_b8dfa6b0571a0178"
+        ],
+        "participants": [
+          {
+            "personId": "person_b8dfa6b0571a0178",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.follows-event:event_3efd24143b64bd2b",
+          "justice.offense:crime:robbery",
+          "justice.plea:guilty",
+          "justice.referral:event_d1ea57b98adc1fa2",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Adam Tate told the court they would plead guilty to robbery.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": null,
+          "immediateReaction": null
+        }
+      },
+      {
+        "id": "event_73a1457f17c86e44",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.case-ended",
+        "sequence": 1142,
+        "type": "justice.case-ended",
+        "occurredAt": "2027-07-20",
+        "recordedAt": "2027-07-20",
+        "jurisdictionId": "jurisdiction_00bf606d2531f337",
+        "involvedEntityIds": [
+          "person_b8dfa6b0571a0178"
+        ],
+        "participants": [
+          {
+            "personId": "person_b8dfa6b0571a0178",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.follows-event:event_3efd24143b64bd2b",
+          "justice.offense:crime:robbery",
+          "justice.outcome:plea",
+          "justice.referral:event_d1ea57b98adc1fa2",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Adam Tate pleaded guilty to robbery.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "They chose to plead guilty.",
+          "immediateReaction": null
+        }
+      },
+      {
+        "id": "event_51a0ff300bffb61c",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.sentenced",
+        "sequence": 1145,
+        "type": "justice.sentenced",
+        "occurredAt": "2027-07-20",
+        "recordedAt": "2027-07-20",
+        "jurisdictionId": "jurisdiction_00bf606d2531f337",
+        "involvedEntityIds": [
+          "person_3e13fea401394f78",
+          "person_b8dfa6b0571a0178"
+        ],
+        "participants": [
+          {
+            "personId": "person_3e13fea401394f78",
+            "role": "agency:decided",
+            "detail": "Judge"
+          },
+          {
+            "personId": "person_b8dfa6b0571a0178",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.follows-event:event_73a1457f17c86e44",
+          "justice.offense:crime:robbery",
+          "justice.referral:event_d1ea57b98adc1fa2",
+          "justice.sentence-basis:SOURCED",
+          "justice.sentence-citation:Tex. Penal Code 12.33(a)",
+          "justice.sentence-citation:Tex. Penal Code 29.02(b)",
+          "justice.sentence-months:120",
+          "justice.sentence-range:sentencing-ranges-2026-v2:US-TX:crime:robbery",
+          "justice.sentence-source:https://tcss.legis.texas.gov/resources/PE/htm/PE.12.htm",
+          "justice.sentence-source:https://tcss.legis.texas.gov/resources/PE/htm/PE.29.htm",
+          "justice.sentence-term-decision:prosecution-decided-v3:referral:g10-floor-fixture:custody-term",
+          "justice.sentence:jail",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Adam Tate was sentenced to 120 months in jail for robbery.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "They had been found at fault for the same thing before. The law requires at least 120 months in custody for this offense. The offense was violent. Use the least term sufficient within the recorded legal range. They accepted responsibility through the saved guilty plea.",
+          "immediateReaction": null
+        }
+      }
+    ],
+    "termDecisions": [
+      {
+        "decisionId": "decision_885cde806cbb822e",
+        "context": {
+          "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term",
+          "decisionType": "justice.sentence-term",
+          "actorPersonId": "person_3e13fea401394f78",
+          "cutoff": {
+            "asOfDate": "2027-07-20",
+            "historySequenceExclusive": 1144
+          },
+          "subject": {
+            "kind": "context:criminal-case",
+            "key": "prosecution-decided-v3:referral:g10-floor-fixture",
+            "entityId": null
+          },
+          "options": [
+            {
+              "key": "term:maximum",
+              "label": "240 months",
+              "description": "Choose this term from the applicable recorded sentencing range."
+            },
+            {
+              "key": "term:minimum",
+              "label": "120 months",
+              "description": "Choose this term from the applicable recorded sentencing range."
+            }
+          ],
+          "constraints": [],
+          "considerations": [
+            {
+              "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:findings",
+              "optionKey": "term:maximum",
+              "sourceType": "context:sentencing-law",
+              "direction": "supports",
+              "importance": "moderate",
+              "confidence": "high",
+              "explanation": "The case contains repeated standing findings.",
+              "sourceRefs": []
+            },
+            {
+              "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:parsimony",
+              "optionKey": "term:minimum",
+              "sourceType": "context:sentencing-law",
+              "direction": "supports",
+              "importance": "slight",
+              "confidence": "high",
+              "explanation": "Use the least term sufficient within the recorded legal range.",
+              "sourceRefs": []
+            },
+            {
+              "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:plea",
+              "optionKey": "term:minimum",
+              "sourceType": "context:sentencing-law",
+              "direction": "supports",
+              "importance": "moderate",
+              "confidence": "high",
+              "explanation": "They accepted responsibility through the saved guilty plea.",
+              "sourceRefs": []
+            }
+          ],
+          "perceptionIds": [],
+          "randomness": "none",
+          "retention": "durable"
+        },
+        "optionEvaluations": [
+          {
+            "optionKey": "term:maximum",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [
+              "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:findings"
+            ],
+            "preference": "supported",
+            "randomContribution": "none",
+            "finalRank": 2
+          },
+          {
+            "optionKey": "term:minimum",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [
+              "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:parsimony",
+              "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:plea"
+            ],
+            "preference": "strongly-supported",
+            "randomContribution": "none",
+            "finalRank": 1
+          }
+        ],
+        "outcomeKind": "selected",
+        "selectedOptionKey": "term:minimum",
+        "sourceSnapshots": [],
+        "rngVersion": "decision-rng-v1",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:trace",
+        "recordedAt": "2027-07-20",
+        "id": "decision-trace_201c4b460c8bd67b",
+        "sequence": 1144
+      }
+    ]
+  },
+  {
+    "seed": "team9-g10-floor:US-CT",
+    "state": "US-CT",
+    "personId": "person_f1fdb89295ad8ff2",
+    "measureId": "legislative-measure_b21a1e43861e64cc",
+    "currentDate": "2027-07-20",
+    "effectiveAt": "2027-01-19",
+    "referralId": "event_aeb120ce6f3a2a10",
+    "range": {
+      "rowId": "sentencing-ranges-2026-v2:US-CT:crime:robbery",
+      "offenseGrade": "estimate for the grade defined in offenseDefinitions",
+      "minMonths": 16,
+      "maxMonths": 143,
+      "maxLife": false,
+      "presumptiveMonths": null,
+      "basis": "ESTIMATED FROM AVERAGE",
+      "citations": [],
+      "sources": [],
+      "estimateMethod": "ESTIMATED FROM AVERAGE: the arithmetic mean, rounded to whole months, of the resolved minMonths and maxMonths of every sourced place's row for the same offense key and grade definition. Rows with a life maximum feed the minimum only. No statute of this place was read.",
+      "contributors": [
+        "US-AL",
+        "US-AZ",
+        "US-CA",
+        "US-CO",
+        "US-DC",
+        "US-DE",
+        "US-FL",
+        "US-GU",
+        "US-HI",
+        "US-IA",
+        "US-ID",
+        "US-IN",
+        "US-KS",
+        "US-KY",
+        "US-LA",
+        "US-MA",
+        "US-MD",
+        "US-ME",
+        "US-MI",
+        "US-MN",
+        "US-MO",
+        "US-MP",
+        "US-MT",
+        "US-NC",
+        "US-ND",
+        "US-NE",
+        "US-NH",
+        "US-NJ",
+        "US-NV",
+        "US-NY",
+        "US-OH",
+        "US-OK",
+        "US-OR",
+        "US-PA",
+        "US-PR",
+        "US-RI",
+        "US-SC",
+        "US-SD",
+        "US-TX",
+        "US-UT",
+        "US-VA",
+        "US-VT",
+        "US-WA",
+        "US-WI",
+        "US-WV",
+        "US-WY"
+      ]
+    },
+    "floor": {
+      "months": 120,
+      "law": {
+        "answer": "yes",
+        "measureId": "legislative-measure_b21a1e43861e64cc",
+        "origin": "enacted",
+        "level": "state-statute",
+        "operativeAt": "2027-01-19",
+        "operativeBasis": "enacted-date"
+      },
+      "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+      "sourceRecordIds": [
+        "legislative-measure_b21a1e43861e64cc",
+        "legislative-enactment_64aff62bce9fa1ba",
+        "legislative-provision_21535d5c25f11bb3"
+      ]
+    },
+    "bounds": {
+      "range": {
+        "rowId": "sentencing-ranges-2026-v2:US-CT:crime:robbery",
+        "offenseGrade": "estimate for the grade defined in offenseDefinitions",
+        "minMonths": 16,
+        "maxMonths": 143,
+        "maxLife": false,
+        "presumptiveMonths": null,
+        "basis": "ESTIMATED FROM AVERAGE",
+        "citations": [],
+        "sources": [],
+        "estimateMethod": "ESTIMATED FROM AVERAGE: the arithmetic mean, rounded to whole months, of the resolved minMonths and maxMonths of every sourced place's row for the same offense key and grade definition. Rows with a life maximum feed the minimum only. No statute of this place was read.",
+        "contributors": [
+          "US-AL",
+          "US-AZ",
+          "US-CA",
+          "US-CO",
+          "US-DC",
+          "US-DE",
+          "US-FL",
+          "US-GU",
+          "US-HI",
+          "US-IA",
+          "US-ID",
+          "US-IN",
+          "US-KS",
+          "US-KY",
+          "US-LA",
+          "US-MA",
+          "US-MD",
+          "US-ME",
+          "US-MI",
+          "US-MN",
+          "US-MO",
+          "US-MP",
+          "US-MT",
+          "US-NC",
+          "US-ND",
+          "US-NE",
+          "US-NH",
+          "US-NJ",
+          "US-NV",
+          "US-NY",
+          "US-OH",
+          "US-OK",
+          "US-OR",
+          "US-PA",
+          "US-PR",
+          "US-RI",
+          "US-SC",
+          "US-SD",
+          "US-TX",
+          "US-UT",
+          "US-VA",
+          "US-VT",
+          "US-WA",
+          "US-WI",
+          "US-WV",
+          "US-WY"
+        ]
+      },
+      "minimumMonths": 120,
+      "maximumMonths": 143
+    },
+    "selectedSentence": {
+      "id": "event_48ab3541fc2203e6",
+      "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.sentenced",
+      "sequence": 1180,
+      "type": "justice.sentenced",
+      "occurredAt": "2027-07-20",
+      "recordedAt": "2027-07-20",
+      "jurisdictionId": "jurisdiction_5d94d14fe88f2d0c",
+      "involvedEntityIds": [
+        "person_dfacf41455e85432",
+        "person_f1fdb89295ad8ff2"
+      ],
+      "participants": [
+        {
+          "personId": "person_dfacf41455e85432",
+          "role": "agency:decided",
+          "detail": "Judge"
+        },
+        {
+          "personId": "person_f1fdb89295ad8ff2",
+          "role": "focus:defendant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "public",
+      "tags": [
+        "justice.follows-event:event_b4560d7045390d76",
+        "justice.offense:crime:robbery",
+        "justice.referral:event_aeb120ce6f3a2a10",
+        "justice.sentence-basis:ESTIMATED FROM AVERAGE",
+        "justice.sentence-estimate-contributor:US-AL",
+        "justice.sentence-estimate-contributor:US-AZ",
+        "justice.sentence-estimate-contributor:US-CA",
+        "justice.sentence-estimate-contributor:US-CO",
+        "justice.sentence-estimate-contributor:US-DC",
+        "justice.sentence-estimate-contributor:US-DE",
+        "justice.sentence-estimate-contributor:US-FL",
+        "justice.sentence-estimate-contributor:US-GU",
+        "justice.sentence-estimate-contributor:US-HI",
+        "justice.sentence-estimate-contributor:US-IA",
+        "justice.sentence-estimate-contributor:US-ID",
+        "justice.sentence-estimate-contributor:US-IN",
+        "justice.sentence-estimate-contributor:US-KS",
+        "justice.sentence-estimate-contributor:US-KY",
+        "justice.sentence-estimate-contributor:US-LA",
+        "justice.sentence-estimate-contributor:US-MA",
+        "justice.sentence-estimate-contributor:US-MD",
+        "justice.sentence-estimate-contributor:US-ME",
+        "justice.sentence-estimate-contributor:US-MI",
+        "justice.sentence-estimate-contributor:US-MN",
+        "justice.sentence-estimate-contributor:US-MO",
+        "justice.sentence-estimate-contributor:US-MP",
+        "justice.sentence-estimate-contributor:US-MT",
+        "justice.sentence-estimate-contributor:US-NC",
+        "justice.sentence-estimate-contributor:US-ND",
+        "justice.sentence-estimate-contributor:US-NE",
+        "justice.sentence-estimate-contributor:US-NH",
+        "justice.sentence-estimate-contributor:US-NJ",
+        "justice.sentence-estimate-contributor:US-NV",
+        "justice.sentence-estimate-contributor:US-NY",
+        "justice.sentence-estimate-contributor:US-OH",
+        "justice.sentence-estimate-contributor:US-OK",
+        "justice.sentence-estimate-contributor:US-OR",
+        "justice.sentence-estimate-contributor:US-PA",
+        "justice.sentence-estimate-contributor:US-PR",
+        "justice.sentence-estimate-contributor:US-RI",
+        "justice.sentence-estimate-contributor:US-SC",
+        "justice.sentence-estimate-contributor:US-SD",
+        "justice.sentence-estimate-contributor:US-TX",
+        "justice.sentence-estimate-contributor:US-UT",
+        "justice.sentence-estimate-contributor:US-VA",
+        "justice.sentence-estimate-contributor:US-VT",
+        "justice.sentence-estimate-contributor:US-WA",
+        "justice.sentence-estimate-contributor:US-WI",
+        "justice.sentence-estimate-contributor:US-WV",
+        "justice.sentence-estimate-contributor:US-WY",
+        "justice.sentence-estimate-method:ESTIMATED FROM AVERAGE: the arithmetic mean, rounded to whole months, of the resolved minMonths and maxMonths of every sourced place's row for the same offense key and grade definition. Rows with a life maximum feed the minimum only. No statute of this place was read.",
+        "justice.sentence-months:120",
+        "justice.sentence-range:sentencing-ranges-2026-v2:US-CT:crime:robbery",
+        "justice.sentence-term-decision:prosecution-decided-v3:referral:g10-floor-fixture:custody-term",
+        "justice.sentence:jail",
+        "prosecution-decided-v3"
+      ],
+      "summary": "Alan Noble was sentenced to 120 months in jail for robbery.",
+      "context": {
+        "location": null,
+        "socialContext": "Criminal case",
+        "pressure": null,
+        "choice": null,
+        "motivation": "They had been found at fault for the same thing before. The law requires at least 120 months in custody for this offense. The offense was violent. Use the least term sufficient within the recorded legal range. They accepted responsibility through the saved guilty plea.",
+        "immediateReaction": null
+      }
+    },
+    "caseStages": [
+      {
+        "id": "event_a1c8cc4650f34481",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.charged",
+        "sequence": 746,
+        "type": "justice.charged",
+        "occurredAt": "2027-03-20",
+        "recordedAt": "2027-03-20",
+        "jurisdictionId": "jurisdiction_5d94d14fe88f2d0c",
+        "involvedEntityIds": [
+          "person_f1fdb89295ad8ff2"
+        ],
+        "participants": [
+          {
+            "personId": "person_f1fdb89295ad8ff2",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.cash-bail-amount:7503200",
+          "justice.court:us-ct:general_trial",
+          "justice.follows-event:event_aeb120ce6f3a2a10",
+          "justice.offense:crime:robbery",
+          "justice.referral:event_aeb120ce6f3a2a10",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Prosecutors charged Alan Noble with robbery.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "The records would probably be enough to convict.",
+          "immediateReaction": null
+        }
+      },
+      {
+        "id": "event_197ec29991ff0f85",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.held-before-trial",
+        "sequence": 749,
+        "type": "justice.held-before-trial",
+        "occurredAt": "2027-03-20",
+        "recordedAt": "2027-03-20",
+        "jurisdictionId": "jurisdiction_5d94d14fe88f2d0c",
+        "involvedEntityIds": [
+          "person_f1fdb89295ad8ff2"
+        ],
+        "participants": [
+          {
+            "personId": "person_f1fdb89295ad8ff2",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice-pretrial-v1",
+          "justice.bail:7503200",
+          "justice.follows-event:event_a1c8cc4650f34481",
+          "justice.offense:crime:robbery",
+          "justice.referral:event_aeb120ce6f3a2a10",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Alan Noble's cash-bail payment remains unresolved because its saved court or government account is unavailable.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "No cash payment or recipient is inferred from missing saved records.",
+          "immediateReaction": null
+        },
+        "lawEffectStamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "starting-law:US-CT:us-policy-positions:justice-public-safety.end-cash-bail",
+            "source": "in-force-at-start",
+            "effectKind": "justice.held-before-trial",
+            "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
+            "jurisdictionId": "jurisdiction_5d94d14fe88f2d0c",
+            "operativeAt": "2000-01-01",
+            "appliedAt": "2027-03-20",
+            "sourceRecordIds": [
+              "event_aeb120ce6f3a2a10",
+              "event_a1c8cc4650f34481",
+              "event_197ec29991ff0f85"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "event_f687a7d0886c1adb",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.plea-entered",
+        "sequence": 751,
+        "type": "justice.plea-entered",
+        "occurredAt": "2027-03-20",
+        "recordedAt": "2027-03-20",
+        "jurisdictionId": "jurisdiction_5d94d14fe88f2d0c",
+        "involvedEntityIds": [
+          "person_f1fdb89295ad8ff2"
+        ],
+        "participants": [
+          {
+            "personId": "person_f1fdb89295ad8ff2",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.follows-event:event_a1c8cc4650f34481",
+          "justice.offense:crime:robbery",
+          "justice.plea:guilty",
+          "justice.referral:event_aeb120ce6f3a2a10",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Alan Noble told the court they would plead guilty to robbery.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": null,
+          "immediateReaction": null
+        }
+      },
+      {
+        "id": "event_b4560d7045390d76",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.case-ended",
+        "sequence": 1177,
+        "type": "justice.case-ended",
+        "occurredAt": "2027-07-20",
+        "recordedAt": "2027-07-20",
+        "jurisdictionId": "jurisdiction_5d94d14fe88f2d0c",
+        "involvedEntityIds": [
+          "person_f1fdb89295ad8ff2"
+        ],
+        "participants": [
+          {
+            "personId": "person_f1fdb89295ad8ff2",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.follows-event:event_a1c8cc4650f34481",
+          "justice.offense:crime:robbery",
+          "justice.outcome:plea",
+          "justice.referral:event_aeb120ce6f3a2a10",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Alan Noble pleaded guilty to robbery.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "They chose to plead guilty.",
+          "immediateReaction": null
+        }
+      },
+      {
+        "id": "event_48ab3541fc2203e6",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.sentenced",
+        "sequence": 1180,
+        "type": "justice.sentenced",
+        "occurredAt": "2027-07-20",
+        "recordedAt": "2027-07-20",
+        "jurisdictionId": "jurisdiction_5d94d14fe88f2d0c",
+        "involvedEntityIds": [
+          "person_dfacf41455e85432",
+          "person_f1fdb89295ad8ff2"
+        ],
+        "participants": [
+          {
+            "personId": "person_dfacf41455e85432",
+            "role": "agency:decided",
+            "detail": "Judge"
+          },
+          {
+            "personId": "person_f1fdb89295ad8ff2",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.follows-event:event_b4560d7045390d76",
+          "justice.offense:crime:robbery",
+          "justice.referral:event_aeb120ce6f3a2a10",
+          "justice.sentence-basis:ESTIMATED FROM AVERAGE",
+          "justice.sentence-estimate-contributor:US-AL",
+          "justice.sentence-estimate-contributor:US-AZ",
+          "justice.sentence-estimate-contributor:US-CA",
+          "justice.sentence-estimate-contributor:US-CO",
+          "justice.sentence-estimate-contributor:US-DC",
+          "justice.sentence-estimate-contributor:US-DE",
+          "justice.sentence-estimate-contributor:US-FL",
+          "justice.sentence-estimate-contributor:US-GU",
+          "justice.sentence-estimate-contributor:US-HI",
+          "justice.sentence-estimate-contributor:US-IA",
+          "justice.sentence-estimate-contributor:US-ID",
+          "justice.sentence-estimate-contributor:US-IN",
+          "justice.sentence-estimate-contributor:US-KS",
+          "justice.sentence-estimate-contributor:US-KY",
+          "justice.sentence-estimate-contributor:US-LA",
+          "justice.sentence-estimate-contributor:US-MA",
+          "justice.sentence-estimate-contributor:US-MD",
+          "justice.sentence-estimate-contributor:US-ME",
+          "justice.sentence-estimate-contributor:US-MI",
+          "justice.sentence-estimate-contributor:US-MN",
+          "justice.sentence-estimate-contributor:US-MO",
+          "justice.sentence-estimate-contributor:US-MP",
+          "justice.sentence-estimate-contributor:US-MT",
+          "justice.sentence-estimate-contributor:US-NC",
+          "justice.sentence-estimate-contributor:US-ND",
+          "justice.sentence-estimate-contributor:US-NE",
+          "justice.sentence-estimate-contributor:US-NH",
+          "justice.sentence-estimate-contributor:US-NJ",
+          "justice.sentence-estimate-contributor:US-NV",
+          "justice.sentence-estimate-contributor:US-NY",
+          "justice.sentence-estimate-contributor:US-OH",
+          "justice.sentence-estimate-contributor:US-OK",
+          "justice.sentence-estimate-contributor:US-OR",
+          "justice.sentence-estimate-contributor:US-PA",
+          "justice.sentence-estimate-contributor:US-PR",
+          "justice.sentence-estimate-contributor:US-RI",
+          "justice.sentence-estimate-contributor:US-SC",
+          "justice.sentence-estimate-contributor:US-SD",
+          "justice.sentence-estimate-contributor:US-TX",
+          "justice.sentence-estimate-contributor:US-UT",
+          "justice.sentence-estimate-contributor:US-VA",
+          "justice.sentence-estimate-contributor:US-VT",
+          "justice.sentence-estimate-contributor:US-WA",
+          "justice.sentence-estimate-contributor:US-WI",
+          "justice.sentence-estimate-contributor:US-WV",
+          "justice.sentence-estimate-contributor:US-WY",
+          "justice.sentence-estimate-method:ESTIMATED FROM AVERAGE: the arithmetic mean, rounded to whole months, of the resolved minMonths and maxMonths of every sourced place's row for the same offense key and grade definition. Rows with a life maximum feed the minimum only. No statute of this place was read.",
+          "justice.sentence-months:120",
+          "justice.sentence-range:sentencing-ranges-2026-v2:US-CT:crime:robbery",
+          "justice.sentence-term-decision:prosecution-decided-v3:referral:g10-floor-fixture:custody-term",
+          "justice.sentence:jail",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Alan Noble was sentenced to 120 months in jail for robbery.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "They had been found at fault for the same thing before. The law requires at least 120 months in custody for this offense. The offense was violent. Use the least term sufficient within the recorded legal range. They accepted responsibility through the saved guilty plea.",
+          "immediateReaction": null
+        }
+      }
+    ],
+    "termDecisions": [
+      {
+        "decisionId": "decision_bb6b2a94c3e35b68",
+        "context": {
+          "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term",
+          "decisionType": "justice.sentence-term",
+          "actorPersonId": "person_dfacf41455e85432",
+          "cutoff": {
+            "asOfDate": "2027-07-20",
+            "historySequenceExclusive": 1179
+          },
+          "subject": {
+            "kind": "context:criminal-case",
+            "key": "prosecution-decided-v3:referral:g10-floor-fixture",
+            "entityId": null
+          },
+          "options": [
+            {
+              "key": "term:maximum",
+              "label": "143 months",
+              "description": "Choose this term from the applicable recorded sentencing range."
+            },
+            {
+              "key": "term:minimum",
+              "label": "120 months",
+              "description": "Choose this term from the applicable recorded sentencing range."
+            }
+          ],
+          "constraints": [],
+          "considerations": [
+            {
+              "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:findings",
+              "optionKey": "term:maximum",
+              "sourceType": "context:sentencing-law",
+              "direction": "supports",
+              "importance": "moderate",
+              "confidence": "high",
+              "explanation": "The case contains repeated standing findings.",
+              "sourceRefs": []
+            },
+            {
+              "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:parsimony",
+              "optionKey": "term:minimum",
+              "sourceType": "context:sentencing-law",
+              "direction": "supports",
+              "importance": "slight",
+              "confidence": "high",
+              "explanation": "Use the least term sufficient within the recorded legal range.",
+              "sourceRefs": []
+            },
+            {
+              "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:plea",
+              "optionKey": "term:minimum",
+              "sourceType": "context:sentencing-law",
+              "direction": "supports",
+              "importance": "moderate",
+              "confidence": "high",
+              "explanation": "They accepted responsibility through the saved guilty plea.",
+              "sourceRefs": []
+            }
+          ],
+          "perceptionIds": [],
+          "randomness": "none",
+          "retention": "durable"
+        },
+        "optionEvaluations": [
+          {
+            "optionKey": "term:maximum",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [
+              "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:findings"
+            ],
+            "preference": "supported",
+            "randomContribution": "none",
+            "finalRank": 2
+          },
+          {
+            "optionKey": "term:minimum",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [
+              "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:parsimony",
+              "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:plea"
+            ],
+            "preference": "strongly-supported",
+            "randomContribution": "none",
+            "finalRank": 1
+          }
+        ],
+        "outcomeKind": "selected",
+        "selectedOptionKey": "term:minimum",
+        "sourceSnapshots": [],
+        "rngVersion": "decision-rng-v1",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:trace",
+        "recordedAt": "2027-07-20",
+        "id": "decision-trace_de320800a4f073ed",
+        "sequence": 1179
+      }
+    ]
+  },
+  {
+    "seed": "team9-g10-floor:US-ND",
+    "state": "US-ND",
+    "personId": "person_7144629603df0525",
+    "measureId": "legislative-measure_5247858321512067",
+    "currentDate": "2027-08-05",
+    "effectiveAt": "2027-01-19",
+    "referralId": "event_cf10d14c3931dcb7",
+    "range": {
+      "rowId": "sentencing-ranges-2026-v2:US-ND:crime:robbery",
+      "offenseGrade": "robbery (unarmed, no bodily injury)",
+      "minMonths": 0,
+      "maxMonths": 60,
+      "maxLife": false,
+      "presumptiveMonths": null,
+      "basis": "SOURCED",
+      "citations": [
+        "N.D.C.C. 12.1-22-01(2)",
+        "N.D.C.C. 12.1-32-01(4)"
+      ],
+      "sources": [
+        "https://ndlegis.gov/cencode/t12-1c22.pdf",
+        "https://ndlegis.gov/cencode/t12-1c32.pdf"
+      ],
+      "estimateMethod": null,
+      "contributors": []
+    },
+    "floor": {
+      "months": 120,
+      "law": {
+        "answer": "yes",
+        "measureId": "legislative-measure_5247858321512067",
+        "origin": "enacted",
+        "level": "state-statute",
+        "operativeAt": "2027-01-19",
+        "operativeBasis": "enacted-date"
+      },
+      "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+      "sourceRecordIds": [
+        "legislative-measure_5247858321512067",
+        "legislative-enactment_495264a4708abc31",
+        "legislative-provision_5c0dce869d558764"
+      ]
+    },
+    "bounds": {
+      "range": {
+        "rowId": "sentencing-ranges-2026-v2:US-ND:crime:robbery",
+        "offenseGrade": "robbery (unarmed, no bodily injury)",
+        "minMonths": 0,
+        "maxMonths": 60,
+        "maxLife": false,
+        "presumptiveMonths": null,
+        "basis": "SOURCED",
+        "citations": [
+          "N.D.C.C. 12.1-22-01(2)",
+          "N.D.C.C. 12.1-32-01(4)"
+        ],
+        "sources": [
+          "https://ndlegis.gov/cencode/t12-1c22.pdf",
+          "https://ndlegis.gov/cencode/t12-1c32.pdf"
+        ],
+        "estimateMethod": null,
+        "contributors": []
+      },
+      "minimumMonths": 120,
+      "maximumMonths": 120
+    },
+    "selectedSentence": {
+      "id": "event_5a2b52fa5de1d455",
+      "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.sentenced",
+      "sequence": 938,
+      "type": "justice.sentenced",
+      "occurredAt": "2027-08-05",
+      "recordedAt": "2027-08-05",
+      "jurisdictionId": "jurisdiction_7e617609be5671dd",
+      "involvedEntityIds": [
+        "person_562ea0e893ed5a0f",
+        "person_7144629603df0525"
+      ],
+      "participants": [
+        {
+          "personId": "person_562ea0e893ed5a0f",
+          "role": "agency:decided",
+          "detail": "Judge"
+        },
+        {
+          "personId": "person_7144629603df0525",
+          "role": "focus:defendant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "public",
+      "tags": [
+        "justice.follows-event:event_3cd2926dec42ceab",
+        "justice.offense:crime:robbery",
+        "justice.referral:event_cf10d14c3931dcb7",
+        "justice.sentence-basis:SOURCED",
+        "justice.sentence-citation:N.D.C.C. 12.1-22-01(2)",
+        "justice.sentence-citation:N.D.C.C. 12.1-32-01(4)",
+        "justice.sentence-months:120",
+        "justice.sentence-range:sentencing-ranges-2026-v2:US-ND:crime:robbery",
+        "justice.sentence-source:https://ndlegis.gov/cencode/t12-1c22.pdf",
+        "justice.sentence-source:https://ndlegis.gov/cencode/t12-1c32.pdf",
+        "justice.sentence-term-decision:prosecution-decided-v3:referral:g10-floor-fixture:custody-term",
+        "justice.sentence:jail",
+        "prosecution-decided-v3"
+      ],
+      "summary": "Bo Mack was sentenced to 120 months in jail for robbery.",
+      "context": {
+        "location": null,
+        "socialContext": "Criminal case",
+        "pressure": null,
+        "choice": null,
+        "motivation": "They had been found at fault for the same thing before. The law requires at least 120 months in custody for this offense. The offense was violent. Use the least term sufficient within the recorded legal range. They accepted responsibility through the saved guilty plea.",
+        "immediateReaction": null
+      }
+    },
+    "caseStages": [
+      {
+        "id": "event_fabb1355fd5857c6",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.charged",
+        "sequence": 587,
+        "type": "justice.charged",
+        "occurredAt": "2027-03-20",
+        "recordedAt": "2027-03-20",
+        "jurisdictionId": "jurisdiction_7e617609be5671dd",
+        "involvedEntityIds": [
+          "person_7144629603df0525"
+        ],
+        "participants": [
+          {
+            "personId": "person_7144629603df0525",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.cash-bail-amount:7503200",
+          "justice.court:us-nd:general_trial",
+          "justice.follows-event:event_cf10d14c3931dcb7",
+          "justice.offense:crime:robbery",
+          "justice.referral:event_cf10d14c3931dcb7",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Prosecutors charged Bo Mack with robbery.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "The records would probably be enough to convict.",
+          "immediateReaction": null
+        }
+      },
+      {
+        "id": "event_a06966d6afbc47ee",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.held-before-trial",
+        "sequence": 590,
+        "type": "justice.held-before-trial",
+        "occurredAt": "2027-03-20",
+        "recordedAt": "2027-03-20",
+        "jurisdictionId": "jurisdiction_7e617609be5671dd",
+        "involvedEntityIds": [
+          "person_7144629603df0525"
+        ],
+        "participants": [
+          {
+            "personId": "person_7144629603df0525",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice-pretrial-v1",
+          "justice.bail:7503200",
+          "justice.follows-event:event_fabb1355fd5857c6",
+          "justice.offense:crime:robbery",
+          "justice.referral:event_cf10d14c3931dcb7",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Bo Mack's cash-bail payment remains unresolved because its saved court or government account is unavailable.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "No cash payment or recipient is inferred from missing saved records.",
+          "immediateReaction": null
+        },
+        "lawEffectStamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "starting-law:US-ND:us-policy-positions:justice-public-safety.end-cash-bail",
+            "source": "in-force-at-start",
+            "effectKind": "justice.held-before-trial",
+            "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
+            "jurisdictionId": "jurisdiction_7e617609be5671dd",
+            "operativeAt": "2000-01-01",
+            "appliedAt": "2027-03-20",
+            "sourceRecordIds": [
+              "event_cf10d14c3931dcb7",
+              "event_fabb1355fd5857c6",
+              "event_a06966d6afbc47ee"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "event_c24b5dcf6712b27e",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.plea-entered",
+        "sequence": 592,
+        "type": "justice.plea-entered",
+        "occurredAt": "2027-03-20",
+        "recordedAt": "2027-03-20",
+        "jurisdictionId": "jurisdiction_7e617609be5671dd",
+        "involvedEntityIds": [
+          "person_7144629603df0525"
+        ],
+        "participants": [
+          {
+            "personId": "person_7144629603df0525",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.follows-event:event_fabb1355fd5857c6",
+          "justice.offense:crime:robbery",
+          "justice.plea:guilty",
+          "justice.referral:event_cf10d14c3931dcb7",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Bo Mack told the court they would plead guilty to robbery.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": null,
+          "immediateReaction": null
+        }
+      },
+      {
+        "id": "event_3cd2926dec42ceab",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.case-ended",
+        "sequence": 935,
+        "type": "justice.case-ended",
+        "occurredAt": "2027-08-05",
+        "recordedAt": "2027-08-05",
+        "jurisdictionId": "jurisdiction_7e617609be5671dd",
+        "involvedEntityIds": [
+          "person_7144629603df0525"
+        ],
+        "participants": [
+          {
+            "personId": "person_7144629603df0525",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.follows-event:event_fabb1355fd5857c6",
+          "justice.offense:crime:robbery",
+          "justice.outcome:plea",
+          "justice.referral:event_cf10d14c3931dcb7",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Bo Mack pleaded guilty to robbery.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "They chose to plead guilty.",
+          "immediateReaction": null
+        }
+      },
+      {
+        "id": "event_5a2b52fa5de1d455",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.sentenced",
+        "sequence": 938,
+        "type": "justice.sentenced",
+        "occurredAt": "2027-08-05",
+        "recordedAt": "2027-08-05",
+        "jurisdictionId": "jurisdiction_7e617609be5671dd",
+        "involvedEntityIds": [
+          "person_562ea0e893ed5a0f",
+          "person_7144629603df0525"
+        ],
+        "participants": [
+          {
+            "personId": "person_562ea0e893ed5a0f",
+            "role": "agency:decided",
+            "detail": "Judge"
+          },
+          {
+            "personId": "person_7144629603df0525",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.follows-event:event_3cd2926dec42ceab",
+          "justice.offense:crime:robbery",
+          "justice.referral:event_cf10d14c3931dcb7",
+          "justice.sentence-basis:SOURCED",
+          "justice.sentence-citation:N.D.C.C. 12.1-22-01(2)",
+          "justice.sentence-citation:N.D.C.C. 12.1-32-01(4)",
+          "justice.sentence-months:120",
+          "justice.sentence-range:sentencing-ranges-2026-v2:US-ND:crime:robbery",
+          "justice.sentence-source:https://ndlegis.gov/cencode/t12-1c22.pdf",
+          "justice.sentence-source:https://ndlegis.gov/cencode/t12-1c32.pdf",
+          "justice.sentence-term-decision:prosecution-decided-v3:referral:g10-floor-fixture:custody-term",
+          "justice.sentence:jail",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Bo Mack was sentenced to 120 months in jail for robbery.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "They had been found at fault for the same thing before. The law requires at least 120 months in custody for this offense. The offense was violent. Use the least term sufficient within the recorded legal range. They accepted responsibility through the saved guilty plea.",
+          "immediateReaction": null
+        }
+      }
+    ],
+    "termDecisions": [
+      {
+        "decisionId": "decision_90d85ca51498094a",
+        "context": {
+          "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term",
+          "decisionType": "justice.sentence-term",
+          "actorPersonId": "person_562ea0e893ed5a0f",
+          "cutoff": {
+            "asOfDate": "2027-08-05",
+            "historySequenceExclusive": 937
+          },
+          "subject": {
+            "kind": "context:criminal-case",
+            "key": "prosecution-decided-v3:referral:g10-floor-fixture",
+            "entityId": null
+          },
+          "options": [
+            {
+              "key": "term:maximum",
+              "label": "120 months",
+              "description": "Choose this term from the applicable recorded sentencing range."
+            },
+            {
+              "key": "term:minimum",
+              "label": "120 months",
+              "description": "Choose this term from the applicable recorded sentencing range."
+            }
+          ],
+          "constraints": [],
+          "considerations": [
+            {
+              "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:findings",
+              "optionKey": "term:maximum",
+              "sourceType": "context:sentencing-law",
+              "direction": "supports",
+              "importance": "moderate",
+              "confidence": "high",
+              "explanation": "The case contains repeated standing findings.",
+              "sourceRefs": []
+            },
+            {
+              "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:parsimony",
+              "optionKey": "term:minimum",
+              "sourceType": "context:sentencing-law",
+              "direction": "supports",
+              "importance": "slight",
+              "confidence": "high",
+              "explanation": "Use the least term sufficient within the recorded legal range.",
+              "sourceRefs": []
+            },
+            {
+              "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:plea",
+              "optionKey": "term:minimum",
+              "sourceType": "context:sentencing-law",
+              "direction": "supports",
+              "importance": "moderate",
+              "confidence": "high",
+              "explanation": "They accepted responsibility through the saved guilty plea.",
+              "sourceRefs": []
+            }
+          ],
+          "perceptionIds": [],
+          "randomness": "none",
+          "retention": "durable"
+        },
+        "optionEvaluations": [
+          {
+            "optionKey": "term:maximum",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [
+              "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:findings"
+            ],
+            "preference": "supported",
+            "randomContribution": "none",
+            "finalRank": 2
+          },
+          {
+            "optionKey": "term:minimum",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [
+              "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:parsimony",
+              "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:plea"
+            ],
+            "preference": "strongly-supported",
+            "randomContribution": "none",
+            "finalRank": 1
+          }
+        ],
+        "outcomeKind": "selected",
+        "selectedOptionKey": "term:minimum",
+        "sourceSnapshots": [],
+        "rngVersion": "decision-rng-v1",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:trace",
+        "recordedAt": "2027-08-05",
+        "id": "decision-trace_ca0bf18415428e34",
+        "sequence": 937
+      }
+    ]
+  }
+]

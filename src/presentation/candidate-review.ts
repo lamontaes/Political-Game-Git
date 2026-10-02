@@ -2,10 +2,10 @@ import {
   recipeFromSnapshot,
   type PersonRenderSnapshot,
 } from "./person-render-snapshot";
-import assetManifest from "../../art/manifest/asset_manifest.json";
-import candidateRegistry from "../../art/manifest/character_candidate_registry.json";
-import wardrobeRegistry from "../../art/manifest/character_candidate_wardrobe_registry.json";
-import characterCatalog from "../../art/manifest/character_catalog.json";
+import assetManifest from "../../art/manifest/asset_manifest.json" with { type: "json" };
+import candidateRegistry from "../../art/manifest/character_candidate_registry.json" with { type: "json" };
+import wardrobeRegistry from "../../art/manifest/character_candidate_wardrobe_registry.json" with { type: "json" };
+import characterCatalog from "../../art/manifest/character_catalog.json" with { type: "json" };
 import { derivePersonAppearance } from "../simulation/person-appearance";
 import type { PersonAppearance } from "../simulation/person-appearance";
 import {

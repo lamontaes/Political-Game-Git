@@ -7,7 +7,7 @@ import {
 } from "../presentation/opening-life";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
 import { hireAtAdultStart } from "./job-market";
-import { adultStartEmployer } from "./local-economy";
+import { adultStartEmployer } from "./recorded-employer";
 import { lifePlaceByKey } from "./life-places";
 import { activeWorkRelationshipsAt, workRoleAt } from "./life-queries";
 import { townBusinesses } from "./living-world/town-businesses";
