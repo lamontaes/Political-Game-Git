@@ -1,6 +1,9 @@
 import manifest from "../../art/backdrops/manifest.json";
 import { activeWorkRelationshipsAt } from "../simulation/life-queries";
-import { activeDwellingOccupanciesAt } from "../simulation/resource-queries";
+import {
+  activeDwellingOccupanciesAt,
+  primaryDwellingOf,
+} from "../simulation/resource-queries";
 import { householdMembershipsAt } from "../simulation";
 import { ELECTION_NIGHT_LOCATION_KEY } from "../simulation/campaign-speeches";
 import { backdropUrl } from "./backdrop-urls";
@@ -196,18 +199,24 @@ export function homePlaceFor(
 
 /** The person's current home picture. */
 export function homePlaceForPerson(world: World, personId: EntityId): string {
-  const dwelling = currentDwelling(world, personId);
+  const dwelling =
+    primaryDwellingOf(world, personId) ??
+    currentDwelling(world, personId, true);
   return homePlaceFor(dwelling?.classification ?? null);
 }
 
-function currentDwelling(world: World, personId: EntityId) {
+function currentDwelling(
+  world: World,
+  personId: EntityId,
+  householdOnly = false,
+) {
   const householdIds = new Set(
     householdMembershipsAt(world, personId).map((entry) => entry.household.id),
   );
   const occupancy = activeDwellingOccupanciesAt(world)
     .filter((record) =>
       record.occupant.kind === "person"
-        ? record.occupant.personId === personId
+        ? !householdOnly && record.occupant.personId === personId
         : householdIds.has(record.occupant.householdId),
     )
     .at(-1);
