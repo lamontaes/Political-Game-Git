@@ -15,6 +15,7 @@ import {
   sittingLocalOfficers,
 } from "./local-government-seats";
 import { reactionLens } from "./official-views";
+import { LOCAL_COUNCIL_MEETING } from "./local-council-meetings";
 
 /**
  * Light civic actions (spec 5): residents contact an official or show up at a
@@ -36,8 +37,9 @@ import { reactionLens } from "./official-views";
  * government meeting (Pew). The measures below are set so a town's totals
  * land near them; `tests/nationwide/town-civic-actions.test.ts` checks it.
  *
- * NOT MODELED: what the contact said, and which meeting was attended; the
- * event records only that it happened, whom it reached and the government.
+ * Attendance names the saved scheduled meeting and the council producer
+ * event that proves it was held today. No scheduled or held meeting means
+ * no attendance. What an official contact said is not modeled.
  */
 
 export const CIVIC_ACTIONS_VERSION = "civic-actions-v2";
@@ -213,9 +215,35 @@ function record(
   officialId: EntityId | null,
 ): World {
   const today = world.currentDate;
+  // A scheduled date is not proof that a meeting happened: the chair can
+  // cancel it. Read the existing council producer's held event too.
+  const meeting =
+    action === "attended"
+      ? world.history.futureDueItems.find(
+          (due) =>
+            due.transitionKey === LOCAL_COUNCIL_MEETING &&
+            due.jurisdictionId === town &&
+            due.dueAt === today &&
+            world.history.events.some(
+              (event) =>
+                event.stableKey === `${due.stableKey}:held` &&
+                event.type === "local.council-meeting-held" &&
+                event.jurisdictionId === town &&
+                event.occurredAt === today &&
+                event.recordedAt <= today,
+            ),
+        )
+      : undefined;
+  if (action === "attended" && !meeting) return world;
+  const held = meeting
+    ? world.history.events.find(
+        (event) => event.stableKey === `${meeting.stableKey}:held`,
+      )!
+    : undefined;
   const ids = officialId ? [personId, officialId] : [personId];
+  if (meeting && held) ids.push(meeting.id, held.id);
   return recordWorldEvent(world, {
-    stableKey: `${CIVIC_ACTIONS_VERSION}:${town}:${reviewKey}:${action}:${personId}`,
+    stableKey: `${CIVIC_ACTIONS_VERSION}:${town}:${meeting?.id ?? reviewKey}:${action}:${personId}`,
     type: CIVIC_ACTION_EVENTS[action],
     occurredAt: today,
     recordedAt: today,
@@ -235,7 +263,11 @@ function record(
     ],
     personFactConstraints: [],
     visibility: "limited",
-    tags: ["life.civic", CIVIC_ACTIONS_VERSION],
+    tags: [
+      "life.civic",
+      CIVIC_ACTIONS_VERSION,
+      ...(meeting ? [`meeting:${meeting.id}`] : []),
+    ],
     summary:
       action === "contacted"
         ? "A resident contacted an elected official."
