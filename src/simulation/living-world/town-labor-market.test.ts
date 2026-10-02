@@ -1,7 +1,17 @@
+import { drawRandomPlace } from "../../../tests/support/random-place";
+import {
+  createNewGameWorld,
+  DEFAULT_NEW_GAME_SETUP,
+} from "../../presentation/new-game";
+import { seatLocalBusinesses } from "../local-economy";
+import { openWeeklyListings, applicationsFor, jobOpening } from "../job-market";
+import { reviewPeopleGoals } from "../people-goal-review";
+import { workStatusAt, activeEducationEnrollmentsAt } from "../life-queries";
+import { serializeWorld, deserializeWorld } from "../serialization";
 import { describe, expect, it } from "vitest";
 import { createDemoWorld } from "../demo";
 
-import { makeIsoDate } from "../dates";
+import { makeIsoDate, ageOnDate } from "../dates";
 import type { EntityId, World } from "../types";
 import { outOfWorkSince } from "./town-labor-market";
 import {
@@ -9,7 +19,7 @@ import {
   reviewTownJobs,
   TOWN_JOB_END_REASONS,
 } from "./town-labor-market";
-import { createWorkRelationship } from "../life";
+import { createWorkRelationship, recordWorkStatus } from "../life";
 import { createMindProvenance, recordGoalState } from "../mind";
 import { TOWN_EMPLOYMENT_VERSION } from "./town-employment";
 import { workStatusHistory } from "../life-queries";
@@ -254,5 +264,91 @@ describe("a town worker's saved quit choice", () => {
     expect(
       workStatusHistory(protectedWorld, fixture.jobId).at(-1)?.status,
     ).toBe("active");
+  });
+});
+
+describe("A70 hiring through the saved application route", () => {
+  it("quarterly review does not manufacture hires and the existing goal review submits to an actual opening", () => {
+    const place = drawRandomPlace("a70-recorded-application-route");
+    const game = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed: "a70-recorded-application-route",
+      placeKey: place.key,
+      startKind: "custom",
+      startAge: 30,
+      depth: "summarize-earlier-life",
+      questionnaire: "skipped",
+    });
+    let next = seatLocalBusinesses(
+      game.world,
+      game.world.people[game.playerPersonId]!.homeJurisdictionId,
+    );
+    next = openWeeklyListings(next, game.playerPersonId);
+    const prior = next.history.workRelationships.find(
+      (row) =>
+        row.personId !== game.playerPersonId &&
+        row.compensation === "paid" &&
+        row.organizationId !== null &&
+        next.people[row.personId]!.homeJurisdictionId ===
+          next.people[game.playerPersonId]!.homeJurisdictionId &&
+        ageOnDate(next.people[row.personId]!.birthDate, next.currentDate) >=
+          18 &&
+        ageOnDate(next.people[row.personId]!.birthDate, next.currentDate) <=
+          67 &&
+        activeEducationEnrollmentsAt(next, row.personId).length === 0 &&
+        next.history.workRelationships.filter(
+          (other) =>
+            other.personId === row.personId &&
+            other.compensation === "paid" &&
+            workStatusAt(next, other.id)?.status === "active",
+        ).length === 1 &&
+        workStatusAt(next, row.id)?.status === "active",
+    )!;
+    expect(prior).toBeDefined();
+    const town = next.people[prior.personId]!.homeJurisdictionId;
+    next = recordWorkStatus(next, {
+      stableKey: `a70:actual-job-ended:${prior.id}`,
+      workRelationshipId: prior.id,
+      effectiveAt: next.currentDate,
+      status: "ended",
+      reason:
+        "Test-only recorded job loss for the application-route regression.",
+      supersedesStatusId: workStatusAt(next, prior.id)!.id,
+      provenance: {
+        kind: "authored",
+        note: "Controlled test circumstance; existing worker and employer.",
+      },
+    });
+    const before = next.history.workRelationships;
+    const quarterly = reviewTownJobs(
+      next,
+      town,
+      game.playerPersonId,
+      "a70-no-callback",
+    );
+    expect(quarterly.history.workRelationships).toEqual(before);
+    expect(applicationsFor(quarterly, prior.personId)).toHaveLength(0);
+    const reviewed = reviewPeopleGoals(quarterly).world;
+    const applications = applicationsFor(reviewed, prior.personId);
+    expect(
+      applications.length,
+      JSON.stringify(
+        reviewed.history.goalStates
+          .filter((row) => row.personId === prior.personId)
+          .map((row) => ({
+            goalKey: row.goalKey,
+            status: row.status,
+            outcome: row.outcome,
+          })),
+      ),
+    ).toBeGreaterThan(0);
+    for (const application of applications) {
+      const opening = jobOpening(reviewed, application.openingId)!;
+      expect(opening).not.toBeNull();
+      expect(application.submittedAt >= opening.opensAt).toBe(true);
+      expect(application.submittedAt <= opening.closesAt).toBe(true);
+    }
+    const saved = serializeWorld(reviewed);
+    expect(serializeWorld(deserializeWorld(saved))).toBe(saved);
   });
 });

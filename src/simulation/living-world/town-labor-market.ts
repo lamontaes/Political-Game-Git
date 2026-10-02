@@ -5,22 +5,11 @@
  * this, the same people held the same jobs for the whole of a life: in five
  * watched years nobody near Belzoni started or left a job.
  *
- * Four times a year, on the town's quarterly review (`migration/review.ts`),
- * each job the town employment wrote can end, and each resident who should
- * be working and is not can be hired:
- *
- * - a worker who died, or reached 67, leaves the job;
- * - workers weigh their saved wish to stop working against livelihood goals;
- * - some workers are laid off, more when the town's or the nation's recorded
- *   unemployment is high;
- * - some residents of working age who are looking (including somebody laid
- *   off, a newcomer to town or someone who has just turned 18) are hired,
- *   fewer when unemployment is high.
- *
- * Nothing is drawn. Quits are individual decisions from saved goals. The
- * existing employer rules still lay off the most recently hired first and
- * hire seekers out of work the shortest time first. Every change is a dated
- * work-status record, with its reason, on the day of the review.
+ * The quarterly review ends jobs for recorded deaths, retirement, saved quit
+ * decisions and the existing employer layoff rules. Hiring runs through the
+ * weekly goal/application review, actual openings, offers and accepted starts.
+ * This review no longer ranks unemployed residents into manufactured jobs.
+ * Layoff selection is still the existing newest-first rule.
  */
 
 import { recordJobEndedNews } from "../neighbor-news";
@@ -43,9 +32,6 @@ import {
   TOWN_EMPLOYMENT_VERSION,
   WORKING_AGE_MAX,
   WORKING_AGE_MIN,
-  fillTownJobs,
-  laborStatus,
-  townResidents,
 } from "./town-employment";
 import { ageOnDate, dateAtAge } from "../dates";
 import {
@@ -358,7 +344,6 @@ export function reviewTownJobs(
     );
   };
   let next = world;
-  const quitters = new Set<EntityId>();
   const end = (job: TownJob, reason: string) => {
     const write = TOWN_JOB_LOSS_REASONS.has(reason)
       ? recordTownJobLoss
@@ -444,8 +429,6 @@ export function reviewTownJobs(
     )
       continue;
     end(job, TOWN_JOB_END_REASONS.quit);
-    // A decision to stop working must not immediately allocate another job.
-    quitters.add(job.personId);
   }
 
   // A business whose sales no longer cover its pay lets its most recent
@@ -483,52 +466,10 @@ export function reviewTownJobs(
     if (last) end(last, TOWN_JOB_END_REASONS.laidOff);
   }
 
-  // Everyone of working age who should be working and holds no job today:
-  // somebody laid off, a newcomer, someone just turned 18, a student who has
-  // finished. A worker who chose to stop working is not rehired in this review.
-  const working = new Set(
-    activeTownJobs(next, town).map((job) => job.personId),
-  );
-  const heldElsewhere = new Set<EntityId>();
-  const latest = new Map<EntityId, string>();
-  for (const row of next.history.workStatuses)
-    if (row.effectiveAt <= today)
-      latest.set(row.workRelationshipId, row.status);
-  for (const relationship of next.history.workRelationships)
-    if (latest.get(relationship.id) === "active")
-      heldElsewhere.add(relationship.personId);
-  const seekers = townResidents(next, town).filter((resident) => {
-    if (resident.personId === playerPersonId) return false;
-    if (working.has(resident.personId) || heldElsewhere.has(resident.personId))
-      return false;
-    if (quitters.has(resident.personId)) return false;
-    const status = laborStatus(next, resident);
-    return status === "employed" || status === "looking-for-work";
-  });
-  // HARDWIRED: employers call back the seekers out of work the shortest time
-  // first (Kroft, Lange and Notowidigdo, "Duration Dependence and Labor
-  // Market Conditions", Quarterly Journal of Economics, 2013). Somebody with
-  // no job on the record has been out of work here since the later of moving
-  // into their home and turning 18: a newcomer's last job elsewhere is not
-  // known, so it is not read as never having worked.
-  const lastWorked = outOfWorkSince(
-    next,
-    seekers.map((resident) => resident.personId),
-  );
-  const hiredSeekers = [...seekers]
-    .sort(
-      (a, b) =>
-        (lastWorked.get(b.personId) ?? "").localeCompare(
-          lastWorked.get(a.personId) ?? "",
-        ) || a.personId.localeCompare(b.personId),
-    )
-    .slice(
-      0,
-      Math.round(
-        (seekers.length * TOWN_JOB_TURNOVER.hirePerQuarter) / pressure,
-      ),
-    );
-  return fillTownJobs(next, town, hiredSeekers, { round });
+  // Hiring is the existing weekly goal/application route: reviewPeopleGoals
+  // submits to actual listed openings, weighs offers and calls startJobAsResident.
+  // A quarterly unemployment-duration ranking cannot create a second hire.
+  return next;
 }
 
 /**
