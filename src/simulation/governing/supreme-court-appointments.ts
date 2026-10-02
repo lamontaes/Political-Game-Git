@@ -302,11 +302,18 @@ export function choosePresidentialNominee(
       key: input.stableKey,
       entityId: null,
     },
-    options: pool.map((candidate) => ({
-      key: candidate.personId,
-      label: personName(world.people[candidate.personId]!),
-      description: "Nominate this judge.",
-    })),
+    options: [
+      ...pool.map((candidate) => ({
+        key: candidate.personId,
+        label: personName(world.people[candidate.personId]!),
+        description: "Nominate this judge.",
+      })),
+      {
+        key: "no-nomination",
+        label: "Leave the nomination pending",
+        description: "Do not nominate a judge yet.",
+      },
+    ],
     constraints: [],
     considerations: pool.flatMap((candidate) =>
       candidateReasons(world, candidate, input.presidentId),
