@@ -20,6 +20,7 @@ import { cancelScheduledActivity, scheduledActivityState } from "./time-work";
 import { addDays, daysBetween, spokenDate } from "./dates";
 import type { LifePathDefinition } from "./life-paths2-catalog";
 import type { EntityId, IsoDate, World } from "./types";
+import { recordedTuitionFreezePrice } from "./public-budgets/tuition-freeze";
 
 const prefix = "life-paths2.";
 
@@ -321,6 +322,39 @@ export function studyPeriodTuitionOutstanding(
 ): number {
   const period = completedStudyPeriods(world, enrollmentId, path) + 1;
   if (period > totalStudyPeriods(path)) return 0;
+  const frozen = recordedTuitionFreezePrice(world, enrollmentId);
+  if (frozen.status === "frozen") {
+    const charge = world.history.resourceFlows.find(
+      (flow) =>
+        flow.stableKey === `${prefix}study-period:${enrollmentId}:${period}`,
+    );
+    if (charge) {
+      const terms = resourceFlowTermsAt(world, charge.id);
+      if (terms) {
+        const paid = world.history.resourceTransferOutcomes
+          .filter(
+            (outcome) =>
+              outcome.resourceFlowId === charge.id &&
+              (outcome.status === "completed" || outcome.status === "partial"),
+          )
+          .reduce(
+            (total, outcome) => total + outcome.transferredAmount.minorUnits,
+            0,
+          );
+        return Math.max(0, terms.amount.minorUnits - paid);
+      }
+    }
+    const periodCost = path.periodCostMinor ?? 0;
+    const remainingLegacyCredit = Math.max(
+      0,
+      completedStudySessions(world, enrollmentId) * path.sessionCostMinor -
+        (period - 1) * periodCost,
+    );
+    return Math.max(
+      0,
+      Math.min(periodCost, frozen.amountMinor) - remainingLegacyCredit,
+    );
+  }
   return Math.max(
     0,
     period * (path.periodCostMinor ?? 0) -
