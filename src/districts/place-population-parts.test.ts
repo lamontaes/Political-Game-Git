@@ -1,29 +1,30 @@
-import { describe, expect, it, vi } from "vitest";
+import { PLACE_DISTRICT_POPULATION_ROWS } from "../simulation/place-county-relations.generated";
+import type { DistrictChamber } from "./types";
+import { drawRandomPlace } from "../../tests/support/random-place";
+import { districtIdentityCatalog } from "./catalog";
+import { placeRelationVintageFor } from "./place-membership";
+import { districtPopulationShares, districtsCrossingPlace } from "./query";
+import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import {
   assignSplitHomeDistricts,
   districtResidenceIntervals,
 } from "../simulation/district-residence";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
-const fixture = vi.hoisted(() => ({ rows: "[]" }));
-vi.mock("../simulation/place-county-relations.generated", async (original) => ({
-  ...(await original<Record<string, unknown>>()),
-  get PLACE_DISTRICT_POPULATION_ROWS() {
-    return fixture.rows;
-  },
-}));
-import { drawRandomPlace } from "../../tests/support/random-place";
-import { districtIdentityCatalog } from "./catalog";
-import { placeRelationVintageFor } from "./place-membership";
-import { districtPopulationShares, districtsCrossingPlace } from "./query";
-
 const seed = "overflow8-a144-population-parts";
 const catalog = districtIdentityCatalog();
 const chamber = "state-lower" as const;
 const place = drawRandomPlace(
   seed,
   (candidate) =>
-    districtsCrossingPlace(catalog, candidate.sourceGeoid, chamber).length > 1,
+    districtsCrossingPlace(catalog, candidate.sourceGeoid, chamber).length >
+      1 &&
+    districtPopulationShares({
+      catalog,
+      placeGeoid: candidate.sourceGeoid!,
+      chamber,
+      asOf: "2026-01-05",
+    }).some((row) => row.populationCount > 0),
 );
 const placeGeoid = place.sourceGeoid!;
 const crossing = districtsCrossingPlace(catalog, placeGeoid, chamber);
@@ -137,17 +138,7 @@ describe(`district population parts in ${place.displayName}, seed ${seed}`, () =
     ).toEqual([]);
     expect(read([])).toEqual([]);
   });
-  it("writes the population-based home estimate through the existing writer and preserves it after reopening", () => {
-    fixture.rows = JSON.stringify(
-      parts.map((row) => [
-        row.placeGeoid,
-        row.chamber,
-        row.boundaryVintage,
-        row.districtGeoid,
-        row.partPopulationCount,
-        row.placePopulationCount,
-      ]),
-    );
+  it("writes the acquired Census population home estimate through the existing writer and preserves it after reopening", () => {
     const { world, personId } = smallWorld({
       place: place.key,
       seed,
@@ -159,7 +150,18 @@ describe(`district population parts in ${place.displayName}, seed ${seed}`, () =
       (row) => row.personId === personId && row.binding.chamber === chamber,
     );
     expect(interval).toBeDefined();
-    expect(interval!.binding.geoid).toBe(parts[0]!.districtGeoid);
+    const acquired = districtPopulationShares({
+      catalog,
+      placeGeoid,
+      chamber,
+      asOf: world.currentDate,
+    });
+    expect(acquired.length).toBeGreaterThan(1);
+    expect(acquired[0]!.populationCount).toBeGreaterThan(0);
+    expect(interval!.binding.geoid).toBe(acquired[0]!.identity.geoid);
+    expect(interval!.provenance.note).toContain(
+      String(acquired[0]!.populationCount),
+    );
     expect(interval!.provenance.note).toContain(
       "ESTIMATED FROM CENSUS POPULATION",
     );
@@ -170,8 +172,57 @@ describe(`district population parts in ${place.displayName}, seed ${seed}`, () =
     expect(serializeWorld(reopened)).toBe(saved);
     expect(assignSplitHomeDistricts(reopened, personId)).toBe(reopened);
   });
+  it("retains acquired zero-count parts with zero shares", () => {
+    const rows = JSON.parse(
+      PLACE_DISTRICT_POPULATION_ROWS,
+    ) as readonly (readonly [
+      string,
+      DistrictChamber,
+      string,
+      string,
+      number,
+      number,
+    ])[];
+    const zeroParts = rows.filter((row) => row[4] === 0);
+    expect(zeroParts.length).toBeGreaterThan(0);
+    const zero = zeroParts.flatMap(([placeGeoid, chamber, , geoid]) =>
+      districtPopulationShares({
+        catalog,
+        placeGeoid,
+        chamber,
+        asOf: "2026-01-05",
+      }).filter(
+        (row) => row.identity.geoid === geoid && row.populationCount === 0,
+      ),
+    );
+    expect(zero.length).toBeGreaterThan(0);
+    expect(zero.every((row) => row.populationShare === 0)).toBe(true);
+  });
 
-  it.todo(
-    "uses the acquired Census population donor through the actual generated export",
-  );
+  it("refuses acquired older congressional rows where the current catalog uses newer lines", () => {
+    const rows = JSON.parse(
+      PLACE_DISTRICT_POPULATION_ROWS,
+    ) as readonly (readonly [
+      string,
+      DistrictChamber,
+      string,
+      string,
+      number,
+      number,
+    ])[];
+    const older = rows.find(
+      ([placeGeoid, chamber, vintage]) =>
+        placeRelationVintageFor(chamber, placeGeoid, "2026-11-03") !== vintage,
+    );
+    expect(older).toBeDefined();
+    const [placeGeoid, chamber] = older!;
+    expect(
+      districtPopulationShares({
+        catalog,
+        placeGeoid,
+        chamber,
+        asOf: "2026-11-03",
+      }),
+    ).toEqual([]);
+  });
 });
