@@ -2,7 +2,9 @@ import readings from "../../../data/research/local-government/county-governing-b
 import acsPlaces from "../../../data/research/money/place-population-acs-2024.json" with { type: "json" };
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import type { GovernmentUnitIdentity } from "../government-units";
-import { lifePlaceByKey } from "../life-places";
+import { municipioUnit } from "../government-units";
+
+export { municipioUnit } from "../government-units";
 
 /**
  * COUNTY GOVERNING BODIES (Build 25, CTO ruling of September 29, 1:54 a.m.):
@@ -191,39 +193,6 @@ function municipioRules(
     citation: code.citation,
     url: code.url,
     inForceSince: code.inForceSince,
-  };
-}
-
-/**
- * A Puerto Rico municipio as a government unit. The Census Bureau's
- * Government Units listing holds no Puerto Rico government, yet each of the
- * 78 municipios is one, with a mayor and a municipal legislature (Municipal
- * Code, Articles 1.012 and 1.020). The identity is keyed by the municipio's
- * GEOID, never a name, and is null where the places corpus has no municipio.
- */
-export function municipioUnit(
-  countyGeoid: string,
-): GovernmentUnitIdentity | null {
-  const usps = Object.keys(MUNICIPAL_CODES).find((key) =>
-    countyGeoid.startsWith(MUNICIPAL_CODES[key]!.stateFips),
-  );
-  if (!usps) return null;
-  const place = lifePlaceByKey(`county:${countyGeoid}`);
-  if (!place || MUNICIPIO_POPULATION[countyGeoid] === undefined) return null;
-  const { name, parentName } = place.context.jurisdiction;
-  const suffix = parentName ? `, ${parentName}` : "";
-  return {
-    id: `municipio:${countyGeoid}`,
-    publisherId: `municipio:${countyGeoid}`,
-    name:
-      suffix && name.endsWith(suffix) ? name.slice(0, -suffix.length) : name,
-    unitType: "county",
-    stateUsps: usps,
-    countyGeoid,
-    placeGeoid: null,
-    publisherPlaceCode: null,
-    functionalActive: true,
-    asOf: "2025-06-30",
   };
 }
 
