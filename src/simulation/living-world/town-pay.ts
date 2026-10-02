@@ -783,26 +783,49 @@ export function recordedCredentialHourlyPay(
       )
       .at(-1);
     if (!payment) continue;
+    const paidSnapshot = {
+      ...snapshot,
+      currentDate: payment.occurredAt,
+      history: { ...snapshot.history, nextSequence: payment.sequence + 1 },
+    };
+    const paidRole = workRoleAt(paidSnapshot, work.id);
+    if (
+      !paidRole ||
+      paidRole.occupationClassification !== role.occupationClassification ||
+      paidRole.locationJurisdictionId !== role.locationJurisdictionId ||
+      !credentials.every((row) =>
+        hasLifePathCredential(paidSnapshot, work.personId, row.programKind),
+      )
+    )
+      continue;
     const terms = resourceFlowTermsAt(snapshot, flow.id, {
       asOfDate: payment.occurredAt,
       historySequenceExclusive: payment.sequence + 1,
     });
     const note = terms ? payNoteOf(terms.cadenceKind) : null;
-    const hours = weeklyHoursOf(role);
+    const hours = weeklyHoursOf(paidRole);
     if (!note || hours <= 0) continue;
     rates.push(
       (payment.transferredAmount.minorUnits * PERIODS_PER_YEAR[note.period]) /
         (52 * hours),
     );
     countedWork.add(work.id);
-    sources.push(work.id, status.id, role.id, flow.id, terms!.id, payment.id);
+    sources.push(
+      work.id,
+      status.id,
+      role.id,
+      paidRole.id,
+      flow.id,
+      terms!.id,
+      payment.id,
+    );
     for (const enrollment of world.history.educationEnrollments.filter(
       (row) =>
         row.personId === work.personId &&
         row.recordedAt <= onDate &&
         row.startedAt <= onDate,
     )) {
-      const state = educationEnrollmentStateAt(snapshot, enrollment.id);
+      const state = educationEnrollmentStateAt(paidSnapshot, enrollment.id);
       if (state?.status === "completed") sources.push(enrollment.id, state.id);
     }
   }

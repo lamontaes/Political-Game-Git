@@ -5,6 +5,7 @@ import {
   createWorkRelationship,
   createEducationEnrollment,
   recordEducationEnrollmentState,
+  recordWorkRole,
 } from "./life";
 import {
   createWorkCompensation,
@@ -268,4 +269,61 @@ it("the same new job and tenure receives different offers only from recorded com
   expect(after.amount.minorUnits).toBe(
     Math.round((credentialQuote.hourlyMinor * 40 * 52) / periods),
   );
+});
+
+it("normalizes paid wages with the role recorded at payment, not a later hours change", () => {
+  const { world, target } = fixture();
+  const before = recordedCredentialHourlyPay(world, target, world.currentDate)!;
+  const peerRole = world.history.workRoles.find(
+    (row) => row.workRelationshipId !== target,
+  )!;
+  const revised = recordWorkRole(world, {
+    stableKey: "a40:later-hours",
+    workRelationshipId: peerRole.workRelationshipId,
+    effectiveAt: world.currentDate,
+    title: peerRole.title,
+    occupationClassification: peerRole.occupationClassification,
+    locationJurisdictionId: peerRole.locationJurisdictionId,
+    timeDemand: {
+      ...peerRole.timeDemand,
+      expectedWeekly: { minimumHours: 20, maximumHours: 20 },
+    },
+    supersedesRoleId: peerRole.id,
+    provenance,
+  });
+  const after = recordedCredentialHourlyPay(
+    revised,
+    target,
+    revised.currentDate,
+  )!;
+  expect(after.hourlyMinor).toBe(before.hourlyMinor);
+  expect(after.sourceRecordIds).toContain(peerRole.id);
+  expect(after.sourceRecordIds).toContain(revised.history.workRoles.at(-1)!.id);
+});
+it("a credential recorded after payment does not retroactively qualify that paid wage", () => {
+  const { world, target } = fixture({ peerComplete: false });
+  let revised = world;
+  for (const enrollment of world.history.educationEnrollments.filter(
+    (row) =>
+      row.personId !==
+      world.history.workRelationships.find((work) => work.id === target)!
+        .personId,
+  )) {
+    const prior = revised.history.educationEnrollmentStates
+      .filter((row) => row.enrollmentId === enrollment.id)
+      .at(-1)!;
+    revised = recordEducationEnrollmentState(revised, {
+      stableKey: `a40:later-completion:${enrollment.id}`,
+      enrollmentId: enrollment.id,
+      effectiveAt: revised.currentDate,
+      status: "completed",
+      contextKind: prior.contextKind,
+      reason: "Controlled completion after recorded payment",
+      supersedesStateId: prior.id,
+      provenance,
+    });
+  }
+  expect(
+    recordedCredentialHourlyPay(revised, target, revised.currentDate),
+  ).toBeNull();
 });
