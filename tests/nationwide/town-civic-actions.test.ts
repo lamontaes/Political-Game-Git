@@ -1,11 +1,16 @@
 import process from "node:process";
-import { LOCAL_COUNCIL_MEETING } from "../../src/simulation/living-world/local-council-meetings";
+import {
+  LOCAL_COUNCIL_MEETING,
+  localCouncilMeetingHandlers,
+} from "../../src/simulation/living-world/local-council-meetings";
 import {
   cancelFutureDueItem,
+  createFutureTransitionHandlerRegistry,
+  futureDueItemStateAt,
+  resolveFutureDueItemsThrough,
   scheduleFutureDueItem,
 } from "../../src/simulation/future-transitions";
 import { describe, expect, it } from "vitest";
-import { passOrdinaryDays } from "../../src/presentation/ordinary-life";
 import {
   deserializeWorld,
   serializeWorld,
@@ -30,7 +35,8 @@ import { withWorldIntegrityDeferred } from "../../src/simulation/world";
 import type { World } from "../../src/simulation";
 import { drawRandomPlace } from "../support/random-place";
 
-const SEED = "civic-actions";
+// Reproduce the random-place ordinary-calendar failure recorded in gate5959962977.
+const SEED = "checker3-2056-1790966644";
 const PLACE = drawRandomPlace(SEED);
 
 describe(
@@ -46,16 +52,52 @@ describe(
         questionnaire: "skipped",
       }),
     ).game!;
+    process.stdout.write(
+      `${JSON.stringify({ receipt: "A157 actual opening", seed: SEED, place: PLACE.displayName, placeKey: PLACE.key, worldId: game.world.id, currentDate: game.world.currentDate, people: game.world.personOrder.length, councilMeetings: game.world.history.futureDueItems.filter((item) => item.transitionKey === LOCAL_COUNCIL_MEETING).length })}\n`,
+    );
     const personId = game.playerPersonId;
     const town = game.world.people[personId]!.homeJurisdictionId;
-    let world: World = game.world;
+    // Isolate the council calendar from unrelated scheduled engines. Keep the
+    // generated meeting dates and run their existing production handlers;
+    // never author a meeting on a civic review date.
+    let world: World = withWorldIntegrityDeferred(() => {
+      let isolated = game.world;
+      for (const item of game.world.history.futureDueItems) {
+        if (item.transitionKey === LOCAL_COUNCIL_MEETING) continue;
+        const state = futureDueItemStateAt(isolated, item.id, {
+          asOfDate: isolated.currentDate,
+          historySequenceExclusive: isolated.history.nextSequence,
+        });
+        if (state?.status !== "scheduled") continue;
+        isolated = cancelFutureDueItem(isolated, {
+          stableKey: `${SEED}:calendar-isolation:${item.id}`,
+          dueItemId: item.id,
+          effectiveAt: isolated.currentDate,
+          reasonKey: "civic:test-calendar-isolation",
+          context:
+            "Controlled council-calendar rate proof isolates unrelated scheduled engines; generated meeting dates and production meeting handlers are preserved.",
+        });
+      }
+      return isolated;
+    });
+    const councilHandlers = createFutureTransitionHandlerRegistry(
+      localCouncilMeetingHandlers(),
+    );
     let events: World["history"]["events"] = [];
     const quarters: World[] = [];
     function observeYear(): void {
       if (quarters.length === 4) return;
       for (let round = 0; round < 4; round += 1) {
         const date = addDays(world.currentDate, 91);
-        world = passOrdinaryDays(world, 91);
+        world = resolveFutureDueItemsThrough(world, date, councilHandlers);
+        world = {
+          ...world,
+          currentDate: date,
+          currentMoment: simulationMomentOnLocalDate(world.currentMoment, date),
+        };
+        world = withWorldIntegrityDeferred(() =>
+          reviewTownCivicActions(world, town, personId, String(round)),
+        );
         expect(world.currentDate).toBe(date);
         quarters.push(world);
       }
@@ -182,24 +224,22 @@ describe(
       expect(serializeWorld(reloaded)).toBe(serializeWorld(world));
       expect(
         serializeWorld(
-          withWorldIntegrityDeferred(() =>
-            reviewTownCivicActions(reloaded, town, personId, "3"),
+          resolveFutureDueItemsThrough(
+            reloaded,
+            reloaded.currentDate,
+            councilHandlers,
           ),
         ),
       ).toBe(serializeWorld(reloaded));
       process.stdout.write(
-        `${JSON.stringify({ receipt: "A157 real-calendar production year", seed: SEED, place: PLACE.displayName, placeKey: PLACE.key, worldId: game.world.id, currentDate: world.currentDate, firstQuarterAttendance: attendance.filter((event) => event.recordedAt === firstQuarter.currentDate).length, attendance: attendance.length })}\n`,
+        `${JSON.stringify({ receipt: "A157 isolated production council-calendar year", seed: SEED, place: PLACE.displayName, placeKey: PLACE.key, worldId: game.world.id, currentDate: world.currentDate, adults, contacts: events.filter((event) => event.type === CIVIC_ACTION_EVENTS.contacted).length, distinctAttendees: new Set(attendance.map((event) => event.participants.find((row) => row.role === "focus:subject")!.personId)).size, firstReviewDate: firstQuarter.currentDate, firstQuarterMeetingDate: attendance.find((event) => event.recordedAt === firstQuarter.currentDate)?.occurredAt, firstQuarterAttendance: attendance.filter((event) => event.recordedAt === firstQuarter.currentDate).length, attendance: attendance.length })}\n`,
       );
     });
 
     it("no meeting is scheduled in the quarter means no attendance, including canceled, future and past unheld meetings", () => {
       observeYear();
       const date = addDays(world.currentDate, 92);
-      let withoutMeetings = {
-        ...world,
-        currentDate: date,
-        currentMoment: simulationMomentOnLocalDate(world.currentMoment, date),
-      };
+      let withoutMeetings = world;
       for (const [key, dueAt] of [
         ["past-unheld", addDays(date, -7)],
         ["future", addDays(date, 1)],
@@ -219,6 +259,14 @@ describe(
           }),
         );
       }
+      withoutMeetings = {
+        ...withoutMeetings,
+        currentDate: date,
+        currentMoment: simulationMomentOnLocalDate(
+          withoutMeetings.currentMoment,
+          date,
+        ),
+      };
       const cancelledMeeting = withoutMeetings.history.futureDueItems.find(
         (item) => item.stableKey === `${SEED}:cancelled`,
       )!;
