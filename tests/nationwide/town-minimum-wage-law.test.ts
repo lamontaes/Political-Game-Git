@@ -34,15 +34,15 @@ import {
   dispositionsFromCounts,
 } from "../../src/simulation/legislation-scenarios";
 import { chamberByKey } from "../../src/simulation/legislature-rules";
+import { recordsWithFieldValue } from "../../src/simulation/history-index";
 import { lifePlaceByKey } from "../../src/simulation/life-places";
 import {
   nextPaydayDate,
   PAYDAY_TRANSITION_KEY,
   paydayHandler,
   payPeriodEndingOn,
-  raiseTownPayToMinimum,
+  payTownPaydays,
   type TownPayPeriod,
-  townMinimumHourly,
   townMinimumHourlyAt,
 } from "../../src/simulation/living-world/town-pay";
 import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/place-population.generated";
@@ -51,12 +51,7 @@ import {
   advanceWorld,
   withWorldIntegrityDeferred,
 } from "../../src/simulation/world";
-import type {
-  EntityId,
-  FutureDueItem,
-  IsoDate,
-  World,
-} from "../../src/simulation";
+import type { EntityId, IsoDate, World } from "../../src/simulation";
 
 const AUTHORED = {
   method: "authored-fixture" as const,
@@ -191,7 +186,7 @@ function omahaWithMinimumWageLaws(bills: readonly MinimumWageBill[]) {
       effectiveAt: addDays(opened, bill.effectiveInDays),
     });
   }
-  return { world, player, opened };
+  return { world, player, opened, measures };
 }
 
 const LB_900: MinimumWageBill = {
@@ -229,14 +224,69 @@ function runPaydays(
         currentDate: payday,
         currentMoment: simulationMomentOnLocalDate(world.currentMoment, payday),
       };
-      world = paydayHandler(world, {
-        stableKey: `town-pay-v2:payday:${paidThrough}`,
-        transitionKey: PAYDAY_TRANSITION_KEY,
-      } as FutureDueItem).world;
+      const due = world.history.futureDueItems.find(
+        (item) =>
+          item.transitionKey === PAYDAY_TRANSITION_KEY &&
+          item.stableKey === `town-pay-v2:payday:${paidThrough}`,
+      );
+      if (!due)
+        throw new Error("Payday fixture requires its actual saved due item.");
+      world = paydayHandler(world, due).world;
       paidThrough = payday;
     }
   });
   return world;
+}
+
+/** Read the law at the actual date without borrowing a later operative term. */
+function rateOn(world: World, jurisdictionId: EntityId, onDate: IsoDate) {
+  return townMinimumHourlyAt(
+    {
+      ...world,
+      currentDate: onDate,
+      currentMoment: simulationMomentOnLocalDate(world.currentMoment, onDate),
+    },
+    jurisdictionId,
+    onDate,
+  );
+}
+
+/** Join the canonical pay consequence to the actual adopted rule and enactment. */
+function expectRuleAuthority(
+  world: World,
+  terms: World["history"]["resourceFlowTerms"][number],
+  measureId: EntityId,
+  bill: MinimumWageBill,
+) {
+  const stamp = terms.lawEffectStamps?.find(
+    (row) => row.effectKind === "pay" && row.governingLawKey === measureId,
+  );
+  expect(stamp).toBeDefined();
+  expect(stamp).toMatchObject({
+    source: "enacted",
+    governingLawKey: measureId,
+    questionKey: null,
+    appliedAt: terms.effectiveAt,
+  });
+  const clause = world.history.ruleChangeProvisions?.find(
+    (row) => row.id === stamp!.ruleAuthority?.ruleChangeProvisionId,
+  );
+  const enactment = world.history.legislativeEnactments?.find(
+    (row) => row.id === stamp!.ruleAuthority?.enactmentId,
+  );
+  expect(clause).toMatchObject({
+    measureId,
+    field: "labor.minimumWage.hourlyCents",
+    value: bill.cents,
+  });
+  expect(enactment).toMatchObject({
+    measureId,
+    outcome: "enacted",
+    actDesignation: bill.designation,
+  });
+  expect(stamp!.sourceRecordIds).toEqual(
+    expect.arrayContaining([clause!.id, enactment!.id]),
+  );
 }
 
 /** The first day of a pay period on or after `date`. */
@@ -259,25 +309,33 @@ describe(
   { timeout: 600_000 },
   () => {
     it("Nebraska raises the floor to $18.00 and every job paid below it is raised from its first pay period after", () => {
-      const { world: enacted, opened } = omahaWithMinimumWageLaws([LB_900]);
+      const {
+        world: enacted,
+        opened,
+        measures,
+      } = omahaWithMinimumWageLaws([LB_900]);
       const effectiveAt = addDays(opened, LB_900.effectiveInDays);
       const omaha = lifePlaceByKey("3137000")!.context.jurisdiction.id;
-      // Nebraska's own rate before the law, the law's rate from its effective date.
-      expect(townMinimumHourlyAt(enacted, omaha, opened)).toBe(
-        townMinimumHourly(omaha),
+      const baseline = omahaWithMinimumWageLaws([]).world;
+      expect(rateOn(enacted, omaha, opened)).toBe(
+        rateOn(baseline, omaha, opened),
       );
-      expect(townMinimumHourly(omaha)).toBeLessThan(18);
-      expect(
-        townMinimumHourlyAt(enacted, omaha, addDays(effectiveAt, -1)),
-      ).toBe(townMinimumHourly(omaha));
-      expect(townMinimumHourlyAt(enacted, omaha, effectiveAt)).toBe(18);
+      expect(rateOn(baseline, omaha, opened)).toBeLessThan(18);
+      expect(rateOn(enacted, omaha, addDays(effectiveAt, -1))).toBe(
+        rateOn(baseline, omaha, addDays(effectiveAt, -1)),
+      );
+      expect(rateOn(enacted, omaha, effectiveAt)).toBe(18);
 
       const world = runPaydays(enacted, opened, 100);
       const payFlows = world.history.resourceFlows.filter((flow) =>
         flow.stableKey.startsWith("town-pay-v2:job-pay:"),
       );
       const raises = world.history.resourceFlowTerms.filter((terms) =>
-        terms.stableKey.includes(":minimum-wage:"),
+        terms.lawEffectStamps?.some(
+          (stamp) =>
+            stamp.effectKind === "pay" &&
+            measures.includes(stamp.governingLawKey),
+        ),
       );
       expect(payFlows.length).toBeGreaterThan(20);
       expect(raises.length).toBeGreaterThan(0);
@@ -295,9 +353,7 @@ describe(
         expect(raise.amount.minorUnits).toBeGreaterThan(
           before.amount.minorUnits,
         );
-        expect(raise.reason).toBe(
-          "LB 900, 2026 raised the state minimum wage to $18.00 an hour.",
-        );
+        expectRuleAuthority(world, raise, measures[0]!, LB_900);
         expect(raise.provenance.kind).toBe("simulated-event");
         for (const paycheck of world.history.resourceTransferOutcomes) {
           if (paycheck.resourceFlowId !== flow.id) continue;
@@ -323,12 +379,16 @@ describe(
       for (const flow of payFlows) {
         if (flow.basisReference.kind !== "work") continue;
         const workId = flow.basisReference.workRelationshipId;
-        const role = world.history.workRoles.findLast(
-          (row) => row.workRelationshipId === workId,
-        )!;
-        const terms = world.history.resourceFlowTerms.findLast(
-          (row) => row.resourceFlowId === flow.id,
-        )!;
+        const role = recordsWithFieldValue(
+          world.history.workRoles,
+          "workRelationshipId",
+          workId,
+        ).at(-1)!;
+        const terms = recordsWithFieldValue(
+          world.history.resourceFlowTerms,
+          "resourceFlowId",
+          flow.id,
+        ).at(-1)!;
         const { minimumHours, maximumHours } = role.timeDemand.expectedWeekly;
         const period = /town-(\w+?)(?:-\d)?$/.exec(terms.cadenceKind)![1]!;
         const floor = Math.round(
@@ -339,14 +399,15 @@ describe(
           floor,
         );
       }
-      // Raising again changes nothing.
-      const player =
-        world.control.kind === "person" ? world.control.personId : null;
-      expect(raiseTownPayToMinimum(world, player)).toBe(world);
+      // Replaying the common payroll writer changes nothing.
+      expect(
+        withWorldIntegrityDeferred(() => payTownPaydays(world, opened, null)),
+      ).toBe(world);
     });
 
     it("reaches Nebraska alone: every other state, D.C. and territory keeps its own rate", () => {
       const { world, opened } = omahaWithMinimumWageLaws([LB_900]);
+      const baseline = omahaWithMinimumWageLaws([]).world;
       const effectiveAt = addDays(opened, LB_900.effectiveInDays);
       const largest = new Map<string, string>();
       const people = new Map<string, number>();
@@ -367,10 +428,10 @@ describe(
       for (const key of largest.values()) {
         const place = lifePlaceByKey(key)!;
         const jurisdiction = place.context.jurisdiction.id;
-        expect(townMinimumHourlyAt(world, jurisdiction, effectiveAt), key).toBe(
+        expect(rateOn(world, jurisdiction, effectiveAt), key).toBe(
           place.stateJurisdictionKey === "US-NE"
             ? 18
-            : townMinimumHourly(jurisdiction),
+            : rateOn(baseline, jurisdiction, effectiveAt),
         );
       }
     });
@@ -382,13 +443,18 @@ describe(
         cents: 2_000,
         effectiveInDays: 75,
       };
-      const { world: enacted, opened } = omahaWithMinimumWageLaws([
-        LB_900,
-        LB_901,
-      ]);
+      const {
+        world: enacted,
+        opened,
+        measures,
+      } = omahaWithMinimumWageLaws([LB_900, LB_901]);
       const world = runPaydays(enacted, opened, 100, false);
       const raises = world.history.resourceFlowTerms.filter((terms) =>
-        terms.stableKey.includes(":minimum-wage:"),
+        terms.lawEffectStamps?.some(
+          (stamp) =>
+            stamp.effectKind === "pay" &&
+            measures.includes(stamp.governingLawKey),
+        ),
       );
       const byFlow = new Map<string, typeof raises>();
       for (const raise of raises)
@@ -400,8 +466,8 @@ describe(
       const twice = [...byFlow.values()].filter((list) => list.length === 2);
       expect(twice.length).toBeGreaterThan(0);
       for (const [first, second] of twice) {
-        expect(first!.reason).toContain("LB 900, 2026");
-        expect(second!.reason).toContain("LB 901, 2026");
+        expectRuleAuthority(world, first!, measures[0]!, LB_900);
+        expectRuleAuthority(world, second!, measures[1]!, LB_901);
         expect(first!.effectiveAt).toBe(
           firstPeriodStart(
             first!.cadenceKind,
