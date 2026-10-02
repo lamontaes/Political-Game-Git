@@ -1,8 +1,14 @@
 import { describe, expect, it } from "vitest";
+import { decideAtDesk } from "../../tests/fixtures/enact-through-desk";
+import { ensureStateExecutiveIncumbent } from "./nationwide-world/state-executives";
+import { governorOfficeForJurisdiction } from "./governing/state-governing";
 
 import { applyLegislativeStep } from "../presentation/legislation-session";
 import { publishLegislativeTransition } from "../presentation/publish-legislative-transition";
-import { candidacyEligibility } from "./candidacy";
+import {
+  candidacyEligibility,
+  electiveOfficesForJurisdiction,
+} from "./candidacy";
 import { addDays, ageOnDate, daysBetween } from "./dates";
 import {
   enactedRuleChanges,
@@ -28,6 +34,25 @@ function enactThrough(
     index < 40 && measurePosition(next, scenario.measureId).phase !== "enacted";
     index++
   ) {
+    if (
+      measurePosition(next, scenario.measureId).phase === "awaiting-executive"
+    ) {
+      // Reuse #1931's canonical seating before the existing actual desk writer.
+      const seated = ensureStateExecutiveIncumbent(
+        next,
+        scenario.playerPersonId,
+        scenario.pack.jurisdictionKey.replace(/^US-/, ""),
+      );
+      const holder = governorOfficeForJurisdiction(
+        seated,
+        scenario.pack.jurisdictionKey,
+      )!.holderPersonId!;
+      next = decideAtDesk(
+        { ...seated, control: { kind: "person", personId: holder } },
+        scenario.measureId,
+      );
+      continue;
+    }
     const step = availableMeasureSteps(next, scenario.measureId).find(
       (key) => key !== "offer-amendment",
     );
@@ -86,6 +111,24 @@ describe("a law passed in the game changes who may stand", () => {
     const operative = advanceWorld(
       enacted,
       daysBetween(enacted.currentDate, addDays(change.operativeAt, 1)),
+    );
+    const projected = electiveOfficesForJurisdiction(
+      jurisdictionId,
+      operative.currentDate,
+      operative,
+    ).find((office) => office.officeKey === officeKey)!;
+    expect(projected.qualification.minimumAge).toMatchObject({
+      kind: "known",
+      value: change.value,
+      source: { citation: change.designation },
+    });
+    const starting = electiveOfficesForJurisdiction(
+      jurisdictionId,
+      scenario.world.currentDate,
+      scenario.world,
+    ).find((office) => office.officeKey === officeKey)!;
+    expect(starting.qualification.minimumAge).not.toEqual(
+      projected.qualification.minimumAge,
     );
     const block = lawBlock(operative);
     expect(block?.reason).toContain(change.designation);

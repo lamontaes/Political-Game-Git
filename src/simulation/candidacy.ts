@@ -10,7 +10,7 @@ import {
   campaignStateJurisdictionKey,
 } from "./campaign-compliance-rules";
 import { activeCampaignForCandidate } from "./campaign-queries";
-import { ageOnDate, completedMonthsBetween } from "./dates";
+import { ageOnDate, completedMonthsBetween, makeIsoDate } from "./dates";
 import { enactedRuleChangeAt } from "./enacted-rule-changes";
 import {
   lifePlaceByJurisdictionId,
@@ -110,6 +110,7 @@ export function localGoverningBodiesForJurisdiction(
 export function electiveOfficesForJurisdiction(
   jurisdictionId: EntityId,
   onDate?: string,
+  world?: World,
 ): readonly ElectiveOfficeOption[] {
   const authority = candidacyAuthority(jurisdictionId);
   const offices = [
@@ -128,6 +129,7 @@ export function electiveOfficesForJurisdiction(
         authority.stateJurisdictionKey,
         officeFamilyForChamberKey(office.officeKey.split(":").at(-1)!),
         onDate,
+        world,
       ),
     },
   }));
@@ -212,7 +214,30 @@ function recordedMinimumAge(
   jurisdictionKey: string | null,
   officeFamily: QualificationOfficeFamily | null,
   onDate: string,
+  world?: World,
 ): RuleValue<number> {
+  const enacted =
+    world && jurisdictionKey
+      ? enactedRuleChangeAt(world, {
+          stateUsps: jurisdictionKey.replace(/^US-/, ""),
+          officeKey: option.officeKey,
+          field: "qualification.minimumAge",
+          onDate: makeIsoDate(onDate),
+        })
+      : null;
+  if (enacted && typeof enacted.value === "number")
+    return knownRule(enacted.value, {
+      authority:
+        enacted.instrument === "constitutional-amendment"
+          ? "constitution"
+          : "statute",
+      citation: enacted.designation,
+      sourceTitle: enacted.designation,
+      sourceUrl: null,
+      retrievedAt: null,
+      verification: "verified",
+      note: "Law recorded in this world and operative on this date.",
+    });
   const row =
     jurisdictionKey === null || officeFamily === null
       ? null
