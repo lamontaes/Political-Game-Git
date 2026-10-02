@@ -19,7 +19,11 @@ import {
   municipalMeasureKey,
   municipalSeats,
 } from "./municipal-public-work";
-import { recordCouncilReadingVote } from "./municipal-ordinance-procedure";
+import {
+  recordCouncilReadingVote,
+  recordCouncilOverrideVote,
+  overrideCouncilVeto,
+} from "./municipal-ordinance-procedure";
 import {
   DC_GOVERNMENT_KEY,
   ensureDistrictOfColumbiaCouncilOpening,
@@ -141,6 +145,50 @@ describe("A82 NPC council veto reenactment through the sitting", () => {
     );
     expect(measurePosition(repeated, measure.id)).toEqual(
       measurePosition(next, measure.id),
+    );
+  });
+  it("keeps the player override action unavailable to an unseated controlled person", () => {
+    const { world, measure, seats } = returnedAct();
+    const result = overrideCouncilVeto(world, {
+      governmentKey: DC_GOVERNMENT_KEY,
+      measureId: measure.id,
+      dispositions: seats.map((seat, index) => ({
+        memberKey: `council:${index + 1}`,
+        personId: seat.personId,
+        disposition: "yea" as const,
+      })),
+      provenance: {
+        method: "authored-fixture",
+        note: "Controlled attempted player vote.",
+        sourceEntityIds: [measure.id],
+      },
+    });
+    expect(result.ok).toBe(false);
+    expect(result.world).toBe(world);
+    expect(measurePosition(result.world, measure.id).phase).toBe(
+      "awaiting-override",
+    );
+  });
+  it("rejects an unseated voter in the shared saved-body writer", () => {
+    const { world, measure, seats, outsider } = returnedAct();
+    const result = recordCouncilOverrideVote(world, {
+      governmentKey: DC_GOVERNMENT_KEY,
+      measureId: measure.id,
+      dispositions: seats.map((seat, index) => ({
+        memberKey: `council:${index + 1}`,
+        personId: index === 0 ? outsider : seat.personId,
+        disposition: "yea" as const,
+      })),
+      provenance: {
+        method: "authored-fixture",
+        note: "Controlled invalid roll call.",
+        sourceEntityIds: [measure.id],
+      },
+    });
+    expect(result.ok).toBe(false);
+    expect(result.world).toBe(world);
+    expect(measurePosition(result.world, measure.id).phase).toBe(
+      "awaiting-override",
     );
   });
 });
