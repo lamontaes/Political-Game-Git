@@ -1437,7 +1437,13 @@ export function recruitLifePathPerson(
     randomness: "none",
     retention: "ephemeral",
   });
-  if (!isSelectedDecision(evaluation))
+  // Meeting the offered pay terms is eligibility, not a recorded intention.
+  // Without an intention, trait reason, or recorded unavailability, keep the
+  // offer pending even while the shared evaluator still selects zero-score ties.
+  if (
+    (!busy && !unwilling && evaluation.context.considerations.length === 0) ||
+    !isSelectedDecision(evaluation)
+  )
     return fail(world, "They have not decided whether to accept this work.");
   const response = evaluation.selectedOptionKey;
   let contextWorld = world;
