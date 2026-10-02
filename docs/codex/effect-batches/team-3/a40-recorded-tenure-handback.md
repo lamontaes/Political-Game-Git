@@ -4,7 +4,7 @@ Town-job initialization now uses its existing recorded-tenure wage position with
 
 ## MERGED
 
-Not merged. Main-based branch codex/team-3-a40-recorded-tenure starts at0022129fa09e48063488587e60c2d3b97bb22384. Root's A33/R34 settlement hooks, state cutoff, pay handler and registry remain untouched. A41's transferred public-body rate hunk remains clean while its offer-position contract is pending.
+Not merged. Main-based branch codex/team-3-a40-recorded-tenure started at0022129fa09e48063488587e60c2d3b97bb22384 and received mainad37703996a45205ff2aec758e7525cdc3a58bbe additively. The tested composition is c8c1551bba8c61c9bb90ffc280cdc7ac3ec95ebc; final publication differs only in this handback receipt. Root's A33/R34 settlement hooks, state cutoff, pay handler and registry remain untouched. A41's transferred public-body rate hunk remains clean while its offer-position contract is pending.
 
 ## WHAT EMERGED
 
@@ -12,7 +12,7 @@ HARDWIRED: townPayPercentile preserves the existing tenure calibration and ignor
 
 ## VITAL STATISTICS
 
-Final native receipt: two complete changed files,64PASS/1TODO in31.01seconds, stock limits and one worker. Three changed scoped type roots loaded1038files with zero diagnostics; changed lint/format/whitespace pass. The seeded56-place initializer controls produced54 actual equal-terms pairs and two no-data refusals (AS and Northern Marianas). Repeat and Save/Continue preserved saved terms, and initialization created no transfer. Existing town-pay tests retain payday, batch-versus-individual tax, employer, death and ended-work checks. This is not a new all56 legal-floor, credential or natural payday claim.
+Current-main native receipt: two complete changed files,64PASS/1TODO in30.39seconds, stock limits and one worker. Three changed scoped type roots loaded1039files with zero diagnostics. Prior final owned-source receipt was64PASS/1TODO in31.01seconds,1038loadedfiles/0diagnostics and changed lint/format/whitespace pass. All these processes are terminal. CTO9:34 now assigns checking to Claude; no further builder gate is run, and final-head gate/acceptance remains with the assigned Claude checker and CTO. The seeded56-place initializer controls produced54 actual equal-terms pairs and two no-data refusals (AS and Northern Marianas). Repeat and Save/Continue preserved saved terms, and initialization created no transfer. Existing town-pay tests retain payday, batch-versus-individual tax, employer, death and ended-work checks. This is not a new all56 legal-floor, credential or natural payday claim.
 
 The first run returned54FAIL/10PASS/1TODO in28.94seconds: new fixture jobs used keys outside the existing town-employment admission namespace. Correcting only those authored fixture keys produced64PASS/1TODO in31.27seconds. Five existing branded-ID type errors in the changed town-pay test were fixed by validated worker/work references and an EntityId annotation; its money assertions are unchanged. A subsequent lint error on the unused compatibility argument was fixed by explicitly discarding it; final runtime/type/lint receipts are terminal. Raw records and logs remain outside the repository.
 
