@@ -80,7 +80,7 @@ import {
   recordedTuitionFreezePrice,
   recordedSchoolTuitionFreezeQuote,
   TUITION_FREEZE_QUESTION,
-} from "./tuition-freeze";
+} from "../../education/tuition-prices";
 
 const seed = "overflow8-a21-coverage-proof";
 const tuitionSource = JSON.parse(

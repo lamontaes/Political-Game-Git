@@ -24,7 +24,7 @@ import {
   TUITION_FREEZE_QUESTION,
   TUITION_GROWTH_PER_YEAR,
   tuitionShareOfCharges,
-} from "./tuition-freeze";
+} from "../../education/tuition-prices";
 
 /* Saved tuition policy alone cannot determine every state fee receipt. */
 

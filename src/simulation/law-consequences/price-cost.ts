@@ -27,7 +27,7 @@ import { organizationProfileAt } from "../life-queries";
 import {
   recordedStudyPeriodTuitionPrice,
   recordedTuitionFreezePrice,
-} from "../public-budgets/tuition-freeze";
+} from "../../education/tuition-prices";
 import {
   TUITION_FREEZE_ROW,
   TUITION_COVERAGE_PREDICATE,
