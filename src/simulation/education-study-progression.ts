@@ -4,6 +4,7 @@ import {
   createResourceFlow,
   money,
   recordResourceTransferOutcome,
+  recordResourceFlowTerms,
 } from "./resources";
 import { resourcePositionAt, resourceFlowTermsAt } from "./resource-queries";
 import { recordEducationEnrollmentState } from "./life";
@@ -321,7 +322,7 @@ export function studyPeriodTuitionOutstanding(
   path: LifePathDefinition,
 ): number {
   const period = completedStudyPeriods(world, enrollmentId, path) + 1;
-  if (period > totalStudyPeriods(path)) return 0;
+  if (period > studyPeriodsPlanned(world, enrollmentId, path)) return 0;
   const frozen = recordedTuitionFreezePrice(world, enrollmentId);
   if (frozen.status === "frozen") {
     const charge = world.history.resourceFlows.find(
@@ -341,7 +342,10 @@ export function studyPeriodTuitionOutstanding(
             (total, outcome) => total + outcome.transferredAmount.minorUnits,
             0,
           );
-        return Math.max(0, terms.amount.minorUnits - paid);
+        return Math.max(
+          0,
+          Math.min(terms.amount.minorUnits, frozen.amountMinor) - paid,
+        );
       }
     }
     const periodCost = path.periodCostMinor ?? 0;
@@ -760,7 +764,33 @@ export function completeStudyPeriod(
     });
     charge = next.history.resourceFlows.at(-1)!;
   }
-  if (charge) cost = resourceFlowTermsAt(next, charge.id)!.amount.minorUnits;
+  if (charge) {
+    const terms = resourceFlowTermsAt(next, charge.id)!;
+    const frozen = recordedTuitionFreezePrice(next, enrollmentId);
+    const alreadyPaid = next.history.resourceTransferOutcomes.some(
+      (outcome) =>
+        outcome.resourceFlowId === charge.id && outcome.status === "completed",
+    );
+    if (
+      frozen.status === "frozen" &&
+      terms.status === "active" &&
+      terms.amount.minorUnits > frozen.amountMinor &&
+      !alreadyPaid
+    ) {
+      next = recordResourceFlowTerms(next, {
+        stableKey: `${charge.stableKey}:tuition-freeze:${terms.id}`,
+        resourceFlowId: charge.id,
+        effectiveAt: next.currentDate,
+        status: "active",
+        amount: money(frozen.amountMinor, terms.amount.currency),
+        cadenceKind: terms.cadenceKind,
+        reason: "Tuition held at its recorded operative-date price.",
+        provenance: authored,
+        supersedesTermsId: terms.id,
+      });
+    }
+    cost = resourceFlowTermsAt(next, charge.id)!.amount.minorUnits;
+  }
   if (cost > 0 && charge && financing)
     next = financeStudentTuitionWithSavedAidFacts(
       next,

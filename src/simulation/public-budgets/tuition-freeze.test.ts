@@ -24,6 +24,7 @@ import {
   TUITION_FREEZE_QUESTION,
   TUITION_GROWTH_PER_YEAR,
   tuitionShareOfCharges,
+  tuitionFreezeFactor,
 } from "./tuition-freeze";
 
 /* Saved tuition policy alone cannot determine every state fee receipt. */
@@ -110,7 +111,7 @@ const samples = Array.from({ length: 5 }, (_, index) => {
   return { seed, place: drawRandomPlace(seed) };
 });
 
-describe("school tuition policy does not invent aggregate state receipts", () => {
+describe("tuition freeze aggregate compatibility while the school route is completed", () => {
   it("opens an ordinary new game in an unfiltered random place", () => {
     const seed = "overflow5-a21-ordinary-opening-all56";
     const place = drawRandomPlace(seed);
@@ -143,7 +144,7 @@ describe("school tuition policy does not invent aggregate state receipts", () =>
       expect(tuitionShareOfCharges(key), key).toBeNull();
   });
   it.each(samples)(
-    "does not infer fee discounts or receipts without school charges in $place.displayName ($seed)",
+    "retains main's tuition factor without inventing cash receipts in $place.displayName ($seed)",
     ({ seed, place }) => {
       const stateKey = place.stateJurisdictionKey;
       if (!stateKey)
@@ -174,7 +175,9 @@ describe("school tuition policy does not invent aggregate state receipts", () =>
         "2027-07-01",
         "2027-08-01",
       ]) {
-        for (const source of BUDGET_SOURCES)
+        for (const source of BUDGET_SOURCES.filter(
+          (source) => source !== "chargesAndFees",
+        ))
           expect(
             taxLawFactor(frozenWorld, frozen, source, makeIsoDate(month)),
             `${place.displayName} ${month} ${source}`,
@@ -188,7 +191,7 @@ describe("school tuition policy does not invent aggregate state receipts", () =>
             "chargesAndFees",
             makeIsoDate(month),
           ),
-        ).toBe(1);
+        ).toBe(tuitionFreezeFactor(frozenWorld, frozen, makeIsoDate(month)));
       }
       // These sparse fixtures have no recorded cash: settlement must not invent receipts.
       expect(frozen.months).toEqual([]);

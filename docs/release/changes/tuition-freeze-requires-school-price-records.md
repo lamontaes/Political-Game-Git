@@ -2,7 +2,7 @@
 id: tuition-freeze-requires-school-price-records
 impact: patch
 section: Fixed
-title: Tuition freeze readers use operative recorded period prices
+title: Tuition freezes cap revised unpaid charges and charge extra study periods
 ---
 
-A tuition freeze no longer changes all state charges and fees using a drawn growth rate or a fixed July 1 calendar. Its reader uses saved state ownership, school location, operative law and study-period charge terms. Missing coverage or price remains unknown. The outstanding-tuition reader preserves existing charge terms and limits new period costs without recouping earlier frozen savings. Ordinary directory schools still need source-backed ownership and location records; no public classification or annual price allocation is inferred.
+The supported-record tuition freeze caps revised unpaid study charges at the operative recorded price through append-only charge terms, preserving historical terms and completed payments. Extra periods required to earn credits remain charged. Main's aggregate tuition effect is retained until the ordinary recorded school-price route is complete. That route still needs sourced school ownership, dated prices and billing allocation; no public classification or annual-to-period division is inferred.

@@ -43,6 +43,7 @@ import {
   statehoodFederalAidFactor,
 } from "./statehood-funds";
 import { federalAidFactor } from "../federal-outlay-laws";
+import { tuitionFreezeFactor } from "./tuition-freeze";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import { principledLeaning } from "../governing/officeholder-principles";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
@@ -631,10 +632,12 @@ export function taxLawFactor(
         (includeCannabis ? cannabisSalesFactor(world, government, onDate) : 1) +
         roadChargeFactor(world, government, onDate, erodedOn) -
         1
-      : source === "federalAid"
-        ? federalAidFactor(world, onDate) *
-          statehoodFederalAidFactor(government, onDate)
-        : 1;
+      : source === "chargesAndFees"
+        ? tuitionFreezeFactor(world, government, onDate)
+        : source === "federalAid"
+          ? federalAidFactor(world, onDate) *
+            statehoodFederalAidFactor(government, onDate)
+          : 1;
   for (const effect of TAX_QUESTION_EFFECTS) {
     if (effect.source !== source) continue;
     if (!(effect.levels ?? ["state"]).includes(government.level)) continue;

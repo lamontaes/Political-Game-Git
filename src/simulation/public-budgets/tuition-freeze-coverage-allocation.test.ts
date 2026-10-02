@@ -218,7 +218,7 @@ describe(`A21 supported saved tuition (${place.displayName}, seed ${seed})`, () 
     expect(serializeWorld(world)).toBe(saved);
   });
 
-  it("reads operative terms rather than a later revision and preserves the existing charge", () => {
+  it("caps a revised unpaid charge at operative terms and preserves prior term records", () => {
     const revised = recordResourceFlowTerms(world, {
       stableKey: "a21:later-price-revision",
       resourceFlowId: baselineFlowId,
@@ -235,15 +235,24 @@ describe(`A21 supported saved tuition (${place.displayName}, seed ${seed})`, () 
       amountMinor: path.periodCostMinor,
     });
     expect(studyPeriodTuitionOutstanding(revised, enrollmentId, path)).toBe(
-      path.periodCostMinor! * 2,
+      path.periodCostMinor!,
     );
     expect(
       resourceFlowTermsAt(revised, baselineFlowId)!.amount.minorUnits,
     ).toBe(path.periodCostMinor! * 2);
     const charged = completeStudyPeriod(revised, enrollmentId, path);
-    expect(resourceFlowTermsAt(charged, baselineFlowId)).toEqual(
-      resourceFlowTermsAt(revised, baselineFlowId),
-    );
+    expect(
+      resourceFlowTermsAt(charged, baselineFlowId)!.amount.minorUnits,
+    ).toBe(path.periodCostMinor);
+    expect(
+      charged.history.resourceFlowTerms.slice(
+        0,
+        revised.history.resourceFlowTerms.length,
+      ),
+    ).toEqual(revised.history.resourceFlowTerms);
+    expect(
+      resourceFlowTermsAt(charged, baselineFlowId)!.supersedesTermsId,
+    ).toBe(resourceFlowTermsAt(revised, baselineFlowId)!.id);
     expect(charged.history.resourceFlows).toEqual(
       revised.history.resourceFlows,
     );
@@ -398,14 +407,14 @@ describe(`A21 supported saved tuition (${place.displayName}, seed ${seed})`, () 
     const savedCharge = tuitionFlow(progressed, 2, laterPath.periodCostMinor);
     expect(
       studyPeriodTuitionOutstanding(savedCharge, enrollmentId, laterPath),
-    ).toBe(laterPath.periodCostMinor);
+    ).toBe(path.periodCostMinor);
     expect(
       studyPeriodTuitionOutstanding(
         deserializeWorld(serializeWorld(savedCharge)),
         enrollmentId,
         laterPath,
       ),
-    ).toBe(laterPath.periodCostMinor);
+    ).toBe(path.periodCostMinor);
   });
 });
 
