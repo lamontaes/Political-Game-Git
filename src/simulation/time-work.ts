@@ -28,6 +28,7 @@ import {
 } from "./dates";
 import { createStableId } from "./ids";
 import { lifeEntityAvailableAt, lifeEntityExists } from "./life-integrity";
+import { pressEntityAvailableAt, pressEntityExists } from "./press/integrity";
 import {
   legislationEntityAvailableAt,
   legislationEntityExists,
@@ -2174,6 +2175,7 @@ function canonicalSourceExists(world: World, id: EntityId): boolean {
     // kind already existed; nothing legislative could satisfy it, so a docket
     // of bills had no way to appear in Work at all.
     legislationEntityExists(world, id) ||
+    pressEntityExists(world, id) ||
     timeWorkEntityExists(world, id)
   );
 }
@@ -2208,6 +2210,9 @@ function canonicalSourceAvailable(
     return lifeEntityAvailableAt(world, id, at.date, sequenceExclusive);
   if (legislationEntityExists(world, id)) {
     return legislationEntityAvailableAt(world, id, at.date, sequenceExclusive);
+  }
+  if (pressEntityExists(world, id)) {
+    return pressEntityAvailableAt(world, id, at.date, sequenceExclusive);
   }
   const record = timeWorkRecordById(world, id);
   return !!record && record.sequence < sequenceExclusive;
