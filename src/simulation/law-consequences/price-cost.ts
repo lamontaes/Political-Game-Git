@@ -3,7 +3,8 @@ import {
   RENT_CAP_TERM,
   RENT_STABILIZATION_ROW,
 } from "./rent-stabilization-row";
-import { townLeases } from "../living-world/town-rent";
+import { townLeases, rentPriceLevel } from "../living-world/town-rent";
+import { addDays } from "../dates";
 import { evaluateLawAmount } from "../law-consequence-amount";
 import type {
   LawAmountExpression,
@@ -161,17 +162,21 @@ export function resolvePriceCostConsequences(
       unit: "ratio",
     });
     if (
-      !categories ||
+      (!categories && law.origin !== "in-force-at-start") ||
       !lease ||
       !dwelling ||
       !cap ||
       !Number.isFinite(cap.value) ||
       cap.value < 0 ||
-      !categories.values.includes(`${lease.regime}:${dwelling.classification}`)
+      (categories
+        ? !categories.values.includes(
+            `${lease.regime}:${dwelling.classification}`,
+          )
+        : lease.regime !== "market")
     )
       return [];
     coverageSourceIds = [
-      ...categories.sourceRecordIds,
+      ...(categories?.sourceRecordIds ?? [law.measureId]),
       lease.tenureId,
       dwelling.id,
     ];
@@ -195,7 +200,7 @@ export function resolvePriceCostConsequences(
   const requestedTerms = requiredTermUnits(row.amount);
   const legalTerms = [];
   for (const [termKey, unit] of requestedTerms) {
-    const term = readFinalEnactedLawTerm(world, law, {
+    let term = readFinalEnactedLawTerm(world, law, {
       questionKey: proposition.stableKey,
       termKey,
       unit,
@@ -207,6 +212,31 @@ export function resolvePriceCostConsequences(
       throw new Error(
         `Price-cost term '${termKey}' differs from its governing law`,
       );
+    if (
+      row.id === RENT_STABILIZATION_ROW.id &&
+      termKey === RENT_CAP_TERM &&
+      law.origin === "in-force-at-start"
+    ) {
+      const offset = readFinalEnactedLawTerm(world, law, {
+        questionKey: proposition.stableKey,
+        termKey: "cap-inflation-offset",
+        unit: "ratio",
+      });
+      if (!offset) return [];
+      const inflation =
+        rentPriceLevel(world, flow.jurisdictionId!, context.onDate) /
+          rentPriceLevel(
+            world,
+            flow.jurisdictionId!,
+            addDays(context.onDate, -365),
+          ) -
+        1;
+      term = {
+        ...term,
+        value: Math.min(term.value, offset.value + inflation),
+        sourceRecordIds: [...term.sourceRecordIds, ...offset.sourceRecordIds],
+      };
+    }
     legalTerms.push({ termKey, term });
   }
   // No catalog parameter declaration is mistaken for an operative numeric value.

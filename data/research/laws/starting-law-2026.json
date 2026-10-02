@@ -2037,6 +2037,20 @@
           "preempts": false,
           "cite": "Cal. Civ. Code § 1947.12 (AB 1482, Tenant Protection Act of 2019)",
           "source": "https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=201920200AB1482",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+              "key": "cap",
+              "value": 0.1,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+              "key": "cap-inflation-offset",
+              "value": 0.05,
+              "unit": "ratio"
+            }
+          ],
           "note": "Caps increases at 5% plus local CPI or 10%, whichever is lower, on most units 15+ years old; exempts qualifying owner-noticed single-family homes and condos; sunsets 2030-01-01."
         },
         "US-CO": {
@@ -2058,6 +2072,20 @@
           "preempts": false,
           "cite": "D.C. Code § 42-3502.08 (Rental Housing Act of 1985)",
           "source": "https://code.dccouncil.gov/us/dc/council/code/sections/42-3502.08",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+              "key": "cap",
+              "value": 0.1,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+              "key": "cap-inflation-offset",
+              "value": 0.02,
+              "unit": "ratio"
+            }
+          ],
           "note": "District-wide rent stabilization covers most pre-1976 units: CPI-W plus 2%, capped at 10%, once per 12 months; lower cap for registered elderly or disabled tenants."
         },
         "US-DE": {
@@ -2279,6 +2307,20 @@
           "preempts": false,
           "cite": "ORS 90.323 (SB 608, 2019; amended by SB 611, 2023)",
           "source": "https://olis.oregonlegislature.gov/liz/2019R1/Downloads/MeasureDocument/SB608/Enrolled",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+              "key": "cap",
+              "value": 0.1,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+              "key": "cap-inflation-offset",
+              "value": 0.07,
+              "unit": "ratio"
+            }
+          ],
           "note": "Cap is 7% plus CPI; SB 611 (effective 2023-07-06) added a 10% ceiling; units under 15 years old are exempt; ORS 91.225 still preempts local rent control."
         },
         "US-PA": {
@@ -2362,6 +2404,20 @@
           "preempts": false,
           "cite": "RCW 59.18 (HB 1217, 2025)",
           "source": "https://www.commerce.wa.gov/housing-policy/hb1217-landlord-resource-center/",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+              "key": "cap",
+              "value": 0.1,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+              "key": "cap-inflation-offset",
+              "value": 0.07,
+              "unit": "ratio"
+            }
+          ],
           "note": "Cap is the lesser of 7% plus CPI or 10% over 12 months (9.683% for 2026); new construction under 15 years exempt; expires 2040-07-01; RCW 35.21.830 still preempts local rent control."
         },
         "US-WI": {

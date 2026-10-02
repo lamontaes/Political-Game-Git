@@ -2,7 +2,7 @@ import type { LawConsequenceRow } from "../law-consequence-types";
 
 export const RENT_STABILIZATION_QUESTION =
   "us-policy-positions:housing-land-use.rent-stabilization";
-export const RENT_CAP_TERM = "annual-rent-cap-ratio";
+export const RENT_CAP_TERM = "cap";
 export const RENT_COVERAGE_PREDICATE = "recorded-rent-tenancy-coverage";
 
 // Closed identifiers of recorded tenancy regimes and dwelling classifications,

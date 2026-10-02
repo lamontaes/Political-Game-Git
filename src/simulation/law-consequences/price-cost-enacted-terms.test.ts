@@ -58,7 +58,7 @@ import type { LawConsequenceRow } from "../law-consequence-types";
 import type { EntityId, World } from "../types";
 
 const QUESTION = "us-policy-positions:housing-land-use.rent-stabilization";
-const TERM = "annual-rent-cap-ratio";
+const TERM = "cap";
 const row: LawConsequenceRow = {
   id: "fixture-final-price-term",
   kind: "price-cost",

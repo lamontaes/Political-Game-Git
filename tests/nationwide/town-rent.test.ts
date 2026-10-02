@@ -21,7 +21,9 @@ import {
 } from "../../src/simulation/cost-of-living";
 import { householdMembershipsAt } from "../../src/simulation/life-queries";
 import { ensureLifePathPersonalPosition } from "../../src/simulation/life-paths2-resources";
-import { money } from "../../src/simulation/resources";
+import { applyLawConsequences } from "../../src/simulation/enacted-law-effects";
+import { readFinalEnactedLawTerm } from "../../src/simulation/governing/automatic-legislation";
+import { money, recordResourceFlowTerms } from "../../src/simulation/resources";
 import { lifePlaceByKey } from "../../src/simulation/life-places";
 import { organizationProfileAt } from "../../src/simulation/life-queries";
 import {
@@ -42,6 +44,7 @@ import {
   RENT_DAY_TRANSITION_KEY,
   RENT_LAW_KEYS,
   renewedMarketRent,
+  rentPriceLevel,
   townLeases,
   townRentSnapshot,
   veryLowIncomeLimit,
@@ -329,7 +332,75 @@ describe("rent day", { timeout: 600_000 }, () => {
     process.stdout.write(
       `A57 actual renewal result: date=${world.currentDate}; marketLeases=${leases.length}; annualRenewals=${renewals.length}; appliedCaps=${capped.length}\n`,
     );
-    // Zero binding caps is an explicit receipt, not a cap-effect pass.
+    // The ordinary run may stay below the ceiling. Challenge that same saved
+    // lease with an explicit over-ceiling renewal request; do not count the
+    // ordinary run as a binding cap when it did not bind.
+    const lease = leases[0]!;
+    const previous = resourceFlowTermsAt(world, lease.flow.id)!;
+    const law = housingLawYes(
+      world,
+      town,
+      RENT_LAW_KEYS.rentStabilization,
+      world.currentDate,
+    )!;
+    const capTerm = readFinalEnactedLawTerm(world, law, {
+      questionKey: RENT_LAW_KEYS.rentStabilization,
+      termKey: "cap",
+      unit: "ratio",
+    })!;
+    const offset = readFinalEnactedLawTerm(world, law, {
+      questionKey: RENT_LAW_KEYS.rentStabilization,
+      termKey: "cap-inflation-offset",
+      unit: "ratio",
+    })!;
+    const inflation =
+      rentPriceLevel(world, town, world.currentDate) /
+        rentPriceLevel(world, town, addDays(world.currentDate, -365)) -
+      1;
+    const cap = Math.min(capTerm.value, offset.value + inflation);
+    expect(cap).toBeGreaterThan(0);
+    const requested = recordResourceFlowTerms(world, {
+      stableKey: `${lease.flow.stableKey}:controlled-over-ceiling-renewal`,
+      resourceFlowId: lease.flow.id,
+      effectiveAt: world.currentDate,
+      status: "active",
+      amount: money(
+        Math.ceil(previous.amount.minorUnits * (1 + 2 * cap)),
+        previous.amount.currency,
+      ),
+      cadenceKind: previous.cadenceKind,
+      reason:
+        "Explicit test request above the sourced ceiling on the actual saved lease.",
+      provenance: {
+        kind: "authored",
+        note: "Controlled renewal challenge; ordinary market result reported separately.",
+      },
+      supersedesTermsId: previous.id,
+    });
+    const result = applyLawConsequences(requested, {
+      activity: "renewal",
+      activityId: requested.history.resourceFlowTerms.at(-1)!.id,
+      subjectIds: [lease.leaseholderId],
+      onDate: world.currentDate,
+      questionKey: RENT_LAW_KEYS.rentStabilization,
+    });
+    const actual = resourceFlowTermsAt(result, lease.flow.id)!;
+    expect(actual.amount.minorUnits).toBe(
+      Math.floor(previous.amount.minorUnits * (1 + cap)),
+    );
+    expect(actual.lawEffectStamps?.[0]?.effectKind).toBe("price-cost");
+    process.stdout.write(
+      `A57 controlled saved-lease renewal: requested=${requested.history.resourceFlowTerms.at(-1)!.amount.minorUnits}; applied=${actual.amount.minorUnits}; prior=${previous.amount.minorUnits}; sourcedCapRatio=${cap}; source=${law.measureId}\n`,
+    );
+    for (const terms of capped) {
+      const requested = world.history.resourceFlowTerms.find(
+        (row) => row.id === terms.supersedesTermsId,
+      )!;
+      expect(terms.amount.minorUnits).toBeLessThan(requested.amount.minorUnits);
+      expect(terms.lawEffectStamps![0]!.sourceRecordIds.length).toBeGreaterThan(
+        0,
+      );
+    }
   });
 
   it("Portland: rent stabilization in force at the start covers private leases", () => {
