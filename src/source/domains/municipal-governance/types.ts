@@ -21,6 +21,13 @@
  * row in `enumeratedPowers`, named, assigned to an actor, and sourced.
  */
 
+import type { ExecutiveRule } from "../../../simulation/legislature-rules";
+
+export type MunicipalVetoOverrideWindow = Extract<
+  NonNullable<ExecutiveRule["vetoOverrideWindow"]>,
+  { readonly kind: "known" }
+>["value"];
+
 import type { Sourced } from "../../core/index";
 
 /** An actor a power or role can belong to. Distinct members, never fused. */
@@ -300,6 +307,7 @@ export interface LegislativeProcedure {
   }>;
   readonly managerElectionThreshold?: Sourced<VoteThreshold>;
   readonly overrideWindowDays?: Sourced<number>;
+  readonly vetoOverrideWindow?: Sourced<MunicipalVetoOverrideWindow>;
   readonly congressionalReviewDays?: Sourced<number>;
   readonly criminalCodeReviewDays?: Sourced<number>;
   readonly effectivePublication: Sourced<string>;

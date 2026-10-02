@@ -885,8 +885,7 @@ export function completeCouncilPassage(
 function councilActionDays(
   world: World,
   measure: LegislativeMeasureRecord,
-  field:
-    "overrideWindowDays" | "congressionalReviewDays" | "criminalCodeReviewDays",
+  field: "congressionalReviewDays" | "criminalCodeReviewDays",
 ): number | null {
   const rule = legislativeRulePackForWorld(world, measure.rulePackId)
     .councilActions?.[field];
@@ -954,17 +953,17 @@ function recordCouncilExecutiveDecision(
   });
   if (action === "signed")
     return enactCouncilMeasure(next, governmentKey, measure);
-  const days = councilActionDays(world, measure, "overrideWindowDays");
-  if (days)
+  const deadline = overrideDeadline(next, governmentKey, measure.id);
+  if (deadline !== null)
     next = scheduleFutureDueItem(next, {
       stableKey: `${measure.stableKey}:override-deadline`,
-      dueAt: addDays(next.currentDate, days + 1),
+      dueAt: addDays(deadline, 1),
       transitionKey: COUNCIL_ACT_OVERRIDE_DEADLINE,
       entityIds: [measure.id],
       jurisdictionId: measure.jurisdictionId,
       provenance: {
         kind: "authored",
-        note: `The council may reenact ${measure.designation} within ${days} calendar days of its return.`,
+        note: `The sourced reenactment window for ${measure.designation} ends on ${deadline}.`,
       },
     });
   return next;
@@ -1093,13 +1092,25 @@ export function overrideDeadline(
   measureId: EntityId,
 ): IsoDate | null {
   const measure = measureOfThisCouncil(world, governmentKey, measureId);
-  const days = measure
-    ? councilActionDays(world, measure, "overrideWindowDays")
-    : null;
+  if (!measure) return null;
+  const window = legislativeRulePackForWorld(world, measure.rulePackId)
+    .executive.vetoOverrideWindow;
+  if (window?.kind !== "known") return null;
+  // A return does not establish receipt by a clerk. That anchor needs its own
+  // saved receipt producer; none is recorded by the executive-action writer.
+  if (window.value.anchor !== "executive-return") return null;
   const vetoed = measureActions(world, measureId)
-    .filter((action) => action.kind === "vetoed")
+    .filter(
+      (action) =>
+        action.kind === "vetoed" &&
+        action.occurredAt <= world.currentDate &&
+        action.sequence < world.history.nextSequence,
+    )
     .at(-1);
-  return days && vetoed ? addDays(vetoed.occurredAt, days) : null;
+  if (!vetoed) return null;
+  return window.value.dayBasis === "BUSINESS"
+    ? addWeekdays(vetoed.occurredAt, window.value.days)
+    : addDays(vetoed.occurredAt, window.value.days);
 }
 
 /** The council votes to reenact a measure the executive returned. */
@@ -1366,6 +1377,12 @@ export function councilActOverrideDeadlineHandler(
   if (!measure) return resolved(world, "No measure matches.");
   if (measurePosition(world, measure.id).phase !== "awaiting-override")
     return resolved(world, "The council already decided.");
+  const governmentKey = councilOfMeasure(measure);
+  const deadline = governmentKey
+    ? overrideDeadline(world, governmentKey, measure.id)
+    : null;
+  if (deadline === null || world.currentDate <= deadline)
+    return resolved(world, "No recorded override window has expired.");
   return resolved(
     recordOverridePeriodExpired(world, {
       stableKey: `${measure.stableKey}:override-expired`,

@@ -70,6 +70,7 @@ import {
   unknownRule,
 } from "./legislature-rules";
 import type {
+  ExecutiveRule,
   FloorStageRule,
   LegislativeRulePack,
   RuleSourceRef,
@@ -165,6 +166,12 @@ export interface MunicipalProcedure {
   } | null;
   readonly managerElectionThreshold?: MunicipalVoteThreshold | null;
   readonly overrideWindowDays?: number | null;
+  readonly vetoOverrideWindow?:
+    | Extract<
+        NonNullable<ExecutiveRule["vetoOverrideWindow"]>,
+        { readonly kind: "known" }
+      >["value"]
+    | null;
   readonly congressionalReviewDays?: number | null;
   readonly criminalCodeReviewDays?: number | null;
   readonly overrideState: string;
@@ -1064,6 +1071,17 @@ export function municipalRulePackFor(
       note: "A municipal legislative body sits as one chamber.",
     },
     executive: {
+      ...(reading.procedure.vetoOverrideWindow
+        ? {
+            vetoOverrideWindow: knownRule(
+              reading.procedure.vetoOverrideWindow,
+              municipalRuleSourceRef(
+                reading,
+                "legislativeProcedure.vetoOverrideWindow",
+              ),
+            ),
+          }
+        : {}),
       titleLabel: executiveTitle,
       presentmentRequired: presentmentRule,
       actionWindowDaysInSession: reading.procedure.mayoralActionWindow

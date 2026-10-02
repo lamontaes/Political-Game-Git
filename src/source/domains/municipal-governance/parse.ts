@@ -181,6 +181,7 @@ export interface MunicipalPackInput {
     readonly financialLocalRule?: Cell;
     readonly managerElectionThreshold?: Cell;
     readonly overrideWindowDays?: Cell;
+    readonly vetoOverrideWindow?: Cell;
     readonly congressionalReviewDays?: Cell;
     readonly criminalCodeReviewDays?: Cell;
     readonly effectivePublication: Cell;
