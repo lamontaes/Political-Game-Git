@@ -101,3 +101,14 @@ Scoped18roots1230deps0/session89523terminal0; receiving-file ESLint/Prettier PAS
 Actual new random production game again drawn4707860, playerperson_245d88c1871cba1b, Jan5,2026, seedteam6-a28-final-bill-new-game-20261002.
 AUDIT branch A2811/11PARTLY preserved; pinnedmainf3795/11 baseline remains historical source, not a new current-main scan. Receiving release check uses actual dependency affd941→HEAD.
 Farm2007 must LAND first; new1997 receiving head requires renewed CTO gate. No PR/main merge, no full suite, browser, new outside scope or official Claude gate run by T6. All source refs, historical failures, and untracked batch08 preserved.
+
+Landed-main receiving renewal, October 2, 2026.
+Farm #2007 merged17:12:02Z as1076b62eabc51faf14740ce7da819634a1b6a810.
+Additive receiving source58ff24c0be7ff79a5f41371daaf5d63889c9497b preserves ae53/affd/3a24 and landedmain1076; no PR/main merge by Team6.
+Actual main1076->source58ff PRdiff14paths;12changedTSroots. Farm producer/test now on main and unchanged in this PR, excluded from renewed run. Earlier70/21path comparisons and farm-first hold are historical.
+Complete six changed files42/42PASS55.82s, session36352exit0, stock one worker. Files: federal-final-bill-terms.test.ts16; public-budgets/federal-treasury.test.ts9; nationwide/federal-outlay-laws.test.ts9; federal-cost-ledger.test.ts1; nationwide/federal-defense-spending-law.test.ts4; nationwide/federal-passenger-rail-law.test.ts3.
+Command: OCD_STORAGE_OVERRIDE='Owner approved cloud storage-reserve bypass 2026-10-02' node scripts/storage/cli.mjs run test -- npx vitest run <exact six files above> --maxWorkers=1.
+Scoped12roots1231deps0/session17693exit0. ESLint/Prettier/whitespacePASS/session8822exit0. Release actual1076->58ff problems[]/session32121exit0.
+Changed test opened actual new production game: seedteam6-a28-final-bill-new-game-20261002, drawnplace4707860, playerperson_245d88c1871cba1b, date2026-01-05.
+AUDIT A28 current pinnedmain1076 6/11 -> branch11/11; PARTLY. Five flips: fixed debt-deal amount/share absent, fixed foreign-aid amount absent, historical defense growth absent, final defense numeric reader present, historical rail ridership projection absent. No audit rules edited.
+Actual aid/debt/defense/rail controlled recorded-base/authority/payment proof retained. No new farm producer, nationwide natural passage, resident-service/browser, unchanged LOAD/fullsuite or official Claude gate. Final continuation changes receipt only; executable source identical to tested58ff. Renewed CTO core review requested; no selfmerge.
