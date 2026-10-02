@@ -1,3 +1,5 @@
+import { childhoodRecordEntries } from "./childhood-record";
+import { recordsByStringField } from "./history-index";
 import { ageOnDate, dateAtAge } from "./dates";
 import {
   annualPovertyLineMinor,
@@ -25,7 +27,10 @@ export type CaregivingClimate =
   | "consistent-firm"
   | "inconsistent"
   | "high-conflict"
-  | "harsh";
+  | "harsh"
+  // A person born in play: no household record says how their caregivers
+  // treated them yet, so nothing is drawn and no tendency is read from it.
+  | "not-recorded";
 export type UpbringingEvent =
   | "parent-death"
   | "parent-separation"
@@ -56,11 +61,21 @@ export interface UpbringingSource {
 
 export interface PersonUpbringing {
   readonly personId: EntityId;
+  /**
+   * "childhood-record": a person born in play, read from their childhood
+   * record, the household pay and the family records with no draw.
+   * "game-profile": an opening-world person whose childhood predates the
+   * world, so named game profiles stand in for what was never recorded.
+   */
+  readonly basis: "childhood-record" | "game-profile";
   readonly money: readonly {
     readonly period: UpbringingPeriod;
     readonly level: FamilyMoney;
     readonly source: UpbringingSource;
   }[];
+  /** 0 to 1: moves / (moves + K). The number readers weigh by. */
+  readonly disruption: number;
+  /** Display only; see `homeStabilityLabel`. */
   readonly homeStability: HomeStability;
   readonly caregiving: CaregivingClimate;
   readonly protectiveCaregiver: boolean;
@@ -71,7 +86,7 @@ export interface PersonUpbringing {
 
 export interface UpbringingTraitTendency {
   readonly trait: string;
-  readonly weight: 1 | 2 | 3;
+  readonly weight: number;
   readonly lifePart: TraitLifePart | null;
   readonly because: string;
   readonly pole: "low" | "high";
@@ -208,6 +223,36 @@ function recordedChildhoodParentDeath(
 }
 
 /**
+ * How disrupted a childhood was, from 0 (no move during a school year) toward
+ * 1 (ever more of them): moves / (moves + K). PLACEHOLDER: K = 2 until the
+ * research on how many school-year moves a child takes in stride is read.
+ * Every reader weighs by this number; nothing flips at a count.
+ */
+const DISRUPTION_K = 2;
+function disruptionFromMoves(moves: number): number {
+  return moves / (moves + DISRUPTION_K);
+}
+
+/**
+ * HARDWIRED display rule: the label a screen may show for a disruption number.
+ * No reader uses it as a weight.
+ */
+function homeStabilityLabel(disruption: number): HomeStability {
+  return disruption === 0
+    ? "stable"
+    : disruption < 0.5
+      ? "some-moves"
+      : "disrupted";
+}
+
+/** What the old profile label stands for, in school-year moves (PLACEHOLDER). */
+const PROFILE_MOVES: Readonly<Record<HomeStability, number>> = {
+  stable: 0,
+  "some-moves": 1,
+  disrupted: 4,
+};
+
+/**
  * The same person in the same world always receives the same upbringing.
  * Existing parent and life records win over profile draws; missing history is
  * filled from named game profiles rather than disguised as sourced fact.
@@ -224,6 +269,32 @@ export function upbringingFor(
   const age = ageOnDate(person.birthDate, world.currentDate);
   const earlyMoney = familyMoneyFor(world, personId, "early-childhood");
   const laterMoney = familyMoneyFor(world, personId, "adolescence");
+  const money = [
+    { period: "early-childhood", ...earlyMoney },
+    { period: "adolescence", ...laterMoney },
+  ] as const;
+  const entries = recordsByStringField(
+    childhoodRecordEntries(world),
+    "personId",
+    personId,
+  );
+  if (entries.some(({ kind }) => kind === "birth")) {
+    const disruption = disruptionFromMoves(
+      entries.filter(({ kind }) => kind === "school-year-move").length,
+    );
+    return {
+      personId,
+      basis: "childhood-record",
+      money,
+      disruption,
+      homeStability: homeStabilityLabel(disruption),
+      caregiving: "not-recorded",
+      protectiveCaregiver: false,
+      events: parentDied ? ["parent-death"] : [],
+      schooling: [],
+      firstJob: "none",
+    };
+  }
   const homeRoll = rng.fork("home").integer(0, 100);
   const homeStability: HomeStability =
     homeRoll < 63 ? "stable" : homeRoll < 86 ? "some-moves" : "disrupted";
@@ -295,10 +366,9 @@ export function upbringingFor(
 
   return {
     personId,
-    money: [
-      { period: "early-childhood", ...earlyMoney },
-      { period: "adolescence", ...laterMoney },
-    ],
+    basis: "game-profile",
+    money,
+    disruption: disruptionFromMoves(PROFILE_MOVES[homeStability]),
     homeStability,
     caregiving,
     protectiveCaregiver,
@@ -310,7 +380,7 @@ export function upbringingFor(
 
 const candidate = (
   trait: string,
-  weight: 1 | 2 | 3,
+  weight: number,
   because: string,
   lifePart: TraitLifePart | null = null,
   pole: "low" | "high" = "high",
@@ -394,25 +464,41 @@ export function upbringingTraitTendencies(
         "family",
       ),
     );
-  if (upbringing.homeStability === "some-moves")
+  // Smooth in the disruption number: learning to adapt is strongest in the
+  // middle (4d(1-d)), the cost of lost homes grows with it (d).
+  const d = upbringing.disruption;
+  const adapting = 4 * d * (1 - d);
+  if (adapting > 0)
     rows.push(
       candidate(
         "personality-v1:method-revision",
-        2,
+        2 * adapting,
         "repeated safe transitions",
       ),
-      candidate("personality-v1:facet-observant", 1, "repeated transitions"),
-      candidate("personality-v1:facet-independent", 1, "repeated transitions"),
+      candidate(
+        "personality-v1:facet-observant",
+        adapting,
+        "repeated transitions",
+      ),
+      candidate(
+        "personality-v1:facet-independent",
+        adapting,
+        "repeated transitions",
+      ),
     );
-  if (upbringing.homeStability === "disrupted")
+  if (d > 0)
     rows.push(
       candidate(
         "personality-v1:facet-nostalgic",
-        2,
+        2 * d,
         "lost homes and relationships",
       ),
-      candidate("personality-v1:facet-guarded", 2, "disruptive moves"),
-      candidate("personality-v1:facet-slow-to-warm-up", 2, "disruptive moves"),
+      candidate("personality-v1:facet-guarded", 2 * d, "disruptive moves"),
+      candidate(
+        "personality-v1:facet-slow-to-warm-up",
+        2 * d,
+        "disruptive moves",
+      ),
     );
   for (const event of upbringing.events) {
     if (event === "parent-death")
@@ -693,12 +779,12 @@ export function upbringingCoreValueFrom(
       score += 1;
     if (upbringing.caregiving === "inconsistent") score -= 1;
   } else if (trait === "risk") {
-    if (
-      upbringing.homeStability === "disrupted" ||
-      upbringing.events.includes("serious-illness")
-    )
-      score -= 1;
+    score -= Math.max(
+      upbringing.disruption,
+      upbringing.events.includes("serious-illness") ? 1 : 0,
+    );
     if (upbringing.firstJob === "autonomy") score += 1;
   }
-  return Math.max(-2, Math.min(2, score)) as TraitValue;
+  // The scale is whole numbers; the score is rounded once, at the very end.
+  return (Math.round(Math.max(-2, Math.min(2, score))) + 0) as TraitValue;
 }
