@@ -80,7 +80,7 @@ describe("what the zero-dice guard reads as a roll, a share or a place case", ()
 
   it("follows a draw stored in a variable until its block ends", () => {
     const source = [
-      "function decide(rng) {",
+      "function decide(rng: SeededRng) {",
       "  const roll = rng.integer(0, 100);",
       "  if (roll < 45) return 'stays';",
       "  return 'goes';",
@@ -91,15 +91,115 @@ describe("what the zero-dice guard reads as a roll, a share or a place case", ()
     ].join("\n");
     expect(
       scanSource(source).map((finding: { line: number }) => finding.line),
-    ).toEqual([3]);
+    ).toEqual([2, 3]);
   });
 
-  it("does not read a shift, an arrow or a draw without a comparison as a roll", () => {
-    expect(kinds("const high = rng.nextUint32() >>> 5;")).toEqual([]);
+  it("reads raw draws while ignoring ordinary arrows and iterators", () => {
+    expect(
+      kinds(
+        "function draw(rng: SeededRng) { const high = rng.nextUint32() >>> 5; }",
+      ),
+    ).toEqual(["roll"]);
     expect(kinds("const pick = items.map((roll) => roll.id);")).toEqual([]);
-    expect(kinds("const spread = 1 + (rng.next() * 2 - 1) * width;")).toEqual(
-      [],
-    );
+    expect(
+      kinds(
+        "function noise(rng: SeededRng) { return 1 + (rng.next() * 2 - 1) * width; }",
+      ),
+    ).toEqual(["roll"]);
+    expect(kinds("const first = values.values().next().value;")).toEqual([]);
+    expect(kinds("const generator = chunks(); generator.next();")).toEqual([]);
+  });
+
+  it("finds the registered-trait pick that needs no threshold", () => {
+    expect(
+      kinds(
+        'import { SeededRng } from "./rng";\nconst stream = new SeededRng(seed).fork(key);\nconst magnitude = stream.pick(trait.seed.spread);',
+      ),
+    ).toEqual(["roll"]);
+  });
+
+  it("follows imported aliases, stream aliases, forks and multiline choices", () => {
+    const source =
+      'import { SeededRng as Random } from "./rng";\nconst first = new Random(seed);\nconst alias = first;\nconst choice = alias.fork(key)\n .pick(\n options,\n );';
+    expect(scanSource(source)).toEqual([
+      { line: 5, kind: "roll", code: ".pick(" },
+    ]);
+  });
+
+  it("follows RNG-returning functions and nullable typed inputs", () => {
+    expect(
+      kinds(
+        "function stream(rng: SeededRng | null): SeededRng { return rng!; }\nconst born = stream(input).integer(\n 1,\n 31\n);",
+      ),
+    ).toEqual(["roll"]);
+  });
+
+  it("follows inferred factories and contextually typed callback RNGs", () => {
+    expect(
+      kinds(
+        "function stream() { return new SeededRng(seed); }\nconst rng = stream();\nrng.integer(1, 31);",
+      ),
+    ).toEqual(["roll"]);
+    expect(
+      kinds(
+        "function withStream(choose: (rng: SeededRng) => string) {}\nwithStream(rng => rng.pick(options));",
+      ),
+    ).toEqual(["roll"]);
+  });
+
+  it("keeps same-name iterator bindings separate from an RNG", () => {
+    expect(
+      kinds(
+        "const rng = new SeededRng(seed);\nrng.next();\nfunction other(rng) { return rng.next(); }",
+      ),
+    ).toEqual(["roll"]);
+  });
+
+  it("reads un-compared Math.random values and distinct-choice helpers", () => {
+    expect(
+      kinds(
+        "const nonce = Math.random() * 256;\nconst chosen = pickDistinct(rng,options,count);",
+      ),
+    ).toEqual(["roll", "roll"]);
+  });
+
+  it("reads draws inside JSX while retaining ordinary TypeScript generics", () => {
+    expect(
+      kinds(
+        "const rng = new SeededRng(seed);\nconst view = <div>{rng.pick(options)}</div>;",
+      ),
+    ).toEqual(["roll"]);
+    expect(
+      kinds(
+        "const identity = <T>(value: T) => value;\nconst rng = new SeededRng(seed);\nidentity(rng.pick(options));",
+      ),
+    ).toEqual(["roll"]);
+  });
+
+  it("reads computed RNG members, destructured methods and helper aliases", () => {
+    expect(
+      kinds(
+        'import { SeededRng, openUniform as uniform } from "./rng";\nconst rng = new SeededRng(seed);\nrng["pick"](options);\nconst {integer: age} = rng;\nage(1,90);\nuniform(rng);',
+      ),
+    ).toEqual(["roll", "roll", "roll"]);
+  });
+
+  it("does not confuse strings, comments, constructors or forks with draws", () => {
+    expect(
+      kinds(
+        'const rng = new SeededRng(seed).fork(key);\n/* rng.pick(options); */\nconst prose = "rng.next() chooses nothing here";',
+      ),
+    ).toEqual([]);
+  });
+
+  it("rejects a newly discovered draw without widening the allowlist", () => {
+    const findings = scanSource(
+      "const rng = new SeededRng(seed);\nrng.pick(options);",
+    ).map((finding) => ({ file: "src/simulation/trait-packs.ts", ...finding }));
+    expect(compare(findings, { entries: [] }).added).toHaveLength(1);
+    expect(
+      growth({ entries: [] }, { entries: [{ ...findings[0]!, count: 1 }] }),
+    ).toHaveLength(1);
   });
 
   it("reads a named chance or share set to a literal as a fixed share", () => {

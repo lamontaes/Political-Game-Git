@@ -6,9 +6,8 @@
  * Scans simulation, presentation and crisis code for three shapes and fails
  * when a change adds one that the allowlist does not already carry:
  *
- *   roll            a seeded or Math.random draw compared with a threshold,
- *                   directly (`rng.next() < 0.3`) or through a variable the
- *                   draw was stored in (`const roll = rng.next(); roll < p`)
+ *   roll            a seeded or Math.random draw, including values, choices
+ *                   and arithmetic noise, plus comparisons using stored draws
  *   fixed-share     a named chance, share, odds, probability, permille or
  *                   likelihood set to a numeric literal other than 0 or 1
  *   place-in-logic  a state or place literal (`"KY"`, `"Kentucky"`,
@@ -29,6 +28,7 @@
 import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { dirname, join, relative, sep } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import ts from "typescript";
 
 export const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 export const ALLOWLIST_PATH = "scripts/zero-dice-allowlist.json";
@@ -168,6 +168,212 @@ function isComment(trimmed) {
   );
 }
 
+/** Read calls across lines; constructors and forks create streams, not draws. */
+function drawCallLines(text) {
+  let source = ts.createSourceFile(
+    "guarded.tsx",
+    text,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TSX,
+  );
+  if (source.parseDiagnostics.length > 0) {
+    source = ts.createSourceFile(
+      "guarded.ts",
+      text,
+      ts.ScriptTarget.Latest,
+      true,
+    );
+  }
+  const host = {
+    getSourceFile: (name) => (name === source.fileName ? source : undefined),
+    getDefaultLibFileName: () => "",
+    writeFile: () => {},
+    getCurrentDirectory: () => "",
+    getDirectories: () => [],
+    fileExists: (name) => name === source.fileName,
+    readFile: () => undefined,
+    getCanonicalFileName: (name) => name,
+    useCaseSensitiveFileNames: () => true,
+    getNewLine: () => "\n",
+  };
+  const checker = ts
+    .createProgram([source.fileName], { noResolve: true, noLib: true }, host)
+    .getTypeChecker();
+  const constructors = new Set(["SeededRng"]);
+  const wrappers = new Set([
+    "draw",
+    "drawPermille",
+    "drawFrom",
+    "unitFor",
+    "openUniform",
+    "standardNormal",
+    "roll",
+    "pickDistinct",
+  ]);
+  const rngSymbols = new Set();
+  const drawSymbols = new Set();
+  const declarations = [];
+  const factories = [];
+  const factorySymbols = new Set();
+  const calls = [];
+  const symbol = (node) => checker.getSymbolAtLocation(node);
+  const member = (node) =>
+    ts.isPropertyAccessExpression(node)
+      ? node.name.text
+      : ts.isElementAccessExpression(node) &&
+          node.argumentExpression &&
+          ts.isStringLiteral(node.argumentExpression)
+        ? node.argumentExpression.text
+        : null;
+  const visit = (node) => {
+    if (ts.isImportSpecifier(node)) {
+      const original = (node.propertyName ?? node.name).text;
+      if (original === "SeededRng") constructors.add(node.name.text);
+      if (wrappers.has(original)) drawSymbols.add(symbol(node.name));
+    }
+    if (ts.isParameter(node) || ts.isVariableDeclaration(node))
+      declarations.push(node);
+    if (
+      ts.isFunctionDeclaration(node) ||
+      ts.isFunctionExpression(node) ||
+      ts.isArrowFunction(node)
+    )
+      factories.push(node);
+    if (ts.isCallExpression(node)) calls.push(node);
+    ts.forEachChild(node, visit);
+  };
+  visit(source);
+  const isRng = (node) => {
+    if (!node) return false;
+    if (
+      ts.isParenthesizedExpression(node) ||
+      ts.isAsExpression(node) ||
+      ts.isNonNullExpression(node)
+    )
+      return isRng(node.expression);
+    if (ts.isIdentifier(node)) {
+      const type = checker.typeToString(checker.getTypeAtLocation(node));
+      return (
+        rngSymbols.has(symbol(node)) ||
+        [...constructors].some((name) => new RegExp(`\\b${name}\\b`).test(type))
+      );
+    }
+    if (ts.isNewExpression(node))
+      return (
+        constructors.has(node.expression.getText(source)) ||
+        member(node.expression) === "SeededRng"
+      );
+    if (ts.isCallExpression(node)) {
+      if (member(node.expression) === "fork")
+        return isRng(node.expression.expression);
+      return (
+        ts.isIdentifier(node.expression) &&
+        (node.expression.text === "worldSetupRng" ||
+          factorySymbols.has(symbol(node.expression)))
+      );
+    }
+    return false;
+  };
+  const rngType = (node) =>
+    node &&
+    (ts.isUnionTypeNode(node)
+      ? node.types.some(rngType)
+      : constructors.has(node.getText(source)) ||
+        node.getText(source).endsWith(".SeededRng"));
+  for (let changed = true; changed;) {
+    changed = false;
+    for (const factory of factories) {
+      const name =
+        factory.name ??
+        (ts.isVariableDeclaration(factory.parent)
+          ? factory.parent.name
+          : undefined);
+      if (!name || !ts.isIdentifier(name) || factorySymbols.has(symbol(name)))
+        continue;
+      let returnsRng =
+        rngType(factory.type) ||
+        (factory.body && !ts.isBlock(factory.body) && isRng(factory.body));
+      const returned = (node) => {
+        if (
+          node !== factory.body &&
+          (ts.isFunctionDeclaration(node) ||
+            ts.isFunctionExpression(node) ||
+            ts.isArrowFunction(node))
+        )
+          return;
+        if (ts.isReturnStatement(node) && isRng(node.expression))
+          returnsRng = true;
+        ts.forEachChild(node, returned);
+      };
+      if (factory.body) returned(factory.body);
+      if (returnsRng) {
+        factorySymbols.add(symbol(name));
+        changed = true;
+      }
+    }
+    for (const declaration of declarations) {
+      if (ts.isIdentifier(declaration.name)) {
+        const typed = rngType(declaration.type);
+        const key = symbol(declaration.name);
+        if (
+          key &&
+          !rngSymbols.has(key) &&
+          (typed || isRng(declaration.initializer))
+        ) {
+          rngSymbols.add(key);
+          changed = true;
+        }
+      } else if (
+        ts.isObjectBindingPattern(declaration.name) &&
+        isRng(declaration.initializer)
+      ) {
+        for (const binding of declaration.name.elements) {
+          const original =
+            binding.propertyName?.getText(source) ??
+            binding.name.getText(source);
+          if (
+            ts.isIdentifier(binding.name) &&
+            ["next", "nextUint32", "integer", "pick", "pickDistinct"].includes(
+              original,
+            )
+          ) {
+            drawSymbols.add(symbol(binding.name));
+          }
+        }
+      }
+    }
+  }
+  const methods = new Set([
+    "next",
+    "nextUint32",
+    "integer",
+    "pick",
+    "pickDistinct",
+  ]);
+  const lines = new Set();
+  for (const call of calls) {
+    const expression = call.expression;
+    const method = member(expression);
+    const receiver = expression.expression;
+    const primitive = methods.has(method) && isRng(receiver);
+    const random =
+      method === "random" &&
+      ts.isIdentifier(receiver) &&
+      receiver.text === "Math";
+    const wrapped =
+      ts.isIdentifier(expression) &&
+      (wrappers.has(expression.text) || drawSymbols.has(symbol(expression)));
+    if (primitive || random || wrapped) {
+      const start = ts.isPropertyAccessExpression(expression)
+        ? expression.name.getStart(source)
+        : expression.getStart(source);
+      lines.add(source.getLineAndCharacterOfPosition(start).line + 1);
+    }
+  }
+  return lines;
+}
+
 /** Collapse whitespace so an allowlist entry survives reindentation. */
 export function normalize(line) {
   return line.trim().replace(/\s+/g, " ");
@@ -209,6 +415,7 @@ export function scannedFiles(root = REPO_ROOT) {
  */
 export function scanSource(text) {
   const findings = [];
+  const drawLines = drawCallLines(text);
   /** Names that hold a draw, with the block depth where each was declared. */
   let drawNames = [];
   let depth = 0;
@@ -226,7 +433,7 @@ export function scanSource(text) {
         new RegExp(
           String.raw`\b(?:${names.join("|")})\b\s*${COMPARE}|${COMPARE}\s*(?:${names.join("|")})\b(?!\s*\()`,
         ).test(code);
-      if (ROLL_DIRECT.test(code) || storedRoll) {
+      if (drawLines.has(index + 1) || ROLL_DIRECT.test(code) || storedRoll) {
         kind = "roll";
       } else if (FIXED_SHARE_TABLE.test(code)) {
         kind = "fixed-share";
