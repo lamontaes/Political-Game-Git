@@ -41,11 +41,11 @@ import { recordedMonthlyPayByPerson } from "../household-pay";
  * Laws that act on these records, read with `lawInForce` for the town:
  *
  * - Rent stabilization caps a renewal's rise on a private landlord's home at
- *   the price level's rise plus five points, at most ten percent, so a
+ *   its actual adopted or sourced cap, where recorded property facts prove coverage, so a
  *   covered tenant's rent outruns their pay less often and they move less
  *   (`town-homes.ts`; measured check in RENT_STABILIZATION_MEASURED). A
  *   year after it comes in, landlords' answer to it raises every market
- *   rent in town (RENT_STABILIZATION_CITYWIDE).
+ *   rent only through recorded market conditions, without a blanket uplift.
  * - An inclusionary housing requirement makes a share of apartments and
  *   rowhouses recorded after it took effect affordable homes, let to
  *   households under the income limit.
@@ -84,7 +84,7 @@ import { createStableId } from "../ids";
 import { createOrganization } from "../life";
 import { organizationProfileAt } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
-import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
+import { lawInForce } from "../governing/law-in-force";
 import type { LawInForce } from "../governing/law-in-force";
 import {
   lawEffectStamp,
@@ -118,6 +118,8 @@ import {
   type RecordResourceTransferOutcomeInput,
 } from "../resources";
 import { SeededRng } from "../rng";
+import { readFinalEnactedLawTerm } from "../governing/final-law-term-query";
+import { rentalCapForFlow } from "../law-consequences/rent-cap";
 import type {
   EntityId,
   FutureDueItem,
@@ -218,23 +220,6 @@ export const HUD_FAMILY_SIZE_FACTORS = [
 ] as const;
 
 /**
- * PLACEHOLDER(research: inclusionary-set-aside). The law's set-aside: the part
- * of the apartments and rowhouses recorded after an inclusionary housing law
- * took effect that it makes affordable. Local laws set 10% to 20%; the game
- * uses one figure. These rent terms are law, not odds: nothing is drawn
- * against them.
- */
-export const INCLUSIONARY_SET_ASIDE = 0.15;
-
-/**
- * Rent stabilization's cap on a renewal: the price level's rise plus five
- * points, at most ten percent. Modeled on California's 2019 statute (Civil
- * Code 1947.12); one rule stands in for every place's own. PLACEHOLDER
- * (research: rent-stabilization-cap-by-place).
- */
-export const RENT_STABILIZATION_CAP = { overPrices: 0.05, most: 0.1 } as const;
-
-/**
  * Measured, a check and never a rule: Diamond, McQuade and Qian 2019 found
  * renters covered by San Francisco's rent control 20% less likely to move.
  * The game's renters move when their rent outruns their pay
@@ -246,46 +231,14 @@ export const RENT_STABILIZATION_MEASURED = {
   source: "Diamond, McQuade and Qian 2019, American Economic Review 109(9)",
 } as const;
 
-/**
- * What rent stabilization does to the rents of the whole town once landlords
- * have had time to answer it: San Francisco's landlords took 15% of covered
- * homes off the rental market, and rents across the city rose 5.1% (Diamond,
- * McQuade and Qian 2019, American Economic Review 109(9); Research 1's table
- * of September 29, 2026). A market lease, new or renewed, is written that
- * much higher from `actsAfterDays` after the law takes effect, the outcome
- * web's twelve-month lag for the supply loss (rent-control-to-rental-supply).
- * A covered renewal is still held to the cap. Only a change from the law the
- * place began with counts: its base rents already carry that law.
- */
-export const RENT_STABILIZATION_CITYWIDE = {
-  rentRise: 0.051,
-  actsAfterDays: 365,
-} as const;
-
-/**
- * How the town's market rents stand against its home prices on `date` from
- * the law enacted in play: above one after rent stabilization comes in,
- * below one after a starting stabilization law is repealed, one otherwise.
- */
+/** Compatibility reading: a policy answer alone supplies no citywide price multiplier. */
 export function rentLawLevel(
-  world: World,
-  town: EntityId,
-  date: IsoDate,
+  _world: World,
+  _town: EntityId,
+  _date: IsoDate,
 ): number {
-  const id = propositionId(world, RENT_LAW_KEYS.rentStabilization);
-  if (!id) return 1;
-  const law = lawInForce(world, town, id, date);
-  if (
-    law?.origin !== "enacted" ||
-    law.operativeAt > addDays(date, -RENT_STABILIZATION_CITYWIDE.actsAfterDays)
-  )
-    return 1;
-  const now = law.answer === "yes";
-  const before = lawInForceAtStart(world, town, id, date) === "yes";
-  if (now === before) return 1;
-  return now
-    ? 1 + RENT_STABILIZATION_CITYWIDE.rentRise
-    : 1 / (1 + RENT_STABILIZATION_CITYWIDE.rentRise);
+  void [_world, _town, _date];
+  return 1;
 }
 
 /** The town's market rent level: its home prices and its rent laws. */
@@ -294,7 +247,7 @@ export function marketRentLevel(
   town: EntityId,
   date: IsoDate,
 ): number {
-  return homePriceLevel(world, town, date) * rentLawLevel(world, town, date);
+  return homePriceLevel(world, town, date);
 }
 
 /**
@@ -1453,23 +1406,33 @@ function inclusionaryHome(
         (row.establishedAt === dwelling.establishedAt &&
           row.id.localeCompare(dwelling.id) <= 0)),
   ).length;
-  if (!inclusionarySetAsideOpen(affordableLet, covered)) return null;
+  const percent = readFinalEnactedLawTerm(world, law, {
+    questionKey: RENT_LAW_KEYS.inclusionary,
+    termKey: "set-aside",
+    unit: "ratio",
+    onDate: dwelling.establishedAt,
+  });
+  if (
+    !percent ||
+    percent.value < 0 ||
+    percent.value > 1 ||
+    !inclusionarySetAsideOpen(affordableLet, covered, percent.value)
+  )
+    return null;
   return { designation: measureDesignation(world, law.measureId), law };
 }
 
 /**
  * Whether the set-aside still owes an affordable home: fewer are let than the
  * set-aside of the covered homes so far, rounded up the way ordinances round a
- * building's affordable units (with 15%, one for the first six homes, two by
- * the seventh).
+ * building's affordable units under the bill's own percentage.
  */
 export function inclusionarySetAsideOpen(
   affordableLet: number,
   coveredHomes: number,
+  setAside: number,
 ): boolean {
-  return (
-    affordableLet < Math.ceil(coveredHomes * INCLUSIONARY_SET_ASIDE - 1e-9)
-  );
+  return affordableLet < Math.ceil(coveredHomes * setAside - 1e-9);
 }
 
 function coveredKind(kind: TownHomeKind): boolean {
@@ -1562,32 +1525,60 @@ function chooseLandlord(
  * A private landlord's renewal: last year's rent moved by the town's market
  * rent level over the year (`homePrices`, the level now over a year ago), held
  * to rent stabilization's cap when it covers the home. The cap reads the
- * general price level's rise (`prices`). Whole dollars, in cents.
+ * final adopted expression and recognized coverage. Proposal is whole dollars, in cents.
  */
 export function renewedMarketRent(
   oldMinor: number,
   homePrices: number,
-  prices: number,
-  stabilized: boolean,
+  input?: {
+    readonly world: World;
+    readonly flow: ResourceFlow;
+    readonly law: LawInForce;
+    readonly onDate: IsoDate;
+  },
 ): {
   readonly amountMinor: number;
   readonly uncappedMinor: number;
   readonly capped: boolean;
-  readonly cap: number;
+  readonly cap: number | null;
+  readonly unresolved: boolean;
 } {
-  const cap = Math.min(
-    RENT_STABILIZATION_CAP.most,
-    prices - 1 + RENT_STABILIZATION_CAP.overPrices,
+  // The final record carries both its cap expression and its coverage.
+  const final = input
+    ? readFinalEnactedLawTerm(input.world, input.law, {
+        questionKey: RENT_LAW_KEYS.rentStabilization,
+        termKey: "cap",
+        unit: "ratio",
+        onDate: input.onDate,
+      })
+    : null;
+  const reading =
+    input && final
+      ? rentalCapForFlow(
+          input.world,
+          input.flow,
+          input.law,
+          RENT_LAW_KEYS.rentStabilization,
+          input.onDate,
+        )
+      : null;
+  const cap = reading?.ratio ?? null;
+  const unresolved = Boolean(
+    input && (!reading || reading.coverage === "unresolved"),
   );
-  const capped = stabilized && homePrices - 1 > cap;
   const uncappedMinor = Math.round((oldMinor * homePrices) / 100) * 100;
+  const capped =
+    cap !== null && uncappedMinor > Math.floor(oldMinor * (1 + cap));
   return {
-    amountMinor: capped
-      ? Math.round((oldMinor * (1 + cap)) / 100) * 100
-      : uncappedMinor,
+    amountMinor: unresolved
+      ? oldMinor
+      : capped
+        ? Math.floor(oldMinor * (1 + cap!))
+        : uncappedMinor,
     uncappedMinor,
     capped,
     cap,
+    unresolved,
   };
 }
 
@@ -1621,7 +1612,7 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
     const old = current.amount.minorUnits;
     let amount = old;
     let reason: string;
-    let provenance: LifeRecordProvenance = PROVENANCE;
+    const provenance: LifeRecordProvenance = PROVENANCE;
     let lawEffectStamps: LawEffectStampedRecord["lawEffectStamps"];
     if (lease.regime === "public") {
       const income = householdMonthlyIncome(
@@ -1667,9 +1658,6 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
       const homePrices =
         marketRentLevel(next, lease.town, dueOn) /
         marketRentLevel(next, lease.town, lastYear);
-      const prices =
-        rentPriceLevel(next, lease.town, dueOn) /
-        rentPriceLevel(next, lease.town, lastYear);
       const rule = housingLawYes(
         next,
         lease.town,
@@ -1679,38 +1667,14 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
       const renewal = renewedMarketRent(
         old,
         homePrices,
-        prices,
-        rule !== null &&
-          landlordKindOf(next, lease.flow.recipient) !== "public",
+        rule
+          ? { world: next, flow: lease.flow, law: rule, onDate: dueOn }
+          : undefined,
       );
-      const { capped, cap } = renewal;
-      amount = renewal.amountMinor;
-      if (capped) {
-        const stamp = lawEffectStamp(rule, {
-          effectKind: "rent-stabilization-renewal",
-          questionKey: RENT_LAW_KEYS.rentStabilization,
-          jurisdictionId: lease.town,
-          appliedAt: dueOn,
-          sourceRecordIds: [
-            lease.flow.id,
-            current.id,
-            lease.tenureId,
-            lease.leaseholderId,
-          ],
-        });
-        if (stamp) lawEffectStamps = [stamp];
-        const uncapped = renewal.uncappedMinor;
-        const designation = measureDesignation(next, rule!.measureId);
-        reason = `Rent stabilization under ${designation} held the increase to ${(cap * 100).toFixed(1)}% (the landlord sought ${dollarsOf(uncapped)}).`;
-        const enactment = next.history.legislativeEnactments?.find(
-          (row) => row.measureId === rule!.measureId,
-        );
-        if (enactment?.outcomeEventId)
-          provenance = {
-            kind: "simulated-event",
-            eventId: enactment.outcomeEventId,
-          };
-      } else reason = "The landlord renewed the lease at this year's rent.";
+      if (renewal.unresolved) continue;
+      // The registered price-cost writer applies the cap and its actual-law stamp.
+      amount = renewal.uncappedMinor;
+      reason = "The landlord proposed renewal at this year's market rent.";
     }
     if (amount === old && lease.regime !== "market") continue;
     next = recordResourceFlowTerms(next, {

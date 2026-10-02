@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+import { rentalFixture } from "../fixtures/rental-cap-world";
+import { describe, expect, it, vi } from "vitest";
 
 import { addDays } from "../../src/simulation/dates";
 import { lawEffectPaths } from "../../src/simulation/governing/law-effect-paths";
@@ -7,13 +8,11 @@ import { stateJurisdictionForKey } from "../../src/simulation/life-places";
 import {
   homePriceLevel,
   homePriceLevels,
-  HOUSING_SUPPLY_LAW_EFFECT,
   HOUSING_SUPPLY_LAWS,
   housingLawEffect,
 } from "../../src/simulation/living-world/housing-market";
 import {
   RENT_LAW_KEYS,
-  RENT_STABILIZATION_CITYWIDE,
   renewedMarketRent,
   rentLawLevel,
 } from "../../src/simulation/living-world/town-rent";
@@ -172,7 +171,7 @@ function stateEnacts(
   } as unknown as World;
 }
 
-describe("a law that lets more homes be built lowers home prices a year after it takes effect", () => {
+describe("housing law answers do not inject a fixed market price push", () => {
   const place = drawRandomPlace("housing-supply-law");
   const town = place.context.jurisdiction.id;
   const state = stateJurisdictionForKey(place.stateJurisdictionKey!)!.id;
@@ -181,7 +180,7 @@ describe("a law that lets more homes be built lowers home prices a year after it
     (row) => row.stableKey === question,
   )!.id;
   const effectiveAt = "2027-07-01" as IsoDate;
-  const acts = addDays(effectiveAt, HOUSING_SUPPLY_LAW_EFFECT.actsAfterDays);
+  const acts = addDays(effectiveAt, 365);
   // The answer the place began with, and the one a change in play gives it.
   const started =
     lawInForceAtStart(
@@ -191,7 +190,6 @@ describe("a law that lets more homes be built lowers home prices a year after it
       effectiveAt,
     ) === "yes";
   const changed = started ? "no" : "yes";
-  const direction = started ? -1 : 1;
 
   it(`${place.displayName} (${place.key}, seed housing-supply-law): nothing before the law has been in force a year`, () => {
     const world = stateEnacts(state, [
@@ -201,14 +199,11 @@ describe("a law that lets more homes be built lowers home prices a year after it
     expect(housingLawEffect(world, town, addDays(acts, -1))).toBe(0);
   });
 
-  it("then prices lower by the measured size when the law allows more homes, higher when a repeal takes that away", () => {
+  it("the law and its repeal supply no unsupported direct price push", () => {
     const world = stateEnacts(state, [
       { question, answer: changed, effectiveAt },
     ]);
-    expect(housingLawEffect(world, town, acts)).toBeCloseTo(
-      direction * HOUSING_SUPPLY_LAW_EFFECT.monthlyLogChange,
-      12,
-    );
+    expect(housingLawEffect(world, town, acts)).toBeCloseTo(0, 12);
     // Both directions: the law repealed a year later puts prices back on
     // their own path once the repeal has been in force a year.
     const repealed = stateEnacts(state, [
@@ -229,7 +224,7 @@ describe("a law that lets more homes be built lowers home prices a year after it
     expect(housingLawEffect(world, town, addDays(acts, 30))).toBe(0);
   });
 
-  it("the home-price level follows the law: lower after it acts than without it", () => {
+  it("the home-price level follows recorded conditions rather than a law-only multiplier", () => {
     const steady = months(
       Array.from({ length: 60 }, () => ({ growthPct: 2, inflationPct: 2.5 })),
     );
@@ -246,24 +241,16 @@ describe("a law that lets more homes be built lowers home prices a year after it
     // the way the law points.
     expect(at(moved, "2028-06-01")).toBe(at(base, "2028-06-01"));
     const parted = Math.log(at(moved, "2030-12-01") / at(base, "2030-12-01"));
-    expect(Math.sign(parted)).toBe(
-      direction * Math.sign(HOUSING_SUPPLY_LAW_EFFECT.monthlyLogChange),
-    );
+    expect(Math.sign(parted)).toBe(0);
   });
 
-  it("in a steady economy, prices end five years later the measured amount lower", () => {
+  it("in a steady economy, a missing market price observation injects no fixed change", () => {
     const steady = months(
       Array.from({ length: 61 }, () => ({ growthPct: 2, inflationPct: 2.5 })),
     );
     const base = homePriceLevels(steady).at(-1)!.level;
-    const moved = homePriceLevels(
-      steady,
-      () => HOUSING_SUPPLY_LAW_EFFECT.monthlyLogChange,
-    ).at(-1)!.level;
-    expect(Math.log(moved / base)).toBeCloseTo(
-      HOUSING_SUPPLY_LAW_EFFECT.fiveYearLogChange,
-      2,
-    );
+    const moved = homePriceLevels(steady, () => 0).at(-1)!.level;
+    expect(Math.log(moved / base)).toBeCloseTo(0, 2);
   });
 
   it("each supply law is a law effect path the unwired-laws list counts", () => {
@@ -286,7 +273,7 @@ describe("rent stabilization raises the town's market rents a year after it take
     (row) => row.stableKey === question,
   )!.id;
   const effectiveAt = "2027-07-01" as IsoDate;
-  const acts = addDays(effectiveAt, RENT_STABILIZATION_CITYWIDE.actsAfterDays);
+  const acts = addDays(effectiveAt, 365);
   const started =
     lawInForceAtStart(
       { policyCatalog: POLICY, history: {} } as unknown as World,
@@ -295,9 +282,9 @@ describe("rent stabilization raises the town's market rents a year after it take
       effectiveAt,
     ) === "yes";
   const changed = started ? "no" : "yes";
-  const raised = 1 + RENT_STABILIZATION_CITYWIDE.rentRise;
+  const raised = 1 + 0;
 
-  it(`${place.displayName} (${place.key}, seed rent-stabilization-citywide): one until the law has been in force a year, then the measured rise`, () => {
+  it(`${place.displayName} (${place.key}, seed rent-stabilization-citywide): no blanket rise before or after the law takes effect`, () => {
     const world = stateEnacts(state, [
       { question, answer: changed, effectiveAt },
     ]);
@@ -325,10 +312,20 @@ describe("rent stabilization raises the town's market rents a year after it take
     expect(rentLawLevel(same, town, addDays(acts, 30))).toBe(1);
   });
 
-  it("a covered renewal in the year rents rise is still held to the cap", () => {
+  it("a controlled covered renewal uses its own typed final cap", () => {
     // Home prices up 4% and the law's rise on top, against prices up 3%:
     // the landlord seeks 9.3%, the cap allows 8%.
-    const renewal = renewedMarketRent(150_000, 1.04 * raised, 1.03, true);
+    const fixture = rentalFixture(place.stateJurisdictionKey!.slice(3), {
+      cap: {
+        op: "constant",
+        value: 0.08,
+        unit: "ratio",
+        sourceIds: ["authored:controlled-cap"],
+      },
+      coverage: { exemptions: [] },
+    });
+    const renewal = renewedMarketRent(150_000, 1.0933, fixture.input);
+    vi.restoreAllMocks();
     expect(renewal.capped).toBe(true);
     expect(renewal.amountMinor).toBe(162_000);
     expect(renewal.uncappedMinor).toBe(164_000);

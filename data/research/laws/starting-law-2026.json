@@ -2279,7 +2279,40 @@
           "preempts": false,
           "cite": "ORS 90.323 (SB 608, 2019; amended by SB 611, 2023)",
           "source": "https://olis.oregonlegislature.gov/liz/2019R1/Downloads/MeasureDocument/SB608/Enrolled",
-          "note": "Cap is 7% plus CPI; SB 611 (effective 2023-07-06) added a 10% ceiling; units under 15 years old are exempt; ORS 91.225 still preempts local rent control."
+          "note": "Cap is 7% plus CPI; SB 611 (effective 2023-07-06) added a 10% ceiling; units under 15 years old are exempt; ORS 91.225 still preempts local rent control.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+              "key": "cap",
+              "value": 0.095,
+              "unit": "ratio",
+              "rentalPriceRule": {
+                "from": "2026-01-01",
+                "through": "2026-12-31",
+                "cap": {
+                  "op": "constant",
+                  "value": 0.095,
+                  "unit": "ratio",
+                  "sourceIds": [
+                    "https://apps.oregon.gov/oregon-newsroom/OR/DAS/Posts/Post/Correction-2026-Rent-Stabilization-Percentages"
+                  ]
+                },
+                "coverage": {
+                  "minimumBuildingAgeYears": 15,
+                  "exemptions": ["affordable-program-adjustment"],
+                  "dwellingClassifications": [
+                    "residential:house",
+                    "residential:apartment",
+                    "residential:rowhouse",
+                    "residential:farmhouse"
+                  ],
+                  "noticeDays": 90
+                }
+              }
+            }
+          ],
+          "numericTermsSource": "https://apps.oregon.gov/oregon-newsroom/OR/DAS/Posts/Post/Correction-2026-Rent-Stabilization-Percentages",
+          "numericTermsNote": "Published 2026 ordinary residential limit approved under CTO R6 Oct 2 2026. Manufactured parks/marinas require separate facility rules and are not covered by this record. No certificate, notice, or program-exemption facts are inferred from representative home stock."
         },
         "US-PA": {
           "answer": "no",

@@ -1,5 +1,5 @@
 {
-  "status": "research_pending_cto_number_approval",
+  "status": "approved_for_typed_runtime_integration_cto_r6_2026_10_02",
   "retrieved_on": "2026-10-01",
   "purpose": "Sourced statutory terms only; no runtime integration or inferred unit eligibility.",
   "units": "All cap numbers are percentages or percentage points, as explicitly labeled. They limit increases, not initial rent levels.",
@@ -132,7 +132,10 @@
           "area": "Riverside-San Bernardino-Ontario",
           "counties": ["Riverside", "San Bernardino"]
         },
-        { "area": "San Diego-Carlsbad", "counties": ["San Diego"] },
+        {
+          "area": "San Diego-Carlsbad",
+          "counties": ["San Diego"]
+        },
         {
           "area": "San Francisco-Oakland-Hayward",
           "counties": [

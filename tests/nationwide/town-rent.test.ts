@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+import { drawRandomPlace } from "../support/random-place";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import {
   generateOpeningLife,
@@ -15,6 +16,10 @@ import {
 } from "../../src/simulation/cost-of-living";
 import { householdMembershipsAt } from "../../src/simulation/life-queries";
 import { ensureLifePathPersonalPosition } from "../../src/simulation/life-paths2-resources";
+import { rentalFixture } from "../fixtures/rental-cap-world";
+afterEach(() => vi.restoreAllMocks());
+const authoredSetAside = 0.15;
+
 import { money } from "../../src/simulation/resources";
 import { lifePlaceByKey } from "../../src/simulation/life-places";
 import { organizationProfileAt } from "../../src/simulation/life-queries";
@@ -29,7 +34,6 @@ import {
   bedroomsForHousehold,
   housingLawYes,
   hudRentRowFor,
-  INCLUSIONARY_SET_ASIDE,
   inclusionarySetAsideOpen,
   publicHousingRentMinor,
   RENT_BASIS,
@@ -133,33 +137,46 @@ describe("rent arithmetic", () => {
     let affordable = 0;
     const taken: number[] = [];
     for (let home = 1; home <= 100; home += 1)
-      if (inclusionarySetAsideOpen(affordable, home)) {
+      if (inclusionarySetAsideOpen(affordable, home, authoredSetAside)) {
         affordable += 1;
         taken.push(home);
       }
     expect(taken.slice(0, 4)).toEqual([1, 7, 14, 21]);
-    expect(taken).toHaveLength(Math.round(100 * INCLUSIONARY_SET_ASIDE));
+    expect(taken).toHaveLength(Math.round(100 * authoredSetAside));
     // A home the set-aside owed but an ineligible household took leaves the
     // debt open for the next home.
-    expect(inclusionarySetAsideOpen(0, 2)).toBe(true);
-    expect(inclusionarySetAsideOpen(1, 6)).toBe(false);
+    expect(inclusionarySetAsideOpen(0, 2, authoredSetAside)).toBe(true);
+    expect(inclusionarySetAsideOpen(1, 6, authoredSetAside)).toBe(false);
   });
 
-  it("caps a stabilized renewal at the price rise plus five points, at most ten", () => {
+  it("reads each explicitly authored final cap instead of a universal formula", () => {
     // Home prices up 9% while prices in general rose 3%.
-    const steep = renewedMarketRent(2000_00, 1.09, 1.03, true);
+    const fixed = (ratio: number) =>
+      rentalFixture(
+        drawRandomPlace("typed-cap-fixture").stateJurisdictionKey!.slice(3),
+        {
+          cap: {
+            op: "constant",
+            value: ratio,
+            unit: "ratio",
+            sourceIds: ["authored:controlled-cap"],
+          },
+          coverage: { exemptions: [] },
+        },
+      ).input;
+    const steep = renewedMarketRent(2000_00, 1.09, fixed(0.08));
     expect(steep.capped).toBe(true);
     expect(steep.cap).toBeCloseTo(0.08);
     expect(steep.amountMinor).toBe(2160_00);
     expect(steep.uncappedMinor).toBe(2180_00);
     // The same renewal without the law follows home prices.
-    const free = renewedMarketRent(2000_00, 1.09, 1.03, false);
+    const free = renewedMarketRent(2000_00, 1.09);
     expect(free.capped).toBe(false);
     expect(free.amountMinor).toBe(steep.uncappedMinor);
     // High inflation: never more than ten percent.
-    expect(renewedMarketRent(2000_00, 1.12, 1.08, true).cap).toBeCloseTo(0.1);
+    expect(renewedMarketRent(2000_00, 1.12, fixed(0.1)).cap).toBeCloseTo(0.1);
     // An ordinary renewal is under the cap and untouched.
-    const ordinary = renewedMarketRent(2000_00, 1.04, 1.03, true);
+    const ordinary = renewedMarketRent(2000_00, 1.04, fixed(0.08));
     expect(ordinary.capped).toBe(false);
     expect(ordinary.amountMinor).toBe(2080_00);
   });

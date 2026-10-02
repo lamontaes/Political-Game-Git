@@ -4,6 +4,7 @@ import type {
 } from "./permit-types";
 import type {
   LawAmountUnit,
+  RentalPriceRule,
   LawConsequenceRow,
   ResolvedHourlyLawPayConsequence,
   ResolvedSavedHourlyPayConsequence,
@@ -3420,6 +3421,21 @@ export interface Dwelling {
   readonly locationLabel: string;
   readonly classification: DwellingClassification;
   readonly provenance: LifeRecordProvenance;
+  /** Recognized property facts; record creation date and estimated age are not certificates. */
+  readonly rentalRegulationFacts?: {
+    readonly certificateOfOccupancyDate?: IsoDate;
+    readonly rentIncreaseNoticeDate?: IsoDate;
+    readonly facilitySpaces?: number;
+    readonly exemptions: Readonly<
+      Partial<
+        Record<
+          "affordable-program-adjustment" | "separate-property-with-notice",
+          boolean
+        >
+      >
+    >;
+    readonly provenance: LifeRecordProvenance;
+  };
 }
 
 export type DwellingOccupant =
@@ -5227,6 +5243,7 @@ export interface LegislativeProvisionRecord {
     readonly key: string;
     readonly value: number;
     readonly unit: LawAmountUnit;
+    readonly rentalPriceRule?: RentalPriceRule;
   }[];
   /** Explicit annual amount; omission preserves older whole-program records. */
   readonly fiscalPeriod?: "annual";
