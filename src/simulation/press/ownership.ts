@@ -377,10 +377,14 @@ export function pressOwnerReviewHandler(
       lastEventId = decided.eventId ?? lastEventId;
       continue;
     }
-    const rng = new SeededRng(world.seed).fork(
-      `${dueItem.stableKey}:${practiceKey}`,
+    const review = reviewRecordedPractice(
+      next,
+      owner,
+      practice,
+      practiceKeyForReview,
     );
-    if (rng.next() >= practice.likelihoodPerReview) continue;
+    next = review.world;
+    if (!review.selected) continue;
     const decided = carryOutPractice(
       next,
       owner,
@@ -398,6 +402,99 @@ export function pressOwnerReviewHandler(
     reasonKey: "press:owner-reviewed",
     context: null,
     outcomeEventId: lastEventId,
+  };
+}
+
+/** A loaded owner practice is a saved preference, not a probability. */
+function reviewRecordedPractice(
+  world: World,
+  owner: MediaOwnerRecord,
+  practice: OwnershipPracticeRow,
+  stableKey: string,
+): { readonly world: World; readonly selected: boolean } {
+  const actorPersonId = owner.principalPersonId;
+  const held = outletsHeldBy(world, owner.id);
+  if (
+    !actorPersonId ||
+    !world.people[actorPersonId] ||
+    !held.length ||
+    owner.establishedAt > world.currentDate ||
+    (world.control.kind === "person" &&
+      world.control.personId === actorPersonId)
+  )
+    return { world, selected: false };
+  const reviewed = recordWorldEvent(world, {
+    stableKey: `${stableKey}:practice-reviewed`,
+    type: "press.owner.practice-reviewed",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: null,
+    involvedEntityIds: [actorPersonId, owner.organizationId],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [
+      PRESS_CONTRACT_VERSION,
+      `press.owner:${owner.id}`,
+      `press.practice:${practice.key}`,
+    ],
+    summary: `${owner.name} reviewed its recorded practice: ${practice.description}`,
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: `Recorded ownership row ${owner.rowKey} includes practice ${practice.key}.`,
+      immediateReaction: null,
+    },
+  });
+  const evaluation = evaluateDecision(reviewed, {
+    stableKey: `${stableKey}:decision`,
+    decisionType: "media.owner-practice",
+    actorPersonId,
+    cutoff: currentResourceCutoff(reviewed),
+    subject: {
+      kind: "entity:organization",
+      key: owner.organizationId,
+      entityId: owner.organizationId,
+    },
+    options: [
+      {
+        key: "apply",
+        label: "Apply recorded practice",
+        description: practice.description,
+      },
+      {
+        key: "wait",
+        label: "Wait",
+        description: "Keep the current newsroom directives.",
+      },
+    ],
+    constraints: [],
+    considerations: [
+      {
+        stableKey: `${stableKey}:recorded-practice`,
+        optionKey: "apply",
+        sourceType: "domain:media-ownership",
+        direction: "supports",
+        importance: "moderate",
+        confidence: "high",
+        explanation: `The saved owner's practice favors this directive: ${practice.description}`,
+        sourceRefs: [
+          {
+            kind: "historical-event",
+            eventId: reviewed.history.events.at(-1)!.id,
+          },
+        ],
+      },
+    ],
+    perceptionIds: [],
+    randomness: "none",
+    retention: "durable",
+  });
+  return {
+    world: recordDurableDecisionTrace(reviewed, evaluation),
+    selected: evaluation.selectedOptionKey === "apply",
   };
 }
 

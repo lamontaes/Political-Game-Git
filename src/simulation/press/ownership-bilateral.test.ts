@@ -44,7 +44,11 @@ type Scenario =
   | "missing-price"
   | "insufficient-cash"
   | "multiple-sales";
-function fixture(usps: string, scenario: Scenario = "ready") {
+function fixture(
+  usps: string,
+  scenario: Scenario = "ready",
+  practiceEffect = "acquire-outlet",
+) {
   const date = makeIsoDate("2026-01-31");
   const worldSeed = `${seed}:${usps}`;
   const state = stateJurisdictionForKey(`US-${usps}`)!;
@@ -78,7 +82,7 @@ function fixture(usps: string, scenario: Scenario = "ready") {
     practices: [
       {
         key: "fixture.acquire",
-        effect: "acquire-outlet",
+        effect: practiceEffect,
         likelihoodPerReview: 0,
         description: "Review recorded sale and funding",
       },
@@ -201,7 +205,7 @@ function fixture(usps: string, scenario: Scenario = "ready") {
     world = appendPressRecord(world, "outlet-ownership", {
       stableKey: `fixture:holding:${index}`,
       outletId: saved.record.id,
-      ownerId: seller.id,
+      ownerId: practiceEffect === "acquire-outlet" ? seller.id : buyer.id,
       basis: "founding-owner",
       effectiveAt: date,
       eventId: null,
@@ -327,5 +331,51 @@ describe("A145 bilateral acquisition consumes saved principals, books and fundin
       ),
     ).toEqual([]);
     assertWorldIntegrity(after);
+  });
+});
+
+describe("A145 recorded owner practice replaces likelihood", () => {
+  it.each(places)(
+    "applies a saved sharing preference with zero likelihood in %s",
+    (usps) => {
+      const f = fixture(usps, "ready", "share-content-across-outlets");
+      const after = pressOwnerReviewHandler(f.world, f.due, f.registry).world;
+      assertWorldIntegrity(after);
+      expect(
+        after.history.decisionTraces.length -
+          f.world.history.decisionTraces.length,
+      ).toBe(1);
+      expect(
+        after.history.events.some(
+          (event) => event.type === "press.owner.directive",
+        ),
+      ).toBe(true);
+      const loaded = deserializeWorld(serializeWorld(after));
+      expect(pressOwnerReviewHandler(loaded, f.due, f.registry).world).toBe(
+        loaded,
+      );
+    },
+  );
+  it("leaves missing principals and controlled principals pending", () => {
+    for (const missing of [true, false]) {
+      const f = fixture(
+        places[0]!,
+        missing ? "missing-buyer-principal" : "ready",
+        "share-content-across-outlets",
+      );
+      const before = missing
+        ? f.world
+        : {
+            ...f.world,
+            control: {
+              kind: "person" as const,
+              personId: f.buyer.principalPersonId!,
+            },
+          };
+      const after = pressOwnerReviewHandler(before, f.due, f.registry).world;
+      expect(after.history.decisionTraces).toBe(before.history.decisionTraces);
+      expect(after.history.events).toBe(before.history.events);
+      assertWorldIntegrity(after);
+    }
   });
 });
