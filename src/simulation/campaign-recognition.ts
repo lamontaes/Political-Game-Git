@@ -2,50 +2,25 @@ import {
   campaignActionResultRecords,
   campaignActions,
 } from "./campaign-queries";
+import { ageOnDate } from "./dates";
+import { eventById } from "./event-index";
+import { recordsByKey } from "./history-index";
 import type { CampaignRecord, EntityId, World } from "./types";
 
-/**
- * How much an afternoon on the doors returns, by who is knocking.
- *
- * lamontae, 2026-09-22 at 8:08 p.m. ET: an unknown candidate, like Jimmy
- * Carter starting out in New Hampshire, gets very little from a door; name
- * recognition snowballs; and someone already popular, already in office, or
- * personally known gets more, and it lasts longer. Before this, every
- * candidate's afternoon was worth the same whoever they were.
- *
- * PLACEHOLDER MAGNITUDES. Every number below is a stand-in chosen to have the
- * right shape, not a measured effect. Filed with ChatGPT as
- * `campaign-effort-to-support-magnitudes` (his ruling is appended there).
- * What it applies:
- * - A candidate nobody has heard of starts at half the ordinary return.
- * - Each afternoon already spent on the doors in this campaign adds a
- *   twentieth, up to the ordinary return: the snowball.
- * - Each race the candidate has won before adds a quarter, up to half again:
- *   the already-known candidate.
- *
- * Marked as not modeled, with the blanket rule applied:
- * - How long a contact's effect lasts. Blanket rule: support moved by a door
- *   stays moved, for everyone alike.
- * - Personal acquaintance with the voter. Blanket rule: none.
- * - Popularity as opposed to recognition. Blanket rule: winning before stands
- *   for both.
- * - Being new to the state (the carpetbagger question). lamontae's own guess,
- *   2026-09-22 at 8:22 p.m. ET, is that voters mostly do not care. Blanket
- *   rule: no effect. Filed as `how-voters-see-a-newcomer-candidate`.
+/** Recognition is the share of recorded adult residents actually met.
+ * The campaign.contact records and their dated events supply the people;
+ * neither finished afternoons nor prior wins invent additional contacts.
+ * This measures the recorded resident cohort, not unrecorded population.
  */
 export const CAMPAIGN_RECOGNITION_PROFILE =
-  "ocd-campaign-recognition-placeholder/v1";
-
-const UNKNOWN_RETURN_PERCENT = 50;
-const PER_AFTERNOON_PERCENT = 5;
-const PER_WIN_PERCENT = 25;
-const MOST_FROM_WINS_PERCENT = 50;
-/** The newcomer hook: 100 means no effect, which is the blanket rule above. */
-const NEWCOMER_RETURN_PERCENT = 100;
+  "recorded-campaign-contact-share/v1";
 
 export interface DoorReturn {
   /** The share of the ordinary return this candidate gets, in percent. */
   readonly percent: number;
+  readonly adultResidentIds: readonly EntityId[];
+  readonly recognizedPersonIds: readonly EntityId[];
+  readonly contactRecordIds: readonly EntityId[];
   readonly afternoonsBefore: number;
   readonly racesWonBefore: number;
   readonly basis: typeof CAMPAIGN_RECOGNITION_PROFILE;
@@ -79,15 +54,67 @@ export function doorKnockingReturn(
       finished.has(action.id),
   ).length;
   const won = racesWonBefore(world, campaign);
-  const recognition = Math.min(
-    100,
-    UNKNOWN_RETURN_PERCENT + afternoonsBefore * PER_AFTERNOON_PERCENT,
+  const adultResidentIds = [...new Set(world.personOrder)].filter((id) => {
+    const person = world.people[id];
+    return (
+      person &&
+      id !== campaign.candidatePersonId &&
+      person.homeJurisdictionId === campaign.jurisdictionId &&
+      ageOnDate(person.birthDate, world.currentDate) >= 18
+    );
+  });
+  const residents = new Set(adultResidentIds);
+  const excludedEvents = new Set(
+    campaignActionResultRecords(world)
+      .filter((result) => result.campaignActionId === excludingActionId)
+      .map((result) => result.outcomeEventId),
   );
-  const standing = Math.min(MOST_FROM_WINS_PERCENT, won * PER_WIN_PERCENT);
+  const recognized = new Set<EntityId>();
+  const contactRecordIds: EntityId[] = [];
+  // Reuse the existing PEOPLE per-person grouping of these same records.
+  for (const contact of recordsByKey(
+    world.history.relationshipInteractions,
+    "relationship-interactions-by-person",
+    (row) => row.personIds,
+    campaign.candidatePersonId,
+  )) {
+    if (
+      !contact.tags.includes("campaign.contact") ||
+      !contact.eventId ||
+      contact.occurredAt > world.currentDate ||
+      excludedEvents.has(contact.eventId)
+    )
+      continue;
+    const event = eventById(world, contact.eventId);
+    if (
+      !event ||
+      event.occurredAt !== contact.occurredAt ||
+      event.occurredAt > world.currentDate
+    )
+      continue;
+    const other = contact.personIds.find(
+      (id) => id !== campaign.candidatePersonId,
+    );
+    if (!other || !residents.has(other)) continue;
+    const present = new Set(
+      event.participants
+        .filter(
+          (row) =>
+            row.role.startsWith("presence:") || row.role.startsWith("agency:"),
+        )
+        .map((row) => row.personId),
+    );
+    if (!present.has(campaign.candidatePersonId) || !present.has(other))
+      continue;
+    recognized.add(other);
+    contactRecordIds.push(contact.id);
+  }
   return {
-    percent: Math.round(
-      ((recognition + standing) * NEWCOMER_RETURN_PERCENT) / 100,
-    ),
+    percent:
+      residents.size === 0 ? 0 : (100 * recognized.size) / residents.size,
+    adultResidentIds,
+    recognizedPersonIds: [...recognized],
+    contactRecordIds,
     afternoonsBefore,
     racesWonBefore: won,
     basis: CAMPAIGN_RECOGNITION_PROFILE,
