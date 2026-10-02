@@ -113,12 +113,15 @@ export function stateIncomeTaxUnderLaw(
     ADOPT_STATE_INCOME_TAX_QUESTION,
     taxYearStart,
   );
-  const graduated = governingLaw(
+  const shapeLaw = governingLaw(
     world,
     state.id,
     GRADUATED_STATE_INCOME_TAX_QUESTION,
     taxYearStart,
   );
+  // A starting shape describes the sourced schedule; it is not a bill that
+  // reshapes a newly adopted tax or overrides an enacted numeric rate.
+  const graduated = shapeLaw?.origin === "enacted" ? shapeLaw : null;
   const begunShape: TaxShape | null =
     place.wageIncomeTax === "flat" || place.wageIncomeTax === "graduated"
       ? place.wageIncomeTax

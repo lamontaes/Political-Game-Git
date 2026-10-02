@@ -4,7 +4,18 @@ import startingLaw from "../../../data/research/laws/starting-law-2026.json" wit
 import incomeTables from "../../../data/research/money/state-income-tax-2026.json" with { type: "json" };
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { stableHash } from "../ids";
-import { lifePlaceStateIdentities } from "../life-places";
+import {
+  lifePlaceStateIdentities,
+  searchLifePlaces,
+  stateJurisdictionForKey,
+} from "../life-places";
+import { placeReferencePopulation } from "../nationwide-world/place-population";
+import { playerTown } from "../living-world/town-residents";
+import {
+  advanceObservedWorld,
+  observerSetup,
+  openObserverWorld,
+} from "../../presentation/observer-world";
 import { lawInForce } from "../governing/law-in-force";
 import { readFinalEnactedLawTerm } from "../governing/final-law-term-query";
 import { createOrganization, createWorkRelationship } from "../life";
@@ -88,6 +99,10 @@ describe("fiscal numeric starting laws reach the existing writers", () => {
       { answer: "no", measureId: null, level: null },
     );
     expect(required).toBeGreaterThan(withoutRequirement);
+    const { requiredContributionShare, ...legacyFullRule } = year.laws.pensions;
+    expect(required).toBe(
+      pensionPayment(year.pensionRequired, year.pensionShare, legacyFullRule),
+    );
     expect(
       year.appropriations[BUDGET_PROGRAMS.indexOf("pensionContribution")],
     ).toBe(required);
@@ -97,14 +112,16 @@ describe("fiscal numeric starting laws reach the existing writers", () => {
         place: selected.jurisdictionKey,
         law: law.measureId,
         pensionRequired: year.pensionRequired,
+        requiredContributionShare,
         recordedAppropriation: required,
         withoutRequirement,
+        deltaAgainstMainImplicitFullRule: 0,
         proof: "adopted budget, not a completed cash payment",
       }) + "\n",
     );
   });
 
-  it("assesses and collects a recorded paycheck under a random real starting flat rate once", () => {
+  it("assesses and collects a controlled recorded paycheck under a random real starting flat rate once", () => {
     const eligible = lifePlaceStateIdentities().filter(
       (place) =>
         (
@@ -262,5 +279,166 @@ describe("fiscal numeric starting laws reach the existing writers", () => {
         amountMinor: payments[0]!.amount.minorUnits,
       }) + "\n",
     );
+  });
+
+  it("withholds a starting flat tax from native pay in a supported random Begin locality", () => {
+    const seed = `${SEED}:natural-pay`;
+    const states = lifePlaceStateIdentities().filter(
+      (place) =>
+        (
+          incomeTables.places as Readonly<
+            Record<string, { wageIncomeTax: string }>
+          >
+        )[place.jurisdictionKey]?.wageIncomeTax === "flat",
+    );
+    const state =
+      states[
+        Number.parseInt(stableHash(seed).slice(0, 8), 16) % states.length
+      ]!;
+    // Bound the physical town size for this changed-file proof, without
+    // selecting residents by income, work, age or tax outcome.
+    const places = searchLifePlaces("", 5000, {
+      stateJurisdictionKey: state.jurisdictionKey,
+      scope: "locality",
+    }).filter((place) => {
+      const population = place.sourceGeoid
+        ? placeReferencePopulation(place.sourceGeoid)?.value
+        : null;
+      return (
+        place.context.jurisdiction.kind === "census-place" &&
+        population != null &&
+        population > 0 &&
+        population <= 1000
+      );
+    });
+    expect(places.length).toBeGreaterThan(0);
+    const place =
+      places[
+        Number.parseInt(stableHash(`${seed}:town`).slice(0, 8), 16) %
+          places.length
+      ]!;
+    const setup = observerSetup(seed, place.key);
+    const opened = openObserverWorld(setup);
+    const homeId =
+      opened.world.people[opened.anchorPersonId]!.homeJurisdictionId!;
+    const due = opened.world.history.futureDueItems.filter(
+      (row) => row.transitionKey === "living-world:payday",
+    );
+    stdout.write(
+      JSON.stringify({
+        proof: "native Begin opening",
+        seed,
+        place: place.key,
+        state: state.jurisdictionKey,
+        person: opened.anchorPersonId,
+        homeId,
+        homeKind: opened.world.jurisdictions[homeId]?.kind,
+        control: opened.world.control.kind,
+        openedAt: opened.world.currentDate,
+        paidWorkIds: opened.world.history.workRelationships
+          .filter((row) => row.compensation === "paid")
+          .slice(0, 10)
+          .map((row) => row.id),
+        recordedPaidWorkCount: opened.world.history.workRelationships.filter(
+          (row) => row.compensation === "paid",
+        ).length,
+        compensationFlowIds: opened.world.history.resourceFlows
+          .filter((row) => row.stableKey.startsWith("town-pay-v2:job-pay:"))
+          .map((row) => row.id),
+        paydayIds: due.map((row) => row.id),
+      }) + "\n",
+    );
+    expect(opened.world.jurisdictions[homeId]?.kind).toBe("census-place");
+    expect(playerTown(opened.world, opened.anchorPersonId)).toBe(homeId);
+    expect(due.length).toBeGreaterThan(0);
+    const world = advanceObservedWorld(opened.world, 14);
+    const nativeFlows = new Set(
+      world.history.resourceFlows
+        .filter((row) => row.stableKey.startsWith("town-pay-v2:job-pay:"))
+        .map((row) => row.id),
+    );
+    const paychecks = world.history.resourceTransferOutcomes.filter(
+      (row) =>
+        nativeFlows.has(row.resourceFlowId) &&
+        row.status === "completed" &&
+        row.transferredAmount.minorUnits > 0,
+    );
+    const paycheckIds = new Set(paychecks.map((row) => row.id));
+    const liabilities = (world.history.statutoryTaxLiabilities ?? []).filter(
+      (row) =>
+        paycheckIds.has(row.sourceOutcomeId) &&
+        row.authorityKey === state.jurisdictionKey &&
+        row.taxKey.endsWith(":wage-income-tax") &&
+        (row.liability?.minorUnits ?? 0) > 0,
+    );
+    const liabilityIds = new Set(liabilities.map((row) => row.id));
+    const payments = (world.history.statutoryTaxPayments ?? []).filter(
+      (row) => liabilityIds.has(row.liabilityId) && row.amount.minorUnits > 0,
+    );
+    stdout.write(
+      JSON.stringify({
+        proof: "native ordinary payday",
+        seed,
+        place: place.key,
+        state: state.jurisdictionKey,
+        through: world.currentDate,
+        paycheckIds: paychecks.map((row) => row.id),
+        liabilities: liabilities.map((row) => ({
+          id: row.id,
+          payer: row.payer,
+          sourceOutcomeId: row.sourceOutcomeId,
+          amount: row.liability,
+          lawMeasureIds: row.lawMeasureIds,
+        })),
+        payments: payments.map((row) => ({
+          id: row.id,
+          liabilityId: row.liabilityId,
+          transferId: row.resourceOutcomeId,
+          amount: row.amount,
+        })),
+      }) + "\n",
+    );
+    expect(paychecks.length).toBeGreaterThan(0);
+    expect(payments.length).toBeGreaterThan(0);
+    const proposition = Object.values(world.policyCatalog.propositions).find(
+      (row) => row.stableKey === ADOPT_STATE_INCOME_TAX_QUESTION,
+    )!;
+    const law = lawInForce(
+      world,
+      stateJurisdictionForKey(state.jurisdictionKey)!.id,
+      proposition.id,
+      world.currentDate,
+    )!;
+    expect(law.origin).toBe("in-force-at-start");
+    for (const liability of liabilities)
+      expect(liability.lawMeasureIds).toContain(law.measureId);
+    for (const payment of payments) {
+      const transfer = world.history.resourceTransferOutcomes.find(
+        (row) => row.id === payment.resourceOutcomeId,
+      )!;
+      expect(transfer.status).toBe("completed");
+      expect(transfer.transferredAmount.minorUnits).toBeGreaterThanOrEqual(
+        payment.amount.minorUnits,
+      );
+    }
+    expect(
+      assessPaychecksTaxes(
+        world,
+        paychecks.map((row) => row.id),
+      ),
+    ).toBe(world);
+    const restored = deserializeWorld(serializeWorld(world));
+    expect(restored.history.statutoryTaxLiabilities).toEqual(
+      world.history.statutoryTaxLiabilities,
+    );
+    expect(restored.history.statutoryTaxPayments).toEqual(
+      world.history.statutoryTaxPayments,
+    );
+    expect(
+      assessPaychecksTaxes(
+        restored,
+        paychecks.map((row) => row.id),
+      ),
+    ).toBe(restored);
   });
 });

@@ -487,11 +487,28 @@ describe("A22 adopted numeric terms reach the existing paycheck writer", () => {
 });
 
 describe("a state's income tax law, as enacted in play", () => {
-  it("changes nothing where no law was enacted in play", () => {
-    for (const key of ["US-WA", "US-OR", "US-CO"])
+  it("keeps sourced schedules and admits a flat starting law's recorded terms", () => {
+    for (const key of ["US-WA", "US-OR"])
       expect(
         stateIncomeTaxUnderLaw(lawWorld("s", []), key, "single", paid),
       ).toEqual({ kind: "as-begun" });
+    const starting = stateIncomeTaxUnderLaw(
+      lawWorld("s", []),
+      "US-CO",
+      "single",
+      paid,
+    );
+    expect(starting.kind).toBe("enacted");
+    if (starting.kind !== "enacted") throw new Error(starting.kind);
+    expect(starting.schedule.brackets).toEqual(
+      stateIncomeTax2026.places["US-CO"].brackets.map((row) => ({
+        overMinor: row.overSingle * 100,
+        rateBasisPoints: Math.round(row.ratePercent * 100),
+      })),
+    );
+    expect(starting.lawMeasureIds).toContain(
+      `starting-law:US-CO:${ADOPT_STATE_INCOME_TAX_QUESTION}`,
+    );
   });
 
   it("ends the withholding when a taxing state repeals its tax", () => {
@@ -616,7 +633,9 @@ describe("a state's income tax law, as enacted in play", () => {
     const barred = enacted(stateId("US-CO"), GRADUATED, "yes", "2027-01-01");
     expect(
       stateIncomeTaxUnderLaw(lawWorld("s", [barred]), "US-CO", "single", paid),
-    ).toEqual({ kind: "as-begun" });
+    ).toEqual(
+      stateIncomeTaxUnderLaw(lawWorld("s", []), "US-CO", "single", paid),
+    );
     // A "yes" on the shape of a state that is already graduated changes
     // nothing.
     const oregon = enacted(stateId("US-OR"), GRADUATED, "yes", "2027-01-01");
