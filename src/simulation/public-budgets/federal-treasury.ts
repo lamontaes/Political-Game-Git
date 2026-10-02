@@ -127,17 +127,6 @@ const CONTRACTS_SHARE_OF_DEFENSE =
 
 export const FEDERAL_LAW_EFFECTS: readonly FederalLawEffect[] = [
   {
-    questionKey: "us-federal-positions:tax.raise-top-income-tax-rate",
-    line: { kind: "receipt", key: "individualIncomeTax" },
-    // 2.6 points on the $1.216 trillion taxed at 37% in tax year 2022,
-    // against the $2.099 trillion of income tax after credits that year.
-    toYes: (0.026 * 1_216_136_265) / 2_098_923_017,
-    toNo: null,
-    timing: "tax-year",
-    basis:
-      "A top rate of 39.6% instead of 37% collects 2.6 cents more on each dollar taxed in the top bracket: $31.6 billion on the $1.216 trillion taxed at 37% in tax year 2022, 1.51% of that year's individual income tax after credits (IRS Statistics of Income, Publication 1304, Table 3.4). The estimate is static: it leaves out any change in what top earners report.",
-  },
-  {
     questionKey: INCREASE_FOREIGN_AID_QUESTION,
     line: { kind: "outlay", key: "internationalAffairs" },
     toYes: outlayTerms.foreignAid.medianRise,

@@ -28,8 +28,9 @@ import {
 
 /**
  * The federal books: each month collects and spends a twelfth of fiscal
- * 2025, borrows the gap, and pays interest on what it owes; a federal law on
- * the top income tax rate moves the income tax line from the next tax year.
+ * 2025, borrows the gap, and pays interest on what it owes. This retained
+ * historical projection no longer prices a top-rate law; actual income tax
+ * receipts are the common account's saved paycheck collections.
  * Read over hand-written laws: the treasury reads nothing but the catalog
  * and the laws.
  */
@@ -149,7 +150,7 @@ describe("the federal treasury", () => {
     expect(first!.laws).toEqual([]);
   });
 
-  it("collects 1.51% more income tax from the tax year after a top-rate raise, and stops after a repeal", () => {
+  it("does not manufacture additional income receipts or debt savings from a top-rate law", () => {
     const raise = enacted("yes", "2026-04-01");
     const repeal = enacted("no", "2028-07-01");
     const months = ["2026-12-01", "2027-01-01", "2028-12-01", "2029-01-01"];
@@ -158,23 +159,11 @@ describe("the federal treasury", () => {
     const ratio = (index: number) =>
       withLaws[index]!.receipts[income]! / none[index]!.receipts[income]!;
     expect(ratio(0)).toBe(1);
-    expect(ratio(1)).toBeCloseTo(1.0151, 4);
-    expect(ratio(2)).toBeCloseTo(1.0151, 4);
+    expect(ratio(1)).toBe(1);
+    expect(ratio(2)).toBe(1);
     expect(ratio(3)).toBe(1);
-    expect(withLaws[1]!.laws).toEqual([
-      {
-        questionKey: RAISE_TOP_FEDERAL_RATE_QUESTION,
-        measureId: raise.measure.id,
-        line: "individualIncomeTax",
-        amount: withLaws[1]!.receipts[income]! - none[1]!.receipts[income]!,
-      },
-    ]);
-    // 1.51% of a twelfth of fiscal 2025's $2,656.0 billion: about $3.3 billion
-    // a month, which the government no longer borrows.
-    expect(withLaws[1]!.laws[0]!.amount / 1e9).toBeCloseTo(3.34, 1);
-    expect(withLaws[3]!.debtHeldByPublic).toBeLessThan(
-      none[3]!.debtHeldByPublic,
-    );
+    expect(withLaws.every((row) => row.laws.length === 0)).toBe(true);
+    expect(withLaws[3]!.debtHeldByPublic).toBe(none[3]!.debtHeldByPublic);
   });
 
   it("spends 6.72% more on international affairs under a foreign aid law, and $150 billion a year less under debt-limit cuts", () => {
