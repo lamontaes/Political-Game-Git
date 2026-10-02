@@ -5,10 +5,8 @@ import {
   activeWorkRelationshipsAt,
   organizationProfileAt,
 } from "../simulation/life-queries";
-import {
-  adultStartEmployer,
-  localBusinessesIn,
-} from "../simulation/local-economy";
+import { adultStartEmployer } from "../simulation/recorded-adult-employer";
+import { townBusinesses } from "../simulation/living-world/town-businesses";
 import { createExplicitGeographyLife } from "./new-game-geography";
 import { observerPlace } from "./observer-world";
 import { letAdultTimePass } from "./adult-life";
@@ -44,7 +42,7 @@ describe("a grown-up new life", () => {
       const job = jobs[0]!;
       const home = world.people[personId]!.homeJurisdictionId;
       expect(
-        localBusinessesIn(world, home).map((b) => b.organization.id),
+        townBusinesses(world, home).map((b) => b.organizationId),
         label,
       ).toContain(job.relationship.organizationId);
       expect(job.relationship.startedAt < world.currentDate, label).toBe(true);

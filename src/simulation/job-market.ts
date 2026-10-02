@@ -19,7 +19,10 @@ import {
   workStatusAt,
 } from "./life-queries";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
-import { adultStartEmployer, localBusinessWageMinor } from "./local-economy";
+import {
+  adultStartEmployer,
+  recordedAdultEmployerMonthlyWage,
+} from "./recorded-adult-employer";
 import { governmentUnit } from "./government-units";
 import { governmentUnitDisplayName } from "./nationwide-world/government-unit-names";
 import {
@@ -1705,6 +1708,11 @@ export function hireAtAdultStart(
   if (activeWorkRelationshipsAt(world, person.id).length > 0) return world;
   const employer = adultStartEmployer(world, person.id, input.jurisdictionId);
   if (!employer) return world;
+  const monthly = recordedAdultEmployerMonthlyWage(
+    employer.kind,
+    input.jurisdictionId,
+  );
+  if (monthly === null) return world;
   const lastEnded = world.history.workRelationships
     .filter((work) => work.personId === person.id)
     .flatMap((work) => {
@@ -1750,10 +1758,6 @@ export function hireAtAdultStart(
     },
   });
   const work = next.history.workRelationships.at(-1)!;
-  const monthly = localBusinessWageMinor(
-    employer.kind,
-    input.jurisdictionId,
-  ).monthlyMinor;
   const weekly = weeklyPayAtHire(
     next,
     person.id,
