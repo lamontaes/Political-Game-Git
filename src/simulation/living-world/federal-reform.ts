@@ -15,10 +15,10 @@ import {
   type TermLimitRule,
 } from "../enacted-rule-changes";
 import { scheduleFutureDueItem } from "../future-transitions";
-import { considerationScore, evaluateDecision } from "../decisions";
 import {
   CONSTITUTIONAL_BAR,
   congressVoters,
+  constitutionalMemberConsiderations,
   type Voter,
 } from "../governing/article-v";
 import {
@@ -38,7 +38,6 @@ import type { ConstitutionalRatificationChamberVote } from "../constitutional-ty
 import { seatedCongressChamber } from "../governing/congress-chambers";
 import { ensureOfficeholderPrinciples } from "../governing/officeholder-principles";
 import { relationshipConsiderations } from "../governing/standing-considerations";
-import { currentHistoricalCutoff } from "../queries";
 import {
   NATIONAL_ELECTION_JURISDICTION,
   ensureNationalElectionJurisdiction,
@@ -413,10 +412,11 @@ export function decideArticleVStateMemberVotes(
     constitutionalPosition(world, measureId).phase !== "ratification" ||
     !pack ||
     !ARTICLE_V_STATE_KEYS.includes(pack.jurisdictionKey) ||
-    !holder ||
-    delta?.kind !== "rule-field" ||
-    delta.officeKey !== PRESIDENT_OFFICE_KEY ||
-    delta.field !== "executive.term.limit"
+    (delta?.kind !== "policy-provision" &&
+      (!holder ||
+        delta?.kind !== "rule-field" ||
+        delta.officeKey !== PRESIDENT_OFFICE_KEY ||
+        delta.field !== "executive.term.limit"))
   )
     return null;
   const rosters = pack.chambers.map((body) => ({
@@ -438,13 +438,16 @@ export function decideArticleVStateMemberVotes(
       ),
     ),
   );
-  const cause = {
-    direction:
-      delta.applicability?.appliesTo === "immediately"
-        ? ("extend" as const)
-        : ("restore" as const),
-    holderPersonId: holder,
-  };
+  const cause =
+    delta?.kind === "rule-field" && holder
+      ? {
+          direction:
+            delta.applicability?.appliesTo === "immediately"
+              ? ("extend" as const)
+              : ("restore" as const),
+          holderPersonId: holder,
+        }
+      : null;
   return {
     world: next,
     chambers: rosters.map(({ bodyKey, roster }) => {
@@ -470,14 +473,21 @@ export function decideArticleVStateMemberVotes(
                 ? [
                     [
                       member.memberKey,
-                      termLimitConsiderations(
-                        next,
-                        {
-                          memberKey: member.memberKey,
-                          personId: member.personId,
-                        },
-                        cause,
-                      ),
+                      delta?.kind === "policy-provision"
+                        ? constitutionalMemberConsiderations(
+                            next,
+                            member.personId,
+                            delta.propositionId,
+                            delta.stance === "adopt" ? "yes" : "no",
+                          )
+                        : termLimitConsiderations(
+                            next,
+                            {
+                              memberKey: member.memberKey,
+                              personId: member.personId,
+                            },
+                            cause!,
+                          ),
                     ] as const,
                   ]
                 : [],
@@ -578,64 +588,6 @@ const PRESIDENT: TermLimitHolder = {
   decisionType: "governing.presidential-term-limit-vote",
   keyWord: "president",
 };
-
-/**
- * How a member votes on an officeholder's term limit. HAND-SET weights on the
- * shared decision scale: the officeholder's party "strong", a relationship at
- * its recorded strength, the constitutional bar "moderate".
- */
-export function termLimitBallot(
-  world: World,
-  stableKey: string,
-  voter: Voter,
-  cause: {
-    readonly direction: "extend" | "restore";
-    readonly holderPersonId: EntityId;
-  },
-  holder: TermLimitHolder = PRESIDENT,
-  extra: readonly DecisionConsideration[] = [],
-): { readonly ballot: "yea" | "nay" | "absent"; readonly reason: string } {
-  const player =
-    world.control.kind === "person" ? world.control.personId : null;
-  if (voter.personId === player)
-    return { ballot: "absent", reason: "member:player-not-asked" };
-  const considerations = termLimitConsiderations(
-    world,
-    voter,
-    cause,
-    holder,
-    extra,
-  );
-  const evaluation = evaluateDecision(world, {
-    stableKey,
-    decisionType: holder.decisionType,
-    actorPersonId: voter.personId,
-    cutoff: currentHistoricalCutoff(world),
-    subject: {
-      kind: "context:constitutional-amendment",
-      key: stableKey,
-      entityId: null,
-    },
-    options: [
-      { key: "vote-yea", label: "Vote yes", description: "Propose it." },
-      { key: "vote-nay", label: "Vote no", description: "Leave it out." },
-    ],
-    constraints: [],
-    considerations,
-    perceptionIds: [],
-    randomness: "none",
-    retention: "ephemeral",
-  });
-  const ballot = evaluation.selectedOptionKey === "vote-yea" ? "yea" : "nay";
-  const reason =
-    considerations
-      .filter((c) => c.optionKey === `vote-${ballot}`)
-      .sort(
-        (a, b) =>
-          Math.abs(considerationScore(b)) - Math.abs(considerationScore(a)),
-      )[0]?.stableKey ?? "member:no-reason";
-  return { ballot, reason };
-}
 
 /** Existing term-limit reasons, also used by actual state chamber rollcalls. */
 export function termLimitConsiderations(

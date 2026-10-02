@@ -27,10 +27,7 @@ import {
   scheduleLegislativeTerm,
   createLegislativeTermTransitionRegistry,
 } from "./legislative-office-terms";
-import {
-  stateGoverningHandlers,
-  withProgramMatters,
-} from "./governing/state-governing";
+import { stateGoverningHandlers } from "./governing/state-governing";
 import { publicProgramHandlers } from "./governing/public-program";
 import { publicServiceHandlers } from "./public-service-producer";
 import { enactedDutyHandlers } from "./enacted-duties";
@@ -2217,7 +2214,7 @@ export function composeWorldTimeHandlers(
           ...localMemberAgendaHandlers(),
           // The player's town council meeting and voting on ordinances.
           ...localCouncilMeetingHandlers(),
-        ].map(([key, handler]) => [key, withProgramMatters(handler)] as const),
+        ],
         ...publicProgramHandlers(),
         // Residents ask for a paid public service, then take part in it.
         ...publicServiceHandlers(),

@@ -16,8 +16,9 @@ import {
 } from "../vitality";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import { recordOfficialContinuity } from "./continuity";
+import { CONDITION_PACK_KEY, packCondition } from "./condition-pack";
 import { MULTIPLIER_ONE } from "./hazard";
-import { crisisMortalityWindowAt, scheduleMortalityWithin } from "./mortality";
+import { crisisMortalityWindowAt, scheduleStrainOnset } from "./mortality";
 import { publicOfficesHeldBy } from "./offices";
 import {
   activeHealthEpisodes,
@@ -27,7 +28,7 @@ import {
 import {
   appendCrisisRecord,
   crisisRecordId,
-  crisisRecords,
+  crisisRecordIndex,
   healthAccessRank,
 } from "./records";
 import {
@@ -88,6 +89,11 @@ export interface BeginHealthEpisodeInput {
   /** Hazard change while active; defaults to no represented change. */
   readonly hazard?: { readonly micros: number; readonly basis: string };
   readonly course?: readonly HealthCourseStep[];
+  /**
+   * The installed pack's condition this episode is, when its origin is the
+   * condition pack (./condition-pack.ts). The episode is then labeled with it.
+   */
+  readonly conditionKey?: string;
 }
 
 const LIMITATION_CAPACITY: Record<
@@ -108,7 +114,7 @@ export function visibilityForAccess(access: HealthAccess): EventVisibility {
 }
 
 function episodeRecord(world: World, episodeId: EntityId): HealthEpisodeRecord {
-  const record = crisisRecords(world).find((r) => r.id === episodeId);
+  const record = crisisRecordIndex(world).get(episodeId);
   if (!record || record.kind !== "health-episode")
     throw new Error(`Unknown health episode: ${episodeId}`);
   return record;
@@ -245,7 +251,7 @@ function refreshMortality(
 ): World {
   const window = crisisMortalityWindowAt(world, world.currentDate);
   if (!window) return world;
-  return scheduleMortalityWithin(
+  return scheduleStrainOnset(
     world,
     personId,
     world.currentDate,
@@ -295,9 +301,18 @@ export function beginHealthEpisode(
     })
   )
     throw new Error("A deceased person cannot begin a health episode.");
-  if (input.origin.kind === "condition-pack")
+  const conditionKey =
+    input.origin.kind === "condition-pack"
+      ? (input.conditionKey ?? null)
+      : null;
+  if (
+    input.origin.kind === "condition-pack" &&
+    (input.origin.packKey !== CONDITION_PACK_KEY ||
+      !conditionKey ||
+      !packCondition(conditionKey))
+  )
     throw new Error(
-      "No researched condition pack is installed; named conditions are unavailable.",
+      `No installed condition pack names this condition: ${input.origin.packKey}/${conditionKey}.`,
     );
   const hazard = input.hazard ?? {
     micros: MULTIPLIER_ONE,
@@ -335,8 +350,8 @@ export function beginHealthEpisode(
     visibility,
     eventId: began.eventId,
     personId: input.personId,
-    label: "simulation-episode",
-    conditionKey: null,
+    label: conditionKey ? "condition" : "simulation-episode",
+    conditionKey,
     severity: input.severity,
     origin: input.origin,
     hazardMultiplierMicros: hazard.micros,
