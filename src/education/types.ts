@@ -1,4 +1,16 @@
 import type { AcademicYear } from "./vintage";
+/** Raw locked IPEDS fields: a government level is not an exact owner identity. */
+export interface EducationDirectorySource {
+  readonly control: string;
+  readonly controlAffiliation: string;
+  readonly primaryPublicControl: string;
+  readonly secondaryPublicControl: string;
+  readonly calendarSystem: string;
+  readonly controllingSystemName: string;
+  readonly controllingSystemId: string;
+  readonly latitude: number | null;
+  readonly longitude: number | null;
+}
 /** Browser-safe source projection; never a student, admission or tuition record. */
 export interface EducationCapability {
   readonly code: string;
@@ -17,6 +29,8 @@ export interface EducationInstitution {
   readonly stateFips: string | null;
   readonly countyGeoid: string | null;
   readonly parentDistrictId: string | null;
+  /** Absent on legacy catalogs; sourceYear/evidence date and identify these fields. */
+  readonly directorySource?: EducationDirectorySource;
   /** The directory vintage this row came from, e.g. `2025-26`. */
   readonly sourceYear: AcademicYear;
   readonly release: string;
