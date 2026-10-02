@@ -155,10 +155,31 @@ export function normalizeCircuits(
 const DIVISION_SENTENCE =
   /^\((\d+)\)\s+The\s+(.+?)\s+[Dd]ivision comprises\s+(?:the\s+[Cc]ount(?:ies|y)\s+of\s+)?([\s\S]+)$/;
 const DISTRICT_SENTENCE =
-  /^(?:\([a-z]\)\s+)?The\s+.+?\s+[Dd]istrict comprises\s+(?:the\s+[Cc]ount(?:ies|y)\s+of\s+)([\s\S]+)$/;
+  /\bThe\s+.+?\s+[Dd]istrict comprises\s+the\s+(?:[Cc]ount(?:ies|y)|[Pp]arishes)\s+of\s+([\s\S]+)$/;
 const COURT_SENTENCE = /\bCourt(?: for the .+?)? shall be held at\b/;
 const COURT_HELD_AT =
   /Court(?: for the (.+?))? shall be held at\s+([\s\S]*?)\.\s*$/;
+
+/** Keep parentheses intact: exclusions are not additional whole counties. */
+function wholeCountyMembers(text: string): readonly string[] {
+  const members: string[] = [];
+  let depth = 0;
+  let member = "";
+  for (const character of text) {
+    if (character === "(") depth += 1;
+    if (character === ")") depth -= 1;
+    if (character === "," && depth === 0) {
+      members.push(member);
+      member = "";
+    } else member += character;
+  }
+  members.push(member);
+  return members.flatMap((value) =>
+    value.includes("(") || value.includes(")")
+      ? []
+      : splitStatutoryList(value.trim().replace(/^and\s+/, "")),
+  );
+}
 
 /**
  * Read one state's judicial districts.
@@ -240,7 +261,7 @@ export function normalizeStateDistricts(
         text.split(
           /,\s*(?:and\s+)?(?:those|that|the)\s+(?:portions?|parts?)\s+of\b/,
         )[0] ?? "";
-      counties = splitStatutoryList(wholeCounties);
+      counties = wholeCountyMembers(wholeCounties);
       continue;
     }
 

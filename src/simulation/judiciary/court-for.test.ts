@@ -147,6 +147,28 @@ describe("one finder reads saved courts", () => {
     }
   });
 
+  it("uses sourced parish and inline-heading membership without guessing aliases", () => {
+    const base = world();
+    for (const [state, name, district] of [
+      ["US-LA", "Orleans", "d-louisiana-eastern"],
+      ["US-NC", "Cabarrus", "d-north-carolina-middle"],
+    ]) {
+      const venue = searchLifePlaces(name!, 100, {
+        stateJurisdictionKey: state,
+        scope: "county",
+      })[0]!;
+      expect(venue).toBeDefined();
+      expect(
+        courtFor(
+          base,
+          venue.context.jurisdiction.id,
+          "federal-district",
+          "civil",
+        )?.sourceRecordId,
+      ).toBe(district);
+    }
+  });
+
   it("retains the existing trial court family in all 56 places", () => {
     const base = world();
     for (const state of lifePlaceStateIdentities()) {

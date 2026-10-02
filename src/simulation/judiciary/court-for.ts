@@ -54,7 +54,7 @@ const COUNTY_NAMES = new Map(
       string,
       string,
     ])[]
-  ).map(([id, name]) => [id, name.replace(/ County$/, "")] as const),
+  ).map(([id, name]) => [id, name.replace(/ (?:County|Parish)$/, "")] as const),
 );
 
 /** All recorded county parts must resolve to the same statutory district. */
@@ -107,7 +107,9 @@ function federalDistrictFor(
         ...(source?.comprisesCounties ?? []),
         ...(source?.divisions?.flatMap((row) => row.comprisesCounties) ?? []),
       ];
-      return names.some((member) => member.replace(/ County$/, "") === name);
+      return names.some(
+        (member) => member.replace(/ (?:County|Parish)$/, "") === name,
+      );
     });
     if (
       matches.length !== 1 ||

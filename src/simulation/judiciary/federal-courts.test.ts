@@ -10,7 +10,7 @@ describe("locked federal court projection", () => {
       readFileSync("data/source/federal-courts/raw/xml_usc28.zip"),
       "usc28.xml",
     ).toString("utf8");
-    for (const section of ["84", "89", "112"]) {
+    for (const section of ["84", "89", "98", "112"]) {
       const normalized = normalizeStateDistricts(
         xml,
         section,
@@ -41,6 +41,18 @@ describe("locked federal court projection", () => {
       FEDERAL_COURTS_PROJECTION.find((row) => row.courtId === eastern.courtId)
         ?.comprisesCounties,
     ).toEqual(eastern.comprisesCounties);
+    const middle = normalizeStateDistricts(xml, "113", "locked-title-28").find(
+      (row) => row.courtId === "d-north-carolina-middle",
+    )!;
+    expect(middle.comprisesCounties).toContain("Cabarrus");
+    expect(middle.comprisesCounties).toContain("Yadkin");
+    expect(middle.comprisesCounties).not.toContain("Hoke");
+    expect(middle.comprisesCounties).not.toContain("Durham");
+    expect(middle.comprisesCounties).not.toContain("Moore");
+    expect(
+      FEDERAL_COURTS_PROJECTION.find((row) => row.courtId === middle.courtId)
+        ?.comprisesCounties,
+    ).toEqual(middle.comprisesCounties);
   });
   it("preserves 13 appellate and 94 district identities without bankruptcy detail", () => {
     const circuits = FEDERAL_COURTS_PROJECTION.filter(
