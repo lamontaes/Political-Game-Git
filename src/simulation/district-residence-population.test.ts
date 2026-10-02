@@ -37,10 +37,11 @@ const sampled = Array.from({ length: 2 }, (_, index) => {
       seenStates.has(candidate.stateJurisdictionKey)
     )
       return false;
+    const placeGeoid = candidate.sourceGeoid;
     return chambers.some((chamber) => {
       const candidates = districtsCrossingPlace(
         identities,
-        candidate.sourceGeoid,
+        placeGeoid,
         chamber,
       );
       const counts =
