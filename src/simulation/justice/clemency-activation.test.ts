@@ -1,3 +1,8 @@
+import { advanceWorld } from "../world";
+import {
+  recordedVandalismClemencyCase,
+  recordedCourtFixtureClock,
+} from "../../../tests/fixtures/clemency-court-case";
 import { createProsecutionTransitionRegistry } from "./prosecution-transitions";
 import { REFERRAL_TAG } from "./jail-terms";
 import {
@@ -62,7 +67,6 @@ import {
   PROSECUTION_CHARGED_EVENT,
   PROSECUTION_SENTENCED_EVENT,
   enterPlea,
-  prosecutionTimingAt,
   referForProsecution,
 } from "./prosecution";
 
@@ -112,27 +116,30 @@ for (const state of states)
       });
       const game = { world: small.world };
       petitionerId = small.personId;
-      const referred = referForProsecution(game.world, {
+      const facts = recordedVandalismClemencyCase(
+        game.world,
+        petitionerId,
+        state.jurisdictionKey,
+      );
+      const referred = referForProsecution(facts.world, {
         stableKey: "fixture:g12-executive-case",
         subjectPersonId: petitionerId,
         jurisdictionId: game.world.people[petitionerId]!.homeJurisdictionId,
-        offenseKey: "campaign-funds-personal-use",
+        offenseKey: "crime:vandalism",
         referredBy: {
-          kind: "regulator",
-          label: "state regulator",
+          kind: "police",
+          label: "police (authored vandalism fixture)",
           personId: null,
         },
-        basisEventIds: [],
+        basisEventIds: facts.basisEventIds,
+        sentencingAllegations: facts.sentencingAllegations,
         evidence: "documentary",
         standingFindings: 6,
       });
       const referral = referred.world.history.events.find(
         (event) => event.id === referred.referralId,
       )!;
-      const caseTiming = prosecutionTimingAt(
-        referred.world,
-        referral.jurisdictionId,
-      );
+
       const chargeDue = referred.world.history.futureDueItems.find(
         (item) => item.stableKey === `justice:prosecution-stage:${referral.id}`,
       );
@@ -205,49 +212,23 @@ for (const state of states)
       expect(term.until).not.toBeNull();
       if (term.until === null)
         throw new Error("The fixture's recorded sentence has no end date.");
-      // Authored older-save fixture: the real sentence has already reached
-      // the existing body's service gate. No outcome or new wait is invented.
-      const sentenceDate = addDays(
-        sentenced.currentDate,
-        -Math.ceil(daysBetween(term.from, term.until) / 2) - 1,
-      );
-      const served: World = {
-        ...sentenced,
-        history: {
-          ...sentenced.history,
-          events: sentenced.history.events.map((event) =>
-            event.id === referred.referralId
-              ? {
-                  ...event,
-                  occurredAt: addDays(
-                    sentenceDate,
-                    -caseTiming.chargeDecisionDays -
-                      caseTiming.resolveAfterDays,
-                  ),
-                }
-              : event.type === PROSECUTION_CHARGED_EVENT &&
-                  event.involvedEntityIds.includes(petitionerId)
-                ? {
-                    ...event,
-                    occurredAt: addDays(
-                      sentenceDate,
-                      -caseTiming.resolveAfterDays,
-                    ),
-                  }
-                : event.id === sentenceId
-                  ? {
-                      ...event,
-                      occurredAt: sentenceDate,
-                    }
-                  : event,
+      // Reach the existing service gate through the real clock; never backdate saved events.
+      const served = advanceWorld(
+        sentenced,
+        daysBetween(
+          sentenced.currentDate,
+          addDays(
+            term.from,
+            Math.ceil(daysBetween(term.from, term.until) / 2) + 1,
           ),
-        },
-      };
+        ),
+        recordedCourtFixtureClock(),
+      );
       const filed = fileClemencyPetition(served, {
         personId: petitionerId,
         sentencedEventId: sentenceId,
       });
-      expect(filed.ok).toBe(true);
+      expect(filed.ok, filed.ok ? undefined : filed.reason).toBe(true);
       if (!filed.ok) throw new Error(filed.reason);
       petitionId = filed.petitionId;
       ready = filed.world;
