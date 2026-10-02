@@ -39,7 +39,11 @@ import {
 } from "./campaign-opponents";
 import { CAMPAIGN_WEEKLY_EVALUATION_KEY } from "./campaign-life-types";
 import { campaignOperatingSpending } from "./campaign-operating-costs";
-import { canonicalSupportBasisPoints } from "./campaigns";
+import {
+  canonicalSupportBasisPoints,
+  requestedCompletedCampaignFieldGainBasisPoints,
+  requestedCampaignFieldGainBasisPoints,
+} from "./campaigns";
 import { canonicalJson } from "./canonical-json";
 import { daysBetween } from "./dates";
 import { cancelFutureDueItem } from "./future-transitions";
@@ -404,7 +408,90 @@ describe("CRUNCH46 opponent campaigns", () => {
     300_000,
   );
 
-  it("scores a field event like a player's canvass and strengthens only a repeat contact", () => {
+  it("reads field effort only from linked completed rival work", () => {
+    const filed = fileRace("opponents-recorded-field", { electionInDays: 60 });
+    const moment = filed.world.currentMoment;
+    const scheduled = scheduleCampaignAction(filed.world, {
+      campaignId: filed.campaign.id,
+      kind: "outreach",
+      plan: {
+        start: moment,
+        end: { ...moment, minuteOfDay: moment.minuteOfDay + 30 },
+        location: {
+          locationKey: "campaign-outreach",
+          label: "Campaign work",
+          jurisdictionId: filed.campaign.jurisdictionId,
+        },
+        title: "Recorded doors",
+        summary: "A completed field shift.",
+      },
+      spend: null,
+    });
+    const activityId = scheduled.action.scheduledActivityId;
+    const outcomeEventId = filed.world.history.events.at(-1)!.id;
+    const timing = scheduledActivityState(scheduled.world, activityId);
+    const world: World = {
+      ...scheduled.world,
+      currentMoment: timing.end,
+      currentDate: timing.end.date,
+      history: {
+        ...scheduled.world.history,
+        scheduledActivities: scheduled.world.history.scheduledActivities.map(
+          (record) =>
+            record.id === activityId
+              ? { ...record, participantPersonIds: [filed.rivalPersonId] }
+              : record,
+        ),
+        scheduledActivityStates:
+          scheduled.world.history.scheduledActivityStates.map((record) =>
+            record.id === timing.id
+              ? {
+                  ...record,
+                  status: "completed",
+                  change: "completed",
+                  outcomeEventId,
+                }
+              : record,
+          ),
+      },
+    };
+    const read = (value: World, candidate = filed.rivalPersonId) =>
+      requestedCompletedCampaignFieldGainBasisPoints(
+        value,
+        filed.campaign,
+        candidate,
+        outcomeEventId,
+      );
+    expect(read(scheduled.world)).toBe(0);
+    const expected = requestedCampaignFieldGainBasisPoints(
+      world,
+      { ...filed.campaign, candidatePersonId: filed.rivalPersonId },
+      30,
+      1,
+    );
+    expect(expected).toBeGreaterThan(0);
+    expect(read(world)).toBe(expected);
+    expect(read(world, filed.candidatePersonId)).toBe(0);
+    expect(
+      read({
+        ...world,
+        history: { ...world.history, scheduledActivityStates: [] },
+      }),
+    ).toBe(0);
+    expect(
+      read({
+        ...world,
+        history: {
+          ...world.history,
+          scheduledActivityStates: world.history.scheduledActivityStates.map(
+            (record) => ({ ...record, end: record.start }),
+          ),
+        },
+      }),
+    ).toBe(0);
+  });
+
+  it("gives undated-duration field work zero effect and strengthens only a repeat contact", () => {
     // Pinned seed: this rival holds several field events.
     const filed = fileRace("opponents-money-b", { electionInDays: 60 });
     const world = advance(filed.world, 59);
@@ -429,7 +516,7 @@ describe("CRUNCH46 opponent campaigns", () => {
       expect(event.participants.map((participant) => participant.role)).toEqual(
         ["presence:participant", "presence:participant"],
       );
-      // Ninety minutes, two people: the player's own formula, with no swing.
+      // Public presence is not a completed duration record.
       const rivalState = world.history.metricStates.find(
         (state) =>
           step.supportStateIds.includes(state.id) &&
@@ -448,7 +535,7 @@ describe("CRUNCH46 opponent campaigns", () => {
         .at(-1)!;
       const gain = rivalShare(rivalState.id) - rivalShare(previous.id);
       expect(gain).toBeGreaterThanOrEqual(0);
-      expect(gain).toBeLessThanOrEqual((90 * 2 * 3) / 2);
+      expect(gain).toBeLessThanOrEqual(0);
 
       const contacts = world.history.relationshipInteractions.filter(
         (interaction) => interaction.eventId === event.id,

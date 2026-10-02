@@ -1,6 +1,7 @@
 import {
   requestedCampaignAdvertisingGainBasisPoints,
   recordCampaignAdvertisingExpenditure,
+  requestedCompletedCampaignFieldGainBasisPoints,
 } from "./campaigns";
 import { suggestedAdvertising } from "./campaign-weekly-plans";
 import { contestDistrictGeography } from "./campaign-geography";
@@ -106,15 +107,6 @@ import { assertWorldIntegrity, recordWorldEvent } from "./world";
 
 /** Authored game default; fundraising remains separately owned by A66. */
 const FUNDRAISING_RANGE = [60_000, 250_001] as const;
-/**
- * A field event: ninety minutes with the two people actually present, the
- * candidate and their field lead. The effect uses the same formula as a
- * player's outreach afternoon (`campaigns.ts` requestedGainBasisPoints:
- * minutes x workers x 3/2), so a rival's evening on the doors is worth what
- * the player's is, not a multiple of it.
- */
-const FIELD_EVENT_MINUTES = 90;
-const FIELD_EVENT_WORKERS = 2;
 const EVALUATION_INTERVAL_DAYS = 7;
 const LATE_CAMPAIGN_DAYS = 21;
 const PUBLIC_MEMORY_DAYS = 14;
@@ -1121,8 +1113,11 @@ function writeFieldEvent(
   const shifted = recordSupportShift(next, campaign, {
     stableKeyBase: stepKey,
     gainerPersonId: opponent.candidatePersonId,
-    gainBasisPoints: Math.floor(
-      (FIELD_EVENT_MINUTES * FIELD_EVENT_WORKERS * 3) / 2,
+    gainBasisPoints: requestedCompletedCampaignFieldGainBasisPoints(
+      next,
+      campaign,
+      opponent.candidatePersonId,
+      outcomeEventId,
     ),
     sourceEntityIds: [outcomeEventId],
   });

@@ -1115,6 +1115,51 @@ export function requestedCampaignAdvertisingGainBasisPoints(
   return Math.floor(spend.minorUnits / 500);
 }
 
+/** Field effect from recorded effort, shared by player and rival work. */
+export function requestedCampaignFieldGainBasisPoints(
+  world: World,
+  campaign: CampaignRecord,
+  minutes: number,
+  workers: number,
+  excludingActionId: EntityId | null = null,
+): number {
+  if (!Number.isFinite(minutes) || !Number.isFinite(workers)) return 0;
+  if (minutes <= 0 || workers <= 0) return 0;
+  return Math.floor(
+    (minutes *
+      workers *
+      3 *
+      doorKnockingReturn(world, campaign, excludingActionId).percent) /
+      200,
+  );
+}
+
+/** Only a completed activity linked to this outcome proves field effort. */
+export function requestedCompletedCampaignFieldGainBasisPoints(
+  world: World,
+  campaign: CampaignRecord,
+  candidatePersonId: EntityId,
+  outcomeEventId: EntityId,
+): number {
+  const completion = world.history.scheduledActivityStates.find(
+    (state) =>
+      state.status === "completed" &&
+      state.outcomeEventId === outcomeEventId &&
+      compareSimulationMoments(state.end, world.currentMoment) <= 0,
+  );
+  if (!completion) return 0;
+  const activity = world.history.scheduledActivities.find(
+    (record) => record.id === completion.activityId,
+  );
+  if (!activity?.participantPersonIds.includes(candidatePersonId)) return 0;
+  return requestedCampaignFieldGainBasisPoints(
+    world,
+    { ...campaign, candidatePersonId },
+    simulationMinutesBetween(completion.start, completion.end),
+    activity.participantPersonIds.length,
+  );
+}
+
 /**
  * What an afternoon actually moves.
  *
@@ -1151,12 +1196,12 @@ function requestedGainBasisPoints(
   // Who is knocking changes what a door returns: see `campaign-recognition.ts`.
   const base =
     action.kind === "outreach"
-      ? Math.floor(
-          (minutes *
-            workers *
-            3 *
-            doorKnockingReturn(world, campaign, action.id).percent) /
-            200,
+      ? requestedCampaignFieldGainBasisPoints(
+          world,
+          campaign,
+          minutes,
+          workers,
+          action.id,
         )
       : requestedCampaignAdvertisingGainBasisPoints(
           action.plannedSpend ?? {
