@@ -2,13 +2,31 @@ import { describe, expect, it, vi } from "vitest";
 import type * as StateExecutives from "../nationwide-world/state-executives";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
 import type { StateExecutiveHolderRecord } from "../nationwide-world/state-executives";
-import { makeIsoDate } from "../dates";
-import { createWorld } from "../world";
+import { makeIsoDate, daysBetween, addDays } from "../dates";
+import { createWorld, advanceWorld } from "../world";
+import { createCampaignElectionTransitionRegistry } from "../campaigns";
+import {
+  recordProgramAppropriation,
+  commitPublicProgram,
+} from "../governing/public-program";
+import {
+  ensurePublicGovernmentAccount,
+  publicTaxAccountForJurisdiction,
+} from "../tax-policy";
 import { createOrganization, createWorkRelationship } from "../life";
+import { publicProgramCostsForMonth } from "../federal-cost-ledger";
+import { serializeWorld, deserializeWorld } from "../serialization";
+import { drawRandomPlace } from "../../../tests/support/random-place";
+import { placeReferencePopulation } from "../nationwide-world/place-population";
+import {
+  observerSetup,
+  openObserverWorld,
+} from "../../presentation/observer-world";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { assessPaychecksTaxes } from "../statutory-tax";
 import { enactThroughDesk } from "../../../tests/fixtures/enact-through-desk";
 import { introduceMeasure } from "../legislation";
+import { createFormationContext, recordPrinciple } from "../politics";
 import { legislativePackForJurisdiction } from "../legislative-institutions";
 import {
   authoredScenarioSeatCount,
@@ -215,13 +233,17 @@ function withSavedIdleAccounts(
   // catalog order. Saved resource writers require the actual complete catalog.
   next = {
     ...next,
-    policyCatalog: createWorld({
-      seed: "saved-idle-budget-fixture",
-      currentDate: world.currentDate,
-      jurisdictions: Object.values(next.jurisdictions),
-      people: [],
-      lineage: "production",
-    }).policyCatalog,
+    policyCatalog: world.policyCatalog.propositionOrder.every(
+      (id) => world.policyCatalog.propositions[id] !== undefined,
+    )
+      ? world.policyCatalog
+      : createWorld({
+          seed: "saved-idle-budget-fixture",
+          currentDate: world.currentDate,
+          jurisdictions: Object.values(next.jurisdictions),
+          people: [],
+          lineage: "production",
+        }).policyCatalog,
   };
   for (const government of world.publicBudgets!.governments) {
     const stableKey = publicGovernmentOrganizationKey(
@@ -318,6 +340,361 @@ function settleAlone(
     month = firstOfNextMonth(month);
   }
   return { government: current, adjustments, adoptions };
+}
+
+/** Explicit controlled contracts; neither recipients nor funding are claimed as real plan data. */
+function enactControlledBudgetAnswer(
+  f: ReturnType<typeof smallWorld>,
+  questionKey: string,
+  answer: "yes" | "no",
+  stableKey: string,
+  effectiveAt?: World["currentDate"],
+) {
+  const pack = legislativePackForJurisdiction(f.stateJurisdictionId)!;
+  const propositionId = f.propositionIds[questionKey]!;
+  let withLaw = introduceMeasure(f.world, {
+    stableKey,
+    jurisdictionId: f.stateJurisdictionId,
+    rulePackId: pack.packId,
+    designation: "Controlled full pension funding",
+    shortTitle: "Controlled full pension funding",
+    summary: "Controlled affirmative pension fixture.",
+    origin: "member-introduction",
+    subjectClass: "general-policy",
+    originChamberKey: pack.chamberOrder[0]!,
+    sponsorPersonId: null,
+    propositionIds: [propositionId],
+    propositionAnswers: [{ propositionId, answer }],
+  });
+  const measureId = withLaw.history.legislativeMeasures!.at(-1)!.id;
+  withLaw = enactThroughDesk(withLaw, measureId, {
+    effectiveAt,
+    context: {
+      pack,
+      measureId,
+      bodies: pack.chambers.map((chamber) =>
+        seatBodyForPack(
+          chamber.chamberKey,
+          chamber.name,
+          authoredScenarioSeatCount(pack, chamber.chamberKey),
+          [],
+          false,
+        ),
+      ),
+      committeeMemberCount: null,
+      votePlan: Object.fromEntries(
+        pack.chambers.flatMap((chamber) => [
+          ...chamber.committees.map((committee) => [
+            votePlanKeyForCommittee(committee.committeeKey),
+            { yea: committee.appointedMembers ?? 1 },
+          ]),
+          ...chamber.floorStages.map((stage) => [
+            votePlanKeyForFloor(chamber.chamberKey, stage.stageKey),
+            { yea: authoredScenarioSeatCount(pack, chamber.chamberKey) },
+          ]),
+        ]),
+      ),
+      governorAction: null,
+      governorRationale: "Controlled affirmative pension fixture.",
+    },
+  });
+  const holder = currentStateExecutiveHolders(withLaw).find(
+    (row) =>
+      stateJurisdictionForKey(`US-${row.stateUsps}`)?.id ===
+      f.stateJurisdictionId,
+  )!;
+  return {
+    ...withLaw,
+    control: { kind: "person" as const, personId: holder.personId },
+  };
+}
+
+function settleWithPaidProgram(
+  world: World,
+  government: PublicBudgetGovernment,
+  lastMonth: string,
+  options: {
+    program?: (typeof BUDGET_PROGRAMS)[number];
+    monthlyAmount?: (month: string) => number;
+    alreadyFunded?: boolean;
+    fundingMinorUnits?: number;
+  } = {},
+) {
+  const program = options.program ?? "pensionContribution";
+  const fundingMinorUnits = options.fundingMinorUnits ?? 100_000_000_000_000;
+  const note =
+    "Controlled paid-program contract: authored recipient and explicit fixture funding; amounts are test inputs, not natural policy delivery or forecast cash.";
+  const provenance = { kind: "authored" as const, note };
+  const holder = currentStateExecutiveHolders(world).find(
+    (row) => `US-${row.stateUsps}` === government.stateKey,
+  )!;
+  world = { ...world, control: { kind: "person", personId: holder.personId } };
+  world = ensurePublicGovernmentAccount(world, {
+    kind: "jurisdiction",
+    jurisdictionId: government.jurisdictionId,
+  });
+  const account = publicTaxAccountForJurisdiction(
+    world,
+    government.jurisdictionId,
+  )!;
+  const actors: EntityId[] = [];
+  for (const role of ["funding", "recipient"] as const) {
+    world = createOrganization(world, {
+      stableKey: `controlled-pension:${role}`,
+      formedAt: world.currentDate,
+      provenance,
+      initialProfile: {
+        name: `Controlled pension ${role}`,
+        classification: "sector:private",
+        locationJurisdictionId: government.jurisdictionId,
+      },
+    });
+    const id = world.history.organizations.at(-1)!.id;
+    actors.push(id);
+    world = createResourcePosition(world, {
+      stableKey: `controlled-pension:${role}:cash`,
+      owner: { kind: "organization", organizationId: id },
+      openedAt: world.currentDate,
+      openingBalance: money(role === "funding" ? fundingMinorUnits : 0, "USD"),
+      provenance,
+    });
+  }
+  if (!options.alreadyFunded) {
+    world = createResourceFlow(world, {
+      stableKey: "controlled-pension:funding-flow",
+      source: { kind: "organization", organizationId: actors[0]! },
+      recipient: {
+        kind: "organization",
+        organizationId: account.organizationId,
+      },
+      startsAt: world.currentDate,
+      amount: money(fundingMinorUnits, "USD"),
+      cadenceKind: "schedule:one-time",
+      basisKind: "custom:fixture-payment",
+      basisReference: { kind: "general" },
+      restrictionKind: null,
+      jurisdictionId: government.jurisdictionId,
+      provenance,
+    });
+    world = recordResourceTransferOutcome(world, {
+      stableKey: "controlled-pension:funded",
+      resourceFlowId: world.history.resourceFlows.at(-1)!.id,
+      periodStartsAt: world.currentDate,
+      periodEndsAt: world.currentDate,
+      occurredAt: world.currentDate,
+      status: "completed",
+      attemptedAmount: money(fundingMinorUnits, "USD"),
+      transferredAmount: money(fundingMinorUnits, "USD"),
+      reasonKind: null,
+      note,
+      provenance,
+    });
+  }
+  const programKey = `${program.toLowerCase()}:controlled-plan`;
+  const defaultAmount = money(
+    Math.round(
+      government.years.at(-1)!.appropriations[
+        BUDGET_PROGRAMS.indexOf("pensionContribution")
+      ]! / 12,
+    ) * 100,
+    "USD",
+  );
+  const months = [];
+  let scheduled = makeIsoDate(`${world.currentDate.slice(0, 7)}-01`);
+  while (scheduled <= lastMonth) {
+    months.push(scheduled);
+    scheduled = firstOfNextMonth(scheduled);
+  }
+  const amounts = months.map((month) =>
+    money(
+      options.monthlyAmount
+        ? Math.round(options.monthlyAmount(month) * 100)
+        : defaultAmount.minorUnits,
+      "USD",
+    ),
+  );
+  const authority = recordProgramAppropriation(world, {
+    edition: "controlled-pension:scheduled-contract",
+    programKey,
+    jurisdictionId: government.jurisdictionId,
+    accountOrganizationId: account.organizationId,
+    sourceMeasureId: world.history.legislativeMeasures!.at(-1)!.id,
+    amount: money(sum(amounts.map((amount) => amount.minorUnits)), "USD"),
+    availableFrom: world.currentDate,
+    availableThrough: scheduled,
+    basis: { kind: "authored-fixture", note },
+  });
+  const committed = commitPublicProgram(authority.world, {
+    appropriationId: authority.id,
+    personId: holder.personId,
+    office: { kind: "state-executive" },
+    recipientOrganizationId: actors[1]!,
+    alternative: {
+      key: "controlled-saved-installments",
+      title: note,
+      installments: months.map((month, index) => ({
+        afterDays: daysBetween(world.currentDate, addDays(month, 1)),
+        amount: amounts[index]!,
+        purpose: "operating" as const,
+      })),
+      deliveryLeadDays: null,
+    },
+  });
+  if (!committed.ok) throw new Error(committed.reason);
+  world = committed.world;
+  return settleRecordedProgramMonths(
+    world,
+    government,
+    lastMonth,
+    (flows, current, month) => {
+      const actual = flows.recorded!.get(current.key)!;
+      expect(actual.sourceRecordIds).toEqual(
+        expect.arrayContaining([
+          world.history.legislativeMeasures!.at(-1)!.id,
+          authority.id,
+          committed.recordId,
+        ]),
+      );
+      expect(actual.spendingMinorUnits[BUDGET_PROGRAMS.indexOf(program)]).toBe(
+        amounts[months.indexOf(month)]!.minorUnits,
+      );
+    },
+  );
+}
+
+function recordControlledPaycheck(
+  world: World,
+  personId: EntityId,
+  jurisdictionId: EntityId,
+  amountMinorUnits: number,
+  key: string,
+) {
+  const provenance = {
+    kind: "authored" as const,
+    note: "Explicit controlled paycheck amount; not ordinary-play or population-wide revenue proof.",
+  };
+  world = createOrganization(world, {
+    stableKey: `${key}:employer`,
+    formedAt: world.currentDate,
+    provenance,
+    initialProfile: {
+      name: "Controlled withholding employer",
+      classification: "enterprise:retail",
+      locationJurisdictionId: jurisdictionId,
+    },
+  });
+  const organizationId = world.history.organizations.at(-1)!.id;
+  world = createResourcePosition(world, {
+    stableKey: `${key}:employer-cash`,
+    owner: { kind: "organization", organizationId },
+    openedAt: world.currentDate,
+    openingBalance: money(amountMinorUnits, "USD"),
+    provenance,
+  });
+  world = createWorkRelationship(world, {
+    stableKey: `${key}:work`,
+    personId: personId,
+    organizationId,
+    startedAt: world.currentDate,
+    kind: "employment:employee",
+    compensation: "paid",
+    authority: "directed",
+    dependency: "dependent",
+    economicRisk: "organization-borne",
+    provenance,
+    initialRole: {
+      title: "Controlled worker",
+      occupationClassification: null,
+      locationJurisdictionId: jurisdictionId,
+      timeDemand: {
+        expectedWeekly: { minimumHours: 40, maximumHours: 40 },
+        attention: "moderate",
+        concurrency: "mostly-exclusive",
+        scheduleRigidity: "rigid",
+        interruptibility: "limited",
+        locationJurisdictionId: jurisdictionId,
+      },
+    },
+  });
+  world = createWorkCompensation(world, {
+    stableKey: `${key}:pay`,
+    workRelationshipId: world.history.workRelationships.at(-1)!.id,
+    startsAt: world.currentDate,
+    amount: money(amountMinorUnits, "USD"),
+    cadenceKind: "schedule:weekly",
+    restrictionKind: null,
+    jurisdictionId: jurisdictionId,
+    provenance,
+  });
+  const resourceFlowId = world.history.resourceFlows.at(-1)!.id;
+  world = createResourcePosition(world, {
+    stableKey: `${key}:person-cash`,
+    owner: { kind: "person", personId: personId },
+    openedAt: world.currentDate,
+    openingBalance: money(0, "USD"),
+    provenance,
+  });
+  world = recordResourceTransferOutcome(world, {
+    stableKey: `${key}:paid`,
+    resourceFlowId,
+    periodStartsAt: world.currentDate,
+    periodEndsAt: world.currentDate,
+    occurredAt: world.currentDate,
+    status: "completed",
+    attemptedAmount: money(amountMinorUnits, "USD"),
+    transferredAmount: money(amountMinorUnits, "USD"),
+    reasonKind: null,
+    note: provenance.note,
+    provenance,
+  });
+  const paycheckId = world.history.resourceTransferOutcomes.at(-1)!.id;
+  world = assessPaychecksTaxes(world, [paycheckId]);
+  return world;
+}
+
+function settleRecordedProgramMonths(
+  world: World,
+  government: PublicBudgetGovernment,
+  lastMonth: string,
+  inspect?: (
+    flows: MonthFlows,
+    government: PublicBudgetGovernment,
+    month: string,
+  ) => void,
+) {
+  let current = government;
+  let cursor = { flows: 0, outcomes: 0 };
+  const adjustments = [];
+  const adoptions = [];
+  let month = makeIsoDate(`${world.currentDate.slice(0, 7)}-01`);
+  while (month <= lastMonth) {
+    world = advanceWorld(
+      world,
+      daysBetween(world.currentDate, firstOfNextMonth(month)),
+      createCampaignElectionTransitionRegistry(),
+    );
+    const books: PublicBudgetStore = {
+      version: PUBLIC_BUDGETS_VERSION,
+      cursor,
+      governments: [current],
+      adjustments: [],
+      unknown: [],
+    };
+    const read = readMonthFlows(world, books);
+    inspect?.(read.flows, current, month);
+    const result = settleGovernmentMonth(world, current, month, read.flows);
+    if (result.government.years.length > current.years.length)
+      adoptions.push({
+        month,
+        beforeSettlement: current,
+        afterSettlement: result.government,
+      });
+    current = result.government;
+    adjustments.push(...result.adjustments);
+    cursor = read.cursor;
+    month = firstOfNextMonth(month);
+  }
+  return { world, government: current, adjustments, adoptions };
 }
 
 describe("public budgets", () => {
@@ -637,17 +1014,39 @@ describe("public budgets", () => {
   it("without a pension law the government pays its own measured share and its unfunded liability grows; paid in full it shrinks", () => {
     // Illinois' own reported share is below the full contribution.
     const seed = "budget-test-3";
-    const withLaw = worldAt("2026-01-05", {
+    const f = smallWorld({
+      place: "US-IL",
+      date: "2025-12-18",
       seed,
-      laws: [{ question: PENSIONS, answer: "yes", jurisdictionId: illinois }],
+      people: 3,
+      offices: ["governor"],
+      laws: ["us-policy-positions:fiscal.fund-pensions-to-schedule"],
     });
-    const full = settleAlone(
+    const withLaw = enactControlledBudgetAnswer(
+      f,
+      "us-policy-positions:fiscal.fund-pensions-to-schedule",
+      "yes",
+      "controlled-pension-full:bill",
+    );
+    const full = settleWithPaidProgram(
       withLaw,
       publicBudgetFor(opened(withLaw), illinois)!,
       "2027-06-01",
     );
-    const without = worldAt("2026-01-05", { seed });
-    const partial = settleAlone(
+    const without = enactControlledBudgetAnswer(
+      smallWorld({
+        place: "US-IL",
+        date: "2025-12-18",
+        seed,
+        people: 3,
+        offices: ["governor"],
+        laws: ["us-policy-positions:fiscal.fund-pensions-to-schedule"],
+      }),
+      "us-policy-positions:fiscal.fund-pensions-to-schedule",
+      "no",
+      "controlled-pension-partial:bill",
+    );
+    const partial = settleWithPaidProgram(
       without,
       publicBudgetFor(opened(without), illinois)!,
       "2027-06-01",
@@ -845,24 +1244,21 @@ describe("public budgets", () => {
   });
 
   it("a pension law enacted after the budget was adopted governs the next budget, and the year's shortfall is credited to the law read at adoption", () => {
-    const base = worldAt("2026-01-05", {
-      seed: "budget-test-3",
-      laws: [{ question: PENSIONS, answer: "yes", jurisdictionId: illinois }],
-    });
-    const late = {
-      ...base,
-      history: {
-        ...base.history,
-        legislativeEnactments: base.history.legislativeEnactments!.map(
-          (row) => ({
-            ...row,
-            resolvedAt: makeIsoDate("2026-09-01"),
-            effectiveAt: makeIsoDate("2026-09-01"),
-          }),
-        ),
-      },
-    } as World;
-    const settled = settleAlone(
+    const late = enactControlledBudgetAnswer(
+      smallWorld({
+        place: "US-IL",
+        date: "2025-12-18",
+        seed: "budget-test-3",
+        people: 3,
+        offices: ["governor"],
+        laws: ["us-policy-positions:fiscal.fund-pensions-to-schedule"],
+      }),
+      "us-policy-positions:fiscal.fund-pensions-to-schedule",
+      "yes",
+      "controlled-late-pension:bill",
+      makeIsoDate("2026-09-01"),
+    );
+    const settled = settleWithPaidProgram(
       late,
       publicBudgetFor(opened(late), illinois)!,
       "2027-06-01",
@@ -895,86 +1291,13 @@ describe("public budgets", () => {
       people: 3,
       seed: "controlled-budget-withholding",
     });
-    const provenance = {
-      kind: "authored" as const,
-      note: "Explicit controlled one-thousand-dollar paycheck; not ordinary-play or population-wide revenue proof.",
-    };
-    let world = createOrganization(f.world, {
-      stableKey: "controlled-budget-withholding:employer",
-      formedAt: f.world.currentDate,
-      provenance,
-      initialProfile: {
-        name: "Controlled withholding employer",
-        classification: "enterprise:retail",
-        locationJurisdictionId: f.stateJurisdictionId,
-      },
-    });
-    const organizationId = world.history.organizations.at(-1)!.id;
-    world = createResourcePosition(world, {
-      stableKey: "controlled-budget-withholding:employer-cash",
-      owner: { kind: "organization", organizationId },
-      openedAt: world.currentDate,
-      openingBalance: money(100_000, "USD"),
-      provenance,
-    });
-    world = createWorkRelationship(world, {
-      stableKey: "controlled-budget-withholding:work",
-      personId: f.personId,
-      organizationId,
-      startedAt: world.currentDate,
-      kind: "employment:employee",
-      compensation: "paid",
-      authority: "directed",
-      dependency: "dependent",
-      economicRisk: "organization-borne",
-      provenance,
-      initialRole: {
-        title: "Controlled worker",
-        occupationClassification: null,
-        locationJurisdictionId: f.stateJurisdictionId,
-        timeDemand: {
-          expectedWeekly: { minimumHours: 40, maximumHours: 40 },
-          attention: "moderate",
-          concurrency: "mostly-exclusive",
-          scheduleRigidity: "rigid",
-          interruptibility: "limited",
-          locationJurisdictionId: f.stateJurisdictionId,
-        },
-      },
-    });
-    world = createWorkCompensation(world, {
-      stableKey: "controlled-budget-withholding:pay",
-      workRelationshipId: world.history.workRelationships.at(-1)!.id,
-      startsAt: world.currentDate,
-      amount: money(100_000, "USD"),
-      cadenceKind: "schedule:weekly",
-      restrictionKind: null,
-      jurisdictionId: f.stateJurisdictionId,
-      provenance,
-    });
-    const resourceFlowId = world.history.resourceFlows.at(-1)!.id;
-    world = createResourcePosition(world, {
-      stableKey: "controlled-budget-withholding:person-cash",
-      owner: { kind: "person", personId: f.personId },
-      openedAt: world.currentDate,
-      openingBalance: money(0, "USD"),
-      provenance,
-    });
-    world = recordResourceTransferOutcome(world, {
-      stableKey: "controlled-budget-withholding:paid",
-      resourceFlowId,
-      periodStartsAt: world.currentDate,
-      periodEndsAt: world.currentDate,
-      occurredAt: world.currentDate,
-      status: "completed",
-      attemptedAmount: money(100_000, "USD"),
-      transferredAmount: money(100_000, "USD"),
-      reasonKind: null,
-      note: provenance.note,
-      provenance,
-    });
-    const paycheckId = world.history.resourceTransferOutcomes.at(-1)!.id;
-    world = assessPaychecksTaxes(world, [paycheckId]);
+    const world = recordControlledPaycheck(
+      f.world,
+      f.personId,
+      f.stateJurisdictionId,
+      100_000,
+      "controlled-budget-withholding",
+    );
     const government = publicBudgetFor(opened(world), f.stateJurisdictionId)!;
     const books = opened(world).publicBudgets!;
     const read = readMonthFlows(world, books);
@@ -1165,9 +1488,26 @@ describe("public budgets", () => {
   it("the balance above the reserve target is carried into the next budget and spent across the year, once", () => {
     // Without a reserve law, which Illinois begins with, a surplus stays in
     // the balance.
-    const world = worldAt("2026-01-05", {
-      laws: [{ question: RESERVE, answer: "no", jurisdictionId: illinois }],
-    });
+    const enacted = enactControlledBudgetAnswer(
+      smallWorld({
+        place: "US-IL",
+        date: "2025-12-18",
+        people: 3,
+        offices: ["governor"],
+        laws: ["us-policy-positions:fiscal.minimum-reserve-balance"],
+        seed: "controlled-carry",
+      }),
+      "us-policy-positions:fiscal.minimum-reserve-balance",
+      "no",
+      "controlled-carry:bill",
+    );
+    const openedWorld = opened(enacted);
+    const world = withSavedIdleAccounts(
+      openedWorld,
+      new Map([
+        [publicBudgetFor(openedWorld, illinois)!.key, 100_000_000_000_000],
+      ]),
+    );
     // Its reserve starts at its target, so the whole spare balance is
     // carried.
     const opening = publicBudgetFor(opened(world), illinois)!;
@@ -1177,7 +1517,42 @@ describe("public budgets", () => {
         reserveRule(opening).floorShare * sum(opening.years[0]!.appropriations),
       ),
     };
-    const run = settleAlone(world, state, "2027-06-01");
+    const initial = settleAlone(
+      world,
+      state,
+      "2026-06-01",
+      readMonthFlows(world, world.publicBudgets!).flows,
+    );
+    const carriedAmount = initial.adjustments.find(
+      (row) => row.kind === "balance-carried",
+    )!.amount;
+    const july = advanceWorld(
+      world,
+      daysBetween(world.currentDate, makeIsoDate("2026-07-01")),
+      createCampaignElectionTransitionRegistry(),
+    );
+    const spent = settleWithPaidProgram(
+      july,
+      initial.government,
+      "2027-06-01",
+      {
+        program: "otherPrograms",
+        alreadyFunded: true,
+        monthlyAmount: () => carriedAmount / 12,
+      },
+    );
+    const run = {
+      ...spent,
+      adjustments: [...initial.adjustments, ...spent.adjustments],
+      adoptions: [...initial.adoptions, ...spent.adoptions],
+      government: {
+        ...spent.government,
+        months: [
+          ...initial.government.months,
+          ...spent.government.months.filter((row) => row.month >= "2026-07-01"),
+        ],
+      },
+    };
     const carried = run.adjustments.filter(
       (row) => row.kind === "balance-carried",
     );
@@ -1186,17 +1561,6 @@ describe("public budgets", () => {
     expect(carried[0]!.note).toContain(reserveRule(opening).basis);
     expect(carried[0]!.note).not.toContain("PLACEHOLDER");
     const [, fy2027, fy2028] = run.government.years;
-    console.info(
-      "TEAM6_CARRY_FORWARD_RECORDS",
-      JSON.stringify({
-        opening: state,
-        adoptions: run.adoptions,
-        adjustments: run.adjustments,
-        final: run.government,
-        recordedCashSupplied: false,
-        recordedPaymentMapSupplied: false,
-      }),
-    );
     const cuttable = (values: readonly number[]) =>
       sum(
         BUDGET_PROGRAMS.map((program, at) =>
@@ -1533,33 +1897,55 @@ describe("public budgets", () => {
     // age; Illinois began with the higher age and lowers it. Each takes
     // effect May 12, 2026.
     const texas = stateJurisdictionForKey("US-TX")!.id;
-    const enacted = (at: number) => ({
-      id: `enactment_${at}` as EntityId,
-      sequence: 1000 + at,
-      measureId: `measure_${at}` as EntityId,
-      resolvedAt: makeIsoDate("2026-05-12"),
-      outcome: "enacted",
-      effectiveAt: makeIsoDate("2026-05-12"),
-    });
-    const world = worldAt("2026-01-05", {
-      laws: [
-        { question: JUVENILE_AGE, answer: "yes", jurisdictionId: texas },
-        { question: JUVENILE_AGE, answer: "no", jurisdictionId: illinois },
-      ],
-      history: {
-        legislativeEnactments: [
-          enacted(0),
-          enacted(1),
-        ] as unknown as World["history"]["legislativeEnactments"],
-      },
-    });
+    const worlds = new Map(
+      [["US-TX", "yes"] as const, ["US-IL", "no"] as const].map(
+        ([place, answer]) => {
+          const f = smallWorld({
+            place,
+            date: place === "US-TX" ? "2025-01-20" : "2025-12-18",
+            people: 3,
+            offices: ["governor"],
+            laws: [
+              "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+            ],
+            seed: "controlled-corrections",
+          });
+          return [
+            f.stateJurisdictionId,
+            enactControlledBudgetAnswer(
+              f,
+              "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              answer,
+              "controlled-corrections:bill",
+              makeIsoDate("2026-05-12"),
+            ),
+          ] as const;
+        },
+      ),
+    );
     const juvenile = SPENDING_QUESTION_EFFECTS.find((effect) =>
       effect.questionKey.endsWith("raise-juvenile-court-age"),
     )!;
     const corrections = BUDGET_PROGRAMS.indexOf("corrections");
     const run = (jurisdictionId: EntityId) => {
+      const enacted = worlds.get(jurisdictionId)!;
+      const world =
+        enacted.currentDate < "2026-01-01"
+          ? advanceWorld(
+              enacted,
+              daysBetween(enacted.currentDate, makeIsoDate("2026-01-01")),
+              createCampaignElectionTransitionRegistry(),
+            )
+          : enacted;
       const opening = publicBudgetFor(opened(world), jurisdictionId)!;
-      const government = settleAlone(world, opening, "2027-08-01").government;
+      // An explicit $100m controlled monthly contract, amended by the tested
+      // saved-law cost delta. This is not an automatic corrections producer.
+      const government = settleWithPaidProgram(world, opening, "2027-08-01", {
+        program: "corrections",
+        monthlyAmount: (month) =>
+          100_000_000 +
+          lawSpendingForMonth(world, opening, makeIsoDate(month))[corrections]!,
+      }).government;
       const month = (on: string) =>
         government.months.find((row) => row.month === on)!.spending[
           corrections
@@ -1577,9 +1963,11 @@ describe("public budgets", () => {
     );
     // The cost stays in every later month, across Texas's next budget.
     expect(
-      lawSpendingForMonth(world, tx.government, makeIsoDate("2027-07-01"))[
-        corrections
-      ],
+      lawSpendingForMonth(
+        worlds.get(texas)!,
+        tx.government,
+        makeIsoDate("2027-07-01"),
+      )[corrections],
     ).toBeCloseTo(txMonthly, 2);
     const il = run(illinois);
     expect(il.month("2026-06-01") - il.month("2026-04-01")).toBeCloseTo(
@@ -1592,70 +1980,90 @@ describe("public budgets", () => {
     // Illinois lowers the juvenile court age from May 12, 2026, which takes
     // $12.58 a resident a year off its corrections spending. Its next budget
     // is adopted July 1, 2026, and its governor decides what to do with it.
-    const governorId = "person_governor" as EntityId;
-    const restraint = "principle_fiscal_restraint" as EntityId;
-    seated.holders = [
-      {
-        officeKey: "il-governor",
-        title: "Governor",
-        stateUsps: "IL",
-        personId: governorId,
-        personName: "Dana Reyes",
-      } as unknown as StateExecutiveHolderRecord,
-    ];
-    const lowered = worldAt("2026-01-05", {
-      laws: [
-        { question: JUVENILE_AGE, answer: "no", jurisdictionId: illinois },
-      ],
-      history: {
-        legislativeEnactments: [
-          {
-            id: "enactment_0" as EntityId,
-            sequence: 1000,
-            measureId: "measure_0" as EntityId,
-            resolvedAt: makeIsoDate("2026-05-12"),
-            outcome: "enacted",
-            effectiveAt: makeIsoDate("2026-05-12"),
-          },
-        ] as unknown as World["history"]["legislativeEnactments"],
-      },
-    });
-    const holding = (stance: "endorses" | "rejects"): World => ({
-      ...lowered,
-      policyCatalog: {
-        propositions: {
-          ...lowered.policyCatalog.propositions,
-          [RESERVE]: {
-            ...lowered.policyCatalog.propositions[RESERVE]!,
-            principles: [
-              { principleId: restraint, bearing: "consistent-with" },
-            ],
-          },
-          [BALANCED]: {
-            ...lowered.policyCatalog.propositions[BALANCED]!,
-            principles: [
-              { principleId: restraint, bearing: "consistent-with" },
-            ],
+    const enacted = enactControlledBudgetAnswer(
+      smallWorld({
+        place: "US-IL",
+        date: "2025-12-18",
+        people: 3,
+        offices: ["governor"],
+        laws: [
+          "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+        ],
+        seed: "controlled-governor-disposition",
+      }),
+      "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+      "no",
+      "controlled-governor-disposition:bill",
+      makeIsoDate("2026-05-12"),
+    );
+    const lowered = withSavedIdleAccounts(
+      opened(enacted),
+      new Map([
+        [publicBudgetFor(opened(enacted), illinois)!.key, 100_000_000_000_000],
+      ]),
+    );
+    // One explicitly authored $2 trillion paycheck supplies actual assessed
+    // state-tax receipts. It is not a representative economy or natural wage.
+    const funded = recordControlledPaycheck(
+      lowered,
+      lowered.personOrder[0]!,
+      illinois,
+      200_000_000_000_000,
+      "controlled-governor-tax-receipt",
+    );
+    const governor = currentStateExecutiveHolders(lowered).find(
+      (row) => row.stateUsps === "IL",
+    )!;
+    const governorId = governor.personId;
+    const reserve = Object.values(lowered.policyCatalog.propositions).find(
+      (row) =>
+        row.stableKey === "us-policy-positions:fiscal.minimum-reserve-balance",
+    )!;
+    const balanced = Object.values(lowered.policyCatalog.propositions).find(
+      (row) =>
+        row.stableKey ===
+        "us-policy-positions:fiscal.balanced-operating-budget",
+    )!;
+    const restraint = reserve.principles![0]!.principleId;
+    const holding = (stance: "endorses" | "rejects"): World =>
+      recordPrinciple(
+        {
+          ...funded,
+          policyCatalog: {
+            ...funded.policyCatalog,
+            propositions: {
+              ...funded.policyCatalog.propositions,
+              [reserve.id]: {
+                ...reserve,
+                principles: [
+                  { principleId: restraint, bearing: "consistent-with" },
+                ],
+              },
+              [balanced.id]: {
+                ...balanced,
+                principles: [
+                  { principleId: restraint, bearing: "consistent-with" },
+                ],
+              },
+            },
           },
         },
-      } as unknown as World["policyCatalog"],
-      history: {
-        ...lowered.history,
-        principles: [
-          {
-            id: "principle_record_1" as EntityId,
-            sequence: 1,
-            personId: governorId,
-            principleId: restraint,
-            formedAt: makeIsoDate("2000-01-01"),
-            stance,
-            // Explicit controlled conviction, rather than the obsolete label
-            // that leaves the continuous principle reader with no strength.
-            strength: 0.75,
-          },
-        ] as unknown as World["history"]["principles"],
-      },
-    });
+        {
+          stableKey: `controlled-governor-disposition:${stance}`,
+          personId: governorId,
+          principleId: restraint,
+          formedAt: funded.currentDate,
+          stance,
+          strength: 0.75,
+          conviction: "strong",
+          flexibility: "conditional",
+          qualification: null,
+          formation: createFormationContext("other:authored-fixture", {
+            note: "Explicit controlled conviction for the existing governor disposition reader.",
+          }),
+          supersedesPrincipleRecordId: null,
+        },
+      );
     const juvenile = SPENDING_QUESTION_EFFECTS.find((effect) =>
       effect.questionKey.endsWith("raise-juvenile-court-age"),
     )!;
@@ -1663,7 +2071,7 @@ describe("public budgets", () => {
       for (const stance of ["endorses", "rejects"] as const) {
         const world = holding(stance);
         const opening = publicBudgetFor(opened(world), illinois)!;
-        const { government, adjustments } = settleAlone(
+        const { government, adjustments } = settleRecordedProgramMonths(
           world,
           opening,
           "2026-06-01",
@@ -1678,9 +2086,11 @@ describe("public budgets", () => {
         );
         expect(reaction.decidedBy).toEqual({
           personId: governorId,
-          principleRecordIds: ["principle_record_1"],
+          principleRecordIds: [world.history.principles.at(-1)!.id],
         });
-        expect(reaction.note).toContain("Governor Dana Reyes");
+        expect(reaction.note).toContain(
+          `${governor.title} ${governor.personName}`,
+        );
         const adopted = government.years.at(-1)!;
         expect(adopted.fiscalYear).toBe(2027);
         // A loss the laws caused, where no law requires a balanced budget:
@@ -1718,6 +2128,93 @@ describe("public budgets", () => {
     } finally {
       seated.holders = [];
     }
+  });
+
+  it("a random ordinary opening retains a controlled paid program chain and its exact budget amount after reload", () => {
+    const seed = "overflow4-a33-paid-budget-opening-20261002";
+    const place = drawRandomPlace(seed, (candidate) => {
+      const population = candidate.sourceGeoid
+        ? placeReferencePopulation(candidate.sourceGeoid)?.value
+        : null;
+      return (
+        candidate.context.jurisdiction.kind === "census-place" &&
+        population != null &&
+        population > 0 &&
+        population <= 1000 &&
+        candidate.stateJurisdictionKey != null &&
+        legislativePackForJurisdiction(
+          stateJurisdictionForKey(candidate.stateJurisdictionKey)!.id,
+        ) != null
+      );
+    });
+    let { world } = openObserverWorld(observerSetup(seed, place.key));
+    const jurisdictionId = stateJurisdictionForKey(
+      place.stateJurisdictionKey!,
+    )!.id;
+    const pack = legislativePackForJurisdiction(jurisdictionId)!;
+    const proposition = Object.values(world.policyCatalog.propositions).find(
+      (row) =>
+        row.stableKey ===
+        "us-policy-positions:fiscal.fund-pensions-to-schedule",
+    )!;
+    world = introduceMeasure(world, {
+      stableKey: "controlled-native-payment:bill",
+      jurisdictionId,
+      rulePackId: pack.packId,
+      designation: "Controlled native payment proposal",
+      shortTitle: "Controlled native payment proposal",
+      summary:
+        "Introduced source for a controlled one-dollar payment; no enactment claimed.",
+      origin: "member-introduction",
+      subjectClass: "general-policy",
+      originChamberKey: pack.chamberOrder[0]!,
+      sponsorPersonId: null,
+      propositionIds: [proposition.id],
+      propositionAnswers: [{ propositionId: proposition.id, answer: "yes" }],
+    });
+    if (world.currentDate.slice(8) !== "01")
+      world = advanceWorld(
+        world,
+        daysBetween(world.currentDate, firstOfNextMonth(world.currentDate)),
+        createCampaignElectionTransitionRegistry(),
+      );
+    const month = makeIsoDate(`${world.currentDate.slice(0, 7)}-01`);
+    const paid = settleWithPaidProgram(
+      world,
+      publicBudgetFor(opened(world), jurisdictionId)!,
+      month,
+      { monthlyAmount: () => 1, fundingMinorUnits: 100 },
+    );
+    const costs = publicProgramCostsForMonth(paid.world, month).filter(
+      (row) => row.programKey === "pensioncontribution:controlled-plan",
+    );
+    expect(costs).toHaveLength(1);
+    expect(costs[0]!.amountMinorUnits).toBe(100);
+    expect(
+      paid.government.months.at(-1)!.spending[
+        BUDGET_PROGRAMS.indexOf("pensionContribution")
+      ],
+    ).toBe(1);
+    const reloaded = deserializeWorld(serializeWorld(paid.world));
+    expect(
+      publicProgramCostsForMonth(reloaded, month).filter(
+        (row) => row.programKey === "pensioncontribution:controlled-plan",
+      ),
+    ).toEqual(costs);
+    console.info(
+      "OVERFLOW4_A33_OPENING",
+      JSON.stringify({
+        seed,
+        place: place.key,
+        month,
+        paidMinorUnits: 100,
+        budgetDollars: 1,
+        sourceRecordIds: costs[0]!.sourceRecordIds,
+        reload: true,
+        scope:
+          "Ordinary native opening followed by an explicitly controlled $1 funding/payment action; no automatic pension beneficiary producer claimed.",
+      }),
+    );
   });
 
   it("maps an appropriation's program to its budget line", () => {
