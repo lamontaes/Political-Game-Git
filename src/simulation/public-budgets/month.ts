@@ -621,10 +621,7 @@ export function taxLawFactor(
   erodedOn: IsoDate = date,
   includeCannabis = true,
 ): number {
-  const onDate =
-    source === "individualIncomeTax"
-      ? (`${date.slice(0, 4)}-01-01` as IsoDate)
-      : date;
+  const onDate = date;
   let factor =
     source === "selectiveSalesTaxes"
       ? // Cannabis adds its own level; the fuel tax's erosion comes off
