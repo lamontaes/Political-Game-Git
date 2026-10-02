@@ -122,6 +122,9 @@ describe(`finding support uses the campaign engine in ${place!.jurisdictionKey}`
         f.proceeding,
         f.step,
         f.event,
+        undefined,
+        undefined,
+        applyFindingSupportLoss,
       );
       assertWorldIntegrity(after);
       const actual = shares(f, after);
@@ -156,6 +159,33 @@ describe(`finding support uses the campaign engine in ${place!.jurisdictionKey}`
       expect(serializeWorld(restored)).toBe(serializeWorld(after));
     },
   );
+
+  it("a standalone press reader does not impose electoral or financial consequences", () => {
+    const f = fixture("finding");
+    const after = applyFindingConsequences(
+      f.world,
+      f.proceeding,
+      f.step,
+      f.event,
+    );
+    expect(shares(f, after)).toEqual(shares(f));
+    expect(after.history.metricStates).toEqual(f.world.history.metricStates);
+    expect(after.history.resourceFlows).toEqual(f.world.history.resourceFlows);
+    expect(after.history.resourceObligations).toEqual(
+      f.world.history.resourceObligations,
+    );
+    expect(after.history.resourceTransferOutcomes).toEqual(
+      f.world.history.resourceTransferOutcomes,
+    );
+    expect(
+      after.history.events.filter(
+        (event) =>
+          event.type === "matter.restitution-ordered" ||
+          event.type === "matter.civil-penalty-imposed",
+      ),
+    ).toEqual([]);
+    assertWorldIntegrity(after);
+  });
 
   it.each([
     ["finding", false],
