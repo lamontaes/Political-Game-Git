@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import {
   createNewGameWorld,
@@ -21,7 +21,7 @@ import type {
   LawConsequenceContext,
   LawConsequenceRow,
 } from "../law-consequence-types";
-import type { World } from "../types";
+import type { IsoDate, World } from "../types";
 import {
   applyPriceCostConsequence,
   resolvePriceCostConsequences,
@@ -334,10 +334,13 @@ describe("the shared price-cost handler reuses saved flow terms", () => {
   });
 });
 
-describe("price-cost payment applicability", () => {
-  it("runs an ordinary random town through 45 days of paydays with the tuition row registered", () => {
-    const seed = "gate-2085-2026-10-02";
-    const place = drawRandomPlace(seed);
+describe.sequential("price-cost payment applicability", () => {
+  const seed = "gate-2085-2026-10-02";
+  const place = drawRandomPlace(seed);
+  let progressed: World;
+  let openedAt: IsoDate;
+  let paymentsBefore: number;
+  beforeAll(() => {
     const game = generateOpeningLife(
       prepareOpeningLife({
         ...DEFAULT_NEW_GAME_SETUP,
@@ -347,25 +350,35 @@ describe("price-cost payment applicability", () => {
     ).game;
     expect(game).not.toBeNull();
     if (!game) throw new Error("Ordinary opening did not produce a game.");
+    progressed = game.world;
+    openedAt = progressed.currentDate;
+    paymentsBefore = progressed.history.statutoryTaxPayments?.length ?? 0;
     expect(
-      Object.values(game.world.policyCatalog.propositions).some((proposition) =>
+      Object.values(progressed.policyCatalog.propositions).some((proposition) =>
         proposition.consequences?.some(
           (entry) => entry.id === TUITION_FREEZE_ROW.id,
         ),
       ),
     ).toBe(true);
-    const paymentsBefore = game.world.history.statutoryTaxPayments?.length ?? 0;
-    const progressed = advanceWorld(game.world, 45, composeWorldTimeHandlers());
-    assertWorldIntegrity(progressed);
-    expect(progressed.currentDate).toBe(addDays(game.world.currentDate, 45));
-    expect(progressed.history.statutoryTaxPayments!.length).toBeGreaterThan(
-      paymentsBefore,
-    );
-    expect(
-      deserializeWorld(serializeWorld(progressed)).history.statutoryTaxPayments,
-    ).toEqual(progressed.history.statutoryTaxPayments);
-    process.stdout.write(
-      `A21 payday opening place=${place.displayName} key=${place.key} seed=${seed} days=45 taxPayments=${progressed.history.statutoryTaxPayments!.length}\n`,
-    );
   });
+  it.each(Array.from({ length: 45 }, (_, index) => index + 1))(
+    "advances ordinary town day %i with the tuition row registered",
+    (day) => {
+      expect(progressed.currentDate).toBe(addDays(openedAt, day - 1));
+      progressed = advanceWorld(progressed, 1, composeWorldTimeHandlers());
+      expect(progressed.currentDate).toBe(addDays(openedAt, day));
+      if (day !== 45) return;
+      assertWorldIntegrity(progressed);
+      expect(progressed.history.statutoryTaxPayments!.length).toBeGreaterThan(
+        paymentsBefore,
+      );
+      expect(
+        deserializeWorld(serializeWorld(progressed)).history
+          .statutoryTaxPayments,
+      ).toEqual(progressed.history.statutoryTaxPayments);
+      process.stdout.write(
+        `A21 payday opening place=${place.displayName} key=${place.key} seed=${seed} days=${day} taxPayments=${progressed.history.statutoryTaxPayments!.length}\n`,
+      );
+    },
+  );
 });
