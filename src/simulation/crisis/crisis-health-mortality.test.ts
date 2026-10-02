@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { composeWorldTimeHandlers } from "../campaigns";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPerson,
@@ -627,7 +628,9 @@ describe("CRISIS K3 continuity notices for GOVERNING", () => {
             basis: "Test fixture only; not clinical data.",
           },
         });
-        const advanced = advanceWorld(aged, 365, REGISTRY);
+        // A seated presidency schedules the clock's other yearly work (the
+        // federal reform review), so a year runs on the real world handlers.
+        const advanced = advanceWorld(aged, 365, composeWorldTimeHandlers());
         if (
           advanced.history.personDeaths.some(
             (d) => d.personId === fixture.president,
