@@ -1,5 +1,8 @@
 import {
   formatStatutoryDate,
+  numberWord,
+  yearsAttributive,
+  yearsPhrase,
   type AmendmentInvitation,
   type ClauseRendering,
   type ClauseTemplate,
@@ -53,11 +56,22 @@ export interface ProgramVariantData extends Omit<
  * No expression evaluation, legal-rule inference, or per-law/level dispatch. */
 function renderText(text: string, resolved: ResolvedParameters): string {
   return text.replace(
-    /\{\{(authority|money|choice|duration|integer|date):([^{}]+)\}\}/g,
+    /\{\{(authority|money|choice|duration|integer|integer-locale|integer-word|date|years-attributive|years-phrase):([^{}]+)\}\}/g,
     (_match, kind: string, key: string) => {
       if (kind === "money") return resolved.money(key);
       if (kind === "choice") return resolved.choice(key).clausePhrase;
       if (kind === "integer") return String(resolved.integer(key));
+      if (kind === "years-attributive" || kind === "years-phrase") {
+        const duration = resolved.values[key];
+        if (duration?.kind !== "duration-years" || duration.years === null)
+          throw new Error(`Missing duration wording parameter '${key}'.`);
+        return kind === "years-attributive"
+          ? yearsAttributive(duration.years)
+          : yearsPhrase(duration.years);
+      }
+      if (kind === "integer-locale")
+        return resolved.integer(key).toLocaleString("en-US");
+      if (kind === "integer-word") return numberWord(resolved.integer(key));
       if (kind === "date") {
         if (key !== "endsOn" || resolved.endsOn === null)
           throw new Error(`Missing statutory date wording field '${key}'.`);

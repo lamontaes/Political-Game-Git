@@ -1,3 +1,7 @@
+import { juryCountyForPlace, summonJuryResidents } from "./jury-catchment";
+import { applyLawConsequences } from "../enacted-law-effects";
+import { custodyFloorAt } from "../law-consequences/legal-outcome";
+import { recordByStableKey } from "../history-index";
 import { addDays } from "../dates";
 import {
   ESTIMATED_CHARGE_DECISION_DAYS,
@@ -14,8 +18,13 @@ import {
   refundCashBailAtCaseClose,
   type CashBailPayer,
 } from "./cash-bail";
-import { custodyFloorAt } from "../law-consequences/legal-outcome";
-import { recordDurableDecisionTrace } from "../decisions";
+import { isSelectedDecision, recordDurableDecisionTrace } from "../decisions";
+import { evaluateCustodyTerm } from "./sentencing-term";
+import {
+  sentencingApplicabilityOf,
+  sentencingApplicabilityTags,
+  type SentencingAllegations,
+} from "./sentencing-applicability";
 import {
   officesHeldBy,
   recordOfficeConsequence,
@@ -43,6 +52,7 @@ import {
 import {
   chosenReasons,
   empanelJury,
+  juryPool,
   evaluateJurorVote,
   evaluateDetention,
   evaluatePlea,
@@ -54,6 +64,7 @@ import {
   CONVICT,
   PLEA,
   PRETRIAL_HOLD,
+  UNRESEARCHED_JURY_PANEL,
   SENTENCE_JAIL,
   type CourtCase,
   type EvidenceStrength,
@@ -68,6 +79,7 @@ import {
   REFERRAL_TAG,
   SENTENCE_KIND_TAG,
   SENTENCE_MONTHS_TAG,
+  SENTENCE_LIFE_TAG,
   type SentenceKind,
 } from "./jail-terms";
 
@@ -86,15 +98,14 @@ export type { EvidenceStrength } from "./court-reasoning";
 
 /**
  * The hand-set parts of a criminal case: how long each step takes, and how
- * long a sentence runs once the judge has chosen jail or probation. None of
+ * long charging and trial stages take. None of
  * these decides whether anybody is charged, pleads, is convicted or goes to
  * jail; the people in the case decide that (`court-reasoning.ts`).
  *
  * PLACEHOLDER. Every number here is set by hand and filed with the research
  * queue as `criminal-sentence-consequences`: how long charging, trial and
- * retrial take, and each state's sentencing ranges. A term's length is the
- * middle of its range, lengthened by each finding that stands, until each
- * state's ranges are read.
+ * retrial take. Sentence lengths now use the applicable sourced range and
+ * the actual judge's recorded term decision; no placeholder midpoint remains.
  */
 export const UNRESEARCHED_PROSECUTION = {
   version: "prosecution-decided-v3",
@@ -114,10 +125,6 @@ export const UNRESEARCHED_PROSECUTION = {
   resolveAfterDays: NATIONAL_RESOLVE_AFTER_DAYS,
   /** Trials that end with no verdict before the prosecutors drop the charge. */
   hungJuriesBeforeDismissal: 2,
-  /** A jail term in months: this range, widened per extra standing finding. */
-  jailMonths: { min: 3, max: 12, perStandingFinding: 3 },
-  /** A term of probation, in months. */
-  probationMonths: { min: 12, max: 36 },
 } as const;
 
 /**
@@ -147,6 +154,7 @@ const OUTCOME_TAG = "justice.outcome:";
 export type CaseOutcome = "dismissed" | "acquitted" | "plea" | "convicted";
 
 export interface ProsecutionReferralInput {
+  readonly sentencingAllegations?: SentencingAllegations;
   readonly stableKey: string;
   readonly subjectPersonId: EntityId;
   readonly jurisdictionId: EntityId | null;
@@ -176,6 +184,41 @@ const OFFENSE_LABELS: Readonly<Record<string, string>> = {
 
 function offenseLabel(offenseKey: string): string {
   return OFFENSE_LABELS[offenseKey] ?? "a crime";
+}
+
+/** The saved case binds one operative floor to both sentence decisions. */
+function sentenceDecisionForCase(
+  world: World,
+  judgeId: EntityId,
+  courtCase: CourtCase,
+  pleaded: boolean,
+) {
+  const floor = custodyFloorAt(world, courtCase);
+  const saved = recordByStableKey(
+    world.history.decisionTraces,
+    `${courtCase.caseKey}:sentence:trace`,
+  );
+  // Preserve the published replay guard: a pending unsupported range never
+  // re-appends the already saved judge's sentence-kind decision.
+  if (
+    saved &&
+    (saved.context.actorPersonId !== judgeId ||
+      saved.context.decisionType !== "justice.sentence" ||
+      saved.context.subject?.kind !== "context:criminal-case" ||
+      saved.context.subject.key !== courtCase.caseKey)
+  )
+    return null;
+  const sentence =
+    saved ?? evaluateSentence(world, judgeId, courtCase, pleaded, floor);
+  if (!isSelectedDecision(sentence)) return null;
+  const next = saved ? world : recordDurableDecisionTrace(world, sentence);
+  const kind: SentenceKind =
+    sentence.selectedOptionKey === SENTENCE_JAIL ? "jail" : "probation";
+  const choice =
+    kind === "jail"
+      ? evaluateCustodyTerm(next, judgeId, courtCase, pleaded, floor)
+      : null;
+  return { world: next, sentence, kind, choice, floor };
 }
 
 function tagValue(event: HistoricalEvent, prefix: string): string | null {
@@ -229,36 +272,7 @@ export function prosecutorsCharge(
   return evidence !== "circumstantial" || basisEvents >= 2;
 }
 
-/** A term's length once the judge has chosen its kind. See the PLACEHOLDER above. */
-export function termMonths(
-  kind: SentenceKind,
-  standingFindings: number,
-): number {
-  const rule = UNRESEARCHED_PROSECUTION;
-  if (kind === "probation")
-    return Math.round(
-      (rule.probationMonths.min + rule.probationMonths.max) / 2,
-    );
-  const max =
-    rule.jailMonths.max +
-    rule.jailMonths.perStandingFinding * Math.max(0, standingFindings - 1);
-  return Math.round((rule.jailMonths.min + max) / 2);
-}
-
-/** The existing sentence writer, bounded by the operative law's recorded floor. */
-export function sentenceMonthsForCase(
-  world: World,
-  kind: SentenceKind,
-  courtCase: CourtCase,
-): number {
-  const ordinary = termMonths(kind, courtCase.standingFindings);
-  if (kind !== "jail") return ordinary;
-  const floor = custodyFloorAt(world, courtCase);
-  return Math.max(ordinary, floor?.months ?? 0);
-}
-
-/** The stable key a referral is recorded under. */
-export function referralStableKey(stableKey: string): string {
+function referralStableKey(stableKey: string): string {
   return `${UNRESEARCHED_PROSECUTION.version}:referral:${stableKey}`;
 }
 
@@ -313,6 +327,12 @@ export function referForProsecution(
       `justice.referred-by:${input.referredBy.kind}`,
       // Events are not entities, so what the case rests on rides as tags.
       ...input.basisEventIds.map((id) => `justice.basis-event:${id}`),
+      ...sentencingApplicabilityTags(
+        world,
+        input.subjectPersonId,
+        input.basisEventIds,
+        input.sentencingAllegations,
+      ),
     ],
     summary: `The ${input.referredBy.label} referred ${personName(subject)} to prosecutors for ${offenseLabel(input.offenseKey)}.`,
     context: {
@@ -374,7 +394,7 @@ interface FollowUpDetail {
   readonly ordinal?: number;
 }
 
-function followUp(
+function recordFollowUp(
   world: World,
   after: HistoricalEvent,
   referral: HistoricalEvent,
@@ -472,6 +492,28 @@ function followUp(
   };
 }
 
+/** Run consequence rows only after the court has saved its actual stage. */
+function followUp(
+  world: World,
+  after: HistoricalEvent,
+  referral: HistoricalEvent,
+  type: FollowUpType,
+  detail: FollowUpDetail,
+): World {
+  const recorded = recordFollowUp(world, after, referral, type, detail);
+  if (recorded === world) return world;
+  const activity = recorded.history.events.at(-1);
+  if (!activity || activity.type !== type) return recorded;
+  return applyLawConsequences(recorded, {
+    onDate: activity.occurredAt,
+    activity: "case-stage",
+    activityId: activity.id,
+    subjectIds: activity.participants
+      .filter((participant) => participant.role === "focus:defendant")
+      .map((participant) => participant.personId),
+  });
+}
+
 function outcomeLine(
   outcome: CaseOutcome,
   name: string,
@@ -521,6 +563,7 @@ function courtCaseOf(
   const venue = referral.jurisdictionId;
   const stateKey = venue ? stateKeyOf(world, venue) : null;
   return {
+    sentencingApplicability: sentencingApplicabilityOf(world, referral),
     caseKey: referral.stableKey,
     defendantId: subjectId,
     offenseKey,
@@ -591,13 +634,26 @@ function holdTrial(
   trialNumber: number,
 ): {
   readonly world: World;
-  readonly verdict: typeof ACQUIT | typeof CONVICT | "hung";
+  readonly verdict: typeof ACQUIT | typeof CONVICT | "hung" | "pending";
   readonly jurors: number;
   readonly firstBallot: JuryRoom | null;
   readonly finalBallot: JuryRoom | null;
 } {
-  let next = world;
+  let next = summonJuryResidents(
+    world,
+    courtCase.venueJurisdictionId,
+    UNRESEARCHED_JURY_PANEL.size,
+    (candidate) => juryPool(candidate, courtCase),
+  );
   const jurors = empanelJury(next, courtCase, trialNumber);
+  if (jurors.length < UNRESEARCHED_JURY_PANEL.size)
+    return {
+      world: next,
+      verdict: "pending",
+      jurors: jurors.length,
+      firstBallot: null,
+      finalBallot: null,
+    };
   next = prepareJurors(next, jurors);
   const ballot = (
     number: number,
@@ -632,14 +688,6 @@ function holdTrial(
       } satisfies JuryRoom,
     };
   };
-  if (jurors.length === 0)
-    return {
-      world: next,
-      verdict: "hung",
-      jurors: 0,
-      firstBallot: null,
-      finalBallot: null,
-    };
   const first = ballot(1, null, null);
   const final =
     first.room.convictVotes === 0 || first.room.acquitVotes === 0
@@ -695,7 +743,16 @@ export function advanceProsecutions(
     const subject = subjectId ? next.people[subjectId] : undefined;
     if (!subjectId || !subject) continue;
     if (byReferral(PROSECUTION_DECLINED_EVENT, referral).length > 0) continue;
-    if (byReferral(PROSECUTION_ENDED_EVENT, referral).length > 0) continue;
+    const existingEnd = byReferral(PROSECUTION_ENDED_EVENT, referral).at(-1);
+    if (
+      existingEnd &&
+      (!existingEnd.tags.some(
+        (tag) =>
+          tag === `${OUTCOME_TAG}plea` || tag === `${OUTCOME_TAG}convicted`,
+      ) ||
+        byReferral(PROSECUTION_SENTENCED_EVENT, referral).length > 0)
+    )
+      continue;
     const name = personName(subject);
     const courtCase = courtCaseOf(next, referral, subjectId);
     const timing = prosecutionTimingFor(courtCase.stateKey);
@@ -767,8 +824,8 @@ export function advanceProsecutions(
     // entered themselves stands. Nobody decides for the player: with no plea
     // entered, the court enters not guilty (Fed. R. Crim. P. 11(a)(4)) and
     // the case goes to trial.
-    let pleaded = false;
-    if (mistrials.length === 0) {
+    let pleaded = existingEnd?.tags.includes(`${OUTCOME_TAG}plea`) ?? false;
+    if (!existingEnd && mistrials.length === 0) {
       const entered = enteredPleaOf(next, referral);
       if (entered) {
         pleaded = entered === "guilty";
@@ -794,10 +851,25 @@ export function advanceProsecutions(
         }
       }
     }
-    if (!pleaded) {
+    if (!existingEnd && !pleaded) {
       const trialNumber = mistrials.length + 1;
       const trial = holdTrial(next, courtCase, trialNumber);
       next = trial.world;
+      // An incomplete panel has not deliberated and cannot count as a mistrial.
+      if (trial.verdict === "pending") continue;
+      const juryCounty = courtCase.venueJurisdictionId
+        ? juryCountyForPlace(courtCase.venueJurisdictionId)
+        : null;
+      const juryTags = [
+        `justice.jury-panel-size:${trial.jurors}`,
+        `justice.jury-panel-basis:${UNRESEARCHED_JURY_PANEL.provenance}`,
+        ...(juryCounty
+          ? [
+              `justice.jury-catchment:${juryCounty}`,
+              "justice.jury-catchment-basis:estimated-county-default",
+            ]
+          : ["justice.jury-catchment-basis:unread-county"]),
+      ];
       if (trial.verdict === "hung") {
         if (trialNumber < rule.hungJuriesBeforeDismissal) {
           next = followUp(next, last, referral, PROSECUTION_MISTRIAL_EVENT, {
@@ -806,6 +878,7 @@ export function advanceProsecutions(
                 ? `The trial of ${name} for ${offense} could not go ahead: nobody was eligible to sit on the jury.`
                 : `The jury in the trial of ${name} for ${offense} could not agree, ${ballotLine(trial.finalBallot)} to convict. The judge declared a mistrial.`,
             ordinal: trialNumber,
+            extraTags: juryTags,
           });
           next = ensureProsecutionStageSchedule(
             next,
@@ -817,7 +890,7 @@ export function advanceProsecutions(
         }
         next = followUp(next, last, referral, PROSECUTION_ENDED_EVENT, {
           summary: outcomeLine("dismissed", name, offense),
-          extraTags: [`${OUTCOME_TAG}dismissed`],
+          extraTags: [`${OUTCOME_TAG}dismissed`, ...juryTags],
         });
         continue;
       }
@@ -825,28 +898,59 @@ export function advanceProsecutions(
         trial.verdict === CONVICT ? "convicted" : "acquitted";
       next = followUp(next, last, referral, PROSECUTION_ENDED_EVENT, {
         summary: `${outcomeLine(outcome, name, offense)} The jury's first vote was ${ballotLine(trial.firstBallot)} to convict.`,
-        extraTags: [`${OUTCOME_TAG}${outcome}`],
+        extraTags: [`${OUTCOME_TAG}${outcome}`, ...juryTags],
       });
       if (outcome === "acquitted") continue;
     }
-    const ended = next.history.events.at(-1)!;
+    const ended = existingEnd ?? next.history.events.at(-1)!;
+    pleaded = pleaded || ended.tags.includes(`${OUTCOME_TAG}plea`);
 
     // The sitting judge who allowed this case to proceed chooses the sentence.
     next = prepareJudge(next, judgeId);
-    const sentence = evaluateSentence(next, judgeId, courtCase, pleaded);
-    next = recordDurableDecisionTrace(next, sentence);
-    const kind: SentenceKind =
-      sentence.selectedOptionKey === SENTENCE_JAIL ? "jail" : "probation";
-    const motivation = chosenReasons(sentence);
-    const months = sentenceMonthsForCase(next, kind, courtCase);
+    const decision = sentenceDecisionForCase(next, judgeId, courtCase, pleaded);
+    if (!decision) continue;
+    next = decision.world;
+    const { sentence, kind, choice, floor } = decision;
+    // Incarceration research does not authorize a probation duration. A
+    // missing grade/range or undecided term remains pending, never midpoint.
+    if (kind !== "jail" || !choice?.term) continue;
+    next = recordDurableDecisionTrace(next, choice.evaluation);
+    const motivation = `${chosenReasons(sentence)} ${chosenReasons(choice.evaluation)}`;
+    const term = choice.term;
+    const termLine =
+      term.kind === "life"
+        ? "life imprisonment"
+        : `${term.months} months in jail`;
     next = followUp(next, ended, referral, PROSECUTION_SENTENCED_EVENT, {
-      summary:
-        kind === "jail"
-          ? `${name} was sentenced to ${months} months in jail for ${offense}.`
-          : `${name} was sentenced to ${months} months of probation for ${offense}.`,
+      summary: `${name} was sentenced to ${termLine} for ${offense}.`,
       extraTags: [
         `${SENTENCE_KIND_TAG}${kind}`,
-        `${SENTENCE_MONTHS_TAG}${months}`,
+        ...(term.kind === "life"
+          ? [SENTENCE_LIFE_TAG]
+          : [`${SENTENCE_MONTHS_TAG}${term.months}`]),
+        `justice.sentence-range:${choice.range.rowId}`,
+        `justice.sentence-basis:${choice.range.basis}`,
+        ...choice.range.sources.map(
+          (source) => `justice.sentence-source:${source}`,
+        ),
+        ...choice.range.citations.map(
+          (citation) => `justice.sentence-citation:${citation}`,
+        ),
+        ...choice.range.contributors.map(
+          (place) => `justice.sentence-estimate-contributor:${place}`,
+        ),
+        ...(choice.range.estimateMethod
+          ? [`justice.sentence-estimate-method:${choice.range.estimateMethod}`]
+          : []),
+        `justice.sentence-term-decision:${choice.evaluation.context.stableKey}`,
+        ...(floor
+          ? [
+              `justice.sentence-minimum-law:${floor.law.measureId}`,
+              ...floor.sourceRecordIds.map(
+                (id) => `justice.sentence-minimum-source:${id}`,
+              ),
+            ]
+          : []),
       ],
       motivation,
       decidedBy: { personId: judgeId, role: "Judge" },

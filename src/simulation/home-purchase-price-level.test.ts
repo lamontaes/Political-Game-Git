@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { homeValueForJurisdiction } from "./county-home-value";
 import { makeIsoDate } from "./dates";
-import { homePurchaseTerms } from "./home-purchase";
-import { lifePlaces } from "./life-places";
+import { HOME_PURCHASE_PLACEHOLDER, homePurchaseTerms } from "./home-purchase";
+import { lifePlaceStateIdentities, searchLifePlaces } from "./life-places";
 import { homePriceLevel, homePriceLevels } from "./living-world/housing-market";
 import { startValuesFromLatents } from "./macro-economy/kernel";
 import {
@@ -23,12 +23,15 @@ import { deserializeWorld, serializeWorld } from "./serialization";
 import { createWorld } from "./world";
 
 const SEED = "team4-a54-home-price-level-all56-20261001";
-const available = [...lifePlaces()];
+const available = [...lifePlaceStateIdentities()];
 const rng = new SeededRng(SEED);
-const places = Array.from(
-  { length: 5 },
-  () => available.splice(rng.integer(0, available.length), 1)[0]!,
-);
+const places = Array.from({ length: 5 }, () => {
+  const state = available.splice(rng.integer(0, available.length), 1)[0]!;
+  return searchLifePlaces("", 1, {
+    stateJurisdictionKey: state.jurisdictionKey,
+    scope: "locality",
+  })[0]!;
+});
 
 /** Controlled saved macro inputs, not a forecast or production price calibration. */
 function month(
@@ -80,6 +83,12 @@ function month(
 }
 
 describe("A54 purchase prices follow the housing market", () => {
+  it("samples distinct states from the complete 56-state catalog", () => {
+    expect(lifePlaceStateIdentities()).toHaveLength(56);
+    expect(
+      new Set(places.map((place) => place.stateJurisdictionKey)).size,
+    ).toBe(5);
+  });
   it.each(places)(
     "reads the dated housing level in $displayName ($key), seed " + SEED,
     (place) => {
@@ -141,6 +150,34 @@ describe("A54 purchase prices follow the housing market", () => {
           ) * 100_000,
         ),
       );
+      expect(terms.downPaymentMinor).toBe(
+        Math.max(
+          100_000,
+          Math.round(
+            (HOME_PURCHASE_PLACEHOLDER.downPaymentMinor * level) / 100_000,
+          ) * 100_000,
+        ),
+      );
+      expect(terms.monthlyPaymentMinor).toBe(
+        Math.max(
+          1_000,
+          Math.round(
+            (HOME_PURCHASE_PLACEHOLDER.monthlyPaymentMinor * level) / 1_000,
+          ) * 1_000,
+        ),
+      );
+      const consumerPriceChanged = {
+        ...world,
+        macroEconomy: {
+          ...world.macroEconomy,
+          months: world.macroEconomy.months.map((row) =>
+            row.scope === local.scope
+              ? { ...row, priceIndex: row.priceIndex * 2 }
+              : row,
+          ),
+        },
+      };
+      expect(homePurchaseTerms(consumerPriceChanged, town)).toEqual(terms);
       expect(serializeWorld(world)).toBe(before);
       const reopened = deserializeWorld(before);
       expect(homePurchaseTerms(reopened, town)).toEqual(terms);

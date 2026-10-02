@@ -1853,8 +1853,10 @@ export function municipalMeasures(world: World, governmentKey: string) {
   const packId = rules.ok
     ? rules.pack.packId
     : municipalRulePackId(primaryReading(government));
-  return (world.history.legislativeMeasures ?? []).filter(
-    (measure) => measure.rulePackId === packId,
+  return recordsByStringField(
+    world.history.legislativeMeasures ?? [],
+    "rulePackId",
+    packId,
   );
 }
 

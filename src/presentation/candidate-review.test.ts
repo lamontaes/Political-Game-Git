@@ -4,9 +4,9 @@ import path from "path";
 
 import { describe, expect, it } from "vitest";
 
-import assetManifest from "../../art/manifest/asset_manifest.json";
-import candidateRegistry from "../../art/manifest/character_candidate_registry.json";
-import admissionReport from "../../art/qa/p95-wave-a-morphology/wave-a-admission-report.json";
+import assetManifest from "../../art/manifest/asset_manifest.json" with { type: "json" };
+import candidateRegistry from "../../art/manifest/character_candidate_registry.json" with { type: "json" };
+import admissionReport from "../../art/qa/p95-wave-a-morphology/wave-a-admission-report.json" with { type: "json" };
 import {
   CHARACTER_UNRESOLVED_FAMILY,
   computeCharacterGenerationSignature,

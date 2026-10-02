@@ -23,7 +23,10 @@ import {
   workRoleAt,
 } from "./life-queries";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
-import { adultStartEmployer, localBusinessWageMinor } from "./local-economy";
+import {
+  adultStartEmployer,
+  localBusinessWageMinor,
+} from "./recorded-employer";
 import { governmentUnit } from "./government-units";
 import { governmentUnitDisplayName } from "./nationwide-world/government-unit-names";
 import {
@@ -1807,6 +1810,7 @@ export function hireAtAdultStart(
   const monthly = localBusinessWageMinor(
     employer.kind,
     input.jurisdictionId,
+    next,
   ).monthlyMinor;
   const weekly = weeklyPayAtHire(
     next,

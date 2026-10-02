@@ -1,7 +1,7 @@
 import { nextSessionCalendarDate } from "./legislative-session-calendar";
 import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
-import { COUNCIL_ACT_MEASURE_TITLE, renderMeasureTitle } from "./measure-title";
 import { fileMemberAgendaBills } from "./governing/member-agenda";
+import { applyInstitutionSessionEnd } from "./governing/legislative-clock";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { mayAnswerQuestion } from "./governing/question-authority";
 import {
@@ -10,6 +10,15 @@ import {
   ensureCouncilPrinciples,
 } from "./governing/council-lawmaking";
 import { measurePosition, placeMeasureOnCalendar } from "./legislation";
+import { chamberByKey } from "./legislature-rules";
+import { rulePackById } from "./legislature-rule-packs";
+import { offerPlannedAmendment } from "./governing/amendment-authors";
+import {
+  amendmentAdmissible,
+  floorStageTakesAmendments,
+} from "./governing/chamber-procedure";
+import { publicPartyOf } from "./governing/chamber-votes";
+import { personName } from "./people";
 import {
   municipalGovernmentByKey,
   municipalRulePackFor,
@@ -147,16 +156,6 @@ function fileActs(world: World): World {
   });
 }
 
-/** "Consumer data privacy law" becomes "Consumer Data Privacy Act of 2026". */
-export function dcCouncilActTitle(questionName: string, year: string): string {
-  return renderMeasureTitle(
-    COUNCIL_ACT_MEASURE_TITLE,
-    questionName,
-    year,
-    false,
-  );
-}
-
 /** Every act a non-player sponsor carries takes its next lawful step. */
 function moveActs(world: World): World {
   const player =
@@ -164,6 +163,11 @@ function moveActs(world: World): World {
   let next = world;
   for (const measure of municipalMeasures(world, DC_GOVERNMENT_KEY)) {
     if (player && measure.sponsorPersonId === player) continue;
+    const sessionEnd = applyInstitutionSessionEnd(next, measure.id);
+    if (sessionEnd) {
+      if ("world" in sessionEnd && sessionEnd.world) next = sessionEnd.world;
+      continue;
+    }
     const phase = measurePosition(next, measure.id).phase;
     if (phase === "awaiting-referral") {
       next = placeMeasureOnCalendar(next, {
@@ -181,6 +185,44 @@ function moveActs(world: World): World {
       ...members,
       ...(mayor ? [{ personId: mayor }] : []),
     ]);
+    if (phase === "on-floor") {
+      const position = measurePosition(next, measure.id);
+      const pack = rulePackById(measure.rulePackId);
+      const chamber = chamberByKey(pack, "council");
+      const stage = chamber.floorStages.find(
+        (row) => row.stageKey === position.floorStageKey,
+      );
+      if (
+        stage &&
+        members.length > 0 &&
+        members.every((seat) => next.people[seat.personId]) &&
+        (!position.earliestNextFloorDate ||
+          position.earliestNextFloorDate <= next.currentDate) &&
+        floorStageTakesAmendments(chamber, stage)
+      ) {
+        next = offerPlannedAmendment(next, {
+          measureId: measure.id,
+          chamber,
+          stage,
+          members: members.map((seat, index) => ({
+            memberKey: `council:${index + 1}`,
+            personId: seat.personId,
+            name: personName(next.people[seat.personId]!),
+            caucusLabel: publicPartyOf(next, seat.personId) ?? "No party",
+          })),
+          stableKey: `${measure.stableKey}:reading:${stage.stageKey}:amendment`,
+          nonpartisan: false,
+          admissible: (bill, part) =>
+            mayAnswerQuestion(
+              next,
+              measure.jurisdictionId,
+              part.propositionId,
+            ) &&
+            amendmentAdmissible(next, pack, chamber.chamberKey, bill, part)
+              .admissible,
+        });
+      }
+    }
     const dispositions = decideCouncilVote(next, {
       stableKey: `${measure.stableKey}:${phase === "awaiting-override" ? "override" : "vote"}:${next.currentDate}`,
       measureId: measure.id,
