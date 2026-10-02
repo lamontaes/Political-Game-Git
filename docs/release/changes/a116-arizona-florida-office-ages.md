@@ -1,4 +1,9 @@
-# Arizona and Florida legislative ages follow constitutional records
+---
+id: a116-arizona-florida-office-ages
+impact: patch
+section: Changed
+title: Arizona and Florida legislative ages follow constitutional records
+---
 
 Before: Four legislative office ages carried game-profile values.
 
