@@ -155,6 +155,11 @@ export interface MunicipalProcedure {
   readonly override: string | null;
   readonly overrideState: string;
   readonly overrideAbsence: string | null;
+  readonly vetoOverrideWindow?: {
+    readonly days: number;
+    readonly dayBasis: "CALENDAR" | "BUSINESS";
+    readonly anchor: "executive-return" | "clerk-receipt";
+  };
   readonly effectivePublication: string | null;
   readonly committeeReferral: string | null;
   /** The source layer's state for committee referral, verbatim. */
@@ -608,6 +613,7 @@ export function municipalRuleSourceRef(
     origination: "legislativeProcedure.introductionSponsorship",
     referral: "legislativeProcedure.committeeReferral",
     "effective date": "legislativeProcedure.effectivePublication",
+    "veto override window": "legislativeProcedure.vetoOverrideWindow",
     session: "legislativeProcedure.session",
   };
   const fact =
@@ -1011,6 +1017,14 @@ export function municipalRulePackFor(
               "No instrument read establishes whether this veto reaches single items.",
             ),
       override,
+      ...(reading.procedure.vetoOverrideWindow
+        ? {
+            vetoOverrideWindow: knownRule(
+              reading.procedure.vetoOverrideWindow,
+              municipalRuleSourceRef(reading, "veto override window"),
+            ),
+          }
+        : {}),
       source: executiveSource,
     },
     enactment: {

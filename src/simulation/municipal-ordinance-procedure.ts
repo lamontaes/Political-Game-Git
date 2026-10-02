@@ -727,11 +727,6 @@ export function actAmendsCriminalCode(
   });
 }
 
-/** Calendar days allowed to reenact a returned act (D.C. Code § 1-204.04(e)). */
-const OVERRIDE_WINDOW_DAYS: Readonly<Record<string, number>> = {
-  "us-dc-washington": 30,
-};
-
 function isWeekend(date: IsoDate): boolean {
   const day = new Date(`${date}T00:00:00Z`).getUTCDay();
   return day === 0 || day === 6;
@@ -941,17 +936,17 @@ function recordCouncilExecutiveDecision(
   });
   if (action === "signed")
     return enactCouncilMeasure(next, governmentKey, measure);
-  const days = OVERRIDE_WINDOW_DAYS[governmentKey];
-  if (days)
+  const deadline = overrideDeadline(next, governmentKey, measure.id);
+  if (deadline !== null)
     next = scheduleFutureDueItem(next, {
       stableKey: `${measure.stableKey}:override-deadline`,
-      dueAt: addDays(next.currentDate, days + 1),
+      dueAt: addDays(deadline, 1),
       transitionKey: COUNCIL_ACT_OVERRIDE_DEADLINE,
       entityIds: [measure.id],
       jurisdictionId: measure.jurisdictionId,
       provenance: {
         kind: "authored",
-        note: `The council may reenact ${measure.designation} within ${days} calendar days of its return.`,
+        note: `The sourced reenactment period for ${measure.designation} ends on ${deadline}.`,
       },
     });
   return next;
@@ -1079,11 +1074,25 @@ export function overrideDeadline(
   governmentKey: string,
   measureId: EntityId,
 ): IsoDate | null {
-  const days = OVERRIDE_WINDOW_DAYS[governmentKey];
+  const measure = measureOfThisCouncil(world, governmentKey, measureId);
+  if (!measure) return null;
+  const window = legislativeRulePackForWorld(world, measure.rulePackId)
+    .executive.vetoOverrideWindow;
+  // A veto action does not establish receipt by a clerk. Business-day rules
+  // also need their actual holiday calendar; weekdays alone are insufficient.
+  if (
+    window?.kind !== "known" ||
+    window.value.anchor !== "executive-return" ||
+    window.value.dayBasis !== "CALENDAR"
+  )
+    return null;
   const vetoed = measureActions(world, measureId)
-    .filter((action) => action.kind === "vetoed")
+    .filter(
+      (action) =>
+        action.kind === "vetoed" && action.occurredAt <= world.currentDate,
+    )
     .at(-1);
-  return days && vetoed ? addDays(vetoed.occurredAt, days) : null;
+  return vetoed ? addDays(vetoed.occurredAt, window.value.days) : null;
 }
 
 /** The council votes to reenact a measure the executive returned. */
