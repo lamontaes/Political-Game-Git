@@ -14,6 +14,10 @@ import {
 } from "../simulation/serialization";
 import { CONTENT_PACK_API } from "../simulation/runtime-content-packs";
 import { createDemoWorld } from "../simulation/demo";
+import {
+  createFormationContext,
+  recordPrinciple,
+} from "../simulation/politics";
 import type { LegislativeVoteRecord, World } from "../simulation/types";
 import {
   createBrowserWorldRecord,
@@ -70,7 +74,36 @@ function worldWithRollCalls(): World {
       step: option.actionKey,
     }).world;
   }
-  return next;
+  // Exercise the legacy principle pack explicitly. Opening people now form
+  // principles from their lives, which are preserved verbatim in a save.
+  // Reuse the old-save record shape covered by principle-packing.test.ts;
+  // no production generator is needed to test all three packs together.
+  const principleId = next.policyCatalog.principleOrder[0]!;
+  const definition = next.policyCatalog.principles[principleId]!;
+  const personId = next.personOrder.find(
+    (id) =>
+      !next.history.principles.some(
+        (record) =>
+          record.personId === id && record.principleId === principleId,
+      ),
+  );
+  if (!personId)
+    throw new Error("A person without this fixture principle is required.");
+  return recordPrinciple(next, {
+    stableKey: `officeholder-principles/v1:${personId}:${definition.stableKey}`,
+    personId,
+    principleId,
+    formedAt: next.currentDate,
+    stance: "endorses",
+    strength: 0.37,
+    conviction: "strong",
+    flexibility: "conditional",
+    qualification: null,
+    formation: createFormationContext("other:drawn-before-play", {
+      note: "Drawn before play; see officeholder-principles.ts.",
+    }),
+    supersedesPrincipleRecordId: null,
+  });
 }
 
 const world = worldWithRollCalls();
