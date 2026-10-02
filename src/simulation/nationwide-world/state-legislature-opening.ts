@@ -1,3 +1,4 @@
+import { SETTING_PARTY_NAMES } from "../living-world/party-registry";
 import { recordedDistrictOpeningWinner } from "./state-legislative-result-source";
 import {
   inventedPersonAge,
@@ -528,6 +529,8 @@ export function ensureStateLegislatureOpening(
     stableKey: string,
     name: string,
     classification: `${string}:${string}`,
+    locationJurisdictionId: EntityId | null = jurisdiction.id,
+    provenanceNote = `The body the accepted rule pack ${pack.legislativeRulePackId} describes, seated for this fictional save.`,
   ) => {
     if (hasStableKey(next.history.organizations, stableKey)) return;
     if (
@@ -544,12 +547,12 @@ export function ensureStateLegislatureOpening(
         detailLevel: "lightweight",
         provenance: {
           kind: "authored",
-          note: `The body the accepted rule pack ${pack.legislativeRulePackId} describes, seated for this fictional save.`,
+          note: provenanceNote,
         },
         initialProfile: {
           name,
           classification: classification as `membership:${string}`,
-          locationJurisdictionId: jurisdiction.id,
+          locationJurisdictionId,
         },
       },
     });
@@ -655,6 +658,19 @@ export function ensureStateLegislatureOpening(
   if (members.length === 0) return world;
 
   organization(bodyKey, pack.displayName, "sector:government");
+  // A state-only opening can precede Congress. Reuse the same canonical
+  // setting organizations before recording the certified affiliations.
+  for (const party of new Set(
+    members.flatMap((member) => (member.party ? [member.party] : [])),
+  )) {
+    organization(
+      LIVING_WORLD_KEYS.nationalParty(party),
+      SETTING_PARTY_NAMES[party]!,
+      "membership:political-party",
+      null,
+      "Existing setting party identity required by recorded district results.",
+    );
+  }
 
   next = createCharacterHistoryContextPeople(
     next,
@@ -797,7 +813,7 @@ export function ensureStateLegislatureOpening(
       ...members.flatMap((member) =>
         member.sourceCaseIds.map(
           (id) =>
-            `seat-result:${member.office.officeKey}|${member.ordinal}|klarner:${id}`,
+            `seat-result:${member.office.officeKey}|${member.ordinal}|${id}`,
         ),
       ),
       `pack:${pack.packId}`,

@@ -1,0 +1,56 @@
+{
+  "sources": [
+    {
+      "id": "mn-sos-certified-2024",
+      "stateUsps": "MN",
+      "stateFips": "27",
+      "electionDate": "2024-11-05",
+      "certifiedAt": "2024-11-21",
+      "updatedAt": "2024-12-02",
+      "url": "https://www.sos.state.mn.us/media/yt3llxwd/2024-general-federal-state-results-by-precinct-official.xlsx",
+      "certificationUrl": "https://www.sos.state.mn.us/elections-voting/election-results/2024/2024-general-election-results/2024-state-canvassing-board-general/",
+      "certificationDocumentUrl": "https://officialdocuments.sos.state.mn.us/Document/Details/152508",
+      "worksheet": "Precinct-Results",
+      "precinctIdField": "VTDID",
+      "boundaryEvidence": {
+        "url": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf",
+        "locator": "Section 4.19, page 4-45",
+        "statement": "The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle).",
+        "identityStatement": "A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state.",
+        "limit": "Minnesota changed both chamber plans for 2024. Bind only the official 2024 district labels; do not borrow the 2022 returns.",
+        "sha256": "21476bdba82fe8072f8994ae59bda484260d1b932c13f31991f6414f8e04d551",
+        "retrievedAt": "2026-10-02"
+      },
+      "contests": [
+        {
+          "chamber": "state-lower",
+          "districtField": "MNLEGDIST",
+          "voteFields": {
+            "MNLEGR": "r",
+            "MNLEGDFL": "d",
+            "MNLEGWI": null
+          },
+          "partyNames": {
+            "r": "Republican",
+            "d": "Democratic-Farmer-Labor"
+          }
+        },
+        {
+          "chamber": "state-upper",
+          "districtField": "MNSENDIST",
+          "voteFields": {
+            "MNSENR": "r",
+            "MNSENDFL": "d",
+            "MNSENWI": null
+          },
+          "partyNames": {
+            "r": "Republican",
+            "d": "Democratic-Farmer-Labor"
+          }
+        }
+      ],
+      "sha256": "13adf003bfabf1a19e4c47dc7fe100d8862cd22186b1f6ae0f52a721a5b57459",
+      "retrievedAt": "2026-10-02"
+    }
+  ]
+}

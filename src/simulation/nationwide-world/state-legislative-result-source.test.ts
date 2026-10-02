@@ -10,7 +10,8 @@ import {
 } from "./state-legislative-result-source";
 
 const seed = "o3:recorded-district-options";
-const eligible = source.records.filter((row) => {
+const recordedSource: DistrictResultSource = source;
+const eligible = recordedSource.records.filter((row) => {
   const dates = row.winners.map((winner) => winner.date);
   return (
     new Set(dates).size === dates.length &&
@@ -42,10 +43,42 @@ const fixture: DistrictResultSource = {
 const date = makeIsoDate("2026-01-05");
 
 describe("recorded district opening options", () => {
+  it("uses every primary certified current-plan binding without borrowing another district", () => {
+    expect(source.bindings.length).toBeGreaterThan(0);
+    for (const binding of source.bindings) {
+      const identity = districtIdentityCatalog().find(
+        (candidate) => candidate.recordId === binding.districtRecordId,
+      )!;
+      const record = source.records.find(
+        (candidate) => candidate.key === binding.sourceSeatKey,
+      )!;
+      const result = recordedDistrictOpeningWinner(
+        identity,
+        binding.memberOrdinal,
+        date,
+        new SeededRng(seed),
+      );
+      expect(result, binding.sourceSeatKey).toEqual(record.winners[0]);
+      expect(result!.caseIds.length).toBeGreaterThan(0);
+      expect(binding.boundaryEvidence).toContain("2024 election cycle");
+      expect(record.stateUsps).toBe(identity.stateUsps);
+      expect(record.chamber).toBe(identity.chamber);
+    }
+  });
   it("does not manufacture a binding from a district number or chamber total", () => {
-    expect(source.bindings).toEqual([]);
+    const unbound = districtIdentityCatalog().filter(
+      (candidate) =>
+        !candidate.isUnassignedResidual &&
+        candidate.chamber !== "congressional" &&
+        !source.bindings.some(
+          (binding) => binding.districtRecordId === candidate.recordId,
+        ),
+    );
+    const candidate =
+      unbound[parseInt(stableHash(seed).slice(0, 8), 16) % unbound.length]!;
+    expect(unbound.length).toBeGreaterThan(0);
     expect(
-      recordedDistrictOpeningWinner(district, 1, date, new SeededRng(seed)),
+      recordedDistrictOpeningWinner(candidate, 1, date, new SeededRng(seed)),
     ).toBeNull();
   });
 
