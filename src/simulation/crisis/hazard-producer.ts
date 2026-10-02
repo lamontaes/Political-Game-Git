@@ -1,7 +1,6 @@
 import { addDays, daysBetween, makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { lifePlaceByJurisdictionId, lifePlaceSearch } from "../life-places";
-import { SeededRng } from "../rng";
 import { countyGeoidsForPlace } from "../government-units";
 import type {
   EntityId,
@@ -17,7 +16,7 @@ import catalogJson from "./storm-catalog.generated.json" with { type: "json" };
 import type { HazardFamily, HazardMagnitude } from "./types";
 
 /**
- * Automatic hazard production, resampled from recorded history.
+ * Automatic hazard production, replayed from recorded history.
  *
  * CRUNCH47 C2: one versioned national stream samples fictional episodes from
  * the compiled NOAA/NCEI Storm Events catalog, rather than rolling a storm per
@@ -36,23 +35,25 @@ export const HAZARD_SAMPLE_TRANSITION_KEY = "crisis:hazard-sample";
 export const HAZARD_EPISODE_TRANSITION_KEY = "crisis:hazard-episode";
 export const HAZARD_PRODUCER_VERSION = "crisis-hazard-producer-v1";
 
-/** The authored sampling law, stated so nobody has to infer it from code. */
+/** Replay is limited to the catalog's declared complete episode-detail years. */
 export const HAZARD_SAMPLING_CONTRACT = {
   version: HAZARD_PRODUCER_VERSION,
-  countLaw: "poisson-at-the-catalog-recorded-monthly-rate",
-  /**
-   * The catalog records episodes for a whole state; it has no per-county rate.
-   * A represented place is thinned out of that state rate by the state's
-   * recorded median county footprint over the number of counties in the
-   * state. That is an authored assumption of uniform incidence inside a
-   * state, stated here rather than hidden in the arithmetic, and it is the
-   * only step in this module that is not read straight from the catalog.
-   */
-  countyThinning: "recorded-median-footprint-over-counties-in-state",
-  footprintSource: "recorded-county-footprint-joined-to-represented-geography",
+  countLaw: "complete-recorded-year-replay",
+  countyThinning: "none-recorded-county-join",
+  footprintSource: "recorded-episode-county-footprint",
   magnitudeLadder: "authored-from-the-recorded-episode-area-count",
-  label: "historical-report-resampling",
+  label: "historical-report-replay",
 } as const;
+
+/** A calendar cycle preserves each complete source year's report count. */
+export function recordedHazardYear(monthStart: IsoDate): number | null {
+  const span = STORM_CATALOG.episodeDetailPolicy?.episodeRowYears;
+  if (!span) return null;
+  const width = span.lastYear - span.firstYear + 1;
+  if (!Number.isSafeInteger(width) || width <= 0) return null;
+  const year = Number(monthStart.slice(0, 4));
+  return span.firstYear + ((((year - span.firstYear) % width) + width) % width);
+}
 
 interface StormEpisode {
   readonly episodeId: string;
@@ -281,19 +282,6 @@ export function representedRate(
   return rate * share;
 }
 
-/** Knuth's method, on the shared deterministic stream. */
-function poisson(rng: SeededRng, mean: number): number {
-  if (mean <= 0) return 0;
-  const limit = Math.exp(-mean);
-  let count = 0;
-  let product = rng.next();
-  while (product > limit && count < 25) {
-    count += 1;
-    product *= rng.next();
-  }
-  return count;
-}
-
 export interface SampledHazard {
   readonly stateUsps: string;
   readonly sourceFamily: string;
@@ -325,33 +313,20 @@ export function sampleMonthlyHazards(
     ]);
   }
   const sampled: SampledHazard[] = [];
-  for (const [stateUsps, jurisdictionIds] of [...byState].sort((a, b) =>
+  for (const [stateUsps] of [...byState].sort((a, b) =>
     a[0].localeCompare(b[0]),
   )) {
     for (const sourceFamily of Object.keys(FAMILY_OF).sort()) {
-      const perPlace = representedRate(stateUsps, sourceFamily, month);
-      if (perPlace === null || perPlace <= 0) continue;
-      // One draw for the represented places of this state together.
-      const rate = perPlace * jurisdictionIds.length;
-      const stream = new SeededRng(HAZARD_PRODUCER_VERSION).fork(
-        JSON.stringify([
-          HAZARD_PRODUCER_VERSION,
-          world.seed,
-          monthKeyOf(monthStart),
-          stateUsps,
-          sourceFamily,
-        ]),
-      );
-      const count = poisson(stream.fork("count"), rate);
+      const sourceYear = recordedHazardYear(monthStart);
+      if (sourceYear === null) continue;
       const candidates = episodesFor(
         stateFipsOf(stateUsps),
         sourceFamily,
         month,
+      ).filter(
+        (episode) => Number(episode.startDate.slice(0, 4)) === sourceYear,
       );
-      if (candidates.length === 0) continue;
-      for (let index = 0; index < count; index += 1) {
-        const draw = stream.fork(`episode:${index}`);
-        const recorded = draw.pick([...candidates]);
+      for (const recorded of candidates) {
         const recordedAreaCount = recorded.affectedAreas.filter(
           (area) => area.stateFips === stateFipsOf(stateUsps),
         ).length;
