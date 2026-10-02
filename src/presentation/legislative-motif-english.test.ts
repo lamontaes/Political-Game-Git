@@ -4,6 +4,7 @@ import { createStableId } from "../simulation";
 import {
   ENGLISH_MOTIF_FAMILIES,
   MOTIF_ENGLISH_BANKS,
+  MOTIF_STATE_FACTS,
   composeMotifEnglish,
   motifEnglishPacket,
   type MotifEnglishInput,
@@ -14,6 +15,8 @@ import type { GroundedEnglishFact } from "./grounded-english";
 import {
   eligibleMotifVariantKeys,
   legislativeMotifLine,
+  motifFamilies,
+  spokenReach,
   type LegislativeMotifContext,
 } from "./legislative-dialogue-motifs";
 import { observerPlace } from "./observer-world";
@@ -62,7 +65,7 @@ const OPTIONAL: Readonly<Partial<Record<MotifFactKey, GroundedEnglishFact>>> = {
   "bill-amount": { text: "$8,600,000", sourceRecordIds: [provision] },
   analyst: { text: "Rowe", sourceRecordIds: [analyst] },
   reach: {
-    text: "language reaching every eligible rider",
+    text: "covers every eligible rider",
     sourceRecordIds: [measure],
   },
   "prior-statement": {
@@ -240,5 +243,102 @@ describe("the bargaining room speaks these beats through the engine", () => {
     expect(
       legislativeMotifLine(context("district-beneficiary-concern", false)),
     ).toContain(place.displayName);
+  });
+});
+
+describe("how the lines sound in the room", () => {
+  const facts = {
+    speaker: "Hollis",
+    listener: "Ward",
+    designation: "HB 214",
+    shortTitle: "Transit Access Pilot",
+    sectionLabel: "Section 4",
+    sectionHeading: "Local project match",
+    reach: "language reaching every eligible rider",
+    beneficiary: `the ${place.displayName} Transit Authority`,
+    place: place.displayName,
+    amount: "$600,000",
+    billAmount: "$8,600,000",
+    analyst: "Rowe",
+    chamber: "House of Representatives",
+    nextStep: "third reading",
+    priorStatement: "“Fix Section 4 and I'm with you.”",
+    statedGround: "The authority cannot raise the match from fare revenue.",
+  };
+  const grounding = (requested: "absent" | "adopted" | null) => ({
+    worldSeed: SEED,
+    speakerPersonId: speaker,
+    listenerPersonId: listener,
+    measureId: measure,
+    billAmountSourceIds: [measure],
+    analystPersonId: analyst,
+    requestedSection:
+      requested === null
+        ? null
+        : { adoptedProvisionId: requested === "adopted" ? provision : null },
+  });
+
+  it("names the bill once in a line and says who a section reaches as speech", () => {
+    expect(spokenReach("language reaching every eligible rider")).toBe(
+      "covers every eligible rider",
+    );
+    expect(spokenReach("language written for the transit authority")).toBe(
+      "is written for the transit authority",
+    );
+    let lines = 0;
+    for (const family of motifFamilies())
+      for (const voice of VOICES)
+        for (const requested of [null, "absent", "adopted"] as const)
+          for (const priorFamily of [null, "refuse-to-commit-yet"] as const)
+            for (let turn = 0; turn < 8; turn += 1) {
+              const line = legislativeMotifLine({
+                family,
+                voice,
+                audience: "limited",
+                priorFamily,
+                variantSeed: `a160-sound:${turn}`,
+                facts,
+                grounding: grounding(requested),
+              });
+              lines += 1;
+              const where = `${family}/${voice}/${requested}/${turn}`;
+              expect(
+                line.split("HB 214").length - 1,
+                `${where}: ${line}`,
+              ).toBeLessThanOrEqual(1);
+              expect(line, where).not.toContain("written as language");
+              expect(line, where).not.toMatch(/\blanguage reaching\b/);
+            }
+    expect(lines).toBe(motifFamilies().length * 4 * 3 * 2 * 8);
+  });
+
+  it("says a recorded state of the section wherever a bank has words for it", () => {
+    for (const state of MOTIF_STATE_FACTS) {
+      const families = ENGLISH_MOTIF_FAMILIES.filter((family) =>
+        MOTIF_ENGLISH_BANKS.some(
+          (bank) =>
+            (bank.key === `legislative.${family}` ||
+              bank.key.startsWith(`legislative.${family}.`)) &&
+            Object.values(bank.parts).some((part) =>
+              part!.variants.some((variant) =>
+                (variant.requiresFacts ?? []).includes(state),
+              ),
+            ),
+        ),
+      );
+      expect(families.length, state).toBeGreaterThan(0);
+      for (const family of families)
+        for (const voice of VOICES)
+          for (let turn = 0; turn < 8; turn += 1) {
+            const row = input(family, voice, turn, true, {
+              [state]: { text: state, sourceRecordIds: [measure] },
+            } as never);
+            const line = composeMotifEnglish(row);
+            expect(
+              line.parts.some((part) => part.usedFactKeys.includes(state)),
+              `${family}/${voice}/${state}: ${line.text}`,
+            ).toBe(true);
+          }
+    }
   });
 });

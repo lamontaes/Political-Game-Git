@@ -222,6 +222,18 @@ const BANKS: Readonly<Record<EnglishMotifFamily, FamilyBanks>> = {
             kind: "template",
             text: "{{section-label}} at {{amount}} is what's on the table, {{listener}}, and {{next-step}} is next. I'd settle it before the {{chamber}} does.",
           },
+          {
+            key: "settle-it-in",
+            kind: "template",
+            text: "{{section-label}} still isn't in {{designation}}, {{listener}}, and {{next-step}} is next. If it's going in, it goes in now.",
+            requiresFacts: ["section-absent"],
+          },
+          {
+            key: "hold-it",
+            kind: "template",
+            text: "{{section-label}} is in {{designation}} now, {{listener}}, and {{next-step}} is next. I'd hold it there.",
+            requiresFacts: ["section-adopted"],
+          },
         ],
       },
     }),
@@ -240,6 +252,18 @@ const BANKS: Readonly<Record<EnglishMotifFamily, FamilyBanks>> = {
             key: "next-step",
             kind: "template",
             text: "{{designation}} is at {{next-step}} next, {{listener}}. If {{section-label}} is changing, it changes before then.",
+          },
+          {
+            key: "not-in-yet",
+            kind: "template",
+            text: "{{section-label}} isn't in the bill yet; whatever you're going to do with it, do it before {{next-step}}.",
+            requiresFacts: ["section-absent"],
+          },
+          {
+            key: "in-now",
+            kind: "template",
+            text: "{{section-label}} is in the bill now. If anything in it is changing, it changes before {{next-step}}.",
+            requiresFacts: ["section-adopted"],
           },
         ],
       },
@@ -478,6 +502,12 @@ const BANKS: Readonly<Record<EnglishMotifFamily, FamilyBanks>> = {
             kind: "template",
             text: "I'd rather hear it now than read it on the board. Where are you on {{designation}}?",
           },
+          {
+            key: "it-is-in",
+            kind: "template",
+            text: "{{section-label}} is in the bill now, {{listener}}. Are you with me on {{designation}}?",
+            requiresFacts: ["section-adopted"],
+          },
         ],
       },
     }),
@@ -523,6 +553,12 @@ const BANKS: Readonly<Record<EnglishMotifFamily, FamilyBanks>> = {
             key: "if-section",
             kind: "template",
             text: "fix {{section-label}} and I'm with you on {{designation}}. Leave it as it is and I'm not, and I'd rather you heard that from me than found out in the {{chamber}}.",
+          },
+          {
+            key: "keep-it",
+            kind: "template",
+            text: "{{section-label}} is in the bill now. Keep it as it reads and I'm with you on {{designation}}.",
+            requiresFacts: ["section-adopted"],
           },
         ],
       },
@@ -628,7 +664,7 @@ const BANKS: Readonly<Record<EnglishMotifFamily, FamilyBanks>> = {
               {
                 key: "eligibility",
                 kind: "template",
-                text: "tighten who's eligible. As drafted, {{section-label}} is written as {{reach}}, and nobody has costed that.",
+                text: "tighten who's eligible. As drafted, {{section-label}} {{reach}}, and nobody has costed that.",
               },
             ],
           },
@@ -771,6 +807,12 @@ const BANKS: Readonly<Record<EnglishMotifFamily, FamilyBanks>> = {
             key: "two-lines",
             kind: "template",
             text: "change {{section-label}}, leave the rest of {{designation}} alone, and half this argument goes away.",
+          },
+          {
+            key: "add-it",
+            kind: "template",
+            text: "{{section-label}} isn't in the bill yet. Offer it as a committee amendment before {{next-step}} and half this argument goes away.",
+            requiresFacts: ["section-absent"],
           },
         ],
       },
@@ -934,13 +976,74 @@ export function composeMotifEnglish(
   const packet = motifEnglishPacket(input);
   const family = BANKS[input.family];
   const voiced = family.byVoice?.[input.voice];
-  const own = voiced ? composeGroundedLine(packet, voiced) : null;
-  if (own?.kind === "rendered") return own;
-  const shared = composeGroundedLine(packet, family.shared);
-  if (shared.kind === "rendered") return shared;
+  const banks = voiced ? [voiced, family.shared] : [family.shared];
+  // A recorded state of the section is said where a part can say it: those
+  // wordings first, from the speaker's own concern and then the shared bank.
+  for (const bank of banks) {
+    const stated = statedBank(bank, packet);
+    if (!stated) continue;
+    const line = composeGroundedLine(packet, stated);
+    if (line.kind === "rendered") return line;
+  }
+  let reasons: readonly string[] = [];
+  for (const bank of banks) {
+    const line = composeGroundedLine(packet, bank);
+    if (line.kind === "rendered") return line;
+    reasons = line.reasons;
+  }
   // Each shared core has a variant that needs only the bill, the section and
   // the listener, which every bargain records.
   throw new Error(
-    `Beat ${input.family} has no grounded wording: ${shared.reasons.join("; ")}`,
+    `Beat ${input.family} has no grounded wording: ${reasons.join("; ")}`,
   );
+}
+
+/** States of the section a line may assert, when the record shows them. */
+export const MOTIF_STATE_FACTS: readonly MotifFactKey[] = [
+  "section-absent",
+  "section-adopted",
+  "answering-a-hold",
+];
+
+/**
+ * The bank with each part narrowed to the wordings that say a state the
+ * packet records, or null when no part has one to say.
+ */
+function statedBank(
+  bank: ComposedLineBank,
+  packet: GroundedEnglishPacket,
+): ComposedLineBank | null {
+  const recorded = MOTIF_STATE_FACTS.filter((key) => packet.facts[key]);
+  if (recorded.length === 0) return null;
+  let narrowed = false;
+  const parts: Record<string, ComposedLineBank["parts"]["core"]> = {};
+  for (const [part, partBank] of Object.entries(bank.parts)) {
+    const stating = partBank!.variants.filter((variant) =>
+      (variant.requiresFacts ?? []).some((key) =>
+        recorded.includes(key as MotifFactKey),
+      ),
+    );
+    if (stating.length > 0) narrowed = true;
+    parts[part] =
+      stating.length > 0 ? { ...partBank!, variants: stating } : partBank!;
+  }
+  return narrowed
+    ? { ...bank, parts: parts as ComposedLineBank["parts"] }
+    : null;
+}
+
+/**
+ * A line names the bill once. A later mention in the same line is "this
+ * bill", as a speaker who has just named it would say.
+ */
+export function nameTheBillOnce(text: string, designation: string): string {
+  const first = text.indexOf(designation);
+  if (first < 0) return text;
+  const pieces = text.slice(first + designation.length).split(designation);
+  let out = text.slice(0, first + designation.length) + pieces[0]!;
+  for (const piece of pieces.slice(1)) {
+    out += /[.?!]\s+$/.test(out) ? "This bill" : "this bill";
+    out += piece;
+  }
+  return out;
 }

@@ -3,6 +3,7 @@ import { composeCostObjection } from "./legislative-cost-objection-english";
 import {
   ENGLISH_MOTIF_FAMILIES,
   composeMotifEnglish,
+  nameTheBillOnce,
   type MotifFactKey,
 } from "./legislative-motif-english";
 import type { GroundedEnglishFact } from "./grounded-english";
@@ -162,6 +163,28 @@ const HOLDS: readonly LegislativeMotifFamily[] = [
  * that establishes it.
  */
 export function engineLine(context: LegislativeMotifContext) {
+  const line = composedLine(context);
+  return {
+    ...line,
+    text: nameTheBillOnce(line.text, context.facts.designation),
+  };
+}
+
+/**
+ * Who a section reaches, as a speaker says it after the section's label:
+ * "covers every eligible rider", "is written for the transit authority". The
+ * bill's own phrasing ("language reaching …") is how a summary reads, not how
+ * a legislator talks.
+ */
+export function spokenReach(reach: string): string {
+  const reaching = /^language reaching (.+)$/.exec(reach);
+  if (reaching) return `covers ${reaching[1]}`;
+  const writtenFor = /^language written for (.+)$/.exec(reach);
+  if (writtenFor) return `is written for ${writtenFor[1]}`;
+  return `covers ${reach.replace(/^language /, "")}`;
+}
+
+function composedLine(context: LegislativeMotifContext) {
   const { facts, grounding } = context;
   const measure = [grounding.measureId];
   if (context.family !== "object-on-cost") {
@@ -193,7 +216,7 @@ export function engineLine(context: LegislativeMotifContext) {
       "section-adopted": requested?.adoptedProvisionId
         ? word("adopted", [requested.adoptedProvisionId])
         : undefined,
-      reach: word(facts.reach),
+      reach: word(spokenReach(facts.reach)),
       // The speaker's own earlier words, said to this listener.
       "prior-statement": word(facts.priorStatement, [
         grounding.speakerPersonId,
