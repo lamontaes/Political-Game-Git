@@ -952,8 +952,10 @@ export function senateAppointmentContext(
     governor,
     candidates,
     partyListMissing,
+    // Submitted-list timing requires the actual submission/receipt record;
+    // the table's collapsed intervals cannot establish that boundary.
     deadline:
-      law.appointmentDeadlineDays === null
+      partyListMissing || law.appointmentDeadlineDays === null
         ? null
         : addDays(vacancyDate, law.appointmentDeadlineDays),
     title: congressSeatTitle(seat),

@@ -1615,7 +1615,7 @@ export function openSenateAppointmentMatter(
     extraTags: [
       `senate-seat:${input.seatKey}`,
       `vacancy-date:${input.vacancyDate}`,
-      `deadline-basis:${actual.deadline ? (actual.law.citation ?? actual.law.source) : "unrecorded"}`,
+      `deadline-basis:${actual.partyListMissing ? "missing-submitted-list-receipt" : actual.deadline ? (actual.law.citation ?? actual.law.source) : "unrecorded"}`,
       ...(actual.partyListMissing
         ? ["appointment-input:missing-submitted-party-list"]
         : []),

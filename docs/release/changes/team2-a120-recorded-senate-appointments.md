@@ -15,3 +15,6 @@ remain unset, and a submitted party list cannot be replaced with acquaintances.
 Missing candidates, submitted lists, office holders or decisions keep the seat
 vacant. Special elections and the existing legislative-selection route retain
 their own rules.
+
+A required submitted nominee list also needs its recorded submission or receipt
+date. Collapsed vacancy-relative totals do not create that evidence or a lapse.

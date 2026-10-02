@@ -34,9 +34,14 @@ const known = places.filter((place) => {
 });
 const place = pickDistinct(new SeededRng(seed), known, 1)[0]!;
 
-function vacancy(kind: "known" | "party-list" = "known", player = true) {
+function vacancy(
+  kind: "known" | "party-list" = "known",
+  player = true,
+  selectedPlace?: (typeof places)[number],
+) {
   const selected =
-    kind === "known"
+    selectedPlace ??
+    (kind === "known"
       ? place
       : pickDistinct(
           new SeededRng(seed + ":list"),
@@ -46,7 +51,7 @@ function vacancy(kind: "known" | "party-list" = "known", player = true) {
                 ?.appointment === "governor-from-party-list",
           ),
           1,
-        )[0]!;
+        )[0]!);
   const opened = smallWorld({
     place: selected.jurisdictionKey,
     seed,
@@ -262,19 +267,28 @@ describe("A120 an appointment follows the governor's recorded decision", () => {
   });
 
   it("keeps absent party-list and deadline evidence explicit without inventing nominees or a wait", () => {
-    const { world, matter, seat } = vacancy("party-list");
-    const context = senateAppointmentContext(
-      world,
-      seat.seatKey,
-      world.currentDate,
-    )!;
-    expect(context.partyListMissing).toBe(true);
-    expect(matter.options).toEqual([]);
-    expect(matter.openedEvent.tags).toContain(
-      "appointment-input:missing-submitted-party-list",
+    const listPlaces = places.filter(
+      (row) =>
+        senateVacancyLaw(row.jurisdictionKey.replace(/^US-/, ""))
+          ?.appointment === "governor-from-party-list",
     );
-    expect(matter.deadline).toBe(context.deadline);
-    if (context.law.appointmentDeadlineDays === null) {
+    expect(listPlaces.length).toBeGreaterThan(0);
+    for (const selected of listPlaces) {
+      const { world, matter, seat } = vacancy("party-list", true, selected);
+      const context = senateAppointmentContext(
+        world,
+        seat.seatKey,
+        world.currentDate,
+      )!;
+      expect(context.partyListMissing).toBe(true);
+      expect(matter.options).toEqual([]);
+      expect(matter.openedEvent.tags).toContain(
+        "appointment-input:missing-submitted-party-list",
+      );
+      expect(matter.openedEvent.tags).toContain(
+        "deadline-basis:missing-submitted-list-receipt",
+      );
+      expect(context.deadline).toBeNull();
       expect(matter.deadline).toBeNull();
       expect(
         world.history.futureDueItems.some(
@@ -283,11 +297,11 @@ describe("A120 an appointment follows the governor's recorded decision", () => {
             row.transitionKey === "governing:matter-deadline",
         ),
       ).toBe(false);
+      expect(
+        projectCongress(world)!.senate.seats.find(
+          (row) => row.seatKey === seat.seatKey,
+        )!.occupant.kind,
+      ).toBe("vacancy");
     }
-    expect(
-      projectCongress(world)!.senate.seats.find(
-        (row) => row.seatKey === seat.seatKey,
-      )!.occupant.kind,
-    ).toBe("vacancy");
   });
 });
