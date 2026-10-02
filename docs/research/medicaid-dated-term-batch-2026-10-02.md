@@ -29,6 +29,40 @@ poverty. These rows remain unmodified: a dated local ceiling and a compatible
 federal-denominator conversion are still needed. No universal 1.38 is assigned
 to territories.
 
+### Follow-up on the three territory rows
+
+Measured on October 2, 2026: the primary [HHS poverty-guidelines page](https://aspe.hhs.gov/topics/poverty-economic-mobility/poverty-guidelines)
+states that poverty guidelines are not defined for Puerto Rico, USVI or Guam.
+For a federal program serving those jurisdictions, the administering federal
+office decides whether to use the contiguous-state guidelines or another
+procedure. Its 2026 table was published on January 15, 2026; it does not
+establish the guideline applicable at a January 1 opening.
+
+The bounded official-site pass returned HTTP 403 from
+`https://dphss.guam.gov/medicaid/` and HTTP 503 from
+`https://medicaid.pr.gov/` and
+`https://dhs.gov.vi/financial-programs/medical-assistance/`.
+These responses establish an acquisition gap, not the programs' legal limits.
+No proxy settings were changed and no refusal was bypassed.
+
+Measured: `src/simulation/policy-pack-us-policy-positions.ts:972` names the
+field `income-limit` with `share-of-federal-poverty-level`; Team 6's linked
+row split identifies its admitted canonical `ratio` unit.
+Inferred: a household-size dollar table against a local
+poverty measure does not supply that scalar by itself. An exact conversion
+would need the dated applicable numerator and denominator for each household
+size. A single ratio is usable only if those ratios agree and the program's
+definition permits that representation.
+
+The present sources establish a basis mismatch in the available evidence,
+not that every current territory rule is mathematically unrepresentable.
+The exact January 2026 limits and program-selected guideline remain missing
+for US-GU, US-PR and US-VI. CTO decision requested: if the dated program
+packet uses local poverty or household-size ceilings, admit that basis/table
+through Audit's existing schema rather than substituting mainland FPL.
+Keep the three scalar rows untouched until the source and representation are
+established. No new schema or numeric term is implemented here.
+
 ## Community engagement scope
 
 - Federal US, January 1, 2027: [Public Law 119-21 section 71119](https://www.congress.gov/119/plaws/publ21/PLAW-119publ21.htm),
