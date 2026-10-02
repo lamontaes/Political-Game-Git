@@ -9,8 +9,8 @@
  * decisions and the existing employer layoff rules. Hiring runs through the
  * weekly goal/application review, actual openings, offers and accepted starts.
  * This review no longer ranks unemployed residents into manufactured jobs.
- * A unique active employer manager selects a specific subordinate from saved
- * staffing goals and actual payroll-capacity failures; ties remain pending.
+ * A unique active employer manager weighs recorded business books and actual
+ * payroll savings through the shared decision engine; ties remain pending.
  */
 
 import { recordJobEndedNews } from "../neighbor-news";
@@ -27,14 +27,14 @@ import {
   macroScopeForJurisdiction,
 } from "../macro-economy/readers";
 import { TOWN_BUSINESS_WORKPLACES } from "./town-business-books";
-import {
-  resourceFlowTermsAt,
-  resourceTransferOutcomesForFlow,
-} from "../resource-queries";
-import { recordWorldEvent } from "../world";
-import type { EntityId, WorkStatusRecord, World } from "../types";
+import { resourceTransferOutcomesForFlow } from "../resource-queries";
+import { decideTownStaffingFromBooks } from "./town-staffing-decision";
+import type { CurrencyCode, EntityId, WorkStatusRecord, World } from "../types";
 import {
   TOWN_EMPLOYMENT_VERSION,
+  townResidents,
+  laborStatus,
+  fillTownJobs,
   WORKING_AGE_MAX,
   WORKING_AGE_MIN,
 } from "./town-employment";
@@ -272,193 +272,70 @@ export function activeTownJobs(
   return jobs;
 }
 
-/** The admitted staffing choices are explicit saved actor goals, never inferred
- * from a wish to quit or from another person's preferences. Their existing
- * goal priority supplies importance through goalConsiderations. */
+/** Review actual books and compare the payroll of actual subordinate jobs. */
 export function decideTownEmployerLayoff(
   world: World,
   organizationId: EntityId,
   staff: readonly TownJob[],
   stableKey: string,
 ): { readonly world: World; readonly evaluation: DecisionEvaluation } | null {
-  const dead = new Set(world.history.personDeaths.map((row) => row.personId));
-  const managers = world.personOrder.flatMap((personId) =>
-    dead.has(personId)
-      ? []
-      : activeWorkRelationshipsAt(world, personId).filter(
-          (job) =>
-            job.relationship.organizationId === organizationId &&
-            job.relationship.authority === "directs-others",
-        ),
-  );
-  if (managers.length !== 1) return null;
-  const manager = managers[0]!;
-  const candidates = staff.filter((job) => {
+  const targets = staff.flatMap((job) => {
     const relationship = world.history.workRelationships.find(
       (row) => row.id === job.relationshipId,
     );
-    return (
-      relationship?.organizationId === organizationId &&
-      relationship.authority !== "directs-others" &&
-      job.personId !== manager.relationship.personId &&
-      !dead.has(job.personId) &&
-      workRoleAt(world, job.relationshipId) !== undefined
-    );
-  });
-  if (candidates.length === 0) return null;
-  // Only actual compensation outcomes establish payroll-capacity trouble.
-  // A modeled annualRevenue/lastQuarterPay snapshot is not a cash receipt.
-  const failures = world.history.resourceFlows.flatMap((flow) => {
     if (
-      flow.basisKind !== "compensation:work" ||
-      flow.source.kind !== "organization" ||
-      flow.source.organizationId !== organizationId ||
-      flow.basisReference.kind !== "work" ||
-      !candidates.some(
-        (job) =>
-          flow.basisReference.kind === "work" &&
-          job.relationshipId === flow.basisReference.workRelationshipId,
-      )
+      relationship?.organizationId !== organizationId ||
+      relationship.authority === "directs-others" ||
+      !workRoleAt(world, job.relationshipId)
     )
       return [];
-    const terms = resourceFlowTermsAt(world, flow.id);
-    if (terms?.status !== "active") return [];
-    const outcome = resourceTransferOutcomesForFlow(world, flow.id).at(-1);
-    return outcome &&
-      outcome.reasonKind === "capacity:insufficient-funds" &&
-      outcome.attemptedAmount.currency === outcome.transferredAmount.currency &&
-      outcome.attemptedAmount.minorUnits > outcome.transferredAmount.minorUnits
-      ? [outcome]
-      : [];
-  });
-  if (failures.length === 0) return null;
-  const actorPersonId = manager.relationship.personId;
-  const endLeans = candidates.flatMap((job) => {
-    const goalKey = `labor:end-work:${job.relationshipId}`;
-    const goal = activeGoalFor(world, actorPersonId, goalKey);
-    return goal?.targetEntityId === job.relationshipId &&
-      goal.recordedAt <= world.currentDate
-      ? [
-          {
-            optionKey: `end:${job.relationshipId}`,
-            goalKey,
-            direction: "supports" as const,
-            explanation: goal.objective,
-          },
-        ]
-      : [];
-  });
-  const retain = activeGoalFor(world, actorPersonId, "labor:retain-staff");
-  const leans = [
-    ...endLeans,
-    ...(retain?.targetEntityId === organizationId &&
-    retain.recordedAt <= world.currentDate
-      ? [
-          {
-            optionKey: "retain-staff",
-            goalKey: retain.goalKey,
-            direction: "supports" as const,
-            explanation: retain.objective,
-          },
-        ]
-      : []),
-  ];
-  const reviewed = recordWorldEvent(world, {
-    stableKey: `${stableKey}:payroll-review`,
-    type: "labor.payroll-reviewed",
-    occurredAt: world.currentDate,
-    recordedAt: world.currentDate,
-    jurisdictionId: world.people[actorPersonId]!.homeJurisdictionId,
-    involvedEntityIds: [actorPersonId, organizationId, manager.relationship.id],
-    participants: [
+    const flows = world.history.resourceFlows.filter(
+      (flow) =>
+        flow.basisKind === "compensation:work" &&
+        flow.source.kind === "organization" &&
+        flow.source.organizationId === organizationId &&
+        flow.basisReference.kind === "work" &&
+        flow.basisReference.workRelationshipId === job.relationshipId,
+    );
+    // Same actual quarter for every worker, ending at this review's frontier.
+    const date = new Date(`${world.currentDate}T00:00:00Z`);
+    date.setUTCMonth(date.getUTCMonth() - 3);
+    const since = date.toISOString().slice(0, 10);
+    const outcomes = flows
+      .flatMap((flow) => resourceTransferOutcomesForFlow(world, flow.id))
+      .filter(
+        (row) =>
+          row.occurredAt > since &&
+          row.occurredAt <= world.currentDate &&
+          row.sequence < world.history.nextSequence &&
+          row.transferredAmount.minorUnits > 0,
+      );
+    const currencies = new Set(
+      outcomes.map((row) => row.transferredAmount.currency),
+    );
+    // TownBusinessBooks are dollars; never compare a different currency.
+    if (currencies.size !== 1 || !currencies.has("USD" as CurrencyCode))
+      return [];
+    return [
       {
-        personId: actorPersonId,
-        role: "focus:reviewer",
-        detail: "Reviewed the employer's recorded payroll capacity failures.",
+        key: `end:${job.relationshipId}`,
+        personId: job.personId,
+        sourceRecordIds: outcomes.map((row) => row.id),
+        payrollPaid: outcomes.reduce(
+          (sum, row) => sum + row.transferredAmount.minorUnits,
+          0,
+        ),
       },
-    ],
-    personFactConstraints: [],
-    visibility: "limited",
-    tags: [
-      "labor:payroll-review",
-      ...failures.map((row) => `source:${row.id}`),
-    ],
-    summary:
-      "The employer's manager reviewed recorded payroll capacity failures.",
-    context: {
-      location: null,
-      socialContext: "An actual employer staffing review.",
-      pressure: failures
-        .map(
-          (row) =>
-            `${row.id}: ${row.transferredAmount.minorUnits} of ${row.attemptedAmount.minorUnits} ${row.attemptedAmount.currency} minor units transferred on ${row.occurredAt}; ${row.reasonKind}`,
-        )
-        .join("; "),
-      choice: null,
-      motivation: null,
-      immediateReaction: null,
-    },
+    ];
   });
-  const eventId = reviewed.history.events.at(-1)!.id;
-  return {
-    world: reviewed,
-    evaluation: evaluateDecision(reviewed, {
-      stableKey,
-      decisionType: "labor.employer-staffing",
-      actorPersonId,
-      cutoff: {
-        asOfDate: reviewed.currentDate,
-        historySequenceExclusive: reviewed.history.nextSequence,
-      },
-      subject: {
-        kind: "context:employment",
-        key: organizationId,
-        entityId: organizationId,
-      },
-      options: [
-        {
-          key: "retain-staff",
-          label: "Retain staff",
-          description: "Keep the actual current staff.",
-        },
-        ...candidates.map((job) => ({
-          key: `end:${job.relationshipId}`,
-          label: "End this job",
-          description: `End the recorded work relationship ${job.relationshipId}.`,
-        })),
-      ],
-      constraints: [],
-      considerations: goalConsiderations(
-        reviewed,
-        actorPersonId,
-        stableKey,
-        leans,
-      ).map((consideration) => ({
-        ...consideration,
-        sourceRefs: [
-          ...consideration.sourceRefs,
-          {
-            kind: "life-history" as const,
-            reference: {
-              family: "work-role" as const,
-              recordId: manager.role.id,
-            },
-          },
-          {
-            kind: "life-history" as const,
-            reference: {
-              family: "work-status" as const,
-              recordId: manager.status.id,
-            },
-          },
-          { kind: "historical-event" as const, eventId },
-        ],
-      })),
-      perceptionIds: [],
-      randomness: "none",
-      retention: "durable",
-    }),
-  };
+  return decideTownStaffingFromBooks(
+    world,
+    organizationId,
+    stableKey,
+    "layoff",
+    targets,
+    staff.length,
+  );
 }
 
 /**
@@ -588,8 +465,8 @@ export function reviewTownJobs(
     end(job, TOWN_JOB_END_REASONS.quit);
   }
 
-  // Every employer uses the same saved manager decision. Missing books,
-  // town unemployment or tenure cannot substitute for payroll evidence.
+  // Every employer uses the same recorded-books manager decision.
+  // Town unemployment or tenure cannot substitute for employer evidence.
   const staffOf = new Map<EntityId, TownJob[]>();
   for (const job of activeTownJobs(next, town)) {
     const organizationId = employerOf.get(job.relationshipId);
@@ -616,10 +493,40 @@ export function reviewTownJobs(
     if (target) end(target, TOWN_JOB_END_REASONS.laidOff);
   }
 
-  // Hiring is the existing weekly goal/application route: reviewPeopleGoals
-  // submits to actual listed openings, weighs offers and calls startJobAsResident.
-  // A quarterly unemployment-duration ranking cannot create a second hire.
-  return next;
+  // Existing town hiring reads actual room in employer books and now saves
+  // the employer's decision. No unemployment-duration order or town quota.
+  // The weekly application/offer route remains unchanged.
+  const working = new Set(
+    next.personOrder.filter(
+      (personId) => activeWorkRelationshipsAt(next, personId).length > 0,
+    ),
+  );
+  const endedThisReview = new Set(
+    next.history.workStatuses
+      .filter(
+        (row) => row.stableKey.startsWith(reviewKey) && row.status === "ended",
+      )
+      .map(
+        (row) =>
+          next.history.workRelationships.find(
+            (job) => job.id === row.workRelationshipId,
+          )?.personId,
+      ),
+  );
+  const seekers = townResidents(next, town).filter((resident) => {
+    if (
+      resident.personId === playerPersonId ||
+      working.has(resident.personId) ||
+      endedThisReview.has(resident.personId)
+    )
+      return false;
+    const status = laborStatus(next, resident);
+    return status === "employed" || status === "looking-for-work";
+  });
+  return fillTownJobs(next, town, seekers, {
+    round,
+    requireRecordedBooks: true,
+  });
 }
 
 /**

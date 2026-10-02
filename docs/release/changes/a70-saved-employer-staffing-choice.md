@@ -5,4 +5,4 @@ section: Fixed
 title: Town layoffs follow a recorded employer staffing choice
 ---
 
-A unique active employer manager reviews actual payroll capacity failures and weighs their saved staffing goals through the shared decision function. A selected actual subordinate's job ends through the existing job-loss writer. Missing authority, missing payroll evidence or an undecided choice does not cause a layoff. Town-wide quotas and newest-hire ordering no longer select people.
+A unique active employer manager reads the business's recorded sales, payroll, net income and cash through the shared decision function. Book-backed hiring saves the same durable employer decision before the existing work writer. Layoffs compare actual recorded payroll savings rather than newest-hire ordering. Missing authority, missing books or equal reasons do not select a worker. The weekly application and offer route remains unchanged.
