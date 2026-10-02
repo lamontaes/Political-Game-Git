@@ -2,6 +2,12 @@ import { recordById } from "../history-index";
 import { organizationProfileAt } from "../life-queries";
 import { TOWN_SALES_RECEIPT_BASIS } from "../living-world/town-sales-receipts";
 import { currentResourceCutoff } from "../resource-queries";
+import share from "../../../data/research/money/cannabis-retail-sales-share.json" with { type: "json" };
+import {
+  stateKeyForJurisdiction,
+  stateJurisdictionForKey,
+} from "../life-places";
+import { money } from "../resources";
 import type { EntityId, HistoricalCutoff, World } from "../types";
 
 /** The paid sales input, before any cannabis allocation or tax rate.
@@ -57,5 +63,52 @@ export function recordedTownSalesTaxInput(
     periodEndsAt: outcome.periodEndsAt,
     amount: outcome.transferredAmount,
     sourceRecordIds: [outcome.id, flow.id, profile.id],
+  };
+}
+
+/** Selected Oct 2 4:00 reuse option: saved retail receipts are the modeled
+ * base. The cited WA taxable-retail share is an explicit estimate
+ * of the cannabis portion, not evidence of a particular purchase or exemption.
+ */
+export function recordedCannabisSalesTaxInput(
+  world: World,
+  outcomeId: EntityId,
+  cutoff: HistoricalCutoff = currentResourceCutoff(world),
+) {
+  const input = recordedTownSalesTaxInput(world, outcomeId, cutoff);
+  if (input.kind !== "recorded") return input;
+  const profile = organizationProfileAt(world, input.payer.organizationId, {
+    asOfDate: input.occurredAt,
+    historySequenceExclusive: recordById(
+      world.history.resourceTransferOutcomes,
+      outcomeId,
+    )!.sequence,
+  });
+  const stateKey = stateKeyForJurisdiction(
+    world.jurisdictions[input.jurisdictionId]!,
+  );
+  const state = stateKey ? stateJurisdictionForKey(stateKey) : null;
+  if (
+    profile?.classification !== "enterprise:retail" ||
+    !state ||
+    !world.jurisdictions[state.id]
+  )
+    return {
+      kind: "unavailable" as const,
+      reason: "No recorded retail seller and actual state tax jurisdiction.",
+    };
+  return {
+    ...input,
+    jurisdictionId: state.id,
+    townJurisdictionId: input.jurisdictionId,
+    amount: money(
+      Math.round(
+        (input.amount.minorUnits * share.numerator.amount) /
+          share.denominator.amount,
+      ),
+      input.amount.currency,
+    ),
+    paidSalesAmount: input.amount,
+    allocationNote: `Estimated cannabis portion of this paid retail receipt using ${share.geography} ${share.periodStartsAt} through ${share.periodEndsAt} taxable-retail share; exempt-sales detail is unrecorded. ${share.numerator.sourceUrl}`,
   };
 }

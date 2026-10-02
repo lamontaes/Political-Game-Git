@@ -1,4 +1,5 @@
 import { TYPED_TAX_QUESTION_KEYS } from "./law-consequences/typed-tax-question-data";
+import { recordedCannabisSalesTaxInput } from "./public-budgets/recorded-cannabis-sales";
 import wageAuthority from "../../data/research/money/wage-income-authority.json" with { type: "json" };
 import {
   queryFiscalAuthority,
@@ -765,6 +766,18 @@ export function taxBaseOccurrenceSource(
   const flow = transfer
     ? recordById(world.history.resourceFlows, transfer.resourceFlowId)
     : null;
+  const cannabis = recordedCannabisSalesTaxInput(world, sourceId, cutoff);
+  if (cannabis.kind === "recorded")
+    return {
+      kind: "paid-sale" as const,
+      occurredAt: cannabis.occurredAt,
+      recordedAt: cannabis.occurredAt,
+      sequence: transfer!.sequence,
+      jurisdictionId: cannabis.jurisdictionId,
+      payer: cannabis.payer,
+      amount: cannabis.amount,
+      sourceRecordIds: cannabis.sourceRecordIds,
+    };
   // A paid purchase is its own saved occurrence. Never turn an asking price,
   // a sales estimate or an unpaid flow into a taxable sale.
   if (
