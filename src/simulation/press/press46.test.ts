@@ -1,12 +1,11 @@
+import { fixtureMeetsRecordedCandidacyAge } from "../../../tests/fixtures/candidacy-age";
 import { describe, expect, it } from "vitest";
 import { namedSeatForFixture } from "../../../tests/fixtures/campaign-fixture";
 import { recordPersonDeath } from "../vitality";
 
 import {
-  GAME_ADULT_CANDIDACY_AGE,
   addDays,
   advanceWorld,
-  ageOnDate,
   campaignTreasuryPosition,
   candidacyPackById,
   createCampaignElectionTransitionRegistry,
@@ -115,10 +114,8 @@ function pressFixture(seed: string, staffCount: number): PressFixture {
   const created = createScenarioWorld(seed, KENTUCKY_CONTEXT, {
     peopleCount: 7,
   });
-  const playerId = created.personOrder.find(
-    (id) =>
-      ageOnDate(created.people[id]!.birthDate, created.currentDate) >=
-      GAME_ADULT_CANDIDACY_AGE,
+  const playerId = created.personOrder.find((id) =>
+    fixtureMeetsRecordedCandidacyAge(created, id),
   )!;
   const base: World = {
     ...created,
@@ -126,11 +123,7 @@ function pressFixture(seed: string, staffCount: number): PressFixture {
   };
   const staffIds = base.personOrder
     .filter((id) => id !== playerId)
-    .filter(
-      (id) =>
-        ageOnDate(base.people[id]!.birthDate, base.currentDate) >=
-        GAME_ADULT_CANDIDACY_AGE,
-    )
+    .filter((id) => fixtureMeetsRecordedCandidacyAge(base, id))
     .slice(0, staffCount);
   const opponents = ensureCampaignOpponents(base, {
     stableKey: "press46-campaign",

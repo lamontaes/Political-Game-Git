@@ -1,3 +1,4 @@
+import { fixtureMeetsRecordedCandidacyAge } from "../../tests/fixtures/candidacy-age";
 import { describe, expect, it } from "vitest";
 
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
@@ -21,10 +22,9 @@ import {
   chooseCampaignWeekAction,
   projectCampaignWeekActions,
 } from "./campaign-week-actions";
-import { GAME_ADULT_CANDIDACY_AGE, candidacyPackById } from "./candidacy-packs";
+import { candidacyPackById } from "./candidacy-packs";
 import {
   addDays,
-  ageOnDate,
   compareSimulationMoments,
   simulationMinutesBetween,
 } from "./dates";
@@ -68,10 +68,8 @@ function staffedLife(seed: string) {
   const scenario = createScenarioWorld(seed, KENTUCKY_CONTEXT, {
     peopleCount: 6,
   });
-  const adults = scenario.personOrder.filter(
-    (id) =>
-      ageOnDate(scenario.people[id]!.birthDate, scenario.currentDate) >=
-      GAME_ADULT_CANDIDACY_AGE,
+  const adults = scenario.personOrder.filter((id) =>
+    fixtureMeetsRecordedCandidacyAge(scenario, id),
   );
   const personId = adults[0]!;
   const staffPersonId = adults[1]!;

@@ -1,9 +1,8 @@
+import { fixtureMeetsRecordedCandidacyAge } from "../../../tests/fixtures/candidacy-age";
 import { describe, expect, it } from "vitest";
 
 import {
-  GAME_ADULT_CANDIDACY_AGE,
   advanceWorld,
-  ageOnDate,
   createCampaignElectionTransitionRegistry,
   createScenarioWorld,
   deserializeWorld,
@@ -54,10 +53,8 @@ function withOutlets(seed: string): { world: World; playerId: EntityId } {
   const created = createScenarioWorld(seed, KENTUCKY_CONTEXT, {
     peopleCount: 5,
   });
-  const playerId = created.personOrder.find(
-    (id) =>
-      ageOnDate(created.people[id]!.birthDate, created.currentDate) >=
-      GAME_ADULT_CANDIDACY_AGE,
+  const playerId = created.personOrder.find((id) =>
+    fixtureMeetsRecordedCandidacyAge(created, id),
   )!;
   const base: World = {
     ...created,

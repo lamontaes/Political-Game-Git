@@ -1,3 +1,4 @@
+import { fixtureMeetsRecordedCandidacyAge } from "../../tests/fixtures/candidacy-age";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
@@ -15,8 +16,7 @@ import {
 import { composeWorldTimeHandlers } from "./campaigns";
 import { ensureCampaignOpponents, fileCampaign } from "./campaigns";
 import { candidacyPackForJurisdiction } from "./candidacy";
-import { addDays, ageOnDate } from "./dates";
-import { GAME_ADULT_CANDIDACY_AGE } from "./candidacy-packs";
+import { addDays } from "./dates";
 import { lifePlaceStateIdentities } from "./life-places";
 import { SeededRng, pickDistinct } from "./rng";
 import { createOrganization, createOrganizationParticipation } from "./life";
@@ -44,10 +44,8 @@ function race() {
     people: 16,
     seed: SEED,
   });
-  const candidate = small.world.personOrder.find(
-    (id) =>
-      ageOnDate(small.world.people[id]!.birthDate, small.world.currentDate) >=
-      GAME_ADULT_CANDIDACY_AGE,
+  const candidate = small.world.personOrder.find((id) =>
+    fixtureMeetsRecordedCandidacyAge(small.world, id),
   )!;
   expect(candidate).toBeDefined();
   let world: World = {

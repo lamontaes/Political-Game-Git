@@ -1,3 +1,4 @@
+import { fixtureMeetsRecordedCandidacyAge } from "../../tests/fixtures/candidacy-age";
 import { describe, expect, it, vi } from "vitest";
 import * as decisionEngine from "./decisions";
 
@@ -45,7 +46,7 @@ import { createCampaignElectionTransitionRegistry } from "./campaigns";
 import { canonicalJson } from "./canonical-json";
 import { favorRecords } from "./favors";
 import { campaignCompliancePackFor } from "./campaign-compliance";
-import { GAME_ADULT_CANDIDACY_AGE, candidacyPackById } from "./candidacy-packs";
+import { candidacyPackById } from "./candidacy-packs";
 import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
 import {
   advanceWorld,
@@ -56,7 +57,6 @@ import {
 } from "./index";
 import {
   addDays,
-  ageOnDate,
   compareSimulationMoments,
   simulationMomentAtLocalTime,
 } from "./dates";
@@ -265,10 +265,8 @@ function staffedKentuckyCampaign(seed: string, advanceDays: number) {
     peopleCount: 6,
   });
   const scenario = advanceWorld(created, advanceDays);
-  const adults = scenario.personOrder.filter(
-    (id) =>
-      ageOnDate(scenario.people[id]!.birthDate, scenario.currentDate) >=
-      GAME_ADULT_CANDIDACY_AGE,
+  const adults = scenario.personOrder.filter((id) =>
+    fixtureMeetsRecordedCandidacyAge(scenario, id),
   );
   const candidatePersonId = adults[0]!;
   const staffPersonId = adults[1]!;

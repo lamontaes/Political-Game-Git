@@ -1,9 +1,5 @@
 import { placeLocalGovernmentUnits } from "./nationwide-world/local-governments";
-import {
-  candidacyPackById,
-  stateCandidacyPack,
-  GAME_ADULT_CANDIDACY_AGE,
-} from "./candidacy-packs";
+import { candidacyPackById, stateCandidacyPack } from "./candidacy-packs";
 import type { CandidacyPack, ElectiveOfficeOption } from "./candidacy-packs";
 import {
   assessSecondCommittee,
@@ -67,11 +63,8 @@ import {
  * own import graph needs it — and knowing about places is the whole point:
  * which ballot somebody can be on is a fact about where they live.
  *
- * The refusals below are of two kinds and the difference is stated rather than
- * blurred. What a jurisdiction requires of a candidate is `unknown` in every
- * case, because no accepted source in this repository says. What the game
- * itself will not do is the adult rule, and a character turned away by it is
- * told that it was the game that turned them away.
+ * Qualifications come from the office records, dated source assessments and
+ * laws enacted in this world. A missing age rule remains unresolved.
  */
 
 /**
@@ -194,30 +187,12 @@ export function candidacyAuthority(
   };
 }
 
-/**
- * The minimum age an unread state's generated pack carries, or null.
- *
- * Null for every sourced rule, deliberately. A read value belongs to the
- * sourced path, which words its refusal in the instrument's terms and carries
- * its citation; letting it back in through here would hold a candidate to the
- * same number twice and say the wrong thing about where it came from. The
- * `game-profile` verification is what distinguishes the two, and it is set by
- * the one function that draws these values, so a pack cannot present a drawn
- * number as anything else.
- *
- * Reading the pack rather than re-drawing matters: `standInQualification` is
- * deterministic, so a second call would agree today, and a gate that agrees by
- * coincidence stops agreeing the moment either side is changed alone. The
- * value a candidate is held to is the value the record shows, because it is
- * the same value.
- */
-function profileDrawnMinimumAge(
+/** The office's recorded age rule; source provenance does not change its value. */
+function recordedMinimumAge(
   option: ElectiveOfficeOption | null,
 ): number | null {
-  const rule = option?.qualification?.minimumAge;
-  if (!rule || rule.kind !== "known") return null;
-  if (rule.source.verification !== "game-profile") return null;
-  return typeof rule.value === "number" ? rule.value : null;
+  const rule = option?.qualification.minimumAge;
+  return rule?.kind === "known" ? rule.value : null;
 }
 
 /**
@@ -226,7 +201,6 @@ function profileDrawnMinimumAge(
  */
 export type CandidacyBlockKind =
   | "no-sourced-office"
-  | "below-game-adult-age"
   | "profile-minimum-age"
   | "sourced-minimum-age"
   | "sourced-state-residence"
@@ -742,45 +716,25 @@ export function candidacyEligibility(
     qualificationAssessments.some(
       (assessment) => assessment.field === "MINIMUM_AGE",
     );
-  // A drawn rule that is recorded and never enforced is not the middle of the
-  // three states a rule can be in — it is the refusal wearing the generated
-  // rule's label. The pack for an unread state already carries a minimum age
-  // drawn from the national spread, disclosed as the game's own; this reads
-  // that same value rather than re-deriving it, so the number the record shows
-  // and the number a candidate is held to cannot drift apart.
-  const profileMinimumAge =
-    qualificationRules === null && !sourcedMinimumAge
-      ? profileDrawnMinimumAge(option)
-      : null;
-  if (profileMinimumAge !== null) {
-    if (age < profileMinimumAge) {
+  // Dated compiled and enacted assessments above take precedence. Only an
+  // office with no assessed age reads its own pack; no general adult floor.
+  if (qualificationRules === null && !sourcedMinimumAge && option) {
+    const minimumAge = recordedMinimumAge(option);
+    if (minimumAge !== null && age < minimumAge) {
+      const rule = option.qualification.minimumAge;
       blocks.push({
-        kind: "profile-minimum-age",
-        // The requirement, and nothing else. A generated rule is shown exactly
-        // as a sourced one is: the player is not told that this office's rule
-        // was drawn, and the provenance stays in the record where an auditor
-        // looks for it.
-        reason: `You must be at least ${profileMinimumAge} to run for this office.`,
+        kind:
+          rule.kind === "known" && rule.source.verification === "game-profile"
+            ? "profile-minimum-age"
+            : "sourced-minimum-age",
+        reason: `You must be at least ${minimumAge} to run for this office.`,
+      });
+    } else if (option.qualification.minimumAge.kind === "unknown") {
+      blocks.push({
+        kind: "unproved-sourced-qualification",
+        reason: option.qualification.minimumAge.note,
       });
     }
-  } else if (
-    qualificationRules === null &&
-    !sourcedMinimumAge &&
-    age < GAME_ADULT_CANDIDACY_AGE
-  ) {
-    // PLACEHOLDER RULE: no minimum age has been read for this office, so the
-    // game's own adult floor (GAME_ADULT_CANDIDACY_AGE) stands in for it. The
-    // real values are already requested under docs/research/requests/:
-    // governor-qualifications-in-every-state (and its primary-law
-    // verification), state-legislator-qualifications-in-every-unread-state
-    // and local-executive-and-council-rules.
-    // The player reads the requirement they are held to, worded exactly as a
-    // read or drawn rule is; where the number came from stays with the block's
-    // kind and this comment, not on the screen.
-    blocks.push({
-      kind: "below-game-adult-age",
-      reason: `You must be at least ${GAME_ADULT_CANDIDACY_AGE} to run for this office.`,
-    });
   }
   // Every chief executive's office has a term limit in one of three states:
   // read from the state, changed by a law passed in this World, or the game's
