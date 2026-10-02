@@ -1,3 +1,9 @@
+import {
+  serializeWorld,
+  deserializeWorld,
+} from "../../src/simulation/serialization";
+import { passOrdinaryDays } from "../../src/presentation/ordinary-life";
+import { createStableId } from "../../src/simulation/ids";
 import { rentConstructionCovered } from "../../src/simulation/law-consequences/rent-construction-coverage";
 import { dateAtAge } from "../../src/simulation/dates";
 import {
@@ -248,147 +254,259 @@ function liveMonths(
   return { game, world, player, town, rentDays };
 }
 
+/** An ordinary opening advanced by its authoritative clock to the first rent day. */
+function ordinaryRentBoundary(place: string, seed: string) {
+  const game = generateOpeningLife(
+    prepareOpeningLife({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed,
+      placeKey: place,
+      startAge: 24,
+      questionnaire: "skipped",
+    }),
+  ).game!;
+  const start = game.world.currentDate;
+  let boundary = addDays(start, 1);
+  let days = 1;
+  while (!boundary.endsWith("-01")) {
+    boundary = addDays(boundary, 1);
+    days += 1;
+  }
+  const world = passOrdinaryDays(game.world, days);
+  expect(world.currentDate).toBe(boundary);
+  const town = world.people[game.playerPersonId]!.homeJurisdictionId;
+  return { game, world, town, start, boundary };
+}
+
 describe("rent day", { timeout: 600_000 }, () => {
-  it("starting inclusionary shares reach actual covered construction and eligible leases", () => {
+  it.each([
+    { place: null, capacity: null },
+    { place: "3451000", capacity: 6 },
+  ])(
+    "starting inclusionary shares fill sufficient private capacity regardless of recorded order (%s)",
+    (scenario) => {
+      const candidates = PLACE_POPULATION_ROWS.split(";")
+        .map((row) => row.split(":")[0]!)
+        .filter((key) => key.startsWith("34") || key.startsWith("11"));
+      const place = scenario.place ?? candidates[randomInt(candidates.length)]!;
+      const opening = ordinaryRentBoundary(
+        place,
+        "a57-starting-covered-construction",
+      );
+      const town = opening.town;
+      let world = opening.world;
+      const law = housingLawYes(
+        world,
+        town,
+        RENT_LAW_KEYS.inclusionary,
+        world.currentDate,
+      )!;
+      const share = readFinalEnactedLawTerm(world, law, {
+        questionKey: RENT_LAW_KEYS.inclusionary,
+        termKey: "share",
+        unit: "ratio",
+        onDate: world.currentDate,
+      })!;
+      expect(share).not.toBeNull();
+      expect(
+        townLeases(world).filter((lease) => lease.regime === "affordable"),
+      ).toHaveLength(0);
+      const facts = householdHousingFacts(world, world.currentDate);
+      const hud = hudRentRowFor(town)!;
+      const eligible = townLeases(world).filter((lease) => {
+        const household = facts.get(lease.householdId);
+        const limit = household
+          ? veryLowIncomeLimit(hud, household.members)
+          : null;
+        return (
+          !lease.ended &&
+          lease.regime === "market" &&
+          household?.payMinor !== null &&
+          household?.payMinor !== undefined &&
+          limit !== null &&
+          household.payMinor * 12 <= limit * 1.2 * 100
+        );
+      });
+      expect(eligible.length).toBeGreaterThan(0);
+      if (scenario.capacity !== null)
+        expect(eligible.length).toBeGreaterThanOrEqual(scenario.capacity);
+      const admitted =
+        scenario.capacity === null
+          ? eligible
+          : eligible.slice(0, scenario.capacity).sort((a, b) => {
+              const id = (householdId: string) =>
+                createStableId(
+                  "dwelling",
+                  `${world.id}:a57-covered-build:${householdId}:home`,
+                );
+              return id(b.householdId).localeCompare(id(a.householdId));
+            });
+      const provenance = {
+        kind: "authored" as const,
+        note: "Controlled accepted construction and tenant moves through canonical writers; not spontaneous construction.",
+      };
+      const builtIds: string[] = [];
+      world = withWorldIntegrityDeferred(() => {
+        let next = world;
+        for (const lease of admitted) {
+          const key = `a57-covered-build:${lease.householdId}`;
+          const prior = next.history.housingTenureStates
+            .filter((state) => state.housingTenureId === lease.tenureId)
+            .at(-1)!;
+          next = recordHousingTenureState(next, {
+            stableKey: `${key}:old-tenure-ended`,
+            housingTenureId: lease.tenureId,
+            effectiveAt: next.currentDate,
+            status: "ended",
+            context: "Controlled tenant move to recorded new construction",
+            provenance,
+            supersedesStateId: prior.id,
+          });
+          for (const occupancy of next.history.dwellingOccupancies.filter(
+            (row) =>
+              row.occupant.kind === "household" &&
+              row.occupant.householdId === lease.householdId,
+          )) {
+            const state = next.history.dwellingOccupancyStates
+              .filter((row) => row.dwellingOccupancyId === occupancy.id)
+              .at(-1)!;
+            if (state.status !== "active") continue;
+            next = recordDwellingOccupancyState(next, {
+              stableKey: `${key}:old-occupancy:${occupancy.id}`,
+              dwellingOccupancyId: occupancy.id,
+              effectiveAt: next.currentDate,
+              status: "ended",
+              residenceRole: state.residenceRole,
+              kind: state.kind,
+              reason: "Controlled tenant move",
+              provenance,
+              supersedesStateId: state.id,
+            });
+          }
+          next = createDwelling(next, {
+            stableKey: `${key}:home`,
+            establishedAt: next.currentDate,
+            jurisdictionId: town,
+            locationLabel: "Recorded covered construction",
+            classification: "residential:apartment",
+            provenance,
+          });
+          const dwellingId = next.history.dwellings.at(-1)!.id;
+          builtIds.push(dwellingId);
+          next = createHousingTenure(next, {
+            stableKey: `${key}:owner`,
+            holder: lease.flow.recipient,
+            dwellingId,
+            startedAt: next.currentDate,
+            kind: "ownership:owned",
+            context: null,
+            provenance,
+          });
+          next = createHousingTenure(next, {
+            stableKey: `${key}:tenant`,
+            holder: { kind: "household", householdId: lease.householdId },
+            dwellingId,
+            startedAt: next.currentDate,
+            kind: "lease:rented",
+            context: null,
+            provenance,
+          });
+          next = startDwellingOccupancy(next, {
+            stableKey: `${key}:occupancy`,
+            occupant: { kind: "household", householdId: lease.householdId },
+            dwellingId,
+            startedAt: next.currentDate,
+            residenceRole: "primary",
+            kind: "residence:rented-home",
+            provenance,
+          });
+        }
+        return collectTownRent(next, next.currentDate);
+      });
+      const allocated = townLeases(world).filter(
+        (lease) =>
+          builtIds.includes(lease.dwellingId) && lease.regime === "affordable",
+      );
+      expect(allocated).toHaveLength(
+        Math.ceil(builtIds.length * share.value - 1e-9),
+      );
+      for (const lease of allocated)
+        expect(
+          resourceFlowTermsAt(world, lease.flow.id)?.lawEffectStamps?.some(
+            (stamp) =>
+              stamp.sourceRecordIds?.includes(lease.flow.id) &&
+              stamp.sourceRecordIds?.includes(lease.dwellingId),
+          ),
+        ).toBe(true);
+      const loaded = deserializeWorld(serializeWorld(world));
+      expect(
+        townLeases(loaded).filter((lease) =>
+          builtIds.includes(lease.dwellingId),
+        ),
+      ).toEqual(
+        townLeases(world).filter((lease) =>
+          builtIds.includes(lease.dwellingId),
+        ),
+      );
+      for (const lease of allocated)
+        expect(resourceFlowTermsAt(loaded, lease.flow.id)).toEqual(
+          resourceFlowTermsAt(world, lease.flow.id),
+        );
+      const repeated = withWorldIntegrityDeferred(() =>
+        collectTownRent(loaded, loaded.currentDate),
+      );
+      expect(repeated.history.resourceTransferOutcomes).toEqual(
+        loaded.history.resourceTransferOutcomes,
+      );
+      expect(repeated.history.resourceFlowTerms).toEqual(
+        loaded.history.resourceFlowTerms,
+      );
+      process.stdout.write(
+        `A57 controlled covered construction receipt: place=${place}; built=${builtIds.length}; share=${share.value}; affordable=${allocated.length}\n`,
+      );
+    },
+  );
+
+  it("an ordinary random opening preserves actual rent payments and law terms through reload", () => {
     const candidates = PLACE_POPULATION_ROWS.split(";")
       .map((row) => row.split(":")[0]!)
       .filter((key) => key.startsWith("34") || key.startsWith("11"));
     const place = candidates[randomInt(candidates.length)]!;
-    const opening = liveMonths(place, "a57-starting-covered-construction", 1);
-    const town = opening.town;
-    let world = opening.world;
-    const law = housingLawYes(
-      world,
-      town,
-      RENT_LAW_KEYS.inclusionary,
-      world.currentDate,
-    )!;
-    const share = readFinalEnactedLawTerm(world, law, {
-      questionKey: RENT_LAW_KEYS.inclusionary,
-      termKey: "share",
-      unit: "ratio",
-      onDate: world.currentDate,
-    })!;
-    expect(share).not.toBeNull();
+    const seed = "a57-2096-ordinary-rent-reload";
+    const { world, start, boundary } = ordinaryRentBoundary(place, seed);
+    const leases = townLeases(world);
+    expect(leases.length).toBeGreaterThan(0);
+    const ids = new Set(leases.map((lease) => lease.flow.id));
+    const outcomes = world.history.resourceTransferOutcomes.filter(
+      (outcome) =>
+        ids.has(outcome.resourceFlowId) && outcome.occurredAt === boundary,
+    );
+    expect(outcomes.length).toBeGreaterThan(0);
+    const paid = outcomes.filter(
+      (outcome) => outcome.transferredAmount.minorUnits > 0,
+    );
+    expect(paid.length).toBeGreaterThan(0);
+    const total = paid.reduce(
+      (sum, outcome) => sum + outcome.transferredAmount.minorUnits,
+      0,
+    );
+    const loaded = deserializeWorld(serializeWorld(world));
+    expect(townLeases(loaded)).toEqual(leases);
     expect(
-      townLeases(world).filter((lease) => lease.regime === "affordable"),
-    ).toHaveLength(0);
-    const facts = householdHousingFacts(world, world.currentDate);
-    const hud = hudRentRowFor(town)!;
-    const eligible = townLeases(world).filter((lease) => {
-      const household = facts.get(lease.householdId);
-      const limit = household
-        ? veryLowIncomeLimit(hud, household.members)
-        : null;
-      return (
-        !lease.ended &&
-        lease.regime === "market" &&
-        household?.payMinor !== null &&
-        household?.payMinor !== undefined &&
-        limit !== null &&
-        household.payMinor * 12 <= limit * 1.2 * 100
-      );
-    });
-    expect(eligible.length).toBeGreaterThan(0);
-    const provenance = {
-      kind: "authored" as const,
-      note: "Controlled accepted construction and tenant moves through canonical writers; not spontaneous construction.",
-    };
-    const builtIds: string[] = [];
-    world = withWorldIntegrityDeferred(() => {
-      let next = world;
-      for (const lease of eligible) {
-        const key = `a57-covered-build:${lease.householdId}`;
-        const prior = next.history.housingTenureStates
-          .filter((state) => state.housingTenureId === lease.tenureId)
-          .at(-1)!;
-        next = recordHousingTenureState(next, {
-          stableKey: `${key}:old-tenure-ended`,
-          housingTenureId: lease.tenureId,
-          effectiveAt: next.currentDate,
-          status: "ended",
-          context: "Controlled tenant move to recorded new construction",
-          provenance,
-          supersedesStateId: prior.id,
-        });
-        for (const occupancy of next.history.dwellingOccupancies.filter(
-          (row) =>
-            row.occupant.kind === "household" &&
-            row.occupant.householdId === lease.householdId,
-        )) {
-          const state = next.history.dwellingOccupancyStates
-            .filter((row) => row.dwellingOccupancyId === occupancy.id)
-            .at(-1)!;
-          if (state.status !== "active") continue;
-          next = recordDwellingOccupancyState(next, {
-            stableKey: `${key}:old-occupancy:${occupancy.id}`,
-            dwellingOccupancyId: occupancy.id,
-            effectiveAt: next.currentDate,
-            status: "ended",
-            residenceRole: state.residenceRole,
-            kind: state.kind,
-            reason: "Controlled tenant move",
-            provenance,
-            supersedesStateId: state.id,
-          });
-        }
-        next = createDwelling(next, {
-          stableKey: `${key}:home`,
-          establishedAt: next.currentDate,
-          jurisdictionId: town,
-          locationLabel: "Recorded covered construction",
-          classification: "residential:apartment",
-          provenance,
-        });
-        const dwellingId = next.history.dwellings.at(-1)!.id;
-        builtIds.push(dwellingId);
-        next = createHousingTenure(next, {
-          stableKey: `${key}:owner`,
-          holder: lease.flow.recipient,
-          dwellingId,
-          startedAt: next.currentDate,
-          kind: "ownership:owned",
-          context: null,
-          provenance,
-        });
-        next = createHousingTenure(next, {
-          stableKey: `${key}:tenant`,
-          holder: { kind: "household", householdId: lease.householdId },
-          dwellingId,
-          startedAt: next.currentDate,
-          kind: "lease:rented",
-          context: null,
-          provenance,
-        });
-        next = startDwellingOccupancy(next, {
-          stableKey: `${key}:occupancy`,
-          occupant: { kind: "household", householdId: lease.householdId },
-          dwellingId,
-          startedAt: next.currentDate,
-          residenceRole: "primary",
-          kind: "residence:rented-home",
-          provenance,
-        });
-      }
-      return collectTownRent(next, next.currentDate);
-    });
-    const allocated = townLeases(world).filter(
-      (lease) =>
-        builtIds.includes(lease.dwellingId) && lease.regime === "affordable",
+      loaded.history.resourceTransferOutcomes.filter(
+        (outcome) =>
+          ids.has(outcome.resourceFlowId) && outcome.occurredAt === boundary,
+      ),
+    ).toEqual(outcomes);
+    const again = collectTownRent(loaded, boundary);
+    expect(again.history.resourceTransferOutcomes).toEqual(
+      loaded.history.resourceTransferOutcomes,
     );
-    expect(allocated).toHaveLength(
-      Math.ceil(builtIds.length * share.value - 1e-9),
+    expect(again.history.resourceFlowTerms).toEqual(
+      loaded.history.resourceFlowTerms,
     );
-    for (const lease of allocated)
-      expect(
-        resourceFlowTermsAt(world, lease.flow.id)?.lawEffectStamps?.some(
-          (stamp) =>
-            stamp.sourceRecordIds?.includes(lease.flow.id) &&
-            stamp.sourceRecordIds?.includes(lease.dwellingId),
-        ),
-      ).toBe(true);
     process.stdout.write(
-      `A57 controlled covered construction receipt: place=${place}; built=${builtIds.length}; share=${share.value}; affordable=${allocated.length}\n`,
+      `A57 ordinary payment/reload receipt: place=${place}; seed=${seed}; start=${start}; boundary=${boundary}; leases=${leases.length}; outcomes=${outcomes.length}; positivePayments=${paid.length}; paidMinor=${total}; unknown=${outcomes.filter((outcome) => outcome.status === "blocked").length}; reload=equal; recollect=idempotent\n`,
     );
   });
 

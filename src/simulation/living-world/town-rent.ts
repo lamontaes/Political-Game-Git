@@ -45,8 +45,8 @@ import { recordedMonthlyPayByPerson } from "../household-pay";
  *   the price level's rise plus five points, at most ten percent, so a
  *   covered tenant's rent outruns their pay less often and they move less
  *   (`town-homes.ts`; measured check in RENT_STABILIZATION_MEASURED). A
- *   year after it comes in, landlords' answer to it raises every market
- *   rent in town (RENT_STABILIZATION_CITYWIDE).
+ *   supply consequences remain in their existing recorded outcome path;
+ *   there is no additional automatic citywide rent multiplier.
  * - An inclusionary housing requirement makes a share of apartments and
  *   rowhouses recorded after it took effect affordable homes, let to
  *   households under the income limit.
@@ -86,7 +86,7 @@ import { createOrganization } from "../life";
 import { organizationProfileAt } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { readFinalEnactedLawTerm } from "../governing/final-law-term-query";
-import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
+import { lawInForce } from "../governing/law-in-force";
 import type { LawInForce } from "../governing/law-in-force";
 import {
   lawEffectStamp,
@@ -231,55 +231,13 @@ export const RENT_STABILIZATION_MEASURED = {
   source: "Diamond, McQuade and Qian 2019, American Economic Review 109(9)",
 } as const;
 
-/**
- * What rent stabilization does to the rents of the whole town once landlords
- * have had time to answer it: San Francisco's landlords took 15% of covered
- * homes off the rental market, and rents across the city rose 5.1% (Diamond,
- * McQuade and Qian 2019, American Economic Review 109(9); Research 1's table
- * of September 29, 2026). A market lease, new or renewed, is written that
- * much higher from `actsAfterDays` after the law takes effect, the outcome
- * web's twelve-month lag for the supply loss (rent-control-to-rental-supply).
- * A covered renewal is still held to the cap. Only a change from the law the
- * place began with counts: its base rents already carry that law.
- */
-export const RENT_STABILIZATION_CITYWIDE = {
-  rentRise: 0.051,
-  actsAfterDays: 365,
-} as const;
-
-/**
- * How the town's market rents stand against its home prices on `date` from
- * the law enacted in play: above one after rent stabilization comes in,
- * below one after a starting stabilization law is repealed, one otherwise.
- */
-export function rentLawLevel(
-  world: World,
-  town: EntityId,
-  date: IsoDate,
-): number {
-  const id = propositionId(world, RENT_LAW_KEYS.rentStabilization);
-  if (!id) return 1;
-  const law = lawInForce(world, town, id, date);
-  if (
-    law?.origin !== "enacted" ||
-    law.operativeAt > addDays(date, -RENT_STABILIZATION_CITYWIDE.actsAfterDays)
-  )
-    return 1;
-  const now = law.answer === "yes";
-  const before = lawInForceAtStart(world, town, id, date) === "yes";
-  if (now === before) return 1;
-  return now
-    ? 1 + RENT_STABILIZATION_CITYWIDE.rentRise
-    : 1 / (1 + RENT_STABILIZATION_CITYWIDE.rentRise);
-}
-
-/** The town's market rent level: its home prices and its rent laws. */
+/** Market rent follows the shared recorded home-price model. */
 export function marketRentLevel(
   world: World,
   town: EntityId,
   date: IsoDate,
 ): number {
-  return homePriceLevel(world, town, date) * rentLawLevel(world, town, date);
+  return homePriceLevel(world, town, date);
 }
 
 /**
@@ -1160,6 +1118,17 @@ export function startTownLeases(world: World, dueOn: IsoDate): World {
       dwellings.has(tenure.dwellingId),
   );
   if (candidates.length === 0) return world;
+  // Allocation targets follow the dated dwelling-ID prefix. Process that same
+  // prefix order so sufficient eligible private capacity can fill the target.
+  candidates.sort((left, right) => {
+    const a = dwellings.get(left.dwellingId)!;
+    const b = dwellings.get(right.dwellingId)!;
+    return (
+      a.establishedAt.localeCompare(b.establishedAt) ||
+      a.id.localeCompare(b.id) ||
+      left.id.localeCompare(right.id)
+    );
+  });
   const owners = new Map<EntityId, typeof h.housingTenures>();
   for (const tenure of h.housingTenures) {
     if (
