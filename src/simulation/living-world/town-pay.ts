@@ -2123,7 +2123,7 @@ export function settleTownCompensations(
   // Keep sequential withholding reads while materializing each payment list once.
   next = withHistoryAppendTransaction(
     next,
-    ["resourceFlows", "resourceTransferOutcomes"],
+    ["resourceFlows", "resourceFlowTerms", "resourceTransferOutcomes"],
     (initial) => assessPaychecksTaxes(initial, ids),
   );
   next = recordPaycheckTaxBases(next, ids);

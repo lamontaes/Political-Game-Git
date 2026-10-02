@@ -12,9 +12,14 @@ import {
   createResourcePosition,
   createResourceFlow,
   createWorkCompensation,
+  recordResourceTransferOutcome,
   money,
 } from "../resources";
 import { SeededRng } from "../rng";
+import { isTerritoryUsps } from "../state-reference";
+import { withHistoryAppendTransaction } from "../history-index";
+import { ensureLifePathPersonalPosition } from "../life-paths2-resources";
+import { assessPaychecksTaxes } from "../statutory-tax";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { makeIsoDate, simulationMomentOnLocalDate } from "../dates";
 import { BUSINESS_REVENUE_BASIS, OWNER_DRAW_BASIS } from "../local-economy";
@@ -32,9 +37,9 @@ const provenance = {
   note: "A60 controlled contract and recorded cash; not a natural wage or treasury estimate.",
 };
 
-function fixture(cash: number | null, workers = 1) {
+function fixture(cash: number | null, workers = 1, placeKey = place) {
   expect(places).toHaveLength(56);
-  const small = smallWorld({ place, seed, date: "2026-01-05" });
+  const small = smallWorld({ place: placeKey, seed, date: "2026-01-05" });
   let world = createOrganization(small.world, {
     stableKey: "a60:employer",
     formedAt: small.world.currentDate,
@@ -195,12 +200,13 @@ describe(`town payroll uses saved employer cash in ${place}, seed ${seed}`, () =
         customerCash === null ? 0 : 100_000,
       );
       expect(
-        resourcePositionAt(paid, base.owner, money(0, "USD").currency)!.liquidBalance.minorUnits,
+        resourcePositionAt(paid, base.owner, money(0, "USD").currency)!
+          .liquidBalance.minorUnits,
       ).toBe(0);
       if (customerCash !== null)
         expect(
-          resourcePositionAt(paid, customerOwner, money(0, "USD").currency)!.liquidBalance
-            .minorUnits,
+          resourcePositionAt(paid, customerOwner, money(0, "USD").currency)!
+            .liquidBalance.minorUnits,
         ).toBe(50_000);
       else expect(sale.status).toBe("blocked");
       const replay = deserializeWorld(serializeWorld(paid));
@@ -305,3 +311,78 @@ describe(`town payroll uses saved employer cash in ${place}, seed ${seed}`, () =
     ).toBe(100_000);
   });
 });
+
+it.each(
+  places
+    .filter((row) => !isTerritoryUsps(row.jurisdictionKey.slice(3)))
+    .slice(0, 2),
+)(
+  "streams withholding terms without changing completed/partial joins, snapshots or Continue in $jurisdictionKey",
+  ({ jurisdictionKey }) => {
+    const control = fixture(150_000, 2, jurisdictionKey);
+    let gross = control.world;
+    const ids: EntityId[] = [];
+    for (const [index, period] of control.periods.entries()) {
+      gross = ensureLifePathPersonalPosition(
+        gross,
+        control.workerIds[index]!,
+        money(0, "USD").currency,
+      );
+      gross = recordResourceTransferOutcome(gross, {
+        stableKey: period.stableKey,
+        resourceFlowId: period.payFlowId,
+        periodStartsAt: period.periodStartsAt,
+        periodEndsAt: period.periodEndsAt,
+        occurredAt: period.onDate,
+        attemptedAmount: money(100_000, "USD"),
+        transferredAmount: money(index === 0 ? 100_000 : 50_000, "USD"),
+        status: index === 0 ? "completed" : "partial",
+        reasonKind: index === 0 ? null : "capacity:insufficient-employer-cash",
+        note: null,
+        provenance,
+      });
+      ids.push(gross.history.resourceTransferOutcomes.at(-1)!.id);
+    }
+    const snapshot = serializeWorld(gross);
+    const reference = withHistoryAppendTransaction(
+      gross,
+      ["resourceFlows", "resourceTransferOutcomes"],
+      (world) => assessPaychecksTaxes(world, ids),
+    );
+    const candidate = withHistoryAppendTransaction(
+      gross,
+      ["resourceFlows", "resourceFlowTerms", "resourceTransferOutcomes"],
+      (world) => assessPaychecksTaxes(world, ids),
+    );
+    expect(serializeWorld(gross)).toBe(snapshot);
+    expect(serializeWorld(candidate)).toBe(serializeWorld(reference));
+    expect(Array.isArray(candidate.history.resourceFlows)).toBe(true);
+    expect(Array.isArray(candidate.history.resourceFlowTerms)).toBe(true);
+    expect(Array.isArray(candidate.history.resourceTransferOutcomes)).toBe(
+      true,
+    );
+    for (const id of ids) {
+      const withholding = candidate.history.resourceFlows.filter(
+        (flow) =>
+          flow.stableKey === `statutory-tax:withholding:${id}` ||
+          flow.stableKey.startsWith(`statutory-tax:withholding:${id}:`),
+      );
+      expect(withholding.length).toBeGreaterThan(0);
+      for (const flow of withholding) {
+        expect(
+          candidate.history.resourceFlowTerms.filter(
+            (terms) => terms.resourceFlowId === flow.id,
+          ),
+        ).toHaveLength(1);
+        expect(
+          candidate.history.resourceTransferOutcomes.filter(
+            (outcome) => outcome.resourceFlowId === flow.id,
+          ),
+        ).toHaveLength(1);
+      }
+    }
+    const continued = deserializeWorld(serializeWorld(candidate));
+    expect(serializeWorld(continued)).toBe(serializeWorld(candidate));
+    expect(assessPaychecksTaxes(continued, ids)).toBe(continued);
+  },
+);
