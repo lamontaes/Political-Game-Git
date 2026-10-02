@@ -139,6 +139,7 @@ export function stateIncomeTaxUnderLaw(
           questionKey: ADOPT_STATE_INCOME_TAX_QUESTION,
           termKey: "rate",
           unit: "ratio",
+          onDate: taxYearStart,
         })
       : null;
   const threshold =
@@ -147,16 +148,24 @@ export function stateIncomeTaxUnderLaw(
           questionKey: ADOPT_STATE_INCOME_TAX_QUESTION,
           termKey: "threshold",
           unit: "minor",
+          onDate: taxYearStart,
         })
       : null;
+  const flatRateBasisPoints = flatRate
+    ? Math.round(flatRate.value * 10_000)
+    : null;
   // One numeric rate cannot represent an explicitly graduated schedule.
   // Missing, conflicting or wrong-unit terms retain the labeled fallback.
+  // Round-trip the ratio: binary multiplication must not turn an exact 7%
+  // bill into a peer estimate, and finer-than-basis-point rates stay unsupported.
   if (
     flatRate &&
     threshold &&
     flatRate.value >= 0 &&
     flatRate.value <= 1 &&
-    Number.isSafeInteger(flatRate.value * 10_000) &&
+    flatRateBasisPoints !== null &&
+    Number.isSafeInteger(flatRateBasisPoints) &&
+    flatRateBasisPoints / 10_000 === flatRate.value &&
     Number.isSafeInteger(threshold.value) &&
     threshold.value >= 0 &&
     graduated?.answer !== "yes"
@@ -182,7 +191,7 @@ export function stateIncomeTaxUnderLaw(
               : []),
             {
               overMinor: threshold.value,
-              rateBasisPoints: flatRate.value * 10_000,
+              rateBasisPoints: flatRateBasisPoints,
             },
           ],
         },

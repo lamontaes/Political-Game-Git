@@ -97,7 +97,7 @@ describe("A41 recorded staff pay uses existing occupational data", () => {
       const rate = townJobRate(
         "occupation:office-clerk",
         jurisdictionId,
-        townPayPercentile(0, 0.5),
+        townPayPercentile(0),
         townMinimumHourlyAt(world, jurisdictionId, world.currentDate),
       );
       const opened = initializeOfficeSalaryFlows(world, personId);
@@ -153,7 +153,7 @@ describe("A41 recorded staff pay uses existing occupational data", () => {
     const rate = townJobRate(
       "occupation:office-clerk",
       jurisdictionId,
-      townPayPercentile(0, 0.5),
+      townPayPercentile(0),
       townMinimumHourlyAt(world, jurisdictionId, world.currentDate),
     )!;
     const opened = initializeOfficeSalaryFlows(world, personId);

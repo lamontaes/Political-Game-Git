@@ -1,4 +1,6 @@
-import { addDays } from "./dates";
+import { nextSessionCalendarDate } from "./legislative-session-calendar";
+import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
+import { COUNCIL_ACT_MEASURE_TITLE, renderMeasureTitle } from "./measure-title";
 import { fileMemberAgendaBills } from "./governing/member-agenda";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { mayAnswerQuestion } from "./governing/question-authority";
@@ -56,11 +58,6 @@ import type {
 export const DC_COUNCIL_SITTING = "civic:dc-council-sitting" as const;
 export const DC_COUNCIL_SITTINGS_VERSION = "dc-council-sittings/v1" as const;
 
-export const DC_COUNCIL_SITTING_PROFILE = {
-  id: "ocd-dc-council-sitting-placeholder/v1",
-  daysBetweenSittings: 14,
-} as const;
-
 function councilMembers(world: World) {
   return municipalSeats(world, DC_GOVERNMENT_KEY).filter(
     (seat) => seat.role === "member" || seat.role === "presiding-member",
@@ -77,7 +74,13 @@ export function scheduleDcCouncilSitting(
     DC_GOVERNMENT_KEY,
   );
   if (!jurisdictionId || !world.jurisdictions[jurisdictionId]) return world;
-  const dueAt = addDays(after, DC_COUNCIL_SITTING_PROFILE.daysBetweenSittings);
+  const government = municipalGovernmentByKey(DC_GOVERNMENT_KEY);
+  if (!government) return world;
+  const rules = municipalRulePackFor(government);
+  if (!rules.ok) return world;
+  const calendar =
+    rules.pack.session.sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.council;
+  const dueAt = nextSessionCalendarDate(calendar, after);
   const stableKey = `${DC_COUNCIL_SITTINGS_VERSION}:sitting:${dueAt}`;
   if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
     return world;
@@ -89,7 +92,7 @@ export function scheduleDcCouncilSitting(
     jurisdictionId,
     provenance: {
       kind: "authored",
-      note: `${DC_COUNCIL_SITTING_PROFILE.id}: a sitting every ${DC_COUNCIL_SITTING_PROFILE.daysBetweenSittings} days, pending dc-council-legislative-volume.`,
+      note: calendar.note,
     },
   });
 }
@@ -138,7 +141,6 @@ function fileActs(world: World): World {
       ),
       measures: municipalMeasures(world, DC_GOVERNMENT_KEY),
       playerPersonId: player,
-      title: dcCouncilActTitle,
       measureKey: (numbering) =>
         municipalMeasureKey(DC_GOVERNMENT_KEY, numbering.designation),
     },
@@ -147,16 +149,12 @@ function fileActs(world: World): World {
 
 /** "Consumer data privacy law" becomes "Consumer Data Privacy Act of 2026". */
 export function dcCouncilActTitle(questionName: string, year: string): string {
-  const words = questionName
-    .replace(/\s+(law|act)$/i, "")
-    .split(/\s+/)
-    .map((word, index) =>
-      index > 0 &&
-      /^(a|an|and|as|at|by|for|in|of|on|or|the|to|with)$/i.test(word)
-        ? word.toLowerCase()
-        : word.charAt(0).toUpperCase() + word.slice(1),
-    );
-  return `${words.join(" ")} Act of ${year}`;
+  return renderMeasureTitle(
+    COUNCIL_ACT_MEASURE_TITLE,
+    questionName,
+    year,
+    false,
+  );
 }
 
 /** Every act a non-player sponsor carries takes its next lawful step. */
