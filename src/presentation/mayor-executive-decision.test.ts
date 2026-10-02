@@ -1,7 +1,7 @@
 /// <reference types="node" />
 import { writeFileSync } from "node:fs";
 import { createHash } from "node:crypto";
-import { afterAll, describe, expect, it } from "vitest";
+import { afterAll, describe, expect, it, vi } from "vitest";
 import { createProductionPolicyCatalog } from "../simulation/production-catalog";
 import {
   lifePlaceStateIdentities,
@@ -40,10 +40,15 @@ import {
   evaluateGovernorBill,
   BILL_SIGN,
 } from "../simulation/governing/governor-bill-decision";
+import * as governorBillDecision from "../simulation/governing/governor-bill-decision";
+import { evaluateDecision } from "../simulation/decisions";
+import { SeededRng } from "../simulation/rng";
 import { questionAuthority } from "../simulation/governing/question-authority";
 import {
   cancelFutureDueItem,
+  createFutureTransitionHandlerRegistry,
   futureDueItemStateAt,
+  resolveFutureDueItemsThrough,
 } from "../simulation/future-transitions";
 import { serializeWorld, deserializeWorld } from "../simulation/serialization";
 import { addDays, simulationMomentOnLocalDate } from "../simulation/dates";
@@ -514,6 +519,141 @@ describe("municipal executives use the shared bill evaluator", () => {
         next: action,
         reasons: expected.context.considerations.map((r) => r.explanation),
       });
+    },
+  );
+});
+
+const noActionSeed = "A80 test-controlled no available municipal executive action";
+const noActionRng = new SeededRng(noActionSeed);
+const noActionPool = [...places];
+const noActionPlaces = Array.from(
+  { length: 5 },
+  () => noActionPool.splice(noActionRng.integer(0, noActionPool.length), 1)[0]!,
+);
+
+describe("test-controlled unavailable municipal executive actions", () => {
+  it.each(noActionPlaces)(
+    "preserves silence follow-up from starting $state",
+    ({ state, place }) => {
+      // Unfiltered all-56 draws; the same actual D.C. government in every world.
+      const { world, mayor, measureId, due } = presentedAct(
+        `${noActionSeed}:${state}`,
+        place.key,
+      );
+      const realEvaluate = governorBillDecision.evaluateGovernorBill;
+      const evaluator = vi
+        .spyOn(governorBillDecision, "evaluateGovernorBill")
+        .mockImplementation((subject, input) => {
+          const actual = realEvaluate(subject, input);
+          // Explicit test constraints, not natural mayor indecision.
+          // Real evaluation and durable trace replay remain unmocked.
+          return evaluateDecision(subject, {
+            ...actual.context,
+            constraints: actual.context.options.map((option) => ({
+              stableKey: `fixture:blocked:${option.key}`,
+              optionKey: option.key,
+              kind: "context:fixture-no-executive-action",
+              explanation:
+                "Explicit boundary control blocks this action to exercise the existing silence lifecycle.",
+              sourceRefs: [],
+            })),
+          });
+        });
+      try {
+        const handlers = createFutureTransitionHandlerRegistry([
+          [COUNCIL_ACT_EXECUTIVE_DEADLINE, councilActExecutiveDeadlineHandler],
+        ]);
+        const next = resolveFutureDueItemsThrough(world, due.dueAt, handlers);
+        expect(evaluator).toHaveBeenCalledTimes(1);
+        const trace = next.history.decisionTraces!.at(-1)!;
+        expect(trace.outcomeKind).toBe("no-available-option");
+        expect(trace.selectedOptionKey).toBeNull();
+        expect(trace.context.actorPersonId).toBe(mayor);
+        expect(trace.context.randomness).toBe("none");
+        expect(trace.context.considerations.length).toBeGreaterThan(0);
+        expect(trace.context.constraints).toHaveLength(
+          trace.context.options.length,
+        );
+        expect(measurePosition(next, measureId).phase).toBe(
+          "awaiting-executive",
+        );
+        expect(
+          measureActions(next, measureId).filter(
+            (action) =>
+              action.kind === "signed" ||
+              action.kind === "vetoed" ||
+              action.kind === "became-law-without-signature",
+          ),
+        ).toHaveLength(0);
+        expect(
+          futureDueItemStateAt(next, due.id, {
+            asOfDate: next.currentDate,
+            historySequenceExclusive: next.history.nextSequence,
+          })?.status,
+        ).toBe("resolved");
+        const silence = next.history.futureDueItems.filter(
+          (item) =>
+            item.transitionKey === COUNCIL_ACT_EXECUTIVE_DEADLINE &&
+            item.entityIds.includes(measureId) &&
+            item.id !== due.id,
+        );
+        expect(silence).toHaveLength(1);
+        expect(silence[0]!.dueAt).toBe(addDays(due.dueAt, 1));
+        const continued = deserializeWorld(serializeWorld(next));
+        expect(continued.history.decisionTraces!.at(-1)).toEqual(trace);
+        expect(
+          continued.history.futureDueItems.find(
+            (item) => item.id === silence[0]!.id,
+          ),
+        ).toEqual(silence[0]);
+        const isolated = isolateAt(
+          continued,
+          silence[0]!.dueAt,
+          silence[0]!.id,
+        );
+        const enacted = resolveFutureDueItemsThrough(
+          isolated,
+          silence[0]!.dueAt,
+          handlers,
+        );
+        expect(evaluator).toHaveBeenCalledTimes(1);
+        expect(measurePosition(enacted, measureId).phase).toBe("enacted");
+        expect(
+          measureActions(enacted, measureId).filter(
+            (action) => action.kind === "became-law-without-signature",
+          ),
+        ).toHaveLength(1);
+        expect(
+          measureActions(enacted, measureId).filter(
+            (action) => action.kind === "signed" || action.kind === "vetoed",
+          ),
+        ).toHaveLength(0);
+        const repeated = resolveFutureDueItemsThrough(
+          enacted,
+          addDays(silence[0]!.dueAt, 1),
+          handlers,
+        );
+        expect(measureActions(repeated, measureId)).toEqual(
+          measureActions(enacted, measureId),
+        );
+        expect(
+          councilActExecutiveDeadlineHandler(enacted, silence[0]!).world,
+        ).toBe(enacted);
+        comparisons.push({
+          fixture:
+            "Test constraints block both actions; same actual D.C. government",
+          startingJurisdiction: state,
+          startingPlace: place.key,
+          seed: world.seed,
+          finalDay: due.dueAt,
+          silenceDay: silence[0]!.dueAt,
+          mayor: personName(world.people[mayor]!),
+          traceId: trace.id,
+          outcome: "became-law-without-signature",
+        });
+      } finally {
+        evaluator.mockRestore();
+      }
     },
   );
 });
