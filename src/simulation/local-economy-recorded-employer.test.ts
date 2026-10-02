@@ -6,10 +6,16 @@ import {
   prepareOpeningLife,
 } from "../presentation/opening-life";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
+import { ageOnDate } from "./dates";
 import { hireAtAdultStart } from "./job-market";
+import { recordWorkStatus } from "./life";
 import { adultStartEmployer } from "./recorded-adult-employer";
 import { lifePlaceByKey } from "./life-places";
-import { activeWorkRelationshipsAt, workRoleAt } from "./life-queries";
+import {
+  activeWorkRelationshipsAt,
+  workRoleAt,
+  workStatusAt,
+} from "./life-queries";
 import { townBusinesses } from "./living-world/town-businesses";
 import { personName } from "./people";
 import { serializeWorld, deserializeWorld } from "./serialization";
@@ -71,6 +77,49 @@ describe("A58 adult starting jobs use the town's recorded employers", () => {
       expect(
         adultStartEmployer(deserializeWorld(before), personId, town),
       ).toEqual(selected);
+
+      // A canonical departure effective today must not force tomorrow's
+      // start and thereby suppress a hire at the opening date. Keep this
+      // separate from the player's survey-based opening employment status.
+      const departing = business!.jobs.find((entry) => {
+        const person = world.people[entry.personId];
+        return (
+          entry.personId !== personId &&
+          person &&
+          ageOnDate(person.birthDate, world.currentDate) >= 19 &&
+          activeWorkRelationshipsAt(world, entry.personId).length === 1 &&
+          !world.history.workRelationships.some(
+            (work) =>
+              work.stableKey === `adult-start-work-v1:${entry.personId}`,
+          )
+        );
+      });
+      expect(departing).toBeDefined();
+      const ended = recordWorkStatus(world, {
+        stableKey: `a58-opening-departure:${departing!.relationshipId}`,
+        workRelationshipId: departing!.relationshipId,
+        effectiveAt: world.currentDate,
+        status: "ended",
+        reason: "Recorded departure on the opening date.",
+        supersedesStatusId: departing!.status.id,
+        provenance: { kind: "authored", note: "A58 same-day departure fixture." },
+      });
+      const replacement = hireAtAdultStart(ended, {
+        personId: departing!.personId,
+        jurisdictionId: town,
+      });
+      const replacementJobs = activeWorkRelationshipsAt(
+        replacement,
+        departing!.personId,
+      );
+      expect(replacementJobs).toHaveLength(1);
+      expect(replacementJobs[0]!.relationship.startedAt).toBe(world.currentDate);
+      expect(workStatusAt(replacement, departing!.relationshipId)?.status).toBe(
+        "ended",
+      );
+      expect(replacement.history.organizations).toEqual(
+        world.history.organizations,
+      );
 
       // Explicit ordinary hiring writer after town records exist, not proof of
       // the earlier production opening callsite's producer/order.

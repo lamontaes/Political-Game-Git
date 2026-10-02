@@ -96,10 +96,12 @@ describe("a grown-up new life", () => {
 
   it("is paid each week by the employer, and can leave the job", () => {
     const { label, world, personId } = adultLife("adult-work-3");
+    const openingJobs = activeWorkRelationshipsAt(world, personId);
+    expect(openingJobs, label).toHaveLength(1);
+    const job = openingJobs[0]!;
     const played = openOrdinaryLife(world, personId);
     // The player's own "let time pass".
     const later = letAdultTimePass(played, 21);
-    const job = activeWorkRelationshipsAt(later, personId)[0]!;
     const pay = later.history.resourceFlows.find(
       (flow) =>
         flow.basisReference.kind === "work" &&

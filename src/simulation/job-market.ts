@@ -1689,7 +1689,7 @@ function payWeekly(
  * raised by a minimum-wage law, and left like any other.
  *
  * The job began when the person was free to take it: at eighteen, when the
- * business opened, or the day after their last recorded job ended, whichever
+ * business opened, or when their last recorded job ended, whichever
  * is latest. Pay runs from the day the game opens, at the town's published
  * monthly pay for the work spread over the weeks of a year; earlier wages
  * are not claimed. Writes nothing for a person under nineteen, one already
@@ -1724,7 +1724,10 @@ export function hireAtAdultStart(
   const startedAt = [
     dateAtAge(person.birthDate, 18),
     employer.organization.formedAt,
-    ...(lastEnded ? [addDays(lastEnded, 1)] : []),
+    // An ended status is already effective on this date. Requiring tomorrow
+    // leaves an opening-day departure without work even though the saved
+    // employer and paid role are available today.
+    ...(lastEnded ? [lastEnded] : []),
   ]
     .sort()
     .at(-1)!;
