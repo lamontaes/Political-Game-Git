@@ -163,13 +163,28 @@ export function CampaignLifePanel({
     }
   }
 
+  const rowsById = new Map(view.rows.map((row) => [row.lifeActivityId, row]));
   const organizations = [
-    ...new Map(
-      view.requestable.map((option) => [
-        option.hostOrganizationId,
-        { name: option.organizationName, hostName: option.hostName },
-      ]),
-    ),
+    ...new Map([
+      ...projectCampaignLifeActivities(world, personId).flatMap((activity) => {
+        const row = rowsById.get(activity.lifeActivityId);
+        return row
+          ? [
+              [
+                activity.hostOrganizationId,
+                { name: row.organizationName, hostName: row.hostName },
+              ] as const,
+            ]
+          : [];
+      }),
+      ...view.requestable.map(
+        (option) =>
+          [
+            option.hostOrganizationId,
+            { name: option.organizationName, hostName: option.hostName },
+          ] as const,
+      ),
+    ]),
   ];
 
   return (
@@ -295,6 +310,13 @@ export function CampaignLifePanel({
                 <strong>{organization.name}</strong>
                 <small>Organizer: {organization.hostName}</small>
               </p>
+              {!view.requestable.some(
+                (option) => option.hostOrganizationId === organizationId,
+              ) ? (
+                <p className="game-note">
+                  Your activities with this organizer are listed above.
+                </p>
+              ) : null}
               <span className="game-campaign-life-actions game-campaign-life-actions--menu">
                 {view.requestable
                   .filter(
@@ -309,13 +331,32 @@ export function CampaignLifePanel({
                       disabled={option.unavailableReason !== null}
                       title={option.unavailableReason ?? undefined}
                       onClick={() =>
-                        apply(() =>
-                          requestPartyWork(
-                            world,
-                            personId,
-                            option.form,
-                            organizationId,
-                          ),
+                        apply(
+                          () =>
+                            requestPartyWork(
+                              world,
+                              personId,
+                              option.form,
+                              organizationId,
+                            ),
+                          undefined,
+                          (next) => {
+                            const added = projectPartyAndCommunityWork(
+                              next,
+                              personId,
+                              transitionHandlers,
+                            ).rows.find(
+                              (row) =>
+                                !view.rows.some(
+                                  (previous) =>
+                                    previous.lifeActivityId ===
+                                    row.lifeActivityId,
+                                ),
+                            );
+                            return added
+                              ? `${added.title}: ${added.stateLabel} ${added.when}. ${added.placeLabel}`
+                              : "Your calendar changed. Check the activity below.";
+                          },
                         )
                       }
                     >

@@ -210,8 +210,8 @@ export function CampaignWorkspace({
 
   function run<T>(work: () => T, apply: (value: T) => void) {
     try {
-      apply(work());
       setProblem(null);
+      apply(work());
     } catch (error) {
       setProblem(error instanceof Error ? error.message : String(error));
     }
@@ -229,6 +229,12 @@ export function CampaignWorkspace({
           selectedMunicipalSeatKey,
         ),
       (next) => {
+        if (next === world) {
+          setProblem(
+            "Your filing has not changed. Check the office and seat requirements before trying again.",
+          );
+          return;
+        }
         // The choice is spent on this filing. Picking an office again once the
         // race is over is what offers the next filing.
         setSelectedOfficeKey(null);

@@ -7,7 +7,13 @@ import {
   generateOpeningLife,
   prepareOpeningLife,
 } from "../presentation/opening-life";
-import { acceptPartyWork } from "../presentation/campaign-life-actions";
+import {
+  acceptPartyWork,
+  requestPartyWork,
+} from "../presentation/campaign-life-actions";
+import { projectPartyAndCommunityWork } from "../presentation/campaign-life-surface";
+import { deserializeWorld, serializeWorld } from "../simulation/serialization";
+import { drawRandomPlace } from "../../tests/support/random-place";
 import {
   addDays,
   homePartyChapters,
@@ -34,13 +40,16 @@ interface Life {
   readonly organizerId: EntityId;
 }
 
+const SEED = "ui47-campaign-life-mount";
+const PLACE = drawRandomPlace(SEED);
+
 function adultLife(): Life {
   const game = generateOpeningLife(
     prepareOpeningLife({
       ...DEFAULT_NEW_GAME_SETUP,
-      seed: "ui47-campaign-life-mount",
+      seed: SEED,
       startAge: 34,
-      placeKey: "kentucky",
+      placeKey: PLACE.key,
     }),
   ).game!;
   const chapter = homePartyChapters(game.world)[0]!;
@@ -86,7 +95,53 @@ function render(world: World): string {
   );
 }
 
-describe("CampaignLifePanel as mounted", () => {
+describe(`CampaignLifePanel as mounted (${PLACE.displayName}, seed ${SEED})`, () => {
+  it("keeps a chapter visible after every request is saved and reopened", () => {
+    let requested = life.world;
+    const options = projectPartyAndCommunityWork(
+      requested,
+      life.personId,
+    ).requestable.filter(
+      (option) => option.hostOrganizationId === life.chapterId,
+    );
+    expect(options.map((option) => option.form)).toEqual([
+      "organization-meeting",
+      "door-canvass",
+      "phone-shift",
+      "candidate-guidance",
+      "town-hall",
+    ]);
+    for (const option of options) {
+      requested = requestPartyWork(
+        requested,
+        life.personId,
+        option.form,
+        life.chapterId,
+      );
+      const saved = projectCampaignLifeActivities(
+        requested,
+        life.personId,
+      ).find(
+        (activity) =>
+          activity.form === option.form &&
+          activity.hostOrganizationId === life.chapterId,
+      );
+      expect(saved).toBeDefined();
+      expect(render(requested)).toContain(
+        `party-work-${saved!.lifeActivityId}`,
+      );
+    }
+    expect(
+      projectPartyAndCommunityWork(requested, life.personId).requestable.filter(
+        (option) => option.hostOrganizationId === life.chapterId,
+      ),
+    ).toHaveLength(0);
+    const reopened = deserializeWorld(serializeWorld(requested));
+    expect(render(reopened)).toContain(`party-work-requests-${life.chapterId}`);
+    expect(projectCampaignLifeActivities(reopened, life.personId)).toEqual(
+      projectCampaignLifeActivities(requested, life.personId),
+    );
+  });
   it("with nothing on the calendar, says so instead of drawing an empty list", () => {
     const html = render(life.world);
     expect(html).toContain('data-testid="party-work"');
