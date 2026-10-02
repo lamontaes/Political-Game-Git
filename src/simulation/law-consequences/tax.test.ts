@@ -1,3 +1,6 @@
+import { smallWorld } from "../../../tests/fixtures/small-world";
+import { drawRandomPlace } from "../../../tests/support/random-place";
+import { typedTaxQuestionRow } from "./typed-tax-question-data";
 import { describe, expect, it } from "vitest";
 import { TEST_TAX_TERMS } from "../../../tests/fixtures/tax-policy-fixture";
 import { createLegislativeScenario } from "../legislation-scenarios";
@@ -270,6 +273,46 @@ function balances(world: World, personId: World["personOrder"][number]) {
 }
 
 describe("tax kind uses saved typed levies, assessments and due collection", () => {
+  it("the loaded legalization row uses the same adopted-term tax kind", () => {
+    const f = fixture();
+    const seed = "overflow3:a16:typed-tax-new-game";
+    const place = drawRandomPlace(seed);
+    const { world: opened } = smallWorld({ place: place.key, seed, people: 3 });
+    assertWorldIntegrity(opened);
+    const reopened = deserializeWorld(serializeWorld(opened));
+    expect(reopened.seed).toBe(seed);
+    console.info(
+      `A16 new game: ${place.key}; ${place.stateJurisdictionKey}; seed ${seed}`,
+    );
+    const question = Object.values(reopened.policyCatalog.propositions).find(
+      (row) => row.stableKey === QUESTION,
+    )!;
+    expect(question.consequences).toContainEqual(typedTaxQuestionRow(QUESTION));
+    const world = {
+      ...f.world,
+      policyCatalog: {
+        ...f.world.policyCatalog,
+        propositions: {
+          ...f.world.policyCatalog.propositions,
+          [f.propositionId]: {
+            ...f.world.policyCatalog.propositions[f.propositionId]!,
+            consequences: question.consequences,
+          },
+        },
+      },
+    };
+    const assessed = dispatch(world, f.context);
+    expect(assessed.history.taxAssessments).toHaveLength(1);
+    expect(assessed.history.taxAssessments![0]!.taxAmount.minorUnits).toBe(100);
+    expect(
+      assessed.history.taxAssessments![0]!.lawEffectStamps![0]!.questionKey,
+    ).toBe(QUESTION);
+    expect(
+      dispatch(deserializeWorld(serializeWorld(assessed)), f.context).history
+        .taxAssessments,
+    ).toHaveLength(1);
+  });
+
   it("assesses and collects the actual excise question through its adopted typed levy", () => {
     const f = fixture(10000, 2100, true, "us-tax-terms:state.excise-tax-terms");
     expect(personName(f.world.people[f.personId]!)).toBeTruthy();

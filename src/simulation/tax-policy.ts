@@ -1,3 +1,4 @@
+import { TYPED_TAX_QUESTION_KEYS } from "./law-consequences/typed-tax-question-data";
 import wageAuthority from "../../data/research/money/wage-income-authority.json" with { type: "json" };
 import {
   queryFiscalAuthority,
@@ -419,7 +420,7 @@ export function attachTaxProposal(
     throw new Error("Tax terms must be filed before legislative deliberation.");
   const exciseQuestion = (measure.propositionIds ?? [])
     .map((id) => world.policyCatalog.propositions[id])
-    .find((row) => row?.stableKey === "us-tax-terms:state.excise-tax-terms");
+    .find((row) => row && TYPED_TAX_QUESTION_KEYS.includes(row.stableKey));
   let next = ensurePublicGovernmentAccount(world, publicGovernmentIdentity);
   next = recordFiledProvision(next, {
     stableKey: `${input.stableKey}:levy`,
