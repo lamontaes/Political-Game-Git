@@ -278,7 +278,7 @@
     "result": "PASS; canonical projects and import audit, not full test type coverage"
   },
   "lint": "PASS changed guard test",
-  "format": "PASS changed guard test; final owned data/declaration check pending",
+  "format": "PASS all four owned paths with explicit ignore-path override for receipt JSON",
   "zeroDice": {
     "scope": ["src/simulation/governing/starting-law-required-terms.test.ts"],
     "findings": 0,
@@ -291,7 +291,9 @@
     "branch": "8/8",
     "flippedChecks": [],
     "ruleEdits": false,
-    "result": "Prerequisite only; strict source coverage remains failed"
+    "result": "Prerequisite only; strict source coverage remains failed",
+    "mainSource": "6e969ab6241b19392c487f5da779b7771e8bc737",
+    "mainReadMethod": "Existing read-only Git-object scan; initial subprocess/buffer admission failures repaired, terminal PASS; no checkout or rule writes"
   },
   "helper": {
     "name": "a22_a45_reuse",
@@ -365,5 +367,16 @@
     "browser",
     "nationwide simulation activation",
     "official Claude gate"
-  ]
+  ],
+  "sourceHead": "6e7f9dc17551bdae4bb1e96abe8e6b89ff3936ee",
+  "release": {
+    "command": "npm run -s release:check -- --base origin/main --head HEAD --mode pr",
+    "sourceHead": "6e7f9dc17551bdae4bb1e96abe8e6b89ff3936ee",
+    "result": "PASS; declaration range origin/main..HEAD"
+  },
+  "mergeTree": {
+    "main": "f3452ed70f98bc9546e6502bb8e34c655f119c36",
+    "tree": "42188f4ef9c986f48b845e78c2a47335fbb5559d",
+    "result": "clean; source tests pinned to preceding 6e969ab main, no claim of runtime proof on virtual receiving tree"
+  }
 }
