@@ -14,12 +14,13 @@ import type {
   LawConsequenceRow,
 } from "./law-consequence-types";
 import type { World } from "./types";
+import type * as LawConsequenceRegistry from "./law-consequence-registry";
 
 const active = vi.hoisted(() => ({
   registrations: [] as LawConsequenceKindRegistration[],
 }));
 vi.mock("./law-consequence-registry", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("./law-consequence-registry")>()),
+  ...(await importOriginal<typeof LawConsequenceRegistry>()),
   LAW_CONSEQUENCE_REGISTRATIONS: active.registrations,
 }));
 
