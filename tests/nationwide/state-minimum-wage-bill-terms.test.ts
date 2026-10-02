@@ -9,6 +9,7 @@ import {
   stateJurisdictionForKey,
 } from "../../src/simulation/life-places";
 import { outcomeFactor } from "../../src/simulation/outcome-web";
+import { recordsWithFieldValue } from "../../src/simulation/history-index";
 import {
   nextPaydayDate,
   PAYDAY_TRANSITION_KEY,
@@ -16,12 +17,7 @@ import {
   townMinimumHourlyAt,
 } from "../../src/simulation/living-world/town-pay";
 import { withWorldIntegrityDeferred } from "../../src/simulation/world";
-import type {
-  EntityId,
-  FutureDueItem,
-  IsoDate,
-  World,
-} from "../../src/simulation";
+import type { EntityId, IsoDate, World } from "../../src/simulation";
 
 import {
   omahaWithRaiseBills,
@@ -70,10 +66,13 @@ function runPaydays(start: World, since: IsoDate, days: number): World {
         currentDate: payday,
         currentMoment: simulationMomentOnLocalDate(world.currentMoment, payday),
       };
-      world = paydayHandler(world, {
-        stableKey: `town-pay-v2:payday:${paidThrough}`,
-        transitionKey: PAYDAY_TRANSITION_KEY,
-      } as FutureDueItem).world;
+      const due = world.history.futureDueItems.find(
+        (item) =>
+          item.transitionKey === PAYDAY_TRANSITION_KEY &&
+          item.stableKey === `town-pay-v2:payday:${paidThrough}`,
+      );
+      if (!due) throw new Error("The fixture needs its actual saved payday.");
+      world = paydayHandler(world, due).world;
       paidThrough = payday;
     }
   });
@@ -147,14 +146,18 @@ describe(
         };
         const hourly: number[] = [];
         for (const flow of rows) {
-          const wid = (flow.basisReference as { workRelationshipId: string })
-            .workRelationshipId;
-          const role = world.history.workRoles.findLast(
-            (r) => r.workRelationshipId === wid,
-          )!;
-          const t = world.history.resourceFlowTerms.findLast(
-            (r) => r.resourceFlowId === flow.id,
-          )!;
+          if (flow.basisReference.kind !== "work")
+            throw new Error("The fixture needs its actual work pay flow.");
+          const role = recordsWithFieldValue(
+            world.history.workRoles,
+            "workRelationshipId",
+            flow.basisReference.workRelationshipId,
+          ).at(-1)!;
+          const t = recordsWithFieldValue(
+            world.history.resourceFlowTerms,
+            "resourceFlowId",
+            flow.id,
+          ).at(-1)!;
           const { minimumHours: a, maximumHours: b } =
             role.timeDemand.expectedWeekly;
           const p = /town-(\w+?)(?:-\d)?$/.exec(t.cadenceKind)![1]!;
