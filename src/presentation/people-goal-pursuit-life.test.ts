@@ -415,16 +415,18 @@ function callBoundaryFixture() {
   // Initialize the review's ordinary personality/tie writers without a call.
   const prime = vi
     .spyOn(callDecisions, "evaluateDecision")
-    .mockImplementation((w, context) => {
-      const actual = evaluateCallBoundary(w, context);
-      return context.decisionType === "people.goal-step"
-        ? {
-            ...actual,
-            outcomeKind: "selected",
-            selectedOptionKey: "not-this-week",
-          }
-        : actual;
-    });
+    .mockImplementation(
+      (w: World, context: Parameters<typeof evaluateCallBoundary>[1]) => {
+        const actual = evaluateCallBoundary(w, context);
+        return context.decisionType === "people.goal-step"
+          ? {
+              ...actual,
+              outcomeKind: "selected",
+              selectedOptionKey: "not-this-week",
+            }
+          : actual;
+      },
+    );
   try {
     world = reviewPeopleGoals(world).world;
   } finally {
@@ -480,22 +482,24 @@ function forceCallBoundary(
   let answers = 0;
   const spy = vi
     .spyOn(callDecisions, "evaluateDecision")
-    .mockImplementation((world, context) => {
-      const actual = evaluateCallBoundary(world, context);
-      if (context.decisionType === "people.goal-step")
-        return {
-          ...actual,
-          outcomeKind: "selected",
-          selectedOptionKey:
-            context.actorPersonId === caller &&
-            context.subject.key === CONNECTION_GOAL_KEY
-              ? "act"
-              : "not-this-week",
-        };
-      if (context.decisionType !== "people.call-answer") return actual;
-      answers++;
-      return { ...actual, outcomeKind, selectedOptionKey };
-    });
+    .mockImplementation(
+      (world: World, context: Parameters<typeof evaluateCallBoundary>[1]) => {
+        const actual = evaluateCallBoundary(world, context);
+        if (context.decisionType === "people.goal-step")
+          return {
+            ...actual,
+            outcomeKind: "selected",
+            selectedOptionKey:
+              context.actorPersonId === caller &&
+              context.subject.key === CONNECTION_GOAL_KEY
+                ? "act"
+                : "not-this-week",
+          };
+        if (context.decisionType !== "people.call-answer") return actual;
+        answers++;
+        return { ...actual, outcomeKind, selectedOptionKey };
+      },
+    );
   return { spy, answers: () => answers };
 }
 
@@ -510,7 +514,7 @@ describe("a goal call requires the called person's selected answer", () => {
     ["no-available-option", "not-now"],
   ] as const)(
     "keeps %s / %s waiting through Continue and repeat",
-    (outcomeKind, optionKey) => {
+    (outcomeKind: DecisionOutcomeKind, optionKey: string | null) => {
       const { world, caller } = callBoundaryFixture();
       const forced = forceCallBoundary(caller, outcomeKind, optionKey);
       try {
@@ -544,7 +548,7 @@ describe("a goal call requires the called person's selected answer", () => {
 
   it.each(["talk", "not-now"] as const)(
     "preserves the actual selected %s writers after Continue",
-    (optionKey) => {
+    (optionKey: string) => {
       const { world, caller } = callBoundaryFixture();
       const forced = forceCallBoundary(caller, "selected", optionKey);
       try {
