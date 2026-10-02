@@ -25,6 +25,17 @@ import {
 } from "./resources";
 import type { EntityId, OrganizationClassification, World } from "./types";
 
+import {
+  ensureWorldStartingConditions,
+  macroStartingConditions,
+} from "./world-setup/conditions";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "./world-setup/types";
+import {
+  ensureMacroEconomyStarted,
+  macroStartForHistory,
+} from "./macro-economy/producer";
+import { TOWN_SALES_RECEIPT_BASIS } from "./living-world/town-sales-receipts";
+
 const USD = makeCurrencyCode("USD");
 
 const provenance = {
@@ -133,6 +144,59 @@ describe("saved comparable employer cash reader", () => {
     const restored = deserializeWorld(serializeWorld(opened));
     expect(ensureEmployerCashPositions(restored, "opening")).toEqual(restored);
   });
+
+  it.each([
+    { kind: "clinic", classification: "service:clinic" as const },
+    { kind: "care-home", classification: "service:nursing-home" as const },
+  ])(
+    "opens $kind books and a day-one receipt from recorded staff pay",
+    ({ kind, classification }) => {
+      const target = employer(
+        fixture().world,
+        `health:${kind}`,
+        null,
+        classification,
+      );
+      const conditioned = ensureWorldStartingConditions(target.world, {
+        openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+      });
+      let world = ensureMacroEconomyStarted(
+        conditioned,
+        macroStartForHistory(macroStartingConditions(conditioned)),
+      );
+      world = createWorkCompensation(world, {
+        stableKey: `health:${kind}:pay`,
+        workRelationshipId: world.history.workRelationships.at(-1)!.id,
+        startsAt: world.currentDate,
+        amount: money(100_000, USD),
+        cadenceKind: "schedule:monthly",
+        restrictionKind: null,
+        jurisdictionId: null,
+        provenance,
+      });
+      const opened = ensureEmployerCashPositions(world, "opening");
+      expect(opened.townFinances!.businesses[target.id]!.kind).toBe(kind);
+      const flowIds = new Set(
+        opened.history.resourceFlows
+          .filter(
+            (flow) =>
+              flow.basisKind === TOWN_SALES_RECEIPT_BASIS &&
+              flow.recipient.kind === "organization" &&
+              flow.recipient.organizationId === target.id,
+          )
+          .map((flow) => flow.id),
+      );
+      expect(
+        opened.history.resourceTransferOutcomes.some(
+          (row) =>
+            flowIds.has(row.resourceFlowId) &&
+            row.occurredAt === world.currentDate &&
+            row.transferredAmount.minorUnits > 0,
+        ),
+      ).toBe(true);
+      expect(ensureEmployerCashPositions(opened, "opening")).toEqual(opened);
+    },
+  );
 
   it("uses saved comparable cash after opening instead of repeating the research bootstrap", () => {
     const target = fixture();

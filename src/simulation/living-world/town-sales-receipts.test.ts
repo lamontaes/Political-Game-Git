@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
-import { observerSetup } from "../../presentation/observer-world";
+import {
+  observerSetup,
+  openObserverWorld,
+} from "../../presentation/observer-world";
 import {
   generateOpeningLife,
   prepareOpeningLife,
@@ -263,7 +266,7 @@ describe("recorded quarterly sales fund canonical employer cash", () => {
           ),
         ).toBe(true);
       }
-      const later = passOrdinaryDays(session.game!.world, 95);
+      const later = passOrdinaryDays(session.game!.world, 30);
       const flows = later.history.resourceFlows.filter(
         (flow) => flow.basisKind === TOWN_SALES_RECEIPT_BASIS,
       );
@@ -309,11 +312,85 @@ describe("recorded quarterly sales fund canonical employer cash", () => {
       }
       process.stdout.write(
         JSON.stringify({
-          receipt: "A60 native quarterly sales",
+          receipt: "A60 opening sales through 30 days",
           seed,
           placeKey: setup.placeKey,
           receipts: receipts.length,
           first: receipts[0],
+        }) + "\n",
+      );
+    },
+  );
+
+  it.each([
+    { seed: "gate-2002-s1", placeKey: "0443990" },
+    { seed: "gate-2002-s2", placeKey: "4614580" },
+  ])(
+    "funds clinic and care-home on day one in $seed without withheld cash pay through 100 days",
+    { timeout: 600000 },
+    ({ seed, placeKey }) => {
+      const setup = observerSetup(seed, placeKey);
+      expect(setup.placeKey).toBe(placeKey);
+      const opening = openObserverWorld(setup).world;
+      expect(opening.currentDate).toBe("2026-01-05");
+      const healthBooks = Object.values(
+        opening.townFinances?.businesses ?? {},
+      ).filter((book) => book.kind === "clinic" || book.kind === "care-home");
+      expect(healthBooks.some((book) => book.kind === "clinic")).toBe(true);
+      for (const book of healthBooks) {
+        const kind = book.kind;
+        const ids = new Set(
+          opening.history.resourceFlows
+            .filter(
+              (flow) =>
+                flow.basisKind === TOWN_SALES_RECEIPT_BASIS &&
+                flow.recipient.kind === "organization" &&
+                flow.recipient.organizationId === book!.organizationId,
+            )
+            .map((flow) => flow.id),
+        );
+        expect(
+          opening.history.resourceTransferOutcomes.some(
+            (row) =>
+              ids.has(row.resourceFlowId) &&
+              row.occurredAt === opening.currentDate &&
+              row.transferredAmount.minorUnits > 0,
+          ),
+          `${kind} day-one receipt`,
+        ).toBe(true);
+      }
+      const later = passOrdinaryDays(opening, 100);
+      const workFlowIds = new Set(
+        later.history.resourceFlows
+          .filter((flow) => flow.basisKind === "compensation:work")
+          .map((flow) => flow.id),
+      );
+      const wages = later.history.resourceTransferOutcomes.filter((row) =>
+        workFlowIds.has(row.resourceFlowId),
+      );
+      const withheld = wages.filter(
+        (row) =>
+          row.reasonKind === "capacity:insufficient-employer-cash" ||
+          row.reasonKind === "capacity:unrecorded-employer-cash",
+      );
+      expect(withheld).toHaveLength(0);
+      expect(wages.some((row) => row.transferredAmount.minorUnits > 0)).toBe(
+        true,
+      );
+      process.stdout.write(
+        JSON.stringify({
+          receipt: "A60 clinic/care-home sendback",
+          seed,
+          placeKey,
+          opening: opening.currentDate,
+          later: later.currentDate,
+          healthBooks: healthBooks.map((row) => ({
+            organizationId: row.organizationId,
+            kind: row.kind,
+            annualRevenue: row.annualRevenue,
+          })),
+          wages: wages.length,
+          withheld: withheld.length,
         }) + "\n",
       );
     },

@@ -17,6 +17,7 @@ import {
 import { openBusinessBooks } from "./living-world/town-finances";
 import { recordTownSalesReceipts } from "./living-world/town-sales-receipts";
 import { startState } from "./macro-economy/producer";
+import { startTownJobPay } from "./living-world/town-pay";
 import { writeWithWorldIntegrityOnce } from "./world";
 import cashBuffers from "../../data/research/money/opening-employer-cash-buffers.json" with { type: "json" };
 import type { CurrencyCode, EntityId, MoneyAmount, World } from "./types";
@@ -125,6 +126,8 @@ export function ensureEmployerCashPositions(
   phase: "opening" | "later",
 ): World {
   const USD = makeCurrencyCode("USD");
+  if (phase === "opening")
+    world = startTownJobPay(world, null, world.currentDate);
   const payroll = new Map<
     EntityId,
     { annualMinor: number; flowIds: EntityId[]; termsIds: EntityId[] }
@@ -261,12 +264,7 @@ export function ensureEmployerCashPositions(
         const towns = new Set<EntityId>();
         for (const [organizationId, pay] of payroll) {
           const profile = organizationProfileAt(next, organizationId);
-          if (
-            !profile ||
-            profile.closed ||
-            !profile.classification.startsWith("enterprise:") ||
-            !profile.locationJurisdictionId
-          )
+          if (!profile || profile.closed || !profile.locationJurisdictionId)
             continue;
           if (books[organizationId]) {
             towns.add(profile.locationJurisdictionId);
