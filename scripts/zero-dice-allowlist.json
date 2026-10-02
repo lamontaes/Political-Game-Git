@@ -770,13 +770,6 @@
       "kind": "roll",
       "build": "Build 7",
       "count": 1,
-      "code": ".next() < TOWN_FAMILY_CHANCES.sameGender;"
-    },
-    {
-      "file": "src/simulation/living-world/town-families.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
       "code": "if (rng.fork(\"break-up\").next() < breakUp) {"
     },
     {
