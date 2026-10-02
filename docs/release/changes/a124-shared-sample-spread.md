@@ -1,5 +1,5 @@
 ---
-id: shared-sample-spread
+id: a124-shared-sample-spread
 impact: patch
 section: Changed
 title: Game estimates reuse one mean and spread calculation
