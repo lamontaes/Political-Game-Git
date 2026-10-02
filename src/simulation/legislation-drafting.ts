@@ -3,6 +3,7 @@ import {
   legislativePackForWorkKey,
 } from "./legislative-institutions";
 import { governmentUnit } from "./government-units";
+import { legislatureProfilePackById } from "./legislature-game-profile";
 import { stateJurisdictionForKey } from "./life-places";
 import { isFederalDistrictUsps } from "./state-reference";
 import {
@@ -523,7 +524,12 @@ export function enactingGovernmentForPack(pack: LegislativeRulePack): {
   if (pack.packId === US_CONGRESS_PACK_ID)
     return { government: "federal", narrowing: [] };
   const state = stateJurisdictionForKey(pack.jurisdictionKey);
-  if (state && legislativePackForJurisdiction(state.id)?.packId === pack.packId)
+  if (
+    state &&
+    (legislativePackForJurisdiction(state.id)?.packId === pack.packId ||
+      legislatureProfilePackById(pack.packId)?.jurisdictionKey ===
+        pack.jurisdictionKey)
+  )
     return {
       government: TERRITORY_KEYS.has(pack.jurisdictionKey)
         ? "territory"
