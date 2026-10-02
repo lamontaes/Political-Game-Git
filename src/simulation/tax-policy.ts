@@ -165,13 +165,27 @@ export function ensureLocalPublicAccount(
 }
 
 /**
- * Creates an account identity with the save's fictional opening cash, if one
- * was recorded at Begin. This grants no tax or spending permission.
+ * Creates an account identity once. A source-backed opening estimate can
+ * initialize a missing position; otherwise the saved fictional profile applies.
+ * Existing cash is preserved. This grants no tax or spending permission.
  */
 export function ensurePublicGovernmentAccount(
   world: World,
   identity: PublicGovernmentIdentity,
+  openingEstimate?: {
+    readonly amountMinorUnits: number;
+    readonly sourceNote: string;
+  },
 ): World {
+  if (
+    openingEstimate &&
+    (!Number.isSafeInteger(openingEstimate.amountMinorUnits) ||
+      openingEstimate.amountMinorUnits < 0 ||
+      !openingEstimate.sourceNote.trim())
+  )
+    throw new Error(
+      "A public cash opening estimate needs a nonnegative amount and source.",
+    );
   assertPublicGovernmentIdentity(world, identity);
   const jurisdiction = world.jurisdictions[identity.jurisdictionId]!;
   const key = publicGovernmentOrganizationKey(identity);
@@ -217,13 +231,15 @@ export function ensurePublicGovernmentAccount(
         PUBLIC_CASH_OPENING_PROFILE_VERSION
         ? opening.publicCashOpening
         : null;
-    const openingMinorUnits = cashProfile
-      ? identity.kind === "local-government"
-        ? cashProfile.localMinorUnits
-        : identity.jurisdictionId === NATIONAL_ELECTION_JURISDICTION.id
-          ? cashProfile.federalMinorUnits
-          : (cashProfile.stateByJurisdictionId[identity.jurisdictionId] ?? 0)
-      : 0;
+    const openingMinorUnits =
+      openingEstimate?.amountMinorUnits ??
+      (cashProfile
+        ? identity.kind === "local-government"
+          ? cashProfile.localMinorUnits
+          : identity.jurisdictionId === NATIONAL_ELECTION_JURISDICTION.id
+            ? cashProfile.federalMinorUnits
+            : (cashProfile.stateByJurisdictionId[identity.jurisdictionId] ?? 0)
+        : 0);
     next = createResourcePosition(next, {
       stableKey: `${key}:modeled-receipts:USD`,
       owner: { kind: "organization", organizationId: organization.id },
@@ -231,9 +247,11 @@ export function ensurePublicGovernmentAccount(
       openingBalance: money(openingMinorUnits, "USD"),
       provenance: {
         kind: "authored",
-        note: cashProfile
-          ? `${PUBLIC_CASH_OPENING_PROFILE_VERSION}: fictional opening public cash for this saved world, not an observed treasury balance or tax receipt.`
-          : "Known zero opening of the modeled receipts account. Historical/real treasury cash is unknown and is not initialized from observational statistics.",
+        note: openingEstimate
+          ? openingEstimate.sourceNote
+          : cashProfile
+            ? `${PUBLIC_CASH_OPENING_PROFILE_VERSION}: fictional opening public cash for this saved world, not an observed treasury balance or tax receipt.`
+            : "Known zero opening of the modeled receipts account. Historical/real treasury cash is unknown and is not initialized from observational statistics.",
       },
     });
   }
