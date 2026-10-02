@@ -434,7 +434,11 @@ export function townPayPeriod(
   classification: OrganizationClassification | string,
   staff: number,
 ): TownPayPeriod {
-  if (GOVERNMENT_CLASSIFICATIONS.has(classification)) return "biweekly";
+  if (
+    GOVERNMENT_CLASSIFICATIONS.has(classification) ||
+    organizationProfileAt(world, organizationId)?.publicGovernmentIdentity
+  )
+    return "biweekly";
   const overall = TOWN_PAY_PERIOD_SHARES["overall|all private establishments"]!;
   const industry = INDUSTRY_OF[classification];
   const byIndustry = industry

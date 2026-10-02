@@ -1,3 +1,4 @@
+import { organizationProfileAt } from "../life-queries";
 import { ensureLocalGovernmentOrganization } from "../nationwide-world/local-governments";
 import {
   generateOpeningLife,
@@ -16,14 +17,21 @@ import { ensureStateJurisdictionForKey } from "../nationwide-world/state-executi
 import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
 import { resourcePositionAt } from "../resource-queries";
 import { createResourcePosition, money } from "../resources";
-import { publicOrganizationKey } from "../tax-policy";
+import {
+  publicTaxAccountForIdentity,
+  publicOrganizationKey,
+} from "../tax-policy";
 import { STATES } from "../state-reference";
 import {
   allGovernmentUnits,
   governmentUnitJurisdictionId,
 } from "../government-units";
 import { lifePlaceByKey } from "../life-places";
-import { advanceWorld, createWorld } from "../world";
+import {
+  advanceWithWorldIntegrityAtEnd,
+  advanceWorld,
+  createWorld,
+} from "../world";
 import type { PublicGovernmentIdentity, World } from "../types";
 import { payTownPaydays, startTownJobPay, townPaySource } from "./town-pay";
 
@@ -271,23 +279,110 @@ describe("A50 receiving opens current games", () => {
     "a50-payroll-opening-one",
     "a50-payroll-opening-two",
     "a50-payroll-opening-three",
-  ])("opens the random place for %s", (seed) => {
-    const setup = observerSetup(seed);
-    const opened = generateOpeningLife(
-      prepareOpeningLife({ ...setup, questionnaire: "skipped" }),
-    );
-    expect(opened.game).not.toBeNull();
-    const game = opened.game!;
-    expect(game.world.people[game.playerPersonId]).toBeDefined();
-    expect(game.world.history.workRelationships.length).toBeGreaterThan(0);
-    process.stdout.write(
-      JSON.stringify({
-        receipt: "A50 public payroll opening",
-        seed,
-        placeKey: setup.placeKey,
-        date: game.world.currentDate,
-        playerPersonId: game.playerPersonId,
-      }) + "\n",
-    );
-  });
+  ])(
+    "opens the random place for %s",
+    (seed) => {
+      const setup = observerSetup(seed);
+      const opened = generateOpeningLife(
+        prepareOpeningLife({ ...setup, questionnaire: "skipped" }),
+      );
+      expect(opened.game).not.toBeNull();
+      const game = opened.game!;
+      expect(game.world.people[game.playerPersonId]).toBeDefined();
+      expect(game.world.history.workRelationships.length).toBeGreaterThan(0);
+      const scheduled = startTownJobPay(
+        game.world,
+        null,
+        game.world.currentDate,
+      );
+      const played = advanceWithWorldIntegrityAtEnd(
+        () =>
+          payTownPaydays(
+            advanceWorld(scheduled, 28),
+            game.world.currentDate,
+            null,
+          ),
+        scheduled,
+      );
+      const publicFlows = played.history.resourceFlows.filter((flow) => {
+        if (
+          flow.basisReference.kind !== "work" ||
+          flow.source.kind !== "organization"
+        )
+          return false;
+        const workId = flow.basisReference.workRelationshipId;
+        const work = played.history.workRelationships.find(
+          (row) => row.id === workId,
+        );
+        if (!work?.organizationId) return false;
+        const profile = organizationProfileAt(played, work.organizationId);
+        return (
+          profile?.publicGovernmentIdentity &&
+          publicTaxAccountForIdentity(played, profile.publicGovernmentIdentity)
+            ?.organizationId === flow.source.organizationId
+        );
+      });
+      expect(publicFlows.length).toBeGreaterThan(0);
+      const publicFlowIds = new Set(publicFlows.map((flow) => flow.id));
+      const paid = played.history.resourceTransferOutcomes.filter(
+        (row) =>
+          publicFlowIds.has(row.resourceFlowId!) &&
+          row.transferredAmount.minorUnits > 0,
+      );
+      expect(paid.length).toBeGreaterThan(0);
+      for (const payment of paid) {
+        const flow = publicFlows.find(
+          (row) => row.id === payment.resourceFlowId,
+        )!;
+        if (flow.source.kind !== "organization")
+          throw new Error("Public payroll payer missing");
+        const owner = {
+          kind: "organization" as const,
+          organizationId: flow.source.organizationId,
+        };
+        const before = resourcePositionAt(
+          played,
+          owner,
+          payment.transferredAmount.currency,
+          {
+            asOfDate: payment.occurredAt,
+            historySequenceExclusive: payment.sequence,
+          },
+        );
+        const after = resourcePositionAt(
+          played,
+          owner,
+          payment.transferredAmount.currency,
+          {
+            asOfDate: payment.occurredAt,
+            historySequenceExclusive: payment.sequence + 1,
+          },
+        );
+        expect(before).toBeDefined();
+        expect(before!.liquidBalance.minorUnits).toBeGreaterThanOrEqual(
+          payment.transferredAmount.minorUnits,
+        );
+        expect(after!.liquidBalance.minorUnits).toBe(
+          before!.liquidBalance.minorUnits -
+            payment.transferredAmount.minorUnits,
+        );
+      }
+      process.stdout.write(
+        JSON.stringify({
+          receipt: "A50 public payroll opening",
+          seed,
+          placeKey: setup.placeKey,
+          date: game.world.currentDate,
+          playerPersonId: game.playerPersonId,
+          publicFlows: publicFlows.length,
+          publicPaychecks: paid.length,
+          paidMinor: paid.reduce(
+            (sum, row) => sum + row.transferredAmount.minorUnits,
+            0,
+          ),
+        }) + "\n",
+      );
+    },
+    60_000,
+  );
 });
