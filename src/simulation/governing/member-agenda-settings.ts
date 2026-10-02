@@ -1,7 +1,7 @@
 import { CATALOG_MEASURE_TITLE, FEDERAL_MEASURE_TITLE } from "../measure-title";
 /** Pure filing settings; no World or caller imports. */
 export const LOCAL_MEMBER_AGENDA_VERSION = "local-member-agenda/v1";
-/** Existing authored filing threshold, unchanged by consolidation. */
+/** Preserved authored filing threshold for federal and local producers. */
 const FILING_THRESHOLD = 3;
 
 /** Existing filing behavior carried as settings while callers consolidate. */
@@ -10,7 +10,9 @@ export const MEMBER_AGENDA_LEVEL_SETTINGS = {
     titleTemplate: CATALOG_MEASURE_TITLE,
     governmentLevel: "state",
     intakeVersion: "legislative-intake/v1",
-    filingThreshold: FILING_THRESHOLD,
+    // State priorities are ranked by their recorded score, without dropping
+    // weaker but nonzero convictions before the full catalog is considered.
+    filingThreshold: 0,
     issuePrefix: null,
     compileBeforeSelection: true,
     mappedCooldownOnly: false,
