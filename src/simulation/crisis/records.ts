@@ -235,6 +235,7 @@ function validateCrisisRecords(
   const hazards = new Map<EntityId, HazardRecord>();
   const damages = new Map<EntityId, DisasterDamageRecord>();
   const crises = new Set<EntityId>();
+  let windowsSeen = 0;
   let previousSequence = -1;
   for (const record of records) {
     if (record.schemaVersion !== CRISIS_RECORD_SCHEMA)
@@ -268,18 +269,26 @@ function validateCrisisRecords(
 
     switch (record.kind) {
       case "mortality-window": {
-        const due = world.history.futureDueItems.find(
-          (item) => item.id === record.dueItemId,
-        );
+        // Only the first window may be the opening's own, started on Begin
+        // with no due item; every later one is a due item's.
+        const due =
+          record.dueItemId === null
+            ? null
+            : world.history.futureDueItems.find(
+                (item) => item.id === record.dueItemId,
+              );
         if (
           record.model !== CRISIS_MORTALITY_MODEL ||
-          !due ||
-          due.transitionKey !== "crisis:mortality-window" ||
-          due.dueAt !== record.effectiveAt ||
+          (record.dueItemId === null
+            ? windowsSeen > 0
+            : !due ||
+              due.transitionKey !== "crisis:mortality-window" ||
+              due.dueAt !== record.effectiveAt) ||
           record.windowEnd <= record.effectiveAt ||
           record.newlyTrackedPersonIds.some((id) => !world.people[id])
         )
           fail(record, "malformed mortality window");
+        windowsSeen += 1;
         break;
       }
       case "mortality-calibration":
