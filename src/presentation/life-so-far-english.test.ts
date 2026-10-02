@@ -42,8 +42,8 @@ describe("the opening life paragraph keeps saved schooling facts", () => {
         game.playerPersonId,
       );
       const text = paragraph.sentences.join(" ");
-      expect(text).toContain("Since ");
-      expect(text).toContain("You started work at ");
+      expect(text).toContain("I still work at ");
+      expect(text).toContain("I started work at ");
       expect(text).not.toMatch(
         /You worked at .* from |unemployed|gap|four years/,
       );
@@ -108,15 +108,16 @@ describe("the opening life paragraph keeps saved schooling facts", () => {
         const name = organizationProfileAt(world, record.organizationId)?.name;
         if (!name) continue;
         expect(text).toContain(
-          workStatusAt(world, record.id)?.status === "active"
-            ? `Since ${record.startedAt.slice(0, 4)}, you've worked at ${name}.`
-            : `You started work at ${name} in ${record.startedAt.slice(0, 4)}.`,
+          `I started work at ${name} in ${record.startedAt.slice(0, 4)}.`,
         );
+        if (workStatusAt(world, record.id)?.status === "active")
+          expect(text).toContain(`I still work at ${name}.`);
         expect(paragraph.sourceRecordIds).toContain(record.id);
       }
       expect(text).not.toMatch(
-        /graduated|finished high school|Population unavailable/,
+        /\b[Yy]ou(?:r|\b)|graduated|finished high school|Population unavailable/,
       );
+      expect(text).toMatch(/^I'm \d+, and I live /);
       expect(
         projectLifeSoFarEnglish(JSON.parse(before), playerPersonId),
       ).toEqual(paragraph);
