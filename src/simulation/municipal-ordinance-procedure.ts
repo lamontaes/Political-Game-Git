@@ -551,6 +551,7 @@ export function recordCouncilReadingVote(
       },
     );
     if (result.kind === "blocked") return refuse(world, result.reason);
+    if (result.kind === "ended") return { ok: true, world: result.world };
     if (result.kind !== "applied")
       return refuse(world, "The council has no floor vote to take.");
     next = result.world;
