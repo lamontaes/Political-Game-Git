@@ -191,7 +191,12 @@ describe(`town payroll uses saved employer cash in ${place}, seed ${seed}`, () =
       const sale = opened.history.resourceTransferOutcomes.find(
         (outcome) => outcome.resourceFlowId === saleFlow.id,
       )!;
-      const savedSource = JSON.parse(sale.provenance.note!);
+      expect(sale.provenance.kind).toBe("authored");
+      if (sale.provenance.kind !== "authored")
+        throw new Error(
+          "Recorded book sale must preserve authored source provenance.",
+        );
+      const savedSource = JSON.parse(sale.provenance.note);
       expect(savedSource.annualRevenueConstantDollars).toBe(
         books.annualRevenue,
       );
