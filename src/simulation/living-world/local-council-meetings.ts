@@ -445,6 +445,9 @@ export function ensurePostedMeetingOnCouncilAgenda(
     rationale: "Posted on the agenda of the public meeting.",
   });
   const dueAt = addDays(world.currentDate, 1);
+  const calendar =
+    rulePackById(rules.packId).session.sittingCalendar ??
+    LEGISLATIVE_SESSION_CALENDARS.council;
   const stableKey = `${V}:${unit.id}:posted-meeting:${dueAt}`;
   if (next.history.futureDueItems.some((item) => item.stableKey === stableKey))
     return next;
@@ -456,7 +459,7 @@ export function ensurePostedMeetingOnCouncilAgenda(
     jurisdictionId: town,
     provenance: {
       kind: "authored",
-      note: `${P.id}: the posted public meeting is a meeting of ${unit.name}'s council.`,
+      note: `${calendar.id}: the posted public meeting is a meeting of ${unit.name}'s council.`,
     },
   });
 }

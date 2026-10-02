@@ -16,6 +16,7 @@ import { CHIEF_EXECUTIVE_JURISDICTIONS } from "./nationwide-world/state-executiv
 import { lifePlaceByKey, stateJurisdictionForKey } from "./life-places";
 import { serializeWorld, deserializeWorld } from "./serialization";
 import { createWorld } from "./world";
+import type { EntityId } from "./types";
 
 describe("one legislative session timetable", () => {
   it("schedules the DC body's existing fourteen-day row once without inventing a vote", () => {
@@ -35,13 +36,21 @@ describe("one legislative session timetable", () => {
   });
 
   it("creates no council meeting when no player or seated council exists", () => {
+    const seed = "a11-no-seated-council";
+    const index =
+      createHash("sha256").update(seed).digest().readUInt32BE(0) %
+      CHIEF_EXECUTIVE_JURISDICTIONS.length;
+    const placeKey = CHIEF_EXECUTIVE_JURISDICTIONS[index]!;
+    const jurisdiction = stateJurisdictionForKey(`US-${placeKey}`)!;
     const world = createWorld({
-      seed: "a11-no-seated-council",
+      seed,
       currentDate: makeIsoDate("2026-01-05"),
-      jurisdictions: [],
+      jurisdictions: [jurisdiction],
       people: [],
     });
-    expect(ensureLocalCouncilMeetings(world, "test:absent-person")).toBe(world);
+    expect(
+      ensureLocalCouncilMeetings(world, "test:absent-person" as EntityId),
+    ).toBe(world);
     expect(world.history.futureDueItems).toHaveLength(0);
   });
   it("reads the retained Congress weekdays across a weekend and year boundary", () => {
