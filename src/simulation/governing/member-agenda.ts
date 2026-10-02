@@ -15,7 +15,6 @@ import { addDays } from "../dates";
 import { STATUTE_EFFECTIVE_DEFAULT_DAYS } from "../enacted-rule-changes";
 import { operativeDateForEnactment } from "../legislative-effective-date";
 import { outranks } from "../law-hierarchy";
-import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
 import { ensureNationalElectionJurisdiction } from "../national-election-geography";
 import { recordWorldEvent } from "../world";
 import { COSPONSOR_EVENT } from "./congress-chambers";
@@ -383,7 +382,7 @@ export function fileMemberAgendaBills(
           ? input.localFiscalFirst
             ? "localFiscal"
             : "localPosition"
-          : pack.packId === US_CONGRESS_PACK_ID
+          : world.jurisdictions[input.jurisdictionId]?.kind === "federal"
             ? "federal"
             : "state"
       ];
