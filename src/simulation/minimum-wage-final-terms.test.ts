@@ -4,6 +4,7 @@ import { smallWorld } from "../../tests/fixtures/small-world";
 import { makeIsoDate, simulationMomentOnLocalDate } from "./dates";
 import {
   lifePlaceStateIdentities,
+  stateJurisdictionForKey,
   type LifePlaceStateIdentity,
 } from "./life-places";
 import {
@@ -94,6 +95,46 @@ describe("A38 adopted federal floor through one reader", () => {
       federalMinimumHourlyMinorAt(world, makeIsoDate("2009-07-23")),
     ).toBeNull();
   });
+
+  it("uses the actual state's dated phases for both state and workplace reads", () => {
+    const { world, jurisdictionId } = smallWorld({
+      place: "AK",
+      date: enactedAt,
+      seed: `${SEED}:dated-alaska-reader`,
+    });
+    const stateId = stateJurisdictionForKey("US-AK")!.id;
+    expect(
+      minimumWageSettingAt(world, jurisdictionId, enactedAt)?.hourlyMinor,
+    ).toBe(1300);
+    expect(minimumWageSettingAt(world, stateId, enactedAt)?.hourlyMinor).toBe(
+      1300,
+    );
+    const july = makeIsoDate("2026-07-01");
+    const later = {
+      ...world,
+      currentDate: july,
+      currentMoment: simulationMomentOnLocalDate(world.currentMoment, july),
+    };
+    expect(minimumWageSettingAt(later, jurisdictionId, july)?.hourlyMinor).toBe(
+      1400,
+    );
+    expect(minimumWageSettingAt(later, stateId, july)?.hourlyMinor).toBe(1400);
+    expect(
+      minimumWageSettingAt(later, jurisdictionId, enactedAt)?.hourlyMinor,
+    ).toBe(1300);
+  });
+
+  it.each(["NY", "OR", "AS"])(
+    "keeps unresolved statutory scope unknown in %s instead of borrowing an opening rate",
+    (place: string) => {
+      const { world, jurisdictionId } = smallWorld({
+        place,
+        date: enactedAt,
+        seed: `${SEED}:unresolved-scope:${place}`,
+      });
+      expect(minimumWageSettingAt(world, jurisdictionId, enactedAt)).toBeNull();
+    },
+  );
 
   it("keeps a stronger dated state floor above canonical federal text", () => {
     const { world, jurisdictionId } = smallWorld({

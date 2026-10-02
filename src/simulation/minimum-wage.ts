@@ -7,8 +7,8 @@ import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
  *
  * - Federal: the canonical starting law or operative Act supplies its hourly
  *   floor. A yes/no answer never supplies a substitute dollar amount.
- * - State: the state's basic rate on file (`minimum-wage-2026.json`), or the
- *   rate a state law the game enacted set, from the day it takes effect.
+ * - State: the canonical starting law's dated hourly target, or the
+ *   adopted rate an operative state law sets.
  *   Unknown stays unknown, never zero.
  * - Local: an operative, authorized city ordinance supplies its adopted
  *   hourly target. Missing numeric text supplies no local floor.
@@ -37,6 +37,7 @@ import {
 import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
+  stateKeyForJurisdiction,
 } from "./life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import type { EntityId, HistoricalCutoff, IsoDate, World } from "./types";
@@ -526,7 +527,19 @@ export function minimumWageSettingAt(
   const place = jurisdictionId
     ? lifePlaceByJurisdictionId(jurisdictionId)
     : null;
-  const key = place?.stateJurisdictionKey ?? null;
+  const jurisdiction = jurisdictionId
+    ? world.jurisdictions[jurisdictionId]
+    : null;
+  const key =
+    place?.stateJurisdictionKey ??
+    (jurisdiction ? stateKeyForJurisdiction(jurisdiction) : null);
+  // No recorded workplace jurisdiction can support only the national floor.
+  // A supplied but unrecognized jurisdiction cannot establish state coverage.
+  if (!key)
+    return jurisdictionId === null ||
+      jurisdictionId === NATIONAL_ELECTION_JURISDICTION.id
+      ? federal
+      : null;
   const stateSetting =
     key && /^US-[A-Z]{2}$/.test(key)
       ? stateMinimumSettingAt(world, key, onDate)
@@ -555,15 +568,8 @@ export function minimumWageSettingAt(
     if (scope?.kind === "federal-standard") {
       state = federal;
     } else {
-      const starting = startingMinimumHourly(jurisdictionId);
-      if (starting === null) return null;
-      state = {
-        hourlyMinor: Math.round(starting * 100),
-        level: "state",
-        measureId: null,
-        designation: null,
-        effectiveAt: null,
-      };
+      // Missing dated text and unresolved scope never borrow an opening rate.
+      return null;
     }
   }
   const base = federal.hourlyMinor > state.hourlyMinor ? federal : state;
