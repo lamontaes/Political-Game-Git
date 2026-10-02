@@ -1,4 +1,11 @@
 import { describe, expect, it } from "vitest";
+import { US_CONGRESS_PACK_ID } from "../simulation/congress-rule-pack";
+import { seatedCongressChamber } from "../simulation/governing/congress-chambers";
+import type { ChamberBillVoteInput } from "../simulation/governing/chamber-votes";
+import {
+  ensureNationalElectionJurisdiction,
+  NATIONAL_ELECTION_JURISDICTION,
+} from "../simulation/national-election-geography";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { simulationMomentOnLocalDate } from "../simulation/dates";
 import {
@@ -320,5 +327,100 @@ describe("actual councils preserve shared institutional ballots", () => {
     expect(precedentRows.length).toBeGreaterThan(0);
     for (const row of precedentRows) expect(row.disposition).toBe("nay");
     expect(lawInForce(reversal.world, opened.jurisdictionId, propositionId)).toEqual(standing);
+  });
+
+  it("preserves actual House members' own opposing principle reasons", () => {
+    const starting = samples[0]!;
+    const opened = smallWorld({
+      place: starting.jurisdictionKey,
+      seed: `${seed}:actual-house:${starting.jurisdictionKey}`,
+      offices: ["congress"],
+    });
+    let world = ensureNationalElectionJurisdiction(opened.world);
+    const house = seatedCongressChamber(world, "house");
+    if (!house) throw Error("The existing Congress writer must seat the House.");
+    const members = house.body.members;
+    const subjects = members.filter((member) =>
+      member.personId !== null && member.personId !== opened.personId).slice(0, 2);
+    expect(subjects).toHaveLength(2);
+    const forMember = subjects[0]!.personId!;
+    const againstMember = subjects[1]!.personId!;
+    const propositionId = world.policyCatalog.propositionOrder.find((id) => {
+      const proposition = world.policyCatalog.propositions[id]!;
+      return world.policyCatalog.issues[proposition.issueId]?.levels?.includes("federal") &&
+        questionAuthority(world, NATIONAL_ELECTION_JURISDICTION.id, id).may === "yes" &&
+        netBearings(world, id).length > 0;
+    });
+    if (!propositionId) throw Error("An authorized federal catalog question is required.");
+    // Authored held principles on two actual representatives; no ballots supplied.
+    world = recordPrinciples(world,
+      subjects.flatMap((member, index) =>
+        netBearings(world, propositionId).map(([principleId, weight]) => ({
+          stableKey: `${seed}:actual-house:held:${index}:${principleId}`,
+          personId: member.personId!,
+          principleId,
+          formedAt: world.currentDate,
+          stance: (weight > 0) === (index === 0) ? ("endorses" as const) : ("rejects" as const),
+          strength: 1,
+          conviction: "settled" as const,
+          flexibility: "firm" as const,
+          qualification: null,
+          formation: createFormationContext("reflection:test", {
+            note: "Supplied opposing principles on actual saved House members; no ballots authored.",
+          }),
+          supersedesPrincipleRecordId: null,
+        }))));
+    expect(principledLeaning(world, forMember, propositionId).score).toBeGreaterThan(0);
+    expect(principledLeaning(world, againstMember, propositionId).score).toBeLessThan(0);
+    world = introduceMeasure(world, {
+      stableKey: `${seed}:actual-house:measure`,
+      jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+      rulePackId: US_CONGRESS_PACK_ID,
+      originChamberKey: house.body.chamberKey,
+      designation: "Supplied House own-view fixture",
+      shortTitle: "Actual House principle ballot fixture",
+      summary: "Supplied federal catalog measure for a shared-engine ballot prediction.",
+      origin: "member-introduction",
+      subjectClass: "general-policy",
+      propositionIds: [propositionId],
+      propositionAnswers: [{ propositionId, answer: "yes" }],
+    });
+    const input: ChamberBillVoteInput = {
+      kind: "bill",
+      stableKey: `${seed}:actual-house:vote`,
+      question: {
+        question: {
+          measureId: world.history.legislativeMeasures!.at(-1)!.id,
+          purpose: "floor-stage",
+          forumKey: house.body.chamberKey,
+          floorStageKey: null,
+          amendmentStableKey: null,
+          provisionKey: null,
+        },
+        questionLabel: world.policyCatalog.propositions[propositionId]!.question,
+      },
+      members,
+      playerPersonId: opened.personId,
+      playerBallot: null,
+    };
+    const before = serializeWorld(world);
+    const rows = decideChamberVote(world, input);
+    expect(rows).toHaveLength(members.length);
+    expect(rows.map((row) => [row.memberKey, row.personId])).toEqual(
+      members.map((member) => [member.memberKey, member.personId]));
+    expect(rows.find((row) => row.personId === forMember)).toMatchObject({
+      disposition: "yea", reason: "member:principle:for",
+    });
+    expect(rows.find((row) => row.personId === againstMember)).toMatchObject({
+      disposition: "nay", reason: "member:principle:against",
+    });
+    expect(decideChamberVote(world, input)).toEqual(rows);
+    const continued = deserializeWorld(before);
+    const continuedHouse = seatedCongressChamber(continued, "house");
+    if (!continuedHouse) throw Error("Continue must preserve the actual House.");
+    expect(decideChamberVote(continued, {
+      ...input, members: continuedHouse.body.members,
+    })).toEqual(rows);
+    expect(serializeWorld(world)).toBe(before);
   });
 });
