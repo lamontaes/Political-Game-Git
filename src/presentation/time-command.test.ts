@@ -5,6 +5,8 @@ import {
   campaignForCandidate,
   compareSimulationMoments,
   createScheduledActivity,
+  createStableId,
+  type EntityId,
   deserializeWorld,
   electionContestResult,
   serializeWorld,
@@ -57,7 +59,7 @@ function adultLife(seed = "governing-time-command") {
 let counter = 0;
 function request(
   world: ReturnType<typeof adultLife>["world"],
-  personId: string,
+  personId: EntityId,
   command: TimeCommand,
 ) {
   counter += 1;
@@ -417,7 +419,7 @@ describe("the canonical time command", () => {
       world,
       request(world, personId, {
         kind: "until-activity",
-        activityId: "no-such-activity",
+        activityId: createStableId("scheduled-activity", "no-such-activity"),
       }),
       fixedClock,
     );
