@@ -6,6 +6,7 @@ import { recordWorldEvent } from "../simulation/world";
 import { makeIsoDate } from "../simulation/dates";
 import { serializeWorld, deserializeWorld } from "../simulation";
 import { recordKinship } from "../simulation/life";
+import { recordEventKnowledge } from "../simulation/records";
 import { describePersonContext } from "../simulation/person-context";
 import { personName } from "../simulation/people";
 import { projectJournalStory } from "./journal-story";
@@ -220,4 +221,113 @@ it("keeps birthplace provenance when combining the generated birth facts", () =>
   expect(paragraph.entries.map((entry) => entry.sourceId)).toContain(
     birthplace.id,
   );
+});
+
+it("identifies a recorded teller without replacing the account with private event truth", () => {
+  const small = fixture();
+  const tellerId = small.world.personOrder.find((id) => id !== small.personId)!;
+  const subjectId = small.world.personOrder.find(
+    (id) => id !== small.personId && id !== tellerId,
+  )!;
+  let world = recordKinship(small.world, {
+    stableKey: `${SEED}:teller-sibling`,
+    personIds: [small.personId, tellerId],
+    establishedAt: small.world.currentDate,
+    kind: "collateral:sibling",
+    provenance: { kind: "authored", note: "Canonical teller fixture" },
+  });
+  world = recordWorldEvent(world, {
+    stableKey: `${SEED}:private-outcome`,
+    type: "personal.recorded-action",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: small.jurisdictionId,
+    involvedEntityIds: [subjectId],
+    participants: [{ personId: subjectId, role: "agency:actor", detail: null }],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [],
+    summary: "The private result was different.",
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  world = recordEventKnowledge(world, {
+    stableKey: `${SEED}:told-account`,
+    personId: small.personId,
+    eventId: world.history.events.at(-1)!.id,
+    learnedAt: world.currentDate,
+    believedSummary: `${personName(world.people[tellerId]!)} told you the diner would close.`,
+    accuracy: "inaccurate",
+    confidence: "high",
+    source: { kind: "told-by", sourcePersonId: tellerId, claimId: null },
+  });
+  const context = describePersonContext(world, small.personId, tellerId)!;
+  const relation = context.relationship!.replace(/^your /, "my ");
+  const paragraphs = projectJournalStory(world, small.personId).flatMap(
+    (chapter) => chapter.paragraphs,
+  );
+  const text = paragraphs.map((paragraph) => paragraph.text).join(" ");
+  expect(text).toContain(
+    `${relation} ${context.shortName} told me the diner would close.`,
+  );
+  expect(text).not.toContain("private result");
+  expect(
+    paragraphs.flatMap((paragraph) => paragraph.sourceRecordIds),
+  ).toContain(world.history.knowledge.at(-1)!.id);
+});
+
+it("preserves saved quoted names and introduces their relationship at the first narrative mention", () => {
+  const small = fixture();
+  const otherId = small.world.personOrder.find((id) => id !== small.personId)!;
+  let world = recordKinship(small.world, {
+    stableKey: `${SEED}:quoted-sibling`,
+    personIds: [small.personId, otherId],
+    establishedAt: small.world.currentDate,
+    kind: "collateral:sibling",
+    provenance: { kind: "authored", note: "Canonical quoted-name fixture" },
+  });
+  const name = personName(world.people[otherId]!);
+  for (const [key, summary] of [
+    ["quote", `You wrote: “${name} should call.”`],
+    ["visit", `You visited ${name}.`],
+  ] as const) {
+    world = recordWorldEvent(world, {
+      stableKey: `${SEED}:${key}`,
+      type: "personal.recorded-action",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: small.jurisdictionId,
+      involvedEntityIds: [small.personId, otherId],
+      participants: [
+        { personId: small.personId, role: "agency:actor", detail: null },
+      ],
+      personFactConstraints: [],
+      visibility: "private",
+      tags: [],
+      summary,
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+  }
+  const context = describePersonContext(world, small.personId, otherId)!;
+  const relation = context.relationship!.replace(/^your /, "my ");
+  const text = projectJournalStory(world, small.personId)
+    .flatMap((chapter) => chapter.paragraphs)
+    .map((paragraph) => paragraph.text)
+    .join(" ");
+  expect(text).toContain(`“${name} should call.”`);
+  expect(text).toContain(`visited ${relation} ${context.shortName}.`);
+  expect(text).not.toContain(`“${relation}`);
 });

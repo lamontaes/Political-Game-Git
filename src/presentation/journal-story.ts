@@ -118,25 +118,48 @@ export function projectJournalStory(
               knowledge.get(entry.sourceId)?.eventId ??
               entry.sourceId,
           );
+        const account = knowledge.get(entry.sourceId);
+        const tellerId =
+          account?.source.kind === "told-by"
+            ? account.source.sourcePersonId
+            : null;
         let text = entry.text;
         for (const id of new Set([
           ...(source?.involvedEntityIds ?? []),
+          ...(tellerId ? [tellerId] : []),
           ...(source?.participants.map((participant) => participant.personId) ??
             []),
         ])) {
           const other = world.people[id];
           if (!other || id === personId || mentioned.has(id)) continue;
           const name = personName(other);
-          if (!text.includes(name)) continue;
+          const narrative = text.split(/(“[^”]*”|"[^"]*")/);
+          const partIndex = narrative.findIndex(
+            (part, index) => index % 2 === 0 && part.includes(name),
+          );
+          if (partIndex < 0) continue;
           const context = describePersonContext(world, personId, id, entry.at);
           if (context?.relationship) {
-            const relation = journalInFirstPerson(context.relationship);
-            const label = `${relation} ${context.shortName}`;
-            text = text.replace(name, label);
-            relationshipSources.set(
-              entry.id,
-              context.anchors.map((anchor) => anchor.recordId),
+            const relation = journalInFirstPerson(
+              context.relationship.replace(
+                /\byou look after\b/,
+                "you looked after",
+              ),
             );
+            const label = relation.startsWith("from ")
+              ? `${context.shortName} ${relation}`
+              : relation.startsWith("someone ")
+                ? `${context.shortName}, ${relation}`
+                : `${relation} ${context.shortName}`;
+            text = narrative
+              .map((part, index) =>
+                index === partIndex ? part.replace(name, label) : part,
+              )
+              .join("");
+            relationshipSources.set(entry.id, [
+              ...(relationshipSources.get(entry.id) ?? []),
+              ...context.anchors.map((anchor) => anchor.recordId),
+            ]);
             if (text.startsWith(label))
               text = text.charAt(0).toUpperCase() + text.slice(1);
           }
