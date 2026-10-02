@@ -51,12 +51,6 @@ export interface SenateVacancyLaw {
   readonly source: "crs-r44781-2017" | "statute-read-2026";
 }
 
-/**
- * PLACEHOLDER: how many days a governor takes to appoint when the statute
- * sets no deadline. Kept from the earlier game profile.
- */
-export const SENATE_APPOINTMENT_PLACEHOLDER_DAYS = 10;
-
 const NEXT_GENERAL = { kind: "next-general" } as const;
 const prompt = (promptDays: number | null) =>
   ({ kind: "prompt", promptDays }) as const;

@@ -1,8 +1,14 @@
+import {
+  decideGoverningMatter,
+  governingMatters,
+  currentGoverningOffices,
+} from "./state-governing";
 import { describe, expect, it } from "vitest";
 
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
 import { explicitNewGameSetup } from "../../presentation/new-game-geography";
-import { lifePlaces } from "../life-places";
+import { lifePlaces, lifePlaceStateIdentities } from "../life-places";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 import { SeededRng } from "../rng";
 import {
   generateOpeningLife,
@@ -14,12 +20,18 @@ import {
 } from "../../presentation/ordinary-life";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import {
+  addDays,
+  ageOnDate,
   daysBetween,
   makeIsoDate,
   simulationMomentAtLocalTime,
+  simulationMinutesBetween,
 } from "../dates";
 import { createDemoWorld } from "../demo";
-import { projectCongress } from "../living-world/congress";
+import {
+  projectCongress,
+  publicPartyAffiliation,
+} from "../living-world/congress";
 import { senateVacancyLaw } from "../nationwide-world/senate-vacancy-law";
 import {
   CONGRESS_RESULTS_EVENT,
@@ -45,13 +57,18 @@ import {
 } from "../national-elections";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
 import { deserializeWorld, serializeWorld } from "../serialization";
-import { advanceWorldMinutes } from "../time-work";
+import {
+  advanceWorldMinutes,
+  playerRequiredWorkIds,
+  releasePlayerRequiredWork,
+} from "../time-work";
 import type { EntityId, World } from "../types";
 import { recordPersonDeath } from "../vitality";
-import { advanceWorld } from "../world";
+import { advanceWorld, recordWorldEvent } from "../world";
 import { currentPresidentOf, publicOfficesHeldBy } from "../crisis/offices";
 import { PRESIDING_OFFICER_VOTE_EVENT } from "./presiding-officers";
 import { currentFederalTenure } from "../federal-tenures";
+import { MINIMUM_AGE } from "../living-world/congress-seats";
 import {
   CHIEF_JUSTICE_NOMINATED_EVENT,
   CHIEF_JUSTICE_VACANCY_PROFILE,
@@ -59,7 +76,6 @@ import {
 import { federalColleaguesOf } from "../patronage/federal-circle";
 import {
   HOUSE_SPECIAL_ELECTION,
-  SENATE_VACANCY_PROFILE,
   VICE_PRESIDENTIAL_VACANCY_PROFILE,
   VICE_PRESIDENT_NOMINATED_EVENT,
   VICE_PRESIDENT_NOMINATION,
@@ -114,6 +130,74 @@ function openingWorld(seed: string): World {
   return openOrdinaryLife(game.world, game.playerPersonId);
 }
 
+/** Choose an appointment fixture whose saved delegation actually includes an eligible same-party person. */
+function hasActualSamePartyCandidate(
+  world: World,
+  houseSeats: NonNullable<ReturnType<typeof projectCongress>>["house"]["seats"],
+  stateUsps: string,
+  requiredPartyId: EntityId | null,
+): boolean {
+  return (
+    !!requiredPartyId &&
+    houseSeats.some((seat) => {
+      if (seat.stateUsps !== stateUsps || seat.occupant.kind !== "member")
+        return false;
+      const candidate = world.people[seat.occupant.member.personId]!;
+      return (
+        ageOnDate(candidate.birthDate, world.currentDate) >=
+          MINIMUM_AGE["us-senate"] &&
+        publicPartyAffiliation(world, candidate.id) === requiredPartyId
+      );
+    })
+  );
+}
+
+/** Move the fixture's control through the existing append-only work handoff. */
+function controlForAppointment(
+  world: World,
+  personId: EntityId,
+  stableKey: string,
+): World {
+  const previous =
+    world.control.kind === "person" ? world.control.personId : null;
+  if (previous === personId) return world;
+  const handoff = recordWorldEvent(world, {
+    stableKey,
+    type: "test.control-moved",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: null,
+    involvedEntityIds: [
+      personId,
+      ...(previous
+        ? [previous, ...playerRequiredWorkIds(world, previous)]
+        : []),
+    ],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [],
+    summary:
+      "The continuity fixture moves control to the actual governor for the recorded appointment.",
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const released = previous
+    ? releasePlayerRequiredWork(handoff, {
+        personId: previous,
+        stableKeyPrefix: `${stableKey}:released`,
+        outcomeEventId: handoff.history.events.at(-1)!.id,
+      })
+    : handoff;
+  return { ...released, control: { kind: "person", personId } };
+}
+
 describe("GOVERNING K3: an office after its holder dies", () => {
   it("a Representative's seat is vacant, then a special election fills it once", () => {
     const world = openingWorld("k3-house");
@@ -166,7 +250,22 @@ describe("GOVERNING K3: an office after its holder dies", () => {
   }, 300_000);
 
   it("a dead senator's seat is filled by the governor's appointee, then by a special election", () => {
-    const world = openingWorld("k3-senate-appointment");
+    const seed = "k3-senate-appointment";
+    const selected = new SeededRng(seed).pick(
+      lifePlaceStateIdentities().filter((place) => {
+        const law = senateVacancyLaw(place.jurisdictionKey.replace(/^US-/, ""));
+        return (
+          law?.appointment === "governor-same-party" &&
+          law.appointmentDeadlineDays !== null
+        );
+      }),
+    );
+    const opened = smallWorld({
+      place: selected.jurisdictionKey,
+      seed,
+      offices: ["congress", "governor"],
+    });
+    const world = opened.world;
     // A seat whose term runs past the next regular election, so the special
     // election (not the regular one) fills it.
     const congress = projectCongress(world)!;
@@ -174,9 +273,16 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     // A state whose law requires an appointee of the departed senator's party.
     const seat = congress.senate.seats.find(
       (s) =>
+        s.stateUsps === opened.stateUsps &&
         s.occupant.kind === "member" &&
         senateVacancyLaw(s.stateUsps)?.appointment === "governor-same-party" &&
-        (s.occupant.member.endExclusive ?? "") > `${nextRegularYear}-06-01`,
+        (s.occupant.member.endExclusive ?? "") > `${nextRegularYear}-06-01` &&
+        hasActualSamePartyCandidate(
+          world,
+          congress.house.seats,
+          s.stateUsps,
+          s.occupant.member.partyOrganizationId,
+        ),
     )!;
     if (seat.occupant.kind !== "member") throw new Error("fixture");
     const senator = seat.occupant.member;
@@ -192,7 +298,18 @@ describe("GOVERNING K3: an office after its holder dies", () => {
         termEvidenceId: senator.termId,
       },
     ]);
-    let next = applyOfficeContinuityNotices(died.world, [died.notice]);
+    const governor = currentGoverningOffices(died.world).find(
+      (row) => row.stateUsps === seat.stateUsps,
+    )!;
+    expect(governor).toBeDefined();
+    let next = applyOfficeContinuityNotices(
+      controlForAppointment(
+        died.world,
+        governor.holderPersonId,
+        "k3:senate:control-governor",
+      ),
+      [died.notice],
+    );
     expect(applyOfficeContinuityNotices(next, [died.notice])).toBe(next);
     const ruling = officeContinuityRulings(next, seat.seatKey)[0]!;
     expect(ruling.outcome).toBe("special-election");
@@ -203,9 +320,32 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     expect(view().occupant.kind).toBe("vacancy");
 
     // The state's law: the governor appoints, of the same party.
-    next = passOrdinaryDays(
-      next,
-      SENATE_VACANCY_PROFILE.daysFromVacancyToAppointment,
+    const matter = governingMatters(next).find(
+      (row) =>
+        row.family === "appointment" &&
+        row.openedEvent.tags.includes(`senate-seat:${seat.seatKey}`),
+    )!;
+    expect(matter).toBeDefined();
+    expect(matter.deadline).toBe(
+      addDays(
+        died.notice.effectiveDate,
+        senateVacancyLaw(opened.stateUsps)!.appointmentDeadlineDays!,
+      ),
+    );
+    // The actual governor chooses a recorded eligible person; elapsed time alone is not an appointment.
+    expect(matter.options.length).toBeGreaterThan(0);
+    const choice = decideGoverningMatter(
+      { ...next, control: { kind: "person", personId: matter.holderPersonId } },
+      matter.id,
+      matter.options[0]!.key,
+    );
+    expect(choice.ok).toBe(true);
+    if (world.control.kind !== "person")
+      throw Error("Actual opening player required");
+    next = controlForAppointment(
+      choice.world,
+      world.control.personId,
+      "k3:senate:restore-control",
     );
     const appointed = view();
     expect(appointed.occupant.kind).toBe("member");
@@ -223,9 +363,17 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     );
     expect(Boolean(special)).toBe(ruling.outcome === "special-election");
     if (special) {
-      next = passOrdinaryDays(
+      // Replay the actual special-election schedule through the complete existing due handlers.
+      // This focused government case supplies no standing daily work routine.
+      const target = simulationMomentAtLocalTime({
+        date: addDays(special.dueAt, 1),
+        minuteOfDay: next.currentMoment.minuteOfDay,
+        timeZone: next.currentMoment.timeZone,
+      });
+      next = advanceWorldMinutes(
         next,
-        daysBetween(next.currentDate, special.dueAt) + 1,
+        simulationMinutesBetween(next.currentMoment, target),
+        { get: handlers().get },
       );
       const elected = view();
       expect(elected.occupant.kind).toBe("member");
