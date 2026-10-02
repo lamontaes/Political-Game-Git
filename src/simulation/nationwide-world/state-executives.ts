@@ -582,6 +582,9 @@ export function currentStateExecutiveHolders(
 function readStateExecutiveHolders(
   world: World,
 ): readonly StateExecutiveHolderRecord[] {
+  // Partial budget worlds may contain no event history. Without recorded
+  // tenure or qualification evidence, this reader cannot name a holder.
+  if (!world.history.events) return [];
   const records: StateExecutiveHolderRecord[] = [];
   const vacatedOfficeKeys = new Set<string>();
   const latestTenuresByPrefix = new Map<
