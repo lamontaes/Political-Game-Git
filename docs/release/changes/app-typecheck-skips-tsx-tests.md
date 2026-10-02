@@ -1,5 +1,5 @@
 ---
-title: The app type check skips .tsx test files the same way it skips .ts test files
+id: app-typecheck-skips-tsx-tests
 impact: none
 ---
 
