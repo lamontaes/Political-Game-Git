@@ -1,27 +1,31 @@
-# A39 federal/local receiving delta
+# A39 final-law readers and receiving repair
 
-Current receiving parent: #1879, 2765bd94be0c2e8ad3c2e673f4d01a4ead7abcc2. This is a bounded extraction of the already published #1801 donor 83f5363710c48ef23bf91907e3ababe0ecd4ce70; #1801 and its historical dependency remain preserved. No whole old stack, pay writer, schema, registry or state reader is imported.
+Production/test source checkpoint: b48be01a10e26bab14a60c4a1c806eef75b2de11 on codex/team-3-a39-final-terms-current-pay, #1887. Parent receiving branch is #1879/2765bd94be0c2e8ad3c2e673f4d01a4ead7abcc2. Original #1801 and its broad historical dependency are preserved.
 
-## Ownership and reuse
+## Owned delta and reuse
 
-Production changes only minimum-wage.ts's released federalMinimumSchedule, federalMinimumHourlyMinorAt, initial federal-setting arm, localMinimumSettingAt, and obsolete federal/local constants/imports. canonicalMinimumTerm is the existing donor's private query helper, with no new production export. federalMinimumHourlyMinorAt keeps the donor's number|null contract. Cache keys follow world snapshots; future phases cannot become current operation. Canonical starting law and adopted text use the same numeric reader.
+Released minimum-wage.ts federal/local final-term functions and initial federal arm use canonical lawInForce/readFinalEnactedLawTerm. Replaces FEDERAL_RAISE_PLACEHOLDER and CITY_PREMIUM_RATIO. Released, zero-production-caller stateRaiseAfterDays/STATE_RAISE_TERM and its unused JSON import are removed; no replacement average/formula is introduced. stateMinimumSettingAt, computeStateMinimumSetting, cutoff/data and minimumWageSettingAt fallback remain byte-identical to the receiving parent except the expressly released initial federal arm.
 
-Replaces: FEDERAL_RAISE_PLACEHOLDER and CITY_PREMIUM_RATIO, not statutory amounts with another estimate. Root stateMinimumSettingAt, computeStateMinimumSetting, historical cutoff, data and fallback are preserved byte-for-byte. STATE_RAISE_TERM/stateRaiseAfterDays remain pending their exact zero-caller release; no complete A39 claim.
+Receiving repair d5bce458 removes ONLY paydayHandler's pre-payment raiseTownPayToMinimum call in living-world/town-pay.ts. The surviving payTownPaydays → settleTownCompensations → applyLawConsequences path applies prospective floors before payment. Legacy pre-raise wrote minimum-wage-compensation terms before the common writer's stronger-contract check, leaving canonical pay joins empty. Teacher boundary, payment calculation, withholding, registry and shared schema are untouched. The old exported helper remains preserved pending independent caller-retirement proof; this checkpoint does not claim every A38 duplicate is gone.
 
-Changed test/helper blobs are byte-identical to #1801:
-- src/simulation/minimum-wage-final-terms.test.ts: 33bf585a26d66e1ffa3e601d803dc00e94ea0633.
-- tests/fixtures/authored-wage-term.ts: 65860e7736a2ccc7af189e71b1f2c9b328d38d9e.
-- tests/nationwide/town-federal-minimum-wage-law.test.ts: 1d1cbd6accb7b03d40b6b702b27590741263c3c0.
-- tests/nationwide/city-minimum-wage-bill-terms.test.ts: e2913dfc4f7aceb15133eeaff5e4aa61c67ff935.
+New production exports: none. canonicalMinimumTerm is the reused private query helper; federalMinimumHourlyMinorAt retains the published number|null contract.
 
-No assertion/timeout/filter change. The all56 adopted-text controls are not natural legislative passage. Six player-script steps remain explicit TODOs. Existing root fallback is not imported from the donor; any receiving failure there must be routed to its owner, not hidden.
+## Tests and fixtures
 
-## Executed checks and limits
+The three original receiving test bodies/stock limits remain intact. minimum-wage-final-terms.test.ts changes only its callback to canonical LifePlaceStateIdentity; city/federal nationwide files and authoredWageTerm retain their published #1801 blobs.
 
-Exact five changed TypeScript files: parser diagnostics0, scoped ESLint0errors/0warnings and PrettierPASS. git apply --check of the five-source portable delta against isolated exact2765 file baselines exited0. SHA256 of that delta: 27507d64ba17266f94641c5bdd6eb2b8c11792192b6814055f18a7688ab018fb.
+The affected state-bill test retains all four cases and stock 600000ms limit. It replaces the removed average-raise expectations with an explicit authored $17 control through the existing Omaha bill fixture's cents input. That fixture now reuses recordFiledProvision to file numeric target text before the same referral/vote/enroll/sign/enact chain; no synthetic enactment replaces the chain. Only the numeric branch/import is added. The state-pay assertion joins canonical pay stamps to the actual enacted measure and retains its named designation; baseline comparisons use the same date's canonical law, rather than the undated legacy wage table. Poverty/effect assertions remain; this is not a claim they passed.
 
-Canonical npm run -s audit:scan -- --only A39 executed twice, exit0: maince219003d9223c69eabf80d0d97f04886d52d37d 2/6; candidate5/6. These were scoped file-backed snapshots containing all three production files named by A39's six checks, exact main scanner/rules/metadata, and only the candidate minimum-wage.ts substituted. Scanner/rules were unchanged. No other audit item, full repository scan, behavioral test or entire Git checkout is claimed. Receipts: /tmp/team3-a39-scoped-scan/main-A39.json and candidate-A39.json. Scanner timings14ms/16ms (command elapsed0.338s/0.380s). Missing-state average remains the sixth FAIL.
+## Executed evidence and limits
 
-AUDIT: A39 2/6 → 5/6, checks flipped: minimum-wage.ts calls readFinalEnactedLawTerm; FEDERAL_RAISE_PLACEHOLDER is absent; CITY_PREMIUM_RATIO is absent. Counts are static scoped source checks, not evidence that payroll fired. Receiving branch/full canonical scan, complete three changed native test files, scoped semantic types and release validation remain NOT RUN here. Local Git checkout0452b1d and inherited untracked proof config remain untouched.
+Five currently changed TS sources checked from exact staged bytes: syntax parser diagnostics0, scoped ESLint0errors/0warnings, Prettier format applied. Protected state/fallback function byte equality PASS. These are source checks, not semantic types.
 
-Why: a legal wage is the amount adopted by the governing law, operative on the work date. A vote answer does not create a dollar amount. Missing numeric text cannot establish a new floor; the lawful authority/preemption readers still govern whether a local rule applies. No new calibration, rate, person outcome or second engine is introduced.
+Canonical npm run -s audit:scan -- --only A39: exact maince219003 source snapshot2/6; final candidate snapshot6/6, exit0, scanner14ms. Snapshots contain every production file named by all six A39 rules and unchanged main scanner/rules/metadata. Only A39 is claimed; full receiving Git-branch audit remains NOT RUN here. Final receipt /tmp/team3-a39-scoped-scan/candidate-A39-final.json.
+
+AUDIT: A39 2/6 → 6/6, checks flipped: minimum-wage.ts calls readFinalEnactedLawTerm; FEDERAL_RAISE_PLACEHOLDER absent; CITY_PREMIUM_RATIO absent; STATE_RAISE_TERM absent. Static rules do not prove actual payroll effects.
+
+Root's prior exact41b955 receiving: complete three files69PASS/4FAIL/6TODO54.14s; scoped5roots994files one TS7006. Failures preserved: canonical federal725 was mislabeled state/effective:null; city/federal/ended-job canonical pay joins were empty. This checkpoint addresses the callback and legacy pre-call; no renewed behavior/types pass is claimed.
+
+Renewed complete changed tests (minimum-wage-final-terms, town-federal-minimum-wage-law, city-minimum-wage-bill-terms, state-minimum-wage-bill-terms), scoped semantic types and official Claude gate: NOT RUN here. Root-owned fallback provenance remains an exact integration blocker, not an assertion to weaken. Six player-script TODOs remain explicit; no full slice, all56 actual payroll, natural-vote or final-main completion claim.
+
+Local parked checkout0452b1d3bbf5aef0aa0ef53c896a12297ad954a8 and inherited untracked proof config are unchanged. No team merge.
