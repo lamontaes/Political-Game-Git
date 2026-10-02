@@ -219,7 +219,7 @@ describe("the state's school line funds the town's teachers", () => {
       (resident) =>
         resident.personId !== personId &&
         resident.age >= 25 &&
-        laborStatus(world, resident) === "looking-for-work" &&
+        laborStatus(world, resident) === "employed" &&
         !holdsJob(world, resident.personId),
     )!;
     expect(seeker).toBeTruthy();
@@ -281,7 +281,8 @@ describe("a role the budget staffs leaves the town's job mix", () => {
     const seekers = townResidents(staffed, town).filter(
       (resident) =>
         resident.personId !== personId &&
-        laborStatus(staffed, resident) === "looking-for-work",
+        laborStatus(staffed, resident) === "employed" &&
+        !holdsJob(staffed, resident.personId),
     );
     expect(seekers.length).toBeGreaterThan(0);
     const before = STAFFED_PROGRAMS.map(

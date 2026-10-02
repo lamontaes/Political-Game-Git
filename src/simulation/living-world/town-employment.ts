@@ -30,6 +30,15 @@
  * is given its jobs when it is written out, never before.
  */
 
+import {
+  activeHealthEpisodes,
+  latestHealthState,
+} from "../crisis/health-queries";
+import {
+  annualPovertyLineMinor,
+  recordedMonthlyPayByPerson,
+} from "../household-pay";
+import { homeStateKey } from "../state-jurisdiction-id";
 import { jailTermOn } from "../justice/jail-terms";
 import { addDays, ageOnDate, makeIsoDate } from "../dates";
 import { createStableId } from "../ids";
@@ -1080,41 +1089,120 @@ export function townWorkplaceWeights(
 /* -------------------------------------------------------------------------- */
 
 /**
- * GAME ASSUMPTION pending a researched labor-force table by age and household:
- * the shares of working-age residents who are not working. A student is 18 to
- * 24 and enrolled; retirement is from 62; a parent at home has a partner and a
- * child under six.
+ * Whether a resident works is decided from their own household's record, never
+ * drawn. Each case sets what pulls them toward work (the household's
+ * dependants against the adults who can earn) against what pulls them away
+ * (study, age, care of a small child). Every pull is a smooth number; the
+ * larger one decides. GAME ASSUMPTION constants, PLACEHOLDER(research: a
+ * labor-force table by age and household), checked against totals only.
+ *
+ * - A student, 18 to 24 and enrolled, studies with a pull of 1 at 18 that
+ *   eases by 0.06 a year.
+ * - From 62 the pull toward retiring is (years past 61) / (years past 61 + 6),
+ *   against a quarter of the pull toward work.
+ * - A partnered parent of a child under six stays home with a pull of
+ *   young / (young + 3), against 0.6 of the pull toward work.
+ * - A person whose latest health record says they are limited is pulled away
+ *   from work by half, against the pull toward work; one the record says is
+ *   incapacitated cannot work. Nothing is read when no health record says so
+ *   (the starting chronic conditions are written with no limitation).
+ * - A partner's recorded pay carries part of the household: the share
+ *   P / (P + the household's poverty line) of the pull toward work is
+ *   removed for a parent deciding about care. Unread pay changes nothing.
+ * - Everyone else works. Whether they have a job is the labor market's
+ *   record, not a label drawn here.
  */
 const NOT_WORKING = {
-  studentWithoutJob: 0.6,
-  retiredFrom62: 0.35,
-  parentAtHome: 0.15,
-  lookingForWork: 0.04,
+  studyAtEighteen: 1,
+  studyEasesPerYear: 0.06,
+  retireYearsHalf: 6,
+  retireAgainstWork: 0.25,
+  careYoungHalf: 3,
+  careAgainstWork: 0.6,
+  /** The pull away from work of a recorded limitation, and its weight against work. */
+  limitedPull: 0.5,
+  limitedAgainstWork: 0.5,
+  /** The youngest and oldest ages an earner in the household counts. */
+  earnerFrom: 25,
+  earnerThrough: 61,
 } as const;
 
 export type TownLaborStatus =
-  "employed" | "student" | "retired" | "parent-at-home" | "looking-for-work";
+  | "employed"
+  | "student"
+  | "retired"
+  | "parent-at-home"
+  | "looking-for-work"
+  | "unable-to-work";
 
 export interface Resident {
   readonly personId: EntityId;
   readonly age: number;
   readonly enrolled: boolean;
   readonly parentOfYoungChild: boolean;
+  /** Under 18 in the household. */
+  readonly dependants: number;
+  /** Under 6 in the household. */
+  readonly youngChildren: number;
+  /** Other adults in the household old enough to earn and not yet retired. */
+  readonly earners: number;
+  /** The latest recorded functional limitation, "none" when none is recorded. */
+  readonly limitation: "none" | "limited" | "incapacitated";
+  /**
+   * The share of the household's need a partner's recorded pay carries, 0 to 1,
+   * or null when the partner has no pay on record (not zero).
+   */
+  readonly partnerCover: number | null;
 }
 
-export function laborStatus(world: World, resident: Resident): TownLaborStatus {
-  const rng = new SeededRng(world.seed).fork(
-    `${TOWN_EMPLOYMENT_VERSION}:status:${resident.personId}`,
-  );
-  const draw = rng.next();
-  if (resident.enrolled && resident.age <= 24)
-    return draw < NOT_WORKING.studentWithoutJob ? "student" : "employed";
-  if (resident.age >= 62 && draw < NOT_WORKING.retiredFrom62) return "retired";
-  if (resident.parentOfYoungChild && draw < NOT_WORKING.parentAtHome)
-    return "parent-at-home";
-  return rng.fork("looking").next() < NOT_WORKING.lookingForWork
-    ? "looking-for-work"
-    : "employed";
+/** The latest functional limitation any open health record of a person states. */
+function limitationOf(
+  world: World,
+  personId: EntityId,
+): Resident["limitation"] {
+  let worst: Resident["limitation"] = "none";
+  for (const episode of activeHealthEpisodes(world, personId)) {
+    const limitation = latestHealthState(
+      world,
+      episode.id,
+    )?.functionalLimitation;
+    if (limitation === "incapacitated") return limitation;
+    if (limitation === "limited") worst = "limited";
+  }
+  return worst;
+}
+
+export function laborStatus(
+  _world: World,
+  resident: Resident,
+): TownLaborStatus {
+  const workPull = (resident.dependants + 1) / (resident.earners + 1);
+  if (resident.limitation === "incapacitated") return "unable-to-work";
+  if (
+    resident.limitation === "limited" &&
+    NOT_WORKING.limitedPull > NOT_WORKING.limitedAgainstWork * workPull
+  )
+    return "unable-to-work";
+  if (resident.enrolled && resident.age <= 24) {
+    const study =
+      NOT_WORKING.studyAtEighteen -
+      NOT_WORKING.studyEasesPerYear * (resident.age - WORKING_AGE_MIN);
+    return workPull > study ? "employed" : "student";
+  }
+  if (resident.age >= 62) {
+    const past = resident.age - 61;
+    const retire = past / (past + NOT_WORKING.retireYearsHalf);
+    if (retire >= NOT_WORKING.retireAgainstWork * workPull) return "retired";
+  }
+  if (resident.parentOfYoungChild) {
+    const care =
+      resident.youngChildren /
+      (resident.youngChildren + NOT_WORKING.careYoungHalf);
+    const covered = 1 - (resident.partnerCover ?? 0);
+    if (care > NOT_WORKING.careAgainstWork * workPull * covered)
+      return "parent-at-home";
+  }
+  return "employed";
 }
 
 /* -------------------------------------------------------------------------- */
@@ -1162,6 +1250,12 @@ export function townResidents(
   const partnered = new Set(
     world.history.partnerships.flatMap((row) => row.personIds),
   );
+  const partnerOf = new Map<EntityId, EntityId>();
+  for (const row of world.history.partnerships) {
+    partnerOf.set(row.personIds[0], row.personIds[1]);
+    partnerOf.set(row.personIds[1], row.personIds[0]);
+  }
+  let pay: ReadonlyMap<EntityId, number> | null = null;
   const householdsOf = new Map<EntityId, EntityId[]>();
   for (const [household, members] of householdOf)
     for (const member of members) {
@@ -1173,15 +1267,60 @@ export function townResidents(
       householdsOf.set(member, list);
     }
   const residents: Resident[] = [];
+  const ageOf = (id: EntityId): number | null => {
+    const person = world.people[id];
+    return person && !dead.has(id)
+      ? ageOnDate(person.birthDate, world.currentDate)
+      : null;
+  };
   for (const personId of world.personOrder) {
     const person = world.people[personId];
     if (!person || person.homeJurisdictionId !== town || dead.has(personId))
       continue;
     const age = ageOnDate(person.birthDate, world.currentDate);
     if (age < WORKING_AGE_MIN || age > WORKING_AGE_MAX) continue;
+    const others = new Set<EntityId>();
+    for (const household of householdsOf.get(personId) ?? [])
+      for (const member of householdOf.get(household) ?? [])
+        if (member !== personId) others.add(member);
+    let dependants = 0;
+    let youngChildren = 0;
+    let earners = 0;
+    for (const member of others) {
+      const memberAge = ageOf(member);
+      if (memberAge === null) continue;
+      if (memberAge < 18) dependants += 1;
+      if (memberAge < 6) youngChildren += 1;
+      if (
+        memberAge >= NOT_WORKING.earnerFrom &&
+        memberAge <= NOT_WORKING.earnerThrough
+      )
+        earners += 1;
+    }
+    const limitation = limitationOf(world, personId);
+    let partnerCover: number | null = null;
+    const partner = partnerOf.get(personId);
+    if (partner && dependants > 0 && youngChildren > 0) {
+      pay ??= recordedMonthlyPayByPerson(world, world.currentDate);
+      const monthly = pay.get(partner);
+      const stateKey = homeStateKey(world, personId);
+      if (monthly !== undefined && stateKey !== null) {
+        const line = annualPovertyLineMinor(
+          stateKey,
+          others.size + 1,
+          world.currentDate,
+        );
+        partnerCover = (monthly * 12) / (monthly * 12 + line);
+      }
+    }
     residents.push({
       personId,
       age,
+      limitation,
+      partnerCover,
+      dependants,
+      youngChildren,
+      earners,
       enrolled: enrolled.has(personId),
       parentOfYoungChild:
         partnered.has(personId) &&
@@ -1814,6 +1953,7 @@ export function describeTownEmployment(
     retired: 0,
     "parent-at-home": 0,
     "looking-for-work": 0,
+    "unable-to-work": 0,
   };
   const working = activeWorkers(world);
   let workingAge = 0;

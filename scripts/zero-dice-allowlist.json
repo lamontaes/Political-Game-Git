@@ -745,34 +745,6 @@
       "code": "export const TOWN_PART_TIME_SHARE: Readonly<Record<string, number>> = {"
     },
     {
-      "file": "src/simulation/living-world/town-employment.ts",
-      "kind": "roll",
-      "build": "Build 19",
-      "count": 1,
-      "code": "return draw < NOT_WORKING.studentWithoutJob ? \"student\" : \"employed\";"
-    },
-    {
-      "file": "src/simulation/living-world/town-employment.ts",
-      "kind": "roll",
-      "build": "Build 19",
-      "count": 1,
-      "code": "if (resident.age >= 62 && draw < NOT_WORKING.retiredFrom62) return \"retired\";"
-    },
-    {
-      "file": "src/simulation/living-world/town-employment.ts",
-      "kind": "roll",
-      "build": "Build 19",
-      "count": 1,
-      "code": "if (resident.parentOfYoungChild && draw < NOT_WORKING.parentAtHome)"
-    },
-    {
-      "file": "src/simulation/living-world/town-employment.ts",
-      "kind": "roll",
-      "build": "Build 19",
-      "count": 1,
-      "code": "return rng.fork(\"looking\").next() < NOT_WORKING.lookingForWork"
-    },
-    {
       "file": "src/simulation/living-world/town-families.ts",
       "kind": "fixed-share",
       "build": "Build 7",
