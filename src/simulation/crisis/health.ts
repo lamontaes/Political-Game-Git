@@ -28,7 +28,7 @@ import {
 import {
   appendCrisisRecord,
   crisisRecordId,
-  crisisRecords,
+  crisisRecordIndex,
   healthAccessRank,
 } from "./records";
 import {
@@ -114,7 +114,7 @@ export function visibilityForAccess(access: HealthAccess): EventVisibility {
 }
 
 function episodeRecord(world: World, episodeId: EntityId): HealthEpisodeRecord {
-  const record = crisisRecords(world).find((r) => r.id === episodeId);
+  const record = crisisRecordIndex(world).get(episodeId);
   if (!record || record.kind !== "health-episode")
     throw new Error(`Unknown health episode: ${episodeId}`);
   return record;
