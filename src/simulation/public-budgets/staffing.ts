@@ -56,7 +56,7 @@ import type {
  * those laid off from the same employer first, the most recent first; then
  * the town's job seekers who meet the job's age and credential, in a fixed
  * order until applicants are compared (HARDWIRED, below). A teacher's
- * bachelor's degree is checked wherever the person's schooling is on record.
+ * bachelor's degree must be completed on the person's saved record.
  */
 
 interface StaffedProgram {
@@ -266,8 +266,7 @@ function staffProgram(
     (baseline.headcount * funding) / baseline.realFunding,
   );
   const key = `${PUBLIC_BUDGETS_VERSION}:staffing:${town}:${staffed.program}:${round}`;
-  if (funded < staff.length)
-    return layOff(world, staff, funded, key, playerPersonId);
+  if (funded < staff.length) return layOff(world, staff, funded, key);
   if (funded > staff.length)
     return hire(
       world,
@@ -285,24 +284,19 @@ function layOff(
   staff: readonly TownJob[],
   funded: number,
   key: string,
-  playerPersonId: EntityId | null,
 ): World {
   const relationships = new Map(
     world.history.workRelationships.map((row) => [row.id, row]),
   );
-  // Seniority: the newest hire goes first.
-  // The player's own job is the player's career to decide, never this
-  // review's (HARDWIRED): the next newest goes instead.
-  const newestFirst = [...staff]
-    .filter((job) => job.personId !== playerPersonId)
-    .sort((a, b) => {
-      const left = relationships.get(a.relationshipId)!;
-      const right = relationships.get(b.relationshipId)!;
-      return (
-        right.startedAt.localeCompare(left.startedAt) ||
-        right.sequence - left.sequence
-      );
-    });
+  // Seniority applies to every funded position, including the player's.
+  const newestFirst = [...staff].sort((a, b) => {
+    const left = relationships.get(a.relationshipId)!;
+    const right = relationships.get(b.relationshipId)!;
+    return (
+      right.startedAt.localeCompare(left.startedAt) ||
+      right.sequence - left.sequence
+    );
+  });
   let next = world;
   for (const job of newestFirst.slice(0, staff.length - funded))
     next = recordTownJobLoss(next, {
@@ -361,19 +355,13 @@ function hire(
         laidOffHere.set(relationship.personId, state.on);
     }
   }
-  // The town's generated residents carry no schooling record, so the degree
-  // is checked only for people whose schooling is written; the rest are held
-  // to the rule the town itself staffs by (town-employment.ts, "Teacher").
-  const schooled = new Set(
-    world.history.educationEnrollments.map((row) => row.personId),
-  );
+  // A missing or unfinished education record establishes no credential.
   const eligible = townResidents(world, town).filter((resident) => {
     if (resident.personId === playerPersonId) return false;
     if (working.has(resident.personId)) return false;
     if (resident.age < staffed.minAge) return false;
     if (
       staffed.credential &&
-      schooled.has(resident.personId) &&
       !hasLifePathCredential(world, resident.personId, staffed.credential)
     )
       return false;

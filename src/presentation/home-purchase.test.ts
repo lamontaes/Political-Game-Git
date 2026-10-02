@@ -8,10 +8,7 @@ import {
   refreshLifeOpportunities,
   serializeWorld,
 } from "../simulation";
-import {
-  LIVING_COSTS_PLACEHOLDER,
-  livingCostsFlowFor,
-} from "../simulation/cost-of-living";
+import { livingCostsFlowFor } from "../simulation/cost-of-living";
 import { homeValueForJurisdiction } from "../simulation/county-home-value";
 import {
   MORTGAGE_BASIS,
@@ -197,8 +194,7 @@ describe(`buying a home in ${BUYER_PLACE.displayName} (${BUYER_PLACE.key}), seed
     expect(afterPurchase.length).toBe(payments.length);
     for (const charge of afterPurchase) {
       expect(charge.transferredAmount.minorUnits).toBe(
-        LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor -
-          LIVING_COSTS_PLACEHOLDER.housingShareMinor,
+        85_567, // 2024 CES West retained basket per derived adult-month.
       );
       expect(charge.note).toMatch(/^Food and bills for /);
     }
@@ -326,6 +322,8 @@ describe(`buying a home in ${BUYER_PLACE.displayName} (${BUYER_PLACE.key}), seed
       Math.round((openingPriceMinor * factor) / 100_000) * 100_000,
     );
     const shown = projectHomePurchase(later, start.personId);
+    expect(shown).not.toBeNull();
+    expect(shown?.kind).not.toBe("owns");
     if (!shown || shown.kind === "owns")
       throw new Error("Expected the buyer's home purchase quote.");
     expect(shown.terms).toContain(

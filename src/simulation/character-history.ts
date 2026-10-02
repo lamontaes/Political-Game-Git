@@ -98,7 +98,7 @@ import {
 } from "./school-stages";
 import { householdMembershipsAt } from "./life-queries";
 import { recordPersonDeath } from "./vitality";
-import { personMortalityThreshold } from "./crisis/mortality";
+import { STRAIN_THRESHOLD } from "./crisis/mortality";
 import { firstThresholdDay, thresholdUnits } from "./crisis/hazard";
 import { recordWorldEvent, assertWorldIntegrity } from "./world";
 import {
@@ -1101,10 +1101,10 @@ function drawnAdultFamily(
 /**
  * Deaths of older relatives before the start, by the game's own ordinary
  * mortality (./crisis/mortality.ts): the same SSA 2023 life table and the same
- * per-person threshold the running world uses, accumulated from the last day
- * the record shows the relative alive (the birth of their youngest recorded
- * child) up to the start. Nothing is rolled here beyond that nature value; no
- * cause is inferred. The 2023 table is applied to earlier decades too, which
+ * one strain threshold the running world uses (Ruling 29), accumulated from
+ * the last day the record shows the relative alive (the birth of their
+ * youngest recorded child) up to the start. Nothing is rolled; no cause is
+ * inferred, and no serious episode is written for a death before the start. The 2023 table is applied to earlier decades too, which
  * slightly shortens lives the record places before it. A relative the opening
  * already seats in a home at the start is living there, so is never given a
  * death before it.
@@ -1145,7 +1145,7 @@ function recordRelativeDeaths(
         exposureStart: knownAlive,
         multipliers: [],
       },
-      thresholdUnits(personMortalityThreshold(world, relativeId)),
+      thresholdUnits(STRAIN_THRESHOLD),
       knownAlive,
       world.currentDate,
     );
