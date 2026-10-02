@@ -68,6 +68,50 @@ const provenance = {
   note: "Explicit saved worker, contract and cash controls; not ordinary business wealth.",
 };
 
+it("a wage law without a saved amount records its exact gap without changing pay or crashing replay", () => {
+  const o = opened("3137000");
+  const law = enact(
+    o.world,
+    legislativeBlueprint("nebraska").pack,
+    stateJurisdictionForKey("US-NE")!.id,
+    STATE_MINIMUM_WAGE_QUESTION_KEY,
+    null,
+  );
+  const f = worker(law.world, o.place.context.jurisdiction.id);
+  const context = {
+    onDate: f.world.currentDate,
+    activity: "payroll" as const,
+    activityId: f.flow.id,
+    subjectIds: [f.personId],
+    questionKey: STATE_MINIMUM_WAGE_QUESTION_KEY,
+  };
+  const after = applyLawConsequences(f.world, context);
+  const gap = after.history.events.at(-1)!;
+  expect(gap.type).toBe("law.consequence-integrity-gap");
+  expect(gap.involvedEntityIds).toEqual([f.personId]);
+  expect(gap.tags).toEqual(
+    expect.arrayContaining([
+      STATE_MINIMUM_WAGE_QUESTION_KEY,
+      law.measureId,
+      "term:target",
+      "unit:minor/hour",
+    ]),
+  );
+  expect(gap.lawEffectStamps ?? []).toHaveLength(0);
+  expect(after.history.resourceFlowTerms).toBe(
+    f.world.history.resourceFlowTerms,
+  );
+  expect(after.history.resourceTransferOutcomes).toBe(
+    f.world.history.resourceTransferOutcomes,
+  );
+  expect(after.history.resourcePositions).toBe(
+    f.world.history.resourcePositions,
+  );
+  expect(applyLawConsequences(after, context)).toBe(after);
+  const reopened = deserializeWorld(serializeWorld(after));
+  expect(applyLawConsequences(reopened, context)).toBe(reopened);
+});
+
 function opened(placeKey: string) {
   const place = requireLifePlace(placeKey);
   const initialCatalog = createSyntheticPolicyCatalog();

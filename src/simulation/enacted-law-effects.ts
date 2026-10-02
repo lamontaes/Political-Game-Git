@@ -3,6 +3,10 @@ import {
   LAW_CONSEQUENCE_REGISTRATIONS,
 } from "./law-consequence-registry";
 import { validateLawConsequences } from "./law-consequence-validation";
+import { MissingLawConsequenceTerm } from "./law-consequence-integrity-gap";
+import { createStableId } from "./ids";
+import { recordById } from "./history-index";
+import { recordWorldEvent } from "./world";
 import type {
   LawConsequenceContext,
   AnyLawConsequenceKindRegistration,
@@ -818,10 +822,53 @@ export function applyLawConsequences(
         throw new Error(
           `Consequence ${row.id}: missing kind capability '${row.kind}'`,
         );
-      const resolved = registration.resolve(next, row, {
-        ...context,
-        questionKey: proposition.stableKey,
-      });
+      let resolved;
+      try {
+        resolved = registration.resolve(next, row, {
+          ...context,
+          questionKey: proposition.stableKey,
+        });
+      } catch (error) {
+        if (!(error instanceof MissingLawConsequenceTerm)) throw error;
+        const stableKey = `law-term-gap:${error.law.measureId}:${row.id}:${error.personId}:${error.termKey}:${context.activityId}:${context.onDate}`;
+        if (
+          !recordById(
+            next.history.events,
+            createStableId("event", `${next.id}:${stableKey}`),
+          )
+        ) {
+          next = recordWorldEvent(next, {
+            stableKey,
+            type: "law.consequence-integrity-gap",
+            occurredAt: context.onDate,
+            recordedAt: next.currentDate,
+            jurisdictionId: error.jurisdictionId,
+            involvedEntityIds: [error.personId],
+            participants: [],
+            personFactConstraints: [],
+            visibility: "private",
+            tags: [
+              "law:missing-final-term",
+              error.questionKey,
+              error.law.measureId,
+              error.rowId,
+              `term:${error.termKey}`,
+              `unit:${error.unit}`,
+            ],
+            summary:
+              "The pay adjustment could not be calculated because its saved law has no matching numeric term.",
+            context: {
+              location: null,
+              socialContext: null,
+              pressure: null,
+              choice: null,
+              motivation: null,
+              immediateReaction: null,
+            },
+          });
+        }
+        continue;
+      }
       for (const input of resolved) {
         if (
           input.row.id !== row.id ||

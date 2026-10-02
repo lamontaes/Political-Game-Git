@@ -1,4 +1,5 @@
 import { evaluateLawAmount } from "../law-consequence-amount";
+import { MissingLawConsequenceTerm } from "../law-consequence-integrity-gap";
 import type {
   LawAmountExpression,
   LawAmountUnit,
@@ -284,7 +285,15 @@ export function resolvePayConsequences(
         cutoff,
       });
       if (!term)
-        throw new Error(`Missing pay final law term '${key}' (${unit})`);
+        throw new MissingLawConsequenceTerm(
+          law,
+          proposition.stableKey,
+          row.id,
+          personId,
+          jurisdictionId,
+          key,
+          unit,
+        );
       legalTerms[key] = { value: term.value, unit: term.unit };
       sourceRecordIds.push(...term.sourceRecordIds);
     }
