@@ -645,7 +645,7 @@ function decideOnOffer(
     constraints: [],
     considerations,
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "ephemeral",
   });
   return {
@@ -1010,7 +1010,7 @@ function decidesToAct(
     constraints: [],
     considerations,
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "ephemeral",
   });
   return (
@@ -1132,7 +1132,7 @@ function answerCall(
     constraints: [],
     considerations,
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "ephemeral",
   });
   return {
