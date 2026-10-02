@@ -1,3 +1,5 @@
+import { createProsecutionTransitionRegistry } from "./prosecution-transitions";
+import { REFERRAL_TAG } from "./jail-terms";
 import {
   cancelFutureDueItem,
   resolveFutureDueItemsThrough,
@@ -59,12 +61,10 @@ import { sentencesOf } from "./jail-terms";
 import {
   PROSECUTION_CHARGED_EVENT,
   PROSECUTION_SENTENCED_EVENT,
-  UNRESEARCHED_PROSECUTION,
-  advanceProsecutions,
   enterPlea,
+  prosecutionTimingAt,
   referForProsecution,
 } from "./prosecution";
-import { prosecutionTimingFor } from "./prosecution-timing";
 
 // Five actual places sampled from all 56; supported executive authority is a
 // fixture prerequisite, never a production place branch.
@@ -126,47 +126,72 @@ for (const state of states)
         evidence: "documentary",
         standingFindings: 6,
       });
-      const stale: World = {
-        ...referred.world,
-        history: {
-          ...referred.world.history,
-          events: referred.world.history.events.map((event) =>
-            event.id === referred.referralId
-              ? {
-                  ...event,
-                  occurredAt: addDays(game.world.currentDate, -200),
-                }
-              : event,
-          ),
-        },
-      };
-      const charged = advanceProsecutions(stale);
+      const referral = referred.world.history.events.find(
+        (event) => event.id === referred.referralId,
+      )!;
+      const caseTiming = prosecutionTimingAt(
+        referred.world,
+        referral.jurisdictionId,
+      );
+      const chargeDue = referred.world.history.futureDueItems.find(
+        (item) => item.stableKey === `justice:prosecution-stage:${referral.id}`,
+      );
+      expect(chargeDue).toBeDefined();
+      expect(chargeDue!.entityIds).toContain(petitionerId);
+      expect(chargeDue!.jurisdictionId).toBe(referral.jurisdictionId);
+      let caseWorld = referred.world;
+      for (const item of caseWorld.history.futureDueItems) {
+        if (
+          item.id === chargeDue!.id ||
+          futureDueItemStateAt(caseWorld, item.id, currentLifeCutoff(caseWorld))
+            ?.status !== "scheduled"
+        )
+          continue;
+        caseWorld = cancelFutureDueItem(caseWorld, {
+          stableKey: `fixture:clemency-isolate:${item.id}`,
+          dueItemId: item.id,
+          effectiveAt: caseWorld.currentDate,
+          reasonKey: "fixture:isolated-court",
+          context:
+            "Retain unrelated commitments while isolating this saved court case.",
+        });
+      }
+      const charged = resolveFutureDueItemsThrough(
+        caseWorld,
+        chargeDue!.dueAt,
+        createProsecutionTransitionRegistry(),
+      );
       const plea = enterPlea(charged, {
         personId: petitionerId,
         referralId: referred.referralId,
         plea: "guilty",
       });
       expect(plea.ok).toBe(true);
-      const trialDue: World = {
-        ...plea.world,
-        history: {
-          ...plea.world.history,
-          events: plea.world.history.events.map((event) =>
-            event.type === PROSECUTION_CHARGED_EVENT &&
-            event.involvedEntityIds.includes(petitionerId)
-              ? {
-                  ...event,
-                  occurredAt: addDays(
-                    plea.world.currentDate,
-                    -prosecutionTimingFor(state.jurisdictionKey)
-                      .resolveAfterDays,
-                  ),
-                }
-              : event,
-          ),
-        },
-      };
-      const sentenced = advanceProsecutions(trialDue);
+      const chargedEvent = charged.history.events.find(
+        (event) =>
+          event.type === PROSECUTION_CHARGED_EVENT &&
+          event.tags.includes(`${REFERRAL_TAG}${referral.id}`),
+      )!;
+      expect(chargedEvent).toBeDefined();
+      expect(
+        chargedEvent.participants.some(
+          (participant) =>
+            participant.role === "focus:defendant" &&
+            participant.personId === petitionerId,
+        ),
+      ).toBe(true);
+      const trialDue = plea.world.history.futureDueItems.find(
+        (item) =>
+          item.stableKey === `justice:prosecution-stage:${chargedEvent.id}`,
+      );
+      expect(trialDue).toBeDefined();
+      expect(trialDue!.entityIds).toContain(petitionerId);
+      expect(trialDue!.jurisdictionId).toBe(chargedEvent.jurisdictionId);
+      const sentenced = resolveFutureDueItemsThrough(
+        plea.world,
+        trialDue!.dueAt,
+        createProsecutionTransitionRegistry(),
+      );
       const actualSentence = sentenced.history.events.find(
         (event) =>
           event.type === PROSECUTION_SENTENCED_EVENT &&
@@ -198,9 +223,8 @@ for (const state of states)
                   ...event,
                   occurredAt: addDays(
                     sentenceDate,
-                    -UNRESEARCHED_PROSECUTION.chargeDecisionDays -
-                      prosecutionTimingFor(state.jurisdictionKey)
-                        .resolveAfterDays,
+                    -caseTiming.chargeDecisionDays -
+                      caseTiming.resolveAfterDays,
                   ),
                 }
               : event.type === PROSECUTION_CHARGED_EVENT &&
@@ -209,8 +233,7 @@ for (const state of states)
                     ...event,
                     occurredAt: addDays(
                       sentenceDate,
-                      -prosecutionTimingFor(state.jurisdictionKey)
-                        .resolveAfterDays,
+                      -caseTiming.resolveAfterDays,
                     ),
                   }
                 : event.id === sentenceId
