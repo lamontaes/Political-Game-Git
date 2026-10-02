@@ -92,3 +92,12 @@ Rail adopted annual150000dollars -> existing recordAdoptedAppropriation -> actua
 AUDIT A28 pinnedmainf379be9525/11 -> branch11/11, PARTLY. Static rule flips unchanged from prior successful repair; actual foreign-aid/offset/rail execution now added.
 Preserved failures: first aid/debt24P1F incorrectly asserted stamp.measureId instead of governingLawKey; six-file41P1F fixture tried duplicate government; rail fixture next refused second liquid position; actual rail authority initially saved under generic appropriations:us instead of existing passenger-rail:us; next exact cash assertion exposed missing fixture receipt call. All repaired without weakening money/stamp/replay assertions or increasing limits.
 Farm: no new farm edits; whole reader donor7a0b/blob425b659d332fc58582cb1a5a8df3f30ee5d41f67 released to Team1 #2007. Parent not merged at publication preparation. No self-merge, nationwide natural passage/service/browser/official Claude gate NOT RUN.
+
+Farm receiving, October 2, 2026, after CTO12:21 passed A28 and joint-land ruling.
+Resolved source receiving head8a4d11c90ff0a9d061d6ec1948a11ca38f1090e2; parentsae53d8c29efafe004e0d3a1a71a35abdaa918a7a + affd94102ac27e292ed817c2ff0724503207d503.
+Only conflict: federal-farm-subsidy-law.ts resolved to exact Team9blob686d7fe05f3aeca78920b33acbad2e5c078e3033. Treasury retained all A28 adopted aid/debt/defense/rail code; exact donor delta is one farm→agriculture classification insertion. No duplicate farm producer/test.
+Complete7changedfiles44/44PASS85.79s, session65298 terminal0; prior6 A28 files42cases + federal-farm-payments.test.ts2. Command uses same owner-approved cloud override/storage guard/Vitest maxWorkers1, stock limits.
+Scoped18roots1230deps0/session89523terminal0; receiving-file ESLint/Prettier PASS; whitespace PASS.
+Actual new random production game again drawn4707860, playerperson_245d88c1871cba1b, Jan5,2026, seedteam6-a28-final-bill-new-game-20261002.
+AUDIT branch A2811/11PARTLY preserved; pinnedmainf3795/11 baseline remains historical source, not a new current-main scan. Receiving release check uses actual dependency affd941→HEAD.
+Farm2007 must LAND first; new1997 receiving head requires renewed CTO gate. No PR/main merge, no full suite, browser, new outside scope or official Claude gate run by T6. All source refs, historical failures, and untracked batch08 preserved.
