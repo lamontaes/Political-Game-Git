@@ -81,8 +81,8 @@ beforeAll(() => {
     exposure: null,
     creditTightness: initial.creditTightness,
     policyRate: {
-      lowerPct: initialQuote!.marketAnnualRateBasisPoints / 100,
-      upperPct: initialQuote!.marketAnnualRateBasisPoints / 100,
+      lowerPct: initialQuote!.policyAnnualRateBasisPoints / 100,
+      upperPct: initialQuote!.policyAnnualRateBasisPoints / 100,
       basis: "retained-reference",
       decisionEventId: null,
     },
@@ -102,6 +102,8 @@ beforeAll(() => {
       rateReferenceKey: initialQuote!.rateReferenceKey,
       openingRateBasis: initialQuote!.rateBasis,
       annualRateBasisPoints: initialQuote!.annualRateBasisPoints,
+      policyAnnualRateBasisPoints: initialQuote!.policyAnnualRateBasisPoints,
+      mortgageSpreadBasisPoints: initialQuote!.mortgageSpreadBasisPoints,
     }) + "\n",
   );
 });
@@ -154,7 +156,7 @@ function loanInput() {
 }
 
 describe("A53 mortgage rates are saved macro inputs", () => {
-  it("uses latest recorded local midpoint and approved 360-month shared payment", () => {
+  it("adds the cited spread to the local policy midpoint before caps and shared payment", () => {
     const local = macroScopeForJurisdiction(home);
     const world = withMonths([
       month("a53:national", "national", 8, 10),
@@ -163,12 +165,15 @@ describe("A53 mortgage rates are saved macro inputs", () => {
     ]);
     const before = JSON.stringify(world);
     expect(quote(world)).toEqual({
-      marketAnnualRateBasisPoints: 500,
-      annualRateBasisPoints: 500,
+      policyAnnualRateBasisPoints: 500,
+      mortgageSpreadBasisPoints: 252.5,
+      mortgageSpreadReferenceKey: "fred-mortgage-policy-spread:2025-12-31",
+      marketAnnualRateBasisPoints: 752.5,
+      annualRateBasisPoints: 752.5,
       termMonths: 360,
       monthlyPaymentMinor: amortizedMonthlyPaymentMinor(
         principal.minorUnits,
-        500,
+        752.5,
         360,
       ),
       macroMonthKey: "a53:local-latest",
@@ -178,6 +183,20 @@ describe("A53 mortgage rates are saved macro inputs", () => {
       recordedAt: opening.currentDate,
     });
     expect(JSON.stringify(world)).toBe(before);
+    const capped = mortgageFinancingQuote(world, {
+      principal,
+      jurisdictionId: home,
+      // Explicit cap identity for this pure arithmetic control only.
+      rateCap: {
+        capBasisPoints: 600,
+        measureId: "measure:a53-unit-cap" as EntityId,
+      },
+    });
+    expect(capped?.marketAnnualRateBasisPoints).toBe(752.5);
+    expect(capped?.annualRateBasisPoints).toBe(600);
+    expect(capped?.monthlyPaymentMinor).toBe(
+      amortizedMonthlyPaymentMinor(principal.minorUnits, 600, 360),
+    );
   });
   it("falls back to saved national rate and excludes future local records", () => {
     const future = {
@@ -185,7 +204,8 @@ describe("A53 mortgage rates are saved macro inputs", () => {
       recordedAt: addDays(opening.currentDate, 1),
     };
     const world = withMonths([month("a53:national", "national", 3, 4), future]);
-    expect(quote(world)?.marketAnnualRateBasisPoints).toBe(350);
+    expect(quote(world)?.policyAnnualRateBasisPoints).toBe(350);
+    expect(quote(world)?.marketAnnualRateBasisPoints).toBe(602.5);
     expect(quote(world)?.scope).toBe("national");
     expect(
       mortgageFinancingQuote(world, {

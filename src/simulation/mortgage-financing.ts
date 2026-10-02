@@ -17,7 +17,23 @@ import type { EntityId, IsoDate, MoneyAmount, World } from "./types";
 /** Owner-approved fixed mortgage term; the rate remains a saved world input. */
 const FIXED_MORTGAGE_TERM_MONTHS = 30 * 12;
 
+// Same-day opening calibration, not a measured policy-rate pass-through.
+// Freddie Mac PMMS via FRED, December 31, 2025: MORTGAGE30US = 6.15%.
+// Federal Reserve target on that date: DFEDTARL = 3.50%, DFEDTARU = 3.75%.
+// https://fred.stlouisfed.org/data/MORTGAGE30US.txt
+// https://fred.stlouisfed.org/data/DFEDTARL.txt
+// https://fred.stlouisfed.org/data/DFEDTARU.txt
+const MORTGAGE_SPREAD_REFERENCE = {
+  key: "fred-mortgage-policy-spread:2025-12-31",
+  mortgageRatePct: 6.15,
+  policyLowerPct: 3.5,
+  policyUpperPct: 3.75,
+} as const;
+
 export interface MortgageFinancingQuote {
+  readonly policyAnnualRateBasisPoints: number;
+  readonly mortgageSpreadBasisPoints: number;
+  readonly mortgageSpreadReferenceKey: string;
   readonly marketAnnualRateBasisPoints: number;
   readonly annualRateBasisPoints: number;
   readonly termMonths: number;
@@ -31,7 +47,7 @@ export interface MortgageFinancingQuote {
 }
 
 /**
- * The approved game mortgage rate is the saved housing/macro rate midpoint.
+ * The mortgage rate adds the cited opening spread to the saved policy midpoint.
  * It is a game financing rule, not a claim that a bank offered this rate.
  * A missing or invalid saved rate supplies no quote.
  */
@@ -84,12 +100,22 @@ export function mortgageFinancingQuote(
     upperPct < lowerPct
   )
     return null;
-  const marketAnnualRateBasisPoints = ((lowerPct + upperPct) / 2) * 100;
+  const policyAnnualRateBasisPoints = ((lowerPct + upperPct) / 2) * 100;
+  const mortgageSpreadBasisPoints =
+    MORTGAGE_SPREAD_REFERENCE.mortgageRatePct * 100 -
+    (MORTGAGE_SPREAD_REFERENCE.policyLowerPct * 100 +
+      MORTGAGE_SPREAD_REFERENCE.policyUpperPct * 100) /
+      2;
+  const marketAnnualRateBasisPoints =
+    policyAnnualRateBasisPoints + mortgageSpreadBasisPoints;
   const annualRateBasisPoints = cappedAnnualRateBasisPoints(
     marketAnnualRateBasisPoints,
     input.rateCap?.capBasisPoints ?? null,
   );
   return {
+    policyAnnualRateBasisPoints,
+    mortgageSpreadBasisPoints,
+    mortgageSpreadReferenceKey: MORTGAGE_SPREAD_REFERENCE.key,
     marketAnnualRateBasisPoints,
     annualRateBasisPoints,
     termMonths: FIXED_MORTGAGE_TERM_MONTHS,
