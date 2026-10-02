@@ -1,3 +1,5 @@
+import type { BudgetLawName } from "./store";
+import type { LawAmountExpression } from "../law-consequence-types";
 import stateLocalFinances from "../../../data/research/money/state-local-finances-2022.json" with { type: "json" };
 import {
   MILEAGE_FEE_QUESTION,
@@ -61,7 +63,7 @@ export const LOCAL_REVENUE_RULE =
  * Pension opening. The assumed return and the amortization period for the
  * unfunded part. PLACEHOLDER, research: public-pension-funding-by-state. The
  * liability's size against spending is measured (`openingLiabilityToSpending`
- * in `pension-share.ts`), and each government's normal cost and benefits paid
+ * in `opening.ts`), and each government's normal cost and benefits paid
  * are its own plans' (`pensionFlows`).
  */
 export const PENSION = {
@@ -108,16 +110,6 @@ export const TAX_QUESTION_EFFECTS: readonly {
   readonly levels?: readonly BudgetLevel[];
   readonly basis: string;
 }[] = [
-  {
-    questionKey: "us-policy-positions:fiscal.adopt-income-tax",
-    source: "individualIncomeTax",
-    // Adoption collections come from actual wage-base assessments/payments.
-    toYes: null,
-    // A repeal ends the tax: a state with no income tax collects none.
-    toNo: -1,
-    basis:
-      "A repeal ends the tax, so the state collects none. An adopted tax collects through recorded paycheck withholding using its operative terms; no population-based revenue level is inferred.",
-  },
   {
     questionKey: MILEAGE_FEE_QUESTION,
     source: "selectiveSalesTaxes",
@@ -203,3 +195,23 @@ export const DEFAULT_STATE_INTEREST_RATE =
   NATIONAL_DEBT.state.interestOnDebt / NATIONAL_DEBT.state.debtOutstanding;
 export const DEFAULT_LOCAL_INTEREST_RATE =
   NATIONAL_DEBT.local.interestOnDebt / NATIONAL_DEBT.local.debtOutstanding;
+
+/** Allocation of a saved annual obligation through the shared amount evaluator. */
+export const BUDGET_OBLIGATION_AMOUNT: LawAmountExpression = {
+  op: "product",
+  left: { op: "record", key: "obligation", unit: "dollars/year" },
+  right: {
+    op: "maximum",
+    operands: [
+      { op: "record", key: "paid-share", unit: "ratio" },
+      { op: "term", key: "required-share", unit: "ratio" },
+    ],
+  },
+};
+
+/** Catalog numeric allocation inputs; the legacy full-contribution question means one whole share. */
+export const BUDGET_ALLOCATION_TERM_KEYS: Readonly<
+  Partial<Record<BudgetLawName, string>>
+> = {
+  pensions: "contribution",
+};

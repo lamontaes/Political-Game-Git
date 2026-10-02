@@ -180,6 +180,55 @@ describe("recorded quarterly sales fund canonical employer cash", () => {
     ).toBe(150000);
   });
 
+  it("includes the day-one advance once and keeps prior-quarter receipts out of the next period", () => {
+    const f = fixture();
+    const opening = recordTownSalesReceipts(
+      f.world,
+      f.town,
+      f.world.currentDate,
+      f.world.currentDate,
+      `opening:${f.world.currentDate}`,
+      1.25,
+    );
+    expect(
+      opening.history.resourceTransferOutcomes.at(-1)!.transferredAmount
+        .minorUnits,
+    ).toBe(150000);
+    const next = advanceWorld(opening, 91);
+    const settled = recordTownSalesReceipts(
+      next,
+      f.town,
+      opening.currentDate,
+      next.currentDate,
+      "quarter:one",
+      1.25,
+    );
+    expect(settled.history.resourceTransferOutcomes).toEqual(
+      opening.history.resourceTransferOutcomes,
+    );
+    expect(
+      resourcePositionAt(
+        settled,
+        { kind: "organization", organizationId: f.organizationId },
+        f.currency,
+      )!.liquidBalance.minorUnits,
+    ).toBe(150000);
+    const prior = f.settle(f.world);
+    const later = advanceWorld(prior, 91);
+    const following = recordTownSalesReceipts(
+      later,
+      f.town,
+      prior.currentDate,
+      later.currentDate,
+      "quarter:one",
+      1.25,
+    );
+    expect(
+      following.history.resourceTransferOutcomes.at(-1)!.transferredAmount
+        .minorUnits,
+    ).toBe(150000);
+  });
+
   it.each([
     {
       seed: "standby4-a60-recorded-period-sales-20261002",
@@ -198,6 +247,22 @@ describe("recorded quarterly sales fund canonical employer cash", () => {
         prepareOpeningLife({ ...setup, questionnaire: "skipped" }),
       );
       expect(session.game).toBeDefined();
+      const opening = session.game!.world;
+      const openingFlows = new Set(
+        opening.history.resourceFlows
+          .filter((flow) => flow.basisKind === TOWN_SALES_RECEIPT_BASIS)
+          .map((flow) => flow.id),
+      );
+      if (hasBusinessBooks) {
+        expect(
+          opening.history.resourceTransferOutcomes.some(
+            (row) =>
+              openingFlows.has(row.resourceFlowId) &&
+              row.occurredAt === opening.currentDate &&
+              row.transferredAmount.minorUnits > 0,
+          ),
+        ).toBe(true);
+      }
       const later = passOrdinaryDays(session.game!.world, 95);
       const flows = later.history.resourceFlows.filter(
         (flow) => flow.basisKind === TOWN_SALES_RECEIPT_BASIS,

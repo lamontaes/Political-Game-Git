@@ -1,12 +1,28 @@
 import { describe, expect, it, vi } from "vitest";
 import type * as StateExecutives from "../nationwide-world/state-executives";
+import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
 import type { StateExecutiveHolderRecord } from "../nationwide-world/state-executives";
 import { makeIsoDate } from "../dates";
 import { createWorld } from "../world";
-import { createOrganization } from "../life";
-import { publicGovernmentOrganizationKey } from "../public-government-identity";
+import { createOrganization, createWorkRelationship } from "../life";
+import { smallWorld } from "../../../tests/fixtures/small-world";
+import { assessPaychecksTaxes } from "../statutory-tax";
+import { enactThroughDesk } from "../../../tests/fixtures/enact-through-desk";
+import { introduceMeasure } from "../legislation";
+import { legislativePackForJurisdiction } from "../legislative-institutions";
+import {
+  authoredScenarioSeatCount,
+  seatBodyForPack,
+  votePlanKeyForCommittee,
+  votePlanKeyForFloor,
+} from "../legislation-scenarios";
+import {
+  publicGovernmentOrganizationKey,
+  publicGovernmentIdentityForRecord,
+} from "../public-government-identity";
 import {
   createResourceFlow,
+  createWorkCompensation,
   createResourcePosition,
   money,
   recordResourceTransferOutcome,
@@ -34,6 +50,7 @@ import {
   decideShortfallOrder,
   lawSpendingForMonth,
   settleGovernmentMonth,
+  readMonthFlows,
   taxLawFactor,
   type MonthFlows,
 } from "./month";
@@ -44,7 +61,7 @@ import {
   MEDIAN_NORMAL_COST_SHARE,
   MEDIAN_PAID_SHARE,
   openingLiabilityToSpending,
-} from "./pension-share";
+} from "./opening";
 import { SeededRng } from "../rng";
 import {
   MEDIAN_RESERVE_DEPOSIT,
@@ -169,6 +186,78 @@ function opened(world: World): World {
   };
 }
 
+/** Explicit controlled saved cash; the default account has no cash activity. */
+function withSavedIdleAccounts(
+  world: World,
+  openingCashMinorByKey: ReadonlyMap<string, number> = new Map(),
+): World {
+  const jurisdictions = Object.keys(STATES)
+    .map((usps) => stateJurisdictionForKey(`US-${usps}`)!)
+    .filter(Boolean);
+  const district = lifePlaceByKey("1150000")!.context.jurisdiction;
+  let next: World = {
+    ...world,
+    jurisdictionOrder: [
+      ...new Set([
+        ...world.jurisdictionOrder,
+        ...jurisdictions.map((row) => row.id),
+        district.id,
+      ]),
+    ],
+    jurisdictions: {
+      ...world.jurisdictions,
+      ...Object.fromEntries(
+        [...jurisdictions, district].map((row) => [row.id, row]),
+      ),
+    },
+  };
+  // The old isolated fixture replaced propositions without their canonical
+  // catalog order. Saved resource writers require the actual complete catalog.
+  next = {
+    ...next,
+    policyCatalog: createWorld({
+      seed: "saved-idle-budget-fixture",
+      currentDate: world.currentDate,
+      jurisdictions: Object.values(next.jurisdictions),
+      people: [],
+      lineage: "production",
+    }).policyCatalog,
+  };
+  for (const government of world.publicBudgets!.governments) {
+    const stableKey = publicGovernmentOrganizationKey(
+      publicGovernmentIdentityForRecord(government),
+    );
+    next = createOrganization(next, {
+      stableKey,
+      formedAt: world.currentDate,
+      initialProfile: {
+        name: `Controlled ${government.key} account`,
+        classification: "sector:government",
+        locationJurisdictionId: government.jurisdictionId,
+      },
+      provenance: {
+        kind: "authored",
+        note: "Explicit idle-account fixture for settlement/adoption; no forecast receipts or outlays.",
+      },
+    });
+    const organizationId = next.history.organizations.at(-1)!.id;
+    next = createResourcePosition(next, {
+      stableKey: `${stableKey}:idle-fixture-cash`,
+      owner: { kind: "organization", organizationId },
+      openedAt: world.currentDate,
+      openingBalance: money(
+        openingCashMinorByKey.get(government.key) ?? 0,
+        "USD",
+      ),
+      provenance: {
+        kind: "authored",
+        note: "Explicit controlled opening cash, with no transfers; not forecast receipts or a missing-data default.",
+      },
+    });
+  }
+  return next;
+}
+
 /** Settles every month from the opening month through `lastMonth`. */
 function runThrough(world: World, lastMonth: string): World {
   let next = world;
@@ -210,13 +299,14 @@ function settleAlone(
   world: World,
   government: PublicBudgetGovernment,
   lastMonth: string,
+  flows: MonthFlows = NO_FLOWS,
 ) {
   let current = government;
   const adjustments = [];
   const adoptions = [];
   let month = makeIsoDate(`${world.currentDate.slice(0, 7)}-01`);
   while (month <= lastMonth) {
-    const settled = settleGovernmentMonth(world, current, month, NO_FLOWS);
+    const settled = settleGovernmentMonth(world, current, month, flows);
     if (settled.government.years.length > current.years.length)
       adoptions.push({
         month,
@@ -232,7 +322,10 @@ function settleAlone(
 
 describe("public budgets", () => {
   it("every state, D.C. and territory keeps a budget for a full year, none left unknown", () => {
-    const world = runThrough(opened(worldAt("2026-01-05")), "2026-12-01");
+    const world = runThrough(
+      withSavedIdleAccounts(opened(worldAt("2026-01-05"))),
+      "2026-12-01",
+    );
     const store = world.publicBudgets!;
     const keys = Object.keys(STATES).map((usps) => `US-${usps}`);
     const kept = new Set(store.governments.map((row) => row.key));
@@ -277,7 +370,7 @@ describe("public budgets", () => {
     const start = opened(worldAt("2026-01-05"));
     // The opening reserve, before Illinois' own reserve law moves a surplus.
     expect(publicBudgetFor(start, illinois)!.reserve).toBe(2_518_000_000);
-    const world = runThrough(start, "2026-06-01");
+    const world = runThrough(withSavedIdleAccounts(start), "2026-06-01");
     const state = publicBudgetFor(world, illinois)!;
     expect(state.population).toBe(12_710_158);
     expect(state.fiscalYearStart).toBe("07-01");
@@ -409,17 +502,26 @@ describe("public budgets", () => {
   });
 
   it("a minimum-reserve law sends the year's surplus to the reserve and sets a deposit; without it the surplus stays in the balance", () => {
-    // The reserve law alone: Illinois' own balanced-budget law, which the
-    // game begins with, would cut a shortfall to a small surplus instead.
-    const withLaw = worldAt("2026-01-05", {
-      laws: [
-        { question: RESERVE, answer: "yes", jurisdictionId: illinois },
-        { question: BALANCED, answer: "no", jurisdictionId: illinois },
-      ],
-    });
-    const state = publicBudgetFor(opened(withLaw), illinois)!;
+    // Use the actual beginning law and complete history required by cash writers.
+    const withLaw = smallWorld({
+      place: "US-IL",
+      date: "2026-01-05",
+      people: 3,
+      seed: "controlled-reserve-cash",
+    }).world;
+    // Controlled saved $1,000 cash is the surplus input, never forecast revenue.
+    const funded = withSavedIdleAccounts(
+      opened(withLaw),
+      new Map([["US-IL", 100_000]]),
+    );
+    const state = publicBudgetFor(funded, illinois)!;
     const low = { ...state, reserve: 0 };
-    const run = settleAlone(withLaw, low, "2026-06-01");
+    const run = settleAlone(
+      funded,
+      low,
+      "2026-06-01",
+      readMonthFlows(funded, funded.publicBudgets!).flows,
+    );
     const moved = run.adjustments.find(
       (row) => row.kind === "surplus-to-reserve",
     );
@@ -427,10 +529,12 @@ describe("public budgets", () => {
     expect(run.government.reserve).toBeGreaterThan(0);
     // A year with no surplus leaves the reserve short, so next year's budget
     // sets a deposit aside.
+    const empty = withSavedIdleAccounts(opened(withLaw));
     const short = settleAlone(
-      withLaw,
+      empty,
       { ...shortfall(state), reserve: 0 },
       "2026-06-01",
+      readMonthFlows(empty, empty.publicBudgets!).flows,
     );
     expect(short.government.reserve).toBe(0);
     const deposit = short.adjustments.find(
@@ -445,14 +549,85 @@ describe("public budgets", () => {
 
     // Illinois begins with a reserve law, so "without" is a law enacted in
     // play that says no.
-    const without = worldAt("2026-01-05", {
-      laws: [{ question: RESERVE, answer: "no", jurisdictionId: illinois }],
+    const f = smallWorld({
+      place: "US-IL",
+      date: "2025-12-18",
+      people: 3,
+      seed: "controlled-reserve-repeal",
+      offices: ["governor"],
+      laws: ["us-policy-positions:fiscal.minimum-reserve-balance"],
     });
+    const pack = legislativePackForJurisdiction(f.stateJurisdictionId)!;
+    const propositionId =
+      f.propositionIds["us-policy-positions:fiscal.minimum-reserve-balance"]!;
+    let without = introduceMeasure(f.world, {
+      stableKey: "controlled-reserve-repeal:bill",
+      jurisdictionId: f.stateJurisdictionId,
+      rulePackId: pack.packId,
+      designation: "Controlled reserve repeal",
+      shortTitle: "Controlled reserve repeal",
+      summary: "Explicit fixture repeal, not ordinary-play proof.",
+      origin: "member-introduction",
+      subjectClass: "general-policy",
+      originChamberKey: pack.chamberOrder[0]!,
+      sponsorPersonId: null,
+      propositionIds: [propositionId],
+      propositionAnswers: [{ propositionId, answer: "no" }],
+    });
+    const measureId = without.history.legislativeMeasures!.at(-1)!.id;
+    without = enactThroughDesk(without, measureId, {
+      context: {
+        pack,
+        measureId,
+        bodies: pack.chambers.map((chamber) =>
+          seatBodyForPack(
+            chamber.chamberKey,
+            chamber.name,
+            authoredScenarioSeatCount(pack, chamber.chamberKey),
+            [],
+            false,
+          ),
+        ),
+        committeeMemberCount: null,
+        votePlan: Object.fromEntries(
+          pack.chambers.flatMap((chamber) => [
+            ...chamber.committees.map((committee) => [
+              votePlanKeyForCommittee(committee.committeeKey),
+              { yea: committee.appointedMembers ?? 1 },
+            ]),
+            ...chamber.floorStages.map((stage) => [
+              votePlanKeyForFloor(chamber.chamberKey, stage.stageKey),
+              { yea: authoredScenarioSeatCount(pack, chamber.chamberKey) },
+            ]),
+          ]),
+        ),
+        governorAction: null,
+        governorRationale:
+          "Authored favorable votes for the controlled reserve repeal.",
+      },
+    });
+    // The desk assigned required work to the signer; retain their actual control.
+    const signer = currentStateExecutiveHolders(without).find(
+      (row) => row.stateUsps === f.stateUsps,
+    )!;
+    without = {
+      ...without,
+      control: { kind: "person", personId: signer.personId },
+    };
+    const fundedWithout = withSavedIdleAccounts(
+      opened(without),
+      new Map([["US-IL", 100_000]]),
+    );
     const loose = {
-      ...publicBudgetFor(opened(without), illinois)!,
+      ...publicBudgetFor(fundedWithout, illinois)!,
       reserve: 0,
     };
-    const kept = settleAlone(without, loose, "2026-06-01");
+    const kept = settleAlone(
+      fundedWithout,
+      loose,
+      "2026-06-01",
+      readMonthFlows(fundedWithout, fundedWithout.publicBudgets!).flows,
+    );
     expect(
       kept.adjustments.some((row) => row.kind === "surplus-to-reserve"),
     ).toBe(false);
@@ -614,8 +789,22 @@ describe("public budgets", () => {
     // and both it and the assets shrink by their own benefits: the opening
     // year ran six months, January to June.
     const state = government("US-IL");
-    const closed = settleAlone(worldAt("2026-01-05"), state, "2026-07-01")
-      .government.pension;
+    // This proves the reported actuarial terms, not a pension cash disbursement.
+    // Explicit idle saved accounts let the recorded-only settlement roll forward.
+    const saved = withSavedIdleAccounts(world);
+    const run = settleAlone(
+      saved,
+      state,
+      "2026-07-01",
+      readMonthFlows(saved, saved.publicBudgets!).flows,
+    );
+    const closed = run.government.pension;
+    expect(
+      run.government.months.every(
+        (row) =>
+          row.spending[BUDGET_PROGRAMS.indexOf("pensionContribution")] === 0,
+      ),
+    ).toBe(true);
     const { liability } = state.pension;
     const half = 6 / 12;
     expect(closed.liability).toBe(
@@ -699,54 +888,140 @@ describe("public budgets", () => {
     );
   });
 
-  it("income tax withheld from represented people is counted dollar for dollar, and the modeled part covers only everyone else", () => {
-    const account = "organization_il" as EntityId;
-    const history = {
-      organizations: [
-        { id: account, stableKey: `public-government:${illinois}` },
-      ],
-      resourceFlows: [
-        {
-          id: "flow_1" as EntityId,
-          stableKey: "withholding:1",
-          source: { kind: "person", personId: "person_1" },
-          recipient: { kind: "organization", organizationId: account },
-          basisKind: "custom:tax-withholding",
-          basisReference: { kind: "general" },
+  it("income tax withheld from a represented payer is counted dollar for dollar from saved receipts, without population subtraction", () => {
+    const f = smallWorld({
+      place: "US-IL",
+      date: "2026-01-05",
+      people: 3,
+      seed: "controlled-budget-withholding",
+    });
+    const provenance = {
+      kind: "authored" as const,
+      note: "Explicit controlled one-thousand-dollar paycheck; not ordinary-play or population-wide revenue proof.",
+    };
+    let world = createOrganization(f.world, {
+      stableKey: "controlled-budget-withholding:employer",
+      formedAt: f.world.currentDate,
+      provenance,
+      initialProfile: {
+        name: "Controlled withholding employer",
+        classification: "enterprise:retail",
+        locationJurisdictionId: f.stateJurisdictionId,
+      },
+    });
+    const organizationId = world.history.organizations.at(-1)!.id;
+    world = createResourcePosition(world, {
+      stableKey: "controlled-budget-withholding:employer-cash",
+      owner: { kind: "organization", organizationId },
+      openedAt: world.currentDate,
+      openingBalance: money(100_000, "USD"),
+      provenance,
+    });
+    world = createWorkRelationship(world, {
+      stableKey: "controlled-budget-withholding:work",
+      personId: f.personId,
+      organizationId,
+      startedAt: world.currentDate,
+      kind: "employment:employee",
+      compensation: "paid",
+      authority: "directed",
+      dependency: "dependent",
+      economicRisk: "organization-borne",
+      provenance,
+      initialRole: {
+        title: "Controlled worker",
+        occupationClassification: null,
+        locationJurisdictionId: f.stateJurisdictionId,
+        timeDemand: {
+          expectedWeekly: { minimumHours: 40, maximumHours: 40 },
+          attention: "moderate",
+          concurrency: "mostly-exclusive",
+          scheduleRigidity: "rigid",
+          interruptibility: "limited",
+          locationJurisdictionId: f.stateJurisdictionId,
         },
-      ],
-      resourceTransferOutcomes: [
-        {
-          id: "outcome_1" as EntityId,
-          resourceFlowId: "flow_1" as EntityId,
-          periodStartsAt: makeIsoDate("2026-01-01"),
-          periodEndsAt: makeIsoDate("2026-01-31"),
-          occurredAt: makeIsoDate("2026-01-05"),
-          status: "completed",
-          transferredAmount: { minorUnits: 123_456, currency: "USD" },
-        },
-      ],
-    } as unknown as Partial<World["history"]>;
-    const world = worldAt("2026-01-05", { history });
-    const base = opened(worldAt("2026-01-05"));
-    const settled = settlePublicBudgets(
-      { ...opened(world), currentDate: makeIsoDate("2026-02-01") },
-      makeIsoDate("2026-01-01"),
+      },
+    });
+    world = createWorkCompensation(world, {
+      stableKey: "controlled-budget-withholding:pay",
+      workRelationshipId: world.history.workRelationships.at(-1)!.id,
+      startsAt: world.currentDate,
+      amount: money(100_000, "USD"),
+      cadenceKind: "schedule:weekly",
+      restrictionKind: null,
+      jurisdictionId: f.stateJurisdictionId,
+      provenance,
+    });
+    const resourceFlowId = world.history.resourceFlows.at(-1)!.id;
+    world = createResourcePosition(world, {
+      stableKey: "controlled-budget-withholding:person-cash",
+      owner: { kind: "person", personId: f.personId },
+      openedAt: world.currentDate,
+      openingBalance: money(0, "USD"),
+      provenance,
+    });
+    world = recordResourceTransferOutcome(world, {
+      stableKey: "controlled-budget-withholding:paid",
+      resourceFlowId,
+      periodStartsAt: world.currentDate,
+      periodEndsAt: world.currentDate,
+      occurredAt: world.currentDate,
+      status: "completed",
+      attemptedAmount: money(100_000, "USD"),
+      transferredAmount: money(100_000, "USD"),
+      reasonKind: null,
+      note: provenance.note,
+      provenance,
+    });
+    const paycheckId = world.history.resourceTransferOutcomes.at(-1)!.id;
+    world = assessPaychecksTaxes(world, [paycheckId]);
+    const government = publicBudgetFor(opened(world), f.stateJurisdictionId)!;
+    const books = opened(world).publicBudgets!;
+    const read = readMonthFlows(world, books);
+    const cash = read.flows.cash!.get(government.key)!;
+    const receipts = world.history.resourceTransferOutcomes.filter(
+      (outcome) => {
+        const flow = world.history.resourceFlows.find(
+          (row) => row.id === outcome.resourceFlowId,
+        )!;
+        return (
+          (outcome.status === "completed" || outcome.status === "partial") &&
+          flow.basisKind === "custom:tax-withholding" &&
+          flow.recipient.kind === "organization" &&
+          flow.recipient.organizationId === cash.organizationId
+        );
+      },
     );
-    const plain = settlePublicBudgets(
-      { ...base, currentDate: makeIsoDate("2026-02-01") },
-      makeIsoDate("2026-01-01"),
+    expect(receipts.length).toBeGreaterThan(0);
+    const minorUnits = receipts.reduce(
+      (total, row) => total + row.transferredAmount.minorUnits,
+      0,
     );
-    const at = BUDGET_SOURCES.indexOf("individualIncomeTax");
-    const row = publicBudgetFor(settled, illinois)!.months[0]!;
-    const without = publicBudgetFor(plain, illinois)!.months[0]!;
+    const income = BUDGET_SOURCES.indexOf("individualIncomeTax");
+    expect(read.flows.represented.get(government.key)).toBe(1);
+    expect(read.flows.withheld.get(government.key)).toBe(minorUnits / 100);
+    expect(
+      read.flows.recorded!.get(government.key)!.revenueMinorUnits[income],
+    ).toBe(minorUnits);
+    const settled = settleGovernmentMonth(
+      world,
+      government,
+      makeIsoDate("2026-01-01"),
+      read.flows,
+    );
+    const row = settled.government.months.at(-1)!;
     expect(row.represented).toBe(1);
-    const perResident = without.revenue[at]! / 12_710_158;
-    expect(row.revenue[at]! - without.revenue[at]!).toBeCloseTo(
-      1234.56 - perResident,
-      -1,
-    );
-    expect(settled.publicBudgets!.cursor).toEqual({ flows: 1, outcomes: 1 });
+    expect(row.revenue[income]).toBe(minorUnits / 100);
+    for (const receipt of receipts)
+      expect(row.cashSettlement!.sourceRecordIds).toContain(receipt.id);
+    expect(read.cursor).toEqual({
+      flows: world.history.resourceFlows.length,
+      outcomes: world.history.resourceTransferOutcomes.length,
+    });
+    expect(
+      readMonthFlows(world, { ...books, cursor: read.cursor }).flows.recorded!
+        .size,
+    ).toBe(0);
   });
 
   it("each government reads its own budget laws: Chicago's ordinance governs Chicago's books, and Illinois' statute governs only the state's", () => {
@@ -1196,7 +1471,7 @@ describe("public budgets", () => {
     }
   });
 
-  it("the budget repeal factor follows the operative date and restoration preserves its opening level", () => {
+  it("repeal and restoration answers do not create an income-tax budget multiplier", () => {
     // Illinois began with an income tax. A repeal takes effect May 12, 2026;
     // a law restoring the tax takes effect June 1, 2027.
     const world = worldAt("2026-01-05", {
@@ -1228,9 +1503,11 @@ describe("public budgets", () => {
     const government = publicBudgetFor(opened(world), illinois)!;
     const factor = (on: string) =>
       taxLawFactor(world, government, "individualIncomeTax", makeIsoDate(on));
+    // The statutory assessment writer handles the operative tax law. The
+    // budget reads actual paid receipts without a second repeal multiplier.
     expect(factor("2026-05-01")).toBe(1);
     for (const on of ["2026-06-01", "2026-12-01", "2027-01-01"])
-      expect(factor(on)).toBe(0);
+      expect(factor(on)).toBe(1);
     for (const on of ["2027-06-01", "2027-12-01", "2028-01-01"])
       expect(factor(on)).toBe(1);
     // Other source factors keep their existing behavior throughout.

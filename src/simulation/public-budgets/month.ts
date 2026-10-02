@@ -25,14 +25,14 @@ import {
   nominalEconomyIndex,
   propositionIdFor,
   lawSpendingPerResident,
+  budgetObligationPayment,
 } from "./fiscal";
 import {
   isLawEffectStamp,
   type LawEffectStamp,
   type LawEffectStampedRecord,
 } from "../law-effect-stamp";
-import { actuarialContribution } from "./opening";
-import { pensionFlows, pensionPayment } from "./pension-share";
+import { actuarialContribution, pensionFlows } from "./opening";
 import { reserveRule } from "./reserve-rule";
 import { roadChargeFactor } from "./road-usage-charge";
 import { tuitionFreezeFactor } from "./tuition-freeze";
@@ -145,6 +145,13 @@ export interface MonthFlows {
 /** The budget program an appropriation's program key belongs to. */
 export function budgetProgramFor(programKey: string): BudgetProgram {
   const key = programKey.toLowerCase();
+  // A saved program may already name an exact canonical budget category.
+  // Preserve that binding before interpreting descriptive legacy keys.
+  const namespace = key.split(":", 1)[0];
+  const category = BUDGET_PROGRAMS.find(
+    (program) => program.toLowerCase() === namespace,
+  );
+  if (category) return category;
   if (/transit/.test(key)) return "transit";
   if (/bridge|highway|(^|[^a-z])road/.test(key)) return "highways";
   if (/school|education|teacher/.test(key)) return "schools";
@@ -1490,7 +1497,7 @@ function adoptNextYear(
     government.pension,
     pensionFlows(government).normalCostShare,
   );
-  const pensionPaid = pensionPayment(
+  const pensionPaid = budgetObligationPayment(
     pensionRequired,
     government.pension.paidShare,
     laws.pensions,

@@ -1242,8 +1242,14 @@
         {
           "kind": "present",
           "file": "src/simulation/policy-pack-tax-terms.ts",
-          "pattern": "kind:\\s*\\\"tax\\\"",
-          "why": "at least one catalog proposition now carries a kind 'tax' row (the excise family, from A13 after the audit)"
+          "pattern": "consequences:\\s*\\[typedTaxQuestionRow\\(",
+          "why": "The excise catalog proposition instantiates the canonical typed-tax row factory."
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/law-consequences/typed-tax-question-data.ts",
+          "pattern": "kind:\\s*\"tax\"",
+          "why": "The called canonical factory returns a tax-kind row; it supplies no authority, rate, occurrence or receipt."
         },
         {
           "kind": "present",
@@ -1264,7 +1270,7 @@
           "why": "the per-question tax factor that still sizes tax laws (month.ts:609, used :930-1016) is retired"
         }
       ],
-      "note": "Partly: checks 1-2 pass (tax kind registered; since the audit policy-pack-tax-terms.ts:81 carries one kind 'tax' row for excise only, from A13). No production living-world code dispatches 'assessment' or records a tax base (only presentation/tax-work.ts does, on the player's declared occurrence), and taxLawFactor is still live. Marked part because the item also names sales and home values, which no single file check proves."
+      "note": "The excise catalog delegates to typedTaxQuestionRow, whose returned row declares kind tax. Both caller and factory must be present. The other four criteria are unchanged and still check registration, payroll assessment/base production and retirement of the old factor. This part-coverage static correction does not fix any reported budget or tax-runtime failure."
     },
     "A42": {
       "covers": "whole",
@@ -3269,8 +3275,8 @@
         {
           "kind": "present",
           "file": "src/simulation/living-world/constitutional-reform.ts",
-          "pattern": "decideChamberVote\\(",
-          "why": "state amendment roll calls use it (constitutional-reform.ts:912)"
+          "pattern": "memberBallot\\(",
+          "why": "state amendment roll calls use memberBallot (constitutional-reform.ts:837), whose unchanged input delegates to decideChamberVote (governing/article-v.ts:336); the ordinary-review regression verifies the canonical call and saved dispositions"
         },
         {
           "kind": "absent",

@@ -1,5 +1,9 @@
-import { aggregateCustomers, BUSINESS_REVENUE_BASIS } from "../local-economy";
+import {
+  aggregateCustomers,
+  BUSINESS_REVENUE_BASIS,
+} from "../business-receipt-counterparty";
 import { organizationProfileAt } from "../life-queries";
+import { recordById } from "../history-index";
 import {
   currentResourceCutoff,
   resourceFlowsTouching,
@@ -37,7 +41,7 @@ export function recordTownSalesReceipts(
   let next = world;
   for (const books of Object.values(world.townFinances?.businesses ?? {})) {
     if (
-      books.lastRound !== round ||
+      (books.lastRound !== round && round !== `opening:${world.currentDate}`) ||
       organizationProfileAt(world, books.organizationId)
         ?.locationJurisdictionId !== town
     )
@@ -55,6 +59,7 @@ export function recordTownSalesReceipts(
           flow.recipient.kind === "organization" &&
           flow.recipient.organizationId === books.organizationId &&
           (flow.basisKind === BUSINESS_REVENUE_BASIS ||
+            flow.basisKind === TOWN_SALES_RECEIPT_BASIS ||
             flow.basisKind === "custom:retail-purchase" ||
             flow.basisKind === "custom:living-costs" ||
             flow.basisKind.startsWith("custom:living-costs.") ||
@@ -74,7 +79,11 @@ export function recordTownSalesReceipts(
       .flatMap((flow) => resourceTransferOutcomesForFlow(next, flow.id))
       .filter(
         (outcome) =>
-          outcome.occurredAt > periodStartsAt &&
+          (outcome.occurredAt > periodStartsAt ||
+            (outcome.occurredAt === periodStartsAt &&
+              outcome.periodStartsAt === outcome.periodEndsAt &&
+              recordById(next.history.resourceFlows, outcome.resourceFlowId)
+                ?.basisKind === TOWN_SALES_RECEIPT_BASIS)) &&
           outcome.occurredAt <= periodEndsAt &&
           outcome.transferredAmount.currency === currency &&
           outcome.transferredAmount.minorUnits > 0,
@@ -89,6 +98,7 @@ export function recordTownSalesReceipts(
       0,
     );
     const amount = money(Math.max(0, grossMinor - alreadyPaidMinor), currency);
+    if (amount.minorUnits === 0) continue;
     const customers = aggregateCustomers(next, town, periodStartsAt);
     next = customers.world;
     const source = {
