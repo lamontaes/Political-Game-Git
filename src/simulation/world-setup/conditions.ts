@@ -1,4 +1,3 @@
-import { ensureSpeechRetellingSchedule } from "../speech-retelling";
 import { makeIsoDate } from "../dates";
 import { createStableId } from "../ids";
 import { canonicalStateJurisdictionId } from "../state-jurisdiction-id";
@@ -275,5 +274,5 @@ export function ensureWorldStartingConditions(
     },
   ];
   if (options.political) drafts.push(options.political(world, regime));
-  return ensureSpeechRetellingSchedule(appendWorldConditions(world, drafts));
+  return appendWorldConditions(world, drafts);
 }
