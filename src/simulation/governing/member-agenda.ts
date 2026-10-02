@@ -957,18 +957,6 @@ function localContext(
   };
 }
 
-function nextLocalAgendaDate(governmentKey: string, after: IsoDate): IsoDate | null {
-  const government = municipalGovernmentByKey(governmentKey);
-  if (!government) return null;
-  const rules = municipalRulePackFor(government);
-  if (!rules.ok) return null;
-  return nextSessionCalendarDate(
-    rules.pack.session.sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.council,
-    after,
-    "agenda",
-  );
-}
-
 function localIntakeStableKey(governmentKey: string, dueAt: IsoDate): string {
   return `${LOCAL_MEMBER_AGENDA_VERSION}:intake:${encodeURIComponent(governmentKey)}:${dueAt}`;
 }
@@ -1079,8 +1067,10 @@ export function scheduleLocalMemberAgendaIntakes(world: World): World {
   for (const government of localMemberAgendaGovernments(next)) {
     const grant = localAuthorityForCouncil(next, government.key);
     if (!grant) continue;
-    const dueAt = nextLocalAgendaDate(government.key, next.currentDate as IsoDate);
-    if (!dueAt) continue;
+    const calendar =
+      legislativeRulePackForWorld(next, grant.authority.rulePackId).session
+        .sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.council;
+    const dueAt = nextSessionCalendarDate(calendar, next.currentDate, "agenda");
     const stableKey = localIntakeStableKey(government.key, dueAt);
     if (
       next.history.futureDueItems.some((item) => item.stableKey === stableKey)
@@ -1094,7 +1084,7 @@ export function scheduleLocalMemberAgendaIntakes(world: World): World {
       jurisdictionId: grant.jurisdictionId,
       provenance: {
         kind: "authored",
-        note: `${LOCAL_MEMBER_AGENDA_VERSION}: shared game timetable intake for ${government.key}; it is not a statement of local legislative calendar law.`,
+        note: `${LOCAL_MEMBER_AGENDA_VERSION}: ${calendar.id}: ${calendar.note} Intake for ${government.key}.`,
       },
     });
   }
@@ -1141,8 +1131,7 @@ export function localMemberAgendaIntakeHandler(
     world: next,
     status: "resolved",
     reasonKey: null,
-    context:
-      "The local council reached its shared timetable agenda date.",
+    context: "The local council reached its shared timetable agenda date.",
     outcomeEventId: null,
   };
 }
@@ -1154,8 +1143,10 @@ function scheduleLocalMemberAgendaIntakeAfter(
 ): World {
   const grant = localAuthorityForCouncil(world, governmentKey);
   if (!grant) return world;
-  const dueAt = nextLocalAgendaDate(governmentKey, after);
-  if (!dueAt) return world;
+  const calendar =
+    legislativeRulePackForWorld(world, grant.authority.rulePackId).session
+      .sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.council;
+  const dueAt = nextSessionCalendarDate(calendar, after, "agenda");
   const stableKey = localIntakeStableKey(governmentKey, dueAt);
   if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
     return world;
@@ -1167,7 +1158,7 @@ function scheduleLocalMemberAgendaIntakeAfter(
     jurisdictionId: grant.jurisdictionId,
     provenance: {
       kind: "authored",
-      note: `${LOCAL_MEMBER_AGENDA_VERSION}: shared game timetable intake for ${governmentKey}; it is not a statement of local legislative calendar law.`,
+      note: `${LOCAL_MEMBER_AGENDA_VERSION}: ${calendar.id}: ${calendar.note} Intake for ${governmentKey}.`,
     },
   });
 }

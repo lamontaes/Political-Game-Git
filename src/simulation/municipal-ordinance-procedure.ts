@@ -376,10 +376,17 @@ export function scheduleOrdinaryCouncilReading(
     governmentKey,
     measureId,
   )?.earliestPassageOn;
-  const calendar = legislativeRulePackForWorld(world, measure.rulePackId).session.sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.council;
-  const dueAt = nextSessionCalendarDate(calendar, world.currentDate, "reading", {
-    notBefore: earliest ?? undefined,
-  });
+  const calendar =
+    legislativeRulePackForWorld(world, measure.rulePackId).session
+      .sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.council;
+  const dueAt = nextSessionCalendarDate(
+    calendar,
+    world.currentDate,
+    "reading",
+    {
+      notBefore: earliest ?? undefined,
+    },
+  );
   return scheduleFutureDueItem(world, {
     stableKey: `${measure.stableKey}:reading:${question.floorStageKey}:due`,
     dueAt,
@@ -388,7 +395,7 @@ export function scheduleOrdinaryCouncilReading(
     jurisdictionId: measure.jurisdictionId,
     provenance: {
       kind: "authored",
-      note: `The game's next ${measure.designation} council reading is set for ${dueAt}, respecting the compiled minimum interval.`,
+      note: `${calendar.id}: ${calendar.note} The game's next ${measure.designation} council reading is set for ${dueAt}, respecting the compiled minimum interval.`,
     },
   });
 }

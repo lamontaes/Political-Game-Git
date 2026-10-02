@@ -156,7 +156,8 @@ export function activeLegislativePackFromEntry(
     basis: "game-profile",
     session: {
       ...baseline.session,
-      sittingCalendar: baseline.session.sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.state,
+      sittingCalendar:
+        baseline.session.sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.state,
       regularSessionYears: knownRule(sessionYears, source),
       ...(entry.regularSessionCutoff
         ? {

@@ -1204,10 +1204,13 @@ export function scheduleInstitutionStep(
     )
   )
     return world;
-  const calendar = legislativeRulePackForWorld(world, measure.rulePackId).session.sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.state;
+  const calendar =
+    legislativeRulePackForWorld(world, measure.rulePackId).session
+      .sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.state;
   const dueAt = sessionClosed
     ? nextSessionCalendarDate(calendar, world.currentDate, "resume", {
-        eligibleYear: (year) => regularSessionYearForWorld(world, measure.jurisdictionId, year),
+        eligibleYear: (year) =>
+          regularSessionYearForWorld(world, measure.jurisdictionId, year),
       })
     : on && on > world.currentDate
       ? on
@@ -1220,7 +1223,7 @@ export function scheduleInstitutionStep(
     jurisdictionId: measure.jurisdictionId,
     provenance: {
       kind: "authored",
-      note: `${calendar.id}: the institution takes its next step on this bill.`,
+      note: `${calendar.id}: ${calendar.note} The institution takes its next step on this bill.`,
     },
   });
   return noticeMemberVote(scheduled, measureId, dueAt);
