@@ -27,7 +27,7 @@ import {
   lawSpendingPerResident,
 } from "./fiscal";
 import { cannabisSalesRevenueChange } from "./cannabis-sales-revenue";
-import { CANNABIS_SALES_QUESTION } from "./cannabis-sales-tax";
+import { CANNABIS_TAX_EFFECT } from "./rules";
 import {
   lawEffectStamp,
   isLawEffectStamp,
@@ -692,7 +692,7 @@ export function lawSpendingForMonth(
 
 /**
  * How a law on legal cannabis sales moves a state's selective sales taxes
- * against the law it began with (`cannabis-sales-tax.ts`): a law making sales
+ * against the law it began with (the existing cannabis tax row): a law making sales
  * legal adds the cannabis tax a resident pays from the first store opening,
  * and a law ending them takes it away the day it takes effect. 1 for any
  * other state or date.
@@ -962,7 +962,10 @@ export function settleGovernmentMonth(
       Math.round(beforeLaw * withoutCannabis) - revenue[SELECTIVE_TAX]!,
     );
   }
-  const cannabisProposition = propositionIdFor(world, CANNABIS_SALES_QUESTION);
+  const cannabisProposition = propositionIdFor(
+    world,
+    CANNABIS_TAX_EFFECT.questionKey,
+  );
   const cannabisStamp =
     zeroOpeningSelectiveTax &&
     (cannabisRevenue > 0 || previousCannabisRevenue > 0) &&
@@ -976,7 +979,7 @@ export function settleGovernmentMonth(
           ),
           {
             effectKind: "cannabis-selective-tax-revenue",
-            questionKey: CANNABIS_SALES_QUESTION,
+            questionKey: CANNABIS_TAX_EFFECT.questionKey,
             jurisdictionId: government.lawJurisdictionId,
             appliedAt: month,
           },
@@ -993,7 +996,7 @@ export function settleGovernmentMonth(
           ),
           {
             effectKind: "state-revenue-loss",
-            questionKey: CANNABIS_SALES_QUESTION,
+            questionKey: CANNABIS_TAX_EFFECT.questionKey,
             jurisdictionId: government.lawJurisdictionId,
             appliedAt: month,
           },

@@ -1,13 +1,18 @@
+import { ensureWorldStartingConditions } from "../world-setup/conditions";
+import { generatePoliticalStartingConditions } from "../world-setup/political-start";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
+import { fixtureMeetsRecordedCandidacyAge } from "../../../tests/fixtures/candidacy-age";
 import { describe, expect, it } from "vitest";
 import { namedSeatForFixture } from "../../../tests/fixtures/campaign-fixture";
 import { recordPersonDeath } from "../vitality";
-import { ensurePublicGovernmentAccount } from "../tax-policy";
+import {
+  ensurePublicGovernmentAccount,
+  ensureTaxPublicAccount,
+} from "../tax-policy";
 
 import {
-  GAME_ADULT_CANDIDACY_AGE,
   addDays,
   advanceWorld,
-  ageOnDate,
   campaignTreasuryPosition,
   candidacyPackById,
   createCampaignElectionTransitionRegistry,
@@ -113,13 +118,16 @@ interface PressFixture {
 }
 
 function pressFixture(seed: string, staffCount: number): PressFixture {
-  const created = createScenarioWorld(seed, KENTUCKY_CONTEXT, {
-    peopleCount: 7,
-  });
-  const playerId = created.personOrder.find(
-    (id) =>
-      ageOnDate(created.people[id]!.birthDate, created.currentDate) >=
-      GAME_ADULT_CANDIDACY_AGE,
+  // The polling reader consumes the opening's saved district conditions.
+  const created = ensureWorldStartingConditions(
+    createScenarioWorld(seed, KENTUCKY_CONTEXT, { peopleCount: 7 }),
+    {
+      openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+      political: generatePoliticalStartingConditions,
+    },
+  );
+  const playerId = created.personOrder.find((id) =>
+    fixtureMeetsRecordedCandidacyAge(created, id),
   )!;
   const base: World = {
     ...created,
@@ -127,11 +135,7 @@ function pressFixture(seed: string, staffCount: number): PressFixture {
   };
   const staffIds = base.personOrder
     .filter((id) => id !== playerId)
-    .filter(
-      (id) =>
-        ageOnDate(base.people[id]!.birthDate, base.currentDate) >=
-        GAME_ADULT_CANDIDACY_AGE,
-    )
+    .filter((id) => fixtureMeetsRecordedCandidacyAge(base, id))
     .slice(0, staffCount);
   const opponents = ensureCampaignOpponents(base, {
     stableKey: "press46-campaign",
@@ -458,7 +462,11 @@ describe("PRESS46 true hidden misuse", () => {
 });
 
 describe("PRESS46 established finding, leak and ground rules", () => {
-  const fixture = pressFixture("press46-finding", 1);
+  const opening = pressFixture("press46-finding", 1);
+  const fixture = {
+    ...opening,
+    world: ensureTaxPublicAccount(opening.world, KY),
+  };
   const misused = spendCampaignFundsPersonally(fixture.world, {
     stableKey: "press46-test:finding-misuse",
     amountMinorUnits: 2_500,

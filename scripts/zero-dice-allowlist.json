@@ -255,13 +255,6 @@
       "code": "new SeededRng(world.seed).fork(`${key}:same-sex`).next() <"
     },
     {
-      "file": "src/simulation/campaign-life-activities.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": ".integer(0, 2) === 1;"
-    },
-    {
       "file": "src/simulation/campaign-operating-costs.ts",
       "kind": "fixed-share",
       "build": "Build 24",
@@ -421,13 +414,6 @@
       "build": "Build 27",
       "count": 1,
       "code": "if (jurisdictionKey === \"US-CA\")"
-    },
-    {
-      "file": "src/simulation/constitutional-process.ts",
-      "kind": "place-in-logic",
-      "build": "Build 27",
-      "count": 1,
-      "code": "if ([\"california\", \"us-ca\"].includes(j.slug)) return \"US-CA\";"
     },
     {
       "file": "src/simulation/crime/contract.ts",
@@ -658,13 +644,6 @@
       "kind": "place-in-logic",
       "build": "Build 27",
       "count": 1,
-      "code": "usps === \"DC\" ? \"dc\" : TERRITORIES.has(usps) ? \"territory\" : \"state\","
-    },
-    {
-      "file": "src/simulation/governing/question-authority.ts",
-      "kind": "place-in-logic",
-      "build": "Build 27",
-      "count": 1,
       "code": "if (place?.stateJurisdictionKey === \"US-DC\") return [\"dc\"];"
     },
     {
@@ -822,32 +801,11 @@
       "code": "const sameSex = rng.next() < SAME_SEX_COUPLE_SHARE;"
     },
     {
-      "file": "src/simulation/municipal-ordinance-procedure.ts",
-      "kind": "place-in-logic",
-      "build": "Build 25",
-      "count": 1,
-      "code": "if (input.governmentKey !== \"us-va-charlottesville\") {"
-    },
-    {
       "file": "src/simulation/national-election-consumer.ts",
       "kind": "place-in-logic",
       "build": "Build 27",
       "count": 1,
       "code": "allocationWinnerPersonId: input.unitKey.startsWith(\"ME\")"
-    },
-    {
-      "file": "src/simulation/national-election-rules.ts",
-      "kind": "place-in-logic",
-      "build": "Build 27",
-      "count": 1,
-      "code": ".filter((key) => key !== \"DC\")"
-    },
-    {
-      "file": "src/simulation/national-election-rules.ts",
-      "kind": "place-in-logic",
-      "build": "Build 27",
-      "count": 1,
-      "code": "if (state === \"ME\" || state === \"NE\")"
     },
     {
       "file": "src/simulation/national-elections.ts",
@@ -1128,27 +1086,6 @@
       "build": "Build 23",
       "count": 1,
       "code": "if (draw < 0) return row;"
-    },
-    {
-      "file": "src/simulation/recall.ts",
-      "kind": "fixed-share",
-      "build": "Build 24",
-      "count": 1,
-      "code": "qualifyPermille: 350,"
-    },
-    {
-      "file": "src/simulation/recall.ts",
-      "kind": "fixed-share",
-      "build": "Build 24",
-      "count": 1,
-      "code": "removeYesShare: [3_000, 6_500],"
-    },
-    {
-      "file": "src/simulation/recall.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": "new SeededRng(seed).fork(`${petitionKey}:qualify`).integer(0, 1000) <"
     },
     {
       "file": "src/simulation/relationship-absence.ts",

@@ -1,3 +1,4 @@
+import { fixtureMeetsRecordedCandidacyAge } from "../../tests/fixtures/candidacy-age";
 import { describe, expect, it } from "vitest";
 
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
@@ -5,7 +6,10 @@ import {
   generateOpeningLife,
   prepareOpeningLife,
 } from "../presentation/opening-life";
-import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
+import {
+  fileForOffice,
+  namedSeatForFixture,
+} from "../../tests/fixtures/campaign-fixture";
 import { attendPartyWork } from "../presentation/campaign-life-actions";
 import {
   campaignById,
@@ -21,10 +25,9 @@ import {
   chooseCampaignWeekAction,
   projectCampaignWeekActions,
 } from "./campaign-week-actions";
-import { GAME_ADULT_CANDIDACY_AGE, candidacyPackById } from "./candidacy-packs";
+import { candidacyPackById } from "./candidacy-packs";
 import {
   addDays,
-  ageOnDate,
   compareSimulationMoments,
   simulationMinutesBetween,
 } from "./dates";
@@ -68,10 +71,8 @@ function staffedLife(seed: string) {
   const scenario = createScenarioWorld(seed, KENTUCKY_CONTEXT, {
     peopleCount: 6,
   });
-  const adults = scenario.personOrder.filter(
-    (id) =>
-      ageOnDate(scenario.people[id]!.birthDate, scenario.currentDate) >=
-      GAME_ADULT_CANDIDACY_AGE,
+  const adults = scenario.personOrder.filter((id) =>
+    fixtureMeetsRecordedCandidacyAge(scenario, id),
   );
   const personId = adults[0]!;
   const staffPersonId = adults[1]!;
@@ -91,6 +92,12 @@ function staffedLife(seed: string) {
     jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
     officeKey: candidacyPackById("us-ky-general-assembly-v1:candidacy")!
       .offices[0]!.officeKey,
+    districtBinding: namedSeatForFixture(
+      opponents.world,
+      personId,
+      candidacyPackById("us-ky-general-assembly-v1:candidacy")!.offices[0]!
+        .officeKey,
+    ),
     electionDate: addDays(base.currentDate, 28),
     rivalPersonIds: opponents.personIds,
     existingContestId: null,
@@ -224,14 +231,29 @@ describe("concrete campaign week actions", () => {
       "attended",
     );
     const outcome = campaignLifeOutcomeRecords(finished).at(-1)!;
+    const recordedHold = finished.history.scheduledActivities.find(
+      (hold) => hold.id === activity.scheduledActivityId,
+    )!;
+    const completedHold = scheduledActivityState(finished, recordedHold.id);
+    expect(recordedHold.participantPersonIds).toEqual([
+      life.personId,
+      activity.hostPersonId,
+    ]);
+    expect(new Set(recordedHold.participantPersonIds).size).toBe(2);
+    expect(
+      simulationMinutesBetween(completedHold.start, completedHold.end),
+    ).toBe(60);
     expect(outcome.activityId).toBe(activity.id);
     expect(outcome.contactPersonIds.length).toBeGreaterThan(0);
     expect(outcome.resourceFlowId).toBeNull();
     expect(outcome.fieldReach).toMatchObject({
       profileVersion: "research1-wave2-v1",
       estimatedDoorKnocks: null,
-      estimatedPhoneDials: { min: 35, max: 35 },
-      estimatedCompletedConversations: { min: 10, max: 15 },
+      // Two recorded people worked one hour each, using the existing
+      // per-volunteer-hour benchmark rather than a single-person estimate.
+      volunteerEquivalentMinutes: 120,
+      estimatedPhoneDials: { min: 70, max: 70 },
+      estimatedCompletedConversations: { min: 20, max: 30 },
     });
     const after = projectCampaignWeekActions(finished, life.personId)!;
     expect(after.recentResults.at(-1)?.contactNames.length).toBeGreaterThan(0);
