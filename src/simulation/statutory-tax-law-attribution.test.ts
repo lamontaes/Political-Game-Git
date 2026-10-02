@@ -515,9 +515,15 @@ describe("A33 saved statutory attribution without another assessment", () => {
   });
 });
 
-
 it("keeps question-specific bindings in rows rather than the attribution engine", () => {
-  const source = readFileSync(new URL("./statutory-tax-law-attribution.ts", import.meta.url), "utf8");
-  expect(source).not.toMatch(/import[\s\S]*?from ["'][^"']*(?:federal-top-income-tax-law|state-income-tax-law)["']/);
-  expect(source).not.toMatch(/RAISE_TOP_FEDERAL_RATE_QUESTION|ADOPT_STATE_INCOME_TAX_QUESTION|GRADUATED_STATE_INCOME_TAX_QUESTION/);
+  const source = readFileSync(
+    new URL("./statutory-tax-law-attribution.ts", import.meta.url),
+    "utf8",
+  );
+  expect(source).not.toMatch(
+    /import[\s\S]*?from ["'][^"']*(?:federal-top-income-tax-law|state-income-tax-law)["']/,
+  );
+  expect(source).not.toMatch(
+    /RAISE_TOP_FEDERAL_RATE_QUESTION|ADOPT_STATE_INCOME_TAX_QUESTION|GRADUATED_STATE_INCOME_TAX_QUESTION/,
+  );
 });

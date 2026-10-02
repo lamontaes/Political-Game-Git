@@ -4,20 +4,32 @@ import type { LawConsequenceRow } from "../law-consequence-types";
 export const STATUTORY_WAGE_TAX_ROWS: Readonly<
   Record<string, readonly LawConsequenceRow[]>
 > = Object.fromEntries(
-  ([
-    {
-      key: "us-policy-positions:fiscal.adopt-income-tax",
-      attributes: { level: "state-statute", taxKey: "{authority}:wage-income-tax" },
-    },
-    {
-      key: "us-policy-positions:fiscal.graduated-income-tax",
-      attributes: { level: "state-statute", taxKey: "{authority}:wage-income-tax" },
-    },
-    {
-      key: "us-federal-positions:tax.raise-top-income-tax-rate",
-      attributes: { level: "federal-statute", taxKey: "us-federal:income-tax-withholding", authority: "US" },
-    },
-  ] as const).map(({ key, attributes }) => [
+  (
+    [
+      {
+        key: "us-policy-positions:fiscal.adopt-income-tax",
+        attributes: {
+          level: "state-statute",
+          taxKey: "{authority}:wage-income-tax",
+        },
+      },
+      {
+        key: "us-policy-positions:fiscal.graduated-income-tax",
+        attributes: {
+          level: "state-statute",
+          taxKey: "{authority}:wage-income-tax",
+        },
+      },
+      {
+        key: "us-federal-positions:tax.raise-top-income-tax-rate",
+        attributes: {
+          level: "federal-statute",
+          taxKey: "us-federal:income-tax-withholding",
+          authority: "US",
+        },
+      },
+    ] as const
+  ).map(({ key, attributes }) => [
     key,
     (["assessment", "payment"] as const).map((when): LawConsequenceRow => ({
       id: `${key}:saved-statutory-${when}`,
