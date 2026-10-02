@@ -1,5 +1,7 @@
 import {
   formatStatutoryDate,
+  yearsAttributive,
+  yearsPhrase,
   type AmendmentInvitation,
   type ClauseRendering,
   type ClauseTemplate,
@@ -19,6 +21,10 @@ interface StoredClause extends Omit<ClauseTemplate, "render"> {
   readonly moneyParameter?: { readonly key: string; readonly message: string };
   readonly fiscalMoneyParameter?: string;
   readonly textWhenNoEndDate?: string;
+  readonly durationFallback?: {
+    readonly key: string;
+    readonly rendering: StoredClause["rendering"];
+  };
   readonly positiveAmountEffect?: ClauseRendering["operativeEffect"];
 }
 
@@ -36,10 +42,19 @@ export interface ProgramVariantData extends Omit<
  * No expression evaluation, legal-rule inference, or per-law/level dispatch. */
 function renderText(text: string, resolved: ResolvedParameters): string {
   return text.replace(
-    /\{\{(authority|money|choice|integer-locale|date):([^{}]+)\}\}/g,
+    /\{\{(authority|money|choice|integer|integer-locale|date|years-attributive|years-phrase):([^{}]+)\}\}/g,
     (_match, kind: string, key: string) => {
       if (kind === "money") return resolved.money(key);
       if (kind === "choice") return resolved.choice(key).clausePhrase;
+      if (kind === "integer") return String(resolved.integer(key));
+      if (kind === "years-attributive" || kind === "years-phrase") {
+        const duration = resolved.values[key];
+        if (duration?.kind !== "duration-years" || duration.years === null)
+          throw new Error(`Missing duration wording parameter '${key}'.`);
+        return kind === "years-attributive"
+          ? yearsAttributive(duration.years)
+          : yearsPhrase(duration.years);
+      }
       if (kind === "integer-locale")
         return resolved.integer(key).toLocaleString("en-US");
       if (kind === "date") {
@@ -75,6 +90,7 @@ export function programVariantFromData(
           moneyParameter,
           fiscalMoneyParameter,
           textWhenNoEndDate,
+          durationFallback,
           positiveAmountEffect,
           ...clause
         }) => ({
@@ -89,28 +105,36 @@ export function programVariantFromData(
             const amount = moneyKey ? resolved.values[moneyKey] : undefined;
             if (moneyParameter && amount?.kind !== "money")
               throw new Error(moneyParameter.message);
+            const duration = durationFallback
+              ? resolved.values[durationFallback.key]
+              : undefined;
+            const selectedRendering =
+              durationFallback &&
+              (duration?.kind !== "duration-years" || duration.years === null)
+                ? durationFallback.rendering
+                : rendering;
             return {
-              ...rendering,
+              ...selectedRendering,
               text: renderText(
                 resolved.endsOn === null && textWhenNoEndDate !== undefined
                   ? textWhenNoEndDate
-                  : rendering.text,
+                  : selectedRendering.text,
                 resolved,
               ),
               beneficiary:
-                rendering.beneficiary.kind === "general-application"
+                selectedRendering.beneficiary.kind === "general-application"
                   ? {
-                      ...rendering.beneficiary,
+                      ...selectedRendering.beneficiary,
                       appliesToLabel: renderText(
-                        rendering.beneficiary.appliesToLabel,
+                        selectedRendering.beneficiary.appliesToLabel,
                         resolved,
                       ),
                     }
-                  : rendering.beneficiary,
+                  : selectedRendering.beneficiary,
               fiscalExposureLabel:
-                rendering.fiscalExposureLabel === null
+                selectedRendering.fiscalExposureLabel === null
                   ? null
-                  : renderText(rendering.fiscalExposureLabel, resolved),
+                  : renderText(selectedRendering.fiscalExposureLabel, resolved),
               fiscalExposureMinorUnits:
                 amount?.kind === "money" ? amount.minorUnits : null,
               ...(positiveAmountEffect &&
