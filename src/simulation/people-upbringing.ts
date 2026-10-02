@@ -1,6 +1,6 @@
 import { childhoodRecordEntries } from "./childhood-record";
 import { recordsByStringField } from "./history-index";
-import { ageOnDate, dateAtAge } from "./dates";
+import { dateAtAge } from "./dates";
 import {
   annualPovertyLineMinor,
   recordedMonthlyPayByPerson,
@@ -12,7 +12,6 @@ import {
   kinshipRelationshipsAt,
   peopleInHouseholdAt,
 } from "./life-queries";
-import { SeededRng } from "./rng";
 import type { EntityId, IsoDate, World } from "./types";
 import type { PeopleTrait, TraitValue } from "./people-trait-definitions";
 import type { TraitLifePart } from "./personality-trait-registry";
@@ -64,8 +63,8 @@ export interface PersonUpbringing {
   /**
    * "childhood-record": a person born in play, read from their childhood
    * record, the household pay and the family records with no draw.
-   * "game-profile": an opening-world person whose childhood predates the
-   * world, so named game profiles stand in for what was never recorded.
+   * "game-profile": retained for opening histories whose birth is not recorded;
+   * money may use its sourced estimate, while other fields use saved evidence.
    */
   readonly basis: "childhood-record" | "game-profile";
   readonly money: readonly {
@@ -245,17 +244,9 @@ function homeStabilityLabel(disruption: number): HomeStability {
       : "disrupted";
 }
 
-/** What the old profile label stands for, in school-year moves (PLACEHOLDER). */
-const PROFILE_MOVES: Readonly<Record<HomeStability, number>> = {
-  stable: 0,
-  "some-moves": 1,
-  disrupted: 4,
-};
-
 /**
- * The same person in the same world always receives the same upbringing.
- * Existing parent and life records win over profile draws; missing history is
- * filled from named game profiles rather than disguised as sourced fact.
+ * Reads childhood and family evidence without assigning unrecorded events.
+ * Family money retains its labeled sourced estimate where pay is unread.
  */
 // The World is immutable. Repeated trait reads of this exact snapshot may
 // share one upbringing, but another snapshot or date always reads afresh.
@@ -283,10 +274,8 @@ export function upbringingFor(
 function readUpbringing(world: World, personId: EntityId): PersonUpbringing {
   const person = world.people[personId];
   if (!person) throw new Error(`No person ${personId} exists.`);
-  const rng = new SeededRng(world.seed).fork(`upbringing-v1:${personId}`);
   const parents = recordedParents(world, personId);
   const parentDied = recordedChildhoodParentDeath(world, personId, parents);
-  const age = ageOnDate(person.birthDate, world.currentDate);
   const earlyMoney = familyMoneyFor(world, personId, "early-childhood");
   const laterMoney = familyMoneyFor(world, personId, "adolescence");
   const money = [
@@ -298,103 +287,24 @@ function readUpbringing(world: World, personId: EntityId): PersonUpbringing {
     "personId",
     personId,
   );
-  if (entries.some(({ kind }) => kind === "birth")) {
-    const disruption = disruptionFromMoves(
-      entries.filter(({ kind }) => kind === "school-year-move").length,
-    );
-    return {
-      personId,
-      basis: "childhood-record",
-      money,
-      disruption,
-      homeStability: homeStabilityLabel(disruption),
-      caregiving: "not-recorded",
-      protectiveCaregiver: false,
-      events: parentDied ? ["parent-death"] : [],
-      schooling: [],
-      firstJob: "none",
-    };
-  }
-  const homeRoll = rng.fork("home").integer(0, 100);
-  const homeStability: HomeStability =
-    homeRoll < 63 ? "stable" : homeRoll < 86 ? "some-moves" : "disrupted";
-  const careRoll = rng.fork("care").integer(0, 100);
-  const caregiving: CaregivingClimate =
-    careRoll < 45
-      ? "protective-reliable"
-      : careRoll < 67
-        ? "consistent-firm"
-        : careRoll < 82
-          ? "inconsistent"
-          : careRoll < 95
-            ? "high-conflict"
-            : "harsh";
-  const protectiveCaregiver =
-    caregiving === "protective-reliable" ||
-    (caregiving !== "harsh" && rng.fork("protective").integer(0, 4) === 0);
-
-  const events: UpbringingEvent[] = [];
-  if (parentDied) events.push("parent-death");
-  // When parents exist, their records are authoritative: absence of a recorded
-  // death or separation is not replaced with a contradictory random event.
-  if (parents.length === 0) {
-    const familyRoll = rng.fork("family-event").integer(0, 100);
-    if (familyRoll < 4) events.push("parent-death");
-    else if (familyRoll < 28) events.push("parent-separation");
-  }
-  if (rng.fork("illness:self").integer(0, 100) < 9)
-    events.push("serious-illness");
-  if (rng.fork("illness:family").integer(0, 100) < 12)
-    events.push("family-illness-care");
-  if (rng.fork("law:allegation").integer(0, 100) < 5)
-    events.push("law-allegation");
-  if (rng.fork("law:conduct").integer(0, 100) < 3)
-    events.push("adjudicated-law-trouble");
-  if (
-    events.includes("law-allegation") &&
-    rng.fork("law:treatment").integer(0, 3) === 0
-  )
-    events.push("harsh-authority-treatment");
-
-  const schoolRoll = rng.fork("school").integer(0, 100);
-  const schooling: SchoolExperience[] = [
-    schoolRoll < 40
-      ? "reliable-support"
-      : schoolRoll < 58
-        ? "earned-success"
-        : schoolRoll < 76
-          ? "supported-setbacks"
-          : schoolRoll < 89
-            ? "peer-belonging"
-            : schoolRoll < 96
-              ? "ridicule-or-exclusion"
-              : "bullying",
-  ];
-  const firstJob: FirstJobExperience =
-    age < 16
-      ? "none"
-      : rng.fork("first-job:has-one").integer(0, 100) < 68
-        ? rng
-            .fork("first-job:kind")
-            .pick([
-              "reliable-supervision",
-              "autonomy",
-              "public-contact",
-              "precarious",
-            ] as const)
-        : "none";
-
+  const disruption = disruptionFromMoves(
+    entries.filter(({ kind }) => kind === "school-year-move").length,
+  );
   return {
     personId,
-    basis: "game-profile",
+    // Retain the legacy basis value for opening histories and save consumers.
+    // It supplies only the sourced money estimate, never invented life events.
+    basis: entries.some(({ kind }) => kind === "birth")
+      ? "childhood-record"
+      : "game-profile",
     money,
-    disruption: disruptionFromMoves(PROFILE_MOVES[homeStability]),
-    homeStability,
-    caregiving,
-    protectiveCaregiver,
-    events,
-    schooling,
-    firstJob,
+    disruption,
+    homeStability: homeStabilityLabel(disruption),
+    caregiving: "not-recorded",
+    protectiveCaregiver: false,
+    events: parentDied ? ["parent-death"] : [],
+    schooling: [],
+    firstJob: "none",
   };
 }
 
