@@ -1,3 +1,4 @@
+import { MULTIPLIER_ONE } from "./hazard";
 import { makeIsoDate } from "../dates";
 import {
   appendedList,
@@ -348,7 +349,9 @@ function validateCrisisRecords(
           record.hazardMultiplierMicros < 0 ||
           !record.hazardBasis.trim() ||
           !record.basis.trim() ||
-          (record.covered && record.hazardFrom === null) ||
+          (record.covered &&
+            record.hazardMultiplierMicros !== MULTIPLIER_ONE &&
+            record.hazardFrom === null) ||
           (record.hazardFrom !== null && record.hazardFrom < record.effectiveAt)
         )
           fail(record, "malformed health coverage");
