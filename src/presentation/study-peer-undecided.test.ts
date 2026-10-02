@@ -1,3 +1,13 @@
+import {
+  peerStudyApproach,
+  recordStudyProposals,
+  decideStudyPlanOutcome,
+  studyPlanProposals,
+  studyPlanSettled,
+  PLAN_PROPOSED_EVENT,
+  PLAN_SETTLED_EVENT,
+  PLAN_OPEN_EVENT,
+} from "../simulation/people-study-plan";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import * as decisions from "../simulation/decisions";
@@ -193,4 +203,177 @@ describe(`A125 unanswered study offer in ${place!.jurisdictionKey}`, () => {
       expect(continued.currentMoment).toEqual(world.currentMoment);
     },
   );
+});
+
+function agreedClassroom() {
+  const setup = classroom();
+  force("agrees");
+  const world = refreshContextualScenes(
+    offer(setup.world, setup.player),
+    setup.player,
+  );
+  vi.restoreAllMocks();
+  expect(
+    projectPlayerConversation(world, setup.player, "scene-study-plan"),
+  ).not.toBeNull();
+  return { ...setup, world };
+}
+
+function forcePlan(
+  approach: "split-by-section" | null,
+  outcome: "agrees" | "counterproposes" | "unresolved" | null,
+) {
+  return vi
+    .spyOn(decisions, "evaluateDecision")
+    .mockImplementation(
+      (
+        world: Parameters<typeof evaluate>[0],
+        input: Parameters<typeof evaluate>[1],
+      ): ReturnType<typeof evaluate> => {
+        const packet = evaluate(world, input);
+        const selected =
+          input.decisionType === "people.study-plan"
+            ? approach
+            : input.decisionType === "people.study-plan-answer"
+              ? outcome
+              : undefined;
+        return selected === undefined
+          ? packet
+          : {
+              ...packet,
+              outcomeKind: selected === null ? "undecided" : "selected",
+              selectedOptionKey: selected,
+            };
+      },
+    );
+}
+
+function sayPlan(world: World, player: EntityId, intent: string) {
+  const view = projectPlayerConversation(world, player, "scene-study-plan")!;
+  expect(view).not.toBeNull();
+  expect(view.intents.some((item) => item.key === intent)).toBe(true);
+  return commitConversationTurn(world, {
+    session: view.session,
+    room: view.room,
+    progress: view.progress,
+    turnOrdinal: view.turnOrdinal,
+    addressee: view.addressee,
+    audibility: view.audibility,
+    intent,
+  }).world;
+}
+
+function planEvents(world: World) {
+  return world.history.events.filter((event) =>
+    [PLAN_PROPOSED_EVENT, PLAN_SETTLED_EVENT, PLAN_OPEN_EVENT].includes(
+      event.type,
+    ),
+  );
+}
+
+describe("A125 study-plan callers keep unanswered decisions pending", () => {
+  it("does not invent a peer approach, proposals or settlement through the assembled turn and Continue", () => {
+    const { world, player, peer } = agreedClassroom();
+    forcePlan(null, null);
+    expect(
+      peerStudyApproach(world, { personId: player, peerPersonId: peer })
+        .approachId,
+    ).toBeNull();
+    const direct = recordStudyProposals(world, {
+      personId: player,
+      peerPersonId: peer,
+      approachId: "outline-first",
+    });
+    expect(direct.theirs).toBeNull();
+    expect(planEvents(direct.world)).toEqual(planEvents(world));
+    const next = sayPlan(world, player, "outline-first");
+    const turn = [...next.history.events]
+      .reverse()
+      .find((event) => event.type === "conversation.study-plan-turn")!;
+    expect(turn.context.immediateReaction).toBe("You have not had an answer.");
+    expect(planEvents(next)).toEqual(planEvents(world));
+    expect(studyPlanProposals(next, player, peer)).toBeNull();
+    expect(studyPlanSettled(next, player, peer)).toBe(false);
+    expect(next.history.relationshipInteractions).toEqual(
+      world.history.relationshipInteractions,
+    );
+    const continued = deserializeWorld(serializeWorld(next));
+    expect(studyPlanProposals(continued, player, peer)).toBeNull();
+    expect(
+      projectPlayerConversation(continued, player, "scene-study-plan"),
+    ).not.toBeNull();
+    expect(continued.currentMoment).toEqual(world.currentMoment);
+  });
+
+  it.each(["hold", "compromise"] as const)(
+    "does not record a selected unresolved answer for an unanswered %s",
+    (answer: "hold" | "compromise") => {
+      const setup = agreedClassroom();
+      forcePlan("split-by-section", null);
+      const proposed = recordStudyProposals(setup.world, {
+        personId: setup.player,
+        peerPersonId: setup.peer,
+        approachId: "outline-first",
+      }).world;
+      const world = refreshContextualScenes(proposed, setup.player);
+      expect(
+        studyPlanProposals(world, setup.player, setup.peer)!.revision,
+      ).toBeDefined();
+      expect(
+        decideStudyPlanOutcome(world, {
+          personId: setup.player,
+          peerPersonId: setup.peer,
+          answer,
+        }).outcome,
+      ).toBeNull();
+      const next = sayPlan(world, setup.player, answer);
+      const turn = [...next.history.events]
+        .reverse()
+        .find((event) => event.type === "conversation.study-plan-turn")!;
+      expect(turn.context.immediateReaction).toBe(
+        "You have not had an answer.",
+      );
+      expect(planEvents(next)).toEqual(planEvents(world));
+      expect(studyPlanSettled(next, setup.player, setup.peer)).toBe(false);
+      expect(next.history.relationshipInteractions).toEqual(
+        world.history.relationshipInteractions,
+      );
+      const continued = deserializeWorld(serializeWorld(next));
+      expect(planEvents(continued)).toEqual(planEvents(world));
+      expect(studyPlanProposals(continued, setup.player, setup.peer)).toEqual(
+        studyPlanProposals(world, setup.player, setup.peer),
+      );
+      expect(
+        projectPlayerConversation(continued, setup.player, "scene-study-plan"),
+      ).not.toBeNull();
+    },
+  );
+
+  it("retains the selected proposal and agreement writers after an unanswered proposal", () => {
+    const setup = agreedClassroom();
+    forcePlan(null, null);
+    const pending = sayPlan(setup.world, setup.player, "outline-first");
+    vi.restoreAllMocks();
+    forcePlan("split-by-section", "agrees");
+    const proposed = sayPlan(
+      deserializeWorld(serializeWorld(pending)),
+      setup.player,
+      "outline-first",
+    );
+    expect(
+      studyPlanProposals(proposed, setup.player, setup.peer),
+    ).toMatchObject({ mine: "outline-first", theirs: "split-by-section" });
+    const next = sayPlan(
+      refreshContextualScenes(proposed, setup.player),
+      setup.player,
+      "hold",
+    );
+    expect(studyPlanSettled(next, setup.player, setup.peer)).toBe(true);
+    expect(
+      next.history.events.filter((event) => event.type === PLAN_SETTLED_EVENT),
+    ).toHaveLength(1);
+    const continued = deserializeWorld(serializeWorld(next));
+    expect(planEvents(continued)).toEqual(planEvents(next));
+    expect(studyPlanSettled(continued, setup.player, setup.peer)).toBe(true);
+  });
 });
