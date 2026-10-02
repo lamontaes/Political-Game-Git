@@ -3,10 +3,12 @@ import { describe, expect, it } from "vitest";
 import {
   addDays,
   campaignForCandidate,
+  compareSimulationMoments,
   createScheduledActivity,
   deserializeWorld,
   electionContestResult,
   serializeWorld,
+  scheduledActivityState,
   simulationMomentAtLocalTime,
 } from "../simulation";
 import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
@@ -28,6 +30,7 @@ import { createExplicitGeographyLife } from "./new-game-geography";
 import { acceptedOfferStarts } from "./offer-deadlines";
 import { openOrdinaryLife } from "./ordinary-life";
 import { declineVenueActivity } from "./venue-activity";
+import { declineCalendarActivity } from "./calendar-time-control";
 import {
   describeTimeCommandPreview,
   nextKnownCalendarItem,
@@ -236,6 +239,39 @@ describe("the canonical time command", () => {
     // Ordinary quiet stretches still reach election day and resolve it once.
     for (let step = 0; step < 12; step += 1) {
       if (electionContestResult(current, campaign.contestId)) break;
+      // Choose Stay home for an incoming meeting through its saved travel join.
+      // Repeating a quiet stretch is not an answer to that calendar choice.
+      const journey = current.history.scheduledActivities.find(
+        (activity) =>
+          activity.kind === "travel" &&
+          activity.location.locationKey === "ordinary-life:to-meeting-room" &&
+          activity.responsiblePersonId === built.personId &&
+          scheduledActivityState(current, activity.id).status === "scheduled" &&
+          compareSimulationMoments(
+            current.currentMoment,
+            scheduledActivityState(current, activity.id).start,
+          ) === 0,
+      );
+      const meeting = journey
+        ? current.history.scheduledActivities.find(
+            (activity) =>
+              journey.sourceEntityIds.includes(activity.id) &&
+              activity.location.locationKey === "ordinary-life:meeting-room" &&
+              activity.participantPersonIds.includes(built.personId) &&
+              scheduledActivityState(current, activity.id).status ===
+                "scheduled",
+          )
+        : null;
+      if (meeting) {
+        const stayHome = declineCalendarActivity(
+          current,
+          built.personId,
+          meeting.id,
+        );
+        expect(stayHome.world).not.toBe(current);
+        expect(stayHome.reached).toEqual(current.currentMoment);
+        current = stayHome.world;
+      }
       current = submitTimeCommand(
         current,
         request(current, built.personId, { kind: "quiet-stretch" }),
