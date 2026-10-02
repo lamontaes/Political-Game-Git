@@ -1,4 +1,5 @@
 import { randomInt, randomUUID } from "node:crypto";
+import { writeFileSync } from "node:fs";
 import { afterAll, describe, expect, it } from "vitest";
 
 import {
@@ -268,6 +269,26 @@ describe("recalling a town official", () => {
     expect(recallPetitions(game.world)).toEqual([]);
     expect(serializeWorld(game.world)).toBe(before);
     assertWorldIntegrity(game.world);
+    if (process.env.OCD_RECALL_OPENING_RECEIPT) {
+      writeFileSync(
+        process.env.OCD_RECALL_OPENING_RECEIPT,
+        JSON.stringify(
+          {
+            place: place.displayName,
+            placeKey: place.key,
+            state: state.jurisdictionKey,
+            seed,
+            worldId: game.world.id,
+            personId: game.playerPersonId,
+            opening: "passed",
+            integrity: "passed",
+            recallReadOnly: "passed",
+          },
+          null,
+          2,
+        ) + "\n",
+      );
+    }
   });
 
   it(

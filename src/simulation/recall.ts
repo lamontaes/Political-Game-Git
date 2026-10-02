@@ -1,4 +1,4 @@
-import { addDays, ageOnDate } from "./dates";
+import { addDays } from "./dates";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { organizationParticipationStateHistory } from "./life-queries";
 import { recordOrganizationParticipationState } from "./life";
@@ -23,7 +23,7 @@ import {
 import { stateName } from "./office-qualification-rules";
 import { personName } from "./people";
 import { viewOfOfficial } from "./official-view-reads";
-import { isPersonAliveAt } from "./vitality-integrity";
+import { isEligibleVoterIn } from "./issue-record";
 import type {
   EntityId,
   FutureDueItem,
@@ -426,8 +426,12 @@ export function recallResidentViews(
     if (
       !person ||
       person.homeJurisdictionId !== petition.jurisdictionId ||
-      ageOnDate(person.birthDate, world.currentDate) < 18 ||
-      !isPersonAliveAt(world, personId, cutoff)
+      !isEligibleVoterIn(
+        world,
+        personId,
+        petition.jurisdictionId,
+        world.currentDate,
+      )
     )
       continue;
     const view = viewOfOfficial(
