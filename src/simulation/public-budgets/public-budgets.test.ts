@@ -789,8 +789,22 @@ describe("public budgets", () => {
     // and both it and the assets shrink by their own benefits: the opening
     // year ran six months, January to June.
     const state = government("US-IL");
-    const closed = settleAlone(worldAt("2026-01-05"), state, "2026-07-01")
-      .government.pension;
+    // This proves the reported actuarial terms, not a pension cash disbursement.
+    // Explicit idle saved accounts let the recorded-only settlement roll forward.
+    const saved = withSavedIdleAccounts(world);
+    const run = settleAlone(
+      saved,
+      state,
+      "2026-07-01",
+      readMonthFlows(saved, saved.publicBudgets!).flows,
+    );
+    const closed = run.government.pension;
+    expect(
+      run.government.months.every(
+        (row) =>
+          row.spending[BUDGET_PROGRAMS.indexOf("pensionContribution")] === 0,
+      ),
+    ).toBe(true);
     const { liability } = state.pension;
     const half = 6 / 12;
     expect(closed.liability).toBe(
