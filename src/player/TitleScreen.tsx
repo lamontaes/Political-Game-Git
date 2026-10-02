@@ -470,7 +470,14 @@ export function TitleScreen({
             it is a room (Task A). The environment-description prose — "a hall …
             with nobody in it" — is gone, and the scene stands on its own.
           */}
-      <h1 className="front-door-wordmark">Our Civic Duty</h1>
+      <div className="front-door-logo">
+        <img
+          src="/branding/emblem-final.png"
+          alt=""
+          className="front-door-emblem"
+        />
+        <h1 className="front-door-wordmark">Our Civic Duty</h1>
+      </div>
       <div className="game-title-actions">
         <button type="button" data-testid="new-game" onClick={onNewGame}>
           New game

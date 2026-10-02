@@ -1,0 +1,88 @@
+/* Approved kit12, docs/codex/ui-logo-packet/01_kit12_ui/kit12.css.
+ * Fonts are bundled locally with their SIL Open Font Licenses. */
+@font-face {
+  font-family: "Andada Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/kit12/andada-pro-400.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Andada Pro";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/kit12/andada-pro-500.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Andada Pro";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/kit12/andada-pro-600.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Andada Pro";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/kit12/andada-pro-700.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("/fonts/kit12/cinzel-800.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("/fonts/kit12/cinzel-900.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Fira Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/kit12/fira-sans-400.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Fira Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/kit12/fira-sans-500.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Fira Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/kit12/fira-sans-600.ttf") format("truetype");
+}
+:root {
+  --glass-top: rgba(42, 42, 44, 0.72);
+  --glass-bottom: rgba(22, 22, 24, 0.82);
+  --brass: #9c8350;
+  --iron: #1c1a18;
+  --gold: #d6bd84;
+  --red: #b9584a;
+  --text: #f2ede4;
+  --text-strong: #f6f1e8;
+  --text-2: rgba(242, 237, 228, 0.78);
+  --text-3: rgba(242, 237, 228, 0.55);
+  --name: "Cinzel", "Trajan Pro", Georgia, serif;
+  --speech: "Andada Pro", Georgia, serif;
+  --ui: "Fira Sans", "Helvetica Neue", sans-serif;
+}
+
+:root {
+  --kit12-glass: linear-gradient(var(--glass-top), var(--glass-bottom));
+  --kit12-frame:
+    0 0 0 1px var(--iron), inset 0 0 0 1px var(--iron),
+    0 4px 0 rgba(0, 0, 0, 0.58), 0 12px 24px rgba(0, 0, 0, 0.58);
+  --kit12-blur: blur(6px) saturate(0.65);
+}

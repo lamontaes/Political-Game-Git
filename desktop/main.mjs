@@ -212,6 +212,7 @@ function createWindow() {
     show: false,
     backgroundColor: "#1a1a1a",
     title: "Our Civic Duty",
+    icon: path.join(desktopRoot, "build", "icon.png"),
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
