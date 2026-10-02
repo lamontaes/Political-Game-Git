@@ -386,3 +386,58 @@ describe("A50 receiving opens current games", () => {
     60_000,
   );
 });
+
+describe("A50 actual receiving opening regression", () => {
+  it("opens the recorded Team3 Pago Pago regression without an inferred public owner", () => {
+    const seed = "team3-integrity-wrapper-opening-20261002";
+    const setup = observerSetup(seed, "territory:AS:pago-pago");
+    const opened = generateOpeningLife(
+      prepareOpeningLife({ ...setup, questionnaire: "skipped" }),
+    );
+    expect(opened.game).not.toBeNull();
+    const game = opened.game!;
+    expect(game.world.people[game.playerPersonId]).toBeDefined();
+    const publicClassifications = new Set([
+      "service:school",
+      "service:police",
+      "service:fire",
+      "service:public-health",
+      "sector:local-government-office",
+      "sector:state-government-office",
+      "sector:federal-government-office",
+    ]);
+    const employers = game.world.history.organizations.flatMap(
+      (organization) => {
+        const profile = organizationProfileAt(game.world, organization.id);
+        if (!profile || !publicClassifications.has(profile.classification))
+          return [];
+        const workers = game.world.history.workRelationships.filter(
+          (work) => work.organizationId === organization.id,
+        );
+        return workers.length > 0
+          ? [
+              {
+                organizationId: organization.id,
+                stableKey: organization.stableKey,
+                name: profile.name,
+                classification: profile.classification,
+                jurisdictionId: profile.locationJurisdictionId,
+                identity: profile.publicGovernmentIdentity ?? null,
+                workers: workers.length,
+                provenance: profile.provenance,
+              },
+            ]
+          : [];
+      },
+    );
+    process.stdout.write(
+      JSON.stringify({
+        receipt: "A50 Team3 Pago Pago regression",
+        seed,
+        placeKey: setup.placeKey,
+        date: game.world.currentDate,
+        employers,
+      }) + "\n",
+    );
+  });
+});
