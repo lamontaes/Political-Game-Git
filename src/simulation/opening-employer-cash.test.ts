@@ -198,6 +198,82 @@ describe("saved comparable employer cash reader", () => {
     },
   );
 
+  it("opens unpaid-record cash gaps from a fixed saved classification cohort, preserving zero and replay", () => {
+    const base = fixture().world;
+    const classification = "custom:unclassified-employer" as const;
+    const first = employer(base, "unclassified:first", null, classification);
+    const second = employer(
+      first.world,
+      "unclassified:second",
+      null,
+      classification,
+    );
+    let world = employer(
+      second.world,
+      "unclassified:donor",
+      90_000,
+      classification,
+      2,
+    ).world;
+    world = employer(world, "unclassified:known-zero", 0, classification).world;
+    world = employer(
+      world,
+      "unrelated:donor",
+      900_000,
+      "enterprise:retail",
+    ).world;
+    const opening = ensureEmployerCashPositions(world, "opening");
+    for (const organizationId of [first.id, second.id]) {
+      const cash = resourcePositionAt(
+        opening,
+        { kind: "organization", organizationId },
+        USD,
+      )!;
+      expect(cash.liquidBalance.minorUnits).toBe(45_000);
+      expect(
+        opening.history.resourcePositions.find(
+          (row) => row.id === cash.positionId,
+        )!.provenance,
+      ).toMatchObject({
+        note: expect.stringContaining("recorded classification cohort"),
+      });
+    }
+    expect(
+      opening.history.resourcePositions.filter(
+        (row) =>
+          row.owner.kind === "organization" &&
+          row.owner.organizationId === world.history.organizations.at(-2)!.id,
+      ),
+    ).toHaveLength(1);
+    expect(opening.history.resourceFlows).toEqual(world.history.resourceFlows);
+    expect(opening.history.resourceTransferOutcomes).toEqual(
+      world.history.resourceTransferOutcomes,
+    );
+    const restored = deserializeWorld(serializeWorld(opening));
+    expect(ensureEmployerCashPositions(restored, "opening")).toEqual(restored);
+  });
+
+  it("keeps an unclassified opening cash gap explicit when no recorded cohort exists", () => {
+    const target = employer(
+      fixture().world,
+      "unclassified:alone",
+      null,
+      "custom:unclassified-employer",
+    );
+    const opening = ensureEmployerCashPositions(target.world, "opening");
+    expect(
+      resourcePositionAt(
+        opening,
+        { kind: "organization", organizationId: target.id },
+        USD,
+      ),
+    ).toBeUndefined();
+    expect(readOpeningEmployerCashEstimate(opening, target.id, USD)).toEqual({
+      status: "blocked",
+      reason: "empty-comparable-cash-cohort",
+    });
+  });
+
   it("uses saved comparable cash after opening instead of repeating the research bootstrap", () => {
     const target = fixture();
     const withDonor = employer(target.world, "donor", 61_234);
@@ -360,4 +436,49 @@ describe("saved comparable employer cash reader", () => {
       }) + "\n",
     );
   });
+  it(
+    "admits recorded comparable accounts in a random ordinary opening and preserves them through reload",
+    { timeout: 180000 },
+    () => {
+      const seed = "standby4-comparable-unclassified-opening-20261002";
+      const setup = observerSetup(seed);
+      const session = generateOpeningLife(
+        prepareOpeningLife({ ...setup, questionnaire: "skipped" }),
+      );
+      expect(session.game).toBeDefined();
+      const world = session.game!.world;
+      const accounts = world.history.resourcePositions.filter(
+        (row) =>
+          row.provenance.kind === "authored" &&
+          row.provenance.note?.startsWith(
+            "ESTIMATED OPENING STOCK from the recorded classification cohort.",
+          ),
+      );
+      const restored = deserializeWorld(serializeWorld(world));
+      expect(ensureEmployerCashPositions(restored, "opening")).toEqual(
+        restored,
+      );
+      process.stdout.write(
+        JSON.stringify({
+          receipt: "Comparable unclassified ordinary opening",
+          seed,
+          placeKey: setup.placeKey,
+          accounts: accounts.map((row) => ({
+            positionId: row.id,
+            owner: row.owner,
+            amount: row.openingBalance,
+            provenance: row.provenance,
+          })),
+          activePaidWork: world.history.workRelationships.filter(
+            (row) => row.compensation === "paid",
+          ).length,
+          reloadParity: true,
+        }) + "\n",
+      );
+      expect(
+        accounts.length,
+        "ordinary opening must exercise comparable account admission",
+      ).toBeGreaterThan(0);
+    },
+  );
 });
