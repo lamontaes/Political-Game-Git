@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { fundRecordedPayrollControl } from "../fixtures/recorded-payroll-capital";
 
 import {
   addDays,
@@ -54,7 +55,7 @@ function rateOn(world: World, jurisdictionId: EntityId, onDate: IsoDate) {
 }
 
 function runPaydays(start: World, since: IsoDate, days: number): World {
-  let world = start;
+  let world = fundRecordedPayrollControl(start, days, ADOPTED_FLOOR_MINOR);
   let paidThrough = since;
   const until = addDays(since, days);
   withWorldIntegrityDeferred(() => {

@@ -1,4 +1,10 @@
 import { describe, expect, it } from "vitest";
+import { drawRandomPlace } from "../support/random-place";
+import {
+  generateOpeningLife,
+  prepareOpeningLife,
+} from "../../src/presentation/opening-life";
+import { DEFAULT_NEW_GAME_SETUP } from "../../src/presentation/new-game";
 
 import {
   payFloorSentence,
@@ -74,5 +80,38 @@ describe("the Jobs screen names the pay floor and the law behind it", () => {
         `$${hourly.toFixed(2)} an hour`,
       );
     }
+  });
+});
+
+it("opens an actual new game in a randomly selected place with the composed pay stack", () => {
+  const seed = "overflow2-pay-stack-opening-2026-10-02";
+  const place = drawRandomPlace(seed);
+  console.info("PAY_STACK_OPENING_SELECTED", {
+    seed,
+    placeKey: place.key,
+    place: place.displayName,
+  });
+  const opening = generateOpeningLife(
+    prepareOpeningLife({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed,
+      placeKey: place.key,
+    }),
+  );
+  expect(opening.game).not.toBeNull();
+  const game = opening.game!;
+  expect(game.world.control).toEqual({
+    kind: "person",
+    personId: game.playerPersonId,
+  });
+  expect(game.world.people[game.playerPersonId]!.homeJurisdictionId).toBe(
+    place.context.jurisdiction.id,
+  );
+  console.info("PAY_STACK_OPENING_RESULT", {
+    seed,
+    placeKey: place.key,
+    place: place.displayName,
+    personId: game.playerPersonId,
+    result: "opened",
   });
 });

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { fundRecordedPayrollControl } from "../fixtures/recorded-payroll-capital";
 import { authoredWageTerm } from "../fixtures/authored-wage-term";
 
 import {
@@ -77,7 +78,7 @@ function nashvilleWithFederalRaise(effectiveInDays: number) {
 
 /** Runs the payday transition on every payday from the game's opening. */
 function runPaydays(start: World, since: IsoDate, days: number): World {
-  let world = start;
+  let world = fundRecordedPayrollControl(start, days, ADOPTED_FLOOR_MINOR);
   let paidThrough = since;
   const until = addDays(since, days);
   const paydays: IsoDate[] = [];

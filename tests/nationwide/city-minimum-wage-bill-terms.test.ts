@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { fundRecordedPayrollControl } from "../fixtures/recorded-payroll-capital";
 
 import {
   generateOpeningLife,
@@ -71,7 +72,11 @@ function omahaGame() {
 }
 
 function runPaydays(start: World, since: IsoDate, days: number): World {
-  let world = start;
+  let world = fundRecordedPayrollControl(
+    start,
+    days,
+    ADOPTED_CITY_TARGET_MINOR,
+  );
   let paidThrough = since;
   const until = addDays(since, days);
   withWorldIntegrityDeferred(() => {
