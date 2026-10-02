@@ -24,15 +24,17 @@ export function PayDayNotices({
           data-testid="payday-notification"
           data-paycheck-id={notice.paycheckId}
         >
-          <p role="status">{notice.headline}</p>
-          <details>
-            <summary>Details</summary>
-            <ul>
-              {notice.details.map((line, index) => (
-                <li key={`${index}:${line}`}>{line}</li>
-              ))}
-            </ul>
-          </details>
+          <div>
+            <p role="status">{notice.headline}</p>
+            <details>
+              <summary>Details</summary>
+              <ul>
+                {notice.details.map((line, index) => (
+                  <li key={`${index}:${line}`}>{line}</li>
+                ))}
+              </ul>
+            </details>
+          </div>
           <button
             type="button"
             className="life-hud-dismiss"
