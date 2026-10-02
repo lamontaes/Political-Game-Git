@@ -238,12 +238,14 @@ export const SPENDING_QUESTION_EFFECTS: readonly {
   readonly program: BudgetProgram;
   readonly toYes: number | null;
   readonly toNo: number | null;
+  readonly levels?: readonly BudgetLevel[];
   readonly basis: string;
 }[] = [
   {
     questionKey:
       "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
     program: "corrections",
+    levels: ["state"],
     // New York's Raise the Age aid, $250 million each state fiscal year since
     // 2021 (Office of the State Comptroller, 2025), over 19,867,248 residents.
     // A state that lowers the age again stops paying it.
@@ -255,6 +257,7 @@ export const SPENDING_QUESTION_EFFECTS: readonly {
   {
     questionKey: PARKS_DEDICATION_QUESTION,
     program: "parks",
+    levels: ["state"],
     // What a dedicated tax adds to the state's parks line, from the two
     // constitutions Research 1 read: Missouri's 0.05% of sales (the parks half
     // of its 0.1% tax, Const. art. IV, sec. 47) yields $53.9 million a year
