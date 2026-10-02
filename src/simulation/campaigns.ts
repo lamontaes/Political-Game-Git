@@ -166,7 +166,7 @@ import {
 } from "./life-places";
 import { drawGeneratedPersonName } from "./people";
 import { createExactQuantity } from "./quantity";
-import { positionOwnerEndpoint } from "./resource-queries";
+import { positionOwnerEndpoint, resourcePositionAt } from "./resource-queries";
 import {
   createResourceFlow,
   createResourcePosition,
@@ -1295,6 +1295,75 @@ function moneyLabel(amount: MoneyAmount): string {
   return moneyText(amount);
 }
 
+/** The existing advertising transfer, using the spender's actual saved endpoints. */
+export function recordCampaignAdvertisingExpenditure(
+  world: World,
+  input: {
+    readonly stableKey: string;
+    readonly committeeOrganizationId: EntityId;
+    readonly vendorOrganizationId: EntityId;
+    readonly treasuryPositionId: EntityId;
+    readonly jurisdictionId: EntityId;
+    readonly outcomeEventId: EntityId;
+    readonly amount: MoneyAmount;
+  },
+) {
+  const amount = input.amount;
+  const treasury = resourcePositionAt(
+    world,
+    { kind: "organization", organizationId: input.committeeOrganizationId },
+    amount.currency,
+  );
+  if (
+    !treasury ||
+    treasury.positionId !== input.treasuryPositionId ||
+    amount.minorUnits <= 0 ||
+    treasury.liquidBalance.minorUnits < amount.minorUnits
+  )
+    throw new Error(
+      "The spending committee cannot overdraw its recorded treasury.",
+    );
+  let next = createResourceFlow(world, {
+    stableKey: `${input.stableKey}:flow`,
+    source: {
+      kind: "organization",
+      organizationId: input.committeeOrganizationId,
+    },
+    recipient: positionOwnerEndpoint({
+      kind: "organization",
+      organizationId: input.vendorOrganizationId,
+    }),
+    startsAt: world.currentDate,
+    initialStatus: "active",
+    amount,
+    cadenceKind: "schedule:one-time",
+    basisKind: "custom:campaign-expenditure",
+    basisReference: { kind: "general" },
+    restrictionKind: "purpose:campaign",
+    jurisdictionId: input.jurisdictionId,
+    provenance: { kind: "simulated-event", eventId: input.outcomeEventId },
+  });
+  const resourceFlowId = next.history.resourceFlows.at(-1)!.id;
+  next = recordResourceTransferOutcome(next, {
+    stableKey: `${input.stableKey}:transfer`,
+    resourceFlowId,
+    periodStartsAt: next.currentDate,
+    periodEndsAt: next.currentDate,
+    occurredAt: next.currentDate,
+    status: "completed",
+    attemptedAmount: amount,
+    transferredAmount: amount,
+    reasonKind: null,
+    note: "An advertising buy, paid out of the committee's own account.",
+    provenance: { kind: "simulated-event", eventId: input.outcomeEventId },
+  });
+  return {
+    world: next,
+    resourceFlowId,
+    resourceOutcomeId: next.history.resourceTransferOutcomes.at(-1)!.id,
+  };
+}
+
 function actionMoney(
   world: World,
   campaign: CampaignRecord,
@@ -1316,36 +1385,40 @@ function actionMoney(
       spentAmount: null,
     };
   }
-  const raising = action.kind === "fundraising";
-  const amount: MoneyAmount = raising
-    ? {
-        minorUnits: new SeededRng(world.seed)
-          .fork(`campaign-fundraising:${action.id}`)
-          .integer(85_000, 175_001),
-        currency: campaign.treasuryCurrency,
-      }
-    : { ...action.plannedSpend! };
+  if (action.kind === "advertising") {
+    const amount = { ...action.plannedSpend! };
+    const paid = recordCampaignAdvertisingExpenditure(world, {
+      stableKey: action.stableKey,
+      committeeOrganizationId: campaign.organizationId,
+      vendorOrganizationId: campaign.advertisingVendorOrganizationId,
+      treasuryPositionId: campaign.treasuryPositionId,
+      jurisdictionId: campaign.jurisdictionId,
+      outcomeEventId: completionEventId,
+      amount,
+    });
+    return { ...paid, raisedAmount: null, spentAmount: amount };
+  }
+  const amount: MoneyAmount = {
+    minorUnits: new SeededRng(world.seed)
+      .fork(`campaign-fundraising:${action.id}`)
+      .integer(85_000, 175_001),
+    currency: campaign.treasuryCurrency,
+  };
   let next = createResourceFlow(world, {
     stableKey: `${action.stableKey}:flow`,
     source: {
       kind: "organization",
-      organizationId: raising
-        ? campaign.donorPoolOrganizationId
-        : campaign.organizationId,
+      organizationId: campaign.donorPoolOrganizationId,
     },
     recipient: positionOwnerEndpoint({
       kind: "organization",
-      organizationId: raising
-        ? campaign.organizationId
-        : campaign.advertisingVendorOrganizationId,
+      organizationId: campaign.organizationId,
     }),
     startsAt: world.currentDate,
     initialStatus: "active",
     amount,
     cadenceKind: "schedule:one-time",
-    basisKind: raising
-      ? "custom:campaign-contribution"
-      : "custom:campaign-expenditure",
+    basisKind: "custom:campaign-contribution",
     basisReference: { kind: "general" },
     restrictionKind: "purpose:campaign",
     jurisdictionId: campaign.jurisdictionId,
@@ -1362,17 +1435,15 @@ function actionMoney(
     attemptedAmount: amount,
     transferredAmount: amount,
     reasonKind: null,
-    note: raising
-      ? "Proceeds of a scheduled fundraising session, received by the committee."
-      : "An advertising buy, paid out of the committee's own account.",
+    note: "Proceeds of a scheduled fundraising session, received by the committee.",
     provenance: { kind: "simulated-event", eventId: completionEventId },
   });
   return {
     world: next,
     resourceFlowId,
     resourceOutcomeId: next.history.resourceTransferOutcomes.at(-1)!.id,
-    raisedAmount: raising ? amount : null,
-    spentAmount: raising ? null : amount,
+    raisedAmount: amount,
+    spentAmount: null,
   };
 }
 

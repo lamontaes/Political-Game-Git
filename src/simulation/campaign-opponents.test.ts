@@ -1,3 +1,8 @@
+import {
+  suggestedAdvertising,
+  CAMPAIGN_AD_CHANNELS,
+} from "./campaign-weekly-plans";
+import { contestDistrictGeography } from "./campaign-geography";
 import { describe, expect, it } from "vitest";
 import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 
@@ -291,7 +296,13 @@ describe("CRUNCH46 opponent campaigns", () => {
       for (const step of steps) {
         if (step.kind === "fundraising") balance += step.amount!.minorUnits;
         if (step.kind === "messaging") {
-          expect(step.amount!.minorUnits).toBeGreaterThanOrEqual(20_000);
+          expect(step.amount!.minorUnits).toBeGreaterThanOrEqual(
+            Math.min(
+              ...CAMPAIGN_AD_CHANNELS.map(
+                (channel) => channel.minimumBuyMinorUnits,
+              ),
+            ),
+          );
           expect(step.amount!.minorUnits).toBeLessThanOrEqual(balance);
           balance -= step.amount!.minorUnits;
         }
@@ -727,7 +738,39 @@ describe("A123: a rival campaign acts from its records, not draws", () => {
         // The account before the message: money raised, less earlier
         // messages and the committee's ordinary bills.
         const account = raisedLessSpent - billsBefore(step.sequence);
-        expect(step.amount!.minorUnits).toBe(Math.min(account, 70_000));
+        const opponent = campaignOpponentRecords(world).find(
+          (row) => row.id === step.opponentId,
+        )!;
+        const contest = requireElectionContest(world, opponent.contestId);
+        const district = contestDistrictGeography(contest.office);
+        const geography = district
+          ? { ...district, kind: "district" as const }
+          : {
+              key: `jurisdiction:${contest.jurisdictionId}`,
+              label:
+                world.jurisdictions[contest.jurisdictionId]?.name ??
+                "the campaign jurisdiction",
+              kind: "jurisdiction" as const,
+            };
+        const proposal = suggestedAdvertising(
+          { minorUnits: account, currency: step.amount!.currency },
+          geography,
+        );
+        expect(proposal).not.toBeNull();
+        expect(step.amount!.minorUnits).toBe(
+          proposal!.buys * proposal!.advertising.amount.minorUnits,
+        );
+        const flow = world.history.resourceFlows.find(
+          (row) => row.id === step.resourceFlowId,
+        )!;
+        expect(flow.source).toEqual({
+          kind: "organization",
+          organizationId: opponent.committeeOrganizationId,
+        });
+        expect(flow.recipient).toEqual({
+          kind: "organization",
+          organizationId: opponent.vendorOrganizationId,
+        });
         raisedLessSpent -= step.amount!.minorUnits;
       }
     }

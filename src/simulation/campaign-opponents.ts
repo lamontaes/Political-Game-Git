@@ -1,4 +1,9 @@
-import { requestedCampaignAdvertisingGainBasisPoints } from "./campaigns";
+import {
+  requestedCampaignAdvertisingGainBasisPoints,
+  recordCampaignAdvertisingExpenditure,
+} from "./campaigns";
+import { suggestedAdvertising } from "./campaign-weekly-plans";
+import { contestDistrictGeography } from "./campaign-geography";
 import { inventedPersonBirthDate } from "./invented-person-age";
 import { eventById } from "./event-index";
 import { jailTermOn } from "./justice/jail-terms";
@@ -99,17 +104,8 @@ import { assertWorldIntegrity, recordWorldEvent } from "./world";
  * not grow opponent campaigns here; that remains a later increment.
  */
 
-/** Below this, a paid message is not something the committee can buy. */
-const MESSAGING_MINIMUM_MINOR_UNITS = 20_000;
-/** Authored game default; not empirical campaign finance. */
+/** Authored game default; fundraising remains separately owned by A66. */
 const FUNDRAISING_RANGE = [60_000, 250_001] as const;
-/**
- * PLACEHOLDER: what a rival committee spends on one paid message when its
- * account holds that much; with less, it spends what it has. The midpoint of
- * the authored $200 to $1,200 the message used to be drawn from, so a rival's
- * average message costs what it did. Not empirical campaign finance.
- */
-const MESSAGING_PLANNED_MINOR_UNITS = 70_000;
 /**
  * A field event: ninety minutes with the two people actually present, the
  * candidate and their field lead. The effect uses the same formula as a
@@ -619,7 +615,7 @@ function chooseStep(
       sourceRefs: [],
     });
 
-  if (treasury < MESSAGING_MINIMUM_MINOR_UNITS) {
+  if (!opponentAdvertisingPlan(world, campaign, opponent)) {
     constraints.push({
       stableKey: `${stepKey}:constraint:messaging-funds`,
       optionKey: "messaging",
@@ -642,7 +638,7 @@ function chooseStep(
       "strong",
       "The committee's account is empty.",
     );
-  } else if (treasury < MESSAGING_MINIMUM_MINOR_UNITS * 3) {
+  } else if (!opponentAdvertisingPlan(world, campaign, opponent)) {
     consider(
       "thin-treasury",
       "fundraising",
@@ -796,33 +792,27 @@ function moveMoney(
   world: World,
   opponent: CampaignOpponentRecord,
   stepKey: string,
-  kind: "fundraising" | "messaging",
+  kind: "fundraising",
   amount: MoneyAmount,
   eventId: EntityId,
   jurisdictionId: EntityId,
 ): { readonly world: World; readonly resourceFlowId: EntityId } {
-  const raising = kind === "fundraising";
+  void kind;
   let next = createResourceFlow(world, {
     stableKey: `${stepKey}:flow`,
     source: {
       kind: "organization",
-      organizationId: raising
-        ? opponent.donorPoolOrganizationId
-        : opponent.committeeOrganizationId,
+      organizationId: opponent.donorPoolOrganizationId,
     },
     recipient: positionOwnerEndpoint({
       kind: "organization",
-      organizationId: raising
-        ? opponent.committeeOrganizationId
-        : opponent.vendorOrganizationId,
+      organizationId: opponent.committeeOrganizationId,
     }),
     startsAt: world.currentDate,
     initialStatus: "active",
     amount,
     cadenceKind: "schedule:one-time",
-    basisKind: raising
-      ? "custom:campaign-contribution"
-      : "custom:campaign-expenditure",
+    basisKind: "custom:campaign-contribution",
     basisReference: { kind: "general" },
     restrictionKind: "purpose:campaign",
     jurisdictionId,
@@ -839,9 +829,7 @@ function moveMoney(
     attemptedAmount: amount,
     transferredAmount: amount,
     reasonKind: null,
-    note: raising
-      ? "Contributions an opponent's committee received this week."
-      : "A paid message, paid out of the opponent committee's own account.",
+    note: "Contributions an opponent's committee received this week.",
     provenance: { kind: "simulated-event", eventId },
   });
   return { world: next, resourceFlowId };
@@ -917,15 +905,40 @@ function writeFundraising(
   };
 }
 
+function opponentAdvertisingPlan(
+  world: World,
+  campaign: CampaignRecord,
+  opponent: CampaignOpponentRecord,
+) {
+  const district = contestDistrictGeography(
+    requireElectionContest(world, campaign.contestId).office,
+  );
+  const geography = district
+    ? { ...district, kind: "district" as const }
+    : {
+        key: `jurisdiction:${campaign.jurisdictionId}`,
+        label:
+          world.jurisdictions[campaign.jurisdictionId]?.name ??
+          "the campaign jurisdiction",
+        kind: "jurisdiction" as const,
+      };
+  return suggestedAdvertising(
+    {
+      minorUnits: opponentTreasury(world, opponent, campaign.treasuryCurrency),
+      currency: campaign.treasuryCurrency,
+    },
+    geography,
+  );
+}
+
 function writeMessaging(
   world: World,
   campaign: CampaignRecord,
   opponent: CampaignOpponentRecord,
   stepKey: string,
 ): StepWrite {
-  const treasury = opponentTreasury(world, opponent, campaign.treasuryCurrency);
-  const spend = Math.min(treasury, MESSAGING_PLANNED_MINOR_UNITS);
-  if (spend < MESSAGING_MINIMUM_MINOR_UNITS) {
+  const plan = opponentAdvertisingPlan(world, campaign, opponent);
+  if (!plan) {
     // The decision excludes this already; never overdraw regardless.
     return writeFundraising(
       world,
@@ -936,7 +949,7 @@ function writeMessaging(
     );
   }
   const amount: MoneyAmount = {
-    minorUnits: spend,
+    minorUnits: plan.buys * plan.advertising.amount.minorUnits,
     currency: campaign.treasuryCurrency,
   };
   const name = personName(world.people[opponent.candidatePersonId]!);
@@ -973,15 +986,15 @@ function writeMessaging(
     },
   });
   const outcomeEventId = lastEventId(next);
-  const moved = moveMoney(
-    next,
-    opponent,
-    stepKey,
-    "messaging",
-    amount,
+  const moved = recordCampaignAdvertisingExpenditure(next, {
+    stableKey: stepKey,
+    committeeOrganizationId: opponent.committeeOrganizationId,
+    vendorOrganizationId: opponent.vendorOrganizationId,
+    treasuryPositionId: opponent.treasuryPositionId,
+    jurisdictionId: campaign.jurisdictionId,
     outcomeEventId,
-    campaign.jurisdictionId,
-  );
+    amount,
+  });
   next = moved.world;
   const shifted = recordSupportShift(next, campaign, {
     stableKeyBase: stepKey,
