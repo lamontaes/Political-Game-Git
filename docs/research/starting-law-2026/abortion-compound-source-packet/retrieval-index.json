@@ -280,5 +280,46 @@
     "requestedUrl": "https://www.guamcourts.org/CompilerofLaws/GCA/09gca/9gc031.PDF",
     "retrievedAt": "2026-10-02T23:21:41.957191+00:00",
     "error": "HTTP Error 503: Service Unavailable"
+  },
+  {
+    "artifactId": "nh-definitions",
+    "requestedUrl": "https://gc.nh.gov/rsa/html/XXX/329/329-43.htm",
+    "retrievedAt": "2026-10-02T23:45:19.922345+00:00",
+    "url": "https://gc.nh.gov/rsa/html/XXX/329/329-43.htm",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 3406,
+    "sha256": "ef9ae24f9c840dda842d02dac78f800639f6e600f2bf0e5c607151591c24d12f",
+    "localPath": "docs/research/starting-law-2026/abortion-compound-source-packet/raw/nh-definitions.html"
+  },
+  {
+    "artifactId": "nh-2022-chapter86",
+    "requestedUrl": "https://gc.nh.gov/legislation/2022/HB1609.html",
+    "retrievedAt": "2026-10-02T23:45:20.373569+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "artifactId": "nh-2022-chapter119",
+    "requestedUrl": "https://gc.nh.gov/legislation/2022/HB1080.html",
+    "retrievedAt": "2026-10-02T23:45:20.541422+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "artifactId": "nh-hb1609",
+    "requestedUrl": "https://gc.nh.gov/bill_status/legacy/bs2016/billText.aspx?sy=2022&id=1222&txtFormat=html",
+    "retrievedAt": "2026-10-02T23:45:58.786266+00:00",
+    "error": "The read operation timed out"
+  },
+  {
+    "artifactId": "nh-hb1609-bill",
+    "requestedUrl": "https://gc.nh.gov/bills/2022/HB1609.html",
+    "retrievedAt": "2026-10-02T23:46:18.879263+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "artifactId": "nh-hb1080-bill",
+    "requestedUrl": "https://gc.nh.gov/bills/2022/HB1080.html",
+    "retrievedAt": "2026-10-02T23:46:19.044294+00:00",
+    "error": "HTTP Error 404: Not Found"
   }
 ]
