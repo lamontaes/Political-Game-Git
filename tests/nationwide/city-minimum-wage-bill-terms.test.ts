@@ -19,6 +19,7 @@ import {
   nextPaydayDate,
   PAYDAY_TRANSITION_KEY,
   paydayHandler,
+  startTownJobPay,
   townMinimumHourlyAt,
 } from "../../src/simulation/living-world/town-pay";
 import { ensureJurisdiction } from "../../src/simulation/national-election-geography";
@@ -73,7 +74,7 @@ function omahaGame() {
 
 function runPaydays(start: World, since: IsoDate, days: number): World {
   let world = fundRecordedPayrollControl(
-    start,
+    withWorldIntegrityDeferred(() => startTownJobPay(start, null, since)),
     days,
     ADOPTED_CITY_TARGET_MINOR,
   );

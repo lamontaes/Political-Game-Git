@@ -20,6 +20,7 @@ import {
   nextPaydayDate,
   PAYDAY_TRANSITION_KEY,
   paydayHandler,
+  startTownJobPay,
   payPeriodEndingOn,
   payTownPaydays,
   type TownPayPeriod,
@@ -78,7 +79,11 @@ function nashvilleWithFederalRaise(effectiveInDays: number) {
 
 /** Runs the payday transition on every payday from the game's opening. */
 function runPaydays(start: World, since: IsoDate, days: number): World {
-  let world = fundRecordedPayrollControl(start, days, ADOPTED_FLOOR_MINOR);
+  let world = fundRecordedPayrollControl(
+    withWorldIntegrityDeferred(() => startTownJobPay(start, null, since)),
+    days,
+    ADOPTED_FLOOR_MINOR,
+  );
   let paidThrough = since;
   const until = addDays(since, days);
   const paydays: IsoDate[] = [];
