@@ -1,0 +1,22 @@
+{
+  "source": "ee5458333c3dfe6785dfd9a15cd103b514851541",
+  "parent": "d882cc7293fa6a57e3b9e8004b5a2e4da8b4272b",
+  "main": "740f52f41f72a781b372352d927346d7c51c04fe",
+  "passed": 57,
+  "todo": 7,
+  "seconds": 27.48,
+  "exitCode": 0,
+  "records": 56,
+  "places": 56,
+  "scope": "Steps5-7 from authored referral boundary; no claimed incident/prosecutor/bail/clemency/browser producer proof",
+  "notPassed": [
+    "steps1-4",
+    "step8",
+    "numericlawchangeacceptance",
+    "browseracceptance"
+  ],
+  "static": "onechangedtesteslint0/prettier0/diff0",
+  "officialGate": "NOT RUN",
+  "newExports": [],
+  "replaces": "none; consumes existing actors/court/plea/sentence/save writers"
+}
