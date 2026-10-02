@@ -4,6 +4,8 @@ import { spreadOf, type Spread } from "./sample-spread";
 import type { EntityId, World } from "./types";
 
 export interface DrawnFamilyShape {
+  /** Actual saved pattern retained for downstream caregiver estimates. */
+  readonly representative: RecordedFamilySample | null;
   readonly secondParent: boolean;
   readonly parentAgeGapYears: number;
   readonly siblingOffsetsYears: readonly number[];
@@ -28,10 +30,10 @@ export function worldTwoParentShare(world: World): Spread | null {
 export function drawFamilyShape(
   world: World,
   personKey: string,
+  estimate = recordedFamilyEstimates(world),
 ): DrawnFamilyShape {
   if (!personKey.trim())
     throw new Error("A family estimate needs its receiving person key.");
-  const estimate = recordedFamilyEstimates(world);
   // Bind a receiving key to an actual saved pattern. Retaining the observed
   // patterns carries the game's spread, rather than giving everyone its mean.
   const representative = estimate.samples.length
@@ -45,6 +47,7 @@ export function drawFamilyShape(
   const grandparentAge =
     generationAge === undefined ? null : Math.round(generationAge);
   return {
+    representative: representative ?? null,
     secondParent: representative?.secondParent === 1 && gap !== undefined,
     parentAgeGapYears: gap === undefined ? 0 : Math.round(gap),
     siblingOffsetsYears: representative
