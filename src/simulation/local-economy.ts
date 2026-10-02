@@ -322,10 +322,9 @@ function later(a: IsoDate, b: IsoDate): IsoDate {
   return a > b ? a : b;
 }
 
-export function aggregateCustomers(
+function aggregateCustomers(
   world: World,
   jurisdictionId: EntityId,
-  formedAt: string = world.currentDate,
 ): { world: World; organizationId: EntityId } {
   const stableKey = `local-customers:${jurisdictionId}`;
   const existing = world.history.organizations.find(
@@ -334,7 +333,7 @@ export function aggregateCustomers(
   if (existing) return { world, organizationId: existing.id };
   const next = createOrganization(world, {
     stableKey,
-    formedAt,
+    formedAt: world.currentDate,
     detailLevel: "lightweight",
     provenance: {
       kind: "authored",
@@ -728,19 +727,6 @@ export function settleBusinessMoney(
   organizationId: EntityId,
 ): World {
   return settleFlows(world, businessFlows(world, organizationId));
-}
-
-/** Actual dated customer receipts only; payroll and owner draws stay with their callers. */
-export function settleBusinessReceipts(
-  world: World,
-  organizationId: EntityId,
-): World {
-  return settleFlows(
-    world,
-    businessFlows(world, organizationId).filter(
-      (flow) => flow.basisKind === BUSINESS_REVENUE_BASIS,
-    ),
-  );
 }
 
 /** The same, for every business seated in a town, as one batch. */

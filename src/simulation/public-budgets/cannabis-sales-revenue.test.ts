@@ -1,261 +1,408 @@
-import {
-  QUESTION,
-  fixture,
-  dispatch,
-  balances,
-} from "../../../tests/fixtures/cannabis-tax-fixture";
-import { smallWorld } from "../../../tests/fixtures/small-world";
-import { drawRandomPlace } from "../../../tests/support/random-place";
-import { withOpenedBudgets } from "../public-budgets";
-import { readMonthFlows, settleGovernmentMonth } from "../public-budgets/month";
-import {
-  PUBLIC_BUDGETS_VERSION,
-  BUDGET_SOURCES,
-} from "../public-budgets/store";
-import { typedTaxQuestionRow } from "../law-consequences/typed-tax-question-data";
 import { describe, expect, it } from "vitest";
-import { TEST_TAX_TERMS } from "../../../tests/fixtures/tax-policy-fixture";
-
-import { advanceWorld, assertWorldIntegrity } from "../world";
 import { makeIsoDate } from "../dates";
-
-import { serializeWorld, deserializeWorld } from "../serialization";
-
+import { createWorld } from "../world";
+import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import { lawInForceAtStart } from "../governing/law-in-force";
 import {
-  createTaxTransitionHandlerRegistry,
-  recordTaxBase,
-  taxBaseOccurrenceSource,
-} from "../tax-policy";
-import { createOrganization } from "../life";
+  lifePlaceStateIdentities,
+  stateJurisdictionForKey,
+} from "../life-places";
+import { SeededRng } from "../rng";
+import type { EntityId, World } from "../types";
+import { cannabisSalesRevenueChange } from "./cannabis-sales-revenue";
+import { CANNABIS_TAX_EFFECT } from "./rules";
+import { settleGovernmentMonth, type MonthFlows } from "./month";
+import { firstOfNextMonth } from "./fiscal";
 import {
-  createResourceFlow,
-  createResourcePosition,
-  money,
-  recordResourceTransferOutcome,
-} from "../resources";
-import {
-  resourceFlowTermsAt,
-  resourcePositionAt,
-  currentResourceCutoff,
-} from "../resource-queries";
-import { paymentFromDatedCash } from "../resource-payments";
+  BUDGET_SOURCES,
+  PUBLIC_BUDGETS_VERSION,
+  publicBudgetFor,
+  type BudgetMonthRow,
+  type PublicBudgetGovernment,
+} from "./store";
+import { withOpenedBudgets } from ".";
+import type { LawEffectStampedRecord } from "../law-effect-stamp";
+const CANNABIS = "proposition_cannabis" as EntityId;
+const QUESTIONS = { "business-commerce.legalize-cannabis-sales": CANNABIS };
+interface Law {
+  readonly question: EntityId;
+  readonly answer: "yes" | "no";
+  readonly effectiveAt: string;
+}
 
-describe("recorded cannabis receipts replace population forecasts", () => {
-  it("recorded cannabis purchases use the enacted tax rate and credit actual paid cash once", () => {
-    const f = fixture(10000, 0, true, QUESTION, false);
-    expect(f.world.history.taxBases ?? []).toHaveLength(0);
-    expect(
-      dispatch(f.world, f.context).history.taxAssessments ?? [],
-    ).toHaveLength(0);
-    const seed = "overflow3:a16:typed-tax-new-game";
-    const place = drawRandomPlace(seed);
-    const { world: opened } = smallWorld({ place: place.key, seed, people: 3 });
-    assertWorldIntegrity(opened);
-    const reopened = deserializeWorld(serializeWorld(opened));
-    expect(reopened.seed).toBe(seed);
-    console.info(
-      `A16 new game: ${place.key}; ${place.stateJurisdictionKey}; seed ${seed}`,
+function worldWith(stateKey: string, laws: readonly Law[]): World {
+  const jurisdictionId = stateJurisdictionForKey(stateKey)!.id;
+  return {
+    id: "world_test" as EntityId,
+    currentDate: makeIsoDate("2026-01-05"),
+    jurisdictions: {},
+    jurisdictionOrder: [],
+    policyCatalog: {
+      propositions: Object.fromEntries(
+        Object.entries(QUESTIONS).map(([key, id]) => [
+          id,
+          { id, stableKey: `us-policy-positions:${key}` },
+        ]),
+      ),
+    },
+    history: {
+      organizations: [],
+      resourceFlows: [],
+      resourceTransferOutcomes: [],
+      futureDueItems: [],
+      legislativeMeasures: laws.map((law, at) => ({
+        id: `measure_${at}` as EntityId,
+        jurisdictionId,
+        propositionIds: [law.question],
+        propositionAnswers: [
+          { propositionId: law.question, answer: law.answer },
+        ],
+      })),
+      legislativeEnactments: laws.map((law, at) => ({
+        id: `enactment_${at}` as EntityId,
+        sequence: 1000 + at,
+        measureId: `measure_${at}` as EntityId,
+        resolvedAt: makeIsoDate(law.effectiveAt),
+        outcome: "enacted",
+        effectiveAt: makeIsoDate(law.effectiveAt),
+      })),
+    },
+  } as unknown as World;
+}
+
+const seed = "team6-cannabis-revenue-20260930";
+const probe = worldWith("US-IL", []);
+function placeWith(answer: "yes" | "no") {
+  const eligible = lifePlaceStateIdentities().filter((place) => {
+    const state = stateJurisdictionForKey(place.jurisdictionKey)!;
+    return (
+      lawInForceAtStart(probe, state.id, CANNABIS, probe.currentDate) === answer
     );
-    const question = Object.values(reopened.policyCatalog.propositions).find(
-      (row) => row.stableKey === QUESTION,
-    )!;
-    expect(question.consequences).toContainEqual(typedTaxQuestionRow(QUESTION));
-    let world = {
-      ...f.world,
-      policyCatalog: {
-        ...f.world.policyCatalog,
-        propositions: {
-          ...f.world.policyCatalog.propositions,
-          [f.propositionId]: {
-            ...f.world.policyCatalog.propositions[f.propositionId]!,
-            consequences: question.consequences,
-          },
-        },
-      },
-    };
-    const provenance = {
-      kind: "authored" as const,
-      note: "Controlled buyer and seller agree this purchase; amounts below are actual recorded transfers, not a sales-level forecast.",
-    };
-    world = createOrganization(world, {
-      stableKey: "paid-sale:retailer",
-      formedAt: world.currentDate,
-      provenance,
-      initialProfile: {
-        name: "Controlled retail seller",
-        classification: "enterprise:retail",
-        locationJurisdictionId: world.history.taxProposals![0]!.jurisdictionId,
-      },
-    });
-    const sellerId = world.history.organizations.at(-1)!.id;
-    world = createResourcePosition(world, {
-      stableKey: "paid-sale:seller-cash",
-      owner: { kind: "organization", organizationId: sellerId },
-      openedAt: world.currentDate,
-      openingBalance: money(0, "USD"),
-      provenance,
-    });
-    world = createResourceFlow(world, {
-      stableKey: "paid-sale:purchase",
-      source: { kind: "person", personId: f.personId },
-      recipient: { kind: "organization", organizationId: sellerId },
-      startsAt: world.currentDate,
-      initialStatus: "active",
-      amount: money(2100, "USD"),
-      cadenceKind: "schedule:one-time",
-      basisKind: "custom:retail-purchase",
-      basisReference: { kind: "general" },
-      restrictionKind: null,
-      jurisdictionId: world.history.taxProposals![0]!.jurisdictionId,
-      provenance,
-    });
-    const sale = world.history.resourceFlows.at(-1)!;
-    const terms = resourceFlowTermsAt(
+  });
+  const place =
+    eligible[new SeededRng(seed + answer).integer(0, eligible.length)]!;
+  return place.jurisdictionKey;
+}
+function budget(stateKey: string) {
+  return {
+    level: "state" as const,
+    lawJurisdictionId: stateJurisdictionForKey(stateKey)!.id,
+    population: 1000,
+  };
+}
+describe("cannabis revenue reads amounts independently of the opening tax base", () => {
+  it("waits for the inherited retail lag, then reads the adoption amount without a tax-base denominator", () => {
+    const place = placeWith("no");
+    const world = worldWith(place, [
+      { question: CANNABIS, answer: "yes", effectiveAt: "2026-03-01" },
+    ]);
+    const government = budget(place);
+    const before = cannabisSalesRevenueChange(
       world,
-      sale.id,
-      currentResourceCutoff(world),
-    )!;
-    expect(taxBaseOccurrenceSource(world, sale.id)).toBeNull();
-    const payment = paymentFromDatedCash(
-      world,
-      { kind: "person", personId: f.personId },
-      terms.amount,
-      world.currentDate,
+      government,
+      makeIsoDate("2027-01-31"),
     );
-    world = recordResourceTransferOutcome(world, {
-      stableKey: "paid-sale:receipt",
-      resourceFlowId: sale.id,
-      periodStartsAt: world.currentDate,
-      periodEndsAt: world.currentDate,
-      occurredAt: world.currentDate,
-      status: payment.status,
-      attemptedAmount: terms.amount,
-      transferredAmount: payment.transferredAmount,
-      reasonKind: payment.reasonKind,
-      note: "Actual paid purchase",
-      provenance,
+    expect(before, `${place}, seed ${seed}`).toEqual({
+      reason: "waiting-for-retail",
+      annualRevenueDelta: 0,
+      sourceMeasureId: null,
     });
-    const receipt = world.history.resourceTransferOutcomes.at(-1)!;
-    expect(receipt.status).toBe("completed");
     expect(
-      taxBaseOccurrenceSource(world, receipt.id, {
-        asOfDate: world.currentDate,
-        historySequenceExclusive: receipt.sequence,
-      }),
-    ).toBeNull();
+      cannabisSalesRevenueChange(world, government, makeIsoDate("2027-02-28")),
+    ).toEqual({
+      reason: "sales-legalized",
+      annualRevenueDelta:
+        CANNABIS_TAX_EFFECT.perResidentRevenue.annualAmount * 1000,
+      sourceMeasureId: "measure_0",
+    });
+  });
+  it("ends modeled revenue on the operative repeal date, retaining the earlier reading", () => {
+    const place = placeWith("yes");
+    const world = worldWith(place, [
+      { question: CANNABIS, answer: "no", effectiveAt: "2026-04-01" },
+    ]);
     expect(
-      resourcePositionAt(
+      cannabisSalesRevenueChange(
         world,
-        { kind: "organization", organizationId: sellerId },
-        terms.amount.currency,
-        currentResourceCutoff(world),
-      )!.liquidBalance.minorUnits,
-    ).toBe(receipt.transferredAmount.minorUnits);
-    const saleBase = {
-      stableKey: "paid-sale:tax-base",
-      jurisdictionId: sale.jurisdictionId!,
-      payer: sale.source as { kind: "person"; personId: typeof f.personId },
-      baseKey: TEST_TAX_TERMS.baseKey,
-      occurredAt: receipt.occurredAt,
-      amount: receipt.transferredAmount,
-      sourceEventId: receipt.id,
-      assumptionNote:
-        "Existing fictional levy applied to the actual paid purchase, never estimated or attempted sales.",
-    };
-    expect(() =>
-      recordTaxBase(world, {
-        ...saleBase,
-        amount: money(receipt.transferredAmount.minorUnits + 1, "USD"),
-      }),
-    ).toThrow(/exact visible occurrence/);
-    world = recordTaxBase(world, saleBase);
-    expect(() => recordTaxBase(world, saleBase)).toThrow(
-      /already has a recorded tax base/,
-    );
-    const context = {
-      ...f.context,
-      activityId: world.history.taxBases!.at(-1)!.id,
-    };
-    const assessed = dispatch(world, context);
-    expect(assessed.history.taxAssessments).toHaveLength(1);
-    expect(assessed.history.taxAssessments![0]!.taxAmount.minorUnits).toBe(100);
+        budget(place),
+        makeIsoDate("2026-03-31"),
+      ).reason,
+    ).toBe("same-answer");
     expect(
-      assessed.history.taxAssessments![0]!.lawEffectStamps![0]!.questionKey,
-    ).toBe(QUESTION);
+      cannabisSalesRevenueChange(
+        world,
+        budget(place),
+        makeIsoDate("2026-04-01"),
+      ),
+    ).toEqual({
+      reason: "sales-ended",
+      annualRevenueDelta:
+        -CANNABIS_TAX_EFFECT.perResidentRevenue.annualAmount * 1000,
+      sourceMeasureId: "measure_0",
+    });
+  });
+  it("does not create an adoption delta for an unknown starting jurisdiction", () => {
+    const world = worldWith(placeWith("no"), []);
     expect(
-      dispatch(deserializeWorld(serializeWorld(assessed)), context).history
-        .taxAssessments,
-    ).toHaveLength(1);
-    // The loaded cannabis row applies the saved levy to the actual paid sale.
-    // Legalization alone supplies neither a purchase nor a legal tax rate.
-    const paid = advanceWorld(
-      assessed,
-      TEST_TAX_TERMS.collectionLagDays,
-      createTaxTransitionHandlerRegistry(),
-    );
-    const collection = paid.history.taxCollections!.at(-1)!;
-    expect(collection.transferredAmount.minorUnits).toBe(100);
-    expect(balances(paid, f.personId)).toEqual([7800, 100]);
-    const empty = {
+      cannabisSalesRevenueChange(
+        world,
+        {
+          level: "state",
+          population: 1000,
+          lawJurisdictionId: "jurisdiction_unresearched" as EntityId,
+        },
+        makeIsoDate("2027-03-01"),
+      ),
+    ).toEqual({
+      reason: "starting-law-not-established",
+      annualRevenueDelta: 0,
+      sourceMeasureId: null,
+    });
+  });
+  it("does not grant a county or city state sales authority", () => {
+    const place = placeWith("no");
+    const world = worldWith(place, [
+      { question: CANNABIS, answer: "yes", effectiveAt: "2026-03-01" },
+    ]);
+    for (const level of ["county", "city"] as const)
+      expect(
+        cannabisSalesRevenueChange(
+          world,
+          { ...budget(place), level },
+          makeIsoDate("2027-03-01"),
+        ),
+      ).toEqual({
+        reason: "not-state-budget",
+        annualRevenueDelta: 0,
+        sourceMeasureId: null,
+      });
+  });
+});
+
+const NO_FLOWS: MonthFlows = {
+  withheld: new Map(),
+  represented: new Map(),
+  levies: new Map(),
+  payments: new Map(),
+};
+function zeroBaseBudget(
+  world: World,
+  stateKey: string,
+  zeroSelective = true,
+): PublicBudgetGovernment {
+  const store = withOpenedBudgets(
+    world,
+    {
       version: PUBLIC_BUDGETS_VERSION,
       cursor: { flows: 0, outcomes: 0 },
       governments: [],
       adjustments: [],
       unknown: [],
-    };
-    const month = makeIsoDate(`${paid.currentDate.slice(0, 7)}-01`);
-    const government = withOpenedBudgets(paid, empty, month).governments.find(
-      (row) =>
-        row.lawJurisdictionId === paid.history.taxProposals![0]!.jurisdictionId,
-    )!;
-    expect(government).toBeDefined();
-    const store = { ...empty, governments: [government] };
-    const read = readMonthFlows(paid, store);
-    const recorded = read.flows.recorded!.get(government.key)!;
-    expect(
-      recorded.revenueMinorUnits[BUDGET_SOURCES.indexOf("selectiveSalesTaxes")],
-    ).toBe(100);
-    expect(recorded.sourceRecordIds).toContain(collection.resourceOutcomeId);
-    const stamp = recorded.lawEffectStamps.find(
-      (s) => s.questionKey === QUESTION,
+    },
+    world.currentDate,
+  );
+  const government = publicBudgetFor(
+    { ...world, publicBudgets: store },
+    stateJurisdictionForKey(stateKey)!.id,
+  )!;
+  const at = BUDGET_SOURCES.indexOf("selectiveSalesTaxes");
+  return {
+    ...government,
+    years: government.years.map((year) => ({
+      ...year,
+      expectedRevenue: year.expectedRevenue.map((value, index) =>
+        index === at && zeroSelective ? 0 : value,
+      ),
+    })),
+  };
+}
+function settleThrough(
+  world: World,
+  government: PublicBudgetGovernment,
+  last: string,
+) {
+  let current = government;
+  let month = makeIsoDate("2026-01-01");
+  while (month <= last) {
+    current = settleGovernmentMonth(world, current, month, NO_FLOWS).government;
+    month = firstOfNextMonth(month);
+  }
+  return current;
+}
+describe("cannabis revenue reaches a zero-base saved budget consequence", () => {
+  it("adds once after retail opens, survives fiscal rollover and JSON persistence, and stamps the operative law", () => {
+    const place = placeWith("no");
+    const world = worldWith(place, [
+      { question: CANNABIS, answer: "yes", effectiveAt: "2026-03-01" },
+    ]);
+    const initial = zeroBaseBudget(world, place);
+    const saved = settleThrough(world, initial, "2028-03-01");
+    const reopened = JSON.parse(
+      JSON.stringify(saved),
+    ) as PublicBudgetGovernment;
+    const at = BUDGET_SOURCES.indexOf("selectiveSalesTaxes");
+    const amount = Math.round(
+      (CANNABIS_TAX_EFFECT.perResidentRevenue.annualAmount *
+        initial.population) /
+        12,
     );
-    expect(stamp?.effectKind).toBe("tax-collection");
-    expect(stamp?.governingLawKey).toBe(f.measureId);
-    expect(stamp?.appliedAt).toBe(paid.currentDate);
-    expect(stamp?.sourceRecordIds).toContain(collection.assessmentId);
-    expect(stamp?.sourceRecordIds).toContain(paid.history.taxBases![0]!.id);
-
-    const settled = settleGovernmentMonth(
-      paid,
-      government,
-      month,
-      read.flows,
-    ).government;
-    expect(
-      settled.months.at(-1)!.revenue[
-        BUDGET_SOURCES.indexOf("selectiveSalesTaxes")
-      ],
-    ).toBe(1);
-    expect(settled.months.at(-1)!.lawEffectStamps).toContainEqual(stamp);
-    const saved = deserializeWorld(
-      serializeWorld({
-        ...paid,
-        publicBudgets: {
-          ...store,
-          governments: [settled],
-          cursor: read.cursor,
-        },
+    console.info(
+      JSON.stringify({
+        proof: "cannabis-zero-base-budget",
+        place,
+        seed,
+        population: initial.population,
+        monthlyRevenue: amount,
+        through: "2028-03-01",
       }),
     );
-    const repeated = readMonthFlows(saved, saved.publicBudgets!);
-    expect(repeated.flows.recorded?.size).toBe(0);
+    const before = reopened.months.find(
+      (row) => row.month === "2027-01-01",
+    )! as BudgetMonthRow & LawEffectStampedRecord;
+    expect(before.revenue[at], `${place}, seed ${seed}`).toBe(0);
+    expect(before.lawEffectStamps).toBeUndefined();
+    for (const month of ["2027-02-01", "2027-12-01", "2028-03-01"]) {
+      const row = reopened.months.find(
+        (row) => row.month === month,
+      )! as BudgetMonthRow & LawEffectStampedRecord;
+      expect(row.revenue[at], `${place}, ${month}, seed ${seed}`).toBe(amount);
+      expect(row.lawEffectStamps).toEqual([
+        expect.objectContaining({
+          governingLawKey: "measure_0",
+          jurisdictionId: initial.lawJurisdictionId,
+          appliedAt: month,
+          operativeAt: "2026-03-01",
+          effectKind: "cannabis-selective-tax-revenue",
+        }),
+      ]);
+    }
     expect(
       settleGovernmentMonth(
-        saved,
-        saved.publicBudgets!.governments[0]!,
-        month,
-        repeated.flows,
+        world,
+        reopened,
+        makeIsoDate("2028-03-01"),
+        NO_FLOWS,
       ).government,
-    ).toBe(saved.publicBudgets!.governments[0]!);
+    ).toBe(reopened);
   });
+  it("removes the added revenue on operative repeal, including after the adopted forecast contains it", () => {
+    const place = placeWith("no");
+    const world = worldWith(place, [
+      { question: CANNABIS, answer: "yes", effectiveAt: "2026-03-01" },
+      { question: CANNABIS, answer: "no", effectiveAt: "2028-03-01" },
+    ]);
+    const initial = zeroBaseBudget(world, place);
+    const saved = settleThrough(world, initial, "2028-04-01");
+    const at = BUDGET_SOURCES.indexOf("selectiveSalesTaxes");
+    expect(
+      saved.months.find((row) => row.month === "2028-02-01")!.revenue[at],
+    ).toBeGreaterThan(0);
+    const repeal = saved.months.find(
+      (row) => row.month === "2028-03-01",
+    )! as BudgetMonthRow & LawEffectStampedRecord;
+    expect(repeal.revenue[at], `${place}, seed ${seed}`).toBe(0);
+    expect(repeal.lawEffectStamps).toEqual([
+      expect.objectContaining({
+        governingLawKey: "measure_1",
+        appliedAt: "2028-03-01",
+      }),
+    ]);
+    expect(
+      saved.months.find((row) => row.month === "2028-04-01")!.revenue[at],
+    ).toBe(0);
+  });
+});
+
+const sourcedAnswers = (
+  startingLaw.questions as Record<
+    string,
+    {
+      answers: Record<string, { answer: "yes" | "no"; estimated?: string }>;
+    }
+  >
+)["us-policy-positions:business-commerce.legalize-cannabis-sales"]!.answers;
+const legalStates = lifePlaceStateIdentities()
+  .filter((place) => {
+    const row = sourcedAnswers[place.jurisdictionKey];
+    return row?.answer === "yes" && !row.estimated;
+  })
+  .map((place) => place.jurisdictionKey);
+const costSeed = "team4-cannabis-revenue-loss-20260930";
+const costRng = new SeededRng(costSeed);
+const costStates = Array.from(
+  { length: 3 },
+  () => legalStates.splice(costRng.integer(0, legalStates.length), 1)[0]!,
+);
+function completeCostWorld(state: string, endSales: boolean) {
+  const partial = worldWith(
+    state,
+    endSales
+      ? [{ question: CANNABIS, answer: "no", effectiveAt: "2026-04-01" }]
+      : [],
+  );
+  const complete = createWorld({
+    seed: costSeed,
+    currentDate: partial.currentDate,
+    jurisdictions: [stateJurisdictionForKey(state)!],
+    people: [],
+    lineage: "production",
+  });
+  return {
+    ...complete,
+    policyCatalog: partial.policyCatalog,
+    history: { ...complete.history, ...partial.history },
+  };
+}
+describe("a cannabis sales ban writes its state revenue-loss cost", () => {
+  it.each(costStates)(
+    "stamps the actual %s budget loss without changing its tax arithmetic",
+    (state) => {
+      const world = completeCostWorld(state, true);
+      const continuing = completeCostWorld(state, false);
+      const initial = zeroBaseBudget(world, state, false);
+      const ordinary = zeroBaseBudget(continuing, state, false);
+      const withBan = settleThrough(world, initial, "2026-05-01");
+      const withoutBan = settleThrough(continuing, ordinary, "2026-05-01");
+      const at = BUDGET_SOURCES.indexOf("selectiveSalesTaxes");
+      const row = withBan.months.find(
+        (row) => row.month === "2026-04-01",
+      )! as BudgetMonthRow &
+        LawEffectStampedRecord & { cannabisRevenueLoss?: number };
+      const baseline = withoutBan.months.find(
+        (row) => row.month === "2026-04-01",
+      )!;
+      const loss = baseline.revenue[at]! - row.revenue[at]!;
+      expect(loss, `${state}, seed ${costSeed}`).toBeGreaterThan(0);
+      expect(row.cannabisRevenueLoss).toBe(loss);
+      expect(row.balance).toBeLessThan(baseline.balance);
+      expect(row.lawEffectStamps).toEqual([
+        expect.objectContaining({
+          governingLawKey: "measure_0",
+          effectKind: "state-revenue-loss",
+          jurisdictionId: initial.lawJurisdictionId,
+          appliedAt: "2026-04-01",
+        }),
+      ]);
+      const before = withBan.months.find(
+        (row) => row.month === "2026-03-01",
+      )! as BudgetMonthRow &
+        LawEffectStampedRecord & { cannabisRevenueLoss?: number };
+      expect(before.cannabisRevenueLoss).toBeUndefined();
+      expect(before.lawEffectStamps).toBeUndefined();
+      const persisted = JSON.parse(JSON.stringify(withBan)) as typeof withBan;
+      const saved = persisted.months.find(
+        (row) => row.month === "2026-04-01",
+      )! as typeof row;
+      expect(saved.cannabisRevenueLoss).toBe(loss);
+      expect(saved.lawEffectStamps).toEqual(row.lawEffectStamps);
+      console.info(
+        JSON.stringify({
+          state,
+          seed: costSeed,
+          lostStateRevenue: loss,
+          month: row.month,
+        }),
+      );
+    },
+  );
 });

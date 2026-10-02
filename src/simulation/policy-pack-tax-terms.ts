@@ -1,4 +1,3 @@
-import { typedTaxQuestionRow } from "./law-consequences/typed-tax-question-data";
 import powers from "../../data/research/powers-catalog/catalog.json" with { type: "json" };
 import type { PolicyPack, PolicyPropositionRow } from "./policy-packs";
 import { TAX_LAW_TERM_KEYS } from "./tax-law-term-keys";
@@ -76,7 +75,43 @@ export const TAX_TERM_QUESTION_ROWS: readonly PolicyPropositionRow[] =
       })),
       ...(family.key === "excise"
         ? {
-            consequences: [typedTaxQuestionRow(`tax:${level.key}:excise`)],
+            consequences: [
+              {
+                id: `tax:${level.key}:excise:recorded-base`,
+                kind: "tax" as const,
+                when: "assessment" as const,
+                who: {
+                  selector: "recorded-tax-base-payer",
+                  predicates: [
+                    {
+                      capability: "has-operative-typed-tax-policy",
+                      parameters: {},
+                    },
+                  ],
+                },
+                what: "assess-enacted-tax-base",
+                amount: {
+                  op: "record" as const,
+                  key: "enacted-tax-assessment",
+                  unit: "minor" as const,
+                },
+                conditions: [],
+                lag: { days: 0, sourceIds: [] },
+                onRepeal: "preserve-completed" as const,
+                evidence: {
+                  sourceIds: [
+                    "src/simulation/tax-policy.ts",
+                    "src/fiscal-authority/tax-powers.generated.json",
+                  ],
+                  population: "The actual payer of a saved taxable occurrence.",
+                  scope:
+                    "Only an operative law with supported saved taxing authority and exact adopted terms.",
+                  why: "The adopted rate and allowance apply to the saved base; collection uses the existing due payment writer.",
+                  uncertainty:
+                    "This row supplies no rate, authority, taxable occurrence or recipient. Missing bindings refuse assessment.",
+                },
+              },
+            ],
           }
         : {}),
       tags: ["tax", "adopted-terms-required"],

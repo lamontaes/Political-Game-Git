@@ -175,6 +175,7 @@ describe("age-verification without an appropriation or actual hires produces no 
           effectiveAt: date,
         });
         const banOnly = onlyBanFixture.world;
+        const actualBanId = together.history.legislativeMeasures!.at(-1)!.id;
         const combined = settleGovernmentMonth(
           together,
           government,
@@ -189,9 +190,16 @@ describe("age-verification without an appropriation or actual hires produces no 
           date,
           flowsFor(banOnly, government),
         ).government.months.at(-1)!;
-        // No recorded purchase/levy means no invented revenue-loss stamp.
-        expect(saved.cannabisRevenueLoss).toBeUndefined();
-        expect(saved.lawEffectStamps).toBeUndefined();
+        expect(saved.cannabisRevenueLoss).toBeGreaterThan(0);
+        expect(saved.lawEffectStamps).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              governingLawKey: actualBanId,
+              effectKind: "state-revenue-loss",
+            }),
+          ]),
+        );
+        expect(saved.lawEffectStamps).toHaveLength(1);
         expect(saved.lawCostAttributions).toBeUndefined();
         expect(saved.balance).toBe(onlyBan.balance);
         expect(saved.spending).toEqual(onlyBan.spending);
