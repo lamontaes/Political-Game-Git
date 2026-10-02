@@ -25,7 +25,7 @@ import type {
   RegionalOpeningPlate,
   RegionalOpeningResult,
 } from "../presentation/regional-opening-plate";
-import type { EntityId, World } from "../simulation";
+import { personName, type EntityId, type World } from "../simulation";
 import { GameSelect } from "./controls/GameSelect";
 import { isTerritoryUsps } from "../simulation/state-reference";
 import { OpeningStatePopulation } from "./OpeningStatePopulation";
@@ -238,18 +238,31 @@ export function WorldOrientationPanel({
           ]
         : []),
       ...withLegislature,
-      ...(family && family.parents.length > 0
+      ...(family && family.parents.length + family.relatives.length > 0
         ? [
             {
               key: "parents",
               title: "Your family",
-              summary:
-                family.parents.length === 1
-                  ? "Who raised you."
-                  : "The people who raised you.",
-              family: family.parents,
+              summary: "The people in your family.",
+              family: [...family.parents, ...family.relatives],
               people:
-                world && personId ? openingFamilyPeople(world, personId) : [],
+                world && personId
+                  ? [
+                      ...openingFamilyPeople(world, personId),
+                      ...family.relatives.map((member) => {
+                        const name = personName(world.people[member.personId]!);
+                        return {
+                          personId: member.personId,
+                          name,
+                          title: member.introduction.startsWith(`${name}, `)
+                            ? member.introduction.slice(name.length + 2)
+                            : member.introduction,
+                          party: null,
+                          facts: [],
+                        };
+                      }),
+                    ]
+                  : [],
               chambers: [],
             },
           ]

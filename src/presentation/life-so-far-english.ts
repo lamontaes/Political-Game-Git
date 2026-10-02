@@ -4,9 +4,11 @@ import {
   organizationProfileAt,
   workRelationshipHistoryForPerson,
   workStatusAt,
+  workStatusHistory,
   type EntityId,
   type World,
 } from "../simulation";
+import { journalInFirstPerson } from "./journal-first-person";
 import { buildLifeIntroduction } from "./life-introduction";
 import {
   composeGroundedLine,
@@ -86,7 +88,8 @@ export function projectLifeSoFarEnglish(world: World, personId: EntityId) {
       })),
     };
     const rendered = composeGroundedLine(packet, bank);
-    if (rendered.kind === "rendered") schoolSentences.push(rendered.text);
+    if (rendered.kind === "rendered")
+      schoolSentences.push(journalInFirstPerson(rendered.text));
   }
   // The preceding family card and each person's dossier carry kinship detail.
   // This short overview follows schooling and work, rather than listing every
@@ -108,16 +111,19 @@ export function projectLifeSoFarEnglish(world: World, personId: EntityId) {
               name,
               organizationId,
               active: workStatusAt(world, record.id)?.status === "active",
+              statuses: workStatusHistory(world, record.id),
             },
           ]
         : [];
     })
     .sort(
       (a, b) =>
-        Number(b.active) - Number(a.active) ||
-        a.record.startedAt.localeCompare(b.record.startedAt),
+        a.record.startedAt.localeCompare(b.record.startedAt) ||
+        a.record.sequence - b.record.sequence,
     );
-  const workSentences = work.flatMap((entry) => {
+  const workLines = work.flatMap((entry) => {
+    // An expected engagement is not a completed start.
+    if (!entry.statuses.some((status) => status.status === "active")) return [];
     const sourceRecordIds = [entry.record.id, entry.organizationId];
     const facts = {
       "work-name": { text: entry.name, sourceRecordIds },
@@ -137,9 +143,7 @@ export function projectLifeSoFarEnglish(world: World, personId: EntityId) {
             {
               key: entry.active ? "current-start" : "earlier-start",
               kind: "template",
-              text: entry.active
-                ? "Since {{work-year}}, you've worked at {{work-name}}."
-                : "You started work at {{work-name}} in {{work-year}}.",
+              text: "You started work at {{work-name}} in {{work-year}}.",
             },
           ],
         },
@@ -161,19 +165,67 @@ export function projectLifeSoFarEnglish(world: World, personId: EntityId) {
       })),
     };
     const line = composeGroundedLine(packet, bank);
-    return line.kind === "rendered" ? [line.text] : [];
+    if (line.kind !== "rendered") return [];
+    const rows = [
+      {
+        text: journalInFirstPerson(line.text),
+        at: entry.record.startedAt,
+        sequence: entry.record.sequence,
+        sourceRecordIds,
+      },
+    ];
+    let previous = "active";
+    for (const status of entry.statuses) {
+      const year = status.effectiveAt.slice(0, 4);
+      const text =
+        status.status === "ended"
+          ? `My work at ${entry.name} ended in ${year}.`
+          : status.status === "temporarily-inactive"
+            ? `My work at ${entry.name} was on hold in ${year}.`
+            : status.status === "active" && previous === "temporarily-inactive"
+              ? `My work at ${entry.name} resumed in ${year}.`
+              : null;
+      previous = status.status;
+      // These are saved transitions for this job, not proof of unemployment
+      // across all jobs. Raw reasons are engine copy (as in world39-journal).
+      if (text)
+        rows.push({
+          text,
+          at: status.effectiveAt,
+          sequence: status.sequence,
+          sourceRecordIds: [...sourceRecordIds, status.id],
+        });
+    }
+    return rows;
   });
+  workLines.sort((a, b) => a.at.localeCompare(b.at) || a.sequence - b.sequence);
   return {
     sentences: [
-      ...life.sentences.filter(
-        (sentence) => !/^No one else is recorded/.test(sentence),
-      ),
+      ...life.sentences
+        .filter(
+          (sentence) =>
+            !/^(No one else is recorded|Your current household is not recorded)/.test(
+              sentence,
+            ),
+        )
+        .map((sentence) =>
+          journalInFirstPerson(sentence.replace(/^You're /, "You are "))
+            // Unlike a past event entry, this opening starts with who I am now.
+            .replace(/^I was (\d+)/, "I'm $1")
+            .replace(/\bI lived\b/g, "I live"),
+        ),
       ...schoolSentences,
-      ...workSentences,
+      ...workLines.map((line) => line.text),
+      ...work
+        .filter((entry) => entry.active)
+        .map((entry) => `I still work at ${entry.name}.`),
     ],
     sourceRecordIds: [
       ...schooling.flatMap((school) => school.sourceRecordIds),
-      ...work.flatMap((entry) => [entry.record.id, entry.organizationId]),
+      ...workLines.flatMap((line) => line.sourceRecordIds),
+      ...work
+        .filter((entry) => entry.active)
+        .map((entry) => workStatusAt(world, entry.record.id)!.id),
     ],
   };
 }
