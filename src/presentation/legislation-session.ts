@@ -219,7 +219,9 @@ export function applyLegislativeStep(
       const government = enactingGovernmentForPack(pack)?.government;
       const calendar =
         pack.session.sittingCalendar ??
-        (government === "state" || government === "federal"
+        (government === "state" ||
+        government === "territory" ||
+        government === "federal"
           ? LEGISLATIVE_SESSION_CALENDARS.state
           : undefined);
       if (!pending && !calendar)
