@@ -30,6 +30,8 @@ const resident = (over: Partial<Resident>): Resident => ({
   dependants: 0,
   youngChildren: 0,
   earners: 1,
+  limitation: "none",
+  partnerCover: null,
   ...over,
 });
 
@@ -92,5 +94,34 @@ describe(`labor status is decided, not drawn (${PLACE}, seed ${SEED})`, () => {
     for (let earners = 0; earners < 8; earners++)
       if (home(earners)) expect(home(earners + 1)).toBe(true);
     expect(laborStatus(a, resident({ ...base, earners: 0 }))).toBe("employed");
+  });
+
+  it("takes a recorded limitation and a partner's recorded pay into account", () => {
+    // Incapacitated cannot work; limited stops working only where other
+    // earners carry the household (more earners, never a step back).
+    expect(laborStatus(a, resident({ limitation: "incapacitated" }))).toBe(
+      "unable-to-work",
+    );
+    const unable = (earners: number) =>
+      laborStatus(a, resident({ limitation: "limited", earners })) ===
+      "unable-to-work";
+    expect(unable(0)).toBe(false);
+    expect(unable(3)).toBe(true);
+    for (let earners = 0; earners < 8; earners++)
+      if (unable(earners)) expect(unable(earners + 1)).toBe(true);
+    // A partner's pay carries part of the household, so the parent goes home
+    // with fewer other earners, and more pay never sends them back to work.
+    const base = { parentOfYoungChild: true, youngChildren: 1, dependants: 1 };
+    const homeAt = (partnerCover: number | null) =>
+      laborStatus(a, resident({ ...base, earners: 1, partnerCover })) ===
+      "parent-at-home";
+    expect(homeAt(null)).toBe(false);
+    expect(homeAt(0.8)).toBe(true);
+    let was = false;
+    for (let cover = 0; cover <= 1; cover += 0.05) {
+      const now = homeAt(cover);
+      if (was) expect(now).toBe(true);
+      was = now;
+    }
   });
 });
