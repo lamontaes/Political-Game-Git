@@ -109,16 +109,6 @@ export const TAX_QUESTION_EFFECTS: readonly {
   readonly basis: string;
 }[] = [
   {
-    questionKey: "us-policy-positions:fiscal.adopt-income-tax",
-    source: "individualIncomeTax",
-    // Adoption collections come from actual wage-base assessments/payments.
-    toYes: null,
-    // A repeal ends the tax: a state with no income tax collects none.
-    toNo: -1,
-    basis:
-      "A repeal ends the tax, so the state collects none. An adopted tax collects through recorded paycheck withholding using its operative terms; no population-based revenue level is inferred.",
-  },
-  {
     questionKey: MILEAGE_FEE_QUESTION,
     source: "selectiveSalesTaxes",
     levels: ["state"],

@@ -57,6 +57,17 @@ describe("graduated income tax budget receipts", () => {
     expect(
       STATUTORY_WAGE_TAX_ROWS[questionKey]!.map((row) => row.when),
     ).toEqual(["assessment", "payment"]);
+    expect(
+      TAX_QUESTION_EFFECTS.some(
+        (row) =>
+          row.questionKey === "us-policy-positions:fiscal.adopt-income-tax",
+      ),
+    ).toBe(false);
+    expect(
+      STATUTORY_WAGE_TAX_ROWS[
+        "us-policy-positions:fiscal.adopt-income-tax"
+      ]!.map((row) => row.when),
+    ).toEqual(["assessment", "payment"]);
   });
 
   it("does not manufacture revenue from a graduated-law answer in any starting place", () => {

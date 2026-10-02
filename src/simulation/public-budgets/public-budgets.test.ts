@@ -1196,7 +1196,7 @@ describe("public budgets", () => {
     }
   });
 
-  it("the budget repeal factor follows the operative date and restoration preserves its opening level", () => {
+  it("repeal and restoration answers do not create an income-tax budget multiplier", () => {
     // Illinois began with an income tax. A repeal takes effect May 12, 2026;
     // a law restoring the tax takes effect June 1, 2027.
     const world = worldAt("2026-01-05", {
@@ -1228,9 +1228,11 @@ describe("public budgets", () => {
     const government = publicBudgetFor(opened(world), illinois)!;
     const factor = (on: string) =>
       taxLawFactor(world, government, "individualIncomeTax", makeIsoDate(on));
+    // The statutory assessment writer handles the operative tax law. The
+    // budget reads actual paid receipts without a second repeal multiplier.
     expect(factor("2026-05-01")).toBe(1);
     for (const on of ["2026-06-01", "2026-12-01", "2027-01-01"])
-      expect(factor(on)).toBe(0);
+      expect(factor(on)).toBe(1);
     for (const on of ["2027-06-01", "2027-12-01", "2028-01-01"])
       expect(factor(on)).toBe(1);
     // Other source factors keep their existing behavior throughout.
