@@ -13,7 +13,7 @@ import { applyConstitutionalReform } from "./living-world/constitutional-reform"
 import { applyFederalReform } from "./living-world/federal-reform";
 import { applyArticleV } from "./governing/article-v";
 import { applyPresidentialTurnover } from "./nationwide-world/presidential-turnover";
-import { workStatusAt } from "./life-queries";
+import { workRoleAt, workStatusAt } from "./life-queries";
 import { eventById } from "./event-index";
 import {
   addDays,
@@ -1561,7 +1561,7 @@ function advanceCanonicalMinutes(
   }
   for (const progress of projectStaffProgress(inputWorld, start, target)) {
     transitions.push({
-      at: progress.completed ? progress.at : target,
+      at: progress.at,
       priority: progress.completed ? 1 : 3,
       creationSequence: progress.item.sequence,
       stableId: progress.item.id,
@@ -1689,6 +1689,68 @@ interface StaffProgressProjection {
   readonly completedEffortMinutes: number;
 }
 
+// Derived from the append-only state ledger; no new persisted accounting family.
+const STAFF_DAY_USAGE = new WeakMap<
+  readonly WorkItemStateRecord[],
+  {
+    readonly items: readonly WorkItemRecord[];
+    readonly minutes: Map<string, number>;
+  }
+>();
+
+function staffDayKey(
+  personId: EntityId,
+  engagementId: EntityId,
+  date: string,
+): string {
+  return `${personId}:${engagementId}:${date}`;
+}
+
+function savedStaffDayUsage(world: World): Map<string, number> {
+  const states = world.history.workItemStates;
+  const cached = STAFF_DAY_USAGE.get(states);
+  if (cached?.items === world.history.workItems) return new Map(cached.minutes);
+  const items = new Map(world.history.workItems.map((item) => [item.id, item]));
+  const engagements = new Map(
+    world.history.workRelationships.map((work) => [work.id, work]),
+  );
+  const predecessors = new Map<EntityId, WorkItemStateRecord>();
+  const minutes = new Map<string, number>();
+  for (const state of states) {
+    const previous = state.supersedesStateId
+      ? predecessors.get(state.supersedesStateId)
+      : undefined;
+    predecessors.set(state.id, state);
+    if (
+      !previous ||
+      state.sequence >= world.history.nextSequence ||
+      compareSimulationMoments(state.recordedAt, world.currentMoment) > 0
+    )
+      continue;
+    const delta =
+      state.completedEffortMinutes - previous.completedEffortMinutes;
+    if (delta <= 0) continue;
+    const item = items.get(state.workItemId);
+    if (!item) continue;
+    // Midnight is the closing checkpoint for the interval that just ended.
+    const date =
+      state.recordedAt.minuteOfDay === 0
+        ? addDays(state.recordedAt.date, -1)
+        : state.recordedAt.date;
+    for (const personId of state.assignedPersonIds) {
+      const bound = item.sourceEntityIds.flatMap((id) => {
+        const work = engagements.get(id);
+        return work?.personId === personId ? [work] : [];
+      });
+      if (bound.length !== 1) continue;
+      const key = staffDayKey(personId, bound[0]!.id, date);
+      minutes.set(key, (minutes.get(key) ?? 0) + delta);
+    }
+  }
+  STAFF_DAY_USAGE.set(states, { items: world.history.workItems, minutes });
+  return new Map(minutes);
+}
+
 function projectStaffProgress(
   world: World,
   start: SimulationMoment,
@@ -1699,19 +1761,19 @@ function projectStaffProgress(
   const totalMinutes = simulationMinutesBetween(start, target);
   const results: StaffProgressProjection[] = [];
   const occupiedMinutes = new Map<EntityId, Set<number>>();
+  const spent = savedStaffDayUsage(world);
+  const allowances = new Map<string, number | null>();
+  const relationships = new Map(
+    world.history.workRelationships.map((work) => [work.id, work]),
+  );
+  // A read-only projection horizon admits historical queries for projected dates,
+  // using only the saved input frontier, never records made by later handlers.
+  const queryWorld = { ...world, currentDate: target.date };
   for (const item of world.history.workItems) {
-    // A linked employment/volunteer engagement is authority for this work.
-    // Legacy unbound items retain their eligibility; the single-minute
-    // capacity budget below applies to every assignment, including those.
-    const engagements = world.history.workRelationships.filter((work) =>
-      item.sourceEntityIds.includes(work.id),
-    );
-    if (
-      engagements.some(
-        (work) => workStatusAt(world, work.id)?.status !== "active",
-      )
-    )
-      continue;
+    const engagements = item.sourceEntityIds.flatMap((id) => {
+      const work = relationships.get(id);
+      return work ? [work] : [];
+    });
     const state = latestWorkStateUnchecked(world, item.id);
     if (
       !state ||
@@ -1721,41 +1783,81 @@ function projectStaffProgress(
       state.waitingOnPersonIds.length > 0 ||
       state.assignedPersonIds.length === 0 ||
       state.assignedPersonIds.includes(controlledPersonId ?? ("" as EntityId))
-    ) {
+    )
       continue;
-    }
     let completedEffortMinutes = state.completedEffortMinutes;
-    let completionOffset: number | null = null;
+    let checkpointEffort = completedEffortMinutes;
     for (let offset = 0; offset < totalMinutes; offset += 1) {
       const minuteStart = addSimulationMinutes(start, offset);
       const minuteEnd = addSimulationMinutes(start, offset + 1);
-      if (
-        state.assignedPersonIds.every(
-          (personId) =>
-            !occupiedMinutes.get(personId)?.has(offset) &&
-            isPersonAvailable(world, personId, minuteStart, minuteEnd),
+      const debits: string[] = [];
+      const eligible = state.assignedPersonIds.every((personId) => {
+        if (
+          occupiedMinutes.get(personId)?.has(offset) ||
+          !isPersonAvailable(world, personId, minuteStart, minuteEnd)
         )
-      ) {
+          return false;
+        // Legacy unbound assignments retain their existing scope.
+        if (engagements.length === 0) return true;
+        const bound = engagements.filter((work) => work.personId === personId);
+        if (bound.length !== 1) return false;
+        const work = bound[0]!;
+        const key = staffDayKey(personId, work.id, minuteStart.date);
+        if (!allowances.has(key)) {
+          const cutoff = {
+            asOfDate: minuteStart.date,
+            historySequenceExclusive: world.history.nextSequence,
+          };
+          const role = workRoleAt(queryWorld, work.id, cutoff);
+          const hours = role?.timeDemand.expectedWeekly;
+          const supported =
+            work.recordedAt <= minuteStart.date &&
+            work.startedAt <= minuteStart.date &&
+            workStatusAt(queryWorld, work.id, cutoff)?.status === "active" &&
+            hours &&
+            Number.isFinite(hours.minimumHours) &&
+            Number.isFinite(hours.maximumHours) &&
+            hours.minimumHours >= 0 &&
+            hours.maximumHours >= hours.minimumHours;
+          // Keep A154's conservative lower endpoint; weekly/5 is the admitted workday conversion.
+          allowances.set(key, supported ? (hours.minimumHours * 60) / 5 : null);
+        }
+        const allowance = allowances.get(key);
+        if (
+          allowance === null ||
+          allowance === undefined ||
+          (spent.get(key) ?? 0) + 1 > allowance
+        )
+          return false;
+        debits.push(key);
+        return true;
+      });
+      if (eligible) {
         for (const personId of state.assignedPersonIds) {
           const occupied = occupiedMinutes.get(personId) ?? new Set<number>();
           occupied.add(offset);
           occupiedMinutes.set(personId, occupied);
         }
+        for (const key of debits) spent.set(key, (spent.get(key) ?? 0) + 1);
         completedEffortMinutes += 1;
-        if (completedEffortMinutes >= item.effort.requiredMinutes) {
-          completedEffortMinutes = item.effort.requiredMinutes;
-          completionOffset = offset + 1;
-          break;
-        }
       }
+      const completed = completedEffortMinutes >= item.effort.requiredMinutes;
+      if (
+        (completed ||
+          minuteEnd.date !== minuteStart.date ||
+          offset + 1 === totalMinutes) &&
+        completedEffortMinutes > checkpointEffort
+      ) {
+        results.push({
+          item,
+          at: minuteEnd,
+          completed,
+          completedEffortMinutes,
+        });
+        checkpointEffort = completedEffortMinutes;
+      }
+      if (completed) break;
     }
-    if (completedEffortMinutes === state.completedEffortMinutes) continue;
-    results.push({
-      item,
-      at: addSimulationMinutes(start, completionOffset ?? totalMinutes),
-      completed: completionOffset !== null,
-      completedEffortMinutes,
-    });
   }
   return results;
 }
