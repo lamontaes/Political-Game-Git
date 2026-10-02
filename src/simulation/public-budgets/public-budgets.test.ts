@@ -61,7 +61,7 @@ import {
   MEDIAN_NORMAL_COST_SHARE,
   MEDIAN_PAID_SHARE,
   openingLiabilityToSpending,
-} from "./pension-share";
+} from "./opening";
 import { SeededRng } from "../rng";
 import {
   MEDIAN_RESERVE_DEPOSIT,
@@ -186,11 +186,16 @@ function opened(world: World): World {
   };
 }
 
+<<<<<<< HEAD
 /** Explicit controlled saved cash; the default account has no cash activity. */
 function withSavedIdleAccounts(
   world: World,
   openingCashMinorByKey: ReadonlyMap<string, number> = new Map(),
 ): World {
+=======
+/** Explicit controlled accounts with no cash activity; absence is not converted to zero. */
+function withSavedIdleAccounts(world: World): World {
+>>>>>>> origin/main
   const jurisdictions = Object.keys(STATES)
     .map((usps) => stateJurisdictionForKey(`US-${usps}`)!)
     .filter(Boolean);
@@ -245,6 +250,7 @@ function withSavedIdleAccounts(
       stableKey: `${stableKey}:idle-fixture-cash`,
       owner: { kind: "organization", organizationId },
       openedAt: world.currentDate,
+<<<<<<< HEAD
       openingBalance: money(
         openingCashMinorByKey.get(government.key) ?? 0,
         "USD",
@@ -252,6 +258,12 @@ function withSavedIdleAccounts(
       provenance: {
         kind: "authored",
         note: "Explicit controlled opening cash, with no transfers; not forecast receipts or a missing-data default.",
+=======
+      openingBalance: money(0, "USD"),
+      provenance: {
+        kind: "authored",
+        note: "Controlled actual zero opening cash, with no transfers; not a missing-data default.",
+>>>>>>> origin/main
       },
     });
   }

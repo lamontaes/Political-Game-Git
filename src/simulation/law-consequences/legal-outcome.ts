@@ -75,6 +75,48 @@ export function readMinimumCustodyTerm(
     : null;
 }
 
+/** The inclusive ceiling is a numeric rule, never a Boolean-age conversion. */
+export const juvenileJurisdictionRow: LawConsequenceRow = {
+  id: "justice:juvenile-jurisdiction-ceiling",
+  kind: "legal-outcome",
+  when: "case-stage",
+  who: { selector: "court.saved-defendant", predicates: [] },
+  what: "juvenile-jurisdiction-ceiling",
+  amount: { op: "term", key: "age", unit: "years" },
+  conditions: [],
+  lag: { days: 0, sourceIds: ["data/research/laws/starting-law-2026.json"] },
+  onRepeal: "preserve-completed",
+  evidence: {
+    sourceIds: ["data/research/laws/starting-law-2026.json"],
+    population:
+      "People considered for adult charging in the incident jurisdiction",
+    scope:
+      "The dated law's inclusive upper age of general juvenile jurisdiction",
+    why: "The operative age ceiling determines general juvenile jurisdiction before adult charging.",
+    uncertainty:
+      "Adult transfer requires a saved authorized decision; this row grants no transfer and fills no unread age.",
+  },
+};
+
+export function readJuvenileJurisdictionTerm(
+  world: World,
+  law: LawInForce,
+  questionKey: string,
+  onDate: IsoDate,
+): FinalEnactedLawTerm | null {
+  const amount = juvenileJurisdictionRow.amount;
+  if (amount?.op !== "term") return null;
+  const term = readFinalEnactedLawTerm(world, law, {
+    questionKey,
+    termKey: amount.key,
+    unit: amount.unit,
+    onDate,
+  });
+  return term && Number.isSafeInteger(term.value) && term.value >= 0
+    ? term
+    : null;
+}
+
 interface CustodyFloor {
   readonly months: number;
   readonly law: LawInForce;

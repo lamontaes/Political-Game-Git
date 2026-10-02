@@ -1,3 +1,5 @@
+import type { BudgetLawName } from "./store";
+import type { LawAmountExpression } from "../law-consequence-types";
 import stateLocalFinances from "../../../data/research/money/state-local-finances-2022.json" with { type: "json" };
 import {
   MILEAGE_FEE_QUESTION,
@@ -61,7 +63,7 @@ export const LOCAL_REVENUE_RULE =
  * Pension opening. The assumed return and the amortization period for the
  * unfunded part. PLACEHOLDER, research: public-pension-funding-by-state. The
  * liability's size against spending is measured (`openingLiabilityToSpending`
- * in `pension-share.ts`), and each government's normal cost and benefits paid
+ * in `opening.ts`), and each government's normal cost and benefits paid
  * are its own plans' (`pensionFlows`).
  */
 export const PENSION = {
@@ -193,3 +195,23 @@ export const DEFAULT_STATE_INTEREST_RATE =
   NATIONAL_DEBT.state.interestOnDebt / NATIONAL_DEBT.state.debtOutstanding;
 export const DEFAULT_LOCAL_INTEREST_RATE =
   NATIONAL_DEBT.local.interestOnDebt / NATIONAL_DEBT.local.debtOutstanding;
+
+/** Allocation of a saved annual obligation through the shared amount evaluator. */
+export const BUDGET_OBLIGATION_AMOUNT: LawAmountExpression = {
+  op: "product",
+  left: { op: "record", key: "obligation", unit: "dollars/year" },
+  right: {
+    op: "maximum",
+    operands: [
+      { op: "record", key: "paid-share", unit: "ratio" },
+      { op: "term", key: "required-share", unit: "ratio" },
+    ],
+  },
+};
+
+/** Catalog numeric allocation inputs; the legacy full-contribution question means one whole share. */
+export const BUDGET_ALLOCATION_TERM_KEYS: Readonly<
+  Partial<Record<BudgetLawName, string>>
+> = {
+  pensions: "contribution",
+};
