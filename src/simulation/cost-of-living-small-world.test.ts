@@ -13,6 +13,7 @@ import {
   createResourceFlow,
   money,
   recordResourceFlowTerms,
+  recordResourceTransferOutcome,
 } from "./resources";
 import {
   resourceFlowTermsAt,
@@ -211,6 +212,99 @@ describe.each(places)(
         resourcePositionAt(world, fixture.owner, terms.amount.currency)!
           .liquidBalance.minorUnits,
       ).toBe(fixture.amount * 3);
+    });
+
+    it(`preserves a saved same-day spending trough when settling an overdue household bill (seed ${seed})`, () => {
+      const fixture = household(place.jurisdictionKey);
+      const opening = fixture.amount * 3;
+      const remaining = 12345;
+      expect(fixture.amount).toBeGreaterThan(remaining);
+      let world = createResourcePosition(fixture.world, {
+        stableKey: "a52-small:trough-funds",
+        owner: fixture.owner,
+        openedAt: fixture.world.currentDate,
+        openingBalance: money(opening, "USD"),
+        provenance,
+      });
+      world = initializeLivingCostsFlow(world, fixture.small.personId);
+      const bill = livingCostsFlowFor(world, fixture.small.personId)!;
+      const later = makeIsoDate("2026-02-10");
+      const current = makeIsoDate("2026-02-15");
+      world = {
+        ...world,
+        currentDate: current,
+        currentMoment: simulationMomentOnLocalDate(
+          world.currentMoment,
+          current,
+        ),
+      };
+      for (const [key, source, recipient] of [
+        ["spending", fixture.owner, bill.recipient],
+        ["replenishment", bill.recipient, fixture.owner],
+      ] as const) {
+        world = createResourceFlow(world, {
+          stableKey: `a52-small:trough:${key}`,
+          source,
+          recipient,
+          startsAt: later,
+          amount: money(opening - remaining, "USD"),
+          cadenceKind: "schedule:once",
+          basisKind: "custom:trough-fixture",
+          basisReference: { kind: "general" },
+          restrictionKind: null,
+          jurisdictionId: fixture.small.jurisdictionId,
+          provenance,
+        });
+        world = recordResourceTransferOutcome(world, {
+          stableKey: `a52-small:trough:${key}:paid`,
+          resourceFlowId: world.history.resourceFlows.at(-1)!.id,
+          periodStartsAt: later,
+          periodEndsAt: later,
+          occurredAt: later,
+          status: "completed",
+          attemptedAmount: money(opening - remaining, "USD"),
+          transferredAmount: money(opening - remaining, "USD"),
+          reasonKind: null,
+          note: "Saved spending then replenishment on the same day.",
+          provenance,
+        });
+      }
+      const spending = world.history.resourceTransferOutcomes.at(-2)!;
+      const originalReceipts = world.history.resourceTransferOutcomes;
+      world = settleLivingCosts(
+        deserializeWorld(serializeWorld(world)),
+        fixture.small.personId,
+      );
+      const payment = world.history.resourceTransferOutcomes.at(-1)!;
+      expect(payment.resourceFlowId).toBe(bill.id);
+      expect(payment.status).toBe("partial");
+      expect(payment.transferredAmount.minorUnits).toBe(remaining);
+      expect(world.history.resourceTransferOutcomes.slice(0, -1)).toEqual(
+        originalReceipts,
+      );
+      expect(
+        resourcePositionAt(world, fixture.owner, money(0, "USD").currency, {
+          asOfDate: later,
+          historySequenceExclusive: spending.sequence + 1,
+        })!.liquidBalance.minorUnits,
+      ).toBe(remaining);
+      const cash = resourcePositionAt(
+        world,
+        fixture.owner,
+        money(0, "USD").currency,
+      )!.liquidBalance.minorUnits;
+      const sellers = resourcePositionAt(
+        world,
+        bill.recipient,
+        money(0, "USD").currency,
+      )!.liquidBalance.minorUnits;
+      expect(cash).toBe(opening - remaining);
+      expect(sellers).toBe(remaining);
+      expect(cash + sellers).toBe(opening);
+      const reopened = deserializeWorld(serializeWorld(world));
+      expect(settleLivingCosts(reopened, fixture.small.personId)).toBe(
+        reopened,
+      );
     });
 
     it(`reads household size from actual primary residents, including a child (seed ${seed})`, () => {
