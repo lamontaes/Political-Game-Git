@@ -43,6 +43,7 @@ import type {
   MeetingPlace,
   MeetingSeries,
   MunicipalGovernanceRecord,
+  MunicipalVetoOverrideWindow,
   PublicAttendanceRule,
   PowerRule,
   PresidingRule,
@@ -421,6 +422,14 @@ function normalizePack(
           managerElectionThreshold: cell<VoteThreshold>(
             pack.legislativeProcedure.managerElectionThreshold,
             "legislativeProcedure/managerElectionThreshold",
+          ),
+        }
+      : {}),
+    ...(pack.legislativeProcedure.vetoOverrideWindow
+      ? {
+          vetoOverrideWindow: cell<MunicipalVetoOverrideWindow>(
+            pack.legislativeProcedure.vetoOverrideWindow,
+            "legislativeProcedure/vetoOverrideWindow",
           ),
         }
       : {}),

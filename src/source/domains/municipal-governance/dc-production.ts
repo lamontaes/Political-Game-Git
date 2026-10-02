@@ -314,6 +314,12 @@ export const DC_PRODUCTION_PACK: MunicipalPackInput = {
       "1-204.04(e)",
       DC_OVERRIDE_EXCERPT,
     ),
+    vetoOverrideWindow: said(
+      { days: 30, dayBasis: "CALENDAR", anchor: "executive-return" },
+      "dc-code-1-204-04",
+      "1-204.04(e)",
+      DC_OVERRIDE_EXCERPT,
+    ),
     overrideWindowDays: said(
       30,
       "dc-code-1-204-04",

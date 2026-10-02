@@ -490,6 +490,9 @@ function exportReading(
             managerElectionThreshold: value(procedure.managerElectionThreshold),
           }
         : {}),
+      ...(procedure.vetoOverrideWindow
+        ? { vetoOverrideWindow: value(procedure.vetoOverrideWindow) }
+        : {}),
       ...(procedure.overrideWindowDays
         ? { overrideWindowDays: value(procedure.overrideWindowDays) }
         : {}),
