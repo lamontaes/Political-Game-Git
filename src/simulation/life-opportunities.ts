@@ -20,7 +20,7 @@ import { createScheduledActivity, createWorkItem } from "./time-work";
 import { settleLivingCosts } from "./cost-of-living";
 import { settleOfficeSalaries } from "./office-salary";
 import { advanceJobMarket } from "./job-market";
-import { settleMortgages } from "./home-purchase";
+import { settleHouseholdLoanPayments } from "./household-loans";
 import { recordWorldEvent } from "./world";
 import { ensurePeopleTraits } from "./people-traits";
 import {
@@ -300,7 +300,9 @@ function occasionDatesBySource(world: World): ReadonlyMap<EntityId, IsoDate> {
  *
  * Moved here from the presentation surface without changing what it writes:
  * the same notice, the same meeting on the calendar, and its work item
- * under the same stable keys, the same authored titles and summaries. It lives
+ * under the same stable keys and authored titles and summaries, explicitly
+ * marked as an authored opening. Meeting and travel retain their recorded
+ * responsible person so the existing action readers can find them. It lives
  * in the simulation now because the canonical world builder needs it and a
  * world may not reach up into a screen to find out what an ordinary week is.
  *
@@ -336,7 +338,7 @@ export function openOrdinaryLifeRecords(
     ],
     personFactConstraints: [],
     visibility: "public",
-    tags: ["civic.public-meeting"],
+    tags: ["civic.public-meeting", "provenance:authored opening"],
     summary: `A public meeting was posted on the local calendar. Agenda: ${PUBLIC_MEETING_AGENDA}`,
     context: {
       location: jurisdictionId
@@ -455,7 +457,7 @@ export function refreshLifeOpportunities(
   let next = world;
   next = settleOfficeSalaries(next, personId);
   next = advanceJobMarket(next, personId);
-  next = settleMortgages(next, personId);
+  next = settleHouseholdLoanPayments(next, personId);
   next = settleLivingCosts(next, personId);
   next = writeNextOpportunity(next, personId);
   return next;

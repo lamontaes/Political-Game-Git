@@ -4,6 +4,7 @@ import {
   requestedTeacherSalaryFloor,
   recordTeacherSponsorFloor,
 } from "../teacher-salary-floor";
+import { recordJuvenileAgeBillTerm } from "../justice/juvenile-law-term";
 import { nextSessionCalendarDate } from "../legislative-session-calendar";
 import { LEGISLATIVE_SESSION_CALENDARS } from "../legislative-session-calendar-data";
 import {
@@ -881,6 +882,7 @@ export function fileMemberAgendaBills(
         });
         measureId = next.history.legislativeMeasures!.at(-1)!.id;
       }
+      next = recordJuvenileAgeBillTerm(next, measureId);
       const measure = next.history.legislativeMeasures!.find(
         (row) => row.id === measureId,
       )!;

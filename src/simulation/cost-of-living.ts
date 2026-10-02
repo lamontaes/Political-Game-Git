@@ -20,6 +20,8 @@ import {
   recordResourceTransferOutcome,
 } from "./resources";
 import {
+  activeDwellingOccupanciesAt,
+  dwellingOccupancyStateAt,
   resourceFlowTermsAt,
   resourceFlowsTouching,
   resourceTransferOutcomesOfFlows,
@@ -27,6 +29,7 @@ import {
   sameEndpoint,
 } from "./resource-queries";
 import { MORTGAGE_BASIS } from "./home-purchase";
+import { loanTermsAt, LOAN_PAYMENT_BASIS } from "./household-loans";
 import {
   LIVING_COSTS_SOURCE,
   REPRESENTATIVE_LIVING_COSTS,
@@ -36,7 +39,37 @@ import {
 import { townLeases } from "./living-world/town-rent";
 import { recordWorldEvent } from "./world";
 import { drawnLinkSize } from "./outcome-web";
-import type { EntityId, IsoDate, ResourceFlow, World } from "./types";
+import type {
+  EntityId,
+  IsoDate,
+  ResourceFlow,
+  ResourceObligation,
+  World,
+} from "./types";
+
+const obligationIdsByFlow = new WeakMap<
+  readonly ResourceObligation[],
+  ReadonlyMap<EntityId, readonly EntityId[]>
+>();
+
+function obligationsForFlow(
+  world: World,
+  flowId: EntityId,
+): readonly EntityId[] {
+  const records = world.history.resourceObligations;
+  let index = obligationIdsByFlow.get(records);
+  if (!index) {
+    const entries = new Map<EntityId, EntityId[]>();
+    for (const record of records) {
+      const ids = entries.get(record.resourceFlowId) ?? [];
+      ids.push(record.id);
+      entries.set(record.resourceFlowId, ids);
+    }
+    obligationIdsByFlow.set(records, entries);
+    index = entries;
+  }
+  return index.get(flowId) ?? [];
+}
 
 /**
  * Monthly nonhousing costs belong to the actual primary household. Saved provider
@@ -163,15 +196,39 @@ export function recordedHouseholdHousingBillsAt(
   | null {
   const householdId = primaryHouseholdId(world, personId, asOfDate);
   if (!householdId) return null;
+  const cutoff = {
+    asOfDate,
+    historySequenceExclusive: world.history.nextSequence,
+  };
+  const primaryDwellings = new Set(
+    activeDwellingOccupanciesAt(world, cutoff)
+      .filter(
+        (row) =>
+          row.occupant.kind === "household" &&
+          row.occupant.householdId === householdId &&
+          dwellingOccupancyStateAt(world, row.id, cutoff)?.residenceRole ===
+            "primary",
+      )
+      .map((row) => row.dwellingId),
+  );
   const leases = townLeases(world, asOfDate).filter(
     (row) =>
       !row.ended &&
+      primaryDwellings.has(row.dwellingId) &&
       row.householdId === householdId &&
       row.flow.startsAt <= asOfDate,
   );
   const mortgageFlows = world.history.resourceFlows.filter(
     (flow) =>
-      flow.basisKind === MORTGAGE_BASIS &&
+      (flow.basisKind === MORTGAGE_BASIS ||
+        (flow.basisKind === LOAN_PAYMENT_BASIS &&
+          obligationsForFlow(world, flow.id).some(
+            (obligationId) =>
+              loanTermsAt(world, obligationId, {
+                asOfDate,
+                historySequenceExclusive: world.history.nextSequence,
+              })?.kind === "mortgage",
+          ))) &&
       flow.startsAt <= asOfDate &&
       flow.source.kind === "person" &&
       householdMembershipsAt(world, flow.source.personId, {
