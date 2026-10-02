@@ -1,3 +1,9 @@
+import {
+  inclusionaryHome,
+  inclusionarySetAsideOpen,
+  RENT_LAW_KEYS,
+} from "../living-world/town-rent";
+import { passOrdinaryDays } from "../../presentation/ordinary-life";
 import { randomInt } from "node:crypto";
 import {
   createNewGameWorld,
@@ -103,12 +109,15 @@ const row: LawConsequenceRow = {
 function setup(
   revision: "replace" | "omit" | "wrong-unit",
   production = false,
+  terms?: { questionKey: string; termKey: string },
 ) {
+  const questionKey = terms?.questionKey ?? QUESTION;
+  const termKey = terms?.termKey ?? TERM;
   const scenario = createLegislativeScenario("kentucky");
   const state = stateJurisdictionForKey("US-KY")!;
   const baseCatalog = createProductionPolicyCatalog();
   const proposition = Object.values(baseCatalog.propositions).find(
-    (p) => p.stableKey === QUESTION,
+    (p) => p.stableKey === questionKey,
   )!;
   const catalog = {
     ...baseCatalog,
@@ -123,7 +132,9 @@ function setup(
                 : parameter,
             )
           : proposition.parameters,
-        consequences: [production ? RENT_STABILIZATION_ROW : row],
+        ...(terms
+          ? {}
+          : { consequences: [production ? RENT_STABILIZATION_ROW : row] }),
       },
     },
   };
@@ -169,7 +180,7 @@ function setup(
       appliesToLabel: "Controlled fixture contracts",
     },
     applicationScope: { jurisdictionId: state.id, segmentKey: null },
-    lawTerms: [{ questionKey: QUESTION, key: TERM, value: 0.1, unit: "ratio" }],
+    lawTerms: [{ questionKey, key: termKey, value: 0.1, unit: "ratio" }],
   });
   const original = world.history.legislativeProvisions!.at(-1)!;
   const context = {
@@ -225,7 +236,7 @@ function setup(
             ? {
                 lawCategories: [
                   {
-                    questionKey: QUESTION,
+                    questionKey,
                     key: "coverage",
                     values: ["market:residential:house"],
                   },
@@ -234,8 +245,8 @@ function setup(
             : {}),
           lawTerms: [
             {
-              questionKey: QUESTION,
-              key: TERM,
+              questionKey,
+              key: termKey,
               value: 0.05,
               unit:
                 revision === "wrong-unit"
@@ -443,6 +454,62 @@ describe("production rent stabilization row", () => {
           fixture.context,
         ),
       ).toEqual([]);
+    },
+  );
+  it.each(["replace", "omit", "wrong-unit"] as const)(
+    "uses the actual inclusionary home allocation path for a %s share",
+    (revision) => {
+      const fixture = setup(revision, false, {
+        questionKey: RENT_LAW_KEYS.inclusionary,
+        termKey: "share",
+      });
+      let world = passOrdinaryDays(fixture.world, 1);
+      world = createDwelling(world, {
+        stableKey: "recorded-share:actual-new-apartment",
+        establishedAt: world.currentDate,
+        jurisdictionId: fixture.state.id,
+        locationLabel: "Controlled apartment for the enacted share",
+        classification: "residential:apartment",
+        provenance: {
+          kind: "authored",
+          note: "Recorded new construction for final-term allocation test.",
+        },
+      });
+      const dwelling = world.history.dwellings.at(-1)!;
+      const allocation = inclusionaryHome(
+        world,
+        dwelling,
+        "small-apartment",
+        fixture.state.id,
+        0,
+      );
+      if (revision !== "replace") {
+        expect(allocation).toBeNull();
+        return;
+      }
+      expect(allocation?.sourceRecordIds).toContain(fixture.adopted.id);
+      expect(allocation?.sourceRecordIds).not.toContain(fixture.original.id);
+      expect(inclusionarySetAsideOpen(5, 100, 0.05)).toBe(false);
+      expect(inclusionarySetAsideOpen(4, 100, 0.05)).toBe(true);
+      expect(
+        inclusionaryHome(
+          world,
+          dwelling,
+          "small-apartment",
+          fixture.state.id,
+          1,
+        ),
+      ).toBeNull();
+      const loaded = deserializeWorld(serializeWorld(world));
+      expect(
+        inclusionaryHome(
+          loaded,
+          dwelling,
+          "small-apartment",
+          fixture.state.id,
+          0,
+        )?.sourceRecordIds,
+      ).toContain(fixture.adopted.id);
     },
   );
   it("opens a new game in an actual random canonical municipality", () => {
