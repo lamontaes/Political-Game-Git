@@ -1,5 +1,5 @@
 ---
-id: shared-primary-ballot-audit
+id: a114-shared-ballot-audit
 impact: patch
 section: Changed
 title: The nominations audit recognizes shared voter counting
