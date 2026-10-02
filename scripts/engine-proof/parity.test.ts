@@ -14,6 +14,7 @@ import * as officeContinuity from "../../src/simulation/governing/office-continu
 import { EMPTY_FUTURE_TRANSITION_HANDLERS } from "../../src/simulation/future-transitions";
 import { baselineAdvanceWorld } from "./baseline-date-route";
 import { advanceWorld, createWorldId } from "../../src/simulation/world";
+import * as simulationWorld from "../../src/simulation/world";
 import {
   addDays,
   addSimulationMinutes,
@@ -121,6 +122,15 @@ describe("C5 independent route proof", () => {
         return world.history.scheduledActivities.at(-1)!.id;
       });
       const dailyConsumer = vi.spyOn(officeContinuity, "applyOfficeLifecycle");
+      const completionScopes: boolean[] = [];
+      const recordWorldEvent = simulationWorld.recordWorldEvent;
+      const eventWriter = vi
+        .spyOn(simulationWorld, "recordWorldEvent")
+        .mockImplementation((...args) => {
+          if (args[1].type === "schedule.activity-completed")
+            completionScopes.push(simulationWorld.worldIntegrityDeferred());
+          return recordWorldEvent(...args);
+        });
       try {
         for (const activityId of activityIds) {
           world = performScheduledActivity(
@@ -128,6 +138,9 @@ describe("C5 independent route proof", () => {
             activityId,
             EMPTY_FUTURE_TRANSITION_HANDLERS,
           );
+          expect(completionScopes.at(-1)).toBe(true);
+          expect(simulationWorld.worldIntegrityDeferred()).toBe(false);
+          simulationWorld.assertWorldIntegrityFully(world);
           const state = scheduledActivityState(world, activityId);
           expect(state.status).toBe("completed");
           expect(state.outcomeEventId).not.toBeNull();
@@ -137,6 +150,7 @@ describe("C5 independent route proof", () => {
             ),
           ).toBe(true);
         }
+        expect(completionScopes).toEqual([true, true]);
         expect(world.currentDate).toBe(initialDate);
         expect(world.currentMoment).toEqual(
           addSimulationMinutes(initialMoment, 60),
@@ -154,6 +168,7 @@ describe("C5 independent route proof", () => {
         expect(applyDateBoundary(world.currentDate, world)).toBe(world);
         expect(dailyConsumer).toHaveBeenCalledTimes(1);
       } finally {
+        eventWriter.mockRestore();
         dailyConsumer.mockRestore();
       }
     },
