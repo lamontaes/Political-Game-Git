@@ -12,9 +12,10 @@ import {
   type MunicipalBallotRuleBasis,
   type MunicipalRecallBasis,
 } from "./municipal-ballot-rules";
-import type {
-  MunicipalRecallDoctrine,
-  PetitionThreshold,
+import {
+  resolveRequiredSignatures,
+  type MunicipalRecallDoctrine,
+  type PetitionThreshold,
 } from "./municipal-election-rules";
 import {
   municipalGovernmentJurisdictionId,
@@ -22,7 +23,9 @@ import {
 } from "./municipal-public-work";
 import { stateName } from "./office-qualification-rules";
 import { personName } from "./people";
-import { SeededRng } from "./rng";
+import { viewOfOfficial } from "./official-view-reads";
+import { isEligibleVoterIn } from "./issue-record";
+import { nextTownElection } from "./nationwide-world/town-election-calendar";
 import type {
   EntityId,
   FutureDueItem,
@@ -50,14 +53,10 @@ import { recordWorldEvent } from "./world";
  * it takes the rule the most read states name (no draw), ESTIMATED FROM
  * AVERAGE and labeled `national-estimated`. It is never another state's law.
  *
- * PLACEHOLDERS, NOT RESEARCH, pending `recall-of-officials-52`:
- * - Whether a petition gathers enough signatures. The game has no count of a
- *   town's voters (place demography records population, not electors) and no
- *   measure of how people feel about an official, so qualification is a
- *   keyed draw at `RECALL_PROFILE.qualifyPermille`.
- * - The recall vote itself, a keyed draw in `RECALL_PROFILE.removeYesShare`,
- *   recorded as shares of 10,000 because turnout is not modeled.
- * - When the election is held: `electionLeadDays` after the petition closes.
+ * Under the owner-approved game mechanism, recorded recall supporters count
+ * as signatures and recorded registered residents supply the base. The legal
+ * percentage and its original base label remain recorded separately. Election
+ * counts use saved official views; no turnout is extrapolated.
  *
  * NOT MODELED, with the blanket rule applied meanwhile:
  * - Recall of state officers, legislators and judges. Refused with the reason
@@ -83,19 +82,6 @@ export const RECALL_ELECTION = "civic:recall-election" as const;
 export const RECALL_PETITION_STARTED = "civic.recall-petition-started";
 export const RECALL_PETITION_CLOSED = "civic.recall-petition-closed";
 export const RECALL_ELECTION_HELD = "civic.recall-election-held";
-
-/** Every value is a placeholder pending `recall-of-officials-52`. */
-export const RECALL_PROFILE = {
-  id: "ocd-recall-placeholder/v1",
-  /** Chance, per mille, that a petition gathers enough valid signatures. */
-  qualifyPermille: 350,
-  /** The recall vote's yes share, in shares of 10,000, drawn from [min, max). */
-  removeYesShare: [3_000, 6_500],
-  /** Days from the petition closing to the recall election. */
-  electionLeadDays: 75,
-} as const;
-
-const PLACEHOLDER_NOTE = `${RECALL_PROFILE.id}: a placeholder pending research (recall-of-officials-52), not any jurisdiction's record.`;
 
 export type RecallRule =
   | {
@@ -183,6 +169,7 @@ export interface RecallPetition {
   readonly targetPersonId: EntityId;
   readonly startedAt: IsoDate;
   readonly closesAt: IsoDate;
+  readonly threshold?: PetitionThreshold | null;
   readonly phase: RecallPhase;
   readonly electionAt: IsoDate | null;
   readonly yes: number | null;
@@ -211,6 +198,16 @@ export function recallPetitions(world: World): readonly RecallPetition[] {
         targetPersonId: tagValue(event.tags, "target:")! as EntityId,
         startedAt: event.occurredAt,
         closesAt: tagValue(event.tags, "closes:") as IsoDate,
+        threshold:
+          tagValue(event.tags, "threshold-percent:") === null
+            ? undefined
+            : {
+                percent: Number(tagValue(event.tags, "threshold-percent:")),
+                base: tagValue(
+                  event.tags,
+                  "threshold-base:",
+                ) as PetitionThreshold["base"],
+              },
         phase: "circulating",
         electionAt: null,
         yes: null,
@@ -241,8 +238,14 @@ export function recallPetitions(world: World): readonly RecallPetition[] {
             : outcome === "lapsed"
               ? "lapsed"
               : "retained",
-        yes: Number(tagValue(event.tags, "yes:") ?? NaN) || null,
-        no: Number(tagValue(event.tags, "no:") ?? NaN) || null,
+        yes:
+          tagValue(event.tags, "yes:") === null
+            ? null
+            : Number(tagValue(event.tags, "yes:")),
+        no:
+          tagValue(event.tags, "no:") === null
+            ? null
+            : Number(tagValue(event.tags, "no:")),
       });
   }
   return [...petitions.values()];
@@ -384,6 +387,12 @@ export function startRecallPetition(
       `target:${input.targetPersonId}`,
       `closes:${closesAt}`,
       `circulation:${rule.circulationBasis}`,
+      ...(rule.threshold
+        ? [
+            `threshold-percent:${rule.threshold.percent}`,
+            `threshold-base:${rule.threshold.base}`,
+          ]
+        : []),
     ],
     summary: `A petition to recall ${personName(target)} began circulating. It closes on ${closesAt}.${threshold}${rule.groundsRequired ? " The law requires stated grounds." : ""}`,
     context: eventContext(),
@@ -414,18 +423,51 @@ export function recallPetitionKey(
   return `${RECALL_VERSION}:${governmentKey}:${targetPersonId}:${startedAt}`;
 }
 
-/** PLACEHOLDER draw: whether the petition gathered enough signatures. */
-export function recallPetitionQualifies(seed: string, petitionKey: string) {
-  return (
-    new SeededRng(seed).fork(`${petitionKey}:qualify`).integer(0, 1000) <
-    RECALL_PROFILE.qualifyPermille
-  );
-}
-
-/** PLACEHOLDER draw: the recall vote's yes share, in shares of 10,000. */
-export function recallYesShare(seed: string, petitionKey: string): number {
-  const [min, max] = RECALL_PROFILE.removeYesShare;
-  return new SeededRng(seed).fork(`${petitionKey}:vote`).integer(min, max);
+/** Count only living adult residents with a dated saved view of this official. */
+export function recallResidentViews(
+  world: World,
+  petition: Pick<RecallPetition, "jurisdictionId" | "targetPersonId">,
+): {
+  readonly yes: number;
+  readonly no: number;
+  readonly registeredVoters: number;
+  readonly sourceRecordIds: readonly EntityId[];
+} {
+  let yes = 0;
+  let no = 0;
+  let registeredVoters = 0;
+  const sourceRecordIds = new Set<EntityId>();
+  const cutoff = {
+    asOfDate: world.currentDate,
+    historySequenceExclusive: world.history.nextSequence,
+  };
+  for (const personId of new Set(world.personOrder)) {
+    const person = world.people[personId];
+    if (
+      !person ||
+      person.homeJurisdictionId !== petition.jurisdictionId ||
+      !isEligibleVoterIn(
+        world,
+        personId,
+        petition.jurisdictionId,
+        world.currentDate,
+      )
+    )
+      continue;
+    registeredVoters += 1;
+    const view = viewOfOfficial(
+      world,
+      personId,
+      petition.targetPersonId,
+      cutoff,
+    );
+    if (view.points === 0) continue;
+    if (view.points < 0) yes += 1;
+    else no += 1;
+    if (view.belief) sourceRecordIds.add(view.belief.id);
+    else for (const row of view.rows) sourceRecordIds.add(row.id);
+  }
+  return { yes, no, registeredVoters, sourceRecordIds: [...sourceRecordIds] };
 }
 
 function thresholdBase(threshold: PetitionThreshold): string {
@@ -462,6 +504,7 @@ function closingEvent(
   outcome: "qualified" | "failed" | "lapsed",
   electionAt: IsoDate | null,
   summary: string,
+  countTags: readonly string[] = [],
 ): World {
   return recordWorldEvent(world, {
     stableKey: `${petition.stableKey}:closed`,
@@ -483,6 +526,7 @@ function closingEvent(
       RECALL_VERSION,
       `petition:${petition.stableKey}`,
       `outcome:${outcome}`,
+      ...countTags,
       ...(electionAt ? [`election:${electionAt}`] : []),
     ],
     summary,
@@ -510,38 +554,88 @@ export function recallPetitionClosesHandler(
       ),
       "The official left office before the petition closed.",
     );
-  const qualified = recallPetitionQualifies(world.seed, petition.stableKey);
-  if (!qualified)
+  const startRule = municipalRecallRule(petition.governmentKey, {
+    ...world,
+    currentDate: petition.startedAt,
+  });
+  const threshold =
+    petition.threshold ?? (startRule.available ? startRule.threshold : null);
+  if (!threshold)
+    return {
+      world,
+      status: "blocked",
+      reasonKey: "recall:missing-legal-threshold",
+      context: "The jurisdiction's recall signature threshold is not recorded.",
+      outcomeEventId: null,
+    };
+  const counted = recallResidentViews(world, petition);
+  const required = resolveRequiredSignatures(
+    threshold,
+    counted.registeredVoters,
+  );
+  const countTags = [
+    `signatures:${counted.yes}`,
+    `registered-voters:${counted.registeredVoters}`,
+    `required-signatures:${required}`,
+    `threshold-percent:${threshold.percent}`,
+    `threshold-base:${threshold.base}`,
+    "signature-mechanism:recorded-recall-supporters",
+    "count-base:registered-voters",
+    ...counted.sourceRecordIds.map((id) => `view-source:${id}`),
+  ];
+  if (counted.registeredVoters === 0 || counted.yes < required)
     return done(
       closingEvent(
         world,
         petition,
         "failed",
         null,
-        `The petition to recall ${name} did not gather enough valid signatures.`,
+        `The petition to recall ${name} failed to qualify: ${counted.yes} recorded supporters, ${required} required from ${counted.registeredVoters} registered residents.`,
+        countTags,
       ),
-      "The petition failed to qualify.",
+      "Recorded recall supporters fell short of the jurisdiction's threshold.",
     );
-  const electionAt = addDays(
-    world.currentDate,
-    RECALL_PROFILE.electionLeadDays,
-  );
-  let next = closingEvent(
+  const government = municipalGovernmentByKey(petition.governmentKey);
+  const election =
+    government?.placeGeoid && startRule.available
+      ? nextTownElection(
+          startRule.stateUsps,
+          government.placeGeoid,
+          world.currentDate,
+        )
+      : null;
+  if (!election)
+    return {
+      world,
+      status: "blocked",
+      reasonKey: "recall:missing-election-calendar",
+      context:
+        "Recorded supporters meet the threshold, but the town's election date is not sourced.",
+      outcomeEventId: null,
+    };
+  const electionAt = election.electionDate;
+  const closed = closingEvent(
     world,
     petition,
     "qualified",
     electionAt,
-    `The petition to recall ${name} qualified. The recall election is on ${electionAt}.`,
+    `The petition to recall ${name} qualified: ${counted.yes} recorded supporters, ${required} required from ${counted.registeredVoters} registered residents. The vote is scheduled for the town's sourced election date, ${electionAt}.`,
+    countTags,
   );
-  next = scheduleFutureDueItem(next, {
-    stableKey: `${petition.stableKey}:election`,
-    dueAt: electionAt,
-    transitionKey: RECALL_ELECTION,
-    entityIds: [petition.jurisdictionId],
-    jurisdictionId: petition.jurisdictionId,
-    provenance: { kind: "authored", note: PLACEHOLDER_NOTE },
-  });
-  return done(next, "The petition qualified.");
+  return done(
+    scheduleFutureDueItem(closed, {
+      stableKey: `${petition.stableKey}:election`,
+      dueAt: electionAt,
+      transitionKey: RECALL_ELECTION,
+      entityIds: [petition.jurisdictionId],
+      jurisdictionId: petition.jurisdictionId,
+      provenance: {
+        kind: "authored",
+        note: `Recall scheduled through the town election calendar (${election.basis}).`,
+      },
+    }),
+    "The recall petition qualified on recorded supporters and registered residents.",
+  );
 }
 
 /** Election day: keep the official, or remove them. */
@@ -554,6 +648,7 @@ export function recallElectionHandler(
     return done(world, "No recall election matches.");
   const name = personName(world.people[petition.targetPersonId]!);
   const seat = seatOf(world, petition.governmentKey, petition.targetPersonId);
+  const counted = recallResidentViews(world, petition);
   const held = (
     next: World,
     outcome: "removed" | "retained" | "lapsed",
@@ -580,6 +675,9 @@ export function recallElectionHandler(
         RECALL_VERSION,
         `petition:${petition.stableKey}`,
         `outcome:${outcome}`,
+        ...(tally
+          ? counted.sourceRecordIds.map((id) => `view-source:${id}`)
+          : []),
         ...(tally ? [`yes:${tally[0]}`, `no:${tally[1]}`] : []),
       ],
       summary,
@@ -595,15 +693,24 @@ export function recallElectionHandler(
       ),
       "The official left office before the election.",
     );
-  const yes = recallYesShare(world.seed, petition.stableKey);
-  const no = 10_000 - yes;
-  const percent = (share: number) => `${(share / 100).toFixed(1)}%`;
+  const { yes, no } = counted;
+  if (yes + no === 0)
+    return {
+      world,
+      status: "blocked",
+      reasonKey: "recall:no-recorded-resident-views",
+      context:
+        "No living adult resident has a recorded support or opposition view of this official. No recall count or turnout is inferred.",
+      outcomeEventId: null,
+    };
+  const percent = (count: number) =>
+    `${((count / (yes + no)) * 100).toFixed(1)}%`;
   if (yes <= no)
     return done(
       held(
         world,
         "retained",
-        `Voters chose to keep ${name}: ${percent(no)} against the recall, ${percent(yes)} for it.`,
+        `Recorded resident views favored keeping ${name}: ${no} against recall (${percent(no)}), ${yes} for it (${percent(yes)}).`,
         [yes, no],
       ),
       "The official was retained.",
@@ -611,7 +718,7 @@ export function recallElectionHandler(
   let next = held(
     world,
     "removed",
-    `Voters recalled ${name}: ${percent(yes)} for the recall, ${percent(no)} against. The seat is empty until the town's next regular election.`,
+    `Recorded resident views favored recalling ${name}: ${yes} for recall (${percent(yes)}), ${no} against (${percent(no)}). The seat is empty until the town's next regular election.`,
     [yes, no],
   );
   const previous = organizationParticipationStateHistory(

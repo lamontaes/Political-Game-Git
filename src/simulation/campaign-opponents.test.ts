@@ -1,3 +1,4 @@
+import { fixtureMeetsRecordedCandidacyAge } from "../../tests/fixtures/candidacy-age";
 import {
   suggestedAdvertising,
   CAMPAIGN_AD_CHANNELS,
@@ -7,10 +8,8 @@ import { describe, expect, it } from "vitest";
 import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 
 import {
-  GAME_ADULT_CANDIDACY_AGE,
   addDays,
   advanceWorld,
-  ageOnDate,
   campaignOpponentRecords,
   campaignOpponentStepRecords,
   campaignState,
@@ -71,10 +70,8 @@ interface Filed {
 }
 
 function firstAdult(world: World): EntityId {
-  return world.personOrder.find(
-    (personId) =>
-      ageOnDate(world.people[personId]!.birthDate, world.currentDate) >=
-      GAME_ADULT_CANDIDACY_AGE,
+  return world.personOrder.find((personId) =>
+    fixtureMeetsRecordedCandidacyAge(world, personId),
   )!;
 }
 

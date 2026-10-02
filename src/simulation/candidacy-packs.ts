@@ -63,19 +63,6 @@ import type {
  * to cover the gap.
  */
 
-/**
- * The game's own floor, not a jurisdiction's.
- *
- * Every real qualification below is `unknown`, and "unknown" must not resolve
- * to "anyone". So the game applies one conservative rule of its own and labels
- * it as its own: the same adult threshold the accepted setup screen already
- * uses before it will put a character to work in a legislature. When a
- * jurisdiction's real minimum age is sourced it replaces this, and a character
- * this rule turned away was turned away by the game, which is a different
- * sentence from "the law says no".
- */
-export const GAME_ADULT_CANDIDACY_AGE = 21;
-
 export interface ElectiveOfficeQualification {
   /** The age the jurisdiction requires. Unknown until a source says. */
   readonly minimumAge: RuleValue<number>;
@@ -164,6 +151,35 @@ function stateLawHasBeenRead(stateJurisdictionKey: string): boolean {
 }
 
 function officeQualification(
+  packId: string,
+  jurisdictionKey: string,
+  chamberKey: string,
+): ElectiveOfficeQualification {
+  const qualification = compiledQualificationForOffice(
+    packId,
+    jurisdictionKey,
+    chamberKey,
+  );
+  if (qualification.minimumAge.kind !== "unknown") return qualification;
+  const officeFamily = officeFamilyForChamberKey(chamberKey);
+  const settled =
+    officeFamily === null
+      ? null
+      : settledQualification(
+          jurisdictionKey,
+          "MINIMUM_AGE",
+          officeFamily,
+          OFFICE_QUALIFICATIONS_META.asOf,
+        );
+  return settled === null
+    ? qualification
+    : {
+        ...qualification,
+        minimumAge: knownRule(settled.value, settled.source),
+      };
+}
+
+function compiledQualificationForOffice(
   packId: string,
   jurisdictionKey: string,
   chamberKey: string,
@@ -351,6 +367,7 @@ function officeQualification(
         jurisdictionKey,
         field,
         officeFamily,
+        OFFICE_QUALIFICATIONS_META.asOf,
       );
       if (settled !== null) return knownRule(settled.value, settled.source);
       const drawn = standInQualification(jurisdictionKey, field, officeFamily);
