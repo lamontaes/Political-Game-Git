@@ -53,6 +53,7 @@ import {
   applyInstitutionStep,
   applyInstitutionSessionEnd,
   legislativeBlueprintForMeasure,
+  referralCommittee,
 } from "../simulation/governing/legislative-clock";
 import { dispositionsHonoringOfficeInstructions } from "./office-vote-instruction";
 
@@ -196,7 +197,12 @@ export function applyLegislativeStep(
 
   switch (step) {
     case "request-referral": {
-      const committee = chamber.committees[0]!;
+      const committee = referralCommittee(world, measureId, chamberKey);
+      if (!committee)
+        return {
+          world,
+          message: `The ${chamber.name}'s committees are not compiled, so no referral is made.`,
+        };
       return {
         world: referMeasure(world, {
           stableKey: key(`refer:${chamberKey}`),
