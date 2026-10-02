@@ -195,20 +195,23 @@ describe(`court review (seed ${SEED}, opened in ${observerPlace(SEED).key}, law 
   it("binds an actually enacted national law to the saved federal court and its judges", () => {
     const base = openedWorld();
     const pid = propositionId(base, RAISE_TOP_FEDERAL_RATE_QUESTION);
-    let world = introduceMeasure(base, {
-      stableKey: "a100:national-court:measure",
-      jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-      rulePackId: US_CONGRESS_PACK_ID,
-      designation: "H.R. Court Fixture",
-      shortTitle: "Authored national court-binding fixture",
-      summary: "Authored congressional passage; no tax collection is inferred.",
-      origin: "member-introduction",
-      subjectClass: "general-policy",
-      originChamberKey: "house",
-      sponsorPersonId: null,
-      propositionIds: [pid],
-      propositionAnswers: [{ propositionId: pid, answer: "yes" }],
-    });
+    let world = withWorldIntegrityDeferred(() =>
+      introduceMeasure(base, {
+        stableKey: "a100:national-court:measure",
+        jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+        rulePackId: US_CONGRESS_PACK_ID,
+        designation: "H.R. Court Fixture",
+        shortTitle: "Authored national court-binding fixture",
+        summary:
+          "Authored congressional passage; no tax collection is inferred.",
+        origin: "member-introduction",
+        subjectClass: "general-policy",
+        originChamberKey: "house",
+        sponsorPersonId: null,
+        propositionIds: [pid],
+        propositionAnswers: [{ propositionId: pid, answer: "yes" }],
+      }),
+    );
     const measure = world.history.legislativeMeasures!.at(-1)!;
     const bodies = US_CONGRESS_RULE_PACK.chamberOrder.map((key) => {
       const seated = seatedCongressChamber(world, key);
@@ -227,19 +230,23 @@ describe(`court review (seed ${SEED}, opened in ${observerPlace(SEED).key}, law 
           yea: bodies.find((body) => body.chamberKey === key)!.members.length,
         };
     }
-    world = enactThroughDesk(world, measure.id, {
-      context: {
-        pack: US_CONGRESS_RULE_PACK,
-        measureId: measure.id,
-        bodies,
-        committeeMemberCount: null,
-        votePlan,
-        governorAction: "signed",
-        governorRationale:
-          "Authored fixture approval through the actual President's desk.",
-      },
-      effectiveAt: addDays(world.currentDate, 90),
-    });
+    // Batch the existing procedure writers, as the canonical clock does.
+    // serializeWorld below still performs the full final integrity check.
+    world = withWorldIntegrityDeferred(() =>
+      enactThroughDesk(world, measure.id, {
+        context: {
+          pack: US_CONGRESS_RULE_PACK,
+          measureId: measure.id,
+          bodies,
+          committeeMemberCount: null,
+          votePlan,
+          governorAction: "signed",
+          governorRationale:
+            "Authored fixture approval through the actual President's desk.",
+        },
+        effectiveAt: addDays(world.currentDate, 90),
+      }),
+    );
     const enactment = world.history.legislativeEnactments!.find(
       (entry) => entry.measureId === measure.id,
     )!;
