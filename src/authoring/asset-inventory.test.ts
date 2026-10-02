@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import bankedMasterInventory from "../../art/qa/banked_master_inventory.json";
+import bankedMasterInventory from "../../art/qa/banked_master_inventory.json" with { type: "json" };
 import { summarizeAssetBank, validateAssetBankManifest } from "./asset-bank";
 import { PRODUCTION_PLATE_ASSET_BANK } from "./fixtures/production-asset-bank";
 import { MODULAR_PERSON_GENERATION_QUEUE } from "./fixtures/generation-queue";
