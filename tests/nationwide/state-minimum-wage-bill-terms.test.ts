@@ -10,6 +10,7 @@ import {
 } from "../../src/simulation/life-places";
 import { outcomeFactor } from "../../src/simulation/outcome-web";
 import { recordsWithFieldValue } from "../../src/simulation/history-index";
+import { payWorkplaceAt } from "../../src/simulation/pay-coverage-predicates";
 import {
   nextPaydayDate,
   PAYDAY_TRANSITION_KEY,
@@ -172,19 +173,36 @@ describe(
         );
       }
       expect(raises.length).toBeGreaterThan(0);
+      // The law originates in the state; its consequence applies at the
+      // actual saved workplace (LawEffectStamp.jurisdictionId's contract).
+      expect(measure.jurisdictionId).toBe(NEBRASKA());
       for (const raise of raises) {
-        expect(
-          raise.lawEffectStamps?.find(
-            (stamp) =>
-              stamp.effectKind === "pay" &&
-              stamp.governingLawKey === measure.id,
-          ),
-        ).toMatchObject({
+        const flow = world.history.resourceFlows.find(
+          (row) => row.id === raise.resourceFlowId,
+        );
+        if (!flow || flow.basisReference.kind !== "work")
+          throw new Error("The wage change needs its actual work pay flow.");
+        const workplace = payWorkplaceAt(
+          world,
+          flow.basisReference.workRelationshipId,
+          {
+            asOfDate: raise.effectiveAt,
+            historySequenceExclusive: raise.sequence,
+          },
+        );
+        const stamp = raise.lawEffectStamps?.find(
+          (row) =>
+            row.effectKind === "pay" && row.governingLawKey === measure.id,
+        );
+        expect(stamp).toMatchObject({
           governingLawKey: measure.id,
           questionKey: "us-policy-positions:labor-workforce.raise-minimum-wage",
-          jurisdictionId: NEBRASKA(),
+          jurisdictionId: workplace.jurisdictionId,
           source: "enacted",
         });
+        expect(stamp?.sourceRecordIds).toEqual(
+          expect.arrayContaining(workplace.factRecordIds),
+        );
         expect(measure.designation).toBe("LB 900");
       }
       console.info(
