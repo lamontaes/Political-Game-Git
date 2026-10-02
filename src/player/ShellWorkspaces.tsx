@@ -1808,8 +1808,9 @@ export function PersonalWorkspace({
           <div>
             <p>
               You can fund recorded household bills from your available personal
-              cash when they fall due. This opens an empty shared bill account;
-              it does not move your savings now.
+              cash when they fall due. An empty shared bill account opens only
+              if none exists; existing shared money is preserved. Your savings
+              do not move now.
             </p>
             <button type="button" onClick={onArrangeHouseholdBills}>
               Set up household bill contributions

@@ -548,7 +548,7 @@ export function arrangeHouseholdBillContributions(
       provenance,
     });
   const summary =
-    "Your household bill account opens empty. When a recorded bill falls due, you contribute its shortfall from your available personal cash; your other savings remain yours.";
+    "Your household bill budget is recorded. When a recorded bill falls due, you contribute its shortfall from your available personal cash; your other savings remain yours.";
   next = recordWorldEvent(next, {
     stableKey,
     type: CONTRIBUTION_ARRANGEMENT,
