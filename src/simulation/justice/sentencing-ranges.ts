@@ -1,4 +1,4 @@
-import research from "../../../data/research/justice/sentencing-ranges-2026.json";
+import research from "../../../data/research/justice/sentencing-ranges-2026.json" with { type: "json" };
 import type { CourtCase } from "./court-reasoning";
 
 interface ResearchTerm {
