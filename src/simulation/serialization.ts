@@ -218,6 +218,14 @@ export function serializeWorldAs(
   world: World,
   formatVersion: WorldSnapshotFormatVersion,
 ): string {
+  return JSON.stringify(formAs(world, formatVersion));
+}
+
+/** The object `world` is stored as in `formatVersion`. */
+function formAs(
+  world: World,
+  formatVersion: WorldSnapshotFormatVersion,
+): object {
   const snapshot = createWorldSnapshot(world);
   const roll = formatHasRollCalls(formatVersion);
   const principles = formatHasPrinciples(formatVersion);
@@ -229,7 +237,7 @@ export function serializeWorldAs(
     throw new Error(
       "World content packs do not match the requested snapshot format.",
     );
-  if (!roll && !principles && !tendencies) return JSON.stringify(snapshot);
+  if (!roll && !principles && !tendencies) return snapshot;
   const packedRolls = roll ? packRollCalls(world) : null;
   if (roll && !packedRolls)
     throw new Error("World has no roll calls for its saved format.");
@@ -243,7 +251,7 @@ export function serializeWorldAs(
     : null;
   if (tendencies && !packedTendencies)
     throw new Error("World has no worked-out tendencies for its saved format.");
-  return JSON.stringify({
+  return {
     ...snapshot,
     formatVersion,
     world:
@@ -255,7 +263,7 @@ export function serializeWorldAs(
     ...(packedTendencies
       ? { tendenciesPacking: packedTendencies.packing }
       : {}),
-  });
+  };
 }
 
 /**
@@ -271,9 +279,9 @@ export function worldPayloadMatches(
 ): boolean {
   if (typeof payload === "string")
     return payload === serializeWorldAs(world, formatVersion);
-  const snapshot = createWorldSnapshot(world);
-  const form =
-    formatVersion === snapshot.formatVersion ? snapshot : storedForm(snapshot);
+  // The format it was read from, not the newest: a save written before a
+  // pack existed is still the save it is.
+  const form = formAs(world, formatVersion);
   let chunk = 0;
   let offset = 0;
   let same = true;

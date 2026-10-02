@@ -20,6 +20,7 @@ import {
   serializeWorldAs,
   TENDENCY_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION,
   WORLD_SNAPSHOT_FORMAT_VERSION,
+  worldPayloadMatches,
 } from "./serialization";
 import { packTendencies, unpackTendencies } from "./tendency-packing";
 import type { World } from "./types";
@@ -124,6 +125,17 @@ describe(`worked-out personality tendencies in a save (${place.usps}, seed ${pla
     expect(serializeWorldAs(reopened.world, reopened.formatVersion)).toBe(
       older,
     );
+    // A save too long for one string is checked against its own format too.
+    const pieces = (text: string) => text.match(/[\s\S]{1,4096}/g)!;
+    expect(
+      worldPayloadMatches(pieces(older), world, reopened.formatVersion),
+    ).toBe(true);
+    expect(
+      worldPayloadMatches(pieces(stored), world, restored.formatVersion),
+    ).toBe(true);
+    expect(
+      worldPayloadMatches(pieces(older), world, restored.formatVersion),
+    ).toBe(false);
   });
 
   it("keeps a content-pack world in its own packed format", () => {
