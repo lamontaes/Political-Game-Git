@@ -1,3 +1,4 @@
+import tuitionRevenue from "../../../data/research/money/state-tuition-revenue.json" with { type: "json" };
 import stateLocalFinances from "../../../data/research/money/state-local-finances-2022.json" with { type: "json" };
 import { MILEAGE_FEE_QUESTION, ROAD_CHARGE_BASIS } from "./road-usage-charge";
 import type { BudgetLevel, BudgetProgram, BudgetSource } from "./store";
@@ -125,18 +126,38 @@ export const CANNABIS_TAX_EFFECT = {
     "Legal adult cannabis sales pay the state $40.7 a resident a year in cannabis excise and sales tax, the 2025 average of the ten states with stores open three years or more (Marijuana Policy Project), from the first store opening 11 months after the law takes effect; a law ending legal sales ends it the day it takes effect.",
 } as const;
 
+/** Existing tuition research projection; this row does not establish paid receipts. */
+export const TUITION_FREEZE_EFFECT = {
+  questionKey: "us-policy-positions:education.freeze-public-tuition",
+  source: "chargesAndFees",
+  toYes: null,
+  toNo: null,
+  chargeFreeze: {
+    places: tuitionRevenue.places as Readonly<
+      Record<string, { readonly tuitionShareOfCharges: number }>
+    >,
+    growth: tuitionRevenue.tuitionGrowthPerYear,
+    growthKey: "direct:tuition-growth",
+    setOn: "07-01",
+  },
+  basis:
+    "Census Bureau 2022 state current and higher-education charges; SHEEO SHEF fiscal 2015–2025 gross tuition and fees per full-time student. Existing nominal annual growth central 0.031, range 0.0267–0.0413; existing July 1 school-year setting. Research projection, not an actual tuition bill or public receipt.",
+} as const;
+
 export const TAX_QUESTION_EFFECTS: readonly {
   readonly questionKey: string;
   readonly source: BudgetSource;
   readonly toYes: number | null;
   readonly toNo: number | null;
   readonly levels?: readonly BudgetLevel[];
+  readonly chargeFreeze?: typeof TUITION_FREEZE_EFFECT.chargeFreeze;
   readonly perResidentRevenue?: {
     readonly annualAmount: number;
     readonly firstSaleLagMonths: number;
   };
   readonly basis: string;
 }[] = [
+  TUITION_FREEZE_EFFECT,
   {
     questionKey: "us-policy-positions:fiscal.adopt-income-tax",
     source: "individualIncomeTax",
