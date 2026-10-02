@@ -1,5 +1,5 @@
 import { addDays, ageOnDate, daysBetween } from "./dates";
-import { evaluateDecision } from "./decisions";
+import { evaluateDecision, isSelectedDecision } from "./decisions";
 import { eventById } from "./event-index";
 import { scheduleFutureDueItem } from "./future-transitions";
 import {
@@ -837,6 +837,7 @@ function pursueCall(
       a.personId.localeCompare(b.personId),
   )[0]!;
   const call = placeCall(withTraits, personId, target.personId, purpose);
+  if (call.eventId === null) return { kind: "waiting", world: call.world };
   return {
     kind: "step",
     world: stepTaken(call.world, goal, call.eventId),
@@ -1030,7 +1031,7 @@ function answerCall(
   callerId: EntityId,
   calledId: EntityId,
   key: string,
-): { world: World; talk: boolean } {
+): { world: World; talk: boolean | null } {
   const withTraits = ensurePeopleTraits(world, [calledId]);
   const considerations: DecisionConsideration[] = [
     {
@@ -1132,7 +1133,12 @@ function answerCall(
     randomness: "close-choices",
     retention: "ephemeral",
   });
-  return { world: withTraits, talk: evaluation.selectedOptionKey === "talk" };
+  return {
+    world: withTraits,
+    talk: isSelectedDecision(evaluation)
+      ? evaluation.selectedOptionKey === "talk"
+      : null,
+  };
 }
 
 function placeCall(
@@ -1140,13 +1146,14 @@ function placeCall(
   callerId: EntityId,
   calledId: EntityId,
   purpose: "connection" | "learning",
-): { world: World; eventId: EntityId } {
+): { world: World; eventId: EntityId | null } {
   const key = `goal-call:${callerId}:${calledId}:${world.currentDate}`;
   const caller = world.people[callerId]!;
   const called = world.people[calledId]!;
   const callerName = personName(caller);
   const calledName = personName(called);
   const answered = answerCall(world, callerId, calledId, key);
+  if (answered.talk === null) return { world: answered.world, eventId: null };
   const about =
     purpose === "learning" ? "to ask about learning something" : "to catch up";
   if (!answered.talk) {
