@@ -5,6 +5,7 @@ import { childServiceFixture } from "../../tests/fixtures/child-service-fixture"
 import { addSimulationMinutes } from "../simulation/dates";
 import { requestPublicService } from "../simulation/public-service-requests";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
+import { advanceWorld } from "../simulation/world";
 import {
   calendarEntryFor,
   projectPlayerCalendar,
@@ -54,6 +55,12 @@ describe("Public Services: the requesting parent uses the existing Calendar", ()
       }) + "\n",
     );
     expect(activity.participantPersonIds).toEqual([fixture.childId]);
+    expect(activity.responsiblePersonId).toBe(fixture.childId);
+    expect(activity.access).toEqual({
+      kind: "private",
+      personIds: [fixture.childId, fixture.parentId].sort(),
+    });
+    expect(activity.sourceEntityIds).toContain(requested.requestEventId);
     expect(
       calendarEntryFor(restored, fixture.childId, requested.activityId),
     ).toMatchObject({ activityId: requested.activityId, status: "scheduled" });
@@ -79,5 +86,40 @@ describe("Public Services: the requesting parent uses the existing Calendar", ()
     );
     expect(html).toContain(activity.title);
     expect(serializeWorld(restored)).toBe(saved);
+    const attended = advanceWorld(restored, 1);
+    expect(
+      calendarEntryFor(attended, fixture.parentId, requested.activityId),
+    ).toMatchObject({ activityId: requested.activityId, status: "completed" });
+    const deliveries = attended.history.events.filter(
+      (row) => row.type === "service.delivery-recorded",
+    );
+    expect(deliveries).toHaveLength(1);
+    expect(deliveries[0]!.lawEffectStamps?.[0]).toMatchObject({
+      questionKey: "us-policy-positions:education.universal-preschool",
+      effectKind: "service-delivered",
+    });
+    const continued = advanceWorld(
+      deserializeWorld(serializeWorld(attended)),
+      1,
+    );
+    expect(
+      calendarEntryFor(continued, fixture.parentId, requested.activityId),
+    ).toEqual(
+      calendarEntryFor(attended, fixture.parentId, requested.activityId),
+    );
+    expect(
+      continued.history.events.filter(
+        (row) => row.type === "service.delivery-recorded",
+      ),
+    ).toEqual(deliveries);
+    const refused = requestPublicService(fixture.funded, {
+      personId: fixture.governorId,
+      forPersonId: fixture.childId,
+      commitmentId: fixture.commitmentId,
+      start: addSimulationMinutes(fixture.funded.currentMoment, 30),
+      end: addSimulationMinutes(fixture.funded.currentMoment, 390),
+    });
+    expect(refused.kind).toBe("unsupported");
+    expect(refused.world).toBe(fixture.funded);
   });
 });

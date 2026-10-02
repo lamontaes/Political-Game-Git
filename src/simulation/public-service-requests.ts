@@ -433,7 +433,12 @@ export function requestPublicService(
     },
     sourceEntityIds: [commitment.eventId, participation.id, requestEventId],
     flexibility: { kind: "fixed" },
-    access: { kind: "private", personIds: [person.id] },
+    access: {
+      kind: "private",
+      personIds: form.forChild
+        ? [...new Set([person.id, requester.id])]
+        : [person.id],
+    },
   });
   const activity = next.history.scheduledActivities.at(-1)!;
   if (form.forChild)
