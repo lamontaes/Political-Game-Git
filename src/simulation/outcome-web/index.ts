@@ -172,14 +172,17 @@ function stateMinimumHourlyAt(
   world: World,
   jurisdictionId: EntityId,
   asOf: IsoDate,
-): { readonly now: number; readonly before: number } | null {
+): { readonly now: number; readonly before: number | null } | null {
   const key = placeOutcomeKey(jurisdictionId);
   if (!key || !/^US-[A-Z]{2}$/.test(key)) return null;
   const setting = stateMinimumSettingAt(world, key, asOf);
   if (setting === null) return null;
   return {
     now: Math.max(FEDERAL_MINIMUM_HOURLY, setting.hourlyMinor / 100),
-    before: Math.max(FEDERAL_MINIMUM_HOURLY, setting.beforeMinor / 100),
+    before:
+      setting.beforeMinor === null
+        ? null
+        : Math.max(FEDERAL_MINIMUM_HOURLY, setting.beforeMinor / 100),
   };
 }
 
@@ -212,7 +215,9 @@ const FIXED_MEASURES: Readonly<Record<string, OutcomeMeasure>> = {
     // one the 2026 rate stands and the change is zero.
     read: (world, jurisdictionId, asOf) => {
       const minimum = stateMinimumHourlyAt(world, jurisdictionId, asOf);
-      return minimum === null ? null : (minimum.now / minimum.before - 1) * 100;
+      return minimum === null || minimum.before === null
+        ? null
+        : (minimum.now / minimum.before - 1) * 100;
     },
   },
   "labor.minimum-wage-to-median": {

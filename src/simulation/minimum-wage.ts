@@ -263,7 +263,7 @@ export function anyMinimumWageQuestionEnacted(world: World): boolean {
 export interface StateMinimumSetting {
   readonly hourlyMinor: number;
   /** What the state's rate was before any law enacted in play changed it. */
-  readonly beforeMinor: number;
+  readonly beforeMinor: number | null;
   /** The enacted measure that set it; null for a rate on file at the start. */
   readonly measureId: EntityId | null;
   readonly designation: string | null;
@@ -300,7 +300,7 @@ export function stateMinimumSettingAt(
       stateSettings.set(enactments, cache);
     }
   }
-  const cacheKey = `${stateKey}:${onDate}`;
+  const cacheKey = `${stateKey}:${onDate}:${world.startedAt}`;
   if (!cutoff && cache?.has(cacheKey)) return cache.get(cacheKey)!;
   const setting = computeStateMinimumSetting(world, stateKey, onDate, cutoff);
   if (!cutoff) cache?.set(cacheKey, setting);
@@ -368,13 +368,13 @@ function computeStateMinimumSetting(
   if (filed?.source === "enacted" && typeof filed.value === "number")
     return {
       hourlyMinor: filed.value,
-      beforeMinor: beforeMinor ?? filed.value,
+      beforeMinor,
       measureId: filed.measureId,
       designation: filed.designation,
       effectiveAt: filed.effectiveAt,
     };
   const proposition = stateQuestion;
-  if (proposition && stateId && beforeMinor !== null) {
+  if (proposition && stateId) {
     const law = lawInForce(
       world,
       stateId,
@@ -397,14 +397,14 @@ function computeStateMinimumSetting(
       );
       return {
         hourlyMinor: term.value,
-        beforeMinor: beforeMinor ?? term.value,
+        beforeMinor,
         measureId: law.measureId,
         designation: measure?.designation ?? "A state law",
         effectiveAt: law.operativeAt,
       };
     }
   }
-  return beforeMinor === null || startingTerm === null
+  return startingTerm === null
     ? null
     : {
         hourlyMinor: startingTerm.value,
