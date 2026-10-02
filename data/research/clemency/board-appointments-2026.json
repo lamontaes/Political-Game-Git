@@ -1,0 +1,442 @@
+{
+  "asOf": "2026-10-02",
+  "rows": [
+    {
+      "jurisdictionKey": "US-LA",
+      "bodyKey": "board",
+      "label": "Board of Pardons",
+      "seatCount": 5,
+      "requiresSenateConfirmation": true,
+      "experienceYears": 5,
+      "experienceFields": [
+        "penology",
+        "corrections",
+        "law-enforcement",
+        "sociology",
+        "law",
+        "education",
+        "social-work",
+        "medicine",
+        "psychology",
+        "psychiatry"
+      ],
+      "termMonths": null,
+      "quorum": 4,
+      "sources": [
+        {
+          "citation": "Louisiana Department of Public Safety and Corrections, About the Board of Pardons & Committee on Parole",
+          "url": "https://doc.la.gov/imprisoned-person-programs-resources/pardons-parole/",
+          "readAt": "2026-10-02",
+          "fields": [
+            "seatCount",
+            "requiresSenateConfirmation",
+            "experienceYears",
+            "experienceFields"
+          ],
+          "quote": "All members of the Board are appointed by the governor and confirmed by the Louisiana Senate. The Board of Pardons has five members."
+        },
+        {
+          "url": "https://www.legis.la.gov/legis/Law.aspx?d=79203",
+          "readAt": "2026-10-02",
+          "handoff": "Owner-authorized coordinator source recovery; independently retrieved correct RS15:572.1 on 2026-10-02; no raw hash asserted.",
+          "citation": "La. R.S. 15:572.1(A(1)(a))",
+          "fields": ["seatCount", "termRule"],
+          "quote": "A.(1)(a) \u00a0The Board of Pardons shall consist of five members, who shall be appointed by the governor to serve terms concurrent with the governor making the appointments, or until their successors are appointed and take office."
+        },
+        {
+          "url": "https://www.legis.la.gov/legis/Law.aspx?d=79203",
+          "readAt": "2026-10-02",
+          "handoff": "Owner-authorized coordinator source recovery; independently retrieved correct RS15:572.1 on 2026-10-02; no raw hash asserted.",
+          "citation": "La. R.S. 15:572.1(A(1)(b))",
+          "fields": ["victimAdvocacyNomination"],
+          "quote": "(b) \u00a0Beginning with appointments made to the board, or appointments to fill a vacancy on the board, which occur after August 15, 2010, at least one of the members shall be appointed from a list of names submitted by any victim's rights advocacy organization which is recognized as a nonprofit with the Internal Revenue Service, incorporated or organized in the state of Louisiana and in good standing, and does not engage in political activity, with each organization submitting a list of three names; however, no person nominated by any victim's rights advocacy organization shall be appointed to serve as a member of the board who has previously been confirmed by the Senate and has served as a member of the board."
+        },
+        {
+          "url": "https://www.legis.la.gov/legis/Law.aspx?d=79203",
+          "readAt": "2026-10-02",
+          "handoff": "Owner-authorized coordinator source recovery; independently retrieved correct RS15:572.1 on 2026-10-02; no raw hash asserted.",
+          "citation": "La. R.S. 15:572.1(A(1)(c))",
+          "fields": ["qualifications", "experienceFields"],
+          "quote": "(c) \u00a0\u00a0Beginning with appointments made to the board, or appointments to fill a vacancy on the board, which occur after August 1, 2014, all members, except for the ex officio member, shall have not less than a bachelor's degree from an accredited college or university, and shall possess not less than five years actual experience in the field of penology, corrections, law enforcement, sociology, law, education, social work, medicine, psychology, psychiatry, or a combination thereof. \u00a0If a member does not have a bachelor's degree from an accredited college or university, he shall have no less than seven years experience in a field listed in this Subparagraph. \u00a0The provisions of this Subparagraph shall not apply to any person serving as a member of the board on August 1, 2012."
+        },
+        {
+          "url": "https://www.legis.la.gov/legis/Law.aspx?d=79203",
+          "readAt": "2026-10-02",
+          "handoff": "Owner-authorized coordinator source recovery; independently retrieved correct RS15:572.1 on 2026-10-02; no raw hash asserted.",
+          "citation": "La. R.S. 15:572.1(A(1)(d))",
+          "fields": ["requiresSenateConfirmation"],
+          "quote": "(d) \u00a0All appointments shall be subject to confirmation by the Senate. \u00a0The governor shall designate the chairman of the board."
+        },
+        {
+          "url": "https://www.legis.la.gov/legis/Law.aspx?d=79203",
+          "readAt": "2026-10-02",
+          "handoff": "Owner-authorized coordinator source recovery; independently retrieved correct RS15:572.1 on 2026-10-02; no raw hash asserted.",
+          "citation": "La. R.S. 15:572.1(E)",
+          "fields": ["quorum", "minimumFavorableVotes"],
+          "quote": "E. \u00a0Four members of the board shall constitute a quorum for the transaction of business, and all actions of the board shall require the favorable vote of at least four members of the board."
+        },
+        {
+          "url": "https://www.legis.la.gov/legis/Law.aspx?d=79203",
+          "readAt": "2026-10-02",
+          "handoff": "Owner-authorized coordinator source recovery; independently retrieved correct RS15:572.1 on 2026-10-02; no raw hash asserted.",
+          "citation": "La. R.S. 15:572.1(F)",
+          "fields": ["fullTimeService", "employmentRestrictions"],
+          "quote": "F. \u00a0Each member of the board, except for the ex officio member, shall devote full time to the duties of his office, and shall be prohibited from holding any elective, appointive, or public employment; or from engaging in any private business or employment which is in conflict with his duties as a member of the board."
+        },
+        {
+          "url": "https://www.legis.la.gov/legis/Law.aspx?d=79203",
+          "readAt": "2026-10-02",
+          "handoff": "Owner-authorized coordinator source recovery; independently retrieved correct RS15:572.1 on 2026-10-02; no raw hash asserted.",
+          "citation": "La. R.S. 15:572.1(G(2))",
+          "fields": ["exOfficio"],
+          "quote": "(2) \u00a0The ex officio member shall not be a voting member and shall not be counted or permitted to be counted for purposes of the number of members necessary to take board action or the number of members necessary to establish a quorum."
+        }
+      ],
+      "missing": [
+        "shared Senate confirmation binding",
+        "actual qualifying victim-advocacy organization and submitted three-name list",
+        "accredited bachelor degree evidence binding and actual grandfathered membership evidence",
+        "recorded qualification fields for opening people and combined work intervals",
+        "actual post-confirmation employment/office conflict and governor-designated chair joins"
+      ],
+      "notes": [
+        "Current statutory text governs the recovered profile; the older DOC summary alone did not include the seven-year alternative or degree condition.",
+        "Term is tied to the appointing governor and holdover; no fixed month duration invented.",
+        "At least one member must come from the legally qualified advocacy-list route. Until actual list records are bound, ordinary nominees cannot consume the final required capacity.",
+        "No retrieval date is treated as an operative date. Only the exact appointment cutoffs explicitly given in the statute are dated.",
+        "Unknown accredited degree is not treated as a degree: seven recorded years suffice under both alternatives; five-year degree and grandfather paths stay pending absent actual evidence.",
+        "No active participation or vote exists until the shared Senate confirmation route is wired."
+      ],
+      "qualifications": {
+        "appointmentsAfter": "2014-08-01",
+        "withAccreditedBachelorsExperienceYears": 5,
+        "withoutAccreditedBachelorsExperienceYears": 7,
+        "grandfatheredIfServingOn": "2012-08-01"
+      },
+      "termRule": {
+        "kind": "appointing-governor-concurrent",
+        "holdoverUntilSuccessorAppointedAndTakesOffice": true
+      },
+      "minimumFavorableVotes": 4,
+      "victimAdvocacyNomination": {
+        "appointmentsAfter": "2010-08-15",
+        "minimumMembers": 1,
+        "listSizePerOrganization": 3,
+        "organizationConditions": [
+          "IRS-recognized nonprofit",
+          "incorporated or organized in Louisiana",
+          "in good standing",
+          "does not engage in political activity"
+        ],
+        "nomineeCannotPreviouslyHaveBeenSenateConfirmedAndServedOnBoard": true
+      },
+      "exOfficio": {
+        "kind": "facility-warden-or-deputy",
+        "voting": false,
+        "countsTowardQuorum": false,
+        "countsTowardActionThreshold": false
+      },
+      "fullTimeService": true,
+      "employmentRestrictions": {
+        "prohibitsOtherElectiveOrAppointiveOfficeOrPublicEmployment": true,
+        "prohibitsConflictingPrivateBusinessOrEmployment": true
+      },
+      "confirmation": {
+        "requiredChambers": ["senate"],
+        "threshold": null,
+        "source": "LaRS15:572.1A(1)(d)"
+      }
+    },
+    {
+      "jurisdictionKey": "US-CT",
+      "bodyKey": "board",
+      "label": "Board of Pardons and Paroles",
+      "seatCount": 10,
+      "requiresSenateConfirmation": true,
+      "experienceYears": null,
+      "experienceFields": [],
+      "termMonths": null,
+      "quorum": null,
+      "sources": [
+        {
+          "url": "https://prdext3.cga.ct.gov/2025/pub/chap_961.htm",
+          "readAt": "2026-10-02",
+          "edition": "2025",
+          "handoff": "Coordinator official-source recovery observed Oct2 07:10 Eastern; independently retrieved Oct2; no raw hash asserted.",
+          "citation": "Conn. Gen. Stat. 54-124a(a)",
+          "fields": [
+            "seatCount",
+            "seatStructure",
+            "confirmation",
+            "eligibility"
+          ],
+          "quote": "(a)(1) There shall be a Board of Pardons and Paroles within the Department of Correction, for administrative purposes only. On and after July 1, 2015, the board shall consist of ten full-time and up to five part-time members appointed by the Governor with the advice and consent of both houses of the General Assembly. The term of any part-time member serving on the board on June 30, 2015, shall expire on said date. On or after July 1, 2015, the Governor may appoint up to five persons to serve as part-time members. In the appointment of the members, the Governor shall specify if the member is being appointed as full-time or part-time. In the appointment of the members, the Governor shall comply with the provisions of section\n4-9b\n. The Governor shall appoint a chairperson from among the membership. The members of the board shall be qualified by education, experience or training in the administration of community corrections, parole or pardons, criminal justice, criminology, the evaluation or supervision of offenders or the provision of mental health services to offenders. Each appointment of a member of the board submitted by the Governor to the General Assembly, except as provided in subdivision (2) of this subsection, shall be referred, without debate, to the joint standing committee of the General Assembly having cognizance of matters relating to the judiciary which shall report on each appointment not later than thirty legislative days after the date of reference.\n(2) If, not later than September 1, 2015, the Governor appoints a part-time member and such member was previously a member whose term expired June 30, 2015, such appointment shall take effect immediately without confirmation by the General Assembly."
+        },
+        {
+          "url": "https://prdext3.cga.ct.gov/2025/pub/chap_961.htm",
+          "readAt": "2026-10-02",
+          "edition": "2025",
+          "handoff": "Coordinator official-source recovery observed Oct2 07:10 Eastern; independently retrieved Oct2; no raw hash asserted.",
+          "citation": "Conn. Gen. Stat. 54-124a(b)",
+          "fields": ["termRule"],
+          "quote": "(b) The term of each member of the board shall be coterminous with the term of the Governor or until a successor is chosen, whichever is later. Any vacancy in the membership of the board shall be filled for the unexpired portion of the term by the Governor."
+        },
+        {
+          "url": "https://prdext3.cga.ct.gov/2025/pub/chap_961.htm",
+          "readAt": "2026-10-02",
+          "edition": "2025",
+          "handoff": "Coordinator official-source recovery observed Oct2 07:10 Eastern; independently retrieved Oct2; no raw hash asserted.",
+          "citation": "Conn. Gen. Stat. 54-124a(e(2))",
+          "fields": ["pardonPanel"],
+          "quote": "(2) Each pardons panel shall be composed of three members, one of whom may be the chairperson, except that for hearings on commutations from the penalty of death, one member of the panel shall be the chairperson."
+        },
+        {
+          "url": "https://prdext3.cga.ct.gov/2025/pub/chap_961.htm",
+          "readAt": "2026-10-02",
+          "edition": "2025",
+          "handoff": "Coordinator official-source recovery observed Oct2 07:10 Eastern; independently retrieved Oct2; no raw hash asserted.",
+          "citation": "Conn. Gen. Stat. 54-124a(p)",
+          "fields": ["decisionRule"],
+          "quote": "(p) Any decision of the board or a panel of the board shall be made by a majority of those members present.\n(1967, P.A. 152, S. 48; 1969, P.A. 537, S. 1; 1971, P.A. 230; 1972, P.A. 23, S. 1; P.A. 74-338, S. 57, 94; P.A. 77-614, S. 134, 610; P.A. 79-560, S. 32, 39; June Sp. Sess. P.A. 83-18; P.A. 93-219, S. 3, 14; P.A. 94-183, S. 1, 3; May 25 Sp. Sess. P.A. 94-1, S. 64, 130; P.A. 95-189, S. 1, 2; P.A. 98-234, S. 1, 5; June 30 Sp. Sess. P.A. 03-6, S. 161; P.A. 04-234, S. 1; P.A. 05-84, S. 1, 2; 05-288, S. 187; Jan. Sp. Sess. P.A. 08-1, S. 12; Sept. Sp. Sess. P.A. 09-7, S. 36; P.A. 10-14, S. 1; 10-36, S. 29; P.A. 14-27, S. 8; June Sp. Sess. P.A. 15-2, S. 9; P.A. 19-84, S. 3, 4; P.A. 21-32, S. 1.)\nHistory: 1969 act specified that board of parole is autonomous body within department of correction solely for fiscal and budgetary purposes, increased membership from 7 to 9 and provided for their appointment, updated previous appointment provisions to provide ongoing applicability, deleted provision requiring 3 members for quorum and added provisions re assignment of members to panels and duties of panels; 1971 act deleted obsolete provision re appointment of additional members enacted in 1969 and added provision re appointment of temporary members; 1972 act increased membership to 11 and provided for their appointment; P.A. 74-338 deleted obsolete provision re initial appointment of additional members provided for in 1972 act; P.A. 77-614 provided for compensation of chairman as determined by commissioner of administrative services rather than by personnel policy board; P.A. 79-560 specified that board is within department of correction for \u201cadministrative\u201d rather than for \u201cfiscal and budgetary\u201d purposes; June Sp. Sess. P.A. 83-18 increased the per diem compensation of members from $75 to $110; P.A. 93-219 inserted Subsec. indicators, amended Subsec. (a) to increase the number of members on and after July 1, 1994, from 11 to 13, require the chairman to be qualified by training, experience or education in law, criminal justice, parole matters or other related fields and require the governor to endeavor to reflect the racial diversity of the state when making appointments, added a new Subsec. (b) to require the term of the chairman to be coterminous with that of the governor, provide that the terms of all other members expire on July 1, 1994, that on and after said date 6 members shall be appointed for 2 years and 6 members appointed for 4 years and that thereafter all members shall serve for terms of 4 years and require the governor to fill any vacancy, amended Subsec. (d) to set forth the powers and duties of the chairman and added a new Subsec. (g) to set forth the duties of the board, effective July 1, 1994; P.A. 94-183 and May 25 Sp. Sess. P.A. 94-1 both amended Subsec. (a) to delete provision that the board of parole \u201cshall be an autonomous body and within the department of correction for administrative purposes only\u201d, effective July 1, 1994; P.A. 95-189 added new Subsec. (d)(10) re noninstitutional, community-based service programs, renumbering former Subdiv. (10) as Subdiv. (11), effective July 1, 1995; P.A. 98-234 amended Subsec. (a) to increase the number of members on and after July 1, 1998 from 13 to 15, provide for the appointment of 2 vice-chairmen and make the provision re qualifications of the chairman also applicable to the vice-chairmen, amended Subsec. (b) to provide that the term of each vice-chairman shall be the same as that of the chairman, amended Subsec. (c) to make provision re performance of duties by and compensation of the chairman also applicable to the vice-chairmen, and added Subsec. (d)(12) authorizing the signing and issuing of subpoenas and add provision that any such subpoena shall be enforceable to the same extent as subpoenas issued under Sec. 52-143, effective July 1, 1998; June 30 Sp. Sess. P.A. 03-6 amended Subsec. (a) to place board \u201cwithin the Department of Correction\u201d and delete an obsolete date, amended Subsec. (c) to delete requirement that the vice-chairmen devote their entire time to the performance of their duties and replace \u201centire time\u201d with \u201cfull time\u201d and amended Subsec. (d) to delete provision that designated the chairman as the executive and administrative head of the board, designate the Commissioner of Correction rather than the chairman as the person having the authority and responsibility for the duties set forth in said Subsec., delete former Subdiv. (11) re consulting with the Department of Correction on shared issues including, but not limited to, prison overcrowding, and redesignate existing Subdiv. (12) as new Subdiv. (11), effective August 20, 2003; P.A. 04-234 amended Subsec. (a) to rename \u201cBoard of Parole\u201d as \u201cBoard of Pardons and Paroles\u201d, provide that board is within Department of Correction \u201cfor administrative purposes only\u201d, provide that on and after October 1, 2004, board shall consist of 13 rather than 15 members, require that all 13 members, rather than only chairman and 2 vice-chairmen, be appointed by the Governor with advice and consent of either house of the General Assembly, provide that chairperson shall be qualified by education, experience and training \u201cin the administration of community corrections, parole or pardons\u201d rather than \u201cin law, criminal justice, parole matters or other related fields\u201d, delete provision re qualifications of vice-chairmen and other members and add provision requiring the Governor to appoint chairperson from among membership, amended Subsec. (b) to add provision that term of each appointed member of board serving on September 30, 2004, shall expire on that date, provide that term of each member of board beginning on or after October 1, 2004, rather than only term of chairman and each vice-chairman, shall be coterminous with term of the Governor, and delete provision re appointment on or after July 1, 1994, of members other than chairman for staggered terms, amended Subsec. (c) to make technical changes, amended Subsec. (d) to designate chairperson rather than Commissioner of Correction as person having authority and responsibility for duties set forth in said Subsec., provide that chairperson shall be executive and administrative head of the board, replace in Subdiv. (1) \u201cdirecting and supervising\u201d with \u201coverseeing\u201d, delete former Subdivs. (2) to (5), inclusive, to reflect transfer of duties to executive director under new Subsec. (i)(2) to (5), redesignate existing Subdiv. (6) as new Subdiv. (2) and amend said Subdiv. to replace \u201cestablishing policy in all areas of parole including, but not limited to, decision making, release criteria and supervision standards\u201d with \u201cadopting policies in all areas of pardons and paroles including, but not limited to, granting pardons, commutations of punishments or releases, conditioned or absolute, in the case of any person convicted of any offense against the state and commutations from the penalty of death, risk-based structured decision-making and release criteria\u201d, delete former Subdiv. (7) re establishing specialized parole units, delete former Subdiv. (8) re entering into contracts with service providers, community programs and consultants, delete former Subdiv. (9) to reflect transfer of duty to executive director under new Subsec. (i)(6), delete former Subdiv. (10) re establishing, developing and maintaining noninstitutional, community-based service programs, add new Subdiv. (3) re consulting with Department of Correction on shared issues including, but not limited to, prison overcrowding, add new Subdiv. (4) re consulting with Judicial Department on shared issues of community supervision, and redesignate existing Subdiv. (11) re subpoenas as new Subdiv. (5), amended Subsec. (e) to authorize chairperson to serve on both pardons panels and parole release panels, require chairperson to assign 7 members exclusively to parole release hearings and 5 members exclusively to pardons hearings, prohibit member assigned to one type of hearing to be subsequently assigned to other type of hearing, add provision re composition of each pardons panel and make technical changes, added new Subsec. (f) re independent decision-making authority of the board, added new Subsec. (g) re responsibility of Department of Correction for supervision of persons on parole or special parole, added new Subsec. (h) re conduct of parole release hearings and approval or denial of all parole releases, revocations and rescissions recommended by employee of board, added new Subsec. (i) re appointment and powers of executive director, added new Subsec. (j) re adoption of regulations re parole revocation and rescission hearings, an administrative pardons process and requiring written statement re reasons for rejecting pardons application, added new Subsec. (k) re frequency and location of pardons hearings, added new Subsec. (l) re establishment of parole orientation program and incremental sanctions system for parole violations, redesignated existing Subsec. (f) as Subsec. (m) and amended said Subsec. to make a technical change, and redesignated existing Subsec. (g) as Subsec. (n) and amended said Subsec. to replace \u201cThe Board of Parole\u201d with \u201cThe chairperson of the Board of Pardons and Paroles\u201d and replace in Subdiv. (3) \u201cdevelop policy for and administer the operation\u201d of the Interstate Parole Compact with \u201cadopt regulations, in accordance with chapter 54, for the administration\u201d of said compact, effective July 1, 2004; P.A. 05-84 amended Subsec. (j)(2)(A)(ii) to reduce from 10 years to 5 years the period of time prior to the granting of the pardon during which the applicant must not have been convicted of a crime, amended Subsec. (j)(2)(B) to increase from 5 years to 10 years the period of time after the date of conviction or the applicant's release from incarceration, whichever is later, that must elapse prior to the granting of the pardon and deleted former Subsec. (n)(3) re the adoption of regulations for the administration of the Interstate Parole Compact, redesignating existing Subdiv. (4) as Subdiv. (3); P.A. 05-288 made a technical change in Subsec. (f)(4), effective July 13, 2005; Jan. Sp. Sess. P.A. 08-1 amended Subsec. (a) to provide that from February 1, 2008, to July 1, 2008, board shall consist of not more than 25 members, rather than 13 members, that on and after July 1, 2008, board shall consist of 18 members, that on and after February 1, 2008, the Governor shall appoint all members of board with advice and consent of \u201cboth houses\u201d of the General Assembly, rather than \u201ceither house\u201d, that on and after July 1, 2008, 12 members shall serve exclusively on parole release panels, 5 members shall serve exclusively on pardons panels and chairperson may serve on both such panels, and that on and after February 1, 2008, the Governor shall specify the member being appointed chairperson, the full-time and part-time members being appointed to serve on parole release panels and the members being appointed to serve on pardons panels, replace requirement that in appointment of members the Governor \u201cshall endeavor to reflect the racial diversity of the state\u201d with \u201cshall comply with the provisions of section 4-9b\u201d, require that all members of the board appointed on or after February 1, 2008, rather than only chairperson, be qualified by education, experience or training in administration of community corrections, parole or pardons and add \u201ccriminal justice, criminology, the evaluation or supervision of offenders or the provision of mental health services to offenders\u201d, and add provision requiring each appointment submitted by the Governor to the General Assembly on or after February 1, 2008, be referred to the judiciary committee which shall report thereon not later than 30 legislative days thereafter, amended Subsec. (b) to provide that term of each member serving on June 30, 2008, who had been assigned exclusively to parole hearings shall expire on said date, provide that term of each member serving on June 30, 2008, who had been appointed chairperson, had been assigned by chairperson exclusively to pardons hearings or has been appointed on or after February 1, 2008, shall be coterminous with the Governor or until a successor is chosen, whichever is later, and delete provisions re expiration of term of members serving on September 30, 2004, and duration of term of members beginning on or after October 1, 2004, amended Subsec. (c) to make the provision re devotion of full time to duties and manner of compensation applicable to five members appointed on or after February 1, 2008, to serve on parole release panels, amended Subsec. (d) to add new Subdiv. (2) re assigning members to panels, add new Subdiv. (3) re establishing procedural rules and redesignate existing Subdivs. (2), (3), (4) and (5) as Subdivs. (4), (5), (6) and (7), amended Subsec. (e) to delete provision authorizing chairperson to serve on both panels and granting chairperson responsibility for assigning members to panels, make provision requiring chairperson to assign 7 members to parole release hearings and 5 members to pardons hearings applicable with respect to \u201cmembers appointed prior to February 1, 2008\u201d, replace provision re each parole release panel shall be composed of two members and chairperson or designee with provision re \u201cprior to July 1, 2008\u201d, each parole release panel shall be composed of two members \u201cfrom among the members assigned by the chairperson exclusively to parole release hearings or the members appointed by the Governor on or after February 1, 2008, to serve exclusively on parole release panels\u201d and chairperson or designee, provide that \u201cOn and after July 1, 2008, each parole release panel shall be composed of two members appointed by the Governor on or after February 1, 2008, to serve on parole release panels, at least one of whom is a full-time member, and the chairperson or a full-time member designated to serve temporarily as chairperson, for each correctional institution\u201d and replace \u201cEach pardons panel shall be composed of three members, one of whom may be the chairperson\u201d with \u201cEach pardons panel shall be composed of three members from among the members assigned by the chairperson exclusively to pardons hearings or the members appointed by the Governor on or after February 1, 2008, to serve on pardons panels, one of whom may be the chairperson\u201d, amended Subsec. (h) to replace \u201cThe chairperson, or the chairperson's designee, and two members of the board shall conduct all parole release hearings\u201d with \u201cThe chairperson, or the chairperson's designee, and two members of the board from among the members assigned by the chairperson to serve exclusively on parole release panels or the members appointed by the Governor on or after February 1, 2008, to serve on parole release panels, shall conduct all parole release hearings\u201d, make existing requirement that panel approve or deny all parole releases recommended by employee of the board pursuant to Sec. 54-125b applicable to period \u201cprior to July 1, 2008\u201d and add provision prohibiting panel holding hearing or meeting re parole release unless chairperson has made reasonable efforts to determine existence of and obtain all information deemed pertinent to panel's decision and certified that all such pertinent information determined to exist has been obtained or is unavailable, amended Subsec. (l) to add Subdiv. (3) re establishment of formal training program for board members and parole officers, added new Subsec. (m) re employment of psychologist, and redesignated existing Subsecs. (m) and (n) as Subsecs. (n) and (o), effective January 25, 2008; Sept. Sp. Sess. P.A. 09-7 amended Subsec. (e) to make existing provision requiring parole release panel to have at least 1 full-time member in addition to chairperson or a full-time member designated as chairperson applicable to panels \u201cprior to October 5, 2009,\u201d and to add \u201cOn and after October 5, 2009, each parole release panel shall be composed of two members appointed by the Governor to serve on parole release panels and the chairperson or a full-time member designated to serve temporarily as chairperson, for each correctional institution\u201d, effective October 5, 2009; P.A. 10-14 amended Subsec. (a) to provide that on and after July 1, 2010, the board shall consist of 20 members and that 7 members shall serve exclusively on pardons panels and to delete obsolete language, effective May 5, 2010; P.A. 10-36 amended Subsec. (h) to delete obsolete provisions re panel action on parole releases recommended by employee of board pursuant to Sec. 54-125b, effective July 1, 2010; P.A. 14-27 made a technical change in Subsec. (d)(6); June Sp. Sess. P.A. 15-2 amended Subsec. (a) to designate existing provisions as Subdiv. (1) and amend same to replace provision re make-up of board from July 1, 2008, to July 1, 2010, and on and after July 1, 2010, with provision re make-up of board on and after July 1, 2015, add provision re expiration of part-time members' terms on June 30, 2015, and appointment of 5 part-time members on or after July 1, 2015, add reference to Subdiv. (2) and make technical changes, and to add Subdiv. (2) re appointments of part-time members not later than September 1, 2015, amended Subsec. (b) to delete references to dates in 2008 and provisions re members assigned exclusively to pardons hearings, amended Subsec. (c) to replace provision re 5 members appointed to serve on parole release panels with provision re 10 members devoting full time and make a technical change, amended Subsec. (e) to delete provisions re assignments of members exclusively to parole release and pardons hearings for members appointed prior to February 1, 2008, composition of each panel prior to July 1, 2008, and on and after July 1, 2008, and prior to October 5, 2009, each panel's temporary chairperson to be designated by the chairperson, delete provision re panel for each correctional institution, add provisions re on and after January 1, 2016, 3 members to be present at each hearing and delete provision re exclusive assignment to pardons panels, amended Subsec. (h) to delete provision re exclusive assignment or appointment to parole release panels, designate existing provision re parole revocations or rescissions as Subdiv. (1) and add Subdiv. (2) re recommendations pursuant to Sec. 54-125i, amended Subsec. (j)(2) to replace \u201cadministrative pardons process\u201d with \u201cexpedited pardons review\u201d, add provision re process for applicant convicted of nonviolent crime and delete former Subparas. (A) and (B) re misdemeanor conviction or conviction for a violation of Sec. 21a-277, 21a-278 or 21a-279, deleted reference to assignment to pardons hearings in Subsec. (j)(3), added provision re training to be completed annually in Subsec. (l)(3) and added Subsec. (p) re decisions to be made by a majority of members present, effective June 30, 2015; P.A. 19-84 amended Subsec. (e) by designating existing provisions re parole release panel as Subdiv. (1) and amending same by replacing provision re 2 members with provision re 3 members, deleting provision re not less than 3 members to be present at parole hearing, and making a technical change, designating existing provision re pardons panel as Subdiv. (2), adding Subdiv. (3) re panel that discharges persons on parole from custody of commissioner or terminates period of special parole, and amended Subsec. (f) by adding Subdiv. (5) re discharge of person on parole or inmate eligible for parole from custody of commissioner, and adding Subdiv. (6) re termination of special parole, effective July 1, 2019; P.A. 21-32 amended Subsec. (l) by making a technical change in Subdiv. (3) and adding Subdiv. (4) re training program to include information concerning collateral consequences a person with criminal record may face, effective July 1, 2021.\nSee Sec. 4-38f for definition of \u201cadministrative purposes only\u201d.\nSee Sec. 18-101f re nondisclosure of member or employee files to inmates.\nCited. 170 C. 124; 171 C. 691.\n(Return to Chapter\nTable of Contents)\n(Return to\nList of Chapters)\n(Return to\nList of Titles)"
+        }
+      ],
+      "missing": [
+        "shared BOTH-houses confirmation binding and actual committee/member votes",
+        "actual education/experience/training qualification evidence join, and4-9b authority compliance",
+        "independent quorum rule, not inferred from majority-present",
+        "actual panel appointment/chair/attendance and dated member records"
+      ],
+      "notes": [
+        "Ten required full-time seats plus UP TO five optional part-time seats; not fifteen required appointees.",
+        "No bachelor/minimum-experience-year rule imported from another state. Existing professional-experience-only nomination reader cannot establish this eligibility; remains pending.",
+        "2026 supplement inspected: no54-124a section entry; preserve2025edition/as-of limits.",
+        "Historical2015part-time immediate-appointment exception is preserved as data, not applied without actual past membership/date evidence."
+      ],
+      "qualifications": null,
+      "termRule": {
+        "kind": "governor-coterminous",
+        "holdoverUntilSuccessorChosen": true,
+        "vacancy": "unexpired-portion"
+      },
+      "minimumFavorableVotes": null,
+      "victimAdvocacyNomination": null,
+      "exOfficio": null,
+      "fullTimeService": null,
+      "employmentRestrictions": null,
+      "optionalPartTimeMaximum": 5,
+      "seatStructure": {
+        "effectiveOnOrAfter": "2015-07-01",
+        "mandatoryFullTime": 10,
+        "optionalPartTimeMaximum": 5,
+        "governorMustSpecifyAppointmentType": true
+      },
+      "confirmation": {
+        "requiredChambers": ["senate", "house"],
+        "judiciaryCommitteeReferral": true,
+        "reportWithinLegislativeDays": 30,
+        "threshold": null,
+        "historicalPartTimeException": {
+          "appointNotLaterThan": "2015-09-01",
+          "previousTermExpiredOn": "2015-06-30",
+          "immediateWithoutConfirmation": true
+        }
+      },
+      "eligibility": {
+        "kind": "education-or-experience-or-training",
+        "fields": [
+          "community-corrections",
+          "parole-or-pardons",
+          "criminal-justice",
+          "criminology",
+          "offender-evaluation-or-supervision",
+          "mental-health-services-to-offenders"
+        ],
+        "additionalAuthority": "Conn. Gen. Stat. 4-9b",
+        "recordReader": "unbound; no invented qualification evidence"
+      },
+      "pardonPanel": {
+        "members": 3,
+        "chairOptional": true,
+        "deathCommutationRequiresChair": true
+      },
+      "decisionRule": {
+        "kind": "majority-of-members-present",
+        "appliesTo": ["board", "panel"],
+        "doesNotEstablishQuorum": true
+      },
+      "editionLimits": {
+        "edition": "2025",
+        "retrievedAt": "2026-10-02",
+        "supplement": "https://prdext3.cga.ct.gov/2026/sup/chap_961.htm",
+        "supplementEdition": "2026",
+        "supplementHasSectionEntry": false,
+        "absenceIsNotIndependentProofOfUnchangedLaw": true
+      }
+    },
+    {
+      "jurisdictionKey": "US-TX",
+      "bodyKey": "board",
+      "label": "Board of Pardons and Paroles",
+      "seatCount": 7,
+      "requiresSenateConfirmation": true,
+      "experienceYears": null,
+      "experienceFields": [],
+      "termMonths": 72,
+      "quorum": null,
+      "sources": [
+        {
+          "url": "https://tcss.legis.texas.gov/resources/GV/htm/GV.508.htm",
+          "readAt": "2026-10-02",
+          "handoff": "Coordinator official-source recovery observed Oct2 07:10 Eastern; independently retrieved Oct2; no raw hash asserted.",
+          "citation": "Tex. Govt Code 508.031",
+          "fields": [
+            "seatCount",
+            "requiresSenateConfirmation",
+            "eligibility.protectedCharacteristicsCannotDetermineAppointment"
+          ],
+          "quote": "Sec. 508.031.  COMPOSITION OF BOARD.\n(a)  The board consists of seven members appointed by the governor with the advice and consent of the senate.\n(b)  Appointments to the board must be made without regard to the race, color, disability, sex, religion, age, or national origin of the appointed members.\nAdded by Acts 1997, 75th Leg., ch. 165, Sec. 12.01, eff. Sept. 1, 1997.  Amended by Acts 1999, 76th Leg., ch. 554, Sec. 1, eff. Sept. 1, 1999;  Acts 2003, 78th Leg., 3rd C.S., ch. 3, Sec. 11.03, eff. Jan. 11, 2004."
+        },
+        {
+          "url": "https://tcss.legis.texas.gov/resources/GV/htm/GV.508.htm",
+          "readAt": "2026-10-02",
+          "handoff": "Coordinator official-source recovery observed Oct2 07:10 Eastern; independently retrieved Oct2; no raw hash asserted.",
+          "citation": "Tex. Govt Code 508.032",
+          "fields": ["eligibility"],
+          "quote": "Sec. 508.032.  REQUIREMENTS FOR MEMBERSHIP.\n(a)  Board members must be representative of the general public.\n(b)  A member must have resided in this state for the two years before appointment.\n(c)(1) A person who is a former employee of the department may not serve on the board before the second anniversary of the date the person terminated employment with the department.\n(2)  A person who is employed by the department on August 1, 2003, may not serve on the board before August 1, 2005.\n(d)  At any time not more than three members of the board may be former employees of the department.\n(e)  For purposes of Subsections (c) and (d), previous service as a board member is not considered to be employment with the department.\nAdded by Acts 1997, 75th Leg., ch. 165, Sec. 12.01, eff. Sept. 1, 1997.  Amended by Acts 2003, 78th Leg., 3rd C.S., ch. 3, Sec. 11.04, eff. Jan. 11, 2004."
+        },
+        {
+          "url": "https://tcss.legis.texas.gov/resources/GV/htm/GV.508.htm",
+          "readAt": "2026-10-02",
+          "handoff": "Coordinator official-source recovery observed Oct2 07:10 Eastern; independently retrieved Oct2; no raw hash asserted.",
+          "citation": "Tex. Govt Code 508.033",
+          "fields": ["eligibility.disqualifications"],
+          "quote": "Sec. 508.033.  DISQUALIFICATIONS.\n(a)  A person is not eligible for appointment as a member of the board or for employment as a parole commissioner if the person or the person's spouse:\n(1)  is employed by or participates in the management of a business entity or other organization receiving funds from the department or the board;\n(2)  owns or controls, directly or indirectly, more than a 10-percent interest in a business entity or other organization:\n(A)  regulated by the department; or\n(B)  receiving funds from the department or the board; or\n(3)  uses or receives a substantial amount of tangible goods, services, or funds from the department or the board, other than compensation or reimbursement authorized by law for board membership, attendance, or expenses.\n(b)  In determining eligibility under Subsection (a)(3), the compensation or reimbursement that a board member's spouse or parole commissioner's spouse receives as an employee of the board or the department may not be considered.  This subsection does not affect any restriction on employment or board membership imposed by any other law.\n(c)  A person may not serve as a parole commissioner, may not be a member of the board, and may not be an employee of the division or the board employed in a \"bona fide executive, administrative, or professional capacity,\" as that phrase is used for purposes of establishing an exemption to the overtime provisions of the federal Fair Labor Standards Act of 1938 (29 U.S.C. Section 201 et seq.) and its subsequent amendments, if:\n(1)  the person is an officer, employee, or paid consultant of a Texas trade association in the field of criminal justice; or\n(2)  the person's spouse is an officer, manager, or paid consultant of a Texas trade association in the field of criminal justice.\n(d)  A person who is required to register as a lobbyist under Chapter\n305\nbecause of the person's activities for compensation in or on behalf of a profession related to the operation of the board may not:\n(1)  serve as a member of the board or as a parole commissioner; or\n(2)  act as the general counsel to the board or division.\n(e)  In this section, \"Texas trade association\" means a cooperative and voluntarily joined association of business or professional competitors in this state designed to assist its members and its industry or profession in:\n(1)  dealing with mutual business or professional problems;  and\n(2)  promoting their common interests.\n(f)  A person who is a current or former employee of the department may not serve as a parole commissioner before the second anniversary of the date the person's employment with the department ceases, and a member of the board may not serve as a parole commissioner before the second anniversary of the date the person's membership on the board ceases.\nAdded by Acts 1997, 75th Leg., ch. 165, Sec. 12.01, eff. Sept. 1, 1997.  Amended by Acts 1999, 76th Leg., ch. 62, Sec. 10.04, eff. Sept. 1, 1999;  Acts 1999, 76th Leg., ch. 554, Sec. 2, eff. Sept. 1, 1999.\nAmended by:\nActs 2007, 80th Leg., R.S., Ch. 1308 (S.B.\n909\n), Sec. 33, eff. June 15, 2007."
+        },
+        {
+          "url": "https://tcss.legis.texas.gov/resources/GV/htm/GV.508.htm",
+          "readAt": "2026-10-02",
+          "handoff": "Coordinator official-source recovery observed Oct2 07:10 Eastern; independently retrieved Oct2; no raw hash asserted.",
+          "citation": "Tex. Govt Code 508.0362",
+          "fields": ["training"],
+          "quote": "Sec. 508.0362.  TRAINING REQUIRED.\n(a)  A person who is appointed to and qualifies for office as a member of the board may not vote, deliberate, or be counted as a member in attendance at a meeting of the board until the person completes a training program that complies with this section.  A parole commissioner employed by the board may not vote or deliberate on a matter described by Section\n508.0441\nuntil the person completes a training program that complies with this section.\n(b)  The training program must provide the person with information regarding:\n(1)  the law governing board operations;\n(2)  the programs, functions, rules, and budget of the board;\n(3)  the scope of and limitations on the rulemaking authority of the board;\n(4)  the results of the most recent formal audit of the board;\n(5)  the requirements of:\n(A)  laws relating to open meetings, public information, administrative procedure, and disclosing conflicts of interest; and\n(B)  other laws applicable to members of a state policy-making body in performing their duties; and\n(6)  any applicable ethics policies adopted by the board or the Texas Ethics Commission.\n(c)  A person appointed to the board is entitled to reimbursement, as provided by the General Appropriations Act, for the travel expenses incurred in attending the training program regardless of whether the attendance at the program occurs before or after the person qualifies for office.\n(d)  The board administrator shall create a training manual that includes the information required by Subsection (b).  The board administrator shall distribute a copy of the training manual annually to each board member and parole commissioner.  Each board member and parole commissioner shall sign and submit to the board administrator a statement acknowledging that the person received and has reviewed the training manual.\nAdded by Acts 1999, 76th Leg., ch. 62, Sec. 10.08, eff. Sept. 1, 1999.  Amended by Acts 1999, 76th Leg., ch. 554, Sec. 4, eff. Sept. 1, 1999;  Acts 2003, 78th Leg., 3rd C.S., ch. 3, Sec. 11.08, eff. Jan. 11, 2004.\nAmended by:\nActs 2025, 89th Leg., R.S., Ch. 1022 (S.B.\n2405\n), Sec. 76, eff. September 1, 2025."
+        },
+        {
+          "url": "https://tcss.legis.texas.gov/resources/GV/htm/GV.508.htm",
+          "readAt": "2026-10-02",
+          "handoff": "Coordinator official-source recovery observed Oct2 07:10 Eastern; independently retrieved Oct2; no raw hash asserted.",
+          "citation": "Tex. Govt Code 508.037",
+          "fields": ["termRule", "termMonths"],
+          "quote": "Sec. 508.037.  TERMS;  REMOVAL.\n(a)  A board member holds office for a term of six years.\n(b)  The terms of one-third of the members expire February 1 of each odd-numbered year.\n(c)  The governor may remove a board member, other than a member appointed by another governor, at any time and for any reason.\nAdded by Acts 1997, 75th Leg., ch. 165, Sec. 12.01, eff. Sept. 1, 1997."
+        },
+        {
+          "url": "https://tcss.legis.texas.gov/resources/GV/htm/GV.508.htm",
+          "readAt": "2026-10-02",
+          "handoff": "Coordinator official-source recovery observed Oct2 07:10 Eastern; independently retrieved Oct2; no raw hash asserted.",
+          "citation": "Tex. Govt Code 508.038",
+          "fields": ["termRule.vacancy"],
+          "quote": "Sec. 508.038.  VACANCIES.\nIf a vacancy occurs, the governor shall appoint in the same manner as other appointments are made a person to serve the remainder of the unexpired term.\nAdded by Acts 1997, 75th Leg., ch. 165, Sec. 12.01, eff. Sept. 1, 1997."
+        },
+        {
+          "url": "https://tcss.legis.texas.gov/resources/CN/htm/CN.4.htm",
+          "readAt": "2026-10-02",
+          "handoff": "Coordinator official-source recovery observed Oct2 07:10 Eastern; independently retrieved Oct2; no raw hash asserted.",
+          "citation": "Tex. Const. art.IVsection11",
+          "fields": ["clemencyRecommendation"],
+          "quote": "Sec. 11.  BOARD OF PARDONS AND PAROLES; PAROLE LAWS; REPRIEVES, COMMUTATIONS, AND PARDONS; REMISSION OF FINES AND FORFEITURES.\n(a) The Legislature shall by law establish a Board of Pardons and Paroles and shall require it to keep record of its actions and the reasons for its actions.  The Legislature shall have authority to enact parole laws and laws that require or permit courts to inform juries about the effect of good conduct time and eligibility for parole or mandatory supervision on the period of incarceration served by a defendant convicted of a criminal offense.\n(b)  In all criminal cases, except treason and impeachment, the Governor shall have power, after conviction or successful completion of a term of deferred adjudication community supervision, on the written signed recommendation and advice of the Board of Pardons and Paroles, or a majority thereof, to grant reprieves and commutations of punishment and pardons; and under such rules as the Legislature may prescribe, and upon the written recommendation and advice of a majority of the Board of Pardons and Paroles, he shall have the power to remit fines and forfeitures.  The Governor shall have the power to grant one reprieve in any capital case for a period not to exceed thirty (30) days; and he shall have power to revoke conditional pardons.  With the advice and consent of the Legislature, he may grant reprieves, commutations of punishment and pardons in cases of treason.\n(Feb. 15, 1876.  Amended Nov. 3, 1936, Nov. 8, 1983, and Nov. 7, 1989; Subsec. (b) amended Nov. 8, 2011.)"
+        },
+        {
+          "url": "https://tcss.legis.texas.gov/resources/CN/htm/CN.4.htm",
+          "readAt": "2026-10-02",
+          "handoff": "Coordinator official-source recovery observed Oct2 07:10 Eastern; independently retrieved Oct2; no raw hash asserted.",
+          "citation": "Tex. Const. art.IVsection12",
+          "fields": ["confirmation"],
+          "quote": "Sec. 12.  VACANCIES IN STATE OR DISTRICT OFFICES.\n(a) All vacancies in State or district offices, except members of the Legislature, shall be filled unless otherwise provided by law by appointment of the Governor.\n(b)  An appointment of the Governor made during a session of the Senate shall be with the advice and consent of two-thirds of the Senate present.\n(c)  In accordance with this section, the Senate may give its advice and consent on an appointment of the Governor made during a recess of the Senate.  To be confirmed, the appointment must be with the advice and consent of two-thirds of the Senate present.  If an appointment of the Governor is made during the recess of the Senate, the Governor shall nominate the appointee, or some other person to fill the vacancy, to the Senate during the first ten days of its next session following the appointment.  If the Senate does not confirm a person under this subsection, the Governor shall nominate in accordance with this section the recess appointee or another person to fill the vacancy during the first ten days of each subsequent session of the Senate until a confirmation occurs.  If the Governor does not nominate a person to the Senate during the first ten days of a session of the Senate as required by this subsection, the Senate at that session may consider the recess appointee as if the Governor had nominated the appointee.\n(d)  If the Senate, at any special session, does not take final action to confirm or reject a previously unconfirmed recess appointee or another person nominated to fill the vacancy for which the appointment was made:\n(1)  the Governor after the session may appoint another person to fill the vacancy; and\n(2)  the appointee, if otherwise qualified and if not removed as provided by law, is entitled to continue in office until the earlier of the following occurs:\n(A)  the Senate rejects the appointee at a subsequent session; or\n(B)  the Governor appoints another person to fill the vacancy under Subdivision (1) of this subsection.\n(e)  If the Senate, at a regular session, does not take final action to confirm or reject a previously unconfirmed recess appointee or another person nominated to fill the vacancy for which the appointment was made, the appointee or other person, as appropriate, is considered to be rejected by the Senate when the Senate session ends.\n(f)  If an appointee is rejected, the office shall immediately become vacant, and the Governor shall, without delay, make further nominations, until a confirmation takes place.  If a person has been rejected by the Senate to fill a vacancy, the Governor may not appoint the person to fill the vacancy or, during the term of the vacancy for which the person was rejected, to fill another vacancy in the same office or on the same board, commission, or other body.\n(g)  Appointments to vacancies in offices elective by the people shall only continue until the next general election.\n(h)  The Legislature by general law may limit the term to be served by a person appointed by the Governor to fill a vacancy in a state or district office to a period that ends before the vacant term otherwise expires or, for an elective office, before the next election at which the vacancy is to be filled, if the appointment is made on or after November 1 preceding the general election for the succeeding term of the office of Governor and the Governor is not elected at that election to the succeeding term.\n(i)  For purposes of this section, the expiration of a term of office or the creation of a new office constitutes a vacancy.\n(Feb. 15, 1876.  Amended Nov. 3, 1987, and Nov. 6, 1990; Subsec. (j) added Nov. 6, 1990, and expired Jan. 1, 1991.)"
+        }
+      ],
+      "missing": [
+        "shared Senate confirmation/session/recess binding and actual member votes",
+        "actual two-year residence, employment/spouse/business/conflict/lobbyist records for disqualification checks",
+        "actual training completion/manual acknowledgement record binding",
+        "sourced quorum/attendance applicability and actual staggered seat terms, not invented initial expiries"
+      ],
+      "notes": [
+        "Six years converts exactly to72months; no outcome duration draw. One-third expiresFeb1oddyears; no invented initial seat allocation.",
+        "Professional-experience-only nomination reader cannot prove the required residency/disqualification predicates. Appointments stay pending.",
+        "Board clemency majority is distinct from two-thirds Senate-present confirmation. Recess/vacancy conditions preserved as quoted source, not automatic seating."
+      ],
+      "qualifications": null,
+      "termRule": {
+        "kind": "fixed-staggered",
+        "years": 6,
+        "monthsDerivedFromYears": 72,
+        "fractionExpiringEachCycle": "one-third",
+        "expiresMonthDay": "02-01",
+        "expiresInOddNumberedYears": true,
+        "vacancy": "unexpired-remainder",
+        "governorRemoval": "at-any-time-and-for-any-reason-except-member-appointed-by-another-governor"
+      },
+      "minimumFavorableVotes": null,
+      "victimAdvocacyNomination": null,
+      "exOfficio": null,
+      "fullTimeService": null,
+      "employmentRestrictions": null,
+      "confirmation": {
+        "requiredChambers": ["senate"],
+        "threshold": {
+          "numerator": 2,
+          "denominator": 3,
+          "basis": "senate-present"
+        },
+        "recessAndRejectionRulesSource": "Tex. Const. IV12(b-i)",
+        "recessRulesRequireActualSessionAppointmentAndRejectionRecords": true
+      },
+      "eligibility": {
+        "kind": "residency-and-disqualifications",
+        "representativeOfGeneralPublic": true,
+        "residenceYearsBeforeAppointment": 2,
+        "formerDepartmentCoolingYears": 2,
+        "maximumFormerDepartmentMembers": 3,
+        "previousBoardServiceNotDepartmentEmployment": true,
+        "historicalDepartmentEmployeeCutoff": {
+          "employedOn": "2003-08-01",
+          "cannotServeBefore": "2005-08-01"
+        },
+        "protectedCharacteristicsCannotDetermineAppointment": [
+          "race",
+          "color",
+          "disability",
+          "sex",
+          "religion",
+          "age",
+          "national-origin"
+        ],
+        "disqualificationSource": "GovtCode508.033",
+        "disqualificationsIncludeActualPersonAndSpouseRecords": true,
+        "recordReader": "unbound; homeJurisdiction alone is not two-year residency or absence of disqualification"
+      },
+      "training": {
+        "requiredBefore": [
+          "vote",
+          "deliberation",
+          "counting-as-attending-member"
+        ],
+        "statutoryProgram": "GovtCode508.0362",
+        "manualAcknowledgementRequired": true,
+        "missingRecordMeansCannotCountOrVote": true
+      },
+      "clemencyRecommendation": {
+        "ordinary": "written-signed-recommendation-and-advice-of-board-or-majority",
+        "fineForfeitureRemission": "written-majority-recommendation-and-advice",
+        "exceptions": ["treason", "impeachment"],
+        "capitalReprieve": {
+          "governorMayGrantOnce": true,
+          "maximumDays": 30
+        },
+        "treasonRequiresLegislatureAdviceAndConsent": true,
+        "governorMayRevokeConditionalPardon": true,
+        "source": "TexConstIV11(b)",
+        "notSenateConfirmationThreshold": true
+      }
+    }
+  ]
+}

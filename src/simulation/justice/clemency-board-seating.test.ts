@@ -1,0 +1,187 @@
+import { describe, expect, it } from "vitest";
+import { smallWorld } from "../../../tests/fixtures/small-world";
+import { dateAtAge, ageOnDate } from "../dates";
+import { governorOfficeForJurisdiction } from "../governing/state-governing";
+import { createOrganization, createWorkRelationship } from "../life";
+import type { CreateWorkRelationshipInput } from "../life";
+import { lifePlaceStateIdentities } from "../life-places";
+import { recordRelationshipInteraction } from "../records";
+import { pickDistinct, SeededRng } from "../rng";
+import { deserializeWorld, serializeWorld } from "../serialization";
+import { assertWorldIntegrity } from "../world";
+import {
+  CLEMENCY_BOARD_NOMINATED,
+  clemencyBoardAppointmentProfiles,
+  ensureOpeningClemencyBoardAppointments,
+} from "./clemency-board-seating";
+
+const sample = pickDistinct(
+  new SeededRng("team9-r16-board-opening"),
+  lifePlaceStateIdentities(),
+  5,
+);
+
+describe("R16 recorded board nominations", () => {
+  it.each(sample)(
+    "does not invent appointment data or qualified people in $jurisdictionKey",
+    (place) => {
+      const { world } = smallWorld({
+        place: place.jurisdictionKey,
+        offices: ["governor"],
+      });
+      const prepared = ensureOpeningClemencyBoardAppointments(world);
+      expect(prepared).toBe(world);
+      expect(prepared.people).toBe(world.people);
+      expect(prepared.history.organizationParticipations).toBe(
+        world.history.organizationParticipations,
+      );
+    },
+    30_000,
+  );
+
+  it.each(clemencyBoardAppointmentProfiles)(
+    "preserves pending source/confirmation boundaries for $jurisdictionKey",
+    (profile) => {
+      const small = smallWorld({
+        place: profile.jurisdictionKey,
+        offices: ["governor"],
+        people: 12,
+      });
+      const office = governorOfficeForJurisdiction(
+        small.world,
+        profile.jurisdictionKey,
+      );
+      expect(office).not.toBeNull();
+      const candidate = small.world.personOrder.find(
+        (id) =>
+          id !== office!.holderPersonId &&
+          ageOnDate(
+            small.world.people[id]!.birthDate,
+            small.world.currentDate,
+          ) >= 28,
+      );
+      expect(candidate).toBeDefined();
+      let world = recordRelationshipInteraction(small.world, {
+        stableKey: "fixture:board-professional-help",
+        personIds: [office!.holderPersonId, candidate!],
+        eventId: null,
+        occurredAt: small.world.currentDate,
+        kind: "support:helped-through-a-hard-time",
+        change: "strengthened",
+        significance: "major",
+        summary:
+          "Authored fixture: the actual professional helped the actual governor.",
+        tags: [`relationship.actor:${candidate}`],
+      });
+      const workStartedAt = dateAtAge(world.people[candidate!]!.birthDate, 20);
+      world = createOrganization(world, {
+        stableKey: "fixture:board-professional-workplace",
+        formedAt: workStartedAt,
+        provenance: {
+          kind: "authored",
+          note: "Explicit fixture correctional employer, not a generated government office or appointment.",
+        },
+        initialProfile: {
+          name: "Authored correctional workplace",
+          classification: "service:corrections",
+          locationJurisdictionId: office!.jurisdictionId,
+        },
+      });
+      const beforeWork = world;
+      const workInput: CreateWorkRelationshipInput = {
+        stableKey: "fixture:board-professional-work",
+        personId: candidate!,
+        organizationId: world.history.organizations.at(-1)!.id,
+        startedAt: workStartedAt,
+        kind: "employment:staff",
+        compensation: "paid",
+        authority: "directed",
+        dependency: "dependent",
+        economicRisk: "organization-borne",
+        provenance: {
+          kind: "authored",
+          note: "Explicit fixture professional work; no inferred biography or generated qualification.",
+        },
+        initialRole: {
+          title: "Recorded professional",
+          occupationClassification: "profession:corrections",
+          locationJurisdictionId: office!.jurisdictionId,
+          timeDemand: {
+            expectedWeekly: { minimumHours: 40, maximumHours: 40 },
+            attention: "high",
+            concurrency: "mostly-exclusive",
+            scheduleRigidity: "rigid",
+            interruptibility: "non-interruptible",
+            locationJurisdictionId: office!.jurisdictionId,
+          },
+        },
+      };
+      world = createWorkRelationship(world, workInput);
+      if (profile.qualifications !== null) {
+        const shorter = createWorkRelationship(beforeWork, {
+          ...workInput,
+          startedAt: dateAtAge(
+            world.people[candidate!]!.birthDate,
+            ageOnDate(world.people[candidate!]!.birthDate, world.currentDate) -
+              6,
+          ),
+        });
+        // Six recorded years cannot use the five-year alternative without
+        // actual accredited bachelor evidence; neither age nor a title is it.
+        expect(ensureOpeningClemencyBoardAppointments(shorter)).toBe(shorter);
+        expect(
+          shorter.history.events.filter(
+            (event) => event.type === CLEMENCY_BOARD_NOMINATED,
+          ),
+        ).toHaveLength(0);
+      }
+      const prepared = ensureOpeningClemencyBoardAppointments(world);
+      const nominations = prepared.history.events.filter(
+        (event) => event.type === CLEMENCY_BOARD_NOMINATED,
+      );
+      if (profile.seatCount === null || profile.experienceYears === null) {
+        expect(nominations).toHaveLength(0);
+        expect(prepared).toBe(world);
+      } else {
+        expect(nominations).toHaveLength(1);
+        const nomination = nominations[0]!;
+        expect(nomination.participants).toContainEqual({
+          personId: candidate,
+          role: "agency:nominee",
+          detail: profile.label,
+        });
+        const traceId = nomination.tags
+          .find((tag) => tag.startsWith("appointment-decision:"))!
+          .slice("appointment-decision:".length);
+        const trace = prepared.history.decisionTraces.find(
+          (row) => row.id === traceId,
+        )!;
+        expect(trace.context.actorPersonId).toBe(office!.holderPersonId);
+        expect(trace.context.decisionType).toBe("appointment.choose-appointee");
+        expect(trace.selectedOptionKey).toBe(`person:${candidate}`);
+        expect(trace.sequence).toBeLessThan(nomination.sequence);
+        expect(nomination.tags).toContain(
+          "appointment-status:nominated-pending",
+        );
+      }
+      // A nomination, guessed board vote or missing confirmation cannot seat anyone.
+      expect(prepared.history.organizationParticipations).toBe(
+        world.history.organizationParticipations,
+      );
+      expect(ensureOpeningClemencyBoardAppointments(prepared)).toBe(prepared);
+      const restored = deserializeWorld(serializeWorld(prepared));
+      assertWorldIntegrity(restored);
+      expect(ensureOpeningClemencyBoardAppointments(restored)).toBe(restored);
+      expect(
+        restored.history.events.filter(
+          (event) => event.type === CLEMENCY_BOARD_NOMINATED,
+        ),
+      ).toEqual(nominations);
+    },
+    30_000,
+  );
+
+  it.todo(
+    "seats confirmed members through the shared Senate confirmation binding, then proves original positive clemency fixtures; missing adapter and sourced terms/quorum remain pending",
+  );
+});

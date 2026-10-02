@@ -49,6 +49,7 @@ import { ensureEpidemicProduction } from "../simulation/crisis/epidemic";
 import { ensurePlaceOutcomes } from "../simulation/outcome-web/place-outcomes";
 import { ensurePublicBudgets } from "../simulation/public-budgets";
 import { ensureOpeningJudiciary } from "../simulation/judiciary/opening";
+import { ensureOpeningClemencyBoardAppointments } from "../simulation/justice/clemency-board-seating";
 import { ensureCrisisMortality } from "../simulation/crisis/mortality";
 import {
   ensureMacroEconomyStarted,
@@ -267,10 +268,11 @@ function beginOpeningLife(session: OpeningLifeSession): OpeningLifeBuildStart {
     datedTerms: session.setup.worldOpeningVersion !== undefined,
     includeVicePresident: versionedOpening,
   });
+  const withBoardNominations = ensureOpeningClemencyBoardAppointments(staffed);
   const withPriorRecords =
     openingData === "playtest65-v1"
-      ? ensureOpeningPriorLocalRecords(staffed)
-      : staffed;
+      ? ensureOpeningPriorLocalRecords(withBoardNominations)
+      : withBoardNominations;
   const living = ensureLivingWorldOpening(
     withPriorRecords,
     game.playerPersonId,
