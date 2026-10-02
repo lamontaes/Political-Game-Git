@@ -2340,6 +2340,25 @@ export function governingNpcDecisionHandler(
         termEndsAt: office.termEndsAt,
       },
     );
+    // Replaying this same pending context reuses its saved nonselected trace.
+    // Appending that trace changed only the history-sequence cutoff; a changed
+    // actor, petition, date, option or consideration is not the same context.
+    const savedPending = principled.history.decisionTraces.some(
+      (trace) =>
+        trace.stableKey === `${evaluation.context.stableKey}:trace` &&
+        trace.outcomeKind !== "selected" &&
+        trace.selectedOptionKey === null &&
+        JSON.stringify({
+          ...trace.context,
+          cutoff: {
+            ...trace.context.cutoff,
+            historySequenceExclusive:
+              evaluation.context.cutoff.historySequenceExclusive,
+          },
+        }) === JSON.stringify(evaluation.context),
+    );
+    if (savedPending)
+      return resolved(world, "The executive decision remains pending.");
     const traced = recordDurableDecisionTrace(principled, evaluation);
     if (evaluation.outcomeKind !== "selected" || !evaluation.selectedOptionKey)
       return resolved(traced, "The executive decision remains pending.");
