@@ -143,6 +143,19 @@ describe("generated people pursue their own goals", () => {
     // Every application is to an opening the market actually listed, and
     // that was taking applications on the day it was sent.
     const applications = applicationsFor(world, worker);
+    if (applications.length === 0)
+      console.info(
+        "A125 original application prerequisite",
+        JSON.stringify({
+          date: world.currentDate,
+          moment: world.currentMoment,
+          worker,
+          goals: goalsOf(world, worker, before),
+          work: world.history.workRelationships
+            .filter((row) => row.personId === worker)
+            .map((row) => ({ row, status: workStatusAt(world, row.id) })),
+        }),
+      );
     expect(applications.length).toBeGreaterThan(0);
     for (const application of applications) {
       const opening = jobOpening(world, application.openingId)!;
@@ -205,6 +218,22 @@ describe("generated people pursue their own goals", () => {
           record.status === "active",
       ),
     )!;
+    if (!caller)
+      console.info(
+        "A125 original connection prerequisite",
+        JSON.stringify({
+          candidates: pursuitCandidates(start.world),
+          goals: start.world.history.goalStates
+            .filter((row) =>
+              pursuitCandidates(start.world).includes(row.personId),
+            )
+            .map((row) => ({
+              personId: row.personId,
+              goalKey: row.goalKey,
+              status: row.status,
+            })),
+        }),
+      );
     const friend = residentWithJob(start.world, start.playerId);
     // A real tie between them, as the world would record one.
     let world = recordRelationshipInteraction(start.world, {
@@ -374,6 +403,20 @@ describe("generated people pursue their own goals", () => {
         record.source.kind === "told-by" &&
         record.source.sourcePersonId === housemate,
     );
+    if (told.length === 0)
+      console.info(
+        "A125 original household prerequisite",
+        JSON.stringify({
+          date: world.currentDate,
+          moment: world.currentMoment,
+          housemate,
+          goals: goalsOf(world, housemate),
+          applications: applicationsFor(world, housemate),
+          work: world.history.workRelationships
+            .filter((row) => row.personId === housemate)
+            .map((row) => ({ row, status: workStatusAt(world, row.id) })),
+        }),
+      );
     expect(told.length).toBeGreaterThan(0);
     expect(told[0]!.believedSummary).toMatch(
       /said they applied to .+ opening\.$/,
