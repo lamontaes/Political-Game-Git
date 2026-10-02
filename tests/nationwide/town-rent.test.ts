@@ -1,3 +1,8 @@
+import {
+  serializeWorld,
+  deserializeWorld,
+} from "../../src/simulation/serialization";
+import { passOrdinaryDays } from "../../src/presentation/ordinary-life";
 import { createStableId } from "../../src/simulation/ids";
 import { rentConstructionCovered } from "../../src/simulation/law-consequences/rent-construction-coverage";
 import { dateAtAge } from "../../src/simulation/dates";
@@ -249,6 +254,30 @@ function liveMonths(
   return { game, world, player, town, rentDays };
 }
 
+/** An ordinary opening advanced by its authoritative clock to the first rent day. */
+function ordinaryRentBoundary(place: string, seed: string) {
+  const game = generateOpeningLife(
+    prepareOpeningLife({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed,
+      placeKey: place,
+      startAge: 24,
+      questionnaire: "skipped",
+    }),
+  ).game!;
+  const start = game.world.currentDate;
+  let boundary = addDays(start, 1);
+  let days = 1;
+  while (!boundary.endsWith("-01")) {
+    boundary = addDays(boundary, 1);
+    days += 1;
+  }
+  const world = passOrdinaryDays(game.world, days);
+  expect(world.currentDate).toBe(boundary);
+  const town = world.people[game.playerPersonId]!.homeJurisdictionId;
+  return { game, world, town, start, boundary };
+}
+
 describe("rent day", { timeout: 600_000 }, () => {
   it.each([
     { place: null, capacity: null },
@@ -260,7 +289,10 @@ describe("rent day", { timeout: 600_000 }, () => {
         .map((row) => row.split(":")[0]!)
         .filter((key) => key.startsWith("34") || key.startsWith("11"));
       const place = scenario.place ?? candidates[randomInt(candidates.length)]!;
-      const opening = liveMonths(place, "a57-starting-covered-construction", 1);
+      const opening = ordinaryRentBoundary(
+        place,
+        "a57-starting-covered-construction",
+      );
       const town = opening.town;
       let world = opening.world;
       const law = housingLawYes(
@@ -406,11 +438,77 @@ describe("rent day", { timeout: 600_000 }, () => {
               stamp.sourceRecordIds?.includes(lease.dwellingId),
           ),
         ).toBe(true);
+      const loaded = deserializeWorld(serializeWorld(world));
+      expect(
+        townLeases(loaded).filter((lease) =>
+          builtIds.includes(lease.dwellingId),
+        ),
+      ).toEqual(
+        townLeases(world).filter((lease) =>
+          builtIds.includes(lease.dwellingId),
+        ),
+      );
+      for (const lease of allocated)
+        expect(resourceFlowTermsAt(loaded, lease.flow.id)).toEqual(
+          resourceFlowTermsAt(world, lease.flow.id),
+        );
+      const repeated = withWorldIntegrityDeferred(() =>
+        collectTownRent(loaded, loaded.currentDate),
+      );
+      expect(repeated.history.resourceTransferOutcomes).toEqual(
+        loaded.history.resourceTransferOutcomes,
+      );
+      expect(repeated.history.resourceFlowTerms).toEqual(
+        loaded.history.resourceFlowTerms,
+      );
       process.stdout.write(
         `A57 controlled covered construction receipt: place=${place}; built=${builtIds.length}; share=${share.value}; affordable=${allocated.length}\n`,
       );
     },
   );
+
+  it("an ordinary random opening preserves actual rent payments and law terms through reload", () => {
+    const candidates = PLACE_POPULATION_ROWS.split(";")
+      .map((row) => row.split(":")[0]!)
+      .filter((key) => key.startsWith("34") || key.startsWith("11"));
+    const place = candidates[randomInt(candidates.length)]!;
+    const seed = "a57-2096-ordinary-rent-reload";
+    const { world, start, boundary } = ordinaryRentBoundary(place, seed);
+    const leases = townLeases(world);
+    expect(leases.length).toBeGreaterThan(0);
+    const ids = new Set(leases.map((lease) => lease.flow.id));
+    const outcomes = world.history.resourceTransferOutcomes.filter(
+      (outcome) =>
+        ids.has(outcome.resourceFlowId) && outcome.occurredAt === boundary,
+    );
+    expect(outcomes.length).toBeGreaterThan(0);
+    const paid = outcomes.filter(
+      (outcome) => outcome.transferredAmount.minorUnits > 0,
+    );
+    expect(paid.length).toBeGreaterThan(0);
+    const total = paid.reduce(
+      (sum, outcome) => sum + outcome.transferredAmount.minorUnits,
+      0,
+    );
+    const loaded = deserializeWorld(serializeWorld(world));
+    expect(townLeases(loaded)).toEqual(leases);
+    expect(
+      loaded.history.resourceTransferOutcomes.filter(
+        (outcome) =>
+          ids.has(outcome.resourceFlowId) && outcome.occurredAt === boundary,
+      ),
+    ).toEqual(outcomes);
+    const again = collectTownRent(loaded, boundary);
+    expect(again.history.resourceTransferOutcomes).toEqual(
+      loaded.history.resourceTransferOutcomes,
+    );
+    expect(again.history.resourceFlowTerms).toEqual(
+      loaded.history.resourceFlowTerms,
+    );
+    process.stdout.write(
+      `A57 ordinary payment/reload receipt: place=${place}; seed=${seed}; start=${start}; boundary=${boundary}; leases=${leases.length}; outcomes=${outcomes.length}; positivePayments=${paid.length}; paidMinor=${total}; unknown=${outcomes.filter((outcome) => outcome.status === "blocked").length}; reload=equal; recollect=idempotent\n`,
+    );
+  });
 
   it("Chicago: every renting household pays a landlord on record, from HUD rents", () => {
     const { game, world, town, rentDays } = liveMonths(

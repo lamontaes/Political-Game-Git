@@ -14,9 +14,8 @@
  *     is zero.
  *   price-to-income gap: the log of home prices over output value, against the
  *     same ratio at the world's first month, as of the month before.
- *   the town's own events: a law enacted in play that lets more homes be
- *     built (`HOUSING_SUPPLY_LAWS`), once it has been in force a year
- *     (`HOUSING_SUPPLY_LAW_EFFECT`). Nothing else is wired yet.
+ * Housing laws retain recorded permit-unit consequences and their sources.
+ * No permit-unit-to-price conversion is supplied to this price reader.
  *
  * HARDWIRED at the start: before the world's first month, home prices are
  * taken to have grown with income and to sit at their usual ratio to it.
