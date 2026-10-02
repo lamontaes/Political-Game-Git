@@ -1,4 +1,4 @@
-import federalRailData from "../../data/content/legislation-families/federal-rail.json";
+import federalRailData from "../../data/content/legislation-families/federal-rail.json" with { type: "json" };
 import {
   programVariantFromData,
   type ProgramVariantData,
