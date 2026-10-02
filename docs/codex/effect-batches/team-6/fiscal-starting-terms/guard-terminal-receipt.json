@@ -1,0 +1,34 @@
+{
+  "sourceHead": "ddecdc0e4335a8372c839ea923d4ab78de1055b0",
+  "fiscalParent": "f86d6f03fbecc3697eb7d290abcf93f32486259d",
+  "native": {
+    "command": "OCD_STORAGE_OVERRIDE=\"Owner approved cloud storage-reserve bypass 2026-10-02\" node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/public-budgets/fiscal-starting-terms.test.ts src/simulation/governing/starting-law-required-terms.test.ts --maxWorkers=1",
+    "guardFile": "2 PASS / 1 FAIL; complete3-case file executed",
+    "globalFailure": "764 missing/unsupported numeric requirements",
+    "durationSeconds": 12.41,
+    "combinedRun": "2 PASS / 3 FAIL: guard global FAIL plus two fiscal seed-index errors; fiscal errors repaired and separately2/2PASS. Guard not relabeled PASS.",
+    "previousGuardRun": "2 PASS / 1 FAIL;832requirements before53-row overlay;492ms"
+  },
+  "types": {
+    "roots": [
+      "src/simulation/governing/starting-law-required-terms.test.ts"
+    ],
+    "dependencies": 1010,
+    "diagnostics": 0,
+    "result": "PASS"
+  },
+  "lint": "PASS guard test",
+  "format": "PASS all guard slice files",
+  "release": "parse + PR transition PASS; no problems atddecdc0e",
+  "mergeTree": {
+    "main": "d9c960b1b548f74e916593d619593ce488f7b627",
+    "tree": "32ed9bc46a8ae40a7d8c7296578357564487755e",
+    "result": "clean"
+  },
+  "status": "DRAFT: global testFAIL, no official Claude gate or merge",
+  "notRun": [
+    "full suite",
+    "browser",
+    "nationwide simulation activation"
+  ]
+}
