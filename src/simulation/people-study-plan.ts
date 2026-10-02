@@ -1,4 +1,4 @@
-import { evaluateDecision } from "./decisions";
+import { evaluateDecision, isSelectedDecision } from "./decisions";
 import { personName } from "./people";
 import { STUDY_COLLABORATION_EVENT, STUDY_TAG } from "./people-study";
 import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
@@ -178,7 +178,7 @@ export function studyCollaborationEventId(
 export function peerStudyApproach(
   world: World,
   input: { readonly personId: EntityId; readonly peerPersonId: EntityId },
-): { readonly approachId: string; readonly world: World } {
+): { readonly approachId: string | null; readonly world: World } {
   const collaborationId = studyCollaborationEventId(
     world,
     input.personId,
@@ -245,7 +245,9 @@ export function peerStudyApproach(
     retention: "ephemeral",
   });
   return {
-    approachId: evaluation.selectedOptionKey ?? "split-by-section",
+    approachId: isSelectedDecision(evaluation)
+      ? evaluation.selectedOptionKey
+      : null,
     world: withTraits,
   };
 }
@@ -305,7 +307,7 @@ export interface ProposeStudyPlanInput {
 export function recordStudyProposals(
   world: World,
   input: ProposeStudyPlanInput,
-): { world: World; theirs: string; agreed: boolean } {
+): { world: World; theirs: string | null; agreed: boolean } {
   const person = world.people[input.personId];
   const peer = world.people[input.peerPersonId];
   if (!person || !peer) throw new Error("A plan needs two people.");
@@ -328,6 +330,8 @@ export function recordStudyProposals(
     personId: input.personId,
     peerPersonId: input.peerPersonId,
   });
+  if (decided.approachId === null)
+    return { world: decided.world, theirs: null, agreed: false };
   const theirs = studyApproach(decided.approachId)!;
   const propose = (
     current: World,
@@ -499,7 +503,7 @@ export interface DecideStudyPlanInput {
 export function decideStudyPlanOutcome(
   world: World,
   input: DecideStudyPlanInput,
-): { readonly outcome: StudyPlanOutcome; readonly world: World } {
+): { readonly outcome: StudyPlanOutcome | null; readonly world: World } {
   const proposals = studyPlanProposals(
     world,
     input.personId,
@@ -613,7 +617,9 @@ export function decideStudyPlanOutcome(
     retention: "ephemeral",
   });
   return {
-    outcome: (evaluation.selectedOptionKey ?? "unresolved") as StudyPlanOutcome,
+    outcome: isSelectedDecision(evaluation)
+      ? (evaluation.selectedOptionKey as StudyPlanOutcome)
+      : null,
     world: withTraits,
   };
 }

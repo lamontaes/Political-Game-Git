@@ -1494,11 +1494,17 @@
         {
           "kind": "present",
           "file": "src/simulation/living-world/town-families.ts",
-          "pattern": "familyPlans\\(|familyPlanAvailability\\(",
-          "why": "a town birth follows a couple's recorded family plan from people-family-plan.ts"
+          "pattern": "weighTownFamilyPlans\\(",
+          "why": "the town's quarterly review hands its couples to the family-plan weighing (#1588; the wiring moved out of town-families.ts into town-family-plans.ts)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/town-family-plans.ts",
+          "pattern": "proposeFamilyPlan\\(",
+          "why": "a town birth follows a couple's recorded family plan from people-family-plan.ts (#1588)"
         }
       ],
-      "note": "Partly: #1387 (couples.ts isSelectedDecision) is in; every quarterly roll in reviewTownFamilies (break-up :583, move-in :609, marry :646, child :757, dating :818/:829, same-gender :339) is still live and town-families.ts does not read people-family-plan.ts. Marked part because replacing break-up/marriage rolls with decisions is not provable from one file."
+      "note": "Partly: #1387 (couples.ts isSelectedDecision), #1588 (a town birth only from a recorded family plan, through town-family-plans.ts) and the same-gender share (allocated by largest remainder, not drawn) are in; the break-up, move-in, marriage and dating-match rolls in reviewTownFamilies are still live and wait on A124. Marked part because replacing break-up/marriage rolls with decisions is not provable from one file."
     },
     "A158": {
       "covers": "whole",

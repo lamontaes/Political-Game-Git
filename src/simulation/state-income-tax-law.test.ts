@@ -138,9 +138,13 @@ const termPlaces = [...lifePlaceStateIdentities()]
   .slice(0, 5);
 
 describe("A22 adopted numeric terms reach the existing paycheck writer", () => {
-  it.each(termPlaces)(
-    "uses the final 4% rate for a named saved paycheck in $jurisdictionKey",
-    ({ jurisdictionKey }) => {
+  it.each(
+    termPlaces.flatMap((place) =>
+      [400, 700].map((rateBasisPoints) => ({ ...place, rateBasisPoints })),
+    ),
+  )(
+    "uses the final $rateBasisPoints basis-point rate for a named saved paycheck in $jurisdictionKey",
+    ({ jurisdictionKey, rateBasisPoints }) => {
       const f = smallWorld({
         place: jurisdictionKey,
         seed: `${TERM_SEED}:${jurisdictionKey}`,
@@ -166,7 +170,7 @@ describe("A22 adopted numeric terms reach the existing paycheck writer", () => {
         jurisdictionId: f.stateJurisdictionId,
         rulePackId: pack.packId,
         designation: "A22 numeric income tax fixture",
-        shortTitle: "Authored 4% income-tax terms",
+        shortTitle: `Authored ${rateBasisPoints / 100}% income-tax terms`,
         summary:
           "Controlled adopted terms, not a researched rate or natural vote.",
         origin: "member-introduction",
@@ -188,7 +192,7 @@ describe("A22 adopted numeric terms reach the existing paycheck writer", () => {
         provisionKey: "income-tax-terms",
         sectionNumber: 1,
         heading: "Flat rate and taxable-income threshold",
-        text: "The rate is 4% of annual taxable income above zero USD.",
+        text: `The rate is ${rateBasisPoints / 100}% of annual taxable income above zero USD.`,
         beneficiary: {
           kind: "general-application",
           appliesToLabel: "the state's taxable income",
@@ -201,7 +205,7 @@ describe("A22 adopted numeric terms reach the existing paycheck writer", () => {
           {
             questionKey: ADOPT_STATE_INCOME_TAX_QUESTION,
             key: "rate",
-            value: 0.04,
+            value: rateBasisPoints / 10_000,
             unit: "ratio",
           },
           {
@@ -279,7 +283,7 @@ describe("A22 adopted numeric terms reach the existing paycheck writer", () => {
       if (read.kind !== "enacted")
         throw new Error("Adopted terms became a peer rate.");
       expect(read.schedule.brackets).toEqual([
-        { overMinor: 0, rateBasisPoints: 400 },
+        { overMinor: 0, rateBasisPoints },
       ]);
       expect(read.lawMeasureIds).toContain(measureId);
       const provenance = {
@@ -395,7 +399,7 @@ describe("A22 adopted numeric terms reach the existing paycheck writer", () => {
           operativeAt: world.currentDate,
           payOutcomeId: outcomeId,
           actualWagesMinor: 100_000,
-          adoptedRateBasisPoints: 400,
+          adoptedRateBasisPoints: rateBasisPoints,
           liabilityId: liability.id,
           liabilityMinor: liability.liability!.minorUnits,
           paymentId: payments[0]!.id,
