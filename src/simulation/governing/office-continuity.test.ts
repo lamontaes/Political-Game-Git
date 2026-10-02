@@ -19,7 +19,7 @@ import {
 } from "../../presentation/ordinary-life";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import {
-  ageOn,
+  ageOnDate,
   daysBetween,
   makeIsoDate,
   simulationMomentAtLocalTime,
@@ -63,6 +63,7 @@ import { currentPresidentOf, publicOfficesHeldBy } from "../crisis/offices";
 import { PRESIDING_OFFICER_VOTE_EVENT } from "./presiding-officers";
 import { currentFederalTenure } from "../federal-tenures";
 import { publicPartyOf } from "./chamber-votes";
+import { MINIMUM_AGE } from "../living-world/congress-seats";
 import {
   CHIEF_JUSTICE_NOMINATED_EVENT,
   CHIEF_JUSTICE_VACANCY_PROFILE,
@@ -142,7 +143,8 @@ function hasActualSamePartyCandidate(
         return false;
       const candidate = world.people[seat.occupant.member.personId]!;
       return (
-        ageOn(candidate.birthDate, world.currentDate) >= 30 &&
+        ageOnDate(candidate.birthDate, world.currentDate) >=
+          MINIMUM_AGE["us-senate"] &&
         publicPartyOf(world, candidate.id) === requiredParty
       );
     })
