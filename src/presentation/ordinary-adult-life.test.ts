@@ -13,7 +13,7 @@ import { ensureLifePathPersonalPosition } from "../simulation/life-paths2-resour
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { createResourcePosition, money } from "../simulation/resources";
 import { createOrganization, createWorkRelationship } from "../simulation/life";
-import { OFFICE_SALARY_PLACEHOLDER } from "../simulation/office-salary";
+import { statePayFor } from "../simulation/office-pay";
 import type { EntityId, World } from "../simulation";
 import { chooseAdultOption, letAdultTimePass } from "./adult-life";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
@@ -226,7 +226,7 @@ describe("holding office pays a salary", () => {
       provenance: { kind: "authored", note: "Test office." },
       initialRole: {
         title: "Governor",
-        occupationClassification: "service:elected-executive",
+        occupationClassification: "service:us-ky-governor",
         locationJurisdictionId: null,
         timeDemand: {
           expectedWeekly: { minimumHours: 40, maximumHours: 60 },
@@ -248,7 +248,7 @@ describe("holding office pays a salary", () => {
     );
     expect(paid).toHaveLength(3);
     expect(paid[0]!.transferredAmount.minorUnits).toBe(
-      Math.round(OFFICE_SALARY_PLACEHOLDER.annualMinor / 52),
+      Math.round((statePayFor("governor", "KY")!.annualDollars * 100) / 52),
     );
     expect(serializeWorld(refreshLifeOpportunities(later, personId))).toBe(
       serializeWorld(later),

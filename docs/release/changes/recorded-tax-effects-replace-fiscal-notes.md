@@ -2,7 +2,7 @@
 id: recorded-tax-effects-replace-fiscal-notes
 impact: patch
 section: Changed
-title: Public budgets use recorded tax receipts
+title: Public budgets read recorded tax effects
 ---
 
 Public budgets no longer apply Oklahoma's grocery fiscal note or California's
