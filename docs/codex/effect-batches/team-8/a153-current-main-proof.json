@@ -6,6 +6,76 @@
     "passed": 12,
     "durationSeconds": 18.12
   },
+  "limits": [
+    "Controlled recorded staff fixtures, not production hiring",
+    "No browser or official Claude gate",
+    "Presentation three failures retained, no inherited attribution inferred",
+    "Release check blocked by unchanged app-typecheck-skips-tsx-tests.md missing id"
+  ],
+  "presentation": {
+    "files": 2,
+    "passed": 10,
+    "failed": 3,
+    "durationSeconds": 112.64,
+    "failures": [
+      "contextual-scene-variants.test.ts:195 expected filed, got undefined",
+      "contextual-scenes-public.test.ts:81 win view null",
+      "contextual-scenes-public.test.ts:109 loss view null"
+    ],
+    "attribution": "Current baseline cause not executed; routed to Audit"
+  },
+  "initialRowsAt4a801c263": [
+    {
+      "usps": "DC",
+      "seed": "team8-a153-existing-reporter-all56:DC",
+      "name": "Rebekah Nelson",
+      "personId": "person_013058c19d4002ae",
+      "roleId": "work-role_a8ecc0af39724dfd",
+      "beforeSha256": "26896790926d4de4f36210faa4e409be6afed0bb6175c131b1d317ccb3b1d2bb",
+      "afterSha256": "26896790926d4de4f36210faa4e409be6afed0bb6175c131b1d317ccb3b1d2bb",
+      "reloadSha256": "26896790926d4de4f36210faa4e409be6afed0bb6175c131b1d317ccb3b1d2bb"
+    },
+    {
+      "usps": "DE",
+      "seed": "team8-a153-existing-reporter-all56:DE",
+      "name": "Thomas Murphy",
+      "personId": "person_a6136000512659f9",
+      "roleId": "work-role_0b8d53e9b5858e8a",
+      "beforeSha256": "4c8c6ffbe6d4ffaea5de0186978b1753060dbbc8cb6f0e1abe74a7be2447f889",
+      "afterSha256": "4c8c6ffbe6d4ffaea5de0186978b1753060dbbc8cb6f0e1abe74a7be2447f889",
+      "reloadSha256": "4c8c6ffbe6d4ffaea5de0186978b1753060dbbc8cb6f0e1abe74a7be2447f889"
+    },
+    {
+      "usps": "GA",
+      "seed": "team8-a153-existing-reporter-all56:GA",
+      "name": "Lance Stanley",
+      "personId": "person_fcbeef245b0a1f1e",
+      "roleId": "work-role_1c6cd40ab5ae370f",
+      "beforeSha256": "f3d188f10c33b1cebb45460615ebd9bc1ba16cc9885aa7af8bf1607bd5c40061",
+      "afterSha256": "f3d188f10c33b1cebb45460615ebd9bc1ba16cc9885aa7af8bf1607bd5c40061",
+      "reloadSha256": "f3d188f10c33b1cebb45460615ebd9bc1ba16cc9885aa7af8bf1607bd5c40061"
+    },
+    {
+      "usps": "GU",
+      "seed": "team8-a153-existing-reporter-all56:GU",
+      "name": "Lucas Velasquez",
+      "personId": "person_d5511d2aa0e784f2",
+      "roleId": "work-role_c092494e49d6ac51",
+      "beforeSha256": "8a6d7a93d8c1c15a455711daa00015105d09cbb4dbab1073d2281f4848449ae2",
+      "afterSha256": "8a6d7a93d8c1c15a455711daa00015105d09cbb4dbab1073d2281f4848449ae2",
+      "reloadSha256": "8a6d7a93d8c1c15a455711daa00015105d09cbb4dbab1073d2281f4848449ae2"
+    },
+    {
+      "usps": "FL",
+      "seed": "team8-a153-existing-reporter-all56:FL",
+      "name": "Alexis Sparks",
+      "personId": "person_ddb29e244128d6ea",
+      "roleId": "work-role_6e47d1e748329b3a",
+      "beforeSha256": "d0b2f9006e81761762308dba6f22c341fd533fd74d2b9829ab7e784734b0bbd2",
+      "afterSha256": "d0b2f9006e81761762308dba6f22c341fd533fd74d2b9829ab7e784734b0bbd2",
+      "reloadSha256": "d0b2f9006e81761762308dba6f22c341fd533fd74d2b9829ab7e784734b0bbd2"
+    }
+  ],
   "rows": [
     {
       "usps": "DC",
@@ -58,22 +128,12 @@
       "reloadSha256": "d0b2f9006e81761762308dba6f22c341fd533fd74d2b9829ab7e784734b0bbd2"
     }
   ],
-  "limits": [
-    "Controlled recorded staff fixtures, not production hiring",
-    "No browser or official Claude gate",
-    "Presentation three failures retained, no inherited attribution inferred",
-    "Release check blocked by unchanged app-typecheck-skips-tsx-tests.md missing id"
-  ],
-  "presentation": {
-    "files": 2,
-    "passed": 10,
+  "renewal": {
+    "files": 4,
+    "passed": 22,
     "failed": 3,
-    "durationSeconds": 112.64,
-    "failures": [
-      "contextual-scene-variants.test.ts:195 expected filed, got undefined",
-      "contextual-scenes-public.test.ts:81 win view null",
-      "contextual-scenes-public.test.ts:109 loss view null"
-    ],
-    "attribution": "Current baseline cause not executed; routed to Audit"
+    "durationSeconds": 125.82,
+    "change": "Fixture uses same canonical inventedPersonBirthDate as main base",
+    "attribution": "The same three campaign-scene assertions fail; no same-base baseline reproduction yet"
   }
 }

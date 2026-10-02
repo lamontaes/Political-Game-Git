@@ -3,7 +3,7 @@ import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPerson,
 } from "../../src/simulation/character-history";
-import { isoDateFromParts } from "../../src/simulation/dates";
+import { inventedPersonBirthDate } from "../../src/simulation/invented-person-age";
 import {
   createOrganization,
   createWorkRelationship,
@@ -15,7 +15,7 @@ import {
 } from "../../src/simulation/people";
 import { generatePersonIdentity } from "../../src/simulation/person-identity";
 import { SeededRng } from "../../src/simulation/rng";
-import type { EntityId, IsoDate, World } from "../../src/simulation/types";
+import type { EntityId, World } from "../../src/simulation/types";
 import {
   assertWorldIntegrity,
   recordWorldEvent,
@@ -71,7 +71,11 @@ export function recordedCivicReporterFixture(world: World): {
     stableKey: reporterKey,
     givenName: name.givenName,
     familyName: name.familyName,
-    birthDate: birthDateForAge(world.currentDate, rng.integer(32, 66)),
+    birthDate: inventedPersonBirthDate(rng, {
+      role: "civic-reporter",
+      referenceDate: world.currentDate,
+      placement: "reference-day",
+    }),
     homeJurisdictionId: jurisdictionId,
     identity,
   });
@@ -199,17 +203,6 @@ function civicReporterHomeJurisdiction(
     throw new Error("A civic reporter requires an existing home jurisdiction.");
   }
   return first;
-}
-
-/**
- * A birth date that makes somebody exactly this old today. The day of the month
- * is clamped to the 28th so a leap day never lands in a year that has none.
- */
-function birthDateForAge(onDate: IsoDate, age: number): IsoDate {
-  const year = Number(onDate.slice(0, 4)) - age;
-  const month = Number(onDate.slice(5, 7));
-  const day = Math.min(Number(onDate.slice(8, 10)), 28);
-  return isoDateFromParts(year, month, day);
 }
 
 function canonicalIds(ids: readonly EntityId[]): EntityId[] {
