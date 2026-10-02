@@ -11,6 +11,7 @@ import { deserializeWorld, serializeWorld } from "./serialization";
 import {
   ensurePlayerMonthlyMoneySchedule,
   PLAYER_MONTHLY_MONEY_KEY,
+  playerMoneySchedule,
 } from "./player-monthly-money";
 import type { World } from "./types";
 
@@ -25,6 +26,21 @@ function fixture() {
 }
 
 describe("monthly money schedule recovery", () => {
+  it("shows pending reviews only for the controlled person, without changing saved state", () => {
+    const { personId, world } = fixture();
+    const before = serializeWorld(world);
+    expect(playerMoneySchedule(world, personId)).toHaveLength(1);
+    const otherPerson = world.personOrder.find((id) => id !== personId)!;
+    expect(playerMoneySchedule(world, otherPerson)).toEqual([]);
+    expect(
+      playerMoneySchedule(
+        { ...world, control: { kind: "observer" } },
+        personId,
+      ),
+    ).toEqual([]);
+    expect(serializeWorld(world)).toBe(before);
+  });
+
   it("restores a future first-of-month review after control leaves and returns", () => {
     const { personId, world } = fixture();
     const due = world.history.futureDueItems.find(
@@ -72,6 +88,7 @@ describe("monthly money schedule recovery", () => {
       reasonKey: "player-monthly-money:cancelled",
       context: null,
     });
+    expect(playerMoneySchedule(cancelled, personId)).toEqual([]);
     const restored = ensurePlayerMonthlyMoneySchedule(cancelled, personId);
     const added = restored.history.futureDueItems.slice(
       cancelled.history.futureDueItems.length,
@@ -79,6 +96,9 @@ describe("monthly money schedule recovery", () => {
     expect(added).toHaveLength(1);
     expect(added[0]!.dueAt).toBe(due.dueAt);
     expect(added[0]!.id).not.toBe(due.id);
+    expect(playerMoneySchedule(restored, personId)).toEqual([
+      { dueItemId: added[0]!.id, dueAt: due.dueAt, bills: [] },
+    ]);
     expect(ensurePlayerMonthlyMoneySchedule(restored, personId)).toBe(restored);
   });
 });
