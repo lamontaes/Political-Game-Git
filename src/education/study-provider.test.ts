@@ -1,6 +1,13 @@
 import { makeIsoDate } from "../simulation/dates";
 import { LEXINGTON_DEMO_CONTEXT } from "../simulation/demo-jurisdiction-context";
 import { describe, it, expect } from "vitest";
+import { readFileSync } from "node:fs";
+import {
+  expandInstitution,
+  type CompactInstitution,
+  type EducationDictionary,
+} from "./compact";
+import { schoolTuitionQuote, type SchoolTuitionInput } from "./tuition-prices";
 import {
   createDemoWorld,
   createWorld,
@@ -342,8 +349,43 @@ describe("saved accepted terms controls", () => {
   });
 });
 describe("applying for a degree at a real college", () => {
+  const manifest = JSON.parse(
+    readFileSync("public/education/manifest.json", "utf8"),
+  ) as { chunks: { kind: string; path: string }[] };
+  const catalog = JSON.parse(
+    readFileSync(
+      `public/education/${manifest.chunks.find((row) => row.kind === "postsecondary")!.path}`,
+      "utf8",
+    ),
+  ) as { records: CompactInstitution[]; dictionary: EducationDictionary };
+  const source = JSON.parse(
+    readFileSync("data/source/education-tuition/tuition-input.json", "utf8"),
+  ) as SchoolTuitionInput;
+  const recordedColleges = catalog.records
+    .map((row) => expandInstitution(row, catalog.dictionary))
+    .filter(
+      (row) =>
+        row.state === institution.state &&
+        row.sourceYear === institution.sourceYear &&
+        row.directorySource?.calendarSystem === "1" &&
+        ["TUITION2", "TUITION6"].every(
+          (field) =>
+            schoolTuitionQuote(source, {
+              institutionId: row.id,
+              artifactId: "IC2023_AY",
+              field,
+            }).status === "sourced",
+        ),
+    );
+  const recordedCollege = recordedColleges.find((row) =>
+    ["LEVEL5", "LEVEL7"].every((code) =>
+      row.capabilities.some(
+        (cap) => cap.code === code && cap.state === "offered",
+      ),
+    ),
+  )!;
   const college: EducationInstitution = {
-    ...institution,
+    ...recordedCollege,
     capabilities: [
       ...institution.capabilities,
       {
@@ -371,6 +413,53 @@ describe("applying for a degree at a real college", () => {
   };
   const capability = (code: string) =>
     college.capabilities.find((c) => c.code === code)!;
+
+  it("leaves an unmatched price pending without a catalog tuition fallback or a payment", () => {
+    const w = fixture();
+    const missing = {
+      ...college,
+      id: "ipeds-unit:999999",
+      officialId: "999999",
+    };
+    const path = studyPathFor(missing, capability("LEVEL5"));
+    expect(path.credential).toBe("Bachelor's degree");
+    expect(path.periodCostMinor).toBeUndefined();
+    const refused = applyForEducation(w, missing, "LEVEL5");
+    expect(refused.ok).toBe(false);
+    expect(refused.message).toMatch(
+      /tuition or school terms have not been recorded/,
+    );
+    expect(refused.world).toBe(w);
+  });
+
+  it("saves the out-of-state source field when the recorded home is in another state", () => {
+    const other = catalog.records
+      .map((row) => expandInstitution(row, catalog.dictionary))
+      .find(
+        (row) =>
+          row.state !== institution.state &&
+          row.sourceYear === institution.sourceYear &&
+          row.directorySource?.calendarSystem === "1" &&
+          row.capabilities.some(
+            (cap) => cap.code === "LEVEL5" && cap.state === "offered",
+          ) &&
+          schoolTuitionQuote(source, {
+            institutionId: row.id,
+            artifactId: "IC2023_AY",
+            field: "TUITION3",
+          }).status === "sourced",
+      )!;
+    const applied = applyForEducation(fixture(), other, "LEVEL5");
+    expect(applied.ok).toBe(true);
+    const offered = JSON.parse(
+      applied.world.history.evidenceArtifacts.at(-1)!.description!,
+    );
+    expect(offered.tuitionBilling.selector.field).toBe("TUITION3");
+    const quote = schoolTuitionQuote(source, offered.tuitionBilling.selector);
+    if (quote.status !== "sourced")
+      throw new Error("Missing retained out-of-state quote");
+    expect(offered.tuitionBilling.annualAmountMinor).toBe(quote.amountMinor);
+  });
 
   it("offers a place after a wait, enrolls for the fall, and records a bachelor's that law school accepts", () => {
     const w0 = fixture();
@@ -414,7 +503,7 @@ describe("applying for a degree at a real college", () => {
   });
 
   it("completes a four-year bachelor's that graduate study then accepts", () => {
-    // Enough recorded money for eight periods of placeholder tuition.
+    // Enough recorded money for the college's full sourced annual tuition.
     let w = fixture();
     const richer = createResourcePosition(
       createWorld({
@@ -428,7 +517,13 @@ describe("applying for a degree at a real college", () => {
         stableKey: "funds",
         owner: { kind: "person", personId: w.personOrder[0]! },
         openedAt: w.currentDate,
-        openingBalance: money(5_000_000, "USD"),
+        openingBalance: money(
+          studyPathFor(college, capability("LEVEL5")).periodCostMinor! *
+            studyPathFor(college, capability("LEVEL5")).periodsPerYear! *
+            studyPathFor(college, capability("LEVEL5")).academicYears! +
+            studyPathFor(college, capability("LEVEL5")).periodsPerYear!,
+          "USD",
+        ),
         provenance: { kind: "authored", note: "test" },
       },
     );
@@ -514,7 +609,7 @@ describe("applying for a degree at a real college", () => {
     expect(
       educationOptionReason(
         w,
-        { ...college, id: "ipeds-unit:777777", officialId: "777777" },
+        recordedColleges.find((row) => row.id !== college.id)!,
         capability("LEVEL5"),
       ),
     ).toBeNull();
