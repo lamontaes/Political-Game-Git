@@ -16,7 +16,8 @@ import type {
  * The installed condition pack (Ruling 38): chronic conditions a person's
  * health record can hold, how common each is by age, and each one's weight on
  * mortality strain (./mortality.ts). One sourced data file holds every
- * number: data/research/health/chronic-condition-pack-2026.json.
+ * input: data/research/health/chronic-condition-pack-2026.json. Its labels
+ * distinguish sourced figures from placeholders and authored assumptions.
  *
  * A person's starting conditions are written once, on the day the mortality
  * model first exposes them, from the real prevalence for their age (and sex
@@ -26,8 +27,8 @@ import type {
  * source; nothing is rolled while the world runs. A condition that begins
  * during life begins on the day its own strain reaches the person's
  * threshold from that same place: the strain rises with the pack's own rise
- * in prevalence between age bands (conditionOnsetDay). The onset scale in the data file only marks which
- * conditions can begin during life.
+ * in prevalence between age bands (conditionOnsetDay). The onset scale in
+ * the data file only marks which conditions can begin during life.
  */
 
 interface PrevalenceBand {
@@ -74,9 +75,10 @@ const MAX_SHARE = 0.999;
  * The share (0 to 1) of people of this exact age holding the condition. Each
  * band's figure sits at the band's middle; between middles it slides in a
  * straight line, below the first it slides to zero at the band's start, and
- * past the last it slides on at the rise between the last two middles, so
- * the last band averages its own figure and nobody's share stops rising at
- * an arbitrary age. It never reaches one. The infant row covers the first
+ * past the last it extends the nonnegative rise between the last two
+ * middles. These exact-age placements and extrapolation are authored
+ * assumptions; survey age-group prevalence does not determine them.
+ * It never reaches one. The infant row covers the first
  * year of life only.
  */
 export function conditionPrevalence(
@@ -343,8 +345,9 @@ export interface ConditionOnsetInput {
  * strain follows the pack's prevalence-derived rise with age. Poverty and
  * coverage records do not change onset without sourced multipliers.
  * The day is the one on which the share of people their age holding
- * the condition passes their place, so the pack's prevalence holds as people
- * age. Nothing is rolled; the place is chosen once.
+ * the condition passes their place. This authored threshold does not
+ * establish an individual medical onset date from survey prevalence.
+ * Nothing is rolled; the place is chosen once.
  */
 export function conditionOnsetDay(
   input: ConditionOnsetInput,
