@@ -304,9 +304,12 @@ describe("fiscal numeric starting laws reach the existing writers", () => {
             >
           )[place.jurisdictionKey]?.wageIncomeTax === shape &&
           (shape === "flat" ||
-            incomeTables.places[
+            (incomeTables.places[
               place.jurisdictionKey as keyof typeof incomeTables.places
-            ]?.standardDeductionSingle != null),
+            ]?.standardDeductionSingle != null &&
+              incomeTables.places[
+                place.jurisdictionKey as keyof typeof incomeTables.places
+              ]?.brackets[0]?.overSingle === 0)),
       );
       const state =
         states[

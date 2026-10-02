@@ -41,6 +41,7 @@ import { assessPaychecksTaxes } from "./statutory-tax";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { withholdingForPaycheck } from "./income-tax-withholding";
 import { lawInForce } from "./governing/law-in-force";
+import startingLaw from "../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import stateIncomeTax2026 from "../../data/research/money/state-income-tax-2026.json" with { type: "json" };
 
 import {
@@ -502,6 +503,42 @@ describe("A22 adopted numeric terms reach the existing paycheck writer", () => {
 });
 
 describe("a state's income tax law, as enacted in play", () => {
+  it("admits every production starting bracket table through the existing dated consumer", () => {
+    const answers = startingLaw.questions[ADOPT_STATE_INCOME_TAX_QUESTION]
+      .answers as unknown as Record<
+      string,
+      { lawSchedules?: readonly { kind: string }[] }
+    >;
+    const places = Object.entries(answers).filter(([, row]) =>
+      row.lawSchedules?.some((term) => term.kind === "income-tax"),
+    );
+    expect(places).toHaveLength(19);
+    const world = lawWorld("recorded-starting-schedules", []);
+    for (const [place] of places) {
+      const read = stateIncomeTaxUnderLaw(world, place, "single", paid);
+      if (read.kind !== "enacted")
+        throw new Error(`${place}: production table was refused`);
+      const source =
+        stateIncomeTax2026.places[
+          place as keyof typeof stateIncomeTax2026.places
+        ];
+      expect(source.standardDeductionSingle).not.toBeNull();
+      expect(read.shape).toBe("graduated");
+      expect(read.schedule.standardDeductionMinor).toBe(
+        source.standardDeductionSingle! * 100,
+      );
+      expect(read.schedule.brackets).toEqual(
+        source.brackets.map((row) => ({
+          overMinor: row.overSingle * 100,
+          rateBasisPoints: Math.round(row.ratePercent * 100),
+        })),
+      );
+      expect(read.lawMeasureIds).toEqual([
+        `starting-law:${place}:${GRADUATED_STATE_INCOME_TAX_QUESTION}`,
+        `starting-law:${place}:${ADOPT_STATE_INCOME_TAX_QUESTION}`,
+      ]);
+    }
+  });
   it("keeps sourced schedules and admits flat and graduated starting terms", () => {
     for (const key of ["US-WA"])
       expect(
