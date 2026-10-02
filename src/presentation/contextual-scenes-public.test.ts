@@ -33,6 +33,7 @@ import type { ContextualSceneSubject } from "./contextual-scenes";
 import { refreshContextualScenes } from "./contextual-scene-producers";
 import { resolveActiveMemberSeat } from "./legislative-member-seat";
 import { openLegislativeWork } from "./legislation-world";
+import { fileDraft } from "./legislation-docket";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { passOrdinaryDays } from "./ordinary-life";
@@ -188,6 +189,13 @@ describe("staff follow-up on a pending bill", () => {
     const seat = resolveActiveMemberSeat(world, fixture.personId);
     if (seat.kind !== "seated") throw new Error("fixture should be seated");
     const capabilities = resolvePlayerCapabilities(world);
+    world = fileDraft(world, {
+      playerPersonId: fixture.personId,
+      scenarioKey: capabilities.legislativeScenarioKey!,
+      jurisdictionId: capabilities.legislativeJurisdictionId!,
+      familyKey: "transit-access",
+      variantKey: "enrollment-fare-relief",
+    }).world;
     world = openLegislativeWork(world, {
       playerPersonId: fixture.personId,
       scenarioKey: capabilities.legislativeScenarioKey!,

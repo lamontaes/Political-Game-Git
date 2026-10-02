@@ -4,6 +4,7 @@ import {
   createResourceFlow,
   money,
   recordResourceTransferOutcome,
+  recordResourceFlowTerms,
 } from "./resources";
 import { resourcePositionAt, resourceFlowTermsAt } from "./resource-queries";
 import { recordEducationEnrollmentState } from "./life";
@@ -20,6 +21,12 @@ import { cancelScheduledActivity, scheduledActivityState } from "./time-work";
 import { addDays, daysBetween, spokenDate } from "./dates";
 import type { LifePathDefinition } from "./life-paths2-catalog";
 import type { EntityId, IsoDate, World } from "./types";
+import {
+  recordedTuitionFreezePrice,
+  recordedSchoolTuitionFreezeQuote,
+} from "./public-budgets/tuition-freeze";
+import { acceptedEducationTerms } from "./education-study-terms";
+import { readSchoolTuitionPriceAt } from "../education/tuition-prices";
 
 const prefix = "life-paths2.";
 
@@ -314,13 +321,116 @@ export function paidStudyPeriods(world: World, enrollmentId: EntityId): number {
   ).length;
 }
 
+function periodTuitionPrice(
+  world: World,
+  enrollmentId: EntityId,
+  period: number,
+) {
+  const billing = acceptedEducationTerms(world, enrollmentId)?.tuitionBilling;
+  const enrollment = world.history.educationEnrollments.find(
+    (row) => row.id === enrollmentId,
+  );
+  if (!billing || !enrollment) return null;
+  const current = readSchoolTuitionPriceAt(
+    world,
+    enrollment.organizationId,
+    billing.selector,
+  );
+  const frozen = recordedSchoolTuitionFreezeQuote(
+    world,
+    enrollmentId,
+    billing.selector,
+  );
+  const annual =
+    current?.quote.chargeUnit === "academic-year"
+      ? current.quote.amountMinor
+      : billing.annualAmountMinor;
+  const installment = (amount: number) => {
+    const regular = Math.floor(amount / billing.termsPerAcademicYear);
+    return period % billing.termsPerAcademicYear === 0
+      ? amount - regular * (billing.termsPerAcademicYear - 1)
+      : regular;
+  };
+  const cap =
+    frozen.status === "frozen" && frozen.quote.chargeUnit === "academic-year"
+      ? installment(frozen.quote.amountMinor)
+      : null;
+  return {
+    amountMinor:
+      cap === null ? installment(annual) : Math.min(installment(annual), cap),
+    cap,
+  };
+}
+
 export function studyPeriodTuitionOutstanding(
   world: World,
   enrollmentId: EntityId,
   path: LifePathDefinition,
 ): number {
   const period = completedStudyPeriods(world, enrollmentId, path) + 1;
-  if (period > totalStudyPeriods(path)) return 0;
+  if (period > studyPeriodsPlanned(world, enrollmentId, path)) return 0;
+  const price = periodTuitionPrice(world, enrollmentId, period);
+  if (price) {
+    const charge = world.history.resourceFlows.find(
+      (flow) =>
+        flow.stableKey === `${prefix}study-period:${enrollmentId}:${period}`,
+    );
+    const terms = charge && resourceFlowTermsAt(world, charge.id);
+    const paid = charge
+      ? world.history.resourceTransferOutcomes
+          .filter(
+            (outcome) =>
+              outcome.resourceFlowId === charge.id &&
+              (outcome.status === "completed" || outcome.status === "partial"),
+          )
+          .reduce(
+            (total, outcome) => total + outcome.transferredAmount.minorUnits,
+            0,
+          )
+      : 0;
+    const amount = terms
+      ? price.cap === null
+        ? terms.amount.minorUnits
+        : Math.min(terms.amount.minorUnits, price.cap)
+      : price.amountMinor;
+    return Math.max(0, amount - paid);
+  }
+  const frozen = recordedTuitionFreezePrice(world, enrollmentId);
+  if (frozen.status === "frozen") {
+    const charge = world.history.resourceFlows.find(
+      (flow) =>
+        flow.stableKey === `${prefix}study-period:${enrollmentId}:${period}`,
+    );
+    if (charge) {
+      const terms = resourceFlowTermsAt(world, charge.id);
+      if (terms) {
+        const paid = world.history.resourceTransferOutcomes
+          .filter(
+            (outcome) =>
+              outcome.resourceFlowId === charge.id &&
+              (outcome.status === "completed" || outcome.status === "partial"),
+          )
+          .reduce(
+            (total, outcome) => total + outcome.transferredAmount.minorUnits,
+            0,
+          );
+        return Math.max(
+          0,
+          Math.min(terms.amount.minorUnits, frozen.amountMinor) - paid,
+        );
+      }
+    }
+    const periodCost = path.periodCostMinor ?? 0;
+    const remainingLegacyCredit = Math.max(
+      0,
+      completedStudySessions(world, enrollmentId) * path.sessionCostMinor -
+        (period - 1) * periodCost,
+    );
+    return Math.max(
+      0,
+      Math.min(periodCost, frozen.amountMinor) - remainingLegacyCredit,
+    );
+  }
   return Math.max(
     0,
     period * (path.periodCostMinor ?? 0) -
@@ -698,20 +808,15 @@ export function completeStudyPeriod(
     )
   )
     return world;
-  const legacyPaid =
-    completedStudySessions(world, enrollmentId) * path.sessionCostMinor;
-  let cost = Math.max(
-    0,
-    periodNumber * (path.periodCostMinor ?? 0) -
-      legacyPaid -
-      paidPeriodTuitionMinor(world, enrollmentId),
-  );
   const actor = enrollment.personId;
   let next = world;
   const chargeKey = `${prefix}study-period:${enrollmentId}:${periodNumber}`;
   let charge = next.history.resourceFlows.find(
     (record) => record.stableKey === chargeKey,
   );
+  let cost = charge
+    ? resourceFlowTermsAt(next, charge.id)!.amount.minorUnits
+    : studyPeriodTuitionOutstanding(world, enrollmentId, path);
   if (cost > 0 && !charge) {
     next = createResourceFlow(next, {
       stableKey: chargeKey,
@@ -731,7 +836,37 @@ export function completeStudyPeriod(
     });
     charge = next.history.resourceFlows.at(-1)!;
   }
-  if (charge) cost = resourceFlowTermsAt(next, charge.id)!.amount.minorUnits;
+  if (charge) {
+    const terms = resourceFlowTermsAt(next, charge.id)!;
+    const frozen = recordedTuitionFreezePrice(next, enrollmentId);
+    const recordedPrice = periodTuitionPrice(next, enrollmentId, periodNumber);
+    const cap =
+      recordedPrice?.cap ??
+      (frozen.status === "frozen" ? frozen.amountMinor : null);
+    const alreadyPaid = next.history.resourceTransferOutcomes.some(
+      (outcome) =>
+        outcome.resourceFlowId === charge.id && outcome.status === "completed",
+    );
+    if (
+      cap !== null &&
+      terms.status === "active" &&
+      terms.amount.minorUnits > cap &&
+      !alreadyPaid
+    ) {
+      next = recordResourceFlowTerms(next, {
+        stableKey: `${charge.stableKey}:tuition-freeze:${terms.id}`,
+        resourceFlowId: charge.id,
+        effectiveAt: next.currentDate,
+        status: "active",
+        amount: money(cap, terms.amount.currency),
+        cadenceKind: terms.cadenceKind,
+        reason: "Tuition held at its recorded operative-date price.",
+        provenance: authored,
+        supersedesTermsId: terms.id,
+      });
+    }
+    cost = resourceFlowTermsAt(next, charge.id)!.amount.minorUnits;
+  }
   if (cost > 0 && charge && financing)
     next = financeStudentTuitionWithSavedAidFacts(
       next,
