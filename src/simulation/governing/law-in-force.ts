@@ -125,6 +125,8 @@ export function lawInForce(
    */
   scope: "all" | "enacted-only" = "all",
   cutoff?: HistoricalCutoff,
+  /** Domain reads may require adopted numeric text before a law sets an amount. */
+  acceptsEnactedLaw?: (law: LawInForce) => boolean,
 ): LawInForce | null {
   const chain = governingChain(jurisdictionId);
   let best: Candidate | null = null;
@@ -177,6 +179,7 @@ export function lawInForce(
       origin: "enacted" as const,
       sequence: enactment.sequence,
     };
+    if (acceptsEnactedLaw && !acceptsEnactedLaw(candidate)) continue;
     if (!best || governs(candidate, best)) best = candidate;
   }
   const starting = startingLawCandidate(

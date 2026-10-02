@@ -8,7 +8,6 @@ import {
   lifePlaceByKey,
   stateJurisdictionForKey,
 } from "../../src/simulation/life-places";
-import { STATE_RAISE_TERM } from "../../src/simulation/minimum-wage";
 import { outcomeFactor } from "../../src/simulation/outcome-web";
 import {
   nextPaydayDate,
@@ -30,6 +29,7 @@ const LB_900: RaiseBill = {
   designation: "LB 900, 2026",
   answer: "yes",
   effectiveInDays: 45,
+  cents: 1700,
 };
 
 const NEBRASKA = () => stateJurisdictionForKey("US-NE")!.id;
@@ -63,10 +63,9 @@ describe(
   "a state law that answers yes to raising the minimum wage carries a term",
   { timeout: 600_000 },
   () => {
-    it("adds the average raise in yearly steps from its effective date, then holds", () => {
+    it("reads the bill's adopted hourly amount from its effective date, then holds", () => {
       const { world, opened } = omahaWithRaiseBills([LB_900]);
       const effectiveAt = addDays(opened, LB_900.effectiveInDays);
-      const before = STATE_RAISE_TERM.yearlyStepMinor;
       const rateBefore = townMinimumHourly(
         lifePlaceByKey("3137000")!.context.jurisdiction.id,
       )!;
@@ -75,17 +74,17 @@ describe(
         rateBefore,
       );
       expect(townMinimumHourlyAt(world, omaha, effectiveAt)).toBeCloseTo(
-        rateBefore + before / 100,
+        LB_900.cents! / 100,
         5,
       );
       expect(
         townMinimumHourlyAt(world, omaha, addDays(effectiveAt, 366)),
-      ).toBeCloseTo(rateBefore + (2 * before) / 100, 5);
-      // The third step is cut to the total: $2.00 above the rate before.
+      ).toBeCloseTo(LB_900.cents! / 100, 5);
+      // No later annual step is invented beyond the bill's saved amount.
       for (const days of [731, 3650]) {
         expect(
           townMinimumHourlyAt(world, omaha, addDays(effectiveAt, days)),
-        ).toBeCloseTo(rateBefore + STATE_RAISE_TERM.totalMinor / 100, 5);
+        ).toBeCloseTo(LB_900.cents! / 100, 5);
       }
     });
 
@@ -146,7 +145,7 @@ describe(
       for (const raise of raises) {
         const floor = townMinimumHourlyAt(world, omaha, raise.effectiveAt)!;
         expect(raise.reason).toBe(
-          `LB 900 raised the state minimum wage to $${floor.toFixed(2)} an hour.`,
+          `LB 900, 2026 raised the state minimum wage to $${floor.toFixed(2)} an hour.`,
         );
       }
       console.info(
@@ -160,6 +159,11 @@ describe(
         designation: "LB 901, 2026",
         answer: "no",
         effectiveInDays: 1_200,
+        cents: Math.round(
+          townMinimumHourly(
+            lifePlaceByKey("3137000")!.context.jurisdiction.id,
+          )! * 100,
+        ),
       };
       const { world, opened } = omahaWithRaiseBills([LB_900, repeal]);
       const state = NEBRASKA();
