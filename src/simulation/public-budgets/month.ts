@@ -28,7 +28,7 @@ import {
 } from "./fiscal";
 import { ADOPT_STATE_INCOME_TAX_QUESTION } from "../state-income-tax-law";
 import { cannabisSalesRevenueChange } from "./cannabis-sales-revenue";
-import { CANNABIS_SALES_QUESTION } from "./cannabis-sales-tax";
+import { CANNABIS_TAX_EFFECT } from "./rules";
 import {
   lawEffectStamp,
   isLawEffectStamp,
@@ -1010,7 +1010,10 @@ export function settleGovernmentMonth(
       Math.round(beforeLaw * withoutCannabis) - revenue[SELECTIVE_TAX]!,
     );
   }
-  const cannabisProposition = propositionIdFor(world, CANNABIS_SALES_QUESTION);
+  const cannabisProposition = propositionIdFor(
+    world,
+    CANNABIS_TAX_EFFECT.questionKey,
+  );
   const cannabisStamp =
     zeroOpeningSelectiveTax &&
     (cannabisRevenue > 0 || previousCannabisRevenue > 0) &&
@@ -1024,7 +1027,7 @@ export function settleGovernmentMonth(
           ),
           {
             effectKind: "cannabis-selective-tax-revenue",
-            questionKey: CANNABIS_SALES_QUESTION,
+            questionKey: CANNABIS_TAX_EFFECT.questionKey,
             jurisdictionId: government.lawJurisdictionId,
             appliedAt: month,
           },
@@ -1041,7 +1044,7 @@ export function settleGovernmentMonth(
           ),
           {
             effectKind: "state-revenue-loss",
-            questionKey: CANNABIS_SALES_QUESTION,
+            questionKey: CANNABIS_TAX_EFFECT.questionKey,
             jurisdictionId: government.lawJurisdictionId,
             appliedAt: month,
           },

@@ -19,10 +19,7 @@ import {
   beganWithoutWageIncomeTax,
 } from "./income-tax-adoption";
 import { settleGovernmentMonth, type MonthFlows } from "./month";
-import {
-  CANNABIS_FIRST_SALE_LAG_MONTHS,
-  CANNABIS_TAX_PER_RESIDENT,
-} from "./cannabis-sales-tax";
+import { CANNABIS_TAX_EFFECT } from "./rules";
 import { TAX_QUESTION_EFFECTS } from "./rules";
 
 /*
@@ -254,8 +251,8 @@ describe("tax laws reach state budgets", () => {
     ).toBeCloseTo(1 + effect.toNo!, 3);
   });
   it("a state that makes cannabis sales legal collects the cannabis tax from its first store opening, and a state that ends them loses it", () => {
-    expect(CANNABIS_TAX_PER_RESIDENT).toBe(40.7);
-    expect(CANNABIS_FIRST_SALE_LAG_MONTHS).toBe(11);
+    expect(CANNABIS_TAX_EFFECT.perResidentRevenue.annualAmount).toBe(40.7);
+    expect(CANNABIS_TAX_EFFECT.perResidentRevenue.firstSaleLagMonths).toBe(11);
     const probe = worldWith("US-IL", []);
     const beganAs = (answer: "yes" | "no") =>
       STATE_KEYS.filter((key) => {
@@ -292,7 +289,8 @@ describe("tax laws reach state budgets", () => {
     expect(selective(legal, "2027-01-01"), legalNote).toBe(
       selective(without, "2027-01-01"),
     );
-    const added = CANNABIS_TAX_PER_RESIDENT * legal.population;
+    const added =
+      CANNABIS_TAX_EFFECT.perResidentRevenue.annualAmount * legal.population;
     expect(
       selective(legal, "2027-02-01") / selective(without, "2027-02-01"),
       legalNote,
@@ -313,7 +311,8 @@ describe("tax laws reach state budgets", () => {
     expect(selective(banned, "2026-03-01"), banNote).toBe(
       selective(asBegun, "2026-03-01"),
     );
-    const lost = CANNABIS_TAX_PER_RESIDENT * banned.population;
+    const lost =
+      CANNABIS_TAX_EFFECT.perResidentRevenue.annualAmount * banned.population;
     expect(
       selective(banned, "2026-04-01") / selective(asBegun, "2026-04-01"),
       banNote,
