@@ -1,4 +1,8 @@
-import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
+import {
+  evaluateDecision,
+  isSelectedDecision,
+  recordDurableDecisionTrace,
+} from "../decisions";
 import { publicOfficesHeldBy } from "../crisis/offices";
 import { favorStandingBetween, recordFavor } from "../favors";
 import { publicPartyOf } from "../governing/chamber-votes";
@@ -455,6 +459,7 @@ export function chooseAppointee(
     randomness: "close-choices",
     retention: "durable",
   });
+  if (!isSelectedDecision(evaluation)) return null;
   const selected = evaluation.selectedOptionKey;
   if (!selected || !selected.startsWith("person:")) return null;
   const personId = selected.slice("person:".length) as EntityId;

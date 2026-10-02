@@ -1,3 +1,10 @@
+import { campaigns, campaignState } from "./campaign-queries";
+import {
+  latestSupportState,
+  quantityBasisPoints,
+  SUPPORT_DENOMINATOR,
+} from "./campaign-support";
+import { isElectionContestPending } from "./election-contests";
 import { currentPresidentOf } from "./crisis/offices";
 import { ageOnDate, daysBetween } from "./dates";
 import { currentFederalTenure } from "./federal-tenures";
@@ -11,6 +18,9 @@ const shifts = new WeakMap<World, number>();
 
 export interface PresidentialSupportPeer {
   readonly officialId: EntityId;
+  readonly campaignId?: EntityId;
+  readonly supportStateId?: EntityId;
+  readonly supportMetricId?: EntityId;
   readonly beliefIds: readonly EntityId[];
   readonly voterIds: readonly EntityId[];
   readonly entryRecordId: EntityId | null;
@@ -19,19 +29,24 @@ export interface PresidentialSupportPeer {
 }
 
 export interface PresidentialSupportEstimate {
-  readonly label: "ESTIMATED: averaged from this game's current official support";
+  readonly label:
+    | "ESTIMATED: averaged from this game's current official support"
+    | "ESTIMATED: averaged from this game's current same-party campaign support";
   readonly adultIds: readonly EntityId[];
   readonly mean: number;
   readonly spread: number;
   readonly peers: readonly PresidentialSupportPeer[];
   readonly comparison:
-    "nearest-recorded-term-stage" | "current-official-support";
+    | "nearest-recorded-term-stage"
+    | "current-official-support"
+    | "current-campaign-support";
 }
 
 /**
  * Current official support is the comparable measurement already in this
  * World. Prefer the nearest recorded term stage; broaden to current official
- * views when those officials have no entry record. Held presidential views
+ * views when those officials have no entry record. Current same-party campaign shares are used when no other official has a
+ * saved view; their contest scope is labeled explicitly. Held presidential views
  * are a last in-game donor, never an outside curve or a made-up spread.
  * Null is an internal empty-pool signal, not a player estimate.
  */
@@ -93,7 +108,53 @@ export function presidentialSupportEstimate(
     });
   }
   const others = peers.filter((peer) => peer.officialId !== presidentId);
-  const available = others.length ? others : peers;
+  // When no other official has a saved view, current active campaigns are
+  // another actual in-game support measurement. Their contest shares are
+  // labeled estimates, never counted as national adult-contact records.
+  const campaignPeers: PresidentialSupportPeer[] = [];
+  const seen = new Set<string>();
+  const presidentParty = majorPartyOf(world, presidentId, world.currentDate);
+  if (!others.length && presidentParty) {
+    for (const campaign of campaigns(world)) {
+      if (
+        campaign.filedAt > world.currentDate ||
+        campaignState(world, campaign.id).status !== "active" ||
+        !isElectionContestPending(world, campaign.contestId)
+      )
+        continue;
+      for (const scope of campaign.candidateSupportScopes) {
+        if (
+          scope.candidatePersonId === presidentId ||
+          majorPartyOf(world, scope.candidatePersonId, world.currentDate) !==
+            presidentParty
+        )
+          continue;
+        const key = `${campaign.supportMetricId}:${scope.segmentKey}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        const state = latestSupportState(world, campaign, scope);
+        const entry = entries.get(scope.candidatePersonId);
+        campaignPeers.push({
+          officialId: scope.candidatePersonId,
+          campaignId: campaign.id,
+          supportStateId: state.id,
+          supportMetricId: campaign.supportMetricId,
+          beliefIds: [],
+          voterIds: [],
+          entryRecordId: entry?.id ?? null,
+          daysInOffice: entry
+            ? daysBetween(entry.occurredAt, world.currentDate)
+            : null,
+          favorableShare: quantityBasisPoints(state) / SUPPORT_DENOMINATOR,
+        });
+      }
+    }
+  }
+  const available = others.length
+    ? others
+    : campaignPeers.length
+      ? campaignPeers
+      : peers;
   if (!available.length) return null;
   const dated = available.filter((peer) => peer.daysInOffice !== null);
   const stage = daysBetween(inauguration, world.currentDate);
@@ -114,14 +175,18 @@ export function presidentialSupportEstimate(
       selected.length,
   );
   return {
-    label: "ESTIMATED: averaged from this game's current official support",
+    label: campaignPeers.length
+      ? "ESTIMATED: averaged from this game's current same-party campaign support"
+      : "ESTIMATED: averaged from this game's current official support",
     adultIds: adults,
     mean,
     spread,
     peers: selected,
     comparison:
       distance === null
-        ? "current-official-support"
+        ? campaignPeers.length
+          ? "current-campaign-support"
+          : "current-official-support"
         : "nearest-recorded-term-stage",
   };
 }
