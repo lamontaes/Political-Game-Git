@@ -1,9 +1,17 @@
 import { describe, expect, it } from "vitest";
 import { createDemoWorld } from "../../src/simulation/demo";
 import { createWorld, advanceWorld } from "../../src/simulation/world";
-import { advanceWorldMinutes } from "../../src/simulation/time-work";
+import {
+  advanceWorldMinutes,
+  createScheduledActivity,
+  advanceWhileJoiningScheduledActivity,
+  performRemainingScheduledActivity,
+  performScheduledActivity,
+  scheduledActivityState,
+} from "../../src/simulation/time-work";
 import {
   addDays,
+  addSimulationMinutes,
   simulationMomentOnLocalDate,
   simulationMinutesBetween,
 } from "../../src/simulation/dates";
@@ -108,6 +116,89 @@ describe("A4 default clock carries actual due payday", () => {
           money(0, "USD").currency,
         )?.liquidBalance,
       ).toEqual(balance!.liquidBalance);
+    },
+  );
+});
+
+describe("A4 activity entries carry actual due payday", () => {
+  it.each(["join", "remaining", "perform"] as const)(
+    "settles saved pay through default %s and preserves the account through Continue",
+    (route: "join" | "remaining" | "perform") => {
+      const { world, person, due, flow } = completedShift();
+      expect(paid(world, flow.id)).toHaveLength(0);
+      const scheduled = createScheduledActivity(world, {
+        stableKey: "a4-activity-payday:" + route,
+        title: "A recorded personal appointment",
+        summary:
+          "Explicit interval across the completed shift's actual pay date.",
+        kind: "confirmed",
+        start: world.currentMoment,
+        end: addSimulationMinutes(world.currentMoment, 1500),
+        participantPersonIds: [person.id],
+        responsiblePersonId: person.id,
+        location: {
+          locationKey: "a4-activity-payday",
+          label: "Recorded appointment",
+          jurisdictionId: null,
+        },
+        sourceEntityIds: [due.id],
+        flexibility: { kind: "fixed" },
+        access: { kind: "private", personIds: [person.id] },
+      });
+      const activity = scheduled.history.scheduledActivities.at(-1)!;
+      let advanced: World;
+      if (route === "join") {
+        advanced = advanceWhileJoiningScheduledActivity(
+          scheduled,
+          activity.id,
+          1440,
+        );
+        expect(scheduledActivityState(advanced, activity.id).status).toBe(
+          "scheduled",
+        );
+      } else if (route === "remaining") {
+        const joined = advanceWhileJoiningScheduledActivity(
+          scheduled,
+          activity.id,
+          1,
+        );
+        expect(joined.currentMoment).not.toEqual(scheduled.currentMoment);
+        advanced = performRemainingScheduledActivity(joined, activity.id);
+        expect(scheduledActivityState(advanced, activity.id).status).toBe(
+          "completed",
+        );
+      } else {
+        advanced = performScheduledActivity(scheduled, activity.id);
+        expect(scheduledActivityState(advanced, activity.id).status).toBe(
+          "completed",
+        );
+      }
+      const outcomes = paid(advanced, flow.id);
+      expect(outcomes).toHaveLength(1);
+      expect(outcomes[0]!.occurredAt).toBe(due.dueAt);
+      expect(outcomes[0]!.transferredAmount.minorUnits).toBeGreaterThan(0);
+      expect(
+        advanced.history.futureDueItemStates.find(
+          (row) => row.dueItemId === due.id && row.status === "resolved",
+        ),
+      ).toBeDefined();
+      const position = resourcePositionAt(
+        advanced,
+        { kind: "person", personId: person.id },
+        money(0, "USD").currency,
+      );
+      expect(position?.liquidBalance.minorUnits).toBeGreaterThan(0);
+      const reopened = deserializeWorld(serializeWorld(advanced));
+      expect(paid(reopened, flow.id)).toEqual(outcomes);
+      const repeated = advanceWorldMinutes(reopened, 1440);
+      expect(paid(repeated, flow.id)).toEqual(outcomes);
+      expect(
+        resourcePositionAt(
+          repeated,
+          { kind: "person", personId: person.id },
+          money(0, "USD").currency,
+        )?.liquidBalance,
+      ).toEqual(position!.liquidBalance);
     },
   );
 });
