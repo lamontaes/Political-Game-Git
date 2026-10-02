@@ -26,7 +26,7 @@ const places = Array.from({ length: 5 }, (_, index) => {
 
 describe.each(places)(
   "daily staff allowance in $place.displayName ($seed)",
-  ({ seed, place }) => {
+  ({ seed, place }: (typeof places)[number]) => {
     function fixture() {
       const small = smallWorld({ place: place.key, seed });
       let world = ensurePressMediaOpening(small.world, small.personId);
