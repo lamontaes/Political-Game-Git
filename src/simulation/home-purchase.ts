@@ -1,4 +1,4 @@
-import { ageOnDate, makeIsoDate } from "./dates";
+import { ageOnDate } from "./dates";
 import { moneyText } from "./money-text";
 import {
   activeAuthoritiesHeldByPersonAt,
@@ -18,16 +18,18 @@ import { GROWN_UP_PRESENTATION_AGE_PLACEHOLDER } from "./age-of-majority";
 import { homeValueForJurisdiction } from "./county-home-value";
 import { homePriceLevel, homePriceLevels } from "./living-world/housing-market";
 import { homeBuyerKind, homeDownPaymentShare } from "./home-down-payment";
+import {
+  openHouseholdLoan,
+  settleHouseholdLoanPayments,
+} from "./household-loans";
 import { mortgageFinancingQuote } from "./mortgage-financing";
 import { personName } from "./people";
 import {
   createDwelling,
   createHousingTenure,
   createResourceFlow,
-  createResourceObligation,
   money,
   recordDwellingOccupancyState,
-  recordResourceFlowTerms,
   recordResourceTransferOutcome,
   startDwellingOccupancy,
 } from "./resources";
@@ -35,22 +37,13 @@ import {
   activeDwellingOccupanciesAt,
   activeHousingTenuresAt,
   dwellingOccupancyStateHistory,
-  outstandingDebtAt,
-  resourceFlowTermsAt,
   resourcePositionAt,
   sameEndpoint,
 } from "./resource-queries";
 import { recordEventKnowledge } from "./records";
 import { recordWorldEvent } from "./world";
 import { macroMonthHistory } from "./macro-economy/readers";
-import type {
-  EntityId,
-  HousingTenure,
-  IsoDate,
-  MoneyAmount,
-  ResourceFlow,
-  World,
-} from "./types";
+import type { EntityId, HousingTenure, IsoDate, World } from "./types";
 
 /**
  * Buying a home.
@@ -118,7 +111,6 @@ export const MORTGAGE_BASIS = "housing:mortgage" as const;
  * question. */
 export const HOME_BUYING_AGE = 18;
 export const MISSED_MORTGAGE_TAG = "life.mortgage-missed";
-const CATCH_UP_LIMIT_MONTHS = 480;
 
 export type HomePurchaseResult =
   | { readonly status: "bought"; readonly world: World }
@@ -536,221 +528,35 @@ export function buyHome(world: World, personId: EntityId): HomePurchaseResult {
     jurisdictionId,
   );
   next = lender.world;
-  next = createResourceFlow(next, {
-    stableKey: `${key}:mortgage`,
-    source: { kind: "person", personId },
-    recipient: { kind: "organization", organizationId: lender.organizationId },
-    startsAt: today,
-    amount: monthly,
-    cadenceKind: "schedule:monthly",
-    basisKind: MORTGAGE_BASIS,
-    basisReference: { kind: "general" },
-    restrictionKind: null,
-    jurisdictionId,
-    provenance: { kind: "authored", note: provenanceNote },
-  });
-  next = createResourceObligation(next, {
-    stableKey: `${key}:mortgage:debt`,
-    resourceFlowId: next.history.resourceFlows.at(-1)!.id,
-    establishedAt: today,
-    basisKind: MORTGAGE_BASIS,
+  const quote = mortgageFinancingQuote(next, {
     principal,
-    careResponsibilityId: null,
-    housingTenureId: tenureId,
-    provenance,
-  });
+    jurisdictionId,
+    rateCap: null,
+  })!;
+  if (principal.minorUnits > 0)
+    next = openHouseholdLoan(next, {
+      stableKey: `${key}:mortgage`,
+      borrower: { kind: "person", personId },
+      lenderOrganizationId: lender.organizationId,
+      lenderKind: "other",
+      kind: "mortgage",
+      principal,
+      marketAnnualRateBasisPoints: quote.marketAnnualRateBasisPoints,
+      rateCap: null,
+      repayment: { kind: "installment", termMonths: quote.termMonths },
+      // CTO3:58 admits an explicit simplified fee-free mortgage contract and
+      // unknown escalation thresholds, not fictitious lender terms.
+      lateFee: null,
+      missedPaymentsToDefault: null,
+      missedPaymentsToCollections: null,
+      jurisdictionId,
+      housingTenureId: tenureId,
+      provenance,
+    });
   return { status: "bought", world: next };
 }
 
-function firstOfNextMonth(date: IsoDate): IsoDate {
-  const [year, month] = date.split("-").map(Number) as [number, number];
-  return makeIsoDate(
-    month === 12
-      ? `${year + 1}-01-01`
-      : `${year}-${String(month + 1).padStart(2, "0")}-01`,
-  );
-}
-
-function monthName(date: IsoDate): string {
-  return new Date(`${date}T12:00:00Z`).toLocaleString("en-US", {
-    month: "long",
-    timeZone: "UTC",
-  });
-}
-
-function mortgagesOf(
-  world: World,
-  personId: EntityId,
-): readonly ResourceFlow[] {
-  return world.history.resourceFlows.filter(
-    (flow) =>
-      flow.basisKind === MORTGAGE_BASIS &&
-      flow.source.kind === "person" &&
-      flow.source.personId === personId,
-  );
-}
-
-/**
- * Charges every mortgage payment that has come due, on the first of each
- * month, until the loan is paid off. Idempotent in the same way as living
- * costs: each month is keyed by its due day and resumes after the last one.
- *
- * A month that cannot be covered is recorded as short. What a lender then
- * does (late fees, foreclosure) is a research question; nothing is invented
- * for it here beyond noting the first missed payment in the life.
- */
+/** Compatibility API; both old and new loans use the shared due-period runner. */
 export function settleMortgages(world: World, personId: EntityId): World {
-  if (world.control.kind !== "person" || world.control.personId !== personId)
-    return world;
-  let next = world;
-  for (const flow of mortgagesOf(world, personId)) {
-    const obligation = next.history.resourceObligations.find(
-      (record) => record.resourceFlowId === flow.id,
-    );
-    if (!obligation) continue;
-    let latest: IsoDate | null = null;
-    for (const outcome of next.history.resourceTransferOutcomes)
-      if (
-        outcome.resourceFlowId === flow.id &&
-        (latest === null || outcome.periodStartsAt > latest)
-      )
-        latest = outcome.periodStartsAt;
-    let dueOn = firstOfNextMonth(latest ?? flow.startsAt);
-    for (
-      let month = 0;
-      month < CATCH_UP_LIMIT_MONTHS && dueOn <= next.currentDate;
-      month += 1
-    ) {
-      const owed = outstandingDebtAt(next, obligation.id, {
-        asOfDate: next.currentDate,
-        historySequenceExclusive: next.history.nextSequence,
-      });
-      if (!owed || owed.minorUnits <= 0) break;
-      next = settleMortgageMonth(next, personId, flow, dueOn, owed);
-      dueOn = firstOfNextMonth(dueOn);
-    }
-  }
-  return next;
-}
-
-function settleMortgageMonth(
-  world: World,
-  personId: EntityId,
-  flow: ResourceFlow,
-  dueOn: IsoDate,
-  owed: MoneyAmount,
-): World {
-  let terms = resourceFlowTermsAt(world, flow.id, {
-    asOfDate: dueOn,
-    historySequenceExclusive: world.history.nextSequence,
-  })!;
-  // The last payment is only what is left on the loan, recorded as the terms
-  // for that month so the payment reads as paid in full.
-  if (owed.minorUnits < terms.amount.minorUnits) {
-    world = recordResourceFlowTerms(world, {
-      stableKey: `${flow.stableKey}:terms:final:${dueOn}`,
-      resourceFlowId: flow.id,
-      effectiveAt: dueOn,
-      status: "active",
-      amount: owed,
-      cadenceKind: terms.cadenceKind,
-      reason: "The last payment is what is left on the loan.",
-      provenance: flow.provenance,
-      supersedesTermsId: terms.id,
-    });
-    terms = resourceFlowTermsAt(world, flow.id)!;
-  }
-  const scheduled = terms.amount;
-  const owner = { kind: "person" as const, personId };
-  const balanceOn = (asOfDate: IsoDate) =>
-    resourcePositionAt(world, owner, scheduled.currency, {
-      asOfDate,
-      historySequenceExclusive: world.history.nextSequence,
-    })?.liquidBalance.minorUnits ?? 0;
-  const checkpoints = new Set<IsoDate>([dueOn, world.currentDate]);
-  for (const outcome of world.history.resourceTransferOutcomes)
-    if (outcome.occurredAt > dueOn && outcome.occurredAt < world.currentDate)
-      checkpoints.add(outcome.occurredAt);
-  const available = Math.max(0, Math.min(...[...checkpoints].map(balanceOn)));
-  const due = scheduled.minorUnits;
-  const paid = Math.min(available, due);
-  const status =
-    paid === scheduled.minorUnits
-      ? "completed"
-      : paid > 0
-        ? "partial"
-        : "missed";
-  const next = recordResourceTransferOutcome(world, {
-    stableKey: `${flow.stableKey}:${dueOn}`,
-    resourceFlowId: flow.id,
-    periodStartsAt: dueOn,
-    periodEndsAt: dueOn,
-    occurredAt: dueOn,
-    status,
-    attemptedAmount: scheduled,
-    transferredAmount: money(paid, scheduled.currency),
-    reasonKind: status === "completed" ? null : "capacity:insufficient-funds",
-    note: `Mortgage for ${monthName(dueOn)}.`,
-    provenance: flow.provenance,
-  });
-  return paid < due
-    ? recordFirstMissedPayment(next, personId, due, paid, dueOn)
-    : next;
-}
-
-function recordFirstMissedPayment(
-  world: World,
-  personId: EntityId,
-  owedMinor: number,
-  paidMinor: number,
-  dueOn: IsoDate,
-): World {
-  if (
-    world.history.events.some(
-      (event) =>
-        event.involvedEntityIds.includes(personId) &&
-        event.tags.includes(MISSED_MORTGAGE_TAG),
-    )
-  )
-    return world;
-  const person = world.people[personId]!;
-  const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
-  const summary =
-    paidMinor > 0
-      ? `${monthName(dueOn)}'s mortgage payment was ${dollars(owedMinor)}, and you could pay ${dollars(paidMinor)} of it.`
-      : `${monthName(dueOn)}'s mortgage payment was ${dollars(owedMinor)}, and you could not pay any of it.`;
-  const stableKey = `mortgage-missed:${personId}:${dueOn}`;
-  const next = recordWorldEvent(world, {
-    stableKey,
-    type: "life.mortgage-missed",
-    occurredAt: world.currentDate,
-    recordedAt: world.currentDate,
-    jurisdictionId: place?.context.jurisdiction.id ?? null,
-    involvedEntityIds: [personId],
-    participants: [
-      { personId, role: "focus:subject", detail: "Missed a mortgage payment" },
-    ],
-    personFactConstraints: [],
-    visibility: "private",
-    tags: [MISSED_MORTGAGE_TAG],
-    summary,
-    context: {
-      location: null,
-      socialContext: null,
-      pressure: null,
-      choice: null,
-      motivation: null,
-      immediateReaction: null,
-    },
-  });
-  return recordEventKnowledge(next, {
-    stableKey: `${stableKey}:knowledge`,
-    personId,
-    eventId: next.history.events.at(-1)!.id,
-    learnedAt: world.currentDate,
-    believedSummary: summary,
-    accuracy: "accurate",
-    confidence: "high",
-    source: { kind: "direct" },
-  });
+  return settleHouseholdLoanPayments(world, personId);
 }
