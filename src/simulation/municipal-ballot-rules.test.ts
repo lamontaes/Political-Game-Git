@@ -5,9 +5,11 @@ import {
   municipalBallotRuleCoverage,
   municipalBallotRuleNationalSpread,
   resolveMunicipalBallotRule,
+  resolveMunicipalBallotStructure,
   tabulateBallot,
   type BallotGroup,
 } from "./municipal-ballot-rules";
+import { lifePlaceStateIdentities } from "./life-places";
 import { municipalRulePackFor } from "./municipal-election-rule-packs";
 
 const first = (id: string, count: number): BallotGroup => ({
@@ -276,5 +278,40 @@ describe("counting a race", () => {
         ballots: [first("ana", 1), first("ben", 1)],
       }),
     ).toThrow(/threshold/);
+  });
+});
+
+describe("resolved ballot structure", () => {
+  it("preserves sourced state values and defaults across all 56 places without choosing an unresolved option", () => {
+    const states = lifePlaceStateIdentities();
+    expect(states).toHaveLength(56);
+    let defaults = 0;
+    let unresolved = 0;
+    for (const state of states) {
+      const rule = municipalRulePackFor(state.usps)?.electoral.ballotStructure;
+      const resolved = resolveMunicipalBallotStructure(
+        state.usps.toLowerCase(),
+      );
+      if (rule?.kind === "known") {
+        expect(resolved).toEqual({
+          structure: rule.value,
+          source: rule.source,
+        });
+      } else if (rule?.kind === "locally-selectable") {
+        defaults += Number(rule.statutoryDefault !== null);
+        unresolved += Number(rule.statutoryDefault === null);
+        expect(resolved).toEqual({
+          structure: rule.statutoryDefault,
+          source: rule.source,
+        });
+      } else {
+        unresolved++;
+        expect(resolved).toEqual({ structure: null, source: null });
+      }
+    }
+    // The current source offers local menus without a statutory default.
+    // Resolving one must not turn its first option into a chosen rule.
+    expect(defaults).toBe(0);
+    expect(unresolved).toBeGreaterThan(0);
   });
 });

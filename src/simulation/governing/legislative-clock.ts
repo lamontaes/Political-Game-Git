@@ -108,7 +108,7 @@ import {
   scheduleCongressSitting,
 } from "./congress-chambers";
 import { chamberByKey, floorStageByKey } from "../legislature-rules";
-import type { LegislativeRulePack } from "../legislature-rules";
+import type { CommitteeRule, LegislativeRulePack } from "../legislature-rules";
 import { personName } from "../people";
 import type {
   EntityId,
@@ -253,11 +253,23 @@ export function measureSessionIsClosed(
   world: World,
   measureId: EntityId,
 ): { readonly closed: boolean; readonly closedOn: IsoDate | null } {
-  if (!adjournmentStopsPhase(measurePosition(world, measureId).phase)) {
+  const measure = requireMeasure(world, measureId);
+  const position = measurePosition(world, measureId);
+  if (!adjournmentStopsPhase(position.phase))
+    return { closed: false, closedOn: null };
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  return sessionStatus(world, measure, pack, position.phase);
+}
+
+function sessionStatus(
+  world: World,
+  measure: LegislativeMeasureRecord,
+  pack: LegislativeRulePack,
+  phase: string,
+): { readonly closed: boolean; readonly closedOn: IsoDate | null } {
+  if (!adjournmentStopsPhase(phase)) {
     return { closed: false, closedOn: null };
   }
-  const measure = requireMeasure(world, measureId);
-  const pack = legislativeBlueprintForMeasure(world, measure).pack;
   const closedOn = measureSessionClosedOn(world, measure, pack);
   return {
     closed: closedOn !== null && world.currentDate > closedOn,
@@ -549,6 +561,84 @@ function applyInstitutionFloorVote(
   }
 }
 
+/** The same declared session-end rules for every institutional and player caller. */
+export function applyInstitutionSessionEnd(
+  world: World,
+  measureId: EntityId,
+): Extract<
+  InstitutionStepResult,
+  { kind: "idle" | "ended" | "blocked" | "wait-until" }
+> | null {
+  const measure = requireMeasure(world, measureId);
+  const position = measurePosition(world, measureId);
+  if (position.terminal) return { kind: "idle" };
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  const phase = position.phase;
+  const session = sessionStatus(world, measure, pack, phase);
+  if (!session.closed) return null;
+  const owner = measureStepOwner(world, measureId, measure.originChamberKey);
+  const reconsidersVetoLater =
+    session.closed && vetoWaitsForNextSitting(world, measure, phase);
+  if (
+    reconsidersVetoLater &&
+    !legislatureSatSince(world, measure, session.closedOn!)
+  )
+    // A closed session's legislature sits again in a later year at the
+    // soonest; from then, it checks on its ordinary cadence.
+    return {
+      kind: "wait-until",
+      date: maxIsoDate(
+        makeIsoDate(`${Number(session.closedOn!.slice(0, 4)) + 1}-01-01`),
+        nextSessionCalendarDate(
+          pack.session.sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.state,
+          world.currentDate,
+        ),
+      ),
+    };
+  const closed = session.closed && !reconsidersVetoLater;
+  const dies = pack.session.measuresDieAtAdjournment;
+  // Where the rules say a pending bill dies when the session adjourns, one
+  // still before the legislature dies; that is how most bills end.
+  if (closed && owner !== "executive" && dies.kind === "known" && dies.value)
+    return {
+      kind: "ended",
+      world: recordAdjournmentDeath(world, {
+        stableKey: nextMeasureStableKey(
+          world,
+          measureId,
+          `measure:${measureId}:died-on-adjournment`,
+        ),
+        measureId,
+      }),
+    };
+  if (closed)
+    return {
+      kind: "blocked",
+      reason: legislativeProcedureForPack(world, measure.rulePackId)
+        ?.measuresCarryOver
+        ? `The regular session ended on ${session.closedOn}; the bill remains pending for the next regular session.`
+        : `The session ended on ${session.closedOn}; whether this bill carries over is not established, so nothing more happens to it.`,
+    };
+  return null;
+}
+
+/** The same compiled referral choice for an automatic step or a player command. */
+export function referralCommittee(
+  world: World,
+  measureId: EntityId,
+  chamberKey: string,
+): CommitteeRule | null {
+  const measure = requireMeasure(world, measureId);
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  const chamber = chamberByKey(pack, chamberKey);
+  const referredKey = congressReferralCommittee(world, measure, chamberKey);
+  return (
+    chamber.committees.find((entry) => entry.committeeKey === referredKey) ??
+    chamber.committees[0] ??
+    null
+  );
+}
+
 /** Applies the institution's next step to one measure, if it has one. */
 export function applyInstitutionStep(
   before: World,
@@ -563,18 +653,14 @@ export function applyInstitutionStep(
       reason:
         "The council's members decide this step; a supplied tally cannot replace them.",
     };
-  if (input.recordedFloorVote) {
-    if (input.recordedFloorVote.measureId !== measureId)
-      return {
-        kind: "blocked",
-        reason: "The recorded floor vote belongs to another measure.",
-      };
-    return applyInstitutionFloorVote(
-      before,
-      input.recordedFloorVote,
-      input.recordedFloorVote.seatedMemberPersonIds,
-    );
-  }
+  if (
+    input.recordedFloorVote &&
+    input.recordedFloorVote.measureId !== measureId
+  )
+    return {
+      kind: "blocked",
+      reason: "The recorded floor vote belongs to another measure.",
+    };
   const local = input.localCouncil;
   const unit = local ? governmentUnit(local.governmentUnitId) : null;
   if (local && (!unit || councilRules(unit)?.packId !== measure.rulePackId))
@@ -600,6 +686,17 @@ export function applyInstitutionStep(
       reason:
         "The local council's rule pack has no admitted institution work binding.",
     };
+  // Supplied decisions already name the actual seated body. They need the
+  // same session guard, not another story blueprint or borrowed roster.
+  if (input.recordedFloorVote) {
+    const sessionEnd = applyInstitutionSessionEnd(before, measureId);
+    if (sessionEnd) return sessionEnd;
+    return applyInstitutionFloorVote(
+      before,
+      input.recordedFloorVote,
+      input.recordedFloorVote.seatedMemberPersonIds,
+    );
+  }
   const blueprint = legislativeBlueprintForMeasure(before, measure);
   const officers = unit ? sittingLocalOfficers(before, unit) : [];
   const councilMembers = officers.filter((seat) => !seat.mayor);
@@ -656,50 +753,8 @@ export function applyInstitutionStep(
   const owner = effectiveOwner(world, measure);
   if (owner === null || owner === "sponsor-office") return { kind: "idle" };
   const position = measurePosition(world, measureId);
-  const session = measureSessionIsClosed(world, measureId);
-  const phase = position.phase;
-  const reconsidersVetoLater =
-    session.closed && vetoWaitsForNextSitting(world, measure, phase);
-  if (
-    reconsidersVetoLater &&
-    !legislatureSatSince(world, measure, session.closedOn!)
-  )
-    // A closed session's legislature sits again in a later year at the
-    // soonest; from then, it checks on its ordinary cadence.
-    return {
-      kind: "wait-until",
-      date: maxIsoDate(
-        makeIsoDate(`${Number(session.closedOn!.slice(0, 4)) + 1}-01-01`),
-        nextSessionCalendarDate(
-          pack.session.sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.state,
-          world.currentDate,
-        ),
-      ),
-    };
-  const closed = session.closed && !reconsidersVetoLater;
-  const dies = pack.session.measuresDieAtAdjournment;
-  // Where the rules say a pending bill dies when the session adjourns, one
-  // still before the legislature dies; that is how most bills end.
-  if (closed && owner !== "executive" && dies.kind === "known" && dies.value)
-    return {
-      kind: "ended",
-      world: recordAdjournmentDeath(world, {
-        stableKey: nextMeasureStableKey(
-          world,
-          measureId,
-          `measure:${measureId}:died-on-adjournment`,
-        ),
-        measureId,
-      }),
-    };
-  if (closed)
-    return {
-      kind: "blocked",
-      reason: legislativeProcedureForPack(world, measure.rulePackId)
-        ?.measuresCarryOver
-        ? `The regular session ended on ${session.closedOn}; the bill remains pending for the next regular session.`
-        : `The session ended on ${session.closedOn}; whether this bill carries over is not established, so nothing more happens to it.`,
-    };
+  const sessionEnd = applyInstitutionSessionEnd(world, measureId);
+  if (sessionEnd) return sessionEnd;
   if (owner === "executive")
     return {
       kind: "executive",
@@ -764,12 +819,7 @@ export function applyInstitutionStep(
     };
   }
   if (steps.includes("request-referral")) {
-    // A Congress bill goes to the committee for its policy field; any other
-    // bill to the chamber's first compiled committee.
-    const referredKey = congressReferralCommittee(world, measure, chamberKey);
-    const committee =
-      chamber.committees.find((entry) => entry.committeeKey === referredKey) ??
-      chamber.committees[0];
+    const committee = referralCommittee(world, measureId, chamberKey);
     if (!committee)
       return {
         kind: "blocked",

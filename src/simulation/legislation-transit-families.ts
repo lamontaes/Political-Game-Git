@@ -1,4 +1,4 @@
-import data from "../../data/content/legislation-families/transit.json";
+import data from "../../data/content/legislation-families/transit.json" with { type: "json" };
 import {
   programVariantFromData,
   type ProgramVariantData,

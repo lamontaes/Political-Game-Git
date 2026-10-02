@@ -14,7 +14,7 @@ import {
 } from "../presentation/municipal-governing";
 import { addDays, ageOnDate, makeIsoDate } from "./dates";
 import { personName } from "./people";
-import { dcCouncilActTitle } from "./dc-council-sittings";
+import { renderMeasureTitle } from "./measure-title";
 import { lifePlaceSearch } from "./life-places";
 import { recordOrganizationParticipationState } from "./life";
 import { organizationParticipationStateAt } from "./life-queries";
@@ -155,9 +155,16 @@ describe("the D.C. Council's procedure, compiled from the Home Rule Act", () => 
   });
 
   it("titles an act from its question", () => {
-    expect(dcCouncilActTitle("Consumer data privacy law", "2026")).toBe(
-      "Consumer Data Privacy Act of 2026",
-    );
+    expect(pack.ok).toBe(true);
+    if (!pack.ok) throw new Error("D.C. Council rule pack was not admitted.");
+    expect(
+      renderMeasureTitle(
+        pack.pack.titleTemplate!,
+        "Consumer data privacy law",
+        "2026",
+        false,
+      ),
+    ).toBe("Consumer Data Privacy Act of 2026");
   });
 });
 

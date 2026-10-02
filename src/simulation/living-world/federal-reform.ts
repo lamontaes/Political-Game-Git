@@ -4,7 +4,6 @@ import {
   constitutionalActions,
   constitutionalPosition,
   constitutionalProposalRuleForWorld,
-  proposeConstitutionalMeasure,
   recordArticleVRatification,
   recordConstitutionalProposalVote,
 } from "../constitutional-process";
@@ -51,6 +50,7 @@ import {
   presidentialTermsCounted,
 } from "../nationwide-world/presidential-turnover";
 import { SeededRng } from "../rng";
+import { proposeAmendment } from "./constitutional-reform";
 import type {
   DecisionConsideration,
   EntityId,
@@ -662,7 +662,7 @@ function proposeTermLimitMeasure(
     (row) => row.stableKey === key,
   );
   if (existing) return world;
-  return proposeConstitutionalMeasure(world, {
+  return proposeAmendment(world, {
     stableKey: key,
     jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
     jurisdictionKey: FEDERAL_JURISDICTION_KEY,
@@ -670,15 +670,12 @@ function proposeTermLimitMeasure(
     designation: `Proposed Amendment to the Constitution (${year})`,
     shortTitle: "The President's term limit",
     text: `No person shall be elected to the office of the President more than ${describeRuleChangeValue(cause.value)}.`,
-    textVersion: "v1",
     sponsoringAuthority: "The Congress of the United States",
-    sponsorPersonId: null,
     ratificationMode: "state-legislatures",
     deadlineAt: yearsLater(
       world.currentDate,
       FEDERAL_REFORM_PROFILE.ratificationYears,
     ),
-    delayedOperativeAt: null,
     ruleDelta: {
       kind: "rule-field",
       officeKey: PRESIDENT_OFFICE_KEY,
@@ -689,7 +686,6 @@ function proposeTermLimitMeasure(
           ? { appliesTo: "immediately", countsPriorService: true }
           : { appliesTo: "terms-beginning-after", countsPriorService: false },
     },
-    ordinaryMeasureId: null,
   });
 }
 

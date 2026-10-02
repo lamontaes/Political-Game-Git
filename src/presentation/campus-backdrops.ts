@@ -1,4 +1,4 @@
-import manifest from "../../art/campuses/manifest.json";
+import manifest from "../../art/campuses/manifest.json" with { type: "json" };
 import { optionalGlob } from "./optional-glob";
 
 /**

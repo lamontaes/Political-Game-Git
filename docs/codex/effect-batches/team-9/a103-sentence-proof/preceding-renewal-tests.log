@@ -1,0 +1,30 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ✓ src/simulation/justice/clemency-clock.test.ts (5 tests) 84830ms
+     ✓ reviews the actual petitioner in 'US-IA'  18591ms
+     ✓ reviews the actual petitioner in 'US-LA'  16746ms
+     ✓ reviews the actual petitioner in 'US-TX'  16342ms
+     ✓ reviews the actual petitioner in 'US-CT'  16430ms
+     ✓ reviews the actual petitioner in 'US-ND'  16714ms
+ ✓ src/simulation/justice/sentencing-term.test.ts (8 tests) 56353ms
+     ✓ reads all 56 base robbery rows without turning missing facts into a grade  2872ms
+     ✓ saves an actual bounded term for the named defendant in US-ND  8588ms
+     ✓ saves an actual bounded term for the named defendant in US-MA  10913ms
+     ✓ saves an actual bounded term for the named defendant in US-HI  10198ms
+     ✓ saves an actual bounded term for the named defendant in US-IA  8846ms
+     ✓ saves an actual bounded term for the named defendant in US-CA  9116ms
+     ✓ keeps an actual life sentence indefinite through priors, readers and SaveContinue  5540ms
+
+ Test Files  2 passed (2)
+      Tests  13 passed (13)
+   Start at  18:31:46
+   Duration  177.71s (transform 25.49s, setup 39ms, import 36.01s, tests 141.18s, environment 1ms)
+
+JSON report written to /tmp/team9-a103-zero-guard-tests.json
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

@@ -1,6 +1,7 @@
 import {
   addDays,
   ageOnDate,
+  daysBetween,
   dateAtAge,
   makeIsoDate,
   spokenDate,
@@ -402,13 +403,19 @@ export function exposureDays(
   from: IsoDate,
   to: IsoDate,
 ): readonly IsoDate[] {
-  if (clock.annualRate <= 0 || clock.since > to) return [];
+  if (!(clock.annualRate > 0) || clock.since > to) return [];
   const perDay = clock.annualRate / DAYS_PER_YEAR;
+  // A target whose share of the town's rate is tiny reaches its next offense
+  // centuries out; counting the offset against the window first keeps that
+  // day from ever being written as a date.
+  const span = daysBetween(clock.since, to);
   const days: IsoDate[] = [];
   for (let unit = clock.recorded + 1; ; unit += 1) {
     // The day whose end brings the exposure to `unit` offenses.
     const needed = (unit - clock.startingExposure) / perDay;
-    const day = addDays(clock.since, Math.max(0, Math.ceil(needed) - 1));
+    const offset = Math.max(0, Math.ceil(needed) - 1);
+    if (!(offset <= span)) break;
+    const day = addDays(clock.since, offset);
     if (day > to) break;
     days.push(day < from ? from : day);
   }

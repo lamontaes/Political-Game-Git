@@ -1,5 +1,5 @@
-import assetManifest from "../../art/manifest/asset_manifest.json";
-import characterCatalog from "../../art/manifest/character_catalog.json";
+import assetManifest from "../../art/manifest/asset_manifest.json" with { type: "json" };
+import characterCatalog from "../../art/manifest/character_catalog.json" with { type: "json" };
 import { derivePersonAppearance } from "../simulation/person-appearance";
 import {
   createCharacterComponentLibrary,

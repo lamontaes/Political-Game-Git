@@ -127,7 +127,7 @@ function settleJailTerms(world: World): World {
           (row) => row.stableKey === `${key}:away`,
         );
         if (!away) {
-          if (term.until <= next.currentDate) continue;
+          if (term.until !== null && term.until <= next.currentDate) continue;
           if (status.status !== "active") continue;
           next = recordWorkStatus(next, {
             stableKey: `${key}:away`,
@@ -141,7 +141,11 @@ function settleJailTerms(world: World): World {
             },
             supersedesStatusId: status.id,
           });
-        } else if (term.until <= next.currentDate && status.id === away.id) {
+        } else if (
+          term.until !== null &&
+          term.until <= next.currentDate &&
+          status.id === away.id
+        ) {
           next = recordWorkStatus(next, {
             stableKey: `${key}:back`,
             workRelationshipId: work.id,

@@ -10,7 +10,7 @@ import {
 
 import clippingAfterUrl from "../../docs/agent/evidence/office-clipping-after-1440x900.png";
 import clippingBeforeUrl from "../../docs/agent/evidence/office-clipping-before-1440x900.png";
-import provenanceData from "../../art/manifest/provenance.json";
+import provenanceData from "../../art/manifest/provenance.json" with { type: "json" };
 import {
   CHARACTER_PROOF_SCENE,
   CHARACTER_PROOF_SETS,

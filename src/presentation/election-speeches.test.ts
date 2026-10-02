@@ -290,7 +290,7 @@ describe("election-night speeches", () => {
     ).toBe(false);
     // Retelling again tells nobody twice. It may reach someone new: a person
     // told this pass can pass it on in the next, as a skip across several
-    // months does (applySpeechRetelling).
+    // months does through the monthly retelling due handler.
     const again = retellSpeeches(told).history.knowledge.filter(
       (row) => row.eventId === speech.id,
     );

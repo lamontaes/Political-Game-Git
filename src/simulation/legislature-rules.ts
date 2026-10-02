@@ -587,6 +587,15 @@ export interface LegislativeRulePack {
   readonly jurisdictionKey: string;
   readonly displayName: string;
   /**
+   * The saved roster this institution reads, and how far that roster supplies
+   * party cues. Older packs use candidacy openings and the current chamber.
+   * This selects a data reader; it grants no seats or legislative authority.
+   */
+  readonly seatRollSource?: {
+    readonly kind: "national-election-seats" | "candidacy-opening";
+    readonly partyCueScope: "chamber" | "institution";
+  };
+  /**
    * Whether this pack states read law or the game's own rule.
    *
    * `researched` is the only kind that describes a real legislature. It is
@@ -881,6 +890,18 @@ function assertOriginationChambers(
  */
 export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
   if (pack.titleTemplate) assertMeasureTitleTemplate(pack.titleTemplate);
+  if (pack.seatRollSource !== undefined) {
+    const source = pack.seatRollSource;
+    if (
+      !source ||
+      !["national-election-seats", "candidacy-opening"].includes(source.kind) ||
+      !["chamber", "institution"].includes(source.partyCueScope)
+    ) {
+      throw new Error(
+        `Rule pack '${pack.packId}' declares an invalid seat roll source.`,
+      );
+    }
+  }
   if (pack.packId.trim().length === 0) {
     throw new Error("A rule pack must have an identifier.");
   }

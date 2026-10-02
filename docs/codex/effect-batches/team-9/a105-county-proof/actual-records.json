@@ -1,0 +1,262 @@
+[
+  {
+    "seed": "team9-a100-saved-court-finder-20261001",
+    "state": "US-ND",
+    "name": "Vanessa Vargas",
+    "personId": "person_61434ac2a42ef433",
+    "referralId": "event_4b3498f5ccf04f4c",
+    "trialAt": "2026-07-18",
+    "sevenPersonPending": true,
+    "emptyPanelPending": true,
+    "replayPreservesCase": true,
+    "completePanelResumed": true,
+    "panelContract": {
+      "size": 12,
+      "provenance": "unresearched-existing-panel-size"
+    },
+    "controlledSelector": true,
+    "smallWorldPeople": 40,
+    "judgeId": "person_744f9abcfbcbc9ed",
+    "courtId": "us-nd:general_trial"
+  },
+  {
+    "seed": "team9-a100-saved-court-finder-20261001",
+    "state": "US-MA",
+    "name": "Vanessa Vargas",
+    "personId": "person_61434ac2a42ef433",
+    "referralId": "event_4b3ec5f5ccf8f048",
+    "trialAt": "2026-07-02",
+    "sevenPersonPending": true,
+    "emptyPanelPending": true,
+    "replayPreservesCase": true,
+    "completePanelResumed": true,
+    "panelContract": {
+      "size": 12,
+      "provenance": "unresearched-existing-panel-size"
+    },
+    "controlledSelector": true,
+    "smallWorldPeople": 40,
+    "judgeId": "person_744f9abcfbcbc9ed",
+    "courtId": "us-ma:general_trial"
+  },
+  {
+    "seed": "team9-a100-saved-court-finder-20261001",
+    "state": "US-HI",
+    "name": "Vanessa Vargas",
+    "personId": "person_61434ac2a42ef433",
+    "referralId": "event_4b4901f5cd01aac1",
+    "trialAt": "2026-07-02",
+    "sevenPersonPending": true,
+    "emptyPanelPending": true,
+    "replayPreservesCase": true,
+    "completePanelResumed": true,
+    "panelContract": {
+      "size": 12,
+      "provenance": "unresearched-existing-panel-size"
+    },
+    "controlledSelector": true,
+    "smallWorldPeople": 40,
+    "judgeId": "person_744f9abcfbcbc9ed",
+    "courtId": "us-hi:general_trial"
+  },
+  {
+    "seed": "team9-a100-saved-court-finder-20261001",
+    "state": "US-IA",
+    "name": "Vanessa Vargas",
+    "personId": "person_61434ac2a42ef433",
+    "referralId": "event_4b4cddf5cd05566c",
+    "trialAt": "2026-08-01",
+    "sevenPersonPending": true,
+    "emptyPanelPending": true,
+    "replayPreservesCase": true,
+    "completePanelResumed": true,
+    "panelContract": {
+      "size": 12,
+      "provenance": "unresearched-existing-panel-size"
+    },
+    "controlledSelector": true,
+    "smallWorldPeople": 40,
+    "judgeId": "person_744f9abcfbcbc9ed",
+    "courtId": "us-ia:general_trial"
+  },
+  {
+    "seed": "team9-a100-saved-court-finder-20261001",
+    "state": "US-CA",
+    "name": "Vanessa Vargas",
+    "personId": "person_61434ac2a42ef433",
+    "referralId": "event_4b60c1f5cd15cfe2",
+    "trialAt": "2026-06-17",
+    "sevenPersonPending": true,
+    "emptyPanelPending": true,
+    "replayPreservesCase": true,
+    "completePanelResumed": true,
+    "panelContract": {
+      "size": 12,
+      "provenance": "unresearched-existing-panel-size"
+    },
+    "controlledSelector": true,
+    "smallWorldPeople": 40,
+    "judgeId": "person_744f9abcfbcbc9ed",
+    "courtId": "us-ca:general_trial"
+  },
+  {
+    "state": "US-ND",
+    "town": "3814140",
+    "population": 4,
+    "county": "38071",
+    "catchmentBasis": "estimated-county-catchment",
+    "personId": "person_61434ac2a42ef433",
+    "name": "Vanessa Vargas",
+    "referralId": "event_57d54ed4dfe3c0df",
+    "trialAt": "2026-07-18",
+    "outcomeId": "event_3f7f69f669905d03",
+    "outcomeType": "justice.case-ended",
+    "jurors": [
+      "person_4b24e042393674bb",
+      "person_f5c1e942ceef456a",
+      "person_5019676933e0bb87",
+      "person_b6cb6367afb56c64",
+      "person_61434cc2a42ef799",
+      "person_852ed4259c8709a2",
+      "person_a7a52a9767d01e40",
+      "person_f1df042d1484191f",
+      "person_660a4f817b264965",
+      "person_614349c2a42ef280",
+      "person_e361b65edcfcd0ce",
+      "person_39fcaafa81eb38f9"
+    ],
+    "panelContract": {
+      "size": 12,
+      "provenance": "unresearched-existing-panel-size"
+    },
+    "generatedPeople": 12
+  },
+  {
+    "state": "US-MA",
+    "town": "2535040",
+    "population": 29,
+    "county": "25003",
+    "catchmentBasis": "estimated-county-catchment",
+    "personId": "person_61434ac2a42ef433",
+    "name": "Vanessa Vargas",
+    "referralId": "event_57cb19d4dfdb124b",
+    "trialAt": "2026-07-02",
+    "outcomeId": "event_dee123928888186f",
+    "outcomeType": "justice.case-ended",
+    "jurors": [
+      "person_d223de1d510de544",
+      "person_b136ff84651f63b3",
+      "person_a49566304859e247",
+      "person_ea1975837d3c9f1f",
+      "person_bdd29463a6acc1a9",
+      "person_0ebfdef4aa36a49d",
+      "person_d223df1d510de6f7",
+      "person_614349c2a42ef280",
+      "person_61434cc2a42ef799",
+      "person_bdd29363a6acbff6",
+      "person_09ea9f3444266778",
+      "person_7d69457c053f8fa2"
+    ],
+    "panelContract": {
+      "size": 12,
+      "provenance": "unresearched-existing-panel-size"
+    },
+    "generatedPeople": 13
+  },
+  {
+    "state": "US-HI",
+    "town": "1549425",
+    "population": 50,
+    "county": "15009",
+    "catchmentBasis": "estimated-county-catchment",
+    "personId": "person_61434ac2a42ef433",
+    "name": "Vanessa Vargas",
+    "referralId": "event_57dc1dd4dfe98c4a",
+    "trialAt": "2026-07-02",
+    "outcomeId": "event_5e0229326bb512dc",
+    "outcomeType": "justice.case-ended",
+    "jurors": [
+      "person_1c3faff167cce805",
+      "person_89445c00dcd48c07",
+      "person_783e44be9a670cd1",
+      "person_caef491b23917ab5",
+      "person_61434cc2a42ef799",
+      "person_eeb1bbc655dd1d9b",
+      "person_caef481b23917902",
+      "person_1c3faef167cce652",
+      "person_eeb1bac655dd1be8",
+      "person_614349c2a42ef280",
+      "person_89445b00dcd48a54",
+      "person_783e43be9a670b1e"
+    ],
+    "panelContract": {
+      "size": 12,
+      "provenance": "unresearched-existing-panel-size"
+    },
+    "generatedPeople": 14
+  },
+  {
+    "state": "US-IA",
+    "town": "1919810",
+    "population": 4,
+    "county": "19159",
+    "catchmentBasis": "estimated-county-catchment",
+    "personId": "person_61434ac2a42ef433",
+    "name": "Vanessa Vargas",
+    "referralId": "event_57d931d4dfe7786f",
+    "trialAt": "2026-08-01",
+    "outcomeId": "event_a8b1c5dcd5434993",
+    "outcomeType": "justice.case-ended",
+    "jurors": [
+      "person_ff0718eaa965c975",
+      "person_614349c2a42ef280",
+      "person_493a9b5fa5b36a57",
+      "person_790932074b3ec391",
+      "person_ff0717eaa965c7c2",
+      "person_32499be032979450",
+      "person_32499ce032979603",
+      "person_61434cc2a42ef799",
+      "person_aeba41e1f7bdc0ba",
+      "person_aeba42e1f7bdc26d",
+      "person_790931074b3ec1de",
+      "person_f66973564a8c83c8"
+    ],
+    "panelContract": {
+      "size": 12,
+      "provenance": "unresearched-existing-panel-size"
+    },
+    "generatedPeople": 14
+  },
+  {
+    "state": "US-CA",
+    "town": "0644770",
+    "population": 3,
+    "county": "06107",
+    "catchmentBasis": "estimated-county-catchment",
+    "personId": "person_61434ac2a42ef433",
+    "name": "Vanessa Vargas",
+    "referralId": "event_57c44dd4dfd54bf9",
+    "trialAt": "2026-06-17",
+    "outcomeId": "event_c04045bbca050319",
+    "outcomeType": "justice.case-ended",
+    "jurors": [
+      "person_ff67d1ae739c71b4",
+      "person_614349c2a42ef280",
+      "person_333f3a486077ad32",
+      "person_237790953d397f89",
+      "person_c2ea4e4251076c89",
+      "person_ff67d2ae739c7367",
+      "person_770fcd491a2c9b5c",
+      "person_abc05b0894bc0f32",
+      "person_c2ea4d4251076ad6",
+      "person_23778f953d397dd6",
+      "person_61434cc2a42ef799",
+      "person_770fce491a2c9d0f"
+    ],
+    "panelContract": {
+      "size": 12,
+      "provenance": "unresearched-existing-panel-size"
+    },
+    "generatedPeople": 16
+  }
+]

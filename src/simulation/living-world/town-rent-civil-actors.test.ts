@@ -1,4 +1,5 @@
 /// <reference types="node" />
+import { courtFor } from "../judiciary/court-for";
 import { afterAll, describe, expect, it } from "vitest";
 import { writeFileSync } from "node:fs";
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
@@ -20,7 +21,6 @@ import { SeededRng } from "../rng";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { withWorldIntegrityDeferred } from "../world";
 import {
-  courtById,
   seatsForCourt,
   seatHolderAt,
   seatJudge,
@@ -122,9 +122,14 @@ describe("A102 existing eviction filings require actual court actors", () => {
             ),
         );
         expect(lease, placeKey).toBeDefined();
-        const courtId = `${place.stateJurisdictionKey!.toLowerCase()}:general_trial`;
-        const court = courtById(world, courtId);
+        const court = courtFor(
+          world,
+          lease!.town,
+          "local-general-trial",
+          "civil",
+        );
         expect(court).not.toBeNull();
+        const courtId = court!.courtId;
         const seats = seatsForCourt(world, courtId);
         const seated = seats
           .map((seat) => seatHolderAt(world, seat.seatId))
@@ -236,6 +241,7 @@ describe("A102 existing eviction filings require actual court actors", () => {
           event.type === RENT_EVENTS.settled,
       );
       expect(judgment).toBeDefined();
+      expect(judgment!.summary).not.toContain("the court");
       for (const id of [
         holder!.personId,
         lease!.flow.id,
