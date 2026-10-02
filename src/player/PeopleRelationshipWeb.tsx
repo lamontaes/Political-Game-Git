@@ -156,6 +156,22 @@ export function PeopleRelationshipWeb({
               node.personId !== selectedId &&
               !connectedIds.has(node.personId)
             }
+            howKnown={
+              node.isPlayer
+                ? "You"
+                : (node.relationship ??
+                    web.edges
+                      .filter(
+                        (edge) =>
+                          (edge.fromId === playerId &&
+                            edge.toId === node.personId) ||
+                          (edge.toId === playerId &&
+                            edge.fromId === node.personId),
+                      )
+                      .map((edge) => edge.label)
+                      .join("; ")) ||
+                  "How you know this person is not recorded."
+            }
             inCategory={inCategory(node.personId)}
             onPath={connection?.personIds.has(node.personId) ?? false}
             named={
@@ -222,12 +238,14 @@ function WebNode({
   inCategory,
   onPath,
   named,
+  howKnown,
   onSelect,
 }: {
   readonly world: World;
   readonly node: LaidOutNode;
   /** Whether to print the name; a crowded ring keeps it to the tooltip. */
   readonly named: boolean;
+  readonly howKnown: string;
   readonly matched: boolean;
   readonly focused: boolean;
   readonly selected: boolean;
@@ -239,9 +257,7 @@ function WebNode({
 }) {
   const label = node.isPlayer ? "You" : node.name;
   const size = focused ? 52 : 40;
-  const described = node.isPlayer
-    ? "You"
-    : `${node.name}${node.relationship ? `, ${node.relationship}` : ""}`;
+  const described = node.isPlayer ? "You" : `${node.name}, ${howKnown}`;
   const shownLabel = label.length > 20 ? `${label.slice(0, 18)}…` : label;
   // An estimate of the rendered label, generous enough to cover it.
   const labelWidth = Math.max(size, shownLabel.length * 7.5 + 12);
@@ -302,6 +318,17 @@ function WebNode({
           <text x={0} y={size / 2 + 17} textAnchor="middle">
             {shownLabel}
           </text>
+          {!node.isPlayer ? (
+            <text
+              x={0}
+              y={size / 2 + 31}
+              textAnchor="middle"
+              data-testid={`people-web-how-known-${node.personId}`}
+            >
+              <title>{howKnown}</title>
+              {howKnown.length > 36 ? `${howKnown.slice(0, 34)}…` : howKnown}
+            </text>
+          ) : null}
         </>
       ) : null}
     </g>
