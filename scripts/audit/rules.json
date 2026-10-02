@@ -1706,9 +1706,21 @@
           "file": "src/presentation/life-scene-flow.ts",
           "pattern": "stableHash\\(",
           "why": "openNextLifeScene still picks the next scene with stableHash (life-scene-flow.ts:362)"
+        },
+        {
+          "kind": "present",
+          "file": "src/presentation/life-scene-flow.ts",
+          "pattern": "sceneTiedToLatestEvent\\(",
+          "why": "the next scene is the one the latest recorded event in the life ties to, else the first in order"
+        },
+        {
+          "kind": "test",
+          "file": "src/presentation/life-scene.test.ts",
+          "pattern": "A146: the next life scene follows recent events, not a hash",
+          "why": "the small-world proof, place drawn from all 56 by seed: a second world seed opens the same scene, and a new event steers the next one"
         }
       ],
-      "note": "The only stableHash( call in life-scene-flow.ts is the pick at :362, so not-started as verified; the follow-through reply that already goes first (the 'continuation' lookup) is not scored as done because the audit counts the item not-started."
+      "note": "Done: the stableHash pick is gone; a follow-through to the scene just resolved still goes first, then the scene tied to the newest event in the life (same family, or its counterpart was in it), else the first in order. The opening records follows-event:<id>."
     },
     "A147": {
       "covers": "whole",
