@@ -34,7 +34,11 @@ import { isPersonAliveAt } from "../simulation/vitality-integrity";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLife } from "./ordinary-life";
-import { addDays, ageOnDate } from "../simulation/dates";
+import {
+  addDays,
+  ageOnDate,
+  simulationMomentAtLocalTime,
+} from "../simulation/dates";
 import {
   createFormationContext,
   recordPrivateBelief,
@@ -390,7 +394,15 @@ describe("recalling a town official", () => {
         (row) => row.transitionKey === RECALL_PETITION_CLOSES,
       )!;
       const result = recallPetitionClosesHandler(
-        { ...started, currentDate: due.dueAt },
+        {
+          ...started,
+          currentDate: due.dueAt,
+          currentMoment: simulationMomentAtLocalTime({
+            date: due.dueAt,
+            minuteOfDay: started.currentMoment.minuteOfDay,
+            timeZone: started.currentMoment.timeZone,
+          }),
+        },
         due,
       );
       expect(result.status).toBe("resolved");
@@ -420,7 +432,15 @@ describe("recalling a town official", () => {
         )!;
         expect(election).toBeDefined();
         const voted = recallElectionHandler(
-          { ...result.world, currentDate: election.dueAt },
+          {
+            ...result.world,
+            currentDate: election.dueAt,
+            currentMoment: simulationMomentAtLocalTime({
+              date: election.dueAt,
+              minuteOfDay: result.world.currentMoment.minuteOfDay,
+              timeZone: result.world.currentMoment.timeZone,
+            }),
+          },
           election,
         );
         expect(recallPetitions(voted.world)[0]).toMatchObject({
