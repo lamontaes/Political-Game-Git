@@ -29,6 +29,7 @@ import { assessPaychecksTaxes } from "../statutory-tax";
 import {
   stateIncomeTaxUnderLaw,
   ADOPT_STATE_INCOME_TAX_QUESTION,
+  GRADUATED_STATE_INCOME_TAX_QUESTION,
 } from "../state-income-tax-law";
 import {
   filingStatusAt,
@@ -455,6 +456,9 @@ describe("fiscal numeric starting laws reach the existing writers", () => {
       for (const liability of liabilities) {
         expect(liability.lawMeasureIds).toContain(law.measureId);
         if (shape === "graduated") {
+          expect(liability.lawMeasureIds).toContain(
+            `starting-law:${state.jurisdictionKey}:${GRADUATED_STATE_INCOME_TAX_QUESTION}`,
+          );
           if (liability.payer.kind !== "person")
             throw new Error("Native wage payer is not a person");
           const paycheck = paychecks.find(

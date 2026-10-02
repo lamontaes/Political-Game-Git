@@ -1,0 +1,607 @@
+{
+  "sourceHead": "05542d101f03038ff33fa69738779086922ae618",
+  "receivingMain": "99b13b4a207750243e555df824bf705586e0507a",
+  "schema": "2072 merged db38d0ea00cc2556a104aa4cec1be1d1f7547e07",
+  "questionKeys": [
+    "us-policy-positions:fiscal.adopt-income-tax",
+    "us-policy-positions:fiscal.graduated-income-tax"
+  ],
+  "completeSchedulePlaces": [
+    "US-AL",
+    "US-AR",
+    "US-CA",
+    "US-DC",
+    "US-DE",
+    "US-HI",
+    "US-KS",
+    "US-MD",
+    "US-ME",
+    "US-MN",
+    "US-MO",
+    "US-MT",
+    "US-ND",
+    "US-NE",
+    "US-NM",
+    "US-NY",
+    "US-OK",
+    "US-OR",
+    "US-RI",
+    "US-SC",
+    "US-VA",
+    "US-VT",
+    "US-WI"
+  ],
+  "productionSchedulesAdded": 46,
+  "source": {
+    "path": "data/research/money/state-income-tax-2026.json",
+    "sha256": "84e68fa078754f0426b73250315cc23b9227d972a205e7c66ad79bb11337c824",
+    "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+  },
+  "gaps": {
+    "unreadDeduction": ["US-CT", "US-MA", "US-NJ", "US-WV"],
+    "unreadTerritorialSchedule": ["US-AS", "US-GU", "US-MP", "US-PR", "US-VI"]
+  },
+  "checks": {
+    "native": {
+      "files": [
+        "src/simulation/public-budgets/fiscal-starting-terms.test.ts",
+        "src/simulation/state-income-tax-law.test.ts"
+      ],
+      "passed": 22,
+      "failed": 0,
+      "durationSeconds": 61.77,
+      "stockCaseTimeoutMilliseconds": 30000,
+      "workers": 1
+    },
+    "scopedTypes": {
+      "roots": 3,
+      "files": 1234,
+      "diagnostics": 0
+    },
+    "canonicalTypecheck": "exit 0 at preceding b4316d469 source; final receiving three-root check separately passed",
+    "audit": "pinned main 99b13b4a2 and branch A15 8/8 PARTLY, no flips",
+    "notRun": [
+      "full suite",
+      "unchanged-file tests",
+      "browser",
+      "official Claude gate"
+    ]
+  },
+  "nativeProofs": [
+    {
+      "seed": "fiscal-starting-terms-new-game:pension",
+      "place": "US-MO",
+      "law": "starting-law:US-MO:us-policy-positions:fiscal.fund-pensions-to-schedule",
+      "pensionRequired": 1910360409,
+      "requiredContributionShare": 1,
+      "recordedAppropriation": 1910360409,
+      "withoutRequirement": 1888964372,
+      "deltaAgainstMainImplicitFullRule": 0,
+      "proof": "adopted budget, not a completed cash payment"
+    },
+    {
+      "proof": "native Begin opening",
+      "seed": "fiscal-starting-terms-new-game:natural-pay",
+      "place": "1757693",
+      "state": "US-IL",
+      "person": "person_5fcc689d8e8b1c84",
+      "homeId": "jurisdiction_fce44476b2d3ebab",
+      "homeKind": "census-place",
+      "control": "observer",
+      "openedAt": "2026-01-05",
+      "paidWorkIds": [
+        "work-relationship_70e50df182b3b737",
+        "work-relationship_833fda49dba309cb",
+        "work-relationship_f96a6a5ec9171a75",
+        "work-relationship_e1c0b70538cdf857",
+        "work-relationship_6764e1d3e140ce71",
+        "work-relationship_16e8597ea509674b",
+        "work-relationship_394f543eeade3647",
+        "work-relationship_10c219ddbee326c1",
+        "work-relationship_2a0db80c4e307ad3",
+        "work-relationship_d45b7051691ff7d8"
+      ],
+      "recordedPaidWorkCount": 7439,
+      "compensationFlowIds": [],
+      "paydayIds": ["future-due-item_17374f4189ec3a9c"]
+    },
+    {
+      "proof": "native ordinary payday",
+      "seed": "fiscal-starting-terms-new-game:natural-pay",
+      "place": "1757693",
+      "state": "US-IL",
+      "through": "2026-01-19",
+      "paycheckIds": [
+        "resource-transfer-outcome_235b09e3f1d1073a",
+        "resource-transfer-outcome_a048cd575ceb28d2",
+        "resource-transfer-outcome_2e9966dad981539c",
+        "resource-transfer-outcome_7fbf1779f5a80be8",
+        "resource-transfer-outcome_96f4f700341f5504",
+        "resource-transfer-outcome_62b3615ea0625c4a",
+        "resource-transfer-outcome_3ec2c7362d87634e",
+        "resource-transfer-outcome_76ccbad94a81d81b",
+        "resource-transfer-outcome_38465932b921c85e",
+        "resource-transfer-outcome_d9b34ed62865da7f"
+      ],
+      "liabilities": [
+        {
+          "id": "statutory-tax-liability_190909b129e57e9c",
+          "payer": {
+            "kind": "person",
+            "personId": "person_fb8b9df6b8359eec"
+          },
+          "sourceOutcomeId": "resource-transfer-outcome_235b09e3f1d1073a",
+          "amount": {
+            "minorUnits": 12904,
+            "currency": "USD"
+          },
+          "lawMeasureIds": [
+            "starting-law:US-IL:us-policy-positions:fiscal.adopt-income-tax"
+          ]
+        },
+        {
+          "id": "statutory-tax-liability_0d0fcc6a02c407a9",
+          "payer": {
+            "kind": "person",
+            "personId": "person_cfdd7d596075e3b3"
+          },
+          "sourceOutcomeId": "resource-transfer-outcome_a048cd575ceb28d2",
+          "amount": {
+            "minorUnits": 12097,
+            "currency": "USD"
+          },
+          "lawMeasureIds": [
+            "starting-law:US-IL:us-policy-positions:fiscal.adopt-income-tax"
+          ]
+        },
+        {
+          "id": "statutory-tax-liability_fd453a75c64b00d0",
+          "payer": {
+            "kind": "person",
+            "personId": "person_822214c7996b187b"
+          },
+          "sourceOutcomeId": "resource-transfer-outcome_2e9966dad981539c",
+          "amount": {
+            "minorUnits": 5384,
+            "currency": "USD"
+          },
+          "lawMeasureIds": [
+            "starting-law:US-IL:us-policy-positions:fiscal.adopt-income-tax"
+          ]
+        },
+        {
+          "id": "statutory-tax-liability_10c9d29a4fb4280e",
+          "payer": {
+            "kind": "person",
+            "personId": "person_822213c7996b16c8"
+          },
+          "sourceOutcomeId": "resource-transfer-outcome_7fbf1779f5a80be8",
+          "amount": {
+            "minorUnits": 5384,
+            "currency": "USD"
+          },
+          "lawMeasureIds": [
+            "starting-law:US-IL:us-policy-positions:fiscal.adopt-income-tax"
+          ]
+        },
+        {
+          "id": "statutory-tax-liability_a436e89ec1a0edd8",
+          "payer": {
+            "kind": "person",
+            "personId": "person_ab50b890cdc93055"
+          },
+          "sourceOutcomeId": "resource-transfer-outcome_96f4f700341f5504",
+          "amount": {
+            "minorUnits": 15364,
+            "currency": "USD"
+          },
+          "lawMeasureIds": [
+            "starting-law:US-IL:us-policy-positions:fiscal.adopt-income-tax"
+          ]
+        },
+        {
+          "id": "statutory-tax-liability_b2f4c32e68873c16",
+          "payer": {
+            "kind": "person",
+            "personId": "person_8b1b51951f20477c"
+          },
+          "sourceOutcomeId": "resource-transfer-outcome_62b3615ea0625c4a",
+          "amount": {
+            "minorUnits": 4925,
+            "currency": "USD"
+          },
+          "lawMeasureIds": [
+            "starting-law:US-IL:us-policy-positions:fiscal.adopt-income-tax"
+          ]
+        },
+        {
+          "id": "statutory-tax-liability_0d5f56868d40eaf1",
+          "payer": {
+            "kind": "person",
+            "personId": "person_3b43515c1d0d9ce3"
+          },
+          "sourceOutcomeId": "resource-transfer-outcome_3ec2c7362d87634e",
+          "amount": {
+            "minorUnits": 1263,
+            "currency": "USD"
+          },
+          "lawMeasureIds": [
+            "starting-law:US-IL:us-policy-positions:fiscal.adopt-income-tax"
+          ]
+        },
+        {
+          "id": "statutory-tax-liability_11f18dcd50d53f66",
+          "payer": {
+            "kind": "person",
+            "personId": "person_405a0b3b7c9c9f84"
+          },
+          "sourceOutcomeId": "resource-transfer-outcome_76ccbad94a81d81b",
+          "amount": {
+            "minorUnits": 6207,
+            "currency": "USD"
+          },
+          "lawMeasureIds": [
+            "starting-law:US-IL:us-policy-positions:fiscal.adopt-income-tax"
+          ]
+        },
+        {
+          "id": "statutory-tax-liability_78a3f72985ff359f",
+          "payer": {
+            "kind": "person",
+            "personId": "person_da0dcd4b1bd92f28"
+          },
+          "sourceOutcomeId": "resource-transfer-outcome_38465932b921c85e",
+          "amount": {
+            "minorUnits": 510,
+            "currency": "USD"
+          },
+          "lawMeasureIds": [
+            "starting-law:US-IL:us-policy-positions:fiscal.adopt-income-tax"
+          ]
+        },
+        {
+          "id": "statutory-tax-liability_945ae88d7384dbc0",
+          "payer": {
+            "kind": "person",
+            "personId": "person_eb6285504f22c863"
+          },
+          "sourceOutcomeId": "resource-transfer-outcome_d9b34ed62865da7f",
+          "amount": {
+            "minorUnits": 3116,
+            "currency": "USD"
+          },
+          "lawMeasureIds": [
+            "starting-law:US-IL:us-policy-positions:fiscal.adopt-income-tax"
+          ]
+        }
+      ],
+      "payments": [
+        {
+          "id": "statutory-tax-payment_ce5451be199810d2",
+          "liabilityId": "statutory-tax-liability_190909b129e57e9c",
+          "transferId": "resource-transfer-outcome_d8229c1a473b9290",
+          "amount": {
+            "minorUnits": 12904,
+            "currency": "USD"
+          }
+        },
+        {
+          "id": "statutory-tax-payment_802d7f121eaa0c9b",
+          "liabilityId": "statutory-tax-liability_0d0fcc6a02c407a9",
+          "transferId": "resource-transfer-outcome_5709ad2ef40590b7",
+          "amount": {
+            "minorUnits": 12097,
+            "currency": "USD"
+          }
+        },
+        {
+          "id": "statutory-tax-payment_b3b59dc6f1c661fa",
+          "liabilityId": "statutory-tax-liability_fd453a75c64b00d0",
+          "transferId": "resource-transfer-outcome_57b9a0b09e8b30a0",
+          "amount": {
+            "minorUnits": 5384,
+            "currency": "USD"
+          }
+        },
+        {
+          "id": "statutory-tax-payment_71216ced32b6fa24",
+          "liabilityId": "statutory-tax-liability_10c9d29a4fb4280e",
+          "transferId": "resource-transfer-outcome_71a41d0519dff5f6",
+          "amount": {
+            "minorUnits": 5384,
+            "currency": "USD"
+          }
+        },
+        {
+          "id": "statutory-tax-payment_2507f0edff7a7b12",
+          "liabilityId": "statutory-tax-liability_a436e89ec1a0edd8",
+          "transferId": "resource-transfer-outcome_f1b3210d2ed5e00c",
+          "amount": {
+            "minorUnits": 15364,
+            "currency": "USD"
+          }
+        },
+        {
+          "id": "statutory-tax-payment_5da97feddc97b46c",
+          "liabilityId": "statutory-tax-liability_b2f4c32e68873c16",
+          "transferId": "resource-transfer-outcome_70fc2c31a1eb19d6",
+          "amount": {
+            "minorUnits": 4925,
+            "currency": "USD"
+          }
+        },
+        {
+          "id": "statutory-tax-payment_d22bdcae9c92e7b7",
+          "liabilityId": "statutory-tax-liability_0d5f56868d40eaf1",
+          "transferId": "resource-transfer-outcome_21c0a0f27812412f",
+          "amount": {
+            "minorUnits": 1263,
+            "currency": "USD"
+          }
+        },
+        {
+          "id": "statutory-tax-payment_a197191440e7ff88",
+          "liabilityId": "statutory-tax-liability_11f18dcd50d53f66",
+          "transferId": "resource-transfer-outcome_271b64d13aec177a",
+          "amount": {
+            "minorUnits": 6207,
+            "currency": "USD"
+          }
+        },
+        {
+          "id": "statutory-tax-payment_0da96fb42e817bb9",
+          "liabilityId": "statutory-tax-liability_78a3f72985ff359f",
+          "transferId": "resource-transfer-outcome_a85c4396dca8c929",
+          "amount": {
+            "minorUnits": 510,
+            "currency": "USD"
+          }
+        },
+        {
+          "id": "statutory-tax-payment_9b0323db6549053a",
+          "liabilityId": "statutory-tax-liability_945ae88d7384dbc0",
+          "transferId": "resource-transfer-outcome_8e9181dc90478f80",
+          "amount": {
+            "minorUnits": 3116,
+            "currency": "USD"
+          }
+        }
+      ]
+    },
+    {
+      "proof": "native Begin opening",
+      "seed": "fiscal-starting-terms-new-game:natural-pay:graduated",
+      "place": "3129715",
+      "state": "US-NE",
+      "person": "person_30311cb2583e69fb",
+      "homeId": "jurisdiction_9486ef58439cb81d",
+      "homeKind": "census-place",
+      "control": "observer",
+      "openedAt": "2026-01-05",
+      "paidWorkIds": [
+        "work-relationship_fba3b8b58e814aca",
+        "work-relationship_6b498364edf26d98",
+        "work-relationship_f55b2f80e4e661e2",
+        "work-relationship_9ff0f0370f91d601",
+        "work-relationship_b78fb4b30310de85",
+        "work-relationship_813872e44e17dcf2",
+        "work-relationship_7fb8856f9268fe34",
+        "work-relationship_76853887f9669360",
+        "work-relationship_101d321a5990ab23",
+        "work-relationship_ffc1a1fdd29c3f24"
+      ],
+      "recordedPaidWorkCount": 7428,
+      "compensationFlowIds": [],
+      "paydayIds": ["future-due-item_e4c00c95f9685593"]
+    },
+    {
+      "proof": "native ordinary payday",
+      "seed": "fiscal-starting-terms-new-game:natural-pay:graduated",
+      "place": "3129715",
+      "state": "US-NE",
+      "through": "2026-01-19",
+      "paycheckIds": [
+        "resource-transfer-outcome_eec7e0a74df0b021",
+        "resource-transfer-outcome_dd6cd28841308980",
+        "resource-transfer-outcome_b833288fac621793",
+        "resource-transfer-outcome_3a5843f9a8ef1fd2",
+        "resource-transfer-outcome_acb3051cab4696f7",
+        "resource-transfer-outcome_d18e650768567f40",
+        "resource-transfer-outcome_adba95f1d7e8e101"
+      ],
+      "liabilities": [
+        {
+          "id": "statutory-tax-liability_a0d2a9053dea139d",
+          "payer": {
+            "kind": "person",
+            "personId": "person_f7274860a139891c"
+          },
+          "sourceOutcomeId": "resource-transfer-outcome_eec7e0a74df0b021",
+          "amount": {
+            "minorUnits": 12519,
+            "currency": "USD"
+          },
+          "lawMeasureIds": [
+            "starting-law:US-NE:us-policy-positions:fiscal.graduated-income-tax",
+            "starting-law:US-NE:us-policy-positions:fiscal.adopt-income-tax"
+          ]
+        },
+        {
+          "id": "statutory-tax-liability_f961fd57c680603b",
+          "payer": {
+            "kind": "person",
+            "personId": "person_5ce51aa757ace8db"
+          },
+          "sourceOutcomeId": "resource-transfer-outcome_dd6cd28841308980",
+          "amount": {
+            "minorUnits": 15581,
+            "currency": "USD"
+          },
+          "lawMeasureIds": [
+            "starting-law:US-NE:us-policy-positions:fiscal.graduated-income-tax",
+            "starting-law:US-NE:us-policy-positions:fiscal.adopt-income-tax"
+          ]
+        },
+        {
+          "id": "statutory-tax-liability_c463ff8ee7f42915",
+          "payer": {
+            "kind": "person",
+            "personId": "person_51dca9091eb852e1"
+          },
+          "sourceOutcomeId": "resource-transfer-outcome_b833288fac621793",
+          "amount": {
+            "minorUnits": 4718,
+            "currency": "USD"
+          },
+          "lawMeasureIds": [
+            "starting-law:US-NE:us-policy-positions:fiscal.graduated-income-tax",
+            "starting-law:US-NE:us-policy-positions:fiscal.adopt-income-tax"
+          ]
+        },
+        {
+          "id": "statutory-tax-liability_cabee8705df54293",
+          "payer": {
+            "kind": "person",
+            "personId": "person_3371d083018b2e9f"
+          },
+          "sourceOutcomeId": "resource-transfer-outcome_3a5843f9a8ef1fd2",
+          "amount": {
+            "minorUnits": 6940,
+            "currency": "USD"
+          },
+          "lawMeasureIds": [
+            "starting-law:US-NE:us-policy-positions:fiscal.graduated-income-tax",
+            "starting-law:US-NE:us-policy-positions:fiscal.adopt-income-tax"
+          ]
+        },
+        {
+          "id": "statutory-tax-liability_5fd31cbcbd8c5f0c",
+          "payer": {
+            "kind": "person",
+            "personId": "person_8893b386d629467a"
+          },
+          "sourceOutcomeId": "resource-transfer-outcome_acb3051cab4696f7",
+          "amount": {
+            "minorUnits": 15225,
+            "currency": "USD"
+          },
+          "lawMeasureIds": [
+            "starting-law:US-NE:us-policy-positions:fiscal.graduated-income-tax",
+            "starting-law:US-NE:us-policy-positions:fiscal.adopt-income-tax"
+          ]
+        },
+        {
+          "id": "statutory-tax-liability_c8c5aa1f62755dd1",
+          "payer": {
+            "kind": "person",
+            "personId": "person_3371cf83018b2cec"
+          },
+          "sourceOutcomeId": "resource-transfer-outcome_d18e650768567f40",
+          "amount": {
+            "minorUnits": 6678,
+            "currency": "USD"
+          },
+          "lawMeasureIds": [
+            "starting-law:US-NE:us-policy-positions:fiscal.graduated-income-tax",
+            "starting-law:US-NE:us-policy-positions:fiscal.adopt-income-tax"
+          ]
+        },
+        {
+          "id": "statutory-tax-liability_d58475896efe89d3",
+          "payer": {
+            "kind": "person",
+            "personId": "person_62704ad9d1199994"
+          },
+          "sourceOutcomeId": "resource-transfer-outcome_adba95f1d7e8e101",
+          "amount": {
+            "minorUnits": 5368,
+            "currency": "USD"
+          },
+          "lawMeasureIds": [
+            "starting-law:US-NE:us-policy-positions:fiscal.graduated-income-tax",
+            "starting-law:US-NE:us-policy-positions:fiscal.adopt-income-tax"
+          ]
+        }
+      ],
+      "payments": [
+        {
+          "id": "statutory-tax-payment_b30bc534a195dbd7",
+          "liabilityId": "statutory-tax-liability_a0d2a9053dea139d",
+          "transferId": "resource-transfer-outcome_f750201cc09d0c8f",
+          "amount": {
+            "minorUnits": 12519,
+            "currency": "USD"
+          }
+        },
+        {
+          "id": "statutory-tax-payment_199d386357cdc95d",
+          "liabilityId": "statutory-tax-liability_f961fd57c680603b",
+          "transferId": "resource-transfer-outcome_e19adbf2913ef965",
+          "amount": {
+            "minorUnits": 15581,
+            "currency": "USD"
+          }
+        },
+        {
+          "id": "statutory-tax-payment_d062716f32174c47",
+          "liabilityId": "statutory-tax-liability_c463ff8ee7f42915",
+          "transferId": "resource-transfer-outcome_348207c4c8d46467",
+          "amount": {
+            "minorUnits": 4718,
+            "currency": "USD"
+          }
+        },
+        {
+          "id": "statutory-tax-payment_914393f49e48b8f5",
+          "liabilityId": "statutory-tax-liability_cabee8705df54293",
+          "transferId": "resource-transfer-outcome_9349551ad9daffed",
+          "amount": {
+            "minorUnits": 6940,
+            "currency": "USD"
+          }
+        },
+        {
+          "id": "statutory-tax-payment_10f74fa0ea50191e",
+          "liabilityId": "statutory-tax-liability_5fd31cbcbd8c5f0c",
+          "transferId": "resource-transfer-outcome_0f4d692a3b957d10",
+          "amount": {
+            "minorUnits": 15225,
+            "currency": "USD"
+          }
+        },
+        {
+          "id": "statutory-tax-payment_d1feab2c88c102ff",
+          "liabilityId": "statutory-tax-liability_c8c5aa1f62755dd1",
+          "transferId": "resource-transfer-outcome_3c2acb9a5f8cfd6f",
+          "amount": {
+            "minorUnits": 6678,
+            "currency": "USD"
+          }
+        },
+        {
+          "id": "statutory-tax-payment_974f29c881354561",
+          "liabilityId": "statutory-tax-liability_d58475896efe89d3",
+          "transferId": "resource-transfer-outcome_a645ce6e214cc7e5",
+          "amount": {
+            "minorUnits": 5368,
+            "currency": "USD"
+          }
+        }
+      ]
+    }
+  ],
+  "historicalFailures": [
+    {
+      "source": "742aab4b34f03a9d52ff4ea024c380d93e8ba741",
+      "passed": 21,
+      "failed": 1,
+      "reason": "partial test catalog omitted schedule parameter definitions"
+    },
+    {
+      "source": "b4316d469",
+      "passed": 21,
+      "failed": 1,
+      "reason": "fixture expected superseded starting shape-law identity instead of actual operative enactment"
+    }
+  ]
+}

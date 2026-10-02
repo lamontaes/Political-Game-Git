@@ -16,6 +16,7 @@ import type {
   World,
 } from "./types";
 import { smallWorld } from "../../tests/fixtures/small-world";
+import { createProductionPolicyCatalog } from "./production-catalog";
 import { enactThroughDesk } from "../../tests/fixtures/enact-through-desk";
 import { lifePlaceStateIdentities } from "./life-places";
 import { stableHash } from "./ids";
@@ -114,17 +115,31 @@ function lawWorld(
   seed: string,
   laws: readonly ReturnType<typeof enacted>[],
 ): World {
+  const catalog = createProductionPolicyCatalog();
+  const adopted = Object.values(catalog.propositions).find(
+    (row) => row.stableKey === ADOPT_STATE_INCOME_TAX_QUESTION,
+  )!;
+  const graduated = Object.values(catalog.propositions).find(
+    (row) => row.stableKey === GRADUATED_STATE_INCOME_TAX_QUESTION,
+  )!;
+  const otherPropositions = Object.fromEntries(
+    Object.entries(catalog.propositions).filter(
+      ([id]) => id !== adopted.id && id !== graduated.id,
+    ),
+  );
   return {
     seed,
     currentDate: makeIsoDate("2027-06-01"),
     jurisdictions: {},
     policyCatalog: {
+      ...catalog,
+      propositionOrder: catalog.propositionOrder.map((id) =>
+        id === adopted.id ? ADOPT : id === graduated.id ? GRADUATED : id,
+      ),
       propositions: {
-        [ADOPT]: { id: ADOPT, stableKey: ADOPT_STATE_INCOME_TAX_QUESTION },
-        [GRADUATED]: {
-          id: GRADUATED,
-          stableKey: GRADUATED_STATE_INCOME_TAX_QUESTION,
-        },
+        ...otherPropositions,
+        [ADOPT]: { ...adopted, id: ADOPT },
+        [GRADUATED]: { ...graduated, id: GRADUATED },
       },
     },
     history: {
@@ -487,7 +502,7 @@ describe("A22 adopted numeric terms reach the existing paycheck writer", () => {
 });
 
 describe("a state's income tax law, as enacted in play", () => {
-  it("keeps sourced schedules and admits a flat starting law's recorded terms", () => {
+  it("keeps sourced schedules and admits flat and graduated starting terms", () => {
     for (const key of ["US-WA"])
       expect(
         stateIncomeTaxUnderLaw(lawWorld("s", []), key, "single", paid),
@@ -638,14 +653,29 @@ describe("a state's income tax law, as enacted in play", () => {
     ).toEqual(
       stateIncomeTaxUnderLaw(lawWorld("s", []), "US-CO", "single", paid),
     );
-    // A "yes" on the shape of a state that is already graduated changes
-    // nothing.
+    // A new "yes" keeps the existing graduated amounts and records the
+    // operative shape law, rather than carrying its superseded starting ID.
     const oregon = enacted(stateId("US-OR"), GRADUATED, "yes", "2027-01-01");
-    expect(
-      stateIncomeTaxUnderLaw(lawWorld("s", [oregon]), "US-OR", "single", paid),
-    ).toEqual(
-      stateIncomeTaxUnderLaw(lawWorld("s", []), "US-OR", "single", paid),
+    const continued = stateIncomeTaxUnderLaw(
+      lawWorld("s", [oregon]),
+      "US-OR",
+      "single",
+      paid,
     );
+    const begun = stateIncomeTaxUnderLaw(
+      lawWorld("s", []),
+      "US-OR",
+      "single",
+      paid,
+    );
+    if (continued.kind !== "enacted" || begun.kind !== "enacted")
+      throw new Error("Recorded Oregon schedule missing");
+    expect(continued.shape).toBe(begun.shape);
+    expect(continued.schedule).toEqual(begun.schedule);
+    expect(continued.lawMeasureIds).toEqual([
+      `starting-law:US-OR:${ADOPT_STATE_INCOME_TAX_QUESTION}`,
+      oregon.measure.id,
+    ]);
   });
 
   it("doubles a joint return's brackets and deduction, and says so", () => {
