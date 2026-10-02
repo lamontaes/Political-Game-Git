@@ -1,11 +1,9 @@
 import { beforeAll, describe, expect, it } from "vitest";
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
-import { passOrdinaryDays } from "../../presentation/ordinary-life";
-import { searchLifePlaces } from "../index";
+import { smallWorld } from "../../../tests/fixtures/small-world";
+import { advanceWorld } from "../world";
+import { createCampaignElectionTransitionRegistry } from "../campaigns";
+import { ensureMacroEconomyStarted } from "./producer";
+import { startValuesFromLatents } from "./kernel";
 import {
   createResourceFlow,
   money,
@@ -26,7 +24,10 @@ import {
 } from "../world-metrics";
 import { monthStart, monthEnd, monthKeyOf } from "./store";
 import { simulationMomentOnLocalDate } from "../dates";
-import { lifePlaceStateIdentities } from "../life-places";
+import {
+  lifePlaceStateIdentities,
+  stateJurisdictionForKey,
+} from "../life-places";
 import { SeededRng, pickDistinct } from "../rng";
 
 // Controlled aggregate-income fixture, not a simulation policy or coverage claim.
@@ -37,28 +38,35 @@ let opening: World;
 let home: EntityId;
 let playerId: EntityId;
 
-// Existing opening/clock integration assertions retained; place sampled from all 56.
+// The consumer needs saved transfers and the canonical monthly macro clock,
+// not an unrelated age-40 generated biography or the ordinary-life UI loop.
+const registry = createCampaignElectionTransitionRegistry();
+const passOrdinaryDays = (world: World, days: number) =>
+  advanceWorld(world, days, registry);
 beforeAll(() => {
-  const place = searchLifePlaces("", 1, {
-    stateJurisdictionKey: pickDistinct(
-      new SeededRng("public-money-origins"),
-      lifePlaceStateIdentities(),
-      1,
-    )[0]!.jurisdictionKey,
-    scope: "locality",
-  })[0]!;
-  const game = generateOpeningLife(
-    prepareOpeningLife({
-      ...DEFAULT_NEW_GAME_SETUP,
-      seed: "public-money-origins",
-      placeKey: place.key,
-      startAge: 40,
-      questionnaire: "skipped" as const,
-    }),
-  ).game!;
-  opening = game.world;
-  playerId = game.playerPersonId;
-  home = opening.people[playerId]!.homeJurisdictionId;
+  const place = pickDistinct(
+    new SeededRng("public-money-origins"),
+    lifePlaceStateIdentities(),
+    1,
+  )[0]!;
+  const small = smallWorld({
+    place: place.jurisdictionKey,
+    seed: "public-money-origins",
+    date: "2026-01-31",
+  });
+  opening = small.world;
+  playerId = small.personId;
+  home = stateJurisdictionForKey(place.jurisdictionKey)!.id;
+  const latents = { cycle: 0, cost: 0, housing: 0, credit: 0 };
+  opening = ensureMacroEconomyStarted(opening, {
+    contractVersion: "crunch46-macro-start/v1",
+    policyVersion: "crunch46-provisional-v1",
+    regime: "near-reference",
+    volatilityScale: 0,
+    latents,
+    initial: startValuesFromLatents("near-reference", latents),
+    effectiveDate: opening.currentDate,
+  });
   // Anchor this controlled integration fixture at month end: the canonical
   // writer cannot admit a completed month's aggregate income before then.
   const month = monthKeyOf(opening.currentDate);
