@@ -1,3 +1,5 @@
+import { fixtureMeetsRecordedCandidacyAge } from "../../tests/fixtures/candidacy-age";
+import { smallWorld } from "../../tests/fixtures/small-world";
 import { describe, expect, it, vi } from "vitest";
 import * as decisionEngine from "./decisions";
 
@@ -5,11 +7,6 @@ import {
   fileForOffice,
   namedSeatForFixture,
 } from "../../tests/fixtures/campaign-fixture";
-import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../presentation/opening-life";
 import { passOrdinaryDays } from "../presentation/ordinary-life";
 import { declineVenueActivity } from "../presentation/scheduled-activity-choice";
 import {
@@ -42,10 +39,13 @@ import {
   campaignTreasuryPosition,
 } from "./campaign-queries";
 import { createCampaignElectionTransitionRegistry } from "./campaigns";
+import { latestSupportState } from "./campaign-support";
+import { searchLifePlaces, lifePlaceStateIdentities } from "./life-places";
+import { SeededRng } from "./rng";
 import { canonicalJson } from "./canonical-json";
 import { favorRecords } from "./favors";
 import { campaignCompliancePackFor } from "./campaign-compliance";
-import { GAME_ADULT_CANDIDACY_AGE, candidacyPackById } from "./candidacy-packs";
+import { candidacyPackById } from "./candidacy-packs";
 import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
 import {
   advanceWorld,
@@ -56,6 +56,7 @@ import {
 } from "./index";
 import {
   addDays,
+  addSimulationMinutes,
   ageOnDate,
   compareSimulationMoments,
   simulationMomentAtLocalTime,
@@ -63,12 +64,14 @@ import {
 import { publicPartyAffiliation } from "./living-world/congress";
 import {
   CHAPTER_MEMBERSHIP_KIND,
+  ensureHomePartyChapters,
   homePartyChapters,
 } from "./living-world/party-chapters";
 import { resourcePositionAt } from "./resource-queries";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import {
   createScheduledActivity,
+  cancelScheduledActivity,
   performScheduledActivity,
   scheduledActivityState,
 } from "./time-work";
@@ -89,18 +92,24 @@ function adultLife(seed: string, placeKey = "kentucky"): Life {
   const cacheKey = `${seed}|${placeKey}`;
   const cached = lifeCache.get(cacheKey);
   if (cached) return cached;
-  const game = generateOpeningLife(
-    prepareOpeningLife({
-      ...DEFAULT_NEW_GAME_SETUP,
-      seed,
-      startAge: 34,
-      placeKey,
-    }),
-  ).game!;
-  const chapter = homePartyChapters(game.world)[0]!;
+  const fixture = smallWorld({
+    place: placeKey,
+    seed,
+    people: 4,
+    household: true,
+    offices: ["congress"],
+  });
+  let world = fixture.world;
+  const personId = world.personOrder.find(
+    (id) => ageOnDate(world.people[id]!.birthDate, world.currentDate) >= 30,
+  )!;
+  if (!personId) throw new Error("Activity fixture needs a recorded adult.");
+  world = { ...world, control: { kind: "person", personId } };
+  world = ensureHomePartyChapters(world, personId);
+  const chapter = homePartyChapters(world)[0]!;
   const life = {
-    world: game.world,
-    personId: game.playerPersonId,
+    world,
+    personId,
     chapterId: chapter.organizationId,
     organizerId: chapter.organizerPersonId!,
   };
@@ -265,10 +274,8 @@ function staffedKentuckyCampaign(seed: string, advanceDays: number) {
     peopleCount: 6,
   });
   const scenario = advanceWorld(created, advanceDays);
-  const adults = scenario.personOrder.filter(
-    (id) =>
-      ageOnDate(scenario.people[id]!.birthDate, scenario.currentDate) >=
-      GAME_ADULT_CANDIDACY_AGE,
+  const adults = scenario.personOrder.filter((id) =>
+    fixtureMeetsRecordedCandidacyAge(scenario, id),
   );
   const candidatePersonId = adults[0]!;
   const staffPersonId = adults[1]!;
@@ -322,6 +329,195 @@ describe(
   "CRUNCH46 CAMPAIGN party and campaign activities",
   { timeout: 600_000 },
   () => {
+    it("A122 uses only the completed roster and hours, independent of the seed", () => {
+      const places = lifePlaceStateIdentities();
+      expect(places).toHaveLength(56);
+      const seed = "a122-recorded-fieldwork";
+      const state = new SeededRng(seed).pick(places);
+      const place = searchLifePlaces("", 1, {
+        stateJurisdictionKey: `US-${state.usps}`,
+        scope: "locality",
+      })[0]!;
+      console.info(`A122 place=${place.displayName} seed=${seed}`);
+      const life = withCampaign(adultLife(seed, place.key));
+      const campaign = activeCampaignForCandidate(life.world, life.personId)!;
+      const extraPersonId = Object.keys(life.world.people).find(
+        (id) => id !== life.personId && id !== life.organizerId,
+      ) as EntityId;
+      const complete = (minutes: number, extra: boolean) => {
+        let world = offer(
+          life,
+          life.world,
+          "phone-shift",
+          evening(life.world, 1, 19 * 60),
+          "test:a122:recorded",
+          { campaignId: campaign.id, origin: "subject-request" },
+        );
+        const record = latestRecord(world);
+        const hold = world.history.scheduledActivities.find(
+          (row) => row.id === record.scheduledActivityId,
+        )!;
+        const timing = scheduledActivityState(world, hold.id);
+        world = cancelScheduledActivity(world, hold.id);
+        world = createScheduledActivity(world, {
+          stableKey: "test:a122:recorded-crew",
+          title: hold.title,
+          summary: hold.summary,
+          kind: "confirmed",
+          start: timing.start,
+          end: addSimulationMinutes(timing.start, minutes),
+          participantPersonIds: [
+            life.personId,
+            life.organizerId,
+            ...(extra ? [extraPersonId] : []),
+          ],
+          responsiblePersonId: life.personId,
+          location: hold.location,
+          sourceEntityIds: hold.sourceEntityIds,
+          flexibility: hold.flexibility,
+          access: hold.access,
+        });
+        const id = world.history.scheduledActivities.at(-1)!.id;
+        return { world: liveThrough(world, life.personId, id), id };
+      };
+      const base = complete(30, false);
+      const crew = complete(30, true);
+      const longer = complete(60, false);
+      const record = (input: typeof base, seedOverride?: string) => {
+        const fork = SeededRng.prototype.fork;
+        const spy = seedOverride
+          ? vi
+              .spyOn(SeededRng.prototype, "fork")
+              .mockImplementation(function (key) {
+                return fork.call(new SeededRng(seedOverride), key);
+              })
+          : null;
+        try {
+          return recordCampaignLifeAttendance(
+            input.world,
+            life.personId,
+            input.id,
+            "attended",
+          );
+        } finally {
+          spy?.mockRestore();
+        }
+      };
+      const done = record(base);
+      const outcome = campaignLifeOutcomeRecords(done).at(-1)!;
+      expect(Object.keys(done.people)).toEqual(Object.keys(base.world.people));
+      expect(outcome.contactPersonIds).toEqual([life.organizerId]);
+      expect(outcome.fieldReach?.volunteerEquivalentMinutes).toBe(60);
+      const differentSeed = record(base, "a122-same-records-other-seed");
+      expect(campaignLifeOutcomeRecords(differentSeed).at(-1)).toEqual(outcome);
+      expect(differentSeed.history.futureDueItems.at(-1)?.dueAt).toBe(
+        done.history.futureDueItems.at(-1)?.dueAt,
+      );
+      expect(
+        recordCampaignLifeAttendance(done, life.personId, base.id, "attended"),
+      ).toBe(done);
+      const condensed = recordCampaignLifeAttendance(
+        base.world,
+        life.personId,
+        base.id,
+        "condensed",
+      );
+      expect(campaignLifeOutcomeRecords(condensed).at(-1)?.fieldReach).toEqual(
+        outcome.fieldReach,
+      );
+      const crewDone = record(crew);
+      expect(
+        new Set(campaignLifeOutcomeRecords(crewDone).at(-1)!.contactPersonIds),
+      ).toEqual(new Set([life.organizerId, extraPersonId]));
+      expect(
+        campaignLifeOutcomeRecords(crewDone).at(-1)!.fieldReach
+          ?.volunteerEquivalentMinutes,
+      ).toBe(90);
+      const share = (world: World) => {
+        const scope = campaign.candidateSupportScopes.find(
+          (row) => row.candidatePersonId === life.personId,
+        )!;
+        const state = latestSupportState(world, campaign, scope)!;
+        if (state.value.kind !== "quantity")
+          throw new Error("Expected recorded share.");
+        return (
+          state.value.quantity.numerator / state.value.quantity.denominator
+        );
+      };
+      expect(share(crewDone)).toBeGreaterThan(share(done));
+      expect(share(record(longer))).toBeGreaterThan(share(done));
+      const saved = deserializeWorld(serializeWorld(base.world));
+      expect(
+        campaignLifeOutcomeRecords(
+          recordCampaignLifeAttendance(
+            saved,
+            life.personId,
+            base.id,
+            "attended",
+          ),
+        ).at(-1),
+      ).toEqual(outcome);
+    });
+
+    it("A122 outreach follows recorded free hours, including a fully booked window", () => {
+      const life = adultLife("life-a");
+      const scheduled = ensureCampaignLifeOutreach(
+        life.world,
+        life.personId,
+        life.chapterId,
+      );
+      const first = scheduled.history.futureDueItems.at(-1)!;
+      expect(first.dueAt).toBe(addDays(life.world.currentDate, 1));
+      let busy = createScheduledActivity(life.world, {
+        stableKey: "test:a122:host-booked",
+        title: "Recorded organizer commitment",
+        summary: "Booked hours.",
+        kind: "confirmed",
+        start: evening(life.world, 1, 0),
+        end: evening(life.world, 20, 21 * 60),
+        participantPersonIds: [life.organizerId],
+        responsiblePersonId: life.organizerId,
+        location: {
+          locationKey: "ordinary-life:meeting-room",
+          label: "Community room",
+          jurisdictionId:
+            life.world.people[life.organizerId]!.homeJurisdictionId,
+        },
+        sourceEntityIds: [life.chapterId],
+        flexibility: { kind: "fixed" },
+        access: { kind: "private", personIds: [life.organizerId] },
+      });
+      busy = ensureCampaignLifeOutreach(busy, life.personId, life.chapterId);
+      const next = busy.history.futureDueItems.at(-1)!;
+      expect(next.dueAt).toBe(addDays(life.world.currentDate, 21));
+      expect(
+        ensureCampaignLifeOutreach(busy, life.personId, life.chapterId),
+      ).toBe(busy);
+      const result = campaignLifeOutreachTransitionHandler(busy, next);
+      expect(result.world.history.futureDueItems.at(-1)!.dueAt).toBe(
+        next.dueAt,
+      );
+      const fork = SeededRng.prototype.fork;
+      const spy = vi
+        .spyOn(SeededRng.prototype, "fork")
+        .mockImplementation(function (key) {
+          return fork.call(new SeededRng("a122-calendar-other-seed"), key);
+        });
+      let changedSeed: World;
+      try {
+        changedSeed = ensureCampaignLifeOutreach(
+          life.world,
+          life.personId,
+          life.chapterId,
+        );
+      } finally {
+        spy.mockRestore();
+      }
+      expect(changedSeed.history.futureDueItems.at(-1)!.dueAt).toBe(
+        first.dueAt,
+      );
+    });
+
     it("offers, accepts and attends a canvass with persistent people", () => {
       const life = adultLife("life-a");
       const offered = offer(
@@ -392,13 +588,11 @@ describe(
       expect(event.participants.map((p) => p.role)).toEqual([
         "presence:participant",
         "presence:participant",
-        "presence:participant",
       ]);
       const interactions = done.history.relationshipInteractions.filter((r) =>
         outcome.relationshipInteractionIds.includes(r.id),
       );
       expect(interactions.map((r) => [r.kind, r.change])).toEqual([
-        [CAMPAIGN_LIFE_CONTACT_KIND, "formed"],
         [CAMPAIGN_LIFE_CONTACT_KIND, "formed"],
       ]);
       expect(
@@ -549,8 +743,6 @@ describe(
         secondOutcome.relationshipInteractionIds.includes(r.id),
       );
       expect(interactions.map((r) => [r.kind, r.change])).toEqual([
-        [CAMPAIGN_LIFE_CONTACT_KIND, "maintained"],
-        [CAMPAIGN_LIFE_RECURRING_CONTACT_KIND, "strengthened"],
         [CAMPAIGN_LIFE_CONTACT_KIND, "maintained"],
         [CAMPAIGN_LIFE_RECURRING_CONTACT_KIND, "strengthened"],
       ]);
@@ -984,7 +1176,7 @@ describe(
       expect(outcome.fieldReach).toMatchObject({
         profileVersion: "research1-wave2-v1",
         estimatedDoorKnocks: null,
-        estimatedCompletedConversations: { min: 4, max: 12 },
+        estimatedCompletedConversations: { min: 9, max: 24 },
       });
       expect(outcome.supportStateIds).toHaveLength(
         campaign.candidateSupportScopes.length,

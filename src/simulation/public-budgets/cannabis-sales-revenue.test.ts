@@ -10,7 +10,7 @@ import {
 import { SeededRng } from "../rng";
 import type { EntityId, World } from "../types";
 import { cannabisSalesRevenueChange } from "./cannabis-sales-revenue";
-import { CANNABIS_TAX_PER_RESIDENT } from "./cannabis-sales-tax";
+import { CANNABIS_TAX_EFFECT } from "./rules";
 import { settleGovernmentMonth, type MonthFlows } from "./month";
 import { firstOfNextMonth } from "./fiscal";
 import {
@@ -111,7 +111,8 @@ describe("cannabis revenue reads amounts independently of the opening tax base",
       cannabisSalesRevenueChange(world, government, makeIsoDate("2027-02-28")),
     ).toEqual({
       reason: "sales-legalized",
-      annualRevenueDelta: CANNABIS_TAX_PER_RESIDENT * 1000,
+      annualRevenueDelta:
+        CANNABIS_TAX_EFFECT.perResidentRevenue.annualAmount * 1000,
       sourceMeasureId: "measure_0",
     });
   });
@@ -135,7 +136,8 @@ describe("cannabis revenue reads amounts independently of the opening tax base",
       ),
     ).toEqual({
       reason: "sales-ended",
-      annualRevenueDelta: -CANNABIS_TAX_PER_RESIDENT * 1000,
+      annualRevenueDelta:
+        -CANNABIS_TAX_EFFECT.perResidentRevenue.annualAmount * 1000,
       sourceMeasureId: "measure_0",
     });
   });
@@ -240,7 +242,9 @@ describe("cannabis revenue reaches a zero-base saved budget consequence", () => 
     ) as PublicBudgetGovernment;
     const at = BUDGET_SOURCES.indexOf("selectiveSalesTaxes");
     const amount = Math.round(
-      (CANNABIS_TAX_PER_RESIDENT * initial.population) / 12,
+      (CANNABIS_TAX_EFFECT.perResidentRevenue.annualAmount *
+        initial.population) /
+        12,
     );
     console.info(
       JSON.stringify({

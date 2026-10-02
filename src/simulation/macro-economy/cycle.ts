@@ -11,15 +11,13 @@
  * running, it records that the recession ended.
  *
  * Every counted cause is cited: the rate decisions and shock origins by
- * their event ids (`cause-event:` tags), and the whole chain as a causal
- * process (`causal-effects.ts`) whose sources are those events.
+ * their event ids (`cause-event:` tags) on the canonical onset event.
  *
  * The three-month reading is a GAME DEFINITION for the record, close to how
  * the World Baseline counts recessions; it is not the National Bureau of
  * Economic Research's dating method.
  */
 
-import { recordCausalProcess } from "../causal-effects";
 import type { EntityId, World } from "../types";
 import { recordWorldEvent } from "../world";
 import { MACRO_CREDIT_POLICY, type MacroGrowthDrivers } from "./credit";
@@ -225,7 +223,7 @@ function recordOnset(
       `${failures.length} bank${failures.length === 1 ? "" : "s"} failed in these months.`,
     );
 
-  let next = recordWorldEvent(world, {
+  const next = recordWorldEvent(world, {
     stableKey: `${CYCLE_RECORD_VERSION}:began:${first}`,
     type: RECESSION_BEGAN_EVENT,
     occurredAt: world.currentDate,
@@ -250,15 +248,6 @@ function recordOnset(
     context: CONTEXT,
   });
   const eventId = next.history.events.at(-1)!.id;
-  next = recordCausalProcess(next, {
-    stableKey: `${CYCLE_RECORD_VERSION}:began:${first}:chain`,
-    kind: "economy:recession-onset",
-    effectiveAt: next.currentDate,
-    recordedAt: next.currentDate,
-    sourceEntityIds: [eventId, ...cited],
-    parentCausalIds: [],
-    provenance: { kind: "simulated", sourceEntityIds: [eventId, ...cited] },
-  });
   return {
     ...next,
     macroEconomy: {

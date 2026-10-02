@@ -180,6 +180,7 @@ function peerDecisionFixture(equalMeans = false, base = choiceBase) {
   const fixture = sourcedChoice(1, world);
   return {
     ...fixture,
+    ownContext: fixture.context,
     context: {
       ...fixture.context,
       stableKey: "item12:actor",
@@ -269,7 +270,7 @@ describe("A124 A126 exact current-game peer estimates in the decision engine", (
 
   it("keeps the actor's separated reasons ahead of the donor cohort", () => {
     const fixture = peerDecisionFixture();
-    const own = sourcedChoice(1, fixture.world);
+    const own = { ...fixture, context: fixture.ownContext };
     const result = evaluateDecision(own.world, {
       ...fixture.context,
       cutoff: currentHistoricalCutoff(own.world),
@@ -282,9 +283,22 @@ describe("A124 A126 exact current-game peer estimates in the decision engine", (
     expect(result.context.peerEstimates).toBeUndefined();
   });
 
+  it("keeps equal recorded actor reasons undecided despite unequal peer means", () => {
+    const fixture = peerDecisionFixture();
+    const result = evaluateDecision(fixture.world, {
+      ...fixture.context,
+      considerations: fixture.ownContext.considerations,
+    });
+    expectUndecided(result);
+    expect(result.context.peerEstimates).toBeUndefined();
+    assertWorldIntegrityFully(
+      recordDurableDecisionTrace(fixture.world, result),
+    );
+  });
+
   it("keeps the actor's last eligible recorded choice ahead of the donor cohort", () => {
     const fixture = peerDecisionFixture();
-    const own = sourcedChoice(1, fixture.world);
+    const own = { ...fixture, context: fixture.ownContext };
     const saved = saveSelectedWait(own, fixture.context.decisionType);
     const result = evaluateDecision(saved, {
       ...fixture.context,

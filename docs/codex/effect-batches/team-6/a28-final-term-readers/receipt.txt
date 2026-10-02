@@ -1,0 +1,123 @@
+CTO11:22 FINAL REPAIR RECEIPT (supersedes earlier publication)
+All three nationwide tests now read final adopted annual-dollar terms, not
+removed historical constants. Defense treasury uses actual saved annual
+base/12 and adopted target, retaining positive amount, measure/stamp/replay
+and all farm no-invented-savings guards. Shared canonical category arrays
+are extracted unchanged with existing treasury exports preserved, avoiding
+an observed circular import; readers select named categories. Aid factor
+uses adopted offset / complete recorded annual total; missing bases cannot
+produce an invented cut. No defense contracts multiplier or growth ramp.
+
+COMPLETE changed five-file native run35/35PASS25.79s,1.21s bodies,
+session65957exit0,stocklimits/oneworker. Files:
+src/simulation/federal-final-bill-terms.test.ts
+src/simulation/public-budgets/federal-treasury.test.ts
+tests/nationwide/federal-defense-spending-law.test.ts
+tests/nationwide/federal-outlay-laws.test.ts
+tests/nationwide/federal-passenger-rail-law.test.ts
+Actual production NEW GAME seedteam6-a28-final-bill-new-game-20261002,
+randomplace4707860,playerperson_245d88c1871cba1b,date2026-01-05.
+Strict11changedroots1057importedfiles0diagnostics,16582exit0.
+11-file ESLint/PrettierPASS,whitespacePASS; release renewed at publication.
+Pinnedmainf65A285/11 -> branch11/11,rulecoveragePART ONLY; no rules edited.
+Owner approved cloudstorage override used; no fullsuite,unchangedLOAD,
+repo-wide types or officialClaudeGATE. Actual farm recipient/payment
+producer and rail-service/dollarGDP conversions remain unproved.
+Positive defense forecast attribution is not completed payment evidence.
+Root2007 exact21eed consumer retirement received; its farmguards preserved.
+
+Historical failures retained: initial sentback5TS2305 in3nationwide tests;
+firstnew4files26/26PASS but8roottypes2optionalfixtureaccess errors corrected.
+First five-file integration34PASS1FAIL25.19s: positive defense amount was
+correct but stamp absent. Exact record omitted questionKey from a category
+import cycle; extraction fixed it without weakening any amount/stamp guard.
+Final35/35 receipt above is the renewed result, not the earlier15/15 result.
+
+FINAL CHILD RECEIVING RESULT
+Published root2007 consumer-retirement21eedbdd296900e57d1a7d13305642096286403d
+received additively as13b3f5613e6f68c315f2784f13b99407e3076990.
+Source search src/tests found only owncompat export after receiving deletion;
+removed export + now-unused farmData import. No new runtimeproducer or amount.
+Complete child changed federal-final-bill-terms.test.ts15/15PASS14.33s,
+11msbodies,80796exit0; scoped5roots1005files0,25431exit0. Lint/formatPASS.
+A28 pinned mainf65 5/11 -> finalbranch11/11, coverage PART ONLY.
+No final-auditFAIL checks; not whole-A28/game-service closure. Parentroot2007
+changed federal-treasury.test.ts assignedMerge, not duplicated in child check.
+Parent2007 remains dependency until independently merged; no selfmerge.
+Root actual A15 farm payment/eligible-recipient producer remains unfinished.
+Release transition checked against exactroot21eed parent in PR publication.
+Earlier10/11/compatibilitypending receipt is historical below.
+
+A28 final adopted federal terms — receiving checkpoint
+Donor95a51d183bc5ca2225655ef907ec4a2cc3e08c43 from health owner.
+Four source readers + existing changedtest + release preserved exactly.
+Current-mainf65aabb351062163088f78784d436642ce1af0b9 received without
+conflict as9604bd7ed782573ae0e1fba0224dbef2de4af5fd. No original source
+semantics changed during receiving. Root archived treasury/A15 untouched.
+
+Complete changed federal-final-bill-terms.test.ts15/15PASS15.12seconds,
+13ms bodies,28317exit0; one worker/stocklimits. Owner cloudstorage override
+used. Health original15/15PASS12.23s remains separate reported evidence.
+Strict5changedroots1006importedfiles0diagnostics,9158exit0.
+Five-file ESLintPASS, six-filePrettierPASS, parent-range whitespacePASS.
+Exact release transition recorded in PR publication.
+
+AUDIT A28 currentmain5/11 -> branch10/11 (coverage part).
+Five flipped checks: adopted debt offset and foreign-aid amount replace
+historical deal amounts; defense removes research growth ramp and reads
+final adopted terms; rail removes the old ridership projection.
+One remaining check: farmData.typicalCut.share compatibility export.
+Root owns archived treasury consumer/A15, and has NOT released that seam.
+Do not remove/rename the export or count this as full A28 completion.
+No audit rules changed. Current-main/branch scans performed once for
+receiving; no fullsuite/unchangedLOAD/globaltypes or officialClaudeGATE.
+
+Survivor: federalLawAmountAt -> existing dated lawInForce and final adopted
+numeric term query, including starting terms. Catalog annual dollars:
+debt offset; foreignaid/defense/rail appropriation; farm per-recipient cap.
+Defense requires actual complete contiguous12month saved spending base.
+Missing recipients/payments, dollarGDP, state allocation or rail delivery
+conversion remain unsupported. Funding is not delivered riders or service
+hours. No new account/payment writer, research rates or forecast outcome.
+Root A15 financial producer receives capDollarsPerRecipient and lawMeasureId;
+cutShare remains null with no actual aggregate recipient-payment basis.
+
+A28 aid/debt/rail/deficit repair, October 2, 2026, current-main intake f379be952 at local75b7481.
+Latest complete changed files: 6/6, 42/42 PASS, 50.55s, session21107 exit0, stock one-worker limits.
+Files: federal-final-bill-terms.test.ts16; public-budgets/federal-treasury.test.ts9; nationwide/federal-outlay-laws.test.ts9 (Team9 donor373d6c9); federal-cost-ledger.test.ts1; nationwide/federal-defense-spending-law.test.ts4; nationwide/federal-passenger-rail-law.test.ts3.
+Command: OCD_STORAGE_OVERRIDE='Owner approved cloud storage-reserve bypass 2026-10-02' node scripts/storage/cli.mjs run test -- npx vitest run <six files above> --maxWorkers=1.
+Scoped types13roots1227deps0; no repository-wide typecheck.
+Random new production game in changed test: seed team6-a28-final-bill-new-game-20261002, drawn4707860, playerperson_245d88c1871cba1b, Jan5,2026.
+Rail adopted annual150000dollars -> existing recordAdoptedAppropriation -> actual controlled receipt -> actual100000dollar installment -> same saved federal account and rail paid-outlay ledger; no fictional delivery claimed. Replay and saved-ledger reload assertions retained.
+AUDIT A28 pinnedmainf379be9525/11 -> branch11/11, PARTLY. Static rule flips unchanged from prior successful repair; actual foreign-aid/offset/rail execution now added.
+Preserved failures: first aid/debt24P1F incorrectly asserted stamp.measureId instead of governingLawKey; six-file41P1F fixture tried duplicate government; rail fixture next refused second liquid position; actual rail authority initially saved under generic appropriations:us instead of existing passenger-rail:us; next exact cash assertion exposed missing fixture receipt call. All repaired without weakening money/stamp/replay assertions or increasing limits.
+Farm: no new farm edits; whole reader donor7a0b/blob425b659d332fc58582cb1a5a8df3f30ee5d41f67 released to Team1 #2007. Parent not merged at publication preparation. No self-merge, nationwide natural passage/service/browser/official Claude gate NOT RUN.
+
+Farm receiving, October 2, 2026, after CTO12:21 passed A28 and joint-land ruling.
+Resolved source receiving head8a4d11c90ff0a9d061d6ec1948a11ca38f1090e2; parentsae53d8c29efafe004e0d3a1a71a35abdaa918a7a + affd94102ac27e292ed817c2ff0724503207d503.
+Only conflict: federal-farm-subsidy-law.ts resolved to exact Team9blob686d7fe05f3aeca78920b33acbad2e5c078e3033. Treasury retained all A28 adopted aid/debt/defense/rail code; exact donor delta is one farm→agriculture classification insertion. No duplicate farm producer/test.
+Complete7changedfiles44/44PASS85.79s, session65298 terminal0; prior6 A28 files42cases + federal-farm-payments.test.ts2. Command uses same owner-approved cloud override/storage guard/Vitest maxWorkers1, stock limits.
+Scoped18roots1230deps0/session89523terminal0; receiving-file ESLint/Prettier PASS; whitespace PASS.
+Actual new random production game again drawn4707860, playerperson_245d88c1871cba1b, Jan5,2026, seedteam6-a28-final-bill-new-game-20261002.
+AUDIT branch A2811/11PARTLY preserved; pinnedmainf3795/11 baseline remains historical source, not a new current-main scan. Receiving release check uses actual dependency affd941→HEAD.
+Farm2007 must LAND first; new1997 receiving head requires renewed CTO gate. No PR/main merge, no full suite, browser, new outside scope or official Claude gate run by T6. All source refs, historical failures, and untracked batch08 preserved.
+
+Landed-main receiving renewal, October 2, 2026.
+Farm #2007 merged17:12:02Z as1076b62eabc51faf14740ce7da819634a1b6a810.
+Additive receiving source58ff24c0be7ff79a5f41371daaf5d63889c9497b preserves ae53/affd/3a24 and landedmain1076; no PR/main merge by Team6.
+Actual main1076->source58ff PRdiff14paths;12changedTSroots. Farm producer/test now on main and unchanged in this PR, excluded from renewed run. Earlier70/21path comparisons and farm-first hold are historical.
+Complete six changed files42/42PASS55.82s, session36352exit0, stock one worker. Files: federal-final-bill-terms.test.ts16; public-budgets/federal-treasury.test.ts9; nationwide/federal-outlay-laws.test.ts9; federal-cost-ledger.test.ts1; nationwide/federal-defense-spending-law.test.ts4; nationwide/federal-passenger-rail-law.test.ts3.
+Command: OCD_STORAGE_OVERRIDE='Owner approved cloud storage-reserve bypass 2026-10-02' node scripts/storage/cli.mjs run test -- npx vitest run <exact six files above> --maxWorkers=1.
+Scoped12roots1231deps0/session17693exit0. ESLint/Prettier/whitespacePASS/session8822exit0. Release actual1076->58ff problems[]/session32121exit0.
+Changed test opened actual new production game: seedteam6-a28-final-bill-new-game-20261002, drawnplace4707860, playerperson_245d88c1871cba1b, date2026-01-05.
+AUDIT A28 current pinnedmain1076 6/11 -> branch11/11; PARTLY. Five flips: fixed debt-deal amount/share absent, fixed foreign-aid amount absent, historical defense growth absent, final defense numeric reader present, historical rail ridership projection absent. No audit rules edited.
+Actual aid/debt/defense/rail controlled recorded-base/authority/payment proof retained. No new farm producer, nationwide natural passage, resident-service/browser, unchanged LOAD/fullsuite or official Claude gate. Final continuation changes receipt only; executable source identical to tested58ff. Renewed CTO core review requested; no selfmerge.
+
+CTO two-fix renewal, October 2, 2026, after SEND BACK5957769738/gate5957753458.
+Currentmain1abc4093 received additively as e6ae71775205ce356fe4dc4b6f9c51059fcb4f87 before repairs. O3 graduated/repeal test-hunk releases preserved; no edits to month/rules/public-budgets.test.ts.
+Foreign aid removed from federalAidFactor; debt offset remains. Foreign aid still sets only International Affairs from adopted annual dollars/recorded base, and its deficit link remains. Two existing assertions now require domestic-aid factor1 across all56places under foreign-aid law.
+Measured original cost fixture: opening9346people/1.825s; enactment12750people/13.763s; commitment18.709s; totalcase20.47s locally. Gate composed tree timedout twice30s; local profile PASS is not a denial of gate failure. Replaces full ordinary opening with existing smallWorld + actual Congress/executives + production metriccatalog; controlled executive signature reuses decideAtDesk. No new world/payment/calculator writer, no removed cash/metric/stamp/replay assertions, no timeout increase.
+Preserved initial reduced-fixture failures: drawRandomPlace imported from wrong module; corrected to existing tests/support/random-place. Then NPC desk trace duplicate; corrected controlled signature via existing actual-holder desk helper. No assertion waiver.
+Final complete6changedfiles42/42PASS38.61s/session81685exit0, stock one worker/30s timeout. Cost fixture stages: opening598people/878ms; enactment823people/1446ms; commitment1734ms; scheduled advance1784ms; paymentassertions1788ms; reload1830ms. Random fixture place4731000, seedfederal-public-program-outlay-metric.
+Changed production new-game case also executed: seedteam6-a28-final-bill-new-game-20261002, drawn4707860/playerperson_245d88c1871cba1b/date2026-01-05.
+Scoped12roots1228dependencies0/session97530exit0. ESLint/Prettier/whitespace and exact PR release receipts recorded at publication. AUDIT A28 pinnedmain1abc4093 6/11 -> branch11/11PARTLY; no new static flips beyond prior A28 repair. No natural nationwide passage/service, browser/unchangedLOAD/fullsuite/globaltypes or officialClaude gate claimed. Source publication requests renewed CTO exact-head gate; no selfmerge.

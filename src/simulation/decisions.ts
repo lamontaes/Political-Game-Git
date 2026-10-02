@@ -213,13 +213,21 @@ export function evaluateDecision(
       ? lastTrace.selectedOptionKey
       : null;
   if (context.peerEstimates !== undefined) {
-    if (!unresolvedBaseChoice || priorSelection !== null) {
+    if (
+      !unresolvedBaseChoice ||
+      hasAvailableConsideration ||
+      priorSelection !== null
+    ) {
       throw new Error(
         "Decision peer estimates cannot replace a recorded actor preference.",
       );
     }
     validateDecisionPeerEstimates(world, context);
-  } else if (unresolvedBaseChoice && priorSelection === null) {
+  } else if (
+    unresolvedBaseChoice &&
+    !hasAvailableConsideration &&
+    priorSelection === null
+  ) {
     const peerEstimates = currentGameDecisionPeerEstimates(world, context);
     if (peerEstimates.length > 0) context = { ...context, peerEstimates };
   }

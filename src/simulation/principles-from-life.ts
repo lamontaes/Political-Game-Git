@@ -10,7 +10,10 @@ import {
   householdMembershipsAt,
   organizationProfileAt,
 } from "./life-queries";
-import { publicPartyAffiliation } from "./living-world/congress";
+import {
+  publicPartyAffiliation,
+  seatRollEventsOf,
+} from "./living-world/congress";
 import {
   LIVING_WORLD_KEYS,
   livingWorldOrganizationId,
@@ -27,6 +30,7 @@ import type { PrincipleRecordInput } from "./history";
 import type {
   BeliefConviction,
   EntityId,
+  IsoDate,
   PoliticalFlexibility,
   PrincipleRecord,
   PrincipleStance,
@@ -297,8 +301,22 @@ export function principlePullsOf(
     ReadonlyMap<string, PrincipleStance>
   > = new Map(),
 ): readonly PrinciplePull[] {
-  const holds = (otherId: EntityId) =>
-    pending.get(otherId) ?? heldBy(latestPrinciples(world, otherId), world);
+  return lifePulls(world, personId, pending, []);
+}
+
+/** The pulls, naming in `heldFrom` every other person whose principles were read. */
+function lifePulls(
+  world: World,
+  personId: EntityId,
+  pending: ReadonlyMap<EntityId, ReadonlyMap<string, PrincipleStance>>,
+  heldFrom: EntityId[],
+): readonly PrinciplePull[] {
+  const holds = (otherId: EntityId) => {
+    heldFrom.push(otherId);
+    return (
+      pending.get(otherId) ?? heldBy(latestPrinciples(world, otherId), world)
+    );
+  };
   const person = world.people[personId];
   if (!person) return [];
   const pulls: PrinciplePull[] = [];
@@ -636,6 +654,131 @@ function note(formed: FormedPrinciple): string {
 }
 
 /**
+ * The History lists a formation reads whole. Same-day callers (every bill
+ * step, every agenda intake) re-read the same officeholders many times while
+ * none of these lists changes; `formation-inputs.test.ts` fails if formation
+ * starts reading a list missing from here or from the per-person checks below.
+ */
+export const FORMATION_HISTORY_INPUTS = [
+  "childhoodRecords",
+  "educationEnrollments",
+  "householdLocations",
+  "householdMembershipStates",
+  "householdMemberships",
+  "households",
+  "housingTenureStates",
+  "housingTenures",
+  "kinshipRelationships",
+  "organizationParticipationStates",
+  "organizationParticipations",
+  "organizationProfiles",
+  "personDeaths",
+  "personalityTendencies",
+  "relationshipInteractions",
+  "workRelationships",
+  "workRoles",
+  "workStatuses",
+] as const satisfies readonly (keyof World["history"])[];
+
+/** The other World fields a formation reads whole. */
+export const FORMATION_WORLD_INPUTS = [
+  "control",
+  "id",
+  "mindCatalog",
+  "people",
+  "policyCatalog",
+  "seed",
+  "startedAt",
+] as const satisfies readonly (keyof World)[];
+
+/**
+ * History a formation reads only for the people it concerns: principle rows
+ * (the person's own, and those of the parents and confidants it read), the
+ * crimes they suffered and their seat-roll records. `nextSequence` names a
+ * row only when one is written.
+ */
+export const FORMATION_PER_PERSON_INPUTS = [
+  "events",
+  "nextSequence",
+  "principles",
+] as const satisfies readonly (keyof World["history"])[];
+
+/** A list's length and last record: it only ever grows, by appending. */
+type ListMark = readonly [number, unknown];
+const markOf = (records: readonly unknown[]): ListMark => [
+  records.length,
+  records.at(-1),
+];
+const sameMark = (a: ListMark, b: ListMark) => a[0] === b[0] && a[1] === b[1];
+
+/** What a formation that wrote nothing for this person read, on its day. */
+interface UnchangedFormation {
+  readonly officeholders: boolean;
+  readonly inputs: readonly unknown[];
+  readonly heldFrom: readonly EntityId[];
+  readonly principles: readonly ListMark[];
+  readonly crimes: string;
+  readonly seatRoll: ListMark;
+}
+
+/**
+ * Formations that wrote nothing, for the day they were read on. Keyed by the
+ * people record, so it lasts no longer than the World it read, and holds
+ * only one day: a new day, a reloaded save or a different World reads again.
+ */
+const UNCHANGED = new WeakMap<
+  World["people"],
+  { readonly date: IsoDate; readonly byPerson: Map<string, UnchangedFormation> }
+>();
+
+function formationInputs(world: World): unknown[] {
+  return [
+    ...FORMATION_HISTORY_INPUTS.map((key) => world.history[key]),
+    ...FORMATION_WORLD_INPUTS.map((key) => world[key]),
+  ];
+}
+
+function principleMarks(
+  world: World,
+  personIds: readonly EntityId[],
+): ListMark[] {
+  return personIds.map((id) =>
+    markOf(recordsByStringField(world.history.principles, "personId", id)),
+  );
+}
+
+function crimesKey(world: World, personId: EntityId): string {
+  return crimesSufferedBy(world, personId).join(",");
+}
+
+/**
+ * Whether today's earlier formation of this person read exactly what this one
+ * would, so it would again write nothing: the same lists, the same principle
+ * rows for them and everyone whose principles it read, none of whom has
+ * changed earlier in this pass, the same crimes and the same seat roll.
+ */
+function unchangedToday(
+  entry: UnchangedFormation | undefined,
+  world: World,
+  inputs: readonly unknown[],
+  personId: EntityId,
+  officeholders: boolean,
+  changed: ReadonlySet<EntityId>,
+): boolean {
+  if (!entry || entry.officeholders !== officeholders) return false;
+  for (let at = 0; at < inputs.length; at += 1)
+    if (entry.inputs[at] !== inputs[at]) return false;
+  if (entry.heldFrom.some((id) => changed.has(id))) return false;
+  const marks = principleMarks(world, [personId, ...entry.heldFrom]);
+  if (marks.some((mark, at) => !sameMark(mark, entry.principles[at]!)))
+    return false;
+  return (
+    crimesKey(world, personId) === entry.crimes &&
+    sameMark(markOf(seatRollEventsOf(world, personId)), entry.seatRoll)
+  );
+}
+
+/**
  * Forms, or re-forms, the principles of these people from their recorded
  * lives. A person's parents are formed first, so what a child grew up with
  * exists to be read; the people they talk to are read as they stand. A row
@@ -661,6 +804,17 @@ export function formPrinciplesFromLife(
   const rows: PrincipleRecordInput[] = [];
   const pending = new Map<EntityId, ReadonlyMap<string, PrincipleStance>>();
   const done = new Set<EntityId>();
+  // People this pass writes rows for: anyone who read their principles must
+  // read them again.
+  const changed = new Set<EntityId>();
+  const officeholders = options.officeholders === true;
+  const inputs = formationInputs(world);
+  let today = UNCHANGED.get(world.people);
+  if (!today || today.date !== world.currentDate) {
+    today = { date: world.currentDate, byPerson: new Map() };
+    UNCHANGED.set(world.people, today);
+  }
+  const byPerson = today.byPerson;
   const visit = (personId: EntityId, depth: number): void => {
     if (done.has(personId) || !world.people[personId]) return;
     done.add(personId);
@@ -670,6 +824,23 @@ export function formPrinciplesFromLife(
       for (const parentId of parentsOf(world, personId))
         visit(parentId, depth + 1);
     if (personId === controlled) return;
+    const memoKey = `${officeholders}:${personId}`;
+    // Read again today with nothing it reads changed, it would write nothing
+    // again, and what it holds is already what the World records.
+    if (
+      unchangedToday(
+        byPerson.get(memoKey),
+        world,
+        inputs,
+        personId,
+        officeholders,
+        changed,
+      )
+    )
+      return;
+    byPerson.delete(memoKey);
+    const rowsBefore = rows.length;
+    const heldFrom: EntityId[] = [];
     const before = latestRows(world, personId);
     if (
       !options.officeholders &&
@@ -682,7 +853,7 @@ export function formPrinciplesFromLife(
     const formed = principlesFromPulls(
       world,
       personId,
-      principlePullsOf(world, personId, pending),
+      lifePulls(world, personId, pending, heldFrom),
       new Set(
         [...before.values()]
           .filter((row) =>
@@ -742,6 +913,18 @@ export function formPrinciplesFromLife(
       });
     }
     pending.set(personId, holds);
+    if (rows.length > rowsBefore) changed.add(personId);
+    else if (!heldFrom.some((id) => changed.has(id))) {
+      const read = [...new Set(heldFrom)];
+      byPerson.set(memoKey, {
+        officeholders,
+        inputs,
+        heldFrom: read,
+        principles: principleMarks(world, [personId, ...read]),
+        crimes: crimesKey(world, personId),
+        seatRoll: markOf(seatRollEventsOf(world, personId)),
+      });
+    }
   };
   for (const personId of new Set(personIds)) visit(personId, 0);
   // Written together: every row is checked, and the World once.

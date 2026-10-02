@@ -19,6 +19,8 @@ import { assertRulePackIntegrity, knownRule } from "./legislature-rules";
 import { KENTUCKY_RULE_PACK } from "./legislature-rule-packs";
 import {
   installMunicipalGovernment,
+  evaluateMunicipalManagerElection,
+  municipalManagerDecisionRuleSource,
   introduceMunicipalOrdinance,
   municipalSeats,
   seatMunicipalMember,
@@ -560,6 +562,58 @@ describe("rules-municipal-authority/v1", () => {
   it("applies § 15.2-1428 and City Code § 2-98 by amount and date, with no veto and no other city", () => {
     const { world, key, member, people } = charlottesville();
     const onDate = makeIsoDate("2026-03-01");
+    const compiled = municipalRulePackFor(municipalGovernmentByKey(key)!);
+    expect(compiled.ok).toBe(true);
+    if (!compiled.ok) throw new Error("Actual council rule pack required.");
+    expect(
+      compiled.pack.councilActions?.financialGeneralThresholdUsd,
+    ).toMatchObject({ kind: "known", value: 500 });
+    expect(compiled.pack.councilActions?.financialLocalRule).toMatchObject({
+      kind: "known",
+      value: {
+        operativeOn: "2026-02-02",
+        fullMembershipAboveUsd: 100,
+        delayedAboveUsd: 5000,
+        minimumInterveningDays: 3,
+      },
+    });
+    expect(municipalManagerDecisionRuleSource(key)?.source).toMatchObject({
+      citation: "Va. Code § 15.2-1420",
+      verification: "verified",
+    });
+    const managerVote = evaluateMunicipalManagerElection(world, {
+      governmentKey: key,
+      dispositions: roll(
+        municipalSeats(world, key).map((seat) => seat.personId),
+        3,
+        2,
+      ),
+    });
+    expect(managerVote.ok).toBe(true);
+    // Frozen decision boundaries from the removed caller, on this same body.
+    for (const date of ["2026-01-05", "2026-02-02", "2026-03-01"])
+      for (const amount of [0, 100, 101, 500, 501, 5000, 5001]) {
+        const result = admitCouncilAction(world, {
+          governmentKey: key,
+          actorPersonId: member,
+          kind: "APPROPRIATION",
+          amountUsd: amount,
+          onDate: makeIsoDate(date),
+        });
+        const current = date >= "2026-02-02";
+        const admitted = current || amount > 500;
+        expect(result.admitted).toBe(admitted);
+        if (result.admitted) {
+          expect(result.requiredVote.basis).toBe(
+            amount > 500 || (current && amount > 100)
+              ? "MAJORITY_OF_ALL_ELECTED_MEMBERS"
+              : "MAJORITY_PRESENT_AND_VOTING",
+          );
+          expect(result.minimumInterveningDays).toBe(
+            current && amount > 5000 ? 3 : null,
+          );
+        } else expect(result.reason).toBe("FIELD_UNKNOWN");
+      }
     const big = admitCouncilAction(world, {
       governmentKey: key,
       actorPersonId: member,

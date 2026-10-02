@@ -140,6 +140,9 @@ export function validateDecisionPeerEstimates(
     );
   if (
     leaders.length < 2 ||
+    context.considerations.some((consideration) =>
+      available.some((option) => option.key === consideration.optionKey),
+    ) ||
     (lastOwnTrace?.outcomeKind === "selected" &&
       leaders.some((option) => option.key === lastOwnTrace.selectedOptionKey))
   ) {

@@ -1936,11 +1936,8 @@ describe("Read-only developer snapshots", () => {
 });
 
 describe("MORNING23 durable appearance migration", () => {
-  it("migrates two old lives separately and persists pins on save without corrupting original reads", async () => {
-    // Two fresh lives made by today's code, each pinned to a catalog
-    // generation when it was created. No saved file is read.
-    const { store, factory } = storeWith();
-    const originals = [
+  const freshLives = (): World[] =>
+    [
       { seed: "morning23-life-a", household: "lives-alone" as const },
       { seed: "morning23-life-b", household: "shares-a-home" as const },
     ].map(
@@ -1957,6 +1954,12 @@ describe("MORNING23 durable appearance migration", () => {
           appearanceRecipeVersion: COHERENT_APPEARANCE_RECIPE_VERSION,
         }).world,
     );
+
+  it("keeps two fresh lives pinned through save and reload without corrupting original reads", async () => {
+    // Two fresh lives made by today's code, each pinned to a catalog
+    // generation when it was created. No saved file is read.
+    const { store, factory } = storeWith();
+    const originals = freshLives();
     const firstPerson = (w: World) => w.people[w.personOrder[0]!]!;
     for (const w of originals)
       expect(firstPerson(w).appearance?.catalogGeneration).toBe(2);
@@ -1990,6 +1993,62 @@ describe("MORNING23 durable appearance migration", () => {
       expect(firstPerson(loaded).appearance).toEqual(
         firstPerson(old).appearance,
       );
+      expect((await store.save(loaded, slots[i]!)).status).toBe("saved");
+      const stored = factory.records.get(slots[i]!) as { payload: string };
+      expect(deserializeWorld(stored.payload)).toEqual(loaded);
+      expect(await store.load(slots[i]!)).toEqual(loaded);
+    }
+    expect(slots[0]).not.toBe(slots[1]);
+    expect((await store.list()).saves).toHaveLength(2);
+  });
+  it("migrates two unpinned appearance saves separately and persists pins without corrupting original reads", async () => {
+    const { store, factory } = storeWith();
+    // Only the legacy missing-pin shape is authored. All unrelated world
+    // records come from today's constructor and remain validated.
+    const originals = freshLives().map((world): World => ({
+      ...world,
+      people: Object.fromEntries(
+        Object.entries(world.people).map(([id, person]) => {
+          if (!person.appearance) return [id, person];
+          const appearance = { ...person.appearance };
+          delete appearance.catalogGeneration;
+          return [id, { ...person, appearance }];
+        }),
+      ),
+    }));
+    const slots = originals.map((world) => store.newSaveId(world));
+    const firstPerson = (world: World) => world.people[world.personOrder[0]!]!;
+    expect(originals[0]!.id).not.toBe(originals[1]!.id);
+    expect(firstPerson(originals[0]!).appearance?.seed).not.toBe(
+      firstPerson(originals[1]!).appearance?.seed,
+    );
+    for (let i = 0; i < originals.length; i++) {
+      const original = originals[i]!;
+      const world: World = {
+        ...original,
+        control: { kind: "person", personId: original.personOrder[0]! },
+      };
+      expect(firstPerson(world).appearance?.recipeVersion).toBe(
+        COHERENT_APPEARANCE_RECIPE_VERSION,
+      );
+      expect(firstPerson(world).appearance?.catalogGeneration).toBeUndefined();
+      const record = createBrowserWorldRecord(
+        world,
+        "2026-05-01T10:00:00.000Z",
+        "2026-05-01T10:00:00.000Z",
+        slots[i]!,
+      );
+      factory.setRaw(slots[i]!, record);
+      expect(readStoredRecord(record).kind).toBe("healthy");
+      const loaded = (await store.load(slots[i]!))!;
+      expect(
+        (factory.records.get(slots[i]!) as { payload: string }).payload,
+      ).toBe(record.payload);
+      expect(firstPerson(loaded).appearance).toEqual({
+        ...firstPerson(world).appearance,
+        catalogGeneration: 2,
+      });
+      expect(firstPerson(world).appearance?.catalogGeneration).toBeUndefined();
       expect((await store.save(loaded, slots[i]!)).status).toBe("saved");
       const stored = factory.records.get(slots[i]!) as { payload: string };
       expect(deserializeWorld(stored.payload)).toEqual(loaded);
