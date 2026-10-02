@@ -3,7 +3,9 @@ import { writeFileSync } from "node:fs";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { addDays } from "../dates";
 import { currentLifeCutoff } from "../life-queries";
-import { lifePlaceStateIdentities } from "../life-places";
+import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
+import { placeReferencePopulation } from "../nationwide-world/place-population";
+import { juryCountyForPlace } from "./jury-catchment";
 import { courtFor } from "../judiciary/court-for";
 import {
   buildOpeningCourtCatalog,
@@ -187,6 +189,165 @@ describe("incomplete actual-person panels leave trials pending", () => {
         smallWorldPeople: opening.world.personOrder.length,
         judgeId,
         courtId: court.courtId,
+      });
+    },
+    30_000,
+  );
+});
+
+describe("small towns summon a complete estimated county jury", () => {
+  it.each(states)(
+    "tries the smallest sourced town in $jurisdictionKey",
+    (state) => {
+      const smallest = searchLifePlaces("", 50000, {
+        stateJurisdictionKey: state.jurisdictionKey,
+        scope: "locality",
+      })
+        .flatMap((place) => {
+          const population = place.sourceGeoid
+            ? placeReferencePopulation(place.sourceGeoid)?.value
+            : null;
+          return population && population > 0 ? [{ ...place, population }] : [];
+        })
+        .sort(
+          (a, b) => a.population - b.population || a.key.localeCompare(b.key),
+        )[0]!;
+      expect(smallest).toBeDefined();
+      const opening = smallWorld({
+        place: smallest.key,
+        people: 3,
+        seed: SEED,
+        date: "2026-01-01",
+      });
+      let base = buildOpeningCourtCatalog(opening.world);
+      const court = courtFor(
+        base,
+        opening.jurisdictionId,
+        "local-general-trial",
+        "criminal",
+      )!;
+      expect(court).toBeDefined();
+      const judgeId = base.personOrder.at(-1)!;
+      const seat = seatsForCourt(base, court.courtId)[0]!;
+      base = seatJudge(base, {
+        seatId: seat.seatId,
+        personId: judgeId,
+        startedAt: base.currentDate,
+        selection: {
+          path: "initial-world",
+          selectionRecordId: null,
+          decisionRecordId: null,
+          selectingPersonId: null,
+          contestId: null,
+          note: "Authored small-world court fixture; actual generated resident seated through seatJudge.",
+        },
+        termEndsAt: null,
+        retentionDueAt: null,
+      });
+      for (const item of base.history.futureDueItems)
+        if (
+          futureDueItemStateAt(base, item.id, currentLifeCutoff(base))
+            ?.status === "scheduled"
+        )
+          base = cancelFutureDueItem(base, {
+            stableKey: `a105-isolate:${item.id}`,
+            dueItemId: item.id,
+            effectiveAt: base.currentDate,
+            reasonKey: "fixture:isolated-court",
+            context:
+              "Preserve unrelated commitments while isolating this existing trial.",
+          });
+      const personId = base.personOrder[0]!;
+      const referred = referForProsecution(base, {
+        stableKey: `a105-county:${state.jurisdictionKey}`,
+        subjectPersonId: personId,
+        jurisdictionId: opening.jurisdictionId,
+        offenseKey: "crime:robbery",
+        evidence: "documentary",
+        standingFindings: 6,
+        basisEventIds: [],
+        referredBy: { kind: "police", label: "police", personId: null },
+      });
+      const chargedAt = addDays(
+        base.currentDate,
+        prosecutionTimingFor(state.jurisdictionKey).chargeDecisionDays,
+      );
+      const charged = resolveFutureDueItemsThrough(
+        referred.world,
+        chargedAt,
+        createProsecutionTransitionRegistry(),
+      );
+      const plea = enterPlea(charged, {
+        personId,
+        referralId: referred.referralId,
+        plea: "not-guilty",
+      });
+      expect(plea.ok).toBe(true);
+      const trialAt = addDays(
+        chargedAt,
+        prosecutionTimingFor(state.jurisdictionKey).resolveAfterDays,
+      );
+
+      const tried = resolveFutureDueItemsThrough(
+        plea.world,
+        trialAt,
+        createProsecutionTransitionRegistry(),
+      );
+      const trialTraces = tried.history.decisionTraces.filter(
+        (trace) =>
+          trace.context.stableKey.includes(`:trial:`) &&
+          trace.context.stableKey.includes(`:juror:`),
+      );
+      const jurors = [
+        ...new Set(trialTraces.map((trace) => trace.context.actorPersonId)),
+      ];
+      expect(jurors).toHaveLength(reasoning.UNRESEARCHED_JURY_PANEL.size);
+      const county = juryCountyForPlace(opening.jurisdictionId);
+      expect(county).not.toBeNull();
+      for (const id of jurors) {
+        expect(id).not.toBeNull();
+        expect(juryCountyForPlace(tried.people[id!]!.homeJurisdictionId)).toBe(
+          county,
+        );
+      }
+      const outcome = tried.history.events.find(
+        (event) =>
+          event.tags.includes(`justice.referral:${referred.referralId}`) &&
+          [
+            "justice.case-ended",
+            "justice.sentenced",
+            "justice.mistrial",
+          ].includes(event.type),
+      );
+      expect(outcome).toBeDefined();
+      expect(outcome!.tags).toContain(`justice.jury-catchment:${county}`);
+      expect(outcome!.tags).toContain(
+        "justice.jury-catchment-basis:estimated-county-default",
+      );
+      expect(outcome!.tags).toContain(
+        `justice.jury-panel-basis:${reasoning.UNRESEARCHED_JURY_PANEL.provenance}`,
+      );
+      expect(tried.personOrder.length).toBeGreaterThan(base.personOrder.length);
+      assertWorldIntegrity(tried);
+      const reopened = deserializeWorld(serializeWorld(tried));
+      const repeated = advanceProsecutions(reopened);
+      expect(repeated.history.events).toEqual(tried.history.events);
+      expect(repeated.personOrder).toEqual(tried.personOrder);
+      receipts.push({
+        state: state.jurisdictionKey,
+        town: smallest.key,
+        population: smallest.population,
+        county,
+        catchmentBasis: "estimated-county-catchment",
+        personId,
+        name: personName(tried.people[personId]!),
+        referralId: referred.referralId,
+        trialAt,
+        outcomeId: outcome!.id,
+        outcomeType: outcome!.type,
+        jurors,
+        panelContract: reasoning.UNRESEARCHED_JURY_PANEL,
+        generatedPeople: tried.personOrder.length - base.personOrder.length,
       });
     },
     30_000,

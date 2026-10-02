@@ -1,3 +1,4 @@
+import { livesInJuryCatchment } from "./jury-catchment";
 import { ageOnDate } from "../dates";
 import { evaluateDecision } from "../decisions";
 import { lawInForce } from "../governing/law-in-force";
@@ -205,7 +206,7 @@ export function evaluatePlea(
 // The jury.
 
 /**
- * Who may sit: living adults of the place the case is tried, and none who
+ * Who may sit: living adults of the estimated county catchment, and none who
  * know the defendant. Voir dire excuses the defendant's family, household and
  * anyone who has dealt with them, so no juror is somebody the record shows
  * they know.
@@ -224,7 +225,14 @@ export function juryPool(world: World, courtCase: CourtCase): EntityId[] {
   const pool: EntityId[] = [];
   const cutoff = currentLifeCutoff(world);
   for (const person of Object.values(world.people)) {
-    if (person.homeJurisdictionId !== courtCase.venueJurisdictionId) continue;
+    if (
+      !courtCase.venueJurisdictionId ||
+      !livesInJuryCatchment(
+        person.homeJurisdictionId,
+        courtCase.venueJurisdictionId,
+      )
+    )
+      continue;
     if (excused.has(person.id)) continue;
     if (world.control.kind === "person" && world.control.personId === person.id)
       continue;
