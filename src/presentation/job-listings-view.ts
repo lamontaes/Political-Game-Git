@@ -22,7 +22,6 @@ import { residentNameForJurisdiction } from "../simulation/life-places";
 import { workRoleAt, workStatusAt } from "../simulation/life-queries";
 import type { EntityId, World } from "../simulation/types";
 import { CAREER_SOURCE_CONTEXT } from "./career-path7-provider";
-import { nationalMedianWageSentence } from "./career-wage";
 import { proseDate } from "./prose-dates";
 
 /**
@@ -45,8 +44,8 @@ export interface JobListingView {
     readonly personId: EntityId;
     readonly label: string;
   }[];
-  /** A national median, for the optional detail only. */
-  readonly nationalMedian: string | null;
+  /** Sourced description of the recorded occupation; absent when unknown. */
+  readonly occupationDescription: string | null;
 }
 
 export type JobApplicationAction = "accept" | "refuse" | "start";
@@ -77,8 +76,8 @@ export interface JobMarketView {
   readonly heldJobs: readonly HeldJobView[];
 }
 
-/** Medians the game has on file, by the occupation a listing names. */
-const NATIONAL_MEDIAN_BY_OCCUPATION: Readonly<Record<string, string>> = {
+/** Source occupations already bound to the occupation a listing names. */
+const SOURCE_BY_OCCUPATION: Readonly<Record<string, string>> = {
   "occupation:office-clerk": "43-9061.00",
 };
 
@@ -99,14 +98,14 @@ function hoursPhrase(opening: JobOpeningRecord): string {
     : `usually ${minimumHours}–${maximumHours} hours a week`;
 }
 
-function nationalMedian(opening: JobOpeningRecord): string | null {
+function occupationDescription(opening: JobOpeningRecord): string | null {
   const code = opening.occupationClassification
-    ? NATIONAL_MEDIAN_BY_OCCUPATION[opening.occupationClassification]
+    ? SOURCE_BY_OCCUPATION[opening.occupationClassification]
     : undefined;
   const record = code
     ? CAREER_SOURCE_CONTEXT.find((row) => row.id === code)
     : undefined;
-  return record?.wage ? nationalMedianWageSentence(record.wage) : null;
+  return record?.description?.trim() || null;
 }
 
 function listingView(
@@ -142,7 +141,7 @@ function listingView(
             label: `Ask ${person.givenName} ${person.familyName} to put in a word`,
           };
         }),
-    nationalMedian: nationalMedian(opening),
+    occupationDescription: occupationDescription(opening),
   };
 }
 
