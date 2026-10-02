@@ -1,3 +1,4 @@
+import { TYPED_TAX_QUESTION_KEYS } from "./law-consequences/typed-tax-question-data";
 import { canonicalJson } from "./canonical-json";
 import {
   readFinalEnactedLawTerm,
@@ -100,7 +101,7 @@ export function bindTaxLawTerms(
     proposal.terms.legalBaselineAssumption !==
       "carry-forward-acquired-baseline-in-game" ||
     (proposal.terms.effectiveDelayDays ?? 90) !== 90 ||
-    input.questionKey !== "us-tax-terms:state.excise-tax-terms"
+    !TYPED_TAX_QUESTION_KEYS.includes(input.questionKey)
   )
     return unavailable(
       "This tax family's acquired legal-power binding is unsupported.",
