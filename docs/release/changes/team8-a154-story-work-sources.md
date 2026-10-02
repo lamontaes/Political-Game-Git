@@ -1,7 +1,6 @@
 ---
 id: team8-a154-story-work-sources
 impact: none
-title: Admit saved press records as canonical reporting work sources
 ---
 
 Canonical work items can reference earlier saved press records, subject to the
