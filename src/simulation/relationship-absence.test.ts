@@ -2,7 +2,20 @@ import { describe, expect, it } from "vitest";
 
 import { addDays } from "./dates";
 import { createDemoWorld } from "./demo";
-import { createWorld } from "./world";
+import { createWorld, recordWorldEvent } from "./world";
+import { stableHash } from "./ids";
+import {
+  PROSECUTION_SENTENCED_EVENT,
+  SENTENCE_KIND_TAG,
+  SENTENCE_MONTHS_TAG,
+} from "./justice/jail-terms";
+import { recordKinship } from "./life";
+import {
+  lifePlaceStateIdentities,
+  stateJurisdictionForKey,
+} from "./life-places";
+import { MIGRATION_MOVED_EVENT } from "./migration/contract";
+import { recordPersonDeath } from "./vitality";
 import { recordRelationshipInteraction } from "./records";
 import { deriveRelationshipSummary } from "./queries";
 import { lapseStaleProposals, proposeContact } from "./people-contact";
@@ -14,6 +27,8 @@ import {
 } from "./relationship-standing";
 import type {
   EntityId,
+  EventParticipantRole,
+  HistoricalEvent,
   IsoDate,
   Person,
   RelationshipChange,
@@ -350,5 +365,197 @@ describe("relationship absence", () => {
     for (const dimension of RELATIONSHIP_DIMENSIONS) {
       expect(after.readings[dimension].band).toBe(before[dimension].band);
     }
+  });
+});
+
+/*
+ * A142: time apart with a recorded reason is not neglect, and fading slides
+ * with the unexplained days apart. The place one of the pair moves to is
+ * drawn from all 56 by seed.
+ */
+const A142_SEED = "a142-relationship-apart";
+
+function drawnPlaceWorld(): {
+  world: World;
+  pair: readonly [EntityId, EntityId];
+  relativeId: EntityId;
+  elsewhereId: EntityId;
+  label: string;
+} {
+  const states = lifePlaceStateIdentities();
+  expect(states).toHaveLength(56);
+  const at = parseInt(stableHash(A142_SEED).slice(0, 8), 16) % states.length;
+  const elsewhere = stateJurisdictionForKey(states[at]!.jurisdictionKey)!;
+  const demo = createDemoWorld(A142_SEED);
+  const people = demo.personOrder
+    .slice(0, 3)
+    .map((id) => demo.people[id] as Person);
+  const world = createWorld({
+    seed: A142_SEED,
+    currentDate: demo.currentDate,
+    // The demo's own places stay, since its people's facts cite them.
+    jurisdictions: [
+      ...demo.jurisdictionOrder.map((id) => demo.jurisdictions[id]!),
+      elsewhere,
+    ].filter(
+      (row, index, all) =>
+        all.findIndex((other) => other.id === row.id) === index,
+    ),
+    people,
+  });
+  const [first, second, third] = world.personOrder;
+  return {
+    world,
+    pair: [first!, second!],
+    relativeId: third!,
+    elsewhereId: elsewhere.id,
+    label: `${states[at]!.jurisdictionKey}, seed ${A142_SEED}`,
+  };
+}
+
+function eventFor(
+  world: World,
+  input: {
+    stableKey: string;
+    type: HistoricalEvent["type"];
+    occurredAt: IsoDate;
+    personId: EntityId;
+    role: EventParticipantRole;
+    tags: string[];
+  },
+): World {
+  return recordWorldEvent(world, {
+    stableKey: input.stableKey,
+    type: input.type,
+    occurredAt: input.occurredAt,
+    recordedAt: world.currentDate,
+    jurisdictionId: world.people[input.personId]!.homeJurisdictionId,
+    involvedEntityIds: [input.personId],
+    participants: [
+      { personId: input.personId, role: input.role, detail: null },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: input.tags,
+    summary: "A recorded event for the absence test.",
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+}
+
+describe(`A142: a recorded reason for time apart is not neglect (${A142_SEED})`, () => {
+  it("fading slides with the days apart, without a jump", () => {
+    const { world: base, pair, label } = drawnPlaceWorld();
+    const world = longFriendship(base, pair, 5, 0);
+    let previous = 0;
+    let largestStep = 0;
+    for (let day = 0; day <= 900; day += 1) {
+      const later = { ...world, currentDate: addDays(world.currentDate, day) };
+      const { fading } = readRelationshipAbsence(later, pair[0], pair[1]);
+      expect(fading, label).toBeGreaterThanOrEqual(previous);
+      largestStep = Math.max(largestStep, fading - previous);
+      previous = fading;
+    }
+    expect(previous, label).toBe(1);
+    // A day apart moves the measure by a small step, never all at once.
+    expect(largestStep, label).toBeLessThan(0.01);
+  });
+
+  it("reads a jail term as a recorded reason, not neglect", () => {
+    const { world: base, pair, label } = drawnPlaceWorld();
+    let world = longFriendship(base, pair, 5, 2 * 365 + 10);
+    expect(readRelationshipAbsence(world, pair[0], pair[1]).currency).toBe(
+      "dormant",
+    );
+    world = eventFor(world, {
+      stableKey: "a142:sentenced",
+      type: PROSECUTION_SENTENCED_EVENT,
+      occurredAt: daysAgo(world, 2 * 365),
+      personId: pair[1],
+      role: "focus:defendant",
+      tags: [`${SENTENCE_KIND_TAG}jail`, `${SENTENCE_MONTHS_TAG}24`],
+    });
+    const absence = readRelationshipAbsence(world, pair[0], pair[1]);
+    expect(
+      absence.apartReasons.map((row) => row.kind),
+      label,
+    ).toEqual(["jailed"]);
+    expect(absence.explainedDays, label).toBeGreaterThan(700);
+    expect(absence.currency, label).toBe("current");
+  });
+
+  it("reads a death in the family as a recorded reason for a quiet spell", () => {
+    const { world: base, pair, relativeId, label } = drawnPlaceWorld();
+    let world = longFriendship(base, pair, 3, 150);
+    // With nothing recorded, five months of silence is longer than usual.
+    expect(readRelationshipAbsence(world, pair[0], pair[1]).currency).toBe(
+      "less-current",
+    );
+    world = recordKinship(world, {
+      stableKey: "a142:kin",
+      personIds: [pair[0], relativeId],
+      establishedAt: daysAgo(world, 3000),
+      kind: "lineal:parent-child",
+      provenance: { kind: "authored", note: "A142 fixture." },
+    });
+    world = recordPersonDeath(world, {
+      stableKey: "a142:death",
+      personId: relativeId,
+      diedAt: daysAgo(world, 140),
+      causeKey: "cause:a142-fixture",
+      sourceEntityIds: [world.id],
+      summary: "Died; the cause is not recorded.",
+      provenance: { kind: "authored", note: "A142 fixture." },
+    });
+    const absence = readRelationshipAbsence(world, pair[0], pair[1]);
+    expect(
+      absence.apartReasons.map((row) => row.kind),
+      label,
+    ).toEqual(["death-in-family"]);
+    expect(absence.explainedDays, label).toBe(90);
+    expect(absence.currency, label).toBe("current");
+  });
+
+  it("reads a move to another place as a recorded reason, while they live apart", () => {
+    const { world: base, pair, elsewhereId, label } = drawnPlaceWorld();
+    let world = longFriendship(base, pair, 4, 400);
+    world = eventFor(world, {
+      stableKey: "a142:moved",
+      type: MIGRATION_MOVED_EVENT,
+      occurredAt: daysAgo(world, 395),
+      personId: pair[1],
+      role: "agency:mover",
+      tags: [],
+    });
+    // Still in the same place: the move explains nothing.
+    expect(
+      readRelationshipAbsence(world, pair[0], pair[1]).apartReasons,
+    ).toEqual([]);
+    world = {
+      ...world,
+      people: {
+        ...world.people,
+        [pair[1]]: {
+          ...world.people[pair[1]]!,
+          homeJurisdictionId: elsewhereId,
+        },
+      },
+    };
+    const absence = readRelationshipAbsence(world, pair[0], pair[1]);
+    expect(
+      absence.apartReasons.map((row) => row.kind),
+      label,
+    ).toEqual(["moved"]);
+    expect(absence.currency, label).toBe("current");
+    // The other side reads the same recorded reason.
+    expect(readRelationshipAbsence(world, pair[1], pair[0]).currency).toBe(
+      "current",
+    );
   });
 });

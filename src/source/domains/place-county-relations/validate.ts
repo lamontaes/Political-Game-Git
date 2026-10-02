@@ -48,6 +48,16 @@ export function validatePlaceCountyCorpus(
     }
     ids.add(record.recordId);
     if (
+      !Number.isSafeInteger(record.partPopulationCount) ||
+      record.partPopulationCount < 0
+    ) {
+      findings.push({
+        severity: "error",
+        code: "place-county-relations/population",
+        message: `Record ${record.recordId} has no valid nonnegative population count.`,
+      });
+    }
+    if (
       !/^\d{7}$/.test(record.placeGeoid) ||
       !/^\d{5}$/.test(record.countyGeoid) ||
       record.placeGeoid.slice(0, 2) !== record.stateFips ||

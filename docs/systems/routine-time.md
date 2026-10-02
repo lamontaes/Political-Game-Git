@@ -63,7 +63,7 @@ follow-through, not an invented threshold or sanction in this slice.
 
 Menus and read-only projections do not perform work. `CareerPathsPanel` and
 `LifePathsPanel` expose **Perform work** for an explicit shift. Ordinary-day
-fast-forward composes `LIFE_PATHS2_HANDLERS` through
+fast-forward composes `lifePaths2Handlers()` through
 `createCampaignElectionTransitionRegistry`.
 
 NEXT24's normal route is Personal → Who you are → Jobs, study and outings,

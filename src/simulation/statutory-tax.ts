@@ -32,10 +32,6 @@ import {
   withholdingForPaycheck,
   type IncomeTaxSchedule,
 } from "./income-tax-withholding";
-import {
-  lifePlaceByJurisdictionId,
-  stateKeyForJurisdiction,
-} from "./life-places";
 import { organizationProfileAt } from "./life-queries";
 import { chiefExecutiveJurisdiction } from "./nationwide-world/government-jurisdiction";
 import {
@@ -425,11 +421,13 @@ function paycheckLiabilities(
       researchQuestionId: null,
       lawMeasureIds: underLaw.lawMeasureIds,
     });
-  else if (underLaw.kind === "estimated")
+  else if (underLaw.kind === "estimated" || underLaw.kind === "enacted")
     rows.push(
       incomeTax(placeTaxKey, stateKey, underLaw.schedule, {
         lawMeasureIds: underLaw.lawMeasureIds,
-        estimatedFromAverage: underLaw.estimatedFromAverage,
+        ...(underLaw.estimatedFromAverage
+          ? { estimatedFromAverage: underLaw.estimatedFromAverage }
+          : {}),
       }),
     );
   else if (place.status === "not-imposed")
@@ -576,18 +574,9 @@ function federalCoverageGap(
   return null;
 }
 
-/** The place key ("US-NV") of the person's recorded home, or null. */
-export function residenceStateKey(
-  world: World,
-  personId: EntityId,
-): string | null {
-  const person = world.people[personId];
-  if (!person) return null;
-  const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
-  if (place?.stateJurisdictionKey) return place.stateJurisdictionKey;
-  const jurisdiction = world.jurisdictions[person.homeJurisdictionId];
-  return jurisdiction ? stateKeyForJurisdiction(jurisdiction) : null;
-}
+/** Where a person lives, by state: the one reader (`homeStateKey`). */
+import { homeStateKey as residenceStateKey } from "./state-jurisdiction-id";
+export { residenceStateKey };
 
 /**
  * Wages this employer already paid this employee this calendar year, read off

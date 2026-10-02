@@ -8,7 +8,11 @@ import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import { defenseBoostPct } from "../federal-defense-spending";
 import { railExpansionPct } from "../federal-passenger-rail";
 import { federalDeficitChangePctOfGdp } from "../federal-outlay-laws";
-import { parksLawAddedPct } from "../public-budgets/parks-dedication";
+import {
+  lawSpendingPerResident,
+  spendingPerResident,
+} from "../public-budgets/fiscal";
+import { SPENDING_QUESTION_EFFECTS } from "../public-budgets/rules";
 import { farmPaymentsCutPctOfLandValue } from "../federal-farm-subsidy-law";
 import { stateMinimumSettingAt } from "../minimum-wage";
 import {
@@ -238,14 +242,22 @@ const FIXED_MEASURES: Readonly<Record<string, OutcomeMeasure>> = {
   "budget.parks-added-pct": {
     key: "budget.parks-added-pct",
     unit: "percent of what the place spends on parks that a dedicated parks tax adds or a repeal takes away",
-    // A dedication (or a repeal of the one the game began with) moves the
-    // state's parks line by the same dollars per resident every month it
-    // stands (`public-budgets/parks-dedication.ts`); with none it is zero.
+    // Read the same annual per-resident row delta used by the monthly budget.
     read: (world, jurisdictionId, asOf) => {
       const key = placeOutcomeKey(jurisdictionId);
       return key === null
         ? null
-        : parksLawAddedPct(world, jurisdictionId, key, asOf);
+        : (SPENDING_QUESTION_EFFECTS.filter(
+            (effect) => effect.program === "parks",
+          ).reduce(
+            (change, effect) =>
+              change +
+              (lawSpendingPerResident(world, jurisdictionId, effect, asOf) ??
+                0),
+            0,
+          ) /
+            spendingPerResident(key, "parksAndRecreation")) *
+            100;
     },
   },
   "federal.defense-boost-pct": {

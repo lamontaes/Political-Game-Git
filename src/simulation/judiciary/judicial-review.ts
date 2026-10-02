@@ -339,7 +339,9 @@ function awaitingReview(world: World): readonly AwaitingReview[] {
         enactment.sequence,
       ).find((row) => row.propositionId === propositionId)?.answer;
       if (answer !== reviewed.answer) continue;
-      const { operativeAt } = enactmentOperative(world, measure, enactment);
+      const operative = enactmentOperative(world, measure, enactment);
+      if (!operative) continue;
+      const { operativeAt } = operative;
       const eve = addDays(operativeAt, -1);
       rows.push({
         measure,

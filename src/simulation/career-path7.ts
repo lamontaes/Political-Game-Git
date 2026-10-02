@@ -39,7 +39,7 @@ import {
   scheduleLifePathSession,
   performLifePathSession,
   changeLifePathStatus,
-  LIFE_PATHS2_HANDLERS,
+  lifePaths2Handlers,
   shiftPayAtHire,
 } from "./life-paths2";
 import type { LifePathResult } from "./life-paths2";
@@ -381,7 +381,7 @@ export function completeCareerTask(
   p: CareerProvider,
   activityId: EntityId,
   deliverable = "",
-  handlers: FutureTransitionHandlerRegistry = LIFE_PATHS2_HANDLERS,
+  handlers: FutureTransitionHandlerRegistry = lifePaths2Handlers(),
 ): LifePathResult {
   const r = owned(w, id, p);
   const planned = w.history.events.find(

@@ -1,3 +1,5 @@
+import { nextSessionCalendarDate } from "../legislative-session-calendar";
+import { LEGISLATIVE_SESSION_CALENDARS } from "../legislative-session-calendar-data";
 import {
   addDays,
   addSimulationMinutes,
@@ -72,7 +74,26 @@ import {
   amendmentAdmissible,
   floorStageTakesAmendments,
 } from "./chamber-procedure";
-import { decideChamberVote, seatedChamberForPack } from "./chamber-votes";
+import {
+  decideChamberVote,
+  publicPartyOf,
+  seatedChamberForPack,
+} from "./chamber-votes";
+import {
+  councilRules,
+  lawJurisdiction,
+} from "../living-world/local-council-binding";
+import { governmentUnit } from "../government-units";
+import { sittingLocalOfficers } from "../living-world/local-government-seats";
+import {
+  COUNCIL_VOTE_NOTE,
+  decideCouncilVote,
+  ensureCouncilPrinciples,
+} from "./council-lawmaking";
+import { councilBallotPartisanship } from "./body-partisanship";
+import { admitLocalFiscalMeasure } from "../local-fiscal-authority";
+import { currentMeasureProvisions } from "../legislative-politics";
+import { legislativePackForWorkKey } from "../legislative-institutions";
 import { ensureOfficeholderPrinciples } from "./officeholder-principles";
 import {
   adjournmentStopsPhase,
@@ -119,22 +140,6 @@ import { hasStableKey, recordByStableKey } from "../history-index";
 export const LEGISLATIVE_CLOCK_VERSION = "legislative-clock/v1";
 export const LEGISLATIVE_INSTITUTION_STEP =
   "legislature:institution-step" as const;
-
-/**
- * PROVISIONAL, and awaiting SOURCED RULES rather than anyone's sign-off.
- * lamontae declined to confirm these as game numbers on 2026-09-22 — "defer to
- * realistic rules", "no hardcoding" — so the question is what actually governs
- * the interval between steps and where it varies, filed as
- * legislative-step-pacing-and-veto-override. A better constant does not settle
- * it; a rule the code can read per jurisdiction does.
- */
-export const LEGISLATIVE_CADENCE_PROFILE = {
-  id: "ocd-legislative-cadence/v1",
-  /** Days between one institutional step and the next. */
-  daysBetweenSteps: 3,
-  /** Days from referral to a scheduled committee hearing. */
-  daysToHearing: 7,
-} as const;
 
 export type MeasureStepOwner = "sponsor-office" | "institution" | "executive";
 
@@ -489,6 +494,11 @@ function provenance(
 
 /** An existing decision writer may pass its recorded roll call to the driver. */
 export interface InstitutionStepInput {
+  readonly localCouncil?: {
+    readonly governmentUnitId: string;
+    readonly townJurisdictionId: EntityId;
+    readonly playerPersonId: EntityId | null;
+  };
   readonly recordedFloorVote?: FloorVoteInput & {
     /** Actual dated seats read by the caller; the driver never invents members. */
     readonly seatedMemberPersonIds: readonly EntityId[];
@@ -547,6 +557,12 @@ export function applyInstitutionStep(
   input: InstitutionStepInput = {},
 ): InstitutionStepResult {
   const measure = requireMeasure(before, measureId);
+  if (input.localCouncil && input.recordedFloorVote)
+    return {
+      kind: "blocked",
+      reason:
+        "The council's members decide this step; a supplied tally cannot replace them.",
+    };
   if (input.recordedFloorVote) {
     if (input.recordedFloorVote.measureId !== measureId)
       return {
@@ -559,20 +575,79 @@ export function applyInstitutionStep(
       input.recordedFloorVote.seatedMemberPersonIds,
     );
   }
+  const local = input.localCouncil;
+  const unit = local ? governmentUnit(local.governmentUnitId) : null;
+  if (local && (!unit || councilRules(unit)?.packId !== measure.rulePackId))
+    return {
+      kind: "blocked",
+      reason:
+        "This measure does not belong to the recorded local government's rule pack.",
+    };
+  if (
+    local &&
+    unit &&
+    lawJurisdiction(before, unit, local.townJurisdictionId).jurisdictionId !==
+      measure.jurisdictionId
+  )
+    return {
+      kind: "blocked",
+      reason:
+        "This measure does not belong to the recorded local government's law jurisdiction.",
+    };
+  if (local && !legislativePackForWorkKey(`institution:${measure.rulePackId}`))
+    return {
+      kind: "blocked",
+      reason:
+        "The local council's rule pack has no admitted institution work binding.",
+    };
   const blueprint = legislativeBlueprintForMeasure(before, measure);
-  const bodies = bodiesForMeasure(before, measure, blueprint);
+  const officers = unit ? sittingLocalOfficers(before, unit) : [];
+  const councilMembers = officers.filter((seat) => !seat.mayor);
+  const mayorPersonId = officers.find((seat) => seat.mayor)?.personId ?? null;
+  const councilChamber = blueprint.pack.chambers.find(
+    (chamber) => chamber.chamberKey === "council",
+  );
+  if (
+    local &&
+    (!councilChamber ||
+      councilMembers.length === 0 ||
+      councilMembers.some((member) => !before.people[member.personId]))
+  )
+    return {
+      kind: "blocked",
+      reason: "No recorded local council members can decide this measure.",
+    };
+  const bodies: readonly SeatedBody[] = local
+    ? [
+        {
+          chamberKey: councilChamber!.chamberKey,
+          chamberName: councilChamber!.name,
+          members: councilMembers.map((member, index) => ({
+            memberKey: `council:${index + 1}`,
+            personId: member.personId,
+            name: personName(before.people[member.personId]!),
+            caucusLabel: publicPartyOf(before, member.personId) ?? "No party",
+          })),
+        },
+      ]
+    : bodiesForMeasure(before, measure, blueprint);
   // Every seated member who may vote on the bill holds principles of their
   // own before any question is put, Congress's members included: without
   // them a member had only a party cue, and every roll call was unanimous.
   const world = closeLapsedVoteNotices(
-    ensureOfficeholderPrinciples(
-      before,
-      bodies.flatMap((body) =>
-        body.members.flatMap((member) =>
-          member.personId ? [member.personId] : [],
+    local
+      ? ensureCouncilPrinciples(before, [
+          ...councilMembers,
+          ...(mayorPersonId ? [{ personId: mayorPersonId }] : []),
+        ])
+      : ensureOfficeholderPrinciples(
+          before,
+          bodies.flatMap((body) =>
+            body.members.flatMap((member) =>
+              member.personId ? [member.personId] : [],
+            ),
+          ),
         ),
-      ),
-    ),
     measureId,
   );
   // Drawing principles and closing notices change neither the rule pack nor
@@ -595,9 +670,9 @@ export function applyInstitutionStep(
       kind: "wait-until",
       date: maxIsoDate(
         makeIsoDate(`${Number(session.closedOn!.slice(0, 4)) + 1}-01-01`),
-        addDays(
+        nextSessionCalendarDate(
+          pack.session.sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.state,
           world.currentDate,
-          LEGISLATIVE_CADENCE_PROFILE.daysBetweenSteps,
         ),
       ),
     };
@@ -663,7 +738,11 @@ export function applyInstitutionStep(
     );
     const hearingDate =
       pending?.dueAt ??
-      addDays(world.currentDate, LEGISLATIVE_CADENCE_PROFILE.daysToHearing);
+      nextSessionCalendarDate(
+        pack.session.sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.state,
+        world.currentDate,
+        "hearing",
+      );
     const closedOn = measureSessionClosedOn(world, measure, pack);
     if (closedOn && hearingDate > closedOn) {
       // A hearing cannot occur after adjournment. Let the next clock tick
@@ -744,6 +823,7 @@ export function applyInstitutionStep(
         measureId,
         recommendation: "favorable",
         dispositions: decided.dispositions,
+        presentMembers: present(decided.dispositions),
         rationale:
           "The committee weighed the testimony it heard and voted on reporting the bill.",
         provenance: provenance(
@@ -763,6 +843,29 @@ export function applyInstitutionStep(
       "request-calendar-placement",
     );
   if (steps.includes("move-floor-vote")) {
+    // Preserve the compiled council writer's fiscal admission before moving
+    // its decision into the common driver. A general-policy label cannot
+    // bypass the existing local fiscal authority route.
+    const governmentKey = unit ? councilRules(unit)?.governmentKey : null;
+    if (local && governmentKey) {
+      if (measure.subjectClass === "general-policy") {
+        if (
+          currentMeasureProvisions(world, measureId).some(
+            (entry) =>
+              entry.provisionKey === "tax-levy" ||
+              entry.provisionKey === "amount-provided" ||
+              entry.operativeEffect != null,
+          )
+        )
+          return {
+            kind: "blocked",
+            reason: "A fiscal clause needs the local fiscal authority route.",
+          };
+      } else {
+        const fiscal = admitLocalFiscalMeasure(world, governmentKey, measureId);
+        if (!fiscal.ok) return { kind: "blocked", reason: fiscal.reason };
+      }
+    }
     const stage = floorStageByKey(chamber, position.floorStageKey ?? "");
     const stableKey = key(`floor:${chamberKey}:${stage.stageKey}`);
     // Before the question is put, a member may offer an amendment for their
@@ -787,28 +890,43 @@ export function applyInstitutionStep(
                 .admissible,
           })
         : world;
-    const decided = body
-      ? decide(
-          onFloor,
-          blueprint,
-          body.members,
-          votePlanKeyForFloor(chamberKey, stage.stageKey),
-          {
-            measureId,
-            purpose: "floor-stage",
-            forumKey: chamberKey,
-            floorStageKey: stage.stageKey,
-          },
-          stableKey,
-          // PLACEHOLDER until research question how-congress-moves-bills is
-          // answered: a Senate cloture vote divides by party, so a bill with
-          // backers from only one party needs sixty of that party to get past
-          // a filibuster.
-          isCongressMeasure(measure) && stage.stageKey === "cloture"
-            ? true
-            : undefined,
-        )
-      : null;
+    const decided =
+      local && unit
+        ? {
+            dispositions: decideCouncilVote(onFloor, {
+              stableKey: `${measure.stableKey}:vote:${onFloor.currentDate}`,
+              measureId,
+              jurisdictionId: local.townJurisdictionId,
+              members: councilMembers,
+              playerPersonId: local.playerPersonId,
+              questionLabel: `Adopt ${measure.designation}`,
+              executivePersonId: mayorPersonId,
+              nonpartisan: councilBallotPartisanship(unit).nonpartisan,
+            }),
+            method: "member-decisions" as const,
+          }
+        : body
+          ? decide(
+              onFloor,
+              blueprint,
+              body.members,
+              votePlanKeyForFloor(chamberKey, stage.stageKey),
+              {
+                measureId,
+                purpose: "floor-stage",
+                forumKey: chamberKey,
+                floorStageKey: stage.stageKey,
+              },
+              stableKey,
+              // PLACEHOLDER until research question how-congress-moves-bills is
+              // answered: a Senate cloture vote divides by party, so a bill with
+              // backers from only one party needs sixty of that party to get past
+              // a filibuster.
+              isCongressMeasure(measure) && stage.stageKey === "cloture"
+                ? true
+                : undefined,
+            )
+          : null;
     if (!body || !decided)
       return {
         kind: "blocked",
@@ -825,10 +943,16 @@ export function applyInstitutionStep(
             ? present(decided.dispositions)
             : body.members.length,
         electedMembers: body.members.length,
-        provenance: provenance(
-          "Members' recorded decisions on this question.",
-          decided.method,
-        ),
+        provenance: local
+          ? {
+              method: "member-decisions",
+              note: COUNCIL_VOTE_NOTE,
+              sourceEntityIds: [measure.id],
+            }
+          : provenance(
+              "Members' recorded decisions on this question.",
+              decided.method,
+            ),
       },
       body.members.every((member) => member.personId !== null)
         ? body.members.map((member) => member.personId!)
@@ -1049,20 +1173,6 @@ function pendingInstitutionStep(
   );
 }
 
-/** A game-clock work day, not a claim about when a legislature convenes. */
-function nextRegularBillWorkDay(
-  world: World,
-  jurisdictionId: EntityId,
-): IsoDate {
-  const currentYear = Number(world.currentDate.slice(0, 4));
-  for (let year = currentYear; year <= currentYear + 4; year += 1) {
-    if (!regularSessionYearForWorld(world, jurisdictionId, year)) continue;
-    const day = makeIsoDate(`${year}-02-15`);
-    if (day > world.currentDate) return day;
-  }
-  throw new Error("No next regular bill work day was found.");
-}
-
 /**
  * Puts the institution's next step for a measure on the calendar, when the
  * next step is not the sponsor office's. Safe to call after any action.
@@ -1095,14 +1205,17 @@ export function scheduleInstitutionStep(
     )
   )
     return world;
+  const calendar =
+    legislativeRulePackForWorld(world, measure.rulePackId).session
+      .sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.state;
   const dueAt = sessionClosed
-    ? nextRegularBillWorkDay(world, measure.jurisdictionId)
+    ? nextSessionCalendarDate(calendar, world.currentDate, "resume", {
+        eligibleYear: (year) =>
+          regularSessionYearForWorld(world, measure.jurisdictionId, year),
+      })
     : on && on > world.currentDate
       ? on
-      : addDays(
-          world.currentDate,
-          LEGISLATIVE_CADENCE_PROFILE.daysBetweenSteps,
-        );
+      : nextSessionCalendarDate(calendar, world.currentDate);
   const scheduled = scheduleFutureDueItem(world, {
     stableKey: `${LEGISLATIVE_CLOCK_VERSION}:${measureId}:${world.history.nextSequence}`,
     dueAt,
@@ -1111,7 +1224,7 @@ export function scheduleInstitutionStep(
     jurisdictionId: measure.jurisdictionId,
     provenance: {
       kind: "authored",
-      note: `${LEGISLATIVE_CADENCE_PROFILE.id}: the institution takes its next step on this bill.`,
+      note: `${calendar.id}: ${calendar.note} The institution takes its next step on this bill.`,
     },
   });
   return noticeMemberVote(scheduled, measureId, dueAt);

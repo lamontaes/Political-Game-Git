@@ -1,16 +1,17 @@
 import { appendFileSync } from "node:fs";
 
 import { describe, expect, it } from "vitest";
-import { observerPlace } from "../../presentation/observer-world";
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 import data from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../dates";
-import { searchLifePlaces, stateJurisdictionForKey } from "../life-places";
+import { createCharacterHistoryContextPerson } from "../character-history";
+import { stableHash } from "../ids";
+import {
+  lifePlaceStateIdentities,
+  searchLifePlaces,
+  stateJurisdictionForKey,
+} from "../life-places";
 import { createLightweightPerson } from "../people";
 import { createProductionPolicyCatalog } from "../production-catalog";
 import {
@@ -31,19 +32,20 @@ import type {
 } from "../types";
 import { isPersonAliveAt } from "../vitality";
 import { advanceWorld, createWorld, createWorldId } from "../world";
+import { ensureCrisisMortality } from "./mortality";
+import { annualPovertyLineMinor } from "../household-pay";
 import { MULTIPLIER_ONE } from "./hazard";
 import {
-  annualPovertyLineMinor,
   coverageHazardIntervals,
   healthCoverageRecords,
   MEDICAID_EXPANSION_RULES,
   medicaidCoverageDecision,
   recordHealthCoverage,
 } from "./health-coverage";
-import { hazardMultipliersOf, mortalityCrossingDay } from "./mortality";
+import { hazardMultipliersOf, strainCrossingDay } from "./mortality";
 import type { HealthCoverageRecord } from "./types";
 
-const LONG = 900_000;
+const CASE_LIMIT = 60_000;
 const EXPANSION =
   "us-policy-positions:health-human-services.expand-medicaid-eligibility";
 const ANSWERS = (
@@ -52,29 +54,72 @@ const ANSWERS = (
   }
 ).questions[EXPANSION]!.answers;
 
-/** The first seed from `medicaid-0` whose watched place's state answers `answer`. */
+/**
+ * The first seed from `medicaid-0` whose place, drawn from all 56 by the
+ * seed, is in a state whose starting law answers `answer`.
+ */
 function watchedPlace(answer: "yes" | "no") {
+  const states = lifePlaceStateIdentities();
   for (let n = 0; n < 200; n += 1) {
     const seed = `medicaid-${n}`;
-    const place = observerPlace(seed);
-    const stateKey = place.stateJurisdictionKey ?? "";
-    // Kentucky is the explicit scenario, never a watched default.
-    if (stateKey !== "US-KY" && ANSWERS[stateKey]?.answer === answer)
-      return { seed, place };
+    const state =
+      states[Number(BigInt(`0x${stableHash(seed)}`) % BigInt(states.length))]!;
+    if (ANSWERS[state.jurisdictionKey]?.answer === answer)
+      return { seed, state };
   }
-  throw new Error(`No watched place answers ${answer}.`);
+  throw new Error(`No place answers ${answer}.`);
 }
 
-function openWorld(seed: string, placeKey: string): World {
-  return generateOpeningLife(
-    prepareOpeningLife({
-      ...DEFAULT_NEW_GAME_SETUP,
-      seed,
-      placeKey,
-      startAge: 35,
-      depth: "summarize-earlier-life",
-    }),
-  ).game!.world;
+/**
+ * The minimum world for the coverage decision: the place's residents, plus
+ * one person aged 60, each in a one-person household at home there, written
+ * through the ordinary household writers. Nobody has a job, so each
+ * household's recorded pay is none, and nothing else is seeded. Ordinary
+ * mortality runs, which schedules the monthly coverage passes.
+ */
+function openWorld(seed: string, usps: string): World {
+  const small = smallWorld({ place: usps, people: 6, seed });
+  const date = small.world.currentDate;
+  let world = createCharacterHistoryContextPerson(small.world, {
+    stableKey: "coverage:aged-60",
+    givenName: "Coverage",
+    familyName: "Sixty",
+    birthDate: addDays(date, -Math.round(60.4 * 365.25)),
+    homeJurisdictionId: small.jurisdictionId,
+  });
+  const provenance = {
+    kind: "authored",
+    note: "Coverage test: one-person household with no recorded job.",
+  } as const;
+  world.personOrder.forEach((personId, index) => {
+    world = createHousehold(world, {
+      stableKey: `coverage:household:${index}`,
+      formedAt: date,
+      label: `Coverage household ${index}`,
+      provenance,
+    });
+    const household = world.history.households.at(-1)!;
+    world = recordHouseholdLocation(world, {
+      stableKey: `coverage:home:${index}`,
+      householdId: household.id,
+      effectiveAt: date,
+      jurisdictionId: small.jurisdictionId,
+      label: `Coverage home ${index}`,
+      kind: "residence:fixture",
+      provenance,
+      supersedesLocationId: null,
+    });
+    world = startHouseholdMembership(world, {
+      stableKey: `coverage:member:${index}`,
+      personId,
+      householdId: household.id,
+      startedAt: date,
+      residenceRole: "primary",
+      kind: "resident:fixture",
+      provenance,
+    });
+  });
+  return ensureCrisisMortality(world);
 }
 
 /**
@@ -371,9 +416,9 @@ describe("Medicaid expansion coverage reaches named people", () => {
   it(
     "in a watched expansion state: low-income adults are covered, the work requirement takes it from those without the hours, and a repeal ends it",
     () => {
-      const { seed, place } = watchedPlace("yes");
-      const stateKey = place.stateJurisdictionKey!;
-      let world = throughSecondWindow(openWorld(seed, place.key));
+      const { seed, state } = watchedPlace("yes");
+      const stateKey = state.jurisdictionKey;
+      let world = throughSecondWindow(openWorld(seed, state.usps));
       const records = healthCoverageRecords(world);
       // Each person's latest record, in the watched state.
       const latest = new Map(records.map((row) => [row.personId, row]));
@@ -412,20 +457,35 @@ describe("Medicaid expansion coverage reaches named people", () => {
       const horizon = addDays(world.currentDate, 365 * 12);
       let later = 0;
       for (const row of older) {
+        // Coverage multiplies the strain, alongside any starting condition
+        // the person holds (Ruling 38): without it, the multipliers differ by
+        // exactly the coverage factor from the day it applies.
+        const covering = hazardMultipliersOf(world, row.personId);
+        const bare = hazardMultipliersOf(without, row.personId);
+        const microsOn = (
+          changes: readonly { effectiveAt: IsoDate; micros: number }[],
+          day: IsoDate,
+        ) =>
+          changes.filter((change) => change.effectiveAt <= day).at(-1)
+            ?.micros ?? MULTIPLIER_ONE;
         expect(
-          hazardMultipliersOf(world, row.personId).some(
+          covering.some(
             (change) =>
-              change.micros ===
-              MEDICAID_EXPANSION_RULES.mortality.multiplierMicros,
+              Math.abs(
+                (microsOn(bare, change.effectiveAt) *
+                  MEDICAID_EXPANSION_RULES.mortality.multiplierMicros) /
+                  MULTIPLIER_ONE -
+                  change.micros,
+              ) <= 1,
           ),
         ).toBe(true);
-        const withCoverage = mortalityCrossingDay(
+        const withCoverage = strainCrossingDay(
           world,
           row.personId,
           world.currentDate,
           horizon,
         );
-        const uncovered = mortalityCrossingDay(
+        const uncovered = strainCrossingDay(
           without,
           row.personId,
           world.currentDate,
@@ -480,15 +540,28 @@ describe("Medicaid expansion coverage reaches named people", () => {
       expect(ended.every((row) => !row.covered)).toBe(true);
       for (const row of older) {
         // The lower hazard ends at the repeal's pass, or sooner at 65.
+        // What remains is the person's own recorded conditions, if any.
         const last = hazardMultipliersOf(repealed, row.personId).at(-1)!;
-        expect(last.micros).toBe(MULTIPLIER_ONE);
+        const conditionsOnly = hazardMultipliersOf(
+          {
+            ...repealed,
+            history: {
+              ...repealed.history,
+              crisisRecords: repealed.history.crisisRecords!.filter(
+                (record) => record.kind !== "health-coverage",
+              ),
+            },
+          },
+          row.personId,
+        ).at(-1);
+        expect(last.micros).toBe(conditionsOnly?.micros ?? MULTIPLIER_ONE);
         expect(last.effectiveAt <= passAt).toBe(true);
       }
 
       write({
         seed,
-        place: place.key,
-        name: place.displayName,
+        place: state.usps,
+        name: state.name,
         stateKey,
         window: world.currentDate,
         covered: covered.length,
@@ -508,29 +581,29 @@ describe("Medicaid expansion coverage reaches named people", () => {
         coveredExample: covered[0]?.basis,
       });
     },
-    LONG,
+    CASE_LIMIT,
   );
 
   it(
     "in a watched state that did not expand, nobody is covered",
     () => {
-      const { seed, place } = watchedPlace("no");
-      const world = throughSecondWindow(openWorld(seed, place.key));
+      const { seed, state } = watchedPlace("no");
+      const world = throughSecondWindow(openWorld(seed, state.usps));
       const records = healthCoverageRecords(world);
       expect(
         records.filter(
-          (row) => row.covered && row.stateKey === place.stateJurisdictionKey,
+          (row) => row.covered && row.stateKey === state.jurisdictionKey,
         ),
       ).toEqual([]);
       write({
         seed,
-        place: place.key,
-        name: place.displayName,
+        place: state.usps,
+        name: state.name,
         coveredHere: 0,
         coveredElsewhere: records.filter((row) => row.covered).length,
       });
     },
-    LONG,
+    CASE_LIMIT,
   );
 });
 

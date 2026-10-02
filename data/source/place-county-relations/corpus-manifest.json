@@ -1,15 +1,15 @@
 {
   "asOf": "2020-04-01",
-  "canonicalSha256": "0158d48e19f7fe0bf06958c45c4e4a1caf5fb1cb36e325f20238cd624a8bb6a8",
+  "canonicalSha256": "9ca2e0f8de4d00b0e75873b91e5a3b6dae8573f3a6adba7245a8f6bff2f8bf6c",
   "compiler": {
     "name": "place-county-relations",
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   "corpusId": "place-county-relations",
   "coverage": {
     "boundedSampleReason": null,
     "isCompleteUniverse": true,
-    "universeDescription": "Every part of a 2020 Census place (incorporated place or census designated place) lying in one county or county equivalent, as the 2020 Census Redistricting Data (P.L. 94-171) geographic headers publish at summary level 155 for the 50 states and the District of Columbia, with each part's land and water area. Puerto Rico is not included."
+    "universeDescription": "Every part of a 2020 Census place (incorporated place or census designated place) lying in one county or county equivalent, as the 2020 Census Redistricting Data (P.L. 94-171) geographic headers publish at summary level 155 for the 50 states and the District of Columbia, with each part's land area, water area and POP100 population count. Puerto Rico is not included."
   },
   "inputClass": "production",
   "inputs": [

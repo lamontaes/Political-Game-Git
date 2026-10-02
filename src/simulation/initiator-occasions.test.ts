@@ -1,4 +1,12 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { smallWorld } from "../../tests/fixtures/small-world";
+import * as decisions from "./decisions";
+import { lifePlaceStateIdentities } from "./life-places";
+import { recordHouseholdLocation } from "./life";
+import { createMindProvenance, recordPersonalityTendency } from "./mind";
+import { ensurePeopleTraitCatalog, ensurePeopleTraits } from "./people-traits";
+import { peopleTraitId, TRAIT_SHAPES } from "./people-trait-definitions";
+import { deserializeWorld, serializeWorld } from "./serialization";
 
 import {
   createNewGameWorld,
@@ -7,6 +15,7 @@ import {
 import { addDays, ageOnDate } from "./dates";
 import {
   initiatorFavour,
+  hostDecidesToAsk,
   initiatorOccasions,
   nextOccasionNoticeDate,
   OCCASION_NOTICE_MAX_DAYS,
@@ -159,4 +168,143 @@ describe("a favor asked for a reason on the asker's own record", () => {
     }
     expect(checked).toBeGreaterThan(0);
   });
+});
+
+const hostDecisionPackets = [
+  { outcomeKind: "undecided", key: null, asks: false },
+  { outcomeKind: "no-available-option", key: null, asks: false },
+  { outcomeKind: "undecided", key: "ask", asks: false },
+  { outcomeKind: "selected", key: "keep-it-small", asks: false },
+  { outcomeKind: "selected", key: "ask", asks: true },
+] as const;
+
+describe("A125 an occasion requires a selected invitation across all recorded places", () => {
+  afterEach(() => vi.restoreAllMocks());
+
+  for (const state of lifePlaceStateIdentities()) {
+    it.each(hostDecisionPackets)(
+      `${state.jurisdictionKey}: $outcomeKind / $key`,
+      (packet: (typeof hostDecisionPackets)[number]) => {
+        const small = smallWorld({
+          place: state.jurisdictionKey,
+          household: true,
+          people: 3,
+          seed: `a125-occasion:${state.jurisdictionKey}`,
+        });
+        const host = small.world.personOrder.find(
+          (id) =>
+            id !== small.personId &&
+            ageOnDate(
+              small.world.people[id]!.birthDate,
+              small.world.currentDate,
+            ) >= 18,
+        );
+        expect(host).toBeDefined();
+        const household = householdMembershipsAt(small.world, host!)[0]!
+          .household;
+        const previous = recordHouseholdLocation(small.world, {
+          stableKey: `a125-occasion-previous-home:${state.jurisdictionKey}`,
+          householdId: household.id,
+          effectiveAt: small.world.currentDate,
+          jurisdictionId: small.jurisdictionId,
+          label: `Previous home in ${small.place.displayName}`,
+          kind: "residence:community-base",
+          provenance: {
+            kind: "authored",
+            note: "Recorded preceding home for the new-home occasion control.",
+          },
+          supersedesLocationId: null,
+        });
+        const previousLocation = previous.history.householdLocations.at(-1)!;
+        let world = recordHouseholdLocation(previous, {
+          stableKey: `a125-occasion-home:${state.jurisdictionKey}`,
+          householdId: household.id,
+          effectiveAt: small.world.currentDate,
+          jurisdictionId: small.jurisdictionId,
+          label: small.place.displayName,
+          kind: "residence:community-base",
+          provenance: {
+            kind: "authored",
+            note: "Recorded new-home occasion for the decision boundary.",
+          },
+          supersedesLocationId: previousLocation.id,
+        });
+        world = recordPersonalityTendency(ensurePeopleTraitCatalog(world), {
+          stableKey: `a125-occasion-host:${state.jurisdictionKey}`,
+          personId: host!,
+          tendencyId: peopleTraitId("sociability"),
+          recordedAt: world.currentDate,
+          expressionKey: TRAIT_SHAPES.sociability.high.key,
+          strength: "strong",
+          confidence: "high",
+          scopeTags: ["a125.occasion-boundary"],
+          provenance: createMindProvenance("authored", {
+            note: "Authored sociability control, so the existing host evaluator is reached.",
+          }),
+          supersedesTendencyId: null,
+        });
+        world = ensurePeopleTraits(world, [host!]);
+        const occasion = initiatorOccasions(world, host!).find(
+          (item) => item.reason === "new-home",
+        );
+        expect(occasion).toBeDefined();
+        expect(
+          world.history.householdLocations.some(
+            (location) => location.id === occasion!.sourceRecordId,
+          ),
+        ).toBe(true);
+        const original = decisions.evaluateDecision;
+        const spy = vi
+          .spyOn(decisions, "evaluateDecision")
+          .mockImplementation(
+            (
+              current: Parameters<typeof original>[0],
+              input: Parameters<typeof original>[1],
+            ): ReturnType<typeof original> => {
+              const actual = original(current, input);
+              return input.decisionType === "people.invite-over"
+                ? {
+                    ...actual,
+                    outcomeKind: packet.outcomeKind,
+                    selectedOptionKey: packet.key,
+                  }
+                : actual;
+            },
+          );
+        const answer = hostDecidesToAsk(
+          world,
+          host!,
+          small.personId,
+          occasion!,
+        );
+        expect(
+          spy.mock.calls.some(
+            ([, input]: Parameters<typeof original>) =>
+              input.decisionType === "people.invite-over" &&
+              input.considerations.length > 0,
+          ),
+        ).toBe(true);
+        if (packet.asks) {
+          expect(answer).not.toBeNull();
+          expect(answer!.history.events).toEqual(world.history.events);
+          expect(answer!.history.knowledge).toEqual(world.history.knowledge);
+          expect(answer!.history.scheduledActivities).toEqual(
+            world.history.scheduledActivities,
+          );
+        } else expect(answer).toBeNull();
+        const continued = deserializeWorld(serializeWorld(world));
+        const repeated = hostDecidesToAsk(
+          continued,
+          host!,
+          small.personId,
+          occasion!,
+        );
+        expect(repeated !== null).toBe(packet.asks);
+        expect(continued.history.events).toEqual(world.history.events);
+        expect(continued.history.scheduledActivities).toEqual(
+          world.history.scheduledActivities,
+        );
+      },
+    );
+  }
 });
