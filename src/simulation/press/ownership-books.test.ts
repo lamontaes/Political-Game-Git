@@ -23,6 +23,7 @@ import {
   createWorld,
   createWorldId,
 } from "../world";
+import { createFutureTransitionHandlerRegistry } from "../future-transitions";
 import { createPressTransitionRegistry } from "./transitions";
 import { DEFAULT_MEDIA_OWNERSHIP_PACK } from "./ownership-pack-default";
 import { reporterIsCurrent, reporterRoles } from "./outlets";
@@ -203,6 +204,36 @@ function fixture(
         note: "Explicit fixture cash, not an inferred book",
       },
     });
+  // Saved business books are explicit fixture inputs, not inferred from cash.
+  world = {
+    ...world,
+    townFinances: {
+      version: "town-finances-v1",
+      banks: {},
+      markets: {},
+      businesses: {
+        [organization.id]: {
+          organizationId: organization.id,
+          openedAt: date,
+          cash: cash === null ? 200 : cash / 100,
+          debt: 0,
+          annualRevenue: 1200,
+          kind: "information",
+          capacity: 1200,
+          annualOtherCosts: 1200,
+          margin: 0,
+          ownDemandLog: 0,
+          openingShare: 1,
+          openingMarketSales: 1200,
+          bankId: null,
+          lineLimit: 0,
+          lastQuarterNet: -300,
+          lastQuarterPay: 300,
+          lastRound: "2026-Q1",
+        },
+      },
+    },
+  };
   world = ensureMediaOwnership(world, ownershipRegistry);
   const owner = mediaOwners(world)[0]!;
   const due = world.history.futureDueItems.find(
@@ -375,6 +406,57 @@ describe("A145 newsroom cuts read recorded cash and payroll", () => {
       assertWorldIntegrity(after);
     },
   );
+  it("does not cut again for the same saved loss period on the next review", () => {
+    const f = fixture(places[0]!);
+    const handlers = createFutureTransitionHandlerRegistry([
+      [
+        PRESS_OWNER_REVIEW_TRANSITION_KEY,
+        (world, due) => pressOwnerReviewHandler(world, due, registry),
+      ],
+    ]);
+    const before = {
+      ...f.world,
+      currentDate: addDays(f.due.dueAt, -1),
+      currentMoment: simulationMomentOnLocalDate(
+        f.world.currentMoment,
+        addDays(f.due.dueAt, -1),
+      ),
+    };
+    const first = advanceWorld(before, 1, handlers);
+    const after = advanceWorld(first, 30, handlers);
+    expect(after.history.workStatuses).toBe(first.history.workStatuses);
+    expect(ownerDirectives(after, f.owner.id)).toHaveLength(1);
+  });
+
+  it.each(["no-books", "no-loss", "reserves-cover-loss"] as const)(
+    "does not infer layoffs from low cash with %s",
+    (scenario) => {
+      const f = fixture(places[0]!, 0);
+      const store = f.world.townFinances!;
+      const organizationId = Object.keys(store.businesses)[0]!;
+      const old = store.businesses[organizationId]!;
+      const world = {
+        ...f.world,
+        townFinances: {
+          ...store,
+          businesses:
+            scenario === "no-books"
+              ? {}
+              : {
+                  [organizationId]: {
+                    ...old,
+                    lastQuarterNet: scenario === "no-loss" ? 0 : -300,
+                    cash: scenario === "reserves-cover-loss" ? 300 : 0,
+                  },
+                },
+        },
+      };
+      const after = pressOwnerReviewHandler(world, f.due, registry).world;
+      expect(ownerDirectives(after, f.owner.id)).toEqual([]);
+      expect(after.history.workStatuses).toBe(world.history.workStatuses);
+    },
+  );
+
   it("uses actual payroll even when pack odds are zero and its kept minimum is unrelated", () => {
     const f = fixture(places[0]!);
     const noOdds = {
