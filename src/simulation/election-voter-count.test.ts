@@ -226,3 +226,71 @@ it(`opens a new game in ${openingPlace.displayName}, ${openingPlace.stateJurisdi
     personId: game.playerPersonId,
   });
 });
+
+// Canonical controlled filing fixture, not a registration producer or play gate.
+it("restores unopposed nominations without inventing voter admission, while contested party ballots remain pending", () => {
+  const seed = "a117-unopposed-primary-repair";
+  const place = drawRandomPlace(seed, (candidate) => {
+    const state = candidate.stateJurisdictionKey?.slice(3);
+    return (
+      candidate.scope === "locality" &&
+      state !== undefined &&
+      nominationRuleRow(state)?.method === "party-primary"
+    );
+  });
+  const built = smallWorld({ place: place.key, seed, people: 8 });
+  const stateUsps = place.stateJurisdictionKey!.slice(3);
+  const plan = nominationPlan(built.world, {
+    stateUsps,
+    family: "us-house",
+    year: 2026,
+    onDate: built.world.currentDate,
+  });
+  if (!plan.known) throw new Error(plan.reason);
+  const onDate = {
+    ...built,
+    world: advanceWorld(
+      built.world,
+      daysBetween(built.world.currentDate, plan.primaryDate),
+    ),
+  };
+  const candidates = onDate.world.personOrder.slice(0, 2);
+  const input = {
+    stableKey: "a117:unopposed-repair",
+    seatKey: "fixture:unopposed-seat",
+    title: "Unopposed filing control",
+    jurisdictionId: onDate.jurisdictionId,
+    involvedEntityIds: candidates,
+    plan,
+    entrants: candidates.map((personId) => ({
+      personId,
+      party: "fixture-party",
+      incumbent: false,
+      partyBacked: false,
+    })),
+    partyShare: () => {
+      throw new Error("No static party share allowed.");
+    },
+  };
+  expect(holdNominationPrimary(onDate.world, input)).toBe(onDate.world);
+  expect(nominationPrimaryRecord(onDate.world, input.stableKey)).toBeNull();
+  const held = holdNominationPrimary(onDate.world, {
+    ...input,
+    entrants: input.entrants.slice(0, 1),
+  });
+  const primary = nominationPrimaryRecord(held, input.stableKey)!;
+  expect(primary.participants).toHaveLength(1);
+  expect(primary.participants[0]!.personId).toBe(candidates[0]);
+  expect(primary.participants[0]!.detail).toBe("fixture-party||unopposed");
+  expect(primary.tags).toContain("unopposed-filing/v1");
+  expect(primary.tags).not.toContain("recorded-voter-count/v1");
+  expect(held.history.privateBeliefs).toEqual(
+    onDate.world.history.privateBeliefs,
+  );
+  expect(held.history.decisionTraces).toEqual(
+    onDate.world.history.decisionTraces,
+  );
+  expect(holdNominationPrimary(held, input)).toBe(held);
+  const reopened = deserializeWorld(serializeWorld(held));
+  expect(nominationPrimaryRecord(reopened, input.stableKey)).toEqual(primary);
+});

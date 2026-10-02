@@ -241,7 +241,11 @@ export function holdNominationPrimary(
   if (eventByKey(world, stableKey)) return world;
   const { plan } = input;
   let next = world;
-  const rows: { tally: Tally; status: Status; party: string }[] = [];
+  const rows: {
+    tally: Omit<Tally, "permille"> & { readonly permille: number | null };
+    status: Status;
+    party: string;
+  }[] = [];
   const runoffParties: string[] = [];
   const groups = isAllParty(plan.method)
     ? [{ party: "all", entrants: input.entrants }]
@@ -252,6 +256,16 @@ export function holdNominationPrimary(
           entrants: input.entrants.filter((entrant) => entrant.party === party),
         }));
   for (const group of groups) {
+    // Preserve the existing uncontested filing result. No voter choice is
+    // needed between candidates when this already-filed group has only one.
+    if (group.entrants.length === 1) {
+      rows.push({
+        tally: { entrant: group.entrants[0]!, permille: null },
+        party: group.party,
+        status: "unopposed",
+      });
+      continue;
+    }
     const tallies = tally(
       next,
       `${stableKey}:${group.party}`,
@@ -358,13 +372,15 @@ export function holdNominationPrimary(
     participants: rows.map((row) => ({
       personId: row.tally.entrant.personId,
       role: "presence:candidate" as const,
-      detail: `${row.tally.entrant.party}|${row.tally.permille}|${row.status}`,
+      detail: `${row.tally.entrant.party}|${row.tally.permille ?? ""}|${row.status}`,
     })),
     personFactConstraints: [],
     visibility: "public",
     tags: [
       NOMINATION_VERSION,
-      "recorded-voter-count/v1",
+      rows.every((row) => row.status === "unopposed")
+        ? "unopposed-filing/v1"
+        : "recorded-voter-count/v1",
       `seat:${input.seatKey}`,
       `method:${plan.method}`,
       `date-basis:${plan.dateBasis}`,
