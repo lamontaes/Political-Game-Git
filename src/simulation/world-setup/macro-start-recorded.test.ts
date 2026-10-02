@@ -12,6 +12,7 @@ import {
   macroStartForHistory,
 } from "../macro-economy/producer";
 import {
+  appendWorldConditions,
   ensureWorldStartingConditions,
   macroStartingConditions,
   worldOpeningRecord,
@@ -65,4 +66,40 @@ describe("opening macro conditions use published observations", () => {
     })).toBe(reopened);
     expect(ensureMacroEconomyStarted(reopened, macroStartForHistory(condition))).toBe(reopened);
   });
+
+  it("preserves a legacy saved opening rather than replacing it with newer observations", () => {
+    const { world } = fixture();
+    const initial = {
+      realGrowthAnnualPct: 1.25,
+      unemploymentPct: 5.25,
+      inflation12mPct: 1.75,
+      housingSupplyDemandRatio: 0.95,
+      creditTightness: 0.6,
+    };
+    // Authored legacy-save control, not an observed October 2026 source packet.
+    const legacy = appendWorldConditions(world, [
+      {
+        kind: "world-opening",
+        stableKey: "a115:legacy:opening",
+        openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+        regime: "major",
+      },
+      {
+        kind: "macro-starting-conditions",
+        stableKey: "a115:legacy:macro",
+        contractVersion: "crunch46-macro-start/v1",
+        regime: "major",
+        volatilityScale: 2.5,
+        latents: { cycle: 1.2, cost: -0.1, housing: -0.2, credit: 0.3 },
+        initial,
+      },
+    ]);
+    const reopened = deserializeWorld(serializeWorld(legacy));
+    expect(ensureWorldStartingConditions(reopened, {
+      openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+    })).toBe(reopened);
+    expect(macroStartingConditions(reopened)!.initial).toEqual(initial);
+    expect(macroStartingConditions(reopened)!.regime).toBe("major");
+  });
+
 });
