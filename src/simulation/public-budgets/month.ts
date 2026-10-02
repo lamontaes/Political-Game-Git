@@ -38,7 +38,6 @@ import { actuarialContribution } from "./opening";
 import { pensionFlows, pensionPayment } from "./pension-share";
 import { reserveRule } from "./reserve-rule";
 import { roadChargeFactor } from "./road-usage-charge";
-import { tuitionFreezeFactor } from "./tuition-freeze";
 import { federalAidFactor } from "../federal-outlay-laws";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import { principledLeaning } from "../governing/officeholder-principles";
@@ -151,6 +150,7 @@ export function budgetProgramFor(programKey: string): BudgetProgram {
   const key = programKey.toLowerCase();
   if (/transit/.test(key)) return "transit";
   if (/bridge|highway|(^|[^a-z])road/.test(key)) return "highways";
+  if (/college|university|tuition/.test(key)) return "higherEducation";
   if (/school|education|teacher/.test(key)) return "schools";
   if (/police|law-enforcement/.test(key)) return "police";
   if (/fire/.test(key)) return "fire";
@@ -604,7 +604,7 @@ function monthsInto(year: AdoptedBudget, month: IsoDate): number {
  * income tax question). Income tax is read on January 1
  * of the date's year, the law paychecks withhold under for that tax year
  * (`stateIncomeTaxUnderLaw`), so the budget collects what paychecks withhold.
- * A tuition freeze moves charges and fees (`tuition-freeze.ts`). The fuel
+ * Actual tuition charges settle in school books. The fuel
  * tax erodes, and a road charge holds it (`road-usage-charge.ts`); given
  * `erodedOn`, the erosion is read on that date instead, so two dates' laws
  * compare over the same fleet.
@@ -625,11 +625,9 @@ export function taxLawFactor(
         (includeCannabis ? cannabisSalesFactor(world, government, onDate) : 1) +
         roadChargeFactor(world, government, onDate, erodedOn) -
         1
-      : source === "chargesAndFees"
-        ? tuitionFreezeFactor(world, government, onDate)
-        : source === "federalAid"
-          ? federalAidFactor(world, onDate)
-          : 1;
+      : source === "federalAid"
+        ? federalAidFactor(world, onDate)
+        : 1;
   for (const effect of TAX_QUESTION_EFFECTS) {
     if (effect.source !== source) continue;
     if (!(effect.levels ?? ["state"]).includes(government.level)) continue;

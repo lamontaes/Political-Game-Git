@@ -39,6 +39,22 @@ import {
   studyPeriodTuitionOutstanding,
 } from "../education-study-progression";
 import { introduceMeasure } from "../legislation";
+import {
+  recordFiledProvision,
+  currentMeasureProvisions,
+} from "../legislative-politics";
+import { recordAdoptedAppropriation } from "../governing/program-governing";
+import {
+  administrativeMandateText,
+  fundingAvailabilityText,
+  PUBLIC_FUNDING_DEFAULT_DATE_TEXT,
+} from "../public-fiscal";
+import {
+  ensurePublicGovernmentAccount,
+  publicTaxAccountForJurisdiction,
+} from "../tax-policy";
+import { settleTuitionFreezeBackfill } from "./tuition-freeze-backfill";
+import { budgetProgramFor } from "./month";
 import { legislativePackForJurisdiction } from "../legislative-institutions";
 import { chamberByKey } from "../legislature-rules";
 import {
@@ -98,6 +114,7 @@ const provenance = {
 } as const;
 let fixture: ReturnType<typeof smallWorld>;
 let world: World;
+let backfillFixtureWorld: World;
 let enrollmentId: EntityId;
 let schoolId: EntityId;
 let profileId: EntityId;
@@ -285,6 +302,7 @@ beforeAll(() => {
   const operative = operativeDateInWorld(world, enactment);
   if (!operative) throw new Error("Missing operative-date record.");
   const operativeAt = operative.date;
+  backfillFixtureWorld = world;
   const enrolledAt = world.history.educationEnrollments.find(
     (row) => row.id === enrollmentId,
   )!.startedAt;
@@ -301,6 +319,262 @@ beforeAll(() => {
 });
 
 describe(`A21 supported saved tuition (${place.displayName}, seed ${seed})`, () => {
+  it("pays an actual adopted backfill to school through the existing public writer once", () => {
+    let funded = backfillFixtureWorld;
+    const cap = resourceFlowTermsAt(funded, baselineFlowId)!.amount.minorUnits;
+    const revised = cap + cap;
+    const gap = revised - cap;
+    const expiresAt = addDays(funded.currentDate, path.minimumElapsedDays);
+    const pack = legislativePackForJurisdiction(fixture.stateJurisdictionId)!;
+    const governor = governorOfficeForJurisdiction(
+      funded,
+      fixture.place.stateJurisdictionKey!,
+    )!.holderPersonId!;
+    funded = introduceMeasure(
+      { ...funded, control: { kind: "person", personId: governor } },
+      {
+        stableKey: "a21:actual-backfill-bill",
+        jurisdictionId: fixture.stateJurisdictionId,
+        rulePackId: pack.packId,
+        designation: "A21 backfill fixture",
+        shortTitle: "Recorded tuition backfill",
+        summary: provenance.note,
+        origin: "member-introduction",
+        subjectClass: "appropriation",
+        sponsorPersonId: null,
+        originChamberKey: pack.chamberOrder[0]!,
+        propositionIds: [fixture.propositionIds[TUITION_FREEZE_QUESTION]!],
+        propositionAnswers: [
+          {
+            propositionId: fixture.propositionIds[TUITION_FREEZE_QUESTION]!,
+            answer: "yes",
+          },
+        ],
+      },
+    );
+    const fundingMeasureId = funded.history.legislativeMeasures!.at(-1)!.id;
+    for (const [index, [key, text, amount]] of (
+      [
+        [
+          "amount-provided",
+          `There is appropriated ${gap} USD minor units to backfill the recorded tuition difference.`,
+          gap,
+        ],
+        [
+          "administrative-mandate",
+          administrativeMandateText(TUITION_FREEZE_QUESTION),
+          null,
+        ],
+        ["effective-date", PUBLIC_FUNDING_DEFAULT_DATE_TEXT, null],
+        ["availability", fundingAvailabilityText(expiresAt), null],
+      ] as const
+    ).entries())
+      funded = recordFiledProvision(funded, {
+        stableKey: `a21:backfill:${key}`,
+        measureId: fundingMeasureId,
+        provisionKey: key,
+        sectionNumber: index + 1,
+        heading: key,
+        text,
+        beneficiary: {
+          kind: "general-application",
+          appliesToLabel: "the recorded tuition difference",
+        },
+        applicationScope: {
+          jurisdictionId: fixture.stateJurisdictionId,
+          segmentKey: null,
+        },
+        fiscalExposureMinorUnits: amount,
+        fiscalExposureLabel: amount === null ? null : `${gap} USD minor units`,
+      });
+    const bodies = pack.chambers.map((row) =>
+      seatBodyForPack(
+        row.chamberKey,
+        row.name,
+        authoredScenarioSeatCount(pack, row.chamberKey),
+        [],
+        true,
+      ),
+    );
+    const votePlan: Record<string, { yea: number }> = {};
+    for (const row of pack.chambers) {
+      for (const committee of row.committees)
+        votePlan[votePlanKeyForCommittee(committee.committeeKey)] = {
+          yea: committee.appointedMembers ?? 7,
+        };
+      for (const stage of row.floorStages)
+        votePlan[votePlanKeyForFloor(row.chamberKey, stage.stageKey)] = {
+          yea: bodies.find((body) => body.chamberKey === row.chamberKey)!
+            .members.length,
+        };
+    }
+    funded = enactThroughDesk(funded, fundingMeasureId, {
+      context: {
+        pack,
+        measureId: fundingMeasureId,
+        bodies,
+        committeeMemberCount: 7,
+        votePlan,
+        governorAction: "signed",
+        governorRationale: provenance.note,
+      },
+    });
+    const enactment = funded.history.legislativeEnactments!.find(
+      (row) => row.measureId === fundingMeasureId,
+    )!;
+    const availableAt = operativeDateInWorld(funded, enactment)!.date;
+    if (funded.currentDate < availableAt)
+      funded = advanceWorld(
+        funded,
+        daysBetween(funded.currentDate, availableAt),
+      );
+    funded = ensurePublicGovernmentAccount(funded, {
+      kind: "jurisdiction",
+      jurisdictionId: fixture.stateJurisdictionId,
+    });
+    const account = publicTaxAccountForJurisdiction(
+      funded,
+      fixture.stateJurisdictionId,
+    )!;
+    const adopted = recordAdoptedAppropriation(funded, {
+      familyKey: "program",
+      jurisdictionId: fixture.stateJurisdictionId,
+      programKey: TUITION_FREEZE_QUESTION,
+      amountMinorUnits: gap,
+      adoptedOn: availableAt,
+      availableThrough: expiresAt,
+      edition: "a21:actual-backfill",
+      basisNote: provenance.note,
+      sourceMeasureId: fundingMeasureId,
+    })!;
+    expect(adopted).not.toBeNull();
+    funded = adopted.world;
+    funded = createResourcePosition(
+      { ...funded, control: { kind: "person", personId: fixture.personId } },
+      {
+        stableKey: "a21:backfill-donor-cash",
+        owner: { kind: "person", personId: fixture.personId },
+        openedAt: funded.currentDate,
+        openingBalance: money(cap + gap, "USD"),
+        provenance,
+      },
+    );
+    funded = createResourcePosition(funded, {
+      stableKey: "a21:backfill-school-books",
+      owner: { kind: "organization", organizationId: schoolId },
+      openedAt: funded.currentDate,
+      openingBalance: money(0, "USD"),
+      provenance,
+    });
+    funded = createResourceFlow(funded, {
+      stableKey: "a21:recorded-state-cash-funding",
+      source: { kind: "person", personId: fixture.personId },
+      recipient: {
+        kind: "organization",
+        organizationId: account.organizationId,
+      },
+      startsAt: funded.currentDate,
+      amount: money(gap, "USD"),
+      cadenceKind: "schedule:one-time",
+      basisKind: "custom:fixture-state-funding",
+      basisReference: { kind: "general" },
+      restrictionKind: null,
+      jurisdictionId: fixture.stateJurisdictionId,
+      provenance,
+    });
+    const cashFlow = funded.history.resourceFlows.at(-1)!;
+    funded = recordResourceTransferOutcome(funded, {
+      stableKey: "a21:recorded-state-cash-received",
+      resourceFlowId: cashFlow.id,
+      periodStartsAt: funded.currentDate,
+      periodEndsAt: funded.currentDate,
+      occurredAt: funded.currentDate,
+      status: "completed",
+      attemptedAmount: money(gap, "USD"),
+      transferredAmount: money(gap, "USD"),
+      reasonKind: null,
+      note: provenance.note,
+      provenance,
+    });
+    funded = recordResourceFlowTerms(funded, {
+      stableKey: "a21:backfilled-tuition-revision",
+      resourceFlowId: baselineFlowId,
+      effectiveAt: funded.currentDate,
+      status: "active",
+      amount: money(revised, "USD"),
+      cadenceKind: "schedule:one-time",
+      reason: provenance.note,
+      provenance,
+      supersedesTermsId: resourceFlowTermsAt(funded, baselineFlowId)!.id,
+    });
+    const before = resourcePositionAt(
+      funded,
+      { kind: "organization", organizationId: account.organizationId },
+      money(0, "USD").currency,
+    )!.liquidBalance.minorUnits;
+    const enrolledAt = funded.history.educationEnrollments.find(
+      (row) => row.id === enrollmentId,
+    )!.startedAt;
+    const dueAt = studyPeriodDueDate(enrolledAt, path, 1);
+    if (funded.currentDate < dueAt)
+      funded = advanceWorld(funded, daysBetween(funded.currentDate, dueAt));
+    const charged = completeStudyPeriod(funded, enrollmentId, path);
+    expect(
+      resourceFlowTermsAt(charged, baselineFlowId)!.amount.minorUnits,
+    ).toBe(cap);
+    const payments = charged.history.resourceFlows.filter(
+      (flow) =>
+        flow.basisReference.kind === "public-funding" &&
+        flow.basisReference.mandate.programKey === TUITION_FREEZE_QUESTION,
+    );
+    expect(payments).toHaveLength(1);
+    expect(
+      budgetProgramFor(
+        payments[0]!.basisReference.kind === "public-funding"
+          ? payments[0]!.basisReference.mandate.programKey
+          : "",
+      ),
+    ).toBe("higherEducation");
+    expect(payments[0]!.recipient).toEqual({
+      kind: "organization",
+      organizationId: schoolId,
+    });
+    expect(
+      resourceFlowTermsAt(charged, payments[0]!.id)!.amount.minorUnits,
+    ).toBe(gap);
+    expect(payments[0]!.basisReference).toMatchObject({
+      kind: "public-funding",
+      mandate: {
+        appropriationId: adopted.appropriationId,
+        provisionIds: currentMeasureProvisions(charged, fundingMeasureId)
+          .map((row) => row.id)
+          .sort(),
+      },
+    });
+    expect(
+      resourcePositionAt(
+        charged,
+        { kind: "organization", organizationId: account.organizationId },
+        money(0, "USD").currency,
+      )!.liquidBalance.minorUnits,
+    ).toBe(before - gap);
+    expect(
+      resourcePositionAt(
+        charged,
+        { kind: "organization", organizationId: schoolId },
+        money(0, "USD").currency,
+      )!.liquidBalance.minorUnits,
+    ).toBe(revised);
+    expect(
+      resourcePositionAt(
+        charged,
+        { kind: "person", personId: fixture.personId },
+        money(0, "USD").currency,
+      )!.liquidBalance.minorUnits,
+    ).toBe(0);
+    const saved = deserializeWorld(serializeWorld(charged));
+    expect(settleTuitionFreezeBackfill(saved, baselineFlowId)).toBe(saved);
+  });
   it("bills the real public college through saved annual installments and freezes a revised unpaid charge", () => {
     const terms = acceptedEducationTerms(world, directoryEnrollmentId)!;
     const billing = terms.tuitionBilling!;
@@ -430,6 +704,12 @@ describe(`A21 supported saved tuition (${place.displayName}, seed ${seed})`, () 
       Math.floor(billing.annualAmountMinor / billing.termsPerAcademicYear),
     );
     expect(cappedTerms.supersedesTermsId).toBe(revisedTerms.id);
+    expect(cappedTerms.lawEffectStamps).toContainEqual(
+      expect.objectContaining({
+        questionKey: TUITION_FREEZE_QUESTION,
+        effectKind: "price-cost",
+      }),
+    );
     expect(
       paying.history.resourceFlowTerms.find(
         (row) => row.id === revisedTerms.id,

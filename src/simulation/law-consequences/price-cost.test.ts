@@ -27,6 +27,7 @@ import {
   resolvePriceCostConsequences,
   TEAM_4_PRICE_COST_REGISTRATION,
 } from "./price-cost";
+import { TUITION_COVERAGE_PREDICATE } from "./tuition-freeze-row";
 
 const QUESTION = "us-policy-positions:housing-land-use.rent-stabilization";
 const SEED = "team4-price-kind-five-places-20260930";
@@ -317,5 +318,8 @@ describe("the shared price-cost handler reuses saved flow terms", () => {
       }),
     ).toThrow("future activity date");
     expect(TEAM_4_PRICE_COST_REGISTRATION.kind).toBe("price-cost");
+    expect(TEAM_4_PRICE_COST_REGISTRATION.predicates).toContain(
+      TUITION_COVERAGE_PREDICATE,
+    );
   });
 });
