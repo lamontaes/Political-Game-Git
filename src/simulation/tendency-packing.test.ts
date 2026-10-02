@@ -193,6 +193,17 @@ describe(`worked-out personality tendencies in a save (${place.usps}, seed ${pla
     const short = structuredClone(stored);
     rowAt(short).pop();
     expect(() => readWorldSnapshot(JSON.stringify(short))).toThrow();
+    // A row stands only for a first value the writer would have packed.
+    const changeTags = structuredClone(stored);
+    rowAt(changeTags)[7] =
+      changeTags.tendenciesPacking.strings.push('["people-mind-v1.change"]') -
+      1;
+    expect(() => readWorldSnapshot(JSON.stringify(changeTags))).toThrow();
+    const noPerson = structuredClone(stored);
+    rowAt(noPerson)[1] =
+      noPerson.tendenciesPacking.strings.push("people-mind-v1:someone:seed") -
+      1;
+    expect(() => readWorldSnapshot(JSON.stringify(noPerson))).toThrow();
     const changedValue = structuredClone(stored);
     const row = rowAt(changedValue);
     row[4] = row[5];

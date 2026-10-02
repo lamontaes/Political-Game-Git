@@ -9,7 +9,11 @@ import {
 } from "./json-chunks";
 import { packRollCalls, unpackRollCalls } from "./roll-call-packing";
 import { packPrinciples, unpackPrinciples } from "./principle-packing";
-import { packTendencies, unpackTendencies } from "./tendency-packing";
+import {
+  hasPackableTendency,
+  packTendencies,
+  unpackTendencies,
+} from "./tendency-packing";
 import type { EntityId, IsoDate, World } from "./types";
 import { assertWorldIntegrity, assertWorldIntegrityFully } from "./world";
 
@@ -205,7 +209,7 @@ export function storedFormatVersion(
     snapshot.world,
     packRollCallsApplies(snapshot.world),
     packPrinciples(snapshot.world) !== null,
-    packTendencies(snapshot.world) !== null,
+    hasPackableTendency(snapshot.world),
   );
 }
 
@@ -547,7 +551,7 @@ export function readWorldSnapshot(payload: WorldPayload): {
   }
   if (principled && packPrinciples(world) === null)
     throw new Error("World snapshot format does not match its principles.");
-  if (tendencied && packTendencies(world) === null)
+  if (tendencied && !hasPackableTendency(world))
     throw new Error("World snapshot format does not match its tendencies.");
   return {
     world,
