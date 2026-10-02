@@ -167,33 +167,23 @@ function referenceState(world: World, jurisdictionId: EntityId): string | null {
 /** CTO reference mechanism: recorded principles select an existing value, with no new level. */
 export function sponsorRequestedLawTerm(
   world: World,
-  input:
-    | SponsorLawTermRequest
-    | (Omit<SponsorLawTermRequest, "measureId"> & {
-        readonly sponsorPersonId: EntityId;
-        readonly jurisdictionId: EntityId;
-      }),
+  input: SponsorLawTermRequest,
 ): SponsorRequestedLawTerm | null {
-  const measure =
-    "measureId" in input ? measureById(world, input.measureId) : null;
-  const sponsorPersonId =
-    "measureId" in input ? measure?.sponsorPersonId : input.sponsorPersonId;
-  const jurisdictionId =
-    "measureId" in input ? measure?.jurisdictionId : input.jurisdictionId;
+  const measure = measureById(world, input.measureId);
   const question = world.policyCatalog.propositionOrder
     .map((id) => world.policyCatalog.propositions[id]!)
     .find((row) => row.stableKey === input.questionKey);
   if (
-    !sponsorPersonId ||
-    !world.people[sponsorPersonId] ||
-    !jurisdictionId ||
-    !world.jurisdictions[jurisdictionId] ||
+    !measure?.sponsorPersonId ||
     !question ||
-    ("measureId" in input &&
-      !(measure?.propositionIds ?? []).includes(question.id))
+    !(measure.propositionIds ?? []).includes(question.id)
   )
     return null;
-  const leaning = principledLeaning(world, sponsorPersonId, question.id);
+  const leaning = principledLeaning(
+    world,
+    measure.sponsorPersonId,
+    question.id,
+  );
   const maximumScore =
     4 *
     (question.principles ?? []).reduce(
@@ -201,14 +191,14 @@ export function sponsorRequestedLawTerm(
       0,
     );
   if (!leaning.recordIds.length || !leaning.score || !maximumScore) return null;
-  const currentLaw = lawInForce(world, jurisdictionId, question.id);
+  const currentLaw = lawInForce(world, measure.jurisdictionId, question.id);
   const current = currentLaw
     ? readFinalEnactedLawTerm(world, currentLaw, input)
     : null;
   if (!current) return null;
   const targetPopulation =
     input.basis === "appropriation-per-resident"
-      ? publicBudgetFor(world, jurisdictionId)?.population
+      ? publicBudgetFor(world, measure.jurisdictionId)?.population
       : null;
   if (
     input.basis === "appropriation-per-resident" &&
@@ -218,7 +208,7 @@ export function sponsorRequestedLawTerm(
   )
     return null;
   const increasing = leaning.score > 0 === (input.supportDirection === "raise");
-  const targetState = referenceState(world, jurisdictionId);
+  const targetState = referenceState(world, measure.jurisdictionId);
   const knownRegions = new Set(censusRegionStates());
   const targetRegion =
     targetState && knownRegions.has(targetState)
@@ -227,7 +217,7 @@ export function sponsorRequestedLawTerm(
   const references = (world.history.legislativeMeasures ?? [])
     .flatMap((reference) => {
       if (
-        reference.id === measure?.id ||
+        reference.id === measure.id ||
         reference.introducedAt > world.currentDate ||
         !(reference.propositionIds ?? []).includes(question.id)
       )

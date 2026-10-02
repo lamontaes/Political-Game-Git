@@ -1,5 +1,9 @@
 import { renderMeasureTitle } from "../measure-title";
-import { TEACHER_SALARY_FLOOR_QUESTION } from "../teacher-salary-floor";
+import {
+  TEACHER_SALARY_FLOOR_QUESTION,
+  requestedTeacherSalaryFloor,
+  recordTeacherSponsorFloor,
+} from "../teacher-salary-floor";
 import { nextSessionCalendarDate } from "../legislative-session-calendar";
 import { LEGISLATIVE_SESSION_CALENDARS } from "../legislative-session-calendar-data";
 import {
@@ -84,8 +88,6 @@ import {
   automaticLawQuestionOnCooldown,
   compileAutomaticLawDraft,
   introduceAutomaticLawMeasure,
-  recordSponsorRequestedLawTerm,
-  sponsorRequestedLawTerm,
   type AutomaticLawCompileContext,
 } from "./automatic-legislation";
 import {
@@ -681,15 +683,11 @@ export function fileMemberAgendaBills(
               requestedChange ||
               (settings.governmentLevel === "state" &&
                 proposition.stableKey === TEACHER_SALARY_FLOOR_QUESTION &&
-                sponsorRequestedLawTerm(next, {
-                  sponsorPersonId: sponsor.personId!,
-                  jurisdictionId: input.jurisdictionId,
-                  questionKey: proposition.stableKey,
-                  termKey: "floor",
-                  unit: "minor",
-                  supportDirection: "raise",
-                  basis: "term",
-                }))
+                requestedTeacherSalaryFloor(
+                  next,
+                  input.jurisdictionId,
+                  sponsor.personId!,
+                ))
             )
               answer = "yes";
           }
@@ -910,30 +908,7 @@ export function fileMemberAgendaBills(
         proposition.stableKey === TEACHER_SALARY_FLOOR_QUESTION &&
         best.answer === "yes"
       ) {
-        next = recordSponsorRequestedLawTerm(next, {
-          measureId: measure.id,
-          questionKey: proposition.stableKey,
-          termKey: "floor",
-          unit: "minor",
-          supportDirection: "raise",
-          basis: "term",
-          provision: {
-            stableKey: `${measure.stableKey}:requested-teacher-floor`,
-            provisionKey: "teacher-salary-floor",
-            sectionNumber: 1,
-            heading: proposition.name,
-            beneficiary: {
-              kind: "general-application",
-              appliesToLabel: "Public school teachers",
-            },
-            applicationScope: {
-              jurisdictionId: measure.jurisdictionId,
-              segmentKey: null,
-            },
-          },
-          renderText: (term) =>
-            `The minimum annual salary for a full-time public school teacher is $${(term.value / 100).toLocaleString("en-US")}.`,
-        }).world;
+        next = recordTeacherSponsorFloor(next, measure.id);
       }
       if (cap.notAppliedLimits?.length) {
         const explanationKey = `${batchKey}:limit-not-applied:${sponsor.personId}:${chamber.chamberKey}`;
