@@ -1091,6 +1091,12 @@ export interface WorkElsewhere {
   readonly note: string;
   /** Names the review, so the same review writes nothing twice. */
   readonly round: string;
+  /**
+   * Whether the work needs no credential or experience, so the employer
+   * hires somebody who has not done it before. Read from the occupation's
+   * record by the caller.
+   */
+  readonly needsNoExperience: boolean;
 }
 
 /**
@@ -1098,8 +1104,8 @@ export interface WorkElsewhere {
  * elsewhere, their application, and the employer's answer on the same day.
  *
  * Nothing is drawn. The employer offers when the applicant has done this
- * line of work before (`daysInLine`) or the role is the entry-level public
- * body profile, and otherwise declines for want of experience. The offer
+ * line of work before (`daysInLine`) or the work needs no credential or
+ * experience, and otherwise declines for want of experience. The offer
  * waits the job market's longest reply window and starts the day it is
  * accepted: somebody who takes it is moving for it. Refuses the played
  * person, who applies for themselves.
@@ -1164,7 +1170,7 @@ export function offerWorkElsewhere(
   const application = next.history.jobApplications!.at(-1)!;
   const experienced =
     daysInLine(next, input.personId, opening, today) > 0 ||
-    input.title === PUBLIC_BODY_ROLE_PLACEHOLDER.title;
+    input.needsNoExperience;
   if (!experienced)
     return {
       world: addStep(next, application, {
@@ -1243,10 +1249,14 @@ export function holdsWork(world: World, personId: EntityId): boolean {
  * Days the person has done this line of work, from their recorded jobs: the
  * same title, or the same occupation when the opening names one.
  */
-function daysInLine(
+/**
+ * Days `personId` has worked, by `on`, in the opening's line of work: a job
+ * with the same title or occupation. What an employer reads as experience.
+ */
+export function daysInLine(
   world: World,
   personId: EntityId,
-  opening: JobOpeningRecord,
+  opening: Pick<JobOpeningRecord, "title" | "occupationClassification">,
   on: IsoDate,
 ): number {
   let days = 0;

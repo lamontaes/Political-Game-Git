@@ -10,7 +10,7 @@ import {
 } from "../../tests/fixtures/funded-service-fixture";
 import { declarePersonalTaxOccurrence } from "../presentation/tax-work";
 import { createCampaignElectionTransitionRegistry } from "./campaigns";
-import { daysBetween } from "./dates";
+import { daysBetween, makeIsoDate } from "./dates";
 import { createPartnership } from "./life";
 import {
   lifePlaceStateIdentities,
@@ -19,6 +19,7 @@ import {
 } from "./life-places";
 import { stableHash } from "./ids";
 import {
+  assertLawExposureIntegrity,
   NON_MONEY_FELT_SIZE,
   lawExposureFeltSize,
   lawExposuresFrom,
@@ -301,7 +302,7 @@ describe("a law reaches a person", () => {
         cadence: "monthly",
         sourceRecordId: row.sourceRecordId,
       }),
-    ).toThrow("Only an enacted law can reach a person.");
+    ).toThrow("Only a recorded law in force can reach a person.");
     expect(() =>
       recordLawExposure(world, {
         stableKey: "law-exposure-test:no-cadence",
@@ -637,5 +638,106 @@ describe("a law reaches a person", () => {
       townSupportFromViews(blamed, town, officialId, blamed.currentDate),
     ).toBeCloseTo(viewsOnly - 0.05, 10);
     expect(groupsAgainst(grouped, town, officialId)).toHaveLength(0);
+  });
+});
+
+/** Writer-boundary fixtures only. These complete the histories this writer
+ * reads; they do not claim that a real paycheck or legislature produced them.
+ * Existing integration cases above cover the enacted collection route.
+ */
+describe("starting and passed wage laws share the exposure record", () => {
+  const questionKey = "us-policy-positions:labor-workforce.raise-minimum-wage";
+  const personId = "person_exposure-control" as EntityId;
+  const questionId = "proposition_exposure-wage" as EntityId;
+  const sourceId = "event_exposure-control-pay" as EntityId;
+  const passedId = "measure_exposure-control-wage" as EntityId;
+  function writerWorld(): World {
+    return {
+      id: "world_exposure-control",
+      currentDate: makeIsoDate("2027-01-20"),
+      people: { [personId]: { id: personId } },
+      control: { kind: "person", personId },
+      policyCatalog: {
+        propositions: {
+          [questionId]: { id: questionId, stableKey: questionKey },
+        },
+      },
+      history: {
+        nextSequence: 2,
+        events: [],
+        resourcePositions: [],
+        resourceFlows: [],
+        resourceTransferOutcomes: [],
+        legislativeMeasures: [],
+        legislativeEnactments: [
+          {
+            measureId: passedId,
+            outcome: "enacted",
+            resolvedAt: makeIsoDate("2027-01-01"),
+          },
+        ],
+      },
+    } as unknown as World;
+  }
+  function input(measureId: EntityId) {
+    return {
+      stableKey: "exposure-control:pay",
+      personId,
+      measureId,
+      channel: "paycheck" as const,
+      direction: "gain" as const,
+      amount: money(100, "USD"),
+      cadence: "monthly" as const,
+      sourceRecordId: sourceId,
+      includeFamily: false,
+    };
+  }
+  it.each(["US-AK", "US-CA", "US-MA", "US-OR", "US-WA"])(
+    "%s records the same fields and validates both origins without a fake enactment",
+    (placeKey) => {
+      const world = writerWorld();
+      const startingId = `starting-law:${placeKey}:${questionKey}` as EntityId;
+      const starting = recordLawExposure(world, input(startingId));
+      const passed = recordLawExposure(world, input(passedId));
+      const startingRow = lawExposuresOf(starting, personId)[0]!;
+      const passedRow = lawExposuresOf(passed, personId)[0]!;
+      expect(startingRow).toEqual({ ...passedRow, measureId: startingId });
+      expect(starting.history.legislativeEnactments).toBe(
+        world.history.legislativeEnactments,
+      );
+      expect(recordLawExposure(starting, input(startingId))).toBe(starting);
+      for (const recorded of [starting, passed]) {
+        expect(() =>
+          assertLawExposureIntegrity(recorded, new Set([sourceId])),
+        ).not.toThrow();
+        const restored = JSON.parse(JSON.stringify(recorded)) as World;
+        expect(() =>
+          assertLawExposureIntegrity(restored, new Set([sourceId])),
+        ).not.toThrow();
+        expect(
+          recordLawExposure(
+            restored,
+            input(recorded === starting ? startingId : passedId),
+          ),
+        ).toBe(restored);
+      }
+    },
+  );
+  it("rejects an invented place, unknown question and a law before its starting date", () => {
+    const world = writerWorld();
+    for (const id of [
+      `starting-law:US-ZZ:${questionKey}`,
+      "starting-law:US-AK:invented-question",
+    ])
+      expect(() => recordLawExposure(world, input(id as EntityId))).toThrow(
+        "recorded law in force",
+      );
+    const before = { ...world, currentDate: makeIsoDate("1900-01-01") };
+    expect(() =>
+      recordLawExposure(
+        before,
+        input(`starting-law:US-AK:${questionKey}` as EntityId),
+      ),
+    ).toThrow("recorded law in force");
   });
 });

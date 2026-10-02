@@ -25,7 +25,7 @@ import {
 import { planCampaignOperatingWeek } from "./campaign-operating-costs";
 import { recordSupportShift } from "./campaign-support";
 import { addDays } from "./dates";
-import { evaluateDecision } from "./decisions";
+import { evaluateDecision, isSelectedDecision } from "./decisions";
 import {
   electionContestById,
   electionContestStatus,
@@ -481,7 +481,7 @@ function chooseStep(
   contest: ElectionContestRecord,
   opponent: CampaignOpponentRecord,
   stepKey: string,
-): CampaignOpponentStepKind {
+): CampaignOpponentStepKind | null {
   const treasury = opponentTreasury(world, opponent, campaign.treasuryCurrency);
   const daysLeft = daysBetween(world.currentDate, contest.electionDate);
   const alreadyAsked = campaignOpponentStepRecords(world).some(
@@ -654,10 +654,8 @@ function chooseStep(
     randomness: "close-choices",
     retention: "ephemeral",
   });
-  return (
-    (evaluation.selectedOptionKey as CampaignOpponentStepKind | null) ??
-    "fundraising"
-  );
+  if (!isSelectedDecision(evaluation)) return null;
+  return evaluation.selectedOptionKey as CampaignOpponentStepKind;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -1029,7 +1027,7 @@ function writeSupportRequest(
   campaign: CampaignRecord,
   opponent: CampaignOpponentRecord,
   stepKey: string,
-): StepWrite {
+): StepWrite | null {
   const chapter = reachableChapter(world, opponent);
   if (!chapter) {
     return writeFundraising(
@@ -1158,6 +1156,7 @@ function writeSupportRequest(
     randomness: "close-choices",
     retention: "ephemeral",
   });
+  if (!isSelectedDecision(evaluation)) return null;
   const decision: CampaignSupportDecision =
     evaluation.selectedOptionKey === "grant"
       ? "granted"
@@ -1249,9 +1248,10 @@ function runOpponentStep(
   contest: ElectionContestRecord,
   opponent: CampaignOpponentRecord,
   weekStart: IsoDate,
-): { readonly world: World; readonly step: CampaignOpponentStepRecord } {
+): { readonly world: World; readonly step: CampaignOpponentStepRecord | null } {
   const stepKey = stepKeyFor(opponent, weekStart);
   const chosen = chooseStep(world, campaign, contest, opponent, stepKey);
+  if (chosen === null) return { world, step: null };
   const written =
     chosen === "fundraising"
       ? writeFundraising(world, campaign, opponent, stepKey, null)
@@ -1260,6 +1260,7 @@ function runOpponentStep(
         : chosen === "field-event"
           ? writeFieldEvent(world, campaign, opponent, stepKey)
           : writeSupportRequest(world, campaign, opponent, stepKey);
+  if (written === null) return { world, step: null };
   // A fallback changes what actually happened, and the record says so.
   const kind: CampaignOpponentStepKind =
     written.note !== null ? "fundraising" : chosen;
@@ -1394,6 +1395,15 @@ export function campaignWeeklyEvaluationHandler(
       weekStart,
     );
     next = ran.world;
+    if (ran.step === null) {
+      return {
+        world: next,
+        status: "blocked",
+        reasonKey: "campaign:opponent-undecided",
+        context: "The opponent or chapter has not selected an action.",
+        outcomeEventId,
+      };
+    }
     outcomeEventId = ran.step.outcomeEventId;
   }
 

@@ -11,7 +11,6 @@ import {
   FAIRNESS_STATE_QUESTION,
   fairnessLawCovers,
   menPartneredWithMen,
-  UNCOVERED_PAY_SHARE,
 } from "../../src/simulation/fairness-pay-law";
 import { lawInForce } from "../../src/simulation/governing/law-in-force";
 import { createStableId, stableHash } from "../../src/simulation/ids";
@@ -24,7 +23,10 @@ import { createProductionPolicyCatalog } from "../../src/simulation/production-c
 import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/place-population.generated";
 import { resourceFlowTermsAt } from "../../src/simulation/resource-queries";
 import { TERRITORY_PLACE_ROWS } from "../../src/simulation/territory-places";
-import { withWorldIntegrityDeferred } from "../../src/simulation/world";
+import {
+  recordWorldEvent,
+  withWorldIntegrityDeferred,
+} from "../../src/simulation/world";
 import type {
   EntityId,
   LegislativeEnactmentRecord,
@@ -32,15 +34,7 @@ import type {
   World,
 } from "../../src/simulation";
 
-/**
- * A fairness law sets what a man partnered with a man is paid when he is
- * hired: where neither his state's law nor his town's ordinance covers him,
- * the job's rate over 1.027 (Burn 2018); where one does, the full rate. The
- * same town is opened twice, once under its real starting law and once with
- * the state's law turned the other way before anyone is hired, and every
- * town job is paid in both. The place is drawn from the largest town of each
- * of the 56 places.
- */
+/** The same recorded town job offer is preserved across legal coverage. */
 
 const SEED = "fairness-law-moves-pay";
 const START = makeIsoDate("2026-01-05");
@@ -86,28 +80,61 @@ function flipped(world: World, state: EntityId, answer: "yes" | "no"): World {
     propositionIds: [question],
     propositionAnswers: [{ propositionId: question, answer }],
   };
+  const withMeasure: World = {
+    ...world,
+    history: {
+      ...world.history,
+      nextSequence: sequence + 1,
+      legislativeMeasures: [
+        ...(world.history.legislativeMeasures ?? []),
+        measure,
+      ],
+    },
+  };
+  const withEvent = recordWorldEvent(withMeasure, {
+    stableKey: `${measure.stableKey}:fixture-enacted-event`,
+    type: "legislation.enacted",
+    occurredAt: on,
+    recordedAt: world.currentDate,
+    jurisdictionId: state,
+    involvedEntityIds: [measure.id, state],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: ["legislation"],
+    summary: "Authored fairness coverage contrast enacted.",
+    context: {
+      location: {
+        jurisdictionId: state,
+        label: world.jurisdictions[state]!.name,
+        setting: null,
+      },
+      socialContext:
+        "Explicit coverage contrast; no money term or employer offer is authored.",
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
   const enactment: LegislativeEnactmentRecord = {
     id: createStableId("legislative-enactment", "test:fairness-pay:enactment"),
     stableKey: "test:fairness-pay:enactment",
-    sequence: sequence + 1,
+    sequence: withEvent.history.nextSequence,
     measureId: measure.id,
     resolvedAt: on,
     outcome: "enacted",
     actDesignation: null,
     effectiveAt: on,
-    outcomeEventId: null,
+    outcomeEventId: withEvent.history.events.at(-1)!.id,
   };
   return {
-    ...world,
+    ...withEvent,
     history: {
-      ...world.history,
-      nextSequence: sequence + 2,
-      legislativeMeasures: [
-        ...(world.history.legislativeMeasures ?? []),
-        measure,
-      ],
+      ...withEvent.history,
+      nextSequence: withEvent.history.nextSequence + 1,
       legislativeEnactments: [
-        ...(world.history.legislativeEnactments ?? []),
+        ...(withEvent.history.legislativeEnactments ?? []),
         enactment,
       ],
     },
@@ -188,7 +215,7 @@ function watch(key: string): Watched {
   return { key, start, covered, others };
 }
 
-describe("a fairness law sets the pay of men partnered with men", () => {
+describe("fairness coverage does not invent a lower employer offer", () => {
   it("in every one of the 56 places, the start covers them exactly where the law names sexual orientation", () => {
     const rows = (
       startingLaw.questions as unknown as Record<
@@ -225,7 +252,7 @@ describe("a fairness law sets the pay of men partnered with men", () => {
     expect(covered).toBe(28);
   });
 
-  it(`in the first town, in an order drawn from seed ${SEED}, with such a man in a paid job: the law's 2.7% gain is missing where no law covers him`, () => {
+  it(`in the first town, in an order drawn from seed ${SEED}, with such a man in a paid job: the same job offer is not reduced where no law covers him`, () => {
     const places = onePlaceEach();
     expect(places).toHaveLength(56);
     const order = [...places].sort((a, b) =>
@@ -243,10 +270,6 @@ describe("a fairness law sets the pay of men partnered with men", () => {
     }
     expect(found, passed.join("; ")).not.toBeNull();
     for (const row of found!.covered)
-      // Within rounding to the cent, and never below the minimum wage.
-      expect(row.without / row.withLaw, row.person).toBeCloseTo(
-        UNCOVERED_PAY_SHARE,
-        3,
-      );
+      expect(row.without, row.person).toBe(row.withLaw);
   });
 });

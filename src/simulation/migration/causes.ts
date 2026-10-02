@@ -404,12 +404,25 @@ export function importanceOf(strength: number): DecisionImportance | null {
   return null;
 }
 
+/**
+ * PLACEHOLDER(research: school-move-to-scores): how much a mid-year school
+ * change weighs against moving at the very middle of a term; less toward
+ * either break, nothing over the summer.
+ */
+export const SCHOOL_YEAR_HOLD_AT_MID_TERM = 0.5;
+
 /** What the person weighs on staying beside the causes. */
 export interface LeaveBar {
   /** The yearly share of people their age in their state who move away. */
   readonly ageMoverRate: number;
   readonly ownsHome: boolean;
   readonly childrenAtHome: number;
+  /**
+   * How deep into a school year a move would land for a pupil at home: 0 at
+   * a term break or with no pupil, rising smoothly to 1 at the middle of the
+   * term (`schoolYearDepth`). Absent is 0.
+   */
+  readonly schoolYearDepth?: number;
   /** The town's pushes multiplied: above 1 pushes out, below holds. */
   readonly townPush: number;
 }
@@ -506,6 +519,17 @@ export function decideToLeave(
       "keep-home",
       clamp01(0.25 * bar.childrenAtHome),
       "they have children at home",
+      "medium",
+    );
+  if ((bar.schoolYearDepth ?? 0) > 0)
+    add(
+      "bar:school-year",
+      "keep-home",
+      // PLACEHOLDER(research: school-move-to-scores): the size a mid-year
+      // move weighs against leaving, at the middle of the term. Families are
+      // known to time moves to the summer; how strongly is not sized here.
+      clamp01(SCHOOL_YEAR_HOLD_AT_MID_TERM * bar.schoolYearDepth!),
+      "a child at home would have to change schools in the middle of the year",
       "medium",
     );
   if (bar.townPush > 1)

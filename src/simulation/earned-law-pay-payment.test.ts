@@ -11,7 +11,7 @@ import {
   changeLifePathStatus,
   scheduleLifePathSession,
   performLifePathSession,
-  LIFE_PATHS2_HANDLERS,
+  lifePaths2Handlers,
 } from "./life-paths2";
 import {
   fileRuleChangeProvision,
@@ -659,7 +659,7 @@ it("A38 actual completed-shift payday delegates immutable earnings through the c
       item.entityIds.includes(completion.id),
   )!;
   expect(due).toBeDefined();
-  const paid = advanceWorld(worked.world, 1, LIFE_PATHS2_HANDLERS);
+  const paid = advanceWorld(worked.world, 1, lifePaths2Handlers());
   const outcome = paid.history.resourceTransferOutcomes.find(
     (row) => row.stableKey === `${due.stableKey}:paid`,
   )!;
@@ -844,7 +844,7 @@ it("keeps completed earned pay from distinct work dates in separate observations
   const first = completedEarnedLawFixture();
   const paused = changeLifePathStatus(first.worked.world, first.workId, "pause");
   expect(paused.ok, paused.message).toBe(true);
-  const paid = advanceWorld(paused.world, 1, LIFE_PATHS2_HANDLERS);
+  const paid = advanceWorld(paused.world, 1, lifePaths2Handlers());
   const resumed = changeLifePathStatus(paid, first.workId, "return");
   expect(resumed.ok, resumed.message).toBe(true);
   const nextDate = resumed.world;

@@ -9,7 +9,7 @@ import {
   enterLifePath,
   scheduleLifePathSession,
   performLifePathSession,
-  LIFE_PATHS2_HANDLERS,
+  lifePaths2Handlers,
 } from "../../src/simulation/life-paths2";
 import {
   resourceFlowTermsAt,
@@ -83,7 +83,7 @@ describe.each(sampled)("completed shift payroll in %s", (placeKey) => {
     const owner = { kind: "person" as const, personId };
     const cash = resourcePositionAt(base, owner, earned.amount.currency)!
       .liquidBalance.minorUnits;
-    const paid = advanceWorld(base, 1, LIFE_PATHS2_HANDLERS);
+    const paid = advanceWorld(base, 1, lifePaths2Handlers());
     const repriced = recordResourceFlowTerms(paid, {
       stableKey: `later-shift-terms:${flow.id}`,
       resourceFlowId: flow.id,
@@ -144,7 +144,7 @@ describe.each(sampled)("completed shift payroll in %s", (placeKey) => {
         note: "Explicit recorded-contract control.",
       },
     });
-    const settle = LIFE_PATHS2_HANDLERS.get("life-paths2:pay")!;
+    const settle = lifePaths2Handlers().get("life-paths2:pay")!;
     const laterPaid = settle(laterContract, due).world;
     const npcPaid = settle(
       { ...laterContract, control: { kind: "observer" } },
@@ -195,10 +195,10 @@ describe.each(sampled)("completed shift payroll in %s", (placeKey) => {
     const reopened = advanceWorld(
       deserializeWorld(serializeWorld(base)),
       1,
-      LIFE_PATHS2_HANDLERS,
+      lifePaths2Handlers(),
     );
     expect(serializeWorld(reopened)).toBe(serializeWorld(paid));
-    const repeated = advanceWorld(paid, 1, LIFE_PATHS2_HANDLERS);
+    const repeated = advanceWorld(paid, 1, lifePaths2Handlers());
     expect(
       repeated.history.resourceTransferOutcomes.filter(
         (row) => row.resourceFlowId === flow.id,

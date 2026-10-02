@@ -16,7 +16,8 @@
  * - A law governs the tax year it is in force on January 1, so a law that
  *   takes effect during a year applies from the next one: withholding tables
  *   change by tax year.
- * - A bill does not carry its own rates yet. A new or reshaped tax is
+ * - An adopted flat rate and annual taxable-income threshold govern when
+ *   both are recorded in the final bill. Otherwise a new or reshaped tax is
  *   ESTIMATED FROM AVERAGE: the average of the states that have that kind of
  *   tax in the Tax Foundation's 2026 tables, ranked by Census region and
  *   sourced household-income distance with the approved reciprocal-rank
@@ -46,6 +47,7 @@ import {
 import { chiefExecutiveJurisdiction } from "./nationwide-world/government-jurisdiction";
 import type { EntityId, IsoDate, World } from "./types";
 import { censusRegionOf } from "./world-setup/census-regions";
+import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
 
 export const ADOPT_STATE_INCOME_TAX_QUESTION =
   "us-policy-positions:fiscal.adopt-income-tax";
@@ -73,6 +75,14 @@ export type StateIncomeTaxUnderLaw =
   | { readonly kind: "as-begun" }
   /** A law enacted in play ended the state's wage income tax. */
   | { readonly kind: "repealed"; readonly lawMeasureIds: readonly EntityId[] }
+  /** Adopted numeric terms; a missing deduction can still be estimated. */
+  | {
+      readonly kind: "enacted";
+      readonly shape: "flat";
+      readonly lawMeasureIds: readonly EntityId[];
+      readonly schedule: IncomeTaxSchedule;
+      readonly estimatedFromAverage?: string;
+    }
   /** A law enacted in play started or reshaped the tax; rates estimated. */
   | {
       readonly kind: "estimated";
@@ -123,6 +133,69 @@ export function stateIncomeTaxUnderLaw(
       ? "graduated"
       : "flat"
     : (begunShape ?? "graduated");
+  const flatRate =
+    adopt?.answer === "yes"
+      ? readFinalEnactedLawTerm(world, adopt, {
+          questionKey: ADOPT_STATE_INCOME_TAX_QUESTION,
+          termKey: "rate",
+          unit: "ratio",
+        })
+      : null;
+  const threshold =
+    adopt?.answer === "yes"
+      ? readFinalEnactedLawTerm(world, adopt, {
+          questionKey: ADOPT_STATE_INCOME_TAX_QUESTION,
+          termKey: "threshold",
+          unit: "minor",
+        })
+      : null;
+  // One numeric rate cannot represent an explicitly graduated schedule.
+  // Missing, conflicting or wrong-unit terms retain the labeled fallback.
+  if (
+    flatRate &&
+    threshold &&
+    flatRate.value >= 0 &&
+    flatRate.value <= 1 &&
+    Number.isSafeInteger(flatRate.value * 10_000) &&
+    Number.isSafeInteger(threshold.value) &&
+    threshold.value >= 0 &&
+    graduated?.answer !== "yes"
+  ) {
+    const deduction = estimatedSchedule(
+      stateKey,
+      "flat",
+      place.standardDeductionSingle,
+    );
+    return {
+      kind: "enacted",
+      shape: "flat",
+      lawMeasureIds: [
+        adopt!.measureId,
+        ...(graduated ? [graduated.measureId] : []),
+      ],
+      schedule: stateScheduleForFilingStatus(
+        {
+          ...deduction.schedule,
+          brackets: [
+            ...(threshold.value > 0
+              ? [{ overMinor: 0, rateBasisPoints: 0 }]
+              : []),
+            {
+              overMinor: threshold.value,
+              rateBasisPoints: flatRate.value * 10_000,
+            },
+          ],
+        },
+        status,
+      ),
+      ...(place.standardDeductionSingle === null
+        ? {
+            estimatedFromAverage:
+              `ESTIMATED FROM AVERAGE: only the single-filer deduction of $${(deduction.schedule.standardDeductionMinor / 100).toLocaleString("en-US")} uses the existing ranked sourced peers. The rate and annual taxable-income threshold are the adopted bill's terms. ${status === "single" ? "" : STATE_FILING_STATUS_NOTE[status]}`.trim(),
+          }
+        : {}),
+    };
+  }
   if (!adopted && shape === begunShape) return { kind: "as-begun" };
   const lawMeasureIds = [
     ...(adopted && adopt ? [adopt.measureId] : []),
