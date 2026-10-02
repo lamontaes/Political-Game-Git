@@ -1,5 +1,4 @@
 import {
-  SeededRng,
   activeChildAuthoritiesAt,
   activeEducationEnrollmentsAt,
   activeWorkRelationshipsAt,
@@ -386,7 +385,7 @@ function yearsBefore(date: IsoDate, years: number): IsoDate {
  */
 export function formativeStepDays(
   world: World,
-  personId: EntityId,
+  _personId: EntityId,
   interval: {
     readonly band: string;
     readonly beginsAt: IsoDate;
@@ -394,11 +393,10 @@ export function formativeStepDays(
     readonly anchorBudget: readonly [number, number];
   },
 ): number {
-  const rng = new SeededRng(world.seed).fork(
-    `formative-pacing-v2:${personId}:${interval.band}`,
-  );
   const [minimum, maximum] = interval.anchorBudget;
-  const anchors = Math.max(1, rng.integer(minimum, maximum + 1));
+  // Expected count of the former uniform draw, from the accepted budget.
+  // Whole anchors keep the existing band marks without an invented cadence.
+  const anchors = Math.max(1, Math.round((minimum + maximum) / 2));
   const bandDays = Math.max(1, daysBetween(interval.beginsAt, interval.endsAt));
 
   // The band's anchors are marks laid evenly across the band, and a step is the

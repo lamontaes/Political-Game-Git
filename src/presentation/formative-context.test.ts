@@ -1,3 +1,4 @@
+import { serializeWorld } from "../simulation";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -397,7 +398,34 @@ describe("How fast the years go by", () => {
     }
   });
 
-  it("is deterministic for one world and different across worlds", () => {
+  it("spends the expected anchor count and lands exactly at the band boundary", () => {
+    const { world, playerPersonId } = child(9);
+    const interval = formativeIntervalAt(world, playerPersonId)!;
+    const [minimum, maximum] = interval.anchorBudget;
+    const expectedCount = Math.round((minimum + maximum) / 2);
+    let cursor = interval.beginsAt;
+    let count = 0;
+    const before = serializeWorld(world);
+    while (cursor < interval.endsAt) {
+      const step = formativeStepDays(
+        { ...world, currentDate: cursor },
+        playerPersonId,
+        interval,
+      );
+      expect(step).toBeGreaterThan(0);
+      expect(step).toBeLessThanOrEqual(days(cursor, interval.endsAt));
+      cursor = new Date(Date.parse(`${cursor}T00:00:00Z`) + step * 86_400_000)
+        .toISOString()
+        .slice(0, 10) as typeof cursor;
+      count += 1;
+      expect(count).toBeLessThanOrEqual(maximum);
+    }
+    expect(cursor).toBe(interval.endsAt);
+    expect(count).toBe(expectedCount);
+    expect(serializeWorld(world)).toBe(before);
+  });
+
+  it("uses the same accepted anchor budget independently of the seed", () => {
     const first = child(9, "pace-a");
     const second = child(9, "pace-b");
     const firstInterval = formativeIntervalAt(
@@ -412,15 +440,16 @@ describe("How fast the years go by", () => {
     expect(
       formativeStepDays(first.world, first.playerPersonId, firstInterval),
     ).toBe(formativeStepDays(first.world, first.playerPersonId, firstInterval));
-    // Not a claim that they must differ every time — only that pacing is a
-    // property of the world rather than a global constant.
     expect(
-      typeof formativeStepDays(
-        second.world,
-        second.playerPersonId,
-        secondInterval,
+      formativeStepDays(
+        { ...first.world, seed: second.world.seed },
+        first.playerPersonId,
+        firstInterval,
       ),
-    ).toBe("number");
+    ).toBe(formativeStepDays(first.world, first.playerPersonId, firstInterval));
+    expect(
+      formativeStepDays(second.world, second.playerPersonId, secondInterval),
+    ).toBeGreaterThan(0);
   });
 });
 
