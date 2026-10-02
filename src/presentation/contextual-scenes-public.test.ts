@@ -29,6 +29,7 @@ import {
 } from "../simulation/press";
 import { recordedCivicReporterFixture } from "../../tests/support/recorded-civic-journalist";
 import type { ContextualSceneSubject } from "./contextual-scenes";
+import { refreshContextualScenes } from "./contextual-scene-producers";
 import { resolveActiveMemberSeat } from "./legislative-member-seat";
 import { openLegislativeWork } from "./legislation-world";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
