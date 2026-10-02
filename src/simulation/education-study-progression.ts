@@ -4,7 +4,6 @@ import {
   createResourceFlow,
   money,
   recordResourceTransferOutcome,
-  recordResourceFlowTerms,
 } from "./resources";
 import { resourcePositionAt, resourceFlowTermsAt } from "./resource-queries";
 import { recordEducationEnrollmentState } from "./life";
@@ -23,10 +22,16 @@ import type { LifePathDefinition } from "./life-paths2-catalog";
 import type { EntityId, IsoDate, World } from "./types";
 import {
   recordedTuitionFreezePrice,
-  recordedSchoolTuitionFreezeQuote,
-} from "./public-budgets/tuition-freeze";
-import { acceptedEducationTerms } from "./education-study-terms";
-import { readSchoolTuitionPriceAt } from "../education/tuition-prices";
+  recordedStudyPeriodTuitionPrice,
+} from "../education/tuition-prices";
+import { TUITION_FREEZE_ROW } from "./law-consequences/tuition-freeze-row";
+import {
+  resolvePriceCostConsequences,
+  applyPriceCostConsequence,
+} from "./law-consequences/price-cost";
+import { settleTuitionFreezeBackfill } from "./public-budgets/tuition-freeze-backfill";
+import { organizationProfileAt } from "./life-queries";
+import { stateJurisdictionOf } from "./governing/law-in-force";
 
 const prefix = "life-paths2.";
 
@@ -321,47 +326,6 @@ export function paidStudyPeriods(world: World, enrollmentId: EntityId): number {
   ).length;
 }
 
-function periodTuitionPrice(
-  world: World,
-  enrollmentId: EntityId,
-  period: number,
-) {
-  const billing = acceptedEducationTerms(world, enrollmentId)?.tuitionBilling;
-  const enrollment = world.history.educationEnrollments.find(
-    (row) => row.id === enrollmentId,
-  );
-  if (!billing || !enrollment) return null;
-  const current = readSchoolTuitionPriceAt(
-    world,
-    enrollment.organizationId,
-    billing.selector,
-  );
-  const frozen = recordedSchoolTuitionFreezeQuote(
-    world,
-    enrollmentId,
-    billing.selector,
-  );
-  const annual =
-    current?.quote.chargeUnit === "academic-year"
-      ? current.quote.amountMinor
-      : billing.annualAmountMinor;
-  const installment = (amount: number) => {
-    const regular = Math.floor(amount / billing.termsPerAcademicYear);
-    return period % billing.termsPerAcademicYear === 0
-      ? amount - regular * (billing.termsPerAcademicYear - 1)
-      : regular;
-  };
-  const cap =
-    frozen.status === "frozen" && frozen.quote.chargeUnit === "academic-year"
-      ? installment(frozen.quote.amountMinor)
-      : null;
-  return {
-    amountMinor:
-      cap === null ? installment(annual) : Math.min(installment(annual), cap),
-    cap,
-  };
-}
-
 export function studyPeriodTuitionOutstanding(
   world: World,
   enrollmentId: EntityId,
@@ -369,7 +333,7 @@ export function studyPeriodTuitionOutstanding(
 ): number {
   const period = completedStudyPeriods(world, enrollmentId, path) + 1;
   if (period > studyPeriodsPlanned(world, enrollmentId, path)) return 0;
-  const price = periodTuitionPrice(world, enrollmentId, period);
+  const price = recordedStudyPeriodTuitionPrice(world, enrollmentId, period);
   if (price) {
     const charge = world.history.resourceFlows.find(
       (flow) =>
@@ -816,7 +780,9 @@ export function completeStudyPeriod(
   );
   let cost = charge
     ? resourceFlowTermsAt(next, charge.id)!.amount.minorUnits
-    : studyPeriodTuitionOutstanding(world, enrollmentId, path);
+    : (recordedStudyPeriodTuitionPrice(world, enrollmentId, periodNumber)
+        ?.currentAmountMinor ??
+      studyPeriodTuitionOutstanding(world, enrollmentId, path));
   if (cost > 0 && !charge) {
     next = createResourceFlow(next, {
       stableKey: chargeKey,
@@ -831,39 +797,35 @@ export function completeStudyPeriod(
       basisKind: "obligation:tuition",
       basisReference: { kind: "general" },
       restrictionKind: null,
-      jurisdictionId: null,
+      jurisdictionId: organizationProfileAt(next, enrollment.organizationId)
+        ?.locationJurisdictionId
+        ? stateJurisdictionOf(
+            organizationProfileAt(next, enrollment.organizationId)!
+              .locationJurisdictionId!,
+          )
+        : null,
       provenance: authored,
     });
     charge = next.history.resourceFlows.at(-1)!;
   }
   if (charge) {
     const terms = resourceFlowTermsAt(next, charge.id)!;
-    const frozen = recordedTuitionFreezePrice(next, enrollmentId);
-    const recordedPrice = periodTuitionPrice(next, enrollmentId, periodNumber);
-    const cap =
-      recordedPrice?.cap ??
-      (frozen.status === "frozen" ? frozen.amountMinor : null);
     const alreadyPaid = next.history.resourceTransferOutcomes.some(
       (outcome) =>
         outcome.resourceFlowId === charge.id && outcome.status === "completed",
     );
-    if (
-      cap !== null &&
-      terms.status === "active" &&
-      terms.amount.minorUnits > cap &&
-      !alreadyPaid
-    ) {
-      next = recordResourceFlowTerms(next, {
-        stableKey: `${charge.stableKey}:tuition-freeze:${terms.id}`,
-        resourceFlowId: charge.id,
-        effectiveAt: next.currentDate,
-        status: "active",
-        amount: money(cap, terms.amount.currency),
-        cadenceKind: terms.cadenceKind,
-        reason: "Tuition held at its recorded operative-date price.",
-        provenance: authored,
-        supersedesTermsId: terms.id,
-      });
+    if (terms.status === "active" && !alreadyPaid) {
+      for (const resolved of resolvePriceCostConsequences(
+        next,
+        TUITION_FREEZE_ROW,
+        {
+          onDate: next.currentDate,
+          activity: "payment",
+          activityId: terms.id,
+          subjectIds: [actor],
+        },
+      ))
+        next = applyPriceCostConsequence(next, resolved);
     }
     cost = resourceFlowTermsAt(next, charge.id)!.amount.minorUnits;
   }
@@ -916,6 +878,7 @@ export function completeStudyPeriod(
       : `You completed study period ${periodNumber} of ${total} for ${path.title}.`,
     [`${ATTEMPTED_TAG}${Math.round(attempted)}`, `${EARNED_TAG}${earned}`],
   );
+  if (charge) next = settleTuitionFreezeBackfill(next, charge.id);
   const creditsMet = earnedBefore + earned >= required;
   if (periodNumber >= total && !creditsMet) {
     // Short of credits: another period, or, past the maximum timeframe, the

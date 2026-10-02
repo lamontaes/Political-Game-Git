@@ -2053,18 +2053,6 @@ export function settleTownCompensations(
     pending.add(stableKey);
   }
   if (inputs.length === 0) return next;
-  next = ensureEmployerCashPositions(next, "later");
-  // Existing business contracts settle actual customer payments into the same
-  // canonical payer position before payroll. Saved sales estimates alone
-  // cannot fund a receipt: settlement debits the customer's dated cash.
-  const employers = new Set<EntityId>();
-  for (const input of inputs) {
-    const flow = recordById(next.history.resourceFlows, input.resourceFlowId);
-    if (flow?.source.kind === "organization")
-      employers.add(flow.source.organizationId);
-  }
-  for (const organizationId of employers)
-    next = settleBusinessReceipts(next, organizationId);
   for (const personId of recipients)
     next = ensureLifePathPersonalPosition(
       next,

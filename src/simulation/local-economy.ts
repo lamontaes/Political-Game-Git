@@ -729,19 +729,6 @@ export function settleBusinessMoney(
   return settleFlows(world, businessFlows(world, organizationId));
 }
 
-/** Actual dated customer receipts only; payroll and owner draws stay with their callers. */
-export function settleBusinessReceipts(
-  world: World,
-  organizationId: EntityId,
-): World {
-  return settleFlows(
-    world,
-    businessFlows(world, organizationId).filter(
-      (flow) => flow.basisKind === BUSINESS_REVENUE_BASIS,
-    ),
-  );
-}
-
 /** The same, for every business seated in a town, as one batch. */
 export function settleLocalBusinesses(
   world: World,

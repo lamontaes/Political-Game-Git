@@ -1,5 +1,5 @@
 import { FEDERAL_EMPLOYMENT_RULES } from "../statutory-tax-rules";
-import { federalProgramCostsForMonth } from "../federal-cost-ledger";
+import { publicProgramCostsForMonth } from "../federal-cost-ledger";
 import { FEDERAL_INCOME_TAX_KEY } from "../statutory-tax";
 import { federalProgramLine } from "./federal-treasury";
 import { PAID_LEAVE_QUESTION } from "../state-paid-leave-law";
@@ -38,7 +38,6 @@ import {
 import { actuarialContribution, pensionFlows } from "./opening";
 import { reserveRule } from "./reserve-rule";
 import { roadChargeFactor } from "./road-usage-charge";
-import { tuitionFreezeFactor } from "./tuition-freeze";
 import { federalAidFactor } from "../federal-outlay-laws";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import { principledLeaning } from "../governing/officeholder-principles";
@@ -158,6 +157,7 @@ export function budgetProgramFor(programKey: string): BudgetProgram {
   if (category) return category;
   if (/transit/.test(key)) return "transit";
   if (/bridge|highway|(^|[^a-z])road/.test(key)) return "highways";
+  if (/college|university|tuition/.test(key)) return "higherEducation";
   if (/school|education|teacher/.test(key)) return "schools";
   if (/police|law-enforcement/.test(key)) return "police";
   if (/fire/.test(key)) return "fire";
@@ -337,7 +337,7 @@ export function readMonthFlows(
     rows.push(payment);
     taxPaymentsByOutcome.set(payment.resourceOutcomeId, rows);
   }
-  const federalCostsByTransfer = new Map(
+  const programCostsByTransfer = new Map(
     [
       ...new Set(
         history.resourceTransferOutcomes
@@ -345,7 +345,7 @@ export function readMonthFlows(
           .map((row) => `${row.occurredAt.slice(0, 7)}-01` as IsoDate),
       ),
     ]
-      .flatMap((month) => federalProgramCostsForMonth(world, month))
+      .flatMap((month) => publicProgramCostsForMonth(world, month))
       .map((cost) => [cost.transferId, cost] as const),
   );
   const paidLeavePaymentStamps = new Map<string, LawEffectStamp[]>();
@@ -481,13 +481,20 @@ export function readMonthFlows(
           outcome.transferredAmount.minorUnits;
         row.sourceRecordIds.push(flow.id, outcome.id);
         row.lawEffectStamps.push(...savedStamps);
-        if (outOf === federalKey) {
-          const cost = federalCostsByTransfer.get(outcome.id);
-          if (cost) {
-            row.sourceRecordIds.push(...cost.sourceRecordIds);
-            if (!savedStamps.length)
-              row.lawEffectStamps.push(...cost.lawEffectStamps);
-          }
+        const cost = programCostsByTransfer.get(outcome.id);
+        if (cost) {
+          row.sourceRecordIds.push(...cost.sourceRecordIds);
+          row.lawEffectStamps.push(
+            ...cost.lawEffectStamps.filter(
+              (stamp) =>
+                !savedStamps.some(
+                  (saved) =>
+                    saved.governingLawKey === stamp.governingLawKey &&
+                    saved.effectKind === stamp.effectKind &&
+                    saved.questionKey === stamp.questionKey,
+                ),
+            ),
+          );
         }
       }
     }
@@ -611,7 +618,7 @@ function monthsInto(year: AdoptedBudget, month: IsoDate): number {
  * income tax question). Income tax is read on January 1
  * of the date's year, the law paychecks withhold under for that tax year
  * (`stateIncomeTaxUnderLaw`), so the budget collects what paychecks withhold.
- * A tuition freeze moves charges and fees (`tuition-freeze.ts`). The fuel
+ * Actual tuition charges settle in school books. The fuel
  * tax erodes, and a road charge holds it (`road-usage-charge.ts`); given
  * `erodedOn`, the erosion is read on that date instead, so two dates' laws
  * compare over the same fleet.
@@ -632,11 +639,9 @@ export function taxLawFactor(
         (includeCannabis ? cannabisSalesFactor(world, government, onDate) : 1) +
         roadChargeFactor(world, government, onDate, erodedOn) -
         1
-      : source === "chargesAndFees"
-        ? tuitionFreezeFactor(world, government, onDate)
-        : source === "federalAid"
-          ? federalAidFactor(world, onDate)
-          : 1;
+      : source === "federalAid"
+        ? federalAidFactor(world, onDate)
+        : 1;
   for (const effect of TAX_QUESTION_EFFECTS) {
     if (effect.source !== source) continue;
     if (!(effect.levels ?? ["state"]).includes(government.level)) continue;
