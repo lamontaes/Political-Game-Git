@@ -23,6 +23,7 @@ import {
   SPEECH_OF_TAG,
   SPEECH_RECEPTION_EVENT,
   householdmatesOf,
+  familyAndFriendsNearby,
 } from "./speech-reception";
 import {
   ensureSpeechRetellingSchedule,
@@ -41,11 +42,25 @@ function fixture(openedWorld?: World) {
       people: 16,
       seed: "a9-three-retellings",
     }).world;
-  const isolated = world.personOrder.filter(
+  // Public Begin includes people from many jurisdictions. Retelling contacts
+  // must share their recorded home; this fixture does not move anyone.
+  const eligible = world.personOrder.filter(
     (id) =>
       ageOnDate(world.people[id]!.birthDate, world.currentDate) >= 5 &&
-      householdmatesOf(world, id).length === 0,
+      householdmatesOf(world, id).length === 0 &&
+      !world.history.personDeaths.some(
+        (death) => death.personId === id && death.diedAt <= world.currentDate,
+      ),
   );
+  const byHome = new Map<EntityId, EntityId[]>();
+  for (const id of eligible) {
+    const home = world.people[id]!.homeJurisdictionId;
+    const group = byHome.get(home) ?? [];
+    group.push(id);
+    byHome.set(home, group);
+  }
+  const isolated =
+    [...byHome.values()].find((group) => group.length >= 5) ?? [];
   expect(isolated.length).toBeGreaterThanOrEqual(5);
   const [speaker, first, second, third, fourth] = isolated as [
     EntityId,
@@ -54,6 +69,13 @@ function fixture(openedWorld?: World) {
     EntityId,
     EntityId,
   ];
+  expect(
+    new Set(
+      [speaker, first, second, third, fourth].map(
+        (id) => world.people[id]!.homeJurisdictionId,
+      ),
+    ).size,
+  ).toBe(1);
   const event = (
     stableKey: string,
     type: `${string}.${string}`,
@@ -106,6 +128,10 @@ function fixture(openedWorld?: World) {
       },
     });
   }
+  // Assert the recorded kinship chain is eligible under the production reader.
+  expect(familyAndFriendsNearby(world, first)).toContain(second);
+  expect(familyAndFriendsNearby(world, second)).toContain(third);
+  expect(familyAndFriendsNearby(world, third)).toContain(fourth);
   const social = event(
     "a9:social",
     "person.socialized",
