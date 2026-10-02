@@ -4361,28 +4361,34 @@
       "note": "Bedrooms and kept landlord pass (#1490); the seeded landlord-kind draw (town-rent.ts:1226) and its stream (:1208) still match, so partly matches verified."
     },
     "A59": {
-      "covers": "whole",
+      "covers": "part",
       "checks": [
         {
-          "kind": "absent",
+          "kind": "present",
           "file": "src/simulation/living-world/town-businesses.ts",
-          "pattern": "new\\s+SeededRng\\(world\\.seed\\)\\.fork\\(prefix\\)",
-          "why": "the review's seeded stream (town-businesses.ts:623)"
+          "pattern": "const\\s+quarter\\s*=\\s*stepTownFinances\\(",
+          "why": "the business review runs the existing recorded business books"
         },
         {
-          "kind": "absent",
+          "kind": "present",
           "file": "src/simulation/living-world/town-businesses.ts",
-          "pattern": "rng\\.fork\\(`close:",
-          "why": "the quarterly closing roll compared with closingPerYear/4 (town-businesses.ts:638)"
+          "pattern": "closeBusinessesOutOfCash\\(quarter\\.world,\\s*town,\\s*quarter\\.closing,",
+          "why": "business closing consumes the books' actual cash-and-credit exhaustion result"
         },
         {
-          "kind": "absent",
+          "kind": "present",
           "file": "src/simulation/living-world/town-businesses.ts",
-          "pattern": "rng\\.fork\\(\"found\"\\)",
-          "why": "the quarterly founding roll compared with the expected openings (town-businesses.ts:685)"
+          "pattern": "const\\s+unserved\\s*=\\s*townUnservedJobs\\(next,\\s*town\\)",
+          "why": "business opening reads unmet customer demand instead of congregation or club founding rolls"
+        },
+        {
+          "kind": "test",
+          "file": "tests/nationwide/town-businesses.test.ts",
+          "pattern": "businesses open where the town runs short, and none closes by chance",
+          "why": "the existing business-specific opening and closing regression is present"
         }
       ],
-      "note": "Three absent checks on the quarterly closing and founding rolls (town-businesses.ts:623, :638, :685); all fail today, matching not-started. No always-passing check added so a not-started item does not scan as partly."
+      "note": "Partial coverage: these checks trace reviewTownBusinesses to recorded books, cash-driven closing and unmet customer demand. The former SeededRng/close/found patterns matched reviewTownGroupsOf's congregations and clubs, not A59 businesses. Owner selection still sorts by trade experience, age and person ID (town-businesses.ts:343–349), rather than a recorded owner decision; player-workplace closing exemption also remains (209–215). Do not mark A59 done or treat this static rule correction as runtime proof."
     },
     "A162": {
       "covers": "whole",
