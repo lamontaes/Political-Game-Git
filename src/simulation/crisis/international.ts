@@ -253,6 +253,143 @@ export function declareInternationalCrisis(
   return next;
 }
 
+/**
+ * PLACEHOLDER sizes: how the record of a dispute shapes what intelligence can
+ * say about it (A133). Nothing is drawn.
+ *
+ * Confidence grows with what analysts have actually watched the counterparty
+ * do: each response it has made in this dispute, and, at `pastDisputeWeight`,
+ * each response in an earlier dispute with the same counterparty. A run of
+ * responses all in one direction reads as a pattern and adds
+ * `consistentPattern`. A tenser standoff leaves more in plain sight (forces
+ * moving, public threats): each step of tension above low adds
+ * `tensionVisibility`. The judged intent starts from the tension and moves
+ * with the counterparty's own record: its net escalations in earlier
+ * disputes at `reputationWeight` (capped at `reputationCap` either way), and
+ * its latest response here at `momentumWeight`.
+ *
+ * The record is a category, so a continuous score is read off in bands:
+ * confidence low below `moderateFrom` observations and high from `highFrom`;
+ * intent probing below `coerciveFrom` and preparing force from
+ * `preparingForceFrom`, in steps of tension. Research:
+ * `what-intelligence-confidence-rests-on`.
+ */
+export const UNRESEARCHED_INTELLIGENCE = Object.freeze({
+  provenance: "unresearched-blanket-rule",
+  pastDisputeWeight: 0.5,
+  tensionVisibility: 0.85,
+  consistentPattern: 0.5,
+  moderateFrom: 1,
+  highFrom: 2.5,
+  reputationWeight: 0.5,
+  reputationCap: 2,
+  momentumWeight: 0.5,
+  coerciveFrom: 1.5,
+  preparingForceFrom: 2.5,
+  researchQuestions: ["what-intelligence-confidence-rests-on"],
+});
+
+const RESPONSE_DIRECTION: Readonly<
+  Record<CounterpartyResponseRecord["counterparty"], number>
+> = { "de-escalated": -1, held: 0, escalated: 1 };
+
+/** Responses the same counterparty made in earlier disputes, oldest first. */
+function earlierResponsesOf(
+  world: World,
+  crisis: InternationalCrisisRecord,
+): CounterpartyResponseRecord[] {
+  const earlier = new Set(
+    crisisRecords(world)
+      .filter(
+        (record) =>
+          record.kind === "international-crisis" &&
+          record.id !== crisis.id &&
+          record.sequence < crisis.sequence &&
+          (record as InternationalCrisisRecord).counterpartyLabel ===
+            crisis.counterpartyLabel,
+      )
+      .map((record) => record.id),
+  );
+  if (earlier.size === 0) return [];
+  return crisisRecords(world).filter(
+    (record) =>
+      record.kind === "counterparty-response" &&
+      earlier.has((record as CounterpartyResponseRecord).crisisId),
+  ) as CounterpartyResponseRecord[];
+}
+
+/**
+ * What intelligence judges, and how surely, from the record of this dispute
+ * and of the counterparty's earlier ones. Pure.
+ */
+export function assessIntelligence(
+  world: World,
+  crisis: InternationalCrisisRecord,
+  tension: TensionLevel,
+  responses: readonly CounterpartyResponseRecord[],
+): {
+  readonly confidence: IntelligenceConfidence;
+  readonly assessedIntent: IntelligenceAssessmentRecord["assessedIntent"];
+  readonly reasons: readonly string[];
+} {
+  const P = UNRESEARCHED_INTELLIGENCE;
+  const earlier = earlierResponsesOf(world, crisis);
+  const reasons: string[] = [];
+  const directions = responses.map((r) => RESPONSE_DIRECTION[r.counterparty]);
+  const consistent =
+    directions.length >= 2 && directions.every((d) => d === directions[0]);
+  const tensionRank = TENSIONS.indexOf(tension);
+  const observed =
+    tensionRank * P.tensionVisibility +
+    responses.length +
+    P.pastDisputeWeight * earlier.length +
+    (consistent ? P.consistentPattern : 0);
+  if (responses.length > 0)
+    reasons.push(
+      `${responses.length} response${responses.length === 1 ? "" : "s"} watched in this dispute`,
+    );
+  if (earlier.length > 0)
+    reasons.push(
+      `${earlier.length} response${earlier.length === 1 ? "" : "s"} on record from earlier disputes with ${crisis.counterpartyLabel}`,
+    );
+  if (consistent) reasons.push("a consistent pattern");
+  if (tensionRank >= 2) reasons.push("preparations in plain sight");
+  if (observed === 0)
+    reasons.push(`no record yet of how ${crisis.counterpartyLabel} acts`);
+  const confidence: IntelligenceConfidence =
+    observed < P.moderateFrom
+      ? "low"
+      : observed < P.highFrom
+        ? "moderate"
+        : "high";
+
+  const reputation = Math.max(
+    -P.reputationCap,
+    Math.min(
+      P.reputationCap,
+      earlier.reduce((sum, r) => sum + RESPONSE_DIRECTION[r.counterparty], 0),
+    ),
+  );
+  const latest = responses.at(-1);
+  const momentum = latest ? RESPONSE_DIRECTION[latest.counterparty] : 0;
+  const intentScore =
+    tensionRank + P.reputationWeight * reputation + P.momentumWeight * momentum;
+  reasons.push(`${tension} tension`);
+  if (reputation > 0)
+    reasons.push(`${crisis.counterpartyLabel} has escalated before`);
+  if (reputation < 0)
+    reasons.push(`${crisis.counterpartyLabel} has stepped back before`);
+  if (momentum > 0) reasons.push("it escalated last time");
+  if (momentum < 0) reasons.push("it stepped back last time");
+  const assessedIntent =
+    intentScore < P.coerciveFrom
+      ? "probing"
+      : intentScore < P.preparingForceFrom
+        ? "coercive"
+        : "preparing-force";
+  return { confidence, assessedIntent, reasons };
+}
+
 function assessAndAdvise(
   world: World,
   crisisId: EntityId,
@@ -260,22 +397,13 @@ function assessAndAdvise(
 ): World {
   const crisis = crisisOf(world, crisisId);
   const state = internationalCrisisState(world, crisisId);
-  const confidenceRoll = roll(world, [crisisId, cycle, "confidence"]);
-  const confidence: IntelligenceConfidence =
-    confidenceRoll < 300_000
-      ? "low"
-      : confidenceRoll < 750_000
-        ? "moderate"
-        : "high";
   const tensionRank = TENSIONS.indexOf(state.tension);
-  const intentRoll =
-    roll(world, [crisisId, cycle, "intent"]) + tensionRank * 150_000;
-  const assessedIntent =
-    intentRoll < 500_000
-      ? "probing"
-      : intentRoll < 850_000
-        ? "coercive"
-        : "preparing-force";
+  const { confidence, assessedIntent, reasons } = assessIntelligence(
+    world,
+    crisis,
+    state.tension,
+    state.responses,
+  );
   let next = appendCrisisRecord(world, {
     kind: "intelligence-assessment",
     stableKey: `${crisis.stableKey}:assessment:${cycle}`,
@@ -286,6 +414,7 @@ function assessAndAdvise(
     crisisId,
     confidence,
     assessedIntent,
+    reasons,
     cycle,
   });
   const recommended: CrisisOptionKey =

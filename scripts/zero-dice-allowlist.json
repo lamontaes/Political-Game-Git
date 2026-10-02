@@ -430,13 +430,6 @@
       "code": "if ([\"california\", \"us-ca\"].includes(j.slug)) return \"US-CA\";"
     },
     {
-      "file": "src/simulation/cost-of-living.ts",
-      "kind": "fixed-share",
-      "build": "Build 10",
-      "count": 1,
-      "code": "housingShareMinor: 90_000,"
-    },
-    {
       "file": "src/simulation/crime/contract.ts",
       "kind": "fixed-share",
       "build": "Build 21",
@@ -582,20 +575,6 @@
       "build": "Build 21",
       "count": 1,
       "code": "while (product > limit && count < 25) {"
-    },
-    {
-      "file": "src/simulation/crisis/international.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
-      "code": "confidenceRoll < 300_000"
-    },
-    {
-      "file": "src/simulation/crisis/international.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
-      "code": ": confidenceRoll < 750_000"
     },
     {
       "file": "src/simulation/crisis/international.ts",

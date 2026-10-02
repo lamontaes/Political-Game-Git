@@ -267,6 +267,11 @@ export interface IntelligenceAssessmentRecord extends CrisisRecordBase {
   readonly confidence: IntelligenceConfidence;
   /** What the assessment judges likely, which may be wrong. */
   readonly assessedIntent: "probing" | "coercive" | "preparing-force";
+  /**
+   * What the judgment rests on, in plain words. Absent on assessments made
+   * before it was recorded.
+   */
+  readonly reasons?: readonly string[];
   readonly cycle: number;
 }
 
