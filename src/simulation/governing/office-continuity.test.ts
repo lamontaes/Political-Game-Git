@@ -7,7 +7,8 @@ import { describe, expect, it } from "vitest";
 
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
 import { explicitNewGameSetup } from "../../presentation/new-game-geography";
-import { lifePlaces } from "../life-places";
+import { lifePlaces, lifePlaceStateIdentities } from "../life-places";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 import { SeededRng } from "../rng";
 import {
   generateOpeningLife,
@@ -247,7 +248,20 @@ describe("GOVERNING K3: an office after its holder dies", () => {
   }, 300_000);
 
   it("a dead senator's seat is filled by the governor's appointee, then by a special election", () => {
-    const world = openingWorld("k3-senate-appointment");
+    const seed = "k3-senate-appointment";
+    const selected = new SeededRng(seed).pick(
+      lifePlaceStateIdentities().filter(
+        (place) =>
+          senateVacancyLaw(place.jurisdictionKey.replace(/^US-/, ""))
+            ?.appointment === "governor-same-party",
+      ),
+    );
+    const opened = smallWorld({
+      place: selected.jurisdictionKey,
+      seed,
+      offices: ["congress", "governor"],
+    });
+    const world = opened.world;
     // A seat whose term runs past the next regular election, so the special
     // election (not the regular one) fills it.
     const congress = projectCongress(world)!;
@@ -255,6 +269,7 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     // A state whose law requires an appointee of the departed senator's party.
     const seat = congress.senate.seats.find(
       (s) =>
+        s.stateUsps === opened.stateUsps &&
         s.occupant.kind === "member" &&
         senateVacancyLaw(s.stateUsps)?.appointment === "governor-same-party" &&
         (s.occupant.member.endExclusive ?? "") > `${nextRegularYear}-06-01` &&
