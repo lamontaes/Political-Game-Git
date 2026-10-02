@@ -2,7 +2,6 @@ import { composeWorldTimeHandlers } from "../simulation/campaigns";
 import {
   advanceApplications,
   settleHouseholdAdultJobPay,
-  settleJobPay,
 } from "../simulation/job-market";
 import { settleCareerOffers } from "../simulation/career-path7";
 import { contactBases } from "../simulation/people-contact";
@@ -414,16 +413,14 @@ function passOrdinaryDaysUnchecked(
   ) {
     return advanced;
   }
-  // A held job pays for each whole week that passed, at any age: a teenager's
-  // first job is paid here too, not only once adult life begins. An offer on
-  // the older work list lapses, or is followed up or withdrawn after a missed
-  // start, as days pass. So does the employer's side of a job application.
+  // The simulation advance already settled the played character's job pay.
+  // Offers and applications still follow their saved dates here.
   const personId = advanced.control.personId;
   return refreshContextualScenes(
     releaseMissedHolds(
       settleCareerOffers(
         settleHouseholdAdultJobPay(
-          settleJobPay(advanceApplications(advanced, personId), personId),
+          advanceApplications(advanced, personId),
           personId,
           world.currentDate,
         ),
