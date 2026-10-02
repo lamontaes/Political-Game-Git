@@ -77,7 +77,7 @@ describe("age-verification without an appropriation or actual hires produces no 
         propositionIds: [question.id],
         propositionAnswers: [{ propositionId: question.id, answer: "yes" }],
       };
-      const enacted = enactCostLawFixture(base, measure);
+      const enacted = enactCostLawFixture(base, measure, { effectiveAt: date });
       const world = enacted.world;
       const before = settleGovernmentMonth(
         { ...base, currentDate: world.currentDate },
@@ -155,8 +155,12 @@ describe("age-verification without an appropriation or actual hires produces no 
           propositionIds: [cannabis.id],
           propositionAnswers: [{ propositionId: cannabis.id, answer: "no" }],
         };
-        const together = enactCostLawFixture(world, ban).world;
-        const onlyBanFixture = enactCostLawFixture(base, ban);
+        const together = enactCostLawFixture(world, ban, {
+          effectiveAt: date,
+        }).world;
+        const onlyBanFixture = enactCostLawFixture(base, ban, {
+          effectiveAt: date,
+        });
         const banOnly = onlyBanFixture.world;
         const actualBanId = together.history.legislativeMeasures!.at(-1)!.id;
         const combined = settleGovernmentMonth(

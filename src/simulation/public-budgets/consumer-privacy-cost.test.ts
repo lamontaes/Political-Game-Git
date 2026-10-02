@@ -87,9 +87,14 @@ describe("consumer privacy without an appropriation or actual hires produces no 
       });
       const ageMeasure = makeMeasure(age.id, "yes", 0);
       const privacyMeasure = makeMeasure(privacy.id, answer, 1);
-      const ageFixture = enactCostLawFixture(base, ageMeasure);
+      const ageFixture = enactCostLawFixture(base, ageMeasure, {
+        effectiveAt: month,
+        advanceToObservation: false,
+      });
       const ageOnly = ageFixture.world;
-      const privacyFixture = enactCostLawFixture(ageOnly, privacyMeasure);
+      const privacyFixture = enactCostLawFixture(ageOnly, privacyMeasure, {
+        effectiveAt: month,
+      });
       const world = privacyFixture.world;
       const government = withOpenedBudgets(
         base,
