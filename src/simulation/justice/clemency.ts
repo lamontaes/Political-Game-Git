@@ -34,6 +34,7 @@ import { isPersonAliveAt } from "../vitality";
 import { recordWorldEvent } from "../world";
 import { CLEMENCY_PETITION_DECISION } from "./clemency-decisions";
 import { CLEMENCY_GRANT } from "./clemency-reasoning";
+import { decideRecordedClemencyBoard } from "./clemency-board-decisions";
 import { settleJailAbsences } from "./jail-absence";
 import {
   ANSWER_TAG,
@@ -748,8 +749,18 @@ function recordAnswer(
   answeredBy: "case-record" | "officeholder" | "board-vote",
   reason: string,
   deciderPersonId: EntityId | null,
+  boardVotes: readonly HistoricalEvent[] = [],
 ): World {
   const petitionerId = petitionerOf(petition)!;
+  const voters = [
+    ...new Set(
+      boardVotes.flatMap((vote) =>
+        vote.participants
+          .filter((person) => person.role === "agency:decider")
+          .map((person) => person.personId),
+      ),
+    ),
+  ];
   return recordWorldEvent(world, {
     stableKey: `${petition.stableKey}:answer:${step.key}`,
     type: CLEMENCY_ANSWER_EVENT,
@@ -761,9 +772,17 @@ function recordAnswer(
       ...(deciderPersonId && deciderPersonId !== petitionerId
         ? [deciderPersonId]
         : []),
+      ...voters.filter(
+        (personId) => personId !== petitionerId && personId !== deciderPersonId,
+      ),
     ],
     participants: [
       { personId: petitionerId, role: PETITIONER_ROLE, detail: null },
+      ...voters.map((personId) => ({
+        personId,
+        role: "agency:voter" as const,
+        detail: label,
+      })),
       ...(deciderPersonId && deciderPersonId !== petitionerId
         ? [
             {
@@ -784,6 +803,7 @@ function recordAnswer(
       `${ANSWER_TAG}${favorable ? "favorable" : "unfavorable"}`,
       `${ANSWERED_BY_TAG}${answeredBy}`,
       ...(answeredBy === "case-record" ? [UNSEATED_BODY_READING.version] : []),
+      ...boardVotes.map((vote) => `board-vote:${vote.id}`),
     ],
     summary:
       `${answerSentence(label, step.role, answeredBy, favorable)} ${reason}`.trim(),
@@ -1021,10 +1041,25 @@ function advancePetition(
         cap !== undefined &&
         addDays(petition.occurredAt, cap) <= next.currentDate;
       if (waitedOut) continue;
-      // No saved board-member roster or votes exist in this engine. A case
-      // record and an executive's own answer cannot speak for missing members.
-      // Retain the actual petition until its required body can answer.
-      return next;
+      const result = decideRecordedClemencyBoard(
+        next,
+        petition,
+        route.authority.jurisdictionKey,
+        step.key,
+      );
+      next = result.world;
+      if (result.favorable === null) return next;
+      next = recordAnswer(
+        next,
+        petition,
+        step,
+        label,
+        result.favorable,
+        "board-vote",
+        "Recorded board members answered through their own clemency decisions.",
+        null,
+        result.votes,
+      );
     }
     const latest = answersTo(next, petition.id).at(-1)!;
     if (step.role === "consent" && !latest.favorable)
