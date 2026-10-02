@@ -1,4 +1,14 @@
 import {
+  LOCAL_BUSINESS_PLACEHOLDER,
+  localBusinessWageMinor,
+} from "./recorded-employer";
+export {
+  LOCAL_BUSINESS_PLACEHOLDER,
+  LOCAL_BUSINESS_WAGE_PERCENTILE,
+  localBusinessWageMinor,
+  adultStartEmployer,
+} from "./recorded-employer";
+import {
   inventedPersonAge,
   inventedPersonBirthDate,
   type InventedPersonRole,
@@ -15,15 +25,7 @@ import {
   type CreateWorkRelationshipInput,
 } from "./life";
 import { lifePlaceByJurisdictionId } from "./life-places";
-import {
-  activeWorkRelationshipsAt,
-  householdMembershipsAt,
-  kinshipRelationshipsAt,
-  workRoleAt,
-} from "./life-queries";
 import { localBusinessSupplyFor } from "./local-business-counts";
-import { townJobRate } from "./living-world/town-pay";
-import { townBusinesses } from "./living-world/town-businesses";
 import {
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
   drawCanonicalNameForGender,
@@ -37,6 +39,7 @@ import {
   type RecordResourceTransferOutcomeInput,
 } from "./resources";
 import { resourceFlowTermsAt, sameEndpoint } from "./resource-queries";
+import { paymentFromDatedCash } from "./resource-payments";
 import { nameCorpusVersionForWorld } from "./place-name-corpus";
 import { SeededRng } from "./rng";
 import { writeWithWorldIntegrityOnce } from "./world";
@@ -52,73 +55,13 @@ import type {
 } from "./types";
 
 /**
- * The businesses of a town.
- *
- * Before this, every background job was a phrase ("a synthetic construction
- * firm") and no private business had an owner, staff or money. A town now has
- * its stores, a diner, a garage and a few offices, each a real organization
- * with a named owner and staff who work there, and each takes in revenue every
- * month and pays its staff and owner out of it through the same money records
- * pay and rent use.
- *
- * These jobs are background: see `playable-work.ts` for the few that are
- * played. The kinds, counts and every dollar figure are placeholders.
+ * Background businesses use published CBP establishment/staff rates and
+ * Economic Census receipts per employee, scaled to the locality population.
+ * These are explicit estimates, not recorded customer sales. Actual payment
+ * requires dated cash; a missing operating-cost/net-earnings record leaves
+ * new owner draws unestablished. Existing saved draw contracts remain intact.
+ * Worker pay comes from the existing local BLS occupation wage reader.
  */
-
-/**
- * PLACEHOLDER(research: businesses-owners-and-wealth). Nobody has researched
- * the rest of this. One list of eight businesses for every town in the
- * country, with invented staff counts, revenue and owner pay, standing in
- * until the count by kind and town size, the size split and revenue bands are
- * answered. Replace it; do not tune it.
- *
- * A worker's pay is not part of that placeholder: it is the published wage
- * for the worker's occupation where the town is (BLS, May 2025), by
- * `localBusinessWageMinor`. `monthlyWageMinor` below is used only where no
- * published wage covers the town, and is marked as the placeholder it is.
- */
-export const LOCAL_BUSINESS_PLACEHOLDER = {
-  researchQuestionId: "businesses-owners-and-wealth",
-  currency: "USD",
-  /** PLACEHOLDER: a worker's monthly pay where no published wage covers. */
-  monthlyWageMinor: 280_000,
-} as const;
-
-/**
- * GAME ASSUMPTION: the percentile of the published wage distribution a
- * business's staff are paid at. Staff have been there for years, so the
- * middle of the distribution.
- */
-export const LOCAL_BUSINESS_WAGE_PERCENTILE = 50;
-
-const HOURS_PER_YEAR = 2_080;
-
-/**
- * What one of a business's workers is paid a month in `jurisdictionId`: the
- * BLS Occupational Employment and Wage Statistics wage for the worker's
- * occupation in the town's area, never below the minimum wage. The marked
- * placeholder pay where no wage is published for that occupation and area.
- */
-export function localBusinessWageMinor(
-  kind: Pick<LocalBusinessKind, "workerOccupation">,
-  jurisdictionId: EntityId | null,
-): { readonly monthlyMinor: number; readonly sourced: boolean } {
-  const rate = townJobRate(
-    kind.workerOccupation,
-    jurisdictionId,
-    LOCAL_BUSINESS_WAGE_PERCENTILE,
-  );
-  return rate
-    ? {
-        monthlyMinor: Math.round((rate.hourlyMinor * HOURS_PER_YEAR) / 12),
-        sourced: true,
-      }
-    : {
-        monthlyMinor: LOCAL_BUSINESS_PLACEHOLDER.monthlyWageMinor,
-        sourced: false,
-      };
-}
-
 export interface LocalBusinessKind {
   readonly key: string;
   readonly name: (familyName: string) => string;
@@ -127,8 +70,6 @@ export interface LocalBusinessKind {
   readonly workerTitle: string;
   readonly workerOccupation: OccupationClassification;
   readonly workers: number;
-  readonly monthlyRevenueMinor: number;
-  readonly monthlyOwnerDrawMinor: number;
 }
 
 export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
@@ -140,8 +81,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Cashier",
     workerOccupation: "occupation:cashier",
     workers: 3,
-    monthlyRevenueMinor: 6_000_000,
-    monthlyOwnerDrawMinor: 500_000,
   },
   {
     key: "hardware",
@@ -151,8 +90,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Sales clerk",
     workerOccupation: "occupation:retail-sales",
     workers: 2,
-    monthlyRevenueMinor: 4_000_000,
-    monthlyOwnerDrawMinor: 450_000,
   },
   {
     key: "diner",
@@ -162,8 +99,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Server",
     workerOccupation: "service:food-server",
     workers: 3,
-    monthlyRevenueMinor: 3_500_000,
-    monthlyOwnerDrawMinor: 350_000,
   },
   {
     key: "auto-repair",
@@ -173,8 +108,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Mechanic",
     workerOccupation: "trade:automotive-mechanic",
     workers: 2,
-    monthlyRevenueMinor: 3_000_000,
-    monthlyOwnerDrawMinor: 500_000,
   },
   {
     key: "law-office",
@@ -184,8 +117,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Legal assistant",
     workerOccupation: "profession:legal-assistant",
     workers: 1,
-    monthlyRevenueMinor: 2_500_000,
-    monthlyOwnerDrawMinor: 900_000,
   },
   {
     key: "accounting",
@@ -195,8 +126,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Bookkeeper",
     workerOccupation: "profession:bookkeeper",
     workers: 1,
-    monthlyRevenueMinor: 2_000_000,
-    monthlyOwnerDrawMinor: 700_000,
   },
   {
     key: "construction",
@@ -206,8 +135,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Carpenter",
     workerOccupation: "trade:carpenter",
     workers: 4,
-    monthlyRevenueMinor: 8_000_000,
-    monthlyOwnerDrawMinor: 800_000,
   },
   {
     key: "salon",
@@ -217,8 +144,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Stylist",
     workerOccupation: "service:hairstylist",
     workers: 2,
-    monthlyRevenueMinor: 1_500_000,
-    monthlyOwnerDrawMinor: 300_000,
   },
 ];
 
@@ -244,6 +169,7 @@ export interface LocalBusinessPlan {
   readonly expected: number | null;
   /** Whether count, staff and revenue come from published data. */
   readonly sourced: boolean;
+  readonly estimateBasis?: string;
 }
 
 /**
@@ -258,22 +184,16 @@ export interface LocalBusinessPlan {
  * staff. GAME ASSUMPTION: a town whose every share rounds to zero still has
  * its likeliest kind once, because an adult in town needs an employer.
  *
- * Where the population is not held, each kind once with the marked
- * placeholder figures on the kind: unknown is not none.
+ * Where the population is not held, no new plan is established. This refuses
+ * an unsupported opening estimate; it does not assert that the town has none.
  */
 export function localBusinessPlansFor(
   jurisdictionId: EntityId,
 ): readonly LocalBusinessPlan[] {
   const supply = localBusinessSupplyFor(jurisdictionId);
-  if (!supply)
-    return LOCAL_BUSINESS_KINDS.map((kind) => ({
-      kind,
-      index: 0,
-      workers: kind.workers,
-      monthlyRevenueMinor: kind.monthlyRevenueMinor,
-      expected: null,
-      sourced: false,
-    }));
+  // Missing source coverage cannot establish businesses or their revenue.
+  // Existing saved organizations and contracts remain available to readers.
+  if (!supply) return [];
   const plans: LocalBusinessPlan[] = [];
   const build = (
     kind: LocalBusinessKind,
@@ -294,6 +214,7 @@ export function localBusinessPlansFor(
         ),
         expected: row.expected,
         sourced: true,
+        estimateBasis: row.estimateBasis,
       });
   };
   for (const kind of LOCAL_BUSINESS_KINDS) {
@@ -323,7 +244,8 @@ export const BUSINESS_WORKER_WORK_KIND = "employment:local-business" as const;
 
 const CATCH_UP_LIMIT_MONTHS = 240;
 
-const FULL_TIME: Omit<TimeDemandProfile, "locationJurisdictionId"> = {
+/** The hours and demands of a local business's full-time job. */
+export const FULL_TIME: Omit<TimeDemandProfile, "locationJurisdictionId"> = {
   expectedWeekly: { minimumHours: 35, maximumHours: 45 },
   attention: "moderate",
   concurrency: "mostly-exclusive",
@@ -455,6 +377,7 @@ function seatMissingLocalBusinesses(
   // before the list followed the town's counts) are kept as they are.
   if (seatedBusinessKeys(world, jurisdictionId).size > 0) return world;
   const missing = localBusinessPlansFor(jurisdictionId);
+  if (missing.length === 0) return world;
   const today = world.currentDate;
   const currency = money(0, LOCAL_BUSINESS_PLACEHOLDER.currency).currency;
   const rng = new SeededRng(world.seed).fork(
@@ -462,9 +385,11 @@ function seatMissingLocalBusinesses(
   );
   const provenanceFor = (planned: LocalBusinessPlan) => ({
     kind: "authored" as const,
-    note: planned.sourced
-      ? `Local business from published counts: the town's share of the county's establishments (about ${planned.expected!.toFixed(1)} of this kind in town; County Business Patterns 2023), staff from employees per establishment and sales from Economic Census 2022 sales per employee. At most ${LOCAL_BUSINESS_MAX_PER_KIND} of a kind and ${LOCAL_BUSINESS_MAX_STAFF} staff are seated (game assumption, for speed). The owner's draw is a placeholder pending research question ${LOCAL_BUSINESS_PLACEHOLDER.researchQuestionId}.`
-      : `Placeholder local business pending research question ${LOCAL_BUSINESS_PLACEHOLDER.researchQuestionId}.`,
+    note:
+      `${planned.estimateBasis ?? "Recorded saved business plan."} Owner draw pending: this legacy organization has no recorded nonpay operating costs/net earnings; modeled revenue and staff wage commitments do not establish distributable profit. ` +
+      (planned.sourced
+        ? `Local business from published counts: the town's share of the county's establishments (about ${planned.expected!.toFixed(1)} of this kind in town; County Business Patterns 2023), staff from employees per establishment and sales from Economic Census 2022 sales per employee. At most ${LOCAL_BUSINESS_MAX_PER_KIND} of a kind and ${LOCAL_BUSINESS_MAX_STAFF} staff are seated (game assumption, for speed). The owner's draw is not established without recorded operating costs.`
+        : `ESTIMATED local business pending research question ${LOCAL_BUSINESS_PLACEHOLDER.researchQuestionId}.`),
   });
 
   type Staffing = {
@@ -601,19 +526,9 @@ function seatMissingLocalBusinesses(
       jurisdictionId,
       provenance,
     });
-    flows.push({
-      stableKey: `${key}:owner:draw`,
-      source: business,
-      recipient: { kind: "person", personId: ownerId },
-      startsAt: today,
-      amount: money(plan.kind.monthlyOwnerDrawMinor, currency),
-      cadenceKind: "schedule:monthly",
-      basisKind: OWNER_DRAW_BASIS,
-      basisReference: { kind: "general" },
-      restrictionKind: null,
-      jurisdictionId,
-      provenance,
-    });
+    // No new owner-draw obligation is invented from modeled sales. This
+    // organization records payroll commitments but no nonpay operating costs
+    // or distributable earnings. Existing saved draw flows remain settleable.
     plan.workers.forEach(({ input, since }, index) => {
       const workerId = personId(input);
       jobs.push({
@@ -669,12 +584,17 @@ function firstOfNextMonth(date: IsoDate): IsoDate {
 }
 
 /** What one flow is owed for each first of the month since it last settled. */
+type ScheduledBusinessPayment = Omit<
+  RecordResourceTransferOutcomeInput,
+  "status" | "transferredAmount" | "reasonKind"
+>;
+
 function dueOutcomes(
   world: World,
   flow: ResourceFlow,
   latest: IsoDate | null,
-): RecordResourceTransferOutcomeInput[] {
-  const due: RecordResourceTransferOutcomeInput[] = [];
+): ScheduledBusinessPayment[] {
+  const due: ScheduledBusinessPayment[] = [];
   let dueOn = firstOfNextMonth(latest ?? flow.startsAt);
   for (
     let month = 0;
@@ -692,12 +612,9 @@ function dueOutcomes(
       periodStartsAt: dueOn,
       periodEndsAt: dueOn,
       occurredAt: dueOn,
-      status: "completed",
       attemptedAmount: terms.amount,
-      transferredAmount: terms.amount,
-      reasonKind: null,
       note: null,
-      provenance: flow.provenance,
+      provenance: terms.provenance,
     });
     dueOn = firstOfNextMonth(dueOn);
   }
@@ -764,6 +681,7 @@ function settleFlows(world: World, flows: readonly ResourceFlow[]): World {
   const due = tracked.flatMap((flow) =>
     dueOutcomes(world, flow, latest.get(flow.id) ?? null).map((input) => ({
       input,
+      flow,
       revenue: flow.basisKind === BUSINESS_REVENUE_BASIS,
     })),
   );
@@ -772,10 +690,26 @@ function settleFlows(world: World, flows: readonly ResourceFlow[]): World {
       a.input.periodStartsAt.localeCompare(b.input.periodStartsAt) ||
       Number(b.revenue) - Number(a.revenue),
   );
-  return recordResourceTransferOutcomes(
-    world,
-    due.map((entry) => entry.input),
-  );
+  return writeWithWorldIntegrityOnce(world, () => {
+    let next = world;
+    for (const { input, flow } of due) {
+      const payment = paymentFromDatedCash(
+        next,
+        flow.source,
+        input.attemptedAmount,
+        makeIsoDate(input.occurredAt),
+      );
+      next = recordResourceTransferOutcomes(next, [
+        {
+          ...input,
+          status: payment.status,
+          transferredAmount: payment.transferredAmount,
+          reasonKind: payment.reasonKind,
+        },
+      ]);
+    }
+    return next;
+  });
 }
 
 /**
@@ -784,8 +718,9 @@ function settleFlows(world: World, flows: readonly ResourceFlow[]): World {
  *
  * General on purpose: any organization whose revenue, wages or owner's draw
  * are written as these flows is settled by this, whatever kind of business it
- * is. Every payment completes. A business that cannot make payroll, closes
- * or is sold is part of the same research question and is not modeled yet.
+ * is. The dated payer balance determines a completed, partial or missed
+ * transfer; an untracked payer is blocked. Canonical town books separately
+ * model operating sales, payroll capacity and closure, not cash receipts.
  */
 export function settleBusinessMoney(
   world: World,
@@ -821,107 +756,4 @@ export function refreshLocalEconomy(world: World, personId: EntityId): World {
     seatLocalBusinesses(world, jurisdictionId),
     jurisdictionId,
   );
-}
-
-/**
- * The local business a grown-up new life works at when the game opens, chosen
- * from the person's own situation rather than first in the town's list.
- *
- * - Only work the person is fit for: the professional roles (legal
- *   assistant, bookkeeper) need schooling no summarized history gives. A
- *   trade is learned on the job, as most builders and mechanics learn it;
- *   an apprenticeship the history records counts as that line of work.
- * - Somebody they know works there or owns it: family and household put a
- *   person forward, as they do in the job market.
- * - Otherwise the line of work they already did: a person who worked a shop
- *   counter at school goes back to a counter.
- * - Otherwise the best-paid of those jobs, at the town's own published pay.
- *
- * Null when the town has no business, or none the person is fit for, and
- * then nobody is hired: the person starts looking for work.
- */
-export function adultStartEmployer(
-  world: World,
-  personId: EntityId,
-  jurisdictionId: EntityId,
-): {
-  organization: Organization;
-  kind: Pick<LocalBusinessKind, "workerTitle" | "workerOccupation">;
-} | null {
-  if (!world.people[personId]) return null;
-  const past = world.history.workRelationships.filter(
-    (work) => work.personId === personId,
-  );
-  // Borrow only roles that an actual open town business employs today.
-  // A legacy player-only business and its fixed revenue are never candidates.
-  const fit = townBusinesses(world, jurisdictionId).flatMap((business) => {
-    const organization = world.history.organizations.find(
-      (record) => record.id === business.organizationId,
-    );
-    if (!organization || organization.formedAt > world.currentDate) return [];
-    const seen = new Set<string>();
-    return business.jobs.flatMap((job) => {
-      const work = world.history.workRelationships.find(
-        (record) => record.id === job.relationshipId,
-      );
-      const role = workRoleAt(world, job.relationshipId);
-      if (
-        !work ||
-        work.startedAt > world.currentDate ||
-        work.compensation !== "paid" ||
-        job.directsOthers ||
-        !role ||
-        !role.occupationClassification ||
-        role.occupationClassification.startsWith("profession:") ||
-        role.locationJurisdictionId !== jurisdictionId
-      )
-        return [];
-      const kind = {
-        workerTitle: role.title,
-        workerOccupation: role.occupationClassification,
-      };
-      if (!localBusinessWageMinor(kind, jurisdictionId).sourced) return [];
-      const key = JSON.stringify(kind);
-      if (seen.has(key)) return [];
-      seen.add(key);
-      return [{ organization, kind }];
-    });
-  });
-  if (fit.length === 0) return null;
-  const known = new Set<EntityId>();
-  for (const kin of kinshipRelationshipsAt(world, personId))
-    for (const id of kin.personIds) if (id !== personId) known.add(id);
-  const homes = new Set(
-    householdMembershipsAt(world, personId).map((entry) => entry.household.id),
-  );
-  for (const record of world.history.householdMemberships)
-    if (record.personId !== personId && homes.has(record.householdId))
-      known.add(record.personId);
-  const vouched = fit.filter(({ organization }) =>
-    [...known].some(
-      (id) =>
-        world.people[id] &&
-        activeWorkRelationshipsAt(world, id).some(
-          (entry) => entry.relationship.organizationId === organization.id,
-        ),
-    ),
-  );
-  const lines = new Set(
-    past.flatMap((work) => {
-      const occupation = workRoleAt(world, work.id)?.occupationClassification;
-      return occupation ? [occupation.split(":")[0]!] : [];
-    }),
-  );
-  const experienced = fit.filter(({ kind }) =>
-    lines.has(kind.workerOccupation.split(":")[0]!),
-  );
-  const pool =
-    vouched.length > 0 ? vouched : experienced.length > 0 ? experienced : fit;
-  const pay = (kind: Pick<LocalBusinessKind, "workerOccupation">) =>
-    localBusinessWageMinor(kind, jurisdictionId).monthlyMinor;
-  return [...pool].sort(
-    (left, right) =>
-      pay(right.kind) - pay(left.kind) ||
-      left.organization.id.localeCompare(right.organization.id),
-  )[0]!;
 }

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import registry from "../../art/manifest/character_candidate_registry.json";
-import characterCatalog from "../../art/manifest/character_catalog.json";
+import registry from "../../art/manifest/character_candidate_registry.json" with { type: "json" };
+import characterCatalog from "../../art/manifest/character_catalog.json" with { type: "json" };
 import {
   CHARACTER_CATALOG_APPROVALS,
   promoteApproval,

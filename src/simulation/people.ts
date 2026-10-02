@@ -7,6 +7,11 @@ import {
 } from "./dates";
 import { createStableId } from "./ids";
 import {
+  birthDateAtAge,
+  inventedPersonAge,
+  inventedPersonBirthDate,
+} from "./invented-person-age";
+import {
   DEFAULT_CORPUS_VERSION,
   DEMO_NAMES_V4,
   givenNamePoolForCorpus,
@@ -148,25 +153,21 @@ export function factsForPerson(person: Person): readonly PersonFact[] {
   ];
 }
 
-function daysInMonth(year: number, month: number): number {
-  if (month === 2) {
-    const isLeap = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
-    return isLeap ? 29 : 28;
-  }
-  if ([4, 6, 9, 11].includes(month)) return 30;
-  return 31;
-}
-
+/**
+ * A scenario resident's age: the generator's weighting picks the career
+ * stage, and the one age-window table (`invented-person-age.ts`) holds each
+ * stage's ages.
+ */
 function generateProductionAge(rng: SeededRng): number {
   const roll = rng.next();
   if (roll < 0.15) {
-    return rng.integer(21, 30); // 21-29 young adult
+    return inventedPersonAge(rng, "scenario-young-adult");
   } else if (roll < 0.7) {
-    return rng.integer(30, 50); // 30-49 mid career
+    return inventedPersonAge(rng, "scenario-mid-career");
   } else if (roll < 0.9) {
-    return rng.integer(50, 65); // 50-64 senior career
+    return inventedPersonAge(rng, "scenario-senior-career");
   } else {
-    return rng.integer(65, 76); // 65-75 elder/retirement
+    return inventedPersonAge(rng, "scenario-elder");
   }
 }
 
@@ -175,46 +176,12 @@ function generateProductionBirthDate(
   targetAge: number,
   rng: SeededRng,
 ): IsoDate {
-  const currentYear = yearOf(currentDate);
-  const currentMonth = Number(currentDate.slice(5, 7));
-  const currentDay = Number(currentDate.slice(8, 10));
-
-  const month = rng.integer(1, 13);
-  const maxDay = daysInMonth(currentYear - targetAge, month);
-  const day = rng.integer(1, maxDay + 1);
-
-  const birthdayPassedOrToday =
-    month < currentMonth || (month === currentMonth && day <= currentDay);
-  const birthYear = birthdayPassedOrToday
-    ? currentYear - targetAge
-    : currentYear - targetAge - 1;
-
-  return birthDateForSelectedAge(currentDate, targetAge, birthYear, month, day);
-}
-
-function birthDateForSelectedAge(
-  currentDate: IsoDate,
-  targetAge: number,
-  birthYear: number,
-  month: number,
-  day: number,
-): IsoDate {
-  // Normalize before constructing any date. Copying a leap-day anniversary
-  // into a non-leap birth year must never reach the calendar validator.
-  const safeDay = Math.min(day, daysInMonth(birthYear, month));
-  const candidate = isoDateFromParts(birthYear, month, safeDay);
-  const ageDifference = ageOnDate(candidate, currentDate) - targetAge;
-  if (ageDifference === 0) return candidate;
-
-  // Normalization (and the canonical Feb 28 observance of a leap birthday)
-  // can change which side of the birthday we are on. Keep the normalized day
-  // and reconcile the year, without rerolling age or changing RNG consumption.
-  const correctedYear = birthYear + ageDifference;
-  return isoDateFromParts(
-    correctedYear,
-    month,
-    Math.min(safeDay, daysInMonth(correctedYear, month)),
-  );
+  return inventedPersonBirthDate(rng, {
+    role: "scenario-resident",
+    referenceDate: currentDate,
+    age: targetAge,
+    placement: "drawn-exact-any-day",
+  });
 }
 
 function generateStressBirthDate(
@@ -231,11 +198,11 @@ function generateStressBirthDate(
     }
     case 1: {
       // Prefer today's month/day; normalize Feb 29 when the birth year is not leap.
-      const age = rng.integer(22, 70);
+      const age = inventedPersonAge(rng, "stress-test-adult");
       const currentYear = yearOf(currentDate);
       const currentMonth = Number(currentDate.slice(5, 7));
       const currentDay = Number(currentDate.slice(8, 10));
-      return birthDateForSelectedAge(
+      return birthDateAtAge(
         currentDate,
         age,
         currentYear - age,
@@ -245,12 +212,12 @@ function generateStressBirthDate(
     }
     case 2: {
       // Prefer tomorrow's month/day, preserving the selected age after normalization.
-      const age = rng.integer(22, 70);
+      const age = inventedPersonAge(rng, "stress-test-adult");
       const tomorrow = addDays(currentDate, 1);
       const tomorrowMonth = Number(tomorrow.slice(5, 7));
       const tomorrowDay = Number(tomorrow.slice(8, 10));
       const birthYear = yearOf(tomorrow) - (age + 1);
-      return birthDateForSelectedAge(
+      return birthDateAtAge(
         currentDate,
         age,
         birthYear,
@@ -272,12 +239,12 @@ function generateStressBirthDate(
     }
     default: {
       // Prefer yesterday's month/day, preserving the selected age after normalization.
-      const age = rng.integer(22, 70);
+      const age = inventedPersonAge(rng, "stress-test-adult");
       const yesterday = addDays(currentDate, -1);
       const yesterdayMonth = Number(yesterday.slice(5, 7));
       const yesterdayDay = Number(yesterday.slice(8, 10));
       const birthYear = yearOf(yesterday) - age;
-      return birthDateForSelectedAge(
+      return birthDateAtAge(
         currentDate,
         age,
         birthYear,
@@ -320,12 +287,10 @@ export function createLightweightPerson(input: LightweightPersonInput): Person {
       (familyOffset + (input.index % corpus.familyNames.length)) %
         corpus.familyNames.length
     ] as string;
-    const age = rng.integer(24, 68);
-    birthDate = isoDateFromParts(
-      yearOf(input.currentDate) - age,
-      rng.integer(1, 13),
-      rng.integer(1, 29),
-    );
+    birthDate = inventedPersonBirthDate(rng, {
+      role: "legacy-demo-resident",
+      referenceDate: input.currentDate,
+    });
   } else {
     // Versioned substrate generation
     const profile = input.profile ?? "production";
@@ -637,27 +602,12 @@ export function createStartingPerson(input: StartingPersonInput): Person {
         birthMonth: input.birthMonth as number,
         birthDay: input.birthDay as number,
       })
-    : (() => {
-        const month = rng.integer(1, 13);
-        const maxDay = daysInMonth(
-          yearOf(input.currentDate) - input.age,
-          month,
-        );
-        const day = rng.integer(1, maxDay + 1);
-        const currentMonth = Number(input.currentDate.slice(5, 7));
-        const currentDay = Number(input.currentDate.slice(8, 10));
-        const birthdayPassedOrToday =
-          month < currentMonth || (month === currentMonth && day <= currentDay);
-        return birthDateForSelectedAge(
-          input.currentDate,
-          input.age,
-          yearOf(input.currentDate) -
-            input.age -
-            (birthdayPassedOrToday ? 0 : 1),
-          month,
-          day,
-        );
-      })();
+    : inventedPersonBirthDate(rng, {
+        role: "player-character",
+        referenceDate: input.currentDate,
+        age: input.age,
+        placement: "drawn-exact-any-day",
+      });
 
   const appearance = derivePersonAppearance(
     id,

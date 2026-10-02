@@ -1,3 +1,4 @@
+import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
 import {
   LEGISLATIVE_STARTING_PROCEDURES_VERSION,
   type LegislativeStartingProcedureEntry,
@@ -155,6 +156,8 @@ export function activeLegislativePackFromEntry(
     basis: "game-profile",
     session: {
       ...baseline.session,
+      sittingCalendar:
+        baseline.session.sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.state,
       regularSessionYears: knownRule(sessionYears, source),
       ...(entry.regularSessionCutoff
         ? {
@@ -171,19 +174,8 @@ export function activeLegislativePackFromEntry(
       measuresDieAtAdjournment: knownRule(!entry.measuresCarryOver, source),
       source,
     },
-    enactment: {
-      ...baseline.enactment,
-      effectiveDateDistinctFromEnactment: knownRule(true, source),
-      defaultEffectiveRule: knownRule(
-        `The act takes effect ${entry.effectiveDateDays} days after enactment unless it states another date.`,
-        source,
-      ),
-      defaultEffectiveSchedule: knownRule(
-        { kind: "days-after-enactment", days: entry.effectiveDateDays },
-        source,
-      ),
-      source,
-    },
+    // The state's sourced effective-date rule is not a starting-procedure draw.
+    enactment: baseline.enactment,
     sources: [...baseline.sources, source],
   };
   assertRulePackIntegrity(pack);

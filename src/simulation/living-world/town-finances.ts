@@ -38,19 +38,19 @@ import townBusinessResearch from "../../../data/research/money/town-business-a71
 import { privacyInitialOccurrence } from "../federal-data-privacy-law";
 import { addDays } from "../dates";
 import { acuteWeight } from "../outcome-web";
-import { recordOrganizationProfile, recordWorkStatus } from "../life";
+import { recordOrganizationProfile } from "../life";
 import { organizationClosingAt, organizationProfileAt } from "../life-queries";
 import { MACRO_CREDIT_POLICY } from "../macro-economy/credit";
 import { MACRO_ERA_POLICY } from "../macro-economy/policy";
 import { countyGeoidsForPlace } from "../government-units";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { areaResidents } from "../outcome-web/place-outcome-store";
-import { SeededRng } from "../rng";
 import { FDIC_COUNTY_DEPOSITS } from "./town-deposits.generated";
 import type {
   EntityId,
   IsoDate,
   MoneyAmount,
+  WorkRelationship,
   WorkStatusRecord,
   World,
 } from "../types";
@@ -58,6 +58,7 @@ import { recordWorldEvent } from "../world";
 import {
   FDIC_SMALL_BANK_REPORT_DATE,
   FDIC_SMALL_BANK_SHAPES,
+  FDIC_SMALL_BANK_RECORDS,
 } from "./town-bank-shapes.generated";
 import {
   BANK_FAILED_EVENT,
@@ -72,7 +73,12 @@ import {
   townBusinessKindBooks,
 } from "./town-business-books";
 import { TOWN_EMPLOYMENT_VERSION } from "./town-employment";
-import { activeTownJobs, TOWN_JOB_END_REASONS } from "./town-labor-market";
+import {
+  activeTownJobs,
+  jobsLostBy,
+  recordTownJobLoss,
+  TOWN_JOB_END_REASONS,
+} from "./town-labor-market";
 
 export const TOWN_FINANCES_VERSION = "town-finances-v1" as const;
 
@@ -266,28 +272,95 @@ export function uninsuredDepositShare(shape: BankShape): number {
   return nationalShapes[shape.index]!.uninsured;
 }
 
-/**
- * The real bank a town bank takes the shape of: one of its state's small
- * banks, or of the nation's when the state has fewer than five on file.
- * Drawing it sets the stage; the bank's fate is not drawn.
- */
-export function drawBankShape(state: string | null, draw: number): BankShape {
-  const own = state ? FDIC_SMALL_BANK_SHAPES[state] : undefined;
-  const pool = own ? parseShapes(own) : [];
-  if (pool.length >= 5) {
-    const index = Math.min(pool.length - 1, Math.floor(draw * pool.length));
-    const { cushion, otherAssets } = pool[index]!;
-    return { state, index, cushion, otherAssets };
+interface ObservedBankShape extends BankShape {
+  readonly assetsThousands: number;
+  readonly certificate: number;
+}
+
+// Build each observed source index on first use, not at module import or daily.
+const observedBankPools = new Map<
+  string | null,
+  readonly ObservedBankShape[]
+>();
+function observedBankPool(state: string | null): readonly ObservedBankShape[] {
+  const own = state === null ? undefined : FDIC_SMALL_BANK_RECORDS[state];
+  const sourceState = own && own.length >= 5 ? state : null;
+  const cached = observedBankPools.get(sourceState);
+  if (cached) return cached;
+  const states =
+    sourceState === null
+      ? Object.keys(FDIC_SMALL_BANK_SHAPES).sort()
+      : [sourceState];
+  const rows: ObservedBankShape[] = [];
+  let offset = 0;
+  for (const key of states) {
+    const shapes = parseShapes(FDIC_SMALL_BANK_SHAPES[key]!);
+    const records = FDIC_SMALL_BANK_RECORDS[key]!;
+    if (records.length !== shapes.length)
+      throw new Error(
+        "Observed bank metadata must preserve the original ratio rows.",
+      );
+    records.forEach(([assetsThousands, certificate], index) => {
+      const { cushion, otherAssets } = shapes[index]!;
+      rows.push({
+        state: sourceState,
+        index: sourceState === null ? offset + index : index,
+        assetsThousands,
+        certificate,
+        cushion,
+        otherAssets,
+      });
+    });
+    offset += shapes.length;
   }
-  nationalShapes ??= Object.keys(FDIC_SMALL_BANK_SHAPES)
-    .sort()
-    .flatMap((key) => parseShapes(FDIC_SMALL_BANK_SHAPES[key]!));
-  const index = Math.min(
-    nationalShapes.length - 1,
-    Math.floor(draw * nationalShapes.length),
+  rows.sort(
+    (a, b) =>
+      a.assetsThousands - b.assetsThousands || a.certificate - b.certificate,
   );
-  const { cushion, otherAssets } = nationalShapes[index]!;
-  return { state: null, index, cushion, otherAssets };
+  // The lowest certificate represents an asset tie, including national ties.
+  const ranked = rows.filter(
+    (row, index) =>
+      index === 0 || row.assetsThousands !== rows[index - 1]!.assetsThousands,
+  );
+  observedBankPools.set(sourceState, ranked);
+  return ranked;
+}
+
+/**
+ * One observed profile nearest this bank's recorded modeled deposits. Small
+ * source groups use the national observed pool (state:null), an estimate from
+ * real records. Original own/national ratio indexes remain valid for old saves.
+ */
+export function recordedBankShape(
+  state: string | null,
+  depositsDollars: number,
+): BankShape {
+  if (!Number.isFinite(depositsDollars) || depositsDollars < 0)
+    throw new Error(
+      "Bank profile selection requires nonnegative recorded deposits.",
+    );
+  const pool = observedBankPool(state);
+  if (pool.length === 0)
+    throw new Error("Bank profile selection requires observed records.");
+  const target = depositsDollars / 1000;
+  let low = 0;
+  let high = pool.length;
+  while (low < high) {
+    const middle = Math.floor((low + high) / 2);
+    if (pool[middle]!.assetsThousands < target) low = middle + 1;
+    else high = middle;
+  }
+  const left = pool[Math.max(0, low - 1)]!;
+  const right = pool[Math.min(low, pool.length - 1)]!;
+  const leftDistance = Math.abs(left.assetsThousands - target);
+  const rightDistance = Math.abs(right.assetsThousands - target);
+  const chosen =
+    leftDistance < rightDistance ||
+    (leftDistance === rightDistance && left.certificate < right.certificate)
+      ? left
+      : right;
+  const { state: chosenState, index, cushion, otherAssets } = chosen;
+  return { state: chosenState, index, cushion, otherAssets };
 }
 
 const round2 = (value: number) => Math.round(value * 100) / 100;
@@ -584,16 +657,11 @@ function openBankBooks(
 ): TownBankBooks {
   const P = TOWN_FINANCE_POLICY.bank;
   const state = world.jurisdictions[town]?.parentName ?? null;
-  const shape = drawBankShape(
-    state,
-    new SeededRng(world.seed)
-      .fork(`${TOWN_FINANCES_VERSION}:bank-shape:${organizationId}`)
-      .next(),
-  );
   const deposits = round2(
     (townDepositsPerResident(world, town) * townPeople(world, town)) /
       Math.max(1, banksInTown),
   );
+  const shape = recordedBankShape(state, deposits);
   const liquid = round2(deposits * shape.cushion);
   const loans = round2(deposits * shape.otherAssets);
   return {
@@ -818,9 +886,11 @@ export function stepTownFinances(
       (sum, id) => sum + (pay.get(id) ?? 0),
       0,
     ) * 4;
-  for (const bankId of bankIds)
-    if (!banks[bankId] && yearlyTownPay > 0)
+  for (const bankId of bankIds) {
+    if (!banks[bankId] && yearlyTownPay > 0) {
       banks[bankId] = openBankBooks(world, town, bankId, bankIds.length, round);
+    }
+  }
 
   const P = TOWN_FINANCE_POLICY.business;
   const demandGrowth = Math.exp(economy.growthGapPct / 400);
@@ -1331,7 +1401,7 @@ function closeOrganization(
   });
   const jobs = activeJobsAt(next, organizationId);
   for (const job of jobs)
-    next = recordWorkStatus(next, {
+    next = recordTownJobLoss(next, {
       stableKey: `${stableKey}:job-ended:${job.relationshipId}`,
       workRelationshipId: job.relationshipId,
       effectiveAt: next.currentDate,
@@ -1450,29 +1520,28 @@ function townHouseholdDefaults(
   for (const row of world.history.workStatuses)
     if (row.effectiveAt <= today) latest.set(row.workRelationshipId, row);
   const working = new Set<EntityId>();
+  const relationships = new Map<EntityId, WorkRelationship>();
+  for (const row of world.history.workRelationships) {
+    relationships.set(row.id, row);
+    if (latest.get(row.id)?.status === "active") working.add(row.personId);
+  }
+  // Each resident's last lost town job, read by the one reader of a lost job.
   const lastLost = new Map<
     EntityId,
     { at: IsoDate; organizationId: EntityId | null }
   >();
-  for (const row of world.history.workRelationships) {
-    const status = latest.get(row.id);
-    if (!status) continue;
-    if (status.status === "active") {
-      working.add(row.personId);
-      continue;
+  for (const personId of world.personOrder) {
+    if (world.people[personId]?.homeJurisdictionId !== town) continue;
+    for (const status of jobsLostBy(world, personId, today)) {
+      const row = relationships.get(status.workRelationshipId);
+      if (!row?.stableKey.startsWith(stem)) continue;
+      const before = lastLost.get(personId);
+      if (!before || before.at < status.effectiveAt)
+        lastLost.set(personId, {
+          at: status.effectiveAt,
+          organizationId: row.organizationId,
+        });
     }
-    if (
-      !row.stableKey.startsWith(stem) ||
-      (status.reason !== TOWN_JOB_END_REASONS.laidOff &&
-        status.reason !== TOWN_JOB_END_REASONS.businessClosed)
-    )
-      continue;
-    const before = lastLost.get(row.personId);
-    if (!before || before.at < status.effectiveAt)
-      lastLost.set(row.personId, {
-        at: status.effectiveAt,
-        organizationId: row.organizationId,
-      });
   }
   const charged = new Set(open.flatMap((id) => banks[id]!.chargedOff ?? []));
   const dead = new Set(world.history.personDeaths.map((row) => row.personId));
@@ -1525,6 +1594,14 @@ function failTownBank(
   cause: "insolvent" | "depositors-withdrew",
 ): World {
   const bank = world.townFinances!.banks[bankId]!;
+  // Keep the amounts with the failure. Later books cannot resize its shock.
+  const bankDepositsMinor = Math.round(bank.deposits * 100);
+  const townDepositsMinor = townBanks(world, town).reduce((sum, id) => {
+    const books = world.townFinances!.banks[id];
+    return (
+      sum + (books && !books.failed ? Math.round(books.deposits * 100) : 0)
+    );
+  }, 0);
   const townJobs = activeTownJobs(world, town).length;
   const name = organizationProfileAt(world, bankId)?.name ?? "The town's bank";
   const stableKey = `${TOWN_FINANCES_VERSION}:${town}:bank-failed:${bankId}`;
@@ -1566,6 +1643,9 @@ function failTownBank(
       `organization:${bankId}`,
       `capital-ratio:${round6(ratio)}`,
       `losses:${bank.lastQuarterLosses}`,
+      "deposit-currency:USD",
+      `bank-deposits-minor:${bankDepositsMinor}`,
+      `town-deposits-minor:${townDepositsMinor}`,
       `household-defaults:${bank.lastQuarterDefaults?.households ?? 0}`,
       `business-defaults:${bank.lastQuarterDefaults?.businesses ?? 0}`,
       `jobs:${closed.jobsLost}`,

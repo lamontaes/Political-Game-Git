@@ -65,8 +65,7 @@
 
 .pg-orientation-people,
 .pg-orientation-roster ul,
-.pg-orientation-legend,
-.pg-recap-list {
+.pg-orientation-legend {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -271,18 +270,12 @@
   color: var(--run-a-gold);
 }
 
-.pg-recap-list {
-  display: grid;
-  gap: 0.55rem;
-}
-
 .pg-recap-headline {
   margin: 0;
   line-height: 1.4;
 }
 
-.pg-recap-meta,
-.pg-recap-people {
+.pg-recap-meta {
   margin: 0.1rem 0 0;
   font-size: 0.82rem;
   color: var(--run-a-muted);
@@ -488,9 +481,9 @@
   background:
     linear-gradient(
       90deg,
-      transparent 0 40%,
-      rgb(242 235 224 / 35%) 56%,
-      rgb(242 235 224 / 82%) 100%
+      transparent 0 70%,
+      rgb(242 235 224 / 15%) 85%,
+      rgb(242 235 224 / 35%) 100%
     ),
     linear-gradient(
       0deg,

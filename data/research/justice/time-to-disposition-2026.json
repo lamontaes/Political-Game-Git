@@ -1,0 +1,896 @@
+{
+  "version": "time-to-disposition-2026-v1",
+  "asOf": "2026-10-01",
+  "measure": "Median days from the felony filing to its disposition (plea, dismissal or trial). Active time where the report separates it.",
+  "chargeDecisionDays": {
+    "status": "estimated",
+    "days": 60,
+    "label": "ESTIMATED FROM AVERAGE",
+    "note": "No source for days from referral or arrest to the charging decision was read in any place. This is the game's earlier hand-set figure, kept only as the labeled estimate until the request criminal-time-to-disposition is answered for the charging step."
+  },
+  "nationalResolveAfterDays": {
+    "label": "ESTIMATED FROM AVERAGE",
+    "method": "The median of the sourced places' values below, computed when the data is read.",
+    "days": 122
+  },
+  "places": {
+    "US-PA": {
+      "status": "sourced",
+      "resolveAfterDays": 188,
+      "method": "Case-weighted mean of the reported site medians (each site's median active days from filing to disposition, felony cases disposed in the project's one-year window).",
+      "sites": [
+        {
+          "site": "Allegheny",
+          "felonyCasesDisposed": 9339,
+          "medianDays": 181,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/453/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Pennsylvania (felony cases)",
+          "quote": "Allegheny 9,339 50% 83% 238 181"
+        },
+        {
+          "site": "Berks",
+          "felonyCasesDisposed": 1814,
+          "medianDays": 209,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/453/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Pennsylvania (felony cases)",
+          "quote": "Berks 1,814 43% 74% 297 209"
+        },
+        {
+          "site": "Bucks",
+          "felonyCasesDisposed": 1926,
+          "medianDays": 148,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/453/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Pennsylvania (felony cases)",
+          "quote": "Bucks 1,926 66% 92% 195 148"
+        },
+        {
+          "site": "Chester",
+          "felonyCasesDisposed": 1512,
+          "medianDays": 191,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/453/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Pennsylvania (felony cases)",
+          "quote": "Chester 1,512 45% 87% 251 191"
+        },
+        {
+          "site": "Dauphin",
+          "felonyCasesDisposed": 2358,
+          "medianDays": 234,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/453/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Pennsylvania (felony cases)",
+          "quote": "Dauphin 2,358 37% 73% 307 234"
+        },
+        {
+          "site": "Delaware",
+          "felonyCasesDisposed": 1907,
+          "medianDays": 140,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/453/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Pennsylvania (felony cases)",
+          "quote": "Delaware 1,907 63% 89% 223 140"
+        },
+        {
+          "site": "Erie",
+          "felonyCasesDisposed": 1184,
+          "medianDays": 170,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/453/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Pennsylvania (felony cases)",
+          "quote": "Erie 1,184 55% 92% 199 170"
+        },
+        {
+          "site": "Lancaster",
+          "felonyCasesDisposed": 1627,
+          "medianDays": 194,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/453/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Pennsylvania (felony cases)",
+          "quote": "Lancaster 1,627 45% 83% 262 194"
+        },
+        {
+          "site": "Lehigh",
+          "felonyCasesDisposed": 1271,
+          "medianDays": 161,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/453/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Pennsylvania (felony cases)",
+          "quote": "Lehigh 1,271 56% 87% 237 161"
+        },
+        {
+          "site": "Luzerne",
+          "felonyCasesDisposed": 1858,
+          "medianDays": 243,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/453/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Pennsylvania (felony cases)",
+          "quote": "Luzerne 1,858 30% 72% 385 243"
+        },
+        {
+          "site": "Montgomery",
+          "felonyCasesDisposed": 2954,
+          "medianDays": 240,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/453/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Pennsylvania (felony cases)",
+          "quote": "Montgomery 2,954 37% 71% 358 240"
+        },
+        {
+          "site": "Northampton",
+          "felonyCasesDisposed": 862,
+          "medianDays": 129,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/453/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Pennsylvania (felony cases)",
+          "quote": "Northampton 862 71% 93% 180 129"
+        },
+        {
+          "site": "Philadelphia",
+          "felonyCasesDisposed": 15124,
+          "medianDays": 184,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/453/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Pennsylvania (felony cases)",
+          "quote": "Philadelphia 15,124 49% 73% 302 184"
+        },
+        {
+          "site": "Westmoreland",
+          "felonyCasesDisposed": 1360,
+          "medianDays": 167,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/453/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Pennsylvania (felony cases)",
+          "quote": "Westmoreland 1,360 53% 78% 266 167"
+        },
+        {
+          "site": "York",
+          "felonyCasesDisposed": 2183,
+          "medianDays": 198,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/453/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Pennsylvania (felony cases)",
+          "quote": "York 2,183 44% 81% 291 198"
+        }
+      ]
+    },
+    "US-CO": {
+      "status": "sourced",
+      "resolveAfterDays": 154,
+      "method": "Case-weighted mean of the reported site medians (each site's median active days from filing to disposition, felony cases disposed in the project's one-year window).",
+      "sites": [
+        {
+          "site": "Adams",
+          "felonyCasesDisposed": 3713,
+          "medianDays": 148,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/432/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Colorado (felony cases)",
+          "quote": "Adams 3,713 58% 85% 225 148"
+        },
+        {
+          "site": "Arapahoe",
+          "felonyCasesDisposed": 2979,
+          "medianDays": 223,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/432/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Colorado (felony cases)",
+          "quote": "Arapahoe 2,979 41% 73% 351 223"
+        },
+        {
+          "site": "Boulder",
+          "felonyCasesDisposed": 1789,
+          "medianDays": 112,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/432/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Colorado (felony cases)",
+          "quote": "Boulder 1,789 70% 91% 213 112"
+        },
+        {
+          "site": "Douglas",
+          "felonyCasesDisposed": 705,
+          "medianDays": 188,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/432/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Colorado (felony cases)",
+          "quote": "Douglas 705 48% 80% 306 188"
+        },
+        {
+          "site": "El Paso",
+          "felonyCasesDisposed": 5801,
+          "medianDays": 138,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/432/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Colorado (felony cases)",
+          "quote": "El Paso 5,801 61% 87% 236 138"
+        },
+        {
+          "site": "Jefferson",
+          "felonyCasesDisposed": 3428,
+          "medianDays": 168,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/432/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Colorado (felony cases)",
+          "quote": "Jefferson 3,428 54% 87% 287 168"
+        },
+        {
+          "site": "Larimer",
+          "felonyCasesDisposed": 1795,
+          "medianDays": 109,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/432/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Colorado (felony cases)",
+          "quote": "Larimer 1,795 73% 93% 174 109"
+        }
+      ]
+    },
+    "US-CA": {
+      "status": "sourced",
+      "resolveAfterDays": 107,
+      "method": "Case-weighted mean of the reported site medians (each site's median active days from filing to disposition, felony cases disposed in the project's one-year window).",
+      "sites": [
+        {
+          "site": "Contra Costa",
+          "felonyCasesDisposed": 2639,
+          "medianDays": 104,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/452/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in California (felony cases)",
+          "quote": "Contra Costa 2,639 66% 83% 265 104"
+        },
+        {
+          "site": "Orange",
+          "felonyCasesDisposed": 11645,
+          "medianDays": 102,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/452/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in California (felony cases)",
+          "quote": "Orange 11,645 65% 83% 212 102"
+        },
+        {
+          "site": "Santa Barbara",
+          "felonyCasesDisposed": 2030,
+          "medianDays": 139,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/452/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in California (felony cases)",
+          "quote": "Santa Barbara 2,030 59% 79% 244 139"
+        }
+      ]
+    },
+    "US-KY": {
+      "status": "sourced",
+      "resolveAfterDays": 111,
+      "method": "Case-weighted mean of the reported site medians (each site's median active days from filing to disposition, felony cases disposed in the project's one-year window).",
+      "sites": [
+        {
+          "site": "Fayette",
+          "felonyCasesDisposed": 2893,
+          "medianDays": 136,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/434/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Kentucky (felony cases)",
+          "quote": "Fayette 2,893 59% 85% 188 136"
+        },
+        {
+          "site": "Jefferson",
+          "felonyCasesDisposed": 13705,
+          "medianDays": 99,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/434/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Kentucky (felony cases)",
+          "quote": "Jefferson 13,705 68% 85% 186 99"
+        },
+        {
+          "site": "Warren",
+          "felonyCasesDisposed": 1313,
+          "medianDays": 184,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/434/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Kentucky (felony cases)",
+          "quote": "Warren 1,313 49% 81% 254 184"
+        }
+      ]
+    },
+    "US-MO": {
+      "status": "sourced",
+      "resolveAfterDays": 140,
+      "method": "Case-weighted mean of the reported site medians (each site's median active days from filing to disposition, felony cases disposed in the project's one-year window).",
+      "sites": [
+        {
+          "site": "City of St. Louis",
+          "felonyCasesDisposed": 3850,
+          "medianDays": 118,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/430/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Missouri (felony cases)",
+          "quote": "City of St. Louis 3,850 63% 88% 179 118"
+        },
+        {
+          "site": "Clay",
+          "felonyCasesDisposed": 1140,
+          "medianDays": 118,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/430/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Missouri (felony cases)",
+          "quote": "Clay 1,140 68% 90% 218 118"
+        },
+        {
+          "site": "Greene",
+          "felonyCasesDisposed": 3104,
+          "medianDays": 167,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/430/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Missouri (felony cases)",
+          "quote": "Greene 3,104 53% 80% 254 167"
+        },
+        {
+          "site": "Jackson",
+          "felonyCasesDisposed": 3658,
+          "medianDays": 187,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/430/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Missouri (felony cases)",
+          "quote": "Jackson 3,658 49% 81% 232 187"
+        },
+        {
+          "site": "Jefferson",
+          "felonyCasesDisposed": 1506,
+          "medianDays": 103,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/430/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Missouri (felony cases)",
+          "quote": "Jefferson 1,506 70% 90% 165 103"
+        },
+        {
+          "site": "St. Charles",
+          "felonyCasesDisposed": 1853,
+          "medianDays": 91,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/430/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Missouri (felony cases)",
+          "quote": "St. Charles 1,853 74% 91% 143 91"
+        },
+        {
+          "site": "St. Louis",
+          "felonyCasesDisposed": 4714,
+          "medianDays": 142,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/430/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Missouri (felony cases)",
+          "quote": "St. Louis 4,714 60% 84% 222 142"
+        }
+      ]
+    },
+    "US-NY": {
+      "status": "sourced",
+      "resolveAfterDays": 227,
+      "method": "Case-weighted mean of the reported site medians (each site's median active days from filing to disposition, felony cases disposed in the project's one-year window).",
+      "sites": [
+        {
+          "site": "Bronx",
+          "felonyCasesDisposed": 4591,
+          "medianDays": 362,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/439/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in New York (felony cases)",
+          "quote": "Bronx 4,591 30% 51% 433 362"
+        },
+        {
+          "site": "Kings",
+          "felonyCasesDisposed": 4026,
+          "medianDays": 240,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/439/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in New York (felony cases)",
+          "quote": "Kings 4,026 40% 65% 364 240"
+        },
+        {
+          "site": "New York",
+          "felonyCasesDisposed": 5935,
+          "medianDays": 226,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/439/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in New York (felony cases)",
+          "quote": "New York 5,935 41% 70% 329 226"
+        },
+        {
+          "site": "Queens",
+          "felonyCasesDisposed": 3084,
+          "medianDays": 45,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/439/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in New York (felony cases)",
+          "quote": "Queens 3,084 63% 78% 211 45"
+        },
+        {
+          "site": "Richmond",
+          "felonyCasesDisposed": 569,
+          "medianDays": 40,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/439/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in New York (felony cases)",
+          "quote": "Richmond 569 71% 85% 152 40"
+        }
+      ]
+    },
+    "US-UT": {
+      "status": "sourced",
+      "resolveAfterDays": 70,
+      "method": "Case-weighted mean of the reported site medians (each site's median active days from filing to disposition, felony cases disposed in the project's one-year window).",
+      "sites": [
+        {
+          "site": "Davis",
+          "felonyCasesDisposed": 1366,
+          "medianDays": 98,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/440/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Utah (felony cases)",
+          "quote": "Davis 1,366 78% 95% 134 98"
+        },
+        {
+          "site": "Salt Lake City",
+          "felonyCasesDisposed": 8140,
+          "medianDays": 60,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/440/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Utah (felony cases)",
+          "quote": "Salt Lake City 8,140 85% 96% 105 60"
+        },
+        {
+          "site": "Utah",
+          "felonyCasesDisposed": 2143,
+          "medianDays": 90,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/440/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Utah (felony cases)",
+          "quote": "Utah 2,143 78% 95% 130 90"
+        },
+        {
+          "site": "Weber",
+          "felonyCasesDisposed": 1966,
+          "medianDays": 69,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/440/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Utah (felony cases)",
+          "quote": "Weber 1,966 80% 94% 117 69"
+        }
+      ]
+    },
+    "US-WA": {
+      "status": "sourced",
+      "resolveAfterDays": 109,
+      "method": "Case-weighted mean of the reported site medians (each site's median active days from filing to disposition, felony cases disposed in the project's one-year window).",
+      "sites": [
+        {
+          "site": "King County",
+          "felonyCasesDisposed": 6253,
+          "medianDays": 114,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/398/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Washington (felony cases)",
+          "quote": "King County 6,253 71% 91% 166 114"
+        },
+        {
+          "site": "Pierce",
+          "felonyCasesDisposed": 4557,
+          "medianDays": 85,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/398/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Washington (felony cases)",
+          "quote": "Pierce 4,557 78% 96% 121 85"
+        },
+        {
+          "site": "Spokane",
+          "felonyCasesDisposed": 4291,
+          "medianDays": 126,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/398/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Washington (felony cases)",
+          "quote": "Spokane 4,291 62% 84% 226 126"
+        }
+      ]
+    },
+    "US-IA": {
+      "status": "sourced",
+      "resolveAfterDays": 152,
+      "method": "Case-weighted mean of the reported site medians (each site's median active days from filing to disposition, felony cases disposed in the project's one-year window).",
+      "sites": [
+        {
+          "site": "Linn",
+          "felonyCasesDisposed": 671,
+          "medianDays": 161,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/408/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Iowa (felony cases)",
+          "quote": "Linn 671 59% 87% 233 161"
+        },
+        {
+          "site": "Polk",
+          "felonyCasesDisposed": 1845,
+          "medianDays": 149,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/408/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Iowa (felony cases)",
+          "quote": "Polk 1,845 63% 90% 253 149"
+        }
+      ]
+    },
+    "US-MN": {
+      "status": "sourced",
+      "resolveAfterDays": 145,
+      "method": "Case-weighted mean of the reported site medians (each site's median active days from filing to disposition, felony cases disposed in the project's one-year window).",
+      "sites": [
+        {
+          "site": "Anoka",
+          "felonyCasesDisposed": 1859,
+          "medianDays": 163,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/441/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Minnesota (felony cases)",
+          "quote": "Anoka 1,859 55% 90% 197 163"
+        },
+        {
+          "site": "Dakota",
+          "felonyCasesDisposed": 1993,
+          "medianDays": 170,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/441/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Minnesota (felony cases)",
+          "quote": "Dakota 1,993 53% 85% 224 170"
+        },
+        {
+          "site": "Hennepin",
+          "felonyCasesDisposed": 5992,
+          "medianDays": 125,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/441/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Minnesota (felony cases)",
+          "quote": "Hennepin 5,992 66% 91% 166 125"
+        },
+        {
+          "site": "Ramsey",
+          "felonyCasesDisposed": 2599,
+          "medianDays": 127,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/441/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Minnesota (felony cases)",
+          "quote": "Ramsey 2,599 74% 96% 155 127"
+        },
+        {
+          "site": "Washington",
+          "felonyCasesDisposed": 884,
+          "medianDays": 244,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/441/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Minnesota (felony cases)",
+          "quote": "Washington 884 31% 78% 283 244"
+        }
+      ]
+    },
+    "US-VA": {
+      "status": "sourced",
+      "resolveAfterDays": 63,
+      "method": "Case-weighted mean of the reported site medians (each site's median active days from filing to disposition, felony cases disposed in the project's one-year window).",
+      "sites": [
+        {
+          "site": "Fairfax",
+          "felonyCasesDisposed": 1378,
+          "medianDays": 63,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/412/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Virginia (felony cases)",
+          "quote": "Fairfax 1,378 83% 94% 124 63"
+        }
+      ]
+    },
+    "US-AK": {
+      "status": "sourced",
+      "resolveAfterDays": 121,
+      "method": "Case-weighted mean of the reported site medians (each site's median active days from filing to disposition, felony cases disposed in the project's one-year window).",
+      "sites": [
+        {
+          "site": "Anchorage",
+          "felonyCasesDisposed": 2544,
+          "medianDays": 100,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/437/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Alaska (felony cases)",
+          "quote": "Anchorage 2,544 66% 84% 197 100"
+        },
+        {
+          "site": "Fairbanks",
+          "felonyCasesDisposed": 542,
+          "medianDays": 154,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/437/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Alaska (felony cases)",
+          "quote": "Fairbanks 542 57% 85% 211 154"
+        },
+        {
+          "site": "Juneau",
+          "felonyCasesDisposed": 190,
+          "medianDays": 207,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/437/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Alaska (felony cases)",
+          "quote": "Juneau 190 46% 79% 246 207"
+        },
+        {
+          "site": "Kenai",
+          "felonyCasesDisposed": 449,
+          "medianDays": 113,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/437/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Alaska (felony cases)",
+          "quote": "Kenai 449 72% 93% 153 113"
+        },
+        {
+          "site": "Matanuska-Susitna",
+          "felonyCasesDisposed": 677,
+          "medianDays": 157,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/437/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Alaska (felony cases)",
+          "quote": "Matanuska-Susitna 677 57% 84% 217 157"
+        }
+      ]
+    },
+    "US-AZ": {
+      "status": "sourced",
+      "resolveAfterDays": 123,
+      "method": "Case-weighted mean of the reported site medians (each site's median active days from filing to disposition, felony cases disposed in the project's one-year window).",
+      "sites": [
+        {
+          "site": "Maricopa",
+          "felonyCasesDisposed": 23765,
+          "medianDays": 126,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/435/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Arizona (felony cases)",
+          "quote": "Maricopa 23,765 67% 89% 182 126"
+        },
+        {
+          "site": "Pima",
+          "felonyCasesDisposed": 5639,
+          "medianDays": 125,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/435/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Arizona (felony cases)",
+          "quote": "Pima 5,639 70% 91% 178 125"
+        },
+        {
+          "site": "Pinal",
+          "felonyCasesDisposed": 1759,
+          "medianDays": 89,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/435/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Arizona (felony cases)",
+          "quote": "Pinal 1,759 70% 91% 148 89"
+        },
+        {
+          "site": "Yavapai",
+          "felonyCasesDisposed": 1436,
+          "medianDays": 84,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/435/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Arizona (felony cases)",
+          "quote": "Yavapai 1,436 72% 89% 154 84"
+        },
+        {
+          "site": "Yuma",
+          "felonyCasesDisposed": 1251,
+          "medianDays": 141,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/435/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Arizona (felony cases)",
+          "quote": "Yuma 1,251 68% 93% 195 141"
+        }
+      ]
+    },
+    "US-AR": {
+      "status": "sourced",
+      "resolveAfterDays": 137,
+      "method": "Case-weighted mean of the reported site medians (each site's median active days from filing to disposition, felony cases disposed in the project's one-year window).",
+      "sites": [
+        {
+          "site": "Faulkner",
+          "felonyCasesDisposed": 971,
+          "medianDays": 190,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/424/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Arkansas (felony cases)",
+          "quote": "Faulkner 971 47% 81% 242 190"
+        },
+        {
+          "site": "Garland",
+          "felonyCasesDisposed": 666,
+          "medianDays": 144,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/424/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Arkansas (felony cases)",
+          "quote": "Garland 666 62% 90% 198 144"
+        },
+        {
+          "site": "Pulaski",
+          "felonyCasesDisposed": 4171,
+          "medianDays": 124,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/424/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Arkansas (felony cases)",
+          "quote": "Pulaski 4,171 64% 84% 215 124"
+        }
+      ]
+    },
+    "US-FL": {
+      "status": "sourced",
+      "resolveAfterDays": 81,
+      "method": "Case-weighted mean of the reported site medians (each site's median active days from filing to disposition, felony cases disposed in the project's one-year window).",
+      "sites": [
+        {
+          "site": "Alachua",
+          "felonyCasesDisposed": 1963,
+          "medianDays": 131,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/451/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Florida (felony cases)",
+          "quote": "Alachua 1,963 65% 92% 174 131"
+        },
+        {
+          "site": "Palm Beach",
+          "felonyCasesDisposed": 14250,
+          "medianDays": 74,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/451/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Florida (felony cases)",
+          "quote": "Palm Beach 14,250 74% 94% 154 74"
+        }
+      ]
+    },
+    "US-MI": {
+      "status": "sourced",
+      "resolveAfterDays": 33,
+      "method": "Case-weighted mean of the reported site medians (each site's median active days from filing to disposition, felony cases disposed in the project's one-year window).",
+      "sites": [
+        {
+          "site": "Kalamazoo",
+          "felonyCasesDisposed": 1588,
+          "medianDays": 34,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/445/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Michigan (felony cases)",
+          "quote": "Kalamazoo 1,588 93% 97% 69 34"
+        },
+        {
+          "site": "Oakland",
+          "felonyCasesDisposed": 4216,
+          "medianDays": 27,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/445/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Michigan (felony cases)",
+          "quote": "Oakland 4,216 95% 99% 52 27"
+        },
+        {
+          "site": "Ottawa",
+          "felonyCasesDisposed": 687,
+          "medianDays": 64,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/445/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Michigan (felony cases)",
+          "quote": "Ottawa 687 92% 96% 138 64"
+        }
+      ]
+    },
+    "US-IL": {
+      "status": "sourced",
+      "resolveAfterDays": 107,
+      "method": "Case-weighted mean of the reported site medians (each site's median active days from filing to disposition, felony cases disposed in the project's one-year window).",
+      "sites": [
+        {
+          "site": "Lake",
+          "felonyCasesDisposed": 3365,
+          "medianDays": 107,
+          "url": "https://ncsc.contentdm.oclc.org/digital/api/collection/criminal/id/449/download",
+          "table": "Active Time from Filing to Disposition, All ECCM Sites in Illinois (felony cases)",
+          "quote": "Lake 3,365 71% 91% 158 107"
+        }
+      ]
+    },
+    "US-ND": {
+      "status": "sourced",
+      "resolveAfterDays": 138,
+      "method": "The statewide median of all felony filings, 2018-2023, as the report gives it (no combining needed).",
+      "sites": [
+        {
+          "site": "Statewide",
+          "felonyCasesDisposed": 43206,
+          "medianDays": 138,
+          "url": "https://www.ndcourts.gov/Media/Default/News/north-dakota/2024-11-01%20ND%20report_Oct%202024%20FINAL%20-%201.pdf",
+          "table": "Exhibit 5.12: Statewide Time to Disposition by Case Category, 2018-2023 (Calendar Days); columns N, Mean, 25th, Median, 75th, 90th",
+          "quote": "Total 43,206 190 73 138 230 389"
+        }
+      ]
+    },
+    "US-AL": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-CT": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-DE": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-GA": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-HI": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-ID": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-IN": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-KS": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-LA": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-ME": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-MD": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-MA": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-MS": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-MT": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-NE": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-NV": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-NH": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-NJ": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-NM": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-NC": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-OH": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-OK": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-OR": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-RI": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-SC": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-SD": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-TN": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-TX": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-VT": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-WV": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-WI": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-WY": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-DC": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-PR": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-GU": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-VI": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-AS": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    },
+    "US-MP": {
+      "status": "estimated-from-average",
+      "note": "No statewide or site felony time-to-disposition table was read for this place; the reader uses the national estimate, labeled ESTIMATED FROM AVERAGE."
+    }
+  }
+}

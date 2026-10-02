@@ -14,6 +14,7 @@ import {
   currentHistoricalCutoff,
   evaluateDecision,
   personName,
+  reachPhrase,
   recordDurableDecisionTrace,
   recordLegislativeCommitment,
   recordLegislativeNegotiation,
@@ -181,7 +182,7 @@ export function describeBargainingBriefingContext(
   progress: LegislativeBargainingProgress,
 ): string {
   const facts = progress.subjectFacts;
-  return `${facts.designation} — ${facts.shortTitle} is on the ${facts.chamberName} floor. ${facts.programSectionLabel} funds ${facts.programReach.replace(/^language /, "")}. One member wants ${facts.requestedSectionLabel} written in for ${facts.requestedBeneficiaryLabel}; another is counting what the bill already commits.`;
+  return `${facts.designation} — ${facts.shortTitle} is on the ${facts.chamberName} floor. ${facts.programSectionLabel} funds ${reachPhrase(facts.programReach)}. One member wants ${facts.requestedSectionLabel} written in for ${facts.requestedBeneficiaryLabel}; another is counting what the bill already commits.`;
 }
 
 // ---------------------------------------------------------------------------
@@ -945,7 +946,10 @@ function motifFacts(
       : facts.programSectionLabel,
     sectionHeading: isAdvocate ? facts.requestedHeading : facts.programHeading,
     reach: sectionExists
-      ? `language written for ${facts.requestedBeneficiaryLabel}`
+      ? {
+          relation: "written-for" as const,
+          who: facts.requestedBeneficiaryLabel,
+        }
       : facts.programReach,
     beneficiary: facts.requestedBeneficiaryLabel,
     place: facts.requestedPlaceLabel,
@@ -959,6 +963,8 @@ function motifFacts(
     nextStep: facts.nextStepLabel,
     priorStatement: held.at(-1)?.statement ?? null,
     statedGround: isAdvocate ? facts.requestedStatedGround : null,
+    // The bargaining room is a legislature's floor; what it passes is a bill.
+    instrument: "bill",
   };
 }
 

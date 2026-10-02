@@ -1,5 +1,4 @@
 import { applyLawConsequences } from "./enacted-law-effects";
-import { applySpeechRetelling } from "./speech-retelling";
 import { applyEnactedCourtSizes } from "./governing/court-size-law";
 import { applyJudicialReview } from "./judiciary/judicial-review";
 import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
@@ -51,10 +50,7 @@ import type {
   WorkPlayerRequirement,
   World,
 } from "./types";
-import {
-  EMPTY_FUTURE_TRANSITION_HANDLERS,
-  resolveFutureDueItemsThrough,
-} from "./future-transitions";
+import { resolveFutureDueItemsThrough } from "./future-transitions";
 import {
   advanceWithWorldIntegrityAtEnd,
   assertWorldIntegrity,
@@ -1140,7 +1136,7 @@ export function advanceWhileJoiningScheduledActivity(
   world: World,
   activityId: EntityId,
   minutes: number,
-  transitionHandlers: FutureTransitionHandlerRegistry = EMPTY_FUTURE_TRANSITION_HANDLERS,
+  transitionHandlers: FutureTransitionHandlerRegistry = composeWorldTimeHandlers(),
 ): World {
   assertWorldIntegrity(world);
   const activity = world.history.scheduledActivities.find(
@@ -1197,7 +1193,7 @@ export function advanceWhileJoiningScheduledActivity(
 export function performRemainingScheduledActivity(
   world: World,
   activityId: EntityId,
-  transitionHandlers: FutureTransitionHandlerRegistry = EMPTY_FUTURE_TRANSITION_HANDLERS,
+  transitionHandlers: FutureTransitionHandlerRegistry = composeWorldTimeHandlers(),
 ): World {
   assertWorldIntegrity(world);
   const activity = world.history.scheduledActivities.find(
@@ -1400,7 +1396,7 @@ export function controlledCommitmentsBlockingActivityPerformance(
 export function performScheduledActivity(
   world: World,
   activityId: EntityId,
-  transitionHandlers: FutureTransitionHandlerRegistry = EMPTY_FUTURE_TRANSITION_HANDLERS,
+  transitionHandlers: FutureTransitionHandlerRegistry = composeWorldTimeHandlers(),
 ): World {
   assertWorldIntegrity(world);
   const activity = world.history.scheduledActivities.find(
@@ -2035,30 +2031,26 @@ export function applyDateBoundary(
   // CRISIS records the death or capacity change; the office consequence is
   // GOVERNING's, and it runs on the same date boundary so a death reaches the
   // office the day it happens. The consumer applies each notice once.
-  // D-3 step 7: a remembered speech is retold at each first of the month.
   return applyJudicialReview(
     crossedFrom,
-    applySpeechRetelling(
-      crossedFrom,
-      applyCrisisRepairFunding(
-        applyEnactedCourtSizes(
-          applyCrisisOfficeContinuity(
-            applyCongressLawmaking(
+    applyCrisisRepairFunding(
+      applyEnactedCourtSizes(
+        applyCrisisOfficeContinuity(
+          applyCongressLawmaking(
+            crossedFrom,
+            applyFederalReform(
               crossedFrom,
-              applyFederalReform(
+              applyArticleV(
                 crossedFrom,
-                applyArticleV(
+                applyConstitutionalReform(
                   crossedFrom,
-                  applyConstitutionalReform(
+                  applyPresidentialTurnover(
                     crossedFrom,
-                    applyPresidentialTurnover(
+                    applyGovernorTurnover(
                       crossedFrom,
-                      applyGovernorTurnover(
+                      applyCongressTurnover(
                         crossedFrom,
-                        applyCongressTurnover(
-                          crossedFrom,
-                          applyStateLegislatureTurnover(crossedFrom, moved),
-                        ),
+                        applyStateLegislatureTurnover(crossedFrom, moved),
                       ),
                     ),
                   ),

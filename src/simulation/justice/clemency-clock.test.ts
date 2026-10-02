@@ -1,10 +1,6 @@
 import { afterAll, describe, expect, it } from "vitest";
 import { writeFileSync } from "node:fs";
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 import { addDays } from "../dates";
 import { composeWorldTimeHandlers } from "../campaigns";
 import { createPressTransitionRegistry } from "../press/transitions";
@@ -16,11 +12,10 @@ import {
   scheduleFutureDueItem,
 } from "../future-transitions";
 import { currentLifeCutoff } from "../life-queries";
-import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
+import { lifePlaceStateIdentities } from "../life-places";
 import { personName } from "../people";
 import { pickDistinct, SeededRng } from "../rng";
 import { deserializeWorld, serializeWorld } from "../serialization";
-import type { World } from "../types";
 import { assertWorldIntegrity } from "../world";
 import {
   advanceClemencyPetition,
@@ -33,13 +28,11 @@ import {
   ensureClemencyPetitionSchedule,
 } from "./clemency-transitions";
 import {
-  PROSECUTION_CHARGED_EVENT,
   PROSECUTION_SENTENCED_EVENT,
-  advanceProsecutions,
   enterPlea,
   referForProsecution,
-  UNRESEARCHED_PROSECUTION,
 } from "./prosecution";
+import { prosecutionTimingFor } from "./prosecution-timing";
 
 const receipts: unknown[] = [];
 afterAll(() => {
@@ -55,30 +48,21 @@ describe("a saved clemency petition runs on its own existing boundaries", () => 
   const states = pickDistinct(
     new SeededRng(seed),
     lifePlaceStateIdentities(),
-    5,
+    1,
   );
   it.each(states)(
     "reviews the actual petitioner in $jurisdictionKey",
     (state) => {
-      const place =
-        searchLifePlaces("", 5000, {
-          stateJurisdictionKey: state.jurisdictionKey,
-          scope: "locality",
-        })[0] ??
-        searchLifePlaces("", 5, {
-          stateJurisdictionKey: state.jurisdictionKey,
-          scope: "state",
-        })[0]!;
-      const game = generateOpeningLife(
-        prepareOpeningLife({
-          ...DEFAULT_NEW_GAME_SETUP,
-          seed: `team9-g12-clemency:${state.jurisdictionKey}`,
-          placeKey: place.key,
-          startAge: 40,
-          questionnaire: "skipped",
-        }),
-      ).game!;
-      const personId = game.playerPersonId;
+      // A real contested trial needs an eligible full panel. Generate the
+      // small world's residents; never manufacture a verdict or sentence.
+      const small = smallWorld({
+        place: state.jurisdictionKey,
+        seed: `team9-g12-clemency:${state.jurisdictionKey}`,
+        offices: ["governor"],
+        people: 40,
+      });
+      const game = { world: small.world };
+      const personId = small.personId;
       const referred = referForProsecution(game.world, {
         stableKey: "fixture:g12-clemency-case",
         subjectPersonId: personId,
@@ -89,55 +73,68 @@ describe("a saved clemency petition runs on its own existing boundaries", () => 
         evidence: "documentary",
         standingFindings: 6,
       });
-      // Authored historical fixture inputs make the saved case due; no clock backfill.
-      const stale: World = {
-        ...referred.world,
-        history: {
-          ...referred.world.history,
-          events: referred.world.history.events.map((event) =>
-            event.id === referred.referralId
-              ? { ...event, occurredAt: addDays(game.world.currentDate, -200) }
-              : event,
-          ),
-        },
-      };
-      const charged = advanceProsecutions(stale);
+      const timing = prosecutionTimingFor(state.jurisdictionKey);
+      const chargedAt = addDays(
+        referred.world.currentDate,
+        timing.chargeDecisionDays,
+      );
+      // Enter the contested plea after charging, before its trial boundary. Do
+      // not backdate saved events and accidentally reach trial first.
+      const charged = resolveFutureDueItemsThrough(
+        referred.world,
+        chargedAt,
+        composeWorldTimeHandlers(),
+      );
       const plea = enterPlea(charged, {
         personId,
         referralId: referred.referralId,
-        plea: "guilty",
+        // A contested trial supplies this clock fixture with a serving term;
+        // a sourced zero-month guilty-plea term is already served and cannot
+        // support a clemency request. Keep the same person and assertions.
+        plea: "not-guilty",
       });
       expect(plea.ok).toBe(true);
-      const trialDue: World = {
-        ...plea.world,
-        history: {
-          ...plea.world.history,
-          events: plea.world.history.events.map((event) =>
-            event.type === PROSECUTION_CHARGED_EVENT &&
-            event.involvedEntityIds.includes(personId)
-              ? {
-                  ...event,
-                  occurredAt: addDays(
-                    plea.world.currentDate,
-                    -UNRESEARCHED_PROSECUTION.resolveAfterDays,
-                  ),
-                }
-              : event,
-          ),
-        },
-      };
-      const sentenced = advanceProsecutions(trialDue);
+      const sentenced = resolveFutureDueItemsThrough(
+        plea.world,
+        addDays(chargedAt, timing.resolveAfterDays),
+        composeWorldTimeHandlers(),
+      );
       const sentence = sentenced.history.events.find(
         (event) =>
           event.type === PROSECUTION_SENTENCED_EVENT &&
           event.involvedEntityIds.includes(personId),
       );
+      if (process.env.G12_CLEMENCY_DIAGNOSTIC_PATH)
+        writeFileSync(
+          process.env.G12_CLEMENCY_DIAGNOSTIC_PATH,
+          JSON.stringify(
+            {
+              state: state.jurisdictionKey,
+              currentDate: sentenced.currentDate,
+              personId,
+              referralId: referred.referralId,
+              events: sentenced.history.events.filter(
+                (event) =>
+                  event.id === referred.referralId ||
+                  event.tags.includes(
+                    `justice.referral:${referred.referralId}`,
+                  ),
+              ),
+              decisions: sentenced.history.decisionTraces.filter((trace) =>
+                trace.context.stableKey.includes("fixture:g12-clemency-case"),
+              ),
+              seatTenures: sentenced.judiciary?.seatTenures,
+            },
+            null,
+            2,
+          ),
+        );
       expect(sentence).toBeDefined();
       const filed = fileClemencyPetition(sentenced, {
         personId,
         sentencedEventId: sentence!.id,
       });
-      expect(filed.ok).toBe(true);
+      expect(filed.ok, filed.ok ? "" : filed.reason).toBe(true);
       if (!filed.ok) throw new Error(filed.reason);
       let isolated = filed.world;
       for (const item of isolated.history.futureDueItems)

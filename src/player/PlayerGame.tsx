@@ -5,6 +5,7 @@ import {
   type NativeSessionQuery,
 } from "./native-session-bridge";
 
+import { MeetingStopActions } from "./MeetingStopActions";
 import { SetupScreen } from "./SetupScreen";
 import { QuestionnaireScreenView } from "./QuestionnaireScreenView";
 import { SavesScreen } from "./SavesScreen";
@@ -47,6 +48,7 @@ import { PersonPortrait } from "./PersonPortrait";
 import { useContentViewportCss } from "./overlay-viewport";
 import {
   describeTimeCommandPreview,
+  quietStretchRefusal,
   previewTimeCommand,
 } from "../presentation/time-command";
 import { acceptedOfferStarts } from "../presentation/offer-deadlines";
@@ -279,7 +281,6 @@ import { useShell } from "./useShell";
 
 import { ShellNav, type ShellDestination } from "./ShellNav";
 import { ShellPinRail } from "./ShellPinRail";
-import { WorldRecapPanel } from "./WorldRecapPanel";
 import { MorningThoughtPanel } from "./MorningThoughtPanel";
 import { WorldOrientationPanel } from "./WorldOrientationPanel";
 import { WorldOrientationEntry } from "./WorldOrientationEntry";
@@ -1497,6 +1498,10 @@ function PlayingScreen({
       ? {
           day: skipToLabel(day.target),
           week: skipToLabel(week.target),
+          untilNeededReason: quietStretchRefusal(
+            session.world,
+            session.personId,
+          ),
           untilNeeded: untilNeeded
             ? describeTimeCommandPreview(untilNeeded)
             : null,
@@ -2729,9 +2734,7 @@ function PlayingScreen({
                     selectedDossier.personId,
                     {
                       presentPersonIds,
-                      handlers: interruptionHandlers(
-                        shell.preferences.interruptions,
-                      ),
+                      handlers: interruptionHandlers(),
                     },
                   );
                   if (next !== session.world) {
@@ -2891,6 +2894,14 @@ function PlayingScreen({
                   </button>
                 </p>
               ) : null}
+              {!shellReadOnly(session.world) ? (
+                <MeetingStopActions
+                  world={session.world}
+                  personId={session.personId}
+                  runner={timeRunner}
+                  onReport={(report) => setPassOutcome(report.outcome)}
+                />
+              ) : null}
               {crisisStop.stop ? (
                 <p
                   className="life-hud-note life-hud-note--problem"
@@ -2928,42 +2939,13 @@ function PlayingScreen({
                 </p>
               ) : null}
               {/*
-                The recap and the morning note are for a life already under
-                way: neither opens over the first orientation tour. Nor do they
-                stand in the room while somebody is being spoken to there: the
-                conversation is the one surface in front of the people, and at
-                720 px tall a note beside it leaves the box no room for its
-                replies. Meeting controls and a selected person's dossier
-                also take the foreground. Both notes return undismissed when
-                that panel closes.
+                The optional morning note waits until the first orientation
+                tour, conversations, meetings and selected dossiers close.
               */}
               {!showOrientation &&
               !talkingInTheRoom &&
               !meeting &&
               !selectedDossier &&
-              dayRhythm.summary ? (
-                <WorldRecapPanel
-                  summary={dayRhythm.summary}
-                  onDismiss={(throughSequence, throughMoment) =>
-                    dispatch({
-                      type: "acknowledge-recap",
-                      throughSequence,
-                      throughMoment,
-                    })
-                  }
-                  onOpenNews={() =>
-                    dispatch({ type: "go-to-surface", surface: "news" })
-                  }
-                  onOpenPerson={(personId) =>
-                    dispatch({ type: "open-quick-dossier", personId })
-                  }
-                />
-              ) : null}
-              {!showOrientation &&
-              !talkingInTheRoom &&
-              !meeting &&
-              !selectedDossier &&
-              !dayRhythm.summary &&
               dayRhythm.morningThought ? (
                 <MorningThoughtPanel
                   thought={dayRhythm.morningThought}
@@ -3010,6 +2992,7 @@ function PlayingScreen({
                   ) : null
                 }
                 dateLabel={moment.dateLabel}
+                currentMoment={session.world.currentMoment}
                 placeName={moment.placeName}
                 destinations={destinations}
                 canSave={!savesUnavailable}
@@ -3912,6 +3895,7 @@ function renderWorkspace({
                 world={session.world}
                 personId={session.personId}
                 onOpenPerson={openPerson}
+                onWorldChange={onWorldChange}
               />
             </>
           }
@@ -4753,6 +4737,7 @@ function renderWorkspace({
           {half === "office" ? politicsTabs("office") : null}
           {half === "campaign" ? politicsTabs("campaigns") : null}
           <WorkLayout
+            showIntro={half !== "jobs"}
             roleSentence={role.sentence}
             pending={
               half === "office" ? null : (
@@ -5304,11 +5289,13 @@ interface WorkSection {
  * and it reads nothing and changes nothing.
  */
 function WorkLayout({
+  showIntro = true,
   roleSentence,
   pending,
   sections,
   timeControl,
 }: {
+  readonly showIntro?: boolean;
   readonly roleSentence: string;
   /** What is waiting on the character, said right after who they are. */
   readonly pending: ReactNode;
@@ -5322,11 +5309,15 @@ function WorkLayout({
   };
   return (
     <div className="pg-work" data-testid="work-layout">
-      <p className="game-scene" data-testid="work-role">
-        {roleSentence}
-      </p>
-      {pending}
-      {sections.length > 1 ? (
+      {showIntro ? (
+        <>
+          <p className="game-scene" data-testid="work-role">
+            {roleSentence}
+          </p>
+          {pending}
+        </>
+      ) : null}
+      {showIntro && sections.length > 1 ? (
         <nav className="pg-work-jump" aria-label="On this page">
           {sections.map((section) => (
             <button

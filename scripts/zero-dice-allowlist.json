@@ -430,13 +430,6 @@
       "code": "if ([\"california\", \"us-ca\"].includes(j.slug)) return \"US-CA\";"
     },
     {
-      "file": "src/simulation/cost-of-living.ts",
-      "kind": "fixed-share",
-      "build": "Build 10",
-      "count": 1,
-      "code": "housingShareMinor: 90_000,"
-    },
-    {
       "file": "src/simulation/crime/contract.ts",
       "kind": "fixed-share",
       "build": "Build 21",
@@ -491,62 +484,6 @@
       "build": "Build 21",
       "count": 1,
       "code": "arrestShare: 0.1,"
-    },
-    {
-      "file": "src/simulation/crime/producer.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
-      "code": "if (rng.next() >= monthlyChance(rate)) return;"
-    },
-    {
-      "file": "src/simulation/crime/producer.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
-      "code": "while (product > limit && count < 25) {"
-    },
-    {
-      "file": "src/simulation/crisis/death-causes.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "{ fromAge: 0, shares: [55, 35, 10] },"
-    },
-    {
-      "file": "src/simulation/crisis/death-causes.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "{ fromAge: 1, shares: [40, 15, 45] },"
-    },
-    {
-      "file": "src/simulation/crisis/death-causes.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "{ fromAge: 15, shares: [20, 15, 65] },"
-    },
-    {
-      "file": "src/simulation/crisis/death-causes.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "{ fromAge: 35, shares: [50, 30, 20] },"
-    },
-    {
-      "file": "src/simulation/crisis/death-causes.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "{ fromAge: 55, shares: [65, 28, 7] },"
-    },
-    {
-      "file": "src/simulation/crisis/death-causes.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "{ fromAge: 75, shares: [75, 20, 5] },"
     },
     {
       "file": "src/simulation/crisis/disaster.ts",
@@ -833,13 +770,6 @@
       "kind": "roll",
       "build": "Build 7",
       "count": 1,
-      "code": ".next() < TOWN_FAMILY_CHANCES.sameGender;"
-    },
-    {
-      "file": "src/simulation/living-world/town-families.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
       "code": "if (rng.fork(\"break-up\").next() < breakUp) {"
     },
     {
@@ -862,27 +792,6 @@
       "build": "Build 7",
       "count": 1,
       "code": "if (rng.fork(\"looks\").next() >= chance) continue;"
-    },
-    {
-      "file": "src/simulation/living-world/town-homes.ts",
-      "kind": "roll",
-      "build": "Build 10",
-      "count": 1,
-      "code": "if (point < 0) return KINDS[index]!;"
-    },
-    {
-      "file": "src/simulation/living-world/town-homes.ts",
-      "kind": "roll",
-      "build": "Build 10",
-      "count": 1,
-      "code": "if (rng.fork(\"own\").next() >= own) return TOWN_TENURE_KINDS.rented;"
-    },
-    {
-      "file": "src/simulation/living-world/town-homes.ts",
-      "kind": "roll",
-      "build": "Build 10",
-      "count": 1,
-      "code": "return head < 60 && rng.fork(\"mortgage\").next() < 0.7"
     },
     {
       "file": "src/simulation/living-world/town-residents.ts",
@@ -927,69 +836,6 @@
       "code": "const sameSex = rng.next() < SAME_SEX_COUPLE_SHARE;"
     },
     {
-      "file": "src/simulation/macro-economy/kernel.ts",
-      "kind": "roll",
-      "build": "Build 19",
-      "count": 1,
-      "code": "if (rng.fork(\"era\").next() < t.eraJumpMonthlyChance)"
-    },
-    {
-      "file": "src/simulation/macro-economy/kernel.ts",
-      "kind": "roll",
-      "build": "Build 19",
-      "count": 1,
-      "code": "if (rng.fork(\"price-shock\").next() < i.shockMonthlyChance)"
-    },
-    {
-      "file": "src/simulation/macro-economy/policy.ts",
-      "kind": "fixed-share",
-      "build": "Build 19",
-      "count": 1,
-      "code": "eraJumpMonthlyChance: 0.00125,"
-    },
-    {
-      "file": "src/simulation/macro-economy/policy.ts",
-      "kind": "fixed-share",
-      "build": "Build 19",
-      "count": 1,
-      "code": "shockMonthlyChance: 0.003,"
-    },
-    {
-      "file": "src/simulation/migration/review.ts",
-      "kind": "fixed-share",
-      "build": "Build 24",
-      "count": 1,
-      "code": "export const BLANKET_SAME_STATE_SHARE = 0.5;"
-    },
-    {
-      "file": "src/simulation/migration/review.ts",
-      "kind": "fixed-share",
-      "build": "Build 24",
-      "count": 1,
-      "code": "export const BLANKET_DISPLACED_LEAVE_CHANCE = {"
-    },
-    {
-      "file": "src/simulation/migration/review.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": "if (rng.next() >= leaveChance) continue;"
-    },
-    {
-      "file": "src/simulation/migration/review.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": "if (pool.ownState && rng.next() < BLANKET_SAME_STATE_SHARE)"
-    },
-    {
-      "file": "src/simulation/migration/review.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": "if (draw < 0) return pool.otherStates[index]!;"
-    },
-    {
       "file": "src/simulation/municipal-ordinance-procedure.ts",
       "kind": "place-in-logic",
       "build": "Build 25",
@@ -1032,20 +878,6 @@
       "code": "if (roll < 0) return usps;"
     },
     {
-      "file": "src/simulation/nationwide-world/presidential-turnover.ts",
-      "kind": "place-in-logic",
-      "build": "Build 27",
-      "count": 1,
-      "code": "(unit.state === \"DC\""
-    },
-    {
-      "file": "src/simulation/nationwide-world/presidential-turnover.ts",
-      "kind": "roll",
-      "build": "Build 27",
-      "count": 1,
-      "code": ": rng.fork(`tie:${unit.state}`).integer(0, 2) === 0"
-    },
-    {
       "file": "src/simulation/nationwide-world/state-legislature-candidates.ts",
       "kind": "fixed-share",
       "build": "Build 24",
@@ -1086,20 +918,6 @@
       "build": "Build 2",
       "count": 1,
       "code": "if (place.stateJurisdictionKey === \"US-DC\") return null;"
-    },
-    {
-      "file": "src/simulation/outcome-web/place-outcomes.ts",
-      "kind": "roll",
-      "build": "Build 2",
-      "count": 1,
-      "code": "rng.fork(\"wave\").next() < drift.waveMonthlyChance"
-    },
-    {
-      "file": "src/simulation/people-upbringing.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
-      "code": "return roll < 15 ? \"severe-scarcity\" : roll < 35 ? \"strained\" : \"secure\";"
     },
     {
       "file": "src/simulation/people-upbringing.ts",
@@ -1254,13 +1072,6 @@
       "build": "Build 7",
       "count": 1,
       "code": "} else if (roll < 0.9) {"
-    },
-    {
-      "file": "src/simulation/people.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 2,
-      "code": "month < currentMonth || (month === currentMonth && day <= currentDay);"
     },
     {
       "file": "src/simulation/person-identity.ts",

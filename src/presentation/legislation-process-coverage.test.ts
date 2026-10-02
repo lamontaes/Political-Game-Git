@@ -1,7 +1,16 @@
 import { describe, expect, it } from "vitest";
 
+import { decideAtDesk } from "../../tests/fixtures/enact-through-desk";
 import { suppliedLegislativeSeat } from "../../tests/fixtures/supplied-legislative-seat";
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { ensureStateExecutiveIncumbent } from "../simulation/nationwide-world/state-executives";
+import { createLightweightPerson } from "../simulation/people";
+import { governorOfficeForJurisdiction } from "../simulation/governing/state-governing";
+import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
+import {
+  stateStatuteOperativeAt,
+  statuteEffectiveDateEstimated,
+} from "../simulation/governing/statute-effective-date";
+import { enactmentStatuteDateContext } from "../simulation/enacted-rule-changes";
 import { operativeDateInWorld } from "../simulation/governing/law-in-force";
 import {
   enactedRuleChangeAt,
@@ -205,6 +214,38 @@ function fileSavedFixtureBill(stateUsps: string): FiledProcedure {
   return fileProcedureBill(stateUsps, base, pack);
 }
 
+/**
+ * The state's governor, seated through the canonical writer so the bill's
+ * desk has an officeholder to decide it (#1478). A fixture world with nobody
+ * in it first gets one resident to anchor the governor's context record.
+ */
+function seatGovernor(world: World, stateUsps: string): World {
+  let next = world;
+  let subjectId = next.personOrder[0];
+  if (!subjectId) {
+    const person = createLightweightPerson({
+      worldId: next.id,
+      worldSeed: next.seed,
+      index: 0,
+      currentDate: next.currentDate,
+      homeJurisdictionId: stateJurisdictionForKey(`US-${stateUsps}`)!.id,
+    });
+    next = {
+      ...next,
+      people: { ...next.people, [person.id]: person },
+      personOrder: [...next.personOrder, person.id],
+    };
+    subjectId = person.id;
+  }
+  next = ensureStateExecutiveIncumbent(next, subjectId, stateUsps);
+  // The governor's desk work is the controlled person's, as in #1910.
+  const holder = governorOfficeForJurisdiction(
+    next,
+    `US-${stateUsps}`,
+  )!.holderPersonId!;
+  return { ...next, control: { kind: "person", personId: holder } };
+}
+
 function enactFiledBill(
   filed: FiledProcedure,
   startingWorld = filed.world,
@@ -213,6 +254,14 @@ function enactFiledBill(
   for (let guard = 0; guard < 40; guard += 1) {
     const position = measurePosition(world, filed.measureId);
     if (position.phase === "enacted") return world;
+    if (position.phase === "awaiting-executive") {
+      // The seated governor decides the bill at the actual desk.
+      world = decideAtDesk(
+        seatGovernor(world, filed.stateUsps),
+        filed.measureId,
+      );
+      continue;
+    }
     if (position.terminal) {
       throw new Error(`${filed.stateUsps}: bill ended as ${position.outcome}`);
     }
@@ -283,12 +332,35 @@ describe("one shared state bill procedure across the fifty states", () => {
       const enactment = enacted.history.legislativeEnactments?.at(-1);
       expect(measurePosition(enacted, filed.measureId).outcome).toBe("enacted");
       expect(enactment?.measureId).toBe(filed.measureId);
-      // The act saves no invented interval: a date its cited rule or the
-      // caller gave is kept, and the state's researched rule dates the rest.
-      expect(enactment?.effectiveDateGameProfile).toBeUndefined();
+      const dateContext = enactmentStatuteDateContext(enacted, enactment!);
+      const sourceDate = stateStatuteOperativeAt(
+        `US-${usps}`,
+        enactment!.resolvedAt,
+        dateContext,
+      );
+      const estimated = statuteEffectiveDateEstimated(
+        `US-${usps}`,
+        enactment!.resolvedAt,
+        dateContext,
+      );
+      expect(enactment!.effectiveAt).toBe(sourceDate);
+      expect(enactment!.effectiveDateBasis).toBe(
+        estimated ? "game-default" : "source-default",
+      );
+      // An estimate keeps explicit provenance; a sourced default saves no fictional interval.
+      expect(enactment!.effectiveDateGameProfile).toEqual(
+        estimated && sourceDate !== null
+          ? {
+              version: `${filed.context.pack.packId}:statute-default-estimate`,
+              days: daysBetween(enactment!.resolvedAt, sourceDate),
+            }
+          : undefined,
+      );
       const operative = operativeDateInWorld(enacted, enactment!);
-      expect(operative).not.toBeNull();
-      expect(operative!.date >= enactment!.resolvedAt).toBe(true);
+      if (sourceDate !== null) {
+        expect(operative!.date).toBe(sourceDate);
+        expect(operative!.date >= enactment!.resolvedAt).toBe(true);
+      } else expect(operative).toBeNull();
     },
   );
 

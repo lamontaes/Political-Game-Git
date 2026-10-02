@@ -1,5 +1,5 @@
-import approvalsData from "../../art/approvals/character-catalog-approvals.json";
-import characterCatalog from "../../art/manifest/character_catalog.json";
+import approvalsData from "../../art/approvals/character-catalog-approvals.json" with { type: "json" };
+import characterCatalog from "../../art/manifest/character_catalog.json" with { type: "json" };
 
 import {
   promoteCandidateComponent,

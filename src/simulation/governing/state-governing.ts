@@ -35,7 +35,6 @@ import { createWorkItem, workItemState } from "../time-work";
 import type {
   EntityId,
   FutureDueItem,
-  FutureTransitionHandler,
   FutureTransitionHandlerResult,
   HistoricalEvent,
   IsoDate,
@@ -64,11 +63,7 @@ import {
   clemencyQuestionFor,
   evaluateClemency,
 } from "../justice/clemency-reasoning";
-import { isCongressMeasure } from "./congress-chambers";
-import {
-  CONGRESS_LAWMAKING_HANDLERS,
-  presidentDesk,
-} from "./congress-lawmaking";
+import { congressLawmakingHandlers, presidentDesk } from "./congress-lawmaking";
 import {
   currentStateExecutiveHolders,
   type StateExecutiveHolderRecord,
@@ -120,7 +115,7 @@ import { publicPartyOf } from "./chamber-votes";
  *
  * Budget season, bill presentment dates, the action deadline and what an
  * unsigned bill does are the disclosed calendar in
- * `STATE_GOVERNING_CALENDAR`, not compiled state law.
+ * the shared session timetable, not compiled state law.
  *
  * These are the office's own staffing and management choices. They claim no
  * statutory power: hiring personal staff and directing a priority are ordinary
@@ -460,11 +455,8 @@ function isSittingChief(
   );
 }
 
-/** Qualitative, seeded from the person: never a number shown to the player. */
-import {
-  generateStaffCandidateHistory,
-  staffAssessment,
-} from "./staff-evidence";
+/** Qualitative assessment read from the person's saved record. */
+import { staffAssessment } from "./staff-evidence";
 import type { StaffAssessment } from "./staff-evidence";
 import { PROGRAM_FAMILIES, programFamilyTitle } from "./program-families";
 import {
@@ -1105,6 +1097,7 @@ export function staffRecommendation(
               reason: `${clause(assessment.background)}, and sees no reason to pick this fight.`,
             };
     case "program": {
+      if (assessment.steadiness === null) return null;
       // The advice is about money that exists: a steady chief spreads it over
       // months; a cautious one waits. Either way it is one fallible view.
       const spread = matter.options.find(
@@ -1127,6 +1120,7 @@ export function staffRecommendation(
         : null;
     }
     case "implementation":
+      if (assessment.steadiness === null) return null;
       return assessment.steadiness >= 2
         ? {
             optionKey: "pace:careful",
@@ -1212,13 +1206,8 @@ export function createCandidates(
       "person",
       `${next.id}:life-context-v1:${stableKey}`,
     );
-    // A candidate arrives with a working life already in the record, so the
-    // assessment offered to the player is a reading rather than an invention.
-    next = generateStaffCandidateHistory(next, {
-      personId,
-      stableKey,
-      jurisdictionId: office.jurisdictionId,
-    });
+    // Offering a candidate supplies no career or degree. The assessment reads
+    // existing records and names absent experience as absent evidence.
     personIds.push(personId);
   }
   return { world: next, personIds };
@@ -2426,13 +2415,22 @@ export function governingNpcDecisionHandler(
     : undefined;
   const steadiest =
     matter.family === "chief-of-staff"
-      ? [...matter.options].sort(
-          (a, b) =>
-            (b.assessment?.steadiness ?? 0) - (a.assessment?.steadiness ?? 0),
-        )[0]
+      ? [...matter.options]
+          .filter((option) => option.assessment?.steadiness != null)
+          .sort(
+            (a, b) => b.assessment!.steadiness! - a.assessment!.steadiness!,
+          )[0]
       : undefined;
-  // PLACEHOLDER (zero-dice row, left): an agenda with no chief of staff to
-  // advise still falls to a seeded pick.
+  if (
+    (matter.family === "chief-of-staff" || matter.family === "agenda") &&
+    !recommended &&
+    !steadiest
+  )
+    return resolved(
+      next,
+      "No recorded advice or candidate assessment selects a choice; the matter remains open.",
+    );
+  // Remaining families retain their existing fallback, tracked under A92.
   const option =
     recommended ??
     steadiest ??
@@ -2950,51 +2948,9 @@ export const executiveDesk: ExecutiveDeskHandler = (
   measure,
   blueprint,
 ) =>
-  isCongressMeasure(measure)
+  world.jurisdictions[measure.jurisdictionId]?.kind === "federal"
     ? presidentDesk(world, measure)
     : governorDesk(world, measure, blueprint);
-
-/**
- * Puts money a step enacted in front of its executive the same day.
- *
- * Every route that can enact an appropriation needs this, not only the state
- * legislature's: before it was shared, a law passed by Congress or a city or
- * county council became spending authority that no office was ever asked to
- * commit, so its money never moved.
- */
-export function withProgramMatters(
-  handler: FutureTransitionHandler,
-): FutureTransitionHandler {
-  return (world: World, due: FutureDueItem): FutureTransitionHandlerResult => {
-    const result = handler(world, due);
-    // Appropriation records are only appended, so an unchanged count means
-    // the step enacted no money.
-    if (
-      (result.world.history.publicProgramRecords ?? []).length ===
-      (world.history.publicProgramRecords ?? []).length
-    )
-      return result;
-    // A step opens only the new money it enacted. The explicit opener and
-    // dated availability dues handle money already on record.
-    const prior = new Set(
-      (world.history.publicProgramRecords ?? [])
-        .filter((record) => record.kind === "appropriation")
-        .map((record) => record.id),
-    );
-    const added = new Set(
-      (result.world.history.publicProgramRecords ?? [])
-        .filter(
-          (record) => record.kind === "appropriation" && !prior.has(record.id),
-        )
-        .map((record) => record.id),
-    );
-    if (added.size === 0) return result;
-    return {
-      ...result,
-      world: openProgramMattersForAllOffices(result.world, added),
-    };
-  };
-}
 
 /**
  * The governing handlers, built when a registry asks for them rather than when
@@ -3004,23 +2960,18 @@ export function withProgramMatters(
 export function stateGoverningHandlers() {
   // Any of these can enact money: the legislative step, Congress's sittings,
   // and a governor's or President's signature on the desk.
-  return (
-    [
-      [STATE_LEGISLATURE_OPENING_TRANSITION, stateLegislatureOpeningHandler],
-      [
-        LEGISLATIVE_INSTITUTION_STEP,
-        createInstitutionStepHandler(executiveDesk),
-      ],
-      ...CONGRESS_LAWMAKING_HANDLERS,
-      [COMMITTEE_HEARING_TRANSITION_KEY, committeeHearingTransitionHandler],
-      [GOVERNING_SEASON, governingSeasonHandler],
-      [GOVERNING_TRANSITION, governingTransitionHandler],
-      [GOVERNING_DEADLINE, governingDeadlineHandler],
-      [GOVERNING_NPC_DECISION, governingNpcDecisionHandler],
-      [GOVERNING_PROGRAM_AVAILABLE, governingProgramAvailableHandler],
-      [GOVERNING_FOLLOW_UP, governingFollowUpHandler],
-    ] as const
-  ).map(([key, handler]) => [key, withProgramMatters(handler)] as const);
+  return [
+    [STATE_LEGISLATURE_OPENING_TRANSITION, stateLegislatureOpeningHandler],
+    [LEGISLATIVE_INSTITUTION_STEP, createInstitutionStepHandler(executiveDesk)],
+    ...congressLawmakingHandlers(),
+    [COMMITTEE_HEARING_TRANSITION_KEY, committeeHearingTransitionHandler],
+    [GOVERNING_SEASON, governingSeasonHandler],
+    [GOVERNING_TRANSITION, governingTransitionHandler],
+    [GOVERNING_DEADLINE, governingDeadlineHandler],
+    [GOVERNING_NPC_DECISION, governingNpcDecisionHandler],
+    [GOVERNING_PROGRAM_AVAILABLE, governingProgramAvailableHandler],
+    [GOVERNING_FOLLOW_UP, governingFollowUpHandler],
+  ] as const;
 }
 
 /** Recorded decisions and outcomes for an office, newest first. */
