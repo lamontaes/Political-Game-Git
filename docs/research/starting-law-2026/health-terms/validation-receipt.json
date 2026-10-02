@@ -1,0 +1,64 @@
+{
+  "status": "DRAFT; positive ordinary-game financial eligibility proof failed; not READY",
+  "testedSourceHead": "3efa005121dcd3629576d79145de5362ca573e2c",
+  "mainCompared": "41b4f893c9a05075f393554422a14c6d087d747f",
+  "tests": {
+    "command": "OCD_STORAGE_STATE_DIR=/tmp/health-storage VITE_CONFIG_NATIVE_IGNORE_WARNING=true npm run storage -- run test -- npx --no-install vitest run src/simulation/crisis/health-starting-terms.test.ts src/simulation/crisis/health-coverage.test.ts --maxWorkers 1",
+    "exitCode": 1,
+    "passed": 69,
+    "failed": 1,
+    "existingHealthTests": {
+      "passed": 65,
+      "failed": 0
+    },
+    "dedicatedTests": {
+      "passed": 4,
+      "failed": 1
+    },
+    "durationSeconds": 18.05,
+    "failedAssertion": "health-starting-terms.test.ts: known.length expected greater than0 in ordinary drawn game",
+    "fixtureProof": "explicit household fixture financial-term consumption and save/reload passed; does not replace ordinary-game assertion"
+  },
+  "ordinaryGame": {
+    "seed": "health-starting-financial-term-2026-10-02",
+    "place": "Mount Hope, West Virginia",
+    "placeKey": "5456404",
+    "date": "2026-01-15",
+    "reasons": {
+      "outside:income-unrecorded": 37,
+      "outside:age": 31,
+      "outside:no-household": 3
+    },
+    "knownFinancialDecisions": 0,
+    "mainBaseline": "Exact same seed/place/current-date/reason counts executed on clean detached41b4; branch restored with all own bytes committed."
+  },
+  "typecheck": {
+    "roots": [
+      "src/simulation/crisis/health-coverage.ts",
+      "src/simulation/crisis/health-starting-terms.test.ts"
+    ],
+    "files": 1070,
+    "diagnostics": 0,
+    "exitCode": 0
+  },
+  "format": "PASS changed paths",
+  "eslint": "PASS changed TypeScript paths",
+  "zeroDice": "PASS no new findings;152 allowed lines",
+  "diffCheck": "PASS",
+  "mergeTree": {
+    "command": "git merge-tree --write-tree origin/main HEAD",
+    "main": "41b4f893c9a05075f393554422a14c6d087d747f",
+    "tree": "6e024d8d00a7c8382239a0b4832d4c3a9de894d4",
+    "exitCode": 0,
+    "meaning": "read-only merge preview; no merge performed"
+  },
+  "releaseCheck": {
+    "command": "npm run release:check -- --mode pr",
+    "exitCode": 1,
+    "failure": "Unchanged a15-recorded-farm-cost-stamp-fixtures.md impact:none carries section",
+    "baseline": "Same failure executed on clean currentmain41b4",
+    "ownDeclarations": "Added source-intake impact:none and financial-consumer impact:patch; undeclared-source-intake failure resolved after commit"
+  },
+  "speedYears": "NOT RUN; positive ordinary-game proof remains blocked",
+  "preservation": "Old offline executor workspace and local3ff/publishedbee untouched; no reset/stash/clean/force-push/new checkout/merge"
+}
