@@ -1,3 +1,9 @@
+import { drawRandomPlace } from "../../../tests/support/random-place";
+import {
+  createNewGameWorld,
+  DEFAULT_NEW_GAME_SETUP,
+} from "../../presentation/new-game";
+import { serializeWorld, deserializeWorld } from "../serialization";
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "../dates";
 import { lawInForceAtStart } from "../governing/law-in-force";
@@ -182,4 +188,52 @@ describe("cannabis tax-row migration preserves the existing financial contract",
         sourceMeasureId: null,
       });
   });
+});
+
+it("opens one new game in a random place with the retired-module row", () => {
+  const openingSeed = "a17-existing-row-new-game";
+  const place = drawRandomPlace(openingSeed);
+  const game = createNewGameWorld({
+    ...DEFAULT_NEW_GAME_SETUP,
+    placeKey: place.key,
+    seed: openingSeed,
+  });
+  expect(game.world.people[game.playerPersonId]).toBeDefined();
+  const question = Object.values(game.world.policyCatalog.propositions).find(
+    (row) => row.stableKey === CANNABIS_TAX_EFFECT.questionKey,
+  );
+  expect(question).toBeDefined();
+  const rows = TAX_QUESTION_EFFECTS.filter(
+    (row) => row.questionKey === question!.stableKey,
+  );
+  expect(rows).toHaveLength(1);
+  expect(rows[0]).toBe(CANNABIS_TAX_EFFECT);
+  const government = {
+    level: "state" as const,
+    lawJurisdictionId: stateJurisdictionForKey(place.stateJurisdictionKey!)!.id,
+    population: 1000,
+  };
+  const reading = cannabisSalesRevenueChange(
+    game.world,
+    government,
+    game.world.currentDate,
+  );
+  const bytes = serializeWorld(game.world);
+  const loaded = deserializeWorld(bytes);
+  expect(
+    cannabisSalesRevenueChange(loaded, government, loaded.currentDate),
+  ).toEqual(reading);
+  expect(loaded.people[game.playerPersonId]).toEqual(
+    game.world.people[game.playerPersonId],
+  );
+  console.info(
+    "A17_NEW_GAME",
+    JSON.stringify({
+      seed: openingSeed,
+      place: place.key,
+      jurisdiction: place.stateJurisdictionKey,
+      playerId: game.playerPersonId,
+      reading,
+    }),
+  );
 });
