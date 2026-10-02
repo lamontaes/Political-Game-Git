@@ -1,3 +1,4 @@
+import type { LawScheduleTerm } from "./law-structured-terms";
 import type {
   PermitApplicationRecord,
   PermitStatusRecord,
@@ -3341,10 +3342,10 @@ export interface LoanTermsRecord {
   readonly repayment: LoanRepayment;
   /** Null: this loan's contract states no late fee. */
   readonly lateFee: MoneyAmount | null;
-  /** Consecutive missed payments after which the loan is in default. */
-  readonly missedPaymentsToDefault: number;
-  /** Consecutive missed payments after which it goes to collections. */
-  readonly missedPaymentsToCollections: number;
+  /** Recorded missed-payment threshold; null leaves automatic default unrecorded. */
+  readonly missedPaymentsToDefault: number | null;
+  /** Recorded missed-payment threshold; null leaves automatic collections unrecorded. */
+  readonly missedPaymentsToCollections: number | null;
   readonly provenance: LifeRecordProvenance;
   readonly supersedesTermsId: EntityId | null;
 }
@@ -5240,6 +5241,8 @@ export type LegislativeProvisionEffectIntent =
   | { readonly kind: "public-program-appropriation" };
 
 export interface LegislativeProvisionRecord {
+  /** This version's explicit schedules; omission clears a revised schedule. */
+  readonly lawSchedules?: readonly LawScheduleTerm[];
   /** This version's explicit categories; omission clears a revised rule. */
   readonly lawCategories?: readonly {
     readonly questionKey: string;

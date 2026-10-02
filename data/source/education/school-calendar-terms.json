@@ -1,0 +1,10 @@
+{
+  "source": "IC2025_Dict.zip ic2025.xlsx CALSYS dictionary descriptions: semester two terms, quarter three terms, trimester three terms",
+  "sourceEvidence": {
+    "artifactId": "IC2025_Dict",
+    "sha256": "7821cdc4b923dc8ff78ce4a79c115c6fd2bc003919d539f2e918005ee917a429",
+    "member": "ic2025.xlsx",
+    "row": 28
+  },
+  "termsPerAcademicYear": { "1": 2, "2": 3, "3": 3 }
+}

@@ -49,7 +49,7 @@ import {
   ADULT_START_WORK_V1,
   DEPENDENT_AGE_CEILING,
   OTHER_PARENT_MINIMUM_AGE,
-  openingFamilyShape,
+  type OpeningFamilyShape,
   type OpeningOtherParent,
 } from "./production-world";
 import { assignSplitHomeDistricts } from "../simulation/district-residence";
@@ -147,10 +147,11 @@ export interface NewGameSetup {
    * The player's answer about the parent who is not raising their character,
    * when the opening family has one (`otherParentQuestionApplies`). Optional
    * and absent means unanswered, and then nothing about that parent is
-   * recorded. It is not part of the world's identity, which decides whether
-   * the question is asked at all.
+   * recorded. The explicit one-parent choice makes the question available.
    */
   readonly otherParent?: OpeningOtherParent;
+  /** Who raises a dependent character, when the player states it. */
+  readonly familyShape?: OpeningFamilyShape;
   readonly seed: string;
   /** Blank means "generate one" rather than "leave it empty". */
   readonly givenName: string | null;
@@ -517,14 +518,15 @@ export function resolvedDepth(setup: NewGameSetup): NewGameDepth {
 
 /**
  * Whether this setup's opening family has a parent who is not raising the
- * character, so that the player is asked about them. Read from the world's
- * identity, which the answer itself never changes.
+ * character, so that the player is asked about them. This follows the stated
+ * household shape; older descriptors with an answer retain that question.
  */
 export function otherParentQuestionApplies(setup: NewGameSetup): boolean {
   return (
     setup.startAge >= OTHER_PARENT_MINIMUM_AGE &&
     setup.startAge < DEPENDENT_AGE_CEILING &&
-    openingFamilyShape(worldSeedFor(setup)) === "one-parent"
+    (setup.familyShape === "one-parent" ||
+      (setup.familyShape === undefined && setup.otherParent !== undefined))
   );
 }
 
@@ -540,6 +542,9 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     // change what the generator draws, and never which world this is.
     seed: buildSeedFor(setup),
     familyStructureSeed: worldSeedFor(setup),
+    ...(setup.familyShape === undefined
+      ? {}
+      : { familyShape: setup.familyShape }),
     place,
     age: setup.startAge,
     ...(setup.birthMonth === undefined || setup.birthDay === undefined
