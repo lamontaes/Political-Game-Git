@@ -1,7 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../tests/fixtures/small-world";
+import { drawRandomPlace } from "../../tests/support/random-place";
+import { createNewGameWorld } from "../presentation/new-game";
+import { freshNewGameSetup } from "../presentation/new-game-geography";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "./world-setup/types";
+import { deserializeWorld, serializeWorld } from "./serialization";
+import { monthKeyOf, monthStart, nextMonthKey } from "./macro-economy/store";
 import { composeWorldTimeHandlers } from "./campaigns";
-import { ageOnDate, makeIsoDate } from "./dates";
+import { ageOnDate, daysBetween, makeIsoDate } from "./dates";
 import {
   composeFutureTransitionHandlerRegistries,
   createFutureTransitionHandlerRegistry,
@@ -21,15 +27,17 @@ import {
   SPEECH_RETELLING_TRANSITION_KEY,
 } from "./speech-retelling";
 import type { EntityId, World } from "./types";
-import { recordWorldEvent } from "./world";
+import { advanceWorld, recordWorldEvent } from "./world";
 
-function fixture() {
-  let world = smallWorld({
-    place: "NH",
-    date: "2026-12-15",
-    people: 16,
-    seed: "a9-three-retellings",
-  }).world;
+function fixture(openedWorld?: World) {
+  let world =
+    openedWorld ??
+    smallWorld({
+      place: "NH",
+      date: "2026-12-15",
+      people: 16,
+      seed: "a9-three-retellings",
+    }).world;
   const isolated = world.personOrder.filter(
     (id) =>
       ageOnDate(world.people[id]!.birthDate, world.currentDate) >= 5 &&
@@ -122,7 +130,7 @@ function fixture() {
     supersedesMemoryId: null,
   });
   return {
-    world: ensureSpeechRetellingSchedule(world),
+    world: openedWorld ? world : ensureSpeechRetellingSchedule(world),
     speech,
     second,
     third,
@@ -165,6 +173,82 @@ describe("A9 monthly speech retelling on the due clock", () => {
     expect(again.history.memories).toEqual(reached.history.memories);
     expect(again.history.futureDueItems).toEqual(
       reached.history.futureDueItems,
+    );
+  }, 30_000);
+  // Existing saves without the new due item are a separate CTO compatibility
+  // decision. This case proves current Begin and continuation of its saved clock.
+  it("current Begin registers the ordinary clock and Save/Continue keeps each month's retelling", () => {
+    const seed = "a9-ordinary-begin-retelling";
+    const place = drawRandomPlace(seed);
+    const game = createNewGameWorld({
+      ...freshNewGameSetup(seed),
+      placeKey: place.key,
+      seed: `${seed}:${place.key}`,
+      startKind: "custom",
+      startAge: 10,
+      depth: "play-formative-years",
+      startingLife: "ordinary-life",
+      worldOpeningVersion: CRUNCH46_WORLD_OPENING_VERSION,
+    });
+    const openedDue = game.world.history.futureDueItems.filter(
+      (item) => item.transitionKey === SPEECH_RETELLING_TRANSITION_KEY,
+    );
+    expect(openedDue).toHaveLength(1);
+    const firstMonth = openedDue[0]!.dueAt;
+    const secondMonth = monthStart(nextMonthKey(monthKeyOf(firstMonth)));
+    const thirdMonth = monthStart(nextMonthKey(monthKeyOf(secondMonth)));
+    const fourthMonth = monthStart(nextMonthKey(monthKeyOf(thirdMonth)));
+    // The authored chain writes only speech, kinship, traits and memory. It
+    // neither seeds the scheduler nor supplies a speech handler to this route.
+    const { world, speech, second, third, fourth } = fixture(game.world);
+    const firstPass = advanceWorld(
+      world,
+      daysBetween(world.currentDate, firstMonth),
+    );
+    expect(firstPass.currentDate).toBe(firstMonth);
+    expect(
+      firstPass.history.knowledge.find(
+        (row) => row.personId === second && row.eventId === speech.id,
+      )?.learnedAt,
+    ).toBe(firstMonth);
+    const saved = deserializeWorld(serializeWorld(firstPass));
+    expect(saved.history.futureDueItems).toEqual(
+      firstPass.history.futureDueItems,
+    );
+    expect(saved.history.knowledge).toEqual(firstPass.history.knowledge);
+    expect(saved.history.memories).toEqual(firstPass.history.memories);
+    const continued = advanceWorld(
+      saved,
+      daysBetween(saved.currentDate, thirdMonth),
+    );
+    expect(continued.currentDate).toBe(thirdMonth);
+    for (const [personId, learnedAt] of [
+      [second, firstMonth],
+      [third, secondMonth],
+      [fourth, thirdMonth],
+    ] as const) {
+      expect(
+        continued.history.knowledge.find(
+          (row) => row.personId === personId && row.eventId === speech.id,
+        )?.learnedAt,
+      ).toBe(learnedAt);
+    }
+    expect(
+      continued.history.futureDueItems
+        .filter(
+          (item) => item.transitionKey === SPEECH_RETELLING_TRANSITION_KEY,
+        )
+        .map((item) => item.dueAt),
+    ).toEqual([firstMonth, secondMonth, thirdMonth, fourthMonth]);
+    const repeated = resolveFutureDueItemsThrough(
+      deserializeWorld(serializeWorld(continued)),
+      continued.currentDate,
+      composeWorldTimeHandlers(),
+    );
+    expect(repeated.history.knowledge).toEqual(continued.history.knowledge);
+    expect(repeated.history.memories).toEqual(continued.history.memories);
+    expect(repeated.history.futureDueItems).toEqual(
+      continued.history.futureDueItems,
     );
   }, 30_000);
 });
