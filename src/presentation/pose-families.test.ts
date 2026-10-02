@@ -2,12 +2,12 @@ import fs from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
 
-import assetManifest from "../../art/manifest/asset_manifest.json";
-import poseRegistryData from "../../art/manifest/pose_families.json";
+import assetManifest from "../../art/manifest/asset_manifest.json" with { type: "json" };
+import poseRegistryData from "../../art/manifest/pose_families.json" with { type: "json" };
 import type { CharacterComponentManifestRecord } from "./character-components";
 import { resolveCharacterRecipe } from "./character-components";
 import { createCharacterComponentLibrary } from "./character-components";
-import characterCatalog from "../../art/manifest/character_catalog.json";
+import characterCatalog from "../../art/manifest/character_catalog.json" with { type: "json" };
 import type { CharacterCatalogData } from "./character-components";
 import {
   poseControlPlatePath,
