@@ -126,6 +126,38 @@ describe("upbringing and starting traits", () => {
     for (const id of others) {
       expectNotableTraits(ensurePeopleTraits(world, [id]), id);
     }
+    const contexts = world.personOrder.map((id) => upbringingFor(world, id));
+    expect(
+      new Set(
+        contexts.map((row) =>
+          JSON.stringify({
+            money: row.money.map((item) => item.level),
+            parents: row.familyContext?.parentIds.length,
+            householdSize: row.familyContext?.householdMemberIds.length,
+            faith: row.familyContext?.congregationIds.length,
+            siblings: row.familyContext?.estimatedSiblingCount,
+          }),
+        ),
+      ).size,
+    ).toBeGreaterThan(1);
+    for (const row of contexts) {
+      // Household composition cannot establish emotional treatment.
+      expect(row.caregiving).toBe("not-recorded");
+      expect(row.familyContext?.source.note).toContain(
+        "ESTIMATED FROM GAME FAMILIES",
+      );
+      const context = row.familyContext!;
+      for (const id of context.comparablePersonIds) {
+        const peer = upbringingFor(world, id).familyContext!;
+        expect([peer.placeId, peer.householdType, peer.incomeBand]).toEqual([
+          context.placeId,
+          context.householdType,
+          context.incomeBand,
+        ]);
+      }
+      for (const id of row.familyContext!.parentIds)
+        expect(world.people[id]).toBeDefined();
+    }
     // The played character is never given any.
     expect(notableRecords(world, playerId)).toEqual([]);
   }, 120_000);
@@ -146,6 +178,8 @@ describe("upbringing and starting traits", () => {
       upbringingFor(first.world, firstNpc).money.every(
         ({ source }) =>
           source.kind === "world-record" ||
+          (source.kind === "game-profile" &&
+            source.note.startsWith("ESTIMATED FROM GAME FAMILIES")) ||
           (source.kind === "public-data" &&
             source.note.startsWith("ESTIMATED FROM AVERAGE")),
       ),

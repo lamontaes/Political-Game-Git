@@ -1,3 +1,4 @@
+import { personName } from "../simulation/people";
 import { addDays } from "../simulation";
 import type { EntityId, IsoDate, World } from "../simulation";
 import { JOB_ENDED_EVENT } from "../simulation/neighbor-news";
@@ -102,7 +103,39 @@ function upbringingLines(world: World, personId: EntityId): readonly string[] {
         ? `Growing up, ${MONEY[early.level]}.`
         : `As a small child, ${MONEY[early.level]}; as a teenager, ${MONEY[later.level]}.`,
     );
-  lines.push(STABILITY[record.homeStability], CARE[record.caregiving]);
+  lines.push(CARE[record.caregiving]);
+  if (record.familyContext) {
+    const context = record.familyContext;
+    const names = context.parentIds.map((id) => personName(world.people[id]!));
+    const home = context.householdId
+      ? world.history.households.find((row) => row.id === context.householdId)
+          ?.label
+      : null;
+    const place = context.placeId
+      ? world.jurisdictions[context.placeId]?.name
+      : null;
+    lines.push(
+      `ESTIMATED childhood context from recorded family circumstances: ${names.length ? `parents ${names.join(" and ")}` : context.estimatedParentCount !== null ? `comparable families average ${context.estimatedParentCount} recorded parents` : `household circumstances in ${place}`}${home ? `; household ${home}` : ""}${place ? ` in ${place}` : ""}; ${context.householdMemberIds.length} recorded household members.`,
+    );
+    lines.push(
+      `Family context: ${context.parentIds.length} recorded parents and ${context.householdMemberIds.length} recorded household members${place ? ` in ${place}` : ""}.`,
+    );
+    if (context.estimatedSiblingCount !== null)
+      lines.push(
+        `ESTIMATED FROM GAME FAMILIES: ${context.comparablePersonIds.length} families in the same place, household type and income band average ${context.estimatedSiblingCount} siblings.`,
+      );
+    if (context.congregationIds.length)
+      lines.push(
+        `The family context includes ${context.congregationIds.length} recorded congregation memberships; these do not establish how adults treated you.`,
+      );
+    if (
+      early?.source.kind === "game-profile" ||
+      later?.source.kind === "game-profile"
+    )
+      lines[0] = `ESTIMATED FROM RECORDED HOUSEHOLD PAY: ${lines[0]}`;
+  } else {
+    lines.push(STABILITY[record.homeStability]);
+  }
   for (const event of record.events) lines.push(EVENT[event]);
   for (const experience of record.schooling) lines.push(SCHOOL[experience]);
   return lines;

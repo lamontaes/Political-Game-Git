@@ -1,3 +1,4 @@
+import { recordedFamilyEstimates } from "./family-shape";
 import { childhoodRecordEntries } from "./childhood-record";
 import { recordsByStringField } from "./history-index";
 import { dateAtAge } from "./dates";
@@ -7,6 +8,7 @@ import {
 } from "./household-pay";
 import { homeStateKey } from "./state-jurisdiction-id";
 import {
+  activeOrganizationParticipationsAt,
   activeWorkRelationshipsAt,
   householdMembershipsAt,
   kinshipRelationshipsAt,
@@ -60,6 +62,7 @@ export interface UpbringingSource {
 
 export interface PersonUpbringing {
   readonly personId: EntityId;
+  readonly familyContext?: ChildhoodFamilyContext;
   /**
    * "childhood-record": a person born in play, read from their childhood
    * record, the household pay and the family records with no draw.
@@ -186,6 +189,145 @@ export function familyMoneyFor(
   return { level, source: MONEY_FROM_RECORDS };
 }
 
+/** Opening-history proxies are explicitly estimates, never new family facts. */
+export interface ChildhoodFamilyContext {
+  readonly parentIds: readonly EntityId[];
+  readonly householdId: EntityId | null;
+  readonly householdMemberIds: readonly EntityId[];
+  readonly placeId: EntityId | null;
+  readonly householdType: string;
+  readonly incomeBand: FamilyMoney | "unrecorded-pay";
+  readonly congregationIds: readonly EntityId[];
+  readonly comparablePersonIds: readonly EntityId[];
+  readonly estimatedParentCount: number | null;
+  readonly estimatedSiblingCount: number | null;
+  readonly source: UpbringingSource;
+}
+
+function householdContext(world: World, personId: EntityId) {
+  const parents = recordedParents(world, personId);
+  const parentHousehold = parents
+    .map((id) => householdMembershipsAt(world, id)[0])
+    .find(Boolean);
+  const household =
+    parentHousehold ?? householdMembershipsAt(world, personId)[0];
+  const members = household
+    ? peopleInHouseholdAt(world, household.household.id)
+    : [];
+  const kinds = household
+    ? members.flatMap((id) =>
+        householdMembershipsAt(world, id)
+          .filter((row) => row.household.id === household.household.id)
+          .map((row) => row.state.kind),
+      )
+    : [];
+  const householdType = [...new Set(kinds)].sort().join("+");
+  const pay = recordedMonthlyPayByPerson(world, world.currentDate);
+  const working = members.filter(
+    (id) => activeWorkRelationshipsAt(world, id).length > 0,
+  );
+  const state = homeStateKey(
+    world,
+    parentHousehold
+      ? parents.find(
+          (id) =>
+            householdMembershipsAt(world, id)[0]?.household.id ===
+            parentHousehold.household.id,
+        )!
+      : personId,
+  );
+  const knownPay =
+    !!state && working.length > 0 && working.every((id) => pay.has(id));
+  const annual = knownPay
+    ? members.reduce((sum, id) => sum + (pay.get(id) ?? 0), 0) * 12
+    : null;
+  const line =
+    state && members.length
+      ? annualPovertyLineMinor(state, members.length, world.currentDate)
+      : null;
+  const incomeBand: FamilyMoney | "unrecorded-pay" =
+    annual === null || line === null
+      ? "unrecorded-pay"
+      : annual <= line
+        ? "severe-scarcity"
+        : annual <= line * 2
+          ? "strained"
+          : "secure";
+  const congregationIds = [
+    ...new Set(
+      [personId, ...parents].flatMap((id) =>
+        activeOrganizationParticipationsAt(world, id)
+          .filter((row) => row.participation.kind === "membership:congregation")
+          .map((row) => row.participation.organizationId),
+      ),
+    ),
+  ].sort();
+  return {
+    placeId:
+      household?.location?.jurisdictionId ??
+      world.people[personId]!.homeJurisdictionId,
+    parents,
+    household,
+    members,
+    householdType,
+    incomeBand,
+    congregationIds,
+  };
+}
+
+type FamilyContextRead = ReturnType<typeof householdContext>;
+// A cohort is indexed once from actual saved families, not scanned per person.
+const FAMILY_COHORTS = new WeakMap<
+  World,
+  Map<string, { personId: EntityId; parents: number; siblings: number }[]>
+>();
+function cohortKey(row: FamilyContextRead): string {
+  return JSON.stringify([row.placeId, row.householdType, row.incomeBand]);
+}
+function childhoodFamilyContext(
+  world: World,
+  personId: EntityId,
+): ChildhoodFamilyContext {
+  const own = householdContext(world, personId);
+  let cohorts = FAMILY_COHORTS.get(world);
+  if (!cohorts) {
+    cohorts = new Map();
+    for (const sample of recordedFamilyEstimates(world).samples) {
+      const key = cohortKey(householdContext(world, sample.personId));
+      const group = cohorts.get(key) ?? [];
+      group.push({
+        personId: sample.personId,
+        parents: sample.parentIds.length,
+        siblings: sample.siblingCount,
+      });
+      cohorts.set(key, group);
+    }
+    FAMILY_COHORTS.set(world, cohorts);
+  }
+  const peers = cohorts.get(cohortKey(own)) ?? [];
+  const mean = (field: "parents" | "siblings") =>
+    peers.length
+      ? peers.reduce((sum, row) => sum + row[field], 0) / peers.length
+      : null;
+  return {
+    parentIds: own.parents,
+    householdId: own.household?.household.id ?? null,
+    householdMemberIds: own.members,
+    placeId: own.placeId,
+    householdType: own.householdType,
+    incomeBand: own.incomeBand,
+    congregationIds: own.congregationIds,
+    comparablePersonIds: peers.map((row) => row.personId),
+    estimatedParentCount: own.parents.length ? null : mean("parents"),
+    estimatedSiblingCount: mean("siblings"),
+    source: {
+      kind: "game-profile",
+      key: "recorded-family-childhood-context",
+      note: "ESTIMATED FROM GAME FAMILIES: opening childhood context uses this person's recorded parents, current household, pay, place and congregation membership as proxies. Missing family counts use only saved families in the same place, household type and income band; no treatment, faith, illness or other event is inferred.",
+    },
+  };
+}
+
 function otherPerson(
   pair: readonly [EntityId, EntityId],
   personId: EntityId,
@@ -274,13 +416,19 @@ export function upbringingFor(
 function readUpbringing(world: World, personId: EntityId): PersonUpbringing {
   const person = world.people[personId];
   if (!person) throw new Error(`No person ${personId} exists.`);
-  const parents = recordedParents(world, personId);
+  const familyContext = childhoodFamilyContext(world, personId);
+  const parents = familyContext.parentIds;
   const parentDied = recordedChildhoodParentDeath(world, personId, parents);
   const earlyMoney = familyMoneyFor(world, personId, "early-childhood");
   const laterMoney = familyMoneyFor(world, personId, "adolescence");
+  const contextualMoney = (row: ReturnType<typeof familyMoneyFor>) =>
+    row.source.kind === "public-data" &&
+    familyContext.incomeBand !== "unrecorded-pay"
+      ? { level: familyContext.incomeBand, source: familyContext.source }
+      : row;
   const money = [
-    { period: "early-childhood", ...earlyMoney },
-    { period: "adolescence", ...laterMoney },
+    { period: "early-childhood", ...contextualMoney(earlyMoney) },
+    { period: "adolescence", ...contextualMoney(laterMoney) },
   ] as const;
   const entries = recordsByStringField(
     childhoodRecordEntries(world),
@@ -300,6 +448,7 @@ function readUpbringing(world: World, personId: EntityId): PersonUpbringing {
     money,
     disruption,
     homeStability: homeStabilityLabel(disruption),
+    familyContext,
     caregiving: "not-recorded",
     protectiveCaregiver: false,
     events: parentDied ? ["parent-death"] : [],

@@ -43,6 +43,12 @@ describe(`upbringing read reuse (${place.displayName}, seed ${seed})`, () => {
       schooling: [],
       firstJob: "none",
     });
+    expect(read.familyContext?.source.note).toContain(
+      "ESTIMATED FROM GAME FAMILIES",
+    );
+    expect(read.familyContext?.placeId).toBe(
+      world.people[personId]!.homeJurisdictionId,
+    );
     expect(
       upbringingFor({ ...world, seed: "another-identity-seed" }, personId),
     ).toEqual(read);
