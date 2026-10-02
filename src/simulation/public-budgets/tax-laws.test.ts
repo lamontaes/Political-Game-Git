@@ -14,10 +14,6 @@ import {
   type PublicBudgetStore,
 } from ".";
 import { firstOfNextMonth } from "./fiscal";
-import {
-  adoptedIncomeTaxPerYear,
-  beganWithoutWageIncomeTax,
-} from "./income-tax-adoption";
 import { settleGovernmentMonth, type MonthFlows } from "./month";
 import {
   CANNABIS_FIRST_SALE_LAG_MONTHS,
@@ -133,20 +129,32 @@ function drawn(seed: string, keys: readonly string[]): string {
 const STATE_KEYS = Object.keys(stateIncomeTax2026.places);
 
 describe("tax laws reach state budgets", () => {
-  it("every state that began with no wage income tax has a level an adopted tax collects, and no other state does", () => {
-    const without = STATE_KEYS.filter(beganWithoutWageIncomeTax);
+  it("does not invent adopted-tax collections for a state without saved cash or recorded payments", () => {
+    const without = STATE_KEYS.filter(
+      (key) =>
+        stateIncomeTax2026.places[key as keyof typeof stateIncomeTax2026.places]
+          .wageIncomeTax === "none",
+    );
     expect(without).toHaveLength(9);
-    for (const key of STATE_KEYS) {
-      const level = adoptedIncomeTaxPerYear(key, 1_000_000);
-      if (without.includes(key)) expect(level, key).toBeGreaterThan(0);
-      else expect(level, key).toBeNull();
+    for (const stateKey of without) {
+      const world = worldWith(stateKey, [
+        { question: INCOME_TAX, answer: "yes", effectiveAt: "2026-05-12" },
+      ]);
+      const government = settled(world, stateKey, "2027-01-01");
+      expect(government.months, stateKey).toEqual([]);
     }
   });
 
-  it("a state with no wage income tax that adopts one collects it from the next tax year, and a repeal ends it again", () => {
-    const seed = "b9-adopt-income-tax";
-    const stateKey = drawn(seed, STATE_KEYS.filter(beganWithoutWageIncomeTax));
-    // Adopted May 12, 2026; repealed June 1, 2028.
+  it("neither adoption nor repeal settles money without an actual saved account and payment", () => {
+    const stateKey = drawn(
+      "b9-adopt-income-tax",
+      STATE_KEYS.filter(
+        (key) =>
+          stateIncomeTax2026.places[
+            key as keyof typeof stateIncomeTax2026.places
+          ].wageIncomeTax === "none",
+      ),
+    );
     const world = worldWith(stateKey, [
       { question: INCOME_TAX, answer: "yes", effectiveAt: "2026-05-12" },
       { question: INCOME_TAX, answer: "no", effectiveAt: "2028-06-01" },
@@ -154,29 +162,9 @@ describe("tax laws reach state budgets", () => {
     const without = worldWith(stateKey, []);
     const lawful = settled(world, stateKey, "2029-06-01");
     const asBegun = settled(without, stateKey, "2029-06-01");
-    const tax = (government: PublicBudgetGovernment, month: string) =>
-      revenueIn(government, "individualIncomeTax", month);
-    const adopted = adoptedIncomeTaxPerYear(stateKey, lawful.population)!;
-    const note = `${stateKey}, seed ${seed}`;
-    // Nothing changes in the tax year the law takes effect in.
-    expect(tax(lawful, "2026-12-01"), note).toBe(tax(asBegun, "2026-12-01"));
-    // From January 2027 the state collects the adopted tax each month on top
-    // of what it began with (this test world records no economy).
-    expect(
-      tax(lawful, "2027-01-01") - tax(asBegun, "2027-01-01"),
-      note,
-    ).toBeCloseTo(adopted / 12, -2);
-    // Fiscal years adopted after the law expect it; the repeal governs the
-    // tax year from January 2029, and the state collects what it began with.
-    expect(
-      tax(lawful, "2028-12-01") - tax(asBegun, "2028-12-01"),
-      note,
-    ).toBeCloseTo(adopted / 12, -2);
-    expect(tax(lawful, "2029-01-01"), note).toBe(tax(asBegun, "2029-01-01"));
-    // Other sources are untouched.
-    expect(revenueIn(lawful, "generalSalesTax", "2027-06-01"), note).toBe(
-      revenueIn(asBegun, "generalSalesTax", "2027-06-01"),
-    );
+    expect(lawful.months).toEqual([]);
+    expect(lawful.balance).toBe(asBegun.balance);
+    expect(lawful.reserve).toBe(asBegun.reserve);
   });
 
   it("a law exempting groceries lowers a state's sales tax by the grocery share from the month it takes effect, and taxing them again restores it", () => {
