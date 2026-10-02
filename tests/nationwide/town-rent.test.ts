@@ -1,3 +1,9 @@
+import { rentConstructionCovered } from "../../src/simulation/law-consequences/rent-construction-coverage";
+import { dateAtAge } from "../../src/simulation/dates";
+import {
+  createMacroMonthlyStepHandler,
+  MACRO_MONTHLY_STEP_KEY,
+} from "../../src/simulation/macro-economy";
 import { randomInt } from "node:crypto";
 import startingLaws from "../../data/research/laws/starting-law-2026.json";
 import {
@@ -23,7 +29,11 @@ import { householdMembershipsAt } from "../../src/simulation/life-queries";
 import { ensureLifePathPersonalPosition } from "../../src/simulation/life-paths2-resources";
 import { applyLawConsequences } from "../../src/simulation/enacted-law-effects";
 import { readFinalEnactedLawTerm } from "../../src/simulation/governing/automatic-legislation";
-import { money, recordResourceFlowTerms } from "../../src/simulation/resources";
+import {
+  money,
+  recordResourceFlowTerms,
+  createDwelling,
+} from "../../src/simulation/resources";
 import { lifePlaceByKey } from "../../src/simulation/life-places";
 import { organizationProfileAt } from "../../src/simulation/life-queries";
 import {
@@ -189,7 +199,12 @@ describe("rent arithmetic", () => {
 });
 
 /** An opened life stepped day by day, paid on paydays, rent collected on the first. */
-function liveMonths(placeKey: string, seed: string, months: number) {
+function liveMonths(
+  placeKey: string,
+  seed: string,
+  months: number,
+  beforeRentDay?: (world: World, day: IsoDate) => World,
+) {
   const game = generateOpeningLife(
     prepareOpeningLife({
       ...DEFAULT_NEW_GAME_SETUP,
@@ -219,6 +234,7 @@ function liveMonths(placeKey: string, seed: string, months: number) {
         lastPay = day;
       }
       if (day.endsWith("-01")) {
+        if (beforeRentDay) world = beforeRentDay(world, day);
         world = collectTownRent(world, day);
         rentDays.push(day);
       }
@@ -311,7 +327,53 @@ describe("rent day", { timeout: 600_000 }, () => {
     process.stdout.write(
       `A57 renewal opening: ${place.key} ${place.context.jurisdiction.name}; pool=${places.length}; seed=a57-actual-renewal\n`,
     );
-    const { world, town } = liveMonths(place.key, "a57-actual-renewal", 13);
+    const { world, town } = liveMonths(
+      place.key,
+      "a57-actual-renewal",
+      13,
+      (incoming, day) => {
+        // Controlled market stress in the existing monthly fixture. Annual
+        // renewal itself must create the capped terms via canonical dispatch.
+        const due = incoming.history.futureDueItems.find(
+          (item) =>
+            item.transitionKey === MACRO_MONTHLY_STEP_KEY &&
+            item.dueAt <= day &&
+            !incoming.macroEconomy?.months.some((month) =>
+              month.key.includes(item.stableKey.split(":").at(-1)!),
+            ),
+        );
+        if (!due) return incoming;
+        const stepped = createMacroMonthlyStepHandler()(incoming, due);
+        const next =
+          "world" in stepped ? (stepped.world ?? incoming) : incoming;
+        if (!next.macroEconomy) return next;
+        const lease = townLeases(next).find(
+          (candidate) => candidate.regime === "market",
+        );
+        if (!lease) return next;
+        const law = housingLawYes(
+          next,
+          lease.town,
+          RENT_LAW_KEYS.rentStabilization,
+          day,
+        )!;
+        const cap = readFinalEnactedLawTerm(next, law, {
+          questionKey: RENT_LAW_KEYS.rentStabilization,
+          termKey: "cap",
+          unit: "ratio",
+        })!;
+        return {
+          ...next,
+          macroEconomy: {
+            ...next.macroEconomy,
+            months: next.macroEconomy.months.map((month) => ({
+              ...month,
+              growthPct: 2 * cap.value * 100,
+            })),
+          },
+        };
+      },
+    );
     const leases = townLeases(world).filter(
       (lease) =>
         lease.town === town && lease.regime === "market" && !lease.ended,
@@ -332,6 +394,7 @@ describe("rent day", { timeout: 600_000 }, () => {
     process.stdout.write(
       `A57 actual renewal result: date=${world.currentDate}; marketLeases=${leases.length}; annualRenewals=${renewals.length}; appliedCaps=${capped.length}\n`,
     );
+    expect(capped.length).toBeGreaterThan(0);
     // The ordinary run may stay below the ceiling. Challenge that same saved
     // lease with an explicit over-ceiling renewal request; do not count the
     // ordinary run as a binding cap when it did not bind.
@@ -392,6 +455,48 @@ describe("rent day", { timeout: 600_000 }, () => {
         Math.floor(previous.amount.minorUnits * (1 + cap)),
       );
       expect(actual.lawEffectStamps?.[0]?.effectKind).toBe("price-cost");
+      const built = createDwelling(result, {
+        stableKey: "a57-controlled:in-play-construction",
+        establishedAt: result.currentDate,
+        jurisdictionId: town,
+        locationLabel: "Recorded in-play dwelling for exemption boundary",
+        classification: "residential:apartment",
+        provenance: {
+          kind: "authored",
+          note: "Test construction at the actual current simulation date.",
+        },
+      });
+      const newHome = built.history.dwellings.at(-1)!;
+      const exemption = readFinalEnactedLawTerm(built, law, {
+        questionKey: RENT_LAW_KEYS.rentStabilization,
+        termKey: "new-construction-exemption-years",
+        unit: "years",
+      });
+      expect(
+        rentConstructionCovered(
+          built,
+          newHome,
+          built.currentDate,
+          exemption?.value ?? null,
+        ),
+      ).toBe(false);
+      if (exemption) {
+        const boundary = dateAtAge(newHome.establishedAt, exemption.value);
+        expect(
+          rentConstructionCovered(built, newHome, boundary, exemption.value),
+        ).toBe(false);
+        expect(
+          rentConstructionCovered(
+            built,
+            newHome,
+            addDays(boundary, 1),
+            exemption.value,
+          ),
+        ).toBe(true);
+        process.stdout.write(
+          `A57 construction boundary: recorded=${newHome.establishedAt}; sourcedYears=${exemption.value}; exemptThrough=${boundary}; coveredAfter=${addDays(boundary, 1)}\n`,
+        );
+      }
       process.stdout.write(
         `A57 controlled saved-lease renewal: requested=${requested.history.resourceFlowTerms.at(-1)!.amount.minorUnits}; applied=${actual.amount.minorUnits}; prior=${previous.amount.minorUnits}; sourcedCapRatio=${cap}; source=${law.measureId}\n`,
       );

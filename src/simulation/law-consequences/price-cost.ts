@@ -1,3 +1,4 @@
+import { rentConstructionCovered } from "./rent-construction-coverage";
 import {
   RENT_COVERAGE_PREDICATE,
   RENT_CAP_TERM,
@@ -175,7 +176,25 @@ export function resolvePriceCostConsequences(
         : lease.regime !== "market")
     )
       return [];
+    if (law.origin === "in-force-at-start") {
+      const window = readFinalEnactedLawTerm(world, law, {
+        questionKey: proposition.stableKey,
+        termKey: "new-construction-exemption-years",
+        unit: "years",
+      });
+      if (
+        !rentConstructionCovered(
+          world,
+          dwelling,
+          context.onDate,
+          window?.value ?? null,
+        )
+      )
+        return [];
+      coverageSourceIds.push(...(window?.sourceRecordIds ?? []));
+    }
     coverageSourceIds = [
+      ...coverageSourceIds,
       ...(categories?.sourceRecordIds ?? [law.measureId]),
       lease.tenureId,
       dwelling.id,

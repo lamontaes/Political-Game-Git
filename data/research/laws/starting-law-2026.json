@@ -2040,6 +2040,12 @@
           "lawTerms": [
             {
               "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+              "key": "new-construction-exemption-years",
+              "value": 15,
+              "unit": "years"
+            },
+            {
+              "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
               "key": "cap",
               "value": 0.1,
               "unit": "ratio"
@@ -2310,6 +2316,12 @@
           "lawTerms": [
             {
               "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+              "key": "new-construction-exemption-years",
+              "value": 15,
+              "unit": "years"
+            },
+            {
+              "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
               "key": "cap",
               "value": 0.1,
               "unit": "ratio"
@@ -2404,7 +2416,15 @@
           "preempts": false,
           "cite": "RCW 59.18 (HB 1217, 2025)",
           "source": "https://www.commerce.wa.gov/housing-policy/hb1217-landlord-resource-center/",
+          "constructionSource": "https://app.leg.wa.gov/RCW/default.aspx?cite=59.18.710",
+          "constructionQuote": "A tenancy in a dwelling unit for which the first certificate of occupancy was issued 12 or less years before the date of the notice of the rent increase.",
           "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+              "key": "new-construction-exemption-years",
+              "value": 12,
+              "unit": "years"
+            },
             {
               "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
               "key": "cap",
@@ -2418,7 +2438,7 @@
               "unit": "ratio"
             }
           ],
-          "note": "Cap is the lesser of 7% plus CPI or 10% over 12 months (9.683% for 2026); new construction under 15 years exempt; expires 2040-07-01; RCW 35.21.830 still preempts local rent control."
+          "note": "Cap is the lesser of 7% plus CPI or 10% over 12 months (9.683% for 2026); RCW 59.18.710(1)(a): first certificate of occupancy issued 12 or less years before notice is exempt; expires 2040-07-01; RCW 35.21.830 still preempts local rent control."
         },
         "US-WI": {
           "answer": "no",
