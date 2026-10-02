@@ -1,4 +1,8 @@
 import { describe, expect, it } from "vitest";
+import { drawRandomPlace } from "../../../tests/support/random-place";
+import { buildProductionWorld } from "../../presentation/production-world";
+import { lawInForce } from "../governing/law-in-force";
+import { createHistoryStore } from "../history";
 import stateIncomeTax2026 from "../../../data/research/money/state-income-tax-2026.json" with { type: "json" };
 import { daysBetween, makeIsoDate } from "../dates";
 import { stateJurisdictionForKey } from "../life-places";
@@ -13,6 +17,7 @@ import {
 } from ".";
 import { firstOfNextMonth } from "./fiscal";
 import {
+  taxLawFactor,
   readMonthFlows,
   settleGovernmentMonth,
   type MonthFlows,
@@ -36,8 +41,10 @@ import type { TaxTerms } from "../tax-types";
  */
 
 const INCOME_TAX = "proposition_income_tax" as EntityId;
+const CANNABIS = "proposition_cannabis" as EntityId;
 const QUESTIONS: Readonly<Record<string, EntityId>> = {
   "fiscal.adopt-income-tax": INCOME_TAX,
+  "business-commerce.legalize-cannabis-sales": CANNABIS,
 };
 
 interface Law {
@@ -62,6 +69,7 @@ function worldWith(stateKey: string, laws: readonly Law[]): World {
       ),
     },
     history: {
+      ...createHistoryStore(),
       organizations: [],
       resourceFlows: [],
       resourceTransferOutcomes: [],
@@ -158,6 +166,65 @@ describe("tax laws reach state budgets", () => {
     expect(lawful.months).toEqual([]);
     expect(lawful.balance).toBe(asBegun.balance);
     expect(lawful.reserve).toBe(asBegun.reserve);
+  });
+
+  // Adapted ONLY from O4's 5e07b4b tax-laws patch. No source/retirement
+  // donor is copied; existing recorded-sale/collection assertions below remain.
+  it.each(["yes", "no"] as const)(
+    "cannabis %s cannot manufacture sales or government receipts",
+    (answer) => {
+      const initialAnswer = answer === "yes" ? "no" : "yes";
+      const probe = worldWith(STATE_KEYS[0]!, []);
+      const candidates = STATE_KEYS.filter(
+        (key) =>
+          lawInForce(
+            probe,
+            stateJurisdictionForKey(key)!.id,
+            CANNABIS,
+            probe.currentDate,
+          )?.answer === initialAnswer,
+      );
+      expect(candidates.length).toBeGreaterThan(0);
+      const seed = `b9-cannabis-${answer === "yes" ? "legal" : "ban"}`;
+      const stateKey = drawn(seed, candidates);
+      const effectiveAt = makeIsoDate("2026-03-01");
+      const after = makeIsoDate("2027-03-01");
+      const world = worldWith(stateKey, [
+        { question: CANNABIS, answer, effectiveAt },
+      ]);
+      const baseline = worldWith(stateKey, []);
+      const government = settled(world, stateKey, after);
+      const without = settled(baseline, stateKey, after);
+      expect(government.months, `${stateKey}; ${seed}`).toEqual(without.months);
+      expect(world.history.taxBases ?? []).toEqual([]);
+      expect(world.history.resourceTransferOutcomes).toEqual([]);
+      expect(
+        taxLawFactor(world, government, "selectiveSalesTaxes", after),
+        `${stateKey}; ${seed}`,
+      ).toBe(taxLawFactor(baseline, without, "selectiveSalesTaxes", after));
+    },
+  );
+
+  it("opens a new production game in a random recorded place before handoff", () => {
+    const seed = "team6-a22-cannabis-fixture-new-game-20261002";
+    const place = drawRandomPlace(seed);
+    const built = buildProductionWorld({
+      seed,
+      place,
+      age: 34,
+      givenName: null,
+      familyName: null,
+      startingLife: "ordinary-life",
+      household: "lives-alone",
+      depth: "summarize-earlier-life",
+    });
+    expect(built.world.people[built.playerPersonId]).toBeDefined();
+    expect(
+      built.world.jurisdictions[place.context.jurisdiction.id],
+    ).toBeDefined();
+    process.stdout.write(
+      `A22 NEW GAME seed=${seed} place=${place.key} player=${built.playerPersonId} date=${built.world.currentDate}\n`,
+    );
   });
 
   it.each([
