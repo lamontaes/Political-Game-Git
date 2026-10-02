@@ -1,4 +1,8 @@
 import { describe, expect, it } from "vitest";
+import { fixtureMeetsRecordedCandidacyAge } from "../../tests/fixtures/candidacy-age";
+import { recordWorldEvent } from "./world";
+import { recordRelationshipInteraction } from "./records";
+import { doorKnockingReturn } from "./campaign-recognition";
 import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 
 import {
@@ -45,9 +49,15 @@ import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
 import {
   CAMPAIGN_SUPPORT_METRIC_STABLE_KEY,
   canonicalSupportBasisPoints,
+  evaluateCampaignAwareOutcome,
 } from "./campaigns";
 import { SIMULATION_ESTABLISHED_METRIC_STABLE_KEYS } from "./production-catalog";
 import { canonicalJson } from "./canonical-json";
+import { startingSupportAdjustment } from "./record-in-office";
+import { ensureWorldStartingConditions } from "./world-setup/conditions";
+import { generatePoliticalStartingConditions } from "./world-setup/political-start";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "./world-setup/types";
+import { campaignOfficePollingEstimate } from "./campaign-polling-estimate";
 import { projectCampaignCompliance } from "../presentation/campaign-compliance-projection";
 import type { CampaignRecord, EntityId, World } from "./types";
 
@@ -98,13 +108,23 @@ function fileKentuckyCampaign(
   });
   const scenario =
     advanceDays > 0 ? advanceWorld(created, advanceDays) : created;
-  const candidatePersonId = firstAdult(scenario);
+  const candidatePersonId = scenario.personOrder.find((id) =>
+    fixtureMeetsRecordedCandidacyAge(scenario, id),
+  );
+  if (!candidatePersonId)
+    throw new Error("No recorded-age eligible candidate.");
   // Campaign work is work somebody does, and the activity engine will not let
   // an unheld person do it. The fixture takes control the way a player does.
-  const base: World = {
-    ...scenario,
-    control: { kind: "person", personId: candidatePersonId },
-  };
+  const base: World = ensureWorldStartingConditions(
+    {
+      ...scenario,
+      control: { kind: "person", personId: candidatePersonId },
+    },
+    {
+      openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+      political: generatePoliticalStartingConditions,
+    },
+  );
   const staffPersonIds = base.personOrder
     .filter((personId) => personId !== candidatePersonId)
     .filter((personId) => {
@@ -801,8 +821,52 @@ describe("campaign work", () => {
   });
 
   it("moves more support for more work, not by a flat bonus", () => {
-    const lightly = fileKentuckyCampaign("effort-light", 0);
-    const heavily = fileKentuckyCampaign("effort-heavy", 3);
+    // Recorded encounters hold recognition constant; only staffed effort varies.
+    function withContacts(filed: Filed): Filed {
+      let world = filed.world;
+      for (const other of doorKnockingReturn(world, filed.campaign)
+        .adultResidentIds) {
+        world = recordWorldEvent(world, {
+          stableKey: `effort-contact:${other}`,
+          type: "campaign.fixture-contact",
+          occurredAt: world.currentDate,
+          recordedAt: world.currentDate,
+          jurisdictionId: filed.campaign.jurisdictionId,
+          involvedEntityIds: [filed.candidatePersonId, other],
+          participants: [filed.candidatePersonId, other].map((personId) => ({
+            personId,
+            role: "presence:participant",
+            detail: "Recorded encounter fixture",
+          })),
+          personFactConstraints: [],
+          visibility: "limited",
+          tags: ["fixture:authored-contact"],
+          summary: "Recorded encounter fixture",
+          context: {
+            location: null,
+            socialContext: null,
+            pressure: null,
+            choice: null,
+            motivation: null,
+            immediateReaction: null,
+          },
+        });
+        world = recordRelationshipInteraction(world, {
+          stableKey: `effort-contact:${other}:interaction`,
+          personIds: [filed.candidatePersonId, other],
+          eventId: world.history.events.at(-1)!.id,
+          occurredAt: world.currentDate,
+          kind: "contact:met-at-party-event",
+          change: "formed",
+          significance: "minor",
+          summary: "Recorded encounter fixture",
+          tags: ["campaign.contact"],
+        });
+      }
+      return { ...filed, world };
+    }
+    const lightly = withContacts(fileKentuckyCampaign("effort-light", 0));
+    const heavily = withContacts(fileKentuckyCampaign("effort-heavy", 3));
     const lightAfter = doOneSession(
       lightly.world,
       lightly.campaign,
@@ -861,6 +925,71 @@ describe("campaign work", () => {
   });
 });
 
+describe("A111 campaign support uses recorded inputs", () => {
+  it.each(["a111-start-one", "a111-start-two", "a111-start-three"])(
+    "uses equal initial weights when no record adjustment exists: %s",
+    (seed) => {
+      const filed = fileKentuckyCampaign(seed);
+      const scopes = filed.campaign.candidateSupportScopes;
+      expect(scopes).toHaveLength(2);
+      for (const scope of scopes) {
+        expect(
+          startingSupportAdjustment(
+            filed.world,
+            scope.candidatePersonId,
+            filed.campaign.filedAt,
+            filed.campaign.jurisdictionId,
+          ),
+        ).toBe(0);
+        expect(
+          canonicalSupportBasisPoints(
+            filed.world,
+            filed.campaign,
+            scope.candidatePersonId,
+          ),
+        ).toBe(5000);
+      }
+      const p = filed.world.people[filed.candidatePersonId]!;
+      console.log(
+        JSON.stringify({
+          a111InitialSupport: true,
+          seed,
+          personId: p.id,
+          name: p.givenName + " " + p.familyName,
+          jurisdiction:
+            filed.world.jurisdictions[filed.campaign.jurisdictionId]!.name,
+          support: 5000,
+        }),
+      );
+    },
+  );
+  it("uses the latest saved share without an election-night swing, including reload", () => {
+    const filed = fileKentuckyCampaign("a111-election-share");
+    const after = doOneSession(
+      filed.world,
+      filed.campaign,
+      "outreach",
+      1,
+      null,
+    );
+    for (const world of [after, deserializeWorld(serializeWorld(after))]) {
+      const outcome = evaluateCampaignAwareOutcome(
+        world,
+        filed.campaign.contestId,
+      );
+      for (const tally of outcome.tallies) {
+        const support = canonicalSupportBasisPoints(
+          world,
+          filed.campaign,
+          tally.candidatePersonId,
+        );
+        expect(tally.votes).toBe(support);
+        expect(tally.voteShare).toBe(support / 10000);
+      }
+    }
+  });
+});
+
 describe("support truth and what the campaign is told about it", () => {
   it("records the reading as a separate record from the truth", () => {
     const filed = fileKentuckyCampaign("truth-vs-observation");
@@ -877,17 +1006,33 @@ describe("support truth and what the campaign is told about it", () => {
     const observation = after.history.metricObservations.find(
       (candidate) => candidate.id === result.observationId,
     )!;
-    // The observation names the state it is an observation *of*, and they are
-    // two different records with two different ids.
+    // The private integrity link identifies the state being estimated, while
+    // the estimate and its evidence remain separate from that hidden value.
     expect(observation.underlyingStateId).not.toBeNull();
     expect(result.supportStateIds).toContain(observation.underlyingStateId!);
     expect(observation.id).not.toBe(observation.underlyingStateId);
 
-    // And the observation carries its own uncertainty rather than certainty.
     expect(observation.uncertainty?.kind).toBe("margin-of-error");
+    expect(observation.methodologyKey).toBe(
+      "campaign.estimated-district-comparison",
+    );
+    expect(observation.sourceLabel).toBe("Estimate, no poll of your own yet");
+    const estimate = campaignOfficePollingEstimate(after, filed.campaign);
+    const provenance = JSON.parse(observation.sourceReference!.locator!);
+    expect(provenance.peers).toEqual(estimate.peers);
+    expect(observation.uncertainty).toMatchObject({ confidence: null });
+    const memo = after.history.events.find(
+      (event) => event.id === result.feedbackEventId,
+    )!;
+    expect(memo.summary).toContain("no poll of your own yet");
+    expect(memo.summary).toContain("recorded district spread");
+    for (const peer of estimate.peers)
+      expect(memo.tags).toContain(
+        `campaign.estimate-source:${peer.sourceEntityId}`,
+      );
   });
 
-  it("is wrong often enough that reading it is a judgment", () => {
+  it("does not copy hidden support into the estimated district reading", () => {
     let disagreements = 0;
     for (let index = 0; index < 12; index += 1) {
       const filed = fileKentuckyCampaign(`observation-error-${index}`);
@@ -914,6 +1059,7 @@ describe("support truth and what the campaign is told about it", () => {
         filed.candidatePersonId,
       );
       if (observed !== truth) disagreements += 1;
+      expect(observation.sourceLabel).toBe("Estimate, no poll of your own yet");
     }
     expect(disagreements).toBeGreaterThan(6);
   });

@@ -10,6 +10,15 @@ import {
   ensureCouncilPrinciples,
 } from "./governing/council-lawmaking";
 import { measurePosition, placeMeasureOnCalendar } from "./legislation";
+import { chamberByKey } from "./legislature-rules";
+import { rulePackById } from "./legislature-rule-packs";
+import { offerPlannedAmendment } from "./governing/amendment-authors";
+import {
+  amendmentAdmissible,
+  floorStageTakesAmendments,
+} from "./governing/chamber-procedure";
+import { publicPartyOf } from "./governing/chamber-votes";
+import { personName } from "./people";
 import {
   municipalGovernmentByKey,
   municipalRulePackFor,
@@ -176,6 +185,44 @@ function moveActs(world: World): World {
       ...members,
       ...(mayor ? [{ personId: mayor }] : []),
     ]);
+    if (phase === "on-floor") {
+      const position = measurePosition(next, measure.id);
+      const pack = rulePackById(measure.rulePackId);
+      const chamber = chamberByKey(pack, "council");
+      const stage = chamber.floorStages.find(
+        (row) => row.stageKey === position.floorStageKey,
+      );
+      if (
+        stage &&
+        members.length > 0 &&
+        members.every((seat) => next.people[seat.personId]) &&
+        (!position.earliestNextFloorDate ||
+          position.earliestNextFloorDate <= next.currentDate) &&
+        floorStageTakesAmendments(chamber, stage)
+      ) {
+        next = offerPlannedAmendment(next, {
+          measureId: measure.id,
+          chamber,
+          stage,
+          members: members.map((seat, index) => ({
+            memberKey: `council:${index + 1}`,
+            personId: seat.personId,
+            name: personName(next.people[seat.personId]!),
+            caucusLabel: publicPartyOf(next, seat.personId) ?? "No party",
+          })),
+          stableKey: `${measure.stableKey}:reading:${stage.stageKey}:amendment`,
+          nonpartisan: false,
+          admissible: (bill, part) =>
+            mayAnswerQuestion(
+              next,
+              measure.jurisdictionId,
+              part.propositionId,
+            ) &&
+            amendmentAdmissible(next, pack, chamber.chamberKey, bill, part)
+              .admissible,
+        });
+      }
+    }
     const dispositions = decideCouncilVote(next, {
       stableKey: `${measure.stableKey}:${phase === "awaiting-override" ? "override" : "vote"}:${next.currentDate}`,
       measureId: measure.id,

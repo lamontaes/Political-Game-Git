@@ -29,7 +29,7 @@ import {
   recordsWithFieldValue,
 } from "./history-index";
 import { createStableId } from "./ids";
-import { SeededRng } from "./rng";
+import { largestPopulationShareDistrict } from "../districts/place-population-share";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { factsForPerson } from "./people";
 import type {
@@ -813,18 +813,13 @@ function confirmSplitHomeAssignment(
  * Place a split town's resident in one of the districts crossing their town,
  * for each chamber where the world has no membership for them yet.
  *
- * GAME PROFILE placeholder: a split town's resident is assigned one
- * overlapping district by seed until research says how.
- *
- * The published join says only that the town crosses several districts; it
- * cannot say which one a given home is in, and without an answer a lifelong
- * Anchorage resident could never stand for the legislature. The pick is drawn
- * from the world seed among the districts that cross the town — never a
- * district elsewhere in the state — and written through
- * `establishDistrictResidence`, the one district-residence writer. The player
- * can say their home is in a different one of those districts
- * (`chooseSplitHomeDistrict`). A home the join already places, and a chamber
- * that already has an open interval, are left as they are.
+ * The published 2020 block population, 2020 block-to-place assignment and
+ * 2024 legislative block allocation identify each crossing district's share
+ * of the place's tabulated population. The largest share places the initial
+ * home, with equal counts ordered by district GEOID. This is an estimated
+ * home assignment, not evidence locating a particular address. The player
+ * can still choose another crossing district through chooseSplitHomeDistrict.
+ * Existing residence intervals and whole-place joins retain their records.
  *
  * Called only for an opening of the current version: a legacy replay
  * descriptor rebuilds its exact bytes, and a save from before this existed is
@@ -851,17 +846,25 @@ export function assignSplitHomeDistricts(
         interval.endedOn === null,
     );
     if (open) continue;
-    const pick = new SeededRng(
-      JSON.stringify(["split-home-district-v1", next.seed, personId, chamber]),
-    ).pick(crossing);
+    const placeGeoid = canonicalHomePlaceGeoid(next, personId);
+    if (!placeGeoid) continue;
+    const largestShare = largestPopulationShareDistrict(
+      placeGeoid,
+      chamber,
+      crossing,
+    );
+    if (!largestShare)
+      throw new Error(
+        `No recorded district population for ${placeGeoid}/${chamber}.`,
+      );
     const recorded = establishDistrictResidence(next, {
       personId,
-      binding: bindingFromIdentity(pick),
+      binding: bindingFromIdentity(largestShare.identity),
       startedOn: residence.occurredAt,
       provenance: {
         method: "split-home-assignment",
         sourceEventId: residence.id,
-        note: `Placed by seed among the ${crossing.length} districts crossing Census place ${canonicalHomePlaceGeoid(next, personId)} (${placeRelationVintageFor(chamber)}).`,
+        note: `Estimated home assignment to the largest recorded population-share district: ${largestShare.population} of ${largestShare.totalPopulation} Census 2020 tabulated residents among the crossing districts of place ${placeGeoid} (${placeRelationVintageFor(chamber, placeGeoid, next.currentDate)}). Equal population counts use district GEOID. This does not locate a particular address.`,
       },
     });
     if (recorded.kind === "recorded") next = recorded.world;

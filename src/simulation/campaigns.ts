@@ -21,6 +21,10 @@ import { createPressTransitionRegistry } from "./press/transitions";
 import { recordElectionSpeech } from "./campaign-speeches";
 import { doorKnockingReturn } from "./campaign-recognition";
 import { startingSupportAdjustment } from "./record-in-office";
+import { campaignOfficePollingEstimate } from "./campaign-polling-estimate";
+import type { CampaignPollingEstimate } from "./campaign-polling-estimate";
+import { campaignPollingQuality } from "./campaign-polling";
+import { majorPartyOf } from "./statewide-electorate";
 import {
   legislativeTermDates,
   supportedLegislativeTermDates,
@@ -164,7 +168,7 @@ import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
 } from "./life-places";
-import { drawGeneratedPersonName } from "./people";
+import { drawGeneratedPersonName, personName } from "./people";
 import { createExactQuantity } from "./quantity";
 import { positionOwnerEndpoint, resourcePositionAt } from "./resource-queries";
 import {
@@ -1228,7 +1232,11 @@ function recordSupportAfterAction(
   return { world: shift.world, stateIds: shift.stateIds, candidateStateId };
 }
 
-/** Record the saved support reading without an added error or sampling claim. */
+/**
+ * No recorded voter responses means a district comparison, never an own poll.
+ * Its reported spread is measured across the listed game records; confidence
+ * is deliberately unspecified because those districts are not respondents.
+ */
 function recordCampaignObservation(
   world: World,
   campaign: CampaignRecord,
@@ -1237,18 +1245,30 @@ function recordCampaignObservation(
 ): {
   readonly world: World;
   readonly observation: WorldMetricObservationRecord;
+  readonly estimate: CampaignPollingEstimate;
+  readonly party: "democratic" | "republican" | null;
 } {
-  const state = world.history.metricStates.find(
-    (candidate) => candidate.id === candidateStateId,
-  )!;
-  const trueBasisPoints = quantityBasisPoints(state);
-  const observedBasisPoints = Math.round(trueBasisPoints);
+  const estimate = campaignOfficePollingEstimate(world, campaign);
+  const party = majorPartyOf(
+    world,
+    campaign.candidatePersonId,
+    world.currentDate,
+  );
+  const share =
+    party === "republican"
+      ? 1 - estimate.democraticShare
+      : estimate.democraticShare;
+  const observedBasisPoints = Math.round(share * SUPPORT_DENOMINATOR);
+  const scope = campaign.candidateSupportScopes.find(
+    (candidate) => candidate.candidatePersonId === campaign.candidatePersonId,
+  );
+  if (!scope) throw new Error("The campaign candidate has no metric segment.");
   const previous = world.history.metricObservations
     .filter(
       (observation) =>
         observation.metricId === campaign.supportMetricId &&
         observation.scope.jurisdictionId === campaign.jurisdictionId &&
-        observation.scope.segmentKey === state.scope.segmentKey &&
+        observation.scope.segmentKey === scope.segmentKey &&
         observation.referencePeriod.kind === "point" &&
         observation.referencePeriod.at === world.currentDate &&
         observation.sourceSeriesKey === "campaign.field-memo",
@@ -1257,7 +1277,10 @@ function recordCampaignObservation(
   const next = recordWorldMetricObservation(world, {
     stableKey: `${action.stableKey}:observation`,
     metricId: campaign.supportMetricId,
-    scope: { ...state.scope },
+    scope: {
+      jurisdictionId: campaign.jurisdictionId,
+      segmentKey: scope.segmentKey,
+    },
     referencePeriod: { kind: "point", at: world.currentDate },
     value: {
       kind: "quantity",
@@ -1268,17 +1291,41 @@ function recordCampaignObservation(
       ),
     },
     sourceSeriesKey: "campaign.field-memo",
-    sourceLabel: "Recorded campaign support",
-    sourceReference: null,
-    methodologyKey: null,
+    sourceLabel: estimate.label,
+    sourceReference: {
+      title: "Recorded district comparison, not contacted voter responses",
+      locator: JSON.stringify({
+        comparison: estimate.comparison,
+        party,
+        peers: estimate.peers,
+      }),
+    },
+    methodologyKey: "campaign.estimated-district-comparison",
     releaseDate: world.currentDate,
     recordedAt: world.currentDate,
     vintageKey: `campaign.v${world.history.nextSequence}`,
-    uncertainty: { kind: "none" },
+    uncertainty: {
+      kind: "margin-of-error",
+      margin: {
+        kind: "quantity",
+        quantity: createExactQuantity(
+          Math.round(estimate.standardDeviation * SUPPORT_DENOMINATOR),
+          SUPPORT_DENOMINATOR,
+          "rate:share",
+        ),
+      },
+      confidence: null,
+    },
     supersedesObservationId: previous?.id ?? null,
+    // Retain the private integrity link without reading its hidden value.
     underlyingStateId: candidateStateId,
   });
-  return { world: next, observation: next.history.metricObservations.at(-1)! };
+  return {
+    world: next,
+    observation: next.history.metricObservations.at(-1)!,
+    estimate,
+    party,
+  };
 }
 
 function actionCompletionEvent(world: World, activityId: EntityId): EntityId {
@@ -1570,6 +1617,19 @@ function recordCampaignActionOutcome(
   );
   next = observationResult.world;
   const observation = observationResult.observation;
+  const { estimate, party } = observationResult;
+  const reader = campaignPollingQuality(next, campaign).reader;
+  const compared = estimate.peers
+    .map(
+      (peer) =>
+        congressSeatIdentityForOfficeKey(peer.seatKey)?.displayName ??
+        peer.seatKey,
+    )
+    .join("; ");
+  const comparisonLabel =
+    party === null
+      ? "Democratic district comparison (your major-party affiliation is not recorded)"
+      : `${party} district comparison`;
   const observed =
     observation.value.kind === "quantity"
       ? (observation.value.quantity.numerator /
@@ -1597,8 +1657,17 @@ function recordCampaignActionOutcome(
     ],
     personFactConstraints: [],
     visibility: "private",
-    tags: ["campaign.feedback", "campaign.observation"],
-    summary: `The field memo puts them somewhere around ${Math.round(observed)} percent, give or take four points.`,
+    tags: [
+      "campaign.feedback",
+      "campaign.observation",
+      "campaign.estimate",
+      ...new Set(
+        estimate.peers.map(
+          (peer) => `campaign.estimate-source:${peer.sourceEntityId}`,
+        ),
+      ),
+    ],
+    summary: `${estimate.label}: ${comparisonLabel} around ${Math.round(observed)} percent, give or take ${(estimate.standardDeviation * 100).toFixed(1)} points of recorded district spread. Compared ${compared}.`,
     context: {
       location: {
         jurisdictionId: campaign.jurisdictionId,
@@ -1606,11 +1675,14 @@ function recordCampaignActionOutcome(
         setting: "A memo left on the desk",
       },
       socialContext:
-        "Somebody's best estimate from the calls they made, not the electorate itself.",
+        reader.kind === "experienced"
+          ? `Prepared by ${personName(next.people[reader.personId]!)}, whose recorded survey work totals ${reader.surveyDays} days. This is district evidence, not contacted voter responses.`
+          : "Prepared by the campaign's volunteer reader from recorded district evidence, not contacted voter responses.",
       pressure: null,
       choice: null,
       motivation: "Give the candidate something to act on.",
-      immediateReaction: "It could be wrong, and there is no way to check.",
+      immediateReaction:
+        "The compared districts and their recorded spread are listed; there is no poll of your own yet.",
     },
   });
   const feedbackEventId = next.history.events.at(-1)!.id;

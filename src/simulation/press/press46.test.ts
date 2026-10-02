@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { namedSeatForFixture } from "../../../tests/fixtures/campaign-fixture";
 import { recordPersonDeath } from "../vitality";
+import { ensurePublicGovernmentAccount } from "../tax-policy";
 
 import {
   GAME_ADULT_CANDIDACY_AGE,
@@ -56,10 +57,10 @@ import {
   reporterRoles,
   storyLeads,
   spendCampaignFundsPersonally,
-  MEDIA_ACTIVE_ASSIGNMENT_CAPACITY,
 } from "./index";
 import { recordEvidenceDiscovery } from "../evidence";
 import { contradictionFound } from "../claim-stances";
+import { PRESS_DESK_INTERVALS } from "./desk";
 
 const KENTUCKY_PACK = "us-ky-general-assembly-v1:candidacy";
 const KY = KENTUCKY_CONTEXT.jurisdiction.id;
@@ -204,11 +205,15 @@ describe("PRESS46 M1 media seed pack", () => {
     for (const outlet of outlets) {
       expect(reporterRoles(fixture.world, outlet.id).length).toBeGreaterThan(0);
     }
-    expect(MEDIA_ACTIVE_ASSIGNMENT_CAPACITY).toEqual({
-      small: 1,
-      standard: 3,
-      major: 8,
-    });
+    expect(
+      outlets.every((outlet) =>
+        reporterRoles(fixture.world, outlet.id).every((role) =>
+          fixture.world.history.workRelationships.some(
+            (work) => work.id === role.workRelationshipId,
+          ),
+        ),
+      ),
+    ).toBe(true);
   });
 
   it("is idempotent and survives a save with the same outlets and people", () => {
@@ -570,7 +575,12 @@ describe("PRESS46 established finding, leak and ground rules", () => {
     expect(publication.body).toContain("That is not true.");
   });
 
-  const withComplaint = fileComplaint(published, {
+  // Restitution requires the real saved receiving government, not an invented payee.
+  const receivingGovernment = ensurePublicGovernmentAccount(published, {
+    kind: "jurisdiction",
+    jurisdictionId: KY,
+  });
+  const withComplaint = fileComplaint(receivingGovernment, {
     stableKey: "press46-test:finding-complaint",
     matterId: opened.matter.id,
     complainantPersonId: fixture.rivalId,
@@ -796,7 +806,15 @@ describe("PRESS46 off-record control, hold and repeat reporter", () => {
     matterId: matter.matter.id,
   });
   const assigned = assignStory(told.world, told.leadId!);
-  const later = days(assigned, 14);
+  // Reporting now finishes through a saved work item before editorial review.
+  // Allow the existing weekly retry and hold-review intervals to run as well.
+  const later = days(
+    assigned,
+    14 +
+      PRESS_DESK_INTERVALS.sweepDays +
+      PRESS_DESK_INTERVALS.routinePublishDays +
+      PRESS_DESK_INTERVALS.holdRecheckDays,
+  );
 
   it("never publishes off-record material: the story is held, then dropped", () => {
     expect(terms.agreement!.publiclyUsable).toBe(false);
