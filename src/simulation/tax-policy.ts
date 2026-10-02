@@ -19,7 +19,17 @@ import {
 } from "./legislative-politics";
 import { createOrganization } from "./life";
 import { rulePackById } from "./legislature-rule-packs";
-import { stateJurisdictionForKey } from "./life-places";
+import {
+  lifePlaceByKey,
+  stateJurisdictionForKey,
+  stateKeyForJurisdiction,
+} from "./life-places";
+import {
+  governmentUnit,
+  governmentUnitJurisdictionId,
+} from "./government-units";
+import { municipalGovernmentByKey } from "./municipal-government";
+import { chiefExecutiveJurisdiction } from "./nationwide-world/government-jurisdiction";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import { PUBLIC_CASH_OPENING_PROFILE_VERSION } from "./world-setup/types";
 import { stateFundedServiceGameProfileForJurisdictionKey } from "./state-funded-service-game-profiles";
@@ -82,6 +92,63 @@ export const TAX_MODEL_NOTE =
 export const publicOrganizationKey = (jurisdictionId: EntityId) =>
   `public-government:${jurisdictionId}`;
 export const publicOrganizationKeyForIdentity = publicGovernmentOrganizationKey;
+
+/** Declared state aliases and the compiled governing unit identify one government. */
+function accountGovernmentJurisdiction(
+  world: World,
+  jurisdictionId: EntityId,
+): EntityId {
+  const jurisdiction = world.jurisdictions[jurisdictionId];
+  const stateKey = jurisdiction ? stateKeyForJurisdiction(jurisdiction) : null;
+  return stateKey
+    ? (chiefExecutiveJurisdiction(stateKey.slice(3))?.id ?? jurisdictionId)
+    : jurisdictionId;
+}
+
+function publicAccountCandidates(
+  world: World,
+  identity: PublicGovernmentIdentity,
+  cutoff?: HistoricalCutoff,
+) {
+  const desired = accountGovernmentJurisdiction(world, identity.jurisdictionId);
+  const exactKey = publicGovernmentOrganizationKey(identity);
+  const organizations = cutoff
+    ? organizationsAt(world, cutoff)
+    : world.history.organizations;
+  return organizations.filter((organization) => {
+    if (organization.stableKey === exactKey) return true;
+    let jurisdictionId: EntityId | null = null;
+    const localPrefix = "public-government:local:";
+    if (organization.stableKey.startsWith(localPrefix)) {
+      let governmentKey: string;
+      try {
+        governmentKey = decodeURIComponent(
+          organization.stableKey.slice(localPrefix.length),
+        );
+      } catch {
+        return false;
+      }
+      const unit = governmentUnit(governmentKey);
+      const municipal = unit ? null : municipalGovernmentByKey(governmentKey);
+      jurisdictionId =
+        unit?.functionalActive &&
+        (unit.unitType === "county" || unit.unitType === "municipality")
+          ? governmentUnitJurisdictionId(unit)
+          : municipal?.placeGeoid
+            ? (lifePlaceByKey(municipal.placeGeoid)?.context.jurisdiction.id ??
+              null)
+            : null;
+    } else if (organization.stableKey.startsWith("public-government:")) {
+      jurisdictionId = organization.stableKey.slice(
+        "public-government:".length,
+      ) as EntityId;
+    }
+    return (
+      jurisdictionId !== null &&
+      accountGovernmentJurisdiction(world, jurisdictionId) === desired
+    );
+  });
+}
 
 export function taxPowerEvidenceFor(
   jurisdictionKey: string,
@@ -165,20 +232,41 @@ export function ensureLocalPublicAccount(
 }
 
 /**
- * Creates an account identity with the save's fictional opening cash, if one
- * was recorded at Begin. This grants no tax or spending permission.
+ * Creates an account identity once. A source-backed opening estimate can
+ * initialize a missing position; otherwise the saved fictional profile applies.
+ * Existing cash is preserved. This grants no tax or spending permission.
  */
 export function ensurePublicGovernmentAccount(
   world: World,
   identity: PublicGovernmentIdentity,
+  openingEstimate?: {
+    readonly amountMinorUnits: number;
+    readonly sourceNote: string;
+  },
 ): World {
+  if (
+    openingEstimate &&
+    (!Number.isSafeInteger(openingEstimate.amountMinorUnits) ||
+      openingEstimate.amountMinorUnits < 0 ||
+      !openingEstimate.sourceNote.trim())
+  )
+    throw new Error(
+      "A public cash opening estimate needs a nonnegative amount and source.",
+    );
   assertPublicGovernmentIdentity(world, identity);
   const jurisdiction = world.jurisdictions[identity.jurisdictionId]!;
   const key = publicGovernmentOrganizationKey(identity);
   let next = world;
-  let organization = next.history.organizations.find(
-    (row) => row.stableKey === key,
-  );
+  const candidates = publicAccountCandidates(next, identity);
+  if (candidates.length > 1)
+    throw new Error(
+      "Multiple saved public accounts name one government; a recorded consolidation is required.",
+    );
+  let organization = candidates[0];
+  if (organization && !publicTaxAccountEvidenceForIdentity(next, identity))
+    throw new Error(
+      "The saved public account has no valid dated government ownership evidence.",
+    );
   if (!organization) {
     next = createOrganization(next, {
       stableKey: key,
@@ -217,23 +305,28 @@ export function ensurePublicGovernmentAccount(
         PUBLIC_CASH_OPENING_PROFILE_VERSION
         ? opening.publicCashOpening
         : null;
-    const openingMinorUnits = cashProfile
+    const profileMinorUnits = cashProfile
       ? identity.kind === "local-government"
         ? cashProfile.localMinorUnits
         : identity.jurisdictionId === NATIONAL_ELECTION_JURISDICTION.id
           ? cashProfile.federalMinorUnits
-          : (cashProfile.stateByJurisdictionId[identity.jurisdictionId] ?? 0)
-      : 0;
+          : cashProfile.stateByJurisdictionId[identity.jurisdictionId]
+      : undefined;
+    const openingMinorUnits =
+      profileMinorUnits ?? openingEstimate?.amountMinorUnits ?? 0;
     next = createResourcePosition(next, {
-      stableKey: `${key}:modeled-receipts:USD`,
+      stableKey: `${organization.stableKey}:modeled-receipts:USD`,
       owner: { kind: "organization", organizationId: organization.id },
       openedAt: next.currentDate,
       openingBalance: money(openingMinorUnits, "USD"),
       provenance: {
         kind: "authored",
-        note: cashProfile
-          ? `${PUBLIC_CASH_OPENING_PROFILE_VERSION}: fictional opening public cash for this saved world, not an observed treasury balance or tax receipt.`
-          : "Known zero opening of the modeled receipts account. Historical/real treasury cash is unknown and is not initialized from observational statistics.",
+        note:
+          profileMinorUnits !== undefined
+            ? `ESTIMATED FROM SAVED WORLD: ${PUBLIC_CASH_OPENING_PROFILE_VERSION}; opening public cash already recorded for this world, not an observed treasury balance or tax receipt.`
+            : openingEstimate
+              ? openingEstimate.sourceNote
+              : "Known zero opening of the modeled receipts account. Historical/real treasury cash is unknown and is not initialized from observational statistics.",
       },
     });
   }
@@ -2014,13 +2107,17 @@ export function publicTaxAccountEvidenceForIdentity(
   } catch {
     return null;
   }
+  const candidates = publicAccountCandidates(world, identity, cutoff);
+  if (candidates.length !== 1) return null;
   const organization = organizationsAt(world, cutoff).find(
-    (row) => row.stableKey === publicGovernmentOrganizationKey(identity),
+    (row) => row.id === candidates[0]!.id,
   );
   if (!organization) return null;
   const profile = organizationProfileAt(world, organization.id, cutoff);
   return profile?.classification === "sector:government" &&
-    profile.locationJurisdictionId === identity.jurisdictionId
+    profile.locationJurisdictionId !== null &&
+    accountGovernmentJurisdiction(world, profile.locationJurisdictionId) ===
+      accountGovernmentJurisdiction(world, identity.jurisdictionId)
     ? {
         organizationId: organization.id,
         profileId: profile.id,
