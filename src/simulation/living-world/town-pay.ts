@@ -81,6 +81,7 @@ import {
 } from "../fairness-pay-law";
 import { noticeLawPayChanges } from "../law-effects-noticed";
 import { ensureLifePathPersonalPosition } from "../life-paths2-resources";
+import { ensureEmployerCashPositions } from "../opening-employer-cash";
 import { resourceFlowTermsAt, resourcePositionAt } from "../resource-queries";
 import { paymentFromDatedCash } from "../resource-payments";
 import { writeWithWorldIntegrityOnce } from "../world";
@@ -1587,6 +1588,7 @@ export function settleTownCompensations(
     pending.add(stableKey);
   }
   if (inputs.length === 0) return next;
+  next = ensureEmployerCashPositions(next, "later");
   for (const personId of recipients)
     next = ensureLifePathPersonalPosition(
       next,
