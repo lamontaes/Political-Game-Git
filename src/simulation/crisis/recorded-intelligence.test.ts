@@ -1,4 +1,5 @@
 import { randomInt } from "node:crypto";
+import { writeFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
 import {
@@ -8,10 +9,11 @@ import {
 import { createDemoWorld } from "../demo";
 import { addDays } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
+import { createFutureTransitionHandlerRegistry } from "../future-transition-registry";
 import { lifePlaces } from "../life-places";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import type { EntityId, World } from "../types";
-import { assertWorldIntegrity } from "../world";
+import { advanceWorld, assertWorldIntegrity } from "../world";
 import {
   declareInternationalCrisis,
   INTERNATIONAL_DECISION_KEY,
@@ -44,10 +46,13 @@ function review(world: World, crisisId: EntityId, cycle: number) {
     jurisdictionId: null,
     provenance: { kind: "simulated", sourceEntityIds: [crisisId] },
   });
-  return internationalCycleOrDecisionHandler(
-    { ...scheduled, currentDate: addDays(scheduled.currentDate, 1) },
-    scheduled.history.futureDueItems.at(-1)!,
-  ).world;
+  return advanceWorld(
+    scheduled,
+    1,
+    createFutureTransitionHandlerRegistry([
+      [INTERNATIONAL_DECISION_KEY, internationalCycleOrDecisionHandler],
+    ]),
+  );
 }
 
 describe("international advisers consume recorded intelligence", () => {
@@ -126,17 +131,24 @@ describe("international advisers consume recorded intelligence", () => {
     expect(state.options).toHaveLength(1);
     expect(state.options[0]!.options).toHaveLength(3);
     expect(state.options[0]!.causalParentIds).toEqual([started.crisisId]);
-    console.info(
-      JSON.stringify({
-        placeKey: place.key,
-        startingLife: "ordinary-life",
-        assessmentRecordsBefore: before,
-        assessmentRecordsAfter: state.assessments.length,
-        optionsAfter: state.options[0]!.options.length,
-        recommended: state.options[0]!.recommended,
-        reloadMatches:
-          serializeWorld(reopened) === serializeWorld(started.world),
-      }),
-    );
+    const receipt = {
+      placeKey: place.key,
+      startingLife: "ordinary-life",
+      assessmentRecordsBefore: before,
+      assessmentRecordsAfter: state.assessments.length,
+      optionsAfter: state.options[0]!.options.length,
+      recommended: state.options[0]!.recommended,
+      reloadMatches: serializeWorld(reopened) === serializeWorld(started.world),
+    };
+    if (process.env.TEAM4_A133_RECEIPT_PATH) {
+      writeFileSync(
+        process.env.TEAM4_A133_RECEIPT_PATH,
+        JSON.stringify({
+          ...receipt,
+          savedWorld: serializeWorld(started.world),
+        }) + "\n",
+      );
+    }
+    console.info(JSON.stringify(receipt));
   }, 180_000);
 });

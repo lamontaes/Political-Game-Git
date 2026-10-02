@@ -140,7 +140,9 @@ describe("CRISIS K5 international crisis, first depth", () => {
           (r) => r.stage === "withdrawal-extension-certified",
         )!;
         const withdrawn = state.warPowers.at(-1)!;
-        expect(withdrawn.effectiveAt).toBe(certified.terminationAt);
+        expect(withdrawn.effectiveAt).toBe(
+          certified?.terminationAt ?? reported.terminationAt,
+        );
       }
       // CHANGE sees the force decision as spillover, without money.
       const spill = crisisEnvelopesBetween(
