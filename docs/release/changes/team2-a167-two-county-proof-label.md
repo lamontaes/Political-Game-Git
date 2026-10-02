@@ -1,8 +1,6 @@
 ---
 id: team2-a167-two-county-proof-label
 impact: none
-section: Fixed
-title: Make the existing two-county population proof discoverable
 ---
 
 Name the existing two-county population tests precisely so the audit finds
