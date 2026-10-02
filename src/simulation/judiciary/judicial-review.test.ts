@@ -1,4 +1,20 @@
 import { beforeAll, describe, expect, it } from "vitest";
+import { enactThroughDesk } from "../../../tests/fixtures/enact-through-desk";
+import {
+  US_CONGRESS_PACK_ID,
+  US_CONGRESS_RULE_PACK,
+} from "../congress-rule-pack";
+import { RAISE_TOP_FEDERAL_RATE_QUESTION } from "../federal-top-income-tax-law";
+import { seatedCongressChamber } from "../governing/congress-chambers";
+import { introduceMeasure } from "../legislation";
+import {
+  votePlanKeyForCommittee,
+  votePlanKeyForFloor,
+} from "../legislation-scenarios";
+import { chamberByKey } from "../legislature-rules";
+import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
+import { deserializeWorld, serializeWorld } from "../serialization";
+import { seatHolderAt, seatsForCourt } from "./courts";
 import {
   observerPlace,
   observerSetup,
@@ -175,6 +191,98 @@ describe(`court review (seed ${SEED}, opened in ${observerPlace(SEED).key}, law 
       expect(court!.courtId, usps).not.toMatch(/criminal/);
     }
   });
+
+  it("binds an actually enacted national law to the saved federal court and its judges", () => {
+    const base = openedWorld();
+    const pid = propositionId(base, RAISE_TOP_FEDERAL_RATE_QUESTION);
+    let world = introduceMeasure(base, {
+      stableKey: "a100:national-court:measure",
+      jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+      rulePackId: US_CONGRESS_PACK_ID,
+      designation: "H.R. Court Fixture",
+      shortTitle: "Authored national court-binding fixture",
+      summary: "Authored congressional passage; no tax collection is inferred.",
+      origin: "member-introduction",
+      subjectClass: "general-policy",
+      originChamberKey: "house",
+      sponsorPersonId: null,
+      propositionIds: [pid],
+      propositionAnswers: [{ propositionId: pid, answer: "yes" }],
+    });
+    const measure = world.history.legislativeMeasures!.at(-1)!;
+    const bodies = US_CONGRESS_RULE_PACK.chamberOrder.map((key) => {
+      const seated = seatedCongressChamber(world, key);
+      expect(seated, key).not.toBeNull();
+      return seated!.body;
+    });
+    const votePlan: Record<string, { yea: number }> = {};
+    for (const key of US_CONGRESS_RULE_PACK.chamberOrder) {
+      const chamber = chamberByKey(US_CONGRESS_RULE_PACK, key);
+      for (const committee of chamber.committees)
+        votePlan[votePlanKeyForCommittee(committee.committeeKey)] = {
+          yea: committee.appointedMembers ?? 1,
+        };
+      for (const stage of chamber.floorStages)
+        votePlan[votePlanKeyForFloor(key, stage.stageKey)] = {
+          yea: bodies.find((body) => body.chamberKey === key)!.members.length,
+        };
+    }
+    world = enactThroughDesk(world, measure.id, {
+      context: {
+        pack: US_CONGRESS_RULE_PACK,
+        measureId: measure.id,
+        bodies,
+        committeeMemberCount: null,
+        votePlan,
+        governorAction: "signed",
+        governorRationale:
+          "Authored fixture approval through the actual President's desk.",
+      },
+      effectiveAt: addDays(world.currentDate, 90),
+    });
+    const enactment = world.history.legislativeEnactments!.find(
+      (entry) => entry.measureId === measure.id,
+    )!;
+    expect(enactment.outcome).toBe("enacted");
+    expect(
+      world.history.events.some(
+        (entry) => entry.id === enactment.outcomeEventId,
+      ),
+    ).toBe(true);
+    const court = reviewingCourt(world, measure.jurisdictionId)!;
+    expect(court.level).toBe("federal-supreme");
+    const judges = seatsForCourt(world, court.courtId, world.currentDate).map(
+      (seat) => seatHolderAt(world, seat.seatId, world.currentDate)?.personId,
+    );
+    expect(judges.length).toBeGreaterThan(0);
+    for (const judge of judges)
+      expect(judge && world.people[judge]).toBeDefined();
+    const restored = deserializeWorld(serializeWorld(world));
+    expect(reviewingCourt(restored, measure.jurisdictionId)?.courtId).toBe(
+      court.courtId,
+    );
+    const absent: World = {
+      ...world,
+      judiciary: {
+        ...world.judiciary!,
+        courts: Object.fromEntries(
+          Object.entries(world.judiciary!.courts).filter(
+            ([id]) => id !== court.courtId,
+          ),
+        ),
+      },
+    };
+    expect(reviewingCourt(absent, measure.jurisdictionId)).toBeNull();
+    // This proves the actual law's court binding, not an automatic challenge:
+    // this federal tax question has no admitted judicial-review precedent.
+    const later = on(absent, addDays(world.currentDate, 90));
+    expect(applyJudicialReview(world.currentDate, later)).toBe(later);
+    expect(
+      absent.history.events.filter(
+        (entry) => entry.type === "court.judicial-review",
+      ),
+    ).toHaveLength(0);
+  }, 30_000);
 
   it("rules the day before the law takes effect, each justice for their own reasons", () => {
     const base = openedWorld();
