@@ -4,7 +4,7 @@
  * claim or government-count ceiling is implied by these production declarations.
  */
 
-import supplementalSources from "./supplemental-source-specs.json";
+import supplementalSources from "./supplemental-source-specs.json" with { type: "json" };
 
 import type {
   AcquisitionPlan,

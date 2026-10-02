@@ -1,7 +1,7 @@
 import { sha256Text } from "./sha256";
 import { describe, expect, it } from "vitest";
-import fixtureManifest from "../../art/fixtures/valid_character_manifest.json";
-import fixtureCatalog from "../../art/fixtures/valid_character_catalog.json";
+import fixtureManifest from "../../art/fixtures/valid_character_manifest.json" with { type: "json" };
+import fixtureCatalog from "../../art/fixtures/valid_character_catalog.json" with { type: "json" };
 import {
   computeCharacterGenerationSignature,
   createCharacterComponentLibrary,

@@ -3,7 +3,7 @@ import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { gunzipSync } from "node:zlib";
 import { describe, expect, it } from "vitest";
-import corpus from "../../data/municipal-elections/92O-national-state-baseline.json";
+import corpus from "../../data/municipal-elections/92O-national-state-baseline.json" with { type: "json" };
 import {
   MUNICIPAL_CORPUS_CONFLICTS,
   MUNICIPAL_CORPUS_READINGS,

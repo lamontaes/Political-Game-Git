@@ -64,6 +64,13 @@ describe("the admitted town profile uses the saved council", () => {
       expect(organizationId).not.toBeNull();
       expect(members.length).toBeGreaterThan(0);
       world = ensureCouncilPrinciples(world, officers);
+      const chamber = chamberByKey(pack, "council");
+      expect(chamber.floorStages).toHaveLength(1);
+      expect(chamber.floorStages[0]!.readingIntervalDays).toMatchObject({
+        kind: "known",
+        value: 0,
+        source: chamber.floorStages[0]!.source,
+      });
       const numbering = nextMeasureNumbering(world, {
         jurisdictionId: opening.jurisdictionId,
         originChamber: chamberByKey(pack, "council"),
@@ -92,12 +99,18 @@ describe("the admitted town profile uses the saved council", () => {
       };
       if (measurePosition(world, bill.id).phase === "awaiting-referral") {
         const placed = applyInstitutionStep(world, bill.id, (w) => w, context);
-        expect(placed.kind).toBe("applied");
+        expect(placed).toMatchObject({
+          kind: "applied",
+          step: "request-calendar-placement",
+        });
         if (placed.kind !== "applied") return;
         world = placed.world;
       }
       const result = applyInstitutionStep(world, bill.id, (w) => w, context);
-      expect(result.kind).toBe("applied");
+      expect(result).toMatchObject({
+        kind: "applied",
+        step: "move-floor-vote",
+      });
       if (result.kind !== "applied") return;
       const vote = result.world.history
         .legislativeVotes!.filter((row) => row.measureId === bill.id)
