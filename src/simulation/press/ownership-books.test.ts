@@ -406,8 +406,8 @@ describe("A145 newsroom cuts read recorded cash and payroll", () => {
       assertWorldIntegrity(after);
     },
   );
-  it("does not cut again for the same saved loss period on the next review", () => {
-    const f = fixture(places[0]!);
+  it("does not cut again after remaining payroll fits recorded cash", () => {
+    const f = fixture(places[0]!, 20000);
     const handlers = createFutureTransitionHandlerRegistry([
       [
         PRESS_OWNER_REVIEW_TRANSITION_KEY,
@@ -429,7 +429,7 @@ describe("A145 newsroom cuts read recorded cash and payroll", () => {
   });
 
   it.each(["no-books", "no-loss", "reserves-cover-loss"] as const)(
-    "does not infer layoffs from low cash with %s",
+    "uses actual cash and payroll regardless of obsolete quarter snapshot: %s",
     (scenario) => {
       const f = fixture(places[0]!, 0);
       const store = f.world.townFinances!;
@@ -451,8 +451,15 @@ describe("A145 newsroom cuts read recorded cash and payroll", () => {
         },
       };
       const after = pressOwnerReviewHandler(world, f.due, registry).world;
-      expect(ownerDirectives(after, f.owner.id)).toEqual([]);
-      expect(after.history.workStatuses).toBe(world.history.workStatuses);
+      const directive = ownerDirectives(after, f.owner.id)[0]!;
+      expect(directive.endedWorkRelationshipIds).toHaveLength(3);
+      expect(
+        reporterRoles(after).filter((role) => reporterIsCurrent(after, role)),
+      ).toHaveLength(0);
+      expect(
+        after.history.workStatuses.length - world.history.workStatuses.length,
+      ).toBe(3);
+      assertWorldIntegrity(after);
     },
   );
 

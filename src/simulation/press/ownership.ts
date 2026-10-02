@@ -533,7 +533,6 @@ function ownerEvent(
     readonly practice: OwnershipPracticeRow;
     readonly motivation?: string;
     readonly sourceRecordIds?: readonly EntityId[];
-    readonly lossPeriodKeys?: readonly string[];
   },
 ): { readonly world: World; readonly eventId: EntityId } {
   const next = recordWorldEvent(world, {
@@ -553,7 +552,6 @@ function ownerEvent(
     visibility: input.visibility,
     tags: [
       PRESS_CONTRACT_VERSION,
-      ...(input.lossPeriodKeys ?? []),
       `press.owner:${input.owner.id}`,
       `press.practice:${input.practice.key}`,
       ...input.outlets.map((outlet) => `press.outlet:${outlet.id}`),
@@ -693,7 +691,7 @@ function newsroomPayroll(world: World, outlet: MediaOutletRecord) {
   };
 }
 
-/** End least-senior positions only for recorded period losses beyond reserves. */
+/** End least-senior positions only when recorded cash cannot cover recorded payroll. */
 function reduceNewsroomStaff(
   world: World,
   owner: MediaOwnerRecord,
@@ -704,31 +702,9 @@ function reduceNewsroomStaff(
   const cut: ReporterRoleRecord[] = [];
   const sourceRecordIds: EntityId[] = [];
   const reasons: string[] = [];
-  const lossPeriodKeys: string[] = [];
   for (const outlet of held) {
     const books = newsroomPayroll(world, outlet);
-    const operating = world.townFinances?.businesses[outlet.organizationId];
-    if (
-      !books ||
-      !operating ||
-      operating.lastQuarterPay === undefined ||
-      operating.lastQuarterPay <= 0 ||
-      operating.lastQuarterNet >= 0 ||
-      operating.cash < 0 ||
-      !operating.lastRound
-    )
-      continue;
-    const periodKey = `press.loss-period:${outlet.organizationId}:${operating.lastRound}`;
-    if (world.history.events.some((event) => event.tags.includes(periodKey)))
-      continue;
-    const loss = Math.round(-operating.lastQuarterNet * 100);
-    const reserves = Math.round(operating.cash * 100);
-    const periodPayroll = Math.round(operating.lastQuarterPay * 100);
-    if (
-      ![loss, reserves, periodPayroll].every(Number.isSafeInteger) ||
-      loss <= reserves
-    )
-      continue;
+    if (!books || books.cash >= books.total) continue;
     const jobs = new Map(
       world.history.workRelationships.map((job) => [job.id, job]),
     );
@@ -746,27 +722,23 @@ function reduceNewsroomStaff(
           right.sequence - left.sequence
         );
       });
-    let required = loss - reserves;
+    let required = books.total;
     const fromOutlet: ReporterRoleRecord[] = [];
     for (const role of candidates) {
-      if (required <= 0) break;
+      if (required <= books.cash) break;
       fromOutlet.push(role);
-      required -=
-        (books.payroll.get(role.workRelationshipId)! / books.total) *
-        periodPayroll;
+      required -= books.payroll.get(role.workRelationshipId)!;
     }
     if (!fromOutlet.length) continue;
     cut.push(...fromOutlet);
     sourceRecordIds.push(...books.sourceIds);
-    lossPeriodKeys.push(periodKey);
-    reasons.push(`Recorded loss period ${operating.lastRound}.`);
     const format = (amount: number) =>
       new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: books.currency,
       }).format(amount / 100);
     reasons.push(
-      `${outlet.name} lost ${format(loss)} in its recorded quarter, beyond ${format(reserves)} in reserves; its quarter payroll was ${format(periodPayroll)}.`,
+      `${outlet.name} had ${format(books.cash)} in recorded cash, less than ${format(books.total)} for its recorded payroll period.`,
     );
   }
   if (cut.length === 0) return { world, eventId: null };
@@ -783,7 +755,6 @@ function reduceNewsroomStaff(
     practice,
     motivation: reasons.join(" "),
     sourceRecordIds,
-    lossPeriodKeys,
   });
   let next = event.world;
   for (const role of cut) {
@@ -794,7 +765,7 @@ function reduceNewsroomStaff(
       workRelationshipId: role.workRelationshipId,
       effectiveAt: next.currentDate,
       status: "ended",
-      reason: `Position eliminated because recorded quarter losses exceeded reserves; least-senior positions were ended first.`,
+      reason: `Position eliminated because recorded cash could not cover payroll; least-senior positions were ended first.`,
       provenance: { kind: "simulated-event", eventId: event.eventId },
       supersedesStatusId: status.id,
     });
