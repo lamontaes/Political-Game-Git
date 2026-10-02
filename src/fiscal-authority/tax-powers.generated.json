@@ -628,6 +628,66 @@
         "Actual spending requires lawful appropriation and recorded cash; captured taxing power is not a treasury balance, collection, or service.",
         "Capture date is an observed constitutional baseline, not an independently proved amendment-validity interval. CTO source approval and complete applicable-condition validation remain required."
       ]
+    },
+    {
+      "key": "US-VA:STATE:selective-excise",
+      "jurisdictionKey": "US-VA",
+      "level": "STATE",
+      "instrument": "selective-excise",
+      "asOf": "2026-10-02",
+      "sourceArtifactId": "va-article-x-expanded",
+      "sourceSha256": "e721000bef5d1e00857c9fdbad0f7f446fe36c3fa59a178581cfacbc4df75eb0",
+      "sourceUrl": "https://law.lis.virginia.gov/constitutionexpand/article10/",
+      "citations": ["Va. Const. art. X, §§1,4,5,6,7"],
+      "constraints": [
+        "Article X§1 requires general laws and class uniformity, retaining its specific real-estate/local-rate exceptions. The franchise-tax foundation in §5 is not unrestricted permission for every commodity tax base.",
+        "Article X§4 segregates covered real estate/mineral land/tangible personal property for LOCAL taxation, with its specified public-service exception; this state row cannot transfer those subjects to the state. Section6 exemptions retain actual subject and general-law limits.",
+        "Article X§7 requires proper-officer treasury deposit, lawful appropriations and its two-years-six-months availability/expense-revenue constraints. Anticipated revenue is not actual cash.",
+        "The actual written tax must satisfy the legislative/executive process and its operative date. This foundation supplies no tax rate, earned base, taxable occurrence, or universal effective delay.",
+        "Actual spending requires lawful appropriation and recorded cash; captured taxing power is not a treasury balance, collection, or service.",
+        "Capture date is an observed constitutional baseline, not an independently proved amendment-validity interval. CTO source approval and complete applicable-condition validation remain required."
+      ]
+    },
+    {
+      "key": "US-PA:STATE:selective-excise",
+      "jurisdictionKey": "US-PA",
+      "level": "STATE",
+      "instrument": "selective-excise",
+      "asOf": "2026-10-02",
+      "sourceArtifactId": "pa-constitution",
+      "sourceSha256": "74fb8ee7da5d9ffb8fa52f2e9d44b0b8e29bbea4ac3b58902e4a86efd4e93b12",
+      "sourceUrl": "https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/00/00.HTM",
+      "citations": [
+        "Pa. Const. art. II, §1; art. III, §§10,11,24; art. VIII, §§1,2,12–14"
+      ],
+      "constraints": [
+        "Taxation requires general laws and uniformity within the same class/territory under art.VIII§1. ArticleVIII§2 exemption/special-provision rules retain their actual property/subject boundaries, not unrestricted tax-base authority.",
+        "Article III§10 places revenue-bill origination in the House with Senate amendment; §11 separates ordinary general appropriations from other single-subject appropriation bills.",
+        "Article III§24 requires appropriation and proper-officer warrant, preserving the specific not-legally-due tax/fee refund exception. Article VIII§§12–14 retain actual budget, available-revenue/surplus and surplus appropriation requirements; estimates are not collection.",
+        "The actual written tax must satisfy the legislative/executive process and its operative date. This foundation supplies no tax rate, earned base, taxable occurrence, or universal effective delay.",
+        "Actual spending requires lawful appropriation and recorded cash; captured taxing power is not a treasury balance, collection, or service.",
+        "Capture date is an observed constitutional baseline, not an independently proved amendment-validity interval. CTO source approval and complete applicable-condition validation remain required."
+      ]
+    },
+    {
+      "key": "US-UT:STATE:selective-excise",
+      "jurisdictionKey": "US-UT",
+      "level": "STATE",
+      "instrument": "selective-excise",
+      "asOf": "2026-10-02",
+      "sourceArtifactId": "ut-article-xiii-full",
+      "sourceSha256": "a3cc0c9bcd206946eea7ea7c6f82059782f352fe0ed93bc9be84835216d75e07",
+      "sourceUrl": "https://le.utah.gov/xcode/ArticleXIII/UC_AXIII_1800010118000101.pdf",
+      "citations": ["Utah Const. art. XIII, §§2–5"],
+      "constraints": [
+        "Article XIII§4 permits statutory taxes other than property tax and statutory deductions/exemptions/offsets. Property valuation/intangible-property limits in §§2–3 do not become a generic excise rate.",
+        "The captured article retains §5 ordinary-expense/revenue constraints, pro-rata reduction or legislative-session response and enumerated emergency/debt exceptions. Current applicability of each dedication still needs the actual enacted tax/term/dated source.",
+        "Article XIII§5(4) limits state imposition for political-subdivision purposes and requires separate statutory authorization of local taxing power. Income/intangible education/children/disability dedications are separate from excise permissions.",
+        "Covered motor-vehicle/fuel receipts retain §5(6) enumerated uses and (7) in-lieu property-fee exception. Severance receipts retain §5(9) stated trust-fund tranches and tribal exception; these are source conditions, not sampled revenue levels.",
+        "The actual written tax must satisfy the legislative/executive process and its operative date. This foundation supplies no tax rate, earned base, taxable occurrence, or universal effective delay.",
+        "Actual spending requires lawful appropriation and recorded cash; captured taxing power is not a treasury balance, collection, or service.",
+        "Capture date is an observed constitutional baseline, not an independently proved amendment-validity interval. CTO source approval and complete applicable-condition validation remain required."
+      ]
     }
   ],
   "schemaVersion": 1,
@@ -1504,6 +1564,74 @@
         "No money shall be drawn out of the Treasury, unless first appropriated by act of legislation."
       ],
       "excerptSha256": "d87758a5e9d555e34d25a4c3a93dff04bcc7ee97bc45a88a5646504e22313b5b",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-VA",
+      "sourceArtifactId": "va-article-x-expanded",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-06/raw/va-article-x-expanded.html",
+      "parentSha256": "e721000bef5d1e00857c9fdbad0f7f446fe36c3fa59a178581cfacbc4df75eb0",
+      "mediaType": "text/html; charset=utf-8",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 62362,
+        "retrievedAt": "2026-10-02T11:50:26.669320+00:00",
+        "url": "https://law.lis.virginia.gov/constitutionexpand/article10/"
+      },
+      "citations": ["Va. Const. art. X, §§1,4,5,6,7"],
+      "legalTextQuotes": [
+        "The General Assembly may define and classify taxable subjects.",
+        "The General Assembly, in imposing a franchise tax upon corporations, may in its discretion make the same in lieu of taxes upon other property, in whole or in part, of such corporations.",
+        "All taxes, licenses, and other revenues of the Commonwealth shall be collected by its proper officers and paid into the State treasury."
+      ],
+      "excerptSha256": "cdedfd90f7a6ab87cc112420f5fdcd6e4df9838192228ce616cd041be4dd0ad9",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-PA",
+      "sourceArtifactId": "pa-constitution",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-06/raw/pa-constitution.html",
+      "parentSha256": "74fb8ee7da5d9ffb8fa52f2e9d44b0b8e29bbea4ac3b58902e4a86efd4e93b12",
+      "mediaType": "text/html",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 753918,
+        "retrievedAt": "2026-10-02T11:50:27.673136+00:00",
+        "url": "https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/00/00.HTM"
+      },
+      "citations": [
+        "Pa. Const. art. II, §1; art. III, §§10,11,24; art. VIII, §§1,2,12–14"
+      ],
+      "legalTextQuotes": [
+        "The legislative power of this Commonwealth shall be vested in a General Assembly, which shall consist of a Senate and a House of Representatives.",
+        "All taxes shall be uniform, upon the same class of subjects, within the territorial limits of the authority levying the tax, and shall be levied and collected under general laws.",
+        "All bills for raising revenue shall originate in the House of Representatives, but the Senate may propose amendments as in other bills.",
+        "Operating budget appropriations made by the General Assembly shall not exceed the actual and estimated revenues and surplus available in the same fiscal year."
+      ],
+      "excerptSha256": "9636cb41c236ec32054a1a625e5556da1a8b56b3f9acd05e29cb84f4ddc46e52",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-UT",
+      "sourceArtifactId": "ut-article-xiii-full",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-06/raw/ut-article-xiii-full.pdf",
+      "parentSha256": "a3cc0c9bcd206946eea7ea7c6f82059782f352fe0ed93bc9be84835216d75e07",
+      "mediaType": "application/pdf",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 13369,
+        "retrievedAt": "2026-10-02T11:51:22.769239+00:00",
+        "url": "https://le.utah.gov/xcode/ArticleXIII/UC_AXIII_1800010118000101.pdf"
+      },
+      "citations": ["Utah Const. art. XIII, §§2–5"],
+      "legalTextQuotes": [
+        "Nothing in this Constitution may be construed to prevent the Legislature from providing by statute for taxes other than the property tax and for deductions, exemptions, and offsets from those other taxes.",
+        "The Legislature shall provide by statute for an annual tax sufficient, with other revenues, to defray the estimated ordinary expenses of the State for each fiscal year."
+      ],
+      "excerptSha256": "aa0578aceec6926e00c85d3f4eea65134d6a1c1021e9332aa0d8638416c937ba",
       "sourceApproval": "CTO REVIEW REQUIRED",
       "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
     }

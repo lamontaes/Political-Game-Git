@@ -6,6 +6,7 @@ import secondPacket from "../../docs/codex/effect-batches/team-6/tax-powers-49/b
 import thirdPacket from "../../docs/codex/effect-batches/team-6/tax-powers-49/batch-03/proposed.json" with { type: "json" };
 import fourthPacket from "../../docs/codex/effect-batches/team-6/tax-powers-49/batch-04/proposed.json" with { type: "json" };
 import fifthPacket from "../../docs/codex/effect-batches/team-6/tax-powers-49/batch-05/proposed.json" with { type: "json" };
+import sixthPacket from "../../docs/codex/effect-batches/team-6/tax-powers-49/batch-06/proposed.json" with { type: "json" };
 import projection from "./tax-powers.generated.json" with { type: "json" };
 import { normalizeRetrievedText } from "../source/core/parse/html-text";
 import { ARTICLE_V_STATE_KEYS } from "../simulation/constitutional-process";
@@ -73,6 +74,7 @@ describe("sourced state tax powers", () => {
       thirdPacket,
       fourthPacket,
       fifthPacket,
+      sixthPacket,
     ];
     expect(
       projection.powers.filter(
