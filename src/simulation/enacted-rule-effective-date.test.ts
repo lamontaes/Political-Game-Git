@@ -14,6 +14,7 @@ import { addDays } from "./dates";
 import { introduceMeasure } from "./legislation";
 import { legislativePackForJurisdiction } from "./legislative-institutions";
 import { operativeDateForEnactment } from "./legislative-effective-date";
+import { enactmentOperative, lawInForce } from "./governing/law-in-force";
 import {
   enactedRuleChanges,
   enactedRuleChangeAt,
@@ -54,6 +55,13 @@ function fixture(
   if (!holder)
     throw new Error("Missing saved governor for date-reader fixture");
   world = { ...world, control: { kind: "person", personId: holder } };
+  const proposition = Object.values(world.policyCatalog.propositions).find(
+    (row) =>
+      row.stableKey ===
+      "us-policy-positions:labor-workforce.raise-minimum-wage",
+  );
+  if (!proposition)
+    throw new Error("Missing saved date-reader policy question");
   const chamber = chamberByKey(pack, pack.chamberOrder[0]!);
   world = introduceMeasure(world, {
     stableKey: "date-reader:bill",
@@ -66,6 +74,8 @@ function fixture(
     subjectClass: "general-policy",
     sponsorPersonId: null,
     originChamberKey: chamber.chamberKey,
+    propositionIds: [proposition.id],
+    propositionAnswers: [{ propositionId: proposition.id, answer: "yes" }],
   });
   const measure = world.history.legislativeMeasures!.at(-1)!;
   const officeKey = `${pack.packId}:${chamber.chamberKey}`;
@@ -137,7 +147,13 @@ function fixture(
       ),
     },
   };
-  return { world, enactment, officeKey };
+  return {
+    world,
+    enactment,
+    officeKey,
+    jurisdictionId: jurisdiction.id,
+    propositionId: proposition.id,
+  };
 }
 
 describe("institutional rule changes share the saved enactment date", () => {
@@ -147,18 +163,50 @@ describe("institutional rule changes share the saved enactment date", () => {
       expect(CHIEF_EXECUTIVE_JURISDICTIONS).toHaveLength(56);
       expect(places).toHaveLength(5);
       for (const days of [0, 11]) {
-        const { world, enactment, officeKey } = fixture(key, pack, {
-          effectiveDateBasis: "game-default",
-          effectiveDateGameProfile: {
-            version: "authored-reader-profile/v1",
-            days,
-          },
-        });
+        const { world, enactment, officeKey, jurisdictionId, propositionId } =
+          fixture(key, pack, {
+            effectiveDateBasis: "game-default",
+            effectiveDateGameProfile: {
+              version: "authored-reader-profile/v1",
+              days,
+            },
+          });
         const canonical = operativeDateForEnactment(
           enactment,
           key,
           enactmentStatuteDateContext(world, enactment),
         )!;
+        const measure = world.history.legislativeMeasures!.find(
+          (row) => row.id === enactment.measureId,
+        )!;
+        expect(enactmentOperative(world, measure, enactment)).toEqual({
+          operativeAt: canonical.date,
+          operativeBasis: canonical.basis,
+        });
+        expect(
+          lawInForce(
+            world,
+            jurisdictionId,
+            propositionId,
+            canonical.date,
+            "enacted-only",
+          ),
+        ).toMatchObject({
+          measureId: measure.id,
+          answer: "yes",
+          operativeAt: canonical.date,
+          operativeBasis: canonical.basis,
+        });
+        if (days > 0)
+          expect(
+            lawInForce(
+              world,
+              jurisdictionId,
+              propositionId,
+              addDays(canonical.date, -1),
+              "enacted-only",
+            ),
+          ).toBeNull();
         expect(enactedRuleChanges(world)).toHaveLength(1);
         expect(enactedRuleChanges(world)[0]).toMatchObject({
           operativeAt: canonical.date,
@@ -182,6 +230,27 @@ describe("institutional rule changes share the saved enactment date", () => {
           })?.value,
         ).toBe(3);
         const saved = serializeWorld(world);
+        const resumed = deserializeWorld(saved);
+        expect(enactmentOperative(resumed, measure, enactment)).toEqual(
+          enactmentOperative(world, measure, enactment),
+        );
+        expect(
+          lawInForce(
+            resumed,
+            jurisdictionId,
+            propositionId,
+            canonical.date,
+            "enacted-only",
+          ),
+        ).toEqual(
+          lawInForce(
+            world,
+            jurisdictionId,
+            propositionId,
+            canonical.date,
+            "enacted-only",
+          ),
+        );
         expect(enactedRuleChanges(deserializeWorld(saved))).toEqual(
           enactedRuleChanges(world),
         );
@@ -197,6 +266,18 @@ describe("institutional rule changes share the saved enactment date", () => {
         operativeAt: explicit.enactment.effectiveAt,
         operativeBasis: "enacted-date",
       });
+      expect(
+        enactmentOperative(
+          explicit.world,
+          explicit.world.history.legislativeMeasures!.find(
+            (row) => row.id === explicit.enactment.measureId,
+          )!,
+          explicit.enactment,
+        ),
+      ).toEqual({
+        operativeAt: explicit.enactment.effectiveAt,
+        operativeBasis: "enacted-date",
+      });
       const unresolved = fixture(key, pack, {
         effectiveDateBasis: "source-default",
       });
@@ -207,13 +288,40 @@ describe("institutional rule changes share the saved enactment date", () => {
           enactmentStatuteDateContext(unresolved.world, unresolved.enactment),
         ),
       ).toBeNull();
+      expect(
+        lawInForce(
+          unresolved.world,
+          unresolved.jurisdictionId,
+          unresolved.propositionId,
+          addDays(unresolved.enactment.resolvedAt, 366),
+          "enacted-only",
+        ),
+      ).toBeNull();
       expect(enactedRuleChanges(unresolved.world)).toEqual([]);
+      expect(
+        enactmentOperative(
+          unresolved.world,
+          unresolved.world.history.legislativeMeasures!.find(
+            (row) => row.id === unresolved.enactment.measureId,
+          )!,
+          unresolved.enactment,
+        ),
+      ).toBeNull();
       const malformed = fixture(key, pack, {
         effectiveDateGameProfile: { version: "", days: -1 },
       });
       expect(() => enactedRuleChanges(malformed.world)).toThrow(
         "invalid effective-date game profile",
       );
+      expect(() =>
+        enactmentOperative(
+          malformed.world,
+          malformed.world.history.legislativeMeasures!.find(
+            (row) => row.id === malformed.enactment.measureId,
+          )!,
+          malformed.enactment,
+        ),
+      ).toThrow("invalid effective-date game profile");
       console.info(
         "[a83-rule-change-date]",
         JSON.stringify({
