@@ -268,6 +268,9 @@ function endFlow(world: World, flow: ResourceFlow, reason: string): World {
   });
 }
 
+const HOUSEHOLD_MOVE_REASON =
+  "Household moved; outside-seller spending follows its current place prospectively.";
+
 function prepareHouseholdCosts(
   world: World,
   personId: EntityId,
@@ -293,21 +296,35 @@ function prepareHouseholdCosts(
   }
   const jurisdictionId = estimate.jurisdictionId;
   const fallbackPrefix = `${householdFlowKey(estimate.householdId)}:`;
-  const fallbackKey = `${fallbackPrefix}${jurisdictionId}`;
+  const baseKey = `${fallbackPrefix}${jurisdictionId}`;
+  const householdFlows = resourceFlowsTouching(next, {
+    kind: "household",
+    householdId: estimate.householdId,
+  });
+  const firstVisit = householdFlows.find((flow) => flow.stableKey === baseKey);
+  const firstTerms = firstVisit && resourceFlowTermsAt(next, firstVisit.id);
+  const residence = householdLocationAt(next, estimate.householdId);
+  // Returning to a place opens a new contract for the recorded residence,
+  // while its existing outside-seller account and ended bill stay intact.
+  // An explicitly ended bill is never revived by initializing the same visit.
+  const fallbackKey =
+    firstVisit &&
+    firstTerms?.status === "ended" &&
+    firstTerms.reason === HOUSEHOLD_MOVE_REASON &&
+    residence &&
+    residence.sequence > firstVisit.sequence &&
+    residence.effectiveAt >= firstVisit.startsAt
+      ? `${baseKey}:residence:${residence.id}`
+      : baseKey;
   for (const flow of householdBills(next, personId))
     if (
       flow.stableKey.startsWith(fallbackPrefix) &&
       flow.stableKey !== fallbackKey
     )
-      next = endFlow(
-        next,
-        flow,
-        "Household moved; outside-seller spending follows its current place prospectively.",
-      );
-  const existing = resourceFlowsTouching(next, {
-    kind: "household",
-    householdId: estimate.householdId,
-  }).find((flow) => flow.stableKey === fallbackKey);
+      next = endFlow(next, flow, HOUSEHOLD_MOVE_REASON);
+  const existing = householdFlows.find(
+    (flow) => flow.stableKey === fallbackKey,
+  );
   const providers = householdBills(next, personId).filter(
     (flow) =>
       !flow.stableKey.startsWith(fallbackPrefix) &&

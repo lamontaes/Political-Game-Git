@@ -671,6 +671,91 @@ describe.each(places)(
       expect(settleLivingCosts(reopened, fixture.small.personId)).toBe(
         reopened,
       );
+      const returnedOn = makeIsoDate("2026-03-02");
+      world = {
+        ...reopened,
+        currentDate: returnedOn,
+        currentMoment: simulationMomentOnLocalDate(
+          reopened.currentMoment,
+          returnedOn,
+        ),
+      };
+      world = recordHouseholdLocation(world, {
+        stableKey: "a52-small:return-location",
+        householdId: fixture.householdId,
+        effectiveAt: returnedOn,
+        jurisdictionId: fixture.small.jurisdictionId,
+        label: fixture.small.place.context.jurisdiction.name,
+        kind: "residence:ordinary",
+        provenance,
+        supersedesLocationId: world.history.householdLocations.at(-1)!.id,
+      });
+      const earlierReceipts = world.history.resourceTransferOutcomes;
+      world = initializeLivingCostsFlow(world, fixture.small.personId);
+      const returned = livingCostsFlowFor(world, fixture.small.personId)!;
+      expect(returned.id).not.toBe(first.id);
+      expect(returned.recipient).toEqual(first.recipient);
+      expect(resourceFlowTermsAt(world, first.id)!.status).toBe("ended");
+      expect(resourceFlowTermsAt(world, second.id)!.status).toBe("ended");
+      expect(resourceFlowTermsAt(world, returned.id)!.status).toBe("active");
+      expect(
+        world.history.organizations.filter((row) =>
+          row.stableKey.startsWith("living-costs:outside-sellers:"),
+        ),
+      ).toHaveLength(2);
+      expect(
+        world.history.resourcePositions.filter((row) =>
+          sameEndpoint(row.owner, first.recipient),
+        ),
+      ).toHaveLength(1);
+      expect(world.history.resourceTransferOutcomes).toEqual(earlierReceipts);
+      const returnedDue = makeIsoDate("2026-04-01");
+      world = {
+        ...world,
+        currentDate: returnedDue,
+        currentMoment: simulationMomentOnLocalDate(
+          world.currentMoment,
+          returnedDue,
+        ),
+      };
+      world = settleLivingCosts(
+        deserializeWorld(serializeWorld(world)),
+        fixture.small.personId,
+      );
+      expect(
+        world.history.resourceTransferOutcomes.at(-1)!.resourceFlowId,
+      ).toBe(returned.id);
+      expect(world.history.resourceTransferOutcomes.at(-1)!.status).toBe(
+        "completed",
+      );
+      expect(world.history.resourceTransferOutcomes.slice(0, -1)).toEqual(
+        earlierReceipts,
+      );
+      const householdCash = resourcePositionAt(
+        world,
+        fixture.owner,
+        money(0, "USD").currency,
+      )!.liquidBalance.minorUnits;
+      const originalSellerCash = resourcePositionAt(
+        world,
+        first.recipient,
+        money(0, "USD").currency,
+      )!.liquidBalance.minorUnits;
+      const destinationSellerCash = resourcePositionAt(
+        world,
+        second.recipient,
+        money(0, "USD").currency,
+      )!.liquidBalance.minorUnits;
+      expect(householdCash + originalSellerCash + destinationSellerCash).toBe(
+        opening,
+      );
+      const returnedReload = deserializeWorld(serializeWorld(world));
+      expect(
+        initializeLivingCostsFlow(returnedReload, fixture.small.personId),
+      ).toBe(returnedReload);
+      expect(settleLivingCosts(returnedReload, fixture.small.personId)).toBe(
+        returnedReload,
+      );
     });
 
     it(`excludes a recorded category invoice from the outside-sellers estimate (seed ${seed})`, () => {
