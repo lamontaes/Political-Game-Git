@@ -2,6 +2,7 @@ import { fixtureMeetsRecordedCandidacyAge } from "../../../tests/fixtures/candid
 import { describe, expect, it } from "vitest";
 import { namedSeatForFixture } from "../../../tests/fixtures/campaign-fixture";
 import { recordPersonDeath } from "../vitality";
+import { ensureTaxPublicAccount } from "../tax-policy";
 
 import {
   addDays,
@@ -446,7 +447,11 @@ describe("PRESS46 true hidden misuse", () => {
 });
 
 describe("PRESS46 established finding, leak and ground rules", () => {
-  const fixture = pressFixture("press46-finding", 1);
+  const opening = pressFixture("press46-finding", 1);
+  const fixture = {
+    ...opening,
+    world: ensureTaxPublicAccount(opening.world, KY),
+  };
   const misused = spendCampaignFundsPersonally(fixture.world, {
     stableKey: "press46-test:finding-misuse",
     amountMinorUnits: 2_500,

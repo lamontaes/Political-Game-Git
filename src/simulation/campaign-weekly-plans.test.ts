@@ -883,17 +883,36 @@ describe("weekly campaign plans", { timeout: 900_000 }, () => {
     );
   });
 
-  it("releases an earlier week's sessions with a recorded reason when the clock jumped past them", () => {
+  it("releases an earlier week's sessions with a recorded reason after an observer's clock advance", () => {
     const filed = fundedCampaign("weekly-jumped");
     const planned = planWeek(filed);
     const first = planned.history.campaignWeeklyPlans!.at(-1)!;
     const moneyBefore = treasury(filed, planned);
-    // A date-level jump (the fixture clock) steps over confirmed holds.
-    const jumped = advanceWorld(
+    // The canonical player clock protects confirmed campaign commitments.
+    const blocked = advanceWorld(
       planned,
       8,
       createCampaignElectionTransitionRegistry(),
     );
+    expect(blocked.currentMoment).toEqual(
+      scheduledActivityState(
+        planned,
+        campaignActionById(planned, first.scheduledActionIds[0]!)!
+          .scheduledActivityId,
+      ).start,
+    );
+    expect(
+      projectCampaignWeek(blocked, filed.personId)!.committed,
+    ).not.toBeNull();
+    // Observer time can lawfully pass an uncontrolled person's sessions.
+    // Restore control afterward to exercise the elapsed-week cleanup reader.
+    const elapsed = advanceWorld(
+      { ...planned, control: { kind: "observer" } },
+      8,
+      createCampaignElectionTransitionRegistry(),
+    );
+    expect(elapsed.currentDate).toBe(addDays(planned.currentDate, 8));
+    const jumped: World = { ...elapsed, control: planned.control };
     const view = projectCampaignWeek(jumped, filed.personId)!;
     expect(view.committed).toBeNull();
     expect(
