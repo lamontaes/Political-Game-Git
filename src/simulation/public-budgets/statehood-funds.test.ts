@@ -1,3 +1,5 @@
+import { drawRandomPlace } from "../../../tests/support/random-place";
+import { createExplicitGeographyLife } from "../../presentation/new-game-geography";
 import { describe, expect, it } from "vitest";
 import { addDays, makeIsoDate } from "../dates";
 import {
@@ -21,7 +23,10 @@ import {
 } from ".";
 import { firstOfNextMonth } from "./fiscal";
 import { settleGovernmentMonth, type MonthFlows } from "./month";
-import { statehoodFederalAidLoss } from "./statehood-funds";
+import {
+  decideStatehoodCertification,
+  statehoodFederalAidLoss,
+} from "./statehood-funds";
 
 /*
  * Statehood changes no federal payment when the place is admitted. The new
@@ -209,4 +214,42 @@ describe("statehood and the state's federal aid", () => {
       false,
     );
   });
+});
+
+it("certifies the recorded admitted government, not all budgets with its level", () => {
+  const world = worldWith("2026-03-01");
+  // Explicit recipient control: cash capacity comes from the existing sourced loss.
+  const government = {
+    key: PLACE_KEY,
+    level: "city",
+    years: [],
+    balance: statehoodFederalAidLoss(),
+    reserve: 0,
+  } as unknown as PublicBudgetGovernment;
+  const date = makeIsoDate("2027-10-01");
+  const expected = decideStatehoodCertification(world, government, date);
+  expect(expected).not.toBeNull();
+  expect(
+    decideStatehoodCertification(world, { ...government, level: "city" }, date),
+  ).toEqual(expected);
+  expect(
+    decideStatehoodCertification(
+      world,
+      { ...government, key: "city:fixture", level: "city" },
+      date,
+    ),
+  ).toBeNull();
+});
+
+it("opens a new game in a random recorded place before A51 READY", () => {
+  const seed = "a51-recorded-budget-scope-2026-10-02";
+  const place = drawRandomPlace(seed);
+  console.info("A51 random-place opening", {
+    seed,
+    placeKey: place.key,
+    placeName: place.displayName,
+  });
+  const opened = createExplicitGeographyLife({ placeKey: place.key, seed });
+  expect(opened.game.place.key).toBe(place.key);
+  expect(opened.game.world.people[opened.game.playerPersonId]).toBeDefined();
 });
