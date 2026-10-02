@@ -1,3 +1,4 @@
+import type { PublicGovernmentIdentityCarrier } from "../public-government-identity";
 import type {
   LawEffectStamp,
   LawEffectStampedRecord,
@@ -9,7 +10,13 @@ import {
   FEDERAL_OUTLAYS,
   type FederalTreasury,
 } from "./federal-treasury";
-import type { StatehoodCertification } from "./statehood-funds";
+/** Old saved decisions remain readable; this shape authorizes no new payments. */
+export interface StatehoodCertification {
+  readonly decidedOn: IsoDate;
+  readonly certified: boolean;
+  readonly changeStartsOn: IsoDate | null;
+  readonly reason: string;
+}
 
 /** Historical attribution bytes remain readable; they are never new invoices. */
 export interface GovernmentLawCostAttribution {
@@ -212,9 +219,8 @@ export interface AdoptedBudget {
    */
   readonly townSalesAtAdoption?: number | null;
   /**
-   * A place admitted as a state: what its government decided about
-   * certifying to the President when it adopted this budget, and why
-   * (`statehood-funds.ts`). Absent: nothing to decide.
+   * Historical compatibility only. The retired forecast wrote these bytes;
+   * they do not certify admission, set matching terms, or authorize payments.
    */
   readonly statehoodCertification?: StatehoodCertification;
 }
@@ -303,7 +309,7 @@ export interface PensionRecord {
   readonly paidShare: number;
 }
 
-export interface PublicBudgetGovernment {
+export interface PublicBudgetGovernment extends PublicGovernmentIdentityCarrier {
   /** `US-IL`, `county:17031` or `place:1714000`. */
   readonly key: string;
   readonly jurisdictionId: EntityId;

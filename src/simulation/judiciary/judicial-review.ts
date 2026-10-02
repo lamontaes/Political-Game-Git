@@ -6,7 +6,8 @@
  *
  * A state or local law that answers a catalog question the way laws that
  * were really challenged did (`judicial-review-precedents-2026.json`) is
- * reviewed the day before it takes effect, when courts in the record ruled on
+ * eligible for review only after an affected claimant records a filing. The
+ * existing earliest review date is the day before it takes effect, when courts ruled on
  * such challenges (NetChoice v. Yost: the Ohio act took effect January 15,
  * 2024, and was blocked January 9). Each seated justice of the reviewing
  * court decides through the shared decision evaluator, with no roll, from:
@@ -33,6 +34,8 @@
  */
 import precedents from "../../../data/research/laws/judicial-review-precedents-2026.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../dates";
+import { eventById } from "../event-index";
+import { isLawEffectStamp } from "../law-effect-stamp";
 import { evaluateDecision } from "../decisions";
 import {
   enactmentOperative,
@@ -44,12 +47,17 @@ import {
   principleAnswersConsideration,
 } from "../governing/officeholder-principles";
 import { mayAnswerQuestion } from "../governing/question-authority";
-import { hasStableKey } from "../history-index";
+import {
+  hasStableKey,
+  recordById,
+  recordsWithFieldValue,
+} from "../history-index";
 import { currentHistoricalCutoff } from "../queries";
 import type {
   DecisionConsideration,
   DecisionImportance,
   EntityId,
+  HistoricalEvent,
   IsoDate,
   LegislativeEnactmentRecord,
   LegislativeMeasureRecord,
@@ -62,9 +70,161 @@ import { courtFor } from "./court-for";
 import type { JudicialCourt } from "./types";
 
 export const JUDICIAL_REVIEW_EVENT = "court.judicial-review";
+export const JUDICIAL_CHALLENGE_EVENT = "court.judicial-challenge";
 export const JUDICIAL_REVIEW_DECISION = "judicial:review-vote";
 export const LAW_STANDS = "law:stands";
 export const LAW_STRUCK = "law:struck";
+
+interface JudicialChallengeInput {
+  readonly stableKey: string;
+  readonly measureId: EntityId;
+  readonly propositionId: EntityId;
+  readonly claimantPersonId: EntityId;
+  readonly harmRecordId: EntityId;
+  /** The claimant's complaint about the saved consequence, not a court finding. */
+  readonly complaint: string;
+}
+
+function hasRecordedConsequence(
+  world: World,
+  input: JudicialChallengeInput,
+  onDate: IsoDate,
+): boolean {
+  const proposition = world.policyCatalog.propositions[input.propositionId];
+  if (!proposition || !world.people[input.claimantPersonId]) return false;
+  const event = eventById(world, input.harmRecordId);
+  const consequence = recordById(
+    world.history.legalOutcomeConsequences ?? [],
+    input.harmRecordId,
+  );
+  const namesClaimant = event
+    ? event.participants.some(
+        (person) =>
+          person.personId === input.claimantPersonId &&
+          person.role.startsWith("focus:"),
+      )
+    : consequence?.subjectPersonId === input.claimantPersonId;
+  if (!namesClaimant) return false;
+  const recordedAt = event?.recordedAt ?? consequence?.recordedAt;
+  if (!recordedAt || recordedAt > onDate) return false;
+  return (event?.lawEffectStamps ?? consequence?.lawEffectStamps ?? []).some(
+    (stamp) =>
+      isLawEffectStamp(stamp) &&
+      stamp.source === "enacted" &&
+      stamp.governingLawKey === input.measureId &&
+      stamp.questionKey === proposition.stableKey &&
+      stamp.appliedAt <= onDate,
+  );
+}
+
+/** File against an actual saved personal consequence, in the saved reviewing court. */
+export function fileJudicialChallenge(
+  world: World,
+  input: JudicialChallengeInput,
+): World {
+  if (hasStableKey(world.history.events, input.stableKey)) return world;
+  const measure = recordById(
+    world.history.legislativeMeasures ?? [],
+    input.measureId,
+  );
+  const court = measure && reviewingCourt(world, measure.jurisdictionId);
+  if (
+    !measure ||
+    !court ||
+    !input.complaint.trim() ||
+    !(measure.propositionIds ?? []).includes(input.propositionId) ||
+    !recordsWithFieldValue(
+      world.history.legislativeEnactments ?? [],
+      "measureId",
+      measure.id,
+    ).some(
+      (entry) =>
+        entry.outcome === "enacted" && entry.resolvedAt <= world.currentDate,
+    ) ||
+    !hasRecordedConsequence(world, input, world.currentDate)
+  )
+    return world;
+  const filed = recordWorldEvent(world, {
+    stableKey: input.stableKey,
+    type: JUDICIAL_CHALLENGE_EVENT,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: measure.jurisdictionId,
+    involvedEntityIds: [input.claimantPersonId],
+    participants: [
+      {
+        personId: input.claimantPersonId,
+        role: "focus:claimant",
+        detail: input.complaint,
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      `measure:${measure.id}`,
+      `proposition:${input.propositionId}`,
+      `court:${court.courtId}`,
+      `harm-record:${input.harmRecordId}`,
+    ],
+    summary: `A claimant filed a challenge to ${measure.designation} in the ${court.name}: ${input.complaint}`,
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  // Filing is a saved activity: do not wait for a later clock boundary that
+  // would already have passed this filing's date.
+  return applyJudicialReview(addDays(world.currentDate, -1), filed);
+}
+
+function filedChallenge(
+  world: World,
+  measure: LegislativeMeasureRecord,
+  propositionId: EntityId,
+): HistoricalEvent | null {
+  const court = reviewingCourt(world, measure.jurisdictionId);
+  if (!court) return null;
+  for (const filing of recordsWithFieldValue(
+    world.history.events,
+    "type",
+    JUDICIAL_CHALLENGE_EVENT,
+  )) {
+    if (
+      filing.jurisdictionId !== measure.jurisdictionId ||
+      !filing.tags.includes(`measure:${measure.id}`) ||
+      !filing.tags.includes(`proposition:${propositionId}`) ||
+      !filing.tags.includes(`court:${court.courtId}`)
+    )
+      continue;
+    const claimant = filing.participants.find(
+      (person) => person.role === "focus:claimant",
+    );
+    const harmRecordId = filing.tags
+      .find((tag) => tag.startsWith("harm-record:"))
+      ?.slice("harm-record:".length) as EntityId | undefined;
+    if (!claimant || !claimant.detail?.trim() || !harmRecordId) continue;
+    if (
+      hasRecordedConsequence(
+        world,
+        {
+          stableKey: filing.stableKey,
+          measureId: measure.id,
+          propositionId,
+          claimantPersonId: claimant.personId,
+          harmRecordId,
+          complaint: claimant.detail,
+        },
+        filing.occurredAt,
+      )
+    )
+      return filing;
+  }
+  return null;
+}
 
 interface Ruling {
   readonly holding: "strike" | "uphold";
@@ -236,6 +396,7 @@ function reviewOne(
     readonly propositionId: EntityId;
     readonly reviewed: ReviewedQuestion;
     readonly ruledAt: IsoDate;
+    readonly challenge: HistoricalEvent;
   },
 ): World {
   const court = reviewingCourt(world, input.measure.jurisdictionId);
@@ -274,6 +435,7 @@ function reviewOne(
       `court:${court.courtId}`,
       `measure:${input.measure.id}`,
       `proposition:${input.propositionId}`,
+      `challenge:${input.challenge.id}`,
       `votes:${LAW_STRUCK}:${toStrike}`,
       `votes:${LAW_STANDS}:${votes.length - toStrike}`,
       struck ? "outcome:struck" : "outcome:upheld",
@@ -299,6 +461,7 @@ interface AwaitingReview {
   readonly reviewed: ReviewedQuestion;
   readonly operativeAt: IsoDate;
   readonly ruledAt: IsoDate;
+  readonly challenge: HistoricalEvent;
 }
 
 /**
@@ -310,6 +473,7 @@ const AWAITING = new WeakMap<
   readonly LegislativeEnactmentRecord[],
   {
     readonly measures: readonly LegislativeMeasureRecord[] | undefined;
+    readonly events: readonly HistoricalEvent[];
     readonly rows: readonly AwaitingReview[];
   }
 >();
@@ -318,7 +482,12 @@ function awaitingReview(world: World): readonly AwaitingReview[] {
   const enactments = world.history.legislativeEnactments ?? [];
   const measures = world.history.legislativeMeasures;
   const cached = AWAITING.get(enactments);
-  if (cached && cached.measures === measures) return cached.rows;
+  if (
+    cached &&
+    cached.measures === measures &&
+    cached.events === world.history.events
+  )
+    return cached.rows;
   const byKey = new Map(
     Object.values(world.policyCatalog?.propositions ?? {}).map((row) => [
       row.stableKey,
@@ -339,6 +508,8 @@ function awaitingReview(world: World): readonly AwaitingReview[] {
         enactment.sequence,
       ).find((row) => row.propositionId === propositionId)?.answer;
       if (answer !== reviewed.answer) continue;
+      const challenge = filedChallenge(world, measure, propositionId);
+      if (!challenge) continue;
       const operative = enactmentOperative(world, measure, enactment);
       if (!operative) continue;
       const { operativeAt } = operative;
@@ -349,7 +520,10 @@ function awaitingReview(world: World): readonly AwaitingReview[] {
         propositionId,
         reviewed,
         operativeAt,
-        ruledAt: eve < enactment.resolvedAt ? enactment.resolvedAt : eve,
+        ruledAt: [eve, enactment.resolvedAt, challenge.occurredAt]
+          .sort()
+          .at(-1)!,
+        challenge,
       });
     }
   }
@@ -359,13 +533,13 @@ function awaitingReview(world: World): readonly AwaitingReview[] {
       a.enactment.sequence - b.enactment.sequence ||
       a.propositionId.localeCompare(b.propositionId),
   );
-  AWAITING.set(enactments, { measures, rows });
+  AWAITING.set(enactments, { measures, events: world.history.events, rows });
   return rows;
 }
 
 /**
- * Called whenever the canonical clock moves: rules on each reviewable law
- * whose day before taking effect fell in the days just passed.
+ * Called on a saved filing and whenever the canonical clock moves. Only an
+ * actual filing with a saved personal consequence can admit a review.
  */
 export function applyJudicialReview(before: IsoDate, world: World): World {
   if (world.currentDate <= before || !world.judiciary?.seatTenures.length)

@@ -503,22 +503,7 @@ function findOpenings(world: World, bank: CentralBankState): CentralBankState {
   return { ...bank, seats, chair, openings };
 }
 
-/** The sitting governor who has served longest: their term ends first. */
-function longestServing(
-  bank: CentralBankState,
-  eligible: readonly EntityId[],
-): EntityId | null {
-  const allowed = new Set(eligible);
-  const seats = bank.seats
-    .flatMap((seat) => (seat && allowed.has(seat.personId) ? [seat] : []))
-    .sort(
-      (left, right) =>
-        left.termEnds.localeCompare(right.termEnds) ||
-        left.personId.localeCompare(right.personId),
-    );
-  return seats[0]?.personId ?? null;
-}
-
+/** Nominate only the person selected by the President’s recorded decision. */
 function nominate(
   world: World,
   bank: CentralBankState,
@@ -572,10 +557,9 @@ function nominate(
       ),
       eligible: (personId) => eligible.has(personId),
     });
-    const nomineeId =
-      choice?.personId ??
-      (opening.office === "chair" ? longestServing(working, sitting) : null);
-    if (!nomineeId) continue;
+    // An unselected appointment leaves this opening pending.
+    if (!choice) continue;
+    const nomineeId = choice.personId;
     if (choice)
       next = recordPassedOver(choice.world, {
         stableKey: key,

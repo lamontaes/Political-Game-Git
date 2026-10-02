@@ -1,3 +1,8 @@
+import {
+  ensureLocalGovernmentOrganization,
+  localGovernmentOrganizationKey,
+  placeLocalGovernmentUnits,
+} from "../nationwide-world/local-governments";
 /**
  * The jobs of the player's town.
  *
@@ -22,9 +27,10 @@
  *   state's total employment. Both come from the regional data in #701
  *   (`town-employment.generated.ts`).
  * - Which workplaces and job titles stand for each industry, how many
- *   outlets of each a town has, and the shares of students, retirees, parents
- *   at home and job seekers are GAME ASSUMPTIONS, marked below, until a
- *   researched occupation-by-industry table replaces them.
+ *   outlets of each a town has are GAME ASSUMPTIONS, marked below, until a
+ *   researched occupation-by-industry table replaces them. Labor matching
+ *   reads active jobs, enrollment and primary care records; it does not draw
+ *   unemployment or retirement from population shares.
  *
  * The rest of the town stays in the roster (`town-residents.ts`): a household
  * is given its jobs when it is written out, never before.
@@ -35,7 +41,13 @@ import { addDays, ageOnDate, makeIsoDate } from "../dates";
 import { createStableId } from "../ids";
 import { createOrganization, createWorkRelationships } from "../life";
 import type { CreateWorkRelationshipInput } from "../life";
-import { organizationClosingAt, organizationProfileAt } from "../life-queries";
+import {
+  activeCareResponsibilitiesAt,
+  activeEducationEnrollmentsAt,
+  activeWorkRelationshipsAt,
+  organizationClosingAt,
+  organizationProfileAt,
+} from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import {
   countyGeoidsForPlace,
@@ -391,6 +403,8 @@ export interface Workplace {
   readonly roles: readonly Role[];
   /** Hire into the town's existing organizations of this kind instead. */
   readonly existing?: OrganizationClassification;
+  /** A job in the recorded government itself, not a separately owned firm. */
+  readonly governmentOffice?: "municipal" | "county";
 }
 
 const role = (
@@ -769,6 +783,7 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
   },
   {
     key: "city-hall",
+    governmentOffice: "municipal",
     classification: "sector:local-government-office",
     kind: "employment:public-service",
     name: ({ town }) => `${town} City Hall`,
@@ -784,6 +799,7 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     // The clerk who keeps the county's records and takes filings. Only a
     // town inside a county with a county government has one.
     key: "county-clerk",
+    governmentOffice: "county",
     classification: "sector:local-government-office",
     kind: "employment:public-service",
     name: ({ county }) => `${county} Clerk's Office`,
@@ -1076,21 +1092,8 @@ export function townWorkplaceWeights(
 }
 
 /* -------------------------------------------------------------------------- */
-/* Labor status (GAME ASSUMPTION)                                              */
+/* Labor status from recorded circumstances                                   */
 /* -------------------------------------------------------------------------- */
-
-/**
- * GAME ASSUMPTION pending a researched labor-force table by age and household:
- * the shares of working-age residents who are not working. A student is 18 to
- * 24 and enrolled; retirement is from 62; a parent at home has a partner and a
- * child under six.
- */
-const NOT_WORKING = {
-  studentWithoutJob: 0.6,
-  retiredFrom62: 0.35,
-  parentAtHome: 0.15,
-  lookingForWork: 0.04,
-} as const;
 
 export type TownLaborStatus =
   "employed" | "student" | "retired" | "parent-at-home" | "looking-for-work";
@@ -1103,18 +1106,23 @@ export interface Resident {
 }
 
 export function laborStatus(world: World, resident: Resident): TownLaborStatus {
-  const rng = new SeededRng(world.seed).fork(
-    `${TOWN_EMPLOYMENT_VERSION}:status:${resident.personId}`,
-  );
-  const draw = rng.next();
-  if (resident.enrolled && resident.age <= 24)
-    return draw < NOT_WORKING.studentWithoutJob ? "student" : "employed";
-  if (resident.age >= 62 && draw < NOT_WORKING.retiredFrom62) return "retired";
-  if (resident.parentOfYoungChild && draw < NOT_WORKING.parentAtHome)
+  // A saved job takes precedence over enrollment or household composition.
+  if (activeWorkRelationshipsAt(world, resident.personId).length > 0)
+    return "employed";
+  if (activeEducationEnrollmentsAt(world, resident.personId).length > 0)
+    return "student";
+  if (
+    resident.parentOfYoungChild &&
+    activeCareResponsibilitiesAt(world, resident.personId).some(
+      ({ state }) => state.share === "primary",
+    )
+  )
     return "parent-at-home";
-  return rng.fork("looking").next() < NOT_WORKING.lookingForWork
-    ? "looking-for-work"
-    : "employed";
+  // Here employed means eligible for the existing job-matching path, not a
+  // claim that a job exists. The summary counts only actual active jobs and
+  // reports an unmatched candidate as looking for work. Age alone is not a
+  // retirement record, and a seed supplies no evidence of unemployment.
+  return "employed";
 }
 
 /* -------------------------------------------------------------------------- */
@@ -1218,8 +1226,8 @@ export function activeWorkers(world: World): ReadonlySet<EntityId> {
 /**
  * Fill the town's jobs for every working-age resident written out who has no
  * job and whose place in the labor force has not been decided. Idempotent:
- * a resident is decided by a pure draw from the world seed and their id, and
- * a job written once is never written again. The player is never given one.
+ * recorded enrollment and care circumstances determine matching eligibility,
+ * and a job written once is never written again. The player is never given one.
  */
 export function ensureTownEmployment(
   world: World,
@@ -1413,8 +1421,8 @@ export function fillTownJobs(
         kindOf.set(organization.id, match[1]!);
     }
     for (const workplace of TOWN_WORKPLACES)
-      if (workplace.existing)
-        for (const id of townOrganizationsOf(next, town, workplace.existing))
+      if (workplace.existing || workplace.governmentOffice)
+        for (const id of existingOf(workplace))
           if (!kindOf.has(id)) kindOf.set(id, workplace.key);
     const orgOf = new Map<EntityId, EntityId>();
     const pastKinds = new Map<EntityId, Set<string>>();
@@ -1512,13 +1520,37 @@ export function fillTownJobs(
   };
   const existing = new Map<string, readonly EntityId[]>();
   const existingOf = (workplace: Workplace) => {
-    if (!workplace.existing) return [];
+    if (!workplace.existing && !workplace.governmentOffice) return [];
     let found = existing.get(workplace.key);
     if (!found) {
       // A closed congregation or school hires nobody.
-      found = townOrganizationsOf(next, town, workplace.existing).filter(
-        (id) => !organizationClosingAt(next, id),
-      );
+      if (workplace.governmentOffice) {
+        const governments = placeLocalGovernmentUnits(
+          lifePlaceByJurisdictionId(town),
+        );
+        const units =
+          workplace.governmentOffice === "county"
+            ? governments.counties
+            : governments.municipal.length > 0
+              ? governments.municipal
+              : governments.townships;
+        // A place spanning governments does not silently assign a worker to
+        // the first county or invent a municipality where none is recorded.
+        if (units.length !== 1) return [];
+        const unit = units[0]!;
+        next = ensureLocalGovernmentOrganization(next, unit);
+        const organization = next.history.organizations.find(
+          (row) => row.stableKey === localGovernmentOrganizationKey(unit),
+        );
+        found =
+          organization && !organizationClosingAt(next, organization.id)
+            ? [organization.id]
+            : [];
+      } else {
+        found = townOrganizationsOf(next, town, workplace.existing!).filter(
+          (id) => !organizationClosingAt(next, id),
+        );
+      }
       existing.set(workplace.key, found);
     }
     return found;
@@ -1531,7 +1563,7 @@ export function fillTownJobs(
    */
   const employer = (workplace: Workplace): EntityId | null => {
     const already = existingOf(workplace);
-    if (workplace.existing)
+    if (workplace.existing || workplace.governmentOffice)
       return already.length > 0
         ? [...already].sort(
             (a, b) => staffAt(a) - staffAt(b) || a.localeCompare(b),

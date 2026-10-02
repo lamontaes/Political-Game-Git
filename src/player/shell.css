@@ -195,6 +195,7 @@
 }
 
 .pg-nav-date,
+.pg-nav-time,
 .pg-nav-place {
   font-size: 0.72rem;
   color: var(--pg-ivory-dim);
@@ -2957,19 +2958,4 @@
   display: grid;
   gap: 0.35rem;
   max-width: calc(100dvw - 2.3rem);
-}
-
-.pg-nav-current-clock {
-  margin: 0;
-  width: fit-content;
-  max-width: 100%;
-  padding: 0.4rem 0.65rem;
-  border: 1px solid var(--pg-hairline);
-  border-radius: var(--pg-radius);
-  background: var(--pg-paper);
-  color: var(--pg-ivory);
-  font-family: var(--pg-font-ui);
-  font-size: 0.9rem;
-  font-weight: 600;
-  line-height: 1.4;
 }

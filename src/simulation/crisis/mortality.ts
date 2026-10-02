@@ -41,7 +41,6 @@ import {
   seriousEpisodeOnsetStableKey,
 } from "./death-causes";
 import {
-  coverageHazardIntervals,
   ensureHealthCoveragePass,
   HEALTH_COVERAGE_KEY,
   type HazardInterval,
@@ -65,7 +64,7 @@ import {
  *
  * Each person carries a strain total that grows every day from recorded
  * causes only: their age (the SSA 2023 period life table's daily hazard is the
- * base rate), and the recorded health episodes and coverage that multiply it.
+ * base rate), and the recorded health episodes that multiply it.
  * A serious health episode begins on the day the total crosses one fixed
  * threshold, the same number for everyone, so people differ only by their
  * records. The episode then carries a number of remaining days
@@ -223,9 +222,6 @@ function personStrain(world: World, personId: EntityId): PersonStrain {
     end: index.endByEpisode.get(episode.id) ?? null,
     micros: episode.hazardMultiplierMicros,
   }));
-  const person = world.people[personId];
-  if (person && coverage.length > 0)
-    intervals.push(...coverageHazardIntervals(person.birthDate, coverage));
   const strain: PersonStrain = {
     multipliers: intervals.length > 0 ? multiplierTimeline(intervals) : [],
     conditions: episodes.map((episode) => ({
@@ -238,7 +234,7 @@ function personStrain(world: World, personId: EntityId): PersonStrain {
 }
 
 /**
- * Several active episodes (and coverage) multiply; an ended one stops
+ * Several active episodes multiply; an ended one stops
  * contributing on the day it ends.
  */
 function multiplierTimeline(

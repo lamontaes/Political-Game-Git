@@ -23,10 +23,8 @@ import {
   workRoleAt,
 } from "./life-queries";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
-import {
-  adultStartEmployer,
-  localBusinessWageMinor,
-} from "./recorded-employer";
+import { localBusinessWageMinor } from "./recorded-employer";
+import { recordedTownEmployer } from "./living-world/town-businesses";
 import { governmentUnit } from "./government-units";
 import { governmentUnitDisplayName } from "./nationwide-world/government-unit-names";
 import {
@@ -1738,7 +1736,7 @@ function payWeekly(
 
 /**
  * A grown-up new life arrives holding a job in their own town, at the local
- * business `adultStartEmployer` chooses from their own situation, rather
+ * business `recordedTownEmployer` chooses from their own situation, rather
  * than between jobs. It is an ordinary job of this market: paid each week,
  * raised by a minimum-wage law, and left like any other.
  *
@@ -1760,7 +1758,7 @@ export function hireAtAdultStart(
   if (!person || ageOnDate(person.birthDate, world.currentDate) < 19)
     return world;
   if (activeWorkRelationshipsAt(world, person.id).length > 0) return world;
-  const employer = adultStartEmployer(world, person.id, input.jurisdictionId);
+  const employer = recordedTownEmployer(world, person.id, input.jurisdictionId);
   if (!employer) return world;
   const lastEnded = world.history.workRelationships
     .filter((work) => work.personId === person.id)
@@ -1810,6 +1808,8 @@ export function hireAtAdultStart(
   const monthly = localBusinessWageMinor(
     employer.kind,
     input.jurisdictionId,
+    next,
+    work.id,
   ).monthlyMinor;
   const weekly = weeklyPayAtHire(
     next,

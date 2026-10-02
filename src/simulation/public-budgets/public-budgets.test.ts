@@ -34,6 +34,7 @@ import {
   decideShortfallOrder,
   lawSpendingForMonth,
   settleGovernmentMonth,
+  taxLawFactor,
   type MonthFlows,
 } from "./month";
 import {
@@ -55,7 +56,6 @@ import {
   DEFAULT_LOCAL_INTEREST_RATE,
   DEFAULT_STATE_INTEREST_RATE,
   SPENDING_QUESTION_EFFECTS,
-  TAX_QUESTION_EFFECTS,
 } from "./rules";
 
 // A controlled seated governor, for the decision tests that need one.
@@ -1137,14 +1137,10 @@ describe("public budgets", () => {
     );
   });
 
-  it("a state income tax law changes the income tax from the tax year it takes effect in, as paychecks do, and the next budgets count it once", () => {
-    // North Carolina began with a flat income tax by statute; a graduated
-    // one takes effect on March 1, 2026. Paychecks withhold under the law in
-    // force on January 1 of the tax year, so the budget collects the change
-    // from January 2027.
-    const graduated = TAX_QUESTION_EFFECTS.find((row) =>
-      row.questionKey.endsWith("graduated-income-tax"),
-    )!;
+  it("a graduated income tax answer does not manufacture a budget receipt without saved statutory payments", () => {
+    // This fixture records a law answer, but no wage bases or tax payments.
+    // Actual adopted terms and paid receipts are proved by the existing
+    // state-income-tax-law tests; a fiscal-note ratio supplies neither.
     const northCarolina = stateJurisdictionForKey("US-NC")!.id;
     const enacted = (jurisdictionId: EntityId) =>
       worldAt("2026-01-05", {
@@ -1163,46 +1159,44 @@ describe("public budgets", () => {
         },
       });
     const without = worldAt("2026-01-05");
-    const run = (world: World, jurisdictionId: EntityId) =>
-      settleAlone(
-        world,
-        publicBudgetFor(opened(world), jurisdictionId)!,
-        "2028-06-01",
-      ).government;
-    const lawful = run(enacted(northCarolina), northCarolina);
-    const flat = run(without, northCarolina);
-    const at = BUDGET_SOURCES.indexOf("individualIncomeTax");
-    const month = (government: PublicBudgetGovernment, on: string) =>
-      government.months.find((row) => row.month === on)!.revenue[at]!;
-    const size = 1 + graduated.toYes!;
-    expect(size).toBeCloseTo(1 + 3.4 / 22.7, 6);
-    // Nothing before the tax year it takes effect in; the full change from
-    // January on.
-    expect(month(lawful, "2026-03-01")).toBe(month(flat, "2026-03-01"));
-    expect(month(lawful, "2026-12-01")).toBe(month(flat, "2026-12-01"));
-    expect(month(lawful, "2027-01-01") / month(flat, "2027-01-01")).toBeCloseTo(
-      size,
-      4,
-    );
-    // Fiscal 2027 was adopted in July 2026 under the flat tax; fiscal 2028
-    // expects the change once, not compounded.
-    const expected = (fy: number) =>
-      lawful.years[fy]!.expectedRevenue[at]! /
-      flat.years[fy]!.expectedRevenue[at]!;
-    expect(expected(1)).toBeCloseTo(1, 6);
-    expect(expected(2)).toBeCloseTo(size, 3);
-    expect(month(lawful, "2028-03-01") / month(flat, "2028-03-01")).toBeCloseTo(
-      size,
-      3,
-    );
-    // Illinois's constitution requires one rate, so the same statute there
-    // changes nothing its budget collects.
-    const held = run(enacted(illinois), illinois);
-    const illinoisFlat = run(without, illinois);
-    expect(month(held, "2027-01-01")).toBe(month(illinoisFlat, "2027-01-01"));
+    for (const jurisdictionId of [northCarolina, illinois]) {
+      const government = publicBudgetFor(opened(without), jurisdictionId)!;
+      for (const on of [
+        "2026-03-01",
+        "2026-12-01",
+        "2027-01-01",
+        "2028-03-01",
+      ]) {
+        expect(
+          taxLawFactor(
+            enacted(jurisdictionId),
+            government,
+            "individualIncomeTax",
+            makeIsoDate(on),
+          ),
+        ).toBe(1);
+        expect(
+          taxLawFactor(
+            without,
+            government,
+            "individualIncomeTax",
+            makeIsoDate(on),
+          ),
+        ).toBe(1);
+      }
+      // No saved public account or collection exists in this forecast fixture.
+      // The canonical monthly writer refuses to manufacture a cash month.
+      const settled = settleGovernmentMonth(
+        enacted(jurisdictionId),
+        government,
+        makeIsoDate("2027-01-01"),
+        NO_FLOWS,
+      );
+      expect(settled.government).toBe(government);
+    }
   });
 
-  it("a state that repeals its income tax collects none from the next tax year, its next budget expects none, and a law restoring it collects again", () => {
+  it("the budget repeal factor follows the operative date and restoration preserves its opening level", () => {
     // Illinois began with an income tax. A repeal takes effect May 12, 2026;
     // a law restoring the tax takes effect June 1, 2027.
     const world = worldAt("2026-01-05", {
@@ -1231,34 +1225,32 @@ describe("public budgets", () => {
         ] as unknown as World["history"]["legislativeEnactments"],
       },
     });
-    const government = settleAlone(
-      world,
-      publicBudgetFor(opened(world), illinois)!,
-      "2028-06-01",
-    ).government;
-    const at = BUDGET_SOURCES.indexOf("individualIncomeTax");
-    const month = (on: string) =>
-      government.months.find((row) => row.month === on)!.revenue[at]!;
-    // Paychecks withhold until the tax year ends, so the budget collects
-    // until then too.
-    expect(month("2026-12-01")).toBeGreaterThan(0);
-    for (const on of ["2027-01-01", "2027-06-01", "2027-12-01"])
-      expect(month(on)).toBe(0);
-    // Fiscal 2028 was adopted in July 2027, while the repeal still governed
-    // the tax year: it expects none.
-    expect(government.years[2]!.expectedRevenue[at]).toBe(0);
-    // The restored tax collects from January 2028 at the level Illinois
-    // opened with (this test world records no economy to carry it by).
-    expect(month("2028-01-01")).toBe(
-      Math.round(government.years[0]!.expectedRevenue[at]! / 12),
-    );
-    // Other sources keep collecting throughout.
-    const sales = BUDGET_SOURCES.indexOf("generalSalesTax");
+    const government = publicBudgetFor(opened(world), illinois)!;
+    const factor = (on: string) =>
+      taxLawFactor(world, government, "individualIncomeTax", makeIsoDate(on));
+    expect(factor("2026-05-01")).toBe(1);
+    for (const on of ["2026-06-01", "2026-12-01", "2027-01-01"])
+      expect(factor(on)).toBe(0);
+    for (const on of ["2027-06-01", "2027-12-01", "2028-01-01"])
+      expect(factor(on)).toBe(1);
+    // Other source factors keep their existing behavior throughout.
     expect(
-      government.months.find((row) => row.month === "2027-01-01")!.revenue[
-        sales
-      ]!,
-    ).toBeGreaterThan(0);
+      taxLawFactor(
+        world,
+        government,
+        "generalSalesTax",
+        makeIsoDate("2027-01-01"),
+      ),
+    ).toBe(1);
+    // A restored answer alone cannot create a saved tax collection.
+    expect(
+      settleGovernmentMonth(
+        world,
+        government,
+        makeIsoDate("2027-06-01"),
+        NO_FLOWS,
+      ).government,
+    ).toBe(government);
   });
 
   it("a law raising or lowering the juvenile court age moves the state's corrections spending from the month it takes effect", () => {

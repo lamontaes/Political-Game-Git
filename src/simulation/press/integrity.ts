@@ -7,7 +7,6 @@ import {
   EVIDENCE_BEARINGS,
   LEAD_ROUTES,
   MATTER_RESPONSES,
-  MEDIA_ACTIVE_ASSIGNMENT_CAPACITY,
   MEDIA_BEATS,
   MEDIA_CADENCES,
   MEDIA_MEDIUMS,
@@ -26,7 +25,6 @@ import {
   mediaOutletKey,
   sourceTermsAttributable,
   sourceTermsPubliclyUsable,
-  type MediaOutletRecord,
   type PressRecord,
   type ReporterRoleRecord,
   type StoryDecision,
@@ -371,13 +369,37 @@ export function validatePressRecords(
             );
           }
           active.add(lead.id);
-          const outlet = byId.get(lead.outletId) as MediaOutletRecord;
+          const work = world.history.workItems.find(
+            (item) =>
+              item.focus.kind === "other" &&
+              item.focus.targetKey === "press.story-reporting" &&
+              item.focus.sourceEntityId === lead.id,
+          );
           if (
-            active.size > MEDIA_ACTIVE_ASSIGNMENT_CAPACITY[outlet.resourceTier]
+            !work &&
+            record.decision === "assigned" &&
+            record.reasonKey.startsWith("press:estimated-work:")
           ) {
             throw new Error(
-              `Outlet exceeds its authored assignment capacity: ${record.id}`,
+              `Estimated story assignment requires its reporting work: ${record.id}`,
             );
+          }
+          if (work) {
+            const initial = world.history.workItemStates.find(
+              (state) => state.workItemId === work.id,
+            );
+            if (
+              !work.effort ||
+              work.sequence >= record.sequence ||
+              !initial ||
+              initial.sequence >= record.sequence ||
+              record.reporterPersonId === null ||
+              !initial.assignedPersonIds.includes(record.reporterPersonId)
+            ) {
+              throw new Error(
+                `Story assignment lacks its earlier recorded reporting work: ${record.id}`,
+              );
+            }
           }
         } else {
           active.delete(lead.id);

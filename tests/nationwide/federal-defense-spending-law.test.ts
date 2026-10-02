@@ -2,25 +2,20 @@ import { describe, expect, it } from "vitest";
 
 import { addDays, makeIsoDate } from "../../src/simulation/dates";
 import {
-  DEFENSE_BUILD_UP_MAX_YEARS,
-  DEFENSE_BUILD_UP_YEARLY_RISE,
+  defenseBuildUpShare,
   defenseBoostPct,
   GROW_DEFENSE_SPENDING_QUESTION,
 } from "../../src/simulation/federal-defense-spending";
+import { createHistoryStore } from "../../src/simulation/history";
 import { stableHash } from "../../src/simulation/ids";
-import {
-  lifePlaceStateIdentities,
-  stateJurisdictionForKey,
-} from "../../src/simulation/life-places";
+import { lifePlaceStateIdentities } from "../../src/simulation/life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "../../src/simulation/national-election-geography";
 import {
-  drawnLinkSize,
   OUTCOME_LINKS,
   outcomeLinkStatus,
 } from "../../src/simulation/outcome-web";
 import {
   PLACE_OUTCOME_BASES,
-  placeOutcomeRecords,
   placeOutcomesForMonth,
 } from "../../src/simulation/outcome-web/place-outcomes";
 import { createProductionPolicyCatalog } from "../../src/simulation/production-catalog";
@@ -32,12 +27,7 @@ import type {
   World,
 } from "../../src/simulation";
 
-/**
- * A federal law that grows defense spending faster than inflation, watched in
- * a state drawn from all 56 places: earnings there rise as the contracts it
- * draws grow, stop growing at the longest run on record, and go back when a
- * later law ends the build-up.
- */
+/** Controlled adopted appropriations and saved spending; no state GDP or contracts are inferred. */
 
 const SEED = "federal-defense-spending";
 const POLICY = createProductionPolicyCatalog();
@@ -54,7 +44,6 @@ const PLACES = ALL_PLACES.filter(
 );
 const PLACE =
   PLACES[Number.parseInt(stableHash(SEED).slice(0, 8), 16) % PLACES.length]!;
-const STATE = stateJurisdictionForKey(PLACE.jurisdictionKey)!.id;
 
 function act(
   n: number,
@@ -100,35 +89,49 @@ function act(
 function worldWith(laws: readonly ReturnType<typeof act>[]): World {
   return {
     seed: SEED,
-    currentDate: makeIsoDate("2026-01-01"),
+    currentDate: makeIsoDate("2034-01-01"),
+    jurisdictions: {
+      [NATIONAL_ELECTION_JURISDICTION.id]: NATIONAL_ELECTION_JURISDICTION,
+    },
     policyCatalog: POLICY,
+    publicBudgets: {
+      federalGovernment: {
+        months: Array.from({ length: 12 }, (_, index) => ({
+          month: makeIsoDate(`2026-${String(index + 1).padStart(2, "0")}-01`),
+          spending: Array.from({ length: 13 }, (_, line) =>
+            line === 4 ? 100 : 0,
+          ),
+        })),
+      },
+    },
     history: {
+      ...createHistoryStore(),
+      nextSequence: 2000,
       legislativeMeasures: laws.map((law) => law.measure),
       legislativeEnactments: laws.map((law) => law.enactment),
+      legislativeProvisions: laws
+        .filter((law) => law.measure.propositionAnswers![0]!.answer === "yes")
+        .map((law) => ({
+          id: `${law.measure.id}:appropriation`,
+          sequence: law.enactment.sequence - 1,
+          measureId: law.measure.id,
+          recordedAt: law.enactment.resolvedAt,
+          supersedesProvisionId: null,
+          applicationScope: {
+            jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+            segmentKey: null,
+          },
+          lawTerms: [
+            {
+              questionKey: GROW_DEFENSE_SPENDING_QUESTION,
+              key: "appropriation",
+              unit: "dollars/year",
+              value: 2400,
+            },
+          ],
+        })),
     },
   } as unknown as World;
-}
-
-/** Monthly earnings records from January 2026 for `months` months. */
-function run(start: World, months: number): World {
-  let world = start;
-  let month = makeIsoDate("2026-01-01");
-  for (let index = 0; index < months; index += 1) {
-    world = {
-      ...world,
-      currentDate: month,
-      placeOutcomes: {
-        months: [
-          ...(world.placeOutcomes?.months ?? []),
-          { month, records: placeOutcomesForMonth(world, month, [EARNINGS]) },
-        ],
-      },
-    } as World;
-    const next = new Date(`${month}T00:00:00Z`);
-    next.setUTCMonth(next.getUTCMonth() + 1);
-    month = makeIsoDate(next.toISOString().slice(0, 10));
-  }
-  return world;
 }
 
 describe("a federal law that grows defense spending", () => {
@@ -141,10 +144,18 @@ describe("a federal law that grows defense spending", () => {
     expect(outcomeLinkStatus(link)).toBe("built");
   });
 
-  it("gives every one of the 56 places a boost that starts at zero and grows with the law", () => {
+  it("keeps the adopted share constant and does not manufacture a GDP boost in any of the 56 places", () => {
     expect(ALL_PLACES).toHaveLength(56);
-    const world = worldWith([act(1, "yes", makeIsoDate("2027-01-01"))]);
-    let biggest = { key: "", pct: 0 };
+    const world = worldWith([
+      act(1, "yes", makeIsoDate("2027-01-01")),
+      act(2, "no", makeIsoDate("2033-01-01")),
+    ]);
+    expect(defenseBuildUpShare(world, makeIsoDate("2027-01-01"))).toMatchObject(
+      { share: 1, unsupportedReason: null },
+    );
+    expect(defenseBuildUpShare(world, makeIsoDate("2032-01-01"))).toMatchObject(
+      { share: 1, unsupportedReason: null },
+    );
     for (const place of ALL_PLACES) {
       expect(
         defenseBoostPct(
@@ -154,61 +165,74 @@ describe("a federal law that grows defense spending", () => {
         ),
         place.jurisdictionKey,
       ).toBe(0);
-      const later = defenseBoostPct(
-        world,
+      expect(
+        defenseBoostPct(
+          world,
+          place.jurisdictionKey,
+          makeIsoDate("2027-01-01"),
+        ),
         place.jurisdictionKey,
-        makeIsoDate("2029-01-01"),
-      );
-      expect(later, place.jurisdictionKey).toBeGreaterThan(0);
-      if (later! > biggest.pct)
-        biggest = { key: place.jurisdictionKey, pct: later! };
+      ).toBeNull();
+      expect(
+        defenseBoostPct(
+          world,
+          place.jurisdictionKey,
+          makeIsoDate("2033-01-01"),
+        ),
+        place.jurisdictionKey,
+      ).toBe(0);
     }
-    // The places that draw the most contracts gain the most.
-    expect(["US-DC", "US-GU", "US-VA", "US-HI"]).toContain(biggest.key);
   });
 
-  it(`raises earnings in ${PLACE.name} (seed ${SEED}) as the contracts grow, stops at the longest run on record, and a later law brings them back`, () => {
-    const start = makeIsoDate("2027-01-01");
-    const end = makeIsoDate("2033-01-01");
-    const world = run(
-      worldWith([act(1, "yes", start), act(2, "no", end)]),
-      100,
-    );
-    const size = drawnLinkSize(world, link, STATE);
-    const records = placeOutcomeRecords(world).filter(
-      (record) =>
-        record.measure === EARNINGS &&
-        record.placeKey === PLACE.jurisdictionKey,
-    );
-    const at = (date: string) =>
-      records.find((record) => record.month >= makeIsoDate(date))!;
-    const cause = (date: string) =>
-      at(date).causes.find((entry) => entry.key === link.key);
-    const boost = (date: string) =>
-      defenseBoostPct(world, PLACE.jurisdictionKey, makeIsoDate(date));
+  it("refuses an incomplete saved defense year or missing adopted appropriation", () => {
+    const world = worldWith([act(1, "yes", makeIsoDate("2027-01-01"))]);
+    const incomplete = {
+      ...world,
+      publicBudgets: {
+        ...world.publicBudgets,
+        federalGovernment: {
+          ...world.publicBudgets!.federalGovernment!,
+          months: world.publicBudgets!.federalGovernment!.months.slice(1),
+        },
+      },
+    } as World;
+    const missing = {
+      ...world,
+      history: { ...world.history, legislativeProvisions: [] },
+    };
+    for (const unsupported of [incomplete, missing]) {
+      expect(
+        defenseBuildUpShare(unsupported, makeIsoDate("2027-01-01"))
+          .unsupportedReason,
+      ).not.toBeNull();
+      expect(
+        defenseBoostPct(
+          unsupported,
+          PLACE.jurisdictionKey,
+          makeIsoDate("2027-01-01"),
+        ),
+      ).toBeNull();
+    }
+  });
 
-    // Before the law takes effect nothing moves.
-    expect(cause("2026-12-01")).toBeUndefined();
-
-    // Two years in, earnings sit above where they would be without it, by
-    // the build-up's share of the state's output times the drawn size.
-    const twoYears = cause("2029-01-01")!;
-    expect(twoYears.factor).toBeCloseTo(
-      1 + size * boost(at("2029-01-01").month)!,
-      10,
-    );
-    expect(twoYears.factor).toBeGreaterThan(1);
-    expect(at("2029-01-01").multiplier).toBeGreaterThan(1);
-
-    // It keeps growing, up to the longest run on record and no further.
-    const later = cause("2030-06-01")!;
-    expect(later.factor).toBeGreaterThan(twoYears.factor);
-    const cap =
-      (1 + DEFENSE_BUILD_UP_YEARLY_RISE) ** DEFENSE_BUILD_UP_MAX_YEARS - 1;
-    expect(boost("2032-02-01")).toBeCloseTo(boost("2032-11-01") ?? 0, 10);
-    expect(cap).toBeGreaterThan(0.3);
-
-    // A law that ends the build-up brings earnings back the day it takes effect.
-    expect(cause("2033-02-01")).toBeUndefined();
+  it(`does not manufacture a defense earnings outcome in ${PLACE.name} (seed ${SEED})`, () => {
+    const world = worldWith([
+      act(1, "yes", makeIsoDate("2027-01-01")),
+      act(2, "no", makeIsoDate("2033-01-01")),
+    ]);
+    for (const month of ["2026-12-01", "2028-01-01", "2033-01-01"]) {
+      const records = placeOutcomesForMonth(
+        { ...world, currentDate: makeIsoDate(month) },
+        makeIsoDate(month),
+        [EARNINGS],
+      );
+      const record = records.find(
+        (row) => row.placeKey === PLACE.jurisdictionKey,
+      )!;
+      expect(record).toBeDefined();
+      expect(
+        record.causes.find((entry) => entry.key === link.key),
+      ).toBeUndefined();
+    }
   });
 });

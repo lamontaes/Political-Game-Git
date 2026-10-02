@@ -1,5 +1,6 @@
 import { considerationScore, evaluateDecision } from "../decisions";
-import { eventById, eventIndexOf } from "../event-index";
+import { eventById } from "../event-index";
+import { recordsByKey } from "../history-index";
 import { eventsOfType } from "../justice/jail-terms";
 import { addDays, ageOnDate } from "../dates";
 import { personTrait } from "../people-traits";
@@ -132,10 +133,16 @@ function step(points: number) {
  * (`priorVictimizations`, below) both read it.
  */
 
-const VICTIM_EVENTS = new WeakMap<
-  readonly HistoricalEvent[],
-  ReadonlyMap<EntityId, readonly EntityId[]>
->();
+const VICTIM_ROLE = "impact:crime-victim";
+
+/** The people an event names as crime victims, for the history index. */
+function crimeVictimIds(event: HistoricalEvent): readonly string[] {
+  const ids: string[] = [];
+  for (const participant of event.participants)
+    if (participant.role === VICTIM_ROLE && participant.personId)
+      ids.push(participant.personId);
+  return ids;
+}
 
 /** The ids of the crimes against `personId` on or before `through`. */
 export function crimesSufferedBy(
@@ -143,24 +150,20 @@ export function crimesSufferedBy(
   personId: EntityId,
   through = world.currentDate,
 ): readonly EntityId[] {
-  const events = world.history.events;
-  let index = VICTIM_EVENTS.get(events);
-  if (!index) {
-    const built = new Map<EntityId, EntityId[]>();
-    for (const event of eventIndexOf(events).values())
-      for (const participant of event.participants)
-        if (
-          participant.role === "impact:crime-victim" &&
-          participant.personId
-        ) {
-          const list = built.get(participant.personId) ?? [];
-          list.push(event.id);
-          built.set(participant.personId, list);
-        }
-    VICTIM_EVENTS.set(events, built);
-    index = built;
-  }
-  return (index.get(personId) ?? []).filter(
+  // Read through the history index, which follows appends: a write replaces
+  // the events array, and a cache keyed on that array alone rebuilt this
+  // grouping over every event after almost every write.
+  const ids: EntityId[] = [];
+  for (const event of recordsByKey(
+    world.history.events,
+    "crime-victim",
+    crimeVictimIds,
+    personId,
+  ))
+    for (const participant of event.participants)
+      if (participant.role === VICTIM_ROLE && participant.personId === personId)
+        ids.push(event.id);
+  return ids.filter(
     (id) => (eventById(world, id)?.occurredAt ?? "") <= through,
   );
 }
