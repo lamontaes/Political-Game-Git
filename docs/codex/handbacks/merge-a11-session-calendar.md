@@ -1,7 +1,8 @@
 # A11: one session calendar, first bounded half
 
-Implementation draft for Claude checking. Nothing in this report is a new
-runtime pass, approval, merge, or completion of all ten A11 checks.
+Implementation draft for renewed Claude checking. Builder validation is reported
+at its exact tested source below; it is not an official gate, approval, merge,
+or completion of all ten A11 audit checks.
 
 ## 1. Why-chain
 
@@ -66,21 +67,38 @@ members' decisions or money amounts change.
 
 ## 6. Proof run
 
-NOT RUN under the owner rule assigning all checking to Claude. The prepared
-test uses seed `a11-one-session-calendar-20261001` to sample a place from all
-56 for saved due-record evidence. Its log will name the place and due IDs.
-This is calendar bookkeeping, not proof of a member's filing or vote. The
-existing complete local-law-clock-parity assertions remain unchanged.
+Builder validation measured source `758053266f4bcece05a2399fb74a75155b7559e6`:
+complete changed calendar test 10/10 passed in 12.21 seconds; world import
+exited 0; macro collection exited 0 with 29 skipped and zero behavioral tests.
+The first native launch failed before collection with `spawnSync git EPERM`;
+the identical network-enabled retry is the terminal passing run. Official
+Claude renewal is still required; the old `44858e286` gate failure is retained.
+
+The bookkeeping case sampled Oregon from all 56, seed
+`a11-one-session-calendar-20261001`, and saved three actual due records. It
+checked Continue and repeat scheduling without creating another due item.
+These are scheduled records, not proof of a member's filing, ballot, budget
+choice, or a nationwide legally accurate sitting calendar.
+
+The two helper outputs were bounded: one read-only reuse inventory found the
+remaining stale profile reference already identified by Claude; one ran the
+complete changed test and approved LOAD commands. No helper edited source,
+published, approved, or posted an official gate.
 
 ## 7. Worked example
 
-Expected, not measured here: after January 5, 2026, the retained Congress row
-selects January 6. Its due item retains the existing sitting transition and
-stable key. Saving, continuing and scheduling again should add no duplicate.
-The council row still advances a regular sitting fourteen days; a special
-posted meeting keeps its already recorded date. Actual legislators' names,
-ballots, appropriations and enactments must come from the subsequent watched
-run, not this example.
+Measured in that Oregon bookkeeping world after January 5, 2026:
+
+- Budget preparation: December 1, due ID `future-due-item_b5865997e42001cc`.
+- Bill intake: February 15, due ID `future-due-item_b531ff2fea2ab6fe`.
+- Congress sitting: January 6, due ID `future-due-item_b9bd91bf8a7d5867`.
+
+Continue preserved each record and rescheduling added none. The separate
+DC schedule case recorded the retained January 19 sitting without inventing a
+vote. The dates bottom out in **HARDWIRED game-profile rows**, now explicit in
+the shared calendar data; no lawmaker decision is labeled DECIDED. Actual
+sitting-calendar sources and convening decisions remain missing. No person,
+dollar amount, enactment, or payment is invented for this calendar example.
 
 ## Seven-calendar ownership inventory
 
