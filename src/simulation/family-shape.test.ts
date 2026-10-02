@@ -116,7 +116,9 @@ describe("recorded game family estimates", () => {
       provenance: { kind: "authored", note: "Controlled additional record." },
     });
     expect(recordedFamilyEstimates(next).secondParent?.mean).toBe(1 / 3);
-    expect(recordedFamilyEstimates(next).siblingCount?.mean).toBe(2 / 3);
+    // The added child shares its recorded parent with the first child.
+    // Saved parent edges now reveal sibling counts 2, 1 and 1.
+    expect(recordedFamilyEstimates(next).siblingCount?.mean).toBe(4 / 3);
   });
   it("preserves source world, ordering, replay and every existing birth date", () => {
     const { world } = fixture();
@@ -165,7 +167,10 @@ describe("game family shape receiving path", () => {
       ),
     ).toBe(true);
     expect(
-      drawFamilyShape({ ...world, seed: "different-seed" }, "another-player"),
+      drawFamilyShape(
+        { ...world, seed: "different-seed" },
+        "controlled-player",
+      ),
     ).toEqual(shape);
   });
   it("does not invent birth ages for an empty comparable cohort", () => {

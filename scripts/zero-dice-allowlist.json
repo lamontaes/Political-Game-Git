@@ -598,27 +598,6 @@
       "code": ": outcomeRoll < policy.killed + policy.injured"
     },
     {
-      "file": "src/simulation/family-shape.ts",
-      "kind": "fixed-share",
-      "build": "Build 7",
-      "count": 1,
-      "code": "export const TWO_PARENT_SHARE = 51_202 / 72_734;"
-    },
-    {
-      "file": "src/simulation/family-shape.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
-      "code": "if (roll < weight) return index;"
-    },
-    {
-      "file": "src/simulation/family-shape.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
-      "code": "rng.fork(\"second-parent\").next() < worldTwoParentShare(worldSeed);"
-    },
-    {
       "file": "src/simulation/given-name-cohorts.ts",
       "kind": "fixed-share",
       "build": "Build 7",

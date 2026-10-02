@@ -1,4 +1,5 @@
 import { ageOnDate } from "./dates";
+import { stableHash } from "./ids";
 import { spreadOf, type Spread } from "./sample-spread";
 import type { EntityId, World } from "./types";
 
@@ -19,7 +20,7 @@ export function worldTwoParentShare(world: World): Spread | null {
 }
 
 /**
- * Reuse the recorded family pattern nearest the game's average, rather than
+ * Reuse a recorded family pattern from the game's observed spread, rather than
  * rolling a percentage or inventing a sibling ordering. Birth-year intervals
  * use the game's recorded averages, rounded only to the caller's whole-year
  * calendar representation. A missing age stays null, never an invented age.
@@ -31,14 +32,14 @@ export function drawFamilyShape(
   if (!personKey.trim())
     throw new Error("A family estimate needs its receiving person key.");
   const estimate = recordedFamilyEstimates(world);
-  const parentMean = estimate.secondParent?.mean;
-  const siblingMean = estimate.siblingCount?.mean;
-  const representative = [...estimate.samples].sort((a, b) => {
-    const distance = (row: RecordedFamilySample) =>
-      Math.abs(row.secondParent - (parentMean ?? row.secondParent)) +
-      Math.abs(row.siblingCount - (siblingMean ?? row.siblingCount));
-    return distance(a) - distance(b) || a.personId.localeCompare(b.personId);
-  })[0];
+  // Bind a receiving key to an actual saved pattern. Retaining the observed
+  // patterns carries the game's spread, rather than giving everyone its mean.
+  const representative = estimate.samples.length
+    ? estimate.samples[
+        Number.parseInt(stableHash(personKey).slice(-8), 16) %
+          estimate.samples.length
+      ]
+    : undefined;
   const gap = estimate.parentAgeGapYears?.mean;
   const generationAge = estimate.parentAgeAtChildBirth?.mean;
   const grandparentAge =
@@ -90,6 +91,7 @@ export function recordedFamilyEstimates(world: World): {
 } {
   const parents = new Map<EntityId, Set<EntityId>>();
   const siblings = new Map<EntityId, Set<EntityId>>();
+  const children = new Map<EntityId, Set<EntityId>>();
   const evidence = new Map<EntityId, Set<EntityId>>();
   const add = (
     map: Map<EntityId, Set<EntityId>>,
@@ -113,12 +115,25 @@ export function recordedFamilyEstimates(world: World): {
     if (row.kind === "lineal:parent-child" && a.birthDate !== b.birthDate) {
       const [parent, child] = a.birthDate < b.birthDate ? [a, b] : [b, a];
       add(parents, child.id, parent.id);
+      add(children, parent.id, child.id);
       add(evidence, child.id, row.id);
     } else if (row.kind === "collateral:sibling") {
       add(siblings, a.id, b.id);
       add(siblings, b.id, a.id);
       add(evidence, a.id, row.id);
       add(evidence, b.id, row.id);
+    }
+  }
+  // Children sharing a recorded parent are siblings even when the canonical
+  // writer only saved parent-child edges. Their dates and evidence stay saved.
+  for (const ids of children.values()) {
+    for (const childId of ids) {
+      for (const siblingId of ids) {
+        if (childId === siblingId) continue;
+        add(siblings, childId, siblingId);
+        for (const edgeId of evidence.get(siblingId) ?? [])
+          add(evidence, childId, edgeId);
+      }
     }
   }
   const samples = [...parents.entries()]
