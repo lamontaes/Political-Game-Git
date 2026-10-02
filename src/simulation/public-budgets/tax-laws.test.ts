@@ -18,11 +18,8 @@ import {
   adoptedIncomeTaxPerYear,
   beganWithoutWageIncomeTax,
 } from "./income-tax-adoption";
-import { settleGovernmentMonth, type MonthFlows } from "./month";
-import {
-  CANNABIS_FIRST_SALE_LAG_MONTHS,
-  CANNABIS_TAX_PER_RESIDENT,
-} from "./cannabis-sales-tax";
+import { settleGovernmentMonth, taxLawFactor, type MonthFlows } from "./month";
+
 import { TAX_QUESTION_EFFECTS } from "./rules";
 
 /*
@@ -253,9 +250,7 @@ describe("tax laws reach state budgets", () => {
       note,
     ).toBeCloseTo(1 + effect.toNo!, 3);
   });
-  it("a state that makes cannabis sales legal collects the cannabis tax from its first store opening, and a state that ends them loses it", () => {
-    expect(CANNABIS_TAX_PER_RESIDENT).toBe(40.7);
-    expect(CANNABIS_FIRST_SALE_LAG_MONTHS).toBe(11);
+  it("legalization and repeal do not manufacture taxable sales or receipts", () => {
     const probe = worldWith("US-IL", []);
     const beganAs = (answer: "yes" | "no") =>
       STATE_KEYS.filter((key) => {
@@ -266,14 +261,6 @@ describe("tax laws reach state budgets", () => {
             answer
         );
       });
-    const selective = (government: PublicBudgetGovernment, month: string) =>
-      revenueIn(government, "selectiveSalesTaxes", month);
-    const opening = (government: PublicBudgetGovernment) =>
-      government.years[0]!.expectedRevenue[
-        BUDGET_SOURCES.indexOf("selectiveSalesTaxes")
-      ]!;
-
-    // Legal from March 1, 2026: the first store opens in February 2027.
     const legalSeed = "b9-cannabis-legal";
     const legalizing = drawn(legalSeed, beganAs("no"));
     const legalNote = `${legalizing}, seed ${legalSeed}`;
@@ -289,14 +276,25 @@ describe("tax laws reach state budgets", () => {
       legalizing,
       "2027-03-01",
     );
-    expect(selective(legal, "2027-01-01"), legalNote).toBe(
-      selective(without, "2027-01-01"),
-    );
-    const added = CANNABIS_TAX_PER_RESIDENT * legal.population;
+    expect(legal.months, legalNote).toEqual(without.months);
     expect(
-      selective(legal, "2027-02-01") / selective(without, "2027-02-01"),
+      taxLawFactor(
+        worldWith(legalizing, [
+          { question: CANNABIS, answer: "yes", effectiveAt: "2026-03-01" },
+        ]),
+        legal,
+        "selectiveSalesTaxes",
+        makeIsoDate("2027-02-01"),
+      ),
       legalNote,
-    ).toBeCloseTo((opening(legal) + added) / opening(legal), 3);
+    ).toBe(
+      taxLawFactor(
+        worldWith(legalizing, []),
+        without,
+        "selectiveSalesTaxes",
+        makeIsoDate("2027-02-01"),
+      ),
+    );
 
     // Sales end April 1, 2026 in a state that began with them.
     const banSeed = "b9-cannabis-ban";
@@ -310,13 +308,24 @@ describe("tax laws reach state budgets", () => {
       "2026-05-01",
     );
     const asBegun = settled(worldWith(banning, []), banning, "2026-05-01");
-    expect(selective(banned, "2026-03-01"), banNote).toBe(
-      selective(asBegun, "2026-03-01"),
-    );
-    const lost = CANNABIS_TAX_PER_RESIDENT * banned.population;
+    expect(banned.months, banNote).toEqual(asBegun.months);
     expect(
-      selective(banned, "2026-04-01") / selective(asBegun, "2026-04-01"),
+      taxLawFactor(
+        worldWith(banning, [
+          { question: CANNABIS, answer: "no", effectiveAt: "2026-04-01" },
+        ]),
+        banned,
+        "selectiveSalesTaxes",
+        makeIsoDate("2026-04-01"),
+      ),
       banNote,
-    ).toBeCloseTo((opening(banned) - lost) / opening(banned), 3);
+    ).toBe(
+      taxLawFactor(
+        worldWith(banning, []),
+        asBegun,
+        "selectiveSalesTaxes",
+        makeIsoDate("2026-04-01"),
+      ),
+    );
   });
 });

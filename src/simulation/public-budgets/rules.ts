@@ -1,5 +1,4 @@
 import stateLocalFinances from "../../../data/research/money/state-local-finances-2022.json" with { type: "json" };
-import { CANNABIS_TAX_BASIS } from "./cannabis-sales-tax";
 import {
   MILEAGE_FEE_QUESTION,
   ROAD_CHARGE_BASIS,
@@ -132,15 +131,6 @@ export const TAX_QUESTION_EFFECTS: readonly {
     toNo: -0.6053 / 4.97,
     basis:
       "Illinois 2020 graduated-rate estimate ($3.4 billion a year) and Iowa SF 2442 fiscal note, final action ($605.3 million in FY 2026), each over the state's 2022 individual income tax collections (Census Bureau).",
-  },
-  {
-    questionKey:
-      "us-policy-positions:business-commerce.legalize-cannabis-sales",
-    source: "selectiveSalesTaxes",
-    // A level per resident, not a share: `cannabis-sales-tax.ts`.
-    toYes: null,
-    toNo: null,
-    basis: CANNABIS_TAX_BASIS,
   },
   {
     questionKey: MILEAGE_FEE_QUESTION,
