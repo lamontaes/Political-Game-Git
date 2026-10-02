@@ -195,12 +195,13 @@ describe(`town payroll uses saved employer cash in ${place}, seed ${seed}`, () =
         customerCash === null ? 0 : 100_000,
       );
       expect(
-        resourcePositionAt(paid, base.owner, money(0, "USD").currency)!.liquidBalance.minorUnits,
+        resourcePositionAt(paid, base.owner, money(0, "USD").currency)!
+          .liquidBalance.minorUnits,
       ).toBe(0);
       if (customerCash !== null)
         expect(
-          resourcePositionAt(paid, customerOwner, money(0, "USD").currency)!.liquidBalance
-            .minorUnits,
+          resourcePositionAt(paid, customerOwner, money(0, "USD").currency)!
+            .liquidBalance.minorUnits,
         ).toBe(50_000);
       else expect(sale.status).toBe("blocked");
       const replay = deserializeWorld(serializeWorld(paid));

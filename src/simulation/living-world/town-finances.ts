@@ -727,7 +727,7 @@ export function townCreditLineDays(kind: string): number {
   return days[kind] ?? days["*"]!;
 }
 
-function openBusinessBooks(
+export function openBusinessBooks(
   world: World,
   organizationId: EntityId,
   kind: string,
