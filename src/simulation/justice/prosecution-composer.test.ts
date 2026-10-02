@@ -1,12 +1,8 @@
 import { afterAll, describe, expect, it } from "vitest";
 import { writeFileSync } from "node:fs";
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 import { SeededRng, pickDistinct } from "../rng";
-import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
+import { lifePlaceStateIdentities } from "../life-places";
 import { addDays } from "../dates";
 import { currentLifeCutoff } from "../life-queries";
 import {
@@ -18,11 +14,8 @@ import { assertWorldIntegrity } from "../world";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import { personName } from "../people";
 import { composeWorldTimeHandlers } from "../campaigns";
-import {
-  referForProsecution,
-  PROSECUTION_CHARGED_EVENT,
-  UNRESEARCHED_PROSECUTION,
-} from "./prosecution";
+import { referForProsecution, PROSECUTION_CHARGED_EVENT } from "./prosecution";
+import { prosecutionTimingFor } from "./prosecution-timing";
 import { PROSECUTION_STAGE_TRANSITION_KEY } from "./prosecution-transitions";
 
 const receipts: unknown[] = [];
@@ -42,26 +35,11 @@ describe("the current production composer dispatches saved case stages", () => {
   it.each(states)(
     "charges the named defendant on the actual due date in $jurisdictionKey",
     (state) => {
-      const place =
-        searchLifePlaces("", 5000, {
-          stateJurisdictionKey: state.jurisdictionKey,
-          scope: "locality",
-        })[0] ??
-        searchLifePlaces("", 5, {
-          stateJurisdictionKey: state.jurisdictionKey,
-          scope: "state",
-        })[0]!;
       const seed = `team9-a10-composed-case:${state.jurisdictionKey}`;
-      const game = generateOpeningLife(
-        prepareOpeningLife({
-          ...DEFAULT_NEW_GAME_SETUP,
-          seed,
-          placeKey: place.key,
-          startAge: 40,
-          questionnaire: "skipped",
-        }),
-      ).game!;
-      let isolated = game.world;
+      const small = smallWorld({ place: state.jurisdictionKey, seed });
+      const place = small.place;
+      let isolated = small.world;
+      const timing = prosecutionTimingFor(state.jurisdictionKey);
       // The fixture cancels unrelated opening commitments through the canonical
       // writer, retaining every due record. No saved time is reassigned.
       for (const item of isolated.history.futureDueItems) {
@@ -79,7 +57,7 @@ describe("the current production composer dispatches saved case stages", () => {
             "Controlled fixture isolates the court adapter from unrelated opening schedules.",
         });
       }
-      const subjectId = game.playerPersonId;
+      const subjectId = small.personId;
       const input = {
         stableKey: "g12-clock-case",
         subjectPersonId: subjectId,
@@ -106,10 +84,7 @@ describe("the current production composer dispatches saved case stages", () => {
       );
       expect(item.entityIds).toEqual([subjectId]);
       expect(item.dueAt).toBe(
-        addDays(
-          isolated.currentDate,
-          UNRESEARCHED_PROSECUTION.chargeDecisionDays,
-        ),
+        addDays(isolated.currentDate, timing.chargeDecisionDays),
       );
       const registry = composeWorldTimeHandlers();
       const reloaded = deserializeWorld(serializeWorld(referral.world));
@@ -149,7 +124,7 @@ describe("the current production composer dispatches saved case stages", () => {
           next.stableKey === `justice:prosecution-stage:${events[0]!.id}`,
       )!;
       expect(trialItem.dueAt).toBe(
-        addDays(item.dueAt, UNRESEARCHED_PROSECUTION.resolveAfterDays),
+        addDays(item.dueAt, timing.resolveAfterDays),
       );
       const saved = deserializeWorld(serializeWorld(charged));
       assertWorldIntegrity(saved);
@@ -174,6 +149,7 @@ describe("the current production composer dispatches saved case stages", () => {
         chargeDate: events[0]!.occurredAt,
         trialDueItemId: trialItem.id,
         trialDueAt: trialItem.dueAt,
+        timingBasis: timing.resolveBasis,
         composer: "composeWorldTimeHandlers",
         savedStageReplay: "unchanged",
       });
