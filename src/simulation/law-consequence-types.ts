@@ -196,6 +196,22 @@ export interface ResolvedSavedHourlyPayConsequence extends Omit<
   };
 }
 
+/** Actual adopted annual office-pay authority, distinct from hourly floors. */
+export interface SavedAnnualOfficePayAuthority {
+  kind: "enacted-annual-office-pay-rule";
+  ruleChangeProvisionId: EntityId;
+  enactmentId: EntityId;
+  measureId: EntityId;
+  officeKey: string;
+  stateUsps: string;
+  field:
+    | "pay.governor.annualDollars"
+    | "pay.stateLegislator.annualDollars"
+    | "pay.trialJudge.annualDollars";
+  operativeAt: IsoDate;
+  applicability: RuleChangeApplicability;
+}
+
 /** Nonnumeric legal decisions are not encoded as invented zero-dollar amounts. */
 export type ResolvedLawValue =
   | { type: "amount"; value: number; unit: LawAmountUnit; currency?: string }
@@ -252,7 +268,9 @@ export interface ResolvedSavedRuleConsequence extends Omit<
   ResolvedLawConsequence,
   "law" | "questionKey"
 > {
-  authority: ResolvedSavedHourlyPayConsequence["authority"];
+  authority:
+    | ResolvedSavedHourlyPayConsequence["authority"]
+    | SavedAnnualOfficePayAuthority;
 }
 export type ResolvedSavedLawConsequence =
   | ResolvedStandingServiceConsequence

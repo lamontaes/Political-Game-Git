@@ -16,6 +16,7 @@ import { workRoleAt } from "./life-queries";
 import stateHouseholdIncome2023 from "../../data/research/money/state-household-income-cps-2023.json" with { type: "json" };
 import { censusRegionOf } from "./world-setup/census-regions";
 import {
+  enactedRuleChangeAt,
   officePayLawOfficeKey,
   ruleValueInWorld,
   type AmendableRuleField,
@@ -336,4 +337,29 @@ export function officePayInForce(
         ...(estimate ? { estimatedBecause: estimate.basis } : {}),
       }
     : null;
+}
+
+/** Saved operative rule for the actual office; the same reader owns applicability. */
+export function savedAnnualOfficePayRule(
+  world: World,
+  work: WorkRelationship,
+  onDate: IsoDate,
+) {
+  const held = paidOfficeOf(world, work);
+  const legal = officePayInForce(world, work, onDate);
+  const field = held ? PAY_LAW_FIELD[held.office] : undefined;
+  if (!held || !field || !legal?.law) return null;
+  const rule = enactedRuleChangeAt(world, {
+    stateUsps: held.state,
+    officeKey: officePayLawOfficeKey(held.state),
+    field,
+    onDate,
+  });
+  if (
+    !rule ||
+    rule.measureId !== legal.law.measureId ||
+    rule.value !== legal.annualDollars
+  )
+    throw new Error("Annual office pay differs from its saved authority");
+  return { rule, legal, state: held.state, field };
 }

@@ -934,7 +934,10 @@ export function applyLawConsequences(
           next = registration.apply(next, input);
           continue;
         }
-        if (authority.kind === "enacted-hourly-pay-rule") {
+        if (
+          authority.kind === "enacted-hourly-pay-rule" ||
+          authority.kind === "enacted-annual-office-pay-rule"
+        ) {
           if (
             row.kind !== "pay" ||
             context.activity !== "payroll" ||
