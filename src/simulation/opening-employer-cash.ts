@@ -4,7 +4,7 @@ import {
   resourcePositionAt,
   resourcePositionsOf,
 } from "./resource-queries";
-import { createResourcePosition, money } from "./resources";
+import { createResourcePosition, makeCurrencyCode, money } from "./resources";
 import { daysBetween, isoDateFromParts, yearOf } from "./dates";
 import {
   TOWN_WORKPLACES,
@@ -14,6 +14,8 @@ import { townBusinessKindBooks } from "./living-world/town-business-books";
 import { writeWithWorldIntegrityOnce } from "./world";
 import cashBuffers from "../../data/research/money/opening-employer-cash-buffers.json" with { type: "json" };
 import type { CurrencyCode, EntityId, MoneyAmount, World } from "./types";
+
+const USD = makeCurrencyCode("USD");
 
 export type OpeningEmployerCashEstimate =
   | {
@@ -144,7 +146,7 @@ export function ensureEmployerCashPositions(
     if (
       !terms ||
       terms.status !== "active" ||
-      terms.amount.currency !== "USD" ||
+      terms.amount.currency !== USD ||
       terms.amount.minorUnits <= 0
     )
       continue;
@@ -177,7 +179,7 @@ export function ensureEmployerCashPositions(
       const owner = { kind: "organization" as const, organizationId };
       if (
         resourcePositionsOf(world, owner).some(
-          (position) => position.openingBalance.currency === "USD",
+          (position) => position.openingBalance.currency === USD,
         )
       )
         continue;
@@ -192,7 +194,7 @@ export function ensureEmployerCashPositions(
         const peer = readOpeningEmployerCashEstimate(
           world,
           organizationId,
-          "USD",
+          USD,
         );
         if (peer.status === "blocked") continue;
         amount = peer.amount;
@@ -225,7 +227,7 @@ export function ensureEmployerCashPositions(
           throw new Error(
             `Invalid sourced employer opening cash for ${organizationId}.`,
           );
-        amount = money(minor, "USD");
+        amount = money(minor, USD);
         note = `ESTIMATED OPENING STOCK: own recorded monthly payroll ${pay.annualMinor / 12} USD minor units plus estimated monthly other costs ${annualOtherCostsMinor / 12}, multiplied by 12/${daysInYear} calendar days and ${bufferDays} median cash-buffer days (${industry}). ${cashBuffers.source}, ${cashBuffers.citation}; ${cashBuffers.url}. ${cashBuffers.definition} Other costs reuse IRS 2022 Table 5.1 ${costs.industry}: payShare=${costs.payShare}, margin=${costs.margin}. ${industry === "all-small-businesses" ? cashBuffers.fallbackMethod : "Saved classification matches named source industry."} Saved payroll flows ${pay.flowIds.join(", ")}; terms ${pay.termsIds.join(", ")}; profile ${profile.id}. No wage payment, revenue or tax receipt recorded.`;
       }
       next = createResourcePosition(next, {

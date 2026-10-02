@@ -16,6 +16,7 @@ import { advanceWorld } from "./world";
 import { addDays } from "./dates";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import {
+  makeCurrencyCode,
   createResourceFlow,
   createResourcePosition,
   createWorkCompensation,
@@ -23,6 +24,8 @@ import {
   recordResourceTransferOutcome,
 } from "./resources";
 import type { EntityId, OrganizationClassification, World } from "./types";
+
+const USD = makeCurrencyCode("USD");
 
 const provenance = {
   kind: "authored" as const,
@@ -53,7 +56,7 @@ function employer(
       stableKey: `${key}:cash`,
       owner: { kind: "organization", organizationId: id },
       openedAt: world.currentDate,
-      openingBalance: money(cash, "USD"),
+      openingBalance: money(cash, USD),
       provenance,
     });
   for (let index = 0; index < workers; index++)
@@ -104,7 +107,7 @@ describe("saved comparable employer cash reader", () => {
       stableKey: "target:pay",
       workRelationshipId: target.world.history.workRelationships.at(-1)!.id,
       startsAt: target.world.currentDate,
-      amount: money(100_000, "USD"),
+      amount: money(100_000, USD),
       cadenceKind: "schedule:monthly",
       restrictionKind: null,
       jurisdictionId: null,
@@ -118,7 +121,7 @@ describe("saved comparable employer cash reader", () => {
       (((yearlyPay / costs.payShare) * (1 - costs.margin)) / 365) * 19,
     );
     expect(
-      resourcePositionAt(opened, owner, "USD")!.liquidBalance.minorUnits,
+      resourcePositionAt(opened, owner, USD)!.liquidBalance.minorUnits,
     ).toBe(expected);
     expect(opened.history.resourceTransferOutcomes).toEqual(
       world.history.resourceTransferOutcomes,
@@ -138,7 +141,7 @@ describe("saved comparable employer cash reader", () => {
       stableKey: "target:pay",
       workRelationshipId: target.world.history.workRelationships.at(-1)!.id,
       startsAt: target.world.currentDate,
-      amount: money(100_000, "USD"),
+      amount: money(100_000, USD),
       cadenceKind: "schedule:monthly",
       restrictionKind: null,
       jurisdictionId: null,
@@ -149,14 +152,14 @@ describe("saved comparable employer cash reader", () => {
       resourcePositionAt(
         later,
         { kind: "organization", organizationId: target.id },
-        "USD",
+        USD,
       )!.liquidBalance.minorUnits,
     ).toBe(61_234);
   });
   it("reports an empty cohort rather than inventing starting cash", () => {
     const { world, id } = fixture();
     const before = JSON.stringify(world);
-    expect(readOpeningEmployerCashEstimate(world, id, "USD")).toEqual({
+    expect(readOpeningEmployerCashEstimate(world, id, USD)).toEqual({
       status: "blocked",
       reason: "empty-comparable-cash-cohort",
     });
@@ -180,10 +183,10 @@ describe("saved comparable employer cash reader", () => {
       900_000,
       "enterprise:food-service",
     ).world;
-    const result = readOpeningEmployerCashEstimate(world, target.id, "USD");
+    const result = readOpeningEmployerCashEstimate(world, target.id, USD);
     expect(result.status).toBe("estimated");
     if (result.status !== "estimated") throw new Error(result.reason);
-    expect(result.amount).toEqual(money(45_000, "USD"));
+    expect(result.amount).toEqual(money(45_000, USD));
     expect(result.donors).toHaveLength(2);
     expect(
       result.donors.every((donor) => donor.positionId && donor.profileId),
@@ -203,7 +206,7 @@ describe("saved comparable employer cash reader", () => {
         kind: "work",
         workRelationshipId: donor.world.history.workRelationships.at(-1)!.id,
       },
-      amount: money(30_000, "USD"),
+      amount: money(30_000, USD),
       cadenceKind: "schedule:town-weekly",
       restrictionKind: null,
       jurisdictionId: null,
@@ -216,15 +219,15 @@ describe("saved comparable employer cash reader", () => {
       periodEndsAt: world.currentDate,
       occurredAt: world.currentDate,
       status: "completed",
-      attemptedAmount: money(30_000, "USD"),
-      transferredAmount: money(30_000, "USD"),
+      attemptedAmount: money(30_000, USD),
+      transferredAmount: money(30_000, USD),
       reasonKind: "custom:paid",
       note: null,
       provenance,
     });
-    const result = readOpeningEmployerCashEstimate(world, target.id, "USD");
+    const result = readOpeningEmployerCashEstimate(world, target.id, USD);
     if (result.status !== "estimated") throw new Error(result.reason);
-    expect(result.amount).toEqual(money(60_000, "USD"));
+    expect(result.amount).toEqual(money(60_000, USD));
     expect(result.donors[0]!.outcomeIds).toEqual([
       world.history.resourceTransferOutcomes.at(-1)!.id,
     ]);
@@ -259,7 +262,7 @@ describe("saved comparable employer cash reader", () => {
     const cash = resourcePositionAt(
       world,
       { kind: "organization", organizationId: target!.id },
-      "USD",
+      USD,
     );
     expect(cash!.liquidBalance.minorUnits).toBeGreaterThan(0);
     const later = advanceWorld(world, 14);
