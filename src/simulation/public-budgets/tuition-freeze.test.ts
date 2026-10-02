@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { createHistoryStore } from "../history";
 import tuitionRevenue from "../../../data/research/money/state-tuition-revenue.json" with { type: "json" };
 import { makeIsoDate } from "../dates";
 import { stateJurisdictionForKey } from "../life-places";
@@ -15,14 +16,30 @@ import {
 } from ".";
 import { firstOfNextMonth } from "./fiscal";
 import { settleGovernmentMonth, type MonthFlows } from "./month";
+import { TUITION_FREEZE_EFFECT } from "./rules";
 import {
-  TUITION_FREEZE_QUESTION,
-  TUITION_GROWTH_PER_YEAR,
-  frozenSchoolYears,
-  tuitionFreezeFactor,
-  tuitionGrowthPerYearAt,
-  tuitionShareOfCharges,
-} from "./tuition-freeze";
+  chargeGrowthPerYearAt,
+  chargeShareOfCharges,
+  heldChargeYears,
+  chargeFreezeFactor,
+} from "./fiscal";
+const TUITION_FREEZE_QUESTION = TUITION_FREEZE_EFFECT.questionKey;
+const TUITION_GROWTH_PER_YEAR =
+  TUITION_FREEZE_EFFECT.chargeFreeze.growth.central;
+const tuitionGrowthPerYearAt = (world: World, jurisdictionId: EntityId) =>
+  chargeGrowthPerYearAt(world, jurisdictionId, TUITION_FREEZE_EFFECT);
+const tuitionShareOfCharges = (placeKey: string) =>
+  chargeShareOfCharges(placeKey, TUITION_FREEZE_EFFECT);
+const frozenSchoolYears = (
+  world: World,
+  jurisdictionId: EntityId,
+  date: ReturnType<typeof makeIsoDate>,
+) => heldChargeYears(world, jurisdictionId, date, TUITION_FREEZE_EFFECT);
+const tuitionFreezeFactor = (
+  world: World,
+  government: PublicBudgetGovernment,
+  date: ReturnType<typeof makeIsoDate>,
+) => chargeFreezeFactor(world, government, date, TUITION_FREEZE_EFFECT);
 
 /*
  * A state tuition freeze holds the tuition a state's public colleges collect
@@ -57,6 +74,7 @@ function worldWith(
       },
     },
     history: {
+      ...createHistoryStore(),
       events: [],
       organizations: [],
       resourceFlows: [],

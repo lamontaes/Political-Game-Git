@@ -23,13 +23,13 @@ import {
 } from "../outcome-web";
 import { HOUSING_SUPPLY_LAWS } from "../living-world/housing-market";
 import { RENT_LAW_KEYS } from "../living-world/town-rent";
-import { CANNABIS_SALES_QUESTION } from "../public-budgets/cannabis-sales-tax";
 import { MILEAGE_FEE_QUESTION } from "../public-budgets/road-usage-charge";
 import {
   SPENDING_QUESTION_EFFECTS,
   TAX_QUESTION_EFFECTS,
+  CANNABIS_TAX_EFFECT,
+  TUITION_FREEZE_EFFECT,
 } from "../public-budgets/rules";
-import { TUITION_FREEZE_QUESTION } from "../public-budgets/tuition-freeze";
 import {
   ADOPT_STATE_INCOME_TAX_QUESTION,
   GRADUATED_STATE_INCOME_TAX_QUESTION,
@@ -215,9 +215,9 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     via: "src/simulation/federal-outlay-laws.ts",
   },
   {
-    questionKey: CANNABIS_SALES_QUESTION,
+    questionKey: CANNABIS_TAX_EFFECT.questionKey,
     kind: "state-revenue",
-    via: "src/simulation/public-budgets/cannabis-sales-tax.ts",
+    via: "src/simulation/public-budgets/rules.ts",
   },
   {
     questionKey: MILEAGE_FEE_QUESTION,
@@ -225,9 +225,9 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     via: "src/simulation/public-budgets/road-usage-charge.ts",
   },
   {
-    questionKey: TUITION_FREEZE_QUESTION,
+    questionKey: TUITION_FREEZE_EFFECT.questionKey,
     kind: "state-revenue",
-    via: "src/simulation/public-budgets/tuition-freeze.ts",
+    via: "src/simulation/public-budgets/fiscal.ts",
   },
 ];
 

@@ -1,8 +1,9 @@
-import { addDays, makeIsoDate } from "../dates";
+import { drawnLinkSize } from "../outcome-web";
+import { addDays, makeIsoDate, yearOf } from "../dates";
 import { STATUTE_EFFECTIVE_DEFAULT_DAYS } from "../enacted-rule-changes";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import finances from "../../../data/research/money/state-local-finances-2022.json" with { type: "json" };
-import type { SPENDING_QUESTION_EFFECTS } from "./rules";
+import type { SPENDING_QUESTION_EFFECTS, TAX_QUESTION_EFFECTS } from "./rules";
 import { mayAnswerQuestion } from "../governing/question-authority";
 import { measurePropositionAnswer } from "../issue-record";
 import {
@@ -14,6 +15,7 @@ import {
   BUDGET_LAW_KEYS,
   type BudgetLawName,
   type BudgetLawReading,
+  type PublicBudgetGovernment,
 } from "./store";
 
 /** The existing spending row's annual change per resident, relative to opening law. */
@@ -32,6 +34,95 @@ export function lawSpendingPerResident(
     : began === "yes" && now === "no"
       ? effect.toNo
       : null;
+}
+
+type ChargeFreezeEffect = (typeof TAX_QUESTION_EFFECTS)[number] & {
+  readonly chargeFreeze: NonNullable<
+    (typeof TAX_QUESTION_EFFECTS)[number]["chargeFreeze"]
+  >;
+};
+/** Read the row's existing research range, without creating a billed charge. */
+export function chargeGrowthPerYearAt(
+  world: World,
+  jurisdictionId: EntityId,
+  effect: ChargeFreezeEffect,
+): number {
+  const { central, low, high } = effect.chargeFreeze.growth;
+  return drawnLinkSize(
+    world,
+    {
+      key: effect.chargeFreeze.growthKey,
+      size: central,
+      range: [low, high],
+      evidence: "researched",
+    },
+    jurisdictionId,
+  );
+}
+export function chargeShareOfCharges(
+  placeKey: string,
+  effect: ChargeFreezeEffect,
+): number | null {
+  return effect.chargeFreeze.places[placeKey]?.tuitionShareOfCharges ?? null;
+}
+const FIRST_YEAR = new WeakMap<object, number | null>();
+
+/** The year of the first law enacted in play, or null before any. */
+function firstEnactedYear(world: World): number | null {
+  const enactments = world.history.legislativeEnactments ?? [];
+  const cached = FIRST_YEAR.get(enactments);
+  if (cached !== undefined) return cached;
+  let first: number | null = null;
+  for (const enactment of enactments)
+    if (enactment.outcome === "enacted") {
+      const year = yearOf(enactment.resolvedAt);
+      if (first === null || year < first) first = year;
+    }
+  FIRST_YEAR.set(enactments, first);
+  return first;
+}
+
+/** Existing calendar projection, parameterized by the data row; never a receipt writer. */
+export function heldChargeYears(
+  world: World,
+  jurisdictionId: EntityId,
+  date: IsoDate,
+  effect: ChargeFreezeEffect,
+): number {
+  const propositionId = propositionIdFor(world, effect.questionKey);
+  const from = firstEnactedYear(world);
+  if (!propositionId || from === null) return 0;
+  let held = 0;
+  for (let year = from; year <= yearOf(date); year += 1) {
+    const setOn = makeIsoDate(`${year}-${effect.chargeFreeze.setOn}`);
+    if (setOn > date) break;
+    const law = lawInForce(world, jurisdictionId, propositionId, setOn);
+    if (law?.origin === "enacted" && law.answer === "yes") held += 1;
+  }
+  return held;
+}
+export function chargeFreezeFactor(
+  world: World,
+  government: PublicBudgetGovernment,
+  date: IsoDate,
+  effect: ChargeFreezeEffect,
+): number {
+  if (!(effect.levels ?? ["state"]).includes(government.level)) return 1;
+  const share = chargeShareOfCharges(government.stateKey, effect);
+  if (!share) return 1;
+  const held = heldChargeYears(
+    world,
+    government.lawJurisdictionId,
+    date,
+    effect,
+  );
+  if (held === 0) return 1;
+  const growth = chargeGrowthPerYearAt(
+    world,
+    government.lawJurisdictionId,
+    effect,
+  );
+  return 1 - share * (1 - (1 + growth) ** -held);
 }
 
 /** Census state-and-local spending per resident; unread places use the national figure. */
