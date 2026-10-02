@@ -19,6 +19,42 @@ import { observerSetup, openObserverWorld } from "./observer-world";
 import type { EntityId } from "../simulation/types";
 import { resolveDueThrough } from "../../tests/fixtures/due-item-clock";
 
+import { createWorld, createWorldId } from "../simulation/world";
+import { createLightweightPerson } from "../simulation/people";
+import {
+  lifePlaces,
+  lifePlaceStateIdentities,
+  stateJurisdictionForKey,
+} from "../simulation/life-places";
+import {
+  setFutureDueItemTerminalState,
+  createFutureTransitionHandlerRegistry,
+  resolveFutureDueItemsThrough,
+  scheduleFutureDueItem,
+} from "../simulation/future-transitions";
+import {
+  scheduleElectionContest,
+  ELECTION_CONTEST_TRANSITION_KEY,
+  electionContestTransitionHandler,
+  electionContestResult,
+  electionContestStatus,
+} from "../simulation/election-contests";
+import { localGoverningBodyIdentity } from "../simulation/nationwide-world/local-governing-body-candidacy-packs";
+import {
+  LOCAL_ELECTION_COUNT,
+  localElectionCountHandler,
+} from "../simulation/living-world/local-elections";
+import { simulationMomentOnLocalDate } from "../simulation/dates";
+import { placeOutcomesForMonth } from "../simulation/outcome-web/place-outcomes";
+import {
+  createFormationContext,
+  recordPrivateBelief,
+} from "../simulation/politics";
+import { officialOpinionSubject } from "../simulation/political-opinion-subjects";
+
+import { pickDistinct, SeededRng } from "../simulation/rng";
+import { townRoster } from "../simulation/living-world/town-residents";
+
 /**
  * Lane C step 3: the town's own elections. The council and mayor seated at
  * the opening stand again on the town's calendar, neighbors file against
@@ -174,45 +210,48 @@ describe("Columbus, Ohio elects its council on its own", () => {
   );
 });
 
-import { createWorld, createWorldId } from "../simulation/world";
-import { createLightweightPerson, personName } from "../simulation/people";
-import {
-  lifePlaceByKey,
-  stateJurisdictionForKey,
-} from "../simulation/life-places";
-import {
-  setFutureDueItemTerminalState,
-  createFutureTransitionHandlerRegistry,
-  resolveFutureDueItemsThrough,
-  scheduleFutureDueItem,
-} from "../simulation/future-transitions";
-import {
-  scheduleElectionContest,
-  ELECTION_CONTEST_TRANSITION_KEY,
-  electionContestTransitionHandler,
-  electionContestResult,
-  electionContestStatus,
-} from "../simulation/election-contests";
-import { localGoverningBodyIdentity } from "../simulation/nationwide-world/local-governing-body-candidacy-packs";
-import {
-  LOCAL_ELECTION_COUNT,
-  localElectionCountHandler,
-} from "../simulation/living-world/local-elections";
-import { simulationMomentOnLocalDate } from "../simulation/dates";
-import { placeOutcomesForMonth } from "../simulation/outcome-web/place-outcomes";
-import { placeOutcomeAt } from "../simulation/outcome-web/place-outcome-store";
-import {
-  createFormationContext,
-  recordPrivateBelief,
-} from "../simulation/politics";
-import { officialOpinionSubject } from "../simulation/political-opinion-subjects";
-
 describe("A112 town counts use saved support without a seed draw", () => {
-  it("counts equivalent saved three-candidate Columbus support under two seeds", () => {
-    const place = lifePlaceByKey("3918000")!;
+  const selectionSeed = "audit-a112-count-place";
+  const places = lifePlaces();
+  // Consider all 56 jurisdictions. Only actual admitted municipal offices
+  // enter this positive fixture; absent office data is not an invented office.
+  const representatives = lifePlaceStateIdentities().flatMap((identity) => {
+    const admitted = new Set(
+      governmentUnitsForState(identity.usps)
+        .filter(
+          (unit) =>
+            unit.unitType === "municipality" &&
+            unit.placeGeoid !== null &&
+            localGoverningBodyIdentity(unit) !== null,
+        )
+        .map((unit) => unit.placeGeoid),
+    );
+    return places
+      .filter(
+        (place) =>
+          place.scope === "locality" &&
+          place.stateJurisdictionKey === identity.jurisdictionKey &&
+          admitted.has(place.sourceGeoid ?? null),
+      )
+      .sort(
+        (left, right) =>
+          townRoster(right.context.jurisdiction.id).population -
+            townRoster(left.context.jurisdiction.id).population ||
+          left.key.localeCompare(right.key),
+      )
+      .slice(0, 1);
+  });
+  const place = pickDistinct(
+    new SeededRng(selectionSeed),
+    representatives,
+    1,
+  )[0]!;
+  it(`counts equivalent saved three-candidate support in ${place.displayName} selected by ${selectionSeed} under two seeds`, () => {
     const state = stateJurisdictionForKey(place.stateJurisdictionKey!)!;
     const date = makeIsoDate("2026-01-05");
-    const unit = governmentUnitsForState("OH").find(
+    const unit = governmentUnitsForState(
+      place.stateJurisdictionKey!.slice(3),
+    ).find(
       (row) =>
         row.unitType === "municipality" && row.placeGeoid === place.sourceGeoid,
     )!;
@@ -317,19 +356,19 @@ describe("A112 town counts use saved support without a seed draw", () => {
         let neutralQueued = queued;
         for (const belief of queued.history.privateBeliefs) {
           neutralQueued = recordPrivateBelief(neutralQueued, {
-            stableKey: `${belief.stableKey}:uncertain`,
+            stableKey: `${belief.stableKey}:conflicted`,
             personId: belief.personId,
             propositionId: belief.propositionId,
             subject: belief.subject,
             formedAt: date,
-            position: "uncertain",
+            position: "conflicted",
             conviction: belief.conviction,
             salience: belief.salience,
             flexibility: belief.flexibility,
             rationale:
-              "The controlled voter records no preference for this candidate.",
+              "The controlled voter records conflicting views of this candidate.",
             formation: createFormationContext("reflection:fixture", {
-              note: "Authored neutral views retain complete saved history.",
+              note: "Authored conflicting views retain history and neutral aggregate support.",
             }),
             supersedesBeliefId: belief.id,
           });
@@ -467,25 +506,6 @@ describe("A112 town counts use saved support without a seed draw", () => {
         expect(result).not.toBeNull();
         expect(result.tallies).toHaveLength(3);
         expect(result.tallies.every((row) => row.votes > 0)).toBe(true);
-        console.log(
-          JSON.stringify({
-            a112Count: {
-              place: place.displayName,
-              seed,
-              recordedTurnoutPercent: placeOutcomeAt(
-                world,
-                "voting.turnout-pct",
-                town,
-                voteDate,
-              )!.value,
-              candidates: result.tallies.map((row) => ({
-                name: personName(counted.world.people[row.candidatePersonId]!),
-                votes: row.votes,
-              })),
-              winner: personName(counted.world.people[result.winnerPersonId]!),
-            },
-          }),
-        );
         return {
           tallies: result.tallies.map((row) => ({
             candidateIndex: contest.candidatePersonIds.indexOf(

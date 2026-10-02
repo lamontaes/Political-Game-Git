@@ -165,8 +165,6 @@ export const LOCAL_ELECTIONS_PROFILE = {
   candidatesForOpenSeat: [0, 0.15, 0.45, 0.25, 0.15],
   /** A sitting member's share of support is multiplied by this. */
   incumbentEdge: 1.35,
-  /** The share of grown residents who vote in a town election. */
-  turnout: { low: 0.12, high: 0.32 },
   /** Grown residents per resident, for the count. */
   adultShare: 0.75,
 } as const;
