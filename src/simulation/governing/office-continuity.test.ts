@@ -252,11 +252,13 @@ describe("GOVERNING K3: an office after its holder dies", () => {
   it("a dead senator's seat is filled by the governor's appointee, then by a special election", () => {
     const seed = "k3-senate-appointment";
     const selected = new SeededRng(seed).pick(
-      lifePlaceStateIdentities().filter(
-        (place) =>
-          senateVacancyLaw(place.jurisdictionKey.replace(/^US-/, ""))
-            ?.appointment === "governor-same-party",
-      ),
+      lifePlaceStateIdentities().filter((place) => {
+        const law = senateVacancyLaw(place.jurisdictionKey.replace(/^US-/, ""));
+        return (
+          law?.appointment === "governor-same-party" &&
+          law.appointmentDeadlineDays !== null
+        );
+      }),
     );
     const opened = smallWorld({
       place: selected.jurisdictionKey,
@@ -324,6 +326,12 @@ describe("GOVERNING K3: an office after its holder dies", () => {
         row.openedEvent.tags.includes(`senate-seat:${seat.seatKey}`),
     )!;
     expect(matter).toBeDefined();
+    expect(matter.deadline).toBe(
+      addDays(
+        died.notice.effectiveDate,
+        senateVacancyLaw(opened.stateUsps)!.appointmentDeadlineDays!,
+      ),
+    );
     // The actual governor chooses a recorded eligible person; elapsed time alone is not an appointment.
     expect(matter.options.length).toBeGreaterThan(0);
     const choice = decideGoverningMatter(
