@@ -131,8 +131,6 @@ const ISSUE_LEVEL_REACH: Readonly<Record<string, QuestionReach>> = {
   "school-district": "school-district",
 };
 
-const TERRITORIES = new Set(["PR", "GU", "VI", "AS", "MP"]);
-
 /**
  * Each state-level jurisdiction's column. Built on first use: the places it
  * reads are not ready while modules load.
@@ -140,16 +138,20 @@ const TERRITORIES = new Set(["PR", "GU", "VI", "AS", "MP"]);
 let stateColumns: ReadonlyMap<EntityId, PowersLevel> | null = null;
 function stateColumnOf(jurisdictionId: EntityId): PowersLevel | undefined {
   stateColumns ??= new Map(
-    Object.keys(STATES).flatMap((usps): [EntityId, PowersLevel][] => {
-      const id = stateJurisdictionForKey(`US-${usps}`)?.id;
-      if (!id) return [];
-      return [
-        [
-          id,
-          usps === "DC" ? "dc" : TERRITORIES.has(usps) ? "territory" : "state",
-        ],
-      ];
-    }),
+    Object.entries(STATES).flatMap(
+      ([usps, reference]): [EntityId, PowersLevel][] => {
+        const id = stateJurisdictionForKey(`US-${usps}`)?.id;
+        if (!id) return [];
+        const kind = reference.jurisdictionKind;
+        const column: PowersLevel | undefined =
+          kind === "federal-district"
+            ? "dc"
+            : kind === "state" || kind === "territory"
+              ? kind
+              : undefined;
+        return column ? [[id, column]] : [];
+      },
+    ),
   );
   return stateColumns.get(jurisdictionId);
 }

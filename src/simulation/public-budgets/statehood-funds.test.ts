@@ -1,212 +1,271 @@
 import { describe, expect, it } from "vitest";
+import {
+  city,
+  FIXTURE,
+  pay as fundAccount,
+} from "../../../tests/fixtures/public-program-fixture";
+import { drawRandomPlace } from "../../../tests/support/random-place";
+import { createExplicitGeographyLife } from "../../presentation/new-game-geography";
 import { addDays, makeIsoDate } from "../dates";
 import {
-  STATEHOOD_ADMISSION_DAYS,
-  STATEHOOD_QUESTION,
-  statehoodAdmittedOn,
-  statehoodPlace,
-} from "../governing/statehood-admission";
-import { stateJurisdictionForKey } from "../life-places";
-import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
-import { SeededRng } from "../rng";
-import { STATES } from "../state-reference";
-import type { EntityId, World } from "../types";
+  commitPublicProgram,
+  recordProgramAppropriation,
+  settleProgramInstallment,
+} from "../governing/public-program";
 import {
+  lifePlaceByJurisdictionId,
+  stateJurisdictionForKey,
+} from "../life-places";
+import {
+  currentStateExecutiveHolders,
+  ensureStateExecutiveIncumbent,
+  ensureStateJurisdictionForKey,
+} from "../nationwide-world/state-executives";
+import {
+  ensureTaxPublicAccount,
+  publicTaxAccountForJurisdiction,
+} from "../tax-policy";
+import { money } from "../resources";
+import { deserializeWorld, serializeWorld } from "../serialization";
+import type { World } from "../types";
+import { readMonthFlows, settleGovernmentMonth } from "./month";
+import {
+  BUDGET_PROGRAMS,
   BUDGET_SOURCES,
   PUBLIC_BUDGETS_VERSION,
-  publicBudgetFor,
-  withOpenedBudgets,
   type PublicBudgetGovernment,
   type PublicBudgetStore,
-} from ".";
-import { firstOfNextMonth } from "./fiscal";
-import { settleGovernmentMonth, type MonthFlows } from "./month";
-import { statehoodFederalAidLoss } from "./statehood-funds";
+} from "./store";
+import { withOpenedBudgets } from "./index";
 
-/*
- * Statehood changes no federal payment when the place is admitted. The new
- * state's own government decides, when it adopts a budget, whether it can
- * cover five years of what ending the higher Medicaid match costs, and only
- * a state that certifies loses that federal aid, from the fiscal year after.
- * The world here is partial, as in tuition-freeze.test.ts.
- */
-
-const STATEHOOD = "proposition_statehood" as EntityId;
-const PLACE_KEY = `US-${statehoodPlace()}`;
-const FEDERAL_AID = BUDGET_SOURCES.indexOf("federalAid");
-
-function worldWith(effectiveAt: string | null): World {
-  return {
-    id: "world_test" as EntityId,
-    currentDate: makeIsoDate("2026-01-05"),
-    jurisdictions: {},
-    jurisdictionOrder: [],
-    policyCatalog: {
-      propositions: {
-        [STATEHOOD]: { id: STATEHOOD, stableKey: STATEHOOD_QUESTION },
-      },
-    },
-    history: {
-      organizations: [],
-      resourceFlows: [],
-      resourceTransferOutcomes: [],
-      futureDueItems: [],
-      legislativeMeasures: effectiveAt
-        ? [
-            {
-              id: "measure_statehood" as EntityId,
-              jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-              propositionIds: [STATEHOOD],
-              propositionAnswers: [{ propositionId: STATEHOOD, answer: "yes" }],
-            },
-          ]
-        : [],
-      legislativeEnactments: effectiveAt
-        ? [
-            {
-              id: "enactment_statehood" as EntityId,
-              sequence: 1000,
-              measureId: "measure_statehood" as EntityId,
-              resolvedAt: makeIsoDate(effectiveAt),
-              outcome: "enacted",
-              effectiveAt: makeIsoDate(effectiveAt),
-            },
-          ]
-        : [],
-    },
-  } as unknown as World;
-}
-
-const NO_FLOWS: MonthFlows = {
-  withheld: new Map(),
-  represented: new Map(),
-  levies: new Map(),
-  payments: new Map(),
-};
-
-function settled(world: World, stateKey: string, last: string) {
-  const store: PublicBudgetStore = {
+// Explicit acceptance inputs, not real enrollment, matching terms,
+// admission acts, certificates, or production spending defaults.
+const PROGRAM = "fixture:traditional-medicaid";
+function fixture(seed: string, amount: number) {
+  const g = city(seed, 10_000);
+  const stateKey = lifePlaceByJurisdictionId(
+    g.jurisdictionId,
+  )!.stateJurisdictionKey!;
+  const jurisdictionId = stateJurisdictionForKey(stateKey)!.id;
+  let world = ensureStateJurisdictionForKey(g.world, stateKey);
+  world = ensureStateExecutiveIncumbent(world, g.manager, stateKey.slice(3));
+  const executiveId = currentStateExecutiveHolders(world).find(
+    (row) => row.stateUsps === stateKey.slice(3),
+  )!.personId;
+  world = ensureTaxPublicAccount(world, jurisdictionId);
+  const accountId = publicTaxAccountForJurisdiction(
+    world,
+    jurisdictionId,
+  )!.organizationId;
+  world = fundAccount(
+    world,
+    `${seed}:state-receipt`,
+    g.payer,
+    accountId,
+    10_000,
+  );
+  const adopted = recordProgramAppropriation(world, {
+    edition: seed,
+    programKey: PROGRAM,
+    jurisdictionId,
+    accountOrganizationId: accountId,
+    amount: money(amount, "USD"),
+    availableFrom: g.world.currentDate,
+    availableThrough: addDays(g.world.currentDate, 30),
+    basis: FIXTURE,
+  });
+  const empty: PublicBudgetStore = {
     version: PUBLIC_BUDGETS_VERSION,
     cursor: { flows: 0, outcomes: 0 },
     governments: [],
     adjustments: [],
     unknown: [],
   };
-  const opened = {
-    ...world,
-    publicBudgets: withOpenedBudgets(world, store, world.currentDate),
+  const government = withOpenedBudgets(
+    adopted.world,
+    empty,
+    adopted.world.currentDate,
+  ).governments.find((row) => row.key === stateKey && row.level === "state")!;
+  expect(government).toBeDefined();
+  // Exclude the fixture account-funding receipt; read subsequent installments.
+  const store: PublicBudgetStore = {
+    ...empty,
+    governments: [government],
+    cursor: {
+      flows: adopted.world.history.resourceFlows.length,
+      outcomes: adopted.world.history.resourceTransferOutcomes.length,
+    },
   };
-  let current = publicBudgetFor(opened, stateJurisdictionForKey(stateKey)!.id)!;
-  let month = makeIsoDate("2026-01-01");
-  while (month <= last) {
-    current = settleGovernmentMonth(world, current, month, NO_FLOWS).government;
-    month = firstOfNextMonth(month);
-  }
-  return current;
+  return {
+    ...g,
+    executiveId,
+    world: adopted.world,
+    appropriationId: adopted.id,
+    government,
+    store,
+  };
 }
-
-const revenueIn = (
-  government: PublicBudgetGovernment,
-  source: (typeof BUDGET_SOURCES)[number],
-  month: string,
-) =>
-  government.months.find((row) => row.month === month)!.revenue[
-    BUDGET_SOURCES.indexOf(source)
-  ]!;
-
-const certificationOf = (
-  government: PublicBudgetGovernment,
-  startsOn: string,
-) =>
-  government.years.find((year) => year.startsOn === startsOn)
-    ?.statehoodCertification;
-
-describe("statehood and the state's federal aid", () => {
-  it("reads the loss from the measured Medicaid and children's insurance matches, 20 points of $3.42 billion and 14 of $68.3 million", () => {
-    expect(statehoodFederalAidLoss()).toBe(684_000_000 + 9_562_000);
+function pay(f: ReturnType<typeof fixture>, amount: number) {
+  const committed = commitPublicProgram(f.world, {
+    appropriationId: f.appropriationId,
+    alternative: {
+      key: "saved-payment",
+      title: "Explicit Medicaid payment fixture",
+      installments: [
+        { afterDays: 0, amount: money(amount, "USD"), purpose: "operating" },
+      ],
+      deliveryLeadDays: null,
+    },
+    personId: f.executiveId,
+    office: { kind: "state-executive" },
+    recipientOrganizationId: f.operator,
   });
-
-  it("admits the place the bill's days after the law takes effect, not the day it does", () => {
-    const world = worldWith("2026-03-01");
-    const admitted = addDays(
-      makeIsoDate("2026-03-01"),
-      STATEHOOD_ADMISSION_DAYS,
-    );
-    expect(STATEHOOD_ADMISSION_DAYS).toBe(180);
-    expect(statehoodAdmittedOn(world, makeIsoDate("2026-03-01"))).toBeNull();
-    expect(statehoodAdmittedOn(world, addDays(admitted, -1))).toBeNull();
-    expect(statehoodAdmittedOn(world, admitted)).toBe(admitted);
-    expect(statehoodAdmittedOn(worldWith(null), admitted)).toBeNull();
-  });
-
-  it("changes nothing at admission, then a state that can cover five years certifies and its federal aid falls by the lost match from the fiscal year after", () => {
-    // Admitted August 28, 2026; the first budget it adopts starts October 1,
-    // 2026, while the balance it opened with is still on hand.
-    const lawful = settled(worldWith("2026-03-01"), PLACE_KEY, "2029-09-01");
-    const asBegun = settled(worldWith(null), PLACE_KEY, "2029-09-01");
-    const decision = certificationOf(lawful, "2026-10-01")!;
-    expect(decision.certified).toBe(true);
-    expect(decision.changeStartsOn).toBe("2027-10-01");
-    expect(decision.reason).toContain("certifies to the President");
-    // Admission (August 2026) and the certification year change no money.
-    for (const month of ["2026-08-01", "2026-09-01", "2027-09-01"])
-      expect(revenueIn(lawful, "federalAid", month), month).toBe(
-        revenueIn(asBegun, "federalAid", month),
+  if (!committed.ok) throw new Error(committed.reason);
+  return settleProgramInstallment(committed.world, committed.recordId, 0);
+}
+function settle(
+  world: World,
+  government: PublicBudgetGovernment,
+  store: PublicBudgetStore,
+) {
+  const read = readMonthFlows(world, store);
+  const month = makeIsoDate(`${world.currentDate.slice(0, 7)}-01`);
+  return {
+    read,
+    month,
+    government: settleGovernmentMonth(world, government, month, read.flows)
+      .government,
+  };
+}
+describe("A24 recorded Medicaid spending uses the existing program spending row", () => {
+  it.each([125, 325, 675])(
+    "records exactly %i paid minor units without a frozen annual aid loss",
+    (amount) => {
+      const f = fixture(`a24-paid-${amount}`, amount);
+      const paid = pay(f, amount);
+      expect(paid.installment.status).toBe("posted");
+      const result = settle(paid.world, f.government, f.store);
+      const row = result.government.months.at(-1)!;
+      expect(row.spending).toEqual(
+        BUDGET_PROGRAMS.map((program) =>
+          program === "welfareAndMedicaid" ? amount / 100 : 0,
+        ),
       );
-    const loss = statehoodFederalAidLoss() / 12;
-    for (const month of ["2027-10-01", "2028-06-01", "2029-09-01"])
+      expect(row.revenue).toEqual(BUDGET_SOURCES.map(() => 0));
+      const outcome = paid.world.history.resourceTransferOutcomes.at(-1)!;
+      expect(outcome.transferredAmount.minorUnits).toBe(amount);
+      expect(row.cashSettlement?.sourceRecordIds).toContain(outcome.id);
+      expect(row.cashSettlement?.sourceRecordIds).toContain(
+        outcome.resourceFlowId,
+      );
       expect(
-        revenueIn(asBegun, "federalAid", month) -
-          revenueIn(lawful, "federalAid", month),
-        month,
-      ).toBeCloseTo(loss, -1);
-    // The budget adopted for the fiscal year expects the lower aid.
-    const adopted = (government: PublicBudgetGovernment) =>
-      government.years.find((year) => year.startsOn === "2027-10-01")!;
+        result.government.years.some((year) => year.statehoodCertification),
+      ).toBe(false);
+    },
+  );
+  it("does not turn an appropriation or cash capacity into paid program spending or certification", () => {
+    const f = fixture("a24-authority-is-not-payment", 125);
+    const row = settle(f.world, f.government, f.store).government.months.at(
+      -1,
+    )!;
+    expect(row.spending).toEqual(BUDGET_PROGRAMS.map(() => 0));
+    expect(row.revenue).toEqual(BUDGET_SOURCES.map(() => 0));
+    expect(row.cashSettlement?.sourceRecordIds).toEqual([]);
     expect(
-      adopted(asBegun).expectedRevenue[FEDERAL_AID]! -
-        adopted(lawful).expectedRevenue[FEDERAL_AID]!,
-    ).toBeCloseTo(statehoodFederalAidLoss(), -2);
-    // Every other source is untouched.
-    for (const source of BUDGET_SOURCES) {
-      if (source === "federalAid") continue;
-      expect(revenueIn(lawful, source, "2028-06-01"), source).toBe(
-        revenueIn(asBegun, source, "2028-06-01"),
-      );
-    }
+      f.world.history.publicProgramRecords?.some(
+        (record) =>
+          record.kind === "appropriation" && record.id === f.appropriationId,
+      ),
+    ).toBe(true);
   });
-
-  it("a state whose books cannot cover five years declines, writes down why, and keeps the higher match", () => {
-    // Admitted November 28, 2027, after the opening balance has been spent.
-    const lawful = settled(worldWith("2027-06-01"), PLACE_KEY, "2029-09-01");
-    const asBegun = settled(worldWith(null), PLACE_KEY, "2029-09-01");
-    const declined = certificationOf(lawful, "2028-10-01")!;
-    expect(declined.certified).toBe(false);
-    expect(declined.changeStartsOn).toBeNull();
-    expect(declined.reason).toContain("does not certify");
-    // It asks again the next year, and the books still cannot cover it.
-    expect(certificationOf(lawful, "2029-10-01")!.certified).toBe(false);
-    for (const month of ["2028-10-01", "2029-09-01"])
-      expect(revenueIn(lawful, "federalAid", month), month).toBe(
-        revenueIn(asBegun, "federalAid", month),
-      );
-  });
-
-  it("moves no other state's federal aid, drawn from all 56 places", () => {
-    const keys = Object.keys(STATES)
-      .map((usps) => `US-${usps}`)
-      .filter((key) => key !== PLACE_KEY);
-    const seed = "b14-statehood-funds";
-    const stateKey = keys[new SeededRng(seed).nextUint32() % keys.length]!;
-    const lawful = settled(worldWith("2026-03-01"), stateKey, "2028-09-01");
-    const asBegun = settled(worldWith(null), stateKey, "2028-09-01");
-    for (const month of ["2026-09-01", "2027-10-01", "2028-09-01"])
-      expect(
-        revenueIn(lawful, "federalAid", month),
-        `${stateKey} ${month}`,
-      ).toBe(revenueIn(asBegun, "federalAid", month));
-    expect(lawful.years.some((year) => year.statehoodCertification)).toBe(
-      false,
+  it("preserves old certificate bytes through Continue without inventing an aid payment", () => {
+    const f = fixture("a24-legacy-certificate", 325);
+    const legacy = {
+      decidedOn: f.world.currentDate,
+      certified: true,
+      changeStartsOn: f.world.currentDate,
+      reason: "Explicit legacy-save fixture, not current authority.",
+    };
+    const government = {
+      ...f.government,
+      years: f.government.years.map((year) => ({
+        ...year,
+        statehoodCertification: legacy,
+      })),
+    };
+    const saved = {
+      ...f.world,
+      publicBudgets: { ...f.store, governments: [government] },
+    };
+    const bytes = serializeWorld(saved);
+    const loaded = deserializeWorld(bytes);
+    expect(serializeWorld(loaded)).toBe(bytes);
+    const settled = settle(
+      loaded,
+      loaded.publicBudgets!.governments[0]!,
+      loaded.publicBudgets!,
     );
+    expect(settled.government.years[0]!.statehoodCertification).toEqual(legacy);
+    expect(settled.government.months.at(-1)!.revenue).toEqual(
+      BUDGET_SOURCES.map(() => 0),
+    );
+    expect(settled.government.months.at(-1)!.spending).toEqual(
+      BUDGET_PROGRAMS.map(() => 0),
+    );
+  });
+  it("does not charge another government or repeat a saved payment after Continue", () => {
+    const f = fixture("a24-replay-identity", 675);
+    const paid = pay(f, 675);
+    const result = settle(paid.world, f.government, f.store);
+    expect(
+      settleGovernmentMonth(
+        paid.world,
+        result.government,
+        result.month,
+        result.read.flows,
+      ).government,
+    ).toBe(result.government);
+    const other = {
+      ...f.government,
+      key: "US-DC",
+      jurisdictionId: stateJurisdictionForKey("US-DC")!.id,
+      lawJurisdictionId: stateJurisdictionForKey("US-DC")!.id,
+    };
+    const otherStore = { ...f.store, governments: [other] };
+    expect(
+      settleGovernmentMonth(
+        paid.world,
+        other,
+        result.month,
+        readMonthFlows(paid.world, otherStore).flows,
+      ).government,
+    ).toBe(other);
+    const saved = {
+      ...paid.world,
+      publicBudgets: {
+        ...f.store,
+        governments: [result.government],
+        cursor: result.read.cursor,
+      },
+    };
+    const loaded = deserializeWorld(serializeWorld(saved));
+    expect(
+      readMonthFlows(loaded, loaded.publicBudgets!).flows.recorded?.size,
+    ).toBe(0);
+    expect(
+      loaded.publicBudgets!.governments[0]!.months.at(-1)!.spending,
+    ).toEqual(result.government.months.at(-1)!.spending);
+  });
+  it("opens a new game in a random recorded place before A24 READY", () => {
+    const seed = "a24-recorded-program-spending-2026-10-02";
+    const place = drawRandomPlace(seed);
+    console.info("A24 random-place opening", {
+      seed,
+      placeKey: place.key,
+      placeName: place.displayName,
+    });
+    const opened = createExplicitGeographyLife({ placeKey: place.key, seed });
+    expect(opened.game.place.key).toBe(place.key);
+    expect(opened.game.world.people[opened.game.playerPersonId]).toBeDefined();
   });
 });

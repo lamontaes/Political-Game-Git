@@ -477,6 +477,38 @@ const CHARLOTTESVILLE: MunicipalPackInput = {
     },
   ],
   legislativeProcedure: {
+    financialGeneralThresholdUsd: said(
+      500,
+      "va-code-15-2-1428",
+      "Code of Virginia § 15.2-1428",
+      "No ordinance or resolution appropriating money exceeding the sum of $500, imposing taxes, or authorizing the borrowing of money shall be passed except by a recorded affirmative vote of a majority of all members elected to the governing body.",
+    ),
+    financialLocalRule: said(
+      {
+        operativeOn: "2026-02-02",
+        fullMembershipAboveUsd: 100,
+        delayedAboveUsd: 5000,
+        minimumInterveningDays: 3,
+        ordinaryCitations: [
+          "Code of Virginia § 15.2-1427(A)",
+          "City Code § 2-78",
+          "Charter § 12",
+        ],
+        ordinaryUnresolved: [
+          "City Code § 2-97's four-fifths same-day exception does not say what the fraction counts.",
+        ],
+        quorumCitation: "Charter § 12",
+      },
+      "va-charlottesville-city-code-ch2",
+      "City Code § 2-98(a)",
+      "For every ordinance or resolution appropriating money exceeding one hundred dollars",
+    ),
+    managerElectionThreshold: said(
+      VA_MAJORITY_PRESENT,
+      "va-code-15-2-1420",
+      "Va. Code § 15.2-1420",
+      "All questions submitted to the governing body for decision shall be determined by a majority of the members voting on any such question unless another method of determination is required by the Constitution of Virginia or general law.",
+    ),
     measureTypes: said(
       ["ordinance", "resolution"],
       "va-code-15-2-1427",
@@ -1700,6 +1732,7 @@ export const PRODUCTION_PACK_ARTIFACTS: Readonly<
     "va-code-15-2-1427",
     "va-charlottesville-city-code-ch2",
     "va-code-15-2-1428",
+    "va-code-15-2-1420",
   ],
   "us-va-richmond": [
     "va-richmond-charter",

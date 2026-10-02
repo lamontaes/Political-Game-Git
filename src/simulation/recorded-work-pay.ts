@@ -11,6 +11,39 @@ const PERIODS: Readonly<Record<string, number>> = {
   "schedule:annual": 1,
 };
 
+/** Recorded occupation hours, preferring active work in the same place. */
+export function recordedOccupationWeeklyHours(
+  world: World,
+  occupation: string,
+  jurisdictionId: EntityId | null,
+  workRelationshipId?: EntityId,
+): number | null {
+  const hours: { weekly: number; local: boolean }[] = [];
+  for (const work of world.history.workRelationships) {
+    if (
+      work.startedAt > world.currentDate ||
+      workStatusAt(world, work.id)?.status !== "active"
+    )
+      continue;
+    const role = workRoleAt(world, work.id);
+    if (role?.occupationClassification !== occupation) continue;
+    const weekly = weeklyHoursOf(role);
+    if (!Number.isFinite(weekly) || weekly < 0) continue;
+    if (work.id === workRelationshipId) return weekly;
+    hours.push({
+      weekly,
+      local:
+        jurisdictionId !== null &&
+        role.locationJurisdictionId === jurisdictionId,
+    });
+  }
+  const local = hours.filter((row) => row.local);
+  const comparable = local.length ? local : hours;
+  return comparable.length
+    ? comparable.reduce((sum, row) => sum + row.weekly, 0) / comparable.length
+    : null;
+}
+
 /** Average comparable active saved pay, with local records preferred. */
 export function recordedWorkAnnualPay(
   world: World,
