@@ -808,13 +808,6 @@
       "code": "const sameSex = rng.next() < SAME_SEX_COUPLE_SHARE;"
     },
     {
-      "file": "src/simulation/municipal-ordinance-procedure.ts",
-      "kind": "place-in-logic",
-      "build": "Build 25",
-      "count": 1,
-      "code": "if (input.governmentKey !== \"us-va-charlottesville\") {"
-    },
-    {
       "file": "src/simulation/national-election-consumer.ts",
       "kind": "place-in-logic",
       "build": "Build 27",
