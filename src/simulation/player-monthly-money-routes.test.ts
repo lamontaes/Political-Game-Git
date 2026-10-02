@@ -160,6 +160,42 @@ beforeAll(() => {
         position.openingBalance.currency === funding.currency,
     ),
   ).toHaveLength(1);
+  // Household bills consume household cash, while the mortgage consumes the
+  // buyer's personal cash. Record a transfer rather than duplicate funds.
+  world = createResourcePosition(world, {
+    stableKey: "c9:household-opening-cash",
+    owner: { kind: "household", householdId: buyingHouseholdId },
+    openedAt: world.currentDate,
+    openingBalance: money(0, "USD"),
+    provenance,
+  });
+  const householdFunding = money(funding.minorUnits / 2, funding.currency);
+  world = createResourceFlow(world, {
+    stableKey: "c9:household-funding",
+    source: { kind: "person", personId: playerId },
+    recipient: { kind: "household", householdId: buyingHouseholdId },
+    startsAt: world.currentDate,
+    amount: householdFunding,
+    cadenceKind: "schedule:one-time",
+    basisKind: "custom:fixture-funding",
+    basisReference: { kind: "general" },
+    restrictionKind: null,
+    jurisdictionId: null,
+    provenance,
+  });
+  world = recordResourceTransferOutcome(world, {
+    stableKey: "c9:household-funded",
+    resourceFlowId: world.history.resourceFlows.at(-1)!.id,
+    periodStartsAt: world.currentDate,
+    periodEndsAt: world.currentDate,
+    occurredAt: world.currentDate,
+    status: "completed",
+    attemptedAmount: householdFunding,
+    transferredAmount: householdFunding,
+    reasonKind: null,
+    note: "Transfer half the existing fixture funding to household cash.",
+    provenance,
+  });
   expect(homePurchaseReason(world, playerId)).toBeNull();
   const purchase = buyHome(world, playerId);
   expect(purchase.status).toBe("bought");
