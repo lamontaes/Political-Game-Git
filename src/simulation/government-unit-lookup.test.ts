@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { governmentUnit, governmentUnitsForState } from "./government-units";
 import acsPlaces from "../../data/research/money/place-population-acs-2024.json" with { type: "json" };
+import { lifePlaceByKey } from "./life-places";
 import { municipioUnit } from "./nationwide-world/county-governing-body-rules";
 import { CHIEF_EXECUTIVE_JURISDICTIONS } from "./nationwide-world/state-executive-candidacy-packs";
 
@@ -33,6 +34,12 @@ describe(`canonical government-unit lookup (seed ${seed})`, () => {
 
   it.each(municipios)("resolves the recorded municipio $id", (unit) => {
     expect(governmentUnit(unit.id)).toEqual(unit);
+    const place = lifePlaceByKey(`county:${unit.countyGeoid}`)!;
+    const { name, parentName } = place.context.jurisdiction;
+    const suffix = parentName ? `, ${parentName}` : "";
+    expect(unit.name).toBe(
+      suffix && name.endsWith(suffix) ? name.slice(0, -suffix.length) : name,
+    );
     expect(governmentUnit(unit.id)?.countyGeoid).toBe(unit.countyGeoid);
     expect(governmentUnit(unit.id)?.stateUsps).toBe(unit.stateUsps);
   });
