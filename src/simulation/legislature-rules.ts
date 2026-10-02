@@ -1,4 +1,8 @@
 import type { SittingCalendar } from "./legislative-session-calendar";
+import {
+  assertMeasureTitleTemplate,
+  type MeasureTitleTemplate,
+} from "./measure-title";
 /**
  * Runtime institutional rule contract for legislatures.
  *
@@ -577,6 +581,8 @@ export interface OriginationRule {
  * knowledge of its own.
  */
 export interface LegislativeRulePack {
+  /** Authored display title; absent in older packs and saves. */
+  readonly titleTemplate?: MeasureTitleTemplate;
   readonly packId: string;
   readonly jurisdictionKey: string;
   readonly displayName: string;
@@ -874,6 +880,7 @@ function assertOriginationChambers(
  * described is internally coherent; it never invents a missing rule.
  */
 export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
+  if (pack.titleTemplate) assertMeasureTitleTemplate(pack.titleTemplate);
   if (pack.packId.trim().length === 0) {
     throw new Error("A rule pack must have an identifier.");
   }

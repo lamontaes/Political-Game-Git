@@ -1,4 +1,8 @@
 import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
+import {
+  COUNCIL_ACT_MEASURE_TITLE,
+  ORDINANCE_MEASURE_TITLE,
+} from "./measure-title";
 /**
  * The municipal government a life actually lives under.
  *
@@ -886,6 +890,9 @@ export function municipalRulePackFor(
 
   const pack: LegislativeRulePack = {
     packId: municipalRulePackId(reading),
+    titleTemplate: reading.procedure.measureTypes?.includes("act")
+      ? COUNCIL_ACT_MEASURE_TITLE
+      : ORDINANCE_MEASURE_TITLE,
     jurisdictionKey: `US-${reading.state}`,
     displayName: `${reading.displayName} — ${bodyName}`,
     // Compiled from this city's own charter reading, so it states read law.

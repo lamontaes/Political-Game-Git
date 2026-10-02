@@ -8,7 +8,11 @@ import {
 } from "../../presentation/new-game";
 import { municipalRulePackFor } from "../municipal-government";
 import { addDays } from "../dates";
-import { enactedLawEffects } from "../enacted-law-effects";
+import {
+  enactedLawEffects,
+  applyEnactedLawEffects,
+} from "../enacted-law-effects";
+import { governingMatters, stateGoverningHandlers } from "./state-governing";
 import {
   createFutureTransitionHandlerRegistry,
   scheduleFutureDueItem,
@@ -478,7 +482,7 @@ describe("automatic local law under thirty days of the World clock", () => {
   expect(councilProofPlaces).toHaveLength(5);
   it.each(councilProofPlaces)(
     "A77 decides the actual council's ballots through the shared driver in $placeKey",
-    ({ placeKey }) => {
+    ({ placeKey }: { placeKey: string }) => {
       const opening = thirtyDayLawOpening(placeKey, true);
       const meetingOpening = scheduleFutureDueItem(opening.world, {
         stableKey: `${LOCAL_COUNCIL_MEETINGS_VERSION}:${opening.governmentKey}:posted-meeting:${addDays(opening.world.currentDate, 1)}`,
@@ -926,7 +930,7 @@ const referencePlaces = CHIEF_EXECUTIVE_JURISDICTIONS.flatMap(
 describe("saved local reference authority sampled from all 56 places", () => {
   it.each(referencePlaces)(
     "uses the saved context and refuses missing or mismatched evidence in $placeKey",
-    ({ placeKey }) => {
+    ({ placeKey }: { placeKey: string }) => {
       expect(CHIEF_EXECUTIVE_JURISDICTIONS).toHaveLength(56);
       expect(referencePlaces).toHaveLength(5);
       const opening = thirtyDayLawOpening(placeKey, true);
@@ -1048,4 +1052,67 @@ describe("saved local reference authority sampled from all 56 places", () => {
       );
     },
   );
+});
+
+describe("A90 enacted appropriations reach their offices without caller wrappers", () => {
+  it("opens a recorded council program matter and preserves it through Continue and repeat", () => {
+    const opening = thirtyDayLawOpening(undefined, true);
+    const referenceWorld = withRecordedFiscalReferences(
+      opening.world,
+      opening.governmentKey,
+      opening.jurisdictionId,
+      opening.members,
+    );
+    const handlers = createFutureTransitionHandlerRegistry([
+      ...localMemberAgendaHandlers(),
+      ...localCouncilMeetingHandlers(),
+      ...councilActHandlers(),
+      ...stateGoverningHandlers(),
+      [
+        POLITICAL_REFLECTION_TRANSITION_KEY,
+        politicalReflectionTransitionHandler,
+      ] as const,
+    ]);
+    const world = advanceWorld(referenceWorld, 30, handlers);
+    const appropriations = (world.history.publicProgramRecords ?? []).filter(
+      (record): record is PublicProgramAppropriationRecord =>
+        record.kind === "appropriation" &&
+        world.history.legislativeEnactments!.some(
+          (enactment) =>
+            enactment.measureId === record.sourceMeasureId &&
+            enactment.outcome === "enacted",
+        ),
+    );
+    expect(appropriations.length).toBeGreaterThan(0);
+    const programMatters = governingMatters(world).filter(
+      (matter) =>
+        matter.family === "program" &&
+        appropriations.some((record) => record.id === matter.appropriationId),
+    );
+    expect(programMatters.length).toBeGreaterThan(0);
+    for (const matter of programMatters) {
+      const appropriation = appropriations.find(
+        (record) => record.id === matter.appropriationId,
+      )!;
+      expect(appropriation.amount.minorUnits).toBeGreaterThan(0);
+      expect(
+        measurePosition(world, appropriation.sourceMeasureId!).outcome,
+      ).toBe("enacted");
+    }
+    const continued = deserializeWorld(serializeWorld(world));
+    expect(governingMatters(continued)).toEqual(governingMatters(world));
+    let repeated = continued;
+    for (const appropriation of appropriations)
+      repeated = applyEnactedLawEffects(
+        repeated,
+        appropriation.sourceMeasureId!,
+      );
+    expect(repeated.history.publicProgramRecords).toEqual(
+      continued.history.publicProgramRecords,
+    );
+    expect(governingMatters(repeated)).toEqual(governingMatters(continued));
+    expect(repeated.history.futureDueItems).toEqual(
+      continued.history.futureDueItems,
+    );
+  });
 });

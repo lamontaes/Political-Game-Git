@@ -1,4 +1,4 @@
-import { recordEventKnowledge } from "../simulation";
+import { provisionReach, recordEventKnowledge } from "../simulation";
 import type {
   EntityId,
   LegislativeProcedureContext,
@@ -277,8 +277,10 @@ export function bargainingSubjectFacts(input: {
     programProvisionKey: PROGRAM_PROVISION_KEY,
     programSectionLabel: "Section 3",
     programHeading: "Pilot support limit",
-    programReach:
-      "language reaching every rider enrolled in a state assistance program",
+    programReach: {
+      relation: "reaching",
+      who: "every rider enrolled in a state assistance program",
+    },
     billAmountLabel: "$8,000,000",
 
     requestedProvisionKey: REQUESTED_PROVISION_KEY,
@@ -544,11 +546,7 @@ export function bargainingSubjectFactsForDraft(input: {
     programProvisionKey: programClause.provisionKey,
     programSectionLabel: `Section ${programClause.sectionNumber}`,
     programHeading: programClause.heading,
-    programReach: `language reaching ${
-      programClause.beneficiary.kind === "general-application"
-        ? programClause.beneficiary.appliesToLabel
-        : programClause.beneficiary.beneficiaryLabel
-    }`,
+    programReach: provisionReach(programClause),
     // What the bill commits as it reads. Null means it commits nothing, which
     // is a real answer for a mandate and is said rather than shown as zero.
     // An appropriation states its amount as money provided, not as a ceiling.

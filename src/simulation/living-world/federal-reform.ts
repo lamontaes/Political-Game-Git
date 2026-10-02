@@ -18,6 +18,7 @@ import { scheduleFutureDueItem } from "../future-transitions";
 import {
   CONSTITUTIONAL_BAR,
   congressVoters,
+  constitutionalMemberConsiderations,
   type Voter,
 } from "../governing/article-v";
 import {
@@ -411,10 +412,11 @@ export function decideArticleVStateMemberVotes(
     constitutionalPosition(world, measureId).phase !== "ratification" ||
     !pack ||
     !ARTICLE_V_STATE_KEYS.includes(pack.jurisdictionKey) ||
-    !holder ||
-    delta?.kind !== "rule-field" ||
-    delta.officeKey !== PRESIDENT_OFFICE_KEY ||
-    delta.field !== "executive.term.limit"
+    (delta?.kind !== "policy-provision" &&
+      (!holder ||
+        delta?.kind !== "rule-field" ||
+        delta.officeKey !== PRESIDENT_OFFICE_KEY ||
+        delta.field !== "executive.term.limit"))
   )
     return null;
   const rosters = pack.chambers.map((body) => ({
@@ -436,13 +438,16 @@ export function decideArticleVStateMemberVotes(
       ),
     ),
   );
-  const cause = {
-    direction:
-      delta.applicability?.appliesTo === "immediately"
-        ? ("extend" as const)
-        : ("restore" as const),
-    holderPersonId: holder,
-  };
+  const cause =
+    delta?.kind === "rule-field" && holder
+      ? {
+          direction:
+            delta.applicability?.appliesTo === "immediately"
+              ? ("extend" as const)
+              : ("restore" as const),
+          holderPersonId: holder,
+        }
+      : null;
   return {
     world: next,
     chambers: rosters.map(({ bodyKey, roster }) => {
@@ -468,14 +473,21 @@ export function decideArticleVStateMemberVotes(
                 ? [
                     [
                       member.memberKey,
-                      termLimitConsiderations(
-                        next,
-                        {
-                          memberKey: member.memberKey,
-                          personId: member.personId,
-                        },
-                        cause,
-                      ),
+                      delta?.kind === "policy-provision"
+                        ? constitutionalMemberConsiderations(
+                            next,
+                            member.personId,
+                            delta.propositionId,
+                            delta.stance === "adopt" ? "yes" : "no",
+                          )
+                        : termLimitConsiderations(
+                            next,
+                            {
+                              memberKey: member.memberKey,
+                              personId: member.personId,
+                            },
+                            cause!,
+                          ),
                     ] as const,
                   ]
                 : [],
