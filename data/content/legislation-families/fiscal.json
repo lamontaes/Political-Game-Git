@@ -167,7 +167,9 @@
                 },
                 "fiscalExposureLabel": null
               },
-              "requiredAuthorityPresenceMessage": "An appropriation reached its authority clause without an authority."
+              "requiredAuthority": {
+                "message": "An appropriation reached its authority clause without an authority."
+              }
             },
             {
               "provisionKey": "amount-provided",
@@ -333,7 +335,9 @@
                 },
                 "fiscalExposureLabel": null
               },
-              "requiredAuthorityPresenceMessage": "A supplemental appropriation reached its authority clause without an authority."
+              "requiredAuthority": {
+                "message": "A supplemental appropriation reached its authority clause without an authority."
+              }
             },
             {
               "provisionKey": "amount-provided",
@@ -478,7 +482,9 @@
                 },
                 "fiscalExposureLabel": null
               },
-              "requiredAuthorityPresenceMessage": "A matched appropriation reached its authority clause without an authority."
+              "requiredAuthority": {
+                "message": "A matched appropriation reached its authority clause without an authority."
+              }
             },
             {
               "provisionKey": "amount-provided",
@@ -563,11 +569,7 @@
       "familyVersion": "v3",
       "title": "Sunset and repeal",
       "mechanism": "Ends, shortens or extends an authority that already exists, without providing or withdrawing a dollar.",
-      "acceptedDimensions": [
-        "authority-reference",
-        "timing",
-        "oversight"
-      ],
+      "acceptedDimensions": ["authority-reference", "timing", "oversight"],
       "structuralProvenance": [
         {
           "kind": "source-example",
@@ -664,7 +666,9 @@
                 },
                 "fiscalExposureLabel": null
               },
-              "requiredAuthorityPresenceMessage": "A sunset reached its authority clause without an authority."
+              "requiredAuthority": {
+                "message": "A sunset reached its authority clause without an authority."
+              }
             },
             {
               "provisionKey": "sunset-date",
@@ -756,7 +760,7 @@
               "maxYears": 12,
               "evidence": {
                 "kind": "authored-parameter",
-                "note": "An authored replacement expiration measured from this draft’s filing date, not an addition to an unknown earlier date."
+                "note": "An authored replacement expiration measured from this draft\u2019s filing date, not an addition to an unknown earlier date."
               }
             },
             {
@@ -801,7 +805,9 @@
                 },
                 "fiscalExposureLabel": null
               },
-              "requiredAuthorityPresenceMessage": "An extension reached its authority clause without an authority."
+              "requiredAuthority": {
+                "message": "An extension reached its authority clause without an authority."
+              }
             },
             {
               "provisionKey": "extension-date",
@@ -938,7 +944,9 @@
                 },
                 "fiscalExposureLabel": null
               },
-              "requiredAuthorityPresenceMessage": "A repeal reached its authority clause without an authority."
+              "requiredAuthority": {
+                "message": "A repeal reached its authority clause without an authority."
+              }
             },
             {
               "provisionKey": "effective-date",
