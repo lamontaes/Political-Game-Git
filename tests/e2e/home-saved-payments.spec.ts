@@ -6,6 +6,7 @@ for (const suffix of [1, 2, 3]) {
   test(`ordinary Day shows separate saved rent and nonhousing receipts (${seed})`, async ({
     page,
   }, info) => {
+    const startedAt = Date.now();
     await page.goto("/");
     await expect(page.getByTestId("new-game")).toBeVisible();
     const before = await page.evaluate(async (seed) => {
@@ -69,6 +70,13 @@ for (const suffix of [1, 2, 3]) {
     });
     await page.reload();
     await page.getByTestId("continue").click();
+    // Continue loads and prepares the actual saved world asynchronously.
+    // Await that operation within this case's existing budget before calling
+    // the orientation helper, whose five-second check assumes a mounted game.
+    await page.getByTestId("play-screen").waitFor({
+      state: "visible",
+      timeout: Math.max(1, info.timeout - (Date.now() - startedAt) - 5_000),
+    });
     await enterLife(page);
     await page.getByTestId("shell-pass-day").click();
     await expect(page.getByTestId("shell-pass-day")).not.toHaveAttribute(
