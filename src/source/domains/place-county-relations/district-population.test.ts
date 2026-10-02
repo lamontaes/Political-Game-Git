@@ -94,9 +94,34 @@ describe("normalizeDistrictPopulationParts authored source fixtures", () => {
         ).toBe(rows.length);
         return rows;
       });
-    expect(shardRows.map((row) => JSON.stringify(row)).sort()).toEqual(
-      districts.map((row) => JSON.stringify(row)).sort(),
-    );
+    expect(
+      shardRows.map((row) => JSON.stringify(row.slice(0, 6))).sort(),
+    ).toEqual(districts.map((row) => JSON.stringify(row)).sort());
+    const groups = new Map<string, unknown[][]>();
+    for (const row of shardRows) {
+      const key = `${row[0]}:${row[1]}:${row[2]}`;
+      const group = groups.get(key) ?? [];
+      group.push(row);
+      groups.set(key, group);
+    }
+    let actualTieCount = 0;
+    for (const rows of groups.values()) {
+      const max = Math.max(...rows.map((row) => row[4] as number));
+      const tied = rows.filter((row) => row[4] === max);
+      if (tied.length < 2) continue;
+      actualTieCount += 1;
+      expect(
+        tied.every(
+          (row) =>
+            typeof row[6] === "number" &&
+            Number.isSafeInteger(row[6]) &&
+            (row[6] as number) >= 0,
+        ),
+      ).toBe(true);
+      const largestArea = Math.max(...tied.map((row) => row[6] as number));
+      expect(tied.filter((row) => row[6] === largestArea)).toHaveLength(1);
+    }
+    expect(actualTieCount).toBeGreaterThan(0);
     const loaderPath = "src/districts/district-population-loaders.generated.ts";
     expect(modules.get(loaderPath)).toBe(
       readFileSync(

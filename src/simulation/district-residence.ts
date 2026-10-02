@@ -798,7 +798,7 @@ function confirmSplitHomeAssignment(
  * for each chamber where the world has no membership for them yet.
  *
  * A split town's resident is estimated in its largest Census population part.
- * Tied largest parts, unread rows, and zero totals do not assign.
+ * Population ties use the larger recorded place-part land area as an estimate.
  *
  * The population parts estimate which crossing district contains a home;
  * they do not certify an individual address. The estimate is recorded through
@@ -836,13 +836,37 @@ export function assignSplitHomeDistricts(
       chamber,
       asOf: next.currentDate,
     });
-    const placement = shares[0];
+    const largest = shares[0];
+    if (!largest) continue;
+    const tied = shares.filter(
+      (part) => part.populationCount === largest.populationCount,
+    );
+    const byArea =
+      tied.length > 1
+        ? [...tied].sort(
+            (left, right) =>
+              (right.partLandAreaSquareMeters ?? -1) -
+              (left.partLandAreaSquareMeters ?? -1),
+          )
+        : tied;
+    const placement = byArea[0]!;
     if (
-      !placement ||
-      placement.populationCount === 0 ||
-      shares[1]?.populationCount === placement.populationCount
+      tied.length > 1 &&
+      (!tied.every(
+        (part) =>
+          part.partLandAreaSquareMeters !== null &&
+          part.partLandAreaSquareMeters !== undefined &&
+          Number.isSafeInteger(part.partLandAreaSquareMeters) &&
+          part.partLandAreaSquareMeters >= 0,
+      ) ||
+        byArea[1]?.partLandAreaSquareMeters ===
+          placement.partLandAreaSquareMeters)
     )
       continue;
+    const evidence =
+      tied.length > 1
+        ? `ESTIMATED FROM RECORDED PART LAND AREA: population tied at ${largest.populationCount}; district ${placement.identity.recordId} has the larger place-part land area (${placement.partLandAreaSquareMeters} square meters). Compared actual parts: ${tied.map((part) => `${part.identity.recordId}=${part.partLandAreaSquareMeters} square meters`).join(", ")}.`
+        : `ESTIMATED FROM CENSUS POPULATION: the largest recorded district part contains ${placement.populationCount} of ${shares.reduce((sum, row) => sum + row.populationCount, 0)} residents.`;
     const pick = placement.identity;
     const recorded = establishDistrictResidence(next, {
       personId,
@@ -851,7 +875,7 @@ export function assignSplitHomeDistricts(
       provenance: {
         method: "split-home-assignment",
         sourceEventId: residence.id,
-        note: `ESTIMATED FROM CENSUS POPULATION: the largest recorded district part contains ${placement.populationCount} of ${shares.reduce((sum, row) => sum + row.populationCount, 0)} residents of Census place ${placeGeoid} (${placeRelationVintageFor(chamber, placeGeoid, next.currentDate)}). This estimates home placement, not a verified address.`,
+        note: `${evidence} Census place ${placeGeoid} (${placeRelationVintageFor(chamber, placeGeoid, next.currentDate)}). This estimates home placement, not a verified address.`,
       },
     });
     if (recorded.kind === "recorded") next = recorded.world;

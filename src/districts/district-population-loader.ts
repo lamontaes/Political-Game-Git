@@ -9,6 +9,7 @@ export interface DistrictPopulationPart {
   readonly districtGeoid: string;
   readonly partPopulationCount: number;
   readonly placePopulationCount: number;
+  readonly partLandAreaSquareMeters?: number | null;
 }
 
 const pendingStates = new Map<string, Promise<boolean>>();
@@ -38,7 +39,7 @@ export function prepareDistrictPopulationForState(
     for (const row of value as unknown[][]) {
       if (
         !Array.isArray(row) ||
-        row.length !== 6 ||
+        row.length !== 7 ||
         typeof row[0] !== "string" ||
         !row[0].startsWith(stateFips)
       )
@@ -52,7 +53,16 @@ export function prepareDistrictPopulationForState(
         districtGeoid,
         partPopulationCount,
         placePopulationCount,
-      ] = row as [string, DistrictChamber, string, string, number, number];
+        partLandAreaSquareMeters,
+      ] = row as [
+        string,
+        DistrictChamber,
+        string,
+        string,
+        number,
+        number,
+        number | null,
+      ];
       const parts = byPlace.get(placeGeoid) ?? [];
       parts.push({
         placeGeoid,
@@ -61,6 +71,7 @@ export function prepareDistrictPopulationForState(
         districtGeoid,
         partPopulationCount,
         placePopulationCount,
+        partLandAreaSquareMeters,
       });
       byPlace.set(placeGeoid, parts);
     }

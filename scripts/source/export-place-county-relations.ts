@@ -143,6 +143,61 @@ export function renderPlaceCountyModule(): string {
   ].join("\n");
 }
 
+/** Measured place-part land areas from the already locked relationship tables. */
+function recordedDistrictPartAreas(): ReadonlyMap<string, number> {
+  const areas = new Map<string, number>();
+  const sources = [
+    [
+      "state-lower",
+      "sld-place-relations",
+      "tab20_sldl202420_place20_natl.txt",
+      "GEOID_SLDL2024_20",
+      "census-rel-2024-sld-place20",
+    ],
+    [
+      "state-upper",
+      "sld-place-relations",
+      "tab20_sldu202420_place20_natl.txt",
+      "GEOID_SLDU2024_20",
+      "census-rel-2024-sld-place20",
+    ],
+    [
+      "congressional",
+      "cd-place-relations",
+      "tab20_cd11920_place20_natl.txt",
+      "GEOID_CD119_20",
+      "census-rel-2020-cd119-place20",
+    ],
+  ] as const;
+  for (const [chamber, domain, file, districtColumn, vintage] of sources) {
+    const lines = readFileSync(
+      resolve(domainDataDir(domain), "raw", file),
+      "utf8",
+    )
+      .replace(/^\uFEFF/, "")
+      .trimEnd()
+      .split(/\r?\n/);
+    const header = lines.shift()!.split("|");
+    const columns = ["GEOID_PLACE_20", districtColumn, "AREALAND_PART"].map(
+      (name) => header.indexOf(name),
+    );
+    if (columns.some((index) => index < 0))
+      throw new Error(`Missing relationship area column in ${file}`);
+    for (const line of lines) {
+      const cells = line.split("|");
+      const place = cells[columns[0]!]!;
+      const district = cells[columns[1]!]!;
+      if (!district) continue;
+      const area = Number(cells[columns[2]!]!);
+      if (!Number.isSafeInteger(area) || area < 0)
+        throw new Error(`Invalid part area in ${file}`);
+      const key = `${place}:${chamber}:${vintage}:${district}`;
+      areas.set(key, (areas.get(key) ?? 0) + area);
+    }
+  }
+  return areas;
+}
+
 /** State shards retain the corpus order and every measured zero-count part. */
 export function renderDistrictPopulationModules(): ReadonlyMap<string, string> {
   const records = JSON.parse(
@@ -151,6 +206,7 @@ export function renderDistrictPopulationModules(): ReadonlyMap<string, string> {
       "utf8",
     ),
   ) as PlaceRelationRecord[];
+  const areas = recordedDistrictPartAreas();
   const byState = new Map<string, unknown[][]>();
   for (const record of records) {
     if (!("relationKind" in record)) continue;
@@ -163,6 +219,9 @@ export function renderDistrictPopulationModules(): ReadonlyMap<string, string> {
       row.districtGeoid,
       row.partPopulationCount,
       row.placePopulationCount,
+      areas.get(
+        `${row.placeGeoid}:${row.chamber}:${row.boundaryVintage}:${row.districtGeoid}`,
+      ) ?? null,
     ]);
     byState.set(row.stateFips, parts);
   }

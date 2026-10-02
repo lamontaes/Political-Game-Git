@@ -282,7 +282,7 @@ describe(`district population parts in ${place.displayName}, seed ${seed}`, () =
     expect(serializeWorld(reopened)).toBe(saved);
     expect(assignSplitHomeDistricts(reopened, personId)).toBe(reopened);
   });
-  it("does not choose a residence by identity when the largest parts tie", () => {
+  it("estimates population ties from larger recorded part area and preserves the saved result", () => {
     const { world, personId } = smallWorld({
       place: place.key,
       seed,
@@ -294,6 +294,7 @@ describe(`district population parts in ${place.displayName}, seed ${seed}`, () =
         ...row,
         partPopulationCount: 10,
         placePopulationCount: parts.length * 10,
+        partLandAreaSquareMeters: row === parts[1] ? 200 : 100,
       })),
     );
     expect(tied.length).toBeGreaterThan(1);
@@ -306,16 +307,88 @@ describe(`district population parts in ${place.displayName}, seed ${seed}`, () =
       );
     try {
       const next = assignSplitHomeDistricts(world, personId);
+      const intervals = districtResidenceIntervals(next).filter(
+        (interval) =>
+          interval.personId === personId &&
+          interval.binding.chamber === chamber,
+      );
+      expect(intervals).toHaveLength(1);
+      expect(intervals[0]!.binding.geoid).toBe(parts[1]!.districtGeoid);
+      expect(intervals[0]!.provenance.note).toContain(
+        "ESTIMATED FROM RECORDED PART LAND AREA",
+      );
+      for (const part of tied)
+        expect(intervals[0]!.provenance.note).toContain(part.identity.recordId);
       expect(
-        districtResidenceIntervals(next).filter(
-          (interval) =>
-            interval.personId === personId &&
-            interval.binding.chamber === chamber,
+        homeJurisdictionResidenceSince(
+          next,
+          personId,
+          world.people[personId]!.homeJurisdictionId,
+          world.currentDate,
         ),
-      ).toEqual([]);
+      ).toEqual(
+        homeJurisdictionResidenceSince(
+          world,
+          personId,
+          world.people[personId]!.homeJurisdictionId,
+          world.currentDate,
+        ),
+      );
+      const saved = serializeWorld(next);
+      const reopened = deserializeWorld(saved);
+      expect(serializeWorld(reopened)).toBe(saved);
+      expect(assignSplitHomeDistricts(reopened, personId)).toBe(reopened);
     } finally {
       reader.mockRestore();
     }
+  });
+
+  it("writes an acquired exact tie using its measured larger land part", async () => {
+    const tiePlace = drawRandomPlace(`${seed}-actual-tie`, (candidate) => {
+      const rows = (
+        acquiredByPlace.get(candidate.sourceGeoid ?? "") ?? []
+      ).filter((row) => row.chamber === chamber);
+      const max = Math.max(...rows.map((row) => row.partPopulationCount));
+      return rows.filter((row) => row.partPopulationCount === max).length > 1;
+    });
+    await prepareDistrictPopulationForState(tiePlace.stateJurisdictionKey);
+    const actual = districtPopulationShares({
+      catalog,
+      placeGeoid: tiePlace.sourceGeoid!,
+      chamber,
+      asOf: "2026-01-05",
+    });
+    const tied = actual.filter(
+      (row) => row.populationCount === actual[0]!.populationCount,
+    );
+    expect(tied.length).toBeGreaterThan(1);
+    const largestArea = [...tied].sort(
+      (a, b) => b.partLandAreaSquareMeters! - a.partLandAreaSquareMeters!,
+    )[0]!;
+    expect(
+      tied.filter(
+        (row) =>
+          row.partLandAreaSquareMeters === largestArea.partLandAreaSquareMeters,
+      ),
+    ).toHaveLength(1);
+    const { world, personId } = smallWorld({
+      place: tiePlace.key,
+      seed: `${seed}-actual-tie`,
+      household: true,
+    });
+    const next = assignSplitHomeDistricts(world, personId);
+    const interval = districtResidenceIntervals(next).find(
+      (row) => row.personId === personId && row.binding.chamber === chamber,
+    )!;
+    expect(interval.binding.geoid).toBe(largestArea.identity.geoid);
+    expect(interval.provenance.note).toContain(
+      String(largestArea.partLandAreaSquareMeters),
+    );
+    expect(interval.provenance.note).toContain(
+      "ESTIMATED FROM RECORDED PART LAND AREA",
+    );
+    const saved = serializeWorld(next);
+    expect(serializeWorld(deserializeWorld(saved))).toBe(saved);
   });
 
   it("retains acquired zero-count parts with zero shares", () => {

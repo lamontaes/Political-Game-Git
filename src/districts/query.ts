@@ -306,6 +306,7 @@ export function districtPopulationShares(input: {
     readonly boundaryVintage: string;
     readonly partPopulationCount: number;
     readonly placePopulationCount: number;
+    readonly partLandAreaSquareMeters?: number | null;
   }[];
   readonly placeGeoid: string;
   readonly chamber: DistrictChamber;
@@ -314,6 +315,7 @@ export function districtPopulationShares(input: {
   readonly identity: DistrictIdentity;
   readonly populationCount: number;
   readonly populationShare: number;
+  readonly partLandAreaSquareMeters?: number | null;
 }[] {
   const vintage = placeRelationVintageFor(
     input.chamber,
@@ -366,6 +368,7 @@ export function districtPopulationShares(input: {
       identity,
       populationCount: part.partPopulationCount,
       populationShare: total === 0 ? 0 : part.partPopulationCount / total,
+      partLandAreaSquareMeters: part.partLandAreaSquareMeters,
     });
   }
   return result.sort(
