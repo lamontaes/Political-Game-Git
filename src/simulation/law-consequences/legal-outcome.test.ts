@@ -326,6 +326,15 @@ describe("recorded floors reach saved sentences", () => {
           ?.slice(SENTENCE_MONTHS_TAG.length),
       );
       const bounds = sourcedCustodyBoundsForCase(sentenced, nativeCase)!;
+      const appliedFloor = custodyFloorAt(sentenced, nativeCase)!;
+      expect(appliedFloor.months).toBe(120);
+      expect(event!.tags).toContain(
+        `justice.sentence-minimum-law:${measured.id}`,
+      );
+      for (const source of appliedFloor.sourceRecordIds)
+        expect(event!.tags).toContain(
+          `justice.sentence-minimum-source:${source}`,
+        );
       expect(Number.isFinite(months)).toBe(true);
       expect(months).toBeGreaterThanOrEqual(bounds.minimumMonths);
       if (bounds.maximumMonths !== null)

@@ -132,7 +132,9 @@ function publicAccountCandidates(
       const municipal = unit ? null : municipalGovernmentByKey(governmentKey);
       jurisdictionId =
         unit?.functionalActive &&
-        (unit.unitType === "county" || unit.unitType === "municipality")
+        (unit.unitType === "county" ||
+          unit.unitType === "municipality" ||
+          unit.unitType === "township")
           ? governmentUnitJurisdictionId(unit)
           : municipal?.placeGeoid
             ? (lifePlaceByKey(municipal.placeGeoid)?.context.jurisdiction.id ??

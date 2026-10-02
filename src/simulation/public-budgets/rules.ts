@@ -112,12 +112,12 @@ export const TAX_QUESTION_EFFECTS: readonly {
   {
     questionKey: "us-policy-positions:fiscal.adopt-income-tax",
     source: "individualIncomeTax",
-    // Adopting one needs a level, not a share: `income-tax-adoption.ts`.
+    // Adoption collections come from actual wage-base assessments/payments.
     toYes: null,
     // A repeal ends the tax: a state with no income tax collects none.
     toNo: -1,
     basis:
-      "A repeal ends the tax, so the state collects none. An adopted tax collects the per-resident average of the states that tax wages, moved by the state's median earnings (income-tax-adoption.ts, ESTIMATED FROM AVERAGE).",
+      "A repeal ends the tax, so the state collects none. An adopted tax collects through recorded paycheck withholding using its operative terms; no population-based revenue level is inferred.",
   },
   {
     questionKey: "us-policy-positions:fiscal.graduated-income-tax",
@@ -132,20 +132,6 @@ export const TAX_QUESTION_EFFECTS: readonly {
     toNo: -0.6053 / 4.97,
     basis:
       "Illinois 2020 graduated-rate estimate ($3.4 billion a year) and Iowa SF 2442 fiscal note, final action ($605.3 million in FY 2026), each over the state's 2022 individual income tax collections (Census Bureau).",
-  },
-  {
-    questionKey: "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
-    source: "generalSalesTax",
-    // Oklahoma's HB 1955 (2024) ended the state's 4.5% sales tax on
-    // groceries: $370.3 million a year in the Oklahoma Tax Commission's fiscal
-    // impact statement, over Oklahoma's $3.57 billion of general sales tax
-    // (Census Bureau 2022 per resident times 2024 population), 10.4% of it.
-    toYes: -0.3703 / 3.5735,
-    // Taxing groceries again where they are exempt adds the same base back:
-    // the 10.4% share over the 89.6% left.
-    toNo: 0.3703 / (3.5735 - 0.3703),
-    basis:
-      "Oklahoma HB 1955 (2024) fiscal impact statement, Oklahoma Tax Commission: $370.3 million a year, over Oklahoma's 2022 general sales tax (Census Bureau) at 2024 population. A state that taxed groceries at a reduced rate loses less; the full-rate example is used for every state until each state's grocery base is read.",
   },
   {
     questionKey:
@@ -172,34 +158,6 @@ export const TAX_QUESTION_EFFECTS: readonly {
     toYes: null,
     toNo: null,
     basis: "Not researched: a cap slows growth rather than moving a level.",
-  },
-  {
-    questionKey: INCENTIVE_CAP_QUESTION,
-    source: "corporateIncomeTax",
-    // California's 2026 permanent business credit limitation (the greater of
-    // $5 million or half of a corporation's tax before credits): $1.7 to
-    // $1.8 billion a year from 2027-28 (Legislative Analyst's Office), over
-    // California's $46.01 billion corporate income tax (2022).
-    toYes: 1.75 / 46.01,
-    // Lifting a cap gives the same credits back.
-    toNo: -1.75 / 46.01,
-    basis:
-      "California business credit limitation in the May Revision of the 2026-27 budget, $1.7-1.8 billion a year (LAO, The 2026-27 Budget: Permanent Business Credit Limitation), over California's 2022 corporate income tax (Census Bureau); ESTIMATED FROM AVERAGE, one state's note.",
-  },
-  {
-    questionKey: INCENTIVE_CAP_QUESTION,
-    source: "propertyTax",
-    // Local incentives are mostly property tax abatements: governments
-    // reported $93 billion abated over 2017-2022 under GASB 77 (Good Jobs
-    // First), $15.5 billion a year, against $649.03 billion of state and
-    // local property tax (2022). A cap keeps about half of what it caps, the
-    // share California's cap takes back of its $3.5 billion a year in
-    // research credits.
-    toYes: ((1.75 / 3.5) * 15.5) / 649.03,
-    toNo: -((1.75 / 3.5) * 15.5) / 649.03,
-    levels: ["county", "city"],
-    basis:
-      "GASB 77 abatement disclosures, $93 billion over 2017-2022 (Good Jobs First, Hidden Costs No More, 2024), over 2022 state and local property tax (Census Bureau), times the half of credits California's 2026 cap takes back (LAO); ESTIMATED FROM AVERAGE.",
   },
 ];
 

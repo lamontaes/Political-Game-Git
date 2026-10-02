@@ -1,0 +1,26 @@
+A45: final adopted employee-premium terms, baseline412d521483266115d2d646ec2be9dd53856c5ba0.
+Keys/units: rate/basis-points of covered wages; cap/dollars/year of annual covered wages (CTO09:35 ruling).
+These are authored bill terms, not empirically estimated legal defaults or universal legal bounds.
+Survivor: readFinalEnactedLawTerm -> paidLeavePremium -> premiumOn -> assessPaychecksTaxes -> existing liability/payment/transfer writers.
+Replaces: existing premium rate/cap selection ignoring final adopted terms, and 5% typical-program integrity surrogate which rejected adopted 6% terms on reload. No second calculator/assessment/collection.
+Starting collection dates unchanged; absent/invalid adopted terms retain sourced or labeled component fallbacks. No starting-law or territory legislative authority invented.
+
+Native changed file paid-leave-enacted-premium.test.ts: 13PASS/1TODO of14,30.05s total/1.50s test bodies, stock30s/one worker. Session73040exit0.
+Five seeded positive jurisdictions selected from all56 with existing legislative packs: CT/CA/CO/AZ/AR. AS in the initial seed selection has no canonical legislature; explicitTODO, not successful law proof.
+Authored controlled bill/wages only. Bill37.5basispoints, cap$50/year; actual saved$72pay produces$50taxable wages and19minor-unit premium allocation through existing state withholding.
+CT CharlesMcNeil person_c2c575748045133b; law legislative-measure_fadd8bf77acde2f5; liability statutory-tax-liability_f48ebd07fd860544; payment statutory-tax-payment_d458eaf1c579ca18; transfer resource-transfer-outcome_4d7d037f4be717cc.
+CA ZaneMcConnell person_29e11ffebdc9eae4; law legislative-measure_e2f02c83b70c5afc; liability statutory-tax-liability_6833bee47899c121; payment statutory-tax-payment_bd7c10c95ba6e7b9; transfer resource-transfer-outcome_e8189dca6fa57665.
+CO BrianPetty person_5fae35f69a092e71; law legislative-measure_6d28bfbf70ddfc7a; liability statutory-tax-liability_4c884a323be8f863; payment statutory-tax-payment_9faa9d7560737bc7; transfer resource-transfer-outcome_c99b858193bd9aff.
+AZ WarrenSpence person_3ac6b4bfd191a708; law legislative-measure_959020dde4e36fa8; liability statutory-tax-liability_71df6222b35907b7; payment statutory-tax-payment_7499233ab2a72bfb; transfer resource-transfer-outcome_074fa6b2f4e5a137.
+AR SierraBryant person_e3783f46e72ce9e8; law legislative-measure_fdaa54cc3612e18b; liability statutory-tax-liability_7b2f29373515c564; payment statutory-tax-payment_0684d7a58c1354f0; transfer resource-transfer-outcome_790a290971ced3bc.
+Other executed controls: missing/invalid rate, invalid/sub-cent cap and accurate estimate labeling, actual zero cap, post-enactment unadopted text, adopted6% through Save/Continue. Replaying saved pay after canonical reload preserves cash and exact liabilities/payments/transfers.
+
+Strict6changedTSroots1211dependencies0diagnostics; scoped6-filelintPASS;8-fileformatPASS; whitespacePASS.
+AUDIT: A45 5/6 -> 6/6, checks flipped: a paid-leave law enacted in play with no program began uses the bill's own premium rate.
+Pinned-main read-only audit scan412d (19.513s) and branch (2.939s); static rule satisfaction is not nationwide runtime completion.
+NOTRUN: officialClaude gate, full suite, unrelated LOAD/world/app typechecks or broad zero-dice sweep.
+
+Historical failures retained: sandbox config startup spawnSync git EPERM (no tests collected); authorized native first4P6F22.93s (governor implementation work/control + AS unsupported); second4P6F1TODO30s (fixture mistakenly queried Jurisdiction.stableKey); third8P5F1TODO34.13s (missing recipient resource position prevented payments). All assertions retained; actual zero-opening worker account supplied before its recorded wage transfer. Initial types5 EntityId diagnostics then1 nonexistent field, corrected; final0.
+Readonly helper a22_a45_reuse found component-label defect; repaired. No helper source edits/tests/official gates.
+
+Additive current-main intake23d41e57429311bff5d3e6720b86df5f42b38178 -> receiving3975cf4ba65ca8ef9898e61ec584e4e5aeb8337f, conflict-free; nine-file PR delta unchanged. Imported opening/cost-of-living source changed, so receiving proof renewed once: changed premium file13PASS1TODO28.84s/1.40s bodies/session40945exit0; six roots1212deps0diagnostics/session84747; release transition0problems. Original source13PASS1TODO30.05s receipt retained distinct. No broad check.
