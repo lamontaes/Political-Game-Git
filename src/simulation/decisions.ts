@@ -1,5 +1,12 @@
 import { eventById } from "./event-index";
-import { decisionConsiderationScore } from "./decision-scores";
+import {
+  compareDecisionOptionScores,
+  decisionConsiderationScore,
+} from "./decision-scores";
+import {
+  currentGameDecisionPeerEstimates,
+  validateDecisionPeerEstimates,
+} from "./decision-peer-estimates";
 import { appendDecisionTraceRecord } from "./history";
 import { createStableId } from "./ids";
 import { recordById } from "./history-index";
@@ -88,7 +95,7 @@ export function evaluateDecision(
     );
   }
 
-  const context = canonicalDecisionContext(contextInput);
+  let context = canonicalDecisionContext(contextInput);
   if (context.options.length < 2) {
     throw new Error("A decision requires at least two distinct options.");
   }
@@ -205,16 +212,36 @@ export function evaluateDecision(
     leaders.some((option) => option.key === lastTrace.selectedOptionKey)
       ? lastTrace.selectedOptionKey
       : null;
+  if (context.peerEstimates !== undefined) {
+    if (!unresolvedBaseChoice || priorSelection !== null) {
+      throw new Error(
+        "Decision peer estimates cannot replace a recorded actor preference.",
+      );
+    }
+    validateDecisionPeerEstimates(world, context);
+  } else if (unresolvedBaseChoice && priorSelection === null) {
+    const peerEstimates = currentGameDecisionPeerEstimates(world, context);
+    if (peerEstimates.length > 0) context = { ...context, peerEstimates };
+  }
   const ranked = available
     .map((option) => ({
       option,
       score: baseScores.get(option.key) ?? 0,
     }))
-    .sort((left, right) => right.score - left.score);
+    .sort((left, right) =>
+      compareDecisionOptionScores(context, right.option.key, left.option.key),
+    );
   const rankByOption = new Map(
     ranked.map((entry) => [
       entry.option.key,
-      ranked.findIndex((other) => other.score === entry.score) + 1,
+      ranked.findIndex(
+        (other) =>
+          compareDecisionOptionScores(
+            context,
+            other.option.key,
+            entry.option.key,
+          ) === 0,
+      ) + 1,
     ]),
   );
   const optionEvaluations: readonly DecisionOptionEvaluation[] =
@@ -244,6 +271,15 @@ export function evaluateDecision(
     })),
   ]);
 
+  const unresolvedChoice =
+    unresolvedBaseChoice &&
+    ranked.length > 1 &&
+    compareDecisionOptionScores(
+      context,
+      ranked[0]!.option.key,
+      ranked[1]!.option.key,
+    ) === 0;
+
   return {
     decisionId,
     context,
@@ -251,10 +287,10 @@ export function evaluateDecision(
     outcomeKind:
       ranked.length === 0
         ? "no-available-option"
-        : unresolvedBaseChoice && priorSelection === null
+        : unresolvedChoice && priorSelection === null
           ? "undecided"
           : "selected",
-    selectedOptionKey: unresolvedBaseChoice
+    selectedOptionKey: unresolvedChoice
       ? priorSelection
       : (ranked[0]?.option.key ?? null),
     sourceSnapshots: sourceRefs.map((reference) =>
@@ -386,6 +422,15 @@ function canonicalDecisionContext(input: DecisionContext): DecisionContext {
       }))
       .sort((left, right) => left.stableKey.localeCompare(right.stableKey)),
     perceptionIds: [...new Set(input.perceptionIds)].sort(),
+    ...(input.peerEstimates === undefined
+      ? {}
+      : {
+          peerEstimates: input.peerEstimates.map((row) => ({
+            ...row,
+            cutoff: { ...row.cutoff },
+            samples: row.samples.map((sample) => ({ ...sample })),
+          })),
+        }),
   };
 }
 

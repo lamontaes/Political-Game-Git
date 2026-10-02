@@ -1,5 +1,6 @@
 import { makeIsoDate } from "./dates";
-import { decisionConsiderationScore } from "./decision-scores";
+import { compareDecisionOptionScores } from "./decision-scores";
+import { validateDecisionPeerEstimates } from "./decision-peer-estimates";
 import { createStableId } from "./ids";
 import {
   assertLifeHistorySourceAvailable,
@@ -750,6 +751,7 @@ function validateDecisionContext(
   trace: DecisionTraceRecord,
   context: DecisionContext,
 ): void {
+  validateDecisionPeerEstimates(world, context);
   if (context.options.length < 2) {
     throw new Error(`Decision trace has too few options: ${trace.id}`);
   }
@@ -893,22 +895,37 @@ function validateDecisionContext(
         const peer = trace.optionEvaluations
           .slice(0, index)
           .find((other) => other.finalRank === evaluation.finalRank)!;
-        const scoreFor = (optionKey: string) =>
-          context.considerations
-            .filter((item) => item.optionKey === optionKey)
-            .reduce(
-              (total, item) => total + decisionConsiderationScore(item),
-              0,
-            );
         if (
           peer.randomContribution !== "none" ||
           evaluation.randomContribution !== "none" ||
-          scoreFor(peer.optionKey) !== scoreFor(evaluation.optionKey)
+          compareDecisionOptionScores(
+            context,
+            peer.optionKey,
+            evaluation.optionKey,
+          ) !== 0
         ) {
           throw new Error(`Decision tie rank is inconsistent: ${trace.id}`);
         }
       }
       ranks.add(evaluation.finalRank);
+      if (context.peerEstimates !== undefined) {
+        const expectedRank =
+          1 +
+          trace.optionEvaluations.filter(
+            (other) =>
+              other.available &&
+              compareDecisionOptionScores(
+                context,
+                other.optionKey,
+                evaluation.optionKey,
+              ) > 0,
+          ).length;
+        if (evaluation.finalRank !== expectedRank) {
+          throw new Error(
+            `Decision peer estimate rank is inconsistent: ${trace.id}`,
+          );
+        }
+      }
     } else if (
       evaluation.finalRank !== null ||
       evaluation.randomContribution !== "none"

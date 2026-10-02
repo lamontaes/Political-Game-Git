@@ -154,6 +154,224 @@ function expectUndecided(result: ReturnType<typeof evaluateDecision>) {
   ).toBe(true);
 }
 
+function peerDecisionFixture(equalMeans = false, base = choiceBase) {
+  let world = base;
+  for (const [index, actorIndex] of [0, 2].entries()) {
+    const fixture = sourcedChoice(actorIndex, world);
+    const optionKey = equalMeans && index === 1 ? "wait" : "apply";
+    const result = evaluateDecision(fixture.world, {
+      ...fixture.context,
+      stableKey: `item12:donor:${actorIndex}`,
+      decisionType: "item12:current-game-choice",
+      considerations: fixture.context.considerations
+        .filter((row) => row.optionKey === optionKey)
+        .map((row) => ({
+          ...row,
+          importance:
+            !equalMeans && index === 0
+              ? ("moderate" as const)
+              : ("slight" as const),
+          confidence: "low" as const,
+        })),
+      retention: "durable",
+    });
+    world = recordDurableDecisionTrace(fixture.world, result);
+  }
+  const fixture = sourcedChoice(1, world);
+  return {
+    ...fixture,
+    context: {
+      ...fixture.context,
+      stableKey: "item12:actor",
+      decisionType: "item12:current-game-choice",
+      considerations: [],
+      retention: "durable" as const,
+    },
+  };
+}
+
+describe("A124 A126 exact current-game peer estimates in the decision engine", () => {
+  it.each(Object.keys(STATES))(
+    "records separated and equal actual-peer estimates in a seeded small world (%s)",
+    (usps) => {
+      const base = smallDecisionWorld(usps, 3);
+      for (const equalMeans of [false, true]) {
+        const fixture = peerDecisionFixture(equalMeans, base);
+        const result = evaluateDecision(fixture.world, fixture.context);
+        expect(result.context.peerEstimates?.map((row) => row.count)).toEqual([
+          2, 2,
+        ]);
+        if (equalMeans) {
+          expectUndecided(result);
+          expect(result.optionEvaluations.map((row) => row.finalRank)).toEqual([
+            1, 1,
+          ]);
+        } else {
+          expect(result.selectedOptionKey).toBe("apply");
+          expect(result.context.peerEstimates?.[0]?.mean).toBe(1.5);
+        }
+        const recorded = recordDurableDecisionTrace(fixture.world, result);
+        assertWorldIntegrityFully(recorded);
+        const continued = deserializeWorld(serializeWorld(recorded));
+        expect(
+          continued.history.decisionTraces.at(-1)!.context.peerEstimates,
+        ).toEqual(result.context.peerEstimates);
+      }
+    },
+  );
+  it("records the fractional mean, spread and actual donor frontier through Save/Continue", () => {
+    const fixture = peerDecisionFixture();
+    const result = evaluateDecision(fixture.world, fixture.context);
+    expect(result.selectedOptionKey).toBe("apply");
+    expect(result.context.peerEstimates?.[0]).toMatchObject({
+      optionKey: "apply",
+      mean: 1.5,
+      standardDeviation: 0.5,
+      count: 2,
+      cutoff: fixture.context.cutoff,
+    });
+    expect(
+      result.context.peerEstimates?.[0]?.samples.map((sample) => sample.value),
+    ).toEqual([2, 1]);
+    expect(result.sourceSnapshots.map((row) => row.reference)).toEqual(
+      [...fixture.context.perceptionIds].sort().map((perceptionId) => ({
+        kind: "perception",
+        perceptionId,
+      })),
+    );
+    const saved = recordDurableDecisionTrace(fixture.world, result);
+    assertWorldIntegrityFully(saved);
+    const loaded = deserializeWorld(serializeWorld(saved));
+    expect(loaded.history.decisionTraces.at(-1)!.context.peerEstimates).toEqual(
+      result.context.peerEstimates,
+    );
+    expect(
+      result.optionEvaluations.every(
+        (row) => row.randomContribution === "none",
+      ),
+    ).toBe(true);
+  });
+
+  it("records an equal cohort as undecided with equal ranks", () => {
+    const fixture = peerDecisionFixture(true);
+    const result = evaluateDecision(fixture.world, fixture.context);
+    expectUndecided(result);
+    expect(result.context.peerEstimates?.map((row) => row.mean)).toEqual([
+      0.5, 0.5,
+    ]);
+    expect(result.optionEvaluations.map((row) => row.finalRank)).toEqual([
+      1, 1,
+    ]);
+    assertWorldIntegrityFully(
+      recordDurableDecisionTrace(fixture.world, result),
+    );
+  });
+
+  it("keeps the actor's separated reasons ahead of the donor cohort", () => {
+    const fixture = peerDecisionFixture();
+    const own = sourcedChoice(1, fixture.world);
+    const result = evaluateDecision(own.world, {
+      ...fixture.context,
+      cutoff: currentHistoricalCutoff(own.world),
+      perceptionIds: own.context.perceptionIds,
+      considerations: own.context.considerations.filter(
+        (row) => row.optionKey === "wait",
+      ),
+    });
+    expect(result.selectedOptionKey).toBe("wait");
+    expect(result.context.peerEstimates).toBeUndefined();
+  });
+
+  it("keeps the actor's last eligible recorded choice ahead of the donor cohort", () => {
+    const fixture = peerDecisionFixture();
+    const own = sourcedChoice(1, fixture.world);
+    const saved = saveSelectedWait(own, fixture.context.decisionType);
+    const result = evaluateDecision(saved, {
+      ...fixture.context,
+      cutoff: currentHistoricalCutoff(saved),
+    });
+    expect(result.selectedOptionKey).toBe("wait");
+    expect(result.context.peerEstimates).toBeUndefined();
+  });
+
+  it.each(["mean", "count", "sequence", "omitted-donor"] as const)(
+    "rejects forged saved peer metadata (%s)",
+    (field) => {
+      const fixture = peerDecisionFixture();
+      const saved = recordDurableDecisionTrace(
+        fixture.world,
+        evaluateDecision(fixture.world, fixture.context),
+      );
+      const forged = structuredClone(saved);
+      const trace = forged.history.decisionTraces.at(-1)!;
+      const estimates = trace.context.peerEstimates!.map((row, index) =>
+        index === 0
+          ? {
+              ...row,
+              ...(field === "mean" ? { mean: row.mean + 1 } : {}),
+              ...(field === "count" ? { count: row.count + 1 } : {}),
+              samples:
+                field === "omitted-donor"
+                  ? row.samples.slice(1)
+                  : row.samples.map((sample, at) =>
+                      field === "sequence" && at === 0
+                        ? { ...sample, sequence: trace.sequence }
+                        : sample,
+                    ),
+            }
+          : row,
+      );
+      const changed = {
+        ...forged,
+        history: {
+          ...forged.history,
+          decisionTraces: forged.history.decisionTraces.map((row) =>
+            row.id === trace.id
+              ? {
+                  ...row,
+                  context: { ...row.context, peerEstimates: estimates },
+                }
+              : row,
+          ),
+        },
+      };
+      expect(() => assertWorldIntegrityFully(changed)).toThrow(
+        "Decision peer estimates do not match the saved game cohort",
+      );
+    },
+  );
+
+  it("rejects a uniquely ranked incorrect peer winner", () => {
+    const fixture = peerDecisionFixture();
+    const saved = recordDurableDecisionTrace(
+      fixture.world,
+      evaluateDecision(fixture.world, fixture.context),
+    );
+    const trace = saved.history.decisionTraces.at(-1)!;
+    const changed = {
+      ...saved,
+      history: {
+        ...saved.history,
+        decisionTraces: saved.history.decisionTraces.map((row) =>
+          row.id === trace.id
+            ? {
+                ...row,
+                selectedOptionKey: "wait",
+                optionEvaluations: row.optionEvaluations.map((option) => ({
+                  ...option,
+                  finalRank: option.optionKey === "wait" ? 1 : 2,
+                })),
+              }
+            : row,
+        ),
+      },
+    };
+    expect(() => assertWorldIntegrityFully(changed)).toThrow(
+      "Decision peer estimate rank is inconsistent",
+    );
+  });
+});
+
 describe("sourced motives, exact ties, and last recorded choices", () => {
   it.each(["none", "close-choices"] as const)(
     "keeps an empty apply/wait question undecided (%s)",
@@ -507,19 +725,21 @@ describe("A124 exact score comparison across seeds", () => {
   );
 });
 
-function smallDecisionWorld(usps: string): World {
+function smallDecisionWorld(usps: string, personCount = 1): World {
   const place = STATES[usps];
   if (!place) throw new Error("Missing canonical jurisdiction reference");
   const seed = `a124-all56:${usps}:recorded-reasons`;
   const currentDate = makeIsoDate("2026-01-05");
   const jurisdictionId = createStableId("jurisdiction", `a124-fixture:${usps}`);
-  const person = createLightweightPerson({
-    worldId: createWorldId(seed),
-    worldSeed: seed,
-    index: 0,
-    currentDate,
-    homeJurisdictionId: jurisdictionId,
-  });
+  const people = Array.from({ length: personCount }, (_, index) =>
+    createLightweightPerson({
+      worldId: createWorldId(seed),
+      worldSeed: seed,
+      index,
+      currentDate,
+      homeJurisdictionId: jurisdictionId,
+    }),
+  );
   const world = createWorld({
     seed,
     currentDate,
@@ -542,9 +762,12 @@ function smallDecisionWorld(usps: string): World {
         },
       },
     ],
-    people: [person],
+    people,
   });
-  return materializePerson(world, person.id);
+  return people.reduce(
+    (next, person) => materializePerson(next, person.id),
+    world,
+  );
 }
 
 describe("A124 A126 recorded choices in all 56 seeded small worlds", () => {

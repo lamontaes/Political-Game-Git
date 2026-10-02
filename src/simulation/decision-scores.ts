@@ -1,5 +1,6 @@
 import type {
   DecisionConsideration,
+  DecisionContext,
   DecisionImportance,
   MindConfidence,
 } from "./types";
@@ -27,4 +28,22 @@ export function decisionConsiderationScore(
     IMPORTANCE_WEIGHT[consideration.importance] *
     CONFIDENCE_WEIGHT[consideration.confidence];
   return consideration.direction === "supports" ? magnitude : -magnitude;
+}
+
+/** Compare actor reasons first, then an admitted exact peer mean. Never select
+ * by key or collapse a fractional estimate into the importance table. */
+export function compareDecisionOptionScores(
+  context: DecisionContext,
+  leftOptionKey: string,
+  rightOptionKey: string,
+): number {
+  const score = (key: string) =>
+    context.considerations
+      .filter((item) => item.optionKey === key)
+      .reduce((total, item) => total + decisionConsiderationScore(item), 0);
+  const actorDifference = score(leftOptionKey) - score(rightOptionKey);
+  if (actorDifference !== 0) return actorDifference;
+  const mean = (key: string) =>
+    context.peerEstimates?.find((row) => row.optionKey === key)?.mean ?? 0;
+  return mean(leftOptionKey) - mean(rightOptionKey);
 }
