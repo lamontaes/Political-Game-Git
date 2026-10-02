@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { renderCountyPlacePopulation } from "../../../scripts/source/export-county-place-population";
+import { renderPlaceCountyModule } from "../../../scripts/source/export-place-county-relations";
 import { drawRandomPlace } from "../../../tests/support/random-place";
 import { makeIsoDate } from "../dates";
 import {
@@ -26,11 +26,11 @@ import {
   placeOutcomesForMonth,
 } from "./place-outcomes";
 import {
-  COUNTY_PLACE_POPULATION_META,
+  countyGeoidsForPlace,
   countyPopulationSharesForPlace,
-} from "./county-place-population";
-import { countyGeoidsForPlace } from "../government-units";
-import { COUNTY_PLACE_POPULATION_ROWS } from "./county-place-population.generated";
+  PLACE_COUNTY_RELATIONS_META,
+} from "../government-units";
+import { PLACE_COUNTY_RELATIONS_ROWS } from "../place-county-relations.generated";
 import { outcomeFactor } from ".";
 
 /*
@@ -245,20 +245,20 @@ describe("A167 city population across counties", () => {
     expect(countyPopulationSharesForPlace("0100460")).toEqual([["01073", 1]]);
     expect(countyPopulationSharesForPlace("not-a-census-place")).toEqual([]);
     expect(countyPopulationSharesForPlace("7200000")).toEqual([]);
-    expect(COUNTY_PLACE_POPULATION_META.asOf).toBe("2020-04-01");
+    expect(PLACE_COUNTY_RELATIONS_META.populationAsOf).toBe("2020-04-01");
     expect([...countyGeoidsForPlace("4805000")].sort()).toEqual(
       austin.map(([county]) => county).sort(),
     );
   });
 
   it("replays the projection from all 51 hash-verified locked Census slices", () => {
-    const rendered = renderCountyPlacePopulation();
+    const rendered = renderPlaceCountyModule();
     const literal = rendered
-      .split("export const COUNTY_PLACE_POPULATION_ROWS: string = ")[1]!
+      .split("export const PLACE_COUNTY_RELATIONS_ROWS: string = ")[1]!
       .trim()
       .slice(0, -1);
-    expect(JSON.parse(literal)).toEqual(COUNTY_PLACE_POPULATION_ROWS);
-    expect(COUNTY_PLACE_POPULATION_META.inputs).toHaveLength(51);
+    expect(JSON.parse(literal)).toEqual(PLACE_COUNTY_RELATIONS_ROWS);
+    expect(PLACE_COUNTY_RELATIONS_META.inputs).toHaveLength(51);
   });
 
   it("leaves county deductions unknown when the city has no current resident count", () => {
