@@ -1,6 +1,13 @@
 import { describe, expect, it } from "vitest";
 
 import { createDemoWorld } from "./demo";
+import { ageOnDate } from "./dates";
+import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
+import {
+  generateOpeningLife,
+  prepareOpeningLife,
+} from "../presentation/opening-life";
+import { drawRandomPlace } from "../../tests/support/random-place";
 import {
   buildAdultLifeContext,
   availableAdultSituations,
@@ -45,6 +52,36 @@ function opened(): { world: World; personId: EntityId } {
 }
 
 describe("a life is given something to do", () => {
+  it("opens one random production game with explicit authored meeting provenance", () => {
+    const adultFixture = createDemoWorld();
+    const adult = adultFixture.people[adultFixture.personOrder[0]!]!;
+    const seed = "opening-meeting-provenance";
+    const place = drawRandomPlace(seed);
+    const game = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed,
+        startAge: ageOnDate(adult.birthDate, adultFixture.currentDate),
+        placeKey: place.key,
+        questionnaire: "skipped",
+      }),
+    ).game!;
+    expect(game).toBeDefined();
+    const world = openOrdinaryLifeRecords(game.world, game.playerPersonId);
+    const notice = world.history.events.find(
+      (event) => event.stableKey === `${PUBLIC_MEETING_KEY}:notice`,
+    )!;
+    expect(notice.tags).toContain("provenance:authored-opening");
+    expect(
+      world.history.scheduledActivities.find(
+        (activity) => activity.stableKey === `${PUBLIC_MEETING_KEY}:activity`,
+      )!.responsiblePersonId,
+    ).toBeNull();
+    process.stdout.write(
+      `${JSON.stringify({ receipt: "A156 random production opening", placeKey: place.key, worldId: game.world.id, currentDate: game.world.currentDate })}\n`,
+    );
+  });
+
   it("opens civic and personal opportunities without a routine grocery chore", () => {
     const { world, personId } = opened();
     const open = lifeOpportunitiesFor(world, personId);
@@ -95,6 +132,31 @@ describe("a life is given something to do", () => {
         item.stableKey.startsWith(PUBLIC_MEETING_KEY),
       ).length,
     );
+  });
+
+  it("meeting notice retains authored opening provenance and assigns no responsibility before a decision", () => {
+    const { world } = opened();
+    const notice = world.history.events.find(
+      (event) => event.stableKey === `${PUBLIC_MEETING_KEY}:notice`,
+    )!;
+    expect(notice.tags).toContain("provenance:authored-opening");
+    expect(
+      notice.participants.every(
+        (participant) => participant.role === "observation:reader",
+      ),
+    ).toBe(true);
+    const activities = world.history.scheduledActivities.filter(
+      (activity) =>
+        activity.stableKey === `${PUBLIC_MEETING_KEY}:activity` ||
+        activity.stableKey === `${PUBLIC_MEETING_KEY}:journey`,
+    );
+    expect(activities).toHaveLength(2);
+    for (const activity of activities)
+      expect(activity.responsiblePersonId).toBeNull();
+    const reloaded = deserializeWorld(serializeWorld(world));
+    expect(
+      serializeWorld(openOrdinaryLifeRecords(reloaded, world.personOrder[0]!)),
+    ).toBe(serializeWorld(world));
   });
 
   it("writes nothing at all for somebody the formative interval still holds", () => {

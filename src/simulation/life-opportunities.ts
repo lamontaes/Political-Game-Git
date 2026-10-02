@@ -300,7 +300,9 @@ function occasionDatesBySource(world: World): ReadonlyMap<EntityId, IsoDate> {
  *
  * Moved here from the presentation surface without changing what it writes:
  * the same notice, the same meeting on the calendar, and its work item
- * under the same stable keys, the same authored titles and summaries. It lives
+ * under the same stable keys and authored titles and summaries, explicitly
+ * marked as an authored opening. Tentative attendance and travel assign no
+ * responsibility before a decision. It lives
  * in the simulation now because the canonical world builder needs it and a
  * world may not reach up into a screen to find out what an ordinary week is.
  *
@@ -336,7 +338,7 @@ export function openOrdinaryLifeRecords(
     ],
     personFactConstraints: [],
     visibility: "public",
-    tags: ["civic.public-meeting"],
+    tags: ["civic.public-meeting", "provenance:authored-opening"],
     summary: `A public meeting was posted on the local calendar. Agenda: ${PUBLIC_MEETING_AGENDA}`,
     context: {
       location: jurisdictionId
@@ -361,7 +363,7 @@ export function openOrdinaryLifeRecords(
     start: momentAt(world, 18, 30, addDays(world.currentDate, 1)),
     end: momentAt(world, 19, 45, addDays(world.currentDate, 1)),
     participantPersonIds: [personId],
-    responsiblePersonId: personId,
+    responsiblePersonId: null,
     location: {
       locationKey: "ordinary-life:meeting-room",
       label: "Public meeting room",
@@ -384,7 +386,7 @@ export function openOrdinaryLifeRecords(
     start: momentAt(world, 18, 10, addDays(world.currentDate, 1)),
     end: momentAt(world, 18, 30, addDays(world.currentDate, 1)),
     participantPersonIds: [personId],
-    responsiblePersonId: personId,
+    responsiblePersonId: null,
     location: {
       locationKey: "ordinary-life:to-meeting-room",
       label: "On the way to the public meeting",
