@@ -334,7 +334,7 @@ export function monthlyPay(
  * Use the law's jurisdiction, not the hearer's home: family exposure may cross
  * a state boundary without changing which law affected the original person.
  */
-function recordedLawAt(
+export function recordedLawAt(
   world: World,
   measureId: EntityId,
   at: IsoDate,
@@ -398,7 +398,7 @@ function append(
 }
 
 /**
- * Records that a person read a published story about what an enacted law did
+ * Records that a person read a published story about what a recorded law did
  * (relation "news"). It carries no money, no pay and no opinion weight, and
  * names its story record by record. Idempotent on the stable key. The press
  * desk derives every field from the records (`press/story-exposure.ts`).
@@ -416,8 +416,8 @@ export function recordNewsLawExposure(
 ): World {
   if (!world.people[input.personId])
     throw new Error("A law exposure needs a person in the world.");
-  if (!enactedBy(world, input.measureId, world.currentDate))
-    throw new Error("Only an enacted law can reach a person.");
+  if (!recordedLawAt(world, input.measureId, world.currentDate))
+    throw new Error("Only a recorded law in force can reach a person.");
   return append(world, {
     stableKey: input.stableKey,
     personId: input.personId,

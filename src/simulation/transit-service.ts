@@ -12,11 +12,6 @@ import {
   createWorldMetricCatalog,
   recordWorldMetricState,
 } from "./world-metrics";
-import {
-  createCausalMechanismDefinition,
-  createCausalMechanismCatalog,
-  recordEvaluatedMetricState,
-} from "./causal-effects";
 import { createExactQuantity } from "./quantity";
 import { money } from "./resources";
 import {
@@ -69,7 +64,17 @@ function transitMetric() {
   return createWorldMetricDefinition(TRANSIT_METRIC_INPUT);
 }
 function transitMechanism() {
-  return createCausalMechanismDefinition(TRANSIT_MECHANISM_INPUT);
+  // Preserve the existing contract's typed compatibility identity. This is
+  // catalog metadata, not a new effect or a conversion to transit access.
+  return {
+    ...TRANSIT_MECHANISM_INPUT,
+    id: createStableId(
+      "causal-mechanism-definition",
+      `definition:${TRANSIT_MECHANISM_INPUT.stableKey}`,
+    ),
+    responseCurve: { ...TRANSIT_MECHANISM_INPUT.responseCurve },
+    tags: [...TRANSIT_MECHANISM_INPUT.tags].sort(),
+  };
 }
 const units = (numerator: number, denominator = 1) => ({
   kind: "quantity" as const,
@@ -237,16 +242,21 @@ export function requestTransitImplementation(
         ...(!world.metricCatalog.definitions[metric.id] ? [metric] : []),
       ],
     }),
-    causalMechanismCatalog: createCausalMechanismCatalog({
-      definitions: [
-        ...world.causalMechanismCatalog.definitionOrder.map(
-          (id) => world.causalMechanismCatalog.definitions[id]!,
-        ),
-        ...(!world.causalMechanismCatalog.definitions[mechanism.id]
-          ? [mechanism]
-          : []),
-      ],
-    }),
+    causalMechanismCatalog: world.causalMechanismCatalog.definitions[
+      mechanism.id
+    ]
+      ? world.causalMechanismCatalog
+      : {
+          ...world.causalMechanismCatalog,
+          definitions: {
+            ...world.causalMechanismCatalog.definitions,
+            [mechanism.id]: mechanism,
+          },
+          definitionOrder: [
+            ...world.causalMechanismCatalog.definitionOrder,
+            mechanism.id,
+          ],
+        },
   };
   next = recordWorldEvent(next, {
     stableKey: key,
@@ -628,11 +638,26 @@ export function deliverTransitStage(
       },
       supersedesStateId: null,
     });
-    next = recordEvaluatedMetricState(next, {
+    const baseline = next.history.metricStates.at(-1)!;
+    const completed = realization.consequences.find(
+      (item) => item.operationId === op.id,
+    );
+    if (!completed)
+      throw new Error("Transit delivery lost its recorded quantity.");
+    // The completed physical service is already recorded in native units.
+    // Do not reinterpret it as a forecast, access measure or web multiplier.
+    next = recordWorldMetricState(next, {
       stableKey: `${due.stableKey}:delivered`,
-      baselineStateId: next.history.metricStates.at(-1)!.id,
-      evaluatedAt: next.currentDate,
+      metricId: metric.id,
+      scope: op.targetScope,
       referencePeriod: op.targetReferencePeriod,
+      value: completed.realizedChange,
+      recordedAt: next.currentDate,
+      provenance: {
+        kind: "simulated",
+        sourceEntityIds: [baseline.id, completed.effectActivationId].sort(),
+      },
+      supersedesStateId: baseline.id,
     });
   }
   const personId = request.participants[0]!.personId;

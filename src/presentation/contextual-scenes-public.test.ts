@@ -5,7 +5,11 @@ import {
 } from "../../tests/fixtures/recorded-legislative-term";
 import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 import {
+  ageOnDate,
   createWorkRelationship,
+  householdMembershipsAt,
+  peopleInHouseholdAt,
+  recordWorldEvent,
   deserializeWorld,
   serializeWorld,
 } from "../simulation";
@@ -23,8 +27,9 @@ import {
   produceCaughtLyingLeads,
   reporterRoles,
 } from "../simulation/press";
-import { seekCivicPressContact } from "../simulation/press-reach";
+import { recordedCivicReporterFixture } from "../../tests/support/recorded-civic-journalist";
 import type { ContextualSceneSubject } from "./contextual-scenes";
+import { refreshContextualScenes } from "./contextual-scene-producers";
 import { resolveActiveMemberSeat } from "./legislative-member-seat";
 import { openLegislativeWork } from "./legislation-world";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
@@ -69,10 +74,61 @@ function say(
   }).world;
 }
 
+/** Authored conversation setting; household membership alone is not presence. */
+function atHomeWithRecordedHousemate(world: World, player: EntityId): World {
+  const membership = householdMembershipsAt(world, player).find(
+    (entry) => entry.state.residenceRole === "primary",
+  );
+  if (!membership)
+    throw new Error("Election fixture needs a recorded household.");
+  const companion = peopleInHouseholdAt(world, membership.household.id).find(
+    (id) =>
+      id !== player &&
+      ageOnDate(world.people[id]!.birthDate, world.currentDate) >= 18,
+  );
+  if (!companion)
+    throw new Error("Election fixture needs an actual adult housemate.");
+  const jurisdictionId = world.people[player]!.homeJurisdictionId;
+  const present = recordWorldEvent(world, {
+    stableKey: `public-election-test:home:${player}:${world.currentDate}`,
+    type: "life.scene.opened",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId,
+    involvedEntityIds: [player, companion],
+    participants: [player, companion].map((personId) => ({
+      personId,
+      role: "presence:participant",
+      detail: "Authored election conversation fixture: together at home.",
+    })),
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [`moment:${JSON.stringify(world.currentMoment)}`],
+    summary: "The player and their recorded housemate are together at home.",
+    context: {
+      location: { jurisdictionId, label: "Home", setting: "home" },
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  return refreshContextualScenes(present, player);
+}
+
 describe("after an election", () => {
   it("a win asks when the term starts, and the answer is the recorded date", () => {
     const fixture = recordedTermFixture("player");
-    const world = passOrdinaryDays(fixture.world, 1);
+    const advanced = passOrdinaryDays(fixture.world, 1);
+    expect(
+      projectPlayerConversation(
+        advanced,
+        fixture.personId,
+        "scene-campaign-reaction",
+      ),
+    ).toBeNull();
+    const world = atHomeWithRecordedHousemate(advanced, fixture.personId);
     const view = projectPlayerConversation(
       world,
       fixture.personId,
@@ -100,7 +156,15 @@ describe("after an election", () => {
 
   it("a loss is met differently, with no date and no truth marking", () => {
     const fixture = recordedTermFixture("rival");
-    const world = passOrdinaryDays(fixture.world, 1);
+    const advanced = passOrdinaryDays(fixture.world, 1);
+    expect(
+      projectPlayerConversation(
+        advanced,
+        fixture.personId,
+        "scene-campaign-reaction",
+      ),
+    ).toBeNull();
+    const world = atHomeWithRecordedHousemate(advanced, fixture.personId);
     const view = projectPlayerConversation(
       world,
       fixture.personId,
@@ -211,7 +275,7 @@ function candidateWithAcceptedMeeting(seed: string) {
   }
   world = say(world, player, "scene-party-invite", "say-yes");
   world = fileForOffice(world, player);
-  world = seekCivicPressContact(world).world;
+  world = recordedCivicReporterFixture(world).world;
   return { player, world };
 }
 
