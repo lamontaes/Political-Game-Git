@@ -2149,6 +2149,7 @@ export function campaignLifeOutreachTransitionHandler(
       subjectId,
   ).length;
   const forms: CampaignLifeForm[] = [
+    "organization-meeting",
     "door-canvass",
     "phone-shift",
     "town-hall",

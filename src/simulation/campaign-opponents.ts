@@ -381,6 +381,58 @@ function decideEmphasis(
  * the candidate's recorded temperament (`decideEmphasis`) and is never shown
  * to the player.
  */
+/** A new committee's cash estimate uses only comparable saved committee accounts. */
+export function comparableCampaignCommitteeBalance(
+  world: World,
+  campaign: CampaignRecord,
+): {
+  readonly amount: MoneyAmount;
+  readonly sourceRecordIds: readonly EntityId[];
+} {
+  const committees = new Set<EntityId>();
+  for (const peer of campaignRecords(world)) {
+    if (
+      peer.officeKey === campaign.officeKey &&
+      peer.treasuryCurrency === campaign.treasuryCurrency
+    )
+      committees.add(peer.organizationId);
+  }
+  for (const peer of campaignOpponentRecords(world)) {
+    const contest = electionContestById(world, peer.contestId);
+    if (contest?.office.officeKey === campaign.officeKey)
+      committees.add(peer.committeeOrganizationId);
+  }
+  const accounts = [...committees].flatMap((organizationId) => {
+    const account = resourcePositionAt(
+      world,
+      { kind: "organization", organizationId },
+      campaign.treasuryCurrency,
+    );
+    return account ? [account] : [];
+  });
+  if (!accounts.length)
+    throw new Error("No recorded comparable campaign committee balance.");
+  return {
+    amount: {
+      currency: campaign.treasuryCurrency,
+      minorUnits: Math.round(
+        accounts.reduce(
+          (total, account) => total + account.liquidBalance.minorUnits,
+          0,
+        ) / accounts.length,
+      ),
+    },
+    sourceRecordIds: [
+      ...new Set(
+        accounts.flatMap((account) => [
+          account.positionId,
+          ...account.outcomeIds,
+        ]),
+      ),
+    ],
+  };
+}
+
 function ensureOpponent(
   world: World,
   campaign: CampaignRecord,
@@ -444,14 +496,16 @@ function ensureOpponent(
     },
   });
   const vendorOrganizationId = lastOrganizationId(next);
+  const opening = comparableCampaignCommitteeBalance(world, campaign);
   next = createResourcePosition(next, {
     stableKey: `${stableKey}:treasury`,
     owner: { kind: "organization", organizationId: committeeOrganizationId },
     openedAt: date,
-    openingBalance: { minorUnits: 0, currency: campaign.treasuryCurrency },
+    openingBalance: opening.amount,
     provenance: {
-      kind: "authored",
-      note: "The opponent committee's own account, opened empty.",
+      kind: "source-record",
+      asOf: date,
+      reference: `ESTIMATED FROM GAME COMMITTEES: same recorded office and currency; mean saved cash from ${opening.sourceRecordIds.join(", ")}.`,
     },
   });
   const treasuryPositionId = next.history.resourcePositions.at(-1)!.id;
