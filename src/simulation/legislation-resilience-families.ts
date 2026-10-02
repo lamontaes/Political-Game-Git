@@ -1,4 +1,4 @@
-import resilienceData from "../../data/content/legislation-families/resilience.json";
+import resilienceData from "../../data/content/legislation-families/resilience.json" with { type: "json" };
 import type { ProgramFamily } from "./legislation-content-contracts";
 import {
   programVariantFromData,
