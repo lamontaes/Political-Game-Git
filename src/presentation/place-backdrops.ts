@@ -1,4 +1,4 @@
-import manifest from "../../art/backdrops/manifest.json";
+import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import { activeWorkRelationshipsAt } from "../simulation/life-queries";
 import { activeDwellingOccupanciesAt } from "../simulation/resource-queries";
 import { householdMembershipsAt } from "../simulation";

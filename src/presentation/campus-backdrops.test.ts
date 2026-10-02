@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import manifest from "../../art/campuses/manifest.json";
+import manifest from "../../art/campuses/manifest.json" with { type: "json" };
 import { campusPictureFor, campusRecords } from "./campus-backdrops";
 
 describe("college campus pictures", () => {

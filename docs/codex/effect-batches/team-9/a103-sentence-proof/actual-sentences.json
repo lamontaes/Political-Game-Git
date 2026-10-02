@@ -1,0 +1,1076 @@
+[
+  {
+    "seed": "team9-a100-saved-court-finder-20261001",
+    "state": "US-ND",
+    "personId": "person_5a1142e471747aec",
+    "name": "Anika Terry",
+    "referralId": "event_393decd75d72fe83",
+    "sentence": {
+      "id": "event_eb321785ecc37b29",
+      "stableKey": "prosecution-decided-v3:referral:a103:US-ND:justice.sentenced",
+      "sequence": 40449,
+      "type": "justice.sentenced",
+      "occurredAt": "2026-07-04",
+      "recordedAt": "2026-07-04",
+      "jurisdictionId": "jurisdiction_7e617609be5671dd",
+      "involvedEntityIds": [
+        "person_5a1142e471747aec",
+        "person_6789e98e03db96de"
+      ],
+      "participants": [
+        {
+          "personId": "person_5a1142e471747aec",
+          "role": "focus:defendant",
+          "detail": null
+        },
+        {
+          "personId": "person_6789e98e03db96de",
+          "role": "agency:decided",
+          "detail": "Judge"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "public",
+      "tags": [
+        "justice.follows-event:event_479c0a6a05b6f697",
+        "justice.offense:crime:robbery",
+        "justice.referral:event_393decd75d72fe83",
+        "justice.sentence-basis:SOURCED",
+        "justice.sentence-citation:N.D.C.C. 12.1-22-01(2)",
+        "justice.sentence-citation:N.D.C.C. 12.1-32-01(4)",
+        "justice.sentence-months:0",
+        "justice.sentence-range:sentencing-ranges-2026-v2:US-ND:crime:robbery",
+        "justice.sentence-source:https://ndlegis.gov/cencode/t12-1c22.pdf",
+        "justice.sentence-source:https://ndlegis.gov/cencode/t12-1c32.pdf",
+        "justice.sentence-term-decision:prosecution-decided-v3:referral:a103:US-ND:custody-term",
+        "justice.sentence:jail",
+        "prosecution-decided-v3"
+      ],
+      "summary": "Anika Terry was sentenced to 0 months in jail for robbery.",
+      "context": {
+        "location": null,
+        "socialContext": "Criminal case",
+        "pressure": null,
+        "choice": null,
+        "motivation": "They had been found at fault for the same thing before. The offense was violent. Use the least term sufficient within the recorded legal range. They accepted responsibility through the saved guilty plea.",
+        "immediateReaction": null
+      }
+    },
+    "term": {
+      "sentencedEventId": "event_eb321785ecc37b29",
+      "kind": "jail",
+      "from": "2026-07-04",
+      "until": "2026-07-04",
+      "months": 0,
+      "life": false,
+      "clemency": null
+    },
+    "range": {
+      "rowId": "sentencing-ranges-2026-v2:US-ND:crime:robbery",
+      "offenseGrade": "robbery (unarmed, no bodily injury)",
+      "minMonths": 0,
+      "maxMonths": 60,
+      "maxLife": false,
+      "presumptiveMonths": null,
+      "basis": "SOURCED",
+      "citations": [
+        "N.D.C.C. 12.1-22-01(2)",
+        "N.D.C.C. 12.1-32-01(4)"
+      ],
+      "sources": [
+        "https://ndlegis.gov/cencode/t12-1c22.pdf",
+        "https://ndlegis.gov/cencode/t12-1c32.pdf"
+      ],
+      "estimateMethod": null,
+      "contributors": []
+    },
+    "decision": {
+      "decisionId": "decision_33d9e5d1bc3951a9",
+      "context": {
+        "stableKey": "prosecution-decided-v3:referral:a103:US-ND:custody-term",
+        "decisionType": "justice.sentence-term",
+        "actorPersonId": "person_6789e98e03db96de",
+        "cutoff": {
+          "asOfDate": "2026-07-04",
+          "historySequenceExclusive": 40448
+        },
+        "subject": {
+          "kind": "context:criminal-case",
+          "key": "prosecution-decided-v3:referral:a103:US-ND",
+          "entityId": null
+        },
+        "options": [
+          {
+            "key": "term:maximum",
+            "label": "60 months",
+            "description": "Choose this term from the applicable recorded sentencing range."
+          },
+          {
+            "key": "term:minimum",
+            "label": "0 months",
+            "description": "Choose this term from the applicable recorded sentencing range."
+          }
+        ],
+        "constraints": [],
+        "considerations": [
+          {
+            "stableKey": "prosecution-decided-v3:referral:a103:US-ND:custody-term:findings",
+            "optionKey": "term:maximum",
+            "sourceType": "context:sentencing-law",
+            "direction": "supports",
+            "importance": "moderate",
+            "confidence": "high",
+            "explanation": "The case contains repeated standing findings.",
+            "sourceRefs": []
+          },
+          {
+            "stableKey": "prosecution-decided-v3:referral:a103:US-ND:custody-term:parsimony",
+            "optionKey": "term:minimum",
+            "sourceType": "context:sentencing-law",
+            "direction": "supports",
+            "importance": "slight",
+            "confidence": "high",
+            "explanation": "Use the least term sufficient within the recorded legal range.",
+            "sourceRefs": []
+          },
+          {
+            "stableKey": "prosecution-decided-v3:referral:a103:US-ND:custody-term:plea",
+            "optionKey": "term:minimum",
+            "sourceType": "context:sentencing-law",
+            "direction": "supports",
+            "importance": "moderate",
+            "confidence": "high",
+            "explanation": "They accepted responsibility through the saved guilty plea.",
+            "sourceRefs": []
+          }
+        ],
+        "perceptionIds": [],
+        "randomness": "none",
+        "retention": "durable"
+      },
+      "optionEvaluations": [
+        {
+          "optionKey": "term:maximum",
+          "available": true,
+          "blockedByConstraintKeys": [],
+          "considerationKeys": [
+            "prosecution-decided-v3:referral:a103:US-ND:custody-term:findings"
+          ],
+          "preference": "supported",
+          "randomContribution": "none",
+          "finalRank": 2
+        },
+        {
+          "optionKey": "term:minimum",
+          "available": true,
+          "blockedByConstraintKeys": [],
+          "considerationKeys": [
+            "prosecution-decided-v3:referral:a103:US-ND:custody-term:parsimony",
+            "prosecution-decided-v3:referral:a103:US-ND:custody-term:plea"
+          ],
+          "preference": "strongly-supported",
+          "randomContribution": "none",
+          "finalRank": 1
+        }
+      ],
+      "outcomeKind": "selected",
+      "selectedOptionKey": "term:minimum",
+      "sourceSnapshots": [],
+      "rngVersion": "decision-rng-v1",
+      "stableKey": "prosecution-decided-v3:referral:a103:US-ND:custody-term:trace",
+      "recordedAt": "2026-07-04",
+      "id": "decision-trace_b85610d04956a8d8",
+      "sequence": 40448
+    }
+  },
+  {
+    "seed": "team9-a100-saved-court-finder-20261001",
+    "state": "US-MA",
+    "personId": "person_5a1142e471747aec",
+    "name": "Anika Terry",
+    "referralId": "event_3933bfd75d6a5d87",
+    "sentence": {
+      "id": "event_0b8e1fd0a461b125",
+      "stableKey": "prosecution-decided-v3:referral:a103:US-MA:justice.sentenced",
+      "sequence": 40449,
+      "type": "justice.sentenced",
+      "occurredAt": "2026-07-04",
+      "recordedAt": "2026-07-04",
+      "jurisdictionId": "jurisdiction_660e18bc5aac592d",
+      "involvedEntityIds": [
+        "person_5a1142e471747aec",
+        "person_f434a76cd2f0b926"
+      ],
+      "participants": [
+        {
+          "personId": "person_5a1142e471747aec",
+          "role": "focus:defendant",
+          "detail": null
+        },
+        {
+          "personId": "person_f434a76cd2f0b926",
+          "role": "agency:decided",
+          "detail": "Judge"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "public",
+      "tags": [
+        "justice.follows-event:event_87a6e44199137f3b",
+        "justice.offense:crime:robbery",
+        "justice.referral:event_3933bfd75d6a5d87",
+        "justice.sentence-basis:SOURCED",
+        "justice.sentence-citation:Mass. Gen. Laws ch. 265, 19(b)",
+        "justice.sentence-months:0",
+        "justice.sentence-range:sentencing-ranges-2026-v2:US-MA:crime:robbery",
+        "justice.sentence-source:https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleI/Chapter265/Section19",
+        "justice.sentence-term-decision:prosecution-decided-v3:referral:a103:US-MA:custody-term",
+        "justice.sentence:jail",
+        "prosecution-decided-v3"
+      ],
+      "summary": "Anika Terry was sentenced to 0 months in jail for robbery.",
+      "context": {
+        "location": null,
+        "socialContext": "Criminal case",
+        "pressure": null,
+        "choice": null,
+        "motivation": "They had been found at fault for the same thing before. The offense was violent. Use the least term sufficient within the recorded legal range. They accepted responsibility through the saved guilty plea.",
+        "immediateReaction": null
+      }
+    },
+    "term": {
+      "sentencedEventId": "event_0b8e1fd0a461b125",
+      "kind": "jail",
+      "from": "2026-07-04",
+      "until": "2026-07-04",
+      "months": 0,
+      "life": false,
+      "clemency": null
+    },
+    "range": {
+      "rowId": "sentencing-ranges-2026-v2:US-MA:crime:robbery",
+      "offenseGrade": "unarmed robbery",
+      "minMonths": 0,
+      "maxMonths": null,
+      "maxLife": true,
+      "presumptiveMonths": null,
+      "basis": "SOURCED",
+      "citations": [
+        "Mass. Gen. Laws ch. 265, 19(b)"
+      ],
+      "sources": [
+        "https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleI/Chapter265/Section19"
+      ],
+      "estimateMethod": null,
+      "contributors": []
+    },
+    "decision": {
+      "decisionId": "decision_d247645370c7fccc",
+      "context": {
+        "stableKey": "prosecution-decided-v3:referral:a103:US-MA:custody-term",
+        "decisionType": "justice.sentence-term",
+        "actorPersonId": "person_f434a76cd2f0b926",
+        "cutoff": {
+          "asOfDate": "2026-07-04",
+          "historySequenceExclusive": 40448
+        },
+        "subject": {
+          "kind": "context:criminal-case",
+          "key": "prosecution-decided-v3:referral:a103:US-MA",
+          "entityId": null
+        },
+        "options": [
+          {
+            "key": "term:maximum",
+            "label": "Life imprisonment",
+            "description": "Choose this term from the applicable recorded sentencing range."
+          },
+          {
+            "key": "term:minimum",
+            "label": "0 months",
+            "description": "Choose this term from the applicable recorded sentencing range."
+          }
+        ],
+        "constraints": [],
+        "considerations": [
+          {
+            "stableKey": "prosecution-decided-v3:referral:a103:US-MA:custody-term:findings",
+            "optionKey": "term:maximum",
+            "sourceType": "context:sentencing-law",
+            "direction": "supports",
+            "importance": "moderate",
+            "confidence": "high",
+            "explanation": "The case contains repeated standing findings.",
+            "sourceRefs": []
+          },
+          {
+            "stableKey": "prosecution-decided-v3:referral:a103:US-MA:custody-term:parsimony",
+            "optionKey": "term:minimum",
+            "sourceType": "context:sentencing-law",
+            "direction": "supports",
+            "importance": "slight",
+            "confidence": "high",
+            "explanation": "Use the least term sufficient within the recorded legal range.",
+            "sourceRefs": []
+          },
+          {
+            "stableKey": "prosecution-decided-v3:referral:a103:US-MA:custody-term:plea",
+            "optionKey": "term:minimum",
+            "sourceType": "context:sentencing-law",
+            "direction": "supports",
+            "importance": "moderate",
+            "confidence": "high",
+            "explanation": "They accepted responsibility through the saved guilty plea.",
+            "sourceRefs": []
+          }
+        ],
+        "perceptionIds": [],
+        "randomness": "none",
+        "retention": "durable"
+      },
+      "optionEvaluations": [
+        {
+          "optionKey": "term:maximum",
+          "available": true,
+          "blockedByConstraintKeys": [],
+          "considerationKeys": [
+            "prosecution-decided-v3:referral:a103:US-MA:custody-term:findings"
+          ],
+          "preference": "supported",
+          "randomContribution": "none",
+          "finalRank": 2
+        },
+        {
+          "optionKey": "term:minimum",
+          "available": true,
+          "blockedByConstraintKeys": [],
+          "considerationKeys": [
+            "prosecution-decided-v3:referral:a103:US-MA:custody-term:parsimony",
+            "prosecution-decided-v3:referral:a103:US-MA:custody-term:plea"
+          ],
+          "preference": "strongly-supported",
+          "randomContribution": "none",
+          "finalRank": 1
+        }
+      ],
+      "outcomeKind": "selected",
+      "selectedOptionKey": "term:minimum",
+      "sourceSnapshots": [],
+      "rngVersion": "decision-rng-v1",
+      "stableKey": "prosecution-decided-v3:referral:a103:US-MA:custody-term:trace",
+      "recordedAt": "2026-07-04",
+      "id": "decision-trace_17ebb817f445a5d4",
+      "sequence": 40448
+    }
+  },
+  {
+    "seed": "team9-a100-saved-court-finder-20261001",
+    "state": "US-HI",
+    "personId": "person_5a1142e471747aec",
+    "name": "Anika Terry",
+    "referralId": "event_392993d75d61be3e",
+    "sentence": {
+      "id": "event_2da2028a3926c830",
+      "stableKey": "prosecution-decided-v3:referral:a103:US-HI:justice.sentenced",
+      "sequence": 40449,
+      "type": "justice.sentenced",
+      "occurredAt": "2026-07-04",
+      "recordedAt": "2026-07-04",
+      "jurisdictionId": "jurisdiction_8f69e03a6d262848",
+      "involvedEntityIds": [
+        "person_5a1142e471747aec",
+        "person_eecc6c9ad0df488b"
+      ],
+      "participants": [
+        {
+          "personId": "person_5a1142e471747aec",
+          "role": "focus:defendant",
+          "detail": null
+        },
+        {
+          "personId": "person_eecc6c9ad0df488b",
+          "role": "agency:decided",
+          "detail": "Judge"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "public",
+      "tags": [
+        "justice.follows-event:event_f9197222b444a4a0",
+        "justice.offense:crime:robbery",
+        "justice.referral:event_392993d75d61be3e",
+        "justice.sentence-basis:SOURCED",
+        "justice.sentence-citation:Haw. Rev. Stat. 706-660(1)(a)",
+        "justice.sentence-citation:Haw. Rev. Stat. 708-841",
+        "justice.sentence-months:0",
+        "justice.sentence-range:sentencing-ranges-2026-v2:US-HI:crime:robbery",
+        "justice.sentence-source:https://data.capitol.hawaii.gov/hrscurrent/Vol14_Ch0701-0853/HRS0706/HRS_0706-0660.htm",
+        "justice.sentence-source:https://data.capitol.hawaii.gov/hrscurrent/Vol14_Ch0701-0853/HRS0708/HRS_0708-0841.htm",
+        "justice.sentence-term-decision:prosecution-decided-v3:referral:a103:US-HI:custody-term",
+        "justice.sentence:jail",
+        "prosecution-decided-v3"
+      ],
+      "summary": "Anika Terry was sentenced to 0 months in jail for robbery.",
+      "context": {
+        "location": null,
+        "socialContext": "Criminal case",
+        "pressure": null,
+        "choice": null,
+        "motivation": "They had been found at fault for the same thing before. The offense was violent. Use the least term sufficient within the recorded legal range. They accepted responsibility through the saved guilty plea.",
+        "immediateReaction": null
+      }
+    },
+    "term": {
+      "sentencedEventId": "event_2da2028a3926c830",
+      "kind": "jail",
+      "from": "2026-07-04",
+      "until": "2026-07-04",
+      "months": 0,
+      "life": false,
+      "clemency": null
+    },
+    "range": {
+      "rowId": "sentencing-ranges-2026-v2:US-HI:crime:robbery",
+      "offenseGrade": "robbery in the second degree",
+      "minMonths": 0,
+      "maxMonths": 120,
+      "maxLife": false,
+      "presumptiveMonths": null,
+      "basis": "SOURCED",
+      "citations": [
+        "Haw. Rev. Stat. 708-841",
+        "Haw. Rev. Stat. 706-660(1)(a)"
+      ],
+      "sources": [
+        "https://data.capitol.hawaii.gov/hrscurrent/Vol14_Ch0701-0853/HRS0708/HRS_0708-0841.htm",
+        "https://data.capitol.hawaii.gov/hrscurrent/Vol14_Ch0701-0853/HRS0706/HRS_0706-0660.htm"
+      ],
+      "estimateMethod": null,
+      "contributors": []
+    },
+    "decision": {
+      "decisionId": "decision_c074587c0b333abd",
+      "context": {
+        "stableKey": "prosecution-decided-v3:referral:a103:US-HI:custody-term",
+        "decisionType": "justice.sentence-term",
+        "actorPersonId": "person_eecc6c9ad0df488b",
+        "cutoff": {
+          "asOfDate": "2026-07-04",
+          "historySequenceExclusive": 40448
+        },
+        "subject": {
+          "kind": "context:criminal-case",
+          "key": "prosecution-decided-v3:referral:a103:US-HI",
+          "entityId": null
+        },
+        "options": [
+          {
+            "key": "term:maximum",
+            "label": "120 months",
+            "description": "Choose this term from the applicable recorded sentencing range."
+          },
+          {
+            "key": "term:minimum",
+            "label": "0 months",
+            "description": "Choose this term from the applicable recorded sentencing range."
+          }
+        ],
+        "constraints": [],
+        "considerations": [
+          {
+            "stableKey": "prosecution-decided-v3:referral:a103:US-HI:custody-term:findings",
+            "optionKey": "term:maximum",
+            "sourceType": "context:sentencing-law",
+            "direction": "supports",
+            "importance": "moderate",
+            "confidence": "high",
+            "explanation": "The case contains repeated standing findings.",
+            "sourceRefs": []
+          },
+          {
+            "stableKey": "prosecution-decided-v3:referral:a103:US-HI:custody-term:parsimony",
+            "optionKey": "term:minimum",
+            "sourceType": "context:sentencing-law",
+            "direction": "supports",
+            "importance": "slight",
+            "confidence": "high",
+            "explanation": "Use the least term sufficient within the recorded legal range.",
+            "sourceRefs": []
+          },
+          {
+            "stableKey": "prosecution-decided-v3:referral:a103:US-HI:custody-term:plea",
+            "optionKey": "term:minimum",
+            "sourceType": "context:sentencing-law",
+            "direction": "supports",
+            "importance": "moderate",
+            "confidence": "high",
+            "explanation": "They accepted responsibility through the saved guilty plea.",
+            "sourceRefs": []
+          }
+        ],
+        "perceptionIds": [],
+        "randomness": "none",
+        "retention": "durable"
+      },
+      "optionEvaluations": [
+        {
+          "optionKey": "term:maximum",
+          "available": true,
+          "blockedByConstraintKeys": [],
+          "considerationKeys": [
+            "prosecution-decided-v3:referral:a103:US-HI:custody-term:findings"
+          ],
+          "preference": "supported",
+          "randomContribution": "none",
+          "finalRank": 2
+        },
+        {
+          "optionKey": "term:minimum",
+          "available": true,
+          "blockedByConstraintKeys": [],
+          "considerationKeys": [
+            "prosecution-decided-v3:referral:a103:US-HI:custody-term:parsimony",
+            "prosecution-decided-v3:referral:a103:US-HI:custody-term:plea"
+          ],
+          "preference": "strongly-supported",
+          "randomContribution": "none",
+          "finalRank": 1
+        }
+      ],
+      "outcomeKind": "selected",
+      "selectedOptionKey": "term:minimum",
+      "sourceSnapshots": [],
+      "rngVersion": "decision-rng-v1",
+      "stableKey": "prosecution-decided-v3:referral:a103:US-HI:custody-term:trace",
+      "recordedAt": "2026-07-04",
+      "id": "decision-trace_1c7677c65fa3723f",
+      "sequence": 40448
+    }
+  },
+  {
+    "seed": "team9-a100-saved-court-finder-20261001",
+    "state": "US-IA",
+    "personId": "person_5a1142e471747aec",
+    "name": "Anika Terry",
+    "referralId": "event_3925a7d75d5df763",
+    "sentence": {
+      "id": "event_972541812975b789",
+      "stableKey": "prosecution-decided-v3:referral:a103:US-IA:justice.sentenced",
+      "sequence": 40449,
+      "type": "justice.sentenced",
+      "occurredAt": "2026-07-04",
+      "recordedAt": "2026-07-04",
+      "jurisdictionId": "jurisdiction_a3e4f4601cec2839",
+      "involvedEntityIds": [
+        "person_5a1142e471747aec",
+        "person_ee252f9df41d9022"
+      ],
+      "participants": [
+        {
+          "personId": "person_5a1142e471747aec",
+          "role": "focus:defendant",
+          "detail": null
+        },
+        {
+          "personId": "person_ee252f9df41d9022",
+          "role": "agency:decided",
+          "detail": "Judge"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "public",
+      "tags": [
+        "justice.follows-event:event_43c6446fc7c3c7f7",
+        "justice.offense:crime:robbery",
+        "justice.referral:event_3925a7d75d5df763",
+        "justice.sentence-basis:SOURCED",
+        "justice.sentence-citation:Iowa Code 711.3",
+        "justice.sentence-citation:Iowa Code 902.9(1)(d)",
+        "justice.sentence-months:0",
+        "justice.sentence-range:sentencing-ranges-2026-v2:US-IA:crime:robbery",
+        "justice.sentence-source:https://www.legis.iowa.gov/docs/code/711.3.pdf",
+        "justice.sentence-source:https://www.legis.iowa.gov/docs/code/902.9.pdf",
+        "justice.sentence-term-decision:prosecution-decided-v3:referral:a103:US-IA:custody-term",
+        "justice.sentence:jail",
+        "prosecution-decided-v3"
+      ],
+      "summary": "Anika Terry was sentenced to 0 months in jail for robbery.",
+      "context": {
+        "location": null,
+        "socialContext": "Criminal case",
+        "pressure": null,
+        "choice": null,
+        "motivation": "They had been found at fault for the same thing before. The offense was violent. Use the least term sufficient within the recorded legal range. They accepted responsibility through the saved guilty plea.",
+        "immediateReaction": null
+      }
+    },
+    "term": {
+      "sentencedEventId": "event_972541812975b789",
+      "kind": "jail",
+      "from": "2026-07-04",
+      "until": "2026-07-04",
+      "months": 0,
+      "life": false,
+      "clemency": null
+    },
+    "range": {
+      "rowId": "sentencing-ranges-2026-v2:US-IA:crime:robbery",
+      "offenseGrade": "robbery in the second degree",
+      "minMonths": 0,
+      "maxMonths": 120,
+      "maxLife": false,
+      "presumptiveMonths": null,
+      "basis": "SOURCED",
+      "citations": [
+        "Iowa Code 711.3",
+        "Iowa Code 902.9(1)(d)"
+      ],
+      "sources": [
+        "https://www.legis.iowa.gov/docs/code/711.3.pdf",
+        "https://www.legis.iowa.gov/docs/code/902.9.pdf"
+      ],
+      "estimateMethod": null,
+      "contributors": []
+    },
+    "decision": {
+      "decisionId": "decision_4f65ef915974d723",
+      "context": {
+        "stableKey": "prosecution-decided-v3:referral:a103:US-IA:custody-term",
+        "decisionType": "justice.sentence-term",
+        "actorPersonId": "person_ee252f9df41d9022",
+        "cutoff": {
+          "asOfDate": "2026-07-04",
+          "historySequenceExclusive": 40448
+        },
+        "subject": {
+          "kind": "context:criminal-case",
+          "key": "prosecution-decided-v3:referral:a103:US-IA",
+          "entityId": null
+        },
+        "options": [
+          {
+            "key": "term:maximum",
+            "label": "120 months",
+            "description": "Choose this term from the applicable recorded sentencing range."
+          },
+          {
+            "key": "term:minimum",
+            "label": "0 months",
+            "description": "Choose this term from the applicable recorded sentencing range."
+          }
+        ],
+        "constraints": [],
+        "considerations": [
+          {
+            "stableKey": "prosecution-decided-v3:referral:a103:US-IA:custody-term:findings",
+            "optionKey": "term:maximum",
+            "sourceType": "context:sentencing-law",
+            "direction": "supports",
+            "importance": "moderate",
+            "confidence": "high",
+            "explanation": "The case contains repeated standing findings.",
+            "sourceRefs": []
+          },
+          {
+            "stableKey": "prosecution-decided-v3:referral:a103:US-IA:custody-term:parsimony",
+            "optionKey": "term:minimum",
+            "sourceType": "context:sentencing-law",
+            "direction": "supports",
+            "importance": "slight",
+            "confidence": "high",
+            "explanation": "Use the least term sufficient within the recorded legal range.",
+            "sourceRefs": []
+          },
+          {
+            "stableKey": "prosecution-decided-v3:referral:a103:US-IA:custody-term:plea",
+            "optionKey": "term:minimum",
+            "sourceType": "context:sentencing-law",
+            "direction": "supports",
+            "importance": "moderate",
+            "confidence": "high",
+            "explanation": "They accepted responsibility through the saved guilty plea.",
+            "sourceRefs": []
+          }
+        ],
+        "perceptionIds": [],
+        "randomness": "none",
+        "retention": "durable"
+      },
+      "optionEvaluations": [
+        {
+          "optionKey": "term:maximum",
+          "available": true,
+          "blockedByConstraintKeys": [],
+          "considerationKeys": [
+            "prosecution-decided-v3:referral:a103:US-IA:custody-term:findings"
+          ],
+          "preference": "supported",
+          "randomContribution": "none",
+          "finalRank": 2
+        },
+        {
+          "optionKey": "term:minimum",
+          "available": true,
+          "blockedByConstraintKeys": [],
+          "considerationKeys": [
+            "prosecution-decided-v3:referral:a103:US-IA:custody-term:parsimony",
+            "prosecution-decided-v3:referral:a103:US-IA:custody-term:plea"
+          ],
+          "preference": "strongly-supported",
+          "randomContribution": "none",
+          "finalRank": 1
+        }
+      ],
+      "outcomeKind": "selected",
+      "selectedOptionKey": "term:minimum",
+      "sourceSnapshots": [],
+      "rngVersion": "decision-rng-v1",
+      "stableKey": "prosecution-decided-v3:referral:a103:US-IA:custody-term:trace",
+      "recordedAt": "2026-07-04",
+      "id": "decision-trace_bf9eb6369457ceb8",
+      "sequence": 40448
+    }
+  },
+  {
+    "seed": "team9-a100-saved-court-finder-20261001",
+    "state": "US-CA",
+    "personId": "person_5a1142e471747aec",
+    "name": "Anika Terry",
+    "referralId": "event_3947a3d75d7ad6fd",
+    "sentence": {
+      "id": "event_048f1321622bda3f",
+      "stableKey": "prosecution-decided-v3:referral:a103:US-CA:justice.sentenced",
+      "sequence": 40449,
+      "type": "justice.sentenced",
+      "occurredAt": "2026-07-04",
+      "recordedAt": "2026-07-04",
+      "jurisdictionId": "jurisdiction_1e7b19669e8d2d53",
+      "involvedEntityIds": [
+        "person_1c9fa7afdf04a3f0",
+        "person_5a1142e471747aec"
+      ],
+      "participants": [
+        {
+          "personId": "person_1c9fa7afdf04a3f0",
+          "role": "agency:decided",
+          "detail": "Judge"
+        },
+        {
+          "personId": "person_5a1142e471747aec",
+          "role": "focus:defendant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "public",
+      "tags": [
+        "justice.follows-event:event_bc01e1e2b3e3d4cd",
+        "justice.offense:crime:robbery",
+        "justice.referral:event_3947a3d75d7ad6fd",
+        "justice.sentence-basis:SOURCED",
+        "justice.sentence-citation:Cal. Penal Code 213(a)(2)",
+        "justice.sentence-months:24",
+        "justice.sentence-range:sentencing-ranges-2026-v2:US-CA:crime:robbery",
+        "justice.sentence-source:https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PEN&sectionNum=213",
+        "justice.sentence-term-decision:prosecution-decided-v3:referral:a103:US-CA:custody-term",
+        "justice.sentence:jail",
+        "prosecution-decided-v3"
+      ],
+      "summary": "Anika Terry was sentenced to 24 months in jail for robbery.",
+      "context": {
+        "location": null,
+        "socialContext": "Criminal case",
+        "pressure": null,
+        "choice": null,
+        "motivation": "They had been found at fault for the same thing before. The offense was violent. Use the least term sufficient within the recorded legal range. They accepted responsibility through the saved guilty plea.",
+        "immediateReaction": null
+      }
+    },
+    "term": {
+      "sentencedEventId": "event_048f1321622bda3f",
+      "kind": "jail",
+      "from": "2026-07-04",
+      "until": "2028-07-04",
+      "months": 24,
+      "life": false,
+      "clemency": null
+    },
+    "range": {
+      "rowId": "sentencing-ranges-2026-v2:US-CA:crime:robbery",
+      "offenseGrade": "robbery of the second degree",
+      "minMonths": 24,
+      "maxMonths": 60,
+      "maxLife": false,
+      "presumptiveMonths": null,
+      "basis": "SOURCED",
+      "citations": [
+        "Cal. Penal Code 213(a)(2)"
+      ],
+      "sources": [
+        "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PEN&sectionNum=213"
+      ],
+      "estimateMethod": null,
+      "contributors": []
+    },
+    "decision": {
+      "decisionId": "decision_c11e6854dca64bcd",
+      "context": {
+        "stableKey": "prosecution-decided-v3:referral:a103:US-CA:custody-term",
+        "decisionType": "justice.sentence-term",
+        "actorPersonId": "person_1c9fa7afdf04a3f0",
+        "cutoff": {
+          "asOfDate": "2026-07-04",
+          "historySequenceExclusive": 40448
+        },
+        "subject": {
+          "kind": "context:criminal-case",
+          "key": "prosecution-decided-v3:referral:a103:US-CA",
+          "entityId": null
+        },
+        "options": [
+          {
+            "key": "term:maximum",
+            "label": "60 months",
+            "description": "Choose this term from the applicable recorded sentencing range."
+          },
+          {
+            "key": "term:minimum",
+            "label": "24 months",
+            "description": "Choose this term from the applicable recorded sentencing range."
+          }
+        ],
+        "constraints": [],
+        "considerations": [
+          {
+            "stableKey": "prosecution-decided-v3:referral:a103:US-CA:custody-term:findings",
+            "optionKey": "term:maximum",
+            "sourceType": "context:sentencing-law",
+            "direction": "supports",
+            "importance": "moderate",
+            "confidence": "high",
+            "explanation": "The case contains repeated standing findings.",
+            "sourceRefs": []
+          },
+          {
+            "stableKey": "prosecution-decided-v3:referral:a103:US-CA:custody-term:parsimony",
+            "optionKey": "term:minimum",
+            "sourceType": "context:sentencing-law",
+            "direction": "supports",
+            "importance": "slight",
+            "confidence": "high",
+            "explanation": "Use the least term sufficient within the recorded legal range.",
+            "sourceRefs": []
+          },
+          {
+            "stableKey": "prosecution-decided-v3:referral:a103:US-CA:custody-term:plea",
+            "optionKey": "term:minimum",
+            "sourceType": "context:sentencing-law",
+            "direction": "supports",
+            "importance": "moderate",
+            "confidence": "high",
+            "explanation": "They accepted responsibility through the saved guilty plea.",
+            "sourceRefs": []
+          }
+        ],
+        "perceptionIds": [],
+        "randomness": "none",
+        "retention": "durable"
+      },
+      "optionEvaluations": [
+        {
+          "optionKey": "term:maximum",
+          "available": true,
+          "blockedByConstraintKeys": [],
+          "considerationKeys": [
+            "prosecution-decided-v3:referral:a103:US-CA:custody-term:findings"
+          ],
+          "preference": "supported",
+          "randomContribution": "none",
+          "finalRank": 2
+        },
+        {
+          "optionKey": "term:minimum",
+          "available": true,
+          "blockedByConstraintKeys": [],
+          "considerationKeys": [
+            "prosecution-decided-v3:referral:a103:US-CA:custody-term:parsimony",
+            "prosecution-decided-v3:referral:a103:US-CA:custody-term:plea"
+          ],
+          "preference": "strongly-supported",
+          "randomContribution": "none",
+          "finalRank": 1
+        }
+      ],
+      "outcomeKind": "selected",
+      "selectedOptionKey": "term:minimum",
+      "sourceSnapshots": [],
+      "rngVersion": "decision-rng-v1",
+      "stableKey": "prosecution-decided-v3:referral:a103:US-CA:custody-term:trace",
+      "recordedAt": "2026-07-04",
+      "id": "decision-trace_808b46bebf132456",
+      "sequence": 40448
+    }
+  },
+  {
+    "seed": "team9-a100-saved-court-finder-20261001",
+    "state": "US-MA",
+    "name": "Anika Terry",
+    "prior": {
+      "id": "event_87a6e44199137f3b",
+      "stableKey": "prosecution-decided-v3:referral:a103:US-MA:justice.case-ended",
+      "sequence": 40446,
+      "type": "justice.case-ended",
+      "occurredAt": "2026-07-04",
+      "recordedAt": "2026-07-04",
+      "jurisdictionId": "jurisdiction_660e18bc5aac592d",
+      "involvedEntityIds": [
+        "person_5a1142e471747aec"
+      ],
+      "participants": [
+        {
+          "personId": "person_5a1142e471747aec",
+          "role": "focus:defendant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "public",
+      "tags": [
+        "justice.follows-event:event_649fff659b52a6b6",
+        "justice.offense:crime:robbery",
+        "justice.outcome:plea",
+        "justice.referral:event_3933bfd75d6a5d87",
+        "prosecution-decided-v3"
+      ],
+      "summary": "Anika Terry pleaded guilty to robbery.",
+      "context": {
+        "location": null,
+        "socialContext": "Criminal case",
+        "pressure": null,
+        "choice": null,
+        "motivation": "They chose to plead guilty.",
+        "immediateReaction": null
+      }
+    },
+    "referral": {
+      "id": "event_c3d3f78b0003b38c",
+      "stableKey": "prosecution-decided-v3:referral:a103:life-from-saved-prior",
+      "sequence": 40451,
+      "type": "justice.prosecution-referred",
+      "occurredAt": "2026-07-04",
+      "recordedAt": "2026-07-04",
+      "jurisdictionId": "jurisdiction_660e18bc5aac592d",
+      "involvedEntityIds": [
+        "person_5a1142e471747aec"
+      ],
+      "participants": [
+        {
+          "personId": "person_5a1142e471747aec",
+          "role": "focus:subject",
+          "detail": "Referred to prosecutors"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": [
+        "justice.evidence:documentary",
+        "justice.offense:crime:robbery",
+        "justice.referred-by:police",
+        "justice.sentencing-applicability:prior:event_87a6e44199137f3b",
+        "justice.sentencing-applicability:version:1",
+        "justice.standing-findings:6",
+        "prosecution-decided-v3"
+      ],
+      "summary": "The police referred Anika Terry to prosecutors for robbery.",
+      "context": {
+        "location": null,
+        "socialContext": "police",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    "applicability": {
+      "allegations": {},
+      "priorConvictionEventIds": [
+        "event_87a6e44199137f3b"
+      ]
+    },
+    "sentence": {
+      "id": "event_247513024fe7299a",
+      "stableKey": "prosecution-decided-v3:referral:a103:life-from-saved-prior:justice.sentenced",
+      "sequence": 40463,
+      "type": "justice.sentenced",
+      "occurredAt": "2026-12-31",
+      "recordedAt": "2026-12-31",
+      "jurisdictionId": "jurisdiction_660e18bc5aac592d",
+      "involvedEntityIds": [
+        "person_5a1142e471747aec",
+        "person_f434a76cd2f0b926"
+      ],
+      "participants": [
+        {
+          "personId": "person_5a1142e471747aec",
+          "role": "focus:defendant",
+          "detail": null
+        },
+        {
+          "personId": "person_f434a76cd2f0b926",
+          "role": "agency:decided",
+          "detail": "Judge"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "public",
+      "tags": [
+        "justice.follows-event:event_be4473a6d5c76e82",
+        "justice.offense:crime:robbery",
+        "justice.referral:event_c3d3f78b0003b38c",
+        "justice.sentence-basis:SOURCED",
+        "justice.sentence-citation:Mass. Gen. Laws ch. 265, 19(b)",
+        "justice.sentence-life",
+        "justice.sentence-range:sentencing-ranges-2026-v2:US-MA:crime:robbery",
+        "justice.sentence-source:https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleI/Chapter265/Section19",
+        "justice.sentence-term-decision:prosecution-decided-v3:referral:a103:life-from-saved-prior:custody-term",
+        "justice.sentence:jail",
+        "prosecution-decided-v3"
+      ],
+      "summary": "Anika Terry was sentenced to life imprisonment for robbery.",
+      "context": {
+        "location": null,
+        "socialContext": "Criminal case",
+        "pressure": null,
+        "choice": null,
+        "motivation": "They had been sentenced before. They had been found at fault for the same thing before. The offense was violent. The case contains repeated standing findings. Their case records contain earlier convictions.",
+        "immediateReaction": null
+      }
+    },
+    "term": {
+      "sentencedEventId": "event_247513024fe7299a",
+      "kind": "jail",
+      "from": "2026-12-31",
+      "until": null,
+      "months": null,
+      "life": true,
+      "clemency": null
+    },
+    "displayed": {
+      "sentencedEventId": "event_247513024fe7299a",
+      "kind": "jail",
+      "term": "life imprisonment, from December 31, 2026 with no fixed end date.",
+      "servingNow": true,
+      "requests": [
+        {
+          "petitionId": "event_9263b37dc56c809e",
+          "askedOn": "2026-12-31",
+          "askedOnLabel": "December 31, 2026",
+          "status": "open",
+          "answers": []
+        }
+      ],
+      "canAskForClemency": false,
+      "whyNoRequest": "A request on this sentence is already waiting."
+    }
+  }
+]
