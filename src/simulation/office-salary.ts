@@ -83,7 +83,10 @@ const WORK_PAY_FLOWS: GrowingIndexKind<Map<EntityId, ResourceFlow>> = {
   create: () => new Map(),
   add: (flows, record) => {
     const flow = record as ResourceFlow;
-    if (flow.basisReference.kind === "work")
+    if (
+      flow.basisReference.kind === "work" &&
+      !flows.has(flow.basisReference.workRelationshipId)
+    )
       flows.set(flow.basisReference.workRelationshipId, flow);
   },
 };
