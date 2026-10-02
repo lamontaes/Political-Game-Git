@@ -19,6 +19,7 @@ import {
 } from "../../presentation/ordinary-life";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import {
+  ageOn,
   daysBetween,
   makeIsoDate,
   simulationMomentAtLocalTime,
@@ -61,6 +62,7 @@ import { advanceWorld, recordWorldEvent } from "../world";
 import { currentPresidentOf, publicOfficesHeldBy } from "../crisis/offices";
 import { PRESIDING_OFFICER_VOTE_EVENT } from "./presiding-officers";
 import { currentFederalTenure } from "../federal-tenures";
+import { publicPartyOf } from "./chamber-votes";
 import {
   CHIEF_JUSTICE_NOMINATED_EVENT,
   CHIEF_JUSTICE_VACANCY_PROFILE,
@@ -120,6 +122,31 @@ function openingWorld(seed: string): World {
     prepareOpeningLife({ ...DEFAULT_NEW_GAME_SETUP, seed, startAge: 40 }),
   ).game!;
   return openOrdinaryLife(game.world, game.playerPersonId);
+}
+
+/** Choose an appointment fixture whose saved delegation actually includes an eligible same-party person. */
+function hasActualSamePartyCandidate(
+  world: World,
+  houseSeats: NonNullable<ReturnType<typeof projectCongress>>["house"]["seats"],
+  stateUsps: string,
+  termId: EntityId,
+): boolean {
+  const requiredParty = world.history.events
+    .find((event) => event.id === termId)
+    ?.tags.find((tag) => tag.startsWith(SEAT_PARTY_TAG))
+    ?.slice(SEAT_PARTY_TAG.length);
+  return (
+    !!requiredParty &&
+    houseSeats.some((seat) => {
+      if (seat.stateUsps !== stateUsps || seat.occupant.kind !== "member")
+        return false;
+      const candidate = world.people[seat.occupant.member.personId]!;
+      return (
+        ageOn(candidate.birthDate, world.currentDate) >= 30 &&
+        publicPartyOf(world, candidate.id) === requiredParty
+      );
+    })
+  );
 }
 
 /** Move the fixture's control through the existing append-only work handoff. */
@@ -230,7 +257,13 @@ describe("GOVERNING K3: an office after its holder dies", () => {
       (s) =>
         s.occupant.kind === "member" &&
         senateVacancyLaw(s.stateUsps)?.appointment === "governor-same-party" &&
-        (s.occupant.member.endExclusive ?? "") > `${nextRegularYear}-06-01`,
+        (s.occupant.member.endExclusive ?? "") > `${nextRegularYear}-06-01` &&
+        hasActualSamePartyCandidate(
+          world,
+          congress.house.seats,
+          s.stateUsps,
+          s.occupant.member.termId,
+        ),
     )!;
     if (seat.occupant.kind !== "member") throw new Error("fixture");
     const senator = seat.occupant.member;
