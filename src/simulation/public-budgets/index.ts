@@ -20,6 +20,7 @@ import {
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { readMonthFlows, settleGovernmentMonth } from "./month";
 import { budgetCandidates, openGovernmentBudget } from "./opening";
+import { ensureOpeningGovernmentAccounts } from "./opening-government-accounts";
 import {
   PUBLIC_BUDGETS_VERSION,
   stateLocalAidRate,
@@ -142,9 +143,17 @@ export function ensurePublicBudgets(world: World): World {
     adjustments: [],
     unknown: [],
   };
-  const opened: World = {
+  const accountsOpened: World = ensureOpeningGovernmentAccounts({
     ...world,
     publicBudgets: withOpenedBudgets(world, empty, today),
+  });
+  const opened: World = {
+    ...accountsOpened,
+    publicBudgets: withFederalBudget(
+      accountsOpened,
+      accountsOpened.publicBudgets!,
+      today,
+    ),
   };
   const dueAt = firstOfNextMonth(today);
   return scheduleFutureDueItem(opened, {
