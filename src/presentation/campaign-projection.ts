@@ -773,7 +773,9 @@ function offersFor(
   return (["fundraising", "outreach", "advertising"] as const).map((kind) => {
     const spend = kind === "advertising" ? buy : null;
     const unavailable = jailed
-      ? `You are in jail until ${proseDate(jailed.until)}. Your name stays on the ballot, but you cannot campaign.`
+      ? jailed.until === null
+        ? "You are serving life imprisonment. Your name stays on the ballot, but you cannot campaign."
+        : `You are in jail until ${proseDate(jailed.until)}. Your name stays on the ballot, but you cannot campaign.`
       : closed
         ? "Election day has arrived. There is nothing left to do but wait for the count."
         : kind === "advertising" && treasury.minorUnits <= 0
