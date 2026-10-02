@@ -266,90 +266,75 @@ describe("political starting conditions", () => {
     expect(flipsAt(-7.5)).toBeGreaterThan(0);
   });
 
-  it("uses shared effects: a whole region moves together, not independent coin flips", () => {
-    const seats = generatePoliticalStartingConditions(
-      seedWorld("shared-effects"),
-      "major",
-    ).seats.filter((seat) => seat.baselineKind === "certified-two-party");
-    // Within each state, generated shift in logit space shares one component.
-    const byState = new Map<string, number[]>();
-    for (const seat of seats) {
-      const state = seat.seatKey.replace(/^us-(house|senate):/, "").slice(0, 2);
-      const shift =
-        Math.log(seat.generatedShare! / (1 - seat.generatedShare!)) -
-        Math.log(seat.baselineShare! / (1 - seat.baselineShare!)) -
-        seat.seatResidualPp! / 25;
-      byState.set(state, [...(byState.get(state) ?? []), shift]);
-    }
-    for (const shifts of byState.values()) {
-      for (const shift of shifts) expect(shift).toBeCloseTo(shifts[0]!, 2);
+  it("every seed and regime preserves each office's certified record", () => {
+    for (const regime of CRUNCH46_POLICY.regimes.order) {
+      for (const seed of ["certified-opening-a", "certified-opening-b"]) {
+        const record = generatePoliticalStartingConditions(
+          seedWorld(seed),
+          regime,
+        );
+        expect(record.nationalSwingPp).toBe(0);
+        expect(
+          Object.values(record.regionSwingPp).every((value) => value === 0),
+        ).toBe(true);
+        expect(
+          Object.values(record.stateSwingPp).every((value) => value === 0),
+        ).toBe(true);
+        expect(record.seats).toHaveLength(535);
+        for (const seat of record.seats) {
+          const row = calibrationRow(seat.seatKey)!;
+          expect(seat.affiliation, seat.seatKey).toBe(row.referenceAffiliation);
+          if (seat.baselineKind === "certified-two-party") {
+            expect(seat.generatedShare, seat.seatKey).toBeCloseTo(
+              row.democraticTwoPartyShare!,
+              6,
+            );
+            expect(seat.seatResidualPp).toBe(0);
+          } else expect(seat.generatedShare).toBeNull();
+        }
+        for (const row of calibrationRows("us-president")) {
+          expect(record.presidency.stateWinners[row.stateUsps]).toBe(
+            row.referenceAffiliation,
+          );
+        }
+        expect(
+          Object.values(record.presidency.electoralVotes).reduce(
+            (a, b) => a + b,
+            0,
+          ),
+        ).toBe(Object.values(ELECTORAL_ALLOCATION).reduce((a, b) => a + b, 0));
+      }
     }
   });
 
-  it("across many seeds: recognizable starts are common, departures possible, nothing capped", () => {
-    const summary: Record<
-      string,
-      { houseD: number[]; flips: number[]; presidents: Record<string, number> }
-    > = {};
-    const referenceHouseD = houseRows.filter(
-      (row) => row.referenceAffiliation === "democratic",
-    ).length;
-    for (let i = 0; i < 240; i += 1) {
-      const world = seedWorld(`distribution-${i}`);
-      const regime = drawStartingRegime(world);
-      const record = generatePoliticalStartingConditions(world, regime);
-      const house = record.seats.filter((seat) =>
-        seat.seatKey.startsWith("us-house:"),
+  it("a tied or conflicting share preserves the office's recorded winner", () => {
+    const row = certified[0]!;
+    for (const share of [0.5, 0.1, 0.9]) {
+      const source = {
+        ...row,
+        democraticTwoPartyShare: share,
+        referenceAffiliation: "republican",
+      };
+      const seat = generateContest(
+        seedWorld("tie-record"),
+        zeroPoliticalLatents("major"),
+        source,
       );
-      const bucket = (summary[regime] ??= {
-        houseD: [],
-        flips: [],
-        presidents: {},
-      });
-      bucket.houseD.push(
-        house.filter((seat) => seat.affiliation === "democratic").length,
-      );
-      bucket.flips.push(
-        house.filter((seat) => seat.referenceWinner !== seat.affiliation)
-          .length,
-      );
-      bucket.presidents[record.presidency.winner] =
-        (bucket.presidents[record.presidency.winner] ?? 0) + 1;
-      const electors = Object.values(record.presidency.electoralVotes).reduce(
-        (a, b) => a + b,
-        0,
-      );
-      expect(electors).toBe(
-        Object.values(ELECTORAL_ALLOCATION).reduce((a, b) => a + b, 0),
-      );
-      expect(house).toHaveLength(435);
+      expect(seat.generatedShare).toBe(share);
+      expect(seat.affiliation).toBe("republican");
+      expect(seat.referenceWinner).toBe("republican");
     }
-    const median = (values: number[]) =>
-      [...values].sort((a, b) => a - b)[Math.floor(values.length / 2)]!;
-    const near = summary["near-reference"]!;
-    // Evidence for the receiving review (distribution, not a preferred winner).
-    console.info(
-      JSON.stringify(
-        Object.fromEntries(
-          Object.entries(summary).map(([regime, bucket]) => [
-            regime,
-            {
-              worlds: bucket.houseD.length,
-              referenceHouseD,
-              houseDMin: Math.min(...bucket.houseD),
-              houseDMedian: median(bucket.houseD),
-              houseDMax: Math.max(...bucket.houseD),
-              flipsMedian: median(bucket.flips),
-              flipsMax: Math.max(...bucket.flips),
-              presidents: bucket.presidents,
-            },
-          ]),
-        ),
-      ),
+    const seat = generateContest(
+      seedWorld("missing-winner"),
+      zeroPoliticalLatents("major"),
+      {
+        ...row,
+        democraticTwoPartyShare: 0.5,
+        referenceAffiliation: null,
+      },
     );
-    expect(Math.abs(median(near.houseD) - referenceHouseD)).toBeLessThan(30);
-    const all = Object.values(summary).flatMap((bucket) => bucket.flips);
-    expect(Math.max(...all)).toBeGreaterThan(median(near.flips));
+    expect(seat.affiliation).toBe("unrecorded");
+    expect(seat.caucus).toBeNull();
   });
 
   it("replays exactly from the same seed", () => {
