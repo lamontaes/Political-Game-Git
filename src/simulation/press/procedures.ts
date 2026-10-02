@@ -1,3 +1,4 @@
+import { applyFindingSupportLoss } from "../campaign-support";
 import { applyFindingReferral } from "../justice/finding-referral";
 import { addDays } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
@@ -925,6 +926,7 @@ export function advanceProceeding(
     event,
     applyFindingRestitution,
     applyFindingReferral,
+    applyFindingSupportLoss,
   );
   if (nextDueAt) {
     next = scheduleFutureDueItem(next, {

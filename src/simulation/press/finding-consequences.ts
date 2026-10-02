@@ -1,6 +1,6 @@
 import type { applyFindingReferral } from "../justice/finding-referral";
 import type { applyFindingRestitution } from "../governing/finding-restitution";
-import { applyFindingSupportLoss } from "../campaign-support";
+import type { applyFindingSupportLoss } from "../campaign-support";
 import { recheckRoutedClaims } from "../claim-contradictions";
 import { claimStancesBy } from "../claim-stances";
 import { recordEventKnowledge } from "../records";
@@ -48,13 +48,14 @@ export function applyFindingConsequences(
   event: HistoricalEvent,
   restitution?: typeof applyFindingRestitution,
   referral?: typeof applyFindingReferral,
+  supportLoss?: typeof applyFindingSupportLoss,
 ): World {
   if (!isAdversePublicStep(step)) return world;
   const outcome = step.outcome as AdversePublicOutcome;
   let next = world;
   for (const respondentId of proceeding.respondentPersonIds) {
     if (!next.people[respondentId]) continue;
-    next = applyFindingSupportLoss(next, respondentId, step, event);
+    if (supportLoss) next = supportLoss(next, respondentId, step, event);
     if (restitution && (outcome === "finding" || outcome === "conciliation")) {
       // The saved institutional caller supplies its governing writer here,
       // in the original slot. Press alone does not issue a monetary order.
