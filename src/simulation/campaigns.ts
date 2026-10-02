@@ -1,3 +1,4 @@
+import { recordCampaignFundraiserReceipts } from "./campaign-money-sources";
 import { inventedPersonBirthDate } from "./invented-person-age";
 import { createProsecutionTransitionRegistry } from "./justice/prosecution-transitions";
 import {
@@ -1442,51 +1443,17 @@ function actionMoney(
     });
     return { ...paid, raisedAmount: null, spentAmount: amount };
   }
-  const amount: MoneyAmount = {
-    minorUnits: new SeededRng(world.seed)
-      .fork(`campaign-fundraising:${action.id}`)
-      .integer(85_000, 175_001),
+  const receipts = recordCampaignFundraiserReceipts(world, {
+    eventId: completionEventId,
+    committeeOrganizationId: campaign.organizationId,
+    candidatePersonId: campaign.candidatePersonId,
     currency: campaign.treasuryCurrency,
-  };
-  let next = createResourceFlow(world, {
-    stableKey: `${action.stableKey}:flow`,
-    source: {
-      kind: "organization",
-      organizationId: campaign.donorPoolOrganizationId,
-    },
-    recipient: positionOwnerEndpoint({
-      kind: "organization",
-      organizationId: campaign.organizationId,
-    }),
-    startsAt: world.currentDate,
-    initialStatus: "active",
-    amount,
-    cadenceKind: "schedule:one-time",
-    basisKind: "custom:campaign-contribution",
-    basisReference: { kind: "general" },
-    restrictionKind: "purpose:campaign",
-    jurisdictionId: campaign.jurisdictionId,
-    provenance: { kind: "simulated-event", eventId: completionEventId },
-  });
-  const resourceFlowId = next.history.resourceFlows.at(-1)!.id;
-  next = recordResourceTransferOutcome(next, {
-    stableKey: `${action.stableKey}:transfer`,
-    resourceFlowId,
-    periodStartsAt: next.currentDate,
-    periodEndsAt: next.currentDate,
-    occurredAt: next.currentDate,
-    status: "completed",
-    attemptedAmount: amount,
-    transferredAmount: amount,
-    reasonKind: null,
-    note: "Proceeds of a scheduled fundraising session, received by the committee.",
-    provenance: { kind: "simulated-event", eventId: completionEventId },
   });
   return {
-    world: next,
-    resourceFlowId,
-    resourceOutcomeId: next.history.resourceTransferOutcomes.at(-1)!.id,
-    raisedAmount: amount,
+    world: receipts.world,
+    resourceFlowId: receipts.resourceFlowId,
+    resourceOutcomeId: receipts.resourceOutcomeId,
+    raisedAmount: receipts.raisedAmount,
     spentAmount: null,
   };
 }
@@ -1570,7 +1537,9 @@ function recordCampaignActionOutcome(
 
   const baseOutcomeSummary =
     action.kind === "fundraising"
-      ? `The committee spent the session on the phones and took in ${moneyLabel(money.raisedAmount!)}.`
+      ? money.raisedAmount
+        ? `The committee reported completed gifts of ${moneyLabel(money.raisedAmount)} from its fundraising session.`
+        : "The fundraising session recorded no completed gifts; a dated monetary ask and contribution-cap law term are not available."
       : action.kind === "advertising"
         ? `The committee placed an advertising buy worth ${moneyLabel(money.spentAmount!)}.`
         : "The campaign spent the session knocking on doors and talking to people who answered.";

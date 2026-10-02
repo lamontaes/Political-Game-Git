@@ -1,10 +1,16 @@
+import { drawRandomPlace } from "../../tests/support/random-place";
+import { createExplicitGeographyLife } from "../presentation/new-game-geography";
 import { fixtureMeetsRecordedCandidacyAge } from "../../tests/fixtures/candidacy-age";
 import { settledQualification } from "./settled-qualifications";
 import { officeFamilyForChamberKey } from "./office-qualification-rules";
 import { describe, expect, it } from "vitest";
+import { recordWorldEvent } from "./world";
+import { recordRelationshipInteraction } from "./records";
+import { doorKnockingReturn } from "./campaign-recognition";
 import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 
 import {
+  createResourcePosition,
   advanceWorld,
   campaignActionResult,
   campaignForCandidate,
@@ -39,6 +45,7 @@ import {
   assessContribution,
   assessSecondCommittee,
 } from "./index";
+import { contributeOwnMoneyToCampaign } from "./campaign-money-sources";
 import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
 import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
 import {
@@ -102,7 +109,11 @@ function fileKentuckyCampaign(
   });
   const scenario =
     advanceDays > 0 ? advanceWorld(created, advanceDays) : created;
-  const candidatePersonId = firstAdult(scenario);
+  const candidatePersonId = scenario.personOrder.find((id) =>
+    fixtureMeetsRecordedCandidacyAge(scenario, id),
+  );
+  if (!candidatePersonId)
+    throw new Error("No recorded-age eligible candidate.");
   // Campaign work is work somebody does, and the activity engine will not let
   // an unheld person do it. The fixture takes control the way a player does.
   const base: World = ensureWorldStartingConditions(
@@ -708,7 +719,7 @@ describe("filing", () => {
 });
 
 describe("campaign work", () => {
-  it("raises money into the committee's own account", () => {
+  it("does not invent a contribution without recorded donors and an ask", () => {
     const filed = fileKentuckyCampaign("work-fundraising");
     const after = doOneSession(
       filed.world,
@@ -718,17 +729,25 @@ describe("campaign work", () => {
       null,
     );
     const treasury = campaignTreasuryPosition(after, filed.campaign)!;
-    expect(treasury.liquidBalance.minorUnits).toBeGreaterThan(0);
+    expect(treasury.liquidBalance.minorUnits).toBe(0);
   });
 
   it("spends the committee's own money on an advertising buy", () => {
     const filed = fileKentuckyCampaign("work-advertising");
-    const raised = doOneSession(
-      filed.world,
-      filed.campaign,
-      "fundraising",
-      1,
-      null,
+    const cash = createResourcePosition(filed.world, {
+      stableKey: "advertising:recorded-candidate-cash",
+      owner: { kind: "person", personId: filed.campaign.candidatePersonId },
+      openedAt: filed.world.currentDate,
+      openingBalance: {
+        minorUnits: 50000,
+        currency: filed.campaign.treasuryCurrency,
+      },
+      provenance: { kind: "authored", note: "Saved candidate money fixture" },
+    });
+    const raised = contributeOwnMoneyToCampaign(
+      cash,
+      filed.campaign.candidatePersonId,
+      50000,
     );
     const before = campaignTreasuryPosition(raised, filed.campaign)!;
     const spent = doOneSession(
@@ -752,9 +771,7 @@ describe("campaign work", () => {
   });
 
   it("raises money without moving canonical support at all", () => {
-    // Fundraising converts time into committee money. It is not a way to
-    // persuade anybody, so it must leave the distribution exactly as it found
-    // it — not "almost", and not by a single basis point.
+    // Recording attendance without a dated ask cannot create money or persuasion.
     const filed = fileKentuckyCampaign("fundraising-support-neutral", 3);
     const contest = requireElectionContest(
       filed.world,
@@ -773,7 +790,7 @@ describe("campaign work", () => {
       null,
     );
     const treasury = campaignTreasuryPosition(after, filed.campaign)!;
-    expect(treasury.liquidBalance.minorUnits).toBeGreaterThan(0);
+    expect(treasury.liquidBalance.minorUnits).toBe(0);
     expect(
       supportSnapshot(after, filed.campaign, contest.candidatePersonIds),
     ).toEqual(before);
@@ -812,15 +829,59 @@ describe("campaign work", () => {
     expect(
       campaignTreasuryPosition(raised, filed.campaign)!.liquidBalance
         .minorUnits,
-    ).toBeGreaterThan(
+    ).toBe(
       campaignTreasuryPosition(knocked, filed.campaign)!.liquidBalance
         .minorUnits,
     );
   });
 
   it("moves more support for more work, not by a flat bonus", () => {
-    const lightly = fileKentuckyCampaign("effort-light", 0);
-    const heavily = fileKentuckyCampaign("effort-heavy", 3);
+    // Recorded encounters hold recognition constant; only staffed effort varies.
+    function withContacts(filed: Filed): Filed {
+      let world = filed.world;
+      for (const other of doorKnockingReturn(world, filed.campaign)
+        .adultResidentIds) {
+        world = recordWorldEvent(world, {
+          stableKey: `effort-contact:${other}`,
+          type: "campaign.fixture-contact",
+          occurredAt: world.currentDate,
+          recordedAt: world.currentDate,
+          jurisdictionId: filed.campaign.jurisdictionId,
+          involvedEntityIds: [filed.candidatePersonId, other],
+          participants: [filed.candidatePersonId, other].map((personId) => ({
+            personId,
+            role: "presence:participant",
+            detail: "Recorded encounter fixture",
+          })),
+          personFactConstraints: [],
+          visibility: "limited",
+          tags: ["fixture:authored-contact"],
+          summary: "Recorded encounter fixture",
+          context: {
+            location: null,
+            socialContext: null,
+            pressure: null,
+            choice: null,
+            motivation: null,
+            immediateReaction: null,
+          },
+        });
+        world = recordRelationshipInteraction(world, {
+          stableKey: `effort-contact:${other}:interaction`,
+          personIds: [filed.candidatePersonId, other],
+          eventId: world.history.events.at(-1)!.id,
+          occurredAt: world.currentDate,
+          kind: "contact:met-at-party-event",
+          change: "formed",
+          significance: "minor",
+          summary: "Recorded encounter fixture",
+          tags: ["campaign.contact"],
+        });
+      }
+      return { ...filed, world };
+    }
+    const lightly = withContacts(fileKentuckyCampaign("effort-light", 0));
+    const heavily = withContacts(fileKentuckyCampaign("effort-heavy", 3));
     const lightAfter = doOneSession(
       lightly.world,
       lightly.campaign,
@@ -1234,11 +1295,26 @@ describe("determinism and persistence", () => {
     const raisedPlain = (
       performCampaignAction(plain.world, plain.action.id).history
         .campaignActionResults ?? []
-    ).at(-1)!.raisedAmount!;
+    ).at(-1)!.raisedAmount;
     const raisedBusier = (
       performCampaignAction(busier.world, withExtra.action.id).history
         .campaignActionResults ?? []
-    ).at(-1)!.raisedAmount!;
-    expect(raisedBusier.minorUnits).toBe(raisedPlain.minorUnits);
+    ).at(-1)!.raisedAmount;
+    expect(raisedPlain).toBeNull();
+    expect(raisedBusier).toBeNull();
   });
+});
+
+it("opens a new game in the recorded random-place draw before A66 READY", () => {
+  const seed = "a66-1990-random-opening-2026-10-02";
+  const place = drawRandomPlace(seed);
+  console.info("A66 random-place opening", {
+    seed,
+    placeKey: place.key,
+    placeName: place.displayName,
+  });
+  const opened = createExplicitGeographyLife({ placeKey: place.key, seed });
+  expect(opened.game.place.key).toBe(place.key);
+  expect(opened.game.world.people[opened.game.playerPersonId]).toBeDefined();
+  expect(opened.serialized.length).toBeGreaterThan(0);
 });
