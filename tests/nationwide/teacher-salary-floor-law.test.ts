@@ -67,7 +67,9 @@ const sourcedFloorTerm = startingLaw.questions[
 ].answers["US-AR"].lawTerms.find((term) => term.key === "floor")!;
 if (sourcedFloorTerm.unit !== "minor")
   throw new Error("The sourced teacher floor must be annual USD minor units.");
-const SOURCED_FLOOR_TERM = {
+const SOURCED_FLOOR_TERM: NonNullable<
+  LegislativeProvisionRecord["lawTerms"]
+>[number] = {
   ...sourcedFloorTerm,
   unit: sourcedFloorTerm.unit,
 };
