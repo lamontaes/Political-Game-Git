@@ -20,7 +20,9 @@ Replaces: waiting-only rendering when those current-game records exist. The proj
 
 The measured fresh opening contained 59 governments, one outcome month and zero leases. Its rent fallback had no sample. This draft does not complete the requirement that missing reference rents always display an estimate. The opening price and bedroom producer request is recorded in [the coordination board](https://github.com/lamontaes/Political-Game-Git/issues/1615#issuecomment-5952555738).
 
-Final consumer renewal passed all 59 native checks. Browser play, official gates and merge to main remain pending.
+The additive composition with landed #1955 passed 63 checks across the two changed test files. Scoped types (seven roots, 1,298 source files) reported zero diagnostics; changed-file lint passed. The first sandbox attempt stopped before collection with spawnSync git EPERM; the network-enabled retry passed. Browser play, official gates and merge to main remain pending.
+
+The composition preserves the landed latest-figure headlines, CSS and portrait retry/decode cleanup. State-card first-paint fixtures now read controlled saved current-game records across all 56 jurisdictions rather than national constants. Money retains the landed HUD reference fallback when no current lease estimate exists.
 
 ## Receiving contract
 
