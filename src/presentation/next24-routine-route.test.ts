@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { projectLifeRecord } from "./life-record";
+import { paydayNotifications } from "./payday-notification";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 import {
@@ -154,7 +155,10 @@ describe("NEXT24 combined private-citizen routine route", () => {
         (o) => o.transferredAmount.minorUnits === 7200,
       ),
     ).toHaveLength(1);
-    expect(describeRoutineOutcome(loaded, paid, personId)).toContain(
+    expect(paydayNotifications(loaded, paid, personId)[0]!.headline).toContain(
+      "of $72.",
+    );
+    expect(describeRoutineOutcome(loaded, paid, personId)).not.toContain(
       "Received $72",
     );
     expect(

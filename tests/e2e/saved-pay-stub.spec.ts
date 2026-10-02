@@ -71,11 +71,26 @@ test("payday displays actual starting federal and state withholding on the playe
   await page.screenshot({ path: info.outputPath("jobs-owner-after.png") });
   await page.getByRole("button", { name: "Close", exact: true }).click();
   await page.getByTestId("shell-pass-day").click();
-  const notice = page.getByTestId("pass-outcome");
-  await expect(notice).toContainText("Paycheck: gross $72");
+  const notice = page.getByTestId("payday-notification");
+  await expect(notice).toContainText(
+    "Payday · Neighborhood Supply Cooperative · You took home $64.47 of $72.",
+  );
+  await expect(
+    notice.getByText("Federal income tax withheld $1.01.", { exact: true }),
+  ).not.toBeVisible();
+  await expect(notice.locator("details")).not.toHaveAttribute("open");
+  await page.screenshot({ path: info.outputPath("payday-owner-after.png") });
+  await notice.locator("summary").click();
   await expect(notice).toContainText("Federal income tax withheld $1.01");
   await expect(notice).toContainText("State income tax withheld $0.70");
-  await expect(notice).toContainText("net received $64.47");
-  await expect(notice).toContainText("Other payroll tax not priced");
-  await page.screenshot({ path: info.outputPath("saved-pay-stub-1440.png") });
+  await expect(notice).not.toContainText("Other payroll tax not priced");
+  await expect(notice).not.toContainText("Additional Medicare withheld $0");
+  await expect(page.getByTestId("pass-outcome")).not.toContainText(
+    "Paid $7.53",
+  );
+  await page.screenshot({ path: info.outputPath("payday-owner-details.png") });
+  await notice
+    .getByRole("button", { name: "Dismiss payday notification" })
+    .click();
+  await expect(page.getByTestId("payday-notification")).toHaveCount(0);
 });
