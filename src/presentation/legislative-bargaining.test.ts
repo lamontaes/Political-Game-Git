@@ -912,6 +912,7 @@ describe("the motif layer", () => {
       facts: { ...facts, amount: null },
       grounding,
     });
-    expect(keys).not.toContain("capped");
+    expect(keys.length).toBeGreaterThan(0);
+    expect(keys.some((key) => key.endsWith(":capped"))).toBe(false);
   });
 });

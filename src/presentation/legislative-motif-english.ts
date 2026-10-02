@@ -10,9 +10,10 @@ import type {
 } from "./grounded-english";
 
 /**
- * Bargaining-room beats worded by the English engine (A160, part 2).
+ * Bargaining-room beats worded by the English engine (A160, parts 2 to 4).
  *
- * These four beats used to be banks of whole authored lines, and their lines
+ * Every bargaining beat is worded here now. They used to be banks of whole
+ * authored lines picked by a hash of the turn key, and their lines
  * stated things no record held: a garage "on a replacement list since before
  * I was elected", "my water bill", "I can hold four of ours", "you've got
  * days, not weeks". Here every part copies a fact from its packet, each fact
@@ -27,7 +28,19 @@ export type EnglishMotifFamily =
   | "timing-warning"
   | "refuse-to-commit-yet"
   | "object-on-implementation"
-  | "accept-principle-reject-mechanism";
+  | "accept-principle-reject-mechanism"
+  | "ask-for-commitment"
+  | "qualified-commitment"
+  | "demand-narrower-scope"
+  | "ask-for-evidence"
+  | "ask-staff-to-verify"
+  | "offer-targeted-provision"
+  | "suggest-amendment"
+  | "press-visibility-concern"
+  | "refuse-quid-pro-quo"
+  | "remind-of-commitment"
+  | "confront-broken-commitment"
+  | "defend-broken-commitment";
 
 export const ENGLISH_MOTIF_FAMILIES: readonly EnglishMotifFamily[] = [
   "district-beneficiary-concern",
@@ -37,6 +50,18 @@ export const ENGLISH_MOTIF_FAMILIES: readonly EnglishMotifFamily[] = [
   "refuse-to-commit-yet",
   "object-on-implementation",
   "accept-principle-reject-mechanism",
+  "ask-for-commitment",
+  "qualified-commitment",
+  "demand-narrower-scope",
+  "ask-for-evidence",
+  "ask-staff-to-verify",
+  "offer-targeted-provision",
+  "suggest-amendment",
+  "press-visibility-concern",
+  "refuse-quid-pro-quo",
+  "remind-of-commitment",
+  "confront-broken-commitment",
+  "defend-broken-commitment",
 ];
 
 export type MotifVoice =
@@ -46,9 +71,10 @@ export type MotifVoice =
   | "procedural-institutionalist";
 
 /**
- * Packet facts. The plain ones are words copied into the line; the last two
- * are states the line may assert ("nothing in it is written for…", "you put
- * it in…"), present only when the record shows them.
+ * Packet facts. The plain ones are words copied into the line; the last
+ * three are states the line may assert ("nothing in it is written for…", "you
+ * put it in…", "then write it in": a reply to a hold), present only when the
+ * record shows them.
  */
 export type MotifFactKey =
   | "designation"
@@ -63,8 +89,11 @@ export type MotifFactKey =
   | "section-heading"
   | "analyst"
   | "bill-amount"
+  | "reach"
+  | "prior-statement"
   | "section-absent"
-  | "section-adopted";
+  | "section-adopted"
+  | "answering-a-hold";
 
 export interface MotifEnglishInput {
   readonly family: EnglishMotifFamily;
@@ -433,6 +462,427 @@ const BANKS: Readonly<Record<EnglishMotifFamily, FamilyBanks>> = {
         },
       ),
     },
+  },
+
+  "ask-for-commitment": {
+    shared: bank("legislative.ask-for-commitment", "ask", {
+      core: {
+        variants: [
+          {
+            key: "plain",
+            kind: "template",
+            text: "I'm going to ask you straight, {{listener}}. When {{designation}} comes up, are you with me or not?",
+          },
+          {
+            key: "counting",
+            kind: "template",
+            text: "I'd rather hear it now than read it on the board. Where are you on {{designation}}?",
+          },
+        ],
+      },
+    }),
+    byVoice: {
+      "district-advocate": bank(
+        "legislative.ask-for-commitment.district-advocate",
+        "ask",
+        {
+          core: {
+            variants: [
+              {
+                key: "for-home",
+                kind: "template",
+                text: "people in {{place}} are going to ask me how you voted on {{designation}}. Can I tell them you were with us?",
+              },
+            ],
+          },
+        },
+      ),
+      "procedural-institutionalist": bank(
+        "legislative.ask-for-commitment.procedural-institutionalist",
+        "ask",
+        {
+          core: {
+            variants: [
+              {
+                key: "before-calendar",
+                kind: "template",
+                text: "before {{designation}} reaches {{next-step}}, I need to know whether I'm carrying you or working around you.",
+              },
+            ],
+          },
+        },
+      ),
+    },
+  },
+
+  "qualified-commitment": {
+    shared: bank("legislative.qualified-commitment", "offer", {
+      core: {
+        variants: [
+          {
+            key: "if-section",
+            kind: "template",
+            text: "fix {{section-label}} and I'm with you on {{designation}}. Leave it as it is and I'm not, and I'd rather you heard that from me than found out in the {{chamber}}.",
+          },
+        ],
+      },
+    }),
+    byVoice: {
+      "district-advocate": bank(
+        "legislative.qualified-commitment.district-advocate",
+        "offer",
+        {
+          core: {
+            variants: [
+              {
+                key: "named",
+                kind: "template",
+                text: "put {{beneficiary}} in {{section-label}} in language I can read out loud, and you have my vote on {{designation}}.",
+              },
+              {
+                key: "named-place",
+                kind: "template",
+                text: "if {{section-label}} can reach {{place}}, I'm a yes on {{designation}} and I'll say so publicly.",
+              },
+            ],
+          },
+        },
+      ),
+      "fiscal-guardian": bank(
+        "legislative.qualified-commitment.fiscal-guardian",
+        "offer",
+        {
+          core: {
+            variants: [
+              {
+                key: "ceiling",
+                kind: "template",
+                text: "hold {{section-label}} at {{amount}} and I can be with you on {{designation}}.",
+              },
+              {
+                key: "bill-total",
+                kind: "template",
+                text: "{{designation}} reads {{bill-amount}} now. Keep it there and I'm a yes.",
+              },
+            ],
+          },
+        },
+      ),
+      "implementation-realist": bank(
+        "legislative.qualified-commitment.implementation-realist",
+        "offer",
+        {
+          core: {
+            variants: [
+              {
+                key: "if-deliverable",
+                kind: "template",
+                text: "if whoever would have to run {{section-label}} tells me it can be stood up, I'm with you on {{designation}}.",
+              },
+              {
+                key: "analyst-says",
+                kind: "template",
+                text: "if {{analyst}} tells me {{section-label}} can be stood up, I'm with you on {{designation}}.",
+              },
+            ],
+          },
+        },
+      ),
+      "procedural-institutionalist": bank(
+        "legislative.qualified-commitment.procedural-institutionalist",
+        "offer",
+        {
+          core: {
+            variants: [
+              {
+                key: "if-in-order",
+                kind: "template",
+                text: "if {{section-label}} is settled in committee and not tacked on at {{next-step}}, you have me on {{designation}}.",
+              },
+            ],
+          },
+        },
+      ),
+    },
+  },
+
+  "demand-narrower-scope": {
+    shared: bank("legislative.demand-narrower-scope", "request", {
+      core: {
+        variants: [
+          {
+            key: "too-broad",
+            kind: "template",
+            text: "{{section-label}} is written for everybody, which means it's written for nobody in particular. Narrow it and I can defend {{designation}}.",
+          },
+        ],
+      },
+    }),
+    byVoice: {
+      "fiscal-guardian": bank(
+        "legislative.demand-narrower-scope.fiscal-guardian",
+        "request",
+        {
+          core: {
+            variants: [
+              {
+                key: "eligibility",
+                kind: "template",
+                text: "tighten who's eligible. As drafted, {{section-label}} is written as {{reach}}, and nobody has costed that.",
+              },
+            ],
+          },
+        },
+      ),
+      "implementation-realist": bank(
+        "legislative.demand-narrower-scope.implementation-realist",
+        "request",
+        {
+          core: {
+            variants: [
+              {
+                key: "pilot-first",
+                kind: "template",
+                text: "make {{section-label}} a pilot with a defined population. Open it everywhere on day one and the first thing that breaks is the intake.",
+              },
+            ],
+          },
+        },
+      ),
+    },
+  },
+
+  "ask-for-evidence": {
+    shared: bank("legislative.ask-for-evidence", "ask", {
+      core: {
+        variants: [
+          {
+            key: "who-scored",
+            kind: "template",
+            text: "has anybody scored {{designation}}, or are we all repeating the sponsor's number back to each other? I'd like to read it before I answer you.",
+          },
+          {
+            key: "show-me",
+            kind: "template",
+            text: "don't tell me it works. What does {{analyst}}'s analysis say {{section-label}} actually delivers?",
+          },
+        ],
+      },
+    }),
+  },
+
+  "ask-staff-to-verify": {
+    shared: bank("legislative.ask-staff-to-verify", "tell", {
+      core: {
+        variants: [
+          {
+            key: "read-it-first",
+            kind: "template",
+            text: "let me have {{section-label}} read against the law as it stands before I say anything about {{designation}} I'd have to take back.",
+          },
+          {
+            key: "have-staff-check",
+            kind: "template",
+            text: "let me have {{analyst}} read {{section-label}} before I say anything I'd have to take back.",
+          },
+        ],
+      },
+    }),
+    byVoice: {
+      "procedural-institutionalist": bank(
+        "legislative.ask-staff-to-verify.procedural-institutionalist",
+        "tell",
+        {
+          core: {
+            variants: [
+              {
+                key: "in-order",
+                kind: "template",
+                text: "I want to know whether {{section-label}} is even in order at {{next-step}}. If it isn't, none of the rest of this matters.",
+              },
+            ],
+          },
+        },
+      ),
+    },
+  },
+
+  "offer-targeted-provision": {
+    shared: bank("legislative.offer-targeted-provision", "request", {
+      core: {
+        variants: [
+          {
+            key: "one-section",
+            kind: "template",
+            text: "there is one section of {{designation}} that would change my answer, and it isn't in the bill. I'd like you to put it there.",
+          },
+          {
+            key: "cold-open",
+            kind: "template",
+            text: "I'll be straight with you about {{designation}}. There is nothing in it for {{place}}, and one section would fix that: {{section-label}}, naming {{beneficiary}}.",
+            requiresFacts: ["section-absent"],
+          },
+          {
+            key: "write-it-in",
+            kind: "template",
+            text: "then write it in. Name {{beneficiary}} in {{section-label}} and I'll carry the amendment myself.",
+            requiresFacts: ["answering-a-hold"],
+          },
+          {
+            key: "carve-out",
+            kind: "template",
+            text: "give me a section of {{designation}} that reaches {{place}} and I'll stop being your problem on this bill.",
+          },
+        ],
+      },
+    }),
+    byVoice: {
+      "fiscal-guardian": bank(
+        "legislative.offer-targeted-provision.fiscal-guardian",
+        "request",
+        {
+          core: {
+            variants: [
+              {
+                key: "capped",
+                kind: "template",
+                text: "if it's going to name {{beneficiary}}, then cap {{section-label}} at {{amount}} and say so on the page.",
+              },
+            ],
+          },
+        },
+      ),
+    },
+  },
+
+  "suggest-amendment": {
+    shared: bank("legislative.suggest-amendment", "suggest-another-way", {
+      opener: {
+        variants: [{ key: "name", kind: "template", text: "{{listener}}," }],
+      },
+      core: {
+        variants: [
+          {
+            key: "committee-substitute",
+            kind: "template",
+            text: "bring it as a committee substitute. Same policy, and {{section-label}} reads the way it should have read when it was filed.",
+          },
+          {
+            key: "two-lines",
+            kind: "template",
+            text: "change {{section-label}}, leave the rest of {{designation}} alone, and half this argument goes away.",
+          },
+        ],
+      },
+    }),
+  },
+
+  "press-visibility-concern": {
+    shared: bank("legislative.press-visibility-concern", "tell", {
+      core: {
+        variants: [
+          {
+            key: "how-it-reads",
+            kind: "template",
+            text: "understand how this reads. A section naming {{beneficiary}} in {{designation}} is going to be the whole story, whatever the merits are.",
+          },
+          {
+            key: "explain-it",
+            kind: "template",
+            text: "I can defend {{section-label}} on the merits. I'd just rather do it in committee than in a headline.",
+          },
+        ],
+      },
+    }),
+  },
+
+  "refuse-quid-pro-quo": {
+    shared: bank("legislative.refuse-quid-pro-quo", "decline", {
+      opener: {
+        variants: [{ key: "name", kind: "template", text: "{{listener}}," }],
+      },
+      core: {
+        variants: [
+          {
+            key: "not-that",
+            kind: "template",
+            text: "stop. Ask me for the amendment, ask me for my vote on {{designation}}. Don't ask me for anything that ends with something in my pocket.",
+          },
+        ],
+      },
+      reason: {
+        variants: [
+          {
+            key: "the-job",
+            kind: "template",
+            text: "I'll trade votes with you on {{designation}} all day. That's the job. What you just described isn't.",
+          },
+        ],
+      },
+    }),
+  },
+
+  "remind-of-commitment": {
+    shared: bank("legislative.remind-of-commitment", "tell", {
+      core: {
+        variants: [
+          {
+            key: "i-said",
+            kind: "template",
+            text: "I said this to you, in this room: {{prior-statement}} I meant it then, and I'd like that to count for something on {{designation}}.",
+          },
+          {
+            key: "held-up",
+            kind: "template",
+            text: "I did what you asked on {{section-label}}. I'd like to think that still counts for something.",
+          },
+        ],
+      },
+    }),
+  },
+
+  "confront-broken-commitment": {
+    shared: bank("legislative.confront-broken-commitment", "complain", {
+      core: {
+        variants: [
+          {
+            key: "never-arrived",
+            kind: "template",
+            text: "{{section-label}} is not in {{designation}}. You told me you would carry it. I'm not angry. I'm going to remember it.",
+            requiresFacts: ["section-absent"],
+          },
+          {
+            key: "explain-it-to-them",
+            kind: "template",
+            text: "I have to go back to {{place}} and explain a vote I took on the understanding that {{section-label}} would be in {{designation}}. Tell me what you'd like me to say.",
+          },
+          {
+            key: "you-told-me",
+            kind: "template",
+            text: "you told me {{section-label}} would be in {{designation}}, {{listener}}. I'd like to hear what happened.",
+          },
+        ],
+      },
+    }),
+  },
+
+  "defend-broken-commitment": {
+    shared: bank("legislative.defend-broken-commitment", "tell", {
+      core: {
+        variants: [
+          {
+            key: "bill-changed",
+            kind: "template",
+            text: "the bill I said yes to isn't the bill that came to {{next-step}}. {{section-label}} changed after we spoke, and my answer went with it.",
+          },
+          {
+            key: "condition",
+            kind: "template",
+            text: "I told you what I needed in {{section-label}}. I didn't get it. That isn't a broken promise; that's a promise that was never triggered.",
+          },
+        ],
+      },
+    }),
   },
 };
 

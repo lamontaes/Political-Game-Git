@@ -19,7 +19,7 @@ import {
 import { observerPlace } from "./observer-world";
 
 /**
- * A160 parts 2 and 3: seven bargaining beats are worded by the English engine from
+ * A160 parts 2 to 4: every bargaining beat is worded by the English engine from
  * their fact packets. Every part of every line copies a packet fact, and a
  * line asserts a state of the bill (nothing written for a place, a section
  * put in) only when the packet records it. The place is drawn from all 56 by
@@ -61,17 +61,26 @@ const OPTIONAL: Readonly<Partial<Record<MotifFactKey, GroundedEnglishFact>>> = {
   amount: { text: "$600,000", sourceRecordIds: [measure] },
   "bill-amount": { text: "$8,600,000", sourceRecordIds: [provision] },
   analyst: { text: "Rowe", sourceRecordIds: [analyst] },
+  reach: {
+    text: "language reaching every eligible rider",
+    sourceRecordIds: [measure],
+  },
+  "prior-statement": {
+    text: "“Fix Section 4 and I'm with you.”",
+    sourceRecordIds: [speaker],
+  },
   "stated-ground": {
     text: "The authority cannot raise the match from fare revenue.",
     sourceRecordIds: [measure],
   },
 };
 
-/** The two states a line may assert; never both, as in the room. */
+/** The states a line may assert; one at a time, as in the room. */
 const STATES = [
   {},
   { "section-absent": { text: "absent", sourceRecordIds: [measure] } },
   { "section-adopted": { text: "adopted", sourceRecordIds: [provision] } },
+  { "answering-a-hold": { text: "answering", sourceRecordIds: [listener] } },
 ] as const;
 
 function input(
@@ -139,8 +148,11 @@ describe(`bargaining beats worded from their packets (${place.displayName}, ${pl
                 expect(line.text).not.toMatch(/nowhere in|Nothing in it/);
               if (!("section-adopted" in state))
                 expect(line.text).not.toMatch(/you put .* in for/);
+              if (!("answering-a-hold" in state))
+                expect(line.text).not.toMatch(/^Then write it in/);
+              if (!optional) expect(line.text).not.toContain("in this room:");
             }
-    expect(lines).toBe(ENGLISH_MOTIF_FAMILIES.length * 4 * 2 * 3 * 16);
+    expect(lines).toBe(ENGLISH_MOTIF_FAMILIES.length * 4 * 2 * 4 * 16);
     const all = MOTIF_ENGLISH_BANKS.flatMap((bank) =>
       Object.entries(bank.parts).flatMap(([part, partBank]) =>
         partBank!.variants.map(
@@ -160,7 +172,11 @@ describe(`bargaining beats worded from their packets (${place.displayName}, ${pl
         for (const key of part.usedFactKeys) {
           const fact = packet.facts[key]!;
           // A state fact backs an assertion; a word fact is copied.
-          if (key !== "section-absent" && key !== "section-adopted")
+          if (
+            key !== "section-absent" &&
+            key !== "section-adopted" &&
+            key !== "answering-a-hold"
+          )
             expect(part.text, `${part.partKey}/${key}`).toContain(fact.text);
         }
       // The same turn says the same words.
