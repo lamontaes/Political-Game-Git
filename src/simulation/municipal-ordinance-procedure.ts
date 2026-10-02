@@ -826,11 +826,15 @@ export function completeCouncilPassage(
       stableKey: `${measure.stableKey}:enactment`,
       measureId: measure.id,
       actDesignation: measure.designation,
-      // ESTIMATED where the charter's rule is unread
-      // (`ordinance-effective-date.ts`).
-      effectiveAt: effectiveFromPassage
-        ? next.currentDate
-        : addDays(next.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS),
+      // The admitted town profile's executable date is saved by the writer.
+      // Compiled publication rules retain their existing adapter until typed.
+      ...(governmentKey
+        ? {
+            effectiveAt: effectiveFromPassage
+              ? next.currentDate
+              : addDays(next.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS),
+          }
+        : {}),
     });
     // Every enactment passes through the one effects step, a council's too.
     return applyEnactedLawEffects(next, measure.id);

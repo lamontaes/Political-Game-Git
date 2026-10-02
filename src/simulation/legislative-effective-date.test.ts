@@ -11,8 +11,55 @@ import {
   MARYLAND_RULE_PACK,
 } from "./legislature-rule-packs";
 import type { LegislativeEnactmentRecord } from "./types";
+import type { LegislativeRulePack } from "./legislature-rules";
 
 describe("legislative effective dates", () => {
+  it("uses the declared on-adoption date without parsing a prose rule", () => {
+    const enacted = makeIsoDate("2026-01-20");
+    const pack: LegislativeRulePack = {
+      ...MARYLAND_RULE_PACK,
+      enactment: {
+        ...MARYLAND_RULE_PACK.enactment,
+        defaultEffectiveSchedule: undefined,
+        defaultEffectiveRule: {
+          kind: "unknown",
+          note: "No prose date parser.",
+        },
+        effectiveDateDistinctFromEnactment: {
+          kind: "known",
+          value: false,
+          source: {
+            ...MARYLAND_RULE_PACK.enactment.source,
+            authority: "game-profile",
+            verification: "game-profile",
+            note: "Explicit fictional on-adoption fixture.",
+          },
+        },
+      },
+    };
+    expect(resolveLegislativeEffectiveDate(pack, enacted)).toEqual({
+      kind: "game-default",
+      effectiveAt: enacted,
+    });
+    expect(
+      resolveLegislativeEffectiveDate(
+        {
+          ...pack,
+          enactment: {
+            ...pack.enactment,
+            effectiveDateDistinctFromEnactment: {
+              kind: "unknown",
+              note: "The fixture does not supply an adoption date.",
+            },
+          },
+        },
+        enacted,
+      ),
+    ).toEqual({
+      kind: "game-default",
+      effectiveAt: makeIsoDate("2026-04-20"),
+    });
+  });
   it("computes Alaska's sourced default and labels Maryland's fallback as fictional", () => {
     const enacted = makeIsoDate("2026-01-20");
     expect(resolveLegislativeEffectiveDate(ALASKA_RULE_PACK, enacted)).toEqual({
