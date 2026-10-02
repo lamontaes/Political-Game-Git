@@ -1,4 +1,4 @@
-# A25 — The old bail assertion expects a premium, but the court route takes full cash
+# A25 — The old bail assertion expects one tenth, but the court route takes full cash
 
 The saved court route transfers the full charged amount to the government running the actual court. The old juvenile-age branch still expects one tenth of that amount. The existing payment writer does not admit a commercial premium or a current state deposit exception. This trace identifies the amount and receipt chain; it proposes no amount, legal exception or new writer.
 
