@@ -839,7 +839,9 @@ export function fileMemberAgendaBills(
             pack.titleTemplate ?? settings.titleTemplate,
             proposition.name,
             world.currentDate.slice(0, 4),
-            best.answer === "no",
+            best.answer === "no" &&
+              (settings.governmentLevel !== "state" ||
+                lawAnswers.get(best.propositionId) === "yes"),
           ),
           summary: input.council
             ? `Answers "${proposition.question}" with ${best.answer}.`
