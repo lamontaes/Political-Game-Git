@@ -956,6 +956,545 @@
       "memberOrdinal": 1,
       "sourceSeatKey": "mn-sos-certified-2024|state-upper|045",
       "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56001",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|001",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56002",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|002",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56003",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|003",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56004",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|004",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56005",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|005",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56006",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|006",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56007",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|007",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56008",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|008",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56009",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|009",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56010",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|010",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56011",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|011",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56012",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|012",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56013",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|013",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56014",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|014",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56015",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|015",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56016",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|016",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56017",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|017",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56018",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|018",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56019",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|019",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56020",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|020",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56021",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|021",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56022",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|022",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56023",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|023",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56024",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|024",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56025",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|025",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56026",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|026",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56027",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|027",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56028",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|028",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56029",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|029",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56030",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|030",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56031",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|031",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56032",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|032",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56033",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|033",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56034",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|034",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56035",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|035",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56036",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|036",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56037",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|037",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56038",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|038",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56039",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|039",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56040",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|040",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56041",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|041",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56042",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|042",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56043",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|043",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56044",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|044",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56045",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|045",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56046",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|046",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56047",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|047",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56048",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|048",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56049",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|049",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56050",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|050",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56051",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|051",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56052",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|052",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56053",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|053",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56054",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|054",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56055",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|055",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56056",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|056",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56057",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|057",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56058",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|058",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56059",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|059",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56060",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|060",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56061",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|061",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-lower:56062",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-house|state-lower|062",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56002",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-senate|state-upper|002",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56004",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-senate|state-upper|004",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56006",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-senate|state-upper|006",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56008",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-senate|state-upper|008",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56010",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-senate|state-upper|010",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56012",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-senate|state-upper|012",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56014",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-senate|state-upper|014",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56016",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-senate|state-upper|016",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56018",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-senate|state-upper|018",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56020",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-senate|state-upper|020",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56022",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-senate|state-upper|022",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56024",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-senate|state-upper|024",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56026",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-senate|state-upper|026",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56028",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-senate|state-upper|028",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56030",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2024-senate|state-upper|030",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
     }
   ],
   "records": [
@@ -182252,6 +182791,1868 @@
           }
         }
       ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|001",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "001",
+      "districtNumber": "001",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:2:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:2:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [5096, 124, 2, 609],
+          "candidateHeader": "                        Statewide House Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                   House District 1\n                 Chip\n                               Write-Ins         Overvotes       Undervotes\n              Neiman (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|002",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "002",
+      "districtNumber": "002",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:3:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:3:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3834, 248, 1, 563],
+          "candidateHeader": "                         Statewide House Official Summary\n                     Wyoming General Election - November 5, 2024\n\n\n\n                                     House District 2\n                   JD\n                                 Write-Ins         Overvotes       Undervotes\n              Williams (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|003",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "003",
+      "districtNumber": "003",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:4:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:4:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3753, 36, 0, 418],
+          "candidateHeader": "                         Statewide House Official Summary\n                     Wyoming General Election - November 5, 2024\n\n\n\n                                    House District 3\n                Abby\n                                Write-Ins        Overvotes       Undervotes\n              Angelos (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|004",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "004",
+      "districtNumber": "004",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:5:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:5:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3516, 1014, 80, 7, 279],
+          "candidateHeader": "                                       Statewide House Official Summary\n                                   Wyoming General Election - November 5, 2024\n\n\n\n                                                       House District 4\n                 Jeremy               Charles\n                                                           Write-Ins        Overvotes       Undervotes\n              Haroldson (R)         Randolph (D)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|005",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "005",
+      "districtNumber": "005",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:6:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:6:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3893, 303, 0, 686],
+          "candidateHeader": "                        Statewide House Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                  House District 5\n               Scott\n                              Write-Ins         Overvotes       Undervotes\n              Smith (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|006",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "006",
+      "districtNumber": "006",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:7:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:7:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3742, 290, 0, 705],
+          "candidateHeader": "                        Statewide House Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                   House District 6\n                 Tomi\n                               Write-Ins         Overvotes       Undervotes\n              Strock (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|007",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "007",
+      "districtNumber": "007",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:8:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:8:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [2791, 1456, 53, 2, 125],
+          "candidateHeader": "                                     Statewide House Official Summary\n                                 Wyoming General Election - November 5, 2024\n\n\n\n                                                   House District 7\n                  Bob               Jordan\n                                                       Write-Ins        Overvotes       Undervotes\n              Nicholas (R)         Evans (D)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|008",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "008",
+      "districtNumber": "008",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:9:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:9:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [4229, 345, 0, 763],
+          "candidateHeader": "                         Statewide House Official Summary\n                     Wyoming General Election - November 5, 2024\n\n\n\n                                    House District 8\n                 Steve\n                                Write-Ins         Overvotes       Undervotes\n              Johnson (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|009",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "009",
+      "districtNumber": "009",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:10:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:10:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3453, 276, 2, 576],
+          "candidateHeader": "                        Statewide House Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                  House District 9\n              Landon J.\n                              Write-Ins         Overvotes       Undervotes\n              Brown (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|010",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "010",
+      "districtNumber": "010",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:11:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:11:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3963, 865, 39, 2, 173],
+          "candidateHeader": "                                   Statewide House Official Summary\n                               Wyoming General Election - November 5, 2024\n\n\n\n                                                    House District 10\n                John            Timothy (Tim)\n                                                         Write-Ins        Overvotes       Undervotes\n              Eklund (R)          Forbis (I)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|011",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "011",
+      "districtNumber": "011",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:12:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:12:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [1774, 1482, 13, 0, 76],
+          "candidateHeader": "                                         Statewide House Official Summary\n                                     Wyoming General Election - November 5, 2024\n\n\n\n                                                          House District 11\n                  Jacob                    Sara\n                                                               Write-Ins        Overvotes       Undervotes\n              Wasserburger (R)       Burlingame (D)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|012",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "012",
+      "districtNumber": "012",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:13:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:13:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [2252, 139, 0, 311],
+          "candidateHeader": "                        Statewide House Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                   House District 12\n              Clarence\n                               Write-Ins         Overvotes       Undervotes\n              Styvar (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|013",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "013",
+      "districtNumber": "013",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:14:candidate-column:1",
+          "partyCode": "d",
+          "partyName": "Democratic",
+          "caseIds": ["wy-sos-certified-2024-house:page:14:candidate-column:1"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [1718, 1941, 6, 0, 207],
+          "candidateHeader": "                                  Statewide House Official Summary\n                              Wyoming General Election - November 5, 2024\n\n\n\n                                                 House District 13\n               Shane              Ken\n                                                      Write-Ins       Overvotes       Undervotes\n              Swett (R)        Chestek (D)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|014",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "014",
+      "districtNumber": "014",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:15:candidate-column:1",
+          "partyCode": "d",
+          "partyName": "Democratic",
+          "caseIds": ["wy-sos-certified-2024-house:page:15:candidate-column:1"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [2279, 2472, 8, 3, 134],
+          "candidateHeader": "                                      Statewide House Official Summary\n                                  Wyoming General Election - November 5, 2024\n\n\n\n                                                      House District 14\n                  Joe                  Trey\n                                                           Write-Ins       Overvotes       Undervotes\n              Giustozzi (R)        Sherwood (D)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|015",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "015",
+      "districtNumber": "015",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:16:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:16:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [2790, 97, 2, 426],
+          "candidateHeader": "                        Statewide House Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                    House District 15\n               Pamela\n                                Write-Ins        Overvotes       Undervotes\n              Thayer (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|016",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "016",
+      "districtNumber": "016",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:17:candidate-column:0",
+          "partyCode": "d",
+          "partyName": "Democratic",
+          "caseIds": ["wy-sos-certified-2024-house:page:17:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3545, 121, 0, 795],
+          "candidateHeader": "                       Statewide House Official Summary\n                   Wyoming General Election - November 5, 2024\n\n\n\n                                    House District 16\n               Mike\n                                Write-Ins         Overvotes       Undervotes\n              Yin (D)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|017",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "017",
+      "districtNumber": "017",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:18:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:18:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [2590, 122, 1, 551],
+          "candidateHeader": "                        Statewide House Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                   House District 17\n                 J.T.\n                               Write-Ins         Overvotes       Undervotes\n              Larson (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|018",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "018",
+      "districtNumber": "018",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:19:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:19:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3781, 115, 0, 636],
+          "candidateHeader": "                        Statewide House Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                     House District 18\n                Scott\n                                 Write-Ins         Overvotes       Undervotes\n              Heiner (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|019",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "019",
+      "districtNumber": "019",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:20:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:20:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3012, 918, 1, 318],
+          "candidateHeader": "                       Statewide House Official Summary\n                   Wyoming General Election - November 5, 2024\n\n\n\n                                 House District 19\n                Joe\n                             Write-Ins         Overvotes       Undervotes\n              Webb (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|020",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "020",
+      "districtNumber": "020",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:21:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:21:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [4354, 232, 1, 697],
+          "candidateHeader": "                        Statewide House Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                     House District 20\n                Mike\n                                 Write-Ins         Overvotes       Undervotes\n              Schmid (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|021",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "021",
+      "districtNumber": "021",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:22:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:22:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [4947, 48, 0, 340],
+          "candidateHeader": "                         Statewide House Official Summary\n                     Wyoming General Election - November 5, 2024\n\n\n\n                                     House District 21\n               McKay L.\n                                 Write-Ins        Overvotes       Undervotes\n              Erickson (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|022",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "022",
+      "districtNumber": "022",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:23:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:23:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [4189, 140, 0, 1355],
+          "candidateHeader": "                        Statewide House Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                  House District 22\n              Andrew P\n                              Write-Ins         Overvotes       Undervotes\n              Byron (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|023",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "023",
+      "districtNumber": "023",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:24:candidate-column:0",
+          "partyCode": "d",
+          "partyName": "Democratic",
+          "caseIds": ["wy-sos-certified-2024-house:page:24:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [4434, 229, 0, 1718],
+          "candidateHeader": "                        Statewide House Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                   House District 23\n                 Liz\n                               Write-Ins         Overvotes       Undervotes\n              Storer (D)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|024",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "024",
+      "districtNumber": "024",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:25:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:25:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3372, 755, 3, 1098],
+          "candidateHeader": "                        Statewide House Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                   House District 24\n                Nina\n                               Write-Ins         Overvotes       Undervotes\n              Webber (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|025",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "025",
+      "districtNumber": "025",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:26:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:26:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3673, 240, 1, 588],
+          "candidateHeader": "                        Statewide House Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                  House District 25\n                Paul\n                              Write-Ins         Overvotes       Undervotes\n              Hoeft (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|026",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "026",
+      "districtNumber": "026",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:27:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:27:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3942, 100, 1, 496],
+          "candidateHeader": "                        Statewide House Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                    House District 26\n               Dalton\n                                Write-Ins         Overvotes       Undervotes\n              Banks (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|027",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "027",
+      "districtNumber": "027",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:28:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:28:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3918, 105, 1, 530],
+          "candidateHeader": "                        Statewide House Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                     House District 27\n               Martha\n                                 Write-Ins         Overvotes       Undervotes\n              Lawley (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|028",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "028",
+      "districtNumber": "028",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:29:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:29:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3986, 857, 12, 6, 180],
+          "candidateHeader": "                                     Statewide House Official Summary\n                                 Wyoming General Election - November 5, 2024\n\n\n\n                                                     House District 28\n               John R.               Larry\n                                                          Write-Ins        Overvotes       Undervotes\n              Winter (R)           Alwin (D)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|029",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "029",
+      "districtNumber": "029",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:30:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:30:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3009, 1325, 23, 1, 215],
+          "candidateHeader": "                                        Statewide House Official Summary\n                                    Wyoming General Election - November 5, 2024\n\n\n\n                                                       House District 29\n                  Ken                 Martha J\n                                                            Write-Ins        Overvotes       Undervotes\n              Pendergraft (R)         Wright (D)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|030",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "030",
+      "districtNumber": "030",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:31:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:31:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3944, 143, 1, 830],
+          "candidateHeader": "                        Statewide House Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                      House District 30\n                Tom\n                                  Write-Ins         Overvotes       Undervotes\n              Kelly (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|031",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "031",
+      "districtNumber": "031",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:32:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:32:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [2726, 116, 0, 538],
+          "candidateHeader": "                       Statewide House Official Summary\n                   Wyoming General Election - November 5, 2024\n\n\n\n                                     House District 31\n              John W\n                                 Write-Ins         Overvotes       Undervotes\n              Bear (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|032",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "032",
+      "districtNumber": "032",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:33:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:33:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3342, 110, 1, 593],
+          "candidateHeader": "                         Statewide House Official Summary\n                     Wyoming General Election - November 5, 2024\n\n\n\n                                     House District 32\n                 Ken L.\n                                 Write-Ins         Overvotes       Undervotes\n              Clouston (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|033",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "033",
+      "districtNumber": "033",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:34:candidate-column:1",
+          "partyCode": "d",
+          "partyName": "Democratic",
+          "caseIds": ["wy-sos-certified-2024-house:page:34:candidate-column:1"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [1210, 1675, 13, 1, 92],
+          "candidateHeader": "                                 Statewide House Official Summary\n                             Wyoming General Election - November 5, 2024\n\n\n\n                                               House District 33\n               Sarah            Ivan D.\n                                                    Write-Ins        Overvotes       Undervotes\n              Penn (R)         Posey (D)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|034",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "034",
+      "districtNumber": "034",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:35:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:35:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [4117, 116, 0, 678],
+          "candidateHeader": "                        Statewide House Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                   House District 34\n              Pepper L.\n                               Write-Ins         Overvotes       Undervotes\n              Ottman (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|035",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "035",
+      "districtNumber": "035",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:36:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:36:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3409, 242, 0, 919],
+          "candidateHeader": "                        Statewide House Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                  House District 35\n                Tony\n                              Write-Ins         Overvotes       Undervotes\n              Locke (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|036",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "036",
+      "districtNumber": "036",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:37:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:37:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [2727, 84, 0, 709],
+          "candidateHeader": "                        Statewide House Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                   House District 36\n                 Art\n                               Write-Ins        Overvotes       Undervotes\n              Washut (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|037",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "037",
+      "districtNumber": "037",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:38:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:38:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [4004, 184, 0, 961],
+          "candidateHeader": "                         Statewide House Official Summary\n                     Wyoming General Election - November 5, 2024\n\n\n\n                                     House District 37\n                 Steve\n                                 Write-Ins         Overvotes       Undervotes\n              Harshman (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|038",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "038",
+      "districtNumber": "038",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:39:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:39:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3253, 148, 4, 732],
+          "candidateHeader": "                       Statewide House Official Summary\n                   Wyoming General Election - November 5, 2024\n\n\n\n                                     House District 38\n               Jayme\n                                 Write-Ins         Overvotes       Undervotes\n              Lien (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|039",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "039",
+      "districtNumber": "039",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:40:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:40:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [2966, 108, 0, 587],
+          "candidateHeader": "                        Statewide House Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                  House District 39\n               Cody\n                              Write-Ins         Overvotes       Undervotes\n              Wylie (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|040",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "040",
+      "districtNumber": "040",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:41:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:41:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [4806, 251, 1, 804],
+          "candidateHeader": "                         Statewide House Official Summary\n                     Wyoming General Election - November 5, 2024\n\n\n\n                                      House District 40\n                Marilyn\n                                  Write-Ins         Overvotes       Undervotes\n              Connoly (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|041",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "041",
+      "districtNumber": "041",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:42:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:42:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [2039, 1852, 16, 1, 63],
+          "candidateHeader": "                                  Statewide House Official Summary\n                              Wyoming General Election - November 5, 2024\n\n\n\n                                                     House District 41\n                Gary               Jen\n                                                          Write-Ins        Overvotes       Undervotes\n              Brown (R)          Solis (D)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|042",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "042",
+      "districtNumber": "042",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:43:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:43:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3270, 853, 86, 0, 79],
+          "candidateHeader": "                                     Statewide House Official Summary\n                                 Wyoming General Election - November 5, 2024\n\n\n\n                                                    House District 42\n                  Rob                Bob\n                                                         Write-Ins        Overvotes       Undervotes\n              Geringer (R)          Ray (D)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|043",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "043",
+      "districtNumber": "043",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:44:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:44:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3540, 314, 0, 473],
+          "candidateHeader": "                        Statewide House Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                  House District 43\n                Ann\n                              Write-Ins         Overvotes       Undervotes\n              Lucas (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|044",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "044",
+      "districtNumber": "044",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:45:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:45:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [2265, 155, 0, 298],
+          "candidateHeader": "                        Statewide House Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                      House District 44\n                 Lee\n                                  Write-Ins         Overvotes       Undervotes\n              Filer (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|045",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "045",
+      "districtNumber": "045",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:46:candidate-column:1",
+          "partyCode": "d",
+          "partyName": "Democratic",
+          "caseIds": ["wy-sos-certified-2024-house:page:46:candidate-column:1"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [1477, 2493, 14, 3, 155],
+          "candidateHeader": "                                   Statewide House Official Summary\n                               Wyoming General Election - November 5, 2024\n\n\n\n                                                   House District 45\n                 Paul              Karlee\n                                                        Write-Ins        Overvotes       Undervotes\n              Crouch (R)        Provenza (D)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|046",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "046",
+      "districtNumber": "046",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:47:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:47:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3411, 1481, 18, 1, 172],
+          "candidateHeader": "                                   Statewide House Official Summary\n                               Wyoming General Election - November 5, 2024\n\n\n\n                                                 House District 46\n                Ocean              Chris\n                                                      Write-Ins        Overvotes       Undervotes\n              Andrew (R)         Lowry (D)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|047",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "047",
+      "districtNumber": "047",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:48:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:48:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3488, 666, 16, 9, 195],
+          "candidateHeader": "                                    Statewide House Official Summary\n                                Wyoming General Election - November 5, 2024\n\n\n\n                                                     House District 47\n                Bob               James A\n                                                          Write-Ins        Overvotes       Undervotes\n              Davis (R)           Wilson (D)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|048",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "048",
+      "districtNumber": "048",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:49:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:49:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [2715, 99, 1, 514],
+          "candidateHeader": "                        Statewide House Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                   House District 48\n               Darin M.\n                               Write-Ins        Overvotes       Undervotes\n              McCann (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|049",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "049",
+      "districtNumber": "049",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:50:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:50:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3046, 344, 0, 828],
+          "candidateHeader": "                        Statewide House Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                   House District 49\n               Robert\n                               Write-Ins         Overvotes       Undervotes\n              Wharff (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|050",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "050",
+      "districtNumber": "050",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:51:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:51:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [4510, 260, 0, 931],
+          "candidateHeader": "                              Statewide House Official Summary\n                          Wyoming General Election - November 5, 2024\n\n\n\n                                         House District 50\n                     Rachel\n                                       Write-Ins         Overvotes       Undervotes\n              Rodriguez-Williams (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|051",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "051",
+      "districtNumber": "051",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:52:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:52:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [4910, 222, 1, 1046],
+          "candidateHeader": "                         Statewide House Official Summary\n                     Wyoming General Election - November 5, 2024\n\n\n\n                                    House District 51\n                Laurie\n                                Write-Ins         Overvotes       Undervotes\n              Bratten (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|052",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "052",
+      "districtNumber": "052",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:53:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:53:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3402, 42, 0, 392],
+          "candidateHeader": "                        Statewide House Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                   House District 52\n               Reuben\n                               Write-Ins        Overvotes       Undervotes\n              Tarver (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|053",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "053",
+      "districtNumber": "053",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:54:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:54:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [2466, 52, 0, 463],
+          "candidateHeader": "                          Statewide House Official Summary\n                      Wyoming General Election - November 5, 2024\n\n\n\n                                       House District 53\n              Christopher R.\n                                   Write-Ins        Overvotes       Undervotes\n               Knapp (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|054",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "054",
+      "districtNumber": "054",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:55:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:55:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3821, 371, 0, 1073],
+          "candidateHeader": "                          Statewide House Official Summary\n                      Wyoming General Election - November 5, 2024\n\n\n\n                                      House District 54\n              Lloyd Charles\n                                  Write-Ins         Overvotes       Undervotes\n                Larsen (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|055",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "055",
+      "districtNumber": "055",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:56:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:56:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [2858, 363, 1, 666],
+          "candidateHeader": "                          Statewide House Official Summary\n                      Wyoming General Election - November 5, 2024\n\n\n\n                                      House District 55\n                  Joel\n                                  Write-Ins         Overvotes       Undervotes\n              Guggenmos (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|056",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "056",
+      "districtNumber": "056",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:57:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:57:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [2938, 160, 4, 913],
+          "candidateHeader": "                         Statewide House Official Summary\n                     Wyoming General Election - November 5, 2024\n\n\n\n                                     House District 56\n                Elissa\n                                 Write-Ins         Overvotes       Undervotes\n              Campbell (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|057",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "057",
+      "districtNumber": "057",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:58:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:58:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [2405, 200, 3, 621],
+          "candidateHeader": "                        Statewide House Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                   House District 57\n                Julie\n                               Write-Ins         Overvotes       Undervotes\n              Jarvis (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|058",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "058",
+      "districtNumber": "058",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:59:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:59:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3055, 95, 0, 586],
+          "candidateHeader": "                         Statewide House Official Summary\n                     Wyoming General Election - November 5, 2024\n\n\n\n                                     House District 58\n                   Bill\n                                 Write-Ins        Overvotes       Undervotes\n              Allemand (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|059",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "059",
+      "districtNumber": "059",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:60:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:60:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [2740, 91, 0, 794],
+          "candidateHeader": "                         Statewide House Official Summary\n                     Wyoming General Election - November 5, 2024\n\n\n\n                                    House District 59\n                 J.R.\n                                Write-Ins        Overvotes       Undervotes\n              Riggins (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|060",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "060",
+      "districtNumber": "060",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:61:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:61:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [2484, 951, 45, 2, 202],
+          "candidateHeader": "                                  Statewide House Official Summary\n                              Wyoming General Election - November 5, 2024\n\n\n\n                                                   House District 60\n              Marlene            Carmen\n                                                        Write-Ins        Overvotes       Undervotes\n              Brady (R)        Whitehead (D)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|061",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "061",
+      "districtNumber": "061",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:62:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:62:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [2516, 168, 0, 368],
+          "candidateHeader": "                        Statewide House Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                  House District 61\n              Daniel J.\n                              Write-Ins         Overvotes       Undervotes\n              Singh (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-house|state-lower|062",
+      "stateUsps": "WY",
+      "chamber": "state-lower",
+      "districtName": "062",
+      "districtNumber": "062",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:63:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-house:page:63:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3496, 66, 1, 705],
+          "candidateHeader": "                         Statewide House Official Summary\n                     Wyoming General Election - November 5, 2024\n\n\n\n                                     House District 62\n                Kevin\n                                 Write-Ins        Overvotes       Undervotes\n              Campbell (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-senate|state-upper|002",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "002",
+      "districtNumber": "002",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:2:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-senate:page:2:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [7712, 138, 0, 1155],
+          "candidateHeader": "                        Statewide Senate Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                  Senate District 2\n                Brian\n                              Write-Ins         Overvotes       Undervotes\n              Boner (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-senate|state-upper|004",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "004",
+      "districtNumber": "004",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:3:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-senate:page:3:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [8255, 307, 0, 1202],
+          "candidateHeader": "                          Statewide Senate Official Summary\n                      Wyoming General Election - November 5, 2024\n\n\n\n                                       Senate District 4\n                  Tara\n                                   Write-Ins         Overvotes       Undervotes\n              Nethercott (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-senate|state-upper|006",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "006",
+      "districtNumber": "006",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:4:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-senate:page:4:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [8484, 402, 0, 1052],
+          "candidateHeader": "                        Statewide Senate Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                  Senate District 6\n               Darin\n                              Write-Ins         Overvotes       Undervotes\n              Smith (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-senate|state-upper|008",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "008",
+      "districtNumber": "008",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:5:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-senate:page:5:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3444, 2464, 39, 3, 113],
+          "candidateHeader": "                                  Statewide Senate Official Summary\n                              Wyoming General Election - November 5, 2024\n\n\n\n                                                 Senate District 8\n               Jared            Marguerite\n                                                     Write-Ins        Overvotes       Undervotes\n              Olsen (R)         Herman (D)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-senate|state-upper|010",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "010",
+      "districtNumber": "010",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:6:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-senate:page:6:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [6331, 3405, 30, 3, 210],
+          "candidateHeader": "                                 Statewide Senate Official Summary\n                             Wyoming General Election - November 5, 2024\n\n\n\n                                            Senate District 10\n               Gary E             Mike\n                                                 Write-Ins        Overvotes       Undervotes\n              Crum (R)         Selmer (D)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-senate|state-upper|012",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "012",
+      "districtNumber": "012",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:7:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-senate:page:7:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [4359, 1873, 43, 5, 313],
+          "candidateHeader": "                                     Statewide Senate Official Summary\n                                 Wyoming General Election - November 5, 2024\n\n\n\n                                                 Senate District 12\n              John K               Kenilynn S\n                                                      Write-Ins        Overvotes       Undervotes\n              Kolb (R)             Zanetti (D)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-senate|state-upper|014",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "014",
+      "districtNumber": "014",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:8:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-senate:page:8:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [8025, 494, 0, 1297],
+          "candidateHeader": "                           Statewide Senate Official Summary\n                       Wyoming General Election - November 5, 2024\n\n\n\n                                        Senate District 14\n              Laura Taliaferro\n                                     Write-Ins         Overvotes       Undervotes\n               Pearson (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-senate|state-upper|016",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "016",
+      "districtNumber": "016",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:9:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2024-senate:page:9:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [8830, 274, 2, 1913],
+          "candidateHeader": "                          Statewide Senate Official Summary\n                      Wyoming General Election - November 5, 2024\n\n\n\n                                      Senate District 16\n                  Dan\n                                   Write-Ins         Overvotes       Undervotes\n              Dockstader (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-senate|state-upper|018",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "018",
+      "districtNumber": "018",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:10:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": [
+            "wy-sos-certified-2024-senate:page:10:candidate-column:0"
+          ],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [8568, 505, 3, 1853],
+          "candidateHeader": "                        Statewide Senate Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                  Senate District 18\n                Tim A.\n                               Write-Ins         Overvotes       Undervotes\n              French (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-senate|state-upper|020",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "020",
+      "districtNumber": "020",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:11:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": [
+            "wy-sos-certified-2024-senate:page:11:candidate-column:0"
+          ],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [8236, 240, 3, 1116],
+          "candidateHeader": "                        Statewide Senate Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                    Senate District 20\n                 Ed\n                                 Write-Ins         Overvotes       Undervotes\n              Cooper (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-senate|state-upper|022",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "022",
+      "districtNumber": "022",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:12:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": [
+            "wy-sos-certified-2024-senate:page:12:candidate-column:0"
+          ],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [8599, 554, 4, 1481],
+          "candidateHeader": "                        Statewide Senate Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                 Senate District 22\n                Barry\n                              Write-Ins         Overvotes       Undervotes\n              Crago (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-senate|state-upper|024",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "024",
+      "districtNumber": "024",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:13:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": [
+            "wy-sos-certified-2024-senate:page:13:candidate-column:0"
+          ],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [5305, 452, 3, 1267],
+          "candidateHeader": "                         Statewide Senate Official Summary\n                     Wyoming General Election - November 5, 2024\n\n\n\n                                   Senate District 24\n                Troy D\n                                Write-Ins         Overvotes       Undervotes\n              McKeown (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-senate|state-upper|026",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "026",
+      "districtNumber": "026",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:14:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": [
+            "wy-sos-certified-2024-senate:page:14:candidate-column:0"
+          ],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [7266, 224, 1, 1308],
+          "candidateHeader": "                         Statewide Senate Official Summary\n                     Wyoming General Election - November 5, 2024\n\n\n\n                                   Senate District 26\n                 Tim\n                                Write-Ins         Overvotes       Undervotes\n              Salazar (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-senate|state-upper|028",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "028",
+      "districtNumber": "028",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:15:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": [
+            "wy-sos-certified-2024-senate:page:15:candidate-column:0"
+          ],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [5354, 312, 4, 1574],
+          "candidateHeader": "                         Statewide Senate Official Summary\n                     Wyoming General Election - November 5, 2024\n\n\n\n                                    Senate District 28\n                  Jim\n                                 Write-Ins         Overvotes       Undervotes\n              Anderson (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2024-senate|state-upper|030",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "030",
+      "districtNumber": "030",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2024,
+      "winners": [
+        {
+          "date": "2024-11-05",
+          "candidateId": "page:16:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": [
+            "wy-sos-certified-2024-senate:page:16:candidate-column:0"
+          ],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [6406, 213, 3, 1251],
+          "candidateHeader": "                        Statewide Senate Official Summary\n                    Wyoming General Election - November 5, 2024\n\n\n\n                                  Senate District 30\n              Charles K.\n                               Write-Ins         Overvotes       Undervotes\n               Scott (R)\n"
+        }
+      ]
     }
   ],
   "primarySources": [
@@ -182307,6 +184708,78 @@
       "sha256": "13adf003bfabf1a19e4c47dc7fe100d8862cd22186b1f6ae0f52a721a5b57459",
       "retrievedAt": "2026-10-02",
       "candidateIdentityLimit": "CandidateId is the official candidate-party vote column, not a researched personal identity; no candidate name is invented."
+    },
+    {
+      "id": "wy-sos-certified-2024-house",
+      "format": "official-summary-pdf",
+      "stateUsps": "WY",
+      "stateFips": "56",
+      "electionDate": "2024-11-05",
+      "certifiedAt": "2024-11-13",
+      "url": "https://sos.wyo.gov/Elections/Docs/2024/Results/General/2024_General_Statewide_House_Candidates_Summary.pdf",
+      "sha256": "8bd0a76b3a7302887bd450debbb84e43f5b857e62e4dbf6b0ab733a22ae8d652",
+      "retrievedAt": "2026-10-02",
+      "certificationUrl": "https://sos.wyo.gov/Elections/Docs/2024/Results/General/2024_General_State_Canvassing_Board_Minutes.pdf",
+      "certificationSha256": "fc735f734678dfdc4106878e0f9eed63e99114e8c48be6cb26339984e9e9b87d",
+      "certificationLocator": "Signed certification page9, viewed original scanned page",
+      "certificationStatement": "This is to certify that the undersigned members of the State Canvassing Board, having canvassed all of the returns of the General Election held on November 5th, 2024, do hereby certify that the attached is a full, true and correct summary of said canvass.",
+      "boundaryEvidence": {
+        "url": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf",
+        "locator": "Section 4.19, page 4-45",
+        "statement": "The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle).",
+        "identityStatement": "A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state.",
+        "limit": "Census2025 section4.19 explicitly identifies the2024-cycle plans and states all states outside its enumerated changed-plan lists retained2022 boundaries. Wyoming is not in either changed-plan list. These records use certified2024 results.",
+        "sha256": "21476bdba82fe8072f8994ae59bda484260d1b932c13f31991f6414f8e04d551",
+        "retrievedAt": "2026-10-02"
+      },
+      "chamber": "state-lower",
+      "districtHeading": "House District",
+      "firstDataLabel": "Albany",
+      "partyCodes": {
+        "R": "r",
+        "D": "d"
+      },
+      "partyNames": {
+        "r": "Republican",
+        "d": "Democratic"
+      },
+      "sourceLimit": "Only contests elected in2024;2022 Senate16odd districts remain unbound pending explicit2022 certification."
+    },
+    {
+      "id": "wy-sos-certified-2024-senate",
+      "format": "official-summary-pdf",
+      "stateUsps": "WY",
+      "stateFips": "56",
+      "electionDate": "2024-11-05",
+      "certifiedAt": "2024-11-13",
+      "url": "https://sos.wyo.gov/Elections/Docs/2024/Results/General/2024_General_Statewide_Senate_Candidates_Summary.pdf",
+      "sha256": "b98f5610a344eca446cdd0e9162cb29494e3b3c44ec4fefd8ed22f326680edad",
+      "retrievedAt": "2026-10-02",
+      "certificationUrl": "https://sos.wyo.gov/Elections/Docs/2024/Results/General/2024_General_State_Canvassing_Board_Minutes.pdf",
+      "certificationSha256": "fc735f734678dfdc4106878e0f9eed63e99114e8c48be6cb26339984e9e9b87d",
+      "certificationLocator": "Signed certification page9, viewed original scanned page",
+      "certificationStatement": "This is to certify that the undersigned members of the State Canvassing Board, having canvassed all of the returns of the General Election held on November 5th, 2024, do hereby certify that the attached is a full, true and correct summary of said canvass.",
+      "boundaryEvidence": {
+        "url": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf",
+        "locator": "Section 4.19, page 4-45",
+        "statement": "The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle).",
+        "identityStatement": "A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state.",
+        "limit": "Census2025 section4.19 explicitly identifies the2024-cycle plans and states all states outside its enumerated changed-plan lists retained2022 boundaries. Wyoming is not in either changed-plan list. These records use certified2024 results.",
+        "sha256": "21476bdba82fe8072f8994ae59bda484260d1b932c13f31991f6414f8e04d551",
+        "retrievedAt": "2026-10-02"
+      },
+      "chamber": "state-upper",
+      "districtHeading": "Senate District",
+      "firstDataLabel": "Albany",
+      "partyCodes": {
+        "R": "r",
+        "D": "d"
+      },
+      "partyNames": {
+        "r": "Republican",
+        "d": "Democratic"
+      },
+      "sourceLimit": "Only contests elected in2024;2022 Senate16odd districts remain unbound pending explicit2022 certification."
     }
   ]
 }

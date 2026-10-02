@@ -51,6 +51,78 @@
       ],
       "sha256": "13adf003bfabf1a19e4c47dc7fe100d8862cd22186b1f6ae0f52a721a5b57459",
       "retrievedAt": "2026-10-02"
+    },
+    {
+      "id": "wy-sos-certified-2024-house",
+      "format": "official-summary-pdf",
+      "stateUsps": "WY",
+      "stateFips": "56",
+      "electionDate": "2024-11-05",
+      "certifiedAt": "2024-11-13",
+      "url": "https://sos.wyo.gov/Elections/Docs/2024/Results/General/2024_General_Statewide_House_Candidates_Summary.pdf",
+      "sha256": "8bd0a76b3a7302887bd450debbb84e43f5b857e62e4dbf6b0ab733a22ae8d652",
+      "retrievedAt": "2026-10-02",
+      "certificationUrl": "https://sos.wyo.gov/Elections/Docs/2024/Results/General/2024_General_State_Canvassing_Board_Minutes.pdf",
+      "certificationSha256": "fc735f734678dfdc4106878e0f9eed63e99114e8c48be6cb26339984e9e9b87d",
+      "certificationLocator": "Signed certification page9, viewed original scanned page",
+      "certificationStatement": "This is to certify that the undersigned members of the State Canvassing Board, having canvassed all of the returns of the General Election held on November 5th, 2024, do hereby certify that the attached is a full, true and correct summary of said canvass.",
+      "boundaryEvidence": {
+        "url": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf",
+        "locator": "Section 4.19, page 4-45",
+        "statement": "The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle).",
+        "identityStatement": "A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state.",
+        "limit": "Census2025 section4.19 explicitly identifies the2024-cycle plans and states all states outside its enumerated changed-plan lists retained2022 boundaries. Wyoming is not in either changed-plan list. These records use certified2024 results.",
+        "sha256": "21476bdba82fe8072f8994ae59bda484260d1b932c13f31991f6414f8e04d551",
+        "retrievedAt": "2026-10-02"
+      },
+      "chamber": "state-lower",
+      "districtHeading": "House District",
+      "firstDataLabel": "Albany",
+      "partyCodes": {
+        "R": "r",
+        "D": "d"
+      },
+      "partyNames": {
+        "r": "Republican",
+        "d": "Democratic"
+      },
+      "sourceLimit": "Only contests elected in2024;2022 Senate16odd districts remain unbound pending explicit2022 certification."
+    },
+    {
+      "id": "wy-sos-certified-2024-senate",
+      "format": "official-summary-pdf",
+      "stateUsps": "WY",
+      "stateFips": "56",
+      "electionDate": "2024-11-05",
+      "certifiedAt": "2024-11-13",
+      "url": "https://sos.wyo.gov/Elections/Docs/2024/Results/General/2024_General_Statewide_Senate_Candidates_Summary.pdf",
+      "sha256": "b98f5610a344eca446cdd0e9162cb29494e3b3c44ec4fefd8ed22f326680edad",
+      "retrievedAt": "2026-10-02",
+      "certificationUrl": "https://sos.wyo.gov/Elections/Docs/2024/Results/General/2024_General_State_Canvassing_Board_Minutes.pdf",
+      "certificationSha256": "fc735f734678dfdc4106878e0f9eed63e99114e8c48be6cb26339984e9e9b87d",
+      "certificationLocator": "Signed certification page9, viewed original scanned page",
+      "certificationStatement": "This is to certify that the undersigned members of the State Canvassing Board, having canvassed all of the returns of the General Election held on November 5th, 2024, do hereby certify that the attached is a full, true and correct summary of said canvass.",
+      "boundaryEvidence": {
+        "url": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf",
+        "locator": "Section 4.19, page 4-45",
+        "statement": "The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle).",
+        "identityStatement": "A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state.",
+        "limit": "Census2025 section4.19 explicitly identifies the2024-cycle plans and states all states outside its enumerated changed-plan lists retained2022 boundaries. Wyoming is not in either changed-plan list. These records use certified2024 results.",
+        "sha256": "21476bdba82fe8072f8994ae59bda484260d1b932c13f31991f6414f8e04d551",
+        "retrievedAt": "2026-10-02"
+      },
+      "chamber": "state-upper",
+      "districtHeading": "Senate District",
+      "firstDataLabel": "Albany",
+      "partyCodes": {
+        "R": "r",
+        "D": "d"
+      },
+      "partyNames": {
+        "r": "Republican",
+        "d": "Democratic"
+      },
+      "sourceLimit": "Only contests elected in2024;2022 Senate16odd districts remain unbound pending explicit2022 certification."
     }
   ]
 }
