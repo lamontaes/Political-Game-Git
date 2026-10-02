@@ -1,7 +1,13 @@
 import { describe, expect, it } from "vitest";
 import type { World } from "../types";
 import { smallWorld } from "../../../tests/fixtures/small-world";
-import { lifePlaceStateIdentities } from "../life-places";
+import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
+import {
+  generateOpeningLife,
+  prepareOpeningLife,
+} from "../../presentation/opening-life";
+import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
+import { withWorldIntegrityDeferred } from "../world";
 import { SeededRng, pickDistinct } from "../rng";
 import { createLightweightPerson } from "../people";
 import { serializeWorld, deserializeWorld } from "../serialization";
@@ -80,6 +86,30 @@ describe("A59 recorded same-line town entry", () => {
   it("samples five distinct places from all 56", () => {
     expect(catalog).toHaveLength(56);
     expect(new Set(sampled.map((row) => row.jurisdictionKey)).size).toBe(5);
+  });
+  it("opens one ordinary new game in a seeded random place before READY", () => {
+    const state = sampled[0]!;
+    const place = searchLifePlaces("", 1, {
+      stateJurisdictionKey: state.jurisdictionKey,
+      scope: "locality",
+    })[0]!;
+    const game = withWorldIntegrityDeferred(
+      () =>
+        generateOpeningLife(
+          prepareOpeningLife({
+            ...DEFAULT_NEW_GAME_SETUP,
+            placeKey: place.key,
+            seed: `${seed}:ordinary-new-game`,
+            questionnaire: "skipped",
+          }),
+        ).game,
+    );
+    expect(game).toBeDefined();
+    expect(
+      game!.world.jurisdictions[place.context.jurisdiction.id],
+    ).toBeDefined();
+    expect(game!.world.control.kind).toBe("person");
+    expect(game!.world.personOrder.length).toBeGreaterThan(0);
   });
   for (const state of sampled) {
     it(`uses recorded peer towns, without an authored job-mix fallback (${state.jurisdictionKey})`, () => {

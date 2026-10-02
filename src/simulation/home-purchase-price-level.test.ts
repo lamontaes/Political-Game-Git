@@ -1,7 +1,14 @@
 import { describe, expect, it } from "vitest";
 import { homeValueForJurisdiction } from "./county-home-value";
 import { makeIsoDate } from "./dates";
-import { HOME_PURCHASE_PLACEHOLDER, homePurchaseTerms } from "./home-purchase";
+import { homePurchaseTerms } from "./home-purchase";
+import { amortizedMonthlyPaymentMinor } from "./public-benefit-formulas";
+import {
+  generateOpeningLife,
+  prepareOpeningLife,
+} from "../presentation/opening-life";
+import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
+import { withWorldIntegrityDeferred } from "./world";
 import { lifePlaceStateIdentities, searchLifePlaces } from "./life-places";
 import { homePriceLevel, homePriceLevels } from "./living-world/housing-market";
 import { startValuesFromLatents } from "./macro-economy/kernel";
@@ -89,6 +96,28 @@ describe("A54 purchase prices follow the housing market", () => {
       new Set(places.map((place) => place.stateJurisdictionKey)).size,
     ).toBe(5);
   });
+  it("opens one ordinary new game in its seeded random place before READY", () => {
+    const place = places[0]!;
+    const game = withWorldIntegrityDeferred(
+      () =>
+        generateOpeningLife(
+          prepareOpeningLife({
+            ...DEFAULT_NEW_GAME_SETUP,
+            placeKey: place.key,
+            seed: `${SEED}:ordinary`,
+            questionnaire: "skipped",
+          }),
+        ).game,
+    );
+    expect(game).toBeDefined();
+    expect(game!.world.control.kind).toBe("person");
+    const quote = homePurchaseTerms(game!.world, place.context.jurisdiction.id);
+    expect(quote.downPaymentMinor).toBeGreaterThan(0);
+    expect(quote.monthlyPaymentMinor).not.toBeNull();
+    expect(
+      game!.world.jurisdictions[place.context.jurisdiction.id],
+    ).toBeDefined();
+  });
   it.each(places)(
     "reads the dated housing level in $displayName ($key), seed " + SEED,
     (place) => {
@@ -150,22 +179,15 @@ describe("A54 purchase prices follow the housing market", () => {
           ) * 100_000,
         ),
       );
-      expect(terms.downPaymentMinor).toBe(
-        Math.max(
-          100_000,
-          Math.round(
-            (HOME_PURCHASE_PLACEHOLDER.downPaymentMinor * level) / 100_000,
-          ) * 100_000,
-        ),
-      );
+      expect(terms.downPaymentMinor).toBe(Math.round(terms.priceMinor * 0.1));
       expect(terms.monthlyPaymentMinor).toBe(
-        Math.max(
-          1_000,
-          Math.round(
-            (HOME_PURCHASE_PLACEHOLDER.monthlyPaymentMinor * level) / 1_000,
-          ) * 1_000,
+        amortizedMonthlyPaymentMinor(
+          terms.priceMinor - terms.downPaymentMinor,
+          400,
+          360,
         ),
       );
+      expect(terms.downPaymentBasis).toBe("sourced-opening-median");
       const consumerPriceChanged = {
         ...world,
         macroEconomy: {

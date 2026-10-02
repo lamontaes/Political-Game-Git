@@ -1,9 +1,8 @@
+import { fixtureMeetsRecordedCandidacyAge } from "../../tests/fixtures/candidacy-age";
 import { describe, expect, it } from "vitest";
 
 import {
-  GAME_ADULT_CANDIDACY_AGE,
   advanceWorld,
-  ageOnDate,
   candidacyEligibility,
   candidacyPackForJurisdiction,
   createScenarioWorld,
@@ -51,10 +50,8 @@ function scenarioAt(
     { peopleCount: 4 },
   );
   const scenario = days === 0 ? created : advanceWorld(created, days);
-  const personId = scenario.personOrder.find(
-    (candidate) =>
-      ageOnDate(scenario.people[candidate]!.birthDate, scenario.currentDate) >=
-      GAME_ADULT_CANDIDACY_AGE,
+  const personId = scenario.personOrder.find((candidate) =>
+    fixtureMeetsRecordedCandidacyAge(scenario, candidate),
   );
   if (!personId) return null;
   const world: World = {

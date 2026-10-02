@@ -628,6 +628,22 @@ export interface LegislativeRulePack {
   readonly origination: OriginationRule;
   readonly interChamber: InterChamberRule;
   readonly executive: ExecutiveRule;
+  readonly councilActions?: {
+    readonly financialGeneralThresholdUsd?: RuleValue<number>;
+    readonly financialLocalRule?: RuleValue<{
+      readonly operativeOn: string;
+      readonly fullMembershipAboveUsd: number;
+      readonly delayedAboveUsd: number;
+      readonly minimumInterveningDays: number;
+      readonly ordinaryCitations: readonly string[];
+      readonly ordinaryUnresolved: readonly string[];
+      readonly quorumCitation: string;
+    }>;
+    readonly managerElectionThreshold?: VoteThresholdRule;
+    readonly overrideWindowDays?: RuleValue<number>;
+    readonly congressionalReviewDays?: RuleValue<number>;
+    readonly criminalCodeReviewDays?: RuleValue<number>;
+  };
   readonly enactment: EnactmentRule;
   readonly session: SessionRule;
   readonly sources: readonly RuleSourceRef[];
@@ -1154,6 +1170,38 @@ export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
     );
   }
 
+  for (const field of [
+    "overrideWindowDays",
+    "congressionalReviewDays",
+    "criminalCodeReviewDays",
+    "financialGeneralThresholdUsd",
+  ] as const) {
+    const rule = pack.councilActions?.[field];
+    if (rule)
+      assertRuleValue(rule, `council action ${field}`, (value) => {
+        if (!Number.isSafeInteger(value) || value < 1)
+          throw new Error(
+            `Rule pack '${pack.packId}' has an invalid ${field}.`,
+          );
+      });
+  }
+  const localFinancial = pack.councilActions?.financialLocalRule;
+  if (localFinancial)
+    assertRuleValue(localFinancial, "local financial action", (rule) => {
+      if (
+        !/^\d{4}-\d{2}-\d{2}$/.test(rule.operativeOn) ||
+        [
+          rule.fullMembershipAboveUsd,
+          rule.delayedAboveUsd,
+          rule.minimumInterveningDays,
+        ].some((n) => !Number.isSafeInteger(n) || n < 0)
+      )
+        throw new Error(
+          `Rule pack '${pack.packId}' has invalid local financial action terms.`,
+        );
+    });
+  if (pack.councilActions?.managerElectionThreshold)
+    assertThresholdRule(pack.councilActions.managerElectionThreshold);
   const executive = pack.executive;
   assertSourceRef(executive.source, `executive rule in '${pack.packId}'`);
   assertRuleValue(executive.presentmentRequired, "presentment requirement");
