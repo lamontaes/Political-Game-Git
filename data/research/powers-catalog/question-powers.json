@@ -526,6 +526,37 @@
       "dial": "income-tax",
       "levels": ["city"],
       "why": "This question changes this government level’s own tax terms. The existing powers catalog and actual dated legal evidence govern authority; the question itself grants none."
+    },
+    "us-policy-positions:justice-public-safety.stand-your-ground": {
+      "dial": "crimes-and-penalties",
+      "levels": ["state"],
+      "why": "Whether a person must retreat before using deadly force is set by state criminal law and the courts that read it."
+    },
+    "us-policy-positions:justice-public-safety.child-access-prevention": {
+      "dial": "guns",
+      "levels": ["state"]
+    },
+    "us-policy-positions:justice-public-safety.raise-handgun-purchase-age": {
+      "dial": "guns",
+      "levels": ["state"]
+    },
+    "us-policy-positions:government-operations.same-day-voter-registration": {
+      "dial": "election-rules",
+      "levels": ["state"]
+    },
+    "us-policy-positions:government-operations.all-mail-voting": {
+      "dial": "election-rules",
+      "levels": ["state"],
+      "why": "Whether every voter is mailed a ballot is set by the state's election law. A county only runs the election."
+    },
+    "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement": {
+      "dial": "immigration-cooperation",
+      "levels": ["state", "county", "city"]
+    },
+    "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties": {
+      "dial": "emissions-permits",
+      "levels": ["state"],
+      "why": "A state writes the plan for counties that fail the federal standard, and enforces it on polluters. A county or city does not."
     }
   }
 }

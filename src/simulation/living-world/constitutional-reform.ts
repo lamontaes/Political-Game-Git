@@ -1085,7 +1085,9 @@ export function constitutionalReformBallotHandler(
   );
 }
 
-export const CONSTITUTIONAL_REFORM_HANDLERS = [
-  [CONSTITUTIONAL_REFORM_REVIEW, constitutionalReformReviewHandler],
-  [CONSTITUTIONAL_REFORM_BALLOT, constitutionalReformBallotHandler],
-] as const;
+export function constitutionalReformHandlers() {
+  return [
+    [CONSTITUTIONAL_REFORM_REVIEW, constitutionalReformReviewHandler],
+    [CONSTITUTIONAL_REFORM_BALLOT, constitutionalReformBallotHandler],
+  ] as const;
+}

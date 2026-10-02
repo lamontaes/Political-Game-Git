@@ -57,7 +57,7 @@ Self-work pay uses the existing future-due registry on the day after an attended
 shift. Delegated paid work waits for an actual ready-for-review result and pays
 on a later day. Insufficient hiring-account funds record a missed payment, not
 an invented transfer. Expected annual income never becomes spendable cash.
-`LIFE_PATHS2_HANDLERS` must be composed with the caller's other registries.
+`lifePaths2Handlers()` must be composed with the caller's other registries.
 
 ## Delegation and shared owner seams
 

@@ -80,8 +80,8 @@ import {
 import {
   councilRules,
   lawJurisdiction,
-  unitById,
 } from "../living-world/local-council-binding";
+import { governmentUnit } from "../government-units";
 import { sittingLocalOfficers } from "../living-world/local-government-seats";
 import {
   COUNCIL_VOTE_NOTE,
@@ -590,7 +590,7 @@ export function applyInstitutionStep(
     );
   }
   const local = input.localCouncil;
-  const unit = local ? unitById(local.governmentUnitId) : null;
+  const unit = local ? governmentUnit(local.governmentUnitId) : null;
   if (local && (!unit || councilRules(unit)?.packId !== measure.rulePackId))
     return {
       kind: "blocked",

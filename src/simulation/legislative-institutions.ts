@@ -33,7 +33,7 @@ import { STATES } from "./state-reference";
 import type { EntityId } from "./types";
 import { legislativeWorkKey } from "./legislative-work-key";
 import { townCouncilProfilePackById } from "./town-council-profile";
-import { unitById } from "./living-world/local-council-binding";
+import { governmentUnit } from "./government-units";
 import { localGovernmentJurisdiction } from "./nationwide-world/local-governments";
 export { legislativeWorkKey } from "./legislative-work-key";
 
@@ -129,7 +129,9 @@ export function legislativeInstitutionContext(
   // A profile's state key locates its rules, not the body doing the work.
   // Resolve the validated saved pack to its actual local government/place.
   if (townCouncilProfilePackById(pack.packId)) {
-    const unit = unitById(pack.packId.slice(pack.packId.indexOf(":") + 1));
+    const unit = governmentUnit(
+      pack.packId.slice(pack.packId.indexOf(":") + 1),
+    );
     const jurisdiction = unit ? localGovernmentJurisdiction(unit) : null;
     const place = jurisdiction
       ? (lifePlaceByJurisdictionId(jurisdiction.id) ??
