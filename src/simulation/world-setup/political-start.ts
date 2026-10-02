@@ -9,14 +9,7 @@ import {
   censusRegionStates,
 } from "./census-regions";
 import type { CensusRegion } from "./census-regions";
-import {
-  clampShare,
-  logistic,
-  logit,
-  openUniform,
-  roundTo,
-} from "./deterministic-math";
-import { worldSetupRng } from "./conditions";
+import { clampShare, logistic, logit, roundTo } from "./deterministic-math";
 import { CRUNCH46_POLICY } from "./policy";
 import type {
   GeneratedPresidency,
@@ -153,16 +146,15 @@ export function applySwing(baselineShare: number, swingPp: number): number {
 }
 
 function decide(
-  world: World,
   key: string,
   share: number,
-): "democratic" | "republican" {
+  recordedWinner: string | null,
+): string {
   if (share > 0.5) return "democratic";
   if (share < 0.5) return "republican";
-  // An exact tie is a mathematical boundary, resolved by an authored even draw.
-  return openUniform(worldSetupRng(world, `tie:${key}`)) < 0.5
-    ? "democratic"
-    : "republican";
+  // A tied share does not replace the contest's certified officeholder.
+  if (recordedWinner !== null) return recordedWinner;
+  throw new Error(`Missing certified winner for tied contest ${key}.`);
 }
 
 /**
@@ -241,7 +233,7 @@ const UNIT_RULE_NOTE =
   "Statewide electors follow the generated statewide presidential share. Maine and Nebraska award district electors separately, but this compiled source has no certified presidential result by congressional district, so those electors follow their state's generated result and are recorded as an unmet unit-rule input. A House district's vote share is not a presidential vote share and is not used here.";
 
 export function generatePresidency(
-  world: World,
+  _world: World,
   latents: PoliticalLatents,
 ): GeneratedPresidency {
   const electoralVotes: Record<string, number> = {};
@@ -254,11 +246,11 @@ export function generatePresidency(
     const baseline = row?.democraticTwoPartyShare ?? null;
     const winner =
       baseline === null
-        ? (row?.referenceAffiliation ?? decide(world, `president:${usps}`, 0.5))
+        ? decide(`president:${usps}`, 0.5, row?.referenceAffiliation ?? null)
         : decide(
-            world,
             `president:${usps}`,
             applySwing(baseline, sharedSwing(latents, usps)),
+            row?.referenceAffiliation ?? null,
           );
     stateWinners[usps] = winner;
     add(winner, ELECTORAL_ALLOCATION[usps]!);
