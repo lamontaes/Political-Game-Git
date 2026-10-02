@@ -1,3 +1,8 @@
+import {
+  chooseGovernorSenateAppointee,
+  recordGovernorSenateAppointment,
+  senateAppointmentContext,
+} from "./office-continuity";
 import { inventedPersonBirthDate } from "../invented-person-age";
 import { applyItemVetoes } from "./item-veto";
 import { eventById } from "../event-index";
@@ -161,7 +166,8 @@ export type GoverningMatterFamily =
   | "budget"
   | "bill"
   | "program"
-  | "clemency";
+  | "clemency"
+  | "appointment";
 
 export interface GoverningOffice {
   readonly officeKey: string;
@@ -581,6 +587,23 @@ function optionsFor(
   event: HistoricalEvent,
 ): readonly GoverningMatterOption[] {
   switch (family) {
+    case "appointment": {
+      const seatKey = tagValue(event, "senate-seat:");
+      const vacancyDate = tagValue(event, "vacancy-date:");
+      const actual =
+        seatKey && vacancyDate
+          ? senateAppointmentContext(world, seatKey, makeIsoDate(vacancyDate))
+          : null;
+      return (actual?.candidates ?? []).map((personId) => ({
+        key: `appoint:${personId}`,
+        label: personName(world.people[personId]!),
+        effect:
+          "Takes the vacant Senate seat through the recorded appointment.",
+        tradeoff: "The appointment and the governor's choice become public.",
+        personId,
+        assessment: null,
+      }));
+    }
     case "chief-of-staff":
       return event.participants
         .filter((participant) => participant.role === "focus:candidate")
@@ -788,6 +811,12 @@ const FAMILY_TEXT: Record<
     readonly ifIgnored: string;
   }
 > = {
+  appointment: {
+    title: (subject) => `Appoint ${subject}`,
+    ask: "The recorded Senate vacancy needs your appointment decision.",
+    ifIgnored:
+      "No appointment is made; the seat remains vacant until a lawful recorded action fills it.",
+  },
   "chief-of-staff": {
     title: () => "Choose a chief of staff",
     ask: "The office needs someone to run it day to day. Three people are available.",
@@ -830,7 +859,10 @@ const FAMILY_TEXT: Record<
   },
 };
 
-const DEADLINE_DAYS: Record<Exclude<GoverningMatterFamily, "bill">, number> = {
+const DEADLINE_DAYS: Record<
+  Exclude<GoverningMatterFamily, "bill" | "appointment">,
+  number
+> = {
   "chief-of-staff": 21,
   agenda: 30,
   implementation: 30,
@@ -855,7 +887,11 @@ function matterFromEvent(
   const family = tagValue(event, "matter-family:");
   const officeKey = tagValue(event, "office:");
   const deadline = tagValue(event, "deadline:");
-  if (!isFamily(family) || !officeKey || (!deadline && family !== "bill"))
+  if (
+    !isFamily(family) ||
+    !officeKey ||
+    (!deadline && family !== "bill" && family !== "appointment")
+  )
     return null;
   const holderPersonId = event.participants.find(
     (participant) => participant.role === "agency:officeholder",
@@ -901,11 +937,15 @@ function matterFromEvent(
     deadline:
       family === "bill"
         ? (executiveWindow?.lastActionDate ?? null)
-        : makeIsoDate(deadline!),
+        : deadline
+          ? makeIsoDate(deadline)
+          : null,
     title: text.title(
       family === "clemency"
         ? petitionerLabel(world, event)
-        : (measureTitle(world, measureId) ?? subjectLabel(subjectKey)),
+        : family === "appointment"
+          ? (subjectKey ?? "the vacant Senate seat")
+          : (measureTitle(world, measureId) ?? subjectLabel(subjectKey)),
     ),
     ask: text.ask,
     ifIgnored:
@@ -1177,6 +1217,7 @@ export function staffRecommendation(
     // Clemency is the officeholder's own power; nobody decides it for them.
     case "chief-of-staff":
     case "clemency":
+    case "appointment":
       return null;
     case "agenda": {
       const priority = currentPriority(world, office);
@@ -1361,6 +1402,7 @@ export function createCandidates(
 }
 
 interface OpenMatterInput {
+  readonly statutoryDeadlineAt?: IsoDate | null;
   readonly family: GoverningMatterFamily;
   readonly instance: string;
   readonly candidatePersonIds?: readonly EntityId[];
@@ -1400,7 +1442,9 @@ function openMatter(
   const deadline =
     input.family === "bill"
       ? (executiveWindow?.lastActionDate ?? null)
-      : addDays(world.currentDate, DEADLINE_DAYS[input.family]);
+      : input.family === "appointment"
+        ? (input.statutoryDeadlineAt ?? null)
+        : addDays(world.currentDate, DEADLINE_DAYS[input.family]);
   const text = FAMILY_TEXT[input.family];
   const title = text.title(
     input.titleSubject ??
@@ -1489,9 +1533,10 @@ function openMatter(
     });
     // A real bill lapses only through an executable, declared legal window.
     if (input.family === "bill") return next;
+    if (input.family === "appointment" && !deadline) return next;
     return scheduleFutureDueItem(next, {
       stableKey: `${stableKey}:deadline`,
-      dueAt: deadline!,
+      dueAt: input.family === "appointment" ? addDays(deadline!, 1) : deadline!,
       transitionKey: GOVERNING_DEADLINE,
       entityIds: [opened.id],
       jurisdictionId: office.jurisdictionId,
@@ -1504,6 +1549,19 @@ function openMatter(
     world.currentDate > executiveWindow.lastActionDate
   )
     return next;
+  if (input.family === "appointment") {
+    if (deadline && deadline >= next.currentDate)
+      next = scheduleFutureDueItem(next, {
+        stableKey: `${stableKey}:deadline`,
+        dueAt: addDays(deadline, 1),
+        transitionKey: GOVERNING_DEADLINE,
+        entityIds: [opened.id],
+        jurisdictionId: office.jurisdictionId,
+        provenance: { kind: "simulated", sourceEntityIds: [opened.id] },
+      });
+    const matter = governingMatterById(next, opened.id);
+    return matter ? considerSenateAppointment(next, matter) : next;
+  }
   // Keep the existing workflow interval, bounded by the actual legal last day.
   const workflowDate = addDays(
     world.currentDate,
@@ -1523,6 +1581,41 @@ function openMatter(
     entityIds: [opened.id],
     jurisdictionId: office.jurisdictionId,
     provenance: { kind: "simulated", sourceEntityIds: [opened.id] },
+  });
+}
+
+/** A real Senate vacancy, on the current governor's existing desk. */
+export function openSenateAppointmentMatter(
+  world: World,
+  input: { readonly seatKey: string; readonly vacancyDate: IsoDate },
+): World {
+  const actual = senateAppointmentContext(
+    world,
+    input.seatKey,
+    input.vacancyDate,
+  );
+  if (!actual) return world;
+  const office = currentGoverningOffices(world).find(
+    (row) =>
+      row.holderPersonId === actual.governor.personId &&
+      row.stateUsps === actual.seat.stateUsps,
+  );
+  if (!office) return world;
+  return openMatter(world, office, {
+    family: "appointment",
+    instance: `${input.seatKey}:${input.vacancyDate}`,
+    subjectKey: actual.title,
+    sourceEventId: actual.vacancy.id,
+    statutoryDeadlineAt: actual.deadline,
+    candidatePersonIds: actual.candidates,
+    extraTags: [
+      `senate-seat:${input.seatKey}`,
+      `vacancy-date:${input.vacancyDate}`,
+      `deadline-basis:${actual.deadline ? (actual.law.citation ?? actual.law.source) : "unrecorded"}`,
+      ...(actual.partyListMissing
+        ? ["appointment-input:missing-submitted-party-list"]
+        : []),
+    ],
   });
 }
 
@@ -1813,6 +1906,11 @@ function decisionSummary(
       visibility: matter.family === "bill" ? "public" : "limited",
     };
   switch (matter.family) {
+    case "appointment":
+      return {
+        summary: `${who}, ${office.title}, appointed ${option.label} to ${matter.subjectKey ?? "the vacant Senate seat"}.`,
+        visibility: "public",
+      };
     case "chief-of-staff": {
       const hired = option.personId ? world.people[option.personId] : null;
       if (
@@ -1914,6 +2012,18 @@ function applyConsequence(
       : world;
   }
   switch (matter.family) {
+    case "appointment": {
+      const seatKey = tagValue(matter.openedEvent, "senate-seat:");
+      const date = tagValue(matter.openedEvent, "vacancy-date:");
+      return seatKey && date && option.personId
+        ? recordGovernorSenateAppointment(world, {
+            seatKey,
+            vacancyDate: makeIsoDate(date),
+            appointeeId: option.personId,
+            decisionEventId,
+          })
+        : world;
+    }
     // The grant itself is written by the clemency route, which reads this
     // decision on its own clock with every other body's answer.
     case "clemency":
@@ -2153,7 +2263,10 @@ function recordDecision(
             {
               personId: option.personId,
               role: "impact:appointed" as const,
-              detail: "Chief of Staff",
+              detail:
+                matter.family === "appointment"
+                  ? matter.subjectKey
+                  : "Chief of Staff",
             },
           ]
         : []),
@@ -2186,7 +2299,9 @@ function recordDecision(
   }
   // The commitment writer may refuse when authority, cash plans, or the
   // availability window changed. A refused commitment is no decision.
-  return matter.family === "program" && option && outcome === next
+  return (matter.family === "program" || matter.family === "appointment") &&
+    option &&
+    outcome === next
     ? world
     : outcome;
 }
@@ -2445,6 +2560,44 @@ export function governingDeadlineHandler(
   );
 }
 
+/** Existing appointment evaluation at the recorded vacancy boundary, without a substitute waiting interval. */
+function considerSenateAppointment(
+  world: World,
+  matter: GoverningMatter,
+): World {
+  const seatKey = tagValue(matter.openedEvent, "senate-seat:");
+  const date = tagValue(matter.openedEvent, "vacancy-date:");
+  if (
+    matter.status !== "open" ||
+    controlledPersonId(world) === matter.holderPersonId ||
+    !seatKey ||
+    !date ||
+    (matter.deadline && world.currentDate > matter.deadline)
+  )
+    return world;
+  const choice = chooseGovernorSenateAppointee(
+    world,
+    seatKey,
+    makeIsoDate(date),
+    matter.stableKey,
+  );
+  if (!choice) return world;
+  const option = optionsFor(
+    choice.world,
+    "appointment",
+    matter.openedEvent,
+  ).find((row) => row.personId === choice.personId);
+  return option
+    ? recordDecision(
+        choice.world,
+        matter,
+        option,
+        "officeholder",
+        matter.holderPersonId,
+      )
+    : choice.world;
+}
+
 export function governingNpcDecisionHandler(
   world: World,
   due: FutureDueItem,
@@ -2455,6 +2608,11 @@ export function governingNpcDecisionHandler(
   const office = governingOfficeByKey(world, matter.officeKey);
   if (!office || office.holderPersonId !== matter.holderPersonId)
     return resolved(world, "The office changed hands.");
+  if (matter.family === "appointment")
+    return resolved(
+      considerSenateAppointment(world, matter),
+      "The governor considered the saved vacancy.",
+    );
   if (matter.options.length === 0)
     return resolved(
       recordDecision(world, matter, null, "lapsed", matter.holderPersonId),

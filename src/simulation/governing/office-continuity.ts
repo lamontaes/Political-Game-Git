@@ -1,3 +1,4 @@
+import { openSenateAppointmentMatter } from "./state-governing";
 import { inventedPersonBirthDate } from "../invented-person-age";
 import { crisisRecords } from "../crisis/records";
 import { crisisOfficeContinuityNotices } from "../crisis/notices";
@@ -62,7 +63,6 @@ import {
   seatedStateLegislators,
 } from "./joint-assembly";
 import {
-  SENATE_APPOINTMENT_PLACEHOLDER_DAYS,
   SENATE_SPECIAL_ELECTION_ESTIMATED_DAYS,
   senateVacancyLaw,
 } from "../nationwide-world/senate-vacancy-law";
@@ -179,15 +179,14 @@ function voterChoice(
  * someone of the governor's own party. When the term ends at the regular
  * election anyway, that election fills the seat and no special is held.
  *
- * PLACEHOLDER (filed as `us-senate-vacancy-appointment-and-special-election`):
- * the appointee is still a generated person, not someone the governor
- * knows, and the days to an appointment where the statute sets none.
+ * The governor now considers an actual saved vacancy on the existing desk.
+ * A deadline comes only from the recorded statute; no elapsed interval fills
+ * the seat or generates a nominee.
  */
 export const SENATE_APPOINTMENT = "governing:senate-appointment";
 
 export const SENATE_VACANCY_PROFILE = {
   id: "ocd-senate-vacancy-game-profile/v1",
-  daysFromVacancyToAppointment: 10,
 } as const;
 
 const APPOINTED_FOR_TAG = "appointed-for-vacancy:";
@@ -496,41 +495,18 @@ function openSenateVacancy(
     };
   }
   const law = senateVacancyLaw(seat.stateUsps);
-  const appoints = law ? law.appointment !== "none" : true;
-  const deadline = law?.appointmentDeadlineDays ?? null;
-  const appointmentDay = addDays(
-    from,
-    deadline === null
-      ? SENATE_APPOINTMENT_PLACEHOLDER_DAYS
-      : Math.min(SENATE_APPOINTMENT_PLACEHOLDER_DAYS, deadline),
-  );
+  const appoints = !!law && law.appointment !== "none";
   const window = seatTermWindow(seat, vacancyDate);
   const regular = congressionalElectionDay(
     Number(window.endExclusive.slice(0, 4)) - 1,
   );
   let next = world;
-  const appointmentKey = `${OFFICE_CONTINUITY_VERSION}:appointment:${seat.seatKey}:${vacancyDate}`;
-  if (
-    appoints &&
-    appointmentDay < window.endExclusive &&
-    !next.history.futureDueItems.some((due) => due.stableKey === appointmentKey)
-  )
-    next = scheduleFutureDueItem(next, {
-      stableKey: appointmentKey,
-      dueAt: appointmentDay,
-      transitionKey: SENATE_APPOINTMENT,
-      entityIds: [chamberId],
-      jurisdictionId: stateId,
-      provenance: {
-        kind: "authored",
-        note: law
-          ? `${seat.stateUsps} law (${law.citation ?? law.source}): the governor makes a temporary appointment (U.S. Const. amend. XVII).`
-          : `${SENATE_VACANCY_PROFILE.id}: the governor makes a temporary appointment (U.S. Const. amend. XVII); the appointment, its party and its ${SENATE_VACANCY_PROFILE.daysFromVacancyToAppointment}-day interval are a game profile.`,
-      },
+  if (appoints && from < window.endExclusive)
+    next = openSenateAppointmentMatter(next, {
+      seatKey: seat.seatKey,
+      vacancyDate,
     });
-  const nextGeneral = nextCongressionalElectionAfter(
-    appoints ? appointmentDay : from,
-  );
+  const nextGeneral = nextCongressionalElectionAfter(from);
   const promptDate =
     law?.specialElection.kind === "prompt"
       ? addDays(
@@ -586,7 +562,20 @@ export function senateAppointmentHandler(
   world: World,
   due: FutureDueItem,
 ): FutureTransitionHandlerResult {
-  return seatNewMember(world, due, "appointment");
+  const match = /:appointment:(.+):(\d{4}-\d{2}-\d{2})$/.exec(due.stableKey);
+  return {
+    world: match
+      ? openSenateAppointmentMatter(world, {
+          seatKey: match[1]!,
+          vacancyDate: makeIsoDate(match[2]!),
+        })
+      : world,
+    status: "resolved",
+    reasonKey: null,
+    context:
+      "The saved vacancy goes to the actual governor's desk; no appointment is inferred from elapsed time.",
+    outcomeEventId: null,
+  };
 }
 
 /** Special election day: choose the member who serves out the term. */
@@ -624,8 +613,13 @@ export function newMemberInput(
 
 function seatNewMember(
   world: World,
-  due: FutureDueItem,
+  due: Pick<FutureDueItem, "stableKey">,
   mode: "appointment" | "special-election",
+  recordedAppointee?: {
+    personId: EntityId;
+    governorId: EntityId;
+    decisionEventId: EntityId;
+  },
 ): FutureTransitionHandlerResult {
   const done = (
     next: World,
@@ -762,12 +756,18 @@ function seatNewMember(
   // falls back to the drawn stranger below.
   // Where the state's law requires the departed senator's party, the
   // governor's choice must belong to it.
-  const requiredParty =
-    law && law.appointment !== "governor" ? priorParty : null;
   const appointed =
     mode === "appointment"
-      ? governorsSenateChoice(world, seat, title, due.stableKey, requiredParty)
+      ? recordedAppointee
+        ? { world, ...recordedAppointee }
+        : null
       : null;
+  if (mode === "appointment" && !appointed)
+    return done(
+      world,
+      "The governor has not recorded an appointment; the seat stays vacant.",
+      null,
+    );
   const appointedParty = appointed
     ? publicPartyOf(appointed.world, appointed.personId)
     : null;
@@ -802,6 +802,9 @@ function seatNewMember(
     personFactConstraints: [],
     visibility: "public",
     tags: [
+      ...(recordedAppointee
+        ? [`appointment-decision:${recordedAppointee.decisionEventId}`]
+        : []),
       ...seatTags(seat, next.currentDate),
       `service-since:${next.currentDate}`,
       `${SEAT_PARTY_TAG}${seatParty}`,
@@ -857,65 +860,176 @@ function seatNewMember(
   );
 }
 
-/**
- * Whom a governor names to a vacant Senate seat, from the people they know.
- * Null when the governor is the player or knows nobody eligible.
- */
-function governorsSenateChoice(
+/** Saved vacancy, current governor and actual eligible candidates; no strangers or party lists are generated. */
+export function senateAppointmentContext(
   world: World,
-  seat: CongressSeat,
-  title: string,
-  stableKey: string,
-  requiredParty: string | null,
-): { world: World; personId: EntityId; governorId: EntityId } | null {
+  seatKey: string,
+  vacancyDate: IsoDate,
+) {
+  const seat = congressSeats().find(
+    (row) => row.seatKey === seatKey && row.chamberKey === "us-senate",
+  );
+  if (!seat) return null;
+  const vacancy = latestSeatRecord(world, seatKey);
+  const law = senateVacancyLaw(seat.stateUsps);
   const governor = currentGovernorOf(world, seat.stateUsps);
-  if (!governor) return null;
+  if (
+    !law ||
+    law.appointment === "none" ||
+    !governor ||
+    vacancy?.type !== SEAT_VACANCY_EVENT ||
+    vacancy.occurredAt !== vacancyDate
+  )
+    return null;
+  const previous = world.history.events
+    .filter(
+      (event) =>
+        event.type === SEAT_TENURE_EVENT &&
+        tagValue(event, "seat:") === seatKey &&
+        event.occurredAt <= vacancyDate,
+    )
+    .at(-1);
+  const priorParty = previous ? tagValue(previous, SEAT_PARTY_TAG) : null;
   const stateId = stateJurisdictionForKey(`US-${seat.stateUsps}`)!.id;
-  const congress = projectCongress(world);
-  const delegation = (congress?.house.seats ?? []).flatMap((candidate) =>
-    candidate.stateUsps === seat.stateUsps &&
-    candidate.occupant.kind === "member"
-      ? [candidate.occupant.member.personId]
-      : [],
+  const delegation = (projectCongress(world)?.house.seats ?? []).flatMap(
+    (row) =>
+      row.stateUsps === seat.stateUsps && row.occupant.kind === "member"
+        ? [row.occupant.member.personId]
+        : [],
   );
   const delegationSet = new Set(delegation);
+  const dead = new Set(
+    world.history.personDeaths
+      .filter((row) => row.diedAt <= world.currentDate)
+      .map((row) => row.personId),
+  );
   const controlled =
     world.control.kind === "person" ? world.control.personId : null;
-  const dead = new Set(world.history.personDeaths.map((row) => row.personId));
+  const requiredParty =
+    law.appointment === "governor-same-party" ? priorParty : null;
+  // This save has no canonical submitted party-list record. Circle membership cannot substitute for that legal act.
+  const partyListMissing = law.appointment === "governor-from-party-list";
+  const candidates =
+    partyListMissing ||
+    (law.appointment === "governor-same-party" && !requiredParty)
+      ? []
+      : appointmentCircle(world, governor.personId, delegation).filter(
+          (personId) => {
+            const person = world.people[personId];
+            return (
+              !!person &&
+              personId !== controlled &&
+              !dead.has(personId) &&
+              ageOn(person.birthDate, world.currentDate) >=
+                MINIMUM_AGE[seat.chamberKey] &&
+              (!requiredParty ||
+                publicPartyOf(world, personId) === requiredParty) &&
+              (delegationSet.has(personId) ||
+                stateOfJurisdiction(world, person.homeJurisdictionId) ===
+                  stateId)
+            );
+          },
+        );
+  return {
+    seat,
+    vacancy,
+    law,
+    governor,
+    candidates,
+    partyListMissing,
+    deadline:
+      law.appointmentDeadlineDays === null
+        ? null
+        : addDays(vacancyDate, law.appointmentDeadlineDays),
+    title: congressSeatTitle(seat),
+  };
+}
+
+/** The same existing appointment evaluator, called when the actual governor considers the saved matter. */
+export function chooseGovernorSenateAppointee(
+  world: World,
+  seatKey: string,
+  vacancyDate: IsoDate,
+  stableKey: string,
+) {
+  const context = senateAppointmentContext(world, seatKey, vacancyDate);
+  if (!context || (context.deadline && world.currentDate > context.deadline))
+    return null;
   const choice = chooseAppointee(world, {
     stableKey,
-    appointerPersonId: governor.personId,
-    post: { officeKey: seat.seatKey, title },
-    circle: appointmentCircle(world, governor.personId, delegation),
-    eligible: (personId) => {
-      const person = world.people[personId];
-      if (!person || personId === controlled || dead.has(personId))
-        return false;
-      if (
-        ageOn(person.birthDate, world.currentDate) <
-        MINIMUM_AGE[seat.chamberKey]
-      )
-        return false;
-      if (requiredParty && publicPartyOf(world, personId) !== requiredParty)
-        return false;
-      // U.S. Const. art. I, § 3, cl. 3: an inhabitant of the state.
-      return (
-        delegationSet.has(personId) ||
-        stateOfJurisdiction(world, person.homeJurisdictionId) === stateId
-      );
-    },
+    appointerPersonId: context.governor.personId,
+    post: { officeKey: seatKey, title: context.title },
+    circle: context.candidates,
+    eligible: (personId) => context.candidates.includes(personId),
   });
-  if (!choice) return null;
-  return {
-    world: recordPassedOver(choice.world, {
-      stableKey,
-      appointerPersonId: governor.personId,
-      passedOver: choice.passedOver,
-      post: { officeKey: seat.seatKey, title },
-    }),
-    personId: choice.personId,
-    governorId: governor.personId,
-  };
+  return choice
+    ? {
+        ...choice,
+        world: recordPassedOver(choice.world, {
+          stableKey,
+          appointerPersonId: context.governor.personId,
+          passedOver: choice.passedOver,
+          post: { officeKey: seatKey, title: context.title },
+        }),
+      }
+    : null;
+}
+
+/** Reuse the existing seat/favor writer only after an actual saved governor decision. */
+export function recordGovernorSenateAppointment(
+  world: World,
+  input: {
+    seatKey: string;
+    vacancyDate: IsoDate;
+    appointeeId: EntityId;
+    decisionEventId: EntityId;
+  },
+): World {
+  const context = senateAppointmentContext(
+    world,
+    input.seatKey,
+    input.vacancyDate,
+  );
+  const decision = world.history.events.find(
+    (row) => row.id === input.decisionEventId,
+  );
+  const matterId = decision ? tagValue(decision, "matter:") : null;
+  const opened = matterId
+    ? world.history.events.find((row) => row.id === matterId)
+    : null;
+  if (
+    !context ||
+    !opened ||
+    opened.type !== "governing.matter-opened" ||
+    !opened.tags.includes(`senate-seat:${input.seatKey}`) ||
+    !opened.tags.includes(`vacancy-date:${input.vacancyDate}`) ||
+    !opened.tags.includes(`source-event:${context.vacancy.id}`) ||
+    !context.candidates.includes(input.appointeeId) ||
+    (context.deadline && world.currentDate > context.deadline) ||
+    !decision ||
+    decision.type !== "governing.matter-decided" ||
+    decision.occurredAt !== world.currentDate ||
+    !decision.tags.includes("matter-family:appointment") ||
+    !decision.tags.includes(`choice:appoint:${input.appointeeId}`) ||
+    !decision.participants.some(
+      (row) =>
+        row.personId === context.governor.personId &&
+        row.role === "agency:decider",
+    )
+  )
+    return world;
+  return seatNewMember(
+    world,
+    {
+      stableKey: `${OFFICE_CONTINUITY_VERSION}:appointment:${input.seatKey}:${input.vacancyDate}`,
+    },
+    "appointment",
+    {
+      personId: input.appointeeId,
+      governorId: context.governor.personId,
+      decisionEventId: decision.id,
+    },
+  ).world;
 }
 
 function presidentialRuling(

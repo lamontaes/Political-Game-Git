@@ -1,3 +1,8 @@
+import {
+  decideGoverningMatter,
+  governingMatters,
+  currentGoverningOffices,
+} from "./state-governing";
 import { describe, expect, it } from "vitest";
 
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
@@ -59,7 +64,6 @@ import {
 import { federalColleaguesOf } from "../patronage/federal-circle";
 import {
   HOUSE_SPECIAL_ELECTION,
-  SENATE_VACANCY_PROFILE,
   VICE_PRESIDENTIAL_VACANCY_PROFILE,
   VICE_PRESIDENT_NOMINATED_EVENT,
   VICE_PRESIDENT_NOMINATION,
@@ -192,7 +196,17 @@ describe("GOVERNING K3: an office after its holder dies", () => {
         termEvidenceId: senator.termId,
       },
     ]);
-    let next = applyOfficeContinuityNotices(died.world, [died.notice]);
+    const governor = currentGoverningOffices(died.world).find(
+      (row) => row.stateUsps === seat.stateUsps,
+    )!;
+    expect(governor).toBeDefined();
+    let next = applyOfficeContinuityNotices(
+      {
+        ...died.world,
+        control: { kind: "person", personId: governor.holderPersonId },
+      },
+      [died.notice],
+    );
     expect(applyOfficeContinuityNotices(next, [died.notice])).toBe(next);
     const ruling = officeContinuityRulings(next, seat.seatKey)[0]!;
     expect(ruling.outcome).toBe("special-election");
@@ -203,10 +217,21 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     expect(view().occupant.kind).toBe("vacancy");
 
     // The state's law: the governor appoints, of the same party.
-    next = passOrdinaryDays(
-      next,
-      SENATE_VACANCY_PROFILE.daysFromVacancyToAppointment,
+    const matter = governingMatters(next).find(
+      (row) =>
+        row.family === "appointment" &&
+        row.openedEvent.tags.includes(`senate-seat:${seat.seatKey}`),
+    )!;
+    expect(matter).toBeDefined();
+    // The actual governor chooses a recorded eligible person; elapsed time alone is not an appointment.
+    expect(matter.options.length).toBeGreaterThan(0);
+    const choice = decideGoverningMatter(
+      { ...next, control: { kind: "person", personId: matter.holderPersonId } },
+      matter.id,
+      matter.options[0]!.key,
     );
+    expect(choice.ok).toBe(true);
+    next = { ...choice.world, control: world.control };
     const appointed = view();
     expect(appointed.occupant.kind).toBe("member");
     if (appointed.occupant.kind !== "member") return;
