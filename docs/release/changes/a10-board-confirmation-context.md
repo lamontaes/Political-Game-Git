@@ -1,7 +1,8 @@
 ---
 id: a10-board-confirmation-context
-kind: fix
-summary: Bind board nominations to the existing chamber vote path.
+impact: patch
+section: Changed
+title: Recorded board nominees reach the existing chamber vote path
 ---
 
 # Recorded board appointees begin service pending confirmation
