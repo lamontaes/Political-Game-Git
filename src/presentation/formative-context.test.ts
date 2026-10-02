@@ -30,11 +30,7 @@ import {
   formativeStepDays,
   resolveFormativeCompanion,
 } from "./formative-context";
-import {
-  chooseFormativeOption,
-  letTimePass,
-  projectFormativeYears,
-} from "./formative-play";
+import { chooseFormativeOption, projectFormativeYears } from "./formative-play";
 import { createNewGameWorld } from "./new-game";
 import { sampledProofLocalityForState } from "./new-game-geography";
 
@@ -662,7 +658,7 @@ describe("A147 waits for saved causes", () => {
         f.interval,
       ),
     ).toBe(5);
-    const continued = deserializeWorld(JSON.parse(before));
+    const continued = deserializeWorld(before);
     expect(formativeStepDays(continued, f.personId, f.interval)).toBe(5);
     expect(serializeWorld(world)).toBe(before);
     const earlier = world.history.scheduledActivities.find(
