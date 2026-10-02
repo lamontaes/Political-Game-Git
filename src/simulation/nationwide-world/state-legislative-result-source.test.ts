@@ -58,13 +58,43 @@ describe("recorded district opening options", () => {
         date,
         new SeededRng(seed),
       );
-      expect(result, binding.sourceSeatKey).toEqual(record.winners[0]);
+      expect(record.winners, binding.sourceSeatKey).toContainEqual(result);
       expect(result!.caseIds.length).toBeGreaterThan(0);
       expect(binding.boundaryEvidence).toContain("2024 election cycle");
       expect(record.stateUsps).toBe(identity.stateUsps);
       expect(record.chamber).toBe(identity.chamber);
     }
   });
+  it("varies certified multi-cycle seats only among their actual own-district winners", () => {
+    const competitive = recordedSource.records.filter(
+      (record) =>
+        recordedSource.bindings.some(
+          (binding) => binding.sourceSeatKey === record.key,
+        ) && new Set(record.winners.map((winner) => winner.partyCode)).size > 1,
+    );
+    expect(competitive.length).toBeGreaterThan(0);
+    for (const record of competitive) {
+      const binding = recordedSource.bindings.find(
+        (candidate) => candidate.sourceSeatKey === record.key,
+      )!;
+      const identity = districtIdentityCatalog().find(
+        (candidate) => candidate.recordId === binding.districtRecordId,
+      )!;
+      const parties = new Set<string>();
+      for (let index = 0; index < 30; index += 1) {
+        const winner = recordedDistrictOpeningWinner(
+          identity,
+          1,
+          date,
+          new SeededRng(`${seed}:primary:${index}`),
+        )!;
+        expect(record.winners, record.key).toContainEqual(winner);
+        parties.add(winner.partyCode);
+      }
+      expect(parties.size, record.key).toBeGreaterThan(1);
+    }
+  });
+
   it("does not manufacture a binding from a district number or chamber total", () => {
     const unbound = districtIdentityCatalog().filter(
       (candidate) =>

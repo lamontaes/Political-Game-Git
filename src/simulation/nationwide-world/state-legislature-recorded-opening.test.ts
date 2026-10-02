@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import resultSource from "../../../data/research/elections/state-legislative-district-results.json" with { type: "json" };
+import type { DistrictResultSource } from "./state-legislative-result-source";
 import { stateCandidacyPack } from "../candidacy-packs";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { makeIsoDate } from "../dates";
@@ -15,6 +16,8 @@ import {
   planStateChambers,
   stateLegislators,
 } from "./state-legislature-opening";
+
+const recordedSource: DistrictResultSource = resultSource;
 
 const seed = "overflow3:a115:certified-opening:1";
 const places = lifePlaceStateIdentities();
@@ -101,18 +104,26 @@ describe("state legislative opening requires its own district evidence", () => {
           (candidate) => candidate.districtRecordId === identity?.recordId,
         );
         if (!binding) continue;
-        const record = resultSource.records.find(
+        const record = recordedSource.records.find(
           (candidate) => candidate.key === binding.sourceSeatKey,
         )!;
-        const winner = record.winners[0]!;
-        expect(member.party, `${identity!.recordId}; seed ${proofSeed}`).toBe(
-          winner.partyCode === "d" ? "democratic" : "republican",
-        );
         const event = saved.history.events.find(
           (candidate) => candidate.type === "world.state-legislature-opening",
         )!;
+        const winner = record.winners.find((candidate) =>
+          event.tags.includes(
+            `seat-result:${member.officeKey}|${member.ordinal}|${candidate.caseIds[0]}`,
+          ),
+        );
+        expect(
+          winner,
+          `${identity!.recordId}; seed ${proofSeed}`,
+        ).toBeDefined();
+        expect(member.party, `${identity!.recordId}; seed ${proofSeed}`).toBe(
+          winner!.partyCode === "d" ? "democratic" : "republican",
+        );
         expect(event.tags).toContain(
-          `seat-result:${member.officeKey}|${member.ordinal}|${winner.caseIds[0]}`,
+          `seat-result:${member.officeKey}|${member.ordinal}|${winner!.caseIds[0]}`,
         );
         verified += 1;
       }
