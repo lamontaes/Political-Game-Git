@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "./dates";
-import { recordedFamilyEstimates } from "./family-shape";
+import { drawFamilyShape, recordedFamilyEstimates } from "./family-shape";
 import { recordKinship } from "./life";
+import { establishDrawnAdultFamily } from "./character-history";
 import { createWorld } from "./world";
 import { createDemoWorld } from "./demo";
 
@@ -145,4 +146,70 @@ describe("recorded game family estimates", () => {
     expect(reading.secondParent).toBeNull();
     expect(reading.parentAgeGapYears).toBeNull();
   });
+});
+
+describe("game family shape receiving path", () => {
+  it("uses the current game pattern and birth intervals without seed rolls", () => {
+    const { world } = fixture();
+    const shape = drawFamilyShape(world, "controlled-player");
+    expect(shape.grandparentAgesAtBirth).toEqual([
+      [30, 30],
+      [30, 30],
+    ]);
+    expect(shape.parentAgeGapYears).toBe(4);
+    expect(
+      shape.estimate.samples.some(
+        (row) =>
+          JSON.stringify([...row.siblingOffsetsYears].sort((a, b) => b - a)) ===
+          JSON.stringify(shape.siblingOffsetsYears),
+      ),
+    ).toBe(true);
+    expect(
+      drawFamilyShape({ ...world, seed: "different-seed" }, "another-player"),
+    ).toEqual(shape);
+  });
+  it("does not invent birth ages for an empty comparable cohort", () => {
+    const { world } = fixture();
+    const empty = {
+      ...world,
+      history: { ...world.history, kinshipRelationships: [] },
+    };
+    const shape = drawFamilyShape(empty, "controlled-player");
+    expect(shape.secondParent).toBe(false);
+    expect(shape.siblingOffsetsYears).toEqual([]);
+    expect(shape.grandparentAgesAtBirth).toEqual([
+      [null, null],
+      [null, null],
+    ]);
+    expect(shape.estimate.samples).toEqual([]);
+  });
+});
+
+it("receives World in the existing adult-family caller and saves estimate provenance", () => {
+  const { world, people } = fixture();
+  const input = {
+    personId: people[2]!.id,
+    jurisdictionId: people[2]!.homeJurisdictionId,
+  };
+  const next = establishDrawnAdultFamily(world, input);
+  expect(next.people[people[2]!.id]!.birthDate).toBe(
+    world.people[people[2]!.id]!.birthDate,
+  );
+  expect(next.people[people[0]!.id]!.birthDate).toBe(
+    world.people[people[0]!.id]!.birthDate,
+  );
+  const added = next.history.kinshipRelationships.slice(
+    world.history.kinshipRelationships.length,
+  );
+  expect(added.length).toBeGreaterThan(0);
+  expect(
+    added.every(
+      (row) =>
+        row.provenance.kind === "authored" &&
+        row.provenance.note.includes(
+          "ESTIMATED: averaged from this game's recorded families",
+        ),
+    ),
+  ).toBe(true);
+  expect(establishDrawnAdultFamily(next, input)).toBe(next);
 });
