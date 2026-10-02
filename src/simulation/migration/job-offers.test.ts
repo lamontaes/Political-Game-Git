@@ -25,7 +25,25 @@ import {
  * A135 follow-up (CTO ruling 7): a job offer elsewhere is a recorded reason
  * to move. Each place is drawn by seed from all 56 (`observerPlace`).
  */
-const SEEDS = ["a135-offers-1", "a135-offers-2", "a135-offers-3"] as const;
+const SEEDS = [
+  "a135-offers-1",
+  "a135-offers-2",
+  "a135-offers-3",
+  "a135-offers-4",
+  "a135-offers-5",
+  "a135-offers-6",
+] as const;
+
+/**
+ * The check on totals (CTO ruling 23, October 1, 2026): adults who move for a
+ * job offer elsewhere in a year, as a share of all adults. A new job or a job
+ * transfer is 13.2 percent of movers' reasons in 2023 (Census Bureau, CPS
+ * ASEC 2023, "Why People Move"), and about a fifth of moves with the other
+ * work reasons; at a mover rate near 8 to 10 percent a year that is about 1.5
+ * to 2 percent of adults. It checks the drawn places together; it decides
+ * nobody.
+ */
+const OFFER_MOVERS_SHARE = { low: 0.015, high: 0.02 } as const;
 
 /**
  * The world as its first quarterly review finds it: the review comes 91 days
@@ -74,6 +92,8 @@ describe("a job offer elsewhere is a recorded reason to move (A135)", () => {
 
   let leftAll = 0;
   let adultsAll = 0;
+  let offerMoversAll = 0;
+  let offeredAll = 0;
   for (const seed of SEEDS) {
     const place = observerPlace(seed);
     it(
@@ -155,11 +175,19 @@ describe("a job offer elsewhere is a recorded reason to move (A135)", () => {
               ),
             0,
           ) / adults.length;
+        const adultSet = new Set(adults);
+        const offerMovers = new Set(
+          moves.flatMap((move) =>
+            move.personIds.filter((id) => adultSet.has(id)),
+          ),
+        ).size;
         leftAll += left;
         adultsAll += adults.length;
+        offerMoversAll += offerMovers;
         const kinds = offers.map(({ steps }) => steps.at(-1)!.kind);
+        offeredAll += kinds.filter((k) => k !== "declined").length;
         console.info(
-          `A135 offers, ${place.displayName} (${place.key}, seed ${seed}): ${offers.length} searched elsewhere, ${kinds.filter((k) => k !== "declined").length} offered, ${kinds.filter((k) => k === "started").length} took the offer; ${moves.length} moves for an offer; ${left} of ${adults.length} adults left (${((100 * left) / adults.length).toFixed(1)} percent) against the survey's ${(100 * survey).toFixed(1)} percent for their ages`,
+          `A135 offers, ${place.displayName} (${place.key}, seed ${seed}): ${offers.length} searched elsewhere, ${kinds.filter((k) => k !== "declined").length} offered, ${kinds.filter((k) => k === "started").length} took the offer; ${moves.length} moves for an offer, ${offerMovers} adults moved for one; ${left} of ${adults.length} adults left (${((100 * left) / adults.length).toFixed(1)} percent) against the survey's ${(100 * survey).toFixed(1)} percent for their ages`,
         );
         expect(left).toBeLessThanOrEqual(adults.length);
       },
@@ -171,6 +199,15 @@ describe("a job offer elsewhere is a recorded reason to move (A135)", () => {
     // in these places (#1594's check).
     expect(adultsAll).toBeGreaterThan(0);
     expect(leftAll).toBeGreaterThan(0);
+  });
+
+  it(`across the ${SEEDS.length} drawn places about 1.5 to 2 percent of adults move for a job offer in a year`, () => {
+    const share = offerMoversAll / adultsAll;
+    console.info(
+      `A135 calibration: ${offerMoversAll} of ${adultsAll} adults moved for a job offer (${(100 * share).toFixed(2)} percent; ${offeredAll} offers, ${((100 * offeredAll) / adultsAll).toFixed(2)} percent of adults) against ${100 * OFFER_MOVERS_SHARE.low} to ${100 * OFFER_MOVERS_SHARE.high} percent`,
+    );
+    expect(share).toBeGreaterThanOrEqual(OFFER_MOVERS_SHARE.low);
+    expect(share).toBeLessThanOrEqual(OFFER_MOVERS_SHARE.high);
   });
 
   it(

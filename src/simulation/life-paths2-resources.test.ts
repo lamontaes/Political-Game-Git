@@ -15,7 +15,7 @@ import {
   changeLifePathStatus,
   scheduleLifePathSession,
   performLifePathSession,
-  LIFE_PATHS2_HANDLERS,
+  lifePaths2Handlers,
 } from "./life-paths2";
 import type { EntityId, World } from "./types";
 
@@ -63,7 +63,7 @@ describe("LIFE normal earned-money account lifecycle", () => {
       const worked = performLifePathSession(shift.world, shift.id);
       expect(worked.ok).toBe(true);
       if (shiftNumber === 0) expect(balance(worked.world)).toBeUndefined();
-      w = advanceWorld(worked.world, 1, LIFE_PATHS2_HANDLERS);
+      w = advanceWorld(worked.world, 1, lifePaths2Handlers());
     }
     // Each $72.00 shift has $4.46 Social Security, $1.04 Medicare, $1.01
     // federal and $2.07 Kentucky income tax withheld (a day's pay, 260 a year).
@@ -78,7 +78,7 @@ describe("LIFE normal earned-money account lifecycle", () => {
     w = changeLifePathStatus(w, workId, "leave").world;
     w = deserializeWorld(serializeWorld(w));
     w = enterLifePath(w, "college-office-certificate").world;
-    const attended = advanceWorld(w, 161, LIFE_PATHS2_HANDLERS);
+    const attended = advanceWorld(w, 161, lifePaths2Handlers());
     // $634.20 earned, less the certificate's $600.00 tuition.
     expect(balance(attended)).toBe(3_420);
     expect(
@@ -86,7 +86,7 @@ describe("LIFE normal earned-money account lifecycle", () => {
         advanceWorld(
           deserializeWorld(serializeWorld(attended)),
           1,
-          LIFE_PATHS2_HANDLERS,
+          lifePaths2Handlers(),
         ),
       ),
     ).toBe(3_420);
@@ -94,7 +94,7 @@ describe("LIFE normal earned-money account lifecycle", () => {
   it("blocks an unfunded period without inventing an account or tuition payment", () => {
     const entered = enterLifePath(normal(), "college-office-certificate").world;
     const expectedDate = addDays(entered.currentDate, 161);
-    const blocked = advanceWorld(entered, 161, LIFE_PATHS2_HANDLERS);
+    const blocked = advanceWorld(entered, 161, lifePaths2Handlers());
     expect(blocked.currentDate).toBe(expectedDate);
     expect(blocked.history.resourcePositions).toHaveLength(0);
     expect(blocked.history.resourceTransferOutcomes).toHaveLength(0);
@@ -174,6 +174,6 @@ describe("LIFE normal earned-money account lifecycle", () => {
       deserializeWorld(serializeWorld(w)),
       "college-office-certificate",
     ).world;
-    expect(balance(advanceWorld(study, 161, LIFE_PATHS2_HANDLERS))).toBe(0);
+    expect(balance(advanceWorld(study, 161, lifePaths2Handlers()))).toBe(0);
   }, 30_000);
 });

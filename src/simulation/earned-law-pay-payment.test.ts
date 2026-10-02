@@ -1,3 +1,5 @@
+import { payWorkplaceAt } from "./pay-coverage-predicates";
+import { recordEarnedPayObservations } from "./earned-pay-observations";
 import { expect, it } from "vitest";
 import { applyLegislativeStep } from "../presentation/legislation-session";
 import { addDays, daysBetween, simulationMinutesBetween } from "./dates";
@@ -6,9 +8,10 @@ import { applyLawConsequences } from "./enacted-law-effects";
 import { advanceWorld } from "./world";
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";
 import {
+  changeLifePathStatus,
   scheduleLifePathSession,
   performLifePathSession,
-  LIFE_PATHS2_HANDLERS,
+  lifePaths2Handlers,
 } from "./life-paths2";
 import {
   fileRuleChangeProvision,
@@ -487,6 +490,15 @@ it("A38 earned law raises only the actual completed interval without changing it
   expect(outcome.attemptedAmount.minorUnits).toBe(8000);
   expect(outcome.transferredAmount.minorUnits).toBe(8000);
   expect(outcome.status).toBe("completed");
+  const observedPay = paid.history.metricObservations.filter(
+    (row) => row.sourceSeriesKey === "payroll.completed-gross",
+  );
+  expect(observedPay).toHaveLength(1);
+  expect(observedPay[0]!.value).toEqual({
+    kind: "money",
+    money: money(8000, "USD"),
+  });
+  expect(observedPay[0]!.sourceReference?.locator).toContain(outcome.id);
   const assessment = paid.history.earnedLawPayAssessments!.find(
     (row) => row.id === outcome.earnedLawPayAssessmentId,
   )!;
@@ -509,6 +521,19 @@ it("A38 earned law raises only the actual completed interval without changing it
     workedMinutes: 240,
     contractualGross: money(7200, "USD"),
     assessedGross: money(8000, "USD"),
+  });
+  expect(observedPay[0]!.scope.jurisdictionId).toBe(
+    payWorkplaceAt(paid, assessment.workRelationshipId, assessment.earnedCutoff)
+      .jurisdictionId,
+  );
+  expect(recordEarnedPayObservations(paid, [outcome.id])).toBe(paid);
+  expect(recordEarnedPayObservations(paid, [])).toBe(paid);
+  expect(observedPay[0]!.scope.segmentKey).toBe("payroll.earned.usd");
+  expect(observedPay[0]!.underlyingStateId).toBeNull();
+  expect(observedPay[0]!.referencePeriod).toEqual({
+    kind: "interval",
+    startsAt: period.periodStartsAt,
+    endsAt: period.periodEndsAt,
   });
   expect(assessment.lawEffectStamps[0]!.sourceRecordIds).toEqual(
     expect.arrayContaining([
@@ -634,7 +659,7 @@ it("A38 actual completed-shift payday delegates immutable earnings through the c
       item.entityIds.includes(completion.id),
   )!;
   expect(due).toBeDefined();
-  const paid = advanceWorld(worked.world, 1, LIFE_PATHS2_HANDLERS);
+  const paid = advanceWorld(worked.world, 1, lifePaths2Handlers());
   const outcome = paid.history.resourceTransferOutcomes.find(
     (row) => row.stableKey === `${due.stableKey}:paid`,
   )!;
@@ -813,4 +838,61 @@ it("A38 ordinary weekly payment preserves actual saved-rule authority and withho
     withheldMinor: stub.withheld.minorUnits,
     netMinor: stub.netPaid.minorUnits,
   });
+});
+
+it("keeps completed earned pay from distinct work dates in separate observations", () => {
+  const first = completedEarnedLawFixture();
+  const paused = changeLifePathStatus(first.worked.world, first.workId, "pause");
+  expect(paused.ok, paused.message).toBe(true);
+  const paid = advanceWorld(paused.world, 1, lifePaths2Handlers());
+  const resumed = changeLifePathStatus(paid, first.workId, "return");
+  expect(resumed.ok, resumed.message).toBe(true);
+  const nextDate = resumed.world;
+  const scheduled = scheduleLifePathSession(nextDate, first.workId);
+  expect(scheduled.ok, scheduled.message).toBe(true);
+  const activity = scheduled.world.history.scheduledActivities.at(-1)!;
+  const worked = performLifePathSession(scheduled.world, activity.id);
+  expect(worked.ok, worked.message).toBe(true);
+  const completion = worked.world.history.events.find(
+    (row) =>
+      row.type === "life-paths2.work-session" &&
+      row.involvedEntityIds.includes(activity.id),
+  )!;
+  expect(completion).toBeDefined();
+  const terms = resourceFlowTermsAt(worked.world, first.f.flow.id, {
+    asOfDate: completion.occurredAt,
+    historySequenceExclusive: completion.sequence + 1,
+  })!;
+  const period = {
+    stableKey: `fixture:earned-law:${completion.id}`,
+    payFlowId: first.f.flow.id,
+    activityId: first.workId,
+    periodStartsAt: completion.occurredAt,
+    periodEndsAt: completion.occurredAt,
+    onDate: worked.world.currentDate,
+    completedShift: {
+      eventId: completion.id,
+      termsId: terms.id,
+      amount: terms.amount,
+    },
+  };
+  expect(period.periodStartsAt).not.toBe(first.period.periodStartsAt);
+  const secondPaid = settleTownCompensations(worked.world, [period]);
+  const observations = secondPaid.history.metricObservations.filter(
+    (row) => row.sourceSeriesKey === "payroll.completed-gross",
+  );
+  expect(observations).toHaveLength(2);
+  expect(
+    observations.every((row) => row.supersedesObservationId === null),
+  ).toBe(true);
+  for (const observation of observations) {
+    expect(observation.referencePeriod.kind).toBe("interval");
+    expect(observation.value).toEqual({
+      kind: "money",
+      money: money(8000, "USD"),
+    });
+  }
+  const reopened = deserializeWorld(serializeWorld(secondPaid));
+  expect(serializeWorld(reopened)).toBe(serializeWorld(secondPaid));
+  expect(settleTownCompensations(reopened, [period])).toBe(reopened);
 });

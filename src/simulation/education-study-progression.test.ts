@@ -15,7 +15,7 @@ import {
   enterLifePath,
   changeLifePathStatus,
   hasLifePathCredential,
-  LIFE_PATHS2_HANDLERS,
+  lifePaths2Handlers,
   pathForRelationship,
 } from "./life-paths2";
 import {
@@ -62,14 +62,14 @@ describe("period-based study progression", () => {
   it("excludes inactive dates across reload when resuming a period", () => {
     let w = enterLifePath(fixture(), "college-office-certificate").world;
     const id = w.history.educationEnrollments.at(-1)!.id;
-    w = advanceWorld(w, 20, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 20, lifePaths2Handlers());
     w = changeLifePathStatus(w, id, "pause").world;
-    w = advanceWorld(w, 200, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 200, lifePaths2Handlers());
     w = deserializeWorld(serializeWorld(w));
     w = changeLifePathStatus(w, id, "return").world;
-    w = advanceWorld(w, 140, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 140, lifePaths2Handlers());
     expect(completedStudyPeriods(w, id)).toBe(0);
-    w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 1, lifePaths2Handlers());
     expect(completedStudyPeriods(w, id)).toBe(1);
   });
   it("enrolls in bachelor's, advances by period, charges once per period, and completes after elapsed years", () => {
@@ -82,7 +82,7 @@ describe("period-based study progression", () => {
     for (let period = 1; period <= 8; period++) {
       // Seven 182-day periods plus the four-day remainder preserve the
       // authored 1,460-day minimum instead of shortening four years to 1,456.
-      w = advanceWorld(w, period === 8 ? 186 : 182, LIFE_PATHS2_HANDLERS);
+      w = advanceWorld(w, period === 8 ? 186 : 182, lifePaths2Handlers());
       expect(completedStudyPeriods(w, id)).toBe(period);
     }
     expect(hasLifePathCredential(w, w.personOrder[0]!, path.program)).toBe(
@@ -96,28 +96,28 @@ describe("period-based study progression", () => {
     let w = enterLifePath(fixture(), "college-bachelors").world;
     const id = w.history.educationEnrollments.at(-1)!.id;
     const path = pathForRelationship(w, id)!;
-    w = advanceWorld(w, 182, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 182, lifePaths2Handlers());
     expect(completedStudyPeriods(w, id)).toBe(1);
     w = changeLifePathStatus(w, id, "pause").world;
     w = deserializeWorld(serializeWorld(w));
     expect(studyProgressSummary(w, id, path).completed).toBe(1);
     w = changeLifePathStatus(w, id, "return").world;
-    w = advanceWorld(w, 100, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 100, lifePaths2Handlers());
     expect(completedStudyPeriods(w, id)).toBe(1);
-    w = advanceWorld(w, 82, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 82, lifePaths2Handlers());
     expect(completedStudyPeriods(w, id)).toBe(2);
   }, 30000);
 
   it("does not double-charge when a period due is replayed", () => {
     let w = enterLifePath(fixture(10_000_000), "college-bachelors").world;
     for (let i = 0; i < 8; i++)
-      w = advanceWorld(w, i === 7 ? 186 : 182, LIFE_PATHS2_HANDLERS);
+      w = advanceWorld(w, i === 7 ? 186 : 182, lifePaths2Handlers());
     w = enterLifePath(w, "law-school").world;
     const start = liquid(w);
-    w = advanceWorld(w, 182, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 182, lifePaths2Handlers());
     const mid = liquid(w);
     expect(mid).toBe(start - 750_000);
-    w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 1, lifePaths2Handlers());
     expect(liquid(w)).toBe(mid);
   }, 60000);
 
@@ -183,7 +183,7 @@ describe("period-based study progression", () => {
     ).toBe("scheduled");
 
     const start = liquid(migrated);
-    const progressed = advanceWorld(migrated, 332, LIFE_PATHS2_HANDLERS);
+    const progressed = advanceWorld(migrated, 332, lifePaths2Handlers());
     expect(studyProgressSummary(progressed, id, path).completed).toBe(2);
     expect(liquid(progressed)).toBe(start - 96_000);
     expect(deserializeWorld(serializeWorld(progressed))).toEqual(progressed);

@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { stdout } from "node:process";
+import { personName } from "./people";
 import { makeIsoDate } from "./dates";
 import { annualTax } from "./income-tax-withholding";
 import { chiefExecutiveJurisdiction } from "./nationwide-world/government-jurisdiction";
@@ -13,6 +15,32 @@ import type {
   LegislativeMeasureRecord,
   World,
 } from "./types";
+import { smallWorld } from "../../tests/fixtures/small-world";
+import { enactThroughDesk } from "../../tests/fixtures/enact-through-desk";
+import { lifePlaceStateIdentities } from "./life-places";
+import { stableHash } from "./ids";
+import { introduceMeasure } from "./legislation";
+import { recordFiledProvision } from "./legislative-politics";
+import { legislativePackForJurisdiction } from "./legislative-institutions";
+import {
+  authoredScenarioSeatCount,
+  seatBodyForPack,
+  votePlanKeyForCommittee,
+  votePlanKeyForFloor,
+} from "./legislation-scenarios";
+import { currentStateExecutiveHolders } from "./nationwide-world/state-executives";
+import { createOrganization, createWorkRelationship } from "./life";
+import {
+  createResourcePosition,
+  createWorkCompensation,
+  money,
+  recordResourceTransferOutcome,
+} from "./resources";
+import { assessPaychecksTaxes } from "./statutory-tax";
+import { deserializeWorld, serializeWorld } from "./serialization";
+import { withholdingForPaycheck } from "./income-tax-withholding";
+import { lawInForce } from "./governing/law-in-force";
+import stateIncomeTax2026 from "../../data/research/money/state-income-tax-2026.json" with { type: "json" };
 
 /**
  * A state's income tax law, enacted in play, reaching the paycheck: a repeal
@@ -99,6 +127,285 @@ function lawWorld(
 }
 
 const paid = makeIsoDate("2027-03-15");
+
+const TERM_SEED = "a22-adopted-income-rate-small-world";
+const termPlaces = [...lifePlaceStateIdentities()]
+  .sort((a, b) =>
+    stableHash(`${TERM_SEED}:${a.jurisdictionKey}`).localeCompare(
+      stableHash(`${TERM_SEED}:${b.jurisdictionKey}`),
+    ),
+  )
+  .slice(0, 5);
+
+describe("A22 adopted numeric terms reach the existing paycheck writer", () => {
+  it.each(termPlaces)(
+    "uses the final 4% rate for a named saved paycheck in $jurisdictionKey",
+    ({ jurisdictionKey }) => {
+      const f = smallWorld({
+        place: jurisdictionKey,
+        seed: `${TERM_SEED}:${jurisdictionKey}`,
+        date: "2025-12-18",
+        people: 3,
+        offices: ["governor"],
+        laws: [ADOPT_STATE_INCOME_TAX_QUESTION],
+      });
+      const pack = legislativePackForJurisdiction(f.stateJurisdictionId);
+      if (!pack) {
+        expect(
+          stateIncomeTaxUnderLaw(
+            f.world,
+            jurisdictionKey,
+            "single",
+            f.world.currentDate,
+          ),
+        ).toEqual({ kind: "as-begun" });
+        return; // Explicit absent procedure; no proxy bill or paycheck is authored.
+      }
+      let world = introduceMeasure(f.world, {
+        stableKey: `${TERM_SEED}:bill`,
+        jurisdictionId: f.stateJurisdictionId,
+        rulePackId: pack.packId,
+        designation: "A22 numeric income tax fixture",
+        shortTitle: "Authored 4% income-tax terms",
+        summary:
+          "Controlled adopted terms, not a researched rate or natural vote.",
+        origin: "member-introduction",
+        subjectClass: "general-policy",
+        originChamberKey: pack.chamberOrder[0]!,
+        sponsorPersonId: null,
+        propositionIds: [f.propositionIds[ADOPT_STATE_INCOME_TAX_QUESTION]!],
+        propositionAnswers: [
+          {
+            propositionId: f.propositionIds[ADOPT_STATE_INCOME_TAX_QUESTION]!,
+            answer: "yes",
+          },
+        ],
+      });
+      const measureId = world.history.legislativeMeasures!.at(-1)!.id;
+      world = recordFiledProvision(world, {
+        stableKey: `${TERM_SEED}:terms`,
+        measureId,
+        provisionKey: "income-tax-terms",
+        sectionNumber: 1,
+        heading: "Flat rate and taxable-income threshold",
+        text: "The rate is 4% of annual taxable income above zero USD.",
+        beneficiary: {
+          kind: "general-application",
+          appliesToLabel: "the state's taxable income",
+        },
+        applicationScope: {
+          jurisdictionId: f.stateJurisdictionId,
+          segmentKey: null,
+        },
+        lawTerms: [
+          {
+            questionKey: ADOPT_STATE_INCOME_TAX_QUESTION,
+            key: "rate",
+            value: 0.04,
+            unit: "ratio",
+          },
+          {
+            questionKey: ADOPT_STATE_INCOME_TAX_QUESTION,
+            key: "threshold",
+            value: 0,
+            unit: "minor",
+          },
+        ],
+      });
+      const votePlan = Object.fromEntries(
+        pack.chambers.flatMap((chamber) => [
+          ...chamber.committees.map((committee) => [
+            votePlanKeyForCommittee(committee.committeeKey),
+            { yea: committee.appointedMembers ?? 1 },
+          ]),
+          ...chamber.floorStages.map((stage) => [
+            votePlanKeyForFloor(chamber.chamberKey, stage.stageKey),
+            { yea: authoredScenarioSeatCount(pack, chamber.chamberKey) },
+          ]),
+        ]),
+      );
+      world = enactThroughDesk(world, measureId, {
+        context: {
+          pack,
+          measureId,
+          bodies: pack.chambers.map((chamber) =>
+            seatBodyForPack(
+              chamber.chamberKey,
+              chamber.name,
+              authoredScenarioSeatCount(pack, chamber.chamberKey),
+              [],
+              false,
+            ),
+          ),
+          committeeMemberCount: null,
+          votePlan,
+          governorAction: null,
+          governorRationale:
+            "Authored favorable votes for the numeric terms fixture.",
+        },
+      });
+      // The canonical procedure spends fourteen days before enactment. Start
+      // before the tax year rather than backdating the law or its occurrence.
+      expect(world.currentDate).toBe("2026-01-01");
+      // Keep the actual signer in control while their required desk work is open.
+      // The paycheck is for the actual resident, not a fabricated controller.
+      const signer = currentStateExecutiveHolders(world).find(
+        (row) => row.stateUsps === f.stateUsps,
+      )!;
+      world = {
+        ...world,
+        control: { kind: "person", personId: signer.personId },
+      };
+      const read = stateIncomeTaxUnderLaw(
+        world,
+        jurisdictionKey,
+        "single",
+        world.currentDate,
+      );
+      if (read.kind === "as-begun") {
+        expect(
+          !(jurisdictionKey in stateIncomeTax2026.places) ||
+            lawInForce(
+              world,
+              f.stateJurisdictionId,
+              f.propositionIds[ADOPT_STATE_INCOME_TAX_QUESTION]!,
+              world.currentDate,
+              "enacted-only",
+            ) === null,
+        ).toBe(true); // Verify actual unread source or higher-law refusal; never pass an unexercised positive case.
+        return;
+      }
+      expect(read.kind).toBe("enacted");
+      if (read.kind !== "enacted")
+        throw new Error("Adopted terms became a peer rate.");
+      expect(read.schedule.brackets).toEqual([
+        { overMinor: 0, rateBasisPoints: 400 },
+      ]);
+      expect(read.lawMeasureIds).toContain(measureId);
+      const provenance = {
+        kind: "authored" as const,
+        note: "Controlled actual-pay fixture; not natural work or an observed wage.",
+      };
+      world = createOrganization(world, {
+        stableKey: `${TERM_SEED}:employer`,
+        formedAt: world.currentDate,
+        provenance,
+        initialProfile: {
+          name: "Recorded terms fixture employer",
+          classification: "enterprise:retail",
+          locationJurisdictionId: f.stateJurisdictionId,
+        },
+      });
+      const organizationId = world.history.organizations.at(-1)!.id;
+      world = createWorkRelationship(world, {
+        stableKey: `${TERM_SEED}:work`,
+        personId: f.personId,
+        organizationId,
+        startedAt: world.currentDate,
+        kind: "employment:employee",
+        compensation: "paid",
+        authority: "directed",
+        dependency: "dependent",
+        economicRisk: "organization-borne",
+        provenance,
+        initialRole: {
+          title: "Recorded worker",
+          occupationClassification: null,
+          locationJurisdictionId: f.stateJurisdictionId,
+          timeDemand: {
+            expectedWeekly: { minimumHours: 40, maximumHours: 40 },
+            attention: "moderate",
+            concurrency: "mostly-exclusive",
+            scheduleRigidity: "rigid",
+            interruptibility: "limited",
+            locationJurisdictionId: f.stateJurisdictionId,
+          },
+        },
+      });
+      const workRelationshipId = world.history.workRelationships.at(-1)!.id;
+      world = createWorkCompensation(world, {
+        stableKey: `${TERM_SEED}:pay`,
+        workRelationshipId,
+        startsAt: world.currentDate,
+        amount: money(100_000, "USD"),
+        cadenceKind: "schedule:weekly",
+        restrictionKind: null,
+        jurisdictionId: f.stateJurisdictionId,
+        provenance,
+      });
+      const resourceFlowId = world.history.resourceFlows.at(-1)!.id;
+      world = createResourcePosition(world, {
+        stableKey: `${TERM_SEED}:cash`,
+        owner: { kind: "person", personId: f.personId },
+        openedAt: world.currentDate,
+        openingBalance: money(0, "USD"),
+        provenance,
+      });
+      world = recordResourceTransferOutcome(world, {
+        stableKey: `${TERM_SEED}:paid`,
+        resourceFlowId,
+        periodStartsAt: world.currentDate,
+        periodEndsAt: world.currentDate,
+        occurredAt: world.currentDate,
+        status: "completed",
+        attemptedAmount: money(100_000, "USD"),
+        transferredAmount: money(100_000, "USD"),
+        reasonKind: null,
+        note: "Actual recorded fixture pay.",
+        provenance,
+      });
+      const outcomeId = world.history.resourceTransferOutcomes.at(-1)!.id;
+      world = assessPaychecksTaxes(world, [outcomeId]);
+      const liability = world.history.statutoryTaxLiabilities!.find(
+        (row) =>
+          row.sourceOutcomeId === outcomeId &&
+          row.authorityKey === jurisdictionKey &&
+          row.taxKey.endsWith(":wage-income-tax"),
+      )!;
+      expect(liability.payer).toEqual({ kind: "person", personId: f.personId });
+      expect(liability.lawMeasureIds).toContain(measureId);
+      expect(liability.liability?.minorUnits).toBe(
+        withholdingForPaycheck(100_000, 260, read.schedule).withheldMinor,
+      );
+      expect(liability.liability!.minorUnits).toBeGreaterThan(0);
+      const payments = world.history.statutoryTaxPayments!.filter(
+        (record) => record.liabilityId === liability.id,
+      );
+      expect(payments).toHaveLength(1);
+      expect(payments[0]!.amount).toEqual(liability.liability);
+      const collection = world.history.resourceTransferOutcomes.find(
+        (record) => record.id === payments[0]!.resourceOutcomeId,
+      )!;
+      expect(collection.status).toBe("completed");
+      expect(collection.transferredAmount.minorUnits).toBeGreaterThanOrEqual(
+        payments[0]!.amount.minorUnits,
+      );
+      const saved = deserializeWorld(serializeWorld(world));
+      expect(assessPaychecksTaxes(saved, [outcomeId])).toBe(saved);
+      expect(saved.history.statutoryTaxPayments).toEqual(
+        world.history.statutoryTaxPayments,
+      );
+      stdout.write(
+        JSON.stringify({
+          seed: TERM_SEED,
+          place: jurisdictionKey,
+          person: personName(world.people[f.personId]!),
+          personId: f.personId,
+          measureId,
+          operativeAt: world.currentDate,
+          payOutcomeId: outcomeId,
+          actualWagesMinor: 100_000,
+          adoptedRateBasisPoints: 400,
+          liabilityId: liability.id,
+          liabilityMinor: liability.liability!.minorUnits,
+          paymentId: payments[0]!.id,
+          collectionOutcomeId: collection.id,
+          collectedIncomeTaxMinor: payments[0]!.amount.minorUnits,
+        }) + "\n",
+      );
+    },
+  );
+});
 
 describe("a state's income tax law, as enacted in play", () => {
   it("changes nothing where no law was enacted in play", () => {

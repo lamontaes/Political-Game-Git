@@ -1,3 +1,4 @@
+import { recordEarnedPayObservations } from "../earned-pay-observations";
 import { lawEffectStamp } from "../law-effect-stamp";
 import { lawInForce } from "../governing/law-in-force";
 import { applyLawConsequences } from "../enacted-law-effects";
@@ -308,6 +309,19 @@ export function stateMedianAnnualWage(
   return null;
 }
 
+/**
+ * The national median annual wage for `occupation` (BLS OEWS, May 2025), or
+ * null where BLS publishes none: the average an estimate starts from where a
+ * place has no published wage.
+ */
+export function nationalMedianAnnualWage(occupation: string): number | null {
+  const soc = TOWN_JOB_SOC[occupation];
+  const median = soc
+    ? wageTable().get(soc)?.get("US")?.[PERCENTILE_POINTS.indexOf(50)]
+    : undefined;
+  return median ?? null;
+}
+
 export interface TownJobRate {
   readonly soc: string;
   readonly area: string;
@@ -553,9 +567,9 @@ export function paydayHandler(
   };
 }
 
-export const PAYDAY_HANDLERS = [
-  [PAYDAY_TRANSITION_KEY, paydayHandler],
-] as const;
+export function paydayHandlers() {
+  return [[PAYDAY_TRANSITION_KEY, paydayHandler]] as const;
+}
 
 // ─── Pay on record ──────────────────────────────────────────────────────
 
@@ -1792,6 +1806,7 @@ export function settleTownCompensations(
   const ids = next.history.resourceTransferOutcomes
     .slice(first)
     .map((outcome) => outcome.id);
+  next = recordEarnedPayObservations(next, ids);
   next = assessPaychecksTaxes(next, ids);
   // Benefits are paid after the premiums of the same paychecks reach the
   // state's account.

@@ -79,10 +79,7 @@ import {
   marketRentMinor,
   monthlyPayByPerson,
 } from "./town-rent";
-import {
-  TOWN_JOB_END_REASONS,
-  townUnemploymentPressure,
-} from "./town-labor-market";
+import { jobsLostBy, townUnemploymentPressure } from "./town-labor-market";
 
 export const TOWN_FAMILIES_VERSION = "town-families-v1";
 
@@ -276,27 +273,24 @@ function readFamilies(world: World, town: EntityId): FamilyView {
   }
 
   const latestWork = new Map<EntityId, string>();
-  const yearAgo = addDays(today, -365);
-  const endedWork = new Map<EntityId, string>();
   for (const status of h.workStatuses)
-    if (status.effectiveAt <= today) {
+    if (status.effectiveAt <= today)
       latestWork.set(status.workRelationshipId, status.status);
-      if (
-        status.status === "ended" &&
-        (status.reason === TOWN_JOB_END_REASONS.laidOff ||
-          status.reason === TOWN_JOB_END_REASONS.businessClosed) &&
-        status.effectiveAt > yearAgo
-      )
-        endedWork.set(status.workRelationshipId, status.reason);
-    }
   const working = new Set<EntityId>();
-  const laidOffThisYear = new Set<EntityId>();
-  for (const relationship of h.workRelationships) {
+  for (const relationship of h.workRelationships)
     if (latestWork.get(relationship.id) === "active")
       working.add(relationship.personId);
-    if (endedWork.has(relationship.id))
-      laidOffThisYear.add(relationship.personId);
-  }
+  // A resident who lost a job in the past year, read by the one reader of a
+  // lost job.
+  const yearAgo = addDays(today, -365);
+  const laidOffThisYear = new Set<EntityId>();
+  for (const personId of people.keys())
+    if (
+      jobsLostBy(world, personId, today).some(
+        (status) => status.effectiveAt > yearAgo,
+      )
+    )
+      laidOffThisYear.add(personId);
 
   return {
     today,

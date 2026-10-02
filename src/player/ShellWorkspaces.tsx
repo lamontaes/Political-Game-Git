@@ -1,3 +1,4 @@
+import { projectLivesRecord } from "../presentation/lives-record";
 import { InterruptionChecklist } from "./InterruptionChecklist";
 import {
   dollars,
@@ -873,7 +874,6 @@ export function CalendarWorkspaceSurface({
                         onApplyNow={applyNow}
                         world={world}
                         personId={personId}
-                        interruptions={interruptions}
                         onOpenBlockingActivity={(id) => {
                           setSelectedDate(null);
                           setSelectedId(id);
@@ -1104,7 +1104,6 @@ function CalendarEventActions({
   onApplyNow,
   world,
   personId,
-  interruptions,
   onOpenBlockingActivity,
 }: {
   readonly selected: CalendarEntry;
@@ -1117,7 +1116,6 @@ function CalendarEventActions({
   }) => void;
   readonly world: World;
   readonly personId: EntityId;
-  readonly interruptions: InterruptionPreferences;
   readonly onOpenBlockingActivity: (id: EntityId) => void;
 }) {
   const personalWorkSession = world.history.scheduledActivities.some(
@@ -1135,7 +1133,6 @@ function CalendarEventActions({
     world,
     personId,
     selected.activityId,
-    interruptions,
   );
   const skip = previewTimeCommand(world, personId, {
     kind: "until-activity",
@@ -1155,7 +1152,7 @@ function CalendarEventActions({
     world,
     personId,
     selected.activityId,
-    interruptionHandlers(interruptions),
+    interruptionHandlers(),
   );
   const laneRoute = campaignLife?.needsLaneRoute ? campaignLife : null;
   const attendNote = laneRoute
@@ -1329,7 +1326,6 @@ function CalendarEventActions({
                   current,
                   personId,
                   selected.activityId,
-                  interruptions,
                 ),
               onReport,
             )
@@ -1590,6 +1586,10 @@ export function PersonalWorkspace({
     () => projectLifeRecord(world, personId),
     [world, personId],
   );
+  const lives = useMemo(
+    () => projectLivesRecord(world, personId),
+    [world, personId],
+  );
   const goals = world.history.goalStates.filter(
     (goal) =>
       goal.personId === personId &&
@@ -1691,6 +1691,36 @@ export function PersonalWorkspace({
                   {member.name}
                 </button>
                 {member.relationship ? `, ${member.relationship}` : ""}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      {lives.upbringing.length > 0 ? (
+        <section className="pg-personal-section" aria-label="How you grew up">
+          <h3>How you grew up</h3>
+          <ul data-testid="personal-upbringing">
+            {lives.upbringing.map((line) => (
+              <li key={line}>{line}</li>
+            ))}
+          </ul>
+          {lives.leanings.length > 0 ? (
+            <p data-testid="personal-leanings">
+              What it left you with: {lives.leanings.join(", ").toLowerCase()}.
+            </p>
+          ) : null}
+        </section>
+      ) : null}
+
+      {lives.around.length > 0 ? (
+        <section className="pg-personal-section" aria-label="Around you">
+          <h3>Around you this past year</h3>
+          <ul data-testid="personal-around">
+            {lives.around.map((line) => (
+              <li key={line.key} data-kind={line.kind}>
+                <time dateTime={line.at}>{proseDate(line.at)}</time> ·{" "}
+                {line.sentence}
               </li>
             ))}
           </ul>

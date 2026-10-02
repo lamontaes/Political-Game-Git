@@ -159,6 +159,27 @@ export function governmentFiscalMetricDefinitions(): readonly [
   ];
 }
 
+/** Shared quantity definition; observations contain actual completed payroll. */
+export function laborIncomeMetricDefinition(): WorldMetricDefinition {
+  return createWorldMetricDefinition({
+    stableKey: "labor.aggregate-income",
+    name: "Aggregate labor income",
+    description:
+      "Exact aggregate labor-income proxy over an explicit interval.",
+    domainKey: "labor.income",
+    valueKind: "money",
+    quantityUnit: null,
+    measureNature: "flow",
+    referencePeriodKind: "interval",
+    denominatorMetricId: null,
+    aggregationKind: "sum-compatible",
+    aggregationNote:
+      "May be summed only for the same currency, interval, and disjoint scopes.",
+    stateSemantics: "primitive",
+    tags: ["economy.income", "labor.income"],
+  });
+}
+
 export function createSyntheticWorldMetricCatalog(): WorldMetricCatalog {
   const residentPopulation = createWorldMetricDefinition({
     stableKey: "population.resident-count",
@@ -273,23 +294,7 @@ export function createSyntheticWorldMetricCatalog(): WorldMetricCatalog {
     stateSemantics: "derived",
     tags: ["labor.rate", "labor.unemployment"],
   });
-  const laborIncome = createWorldMetricDefinition({
-    stableKey: "labor.aggregate-income",
-    name: "Aggregate labor income",
-    description:
-      "Exact aggregate labor-income proxy over an explicit interval.",
-    domainKey: "labor.income",
-    valueKind: "money",
-    quantityUnit: null,
-    measureNature: "flow",
-    referencePeriodKind: "interval",
-    denominatorMetricId: null,
-    aggregationKind: "sum-compatible",
-    aggregationNote:
-      "May be summed only for the same currency, interval, and disjoint scopes.",
-    stateSemantics: "primitive",
-    tags: ["economy.income", "labor.income"],
-  });
+  const laborIncome = laborIncomeMetricDefinition();
   const costLevel = createWorldMetricDefinition({
     stableKey: "prices.cost-level",
     name: "Cost level",
