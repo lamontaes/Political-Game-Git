@@ -1,95 +1,307 @@
 import { describe, expect, it } from "vitest";
-import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
-
-import { candidacyPackForJurisdiction } from "./candidacy";
-import { doorKnockingReturn } from "./campaign-recognition";
-import { makeIsoDate } from "./dates";
-import { createStableId } from "./ids";
-import type { ElectionContestResultRecord, World } from "./types";
-import { createExplicitGeographyLife } from "../presentation/new-game-geography";
+import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
+import { smallWorld } from "../../tests/fixtures/small-world";
 import {
-  fileForOffice,
-  spendAnAfternoon,
-} from "../presentation/campaign-projection";
-import { passOrdinaryDays } from "../presentation/ordinary-life";
+  createCharacterHistoryContextPerson,
+  characterHistoryContextPersonId,
+} from "./character-history";
+import { campaigns } from "./campaign-queries";
+import { doorKnockingReturn } from "./campaign-recognition";
+import { requestedCampaignFieldGainBasisPoints } from "./campaigns";
+import { addDays, ageOnDate, makeIsoDate } from "./dates";
+import {
+  createHousehold,
+  recordHouseholdLocation,
+  startHouseholdMembership,
+} from "./life";
+import { lifePlaceStateIdentities } from "./life-places";
+import { recordRelationshipInteraction } from "./records";
+import { pickDistinct, SeededRng } from "./rng";
+import { deserializeWorld, serializeWorld } from "./serialization";
+import type {
+  CampaignActionResultRecord,
+  EntityId,
+  ElectionContestResultRecord,
+  World,
+} from "./types";
+import { recordWorldEvent } from "./world";
 
-/**
- * An unknown candidate gets little from a door at first; each afternoon makes
- * the next one worth more; and a candidate who has won before starts ahead.
- * The magnitudes are placeholders; the shape is what is tested.
- */
-describe("what a door returns depends on who is knocking", () => {
-  it("starts an unknown candidate at half and snowballs with each afternoon", () => {
-    const created = createExplicitGeographyLife({
-      placeKey: "4159000", // Portland, Oregon
-      seed: "door-return",
-      startAge: 40,
-      startKind: "normal",
-      depth: "summarize-earlier-life",
-    });
-    const personId = created.game.playerPersonId;
-    const office = candidacyPackForJurisdiction(
-      created.game.world.people[personId]!.homeJurisdictionId,
-    )!.offices.find((candidate) => candidate.officeKey.endsWith(":house"))!;
-    let world = fileForOffice(
-      created.game.world,
-      personId,
-      namedSeatForFixture(created.game.world, personId, office.officeKey),
-      office.officeKey,
-    );
-    const campaign = () =>
-      world.history.campaigns!.find(
-        (candidate) => candidate.candidatePersonId === personId,
-      )!;
-    expect(doorKnockingReturn(world, campaign())).toMatchObject({
-      percent: 50,
+const seed = "a117-recorded-standing";
+const [place] = pickDistinct(
+  new SeededRng(seed),
+  lifePlaceStateIdentities(),
+  1,
+);
+const small = smallWorld({
+  place: place!.jurisdictionKey,
+  seed,
+  people: 8,
+  offices: ["governor"],
+});
+const base = fileForOffice(small.world, small.personId);
+const campaign = campaigns(base).find(
+  (row) => row.candidatePersonId === small.personId,
+)!;
+const residents = doorKnockingReturn(base, campaign).adultResidentIds;
+const person = residents[0]!;
+const read = (world: World) => doorKnockingReturn(world, campaign);
+
+// Authored encounter controls written through the existing event/PEOPLE writers.
+// They prove the reader, not natural canvass production or voter persuasion.
+function contact(
+  world: World,
+  other: EntityId,
+  key: string,
+  tagged = true,
+  candidatePresent = true,
+) {
+  let next = recordWorldEvent(world, {
+    stableKey: key + ":event",
+    type: "campaign.fixture-contact",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: campaign.jurisdictionId,
+    involvedEntityIds: [small.personId, other],
+    participants: [
+      {
+        personId: small.personId,
+        role: candidatePresent ? "presence:participant" : "focus:subject",
+        detail: "Explicit reader control",
+      },
+      {
+        personId: other,
+        role: "presence:participant",
+        detail: "Explicit reader control",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "limited",
+    tags: ["fixture:authored-contact"],
+    summary: "Controlled campaign contact reader fixture.",
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  next = recordRelationshipInteraction(next, {
+    stableKey: key + ":contact",
+    personIds: [small.personId, other],
+    eventId: next.history.events.at(-1)!.id,
+    occurredAt: next.currentDate,
+    kind: "contact:met-at-party-event",
+    change: "formed",
+    significance: "minor",
+    summary: "Explicit contact reader control.",
+    tags: tagged ? ["campaign.contact"] : [],
+  });
+  return next;
+}
+
+describe(`recognition from recorded contacts (${place!.name}; seed ${seed})`, () => {
+  it("has no invented recognition before recorded contacts and exposes its actual adult cohort", () => {
+    expect(residents.length).toBeGreaterThan(1);
+    expect(read(base)).toMatchObject({
+      percent: 0,
+      recognizedPersonIds: [],
+      contactRecordIds: [],
       afternoonsBefore: 0,
       racesWonBefore: 0,
+      basis: "recorded-campaign-contact-share/v1",
     });
-
-    const seen: number[] = [];
-    for (let day = 0; day < 30 && seen.length < 12; day += 1) {
-      try {
-        world = spendAnAfternoon(world, personId, "outreach");
-      } catch {
-        // A day with no room left for the doors is a day to pass.
-      }
-      world = passOrdinaryDays(world);
-      seen.push(doorKnockingReturn(world, campaign()).percent);
+    expect(new Set(residents).size).toBe(residents.length);
+    for (const id of residents) {
+      expect(id).not.toBe(small.personId);
+      expect(base.people[id]!.homeJurisdictionId).toBe(campaign.jurisdictionId);
+      expect(
+        ageOnDate(base.people[id]!.birthDate, base.currentDate),
+      ).toBeGreaterThanOrEqual(18);
     }
-    expect(seen.at(-1)).toBeGreaterThan(50);
-    expect(seen.at(-1)).toBeLessThanOrEqual(100);
-    for (let index = 1; index < seen.length; index += 1)
-      expect(seen[index]!).toBeGreaterThanOrEqual(seen[index - 1]!);
-
-    // A win recorded before this race's election day counts as standing.
-    const own = world.history.electionContests!.find(
-      (contest) => contest.id === campaign().contestId,
+  });
+  it("counts named residents once, exposes actual encounter rows, and changes the existing field consumer", () => {
+    const met = contact(base, person, "recognition:first");
+    expect(read(met).percent).toBe(100 / residents.length);
+    expect(read(met).recognizedPersonIds).toEqual([person]);
+    expect(read(met).contactRecordIds).toEqual([
+      met.history.relationshipInteractions.at(-1)!.id,
+    ]);
+    const again = contact(met, person, "recognition:again");
+    expect(read(again).percent).toBe(read(met).percent);
+    expect(read(again).contactRecordIds).toHaveLength(2);
+    const another = contact(again, residents[1]!, "recognition:second-person");
+    expect(read(another).percent).toBe(200 / residents.length);
+    expect(requestedCampaignFieldGainBasisPoints(base, campaign, 180, 1)).toBe(
+      0,
+    );
+    expect(
+      requestedCampaignFieldGainBasisPoints(another, campaign, 180, 1),
+    ).toBeGreaterThan(0);
+    expect(
+      read({ ...another, personOrder: [...another.personOrder, ...residents] }),
+    ).toEqual(read(another));
+  });
+  it("does not turn an untagged relationship or a mention into a campaign encounter", () => {
+    const untagged = contact(base, person, "recognition:untagged", false);
+    const mention = contact(
+      untagged,
+      residents[1]!,
+      "recognition:mention",
+      true,
+      false,
+    );
+    expect(read(mention).percent).toBe(0);
+    expect(read(mention).contactRecordIds).toEqual([]);
+  });
+  it("excludes children and adults outside the campaign's recorded resident cohort", () => {
+    // The small scenario has adults only: use the existing person writer for
+    // this explicit age control, without changing an existing person's state.
+    const withChild = createCharacterHistoryContextPerson(base, {
+      stableKey: "recognition:child-fixture",
+      givenName: "Reader",
+      familyName: "Child",
+      birthDate: addDays(base.currentDate, -3650),
+      homeJurisdictionId: campaign.jurisdictionId,
+    });
+    const child = characterHistoryContextPersonId(
+      withChild,
+      "recognition:child-fixture",
+    );
+    const outside = base.personOrder.find(
+      (id) =>
+        id !== small.personId &&
+        base.people[id]!.homeJurisdictionId !== campaign.jurisdictionId &&
+        ageOnDate(base.people[id]!.birthDate, base.currentDate) >= 18,
     )!;
-    const earlierWin: ElectionContestResultRecord = {
-      id: createStableId("election-contest-result", "test:earlier-win"),
-      stableKey: "test:earlier-win",
+    expect(child).toBeDefined();
+    expect(outside).toBeDefined();
+    const met = contact(
+      contact(withChild, child, "recognition:child"),
+      outside,
+      "recognition:outside",
+    );
+    expect(read(met).percent).toBe(0);
+  });
+  it("reads dated encounters on their day and keeps the same result after Save/Continue", () => {
+    const date = addDays(base.currentDate, 1);
+    const tomorrow = {
+      ...base,
+      currentDate: date,
+      currentMoment: { ...base.currentMoment, date },
+    };
+    const met = contact(tomorrow, person, "recognition:tomorrow");
+    const earlier = {
+      ...met,
+      currentDate: base.currentDate,
+      currentMoment: base.currentMoment,
+    };
+    expect(read(earlier).percent).toBe(0);
+    expect(read(met).percent).toBe(100 / residents.length);
+    expect(read(deserializeWorld(serializeWorld(met)))).toEqual(read(met));
+  });
+  it("reads a newly recorded household location instead of keeping the person's old home jurisdiction", () => {
+    let world = contact(base, person, "recognition:before-household-move");
+    const provenance = {
+      kind: "authored" as const,
+      note: "Explicit household-location reader control.",
+    };
+    world = createHousehold(world, {
+      stableKey: "recognition:moved-household",
+      formedAt: world.currentDate,
+      label: "Reader fixture household",
+      provenance,
+    });
+    const householdId = world.history.households.at(-1)!.id;
+    world = recordHouseholdLocation(world, {
+      stableKey: "recognition:moved-location",
+      householdId,
+      effectiveAt: world.currentDate,
+      jurisdictionId: small.stateJurisdictionId,
+      label: "Recorded different jurisdiction",
+      kind: "residence:home",
+      provenance,
+      supersedesLocationId: null,
+    });
+    world = startHouseholdMembership(world, {
+      stableKey: "recognition:moved-member",
+      personId: person,
+      householdId,
+      startedAt: world.currentDate,
+      residenceRole: "primary",
+      kind: "resident:member",
+      provenance,
+    });
+    expect(world.people[person]!.homeJurisdictionId).toBe(
+      campaign.jurisdictionId,
+    );
+    expect(read(world).adultResidentIds).not.toContain(person);
+    expect(read(world).percent).toBe(0);
+    expect(read(deserializeWorld(serializeWorld(world)))).toEqual(read(world));
+  });
+  it("retains prior-win diagnostics without inventing a recognition bonus", () => {
+    const own = base.history.electionContests!.find(
+      (row) => row.id === campaign.contestId,
+    )!;
+    // Explicit result-shaped reader fixture; not proof of a naturally won race.
+    const win: ElectionContestResultRecord = {
+      id: own.id,
+      stableKey: "recognition:prior-win",
       sequence: 0,
-      contestId: createStableId("election-contest", "test:earlier"),
+      contestId: small.personId,
       resolvedAt: makeIsoDate("2020-11-03"),
-      winnerPersonId: personId,
+      winnerPersonId: small.personId,
       tallies: [],
-      outcomeEventId: createStableId("event", "test:earlier-win"),
+      outcomeEventId: campaign.filingEventId,
       provenance: own.provenance,
     };
-    const withWin: World = {
-      ...world,
+    const withWin = {
+      ...base,
       history: {
-        ...world.history,
+        ...base.history,
         electionContestResults: [
-          ...(world.history.electionContestResults ?? []),
-          earlierWin,
+          ...(base.history.electionContestResults ?? []),
+          win,
         ],
       },
     };
-    const before = doorKnockingReturn(world, campaign()).percent;
-    const after = doorKnockingReturn(withWin, campaign());
-    expect(after.racesWonBefore).toBe(1);
-    expect(after.percent).toBe(before + 25);
-  }, 300_000);
+    expect(read(withWin).racesWonBefore).toBe(1);
+    expect(read(withWin).percent).toBe(read(base).percent);
+  });
+  it("excludes contacts attributed to the current action from prior recognition", () => {
+    const met = contact(base, person, "recognition:current-action");
+    const event = met.history.events.at(-1)!;
+    // Explicit result-shaped exclusion control; event/contact rows are canonical.
+    const result: CampaignActionResultRecord = {
+      id: event.id,
+      stableKey: "recognition:action-result",
+      sequence: met.history.nextSequence,
+      campaignActionId: campaign.filingEventId,
+      completedAt: met.currentDate,
+      outcomeEventId: event.id,
+      resourceFlowId: null,
+      resourceOutcomeId: null,
+      raisedAmount: null,
+      spentAmount: null,
+      supportStateIds: [],
+      observationId: event.id,
+      feedbackEventId: event.id,
+      feedbackKnowledgeId: event.id,
+    };
+    const attributed = {
+      ...met,
+      history: {
+        ...met.history,
+        campaignActionResults: [
+          ...(met.history.campaignActionResults ?? []),
+          result,
+        ],
+      },
+    };
+    expect(read(attributed).percent).toBe(100 / residents.length);
+    expect(
+      doorKnockingReturn(attributed, campaign, result.campaignActionId).percent,
+    ).toBe(0);
+  });
 });
