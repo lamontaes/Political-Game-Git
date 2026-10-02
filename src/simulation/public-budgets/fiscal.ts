@@ -2,7 +2,7 @@ import { addDays, makeIsoDate } from "../dates";
 import { STATUTE_EFFECTIVE_DEFAULT_DAYS } from "../enacted-rule-changes";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import finances from "../../../data/research/money/state-local-finances-2022.json" with { type: "json" };
-import type { SPENDING_QUESTION_EFFECTS } from "./rules";
+import type { SPENDING_QUESTION_EFFECTS, TAX_QUESTION_EFFECTS } from "./rules";
 import { mayAnswerQuestion } from "../governing/question-authority";
 import { measurePropositionAnswer } from "../issue-record";
 import {
@@ -14,6 +14,7 @@ import {
   BUDGET_LAW_KEYS,
   type BudgetLawName,
   type BudgetLawReading,
+  type PublicBudgetGovernment,
 } from "./store";
 
 /** The existing spending row's annual change per resident, relative to opening law. */
@@ -255,4 +256,93 @@ export function nominalEconomyIndex(
       asOf,
     ) ?? macroConditionsAt(world, "national", asOf);
   return record ? record.realOutputIndex * record.priceIndex : null;
+}
+
+export interface TaxRowRevenueReading {
+  readonly reason:
+    | "not-state-budget"
+    | "not-per-resident-row"
+    | "question-not-present"
+    | "starting-law-not-established"
+    | "current-law-not-established"
+    | "same-answer"
+    | "waiting-for-retail"
+    | "sales-legalized"
+    | "sales-ended";
+  /** Annual change against the opening budget, not an actual sale or remittance. */
+  readonly annualRevenueDelta: number;
+  /** Exact governing measure for the caller's shared effect provenance stamp. */
+  readonly sourceMeasureId: EntityId | null;
+}
+
+/**
+ * Reads a tax-effect row's modeled annual change against opening law.
+ * The row supplies the amount, legal scope and first-sale lag. This is budget
+ * attribution, not an actual sale, assessment or payment.
+ */
+export function taxRowRevenueChange(
+  world: World,
+  government: Pick<
+    PublicBudgetGovernment,
+    "level" | "lawJurisdictionId" | "population"
+  >,
+  effect: (typeof TAX_QUESTION_EFFECTS)[number],
+  date: IsoDate,
+): TaxRowRevenueReading {
+  const unchanged = (
+    reason: TaxRowRevenueReading["reason"],
+  ): TaxRowRevenueReading => ({
+    reason,
+    annualRevenueDelta: 0,
+    sourceMeasureId: null,
+  });
+  if (!(effect.levels ?? ["state"]).includes(government.level))
+    return unchanged("not-state-budget");
+  const revenue = effect.perResidentRevenue;
+  if (!revenue) return unchanged("not-per-resident-row");
+  const propositionId = propositionIdFor(world, effect.questionKey);
+  if (!propositionId) return unchanged("question-not-present");
+  const began = lawInForceAtStart(
+    world,
+    government.lawJurisdictionId,
+    propositionId,
+    date,
+  );
+  if (began === null) return unchanged("starting-law-not-established");
+  const current = lawInForce(
+    world,
+    government.lawJurisdictionId,
+    propositionId,
+    date,
+  );
+  if (!current) return unchanged("current-law-not-established");
+  if (current.answer === began) return unchanged("same-answer");
+  const annualRevenue = revenue.annualAmount * government.population;
+  if (current.answer === "no") {
+    return {
+      reason: "sales-ended",
+      annualRevenueDelta: -annualRevenue,
+      sourceMeasureId: current.measureId,
+    };
+  }
+  const priorMonth =
+    Number(date.slice(0, 4)) * 12 +
+    Number(date.slice(5, 7)) -
+    1 -
+    revenue.firstSaleLagMonths;
+  const retailDate = makeIsoDate(
+    `${Math.floor(priorMonth / 12)}-${String((priorMonth % 12) + 1).padStart(2, "0")}-${date.slice(8, 10) > "28" ? "28" : date.slice(8, 10)}`,
+  );
+  const prior = lawInForce(
+    world,
+    government.lawJurisdictionId,
+    propositionId,
+    retailDate,
+  );
+  if (prior?.answer !== "yes") return unchanged("waiting-for-retail");
+  return {
+    reason: "sales-legalized",
+    annualRevenueDelta: annualRevenue,
+    sourceMeasureId: current.measureId,
+  };
 }

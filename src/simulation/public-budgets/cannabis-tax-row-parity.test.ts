@@ -13,7 +13,7 @@ import {
 } from "../life-places";
 import { SeededRng } from "../rng";
 import type { EntityId, World } from "../types";
-import { cannabisSalesRevenueChange } from "./cannabis-sales-revenue";
+import { taxRowRevenueChange } from "./fiscal";
 import { CANNABIS_TAX_EFFECT } from "./rules";
 import { TAX_QUESTION_EFFECTS } from "./rules";
 
@@ -101,6 +101,50 @@ describe("cannabis tax-row migration preserves the existing financial contract",
     expect(row?.toNo).toBeNull();
     expect(row?.basis).toContain("Marijuana Policy Project");
   });
+  it("reads the supplied row amount, lag and scope rather than a named-law constant", () => {
+    const place = placeWith("no");
+    const world = worldWith(place, [
+      { question: CANNABIS, answer: "yes", effectiveAt: "2026-03-01" },
+    ]);
+    const original = CANNABIS_TAX_EFFECT.perResidentRevenue;
+    const row = {
+      ...CANNABIS_TAX_EFFECT,
+      levels: ["city"] as const,
+      perResidentRevenue: {
+        annualAmount: original.annualAmount * 2,
+        firstSaleLagMonths: original.firstSaleLagMonths - 1,
+      },
+    };
+    const government = { ...budget(place), level: "city" as const };
+    expect(
+      taxRowRevenueChange(world, government, row, makeIsoDate("2027-01-28")),
+    ).toEqual({
+      reason: "sales-legalized",
+      annualRevenueDelta:
+        row.perResidentRevenue.annualAmount * government.population,
+      sourceMeasureId: "measure_0",
+    });
+    expect(
+      taxRowRevenueChange(world, budget(place), row, makeIsoDate("2027-01-28")),
+    ).toEqual({
+      reason: "not-state-budget",
+      annualRevenueDelta: 0,
+      sourceMeasureId: null,
+    });
+    const withoutRevenue = { ...row, perResidentRevenue: undefined };
+    expect(
+      taxRowRevenueChange(
+        world,
+        government,
+        withoutRevenue,
+        makeIsoDate("2027-01-28"),
+      ),
+    ).toEqual({
+      reason: "not-per-resident-row",
+      annualRevenueDelta: 0,
+      sourceMeasureId: null,
+    });
+  });
   it("preserves adoption timing, annual amount, law attribution and read-only reload parity", () => {
     const place = placeWith("no");
     const world = worldWith(place, [
@@ -109,7 +153,12 @@ describe("cannabis tax-row migration preserves the existing financial contract",
     const before = JSON.stringify(world);
     const government = budget(place);
     expect(
-      cannabisSalesRevenueChange(world, government, makeIsoDate("2027-01-31")),
+      taxRowRevenueChange(
+        world,
+        government,
+        CANNABIS_TAX_EFFECT,
+        makeIsoDate("2027-01-31"),
+      ),
     ).toEqual({
       reason: "waiting-for-retail",
       annualRevenueDelta: 0,
@@ -121,12 +170,18 @@ describe("cannabis tax-row migration preserves the existing financial contract",
       sourceMeasureId: "measure_0",
     };
     expect(
-      cannabisSalesRevenueChange(world, government, makeIsoDate("2027-02-28")),
+      taxRowRevenueChange(
+        world,
+        government,
+        CANNABIS_TAX_EFFECT,
+        makeIsoDate("2027-02-28"),
+      ),
     ).toEqual(expected);
     expect(
-      cannabisSalesRevenueChange(
+      taxRowRevenueChange(
         JSON.parse(before) as World,
         government,
+        CANNABIS_TAX_EFFECT,
         makeIsoDate("2027-02-28"),
       ),
     ).toEqual(expected);
@@ -138,16 +193,18 @@ describe("cannabis tax-row migration preserves the existing financial contract",
       { question: CANNABIS, answer: "no", effectiveAt: "2026-04-01" },
     ]);
     expect(
-      cannabisSalesRevenueChange(
+      taxRowRevenueChange(
         world,
         budget(place),
+        CANNABIS_TAX_EFFECT,
         makeIsoDate("2026-03-31"),
       ).reason,
     ).toBe("same-answer");
     expect(
-      cannabisSalesRevenueChange(
+      taxRowRevenueChange(
         world,
         budget(place),
+        CANNABIS_TAX_EFFECT,
         makeIsoDate("2026-04-01"),
       ),
     ).toEqual({
@@ -162,12 +219,13 @@ describe("cannabis tax-row migration preserves the existing financial contract",
       { question: CANNABIS, answer: "yes", effectiveAt: "2026-03-01" },
     ]);
     expect(
-      cannabisSalesRevenueChange(
+      taxRowRevenueChange(
         world,
         {
           ...budget(place),
           lawJurisdictionId: "jurisdiction_unresearched" as EntityId,
         },
+        CANNABIS_TAX_EFFECT,
         makeIsoDate("2027-03-01"),
       ),
     ).toEqual({
@@ -177,9 +235,10 @@ describe("cannabis tax-row migration preserves the existing financial contract",
     });
     for (const level of ["county", "city"] as const)
       expect(
-        cannabisSalesRevenueChange(
+        taxRowRevenueChange(
           world,
           { ...budget(place), level },
+          CANNABIS_TAX_EFFECT,
           makeIsoDate("2027-03-01"),
         ),
       ).toEqual({
@@ -213,15 +272,21 @@ it("opens one new game in a random place with the retired-module row", () => {
     lawJurisdictionId: stateJurisdictionForKey(place.stateJurisdictionKey!)!.id,
     population: 1000,
   };
-  const reading = cannabisSalesRevenueChange(
+  const reading = taxRowRevenueChange(
     game.world,
     government,
+    CANNABIS_TAX_EFFECT,
     game.world.currentDate,
   );
   const bytes = serializeWorld(game.world);
   const loaded = deserializeWorld(bytes);
   expect(
-    cannabisSalesRevenueChange(loaded, government, loaded.currentDate),
+    taxRowRevenueChange(
+      loaded,
+      government,
+      CANNABIS_TAX_EFFECT,
+      loaded.currentDate,
+    ),
   ).toEqual(reading);
   expect(loaded.people[game.playerPersonId]).toEqual(
     game.world.people[game.playerPersonId],

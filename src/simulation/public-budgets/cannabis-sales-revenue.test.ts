@@ -9,7 +9,7 @@ import {
 } from "../life-places";
 import { SeededRng } from "../rng";
 import type { EntityId, World } from "../types";
-import { cannabisSalesRevenueChange } from "./cannabis-sales-revenue";
+import { taxRowRevenueChange } from "./fiscal";
 import { CANNABIS_TAX_EFFECT } from "./rules";
 import { settleGovernmentMonth, type MonthFlows } from "./month";
 import { firstOfNextMonth } from "./fiscal";
@@ -97,9 +97,10 @@ describe("cannabis revenue reads amounts independently of the opening tax base",
       { question: CANNABIS, answer: "yes", effectiveAt: "2026-03-01" },
     ]);
     const government = budget(place);
-    const before = cannabisSalesRevenueChange(
+    const before = taxRowRevenueChange(
       world,
       government,
+      CANNABIS_TAX_EFFECT,
       makeIsoDate("2027-01-31"),
     );
     expect(before, `${place}, seed ${seed}`).toEqual({
@@ -108,7 +109,12 @@ describe("cannabis revenue reads amounts independently of the opening tax base",
       sourceMeasureId: null,
     });
     expect(
-      cannabisSalesRevenueChange(world, government, makeIsoDate("2027-02-28")),
+      taxRowRevenueChange(
+        world,
+        government,
+        CANNABIS_TAX_EFFECT,
+        makeIsoDate("2027-02-28"),
+      ),
     ).toEqual({
       reason: "sales-legalized",
       annualRevenueDelta:
@@ -122,16 +128,18 @@ describe("cannabis revenue reads amounts independently of the opening tax base",
       { question: CANNABIS, answer: "no", effectiveAt: "2026-04-01" },
     ]);
     expect(
-      cannabisSalesRevenueChange(
+      taxRowRevenueChange(
         world,
         budget(place),
+        CANNABIS_TAX_EFFECT,
         makeIsoDate("2026-03-31"),
       ).reason,
     ).toBe("same-answer");
     expect(
-      cannabisSalesRevenueChange(
+      taxRowRevenueChange(
         world,
         budget(place),
+        CANNABIS_TAX_EFFECT,
         makeIsoDate("2026-04-01"),
       ),
     ).toEqual({
@@ -144,13 +152,14 @@ describe("cannabis revenue reads amounts independently of the opening tax base",
   it("does not create an adoption delta for an unknown starting jurisdiction", () => {
     const world = worldWith(placeWith("no"), []);
     expect(
-      cannabisSalesRevenueChange(
+      taxRowRevenueChange(
         world,
         {
           level: "state",
           population: 1000,
           lawJurisdictionId: "jurisdiction_unresearched" as EntityId,
         },
+        CANNABIS_TAX_EFFECT,
         makeIsoDate("2027-03-01"),
       ),
     ).toEqual({
@@ -166,9 +175,10 @@ describe("cannabis revenue reads amounts independently of the opening tax base",
     ]);
     for (const level of ["county", "city"] as const)
       expect(
-        cannabisSalesRevenueChange(
+        taxRowRevenueChange(
           world,
           { ...budget(place), level },
+          CANNABIS_TAX_EFFECT,
           makeIsoDate("2027-03-01"),
         ),
       ).toEqual({

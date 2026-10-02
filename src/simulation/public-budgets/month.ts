@@ -26,7 +26,7 @@ import {
   propositionIdFor,
   lawSpendingPerResident,
 } from "./fiscal";
-import { cannabisSalesRevenueChange } from "./cannabis-sales-revenue";
+import { taxRowRevenueChange } from "./fiscal";
 import { CANNABIS_TAX_EFFECT } from "./rules";
 import {
   lawEffectStamp,
@@ -704,7 +704,12 @@ function cannabisSalesFactor(
 ): number {
   const opening = government.years[0]!.expectedRevenue[SELECTIVE_TAX] ?? 0;
   if (opening <= 0) return 1;
-  const reading = cannabisSalesRevenueChange(world, government, date);
+  const reading = taxRowRevenueChange(
+    world,
+    government,
+    CANNABIS_TAX_EFFECT,
+    date,
+  );
   return Math.max(0, (opening + reading.annualRevenueDelta) / opening);
 }
 
@@ -889,14 +894,19 @@ export function settleGovernmentMonth(
   // this month's amount, so rollover neither doubles it nor blocks repeal.
   const zeroOpeningSelectiveTax =
     (government.years[0]!.expectedRevenue[SELECTIVE_TAX] ?? 0) <= 0;
-  const cannabisReading = cannabisSalesRevenueChange(world, government, month);
+  const cannabisReading = taxRowRevenueChange(
+    world,
+    government,
+    CANNABIS_TAX_EFFECT,
+    month,
+  );
   const cannabisRevenue = cannabisReading
     ? Math.max(0, Math.round(cannabisReading.annualRevenueDelta / 12))
     : 0;
   if (zeroOpeningSelectiveTax) {
     const adoptedCannabis = Math.max(
       0,
-      cannabisSalesRevenueChange(world, government, year.startsOn)
+      taxRowRevenueChange(world, government, CANNABIS_TAX_EFFECT, year.startsOn)
         .annualRevenueDelta,
     );
     const nonCannabisBase = Math.max(
@@ -1645,7 +1655,7 @@ function adoptNextYear(
         Math.round((sum(otherTaxes) * 12) / rows.length) +
         Math.max(
           0,
-          cannabisSalesRevenueChange(world, government, startsOn)
+          taxRowRevenueChange(world, government, CANNABIS_TAX_EFFECT, startsOn)
             .annualRevenueDelta,
         )
       );
