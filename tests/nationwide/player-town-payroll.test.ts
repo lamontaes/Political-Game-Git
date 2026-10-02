@@ -57,7 +57,7 @@ function allPlaces() {
 
 describe.each(allPlaces())(
   "one payroll for a played worker in $state ($seed)",
-  ({ key, seed }) => {
+  ({ key, seed }: ReturnType<typeof allPlaces>[number]) => {
     it("matches the NPC's gross, tax rows, net and employer cash and survives reopening", () => {
       const game = generateOpeningLife(
         prepareOpeningLife({
