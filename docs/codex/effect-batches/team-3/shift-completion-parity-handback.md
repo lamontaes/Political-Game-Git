@@ -4,7 +4,7 @@ The five newly visible shift-payroll failures count two payments on a recurring 
 
 ## MERGED
 
-Not merged. Base main8e173a6aaa03ff4bc5e8df0e79ccc5c12cd8f6bd; A41 is independently preserved in #1771. Shared law dispatch, payroll writer and all amounts are unchanged.
+Not merged. Base main8e173a6aaa03ff4bc5e8df0e79ccc5c12cd8f6bd, additively renewed on main7cdb425d916a0f74511f9d08ac733260af22ca11; A41 is independently preserved in #1771. Tested composition3f84ae36bef963dfb5408ddcfdcdea5e948cdbbe. Shared law dispatch, payroll writer and all amounts are unchanged.
 
 ## WHAT EMERGED
 
@@ -12,7 +12,7 @@ DECIDED: none claimed; the native fixture recorded completed work, not a new dec
 
 ## VITAL STATISTICS
 
-The original assertions, with diagnostic-only capture, returned5FAIL/5PASS in47.28seconds. All five failing cases recorded January6 and January7 work-session events on the same actual relationship, each with one7200USD-cent gross transfer. Each original completion was paid once. The repaired complete file returned10PASS in46.92seconds with stock limits. One changed scoped type root loaded1020files with zero diagnostics; changed lint/format/whitespace/report checks passed. Gross, employee and employer liabilities, withholding, net balance, player/NPC equality, saved-world parity and invalid evidence checks retain their original assertions. Raw logs and records remain outside the repository.
+The original assertions, with diagnostic-only capture, returned5FAIL/5PASS in47.28seconds. All five failing cases recorded January6 and January7 work-session events on the same actual relationship, each with one7200USD-cent gross transfer. Each original completion was paid once. The repaired complete file returned10PASS in46.92seconds with stock limits, then10PASS in51.73seconds after receiving current main's clock/mortality changes. One changed scoped type root loaded1022files with zero diagnostics on the renewed composition (1020 on its predecessor); changed lint/format/whitespace/report checks passed. Gross, employee and employer liabilities, withholding, net balance, player/NPC equality, saved-world parity and invalid evidence checks retain their original assertions. Raw logs and records remain outside the repository.
 
 ## 1. Why-chain to bedrock
 
