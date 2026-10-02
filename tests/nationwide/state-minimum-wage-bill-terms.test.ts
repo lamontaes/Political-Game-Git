@@ -13,7 +13,6 @@ import {
   nextPaydayDate,
   PAYDAY_TRANSITION_KEY,
   paydayHandler,
-  townMinimumHourly,
   townMinimumHourlyAt,
 } from "../../src/simulation/living-world/town-pay";
 import { withWorldIntegrityDeferred } from "../../src/simulation/world";
@@ -88,10 +87,9 @@ describe(
     it("reads the bill's explicit $17 floor from its effective date, then holds", () => {
       const { world, opened } = omahaWithRaiseBills([NUMERIC_LB_900]);
       const effectiveAt = addDays(opened, LB_900.effectiveInDays);
-      const rateBefore = townMinimumHourly(
-        lifePlaceByKey("3137000")!.context.jurisdiction.id,
-      )!;
       const omaha = lifePlaceByKey("3137000")!.context.jurisdiction.id;
+      const baseline = omahaWithRaiseBills([]).world;
+      const rateBefore = rateOn(baseline, omaha, addDays(effectiveAt, -1));
       expect(rateOn(world, omaha, addDays(effectiveAt, -1))).toBe(rateBefore);
       expect(rateOn(world, omaha, effectiveAt)).toBeCloseTo(
         ADOPTED_FLOOR_MINOR / 100,
@@ -113,10 +111,11 @@ describe(
     it("reaches Nebraska alone", () => {
       const { world, opened } = omahaWithRaiseBills([NUMERIC_LB_900]);
       const effectiveAt = addDays(opened, LB_900.effectiveInDays + 400);
+      const baseline = omahaWithRaiseBills([]).world;
       for (const key of ["3651000", "0644000", "4819000", "5363000"]) {
         const jurisdiction = lifePlaceByKey(key)!.context.jurisdiction.id;
         expect(rateOn(world, jurisdiction, effectiveAt), key).toBe(
-          townMinimumHourly(jurisdiction),
+          rateOn(baseline, jurisdiction, effectiveAt),
         );
       }
     });
@@ -212,7 +211,9 @@ describe(
       // The repeal takes the state's rate back to where it began, and the
       // effect ends the day it takes effect.
       const omaha = lifePlaceByKey("3137000")!.context.jurisdiction.id;
-      expect(rateOn(world, omaha, repealAt)).toBe(townMinimumHourly(omaha));
+      expect(rateOn(world, omaha, repealAt)).toBe(
+        rateOn(omahaWithRaiseBills([]).world, omaha, repealAt),
+      );
       // The state's poverty rate follows its rate back with the same lag.
       expect(poverty(addDays(repealAt, 1_100))).toBe(1);
       console.info(
