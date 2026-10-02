@@ -2,7 +2,7 @@
  * Export the compact place-within-county index for runtime use.
  *
  * One row per part of a 2020 Census place lying in one county: place GEOID,
- * county GEOID and the part's land area in square meters. The runtime turns
+ * county GEOID, the part's land area in square meters and population. The runtime turns
  * these into county-government shares through the government-unit index; it
  * never picks one county for a place by name or centroid.
  *
@@ -71,6 +71,7 @@ export function renderPlaceCountyModule(): string {
     record.placeGeoid,
     record.countyGeoid,
     record.partLandAreaSquareMeters,
+    record.partPopulationCount,
   ]);
 
   const meta = {
@@ -93,7 +94,17 @@ export function renderPlaceCountyModule(): string {
       ),
     ].filter(([, count]) => count > 1).length,
     retired2020CountyGeoids: [...retired].sort(),
-    columns: ["placeGeoid", "countyGeoid", "partLandAreaSquareMeters"],
+    columns: [
+      "placeGeoid",
+      "countyGeoid",
+      "partLandAreaSquareMeters",
+      "partPopulationCount",
+    ],
+    populationAsOf: PLACE_COUNTY_CORPUS_AS_OF,
+    populationField: "POP100 (field 91 in the 2020 legacy geographic header)",
+    inputs: manifest.inputs,
+    documentationUrl:
+      "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
     coverage:
       "2020 place and county geography. A place incorporated or re-bounded after 2020 is described as it stood on 2020-04-01, or not at all.",
   };
@@ -103,7 +114,7 @@ export function renderPlaceCountyModule(): string {
     " * GENERATED — do not edit by hand.",
     " *",
     " * Written by `scripts/source/export-place-county-relations.ts` from the",
-    " * compiled place-county-relations corpus. Geography only; no government",
+    " * compiled place-county-relations corpus. County-part geography/population; no government",
     " * power or service area is asserted.",
     " */",
     "",
