@@ -33,11 +33,7 @@ import { isPersonAliveAt } from "../simulation/vitality-integrity";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLife } from "./ordinary-life";
-import {
-  addDays,
-  ageOnDate,
-  simulationMomentAtLocalTime,
-} from "../simulation/dates";
+import { addDays, ageOnDate } from "../simulation/dates";
 import {
   createFormationContext,
   recordPrivateBelief,
@@ -418,18 +414,9 @@ describe("recalling a town official", () => {
           (row) => row.transitionKey === RECALL_ELECTION,
         )!;
         expect(election).toBeDefined();
-        const voted = recallElectionHandler(
-          {
-            ...result.world,
-            currentDate: election.dueAt,
-            currentMoment: simulationMomentAtLocalTime({
-              date: election.dueAt,
-              minuteOfDay: result.world.currentMoment.minuteOfDay,
-              timeZone: result.world.currentMoment.timeZone,
-            }),
-          },
-          election,
-        );
+        const voted = {
+          world: resolveDueThrough(result.world, election.dueAt),
+        };
         expect(recallPetitions(voted.world)[0]).toMatchObject({
           phase: "removed",
           yes: required,
