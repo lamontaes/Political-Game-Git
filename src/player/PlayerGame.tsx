@@ -5,6 +5,7 @@ import {
   type NativeSessionQuery,
 } from "./native-session-bridge";
 
+import { MeetingStopActions } from "./MeetingStopActions";
 import { SetupScreen } from "./SetupScreen";
 import { QuestionnaireScreenView } from "./QuestionnaireScreenView";
 import { SavesScreen } from "./SavesScreen";
@@ -2888,6 +2889,14 @@ function PlayingScreen({
                     ✕
                   </button>
                 </p>
+              ) : null}
+              {!shellReadOnly(session.world) ? (
+                <MeetingStopActions
+                  world={session.world}
+                  personId={session.personId}
+                  runner={timeRunner}
+                  onReport={(report) => setPassOutcome(report.outcome)}
+                />
               ) : null}
               {crisisStop.stop ? (
                 <p
