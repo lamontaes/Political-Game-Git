@@ -158,6 +158,10 @@ function thirtyDayLawOpening(
   expect(members).toHaveLength(
     primaryReading(municipalGovernmentByKey(rosterGovernmentKey)!).bodySize!,
   );
+  if (!compact || rosterGovernmentKey === government.id)
+    expect(members).toHaveLength(
+      primaryReading(municipalGovernmentByKey(government.id)!).bodySize!,
+    );
   const principles = ["fiscal-restraint", "environmental-stewardship"].map(
     (key) =>
       Object.values(world.policyCatalog.principles).find(
