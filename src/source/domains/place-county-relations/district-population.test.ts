@@ -1,4 +1,11 @@
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
+import {
+  corpusCanonicalDigest,
+  isClean,
+  type ArtifactLock,
+} from "../../core/index";
+import { sourceDomain, type PlaceRelationRecord } from "./index";
 import { drawRandomPlace } from "../../../../tests/support/random-place";
 import {
   normalizeDistrictPopulationParts,
@@ -29,6 +36,64 @@ function part(index: number, overrides: Partial<Row> = {}): Row {
 }
 
 describe("normalizeDistrictPopulationParts authored source fixtures", () => {
+  it("replays the acquired source tables and preserves county and district population totals", () => {
+    const readSourceJson = (name: string): unknown =>
+      JSON.parse(
+        readFileSync(
+          new URL(
+            `../../../../data/source/place-county-relations/${name}`,
+            import.meta.url,
+          ),
+          "utf8",
+        ),
+      );
+    const lock = readSourceJson("artifact-lock.json") as ArtifactLock;
+    const manifest = readSourceJson("corpus-manifest.json") as {
+      canonicalSha256: string;
+      recordCount: number;
+    };
+    const stored = readSourceJson("corpus.json") as PlaceRelationRecord[];
+    const compiled = sourceDomain.compileProduction(lock);
+    expect(isClean(sourceDomain.validateCorpus(compiled))).toBe(true);
+    expect(stored.length).toBeGreaterThan(0);
+    expect(compiled.records.length).toBe(manifest.recordCount);
+    expect(corpusCanonicalDigest(compiled.records)).toBe(
+      manifest.canonicalSha256,
+    );
+    expect(corpusCanonicalDigest(stored)).toBe(manifest.canonicalSha256);
+
+    const countyTotals = new Map<string, number>();
+    const districtTotals = new Map<
+      string,
+      { place: string; total: number; denominator: number }
+    >();
+    for (const record of compiled.records) {
+      if ("countyGeoid" in record) {
+        countyTotals.set(
+          record.placeGeoid,
+          (countyTotals.get(record.placeGeoid) ?? 0) +
+            record.partPopulationCount,
+        );
+      } else {
+        const key = `${record.placeGeoid}:${record.chamber}:${record.boundaryVintage}`;
+        const previous = districtTotals.get(key);
+        if (previous)
+          expect(record.placePopulationCount).toBe(previous.denominator);
+        districtTotals.set(key, {
+          place: record.placeGeoid,
+          total: (previous?.total ?? 0) + record.partPopulationCount,
+          denominator: record.placePopulationCount,
+        });
+      }
+    }
+    expect(countyTotals.size).toBeGreaterThan(0);
+    expect(districtTotals.size).toBeGreaterThan(0);
+    for (const group of districtTotals.values()) {
+      expect(group.total).toBe(group.denominator);
+      expect(group.total).toBe(countyTotals.get(group.place));
+    }
+  }, 60_000);
+
   it("aggregates blocks and uses every district part in the place denominator", () => {
     const records = normalizeDistrictPopulationParts(
       [
@@ -118,15 +183,36 @@ describe("normalizeDistrictPopulationParts authored source fixtures", () => {
   });
 
   it("accepts alphabetic legislative codes and retains residual population in the denominator", () => {
-    const records = normalizeDistrictPopulationParts([
-      part(1, { chamber: "state-upper", districtGeoid: `${stateFips}A01`, population: 9 }),
-      part(2, { chamber: "state-upper", districtGeoid: `${stateFips}ZZZ`, population: 6 }),
-    ], artifactId);
+    const records = normalizeDistrictPopulationParts(
+      [
+        part(1, {
+          chamber: "state-upper",
+          districtGeoid: `${stateFips}A01`,
+          population: 9,
+        }),
+        part(2, {
+          chamber: "state-upper",
+          districtGeoid: `${stateFips}ZZZ`,
+          population: 6,
+        }),
+      ],
+      artifactId,
+    );
     expect(records).toHaveLength(2);
-    expect(records).toEqual(expect.arrayContaining([
-      expect.objectContaining({ districtGeoid: `${stateFips}A01`, partPopulationCount: 9, placePopulationCount: 15 }),
-      expect.objectContaining({ districtGeoid: `${stateFips}ZZZ`, partPopulationCount: 6, placePopulationCount: 15 }),
-    ]));
+    expect(records).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          districtGeoid: `${stateFips}A01`,
+          partPopulationCount: 9,
+          placePopulationCount: 15,
+        }),
+        expect.objectContaining({
+          districtGeoid: `${stateFips}ZZZ`,
+          partPopulationCount: 6,
+          placePopulationCount: 15,
+        }),
+      ]),
+    );
   });
 
   it("excludes blocks outside any place from records and denominators", () => {
