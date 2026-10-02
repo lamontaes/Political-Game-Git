@@ -4,7 +4,6 @@ import {
 } from "./recorded-employer";
 export {
   LOCAL_BUSINESS_PLACEHOLDER,
-  LOCAL_BUSINESS_WAGE_PERCENTILE,
   localBusinessWageMinor,
   adultStartEmployer,
 } from "./recorded-employer";
@@ -555,7 +554,7 @@ function seatMissingLocalBusinesses(
         recipient: { kind: "person", personId: workerId },
         startsAt: today,
         amount: money(
-          localBusinessWageMinor(plan.kind, jurisdictionId).monthlyMinor,
+          localBusinessWageMinor(plan.kind, jurisdictionId, world).monthlyMinor,
           currency,
         ),
         cadenceKind: "schedule:monthly",

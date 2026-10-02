@@ -18,9 +18,12 @@ import {
 } from "./migration";
 import { createPressTransitionRegistry } from "./press/transitions";
 import { recordElectionSpeech } from "./campaign-speeches";
-import { campaignPollingQuality } from "./campaign-polling";
 import { doorKnockingReturn } from "./campaign-recognition";
 import { startingSupportAdjustment } from "./record-in-office";
+import { campaignOfficePollingEstimate } from "./campaign-polling-estimate";
+import type { CampaignPollingEstimate } from "./campaign-polling-estimate";
+import { campaignPollingQuality } from "./campaign-polling";
+import { majorPartyOf } from "./statewide-electorate";
 import {
   legislativeTermDates,
   supportedLegislativeTermDates,
@@ -164,7 +167,7 @@ import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
 } from "./life-places";
-import { drawGeneratedPersonName } from "./people";
+import { drawGeneratedPersonName, personName } from "./people";
 import { createExactQuantity } from "./quantity";
 import { positionOwnerEndpoint, resourcePositionAt } from "./resource-queries";
 import {
@@ -264,13 +267,6 @@ import { moneyText } from "./money-text";
 export const CAMPAIGN_SUPPORT_METRIC_STABLE_KEY =
   "campaign.candidate-support-share";
 
-/**
- * What the campaign's field memo claims about its own precision. Four points is
- * a claim, not a guarantee: the error below is drawn from a wider range and
- * sometimes lands outside it, which is what makes reading it a judgment.
- */
-const OBSERVATION_MARGIN_BASIS_POINTS = 400;
-
 export interface CampaignActivityPlan {
   readonly start: SimulationMoment;
   readonly end: SimulationMoment;
@@ -342,7 +338,7 @@ function campaignSupportDefinition(): WorldMetricDefinition {
     stableKey: CAMPAIGN_SUPPORT_METRIC_STABLE_KEY,
     name: "Candidate support",
     description:
-      "Canonical bounded support for one candidate in one contest at an explicit point in time. Not shown to any player; the campaign reads it only through fallible observations.",
+      "Canonical bounded support for one candidate in one contest at an explicit point in time. The campaign reads the saved support through separate observation records.",
     domainKey: "campaign.support",
     valueKind: "quantity",
     quantityUnit: "rate:share",
@@ -440,11 +436,7 @@ export function canonicalSupportBasisPoints(
 }
 
 function recordInitialSupport(world: World, campaign: CampaignRecord): World {
-  const rng = new SeededRng(world.seed).fork(
-    `campaign-initial-support:${campaign.contestId}`,
-  );
-  // A first-time filer starts behind somebody who is already known. Nothing
-  // here is a handicap the player can read; it is a starting position.
+  // Every candidate starts from the same owner-approved baseline.
   // A candidate's past moves where they start: a remembered ethics finding,
   // a sitting governor's record on the economy, or how the voters here see
   // their votes on the questions they hold views about (`record-in-office.ts`).
@@ -453,8 +445,6 @@ function recordInitialSupport(world: World, campaign: CampaignRecord): World {
     weight: Math.max(
       1,
       850 +
-        rng.fork(scope.candidatePersonId).integer(0, 301) +
-        (scope.candidatePersonId === campaign.candidatePersonId ? -60 : 0) +
         startingSupportAdjustment(
           world,
           scope.candidatePersonId,
@@ -1209,10 +1199,7 @@ function requestedGainBasisPoints(
             currency: campaign.treasuryCurrency,
           },
         );
-  const swing = new SeededRng(world.seed)
-    .fork(`campaign-action-effect:${action.id}`)
-    .integer(60, 141);
-  return Math.max(1, Math.floor((base * swing) / 100));
+  return Math.max(1, Math.floor(base));
 }
 
 /**
@@ -1245,13 +1232,9 @@ function recordSupportAfterAction(
 }
 
 /**
- * The field memo.
- *
- * Three small independent draws rather than one wide one, so the error clusters
- * near the truth and occasionally does not. The memo states a four-point margin
- * and the error can exceed it, which is true of real polling and is the whole
- * reason the number is worth arguing about. How wide the draws are depends on
- * who on the campaign does the reading (`campaign-polling.ts`).
+ * No recorded voter responses means a district comparison, never an own poll.
+ * Its reported spread is measured across the listed game records; confidence
+ * is deliberately unspecified because those districts are not respondents.
  */
 function recordCampaignObservation(
   world: World,
@@ -1261,30 +1244,30 @@ function recordCampaignObservation(
 ): {
   readonly world: World;
   readonly observation: WorldMetricObservationRecord;
+  readonly estimate: CampaignPollingEstimate;
+  readonly party: "democratic" | "republican" | null;
 } {
-  const state = world.history.metricStates.find(
-    (candidate) => candidate.id === candidateStateId,
-  )!;
-  const trueBasisPoints = quantityBasisPoints(state);
-  const rng = new SeededRng(world.seed).fork(
-    `campaign-observation:${action.id}:${candidateStateId}`,
+  const estimate = campaignOfficePollingEstimate(world, campaign);
+  const party = majorPartyOf(
+    world,
+    campaign.candidatePersonId,
+    world.currentDate,
   );
-  // How far off the memo can be depends on who on the campaign reads it.
-  const spread = campaignPollingQuality(world, campaign).drawBasisPoints;
-  const error =
-    rng.integer(-spread, spread + 1) +
-    rng.integer(-spread, spread + 1) +
-    rng.integer(-spread, spread + 1);
-  const observedBasisPoints = Math.max(
-    0,
-    Math.min(SUPPORT_DENOMINATOR, trueBasisPoints + error),
+  const share =
+    party === "republican"
+      ? 1 - estimate.democraticShare
+      : estimate.democraticShare;
+  const observedBasisPoints = Math.round(share * SUPPORT_DENOMINATOR);
+  const scope = campaign.candidateSupportScopes.find(
+    (candidate) => candidate.candidatePersonId === campaign.candidatePersonId,
   );
+  if (!scope) throw new Error("The campaign candidate has no metric segment.");
   const previous = world.history.metricObservations
     .filter(
       (observation) =>
         observation.metricId === campaign.supportMetricId &&
         observation.scope.jurisdictionId === campaign.jurisdictionId &&
-        observation.scope.segmentKey === state.scope.segmentKey &&
+        observation.scope.segmentKey === scope.segmentKey &&
         observation.referencePeriod.kind === "point" &&
         observation.referencePeriod.at === world.currentDate &&
         observation.sourceSeriesKey === "campaign.field-memo",
@@ -1293,7 +1276,10 @@ function recordCampaignObservation(
   const next = recordWorldMetricObservation(world, {
     stableKey: `${action.stableKey}:observation`,
     metricId: campaign.supportMetricId,
-    scope: { ...state.scope },
+    scope: {
+      jurisdictionId: campaign.jurisdictionId,
+      segmentKey: scope.segmentKey,
+    },
     referencePeriod: { kind: "point", at: world.currentDate },
     value: {
       kind: "quantity",
@@ -1304,9 +1290,16 @@ function recordCampaignObservation(
       ),
     },
     sourceSeriesKey: "campaign.field-memo",
-    sourceLabel: "Campaign field memo",
-    sourceReference: null,
-    methodologyKey: "campaign.bounded-contact-sample",
+    sourceLabel: estimate.label,
+    sourceReference: {
+      title: "Recorded district comparison, not contacted voter responses",
+      locator: JSON.stringify({
+        comparison: estimate.comparison,
+        party,
+        peers: estimate.peers,
+      }),
+    },
+    methodologyKey: "campaign.estimated-district-comparison",
     releaseDate: world.currentDate,
     recordedAt: world.currentDate,
     vintageKey: `campaign.v${world.history.nextSequence}`,
@@ -1315,17 +1308,23 @@ function recordCampaignObservation(
       margin: {
         kind: "quantity",
         quantity: createExactQuantity(
-          OBSERVATION_MARGIN_BASIS_POINTS,
+          Math.round(estimate.standardDeviation * SUPPORT_DENOMINATOR),
           SUPPORT_DENOMINATOR,
           "rate:share",
         ),
       },
-      confidence: createExactQuantity(19, 20, "rate:share"),
+      confidence: null,
     },
     supersedesObservationId: previous?.id ?? null,
+    // Retain the private integrity link without reading its hidden value.
     underlyingStateId: candidateStateId,
   });
-  return { world: next, observation: next.history.metricObservations.at(-1)! };
+  return {
+    world: next,
+    observation: next.history.metricObservations.at(-1)!,
+    estimate,
+    party,
+  };
 }
 
 function actionCompletionEvent(world: World, activityId: EntityId): EntityId {
@@ -1649,6 +1648,19 @@ function recordCampaignActionOutcome(
   );
   next = observationResult.world;
   const observation = observationResult.observation;
+  const { estimate, party } = observationResult;
+  const reader = campaignPollingQuality(next, campaign).reader;
+  const compared = estimate.peers
+    .map(
+      (peer) =>
+        congressSeatIdentityForOfficeKey(peer.seatKey)?.displayName ??
+        peer.seatKey,
+    )
+    .join("; ");
+  const comparisonLabel =
+    party === null
+      ? "Democratic district comparison (your major-party affiliation is not recorded)"
+      : `${party} district comparison`;
   const observed =
     observation.value.kind === "quantity"
       ? (observation.value.quantity.numerator /
@@ -1676,8 +1688,17 @@ function recordCampaignActionOutcome(
     ],
     personFactConstraints: [],
     visibility: "private",
-    tags: ["campaign.feedback", "campaign.observation"],
-    summary: `The field memo puts them somewhere around ${Math.round(observed)} percent, give or take four points.`,
+    tags: [
+      "campaign.feedback",
+      "campaign.observation",
+      "campaign.estimate",
+      ...new Set(
+        estimate.peers.map(
+          (peer) => `campaign.estimate-source:${peer.sourceEntityId}`,
+        ),
+      ),
+    ],
+    summary: `${estimate.label}: ${comparisonLabel} around ${Math.round(observed)} percent, give or take ${(estimate.standardDeviation * 100).toFixed(1)} points of recorded district spread. Compared ${compared}.`,
     context: {
       location: {
         jurisdictionId: campaign.jurisdictionId,
@@ -1685,11 +1706,14 @@ function recordCampaignActionOutcome(
         setting: "A memo left on the desk",
       },
       socialContext:
-        "Somebody's best estimate from the calls they made, not the electorate itself.",
+        reader.kind === "experienced"
+          ? `Prepared by ${personName(next.people[reader.personId]!)}, whose recorded survey work totals ${reader.surveyDays} days. This is district evidence, not contacted voter responses.`
+          : "Prepared by the campaign's volunteer reader from recorded district evidence, not contacted voter responses.",
       pressure: null,
       choice: null,
       motivation: "Give the candidate something to act on.",
-      immediateReaction: "It could be wrong, and there is no way to check.",
+      immediateReaction:
+        "The compared districts and their recorded spread are listed; there is no poll of your own yet.",
     },
   });
   const feedbackEventId = next.history.events.at(-1)!.id;
@@ -1741,15 +1765,7 @@ function recordCampaignActionOutcome(
 /* Election day                                                                */
 /* -------------------------------------------------------------------------- */
 
-/**
- * The result.
- *
- * Canonical support decides it, with a bounded keyed swing on top, because an
- * election is not a poll of the electorate's settled mind — turnout, weather and
- * the last week all move it. The swing is drawn per candidate from the world's
- * seed and the contest's identity, so the same world always produces the same
- * night, and a campaign that is genuinely behind can still occasionally win.
- */
+/** Read the latest saved candidate support without an election-night swing. */
 export function evaluateCampaignAwareOutcome(
   world: World,
   contestId: EntityId,
@@ -1765,20 +1781,9 @@ export function evaluateCampaignAwareOutcome(
     const support = quantityBasisPoints(
       latestSupportState(world, campaign, scope),
     );
-    const swing = new SeededRng(world.seed)
-      .fork(
-        `campaign-election-uncertainty:${contest.id}:${scope.candidatePersonId}`,
-      )
-      .integer(-350, 351);
-    // The swing is wider than the support floor, so clamping at one basis
-    // point let election night print a share the support model forbids: a
-    // candidate held at the one-percent floor all campaign, drawing the worst
-    // swing, came out on 0.01 percent — one vote in ten thousand, which is not
-    // a result any real contest produces and read on screen as 0.0%. The floor
-    // is the floor at both ends of the day.
     return {
       id: scope.candidatePersonId,
-      weight: Math.max(SUPPORT_FLOOR_BASIS_POINTS, support + swing),
+      weight: Math.max(SUPPORT_FLOOR_BASIS_POINTS, support),
     };
   });
   const votes = allocateBasisPoints(scores);
@@ -2279,7 +2284,7 @@ export function campaignElectionTransitionHandler(
     provenance: {
       method: "simulated",
       sourceEntityIds: [dueItem.id, campaign.contestId, ...workEventIds],
-      note: "Resolved from canonical candidate support with a bounded keyed swing.",
+      note: "Resolved from recorded canonical candidate support.",
     },
   });
   const result = electionContestResult(resolved, campaign.contestId)!;

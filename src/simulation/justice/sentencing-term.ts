@@ -29,6 +29,7 @@ export interface SentenceTermChoice {
 export function sourcedCustodyBoundsForCase(
   world: World,
   courtCase: CourtCase,
+  floor: ReturnType<typeof custodyFloorAt> = custodyFloorAt(world, courtCase),
 ): {
   readonly range: SourcedSentenceRange;
   readonly minimumMonths: number;
@@ -36,7 +37,6 @@ export function sourcedCustodyBoundsForCase(
 } | null {
   const range = sentencingRangeForCase(courtCase);
   if (!range) return null;
-  const floor = custodyFloorAt(world, courtCase);
   const minimumMonths = Math.max(range.minMonths, floor?.months ?? 0);
   // CTO ruling 25: the later enacted floor controls if it exceeds the old
   // ceiling. Keep the research row unchanged and expose the operative bounds.
@@ -51,8 +51,9 @@ export function evaluateCustodyTerm(
   judgeId: EntityId,
   courtCase: CourtCase,
   pleaded: boolean,
+  floor: ReturnType<typeof custodyFloorAt> = custodyFloorAt(world, courtCase),
 ): SentenceTermChoice | null {
-  const bounds = sourcedCustodyBoundsForCase(world, courtCase);
+  const bounds = sourcedCustodyBoundsForCase(world, courtCase, floor);
   if (!bounds) return null;
   const { range, minimumMonths: minimum, maximumMonths: maximum } = bounds;
   const key = `${courtCase.caseKey}:custody-term`;

@@ -4,7 +4,11 @@ import {
   kinshipRelationshipsAt,
   workRoleAt,
 } from "./life-queries";
-import { townJobRate } from "./living-world/town-pay";
+import {
+  stateMedianAnnualWage,
+  townMinimumHourly,
+} from "./living-world/town-pay";
+import { recordedWorkAnnualPay } from "./recorded-work-pay";
 import { townBusinesses } from "./living-world/town-businesses";
 import type {
   EntityId,
@@ -20,33 +24,38 @@ export const LOCAL_BUSINESS_PLACEHOLDER = {
   monthlyWageMinor: 280_000,
 } as const;
 
-/**
- * GAME ASSUMPTION: the percentile of the published wage distribution a
- * business's staff are paid at. Staff have been there for years, so the
- * middle of the distribution.
- */
-export const LOCAL_BUSINESS_WAGE_PERCENTILE = 50;
-
 const HOURS_PER_YEAR = 2_080;
 
 /**
  * What one of a business's workers is paid a month in `jurisdictionId`: the
- * BLS Occupational Employment and Wage Statistics wage for the worker's
- * occupation in the town's area, never below the minimum wage. The marked
+ * average comparable active saved pay, otherwise the existing state/national
+ * BLS occupational median, never below the minimum wage. The marked
  * placeholder pay where no wage is published for that occupation and area.
  */
 export function localBusinessWageMinor(
   kind: { readonly workerOccupation: OccupationClassification },
   jurisdictionId: EntityId | null,
+  world?: World,
 ): { readonly monthlyMinor: number; readonly sourced: boolean } {
-  const rate = townJobRate(
-    kind.workerOccupation,
-    jurisdictionId,
-    LOCAL_BUSINESS_WAGE_PERCENTILE,
-  );
-  return rate
+  const recorded = world
+    ? recordedWorkAnnualPay(world, {
+        occupation: kind.workerOccupation,
+        jurisdictionId,
+        weeklyHours: 40,
+      })
+    : null;
+  if (recorded)
+    return {
+      monthlyMinor: Math.round(recorded.annualMinor / 12),
+      sourced: true,
+    };
+  const annual = stateMedianAnnualWage(kind.workerOccupation, jurisdictionId);
+  const minimum = townMinimumHourly(jurisdictionId);
+  return annual !== null && minimum !== null
     ? {
-        monthlyMinor: Math.round((rate.hourlyMinor * HOURS_PER_YEAR) / 12),
+        monthlyMinor: Math.round(
+          (Math.max(annual, minimum * HOURS_PER_YEAR) * 100) / 12,
+        ),
         sourced: true,
       }
     : {
@@ -115,7 +124,8 @@ export function adultStartEmployer(
         workerTitle: role.title,
         workerOccupation: role.occupationClassification,
       };
-      if (!localBusinessWageMinor(kind, jurisdictionId).sourced) return [];
+      if (!localBusinessWageMinor(kind, jurisdictionId, world).sourced)
+        return [];
       const key = JSON.stringify(kind);
       if (seen.has(key)) return [];
       seen.add(key);
@@ -153,7 +163,7 @@ export function adultStartEmployer(
   const pool =
     vouched.length > 0 ? vouched : experienced.length > 0 ? experienced : fit;
   const pay = (kind: { readonly workerOccupation: OccupationClassification }) =>
-    localBusinessWageMinor(kind, jurisdictionId).monthlyMinor;
+    localBusinessWageMinor(kind, jurisdictionId, world).monthlyMinor;
   return [...pool].sort(
     (left, right) =>
       pay(right.kind) - pay(left.kind) ||

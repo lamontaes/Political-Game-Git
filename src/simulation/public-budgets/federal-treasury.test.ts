@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { stdout } from "node:process";
 import { makeIsoDate } from "../dates";
 import { RAISE_TOP_FEDERAL_RATE_QUESTION } from "../federal-top-income-tax-law";
 import { GROW_DEFENSE_SPENDING_QUESTION } from "../federal-defense-spending";
@@ -16,6 +17,7 @@ import type {
   World,
 } from "../types";
 import {
+  FEDERAL_LAW_EFFECTS,
   FEDERAL_INTEREST_RATE,
   FEDERAL_OUTLAYS,
   FEDERAL_RECEIPTS,
@@ -26,10 +28,35 @@ import {
   type FederalTreasury,
 } from "./federal-treasury";
 
+import { smallWorld } from "../../../tests/fixtures/small-world";
+import { lifePlaceStateIdentities } from "../life-places";
+import { stableHash } from "../ids";
+import { isTerritory } from "../statutory-tax-rules";
+import { createOrganization, createWorkRelationship } from "../life";
+import {
+  createResourcePosition,
+  createWorkCompensation,
+  recordResourceTransferOutcome,
+  money,
+} from "../resources";
+import { resourcePositionAt } from "../resource-queries";
+import { assessPaychecksTaxes, FEDERAL_INCOME_TAX_KEY } from "../statutory-tax";
+import { deserializeWorld, serializeWorld } from "../serialization";
+import { ensureTaxPublicAccount, publicOrganizationKey } from "../tax-policy";
+import { ensureNationalElectionJurisdiction } from "../national-election-geography";
+import {
+  withOpenedBudgets,
+  PUBLIC_BUDGETS_VERSION,
+  type PublicBudgetStore,
+} from "./index";
+import { readMonthFlows, settleGovernmentMonth } from "./month";
+import { personName } from "../people";
+
 /**
  * The federal books: each month collects and spends a twelfth of fiscal
  * 2025, borrows the gap, and pays interest on what it owes; a federal law on
- * the top income tax rate moves the income tax line from the next tax year.
+ * the top income tax rate has no second forecast share. Actual paycheck
+ * receipts below exercise the common government account/settlement path.
  * Read over hand-written laws: the treasury reads nothing but the catalog
  * and the laws.
  */
@@ -149,32 +176,22 @@ describe("the federal treasury", () => {
     expect(first!.laws).toEqual([]);
   });
 
-  it("collects 1.51% more income tax from the tax year after a top-rate raise, and stops after a repeal", () => {
+  it("does not add a second top-rate treasury share before adoption or after repeal", () => {
     const raise = enacted("yes", "2026-04-01");
     const repeal = enacted("no", "2028-07-01");
     const months = ["2026-12-01", "2027-01-01", "2028-12-01", "2029-01-01"];
     const none = settleThrough(lawWorld([]), months).months;
     const withLaws = settleThrough(lawWorld([raise, repeal]), months).months;
-    const ratio = (index: number) =>
-      withLaws[index]!.receipts[income]! / none[index]!.receipts[income]!;
-    expect(ratio(0)).toBe(1);
-    expect(ratio(1)).toBeCloseTo(1.0151, 4);
-    expect(ratio(2)).toBeCloseTo(1.0151, 4);
-    expect(ratio(3)).toBe(1);
-    expect(withLaws[1]!.laws).toEqual([
-      {
-        questionKey: RAISE_TOP_FEDERAL_RATE_QUESTION,
-        measureId: raise.measure.id,
-        line: "individualIncomeTax",
-        amount: withLaws[1]!.receipts[income]! - none[1]!.receipts[income]!,
-      },
-    ]);
-    // 1.51% of a twelfth of fiscal 2025's $2,656.0 billion: about $3.3 billion
-    // a month, which the government no longer borrows.
-    expect(withLaws[1]!.laws[0]!.amount / 1e9).toBeCloseTo(3.34, 1);
-    expect(withLaws[3]!.debtHeldByPublic).toBeLessThan(
-      none[3]!.debtHeldByPublic,
-    );
+    expect(
+      FEDERAL_LAW_EFFECTS.some(
+        (row) => row.questionKey === RAISE_TOP_FEDERAL_RATE_QUESTION,
+      ),
+    ).toBe(false);
+    for (const [index, row] of withLaws.entries()) {
+      expect(row.receipts[income]).toBe(none[index]!.receipts[income]);
+      expect(row.laws).toEqual([]);
+      expect(row.debtHeldByPublic).toBe(none[index]!.debtHeldByPublic);
+    }
   });
 
   it("spends 6.72% more on international affairs under a foreign aid law, and $150 billion a year less under debt-limit cuts", () => {
@@ -236,4 +253,220 @@ describe("the federal treasury", () => {
     ]);
     expect(withLaws[1]!.laws[0]!.measureId).toBe(build.measure.id);
   });
+});
+
+const CASH_SEED = "a29-one-federal-tax-receipt-all56";
+const cashPlaces = [...lifePlaceStateIdentities()]
+  .sort((a, b) =>
+    stableHash(`${CASH_SEED}:${a.jurisdictionKey}`).localeCompare(
+      stableHash(`${CASH_SEED}:${b.jurisdictionKey}`),
+    ),
+  )
+  .filter((place) => !isTerritory(place.jurisdictionKey))
+  .slice(0, 5);
+
+describe("A29 recorded federal income payments are counted once", () => {
+  it.each(cashPlaces)(
+    "keeps one income allocation in shared cash settlement for $jurisdictionKey",
+    ({ jurisdictionKey }) => {
+      const f = smallWorld({
+        place: jurisdictionKey,
+        date: "2026-01-05",
+        people: 3,
+        seed: `${CASH_SEED}:${jurisdictionKey}`,
+      });
+      let world = ensureTaxPublicAccount(
+        ensureNationalElectionJurisdiction(f.world),
+        NATIONAL_ELECTION_JURISDICTION.id,
+      );
+      const federalAccount = world.history.organizations.find(
+        (row) =>
+          row.stableKey ===
+          publicOrganizationKey(NATIONAL_ELECTION_JURISDICTION.id),
+      )!;
+      const owner = {
+        kind: "organization" as const,
+        organizationId: federalAccount.id,
+      };
+      const opening = resourcePositionAt(
+        world,
+        owner,
+        money(0, "USD").currency,
+      )!.liquidBalance.minorUnits;
+      const provenance = {
+        kind: "authored" as const,
+        note: "Controlled recorded paycheck, not a natural wage or researched taxpayer count.",
+      };
+      world = createOrganization(world, {
+        stableKey: "a29:employer",
+        formedAt: world.currentDate,
+        provenance,
+        initialProfile: {
+          name: "Recorded employer",
+          classification: "enterprise:retail",
+          locationJurisdictionId: f.stateJurisdictionId,
+        },
+      });
+      const organizationId = world.history.organizations.at(-1)!.id;
+      world = createWorkRelationship(world, {
+        stableKey: "a29:work",
+        personId: f.personId,
+        organizationId,
+        startedAt: world.currentDate,
+        kind: "employment:employee",
+        compensation: "paid",
+        authority: "directed",
+        dependency: "dependent",
+        economicRisk: "organization-borne",
+        provenance,
+        initialRole: {
+          title: "Recorded worker",
+          occupationClassification: null,
+          locationJurisdictionId: f.stateJurisdictionId,
+          timeDemand: {
+            expectedWeekly: { minimumHours: 40, maximumHours: 40 },
+            attention: "moderate",
+            concurrency: "mostly-exclusive",
+            scheduleRigidity: "rigid",
+            interruptibility: "limited",
+            locationJurisdictionId: f.stateJurisdictionId,
+          },
+        },
+      });
+      const workRelationshipId = world.history.workRelationships.at(-1)!.id;
+      world = createResourcePosition(world, {
+        stableKey: "a29:employer-cash",
+        owner: { kind: "organization", organizationId },
+        openedAt: world.currentDate,
+        openingBalance: money(10_000_000, "USD"),
+        provenance,
+      });
+      world = createResourcePosition(world, {
+        stableKey: "a29:worker-cash",
+        owner: { kind: "person", personId: f.personId },
+        openedAt: world.currentDate,
+        openingBalance: money(0, "USD"),
+        provenance,
+      });
+      world = createWorkCompensation(world, {
+        stableKey: "a29:pay",
+        workRelationshipId,
+        startsAt: world.currentDate,
+        amount: money(10_000_000, "USD"),
+        cadenceKind: "schedule:weekly",
+        restrictionKind: null,
+        jurisdictionId: f.stateJurisdictionId,
+        provenance,
+      });
+      const flow = world.history.resourceFlows.at(-1)!;
+      world = recordResourceTransferOutcome(world, {
+        stableKey: "a29:pay-completed",
+        resourceFlowId: flow.id,
+        periodStartsAt: world.currentDate,
+        periodEndsAt: world.currentDate,
+        occurredAt: world.currentDate,
+        status: "completed",
+        attemptedAmount: money(10_000_000, "USD"),
+        transferredAmount: money(10_000_000, "USD"),
+        reasonKind: null,
+        note: provenance.note,
+        provenance,
+      });
+      const payId = world.history.resourceTransferOutcomes.at(-1)!.id;
+      world = assessPaychecksTaxes(world, [payId]);
+      const liabilities = world.history.statutoryTaxLiabilities!.filter(
+        (row) =>
+          row.sourceOutcomeId === payId &&
+          row.taxKey === FEDERAL_INCOME_TAX_KEY,
+      );
+      expect(liabilities).toHaveLength(1);
+      const liability = liabilities[0]!;
+      expect(liability.liability!.minorUnits).toBeGreaterThan(0);
+      const payments = world.history.statutoryTaxPayments!.filter(
+        (row) => row.liabilityId === liability.id,
+      );
+      expect(payments).toHaveLength(1);
+      expect(payments[0]!.amount).toEqual(liability.liability);
+      const month = makeIsoDate("2026-01-01");
+      const empty: PublicBudgetStore = {
+        version: PUBLIC_BUDGETS_VERSION,
+        cursor: { flows: 0, outcomes: 0 },
+        governments: [],
+        adjustments: [],
+        unknown: [],
+      };
+      const budgets = withOpenedBudgets(world, empty, month);
+      const government = budgets.federalGovernment!;
+      const read = readMonthFlows(world, budgets);
+      const actual = read.flows.recorded!.get(government.key)!;
+      expect(actual.revenueMinorUnits[income]).toBe(
+        payments[0]!.amount.minorUnits,
+      );
+      expect(actual.sourceRecordIds).toContain(payments[0]!.resourceOutcomeId);
+      // The balance includes actual payroll taxes too; income is its own allocation.
+      const transfers = world.history.resourceTransferOutcomes.filter(
+        (outcome) =>
+          world.history.resourceFlows.find(
+            (row) => row.id === outcome.resourceFlowId,
+          )?.recipient.kind === "organization" &&
+          (
+            world.history.resourceFlows.find(
+              (row) => row.id === outcome.resourceFlowId,
+            )!.recipient as { organizationId: EntityId }
+          ).organizationId === federalAccount.id,
+      );
+      expect(
+        resourcePositionAt(world, owner, money(0, "USD").currency)!
+          .liquidBalance.minorUnits,
+      ).toBe(
+        opening +
+          transfers.reduce(
+            (sum, row) => sum + row.transferredAmount.minorUnits,
+            0,
+          ),
+      );
+      const settled = settleGovernmentMonth(
+        world,
+        government,
+        month,
+        read.flows,
+      ).government;
+      expect(settled.months.at(-1)!.revenue[income]).toBe(
+        payments[0]!.amount.minorUnits / 100,
+      );
+      expect(settled.months.at(-1)!.cashSettlement.sourceRecordIds).toContain(
+        payments[0]!.resourceOutcomeId,
+      );
+      const restored = deserializeWorld(serializeWorld(world));
+      const repeated = assessPaychecksTaxes(restored, [payId]);
+      expect(repeated.history.statutoryTaxLiabilities).toEqual(
+        world.history.statutoryTaxLiabilities,
+      );
+      expect(repeated.history.statutoryTaxPayments).toEqual(
+        world.history.statutoryTaxPayments,
+      );
+      expect(repeated.history.resourceTransferOutcomes).toEqual(
+        world.history.resourceTransferOutcomes,
+      );
+      const restoredRead = readMonthFlows(repeated, budgets);
+      expect(
+        restoredRead.flows.recorded!.get(government.key)!.revenueMinorUnits[
+          income
+        ],
+      ).toBe(payments[0]!.amount.minorUnits);
+      stdout.write(
+        JSON.stringify({
+          place: jurisdictionKey,
+          person: personName(world.people[f.personId]!),
+          personId: f.personId,
+          payId,
+          liabilityId: liability.id,
+          paymentId: payments[0]!.id,
+          transferId: payments[0]!.resourceOutcomeId,
+          incomeMinor: payments[0]!.amount.minorUnits,
+          accountId: federalAccount.id,
+        }) + "\n",
+      );
+    },
+  );
 });
