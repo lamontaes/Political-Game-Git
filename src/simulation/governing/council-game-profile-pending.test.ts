@@ -16,7 +16,8 @@ import {
   enrollMeasure,
   recordEnactment,
 } from "../legislation";
-import { addDays } from "../dates";
+import { addDays, daysBetween } from "../dates";
+import { advanceWorld } from "../world";
 import { operativeDateForEnactment } from "../legislative-effective-date";
 import { applyEnactedLawEffects } from "../enacted-law-effects";
 import { createFormationContext, recordPrinciples } from "../politics";
@@ -101,7 +102,7 @@ describe("council filing follows the saved effective-date game profile", () => {
   });
 
   it.each(controls)(
-    "keeps the saved $days-day profile after a missing date cache and Continue in $place.key",
+    "keeps the saved $days-day profile across the clock and Continue, and refuses a missing cache in $place.key",
     ({ unit, place, pack, days }) => {
       const opening = smallWorld({ place: place.key, seed });
       let world = ensureLocalGovernmentSeatsForUnit(
@@ -219,12 +220,12 @@ describe("council filing follows the saved effective-date game profile", () => {
         operativeDateForEnactment(world.history.legislativeEnactments![0]!),
       ).toEqual({ date: operativeAt, basis: "game-default" });
       world = views(world, members, question, false);
-      // These are controlled consumer-date inputs, not a world-clock advance.
-      const atDate = (at: World, date: World["currentDate"]): World => ({
-        ...at,
-        currentDate: date,
-        currentMoment: { ...at.currentMoment, date },
-      });
+      // The canonical clock dispatches pending work instead of skipping due
+      // records when the saved effective date lies in the future.
+      const atDate = (at: World, date: World["currentDate"]): World => {
+        const elapsed = daysBetween(at.currentDate, date);
+        return elapsed === 0 ? at : advanceWorld(at, elapsed);
+      };
       if (days > 0) {
         const before = atDate(world, addDays(operativeAt, -1));
         expect(
