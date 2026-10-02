@@ -255,18 +255,19 @@ const FORM_PHRASES: Readonly<Record<string, string>> = {
   CONSOLIDATED_CITY_COUNTY: "a consolidated city and county government",
 };
 
-const INSTITUTION_NOUNS: Readonly<Record<string, string>> = {
-  "service:school": "a school",
-  "service:college": "a college",
-  "service:library": "a library",
-  "service:state-agency": "a state agency",
-  "service:municipal-government": "the municipal government",
-  "service:county-government": "the county government",
-  "service:court-workplace": "a court",
-  "service:training": "a training program",
-  "sector:government": "a government office",
-  "sector:public": "a public body",
-  "community:civic": "a civic organization",
+// A specific saved service classification supports its purpose, not a claim
+// about attendance, staffing, opening hours or services currently delivered.
+// Broad public-sector classifications do not establish a particular purpose.
+const INSTITUTION_PURPOSES: Readonly<Record<string, string>> = {
+  "service:school": "school education",
+  "service:private-school": "private schooling",
+  "service:college": "higher education",
+  "service:library": "books and information",
+  "service:court-workplace": "court proceedings",
+  "service:training": "learning skills",
+  "service:hospital": "hospital care",
+  "service:clinic": "medical care",
+  "service:nursing-home": "nursing care",
 };
 
 function projectStanding(
@@ -311,6 +312,8 @@ function projectStanding(
       continue;
     }
     if (!isPublicInstitutionClassification(profile.classification)) continue;
+    const purpose = INSTITUTION_PURPOSES[profile.classification];
+    if (!purpose) continue;
     // Only an organization the World actually locates is said to be "in" a
     // place; an unlocated one is described without a place.
     const locatedIn = profile.locationJurisdictionId
@@ -321,11 +324,7 @@ function projectStanding(
       key: `institution:${organization.id}`,
       kind: "institution",
       headline: profile.name,
-      sentence: institutionSentence(
-        profile.name,
-        INSTITUTION_NOUNS[profile.classification] ?? "a public institution",
-        locatedIn,
-      ),
+      sentence: institutionSentence(profile.name, purpose, locatedIn),
       recordId: organization.id,
     });
   }
@@ -378,12 +377,12 @@ function governmentSentence(
 
 function institutionSentence(
   name: string,
-  noun: string,
+  purpose: string,
   placeName: string | null,
 ): string {
   return placeName
-    ? `${name} is ${noun} in ${placeName}.`
-    : `${name} is ${noun}.`;
+    ? `${name} is a place for ${purpose} in ${placeName}.`
+    : `${name} is a place for ${purpose}.`;
 }
 
 /**
