@@ -1130,13 +1130,6 @@
       "code": "if (draw < 0) return row;"
     },
     {
-      "file": "src/simulation/press/ownership.ts",
-      "kind": "roll",
-      "build": "Build 23",
-      "count": 1,
-      "code": "if (rng.next() >= practice.likelihoodPerReview) continue;"
-    },
-    {
       "file": "src/simulation/recall.ts",
       "kind": "fixed-share",
       "build": "Build 24",

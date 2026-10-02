@@ -1,14 +1,6 @@
 import { makeIsoDate } from "../dates";
 import { createStableId } from "../ids";
-import { canonicalStateJurisdictionId } from "../state-jurisdiction-id";
-import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
-import { lifePlaceByKey } from "../life-places";
-import { municipalGovernments } from "../municipal-government";
-import {
-  budgetCandidates,
-  openGovernmentBudget,
-  type BudgetCandidate,
-} from "../public-budgets/opening";
+import { researchedPublicCashOpeningProfile } from "../public-budgets/opening-cash-profile";
 import { SeededRng } from "../rng";
 import {
   drawLegislativeStartingProcedures,
@@ -36,74 +28,15 @@ import type {
   WorldOpeningVersion,
   PublicCashOpeningProfile,
 } from "./types";
-import {
-  CRUNCH46_WORLD_OPENING_VERSION,
-  PUBLIC_CASH_OPENING_PROFILE_VERSION,
-} from "./types";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "./types";
 
 const KEY = "world-setup:crunch46-v1";
 
-/** Saves researched balance-plus-reserve estimates once at Begin. */
+/** Saves the budget adapter's researched estimates once at Begin. */
 export function drawPublicCashOpeningProfile(
   world: World,
 ): PublicCashOpeningProfile {
-  const today = makeIsoDate(world.currentDate);
-  const candidates = budgetCandidates(world).candidates;
-  const cash = (candidate: BudgetCandidate): number | null => {
-    const opening = openGovernmentBudget(world, candidate, today);
-    if (typeof opening === "string") return null;
-    const amount = Math.round((opening.balance + opening.reserve) * 100);
-    if (!Number.isSafeInteger(amount) || amount <= 0)
-      throw new Error(`Invalid researched opening cash for ${candidate.key}.`);
-    return amount;
-  };
-  let localAmounts = candidates
-    .filter((candidate) => candidate.level !== "state")
-    .map(cash)
-    .filter((amount): amount is number => amount !== null);
-  // A world with no local government uses the available municipal-profile
-  // cohort, each government's existing researched estimate counted once.
-  if (localAmounts.length === 0) {
-    localAmounts = municipalGovernments().flatMap((government) => {
-      const place = government.placeGeoid
-        ? lifePlaceByKey(government.placeGeoid)
-        : null;
-      if (!place?.stateJurisdictionKey) return [];
-      const amount = cash({
-        key: `place:${government.placeGeoid}`,
-        jurisdictionId: place.context.jurisdiction.id,
-        lawJurisdictionId: place.context.jurisdiction.id,
-        level: "city",
-        name: government.displayName,
-        stateKey: place.stateJurisdictionKey,
-        geoid: government.placeGeoid,
-      });
-      return amount === null ? [] : [amount];
-    });
-  }
-  if (localAmounts.length === 0)
-    throw new Error("No researched local opening estimates are available.");
-  return {
-    contractVersion: PUBLIC_CASH_OPENING_PROFILE_VERSION,
-    // Federal cash has no researched source yet; preserve the existing value.
-    federalMinorUnits: 100_000_000_000, // $1 billion
-    stateByJurisdictionId: Object.fromEntries(
-      US_STATE_USPS.map((usps) => {
-        const id = canonicalStateJurisdictionId(`US-${usps}`);
-        if (!id) throw new Error(`Missing state identity for ${usps}.`);
-        const candidate = candidates.find((row) => row.jurisdictionId === id);
-        const amount = candidate ? cash(candidate) : null;
-        if (amount === null)
-          throw new Error(`Missing researched opening cash for ${usps}.`);
-        return [id, amount];
-      }),
-    ),
-    // ESTIMATED FROM AVERAGE: available local budget stocks, not receipts.
-    localMinorUnits: Math.round(
-      localAmounts.reduce((total, amount) => total + amount, 0) /
-        localAmounts.length,
-    ),
-  };
+  return researchedPublicCashOpeningProfile(world);
 }
 
 /** Streams are domain-separated forks of the world seed; UI never draws here. */
