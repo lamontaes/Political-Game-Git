@@ -1,4 +1,7 @@
-import { evaluateTownCoupleActors } from "./town-couple-actor-adapter";
+import {
+  evaluateTownCoupleActors,
+  evaluateTownDateProposal,
+} from "./town-couple-actor-adapter";
 /**
  * The town's families change as time passes: people start dating, move in
  * together, marry, break up and have children.
@@ -58,7 +61,6 @@ import {
 import { householdMembershipsAt } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { personName } from "../people";
-import { SeededRng } from "../rng";
 import type {
   EntityId,
   IsoDate,
@@ -124,15 +126,6 @@ export const TOWN_FAMILY_CHANCES = {
 export const TOWN_DATING_AGE_GAP = 8;
 
 const QUIET_AFTER_ENDING_DAYS = 365;
-
-function byAge(
-  table: readonly (readonly [number, number])[],
-  age: number,
-): number {
-  let chance = 0;
-  for (const [from, value] of table) if (age >= from) chance = value;
-  return chance;
-}
 
 interface Couple {
   readonly partnership: Partnership;
@@ -399,8 +392,6 @@ export function reviewTownFamilies(
   const view = readFamilies(world, town);
   if (view.people.size === 0) return world;
   const today = view.today;
-  const rngFor = (key: string) =>
-    new SeededRng(world.seed).fork(`${prefix}${key}`);
   const touched = new Set<EntityId>();
   const isPlayer = (id: EntityId) => id === playerPersonId;
   let next = world;
@@ -787,10 +778,6 @@ export function reviewTownFamilies(
   );
   for (const seeker of singles) {
     if (paired.has(seeker.person.id)) continue;
-    const rng = rngFor(`single:${seeker.person.id}`);
-    let chance = byAge(TOWN_FAMILY_CHANCES.dateByAge, seeker.age);
-    chance *= view.working.has(seeker.person.id) ? 1.2 : 0.85;
-    if (rng.fork("looks").next() >= chance) continue;
     const kin = view.kin.get(seeker.person.id);
     const candidates = singles.filter(
       (other) =>
@@ -801,7 +788,16 @@ export function reviewTownFamilies(
         drawnToEachOther(seekers, seeker.person, other.person),
     );
     if (candidates.length === 0) continue;
-    const match = candidates[rng.fork("who").integer(0, candidates.length)]!;
+    const recipient = evaluateTownDateProposal(
+      next,
+      `${prefix}single:${seeker.person.id}`,
+      seeker.person.id,
+      candidates.map((row) => row.person.id),
+    );
+    const match = recipient
+      ? candidates.find((row) => row.person.id === recipient)
+      : null;
+    if (!match) continue;
     const ids = [seeker.person.id, match.person.id] as const;
     const key = `dating:${[...ids].sort().join(":")}`;
     const provenance = event(
