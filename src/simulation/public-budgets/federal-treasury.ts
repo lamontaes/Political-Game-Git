@@ -354,6 +354,7 @@ export function settleFederalTreasuryMonth(
 
 /** Existing intercity rail payments use transportation; unclassified ones remain explicit. */
 export function federalProgramLine(programKey: string): FederalOutlay {
+  if (programKey.split(":")[0] === "farm") return "agriculture";
   return programKey.split(":")[0] === "passenger-rail"
     ? "transportation"
     : "otherPrograms";
