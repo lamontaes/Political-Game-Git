@@ -1,0 +1,149 @@
+{
+  "status": "domain input for Audit sole schema/query/catalog implementation; no category admission or full Medicaid delivery claim",
+  "retrievedOn": "2026-10-02",
+  "sources": [
+    {
+      "key": "federal-adults",
+      "url": "https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+      "sha256": "8105999eb4192642d5fa7ca810e7c5cc2de7963e7a895471903e10e1e890a93a",
+      "bytes": 83968,
+      "retrievedOn": "2026-10-02"
+    },
+    {
+      "key": "magi",
+      "url": "https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-C/part-435/subpart-G/section-435.603",
+      "sha256": "c23b670c623e891ad52d1d6c9882719f265128439ed5cb402dc28c7ca2042931",
+      "bytes": 107776,
+      "retrievedOn": "2026-10-02"
+    },
+    {
+      "key": "cms-work",
+      "url": "https://www.cms.gov/newsroom/fact-sheets/medicaid-community-engagement-requirement-certain-individuals-interim-final-rule-comment-period-cms",
+      "sha256": "30db23373b5f2d47940b8001e5e134a4452f46b629e91c95d7ecf17598c87da1",
+      "bytes": 59814,
+      "retrievedOn": "2026-10-02"
+    },
+    {
+      "key": "mt-work",
+      "url": "https://dphhs.mt.gov/News/2026/June/MT-Medicaid-Community-Engagement-July-1",
+      "sha256": "c16621926e263da9cb1fd84a00ba2f511b99ffcb7ebb6b1c8c26f98bab312bdf",
+      "bytes": 83458,
+      "retrievedOn": "2026-10-02"
+    },
+    {
+      "key": "ne-work",
+      "url": "https://dhhs.ne.gov/Pages/WorkRequirements.aspx",
+      "sha256": "6e481fdd3978cd7bcd0459f8f2cf302ebf3812e031ba4c180cbddd08d68cf3cf",
+      "bytes": 235428,
+      "retrievedOn": "2026-10-02"
+    },
+    {
+      "key": "gu-spa",
+      "url": "https://www.medicaid.gov/medicaid/spa/downloads/GU-21-0002.pdf",
+      "sha256": "222721d5e16f913c545be696894320b7d77c33a854796ef798246073ea31b6b4",
+      "bytes": 97730,
+      "retrievedOn": "2026-10-02"
+    },
+    {
+      "key": "gu-current",
+      "url": "https://www.medicaid.gov/state-overviews/guam.html",
+      "sha256": "2bb876cd36707642a53e15bbea5640e7e4c3c24f834411f8f9c0bf569f4c905e",
+      "bytes": 143632,
+      "retrievedOn": "2026-10-02"
+    },
+    {
+      "key": "pr-spa",
+      "url": "https://www.medicaid.gov/medicaid/spa/downloads/PR-23-0003.pdf",
+      "sha256": "9633b6e82ed210792ed5b6b03a92b1f16c2e5ac5d321d36d9b0d697e4498c554",
+      "bytes": 464277,
+      "retrievedOn": "2026-10-02"
+    },
+    {
+      "key": "pr-current",
+      "url": "https://www.medicaid.gov/state-overviews/puerto-rico.html",
+      "sha256": "9028ca93f5484b0ffed86e3ab4dcb0b2291436002e72d1a7e84716021d3d4dd6",
+      "bytes": 148352,
+      "retrievedOn": "2026-10-02"
+    },
+    {
+      "key": "vi-current",
+      "url": "https://dhs.vi.gov/office-of-medicaid/",
+      "sha256": "67d44379f4d5f738522df7db403412f2e144531c8045e80ff4a3c74cdba63b37",
+      "bytes": 140957,
+      "retrievedOn": "2026-10-02"
+    },
+    {
+      "key": "cms-levels",
+      "url": "https://www.medicaid.gov/medicaid/national-medicaid-chip-program-information/medicaid-childrens-health-insurance-program-basic-health-program-eligibility-levels",
+      "sha256": "6ea34cde3d155386b21faf6f87357daf2ede59b475fa2e01e77cb1feb68fa4ce",
+      "bytes": 139969,
+      "retrievedOn": "2026-10-02"
+    }
+  ],
+  "scalarDelta": {
+    "expansionIncomeLimitRows": 40,
+    "workHoursRows": ["US", "US-MT", "US-NE"],
+    "preservedUnfilledScalars": [
+      "US-DC income-limit",
+      "US-GU income-limit",
+      "US-PR income-limit",
+      "US-VI income-limit",
+      "US-GA hours",
+      "US-IA hours"
+    ]
+  },
+  "proposedClosedVocabularies": {
+    "eligibility": {
+      "values": ["aca-adult-group"],
+      "sourceKeys": ["federal-adults"],
+      "meaning": "42 CFR435.119 adult group: age19 through64, nonpregnant, not entitled to/enrolled in Medicare PartA/B, not otherwise eligible for/enrolled in mandatory coverage. Dependent-child enrollment in minimum essential coverage remains a separate condition for parent/caretaker. Values label the group, not proof that a person satisfies all conditions.",
+      "unresolved": [
+        "DC childless age21 through64 and parent group must remain distinct; source URL403 on this executor.",
+        "GU/PR/VI actual territorial group/financial tables must be preserved; federal work law excludes territories.",
+        "Existing household income is recorded compensation, not full MAGI; unknown source earnings cannot be zero."
+      ]
+    },
+    "exemptions": {
+      "values": [
+        "former-foster-care-youth",
+        "american-indian-or-alaska-native",
+        "parent-guardian-caretaker-or-family-caregiver-of-child-age13-or-younger",
+        "caregiver-of-disabled-person",
+        "veteran-with-total-disability-rating",
+        "medically-frail-or-special-medical-needs-impairing-compliance",
+        "tanf-work-compliant-or-snap-household-member-subject-to-and-compliant-with-work-requirements",
+        "drug-or-alcohol-rehabilitation-or-treatment-participant",
+        "inmate-of-public-institution",
+        "pregnant-or-state-postpartum-covered"
+      ],
+      "sourceKeys": ["cms-work", "mt-work", "ne-work"],
+      "unresolved": [
+        "Not a school enrollment exemption: at least half-time education is a compliance alternative.",
+        "Any child in household does not establish that this adult is the recorded parent/guardian/caregiver.",
+        "Pregnancy/postpartum interval, foster care age, disability rating and tribal criteria require actual saved facts.",
+        "Prior incarceration is a dated compliance/exclusion condition; do not flatten to current-inmate status.",
+        "Optional temporary hardships require the actual person/county/month and chosen state option.",
+        "GA Pathways qualifying activities and exemptions are a separate contract; source URL403 on this executor.",
+        "IA own page403 on this executor; source verification remains open."
+      ]
+    }
+  },
+  "workRuleTiming": {
+    "US": "Generally starts1/1/2027; applicants and renewals plus state option for between-renewal verification; at least30days to show compliance/exemption when unverified; excludes territories.",
+    "US-MT": "Starts7/1/2026;80hours qualifying activities monthly reviewed at next redetermination.",
+    "US-NE": "Starts5/1/2026; applicants generally prior month; current members at leastone qualifying/exempt/hardship month since last renewal; first checks for coverage periods ending7/31/2026; May/June2026 renewals wait2027. No automatic universal monthly loss.",
+    "alternatives": "CMS/NE:80 qualifying activity hours OR half-time education OR earned monthlyincome >=80×federalminimumwage; seasonalworker calculation distinct."
+  },
+  "territoryFindings": {
+    "US-GU": "Approved GU-21-0002 effective1/1/2021 states138%local equivalent150%federal. Current CMS overview contains an older-looking dollar table without an effective date; current annual local-basis continuation must be resolved before scalar is installed.",
+    "US-PR": "PR-23-0003 approved2/1/2024 effective7/1/2023 elects FPL (PDF page7 OCR). CMS current table effective4/1/2026–4/2027 states $1835/$2489/$3142/$3795 monthly for household1–4. These are rounded monthly ceilings, not by themselves an exact ACA-adult-group ratio. Old117.3% estimate withdrawn.",
+    "US-VI": "Current DHS page: categorically eligible one-person income standard$15654; aged/blind/disabled$20833. No dated full adult household-size table found, no guessed FPL ratio.",
+    "US-DC": "Transferred official page distinguishes childless21–64/new138%2026 from old215%childless/221%parent. Fresh primary page403; no historical flattening."
+  },
+  "unsupportedRuntimeBindings": [
+    "Audit published category/date/query contract not yet received.",
+    "No actual work/reporting/renewal/grace/exemption evidence join admitted here.",
+    "Financial ratio reader can consume existing canonical terms; no global default when missing.",
+    "No paid expenditure/reimbursement/payment producer; O1 alone owns that task."
+  ]
+}

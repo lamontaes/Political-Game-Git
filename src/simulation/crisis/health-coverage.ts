@@ -4,7 +4,7 @@
  *
  * Coverage is decided from the person, the law and the place, never a roll:
  * an adult aged 19 to 64 whose household's recorded pay is at or under the
- * program's share of the poverty line, living in a state whose law in force
+ * governing law's recorded share of the poverty line, living in a state whose law in force
  * expands Medicaid, is covered. Where a work requirement is in force (a
  * state's own, or the federal one from its operative date), an adult who
  * works under the required hours a month, and is not exempt, loses it.
@@ -37,6 +37,7 @@ import programs from "../../../data/research/money/public-programs-2026.json" wi
 import { ageOnDate, isoDateFromParts, yearOf } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import type { LawInForce } from "../governing/law-in-force";
+import { readFinalEnactedLawTerm } from "../governing/final-law-term-query";
 import { readEligibilityLawsInForce } from "../enacted-eligibility";
 import { COVERAGE_QUESTION_KEYS } from "../law-consequences/coverage-eligibility-rows";
 import { lawEffectStamp } from "../law-effect-stamp";
@@ -124,7 +125,8 @@ export interface CoverageDecision {
    * `covered`, `lost:work-requirement`, or why the person is outside the
    * program: `outside:age`, `outside:no-expansion`, `outside:income`,
    * `outside:income-unrecorded`, `outside:no-household`,
-   * `outside:no-residence`, `outside:law-unrecorded`.
+   * `outside:no-residence`, `outside:law-unrecorded`,
+   * `outside:terms-unrecorded`.
    */
   readonly reasonKey: string;
   readonly stateKey: string | null;
@@ -132,11 +134,16 @@ export interface CoverageDecision {
   readonly monthlyIncomeMinor: number;
   readonly monthlyWorkHours: number | null;
   readonly expansion: LawInForce | null;
+  /** The financial ceiling in the actual governing text; missing is not a default. */
+  readonly incomeLimitRatio: number | null;
 }
 
 interface PassCache {
   readonly pay: ReadonlyMap<EntityId, number>;
-  readonly laws: Map<string, readonly [LawInForce | null, LawInForce | null]>;
+  readonly laws: Map<
+    string,
+    readonly [LawInForce | null, LawInForce | null, number | null]
+  >;
 }
 
 function statePrograms(
@@ -144,7 +151,7 @@ function statePrograms(
   stateKey: string,
   onDate: IsoDate,
   cache: PassCache,
-): readonly [LawInForce | null, LawInForce | null] {
+): readonly [LawInForce | null, LawInForce | null, number | null] {
   const cached = cache.laws.get(stateKey);
   if (cached) return cached;
   const state = stateJurisdictionForKey(stateKey);
@@ -156,9 +163,23 @@ function statePrograms(
         onDate,
       )
     : new Map<string, LawInForce | null>();
+  const expansion = read.get(COVERAGE_QUESTION_KEYS.expansion) ?? null;
+  // A preview uses text already operative and recorded today. Future phases
+  // remain unresolved; the canonical term query is never asked to invent them.
+  const termDate = onDate > world.currentDate ? world.currentDate : onDate;
+  const incomeLimit =
+    expansion && expansion.operativeAt <= termDate
+      ? readFinalEnactedLawTerm(world, expansion, {
+          questionKey: COVERAGE_QUESTION_KEYS.expansion,
+          termKey: "income-limit",
+          unit: "ratio",
+          onDate: termDate,
+        })
+      : null;
   const laws = [
-    read.get(COVERAGE_QUESTION_KEYS.expansion) ?? null,
+    expansion,
     read.get(COVERAGE_QUESTION_KEYS.workRequirement) ?? null,
+    incomeLimit && incomeLimit.value > 0 ? incomeLimit.value : null,
   ] as const;
   cache.laws.set(stateKey, laws);
   return laws;
@@ -180,6 +201,7 @@ function decide(
     monthlyIncomeMinor: 0,
     monthlyWorkHours: null,
     expansion: null,
+    incomeLimitRatio: null,
   });
   const age = ageOnDate(person.birthDate, onDate);
   if (
@@ -193,7 +215,7 @@ function decide(
   // officials and public figures it holds by name only are left undecided.
   const household = householdMembershipsAt(world, personId, cutoff)[0];
   if (!household) return outside("outside:no-household", stateKey);
-  const [expansion, requirement] = statePrograms(
+  const [expansion, requirement, incomeLimitRatio] = statePrograms(
     world,
     stateKey,
     onDate,
@@ -202,6 +224,8 @@ function decide(
   if (!expansion) return outside("outside:law-unrecorded", stateKey);
   if (expansion.answer !== "yes")
     return outside("outside:no-expansion", stateKey);
+  if (incomeLimitRatio === null)
+    return outside("outside:terms-unrecorded", stateKey);
   const members = peopleInHouseholdAt(
     world,
     household.household.id,
@@ -221,14 +245,13 @@ function decide(
     members.reduce((sum, id) => sum + (cache.pay.get(id) ?? 0), 0),
   );
   const limit =
-    (annualPovertyLineMinor(stateKey, members.length, onDate) *
-      MEDICAID_EXPANSION_RULES.incomeLimitPercentOfPovertyLine) /
-    100;
+    annualPovertyLineMinor(stateKey, members.length, onDate) * incomeLimitRatio;
   const facts = {
     stateKey,
     householdSize: members.length,
     monthlyIncomeMinor,
     expansion,
+    incomeLimitRatio,
   };
   if (monthlyIncomeMinor * 12 > limit)
     return {
@@ -332,11 +355,11 @@ function basisFor(decision: CoverageDecision): string {
   const income = `household of ${decision.householdSize}, recorded pay ${spokenDollars(decision.monthlyIncomeMinor)} a month`;
   switch (decision.reasonKey) {
     case "covered":
-      return `Covered by Medicaid expansion in ${decision.stateKey}: ${income}, at or under ${MEDICAID_EXPANSION_RULES.incomeLimitPercentOfPovertyLine}% of the poverty line.`;
+      return `Covered by Medicaid expansion in ${decision.stateKey}: ${income}, at or under ${Math.round(decision.incomeLimitRatio! * 100)}% of the poverty line.`;
     case "lost:work-requirement":
       return `Lost Medicaid under the work requirement in ${decision.stateKey}: ${decision.monthlyWorkHours} hours of work a month, under the ${MEDICAID_EXPANSION_RULES.requiredHoursPerMonth} required, and no exemption.`;
     case "outside:income":
-      return `Earns too much for Medicaid expansion: ${income}, over ${MEDICAID_EXPANSION_RULES.incomeLimitPercentOfPovertyLine}% of the poverty line.`;
+      return `Earns too much for Medicaid expansion: ${income}, over ${Math.round(decision.incomeLimitRatio! * 100)}% of the poverty line.`;
     case "outside:no-expansion":
       return `The law in force in ${decision.stateKey} no longer expands Medicaid.`;
     case "outside:age":
@@ -353,6 +376,7 @@ export function coverageDecisionIsKnown(decision: CoverageDecision): boolean {
     "outside:no-household",
     "outside:income-unrecorded",
     "outside:law-unrecorded",
+    "outside:terms-unrecorded",
   ].includes(decision.reasonKey);
 }
 
