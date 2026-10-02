@@ -60,10 +60,11 @@ beforeAll(() => {
   );
   if (world.control.kind !== "person")
     throw Error("Actual controlled person required.");
+  const subject = world.control.personId;
   for (const stateKey of states)
     world = ensureStateLegislatureOpening(
       world,
-      world.control.personId,
+      subject,
       stateKey.slice(3),
     );
   // Supplied non-neutral affiliations on the actual saved President and
@@ -189,7 +190,7 @@ describe("saved presidential term-limit state votes survive the shared leaf extr
             expect(row.disposition).toBe(old.ballot);
             expect(row.reason).toBe(old.reason);
             compared++;
-            if (row.reason.includes("party"))
+            if (row.reason?.includes("party"))
               examples.push({
                 stateKey,
                 body: chamber.bodyKey,
