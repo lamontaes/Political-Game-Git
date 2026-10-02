@@ -32,6 +32,7 @@ import {
   greetAgainLine,
   matterUninformedLine,
   officialViewLine,
+  strongestLivedOutcomeView,
   strongestOfficialView,
   type SmallTalkLine,
 } from "./small-talk-english";
@@ -215,11 +216,12 @@ export function projectLifeConversation(
   // counterpart's answer depends on what their own records say they know.
   const matter = currentKnownMatter(world, playerPersonId);
   if (matter) intents.push("matter");
-  // Only someone who has formed a view of an official over a law they felt
-  // has one to give; a child is not asked.
+  // Only someone who has formed a view of an official, over a law they felt
+  // or something that happened to them, has one to give; a child is not asked.
   if (
     ageOnDate(world.people[personId]!.birthDate, world.currentDate) >= 18 &&
-    strongestOfficialView(world, personId) !== null
+    (strongestOfficialView(world, personId) !== null ||
+      strongestLivedOutcomeView(world, personId) !== null)
   )
     intents.push("officials");
   // Having asked to tell them something and been told to go ahead, the
