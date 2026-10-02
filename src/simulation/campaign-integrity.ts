@@ -1,3 +1,4 @@
+import { campaignFundraiserPayments } from "./campaign-money-source-queries";
 import { eventById } from "./event-index";
 import { assertCampaignLifeIntegrity } from "./campaign-life-integrity";
 import { contestDistrictGeography } from "./campaign-geography";
@@ -586,10 +587,39 @@ function assertCampaignMoney(
     return;
   }
 
-  const money =
-    action.kind === "fundraising" ? result.raisedAmount : result.spentAmount;
-  const unusedSide =
-    action.kind === "fundraising" ? result.spentAmount : result.raisedAmount;
+  if (action.kind === "fundraising") {
+    const completion = world.history.scheduledActivityStates.find(
+      (state) =>
+        state.activityId === action.scheduledActivityId &&
+        state.status === "completed" &&
+        state.sequence < result.sequence,
+    );
+    if (!completion?.outcomeEventId)
+      throw new Error("Fundraising has no recorded completed activity.");
+    const paid = campaignFundraiserPayments(world, {
+      eventId: completion.outcomeEventId,
+      committeeOrganizationId: campaign.organizationId,
+      currency: campaign.treasuryCurrency,
+      historySequenceExclusive: result.sequence,
+    });
+    const first = paid.receipts[0];
+    if (
+      result.spentAmount !== null ||
+      result.resourceFlowId !== (first?.resourceFlowId ?? null) ||
+      result.resourceOutcomeId !== (first?.id ?? null) ||
+      (first
+        ? result.raisedAmount?.minorUnits !== paid.totalMinorUnits ||
+          result.raisedAmount.currency !== campaign.treasuryCurrency
+        : result.raisedAmount !== null)
+    )
+      throw new Error(
+        `Campaign fundraising receipt linkage is invalid: ${result.id}`,
+      );
+    return;
+  }
+
+  const money = result.spentAmount;
+  const unusedSide = result.raisedAmount;
   if (!flow || !transfer || money === null || unusedSide !== null) {
     throw new Error(`Campaign ${action.kind} result is invalid: ${result.id}`);
   }
@@ -608,10 +638,10 @@ function assertCampaignMoney(
 
   // Which way the money went is the whole difference between the two, and the
   // committee has to be on the correct end of it.
-  const [expectedSource, expectedRecipient] =
-    action.kind === "fundraising"
-      ? [campaign.donorPoolOrganizationId, campaign.organizationId]
-      : [campaign.organizationId, campaign.advertisingVendorOrganizationId];
+  const [expectedSource, expectedRecipient] = [
+    campaign.organizationId,
+    campaign.advertisingVendorOrganizationId,
+  ];
   if (
     flow.source.kind !== "organization" ||
     flow.source.organizationId !== expectedSource ||
