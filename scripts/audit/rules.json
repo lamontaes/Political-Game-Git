@@ -2226,14 +2226,20 @@
         {
           "kind": "present",
           "file": "src/simulation/world.ts",
-          "pattern": "applyDateBoundary\\(",
-          "why": "the shared date boundary both clocks call (world.ts:1427, #1324)"
+          "pattern": "return advanceWorldMinutes\\(",
+          "why": "The compatibility day entry delegates to the canonical minute clock instead of applying the boundary twice."
         },
         {
           "kind": "present",
           "file": "src/simulation/time-work.ts",
           "pattern": "export function applyDateBoundary",
           "why": "the shared boundary lives with the minute clock (time-work.ts:2029)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/time-work.ts",
+          "pattern": "return applyDateBoundary\\(crossedFrom,",
+          "why": "The minute clock actually invokes its single shared date-boundary survivor."
         },
         {
           "kind": "absent",
@@ -2284,7 +2290,7 @@
           "why": "character-history.ts moves time on the minute clock"
         }
       ],
-      "note": "Two present checks pass (shared applyDateBoundary, #1324) and eight fail (the unchecked body, its own due-item resolution and the three callers), so partly as verified."
+      "note": "The compatibility day entry delegates to advanceWorldMinutes; setCurrentMoment invokes the shared applyDateBoundary. The legacy day body and separate due resolver must be absent, and the three callers must use the minute clock. Passing these source checks does not prove runtime parity, all-56 coverage, or speed."
     },
     "A4": {
       "covers": "part",
@@ -4864,13 +4870,17 @@
           "why": "the comparison is labeled as the game's model estimate"
         },
         {
-          "kind": "present",
+          "kind": "test",
           "file": "src/player/World39News.laws.test.tsx",
-          "pattern": "toContain\\(\".*([Ee]stimate|[Mm]odel)",
-          "why": "the screen test expects the model-estimate wording (World39News.laws.test.tsx:78)"
+          "assertion": {
+            "received": "markup",
+            "matcher": "toContain",
+            "value": "The game’s model estimates that without this change it would stand at"
+          },
+          "why": "The rendered News assertion requires the complete model-estimate label; formatting does not change the assertion."
         }
       ],
-      "note": "law-effects-here.ts:135 still prints the unlabeled sentence and nothing there says 'estimate' or 'model'; the screen test (World39News.laws.test.tsx:78) has no such wording: 0 of 3 pass, not-started as verified."
+      "note": "Source checks verify that the unlabeled sentence is absent, the comparison is labeled, and the rendered News test asserts the complete label. Scanner matches are source evidence, not an executed browser or gameplay result."
     },
     "A13": {
       "covers": "part",

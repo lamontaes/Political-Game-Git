@@ -10,7 +10,8 @@
  *            matches a line of `file`
  *   reader   `dataFile` is read by some non-test file under src/
  *   test     the test that proves a behavioral item exists on main: `file`
- *            exists and, when given, `pattern` matches its title line
+ *            exists and, when given, `pattern` matches its title line or
+ *            `assertion` identifies an actual expect call, regardless of formatting
  *
  * A `file` ending in "/" means every non-test code file under that folder.
  * Patterns are tested line by line with comments blanked out, so a name in a
@@ -43,6 +44,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, posix, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { format } from "prettier";
+import ts from "typescript";
 import {
   codeFiles,
   REPO_ROOT,
@@ -56,6 +58,12 @@ export const RULES_PATH = "scripts/audit/rules.json";
 export const DEFAULT_OUT = "scripts/audit/scan-result.json";
 
 export type AuditStatus = "done" | "partly" | "not-started" | "unknown";
+
+export interface AuditAssertion {
+  readonly received: string;
+  readonly matcher: "toContain";
+  readonly value: string;
+}
 
 export type AuditCheck =
   | {
@@ -73,6 +81,7 @@ export type AuditCheck =
       readonly kind: "test";
       readonly file: string;
       readonly pattern?: string;
+      readonly assertion?: AuditAssertion;
       readonly why?: string;
     };
 
@@ -200,6 +209,44 @@ function matches(
   return { at, missing };
 }
 
+/** Exact assertion calls, rather than text that merely names an assertion. */
+export function assertedLiteralLines(
+  file: string,
+  text: string,
+  assertion: AuditAssertion,
+): number[] {
+  const source = ts.createSourceFile(file, text, ts.ScriptTarget.Latest, true);
+  const lines: number[] = [];
+  const visit = (node: ts.Node): void => {
+    if (
+      ts.isCallExpression(node) &&
+      ts.isPropertyAccessExpression(node.expression) &&
+      node.expression.name.text === assertion.matcher &&
+      ts.isCallExpression(node.expression.expression)
+    ) {
+      const received = node.expression.expression;
+      const value = node.arguments[0];
+      if (
+        ts.isIdentifier(received.expression) &&
+        received.expression.text === "expect" &&
+        received.arguments.length === 1 &&
+        ts.isIdentifier(received.arguments[0]!) &&
+        received.arguments[0]!.text === assertion.received &&
+        node.arguments.length === 1 &&
+        value &&
+        ts.isStringLiteral(value) &&
+        value.text === assertion.value
+      )
+        lines.push(
+          source.getLineAndCharacterOfPosition(node.getStart(source)).line + 1,
+        );
+    }
+    ts.forEachChild(node, visit);
+  };
+  visit(source);
+  return lines;
+}
+
 type ReaderIndex = ReadonlyMap<
   string,
   readonly { file: string; line: number }[]
@@ -222,6 +269,19 @@ export function runCheck(
   if (check.kind === "test") {
     if (textOf(check.file) === null)
       return { check, pass: false, at: [], note: "test not on main yet" };
+    if (check.assertion) {
+      const at = assertedLiteralLines(
+        check.file,
+        textOf(check.file)!,
+        check.assertion,
+      ).map((line) => `${check.file}:${line}`);
+      return {
+        check,
+        pass: at.length > 0,
+        at,
+        ...(at.length ? {} : { note: "required assertion not found" }),
+      };
+    }
     if (!check.pattern) return { check, pass: true, at: [check.file] };
     const { at } = matches(check.file, check.pattern);
     return {
