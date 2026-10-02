@@ -77,10 +77,18 @@ describe("a life is given something to do", () => {
         (activity) => activity.stableKey === `${PUBLIC_MEETING_KEY}:activity`,
       )!.responsiblePersonId,
     ).toBe(game.playerPersonId);
-    expect(world.history.scheduledActivities.find((activity) => activity.stableKey === `${PUBLIC_MEETING_KEY}:journey`)!.responsiblePersonId).toBe(game.playerPersonId);
-    expect(world.history.scheduledActivities.find((activity) => activity.stableKey === `${PUBLIC_MEETING_KEY}:activity`)!.kind).toBe("tentative");
+    expect(
+      world.history.scheduledActivities.find(
+        (activity) => activity.stableKey === `${PUBLIC_MEETING_KEY}:journey`,
+      )!.responsiblePersonId,
+    ).toBe(game.playerPersonId);
+    expect(
+      world.history.scheduledActivities.find(
+        (activity) => activity.stableKey === `${PUBLIC_MEETING_KEY}:activity`,
+      )!.kind,
+    ).toBe("tentative");
     process.stdout.write(
-      `${JSON.stringify({ receipt: "A156 random production opening", placeKey: place.key, worldId: game.world.id, currentDate: game.world.currentDate })}\n`,
+      `${JSON.stringify({ receipt: "A156 random production opening", seed, place: place.displayName, jurisdiction: place.stateJurisdictionKey, placeKey: place.key, worldId: game.world.id, currentDate: game.world.currentDate })}\n`,
     );
   });
 
