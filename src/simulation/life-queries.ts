@@ -90,9 +90,10 @@ export function currentLifeCutoff(world: World): HistoricalCutoff {
 export function organizationsAt(
   world: World,
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
+  organizations: readonly Organization[] = world.history.organizations,
 ): readonly Organization[] {
   validateCutoff(world, cutoff);
-  return world.history.organizations.filter((organization) =>
+  return organizations.filter((organization) =>
     available(organization.sequence, organization.formedAt, cutoff),
   );
 }

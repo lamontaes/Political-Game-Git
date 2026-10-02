@@ -1,3 +1,4 @@
+import { PAY_REGISTRATION } from "./law-consequences/pay";
 import { RIGHT_PERMISSION_REGISTRATION } from "./law-consequences/right-permission";
 import { TAX_REGISTRATION } from "./law-consequences/tax";
 import { INSTITUTION_RULE_REGISTRATION } from "./law-consequences/institution-rule";
@@ -14,7 +15,7 @@ import type { LawConsequenceCapabilities } from "./law-consequence-validation";
 /** Sole registration surface. Coordinator appends reviewed kind exports here. */
 export const LAW_CONSEQUENCE_REGISTRATIONS: readonly AnyLawConsequenceKindRegistration[] =
   [
-    // pay: Team2
+    PAY_REGISTRATION,
     legalOutcomeRegistration,
     COVERAGE_ELIGIBILITY_REGISTRATION,
     TAX_REGISTRATION,

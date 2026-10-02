@@ -226,11 +226,17 @@ export interface EmployerRole {
 /* Employers                                                                  */
 /* -------------------------------------------------------------------------- */
 
+const SLUGS = new Map<string, string>();
+
 function slug(value: string): string {
-  return value
+  const saved = SLUGS.get(value);
+  if (saved !== undefined) return saved;
+  const result = value
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
+  SLUGS.set(value, result);
+  return result;
 }
 
 function annualFromTerms(minor: number, cadence: string): number | null {
