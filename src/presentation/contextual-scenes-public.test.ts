@@ -1,3 +1,5 @@
+import { randomUUID } from "node:crypto";
+import { drawRandomPlace } from "../../tests/support/random-place";
 import { describe, expect, it, vi } from "vitest";
 import * as decisions from "../simulation/decisions";
 import { refreshContextualScenes } from "./contextual-scene-producers";
@@ -8,6 +10,7 @@ import {
 import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 import {
   ageOnDate,
+  assertWorldIntegrity,
   createWorkRelationship,
   householdMembershipsAt,
   peopleInHouseholdAt,
@@ -33,7 +36,7 @@ import { recordedCivicReporterFixture } from "../../tests/support/recorded-civic
 import type { ContextualSceneSubject } from "./contextual-scenes";
 import { resolveActiveMemberSeat } from "./legislative-member-seat";
 import { openLegislativeWork } from "./legislation-world";
-import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
+import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { passOrdinaryDays } from "./ordinary-life";
 import { resolvePlayerCapabilities } from "./player-capabilities";
@@ -551,4 +554,25 @@ describe("a reporter's question about an actual promise", () => {
     )!;
     expect(claim.relationshipToTruth).toBe("contradicts");
   });
+});
+
+it("opens a new game at a randomly selected supported place", () => {
+  const seed = `news-fixture-opening:${randomUUID()}`;
+  const place = drawRandomPlace(seed);
+  const game = createNewGameWorld({
+    ...DEFAULT_NEW_GAME_SETUP,
+    seed,
+    placeKey: place.key,
+  });
+  expect(game.world.people[game.playerPersonId]).toBeDefined();
+  assertWorldIntegrity(game.world);
+  const reloaded = deserializeWorld(serializeWorld(game.world));
+  expect(serializeWorld(reloaded)).toBe(serializeWorld(game.world));
+  console.info(
+    JSON.stringify({
+      openingPlace: place.key,
+      seed,
+      result: "opened and reloaded",
+    }),
+  );
 });
