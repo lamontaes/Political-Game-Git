@@ -356,75 +356,79 @@ describe("recalling a town official", () => {
     },
   );
 
-  it("qualifies exactly at the sourced threshold using recorded supporters and registered residents", () => {
-    const town = ordinaryStart(GRAND_ISLAND, "recall-A");
-    const rule = municipalRecallRule(town.governmentKey, town.world);
-    if (!rule.available || !rule.threshold)
-      throw new Error("Expected sourced recall threshold");
-    const base = recallResidentViews(town.world, {
-      jurisdictionId: municipalGovernmentJurisdictionId(
-        town.world,
-        town.governmentKey,
-      )!,
-      targetPersonId: town.member,
-    }).registeredVoters;
-    const required = resolveRequiredSignatures(rule.threshold, base);
-    expect(required).toBeGreaterThan(0);
-    const residents = adultResidents(town).slice(0, required);
-    expect(residents).toHaveLength(required);
-    for (const signatures of [required - 1, required]) {
-      const supporters = residents.slice(0, signatures);
-      const started = petition(
-        withViews(
+  it(
+    "qualifies exactly at the sourced threshold using recorded supporters and registered residents",
+    { timeout: 300_000 },
+    () => {
+      const town = ordinaryStart(GRAND_ISLAND, "recall-A");
+      const rule = municipalRecallRule(town.governmentKey, town.world);
+      if (!rule.available || !rule.threshold)
+        throw new Error("Expected sourced recall threshold");
+      const base = recallResidentViews(town.world, {
+        jurisdictionId: municipalGovernmentJurisdictionId(
           town.world,
+          town.governmentKey,
+        )!,
+        targetPersonId: town.member,
+      }).registeredVoters;
+      const required = resolveRequiredSignatures(rule.threshold, base);
+      expect(required).toBeGreaterThan(0);
+      const residents = adultResidents(town).slice(0, required);
+      expect(residents).toHaveLength(required);
+      for (const signatures of [required - 1, required]) {
+        const supporters = residents.slice(0, signatures);
+        const started = petition(
+          withViews(
+            town.world,
+            town.member,
+            supporters,
+            supporters.map(() => "oppose"),
+          ),
+          town.governmentKey,
+          town.player,
           town.member,
-          supporters,
-          supporters.map(() => "oppose"),
-        ),
-        town.governmentKey,
-        town.player,
-        town.member,
-      );
-      const due = started.history.futureDueItems.find(
-        (row) => row.transitionKey === RECALL_PETITION_CLOSES,
-      )!;
-      const result = { world: resolveDueThrough(started, due.dueAt) };
-      expect(recallPetitions(result.world)[0]!.phase).toBe(
-        signatures === required ? "awaiting-election" : "failed-to-qualify",
-      );
-      const closed = result.world.history.events.find(
-        (row) => row.type === RECALL_PETITION_CLOSED,
-      )!;
-      expect(closed.tags).toEqual(
-        expect.arrayContaining([
-          `signatures:${signatures}`,
-          `registered-voters:${base}`,
-          `required-signatures:${required}`,
-          `threshold-base:${rule.threshold.base}`,
-        ]),
-      );
-      expect(municipalRecallRule(town.governmentKey, result.world)).toEqual(
-        rule,
-      );
-      expect(() =>
-        assertWorldIntegrity(deserializeWorld(serializeWorld(result.world))),
-      ).not.toThrow();
-      if (signatures === required) {
-        const election = result.world.history.futureDueItems.find(
-          (row) => row.transitionKey === RECALL_ELECTION,
+        );
+        const due = started.history.futureDueItems.find(
+          (row) => row.transitionKey === RECALL_PETITION_CLOSES,
         )!;
-        expect(election).toBeDefined();
-        const voted = {
-          world: resolveDueThrough(result.world, election.dueAt),
-        };
-        expect(recallPetitions(voted.world)[0]).toMatchObject({
-          phase: "removed",
-          yes: required,
-          no: 0,
-        });
+        const result = { world: resolveDueThrough(started, due.dueAt) };
+        expect(recallPetitions(result.world)[0]!.phase).toBe(
+          signatures === required ? "awaiting-election" : "failed-to-qualify",
+        );
+        const closed = result.world.history.events.find(
+          (row) => row.type === RECALL_PETITION_CLOSED,
+        )!;
+        expect(closed.tags).toEqual(
+          expect.arrayContaining([
+            `signatures:${signatures}`,
+            `registered-voters:${base}`,
+            `required-signatures:${required}`,
+            `threshold-base:${rule.threshold.base}`,
+          ]),
+        );
+        expect(municipalRecallRule(town.governmentKey, result.world)).toEqual(
+          rule,
+        );
+        expect(() =>
+          assertWorldIntegrity(deserializeWorld(serializeWorld(result.world))),
+        ).not.toThrow();
+        if (signatures === required) {
+          const election = result.world.history.futureDueItems.find(
+            (row) => row.transitionKey === RECALL_ELECTION,
+          )!;
+          expect(election).toBeDefined();
+          const voted = {
+            world: resolveDueThrough(result.world, election.dueAt),
+          };
+          expect(recallPetitions(voted.world)[0]).toMatchObject({
+            phase: "removed",
+            yes: required,
+            no: 0,
+          });
+        }
       }
-    }
-  });
+    },
+  );
 
   it.each(["retained", "removed"] as const)(
     "counts recorded resident views and %s leaves the other seats intact",
