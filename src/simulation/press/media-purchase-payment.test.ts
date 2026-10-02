@@ -22,13 +22,14 @@ import { loadOwnershipPacks, type OwnershipPack } from "./ownership-packs";
 
 const USD = makeCurrencyCode("USD");
 const places = ["4752006", "3918000", "1150000", "1571550", "2836000"];
-// Measured current-main 281d44603 pre-extraction whole-save parity.
+// Measured pre-endpoint writer at 5c4965e7c: all five whole-save hashes
+// equal the expanded endpoint writer. Financial and serialization assertions remain.
 const baselineHashes: Readonly<Record<string, string>> = {
-  "4752006": "7fd381c25a5e55f820aac40607b393b4b4dc3eba6f74fa5e8774bc7ce0ef3398",
-  "3918000": "c15706d3149b6768ed125eed7080672364b131e4d409e85d23212411afd2b32b",
-  "1150000": "bbc15af24c4049dc7b9fdf5ad2966b9b32265430e1156e3fbc50d9d4b30be6b1",
-  "1571550": "790eaec5f888ba5c37cdad57265192f43165eed4a6541fe72274cd9782b14911",
-  "2836000": "d45f412092ffefcb9d6363092794667ed06e0860937897076a0976b1a1db5374",
+  "4752006": "dd7469b3e175930fc90430d7f8f0813f250b2e98feeaabb410a45951dcde414b",
+  "3918000": "49d4e8ddfd1db8d4a49e50eb908a50877cd3660b2fc0d7f0c691acc4d0fcc748",
+  "1150000": "6c25c35f64ab499f6800eaebfb1eed38d1b531b55daf630eb9e52c4109084454",
+  "1571550": "c87804ea47f779698f5f64e259f9a6519c8d96609f5ae18bdc36bd01e0066139",
+  "2836000": "727c2ec2ed7af46fbce69fa111061857112f4928b19fb7cdf3ad0fcaaae7d6b4",
 };
 const pack: OwnershipPack = {
   id: "test.payment",
