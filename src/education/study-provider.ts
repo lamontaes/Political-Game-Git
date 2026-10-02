@@ -1,3 +1,4 @@
+import { lifePlaceByKey } from "../simulation/life-places";
 import { educationEnrollmentStateAt } from "../simulation/life-queries";
 import { proseDate } from "../presentation/prose-dates";
 import type { EducationInstitution, EducationCapability } from "./types";
@@ -333,6 +334,18 @@ function event(
     },
   });
 }
+/** Directory county location only; never an owning-government inference. */
+export function educationInstitutionLocation(
+  world: Pick<World, "jurisdictions">,
+  institution: EducationInstitution,
+): EntityId | null {
+  const place = institution.countyGeoid
+    ? lifePlaceByKey(`county:${institution.countyGeoid}`)
+    : null;
+  return place && world.jurisdictions[place.context.jurisdiction.id]
+    ? place.context.jurisdiction.id
+    : null;
+}
 export function applyForEducation(
   world: World,
   institution: EducationInstitution,
@@ -361,7 +374,7 @@ export function applyForEducation(
       initialProfile: {
         name: institution.name,
         classification: "service:college",
-        locationJurisdictionId: null,
+        locationJurisdictionId: educationInstitutionLocation(next, institution),
       },
     });
     org = next.history.organizations.at(-1)!;
