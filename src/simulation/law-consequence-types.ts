@@ -50,18 +50,26 @@ export type LegacyEffectKind =
   | "work-compensation-payment";
 
 /** Units are checked by the evaluator before a handler can write a record. */
-export type LawAmountUnit =
-  | "minor"
-  | "minor/hour"
-  | "hours"
-  | "people"
-  | "count"
-  | "ratio"
-  | "basis-points"
-  | "dollars/year"
-  | "years"
-  | "months"
-  | "days";
+export const LAW_AMOUNT_UNITS = [
+  "minor",
+  "minor/hour",
+  "minor/container",
+  "minor/tonne-co2-equivalent",
+  "hours",
+  "people",
+  "count",
+  "ratio",
+  "basis-points",
+  "dollars/year",
+  "years",
+  "months",
+  "days",
+  "containers",
+  "tonnes-co2-equivalent",
+  "fluid-ounces",
+  "litres",
+] as const;
+export type LawAmountUnit = (typeof LAW_AMOUNT_UNITS)[number];
 export type LawAmountExpression =
   | {
       op: "term" | "record" | "capacity" | "exposure";

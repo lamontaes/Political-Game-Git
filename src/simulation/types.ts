@@ -1,4 +1,5 @@
 import type { WorkPayCoverageDeterminationRecord } from "./pay-coverage-types";
+import type { LawScheduleTerm } from "./law-structured-terms";
 import type {
   PermitApplicationRecord,
   PermitStatusRecord,
@@ -5244,6 +5245,8 @@ export type LegislativeProvisionEffectIntent =
   | { readonly kind: "public-program-appropriation" };
 
 export interface LegislativeProvisionRecord {
+  /** This version's explicit schedules; omission clears a revised schedule. */
+  readonly lawSchedules?: readonly LawScheduleTerm[];
   /** This version's explicit categories; omission clears a revised rule. */
   readonly lawCategories?: readonly {
     readonly questionKey: string;
