@@ -408,11 +408,13 @@ export function applyLegislativeStep(
           : null;
       if (driven && driven.kind !== "applied")
         return {
-          world,
+          world: driven.kind === "ended" ? driven.world : world,
           message:
             driven.kind === "blocked"
               ? driven.reason
-              : "The bill has no floor vote to take.",
+              : driven.kind === "ended"
+                ? "The bill died when the session adjourned."
+                : "The bill has no floor vote to take.",
         };
       const next =
         driven?.kind === "applied"

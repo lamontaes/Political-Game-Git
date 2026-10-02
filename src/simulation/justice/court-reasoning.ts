@@ -28,6 +28,7 @@ import { isPersonAliveAt } from "../vitality";
 import { JURY_VOTE_DECISION, PLEA_DECISION } from "./court-decisions";
 import { sentencesOf } from "./jail-terms";
 import { custodyFloorAt } from "../law-consequences/legal-outcome";
+import type { SentencingApplicability } from "./sentencing-applicability";
 
 /**
  * How the people in a criminal case decide, through the shared decision
@@ -63,6 +64,7 @@ const PUBLIC_TRUST_OFFENSES = new Set(["campaign-funds-personal-use"]);
 
 /** The case as every decider in it sees it. */
 export interface CourtCase {
+  readonly sentencingApplicability?: SentencingApplicability;
   readonly caseKey: string;
   readonly defendantId: EntityId;
   readonly offenseKey: string;
@@ -494,7 +496,7 @@ export function mandatoryJailUnderLaw(
 }
 
 /** The judge's own view of fixed minimum sentences, when they hold one. */
-function judgePrincipleConsideration(
+export function judgePrincipleConsideration(
   world: World,
   judgeId: EntityId,
   key: string,
