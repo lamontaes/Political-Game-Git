@@ -29,7 +29,10 @@ import {
   seatTermWindow,
 } from "../living-world/congress-seats";
 import type { CongressSeat } from "../living-world/congress-seats";
-import { projectCongress } from "../living-world/congress";
+import {
+  projectCongress,
+  publicPartyAffiliation,
+} from "../living-world/congress";
 import { aggregateCongressAffiliation } from "../living-world/congress-aggregate-outcome";
 import { seatStartingCondition } from "../world-setup/conditions";
 import {
@@ -750,12 +753,8 @@ function seatNewMember(
         (voterChoice(world, seat.seatKey, priorParty, majors) ?? majors[0]!);
   const memberKey = `${due.stableKey}:member`;
   const title = congressSeatTitle(seat);
-  // The governor names someone they know (appointments-v1): the state's
-  // members of the House, anyone the governor has a recorded tie or favor
-  // with who lives in the state. Only a governor who knows nobody eligible
-  // falls back to the drawn stranger below.
-  // Where the state's law requires the departed senator's party, the
-  // governor's choice must belong to it.
+  // The actual recorded nominee reuses this seat writer. Appointment mode
+  // never generates a substitute when the governor has not chosen anyone.
   const appointed =
     mode === "appointment"
       ? recordedAppointee
@@ -768,8 +767,18 @@ function seatNewMember(
       "The governor has not recorded an appointment; the seat stays vacant.",
       null,
     );
-  const appointedParty = appointed
-    ? publicPartyOf(appointed.world, appointed.personId)
+  const appointedAffiliation = appointed
+    ? publicPartyAffiliation(appointed.world, appointed.personId)
+    : null;
+  const appointedParty = appointedAffiliation
+    ? (majors.find(
+        (key) =>
+          appointedAffiliation ===
+          livingWorldOrganizationId(
+            world,
+            LIVING_WORLD_KEYS.nationalParty(key),
+          ),
+      ) ?? null)
     : null;
   let next = appointed
     ? appointed.world
@@ -781,7 +790,7 @@ function seatNewMember(
   const winner = appointed
     ? appointed.personId
     : (electedPersonId ?? characterHistoryContextPersonId(next, memberKey));
-  const seatParty = appointedParty ?? party;
+  const seatParty = appointed ? (appointedParty ?? "none") : party;
   const leftHouseSeat = appointed
     ? congressSeatHeldBy(appointed.world, appointed.personId)
     : undefined;
@@ -907,6 +916,12 @@ export function senateAppointmentContext(
     world.control.kind === "person" ? world.control.personId : null;
   const requiredParty =
     law.appointment === "governor-same-party" ? priorParty : null;
+  const requiredPartyId = requiredParty
+    ? livingWorldOrganizationId(
+        world,
+        LIVING_WORLD_KEYS.nationalParty(requiredParty),
+      )
+    : null;
   // This save has no canonical submitted party-list record. Circle membership cannot substitute for that legal act.
   const partyListMissing = law.appointment === "governor-from-party-list";
   const candidates =
@@ -922,8 +937,8 @@ export function senateAppointmentContext(
               !dead.has(personId) &&
               ageOn(person.birthDate, world.currentDate) >=
                 MINIMUM_AGE[seat.chamberKey] &&
-              (!requiredParty ||
-                publicPartyOf(world, personId) === requiredParty) &&
+              (!requiredPartyId ||
+                publicPartyAffiliation(world, personId) === requiredPartyId) &&
               (delegationSet.has(personId) ||
                 stateOfJurisdiction(world, person.homeJurisdictionId) ===
                   stateId)

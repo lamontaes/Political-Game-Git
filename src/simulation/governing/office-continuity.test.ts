@@ -4,7 +4,6 @@ import {
   currentGoverningOffices,
 } from "./state-governing";
 import { describe, expect, it } from "vitest";
-import { writeFileSync } from "node:fs";
 
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
 import { explicitNewGameSetup } from "../../presentation/new-game-geography";
@@ -26,7 +25,10 @@ import {
   simulationMomentAtLocalTime,
 } from "../dates";
 import { createDemoWorld } from "../demo";
-import { projectCongress } from "../living-world/congress";
+import {
+  projectCongress,
+  publicPartyAffiliation,
+} from "../living-world/congress";
 import { senateVacancyLaw } from "../nationwide-world/senate-vacancy-law";
 import {
   CONGRESS_RESULTS_EVENT,
@@ -63,7 +65,6 @@ import { advanceWorld, recordWorldEvent } from "../world";
 import { currentPresidentOf, publicOfficesHeldBy } from "../crisis/offices";
 import { PRESIDING_OFFICER_VOTE_EVENT } from "./presiding-officers";
 import { currentFederalTenure } from "../federal-tenures";
-import { publicPartyOf } from "./chamber-votes";
 import { MINIMUM_AGE } from "../living-world/congress-seats";
 import {
   CHIEF_JUSTICE_NOMINATED_EVENT,
@@ -131,14 +132,10 @@ function hasActualSamePartyCandidate(
   world: World,
   houseSeats: NonNullable<ReturnType<typeof projectCongress>>["house"]["seats"],
   stateUsps: string,
-  termId: EntityId,
+  requiredPartyId: EntityId | null,
 ): boolean {
-  const requiredParty = world.history.events
-    .find((event) => event.id === termId)
-    ?.tags.find((tag) => tag.startsWith(SEAT_PARTY_TAG))
-    ?.slice(SEAT_PARTY_TAG.length);
   return (
-    !!requiredParty &&
+    !!requiredPartyId &&
     houseSeats.some((seat) => {
       if (seat.stateUsps !== stateUsps || seat.occupant.kind !== "member")
         return false;
@@ -146,7 +143,7 @@ function hasActualSamePartyCandidate(
       return (
         ageOnDate(candidate.birthDate, world.currentDate) >=
           MINIMUM_AGE["us-senate"] &&
-        publicPartyOf(world, candidate.id) === requiredParty
+        publicPartyAffiliation(world, candidate.id) === requiredPartyId
       );
     })
   );
@@ -256,45 +253,6 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     const congress = projectCongress(world)!;
     const nextRegularYear = Number(world.currentDate.slice(0, 4)) + 2;
     // A state whose law requires an appointee of the departed senator's party.
-    writeFileSync(
-      "/tmp/team2-a120-same-party-fixture-inventory.json",
-      JSON.stringify(
-        {
-          date: world.currentDate,
-          nextRegularYear,
-          states: congress.senate.seats
-            .filter(
-              (row) =>
-                senateVacancyLaw(row.stateUsps)?.appointment ===
-                "governor-same-party",
-            )
-            .map((row) => ({
-              state: row.stateUsps,
-              occupant: row.occupant,
-              eligible:
-                row.occupant.kind === "member"
-                  ? hasActualSamePartyCandidate(
-                      world,
-                      congress.house.seats,
-                      row.stateUsps,
-                      row.occupant.member.termId,
-                    )
-                  : false,
-              house: congress.house.seats
-                .filter((h) => h.stateUsps === row.stateUsps)
-                .map((h) => ({
-                  occupant: h.occupant,
-                  publicParty:
-                    h.occupant.kind === "member"
-                      ? publicPartyOf(world, h.occupant.member.personId)
-                      : null,
-                })),
-            })),
-        },
-        null,
-        2,
-      ),
-    );
     const seat = congress.senate.seats.find(
       (s) =>
         s.occupant.kind === "member" &&
@@ -304,7 +262,7 @@ describe("GOVERNING K3: an office after its holder dies", () => {
           world,
           congress.house.seats,
           s.stateUsps,
-          s.occupant.member.termId,
+          s.occupant.member.partyOrganizationId,
         ),
     )!;
     if (seat.occupant.kind !== "member") throw new Error("fixture");
