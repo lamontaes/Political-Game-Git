@@ -1,8 +1,11 @@
 ---
 id: district-population-consumer
-impact: none
+impact: patch
+section: Fixed
+title: Split-place district estimates use recorded population parts
 ---
 
-Adds the district query consumer for compiled Census population parts. The
-residence-writer connection awaits the source producer's published export.
-This draft does not change district assignments yet.
+A new split-place home estimate uses the largest recorded Census district
+population part, with district identity breaking an equal count. It no longer
+picks equally among crossing districts. Missing coverage and zero totals do
+not invent a home assignment. Existing saved intervals remain unchanged.

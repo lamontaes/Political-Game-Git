@@ -1,4 +1,17 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import { smallWorld } from "../../tests/fixtures/small-world";
+import {
+  assignSplitHomeDistricts,
+  districtResidenceIntervals,
+} from "../simulation/district-residence";
+import { deserializeWorld, serializeWorld } from "../simulation/serialization";
+const fixture = vi.hoisted(() => ({ rows: "[]" }));
+vi.mock("../simulation/place-county-relations.generated", async (original) => ({
+  ...(await original<Record<string, unknown>>()),
+  get PLACE_DISTRICT_POPULATION_ROWS() {
+    return fixture.rows;
+  },
+}));
 import { drawRandomPlace } from "../../tests/support/random-place";
 import { districtIdentityCatalog } from "./catalog";
 import { placeRelationVintageFor } from "./place-membership";
@@ -124,4 +137,41 @@ describe(`district population parts in ${place.displayName}, seed ${seed}`, () =
     ).toEqual([]);
     expect(read([])).toEqual([]);
   });
+  it("writes the population-based home estimate through the existing writer and preserves it after reopening", () => {
+    fixture.rows = JSON.stringify(
+      parts.map((row) => [
+        row.placeGeoid,
+        row.chamber,
+        row.boundaryVintage,
+        row.districtGeoid,
+        row.partPopulationCount,
+        row.placePopulationCount,
+      ]),
+    );
+    const { world, personId } = smallWorld({
+      place: place.key,
+      seed,
+      household: true,
+    });
+    const before = serializeWorld(world);
+    const next = assignSplitHomeDistricts(world, personId);
+    const interval = districtResidenceIntervals(next).find(
+      (row) => row.personId === personId && row.binding.chamber === chamber,
+    );
+    expect(interval).toBeDefined();
+    expect(interval!.binding.geoid).toBe(parts[0]!.districtGeoid);
+    expect(interval!.provenance.note).toContain(
+      "ESTIMATED FROM CENSUS POPULATION",
+    );
+    expect(interval!.provenance.sourceEventId).not.toBeNull();
+    expect(serializeWorld(world)).toBe(before);
+    const saved = serializeWorld(next);
+    const reopened = deserializeWorld(saved);
+    expect(serializeWorld(reopened)).toBe(saved);
+    expect(assignSplitHomeDistricts(reopened, personId)).toBe(reopened);
+  });
+
+  it.todo(
+    "uses the acquired Census population donor through the actual generated export",
+  );
 });

@@ -16,6 +16,7 @@ import {
   bindingFromIdentity,
   districtMembershipFromCanonicalHome,
   districtsCrossingPlace,
+  districtPopulationShares,
   gazetteerChamberForOfficeChamberKey,
   resolveDistrictBinding,
 } from "../districts/query";
@@ -24,7 +25,6 @@ import type { ElectiveOfficeOption } from "./candidacy-packs";
 import { makeIsoDate } from "./dates";
 import { homeJurisdictionResidenceSince } from "./nationwide-world/residence-duration";
 import { createStableId } from "./ids";
-import { SeededRng } from "./rng";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { factsForPerson } from "./people";
 import type {
@@ -744,11 +744,11 @@ export function splitHomeDistricts(
   personId: EntityId,
   chamber: DistrictChamber,
 ): readonly DistrictIdentity[] {
-  if (chamber === "congressional") return [];
   return districtsCrossingPlace(
     districtIdentityCatalog(),
     canonicalHomePlaceGeoid(world, personId),
     chamber,
+    world.currentDate,
   );
 }
 
@@ -797,22 +797,15 @@ function confirmSplitHomeAssignment(
  * Place a split town's resident in one of the districts crossing their town,
  * for each chamber where the world has no membership for them yet.
  *
- * GAME PROFILE placeholder: a split town's resident is assigned one
- * overlapping district by seed until research says how.
+ * A split town's resident is estimated in its largest Census population part.
+ * Equal counts use district identity order; unread or zero totals do not assign.
  *
- * The published join says only that the town crosses several districts; it
- * cannot say which one a given home is in, and without an answer a lifelong
- * Anchorage resident could never stand for the legislature. The pick is drawn
- * from the world seed among the districts that cross the town — never a
- * district elsewhere in the state — and written through
- * `establishDistrictResidence`, the one district-residence writer. The player
- * can say their home is in a different one of those districts
- * (`chooseSplitHomeDistrict`). A home the join already places, and a chamber
- * that already has an open interval, are left as they are.
- *
- * Called only for an opening of the current version: a legacy replay
- * descriptor rebuilds its exact bytes, and a save from before this existed is
- * not backfilled on load.
+ * The population parts estimate which crossing district contains a home;
+ * they do not certify an individual address. The estimate is recorded through
+ * `establishDistrictResidence`, the existing writer. The player may confirm a
+ * different crossing district through `chooseSplitHomeDistrict`. Existing open
+ * intervals and whole-place joins are preserved. Deserialization never calls
+ * this writer or backfills an older save.
  */
 export function assignSplitHomeDistricts(
   world: World,
@@ -835,9 +828,17 @@ export function assignSplitHomeDistricts(
         interval.endedOn === null,
     );
     if (open) continue;
-    const pick = new SeededRng(
-      JSON.stringify(["split-home-district-v1", next.seed, personId, chamber]),
-    ).pick(crossing);
+    const placeGeoid = canonicalHomePlaceGeoid(next, personId);
+    if (!placeGeoid) continue;
+    const shares = districtPopulationShares({
+      catalog: districtIdentityCatalog(),
+      placeGeoid,
+      chamber,
+      asOf: next.currentDate,
+    });
+    const placement = shares[0];
+    if (!placement || placement.populationCount === 0) continue;
+    const pick = placement.identity;
     const recorded = establishDistrictResidence(next, {
       personId,
       binding: bindingFromIdentity(pick),
@@ -845,7 +846,7 @@ export function assignSplitHomeDistricts(
       provenance: {
         method: "split-home-assignment",
         sourceEventId: residence.id,
-        note: `Placed by seed among the ${crossing.length} districts crossing Census place ${canonicalHomePlaceGeoid(next, personId)} (${placeRelationVintageFor(chamber)}).`,
+        note: `ESTIMATED FROM CENSUS POPULATION: the largest recorded district part contains ${placement.populationCount} of ${shares.reduce((sum, row) => sum + row.populationCount, 0)} residents of Census place ${placeGeoid} (${placeRelationVintageFor(chamber, placeGeoid, next.currentDate)}); equal counts use district identity order. This estimates home placement, not a verified address.`,
       },
     });
     if (recorded.kind === "recorded") next = recorded.world;
