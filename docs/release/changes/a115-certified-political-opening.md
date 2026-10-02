@@ -2,7 +2,7 @@
 id: a115-certified-political-opening
 impact: patch
 section: Fixed
-title: New worlds use whole recorded House rosters
+title: New worlds use recorded starting conditions
 ---
 
 New games select a whole recorded House roster from the retained 2022 and
@@ -12,6 +12,7 @@ their own recorded shares and affiliations, including tied results. State legisl
 result where available; otherwise party and share remain unrecorded. Federal
 results and chamber-wide totals no longer assign parties to state seats.
 
-Macro history remains unscheduled without admitted starting levels. Saved
-political and macro records remain readable. Missing presidential
-district-elector results stay identified in the opening record.
+New games initialize monthly economic history from measured national
+references, retaining estimation methods, housing counts and policy rates.
+Existing saves remain readable. Missing presidential district-elector results
+stay identified in the opening record.

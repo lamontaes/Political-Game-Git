@@ -338,15 +338,17 @@ describe("CHANGE canonical macro history", { timeout: 1_800_000 }, () => {
     ).toBe(false);
   });
 
-  it("leaves ordinary opening macro history unavailable without admitted levels", () => {
+  it("starts ordinary opening macro history from the admitted primary reference", () => {
     const seeded = life("change-macro-world", true);
-    expect(macroStartingConditions(seeded)).toBeNull();
-    expect(seeded.macroEconomy).toBeUndefined();
+    const record = macroStartingConditions(seeded)!;
+    expect(record.contractVersion).toBe("observed-macro-start/v2");
+    expect(seeded.macroEconomy!.start.initial).toEqual(record.initial);
+    expect(seeded.macroEconomy!.start.reference).toEqual(record.reference);
     expect(
-      seeded.history.futureDueItems.some(
+      seeded.history.futureDueItems.filter(
         (item) => item.transitionKey === MACRO_MONTHLY_STEP_KEY,
       ),
-    ).toBe(false);
+    ).toHaveLength(1);
   });
 
   it("records each crossed month exactly once, with releases published to News", () => {

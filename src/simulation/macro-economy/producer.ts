@@ -93,14 +93,30 @@ export function macroStartForHistory(
     policyVersion: MACRO_POLICY_VERSION,
     regime: record.regime,
     volatilityScale: record.volatilityScale,
-    latents: { ...record.latents },
+    latents: record.latents === null ? null : { ...record.latents },
+    ...(record.reference
+      ? {
+          reference: {
+            ...record.reference,
+            observations: record.reference.observations.map((row) => ({
+              ...row,
+            })),
+          },
+        }
+      : {}),
+    ...(record.initialHousingCounts
+      ? { initialHousingCounts: { ...record.initialHousingCounts } }
+      : {}),
+    ...(record.initialPolicyRate
+      ? { initialPolicyRate: { ...record.initialPolicyRate } }
+      : {}),
     initial: { ...record.initial },
     effectiveDate: record.effectiveDate,
   };
 }
 
 /**
- * Begins macro history from WORLD's persisted starting draw. Without a draw
+ * Begins macro history from WORLD's persisted starting condition. Without one
  * (an old save, or a world WORLD did not seed) nothing is written and
  * nothing is scheduled.
  */
@@ -302,8 +318,12 @@ function nationalMonth(
   // retained reference rate.
   const policyRate = store.centralBank?.policyRate ??
     previous?.policyRate ?? {
-      lowerPct: POLICY.baseline.policyRateRangePct.lower,
-      upperPct: POLICY.baseline.policyRateRangePct.upper,
+      lowerPct:
+        store.start.initialPolicyRate?.lowerPct ??
+        POLICY.baseline.policyRateRangePct.lower,
+      upperPct:
+        store.start.initialPolicyRate?.upperPct ??
+        POLICY.baseline.policyRateRangePct.upper,
       basis: "retained-reference" as const,
       decisionEventId: null,
     };
@@ -337,8 +357,14 @@ function nationalMonth(
     // and household events; none are modeled yet, so the ratio holds.
     housing: {
       supplyDemandRatio: ratio,
-      supplyUnits: null,
-      demandHouseholds: null,
+      supplyUnits:
+        previous?.housing?.supplyUnits ??
+        store.start.initialHousingCounts?.supplyUnits ??
+        null,
+      demandHouseholds:
+        previous?.housing?.demandHouseholds ??
+        store.start.initialHousingCounts?.demandHouseholds ??
+        null,
       classification: classifyHousing(ratio),
     },
     exposure: null,
@@ -626,8 +652,12 @@ export function createMacroMonthlyStepHandler(
     }
     // The board sits (once), fills its seats, and its last rate is in force.
     let seated = ensureCentralBankSeated(world, {
-      lowerPct: POLICY.baseline.policyRateRangePct.lower,
-      upperPct: POLICY.baseline.policyRateRangePct.upper,
+      lowerPct:
+        world.macroEconomy!.start.initialPolicyRate?.lowerPct ??
+        POLICY.baseline.policyRateRangePct.lower,
+      upperPct:
+        world.macroEconomy!.start.initialPolicyRate?.upperPct ??
+        POLICY.baseline.policyRateRangePct.upper,
       basis: "retained-reference",
       decisionEventId: null,
     });

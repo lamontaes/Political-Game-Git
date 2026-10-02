@@ -1,3 +1,4 @@
+import type { MacroOpeningReference } from "../world-setup/types";
 import type { MacroEra } from "./kernel";
 import type { CentralBankState } from "./central-bank";
 import type { MacroCreditState, MacroGrowthDrivers } from "./credit";
@@ -19,11 +20,21 @@ export const MACRO_ECONOMY_CONTRACT_VERSION = "change-macro/v1" as const;
  * draws it again; it only cites it.
  */
 export interface MacroStartingConditions {
-  readonly contractVersion: "crunch46-macro-start/v1";
+  readonly contractVersion:
+    "crunch46-macro-start/v1" | "observed-macro-start/v2";
   readonly policyVersion: typeof MACRO_POLICY_VERSION;
-  readonly regime: MacroRegime;
-  readonly volatilityScale: number;
-  readonly latents: MacroLatents;
+  readonly regime: MacroRegime | null;
+  readonly volatilityScale: number | null;
+  readonly latents: MacroLatents | null;
+  readonly reference?: MacroOpeningReference;
+  readonly initialHousingCounts?: {
+    readonly supplyUnits: number;
+    readonly demandHouseholds: number;
+  };
+  readonly initialPolicyRate?: {
+    readonly lowerPct: number;
+    readonly upperPct: number;
+  };
   readonly initial: MacroStartValues;
   readonly effectiveDate: IsoDate;
 }

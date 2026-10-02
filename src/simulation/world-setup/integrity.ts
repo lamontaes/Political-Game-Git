@@ -218,7 +218,7 @@ export function assertWorldSetupIntegrity(
     }
     if (record.kind === "macro-starting-conditions") {
       for (const value of [
-        ...Object.values(record.latents),
+        ...Object.values(record.latents ?? {}),
         ...Object.values(record.initial),
         record.volatilityScale,
       ]) {

@@ -1,3 +1,4 @@
+import { observedMacroStartingDraft } from "./observed-macro-start";
 import { makeIsoDate } from "../dates";
 import { createStableId } from "../ids";
 import { researchedPublicCashOpeningProfile } from "../public-budgets/opening-cash-profile";
@@ -194,6 +195,8 @@ export function ensureWorldStartingConditions(
       procedures: drawLegislativeStartingProcedures(world),
     },
   ];
+  if (!macroStartingConditions(world))
+    drafts.push(observedMacroStartingDraft());
   if (options.political) drafts.push(options.political(world, regime));
   return appendWorldConditions(world, drafts);
 }

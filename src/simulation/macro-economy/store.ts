@@ -129,10 +129,22 @@ export function assertMacroEconomyIntegrity(world: World): void {
     throw new Error("Unsupported macro-economy store version.");
   }
   const start = store.start;
+  const observed = start.contractVersion === "observed-macro-start/v2";
+  const supportedLegacy =
+    start.contractVersion === "crunch46-macro-start/v1" &&
+    start.regime !== null &&
+    ["near-reference", "modest", "major"].includes(start.regime) &&
+    start.latents !== null &&
+    start.volatilityScale !== null;
+  const supportedObserved =
+    observed &&
+    start.regime === null &&
+    start.latents === null &&
+    start.volatilityScale === null &&
+    start.reference?.basis === "estimated-from-observed-reference";
   if (
-    start.contractVersion !== "crunch46-macro-start/v1" ||
-    start.policyVersion !== MACRO_POLICY_VERSION ||
-    !["near-reference", "modest", "major"].includes(start.regime)
+    (!supportedLegacy && !supportedObserved) ||
+    start.policyVersion !== MACRO_POLICY_VERSION
   ) {
     throw new Error("Macro starting conditions have an unsupported shape.");
   }
@@ -141,8 +153,10 @@ export function assertMacroEconomyIntegrity(world: World): void {
     throw new Error("Macro starting conditions postdate the world clock.");
   }
   for (const [label, value] of [
-    ["volatility scale", start.volatilityScale],
-    ...Object.entries(start.latents),
+    ...(start.volatilityScale === null
+      ? []
+      : [["volatility scale", start.volatilityScale] as const]),
+    ...Object.entries(start.latents ?? {}),
     ...Object.entries(start.initial),
   ] as const) {
     finite(value, `start ${label}`);
@@ -153,6 +167,46 @@ export function assertMacroEconomyIntegrity(world: World): void {
     start.initial.unemploymentPct > 100
   ) {
     throw new Error("Macro starting conditions are out of bounds.");
+  }
+
+  if (observed) {
+    const reference = start.reference!;
+    makeIsoDate(reference.asOfDate);
+    if (
+      !/^[a-f0-9]{64}$/.test(reference.sourceSha256) ||
+      reference.observations.length !== 8 ||
+      new Set(reference.observations.map((row) => row.field)).size !==
+        reference.observations.length
+    )
+      throw new Error("Observed macro start lacks unique source evidence.");
+    for (const row of reference.observations) {
+      finite(row.value, "macro reference observation");
+      if (makeIsoDate(row.releasedAt) > reference.asOfDate)
+        throw new Error("Macro reference contains a later release.");
+    }
+    if (
+      start.initial.creditTightness <= 0 ||
+      start.initial.creditTightness >= 1
+    )
+      throw new Error(
+        "Observed credit tightness must support the existing logit mapping.",
+      );
+    const housing = start.initialHousingCounts;
+    const rate = start.initialPolicyRate;
+    if (
+      !housing ||
+      !rate ||
+      housing.supplyUnits <= 0 ||
+      housing.demandHouseholds <= 0 ||
+      !Number.isFinite(housing.supplyUnits) ||
+      !Number.isFinite(housing.demandHouseholds) ||
+      !Number.isFinite(rate.lowerPct) ||
+      !Number.isFinite(rate.upperPct) ||
+      rate.lowerPct > rate.upperPct
+    )
+      throw new Error(
+        "Observed macro start lacks valid housing or policy-rate values.",
+      );
   }
 
   const eventIds = eventIndexOf(world.history.events);

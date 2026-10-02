@@ -1,0 +1,169 @@
+{
+  "schema": "macro-opening-reference/v1",
+  "asOfDate": "2026-10-02",
+  "basis": "dated-reference-for-estimated-starting-condition",
+  "observations": [
+    {
+      "field": "realGrowthAnnualPct",
+      "value": 2.2,
+      "unit": "percent-change-annualized",
+      "period": "2026-Q2",
+      "releasedAt": "2026-09-30",
+      "sourceId": "bea-gdp-q2",
+      "locator": "Real GDP, third estimate, opening paragraph"
+    },
+    {
+      "field": "unemploymentPct",
+      "value": 4.2,
+      "unit": "percent-of-civilian-labor-force",
+      "period": "2026-09",
+      "releasedAt": "2026-10-02",
+      "sourceId": "bls-employment",
+      "locator": "Employment Situation, household survey summary, seasonally adjusted"
+    },
+    {
+      "field": "inflation12mPct",
+      "value": 3.4,
+      "unit": "percent-change-12-months-not-seasonally-adjusted",
+      "period": "2026-08",
+      "releasedAt": "2026-09-11",
+      "sourceId": "bls-cpi",
+      "locator": "CPI-U all items, twelve-month change, opening paragraph"
+    },
+    {
+      "field": "supplyUnits",
+      "value": 149454000,
+      "unit": "housing-units",
+      "period": "2026-Q2",
+      "releasedAt": "2026-07-28",
+      "sourceId": "census-hvs",
+      "locator": "Table 3, all housing units, Q2 2026; published thousands converted to units"
+    },
+    {
+      "field": "occupiedHouseholds",
+      "value": 133811000,
+      "unit": "occupied-housing-units",
+      "period": "2026-Q2",
+      "releasedAt": "2026-07-28",
+      "sourceId": "census-hvs",
+      "locator": "Table 3, occupied housing units, Q2 2026; published thousands converted to units"
+    },
+    {
+      "field": "creditConditionsIndex",
+      "value": -0.548,
+      "unit": "NFCI-standardized-index-not-seasonally-adjusted",
+      "period": "2026-09-25",
+      "releasedAt": "2026-09-30",
+      "sourceId": "fred-nfci-csv",
+      "locator": "NFCI 2026-09-25; Chicago Fed series redistributed by Federal Reserve Bank of St. Louis"
+    },
+    {
+      "field": "policyRateLowerPct",
+      "value": 3.75,
+      "unit": "percent",
+      "period": "2026-09-17",
+      "releasedAt": "2026-09-17",
+      "sourceId": "fed-rates",
+      "locator": "2026 target federal funds rate range, September 17 row"
+    },
+    {
+      "field": "policyRateUpperPct",
+      "value": 4,
+      "unit": "percent",
+      "period": "2026-09-17",
+      "releasedAt": "2026-09-17",
+      "sourceId": "fed-rates",
+      "locator": "2026 target federal funds rate range, September 17 row"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "bls-employment",
+      "url": "https://www.bls.gov/news.release/empsit.nr0.htm",
+      "resolvedUrl": "https://www.bls.gov/news.release/empsit.nr0.htm",
+      "status": 200,
+      "contentType": "text/html",
+      "byteLength": 61940,
+      "sha256": "dcfce9809c2be0c13a8825065520ce8c4fa13ee57e75114770ea5e1b750f94fd",
+      "retrievedAt": "2026-10-02T23:23:45.497253+00:00",
+      "localPath": "data/source/macro-start-2026/raw/bls-employment.html"
+    },
+    {
+      "id": "bls-cpi",
+      "url": "https://www.bls.gov/news.release/cpi.nr0.htm",
+      "resolvedUrl": "https://www.bls.gov/news.release/cpi.nr0.htm",
+      "status": 200,
+      "contentType": "text/html",
+      "byteLength": 90388,
+      "sha256": "8b4d352b4f1ffc6604d953d304c151993c722f8a096a4030765183105ade9484",
+      "retrievedAt": "2026-10-02T23:23:45.497613+00:00",
+      "localPath": "data/source/macro-start-2026/raw/bls-cpi.html"
+    },
+    {
+      "id": "bea-gdp-q2",
+      "url": "https://www.bea.gov/news/2026/gdp-third-estimate-industries-corporate-profits-state-gdp-and-state-personal-income-2nd",
+      "resolvedUrl": "https://www.bea.gov/news/2026/gdp-third-estimate-industries-corporate-profits-state-gdp-and-state-personal-income-2nd",
+      "status": 200,
+      "contentType": "text/html; charset=UTF-8",
+      "byteLength": 77935,
+      "sha256": "6a04ff0149f65fff5833e6c7e765a8111f35696def51a231c1dfca7749030810",
+      "retrievedAt": "2026-10-02T23:25:05.286214+00:00",
+      "localPath": "data/source/macro-start-2026/raw/bea-gdp-q2.html"
+    },
+    {
+      "id": "census-hvs",
+      "url": "https://www.census.gov/housing/hvs/files/currenthvspress.pdf",
+      "resolvedUrl": "https://www.census.gov/housing/hvs/files/currenthvspress.pdf",
+      "status": 200,
+      "contentType": "application/pdf",
+      "byteLength": 722443,
+      "sha256": "6af3b1205ab36697c9e84c0dd61133ddea6f654a7404015b24659d4a42ea01f4",
+      "retrievedAt": "2026-10-02T23:23:46.058081+00:00",
+      "localPath": "data/source/macro-start-2026/raw/census-hvs.pdf"
+    },
+    {
+      "id": "fed-rates",
+      "url": "https://www.federalreserve.gov/monetarypolicy/openmarket.htm",
+      "resolvedUrl": "https://www.federalreserve.gov/monetarypolicy/openmarket.htm",
+      "status": 200,
+      "contentType": "text/html",
+      "byteLength": 106220,
+      "sha256": "1e8bbb902067c70ba131b7ee5eee553bc2fbdc05ea426b558d6b3ffc6ac816d4",
+      "retrievedAt": "2026-10-02T23:23:45.643251+00:00",
+      "localPath": "data/source/macro-start-2026/raw/fed-rates.html"
+    },
+    {
+      "id": "fred-nfci",
+      "url": "https://fred.stlouisfed.org/series/NFCI",
+      "resolvedUrl": "https://fred.stlouisfed.org/series/NFCI",
+      "status": 200,
+      "contentType": "text/html; charset=UTF-8",
+      "byteLength": 75748,
+      "sha256": "acf7f56f193390cca7c9984f2e5b57860e8d059ff233d26368034821df98dfa6",
+      "retrievedAt": "2026-10-02T23:28:35.739065+00:00",
+      "localPath": "data/source/macro-start-2026/raw/fred-nfci.html"
+    },
+    {
+      "id": "fred-nfci-csv",
+      "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=NFCI&cosd=2026-09-01&coed=2026-10-02",
+      "resolvedUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=NFCI&cosd=2026-09-01&coed=2026-10-02",
+      "status": 200,
+      "contentType": "application/csv",
+      "byteLength": 94,
+      "sha256": "4892d8ba413175384f129857a4376db02edfa99bf339ff1963c024280a5168ba",
+      "retrievedAt": "2026-10-02T23:28:35.911255+00:00",
+      "localPath": "data/source/macro-start-2026/raw/fred-nfci-csv.csv"
+    },
+    {
+      "id": "chicago-nfci-about",
+      "url": "https://www.chicagofed.org/research/data/nfci/about",
+      "resolvedUrl": "https://www.chicagofed.org/research/data/nfci/about",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "byteLength": 127839,
+      "sha256": "34d19699eb9dc7024e8c83ac50fca6bfab65869c6dc2ba4a463b1d3a66631348",
+      "retrievedAt": "2026-10-02T23:27:21.397864+00:00",
+      "localPath": "data/source/macro-start-2026/raw/chicago-nfci-about.html"
+    }
+  ]
+}
