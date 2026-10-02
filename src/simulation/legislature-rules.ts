@@ -1,3 +1,4 @@
+import type { SittingCalendar } from "./legislative-session-calendar";
 import {
   assertMeasureTitleTemplate,
   type MeasureTitleTemplate,
@@ -513,6 +514,8 @@ export interface EnactmentRule {
 }
 
 export interface SessionRule {
+  /** Optional in old packs/saves; shared timetable, with explicit provenance. */
+  readonly sittingCalendar?: SittingCalendar;
   /** A saved game's regular-session cadence; absent in legacy rule packs. */
   readonly regularSessionYears?: KnownRuleValue<"annual" | "odd" | "even">;
   /** Outer regular-session boundary only; not proof of convening or bill expiration. */
