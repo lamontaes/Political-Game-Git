@@ -1,5 +1,6 @@
 import {
   addDays,
+  conditionLabel,
   crisisProtectedDecisions,
   crisisRecordIndex,
   crisisRecords,
@@ -85,8 +86,14 @@ export interface OwnHealthNotice {
 
 function episodeHeadline(episode: HealthEpisodeRecord): string {
   // A simulation episode names no disease, so neither does its sentence.
+  const condition =
+    episode.label === "condition" && episode.conditionKey
+      ? conditionLabel(episode.conditionKey)
+      : null;
   return episode.label === "condition"
-    ? "A recorded condition"
+    ? condition
+      ? `Living with ${condition}`
+      : "A recorded condition"
     : SEVERITY_TEXT[episode.severity];
 }
 

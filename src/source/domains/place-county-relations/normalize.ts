@@ -21,6 +21,7 @@ interface Part {
   readonly countyGeoid: string;
   readonly land: number;
   readonly water: number;
+  readonly population: number;
   readonly flag: PublisherPartFlag;
 }
 
@@ -103,12 +104,23 @@ export function normalizePlaceCountyParts(
       );
       continue;
     }
+    const populationRaw = field(GEO_FIELD.POP100);
+    const population = Number(populationRaw);
+    if (!/^\d+$/.test(populationRaw) || !Number.isSafeInteger(population)) {
+      defect(
+        defects,
+        row.line,
+        `POP100 "${populationRaw}" is not a nonnegative integer population count.`,
+      );
+      continue;
+    }
     parts.push({
       row,
       placeGeoid: geocode.slice(0, 7),
       countyGeoid: state + county,
       land,
       water,
+      population,
       flag,
     });
   }
@@ -140,6 +152,7 @@ export function normalizePlaceCountyParts(
         stateFips,
         partLandAreaSquareMeters: part.land,
         partWaterAreaSquareMeters: part.water,
+        partPopulationCount: part.population,
         placeLandAreaSquareMeters: placeLand,
         placeCountyPartCount: placeParts.length,
         publisherPartFlag: part.flag,
