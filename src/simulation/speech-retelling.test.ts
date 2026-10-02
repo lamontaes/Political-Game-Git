@@ -89,7 +89,21 @@ function fixture(openedWorld?: World) {
       recordedAt: world.currentDate,
       jurisdictionId: world.people[speaker]!.homeJurisdictionId,
       involvedEntityIds,
-      participants: [],
+      participants:
+        type === "speech.given"
+          ? [
+              {
+                personId: speaker,
+                role: "focus:subject",
+                detail: "Gave the speech",
+              },
+              {
+                personId: first,
+                role: "observation:witness",
+                detail: "Heard the speech",
+              },
+            ]
+          : [],
       personFactConstraints: [],
       visibility: "public",
       tags,
@@ -105,7 +119,7 @@ function fixture(openedWorld?: World) {
     });
     return world.history.events.at(-1)!;
   };
-  const speech = event("a9:speech", "speech.given", [], [speaker]);
+  const speech = event("a9:speech", "speech.given", [], [speaker, first]);
   for (const [a, b] of [
     [first, second],
     [second, third],
