@@ -15,13 +15,7 @@ import {
   recordViolenceAttempt,
   serializeWorld,
 } from "../simulation";
-import type {
-  EntityId,
-  IsoDate,
-  Person,
-  TensionLevel,
-  World,
-} from "../simulation";
+import type { IsoDate, Person, TensionLevel, World } from "../simulation";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { passOrdinaryDays } from "./ordinary-life";
@@ -54,33 +48,14 @@ function declare(world: World, key: string, tension: TensionLevel) {
   return { world: next, crisisId };
 }
 
-function firstWhere(
-  world: World,
-  tension: TensionLevel,
-  accept: (w: World, id: EntityId) => boolean,
-) {
-  for (let i = 0; i < 300; i += 1) {
-    const found = declare(world, `${tension}-${i}`, tension);
-    if (accept(found.world, found.crisisId)) return found;
-  }
-  throw new Error("No declared crisis matched.");
-}
-
-const recommended = (w: World, id: EntityId) =>
-  internationalCrisisState(w, id).options.at(-1)!.recommended;
-
 describe("CRISIS K5 international crisis, first depth", () => {
   it(
-    "runs a non-force route with imperfect intelligence and an independent response",
+    "runs a non-force route without inventing missing intelligence",
     () => {
-      const { world, crisisId } = firstWhere(
-        opening,
-        "low",
-        (w, id) => recommended(w, id) === "diplomatic",
-      );
+      const { world, crisisId } = declare(opening, "low", "low");
       const start = internationalCrisisState(world, crisisId);
-      expect(start.assessments).toHaveLength(1);
-      expect(start.assessments[0]!.visibility).toBe("limited");
+      expect(start.assessments).toHaveLength(0);
+      expect(start.options[0]!.causalParentIds).toEqual([crisisId]);
       expect(start.options[0]!.options.map((o) => o.key)).toEqual([
         "diplomatic",
         "economic",
@@ -127,10 +102,20 @@ describe("CRISIS K5 international crisis, first depth", () => {
   it(
     "starts War Powers clocks only on the force route, on their statutory days",
     () => {
-      const { world, crisisId } = firstWhere(
-        opening,
+      const president = currentPresidentOf(opening)!;
+      const declared = declare(
+        {
+          ...opening,
+          control: { kind: "person", personId: president.personId },
+        },
         "severe",
-        (w, id) => recommended(w, id) === "force-posture",
+        "severe",
+      );
+      const crisisId = declared.crisisId;
+      const world = decideInternationalCrisis(
+        declared.world,
+        crisisId,
+        "force-posture",
       );
       const day0 = world.currentDate;
       const run = passOrdinaryDays(world, 110);
