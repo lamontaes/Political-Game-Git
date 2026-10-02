@@ -1,8 +1,10 @@
+import { appendStatutoryTaxLawAttribution } from "../statutory-tax-law-attribution";
 import { lawInForce } from "../governing/law-in-force";
 import { recordById, recordsByStringField } from "../history-index";
 import { canonicalJson } from "../canonical-json";
 import {
   assessTaxBase,
+  taxBaseOccurrenceSource,
   effectiveTaxPolicy,
   previewTax,
   taxLevyText,
@@ -21,15 +23,16 @@ import type { World } from "../types";
 
 export const TAX_SELECTOR = "recorded-tax-base-payer";
 export const TAX_ACTION = "assess-enacted-tax-base";
+export const STATUTORY_TAX_ACTION = "attribute-saved-statutory-tax";
 export const TAX_PREDICATE = "has-operative-typed-tax-policy";
 export const TAX_AMOUNT = "enacted-tax-assessment";
 
 function checkRow(row: LawConsequenceRow): void {
   if (
     row.kind !== "tax" ||
-    row.when !== "assessment" ||
+    (row.when !== "assessment" && row.when !== "payment") ||
     row.who.selector !== TAX_SELECTOR ||
-    row.what !== TAX_ACTION
+    (row.what !== TAX_ACTION && row.what !== STATUTORY_TAX_ACTION)
   )
     throw new Error("Unsupported tax assessment selector, action or activity.");
   if (
@@ -69,11 +72,21 @@ export function resolveTaxConsequences(
 ): readonly ResolvedLawConsequence[] {
   checkRow(row);
   if (
-    context.activity !== "assessment" ||
-    context.onDate !== world.currentDate ||
+    (context.activity !== "assessment" && context.activity !== "payment") ||
+    context.onDate > world.currentDate ||
+    row.when !== context.activity ||
     !context.questionKey
   )
     return [];
+  const statutory = taxBaseOccurrenceSource(world, context.activityId);
+  if (statutory && statutory.kind !== "event") {
+    return row.what === STATUTORY_TAX_ACTION
+      ? resolveStatutoryTaxConsequences(world, row, context)
+      : [];
+  }
+  if (context.activity !== "assessment" || context.onDate !== world.currentDate)
+    return [];
+  if (row.what === STATUTORY_TAX_ACTION) return [];
   const base = recordById(world.history.taxBases ?? [], context.activityId);
   if (
     !base ||
@@ -182,6 +195,97 @@ export function resolveTaxConsequences(
         currency: preview.taxAmount.currency,
       },
     });
+  }
+  return result;
+}
+
+/** Existing statutory rows are attributed, never reassessed or paid again. */
+function resolveStatutoryTaxConsequences(
+  world: World,
+  row: LawConsequenceRow,
+  context: LawConsequenceContext,
+): readonly ResolvedLawConsequence[] {
+  const source = taxBaseOccurrenceSource(world, context.activityId);
+  if (
+    !source ||
+    source.kind === "event" ||
+    source.occurredAt !== context.onDate ||
+    source.payer.kind !== "person" ||
+    !context.subjectIds.includes(source.payer.personId) ||
+    (context.activity === "assessment" &&
+      source.kind !== "statutory-liability") ||
+    (context.activity === "payment" && source.kind !== "statutory-payment")
+  )
+    return [];
+  const proposition = Object.values(world.policyCatalog.propositions).find(
+    (entry) => entry.stableKey === context.questionKey,
+  );
+  if (!proposition) return [];
+  const liabilities =
+    source.kind === "statutory-liability"
+      ? [source.liabilityRecord]
+      : source.liabilityRecords;
+  const result: ResolvedLawConsequence[] = [];
+  for (const liability of liabilities) {
+    const law = lawInForce(
+      world,
+      source.jurisdictionId,
+      proposition.id,
+      `${liability.taxYear}-01-01` as typeof context.onDate,
+      "enacted-only",
+    );
+    if (
+      !law ||
+      (context.governingLawId && law.measureId !== context.governingLawId) ||
+      !liability.lawMeasureIds?.includes(law.measureId)
+    )
+      continue;
+    const liabilitySource = taxBaseOccurrenceSource(world, liability.id);
+    if (!liabilitySource || liabilitySource.kind !== "statutory-liability")
+      continue;
+    const allocations =
+      source.kind === "statutory-liability"
+        ? [
+            {
+              amount: liability.liability,
+              ids: liabilitySource.sourceRecordIds,
+            },
+          ]
+        : source.paymentRecords
+            .filter((payment) => payment.liabilityId === liability.id)
+            .map((payment) => ({
+              amount: payment.amount,
+              ids: [
+                ...liabilitySource.sourceRecordIds,
+                payment.id,
+                source.transferRecord.id,
+                source.flowRecord.id,
+                ...(source.flowRecord.recipient.kind === "organization"
+                  ? [source.flowRecord.recipient.organizationId]
+                  : []),
+              ],
+            }));
+    for (const allocation of allocations) {
+      if (!allocation.amount) continue;
+      const resolved: ResolvedLawConsequence = {
+        row,
+        law,
+        questionKey: proposition.stableKey,
+        jurisdictionId: source.jurisdictionId,
+        subject: { kind: "person", id: source.payer.personId },
+        activityId: context.activityId,
+        effectiveAt: source.occurredAt,
+        sourceRecordIds: [...new Set(allocation.ids)],
+        value: {
+          type: "amount",
+          value: allocation.amount.minorUnits,
+          unit: "minor",
+          currency: allocation.amount.currency,
+        },
+      };
+      // The writer validates the exact law, levy, payer and allocation again.
+      result.push(resolved);
+    }
   }
   return result;
 }
@@ -343,6 +447,12 @@ export function applyTaxConsequence(
       ? assessTaxBase(world, current.activityId, proposal.terms.seriesKey)
       : world;
   }
+  const source = taxBaseOccurrenceSource(world, resolved.activityId);
+  if (source && source.kind !== "event") {
+    return resolved.row.what === STATUTORY_TAX_ACTION
+      ? appendStatutoryTaxLawAttribution(world, resolved)
+      : world;
+  }
   const current = resolveTaxConsequences(world, resolved.row, {
     onDate: resolved.effectiveAt,
     activity: "assessment",
@@ -369,7 +479,7 @@ export const TAX_REGISTRATION: LawConsequenceKindRegistration<ResolvedAnyLawCons
     kind: "tax",
     owner: "team-6",
     selectors: [TAX_SELECTOR],
-    actions: [TAX_ACTION],
+    actions: [TAX_ACTION, STATUTORY_TAX_ACTION],
     predicates: [TAX_PREDICATE],
     units: ["minor"],
     resolve: resolveTaxConsequences,

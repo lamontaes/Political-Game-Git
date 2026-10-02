@@ -93,6 +93,12 @@ export interface LawConsequenceRow {
     | "payment";
   who: { selector: string; predicates: LawConsequencePredicate[] };
   what: string;
+  /** Binding to an already saved statutory levy; never an assessment formula. */
+  attributes?: {
+    level: LawInForce["level"];
+    taxKey: string;
+    authority?: string;
+  };
   amount?: LawAmountExpression;
   decision?: {
     op: "term" | "record";
