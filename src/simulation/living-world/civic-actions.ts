@@ -1,3 +1,5 @@
+import { futureDueItemStateAt } from "../future-transitions";
+import { LOCAL_COUNCIL_MEETING } from "./local-council-meetings";
 import { addDays, ageOnDate, daysBetween } from "../dates";
 import { currentGovernorOf } from "../crisis/offices";
 import { lifePlaceByJurisdictionId } from "../life-places";
@@ -36,8 +38,8 @@ import { reactionLens } from "./official-views";
  * government meeting (Pew). The measures below are set so a town's totals
  * land near them; `tests/nationwide/town-civic-actions.test.ts` checks it.
  *
- * NOT MODELED: what the contact said, and which meeting was attended; the
- * event records only that it happened, whom it reached and the government.
+ * NOT MODELED: what the contact said. Attendance names the existing scheduled
+ * council meeting; without one on the review date, no attendance is recorded.
  */
 
 export const CIVIC_ACTIONS_VERSION = "civic-actions-v2";
@@ -213,7 +215,27 @@ function record(
   officialId: EntityId | null,
 ): World {
   const today = world.currentDate;
+  const meeting =
+    action === "attended"
+      ? world.history.futureDueItems.find(
+          (item) =>
+            item.transitionKey === LOCAL_COUNCIL_MEETING &&
+            item.jurisdictionId === town &&
+            item.dueAt === today &&
+            (futureDueItemStateAt(world, item.id, {
+              asOfDate: today,
+              historySequenceExclusive: world.history.nextSequence,
+            })?.status === "scheduled" ||
+              world.history.events.some(
+                (event) =>
+                  event.stableKey === `${item.stableKey}:held` &&
+                  event.occurredAt === today,
+              )),
+        )
+      : null;
+  if (action === "attended" && !meeting) return world;
   const ids = officialId ? [personId, officialId] : [personId];
+  if (meeting) ids.push(meeting.id);
   return recordWorldEvent(world, {
     stableKey: `${CIVIC_ACTIONS_VERSION}:${town}:${reviewKey}:${action}:${personId}`,
     type: CIVIC_ACTION_EVENTS[action],
@@ -235,7 +257,11 @@ function record(
     ],
     personFactConstraints: [],
     visibility: "limited",
-    tags: ["life.civic", CIVIC_ACTIONS_VERSION],
+    tags: [
+      "life.civic",
+      CIVIC_ACTIONS_VERSION,
+      ...(meeting ? [`meeting:${meeting.id}`] : []),
+    ],
     summary:
       action === "contacted"
         ? "A resident contacted an elected official."

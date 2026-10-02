@@ -1,3 +1,8 @@
+import { LOCAL_COUNCIL_MEETING } from "../../src/simulation/living-world/local-council-meetings";
+import {
+  cancelFutureDueItem,
+  scheduleFutureDueItem,
+} from "../../src/simulation/future-transitions";
 import { describe, expect, it } from "vitest";
 
 import { DEFAULT_NEW_GAME_SETUP } from "../../src/presentation/new-game";
@@ -41,6 +46,19 @@ describe(
     withWorldIntegrityDeferred(() => {
       for (let round = 0; round < 4; round += 1) {
         const date = addDays(world.currentDate, 91);
+        // Controlled calendar input for the existing yearly-rate proof. The
+        // production attendance reader must name this saved scheduled meeting.
+        world = scheduleFutureDueItem(world, {
+          stableKey: `${SEED}:scheduled-meeting:${round}`,
+          dueAt: date,
+          transitionKey: LOCAL_COUNCIL_MEETING,
+          entityIds: [town, personId],
+          jurisdictionId: town,
+          provenance: {
+            kind: "authored",
+            note: "Controlled scheduled meeting for civic attendance proof.",
+          },
+        });
         world = {
           ...world,
           currentDate: date,
@@ -105,6 +123,78 @@ describe(
         return group.filter((id) => acted.has(id)).length / group.length;
       };
       expect(shareAged(50, 120)).toBeGreaterThan(shareAged(18, 30));
+    });
+
+    it("attendance names its saved scheduled meeting record, and no meeting is scheduled means no attendance", () => {
+      const attendance = events.filter(
+        (event) => event.type === CIVIC_ACTION_EVENTS.attended,
+      );
+      expect(attendance.length).toBeGreaterThan(0);
+      for (const event of attendance) {
+        const meeting = world.history.futureDueItems.find(
+          (item) =>
+            item.transitionKey === LOCAL_COUNCIL_MEETING &&
+            item.jurisdictionId === town &&
+            item.dueAt === event.occurredAt,
+        )!;
+        expect(meeting).toBeDefined();
+        expect(event.involvedEntityIds).toContain(meeting.id);
+        expect(event.tags).toContain(`meeting:${meeting.id}`);
+      }
+      const currentMeeting = world.history.futureDueItems.find(
+        (item) =>
+          item.transitionKey === LOCAL_COUNCIL_MEETING &&
+          item.dueAt === world.currentDate,
+      )!;
+      const cancelled = withWorldIntegrityDeferred(() =>
+        cancelFutureDueItem(world, {
+          stableKey: `${SEED}:cancel-meeting`,
+          dueItemId: currentMeeting.id,
+          effectiveAt: world.currentDate,
+          reasonKey: "civic:test-meeting-cancelled",
+          context: "Controlled calendar cancellation.",
+        }),
+      );
+      const afterCancellation = withWorldIntegrityDeferred(() =>
+        reviewTownCivicActions(cancelled, town, personId, "cancelled-meeting"),
+      );
+      expect(
+        afterCancellation.history.events
+          .slice(cancelled.history.events.length)
+          .some((event) => event.type === CIVIC_ACTION_EVENTS.attended),
+      ).toBe(false);
+      const dayWithoutMeeting = addDays(world.currentDate, 1);
+      const withoutMeetings = {
+        ...world,
+        currentDate: dayWithoutMeeting,
+        currentMoment: simulationMomentOnLocalDate(
+          world.currentMoment,
+          dayWithoutMeeting,
+        ),
+      };
+      expect(
+        withoutMeetings.history.futureDueItems.some(
+          (item) =>
+            item.transitionKey === LOCAL_COUNCIL_MEETING &&
+            item.dueAt === dayWithoutMeeting,
+        ),
+      ).toBe(false);
+      const reviewed = withWorldIntegrityDeferred(() =>
+        reviewTownCivicActions(
+          withoutMeetings,
+          town,
+          personId,
+          "no-scheduled-meeting",
+        ),
+      );
+      expect(
+        reviewed.history.events
+          .slice(withoutMeetings.history.events.length)
+          .some((event) => event.type === CIVIC_ACTION_EVENTS.attended),
+      ).toBe(false);
+      process.stdout.write(
+        `${JSON.stringify({ receipt: "A157 random production opening", placeKey: PLACE.key, worldId: game.world.id, currentDate: game.world.currentDate })}\n`,
+      );
     });
 
     it("a contact names a real official, dated on its review", () => {
