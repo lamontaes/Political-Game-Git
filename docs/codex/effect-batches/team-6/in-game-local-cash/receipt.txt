@@ -1,0 +1,36 @@
+TEAM6 current-game local opening cash — bounded consumer proof
+Base: d7ede9f73d326f43d8317e737ee19972ffa2fe7e.
+Audit donor: 8347a647c8aabd5540df9e700af57c9a71375d23, received pure extraction+focused test+preserved withholding reexport+release declaration only; no query source received.
+Shared leaf blob: e9a75625fe136ad7db6622b7ef73c4aa987f0367 unchanged.
+Consumer now imports ../sample-spread. Actual source tested before final receipt commit; no semantic edits afterward.
+
+COMMAND: OCD_STORAGE_OVERRIDE='cloud container; CTO ruling Oct 2 4:37' npm run storage -- run test -- npx --no-install vitest run src/simulation/public-budgets/opening-government-accounts.test.ts src/simulation/sample-spread.test.ts
+TERMINAL session67760 exit0.
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+
+ Test Files  2 passed (2)
+      Tests  27 passed (27)
+   Start at  12:44:44
+   Duration  19.43s (transform 11.20s, setup 34ms, import 14.10s, tests 5.26s, environment 1ms)
+
+
+Changed opening-account file23/23 PASS; received math file4/4 PASS; TOTAL27/27 PASS. These are Team6 receiving execution, not donor reports or official Claude gates.
+COMMAND: node /tmp/team6-in-game-cash-shared-types.mjs
+
+roots 5; files 1004; diagnostics 0
+
+Strict roots: opening-government-accounts.ts/test, income-tax-withholding.ts, sample-spread.ts/test. Five changed roots, imported graph only; no repository-wide app typecheck.
+Changed ESLint5TSfiles: terminal exit0, no diagnostics.
+Changed Prettier5TSfiles+2newdeclarations: terminal exit0, all matched files styled.
+Git diff --check: exit0.
+A47 static audit: pinned main d7ede9f73 and branch both6/6; no flips. Results /tmp/team6-in-game-cash-main-audit.json and branch-audit.json; no rule-target files changed afterward.
+Declaration transition checked exact final committed range separately before publication.
+
+Measured: five admitted local governments without saved opening cash profile get recorded accounts; opening cash equals actual game peer cash normalized by saved game population. Same-kind peers preferred, nearest population brackets. Donor org/position IDs and values, mean, spread saved in account provenance. Actual completed payment changes next estimate. No new transfer/receipt from opening; repeat and canonical Save/Continue byte-identical. Exact world profile precedence retained.
+Initial2 test-only provenance-union type errors repaired with authored-kind guard, final scoped type0.
+New exports: estimateLocalOpeningCash, InGameOpeningCashEstimate. Existing spreadOf/Spread extracted by Audit unchanged, original reexport preserved. No new calculator.
+
+LIMITS: township/ambiguous ownership shared validator+lookup join remains missing; strict saved account/evidence/duplicate guards retained. Draft jurisdiction-only alias removed and preserved at /tmp/team6-local-opening-cash-pre-primary-join-review.patch. Not full item1 acceptance or service delivery proof.
+Legal research/modal fallback STOPPED per CTO08:28; batch08 acquired source bytes preserved/unpublished. Tax source chain1943 stays9c2b unchanged.
+NOT RUN: Audit query tests9 (source not supplied), full suite, unrelated LOAD/browser, repository-wide types, official Claude gate. No merges.

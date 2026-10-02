@@ -1,5 +1,5 @@
 import { makeIsoDate } from "../dates";
-import { spreadOf } from "../income-tax-withholding";
+import { spreadOf } from "../sample-spread";
 import { readMonthFlows } from "./month";
 import {
   governmentUnit,
