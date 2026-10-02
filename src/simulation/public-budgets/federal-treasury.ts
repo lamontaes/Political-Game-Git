@@ -1,5 +1,4 @@
 import federal from "../../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
-import outlayTerms from "../../../data/research/federal/federal-outlay-terms-fy2025.json" with { type: "json" };
 import {
   defenseBuildUpShare,
   GROW_DEFENSE_SPENDING_QUESTION,
@@ -8,6 +7,7 @@ import {
   DEBT_LIMIT_CUTS_QUESTION,
   INCREASE_FOREIGN_AID_QUESTION,
   federalLawInForceAt,
+  federalLawAmountAt,
   recordedFederalAnnualSpendingBefore,
 } from "../federal-outlay-laws";
 import { lawInForce } from "../governing/law-in-force";
@@ -89,33 +89,72 @@ export interface FederalLawEffect {
 const DEBT_LIMIT_CUT_LINES = FEDERAL_OUTLAYS.filter(
   (key) => key !== "nationalDefense" && key !== "netInterest",
 );
-const DEBT_LIMIT_CUT_SHARE_OF_LINES =
-  outlayTerms.debtLimitCut.yearlyDollars /
-  DEBT_LIMIT_CUT_LINES.reduce(
-    (sum, key) =>
-      sum + (federal.outlays as Readonly<Record<string, number>>)[key]!,
-    0,
-  );
 
 export const FEDERAL_LAW_EFFECTS: readonly FederalLawEffect[] = [
   {
     questionKey: INCREASE_FOREIGN_AID_QUESTION,
     line: { kind: "outlay", key: "internationalAffairs" },
-    toYes: outlayTerms.foreignAid.medianRise,
+    toYes: null,
     toNo: null,
     timing: "month",
-    basis: `More foreign aid raises International Affairs outlays by ${(outlayTerms.foreignAid.medianRise * 100).toFixed(2)}%, the median yearly rise in the years they rose, fiscal 2016 to 2025 (Monthly Treasury Statement, Table 9; Build 11's federal-outlay-laws.ts).`,
+    basis:
+      "Final adopted annual foreign-aid appropriation against the complete saved preceding International Affairs spending year.",
+    shareOn: (world, month) => {
+      const aid = federalLawAmountAt(
+        world,
+        INCREASE_FOREIGN_AID_QUESTION,
+        "appropriation",
+        month,
+      );
+      const base = aid.law
+        ? recordedFederalAnnualSpendingBefore(
+            world,
+            FEDERAL_OUTLAYS.indexOf("internationalAffairs"),
+            aid.law.operativeAt,
+          )
+        : null;
+      return !aid.law || aid.amount === null || base === null
+        ? null
+        : {
+            share: aid.amount / base - 1,
+            measureId: aid.law.measureId,
+            monthlyBase: base / 12,
+          };
+    },
   },
-  // Cuts that pay for a higher debt limit: the Fiscal Responsibility Act's
-  // $150 billion a year, taken evenly from every line but defense and net
-  // interest, as that deal capped nondefense spending.
   ...DEBT_LIMIT_CUT_LINES.map((key): FederalLawEffect => ({
     questionKey: DEBT_LIMIT_CUTS_QUESTION,
     line: { kind: "outlay", key },
-    toYes: -DEBT_LIMIT_CUT_SHARE_OF_LINES,
+    toYes: null,
     toNo: null,
     timing: "month",
-    basis: `Paying for a higher debt limit cuts $${outlayTerms.debtLimitCut.yearlyDollars / 1e9} billion a year, the Fiscal Responsibility Act of 2023's $1.5 trillion over ten years (Congressional Budget Office), taken evenly from every outlay but national defense and net interest: ${(DEBT_LIMIT_CUT_SHARE_OF_LINES * 100).toFixed(2)}% of each.`,
+    basis:
+      "Final adopted annual offset allocated proportionally over the complete saved preceding eligible outlay categories, excluding defense and net interest.",
+    shareOn: (world, month) => {
+      const cut = federalLawAmountAt(
+        world,
+        DEBT_LIMIT_CUTS_QUESTION,
+        "offset",
+        month,
+      );
+      if (!cut.law || cut.amount === null) return null;
+      const bases = DEBT_LIMIT_CUT_LINES.map((line) =>
+        recordedFederalAnnualSpendingBefore(
+          world,
+          FEDERAL_OUTLAYS.indexOf(line),
+          cut.law!.operativeAt,
+          true,
+        ),
+      );
+      if (bases.some((base) => base === null)) return null;
+      const total = bases.reduce<number>((sum, base) => sum + base!, 0);
+      if (total === 0) return null;
+      return {
+        share: -Math.min(1, cut.amount / total),
+        measureId: cut.law.measureId,
+        monthlyBase: bases[DEBT_LIMIT_CUT_LINES.indexOf(key)]! / 12,
+      };
+    },
   })),
   {
     questionKey: GROW_DEFENSE_SPENDING_QUESTION,
@@ -284,13 +323,18 @@ export function settleFederalTreasuryMonth(
   const programCosts = federalProgramCostsForMonth(world, month);
   const line = (kind: FederalLine["kind"], key: string, base: number) => {
     let amount = base;
+    let movedByLaw = false;
     for (const effect of FEDERAL_LAW_EFFECTS) {
       if (effect.line.kind !== kind || effect.line.key !== key) continue;
       const moved = lawFactor(world, effect, month);
       if (!moved) continue;
       const actualBase = moved.baseAmount ?? amount;
-      const next = actualBase * moved.factor;
-      const changedAmount = Math.round(next - actualBase);
+      // Each law contributes its own change from its recorded base. Later
+      // effects must not replace an earlier law's adopted amount on this line.
+      const before = movedByLaw ? amount : actualBase;
+      const next = Math.max(0, before + actualBase * (moved.factor - 1));
+      const changedAmount = Math.round(next - before);
+      movedByLaw = true;
       const proposition =
         kind === "outlay" && changedAmount !== 0
           ? Object.values(world.policyCatalog?.propositions ?? {}).find(

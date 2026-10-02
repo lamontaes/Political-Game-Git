@@ -1,3 +1,5 @@
+import { recordFiledProvision } from "./legislative-politics";
+import { appropriationFromEnactedMeasure } from "./governing/program-governing";
 import { advanceWorld } from "./world";
 import { createCampaignElectionTransitionRegistry } from "./campaigns";
 import {
@@ -43,7 +45,6 @@ import { createOrganization } from "./life";
 import { createResourcePosition, money } from "./resources";
 import {
   ensurePublicGovernmentAccount,
-  publicOrganizationKey,
   publicTaxAccountForJurisdiction,
 } from "./tax-policy";
 import type { World } from "./types";
@@ -52,11 +53,14 @@ import {
   declareProgramCapacity,
   programAppropriations,
   programInstallments,
-  recordProgramAppropriation,
   settleProgramInstallment,
 } from "./governing/public-program";
 import { programOperatorOrganization } from "./governing/program-governing";
-import { FIXTURE, cash } from "./../../tests/fixtures/public-program-fixture";
+import {
+  FIXTURE,
+  cash,
+  pay,
+} from "./../../tests/fixtures/public-program-fixture";
 
 const PROGRAM_KEY = "passenger-rail:us";
 const PAYMENT = money(100_000_00, "USD");
@@ -94,6 +98,30 @@ describe("actual federal program costs on the Treasury", () => {
       propositionAnswers: [{ propositionId: proposition.id, answer: "yes" }],
     });
     const measure = world.history.legislativeMeasures!.at(-1)!;
+    world = recordFiledProvision(world, {
+      stableKey: "test:rail-cost:annual-amount",
+      measureId: measure.id,
+      provisionKey: "appropriation",
+      sectionNumber: 1,
+      heading: "Annual rail appropriation",
+      text: "Controlled final annual appropriation for the payment fixture.",
+      beneficiary: {
+        kind: "general-application",
+        appliesToLabel: "Rail program",
+      },
+      applicationScope: {
+        jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+        segmentKey: null,
+      },
+      lawTerms: [
+        {
+          questionKey: EXPAND_PASSENGER_RAIL_QUESTION,
+          key: "appropriation",
+          unit: "dollars/year",
+          value: 150_000,
+        },
+      ],
+    });
     const bodies = US_CONGRESS_RULE_PACK.chamberOrder.map((key) => {
       const seated = seatedCongressChamber(world, key);
       if (!seated) throw new Error("Expected the actual seated Congress.");
@@ -140,33 +168,41 @@ describe("actual federal program costs on the Treasury", () => {
     const president = currentPresidentOf(world);
     if (!president) throw new Error("Expected a sitting President.");
     const jurisdictionId = NATIONAL_ELECTION_JURISDICTION.id;
-    const publicOrganizationId = publicOrganizationKey(jurisdictionId);
-    world = createOrganization(world, {
-      stableKey: publicOrganizationId,
-      formedAt: world.currentDate,
-      provenance: { kind: "authored", note: FIXTURE.note },
-      initialProfile: {
-        name: "Federal public government",
-        classification: "sector:government",
-        locationJurisdictionId: jurisdictionId,
-      },
-    });
-    const publicGovernment = world.history.organizations.at(-1)!;
-    world = createResourcePosition(world, {
-      stableKey: `${publicOrganizationId}:modeled-receipts:USD`,
-      owner: { kind: "organization", organizationId: publicGovernment.id },
-      openedAt: world.currentDate,
-      openingBalance: money(150_000_00, "USD"),
-      provenance: { kind: "authored", note: FIXTURE.note },
-    });
     world = ensurePublicGovernmentAccount(world, {
       kind: "jurisdiction",
       jurisdictionId,
     });
     const account = publicTaxAccountForJurisdiction(world, jurisdictionId);
-    expect(account?.organizationId).toBe(publicGovernment.id);
     if (!account) throw new Error("Expected the federal public account.");
-
+    const cashBeforeFixtureFunding = cash(world, account.organizationId);
+    world = createOrganization(world, {
+      stableKey: "test:rail-cost:receipts-payer",
+      formedAt: world.currentDate,
+      provenance: { kind: "authored", note: FIXTURE.note },
+      initialProfile: {
+        name: "Controlled receipts payer",
+        classification: "sector:private",
+        locationJurisdictionId: jurisdictionId,
+      },
+    });
+    const payerId = world.history.organizations.at(-1)!.id;
+    world = createResourcePosition(world, {
+      stableKey: "test:rail-cost:fixture-funding:USD",
+      owner: { kind: "organization", organizationId: payerId },
+      openedAt: world.currentDate,
+      openingBalance: money(150_000_00, "USD"),
+      provenance: { kind: "authored", note: FIXTURE.note },
+    });
+    world = pay(
+      world,
+      "test:rail-cost:actual-receipt",
+      payerId,
+      account.organizationId,
+      150_000_00,
+    );
+    expect(cash(world, account.organizationId)).toBe(
+      cashBeforeFixtureFunding + 150_000_00,
+    );
     world = declareProgramCapacity(world, {
       edition: "federal-outlay-metric",
       programKey: PROGRAM_KEY,
@@ -180,21 +216,12 @@ describe("actual federal program costs on the Treasury", () => {
       restorationCostPerUnit: PAYMENT,
       basis: FIXTURE,
     }).world;
-    const written = recordProgramAppropriation(world, {
-      edition: "federal-outlay-metric",
-      programKey: PROGRAM_KEY,
-      jurisdictionId,
-      accountOrganizationId: account.organizationId,
-      amount: money(150_000_00, "USD"),
-      sourceMeasureId: measure.id,
-      availableFrom: world.currentDate,
-      availableThrough: addDays(world.currentDate, 30),
-      basis: FIXTURE,
-    });
-    world = written.world;
+    world = appropriationFromEnactedMeasure(world, measure.id);
     const appropriation = programAppropriations(world, PROGRAM_KEY).find(
-      (record) => record.id === written.id,
+      (record) => record.sourceMeasureId === measure.id,
     );
+    expect(appropriation?.amount).toEqual(money(150_000_00, "USD"));
+    expect(appropriationFromEnactedMeasure(world, measure.id)).toBe(world);
     if (!appropriation)
       throw new Error("The federal appropriation is missing.");
 
@@ -257,7 +284,9 @@ describe("actual federal program costs on the Treasury", () => {
         sourceEntityIds: [installment.eventId],
       },
     });
-    expect(cash(world, account.organizationId)).toBe(50_000_00);
+    expect(cash(world, account.organizationId)).toBe(
+      cashBeforeFixtureFunding + 150_000_00 - PAYMENT.minorUnits,
+    );
     expect(cash(world, operator.organizationId)).toBe(PAYMENT.minorUnits);
 
     const paid = settleFederalTreasuryMonth(world, opened, month).months.at(

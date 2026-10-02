@@ -1,4 +1,5 @@
 /** Federal spending amounts come from adopted bill text, including starting law. */
+import outlayTerms from "../../data/research/federal/federal-outlay-terms-fy2025.json" with { type: "json" };
 import { FEDERAL_OUTLAYS } from "./public-budgets/federal-budget-categories";
 import { lawInForce } from "./governing/law-in-force";
 import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
@@ -59,6 +60,7 @@ export function recordedFederalAnnualSpendingBefore(
   world: World,
   lineIndex: number | null,
   before: IsoDate,
+  allowZero = false,
 ): number | null {
   const rows = (world.publicBudgets?.federalGovernment?.months ?? [])
     .filter((row) => row.month < before && row.month <= world.currentDate)
@@ -85,7 +87,7 @@ export function recordedFederalAnnualSpendingBefore(
   )
     return null;
   const total = amounts.reduce<number>((sum, value) => sum + value!, 0);
-  return total > 0 ? total : null;
+  return total > 0 || allowZero ? total : null;
 }
 
 export function federalOutlayChangeAt(
@@ -128,13 +130,15 @@ export function federalOutlayChangeAt(
   };
 }
 
-/** A dollar GDP denominator is not supplied by the world's macro indexes. */
+/** Adopted annual spending change over the existing sourced annual-dollar GDP. */
 export function federalDeficitChangePctOfGdp(
   world: World,
   onDate: IsoDate,
 ): number | null {
   const { cutDollars, aidDollars } = federalOutlayChangeAt(world, onDate);
-  return cutDollars === 0 && aidDollars === 0 ? 0 : null;
+  return cutDollars === null || aidDollars === null
+    ? null
+    : (100 * (aidDollars - cutDollars)) / outlayTerms.nationalGdp2025;
 }
 
 /** Apply the adopted offset as a share of the complete recorded federal spending base. */
@@ -145,11 +149,28 @@ export function federalAidFactor(world: World, onDate: IsoDate): number {
     "offset",
     onDate,
   );
-  if (!cut.law || cut.amount === null) return 1;
-  const base = recordedFederalAnnualSpendingBefore(
+  const base = cut.law
+    ? recordedFederalAnnualSpendingBefore(world, null, cut.law.operativeAt)
+    : null;
+  const offsetFactor =
+    cut.amount === null || base === null
+      ? 1
+      : Math.max(0, 1 - cut.amount / base);
+  const aid = federalLawAmountAt(
     world,
-    null,
-    cut.law.operativeAt,
+    INCREASE_FOREIGN_AID_QUESTION,
+    "appropriation",
+    onDate,
   );
-  return base === null ? 1 : Math.max(0, 1 - cut.amount / base);
+  const aidBase = aid.law
+    ? recordedFederalAnnualSpendingBefore(
+        world,
+        FEDERAL_OUTLAYS.indexOf("internationalAffairs"),
+        aid.law.operativeAt,
+      )
+    : null;
+  return (
+    offsetFactor *
+    (aid.amount === null || aidBase === null ? 1 : aid.amount / aidBase)
+  );
 }

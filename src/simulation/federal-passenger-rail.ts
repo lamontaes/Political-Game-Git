@@ -3,6 +3,8 @@ import { federalLawAmountAt } from "./federal-outlay-laws";
 import type { IsoDate, World } from "./types";
 export const EXPAND_PASSENGER_RAIL_QUESTION =
   "us-federal-positions:transport-water.expand-passenger-rail";
+/** Existing rail payment and transportation-outlay join key. */
+export const PASSENGER_RAIL_PROGRAM_KEY = "passenger-rail:us";
 export function passengerRailAppropriationAt(world: World, onDate: IsoDate) {
   return federalLawAmountAt(
     world,

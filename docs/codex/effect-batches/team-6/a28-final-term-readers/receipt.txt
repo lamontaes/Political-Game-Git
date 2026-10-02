@@ -81,3 +81,14 @@ conversion remain unsupported. Funding is not delivered riders or service
 hours. No new account/payment writer, research rates or forecast outcome.
 Root A15 financial producer receives capDollarsPerRecipient and lawMeasureId;
 cutShare remains null with no actual aggregate recipient-payment basis.
+
+A28 aid/debt/rail/deficit repair, October 2, 2026, current-main intake f379be952 at local75b7481.
+Latest complete changed files: 6/6, 42/42 PASS, 50.55s, session21107 exit0, stock one-worker limits.
+Files: federal-final-bill-terms.test.ts16; public-budgets/federal-treasury.test.ts9; nationwide/federal-outlay-laws.test.ts9 (Team9 donor373d6c9); federal-cost-ledger.test.ts1; nationwide/federal-defense-spending-law.test.ts4; nationwide/federal-passenger-rail-law.test.ts3.
+Command: OCD_STORAGE_OVERRIDE='Owner approved cloud storage-reserve bypass 2026-10-02' node scripts/storage/cli.mjs run test -- npx vitest run <six files above> --maxWorkers=1.
+Scoped types13roots1227deps0; no repository-wide typecheck.
+Random new production game in changed test: seed team6-a28-final-bill-new-game-20261002, drawn4707860, playerperson_245d88c1871cba1b, Jan5,2026.
+Rail adopted annual150000dollars -> existing recordAdoptedAppropriation -> actual controlled receipt -> actual100000dollar installment -> same saved federal account and rail paid-outlay ledger; no fictional delivery claimed. Replay and saved-ledger reload assertions retained.
+AUDIT A28 pinnedmainf379be9525/11 -> branch11/11, PARTLY. Static rule flips unchanged from prior successful repair; actual foreign-aid/offset/rail execution now added.
+Preserved failures: first aid/debt24P1F incorrectly asserted stamp.measureId instead of governingLawKey; six-file41P1F fixture tried duplicate government; rail fixture next refused second liquid position; actual rail authority initially saved under generic appropriations:us instead of existing passenger-rail:us; next exact cash assertion exposed missing fixture receipt call. All repaired without weakening money/stamp/replay assertions or increasing limits.
+Farm: no new farm edits; whole reader donor7a0b/blob425b659d332fc58582cb1a5a8df3f30ee5d41f67 released to Team1 #2007. Parent not merged at publication preparation. No self-merge, nationwide natural passage/service/browser/official Claude gate NOT RUN.

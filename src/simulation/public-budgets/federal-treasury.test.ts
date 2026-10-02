@@ -195,32 +195,112 @@ describe("the federal treasury", () => {
     }
   });
 
-  it("spends 6.72% more on international affairs under a foreign aid law, and $150 billion a year less under debt-limit cuts", () => {
-    const month = ["2026-06-01"];
-    const none = settleThrough(lawWorld([]), month).months[0]!;
-    const withLaws = settleThrough(
-      lawWorld([
-        enacted("yes", "2026-04-01", AID),
-        enacted("yes", "2026-04-01", CUTS),
-      ]),
-      month,
-    ).months[0]!;
+  it("spends the adopted aid amount and allocates the adopted offset over recorded eligible spending", () => {
+    const aid = enacted("yes", "2027-01-01", AID);
+    const cuts = enacted("yes", "2027-01-01", CUTS);
+    const repealAid = enacted("no", "2028-01-01", AID);
+    const repealCuts = enacted("no", "2028-01-01", CUTS);
+    const initial = lawWorld([aid, cuts, repealAid, repealCuts]);
+    const annualAid = 24000;
+    const annualOffset = 1320;
+    const world = {
+      ...initial,
+      publicBudgets: {
+        federalGovernment: {
+          months: Array.from({ length: 12 }, (_, index) => ({
+            month: makeIsoDate(`2026-${String(index + 1).padStart(2, "0")}-01`),
+            spending: FEDERAL_OUTLAYS.map(() => 100),
+          })),
+        },
+      },
+      history: {
+        ...initial.history,
+        legislativeProvisions: [
+          {
+            law: aid,
+            questionKey: INCREASE_FOREIGN_AID_QUESTION,
+            key: "appropriation",
+            value: annualAid,
+          },
+          {
+            law: cuts,
+            questionKey: DEBT_LIMIT_CUTS_QUESTION,
+            key: "offset",
+            value: annualOffset,
+          },
+        ].map(({ law, questionKey, key, value }) => ({
+          id: `${law.measure.id}:adopted` as EntityId,
+          sequence: law.enactment.sequence - 1,
+          measureId: law.measure.id,
+          recordedAt: law.enactment.resolvedAt,
+          supersedesProvisionId: null,
+          applicationScope: {
+            jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+            segmentKey: null,
+          },
+          lawTerms: [{ questionKey, key, unit: "dollars/year", value }],
+        })),
+      },
+    } as unknown as World;
+    const month = makeIsoDate("2027-06-01");
+    const opened = openFederalTreasury(month);
+    const result = settleFederalTreasuryMonth(world, opened, month);
+    const saved = result.months.at(-1)!;
     const intl = FEDERAL_OUTLAYS.indexOf("internationalAffairs");
-    const defense = FEDERAL_OUTLAYS.indexOf("nationalDefense");
-    expect(withLaws.outlays[defense]).toBe(none.outlays[defense]);
-    expect(withLaws.outlays[interest]).toBe(none.outlays[interest]);
-    // Foreign aid then the cut: 1.0672 times 0.9707 of the line.
-    expect(withLaws.outlays[intl]! / none.outlays[intl]!).toBeCloseTo(
-      1.0672 * (1 - 0.02928),
-      4,
+    // Eleven eligible lines at $100/month each: $10/month removed from each.
+    expect(saved.outlays[intl]).toBe(annualAid / 12 - 10);
+    const aidRecord = saved.laws.find(
+      (row) => row.questionKey === INCREASE_FOREIGN_AID_QUESTION,
+    )!;
+    expect(aidRecord.amount).toBe(annualAid / 12 - 100);
+    expect(aidRecord.lawEffectStamps?.[0]?.governingLawKey).toBe(
+      aid.measure.id,
     );
-    const total = (row: typeof none) =>
-      row.outlays.reduce((sum, value) => sum + value, 0);
-    const aidDollars = (45_169_891_179.7 * 0.0672 * (1 - 0.02928)) / 12;
-    expect((total(none) - total(withLaws) + aidDollars) / 1e9).toBeCloseTo(
-      150 / 12,
-      1,
+    const cutRecords = saved.laws.filter(
+      (row) => row.questionKey === DEBT_LIMIT_CUTS_QUESTION,
     );
+    expect(cutRecords).toHaveLength(FEDERAL_OUTLAYS.length - 2);
+    expect(cutRecords.reduce((sum, row) => sum + row.amount, 0)).toBe(
+      -annualOffset / 12,
+    );
+    expect(
+      cutRecords.every(
+        (row) => row.lawEffectStamps?.[0]?.governingLawKey === cuts.measure.id,
+      ),
+    ).toBe(true);
+    const zeroCategory = FEDERAL_OUTLAYS.indexOf("agriculture");
+    const zeroWorld = {
+      ...world,
+      publicBudgets: {
+        ...world.publicBudgets!,
+        federalGovernment: {
+          ...world.publicBudgets!.federalGovernment!,
+          months: world.publicBudgets!.federalGovernment!.months.map((row) => ({
+            ...row,
+            spending: row.spending.map((value, index) =>
+              index === zeroCategory ? 0 : value,
+            ),
+          })),
+        },
+      },
+    };
+    const zeroResult = settleFederalTreasuryMonth(
+      zeroWorld,
+      opened,
+      month,
+    ).months.at(-1)!;
+    expect(zeroResult.outlays[zeroCategory]).toBe(0);
+    expect(
+      zeroResult.laws
+        .filter((row) => row.questionKey === DEBT_LIMIT_CUTS_QUESTION)
+        .reduce((sum, row) => sum + row.amount, 0),
+    ).toBe(-annualOffset / 12);
+    expect(settleFederalTreasuryMonth(world, result, month)).toBe(result);
+    const repealMonth = makeIsoDate("2028-06-01");
+    expect(
+      settleFederalTreasuryMonth(world, opened, repealMonth).months.at(-1)!
+        .laws,
+    ).toEqual([]);
   });
 
   it("does not invent farm payments from a subsidy cap while using the final defense appropriation", () => {
