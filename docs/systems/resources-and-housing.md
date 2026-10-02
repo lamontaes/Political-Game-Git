@@ -46,3 +46,11 @@ Every Stage 5 Run C family uses deterministic stable identity, provenance, one c
 ## Deferred consumers
 
 Campaign contributions/treasuries, organization budgets/accounting, government taxation/appropriations/program finance, generalized shocks/incidents, mutable support/debt/housing/tax law, territory-specific legal data, foreign governments, detailed banking/credit, and polished UI remain later-stage work. Run B aggregate income/cost/output and revenue/outlays/debt metrics are world conditions, never person/household balance mutations or a government account. Later systems may reuse both vocabularies without replacing personal life identities or turning this module into one universal finance object.
+
+## Prospective played-adult household bill contributions
+
+A new ordinary played adult's Begin records a private budget arrangement and opens a documented empty household USD account if one is absent. Existing personal savings keep their original owner. An existing save without this arrangement receives no read-triggered account or transfer: Money and property offers an explicit contribution opt-in using the same action writer.
+
+At each recorded nonhousing bill's due date, the existing flow and transfer-outcome writers record the adult's personal contribution to its actual household shortfall, capped by dated available personal cash. That one outcome debits the personal account and credits the household account; the existing bill settlement then debits household cash. Only the controlled adult authorizes this contribution. No other member's money is pooled. Missing or insufficient personal cash retains blocked, partial or missed outcomes; no estimated cash is created.
+
+Contribution identities include the bill and due date, and the prospective arrangement cannot fund an older due date. Settled receipts are immutable. Same-day contributions can fund that day's bills while later credits cannot hide an old shortfall. Existing rent, mortgage and provider contracts retain their separate writers; this arrangement does not create duplicate housing or provider charges. The ordinary clock and Save/Continue retain the same receipt identities.

@@ -3,7 +3,7 @@ import {
   LIVING_COSTS_CATEGORY_DATA,
   LIVING_COSTS_CATEGORY_SOURCES,
 } from "./living-costs-category-data";
-import { makeIsoDate } from "./dates";
+import { ageOnDate, makeIsoDate } from "./dates";
 import {
   householdMembershipsAt,
   householdLocationAt,
@@ -500,6 +500,162 @@ function prepareHouseholdCosts(
   });
 }
 
+export const HOUSEHOLD_CONTRIBUTION_BASIS =
+  "custom:household-bill-contribution" as const;
+const CONTRIBUTION_ARRANGEMENT = "life.household-bill-funding";
+
+export function householdBillContributionsArranged(
+  world: World,
+  personId: EntityId,
+): boolean {
+  const householdId = primaryHouseholdId(world, personId);
+  return (
+    !!householdId &&
+    world.history.events.some(
+      (event) =>
+        event.stableKey === `household-bill-funding:${personId}:${householdId}`,
+    )
+  );
+}
+
+/** Explicit prospective arrangement; Begin and the player's opt-in action own this write. */
+export function arrangeHouseholdBillContributions(
+  world: World,
+  personId: EntityId,
+): World {
+  if (
+    !payerIsControlled(world, personId) ||
+    ageOnDate(world.people[personId]!.birthDate, world.currentDate) < 18
+  )
+    return world;
+  const householdId = primaryHouseholdId(world, personId);
+  if (!householdId) return world;
+  const stableKey = `household-bill-funding:${personId}:${householdId}`;
+  if (world.history.events.some((event) => event.stableKey === stableKey))
+    return world;
+  const provenance = {
+    kind: "authored" as const,
+    note: "Prospective played-adult budget arrangement: contribute only the actual household bill shortfall from dated available personal cash. Other members' money is not authorized.",
+  };
+  let next = world;
+  const owner = { kind: "household" as const, householdId };
+  if (!resourcePositionAt(next, owner, money(0, "USD").currency))
+    next = createResourcePosition(next, {
+      stableKey: `${stableKey}:new-account`,
+      owner,
+      openedAt: next.currentDate,
+      openingBalance: money(0, "USD"),
+      provenance,
+    });
+  const summary =
+    "Your household bill budget is recorded. When a recorded bill falls due, you contribute its shortfall from your available personal cash; your other savings remain yours.";
+  next = recordWorldEvent(next, {
+    stableKey,
+    type: CONTRIBUTION_ARRANGEMENT,
+    occurredAt: next.currentDate,
+    recordedAt: next.currentDate,
+    jurisdictionId: next.people[personId]!.homeJurisdictionId,
+    involvedEntityIds: [personId, householdId],
+    participants: [
+      { personId, role: "focus:subject", detail: "Household bill budget" },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [CONTRIBUTION_ARRANGEMENT],
+    summary,
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  return recordEventKnowledge(next, {
+    stableKey: `${stableKey}:knowledge`,
+    personId,
+    eventId: next.history.events.at(-1)!.id,
+    learnedAt: next.currentDate,
+    believedSummary: summary,
+    accuracy: "accurate",
+    confidence: "high",
+    source: { kind: "direct" },
+  });
+}
+
+function contributeToDueBill(
+  world: World,
+  personId: EntityId,
+  bill: ResourceFlow,
+  dueOn: IsoDate,
+): World {
+  if (bill.source.kind !== "household" || dueOn !== world.currentDate)
+    return world;
+  const householdId = bill.source.householdId;
+  const arrangement = world.history.events.find(
+    (event) =>
+      event.stableKey === `household-bill-funding:${personId}:${householdId}` &&
+      event.occurredAt <= dueOn,
+  );
+  if (!arrangement) return world;
+  const terms = resourceFlowTermsAt(world, bill.id, {
+    asOfDate: dueOn,
+    historySequenceExclusive: world.history.nextSequence,
+  });
+  if (!terms || terms.status !== "active") return world;
+  const householdCash = resourcePositionAt(
+    world,
+    bill.source,
+    terms.amount.currency,
+    { asOfDate: dueOn, historySequenceExclusive: world.history.nextSequence },
+  );
+  if (!householdCash) return world;
+  const shortfall = Math.max(
+    0,
+    terms.amount.minorUnits -
+      Math.max(0, householdCash.liquidBalance.minorUnits),
+  );
+  if (!shortfall) return world;
+  const stableKey = `household-contribution:${personId}:${bill.id}:${dueOn}`;
+  if (world.history.resourceFlows.some((flow) => flow.stableKey === stableKey))
+    return world;
+  const amount = money(shortfall, terms.amount.currency);
+  const source = { kind: "person" as const, personId };
+  const payment = paymentFromDatedCash(world, source, amount, dueOn);
+  const provenance = {
+    kind: "authored" as const,
+    note: `Recorded prospective budget arrangement ${arrangement.id}; actual bill ${bill.id} shortfall, capped by dated personal cash.`,
+  };
+  const next = createResourceFlow(world, {
+    stableKey,
+    source,
+    recipient: bill.source,
+    startsAt: dueOn,
+    amount,
+    cadenceKind: "schedule:one-time",
+    basisKind: HOUSEHOLD_CONTRIBUTION_BASIS,
+    basisReference: { kind: "general" },
+    restrictionKind: null,
+    jurisdictionId: bill.jurisdictionId,
+    provenance,
+  });
+  const flow = next.history.resourceFlows.at(-1)!;
+  return recordResourceTransferOutcome(next, {
+    stableKey: `${stableKey}:payment`,
+    resourceFlowId: flow.id,
+    periodStartsAt: dueOn,
+    periodEndsAt: dueOn,
+    occurredAt: dueOn,
+    status: payment.status,
+    attemptedAmount: amount,
+    transferredAmount: payment.transferredAmount,
+    reasonKind: payment.reasonKind,
+    note: "Your personal contribution to the recorded household bill.",
+    provenance,
+  });
+}
+
 /** Opens a charge now; never backdates payments or reprices a saved contract. */
 export function initializeLivingCostsFlow(
   world: World,
@@ -573,7 +729,47 @@ function settleMonth(
   const monthly = periodTerms.amount;
   // Reuse the shared dated/sequence cash assessment. Same-day replenishment
   // cannot conceal money already spent while this bill was overdue.
-  const payment = paymentFromDatedCash(world, flow.source, monthly, dueOn);
+  world = contributeToDueBill(world, personId, flow, dueOn);
+  const priorPayment = paymentFromDatedCash(world, flow.source, monthly, dueOn);
+  // A contribution is new, recorded cash for this due day. Earlier same-day
+  // bill checkpoints cannot hide its credit; later credits cannot fund old bills.
+  const contributionIds = new Set(
+    world.history.resourceFlows
+      .filter(
+        (row) =>
+          row.basisKind === HOUSEHOLD_CONTRIBUTION_BASIS &&
+          sameEndpoint(row.recipient, flow.source),
+      )
+      .map((row) => row.id),
+  );
+  const credits = resourceTransferOutcomesOfFlows(world, contributionIds)
+    .filter((row) => row.occurredAt === dueOn)
+    .reduce((sum, row) => sum + row.transferredAmount.minorUnits, 0);
+  const dueCash = resourcePositionAt(world, flow.source, monthly.currency, {
+    asOfDate: dueOn,
+    historySequenceExclusive: world.history.nextSequence,
+  })?.liquidBalance.minorUnits;
+  const currentCash = resourcePositionAt(world, flow.source, monthly.currency)
+    ?.liquidBalance.minorUnits;
+  const payment =
+    credits && dueCash !== undefined && currentCash !== undefined
+      ? paymentFromDatedCash(
+          world,
+          flow.source,
+          monthly,
+          dueOn,
+          undefined,
+          () =>
+            Math.max(
+              0,
+              Math.min(
+                dueCash,
+                currentCash,
+                (priorPayment.availableMinor ?? 0) + credits,
+              ),
+            ),
+        )
+      : priorPayment;
   if (payment.availableMinor === null) return world;
   const { status, transferredAmount, reasonKind } = payment;
   const next = recordResourceTransferOutcome(world, {

@@ -1,4 +1,9 @@
 import {
+  arrangeHouseholdBillContributions,
+  initializeLivingCostsFlow,
+} from "../simulation/cost-of-living";
+import { ensurePlayerLivingCostSchedule } from "../simulation/player-living-cost-clock";
+import {
   generateContextualCharacterHistory,
   type EarlierLifeGenerationVersion,
 } from "../simulation/contextual-character-history";
@@ -486,6 +491,10 @@ export function buildProductionWorld(
     world = establishLifePersonality(world, personId);
   }
   world = { ...world, control: { kind: "person", personId: player.id } };
+  if (input.startingLife === "ordinary-life")
+    world = arrangeHouseholdBillContributions(world, player.id);
+  world = initializeLivingCostsFlow(world, player.id);
+  world = ensurePlayerLivingCostSchedule(world, player.id);
   world = syncDistrictMembershipFromCanonicalHome(
     world,
     player.id,
@@ -653,6 +662,10 @@ export function finalizePreStartPlayer(
     world = establishLifePersonality(world, personId);
   }
   world = { ...world, control: { kind: "person", personId: player.id } };
+  if (input.startingLife === "ordinary-life")
+    world = arrangeHouseholdBillContributions(world, player.id);
+  world = initializeLivingCostsFlow(world, player.id);
+  world = ensurePlayerLivingCostSchedule(world, player.id);
   world = syncDistrictMembershipFromCanonicalHome(
     world,
     player.id,

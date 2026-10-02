@@ -32,6 +32,30 @@ describe(`upbringing read reuse (${place.displayName}, seed ${seed})`, () => {
     }
   });
 
+  it("does not assign opening childhood events or care from a different seed", () => {
+    const { world, personId } = fixture();
+    const before = serializeWorld(world);
+    const read = upbringingFor(world, personId);
+    expect(read).toMatchObject({
+      caregiving: "not-recorded",
+      protectiveCaregiver: false,
+      events: [],
+      schooling: [],
+      firstJob: "none",
+    });
+    expect(read.familyContext?.source.note).toContain(
+      "ESTIMATED FROM GAME FAMILIES",
+    );
+    expect(read.familyContext?.placeId).toBe(
+      world.people[personId]!.homeJurisdictionId,
+    );
+    expect(
+      upbringingFor({ ...world, seed: "another-identity-seed" }, personId),
+    ).toEqual(read);
+    expect(serializeWorld(world)).toBe(before);
+    expect(upbringingFor(deserializeWorld(before), personId)).toEqual(read);
+  });
+
   it("recomputes after a canonical childhood record changes the snapshot", () => {
     const { world, personId, jurisdictionId } = fixture();
     const before = upbringingFor(world, personId);

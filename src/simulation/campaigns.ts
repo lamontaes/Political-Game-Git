@@ -1,3 +1,4 @@
+import { playerLivingCostHandlers } from "./player-living-cost-clock";
 import { recordCampaignFundraiserReceipts } from "./campaign-money-sources";
 import { inventedPersonBirthDate } from "./invented-person-age";
 import { createProsecutionTransitionRegistry } from "./justice/prosecution-transitions";
@@ -2349,6 +2350,7 @@ export function composeWorldTimeHandlers(
         [MIGRATION_REVIEW_TRANSITION_KEY, migrationReviewHandler],
         // PAYDAY: everyone with a recorded job is paid, every four weeks.
         ...paydayHandlers(),
+        ...playerLivingCostHandlers(),
         // RENT DAY: every renting household pays its landlord on the first.
         ...rentDayHandlers(),
         // CRUNCH46 CAMPAIGN: organizer outreach and weekly opponent evaluation.
