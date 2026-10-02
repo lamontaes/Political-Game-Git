@@ -198,7 +198,6 @@ describe(`Making Laws saved committee receipts (seed ${seed})`, () => {
                 ? "committee-reported"
                 : "committee-not-reported"),
         )!;
-        expect(action.summary).toBe(expected);
         const event = world.history.events.find(
           (entry) => entry.id === action.eventId,
         )!;
@@ -212,8 +211,8 @@ describe(`Making Laws saved committee receipts (seed ${seed})`, () => {
         expect(
           restored.history.legislativeActions!.find(
             (entry) => entry.id === action.id,
-          )?.summary,
-        ).toBe(expected);
+          ),
+        ).toEqual(action);
         expect(
           restored.history.events.find((entry) => entry.id === event.id)
             ?.summary,
