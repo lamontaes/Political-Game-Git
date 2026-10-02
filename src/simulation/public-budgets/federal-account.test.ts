@@ -174,13 +174,19 @@ describe("M5 federal government uses the same saved-payment settler", () => {
       return saved!.organizationId;
     });
     expect(new Set(accountIds).size).toBe(56);
-    expect(currentOpening.history.resourcePositions).toHaveLength(56);
+    expect(currentOpening.history.resourcePositions).toHaveLength(57);
+    const federalAccount = publicTaxAccountForJurisdiction(
+      currentOpening,
+      NATIONAL_ELECTION_JURISDICTION.id,
+    );
+    expect(federalAccount).not.toBeNull();
     expect(
-      publicTaxAccountForJurisdiction(
-        currentOpening,
-        NATIONAL_ELECTION_JURISDICTION.id,
+      currentOpening.history.resourcePositions.filter(
+        (position) =>
+          position.owner.kind === "organization" &&
+          position.owner.organizationId === federalAccount!.organizationId,
       ),
-    ).toBeNull();
+    ).toHaveLength(1);
     expect(currentOpening.history.resourceTransferOutcomes).toEqual(
       world.history.resourceTransferOutcomes,
     );
