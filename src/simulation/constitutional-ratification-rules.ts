@@ -4,7 +4,7 @@ import type { VoteThresholdRule } from "./legislature-rules";
 /**
  * Every actual state chamber has a disclosed ratification threshold.
  * Explicit, unconditional ratification rules retain their primary-source
- * values. Other chambers use the owner-approved majority-of-elected ESTIMATE;
+ * values. Other chambers use the disclosed majority-of-elected ESTIMATE;
  * the historical CRS summary supplies context, not proof of that denominator.
  * Unimplemented conditions and extra floors remain disclosed research gaps.
  */
@@ -49,7 +49,7 @@ export function stateRatificationRule(
       }
     : {
         authority: "research-reference" as const,
-        citation: `ESTIMATE: owner-approved majority of elected members; summary context: ${summary!.text}`,
+        citation: `ESTIMATE: a majority of the members elected (the common rule); summary context: ${summary!.text}`,
         sourceTitle: `ESTIMATE — ${state.state}: ${chamber.name} federal amendment ratification`,
         sourceUrl: summary!.url,
         retrievedAt: summary!.accessed,
