@@ -1,8 +1,11 @@
 import { activeCampaignForCandidate } from "./campaign-queries";
+import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
+import { campaignFundraiserPayments } from "./campaign-money-source-queries";
+import { viewOfOfficial } from "./official-view-reads";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
 import { positionOwnerEndpoint, resourcePositionAt } from "./resource-queries";
 import { createResourceFlow, recordResourceTransferOutcome } from "./resources";
-import type { EntityId, World } from "./types";
+import type { CurrencyCode, EntityId, MoneyAmount, World } from "./types";
 import { recordWorldEvent } from "./world";
 
 /**
@@ -54,6 +57,127 @@ export const CAMPAIGN_MONEY_SOURCES = {
 } as const;
 
 export type CampaignMoneySource = keyof typeof CAMPAIGN_MONEY_SOURCES;
+
+/** Read receipts attributed to this event; never settle a completed gift again.
+ * The current activity producers save attendance but no dated monetary ask or
+ * contribution-cap law binding. Record that missing basis through the shared
+ * evaluator instead of manufacturing a donor, ask, pledge, or payment.
+ */
+export function recordCampaignFundraiserReceipts(
+  world: World,
+  input: {
+    readonly eventId: EntityId;
+    readonly committeeOrganizationId: EntityId;
+    readonly candidatePersonId: EntityId;
+    readonly currency: CurrencyCode;
+  },
+): {
+  readonly world: World;
+  readonly resourceFlowId: EntityId | null;
+  readonly resourceOutcomeId: EntityId | null;
+  readonly raisedAmount: MoneyAmount | null;
+  readonly unavailableBasis: readonly string[];
+  readonly note: string;
+} {
+  const { event, flows, receipts } = campaignFundraiserPayments(world, input);
+  const unavailableBasis = ["monetary-ask", "contribution-cap-law-term"];
+  let next = world;
+  const paidSources = new Set(
+    flows
+      .filter((flow) => receipts.some((row) => row.resourceFlowId === flow.id))
+      .flatMap((flow) =>
+        flow.source.kind === "person" ? [flow.source.personId] : [],
+      ),
+  );
+  const attendees = [...new Set(event.participants.map((row) => row.personId))];
+  for (const personId of attendees) {
+    if (
+      personId === input.candidatePersonId ||
+      paidSources.has(personId) ||
+      (next.control.kind === "person" && next.control.personId === personId)
+    )
+      continue;
+    const stableKey = `campaign-fundraiser:${event.id}:${personId}`;
+    if (
+      next.history.decisionTraces.some(
+        (trace) => trace.context.stableKey === stableKey,
+      )
+    )
+      continue;
+    const view = viewOfOfficial(next, personId, input.candidatePersonId);
+    const cash = resourcePositionAt(
+      next,
+      { kind: "person", personId },
+      input.currency,
+      {
+        asOfDate: event.occurredAt,
+        historySequenceExclusive: event.sequence + 1,
+      },
+    );
+    const evaluation = evaluateDecision(next, {
+      stableKey,
+      decisionType: "campaign.fundraiser-contribution",
+      actorPersonId: personId,
+      cutoff: {
+        asOfDate: next.currentDate,
+        historySequenceExclusive: next.history.nextSequence,
+      },
+      subject: {
+        kind: "context:campaign",
+        key: "fundraiser-contribution",
+        entityId: input.committeeOrganizationId,
+      },
+      options: [
+        {
+          key: "give",
+          label: "Give",
+          description: "Pay a recorded fundraising ask.",
+        },
+        {
+          key: "not-attempted",
+          label: "No payment attempted",
+          description: "Report the unavailable payment basis.",
+        },
+      ],
+      constraints: [
+        {
+          stableKey: `${stableKey}:unavailable-basis`,
+          optionKey: "give",
+          kind: "campaign:unavailable-contribution-basis",
+          explanation: `The dated fundraiser has no admitted monetary ask or contribution-cap law term. ${cash ? `Recorded cash at the event: ${cash.liquidBalance.minorUnits} ${input.currency} minor units.` : "Cash at the event is not recorded."} ${view.belief ? `The attendee's saved candidate view is ${view.belief.position}; it is not an authorization to pay.` : "No saved candidate view is recorded."}`,
+          sourceRefs: [
+            { kind: "historical-event", eventId: event.id },
+            ...(view.belief
+              ? [{ kind: "private-belief" as const, beliefId: view.belief.id }]
+              : []),
+          ],
+        },
+      ],
+      considerations: [],
+      perceptionIds: [],
+      randomness: "none",
+      retention: "durable",
+    });
+    next = recordDurableDecisionTrace(next, evaluation);
+  }
+  return {
+    world: next,
+    resourceFlowId: receipts[0]?.resourceFlowId ?? null,
+    resourceOutcomeId: receipts[0]?.id ?? null,
+    raisedAmount:
+      receipts.length > 0
+        ? {
+            minorUnits: receipts.reduce(
+              (sum, row) => sum + row.transferredAmount.minorUnits,
+              0,
+            ),
+            currency: input.currency,
+          }
+        : null,
+    unavailableBasis,
+    note: "Completed gifts are reported from the recorded payments. New gifts need a recorded monetary ask and applicable contribution-cap law term; no payment was invented.",
+  };
+}
 
 /**
  * UNRESEARCHED. How much of their own money a candidate may put into their
