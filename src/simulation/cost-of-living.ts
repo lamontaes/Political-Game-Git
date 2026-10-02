@@ -37,7 +37,37 @@ import {
 import { townLeases } from "./living-world/town-rent";
 import { recordWorldEvent } from "./world";
 import { drawnLinkSize } from "./outcome-web";
-import type { EntityId, IsoDate, ResourceFlow, World } from "./types";
+import type {
+  EntityId,
+  IsoDate,
+  ResourceFlow,
+  ResourceObligation,
+  World,
+} from "./types";
+
+const obligationIdsByFlow = new WeakMap<
+  readonly ResourceObligation[],
+  ReadonlyMap<EntityId, readonly EntityId[]>
+>();
+
+function obligationsForFlow(
+  world: World,
+  flowId: EntityId,
+): readonly EntityId[] {
+  const records = world.history.resourceObligations;
+  let index = obligationIdsByFlow.get(records);
+  if (!index) {
+    const entries = new Map<EntityId, EntityId[]>();
+    for (const record of records) {
+      const ids = entries.get(record.resourceFlowId) ?? [];
+      ids.push(record.id);
+      entries.set(record.resourceFlowId, ids);
+    }
+    obligationIdsByFlow.set(records, entries);
+    index = entries;
+  }
+  return index.get(flowId) ?? [];
+}
 
 /**
  * Monthly nonhousing costs belong to the actual primary household. Saved provider
@@ -174,10 +204,9 @@ export function recordedHouseholdHousingBillsAt(
     (flow) =>
       (flow.basisKind === MORTGAGE_BASIS ||
         (flow.basisKind === LOAN_PAYMENT_BASIS &&
-          world.history.resourceObligations.some(
-            (obligation) =>
-              obligation.resourceFlowId === flow.id &&
-              loanTermsAt(world, obligation.id, {
+          obligationsForFlow(world, flow.id).some(
+            (obligationId) =>
+              loanTermsAt(world, obligationId, {
                 asOfDate,
                 historySequenceExclusive: world.history.nextSequence,
               })?.kind === "mortgage",
