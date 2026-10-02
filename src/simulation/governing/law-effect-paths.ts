@@ -29,7 +29,6 @@ import {
   SPENDING_QUESTION_EFFECTS,
   TAX_QUESTION_EFFECTS,
 } from "../public-budgets/rules";
-import { TUITION_FREEZE_QUESTION } from "../public-budgets/tuition-freeze";
 import {
   ADOPT_STATE_INCOME_TAX_QUESTION,
   GRADUATED_STATE_INCOME_TAX_QUESTION,
@@ -223,11 +222,6 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     questionKey: MILEAGE_FEE_QUESTION,
     kind: "state-revenue",
     via: "src/simulation/public-budgets/road-usage-charge.ts",
-  },
-  {
-    questionKey: TUITION_FREEZE_QUESTION,
-    kind: "state-revenue",
-    via: "src/simulation/public-budgets/tuition-freeze.ts",
   },
 ];
 
