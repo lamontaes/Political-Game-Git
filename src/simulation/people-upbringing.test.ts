@@ -141,20 +141,22 @@ describe("upbringing and starting traits", () => {
       ).size,
     ).toBeGreaterThan(1);
     for (const row of contexts) {
-      // Household composition cannot establish emotional treatment.
-      expect(row.caregiving).toBe("not-recorded");
+      // Estimates describe available caregivers, never emotional treatment.
+      expect(row.caregiving).toBe("estimated-care");
+      expect(row.familyContext?.caregiverCapacity).toBeGreaterThan(0);
       expect(row.familyContext?.source.note).toContain(
         "ESTIMATED FROM GAME FAMILIES",
       );
       const context = row.familyContext!;
-      for (const id of context.comparablePersonIds) {
-        const peer = upbringingFor(world, id).familyContext!;
-        expect([peer.placeId, peer.householdType, peer.incomeBand]).toEqual([
-          context.placeId,
-          context.householdType,
-          context.incomeBand,
-        ]);
-      }
+      if (context.cohortScope === "exact")
+        for (const id of context.comparablePersonIds) {
+          const peer = upbringingFor(world, id).familyContext!;
+          expect([peer.placeId, peer.householdType, peer.incomeBand]).toEqual([
+            context.placeId,
+            context.householdType,
+            context.incomeBand,
+          ]);
+        }
       for (const id of row.familyContext!.parentIds)
         expect(world.people[id]).toBeDefined();
     }

@@ -13,6 +13,9 @@ when historical pay is unavailable.
 Opening histories now carry each person's recorded parents, household, income
 band, place and congregation context. Historical household pay uses a labeled
 proxy from the recorded family household when available. Missing family counts
-use averages of recorded families in the same place, household type and income
-band. These estimates preserve their contributing person IDs and do not create
-unrecorded treatment, illness or other events.
+reuse saved family patterns matching place, household type and income
+band first, then same-place families, then the game's recorded family spread. These estimates preserve their contributing person IDs and do not create
+unrecorded treatment, illness or other events. Caregiver availability is estimated
+from recorded parents or household adults, otherwise the saved pattern's parent
+count per child; its continuous value contributes to the existing reliability
+reader. Emotional warmth or harshness is never inferred.

@@ -1,4 +1,8 @@
-import { recordedFamilyEstimates } from "./family-shape";
+import {
+  drawFamilyShape,
+  recordedFamilyEstimates,
+  type RecordedFamilySample,
+} from "./family-shape";
 import { childhoodRecordEntries } from "./childhood-record";
 import { recordsByStringField } from "./history-index";
 import { dateAtAge } from "./dates";
@@ -31,7 +35,8 @@ export type CaregivingClimate =
   | "harsh"
   // A person born in play: no household record says how their caregivers
   // treated them yet, so nothing is drawn and no tendency is read from it.
-  | "not-recorded";
+  | "not-recorded"
+  | "estimated-care";
 export type UpbringingEvent =
   | "parent-death"
   | "parent-separation"
@@ -199,6 +204,10 @@ export interface ChildhoodFamilyContext {
   readonly incomeBand: FamilyMoney | "unrecorded-pay";
   readonly congregationIds: readonly EntityId[];
   readonly comparablePersonIds: readonly EntityId[];
+  readonly cohortScope: "exact" | "place" | "world" | "household" | "no-sample";
+  readonly estimateSamplePersonId: EntityId | null;
+  readonly caregiverPersonIds: readonly EntityId[];
+  readonly caregiverCapacity: number | null;
   readonly estimatedParentCount: number | null;
   readonly estimatedSiblingCount: number | null;
   readonly source: UpbringingSource;
@@ -267,6 +276,9 @@ function householdContext(world: World, personId: EntityId) {
       household?.location?.jurisdictionId ??
       world.people[personId]!.homeJurisdictionId,
     parents,
+    adultMembers: members.filter(
+      (id) => dateAtAge(world.people[id]!.birthDate, 18) <= world.currentDate,
+    ),
     household,
     members,
     householdType,
@@ -276,38 +288,102 @@ function householdContext(world: World, personId: EntityId) {
 }
 
 type FamilyContextRead = ReturnType<typeof householdContext>;
-// A cohort is indexed once from actual saved families, not scanned per person.
-const FAMILY_COHORTS = new WeakMap<
-  World,
-  Map<string, { personId: EntityId; parents: number; siblings: number }[]>
->();
+// Repeated immutable snapshots can share the index when their family inputs
+// are identical. Trait writes do not rebuild the world's family cohorts.
+interface FamilyCohortIndex {
+  readonly date: IsoDate;
+  readonly inputs: readonly unknown[];
+  readonly estimate: ReturnType<typeof recordedFamilyEstimates>;
+  readonly byPerson: ReadonlyMap<EntityId, RecordedFamilySample>;
+  readonly exact: Map<string, RecordedFamilySample[]>;
+  readonly places: Map<EntityId, RecordedFamilySample[]>;
+}
+const FAMILY_COHORTS = new WeakMap<object, FamilyCohortIndex>();
 function cohortKey(row: FamilyContextRead): string {
   return JSON.stringify([row.placeId, row.householdType, row.incomeBand]);
+}
+function familyCohortIndex(world: World): FamilyCohortIndex {
+  const key = world.history.kinshipRelationships;
+  const inputs = [
+    world.people,
+    world.history.householdMemberships,
+    world.history.householdMembershipStates,
+    world.history.householdLocations,
+    world.history.resourceFlows,
+    world.history.resourceFlowTerms,
+    world.history.workRelationships,
+    world.history.workStatuses,
+  ];
+  const prior = FAMILY_COHORTS.get(key);
+  if (
+    prior?.date === world.currentDate &&
+    prior.inputs.every((value, index) => value === inputs[index])
+  )
+    return prior;
+  const estimate = recordedFamilyEstimates(world);
+  const exact = new Map<string, RecordedFamilySample[]>();
+  const places = new Map<EntityId, RecordedFamilySample[]>();
+  for (const sample of estimate.samples) {
+    const context = householdContext(world, sample.personId);
+    const groupKey = cohortKey(context);
+    const group = exact.get(groupKey) ?? [];
+    group.push(sample);
+    exact.set(groupKey, group);
+    const placeGroup = places.get(context.placeId) ?? [];
+    placeGroup.push(sample);
+    places.set(context.placeId, placeGroup);
+  }
+  const result = {
+    date: world.currentDate,
+    inputs,
+    estimate,
+    byPerson: new Map(estimate.samples.map((row) => [row.personId, row])),
+    exact,
+    places,
+  };
+  FAMILY_COHORTS.set(key, result);
+  return result;
 }
 function childhoodFamilyContext(
   world: World,
   personId: EntityId,
 ): ChildhoodFamilyContext {
   const own = householdContext(world, personId);
-  let cohorts = FAMILY_COHORTS.get(world);
-  if (!cohorts) {
-    cohorts = new Map();
-    for (const sample of recordedFamilyEstimates(world).samples) {
-      const key = cohortKey(householdContext(world, sample.personId));
-      const group = cohorts.get(key) ?? [];
-      group.push({
-        personId: sample.personId,
-        parents: sample.parentIds.length,
-        siblings: sample.siblingCount,
-      });
-      cohorts.set(key, group);
-    }
-    FAMILY_COHORTS.set(world, cohorts);
-  }
-  const peers = cohorts.get(cohortKey(own)) ?? [];
-  const mean = (field: "parents" | "siblings") =>
-    peers.length
-      ? peers.reduce((sum, row) => sum + row[field], 0) / peers.length
+  const index = familyCohortIndex(world);
+  const exact = index.exact.get(cohortKey(own));
+  const place = index.places.get(own.placeId);
+  // Selected existing-code empty-cohort fallback: reuse saved family patterns,
+  // first in this place, then the game. Never synthesize relatives or events.
+  const peers = exact?.length
+    ? exact
+    : place?.length
+      ? place
+      : index.estimate.samples;
+  const cohortScope = exact?.length
+    ? "exact"
+    : place?.length
+      ? "place"
+      : peers.length
+        ? "world"
+        : own.adultMembers.length
+          ? "household"
+          : "no-sample";
+  const pattern =
+    index.byPerson.get(personId) ??
+    drawFamilyShape(world, world.people[personId]!.generationKey, {
+      ...index.estimate,
+      samples: peers,
+    }).representative;
+  // Known parents remain primary. Otherwise the current household's recorded
+  // adults are an explicitly estimated proxy; without either, use the saved
+  // family pattern's caregiver count per recorded child (siblings plus focus).
+  const caregiverPersonIds = own.parents.length
+    ? own.parents
+    : own.adultMembers;
+  const caregiverCapacity = caregiverPersonIds.length
+    ? caregiverPersonIds.length
+    : pattern
+      ? pattern.parentIds.length / (pattern.siblingCount + 1)
       : null;
   return {
     parentIds: own.parents,
@@ -318,12 +394,18 @@ function childhoodFamilyContext(
     incomeBand: own.incomeBand,
     congregationIds: own.congregationIds,
     comparablePersonIds: peers.map((row) => row.personId),
-    estimatedParentCount: own.parents.length ? null : mean("parents"),
-    estimatedSiblingCount: mean("siblings"),
+    cohortScope,
+    estimateSamplePersonId: pattern?.personId ?? null,
+    caregiverPersonIds,
+    caregiverCapacity,
+    estimatedParentCount: own.parents.length
+      ? null
+      : (pattern?.parentIds.length ?? null),
+    estimatedSiblingCount: pattern?.siblingCount ?? null,
     source: {
       kind: "game-profile",
       key: "recorded-family-childhood-context",
-      note: "ESTIMATED FROM GAME FAMILIES: opening childhood context uses this person's recorded parents, current household, pay, place and congregation membership as proxies. Missing family counts use only saved families in the same place, household type and income band; no treatment, faith, illness or other event is inferred.",
+      note: `ESTIMATED FROM GAME FAMILIES: parents, household adults, pay, place and congregation records supply the person's context. Caregiver availability uses those recorded adults or a saved family pattern's parents per child. Cohort scope: ${cohortScope}; exact place/type/income first, same place next, then the game's recorded families. The existing family-pattern reader retains observed spread. It assigns no real relatives, emotional treatment, faith or events.`,
     },
   };
 }
@@ -449,7 +531,10 @@ function readUpbringing(world: World, personId: EntityId): PersonUpbringing {
     disruption,
     homeStability: homeStabilityLabel(disruption),
     familyContext,
-    caregiving: "not-recorded",
+    caregiving:
+      familyContext.caregiverCapacity === null
+        ? "not-recorded"
+        : "estimated-care",
     protectiveCaregiver: false,
     events: parentDied ? ["parent-death"] : [],
     schooling: [],
@@ -482,6 +567,17 @@ export function upbringingTraitTendencies(
       candidate("personality-v1:facet-practical", 2, "material scarcity"),
       candidate("personality-v1:facet-acquisitive", 1, "material scarcity"),
       candidate("personality-v1:voluntary-effort", 1, "material scarcity"),
+    );
+  if (
+    upbringing.caregiving === "estimated-care" &&
+    upbringing.familyContext?.caregiverCapacity
+  )
+    rows.push(
+      candidate(
+        "personality-v1:facet-duty-bound",
+        upbringing.familyContext.caregiverCapacity,
+        "estimated caregiver availability",
+      ),
     );
   if (upbringing.caregiving === "protective-reliable")
     rows.push(
@@ -851,6 +947,8 @@ export function upbringingCoreValueFrom(
     )
       score += 1;
   } else if (trait === "reliability") {
+    if (upbringing.caregiving === "estimated-care")
+      score += upbringing.familyContext?.caregiverCapacity ?? 0;
     if (
       upbringing.caregiving === "consistent-firm" ||
       upbringing.firstJob === "reliable-supervision"

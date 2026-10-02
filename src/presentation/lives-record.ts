@@ -70,6 +70,8 @@ const CARE: Record<CaregivingClimate, string> = {
   inconsistent: "The adults who raised you were hard to predict.",
   "high-conflict": "There was a lot of conflict in the house.",
   harsh: "The adults who raised you were harsh.",
+  "estimated-care":
+    "ESTIMATED caregiver availability from recorded family circumstances.",
   "not-recorded": "How the adults who raised you treated you is not on record.",
 };
 const EVENT: Record<UpbringingEvent, string> = {
@@ -117,12 +119,13 @@ function upbringingLines(world: World, personId: EntityId): readonly string[] {
     lines.push(
       `ESTIMATED childhood context from recorded family circumstances: ${names.length ? `parents ${names.join(" and ")}` : context.estimatedParentCount !== null ? `comparable families average ${context.estimatedParentCount} recorded parents` : `household circumstances in ${place}`}${home ? `; household ${home}` : ""}${place ? ` in ${place}` : ""}; ${context.householdMemberIds.length} recorded household members.`,
     );
-    lines.push(
-      `Family context: ${context.parentIds.length} recorded parents and ${context.householdMemberIds.length} recorded household members${place ? ` in ${place}` : ""}.`,
-    );
+    if (context.caregiverCapacity !== null)
+      lines.push(
+        `ESTIMATED FROM GAME FAMILIES: caregiver availability of ${context.caregiverCapacity}; ${context.cohortScope === "exact" ? "matching place, household type and income band" : context.cohortScope === "place" ? "recorded families in the same place" : context.cohortScope === "world" ? "the game's recorded family patterns" : "recorded household adults"}.`,
+      );
     if (context.estimatedSiblingCount !== null)
       lines.push(
-        `ESTIMATED FROM GAME FAMILIES: ${context.comparablePersonIds.length} families in the same place, household type and income band average ${context.estimatedSiblingCount} siblings.`,
+        `ESTIMATED FROM GAME FAMILIES: ${context.estimatedSiblingCount} siblings in the saved family pattern, from ${context.comparablePersonIds.length} ${context.cohortScope === "exact" ? "families in the same place, household type and income band" : context.cohortScope === "place" ? "families in the same place" : "recorded families in this game"}.`,
       );
     if (context.congregationIds.length)
       lines.push(
