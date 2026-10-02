@@ -71,12 +71,14 @@ describe("a life is given something to do", () => {
     const notice = world.history.events.find(
       (event) => event.stableKey === `${PUBLIC_MEETING_KEY}:notice`,
     )!;
-    expect(notice.tags).toContain("provenance:authored-opening");
+    expect(notice.tags).toContain("provenance:authored opening");
     expect(
       world.history.scheduledActivities.find(
         (activity) => activity.stableKey === `${PUBLIC_MEETING_KEY}:activity`,
       )!.responsiblePersonId,
-    ).toBeNull();
+    ).toBe(game.playerPersonId);
+    expect(world.history.scheduledActivities.find((activity) => activity.stableKey === `${PUBLIC_MEETING_KEY}:journey`)!.responsiblePersonId).toBe(game.playerPersonId);
+    expect(world.history.scheduledActivities.find((activity) => activity.stableKey === `${PUBLIC_MEETING_KEY}:activity`)!.kind).toBe("tentative");
     process.stdout.write(
       `${JSON.stringify({ receipt: "A156 random production opening", placeKey: place.key, worldId: game.world.id, currentDate: game.world.currentDate })}\n`,
     );
@@ -134,12 +136,12 @@ describe("a life is given something to do", () => {
     );
   });
 
-  it("meeting notice retains authored opening provenance and assigns no responsibility before a decision", () => {
-    const { world } = opened();
+  it("meeting notice retains authored opening provenance and player meeting ownership", () => {
+    const { world, personId } = opened();
     const notice = world.history.events.find(
       (event) => event.stableKey === `${PUBLIC_MEETING_KEY}:notice`,
     )!;
-    expect(notice.tags).toContain("provenance:authored-opening");
+    expect(notice.tags).toContain("provenance:authored opening");
     expect(
       notice.participants.every(
         (participant) => participant.role === "observation:reader",
@@ -152,7 +154,7 @@ describe("a life is given something to do", () => {
     );
     expect(activities).toHaveLength(2);
     for (const activity of activities)
-      expect(activity.responsiblePersonId).toBeNull();
+      expect(activity.responsiblePersonId).toBe(personId);
     const reloaded = deserializeWorld(serializeWorld(world));
     expect(
       serializeWorld(openOrdinaryLifeRecords(reloaded, world.personOrder[0]!)),
