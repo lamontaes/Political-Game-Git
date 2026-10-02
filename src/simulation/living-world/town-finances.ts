@@ -1530,6 +1530,14 @@ function failTownBank(
   cause: "insolvent" | "depositors-withdrew",
 ): World {
   const bank = world.townFinances!.banks[bankId]!;
+  // Keep the amounts with the failure. Later books cannot resize its shock.
+  const bankDepositsMinor = Math.round(bank.deposits * 100);
+  const townDepositsMinor = townBanks(world, town).reduce((sum, id) => {
+    const books = world.townFinances!.banks[id];
+    return (
+      sum + (books && !books.failed ? Math.round(books.deposits * 100) : 0)
+    );
+  }, 0);
   const townJobs = activeTownJobs(world, town).length;
   const name = organizationProfileAt(world, bankId)?.name ?? "The town's bank";
   const stableKey = `${TOWN_FINANCES_VERSION}:${town}:bank-failed:${bankId}`;
@@ -1571,6 +1579,9 @@ function failTownBank(
       `organization:${bankId}`,
       `capital-ratio:${round6(ratio)}`,
       `losses:${bank.lastQuarterLosses}`,
+      "deposit-currency:USD",
+      `bank-deposits-minor:${bankDepositsMinor}`,
+      `town-deposits-minor:${townDepositsMinor}`,
       `household-defaults:${bank.lastQuarterDefaults?.households ?? 0}`,
       `business-defaults:${bank.lastQuarterDefaults?.businesses ?? 0}`,
       `jobs:${closed.jobsLost}`,
