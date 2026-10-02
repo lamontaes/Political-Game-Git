@@ -38,10 +38,6 @@ import { actuarialContribution } from "./opening";
 import { pensionFlows, pensionPayment } from "./pension-share";
 import { reserveRule } from "./reserve-rule";
 import { roadChargeFactor } from "./road-usage-charge";
-import {
-  decideStatehoodCertification,
-  statehoodFederalAidFactor,
-} from "./statehood-funds";
 import { federalAidFactor } from "../federal-outlay-laws";
 import { tuitionFreezeFactor } from "./tuition-freeze";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";

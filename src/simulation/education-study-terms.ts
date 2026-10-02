@@ -1,5 +1,6 @@
 import type { World, EntityId } from "./types";
 import type { LifePathDefinition } from "./life-paths2-catalog";
+import type { SchoolTuitionSelector } from "../education/tuition-prices";
 import { studyUsesPeriodModel } from "./education-study-progression";
 import { recordEvidenceArtifact } from "./evidence";
 import legacyTerms from "./legacy-education-terms-v1.json" with { type: "json" };
@@ -17,6 +18,13 @@ export interface AcceptedEducationTerms {
     row: number;
   }[];
   readonly path: LifePathDefinition;
+  /** Annual source price allocated over the institution's saved terms. */
+  readonly tuitionBilling?: {
+    readonly selector: SchoolTuitionSelector;
+    readonly priceRecordId: EntityId;
+    readonly annualAmountMinor: number;
+    readonly termsPerAcademicYear: number;
+  };
 }
 export const EDUCATION_TERMS_KIND =
   "education:accepted-study-terms-v1" as const;
@@ -187,6 +195,20 @@ export function parseEducationTerms(
   try {
     const terms = JSON.parse(text ?? "") as AcceptedEducationTerms;
     const p = terms.path;
+    const billing = terms.tuitionBilling;
+    if (
+      billing &&
+      (billing.selector.institutionId !== terms.institutionId ||
+        !billing.selector.artifactId ||
+        !billing.selector.field ||
+        !billing.priceRecordId ||
+        !Number.isSafeInteger(billing.annualAmountMinor) ||
+        billing.annualAmountMinor < 0 ||
+        !Number.isSafeInteger(billing.termsPerAcademicYear) ||
+        billing.termsPerAcademicYear <= 0 ||
+        billing.termsPerAcademicYear !== p.periodsPerYear)
+    )
+      return undefined;
     if (
       ![1, 2].includes(terms.version) ||
       (terms.version === 2 && terms.funding !== "available-personal-cash") ||

@@ -21,7 +21,12 @@ import { cancelScheduledActivity, scheduledActivityState } from "./time-work";
 import { addDays, daysBetween, spokenDate } from "./dates";
 import type { LifePathDefinition } from "./life-paths2-catalog";
 import type { EntityId, IsoDate, World } from "./types";
-import { recordedTuitionFreezePrice } from "./public-budgets/tuition-freeze";
+import {
+  recordedTuitionFreezePrice,
+  recordedSchoolTuitionFreezeQuote,
+} from "./public-budgets/tuition-freeze";
+import { acceptedEducationTerms } from "./education-study-terms";
+import { readSchoolTuitionPriceAt } from "../education/tuition-prices";
 
 const prefix = "life-paths2.";
 
@@ -316,6 +321,47 @@ export function paidStudyPeriods(world: World, enrollmentId: EntityId): number {
   ).length;
 }
 
+function periodTuitionPrice(
+  world: World,
+  enrollmentId: EntityId,
+  period: number,
+) {
+  const billing = acceptedEducationTerms(world, enrollmentId)?.tuitionBilling;
+  const enrollment = world.history.educationEnrollments.find(
+    (row) => row.id === enrollmentId,
+  );
+  if (!billing || !enrollment) return null;
+  const current = readSchoolTuitionPriceAt(
+    world,
+    enrollment.organizationId,
+    billing.selector,
+  );
+  const frozen = recordedSchoolTuitionFreezeQuote(
+    world,
+    enrollmentId,
+    billing.selector,
+  );
+  const annual =
+    current?.quote.chargeUnit === "academic-year"
+      ? current.quote.amountMinor
+      : billing.annualAmountMinor;
+  const installment = (amount: number) => {
+    const regular = Math.floor(amount / billing.termsPerAcademicYear);
+    return period % billing.termsPerAcademicYear === 0
+      ? amount - regular * (billing.termsPerAcademicYear - 1)
+      : regular;
+  };
+  const cap =
+    frozen.status === "frozen" && frozen.quote.chargeUnit === "academic-year"
+      ? installment(frozen.quote.amountMinor)
+      : null;
+  return {
+    amountMinor:
+      cap === null ? installment(annual) : Math.min(installment(annual), cap),
+    cap,
+  };
+}
+
 export function studyPeriodTuitionOutstanding(
   world: World,
   enrollmentId: EntityId,
@@ -323,6 +369,32 @@ export function studyPeriodTuitionOutstanding(
 ): number {
   const period = completedStudyPeriods(world, enrollmentId, path) + 1;
   if (period > studyPeriodsPlanned(world, enrollmentId, path)) return 0;
+  const price = periodTuitionPrice(world, enrollmentId, period);
+  if (price) {
+    const charge = world.history.resourceFlows.find(
+      (flow) =>
+        flow.stableKey === `${prefix}study-period:${enrollmentId}:${period}`,
+    );
+    const terms = charge && resourceFlowTermsAt(world, charge.id);
+    const paid = charge
+      ? world.history.resourceTransferOutcomes
+          .filter(
+            (outcome) =>
+              outcome.resourceFlowId === charge.id &&
+              (outcome.status === "completed" || outcome.status === "partial"),
+          )
+          .reduce(
+            (total, outcome) => total + outcome.transferredAmount.minorUnits,
+            0,
+          )
+      : 0;
+    const amount = terms
+      ? price.cap === null
+        ? terms.amount.minorUnits
+        : Math.min(terms.amount.minorUnits, price.cap)
+      : price.amountMinor;
+    return Math.max(0, amount - paid);
+  }
   const frozen = recordedTuitionFreezePrice(world, enrollmentId);
   if (frozen.status === "frozen") {
     const charge = world.history.resourceFlows.find(
@@ -767,14 +839,18 @@ export function completeStudyPeriod(
   if (charge) {
     const terms = resourceFlowTermsAt(next, charge.id)!;
     const frozen = recordedTuitionFreezePrice(next, enrollmentId);
+    const recordedPrice = periodTuitionPrice(next, enrollmentId, periodNumber);
+    const cap =
+      recordedPrice?.cap ??
+      (frozen.status === "frozen" ? frozen.amountMinor : null);
     const alreadyPaid = next.history.resourceTransferOutcomes.some(
       (outcome) =>
         outcome.resourceFlowId === charge.id && outcome.status === "completed",
     );
     if (
-      frozen.status === "frozen" &&
+      cap !== null &&
       terms.status === "active" &&
-      terms.amount.minorUnits > frozen.amountMinor &&
+      terms.amount.minorUnits > cap &&
       !alreadyPaid
     ) {
       next = recordResourceFlowTerms(next, {
@@ -782,7 +858,7 @@ export function completeStudyPeriod(
         resourceFlowId: charge.id,
         effectiveAt: next.currentDate,
         status: "active",
-        amount: money(frozen.amountMinor, terms.amount.currency),
+        amount: money(cap, terms.amount.currency),
         cadenceKind: terms.cadenceKind,
         reason: "Tuition held at its recorded operative-date price.",
         provenance: authored,
