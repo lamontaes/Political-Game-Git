@@ -1,3 +1,18 @@
+FINAL CHILD RECEIVING RESULT
+Published root2007 consumer-retirement21eedbdd296900e57d1a7d13305642096286403d
+received additively as13b3f5613e6f68c315f2784f13b99407e3076990.
+Source search src/tests found only owncompat export after receiving deletion;
+removed export + now-unused farmData import. No new runtimeproducer or amount.
+Complete child changed federal-final-bill-terms.test.ts15/15PASS14.33s,
+11msbodies,80796exit0; scoped5roots1005files0,25431exit0. Lint/formatPASS.
+A28 pinned mainf65 5/11 -> finalbranch11/11, coverage PART ONLY.
+No final-auditFAIL checks; not whole-A28/game-service closure. Parentroot2007
+changed federal-treasury.test.ts assignedMerge, not duplicated in child check.
+Parent2007 remains dependency until independently merged; no selfmerge.
+Root actual A15 farm payment/eligible-recipient producer remains unfinished.
+Release transition checked against exactroot21eed parent in PR publication.
+Earlier10/11/compatibilitypending receipt is historical below.
+
 A28 final adopted federal terms — receiving checkpoint
 Donor95a51d183bc5ca2225655ef907ec4a2cc3e08c43 from health owner.
 Four source readers + existing changedtest + release preserved exactly.
