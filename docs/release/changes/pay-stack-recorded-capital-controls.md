@@ -1,8 +1,6 @@
 ---
 id: pay-stack-recorded-capital-controls
 impact: none
-section: Internal
-title: Prove payroll through recorded cash and a random-place opening
 ---
 
 Strengthen wage-law controls with explicit recorded capital bounded from their
