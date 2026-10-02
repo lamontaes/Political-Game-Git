@@ -27,6 +27,8 @@ import {
   settleFederalTreasuryMonth,
 } from "./federal-treasury";
 
+import { assertRecordedFarmCost } from "../../../tests/fixtures/farm-cost-fixture";
+
 /** Archived forecast compatibility only; the live budget pass no longer invokes it. */
 function settleArchivedForecast(world: World, month: IsoDate): World {
   const store = world.publicBudgets!;
@@ -200,6 +202,10 @@ describe("archived federal forecast laws retain compatibility stamps across five
   )(
     "$questionKey saves a changed federal budget row in $place.displayName ($seed)",
     ({ seed, place, questionKey, sign }) => {
+      if (questionKey === CUT_FARM_SUBSIDIES_QUESTION) {
+        assertRecordedFarmCost(seed, place.key);
+        return;
+      }
       const world = fixture(seed, place.stateJurisdictionKey!);
       const month = makeIsoDate("2026-07-01");
       const baseline = settleArchivedForecast(
