@@ -292,6 +292,7 @@ type FamilyContextRead = ReturnType<typeof householdContext>;
 // are identical. Trait writes do not rebuild the world's family cohorts.
 interface FamilyCohortIndex {
   readonly date: IsoDate;
+  readonly validUntil: IsoDate;
   readonly inputs: readonly unknown[];
   readonly estimate: ReturnType<typeof recordedFamilyEstimates>;
   readonly byPerson: ReadonlyMap<EntityId, RecordedFamilySample>;
@@ -313,10 +314,13 @@ function familyCohortIndex(world: World): FamilyCohortIndex {
     world.history.resourceFlowTerms,
     world.history.workRelationships,
     world.history.workStatuses,
+    world.history.workRoles,
   ];
   const prior = FAMILY_COHORTS.get(key);
   if (
-    prior?.date === world.currentDate &&
+    prior &&
+    prior.date <= world.currentDate &&
+    world.currentDate < prior.validUntil &&
     prior.inputs.every((value, index) => value === inputs[index])
   )
     return prior;
@@ -333,8 +337,33 @@ function familyCohortIndex(world: World): FamilyCohortIndex {
     placeGroup.push(sample);
     places.set(context.placeId, placeGroup);
   }
+  // An unchanged family index survives ordinary date advances. Rebuild at
+  // an actual future record boundary or the next poverty-guideline year;
+  // daily trait reads never rescan the whole kinship history just for a date.
+  let validUntil =
+    `${Number(world.currentDate.slice(0, 4)) + 1}-01-01` as IsoDate;
+  const consider = (value: unknown) => {
+    if (
+      typeof value === "string" &&
+      /^\d{4}-\d{2}-\d{2}$/.test(value) &&
+      value > world.currentDate &&
+      value < validUntil
+    )
+      validUntil = value as IsoDate;
+  };
+  for (const rows of [
+    world.history.kinshipRelationships,
+    ...inputs.slice(1),
+  ] as readonly (readonly object[])[]) {
+    for (const row of rows)
+      for (const value of Object.values(row)) consider(value);
+  }
+  for (const relationship of world.history.kinshipRelationships)
+    for (const id of relationship.personIds)
+      consider(world.people[id]?.birthDate);
   const result = {
     date: world.currentDate,
+    validUntil,
     inputs,
     estimate,
     byPerson: new Map(estimate.samples.map((row) => [row.personId, row])),
