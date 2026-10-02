@@ -325,7 +325,7 @@ export function decideTownEmployerLayoff(
     if (terms?.status !== "active") return [];
     const outcome = resourceTransferOutcomesForFlow(world, flow.id).at(-1);
     return outcome &&
-      outcome.reasonKind?.startsWith("capacity:") &&
+      outcome.reasonKind === "capacity:insufficient-funds" &&
       outcome.attemptedAmount.currency === outcome.transferredAmount.currency &&
       outcome.attemptedAmount.minorUnits > outcome.transferredAmount.minorUnits
       ? [outcome]

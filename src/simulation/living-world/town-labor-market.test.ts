@@ -360,7 +360,7 @@ describe("A70 hiring through the saved application route", () => {
   });
 });
 
-function employerFixture(twoWorkers = false) {
+function employerFixture(twoWorkers = false, knownMoney = true) {
   const base = quitFixture();
   let next = base.world;
   const worker = next.history.workRelationships.find(
@@ -446,10 +446,12 @@ function employerFixture(twoWorkers = false) {
     periodStartsAt: next.currentDate,
     periodEndsAt: next.currentDate,
     occurredAt: next.currentDate,
-    status: "missed",
+    status: knownMoney ? "missed" : "blocked",
     attemptedAmount: money(10000, "USD"),
     transferredAmount: money(0, "USD"),
-    reasonKind: "capacity:insufficient-funds",
+    reasonKind: knownMoney
+      ? "capacity:insufficient-funds"
+      : "capacity:money-unknown",
     note: "Explicit recorded payroll failure control.",
     provenance: {
       kind: "authored",
@@ -507,6 +509,15 @@ describe("A70 employer's recorded staffing choice", () => {
         organizationId,
         activeTownJobs(base.world, base.town),
         "a70:no-authority",
+      ),
+    ).toBeNull();
+    const unknown = employerFixture(false, false);
+    expect(
+      decideTownEmployerLayoff(
+        unknown.world,
+        unknown.organizationId,
+        activeTownJobs(unknown.world, unknown.town),
+        "a70:money-unknown",
       ),
     ).toBeNull();
     const fixture = employerFixture();
