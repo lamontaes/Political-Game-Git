@@ -4,8 +4,13 @@ import {
   coupleStageOptions,
 } from "../couple-stage-contract";
 import type { CoupleStage } from "../couple-stage-data";
-import { evaluateDecision, isSelectedDecision } from "../decisions";
-import type { EntityId, IsoDate, World } from "../types";
+import {
+  evaluateDecision,
+  isSelectedDecision,
+  recordDurableDecisionTrace,
+} from "../decisions";
+import { recordsByKey } from "../history-index";
+import type { DecisionEvaluation, EntityId, IsoDate, World } from "../types";
 
 /** One actor evaluator, with the same saved romantic evidence for each actor.
  * Additional stage circumstances must enter as actual source-backed evidence;
@@ -17,6 +22,7 @@ export function evaluateTownCoupleActors(
     readonly personIds: readonly [EntityId, EntityId];
     readonly stage: CoupleStage;
     readonly startedAt: IsoDate | null;
+    readonly retention?: "ephemeral" | "durable";
   },
 ) {
   const options = coupleStageOptions(
@@ -25,20 +31,47 @@ export function evaluateTownCoupleActors(
     world.currentDate,
   );
   const ending = input.stage === "dating" ? "break-up" : "separate";
-  const evaluate = (actorPersonId: EntityId, otherPersonId: EntityId) =>
-    evaluateDecision(world, {
-      stableKey: `${input.stableKey}:${actorPersonId}`,
+  let next = world;
+  const evaluate = (
+    actorPersonId: EntityId,
+    otherPersonId: EntityId,
+  ): DecisionEvaluation => {
+    const stableKey = `${input.stableKey}:${actorPersonId}`;
+    if (input.retention === "durable") {
+      const previous = recordsByKey(
+        next.history.decisionTraces,
+        "town-couple-stage:actor-stable-key",
+        (row) => [row.context.stableKey],
+        stableKey,
+      ).find(
+        (row) =>
+          row.context.actorPersonId === actorPersonId &&
+          row.recordedAt <= next.currentDate,
+      );
+      if (previous)
+        return {
+          decisionId: previous.decisionId,
+          context: previous.context,
+          optionEvaluations: previous.optionEvaluations,
+          outcomeKind: previous.outcomeKind,
+          selectedOptionKey: previous.selectedOptionKey,
+          sourceSnapshots: previous.sourceSnapshots,
+          rngVersion: previous.rngVersion,
+        };
+    }
+    const result = evaluateDecision(next, {
+      stableKey,
       decisionType: "people.couple-stage",
       actorPersonId,
       cutoff: {
-        asOfDate: world.currentDate,
-        historySequenceExclusive: world.history.nextSequence,
+        asOfDate: next.currentDate,
+        historySequenceExclusive: next.history.nextSequence,
       },
       subject: { kind: "context:life", key: "couple-stage", entityId: null },
       options,
       constraints: [],
       considerations: romanticConsiderations(
-        world,
+        next,
         input.stableKey,
         actorPersonId,
         otherPersonId,
@@ -48,11 +81,16 @@ export function evaluateTownCoupleActors(
       })),
       perceptionIds: [],
       randomness: "none",
-      retention: "ephemeral",
+      retention: input.retention ?? "ephemeral",
     });
+    if (input.retention === "durable")
+      next = recordDurableDecisionTrace(next, result);
+    return result;
+  };
   const first = evaluate(input.personIds[0], input.personIds[1]);
   const second = evaluate(input.personIds[1], input.personIds[0]);
   return {
+    world: next,
     first,
     second,
     admittedOptions: options.filter((option) =>

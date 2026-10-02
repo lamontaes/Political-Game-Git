@@ -7,6 +7,7 @@ import {
 import type { CoupleStage } from "../couple-stage-data";
 import { createDemoWorld } from "../demo";
 import { createWorld } from "../world";
+import { deserializeWorld, serializeWorldPayload } from "../serialization";
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import { createLifeMindCatalog, LIFE_MIND_IDS } from "../life-mind-content";
 import { createMindProvenance, recordPersonalValue } from "../mind";
@@ -240,4 +241,52 @@ it("retains equal ranks when actual current-game peer means still tie", () => {
     "break-up",
     "stay",
   ]);
+});
+
+it("records real town actor evaluations for later peer reads and replays after Save/Continue", () => {
+  const initial = peerFixture();
+  const [actor, partner] = initial.personOrder;
+  if (!actor || !partner) throw new Error("Two fixture people required.");
+  const world = recordPersonalValue(initial, {
+    stableKey: "a136-producer:actual-value",
+    personId: actor,
+    valueId: LIFE_MIND_IDS.connection,
+    recordedAt: initial.currentDate,
+    orientation: "embraces",
+    strength: "strong",
+    salience: "high",
+    qualification: null,
+    provenance: createMindProvenance("authored"),
+    supersedesValueId: null,
+  });
+  const input = {
+    stableKey: "a136-producer:quarter",
+    personIds: [actor, partner] as const,
+    stage: "dating" as const,
+    startedAt: null,
+    retention: "durable" as const,
+  };
+  const result = evaluateTownCoupleActors(world, input);
+  expect(result.world.history.decisionTraces).toHaveLength(
+    world.history.decisionTraces.length + 2,
+  );
+  const added = result.world.history.decisionTraces.slice(-2);
+  expect(added.map((row) => row.context.actorPersonId)).toEqual([
+    actor,
+    partner,
+  ]);
+  expect(result.first.context.considerations.length).toBeGreaterThan(0);
+  expect(result.second.context.considerations).toEqual([]);
+  expect(
+    result.second.context.peerEstimates?.[0]?.samples[0]?.decisionTraceId,
+  ).toBe(added[0]!.id);
+  expect(result.second.selectedOptionKey).toBe("stay");
+  expect(evaluateTownCoupleActors(result.world, input).world).toBe(
+    result.world,
+  );
+  const resumed = deserializeWorld(serializeWorldPayload(result.world));
+  const replay = evaluateTownCoupleActors(resumed, input);
+  expect(replay.world).toBe(resumed);
+  expect(replay.first).toEqual(result.first);
+  expect(replay.second).toEqual(result.second);
 });

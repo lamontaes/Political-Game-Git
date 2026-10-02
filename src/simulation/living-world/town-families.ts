@@ -586,7 +586,9 @@ export function reviewTownFamilies(
       personIds: [a, b],
       stage: couple.stage,
       startedAt: couple.partnership.startedAt,
+      retention: "durable",
     });
+    next = decision.world;
     const admits = (optionKey: string) =>
       decision.admittedOptions.some((option) => option.key === optionKey);
     const homeA = householdOf(a);
