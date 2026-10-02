@@ -1,0 +1,25 @@
+{
+  "status": "SOURCE_DRAFT_NOT_INSTALLED",
+  "prerequisites": {
+    "sharedMath": "b37f7ddefed5874a936c8131f325d8602ea56d68",
+    "oneScoreLeaf": "ce33d47966cd0c1122af4f9498d92cdd2458d6b1",
+    "currentHistoryIndex": "8e3ee6125bb35100ed27092a5c85eaef3a907332"
+  },
+  "authoredProductionTarget": "src/simulation/decision-peer-estimates.ts",
+  "testEvidence": "Pure query9/9 PASS258ms after index reuse; narrow authored saved-data fixtures, no whole-world integrity/play/writer proof; semantic types NOT RUN",
+  "integrationMissing": "typed exact numeric estimate+donor metadata for DecisionContext/evaluator/integrity; no peer-private MindSourceReference",
+  "entries": [
+    {
+      "path": "docs/codex/effect-batches/audit/item12-peer-query/decision-peer-estimates.ts.txt",
+      "sha": "00e1d8c70d57566aa17abad9ab3ae5006905d9a7",
+      "mode": "100644",
+      "type": "blob"
+    },
+    {
+      "path": "docs/codex/effect-batches/audit/item12-peer-query/decision-peer-estimates.test.ts.txt",
+      "sha": "1c6985c73c9764f44bc098fa80c1b8ff25a605b8",
+      "mode": "100644",
+      "type": "blob"
+    }
+  ]
+}
