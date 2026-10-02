@@ -10,7 +10,13 @@ import {
   TOWN_WORKPLACES,
   townWorkplaceFor,
 } from "./living-world/town-employment";
-import { townBusinessKindBooks } from "./living-world/town-business-books";
+import {
+  townBusinessKindBooks,
+  TOWN_BUSINESS_WORKPLACES,
+} from "./living-world/town-business-books";
+import { openBusinessBooks } from "./living-world/town-finances";
+import { recordTownSalesReceipts } from "./living-world/town-sales-receipts";
+import { startState } from "./macro-economy/producer";
 import { writeWithWorldIntegrityOnce } from "./world";
 import cashBuffers from "../../data/research/money/opening-employer-cash-buffers.json" with { type: "json" };
 import type { CurrencyCode, EntityId, MoneyAmount, World } from "./types";
@@ -236,6 +242,88 @@ export function ensureEmployerCashPositions(
         openingBalance: amount,
         provenance: { kind: "authored", note },
       });
+    }
+    if (phase === "opening") {
+      const priceIndex =
+        next.macroEconomy?.months
+          .filter(
+            (row) =>
+              row.scope === "national" && row.recordedAt <= next.currentDate,
+          )
+          .at(-1)?.priceIndex ??
+        (next.macroEconomy
+          ? startState(next.macroEconomy.start).priceIndex
+          : undefined);
+      if (priceIndex !== undefined) {
+        const round = `opening:${next.currentDate}`;
+        const store = next.townFinances;
+        const books = { ...(store?.businesses ?? {}) };
+        const towns = new Set<EntityId>();
+        for (const [organizationId, pay] of payroll) {
+          const profile = organizationProfileAt(next, organizationId);
+          if (
+            !profile ||
+            profile.closed ||
+            !profile.classification.startsWith("enterprise:") ||
+            !profile.locationJurisdictionId
+          )
+            continue;
+          if (books[organizationId]) {
+            towns.add(profile.locationJurisdictionId);
+            continue;
+          }
+          const organization = next.history.organizations.find(
+            (row) => row.id === organizationId,
+          )!;
+          const kind =
+            townWorkplaceFor(organization.stableKey, profile.classification)
+              ?.key ??
+            TOWN_WORKPLACES.find(
+              (row) => row.classification === profile.classification,
+            )?.key ??
+            "*";
+          const cash = resourcePositionAt(
+            next,
+            { kind: "organization", organizationId },
+            USD,
+          );
+          if (!cash || !TOWN_BUSINESS_WORKPLACES.has(kind)) continue;
+          // Reuse the ordinary books calculation with the recorded annual pay
+          // expressed as one quarter; no separate sales or opening-cash formula.
+          books[organizationId] = {
+            ...openBusinessBooks(
+              next,
+              organizationId,
+              kind,
+              pay.annualMinor / 400,
+              null,
+              round,
+            ),
+            cash: cash.liquidBalance.minorUnits / 100,
+          };
+          towns.add(profile.locationJurisdictionId);
+        }
+        next = {
+          ...next,
+          townFinances: {
+            version: "town-finances-v1",
+            banks: store?.banks ?? {},
+            markets: store?.markets ?? {},
+            ...store,
+            businesses: books,
+            basePriceIndex: store?.basePriceIndex ?? priceIndex,
+          },
+        };
+        for (const town of towns)
+          next = recordTownSalesReceipts(
+            next,
+            town,
+            next.currentDate,
+            next.currentDate,
+            round,
+            priceIndex / next.townFinances!.basePriceIndex!,
+          );
+      }
     }
     return next;
   });
