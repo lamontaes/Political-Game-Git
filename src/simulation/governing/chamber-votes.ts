@@ -1,4 +1,5 @@
-import { considerationScore, evaluateDecision } from "../decisions";
+import { considerationScore } from "../decisions";
+import { decideMemberVote } from "./member-vote-decision";
 import {
   ARTICLE_V_STATE_KEYS,
   constitutionalEntityAvailableAt,
@@ -877,7 +878,7 @@ export function decideChamberVote(
         disposition: "present-not-voting",
         reason: "member:no-reason",
       };
-    const evaluation = evaluateDecision(world, {
+    const { evaluation, disposition } = decideMemberVote(world, {
       stableKey: `${input.stableKey}:${member.memberKey}:decision`,
       decisionType: "legislation.member-vote",
       actorPersonId: member.personId!,
@@ -900,12 +901,7 @@ export function decideChamberVote(
     return {
       memberKey: member.memberKey,
       personId: member.personId,
-      disposition:
-        selected === "vote-yea"
-          ? "yea"
-          : selected === "vote-nay"
-            ? "nay"
-            : "present-not-voting",
+      disposition,
       reason: decisive
         ? decisive.sourceType === "belief:formed-position" &&
           decisive.sourceRefs[0]?.kind === "private-belief"
