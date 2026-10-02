@@ -16,6 +16,7 @@ import type {
   World,
 } from "./types";
 import { smallWorld } from "../../tests/fixtures/small-world";
+import { createProductionPolicyCatalog } from "./production-catalog";
 import { enactThroughDesk } from "../../tests/fixtures/enact-through-desk";
 import { lifePlaceStateIdentities } from "./life-places";
 import { stableHash } from "./ids";
@@ -40,6 +41,7 @@ import { assessPaychecksTaxes } from "./statutory-tax";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { withholdingForPaycheck } from "./income-tax-withholding";
 import { lawInForce } from "./governing/law-in-force";
+import startingLaw from "../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import stateIncomeTax2026 from "../../data/research/money/state-income-tax-2026.json" with { type: "json" };
 
 import {
@@ -114,17 +116,31 @@ function lawWorld(
   seed: string,
   laws: readonly ReturnType<typeof enacted>[],
 ): World {
+  const catalog = createProductionPolicyCatalog();
+  const adopted = Object.values(catalog.propositions).find(
+    (row) => row.stableKey === ADOPT_STATE_INCOME_TAX_QUESTION,
+  )!;
+  const graduated = Object.values(catalog.propositions).find(
+    (row) => row.stableKey === GRADUATED_STATE_INCOME_TAX_QUESTION,
+  )!;
+  const otherPropositions = Object.fromEntries(
+    Object.entries(catalog.propositions).filter(
+      ([id]) => id !== adopted.id && id !== graduated.id,
+    ),
+  );
   return {
     seed,
     currentDate: makeIsoDate("2027-06-01"),
     jurisdictions: {},
     policyCatalog: {
+      ...catalog,
+      propositionOrder: catalog.propositionOrder.map((id) =>
+        id === adopted.id ? ADOPT : id === graduated.id ? GRADUATED : id,
+      ),
       propositions: {
-        [ADOPT]: { id: ADOPT, stableKey: ADOPT_STATE_INCOME_TAX_QUESTION },
-        [GRADUATED]: {
-          id: GRADUATED,
-          stableKey: GRADUATED_STATE_INCOME_TAX_QUESTION,
-        },
+        ...otherPropositions,
+        [ADOPT]: { ...adopted, id: ADOPT },
+        [GRADUATED]: { ...graduated, id: GRADUATED },
       },
     },
     history: {
@@ -487,28 +503,66 @@ describe("A22 adopted numeric terms reach the existing paycheck writer", () => {
 });
 
 describe("a state's income tax law, as enacted in play", () => {
-  it("keeps sourced schedules and admits a flat starting law's recorded terms", () => {
-    for (const key of ["US-WA", "US-OR"])
+  it("admits every production starting bracket table through the existing dated consumer", () => {
+    const answers = startingLaw.questions[ADOPT_STATE_INCOME_TAX_QUESTION]
+      .answers as unknown as Record<
+      string,
+      { lawSchedules?: readonly { kind: string }[] }
+    >;
+    const places = Object.entries(answers).filter(([, row]) =>
+      row.lawSchedules?.some((term) => term.kind === "income-tax"),
+    );
+    expect(places).toHaveLength(19);
+    const world = lawWorld("recorded-starting-schedules", []);
+    for (const [place] of places) {
+      const read = stateIncomeTaxUnderLaw(world, place, "single", paid);
+      if (read.kind !== "enacted")
+        throw new Error(`${place}: production table was refused`);
+      const source =
+        stateIncomeTax2026.places[
+          place as keyof typeof stateIncomeTax2026.places
+        ];
+      expect(source.standardDeductionSingle).not.toBeNull();
+      expect(read.shape).toBe("graduated");
+      expect(read.schedule.standardDeductionMinor).toBe(
+        source.standardDeductionSingle! * 100,
+      );
+      expect(read.schedule.brackets).toEqual(
+        source.brackets.map((row) => ({
+          overMinor: row.overSingle * 100,
+          rateBasisPoints: Math.round(row.ratePercent * 100),
+        })),
+      );
+      expect(read.lawMeasureIds).toEqual([
+        `starting-law:${place}:${GRADUATED_STATE_INCOME_TAX_QUESTION}`,
+        `starting-law:${place}:${ADOPT_STATE_INCOME_TAX_QUESTION}`,
+      ]);
+    }
+  });
+  it("keeps sourced schedules and admits flat and graduated starting terms", () => {
+    for (const key of ["US-WA"])
       expect(
         stateIncomeTaxUnderLaw(lawWorld("s", []), key, "single", paid),
       ).toEqual({ kind: "as-begun" });
-    const starting = stateIncomeTaxUnderLaw(
-      lawWorld("s", []),
-      "US-CO",
-      "single",
-      paid,
-    );
-    expect(starting.kind).toBe("enacted");
-    if (starting.kind !== "enacted") throw new Error(starting.kind);
-    expect(starting.schedule.brackets).toEqual(
-      stateIncomeTax2026.places["US-CO"].brackets.map((row) => ({
-        overMinor: row.overSingle * 100,
-        rateBasisPoints: Math.round(row.ratePercent * 100),
-      })),
-    );
-    expect(starting.lawMeasureIds).toContain(
-      `starting-law:US-CO:${ADOPT_STATE_INCOME_TAX_QUESTION}`,
-    );
+    for (const key of ["US-CO", "US-OR"] as const) {
+      const starting = stateIncomeTaxUnderLaw(
+        lawWorld("s", []),
+        key,
+        "single",
+        paid,
+      );
+      expect(starting.kind).toBe("enacted");
+      if (starting.kind !== "enacted") throw new Error(starting.kind);
+      expect(starting.schedule.brackets).toEqual(
+        stateIncomeTax2026.places[key].brackets.map((row) => ({
+          overMinor: row.overSingle * 100,
+          rateBasisPoints: Math.round(row.ratePercent * 100),
+        })),
+      );
+      expect(starting.lawMeasureIds).toContain(
+        `starting-law:${key}:${ADOPT_STATE_INCOME_TAX_QUESTION}`,
+      );
+    }
   });
 
   it("ends the withholding when a taxing state repeals its tax", () => {
@@ -531,8 +585,8 @@ describe("a state's income tax law, as enacted in play", () => {
   it("waits for the next tax year when a law takes effect during one", () => {
     const repeal = enacted(stateId("US-OR"), ADOPT, "no", "2027-03-01");
     const world = lawWorld("s", [repeal]);
-    expect(stateIncomeTaxUnderLaw(world, "US-OR", "single", paid).kind).toBe(
-      "as-begun",
+    expect(stateIncomeTaxUnderLaw(world, "US-OR", "single", paid)).toEqual(
+      stateIncomeTaxUnderLaw(lawWorld("s", []), "US-OR", "single", paid),
     );
     expect(
       stateIncomeTaxUnderLaw(
@@ -636,12 +690,29 @@ describe("a state's income tax law, as enacted in play", () => {
     ).toEqual(
       stateIncomeTaxUnderLaw(lawWorld("s", []), "US-CO", "single", paid),
     );
-    // A "yes" on the shape of a state that is already graduated changes
-    // nothing.
+    // A new "yes" keeps the existing graduated amounts and records the
+    // operative shape law, rather than carrying its superseded starting ID.
     const oregon = enacted(stateId("US-OR"), GRADUATED, "yes", "2027-01-01");
-    expect(
-      stateIncomeTaxUnderLaw(lawWorld("s", [oregon]), "US-OR", "single", paid),
-    ).toEqual({ kind: "as-begun" });
+    const continued = stateIncomeTaxUnderLaw(
+      lawWorld("s", [oregon]),
+      "US-OR",
+      "single",
+      paid,
+    );
+    const begun = stateIncomeTaxUnderLaw(
+      lawWorld("s", []),
+      "US-OR",
+      "single",
+      paid,
+    );
+    if (continued.kind !== "enacted" || begun.kind !== "enacted")
+      throw new Error("Recorded Oregon schedule missing");
+    expect(continued.shape).toBe(begun.shape);
+    expect(continued.schedule).toEqual(begun.schedule);
+    expect(continued.lawMeasureIds).toEqual([
+      `starting-law:US-OR:${ADOPT_STATE_INCOME_TAX_QUESTION}`,
+      oregon.measure.id,
+    ]);
   });
 
   it("doubles a joint return's brackets and deduction, and says so", () => {

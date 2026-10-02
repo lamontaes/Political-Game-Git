@@ -1,7 +1,13 @@
+import { evaluateLawAmount } from "../law-consequence-amount";
+import { readFinalEnactedLawTerm } from "../governing/final-law-term-query";
+import { BUDGET_OBLIGATION_AMOUNT, BUDGET_ALLOCATION_TERM_KEYS } from "./rules";
 import { addDays, makeIsoDate } from "../dates";
 import { STATUTE_EFFECTIVE_DEFAULT_DAYS } from "../enacted-rule-changes";
-import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
-import { readFinalEnactedLawTerm } from "../governing/final-law-term-query";
+import {
+  type LawInForce,
+  lawInForce,
+  lawInForceAtStart,
+} from "../governing/law-in-force";
 import finances from "../../../data/research/money/state-local-finances-2022.json" with { type: "json" };
 import type { SPENDING_QUESTION_EFFECTS } from "./rules";
 import { mayAnswerQuestion } from "../governing/question-authority";
@@ -132,18 +138,34 @@ export function budgetLawReading(
   const propositionId = propositionIdFor(world, BUDGET_LAW_KEYS[name]);
   if (!propositionId) return UNKNOWN_LAW;
   if (ownOrdinancesOnly) {
-    const own = ownOrdinance(world, jurisdictionId, propositionId, onDate);
+    const own = ownOrdinance(
+      world,
+      jurisdictionId,
+      propositionId,
+      onDate,
+      name,
+    );
     return own.answer === "unknown" && name === "balanced"
       ? LOCAL_BALANCED_ESTIMATE
       : own;
   }
   const law = lawInForce(world, jurisdictionId, propositionId, onDate);
   if (!law || (law.answer !== "yes" && law.answer !== "no")) return UNKNOWN_LAW;
+  return selectedBudgetLawReading(world, law, name, onDate);
+}
+
+function selectedBudgetLawReading(
+  world: World,
+  law: LawInForce,
+  name: BudgetLawName,
+  onDate: IsoDate,
+): BudgetLawReading {
+  const termKey = BUDGET_ALLOCATION_TERM_KEYS[name];
   const contribution =
-    name === "pensions" && law.answer === "yes"
+    termKey && law.answer === "yes"
       ? readFinalEnactedLawTerm(world, law, {
-          questionKey: BUDGET_LAW_KEYS.pensions,
-          termKey: "contribution",
+          questionKey: BUDGET_LAW_KEYS[name],
+          termKey,
           unit: "ratio",
           onDate,
         })
@@ -183,6 +205,7 @@ function ownOrdinance(
   jurisdictionId: EntityId,
   propositionId: EntityId,
   onDate: IsoDate,
+  name: BudgetLawName,
 ): BudgetLawReading {
   let best: {
     answer: "yes" | "no";
@@ -216,11 +239,19 @@ function ownOrdinance(
       };
   }
   return best
-    ? {
-        answer: best.answer,
-        measureId: best.measureId,
-        level: "local-ordinance",
-      }
+    ? selectedBudgetLawReading(
+        world,
+        {
+          answer: best.answer,
+          measureId: best.measureId,
+          level: "local-ordinance",
+          origin: "enacted",
+          operativeAt: best.operativeAt,
+          operativeBasis: "enacted-date",
+        },
+        name,
+        onDate,
+      )
     : UNKNOWN_LAW;
 }
 
@@ -272,4 +303,25 @@ export function nominalEconomyIndex(
       asOf,
     ) ?? macroConditionsAt(world, "national", asOf);
   return record ? record.realOutputIndex * record.priceIndex : null;
+}
+
+/** One evaluated allocation for opening and adoption; this does not pay cash. */
+export function budgetObligationPayment(
+  required: number,
+  paidShare: number,
+  law: BudgetLawReading,
+): number {
+  const requiredShare =
+    law.answer === "yes" ? (law.requiredContributionShare ?? 1) : 0;
+  return Math.round(
+    evaluateLawAmount(BUDGET_OBLIGATION_AMOUNT, {
+      record: {
+        obligation: { value: required, unit: "dollars/year" },
+        "paid-share": { value: paidShare, unit: "ratio" },
+      },
+      term: { "required-share": { value: requiredShare, unit: "ratio" } },
+      capacity: {},
+      exposure: {},
+    }).value,
+  );
 }

@@ -251,6 +251,7 @@ export function eligibleOffenders(
   // The youngest the police charge as an adult is the law's, where the
   // offense happened; a younger offender belongs to the juvenile court.
   const youngestCharged = adultCourtAgeAt(world, town, onDate);
+  if (youngestCharged === null) return [];
   const diplomas = recordedDiplomas(world, cutoff);
   const player =
     world.control.kind === "person" ? world.control.personId : null;

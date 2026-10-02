@@ -7,6 +7,7 @@ import {
   publicTaxAccountForIdentity,
 } from "../tax-policy";
 import { attributePaycheckTaxLaws } from "../paycheck-law-attribution";
+import { recordPaycheckTaxBases } from "../paycheck-tax-bases";
 import { lawEffectStamp } from "../law-effect-stamp";
 import { lawInForce } from "../governing/law-in-force";
 import { applyLawConsequences } from "../enacted-law-effects";
@@ -2071,6 +2072,8 @@ export function settleTownCompensations(
     ["resourceFlows", "resourceTransferOutcomes"],
     (initial) => assessPaychecksTaxes(initial, ids),
   );
+  next = recordPaycheckTaxBases(next, ids);
+
   next = attributePaycheckTaxLaws(next, ids);
   // Benefits are paid after the premiums of the same paychecks reach the
   // state's account.

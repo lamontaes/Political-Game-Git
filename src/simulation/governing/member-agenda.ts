@@ -1,4 +1,10 @@
 import { renderMeasureTitle } from "../measure-title";
+import {
+  TEACHER_SALARY_FLOOR_QUESTION,
+  requestedTeacherSalaryFloor,
+  recordTeacherSponsorFloor,
+} from "../teacher-salary-floor";
+import { recordJuvenileAgeBillTerm } from "../justice/juvenile-law-term";
 import { nextSessionCalendarDate } from "../legislative-session-calendar";
 import { LEGISLATIVE_SESSION_CALENDARS } from "../legislative-session-calendar-data";
 import {
@@ -674,7 +680,17 @@ export function fileMemberAgendaBills(
             lawAnswers.get(propositionId) === "yes"
           ) {
             requestedChange = compileForSponsor("yes");
-            if (requestedChange) answer = "yes";
+            if (
+              requestedChange ||
+              (settings.governmentLevel === "state" &&
+                proposition.stableKey === TEACHER_SALARY_FLOOR_QUESTION &&
+                requestedTeacherSalaryFloor(
+                  next,
+                  input.jurisdictionId,
+                  sponsor.personId!,
+                ))
+            )
+              answer = "yes";
           }
           if (!answer) continue;
           const issueKey = next.policyCatalog.issues[
@@ -866,6 +882,7 @@ export function fileMemberAgendaBills(
         });
         measureId = next.history.legislativeMeasures!.at(-1)!.id;
       }
+      next = recordJuvenileAgeBillTerm(next, measureId);
       const measure = next.history.legislativeMeasures!.find(
         (row) => row.id === measureId,
       )!;
@@ -887,6 +904,13 @@ export function fileMemberAgendaBills(
       if (!cap.allowed) {
         next = beforeIntroduction;
         continue;
+      }
+      if (
+        settings.governmentLevel === "state" &&
+        proposition.stableKey === TEACHER_SALARY_FLOOR_QUESTION &&
+        best.answer === "yes"
+      ) {
+        next = recordTeacherSponsorFloor(next, measure.id);
       }
       if (cap.notAppliedLimits?.length) {
         const explanationKey = `${batchKey}:limit-not-applied:${sponsor.personId}:${chamber.chamberKey}`;

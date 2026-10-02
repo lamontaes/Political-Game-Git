@@ -4730,10 +4730,74 @@
           "answer": "no"
         },
         "US-AL": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 300000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 200
+                  },
+                  {
+                    "overMinor": 50000,
+                    "rateBasisPoints": 400
+                  },
+                  {
+                    "overMinor": 300000,
+                    "rateBasisPoints": 500
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-AR": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 247000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 200
+                  },
+                  {
+                    "overMinor": 460000,
+                    "rateBasisPoints": 390
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-AS": {
           "answer": "yes",
@@ -4761,7 +4825,69 @@
           "note": "2026 single-filer flat marginal rate and taxable-income threshold from state-income-tax-2026.json; threshold is cents of annual taxable income, after the separately read deduction."
         },
         "US-CA": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 554000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 100
+                  },
+                  {
+                    "overMinor": 1107900,
+                    "rateBasisPoints": 200
+                  },
+                  {
+                    "overMinor": 2626400,
+                    "rateBasisPoints": 400
+                  },
+                  {
+                    "overMinor": 4145200,
+                    "rateBasisPoints": 600
+                  },
+                  {
+                    "overMinor": 5754200,
+                    "rateBasisPoints": 800
+                  },
+                  {
+                    "overMinor": 7272400,
+                    "rateBasisPoints": 930
+                  },
+                  {
+                    "overMinor": 37147900,
+                    "rateBasisPoints": 1030
+                  },
+                  {
+                    "overMinor": 44577100,
+                    "rateBasisPoints": 1130
+                  },
+                  {
+                    "overMinor": 74295300,
+                    "rateBasisPoints": 1230
+                  },
+                  {
+                    "overMinor": 100000000,
+                    "rateBasisPoints": 1330
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-CO": {
           "answer": "yes",
@@ -4786,7 +4912,57 @@
           "answer": "yes"
         },
         "US-DC": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 1610000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 400
+                  },
+                  {
+                    "overMinor": 1000000,
+                    "rateBasisPoints": 600
+                  },
+                  {
+                    "overMinor": 4000000,
+                    "rateBasisPoints": 650
+                  },
+                  {
+                    "overMinor": 6000000,
+                    "rateBasisPoints": 850
+                  },
+                  {
+                    "overMinor": 25000000,
+                    "rateBasisPoints": 925
+                  },
+                  {
+                    "overMinor": 50000000,
+                    "rateBasisPoints": 975
+                  },
+                  {
+                    "overMinor": 100000000,
+                    "rateBasisPoints": 1075
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-DE": {
           "answer": "yes"
@@ -4820,7 +4996,77 @@
           "note": "The Guam Organic Act applies the federal income-tax laws in Guam as a separate Guam Territorial income tax payable to the government of Guam, so wages are taxed."
         },
         "US-HI": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 440000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 140
+                  },
+                  {
+                    "overMinor": 960000,
+                    "rateBasisPoints": 320
+                  },
+                  {
+                    "overMinor": 1440000,
+                    "rateBasisPoints": 550
+                  },
+                  {
+                    "overMinor": 1920000,
+                    "rateBasisPoints": 640
+                  },
+                  {
+                    "overMinor": 2400000,
+                    "rateBasisPoints": 680
+                  },
+                  {
+                    "overMinor": 3600000,
+                    "rateBasisPoints": 720
+                  },
+                  {
+                    "overMinor": 4800000,
+                    "rateBasisPoints": 760
+                  },
+                  {
+                    "overMinor": 12500000,
+                    "rateBasisPoints": 790
+                  },
+                  {
+                    "overMinor": 17500000,
+                    "rateBasisPoints": 825
+                  },
+                  {
+                    "overMinor": 22500000,
+                    "rateBasisPoints": 900
+                  },
+                  {
+                    "overMinor": 27500000,
+                    "rateBasisPoints": 1000
+                  },
+                  {
+                    "overMinor": 32500000,
+                    "rateBasisPoints": 1100
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-IA": {
           "answer": "yes",
@@ -4899,7 +5145,37 @@
           "note": "2026 single-filer flat marginal rate and taxable-income threshold from state-income-tax-2026.json; threshold is cents of annual taxable income, after the separately read deduction."
         },
         "US-KS": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 360500,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 520
+                  },
+                  {
+                    "overMinor": 2300000,
+                    "rateBasisPoints": 558
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-KY": {
           "answer": "yes",
@@ -4943,10 +5219,106 @@
           "answer": "yes"
         },
         "US-MD": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 335000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 200
+                  },
+                  {
+                    "overMinor": 100000,
+                    "rateBasisPoints": 300
+                  },
+                  {
+                    "overMinor": 200000,
+                    "rateBasisPoints": 400
+                  },
+                  {
+                    "overMinor": 300000,
+                    "rateBasisPoints": 475
+                  },
+                  {
+                    "overMinor": 10000000,
+                    "rateBasisPoints": 500
+                  },
+                  {
+                    "overMinor": 12500000,
+                    "rateBasisPoints": 525
+                  },
+                  {
+                    "overMinor": 15000000,
+                    "rateBasisPoints": 550
+                  },
+                  {
+                    "overMinor": 25000000,
+                    "rateBasisPoints": 575
+                  },
+                  {
+                    "overMinor": 50000000,
+                    "rateBasisPoints": 625
+                  },
+                  {
+                    "overMinor": 100000000,
+                    "rateBasisPoints": 650
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-ME": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 835000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 580
+                  },
+                  {
+                    "overMinor": 2739900,
+                    "rateBasisPoints": 675
+                  },
+                  {
+                    "overMinor": 6484900,
+                    "rateBasisPoints": 715
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-MI": {
           "answer": "yes",
@@ -4968,7 +5340,45 @@
           "note": "2026 single-filer flat marginal rate and taxable-income threshold from state-income-tax-2026.json; threshold is cents of annual taxable income, after the separately read deduction."
         },
         "US-MN": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 1530000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 535
+                  },
+                  {
+                    "overMinor": 3331000,
+                    "rateBasisPoints": 680
+                  },
+                  {
+                    "overMinor": 10943000,
+                    "rateBasisPoints": 785
+                  },
+                  {
+                    "overMinor": 20315000,
+                    "rateBasisPoints": 985
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-MO": {
           "answer": "yes"
@@ -4999,7 +5409,37 @@
           "note": "2026 single-filer flat marginal rate and taxable-income threshold from state-income-tax-2026.json; threshold is cents of annual taxable income, after the separately read deduction."
         },
         "US-MT": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 1610000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 470
+                  },
+                  {
+                    "overMinor": 4750000,
+                    "rateBasisPoints": 565
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-NC": {
           "answer": "yes",
@@ -5024,7 +5464,41 @@
           "answer": "yes"
         },
         "US-NE": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 885000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 246
+                  },
+                  {
+                    "overMinor": 413000,
+                    "rateBasisPoints": 351
+                  },
+                  {
+                    "overMinor": 2476000,
+                    "rateBasisPoints": 455
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-NH": {
           "answer": "no"
@@ -5033,13 +5507,117 @@
           "answer": "yes"
         },
         "US-NM": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 1610000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 150
+                  },
+                  {
+                    "overMinor": 550000,
+                    "rateBasisPoints": 320
+                  },
+                  {
+                    "overMinor": 1650000,
+                    "rateBasisPoints": 430
+                  },
+                  {
+                    "overMinor": 3350000,
+                    "rateBasisPoints": 470
+                  },
+                  {
+                    "overMinor": 6650000,
+                    "rateBasisPoints": 490
+                  },
+                  {
+                    "overMinor": 21000000,
+                    "rateBasisPoints": 590
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-NV": {
           "answer": "no"
         },
         "US-NY": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 800000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 390
+                  },
+                  {
+                    "overMinor": 850000,
+                    "rateBasisPoints": 440
+                  },
+                  {
+                    "overMinor": 1170000,
+                    "rateBasisPoints": 515
+                  },
+                  {
+                    "overMinor": 1390000,
+                    "rateBasisPoints": 540
+                  },
+                  {
+                    "overMinor": 8065000,
+                    "rateBasisPoints": 590
+                  },
+                  {
+                    "overMinor": 21540000,
+                    "rateBasisPoints": 685
+                  },
+                  {
+                    "overMinor": 107755000,
+                    "rateBasisPoints": 965
+                  },
+                  {
+                    "overMinor": 500000000,
+                    "rateBasisPoints": 1030
+                  },
+                  {
+                    "overMinor": 2500000000,
+                    "rateBasisPoints": 1090
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-OH": {
           "answer": "yes",
@@ -5064,7 +5642,45 @@
           "answer": "yes"
         },
         "US-OR": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 291000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 475
+                  },
+                  {
+                    "overMinor": 455000,
+                    "rateBasisPoints": 675
+                  },
+                  {
+                    "overMinor": 1140000,
+                    "rateBasisPoints": 875
+                  },
+                  {
+                    "overMinor": 12500000,
+                    "rateBasisPoints": 990
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-PA": {
           "answer": "yes",
@@ -5092,10 +5708,78 @@
           "note": "Puerto Rico taxes individual income under its own Internal Revenue Code of 2011, with a graduated schedule reaching 33 percent."
         },
         "US-RI": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 1120000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 375
+                  },
+                  {
+                    "overMinor": 8205000,
+                    "rateBasisPoints": 475
+                  },
+                  {
+                    "overMinor": 18645000,
+                    "rateBasisPoints": 599
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-SC": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 835000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 0
+                  },
+                  {
+                    "overMinor": 364000,
+                    "rateBasisPoints": 300
+                  },
+                  {
+                    "overMinor": 1823000,
+                    "rateBasisPoints": 600
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-SD": {
           "answer": "no"
@@ -5126,7 +5810,45 @@
           "note": "2026 single-filer flat marginal rate and taxable-income threshold from state-income-tax-2026.json; threshold is cents of annual taxable income, after the separately read deduction."
         },
         "US-VA": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 875000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 200
+                  },
+                  {
+                    "overMinor": 300000,
+                    "rateBasisPoints": 300
+                  },
+                  {
+                    "overMinor": 500000,
+                    "rateBasisPoints": 500
+                  },
+                  {
+                    "overMinor": 1700000,
+                    "rateBasisPoints": 575
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-VI": {
           "answer": "yes",
@@ -5135,13 +5857,89 @@
           "note": "The federal income tax laws are in force in the Virgin Islands as its own income tax on wages, with the proceeds paid to the territory."
         },
         "US-VT": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 765000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 335
+                  },
+                  {
+                    "overMinor": 4940000,
+                    "rateBasisPoints": 660
+                  },
+                  {
+                    "overMinor": 11970000,
+                    "rateBasisPoints": 760
+                  },
+                  {
+                    "overMinor": 24970000,
+                    "rateBasisPoints": 875
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-WA": {
           "answer": "no"
         },
         "US-WI": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 1396000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 350
+                  },
+                  {
+                    "overMinor": 1511000,
+                    "rateBasisPoints": 440
+                  },
+                  {
+                    "overMinor": 5195000,
+                    "rateBasisPoints": 530
+                  },
+                  {
+                    "overMinor": 33272000,
+                    "rateBasisPoints": 765
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-WV": {
           "answer": "yes"
@@ -7327,12 +8125,60 @@
         "US-AL": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+              "key": "brackets",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 300000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 200
+                  },
+                  {
+                    "overMinor": 50000,
+                    "rateBasisPoints": 400
+                  },
+                  {
+                    "overMinor": 300000,
+                    "rateBasisPoints": 500
+                  }
+                ]
+              }
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-AR": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+              "key": "brackets",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 247000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 200
+                  },
+                  {
+                    "overMinor": 460000,
+                    "rateBasisPoints": 390
+                  }
+                ]
+              }
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-AS": {
           "answer": "yes",
@@ -7351,7 +8197,61 @@
           "answer": "yes",
           "preempts": true,
           "cite": "Cal. Rev. & Tax. Code § 17041",
-          "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=RTC&sectionNum=17041"
+          "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=RTC&sectionNum=17041",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+              "key": "brackets",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 554000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 100
+                  },
+                  {
+                    "overMinor": 1107900,
+                    "rateBasisPoints": 200
+                  },
+                  {
+                    "overMinor": 2626400,
+                    "rateBasisPoints": 400
+                  },
+                  {
+                    "overMinor": 4145200,
+                    "rateBasisPoints": 600
+                  },
+                  {
+                    "overMinor": 5754200,
+                    "rateBasisPoints": 800
+                  },
+                  {
+                    "overMinor": 7272400,
+                    "rateBasisPoints": 930
+                  },
+                  {
+                    "overMinor": 37147900,
+                    "rateBasisPoints": 1030
+                  },
+                  {
+                    "overMinor": 44577100,
+                    "rateBasisPoints": 1130
+                  },
+                  {
+                    "overMinor": 74295300,
+                    "rateBasisPoints": 1230
+                  },
+                  {
+                    "overMinor": 100000000,
+                    "rateBasisPoints": 1330
+                  }
+                ]
+              }
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-CO": {
           "answer": "no",
@@ -7372,7 +8272,49 @@
         "US-DC": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+              "key": "brackets",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 1610000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 400
+                  },
+                  {
+                    "overMinor": 1000000,
+                    "rateBasisPoints": 600
+                  },
+                  {
+                    "overMinor": 4000000,
+                    "rateBasisPoints": 650
+                  },
+                  {
+                    "overMinor": 6000000,
+                    "rateBasisPoints": 850
+                  },
+                  {
+                    "overMinor": 25000000,
+                    "rateBasisPoints": 925
+                  },
+                  {
+                    "overMinor": 50000000,
+                    "rateBasisPoints": 975
+                  },
+                  {
+                    "overMinor": 100000000,
+                    "rateBasisPoints": 1075
+                  }
+                ]
+              }
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-DE": {
           "answer": "yes",
@@ -7402,7 +8344,69 @@
         "US-HI": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+              "key": "brackets",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 440000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 140
+                  },
+                  {
+                    "overMinor": 960000,
+                    "rateBasisPoints": 320
+                  },
+                  {
+                    "overMinor": 1440000,
+                    "rateBasisPoints": 550
+                  },
+                  {
+                    "overMinor": 1920000,
+                    "rateBasisPoints": 640
+                  },
+                  {
+                    "overMinor": 2400000,
+                    "rateBasisPoints": 680
+                  },
+                  {
+                    "overMinor": 3600000,
+                    "rateBasisPoints": 720
+                  },
+                  {
+                    "overMinor": 4800000,
+                    "rateBasisPoints": 760
+                  },
+                  {
+                    "overMinor": 12500000,
+                    "rateBasisPoints": 790
+                  },
+                  {
+                    "overMinor": 17500000,
+                    "rateBasisPoints": 825
+                  },
+                  {
+                    "overMinor": 22500000,
+                    "rateBasisPoints": 900
+                  },
+                  {
+                    "overMinor": 27500000,
+                    "rateBasisPoints": 1000
+                  },
+                  {
+                    "overMinor": 32500000,
+                    "rateBasisPoints": 1100
+                  }
+                ]
+              }
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-IA": {
           "answer": "no",
@@ -7440,7 +8444,29 @@
         "US-KS": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+              "key": "brackets",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 360500,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 520
+                  },
+                  {
+                    "overMinor": 2300000,
+                    "rateBasisPoints": 558
+                  }
+                ]
+              }
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-KY": {
           "answer": "no",
@@ -7473,12 +8499,92 @@
         "US-MD": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+              "key": "brackets",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 335000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 200
+                  },
+                  {
+                    "overMinor": 100000,
+                    "rateBasisPoints": 300
+                  },
+                  {
+                    "overMinor": 200000,
+                    "rateBasisPoints": 400
+                  },
+                  {
+                    "overMinor": 300000,
+                    "rateBasisPoints": 475
+                  },
+                  {
+                    "overMinor": 10000000,
+                    "rateBasisPoints": 500
+                  },
+                  {
+                    "overMinor": 12500000,
+                    "rateBasisPoints": 525
+                  },
+                  {
+                    "overMinor": 15000000,
+                    "rateBasisPoints": 550
+                  },
+                  {
+                    "overMinor": 25000000,
+                    "rateBasisPoints": 575
+                  },
+                  {
+                    "overMinor": 50000000,
+                    "rateBasisPoints": 625
+                  },
+                  {
+                    "overMinor": 100000000,
+                    "rateBasisPoints": 650
+                  }
+                ]
+              }
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-ME": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+              "key": "brackets",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 835000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 580
+                  },
+                  {
+                    "overMinor": 2739900,
+                    "rateBasisPoints": 675
+                  },
+                  {
+                    "overMinor": 6484900,
+                    "rateBasisPoints": 715
+                  }
+                ]
+              }
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-MI": {
           "answer": "no",
@@ -7495,7 +8601,37 @@
         "US-MN": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+              "key": "brackets",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 1530000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 535
+                  },
+                  {
+                    "overMinor": 3331000,
+                    "rateBasisPoints": 680
+                  },
+                  {
+                    "overMinor": 10943000,
+                    "rateBasisPoints": 785
+                  },
+                  {
+                    "overMinor": 20315000,
+                    "rateBasisPoints": 985
+                  }
+                ]
+              }
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-MO": {
           "answer": "yes",
@@ -7520,7 +8656,28 @@
           "answer": "yes",
           "preempts": true,
           "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-          "note": "Two brackets remain for tax year 2026; the top rate fell to 5.65 percent."
+          "note": "Two brackets remain for tax year 2026; the top rate fell to 5.65 percent. Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement.",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+              "key": "brackets",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 1610000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 470
+                  },
+                  {
+                    "overMinor": 4750000,
+                    "rateBasisPoints": 565
+                  }
+                ]
+              }
+            }
+          ]
         },
         "US-NC": {
           "answer": "no",
@@ -7539,7 +8696,33 @@
         "US-NE": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+              "key": "brackets",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 885000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 246
+                  },
+                  {
+                    "overMinor": 413000,
+                    "rateBasisPoints": 351
+                  },
+                  {
+                    "overMinor": 2476000,
+                    "rateBasisPoints": 455
+                  }
+                ]
+              }
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-NH": {
           "answer": "no",
@@ -7555,7 +8738,45 @@
         "US-NM": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+              "key": "brackets",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 1610000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 150
+                  },
+                  {
+                    "overMinor": 550000,
+                    "rateBasisPoints": 320
+                  },
+                  {
+                    "overMinor": 1650000,
+                    "rateBasisPoints": 430
+                  },
+                  {
+                    "overMinor": 3350000,
+                    "rateBasisPoints": 470
+                  },
+                  {
+                    "overMinor": 6650000,
+                    "rateBasisPoints": 490
+                  },
+                  {
+                    "overMinor": 21000000,
+                    "rateBasisPoints": 590
+                  }
+                ]
+              }
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-NV": {
           "answer": "no",
@@ -7566,7 +8787,57 @@
         "US-NY": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+              "key": "brackets",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 800000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 390
+                  },
+                  {
+                    "overMinor": 850000,
+                    "rateBasisPoints": 440
+                  },
+                  {
+                    "overMinor": 1170000,
+                    "rateBasisPoints": 515
+                  },
+                  {
+                    "overMinor": 1390000,
+                    "rateBasisPoints": 540
+                  },
+                  {
+                    "overMinor": 8065000,
+                    "rateBasisPoints": 590
+                  },
+                  {
+                    "overMinor": 21540000,
+                    "rateBasisPoints": 685
+                  },
+                  {
+                    "overMinor": 107755000,
+                    "rateBasisPoints": 965
+                  },
+                  {
+                    "overMinor": 500000000,
+                    "rateBasisPoints": 1030
+                  },
+                  {
+                    "overMinor": 2500000000,
+                    "rateBasisPoints": 1090
+                  }
+                ]
+              }
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-OH": {
           "answer": "no",
@@ -7585,7 +8856,37 @@
         "US-OR": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+              "key": "brackets",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 291000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 475
+                  },
+                  {
+                    "overMinor": 455000,
+                    "rateBasisPoints": 675
+                  },
+                  {
+                    "overMinor": 1140000,
+                    "rateBasisPoints": 875
+                  },
+                  {
+                    "overMinor": 12500000,
+                    "rateBasisPoints": 990
+                  }
+                ]
+              }
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-PA": {
           "answer": "no",
@@ -7609,12 +8910,64 @@
         "US-RI": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+              "key": "brackets",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 1120000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 375
+                  },
+                  {
+                    "overMinor": 8205000,
+                    "rateBasisPoints": 475
+                  },
+                  {
+                    "overMinor": 18645000,
+                    "rateBasisPoints": 599
+                  }
+                ]
+              }
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-SC": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+              "key": "brackets",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 835000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 0
+                  },
+                  {
+                    "overMinor": 364000,
+                    "rateBasisPoints": 300
+                  },
+                  {
+                    "overMinor": 1823000,
+                    "rateBasisPoints": 600
+                  }
+                ]
+              }
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-SD": {
           "answer": "no",
@@ -7645,7 +8998,37 @@
         "US-VA": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+              "key": "brackets",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 875000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 200
+                  },
+                  {
+                    "overMinor": 300000,
+                    "rateBasisPoints": 300
+                  },
+                  {
+                    "overMinor": 500000,
+                    "rateBasisPoints": 500
+                  },
+                  {
+                    "overMinor": 1700000,
+                    "rateBasisPoints": 575
+                  }
+                ]
+              }
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-VI": {
           "answer": "yes",
@@ -7656,7 +9039,37 @@
         "US-VT": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+              "key": "brackets",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 765000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 335
+                  },
+                  {
+                    "overMinor": 4940000,
+                    "rateBasisPoints": 660
+                  },
+                  {
+                    "overMinor": 11970000,
+                    "rateBasisPoints": 760
+                  },
+                  {
+                    "overMinor": 24970000,
+                    "rateBasisPoints": 875
+                  }
+                ]
+              }
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-WA": {
           "answer": "no",
@@ -7672,7 +9085,37 @@
         "US-WI": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+              "key": "brackets",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 1396000,
+                "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 350
+                  },
+                  {
+                    "overMinor": 1511000,
+                    "rateBasisPoints": 440
+                  },
+                  {
+                    "overMinor": 5195000,
+                    "rateBasisPoints": 530
+                  },
+                  {
+                    "overMinor": 33272000,
+                    "rateBasisPoints": 765
+                  }
+                ]
+              }
+            }
+          ],
+          "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-WV": {
           "answer": "yes",
@@ -11101,19 +12544,43 @@
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Alaska",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-AL": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Alabama",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-AR": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Arkansas",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-AS": {
           "answer": "yes",
@@ -11124,98 +12591,226 @@
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Arizona",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-CA": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=California",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-CO": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Colorado",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-CT": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Connecticut",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-DC": {
           "answer": "yes",
           "preempts": true,
           "cite": "D.C. Code § 16-2301(3)",
           "source": "https://code.dccouncil.gov/us/dc/council/code/sections/16-2301",
-          "note": "Through age 17, except that the U.S. Attorney may charge 16- and 17-year-olds as adults for murder, first-degree sexual abuse, first-degree burglary, armed robbery or assault with intent to commit them."
+          "note": "Through age 17, except that the U.S. Attorney may charge 16- and 17-year-olds as adults for murder, first-degree sexual abuse, first-degree burglary, armed robbery or assault with intent to commit them.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-DE": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Delaware",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-FL": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Florida",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-GA": {
           "answer": "no",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Georgia",
-          "note": "Through age 16: OJJDP lists 16 as Georgia's upper age, so 17-year-olds start in adult court; a primary Georgia code page could not be fetched and no 2025 raise-the-age enactment was confirmed."
+          "note": "Through age 16: OJJDP lists 16 as Georgia's upper age, so 17-year-olds start in adult court; a primary Georgia code page could not be fetched and no 2025 raise-the-age enactment was confirmed.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 16,
+              "unit": "years"
+            }
+          ]
         },
         "US-GU": {
           "answer": "yes",
           "cite": "19 GCA §§ 5102(d), 5103(a)(4)",
           "source": "https://col.guamcourts.gov/sites/default/files/19gc005.pdf",
-          "note": "Through age 17: the Family Division has exclusive jurisdiction over any child under 18 who is alleged to have violated Guam law."
+          "note": "Through age 17: the Family Division has exclusive jurisdiction over any child under 18 who is alleged to have violated Guam law.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-HI": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Hawaii",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-IA": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Iowa",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-ID": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Idaho",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-IL": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Illinois",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-IN": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Indiana",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-KS": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Kansas",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-KY": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Kentucky",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-LA": {
           "answer": "no",
@@ -11223,184 +12818,424 @@
           "preempts": true,
           "cite": "La. Ch.C. art. 804(1)(a)",
           "source": "https://legis.la.gov/Legis/Law.aspx?d=73392",
-          "note": "Through age 16: Acts 2024, 2nd Ex. Sess., No. 13 returned 17-year-olds to adult court on 4/19/2024, reversing the 2019-2020 raise to 17 (OJJDP's 2023 data still shows 17)."
+          "note": "Through age 16: Acts 2024, 2nd Ex. Sess., No. 13 returned 17-year-olds to adult court on 4/19/2024, reversing the 2019-2020 raise to 17 (OJJDP's 2023 data still shows 17).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 16,
+              "unit": "years"
+            }
+          ]
         },
         "US-MA": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Massachusetts",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-MD": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Maryland",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-ME": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Maine",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-MI": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Michigan",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-MN": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Minnesota",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-MO": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Missouri",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-MP": {
           "answer": "yes",
           "preempts": true,
           "cite": "6 CMC §§ 5101(m), 5121",
           "source": "https://cnmilaw.gov/docs/cmc_section/T6/5101.pdf",
-          "note": "Through age 17: a \"juvenile\" is anyone under 18 at the time of the act, and the Superior Court's juvenile jurisdiction covers them unless waived under 6 CMC § 5124."
+          "note": "Through age 17: a \"juvenile\" is anyone under 18 at the time of the act, and the Superior Court's juvenile jurisdiction covers them unless waived under 6 CMC § 5124.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-MS": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Mississippi",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-MT": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Montana",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-NC": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=North%20Carolina",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-ND": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=North%20Dakota",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-NE": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Nebraska",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-NH": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=New%20Hampshire",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-NJ": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=New%20Jersey",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-NM": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=New%20Mexico",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-NV": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Nevada",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-NY": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=New%20York",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-OH": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Ohio",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-OK": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Oklahoma",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-OR": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Oregon",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-PA": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Pennsylvania",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-PR": {
           "answer": "yes",
           "preempts": true,
           "cite": "P.R. Laws Ann. tit. 34, § 2204 (Ley Núm. 88 de 1986, art. 4)",
           "source": "https://www.lexjuris.com/lexlex/lexmenor.htm",
-          "note": "Through age 17: the juvenile court hears offenses committed before 18, but first-degree murder (and related charges) by a minor 15 or older is excluded to adult court."
+          "note": "Through age 17: the juvenile court hears offenses committed before 18, but first-degree murder (and related charges) by a minor 15 or older is excluded to adult court.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-RI": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Rhode%20Island",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-SC": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=South%20Carolina",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-SD": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=South%20Dakota",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-TN": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Tennessee",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-TX": {
           "answer": "no",
           "preempts": true,
           "cite": "Tex. Fam. Code § 51.02(2)",
           "source": "https://tcss.legis.texas.gov/resources/FA/htm/FA.51.htm",
-          "note": "Through age 16: a \"child\" for delinquency is 10 or older and under 17, so 17-year-olds are charged as adults."
+          "note": "Through age 16: a \"child\" for delinquency is 10 or older and under 17, so 17-year-olds are charged as adults.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 16,
+              "unit": "years"
+            }
+          ]
         },
         "US-UT": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Utah",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-VA": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Virginia",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-VI": {
           "answer": "yes",
@@ -11413,32 +13248,72 @@
           "preempts": true,
           "cite": "33 V.S.A. § 5201(d)",
           "source": "https://legislature.vermont.gov/statutes/section/33/052/05201",
-          "note": "Through age 18: most offenses committed before age 19 originate in the Family Division since 7/1/2024 (2023 Act 125), with a short list of serious offenses at 16 and older starting in the Criminal Division; 2025 Act 4 amends subsection (d) effective 7/1/2027."
+          "note": "Through age 18: most offenses committed before age 19 originate in the Family Division since 7/1/2024 (2023 Act 125), with a short list of serious offenses at 16 and older starting in the Criminal Division; 2025 Act 4 amends subsection (d) effective 7/1/2027.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 18,
+              "unit": "years"
+            }
+          ]
         },
         "US-WA": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Washington",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-WI": {
           "answer": "no",
           "preempts": true,
           "cite": "Wis. Stat. § 938.02(1), (10m)",
           "source": "https://docs.legis.wisconsin.gov/statutes/statutes/938/i/02",
-          "note": "Through age 16: for investigating or prosecuting a crime, anyone who has turned 17 is an adult (1995 Wis. Act 77)."
+          "note": "Through age 16: for investigating or prosecuting a crime, anyone who has turned 17 is an adult (1995 Wis. Act 77).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 16,
+              "unit": "years"
+            }
+          ]
         },
         "US-WV": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=West%20Virginia",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-WY": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Wyoming",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         }
       }
     },
@@ -18186,7 +20061,15 @@
           "preempts": true,
           "cite": "Ark. Code § 6-17-2403",
           "source": "https://arkleg.state.ar.us/Home/FTPDocument?path=%2FACTS%2F2023R%2FPublic%2FACT237.pdf",
-          "note": "$50,000 minimum base salary for a starting teacher since the 2023-24 school year, under the LEARNS Act (Act 237 of 2023)."
+          "note": "$50,000 minimum base salary for a starting teacher since the 2023-24 school year, under the LEARNS Act (Act 237 of 2023).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 5000000,
+              "unit": "minor"
+            }
+          ]
         },
         "US-AS": {
           "answer": "yes",
@@ -18263,7 +20146,15 @@
           "preempts": true,
           "cite": "Iowa Code § 284.15(2)(a)",
           "source": "https://www.legis.iowa.gov/docs/code/284.15.pdf",
-          "note": "$50,000 for a starting teacher from the 2025-26 school year ($47,500 in 2024-25)."
+          "note": "$50,000 for a starting teacher from the 2025-26 school year ($47,500 in 2024-25).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 5000000,
+              "unit": "minor"
+            }
+          ]
         },
         "US-ID": {
           "answer": "yes",
