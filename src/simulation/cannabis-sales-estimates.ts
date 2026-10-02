@@ -1,4 +1,4 @@
-import { spreadOf } from "./income-tax-withholding";
+import { spreadOf } from "./sample-spread";
 import type { EntityId, IsoDate, World } from "./types";
 
 export interface ComparableSalesInput {
