@@ -349,6 +349,8 @@ interface StartingLawRow {
     readonly operativeAt: string;
   })[];
   readonly lawTerms?: LegislativeProvisionRecord["lawTerms"];
+  readonly lawCategories?: LegislativeProvisionRecord["lawCategories"];
+  readonly lawSchedules?: LegislativeProvisionRecord["lawSchedules"];
   readonly answer: PropositionAnswer;
   readonly operativeAt?: string;
   /**
@@ -365,6 +367,8 @@ interface StartingLawRow {
   readonly before?: {
     readonly scopeEvidence?: StartingLawScope;
     readonly lawTerms?: LegislativeProvisionRecord["lawTerms"];
+    readonly lawCategories?: LegislativeProvisionRecord["lawCategories"];
+    readonly lawSchedules?: LegislativeProvisionRecord["lawSchedules"];
     readonly answer: PropositionAnswer;
     readonly preempts?: boolean;
   };
@@ -447,7 +451,11 @@ function selectedStartingLawRow(
   questionKey: string,
   onDate: IsoDate,
 ): StartingLawRow | null {
-  if (law.origin !== "in-force-at-start" || law.operativeAt > onDate)
+  if (
+    law.origin !== "in-force-at-start" ||
+    law.operativeAt > onDate ||
+    typeof law.measureId !== "string"
+  )
     return null;
   const prefix = "starting-law:";
   const suffix = `:${questionKey}`;
@@ -472,6 +480,22 @@ export function startingLawTerms(
   onDate: IsoDate,
 ): NonNullable<LegislativeProvisionRecord["lawTerms"]> {
   return selectedStartingLawRow(law, questionKey, onDate)?.lawTerms ?? [];
+}
+
+export function startingLawCategories(
+  law: LawInForce,
+  questionKey: string,
+  onDate: IsoDate,
+): NonNullable<LegislativeProvisionRecord["lawCategories"]> {
+  return selectedStartingLawRow(law, questionKey, onDate)?.lawCategories ?? [];
+}
+
+export function startingLawSchedules(
+  law: LawInForce,
+  questionKey: string,
+  onDate: IsoDate,
+): NonNullable<LegislativeProvisionRecord["lawSchedules"]> {
+  return selectedStartingLawRow(law, questionKey, onDate)?.lawSchedules ?? [];
 }
 
 /** Structured applicability evidence; absent or not yet operative stays unknown. */
