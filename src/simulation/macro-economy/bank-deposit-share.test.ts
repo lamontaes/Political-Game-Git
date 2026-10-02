@@ -6,7 +6,7 @@ import {
   TOWN_WORKPLACES,
 } from "../living-world/town-employment";
 import {
-  drawBankShape,
+  recordedBankShape,
   stepTownFinances,
   TOWN_FINANCES_VERSION,
 } from "../living-world/town-finances";
@@ -53,10 +53,6 @@ function bankFailure() {
     record.stableKey.includes(`${town}:employer:bank:`),
   );
   expect(banks).toHaveLength(2);
-  const shape = drawBankShape(
-    small.place.stateJurisdictionKey?.replace(/^US-/, "") ?? null,
-    0,
-  );
   const books = (
     organizationId: EntityId,
     deposits: number,
@@ -64,7 +60,10 @@ function bankFailure() {
   ): TownBankBooks => ({
     organizationId,
     openedAt: world.currentDate,
-    shape,
+    shape: recordedBankShape(
+      small.place.context.jurisdiction.parentName ?? null,
+      deposits,
+    ),
     deposits,
     liquid: deposits,
     loans: 0,

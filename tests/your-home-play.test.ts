@@ -31,6 +31,15 @@ import {
 } from "../src/simulation/living-world/town-rent";
 import { SeededRng, pickDistinct } from "../src/simulation/rng";
 import {
+  initializeLivingCostsFlow,
+  livingCostsFlowFor,
+  settleLivingCosts,
+} from "../src/simulation/cost-of-living";
+import {
+  livingCostsRegionForState,
+  representativeMonthlyLivingCostsMinor,
+} from "../src/simulation/living-costs-data";
+import {
   deserializeWorld,
   serializeWorld,
 } from "../src/simulation/serialization";
@@ -194,6 +203,95 @@ describe.each(places)(
         `${place.jurisdictionKey} seed=${seed}: flow=${lease.flow.id}; paid=${rent.minorUnits} ${rent.currency} minor units, one receipt.`,
       );
     });
+
+    it(`step 3b: pays the sourced nonhousing estimate separately from recorded rent (seed ${seed})`, () => {
+      const fixture = rentedHome(place.jurisdictionKey);
+      const estimate = representativeMonthlyLivingCostsMinor(
+        livingCostsRegionForState(fixture.small.place.stateJurisdictionKey),
+      );
+      const leased = startTownLeases(fixture.world, fixture.world.currentDate);
+      const lease = townLeases(leased)[0];
+      const rentTerms = lease
+        ? resourceFlowTermsAt(leased, lease.flow.id)!
+        : null;
+      const rentMinor = rentTerms?.amount.minorUnits ?? 0;
+      if (!hudRentRowFor(fixture.small.jurisdictionId)) {
+        expect(lease).toBeUndefined();
+        expect(leased).toBe(fixture.world);
+      } else {
+        expect(lease).toBeDefined();
+      }
+      const payer = {
+        kind: "person" as const,
+        personId: fixture.small.personId,
+      };
+      const openingBalance = (estimate + rentMinor) * 3;
+      let world = createResourcePosition(leased, {
+        stableKey: "home-play:rent-and-bills-funds",
+        owner: payer,
+        openedAt: leased.currentDate,
+        openingBalance: money(openingBalance, "USD"),
+        provenance,
+      });
+      world = initializeLivingCostsFlow(world, fixture.small.personId);
+      const bills = livingCostsFlowFor(world, fixture.small.personId)!;
+      const billTerms = resourceFlowTermsAt(world, bills.id)!;
+      expect(bills.recipient).toEqual({
+        kind: "household",
+        householdId: fixture.householdId,
+      });
+      expect(billTerms.amount).toEqual(money(estimate, "USD"));
+      expect(billTerms.provenance).toMatchObject({
+        kind: "source-record",
+        reference: expect.stringContaining("ESTIMATED FROM AVERAGE"),
+      });
+      expect(world.history.resourceTransferOutcomes).toHaveLength(0);
+      const dueOn = makeIsoDate("2026-02-01");
+      world = {
+        ...world,
+        currentDate: dueOn,
+        currentMoment: simulationMomentOnLocalDate(world.currentMoment, dueOn),
+      };
+      const paid = settleLivingCosts(
+        payTownRent(world, dueOn),
+        fixture.small.personId,
+      );
+      const flows = [bills.id, ...(lease ? [lease.flow.id] : [])];
+      const receipts = paid.history.resourceTransferOutcomes.filter((row) =>
+        flows.includes(row.resourceFlowId),
+      );
+      expect(receipts).toHaveLength(flows.length);
+      expect(
+        receipts.find((row) => row.resourceFlowId === bills.id),
+      ).toMatchObject({
+        status: "completed",
+        transferredAmount: billTerms.amount,
+        periodStartsAt: dueOn,
+      });
+      if (lease) {
+        expect(
+          receipts.find((row) => row.resourceFlowId === lease.flow.id),
+        ).toMatchObject({
+          status: "completed",
+          transferredAmount: rentTerms!.amount,
+          periodStartsAt: dueOn,
+        });
+        expect(resourceFlowTermsAt(paid, lease.flow.id)).toEqual(rentTerms);
+      }
+      expect(
+        resourcePositionAt(paid, payer, "USD")!.liquidBalance.minorUnits,
+      ).toBe(openingBalance - estimate - rentMinor);
+      const reopened = deserializeWorld(serializeWorld(paid));
+      expect(reopened.history.resourceTransferOutcomes).toEqual(
+        paid.history.resourceTransferOutcomes,
+      );
+      expect(
+        payTownRent(settleLivingCosts(reopened, fixture.small.personId), dueOn),
+      ).toBe(reopened);
+      console.info(
+        `${place.jurisdictionKey} seed=${seed}: separate bill flow=${bills.id}; rent flow=${lease?.flow.id ?? "missing HUD data"}; receipts=${receipts.length}.`,
+      );
+    });
   },
 );
 
@@ -202,7 +300,7 @@ describe("Your Home unfinished play-script steps", () => {
     "step 4: an enacted housing law changes this home's market and lawful rent through its recorded terms — A57 #1572; fixed market uplifts remain on main",
   );
   it.todo(
-    "step 5: household living bills come from actual categories and contracts, then settle on their saved due dates — A52 #1585; flat cost and due-date replacements remain",
+    "step 5: household living bills come from actual personal categories and contracts — the sourced average nonhousing basket is an estimate, not those bindings",
   );
   it.todo(
     "step 6: buy at the recorded housing-market price and service the real mortgage through the shared loan path — Overflow 8 A54/A53; dependencies unmerged",
