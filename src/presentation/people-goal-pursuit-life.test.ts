@@ -11,7 +11,13 @@ import {
   householdMembershipsAt,
   workStatusAt,
 } from "../simulation/life-queries";
-import { applicationsFor, jobOpening } from "../simulation/job-market";
+import {
+  applicationsFor,
+  jobOpening,
+  openWeeklyListings,
+  townEmployerRoles,
+} from "../simulation/job-market";
+import { seatLocalBusinesses } from "../simulation/local-economy";
 import {
   CONNECTION_GOAL_KEY,
   LEARNING_GOAL_KEY,
@@ -57,10 +63,21 @@ function life(seed = "goal-pursuit-life") {
     placeKey: "kentucky",
     household: "shares-a-home",
   });
-  return {
-    world: openOrdinaryLife(game.world, game.playerPersonId),
-    playerId: game.playerPersonId,
-  };
+  const personId = game.playerPersonId;
+  const local = seatLocalBusinesses(
+    game.world,
+    game.world.people[personId]!.homeJurisdictionId,
+  );
+  const world = openWeeklyListings(openOrdinaryLife(local, personId), personId);
+  expect(
+    townEmployerRoles(world, personId).length,
+    "Recorded town employers expose actual roles",
+  ).toBeGreaterThan(0);
+  expect(
+    world.history.jobOpenings.length,
+    "Actual market producer lists roles before pursuit",
+  ).toBeGreaterThan(0);
+  return { world, playerId: personId };
 }
 
 function goalsOf(world: World, personId: EntityId, from = 0) {
@@ -143,19 +160,7 @@ describe("generated people pursue their own goals", () => {
     // Every application is to an opening the market actually listed, and
     // that was taking applications on the day it was sent.
     const applications = applicationsFor(world, worker);
-    if (applications.length === 0)
-      console.info(
-        "A125 original application prerequisite",
-        JSON.stringify({
-          date: world.currentDate,
-          moment: world.currentMoment,
-          worker,
-          goals: goalsOf(world, worker, before),
-          work: world.history.workRelationships
-            .filter((row) => row.personId === worker)
-            .map((row) => ({ row, status: workStatusAt(world, row.id) })),
-        }),
-      );
+
     expect(applications.length).toBeGreaterThan(0);
     for (const application of applications) {
       const opening = jobOpening(world, application.openingId)!;
@@ -210,33 +215,35 @@ describe("generated people pursue their own goals", () => {
 
   it("somebody keeping up with people calls a person they actually know", () => {
     const start = life("goal-life-b");
-    const caller = pursuitCandidates(start.world).find((id) =>
-      start.world.history.goalStates.some(
-        (record) =>
-          record.personId === id &&
-          record.goalKey === CONNECTION_GOAL_KEY &&
-          record.status === "active",
-      ),
-    )!;
-    if (!caller)
-      console.info(
-        "A125 original connection prerequisite",
-        JSON.stringify({
-          candidates: pursuitCandidates(start.world),
-          goals: start.world.history.goalStates
-            .filter((row) =>
-              pursuitCandidates(start.world).includes(row.personId),
-            )
-            .map((row) => ({
-              personId: row.personId,
-              goalKey: row.goalKey,
-              status: row.status,
-            })),
-        }),
-      );
+    const caller = pursuitCandidates(start.world)[0]!;
+    expect(caller).toBeDefined();
+    const existing = start.world.history.goalStates
+      .filter(
+        (row) => row.personId === caller && row.goalKey === CONNECTION_GOAL_KEY,
+      )
+      .at(-1);
+    const intended = recordGoalState(start.world, {
+      stableKey: `test:connection-intention:${caller}`,
+      personId: caller,
+      goalKey: CONNECTION_GOAL_KEY,
+      recordedAt: start.world.currentDate,
+      objective: "Make time for people you know",
+      domain: "life:ordinary",
+      scope: "personal",
+      priority: "moderate",
+      status: "active",
+      targetEntityId: null,
+      deadline: null,
+      outcome: null,
+      provenance: createMindProvenance("authored", {
+        note: "Test circumstance: this resident means to keep up with people.",
+      }),
+      replacesGoalId: null,
+      supersedesGoalStateId: existing?.id ?? null,
+    });
     const friend = residentWithJob(start.world, start.playerId);
     // A real tie between them, as the world would record one.
-    let world = recordRelationshipInteraction(start.world, {
+    let world = recordRelationshipInteraction(intended, {
       stableKey: "test:old-friends",
       personIds: [caller, friend],
       eventId: null,
@@ -403,20 +410,7 @@ describe("generated people pursue their own goals", () => {
         record.source.kind === "told-by" &&
         record.source.sourcePersonId === housemate,
     );
-    if (told.length === 0)
-      console.info(
-        "A125 original household prerequisite",
-        JSON.stringify({
-          date: world.currentDate,
-          moment: world.currentMoment,
-          housemate,
-          goals: goalsOf(world, housemate),
-          applications: applicationsFor(world, housemate),
-          work: world.history.workRelationships
-            .filter((row) => row.personId === housemate)
-            .map((row) => ({ row, status: workStatusAt(world, row.id) })),
-        }),
-      );
+
     expect(told.length).toBeGreaterThan(0);
     expect(told[0]!.believedSummary).toMatch(
       /said they applied to .+ opening\.$/,
