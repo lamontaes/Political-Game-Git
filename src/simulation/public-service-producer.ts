@@ -39,6 +39,8 @@ import { publicProgramRecords } from "./public-program-integrity";
 import {
   livesInServiceArea,
   requestPublicService,
+  eligibleHouseholdServiceChildren,
+  scheduleRequestedServiceAttendance,
   eligibleServiceOperator,
   serviceAuthorityForCommitment,
 } from "./public-service-requests";
@@ -50,6 +52,7 @@ import {
 } from "./time-work";
 import { writeWithWorldIntegrityOnce } from "./world";
 import {
+  PUBLIC_SERVICE_ATTENDANCE,
   SERVICE_REQUEST_FORMS,
   type ServiceRequestForm,
 } from "./law-consequences/service-delivered-data";
@@ -89,7 +92,7 @@ import type {
 
 export const PUBLIC_SERVICE_RESIDENT_REQUESTS =
   "public-service:resident-requests";
-export const PUBLIC_SERVICE_ATTENDANCE = "public-service:attendance";
+export { PUBLIC_SERVICE_ATTENDANCE } from "./law-consequences/service-delivered-data";
 const REQUESTS_SUFFIX = ":resident-requests";
 const ATTENDANCE_SUFFIX = ":attendance";
 const ADULT_AGE = 18;
@@ -177,13 +180,18 @@ export function produceResidentServiceRequests(
     const end = addSimulationMinutes(start, form.visit.minutes);
     for (const personId of residentsOf(world, commitment.jurisdictionId)) {
       if (records.dead.has(personId)) continue;
-      if (scheduledConflictExists(current, [personId], start, end)) continue;
+      if (
+        !form.forChild &&
+        scheduledConflictExists(current, [personId], start, end)
+      )
+        continue;
       const considerations = needConsiderations(
         current,
         records,
         personId,
         form,
         commitment.jurisdictionId,
+        operatorId,
       );
       if (considerations.length === 0) {
         noReason += 1;
@@ -233,33 +241,36 @@ export function produceResidentServiceRequests(
         declined.push(personId);
         continue;
       }
-      const request = requestPublicService(current, {
-        personId,
-        commitmentId: commitment.id,
-        start,
-        end,
-      });
-      if (request.kind !== "scheduled") {
-        undecided.push(personId);
-        continue;
+      const recipients = form.forChild
+        ? eligibleHouseholdServiceChildren(
+            current,
+            personId,
+            form.forChild,
+            operatorId,
+            start.date,
+          )
+        : [personId];
+      let requested = false;
+      for (const recipientId of recipients) {
+        if (scheduledConflictExists(current, [recipientId], start, end))
+          continue;
+        const request = requestPublicService(current, {
+          personId,
+          ...(form.forChild ? { forPersonId: recipientId } : {}),
+          commitmentId: commitment.id,
+          start,
+          end,
+        });
+        if (request.kind !== "scheduled") continue;
+        current = scheduleRequestedServiceAttendance(
+          request.world,
+          request.activityId,
+          request.requestEventId,
+        );
+        requested = true;
       }
-      current = request.world;
-      const activity = recordById(
-        current.history.scheduledActivities,
-        request.activityId,
-      )!;
-      current = scheduleFutureDueItem(current, {
-        stableKey: `${activity.stableKey}${ATTENDANCE_SUFFIX}`,
-        dueAt: addDays(end.date, 1),
-        transitionKey: PUBLIC_SERVICE_ATTENDANCE,
-        entityIds: [personId],
-        jurisdictionId: commitment.jurisdictionId,
-        provenance: {
-          kind: "simulated",
-          sourceEntityIds: [request.requestEventId],
-        },
-      });
-      asked.push(personId);
+      if (requested) asked.push(personId);
+      else undecided.push(personId);
     }
     return current;
   });
@@ -312,7 +323,10 @@ function residentRecordIndex(world: World): ResidentRecordIndex {
   >();
   for (const relationship of world.history.kinshipRelationships) {
     if (
-      relationship.kind !== "lineal:parent-child" ||
+      !(
+        relationship.kind.startsWith("lineal:") &&
+        relationship.kind.includes("parent-child")
+      ) ||
       relationship.establishedAt > world.currentDate
     )
       continue;
@@ -365,9 +379,55 @@ function needConsiderations(
   personId: EntityId,
   form: ServiceRequestForm,
   servedJurisdictionId: EntityId,
+  operatorId: EntityId,
 ): DecisionConsideration[] {
   const person = world.people[personId]!;
   const out: DecisionConsideration[] = [];
+  if (form.need === "child-in-household") {
+    if (!form.forChild) return out;
+    for (const childId of eligibleHouseholdServiceChildren(
+      world,
+      personId,
+      form.forChild,
+      operatorId,
+    )) {
+      const kinship = records.kin
+        .get(personId)
+        ?.find((row) => row.personIds.includes(childId));
+      if (!kinship) continue;
+      out.push(
+        consideration(
+          personId,
+          `child-service:${childId}`,
+          "ask",
+          "moderate",
+          "high",
+          `Has a recorded child at home eligible for ${form.asked}.`,
+          [lifeRef("kinship", kinship.id)],
+          "social:family",
+        ),
+      );
+    }
+    if (out.length === 0) return out;
+    for (const { relationship, role } of activeWorkRelationshipsAt(
+      world,
+      personId,
+    )) {
+      out.push(
+        consideration(
+          personId,
+          `child-service-work:${relationship.id}`,
+          "ask",
+          "slight",
+          "high",
+          `Needs time for recorded work as ${role.title}.`,
+          [lifeRef("work-role", role.id)],
+          "context:work",
+        ),
+      );
+    }
+    return out;
+  }
   const work = activeWorkRelationshipsAt(world, personId);
   const classes = activeEducationEnrollmentsAt(world, personId);
   const goal = (prefix: string) =>
@@ -715,7 +775,9 @@ export function serviceAttendanceHandler(
   );
 }
 
-export const PUBLIC_SERVICE_HANDLERS = [
-  [PUBLIC_SERVICE_RESIDENT_REQUESTS, residentServiceRequestsHandler],
-  [PUBLIC_SERVICE_ATTENDANCE, serviceAttendanceHandler],
-] as const;
+export function publicServiceHandlers() {
+  return [
+    [PUBLIC_SERVICE_RESIDENT_REQUESTS, residentServiceRequestsHandler],
+    [PUBLIC_SERVICE_ATTENDANCE, serviceAttendanceHandler],
+  ] as const;
+}

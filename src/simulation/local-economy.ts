@@ -323,7 +323,8 @@ export const BUSINESS_WORKER_WORK_KIND = "employment:local-business" as const;
 
 const CATCH_UP_LIMIT_MONTHS = 240;
 
-const FULL_TIME: Omit<TimeDemandProfile, "locationJurisdictionId"> = {
+/** The hours and demands of a local business's full-time job. */
+export const FULL_TIME: Omit<TimeDemandProfile, "locationJurisdictionId"> = {
   expectedWeekly: { minimumHours: 35, maximumHours: 45 },
   attention: "moderate",
   concurrency: "mostly-exclusive",

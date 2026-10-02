@@ -6,7 +6,7 @@ import { explicitNewGameSetup } from "../presentation/new-game-geography";
 import { openOrdinaryLife } from "../presentation/ordinary-life";
 import { advanceWorld } from "../simulation";
 import { ageOnDate } from "../simulation/dates";
-import { LIFE_PATHS2_HANDLERS } from "../simulation/life-paths2";
+import { lifePaths2Handlers } from "../simulation/life-paths2";
 import { schoolStageToday } from "../simulation/school-stages";
 import {
   loadEducationCatalog,
@@ -47,7 +47,7 @@ function peoriaNineteen() {
   const personId = game.playerPersonId;
   const opened = openOrdinaryLife(game.world, personId);
   const world = openOrdinaryLife(
-    advanceWorld(opened, 2, LIFE_PATHS2_HANDLERS),
+    advanceWorld(opened, 2, lifePaths2Handlers()),
     personId,
   );
   return { world, personId };

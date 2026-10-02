@@ -1,3 +1,67 @@
+# Dated law terms are ready for core review
+
+The shared reader now has a tested candidate for reading the law that applied when work was done. Housing can receive the same dated query after review. The story handoff has merged, and the belief team has its newly published dependency.
+
+## MERGED
+
+Verified on GitHub: ownership update #1667 and story work #1663. The latter merged at 5a2b2fa0596692fcba823f3755fe55082d5ffd64. No whole-slice acceptance follows from these merges.
+
+## CONNECTIONS TABLE
+
+| Producer | Consumer | Evidence and next action |
+| --- | --- | --- |
+| Canonical dated legal terms | Payroll and Team 4 rent | #1679 READY at 404624837; Checker 3 reports 80/80 changed tests and eight scoped roots with zero diagnostics; CTO review pending |
+| Saved completed shift | Shared payroll operation | Existing reader exported unchanged at 44de52b98; causal-operation identity mapping still requested from Audit |
+| Resident saved-work fixture | Story exposure | Team 6 donor received by Overflow 5; #1663 merged |
+| Standby lived-outcome pipeline | Overflow 6 adapters | Exact #1675 head 0ac5fe04 supplied; implementation receipt pending |
+| Team 7 existing bill settlement | Overflow 7 | Exact scheduling/test release supplied; receiving implementation remains unverified |
+
+## BLOCKED
+
+The CTO has requested extra load checks while the latest direct owner instruction permits only changed-file checks. The coordinator requested an explicit reconciliation; no full suite is authorized. Federal fallback scope metadata still needs the exact admission decision. The shared causal operation needs its existing saved identity mapping before actual payroll quantities can replace estimated realization.
+
+## EFFECTS
+
+The reader test covers historical enactment, constitutional and adjournment cutoffs, including a 56-jurisdiction loop and a dated starting-wage transition. These controlled checks do not prove actual pay, rent or browser behavior. #1575 remains a draft; its new export is not a fresh runtime pass.
+
+## Verification
+
+Updated October 1 at 5:16 p.m. Eastern. Main reference: 13a14f758749bf0a8ee92e78f952588bf933891a. Reader checks are Checker 3's reported results on main 13a14f758 and composition ec640ea085f6af73da7105fed9adfbacb4defcb3. Coordinator preserved the shared working files and index.
+
+## Historical checkpoints
+
+# Replacement builders have their preserved work
+
+The replacement lawmaking and housing chats have their assignments and preserved branches. The wage fallback has a named writer, and the speech work has been published for integration. These handoffs do not establish runtime completion.
+
+## MERGED
+
+Live GitHub confirms coordinator ownership PR #1648 merged at c7ee4265c8eb120b707b8f27698eca06926134fe. The current main read for this update is 3056b44e042b2de40f67a1241beb52e11b62ba1b.
+
+## CONNECTIONS TABLE
+
+| Producer | Consumer | Current state |
+| --- | --- | --- |
+| Preserved Team 1 A77/A97 work | Replacement Team 1, Making Laws | Assignment delivered to 01a0f92d-7edc-707a-b728-03688195800c; source receipt pending |
+| Preserved Team 4 A57 work | Replacement Team 4, Your Home | Assignment delivered to 01a0f92d-d8e9-7630-bb41-ee43da95f009; source receipt pending |
+| Canonical federal wage terms | Team 3 actual worker starting pay | Exact fallback hunk released; Audit contract answer and implementation pending |
+| Audit speech-wrapper release | Team 7 monthly speech scheduler | #1665 published; Claude registration release and runtime checks pending |
+| Claude G story-heard API | Team 8 News | Ruling 28 boundary released; Team 8 overlapping reader parked |
+
+## BLOCKED
+
+Team 7 cannot activate its replacement until Claude releases the composer and starting registration. Team 9's A103 test still fails before collection; Claude owns that shared import repair. Team 9 was directed to continue another admitted Crime and Courts build. No broad hold was issued.
+
+## EFFECTS
+
+No new player-visible effect is verified by this ledger update. Team 3's fallback repair is intended to restore starting pay where canonical law establishes the applicable federal floor. Unknown coverage must not become permission. Team 7's published test is authored but unrun.
+
+## Verification
+
+Updated October 1 at 4:41 p.m. Eastern after live chat delivery, compact turn checks, 00d replies and GitHub verification. Team 1 and Team 4 show active turns; their implementation receipts remain pending. Only coordinator documentation changes in this commit.
+
+## Historical checkpoints
+
 # Payroll continuation connected; source gaps reduced
 
 The shared payroll branch now includes the historical first-day continuation repair. Its combined checks remain pending. Vermont source bytes were recovered for Team 6; the other four requested pages remain unavailable.

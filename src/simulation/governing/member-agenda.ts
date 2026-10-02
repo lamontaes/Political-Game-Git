@@ -1173,6 +1173,8 @@ function scheduleLocalMemberAgendaIntakeAfter(
   });
 }
 
-export const LOCAL_MEMBER_AGENDA_HANDLERS = [
-  [LOCAL_MEMBER_AGENDA_INTAKE, localMemberAgendaIntakeHandler],
-] as const;
+export function localMemberAgendaHandlers() {
+  return [
+    [LOCAL_MEMBER_AGENDA_INTAKE, localMemberAgendaIntakeHandler],
+  ] as const;
+}
