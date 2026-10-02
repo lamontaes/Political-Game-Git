@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { authoredWageTerm } from "../../tests/fixtures/authored-wage-term";
 import { smallWorld } from "../../tests/fixtures/small-world";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate, simulationMomentOnLocalDate } from "./dates";
 import {
   lifePlaceStateIdentities,
   type LifePlaceStateIdentity,
@@ -14,7 +14,9 @@ import {
   federalMinimumHourlyMinorAt,
   minimumWageSettingAt,
   localMinimumSettingAt,
+  stateMinimumSettingAt,
 } from "./minimum-wage";
+import { outcomeMeasure } from "./outcome-web";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import { pickDistinct, SeededRng } from "./rng";
 
@@ -106,6 +108,121 @@ describe("A38 adopted federal floor through one reader", () => {
       hourlyMinor: 1795,
       level: "state",
     });
+  });
+
+  it("preserves a valid current floor when the saved opening predates canonical starting terms", () => {
+    const { world, jurisdictionId } = smallWorld({
+      place: "DC",
+      date: enactedAt,
+      seed: `${SEED}:prestart-current-floor`,
+    });
+    // A future authored control supplies the actual shared enactment array
+    // without changing either snapshot's current state floor.
+    const shared = authoredWageTerm(world, {
+      key: `${SEED}:prestart-shared-enactments`,
+      jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+      questionKey: FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+      answer: "yes",
+      effectiveAt,
+      designation: "Future authored floor cache control",
+      termKey: "floor",
+      amountMinor: 1737,
+    });
+    expect(shared.history.legislativeEnactments!.length).toBeGreaterThan(0);
+    // Prewarm the same current-date/enactment cache with a known opening rate.
+    expect(stateMinimumSettingAt(shared, "US-DC", enactedAt)).toMatchObject({
+      hourlyMinor: 1795,
+      beforeMinor: 1795,
+    });
+    // This is an authored saved-field boundary control, not a captured old save.
+    const prestart = { ...shared, startedAt: makeIsoDate("1900-01-01") };
+    expect(prestart.history.legislativeEnactments).toBe(
+      shared.history.legislativeEnactments,
+    );
+    expect(stateMinimumSettingAt(prestart, "US-DC", enactedAt)).toMatchObject({
+      hourlyMinor: 1795,
+      beforeMinor: null,
+      measureId: null,
+    });
+    expect(
+      minimumWageSettingAt(prestart, jurisdictionId, enactedAt),
+    ).toMatchObject({
+      hourlyMinor: 1795,
+      level: "state",
+    });
+    const change = outcomeMeasure("labor.minimum-wage-change-pct");
+    const currentFloor = outcomeMeasure("labor.minimum-wage-gap-to-15");
+    expect(change).not.toBeNull();
+    expect(currentFloor).not.toBeNull();
+    expect(change!.read(prestart, jurisdictionId, enactedAt)).toBeNull();
+    expect(
+      currentFloor!.read(prestart, jurisdictionId, enactedAt),
+    ).not.toBeNull();
+    expect(prestart.startedAt).toBe(makeIsoDate("1900-01-01"));
+    // The unknown-baseline read must not contaminate the other saved opening.
+    expect(stateMinimumSettingAt(shared, "US-DC", enactedAt)).toMatchObject({
+      hourlyMinor: 1795,
+      beforeMinor: 1795,
+    });
+  });
+
+  it("keeps the current statutory phase dated despite an unavailable opening baseline", () => {
+    const beforePhase = makeIsoDate("2026-06-30");
+    const phaseAt = makeIsoDate("2026-07-01");
+    const { world, jurisdictionId } = smallWorld({
+      place: "DC",
+      date: enactedAt,
+      seed: `${SEED}:prestart-statutory-phase`,
+    });
+    // Start with the valid opening moment, then let the zone-aware constructor
+    // resolve each dated snapshot, including its daylight-saving offset.
+    const prestart = {
+      ...world,
+      startedAt: makeIsoDate("1900-01-01"),
+      currentDate: beforePhase,
+      currentMoment: simulationMomentOnLocalDate(
+        world.currentMoment,
+        beforePhase,
+      ),
+    };
+    const later = {
+      ...prestart,
+      currentDate: phaseAt,
+      currentMoment: simulationMomentOnLocalDate(
+        prestart.currentMoment,
+        phaseAt,
+      ),
+    };
+    const change = outcomeMeasure("labor.minimum-wage-change-pct");
+    expect(change).not.toBeNull();
+    expect(stateMinimumSettingAt(prestart, "US-DC", beforePhase)).toMatchObject(
+      {
+        hourlyMinor: 1795,
+        beforeMinor: null,
+      },
+    );
+    expect(stateMinimumSettingAt(later, "US-DC", phaseAt)).toMatchObject({
+      hourlyMinor: 1840,
+      beforeMinor: null,
+    });
+    expect(minimumWageSettingAt(later, jurisdictionId, phaseAt)).toMatchObject({
+      hourlyMinor: 1840,
+      level: "state",
+    });
+    expect(change!.read(later, jurisdictionId, phaseAt)).toBeNull();
+    // Neither a later query nor a later snapshot may backdate the July phase.
+    expect(
+      minimumWageSettingAt(later, jurisdictionId, beforePhase),
+    ).toMatchObject({
+      hourlyMinor: 1795,
+      level: "state",
+    });
+    expect(stateMinimumSettingAt(prestart, "US-DC", beforePhase)).toMatchObject(
+      {
+        hourlyMinor: 1795,
+        beforeMinor: null,
+      },
+    );
   });
 
   it("retains distinct adopted amounts for successive yes laws and a later no", () => {
