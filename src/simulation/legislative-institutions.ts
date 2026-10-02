@@ -23,6 +23,7 @@ import {
   municipalRulePackById,
 } from "./municipal-government";
 import {
+  lifePlaceByKey,
   lifePlaceByJurisdictionId,
   searchLifePlaces,
   stateJurisdictionForKey,
@@ -31,6 +32,9 @@ import {
 import { STATES } from "./state-reference";
 import type { EntityId } from "./types";
 import { legislativeWorkKey } from "./legislative-work-key";
+import { townCouncilProfilePackById } from "./town-council-profile";
+import { governmentUnit } from "./government-units";
+import { localGovernmentJurisdiction } from "./nationwide-world/local-governments";
 export { legislativeWorkKey } from "./legislative-work-key";
 
 /**
@@ -75,6 +79,7 @@ export function legislativePackForWorkKey(
     (compiled ? withCommitteeStandIns(compiled) : null) ??
     (institutionPackId
       ? (legislatureProfilePackById(institutionPackId) ??
+        townCouncilProfilePackById(institutionPackId) ??
         (localFiscalGameAuthorityForRulePackId(institutionPackId)
           ? localOrdinanceGameRulePackById(institutionPackId)
           : localFiscalAuthorityScopeForRulePackId(institutionPackId)
@@ -121,6 +126,29 @@ export function legislativeInstitutionContext(
       goalScope: "United States",
       householdLocationLabel: "Washington, D.C.",
     };
+  // A profile's state key locates its rules, not the body doing the work.
+  // Resolve the validated saved pack to its actual local government/place.
+  if (townCouncilProfilePackById(pack.packId)) {
+    const unit = governmentUnit(
+      pack.packId.slice(pack.packId.indexOf(":") + 1),
+    );
+    const jurisdiction = unit ? localGovernmentJurisdiction(unit) : null;
+    const place = jurisdiction
+      ? (lifePlaceByJurisdictionId(jurisdiction.id) ??
+        (unit?.countyGeoid
+          ? lifePlaceByKey(`county:${unit.countyGeoid}`)
+          : null))
+      : null;
+    if (!jurisdiction || !place)
+      throw new Error(`No local clock/place context for '${pack.packId}'.`);
+    return {
+      jurisdiction,
+      initialMoment: place.context.initialMoment,
+      creationSummary: `Legislative work in ${jurisdiction.name}.`,
+      goalScope: jurisdiction.name,
+      householdLocationLabel: `${jurisdiction.name} home`,
+    };
+  }
   const cached = STATE_INSTITUTION_CONTEXTS.get(pack.jurisdictionKey);
   if (cached) return cached;
   const jurisdiction = stateJurisdictionForKey(pack.jurisdictionKey);

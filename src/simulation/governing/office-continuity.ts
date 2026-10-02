@@ -1893,13 +1893,15 @@ export function officeContinuityRulings(
     .reverse();
 }
 
-export const OFFICE_CONTINUITY_HANDLERS = [
-  [HOUSE_SPECIAL_ELECTION, houseSpecialElectionHandler],
-  [SENATE_APPOINTMENT, senateAppointmentHandler],
-  [VICE_PRESIDENT_NOMINATION, vicePresidentNominationHandler],
-  [VICE_PRESIDENT_CONFIRMATION, vicePresidentConfirmationHandler],
-  [CHIEF_JUSTICE_NOMINATION, chiefJusticeNominationHandler],
-  [CHIEF_JUSTICE_CONFIRMATION, chiefJusticeConfirmationHandler],
-  [ASSOCIATE_JUSTICE_NOMINATION, associateJusticeNominationHandler],
-  [ASSOCIATE_JUSTICE_CONFIRMATION, associateJusticeConfirmationHandler],
-] as const;
+export function officeContinuityHandlers() {
+  return [
+    [HOUSE_SPECIAL_ELECTION, houseSpecialElectionHandler],
+    [SENATE_APPOINTMENT, senateAppointmentHandler],
+    [VICE_PRESIDENT_NOMINATION, vicePresidentNominationHandler],
+    [VICE_PRESIDENT_CONFIRMATION, vicePresidentConfirmationHandler],
+    [CHIEF_JUSTICE_NOMINATION, chiefJusticeNominationHandler],
+    [CHIEF_JUSTICE_CONFIRMATION, chiefJusticeConfirmationHandler],
+    [ASSOCIATE_JUSTICE_NOMINATION, associateJusticeNominationHandler],
+    [ASSOCIATE_JUSTICE_CONFIRMATION, associateJusticeConfirmationHandler],
+  ] as const;
+}

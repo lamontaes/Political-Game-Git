@@ -143,7 +143,7 @@ describe(`the cost objection, worded from its packet (${place.displayName}, ${pl
         shortTitle: "Transit Access Pilot",
         sectionLabel: "Section 3",
         sectionHeading: "Pilot support limit",
-        reach: "language reaching every eligible rider",
+        reach: { relation: "reaching", who: "every eligible rider" },
         beneficiary: null,
         place: place.displayName,
         amount: null,

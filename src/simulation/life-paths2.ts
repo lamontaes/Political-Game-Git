@@ -1,9 +1,7 @@
+import { SCHOOL_STAGE_TRANSITION_KEY } from "./school-calendar";
 import { isLivelihoodGoalKey } from "./people-goal-pursuit-content";
 import { settleTownCompensations } from "./living-world/town-pay";
-import {
-  SCHOOL_STAGE_TRANSITION_KEY,
-  schoolStageTransitionHandler,
-} from "./school-stages";
+import { schoolStageTransitionHandler } from "./school-stages";
 import {
   acceptedEducationPath,
   legacyAcceptedEducationPath,
@@ -799,7 +797,7 @@ function raiseShiftPayToMinimum(
 export function performLifePathSession(
   world: World,
   activityId: EntityId,
-  handlers: FutureTransitionHandlerRegistry = LIFE_PATHS2_HANDLERS,
+  handlers: FutureTransitionHandlerRegistry = lifePaths2Handlers(),
 ): LifePathResult {
   const activity = world.history.scheduledActivities.find(
     (a) => a.id === activityId,
@@ -975,166 +973,177 @@ function createLifePathRoutineHook(): RoutineTimeHook {
   };
 }
 
-const LIFE_PATHS2_CORE_HANDLERS = createFutureTransitionHandlerRegistry(
-  [
+let lifePaths2CoreHandlersCache: FutureTransitionHandlerRegistry | undefined;
+
+/** Built on first use, after every module has loaded, so no key is still undefined. */
+function lifePaths2CoreHandlers(): FutureTransitionHandlerRegistry {
+  return (lifePaths2CoreHandlersCache ??= createFutureTransitionHandlerRegistry(
     [
-      "life-paths2:delegated-pay",
-      (world, due) => {
-        const assignment = world.history.events.find(
-          (e) =>
-            due.entityIds.includes(e.id) &&
-            e.type === `${prefix}delegated-assignment`,
-        );
-        const item = world.history.workItems.find((i) =>
-          assignment?.involvedEntityIds.includes(i.id),
-        );
-        const work = world.history.workRelationships.find((w) =>
-          due.entityIds.includes(w.id),
-        );
-        const flow = world.history.resourceFlows.find((f) =>
-          due.entityIds.includes(f.id),
-        );
-        if (!item || !work || !flow)
-          throw new Error("Delegated pay evidence is missing.");
-        const state = workItemState(world, item.id);
-        if (
-          state.status !== "ready-for-review" &&
-          workStatusAt(world, work.id)?.status !== "active"
-        )
-          return {
-            world,
-            status: "cancelled",
-            reasonKey: "life-paths2:departure",
-            context: "Unfinished work ended with the engagement.",
-            outcomeEventId: null,
-          };
-        if (
-          state.status !== "ready-for-review" ||
-          state.recordedAt.date >= world.currentDate
-        ) {
-          const next = scheduleFutureDueItem(world, {
-            stableKey: `${due.stableKey}:continue`,
-            dueAt: addDays(world.currentDate, 1),
-            transitionKey: due.transitionKey,
-            entityIds: due.entityIds,
-            jurisdictionId: null,
-            provenance: due.provenance,
+      [
+        "life-paths2:delegated-pay",
+        (world, due) => {
+          const assignment = world.history.events.find(
+            (e) =>
+              due.entityIds.includes(e.id) &&
+              e.type === `${prefix}delegated-assignment`,
+          );
+          const item = world.history.workItems.find((i) =>
+            assignment?.involvedEntityIds.includes(i.id),
+          );
+          const work = world.history.workRelationships.find((w) =>
+            due.entityIds.includes(w.id),
+          );
+          const flow = world.history.resourceFlows.find((f) =>
+            due.entityIds.includes(f.id),
+          );
+          if (!item || !work || !flow)
+            throw new Error("Delegated pay evidence is missing.");
+          const state = workItemState(world, item.id);
+          if (
+            state.status !== "ready-for-review" &&
+            workStatusAt(world, work.id)?.status !== "active"
+          )
+            return {
+              world,
+              status: "cancelled",
+              reasonKey: "life-paths2:departure",
+              context: "Unfinished work ended with the engagement.",
+              outcomeEventId: null,
+            };
+          if (
+            state.status !== "ready-for-review" ||
+            state.recordedAt.date >= world.currentDate
+          ) {
+            const next = scheduleFutureDueItem(world, {
+              stableKey: `${due.stableKey}:continue`,
+              dueAt: addDays(world.currentDate, 1),
+              transitionKey: due.transitionKey,
+              entityIds: due.entityIds,
+              jurisdictionId: null,
+              provenance: due.provenance,
+            });
+            return {
+              world: next,
+              status: "resolved",
+              reasonKey: null,
+              context: "Pay awaits completion and the next pay date.",
+              outcomeEventId: null,
+            };
+          }
+          const terms = resourceFlowTermsAt(world, flow.id)!;
+          const source = flow.source;
+          let funded =
+            source.kind === "person"
+              ? ensureLifePathPersonalPosition(
+                  world,
+                  source.personId,
+                  terms.amount.currency,
+                )
+              : world;
+          if (flow.recipient.kind === "person")
+            funded = ensureLifePathPersonalPosition(
+              funded,
+              flow.recipient.personId,
+              terms.amount.currency,
+            );
+          const funds =
+            resourcePositionAt(funded, source, terms.amount.currency)
+              ?.liquidBalance.minorUnits ?? 0;
+          const paid = funds >= terms.amount.minorUnits;
+          const next = recordResourceTransferOutcome(funded, {
+            stableKey: `${due.stableKey}:settled`,
+            resourceFlowId: flow.id,
+            periodStartsAt: state.recordedAt.date,
+            periodEndsAt: state.recordedAt.date,
+            occurredAt: world.currentDate,
+            status: paid ? "completed" : "missed",
+            attemptedAmount: terms.amount,
+            transferredAmount: paid
+              ? terms.amount
+              : money(0, terms.amount.currency),
+            reasonKind: paid ? null : "custom:insufficient-funds",
+            note: "Completed delegated assignment, paid from the actual hiring account.",
+            provenance: authored,
           });
           return {
             world: next,
             status: "resolved",
             reasonKey: null,
-            context: "Pay awaits completion and the next pay date.",
+            context: paid
+              ? "Assignment paid."
+              : "Payment missed: insufficient funds.",
             outcomeEventId: null,
           };
-        }
-        const terms = resourceFlowTermsAt(world, flow.id)!;
-        const source = flow.source;
-        let funded =
-          source.kind === "person"
-            ? ensureLifePathPersonalPosition(
-                world,
-                source.personId,
-                terms.amount.currency,
-              )
-            : world;
-        if (flow.recipient.kind === "person")
-          funded = ensureLifePathPersonalPosition(
-            funded,
-            flow.recipient.personId,
-            terms.amount.currency,
+        },
+      ],
+      [
+        "life-paths2:pay",
+        (world, due) => {
+          const flow = world.history.resourceFlows.find((f) =>
+            due.entityIds.includes(f.id),
           );
-        const funds =
-          resourcePositionAt(funded, source, terms.amount.currency)
-            ?.liquidBalance.minorUnits ?? 0;
-        const paid = funds >= terms.amount.minorUnits;
-        const next = recordResourceTransferOutcome(funded, {
-          stableKey: `${due.stableKey}:settled`,
-          resourceFlowId: flow.id,
-          periodStartsAt: state.recordedAt.date,
-          periodEndsAt: state.recordedAt.date,
-          occurredAt: world.currentDate,
-          status: paid ? "completed" : "missed",
-          attemptedAmount: terms.amount,
-          transferredAmount: paid
-            ? terms.amount
-            : money(0, terms.amount.currency),
-          reasonKind: paid ? null : "custom:insufficient-funds",
-          note: "Completed delegated assignment, paid from the actual hiring account.",
-          provenance: authored,
-        });
-        return {
-          world: next,
-          status: "resolved",
-          reasonKey: null,
-          context: paid
-            ? "Assignment paid."
-            : "Payment missed: insufficient funds.",
-          outcomeEventId: null,
-        };
-      },
-    ],
-    [
-      "life-paths2:pay",
-      (world, due) => {
-        const flow = world.history.resourceFlows.find((f) =>
-          due.entityIds.includes(f.id),
-        );
-        const worked = world.history.events.find(
-          (e) =>
-            due.entityIds.includes(e.id) && e.type === `${prefix}work-session`,
-        );
-        if (!flow || !worked)
-          throw new Error("Payable work evidence is missing.");
-        const terms = resourceFlowTermsAt(world, flow.id, {
-          asOfDate: worked.occurredAt,
-          historySequenceExclusive: worked.sequence + 1,
-        });
-        if (!terms) throw new Error("Earned pay terms are missing.");
-        const raised = raiseShiftPayToMinimum(world, flow, terms, worked);
-        const next = settleTownCompensations(raised.world, [
-          {
-            stableKey: `${due.stableKey}:paid`,
-            payFlowId: flow.id,
-            activityId:
-              flow.basisReference.kind === "work"
-                ? flow.basisReference.workRelationshipId
-                : flow.id,
-            periodStartsAt: worked.occurredAt,
-            periodEndsAt: worked.occurredAt,
-            onDate: world.currentDate,
-            completedShift: {
-              eventId: worked.id,
-              termsId: terms.id,
-              amount: raised.terms,
+          const worked = world.history.events.find(
+            (e) =>
+              due.entityIds.includes(e.id) &&
+              e.type === `${prefix}work-session`,
+          );
+          if (!flow || !worked)
+            throw new Error("Payable work evidence is missing.");
+          const terms = resourceFlowTermsAt(world, flow.id, {
+            asOfDate: worked.occurredAt,
+            historySequenceExclusive: worked.sequence + 1,
+          });
+          if (!terms) throw new Error("Earned pay terms are missing.");
+          const raised = raiseShiftPayToMinimum(world, flow, terms, worked);
+          const next = settleTownCompensations(raised.world, [
+            {
+              stableKey: `${due.stableKey}:paid`,
+              payFlowId: flow.id,
+              activityId:
+                flow.basisReference.kind === "work"
+                  ? flow.basisReference.workRelationshipId
+                  : flow.id,
+              periodStartsAt: worked.occurredAt,
+              periodEndsAt: worked.occurredAt,
+              onDate: world.currentDate,
+              completedShift: {
+                eventId: worked.id,
+                termsId: terms.id,
+                amount: raised.terms,
+              },
+              note: "Payment for the completed shift; advertised pay alone never posts money.",
+              provenance: authored,
             },
-            note: "Payment for the completed shift; advertised pay alone never posts money.",
-            provenance: authored,
-          },
-        ]);
-        return {
-          world: next,
-          status: "resolved",
-          reasonKey: null,
-          context: "Completed shift paid.",
-          outcomeEventId: null,
-        };
-      },
+          ]);
+          return {
+            world: next,
+            status: "resolved",
+            reasonKey: null,
+            context: "Completed shift paid.",
+            outcomeEventId: null,
+          };
+        },
+      ],
     ],
-  ],
-  createLifePathRoutineHook(),
-);
+    createLifePathRoutineHook(),
+  ));
+}
 
-export const LIFE_PATHS2_HANDLERS = composeFutureTransitionHandlerRegistries(
-  createFutureTransitionHandlerRegistry([
-    [EDUCATION_STUDY_PERIOD_DUE_KEY, educationStudyPeriodDueHandler],
-    // An accepted college place starts on its first day of classes.
-    [EDUCATION_STUDY_BEGINS_KEY, educationStudyBeginsHandler],
-    // A child moves on through school while the game is played.
-    [SCHOOL_STAGE_TRANSITION_KEY, schoolStageTransitionHandler],
-  ]),
-  LIFE_PATHS2_CORE_HANDLERS,
-);
+let lifePaths2HandlersCache: FutureTransitionHandlerRegistry | undefined;
+
+/** Built on first use, after every module has loaded, so no key is still undefined. */
+export function lifePaths2Handlers(): FutureTransitionHandlerRegistry {
+  return (lifePaths2HandlersCache ??= composeFutureTransitionHandlerRegistries(
+    createFutureTransitionHandlerRegistry([
+      [EDUCATION_STUDY_PERIOD_DUE_KEY, educationStudyPeriodDueHandler],
+      // An accepted college place starts on its first day of classes.
+      [EDUCATION_STUDY_BEGINS_KEY, educationStudyBeginsHandler],
+      // A child moves on through school while the game is played.
+      [SCHOOL_STAGE_TRANSITION_KEY, schoolStageTransitionHandler],
+    ]),
+    lifePaths2CoreHandlers(),
+  ));
+}
 
 registerStudyPathResolver((world, enrollmentId) =>
   pathForRelationship(world, enrollmentId),

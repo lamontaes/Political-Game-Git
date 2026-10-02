@@ -1,22 +1,43 @@
-import { compareSimulationMoments, simulationMinutesBetween } from "./dates";
+import {
+  ageOnDate,
+  addDays,
+  compareSimulationMoments,
+  simulationMinutesBetween,
+} from "./dates";
 import { lawInForce, type LawInForce } from "./governing/law-in-force";
 import { hasStableKey, recordById } from "./history-index";
-import { createOrganizationParticipation } from "./life";
+import {
+  createEducationEnrollment,
+  createOrganizationParticipation,
+} from "./life";
+import { isPersonAliveAt } from "./vitality-integrity";
+import { personName } from "./people";
+import { scheduleFutureDueItem } from "./future-transitions";
 import { stateKeyForJurisdiction } from "./life-places";
 import {
   activeOrganizationParticipationsAt,
+  activeEducationEnrollmentsAt,
+  householdMembershipsAt,
+  currentLifeCutoff,
+  kinshipRelationshipsAt,
   organizationProfileAt,
 } from "./life-queries";
 import { publicProgramRecords } from "./public-program-integrity";
 import { residenceStateKey } from "./statutory-tax";
-import { createScheduledActivity } from "./time-work";
+import {
+  createScheduledActivity,
+  scheduledActivityState,
+  scheduledConflictExists,
+} from "./time-work";
 import { recordWorldEvent } from "./world";
 import { standingCrisisAuthority } from "./crisis-standing-appropriations";
 import type { StandingProgramAuthority } from "./law-consequence-types";
 import {
   SERVICE_RECIPIENT_KIND,
+  PUBLIC_SERVICE_ATTENDANCE,
   SERVICE_REQUEST_FORMS,
   standingServiceProgram,
+  type ServiceRequestForm,
 } from "./law-consequences/service-delivered-data";
 import type {
   EntityId,
@@ -47,6 +68,7 @@ export type PublicServiceRequestResult =
       readonly requestEventId: EntityId;
       readonly participationId: EntityId;
       readonly activityId: EntityId;
+      readonly enrollmentId?: EntityId;
     }
   | {
       readonly kind: "unsupported";
@@ -56,6 +78,8 @@ export type PublicServiceRequestResult =
 
 export interface PublicServiceRequestInput {
   readonly personId: EntityId;
+  /** A child-service request names the recorded child of the asking person. */
+  readonly forPersonId?: EntityId;
   /** The saved public-program commitment that pays the operator. */
   readonly commitmentId: EntityId;
   /** The pickup and drop-off the person asked for. */
@@ -219,8 +243,10 @@ export function requestPublicService(
     world,
     reason,
   });
-  const person = world.people[input.personId];
-  if (!person) return unsupported("No such person is recorded.");
+  const requester = world.people[input.personId];
+  if (!requester) return unsupported("No such requesting person is recorded.");
+  const person = world.people[input.forPersonId ?? input.personId];
+  if (!person) return unsupported("No such service recipient is recorded.");
   const commitment = recordById(
     publicProgramRecords(world),
     input.commitmentId,
@@ -250,6 +276,33 @@ export function requestPublicService(
     return unsupported(
       "No request producer exists for this service yet, so nothing is recorded.",
     );
+  if (input.forPersonId && !form.forChild)
+    return unsupported(
+      "This service has no form for requesting a child's spot.",
+    );
+  if (form.forChild) {
+    if (
+      !input.forPersonId ||
+      !eligibleHouseholdServiceChildren(
+        world,
+        requester.id,
+        form.forChild,
+        operatorId,
+        input.start.date,
+      ).includes(person.id)
+    )
+      return unsupported(
+        "This service requires a recorded child of eligible age in the requesting parent's household, without a competing enrollment.",
+      );
+    if (scheduledConflictExists(world, [person.id], input.start, input.end))
+      return unsupported(
+        "The child already has a scheduled activity during this session.",
+      );
+    if (simulationMinutesBetween(input.start, input.end) !== form.visit.minutes)
+      return unsupported(
+        "The child's service session must use the duration recorded in its service form.",
+      );
+  }
   if (!operatingPaymentPosted(world, commitment))
     return unsupported(
       "The operator has not been paid for operating service yet.",
@@ -291,10 +344,14 @@ export function requestPublicService(
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: commitment.jurisdictionId,
-    involvedEntityIds: [person.id, operatorId],
+    involvedEntityIds: [
+      person.id,
+      operatorId,
+      ...(requester.id !== person.id ? [requester.id] : []),
+    ],
     participants: [
       {
-        personId: person.id,
+        personId: requester.id,
         role: "agency:service-request",
         detail: `Asked ${operatorName} for ${form.asked}.`,
       },
@@ -302,7 +359,7 @@ export function requestPublicService(
     personFactConstraints: [],
     visibility: "private",
     tags: ["service.request"],
-    summary: `Asked ${operatorName} for ${form.asked} on ${input.start.date}.`,
+    summary: `Asked ${operatorName} for ${form.asked}${input.forPersonId ? ` for ${personName(person)}` : ""} on ${input.start.date}.`,
     context: {
       location: {
         jurisdictionId: commitment.jurisdictionId,
@@ -317,6 +374,26 @@ export function requestPublicService(
     },
   });
   const requestEventId = next.history.events.at(-1)!.id;
+  let enrollmentId: EntityId | undefined;
+  if (form.forChild) {
+    enrollmentId = activeEducationEnrollmentsAt(next, person.id).find(
+      ({ enrollment }) =>
+        enrollment.organizationId === operatorId &&
+        enrollment.programKind === form.forChild!.programKind,
+    )?.enrollment.id;
+    if (!enrollmentId) {
+      next = createEducationEnrollment(next, {
+        stableKey: `${requestKey}:enrollment`,
+        personId: person.id,
+        organizationId: operatorId,
+        startedAt: next.currentDate,
+        programKind: form.forChild.programKind,
+        contextKind: form.forChild.contextKind,
+        provenance: { kind: "simulated-event", eventId: requestEventId },
+      });
+      enrollmentId = next.history.educationEnrollments.at(-1)!.id;
+    }
+  }
 
   // 2. Membership: reuse an active one with this operator, else register now.
   let participation = activeOrganizationParticipationsAt(next, person.id).find(
@@ -358,12 +435,87 @@ export function requestPublicService(
     flexibility: { kind: "fixed" },
     access: { kind: "private", personIds: [person.id] },
   });
+  const activity = next.history.scheduledActivities.at(-1)!;
+  if (form.forChild)
+    next = scheduleRequestedServiceAttendance(
+      next,
+      activity.id,
+      requestEventId,
+    );
   return {
     kind: "scheduled",
     world: next,
     questionKey: served.questionKey,
     requestEventId,
     participationId: participation.id,
-    activityId: next.history.scheduledActivities.at(-1)!.id,
+    activityId: activity.id,
+    ...(enrollmentId ? { enrollmentId } : {}),
   };
+}
+
+/** The recorded family and service row decide who can receive this service. */
+export function eligibleHouseholdServiceChildren(
+  world: World,
+  parentId: EntityId,
+  terms: NonNullable<ServiceRequestForm["forChild"]>,
+  providerId: EntityId,
+  onDate = world.currentDate,
+): readonly EntityId[] {
+  const cutoff = currentLifeCutoff(world);
+  if (!world.people[parentId] || !isPersonAliveAt(world, parentId, cutoff))
+    return [];
+  const homes = new Set(
+    householdMembershipsAt(world, parentId).map(
+      ({ household }) => household.id,
+    ),
+  );
+  return kinshipRelationshipsAt(world, parentId)
+    .filter(
+      (entry) =>
+        entry.kind.startsWith("lineal:") && entry.kind.includes("parent-child"),
+    )
+    .map((entry) => entry.personIds.find((id) => id !== parentId)!)
+    .sort()
+    .filter((childId) => {
+      const child = world.people[childId];
+      if (
+        !child ||
+        child.birthDate <= world.people[parentId]!.birthDate ||
+        !isPersonAliveAt(world, childId, cutoff)
+      )
+        return false;
+      const age = ageOnDate(child.birthDate, onDate);
+      return (
+        age >= terms.minimumAge &&
+        age <= terms.maximumAge &&
+        householdMembershipsAt(world, childId).some(({ household }) =>
+          homes.has(household.id),
+        ) &&
+        !activeEducationEnrollmentsAt(world, childId).some(
+          ({ enrollment }) =>
+            enrollment.organizationId !== providerId &&
+            terms.notAlreadyEnrolled.includes(enrollment.programKind),
+        )
+      );
+    });
+}
+
+/** One attendance due item per recorded request, through the existing handler. */
+export function scheduleRequestedServiceAttendance(
+  world: World,
+  activityId: EntityId,
+  requestEventId: EntityId,
+): World {
+  const activity = recordById(world.history.scheduledActivities, activityId);
+  if (!activity) return world;
+  const key = `${activity.stableKey}:attendance`;
+  if (hasStableKey(world.history.futureDueItems, key)) return world;
+  return scheduleFutureDueItem(world, {
+    stableKey: key,
+    dueAt: addDays(scheduledActivityState(world, activity.id).end.date, 1),
+    transitionKey: PUBLIC_SERVICE_ATTENDANCE,
+    entityIds: [...activity.participantPersonIds],
+    jurisdictionId: activity.location?.jurisdictionId ?? null,
+    provenance: { kind: "simulated", sourceEntityIds: [requestEventId] },
+  });
 }

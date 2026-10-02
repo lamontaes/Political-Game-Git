@@ -3,7 +3,7 @@ import { heardOfRefusalConsiderations } from "./favor-collection";
 import { eventById } from "./event-index";
 import { homePartyChapters } from "./living-world/party-chapters";
 import { addDays, ageOnDate } from "./dates";
-import { evaluateDecision } from "./decisions";
+import { evaluateDecision, isSelectedDecision } from "./decisions";
 import { scheduleFutureDueItem } from "./future-transitions";
 import {
   activeOrganizationParticipationsAt,
@@ -702,7 +702,7 @@ function meetingWindow(
 export function npcContactAnswer(
   world: World,
   proposalEventId: EntityId,
-): { answer: ContactAnswer; counterOn: IsoDate | null; world: World } {
+): { answer: ContactAnswer | null; counterOn: IsoDate | null; world: World } {
   const proposal = eventById(world, proposalEventId)!;
   const from = proposal.participants.find(
     (entry) => entry.role === "agency:asked",
@@ -858,7 +858,10 @@ export function npcContactAnswer(
     randomness: "close-choices",
     retention: "ephemeral",
   });
-  const chosen = (evaluation.selectedOptionKey ?? "decline") as ContactAnswer;
+  if (!isSelectedDecision(evaluation)) {
+    return { answer: null, counterOn: null, world: withTraits };
+  }
+  const chosen = evaluation.selectedOptionKey as ContactAnswer;
   // Weighed, but not optional: an evening already taken cannot be agreed to.
   const answer: ContactAnswer =
     busy && chosen === "accept" ? "counter" : chosen;
@@ -1243,7 +1246,11 @@ export function produceReachingOut(
       randomness: "close-choices",
       retention: "ephemeral",
     });
-    if (evaluation.selectedOptionKey !== "get-in-touch") continue;
+    if (
+      !isSelectedDecision(evaluation) ||
+      evaluation.selectedOptionKey !== "get-in-touch"
+    )
+      continue;
     const proposed = proposeContact(withTraits, {
       stableKey: `reach-out:${basis.personId}:${playerPersonId}:${world.currentDate}`,
       fromPersonId: basis.personId,
@@ -1363,6 +1370,15 @@ export function contactAnswerTransitionHandler(
     return done("date-withdrawn", withdrawDate(world, proposal));
   }
   const decided = npcContactAnswer(world, proposalId);
+  if (decided.answer === null) {
+    return {
+      world: decided.world,
+      status: "blocked",
+      reasonKey: "people:contact-undecided",
+      context: "The person has not selected an answer to the meeting request.",
+      outcomeEventId: null,
+    };
+  }
   /*
    * "Not that day, but this one" is an answer and a new request together.
    * Answered here, it used to write only the answer, so the asker saw
