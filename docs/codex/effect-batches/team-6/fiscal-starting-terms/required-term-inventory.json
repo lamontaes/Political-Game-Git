@@ -1,9 +1,9 @@
 {
-  "sourceBase": "af5f7487b0fab504a708cc8277b8be4d74026543",
+  "sourceBase": "dff1be945e8ab8792a5bfd76307366c385c74781",
   "numericQuestions": 58,
   "requiredParameters": 68,
   "numericYesDatedRows": 760,
-  "missingOrUnsupported": 764,
+  "missingOrUnsupported": 705,
   "inventory": [
     {
       "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
@@ -17,7 +17,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for rate; no universal numeric bound inferred."
           },
           "canonicalUnit": "ratio",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         },
         {
           "key": "threshold",
@@ -28,7 +28,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for threshold; no universal numeric bound inferred."
           },
           "canonicalUnit": "minor",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -45,7 +45,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for brackets; no universal numeric bound inferred."
           },
           "canonicalUnit": null,
-          "representation": "shared-contract-required"
+          "representation": "canonical-income-tax-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -57,7 +57,7 @@
           "key": "cap",
           "unit": "annual-percentage",
           "canonicalUnit": "ratio",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -74,7 +74,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for contribution; no universal numeric bound inferred."
           },
           "canonicalUnit": "ratio",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -86,7 +86,7 @@
           "key": "floor",
           "unit": "share-of-annual-spending",
           "canonicalUnit": "ratio",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -98,7 +98,7 @@
           "key": "limit",
           "unit": "consecutive-terms",
           "canonicalUnit": "count",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -110,7 +110,7 @@
           "key": "period",
           "unit": "years-after-leaving",
           "canonicalUnit": "years",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -127,7 +127,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for floor; no universal numeric bound inferred."
           },
           "canonicalUnit": "dollars/year",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": false
@@ -144,7 +144,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for award; no universal numeric bound inferred."
           },
           "canonicalUnit": "dollars/year",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -161,7 +161,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for floor; no universal numeric bound inferred."
           },
           "canonicalUnit": "dollars/year",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -178,7 +178,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for eligible-ages; no universal numeric bound inferred."
           },
           "canonicalUnit": "years",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         },
         {
           "key": "funding",
@@ -189,7 +189,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for funding; no universal numeric bound inferred."
           },
           "canonicalUnit": "dollars/year",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -206,7 +206,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for cap; no universal numeric bound inferred."
           },
           "canonicalUnit": "dollars/year",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": false
@@ -223,7 +223,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for income-limit; no universal numeric bound inferred."
           },
           "canonicalUnit": "ratio",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -240,7 +240,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for hours; no universal numeric bound inferred."
           },
           "canonicalUnit": "hours",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -257,7 +257,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for hours; no universal numeric bound inferred."
           },
           "canonicalUnit": "hours",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -274,7 +274,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for appropriation; no universal numeric bound inferred."
           },
           "canonicalUnit": "dollars/year",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": false
@@ -291,7 +291,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for appropriation; no universal numeric bound inferred."
           },
           "canonicalUnit": "dollars/year",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": false
@@ -308,7 +308,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for floor; no universal numeric bound inferred."
           },
           "canonicalUnit": "months",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": false
@@ -320,7 +320,7 @@
           "key": "age",
           "unit": "upper-age-of-juvenile-jurisdiction",
           "canonicalUnit": "years",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -337,7 +337,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for units; no universal numeric bound inferred."
           },
           "canonicalUnit": "count",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -354,7 +354,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for cap; no universal numeric bound inferred."
           },
           "canonicalUnit": "ratio",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -371,7 +371,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for share; no universal numeric bound inferred."
           },
           "canonicalUnit": "ratio",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         },
         {
           "key": "income-limit",
@@ -382,7 +382,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for income-limit; no universal numeric bound inferred."
           },
           "canonicalUnit": "ratio",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -399,7 +399,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for income-limit; no universal numeric bound inferred."
           },
           "canonicalUnit": "ratio",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -416,7 +416,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for share; no universal numeric bound inferred."
           },
           "canonicalUnit": "ratio",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -433,7 +433,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for appropriation; no universal numeric bound inferred."
           },
           "canonicalUnit": "dollars/year",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         },
         {
           "key": "service",
@@ -444,7 +444,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for service; no universal numeric bound inferred."
           },
           "canonicalUnit": "hours",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": false
@@ -495,7 +495,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for minimum-age; no universal numeric bound inferred."
           },
           "canonicalUnit": "years",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         },
         {
           "key": "tax-rate",
@@ -506,7 +506,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for tax-rate; no universal numeric bound inferred."
           },
           "canonicalUnit": "ratio",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -523,7 +523,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for cap; no universal numeric bound inferred."
           },
           "canonicalUnit": "minor",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": false
@@ -535,7 +535,7 @@
           "key": "cap",
           "unit": "annual-percentage-rate",
           "canonicalUnit": "ratio",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -547,7 +547,7 @@
           "key": "target",
           "unit": "hourly-rate",
           "canonicalUnit": "minor/hour",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -575,7 +575,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for replacement; no universal numeric bound inferred."
           },
           "canonicalUnit": "ratio",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         },
         {
           "key": "rate",
@@ -586,7 +586,7 @@
             "request": "Actual lawful bill rate and operative scope; missing legal bounds are not authority."
           },
           "canonicalUnit": "basis-points",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         },
         {
           "key": "cap",
@@ -597,7 +597,7 @@
             "request": "Actual lawful bill cap and operative scope; missing legal bounds are not authority."
           },
           "canonicalUnit": "dollars/year",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -625,8 +625,8 @@
             "owner": "Team9",
             "request": "Jurisdiction-specific lawful selection bounds for price; no universal numeric bound inferred."
           },
-          "canonicalUnit": null,
-          "representation": "shared-contract-required"
+          "canonicalUnit": "minor/tonne-co2-equivalent",
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -642,8 +642,8 @@
             "owner": "Team9",
             "request": "Jurisdiction-specific lawful selection bounds for deposit; no universal numeric bound inferred."
           },
-          "canonicalUnit": null,
-          "representation": "shared-contract-required"
+          "canonicalUnit": "minor/container",
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -677,7 +677,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for appropriation; no universal numeric bound inferred."
           },
           "canonicalUnit": "dollars/year",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -706,7 +706,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for floor; no universal numeric bound inferred."
           },
           "canonicalUnit": "dollars/year",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": false
@@ -723,7 +723,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for share; no universal numeric bound inferred."
           },
           "canonicalUnit": "ratio",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -740,7 +740,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for minimum-age; no universal numeric bound inferred."
           },
           "canonicalUnit": "years",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -752,7 +752,7 @@
           "key": "target",
           "unit": "hourly-rate",
           "canonicalUnit": "minor/hour",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": false
@@ -764,7 +764,7 @@
           "key": "limit",
           "unit": "consecutive-terms",
           "canonicalUnit": "count",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": false
@@ -781,7 +781,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for limit; no universal numeric bound inferred."
           },
           "canonicalUnit": "minor",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         },
         {
           "key": "offset",
@@ -792,7 +792,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for offset; no universal numeric bound inferred."
           },
           "canonicalUnit": "minor",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": false
@@ -809,7 +809,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for rate; no universal numeric bound inferred."
           },
           "canonicalUnit": "ratio",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         },
         {
           "key": "threshold",
@@ -820,7 +820,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for threshold; no universal numeric bound inferred."
           },
           "canonicalUnit": "minor",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": false
@@ -837,7 +837,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for cap; no universal numeric bound inferred."
           },
           "canonicalUnit": "ratio",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": false
@@ -854,7 +854,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for appropriation; no universal numeric bound inferred."
           },
           "canonicalUnit": "dollars/year",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": false
@@ -871,7 +871,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for appropriation; no universal numeric bound inferred."
           },
           "canonicalUnit": "dollars/year",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": false
@@ -888,7 +888,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for rate; no universal numeric bound inferred."
           },
           "canonicalUnit": "ratio",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": false
@@ -905,7 +905,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for cap; no universal numeric bound inferred."
           },
           "canonicalUnit": "count",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": false
@@ -922,7 +922,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for age; no universal numeric bound inferred."
           },
           "canonicalUnit": "years",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": false
@@ -939,7 +939,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for cap; no universal numeric bound inferred."
           },
           "canonicalUnit": "minor",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": false
@@ -956,7 +956,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for floor; no universal numeric bound inferred."
           },
           "canonicalUnit": "minor/hour",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": true
@@ -973,7 +973,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for appropriation; no universal numeric bound inferred."
           },
           "canonicalUnit": "dollars/year",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": false
@@ -1007,7 +1007,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for cap; no universal numeric bound inferred."
           },
           "canonicalUnit": "dollars/year",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": false
@@ -1024,7 +1024,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for share; no universal numeric bound inferred."
           },
           "canonicalUnit": "ratio",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": false
@@ -1041,7 +1041,7 @@
             "request": "Jurisdiction-specific lawful selection bounds for floor; no universal numeric bound inferred."
           },
           "canonicalUnit": "months",
-          "representation": "scalar"
+          "representation": "scalar-or-dimensional-schedule"
         }
       ],
       "presentInStartingLaw": false
@@ -2136,30 +2136,6 @@
     },
     {
       "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-AL",
-      "phase": "2000-01-01",
-      "reason": "rate: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-AL",
-      "phase": "2000-01-01",
-      "reason": "threshold: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-AR",
-      "phase": "2000-01-01",
-      "reason": "rate: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-AR",
-      "phase": "2000-01-01",
-      "reason": "threshold: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
       "place": "US-AS",
       "phase": "2000-01-01",
       "reason": "rate: expected one numeric term, found 0"
@@ -2172,18 +2148,6 @@
     },
     {
       "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-CA",
-      "phase": "2000-01-01",
-      "reason": "rate: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-CA",
-      "phase": "2000-01-01",
-      "reason": "threshold: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
       "place": "US-CT",
       "phase": "2000-01-01",
       "reason": "rate: expected one numeric term, found 0"
@@ -2191,18 +2155,6 @@
     {
       "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
       "place": "US-CT",
-      "phase": "2000-01-01",
-      "reason": "threshold: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-DC",
-      "phase": "2000-01-01",
-      "reason": "rate: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-DC",
       "phase": "2000-01-01",
       "reason": "threshold: expected one numeric term, found 0"
     },
@@ -2232,30 +2184,6 @@
     },
     {
       "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-HI",
-      "phase": "2000-01-01",
-      "reason": "rate: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-HI",
-      "phase": "2000-01-01",
-      "reason": "threshold: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-KS",
-      "phase": "2000-01-01",
-      "reason": "rate: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-KS",
-      "phase": "2000-01-01",
-      "reason": "threshold: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
       "place": "US-MA",
       "phase": "2000-01-01",
       "reason": "rate: expected one numeric term, found 0"
@@ -2263,42 +2191,6 @@
     {
       "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
       "place": "US-MA",
-      "phase": "2000-01-01",
-      "reason": "threshold: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-MD",
-      "phase": "2000-01-01",
-      "reason": "rate: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-MD",
-      "phase": "2000-01-01",
-      "reason": "threshold: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-ME",
-      "phase": "2000-01-01",
-      "reason": "rate: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-ME",
-      "phase": "2000-01-01",
-      "reason": "threshold: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-MN",
-      "phase": "2000-01-01",
-      "reason": "rate: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-MN",
       "phase": "2000-01-01",
       "reason": "threshold: expected one numeric term, found 0"
     },
@@ -2328,18 +2220,6 @@
     },
     {
       "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-MT",
-      "phase": "2000-01-01",
-      "reason": "rate: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-MT",
-      "phase": "2000-01-01",
-      "reason": "threshold: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
       "place": "US-ND",
       "phase": "2000-01-01",
       "reason": "rate: expected one numeric term, found 0"
@@ -2347,18 +2227,6 @@
     {
       "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
       "place": "US-ND",
-      "phase": "2000-01-01",
-      "reason": "threshold: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-NE",
-      "phase": "2000-01-01",
-      "reason": "rate: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-NE",
       "phase": "2000-01-01",
       "reason": "threshold: expected one numeric term, found 0"
     },
@@ -2376,30 +2244,6 @@
     },
     {
       "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-NM",
-      "phase": "2000-01-01",
-      "reason": "rate: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-NM",
-      "phase": "2000-01-01",
-      "reason": "threshold: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-NY",
-      "phase": "2000-01-01",
-      "reason": "rate: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-NY",
-      "phase": "2000-01-01",
-      "reason": "threshold: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
       "place": "US-OK",
       "phase": "2000-01-01",
       "reason": "rate: expected one numeric term, found 0"
@@ -2407,18 +2251,6 @@
     {
       "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
       "place": "US-OK",
-      "phase": "2000-01-01",
-      "reason": "threshold: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-OR",
-      "phase": "2000-01-01",
-      "reason": "rate: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-OR",
       "phase": "2000-01-01",
       "reason": "threshold: expected one numeric term, found 0"
     },
@@ -2436,42 +2268,6 @@
     },
     {
       "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-RI",
-      "phase": "2000-01-01",
-      "reason": "rate: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-RI",
-      "phase": "2000-01-01",
-      "reason": "threshold: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-SC",
-      "phase": "2000-01-01",
-      "reason": "rate: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-SC",
-      "phase": "2000-01-01",
-      "reason": "threshold: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-VA",
-      "phase": "2000-01-01",
-      "reason": "rate: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-VA",
-      "phase": "2000-01-01",
-      "reason": "threshold: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
       "place": "US-VI",
       "phase": "2000-01-01",
       "reason": "rate: expected one numeric term, found 0"
@@ -2479,30 +2275,6 @@
     {
       "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
       "place": "US-VI",
-      "phase": "2000-01-01",
-      "reason": "threshold: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-VT",
-      "phase": "2000-01-01",
-      "reason": "rate: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-VT",
-      "phase": "2000-01-01",
-      "reason": "threshold: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-WI",
-      "phase": "2000-01-01",
-      "reason": "rate: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "place": "US-WI",
       "phase": "2000-01-01",
       "reason": "threshold: expected one numeric term, found 0"
     },
@@ -2646,37 +2418,13 @@
     },
     {
       "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
-      "place": "US-AL",
-      "phase": "2000-01-01",
-      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
-      "place": "US-AR",
-      "phase": "2000-01-01",
-      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
       "place": "US-AS",
       "phase": "2000-01-01",
       "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
     },
     {
       "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
-      "place": "US-CA",
-      "phase": "2000-01-01",
-      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
       "place": "US-CT",
-      "phase": "2000-01-01",
-      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
-      "place": "US-DC",
       "phase": "2000-01-01",
       "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
     },
@@ -2694,38 +2442,8 @@
     },
     {
       "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
-      "place": "US-HI",
-      "phase": "2000-01-01",
-      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
-      "place": "US-KS",
-      "phase": "2000-01-01",
-      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
       "place": "US-MA",
       "phase": "2023-01-01",
-      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
-      "place": "US-MD",
-      "phase": "2000-01-01",
-      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
-      "place": "US-ME",
-      "phase": "2000-01-01",
-      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
-      "place": "US-MN",
-      "phase": "2000-01-01",
       "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
     },
     {
@@ -2742,19 +2460,7 @@
     },
     {
       "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
-      "place": "US-MT",
-      "phase": "2000-01-01",
-      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
       "place": "US-ND",
-      "phase": "2000-01-01",
-      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
-      "place": "US-NE",
       "phase": "2000-01-01",
       "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
     },
@@ -2766,25 +2472,7 @@
     },
     {
       "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
-      "place": "US-NM",
-      "phase": "2000-01-01",
-      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
-      "place": "US-NY",
-      "phase": "2000-01-01",
-      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
       "place": "US-OK",
-      "phase": "2000-01-01",
-      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
-      "place": "US-OR",
       "phase": "2000-01-01",
       "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
     },
@@ -2796,37 +2484,7 @@
     },
     {
       "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
-      "place": "US-RI",
-      "phase": "2000-01-01",
-      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
-      "place": "US-SC",
-      "phase": "2000-01-01",
-      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
-      "place": "US-VA",
-      "phase": "2000-01-01",
-      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
       "place": "US-VI",
-      "phase": "2000-01-01",
-      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
-      "place": "US-VT",
-      "phase": "2000-01-01",
-      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
-    },
-    {
-      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
-      "place": "US-WI",
       "phase": "2000-01-01",
       "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
     },
@@ -3134,61 +2792,61 @@
       "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
       "place": "US-CA",
       "phase": "2000-01-01",
-      "reason": "deposit: unsupported compound/dimensional contract (usd-per-container)"
+      "reason": "deposit: expected one numeric term, found 0"
     },
     {
       "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
       "place": "US-CT",
       "phase": "2000-01-01",
-      "reason": "deposit: unsupported compound/dimensional contract (usd-per-container)"
+      "reason": "deposit: expected one numeric term, found 0"
     },
     {
       "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
       "place": "US-HI",
       "phase": "2005-01-01",
-      "reason": "deposit: unsupported compound/dimensional contract (usd-per-container)"
+      "reason": "deposit: expected one numeric term, found 0"
     },
     {
       "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
       "place": "US-IA",
       "phase": "2000-01-01",
-      "reason": "deposit: unsupported compound/dimensional contract (usd-per-container)"
+      "reason": "deposit: expected one numeric term, found 0"
     },
     {
       "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
       "place": "US-MA",
       "phase": "2000-01-01",
-      "reason": "deposit: unsupported compound/dimensional contract (usd-per-container)"
+      "reason": "deposit: expected one numeric term, found 0"
     },
     {
       "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
       "place": "US-ME",
       "phase": "2000-01-01",
-      "reason": "deposit: unsupported compound/dimensional contract (usd-per-container)"
+      "reason": "deposit: expected one numeric term, found 0"
     },
     {
       "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
       "place": "US-MI",
       "phase": "2000-01-01",
-      "reason": "deposit: unsupported compound/dimensional contract (usd-per-container)"
+      "reason": "deposit: expected one numeric term, found 0"
     },
     {
       "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
       "place": "US-NY",
       "phase": "2000-01-01",
-      "reason": "deposit: unsupported compound/dimensional contract (usd-per-container)"
+      "reason": "deposit: expected one numeric term, found 0"
     },
     {
       "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
       "place": "US-OR",
       "phase": "2000-01-01",
-      "reason": "deposit: unsupported compound/dimensional contract (usd-per-container)"
+      "reason": "deposit: expected one numeric term, found 0"
     },
     {
       "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
       "place": "US-VT",
       "phase": "2000-01-01",
-      "reason": "deposit: unsupported compound/dimensional contract (usd-per-container)"
+      "reason": "deposit: expected one numeric term, found 0"
     },
     {
       "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
@@ -3860,73 +3518,73 @@
       "questionKey": "us-policy-positions:environment-energy.price-carbon",
       "place": "US-CA",
       "phase": "2000-01-01",
-      "reason": "price: unsupported compound/dimensional contract (usd-per-tonne-co2-equivalent)"
+      "reason": "price: expected one numeric term, found 0"
     },
     {
       "questionKey": "us-policy-positions:environment-energy.price-carbon",
       "place": "US-CT",
       "phase": "2009-01-01",
-      "reason": "price: unsupported compound/dimensional contract (usd-per-tonne-co2-equivalent)"
+      "reason": "price: expected one numeric term, found 0"
     },
     {
       "questionKey": "us-policy-positions:environment-energy.price-carbon",
       "place": "US-DE",
       "phase": "2009-01-01",
-      "reason": "price: unsupported compound/dimensional contract (usd-per-tonne-co2-equivalent)"
+      "reason": "price: expected one numeric term, found 0"
     },
     {
       "questionKey": "us-policy-positions:environment-energy.price-carbon",
       "place": "US-MA",
       "phase": "2009-01-01",
-      "reason": "price: unsupported compound/dimensional contract (usd-per-tonne-co2-equivalent)"
+      "reason": "price: expected one numeric term, found 0"
     },
     {
       "questionKey": "us-policy-positions:environment-energy.price-carbon",
       "place": "US-MD",
       "phase": "2009-01-01",
-      "reason": "price: unsupported compound/dimensional contract (usd-per-tonne-co2-equivalent)"
+      "reason": "price: expected one numeric term, found 0"
     },
     {
       "questionKey": "us-policy-positions:environment-energy.price-carbon",
       "place": "US-ME",
       "phase": "2009-01-01",
-      "reason": "price: unsupported compound/dimensional contract (usd-per-tonne-co2-equivalent)"
+      "reason": "price: expected one numeric term, found 0"
     },
     {
       "questionKey": "us-policy-positions:environment-energy.price-carbon",
       "place": "US-NH",
       "phase": "2009-01-01",
-      "reason": "price: unsupported compound/dimensional contract (usd-per-tonne-co2-equivalent)"
+      "reason": "price: expected one numeric term, found 0"
     },
     {
       "questionKey": "us-policy-positions:environment-energy.price-carbon",
       "place": "US-NJ",
       "phase": "2000-01-01",
-      "reason": "price: unsupported compound/dimensional contract (usd-per-tonne-co2-equivalent)"
+      "reason": "price: expected one numeric term, found 0"
     },
     {
       "questionKey": "us-policy-positions:environment-energy.price-carbon",
       "place": "US-NY",
       "phase": "2009-01-01",
-      "reason": "price: unsupported compound/dimensional contract (usd-per-tonne-co2-equivalent)"
+      "reason": "price: expected one numeric term, found 0"
     },
     {
       "questionKey": "us-policy-positions:environment-energy.price-carbon",
       "place": "US-RI",
       "phase": "2009-01-01",
-      "reason": "price: unsupported compound/dimensional contract (usd-per-tonne-co2-equivalent)"
+      "reason": "price: expected one numeric term, found 0"
     },
     {
       "questionKey": "us-policy-positions:environment-energy.price-carbon",
       "place": "US-VT",
       "phase": "2009-01-01",
-      "reason": "price: unsupported compound/dimensional contract (usd-per-tonne-co2-equivalent)"
+      "reason": "price: expected one numeric term, found 0"
     },
     {
       "questionKey": "us-policy-positions:environment-energy.price-carbon",
       "place": "US-WA",
       "phase": "2023-01-01",
-      "reason": "price: unsupported compound/dimensional contract (usd-per-tonne-co2-equivalent)"
+      "reason": "price: expected one numeric term, found 0"
     },
     {
       "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
@@ -4652,19 +4310,7 @@
       "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
       "place": "US-DC",
       "phase": "2007-03-14",
-      "reason": "share: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
-      "place": "US-DC",
-      "phase": "2007-03-14",
       "reason": "income-limit: expected one numeric term, found 0"
-    },
-    {
-      "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
-      "place": "US-NJ",
-      "phase": "2000-01-01",
-      "reason": "share: expected one numeric term, found 0"
     },
     {
       "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
@@ -5632,14 +5278,5 @@
       "phase": "2000-01-01",
       "reason": "share: expected one numeric term, found 0"
     }
-  ],
-  "fiscalOverlayHead": "f86d6f03fbecc3697eb7d290abcf93f32486259d",
-  "status": "strict-global-test-fails; no data/contract waiver",
-  "checks": {
-    "native": "2 validation cases PASS; complete global data case FAIL764requirements; 12.41s combined fiscal+guard execution",
-    "guardType": "PASS one guard root1010 dependencies0 diagnostics",
-    "format": "PASS all three guard PR files",
-    "runtime": "no simulation writer changes in guard slice",
-    "lint": "PASS guard test"
-  }
+  ]
 }
