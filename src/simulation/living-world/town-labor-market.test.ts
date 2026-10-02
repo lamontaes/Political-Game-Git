@@ -16,6 +16,8 @@ import type { EntityId, World } from "../types";
 import { outOfWorkSince } from "./town-labor-market";
 import {
   decideTownWorkerQuit,
+  decideTownEmployerLayoff,
+  activeTownJobs,
   reviewTownJobs,
   TOWN_JOB_END_REASONS,
 } from "./town-labor-market";
@@ -23,6 +25,11 @@ import { createWorkRelationship, recordWorkStatus } from "../life";
 import { createMindProvenance, recordGoalState } from "../mind";
 import { TOWN_EMPLOYMENT_VERSION } from "./town-employment";
 import { workStatusHistory } from "../life-queries";
+import {
+  money,
+  createWorkCompensation,
+  recordResourceTransferOutcome,
+} from "../resources";
 
 const NEWCOMER = "person_newcomer" as EntityId;
 const LAID_OFF = "person_laid_off" as EntityId;
@@ -350,5 +357,297 @@ describe("A70 hiring through the saved application route", () => {
     }
     const saved = serializeWorld(reviewed);
     expect(serializeWorld(deserializeWorld(saved))).toBe(saved);
+  });
+});
+
+function employerFixture(twoWorkers = false) {
+  const base = quitFixture();
+  let next = base.world;
+  const worker = next.history.workRelationships.find(
+    (row) => row.id === base.jobId,
+  )!;
+  const role = next.history.workRoles.find(
+    (row) => row.workRelationshipId === worker.id,
+  )!;
+  const actor = next.personOrder.find(
+    (id) =>
+      id !== base.personId && next.people[id]!.homeJurisdictionId === base.town,
+  )!;
+  next = createWorkRelationship(next, {
+    stableKey: "a70:explicit-employer-manager",
+    personId: actor,
+    organizationId: worker.organizationId,
+    startedAt: next.currentDate,
+    kind: worker.kind,
+    compensation: "paid",
+    authority: "directs-others",
+    dependency: worker.dependency,
+    economicRisk: worker.economicRisk,
+    provenance: {
+      kind: "authored",
+      note: "Controlled actual organization manager.",
+    },
+    initialRole: {
+      title: role.title,
+      occupationClassification: role.occupationClassification,
+      locationJurisdictionId: base.town,
+      timeDemand: role.timeDemand,
+    },
+  });
+  const managerId = next.history.workRelationships.at(-1)!.id;
+  const targets = [base.jobId];
+  if (twoWorkers) {
+    const other = next.personOrder.find(
+      (id) =>
+        id !== actor &&
+        id !== base.personId &&
+        next.people[id]!.homeJurisdictionId === base.town,
+    )!;
+    next = createWorkRelationship(next, {
+      stableKey: `${TOWN_EMPLOYMENT_VERSION}:${base.town}:job:a70-other`,
+      personId: other,
+      organizationId: worker.organizationId,
+      startedAt: next.currentDate,
+      kind: worker.kind,
+      compensation: "paid",
+      authority: "directed",
+      dependency: worker.dependency,
+      economicRisk: worker.economicRisk,
+      provenance: {
+        kind: "authored",
+        note: "Controlled second actual subordinate.",
+      },
+      initialRole: {
+        title: role.title,
+        occupationClassification: role.occupationClassification,
+        locationJurisdictionId: base.town,
+        timeDemand: role.timeDemand,
+      },
+    });
+    targets.push(next.history.workRelationships.at(-1)!.id);
+  }
+  next = createWorkCompensation(next, {
+    stableKey: "a70:controlled-payroll",
+    workRelationshipId: base.jobId,
+    startsAt: next.currentDate,
+    amount: money(10000, "USD"),
+    cadenceKind: "schedule:monthly",
+    restrictionKind: null,
+    jurisdictionId: base.town,
+    provenance: {
+      kind: "authored",
+      note: "Explicit fixture payroll terms, not a game estimate.",
+    },
+  });
+  const flow = next.history.resourceFlows.at(-1)!;
+  next = recordResourceTransferOutcome(next, {
+    stableKey: "a70:controlled-unpaid-payroll",
+    resourceFlowId: flow.id,
+    periodStartsAt: next.currentDate,
+    periodEndsAt: next.currentDate,
+    occurredAt: next.currentDate,
+    status: "missed",
+    attemptedAmount: money(10000, "USD"),
+    transferredAmount: money(0, "USD"),
+    reasonKind: "capacity:insufficient-funds",
+    note: "Explicit recorded payroll failure control.",
+    provenance: {
+      kind: "authored",
+      note: "Controlled payroll failure, not inferred from annual revenue.",
+    },
+  });
+  return {
+    ...base,
+    world: next,
+    actor,
+    managerId,
+    organizationId: worker.organizationId!,
+    targets,
+  };
+}
+
+function staffingGoal(
+  world: World,
+  actor: EntityId,
+  target: EntityId,
+  priority: "low" | "critical",
+) {
+  const goalKey = `labor:end-work:${target}`;
+  return recordGoalState(world, {
+    stableKey: `a70:staffing-intent:${target}`,
+    personId: actor,
+    goalKey,
+    recordedAt: world.currentDate,
+    objective:
+      "End this recorded subordinate's job after reviewing unpaid payroll.",
+    domain: "life:livelihood",
+    scope: "personal",
+    priority,
+    status: "active",
+    targetEntityId: target,
+    deadline: null,
+    outcome: null,
+    provenance: createMindProvenance("authored", {
+      note: "Explicit manager staffing intent fixture; never generated by the layoff reader.",
+    }),
+    replacesGoalId: null,
+    supersedesGoalStateId: null,
+  });
+}
+
+describe("A70 employer's recorded staffing choice", () => {
+  it("does not turn modeled business losses or absent authority into a layoff", () => {
+    const base = quitFixture();
+    const organizationId = base.world.history.workRelationships.find(
+      (row) => row.id === base.jobId,
+    )!.organizationId!;
+    expect(
+      decideTownEmployerLayoff(
+        base.world,
+        organizationId,
+        activeTownJobs(base.world, base.town),
+        "a70:no-authority",
+      ),
+    ).toBeNull();
+    const fixture = employerFixture();
+    const noPayFailure = {
+      ...fixture.world,
+      history: {
+        ...fixture.world.history,
+        resourceTransferOutcomes:
+          fixture.world.history.resourceTransferOutcomes.filter(
+            (row) => row.stableKey !== "a70:controlled-unpaid-payroll",
+          ),
+      },
+    };
+    expect(
+      decideTownEmployerLayoff(
+        noPayFailure,
+        fixture.organizationId,
+        activeTownJobs(noPayFailure, fixture.town),
+        "a70:no-pay-failure",
+      ),
+    ).toBeNull();
+  });
+
+  it("keeps no saved preference and equal recorded target preferences undecided without tenure or ID selection", () => {
+    const fixture = employerFixture(true);
+    const absent = decideTownEmployerLayoff(
+      fixture.world,
+      fixture.organizationId,
+      activeTownJobs(fixture.world, fixture.town),
+      "a70:absent-staff-choice",
+    )!;
+    expect(absent.evaluation.outcomeKind).toBe("undecided");
+    let next = staffingGoal(
+      fixture.world,
+      fixture.actor,
+      fixture.targets[0]!,
+      "critical",
+    );
+    next = staffingGoal(next, fixture.actor, fixture.targets[1]!, "critical");
+    const tied = decideTownEmployerLayoff(
+      next,
+      fixture.organizationId,
+      activeTownJobs(next, fixture.town),
+      "a70:tied-staff-choice",
+    )!;
+    expect(tied.evaluation.outcomeKind).toBe("undecided");
+    expect(tied.evaluation.selectedOptionKey).toBeNull();
+    expect(tied.evaluation.context.randomness).toBe("none");
+  });
+
+  it("saves the actual manager's selected target and payroll source before one canonical job loss, with repeat/reload parity", () => {
+    const fixture = employerFixture();
+    const saved = staffingGoal(
+      fixture.world,
+      fixture.actor,
+      fixture.jobId,
+      "critical",
+    );
+    const next = reviewTownJobs(
+      saved,
+      fixture.town,
+      fixture.actor,
+      "a70-employer-choice",
+    );
+    expect(workStatusAt(next, fixture.jobId)?.reason).toBe(
+      TOWN_JOB_END_REASONS.laidOff,
+    );
+    const trace = next.history.decisionTraces.find(
+      (row) => row.context.decisionType === "labor.employer-staffing",
+    )!;
+    expect(trace.context.actorPersonId).toBe(fixture.actor);
+    expect(trace.selectedOptionKey).toBe(`end:${fixture.jobId}`);
+    expect(trace.context.considerations[0]!.importance).toBe("decisive");
+    const review = next.history.events.find(
+      (row) => row.type === "labor.payroll-reviewed",
+    )!;
+    expect(review.tags).toContain(
+      `source:${saved.history.resourceTransferOutcomes.at(-1)!.id}`,
+    );
+    expect(
+      trace.sourceSnapshots.some(
+        (row) =>
+          row.reference.kind === "historical-event" &&
+          row.reference.eventId === review.id,
+      ),
+    ).toBe(true);
+    expect(
+      reviewTownJobs(next, fixture.town, fixture.actor, "a70-employer-choice"),
+    ).toBe(next);
+    const text = serializeWorld(next);
+    const loaded = deserializeWorld(text);
+    expect(serializeWorld(loaded)).toBe(text);
+    expect(
+      reviewTownJobs(
+        loaded,
+        fixture.town,
+        fixture.actor,
+        "a70-employer-choice",
+      ),
+    ).toBe(loaded);
+    expect(loaded.history.resourceTransferOutcomes).toEqual(
+      saved.history.resourceTransferOutcomes,
+    );
+  });
+
+  it("refuses multiple active managers instead of picking one by ID", () => {
+    const fixture = employerFixture();
+    const manager = fixture.world.history.workRelationships.find(
+      (row) => row.id === fixture.managerId,
+    )!;
+    const role = fixture.world.history.workRoles.find(
+      (row) => row.workRelationshipId === manager.id,
+    )!;
+    const next = createWorkRelationship(fixture.world, {
+      stableKey: "a70:ambiguous-manager",
+      personId: fixture.personId,
+      organizationId: manager.organizationId,
+      startedAt: fixture.world.currentDate,
+      kind: manager.kind,
+      compensation: "paid",
+      authority: "directs-others",
+      dependency: manager.dependency,
+      economicRisk: manager.economicRisk,
+      provenance: {
+        kind: "authored",
+        note: "Explicit ambiguous manager control.",
+      },
+      initialRole: {
+        title: role.title,
+        occupationClassification: role.occupationClassification,
+        locationJurisdictionId: fixture.town,
+        timeDemand: role.timeDemand,
+      },
+    });
+    expect(
+      decideTownEmployerLayoff(
+        next,
+        fixture.organizationId,
+        activeTownJobs(next, fixture.town),
+        "a70:ambiguous-authority",
+      ),
+    ).toBeNull();
   });
 });

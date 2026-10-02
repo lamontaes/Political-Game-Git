@@ -9,7 +9,8 @@
  * decisions and the existing employer layoff rules. Hiring runs through the
  * weekly goal/application review, actual openings, offers and accepted starts.
  * This review no longer ranks unemployed residents into manufactured jobs.
- * Layoff selection is still the existing newest-first rule.
+ * A unique active employer manager selects a specific subordinate from saved
+ * staffing goals and actual payroll-capacity failures; ties remain pending.
  */
 
 import { recordJobEndedNews } from "../neighbor-news";
@@ -17,16 +18,20 @@ import { recordWorkStatus, type RecordWorkStatusInput } from "../life";
 import {
   workRelationshipHistoryForPerson,
   workStatusHistory,
+  activeWorkRelationshipsAt,
+  workRoleAt,
 } from "../life-queries";
 import { scheduleLivedOutcomeReflection } from "../law-exposure";
 import {
   macroConditionsAt,
   macroScopeForJurisdiction,
 } from "../macro-economy/readers";
+import { TOWN_BUSINESS_WORKPLACES } from "./town-business-books";
 import {
-  TOWN_BUSINESS_WORKPLACES,
-  townBusinessLaysOff,
-} from "./town-business-books";
+  resourceFlowTermsAt,
+  resourceTransferOutcomesForFlow,
+} from "../resource-queries";
+import { recordWorldEvent } from "../world";
 import type { EntityId, WorkStatusRecord, World } from "../types";
 import {
   TOWN_EMPLOYMENT_VERSION,
@@ -267,6 +272,195 @@ export function activeTownJobs(
   return jobs;
 }
 
+/** The admitted staffing choices are explicit saved actor goals, never inferred
+ * from a wish to quit or from another person's preferences. Their existing
+ * goal priority supplies importance through goalConsiderations. */
+export function decideTownEmployerLayoff(
+  world: World,
+  organizationId: EntityId,
+  staff: readonly TownJob[],
+  stableKey: string,
+): { readonly world: World; readonly evaluation: DecisionEvaluation } | null {
+  const dead = new Set(world.history.personDeaths.map((row) => row.personId));
+  const managers = world.personOrder.flatMap((personId) =>
+    dead.has(personId)
+      ? []
+      : activeWorkRelationshipsAt(world, personId).filter(
+          (job) =>
+            job.relationship.organizationId === organizationId &&
+            job.relationship.authority === "directs-others",
+        ),
+  );
+  if (managers.length !== 1) return null;
+  const manager = managers[0]!;
+  const candidates = staff.filter((job) => {
+    const relationship = world.history.workRelationships.find(
+      (row) => row.id === job.relationshipId,
+    );
+    return (
+      relationship?.organizationId === organizationId &&
+      relationship.authority !== "directs-others" &&
+      job.personId !== manager.relationship.personId &&
+      !dead.has(job.personId) &&
+      workRoleAt(world, job.relationshipId) !== undefined
+    );
+  });
+  if (candidates.length === 0) return null;
+  // Only actual compensation outcomes establish payroll-capacity trouble.
+  // A modeled annualRevenue/lastQuarterPay snapshot is not a cash receipt.
+  const failures = world.history.resourceFlows.flatMap((flow) => {
+    if (
+      flow.basisKind !== "compensation:work" ||
+      flow.source.kind !== "organization" ||
+      flow.source.organizationId !== organizationId ||
+      flow.basisReference.kind !== "work" ||
+      !candidates.some(
+        (job) =>
+          flow.basisReference.kind === "work" &&
+          job.relationshipId === flow.basisReference.workRelationshipId,
+      )
+    )
+      return [];
+    const terms = resourceFlowTermsAt(world, flow.id);
+    if (terms?.status !== "active") return [];
+    const outcome = resourceTransferOutcomesForFlow(world, flow.id).at(-1);
+    return outcome &&
+      outcome.reasonKind?.startsWith("capacity:") &&
+      outcome.attemptedAmount.currency === outcome.transferredAmount.currency &&
+      outcome.attemptedAmount.minorUnits > outcome.transferredAmount.minorUnits
+      ? [outcome]
+      : [];
+  });
+  if (failures.length === 0) return null;
+  const actorPersonId = manager.relationship.personId;
+  const endLeans = candidates.flatMap((job) => {
+    const goalKey = `labor:end-work:${job.relationshipId}`;
+    const goal = activeGoalFor(world, actorPersonId, goalKey);
+    return goal?.targetEntityId === job.relationshipId &&
+      goal.recordedAt <= world.currentDate
+      ? [
+          {
+            optionKey: `end:${job.relationshipId}`,
+            goalKey,
+            direction: "supports" as const,
+            explanation: goal.objective,
+          },
+        ]
+      : [];
+  });
+  const retain = activeGoalFor(world, actorPersonId, "labor:retain-staff");
+  const leans = [
+    ...endLeans,
+    ...(retain?.targetEntityId === organizationId &&
+    retain.recordedAt <= world.currentDate
+      ? [
+          {
+            optionKey: "retain-staff",
+            goalKey: retain.goalKey,
+            direction: "supports" as const,
+            explanation: retain.objective,
+          },
+        ]
+      : []),
+  ];
+  const reviewed = recordWorldEvent(world, {
+    stableKey: `${stableKey}:payroll-review`,
+    type: "labor.payroll-reviewed",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: world.people[actorPersonId]!.homeJurisdictionId,
+    involvedEntityIds: [actorPersonId, organizationId, manager.relationship.id],
+    participants: [
+      {
+        personId: actorPersonId,
+        role: "focus:reviewer",
+        detail: "Reviewed the employer's recorded payroll capacity failures.",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "limited",
+    tags: [
+      "labor:payroll-review",
+      ...failures.map((row) => `source:${row.id}`),
+    ],
+    summary:
+      "The employer's manager reviewed recorded payroll capacity failures.",
+    context: {
+      location: null,
+      socialContext: "An actual employer staffing review.",
+      pressure: failures
+        .map(
+          (row) =>
+            `${row.id}: ${row.transferredAmount.minorUnits} of ${row.attemptedAmount.minorUnits} ${row.attemptedAmount.currency} minor units transferred on ${row.occurredAt}; ${row.reasonKind}`,
+        )
+        .join("; "),
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const eventId = reviewed.history.events.at(-1)!.id;
+  return {
+    world: reviewed,
+    evaluation: evaluateDecision(reviewed, {
+      stableKey,
+      decisionType: "labor.employer-staffing",
+      actorPersonId,
+      cutoff: {
+        asOfDate: reviewed.currentDate,
+        historySequenceExclusive: reviewed.history.nextSequence,
+      },
+      subject: {
+        kind: "context:employment",
+        key: organizationId,
+        entityId: organizationId,
+      },
+      options: [
+        {
+          key: "retain-staff",
+          label: "Retain staff",
+          description: "Keep the actual current staff.",
+        },
+        ...candidates.map((job) => ({
+          key: `end:${job.relationshipId}`,
+          label: "End this job",
+          description: `End the recorded work relationship ${job.relationshipId}.`,
+        })),
+      ],
+      constraints: [],
+      considerations: goalConsiderations(
+        reviewed,
+        actorPersonId,
+        stableKey,
+        leans,
+      ).map((consideration) => ({
+        ...consideration,
+        sourceRefs: [
+          ...consideration.sourceRefs,
+          {
+            kind: "life-history" as const,
+            reference: {
+              family: "work-role" as const,
+              recordId: manager.role.id,
+            },
+          },
+          {
+            kind: "life-history" as const,
+            reference: {
+              family: "work-status" as const,
+              recordId: manager.status.id,
+            },
+          },
+          { kind: "historical-event" as const, eventId },
+        ],
+      })),
+      perceptionIds: [],
+      randomness: "none",
+      retention: "durable",
+    }),
+  };
+}
+
 /**
  * One quarterly turn of the town's jobs, on the world's current date.
  * `round` names the review, so every draw and record is keyed by it and a
@@ -279,7 +473,6 @@ export function reviewTownJobs(
   round: string,
 ): World {
   const today = world.currentDate;
-  const pressure = townUnemploymentPressure(world, town);
   const dead = new Set(world.history.personDeaths.map((row) => row.personId));
   const reviewKey = `${TOWN_EMPLOYMENT_VERSION}:${town}:review:${round}`;
   // A review already run for this round writes nothing new.
@@ -315,12 +508,6 @@ export function reviewTownJobs(
       )
       .map((row) => row.id),
   );
-  const booksOf = (job: TownJob) => {
-    const organizationId = employerOf.get(job.relationshipId);
-    return organizationId
-      ? world.townFinances?.businesses[organizationId]
-      : undefined;
-  };
   // Whoever runs a business is its owner: whoever directs it, or its one
   // remaining worker. They do not quit it or lay themselves off; they leave
   // when they retire, die or move. The count falls as people leave, so two
@@ -364,9 +551,6 @@ export function reviewTownJobs(
     if (organizationId)
       staffAt.set(organizationId, (staffAt.get(organizationId) ?? 1) - 1);
   };
-  const startedAt = new Map<EntityId, string>();
-  for (const relationship of world.history.workRelationships)
-    startedAt.set(relationship.id, relationship.startedAt);
   const staying: TownJob[] = [];
   for (const job of activeTownJobs(world, town)) {
     const person = world.people[job.personId];
@@ -384,36 +568,9 @@ export function reviewTownJobs(
     staying.push(job);
   }
 
-  // HARDWIRED: last hired, first let go, the usual order of a layoff. The
-  // town's conditions set how many of the jobs at employers without books
-  // end; a business that keeps books lays off by its books, below. Whoever
-  // runs a business is never laid off from it.
-  const byLatestHire = [...staying].sort(
-    (a, b) =>
-      startedAt
-        .get(b.relationshipId)!
-        .localeCompare(startedAt.get(a.relationshipId)!) ||
-      a.relationshipId.localeCompare(b.relationshipId),
-  );
-  const byConditions = byLatestHire.filter(
-    (job) => booksOf(job)?.lastQuarterPay === undefined,
-  );
-  let layoffs = Math.round(
-    byConditions.length * TOWN_JOB_TURNOVER.layoffPerQuarter * pressure,
-  );
-  const laidOff = new Set<EntityId>();
-  for (const job of byConditions) {
-    if (layoffs <= 0) break;
-    if (runsIt(job)) continue;
-    end(job, TOWN_JOB_END_REASONS.laidOff);
-    laidOff.add(job.relationshipId);
-    layoffs -= 1;
-  }
-
   // A worker's saved goals decide whether they quit. Whoever runs a business
   // and the controlled player retain their existing protection.
-  const remaining = staying.filter((job) => !laidOff.has(job.relationshipId));
-  for (const job of remaining) {
+  for (const job of staying) {
     if (runsIt(job) || job.personId === playerPersonId) continue;
     const evaluation = decideTownWorkerQuit(
       next,
@@ -431,39 +588,32 @@ export function reviewTownJobs(
     end(job, TOWN_JOB_END_REASONS.quit);
   }
 
-  // A business whose sales no longer cover its pay lets its most recent
-  // hire go, never whoever runs it.
+  // Every employer uses the same saved manager decision. Missing books,
+  // town unemployment or tenure cannot substitute for payroll evidence.
   const staffOf = new Map<EntityId, TownJob[]>();
   for (const job of activeTownJobs(next, town)) {
     const organizationId = employerOf.get(job.relationshipId);
-    if (!organizationId || !booksOf(job)) continue;
-    staffOf.set(organizationId, [...(staffOf.get(organizationId) ?? []), job]);
+    if (organizationId)
+      staffOf.set(organizationId, [
+        ...(staffOf.get(organizationId) ?? []),
+        job,
+      ]);
   }
-  const relationships = new Map(
-    next.history.workRelationships.map((row) => [row.id, row]),
-  );
-  for (const [organizationId, staff] of [...staffOf].sort(([a], [b]) =>
-    a.localeCompare(b),
-  )) {
-    if (
-      !townBusinessLaysOff(
-        next.townFinances?.businesses[organizationId],
-        staff.length,
-      )
-    )
-      continue;
-    const [last] = staff
-      .filter(
-        (job) =>
-          relationships.get(job.relationshipId)?.authority !== "directs-others",
-      )
-      .sort(
-        (a, b) =>
-          (relationships.get(b.relationshipId)?.startedAt ?? "").localeCompare(
-            relationships.get(a.relationshipId)?.startedAt ?? "",
-          ) || a.relationshipId.localeCompare(b.relationshipId),
-      );
-    if (last) end(last, TOWN_JOB_END_REASONS.laidOff);
+  for (const [organizationId, staff] of staffOf) {
+    const decision = decideTownEmployerLayoff(
+      next,
+      organizationId,
+      staff,
+      `${reviewKey}:staff:${organizationId}`,
+    );
+    if (!decision) continue;
+    next = recordDurableDecisionTrace(decision.world, decision.evaluation);
+    if (!isSelectedDecision(decision.evaluation)) continue;
+    const target = staff.find(
+      (job) =>
+        decision.evaluation.selectedOptionKey === `end:${job.relationshipId}`,
+    );
+    if (target) end(target, TOWN_JOB_END_REASONS.laidOff);
   }
 
   // Hiring is the existing weekly goal/application route: reviewPeopleGoals
