@@ -50,6 +50,7 @@ import type {
   SourceIdentity,
   TermInfo,
   VoteThreshold,
+  VetoOverrideWindow,
 } from "./types";
 
 export interface MunicipalNormalizeResult {
@@ -392,6 +393,14 @@ function normalizePack(
       pack.legislativeProcedure.override,
       "legislativeProcedure/override",
     ),
+    ...(pack.legislativeProcedure.vetoOverrideWindow
+      ? {
+          vetoOverrideWindow: cell<VetoOverrideWindow>(
+            pack.legislativeProcedure.vetoOverrideWindow,
+            "legislativeProcedure/vetoOverrideWindow",
+          ),
+        }
+      : {}),
     effectivePublication: cell(
       pack.legislativeProcedure.effectivePublication,
       "legislativeProcedure/effectivePublication",

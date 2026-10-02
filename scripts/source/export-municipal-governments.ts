@@ -477,6 +477,9 @@ function exportReading(
       override: value(procedure.override),
       overrideState: stateOf(procedure.override),
       overrideAbsence: absence(procedure.override),
+      ...(procedure.vetoOverrideWindow?.state === "KNOWN"
+        ? { vetoOverrideWindow: procedure.vetoOverrideWindow.value }
+        : {}),
       effectivePublication: value(procedure.effectivePublication),
       committeeReferral: value(procedure.committeeReferral),
       committeeReferralState: stateOf(procedure.committeeReferral),

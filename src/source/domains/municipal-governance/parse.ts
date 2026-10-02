@@ -177,6 +177,7 @@ export interface MunicipalPackInput {
     /** Optional: the mayor's action window, where a source established it. */
     readonly mayoralActionWindow?: Cell;
     readonly override: Cell;
+    readonly vetoOverrideWindow?: Cell;
     readonly effectivePublication: Cell;
     /**
      * Optional: the least time between an ordinance's introduction and its

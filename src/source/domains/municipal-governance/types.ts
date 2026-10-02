@@ -288,6 +288,7 @@ export interface LegislativeProcedure {
   /** How long the mayor has, and what silence does. */
   readonly mayoralActionWindow: Sourced<MayoralActionWindow>;
   readonly override: Sourced<string>;
+  readonly vetoOverrideWindow?: Sourced<VetoOverrideWindow>;
   readonly effectivePublication: Sourced<string>;
   /** Least time between introduction and passage, and its stated exception. */
   readonly introductionToPassage: Sourced<IntroductionToPassageRule>;
@@ -352,6 +353,12 @@ export interface MayoralActionWindow {
   readonly daysToAct: number;
   readonly dayBasis: "CALENDAR" | "BUSINESS";
   readonly inactionOutcome: MayoralInactionOutcome;
+}
+
+export interface VetoOverrideWindow {
+  readonly days: number;
+  readonly dayBasis: "CALENDAR" | "BUSINESS";
+  readonly anchor: "executive-return" | "clerk-receipt";
 }
 
 /** What kind of sitting a recurring meeting series is. */

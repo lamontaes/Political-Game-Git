@@ -314,6 +314,12 @@ export const DC_PRODUCTION_PACK: MunicipalPackInput = {
       "1-204.04(e)",
       DC_OVERRIDE_EXCERPT,
     ),
+    vetoOverrideWindow: said(
+      { days: 30, dayBasis: "CALENDAR", anchor: "executive-return" },
+      "dc-code-1-204-04",
+      "1-204.04(e)",
+      DC_OVERRIDE_EXCERPT,
+    ),
     effectivePublication: said(
       "The Chairman transmits the act to the Speaker of the House and the President of the Senate, and it takes effect after a 30-day review period (excluding Saturdays, Sundays, holidays and days neither House is in session) unless Congress enacts a joint resolution disapproving it.",
       "dc-code-1-206-02",
