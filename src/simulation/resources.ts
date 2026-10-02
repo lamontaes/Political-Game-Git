@@ -189,6 +189,7 @@ export interface CreateDwellingInput {
   readonly locationLabel: string;
   readonly classification: DwellingClassification;
   readonly provenance: LifeRecordProvenance;
+  readonly rentalRegulationFacts?: Dwelling["rentalRegulationFacts"];
 }
 
 export interface StartDwellingOccupancyInput {
@@ -950,6 +951,22 @@ export function createDwelling(
     "Dwelling classification",
   );
   validateLifeProvenance(world, input.provenance, establishedAt);
+  if (input.rentalRegulationFacts) {
+    const facts = input.rentalRegulationFacts;
+    validateLifeProvenance(world, facts.provenance, establishedAt);
+    for (const date of [
+      facts.certificateOfOccupancyDate,
+      facts.rentIncreaseNoticeDate,
+    ])
+      if (date) pastOrCurrentDate(world, date, "Rental regulation fact");
+    if (
+      facts.facilitySpaces !== undefined &&
+      (!Number.isSafeInteger(facts.facilitySpaces) || facts.facilitySpaces < 0)
+    )
+      throw new Error(
+        "Rental facility spaces must be a nonnegative whole count",
+      );
+  }
   const record: Dwelling = {
     id: createStableId("dwelling", `${world.id}:${input.stableKey}`),
     stableKey: input.stableKey,
@@ -959,6 +976,9 @@ export function createDwelling(
     locationLabel: input.locationLabel,
     classification: input.classification,
     provenance: { ...input.provenance },
+    ...(input.rentalRegulationFacts
+      ? { rentalRegulationFacts: structuredClone(input.rentalRegulationFacts) }
+      : {}),
   };
   return appendOne(world, "dwellings", record);
 }

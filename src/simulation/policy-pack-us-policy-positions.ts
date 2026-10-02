@@ -1,4 +1,5 @@
 import type { PolicyPack } from "./policy-packs";
+import { RENT_CAP_CONSEQUENCE } from "./law-consequences/rent-cap";
 
 /**
  * Positions a person in the United States can hold, and a bill can be about.
@@ -1507,6 +1508,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "housing-land-use.rent-stabilization",
+      consequences: [RENT_CAP_CONSEQUENCE],
       parameters: [
         { key: "cap", value: "annual-percentage-increase" },
         { key: "coverage", value: "covered-tenancy-and-building-categories" },

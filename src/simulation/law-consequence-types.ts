@@ -74,6 +74,30 @@ export type LawAmountExpression =
       right: LawAmountExpression;
     };
 
+/** One adopted rental rule; formula and coverage cannot come from different sections. */
+export interface RentalPriceRule {
+  readonly cap: LawAmountExpression;
+  readonly coverage: {
+    readonly minimumBuildingAgeYears?: number;
+    readonly exemptions: readonly (
+      "affordable-program-adjustment" | "separate-property-with-notice"
+    )[];
+    readonly dwellingClassifications?: readonly string[];
+    readonly maximumFacilitySpaces?: number;
+    readonly noticeDays?: number;
+  };
+  readonly from?: string;
+  readonly through?: string;
+  /** Published statutory index observation, not the world's modeled inflation. */
+  readonly index?: {
+    readonly changeRatio: number;
+    readonly publishedAt: string;
+    readonly from: string;
+    readonly through: string;
+    readonly source: string;
+  };
+}
+
 /** Capability names must resolve through the engine registry, never object paths or eval. */
 export interface LawConsequencePredicate {
   capability: string;

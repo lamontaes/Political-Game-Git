@@ -29,8 +29,7 @@ import {
   lawEffectStamp,
   type LawEffectStampedRecord,
 } from "../law-effect-stamp";
-import { addDays } from "../dates";
-import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
+import { lawInForce } from "../governing/law-in-force";
 import {
   macroMonthHistory,
   macroScopeForJurisdiction,
@@ -50,36 +49,6 @@ export const HOUSING_SUPPLY_LAWS = [
   "us-policy-positions:housing-land-use.by-right-permitting",
   "us-policy-positions:housing-land-use.preempt-local-housing-limits",
 ] as const;
-
-/**
- * What a law letting more homes be built does to a town's home prices, once
- * it has been in force long enough for homes to go up. The laws act as one
- * package: a second such law adds nothing measured.
- *
- * Measured, and HARDWIRED as the middle of what was found:
- *   Minneapolis, which allowed three homes on every residential lot among
- *   other reforms: from 2017 to 2022 its housing stock grew 12% and rents 1%,
- *   while in the rest of Minnesota the stock grew 4% and rents 14% (Pew
- *   Charitable Trusts, January 4, 2024). About 12 log points over five years.
- *   Auckland's 2016 upzoning: three-bedroom rents 26% to 33% lower after six
- *   years than in comparable cities (Greenaway-McGrevy, Economic Inquiry,
- *   2025). Not a U.S. place, so a check, not the size.
- *   California's SB 9 (2021): 53 homes approved in its first year across 13
- *   cities (Terner Center, 2022), about zero.
- *   Sao Paulo's 2014 upzoning: home prices 0.5% lower in the long run
- *   (Anagol, Ferreira and Rexer, NBER w29440, 2021; Research 1's table of
- *   September 29, 2026, marks it provisional, not U.S.). The low end.
- * `monthlyLogChange` is the push each month that, through the price model's
- * momentum and its pull back toward income, leaves prices the measured 12 log
- * points lower after five years (worked out on steady growth; the test checks
- * it). The year before it acts is HARDWIRED, a PLACEHOLDER(research:
- * months-from-upzoning-to-new-homes).
- */
-export const HOUSING_SUPPLY_LAW_EFFECT = {
-  fiveYearLogChange: -0.12,
-  monthlyLogChange: -0.00146,
-  actsAfterDays: 365,
-} as const;
 
 // Resolve after module initialization: rent/home readers and the outcome engine
 // import each other. Reuse this immutable link index after its first actual call.
@@ -110,27 +79,18 @@ function supplyLawIds(world: World): readonly EntityId[] {
 }
 
 /**
- * The town's own events that move its home prices in the month recorded on
+ * Compatibility reading for former direct law-price multipliers on
  * `date`, as a monthly log change: a supply law enacted in play, a year after
- * it took effect. Repealing one the town began with moves prices the other
- * way.
+ * its date. Policy answers supply no additional price multiplier.
  */
 export function housingLawEffect(
-  world: World,
-  town: EntityId,
-  date: IsoDate,
+  _world: World,
+  _town: EntityId,
+  _date: IsoDate,
 ): number {
-  const acting = addDays(date, -HOUSING_SUPPLY_LAW_EFFECT.actsAfterDays);
-  let change = 0;
-  for (const question of supplyLawIds(world)) {
-    const law = lawInForce(world, town, question, date);
-    if (law?.origin !== "enacted" || law.operativeAt > acting) continue;
-    const before =
-      lawInForceAtStart(world, town, question, date) === "yes" ? 1 : 0;
-    change += (law.answer === "yes" ? 1 : 0) - before;
-  }
-  if (change === 0) return 0;
-  return Math.sign(change) * HOUSING_SUPPLY_LAW_EFFECT.monthlyLogChange;
+  void [_world, _town, _date];
+  // Recorded market conditions move prices; a law answer is not a price observation.
+  return 0;
 }
 
 interface Level {

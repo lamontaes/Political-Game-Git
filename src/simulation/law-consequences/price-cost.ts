@@ -13,6 +13,7 @@ import { recordById, recordByStableKey } from "../history-index";
 import { lawEffectStamp } from "../law-effect-stamp";
 import { resourceFlowTermsAt } from "../resource-queries";
 import { money, recordResourceFlowTerms } from "../resources";
+import { rentalCapForFlow } from "./rent-cap";
 import type { World } from "../types";
 
 const SELECTOR = "person-price-flows";
@@ -95,6 +96,14 @@ export function resolvePriceCostConsequences(
       "Price-cost requires an explicit flow-basis coverage predicate",
     );
   for (const condition of conditions) {
+    if (condition.capability === "housing-rent-cap") {
+      if (
+        condition.parameters.termKey !== "cap" ||
+        Object.keys(condition.parameters).length !== 1
+      )
+        throw new Error("Housing rent cap requires its coherent cap term");
+      continue;
+    }
     if (condition.capability !== BASIS)
       throw new Error(`Missing price-cost predicate: ${condition.capability}`);
     if (
@@ -129,6 +138,18 @@ export function resolvePriceCostConsequences(
   if (!law || law.answer !== "yes") return [];
   if (context.governingLawId && context.governingLawId !== law.measureId)
     return [];
+  const rental = conditions.some(
+    (condition) => condition.capability === "housing-rent-cap",
+  )
+    ? rentalCapForFlow(world, flow, law, proposition.stableKey, context.onDate)
+    : null;
+  if (
+    conditions.some(
+      (condition) => condition.capability === "housing-rent-cap",
+    ) &&
+    rental?.coverage !== "covered"
+  )
+    return [];
   const terms =
     activity ??
     resourceFlowTermsAt(world, flow.id, {
@@ -150,6 +171,7 @@ export function resolvePriceCostConsequences(
       questionKey: proposition.stableKey,
       termKey,
       unit,
+      onDate: context.onDate,
     });
     if (!term)
       throw new Error(`Missing law amount capability: term:${termKey}`);
@@ -169,6 +191,11 @@ export function resolvePriceCostConsequences(
       ]),
     ),
     record: {
+      ...(rental?.ratio !== null && rental?.ratio !== undefined
+        ? {
+            "rental-cap-ratio": { value: rental.ratio, unit: "ratio" as const },
+          }
+        : {}),
       ...(prior
         ? {
             "prior-flow-minor": {
@@ -182,6 +209,8 @@ export function resolvePriceCostConsequences(
     capacity: {},
     exposure: {},
   });
+  // A maximum rent cannot charge a fraction of a currency minor unit.
+  if (rental) amount.value = Math.floor(amount.value);
   if (
     amount.unit !== "minor" ||
     !Number.isSafeInteger(amount.value) ||
@@ -205,6 +234,7 @@ export function resolvePriceCostConsequences(
         flow.source.personId,
         ...(prior ? [prior.id] : []),
         ...new Set(legalTerms.flatMap(({ term }) => term.sourceRecordIds)),
+        ...(rental?.sourceRecordIds ?? []),
       ],
       value: {
         type: "amount",
@@ -317,7 +347,7 @@ export const TEAM_4_PRICE_COST_REGISTRATION: LawConsequenceKindRegistration = {
   owner: "Team4",
   selectors: [SELECTOR],
   actions: [ACTION],
-  predicates: [BASIS],
+  predicates: [BASIS, "housing-rent-cap"],
   units: ["minor"],
   resolve: resolvePriceCostConsequences,
   apply: applyPriceCostConsequence,
