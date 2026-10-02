@@ -13,7 +13,6 @@ import {
   enterLifePath,
   scheduleLifePathSession,
   performLifePathSession,
-  lifePaths2Handlers,
 } from "./life-paths2";
 import { advanceWorld } from "./world";
 import { recordResourceFlowTerms, money } from "./resources";
@@ -410,7 +409,7 @@ describe("a federal law on the top income tax rate, as enacted in play", () => {
       const activityId = scheduled.world.history.scheduledActivities.at(-1)!.id;
       const worked = performLifePathSession(scheduled.world, activityId);
       expect(worked.ok, worked.message).toBe(true);
-      const paid = advanceWorld(worked.world, 1, lifePaths2Handlers());
+      const paid = advanceWorld(worked.world, 1);
       const row = paid.history.statutoryTaxLiabilities!.find(
         (entry) => entry.taxKey === FEDERAL_INCOME_TAX_KEY,
       )!;
@@ -422,18 +421,10 @@ describe("a federal law on the top income tax rate, as enacted in play", () => {
     const payday = makeIsoDate("2027-01-01");
     expect(world.currentDate < payday).toBe(true);
     const before = paidShift(
-      advanceWorld(
-        f.world,
-        daysBetween(f.world.currentDate, payday),
-        lifePaths2Handlers(),
-      ),
+      advanceWorld(f.world, daysBetween(f.world.currentDate, payday)),
     );
     const after = paidShift(
-      advanceWorld(
-        world,
-        daysBetween(world.currentDate, payday),
-        lifePaths2Handlers(),
-      ),
+      advanceWorld(world, daysBetween(world.currentDate, payday)),
     );
     const expected = withholdingForPaycheck(
       1_500_000,
