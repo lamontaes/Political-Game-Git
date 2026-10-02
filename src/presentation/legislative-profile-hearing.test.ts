@@ -25,6 +25,12 @@ import {
 } from "../simulation/legislation";
 import { LEGISLATIVE_SESSION_CALENDARS } from "../simulation/legislative-session-calendar-data";
 import { nextSessionCalendarDate } from "../simulation/legislative-session-calendar";
+import {
+  legislativeRulePackForWorld,
+  regularSessionYearForWorld,
+} from "../simulation/legislative-procedure-world";
+import { sessionClosesOn } from "../simulation/governing/session-adjournments";
+import { stateSessionEnds } from "../simulation/governing/statute-effective-date";
 import { serializeWorld, deserializeWorld } from "../simulation/serialization";
 import type { LegislativeProcedureContext } from "../simulation/legislation-scenarios";
 import type { LegislativeMeasureRecord } from "../simulation/types";
@@ -256,4 +262,162 @@ it("carries the existing Maryland age-verification cost fixture through its prof
       (x) => x.kind === "committee-hearing-held",
     ),
   ).toHaveLength(2);
+});
+
+function costChronologyFixture(
+  stateKey: string,
+  currentDate = makeIsoDate("2026-01-05"),
+) {
+  const state = stateJurisdictionForKey(stateKey)!;
+  const catalog = createProductionPolicyCatalog();
+  const question = Object.values(catalog.propositions).find(
+    (row) =>
+      row.stableKey ===
+      "us-policy-positions:technology-privacy.age-verification-for-social-media",
+  )!;
+  const base = createWorld({
+    seed,
+    currentDate,
+    jurisdictions: [state],
+    people: [],
+    policyCatalog: catalog,
+  });
+  const effectiveAt = makeIsoDate("2026-05-01");
+  const input: LegislativeMeasureRecord = {
+    id: createStableId("legislative-measure", `cost-chronology:${stateKey}`),
+    stableKey: `cost-chronology:${stateKey}`,
+    sequence: base.history.nextSequence,
+    jurisdictionId: state.id,
+    rulePackId: legislatureProfilePackId(stateKey),
+    designation: "HB cost chronology",
+    shortTitle: "Authored cost chronology fixture",
+    summary: "An explicit effective date with an actual calendar filing date.",
+    origin: "member-introduction",
+    subjectClass: "general-policy",
+    originChamberKey: "house",
+    sponsorPersonId: null,
+    introducedAt: effectiveAt,
+    sourceDocumentKey: null,
+    policyAlternativeIds: [],
+    propositionIds: [question.id],
+    propositionAnswers: [{ propositionId: question.id, answer: "yes" }],
+  };
+  return { state, question, base, input, effectiveAt };
+}
+
+describe("cost fixture filing and operative dates", () => {
+  it.each([...new Set([...sampled, "US-ID", "US-WA"])])(
+    "%s files on its existing calendar before observing the cost month",
+    (stateKey) => {
+      const { state, question, base, input, effectiveAt } =
+        costChronologyFixture(stateKey);
+      const before = serializeWorld(base);
+      const pack = legislativeRulePackForWorld(base, input.rulePackId);
+      const calendar =
+        pack.session.sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.state;
+      const filingAt = nextSessionCalendarDate(
+        calendar,
+        base.currentDate,
+        "bill",
+        {
+          eligibleYear: (year) =>
+            regularSessionYearForWorld(base, state.id, year),
+        },
+      );
+      const closedOn = sessionClosesOn(
+        base,
+        pack,
+        Number(filingAt.slice(0, 4)),
+      );
+      const enacted = enactCostLawFixture(base, input, { effectiveAt });
+      expect(enacted.measure.introducedAt).toBe(filingAt);
+      expect(filingAt < effectiveAt).toBe(true);
+      expect(enacted.measure.propositionAnswers).toEqual(
+        input.propositionAnswers,
+      );
+      expect(measurePosition(enacted.world, enacted.measure.id).phase).toBe(
+        "enacted",
+      );
+      const record = enacted.world.history.legislativeEnactments!.find(
+        (row) => row.measureId === enacted.measure.id,
+      )!;
+      expect(record.effectiveAt).toBe(effectiveAt);
+      if (closedOn !== null) {
+        const floorActions = measureActions(
+          enacted.world,
+          enacted.measure.id,
+        ).filter(
+          (row) =>
+            row.kind === "floor-stage-passed" ||
+            row.kind === "committee-hearing-held",
+        );
+        expect(floorActions.length).toBeGreaterThan(0);
+        for (const action of floorActions)
+          expect(action.occurredAt <= closedOn).toBe(true);
+      }
+      expect(
+        lawInForce(enacted.world, state.id, question.id, effectiveAt)
+          ?.measureId,
+      ).toBe(enacted.measure.id);
+      expect(enacted.world.currentDate).toBe(makeIsoDate("2026-06-01"));
+      expect(enacted.world.control).toEqual(base.control);
+      expect(serializeWorld(base)).toBe(before);
+      const loaded = deserializeWorld(serializeWorld(enacted.world));
+      expect(measurePosition(loaded, enacted.measure.id)).toEqual(
+        measurePosition(enacted.world, enacted.measure.id),
+      );
+      expect(lawInForce(loaded, state.id, question.id, effectiveAt)).toEqual(
+        lawInForce(enacted.world, state.id, question.id, effectiveAt),
+      );
+    },
+  );
+
+  it.each(["US-ID", "US-WA"])(
+    "%s keeps the adjournment refusal when the next opportunity is closed",
+    (stateKey) => {
+      const closedAt = stateSessionEnds(stateKey, 2026).at(-1)!;
+      const { base, input } = costChronologyFixture(stateKey, closedAt);
+      const before = serializeWorld(base);
+      expect(() => enactCostLawFixture(base, input)).toThrow(
+        /session (ended|cannot continue)/,
+      );
+      expect(serializeWorld(base)).toBe(before);
+    },
+  );
+
+  it("can defer observation for a chronological second filing, and refuses to rewind a June world", () => {
+    const { base, input, effectiveAt } = costChronologyFixture("US-MD");
+    const first = enactCostLawFixture(base, input, {
+      effectiveAt,
+      advanceToObservation: false,
+    });
+    expect(first.world.currentDate < effectiveAt).toBe(true);
+    const secondInput = {
+      ...input,
+      stableKey: input.stableKey + ":second",
+      propositionAnswers: [
+        { propositionId: input.propositionIds![0]!, answer: "no" as const },
+      ],
+    };
+    const second = enactCostLawFixture(first.world, secondInput, {
+      effectiveAt,
+    });
+    expect(second.measure.introducedAt > first.measure.introducedAt).toBe(true);
+    expect(second.world.currentDate).toBe(makeIsoDate("2026-06-01"));
+    expect(measurePosition(second.world, first.measure.id).phase).toBe(
+      "enacted",
+    );
+    expect(measurePosition(second.world, second.measure.id).phase).toBe(
+      "enacted",
+    );
+    const before = serializeWorld(second.world);
+    expect(() =>
+      enactCostLawFixture(
+        second.world,
+        { ...input, stableKey: input.stableKey + ":late" },
+        { effectiveAt },
+      ),
+    ).toThrow(/no filing opportunity before/);
+    expect(serializeWorld(second.world)).toBe(before);
+  });
 });

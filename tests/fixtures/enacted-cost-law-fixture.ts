@@ -1,15 +1,18 @@
-import {
-  makeIsoDate,
-  daysBetween,
-  simulationMomentOnLocalDate,
-} from "../../src/simulation/dates";
+import { makeIsoDate, daysBetween } from "../../src/simulation/dates";
 import {
   availableMeasureSteps,
   introduceMeasure,
   measurePosition,
   recordEnactment,
 } from "../../src/simulation/legislation";
-import { rulePackById } from "../../src/simulation/legislature-rule-packs";
+import {
+  legislativeRulePackForWorld,
+  regularSessionRefusalText,
+  regularSessionYearForWorld,
+} from "../../src/simulation/legislative-procedure-world";
+import { nextSessionCalendarDate } from "../../src/simulation/legislative-session-calendar";
+import { LEGISLATIVE_SESSION_CALENDARS } from "../../src/simulation/legislative-session-calendar-data";
+import { sessionClosesOn } from "../../src/simulation/governing/session-adjournments";
 import {
   votePlanKeyForCommittee,
   votePlanKeyForFloor,
@@ -32,6 +35,7 @@ import { passOrdinaryDays } from "../../src/presentation/ordinary-life";
 import { applyLegislativeStep } from "../../src/presentation/legislation-session";
 import type {
   LegislativeMeasureRecord,
+  IsoDate,
   World,
 } from "../../src/simulation/types";
 
@@ -39,22 +43,38 @@ import type {
 export function enactCostLawFixture(
   base: World,
   input: LegislativeMeasureRecord,
+  options: {
+    /** The authored operative date is separate from the actual filing date. */
+    readonly effectiveAt?: IsoDate;
+    /** Leave the clock at enactment when the caller will file another bill. */
+    readonly advanceToObservation?: boolean;
+  } = {},
 ): { world: World; measure: LegislativeMeasureRecord } {
-  const pack = rulePackById(input.rulePackId);
-  if (!pack)
-    throw new Error("The fixture needs an existing registered rule pack.");
-  const on =
-    input.introducedAt > base.currentDate
-      ? input.introducedAt
-      : base.currentDate;
-  let world = introduceMeasure(
-    {
-      ...base,
-      currentDate: on,
-      currentMoment: simulationMomentOnLocalDate(base.currentMoment, on),
-    },
-    input,
-  );
+  const pack = legislativeRulePackForWorld(base, input.rulePackId);
+  const calendar =
+    pack.session.sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.state;
+  const on = nextSessionCalendarDate(calendar, base.currentDate, "bill", {
+    eligibleYear: (year) =>
+      regularSessionYearForWorld(base, input.jurisdictionId, year),
+  });
+  const closedOn = sessionClosesOn(base, pack, Number(on.slice(0, 4)));
+  const refusal = regularSessionRefusalText(pack, on);
+  if (refusal || (closedOn !== null && on > closedOn))
+    throw new Error(
+      refusal ??
+        `The fixture's filing opportunity is after the session ended on ${closedOn}.`,
+    );
+  const effectiveAt = options.effectiveAt ?? input.introducedAt;
+  if (on > effectiveAt)
+    throw new Error(
+      "The fixture has no filing opportunity before its intended effective date.",
+    );
+  const filingWorld = passOrdinaryDays(base, daysBetween(base.currentDate, on));
+  if (filingWorld.currentDate !== on)
+    throw new Error(
+      "The cost fixture stopped at a commitment before its filing date.",
+    );
+  let world = introduceMeasure(filingWorld, input);
   const measure = world.history.legislativeMeasures!.at(-1)!;
   const votePlan: Record<string, { yea: number }> = {};
   const bodies = pack.chambers.map((chamber) => {
@@ -132,7 +152,7 @@ export function enactCostLawFixture(
         pack.jurisdictionKey,
       )!.holderPersonId;
       world = enactThroughDesk(world, measure.id, {
-        effectiveAt: input.introducedAt,
+        effectiveAt,
       });
       if (
         originalControl.kind !== "person" ||
@@ -187,8 +207,9 @@ export function enactCostLawFixture(
         world = recordEnactment(world, {
           stableKey: input.stableKey + ":law",
           measureId: measure.id,
-          effectiveAt: input.introducedAt,
+          effectiveAt,
         });
+      if (options.advanceToObservation === false) return { measure, world };
       const currentDate =
         world.currentDate > makeIsoDate("2026-06-01")
           ? world.currentDate
