@@ -3269,8 +3269,8 @@
         {
           "kind": "present",
           "file": "src/simulation/living-world/constitutional-reform.ts",
-          "pattern": "decideChamberVote\\(",
-          "why": "state amendment roll calls use it (constitutional-reform.ts:912)"
+          "pattern": "memberBallot\\(",
+          "why": "state amendment roll calls use memberBallot (constitutional-reform.ts:837), whose unchanged input delegates to decideChamberVote (governing/article-v.ts:336); the ordinary-review regression verifies the canonical call and saved dispositions"
         },
         {
           "kind": "absent",
@@ -3833,17 +3833,71 @@
         {
           "kind": "present",
           "file": "src/simulation/local-economy.ts",
-          "pattern": "resourcePositionAt\\(",
-          "why": "business wage flows (settleFlows in local-economy.ts) cap pay at the employer's recorded cash, the part PR #1402 changes"
+          "pattern": "paymentFromDatedCash\\(",
+          "why": "The business settler delegates its payer, amount and due date to the canonical dated-cash assessment."
         },
         {
           "kind": "present",
           "file": "src/simulation/local-economy.ts",
-          "pattern": "\"(capacity|custom):[a-z-]*(employer|insufficient|cash)[a-z-]*\"",
-          "why": "business wage shortfalls are recorded as partial or blocked with an employer-cash reason"
+          "pattern": "status:\\s*payment\\.status",
+          "why": "The transfer saves the assessed completed/partial/missed/blocked status."
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/local-economy.ts",
+          "pattern": "transferredAmount:\\s*payment\\.transferredAmount",
+          "why": "The transfer saves the cash-capped amount rather than the promised amount."
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/local-economy.ts",
+          "pattern": "reasonKind:\\s*payment\\.reasonKind",
+          "why": "The transfer saves the assessment reason without inventing a caller-local cash reason."
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/resource-payments.ts",
+          "pattern": "export function paymentFromDatedCash\\(",
+          "why": "The sole assessment helper is present; it creates no transfer."
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/resource-payments.ts",
+          "pattern": "resourcePositionAt\\(",
+          "why": "The helper reads the payer currency position at dated cutoffs."
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/resource-payments.ts",
+          "pattern": "historySequenceExclusive:\\s*outcome\\.sequence\\s*\\+\\s*1",
+          "why": "Historical balance checkpoints preserve each actual transfer frontier, including same-day troughs."
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/resource-payments.ts",
+          "pattern": "snapshot\\s*\\?\\s*\\[snapshot\\.liquidBalance\\.minorUnits\\]",
+          "why": "The historical minimum is based on saved liquid balances."
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/resource-payments.ts",
+          "pattern": "Math\\.min\\(availableMinor,\\s*attemptedAmount\\.minorUnits\\)",
+          "why": "Payment is capped by recorded available cash and the amount attempted."
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/resource-payments.ts",
+          "pattern": "reasonKind:\\s*\"capacity:money-unknown\"",
+          "why": "An absent cash position is blocked explicitly rather than treated as sufficient."
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/resource-payments.ts",
+          "pattern": "\"capacity:insufficient-funds\"",
+          "why": "A partial or missed payment carries the canonical insufficient-cash reason."
         }
       ],
-      "note": "town-pay.ts and local-economy.ts import no position reader and write no employer-cash reason, so none pass: not-started. covers is 'part': office-salary and any other employer paths are not checked. PR #1402 (not merged) changes local-economy.ts settleFlows to the capacity:insufficient-liquid and capacity:unrecorded-employer-cash reasons the patterns accept; the town-pay.ts settler (settleTownCompensations) is the second place the next step names."
+      "note": "Business wage settlement calls paymentFromDatedCash and saves its status, transferred amount and reason. Separate helper checks retain dated recorded cash, historical sequence checkpoints, cash caps and unknown/insufficient refusals. The two town-pay checks remain unchanged. This rule covers part of A60; a static result does not establish runtime coverage of every employer path."
     },
     "A69": {
       "covers": "whole",
