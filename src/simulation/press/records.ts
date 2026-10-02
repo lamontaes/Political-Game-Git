@@ -49,11 +49,6 @@ export type MediaBeat = (typeof MEDIA_BEATS)[number];
 export const MEDIA_RESOURCE_TIERS = ["small", "standard", "major"] as const;
 export type MediaResourceTier = (typeof MEDIA_RESOURCE_TIERS)[number];
 
-/** §13: authored workload limit, not a quality score. */
-export const MEDIA_ACTIVE_ASSIGNMENT_CAPACITY: Readonly<
-  Record<MediaResourceTier, number>
-> = { small: 1, standard: 3, major: 8 };
-
 export const MEDIA_CADENCES = ["continuous", "daily", "periodic"] as const;
 export type MediaCadence = (typeof MEDIA_CADENCES)[number];
 
