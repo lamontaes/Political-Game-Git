@@ -1,0 +1,24 @@
+[
+  {
+    "artifactId": "mo-article-x-index",
+    "requestedUrl": "https://revisor.mo.gov/main/OneChapter.aspx?chapter=X",
+    "retrievedAt": "2026-10-02T11:35:52.912272+00:00",
+    "url": "https://revisor.mo.gov/Main/nofish.aspx",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=utf-8",
+    "responseBytes": 29307,
+    "sha256": "65c3879d1cdcb823c2b7fac7f497844e794edd0eb3a772889962376d13d8500b",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-04/raw/mo-article-x-index.html"
+  },
+  {
+    "artifactId": "ne-article-viii-1a",
+    "requestedUrl": "https://nebraskalegislature.gov/laws/articles.php?article=VIII-1A",
+    "retrievedAt": "2026-10-02T11:35:52.912954+00:00",
+    "url": "https://nebraskalegislature.gov/laws/articles.php?article=VIII-1A",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=UTF-8",
+    "responseBytes": 24866,
+    "sha256": "b6a7fade58e1b02f88a31a83380c153d2b152110b7162828b2d3f42603f54b65",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-04/raw/ne-article-viii-1a.html"
+  }
+]

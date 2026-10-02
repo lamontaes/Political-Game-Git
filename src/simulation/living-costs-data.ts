@@ -3,6 +3,7 @@ import {
   censusRegionStates,
   type CensusRegion,
 } from "./world-setup/census-regions";
+import { LIVING_COSTS_CATEGORY_DATA } from "./living-costs-category-data";
 
 /** Representative retained 2024 CES categories, not observed personal bills.
  * Actual housing, vehicle purchases and tuition are settled by their own writers.
@@ -11,6 +12,73 @@ import {
 export const LIVING_COSTS_SOURCE =
   "https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx";
 export type LivingCostsRegion = CensusRegion | "national";
+export type LivingCostsSize = "1" | "2" | "3" | "4" | "5plus";
+export interface LivingCostsSourceMean {
+  readonly annualMeanUsd: number;
+  readonly standardErrorUsd: number;
+  readonly relativeStandardErrorPercent: number;
+}
+
+/** The admitted joint estimate; no demographic weights or actor outcome draw. */
+export function estimateLivingCostsCategoryAnnual(
+  size: LivingCostsSourceMean | undefined,
+  region: LivingCostsSourceMean | undefined,
+  national: LivingCostsSourceMean | undefined,
+) {
+  if (size && region && national && national.annualMeanUsd > 0)
+    return {
+      annualMeanUsd:
+        size.annualMeanUsd * (region.annualMeanUsd / national.annualMeanUsd),
+      method: "size-times-region-ratio" as const,
+      sourceMeans: { size, region, national },
+    };
+  // A missing category never acquires a fabricated cross-table multiplier.
+  const available = size ?? region ?? national;
+  return available
+    ? {
+        annualMeanUsd: available.annualMeanUsd,
+        method: "available-table-unscaled" as const,
+        sourceMeans: { size, region, national },
+      }
+    : null;
+}
+
+/** Includes children; Table 1400's five-or-more column is not extrapolated. */
+export function estimatedMonthlyHouseholdLivingCosts(
+  region: LivingCostsRegion,
+  householdSize: number,
+) {
+  if (!Number.isSafeInteger(householdSize) || householdSize < 1)
+    throw new Error(
+      "Living-cost household size must be a positive whole count",
+    );
+  const size = (
+    householdSize >= 5 ? "5plus" : String(householdSize)
+  ) as LivingCostsSize;
+  const categories = Object.entries(LIVING_COSTS_CATEGORY_DATA).map(
+    ([key, row]) => ({
+      key,
+      label: row.label,
+      ...estimateLivingCostsCategoryAnnual(
+        row.sizes[size],
+        row.regions[region],
+        row.regions.national,
+      )!,
+    }),
+  );
+  return {
+    label: "ESTIMATED FROM AVERAGE" as const,
+    householdSize,
+    sizeColumn: size,
+    region,
+    monthlyMinor: Math.round(
+      (categories.reduce((sum, row) => sum + row.annualMeanUsd, 0) * 100) / 12,
+    ),
+    categories,
+    uncertainty:
+      "Published standard errors describe uncertainty of source category means, not the spread of individual household spending.",
+  };
+}
 export const REPRESENTATIVE_LIVING_COSTS = {
   source: LIVING_COSTS_SOURCE,
   sourceYear: 2024,
