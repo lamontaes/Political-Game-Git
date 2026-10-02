@@ -11,10 +11,11 @@ import type {
 export interface TaxPowerEvidence {
   readonly key: string;
   readonly jurisdictionKey: string;
-  readonly level: "STATE" | "COUNTY" | "MUNICIPALITY";
+  readonly level: "FEDERAL" | "STATE" | "COUNTY" | "MUNICIPALITY";
   /** Required before a local authority can bind a proposal to one government. */
   readonly governmentKey?: string;
-  readonly instrument: "selective-excise" | "sales" | "property";
+  readonly instrument:
+    "selective-excise" | "sales" | "property" | "wage-income";
   readonly asOf: IsoDate;
   readonly sourceArtifactId: string;
   readonly sourceSha256: string;
@@ -156,7 +157,8 @@ export interface StatutoryTaxLiabilityRecord
 }
 
 /** Money that actually moved against one liability. */
-export interface StatutoryTaxPaymentRecord extends TaxHistoryRoot {
+export interface StatutoryTaxPaymentRecord
+  extends TaxHistoryRoot, LawEffectStampedRecord {
   readonly liabilityId: EntityId;
   readonly method: "withholding";
   readonly amount: MoneyAmount;
