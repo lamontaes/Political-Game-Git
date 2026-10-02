@@ -193,16 +193,15 @@ export function enactCostLawFixture(
         world.currentDate > makeIsoDate("2026-06-01")
           ? world.currentDate
           : makeIsoDate("2026-06-01");
-      return {
-        measure,
-        world:
-          currentDate > world.currentDate
-            ? passOrdinaryDays(
-                world,
-                daysBetween(world.currentDate, currentDate),
-              )
-            : world,
-      };
+      const advanced =
+        currentDate > world.currentDate
+          ? passOrdinaryDays(world, daysBetween(world.currentDate, currentDate))
+          : world;
+      if (advanced.currentDate < currentDate)
+        throw new Error(
+          "The cost fixture stopped at a commitment before its end date.",
+        );
+      return { measure, world: advanced };
     }
     const step = availableMeasureSteps(world, measure.id).find(
       (candidate) => candidate !== "offer-amendment",

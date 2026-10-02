@@ -224,6 +224,7 @@ it("carries the existing Maryland age-verification cost fixture through its prof
     }),
   ]);
   expect(enacted.world.control).toEqual(base.control);
+  expect(enacted.world.currentDate).toBe(makeIsoDate("2026-06-01"));
   expect(enacted.measure.propositionAnswers).toEqual(input.propositionAnswers);
   expect(
     lawInForce(enacted.world, state.id, question.id, enacted.world.currentDate)
