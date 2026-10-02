@@ -76,6 +76,7 @@ import {
 } from "../history-index";
 import {
   currentLifeCutoff,
+  educationEnrollmentStateAt,
   organizationProfileAt,
   workStatusAt,
   workRoleAt,
@@ -95,9 +96,13 @@ import { noticeLawPayChanges } from "../law-effects-noticed";
 import { ensureLifePathPersonalPosition } from "../life-paths2-resources";
 import { ensureEmployerCashPositions } from "../opening-employer-cash";
 import { settleBusinessReceipts } from "../local-economy";
-import { resourceFlowTermsAt } from "../resource-queries";
+import {
+  resourceFlowTermsAt,
+  resourceTransferOutcomesForFlow,
+} from "../resource-queries";
 import { createDatedCashPaymentReader } from "../resource-payments";
 import { writeWithWorldIntegrityOnce } from "../world";
+import { hasLifePathCredential } from "../life-paths2";
 import { SeededRng } from "../rng";
 import {
   createResourceFlows,
@@ -259,8 +264,8 @@ export function townPayAreas(jurisdictionId: EntityId | null): string[] {
  * GAME ASSUMPTION, labeled: where a worker sits in their occupation's wage
  * distribution. Preserve the existing tenure calibration: a new hire starts
  * at the 25th percentile and moves toward the 75th over 20 years at the
- * employer. The retired person draw does not change pay. Recorded credential
- * sizing remains an unfinished A40 contract, not an inferred degree premium.
+ * employer. The retired person draw does not change pay. Recorded credentials
+ * select actual paid peers for an observed hourly mean, never a fixed degree premium.
  */
 export function townPayPercentile(
   tenureYears: number,
@@ -703,6 +708,148 @@ function payNoteOf(cadenceKind: string): PayNote | null {
  * day it started, whichever is later: nobody is paid years of back wages for
  * a job the game wrote before pay existed.
  */
+/** ESTIMATED FROM AVERAGE: actual paid peers at the same workplace and occupation,
+ * sharing the worker's recorded completed credentials. No observed peers means
+ * no adjustment to the existing tenure offer. The input world is frozen before
+ * this initializer writes any offers, so actor order cannot seed its own cohort.
+ */
+export function recordedCredentialHourlyPay(
+  world: World,
+  workId: EntityId,
+  onDate: IsoDate,
+) {
+  if (
+    onDate > world.currentDate ||
+    !world.history.resourceTransferOutcomes.length
+  )
+    return null;
+  const snapshot = { ...world, currentDate: onDate };
+  const target = recordById(world.history.workRelationships, workId);
+  const targetRole = target ? workRoleAt(snapshot, workId) : undefined;
+  if (
+    !target ||
+    target.recordedAt > onDate ||
+    target.startedAt > onDate ||
+    target.compensation !== "paid" ||
+    workStatusAt(snapshot, workId)?.status !== "active" ||
+    !targetRole?.occupationClassification ||
+    !targetRole.locationJurisdictionId
+  )
+    return null;
+  const credentials = world.history.educationEnrollments.filter(
+    (row) =>
+      row.personId === target.personId &&
+      row.startedAt <= onDate &&
+      row.recordedAt <= onDate &&
+      hasLifePathCredential(snapshot, target.personId, row.programKind),
+  );
+  if (!credentials.length) return null;
+  const sources: EntityId[] = credentials.flatMap((row) => {
+    const state = educationEnrollmentStateAt(snapshot, row.id);
+    return state ? [row.id, state.id] : [];
+  });
+  const rates: number[] = [];
+  const countedWork = new Set<EntityId>();
+  for (const flow of world.history.resourceFlows) {
+    if (
+      flow.basisKind !== "compensation:work" ||
+      flow.basisReference.kind !== "work" ||
+      flow.recordedAt > onDate ||
+      flow.startsAt > onDate ||
+      flow.recipient.kind !== "person"
+    )
+      continue;
+    const work = recordById(
+      world.history.workRelationships,
+      flow.basisReference.workRelationshipId,
+    );
+    if (
+      !work ||
+      countedWork.has(work.id) ||
+      work.personId === target.personId ||
+      work.personId !== flow.recipient.personId ||
+      work.startedAt > onDate ||
+      work.recordedAt > onDate ||
+      work.compensation !== "paid"
+    )
+      continue;
+    const status = workStatusAt(snapshot, work.id);
+    const role = workRoleAt(snapshot, work.id);
+    if (
+      status?.status !== "active" ||
+      role?.occupationClassification !== targetRole.occupationClassification ||
+      role.locationJurisdictionId !== targetRole.locationJurisdictionId ||
+      !credentials.every((row) =>
+        hasLifePathCredential(snapshot, work.personId, row.programKind),
+      )
+    )
+      continue;
+    const current = resourceFlowTermsAt(snapshot, flow.id);
+    if (current?.status !== "active" || current.amount.currency !== "USD")
+      continue;
+    const payment = resourceTransferOutcomesForFlow(snapshot, flow.id)
+      .filter(
+        (row) =>
+          row.status === "completed" &&
+          row.transferredAmount.currency === "USD" &&
+          row.transferredAmount.minorUnits > 0,
+      )
+      .at(-1);
+    if (!payment) continue;
+    const paidSnapshot = {
+      ...snapshot,
+      currentDate: payment.occurredAt,
+      history: { ...snapshot.history, nextSequence: payment.sequence + 1 },
+    };
+    const paidRole = workRoleAt(paidSnapshot, work.id);
+    if (
+      !paidRole ||
+      paidRole.occupationClassification !== role.occupationClassification ||
+      paidRole.locationJurisdictionId !== role.locationJurisdictionId ||
+      !credentials.every((row) =>
+        hasLifePathCredential(paidSnapshot, work.personId, row.programKind),
+      )
+    )
+      continue;
+    const terms = resourceFlowTermsAt(snapshot, flow.id, {
+      asOfDate: payment.occurredAt,
+      historySequenceExclusive: payment.sequence + 1,
+    });
+    const note = terms ? payNoteOf(terms.cadenceKind) : null;
+    const hours = weeklyHoursOf(paidRole);
+    if (!note || hours <= 0) continue;
+    rates.push(
+      (payment.transferredAmount.minorUnits * PERIODS_PER_YEAR[note.period]) /
+        (52 * hours),
+    );
+    countedWork.add(work.id);
+    sources.push(
+      work.id,
+      status.id,
+      role.id,
+      paidRole.id,
+      flow.id,
+      terms!.id,
+      payment.id,
+    );
+    for (const enrollment of world.history.educationEnrollments.filter(
+      (row) =>
+        row.personId === work.personId &&
+        row.recordedAt <= onDate &&
+        row.startedAt <= onDate,
+    )) {
+      const state = educationEnrollmentStateAt(paidSnapshot, enrollment.id);
+      if (state?.status === "completed") sources.push(enrollment.id, state.id);
+    }
+  }
+  if (!rates.length) return null;
+  return {
+    hourlyMinor: Math.round(rates.reduce((a, b) => a + b, 0) / rates.length),
+    peerCount: rates.length,
+    sourceRecordIds: [...new Set(sources)],
+  };
+}
+
 export function startTownJobPay(
   world: World,
   exceptPersonId: EntityId | null,
@@ -785,13 +932,24 @@ export function startTownJobPay(
       role.locationJurisdictionId,
       startsAt,
     );
-    const offered = townJobRate(
+    const baseline = townJobRate(
       role.occupationClassification,
       role.locationJurisdictionId,
       townPayPercentile(tenure),
       minimum,
     );
-    if (!offered) continue;
+    if (!baseline) continue;
+    const credentialPay = recordedCredentialHourlyPay(world, work.id, startsAt);
+    const offered = credentialPay
+      ? {
+          ...baseline,
+          hourlyMinor: Math.max(
+            credentialPay.hourlyMinor,
+            Math.round((minimum ?? 0) * 100),
+          ),
+          floored: credentialPay.hourlyMinor < Math.round((minimum ?? 0) * 100),
+        }
+      : baseline;
     // A man partnered with a man is hired below the job's rate where no
     // fairness law covers him (`fairness-pay-law.ts`), never below the floor.
     coveredMen ??= menPartneredWithMen(world, world.currentDate);
@@ -851,7 +1009,7 @@ export function startTownJobPay(
       jurisdictionId: null,
       provenance: {
         kind: "authored",
-        note: `${TOWN_PAY_VERSION}: $${(hourlyMinor / 100).toFixed(2)} an hour${hourlyMinor > rate.hourlyMinor ? " (the state's minimum teacher salary)" : rate.floored ? " (the minimum wage)" : ""}${gap && hourlyMinor === rate.hourlyMinor ? `, ${UNCOVERED_PAY_NOTE}` : ""} for ${weeklyHours} hours a week, paid ${period}; the ${Math.round(rate.percentile)}th percentile for SOC ${rate.soc} in OEWS area ${rate.area} (${TOWN_PAY_META.wages}).`,
+        note: `${TOWN_PAY_VERSION}: $${(hourlyMinor / 100).toFixed(2)} an hour${hourlyMinor > rate.hourlyMinor ? " (the state's minimum teacher salary)" : rate.floored ? " (the minimum wage)" : ""}${gap && hourlyMinor === rate.hourlyMinor ? `, ${UNCOVERED_PAY_NOTE}` : ""} for ${weeklyHours} hours a week, paid ${period}; ${credentialPay ? `ESTIMATED FROM AVERAGE of ${credentialPay.peerCount} paid same-occupation/workplace credential peers; source records ${credentialPay.sourceRecordIds.join(", ")}` : `the ${Math.round(rate.percentile)}th percentile for SOC ${rate.soc} in OEWS area ${rate.area} (${TOWN_PAY_META.wages})`}.`,
       },
     });
   }
