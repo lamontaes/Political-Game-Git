@@ -20,10 +20,7 @@ import {
   assertWorldIntegrity,
   recordWorldEvent,
 } from "../../src/simulation/world";
-import {
-  currentJournalists,
-  seekCivicPressContact,
-} from "../../src/simulation/press-reach";
+import { currentJournalists } from "../../src/simulation/press-reach";
 import { JOURNALISM_OCCUPATION_CLASSIFICATION } from "../../src/simulation/press-interviews";
 
 // Authored recorded-staff fixture preserves the earlier interview inputs.
@@ -158,13 +155,12 @@ export function recordedCivicReporterFixture(world: World): {
       },
     },
   });
-  const contact = seekCivicPressContact(next);
-  if (!contact.reporterPersonId || !contact.reporterWorkRoleId)
-    throw new Error("Recorded fixture journalist must be available.");
   return {
-    ...contact,
-    reporterPersonId: contact.reporterPersonId,
-    reporterWorkRoleId: contact.reporterWorkRoleId,
+    world: next,
+    reporterPersonId,
+    reporterWorkRoleId: next.history.workRoles.at(-1)!.id,
+    organizationId: organization.id,
+    established: false,
   };
 }
 
