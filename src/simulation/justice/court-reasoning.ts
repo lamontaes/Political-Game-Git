@@ -1,3 +1,4 @@
+import { livesInJuryCatchment } from "./jury-catchment";
 import { ageOnDate } from "../dates";
 import { evaluateDecision } from "../decisions";
 import { lawInForce } from "../governing/law-in-force";
@@ -205,7 +206,7 @@ export function evaluatePlea(
 // The jury.
 
 /**
- * Who may sit: living adults of the place the case is tried, and none who
+ * Who may sit: living adults of the estimated county catchment, and none who
  * know the defendant. Voir dire excuses the defendant's family, household and
  * anyone who has dealt with them, so no juror is somebody the record shows
  * they know.
@@ -224,7 +225,14 @@ export function juryPool(world: World, courtCase: CourtCase): EntityId[] {
   const pool: EntityId[] = [];
   const cutoff = currentLifeCutoff(world);
   for (const person of Object.values(world.people)) {
-    if (person.homeJurisdictionId !== courtCase.venueJurisdictionId) continue;
+    if (
+      !courtCase.venueJurisdictionId ||
+      !livesInJuryCatchment(
+        person.homeJurisdictionId,
+        courtCase.venueJurisdictionId,
+      )
+    )
+      continue;
     if (excused.has(person.id)) continue;
     if (world.control.kind === "person" && world.control.personId === person.id)
       continue;
@@ -247,6 +255,12 @@ export function juryPool(world: World, courtCase: CourtCase): EntityId[] {
  * jury statute draws its panels by lot. The draw picks who sits; it decides
  * nothing any of them does.
  */
+/** Existing blanket panel target; jurisdiction-specific legal sizes are unread. */
+export const UNRESEARCHED_JURY_PANEL = {
+  size: 12,
+  provenance: "unresearched-existing-panel-size",
+} as const;
+
 export function empanelJury(
   world: World,
   courtCase: CourtCase,
@@ -258,7 +272,7 @@ export function empanelJury(
   );
   const drawn: EntityId[] = [];
   const remaining = [...pool];
-  while (drawn.length < 12 && remaining.length > 0)
+  while (drawn.length < UNRESEARCHED_JURY_PANEL.size && remaining.length > 0)
     drawn.push(remaining.splice(rng.integer(0, remaining.length), 1)[0]!);
   return drawn;
 }
@@ -476,8 +490,8 @@ const MANDATORY_MINIMUM_QUESTION =
 export function mandatoryJailUnderLaw(
   world: World,
   courtCase: CourtCase,
+  floor: ReturnType<typeof custodyFloorAt> = custodyFloorAt(world, courtCase),
 ): string | null {
-  const floor = custodyFloorAt(world, courtCase);
   if (floor)
     return floor.months > 0
       ? `The law requires at least ${floor.months} months in custody for this offense.`
@@ -740,9 +754,10 @@ export function evaluateSentence(
   judgeId: EntityId,
   courtCase: CourtCase,
   pleaded: boolean,
+  floor: ReturnType<typeof custodyFloorAt> = custodyFloorAt(world, courtCase),
 ): DecisionEvaluation {
   const key = `${courtCase.caseKey}:sentence`;
-  const bound = mandatoryJailUnderLaw(world, courtCase);
+  const bound = mandatoryJailUnderLaw(world, courtCase, floor);
   return evaluateDecision(world, {
     stableKey: key,
     decisionType: "justice.sentence",

@@ -203,6 +203,14 @@ export function readMonthFlows(
       publicOrganizationKey(government.lawJurisdictionId),
       government.key,
     );
+    const account = publicTaxAccountForIdentity(
+      world,
+      publicGovernmentIdentityForRecord(government),
+    );
+    const saved = account
+      ? history.organizations.find((row) => row.id === account.organizationId)
+      : null;
+    if (saved) byStableKey.set(saved.stableKey, government.key);
   }
   for (const organization of history.organizations) {
     let key = byStableKey.get(organization.stableKey);
@@ -240,7 +248,7 @@ export function readMonthFlows(
     }
     if (key) {
       const government = governmentByKey.get(key)!;
-      if (government.level === "county" || government.level === "city") {
+      {
         const account = publicTaxAccountForIdentity(
           world,
           identity ?? publicGovernmentIdentityForRecord(government),
@@ -664,10 +672,10 @@ export function taxLawFactor(
 }
 
 /**
- * What a state's laws cost it to carry out in one month, by program, against
+ * What a government's laws cost it to carry out in one month, by program, against
  * the laws it began with (`SPENDING_QUESTION_EFFECTS`): nothing where no law
- * changed, where the cost is not researched, or for a county or city, which
- * these state questions do not bind. A law counts from the day it takes
+ * changed, where the cost is not researched, or where the row does not cover
+ * the government's level. A law counts from the day it takes
  * effect, at the government's own population.
  */
 export function lawSpendingForMonth(
@@ -676,8 +684,8 @@ export function lawSpendingForMonth(
   date: IsoDate,
 ): readonly number[] {
   const spending = BUDGET_PROGRAMS.map(() => 0);
-  if (government.level !== "state") return spending;
   for (const effect of SPENDING_QUESTION_EFFECTS) {
+    if (!(effect.levels ?? ["state"]).includes(government.level)) continue;
     const perResident = lawSpendingPerResident(
       world,
       government.lawJurisdictionId,
@@ -737,7 +745,7 @@ function adoptedIncomeTaxFactor(
 
 /**
  * How a law on legal cannabis sales moves a state's selective sales taxes
- * against the law it began with (`cannabis-sales-tax.ts`): a law making sales
+ * against the law it began with (the existing cannabis tax row): a law making sales
  * legal adds the cannabis tax a resident pays from the first store opening,
  * and a law ending them takes it away the day it takes effect. 1 for any
  * other state or date.
@@ -1050,9 +1058,10 @@ export function settleGovernmentMonth(
           },
         )
       : null;
-  const cannabisStamps = (
-    cashSettled ? [] : [cannabisStamp, cannabisCostStamp]
-  ).filter((stamp): stamp is NonNullable<typeof stamp> => stamp !== null);
+  // Law-effect metadata survives cash settlement; it does not add paid receipts or outlays.
+  const cannabisStamps = [cannabisStamp, cannabisCostStamp].filter(
+    (stamp): stamp is NonNullable<typeof stamp> => stamp !== null,
+  );
   if (government.population > 0)
     revenue[INCOME_TAX] = Math.round(
       (revenue[INCOME_TAX]! *
@@ -1241,12 +1250,11 @@ export function settleGovernmentMonth(
           },
         }
       : {}),
-    ...(!cashSettled &&
-    zeroOpeningSelectiveTax &&
+    ...(zeroOpeningSelectiveTax &&
     (cannabisRevenue > 0 || previousCannabisRevenue > 0)
       ? { cannabisRevenue }
       : {}),
-    ...(!cashSettled && cannabisRevenueLoss > 0 ? { cannabisRevenueLoss } : {}),
+    ...(cannabisRevenueLoss > 0 ? { cannabisRevenueLoss } : {}),
     ...(cannabisStamps.length ||
     paidLeaveStamps.length ||
     recorded?.lawEffectStamps.length
@@ -1667,9 +1675,11 @@ function adoptNextYear(
       // Restate the other taxes through the existing economy/law calculation,
       // then forecast the current cannabis amount exactly once.
       const otherTaxes = rows.map((row) => {
-        const cannabis =
-          (row as BudgetMonthRow & { readonly cannabisRevenue?: number })
-            .cannabisRevenue ?? 0;
+        // Cash rows carry modeled law attribution separately from their paid receipts.
+        const cannabis = row.cashSettlement
+          ? 0
+          : ((row as BudgetMonthRow & { readonly cannabisRevenue?: number })
+              .cannabisRevenue ?? 0);
         const other = Math.max(0, row.revenue[at]! - cannabis);
         const then = Math.max(
           0,

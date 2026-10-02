@@ -23,7 +23,7 @@ import { publicGovernmentIdentityForRecord } from "../public-government-identity
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
-import { SeededRng, pickDistinct } from "../rng";
+import { SeededRng } from "../rng";
 import { regularSessionYearForWorld } from "../legislative-procedure-world";
 import {
   COMMITTEE_HEARING_TRANSITION_KEY,
@@ -34,6 +34,8 @@ import {
 import { createWorkItem, workItemState } from "../time-work";
 import type {
   EntityId,
+  DecisionConsideration,
+  DecisionEvaluation,
   FutureDueItem,
   FutureTransitionHandlerResult,
   HistoricalEvent,
@@ -44,7 +46,13 @@ import type {
   WorkItemStateRecord,
 } from "../types";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
-import { recordDurableDecisionTrace } from "../decisions";
+import {
+  considerationScore,
+  evaluateDecision,
+  recordDurableDecisionTrace,
+} from "../decisions";
+import { currentHistoricalCutoff } from "../queries";
+import { npcEligibleProgramConfigurations } from "../legislation-program-families";
 import {
   BILL_SIGN,
   BILL_RETURN,
@@ -63,7 +71,6 @@ import {
   clemencyQuestionFor,
   evaluateClemency,
 } from "../justice/clemency-reasoning";
-import { isCongressMeasure } from "./congress-chambers";
 import { congressLawmakingHandlers, presidentDesk } from "./congress-lawmaking";
 import {
   currentStateExecutiveHolders,
@@ -94,7 +101,10 @@ import {
 import { worldOpeningVersionOf } from "../world-setup/conditions";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import { fileMemberAgendaBill } from "./member-agenda";
-import { ensureOfficeholderPrinciples } from "./officeholder-principles";
+import {
+  ensureOfficeholderPrinciples,
+  principleAnswersConsideration,
+} from "./officeholder-principles";
 import { publicPartyOf } from "./chamber-votes";
 
 /**
@@ -1029,6 +1039,125 @@ function billOpposedByOwnParty(
   return own.nay > own.yea;
 }
 
+/** The bank declares exact answers; a subject title supplies no political view. */
+export function evaluateAgendaPriority(
+  world: World,
+  matter: GoverningMatter,
+  personId: EntityId,
+  advice?: {
+    readonly optionKey: string;
+    readonly reason: string;
+    readonly eventId: EntityId;
+  },
+): DecisionEvaluation | null {
+  const office = governingOfficeByKey(world, matter.officeKey);
+  if (!office || matter.family !== "agenda" || matter.options.length < 2)
+    return null;
+  const level =
+    office.jurisdictionId === NATIONAL_ELECTION_JURISDICTION.id
+      ? "federal"
+      : office.stateUsps
+        ? "state"
+        : null;
+  if (!level) return null;
+  const considerations: DecisionConsideration[] = [];
+  for (const option of matter.options) {
+    if (!option.key.startsWith("priority:") || option.key === "priority:none")
+      continue;
+    const familyKey = option.key.slice("priority:".length);
+    const seen = new Set<string>();
+    const answers = npcEligibleProgramConfigurations().flatMap((entry) => {
+      if (entry.familyKey !== familyKey || entry.governmentLevel !== level)
+        return [];
+      const proposition = Object.values(world.policyCatalog.propositions).find(
+        (row) => row.stableKey === entry.propositionKey,
+      );
+      if (!proposition) return [];
+      const key = `${proposition.id}:${entry.answer}`;
+      if (seen.has(key)) return [];
+      seen.add(key);
+      return [{ propositionId: proposition.id, answer: entry.answer }];
+    });
+    const view = principleAnswersConsideration(world, personId, answers);
+    if (view)
+      considerations.push({
+        ...view,
+        stableKey: `agenda:${familyKey}:${view.stableKey}`,
+        optionKey: option.key,
+        direction: view.optionKey === "vote-yea" ? "supports" : "opposes",
+        explanation:
+          view.optionKey === "vote-yea"
+            ? `The recorded principles support the bank's declared policy answers for ${option.label.toLowerCase()}.`
+            : `The recorded principles oppose the bank's declared policy answers for ${option.label.toLowerCase()}.`,
+      });
+  }
+  if (
+    advice &&
+    matter.options.some((option) => option.key === advice.optionKey)
+  )
+    considerations.push({
+      stableKey: "governing:staff-advice",
+      optionKey: advice.optionKey,
+      sourceType: "context:staff-advice",
+      direction: "supports",
+      // The existing executive-bill evaluator gives staff advice this weight.
+      importance: "slight",
+      confidence: "medium",
+      explanation: `The chief of staff advised it: ${advice.reason}`,
+      sourceRefs: [{ kind: "historical-event", eventId: advice.eventId }],
+    });
+  if (!considerations.length) return null;
+  const stableKey = `${matter.stableKey}:agenda:${personId}:${world.currentDate}:${createStableId("decision", JSON.stringify(considerations))}`;
+  const saved = world.history.decisionTraces.find(
+    (trace) => trace.context.stableKey === stableKey,
+  );
+  if (saved) return saved;
+  return evaluateDecision(world, {
+    stableKey,
+    decisionType: "governing:agenda-priority",
+    actorPersonId: personId,
+    cutoff: currentHistoricalCutoff(world),
+    subject: {
+      kind: "context:governing-matter",
+      key: matter.stableKey,
+      entityId: null,
+    },
+    options: matter.options.map((option) => ({
+      key: option.key,
+      label: option.label,
+      description: option.effect,
+    })),
+    constraints: [],
+    considerations,
+    perceptionIds: [],
+    randomness: "none",
+    retention: "durable",
+  });
+}
+
+/** A tie or an unsupported zero is not the engine's alphabetical first option. */
+function supportedAgendaOption(
+  evaluation: DecisionEvaluation | null,
+): string | null {
+  if (!evaluation || evaluation.outcomeKind !== "selected") return null;
+  const scores = evaluation.context.options.map((option) => ({
+    key: option.key,
+    score: evaluation.context.considerations
+      .filter((reason) => reason.optionKey === option.key)
+      .reduce((total, reason) => total + considerationScore(reason), 0),
+  }));
+  const selected = scores.find(
+    (option) => option.key === evaluation.selectedOptionKey,
+  );
+  return selected &&
+    selected.score > 0 &&
+    scores.every(
+      (option) => option.key === selected.key || option.score < selected.score,
+    )
+    ? selected.key
+    : null;
+}
+
 /** What the chief of staff would do, with a reason; null without one. */
 export function staffRecommendation(
   world: World,
@@ -1037,25 +1166,42 @@ export function staffRecommendation(
   readonly optionKey: string;
   readonly byPersonId: EntityId;
   readonly reason: string;
+  readonly evaluation?: DecisionEvaluation;
 } | null {
   const office = governingOfficeByKey(world, matter.officeKey);
   if (!office) return null;
   const chief = chiefOfStaffFor(world, office);
   if (!chief || matter.options.length === 0) return null;
   const assessment = staffAssessment(world, chief);
-  const rng = new SeededRng(`${matter.stableKey}:recommendation:${chief}`);
   switch (matter.family) {
     // Clemency is the officeholder's own power; nobody decides it for them.
     case "chief-of-staff":
     case "clemency":
       return null;
     case "agenda": {
-      const real = matter.options.filter((o) => o.key !== "priority:none");
-      const pick = real.length > 0 ? rng.pick(real) : matter.options[0]!;
+      const priority = currentPriority(world, office);
+      const recorded =
+        matter.status === "decided" && priority
+          ? matter.options.find(
+              (option) => option.key === `priority:${priority}`,
+            )
+          : undefined;
+      if (recorded)
+        return {
+          optionKey: recorded.key,
+          byPersonId: chief,
+          reason: "It matches the priority the officeholder already recorded.",
+        };
+      const evaluation = evaluateAgendaPriority(world, matter, chief);
+      const optionKey = supportedAgendaOption(evaluation);
+      if (!optionKey || !evaluation) return null;
       return {
-        optionKey: pick.key,
+        optionKey,
         byPersonId: chief,
-        reason: `${clause(assessment.background)}, and thinks ${pick.label.toLowerCase()} is where the office can show results.`,
+        reason: evaluation.context.considerations.find(
+          (reason) => reason.optionKey === optionKey,
+        )!.explanation,
+        evaluation,
       };
     }
     case "budget": {
@@ -1433,12 +1579,9 @@ export function openTransitionMatters(world: World, officeKey: string): World {
       ? [sitting, ...candidates.personIds]
       : candidates.personIds,
   });
-  const rng = new SeededRng(`${key}:agenda`);
-  const pool = PROGRAM_FAMILIES.map((family) => family.familyKey);
-  const programKeys: string[] = [];
-  while (programKeys.length < 3 && pool.length > 0) {
-    programKeys.push(pool.splice(rng.integer(0, pool.length), 1)[0]!);
-  }
+  // The content bank supplies the available subjects. A draw must not hide
+  // the one subject the holder's or chief's recorded principles support.
+  const programKeys = PROGRAM_FAMILIES.map((family) => family.familyKey);
   next = openMatter(next, office, {
     family: "agenda",
     instance: "first-year",
@@ -2341,6 +2484,25 @@ export function governingNpcDecisionHandler(
         termEndsAt: office.termEndsAt,
       },
     );
+    // Replaying this same pending context reuses its saved nonselected trace.
+    // Appending that trace changed only the history-sequence cutoff; a changed
+    // actor, petition, date, option or consideration is not the same context.
+    const savedPending = principled.history.decisionTraces.some(
+      (trace) =>
+        trace.stableKey === `${evaluation.context.stableKey}:trace` &&
+        trace.outcomeKind !== "selected" &&
+        trace.selectedOptionKey === null &&
+        JSON.stringify({
+          ...trace.context,
+          cutoff: {
+            ...trace.context.cutoff,
+            historySequenceExclusive:
+              evaluation.context.cutoff.historySequenceExclusive,
+          },
+        }) === JSON.stringify(evaluation.context),
+    );
+    if (savedPending)
+      return resolved(world, "The executive decision remains pending.");
     const traced = recordDurableDecisionTrace(principled, evaluation);
     if (evaluation.outcomeKind !== "selected" || !evaluation.selectedOptionKey)
       return resolved(traced, "The executive decision remains pending.");
@@ -2409,7 +2571,89 @@ export function governingNpcDecisionHandler(
   // Other matters: the officeholder takes the advice of the staff they
   // hired, and a new officeholder keeps or hires the steadiest candidate
   // for chief of staff by their record.
-  const next = world;
+  let next = world;
+  if (matter.family === "agenda") {
+    const chief = chiefOfStaffFor(next, office);
+    next = ensureOfficeholderPrinciples(next, [
+      matter.holderPersonId,
+      ...(chief ? [chief] : []),
+    ]);
+    const advice = staffRecommendation(next, matter);
+    let recordedAdvice:
+      { optionKey: string; reason: string; eventId: EntityId } | undefined;
+    if (advice?.evaluation) {
+      let trace = next.history.decisionTraces.find(
+        (row) => row.decisionId === advice.evaluation!.decisionId,
+      );
+      if (!trace) {
+        next = recordDurableDecisionTrace(next, advice.evaluation);
+        trace = next.history.decisionTraces.at(-1)!;
+      }
+      const adviceKey = `${matter.stableKey}:staff-advice:${trace.id}`;
+      next = recordWorldEvent(next, {
+        stableKey: adviceKey,
+        type: "governing.staff-advice",
+        occurredAt: next.currentDate,
+        recordedAt: next.currentDate,
+        jurisdictionId: office.jurisdictionId,
+        involvedEntityIds: [matter.holderPersonId, advice.byPersonId],
+        participants: [
+          {
+            personId: advice.byPersonId,
+            role: "agency:advisor",
+            detail: advice.optionKey,
+          },
+        ],
+        personFactConstraints: [],
+        visibility: "limited",
+        tags: [
+          STATE_GOVERNING_VERSION,
+          `office:${office.officeKey}`,
+          `matter:${matter.id}`,
+          `choice:${advice.optionKey}`,
+          `decision-trace:${trace.id}`,
+        ],
+        summary: `${personName(next.people[advice.byPersonId]!)}, chief of staff, advised ${matter.options.find((option) => option.key === advice.optionKey)!.label.toLowerCase()}: ${advice.reason}`,
+        context: { ...emptyContext(), choice: advice.reason },
+      });
+      recordedAdvice = {
+        optionKey: advice.optionKey,
+        reason: advice.reason,
+        eventId: next.history.events.find(
+          (event) => event.stableKey === adviceKey,
+        )!.id,
+      };
+    }
+    const own = evaluateAgendaPriority(
+      next,
+      matter,
+      matter.holderPersonId,
+      recordedAdvice,
+    );
+    const chosenKey = supportedAgendaOption(own);
+    const chosen = matter.options.find((option) => option.key === chosenKey);
+    if (!chosen || !own)
+      return resolved(
+        next,
+        "No recorded view or advice selects an agenda priority; the matter remains open.",
+      );
+    if (
+      !next.history.decisionTraces.some(
+        (trace) => trace.decisionId === own.decisionId,
+      )
+    )
+      next = recordDurableDecisionTrace(next, own);
+    return resolved(
+      recordDecision(
+        next,
+        matter,
+        chosen,
+        "officeholder",
+        matter.holderPersonId,
+      ),
+      "The officeholder chose an agenda priority from recorded views or advice.",
+    );
+  }
   const recommendation = staffRecommendation(next, matter);
   const recommended = recommendation
     ? matter.options.find((o) => o.key === recommendation.optionKey)
@@ -2422,20 +2666,17 @@ export function governingNpcDecisionHandler(
             (a, b) => b.assessment!.steadiness! - a.assessment!.steadiness!,
           )[0]
       : undefined;
-  if (
-    (matter.family === "chief-of-staff" || matter.family === "agenda") &&
-    !recommended &&
-    !steadiest
-  )
+  if (matter.family === "chief-of-staff" && !recommended && !steadiest)
     return resolved(
       next,
       "No recorded advice or candidate assessment selects a choice; the matter remains open.",
     );
-  // Remaining families retain their existing fallback, tracked under A92.
-  const option =
-    recommended ??
-    steadiest ??
-    new SeededRng(`${matter.stableKey}:npc-choice`).pick(matter.options);
+  const option = recommended ?? steadiest;
+  if (!option)
+    return resolved(
+      next,
+      "No recorded advice or assessment selects a choice; the matter remains open.",
+    );
   const decided = recordDecision(
     next,
     matter,
@@ -2830,16 +3071,11 @@ export function governingSeasonHandler(
       Number(due.dueAt.slice(0, 4)),
     );
   if (kind === "budget" && office) {
-    const rng = new SeededRng(`${due.stableKey}:subject`);
     const pool = PROGRAM_FAMILIES.map((family) => family.familyKey);
     const priority = currentPriority(world, office);
     const programKeys = [
       ...(priority ? [priority] : []),
-      ...pickDistinct(
-        rng.fork("budget"),
-        pool.filter((key) => key !== priority),
-        priority ? 1 : 2,
-      ),
+      ...pool.filter((key) => key !== priority),
     ];
     next = openMatter(next, office, {
       family: "budget",
@@ -2949,7 +3185,7 @@ export const executiveDesk: ExecutiveDeskHandler = (
   measure,
   blueprint,
 ) =>
-  isCongressMeasure(measure)
+  world.jurisdictions[measure.jurisdictionId]?.kind === "federal"
     ? presidentDesk(world, measure)
     : governorDesk(world, measure, blueprint);
 

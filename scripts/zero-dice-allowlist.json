@@ -689,20 +689,6 @@
       "code": "lowOpportunityShare: 0.18,"
     },
     {
-      "file": "src/simulation/living-world/local-elections.ts",
-      "kind": "fixed-share",
-      "build": "Build 24",
-      "count": 1,
-      "code": "adultShare: 0.75,"
-    },
-    {
-      "file": "src/simulation/living-world/local-elections.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": "if (point < 0) return index;"
-    },
-    {
       "file": "src/simulation/living-world/opening.ts",
       "kind": "roll",
       "build": "Build 7",
@@ -876,20 +862,6 @@
       "build": "Build 27",
       "count": 1,
       "code": "if (roll < 0) return usps;"
-    },
-    {
-      "file": "src/simulation/nationwide-world/presidential-turnover.ts",
-      "kind": "place-in-logic",
-      "build": "Build 27",
-      "count": 1,
-      "code": "(unit.state === \"DC\""
-    },
-    {
-      "file": "src/simulation/nationwide-world/presidential-turnover.ts",
-      "kind": "roll",
-      "build": "Build 27",
-      "count": 1,
-      "code": ": rng.fork(`tie:${unit.state}`).integer(0, 2) === 0"
     },
     {
       "file": "src/simulation/nationwide-world/state-legislature-candidates.ts",

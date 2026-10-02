@@ -1,0 +1,14 @@
+{
+  "auditId": "A105",
+  "authority": "CTO #1627 comment5945622410, October2 12:31 a.m. Eastern",
+  "mainAuditHead": "17f89431c",
+  "branchParent": "3298d3e7bd1c1f4a28632cdefbe1b1f8ceb85289",
+  "audit": "A105 0/2 → 2/2; bare hard-coded panel loop absent, short-panel pending guard present",
+  "checks": {"changedFile": "incomplete-jury.test.ts10/10PASS21.98s", "scopedTypes": "4roots1040dependencies0diagnostics", "lintFormatDiff": "4files0"},
+  "priorPassPreserved": "10/10PASS23.49s before saved-event provenance assertions",
+  "samples": "5jurisdictions drawn without retries fromall56; smallest positive-population sourced town in each",
+  "reuses": ["countyPopulationSharesForPlace", "townRoster", "materializeTownHousehold", "ensureJurisdiction", "existing juryPool excusals and empanelJury"],
+  "limits": ["county catchment is a CTO-admitted estimate, not actual court district data", "12 remains unresearched existing panel size", "county population shares use2020boundaries; resident references use Census estimates/ACS", "missing/tied county or missing positive population remains unsupported and never borrows another county", "five natural panels are not full56natural recruitment proof", "static2/2 is not proof of statutory panel sizes", "clemency1871 fixture failures remain separate"],
+  "notRun": ["officialClaude gate", "browser", "whole-app types", "fullsuite", "unchanged LOAD"],
+  "newExports": ["juryCountyForPlace", "livesInJuryCatchment", "summonJuryResidents"]
+}

@@ -2,6 +2,9 @@ import { addDays, daysBetween, makeIsoDate, spokenDate } from "./dates";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { createStableId } from "./ids";
 import { resolveLegislativeEffectiveDate } from "./legislative-effective-date";
+import { statuteEffectiveRule } from "./governing/statute-effective-date";
+import { enactingGovernmentForPack } from "./legislation-drafting";
+import { recordedSessionAdjournment } from "./governing/session-adjournments";
 import {
   growingIndex,
   indexOverArrays,
@@ -2930,20 +2933,55 @@ export function recordEnactment(
   );
   const pack = legislativeRulePackForWorld(world, measure.rulePackId);
 
-  const resolvedDate = resolveLegislativeEffectiveDate(pack, world.currentDate);
-  // Save executable pack declarations, including a disclosed game profile.
-  // The generic fallback is not a declaration by this particular body.
+  // Chamber passage and concurrence only: a veto override is not the
+  // passage a state counts an effective date from.
+  const finalPassage = measureActions(world, measure.id)
+    .filter(
+      (action) =>
+        action.kind === "floor-stage-passed" || action.kind === "concurred",
+    )
+    .at(-1);
+
+  const government = enactingGovernmentForPack(pack)?.government;
+  const stateRule =
+    government === "state" || government === "territory"
+      ? statuteEffectiveRule(pack.jurisdictionKey)
+      : null;
+  const dateContext = {
+    finalPassageAt: () => finalPassage?.occurredAt ?? null,
+    sessionEnds: (year: number) => {
+      const adjourned = recordedSessionAdjournment(
+        world,
+        measure.rulePackId,
+        year,
+      );
+      return adjourned ? [adjourned.adjournedOn] : null;
+    },
+  };
+  const resolvedDate = resolveLegislativeEffectiveDate(
+    pack,
+    world.currentDate,
+    dateContext,
+  );
+  // A state's canonical default precedes a fictional starting-procedure interval.
+  // Nonstate bodies retain their own executable pack declarations.
   const distinct = pack.enactment.effectiveDateDistinctFromEnactment;
   const packDate =
+    stateRule ||
     pack.enactment.defaultEffectiveSchedule?.kind === "known" ||
     (distinct.kind === "known" && !distinct.value)
       ? resolvedDate
       : null;
   const profile =
     input.effectiveDateGameProfile ??
-    (input.effectiveAt == null && packDate?.kind === "game-default"
+    (input.effectiveAt == null &&
+    packDate?.kind === "game-default" &&
+    packDate.effectiveAt !== null
       ? {
-          version: pack.packId,
+          version:
+            stateRule && resolvedDate.kind === "game-default"
+              ? `${pack.packId}:statute-default-estimate`
+              : pack.packId,
           days: daysBetween(world.currentDate, packDate.effectiveAt),
         }
       : undefined);
@@ -2963,15 +3001,6 @@ export function recordEnactment(
       );
     }
   }
-
-  // Chamber passage and concurrence only: a veto override is not the
-  // passage a state counts an effective date from.
-  const finalPassage = measureActions(world, measure.id)
-    .filter(
-      (action) =>
-        action.kind === "floor-stage-passed" || action.kind === "concurred",
-    )
-    .at(-1);
 
   const next = appendAction(world, {
     measure,
