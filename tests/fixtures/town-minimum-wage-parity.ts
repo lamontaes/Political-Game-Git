@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { expect } from "vitest";
 
 import {
   generateOpeningLife,
@@ -303,196 +303,183 @@ function firstPeriodStart(cadenceKind: string, date: IsoDate): IsoDate {
     day = addDays(day, 1);
   return day;
 }
+export function assertFirstEligibleTownFloorPeriod(): void {
+  const {
+    world: enacted,
+    opened,
+    measures,
+  } = omahaWithMinimumWageLaws([LB_900]);
+  const effectiveAt = addDays(opened, LB_900.effectiveInDays);
+  const omaha = lifePlaceByKey("3137000")!.context.jurisdiction.id;
+  const baseline = omahaWithMinimumWageLaws([]).world;
+  expect(rateOn(enacted, omaha, opened)).toBe(rateOn(baseline, omaha, opened));
+  expect(rateOn(baseline, omaha, opened)).toBeLessThan(18);
+  expect(rateOn(enacted, omaha, addDays(effectiveAt, -1))).toBe(
+    rateOn(baseline, omaha, addDays(effectiveAt, -1)),
+  );
+  expect(rateOn(enacted, omaha, effectiveAt)).toBe(18);
 
-describe(
-  "a state minimum-wage law raises town paychecks on its effective date",
-  { timeout: 600_000 },
-  () => {
-    it("Nebraska raises the floor to $18.00 and every job paid below it is raised from its first pay period after", () => {
-      const {
-        world: enacted,
-        opened,
-        measures,
-      } = omahaWithMinimumWageLaws([LB_900]);
-      const effectiveAt = addDays(opened, LB_900.effectiveInDays);
-      const omaha = lifePlaceByKey("3137000")!.context.jurisdiction.id;
-      const baseline = omahaWithMinimumWageLaws([]).world;
-      expect(rateOn(enacted, omaha, opened)).toBe(
-        rateOn(baseline, omaha, opened),
-      );
-      expect(rateOn(baseline, omaha, opened)).toBeLessThan(18);
-      expect(rateOn(enacted, omaha, addDays(effectiveAt, -1))).toBe(
-        rateOn(baseline, omaha, addDays(effectiveAt, -1)),
-      );
-      expect(rateOn(enacted, omaha, effectiveAt)).toBe(18);
+  const world = runPaydays(enacted, opened, 100);
+  const payFlows = world.history.resourceFlows.filter((flow) =>
+    flow.stableKey.startsWith("town-pay-v2:job-pay:"),
+  );
+  const raises = world.history.resourceFlowTerms.filter((terms) =>
+    terms.lawEffectStamps?.some(
+      (stamp) =>
+        stamp.effectKind === "pay" && measures.includes(stamp.governingLawKey),
+    ),
+  );
+  expect(payFlows.length).toBeGreaterThan(20);
+  expect(raises.length).toBeGreaterThan(0);
 
-      const world = runPaydays(enacted, opened, 100);
-      const payFlows = world.history.resourceFlows.filter((flow) =>
-        flow.stableKey.startsWith("town-pay-v2:job-pay:"),
+  let raisedPaychecks = 0;
+  for (const raise of raises) {
+    const flow = payFlows.find((row) => row.id === raise.resourceFlowId)!;
+    const before = world.history.resourceFlowTerms.find(
+      (terms) => terms.id === raise.supersedesTermsId,
+    )!;
+    // The first day of the first pay period on or after the law's date.
+    expect(raise.effectiveAt).toBe(
+      firstPeriodStart(raise.cadenceKind, effectiveAt),
+    );
+    expect(raise.amount.minorUnits).toBeGreaterThan(before.amount.minorUnits);
+    expectRuleAuthority(world, raise, measures[0]!, LB_900);
+    expect(raise.provenance.kind).toBe("simulated-event");
+    for (const paycheck of world.history.resourceTransferOutcomes) {
+      if (paycheck.resourceFlowId !== flow.id) continue;
+      const raised = paycheck.periodStartsAt >= raise.effectiveAt;
+      expect(paycheck.transferredAmount.minorUnits).toBe(
+        raised ? raise.amount.minorUnits : before.amount.minorUnits,
       );
-      const raises = world.history.resourceFlowTerms.filter((terms) =>
-        terms.lawEffectStamps?.some(
-          (stamp) =>
-            stamp.effectKind === "pay" &&
-            measures.includes(stamp.governingLawKey),
-        ),
-      );
-      expect(payFlows.length).toBeGreaterThan(20);
-      expect(raises.length).toBeGreaterThan(0);
+      if (raised) raisedPaychecks += 1;
+    }
+  }
+  // A counted number of paychecks is raised, none before the law.
+  expect(raisedPaychecks).toBeGreaterThan(0);
+  console.info(
+    `Nebraska LB 900: ${raises.length} of ${payFlows.length} town jobs raised to $18.00; ${raisedPaychecks} paychecks paid at the new rate by ${addDays(opened, 100)}.`,
+  );
+  // No job is left below the new floor.
+  const periodsPerYear: Record<string, number> = {
+    weekly: 52,
+    biweekly: 26,
+    semimonthly: 24,
+    monthly: 12,
+  };
+  for (const flow of payFlows) {
+    if (flow.basisReference.kind !== "work") continue;
+    const workId = flow.basisReference.workRelationshipId;
+    const role = recordsWithFieldValue(
+      world.history.workRoles,
+      "workRelationshipId",
+      workId,
+    ).at(-1)!;
+    const terms = recordsWithFieldValue(
+      world.history.resourceFlowTerms,
+      "resourceFlowId",
+      flow.id,
+    ).at(-1)!;
+    const { minimumHours, maximumHours } = role.timeDemand.expectedWeekly;
+    const period = /town-(\w+?)(?:-\d)?$/.exec(terms.cadenceKind)![1]!;
+    const floor = Math.round(
+      (1_800 * ((minimumHours + maximumHours) / 2) * 52) /
+        periodsPerYear[period]!,
+    );
+    expect(terms.amount.minorUnits, flow.stableKey).toBeGreaterThanOrEqual(
+      floor,
+    );
+  }
+  // Replaying the common payroll writer changes nothing.
+  expect(
+    withWorldIntegrityDeferred(() => payTownPaydays(world, opened, null)),
+  ).toBe(world);
+}
 
-      let raisedPaychecks = 0;
-      for (const raise of raises) {
-        const flow = payFlows.find((row) => row.id === raise.resourceFlowId)!;
-        const before = world.history.resourceFlowTerms.find(
-          (terms) => terms.id === raise.supersedesTermsId,
-        )!;
-        // The first day of the first pay period on or after the law's date.
-        expect(raise.effectiveAt).toBe(
-          firstPeriodStart(raise.cadenceKind, effectiveAt),
-        );
-        expect(raise.amount.minorUnits).toBeGreaterThan(
-          before.amount.minorUnits,
-        );
-        expectRuleAuthority(world, raise, measures[0]!, LB_900);
-        expect(raise.provenance.kind).toBe("simulated-event");
-        for (const paycheck of world.history.resourceTransferOutcomes) {
-          if (paycheck.resourceFlowId !== flow.id) continue;
-          const raised = paycheck.periodStartsAt >= raise.effectiveAt;
-          expect(paycheck.transferredAmount.minorUnits).toBe(
-            raised ? raise.amount.minorUnits : before.amount.minorUnits,
-          );
-          if (raised) raisedPaychecks += 1;
-        }
-      }
-      // A counted number of paychecks is raised, none before the law.
-      expect(raisedPaychecks).toBeGreaterThan(0);
-      console.info(
-        `Nebraska LB 900: ${raises.length} of ${payFlows.length} town jobs raised to $18.00; ${raisedPaychecks} paychecks paid at the new rate by ${addDays(opened, 100)}.`,
-      );
-      // No job is left below the new floor.
-      const periodsPerYear: Record<string, number> = {
-        weekly: 52,
-        biweekly: 26,
-        semimonthly: 24,
-        monthly: 12,
-      };
-      for (const flow of payFlows) {
-        if (flow.basisReference.kind !== "work") continue;
-        const workId = flow.basisReference.workRelationshipId;
-        const role = recordsWithFieldValue(
-          world.history.workRoles,
-          "workRelationshipId",
-          workId,
-        ).at(-1)!;
-        const terms = recordsWithFieldValue(
-          world.history.resourceFlowTerms,
-          "resourceFlowId",
-          flow.id,
-        ).at(-1)!;
-        const { minimumHours, maximumHours } = role.timeDemand.expectedWeekly;
-        const period = /town-(\w+?)(?:-\d)?$/.exec(terms.cadenceKind)![1]!;
-        const floor = Math.round(
-          (1_800 * ((minimumHours + maximumHours) / 2) * 52) /
-            periodsPerYear[period]!,
-        );
-        expect(terms.amount.minorUnits, flow.stableKey).toBeGreaterThanOrEqual(
-          floor,
-        );
-      }
-      // Replaying the common payroll writer changes nothing.
-      expect(
-        withWorldIntegrityDeferred(() => payTownPaydays(world, opened, null)),
-      ).toBe(world);
-    });
+export function assertTownFloorJurisdictionIsolation(): void {
+  const { world, opened } = omahaWithMinimumWageLaws([LB_900]);
+  const baseline = omahaWithMinimumWageLaws([]).world;
+  const effectiveAt = addDays(opened, LB_900.effectiveInDays);
+  const largest = new Map<string, string>();
+  const people = new Map<string, number>();
+  for (const pair of PLACE_POPULATION_ROWS.split(";")) {
+    const [geoid, count] = pair.split(":") as [string, string];
+    const state = geoid.slice(0, 2);
+    if ((people.get(state) ?? -1) < Number(count)) {
+      people.set(state, Number(count));
+      largest.set(state, geoid);
+    }
+  }
+  // Hawaii has no incorporated places; Honolulu is its census place.
+  largest.set("15", "1571550");
+  largest.set("72", "7276770");
+  for (const [key, , usps] of TERRITORY_PLACE_ROWS)
+    if (!largest.has(usps)) largest.set(usps, key);
+  expect(largest.size).toBe(56);
+  for (const key of largest.values()) {
+    const place = lifePlaceByKey(key)!;
+    const jurisdiction = place.context.jurisdiction.id;
+    expect(rateOn(world, jurisdiction, effectiveAt), key).toBe(
+      place.stateJurisdictionKey === "US-NE"
+        ? 18
+        : rateOn(baseline, jurisdiction, effectiveAt),
+    );
+  }
+}
 
-    it("reaches Nebraska alone: every other state, D.C. and territory keeps its own rate", () => {
-      const { world, opened } = omahaWithMinimumWageLaws([LB_900]);
-      const baseline = omahaWithMinimumWageLaws([]).world;
-      const effectiveAt = addDays(opened, LB_900.effectiveInDays);
-      const largest = new Map<string, string>();
-      const people = new Map<string, number>();
-      for (const pair of PLACE_POPULATION_ROWS.split(";")) {
-        const [geoid, count] = pair.split(":") as [string, string];
-        const state = geoid.slice(0, 2);
-        if ((people.get(state) ?? -1) < Number(count)) {
-          people.set(state, Number(count));
-          largest.set(state, geoid);
-        }
-      }
-      // Hawaii has no incorporated places; Honolulu is its census place.
-      largest.set("15", "1571550");
-      largest.set("72", "7276770");
-      for (const [key, , usps] of TERRITORY_PLACE_ROWS)
-        if (!largest.has(usps)) largest.set(usps, key);
-      expect(largest.size).toBe(56);
-      for (const key of largest.values()) {
-        const place = lifePlaceByKey(key)!;
-        const jurisdiction = place.context.jurisdiction.id;
-        expect(rateOn(world, jurisdiction, effectiveAt), key).toBe(
-          place.stateJurisdictionKey === "US-NE"
-            ? 18
-            : rateOn(baseline, jurisdiction, effectiveAt),
-        );
-      }
-    });
-
-    it("a game that skips past two laws records each raise and pays each period at its own rate", () => {
-      const LB_901: MinimumWageBill = {
-        key: "lb-901",
-        designation: "LB 901, 2026",
-        cents: 2_000,
-        effectiveInDays: 75,
-      };
-      const {
-        world: enacted,
-        opened,
-        measures,
-      } = omahaWithMinimumWageLaws([LB_900, LB_901]);
-      const world = runPaydays(enacted, opened, 100, false);
-      const raises = world.history.resourceFlowTerms.filter((terms) =>
-        terms.lawEffectStamps?.some(
-          (stamp) =>
-            stamp.effectKind === "pay" &&
-            measures.includes(stamp.governingLawKey),
-        ),
-      );
-      const byFlow = new Map<string, typeof raises>();
-      for (const raise of raises)
-        byFlow.set(raise.resourceFlowId, [
-          ...(byFlow.get(raise.resourceFlowId) ?? []),
-          raise,
-        ]);
-      // Somebody under $18.00 is raised twice: to $18.00, then to $20.00.
-      const twice = [...byFlow.values()].filter((list) => list.length === 2);
-      expect(twice.length).toBeGreaterThan(0);
-      for (const [first, second] of twice) {
-        expectRuleAuthority(world, first!, measures[0]!, LB_900);
-        expectRuleAuthority(world, second!, measures[1]!, LB_901);
-        expect(first!.effectiveAt).toBe(
-          firstPeriodStart(
-            first!.cadenceKind,
-            addDays(opened, LB_900.effectiveInDays),
-          ),
-        );
-        expect(second!.effectiveAt).toBe(
-          firstPeriodStart(
-            second!.cadenceKind,
-            addDays(opened, LB_901.effectiveInDays),
-          ),
-        );
-        for (const paycheck of world.history.resourceTransferOutcomes) {
-          if (paycheck.resourceFlowId !== first!.resourceFlowId) continue;
-          const expected =
-            paycheck.periodStartsAt >= second!.effectiveAt
-              ? second!.amount
-              : paycheck.periodStartsAt >= first!.effectiveAt
-                ? first!.amount
-                : world.history.resourceFlowTerms.find(
-                    (terms) => terms.id === first!.supersedesTermsId,
-                  )!.amount;
-          expect(paycheck.transferredAmount).toEqual(expected);
-        }
-      }
-    });
-  },
-);
+export function assertTownFloorTwoLawCatchup(): void {
+  const LB_901: MinimumWageBill = {
+    key: "lb-901",
+    designation: "LB 901, 2026",
+    cents: 2_000,
+    effectiveInDays: 75,
+  };
+  const {
+    world: enacted,
+    opened,
+    measures,
+  } = omahaWithMinimumWageLaws([LB_900, LB_901]);
+  const world = runPaydays(enacted, opened, 100, false);
+  const raises = world.history.resourceFlowTerms.filter((terms) =>
+    terms.lawEffectStamps?.some(
+      (stamp) =>
+        stamp.effectKind === "pay" && measures.includes(stamp.governingLawKey),
+    ),
+  );
+  const byFlow = new Map<string, typeof raises>();
+  for (const raise of raises)
+    byFlow.set(raise.resourceFlowId, [
+      ...(byFlow.get(raise.resourceFlowId) ?? []),
+      raise,
+    ]);
+  // Somebody under $18.00 is raised twice: to $18.00, then to $20.00.
+  const twice = [...byFlow.values()].filter((list) => list.length === 2);
+  expect(twice.length).toBeGreaterThan(0);
+  for (const [first, second] of twice) {
+    expectRuleAuthority(world, first!, measures[0]!, LB_900);
+    expectRuleAuthority(world, second!, measures[1]!, LB_901);
+    expect(first!.effectiveAt).toBe(
+      firstPeriodStart(
+        first!.cadenceKind,
+        addDays(opened, LB_900.effectiveInDays),
+      ),
+    );
+    expect(second!.effectiveAt).toBe(
+      firstPeriodStart(
+        second!.cadenceKind,
+        addDays(opened, LB_901.effectiveInDays),
+      ),
+    );
+    for (const paycheck of world.history.resourceTransferOutcomes) {
+      if (paycheck.resourceFlowId !== first!.resourceFlowId) continue;
+      const expected =
+        paycheck.periodStartsAt >= second!.effectiveAt
+          ? second!.amount
+          : paycheck.periodStartsAt >= first!.effectiveAt
+            ? first!.amount
+            : world.history.resourceFlowTerms.find(
+                (terms) => terms.id === first!.supersedesTermsId,
+              )!.amount;
+      expect(paycheck.transferredAmount).toEqual(expected);
+    }
+  }
+}

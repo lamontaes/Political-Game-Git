@@ -1,0 +1,1100 @@
+{
+  "sourceHead": "c74e6d8fd126e99bc648195fb1c011e6d665e534",
+  "playerSourceBlob": "ac454c32b73cf6737a60657d2579d9415dca1f79",
+  "townSourceBlob": "b56f142f2d3371c5e7945d2105d54296aa954886",
+  "interruptedRun": {
+    "session": 20949,
+    "exit": 143,
+    "result": "NO RESULT; zero completed cases/files",
+    "duration": "approximately71min",
+    "rootLog": "/private/tmp/a38-parity-tests-retry.log"
+  },
+  "scope": {
+    "before": 59,
+    "after": 59,
+    "playerPlaces": 56,
+    "townCases": 3,
+    "playerPartition": [
+      14,
+      14,
+      14,
+      14
+    ],
+    "beforeAfterEqual": true
+  },
+  "assertionBodies": [
+    {
+      "case": "matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "before": "3d1e2832ba69ef78960273ee3067ec035b3383cbe29edfbcd7036ea592cb7606",
+      "after": "3d1e2832ba69ef78960273ee3067ec035b3383cbe29edfbcd7036ea592cb7606"
+    },
+    {
+      "case": "Nebraska raises the floor to $18.00 and every job paid below it is raised from its first pay period after",
+      "before": "cb69385f1307d22f66341b4bd47bb82aedbe19d0702e649b6a516e90c4da9e92",
+      "after": "cb69385f1307d22f66341b4bd47bb82aedbe19d0702e649b6a516e90c4da9e92"
+    },
+    {
+      "case": "reaches Nebraska alone: every other state, D.C. and territory keeps its own rate",
+      "before": "33a5ffbf939861b61d86aa6ea71a318303c3827c0b6dad1fad5141dcb95870af",
+      "after": "33a5ffbf939861b61d86aa6ea71a318303c3827c0b6dad1fad5141dcb95870af"
+    },
+    {
+      "case": "a game that skips past two laws records each raise and pays each period at its own rate",
+      "before": "e44d3b0f7385f9c071219ebed3229b15c93a3a6a4445128953ece96391b6600f",
+      "after": "e44d3b0f7385f9c071219ebed3229b15c93a3a6a4445128953ece96391b6600f"
+    }
+  ],
+  "allPlacesBody": {
+    "before": "319e0361def7b6204e9e963469edd42ea92ab0d334d2c73642faad4929e6045b",
+    "after": "319e0361def7b6204e9e963469edd42ea92ab0d334d2c73642faad4929e6045b"
+  },
+  "before": [
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 01 (player-town-payroll:0137000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "01",
+      "key": "0137000",
+      "seed": "player-town-payroll:0137000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 02 (player-town-payroll:0203000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "02",
+      "key": "0203000",
+      "seed": "player-town-payroll:0203000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 04 (player-town-payroll:0455000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "04",
+      "key": "0455000",
+      "seed": "player-town-payroll:0455000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 05 (player-town-payroll:0541000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "05",
+      "key": "0541000",
+      "seed": "player-town-payroll:0541000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 06 (player-town-payroll:0644000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "06",
+      "key": "0644000",
+      "seed": "player-town-payroll:0644000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 08 (player-town-payroll:0820000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "08",
+      "key": "0820000",
+      "seed": "player-town-payroll:0820000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 09 (player-town-payroll:0908000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "09",
+      "key": "0908000",
+      "seed": "player-town-payroll:0908000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 10 (player-town-payroll:1077580) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "10",
+      "key": "1077580",
+      "seed": "player-town-payroll:1077580",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 11 (player-town-payroll:1150000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "11",
+      "key": "1150000",
+      "seed": "player-town-payroll:1150000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 12 (player-town-payroll:1235000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "12",
+      "key": "1235000",
+      "seed": "player-town-payroll:1235000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 13 (player-town-payroll:1304000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "13",
+      "key": "1304000",
+      "seed": "player-town-payroll:1304000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 16 (player-town-payroll:1608830) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "16",
+      "key": "1608830",
+      "seed": "player-town-payroll:1608830",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 17 (player-town-payroll:1714000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "17",
+      "key": "1714000",
+      "seed": "player-town-payroll:1714000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 18 (player-town-payroll:1836003) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "18",
+      "key": "1836003",
+      "seed": "player-town-payroll:1836003",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 19 (player-town-payroll:1921000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "19",
+      "key": "1921000",
+      "seed": "player-town-payroll:1921000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 20 (player-town-payroll:2079000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "20",
+      "key": "2079000",
+      "seed": "player-town-payroll:2079000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 21 (player-town-payroll:2148006) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "21",
+      "key": "2148006",
+      "seed": "player-town-payroll:2148006",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 22 (player-town-payroll:2255000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "22",
+      "key": "2255000",
+      "seed": "player-town-payroll:2255000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 23 (player-town-payroll:2360545) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "23",
+      "key": "2360545",
+      "seed": "player-town-payroll:2360545",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 24 (player-town-payroll:2404000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "24",
+      "key": "2404000",
+      "seed": "player-town-payroll:2404000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 25 (player-town-payroll:2507000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "25",
+      "key": "2507000",
+      "seed": "player-town-payroll:2507000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 26 (player-town-payroll:2622000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "26",
+      "key": "2622000",
+      "seed": "player-town-payroll:2622000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 27 (player-town-payroll:2743000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "27",
+      "key": "2743000",
+      "seed": "player-town-payroll:2743000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 28 (player-town-payroll:2836000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "28",
+      "key": "2836000",
+      "seed": "player-town-payroll:2836000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 29 (player-town-payroll:2938000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "29",
+      "key": "2938000",
+      "seed": "player-town-payroll:2938000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 30 (player-town-payroll:3006550) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "30",
+      "key": "3006550",
+      "seed": "player-town-payroll:3006550",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 31 (player-town-payroll:3137000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "31",
+      "key": "3137000",
+      "seed": "player-town-payroll:3137000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 32 (player-town-payroll:3240000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "32",
+      "key": "3240000",
+      "seed": "player-town-payroll:3240000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 33 (player-town-payroll:3345140) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "33",
+      "key": "3345140",
+      "seed": "player-town-payroll:3345140",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 34 (player-town-payroll:3451000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "34",
+      "key": "3451000",
+      "seed": "player-town-payroll:3451000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 35 (player-town-payroll:3502000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "35",
+      "key": "3502000",
+      "seed": "player-town-payroll:3502000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 36 (player-town-payroll:3651000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "36",
+      "key": "3651000",
+      "seed": "player-town-payroll:3651000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 37 (player-town-payroll:3712000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "37",
+      "key": "3712000",
+      "seed": "player-town-payroll:3712000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 38 (player-town-payroll:3825700) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "38",
+      "key": "3825700",
+      "seed": "player-town-payroll:3825700",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 39 (player-town-payroll:3918000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "39",
+      "key": "3918000",
+      "seed": "player-town-payroll:3918000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 40 (player-town-payroll:4055000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "40",
+      "key": "4055000",
+      "seed": "player-town-payroll:4055000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 41 (player-town-payroll:4159000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "41",
+      "key": "4159000",
+      "seed": "player-town-payroll:4159000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 42 (player-town-payroll:4260000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "42",
+      "key": "4260000",
+      "seed": "player-town-payroll:4260000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 44 (player-town-payroll:4459000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "44",
+      "key": "4459000",
+      "seed": "player-town-payroll:4459000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 45 (player-town-payroll:4513330) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "45",
+      "key": "4513330",
+      "seed": "player-town-payroll:4513330",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 46 (player-town-payroll:4659020) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "46",
+      "key": "4659020",
+      "seed": "player-town-payroll:4659020",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 47 (player-town-payroll:4752006) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "47",
+      "key": "4752006",
+      "seed": "player-town-payroll:4752006",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 48 (player-town-payroll:4835000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "48",
+      "key": "4835000",
+      "seed": "player-town-payroll:4835000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 49 (player-town-payroll:4967000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "49",
+      "key": "4967000",
+      "seed": "player-town-payroll:4967000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 50 (player-town-payroll:5010675) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "50",
+      "key": "5010675",
+      "seed": "player-town-payroll:5010675",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 51 (player-town-payroll:5182000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "51",
+      "key": "5182000",
+      "seed": "player-town-payroll:5182000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 53 (player-town-payroll:5363000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "53",
+      "key": "5363000",
+      "seed": "player-town-payroll:5363000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 54 (player-town-payroll:5414600) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "54",
+      "key": "5414600",
+      "seed": "player-town-payroll:5414600",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 55 (player-town-payroll:5553000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "55",
+      "key": "5553000",
+      "seed": "player-town-payroll:5553000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 56 (player-town-payroll:5613900) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "56",
+      "key": "5613900",
+      "seed": "player-town-payroll:5613900",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 15 (player-town-payroll:1571550) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "15",
+      "key": "1571550",
+      "seed": "player-town-payroll:1571550",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 72 (player-town-payroll:7276770) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "72",
+      "key": "7276770",
+      "seed": "player-town-payroll:7276770",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in GU (player-town-payroll:territory:GU:agana-heights) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "GU",
+      "key": "territory:GU:agana-heights",
+      "seed": "player-town-payroll:territory:GU:agana-heights",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in VI (player-town-payroll:territory:VI:charlotte-amalie) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "VI",
+      "key": "territory:VI:charlotte-amalie",
+      "seed": "player-town-payroll:territory:VI:charlotte-amalie",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in AS (player-town-payroll:territory:AS:pago-pago) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "AS",
+      "key": "territory:AS:pago-pago",
+      "seed": "player-town-payroll:territory:AS:pago-pago",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in MP (player-town-payroll:territory:MP:garapan) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "MP",
+      "key": "territory:MP:garapan",
+      "seed": "player-town-payroll:territory:MP:garapan",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll.test.ts"
+    },
+    {
+      "kind": "town",
+      "name": "a state minimum-wage law raises town paychecks on its effective date > Nebraska raises the floor to $18.00 and every job paid below it is raised from its first pay period after",
+      "timeout": 600000,
+      "sourceFile": "tests/nationwide/town-minimum-wage-law.test.ts"
+    },
+    {
+      "kind": "town",
+      "name": "a state minimum-wage law raises town paychecks on its effective date > reaches Nebraska alone: every other state, D.C. and territory keeps its own rate",
+      "timeout": 600000,
+      "sourceFile": "tests/nationwide/town-minimum-wage-law.test.ts"
+    },
+    {
+      "kind": "town",
+      "name": "a state minimum-wage law raises town paychecks on its effective date > a game that skips past two laws records each raise and pays each period at its own rate",
+      "timeout": 600000,
+      "sourceFile": "tests/nationwide/town-minimum-wage-law.test.ts"
+    }
+  ],
+  "after": [
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 01 (player-town-payroll:0137000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "01",
+      "key": "0137000",
+      "seed": "player-town-payroll:0137000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-1.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 02 (player-town-payroll:0203000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "02",
+      "key": "0203000",
+      "seed": "player-town-payroll:0203000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-2.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 04 (player-town-payroll:0455000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "04",
+      "key": "0455000",
+      "seed": "player-town-payroll:0455000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-3.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 05 (player-town-payroll:0541000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "05",
+      "key": "0541000",
+      "seed": "player-town-payroll:0541000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-4.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 06 (player-town-payroll:0644000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "06",
+      "key": "0644000",
+      "seed": "player-town-payroll:0644000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-1.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 08 (player-town-payroll:0820000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "08",
+      "key": "0820000",
+      "seed": "player-town-payroll:0820000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-2.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 09 (player-town-payroll:0908000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "09",
+      "key": "0908000",
+      "seed": "player-town-payroll:0908000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-3.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 10 (player-town-payroll:1077580) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "10",
+      "key": "1077580",
+      "seed": "player-town-payroll:1077580",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-4.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 11 (player-town-payroll:1150000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "11",
+      "key": "1150000",
+      "seed": "player-town-payroll:1150000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-1.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 12 (player-town-payroll:1235000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "12",
+      "key": "1235000",
+      "seed": "player-town-payroll:1235000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-2.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 13 (player-town-payroll:1304000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "13",
+      "key": "1304000",
+      "seed": "player-town-payroll:1304000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-3.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 16 (player-town-payroll:1608830) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "16",
+      "key": "1608830",
+      "seed": "player-town-payroll:1608830",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-4.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 17 (player-town-payroll:1714000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "17",
+      "key": "1714000",
+      "seed": "player-town-payroll:1714000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-1.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 18 (player-town-payroll:1836003) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "18",
+      "key": "1836003",
+      "seed": "player-town-payroll:1836003",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-2.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 19 (player-town-payroll:1921000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "19",
+      "key": "1921000",
+      "seed": "player-town-payroll:1921000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-3.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 20 (player-town-payroll:2079000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "20",
+      "key": "2079000",
+      "seed": "player-town-payroll:2079000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-4.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 21 (player-town-payroll:2148006) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "21",
+      "key": "2148006",
+      "seed": "player-town-payroll:2148006",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-1.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 22 (player-town-payroll:2255000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "22",
+      "key": "2255000",
+      "seed": "player-town-payroll:2255000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-2.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 23 (player-town-payroll:2360545) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "23",
+      "key": "2360545",
+      "seed": "player-town-payroll:2360545",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-3.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 24 (player-town-payroll:2404000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "24",
+      "key": "2404000",
+      "seed": "player-town-payroll:2404000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-4.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 25 (player-town-payroll:2507000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "25",
+      "key": "2507000",
+      "seed": "player-town-payroll:2507000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-1.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 26 (player-town-payroll:2622000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "26",
+      "key": "2622000",
+      "seed": "player-town-payroll:2622000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-2.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 27 (player-town-payroll:2743000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "27",
+      "key": "2743000",
+      "seed": "player-town-payroll:2743000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-3.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 28 (player-town-payroll:2836000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "28",
+      "key": "2836000",
+      "seed": "player-town-payroll:2836000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-4.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 29 (player-town-payroll:2938000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "29",
+      "key": "2938000",
+      "seed": "player-town-payroll:2938000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-1.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 30 (player-town-payroll:3006550) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "30",
+      "key": "3006550",
+      "seed": "player-town-payroll:3006550",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-2.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 31 (player-town-payroll:3137000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "31",
+      "key": "3137000",
+      "seed": "player-town-payroll:3137000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-3.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 32 (player-town-payroll:3240000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "32",
+      "key": "3240000",
+      "seed": "player-town-payroll:3240000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-4.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 33 (player-town-payroll:3345140) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "33",
+      "key": "3345140",
+      "seed": "player-town-payroll:3345140",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-1.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 34 (player-town-payroll:3451000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "34",
+      "key": "3451000",
+      "seed": "player-town-payroll:3451000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-2.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 35 (player-town-payroll:3502000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "35",
+      "key": "3502000",
+      "seed": "player-town-payroll:3502000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-3.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 36 (player-town-payroll:3651000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "36",
+      "key": "3651000",
+      "seed": "player-town-payroll:3651000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-4.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 37 (player-town-payroll:3712000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "37",
+      "key": "3712000",
+      "seed": "player-town-payroll:3712000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-1.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 38 (player-town-payroll:3825700) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "38",
+      "key": "3825700",
+      "seed": "player-town-payroll:3825700",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-2.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 39 (player-town-payroll:3918000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "39",
+      "key": "3918000",
+      "seed": "player-town-payroll:3918000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-3.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 40 (player-town-payroll:4055000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "40",
+      "key": "4055000",
+      "seed": "player-town-payroll:4055000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-4.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 41 (player-town-payroll:4159000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "41",
+      "key": "4159000",
+      "seed": "player-town-payroll:4159000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-1.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 42 (player-town-payroll:4260000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "42",
+      "key": "4260000",
+      "seed": "player-town-payroll:4260000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-2.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 44 (player-town-payroll:4459000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "44",
+      "key": "4459000",
+      "seed": "player-town-payroll:4459000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-3.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 45 (player-town-payroll:4513330) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "45",
+      "key": "4513330",
+      "seed": "player-town-payroll:4513330",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-4.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 46 (player-town-payroll:4659020) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "46",
+      "key": "4659020",
+      "seed": "player-town-payroll:4659020",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-1.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 47 (player-town-payroll:4752006) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "47",
+      "key": "4752006",
+      "seed": "player-town-payroll:4752006",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-2.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 48 (player-town-payroll:4835000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "48",
+      "key": "4835000",
+      "seed": "player-town-payroll:4835000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-3.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 49 (player-town-payroll:4967000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "49",
+      "key": "4967000",
+      "seed": "player-town-payroll:4967000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-4.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 50 (player-town-payroll:5010675) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "50",
+      "key": "5010675",
+      "seed": "player-town-payroll:5010675",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-1.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 51 (player-town-payroll:5182000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "51",
+      "key": "5182000",
+      "seed": "player-town-payroll:5182000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-2.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 53 (player-town-payroll:5363000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "53",
+      "key": "5363000",
+      "seed": "player-town-payroll:5363000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-3.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 54 (player-town-payroll:5414600) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "54",
+      "key": "5414600",
+      "seed": "player-town-payroll:5414600",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-4.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 55 (player-town-payroll:5553000) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "55",
+      "key": "5553000",
+      "seed": "player-town-payroll:5553000",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-1.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 56 (player-town-payroll:5613900) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "56",
+      "key": "5613900",
+      "seed": "player-town-payroll:5613900",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-2.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 15 (player-town-payroll:1571550) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "15",
+      "key": "1571550",
+      "seed": "player-town-payroll:1571550",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-3.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in 72 (player-town-payroll:7276770) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "72",
+      "key": "7276770",
+      "seed": "player-town-payroll:7276770",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-4.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in GU (player-town-payroll:territory:GU:agana-heights) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "GU",
+      "key": "territory:GU:agana-heights",
+      "seed": "player-town-payroll:territory:GU:agana-heights",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-1.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in VI (player-town-payroll:territory:VI:charlotte-amalie) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "VI",
+      "key": "territory:VI:charlotte-amalie",
+      "seed": "player-town-payroll:territory:VI:charlotte-amalie",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-2.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in AS (player-town-payroll:territory:AS:pago-pago) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "AS",
+      "key": "territory:AS:pago-pago",
+      "seed": "player-town-payroll:territory:AS:pago-pago",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-3.test.ts"
+    },
+    {
+      "kind": "player",
+      "name": "one payroll for a played worker in MP (player-town-payroll:territory:MP:garapan) > matches the NPC's gross, tax rows, net and employer cash and survives reopening",
+      "state": "MP",
+      "key": "territory:MP:garapan",
+      "seed": "player-town-payroll:territory:MP:garapan",
+      "timeout": 120000,
+      "sourceFile": "tests/nationwide/player-town-payroll-part-4.test.ts"
+    },
+    {
+      "kind": "town",
+      "name": "a state minimum-wage law raises town paychecks on its effective date > Nebraska raises the floor to $18.00 and every job paid below it is raised from its first pay period after",
+      "timeout": 600000,
+      "sourceFile": "tests/nationwide/town-minimum-wage-first-period.test.ts"
+    },
+    {
+      "kind": "town",
+      "name": "a state minimum-wage law raises town paychecks on its effective date > reaches Nebraska alone: every other state, D.C. and territory keeps its own rate",
+      "timeout": 600000,
+      "sourceFile": "tests/nationwide/town-minimum-wage-isolation.test.ts"
+    },
+    {
+      "kind": "town",
+      "name": "a state minimum-wage law raises town paychecks on its effective date > a game that skips past two laws records each raise and pays each period at its own rate",
+      "timeout": 600000,
+      "sourceFile": "tests/nationwide/town-minimum-wage-catchup.test.ts"
+    }
+  ],
+  "nativeValidation": "NOT RUN; collection-only source manifest, not production/runtime proof"
+}
