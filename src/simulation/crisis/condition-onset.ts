@@ -1,4 +1,4 @@
-import { addDays } from "../dates";
+import { addDays, daysBetween } from "../dates";
 import type { FutureTransitionHandler } from "../types";
 import { isPersonAliveAt } from "../vitality";
 import {
@@ -64,7 +64,12 @@ export const conditionOnsetHandler: FutureTransitionHandler = (world, item) => {
       item.id,
       ...(pushedBy && onsetCauseFactor(pushedBy) !== 1 ? [pushedBy.id] : []),
     ],
-    hazard: conditionHazard(key),
+    hazard: conditionHazard(
+      world.seed,
+      personId,
+      key,
+      daysBetween(strain.birthDate, today) / 365.25,
+    ),
   });
   const began = next.history.events.find(
     (event) =>

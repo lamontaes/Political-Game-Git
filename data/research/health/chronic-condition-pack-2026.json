@@ -26,6 +26,11 @@
       "title": "Births in the United States, 2022 (NCHS Data Brief No. 477) and Births: Final Data for 2022",
       "url": "https://www.cdc.gov/nchs/products/databriefs/db477.htm",
       "note": "Preterm birth rate 10.38% in 2022. The share born before 28 weeks is not in the brief; the row below is a PLACEHOLDER until the final-data table is read."
+    },
+    "fraser-2021": {
+      "publisher": "Palliative Medicine (SAGE)",
+      "title": "Estimating the current and future prevalence of life-limiting conditions in children in England (Fraser, Gibson-Smith, Jarvis, Norman and Parslow, Palliative Medicine 35(9), 2021)",
+      "note": "England, not the United States; used only as the order of size for the childhood row."
     }
   },
   "prevalenceNote": "Each row gives the share of people of an age band who already have the condition, at the band's middle age. Between middles the share slides in a straight line; below the first middle it slides to zero at the band's start, and above the last it holds. A band's share is the source's figure, not a modeled one.",
@@ -55,14 +60,14 @@
         }
       ],
       "mortalityWeight": {
-        "value": 2.0,
-        "status": "PLACEHOLDER",
-        "note": "All-cause mortality multiplier while the condition is held; unresearched (research question chronic-condition-mortality-weights)."
-      },
-      "onsetScale": {
         "value": 1.0,
         "status": "PLACEHOLDER",
-        "note": "Multiplies the life table age hazard for this condition strain; at 1 an ordinary person crosses the threshold at the median remaining life of their age."
+        "note": "Relative weight of this condition against the others, before its severity grade and age factor. All 1.0 until condition-specific hazard ratios are read (research question chronic-condition-mortality-weights)."
+      },
+      "onsetScale": {
+        "value": 0.4,
+        "status": "PLACEHOLDER",
+        "note": "Calibrated (Ruling 39). Multiplies the life table age hazard for this condition's own strain; at 0.4 an ordinary person begins the condition later than the table's median remaining life of their age."
       }
     },
     {
@@ -90,14 +95,14 @@
         }
       ],
       "mortalityWeight": {
-        "value": 1.8,
+        "value": 1.0,
         "status": "PLACEHOLDER",
-        "note": "Ever diagnosed, including survivors; unresearched."
+        "note": "Relative weight of this condition against the others, before its severity grade and age factor. All 1.0 until condition-specific hazard ratios are read (research question chronic-condition-mortality-weights)."
       },
       "onsetScale": {
-        "value": 0.8,
+        "value": 0.4,
         "status": "PLACEHOLDER",
-        "note": "Multiplies the life table age hazard for this condition strain; at 1 an ordinary person crosses the threshold at the median remaining life of their age."
+        "note": "Calibrated (Ruling 39). Multiplies the life table age hazard for this condition's own strain; at 0.4 an ordinary person begins the condition later than the table's median remaining life of their age."
       }
     },
     {
@@ -148,14 +153,14 @@
         "note": "Men 3.4% and women 4.1% against 3.8% for all adults."
       },
       "mortalityWeight": {
-        "value": 2.5,
+        "value": 1.0,
         "status": "PLACEHOLDER",
-        "note": "Unresearched."
+        "note": "Relative weight of this condition against the others, before its severity grade and age factor. All 1.0 until condition-specific hazard ratios are read (research question chronic-condition-mortality-weights)."
       },
       "onsetScale": {
-        "value": 0.5,
+        "value": 0.4,
         "status": "PLACEHOLDER",
-        "note": "Multiplies the life table age hazard for this condition strain; at 1 an ordinary person crosses the threshold at the median remaining life of their age."
+        "note": "Calibrated (Ruling 39). Multiplies the life table age hazard for this condition's own strain; at 0.4 an ordinary person begins the condition later than the table's median remaining life of their age."
       }
     },
     {
@@ -183,14 +188,14 @@
         }
       ],
       "mortalityWeight": {
-        "value": 2.0,
+        "value": 1.0,
         "status": "PLACEHOLDER",
-        "note": "Unresearched."
+        "note": "Relative weight of this condition against the others, before its severity grade and age factor. All 1.0 until condition-specific hazard ratios are read (research question chronic-condition-mortality-weights)."
       },
       "onsetScale": {
-        "value": 0.5,
+        "value": 0.4,
         "status": "PLACEHOLDER",
-        "note": "Multiplies the life table age hazard for this condition strain; at 1 an ordinary person crosses the threshold at the median remaining life of their age."
+        "note": "Calibrated (Ruling 39). Multiplies the life table age hazard for this condition's own strain; at 0.4 an ordinary person begins the condition later than the table's median remaining life of their age."
       }
     },
     {
@@ -217,14 +222,14 @@
         }
       ],
       "mortalityWeight": {
-        "value": 1.8,
-        "status": "PLACEHOLDER",
-        "note": "Unresearched."
-      },
-      "onsetScale": {
         "value": 1.0,
         "status": "PLACEHOLDER",
-        "note": "Multiplies the life table age hazard for this condition strain; at 1 an ordinary person crosses the threshold at the median remaining life of their age."
+        "note": "Relative weight of this condition against the others, before its severity grade and age factor. All 1.0 until condition-specific hazard ratios are read (research question chronic-condition-mortality-weights)."
+      },
+      "onsetScale": {
+        "value": 0.4,
+        "status": "PLACEHOLDER",
+        "note": "Calibrated (Ruling 39). Multiplies the life table age hazard for this condition's own strain; at 0.4 an ordinary person begins the condition later than the table's median remaining life of their age."
       }
     },
     {
@@ -241,9 +246,29 @@
         }
       ],
       "mortalityWeight": {
-        "value": 200,
+        "value": 264,
         "status": "PLACEHOLDER",
-        "note": "Unresearched; sized so the first year's strain crosses the threshold, against the life table's infant hazard."
+        "note": "Calibrated (Ruling 39) so births before 28 weeks carry the first year's strain; a condition of birth takes no severity grade or age factor."
+      },
+      "onsetScale": null
+    },
+    {
+      "key": "life-limiting-childhood",
+      "label": "a life-limiting condition from childhood",
+      "childhood": true,
+      "prevalence": [
+        {
+          "fromAge": 1,
+          "toAge": 17,
+          "percent": 0.3,
+          "source": "PLACEHOLDER",
+          "note": "Children held at these ages only. ESTIMATED FROM AVERAGE: England counts 66 per 10,000 children and young people with a life-limiting or life-threatening condition (Fraser et al., Palliative Medicine 2021); no US count is read yet. The share here is the calibrated one (Ruling 39), below that count, because most such children live many years."
+        }
+      ],
+      "mortalityWeight": {
+        "value": 1500.0,
+        "status": "PLACEHOLDER",
+        "note": "Calibrated (Ruling 39) against the table's death rate at ages 1 to 14; carries no severity grade or age factor."
       },
       "onsetScale": null
     }
@@ -264,5 +289,38 @@
       "status": "PLACEHOLDER",
       "note": "Read from the person's latest coverage record saying not covered."
     }
+  },
+  "severityGrades": {
+    "status": "PLACEHOLDER",
+    "note": "Calibrated (Ruling 39) against the SSA 2023 table, not yet read from a source. A person holding a condition holds it at one grade, chosen once when the condition is recorded, among these shares. Real grades exist for each condition (cancer stage at diagnosis, heart failure class, COPD GOLD stage); research question chronic-condition-severity-shares.",
+    "grades": [
+      {
+        "key": "severe",
+        "share": 0.1,
+        "weight": 17.5
+      },
+      {
+        "key": "moderate",
+        "share": 0.36,
+        "weight": 3.25
+      },
+      {
+        "key": "mild",
+        "share": 0.54,
+        "weight": 1.15
+      }
+    ]
+  },
+  "ageFactor": {
+    "status": "PLACEHOLDER",
+    "youngFactor": 10.5,
+    "turnAge": 55,
+    "widthYears": 6.5,
+    "note": "Calibrated (Ruling 39). A condition recorded young weighs more: its weight is multiplied by 1 + (youngFactor - 1) / (1 + e^((age - turnAge) / widthYears)), read once at the age it is recorded. Cohort studies find chronic-condition hazard ratios fall with age; the size here also stands in for the external causes of death at working ages that no producer writes yet."
+  },
+  "baseRateScale": {
+    "value": 0.43,
+    "status": "PLACEHOLDER",
+    "note": "Calibrated (Ruling 39). The life table's hazard counts against the strain threshold at this scale, so a person whose records multiply nothing lives past the table's median: the table's average includes the people with conditions. Checked on totals only, by the synthetic-cohort test."
   }
 }

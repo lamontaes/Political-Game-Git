@@ -23,3 +23,8 @@ there by name. Later in life a condition begins on the day its own strain
 crosses the same level. A household under the poverty line on its coverage
 record reaches that day sooner, and so does someone who lost coverage. Each
 condition weighs on the strain toward a serious illness.
+
+A condition is held mildly, moderately or severely, and one found young weighs
+more. A few children live with a life-limiting condition. Across a town, deaths
+by age now come out near the national life table, from working age to the very
+old and in the first year of play.

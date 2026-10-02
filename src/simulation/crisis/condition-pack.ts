@@ -45,6 +45,8 @@ interface PackCondition {
   readonly key: string;
   readonly label: string;
   readonly infant?: boolean;
+  /** A condition of childhood: held at its one band's ages only. */
+  readonly childhood?: boolean;
   readonly prevalence: readonly PrevalenceBand[];
   readonly bySex?: { readonly male: number; readonly female: number };
   readonly mortalityWeight: { readonly value: number; readonly status: string };
@@ -88,6 +90,12 @@ export function conditionPrevalence(
       : 1;
   if (condition.infant)
     return age < 1 ? (condition.prevalence[0]!.percent / 100) * sex : 0;
+  if (condition.childhood) {
+    const band = condition.prevalence[0]!;
+    return age >= band.fromAge && age < band.toAge + 1
+      ? (band.percent / 100) * sex
+      : 0;
+  }
   const points = condition.prevalence.map((band) => ({
     age: (band.fromAge + band.toAge + 1) / 2,
     share: band.percent / 100,
@@ -112,33 +120,93 @@ export function conditionPrevalence(
 }
 
 /** The seeded place, from 0 to 1, of this person among people of their age for a condition. */
-function selectionPlace(world: World, personId: EntityId, key: string): number {
+function selectionPlace(seed: string, personId: EntityId, key: string): number {
   const hex = stableHash(
-    JSON.stringify([CONDITION_PACK_KEY, world.seed, personId, key]),
+    JSON.stringify([CONDITION_PACK_KEY, seed, personId, key]),
   ).slice(0, 12);
   return parseInt(hex, 16) / 16 ** 12;
 }
 
 /** The pack conditions this person starts with at `age`. */
 export function startingConditionKeys(
-  world: World,
+  seed: string,
   personId: EntityId,
   age: number,
   category: MortalityCalibrationCategory,
 ): readonly string[] {
   return CONDITION_PACK.filter(
     (condition) =>
-      selectionPlace(world, personId, condition.key) <
+      selectionPlace(seed, personId, condition.key) <
       conditionPrevalence(condition, age, category),
   ).map((condition) => condition.key);
 }
 
-function weightMicros(condition: PackCondition): number {
-  return Math.round(condition.mortalityWeight.value * MULTIPLIER_ONE);
+interface SeverityGrade {
+  readonly key: string;
+  readonly share: number;
+  readonly weight: number;
 }
 
-function weightBasis(condition: PackCondition): string {
-  return `${CONDITION_PACK_KEY}: ${condition.label} multiplies mortality strain by ${condition.mortalityWeight.value} (${condition.mortalityWeight.status}).`;
+/** The severity grades a held condition can carry, most severe first. */
+export const SEVERITY_GRADES: readonly SeverityGrade[] =
+  pack.severityGrades.grades;
+const AGE_FACTOR = pack.ageFactor;
+/** The scale at which the life table's hazard counts as strain (./mortality.ts). */
+export const BASE_RATE_SCALE: number = pack.baseRateScale.value;
+
+/**
+ * The grade this person holds a condition at: their seeded place among the
+ * people holding it, against the grades' shares, chosen once when the
+ * condition is recorded. A condition of birth or childhood carries no grade.
+ */
+export function conditionGrade(
+  seed: string,
+  personId: EntityId,
+  key: string,
+): SeverityGrade | null {
+  const condition = packCondition(key);
+  if (condition?.infant || condition?.childhood) return null;
+  const place = selectionPlace(seed, personId, `${key}:severity`);
+  let below = 0;
+  for (const grade of SEVERITY_GRADES) {
+    below += grade.share;
+    if (place < below) return grade;
+  }
+  return SEVERITY_GRADES.at(-1)!;
+}
+
+/**
+ * How much more a condition weighs when it is recorded at `age`: smoothly
+ * from the young factor down to one, read once at recording.
+ */
+export function conditionAgeFactor(age: number): number {
+  return (
+    1 +
+    (AGE_FACTOR.youngFactor - 1) /
+      (1 + Math.exp((age - AGE_FACTOR.turnAge) / AGE_FACTOR.widthYears))
+  );
+}
+
+/**
+ * The weight and basis a condition is recorded with: its own weight, times
+ * its grade's weight and the factor for the age it is recorded at.
+ */
+export function conditionHazard(
+  seed: string,
+  personId: EntityId,
+  key: string,
+  age: number,
+): { readonly micros: number; readonly basis: string } {
+  const condition = packCondition(key)!;
+  const grade = conditionGrade(seed, personId, key);
+  const factor = grade ? grade.weight * conditionAgeFactor(age) : 1;
+  const weight = condition.mortalityWeight.value * factor;
+  return {
+    micros: Math.round(weight * MULTIPLIER_ONE),
+    basis: grade
+      ? `${CONDITION_PACK_KEY}: ${condition.label}, ${grade.key}, recorded at age ${Math.floor(age)}, multiplies mortality strain by ${weight.toFixed(2)} (PLACEHOLDER).`
+      : `${CONDITION_PACK_KEY}: ${condition.label} multiplies mortality strain by ${weight} (${condition.mortalityWeight.status}).`,
+  };
 }
 
 /** The health-episode stable key a pack condition is recorded under. */
@@ -171,8 +239,13 @@ export function recordStartingConditions(
     const person = world.people[personId];
     if (!person) continue;
     const age = daysBetween(person.birthDate, date) / 365.25;
-    for (const key of startingConditionKeys(world, personId, age, category)) {
-      const condition = packCondition(key)!;
+    for (const key of startingConditionKeys(
+      world.seed,
+      personId,
+      age,
+      category,
+    )) {
+      const hazard = conditionHazard(world.seed, personId, key, age);
       const stableKey = conditionEpisodeKey(personId, key);
       const id = crisisRecordId(world, stableKey);
       inputs.push(
@@ -188,8 +261,8 @@ export function recordStartingConditions(
           conditionKey: key,
           severity: "chronic",
           origin: CONDITION_PACK_ORIGIN,
-          hazardMultiplierMicros: weightMicros(condition),
-          hazardBasis: weightBasis(condition),
+          hazardMultiplierMicros: hazard.micros,
+          hazardBasis: hazard.basis,
           course: [],
         },
         {
@@ -222,15 +295,6 @@ export function recordStartingConditions(
     }
   }
   return appendCrisisRecords(world, inputs);
-}
-
-/** The pack's weight and basis for a condition that begins during life. */
-export function conditionHazard(key: string): {
-  readonly micros: number;
-  readonly basis: string;
-} {
-  const condition = packCondition(key)!;
-  return { micros: weightMicros(condition), basis: weightBasis(condition) };
 }
 
 const INCOME_KNOWN = new Set([

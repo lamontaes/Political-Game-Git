@@ -1,3 +1,4 @@
+import conditionPack from "../../../data/research/health/chronic-condition-pack-2026.json" with { type: "json" };
 import { addDays, isoDateFromParts, makeIsoDate } from "../dates";
 import {
   scheduleFutureDueItem,
@@ -85,12 +86,15 @@ export { MORTALITY_CAUSE_KEY } from "./death-causes";
  * scales the base rate so the whole population matches the life table: the
  * table's daily hazard counts against a threshold of ln 2, which is the same
  * as a base rate of the table's hazard over ln 2 against a threshold of one.
- * A person whose records multiply nothing then reaches it at the table's
- * median remaining life from the day they were first exposed: half of the
- * people of their age in the table are still alive on that day. The table
- * checks that total; it never decides one person's day.
+ * The table's average includes the people with conditions, so the base rate
+ * counts at the condition pack's scale (baseRateScale, Ruling 39; read from the data file here so this module never waits on ./condition-pack.ts while modules load): a
+ * person whose records multiply nothing lives past the table's median, and
+ * the recorded conditions bring the rest sooner. The synthetic-cohort test
+ * checks the totals against the table; it never decides one person's day.
  */
-export const STRAIN_THRESHOLD = FIXED_LN2;
+export const STRAIN_THRESHOLD =
+  (FIXED_LN2 * 1_000_000n) /
+  BigInt(Math.round(conditionPack.baseRateScale.value * 1_000_000));
 const STRAIN_THRESHOLD_UNITS = thresholdUnits(STRAIN_THRESHOLD);
 
 /**

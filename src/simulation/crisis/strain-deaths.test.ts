@@ -11,6 +11,7 @@ import {
   DEATH_CAUSE_ILLNESS_WITH_COURSE,
   remainingDaysAfterOnset,
 } from "./death-causes";
+import { BASE_RATE_SCALE } from "./condition-pack";
 import { beginHealthEpisode } from "./health";
 import {
   ensureCrisisMortality,
@@ -183,10 +184,13 @@ describe(`deaths from recorded strain (${STATE.name}, ${STATE.usps}, seed ${SEED
     ).toBe(true);
   });
 
-  it("reaches the threshold at the life table's median remaining life", () => {
-    // The table checks the total only: with no recorded multiplier, the day
-    // the strain crosses is the day half of the people of that age in the
-    // table have died. Checked at ages across a life.
+  it("reaches the threshold where the table's survival falls to 2^(-1/scale)", () => {
+    // The table checks the total only: with no recorded multiplier, the
+    // strain counts the table's hazard at the base-rate scale, so it crosses
+    // on the day the table's survival from that age falls to 2^(-1/scale).
+    // That is later than the median, because the table's average includes
+    // the people with conditions. Checked at ages across a life.
+    const level = Math.pow(2, -1 / BASE_RATE_SCALE);
     for (const age of [0, 30, 60, 75, 90]) {
       const born = addDays(
         small.world.currentDate,
@@ -200,7 +204,7 @@ describe(`deaths from recorded strain (${STATE.name}, ${STATE.usps}, seed ${SEED
         0,
       );
       const day = crossing(open, ids[0]!)!;
-      // The same median from the table's own probabilities (equal mixture).
+      // The same day from the table's own probabilities (equal mixture).
       let survival = 1;
       let years = 0;
       const startAge = daysBetween(born, start) / 365.25;
@@ -215,8 +219,8 @@ describe(`deaths from recorded strain (${STATE.name}, ${STATE.usps}, seed ${SEED
           2;
         const hazard = -Math.log(1 - q);
         const after = survival * Math.exp(-hazard * fraction);
-        if (after <= 0.5) {
-          years += Math.log(survival / 0.5) / hazard;
+        if (after <= level) {
+          years += Math.log(survival / level) / hazard;
           break;
         }
         survival = after;

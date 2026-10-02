@@ -169,7 +169,7 @@ describe(`chronic conditions from recorded health (${STATE.name}, ${STATE.usps},
           365.25;
         expect(episodes.map((episode) => episode.conditionKey).sort()).toEqual(
           [
-            ...startingConditionKeys(open, personId, age, "equal-mixture"),
+            ...startingConditionKeys(open.seed, personId, age, "equal-mixture"),
           ].sort(),
         );
         for (const episode of episodes) {
@@ -253,7 +253,8 @@ describe(`chronic conditions from recorded health (${STATE.name}, ${STATE.usps},
         });
         const id = world.personOrder.at(-1)!;
         if (
-          startingConditionKeys(world, id, 119.2, "equal-mixture").length === 0
+          startingConditionKeys(world.seed, id, 119.2, "equal-mixture")
+            .length === 0
         )
           personId = id;
       }
