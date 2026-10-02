@@ -1,4 +1,7 @@
-import { carryPeopleReadIndexesAfterAppend } from "./history-index";
+import {
+  carryPeopleReadIndexesAfterAppend,
+  extendPeopleReadIndexesInPlace,
+} from "./history-index";
 import { adultLifeSituations } from "./adult-situations";
 import {
   addDays,
@@ -657,6 +660,31 @@ export function createCharacterHistoryContextPerson(
  * that lineage cannot change it, so it is read once. Integrity is asserted
  * once over the result instead of once per person.
  */
+/**
+ * People tables this append session made. A later append in the same session
+ * may extend one in place instead of copying it again: nothing outside the
+ * session has seen it, and the session's caller checks the result once
+ * against its own untouched input.
+ */
+let ownedPeopleTables: WeakSet<object> | null = null;
+
+/**
+ * Runs a batch of person appends that copy the people table at most once.
+ * Each append still sees exactly the people the appends before it added, in
+ * the same order, so every id and the person order are unchanged. The caller
+ * must not keep any World from inside the batch except the one it returns,
+ * and must check that result against the batch's input.
+ */
+export function withPeopleAppendSession<T>(run: () => T): T {
+  const outer = ownedPeopleTables;
+  ownedPeopleTables = new WeakSet();
+  try {
+    return run();
+  } finally {
+    ownedPeopleTables = outer;
+  }
+}
+
 export function createCharacterHistoryContextPeople(
   world: World,
   inputs: readonly CharacterHistoryContextPersonInput[],
@@ -671,11 +699,17 @@ export function createCharacterHistoryContextPeople(
     if (!person) continue;
     // Existing inputs still pass the same validation, but need no table copy.
     if (!people) {
-      people = {};
-      // Preserve the table's own key order, including after a save reload.
-      // An explicit copy avoids V8's slower spread for this large dictionary.
-      for (const id of Object.keys(world.people) as EntityId[])
-        people[id] = world.people[id]!;
+      if (ownedPeopleTables?.has(world.people)) {
+        // This session made the table; it grows in place.
+        people = world.people as Record<EntityId, Person>;
+      } else {
+        people = {};
+        // Preserve the table's own key order, including after a save reload.
+        // An explicit copy avoids V8's slower spread for this large dictionary.
+        for (const id of Object.keys(world.people) as EntityId[])
+          people[id] = world.people[id]!;
+        ownedPeopleTables?.add(people);
+      }
       personOrder = [...world.personOrder];
       probe = { ...world, people };
     }
@@ -686,7 +720,8 @@ export function createCharacterHistoryContextPeople(
   const next: World = { ...world, people, personOrder };
   // Appended people carry this exact lineage, so they cannot change it.
   CONTEXT_LINEAGES.set(people, lineage);
-  carryPeopleReadIndexesAfterAppend(world, next);
+  if (people === world.people) extendPeopleReadIndexesInPlace(world, next);
+  else carryPeopleReadIndexesAfterAppend(world, next);
   assertWorldIntegrity(next);
   return next;
 }

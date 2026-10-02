@@ -21,7 +21,8 @@ import {
   livingWorldOrganizationId,
 } from "../living-world/opening";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
-import { recordWorldEvent } from "../world";
+import { recordWorldEvent, writeWithWorldIntegrityOnce } from "../world";
+import { withPeopleAppendSession } from "../character-history";
 import { createStableId } from "../ids";
 import { bindingFromIdentity } from "../../districts/query";
 import {
@@ -1338,6 +1339,20 @@ export function applyStateLegislatureTurnover(
   if (!crossesAny) return world;
   const packs = seatedPacks(world);
   if (packs.length === 0) return world;
+  // One pass copies the people table once: each state's new candidates join
+  // the copy in the same order they always did, and the pass is checked once
+  // against the World it started from.
+  return writeWithWorldIntegrityOnce(world, () =>
+    withPeopleAppendSession(() => turnoverPass(before, after, world, packs)),
+  );
+}
+
+function turnoverPass(
+  before: IsoDate,
+  after: IsoDate,
+  world: World,
+  packs: readonly string[],
+): World {
   let next = world;
   for (const packId of packs) {
     const pack = candidacyPackById(packId);

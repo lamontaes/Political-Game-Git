@@ -671,6 +671,30 @@ export function indexOverPeople<T>(
 }
 
 /**
+ * An append writer that extended a table it owns in place (see
+ * `withPeopleAppendSession`) moves each index from the old order to the new
+ * one. The table object is the same, so the indexes stay where they are; an
+ * index built for any other order is left for its own rebuild.
+ */
+export function extendPeopleReadIndexesInPlace(
+  previous: World,
+  next: World,
+): void {
+  if (previous.people !== next.people) return;
+  const indexes = PEOPLE_READ_INDEXES.get(next.people);
+  if (!indexes) return;
+  const added = next.personOrder.slice(previous.personOrder.length);
+  for (const [name, index] of indexes) {
+    if (index.order !== previous.personOrder) continue;
+    indexes.set(name, {
+      ...index,
+      order: next.personOrder,
+      value: index.extend(index.value, next, added),
+    });
+  }
+}
+
+/**
  * Only an append writer that copied the existing table unchanged may call this.
  * It transfers reads without changing any previously returned index. External
  * person edits have no transfer and therefore rebuild their own indexes.
