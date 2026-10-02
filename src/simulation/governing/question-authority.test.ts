@@ -139,7 +139,7 @@ const PLACES = everyPlace();
 
 describe("which question each level may answer", () => {
   it("maps every question in the catalog to a powers dial, at levels its issue allows", () => {
-    expect(QUESTIONS.length).toBe(92);
+    expect(QUESTIONS.length).toBe(122);
     expect(Object.keys(ROWS).sort()).toEqual(
       QUESTIONS.map((question) => question.key).sort(),
     );
@@ -268,6 +268,11 @@ describe("which question each level may answer", () => {
     ).toEqual([
       "us-policy-positions:health-human-services.medicaid-work-requirement",
       "us-policy-positions:health-human-services.work-requirement-for-assistance",
+      "us-tax-terms:federal.income-tax-terms",
+      "us-tax-terms:federal.sales-tax-terms",
+      "us-tax-terms:federal.excise-tax-terms",
+      "us-tax-terms:federal.payroll-tax-terms",
+      "us-tax-terms:federal.corporate-tax-terms",
     ]);
     // And no state, territory or town answers a federal question.
     for (const place of PLACES.filter((p) => p.id !== FEDERAL))

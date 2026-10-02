@@ -34,7 +34,10 @@
           "balancedDescription": "No marked lean either way.",
           "steps": [{ "magnitude": 1, "strength": "moderate" }]
         },
-        "seed": { "spread": [-1, 0, 0, 1] },
+        "seed": {
+          "spread": [-1, 0, 0, 1],
+          "follows": ["personality-v1:patience"]
+        },
         "movability": {
           "settledByStrength": {
             "subtle": 1.5,

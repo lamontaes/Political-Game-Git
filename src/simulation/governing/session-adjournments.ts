@@ -3,6 +3,7 @@ import { createStableId } from "../ids";
 import type { LegislativeRulePack } from "../legislature-rules";
 import type {
   EntityId,
+  HistoricalCutoff,
   IsoDate,
   SessionAdjournmentRecord,
   World,
@@ -65,11 +66,16 @@ export function recordedSessionAdjournment(
   world: World,
   rulePackId: string,
   year: number,
+  cutoff?: HistoricalCutoff,
 ): SessionAdjournmentRecord | null {
   return (
     (world.history.sessionAdjournments ?? []).find(
       (record) =>
-        record.rulePackId === rulePackId && record.sessionYear === year,
+        record.rulePackId === rulePackId &&
+        record.sessionYear === year &&
+        (!cutoff ||
+          (record.sequence < cutoff.historySequenceExclusive &&
+            record.adjournedOn <= cutoff.asOfDate)),
     ) ?? null
   );
 }

@@ -5,10 +5,10 @@ import {
   createStableId,
   drawCanonicalNameForGender,
   nameCorpusVersionForWorld,
-  makeIsoDate,
   SeededRng,
   recordWorldEvent,
 } from "../simulation";
+import { inventedPersonBirthDate } from "../simulation/invented-person-age";
 import {
   createOrganizationParticipation,
   recordOrganizationParticipationState,
@@ -69,9 +69,12 @@ export function joinOrdinaryGroup(world: World, personId: EntityId): World {
               "unstated",
               nameCorpusVersionForWorld(world, person.homeJurisdictionId),
             ),
-            birthDate: makeIsoDate(
-              `${Number(world.currentDate.slice(0, 4)) - 35}-01-01`,
-            ),
+            birthDate: inventedPersonBirthDate(null, {
+              role: "community-member-at-start",
+              referenceDate: world.currentDate,
+              age: 35,
+              placement: { monthDay: "01-01" },
+            }),
             homeJurisdictionId: person.homeJurisdictionId,
           },
         },

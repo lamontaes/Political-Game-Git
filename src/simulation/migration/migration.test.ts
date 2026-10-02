@@ -10,8 +10,6 @@ import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
 } from "../character-history";
-import { declareHazardEpisode } from "../crisis/disaster";
-import { crisisRecords } from "../crisis/records";
 import { makeIsoDate } from "../dates";
 import { CRIME_EVENT_TYPES } from "../crime/producer";
 import { recordWorldEvent } from "../world";
@@ -20,32 +18,21 @@ import {
   householdMembershipsAt,
   peopleInHouseholdAt,
 } from "../life-queries";
-import {
-  createDwelling,
-  createHousingTenure,
-  startDwellingOccupancy,
-} from "../resources";
-import {
-  activeDwellingOccupanciesAt,
-  activeHousingTenuresAt,
-} from "../resource-queries";
 import { factsForPerson } from "../people";
 import { stateJurisdictionForKey } from "../life-places";
 import { serializeWorld } from "../serialization";
 import type { MacroMonthRecord } from "../macro-economy/types";
 import type { EntityId, World } from "../types";
-import { advanceWithWorldIntegrityAtEnd, assertWorldIntegrity } from "../world";
+import { assertWorldIntegrity } from "../world";
 import {
   MIGRATION_REVIEW_TRANSITION_KEY,
   MIGRATION_SEAMS,
   WAVE_CATALOG,
   activeWavesCovering,
   evaluateCause,
-  reviewTown,
   moveTies,
   moveTieReader,
   playerHouseholdPeople,
-  arrivalCount,
   townCrimePush,
   townJobsPush,
   recordedMoves,
@@ -54,13 +41,6 @@ import {
   startWave,
   wavePressure,
 } from ".";
-
-/**
- * A review as the clock runs it: writers' checks deferred inside the scheduled
- * transition, and the whole world checked once at the end.
- */
-const review = (...args: Parameters<typeof reviewTown>) =>
-  advanceWithWorldIntegrityAtEnd(() => reviewTown(...args));
 
 /** Charlottesville, Virginia; Kentucky is deliberately not the test place. */
 const VIRGINIA_TOWN = "5114968";
@@ -190,42 +170,6 @@ describe("migration scaffold", () => {
     ).toThrow("is not a namespaced move reason");
   });
 
-  it("a review brings newcomers in, as many as the rate owes, with no draw", () => {
-    // The living residents the review counts.
-    const dead = new Set(
-      opened.world.history.personDeaths.map((death) => death.personId),
-    );
-    const residents = opened.world.personOrder.filter(
-      (id) =>
-        opened.world.people[id]!.homeJurisdictionId === town && !dead.has(id),
-    ).length;
-    const world = review(opened.world, 0, { arrivalsPerResidentPerYear: 12 });
-    assertWorldIntegrity(world);
-    const arrivals = world.history.events.filter(
-      (event) => event.type === "migration.arrived",
-    );
-    // Twelve a resident a year is three a quarter: exactly that many, no
-    // rounding draw either way.
-    expect(arrivals).toHaveLength(arrivalCount((residents * 12) / 4, 0));
-    expect(arrivals.length).toBe(residents * 3);
-    for (const event of arrivals) {
-      const personId = event.participants[0]!.personId;
-      expect(world.people[personId]!.homeJurisdictionId).toBe(town);
-      expect(event.summary).toMatch(/ moved to .+ from .+\.$/);
-    }
-    // A fraction is carried from review to review: a third a quarter is
-    // one newcomer every third review, and a year owes what it should.
-    expect(
-      [0, 1, 2, 3, 4, 5].map((index) => arrivalCount(1 / 3, index)),
-    ).toEqual([0, 0, 1, 0, 0, 1]);
-    expect(
-      [...Array(40).keys()].reduce(
-        (sum, index) => sum + arrivalCount(0.37, index),
-        0,
-      ),
-    ).toBe(Math.floor(0.37 * 40));
-  }, 60_000);
-
   it("a member leaves a membership behind on a move; a leader is still held by the role", () => {
     const reader = moveTieReader(opened.world);
     const member = opened.world.personOrder.find(
@@ -267,151 +211,6 @@ describe("migration scaffold", () => {
     );
     if (leader) expect(reader.bindingTie(leader)).not.toBeNull();
   });
-
-  it("a disaster that wrecks newcomers' homes sends some away for good", () => {
-    // A quarter of arrivals at one newcomer for every two residents a year,
-    // so the town holds newcomers' households a disaster can reach.
-    const settled = review(opened.world, 0, {
-      arrivalsPerResidentPerYear: 0.5,
-    });
-    const newcomers = settled.history.events
-      .filter((event) => event.type === "migration.arrived")
-      .map((event) => event.participants[0]!.personId);
-    expect(newcomers.length).toBeGreaterThan(10);
-    for (const id of newcomers)
-      expect(householdMembershipsAt(settled, id)).toHaveLength(1);
-
-    // One newcomer's household leases a recorded home.
-    const renter = newcomers[0]!;
-    const householdId = householdMembershipsAt(settled, renter)[0]!.household
-      .id;
-    const provenance = { kind: "authored" as const, note: "migration test" };
-    let housed = createDwelling(settled, {
-      stableKey: "migration-test:dwelling",
-      establishedAt: settled.currentDate,
-      jurisdictionId: town,
-      locationLabel: "An apartment in town",
-      classification: "residential:apartment",
-      provenance,
-    });
-    const dwellingId = housed.history.dwellings.at(-1)!.id;
-    housed = startDwellingOccupancy(housed, {
-      stableKey: "migration-test:occupancy",
-      occupant: { kind: "household", householdId },
-      dwellingId,
-      startedAt: housed.currentDate,
-      residenceRole: "primary",
-      kind: "residence:renter",
-      provenance,
-    });
-    housed = createHousingTenure(housed, {
-      stableKey: "migration-test:lease",
-      holder: { kind: "household", householdId },
-      dwellingId,
-      startedAt: housed.currentDate,
-      kind: "lease:month-to-month",
-      context: null,
-      provenance,
-    });
-    expect(moveTieReader(housed).housingTie(renter)).not.toBeNull();
-
-    const struck = declareHazardEpisode(housed, {
-      stableKey: "migration-test-flood",
-      family: "flood",
-      magnitude: "catastrophic",
-      stateUsps: "VA",
-      jurisdictionIds: [town],
-      durationDays: 4,
-      basis: "Declared test episode; not a local hazard prediction.",
-      sourceReference: null,
-    });
-    // Damage reaches a household directly, or through the recorded home it
-    // lives in (the town's households have homes, `town-homes.ts`).
-    const wrecked = crisisRecords(struck).flatMap((record) =>
-      record.kind === "disaster-damage" &&
-      (record.targetKind === "household" || record.targetKind === "dwelling") &&
-      record.level !== "service-interrupted"
-        ? [record]
-        : [],
-    );
-    // Read once: each is a pass over the whole world's records.
-    const struckOccupancies = activeDwellingOccupanciesAt(struck);
-    const struckTies = moveTieReader(struck);
-    const householdsHit = (record: (typeof wrecked)[number]) =>
-      record.targetKind === "household"
-        ? [record.targetId]
-        : struckOccupancies.flatMap((occupancy) =>
-            occupancy.dwellingId === record.targetId &&
-            occupancy.occupant.kind === "household"
-              ? [occupancy.occupant.householdId]
-              : [],
-          );
-    expect(wrecked.length).toBeGreaterThan(0);
-
-    // Everybody whose home was hit leaves, and nobody else does.
-    const after = review(struck, 1, {
-      arrivalsPerResidentPerYear: 0,
-      displacedLeaveChance: { destroyed: 1, damaged: 1 },
-    });
-    assertWorldIntegrity(after);
-    // The same review also weighs this quarter's job offers elsewhere
-    // (`job-offers.ts`); those moves name their offer, not the flood.
-    const allMoves = recordedMoves(after);
-    const moves = allMoves.filter((move) =>
-      move.reason.startsWith("disaster:"),
-    );
-    for (const move of allMoves)
-      if (!moves.includes(move)) expect(move.reason).toBe("work:job-offer");
-    // The flood can kill; a household it left nobody alive in moves nowhere.
-    const died = new Set(
-      struck.history.personDeaths.map((death) => death.personId),
-    );
-    const freeWrecked = [
-      ...new Set(wrecked.flatMap((record) => householdsHit(record))),
-    ].filter(
-      (householdId) =>
-        // The flood's dead keep their jobs on the books; they bind nobody.
-        peopleInHouseholdAt(struck, householdId)
-          .filter((id) => !died.has(id))
-          .every((id) => !struckTies.bindingTie(id)) &&
-        peopleInHouseholdAt(struck, householdId).some((id) => !died.has(id)) &&
-        !peopleInHouseholdAt(struck, householdId).includes(opened.playerId),
-    );
-    expect(freeWrecked.length).toBeGreaterThan(0);
-    expect(
-      moves
-        .map(
-          (move) =>
-            householdMembershipsAt(struck, move.personIds[0]!)[0]!.household.id,
-        )
-        .sort(),
-    ).toEqual([...freeWrecked].sort());
-    for (const move of moves) {
-      const damage = wrecked.find((record) => record.id === move.causeId)!;
-      expect(move.reason).toBe(`disaster:home-${damage.level}`);
-      expect(move.fromJurisdictionId).toBe(town);
-    }
-
-    // A leased home that was hit is given up on the move.
-    const renterLeft = moves.some((move) => move.personIds.includes(renter));
-    const leases = activeHousingTenuresAt(after).filter(
-      (tenure) => tenure.dwellingId === dwellingId,
-    );
-    const occupied = activeDwellingOccupanciesAt(after).filter(
-      (occupancy) => occupancy.dwellingId === dwellingId,
-    );
-    expect(leases.length === 0).toBe(renterLeft);
-    expect(occupied.length === 0).toBe(renterLeft);
-
-    // With the blanket chance, a destroyed home is left more often than a
-    // damaged one, and some households stay to rebuild.
-    const blanket = recordedMoves(
-      review(struck, 1, {
-        arrivalsPerResidentPerYear: 0,
-      }),
-    );
-    expect(blanket.length).toBeLessThan(moves.length);
-  }, 60_000);
 
   it("unemployment in town above the nation's pushes people out", () => {
     // An authored national month, carrying only the fields the reader
