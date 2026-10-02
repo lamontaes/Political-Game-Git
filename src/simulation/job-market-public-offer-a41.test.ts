@@ -7,7 +7,10 @@ import {
 } from "./job-market";
 import { createWorkRelationship, recordWorkStatus } from "./life";
 import { organizationProfileAt, workStatusAt } from "./life-queries";
-import { lifePlaceStateIdentities } from "./life-places";
+import {
+  lifePlaceByJurisdictionId,
+  lifePlaceStateIdentities,
+} from "./life-places";
 import { stateMedianAnnualWage } from "./living-world/town-pay";
 import {
   ensureHomeLocalGovernments,
@@ -67,6 +70,28 @@ describe("A41 sourced vacant public-body offers", () => {
       const offers = publicRoles(game.world, game.personId, game.ids);
       const expected = [...game.ids].filter((id) => {
         const profile = organizationProfileAt(game.world, id);
+        const workplace = profile?.locationJurisdictionId
+          ? lifePlaceByJurisdictionId(profile.locationJurisdictionId)
+          : null;
+        if (workplace?.scope === "county") {
+          expect(workplace.sourceGeoid).toMatch(/^\d{5}$/);
+          expect(workplace.stateJurisdictionKey).toBe(
+            game.place.stateJurisdictionKey,
+          );
+          // Independent same-state source cell: a known county must not lose
+          // its median because the area reader only accepts locality GEOIDs.
+          expect(
+            stateMedianAnnualWage(
+              role.occupationClassification,
+              profile!.locationJurisdictionId,
+            ),
+          ).toBe(
+            stateMedianAnnualWage(
+              role.occupationClassification,
+              game.jurisdictionId,
+            ),
+          );
+        }
         return (
           profile?.locationJurisdictionId &&
           stateMedianAnnualWage(

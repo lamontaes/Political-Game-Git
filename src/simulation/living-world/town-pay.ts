@@ -214,15 +214,22 @@ export function townPayAreas(jurisdictionId: EntityId | null): string[] {
     place.sourceGeoid && /^\d{7}$/.test(place.sourceGeoid)
       ? place.sourceGeoid
       : null;
+  const countyGeoid =
+    place.scope === "county" &&
+    place.sourceGeoid &&
+    /^\d{5}$/.test(place.sourceGeoid)
+      ? place.sourceGeoid
+      : null;
   const stateFips =
-    geoid?.slice(0, 2) ??
+    (geoid ?? countyGeoid)?.slice(0, 2) ??
     TERRITORY_FIPS[place.stateJurisdictionKey ?? ""] ??
     null;
   // BLS publishes no wages for American Samoa or the Northern Mariana
   // Islands: pay there is UNKNOWN, not the nation's.
   if (!stateFips || NOT_IN_OEWS.has(stateFips)) return [];
   const areas: string[] = [];
-  const county = geoid ? countyGeoidsForPlace(geoid)[0] : undefined;
+  const county =
+    countyGeoid ?? (geoid ? countyGeoidsForPlace(geoid)[0] : undefined);
   const area = county ? countyArea(county) : undefined;
   if (area) areas.push(area);
   areas.push(`S${stateFips}`, "US");
