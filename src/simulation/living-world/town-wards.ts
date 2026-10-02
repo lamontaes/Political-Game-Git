@@ -2,12 +2,7 @@ import methods from "../../../data/research/local-government/council-election-me
 import { governmentUnitsForState } from "../government-units";
 import type { GovernmentUnitIdentity } from "../government-units";
 import { householdMembershipsAt } from "../life-queries";
-import {
-  activeDwellingOccupanciesAt,
-  activeHousingTenuresAt,
-  dwellingOccupancyStateAt,
-  sameEndpoint,
-} from "../resource-queries";
+import { primaryDwellingOf } from "../resource-queries";
 import { TOWN_HOMES_VERSION } from "./town-homes";
 import { primaryReading } from "../municipal-government";
 import { localGoverningBodyIdentity } from "../nationwide-world/local-governing-body-candidacy-packs";
@@ -178,32 +173,10 @@ export function homePosition(
   if (households === 0 || !world.people[personId]) return null;
   const prefix = `${TOWN_RESIDENTS_VERSION}:${town}:household:`;
   const memberships = householdMembershipsAt(world, personId);
-  const primaryHouseholds = new Set(
-    memberships
-      .filter((row) => row.state.residenceRole === "primary")
-      .map((row) => row.household.id),
-  );
-  const tenures = activeHousingTenuresAt(world);
-  const occupancy = [...activeDwellingOccupanciesAt(world)]
-    .reverse()
-    .find(
-      (row) =>
-        (row.occupant.kind === "person"
-          ? row.occupant.personId === personId
-          : primaryHouseholds.has(row.occupant.householdId)) &&
-        dwellingOccupancyStateAt(world, row.id)?.residenceRole === "primary" &&
-        tenures.some(
-          (tenure) =>
-            tenure.dwellingId === row.dwellingId &&
-            sameEndpoint(tenure.holder, row.occupant),
-        ),
-    );
-  if (occupancy) {
-    const dwelling = world.history.dwellings.find(
-      (row) => row.id === occupancy.dwellingId,
-    );
-    if (dwelling && dwelling.jurisdictionId !== town) return null;
-    if (dwelling?.stableKey.startsWith(`${TOWN_HOMES_VERSION}:${town}:`)) {
+  const dwelling = primaryDwellingOf(world, personId);
+  if (dwelling) {
+    if (dwelling.jurisdictionId !== town) return null;
+    if (dwelling.stableKey.startsWith(`${TOWN_HOMES_VERSION}:${town}:`)) {
       // The first roster holder identifies this dwelling's recorded address.
       // A later tenant inherits its position, not the old tenant's identity.
       for (const tenure of world.history.housingTenures) {
