@@ -590,7 +590,7 @@ function contributeToDueBill(
   bill: ResourceFlow,
   dueOn: IsoDate,
 ): World {
-  if (bill.source.kind !== "household") return world;
+  if (bill.source.kind !== "household" || dueOn !== world.currentDate) return world;
   const householdId = bill.source.householdId;
   const arrangement = world.history.events.find(
     (event) =>
