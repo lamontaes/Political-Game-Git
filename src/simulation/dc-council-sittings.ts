@@ -16,6 +16,7 @@ import {
 import {
   municipalExecutiveHolder,
   recordCouncilReadingVote,
+  recordCouncilOverrideVote,
 } from "./municipal-ordinance-procedure";
 import {
   municipalGovernmentJurisdictionId,
@@ -171,7 +172,7 @@ function moveActs(world: World): World {
       });
       continue;
     }
-    if (phase !== "on-floor") continue;
+    if (phase !== "on-floor" && phase !== "awaiting-override") continue;
     const members = councilMembers(next);
     const mayor = municipalExecutiveHolder(next, DC_GOVERNMENT_KEY);
     next = ensureCouncilPrinciples(next, [
@@ -179,19 +180,26 @@ function moveActs(world: World): World {
       ...(mayor ? [{ personId: mayor }] : []),
     ]);
     const dispositions = decideCouncilVote(next, {
-      stableKey: `${measure.stableKey}:vote:${next.currentDate}`,
+      stableKey: `${measure.stableKey}:${phase === "awaiting-override" ? "override" : "vote"}:${next.currentDate}`,
       measureId: measure.id,
       jurisdictionId: measure.jurisdictionId,
       members,
       playerPersonId: player,
-      questionLabel: `Pass ${measure.designation}`,
+      questionLabel:
+        phase === "awaiting-override"
+          ? `Reenact ${measure.designation} over the executive return`
+          : `Pass ${measure.designation}`,
       executivePersonId: mayor,
       // The Council is elected in party primaries, and the Home Rule Act
       // limits how many at-large seats one party may hold (D.C. Code
       // § 1-204.01), so its members' parties are cues.
       nonpartisan: false,
     });
-    const result = recordCouncilReadingVote(next, {
+    const recordVote =
+      phase === "awaiting-override"
+        ? recordCouncilOverrideVote
+        : recordCouncilReadingVote;
+    const result = recordVote(next, {
       governmentKey: DC_GOVERNMENT_KEY,
       measureId: measure.id,
       dispositions,
