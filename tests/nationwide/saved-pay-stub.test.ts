@@ -3,10 +3,11 @@ import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
 } from "../../src/presentation/new-game";
-import {
-  describeRoutineOutcome,
-  routineOutcomeAfterClock,
-} from "../../src/presentation/routine-outcome";
+import { describeRoutineOutcome } from "../../src/presentation/routine-outcome";
+import { paydayNotifications } from "../../src/presentation/payday-notification";
+import { organizationProfileAt } from "../../src/simulation/life-queries";
+import { recordOrganizationProfile } from "../../src/simulation/life";
+import { moneyText } from "../../src/simulation/money-text";
 import {
   enterLifePath,
   performLifePathSession,
@@ -103,10 +104,19 @@ describe.each(sampled)("saved pay stub in %s", (placeKey) => {
     const cashAfter = resourcePositionAt(paid, owner, money(0, "USD").currency)!
       .liquidBalance.minorUnits;
     expect(stub.netPaid.minorUnits).toBe(cashAfter - cashBefore);
-    const notice = routineOutcomeAfterClock(
-      describeRoutineOutcome(before, paid, personId),
-    )!;
-    expect(notice).toContain("Paycheck: gross ");
+    const notices = paydayNotifications(before, paid, personId);
+    expect(notices).toHaveLength(1);
+    const notice = notices[0]!;
+    const employer = organizationProfileAt(paid, stub.employerOrganizationId, {
+      asOfDate: stub.paycheck.occurredAt,
+      historySequenceExclusive: stub.paycheck.sequence + 1,
+    });
+    expect(employer).toBeDefined();
+    expect(notice.paycheckId).toBe(stub.paycheck.id);
+    expect(notice.headline).toBe(
+      `Payday · ${employer!.name} · You took home ${moneyText(stub.netPaid)} of ${moneyText(stub.paidGross)}.`,
+    );
+    const details = notice.details.join("\n");
     const federal = stub.taxes.find(
       (row) => row.liability.taxKey === "us-federal:income-tax-withholding",
     )!;
@@ -115,28 +125,50 @@ describe.each(sampled)("saved pay stub in %s", (placeKey) => {
     )!;
     expect(federal).toBeDefined();
     expect(state).toBeDefined();
-    expect(notice).toContain(
-      federal.liability.liability === null
-        ? "Federal income tax not priced"
-        : "Federal income tax withheld",
+    for (const [tax, label] of [
+      [federal, "Federal income tax"],
+      [state, "State income tax"],
+    ] as const) {
+      if (tax.withheld.minorUnits > 0)
+        expect(details).toContain(
+          `${label} withheld ${moneyText(tax.withheld)}.`,
+        );
+      else expect(details).not.toContain(`${label} withheld`);
+    }
+    expect(details).not.toMatch(
+      /not priced|not imposed|Other payroll tax|Additional Medicare withheld \$0/,
     );
-    expect(notice).toContain(
-      state.liability.liability === null
-        ? "State income tax not priced"
-        : state.liability.status === "not-imposed"
-          ? "State income tax not imposed"
-          : "State income tax withheld",
+    expect(new Set(notice.withholdingTransferIds)).toEqual(
+      new Set(
+        stub.taxes.flatMap((tax) =>
+          tax.payments.map((payment) => payment.resourceOutcomeId),
+        ),
+      ),
+    );
+    expect(describeRoutineOutcome(before, paid, personId)).not.toMatch(
+      /Paycheck:|Received \$|Paid \$/,
     );
     for (const row of stub.taxes.filter(
       (tax) => tax.liability.liability === null,
     ))
       expect(row.liability.liability).toBeNull();
-    expect(describeRoutineOutcome(paid, paid, personId)).not.toContain(
-      "Paycheck:",
-    );
+    expect(paydayNotifications(paid, paid, personId)).toEqual([]);
     expect(serializeWorld(paid)).toBe(saved);
     const reopened = deserializeWorld(saved);
     expect(recordedPayStubs(reopened, personId)).toEqual(stubs);
+    expect(paydayNotifications(before, reopened, personId)).toEqual(notices);
+    // A later same-day employer rename cannot rename the earlier paycheck.
+    const renamed = recordOrganizationProfile(paid, {
+      stableKey: `payday-later-employer-name:${placeKey}`,
+      organizationId: stub.employerOrganizationId,
+      effectiveAt: paid.currentDate,
+      name: "Later employer name",
+      classification: employer!.classification,
+      locationJurisdictionId: employer!.locationJurisdictionId,
+      supersedesProfileId: employer!.id,
+      provenance: { kind: "authored", note: "Later same-day name control." },
+    });
+    expect(paydayNotifications(before, renamed, personId)).toEqual(notices);
     expect(describeRoutineOutcome(before, reopened, personId)).toBe(
       describeRoutineOutcome(before, paid, personId),
     );
@@ -176,14 +208,22 @@ describe.each(sampled)("saved pay stub in %s", (placeKey) => {
     expect(partialStub.netPaid.minorUnits).toBe(
       partialStub.paidGross.minorUnits - partialStub.withheld.minorUnits,
     );
-    expect(describeRoutineOutcome(before, assessedPartial, personId)).toContain(
-      "gross received",
+    const partialNotice = paydayNotifications(
+      before,
+      assessedPartial,
+      personId,
+    )[0]!;
+    expect(partialNotice.headline).toContain(
+      `You took home ${moneyText(partialStub.netPaid)} of ${moneyText(partialStub.paidGross)}.`,
+    );
+    expect(partialNotice.details).toContain(
+      `Your employer paid ${moneyText(partialStub.paidGross)} of the ${moneyText(partialStub.promisedGross)} due for this period.`,
     );
     const unassessed = recordedPayStubs(partial, personId)[0]!;
     expect(unassessed.assessmentStatus).toBe("not-recorded");
-    expect(describeRoutineOutcome(before, partial, personId)).toContain(
-      "withholding assessment not recorded",
-    );
+    expect(
+      paydayNotifications(before, partial, personId)[0]!.details,
+    ).toContain("Withholding has not been recorded for this payment.");
     console.log(
       JSON.stringify({
         placeKey,

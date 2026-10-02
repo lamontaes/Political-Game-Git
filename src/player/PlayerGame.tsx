@@ -61,6 +61,7 @@ import {
   stoppedEarlyLabel,
 } from "../presentation/time-target-label";
 import { routineOutcomeAfterClock } from "../presentation/routine-outcome";
+import { PaydayNotification } from "./PaydayNotification";
 import { authorityDecisions } from "../presentation/crisis-shell";
 import { CrisisNoticesPanel } from "./CrisisNoticesPanel";
 import { useCrisisStop } from "./use-crisis-stop";
@@ -2864,6 +2865,10 @@ function PlayingScreen({
             {workspace}
 
             <div className="life-hud" data-testid="life-hud">
+              <PaydayNotification
+                world={session.world}
+                personId={session.personId}
+              />
               {notice ? (
                 <p className="life-hud-note" role="status">
                   {notice}
