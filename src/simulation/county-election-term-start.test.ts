@@ -23,7 +23,7 @@ import {
   deferCountyElectionWinner,
   localElectionTermStartHandler,
   LOCAL_ELECTION_TERM_START,
-  LOCAL_ELECTION_HANDLERS,
+  localElectionHandlers,
 } from "./living-world/local-elections";
 import { serializeWorldPayload, deserializeWorld } from "./serialization";
 import type { World } from "./types";
@@ -141,7 +141,7 @@ describe("recorded county winner waits for the sourced term start", () => {
     const saved = deserializeWorld(serializeWorldPayload(world));
     expect(localElectionTermStartHandler(saved, due).world).toBe(saved);
     expect(
-      LOCAL_ELECTION_HANDLERS.some(
+      localElectionHandlers().some(
         ([key]) => key === LOCAL_ELECTION_TERM_START,
       ),
     ).toBe(true);
