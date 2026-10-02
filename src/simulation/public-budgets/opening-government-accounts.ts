@@ -6,9 +6,10 @@ import {
   governmentUnitJurisdictionId,
   governmentUnitsForPlace,
   governmentUnitsForState,
+  type GovernmentUnitIdentity,
 } from "../government-units";
 import { currentLifeCutoff } from "../life-queries";
-import { lifePlaceByKey } from "../life-places";
+import { lifePlaceByKey, lifePlaceByJurisdictionId } from "../life-places";
 import {
   municipalGovernmentByKey,
   municipalGovernmentForPlaceGeoid,
@@ -18,6 +19,7 @@ import {
   assertPublicGovernmentIdentity,
   publicGovernmentOrganizationKey,
 } from "../public-government-identity";
+import { ensureLocalGovernmentOrganization } from "../nationwide-world/local-governments";
 import { ensureStateJurisdictionForKey } from "../nationwide-world/state-executives";
 import {
   ensureNationalElectionJurisdiction,
@@ -37,6 +39,7 @@ import { worldOpeningRecord } from "../world-setup/conditions";
 import { PUBLIC_CASH_OPENING_PROFILE_VERSION } from "../world-setup/types";
 import {
   budgetCandidates,
+  servingGovernment,
   openGovernmentBudget,
   type BudgetCandidate,
 } from "./opening";
@@ -52,17 +55,91 @@ export type LocalOpeningAccountSelection =
       readonly reason: string;
     };
 
+/** Reuse the existing serving-government route; the served place is never the account's jurisdiction. */
+function townshipForOpeningCandidate(
+  candidate: BudgetCandidate,
+): GovernmentUnitIdentity | null {
+  if (
+    candidate.level !== "city" ||
+    !candidate.geoid ||
+    candidate.key !== `town:${candidate.geoid}`
+  )
+    return null;
+  const servedPlace = lifePlaceByJurisdictionId(candidate.jurisdictionId);
+  if (
+    !servedPlace?.sourceGeoid ||
+    servedPlace.stateJurisdictionKey !== candidate.stateKey
+  )
+    return null;
+  const serving = servingGovernment(
+    servedPlace.sourceGeoid,
+    candidate.stateKey,
+    candidate.jurisdictionId,
+  );
+  if (
+    typeof serving === "string" ||
+    serving.key !== candidate.key ||
+    serving.geoid !== candidate.geoid
+  )
+    return null;
+  const units = governmentUnitsForState(
+    candidate.stateKey.replace(/^US-/, ""),
+  ).filter(
+    (unit) =>
+      unit.functionalActive &&
+      unit.unitType === "township" &&
+      unit.countyGeoid === candidate.geoid!.slice(0, 5) &&
+      unit.publisherPlaceCode === candidate.geoid!.slice(5),
+  );
+  return units.length === 1 ? units[0]! : null;
+}
+
 /** Account ownership selection only; neither geography nor opening cash grants authority. */
 export function selectLocalOpeningAccount(
   world: World,
-  candidate: BudgetCandidate,
+  inputCandidate: BudgetCandidate,
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): LocalOpeningAccountSelection {
+  const township = townshipForOpeningCandidate(inputCandidate);
+  if (inputCandidate.key.startsWith("town:") && !township)
+    return {
+      status: "unsupported",
+      reason:
+        "No unique compiled township matches the existing serving-government route.",
+    };
+  if (
+    township &&
+    world.history.organizations.some((row) => {
+      if (
+        !row.stableKey.startsWith("public-government:") ||
+        row.stableKey.startsWith("public-government:local:")
+      )
+        return false;
+      const jurisdictionId = row.stableKey.slice(
+        "public-government:".length,
+      ) as EntityId;
+      return (
+        townshipForOpeningCandidate({ ...inputCandidate, jurisdictionId })
+          ?.id === township.id
+      );
+    })
+  )
+    return {
+      status: "unsupported",
+      reason:
+        "A served-place account already exists; township ownership requires recorded migration, not relabeling or a second account.",
+    };
+  const candidate = township
+    ? {
+        ...inputCandidate,
+        jurisdictionId: governmentUnitJurisdictionId(township),
+      }
+    : inputCandidate;
   if (
     !candidate.geoid ||
     !["county", "city"].includes(candidate.level) ||
     candidate.key !==
-      `${candidate.level === "county" ? "county" : "place"}:${candidate.geoid}`
+      `${candidate.level === "county" ? "county" : township ? "town" : "place"}:${candidate.geoid}`
   )
     return {
       status: "unsupported",
@@ -102,9 +179,13 @@ export function selectLocalOpeningAccount(
           ? `county:${unit.countyGeoid}`
           : unit?.unitType === "municipality" && unit.placeGeoid
             ? `place:${unit.placeGeoid}`
-            : municipal?.placeGeoid
-              ? `place:${municipal.placeGeoid}`
-              : null;
+            : unit?.unitType === "township" &&
+                unit.countyGeoid &&
+                unit.publisherPlaceCode
+              ? `town:${unit.countyGeoid}${unit.publisherPlaceCode}`
+              : municipal?.placeGeoid
+                ? `place:${municipal.placeGeoid}`
+                : null;
       const jurisdictionId = unit
         ? governmentUnitJurisdictionId(unit)
         : municipal?.placeGeoid
@@ -143,16 +224,25 @@ export function selectLocalOpeningAccount(
   if (matches.length === 1) return { status: "saved", ...matches[0]! };
 
   const units = (
-    candidate.level === "county"
-      ? governmentUnitsForState(candidate.stateKey.replace(/^US-/, ""))
-      : governmentUnitsForPlace(candidate.geoid)
+    township
+      ? [township]
+      : candidate.level === "county"
+        ? governmentUnitsForState(candidate.stateKey.replace(/^US-/, ""))
+        : governmentUnitsForPlace(candidate.geoid)
   ).filter(
     (unit) =>
       unit.functionalActive &&
       unit.unitType ===
-        (candidate.level === "county" ? "county" : "municipality") &&
-      (candidate.level === "county" ? unit.countyGeoid : unit.placeGeoid) ===
-        candidate.geoid &&
+        (candidate.level === "county"
+          ? "county"
+          : township
+            ? "township"
+            : "municipality") &&
+      (township
+        ? `${unit.countyGeoid}${unit.publisherPlaceCode}`
+        : candidate.level === "county"
+          ? unit.countyGeoid
+          : unit.placeGeoid) === candidate.geoid &&
       governmentUnitJurisdictionId(unit) === candidate.jurisdictionId,
   );
   if (units.length > 1)
@@ -333,6 +423,8 @@ export function ensureOpeningGovernmentAccounts(world: World): World {
     PUBLIC_CASH_OPENING_PROFILE_VERSION;
   for (const candidate of budgetCandidates(next).candidates) {
     if (candidate.level !== "county" && candidate.level !== "city") continue;
+    const township = townshipForOpeningCandidate(candidate);
+    if (township) next = ensureLocalGovernmentOrganization(next, township);
     const selection = selectLocalOpeningAccount(next, candidate);
     if (selection.status !== "unique-compiled" && selection.status !== "saved")
       continue;

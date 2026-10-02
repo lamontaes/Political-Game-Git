@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import acsTowns from "../../../data/research/money/place-towns-acs-2024.json" with { type: "json" };
 import { makeIsoDate } from "../dates";
 import { stableHash } from "../ids";
 import {
@@ -7,7 +8,10 @@ import {
   governmentUnitsForPlace,
 } from "../government-units";
 import { lifePlaceStateIdentities, lifePlaceByKey } from "../life-places";
-import { publicGovernmentOrganizationKey } from "../public-government-identity";
+import {
+  assertPublicGovernmentIdentity,
+  publicGovernmentOrganizationKey,
+} from "../public-government-identity";
 import { createOrganization, recordOrganizationProfile } from "../life";
 import {
   createResourcePosition,
@@ -16,6 +20,10 @@ import {
   money,
 } from "../resources";
 import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
+import {
+  ensureLocalGovernmentOrganization,
+  localGovernmentOrganizationKey,
+} from "../nationwide-world/local-governments";
 import { ensureStateJurisdictionForKey } from "../nationwide-world/state-executives";
 import {
   ensureNationalElectionJurisdiction,
@@ -40,8 +48,90 @@ import {
   selectLocalOpeningAccount,
   estimateLocalOpeningCash,
 } from "./opening-government-accounts";
-import { budgetCandidates, type BudgetCandidate } from "./opening";
+import {
+  budgetCandidates,
+  servingGovernment,
+  type BudgetCandidate,
+} from "./opening";
 
+const townshipRoutes = townshipRoutesForProof();
+function townshipRoutesForProof() {
+  const groups = new Map<
+    string,
+    {
+      unit: ReturnType<typeof governmentUnitsForState>[number];
+      places: NonNullable<ReturnType<typeof lifePlaceByKey>>[];
+      candidate: BudgetCandidate;
+    }
+  >();
+  for (const geoid of Object.keys(acsTowns.placeTowns)) {
+    const place = lifePlaceByKey(geoid);
+    if (!place) continue;
+    if (
+      place.scope !== "locality" ||
+      !place.sourceGeoid ||
+      !place.stateJurisdictionKey ||
+      governmentUnitsForPlace(place.sourceGeoid).length
+    )
+      continue;
+    const serving = servingGovernment(
+      place.sourceGeoid,
+      place.stateJurisdictionKey,
+      place.context.jurisdiction.id,
+    );
+    if (
+      typeof serving === "string" ||
+      !serving.key.startsWith("town:") ||
+      !serving.geoid
+    )
+      continue;
+    const units = governmentUnitsForState(
+      place.stateJurisdictionKey.slice(3),
+    ).filter(
+      (unit) =>
+        unit.functionalActive &&
+        unit.unitType === "township" &&
+        unit.countyGeoid === serving.geoid!.slice(0, 5) &&
+        unit.publisherPlaceCode === serving.geoid!.slice(5),
+    );
+    if (units.length !== 1) continue;
+    const unit = units[0]!;
+    const existing = groups.get(unit.id);
+    if (existing) existing.places.push(place);
+    else
+      groups.set(unit.id, {
+        unit,
+        places: [place],
+        candidate: {
+          ...serving,
+          stateKey: place.stateJurisdictionKey,
+          lawJurisdictionId: serving.jurisdictionId,
+        },
+      });
+  }
+  return [...groups.values()]
+    .filter((row) => row.places.length > 1)
+    .sort((a, b) =>
+      stableHash(`township-opening:${a.unit.id}`).localeCompare(
+        stableHash(`township-opening:${b.unit.id}`),
+      ),
+    )
+    .slice(0, 5);
+}
+function townshipFixture(): World {
+  return ensureWorldStartingConditions(
+    createWorld({
+      seed: "canonical-township-opening",
+      currentDate: date,
+      jurisdictions: townshipRoutes.flatMap((row) =>
+        row.places.slice(0, 2).map((place) => place.context.jurisdiction),
+      ),
+      people: [],
+      lineage: "production",
+    }),
+    { openingVersion: CRUNCH46_WORLD_OPENING_VERSION },
+  );
+}
 const localUnits = identitiesForLocalProof();
 function identitiesForLocalProof() {
   const units = lifePlaceStateIdentities().flatMap((state) =>
@@ -138,6 +228,223 @@ function position(world: World, jurisdictionId: EntityId) {
 }
 
 describe("A33 sourced opening cash uses the existing government account", () => {
+  it("materializes five actual township jurisdictions before their accounts without aliasing served places", () => {
+    expect(townshipRoutes).toHaveLength(5);
+    const before = townshipFixture();
+    const world = ensurePublicBudgets(before);
+    for (const { unit, candidate, places } of townshipRoutes) {
+      const identity: PublicGovernmentIdentity = {
+        kind: "local-government",
+        governmentKey: unit.id,
+        jurisdictionId: governmentUnitJurisdictionId(unit),
+      };
+      expect(world.jurisdictions[identity.jurisdictionId]?.kind).toBe(
+        "government-township",
+      );
+      expect(
+        world.jurisdictionOrder.filter((id) => id === identity.jurisdictionId),
+      ).toHaveLength(1);
+      expect(() =>
+        assertPublicGovernmentIdentity(world, identity),
+      ).not.toThrow();
+      expect(
+        world.history.organizations.filter(
+          (row) => row.stableKey === localGovernmentOrganizationKey(unit),
+        ),
+      ).toHaveLength(1);
+      expect(
+        world.history.organizations.filter(
+          (row) => row.stableKey === publicGovernmentOrganizationKey(identity),
+        ),
+      ).toHaveLength(1);
+      const position = accountPosition(world, identity)!;
+      expect(position).toBeDefined();
+      expect(position.openingBalance.minorUnits).toBe(
+        worldOpeningRecord(before)!.publicCashOpening!.localMinorUnits,
+      );
+      for (const place of places.slice(0, 2)) {
+        const selection = selectLocalOpeningAccount(world, {
+          ...candidate,
+          jurisdictionId: place.context.jurisdiction.id,
+          lawJurisdictionId: place.context.jurisdiction.id,
+        });
+        expect(selection).toMatchObject({ status: "saved", identity });
+        expect(identity.jurisdictionId).not.toBe(place.context.jurisdiction.id);
+        expect(accountPosition(world, identity)?.id).toBe(position.id);
+      }
+    }
+    expect(world.history.resourceFlows).toEqual(before.history.resourceFlows);
+    expect(world.history.resourceTransferOutcomes).toEqual(
+      before.history.resourceTransferOutcomes,
+    );
+    const bytes = serializeWorld(world);
+    expect(serializeWorld(ensureOpeningGovernmentAccounts(world))).toBe(bytes);
+    expect(
+      serializeWorld(ensureOpeningGovernmentAccounts(deserializeWorld(bytes))),
+    ).toBe(bytes);
+  });
+
+  it("refuses an incorrect township jurisdiction and preserves the materializer's invalid-state boundary", () => {
+    const before = townshipFixture();
+    const { unit, candidate } = townshipRoutes[0]!;
+    const materialized = ensureLocalGovernmentOrganization(before, unit);
+    const canonical = governmentUnitJurisdictionId(unit);
+    expect(() =>
+      ensurePublicGovernmentAccount(materialized, {
+        kind: "local-government",
+        governmentKey: unit.id,
+        jurisdictionId: candidate.jurisdictionId,
+      }),
+    ).toThrow(/canonical/);
+    const jurisdictions = { ...materialized.jurisdictions };
+    delete jurisdictions[canonical];
+    const invalid: World = {
+      ...materialized,
+      jurisdictions,
+      jurisdictionOrder: materialized.jurisdictionOrder.filter(
+        (id) => id !== canonical,
+      ),
+    };
+    expect(ensureLocalGovernmentOrganization(invalid, unit)).toBe(invalid);
+    expect(() => ensureOpeningGovernmentAccounts(invalid)).toThrow(
+      /missing jurisdiction/,
+    );
+    expect(selectLocalOpeningAccount(invalid, candidate).status).toBe(
+      "unsupported",
+    );
+    expect(
+      accountPosition(invalid, {
+        kind: "local-government",
+        governmentKey: unit.id,
+        jurisdictionId: canonical,
+      }),
+    ).toBeUndefined();
+  });
+
+  it("joins an actual completed transfer to the canonical township account in monthly cash", () => {
+    let world = ensurePublicBudgets(townshipFixture());
+    const { unit, candidate } = townshipRoutes[0]!;
+    const identity: PublicGovernmentIdentity = {
+      kind: "local-government",
+      governmentKey: unit.id,
+      jurisdictionId: governmentUnitJurisdictionId(unit),
+    };
+    const account = accountPosition(world, identity)!;
+    if (account.owner.kind !== "organization")
+      throw new Error("Expected actual township organization account.");
+    const recipientId = account.owner.organizationId;
+    world = createOrganization(world, {
+      stableKey: "fixture:township-cash-payer",
+      formedAt: world.currentDate,
+      provenance: {
+        kind: "authored",
+        note: "Actual saved test payer for the account-to-budget join.",
+      },
+      initialProfile: {
+        name: "Township payment source",
+        classification: "sector:business",
+        locationJurisdictionId: identity.jurisdictionId,
+      },
+    });
+    const payerId = world.history.organizations.at(-1)!.id;
+    world = createResourcePosition(world, {
+      stableKey: "fixture:township-cash-payer:USD",
+      owner: { kind: "organization", organizationId: payerId },
+      openedAt: world.currentDate,
+      openingBalance: money(100, "USD"),
+      provenance: {
+        kind: "authored",
+        note: "Explicit funded test payer, not opening estimate or tax.",
+      },
+    });
+    world = createResourceFlow(world, {
+      stableKey: "fixture:township-cash-in",
+      source: { kind: "organization", organizationId: payerId },
+      recipient: { kind: "organization", organizationId: recipientId },
+      startsAt: world.currentDate,
+      amount: money(100, "USD"),
+      cadenceKind: "custom:fixture-cash",
+      basisKind: "custom:fixture-cash",
+      basisReference: { kind: "general" },
+      restrictionKind: "purpose:public-general-receipts",
+      jurisdictionId: identity.jurisdictionId,
+      provenance: {
+        kind: "authored",
+        note: "Actual township account payment fixture, not assessed tax.",
+      },
+    });
+    world = recordResourceTransferOutcome(world, {
+      stableKey: "fixture:township-cash-in:paid",
+      resourceFlowId: world.history.resourceFlows.at(-1)!.id,
+      periodStartsAt: world.currentDate,
+      periodEndsAt: world.currentDate,
+      occurredAt: world.currentDate,
+      attemptedAmount: money(100, "USD"),
+      transferredAmount: money(100, "USD"),
+      status: "completed",
+      reasonKind: null,
+      note: "Explicit completed account-join fixture payment.",
+      provenance: {
+        kind: "authored",
+        note: "Actual saved completion for the township budget reader.",
+      },
+    });
+    console.info("T6 saved township transfer join", {
+      unitId: unit.id,
+      budgetKey: candidate.key,
+      servedJurisdictionId: candidate.jurisdictionId,
+      canonicalJurisdictionId: identity.jurisdictionId,
+      positionId: account.id,
+      flowId: world.history.resourceFlows.at(-1)!.id,
+      outcomeId: world.history.resourceTransferOutcomes.at(-1)!.id,
+      paidMinorUnits: 100,
+      openingMinorUnits: account.openingBalance.minorUnits,
+    });
+    const cash = readMonthFlows(world, world.publicBudgets!).flows.cash?.get(
+      candidate.key,
+    );
+    expect(cash?.positionId).toBe(account.id);
+    expect(cash?.balanceMinorUnits).toBe(
+      account.openingBalance.minorUnits + 100,
+    );
+  });
+
+  it("does not relabel a saved served-place account or create a competing township account", () => {
+    const before = townshipFixture();
+    const { unit, candidate, places } = townshipRoutes[0]!;
+    const savedJurisdictionId = places[1]!.context.jurisdiction.id;
+    const saved = ensurePublicGovernmentAccount(
+      before,
+      { kind: "jurisdiction", jurisdictionId: savedJurisdictionId },
+      {
+        amountMinorUnits: 7123,
+        sourceNote: "Saved served-place ownership migration control.",
+      },
+    );
+    const next = ensureOpeningGovernmentAccounts(saved);
+    expect(selectLocalOpeningAccount(next, candidate).status).toBe(
+      "unsupported",
+    );
+    expect(
+      accountPosition(next, {
+        kind: "jurisdiction",
+        jurisdictionId: savedJurisdictionId,
+      }),
+    ).toEqual(
+      accountPosition(saved, {
+        kind: "jurisdiction",
+        jurisdictionId: savedJurisdictionId,
+      }),
+    );
+    expect(
+      accountPosition(next, {
+        kind: "local-government",
+        governmentKey: unit.id,
+        jurisdictionId: governmentUnitJurisdictionId(unit),
+      }),
+    ).toBeUndefined();
+  });
+
   it("opens an exact sourced county account rather than inferring one from a city", () => {
     const unit = lifePlaceStateIdentities()
       .flatMap((state) =>
