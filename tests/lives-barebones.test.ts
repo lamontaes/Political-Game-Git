@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { smallWorld } from "./fixtures/small-world";
 import { composeWorldTimeHandlers } from "../src/simulation/campaigns";
+import { childhoodRecord } from "../src/simulation/childhood-record-queries";
 import { ageOnDate, addDays, makeIsoDate } from "../src/simulation/dates";
 import { resolveFutureDueItemsThrough } from "../src/simulation/future-transitions";
 import {
@@ -15,10 +16,16 @@ import {
 } from "../src/simulation/life";
 import {
   activeEducationEnrollmentsAt,
+  activeWorkRelationshipsAt,
   householdMembershipsAt,
   workStatusAt,
 } from "../src/simulation/life-queries";
 import { lifePlaceStateIdentities } from "../src/simulation/life-places";
+import {
+  recordedMoves,
+  reviewQuarter,
+  reviewTown,
+} from "../src/simulation/migration";
 import { personName } from "../src/simulation/people";
 import { childrenOf } from "../src/simulation/people-family";
 import {
@@ -32,6 +39,13 @@ import { SeededRng, pickDistinct } from "../src/simulation/rng";
 import { TOWN_JOB_END_REASONS } from "../src/simulation/living-world/town-labor-market";
 import type { EntityId, World } from "../src/simulation/types";
 import { assertWorldIntegrity } from "../src/simulation/world";
+import { createCharacterHistoryContextPerson } from "../src/simulation/character-history";
+import {
+  DEATH_CAUSE_ILLNESS_WITH_COURSE,
+  FATAL_ILLNESS_EPISODE_PREFIX,
+} from "../src/simulation/crisis/death-causes";
+import { ensureCrisisMortality } from "../src/simulation/crisis/mortality";
+import { crisisRecords } from "../src/simulation/crisis/records";
 
 /**
  * LIVES slice step 0: the barebones play script. Four steps, one case each,
@@ -78,9 +92,24 @@ describe(`LIVES barebones script in ${PLACE} (seed ${SEED})`, () => {
     ).toBeInstanceOf(Array);
     assertWorldIntegrity(small.world);
   });
-  it.todo(
-    "step 1b: the full childhood record (coverage spells, school years, moves) - producer: claude/team5-childhood-record",
-  );
+  it("step 1b: reads the player's childhood record: the span on record, eligible days and entries", () => {
+    const small = world();
+    const record = childhoodRecord(small.world, small.personId)!;
+    expect(record.personId).toBe(small.personId);
+    expect(
+      record.witnessedFrom <= record.witnessedThrough ||
+        record.yearsWitnessed === 0,
+    ).toBe(true);
+    // Every entry cites a record the World holds.
+    for (const entry of record.entries)
+      expect(
+        small.world.history.events.some(
+          (event) => event.id === entry.sourceRecordId,
+        ),
+      ).toBe(true);
+    expect(record.daysEligibleForCoverage).toBeGreaterThanOrEqual(0);
+    expect(childhoodRecord(small.world, small.personId)).toEqual(record);
+  });
 
   it("step 2: a child is born to named parents through the family-plan path", () => {
     const small = world(6);
@@ -165,6 +194,14 @@ describe(`LIVES barebones script in ${PLACE} (seed ${SEED})`, () => {
     );
     expect(childrenOf(born, second)).toContain(childId);
     expect(householdMembershipsAt(born, childId!).length).toBeGreaterThan(0);
+    // The birth is the first line of the child's childhood record.
+    expect(childhoodRecord(born, childId!)!.entries).toEqual([
+      expect.objectContaining({
+        kind: "birth",
+        birthDate: child.birthDate,
+        jurisdictionId: born.people[first]!.homeJurisdictionId,
+      }),
+    ]);
     assertWorldIntegrity(born);
   });
 
@@ -238,10 +275,214 @@ describe(`LIVES barebones script in ${PLACE} (seed ${SEED})`, () => {
     "step 3b: the person's view of the responsible official shifts from the lived job loss - producer: lived-outcome factors for evaluatePoliticalBeliefFormation, on claude/team5-belief-lived-outcomes (today a caller must hand it factors; nothing reads a recorded layoff)",
   );
 
-  it.todo(
-    "step 4a: a household moves away after a job offer elsewhere (A135) - the producer exists (migration/job-offers.ts openOfferElsewhere, answerOfferElsewhere, reviewTown) but needs an opened town with its job market and openings; the small world has none, and a faked offer is not allowed",
-  );
-  it.todo(
-    "step 4b: a death from a recorded cause (A130) - the producer exists (crisis/mortality.ts) but a death arrives only when a person's own mortality threshold is crossed, which on a small world takes a multi-year run",
-  );
+  it("step 4a: a household moves away after a job offer elsewhere (A135)", () => {
+    // No employer elsewhere is seated ahead: the place the worker looks to
+    // writes the one the offer needs from its own business counts.
+    const small = world(6);
+    const today = small.world.currentDate;
+    const adults = small.world.personOrder
+      .filter(
+        (id) =>
+          id !== small.personId &&
+          small.world.people[id]!.homeJurisdictionId === small.jurisdictionId &&
+          ageOnDate(small.world.people[id]!.birthDate, today) >= 18,
+      )
+      .sort(
+        (a, b) =>
+          small.world.people[b]!.birthDate.localeCompare(
+            small.world.people[a]!.birthDate,
+          ) || a.localeCompare(b),
+      );
+    const [worker, partner] = adults as [EntityId, EntityId];
+    expect(worker && partner, "two adult residents").toBeTruthy();
+
+    // A couple's household, and the worker's town job, lost 200 days ago:
+    // each written through the life writers, as steps 2 and 3 write theirs.
+    let next: World = createHousehold(small.world, {
+      stableKey: "lives:4a:household",
+      formedAt: today,
+      label: "Fixture household for the couple",
+      provenance: provenance("LIVES barebones fixture household."),
+    });
+    const householdId = next.history.households.at(-1)!.id;
+    next = recordHouseholdLocation(next, {
+      stableKey: "lives:4a:household-location",
+      householdId,
+      effectiveAt: today,
+      jurisdictionId: small.jurisdictionId,
+      label: "Fixture residence",
+      kind: "residence:community-base",
+      provenance: provenance("LIVES barebones fixture residence."),
+      supersedesLocationId: null,
+    });
+    for (const personId of [worker, partner])
+      next = startHouseholdMembership(next, {
+        stableKey: `lives:4a:membership:${personId}`,
+        personId,
+        householdId,
+        startedAt: today,
+        residenceRole: "primary",
+        kind: "resident:member",
+        provenance: provenance("LIVES barebones fixture membership."),
+      });
+    next = createPartnership(next, {
+      stableKey: "lives:4a:partnership",
+      personIds: [worker, partner].sort() as [EntityId, EntityId],
+      kind: "legal:marriage",
+      startedAt: addDays(today, -400),
+      provenance: provenance("LIVES barebones fixture partnership."),
+    });
+    next = createOrganization(next, {
+      stableKey: "lives:4a:employer",
+      formedAt: addDays(today, -500),
+      provenance: provenance("LIVES barebones fixture employer."),
+      initialProfile: {
+        name: "Fixture Employer",
+        classification: "custom:fixture-employer",
+        locationJurisdictionId: small.jurisdictionId,
+      },
+    });
+    next = createWorkRelationship(next, {
+      stableKey: "lives:4a:job",
+      personId: worker,
+      organizationId: next.history.organizations.at(-1)!.id,
+      startedAt: addDays(today, -400),
+      kind: "employment:staff",
+      compensation: "paid",
+      authority: "directed",
+      dependency: "dependent",
+      economicRisk: "organization-borne",
+      provenance: provenance("LIVES barebones fixture job."),
+      initialRole: {
+        title: "Fixture worker",
+        occupationClassification: "service:fixture",
+        locationJurisdictionId: small.jurisdictionId,
+        timeDemand: {
+          expectedWeekly: { minimumHours: 32, maximumHours: 40 },
+          attention: "high",
+          concurrency: "mostly-exclusive",
+          scheduleRigidity: "mixed",
+          interruptibility: "limited",
+          locationJurisdictionId: small.jurisdictionId,
+        },
+      },
+    });
+    const job = next.history.workRelationships.at(-1)!;
+    next = recordWorkStatus(next, {
+      stableKey: "lives:4a:job-lost",
+      workRelationshipId: job.id,
+      effectiveAt: addDays(today, -200),
+      status: "ended",
+      reason: TOWN_JOB_END_REASONS.laidOff,
+      provenance: provenance("LIVES barebones fixture layoff."),
+      supersedesStatusId: workStatusAt(next, job.id)!.id,
+    });
+
+    // The worker's own quarterly review: they weigh looking elsewhere, the
+    // state's office answers through the job market, and they weigh the
+    // offer against what holds them, all from the record.
+    const moved = reviewTown(next, reviewQuarter(worker), {
+      arrivals: false,
+    });
+    const offered = moved.history.events.find(
+      (event) =>
+        event.type === "job-market.offered" &&
+        event.participants.some((row) => row.personId === worker),
+    );
+    expect(
+      offered,
+      "an offer from a recorded employer elsewhere",
+    ).toBeDefined();
+    const move = recordedMoves(moved).find((row) =>
+      row.personIds.includes(worker),
+    );
+    expect(move, "the worker's household moved").toBeDefined();
+    // The move is recorded under its strongest cause. Losing the job and the
+    // offer weigh the same here, and the tie goes to the lost job; the
+    // household still goes where the offer is.
+    expect(["work:job-offer", "work:job-lost"]).toContain(move!.reason);
+    expect(move!.personIds).toEqual(expect.arrayContaining([worker, partner]));
+    const opening = moved.history.jobOpenings!.find(
+      (row) =>
+        row.stableKey.startsWith("job-opening:elsewhere:") &&
+        row.stableKey.includes(worker),
+    )!;
+    expect(move!.toJurisdictionId).toBe(opening.jurisdictionId);
+    expect(move!.toJurisdictionId).not.toBe(small.jurisdictionId);
+    // The employer is a private business recorded at that place, not a
+    // government office.
+    const employerRecord = moved.history.organizations.find(
+      (row) => row.id === opening.organizationId,
+    )!;
+    expect(employerRecord.stableKey).toMatch(/^employer-elsewhere:/);
+    for (const personId of [worker, partner])
+      expect(moved.people[personId]!.homeJurisdictionId).toBe(
+        move!.toJurisdictionId,
+      );
+    // Having moved to the offer's place, the worker took it and started there.
+    const allSteps = moved.history.jobApplicationSteps ?? [];
+    const applicationId = allSteps.find(
+      (step) => step.eventId === offered!.id,
+    )!.applicationId;
+    expect(
+      allSteps
+        .filter((step) => step.applicationId === applicationId)
+        .map((step) => step.kind),
+    ).toEqual(["offered", "accepted", "started"]);
+    const application = moved.history.jobApplications!.find(
+      (row) => row.id === applicationId,
+    )!;
+    const employer = moved.history.jobOpenings!.find(
+      (opening) => opening.id === application.openingId,
+    )!.organizationId;
+    expect(
+      activeWorkRelationshipsAt(moved, worker).some(
+        (row) => row.relationship.organizationId === employer,
+      ),
+    ).toBe(true);
+    console.info(
+      `LIVES 4a ${PLACE} (seed ${SEED}): ${offered!.summary} Moved ${move!.personIds.length} under "${move!.reason}".`,
+    );
+    assertWorldIntegrity(moved);
+  });
+  it("step 4b: a death from a recorded cause (Ruling 29): the serious episode, then the death citing it", () => {
+    // An older relative in town, through the context-person writer. Their
+    // recorded age alone drives their strain; nobody's day is drawn.
+    const small = world();
+    let next = createCharacterHistoryContextPerson(small.world, {
+      stableKey: "lives:oldest-relative",
+      givenName: "Oldest",
+      familyName: "Relative",
+      birthDate: makeIsoDate("1919-02-03"),
+      homeJurisdictionId: small.jurisdictionId,
+    });
+    const elderId = next.personOrder.at(-1)!;
+    next = ensureCrisisMortality(next);
+    const handlers = composeWorldTimeHandlers();
+    // Due items only, a quarter at a time, until the death is on record.
+    for (
+      let i = 0;
+      i < 12 && !next.history.personDeaths.some((d) => d.personId === elderId);
+      i += 1
+    )
+      next = resolveFutureDueItemsThrough(
+        next,
+        addDays(next.currentDate, 91),
+        handlers,
+      );
+    const death = next.history.personDeaths.find(
+      (row) => row.personId === elderId,
+    );
+    expect(death, "the elder's death is on record").toBeDefined();
+    expect(death!.causeKey).toBe(DEATH_CAUSE_ILLNESS_WITH_COURSE);
+    const episode = crisisRecords(next).find(
+      (record) =>
+        record.kind === "health-episode" &&
+        record.personId === elderId &&
+        record.stableKey.startsWith(FATAL_ILLNESS_EPISODE_PREFIX),
+    )!;
+    expect(death!.sourceEntityIds).toContain(episode.id);
+    expect(episode.effectiveAt < death!.diedAt).toBe(true);
+    assertWorldIntegrity(next);
+  });
 });

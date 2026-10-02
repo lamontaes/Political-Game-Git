@@ -330,7 +330,7 @@ export const TOWN_CLOSING_FULL_INTENSITY_JOBS_PER_HUNDRED = 5;
  * a bank that failed are recorded events (`living-world/town-finances.ts`);
  * each becomes a downturn on its town's own layer, sized by the share of the
  * town's jobs it ended, which the town's unemployment then reads. A failed
- * bank is also a credit squeeze in its town, at full strength (PLACEHOLDER).
+ * bank is also a credit squeeze sized by its recorded share of town deposits.
  * Each fades geometrically.
  */
 export const TOWN_FINANCE_ORIGIN_READER: MacroOriginReader = {
@@ -356,8 +356,22 @@ export const TOWN_FINANCE_ORIGIN_READER: MacroOriginReader = {
             (jobShare * 100) / TOWN_CLOSING_FULL_INTENSITY_JOBS_PER_HUNDRED,
           ),
         );
-      if (event.type === BANK_FAILED_EVENT)
-        intensities.set("credit-tightening", 1);
+      if (event.type === BANK_FAILED_EVENT) {
+        const bankDeposits = tagValue(event, "bank-deposits-minor:");
+        const townDeposits = tagValue(event, "town-deposits-minor:");
+        const numerator = Number(bankDeposits);
+        const denominator = Number(townDeposits);
+        if (
+          tagValue(event, "deposit-currency:") === "USD" &&
+          bankDeposits !== null &&
+          townDeposits !== null &&
+          Number.isSafeInteger(numerator) &&
+          Number.isSafeInteger(denominator) &&
+          numerator > 0 &&
+          denominator >= numerator
+        )
+          intensities.set("credit-tightening", numerator / denominator);
+      }
       return [...intensities].map(([kind, intensity]) => ({
         dedupeKey: `${MACRO_ECONOMY_CONTRACT_VERSION}:town-finances:${kind}:${event.id}`,
         kind,

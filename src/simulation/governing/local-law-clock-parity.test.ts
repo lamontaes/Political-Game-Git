@@ -14,6 +14,7 @@ import {
   scheduleFutureDueItem,
 } from "../future-transitions";
 import {
+  governmentUnit,
   governmentUnitsForPlace,
   governmentUnitsForState,
 } from "../government-units";
@@ -73,7 +74,7 @@ import {
   ensureCouncilPrinciples,
 } from "./council-lawmaking";
 import { sittingLocalOfficers } from "../living-world/local-government-seats";
-import { councilRules, unitById } from "../living-world/local-council-binding";
+import { councilRules } from "../living-world/local-council-binding";
 import {
   LOCAL_COUNCIL_MEETING,
   LOCAL_COUNCIL_MEETINGS_VERSION,
@@ -498,7 +499,7 @@ describe("automatic local law under thirty days of the World clock", () => {
           ...localCouncilMeetingHandlers(),
         ]),
       );
-      const unit = unitById(opening.governmentKey)!;
+      const unit = governmentUnit(opening.governmentKey)!;
       const rules = councilRules(unit)!;
       const officers = sittingLocalOfficers(world, unit);
       const members = officers.filter((seat) => !seat.mayor);

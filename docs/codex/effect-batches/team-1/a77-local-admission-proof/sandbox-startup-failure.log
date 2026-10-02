@@ -36,6 +36,3 @@ failed to load config from /workspace/Political-Game-Git/vite.config.ts
     ' M src/simulation/legislative-institutions.ts\n',
   stderr: ''
 }
-
-
-

@@ -22,7 +22,7 @@ import {
   departLifePathRecruit,
   enterLifePath,
   knownLifePathPeople,
-  LIFE_PATHS2_HANDLERS,
+  lifePaths2Handlers,
   lifePathEntryReason,
   pathForRelationship,
   performLifePathSession,
@@ -92,10 +92,10 @@ export function LifePathsPanel({
   const actor = world.control.personId;
   const handlers = transitionHandlers
     ? composeFutureTransitionHandlerRegistries(
-        LIFE_PATHS2_HANDLERS,
+        lifePaths2Handlers(),
         transitionHandlers,
       )
-    : LIFE_PATHS2_HANDLERS;
+    : lifePaths2Handlers();
   const act = (result: LifePathResult) => {
     setNotice(result.message);
     if (result.ok) onWorldChange(result.world);

@@ -728,12 +728,13 @@ function verifiedReferenceDraft(
   measure: LegislativeMeasureRecord,
   lineage: LegislativeDraftLineageRecord,
   mapping: AutomaticLawPositionMapping,
+  suppliedContext?: AutomaticLawCompileContext,
 ) {
-  const context = profileContextForMapping(
-    world,
-    measure.jurisdictionId,
-    mapping,
-  );
+  const context =
+    suppliedContext &&
+    contextSupportsMapping(suppliedContext, measure.jurisdictionId, mapping)
+      ? suppliedContext
+      : profileContextForMapping(world, measure.jurisdictionId, mapping);
   if (
     !context ||
     !contextSupportsMapping(context, measure.jurisdictionId, mapping)
@@ -922,6 +923,7 @@ export function compileAutomaticLawDraft(input: {
     currentMeasure,
     currentLineage,
     currentMapping,
+    input.context,
   );
   const currentAmount =
     current?.draft.parameterValues[currentMapping.effectParameterKey];
@@ -965,7 +967,10 @@ export function compileAutomaticLawDraft(input: {
           row.variantKey === mapping.variantKey &&
           row.propositionKey === proposition.stableKey &&
           row.answer === input.answer &&
-          profileContextForMapping(world, measure.jurisdictionId, row),
+          (input.context &&
+          contextSupportsMapping(input.context, measure.jurisdictionId, row)
+            ? input.context
+            : profileContextForMapping(world, measure.jurisdictionId, row)),
       );
       if (!sourceMapping) return [];
       const source = verifiedReferenceDraft(
@@ -973,6 +978,7 @@ export function compileAutomaticLawDraft(input: {
         measure,
         lineage,
         sourceMapping,
+        input.context,
       );
       const amount = source?.draft.parameterValues[mapping.effectParameterKey];
       const population = publicBudgetFor(

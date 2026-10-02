@@ -13,7 +13,6 @@ import {
   recordWorldEvent,
   recordEventKnowledge,
   advanceWorldMinutes,
-  stableHash,
   simulationMinutesBetween,
   personName,
   addSimulationMinutes,
@@ -301,6 +300,51 @@ export function currentOpeningLifeScene(world: World, personId: EntityId) {
   };
 }
 
+/**
+ * The scene the most recent recorded event in this life ties to.
+ *
+ * Walks the person's events newest first. An event ties to a scene of the
+ * same family (its follow-through first), or to a scene whose counterpart
+ * was part of that event. The first event that ties to any eligible scene
+ * decides; within it, the earlier scene in order wins. With nothing tied,
+ * the first eligible scene in order comes next. Nothing is drawn.
+ */
+function sceneTiedToLatestEvent<
+  T extends {
+    readonly definition: { readonly key: string };
+    readonly counterpartPersonId: EntityId | null;
+    readonly beat: { readonly stageKey: string };
+  },
+>(
+  world: World,
+  personId: EntityId,
+  eligible: readonly T[],
+): { readonly choice: T; readonly eventId: EntityId | null } {
+  const events = world.history.events;
+  for (let at = events.length - 1; at >= 0; at -= 1) {
+    const event = events[at]!;
+    if (!event.involvedEntityIds.includes(personId)) continue;
+    const family = event.tags
+      .find((tag) => tag.startsWith("family:"))
+      ?.slice("family:".length);
+    const tied =
+      (family === undefined
+        ? undefined
+        : (eligible.find(
+            ({ definition, beat }) =>
+              definition.key === family && beat.stageKey === "follow-through",
+          ) ?? eligible.find(({ definition }) => definition.key === family))) ??
+      eligible.find(
+        ({ counterpartPersonId }) =>
+          counterpartPersonId !== null &&
+          counterpartPersonId !== personId &&
+          event.involvedEntityIds.includes(counterpartPersonId),
+      );
+    if (tied) return { choice: tied, eventId: event.id };
+  }
+  return { choice: eligible[0]!, eventId: null };
+}
+
 /** Initial scene construction establishes presence. Later location changes belong to the place owner. */
 export function openNextLifeScene(
   world: World,
@@ -357,15 +401,7 @@ export function openNextLifeScene(
       ),
   );
   if (!eligible.length) return world;
-  const index =
-    Number.parseInt(
-      stableHash(
-        `${world.seed}:${personId}:${world.history.nextSequence}`,
-      ).slice(0, 8),
-      16,
-    ) % eligible.length;
   // A direct response to the just-resolved moment belongs before a new topic.
-  // The normal seeded selection remains unchanged when there is no such reply.
   const previousFamily = previous?.tags
     .find((tag) => tag.startsWith("family:"))
     ?.slice(7);
@@ -373,8 +409,10 @@ export function openNextLifeScene(
     ({ definition, beat }) =>
       definition.key === previousFamily && beat.stageKey === "follow-through",
   );
-  const { definition, counterpartPersonId, beat } =
-    continuation ?? eligible[index]!;
+  const pick = continuation
+    ? { choice: continuation, eventId: previous!.id }
+    : sceneTiedToLatestEvent(world, personId, eligible);
+  const { definition, counterpartPersonId, beat } = pick.choice;
   const present =
     definition.setting === "home"
       ? homePeople(world, personId)
@@ -388,7 +426,7 @@ export function openNextLifeScene(
         ? "School"
         : "In your neighborhood";
   const summary = beat.prose;
-  let next = recordWorldEvent(world, {
+  let opened = recordWorldEvent(world, {
     stableKey: `opening-life:scene:${personId}:${definition.key}${definition.recurrence === "daily" ? `:${world.currentDate}` : ""}${beat.stageKey === "moment" ? "" : `:${beat.stageKey}`}`,
     type: OPEN,
     occurredAt: world.currentDate,
@@ -426,6 +464,7 @@ export function openNextLifeScene(
       `opening-stage:${beat.stageKey}`,
       "provenance:authored-premise",
       `moment:${JSON.stringify(world.currentMoment)}`,
+      ...(pick.eventId === null ? [] : [`follows-event:${pick.eventId}`]),
     ],
     summary,
     context: {
@@ -441,9 +480,9 @@ export function openNextLifeScene(
       immediateReaction: null,
     },
   });
-  const event = next.history.events.at(-1)!;
+  const event = opened.history.events.at(-1)!;
   for (const id of present)
-    next = recordEventKnowledge(next, {
+    opened = recordEventKnowledge(opened, {
       stableKey: `${event.stableKey}:witness:${id}`,
       personId: id,
       eventId: event.id,
@@ -453,7 +492,7 @@ export function openNextLifeScene(
       confidence: "high",
       source: { kind: "direct" },
     });
-  return next;
+  return opened;
 }
 
 /** Starts a named activity; it never enters the automatic moment draw. */

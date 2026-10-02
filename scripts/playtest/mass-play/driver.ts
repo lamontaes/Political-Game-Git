@@ -79,7 +79,7 @@ import {
   careerOfferAccepted,
 } from "../../../src/simulation/career-path7";
 import {
-  LIFE_PATHS2_HANDLERS,
+  lifePaths2Handlers,
   pathForRelationship,
 } from "../../../src/simulation/life-paths2";
 import {
@@ -770,7 +770,7 @@ export function playGame(spec: GameSpec): GameResult {
                 r.id,
                 p,
                 composeFutureTransitionHandlerRegistries(
-                  LIFE_PATHS2_HANDLERS,
+                  lifePaths2Handlers(),
                   handlers,
                 ),
               ).world,
