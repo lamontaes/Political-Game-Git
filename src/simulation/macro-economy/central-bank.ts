@@ -164,7 +164,8 @@ export interface ReserveBankPresidentSeat {
   readonly personId: EntityId;
   readonly since: IsoDate;
   readonly appointedEventId: EntityId;
-  readonly inflationLean: TraitValue;
+  /** Null until a recorded view establishes a prices-versus-jobs preference. */
+  readonly inflationLean: TraitValue | null;
 }
 
 export interface CentralBankSeat {
@@ -172,7 +173,8 @@ export interface CentralBankSeat {
   readonly personId: EntityId;
   readonly termEnds: IsoDate;
   readonly appointedEventId: EntityId;
-  readonly inflationLean: TraitValue;
+  /** Null until a recorded view establishes a prices-versus-jobs preference. */
+  readonly inflationLean: TraitValue | null;
 }
 
 export interface CentralBankNomination {
@@ -231,19 +233,8 @@ function isDead(world: World, personId: EntityId): boolean {
   );
 }
 
-/**
- * A member's view of prices against jobs, drawn once from their own stream
- * when they join the board and recorded on the appointment. It is a
- * GAME PROFILE: people differ on it, and nothing about a person's name,
- * place or background sets it.
- */
-function drawInflationLean(world: World, personId: EntityId): TraitValue {
-  return new SeededRng(world.seed)
-    .fork(`${CENTRAL_BANK_VERSION}:view:${personId}`)
-    .integer(-2, 3) as TraitValue;
-}
-
-function leanWords(lean: TraitValue): string {
+function leanWords(lean: TraitValue | null): string {
+  if (lean === null) return "has not formed a view on prices versus jobs";
   if (lean >= 2) return "fears inflation above all";
   if (lean === 1) return "leans toward holding prices down";
   if (lean === 0) return "weighs prices and jobs evenly";
@@ -272,7 +263,7 @@ function recordAppointment(
     readonly office: "governor" | "chair" | "reserve-bank-president";
     readonly seat: number;
     readonly termEnds: IsoDate | null;
-    readonly lean: TraitValue;
+    readonly lean: TraitValue | null;
     readonly basis: "opening" | "confirmed" | "chosen";
   },
 ): { world: World; eventId: EntityId } {
@@ -385,7 +376,8 @@ export function ensureCentralBankSeated(
   for (const [seat, stableKey] of stableKeys.entries()) {
     const personId = people.personIds[seat]!;
     const input = { stableKey };
-    const lean = drawInflationLean(next, personId);
+    // No admitted price-stability question binds a recorded principle yet.
+    const lean = null;
     const termEnds = seatTermEnds(seat, year);
     const recorded = recordAppointment(next, {
       stableKey: `${input.stableKey}:appointed`,
@@ -698,7 +690,7 @@ function confirm(
       termEnds = makeIsoDate(
         `${Number(termEnds.slice(0, 4)) + CENTRAL_BANK_PROFILE.governorTermYears}-01-31`,
       );
-    const lean = drawInflationLean(next, nomination.nomineeId);
+    const lean = null;
     const recorded = recordAppointment(next, {
       stableKey: `${CENTRAL_BANK_VERSION}:confirmed:governor:${nomination.seat}:${nomination.nomineeId}:${next.currentDate}`,
       personId: nomination.nomineeId,
@@ -760,7 +752,7 @@ export function ensureReserveBankPresidents(world: World): World {
   const presidents: ReserveBankPresidentSeat[] = [];
   for (const [index, row] of RESERVE_BANKS.entries()) {
     const personId = people.personIds[index]!;
-    const lean = drawInflationLean(next, personId);
+    const lean = null;
     const recorded = recordAppointment(next, {
       stableKey: `${stableKeys[index]}:appointed`,
       personId,
@@ -834,7 +826,7 @@ function stepReserveBankPresidents(world: World): World {
     );
     next = people.world;
     const personId = people.personIds[0]!;
-    const lean = drawInflationLean(next, personId);
+    const lean = null;
     const recorded = recordAppointment(next, {
       stableKey: `${stableKey}:appointed`,
       personId,
@@ -887,12 +879,14 @@ export function isCentralBankMeetingMonth(monthKey: string): boolean {
 /** Who votes: a governor or a voting reserve bank president. */
 interface Voter {
   readonly personId: EntityId;
-  readonly inflationLean: TraitValue;
+  readonly inflationLean: TraitValue | null;
 }
 
 function viewOf(world: World, seat: Voter): RateSetterView {
   return {
-    inflationLean: seat.inflationLean,
+    // An undecided member adds no personal preference to the shared readings.
+    // Keep the saved absence distinct from an explicitly balanced view (zero).
+    inflationLean: seat.inflationLean ?? 0,
     risk: personTrait(world, seat.personId, "risk").value,
     deliberation: personTrait(world, seat.personId, "deliberation").value,
   };
