@@ -16,6 +16,7 @@ import {
   createFutureTransitionHandlerRegistry,
   resolveFutureDueItemsThrough,
   scheduleFutureDueItem,
+  futureDueItemStateAt,
 } from "./future-transitions";
 import { recordKinship } from "./life";
 import { recordTraitChange } from "./people-traits";
@@ -27,6 +28,7 @@ import {
 } from "./speech-reception";
 import {
   ensureSpeechRetellingSchedule,
+  hasSpeechLeftToRetell,
   SPEECH_RETELLING_HANDLERS,
   SPEECH_RETELLING_TRANSITION_KEY,
 } from "./speech-retelling";
@@ -242,7 +244,8 @@ describe("A9 monthly speech retelling on the due clock", () => {
           (item) => item.transitionKey === SPEECH_RETELLING_TRANSITION_KEY,
         )
         .map((item) => item.dueAt),
-    ).toEqual(["2027-01-01", "2027-02-01", "2027-03-01", "2027-04-01"]);
+    ).toEqual(["2027-01-01", "2027-02-01", "2027-03-01"]);
+    expect(hasSpeechLeftToRetell(reached)).toBe(false);
     expect(ensureSpeechRetellingSchedule(reached)).toBe(reached);
     const again = advance(reached, "2027-03-01");
     expect(again.history.knowledge).toEqual(reached.history.knowledge);
@@ -250,6 +253,62 @@ describe("A9 monthly speech retelling on the due clock", () => {
     expect(again.history.futureDueItems).toEqual(
       reached.history.futureDueItems,
     );
+  }, 30_000);
+  it("stops an exhausted chain and restarts once from a new actual reception", () => {
+    const { world, speech } = fixture();
+    const stopped = advance(world, "2027-03-01");
+    const pending = (value: World) =>
+      value.history.futureDueItems.filter(
+        (item) =>
+          item.transitionKey === SPEECH_RETELLING_TRANSITION_KEY &&
+          futureDueItemStateAt(value, item.id, {
+            asOfDate: value.currentDate,
+            historySequenceExclusive: value.history.nextSequence,
+          })?.status === "scheduled",
+      );
+    expect(pending(stopped)).toEqual([]);
+    expect(ensureSpeechRetellingSchedule(stopped)).toBe(stopped);
+    const speaker = speech.involvedEntityIds[0]!;
+    const first = speech.involvedEntityIds[1]!;
+    const spoken = recordWorldEvent(stopped, {
+      stableKey: "a9:new-speech-after-exhaustion",
+      type: "speech.given",
+      occurredAt: stopped.currentDate,
+      recordedAt: stopped.currentDate,
+      jurisdictionId: speech.jurisdictionId,
+      involvedEntityIds: [speaker, first],
+      participants: [
+        {
+          personId: speaker,
+          role: "focus:subject",
+          detail: "Gave another speech",
+        },
+        {
+          personId: first,
+          role: "observation:witness",
+          detail: "Heard another speech",
+        },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [],
+      summary: "Another authored speech after the prior chain finished.",
+      context: speech.context,
+    });
+    const newSpeech = spoken.history.events.at(-1)!;
+    const restarted = recordSpeechReception(
+      spoken,
+      newSpeech,
+      speaker,
+      [first],
+      "victory",
+    );
+    expect(pending(restarted)).toHaveLength(1);
+    expect(pending(restarted)[0]!.dueAt).toBe("2027-04-01");
+    expect(ensureSpeechRetellingSchedule(restarted)).toBe(restarted);
+    expect(
+      recordSpeechReception(restarted, newSpeech, speaker, [first], "victory"),
+    ).toBe(restarted);
   }, 30_000);
   // CTO Oct 2 04:37 R2 admits fresh worlds only, without legacy-save migration.
   // Prove public Begin, three months, then Save/Continue on the ordinary clock.
@@ -324,7 +383,11 @@ describe("A9 monthly speech retelling on the due clock", () => {
           (item) => item.transitionKey === SPEECH_RETELLING_TRANSITION_KEY,
         )
         .map((item) => item.dueAt),
-    ).toEqual([firstMonth, secondMonth, thirdMonth, fourthMonth]);
+    ).toEqual(
+      hasSpeechLeftToRetell(continued)
+        ? [firstMonth, secondMonth, thirdMonth, fourthMonth]
+        : [firstMonth, secondMonth, thirdMonth],
+    );
     const repeated = resolveFutureDueItemsThrough(
       deserializeWorld(serializeWorld(continued)),
       continued.currentDate,
@@ -369,11 +432,18 @@ describe("A9 monthly speech retelling on the due clock", () => {
         )
         .map((item) => item.dueAt),
     ).toEqual([
-      firstMonth,
-      secondMonth,
-      thirdMonth,
-      fourthMonth,
-      monthStart(nextMonthKey(monthKeyOf(fourthMonth))),
+      ...savedAfterThree.history.futureDueItems
+        .filter(
+          (item) => item.transitionKey === SPEECH_RETELLING_TRANSITION_KEY,
+        )
+        .map((item) => item.dueAt),
+      ...(savedAfterThree.history.futureDueItems.some(
+        (item) =>
+          item.transitionKey === SPEECH_RETELLING_TRANSITION_KEY &&
+          item.dueAt === fourthMonth,
+      ) && hasSpeechLeftToRetell(afterContinue)
+        ? [monthStart(nextMonthKey(monthKeyOf(fourthMonth)))]
+        : []),
     ]);
   }, 30_000);
 });
