@@ -8,6 +8,7 @@ import { applyLawConsequences } from "./enacted-law-effects";
 import { advanceWorld } from "./world";
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";
 import {
+  changeLifePathStatus,
   scheduleLifePathSession,
   performLifePathSession,
   LIFE_PATHS2_HANDLERS,
@@ -841,7 +842,12 @@ it("A38 ordinary weekly payment preserves actual saved-rule authority and withho
 
 it("keeps completed earned pay from distinct work dates in separate observations", () => {
   const first = completedEarnedLawFixture();
-  const nextDate = advanceWorld(first.worked.world, 1, LIFE_PATHS2_HANDLERS);
+  const paused = changeLifePathStatus(first.worked.world, first.workId, "pause");
+  expect(paused.ok, paused.message).toBe(true);
+  const paid = advanceWorld(paused.world, 1, LIFE_PATHS2_HANDLERS);
+  const resumed = changeLifePathStatus(paid, first.workId, "return");
+  expect(resumed.ok, resumed.message).toBe(true);
+  const nextDate = resumed.world;
   const scheduled = scheduleLifePathSession(nextDate, first.workId);
   expect(scheduled.ok, scheduled.message).toBe(true);
   const activity = scheduled.world.history.scheduledActivities.at(-1)!;
