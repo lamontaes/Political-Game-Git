@@ -9,7 +9,6 @@ import {
 } from "../constitutional-process";
 import { stateRatificationChambers } from "../constitutional-ratification-rules";
 import { addDays } from "../dates";
-import { scheduleFutureDueItem } from "../future-transitions";
 import {
   lifePlaceStateIdentities,
   stateJurisdictionForKey,
@@ -21,11 +20,8 @@ import {
 } from "../national-election-geography";
 import { SeededRng } from "../rng";
 import { deserializeWorld, serializeWorld } from "../serialization";
-import type { EntityId, FutureDueItem, World } from "../types";
-import {
-  ARTICLE_V_STATE_ACTION,
-  articleVStateActionHandler,
-} from "./article-v";
+import type { EntityId, World } from "../types";
+import { recordArticleVStateMemberVote } from "../living-world/federal-reform";
 import { seatedCongressChamber } from "./congress-chambers";
 
 const seed = "A79 policy amendment actual state ratification";
@@ -101,27 +97,6 @@ beforeAll(() => {
   expect(constitutionalPosition(world, measureId).phase).toBe("ratification");
 });
 
-function stateDue(
-  input: World,
-  stateKey: string,
-): { world: World; due: FutureDueItem } {
-  const measure = input.history.constitutionalMeasures!.find(
-    (row) => row.id === measureId,
-  )!;
-  const next = scheduleFutureDueItem(input, {
-    stableKey: `${measure.stableKey}:state:${stateKey}`,
-    dueAt: addDays(input.currentDate, 1),
-    transitionKey: ARTICLE_V_STATE_ACTION,
-    entityIds: [measureId],
-    jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-    provenance: {
-      kind: "authored",
-      note: "Supplied due item isolates the existing state-action callback, not its calendar.",
-    },
-  });
-  return { world: next, due: next.history.futureDueItems.at(-1)! };
-}
-
 describe("A79 policy amendment ratification uses actual state chambers", () => {
   for (const stateKey of states) {
     it(`records actual separate chamber votes in ${stateKey}`, () => {
@@ -133,8 +108,9 @@ describe("A79 policy amendment ratification uses actual state chambers", () => {
         subject,
         stateKey.slice(3),
       );
-      const input = stateDue(actual, stateKey);
-      const next = articleVStateActionHandler(input.world, input.due).world;
+      const next = recordArticleVStateMemberVote(actual, measureId, stateKey);
+      expect(next).not.toBeNull();
+      if (!next) throw Error("Expected sourced actual-state admission.");
       const action = constitutionalActions(next, measureId).find(
         (row) =>
           row.detail.kind === "state-ratification" &&
@@ -165,15 +141,18 @@ describe("A79 policy amendment ratification uses actual state chambers", () => {
       expect(constitutionalActions(loaded, measureId)).toEqual(
         constitutionalActions(next, measureId),
       );
-      expect(articleVStateActionHandler(loaded, input.due).world).toBe(loaded);
+      expect(recordArticleVStateMemberVote(loaded, measureId, stateKey)).toBe(
+        loaded,
+      );
     });
   }
 
   it("does not substitute Congress for an absent actual state body", () => {
-    const input = stateDue(world, states[0]!);
-    const next = articleVStateActionHandler(input.world, input.due).world;
     expect(
-      constitutionalActions(next, measureId).filter(
+      recordArticleVStateMemberVote(world, measureId, states[0]!),
+    ).toBeNull();
+    expect(
+      constitutionalActions(world, measureId).filter(
         (row) => row.detail.kind === "state-ratification",
       ),
     ).toEqual([]);
@@ -183,14 +162,10 @@ describe("A79 policy amendment ratification uses actual state chambers", () => {
     for (const place of places.filter(
       (row) => !admitted.includes(row.jurisdictionKey),
     )) {
-      const input = stateDue(world, place.jurisdictionKey);
-      const next = articleVStateActionHandler(input.world, input.due).world;
       expect(
-        constitutionalActions(next, measureId).filter(
-          (row) => row.detail.kind === "state-ratification",
-        ),
+        recordArticleVStateMemberVote(world, measureId, place.jurisdictionKey),
         place.jurisdictionKey,
-      ).toEqual([]);
+      ).toBeNull();
     }
     console.info(
       "A79 policy ratification coverage",
