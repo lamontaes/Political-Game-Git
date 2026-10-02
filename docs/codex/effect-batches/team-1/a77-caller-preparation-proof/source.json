@@ -1,0 +1,45 @@
+{
+  "sourceHead": "730f90034c67c3593d2b74b4892a2b32f68a7fd4",
+  "baseMain": "730f90034c67c3593d2b74b4892a2b32f68a7fd4",
+  "preparedPath": "src/simulation/governing/local-law-clock-parity.test.ts",
+  "preparedSha256": "2c36d3e4d79a22d02918a1ecc25bf27df58b881ba99a5b097a9fbc1ee0e207c7",
+  "delta": {
+    "addedTestLines": 27,
+    "productionChanges": 0,
+    "newBuilders": 0
+  },
+  "candidate": {
+    "passed": 0,
+    "failed": 1,
+    "caseMilliseconds": 5464.441840000001
+  },
+  "exactMain": {
+    "passed": 0,
+    "failed": 1,
+    "caseMilliseconds": 5631.431299000002
+  },
+  "types": {
+    "roots": 1,
+    "scopedDiagnostics": 0,
+    "importedDiagnostics": 0
+  },
+  "blockers": [
+    "Audit pack-to-actual-local-government roster binding and council decision inputs.",
+    "Exact common-clock bodiesForMeasure/decide hunk release.",
+    "Existing measure-shape assertion also fails on exact main."
+  ],
+  "limits": [
+    "New initial roster checks passed before original assertion.",
+    "Later floor-ballot and reload checks not reached.",
+    "No replacement production driver, law-effect or nationwide proof."
+  ],
+  "evidenceSha256": {
+    "tests.log": "2d32ba76355b9fe43a2d602fc217321f8dba0dda6fa01c856212c3f96bfeb9f3",
+    "tests.json": "b9037bb734884b65f53f0cd97242d608757e2f751bec89897c110de284f1d78d",
+    "types.log": "7e294152a3531cd3344fe16f7a08854bc4f7b7b15bac6075858ea42a9700aabd",
+    "main-tests.log": "9cd5877e3c5ed68aea93d45cad52e05375c52f5be3a44310571c42fca214d2f2",
+    "main-tests.json": "946950fd9f06ef18e5466398b7c74f656bebd3e2d12be702a8075549767030dd",
+    "main-restoration.json": "f9bfd8ef38fbd7d855ee2dcefbeae329a36a82e02a9f212718c8472ea69bcd44",
+    "typecheck.mjs": "796c9e49f795cbeee8b33f1739b1c95d90b8deec161a0ee9f6bc9f1e125ecadb"
+  }
+}
