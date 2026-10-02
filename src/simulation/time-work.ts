@@ -1,17 +1,12 @@
 import { applyLawConsequences } from "./enacted-law-effects";
 import { applyEnactedCourtSizes } from "./governing/court-size-law";
 import { applyJudicialReview } from "./judiciary/judicial-review";
-import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
+import { applyOfficeLifecycle } from "./governing/office-continuity";
 import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { applyNationalTermTransitions } from "./national-election-consumer";
-import { applyCongressTurnover } from "./living-world/congress-turnover";
-import { applyStateLegislatureTurnover } from "./nationwide-world/state-legislature-turnover";
-import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
 import { applyCongressLawmaking } from "./governing/congress-lawmaking";
-import { applyConstitutionalReform } from "./living-world/constitutional-reform";
 import { applyFederalReform } from "./living-world/federal-reform";
 import { applyArticleV } from "./governing/article-v";
-import { applyPresidentialTurnover } from "./nationwide-world/presidential-turnover";
 import { workStatusAt } from "./life-queries";
 import { eventById } from "./event-index";
 import {
@@ -2035,27 +2030,12 @@ export function applyDateBoundary(
     crossedFrom,
     applyCrisisRepairFunding(
       applyEnactedCourtSizes(
-        applyCrisisOfficeContinuity(
+        applyOfficeLifecycle(crossedFrom, moved, (afterTerms) =>
           applyCongressLawmaking(
             crossedFrom,
             applyFederalReform(
               crossedFrom,
-              applyArticleV(
-                crossedFrom,
-                applyConstitutionalReform(
-                  crossedFrom,
-                  applyPresidentialTurnover(
-                    crossedFrom,
-                    applyGovernorTurnover(
-                      crossedFrom,
-                      applyCongressTurnover(
-                        crossedFrom,
-                        applyStateLegislatureTurnover(crossedFrom, moved),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              applyArticleV(crossedFrom, afterTerms),
             ),
           ),
         ),
