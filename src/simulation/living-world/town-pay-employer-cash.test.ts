@@ -7,7 +7,8 @@ import {
 import { observerSetup } from "../../presentation/observer-world";
 import { createOrganization, createWorkRelationship } from "../life";
 import { lifePlaceStateIdentities } from "../life-places";
-import { resourcePositionAt } from "../resource-queries";
+import { resourcePositionAt, resourceFlowTermsAt } from "../resource-queries";
+import { paymentFromDatedCash } from "../resource-payments";
 import {
   createResourcePosition,
   createResourceFlow,
@@ -21,8 +22,21 @@ import { withHistoryAppendTransaction } from "../history-index";
 import { ensureLifePathPersonalPosition } from "../life-paths2-resources";
 import { assessPaychecksTaxes } from "../statutory-tax";
 import { deserializeWorld, serializeWorld } from "../serialization";
-import { makeIsoDate, simulationMomentOnLocalDate } from "../dates";
-import { BUSINESS_REVENUE_BASIS, OWNER_DRAW_BASIS } from "../local-economy";
+import { aggregateCustomers, OWNER_DRAW_BASIS } from "../local-economy";
+import {
+  ensureWorldStartingConditions,
+  macroStartingConditions,
+} from "../world-setup/conditions";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
+import {
+  ensureMacroEconomyStarted,
+  macroStartForHistory,
+} from "../macro-economy/producer";
+import {
+  ensureTownOpeningBusinessBooks,
+  PAYDAYS_A_YEAR,
+  TOWN_SALES_RECEIPT_BASIS,
+} from "./town-finances";
 import type { EntityId } from "../types";
 import {
   settleTownCompensations,
@@ -111,27 +125,26 @@ function fixture(cash: number | null, workers = 1, placeKey = place) {
       onDate: world.currentDate,
     });
   }
-  return { world, owner, periods, workerIds };
+  return { world, owner, periods, workerIds, town: small.jurisdictionId };
 }
 
 describe(`town payroll uses saved employer cash in ${place}, seed ${seed}`, () => {
-  it.each([150_000, null])(
-    "settles real incoming sales before payroll, preserving customer debit and replay (customer cash %s)",
+  it.each([150_000, 35_000, 0, null])(
+    "records opening book sales before payroll, preserving customer cash and replay (customer cash %s)",
     (customerCash) => {
       const base = fixture(0);
-      let world = createOrganization(base.world, {
-        stableKey: "a60:customers",
-        formedAt: base.world.currentDate,
-        initialProfile: {
-          name: "Controlled customers",
-          classification: "custom:aggregate-customers",
-          locationJurisdictionId: null,
-        },
-        provenance,
+      let world = ensureWorldStartingConditions(base.world, {
+        openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
       });
+      world = ensureMacroEconomyStarted(
+        world,
+        macroStartForHistory(macroStartingConditions(world)),
+      );
+      const customers = aggregateCustomers(world, base.town);
+      world = customers.world;
       const customerOwner = {
         kind: "organization" as const,
-        organizationId: world.history.organizations.at(-1)!.id,
+        organizationId: customers.organizationId,
       };
       if (customerCash !== null)
         world = createResourcePosition(world, {
@@ -141,20 +154,6 @@ describe(`town payroll uses saved employer cash in ${place}, seed ${seed}`, () =
           openingBalance: money(customerCash, "USD"),
           provenance,
         });
-      world = createResourceFlow(world, {
-        stableKey: "a60:actual-sale",
-        source: customerOwner,
-        recipient: base.owner,
-        startsAt: world.currentDate,
-        amount: money(100_000, "USD"),
-        cadenceKind: "schedule:monthly",
-        basisKind: BUSINESS_REVENUE_BASIS,
-        basisReference: { kind: "general" },
-        restrictionKind: null,
-        jurisdictionId: null,
-        provenance,
-      });
-      const revenueFlowId = world.history.resourceFlows.at(-1)!.id;
       world = createResourceFlow(world, {
         stableKey: "a60:legacy-draw",
         source: base.owner,
@@ -169,50 +168,124 @@ describe(`town payroll uses saved employer cash in ${place}, seed ${seed}`, () =
         provenance,
       });
       const drawFlowId = world.history.resourceFlows.at(-1)!.id;
-      const payday = makeIsoDate("2026-02-01");
-      world = {
-        ...world,
-        currentDate: payday,
-        currentMoment: simulationMomentOnLocalDate(world.currentMoment, payday),
-      };
-      const period = {
-        ...base.periods[0]!,
-        onDate: payday,
-        periodStartsAt: payday,
-        periodEndsAt: payday,
-      };
-      const paid = settleTownCompensations(world, [period]);
-      const sale = paid.history.resourceTransferOutcomes.find(
-        (outcome) => outcome.resourceFlowId === revenueFlowId,
+      const period = base.periods[0]!;
+      const terms = resourceFlowTermsAt(world, period.payFlowId)!;
+      const cadence = /^schedule:town-([a-z]+)/.exec(terms.cadenceKind)![1]!;
+      const quarterPay = new Map([
+        [
+          base.owner.organizationId,
+          (terms.amount.minorUnits * PAYDAYS_A_YEAR[cadence]!) / 400,
+        ],
+      ]);
+      const opened = ensureTownOpeningBusinessBooks(world, quarterPay);
+      const books = opened.townFinances!.businesses[base.owner.organizationId]!;
+      const saleFlows = opened.history.resourceFlows.filter(
+        (flow) =>
+          flow.basisKind === TOWN_SALES_RECEIPT_BASIS &&
+          flow.recipient.kind === "organization" &&
+          flow.recipient.organizationId === base.owner.organizationId,
+      );
+      expect(saleFlows).toHaveLength(1);
+      const saleFlow = saleFlows[0]!;
+      expect(saleFlow.source).toEqual(customerOwner);
+      const sale = opened.history.resourceTransferOutcomes.find(
+        (outcome) => outcome.resourceFlowId === saleFlow.id,
       )!;
+      const savedSource = JSON.parse(sale.provenance.note!);
+      expect(savedSource.annualRevenueConstantDollars).toBe(
+        books.annualRevenue,
+      );
+      expect(savedSource.basePriceIndex).toBe(
+        opened.townFinances!.basePriceIndex,
+      );
+      const gross = Math.round(
+        (books.annualRevenue / 4) * savedSource.nominalPriceLevel * 100,
+      );
+      const receiptMinor =
+        customerCash === null ? gross : Math.min(customerCash, gross);
+      expect(sale.attemptedAmount).toEqual(money(gross, "USD"));
+      expect(sale.transferredAmount).toEqual(money(receiptMinor, "USD"));
+      expect(sale.periodStartsAt).toBe(world.currentDate);
+      expect(sale.periodEndsAt).toBe(world.currentDate);
+      expect(sale.occurredAt).toBe(world.currentDate);
+      expect(
+        resourcePositionAt(opened, base.owner, terms.amount.currency)!
+          .liquidBalance.minorUnits,
+      ).toBe(receiptMinor);
+      if (customerCash === null) {
+        // Approved book receipts do not fabricate an aggregate cash account.
+        expect(
+          resourcePositionAt(opened, customerOwner, terms.amount.currency),
+        ).toBeUndefined();
+        expect(sale.status).toBe("completed");
+      } else {
+        expect(
+          resourcePositionAt(opened, customerOwner, terms.amount.currency)!
+            .liquidBalance.minorUnits,
+        ).toBe(customerCash - receiptMinor);
+        expect(sale.status).toBe(
+          receiptMinor === gross
+            ? "completed"
+            : receiptMinor > 0
+              ? "partial"
+              : "missed",
+        );
+      }
+      const paid = settleTownCompensations(opened, [period]);
       const wage = paid.history.resourceTransferOutcomes.find(
         (outcome) => outcome.stableKey === period.stableKey,
       )!;
+      const wageMinor = Math.min(receiptMinor, terms.amount.minorUnits);
+      expect(wage.transferredAmount.minorUnits).toBe(wageMinor);
+      expect(
+        resourcePositionAt(paid, base.owner, terms.amount.currency)!
+          .liquidBalance.minorUnits,
+      ).toBe(receiptMinor - wageMinor);
       expect(
         paid.history.resourceTransferOutcomes.some(
           (outcome) => outcome.resourceFlowId === drawFlowId,
         ),
       ).toBe(false);
-      expect(sale.transferredAmount.minorUnits).toBe(
-        customerCash === null ? 0 : 100_000,
-      );
-      expect(wage.transferredAmount.minorUnits).toBe(
-        customerCash === null ? 0 : 100_000,
-      );
       expect(
-        resourcePositionAt(paid, base.owner, money(0, "USD").currency)!
-          .liquidBalance.minorUnits,
-      ).toBe(0);
-      if (customerCash !== null)
-        expect(
-          resourcePositionAt(paid, customerOwner, money(0, "USD").currency)!
-            .liquidBalance.minorUnits,
-        ).toBe(50_000);
-      else expect(sale.status).toBe("blocked");
+        paid.history.organizations.filter(
+          (row) => row.stableKey === `local-customers:${base.town}`,
+        ),
+      ).toHaveLength(1);
       const replay = deserializeWorld(serializeWorld(paid));
+      expect(ensureTownOpeningBusinessBooks(replay, quarterPay)).toEqual(
+        replay,
+      );
       expect(settleTownCompensations(replay, [period])).toEqual(replay);
     },
   );
+  it("refuses an actual payment from unknown customer cash without creating a balance or transfer", () => {
+    const base = fixture(0);
+    const customers = aggregateCustomers(base.world, base.town);
+    const owner = {
+      kind: "organization" as const,
+      organizationId: customers.organizationId,
+    };
+    const world = customers.world;
+    const amount = resourceFlowTermsAt(
+      world,
+      base.periods[0]!.payFlowId,
+    )!.amount;
+    const before = serializeWorld(world);
+    expect(
+      paymentFromDatedCash(world, owner, amount, world.currentDate),
+    ).toEqual({
+      availableMinor: null,
+      status: "blocked",
+      transferredAmount: money(0, amount.currency),
+      reasonKind: "capacity:money-unknown",
+    });
+    expect(resourcePositionAt(world, owner, amount.currency)).toBeUndefined();
+    expect(serializeWorld(world)).toBe(before);
+    const replay = deserializeWorld(before);
+    expect(
+      paymentFromDatedCash(replay, owner, amount, replay.currentDate),
+    ).toEqual(paymentFromDatedCash(world, owner, amount, world.currentDate));
+  });
   it("opens a new game in a random place with the current payroll code", () => {
     const openingSeed = "standby4-a60-current-main-new-game-20261002";
     const setup = observerSetup(openingSeed);
