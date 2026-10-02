@@ -21977,14 +21977,30 @@
         "US-MN": {
           "answer": "yes",
           "preempts": false,
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "key": "share",
+              "unit": "ratio",
+              "value": 0.1425
+            }
+          ],
           "source": "Research 1, read from the constitution 9/29/2026; also in Trust for Public Land LandVote database (passed state measures that dedicate a tax or other revenue, in force in 2026), filtered by Research 1, read 9/29/2026",
-          "note": "14.25 percent of the 0.375 percent Legacy sales tax goes to the parks and trails fund through June 30, 2034 (Minn. Const. art. XI, section 15)."
+          "note": "14.25 percent of the 0.375 percent Legacy sales tax goes to the parks and trails fund through June 30, 2034 (Minn. Const. art. XI, section 15). Primary verification: https://www.revisor.mn.gov/constitution/ (Minn. Const. art. XI, section 15), read October 2, 2026. The share denominator is receipts from the three-eighths-of-one-percent sales and use tax increase, plus penalties and interest and less refunds; eligible spending supports parks and trails of regional or statewide significance. This is not a share of all sales-tax revenue. The constitutional dedication runs July 1, 2009 through June 30, 2034; no operativeAt is added and the existing reader default is not an enactment date."
         },
         "US-MO": {
           "answer": "yes",
           "preempts": false,
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "key": "share",
+              "unit": "ratio",
+              "value": 0.5
+            }
+          ],
           "source": "Research 1, read from the constitution 9/29/2026",
-          "note": "A 0.1 percent sales and use tax, half to state parks and half to soil and water, last reauthorized by voters August 4, 2026 (Mo. Const. art. IV, sections 47(a) and 47(b))."
+          "note": "A 0.1 percent sales and use tax, half to state parks and half to soil and water, last reauthorized by voters August 4, 2026 (Mo. Const. art. IV, sections 47(a) and 47(b)). Primary verification: https://revisor.mo.gov/main/OneSection.aspx?section=IV++++47(b)&constit=y, read October 2, 2026. Fifty percent of receipts from the additional sales and use taxes under section 47(a) is deposited in the State Park Sales Tax Fund, subject to legislative appropriation for the stated purposes. The share is of that added tax revenue, not of all sales-tax revenue. Existing default date is preserved and is not asserted to be a researched enactment date."
         },
         "US-MP": {
           "answer": "no",
