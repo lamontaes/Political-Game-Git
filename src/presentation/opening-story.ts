@@ -229,6 +229,8 @@ export interface OpeningFamilyMember {
 export interface OpeningFamilyView {
   /** Parents and guardians, from kinship and guardianship records. */
   readonly parents: readonly OpeningFamilyMember[];
+  /** All other relatives established by dated kinship records, wherever they live. */
+  readonly relatives: readonly OpeningFamilyMember[];
   /** Everyone else you live with. */
   readonly household: readonly OpeningFamilyMember[];
   /** True only when the record says you live alone. */
@@ -255,7 +257,8 @@ export function projectOpeningFamily(
   personId: EntityId,
 ): OpeningFamilyView {
   const introduction = buildLifeIntroduction(world, personId);
-  if (!introduction) return { parents: [], household: [], livesAlone: false };
+  if (!introduction)
+    return { parents: [], relatives: [], household: [], livesAlone: false };
   const living = new Set(
     introduction.household.map((person) => person.personId),
   );
@@ -279,6 +282,7 @@ export function projectOpeningFamily(
     };
   };
   const parents: OpeningFamilyMember[] = [];
+  const relatives: OpeningFamilyMember[] = [];
   const seen = new Set<EntityId>();
   for (const person of introduction.household) {
     if (!person.relationship || !PARENT.test(person.relationship)) continue;
@@ -291,9 +295,9 @@ export function projectOpeningFamily(
       if (otherId === personId || seen.has(otherId)) continue;
       const relationship =
         describePersonContext(world, personId, otherId)?.relationship ?? null;
-      if (!relationship || !PARENT.test(relationship)) continue;
+      if (!relationship) continue;
       const entry = member(otherId, relationship);
-      if (entry) parents.push(entry);
+      if (entry) (PARENT.test(relationship) ? parents : relatives).push(entry);
       seen.add(otherId);
     }
   }
@@ -304,6 +308,7 @@ export function projectOpeningFamily(
   );
   return {
     parents,
+    relatives,
     household,
     livesAlone: introduction.sentences.includes("You live alone."),
   };
