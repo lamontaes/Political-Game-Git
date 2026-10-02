@@ -1,5 +1,6 @@
 import { considerationScore, evaluateDecision } from "../decisions";
-import { eventById, eventIndexOf } from "../event-index";
+import { eventById } from "../event-index";
+import { growingIndex, type GrowingIndexKind } from "../history-index";
 import { eventsOfType } from "../justice/jail-terms";
 import { addDays, ageOnDate } from "../dates";
 import { personTrait } from "../people-traits";
@@ -132,10 +133,20 @@ function step(points: number) {
  * (`priorVictimizations`, below) both read it.
  */
 
-const VICTIM_EVENTS = new WeakMap<
-  readonly HistoricalEvent[],
-  ReadonlyMap<EntityId, readonly EntityId[]>
->();
+// Follows the event list as it grows, so a new event is read once rather than
+// every event again after each write.
+const VICTIM_EVENTS: GrowingIndexKind<Map<EntityId, EntityId[]>> = {
+  create: () => new Map(),
+  add: (index, entry) => {
+    const event = entry as HistoricalEvent;
+    for (const participant of event.participants)
+      if (participant.role === "impact:crime-victim" && participant.personId) {
+        const list = index.get(participant.personId) ?? [];
+        list.push(event.id);
+        index.set(participant.personId, list);
+      }
+  },
+};
 
 /** The ids of the crimes against `personId` on or before `through`. */
 export function crimesSufferedBy(
@@ -143,23 +154,7 @@ export function crimesSufferedBy(
   personId: EntityId,
   through = world.currentDate,
 ): readonly EntityId[] {
-  const events = world.history.events;
-  let index = VICTIM_EVENTS.get(events);
-  if (!index) {
-    const built = new Map<EntityId, EntityId[]>();
-    for (const event of eventIndexOf(events).values())
-      for (const participant of event.participants)
-        if (
-          participant.role === "impact:crime-victim" &&
-          participant.personId
-        ) {
-          const list = built.get(participant.personId) ?? [];
-          list.push(event.id);
-          built.set(participant.personId, list);
-        }
-    VICTIM_EVENTS.set(events, built);
-    index = built;
-  }
+  const index = growingIndex(VICTIM_EVENTS, world.history.events);
   return (index.get(personId) ?? []).filter(
     (id) => (eventById(world, id)?.occurredAt ?? "") <= through,
   );
