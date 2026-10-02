@@ -20,6 +20,10 @@ import { createPressTransitionRegistry } from "./press/transitions";
 import { recordElectionSpeech } from "./campaign-speeches";
 import { doorKnockingReturn } from "./campaign-recognition";
 import { startingSupportAdjustment } from "./record-in-office";
+import { campaignOfficePollingEstimate } from "./campaign-polling-estimate";
+import type { CampaignPollingEstimate } from "./campaign-polling-estimate";
+import { campaignPollingQuality } from "./campaign-polling";
+import { majorPartyOf } from "./statewide-electorate";
 import {
   legislativeTermDates,
   supportedLegislativeTermDates,
@@ -163,9 +167,9 @@ import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
 } from "./life-places";
-import { drawGeneratedPersonName } from "./people";
+import { drawGeneratedPersonName, personName } from "./people";
 import { createExactQuantity } from "./quantity";
-import { positionOwnerEndpoint } from "./resource-queries";
+import { positionOwnerEndpoint, resourcePositionAt } from "./resource-queries";
 import {
   createResourceFlow,
   createResourcePosition,
@@ -1094,6 +1098,58 @@ function bookCampaignAction(
   return { world: next, action };
 }
 
+/** The existing paid-message effect, shared by every committee. */
+export function requestedCampaignAdvertisingGainBasisPoints(
+  spend: MoneyAmount,
+): number {
+  return Math.floor(spend.minorUnits / 500);
+}
+
+/** Field effect from recorded effort, shared by player and rival work. */
+export function requestedCampaignFieldGainBasisPoints(
+  world: World,
+  campaign: CampaignRecord,
+  minutes: number,
+  workers: number,
+  excludingActionId: EntityId | null = null,
+): number {
+  if (!Number.isFinite(minutes) || !Number.isFinite(workers)) return 0;
+  if (minutes <= 0 || workers <= 0) return 0;
+  return Math.floor(
+    (minutes *
+      workers *
+      3 *
+      doorKnockingReturn(world, campaign, excludingActionId).percent) /
+      200,
+  );
+}
+
+/** Only a completed activity linked to this outcome proves field effort. */
+export function requestedCompletedCampaignFieldGainBasisPoints(
+  world: World,
+  campaign: CampaignRecord,
+  candidatePersonId: EntityId,
+  outcomeEventId: EntityId,
+): number {
+  const completion = world.history.scheduledActivityStates.find(
+    (state) =>
+      state.status === "completed" &&
+      state.outcomeEventId === outcomeEventId &&
+      compareSimulationMoments(state.end, world.currentMoment) <= 0,
+  );
+  if (!completion) return 0;
+  const activity = world.history.scheduledActivities.find(
+    (record) => record.id === completion.activityId,
+  );
+  if (!activity?.participantPersonIds.includes(candidatePersonId)) return 0;
+  return requestedCampaignFieldGainBasisPoints(
+    world,
+    { ...campaign, candidatePersonId },
+    simulationMinutesBetween(completion.start, completion.end),
+    activity.participantPersonIds.length,
+  );
+}
+
 /**
  * What an afternoon actually moves.
  *
@@ -1130,14 +1186,19 @@ function requestedGainBasisPoints(
   // Who is knocking changes what a door returns: see `campaign-recognition.ts`.
   const base =
     action.kind === "outreach"
-      ? Math.floor(
-          (minutes *
-            workers *
-            3 *
-            doorKnockingReturn(world, campaign, action.id).percent) /
-            200,
+      ? requestedCampaignFieldGainBasisPoints(
+          world,
+          campaign,
+          minutes,
+          workers,
+          action.id,
         )
-      : Math.floor((action.plannedSpend?.minorUnits ?? 0) / 500);
+      : requestedCampaignAdvertisingGainBasisPoints(
+          action.plannedSpend ?? {
+            minorUnits: 0,
+            currency: campaign.treasuryCurrency,
+          },
+        );
   return Math.max(1, Math.floor(base));
 }
 
@@ -1170,7 +1231,11 @@ function recordSupportAfterAction(
   return { world: shift.world, stateIds: shift.stateIds, candidateStateId };
 }
 
-/** Record the saved support reading without an added error or sampling claim. */
+/**
+ * No recorded voter responses means a district comparison, never an own poll.
+ * Its reported spread is measured across the listed game records; confidence
+ * is deliberately unspecified because those districts are not respondents.
+ */
 function recordCampaignObservation(
   world: World,
   campaign: CampaignRecord,
@@ -1179,18 +1244,30 @@ function recordCampaignObservation(
 ): {
   readonly world: World;
   readonly observation: WorldMetricObservationRecord;
+  readonly estimate: CampaignPollingEstimate;
+  readonly party: "democratic" | "republican" | null;
 } {
-  const state = world.history.metricStates.find(
-    (candidate) => candidate.id === candidateStateId,
-  )!;
-  const trueBasisPoints = quantityBasisPoints(state);
-  const observedBasisPoints = Math.round(trueBasisPoints);
+  const estimate = campaignOfficePollingEstimate(world, campaign);
+  const party = majorPartyOf(
+    world,
+    campaign.candidatePersonId,
+    world.currentDate,
+  );
+  const share =
+    party === "republican"
+      ? 1 - estimate.democraticShare
+      : estimate.democraticShare;
+  const observedBasisPoints = Math.round(share * SUPPORT_DENOMINATOR);
+  const scope = campaign.candidateSupportScopes.find(
+    (candidate) => candidate.candidatePersonId === campaign.candidatePersonId,
+  );
+  if (!scope) throw new Error("The campaign candidate has no metric segment.");
   const previous = world.history.metricObservations
     .filter(
       (observation) =>
         observation.metricId === campaign.supportMetricId &&
         observation.scope.jurisdictionId === campaign.jurisdictionId &&
-        observation.scope.segmentKey === state.scope.segmentKey &&
+        observation.scope.segmentKey === scope.segmentKey &&
         observation.referencePeriod.kind === "point" &&
         observation.referencePeriod.at === world.currentDate &&
         observation.sourceSeriesKey === "campaign.field-memo",
@@ -1199,7 +1276,10 @@ function recordCampaignObservation(
   const next = recordWorldMetricObservation(world, {
     stableKey: `${action.stableKey}:observation`,
     metricId: campaign.supportMetricId,
-    scope: { ...state.scope },
+    scope: {
+      jurisdictionId: campaign.jurisdictionId,
+      segmentKey: scope.segmentKey,
+    },
     referencePeriod: { kind: "point", at: world.currentDate },
     value: {
       kind: "quantity",
@@ -1210,17 +1290,41 @@ function recordCampaignObservation(
       ),
     },
     sourceSeriesKey: "campaign.field-memo",
-    sourceLabel: "Recorded campaign support",
-    sourceReference: null,
-    methodologyKey: null,
+    sourceLabel: estimate.label,
+    sourceReference: {
+      title: "Recorded district comparison, not contacted voter responses",
+      locator: JSON.stringify({
+        comparison: estimate.comparison,
+        party,
+        peers: estimate.peers,
+      }),
+    },
+    methodologyKey: "campaign.estimated-district-comparison",
     releaseDate: world.currentDate,
     recordedAt: world.currentDate,
     vintageKey: `campaign.v${world.history.nextSequence}`,
-    uncertainty: { kind: "none" },
+    uncertainty: {
+      kind: "margin-of-error",
+      margin: {
+        kind: "quantity",
+        quantity: createExactQuantity(
+          Math.round(estimate.standardDeviation * SUPPORT_DENOMINATOR),
+          SUPPORT_DENOMINATOR,
+          "rate:share",
+        ),
+      },
+      confidence: null,
+    },
     supersedesObservationId: previous?.id ?? null,
+    // Retain the private integrity link without reading its hidden value.
     underlyingStateId: candidateStateId,
   });
-  return { world: next, observation: next.history.metricObservations.at(-1)! };
+  return {
+    world: next,
+    observation: next.history.metricObservations.at(-1)!,
+    estimate,
+    party,
+  };
 }
 
 function actionCompletionEvent(world: World, activityId: EntityId): EntityId {
@@ -1233,6 +1337,75 @@ function actionCompletionEvent(world: World, activityId: EntityId): EntityId {
 
 function moneyLabel(amount: MoneyAmount): string {
   return moneyText(amount);
+}
+
+/** The existing advertising transfer, using the spender's actual saved endpoints. */
+export function recordCampaignAdvertisingExpenditure(
+  world: World,
+  input: {
+    readonly stableKey: string;
+    readonly committeeOrganizationId: EntityId;
+    readonly vendorOrganizationId: EntityId;
+    readonly treasuryPositionId: EntityId;
+    readonly jurisdictionId: EntityId;
+    readonly outcomeEventId: EntityId;
+    readonly amount: MoneyAmount;
+  },
+) {
+  const amount = input.amount;
+  const treasury = resourcePositionAt(
+    world,
+    { kind: "organization", organizationId: input.committeeOrganizationId },
+    amount.currency,
+  );
+  if (
+    !treasury ||
+    treasury.positionId !== input.treasuryPositionId ||
+    amount.minorUnits <= 0 ||
+    treasury.liquidBalance.minorUnits < amount.minorUnits
+  )
+    throw new Error(
+      "The spending committee cannot overdraw its recorded treasury.",
+    );
+  let next = createResourceFlow(world, {
+    stableKey: `${input.stableKey}:flow`,
+    source: {
+      kind: "organization",
+      organizationId: input.committeeOrganizationId,
+    },
+    recipient: positionOwnerEndpoint({
+      kind: "organization",
+      organizationId: input.vendorOrganizationId,
+    }),
+    startsAt: world.currentDate,
+    initialStatus: "active",
+    amount,
+    cadenceKind: "schedule:one-time",
+    basisKind: "custom:campaign-expenditure",
+    basisReference: { kind: "general" },
+    restrictionKind: "purpose:campaign",
+    jurisdictionId: input.jurisdictionId,
+    provenance: { kind: "simulated-event", eventId: input.outcomeEventId },
+  });
+  const resourceFlowId = next.history.resourceFlows.at(-1)!.id;
+  next = recordResourceTransferOutcome(next, {
+    stableKey: `${input.stableKey}:transfer`,
+    resourceFlowId,
+    periodStartsAt: next.currentDate,
+    periodEndsAt: next.currentDate,
+    occurredAt: next.currentDate,
+    status: "completed",
+    attemptedAmount: amount,
+    transferredAmount: amount,
+    reasonKind: null,
+    note: "An advertising buy, paid out of the committee's own account.",
+    provenance: { kind: "simulated-event", eventId: input.outcomeEventId },
+  });
+  return {
+    world: next,
+    resourceFlowId,
+    resourceOutcomeId: next.history.resourceTransferOutcomes.at(-1)!.id,
+  };
 }
 
 function actionMoney(
@@ -1256,36 +1429,40 @@ function actionMoney(
       spentAmount: null,
     };
   }
-  const raising = action.kind === "fundraising";
-  const amount: MoneyAmount = raising
-    ? {
-        minorUnits: new SeededRng(world.seed)
-          .fork(`campaign-fundraising:${action.id}`)
-          .integer(85_000, 175_001),
-        currency: campaign.treasuryCurrency,
-      }
-    : { ...action.plannedSpend! };
+  if (action.kind === "advertising") {
+    const amount = { ...action.plannedSpend! };
+    const paid = recordCampaignAdvertisingExpenditure(world, {
+      stableKey: action.stableKey,
+      committeeOrganizationId: campaign.organizationId,
+      vendorOrganizationId: campaign.advertisingVendorOrganizationId,
+      treasuryPositionId: campaign.treasuryPositionId,
+      jurisdictionId: campaign.jurisdictionId,
+      outcomeEventId: completionEventId,
+      amount,
+    });
+    return { ...paid, raisedAmount: null, spentAmount: amount };
+  }
+  const amount: MoneyAmount = {
+    minorUnits: new SeededRng(world.seed)
+      .fork(`campaign-fundraising:${action.id}`)
+      .integer(85_000, 175_001),
+    currency: campaign.treasuryCurrency,
+  };
   let next = createResourceFlow(world, {
     stableKey: `${action.stableKey}:flow`,
     source: {
       kind: "organization",
-      organizationId: raising
-        ? campaign.donorPoolOrganizationId
-        : campaign.organizationId,
+      organizationId: campaign.donorPoolOrganizationId,
     },
     recipient: positionOwnerEndpoint({
       kind: "organization",
-      organizationId: raising
-        ? campaign.organizationId
-        : campaign.advertisingVendorOrganizationId,
+      organizationId: campaign.organizationId,
     }),
     startsAt: world.currentDate,
     initialStatus: "active",
     amount,
     cadenceKind: "schedule:one-time",
-    basisKind: raising
-      ? "custom:campaign-contribution"
-      : "custom:campaign-expenditure",
+    basisKind: "custom:campaign-contribution",
     basisReference: { kind: "general" },
     restrictionKind: "purpose:campaign",
     jurisdictionId: campaign.jurisdictionId,
@@ -1302,17 +1479,15 @@ function actionMoney(
     attemptedAmount: amount,
     transferredAmount: amount,
     reasonKind: null,
-    note: raising
-      ? "Proceeds of a scheduled fundraising session, received by the committee."
-      : "An advertising buy, paid out of the committee's own account.",
+    note: "Proceeds of a scheduled fundraising session, received by the committee.",
     provenance: { kind: "simulated-event", eventId: completionEventId },
   });
   return {
     world: next,
     resourceFlowId,
     resourceOutcomeId: next.history.resourceTransferOutcomes.at(-1)!.id,
-    raisedAmount: raising ? amount : null,
-    spentAmount: raising ? null : amount,
+    raisedAmount: amount,
+    spentAmount: null,
   };
 }
 
@@ -1473,6 +1648,19 @@ function recordCampaignActionOutcome(
   );
   next = observationResult.world;
   const observation = observationResult.observation;
+  const { estimate, party } = observationResult;
+  const reader = campaignPollingQuality(next, campaign).reader;
+  const compared = estimate.peers
+    .map(
+      (peer) =>
+        congressSeatIdentityForOfficeKey(peer.seatKey)?.displayName ??
+        peer.seatKey,
+    )
+    .join("; ");
+  const comparisonLabel =
+    party === null
+      ? "Democratic district comparison (your major-party affiliation is not recorded)"
+      : `${party} district comparison`;
   const observed =
     observation.value.kind === "quantity"
       ? (observation.value.quantity.numerator /
@@ -1500,8 +1688,17 @@ function recordCampaignActionOutcome(
     ],
     personFactConstraints: [],
     visibility: "private",
-    tags: ["campaign.feedback", "campaign.observation"],
-    summary: `The field memo puts them somewhere around ${Math.round(observed)} percent, give or take four points.`,
+    tags: [
+      "campaign.feedback",
+      "campaign.observation",
+      "campaign.estimate",
+      ...new Set(
+        estimate.peers.map(
+          (peer) => `campaign.estimate-source:${peer.sourceEntityId}`,
+        ),
+      ),
+    ],
+    summary: `${estimate.label}: ${comparisonLabel} around ${Math.round(observed)} percent, give or take ${(estimate.standardDeviation * 100).toFixed(1)} points of recorded district spread. Compared ${compared}.`,
     context: {
       location: {
         jurisdictionId: campaign.jurisdictionId,
@@ -1509,11 +1706,14 @@ function recordCampaignActionOutcome(
         setting: "A memo left on the desk",
       },
       socialContext:
-        "Somebody's best estimate from the calls they made, not the electorate itself.",
+        reader.kind === "experienced"
+          ? `Prepared by ${personName(next.people[reader.personId]!)}, whose recorded survey work totals ${reader.surveyDays} days. This is district evidence, not contacted voter responses.`
+          : "Prepared by the campaign's volunteer reader from recorded district evidence, not contacted voter responses.",
       pressure: null,
       choice: null,
       motivation: "Give the candidate something to act on.",
-      immediateReaction: "It could be wrong, and there is no way to check.",
+      immediateReaction:
+        "The compared districts and their recorded spread are listed; there is no poll of your own yet.",
     },
   });
   const feedbackEventId = next.history.events.at(-1)!.id;

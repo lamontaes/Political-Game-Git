@@ -48,6 +48,10 @@ import {
 import { SIMULATION_ESTABLISHED_METRIC_STABLE_KEYS } from "./production-catalog";
 import { canonicalJson } from "./canonical-json";
 import { startingSupportAdjustment } from "./record-in-office";
+import { ensureWorldStartingConditions } from "./world-setup/conditions";
+import { generatePoliticalStartingConditions } from "./world-setup/political-start";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "./world-setup/types";
+import { campaignOfficePollingEstimate } from "./campaign-polling-estimate";
 import { projectCampaignCompliance } from "../presentation/campaign-compliance-projection";
 import type { CampaignRecord, EntityId, World } from "./types";
 
@@ -101,10 +105,16 @@ function fileKentuckyCampaign(
   const candidatePersonId = firstAdult(scenario);
   // Campaign work is work somebody does, and the activity engine will not let
   // an unheld person do it. The fixture takes control the way a player does.
-  const base: World = {
-    ...scenario,
-    control: { kind: "person", personId: candidatePersonId },
-  };
+  const base: World = ensureWorldStartingConditions(
+    {
+      ...scenario,
+      control: { kind: "person", personId: candidatePersonId },
+    },
+    {
+      openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+      political: generatePoliticalStartingConditions,
+    },
+  );
   const staffPersonIds = base.personOrder
     .filter((personId) => personId !== candidatePersonId)
     .filter((personId) => {
@@ -936,18 +946,34 @@ describe("support truth and what the campaign is told about it", () => {
     const observation = after.history.metricObservations.find(
       (candidate) => candidate.id === result.observationId,
     )!;
-    // The observation names the state it is an observation *of*, and they are
-    // two different records with two different ids.
+    // The private integrity link identifies the state being estimated, while
+    // the estimate and its evidence remain separate from that hidden value.
     expect(observation.underlyingStateId).not.toBeNull();
     expect(result.supportStateIds).toContain(observation.underlyingStateId!);
     expect(observation.id).not.toBe(observation.underlyingStateId);
 
-    // This is the recorded support reading, without additional sampling error.
-    expect(observation.uncertainty).toEqual({ kind: "none" });
-    expect(observation.methodologyKey).toBeNull();
+    expect(observation.uncertainty?.kind).toBe("margin-of-error");
+    expect(observation.methodologyKey).toBe(
+      "campaign.estimated-district-comparison",
+    );
+    expect(observation.sourceLabel).toBe("Estimate, no poll of your own yet");
+    const estimate = campaignOfficePollingEstimate(after, filed.campaign);
+    const provenance = JSON.parse(observation.sourceReference!.locator!);
+    expect(provenance.peers).toEqual(estimate.peers);
+    expect(observation.uncertainty).toMatchObject({ confidence: null });
+    const memo = after.history.events.find(
+      (event) => event.id === result.feedbackEventId,
+    )!;
+    expect(memo.summary).toContain("no poll of your own yet");
+    expect(memo.summary).toContain("recorded district spread");
+    for (const peer of estimate.peers)
+      expect(memo.tags).toContain(
+        `campaign.estimate-source:${peer.sourceEntityId}`,
+      );
   });
 
-  it("reads the saved support without added poll noise", () => {
+  it("does not copy hidden support into the estimated district reading", () => {
+    let disagreements = 0;
     for (let index = 0; index < 12; index += 1) {
       const filed = fileKentuckyCampaign(`observation-error-${index}`);
       const after = doOneSession(
@@ -972,8 +998,10 @@ describe("support truth and what the campaign is told about it", () => {
         filed.campaign,
         filed.candidatePersonId,
       );
-      expect(observed).toBe(Math.round(truth));
+      if (observed !== truth) disagreements += 1;
+      expect(observation.sourceLabel).toBe("Estimate, no poll of your own yet");
     }
+    expect(disagreements).toBeGreaterThan(6);
   });
 
   it("is declared as a simulation-established production metric", () => {

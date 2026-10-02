@@ -1,5 +1,7 @@
 import { congressSeats } from "./living-world/congress-seats";
 import { candidacyPackById } from "./candidacy-packs";
+import { lifePlaceByJurisdictionId } from "./life-places";
+import { congressSeatIdentityForOfficeKey } from "./nationwide-world/congress-candidacy-packs";
 import { recordByStableKey } from "./history-index";
 import { stateSeatDemocraticShare } from "./nationwide-world/state-legislature-candidates";
 import {
@@ -7,7 +9,7 @@ import {
   stateLegislativeSeats,
 } from "./nationwide-world/state-legislature-opening";
 import { politicalStartingConditions } from "./world-setup/conditions";
-import type { EntityId, IsoDate, World } from "./types";
+import type { CampaignRecord, EntityId, IsoDate, World } from "./types";
 
 /** A saved district baseline is evidence for an estimate, never a respondent. */
 export interface CampaignPollingEstimatePeer {
@@ -31,6 +33,39 @@ export interface CampaignPollingEstimate {
   readonly minimum: number;
   readonly maximum: number;
   readonly peers: readonly CampaignPollingEstimatePeer[];
+}
+
+/** Choose recorded electoral peers without reading this candidate's support. */
+export function campaignOfficePollingEstimate(
+  world: World,
+  campaign: CampaignRecord,
+): CampaignPollingEstimate {
+  const congress = congressSeatIdentityForOfficeKey(campaign.officeKey);
+  if (congress)
+    return campaignDistrictPollingEstimate(world, congress.officeKey);
+  const pack = candidacyPackById(campaign.candidacyPackId);
+  if (pack?.jurisdictionKey.startsWith("US-")) {
+    return campaignStateDistrictPollingEstimate(
+      world,
+      pack.packId,
+      campaign.officeKey,
+    );
+  }
+  const stateKey = lifePlaceByJurisdictionId(
+    campaign.jurisdictionId,
+  )?.stateJurisdictionKey;
+  const estimate = congressEstimate(
+    world,
+    "us-house",
+    stateKey?.replace(/^US-/, "") ?? "",
+  );
+  return {
+    ...estimate,
+    comparison:
+      estimate.comparison === "same-state-and-chamber"
+        ? "same-state-congress-districts"
+        : "congress-districts",
+  };
 }
 
 /**
