@@ -258,12 +258,28 @@ describe("a saved executive decision immediately reaches its actual petition", (
           );
         }
         matter = findMatter(ready)!;
+        const actualRouteEvidence = JSON.stringify({
+          currentDate: ready.currentDate,
+          term,
+          status: clemencyPetitionStatus(ready, petitionId),
+          recentSavedEvents: ready.history.events
+            .slice(-6)
+            .map((event) => ({
+              type: event.type,
+              occurredAt: event.occurredAt,
+              summary: event.summary,
+              tags: event.tags,
+            })),
+        });
         if (!needsExecutive(state)) {
           expect(matter).toBeUndefined();
-          expect(clemencyPetitionStatus(ready, petitionId)).toBe("granted");
+          expect(
+            clemencyPetitionStatus(ready, petitionId),
+            actualRouteEvidence,
+          ).toBe("granted");
           return;
         }
-        expect(matter).toBeDefined();
+        expect(matter, actualRouteEvidence).toBeDefined();
         expect(matter.status).toBe("open");
       });
 
