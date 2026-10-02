@@ -731,34 +731,6 @@
       "code": "export const TOWN_FAMILY_CHANCES = {"
     },
     {
-      "file": "src/simulation/living-world/town-families.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
-      "code": "if (rng.fork(\"break-up\").next() < breakUp) {"
-    },
-    {
-      "file": "src/simulation/living-world/town-families.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
-      "code": "rng.fork(\"move-in\").next() <"
-    },
-    {
-      "file": "src/simulation/living-world/town-families.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
-      "code": "rng.fork(\"marry\").next() <"
-    },
-    {
-      "file": "src/simulation/living-world/town-families.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
-      "code": "if (rng.fork(\"looks\").next() >= chance) continue;"
-    },
-    {
       "file": "src/simulation/living-world/town-residents.ts",
       "kind": "fixed-share",
       "build": "Build 24",
