@@ -23,7 +23,7 @@ import {
   ruleValueInWorld,
   STATUTE_EFFECTIVE_DEFAULT_DAYS,
 } from "./enacted-rule-changes";
-import { lawInForce } from "./governing/law-in-force";
+import { lawInForce, startingLawScope } from "./governing/law-in-force";
 import { measurePropositionAnswer } from "./issue-record";
 import { measureAnswersAt } from "./vote-bundle";
 import {
@@ -515,15 +515,32 @@ export function minimumWageSettingAt(
     effectiveAt: stateSetting.effectiveAt,
   };
   if (!state) {
-    const starting = startingMinimumHourly(jurisdictionId);
-    if (starting === null) return null;
-    state = {
-      hourlyMinor: Math.round(starting * 100),
-      level: "state",
-      measureId: null,
-      designation: null,
-      effectiveAt: null,
-    };
+    const stateId = key ? stateJurisdictionForKey(key)?.id : null;
+    const stateRead = stateId
+      ? canonicalMinimumTerm(
+          world,
+          stateId,
+          STATE_MINIMUM_WAGE_QUESTION_KEY,
+          "target",
+          onDate,
+        )
+      : null;
+    const scope = stateRead
+      ? startingLawScope(stateRead.law, STATE_MINIMUM_WAGE_QUESTION_KEY, onDate)
+      : null;
+    if (scope?.kind === "federal-standard") {
+      state = federal;
+    } else {
+      const starting = startingMinimumHourly(jurisdictionId);
+      if (starting === null) return null;
+      state = {
+        hourlyMinor: Math.round(starting * 100),
+        level: "state",
+        measureId: null,
+        designation: null,
+        effectiveAt: null,
+      };
+    }
   }
   const base = federal.hourlyMinor > state.hourlyMinor ? federal : state;
   const local = localMinimumSettingAt(
