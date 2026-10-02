@@ -100,6 +100,8 @@ export interface SeatedLocalOffice {
   /** The participation that holds the seat, when it is already recorded. */
   readonly participationId?: EntityId;
   readonly mayor: boolean;
+  /** The body's recorded chair (its presiding member). */
+  readonly presiding?: boolean;
   readonly seatLabel: string;
 }
 
@@ -116,6 +118,29 @@ export function organizationIdFor(
       (organization) => organization.stableKey === key,
     )?.id ?? null
   );
+}
+
+/**
+ * Who heads a resident's local government, as its form of government
+ * records it: the seated chief executive of their town's own government,
+ * else the body's seated chair, and where the town records neither, the
+ * same for their county. Null where neither records one, so the caller
+ * falls to the next level (the governor); a member who merely sits first on
+ * the roster never answers for the town.
+ */
+export function localHeadOfGovernment(
+  world: World,
+  residentId: EntityId,
+): EntityId | null {
+  const home = homeLocalGovernmentUnits(world, residentId);
+  for (const units of [home.municipal, home.counties]) {
+    const officers = units.flatMap((unit) => sittingLocalOfficers(world, unit));
+    const head =
+      officers.find((officer) => officer.mayor) ??
+      officers.find((officer) => officer.presiding);
+    if (head) return head.personId;
+  }
+  return null;
 }
 
 /** Who holds a seat in this town's government today, members and mayor. */
@@ -145,6 +170,7 @@ export function sittingLocalOfficers(
       personId: participation.personId,
       participationId: participation.id,
       mayor: role === "leader:municipal-mayor",
+      presiding: role === "leader:municipal-presiding-member",
       seatLabel: active.state.context ?? "",
     });
   }

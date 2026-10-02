@@ -160,6 +160,8 @@ describe("A138: traits come from upbringing, not a lottery", () => {
     const quiet: PersonUpbringing = {
       personId: "person_quiet" as EntityId,
       money: [],
+      basis: "game-profile",
+      disruption: 1 / 3,
       homeStability: "some-moves",
       caregiving: "inconsistent",
       protectiveCaregiver: false,
