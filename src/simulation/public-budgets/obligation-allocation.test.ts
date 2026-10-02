@@ -44,7 +44,7 @@ describe("shared obligation allocation", () => {
         answer: "yes",
         requiredContributionShare: 0.5,
       }),
-    ).toBe(1000);
+    ).toBe(750);
   });
 
   it("records the evaluated pension appropriation in a random new game's actual books", () => {

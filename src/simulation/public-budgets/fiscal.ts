@@ -312,7 +312,7 @@ export function budgetObligationPayment(
   law: BudgetLawReading,
 ): number {
   const requiredShare =
-    law.answer === "yes" ? Math.max(1, law.requiredContributionShare ?? 1) : 0;
+    law.answer === "yes" ? (law.requiredContributionShare ?? 1) : 0;
   return Math.round(
     evaluateLawAmount(BUDGET_OBLIGATION_AMOUNT, {
       record: {

@@ -168,7 +168,7 @@ export interface BudgetLawReading {
    * rule's basis, marked ESTIMATED FROM AVERAGE. Absent where a law answers.
    */
   readonly estimated?: string;
-  /** Adopted contribution ratio, when the law supplies numeric terms. */
+  /** The law's share of the actual actuarially determined contribution. */
   readonly requiredContributionShare?: number;
 }
 
