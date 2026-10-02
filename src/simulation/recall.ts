@@ -12,9 +12,10 @@ import {
   type MunicipalBallotRuleBasis,
   type MunicipalRecallBasis,
 } from "./municipal-ballot-rules";
-import type {
-  MunicipalRecallDoctrine,
-  PetitionThreshold,
+import {
+  resolveRequiredSignatures,
+  type MunicipalRecallDoctrine,
+  type PetitionThreshold,
 } from "./municipal-election-rules";
 import {
   municipalGovernmentJurisdictionId,
@@ -24,6 +25,7 @@ import { stateName } from "./office-qualification-rules";
 import { personName } from "./people";
 import { viewOfOfficial } from "./official-view-reads";
 import { isEligibleVoterIn } from "./issue-record";
+import { nextTownElection } from "./nationwide-world/town-election-calendar";
 import type {
   EntityId,
   FutureDueItem,
@@ -51,11 +53,10 @@ import { recordWorldEvent } from "./world";
  * it takes the rule the most read states name (no draw), ESTIMATED FROM
  * AVERAGE and labeled `national-estimated`. It is never another state's law.
  *
- * Petition qualification needs recorded valid signatures and the concrete
- * electorate base named by the legal threshold. Neither input is currently
- * produced, so closing blocks rather than inventing a qualification result.
- * Existing qualified petitions count the current saved views of actual adult
- * residents. No view is a petition signature, and no turnout is extrapolated.
+ * Under the owner-approved game mechanism, recorded recall supporters count
+ * as signatures and recorded registered residents supply the base. The legal
+ * percentage and its original base label remain recorded separately. Election
+ * counts use saved official views; no turnout is extrapolated.
  *
  * NOT MODELED, with the blanket rule applied meanwhile:
  * - Recall of state officers, legislators and judges. Refused with the reason
@@ -168,6 +169,7 @@ export interface RecallPetition {
   readonly targetPersonId: EntityId;
   readonly startedAt: IsoDate;
   readonly closesAt: IsoDate;
+  readonly threshold?: PetitionThreshold | null;
   readonly phase: RecallPhase;
   readonly electionAt: IsoDate | null;
   readonly yes: number | null;
@@ -196,6 +198,16 @@ export function recallPetitions(world: World): readonly RecallPetition[] {
         targetPersonId: tagValue(event.tags, "target:")! as EntityId,
         startedAt: event.occurredAt,
         closesAt: tagValue(event.tags, "closes:") as IsoDate,
+        threshold:
+          tagValue(event.tags, "threshold-percent:") === null
+            ? undefined
+            : {
+                percent: Number(tagValue(event.tags, "threshold-percent:")),
+                base: tagValue(
+                  event.tags,
+                  "threshold-base:",
+                ) as PetitionThreshold["base"],
+              },
         phase: "circulating",
         electionAt: null,
         yes: null,
@@ -375,6 +387,12 @@ export function startRecallPetition(
       `target:${input.targetPersonId}`,
       `closes:${closesAt}`,
       `circulation:${rule.circulationBasis}`,
+      ...(rule.threshold
+        ? [
+            `threshold-percent:${rule.threshold.percent}`,
+            `threshold-base:${rule.threshold.base}`,
+          ]
+        : []),
     ],
     summary: `A petition to recall ${personName(target)} began circulating. It closes on ${closesAt}.${threshold}${rule.groundsRequired ? " The law requires stated grounds." : ""}`,
     context: eventContext(),
@@ -412,10 +430,12 @@ export function recallResidentViews(
 ): {
   readonly yes: number;
   readonly no: number;
+  readonly registeredVoters: number;
   readonly sourceRecordIds: readonly EntityId[];
 } {
   let yes = 0;
   let no = 0;
+  let registeredVoters = 0;
   const sourceRecordIds = new Set<EntityId>();
   const cutoff = {
     asOfDate: world.currentDate,
@@ -434,6 +454,7 @@ export function recallResidentViews(
       )
     )
       continue;
+    registeredVoters += 1;
     const view = viewOfOfficial(
       world,
       personId,
@@ -446,7 +467,7 @@ export function recallResidentViews(
     if (view.belief) sourceRecordIds.add(view.belief.id);
     else for (const row of view.rows) sourceRecordIds.add(row.id);
   }
-  return { yes, no, sourceRecordIds: [...sourceRecordIds] };
+  return { yes, no, registeredVoters, sourceRecordIds: [...sourceRecordIds] };
 }
 
 function thresholdBase(threshold: PetitionThreshold): string {
@@ -483,6 +504,7 @@ function closingEvent(
   outcome: "qualified" | "failed" | "lapsed",
   electionAt: IsoDate | null,
   summary: string,
+  countTags: readonly string[] = [],
 ): World {
   return recordWorldEvent(world, {
     stableKey: `${petition.stableKey}:closed`,
@@ -504,6 +526,7 @@ function closingEvent(
       RECALL_VERSION,
       `petition:${petition.stableKey}`,
       `outcome:${outcome}`,
+      ...countTags,
       ...(electionAt ? [`election:${electionAt}`] : []),
     ],
     summary,
@@ -531,14 +554,88 @@ export function recallPetitionClosesHandler(
       ),
       "The official left office before the petition closed.",
     );
-  return {
+  const startRule = municipalRecallRule(petition.governmentKey, {
+    ...world,
+    currentDate: petition.startedAt,
+  });
+  const threshold =
+    petition.threshold ?? (startRule.available ? startRule.threshold : null);
+  if (!threshold)
+    return {
+      world,
+      status: "blocked",
+      reasonKey: "recall:missing-legal-threshold",
+      context: "The jurisdiction's recall signature threshold is not recorded.",
+      outcomeEventId: null,
+    };
+  const counted = recallResidentViews(world, petition);
+  const required = resolveRequiredSignatures(
+    threshold,
+    counted.registeredVoters,
+  );
+  const countTags = [
+    `signatures:${counted.yes}`,
+    `registered-voters:${counted.registeredVoters}`,
+    `required-signatures:${required}`,
+    `threshold-percent:${threshold.percent}`,
+    `threshold-base:${threshold.base}`,
+    "signature-mechanism:recorded-recall-supporters",
+    "count-base:registered-voters",
+    ...counted.sourceRecordIds.map((id) => `view-source:${id}`),
+  ];
+  if (counted.registeredVoters === 0 || counted.yes < required)
+    return done(
+      closingEvent(
+        world,
+        petition,
+        "failed",
+        null,
+        `The petition to recall ${name} failed to qualify: ${counted.yes} recorded supporters, ${required} required from ${counted.registeredVoters} registered residents.`,
+        countTags,
+      ),
+      "Recorded recall supporters fell short of the jurisdiction's threshold.",
+    );
+  const government = municipalGovernmentByKey(petition.governmentKey);
+  const election =
+    government?.placeGeoid && startRule.available
+      ? nextTownElection(
+          startRule.stateUsps,
+          government.placeGeoid,
+          world.currentDate,
+        )
+      : null;
+  if (!election)
+    return {
+      world,
+      status: "blocked",
+      reasonKey: "recall:missing-election-calendar",
+      context:
+        "Recorded supporters meet the threshold, but the town's election date is not sourced.",
+      outcomeEventId: null,
+    };
+  const electionAt = election.electionDate;
+  const closed = closingEvent(
     world,
-    status: "blocked",
-    reasonKey: "recall:missing-signatures-and-electorate-base",
-    context:
-      "Petition qualification requires recorded valid signatures and the legal threshold's concrete electorate base. Residents' private views do not establish either input.",
-    outcomeEventId: null,
-  };
+    petition,
+    "qualified",
+    electionAt,
+    `The petition to recall ${name} qualified: ${counted.yes} recorded supporters, ${required} required from ${counted.registeredVoters} registered residents. The vote is scheduled for the town's sourced election date, ${electionAt}.`,
+    countTags,
+  );
+  return done(
+    scheduleFutureDueItem(closed, {
+      stableKey: `${petition.stableKey}:election`,
+      dueAt: electionAt,
+      transitionKey: RECALL_ELECTION,
+      entityIds: [petition.jurisdictionId],
+      jurisdictionId: petition.jurisdictionId,
+      provenance: {
+        kind: "authored",
+        note: `Recall scheduled through the town election calendar (${election.basis}).`,
+      },
+    }),
+    "The recall petition qualified on recorded supporters and registered residents.",
+  );
 }
 
 /** Election day: keep the official, or remove them. */
