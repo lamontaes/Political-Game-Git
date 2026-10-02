@@ -137,18 +137,15 @@ function recordAccessAction(
   });
 }
 
-/** Read only actions effective on this date in this jurisdiction and field. */
-export function recordedPrimaryPartyAdmission(
+/** Actual latest registration action, distinct from affiliation and absence. */
+export function recordedPrimaryPartyRegistrationAt(
   world: World,
   input: {
     readonly personId: EntityId;
     readonly jurisdictionId: EntityId;
-    readonly electionStableKey: string;
     readonly electionDate: IsoDate;
-    readonly stateUsps: string;
-    readonly primaryPartyId: string;
   },
-): boolean | null {
+): string | null | undefined {
   const registrations = accessRecords(
     world,
     input.personId,
@@ -165,6 +162,20 @@ export function recordedPrimaryPartyAdmission(
         : latest,
     null,
   );
+  return registration
+    ? (registration.participants[0]?.detail ?? null)
+    : undefined;
+}
+
+export function recordedPrimaryBallotSelectionAt(
+  world: World,
+  input: {
+    readonly personId: EntityId;
+    readonly jurisdictionId: EntityId;
+    readonly electionStableKey: string;
+    readonly electionDate: IsoDate;
+  },
+): string | null | undefined {
   const selection = accessRecords(
     world,
     input.personId,
@@ -175,11 +186,26 @@ export function recordedPrimaryPartyAdmission(
       event.occurredAt <= input.electionDate &&
       event.context.socialContext === input.electionStableKey,
   );
+  return selection?.participants[0]?.detail;
+}
+
+/** Read only actions effective on this date in this jurisdiction and field. */
+export function recordedPrimaryPartyAdmission(
+  world: World,
+  input: {
+    readonly personId: EntityId;
+    readonly jurisdictionId: EntityId;
+    readonly electionStableKey: string;
+    readonly electionDate: IsoDate;
+    readonly stateUsps: string;
+    readonly primaryPartyId: string;
+  },
+): boolean | null {
   const admission = primaryPartyBallotAdmission(
     input.stateUsps,
     input.primaryPartyId,
-    registration ? (registration.participants[0]?.detail ?? null) : undefined,
-    selection?.participants[0]?.detail,
+    recordedPrimaryPartyRegistrationAt(world, input),
+    recordedPrimaryBallotSelectionAt(world, input),
   );
   return admission === "requires-record" ? null : admission === "eligible";
 }

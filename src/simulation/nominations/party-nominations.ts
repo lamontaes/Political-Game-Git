@@ -6,6 +6,7 @@ import {
 } from "../people-traits";
 import { countRecordedVoterBallots } from "../election-contests";
 import { recordedPrimaryPartyAdmission } from "./primary-voter-access";
+import { considerPrimaryPartyBallots } from "./primary-ballot-actions";
 import type {
   DecisionConsideration,
   EntityId,
@@ -247,6 +248,15 @@ export function holdNominationPrimary(
     party: string;
   }[] = [];
   const runoffParties: string[] = [];
+  if (!isAllParty(plan.method)) {
+    next = considerPrimaryPartyBallots(next, {
+      stableKey: input.stableKey,
+      jurisdictionId: input.jurisdictionId,
+      stateUsps: plan.stateUsps,
+      electionDate: plan.primaryDate,
+      entrants: input.entrants,
+    });
+  }
   const groups = isAllParty(plan.method)
     ? [{ party: "all", entrants: input.entrants }]
     : [...new Set(input.entrants.map((entrant) => entrant.party))]
@@ -284,7 +294,7 @@ export function holdNominationPrimary(
               primaryPartyId: group.party,
             }),
     );
-    if (!tallies) return world;
+    if (!tallies) return next;
     if (isAllParty(plan.method)) {
       const majority =
         plan.method === "all-party-majority" &&

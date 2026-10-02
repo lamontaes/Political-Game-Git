@@ -196,13 +196,10 @@ function candidateViews(world: World): Map<EntityId, PrivateBeliefRecord[]> {
 /** Evaluate actual saved candidate views through the one decision function.
  * A missing consideration is omitted, never estimated from party shares.
  */
-export function countRecordedVoterBallots(
+export function recordedVoterDecisionContexts(
   world: World,
   input: RecordedVoterCountInput,
-): {
-  readonly winnerPersonId: EntityId;
-  readonly tallies: readonly CandidateTally[];
-} | null {
+): ReadonlyMap<EntityId, DecisionContext> {
   const candidates = new Set<string>(input.candidatePersonIds);
   if (
     candidates.size === 0 ||
@@ -310,6 +307,19 @@ export function countRecordedVoterBallots(
       retention: "ephemeral",
     });
   }
+  return contexts;
+}
+
+/** Count with the same contexts exposed to the primary ballot-choice action. */
+export function countRecordedVoterBallots(
+  world: World,
+  input: RecordedVoterCountInput,
+): {
+  readonly winnerPersonId: EntityId;
+  readonly tallies: readonly CandidateTally[];
+} | null {
+  const candidates = new Set<string>(input.candidatePersonIds);
+  const contexts = recordedVoterDecisionContexts(world, input);
   if (contexts.size === 0) return null;
   const votes = new Map(input.candidatePersonIds.map((id) => [id, 0]));
   for (const [voterId, context] of contexts) {
