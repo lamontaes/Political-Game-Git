@@ -5,7 +5,10 @@ import { currentFederalTenure } from "./federal-tenures";
 import { lifePlaceStateIdentities } from "./life-places";
 import * as nationalOffice from "./national-election-consumer";
 import { viewOfOfficial } from "./official-view-reads";
-import { nationalMoodDemocraticShift } from "./national-mood";
+import {
+  nationalMoodDemocraticShift,
+  presidentialSupportEstimate,
+} from "./national-mood";
 import { officialOpinionSubject } from "./political-opinion-subjects";
 import { createFormationContext, recordPrivateBelief } from "./politics";
 import { pickDistinct, SeededRng } from "./rng";
@@ -152,7 +155,99 @@ describe(`recorded presidential standing (${place!.name}; seed ${seed})`, () => 
       false,
       "a117:other-official",
     );
-    expect(nationalMoodDemocraticShift(unrelated, election)).toBe(0);
+    expect(nationalMoodDemocraticShift(unrelated, election)).toBe(
+      -f.sign / f.adults,
+    );
+  });
+  it("estimates missing new presidential views from current game officials and exposes the actual donors and spread", () => {
+    const f = fixture();
+    const peerA = f.voters[1]!;
+    const peerB = f.voters[2]!;
+    let world = support(f.world, f.voters[0]!, peerA, true, "a117:peer-a");
+    world = support(world, f.voters[0]!, peerB, false, "a117:peer-b");
+    const estimate = presidentialSupportEstimate(
+      world,
+      f.president,
+      world.currentDate,
+    )!;
+    expect(estimate.label).toContain("ESTIMATED");
+    expect(estimate.peers.map((peer) => peer.officialId).sort()).toEqual(
+      [peerA, peerB].sort(),
+    );
+    expect(estimate.peers.flatMap((peer) => peer.voterIds)).toEqual([
+      f.voters[0],
+      f.voters[0],
+    ]);
+    expect(estimate.peers.flatMap((peer) => peer.beliefIds)).toEqual(
+      world.history.privateBeliefs.slice(-2).map((belief) => belief.id),
+    );
+    expect(estimate.mean).toBe(1 / (2 * f.adults));
+    expect(estimate.spread).toBe(1 / (2 * f.adults));
+    expect(nationalMoodDemocraticShift(world, election)).toBe(
+      -f.sign / (2 * f.adults),
+    );
+    const saved = deserializeWorld(serializeWorld(world));
+    expect(
+      presidentialSupportEstimate(saved, f.president, saved.currentDate),
+    ).toEqual(estimate);
+    expect(nationalMoodDemocraticShift(saved, election)).toBe(
+      -f.sign / (2 * f.adults),
+    );
+    const exact = support(
+      world,
+      f.voters[0]!,
+      f.president,
+      true,
+      "a117:re-recorded",
+    );
+    expect(nationalMoodDemocraticShift(exact, election)).toBe(0);
+  });
+  it("uses the nearest recorded term stage without a static term curve", () => {
+    const f = fixture();
+    const peerA = f.voters[1]!;
+    const peerB = f.voters[2]!;
+    let world = support(f.world, f.voters[0]!, peerA, true, "a117:stage-a");
+    world = support(world, f.voters[0]!, peerB, false, "a117:stage-b");
+    const entry = currentFederalTenure(world, "us-president")!.event;
+    for (const [official, date] of [
+      [peerA, "2026-01-01"],
+      [peerB, "2025-01-01"],
+    ] as const)
+      world = recordWorldEvent(world, {
+        ...entry,
+        stableKey: `a117:peer-entry:${official}`,
+        involvedEntityIds: [official],
+        occurredAt: makeIsoDate(date),
+        participants: [
+          {
+            personId: official,
+            role: "focus:subject",
+            detail: "Recorded peer office entry",
+          },
+        ],
+      });
+    const estimate = presidentialSupportEstimate(
+      world,
+      f.president,
+      world.currentDate,
+    )!;
+    expect(estimate.comparison).toBe("nearest-recorded-term-stage");
+    expect(estimate.peers.map((peer) => peer.officialId)).toEqual([peerA]);
+    expect(estimate.peers[0]!.entryRecordId).toBe(
+      world.history.events.at(-2)!.id,
+    );
+    expect(estimate.mean).toBe(1 / f.adults);
+    expect(estimate.spread).toBe(0);
+  });
+  it("identifies the genuinely empty comparable pool without manufacturing an estimate", () => {
+    const f = fixture();
+    const empty = {
+      ...f.world,
+      history: { ...f.world.history, privateBeliefs: [] },
+    };
+    expect(
+      presidentialSupportEstimate(empty, f.president, empty.currentDate),
+    ).toBeNull();
   });
   it("uses the recorded presidential succession instant rather than the vice-presidential entry", () => {
     const f = fixture();

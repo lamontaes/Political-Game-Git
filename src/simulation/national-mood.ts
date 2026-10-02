@@ -1,19 +1,136 @@
 import { currentPresidentOf } from "./crisis/offices";
-import { ageOnDate } from "./dates";
+import { ageOnDate, daysBetween } from "./dates";
 import { currentFederalTenure } from "./federal-tenures";
 import { nationalOfficeHolder } from "./national-election-consumer";
 import { viewOfOfficial } from "./official-view-reads";
 import { majorPartyOf } from "./statewide-electorate";
-import type { IsoDate, World } from "./types";
+import type { EntityId, IsoDate, World } from "./types";
 
 // Each immutable World counts its people once, rather than once per seat.
 const shifts = new WeakMap<World, number>();
 
+export interface PresidentialSupportPeer {
+  readonly officialId: EntityId;
+  readonly beliefIds: readonly EntityId[];
+  readonly voterIds: readonly EntityId[];
+  readonly entryRecordId: EntityId | null;
+  readonly daysInOffice: number | null;
+  readonly favorableShare: number;
+}
+
+export interface PresidentialSupportEstimate {
+  readonly label: "ESTIMATED: averaged from this game's current official support";
+  readonly adultIds: readonly EntityId[];
+  readonly mean: number;
+  readonly spread: number;
+  readonly peers: readonly PresidentialSupportPeer[];
+  readonly comparison:
+    "nearest-recorded-term-stage" | "current-official-support";
+}
+
+/**
+ * Current official support is the comparable measurement already in this
+ * World. Prefer the nearest recorded term stage; broaden to current official
+ * views when those officials have no entry record. Held presidential views
+ * are a last in-game donor, never an outside curve or a made-up spread.
+ * Null is an internal empty-pool signal, not a player estimate.
+ */
+export function presidentialSupportEstimate(
+  world: World,
+  presidentId: EntityId,
+  inauguration: IsoDate,
+): PresidentialSupportEstimate | null {
+  const adults = [...new Set(world.personOrder)].filter((id) => {
+    const person = world.people[id];
+    return person && ageOnDate(person.birthDate, world.currentDate) >= 18;
+  });
+  if (!adults.length) return null;
+  const officials = new Set<EntityId>();
+  for (const belief of world.history.privateBeliefs)
+    if (
+      belief.subject?.kind === "official" &&
+      belief.formedAt <= world.currentDate
+    )
+      officials.add(belief.subject.personId);
+  const entries = new Map<EntityId, World["history"]["events"][number]>();
+  for (const event of world.history.events) {
+    if (
+      event.type !== "world.office-tenure" ||
+      event.occurredAt > world.currentDate
+    )
+      continue;
+    const id = event.participants.find(
+      (row) => row.role === "focus:subject",
+    )?.personId;
+    if (!id) continue;
+    const prior = entries.get(id);
+    if (
+      !prior ||
+      event.occurredAt > prior.occurredAt ||
+      (event.occurredAt === prior.occurredAt && event.sequence > prior.sequence)
+    )
+      entries.set(id, event);
+  }
+  const peers: PresidentialSupportPeer[] = [];
+  for (const officialId of officials) {
+    const beliefs = adults.flatMap((id) => {
+      const belief = viewOfOfficial(world, id, officialId).belief;
+      return belief ? [belief] : [];
+    });
+    if (!beliefs.length) continue;
+    const entry = entries.get(officialId);
+    peers.push({
+      officialId,
+      beliefIds: beliefs.map((belief) => belief.id),
+      voterIds: beliefs.map((belief) => belief.personId),
+      entryRecordId: entry?.id ?? null,
+      daysInOffice: entry
+        ? daysBetween(entry.occurredAt, world.currentDate)
+        : null,
+      favorableShare:
+        beliefs.filter((belief) => belief.position === "support").length /
+        adults.length,
+    });
+  }
+  const others = peers.filter((peer) => peer.officialId !== presidentId);
+  const available = others.length ? others : peers;
+  if (!available.length) return null;
+  const dated = available.filter((peer) => peer.daysInOffice !== null);
+  const stage = daysBetween(inauguration, world.currentDate);
+  const distance = dated.length
+    ? Math.min(...dated.map((peer) => Math.abs(peer.daysInOffice! - stage)))
+    : null;
+  const selected =
+    distance === null
+      ? available
+      : dated.filter(
+          (peer) => Math.abs(peer.daysInOffice! - stage) === distance,
+        );
+  const mean =
+    selected.reduce((sum, peer) => sum + peer.favorableShare, 0) /
+    selected.length;
+  const spread = Math.sqrt(
+    selected.reduce((sum, peer) => sum + (peer.favorableShare - mean) ** 2, 0) /
+      selected.length,
+  );
+  return {
+    label: "ESTIMATED: averaged from this game's current official support",
+    adultIds: adults,
+    mean,
+    spread,
+    peers: selected,
+    comparison:
+      distance === null
+        ? "current-official-support"
+        : "nearest-recorded-term-stage",
+  };
+}
+
 /**
  * The president's party gains or loses the change in recorded favorable
  * standing since entry into office. Both snapshots use the same recorded
- * adult cohort and each person counts once. No support updates means no
- * change: that is a missing producer, not a historical mean penalty.
+ * adult cohort and each person counts once. Until the president has a new view
+ * record, current comparable official shares supply the estimated standing.
  */
 export function nationalMoodDemocraticShift(
   world: World,
@@ -58,6 +175,26 @@ export function nationalMoodDemocraticShift(
       "support"
     )
       current += 1;
+  }
+  const reRecorded = world.history.privateBeliefs.some(
+    (belief) =>
+      belief.subject?.kind === "official" &&
+      belief.subject.personId === president.personId &&
+      belief.formedAt <= world.currentDate &&
+      (belief.formedAt > inauguration || belief.sequence > entrySequence) &&
+      world.people[belief.personId] &&
+      ageOnDate(world.people[belief.personId]!.birthDate, world.currentDate) >=
+        18,
+  );
+  if (!reRecorded) {
+    const estimate = presidentialSupportEstimate(
+      world,
+      president.personId,
+      inauguration,
+    );
+    if (estimate) current = estimate.mean * adults;
+    // The existing empty-world boundary is not yet an admitted estimate.
+    // Do not invent a donor or publish this partial path as READY.
   }
   const change = adults === 0 ? 0 : (current - baseline) / adults;
   if (change === 0) {
