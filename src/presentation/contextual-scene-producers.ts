@@ -20,7 +20,7 @@ import type {
   World,
 } from "../simulation";
 import { commitmentPromisee } from "../simulation/claim-contradictions";
-import { evaluateDecision } from "../simulation/decisions";
+import { evaluateDecision, isSelectedDecision } from "../simulation/decisions";
 import { CAMPAIGN_LIFE_ATTENDED_EVENT } from "../simulation/campaign-life-activities";
 import { activeCampaignForCandidate } from "../simulation/campaign-queries";
 import {
@@ -1253,6 +1253,7 @@ function produceReporterQuestion(world: World, personId: EntityId): World {
     randomness: "close-choices",
     retention: "ephemeral",
   });
+  if (!isSelectedDecision(evaluation)) return world;
   if (evaluation.selectedOptionKey !== "mention") return world;
 
   const holder = personName(world.people[personId]!);
