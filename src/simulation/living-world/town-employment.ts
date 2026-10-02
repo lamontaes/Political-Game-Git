@@ -1080,16 +1080,32 @@ export function townWorkplaceWeights(
 /* -------------------------------------------------------------------------- */
 
 /**
- * GAME ASSUMPTION pending a researched labor-force table by age and household:
- * the shares of working-age residents who are not working. A student is 18 to
- * 24 and enrolled; retirement is from 62; a parent at home has a partner and a
- * child under six.
+ * Whether a resident works is decided from their own household's record, never
+ * drawn. Each case sets what pulls them toward work (the household's
+ * dependants against the adults who can earn) against what pulls them away
+ * (study, age, care of a small child). Every pull is a smooth number; the
+ * larger one decides. GAME ASSUMPTION constants, PLACEHOLDER(research: a
+ * labor-force table by age and household), checked against totals only.
+ *
+ * - A student, 18 to 24 and enrolled, studies with a pull of 1 at 18 that
+ *   eases by 0.06 a year.
+ * - From 62 the pull toward retiring is (years past 61) / (years past 61 + 6),
+ *   against a quarter of the pull toward work.
+ * - A partnered parent of a child under six stays home with a pull of
+ *   young / (young + 3), against 0.6 of the pull toward work.
+ * - Everyone else works. Whether they have a job is the labor market's
+ *   record, not a label drawn here.
  */
 const NOT_WORKING = {
-  studentWithoutJob: 0.6,
-  retiredFrom62: 0.35,
-  parentAtHome: 0.15,
-  lookingForWork: 0.04,
+  studyAtEighteen: 1,
+  studyEasesPerYear: 0.06,
+  retireYearsHalf: 6,
+  retireAgainstWork: 0.25,
+  careYoungHalf: 3,
+  careAgainstWork: 0.6,
+  /** The youngest and oldest ages an earner in the household counts. */
+  earnerFrom: 25,
+  earnerThrough: 61,
 } as const;
 
 export type TownLaborStatus =
@@ -1100,21 +1116,37 @@ export interface Resident {
   readonly age: number;
   readonly enrolled: boolean;
   readonly parentOfYoungChild: boolean;
+  /** Under 18 in the household. */
+  readonly dependants: number;
+  /** Under 6 in the household. */
+  readonly youngChildren: number;
+  /** Other adults in the household old enough to earn and not yet retired. */
+  readonly earners: number;
 }
 
-export function laborStatus(world: World, resident: Resident): TownLaborStatus {
-  const rng = new SeededRng(world.seed).fork(
-    `${TOWN_EMPLOYMENT_VERSION}:status:${resident.personId}`,
-  );
-  const draw = rng.next();
-  if (resident.enrolled && resident.age <= 24)
-    return draw < NOT_WORKING.studentWithoutJob ? "student" : "employed";
-  if (resident.age >= 62 && draw < NOT_WORKING.retiredFrom62) return "retired";
-  if (resident.parentOfYoungChild && draw < NOT_WORKING.parentAtHome)
-    return "parent-at-home";
-  return rng.fork("looking").next() < NOT_WORKING.lookingForWork
-    ? "looking-for-work"
-    : "employed";
+export function laborStatus(
+  _world: World,
+  resident: Resident,
+): TownLaborStatus {
+  const workPull = (resident.dependants + 1) / (resident.earners + 1);
+  if (resident.enrolled && resident.age <= 24) {
+    const study =
+      NOT_WORKING.studyAtEighteen -
+      NOT_WORKING.studyEasesPerYear * (resident.age - WORKING_AGE_MIN);
+    return workPull > study ? "employed" : "student";
+  }
+  if (resident.age >= 62) {
+    const past = resident.age - 61;
+    const retire = past / (past + NOT_WORKING.retireYearsHalf);
+    if (retire >= NOT_WORKING.retireAgainstWork * workPull) return "retired";
+  }
+  if (resident.parentOfYoungChild) {
+    const care =
+      resident.youngChildren /
+      (resident.youngChildren + NOT_WORKING.careYoungHalf);
+    if (care > NOT_WORKING.careAgainstWork * workPull) return "parent-at-home";
+  }
+  return "employed";
 }
 
 /* -------------------------------------------------------------------------- */
@@ -1173,15 +1205,42 @@ export function townResidents(
       householdsOf.set(member, list);
     }
   const residents: Resident[] = [];
+  const ageOf = (id: EntityId): number | null => {
+    const person = world.people[id];
+    return person && !dead.has(id)
+      ? ageOnDate(person.birthDate, world.currentDate)
+      : null;
+  };
   for (const personId of world.personOrder) {
     const person = world.people[personId];
     if (!person || person.homeJurisdictionId !== town || dead.has(personId))
       continue;
     const age = ageOnDate(person.birthDate, world.currentDate);
     if (age < WORKING_AGE_MIN || age > WORKING_AGE_MAX) continue;
+    const others = new Set<EntityId>();
+    for (const household of householdsOf.get(personId) ?? [])
+      for (const member of householdOf.get(household) ?? [])
+        if (member !== personId) others.add(member);
+    let dependants = 0;
+    let youngChildren = 0;
+    let earners = 0;
+    for (const member of others) {
+      const memberAge = ageOf(member);
+      if (memberAge === null) continue;
+      if (memberAge < 18) dependants += 1;
+      if (memberAge < 6) youngChildren += 1;
+      if (
+        memberAge >= NOT_WORKING.earnerFrom &&
+        memberAge <= NOT_WORKING.earnerThrough
+      )
+        earners += 1;
+    }
     residents.push({
       personId,
       age,
+      dependants,
+      youngChildren,
+      earners,
       enrolled: enrolled.has(personId),
       parentOfYoungChild:
         partnered.has(personId) &&
