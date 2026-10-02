@@ -27,6 +27,7 @@ import {
   sameEndpoint,
 } from "./resource-queries";
 import { MORTGAGE_BASIS } from "./home-purchase";
+import { loanTermsAt, LOAN_PAYMENT_BASIS } from "./household-loans";
 import {
   LIVING_COSTS_SOURCE,
   REPRESENTATIVE_LIVING_COSTS,
@@ -171,7 +172,16 @@ export function recordedHouseholdHousingBillsAt(
   );
   const mortgageFlows = world.history.resourceFlows.filter(
     (flow) =>
-      flow.basisKind === MORTGAGE_BASIS &&
+      (flow.basisKind === MORTGAGE_BASIS ||
+        (flow.basisKind === LOAN_PAYMENT_BASIS &&
+          world.history.resourceObligations.some(
+            (obligation) =>
+              obligation.resourceFlowId === flow.id &&
+              loanTermsAt(world, obligation.id, {
+                asOfDate,
+                historySequenceExclusive: world.history.nextSequence,
+              })?.kind === "mortgage",
+          ))) &&
       flow.startsAt <= asOfDate &&
       flow.source.kind === "person" &&
       householdMembershipsAt(world, flow.source.personId, {
