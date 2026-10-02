@@ -42,6 +42,8 @@ import {
   CRUNCH46_WORLD_OPENING_VERSION,
 } from "../simulation";
 import { ensureMigrationSchedule } from "../simulation/migration";
+import { initializeOfficeSalaryFlows } from "../simulation/office-salary";
+import { initializeLivingCostsFlow } from "../simulation/cost-of-living";
 import { ensurePaydaySchedule } from "../simulation/living-world/town-pay";
 import { ensureRentDaySchedule } from "../simulation/living-world/town-rent";
 import { ensureCrimeProduction } from "../simulation/crime";
@@ -460,7 +462,13 @@ function openedWorld(
     ensurePaydaySchedule(
       ensureMigrationSchedule(
         ensureLocalCouncilMeetings(
-          ensureLocalElectionCalendar(seated, playerPersonId),
+          ensureLocalElectionCalendar(
+            initializeLivingCostsFlow(
+              initializeOfficeSalaryFlows(seated, playerPersonId),
+              playerPersonId,
+            ),
+            playerPersonId,
+          ),
           playerPersonId,
         ),
       ),
