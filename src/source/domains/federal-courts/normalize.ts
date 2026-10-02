@@ -127,6 +127,7 @@ export function normalizeCircuits(
       composition: splitStatutoryList(composition),
       circuitId: null,
       jurisdictionName: null,
+      comprisesCounties: null,
       divisions: null,
       courtHeldAt: null,
       parentDistrictCourtId: null,
@@ -153,6 +154,8 @@ export function normalizeCircuits(
  */
 const DIVISION_SENTENCE =
   /^\((\d+)\)\s+The\s+(.+?)\s+[Dd]ivision comprises\s+(?:the\s+[Cc]ount(?:ies|y)\s+of\s+)?([\s\S]+)$/;
+const DISTRICT_SENTENCE =
+  /^(?:\([a-z]\)\s+)?The\s+.+?\s+[Dd]istrict comprises\s+(?:the\s+[Cc]ount(?:ies|y)\s+of\s+)([\s\S]+)$/;
 const COURT_SENTENCE = /\bCourt(?: for the .+?)? shall be held at\b/;
 const COURT_HELD_AT =
   /Court(?: for the (.+?))? shall be held at\s+([\s\S]*?)\.\s*$/;
@@ -185,6 +188,7 @@ export function normalizeStateDistricts(
   let index = -1;
   let divisions: JudicialDivision[] = [];
   let heldAt: string[] = [];
+  let counties: readonly string[] | null = null;
 
   const flush = (): void => {
     if (index < 0) return;
@@ -206,11 +210,13 @@ export function normalizeStateDistricts(
       composition: null,
       circuitId: null,
       jurisdictionName,
+      comprisesCounties: counties,
       divisions,
       courtHeldAt: heldAt,
       parentDistrictCourtId: null,
       evidence,
     });
+    counties = null;
     divisions = [];
     heldAt = [];
   };
@@ -221,6 +227,14 @@ export function normalizeStateDistricts(
     if (paragraph.className === "centered") {
       flush();
       index += 1;
+      continue;
+    }
+
+    const membership = DISTRICT_SENTENCE.exec(paragraph.text);
+    if (membership) {
+      counties = splitStatutoryList(
+        (membership[1] ?? "").split(COURT_SENTENCE)[0] ?? "",
+      );
       continue;
     }
 
@@ -278,6 +292,7 @@ export function normalizeTerritorialDistricts(
       composition: null,
       circuitId: court.circuitId,
       jurisdictionName: court.jurisdictionName,
+      comprisesCounties: null,
       divisions: [],
       courtHeldAt: [],
       parentDistrictCourtId: null,
@@ -311,6 +326,7 @@ export function designateBankruptcyCourts(
     composition: null,
     circuitId: district.circuitId,
     jurisdictionName: district.jurisdictionName,
+    comprisesCounties: null,
     divisions: null,
     courtHeldAt: null,
     parentDistrictCourtId: district.courtId,

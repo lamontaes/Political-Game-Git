@@ -1,6 +1,12 @@
 /** One saved-court lookup. Missing or ambiguous venue is not a court assignment. */
 import { stateJurisdictionOf } from "../governing/law-in-force";
-import { stateJurisdictionForKey } from "../life-places";
+import {
+  lifePlaceByJurisdictionId,
+  stateJurisdictionForKey,
+} from "../life-places";
+import { countyPopulationSharesForPlace } from "../government-units";
+import { NATIONAL_COUNTIES_ROWS } from "../national-counties.generated";
+import { FEDERAL_COURTS_PROJECTION } from "./generated/federal-courts";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
 import { STATES } from "../state-reference";
@@ -41,6 +47,64 @@ function courtIndex(courts: Readonly<Record<string, JudicialCourt>>) {
   return index;
 }
 
+const COUNTY_NAMES = new Map(
+  (
+    JSON.parse(NATIONAL_COUNTIES_ROWS) as readonly (readonly [
+      string,
+      string,
+      string,
+    ])[]
+  ).map(([id, name]) => [id, name.replace(/ County$/, "")] as const),
+);
+
+/** All recorded county parts must resolve to the same statutory district. */
+function federalDistrictFor(
+  world: World,
+  jurisdictionId: EntityId,
+): JudicialCourt | null {
+  const courts = world.judiciary?.courts;
+  if (!courts) return null;
+  const state = stateJurisdictionOf(jurisdictionId);
+  const bindings = new Set([
+    jurisdictionId,
+    ...(state ? [state, courtJurisdictionOf(state)] : []),
+  ]);
+  const candidates = [...bindings].flatMap(
+    (id) => courtIndex(courts).get(`federal-district:${id}`) ?? [],
+  );
+  const unique = [...new Set(candidates)];
+  if (unique.length === 1) return unique[0]!;
+  const place = lifePlaceByJurisdictionId(jurisdictionId);
+  if (!place?.sourceGeoid) return null;
+  const counties =
+    place.scope === "county"
+      ? [place.sourceGeoid]
+      : countyPopulationSharesForPlace(place.sourceGeoid).map(([id]) => id);
+  if (!counties.length) return null;
+  let selected: JudicialCourt | null = null;
+  for (const county of counties) {
+    const name = COUNTY_NAMES.get(county);
+    if (!name) return null;
+    const matches = unique.filter((court) => {
+      const source = FEDERAL_COURTS_PROJECTION.find(
+        (row) => row.courtId === court.sourceRecordId,
+      );
+      const names = [
+        ...(source?.comprisesCounties ?? []),
+        ...(source?.divisions?.flatMap((row) => row.comprisesCounties) ?? []),
+      ];
+      return names.some((member) => member.replace(/ County$/, "") === name);
+    });
+    if (
+      matches.length !== 1 ||
+      (selected && selected.courtId !== matches[0]!.courtId)
+    )
+      return null;
+    selected = matches[0]!;
+  }
+  return selected;
+}
+
 /**
  * The existing state court-family join is shared by all callers. National
  * review uses the saved Supreme Court. A federal trial court needs an actual
@@ -67,8 +131,16 @@ export function courtFor(
       const supreme = index.get("federal-supreme:unbound") ?? [];
       return supreme.length === 1 ? supreme[0]! : null;
     }
-    const exact = index.get(`${level}:${jurisdictionId}`) ?? [];
-    return exact.length === 1 ? exact[0]! : null;
+    if (level === "federal-district")
+      return federalDistrictFor(world, jurisdictionId);
+    if (level === "federal-appellate") {
+      const district = federalDistrictFor(world, jurisdictionId);
+      const parent = district?.parentCourtId
+        ? courts[district.parentCourtId]
+        : null;
+      return parent?.level === "federal-appellate" ? parent : null;
+    }
+    return null;
   }
   if (national) return null;
   const state = stateJurisdictionOf(jurisdictionId);

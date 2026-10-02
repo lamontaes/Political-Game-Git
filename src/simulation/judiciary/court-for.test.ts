@@ -57,6 +57,56 @@ afterAll(() => {
 });
 
 describe("one finder reads saved courts", () => {
+  it("routes a recorded county to its sourced federal district and circuit, never residence or ID order", () => {
+    const base = world();
+    const venue = searchLifePlaces("San Francisco", 100, {
+      stateJurisdictionKey: "US-CA",
+      scope: "county",
+    })[0]!;
+    expect(venue).toBeDefined();
+    const district = courtFor(
+      base,
+      venue.context.jurisdiction.id,
+      "federal-district",
+      "criminal",
+    );
+    expect(district?.sourceRecordId).toBe("d-california-northern");
+    const circuit = courtFor(
+      base,
+      venue.context.jurisdiction.id,
+      "federal-appellate",
+      "criminal",
+    );
+    expect(circuit?.courtId).toBe(district?.parentCourtId);
+    expect(circuit?.level).toBe("federal-appellate");
+    expect(
+      courtFor(
+        base,
+        stateJurisdictionForKey("US-CA")!.id,
+        "federal-district",
+        "criminal",
+      ),
+    ).toBeNull();
+    const absent = {
+      ...base,
+      judiciary: {
+        ...base.judiciary!,
+        courts: Object.fromEntries(
+          Object.entries(base.judiciary!.courts).filter(
+            ([, court]) => court.courtId !== district!.courtId,
+          ),
+        ),
+      },
+    };
+    expect(
+      courtFor(
+        absent,
+        venue.context.jurisdiction.id,
+        "federal-district",
+        "criminal",
+      ),
+    ).toBeNull();
+  });
   it("retains the existing trial court family in all 56 places", () => {
     const base = world();
     for (const state of lifePlaceStateIdentities()) {
