@@ -847,7 +847,7 @@ export function assignSplitHomeDistricts(
     const recorded = establishDistrictResidence(next, {
       personId,
       binding: bindingFromIdentity(pick),
-      startedOn: residence.occurredAt,
+      startedOn: next.currentDate,
       provenance: {
         method: "split-home-assignment",
         sourceEventId: residence.id,

@@ -10,7 +10,9 @@ import { smallWorld } from "../../tests/fixtures/small-world";
 import {
   assignSplitHomeDistricts,
   districtResidenceIntervals,
+  recordedDistrictResidenceSince,
 } from "../simulation/district-residence";
+import { homeJurisdictionResidenceSince } from "../simulation/nationwide-world/residence-duration";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 const seed = "overflow8-a144-population-parts";
 const catalog = districtIdentityCatalog();
@@ -109,6 +111,14 @@ describe(`district population parts in ${place.displayName}, seed ${seed}`, () =
 
   it("refuses mismatched totals, duplicates, invalid counts and missing identities", () => {
     expect(read(parts.slice(1))).toEqual([]);
+    const subset = parts.slice(1);
+    const subtotal = subset.reduce(
+      (sum, row) => sum + row.partPopulationCount,
+      0,
+    );
+    expect(
+      read(subset.map((row) => ({ ...row, placePopulationCount: subtotal }))),
+    ).toEqual([]);
     expect(read([...parts, parts[0]!])).toEqual([]);
     expect(
       read(
@@ -152,6 +162,22 @@ describe(`district population parts in ${place.displayName}, seed ${seed}`, () =
       (row) => row.personId === personId && row.binding.chamber === chamber,
     );
     expect(interval).toBeDefined();
+    expect(interval!.startedOn).toBe(world.currentDate);
+    expect(
+      recordedDistrictResidenceSince(
+        next,
+        personId,
+        chamber,
+        world.currentDate,
+      ),
+    ).toBe(
+      homeJurisdictionResidenceSince(
+        world,
+        personId,
+        world.people[personId]!.homeJurisdictionId,
+        world.currentDate,
+      ),
+    );
     const acquired = districtPopulationShares({
       catalog,
       placeGeoid,

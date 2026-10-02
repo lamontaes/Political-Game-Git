@@ -349,7 +349,11 @@ export function districtPopulationShares(input: {
       : joined.kind === "split"
         ? (joined.candidateDistrictGeoids ?? [])
         : [];
-  if (parts.some((part) => !candidates.includes(part.districtGeoid))) return [];
+  if (
+    parts.length !== candidates.length ||
+    parts.some((part) => !candidates.includes(part.districtGeoid))
+  )
+    return [];
   const result = [];
   for (const part of parts) {
     const identity = districtIdentityByRecordId(
