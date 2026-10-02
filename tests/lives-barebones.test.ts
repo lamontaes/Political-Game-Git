@@ -36,7 +36,23 @@ import {
 } from "../src/simulation/people-family-plan";
 import { upbringingFor } from "../src/simulation/people-upbringing";
 import { SeededRng, pickDistinct } from "../src/simulation/rng";
-import { TOWN_JOB_END_REASONS } from "../src/simulation/living-world/town-labor-market";
+import {
+  jobsLostBy,
+  recordTownJobLoss,
+  TOWN_JOB_END_REASONS,
+} from "../src/simulation/living-world/town-labor-market";
+import { currentGovernorOf } from "../src/simulation/crisis/offices";
+import { livedOutcomeReflectionKey } from "../src/simulation/law-exposure";
+import {
+  LIVED_OUTCOME_ANSWERED_BY,
+  livedOutcomesOf,
+  officialAnsweringFor,
+} from "../src/simulation/living-world/lived-outcomes";
+import {
+  LIVED_OUTCOME_REFLECTION_EVENT_TYPE,
+  livedOutcomeReflectionEventKey,
+} from "../src/simulation/living-world/official-views";
+import { viewOfOfficial } from "../src/simulation/official-view-reads";
 import type { EntityId, World } from "../src/simulation/types";
 import { assertWorldIntegrity } from "../src/simulation/world";
 import { createCharacterHistoryContextPerson } from "../src/simulation/character-history";
@@ -62,11 +78,59 @@ const [state] = pickDistinct(
 );
 const PLACE = state!.jurisdictionKey;
 
-function world(people = 4) {
-  return smallWorld({ place: PLACE, seed: SEED, people });
+function world(people = 4, offices: readonly "governor"[] = []) {
+  return smallWorld({ place: PLACE, seed: SEED, people, offices });
 }
 
 const provenance = (note: string) => ({ kind: "authored" as const, note });
+
+/**
+ * A fixture employer in the residents' town and a 60-day-old paid job there
+ * for `workerId`, each written through the life writers.
+ */
+function hireInTown(
+  start: World,
+  workerId: EntityId,
+  jurisdictionId: EntityId,
+): World {
+  let next = createOrganization(start, {
+    stableKey: "lives:employer",
+    formedAt: start.currentDate,
+    provenance: provenance("LIVES barebones fixture employer."),
+    initialProfile: {
+      name: "Fixture Employer",
+      classification: "custom:fixture-employer",
+      locationJurisdictionId: jurisdictionId,
+    },
+  });
+  const organizationId = next.history.organizations.at(-1)!.id;
+  next = createWorkRelationship(next, {
+    stableKey: "lives:job",
+    personId: workerId,
+    organizationId,
+    startedAt: addDays(next.currentDate, -60),
+    kind: "employment:staff",
+    compensation: "paid",
+    authority: "directed",
+    dependency: "dependent",
+    economicRisk: "organization-borne",
+    provenance: provenance("LIVES barebones fixture job."),
+    initialRole: {
+      title: "Fixture worker",
+      occupationClassification: "service:fixture",
+      locationJurisdictionId: jurisdictionId,
+      timeDemand: {
+        expectedWeekly: { minimumHours: 32, maximumHours: 40 },
+        attention: "high",
+        concurrency: "mostly-exclusive",
+        scheduleRigidity: "mixed",
+        interruptibility: "limited",
+        locationJurisdictionId: jurisdictionId,
+      },
+    },
+  });
+  return next;
+}
 
 describe(`LIVES barebones script in ${PLACE} (seed ${SEED})`, () => {
   it("step 1: reads the player's own childhood record as it exists today", () => {
@@ -208,42 +272,7 @@ describe(`LIVES barebones script in ${PLACE} (seed ${SEED})`, () => {
   it("step 3: a resident's job loss is on record, and what their view of the official has to go on", () => {
     const small = world();
     const workerId = small.world.personOrder[1]!;
-    let next = createOrganization(small.world, {
-      stableKey: "lives:employer",
-      formedAt: small.world.currentDate,
-      provenance: provenance("LIVES barebones fixture employer."),
-      initialProfile: {
-        name: "Fixture Employer",
-        classification: "custom:fixture-employer",
-        locationJurisdictionId: small.jurisdictionId,
-      },
-    });
-    const organizationId = next.history.organizations.at(-1)!.id;
-    next = createWorkRelationship(next, {
-      stableKey: "lives:job",
-      personId: workerId,
-      organizationId,
-      startedAt: addDays(next.currentDate, -60),
-      kind: "employment:staff",
-      compensation: "paid",
-      authority: "directed",
-      dependency: "dependent",
-      economicRisk: "organization-borne",
-      provenance: provenance("LIVES barebones fixture job."),
-      initialRole: {
-        title: "Fixture worker",
-        occupationClassification: "service:fixture",
-        locationJurisdictionId: small.jurisdictionId,
-        timeDemand: {
-          expectedWeekly: { minimumHours: 32, maximumHours: 40 },
-          attention: "high",
-          concurrency: "mostly-exclusive",
-          scheduleRigidity: "mixed",
-          interruptibility: "limited",
-          locationJurisdictionId: small.jurisdictionId,
-        },
-      },
-    });
+    let next = hireInTown(small.world, workerId, small.jurisdictionId);
     const job = next.history.workRelationships.at(-1)!;
     const working = workStatusAt(next, job.id)!;
     expect(working.status).toBe("active");
@@ -271,9 +300,82 @@ describe(`LIVES barebones script in ${PLACE} (seed ${SEED})`, () => {
     ).toBe("active");
     assertWorldIntegrity(next);
   });
-  it.todo(
-    "step 3b: the person's view of the responsible official shifts from the lived job loss - producer: lived-outcome factors for evaluatePoliticalBeliefFormation, on claude/team5-belief-lived-outcomes (today a caller must hand it factors; nothing reads a recorded layoff)",
-  );
+  it("step 3b: the worker's view of the governor shifts from the recorded job loss", () => {
+    const small = world(4, ["governor"]);
+    const stateUsps = PLACE.slice(3);
+    const governor = currentGovernorOf(small.world, stateUsps);
+    expect(governor, "a seated governor").not.toBeNull();
+    const workerId = small.world.personOrder.find(
+      (id) => id !== small.personId && id !== governor!.personId,
+    )!;
+    let next = hireInTown(small.world, workerId, small.jurisdictionId);
+    const job = next.history.workRelationships.at(-1)!;
+    const before = viewOfOfficial(next, workerId, governor!.personId);
+    expect(before.belief, "no view of the governor before the loss").toBeNull();
+
+    // The layoff goes through the writer every layoff and closing uses,
+    // which schedules the worker's reflection on who answers for it.
+    next = recordTownJobLoss(next, {
+      stableKey: "lives:job-lost-3b",
+      workRelationshipId: job.id,
+      effectiveAt: next.currentDate,
+      status: "ended",
+      reason: TOWN_JOB_END_REASONS.laidOff,
+      provenance: provenance("LIVES barebones fixture layoff (step 3b)."),
+      supersedesStatusId: workStatusAt(next, job.id)!.id,
+    });
+    const [lost] = jobsLostBy(next, workerId);
+    expect(lost, "the loss is on record").toBeDefined();
+    expect(livedOutcomesOf(next, workerId).map((row) => row.kind)).toEqual([
+      "job-lost",
+    ]);
+    expect(
+      LIVED_OUTCOME_ANSWERED_BY["job-lost"],
+      "a lost job is held against the governor",
+    ).toBe("state-executive");
+    expect(officialAnsweringFor(next, workerId, "state-executive")).toBe(
+      governor!.personId,
+    );
+    const due = next.history.futureDueItems.find(
+      (item) =>
+        item.stableKey === livedOutcomeReflectionKey(workerId, lost!.id),
+    );
+    expect(due, "a reflection is scheduled").toBeDefined();
+
+    // Due items only, through the day the worker thinks it over.
+    const after = resolveFutureDueItemsThrough(
+      next,
+      due!.dueAt,
+      composeWorldTimeHandlers(),
+    );
+    const reflection = after.history.events.find(
+      (event) =>
+        event.stableKey ===
+        livedOutcomeReflectionEventKey(workerId, { sourceRecordId: lost!.id }),
+    );
+    expect(reflection?.type).toBe(LIVED_OUTCOME_REFLECTION_EVENT_TYPE);
+    expect([...reflection!.involvedEntityIds].sort()).toEqual(
+      [workerId, governor!.personId].sort(),
+    );
+    const view = viewOfOfficial(after, workerId, governor!.personId);
+    expect(view.belief, "a view of the governor is saved").not.toBeNull();
+    expect(view.belief!.formation.relevantEventIds).toContain(reflection!.id);
+    const trace = after.history.decisionTraces.find(
+      (row) => row.id === view.belief!.formation.decisionTraceIds[0],
+    )!;
+    expect(trace.context.decisionType).toBe("political-belief-formation");
+    expect(
+      trace.context.considerations.some(
+        (row) => row.stableKey === `factor:lived-outcome:${lost!.id}`,
+      ),
+      "the recorded loss is a factor in the decision",
+    ).toBe(true);
+    // A cost the governor answers for is blame (or leaves a partisan torn),
+    // never credit.
+    expect(view.belief!.position).not.toBe("support");
+    expect(view.points).toBeLessThan(0);
+    assertWorldIntegrity(after);
+  });
 
   it("step 4a: a household moves away after a job offer elsewhere (A135)", () => {
     // No employer elsewhere is seated ahead: the place the worker looks to
