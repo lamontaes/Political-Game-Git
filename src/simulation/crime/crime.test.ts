@@ -3,7 +3,12 @@ import { advanceWorld, assertWorldIntegrity } from "../world";
 import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { stableHash } from "../ids";
-import { lifePlaceStateIdentities } from "../life-places";
+import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
+import { ensureJurisdiction } from "../national-election-geography";
+import {
+  materializeTownHousehold,
+  townRoster,
+} from "../living-world/town-residents";
 import { ensureWorldStartingConditions } from "../world-setup/conditions";
 import { generatePoliticalStartingConditions } from "../world-setup/political-start";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
@@ -77,7 +82,7 @@ function openCrimeSmallWorld(seed: string) {
       people: 64,
     }),
   );
-  return { world, playerPersonId: small.personId };
+  return { world, playerPersonId: small.personId, stateUsps: place.usps };
 }
 
 describe("ordinary local crime", () => {
@@ -266,19 +271,46 @@ describe("ordinary local crime", () => {
   it(
     "the Around you feed shows only the player's own town's crime",
     () => {
-      // Clarksdale, Mississippi: measured showing Washington police reports.
-      const life = generateOpeningLife(
-        prepareOpeningLife({
-          ...DEFAULT_NEW_GAME_SETUP,
+      const life = openCrimeSmallWorld("feed-2813820");
+      const homeTown =
+        life.world.people[life.playerPersonId]!.homeJurisdictionId;
+      const other = searchLifePlaces("", 2, {
+        stateJurisdictionKey: `US-${life.stateUsps}`,
+        scope: "locality",
+      }).find((place) => place.context.jurisdiction.id !== homeTown);
+      expect(
+        other,
+        "a second actual locality in the drawn state",
+      ).toBeDefined();
+      let world = ensureJurisdiction(life.world, other!.context.jurisdiction);
+      const households = Math.min(
+        12,
+        townRoster(other!.context.jurisdiction.id).households,
+      );
+      expect(
+        households,
+        "recorded households in the second locality",
+      ).toBeGreaterThan(0);
+      for (let index = 0; index < households; index += 1) {
+        world = materializeTownHousehold(
+          world,
+          other!.context.jurisdiction.id,
+          index,
+        );
+      }
+      console.info(
+        JSON.stringify({
+          fixture: "crime-feed-second-town",
           seed: "feed-2813820",
-          placeKey: "2813820",
-          startAge: 30,
-          depth: "summarize-earlier-life",
+          state: life.stateUsps,
+          homeTown,
+          otherTown: other!.context.jurisdiction.id,
+          households,
         }),
-      ).game!;
+      );
       const town = life.world.people[life.playerPersonId]!.homeJurisdictionId;
       const later = advanceWorld(
-        life.world,
+        world,
         120,
         createCampaignElectionTransitionRegistry(),
       );

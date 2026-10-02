@@ -5,4 +5,4 @@ section: Fixed
 title: Crime integration fixtures retain real clocks in smaller worlds
 ---
 
-Two long crime integration cases use the existing small-world and starting-condition writers rather than a full playable-life opening. Their recorded incident, journal, knowledge, police, referral, and charge assertions remain unchanged. The separate foreign-town feed case retains its existing fixture.
+The long crime integration cases use the existing small-world and starting-condition writers rather than full playable-life openings. The feed fixture adds a canonical second locality and actual households through existing writers. Incident, journal, knowledge, police, referral, charge, and foreign-town exclusion assertions remain unchanged. Exposure days stop at the requested window before constructing a date far beyond it; focused tests cover tiny positive rates and replay boundaries.
