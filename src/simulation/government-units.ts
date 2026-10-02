@@ -23,7 +23,9 @@ import {
   PLACE_COUNTY_RELATIONS_ROWS,
 } from "./place-county-relations.generated";
 import { createStableId } from "./ids";
-import { municipioUnit } from "./nationwide-world/county-governing-body-rules";
+import countyReadings from "../../data/research/local-government/county-governing-bodies.json" with { type: "json" };
+import acsPlaces from "../../data/research/money/place-population-acs-2024.json" with { type: "json" };
+import { NATIONAL_COUNTIES_ROWS } from "./national-counties.generated";
 import type { EntityId } from "./types";
 
 export { GOVERNMENT_UNITS_META, PLACE_COUNTY_RELATIONS_META };
@@ -46,6 +48,48 @@ export interface GovernmentUnitIdentity {
   readonly publisherPlaceCode: string | null;
   readonly functionalActive: boolean;
   readonly asOf: typeof GOVERNMENT_UNITS_META.asOf;
+}
+
+/** Existing municipio identities, read without loading a playable world. */
+const municipalCodes = countyReadings.municipalCodes as Readonly<
+  Record<string, { readonly stateFips: string }>
+>;
+const municipioPopulation = acsPlaces.puertoRicoMunicipios as Readonly<
+  Record<string, number>
+>;
+let municipioCounties: ReadonlyMap<string, string> | null = null;
+
+/** The county corpus and municipal code establish identity, never powers. */
+export function municipioUnit(
+  countyGeoid: string,
+): GovernmentUnitIdentity | null {
+  const usps = Object.keys(municipalCodes).find((key) =>
+    countyGeoid.startsWith(municipalCodes[key]!.stateFips),
+  );
+  if (!usps || municipioPopulation[countyGeoid] === undefined) return null;
+  municipioCounties ??= new Map(
+    (
+      JSON.parse(NATIONAL_COUNTIES_ROWS) as readonly (readonly [
+        string,
+        string,
+        string,
+      ])[]
+    ).map(([geoid, name]) => [geoid, name]),
+  );
+  const name = municipioCounties.get(countyGeoid);
+  if (name === undefined) return null;
+  return {
+    id: `municipio:${countyGeoid}`,
+    publisherId: `municipio:${countyGeoid}`,
+    name,
+    unitType: "county",
+    stateUsps: usps,
+    countyGeoid,
+    placeGeoid: null,
+    publisherPlaceCode: null,
+    functionalActive: true,
+    asOf: "2025-06-30",
+  };
 }
 
 /** The canonical jurisdiction ID of a catalog local-government unit. */
