@@ -85,9 +85,7 @@ test("payday displays actual starting federal and state withholding on the playe
   await expect(notice).toContainText("State income tax withheld $0.70");
   await expect(notice).not.toContainText("Other payroll tax not priced");
   await expect(notice).not.toContainText("Additional Medicare withheld $0");
-  await expect(page.getByTestId("pass-outcome")).not.toContainText(
-    "Paid $7.53",
-  );
+  await expect(page.getByTestId("pass-outcome")).toHaveCount(0);
   await page.screenshot({ path: info.outputPath("payday-owner-details.png") });
   await notice
     .getByRole("button", { name: "Dismiss payday notification" })
