@@ -14,6 +14,7 @@ import {
   stateJurisdictionForKey,
   type CrisisOptionKey,
   type EntityId,
+  type EventKnowledgeRecord,
   type HazardEpisodeRecord,
   type HealthAccess,
   type HealthEpisodeRecord,
@@ -23,6 +24,7 @@ import {
   type IsoDate,
   type World,
 } from "../simulation";
+import { renderGroundedEnglish } from "./grounded-english";
 import { proseDate } from "./prose-dates";
 
 /**
@@ -103,6 +105,128 @@ function healthEpisode(
 ): HealthEpisodeRecord | null {
   const record = crisisRecordIndex(world).get(episodeId);
   return record && record.kind === "health-episode" ? record : null;
+}
+
+/** Words only: all slots retain the saved records that establish them. */
+function healthLine(
+  world: World,
+  episode: HealthEpisodeRecord,
+  text: string,
+  facts: Readonly<
+    Record<string, { text: string; sourceRecordIds: readonly EntityId[] }>
+  >,
+  sourceRecordIds: readonly EntityId[],
+  momentKey: string,
+  surface: "menu" | "journal",
+): string | null {
+  const result = renderGroundedEnglish(
+    {
+      surface,
+      momentKey,
+      worldSeed: world.seed,
+      bankVersion: "1",
+      stage: "recorded",
+      sourceRecordIds: [episode.id, ...sourceRecordIds],
+      facts,
+      knowledge: [],
+    },
+    {
+      key: `health:${surface}`,
+      version: "1",
+      surface,
+      variants: [{ key: "recorded", kind: "template", text }],
+    },
+  );
+  return result.kind === "rendered" ? result.text : null;
+}
+
+function episodeDescription(episode: HealthEpisodeRecord): string {
+  const condition =
+    episode.label === "condition" && episode.conditionKey
+      ? conditionLabel(episode.conditionKey)
+      : null;
+  return (
+    condition ??
+    (episode.label === "condition"
+      ? "recorded condition"
+      : SEVERITY_TEXT[episode.severity].replace(/^An? /, "").toLowerCase())
+  );
+}
+
+/** Render only knowledge whose actual disclosure/onset joins establish the episode. */
+export function healthKnowledgeLine(
+  world: World,
+  knowledge: EventKnowledgeRecord,
+): string | null {
+  if (knowledge.source.kind !== "told-by" || knowledge.accuracy !== "accurate")
+    return null;
+  const teller = world.people[knowledge.source.sourcePersonId];
+  const records = crisisRecords(world);
+  const disclosure = records.find(
+    (record) =>
+      record.kind === "health-disclosure" &&
+      record.eventId === knowledge.eventId,
+  );
+  const episode =
+    disclosure?.kind === "health-disclosure"
+      ? healthEpisode(world, disclosure.episodeId)
+      : records.find(
+          (record): record is HealthEpisodeRecord =>
+            record.kind === "health-episode" &&
+            record.eventId === knowledge.eventId,
+        );
+  if (!episode || !teller || teller.id !== episode.personId) return null;
+  return healthLine(
+    world,
+    episode,
+    "{{person}} told you about their {{episode}}, which began on {{date}}.",
+    {
+      person: {
+        text: personName(teller),
+        sourceRecordIds: [teller.id, knowledge.id],
+      },
+      episode: {
+        text: episodeDescription(episode),
+        sourceRecordIds: [episode.id, knowledge.id],
+      },
+      date: {
+        text: proseDate(episode.effectiveAt),
+        sourceRecordIds: [episode.id],
+      },
+    },
+    [knowledge.id, knowledge.eventId],
+    `health-known:${knowledge.id}`,
+    "journal",
+  );
+}
+
+function healthDisclosureQuestion(
+  world: World,
+  decisionKey: string,
+): string | null {
+  const episode = healthEpisode(
+    world,
+    decisionKey.slice("crisis:decision:disclose:".length) as EntityId,
+  );
+  if (!episode) return null;
+  return healthLine(
+    world,
+    episode,
+    "Do you want to tell someone about your {{episode}}, which began on {{date}}?",
+    {
+      episode: {
+        text: episodeDescription(episode),
+        sourceRecordIds: [episode.id],
+      },
+      date: {
+        text: proseDate(episode.effectiveAt),
+        sourceRecordIds: [episode.id],
+      },
+    },
+    [],
+    decisionKey,
+    "menu",
+  );
 }
 
 export function ownHealthNotices(
@@ -446,6 +570,11 @@ export function crisisStopAfter(
         ? [
             {
               ...STOP_TEXT[decision.kind as keyof typeof STOP_TEXT],
+              text:
+                decision.kind === "own-health-disclosure"
+                  ? (healthDisclosureQuestion(world, decision.key) ??
+                    STOP_TEXT[decision.kind].text)
+                  : STOP_TEXT[decision.kind as keyof typeof STOP_TEXT].text,
               key: decision.key,
             },
           ]
