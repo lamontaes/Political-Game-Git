@@ -73,7 +73,21 @@ function federalDistrictFor(
     (id) => courtIndex(courts).get(`federal-district:${id}`) ?? [],
   );
   const unique = [...new Set(candidates)];
-  if (unique.length === 1) return unique[0]!;
+  if (unique.length === 1) {
+    const source = FEDERAL_COURTS_PROJECTION.find(
+      (row) => row.courtId === unique[0]!.sourceRecordId,
+    );
+    // Missing saved sibling courts do not enlarge the survivor's territory.
+    if (
+      source?.jurisdictionName &&
+      FEDERAL_COURTS_PROJECTION.filter(
+        (row) =>
+          row.courtKind === "district-court" &&
+          row.jurisdictionName === source.jurisdictionName,
+      ).length === 1
+    )
+      return unique[0]!;
+  }
   const place = lifePlaceByJurisdictionId(jurisdictionId);
   if (!place?.sourceGeoid) return null;
   const counties =

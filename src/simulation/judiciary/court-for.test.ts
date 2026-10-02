@@ -106,6 +106,27 @@ describe("one finder reads saved courts", () => {
         "criminal",
       ),
     ).toBeNull();
+    const oneWrongDistrict = {
+      ...base,
+      judiciary: {
+        ...base.judiciary!,
+        courts: Object.fromEntries(
+          Object.entries(base.judiciary!.courts).filter(
+            ([, court]) =>
+              court.level !== "federal-district" ||
+              court.sourceRecordId === "d-california-southern",
+          ),
+        ),
+      },
+    };
+    expect(
+      courtFor(
+        oneWrongDistrict,
+        venue.context.jurisdiction.id,
+        "federal-district",
+        "criminal",
+      ),
+    ).toBeNull();
   });
   it("retains the existing trial court family in all 56 places", () => {
     const base = world();
