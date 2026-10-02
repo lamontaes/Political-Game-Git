@@ -216,6 +216,9 @@ export function pensionPayment(
   law: BudgetLawReading,
 ): number {
   return Math.round(
-    required * (law.answer === "yes" ? Math.max(1, share) : share),
+    required *
+      (law.answer === "yes"
+        ? Math.max(law.requiredContributionShare ?? 1, share)
+        : share),
   );
 }
