@@ -1,3 +1,39 @@
+CURRENT RECEIVING RESULT — A22 recorded cash fixture repair
+Current-main f65aabb35 received additively as099da9ea2dfd324f235553c289b0579d55b10563.
+Complete changed files: state-income-tax-law.test.ts18PASS and
+public-budgets/tax-laws.test.ts5PASS; TOTAL23/23PASS26.41seconds,
+1.96seconds bodies, native10683exit0, one worker/stock limits.
+Owner-approved cloud storage override used; no cleanup/new copies.
+
+Merged A32/#1989 removes the universal grocery fiscal-note factor. Three
+obsolete forecast-only grocery/cannabis fixtures are replaced by actual
+recorded declared-sale/typed-term/collection/account/monthly-budget cases.
+Taxable declared sale2100minor × authored5/100 =105minor; an enacted
+exemption and an explicit0rate each save zero collection and no transfer.
+Cash/account/ledger positive equality, source transfer IDs, pre-payment
+no-receipt, and reload/replay assertions all execute. No mock cash map or
+population forecast supplies these values. This tests the existing admitted
+excise fixture only, NOT automatic grocery/cannabis law binding or nationwide
+sales-tax authority. The income-tax controls/positive five-place sampling
+remain separately described below. Earlier3failures are historical below.
+
+Exact root#1611 fixture donor0ff3a7a36252c1b8c567f860845e16172e5b7a42
+received only tests/fixtures/tax-policy-fixture.ts blob7fd00015f0d6442cd59eb92ac4843cd4249073e6.
+It creates the production catalog and binds the actual existing excise
+question/yes answer; no questionless bypass or invented proposition.
+
+Five changed TS roots/1223 imported files strictcheck0diagnostics,63705exit0.
+Changed five-file formatPASS. Initial scopedlint one unused type import
+PublicBudgetGovernment; removed only that import. Finalfive-file lintPASS.
+No semantic edits after the complete23case nativePASS; unused-type removal
+only. WhitespacePASS. Release transition recorded in PR publication.
+AUDIT currentmainA22 3/4 -> branch4/4; scan17.867s/2.434s.
+Only flipped check: no per-resident revenue level for an adopted income tax.
+No audit-rule edit, no nationwide/starting-law activation acceptance.
+Official Claude gate/CTO core review NOTRUN here; no fullsuite/unrelatedLOAD.
+
+HISTORICAL RECEIPTS (retained; superseded by current result above):
+
 A22 baseline23d41e57429311bff5d3e6720b86df5f42b38178; population-estimate module and both monthly callers removed.
 Survivor: stateIncomeTaxUnderLaw final adopted rate/threshold -> recorded paycheck -> assessPaychecksTaxes -> saved liability/payment/transfer -> readMonthFlows -> settleGovernmentMonth. No new calculator, base, authority, receipt or cash writer.
 Complete two changed files: state-income-tax-law.test.ts18PASS; public-budgets/tax-laws.test.ts2PASS3FAIL; combined20PASS3FAIL/23 in28.50s/1.65s bodies, session68385. All original assertions in three grocery/cannabis cases retained; failures are absent months/revenue in old forecast-only NO_FLOWS partial worlds, not adopted-income producer failures. These untouched cases have NOT been separately reproduced on main; do not call a baseline gate pass.
