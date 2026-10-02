@@ -34,8 +34,11 @@ describe("sourced annual family-leave terms", () => {
       "US-NY",
       "US-OR",
     ]);
-    const place = drawRandomPlace(seed, (candidate) =>
-      supported.has(candidate.stateJurisdictionKey),
+    const place = drawRandomPlace(
+      seed,
+      (candidate) =>
+        candidate.stateJurisdictionKey !== null &&
+        supported.has(candidate.stateJurisdictionKey),
     );
     const game = generateOpeningLife(
       prepareOpeningLife({
@@ -48,7 +51,10 @@ describe("sourced annual family-leave terms", () => {
     ).game;
     expect(game).not.toBeNull();
     const world = game!.world;
-    const jurisdiction = stateJurisdictionForKey(place.stateJurisdictionKey)!;
+    const stateKey = place.stateJurisdictionKey;
+    if (!stateKey)
+      throw new Error("The sourced opening needs its recorded state key.");
+    const jurisdiction = stateJurisdictionForKey(stateKey)!;
     const proposition = Object.values(world.policyCatalog.propositions).find(
       (row) => row.stableKey === questionKey,
     )!;
