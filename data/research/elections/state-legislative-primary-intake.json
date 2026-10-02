@@ -122,7 +122,7 @@
         "r": "Republican",
         "d": "Democratic"
       },
-      "sourceLimit": "Only contests elected in2024;2022 Senate16odd districts remain unbound pending explicit2022 certification."
+      "sourceLimit": "Only the15even-district contests elected in2024;2022odd districts supplied by a separate certified source."
     },
     {
       "id": "me-sos-certified-2022-house",
@@ -323,6 +323,42 @@
         "retrievedAt": "2026-10-02"
       },
       "sourceLimit": "Unaffiliated or nonmajor designations retained exactly; no party organization is inferred and those seats are not bound to the major-party consumer."
+    },
+    {
+      "id": "wy-sos-certified-2022-senate",
+      "format": "official-summary-pdf",
+      "stateUsps": "WY",
+      "stateFips": "56",
+      "electionDate": "2022-11-08",
+      "certifiedAt": "2022-12-14",
+      "url": "https://sos.wyo.gov/Elections/Docs/2022/Results/General/2022_General_Statewide_Senate_Candidates_Summary.pdf",
+      "sha256": "cc2ef5c4bbabb94a6bebd959966a15666cc4878108401f2f4b20af507a46295d",
+      "retrievedAt": "2026-10-02",
+      "certificationUrl": "https://www.wyoleg.gov/2023/SenateJournal.pdf",
+      "certificationSha256": "9c1355025ca20f2ba50219476df4947b0007af070d7aa7e1798bbb6bae449b29",
+      "certificationLocator": "Printed Senate journal pages1\u20132, secretary certification executed December14,2022",
+      "certificationStatement": "Full, true and correct list of persons duly elected to the Wyoming Senate at the General Election held on the eighth day of November2022 according to the Certificates of the State Canvassing Board, as filed in this office.",
+      "boundaryEvidence": {
+        "url": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf",
+        "locator": "Section 4.19, page 4-45",
+        "statement": "The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle).",
+        "identityStatement": "A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state.",
+        "limit": "Census2025 section4.19 identifies2024-cycle plans and unchanged2022 boundaries for states outside its enumerated changed-plan lists. Wyoming is not in either changed-plan list; these2022returns therefore use the same state-submitted Census2025 districts.",
+        "sha256": "21476bdba82fe8072f8994ae59bda484260d1b932c13f31991f6414f8e04d551",
+        "retrievedAt": "2026-10-02"
+      },
+      "chamber": "state-upper",
+      "districtHeading": "Senate District",
+      "firstDataLabel": "Albany",
+      "partyCodes": {
+        "R": "r",
+        "D": "d"
+      },
+      "partyNames": {
+        "r": "Republican",
+        "d": "Democratic"
+      },
+      "sourceLimit": "The16odd Senate districts elected in2022, each exact single-cycle result."
     }
   ]
 }

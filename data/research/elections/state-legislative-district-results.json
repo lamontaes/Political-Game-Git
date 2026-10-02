@@ -2776,6 +2776,118 @@
       "memberOrdinal": 1,
       "sourceSeatKey": "me-certified-current-plan|state-upper|035",
       "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: Census 2025 uses state-submitted plans in effect for the 2024 election cycle; Maine is not among the listed 2024 changed plans, so its 2022 and 2024 returns use the same submitted plan. A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56001",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2022-senate|state-upper|001",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56003",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2022-senate|state-upper|003",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56005",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2022-senate|state-upper|005",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56007",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2022-senate|state-upper|007",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56009",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2022-senate|state-upper|009",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56011",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2022-senate|state-upper|011",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56013",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2022-senate|state-upper|013",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56015",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2022-senate|state-upper|015",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56017",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2022-senate|state-upper|017",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56019",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2022-senate|state-upper|019",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56021",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2022-senate|state-upper|021",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56023",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2022-senate|state-upper|023",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56025",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2022-senate|state-upper|025",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56027",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2022-senate|state-upper|027",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56029",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2022-senate|state-upper|029",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
+    },
+    {
+      "districtRecordId": "state-upper:56031",
+      "districtVintage": "census-gazetteer-2025",
+      "memberOrdinal": 1,
+      "sourceSeatKey": "wy-sos-certified-2022-senate|state-upper|031",
+      "boundaryEvidence": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf \u00a74.19/p4-45: The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle). A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state."
     }
   ],
   "records": [
@@ -193002,6 +193114,404 @@
           "officialVotes": 16491
         }
       ]
+    },
+    {
+      "key": "wy-sos-certified-2022-senate|state-upper|001",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "001",
+      "districtNumber": "001",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2022,
+      "winners": [
+        {
+          "date": "2022-11-08",
+          "candidateId": "page:1:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2022-senate:page:1:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [4785, 1580, 5, 846],
+          "candidateHeader": "                          Statewide Senate Official Summary\n                      Wyoming General Election - November 8, 2022\n\n\n\n                                       Senate District 1\n               Ogden\n                                   Write-Ins         Overvotes       Undervotes\n              Driskill (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2022-senate|state-upper|003",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "003",
+      "districtNumber": "003",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2022,
+      "winners": [
+        {
+          "date": "2022-11-08",
+          "candidateId": "page:2:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2022-senate:page:2:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [6352, 226, 1, 1081],
+          "candidateHeader": "                          Statewide Senate Official Summary\n                      Wyoming General Election - November 8, 2022\n\n\n\n                                      Senate District 3\n                  Cheri\n                                  Write-Ins         Overvotes       Undervotes\n              Steinmetz (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2022-senate|state-upper|005",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "005",
+      "districtNumber": "005",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2022,
+      "winners": [
+        {
+          "date": "2022-11-08",
+          "candidateId": "page:3:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2022-senate:page:3:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3284, 1354, 15, 0, 87],
+          "candidateHeader": "                                      Statewide Senate Official Summary\n                                  Wyoming General Election - November 8, 2022\n\n\n\n                                                     Senate District 5\n                  Lynn                 Ted\n                                                         Write-Ins        Overvotes       Undervotes\n              Hutchings (R)         Hanlon (D)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2022-senate|state-upper|007",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "007",
+      "districtNumber": "007",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2022,
+      "winners": [
+        {
+          "date": "2022-11-08",
+          "candidateId": "page:4:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2022-senate:page:4:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3238, 2437, 24, 2, 109],
+          "candidateHeader": "                                   Statewide Senate Official Summary\n                               Wyoming General Election - November 8, 2022\n\n\n\n                                                   Senate District 7\n               Stephan             Marcie\n                                                       Write-Ins        Overvotes       Undervotes\n              Pappas (R)         Kindred (D)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2022-senate|state-upper|009",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "009",
+      "districtNumber": "009",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2022,
+      "winners": [
+        {
+          "date": "2022-11-08",
+          "candidateId": "page:5:candidate-column:1",
+          "partyCode": "d",
+          "partyName": "Democratic",
+          "caseIds": ["wy-sos-certified-2022-senate:page:5:candidate-column:1"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [1900, 3223, 9, 1, 120],
+          "candidateHeader": "                                    Statewide Senate Official Summary\n                                Wyoming General Election - November 8, 2022\n\n\n\n                                                    Senate District 9\n                Diana               Chris\n                                                        Write-Ins       Overvotes       Undervotes\n              Seabeck (R)        Rothfuss (D)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2022-senate|state-upper|011",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "011",
+      "districtNumber": "011",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2022,
+      "winners": [
+        {
+          "date": "2022-11-08",
+          "candidateId": "page:6:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2022-senate:page:6:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [4153, 1104, 43, 1, 385],
+          "candidateHeader": "                                    Statewide Senate Official Summary\n                                Wyoming General Election - November 8, 2022\n\n\n\n                                                  Senate District 11\n                Larry            Michael Ray\n                                                       Write-Ins        Overvotes       Undervotes\n              Hicks (R)          Williams (C)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2022-senate|state-upper|013",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "013",
+      "districtNumber": "013",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2022,
+      "winners": [
+        {
+          "date": "2022-11-08",
+          "candidateId": "page:7:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2022-senate:page:7:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3859, 1220, 15, 2, 156],
+          "candidateHeader": "                                  Statewide Senate Official Summary\n                              Wyoming General Election - November 8, 2022\n\n\n\n                                              Senate District 13\n                Stacy             Leesa\n                                                   Write-Ins        Overvotes       Undervotes\n              Jones (R)        Kuhlmann (D)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2022-senate|state-upper|015",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "015",
+      "districtNumber": "015",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2022,
+      "winners": [
+        {
+          "date": "2022-11-08",
+          "candidateId": "page:8:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": ["wy-sos-certified-2022-senate:page:8:candidate-column:0"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [5243, 193, 2, 769],
+          "candidateHeader": "                         Statewide Senate Official Summary\n                     Wyoming General Election - November 8, 2022\n\n\n\n                                   Senate District 15\n              Wendy Davis\n                                Write-Ins         Overvotes       Undervotes\n              Schuler (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2022-senate|state-upper|017",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "017",
+      "districtNumber": "017",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2022,
+      "winners": [
+        {
+          "date": "2022-11-08",
+          "candidateId": "page:9:candidate-column:1",
+          "partyCode": "d",
+          "partyName": "Democratic",
+          "caseIds": ["wy-sos-certified-2022-senate:page:9:candidate-column:1"],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [2615, 5142, 421, 10, 3, 177],
+          "candidateHeader": "                                            Statewide Senate Official Summary\n                                        Wyoming General Election - November 8, 2022\n\n\n\n                                                          Senate District 17\n               Steve          Michael F. 'Mike'        Amanda\n                                                                          Write-Ins        Overvotes       Undervotes\n              Duerr (R)         Gierau (D)            Padilla (L)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2022-senate|state-upper|019",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "019",
+      "districtNumber": "019",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2022,
+      "winners": [
+        {
+          "date": "2022-11-08",
+          "candidateId": "page:10:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": [
+            "wy-sos-certified-2022-senate:page:10:candidate-column:0"
+          ],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [5538, 363, 1, 858],
+          "candidateHeader": "                         Statewide Senate Official Summary\n                     Wyoming General Election - November 8, 2022\n\n\n\n                                   Senate District 19\n                 Dan\n                                Write-Ins         Overvotes       Undervotes\n              Laursen (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2022-senate|state-upper|021",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "021",
+      "districtNumber": "021",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2022,
+      "winners": [
+        {
+          "date": "2022-11-08",
+          "candidateId": "page:11:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": [
+            "wy-sos-certified-2022-senate:page:11:candidate-column:0"
+          ],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [5815, 2101, 30, 2, 230],
+          "candidateHeader": "                                    Statewide Senate Official Summary\n                                Wyoming General Election - November 8, 2022\n\n\n\n                                               Senate District 21\n                  Bo                Mark\n                                                    Write-Ins        Overvotes       Undervotes\n              Biteman (R)         Hansen (D)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2022-senate|state-upper|023",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "023",
+      "districtNumber": "023",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2022,
+      "winners": [
+        {
+          "date": "2022-11-08",
+          "candidateId": "page:12:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": [
+            "wy-sos-certified-2022-senate:page:12:candidate-column:0"
+          ],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3611, 1369, 11, 6, 143],
+          "candidateHeader": "                                   Statewide Senate Official Summary\n                               Wyoming General Election - November 8, 2022\n\n\n\n                                              Senate District 23\n                 Eric              Patricia\n                                                   Write-Ins        Overvotes       Undervotes\n              Barlow (R)          Junek (I)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2022-senate|state-upper|025",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "025",
+      "districtNumber": "025",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2022,
+      "winners": [
+        {
+          "date": "2022-11-08",
+          "candidateId": "page:13:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": [
+            "wy-sos-certified-2022-senate:page:13:candidate-column:0"
+          ],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [4365, 539, 3, 1548],
+          "candidateHeader": "                       Statewide Senate Official Summary\n                   Wyoming General Election - November 8, 2022\n\n\n\n                                Senate District 25\n               Cale\n                             Write-Ins         Overvotes       Undervotes\n              Case (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2022-senate|state-upper|027",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "027",
+      "districtNumber": "027",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2022,
+      "winners": [
+        {
+          "date": "2022-11-08",
+          "candidateId": "page:14:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": [
+            "wy-sos-certified-2022-senate:page:14:candidate-column:0"
+          ],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [4477, 115, 0, 968],
+          "candidateHeader": "                        Statewide Senate Official Summary\n                    Wyoming General Election - November 8, 2022\n\n\n\n                                  Senate District 27\n                 Bill\n                               Write-Ins         Overvotes       Undervotes\n              Landen (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2022-senate|state-upper|029",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "029",
+      "districtNumber": "029",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2022,
+      "winners": [
+        {
+          "date": "2022-11-08",
+          "candidateId": "page:15:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": [
+            "wy-sos-certified-2022-senate:page:15:candidate-column:0"
+          ],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [4402, 412, 0, 1259],
+          "candidateHeader": "                       Statewide Senate Official Summary\n                   Wyoming General Election - November 8, 2022\n\n\n\n                                   Senate District 29\n                Bob\n                                Write-Ins         Overvotes       Undervotes\n              Ide (R)\n"
+        }
+      ]
+    },
+    {
+      "key": "wy-sos-certified-2022-senate|state-upper|031",
+      "stateUsps": "WY",
+      "chamber": "state-upper",
+      "districtName": "031",
+      "districtNumber": "031",
+      "geographyPost": "",
+      "memberPost": "",
+      "boundaryRegime": 2022,
+      "winners": [
+        {
+          "date": "2022-11-08",
+          "candidateId": "page:16:candidate-column:0",
+          "partyCode": "r",
+          "partyName": "Republican",
+          "caseIds": [
+            "wy-sos-certified-2022-senate:page:16:candidate-column:0"
+          ],
+          "seatsContested": 1,
+          "districtSeats": 1,
+          "redistrictingCode": "official-current-plan",
+          "officialVotes": [3807, 150, 0, 691],
+          "candidateHeader": "                         Statewide Senate Official Summary\n                     Wyoming General Election - November 8, 2022\n\n\n\n                                   Senate District 31\n                 Evie\n                                Write-Ins         Overvotes       Undervotes\n              Brennan (R)\n"
+        }
+      ]
     }
   ],
   "primarySources": [
@@ -193329,6 +193839,42 @@
         "retrievedAt": "2026-10-02"
       },
       "sourceLimit": "Unaffiliated or nonmajor designations retained exactly; no party organization is inferred and those seats are not bound to the major-party consumer."
+    },
+    {
+      "id": "wy-sos-certified-2022-senate",
+      "format": "official-summary-pdf",
+      "stateUsps": "WY",
+      "stateFips": "56",
+      "electionDate": "2022-11-08",
+      "certifiedAt": "2022-12-14",
+      "url": "https://sos.wyo.gov/Elections/Docs/2022/Results/General/2022_General_Statewide_Senate_Candidates_Summary.pdf",
+      "sha256": "cc2ef5c4bbabb94a6bebd959966a15666cc4878108401f2f4b20af507a46295d",
+      "retrievedAt": "2026-10-02",
+      "certificationUrl": "https://www.wyoleg.gov/2023/SenateJournal.pdf",
+      "certificationSha256": "9c1355025ca20f2ba50219476df4947b0007af070d7aa7e1798bbb6bae449b29",
+      "certificationLocator": "Printed Senate journal pages1\u20132, secretary certification executed December14,2022",
+      "certificationStatement": "Full, true and correct list of persons duly elected to the Wyoming Senate at the General Election held on the eighth day of November2022 according to the Certificates of the State Canvassing Board, as filed in this office.",
+      "boundaryEvidence": {
+        "url": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf",
+        "locator": "Section 4.19, page 4-45",
+        "statement": "The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle).",
+        "identityStatement": "A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state.",
+        "limit": "Census2025 section4.19 identifies2024-cycle plans and unchanged2022 boundaries for states outside its enumerated changed-plan lists. Wyoming is not in either changed-plan list; these2022returns therefore use the same state-submitted Census2025 districts.",
+        "sha256": "21476bdba82fe8072f8994ae59bda484260d1b932c13f31991f6414f8e04d551",
+        "retrievedAt": "2026-10-02"
+      },
+      "chamber": "state-upper",
+      "districtHeading": "Senate District",
+      "firstDataLabel": "Albany",
+      "partyCodes": {
+        "R": "r",
+        "D": "d"
+      },
+      "partyNames": {
+        "r": "Republican",
+        "d": "Democratic"
+      },
+      "sourceLimit": "The16odd Senate districts elected in2022, each exact single-cycle result."
     }
   ]
 }
