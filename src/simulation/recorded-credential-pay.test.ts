@@ -11,6 +11,7 @@ import {
   createWorkCompensation,
   createResourcePosition,
   recordResourceTransferOutcome,
+  recordResourceFlowTerms,
   money,
 } from "./resources";
 import {
@@ -181,7 +182,6 @@ it("uses completed credentials and actually paid peers, retaining contributor re
 it.each([
   { targetComplete: false },
   { peerComplete: false },
-  { paid: false },
   { otherPlace: true },
 ])(
   "does not infer a credential premium from missing eligible records: %j",
@@ -300,7 +300,7 @@ it("normalizes paid wages with the role recorded at payment, not a later hours c
   expect(after.sourceRecordIds).toContain(peerRole.id);
   expect(after.sourceRecordIds).toContain(revised.history.workRoles.at(-1)!.id);
 });
-it("a credential recorded after payment does not retroactively qualify that paid wage", () => {
+it("a later credential qualifies active terms without retroactively qualifying an earlier payment", () => {
   const { world, target } = fixture({ peerComplete: false });
   let revised = world;
   for (const enrollment of world.history.educationEnrollments.filter(
@@ -323,7 +323,78 @@ it("a credential recorded after payment does not retroactively qualify that paid
       provenance,
     });
   }
-  expect(
-    recordedCredentialHourlyPay(revised, target, revised.currentDate),
-  ).toBeNull();
+  const quote = recordedCredentialHourlyPay(
+    revised,
+    target,
+    revised.currentDate,
+  )!;
+  expect(quote.peerCount).toBe(2);
+  for (const payment of revised.history.resourceTransferOutcomes)
+    expect(quote.sourceRecordIds).not.toContain(payment.id);
+});
+
+it("uses active recorded peer agreements before any completed payments exist", () => {
+  const { world, target, amounts } = fixture({ paid: false });
+  expect(world.history.resourceTransferOutcomes).toHaveLength(0);
+  const quote = recordedCredentialHourlyPay(world, target, world.currentDate)!;
+  expect(quote.peerCount).toBe(2);
+  expect(quote.hourlyMinor).toBe(
+    Math.round(
+      (amounts.reduce((a, b) => a + b, 0) * 26) / (amounts.length * 52 * 40),
+    ),
+  );
+  for (const terms of world.history.resourceFlowTerms)
+    expect(quote.sourceRecordIds).toContain(terms.id);
+});
+
+it("newer active terms replace older payments without lowering the tenure offer", () => {
+  const { world, target } = fixture();
+  const lowRate = townJobRate(
+    "occupation:office-clerk",
+    world.history.workRoles[0]!.locationJurisdictionId,
+    10,
+  )!;
+  let revised = world;
+  for (const terms of world.history.resourceFlowTerms) {
+    revised = recordResourceFlowTerms(revised, {
+      stableKey: `a40:newer-terms:${terms.id}`,
+      resourceFlowId: terms.resourceFlowId,
+      effectiveAt: revised.currentDate,
+      status: "active",
+      amount: money((lowRate.hourlyMinor * 40 * 52) / 26, "USD"),
+      cadenceKind: terms.cadenceKind,
+      reason:
+        "Controlled newer agreement from the existing sourced wage reader",
+      provenance,
+      supersedesTermsId: terms.id,
+    });
+  }
+  const quote = recordedCredentialHourlyPay(
+    revised,
+    target,
+    revised.currentDate,
+  )!;
+  expect(quote.hourlyMinor).toBe(lowRate.hourlyMinor);
+  for (const payment of world.history.resourceTransferOutcomes)
+    expect(quote.sourceRecordIds).not.toContain(payment.id);
+  const baseline = fixture({ targetComplete: false });
+  const withoutCredential = startTownJobPay(
+    baseline.world,
+    null,
+    baseline.world.currentDate,
+  );
+  const withCredential = startTownJobPay(revised, null, revised.currentDate);
+  function targetAmount(game: World, workId: EntityId) {
+    const flow = game.history.resourceFlows.find(
+      (row) =>
+        row.basisReference.kind === "work" &&
+        row.basisReference.workRelationshipId === workId,
+    )!;
+    return game.history.resourceFlowTerms.find(
+      (row) => row.resourceFlowId === flow.id,
+    )!.amount.minorUnits;
+  }
+  expect(targetAmount(withCredential, target)).toBe(
+    targetAmount(withoutCredential, baseline.target),
+  );
 });

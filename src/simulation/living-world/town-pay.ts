@@ -695,7 +695,7 @@ function payNoteOf(cadenceKind: string): PayNote | null {
  * day it started, whichever is later: nobody is paid years of back wages for
  * a job the game wrote before pay existed.
  */
-/** ESTIMATED FROM AVERAGE: actual paid peers at the same workplace and occupation,
+/** ESTIMATED FROM AVERAGE: recorded paid-work peers at the same workplace and occupation,
  * sharing the worker's recorded completed credentials. No observed peers means
  * no adjustment to the existing tenure offer. The input world is frozen before
  * this initializer writes any offers, so actor order cannot seed its own cohort.
@@ -705,11 +705,7 @@ export function recordedCredentialHourlyPay(
   workId: EntityId,
   onDate: IsoDate,
 ) {
-  if (
-    onDate > world.currentDate ||
-    !world.history.resourceTransferOutcomes.length
-  )
-    return null;
+  if (onDate > world.currentDate) return null;
   const snapshot = { ...world, currentDate: onDate };
   const target = recordById(world.history.workRelationships, workId);
   const targetRole = target ? workRoleAt(snapshot, workId) : undefined;
@@ -782,50 +778,56 @@ export function recordedCredentialHourlyPay(
           row.transferredAmount.minorUnits > 0,
       )
       .at(-1);
-    if (!payment) continue;
-    const paidSnapshot = {
-      ...snapshot,
-      currentDate: payment.occurredAt,
-      history: { ...snapshot.history, nextSequence: payment.sequence + 1 },
-    };
-    const paidRole = workRoleAt(paidSnapshot, work.id);
+    // Active agreements are already recorded pay, including before the first payday.
+    let rateSnapshot = snapshot;
+    let rateRole = role;
+    let terms = current;
+    let amount = current.amount.minorUnits;
+    let paymentId: EntityId | null = null;
     if (
-      !paidRole ||
-      paidRole.occupationClassification !== role.occupationClassification ||
-      paidRole.locationJurisdictionId !== role.locationJurisdictionId ||
-      !credentials.every((row) =>
-        hasLifePathCredential(paidSnapshot, work.personId, row.programKind),
-      )
-    )
-      continue;
-    const terms = resourceFlowTermsAt(snapshot, flow.id, {
-      asOfDate: payment.occurredAt,
-      historySequenceExclusive: payment.sequence + 1,
-    });
-    const note = terms ? payNoteOf(terms.cadenceKind) : null;
-    const hours = weeklyHoursOf(paidRole);
-    if (!note || hours <= 0) continue;
-    rates.push(
-      (payment.transferredAmount.minorUnits * PERIODS_PER_YEAR[note.period]) /
-        (52 * hours),
-    );
+      payment &&
+      payment.sequence > current.sequence &&
+      payment.occurredAt >= current.effectiveAt
+    ) {
+      const paidSnapshot = {
+        ...snapshot,
+        currentDate: payment.occurredAt,
+        history: { ...snapshot.history, nextSequence: payment.sequence + 1 },
+      };
+      const paidRole = workRoleAt(paidSnapshot, work.id);
+      const paidTerms = resourceFlowTermsAt(snapshot, flow.id, {
+        asOfDate: payment.occurredAt,
+        historySequenceExclusive: payment.sequence + 1,
+      });
+      if (
+        paidRole?.occupationClassification === role.occupationClassification &&
+        paidRole.locationJurisdictionId === role.locationJurisdictionId &&
+        paidTerms?.status === "active" &&
+        credentials.every((row) =>
+          hasLifePathCredential(paidSnapshot, work.personId, row.programKind),
+        )
+      ) {
+        rateSnapshot = paidSnapshot;
+        rateRole = paidRole;
+        terms = paidTerms;
+        amount = payment.transferredAmount.minorUnits;
+        paymentId = payment.id;
+      }
+    }
+    const note = payNoteOf(terms.cadenceKind);
+    const hours = weeklyHoursOf(rateRole);
+    if (!note || hours <= 0 || amount <= 0) continue;
+    rates.push((amount * PERIODS_PER_YEAR[note.period]) / (52 * hours));
     countedWork.add(work.id);
-    sources.push(
-      work.id,
-      status.id,
-      role.id,
-      paidRole.id,
-      flow.id,
-      terms!.id,
-      payment.id,
-    );
+    sources.push(work.id, status.id, role.id, rateRole.id, flow.id, terms.id);
+    if (paymentId) sources.push(paymentId);
     for (const enrollment of world.history.educationEnrollments.filter(
       (row) =>
         row.personId === work.personId &&
         row.recordedAt <= onDate &&
         row.startedAt <= onDate,
     )) {
-      const state = educationEnrollmentStateAt(paidSnapshot, enrollment.id);
+      const state = educationEnrollmentStateAt(rateSnapshot, enrollment.id);
       if (state?.status === "completed") sources.push(enrollment.id, state.id);
     }
   }
@@ -932,6 +934,7 @@ export function startTownJobPay(
           ...baseline,
           hourlyMinor: Math.max(
             credentialPay.hourlyMinor,
+            baseline.hourlyMinor,
             Math.round((minimum ?? 0) * 100),
           ),
           floored: credentialPay.hourlyMinor < Math.round((minimum ?? 0) * 100),
