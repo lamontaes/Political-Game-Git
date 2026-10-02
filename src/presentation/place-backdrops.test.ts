@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import manifest from "../../art/backdrops/manifest.json";
+import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import {
   backdropPlaces,
   capitolPlaceFor,
