@@ -1013,7 +1013,9 @@ function decidesToAct(
     randomness: "close-choices",
     retention: "ephemeral",
   });
-  return evaluation.selectedOptionKey === "act";
+  return (
+    isSelectedDecision(evaluation) && evaluation.selectedOptionKey === "act"
+  );
 }
 
 const BAND_IMPORTANCE: Readonly<Record<string, DecisionImportance>> = {

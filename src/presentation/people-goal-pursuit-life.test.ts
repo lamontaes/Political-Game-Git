@@ -605,3 +605,74 @@ describe("a goal call requires the called person's selected answer", () => {
     },
   );
 });
+
+describe("a goal step requires the caller's selected decision", () => {
+  it.each([
+    ["undecided", null],
+    ["no-available-option", null],
+    ["selected", null],
+    ["undecided", "act"],
+    ["no-available-option", "act"],
+  ] as const)(
+    "keeps %s / %s waiting without placing a call",
+    (outcomeKind: DecisionOutcomeKind, optionKey: string | null) => {
+      const { world, caller } = callBoundaryFixture();
+      let steps = 0;
+      let answers = 0;
+      const spy = vi
+        .spyOn(callDecisions, "evaluateDecision")
+        .mockImplementation(
+          (w: World, context: Parameters<typeof evaluateCallBoundary>[1]) => {
+            const actual = evaluateCallBoundary(w, context);
+            if (context.decisionType === "people.goal-step") {
+              if (
+                context.actorPersonId === caller &&
+                context.subject.key === CONNECTION_GOAL_KEY
+              ) {
+                steps++;
+                return { ...actual, outcomeKind, selectedOptionKey: optionKey };
+              }
+              return {
+                ...actual,
+                outcomeKind: "selected",
+                selectedOptionKey: "not-this-week",
+              };
+            }
+            if (context.decisionType === "people.call-answer") answers++;
+            return {
+              ...actual,
+              outcomeKind: "selected",
+              selectedOptionKey: "talk",
+            };
+          },
+        );
+      try {
+        for (const start of [world, deserializeWorld(serializeWorld(world))]) {
+          const reviewed = reviewPeopleGoals(start);
+          const repeated = reviewPeopleGoals(
+            deserializeWorld(serializeWorld(reviewed.world)),
+          );
+          for (const result of [reviewed, repeated]) {
+            expect(callBoundaryCalls(result.world, caller)).toEqual(
+              callBoundaryCalls(start, caller),
+            );
+            expect(callBoundarySteps(result.world, caller)).toEqual(
+              callBoundarySteps(start, caller),
+            );
+            expect(result.world.history.relationshipInteractions).toEqual(
+              start.history.relationshipInteractions,
+            );
+            expect(result.world.history.knowledge).toEqual(
+              start.history.knowledge,
+            );
+            expect(result.nextReviewAt > start.currentDate).toBe(true);
+          }
+        }
+        expect(steps).toBeGreaterThanOrEqual(4);
+        expect(answers).toBe(0);
+      } finally {
+        spy.mockRestore();
+      }
+    },
+  );
+});
