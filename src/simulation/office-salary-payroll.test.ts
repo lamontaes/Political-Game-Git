@@ -170,7 +170,7 @@ function fixture(
 
 it.each(sampled)(
   "A37 routes %s's named office worker through the common payroll, withholding and legal floor",
-  (placeKey) => {
+  (placeKey: string) => {
     const f = fixture(placeKey);
     const shared = settleTownCompensations(f.world, f.periods);
     const office = settleOfficeSalaries(f.world, f.personId);
