@@ -1031,19 +1031,3 @@ function statedBank(
     ? { ...bank, parts: parts as ComposedLineBank["parts"] }
     : null;
 }
-
-/**
- * A line names the bill once. A later mention in the same line is "this
- * bill", as a speaker who has just named it would say.
- */
-export function nameTheBillOnce(text: string, designation: string): string {
-  const first = text.indexOf(designation);
-  if (first < 0) return text;
-  const pieces = text.slice(first + designation.length).split(designation);
-  let out = text.slice(0, first + designation.length) + pieces[0]!;
-  for (const piece of pieces.slice(1)) {
-    out += /[.?!]\s+$/.test(out) ? "This bill" : "this bill";
-    out += piece;
-  }
-  return out;
-}

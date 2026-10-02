@@ -1,9 +1,10 @@
-import type { ClaimAudience, EntityId } from "../simulation";
+import { reachInSpeech } from "../simulation";
+import type { ClaimAudience, EntityId, ProvisionReach } from "../simulation";
+import { nameOnce } from "./english-grammar";
 import { composeCostObjection } from "./legislative-cost-objection-english";
 import {
   ENGLISH_MOTIF_FAMILIES,
   composeMotifEnglish,
-  nameTheBillOnce,
   type MotifFactKey,
 } from "./legislative-motif-english";
 import type { GroundedEnglishFact } from "./grounded-english";
@@ -68,8 +69,13 @@ export interface LegislativeMotifFacts {
   /** "Section 4", as the bill prints it. */
   readonly sectionLabel: string;
   readonly sectionHeading: string;
-  /** Who the section reaches, in plain language. */
-  readonly reach: string;
+  /** Who the section reaches, as a fact each reader words its own way. */
+  readonly reach: ProvisionReach;
+  /**
+   * What the measure is: a legislature's bill, a council's act or ordinance.
+   * A line names it in full once and by this afterward. Absent means a bill.
+   */
+  readonly instrument?: MeasureInstrument;
   readonly beneficiary: string | null;
   readonly place: string | null;
   /** What the section itself commits, when it commits money. */
@@ -162,26 +168,25 @@ const HOLDS: readonly LegislativeMotifFamily[] = [
  * A beat worded by the English engine, from facts each sourced to the record
  * that establishes it.
  */
+export type MeasureInstrument = "bill" | "act" | "ordinance";
+
+/** How a line names a measure after naming it in full. */
+const LATER_NAME: Readonly<Record<MeasureInstrument, string>> = {
+  bill: "this bill",
+  act: "the act",
+  ordinance: "the ordinance",
+};
+
 export function engineLine(context: LegislativeMotifContext) {
   const line = composedLine(context);
   return {
     ...line,
-    text: nameTheBillOnce(line.text, context.facts.designation),
+    text: nameOnce(
+      line.text,
+      context.facts.designation,
+      LATER_NAME[context.facts.instrument ?? "bill"],
+    ),
   };
-}
-
-/**
- * Who a section reaches, as a speaker says it after the section's label:
- * "covers every eligible rider", "is written for the transit authority". The
- * bill's own phrasing ("language reaching …") is how a summary reads, not how
- * a legislator talks.
- */
-export function spokenReach(reach: string): string {
-  const reaching = /^language reaching (.+)$/.exec(reach);
-  if (reaching) return `covers ${reaching[1]}`;
-  const writtenFor = /^language written for (.+)$/.exec(reach);
-  if (writtenFor) return `is written for ${writtenFor[1]}`;
-  return `covers ${reach.replace(/^language /, "")}`;
 }
 
 function composedLine(context: LegislativeMotifContext) {
@@ -216,7 +221,7 @@ function composedLine(context: LegislativeMotifContext) {
       "section-adopted": requested?.adoptedProvisionId
         ? word("adopted", [requested.adoptedProvisionId])
         : undefined,
-      reach: word(spokenReach(facts.reach)),
+      reach: word(reachInSpeech(facts.reach)),
       // The speaker's own earlier words, said to this listener.
       "prior-statement": word(facts.priorStatement, [
         grounding.speakerPersonId,

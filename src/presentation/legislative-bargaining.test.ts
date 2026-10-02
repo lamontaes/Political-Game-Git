@@ -827,7 +827,7 @@ describe("the motif layer", () => {
     shortTitle: "Transit Access Pilot",
     sectionLabel: "Section 4",
     sectionHeading: "Local project match",
-    reach: "language reaching every eligible rider",
+    reach: { relation: "reaching", who: "every eligible rider" },
     beneficiary: "the Ashland–Boyd County Transit Authority",
     place: "Ashland",
     amount: "$1,400,000",

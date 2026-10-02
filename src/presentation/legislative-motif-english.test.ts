@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { createStableId } from "../simulation";
+import { createStableId, reachInSpeech, reachInSummary } from "../simulation";
+import { nameOnce } from "./english-grammar";
 import {
   ENGLISH_MOTIF_FAMILIES,
   MOTIF_ENGLISH_BANKS,
@@ -16,7 +17,6 @@ import {
   eligibleMotifVariantKeys,
   legislativeMotifLine,
   motifFamilies,
-  spokenReach,
   type LegislativeMotifContext,
 } from "./legislative-dialogue-motifs";
 import { observerPlace } from "./observer-world";
@@ -205,7 +205,7 @@ describe("the bargaining room speaks these beats through the engine", () => {
       shortTitle: "Transit Access Pilot",
       sectionLabel: "Section 4",
       sectionHeading: "Local project match",
-      reach: "language reaching every eligible rider",
+      reach: { relation: "reaching", who: "every eligible rider" },
       beneficiary: `the ${place.displayName} Transit Authority`,
       place: place.displayName,
       amount: "$600,000",
@@ -254,7 +254,7 @@ describe("how the lines sound in the room", () => {
     shortTitle: "Transit Access Pilot",
     sectionLabel: "Section 4",
     sectionHeading: "Local project match",
-    reach: "language reaching every eligible rider",
+    reach: { relation: "reaching" as const, who: "every eligible rider" },
     beneficiary: `the ${place.displayName} Transit Authority`,
     place: place.displayName,
     amount: "$600,000",
@@ -279,10 +279,23 @@ describe("how the lines sound in the room", () => {
   });
 
   it("names the bill once in a line and says who a section reaches as speech", () => {
-    expect(spokenReach("language reaching every eligible rider")).toBe(
-      "covers every eligible rider",
+    const reaching = {
+      relation: "reaching",
+      who: "every eligible rider",
+    } as const;
+    const writtenFor = {
+      relation: "written-for",
+      who: "the transit authority",
+    } as const;
+    // One fact, two readers: the bill summary and the legislator.
+    expect(reachInSummary(reaching)).toBe(
+      "language reaching every eligible rider",
     );
-    expect(spokenReach("language written for the transit authority")).toBe(
+    expect(reachInSpeech(reaching)).toBe("covers every eligible rider");
+    expect(reachInSummary(writtenFor)).toBe(
+      "language written for the transit authority",
+    );
+    expect(reachInSpeech(writtenFor)).toBe(
       "is written for the transit authority",
     );
     let lines = 0;
@@ -340,5 +353,32 @@ describe("how the lines sound in the room", () => {
             ).toBe(true);
           }
     }
+  });
+});
+
+describe("a name said once in full", () => {
+  it("shortens an ordinance after its first mention, capitalized at a sentence start", () => {
+    expect(
+      nameOnce(
+        "I'll vote for Ordinance 12 if the fee holds. Ordinance 12 is what my ward asked for, and I'd defend Ordinance 12 anywhere.",
+        "Ordinance 12",
+        "the ordinance",
+      ),
+    ).toBe(
+      "I'll vote for Ordinance 12 if the fee holds. The ordinance is what my ward asked for, and I'd defend the ordinance anywhere.",
+    );
+  });
+
+  it("keeps a line that opens with the designation and shortens what follows", () => {
+    expect(
+      nameOnce(
+        "HB 214 reads $8,600,000 now. Keep HB 214 there and I'm a yes.",
+        "HB 214",
+        "this bill",
+      ),
+    ).toBe("HB 214 reads $8,600,000 now. Keep this bill there and I'm a yes.");
+    expect(nameOnce("Where are you on it?", "HB 214", "this bill")).toBe(
+      "Where are you on it?",
+    );
   });
 });
