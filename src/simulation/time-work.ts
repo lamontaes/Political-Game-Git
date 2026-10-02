@@ -51,9 +51,7 @@ import type {
   WorkPlayerRequirement,
   World,
 } from "./types";
-import {
-  resolveFutureDueItemsThrough,
-} from "./future-transitions";
+import { resolveFutureDueItemsThrough } from "./future-transitions";
 import {
   advanceWithWorldIntegrityAtEnd,
   assertWorldIntegrity,
