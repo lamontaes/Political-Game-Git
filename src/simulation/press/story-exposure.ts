@@ -1,4 +1,4 @@
-import { enactedBy, recordNewsLawExposure } from "../law-exposure";
+import { recordedLawAt, recordNewsLawExposure } from "../law-exposure";
 import {
   PRESS_STORY_LEAD_TAG,
   PRESS_STORY_EVENT_TYPE,
@@ -16,7 +16,7 @@ import { pressRecordsOfKind } from "./store";
 /**
  * HEARD FROM THE NEWS (slice 8).
  *
- * When a person learns of a published story about what an enacted law did,
+ * When a person learns of a published story about what a recorded law did,
  * they get one law exposure with the relation "news". Everything is read from
  * the records: the person from their knowledge of the story, the story from
  * the publication it names, the lead from the story, and the law, section and
@@ -84,8 +84,11 @@ export function recordStoryHeardExposure(
   );
   if (!basis || basis.type !== LAW_EFFECT_EVENT_TYPE) return world;
   const measureId = tagged(basis.tags, LAW_EFFECT_MEASURE_TAG)[0];
-  // A starting law has no enacted measure for an exposure to name.
-  if (!measureId || !enactedBy(world, measureId as EntityId, world.currentDate))
+  // Resolve the exact starting or enacted identity; a prefix alone is not law.
+  if (
+    !measureId ||
+    !recordedLawAt(world, measureId as EntityId, world.currentDate)
+  )
     return world;
 
   // How the law reached people: the reporter's own exposures the story was
