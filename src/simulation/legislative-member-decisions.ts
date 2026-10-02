@@ -1,8 +1,5 @@
-import {
-  considerationScore,
-  evaluateDecision,
-  recordDurableDecisionTrace,
-} from "./decisions";
+import { considerationScore, recordDurableDecisionTrace } from "./decisions";
+import { decideMemberVote } from "./governing/member-vote-decision";
 import { favorStandingBetween } from "./favors";
 import { favorEventRefs } from "./patronage/favor-refs";
 import { requireMeasure } from "./legislation";
@@ -160,7 +157,7 @@ export function deriveMemberDisposition(
   }
 
   const considerations = memberConsiderations(world, input);
-  const evaluation = evaluateDecision(world, {
+  const { evaluation, disposition } = decideMemberVote(world, {
     stableKey: `${input.stableKey}:member-decision`,
     decisionType: "legislation.member-vote",
     actorPersonId: input.personId,
@@ -179,12 +176,6 @@ export function deriveMemberDisposition(
   });
 
   const selected = evaluation.selectedOptionKey ?? "withhold";
-  const disposition: LegislativeMemberDisposition =
-    selected === "vote-yea"
-      ? "yea"
-      : selected === "vote-nay"
-        ? "nay"
-        : "present-not-voting";
 
   const decisive = considerations
     .filter((consideration) => consideration.optionKey === selected)

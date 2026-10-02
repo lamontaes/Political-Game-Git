@@ -5,8 +5,9 @@ import {
 export {
   LOCAL_BUSINESS_PLACEHOLDER,
   localBusinessWageMinor,
-  adultStartEmployer,
 } from "./recorded-employer";
+// Preserve the published opening API while the sole selector lives with town businesses.
+export { recordedTownEmployer as adultStartEmployer } from "./living-world/town-businesses";
 import {
   inventedPersonAge,
   inventedPersonBirthDate,

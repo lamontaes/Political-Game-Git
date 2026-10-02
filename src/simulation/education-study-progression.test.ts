@@ -26,6 +26,7 @@ import {
   studyCreditsEarned,
   studyCreditsRequired,
   studyProgressSummary,
+  studyPeriodTuitionOutstanding,
   totalStudyPeriods,
 } from "./education-study-progression";
 import { stableHash } from "./ids";
@@ -282,6 +283,9 @@ describe(`A141: a credential needs the credits earned (${A141_SEED})`, () => {
     );
     // The paid time is over and the credits are short: studies carry on.
     expect(studyProgressSummary(w, id, path).total).toBe(5);
+    expect(studyPeriodTuitionOutstanding(w, id, path)).toBe(
+      path.periodCostMinor,
+    );
     w = advanceBy(w, 2 * 166 + 1);
     // The last periods take only the credits still needed.
     expect(creditsOf(w, id), label).toEqual([13, 13, 13, 13, 7, 1]);
