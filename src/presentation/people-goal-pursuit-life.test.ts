@@ -214,8 +214,17 @@ describe("generated people pursue their own goals", () => {
   }, 120_000);
 
   it("somebody keeping up with people calls a person they actually know", () => {
-    const start = life("goal-life-b");
-    const caller = pursuitCandidates(start.world)[0]!;
+    // This case declares one intention and one known friend, rather than
+    // assuming a generated opening life has only this connection.
+    const fixture = smallWorld({
+      place: "kentucky",
+      people: 3,
+      seed: "goal-life-b",
+    });
+    const start = { world: fixture.world, playerId: fixture.personId };
+    const candidates = pursuitCandidates(start.world);
+    expect(candidates).toHaveLength(2);
+    const caller = candidates[0]!;
     expect(caller).toBeDefined();
     const existing = start.world.history.goalStates
       .filter(
@@ -241,7 +250,17 @@ describe("generated people pursue their own goals", () => {
       replacesGoalId: null,
       supersedesGoalStateId: existing?.id ?? null,
     });
-    const friend = residentWithJob(start.world, start.playerId);
+    expect(
+      intended.history.goalStates.filter(
+        (row) => row.goalKey === CONNECTION_GOAL_KEY && row.status === "active",
+      ),
+    ).toHaveLength(1);
+    const friend = candidates[1]!;
+    expect(friend).toBeDefined();
+    expect(start.world.history.relationshipInteractions).toHaveLength(0);
+    expect(start.world.history.kinshipRelationships).toHaveLength(0);
+    expect(start.world.history.workRelationships).toHaveLength(0);
+    expect(start.world.history.householdMemberships).toHaveLength(0);
     // A real tie between them, as the world would record one.
     let world = recordRelationshipInteraction(intended, {
       stableKey: "test:old-friends",
