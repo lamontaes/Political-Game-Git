@@ -1,4 +1,5 @@
 import { applyLawConsequences } from "./enacted-law-effects";
+import { settleJobPay } from "./job-market";
 import { applyEnactedCourtSizes } from "./governing/court-size-law";
 import { applyJudicialReview } from "./judiciary/judicial-review";
 import { applyOfficeLifecycle } from "./governing/office-continuity";
@@ -2023,7 +2024,13 @@ export function applyDateBoundary(
   crossedFrom: World["currentDate"],
   world: World,
 ): World {
-  const moved = applyNationalTermTransitions(world);
+  const transitioned = applyNationalTermTransitions(world);
+  const moved =
+    crossedFrom !== world.currentDate && transitioned.control.kind === "person"
+      ? settleJobPay(transitioned, transitioned.control.personId)
+      : transitioned;
+  // Term entry can happen within a date; the daily chain only runs on a new date.
+  if (world.currentDate === crossedFrom) return moved;
   // CRISIS records the death or capacity change; the office consequence is
   // GOVERNING's, and it runs on the same date boundary so a death reaches the
   // office the day it happens. The consumer applies each notice once.

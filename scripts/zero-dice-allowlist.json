@@ -255,13 +255,6 @@
       "code": "new SeededRng(world.seed).fork(`${key}:same-sex`).next() <"
     },
     {
-      "file": "src/simulation/campaign-life-activities.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": ".integer(0, 2) === 1;"
-    },
-    {
       "file": "src/simulation/campaign-operating-costs.ts",
       "kind": "fixed-share",
       "build": "Build 24",
