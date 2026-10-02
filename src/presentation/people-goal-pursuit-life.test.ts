@@ -1,4 +1,9 @@
-import { describe, expect, it } from "vitest";
+import { smallWorld } from "../../tests/fixtures/small-world";
+import * as callDecisions from "../simulation/decisions";
+import { lifePlaceStateIdentities } from "../simulation/life-places";
+import { SeededRng, pickDistinct } from "../simulation/rng";
+import { createMindProvenance, recordGoalState } from "../simulation/mind";
+import { describe, expect, it, vi } from "vitest";
 
 import { createWorkRelationship, recordWorkStatus } from "../simulation/life";
 import {
@@ -6,7 +11,13 @@ import {
   householdMembershipsAt,
   workStatusAt,
 } from "../simulation/life-queries";
-import { applicationsFor, jobOpening } from "../simulation/job-market";
+import {
+  applicationsFor,
+  jobOpening,
+  openWeeklyListings,
+  townEmployerRoles,
+} from "../simulation/job-market";
+import { seatLocalBusinesses } from "../simulation/local-economy";
 import {
   CONNECTION_GOAL_KEY,
   LEARNING_GOAL_KEY,
@@ -15,11 +26,17 @@ import {
 import { goalBlockerOf } from "../simulation/people-goal-pursuit";
 import {
   ensurePeopleGoalReview,
+  reviewPeopleGoals,
   pursuitCandidates,
 } from "../simulation/people-goal-review";
 import { recordRelationshipInteraction } from "../simulation/records";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
-import type { EntityId, GoalStateRecord, World } from "../simulation";
+import type {
+  EntityId,
+  GoalStateRecord,
+  World,
+  DecisionOutcomeKind,
+} from "../simulation";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import {
   openOrdinaryLife,
@@ -46,10 +63,21 @@ function life(seed = "goal-pursuit-life") {
     placeKey: "kentucky",
     household: "shares-a-home",
   });
-  return {
-    world: openOrdinaryLife(game.world, game.playerPersonId),
-    playerId: game.playerPersonId,
-  };
+  const personId = game.playerPersonId;
+  const local = seatLocalBusinesses(
+    game.world,
+    game.world.people[personId]!.homeJurisdictionId,
+  );
+  const world = openWeeklyListings(openOrdinaryLife(local, personId), personId);
+  expect(
+    townEmployerRoles(world, personId).length,
+    "Recorded town employers expose actual roles",
+  ).toBeGreaterThan(0);
+  expect(
+    world.history.jobOpenings?.length,
+    "Actual market producer lists roles before pursuit",
+  ).toBeGreaterThan(0);
+  return { world, playerId: personId };
 }
 
 function goalsOf(world: World, personId: EntityId, from = 0) {
@@ -82,7 +110,8 @@ function residentWithJob(world: World, playerId: EntityId): EntityId {
     (relationship) =>
       relationship.personId !== playerId &&
       relationship.compensation === "paid" &&
-      relationship.kind === "employment:local-business" &&
+      relationship.kind.startsWith("employment:") &&
+      relationship.organizationId !== null &&
       workStatusAt(world, relationship.id)?.status === "active",
   )!.personId;
 }
@@ -131,6 +160,7 @@ describe("generated people pursue their own goals", () => {
     // Every application is to an opening the market actually listed, and
     // that was taking applications on the day it was sent.
     const applications = applicationsFor(world, worker);
+
     expect(applications.length).toBeGreaterThan(0);
     for (const application of applications) {
       const opening = jobOpening(world, application.openingId)!;
@@ -184,18 +214,55 @@ describe("generated people pursue their own goals", () => {
   }, 120_000);
 
   it("somebody keeping up with people calls a person they actually know", () => {
-    const start = life("goal-life-b");
-    const caller = pursuitCandidates(start.world).find((id) =>
-      start.world.history.goalStates.some(
-        (record) =>
-          record.personId === id &&
-          record.goalKey === CONNECTION_GOAL_KEY &&
-          record.status === "active",
+    // This case declares one intention and one known friend, rather than
+    // assuming a generated opening life has only this connection.
+    const fixture = smallWorld({
+      place: "kentucky",
+      people: 3,
+      seed: "goal-life-b",
+    });
+    const start = { world: fixture.world, playerId: fixture.personId };
+    const candidates = pursuitCandidates(start.world);
+    expect(candidates).toHaveLength(2);
+    const caller = candidates[0]!;
+    expect(caller).toBeDefined();
+    const existing = start.world.history.goalStates
+      .filter(
+        (row) => row.personId === caller && row.goalKey === CONNECTION_GOAL_KEY,
+      )
+      .at(-1);
+    const intended = recordGoalState(start.world, {
+      stableKey: `test:connection-intention:${caller}`,
+      personId: caller,
+      goalKey: CONNECTION_GOAL_KEY,
+      recordedAt: start.world.currentDate,
+      objective: "Make time for people you know",
+      domain: "life:ordinary",
+      scope: "personal",
+      priority: "moderate",
+      status: "active",
+      targetEntityId: null,
+      deadline: null,
+      outcome: null,
+      provenance: createMindProvenance("authored", {
+        note: "Test circumstance: this resident means to keep up with people.",
+      }),
+      replacesGoalId: null,
+      supersedesGoalStateId: existing?.id ?? null,
+    });
+    expect(
+      intended.history.goalStates.filter(
+        (row) => row.goalKey === CONNECTION_GOAL_KEY && row.status === "active",
       ),
-    )!;
-    const friend = residentWithJob(start.world, start.playerId);
+    ).toHaveLength(1);
+    const friend = candidates[1]!;
+    expect(friend).toBeDefined();
+    expect(start.world.history.relationshipInteractions).toHaveLength(0);
+    expect(start.world.history.kinshipRelationships).toHaveLength(0);
+    expect(start.world.history.workRelationships).toHaveLength(0);
+    expect(start.world.history.householdMemberships).toHaveLength(0);
     // A real tie between them, as the world would record one.
-    let world = recordRelationshipInteraction(start.world, {
+    let world = recordRelationshipInteraction(intended, {
       stableKey: "test:old-friends",
       personIds: [caller, friend],
       eventId: null,
@@ -321,7 +388,10 @@ describe("generated people pursue their own goals", () => {
         pursuitCandidates(start.world).includes(record.personId),
     )!.personId;
     const employer = start.world.history.workRelationships.find(
-      (relationship) => relationship.kind === "employment:local-business",
+      (relationship) =>
+        relationship.kind.startsWith("employment:") &&
+        relationship.compensation === "paid" &&
+        workStatusAt(start.world, relationship.id)?.status === "active",
     )!;
     // The housemate held a job, and it ended.
     let world = createWorkRelationship(start.world, {
@@ -330,7 +400,7 @@ describe("generated people pursue their own goals", () => {
       organizationId: employer.organizationId,
       startedAt: start.world.currentDate,
       initialStatus: "active",
-      kind: "employment:local-business",
+      kind: employer.kind,
       compensation: "paid",
       authority: "directed",
       dependency: "partly-dependent",
@@ -359,6 +429,7 @@ describe("generated people pursue their own goals", () => {
         record.source.kind === "told-by" &&
         record.source.sourcePersonId === housemate,
     );
+
     expect(told.length).toBeGreaterThan(0);
     expect(told[0]!.believedSummary).toMatch(
       /said they applied to .+ opening\.$/,
@@ -370,4 +441,294 @@ describe("generated people pursue their own goals", () => {
     expect(journal).toMatch(/applied to/);
     expect(journal).not.toMatch(/Find paid work/);
   }, 120_000);
+});
+
+// Append after the existing describe block; preserve all original cases/helpers.
+const CALL_BOUNDARY_SEED = "a125-call-answer-boundary-20261001";
+const [callBoundaryPlace] = pickDistinct(
+  new SeededRng(CALL_BOUNDARY_SEED),
+  lifePlaceStateIdentities(),
+  1,
+);
+const evaluateCallBoundary = callDecisions.evaluateDecision;
+
+function callBoundaryFixture() {
+  let world = smallWorld({
+    place: callBoundaryPlace!.jurisdictionKey,
+    people: 8,
+    seed: CALL_BOUNDARY_SEED,
+  }).world;
+  const [caller, friend] = pursuitCandidates(world);
+  expect(caller).toBeDefined();
+  expect(friend).toBeDefined();
+  world = recordRelationshipInteraction(world, {
+    stableKey: "a125:call:existing-friends",
+    personIds: [caller!, friend!],
+    eventId: null,
+    occurredAt: world.currentDate,
+    kind: "experience:shared-school",
+    change: "strengthened",
+    significance: "meaningful",
+    summary: "They went to school together.",
+    tags: [],
+  });
+  // Initialize the review's ordinary personality/tie writers without a call.
+  const prime = vi
+    .spyOn(callDecisions, "evaluateDecision")
+    .mockImplementation(
+      (w: World, context: Parameters<typeof evaluateCallBoundary>[1]) => {
+        const actual = evaluateCallBoundary(w, context);
+        return context.decisionType === "people.goal-step"
+          ? {
+              ...actual,
+              outcomeKind: "selected",
+              selectedOptionKey: "not-this-week",
+            }
+          : actual;
+      },
+    );
+  try {
+    world = reviewPeopleGoals(world).world;
+  } finally {
+    prime.mockRestore();
+  }
+  const existing = world.history.goalStates
+    .filter(
+      (row) => row.personId === caller && row.goalKey === CONNECTION_GOAL_KEY,
+    )
+    .at(-1);
+  world = recordGoalState(world, {
+    stableKey: "a125:call:connection-goal",
+    personId: caller!,
+    goalKey: CONNECTION_GOAL_KEY,
+    recordedAt: world.currentDate,
+    objective: "Make time for people you know",
+    domain: "life:ordinary",
+    scope: "personal",
+    priority: "high",
+    status: "active",
+    targetEntityId: null,
+    deadline: null,
+    outcome: null,
+    provenance: createMindProvenance("authored", {
+      note: "Test circumstance.",
+    }),
+    replacesGoalId: null,
+    supersedesGoalStateId: existing?.id ?? null,
+  });
+  return { world, caller: caller! };
+}
+
+function callBoundaryCalls(world: World, caller: EntityId) {
+  return world.history.events.filter(
+    (event) =>
+      event.type.startsWith("life.goal-call") &&
+      event.participants.some(
+        (p) => p.personId === caller && p.role === "agency:participant",
+      ),
+  );
+}
+function callBoundarySteps(world: World, caller: EntityId) {
+  return goalsOf(world, caller).filter(
+    (g) => g.goalKey === CONNECTION_GOAL_KEY && kindOf(g) === "step",
+  );
+}
+
+function forceCallBoundary(
+  caller: EntityId,
+  outcomeKind: DecisionOutcomeKind,
+  selectedOptionKey: string | null,
+) {
+  let answers = 0;
+  const spy = vi
+    .spyOn(callDecisions, "evaluateDecision")
+    .mockImplementation(
+      (world: World, context: Parameters<typeof evaluateCallBoundary>[1]) => {
+        const actual = evaluateCallBoundary(world, context);
+        if (context.decisionType === "people.goal-step")
+          return {
+            ...actual,
+            outcomeKind: "selected",
+            selectedOptionKey:
+              context.actorPersonId === caller &&
+              context.subject.key === CONNECTION_GOAL_KEY
+                ? "act"
+                : "not-this-week",
+          };
+        if (context.decisionType !== "people.call-answer") return actual;
+        answers++;
+        return { ...actual, outcomeKind, selectedOptionKey };
+      },
+    );
+  return { spy, answers: () => answers };
+}
+
+describe("a goal call requires the called person's selected answer", () => {
+  it.each([
+    ["undecided", null],
+    ["no-available-option", null],
+    ["selected", null],
+    ["undecided", "talk"],
+    ["undecided", "not-now"],
+    ["no-available-option", "talk"],
+    ["no-available-option", "not-now"],
+  ] as const)(
+    "keeps %s / %s waiting through Continue and repeat",
+    (outcomeKind: DecisionOutcomeKind, optionKey: string | null) => {
+      const { world, caller } = callBoundaryFixture();
+      const forced = forceCallBoundary(caller, outcomeKind, optionKey);
+      try {
+        for (const start of [world, deserializeWorld(serializeWorld(world))]) {
+          const reviewed = reviewPeopleGoals(start);
+          const continued = deserializeWorld(serializeWorld(reviewed.world));
+          const repeated = reviewPeopleGoals(continued);
+          for (const result of [reviewed, repeated]) {
+            expect(callBoundaryCalls(result.world, caller)).toEqual(
+              callBoundaryCalls(start, caller),
+            );
+            expect(callBoundarySteps(result.world, caller)).toEqual(
+              callBoundarySteps(start, caller),
+            );
+            expect(result.world.history.relationshipInteractions).toEqual(
+              start.history.relationshipInteractions,
+            );
+            expect(result.world.history.knowledge).toEqual(
+              start.history.knowledge,
+            );
+            expect(result.nextReviewAt > start.currentDate).toBe(true);
+          }
+        }
+        // A vacuous no-route fixture cannot satisfy the boundary test.
+        expect(forced.answers()).toBeGreaterThanOrEqual(4);
+      } finally {
+        forced.spy.mockRestore();
+      }
+    },
+  );
+
+  it.each(["talk", "not-now"] as const)(
+    "preserves the actual selected %s writers after Continue",
+    (optionKey: string) => {
+      const { world, caller } = callBoundaryFixture();
+      const forced = forceCallBoundary(caller, "selected", optionKey);
+      try {
+        const direct = reviewPeopleGoals(world).world;
+        const fromSave = reviewPeopleGoals(
+          deserializeWorld(serializeWorld(world)),
+        ).world;
+        expect(fromSave.history).toEqual(direct.history);
+        const calls = callBoundaryCalls(direct, caller).slice(
+          callBoundaryCalls(world, caller).length,
+        );
+        expect(calls).toHaveLength(1);
+        expect(calls[0]!.type).toBe(
+          optionKey === "talk" ? "life.goal-call" : "life.goal-call-declined",
+        );
+        const steps = callBoundarySteps(direct, caller).slice(
+          callBoundarySteps(world, caller).length,
+        );
+        expect(steps).toHaveLength(1);
+        expect(steps[0]!.provenance.sourceRefs).toContainEqual({
+          kind: "historical-event",
+          eventId: calls[0]!.id,
+        });
+        const interactions = direct.history.relationshipInteractions.slice(
+          world.history.relationshipInteractions.length,
+        );
+        if (optionKey === "talk") {
+          expect(
+            interactions.some(
+              (row) =>
+                row.eventId === calls[0]!.id && row.personIds.includes(caller),
+            ),
+          ).toBe(true);
+        } else {
+          expect(interactions).toHaveLength(0);
+          expect(calls[0]!.summary).toContain("said it was not a good time");
+        }
+        const continued = deserializeWorld(serializeWorld(direct));
+        const repeated = reviewPeopleGoals(continued).world;
+        expect(callBoundaryCalls(repeated, caller)).toEqual(
+          callBoundaryCalls(direct, caller),
+        );
+        expect(callBoundarySteps(repeated, caller)).toEqual(
+          callBoundarySteps(direct, caller),
+        );
+        expect(forced.answers()).toBe(2);
+      } finally {
+        forced.spy.mockRestore();
+      }
+    },
+  );
+});
+
+describe("a goal step requires the caller's selected decision", () => {
+  it.each([
+    ["undecided", null],
+    ["no-available-option", null],
+    ["selected", null],
+    ["undecided", "act"],
+    ["no-available-option", "act"],
+  ] as const)(
+    "keeps %s / %s waiting without placing a call",
+    (outcomeKind: DecisionOutcomeKind, optionKey: string | null) => {
+      const { world, caller } = callBoundaryFixture();
+      let steps = 0;
+      let answers = 0;
+      const spy = vi
+        .spyOn(callDecisions, "evaluateDecision")
+        .mockImplementation(
+          (w: World, context: Parameters<typeof evaluateCallBoundary>[1]) => {
+            const actual = evaluateCallBoundary(w, context);
+            if (context.decisionType === "people.goal-step") {
+              if (
+                context.actorPersonId === caller &&
+                context.subject.key === CONNECTION_GOAL_KEY
+              ) {
+                steps++;
+                return { ...actual, outcomeKind, selectedOptionKey: optionKey };
+              }
+              return {
+                ...actual,
+                outcomeKind: "selected",
+                selectedOptionKey: "not-this-week",
+              };
+            }
+            if (context.decisionType === "people.call-answer") answers++;
+            return {
+              ...actual,
+              outcomeKind: "selected",
+              selectedOptionKey: "talk",
+            };
+          },
+        );
+      try {
+        for (const start of [world, deserializeWorld(serializeWorld(world))]) {
+          const reviewed = reviewPeopleGoals(start);
+          const repeated = reviewPeopleGoals(
+            deserializeWorld(serializeWorld(reviewed.world)),
+          );
+          for (const result of [reviewed, repeated]) {
+            expect(callBoundaryCalls(result.world, caller)).toEqual(
+              callBoundaryCalls(start, caller),
+            );
+            expect(callBoundarySteps(result.world, caller)).toEqual(
+              callBoundarySteps(start, caller),
+            );
+            expect(result.world.history.relationshipInteractions).toEqual(
+              start.history.relationshipInteractions,
+            );
+            expect(result.world.history.knowledge).toEqual(
+              start.history.knowledge,
+            );
+            expect(result.nextReviewAt > start.currentDate).toBe(true);
+          }
+        }
+        expect(steps).toBeGreaterThanOrEqual(4);
+        expect(answers).toBe(0);
+      } finally {
+        spy.mockRestore();
+      }
+    },
+  );
 });

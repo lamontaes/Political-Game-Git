@@ -257,7 +257,7 @@ export function measureSessionIsClosed(
     return { closed: false, closedOn: null };
   }
   const measure = requireMeasure(world, measureId);
-  const pack = legislativeBlueprintForMeasure(world, measure).pack;
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
   const closedOn = measureSessionClosedOn(world, measure, pack);
   return {
     closed: closedOn !== null && world.currentDate > closedOn,
@@ -549,6 +549,66 @@ function applyInstitutionFloorVote(
   }
 }
 
+/** The same declared session-end rules for every institutional and player caller. */
+export function applyInstitutionSessionEnd(
+  world: World,
+  measureId: EntityId,
+): Extract<
+  InstitutionStepResult,
+  { kind: "idle" | "ended" | "blocked" | "wait-until" }
+> | null {
+  const measure = requireMeasure(world, measureId);
+  const position = measurePosition(world, measureId);
+  if (position.terminal) return { kind: "idle" };
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  const owner = measureStepOwner(world, measureId, measure.originChamberKey);
+  const session = measureSessionIsClosed(world, measureId);
+  const phase = position.phase;
+  const reconsidersVetoLater =
+    session.closed && vetoWaitsForNextSitting(world, measure, phase);
+  if (
+    reconsidersVetoLater &&
+    !legislatureSatSince(world, measure, session.closedOn!)
+  )
+    // A closed session's legislature sits again in a later year at the
+    // soonest; from then, it checks on its ordinary cadence.
+    return {
+      kind: "wait-until",
+      date: maxIsoDate(
+        makeIsoDate(`${Number(session.closedOn!.slice(0, 4)) + 1}-01-01`),
+        nextSessionCalendarDate(
+          pack.session.sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.state,
+          world.currentDate,
+        ),
+      ),
+    };
+  const closed = session.closed && !reconsidersVetoLater;
+  const dies = pack.session.measuresDieAtAdjournment;
+  // Where the rules say a pending bill dies when the session adjourns, one
+  // still before the legislature dies; that is how most bills end.
+  if (closed && owner !== "executive" && dies.kind === "known" && dies.value)
+    return {
+      kind: "ended",
+      world: recordAdjournmentDeath(world, {
+        stableKey: nextMeasureStableKey(
+          world,
+          measureId,
+          `measure:${measureId}:died-on-adjournment`,
+        ),
+        measureId,
+      }),
+    };
+  if (closed)
+    return {
+      kind: "blocked",
+      reason: legislativeProcedureForPack(world, measure.rulePackId)
+        ?.measuresCarryOver
+        ? `The regular session ended on ${session.closedOn}; the bill remains pending for the next regular session.`
+        : `The session ended on ${session.closedOn}; whether this bill carries over is not established, so nothing more happens to it.`,
+    };
+  return null;
+}
+
 /** Applies the institution's next step to one measure, if it has one. */
 export function applyInstitutionStep(
   before: World,
@@ -658,51 +718,8 @@ export function applyInstitutionStep(
   )
     return { kind: "idle" };
   const position = measurePosition(world, measureId);
-  if (position.terminal) return { kind: "idle" };
-  const session = measureSessionIsClosed(world, measureId);
-  const phase = position.phase;
-  const reconsidersVetoLater =
-    session.closed && vetoWaitsForNextSitting(world, measure, phase);
-  if (
-    reconsidersVetoLater &&
-    !legislatureSatSince(world, measure, session.closedOn!)
-  )
-    // A closed session's legislature sits again in a later year at the
-    // soonest; from then, it checks on its ordinary cadence.
-    return {
-      kind: "wait-until",
-      date: maxIsoDate(
-        makeIsoDate(`${Number(session.closedOn!.slice(0, 4)) + 1}-01-01`),
-        nextSessionCalendarDate(
-          pack.session.sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.state,
-          world.currentDate,
-        ),
-      ),
-    };
-  const closed = session.closed && !reconsidersVetoLater;
-  const dies = pack.session.measuresDieAtAdjournment;
-  // Where the rules say a pending bill dies when the session adjourns, one
-  // still before the legislature dies; that is how most bills end.
-  if (closed && owner !== "executive" && dies.kind === "known" && dies.value)
-    return {
-      kind: "ended",
-      world: recordAdjournmentDeath(world, {
-        stableKey: nextMeasureStableKey(
-          world,
-          measureId,
-          `measure:${measureId}:died-on-adjournment`,
-        ),
-        measureId,
-      }),
-    };
-  if (closed)
-    return {
-      kind: "blocked",
-      reason: legislativeProcedureForPack(world, measure.rulePackId)
-        ?.measuresCarryOver
-        ? `The regular session ended on ${session.closedOn}; the bill remains pending for the next regular session.`
-        : `The session ended on ${session.closedOn}; whether this bill carries over is not established, so nothing more happens to it.`,
-    };
+  const sessionEnd = applyInstitutionSessionEnd(world, measureId);
+  if (sessionEnd) return sessionEnd;
   // A caller may supply its actual members' decisions, including the
   // controlled sponsor's ballot, but cannot bypass the session's end.
   if (input.recordedFloorVote)
