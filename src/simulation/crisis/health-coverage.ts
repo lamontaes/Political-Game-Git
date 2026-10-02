@@ -58,6 +58,10 @@ import {
   householdMembershipsAt,
   peopleInHouseholdAt,
 } from "../life-queries";
+import {
+  annualPovertyLineMinor,
+  recordedMonthlyPayByPerson,
+} from "../household-pay";
 import { stateJurisdictionForKey } from "../life-places";
 import { residenceStateKey } from "../statutory-tax";
 import type { EntityId, HistoricalCutoff, IsoDate, World } from "../types";
@@ -141,114 +145,6 @@ export const MEDICAID_EXPANSION_RULES = {
     basis: `Medicaid expansion: ${Math.round(-MORTALITY_LINK.size * 1000) / 10}% lower annual mortality among low-income adults aged 55 to 64 (${MORTALITY_LINK.source}).`,
   },
 } as const;
-
-// ─── Poverty line ───────────────────────────────────────────────────────
-
-/**
- * A year's guideline: the contiguous states' amounts, and a first-person
- * amount for each state that has its own, keyed by the state's name.
- */
-type Guideline = {
-  readonly contiguous: {
-    readonly "1": number;
-    readonly eachAdditional: number;
-  };
-} & Readonly<Record<string, { readonly "1": number }>>;
-
-const GUIDELINES = Object.entries(
-  programs.federal.povertyGuidelines as unknown as Record<
-    string,
-    { readonly value?: Guideline }
-  >,
-)
-  .flatMap(([year, row]) =>
-    /^\d{4}$/.test(year) && row.value
-      ? [[Number(year), row.value] as const]
-      : [],
-  )
-  .sort((a, b) => a[0] - b[0]);
-
-/** The annual poverty line for a household, in cents. */
-export function annualPovertyLineMinor(
-  stateKey: string,
-  householdSize: number,
-  onDate: IsoDate,
-): number {
-  const year = yearOf(onDate);
-  const guideline = (GUIDELINES.filter(([read]) => read <= year).at(-1) ??
-    GUIDELINES[0]!)[1];
-  const contiguous = guideline.contiguous;
-  const name = stateJurisdictionForKey(stateKey)?.name.toLowerCase();
-  const own = name && name !== "contiguous" ? guideline[name] : undefined;
-  const first = own?.["1"] ?? contiguous["1"];
-  const added = own
-    ? (contiguous.eachAdditional * own["1"]) / contiguous["1"]
-    : contiguous.eachAdditional;
-  return Math.round((first + Math.max(0, householdSize - 1) * added) * 100);
-}
-
-// ─── Pay ────────────────────────────────────────────────────────────────
-
-const PERIODS_PER_YEAR: Readonly<Record<string, number>> = {
-  weekly: 52,
-  biweekly: 26,
-  semimonthly: 24,
-  monthly: 12,
-};
-
-// Coverage writes only crisis history. Reuse the pay index while its
-// immutable source arrays and review date remain unchanged.
-const MONTHLY_PAY_CACHE = new WeakMap<
-  World["history"]["resourceFlowTerms"],
-  {
-    flows: World["history"]["resourceFlows"];
-    onDate: IsoDate;
-    pay: ReadonlyMap<EntityId, number>;
-  }
->();
-
-/** Each person's recorded pay a month on a date, in cents, from pay terms. */
-function monthlyPayByPerson(
-  world: World,
-  onDate: IsoDate,
-): ReadonlyMap<EntityId, number> {
-  const cached = MONTHLY_PAY_CACHE.get(world.history.resourceFlowTerms);
-  if (cached?.flows === world.history.resourceFlows && cached.onDate === onDate)
-    return cached.pay;
-  const recipients = new Map<EntityId, EntityId>();
-  for (const flow of world.history.resourceFlows)
-    // Wages, salaries and an owner's draw from their own business.
-    if (
-      flow.basisKind.startsWith("compensation:") &&
-      flow.recipient.kind === "person"
-    )
-      recipients.set(flow.id, flow.recipient.personId);
-  const latest = new Map<
-    EntityId,
-    (typeof world.history.resourceFlowTerms)[number]
-  >();
-  for (const row of world.history.resourceFlowTerms)
-    if (recipients.has(row.resourceFlowId) && row.effectiveAt <= onDate)
-      latest.set(row.resourceFlowId, row);
-  const byPerson = new Map<EntityId, number>();
-  for (const [flowId, row] of latest) {
-    if (row.status !== "active") continue;
-    const match = /(weekly|biweekly|semimonthly|monthly)/.exec(row.cadenceKind);
-    const perYear = match ? PERIODS_PER_YEAR[match[1]!] : undefined;
-    if (!perYear) continue;
-    const personId = recipients.get(flowId)!;
-    byPerson.set(
-      personId,
-      (byPerson.get(personId) ?? 0) + (row.amount.minorUnits * perYear) / 12,
-    );
-  }
-  MONTHLY_PAY_CACHE.set(world.history.resourceFlowTerms, {
-    flows: world.history.resourceFlows,
-    onDate,
-    pay: byPerson,
-  });
-  return byPerson;
-}
 
 // ─── Who is covered ─────────────────────────────────────────────────────
 
@@ -432,7 +328,7 @@ export function medicaidCoverageDecision(
       asOfDate: recordsAt,
       historySequenceExclusive: world.history.nextSequence,
     },
-    { pay: monthlyPayByPerson(world, recordsAt), laws: new Map() },
+    { pay: recordedMonthlyPayByPerson(world, recordsAt), laws: new Map() },
   );
 }
 
@@ -501,7 +397,7 @@ export function coverageDecisionsForSubjects(
     historySequenceExclusive: world.history.nextSequence,
   };
   const cache: PassCache = {
-    pay: monthlyPayByPerson(world, onDate),
+    pay: recordedMonthlyPayByPerson(world, onDate),
     laws: new Map(),
   };
   const decisions = new Map<EntityId, CoverageDecision>();
@@ -538,7 +434,7 @@ export function recordHealthCoverageForSubjects(
     historySequenceExclusive: world.history.nextSequence,
   };
   const cache: PassCache = {
-    pay: monthlyPayByPerson(world, onDate),
+    pay: recordedMonthlyPayByPerson(world, onDate),
     laws: new Map(),
   };
   const latest = latestCoverage(world);

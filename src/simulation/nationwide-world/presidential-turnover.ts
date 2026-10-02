@@ -1102,12 +1102,14 @@ export function presidentialTermPlanHandler(
   return done(next, `The ${cycle} winners' terms were dated.`);
 }
 
-export const PRESIDENTIAL_TURNOVER_HANDLERS = [
-  [PRESIDENTIAL_FIELD_CLOSE, presidentialFieldCloseHandler],
-  [PRESIDENTIAL_ELECTION_DAY, presidentialElectionDayHandler],
-  [PRESIDENTIAL_ELECTORS_MEET, presidentialElectorsMeetHandler],
-  [PRESIDENTIAL_TERM_PLAN, presidentialTermPlanHandler],
-] as const;
+export function presidentialTurnoverHandlers() {
+  return [
+    [PRESIDENTIAL_FIELD_CLOSE, presidentialFieldCloseHandler],
+    [PRESIDENTIAL_ELECTION_DAY, presidentialElectionDayHandler],
+    [PRESIDENTIAL_ELECTORS_MEET, presidentialElectorsMeetHandler],
+    [PRESIDENTIAL_TERM_PLAN, presidentialTermPlanHandler],
+  ] as const;
+}
 
 /** Noon on January 20 has passed: a living winner takes the oath. */
 function swearInWinners(world: World): World {

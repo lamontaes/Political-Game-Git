@@ -336,8 +336,8 @@
     },
     {
       "key": "child-access-law-to-youth-gun-deaths",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "to": "health.youth-firearm-deaths",
       "strength": "moderate",
       "shape": {
@@ -350,15 +350,15 @@
       "owner": "O",
       "anchor": "Negligence-standard child access prevention laws (an adult is liable when a child can get an unsecured gun) went with 13% fewer firearm deaths among children 0 to 14 from 1991 to 2016, and 12 to 15% fewer firearm homicides, suicides and accidental deaths; weaker recklessness laws showed no effect. RAND rates the evidence supportive. The range is the default 25% spread.",
       "source": "Azad et al. 2020 (JAMA Pediatrics); RAND Science of Gun Policy, 5th ed.",
-      "from": "law.child-access-prevention",
+      "from": "law:us-policy-positions:justice-public-safety.child-access-prevention",
       "evidence": "researched",
       "range": [-0.16, -0.1],
-      "notes": "Unsupported until a law is recorded: no shipped policy question covers child-access gun storage, so the cause has no reader, and youth firearm deaths are not a kept place outcome."
+      "notes": "Unsupported until a producer computes youth firearm deaths: the cause is now a state's law on responsibility for unsecured guns near children, a question the game asks, but youth firearm deaths are not a kept place outcome."
     },
     {
       "key": "stand-your-ground-to-homicide",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "crime.firearm-homicide",
       "strength": "moderate",
       "shape": {
@@ -371,7 +371,7 @@
       "owner": "O",
       "anchor": "Increases firearm homicides (RAND: supportive)",
       "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8861849/",
-      "from": "law.stand-your-ground",
+      "from": "law:us-policy-positions:justice-public-safety.stand-your-ground",
       "evidence": "researched",
       "range": [0.03, 0.13],
       "why": [
@@ -401,13 +401,13 @@
         "lagInterpretation": "lagMonths0 describes that monthly aggregate model specification; it is not a measured immediate personal reaction or zero procedural delay. No separate distributed-lag coefficient is supplied."
       },
       "aboutZero": false,
-      "researchActivationLimit": "Cause law.stand-your-ground has no recorded runtime reader. This coefficient is sized, not a claim of activation. Repeal and transport beyond the study require review before enabling a reader.",
-      "notes": "Unsupported until a law is recorded: no shipped policy question covers stand-your-ground, so the cause law.stand-your-ground has no reader; firearm homicide is kept, so this acts once one exists."
+      "researchActivationLimit": "The cause is now the law in force on the stand-your-ground question (law:us-policy-positions:justice-public-safety.stand-your-ground), so this coefficient acts when a state adopts. The research establishes adoption only, so a repeal is held at no effect (floor 1), not at the opposite of 0.08. Applying it to places beyond the study's 41 states, and enabling this reader at all, still need review before the number is called settled.",
+      "floor": 1
     },
     {
       "key": "min-age-to-youth-gun-suicide",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "to": "health.youth-firearm-suicide",
       "strength": "moderate",
       "shape": {
@@ -420,10 +420,10 @@
       "owner": "O",
       "anchor": "States that limited handgun sales to people 21 and older had an 18% lower suicide rate among 18- to 20-year-olds from 2001 to 2017, nearly 2 fewer suicides per 100,000 at those ages. The study reports suicide by all means, so the firearm share is an assumption; provisional. The range is the default 25% spread. RAND rates the evidence supportive.",
       "source": "Raifman et al. 2020 (BMJ); RAND Science of Gun Policy, 5th ed.",
-      "from": "law.firearm-minimum-age-above-federal",
+      "from": "law:us-policy-positions:justice-public-safety.raise-handgun-purchase-age",
       "evidence": "provisional",
       "range": [-0.225, -0.135],
-      "notes": "Unsupported until a law is recorded: no shipped policy question sets a firearm purchase age above the federal one, so the cause has no reader, and youth firearm suicide is not a kept place outcome."
+      "notes": "Unsupported until a producer computes youth firearm suicide: the cause is now a state's law on a handgun buying age of 21, a question the game asks, but youth firearm suicide is not a kept place outcome."
     },
     {
       "key": "crime-to-out-migration",
@@ -628,8 +628,8 @@
     },
     {
       "key": "emission-rules-to-particulates",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "env.particulates",
       "strength": "strong",
       "shape": {
@@ -642,10 +642,10 @@
       "owner": "O",
       "anchor": "The 2005 fine-particle nonattainment designations lowered PM2.5 by an estimated 0.34 micrograms per cubic meter (95% posterior interval -1.54 to +0.69) against a baseline of 14.48 in nonattainment counties, about -2.3% (-10.7% to +4.8%). Plain before-and-after comparisons give about -1.6 micrograms, but overstate it because dirtier places were already improving faster. Clean Air Act rules for coarser particulates in the 1970s cut them more clearly (Chay and Greenstone 2003).",
       "source": "Zigler, Choirat and Dominici 2018 (Epidemiology); Chay and Greenstone 2003",
-      "from": "law.emission-nonattainment",
+      "from": "law:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
       "evidence": "contested",
       "range": [-0.107, 0.048],
-      "notes": "Unsupported until a law is recorded: the game records no county nonattainment status, so the cause law.emission-nonattainment has no reader; the size is kept for when one exists."
+      "notes": "The cause is a state's law on a clean-up plan for counties that fail the federal soot and dust standards. A state starts at yes when the EPA Green Book (September 30, 2026) lists one of its counties as nonattainment for PM-2.5 or PM-10."
     },
     {
       "key": "energy-price-to-ac-use",
@@ -1462,8 +1462,8 @@
     },
     {
       "key": "enforcement-to-hispanic-enrollment",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "to": "school.hispanic-enrollment",
       "strength": "strong",
       "shape": {
@@ -1476,10 +1476,10 @@
       "owner": "M",
       "anchor": "Local police partnerships with ICE under 287(g) cut Hispanic school enrollment 7.3% on average and about 10% after two years, mostly among the youngest students, displacing about 320,000 Hispanic students nationwide.",
       "source": "Dee and Murphy 2020 (American Educational Research Journal)",
-      "from": "immigration.local-enforcement-partnership",
+      "from": "law:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
       "evidence": "researched",
       "range": [-0.1, -0.073],
-      "notes": "Unsupported until a policy is recorded: no shipped policy question covers local immigration enforcement partnerships, so the cause has no reader."
+      "notes": "Unsupported until a producer computes Hispanic school enrollment: the cause is now the law on local 287(g) partnerships, a question the game asks, but Hispanic school enrollment is not a kept place outcome."
     },
     {
       "key": "daca-to-graduation",
@@ -2041,8 +2041,8 @@
     },
     {
       "key": "enforcement-to-undocumented-employment",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "to": "labor.undocumented-employment",
       "strength": "moderate",
       "shape": {
@@ -2055,14 +2055,14 @@
       "owner": "B",
       "anchor": "-5.7% employment",
       "source": "East, Luck, Mansour and Velasquez 2023 (JOLE)",
-      "from": "immigration.local-enforcement-partnership",
+      "from": "law:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
       "evidence": "researched",
-      "notes": "Unsupported until a policy is recorded: no shipped policy question covers local immigration enforcement partnerships, so the cause has no reader."
+      "notes": "Unsupported until a producer computes undocumented employment: the cause is now the law on local 287(g) partnerships, a question the game asks, but undocumented employment is not a kept place outcome."
     },
     {
       "key": "enforcement-to-us-born-employment",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "to": "labor.us-born-employment",
       "strength": "weak",
       "shape": {
@@ -2075,9 +2075,9 @@
       "owner": "B",
       "anchor": "U.S.-born workers: about -0.5% employment and -0.6% wages",
       "source": "East et al. 2023 (JOLE)",
-      "from": "immigration.local-enforcement-partnership",
+      "from": "law:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
       "evidence": "researched",
-      "notes": "Unsupported until a policy is recorded: no shipped policy question covers local immigration enforcement partnerships, so the cause has no reader."
+      "notes": "Unsupported until a producer computes U.S.-born employment: the cause is now the law on local 287(g) partnerships, a question the game asks, but U.S.-born employment is not a kept place outcome."
     },
     {
       "key": "child-tax-credit-to-births",
@@ -2281,8 +2281,8 @@
     },
     {
       "key": "same-day-registration-to-youth-turnout",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "to": "voting.youth-turnout",
       "strength": "moderate",
       "shape": {
@@ -2295,15 +2295,15 @@
       "owner": "C",
       "anchor": "Same-day registration raises turnout of 18- to 24-year-olds by 3.1 to 7.3 points. On a youth turnout near 40% (Census CPS, 2016 to 2020 average across midterms and presidential years) that is about +8% to +18%, about +13% at the middle.",
       "source": "Grumbach and Hill 2022 (Journal of Politics); Census Current Population Survey Voting and Registration Supplement",
-      "from": "law.same-day-registration",
+      "from": "law:us-policy-positions:government-operations.same-day-voter-registration",
       "evidence": "researched",
       "range": [0.08, 0.18],
-      "notes": "Unsupported until a law is recorded: no shipped policy question covers same-day registration, so the cause has no reader, and youth turnout is not a kept place outcome."
+      "notes": "Unsupported until a producer computes youth turnout: the cause is now a state's law on same-day voter registration, a question the game asks, but youth turnout is not a kept place outcome."
     },
     {
       "key": "all-mail-voting-to-turnout",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "voting.turnout-pct",
       "strength": "weak",
       "shape": {
@@ -2316,10 +2316,9 @@
       "owner": "C",
       "anchor": "County roll-outs of universal vote-by-mail in California, Utah and Washington, 1996 to 2018: turnout as a share of the citizen voting-age population rose 2.1 points (standard error 0.9; 2.1 to 2.2 across specifications), with no change in either party's share. On a turnout near 60% that is about +3.5% (+0.5% to +6.5% across the 95% interval).",
       "source": "Thompson, Wu, Yoder and Hall 2020 (PNAS), table 3",
-      "from": "law.all-mail-voting",
+      "from": "law:us-policy-positions:government-operations.all-mail-voting",
       "evidence": "researched",
-      "range": [0.005, 0.065],
-      "notes": "Unsupported until a law is recorded: no shipped policy question covers all-mail voting, so the cause has no reader; turnout is kept, so this acts once one exists."
+      "range": [0.005, 0.065]
     },
     {
       "key": "all-mail-voting-to-party-share",
@@ -2337,7 +2336,7 @@
       "owner": "C",
       "anchor": "No partisan effect",
       "source": "Thompson et al. 2020 (PNAS)",
-      "from": "law.all-mail-voting",
+      "from": "law:us-policy-positions:government-operations.all-mail-voting",
       "evidence": "about-zero"
     },
     {

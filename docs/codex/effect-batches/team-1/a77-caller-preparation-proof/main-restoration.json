@@ -1,0 +1,8 @@
+{
+  "baseline": "730f90034c67c3593d2b74b4892a2b32f68a7fd4",
+  "path": "src/simulation/governing/local-law-clock-parity.test.ts",
+  "preparedSha256": "2c36d3e4d79a22d02918a1ecc25bf27df58b881ba99a5b097a9fbc1ee0e207c7",
+  "mainSha256": "467befc51a67ce45d81bce69783ba6c0eb0ec6e8f9129bfb15f3091929185a44",
+  "restoredSha256": "2c36d3e4d79a22d02918a1ecc25bf27df58b881ba99a5b097a9fbc1ee0e207c7",
+  "restored": true
+}

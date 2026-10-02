@@ -10,7 +10,7 @@ import {
   enterLifePath,
   performLifePathSession,
   scheduleLifePathSession,
-  LIFE_PATHS2_HANDLERS,
+  lifePaths2Handlers,
 } from "./life-paths2";
 import { FEDERAL_INCOME_TAX_KEY } from "./statutory-tax";
 import type { EntityId, World } from "./types";
@@ -38,7 +38,7 @@ function workOneShift(world: World): World {
   const activityId = scheduled.world.history.scheduledActivities.at(-1)!.id;
   const worked = performLifePathSession(scheduled.world, activityId);
   expect(worked.ok, worked.message).toBe(true);
-  return advanceWorld(worked.world, 1, LIFE_PATHS2_HANDLERS);
+  return advanceWorld(worked.world, 1, lifePaths2Handlers());
 }
 
 import * as federalReader from "./federal-top-income-tax-law";
