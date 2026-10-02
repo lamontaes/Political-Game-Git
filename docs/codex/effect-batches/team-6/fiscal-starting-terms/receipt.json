@@ -1,0 +1,50 @@
+{
+  "base": "af5f7487b0fab504a708cc8277b8be4d74026543",
+  "scope": "38 cited pension contribution rows; 15 sourced flat state income-tax rows; existing budget and statutory withholding consumers",
+  "examples": [
+    {
+      "seed": "fiscal-starting-terms-new-game:pension",
+      "place": "US-MO",
+      "law": "starting-law:US-MO:us-policy-positions:fiscal.fund-pensions-to-schedule",
+      "pensionRequired": 1910360409,
+      "recordedAppropriation": 1910360409,
+      "withoutRequirement": 1888964372,
+      "proof": "adopted budget, not a completed cash payment"
+    },
+    {
+      "seed": "fiscal-starting-terms-new-game:paycheck",
+      "place": "US-MS",
+      "person": "person_50634283a77d3b39",
+      "law": "starting-law:US-MS:us-policy-positions:fiscal.adopt-income-tax",
+      "liabilityId": "statutory-tax-liability_d2a9125dad419419",
+      "paymentId": "statutory-tax-payment_194d80533a65fd93",
+      "transferId": "resource-transfer-outcome_1e0dbc571afbae17",
+      "amountMinor": 3811
+    }
+  ],
+  "checks": {
+    "fiscal-starting-terms.test.ts": "2/2 PASS, 13.41s total, 282ms tests",
+    "scopedTypes": "5 fiscal PR roots,1055 dependencies,0 diagnostics",
+    "guard": "2 validation cases PASS; global required-term case FAIL:764 missing/unsupported requirements, down from832 before the53-row overlay",
+    "lint": "PASS five fiscal PR TS files",
+    "format": "PASS changed JSON/TS files; declaration/receipt renewal pending",
+    "staticAudit": "A15 pinned main8/8 \u2192 branch8/8, PARTLY both; no static rule flip"
+  },
+  "notRun": [
+    "full suite",
+    "browser",
+    "live natural paycheck generation",
+    "completed pension cash payment"
+  ],
+  "remaining": {
+    "income-tax": "32 graduated adoption rows and32 bracket schedules need compound starting-term admission, not a single flat rate",
+    "groceries": "no dedicated automatic grocery-exemption consumer located; categorical scope needs shared admission",
+    "balanced-budget": "existing boolean budget consumer remains; categorical operating-fund scope needs shared admission",
+    "reserves": "current reserveRule mixes legal minimums with maxima; no saved peer-floor observations/dynamic floor estimator exists"
+  },
+  "rowProtocol": "edit only six claimed fiscal question subtrees; preserve unrelated bytes; numeric guard sole T6; root owns shared compound/category contract",
+  "historicalFailures": [
+    "First fiscal test run2FAIL: stableHash returns hex text; repaired index conversion to parse first8hex digits. Final fiscal test2/2PASS.",
+    "First guard run832 missing/unsupported requirements; second run764 after53-row data fill. Strict global case still FAIL."
+  ]
+}

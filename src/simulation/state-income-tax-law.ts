@@ -1,11 +1,12 @@
 /**
- * What a state's income tax law, as enacted in play, does to a paycheck.
+ * What a state's income tax law in force does to a paycheck.
  *
  * Two policy questions reach the paycheck: "Should the state levy a personal
  * income tax?" (`fiscal.adopt-income-tax`) and "Should the state have a
  * graduated income tax?" (`fiscal.graduated-income-tax`). The 2026 schedules
  * in `state-income-tax-2026.json` already carry the law each state began
- * with, so only a law enacted in play changes anything here:
+ * with. Structured flat starting-law terms reach that same calculator;
+ * a law enacted in play can then change it:
  * 1. a repeal ("no" on the first question) where the state taxes wages ends
  *    the state's withholding;
  * 2. an adoption ("yes") where the state has no wage income tax starts one;
@@ -75,7 +76,7 @@ export type StateIncomeTaxUnderLaw =
   | { readonly kind: "as-begun" }
   /** A law enacted in play ended the state's wage income tax. */
   | { readonly kind: "repealed"; readonly lawMeasureIds: readonly EntityId[] }
-  /** Adopted numeric terms; a missing deduction can still be estimated. */
+  /** Recorded starting/adopted numeric terms; an unread deduction can be estimated. */
   | {
       readonly kind: "enacted";
       readonly shape: "flat";
@@ -106,13 +107,13 @@ export function stateIncomeTaxUnderLaw(
   const state = chiefExecutiveJurisdiction(stateKey.slice(3));
   if (!place || !state) return { kind: "as-begun" };
   const taxYearStart = `${paidAt.slice(0, 4)}-01-01` as IsoDate;
-  const adopt = enactedLaw(
+  const adopt = governingLaw(
     world,
     state.id,
     ADOPT_STATE_INCOME_TAX_QUESTION,
     taxYearStart,
   );
-  const graduated = enactedLaw(
+  const graduated = governingLaw(
     world,
     state.id,
     GRADUATED_STATE_INCOME_TAX_QUESTION,
@@ -200,7 +201,7 @@ export function stateIncomeTaxUnderLaw(
       ...(place.standardDeductionSingle === null
         ? {
             estimatedFromAverage:
-              `ESTIMATED FROM AVERAGE: only the single-filer deduction of $${(deduction.schedule.standardDeductionMinor / 100).toLocaleString("en-US")} uses the existing ranked sourced peers. The rate and annual taxable-income threshold are the adopted bill's terms. ${status === "single" ? "" : STATE_FILING_STATUS_NOTE[status]}`.trim(),
+              `ESTIMATED FROM AVERAGE: only the single-filer deduction of $${(deduction.schedule.standardDeductionMinor / 100).toLocaleString("en-US")} uses the existing ranked sourced peers. The rate and annual taxable-income threshold are the law's recorded terms. ${status === "single" ? "" : STATE_FILING_STATUS_NOTE[status]}`.trim(),
           }
         : {}),
     };
@@ -227,8 +228,8 @@ export function stateIncomeTaxUnderLaw(
   };
 }
 
-/** The law on a question in force on `onDate`, only when enacted in play. */
-function enactedLaw(
+/** The dated law, including structured terms in the canonical starting row. */
+function governingLaw(
   world: World,
   stateJurisdictionId: EntityId,
   questionKey: string,
@@ -238,13 +239,7 @@ function enactedLaw(
     world.policyCatalog?.propositions ?? {},
   ).find((definition) => definition.stableKey === questionKey);
   if (!proposition) return null;
-  return lawInForce(
-    world,
-    stateJurisdictionId,
-    proposition.id,
-    onDate,
-    "enacted-only",
-  );
+  return lawInForce(world, stateJurisdictionId, proposition.id, onDate, "all");
 }
 
 const bracketsOf = (place: StatePlace): IncomeTaxBracket[] =>
