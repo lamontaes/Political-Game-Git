@@ -1,6 +1,5 @@
 import { nextSessionCalendarDate } from "./legislative-session-calendar";
 import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
-import { COUNCIL_ACT_MEASURE_TITLE, renderMeasureTitle } from "./measure-title";
 import { fileMemberAgendaBills } from "./governing/member-agenda";
 import { applyInstitutionSessionEnd } from "./governing/legislative-clock";
 import { scheduleFutureDueItem } from "./future-transitions";
@@ -146,16 +145,6 @@ function fileActs(world: World): World {
         municipalMeasureKey(DC_GOVERNMENT_KEY, numbering.designation),
     },
   });
-}
-
-/** "Consumer data privacy law" becomes "Consumer Data Privacy Act of 2026". */
-export function dcCouncilActTitle(questionName: string, year: string): string {
-  return renderMeasureTitle(
-    COUNCIL_ACT_MEASURE_TITLE,
-    questionName,
-    year,
-    false,
-  );
 }
 
 /** Every act a non-player sponsor carries takes its next lawful step. */
