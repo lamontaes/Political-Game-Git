@@ -11,6 +11,7 @@ test("Jobs describes its recorded occupation beside the employer's actual offer"
     const placePath = "/tests/support/random-place.ts";
     const lifePath = "/src/presentation/ordinary-life.ts";
     const projectionPath = "/src/presentation/job-listings-view.ts";
+    const marketPath = "/src/simulation/job-market.ts";
     const sourcePath = "/src/presentation/career-path7-provider.ts";
     const storePath = "/src/presentation/browser-world-repository.ts";
     const { createExplicitGeographyLife } = await import(
@@ -21,6 +22,7 @@ test("Jobs describes its recorded occupation beside the employer's actual offer"
     const { projectJobMarket } = await import(
       /* @vite-ignore */ projectionPath
     );
+    const { openJobListings } = await import(/* @vite-ignore */ marketPath);
     const { CAREER_SOURCE_CONTEXT } = await import(
       /* @vite-ignore */ sourcePath
     );
@@ -39,7 +41,7 @@ test("Jobs describes its recorded occupation beside the employer's actual offer"
       created.game.world,
       created.game.playerPersonId,
     );
-    const opening = world.history.jobOpenings.find(
+    const opening = openJobListings(world, created.game.playerPersonId).find(
       (row: { occupationClassification: string }) =>
         row.occupationClassification === "occupation:office-clerk",
     );
@@ -84,9 +86,12 @@ test("Jobs describes its recorded occupation beside the employer's actual offer"
   await enterLife(page);
   await goTo(page, "nav-jobs");
   const jobs = page.getByTestId("job-listings");
-  const listing = jobs.getByTestId("job-listing").filter({
-    has: page.getByRole("heading", { name: control.title, exact: true }),
-  });
+  const listing = jobs
+    .getByTestId("job-listing")
+    .filter({
+      has: page.getByRole("heading", { name: control.title, exact: true }),
+    })
+    .filter({ hasText: control.employerLine });
   await expect(listing).toHaveCount(1);
   await expect(
     listing.getByText(control.employerLine, { exact: true }),
