@@ -38,13 +38,8 @@ import {
   recordResourceTransferOutcomes,
   type RecordResourceTransferOutcomeInput,
 } from "./resources";
-import {
-  resourceFlowTermsAt,
-  resourceFlowsTouching,
-  resourcePositionAt,
-  resourceTransferOutcomesOfFlows,
-  sameEndpoint,
-} from "./resource-queries";
+import { resourceFlowTermsAt, sameEndpoint } from "./resource-queries";
+import { paymentFromDatedCash } from "./resource-payments";
 import { nameCorpusVersionForWorld } from "./place-name-corpus";
 import { SeededRng } from "./rng";
 import { writeWithWorldIntegrityOnce } from "./world";
@@ -60,30 +55,12 @@ import type {
 } from "./types";
 
 /**
- * The businesses of a town.
- *
- * Before this, every background job was a phrase ("a synthetic construction
- * firm") and no private business had an owner, staff or money. A town now has
- * its stores, a diner, a garage and a few offices, each a real organization
- * with a named owner and staff who work there, and each takes in revenue every
- * month and pays its staff and owner out of it through the same money records
- * pay and rent use.
- *
- * These jobs are background: see `playable-work.ts` for the few that are
- * played. The kinds, counts and every dollar figure are placeholders.
- */
-
-/**
- * PLACEHOLDER(research: businesses-owners-and-wealth). Nobody has researched
- * the rest of this. One list of eight businesses for every town in the
- * country, with invented staff counts, revenue and owner pay, standing in
- * until the count by kind and town size, the size split and revenue bands are
- * answered. Replace it; do not tune it.
- *
- * A worker's pay is not part of that placeholder: it is the published wage
- * for the worker's occupation where the town is (BLS, May 2025), by
- * `localBusinessWageMinor`. `monthlyWageMinor` below is used only where no
- * published wage covers the town, and is marked as the placeholder it is.
+ * Background businesses use published CBP establishment/staff rates and
+ * Economic Census receipts per employee, scaled to the locality population.
+ * These are explicit estimates, not recorded customer sales. Actual payment
+ * requires dated cash; a missing operating-cost/net-earnings record leaves
+ * new owner draws unestablished. Existing saved draw contracts remain intact.
+ * Worker pay comes from the existing local BLS occupation wage reader.
  */
 export interface LocalBusinessKind {
   readonly key: string;
@@ -93,7 +70,6 @@ export interface LocalBusinessKind {
   readonly workerTitle: string;
   readonly workerOccupation: OccupationClassification;
   readonly workers: number;
-  readonly monthlyOwnerDrawMinor: number;
 }
 
 export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
@@ -105,7 +81,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Cashier",
     workerOccupation: "occupation:cashier",
     workers: 3,
-    monthlyOwnerDrawMinor: 500_000,
   },
   {
     key: "hardware",
@@ -115,7 +90,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Sales clerk",
     workerOccupation: "occupation:retail-sales",
     workers: 2,
-    monthlyOwnerDrawMinor: 450_000,
   },
   {
     key: "diner",
@@ -125,7 +99,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Server",
     workerOccupation: "service:food-server",
     workers: 3,
-    monthlyOwnerDrawMinor: 350_000,
   },
   {
     key: "auto-repair",
@@ -135,7 +108,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Mechanic",
     workerOccupation: "trade:automotive-mechanic",
     workers: 2,
-    monthlyOwnerDrawMinor: 500_000,
   },
   {
     key: "law-office",
@@ -145,7 +117,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Legal assistant",
     workerOccupation: "profession:legal-assistant",
     workers: 1,
-    monthlyOwnerDrawMinor: 900_000,
   },
   {
     key: "accounting",
@@ -155,7 +126,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Bookkeeper",
     workerOccupation: "profession:bookkeeper",
     workers: 1,
-    monthlyOwnerDrawMinor: 700_000,
   },
   {
     key: "construction",
@@ -165,7 +135,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Carpenter",
     workerOccupation: "trade:carpenter",
     workers: 4,
-    monthlyOwnerDrawMinor: 800_000,
   },
   {
     key: "salon",
@@ -175,7 +144,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Stylist",
     workerOccupation: "service:hairstylist",
     workers: 2,
-    monthlyOwnerDrawMinor: 300_000,
   },
 ];
 
@@ -201,6 +169,7 @@ export interface LocalBusinessPlan {
   readonly expected: number | null;
   /** Whether count, staff and revenue come from published data. */
   readonly sourced: boolean;
+  readonly estimateBasis?: string;
 }
 
 /**
@@ -245,6 +214,7 @@ export function localBusinessPlansFor(
         ),
         expected: row.expected,
         sourced: true,
+        estimateBasis: row.estimateBasis,
       });
   };
   for (const kind of LOCAL_BUSINESS_KINDS) {
@@ -415,9 +385,11 @@ function seatMissingLocalBusinesses(
   );
   const provenanceFor = (planned: LocalBusinessPlan) => ({
     kind: "authored" as const,
-    note: planned.sourced
-      ? `Local business from published counts: the town's share of the county's establishments (about ${planned.expected!.toFixed(1)} of this kind in town; County Business Patterns 2023), staff from employees per establishment and sales from Economic Census 2022 sales per employee. At most ${LOCAL_BUSINESS_MAX_PER_KIND} of a kind and ${LOCAL_BUSINESS_MAX_STAFF} staff are seated (game assumption, for speed). The owner's draw is a placeholder pending research question ${LOCAL_BUSINESS_PLACEHOLDER.researchQuestionId}.`
-      : `Placeholder local business pending research question ${LOCAL_BUSINESS_PLACEHOLDER.researchQuestionId}.`,
+    note:
+      `${planned.estimateBasis ?? "Recorded saved business plan."} Owner draw pending: this legacy organization has no recorded nonpay operating costs/net earnings; modeled revenue and staff wage commitments do not establish distributable profit. ` +
+      (planned.sourced
+        ? `Local business from published counts: the town's share of the county's establishments (about ${planned.expected!.toFixed(1)} of this kind in town; County Business Patterns 2023), staff from employees per establishment and sales from Economic Census 2022 sales per employee. At most ${LOCAL_BUSINESS_MAX_PER_KIND} of a kind and ${LOCAL_BUSINESS_MAX_STAFF} staff are seated (game assumption, for speed). The owner's draw is not established without recorded operating costs.`
+        : `ESTIMATED local business pending research question ${LOCAL_BUSINESS_PLACEHOLDER.researchQuestionId}.`),
   });
 
   type Staffing = {
@@ -554,19 +526,9 @@ function seatMissingLocalBusinesses(
       jurisdictionId,
       provenance,
     });
-    flows.push({
-      stableKey: `${key}:owner:draw`,
-      source: business,
-      recipient: { kind: "person", personId: ownerId },
-      startsAt: today,
-      amount: money(plan.kind.monthlyOwnerDrawMinor, currency),
-      cadenceKind: "schedule:monthly",
-      basisKind: OWNER_DRAW_BASIS,
-      basisReference: { kind: "general" },
-      restrictionKind: null,
-      jurisdictionId,
-      provenance,
-    });
+    // No new owner-draw obligation is invented from modeled sales. This
+    // organization records payroll commitments but no nonpay operating costs
+    // or distributable earnings. Existing saved draw flows remain settleable.
     plan.workers.forEach(({ input, since }, index) => {
       const workerId = personId(input);
       jobs.push({
@@ -731,72 +693,18 @@ function settleFlows(world: World, flows: readonly ResourceFlow[]): World {
   return writeWithWorldIntegrityOnce(world, () => {
     let next = world;
     for (const { input, flow } of due) {
-      const cutoff = {
-        asOfDate: makeIsoDate(input.occurredAt),
-        historySequenceExclusive: next.history.nextSequence,
-      };
-      const position = resourcePositionAt(
+      const payment = paymentFromDatedCash(
         next,
         flow.source,
-        input.attemptedAmount.currency,
-        cutoff,
+        input.attemptedAmount,
+        makeIsoDate(input.occurredAt),
       );
-      // Untracked payer money is unknown, never an automatic completed sale.
-      // A catch-up must also preserve cash already spent after this due date.
-      const checkpoints = new Set<IsoDate>([
-        input.occurredAt as IsoDate,
-        next.currentDate,
-      ]);
-      if (position) {
-        const touching = resourceFlowsTouching(next, flow.source);
-        for (const outcome of resourceTransferOutcomesOfFlows(
-          next,
-          touching.map((record) => record.id),
-        )) {
-          if (
-            outcome.occurredAt > input.occurredAt &&
-            outcome.occurredAt < next.currentDate
-          )
-            checkpoints.add(outcome.occurredAt);
-        }
-      }
-      const available = position
-        ? Math.max(
-            0,
-            Math.min(
-              ...[...checkpoints].map(
-                (asOfDate) =>
-                  resourcePositionAt(
-                    next,
-                    flow.source,
-                    input.attemptedAmount.currency,
-                    {
-                      asOfDate,
-                      historySequenceExclusive: next.history.nextSequence,
-                    },
-                  )!.liquidBalance.minorUnits,
-              ),
-            ),
-          )
-        : 0;
-      const paid = Math.min(available, input.attemptedAmount.minorUnits);
-      const status = !position
-        ? "blocked"
-        : paid === input.attemptedAmount.minorUnits
-          ? "completed"
-          : paid > 0
-            ? "partial"
-            : "missed";
       next = recordResourceTransferOutcomes(next, [
         {
           ...input,
-          status,
-          transferredAmount: money(paid, input.attemptedAmount.currency),
-          reasonKind: !position
-            ? "capacity:money-unknown"
-            : status === "completed"
-              ? null
-              : "capacity:insufficient-funds",
+          status: payment.status,
+          transferredAmount: payment.transferredAmount,
+          reasonKind: payment.reasonKind,
         },
       ]);
     }
