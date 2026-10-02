@@ -1,8 +1,6 @@
 ---
 id: spending-effect-jurisdiction-levels
 impact: none
-section: Fixed
-title: Select spending effects by their declared government levels
 ---
 
 Spending effects now declare their government levels and use the same level
