@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { SeededRng } from "../simulation/rng";
+import { STATES } from "../simulation/state-reference";
 
 import {
   addDays,
@@ -19,19 +21,28 @@ import {
   CAMPAIGN_OPERATING_PAYMENT_KEY,
   campaignOperatingPayments,
   campaignOperatingSpending,
-  UNRESEARCHED_OPERATING_COSTS,
+  planCampaignOperatingWeek,
 } from "../simulation/campaign-operating-costs";
 import { campaignSpendingReports } from "../simulation/press";
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { cancelScheduledActivity } from "../simulation/time-work";
-import { spendAnAfternoon } from "./campaign-projection";
+import {
+  createOrganization,
+  createResourceFlow,
+  createResourcePosition,
+  recordResourceTransferOutcome,
+} from "../simulation";
 import { projectCampaignSpendingReports } from "./campaign-spending-reports";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 
 /** An ordinary 40-year-old life in a town in the state, filed for governor. */
-function governorRace(usps: string, seed: string, electionInDays: number) {
+function governorRace(electionInDays: number) {
+  const seed = "a66-recorded-bills";
+  const places = Object.keys(STATES);
+  const usps = places[new SeededRng(seed).integer(0, places.length)]!;
+  console.info(`A66 recorded bill report place=${usps} seed=${seed}`);
   const place = searchLifePlaces("", 1, {
     stateJurisdictionKey: `US-${usps}`,
     scope: "locality",
@@ -89,26 +100,149 @@ function balance(
   );
 }
 
+function recordedCash(
+  world: World,
+  organizationId: EntityId,
+  amountMinorUnits: number,
+) {
+  const currency = makeCurrencyCode("USD");
+  const provenance = {
+    kind: "authored" as const,
+    note: "Recorded committee funding fixture",
+  };
+  let next = createOrganization(world, {
+    stableKey: `fixture:funding:${organizationId}`,
+    formedAt: world.currentDate,
+    detailLevel: "lightweight",
+    provenance,
+    initialProfile: {
+      name: "Recorded contributor",
+      classification: "enterprise:contributor",
+      locationJurisdictionId: null,
+    },
+  });
+  const sourceId = next.history.organizations.at(-1)!.id;
+  const amount = { minorUnits: amountMinorUnits, currency };
+  next = createResourcePosition(next, {
+    stableKey: `fixture:funding-cash:${organizationId}`,
+    owner: { kind: "organization", organizationId: sourceId },
+    openedAt: next.currentDate,
+    openingBalance: amount,
+    provenance,
+  });
+  next = createResourceFlow(next, {
+    stableKey: `fixture:funding-flow:${organizationId}`,
+    source: { kind: "organization", organizationId: sourceId },
+    recipient: { kind: "organization", organizationId },
+    startsAt: next.currentDate,
+    amount,
+    cadenceKind: "schedule:one-time",
+    basisKind: "custom:campaign-contribution",
+    basisReference: { kind: "general" },
+    restrictionKind: "purpose:campaign",
+    jurisdictionId: null,
+    provenance,
+  });
+  return recordResourceTransferOutcome(next, {
+    stableKey: `fixture:funding-paid:${organizationId}`,
+    resourceFlowId: next.history.resourceFlows.at(-1)!.id,
+    periodStartsAt: next.currentDate,
+    periodEndsAt: next.currentDate,
+    occurredAt: next.currentDate,
+    status: "completed",
+    attemptedAmount: amount,
+    transferredAmount: amount,
+    reasonKind: null,
+    note: null,
+    provenance,
+  });
+}
+
+function savedBill(
+  world: World,
+  campaign: CampaignRecord,
+  committeeId: EntityId,
+  key: string,
+  category: string,
+  amountMinorUnits: number,
+  dueInDays: number,
+) {
+  const provenance = {
+    kind: "authored" as const,
+    note: "Recorded vendor order fixture",
+  };
+  const next = createOrganization(world, {
+    stableKey: `fixture:vendor:${key}`,
+    formedAt: world.currentDate,
+    detailLevel: "lightweight",
+    provenance,
+    initialProfile: {
+      name: `Recorded ${category} supplier`,
+      classification: `enterprise:campaign-vendor-${category}`,
+      locationJurisdictionId: campaign.jurisdictionId,
+    },
+  });
+  const vendorId = next.history.organizations.at(-1)!.id;
+  return createResourceFlow(next, {
+    stableKey: `fixture:bill:${key}`,
+    source: { kind: "organization", organizationId: committeeId },
+    recipient: { kind: "organization", organizationId: vendorId },
+    startsAt: addDays(world.currentDate, dueInDays),
+    initialStatus: "expected",
+    amount: {
+      minorUnits: amountMinorUnits,
+      currency: campaign.treasuryCurrency,
+    },
+    cadenceKind: "schedule:one-time",
+    basisKind: "custom:campaign-expenditure",
+    basisReference: { kind: "general" },
+    restrictionKind: "purpose:campaign",
+    jurisdictionId: campaign.jurisdictionId,
+    provenance,
+  });
+}
+
 const operatingPayments = campaignOperatingPayments;
 
 describe("campaign operating costs", () => {
-  it("pays a Montana rival's ordinary bills on separate days, never overdrawing, and reports them", () => {
-    const race = governorRace("MT", "operating-mt", 70);
-    const world = passOrdinaryDays(race.world, 63);
-    const rival = campaignOpponentRecords(world).find(
+  it("pays a rival's saved bills on their recorded dates, never overdrawing, and reports them", () => {
+    const race = governorRace(70);
+    const started = passOrdinaryDays(race.world, 7);
+    const rival = campaignOpponentRecords(started).find(
       (opponent) => opponent.rivalCampaignId === race.campaign.id,
     )!;
+    let funded = recordedCash(started, rival.committeeOrganizationId, 9000);
+    funded = savedBill(
+      funded,
+      race.campaign,
+      rival.committeeOrganizationId,
+      "printing",
+      "printing",
+      1501,
+      2,
+    );
+    funded = savedBill(
+      funded,
+      race.campaign,
+      rival.committeeOrganizationId,
+      "postage",
+      "postage",
+      1001,
+      4,
+    );
+    const world = passOrdinaryDays(
+      planCampaignOperatingWeek(funded, race.campaign, funded.currentDate),
+      7,
+    );
     const paid = operatingPayments(world, rival.committeeOrganizationId);
     // Bills start after the first weekly boundary and fall on their own days.
-    expect(paid.length).toBeGreaterThanOrEqual(6);
+    expect(paid).toHaveLength(2);
+    expect(paid.map((row) => row.transferredAmount.minorUnits)).toEqual([
+      1501, 1001,
+    ]);
     expect(new Set(paid.map((outcome) => outcome.occurredAt)).size).toBe(
       paid.length,
     );
-    for (const outcome of paid) {
-      expect(outcome.transferredAmount.minorUnits).toBeGreaterThanOrEqual(
-        UNRESEARCHED_OPERATING_COSTS.minimumPaymentMinorUnits,
-      );
-    }
     expect(
       balance(world, rival.committeeOrganizationId, race.campaign),
     ).toBeGreaterThanOrEqual(0);
@@ -123,7 +257,9 @@ describe("campaign operating costs", () => {
     );
     expect(operating.length).toBeGreaterThan(0);
     expect(operating.every((line) => line.purpose !== "other")).toBe(true);
-    expect(operating.some((line) => line.payee.includes("Montana"))).toBe(true);
+    expect(operating.every((line) => line.payee.startsWith("Recorded "))).toBe(
+      true,
+    );
 
     // The player reads the same lines, each with the running total.
     const view = projectCampaignSpendingReports(world, race.personId).find(
@@ -140,15 +276,9 @@ describe("campaign operating costs", () => {
     );
   }, 300_000);
 
-  it("keeps money back in Vermont for an advertising buy already approved", () => {
-    const race = governorRace("VT", "operating-vt", 60);
-    let world = race.world;
-    for (let day = 0; day < 4; day += 1) {
-      world = passOrdinaryDays(
-        spendAnAfternoon(world, race.personId, "fundraising"),
-        1,
-      );
-    }
+  it("keeps recorded money back for an advertising buy already approved", () => {
+    const race = governorRace(60);
+    let world = recordedCash(race.world, race.campaign.organizationId, 10000);
     const campaign = campaignForCandidate(world, race.personId)!;
     const raised = balance(world, campaign.organizationId, campaign);
     expect(raised).toBeGreaterThan(0);
@@ -175,19 +305,44 @@ describe("campaign operating costs", () => {
       },
       spend: { minorUnits: reserved, currency: campaign.treasuryCurrency },
     });
-    world = scheduled.world;
-    const later = passOrdinaryDays(world, 25);
-    expect(
-      operatingPayments(later, campaign.organizationId).length,
-    ).toBeGreaterThan(0);
+    world = savedBill(
+      scheduled.world,
+      campaign,
+      campaign.organizationId,
+      "reserved",
+      "printing",
+      2000,
+      3,
+    );
+    world = planCampaignOperatingWeek(world, campaign, world.currentDate);
+    const later = passOrdinaryDays(world, 3);
+    expect(operatingPayments(later, campaign.organizationId).length).toBe(0);
     expect(
       balance(later, campaign.organizationId, campaign),
     ).toBeGreaterThanOrEqual(reserved);
 
+    // A refusal does not settle the bill: releasing cash later permits its one payment.
+    const released = cancelScheduledActivity(
+      later,
+      scheduled.action.scheduledActivityId,
+    );
+    const nextDay = passOrdinaryDays(released, 1);
+    const retried = planCampaignOperatingWeek(
+      nextDay,
+      campaign,
+      nextDay.currentDate,
+    );
+    expect(campaignOperatingSpending(retried, campaign.organizationId)).toBe(
+      2000,
+    );
+    expect(
+      planCampaignOperatingWeek(retried, campaign, retried.currentDate),
+    ).toBe(retried);
+
     // A buy the candidate lets go holds nothing back.
     const dropped = passOrdinaryDays(
       cancelScheduledActivity(world, scheduled.action.scheduledActivityId),
-      25,
+      3,
     );
     expect(
       campaignOperatingSpending(dropped, campaign.organizationId),
@@ -196,8 +351,8 @@ describe("campaign operating costs", () => {
     );
   }, 300_000);
 
-  it("puts no Oregon bill on or after election day", () => {
-    const race = governorRace("OR", "operating-or", 12);
+  it("does not invent operating dates when no bill is saved", () => {
+    const race = governorRace(12);
     const world = passOrdinaryDays(race.world, 11);
     const electionDate = race.world.history.electionContests!.find(
       (contest) => contest.id === race.campaign.contestId,
@@ -205,7 +360,7 @@ describe("campaign operating costs", () => {
     const due = world.history.futureDueItems.filter(
       (item) => item.transitionKey === CAMPAIGN_OPERATING_PAYMENT_KEY,
     );
-    expect(due.length).toBeGreaterThan(0);
+    expect(due).toHaveLength(0);
     expect(due.every((item) => item.dueAt < electionDate)).toBe(true);
   }, 300_000);
 });
