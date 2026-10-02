@@ -3,12 +3,12 @@ import { tellOfDeath } from "../people-bereavement";
 import { scheduleFutureDueItem } from "../future-transitions";
 import {
   householdLocationAt,
-  householdMembershipsAt,
   organizationProfileAt,
   peopleInHouseholdAt,
 } from "../life-queries";
 import { FLOOD_DAMAGE_OUTCOME, outcomeFactor } from "../outcome-web";
 import { activeDwellingOccupanciesAt } from "../resource-queries";
+import { SeededRng } from "../rng";
 import type {
   EntityId,
   FutureDueItem,
@@ -25,11 +25,7 @@ import {
   stateRequestWarranted,
 } from "./disaster-warrants";
 import { beginHealthEpisode } from "./health";
-import {
-  activeHealthEpisodes,
-  closeHealthEpisodesForDeath,
-  latestHealthState,
-} from "./health-queries";
+import { closeHealthEpisodesForDeath } from "./health-queries";
 import { currentGovernorOf, currentPresidentOf } from "./offices";
 import { appendCrisisRecord, crisisRecordId, crisisRecords } from "./records";
 import {
@@ -43,7 +39,6 @@ import {
   type HazardEpisodeRecord,
   type HazardFamily,
   type HazardMagnitude,
-  type HealthCourseStep,
   type RepairProgressRecord,
 } from "./types";
 
@@ -63,6 +58,8 @@ export const DISASTER_FEDERAL_REVIEW_KEY =
   "crisis:disaster-federal-review" as const;
 export const DISASTER_REPAIR_CYCLE_KEY =
   "crisis:disaster-repair-cycle" as const;
+
+const MICRO = 1_000_000;
 
 /**
  * crunch46-provisional-v1 authored disaster policy. First-playable balancing
@@ -107,34 +104,23 @@ export const PROVISIONAL_DISASTER_POLICY = Object.freeze({
   serviceStopsFrom: 0.1,
   serviceDaysWhollyLost: 30,
   /**
-   * PLACEHOLDER (disaster-damage-casualties-and-declarations). Harm to a
-   * person is their home's degree of damage, times how surely they were
-   * there, times how little they could get themselves clear. A person whose
-   * home is their main residence was there; one who also lives elsewhere
-   * half as surely.
+   * Chance a resident of a damaged home is injured; doubled if destroyed
+   * (millionths). Unchanged by A132's first part: the CTO's 4:47 p.m. ruling
+   * keeps the disaster death and injury paths as they are for now.
    */
-  presenceAtMainHome: 1,
-  presenceElsewhere: 0.5,
-  /**
-   * How little a person could get clear, from 0.6 for a capable adult up to
-   * 1 for a small child, a very old person or anyone already incapacitated,
-   * sliding with age across these widths.
-   */
-  frailtyFloor: 0.6,
-  frailOld: { atAge: 85, widthYears: 10 },
-  frailYoung: { atAge: 3, widthYears: 4 },
-  /**
-   * A person is hurt from this much harm, and their injury slides from an
-   * ordinary one to a serious one across the next `seriousSpan`. They die
-   * when the harm reaches `lethalFrom`. NOAA's storm fatality statistics
-   * and FEMA's declarations check the totals; they decide no one.
-   */
-  injuredFrom: 0.3,
-  seriousSpan: 0.4,
-  lethalFrom: 0.9,
-  /** Days in bed and to recovery for the most serious injury. */
-  seriousInjuryCourse: { recoveringAfter: 30, wellAfter: 90 },
-  ordinaryInjuryCourse: { recoveringAfter: 7, wellAfter: 21 },
+  injuryGivenDamagedHome: {
+    minor: 0,
+    moderate: 30_000,
+    major: 80_000,
+    catastrophic: 150_000,
+  } satisfies Record<HazardMagnitude, number>,
+  /** Chance a resident of a destroyed home dies (millionths). */
+  deathGivenDestroyedHome: {
+    minor: 0,
+    moderate: 0,
+    major: 10_000,
+    catastrophic: 40_000,
+  } satisfies Record<HazardMagnitude, number>,
   /** Repair effort units completed per weekly cycle for one episode. */
   weeklyCapacity: { local: 2, federalAssisted: 6 },
   stateReviewAfterDays: 3,
@@ -181,9 +167,11 @@ function episodeOf(world: World, episodeId: EntityId): HazardEpisodeRecord {
   return record;
 }
 
-/** 0 well before `at`, 1 well after, sliding across about `width`. */
-function turn(value: number, at: number, width: number): number {
-  return 1 / (1 + Math.exp(-(value - at) / (width / 4)));
+/** The injury and death draws the A132 first part leaves in place. */
+function draw(world: World, episode: HazardEpisodeRecord, key: string): number {
+  return new SeededRng("crisis-disaster-v1")
+    .fork(JSON.stringify(["crisis-disaster-v1", world.seed, episode.id, key]))
+    .integer(0, MICRO);
 }
 
 function crisisEvent(
@@ -331,37 +319,6 @@ function levelOfDegree(degree: number): DisasterDamageLevel | null {
     : degree >= policy.damagedFrom
       ? "damaged"
       : null;
-}
-
-/**
- * How hard a home's damage bears on one person in it, from their presence
- * and how readily they could get clear. Exported for tests.
- */
-export function disasterHarm(
-  world: World,
-  personId: EntityId,
-  degree: number,
-  atMainHome: boolean,
-): number {
-  const policy = PROVISIONAL_DISASTER_POLICY;
-  const person = world.people[personId]!;
-  const age = daysBetween(person.birthDate, world.currentDate) / 365.25;
-  const incapacitated = activeHealthEpisodes(world, personId).some(
-    (episode) =>
-      latestHealthState(world, episode.id)?.functionalLimitation ===
-      "incapacitated",
-  );
-  const frail = incapacitated
-    ? 1
-    : Math.max(
-        turn(age, policy.frailOld.atAge, policy.frailOld.widthYears),
-        1 - turn(age, policy.frailYoung.atAge, policy.frailYoung.widthYears),
-      );
-  const frailty = policy.frailtyFloor + (1 - policy.frailtyFloor) * frail;
-  const presence = atMainHome
-    ? policy.presenceAtMainHome
-    : policy.presenceElsewhere;
-  return degree * presence * frailty;
 }
 
 /**
@@ -540,19 +497,12 @@ function applyDamage(world: World, episode: HazardEpisodeRecord): World {
     const residents = peopleInHouseholdAt(next, household.id, cutoff).filter(
       (personId) => isPersonAliveAt(next, personId, cutoff),
     );
-    // A person whose recorded main residence is this home was there.
-    const mainHome = new Set(
-      residents.filter((personId) =>
-        householdMembershipsAt(next, personId, cutoff).some(
-          (entry) =>
-            entry.household.id === household.id &&
-            entry.state.residenceRole === "primary",
-        ),
-      ),
-    );
     for (const personId of residents) {
-      const harm = disasterHarm(next, personId, degree, mainHome.has(personId));
-      if (harm >= policy.lethalFrom) {
+      const deathChance =
+        level === "destroyed"
+          ? policy.deathGivenDestroyedHome[episode.magnitude]
+          : 0;
+      if (draw(next, episode, `death:${personId}`) < deathChance) {
         const before = next;
         next = recordPersonDeath(next, {
           stableKey: `${episode.stableKey}:death:${personId}`,
@@ -571,20 +521,24 @@ function applyDamage(world: World, episode: HazardEpisodeRecord): World {
         deceased.push(personId);
         continue;
       }
-      if (harm < policy.injuredFrom) continue;
-      const injury = disasterInjury(harm);
-      next = beginHealthEpisode(next, {
-        stableKey: `${episode.stableKey}:injury:${personId}`,
-        personId,
-        severity: injury.severity,
-        initialLimitation: injury.initialLimitation,
-        course: injury.course,
-        origin: { kind: "injury", sourceRecordId: damageId },
-        causalParentIds: [damageId],
-        initialAccess: "specific-people",
-        initialRecipientIds: residents.filter((other) => other !== personId),
-      });
-      injured.push(personId);
+      const injuryChance =
+        policy.injuryGivenDamagedHome[episode.magnitude] *
+        (level === "destroyed" ? 2 : 1);
+      if (draw(next, episode, `injury:${personId}`) < injuryChance) {
+        const serious =
+          draw(next, episode, `injury-severity:${personId}`) < MICRO / 3;
+        next = beginHealthEpisode(next, {
+          stableKey: `${episode.stableKey}:injury:${personId}`,
+          personId,
+          severity: serious ? "serious" : "acute",
+          initialLimitation: serious ? "incapacitated" : "limited",
+          origin: { kind: "injury", sourceRecordId: damageId },
+          causalParentIds: [damageId],
+          initialAccess: "specific-people",
+          initialRecipientIds: residents.filter((other) => other !== personId),
+        });
+        injured.push(personId);
+      }
     }
   }
   for (const organization of exposure.organizations) {
@@ -621,70 +575,6 @@ function applyDamage(world: World, episode: HazardEpisodeRecord): World {
     deceasedPersonIds: deceased.sort(),
     totalRepairUnits: totalUnits,
   });
-}
-
-/**
- * An injury from a home's damage: how serious it is slides with the harm,
- * and so do its days in bed and its course to recovery. The word "serious"
- * (from one half up) is for the telling. Exported for tests.
- */
-export function disasterInjury(harm: number): {
-  readonly seriousness: number;
-  readonly severity: "serious" | "acute";
-  readonly incapacitatedDays: number;
-  readonly initialLimitation: "incapacitated" | "limited";
-  readonly course: readonly HealthCourseStep[];
-} {
-  const policy = PROVISIONAL_DISASTER_POLICY;
-  const seriousness = Math.min(
-    1,
-    Math.max(0, (harm - policy.injuredFrom) / policy.seriousSpan),
-  );
-  const severity: "serious" | "acute" =
-    seriousness >= 0.5 ? "serious" : "acute";
-  const slide = (ordinary: number, serious: number) =>
-    Math.round(ordinary + seriousness * (serious - ordinary));
-  const recoveringAfter = slide(
-    policy.ordinaryInjuryCourse.recoveringAfter,
-    policy.seriousInjuryCourse.recoveringAfter,
-  );
-  const wellAfter = Math.max(
-    recoveringAfter + 1,
-    slide(
-      policy.ordinaryInjuryCourse.wellAfter,
-      policy.seriousInjuryCourse.wellAfter,
-    ),
-  );
-  const incapacitatedDays = Math.round(seriousness * recoveringAfter);
-  const eases: HealthCourseStep[] =
-    incapacitatedDays > 0 && incapacitatedDays < recoveringAfter
-      ? [
-          {
-            afterDays: incapacitatedDays,
-            state: severity,
-            functionalLimitation: "limited",
-          },
-        ]
-      : [];
-  return {
-    seriousness,
-    severity,
-    incapacitatedDays,
-    initialLimitation: incapacitatedDays > 0 ? "incapacitated" : "limited",
-    course: [
-      ...eases,
-      {
-        afterDays: recoveringAfter,
-        state: "recovering",
-        functionalLimitation: "limited",
-      },
-      {
-        afterDays: wellAfter,
-        state: "recovered",
-        functionalLimitation: "none",
-      },
-    ],
-  };
 }
 
 export function disasterResponses(

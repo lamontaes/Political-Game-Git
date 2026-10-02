@@ -430,13 +430,6 @@
       "code": "if ([\"california\", \"us-ca\"].includes(j.slug)) return \"US-CA\";"
     },
     {
-      "file": "src/simulation/cost-of-living.ts",
-      "kind": "fixed-share",
-      "build": "Build 10",
-      "count": 1,
-      "code": "housingShareMinor: 90_000,"
-    },
-    {
       "file": "src/simulation/crime/contract.ts",
       "kind": "fixed-share",
       "build": "Build 21",
@@ -547,6 +540,27 @@
       "build": "Build 21",
       "count": 1,
       "code": "{ fromAge: 75, shares: [75, 20, 5] },"
+    },
+    {
+      "file": "src/simulation/crisis/disaster.ts",
+      "kind": "roll",
+      "build": "Build 21",
+      "count": 1,
+      "code": "if (draw(next, episode, `death:${personId}`) < deathChance) {"
+    },
+    {
+      "file": "src/simulation/crisis/disaster.ts",
+      "kind": "roll",
+      "build": "Build 21",
+      "count": 1,
+      "code": "if (draw(next, episode, `injury:${personId}`) < injuryChance) {"
+    },
+    {
+      "file": "src/simulation/crisis/disaster.ts",
+      "kind": "roll",
+      "build": "Build 21",
+      "count": 1,
+      "code": "draw(next, episode, `injury-severity:${personId}`) < MICRO / 3;"
     },
     {
       "file": "src/simulation/crisis/hazard-producer.ts",
