@@ -335,6 +335,48 @@ describe("starting laws carry their catalog-required numeric terms", () => {
         parameters,
       ),
     ).toHaveLength(1);
+    const tiered: LawScheduleTerm = {
+      questionKey,
+      key: "deposit",
+      kind: "tiers",
+      tiers: [
+        {
+          threshold: 0,
+          unit: "fluid-ounces",
+          amount: { value: 5, unit: "minor/container" },
+        },
+        {
+          threshold: 24,
+          unit: "fluid-ounces",
+          amount: { value: 10, unit: "minor/container" },
+        },
+      ],
+    };
+    expect(
+      missingTerms(
+        questionKey,
+        { answer: "yes", lawSchedules: [tiered] },
+        parameters,
+      ),
+    ).toEqual([]);
+    expect(
+      missingTerms(
+        questionKey,
+        {
+          answer: "yes",
+          lawSchedules: [
+            {
+              ...tiered,
+              tiers: tiered.tiers.map((tier) => ({
+                ...tier,
+                amount: { ...tier.amount, unit: "minor" },
+              })),
+            },
+          ],
+        },
+        parameters,
+      ),
+    ).toHaveLength(1);
   });
 
   it("covers every yes row and its separate before/phase rules", () => {
