@@ -1094,8 +1094,7 @@ function lifePaths2CoreHandlers(): FutureTransitionHandlerRegistry {
             historySequenceExclusive: worked.sequence + 1,
           });
           if (!terms) throw new Error("Earned pay terms are missing.");
-          const raised = raiseShiftPayToMinimum(world, flow, terms, worked);
-          const next = settleTownCompensations(raised.world, [
+          const next = settleTownCompensations(world, [
             {
               stableKey: `${due.stableKey}:paid`,
               payFlowId: flow.id,
@@ -1109,7 +1108,7 @@ function lifePaths2CoreHandlers(): FutureTransitionHandlerRegistry {
               completedShift: {
                 eventId: worked.id,
                 termsId: terms.id,
-                amount: raised.terms,
+                amount: terms.amount,
               },
               note: "Payment for the completed shift; advertised pay alone never posts money.",
               provenance: authored,
