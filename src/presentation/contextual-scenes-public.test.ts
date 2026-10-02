@@ -1,4 +1,6 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import * as decisions from "../simulation/decisions";
+import { refreshContextualScenes } from "./contextual-scene-producers";
 import {
   enterSupportedTerm,
   recordedTermFixture,
@@ -202,14 +204,45 @@ function candidateWithAcceptedMeeting(seed: string) {
   ).game!;
   const player = life.playerPersonId;
   let world = life.world;
-  for (
-    let day = 0;
-    day < 40 && !open(world, player, "scene-party-invite");
-    day += 1
-  ) {
-    world = passOrdinaryDays(world, 1, { stopForTentativeHolds: true });
+  const actual = decisions.evaluateDecision;
+  const invitationChoice = vi
+    .spyOn(decisions, "evaluateDecision")
+    .mockImplementation(
+      (
+        at: Parameters<typeof actual>[0],
+        context: Parameters<typeof actual>[1],
+      ) => {
+        if (context.decisionType !== "party-chapter.invite-to-meeting")
+          return actual(at, context);
+        // Reuse the weekly chapter caller fixture's controlled answer, through the real writer.
+        return actual(at, {
+          ...context,
+          randomness: "none",
+          constraints: [
+            {
+              stableKey: "fixture:a125-invite",
+              optionKey: "not-now",
+              kind: "fixture:controlled-answer",
+              explanation:
+                "This reporter caller fixture requires an accepted meeting.",
+              sourceRefs: [],
+            },
+          ],
+        });
+      },
+    );
+  try {
+    for (
+      let day = 0;
+      day < 40 && !open(world, player, "scene-party-invite");
+      day += 1
+    ) {
+      world = passOrdinaryDays(world, 1, { stopForTentativeHolds: true });
+    }
+    world = say(world, player, "scene-party-invite", "say-yes");
+  } finally {
+    invitationChoice.mockRestore();
   }
-  world = say(world, player, "scene-party-invite", "say-yes");
   world = fileForOffice(world, player);
   world = seekCivicPressContact(world).world;
   return { player, world };
@@ -237,6 +270,51 @@ describe("a reporter's question about an actual promise", () => {
     reason: "Test: somebody who talks to a lot of people.",
   });
   const asked = passOrdinaryDays(before, 1, { stopForTentativeHolds: true });
+
+  it.each([null, "mention"])(
+    "an undecided packet with key %s shares no promise tip, including reload",
+    (key: string | null) => {
+      const evaluate = decisions.evaluateDecision;
+      const spy = vi
+        .spyOn(decisions, "evaluateDecision")
+        .mockImplementation(
+          (
+            w: Parameters<typeof evaluate>[0],
+            packet: Parameters<typeof evaluate>[1],
+          ) => {
+            const result = evaluate(w, packet);
+            return packet.decisionType === "press.mention-a-promise"
+              ? { ...result, outcomeKind: "undecided", selectedOptionKey: key }
+              : result;
+          },
+        );
+      try {
+        for (const current of [
+          before,
+          deserializeWorld(serializeWorld(before)),
+        ]) {
+          const tips = current.history.events.filter(
+            (event) => event.type === "press.tip-shared",
+          );
+          const next = refreshContextualScenes(current, player);
+          expect(
+            next.history.events.filter(
+              (event) => event.type === "press.tip-shared",
+            ),
+          ).toEqual(tips);
+          expect(open(next, player, "scene-reporter-question")).toBe(false);
+        }
+        expect(
+          spy.mock.calls.filter(
+            ([, packet]: Parameters<typeof evaluate>) =>
+              packet.decisionType === "press.mention-a-promise",
+          ),
+        ).toHaveLength(2);
+      } finally {
+        spy.mockRestore();
+      }
+    },
+  );
 
   it("the reporter asks only because the organizer told them, and says so", () => {
     expect(open(asked, player, "scene-reporter-question")).toBe(true);
