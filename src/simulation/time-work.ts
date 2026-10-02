@@ -1,5 +1,8 @@
 import { applyLawConsequences } from "./enacted-law-effects";
 import { settleJobPay } from "./job-market";
+import { settleOfficeSalaries } from "./office-salary";
+import { settleMortgages } from "./home-purchase";
+import { settleLivingCosts } from "./cost-of-living";
 import { applyEnactedCourtSizes } from "./governing/court-size-law";
 import { applyJudicialReview } from "./judiciary/judicial-review";
 import { applyOfficeLifecycle } from "./governing/office-continuity";
@@ -2025,10 +2028,14 @@ export function applyDateBoundary(
   world: World,
 ): World {
   const transitioned = applyNationalTermTransitions(world);
-  const moved =
-    crossedFrom !== world.currentDate && transitioned.control.kind === "person"
-      ? settleJobPay(transitioned, transitioned.control.personId)
-      : transitioned;
+  let moved = transitioned;
+  if (crossedFrom !== world.currentDate && moved.control.kind === "person") {
+    const personId = moved.control.personId;
+    moved = settleOfficeSalaries(moved, personId);
+    moved = settleJobPay(moved, personId);
+    moved = settleMortgages(moved, personId);
+    moved = settleLivingCosts(moved, personId);
+  }
   // CRISIS records the death or capacity change; the office consequence is
   // GOVERNING's, and it runs on the same date boundary so a death reaches the
   // office the day it happens. The consumer applies each notice once.
