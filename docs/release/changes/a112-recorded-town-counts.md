@@ -3,4 +3,4 @@ id: a112-recorded-town-counts
 impact: feature
 ---
 
-Local counts use the shared recorded-voter counter and canonical candidate views. The seeded calendar proof authors views through the existing writer for four actual eligible voters and preserves result and seating assertions. Candidate selection and vacancy-calendar draws remain in this checkpoint; their four audit checks remain failing.
+Actual eligible residents decide whether to enter local races through the existing decision evaluator using saved traits and health. Voters choose from saved candidate views through the shared recorded-voter counter. Recorded office-service anniversaries prompt the existing annual review. Drawn filing counts, candidate support, residents, and review dates are removed. Legal ties remain unresolved where the existing packet supplies no legal resolution.

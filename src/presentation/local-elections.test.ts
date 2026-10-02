@@ -50,6 +50,7 @@ import {
   createFormationContext,
   recordPrivateBelief,
 } from "../simulation/politics";
+import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import { isEligibleVoterIn } from "../simulation/issue-record";
 import { officialOpinionSubject } from "../simulation/political-opinion-subjects";
 
@@ -183,6 +184,21 @@ describe(`${calendarPlace.displayName} elects its council, seed ${calendarSeed}`
                 )
                 .slice(0, 4);
               expect(voters.length).toBeGreaterThanOrEqual(4);
+              const holders = new Set(
+                units.flatMap((unit) =>
+                  sittingLocalOfficers(atCount, unit).map(
+                    (row) => row.personId,
+                  ),
+                ),
+              );
+              const challengerIndex = contest!.candidatePersonIds.findIndex(
+                (id) => !holders.has(id),
+              );
+              const preferredIndex = challengerIndex < 0 ? 0 : challengerIndex;
+              const otherIndex =
+                preferredIndex === 0 && contest!.candidatePersonIds.length > 1
+                  ? 1
+                  : 0;
               for (const [voterIndex, voterId] of voters.entries()) {
                 for (const [
                   index,
@@ -195,11 +211,7 @@ describe(`${calendarPlace.displayName} elects its council, seed ${calendarSeed}`
                     subject: officialOpinionSubject(candidateId),
                     formedAt: atCount.currentDate,
                     position:
-                      index ===
-                      (voterIndex === 3 &&
-                      contest!.candidatePersonIds.length > 1
-                        ? 1
-                        : 0)
+                      index === (voterIndex === 3 ? otherIndex : preferredIndex)
                         ? "support"
                         : "oppose",
                     conviction: "strong",
@@ -264,6 +276,17 @@ describe(`${calendarPlace.displayName} elects its council, seed ${calendarSeed}`
           row.stableKey,
         ).toBe(true);
         for (const id of row.candidatePersonIds) {
+          const race = row.stableKey.replace(/:(primary|general)$/, "");
+          expect(
+            world.history.decisionTraces.some(
+              (trace) =>
+                trace.context.actorPersonId === id &&
+                trace.context.subject.key === race &&
+                (trace.selectedOptionKey === "run" ||
+                  trace.selectedOptionKey === "seek"),
+            ),
+            `${row.stableKey}: ${id} recorded their own candidacy choice`,
+          ).toBe(true);
           const person = world.people[id]!;
           expect(
             person.homeJurisdictionId === town || movedAfter(id, fieldClosed),
@@ -289,6 +312,17 @@ describe(`${calendarPlace.displayName} elects its council, seed ${calendarSeed}`
       const types = new Set(world.history.events.map((event) => event.type));
       expect(types.has("local.election-primary-held")).toBe(true);
       expect(types.has("local.seat-changed")).toBe(true);
+      const reopened = deserializeWorld(serializeWorld(world));
+      expect(reopened.history.electionContestResults).toEqual(
+        world.history.electionContestResults,
+      );
+      expect(reopened.history.decisionTraces).toEqual(
+        world.history.decisionTraces,
+      );
+      for (const unit of units)
+        expect(sittingLocalOfficers(reopened, unit)).toEqual(
+          sittingLocalOfficers(world, unit),
+        );
     },
   );
 });

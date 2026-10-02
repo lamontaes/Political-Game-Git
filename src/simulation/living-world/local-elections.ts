@@ -1,5 +1,13 @@
 import { nextCountyElection } from "../nationwide-world/county-election-calendar";
-import { addDays, ageOnDate, makeIsoDate } from "../dates";
+import { addDays, ageOnDate, dateAtAge, makeIsoDate } from "../dates";
+import { candidacyEligibility } from "../candidacy";
+import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
+import {
+  ensurePeopleTraitCatalog,
+  ensurePeopleTraits,
+  traitConsiderations,
+} from "../people-traits";
+import { lifeWeighsAgainstOffice } from "../careers/another-term";
 import { decideAnotherTerm } from "../careers/another-term";
 import {
   councilTermLimitBar,
@@ -63,7 +71,6 @@ function nameOf(world: World, personId: EntityId): string {
   const person = world.people[personId];
   return person ? personName(person) : "A resident";
 }
-import { SeededRng } from "../rng";
 import type {
   CandidateTally,
   EntityId,
@@ -130,9 +137,9 @@ import {
  * - A primary is held `primaryLeadDays` before the general election, and the
  *   field closes `FILING_LEAD_DAYS` (the national median filing lead,
  *   ESTIMATED FROM AVERAGE) before the first vote.
- * - Who runs, who retires, who resigns and how many people vote are drawn from
- *   the shares in `LOCAL_ELECTIONS_PROFILE`, and the count gives a sitting
- *   member a fixed edge. None of these is a measured rate.
+ * - Filing and voting use actual saved residents through the existing decision
+ *   evaluator. Office-service anniversaries prompt the existing resignation
+ *   review. Unresolved legal ties produce no result.
  * - A winner takes the seat on the day of the count, and an appointee on the
  *   day of the resignation.
  */
@@ -153,10 +160,6 @@ export const LOCAL_ELECTIONS_PROFILE = {
   filingLeadDays: FILING_LEAD_DAYS,
   primaryLeadDays: 56,
   minimumCandidateAge: 21,
-  /** How many neighbors file against a sitting member (index = count). */
-  challengersAgainstIncumbent: [0.2, 0.45, 0.2, 0.1, 0.05],
-  /** How many file for an open seat (index = count). */
-  candidatesForOpenSeat: [0, 0.15, 0.45, 0.25, 0.15],
 } as const;
 
 const P = LOCAL_ELECTIONS_PROFILE;
@@ -430,15 +433,6 @@ export function localSeatHolder(
   seat: number,
 ): SeatedLocalOffice | null {
   return holderOf(sittingLocalOfficers(world, unit), seat);
-}
-
-function pick(rng: SeededRng, shares: readonly number[]): number {
-  let point = rng.next() * shares.reduce((sum, share) => sum + share, 0);
-  for (let index = 0; index < shares.length; index += 1) {
-    point -= shares[index]!;
-    if (point < 0) return index;
-  }
-  return shares.length - 1;
 }
 
 function alive(world: World, personId: EntityId): boolean {
@@ -751,9 +745,19 @@ function scheduleYear(
   const key = yearKey(unit.id, year);
   if (world.history.futureDueItems.some((row) => row.stableKey === key))
     return world;
-  const rng = new SeededRng(world.seed).fork(key);
-  const dueAt = makeIsoDate(
-    `${year}-${pad(rng.integer(1, 13))}-${pad(rng.integer(1, 29))}`,
+  const starts = sittingLocalOfficers(world, unit).flatMap((officer) => {
+    const participation = world.history.organizationParticipations.find(
+      (row) => row.id === officer.participationId,
+    );
+    return participation ? [participation.startedAt] : [];
+  });
+  // A recorded year of office service prompts this review, rather than a drawn date.
+  const anniversaries = starts.map((start) =>
+    dateAtAge(start, year - Number(start.slice(0, 4))),
+  );
+  if (anniversaries.length === 0) return world;
+  const dueAt = anniversaries.reduce((first, date) =>
+    date < first ? date : first,
   );
   return scheduleFutureDueItem(world, {
     stableKey: key,
@@ -763,7 +767,7 @@ function scheduleYear(
     jurisdictionId: town,
     provenance: {
       kind: "authored",
-      note: `${P.id}: a year in ${unit.name}'s government, when a member may resign.`,
+      note: `${P.id}: a recorded office-service anniversary in ${unit.name} prompts the members' review.`,
     },
   });
 }
@@ -875,7 +879,10 @@ export function localElectionFilingHandler(
   const player = due.entityIds[1];
   const household = playerHousehold(world, player);
   const excluded = excludedFrom(next, unit, household);
-  const taken = new Set<string>();
+  // Only the town's actual saved residents are considered, once at field closing.
+  const residents = next.personOrder.filter(
+    (id) => next.people[id]!.homeJurisdictionId === town && !excluded.has(id),
+  );
   const primaryDate = addDays(generalDate, -P.primaryLeadDays);
   let races = 0;
   let primaries = 0;
@@ -892,11 +899,9 @@ export function localElectionFilingHandler(
       )
     )
       continue;
-    const rng = new SeededRng(next.seed).fork(race);
     const holder = holderOf(sittingLocalOfficers(next, unit), seat);
     const phrase = seatPhrase(office, seat);
     const candidates: EntityId[] = [];
-    let incumbentRuns = false;
     // A ward seat is filled from its own ward: its holder may run again only
     // while they live there, and its field is drawn from its residents.
     const ward =
@@ -1001,27 +1006,102 @@ export function localElectionFilingHandler(
           });
       } else {
         candidates.push(holder.personId);
-        incumbentRuns = true;
       }
     }
-    const filers = incumbentRuns
-      ? pick(rng, P.challengersAgainstIncumbent)
-      : Math.max(1, pick(rng, P.candidatesForOpenSeat));
-    for (let slot = 0; slot < filers; slot += 1) {
-      const drawn = drawTownResident(
-        next,
-        town,
-        `local-election:${race}`,
-        slot,
-        P.minimumCandidateAge,
-        excluded,
-        taken,
-        ward !== null ? wardRange(wardMap!, ward) : null,
+    for (const personId of residents) {
+      if (
+        excluded.has(personId) ||
+        !alive(next, personId) ||
+        ageOnDate(next.people[personId]!.birthDate, next.currentDate) <
+          P.minimumCandidateAge ||
+        (ward !== null && wardOfPerson(next, unit, town, personId) !== ward)
+      )
+        continue;
+      const eligibility = candidacyEligibility(next, {
+        personId,
+        jurisdictionId: town,
+        officeKey: office.officeKey,
+        alreadyACandidate: campaigns(next).some(
+          (campaign) => campaign.candidatePersonId === personId,
+        ),
+      });
+      if (!eligibility.eligible) continue;
+      next = ensurePeopleTraits(
+        ensurePeopleTraitCatalog(next),
+        [personId],
+        next.currentDate,
       );
-      next = drawn.world;
-      if (!drawn.personId) break;
-      excluded.add(drawn.personId);
-      candidates.push(drawn.personId);
+      const key = `${race}:filing:${personId}`;
+      const evaluation = evaluateDecision(next, {
+        stableKey: key,
+        decisionType: "election.consider-local-run",
+        actorPersonId: personId,
+        cutoff: {
+          asOfDate: next.currentDate,
+          historySequenceExclusive: next.history.nextSequence,
+        },
+        subject: { kind: "context:life", key: race, entityId: town },
+        options: [
+          { key: "run", label: "Run", description: `Stand for ${phrase}.` },
+          {
+            key: "decline",
+            label: "Decline",
+            description: "Stay out of this race.",
+          },
+        ],
+        constraints: [],
+        considerations: [
+          ...traitConsiderations(next, personId, key, [
+            {
+              optionKey: "run",
+              trait: "risk",
+              pole: "high",
+              explanation:
+                "They are willing to risk entering a contested election.",
+            },
+            {
+              optionKey: "decline",
+              trait: "risk",
+              pole: "low",
+              explanation:
+                "They prefer to avoid the risk of a contested election.",
+            },
+            {
+              optionKey: "run",
+              trait: "conflict",
+              pole: "high",
+              explanation: "They are willing to take part in a contested race.",
+            },
+            {
+              optionKey: "decline",
+              trait: "conflict",
+              pole: "low",
+              explanation: "They prefer to avoid a contested race.",
+            },
+          ]),
+          ...lifeWeighsAgainstOffice(next, {
+            personId,
+            keyPrefix: key,
+            onDate: next.currentDate,
+            termEnds: addDays(
+              generalDate,
+              Math.round(
+                (seat === 0
+                  ? (chief?.termYears.value ?? termYears)
+                  : termYears) * 365.25,
+              ),
+            ),
+            optionKey: "decline",
+          }),
+        ],
+        perceptionIds: [],
+        randomness: "none",
+        retention: "durable",
+      });
+      next = recordDurableDecisionTrace(next, evaluation);
+      if (evaluation.selectedOptionKey !== "run") continue;
+      excluded.add(personId);
+      candidates.push(personId);
     }
     if (candidates.length === 0) continue;
     const primary = candidates.length > 2;
