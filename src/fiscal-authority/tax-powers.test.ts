@@ -3,6 +3,11 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import packet from "../../docs/codex/effect-batches/team-6/tax-powers-49/batch-01-proposed.json" with { type: "json" };
 import secondPacket from "../../docs/codex/effect-batches/team-6/tax-powers-49/batch-02/proposed.json" with { type: "json" };
+import thirdPacket from "../../docs/codex/effect-batches/team-6/tax-powers-49/batch-03/proposed.json" with { type: "json" };
+import fourthPacket from "../../docs/codex/effect-batches/team-6/tax-powers-49/batch-04/proposed.json" with { type: "json" };
+import fifthPacket from "../../docs/codex/effect-batches/team-6/tax-powers-49/batch-05/proposed.json" with { type: "json" };
+import sixthPacket from "../../docs/codex/effect-batches/team-6/tax-powers-49/batch-06/proposed.json" with { type: "json" };
+import seventhPacket from "../../docs/codex/effect-batches/team-6/tax-powers-49/batch-07/proposed.json" with { type: "json" };
 import projection from "./tax-powers.generated.json" with { type: "json" };
 import { normalizeRetrievedText } from "../source/core/parse/html-text";
 import { ARTICLE_V_STATE_KEYS } from "../simulation/constitutional-process";
@@ -64,7 +69,22 @@ describe("sourced state tax powers", () => {
   });
 
   it("binds every new row to captured official bytes and literal legal excerpts", async () => {
-    for (const batch of [packet, secondPacket]) {
+    const batches = [
+      packet,
+      secondPacket,
+      thirdPacket,
+      fourthPacket,
+      fifthPacket,
+      sixthPacket,
+      seventhPacket,
+    ];
+    expect(
+      projection.powers.filter(
+        (row) =>
+          row.sourceArtifactId !== projection.evidenceScope.parentArtifactId,
+      ),
+    ).toEqual(batches.flatMap((batch) => batch.powers));
+    for (const batch of batches) {
       for (const row of batch.powers) {
         expect(
           projection.powers.find((power) => power.key === row.key),
@@ -100,6 +120,8 @@ describe("sourced state tax powers", () => {
         expect(scope.sourceApproval).toBe("CTO REVIEW REQUIRED");
       }
       for (const scope of batch.evidenceScopes) {
+        expect(scope.legalTextQuotes.length).toBeGreaterThan(0);
+        expect(scope.citations.length).toBeGreaterThan(0);
         expect(projection.evidenceScopes).toContainEqual(scope);
         const row = batch.powers.find(
           (power) => power.jurisdictionKey === scope.jurisdictionKey,

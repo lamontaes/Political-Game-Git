@@ -1,0 +1,10 @@
+Scope: CTO06:17 #1341; third bounded source batch, six new states CA/MD/NC/NJ/WI/WV.
+Parent: #1932 exact8d8f532ad674a37d36e314c82b90836f27f3ca5b, preserved READY for gate.
+Seven additional legal artifact scopes. Total18states includingAlaska;17of49 non-Alaska rows supplied,32stillgaps.
+Source approval and applicable-condition enforcement remain required. No actualtax/rate/cash/service proof.
+NewJersey reuses captured full officialconstitution raw under narrowoffice-qualification filename; NEW legalexcerptscope only, no officecorpus/manifest edit.
+Wisconsin uses existingPDF.js dependency to checkliteraldecodedquotes againstrawofficialPDF, publishedAug5,2026/latestApril2025amendment. No newproductionparser.
+Completechangedtest src/fiscal-authority/tax-powers.test.ts:3/3PASS17.68s total/1.55s bodies,stocklimits,native38038exit0.
+Scopedtypes:1changedroot1057importedfiles0diagnostics,29575exit0.
+Changedlint/format/whitespacePASS. Priorfirst/secondbatchproofs retained; no repeatedunchangedfiles/fullsuite/LOAD/browser.
+Currentmain6ad intact; no compiler/corpus/manifest/root tax-provider edits. Missing endpoints and nonlegalindex/appshells retained as retrieval gaps.
