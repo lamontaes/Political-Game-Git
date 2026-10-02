@@ -1,3 +1,4 @@
+import { bindFederalClaimsForPaidStateInstallment } from "../federal-state-program-payments";
 import { farmProgramPaymentAt } from "../federal-farm-payments";
 import { createStableId } from "../ids";
 import { addDays, daysBetween } from "../dates";
@@ -1138,7 +1139,10 @@ export function settleProgramInstallment(
     });
   else if (!reason && plan.purpose === "maintenance")
     next = recordCapacityOutturn(next, commitment, installment);
-  return { world: closeWorkIfDone(next, commitment), installment };
+  next = closeWorkIfDone(next, commitment);
+  if (installment.status === "posted")
+    next = bindFederalClaimsForPaidStateInstallment(next, installment);
+  return { world: next, installment };
 }
 
 function recordProgramOutlaysForDate(

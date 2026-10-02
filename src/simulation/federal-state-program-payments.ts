@@ -2,11 +2,20 @@ import { currentPresidentOf } from "./crisis/offices";
 import { commitPublicProgram } from "./governing/public-program";
 import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
 import { lawInForce } from "./governing/law-in-force";
-import { stateKeyForJurisdiction } from "./life-places";
+import {
+  lifePlaceByJurisdictionId,
+  stateKeyForJurisdiction,
+} from "./life-places";
+import { organizationProfileAt } from "./life-queries";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import { money } from "./resources";
 import { publicTaxAccountForJurisdiction } from "./tax-policy";
-import type { EntityId, World } from "./types";
+import type {
+  EntityId,
+  World,
+  OrganizationProfileRecord,
+  PublicProgramInstallmentRecord,
+} from "./types";
 
 /** Bind admitted payable inputs to the existing cash/authority/payment writer. */
 export function postFederalStateProgramPayments(start: World): {
@@ -233,4 +242,141 @@ export function postFederalStateProgramPayments(start: World): {
     }
   }
   return { world, blocked };
+}
+
+/** Existing providers in this state's recorded towns; never create a substitute. */
+export function recordedStateProgramProviders(
+  world: World,
+  jurisdictionId: EntityId,
+  classifications: readonly OrganizationProfileRecord["classification"][],
+): readonly EntityId[] {
+  const jurisdiction = world.jurisdictions[jurisdictionId];
+  const state = jurisdiction ? stateKeyForJurisdiction(jurisdiction) : null;
+  if (!state) return [];
+  return world.history.organizations
+    .flatMap((organization) => {
+      if (organization.formedAt > world.currentDate) return [];
+      const profile = organizationProfileAt(world, organization.id);
+      if (
+        !profile ||
+        profile.closed ||
+        !classifications.includes(profile.classification)
+      )
+        return [];
+      const locationId = profile.locationJurisdictionId;
+      const location = locationId ? world.jurisdictions[locationId] : null;
+      const locationState = locationId
+        ? (lifePlaceByJurisdictionId(locationId)?.stateJurisdictionKey ??
+          (location ? stateKeyForJurisdiction(location) : null))
+        : null;
+      return locationState === state ? [organization.id] : [];
+    })
+    .sort();
+}
+
+/** A posted state installment supplies actual claim inputs under an admitted provider rule. */
+export function bindFederalClaimsForPaidStateInstallment(
+  start: World,
+  installment: PublicProgramInstallmentRecord,
+): World {
+  const jurisdiction = start.jurisdictions[installment.jurisdictionId];
+  if (
+    installment.status !== "posted" ||
+    !jurisdiction ||
+    !stateKeyForJurisdiction(jurisdiction)
+  )
+    return start;
+  const records = start.history.publicProgramRecords ?? [];
+  const commitment = records.find(
+    (record) => record.id === installment.commitmentId,
+  );
+  if (commitment?.kind !== "commitment" || !commitment.recipientOrganizationId)
+    return start;
+  const flow = start.history.resourceFlows.find(
+    (record) => record.id === installment.resourceFlowId,
+  );
+  const outcome = start.history.resourceTransferOutcomes.find(
+    (record) =>
+      record.resourceFlowId === flow?.id &&
+      record.status === "completed" &&
+      record.transferredAmount.currency === "USD" &&
+      record.transferredAmount.minorUnits > 0,
+  );
+  const account = publicTaxAccountForJurisdiction(
+    start,
+    installment.jurisdictionId,
+  );
+  if (
+    !outcome ||
+    !flow ||
+    !account ||
+    flow.source.kind !== "organization" ||
+    flow.source.organizationId !== account.organizationId
+  )
+    return start;
+  let changed = false;
+  const bound = records.map((record) => {
+    if (
+      record.kind !== "appropriation" ||
+      record.jurisdictionId !== NATIONAL_ELECTION_JURISDICTION.id ||
+      record.programKey !== commitment.programKey
+    )
+      return record;
+    const claims = record.statePaymentClaims ?? [];
+    const added = claims.flatMap((claim) => {
+      if (
+        claim.recipientJurisdictionId !== installment.jurisdictionId ||
+        claim.amountTerm.unit !== "ratio" ||
+        claim.eligibleExpenditureIds.length ||
+        !claim.eligibleProviderClassifications?.length ||
+        outcome.occurredAt < claim.periodStartsAt ||
+        outcome.occurredAt > claim.periodEndsAt
+      )
+        return [];
+      const stableKey = `${claim.stableKey}:paid:${outcome.id}`;
+      if (
+        claims.some((existing) => existing.stableKey === stableKey) ||
+        !recordedStateProgramProviders(
+          start,
+          installment.jurisdictionId,
+          claim.eligibleProviderClassifications,
+        ).includes(commitment.recipientOrganizationId!)
+      )
+        return [];
+      return [{ ...claim, stableKey, eligibleExpenditureIds: [outcome.id] }];
+    });
+    if (!added.length) return record;
+    changed = true;
+    return { ...record, statePaymentClaims: [...claims, ...added] };
+  });
+  const world = changed
+    ? { ...start, history: { ...start.history, publicProgramRecords: bound } }
+    : start;
+  return postFederalStateProgramPayments(world).world;
+}
+
+/** The already admitted rule supplies provider classes; this reader supplies none. */
+export function federalStateProgramProviderClasses(
+  world: World,
+  programKey: string,
+  jurisdictionId: EntityId,
+): readonly OrganizationProfileRecord["classification"][] {
+  return [
+    ...new Set(
+      (world.history.publicProgramRecords ?? []).flatMap((record) =>
+        record.kind === "appropriation" &&
+        record.jurisdictionId === NATIONAL_ELECTION_JURISDICTION.id &&
+        record.programKey === programKey &&
+        record.availableFrom <= world.currentDate &&
+        record.availableThrough >= world.currentDate
+          ? (record.statePaymentClaims ?? []).flatMap((claim) =>
+              claim.recipientJurisdictionId === jurisdictionId &&
+              claim.amountTerm.unit === "ratio"
+                ? (claim.eligibleProviderClassifications ?? [])
+                : [],
+            )
+          : [],
+      ),
+    ),
+  ];
 }

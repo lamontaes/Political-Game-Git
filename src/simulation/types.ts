@@ -4119,6 +4119,8 @@ export interface FederalStateProgramPaymentClaim {
   };
   /** Actual completed state-paid program outcomes eligible under this claim. */
   readonly eligibleExpenditureIds: readonly EntityId[];
+  /** Admitted provider classes for binding future actual state-paid installments. */
+  readonly eligibleProviderClassifications?: readonly OrganizationProfileRecord["classification"][];
 }
 
 /** Spending authority on an existing public account. Not cash. */

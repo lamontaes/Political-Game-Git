@@ -1,3 +1,5 @@
+import { programOperatorOrganization } from "./governing/program-governing";
+import { organizationProfileAt } from "./life-queries";
 import { describe, expect, it } from "vitest";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
 import {
@@ -18,7 +20,7 @@ import { introduceMeasure } from "./legislation";
 import { recordFiledProvision } from "./legislative-politics";
 import { enactThroughDesk } from "../../tests/fixtures/enact-through-desk";
 import { drawRandomPlace } from "../../tests/support/random-place";
-import { addDays } from "./dates";
+import { addDays, simulationMomentOnLocalDate } from "./dates";
 import {
   ensureNationalElectionJurisdiction,
   NATIONAL_ELECTION_JURISDICTION,
@@ -37,10 +39,15 @@ import {
 import {
   recordProgramAppropriation,
   commitPublicProgram,
+  settleProgramInstallment,
 } from "./governing/public-program";
 import { readMonthFlows } from "./public-budgets/month";
 import { BUDGET_SOURCES } from "./public-budgets/store";
-import { postFederalStateProgramPayments } from "./federal-state-program-payments";
+import {
+  postFederalStateProgramPayments,
+  recordedStateProgramProviders,
+  bindFederalClaimsForPaidStateInstallment,
+} from "./federal-state-program-payments";
 import { serializeWorld, deserializeWorld } from "./serialization";
 import {
   FIXTURE,
@@ -160,7 +167,10 @@ function enacted() {
 
 const run = (world: World) => postFederalStateProgramPayments(world).world;
 
-function fixture(unit: "minor" | "ratio") {
+function fixture(
+  unit: "minor" | "ratio",
+  providerClass?: "service:clinic" | "service:nursing-home",
+) {
   const adopted = enacted();
   let world = adopted.world;
   const measureId = adopted.measureId;
@@ -228,16 +238,25 @@ function fixture(unit: "minor" | "ratio") {
     (row) => row.stateUsps === place.stateJurisdictionKey!.slice(3),
   );
   if (!executive) throw new Error("Missing recorded state executive.");
+  const provider = providerClass
+    ? recordedStateProgramProviders(world, state.id, [providerClass])[0]
+    : payer;
+  if (!provider)
+    throw new Error("No recorded care provider in the actual opening.");
   const expense = commitPublicProgram(stateAuthority.world, {
     appropriationId: stateAuthority.id,
-    recipientOrganizationId: payer,
+    recipientOrganizationId: provider,
     personId: executive.personId,
     office: { kind: "state-executive" },
     alternative: {
       key: "eligible-paid-expense",
       title: "Authored eligible expense",
       installments: [
-        { afterDays: 0, amount: money(10_000, "USD"), purpose: "operating" },
+        {
+          afterDays: providerClass ? 1 : 0,
+          amount: money(10_000, "USD"),
+          purpose: "operating",
+        },
       ],
       deliveryLeadDays: null,
     },
@@ -245,7 +264,9 @@ function fixture(unit: "minor" | "ratio") {
   if (!expense.ok) throw new Error(expense.reason);
   world = expense.world;
   const expenseId = world.history.resourceTransferOutcomes.at(-1)!.id;
-  const period = world.currentDate;
+  const period = providerClass
+    ? addDays(world.currentDate, 1)
+    : world.currentDate;
   const claim = {
     stableKey: "test:state-payment:claim",
     recipientJurisdictionId: state.id,
@@ -253,7 +274,11 @@ function fixture(unit: "minor" | "ratio") {
     periodStartsAt: period,
     periodEndsAt: period,
     amountTerm: { questionKey, termKey: termKeyFor(unit), unit },
-    eligibleExpenditureIds: unit === "ratio" ? [expenseId] : [],
+    eligibleExpenditureIds:
+      unit === "ratio" && !providerClass ? [expenseId] : [],
+    ...(providerClass
+      ? { eligibleProviderClassifications: [providerClass] }
+      : {}),
   };
   const written = recordProgramAppropriation(world, {
     edition: "explicit-state-payable",
@@ -274,6 +299,8 @@ function fixture(unit: "minor" | "ratio") {
     federal,
     recipient,
     expenseId,
+    expenseCommitmentId: expense.recordId,
+    provider,
     claim,
   };
 }
@@ -424,5 +451,112 @@ describe("explicit saved federal state payment claims", () => {
     ).toBe(true);
     expect(cash(result.world, f.federal)).toBe(cash(posted, f.federal));
     expect(cash(result.world, f.recipient)).toBe(cash(posted, f.recipient));
+  }, 30_000);
+  for (const providerClass of ["service:clinic"] as const)
+    it(`settlement binds actual ${providerClass} expenditure and posts federal match without a manual producer call`, () => {
+      const f = fixture("ratio", providerClass);
+      const before = {
+        ...f.world,
+        currentDate: f.claim.dueAt,
+        currentMoment: simulationMomentOnLocalDate(
+          f.world.currentMoment,
+          f.claim.dueAt,
+        ),
+      };
+      const selected = programOperatorOrganization(
+        before,
+        PROGRAM_KEY,
+        f.claim.recipientJurisdictionId,
+      );
+      expect(selected.organizationId).toBe(f.provider);
+      expect(selected.world).toBe(before);
+      const posted = settleProgramInstallment(
+        before,
+        f.expenseCommitmentId,
+        0,
+      ).world;
+      expect(organizationProfileAt(before, f.provider)?.classification).toBe(
+        providerClass,
+      );
+      const providerFlow = posted.history.resourceFlows.find(
+        (flow) =>
+          flow.basisReference.kind === "public-program" &&
+          flow.basisReference.commitmentId === f.expenseCommitmentId,
+      );
+      expect(providerFlow?.recipient).toEqual({
+        kind: "organization",
+        organizationId: f.provider,
+      });
+      expect(providerFlow?.source).toEqual({
+        kind: "organization",
+        organizationId: f.recipient,
+      });
+      const providerReceipt = posted.history.resourceTransferOutcomes.find(
+        (row) => row.resourceFlowId === providerFlow?.id,
+      );
+      expect(providerReceipt).toMatchObject({
+        status: "completed",
+        transferredAmount: money(10_000, "USD"),
+      });
+      expect(cash(posted, f.federal)).toBe(cash(before, f.federal) - 5_000);
+      expect(cash(posted, f.recipient)).toBe(
+        cash(before, f.recipient) - 10_000 + 5_000,
+      );
+      const generated = (posted.history.publicProgramRecords ?? []).find(
+        (row) =>
+          row.kind === "commitment" &&
+          row.appropriationId === f.appropriationId,
+      );
+      expect(generated?.kind).toBe("commitment");
+      if (generated?.kind !== "commitment")
+        throw new Error("Missing automatically bound match.");
+      const expenseOutcome = posted.history.resourceTransferOutcomes.find(
+        (row) =>
+          generated.federalStatePayment?.eligibleExpenditureIds.includes(
+            row.id,
+          ),
+      );
+      expect(expenseOutcome?.id).toBe(providerReceipt?.id);
+      expect(expenseOutcome?.status).toBe("completed");
+      expect(expenseOutcome?.transferredAmount.minorUnits).toBe(10_000);
+      const replay = settleProgramInstallment(
+        deserializeWorld(serializeWorld(posted)),
+        f.expenseCommitmentId,
+        0,
+      ).world;
+      expect(cash(replay, f.federal)).toBe(cash(posted, f.federal));
+      expect(cash(replay, f.recipient)).toBe(cash(posted, f.recipient));
+      expect(replay.history.resourceTransferOutcomes.length).toBe(
+        posted.history.resourceTransferOutcomes.length,
+      );
+    }, 30_000);
+
+  it("does not substitute a different provider class for an actual paid expense", () => {
+    const f = fixture("ratio");
+    const before = withClaim(f, {
+      eligibleExpenditureIds: [],
+      eligibleProviderClassifications: ["service:nursing-home"],
+    });
+    const installment = (before.history.publicProgramRecords ?? []).find(
+      (row) =>
+        row.kind === "installment" &&
+        row.commitmentId === f.expenseCommitmentId,
+    );
+    if (installment?.kind !== "installment")
+      throw new Error("No actual paid state installment.");
+    const after = bindFederalClaimsForPaidStateInstallment(before, installment);
+    expect(cash(after, f.federal)).toBe(cash(before, f.federal));
+    expect(cash(after, f.recipient)).toBe(cash(before, f.recipient));
+    expect(after.history.resourceTransferOutcomes.length).toBe(
+      before.history.resourceTransferOutcomes.length,
+    );
+    const authority = after.history.publicProgramRecords?.find(
+      (row) => row.id === f.appropriationId,
+    );
+    expect(
+      authority?.kind === "appropriation"
+        ? authority.statePaymentClaims?.length
+        : null,
+    ).toBe(1);
   }, 30_000);
 });
