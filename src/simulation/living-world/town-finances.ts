@@ -45,7 +45,6 @@ import { MACRO_ERA_POLICY } from "../macro-economy/policy";
 import { countyGeoidsForPlace } from "../government-units";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { areaResidents } from "../outcome-web/place-outcome-store";
-import { SeededRng } from "../rng";
 import { FDIC_COUNTY_DEPOSITS } from "./town-deposits.generated";
 import type {
   EntityId,
@@ -59,6 +58,7 @@ import { recordWorldEvent } from "../world";
 import {
   FDIC_SMALL_BANK_REPORT_DATE,
   FDIC_SMALL_BANK_SHAPES,
+  FDIC_SMALL_BANK_RECORDS,
 } from "./town-bank-shapes.generated";
 import {
   BANK_FAILED_EVENT,
@@ -273,27 +273,28 @@ export function uninsuredDepositShare(shape: BankShape): number {
 }
 
 /**
- * The real bank a town bank takes the shape of: one of its state's small
- * banks, or of the nation's when the state has fewer than five on file.
- * Drawing it sets the stage; the bank's fate is not drawn.
+ * The observed median-ASSET small bank in the state. Preserve certificate-order
+ * row indexes for old saves and the paired uninsured share. A group with fewer
+ * than five observations remains unread; it does not borrow another place's bank.
  */
-export function drawBankShape(state: string | null, draw: number): BankShape {
-  const own = state ? FDIC_SMALL_BANK_SHAPES[state] : undefined;
-  const pool = own ? parseShapes(own) : [];
-  if (pool.length >= 5) {
-    const index = Math.min(pool.length - 1, Math.floor(draw * pool.length));
-    const { cushion, otherAssets } = pool[index]!;
-    return { state, index, cushion, otherAssets };
+const medianShapes = new Map<string, BankShape | null>();
+export function medianBankShape(state: string | null): BankShape | null {
+  if (state === null) return null;
+  if (medianShapes.has(state)) return medianShapes.get(state)!;
+  const records = FDIC_SMALL_BANK_RECORDS[state];
+  const pool = FDIC_SMALL_BANK_SHAPES[state];
+  let shape: BankShape | null = null;
+  if (records && records.length >= 5 && pool) {
+    // All rows have the same report date. Certificate resolves asset ties.
+    const ranked = records
+      .map(([assets, certificate], index) => ({ assets, certificate, index }))
+      .sort((a, b) => a.assets - b.assets || a.certificate - b.certificate);
+    const { index } = ranked[Math.floor((ranked.length - 1) / 2)]!;
+    const { cushion, otherAssets } = parseShapes(pool)[index]!;
+    shape = { state, index, cushion, otherAssets };
   }
-  nationalShapes ??= Object.keys(FDIC_SMALL_BANK_SHAPES)
-    .sort()
-    .flatMap((key) => parseShapes(FDIC_SMALL_BANK_SHAPES[key]!));
-  const index = Math.min(
-    nationalShapes.length - 1,
-    Math.floor(draw * nationalShapes.length),
-  );
-  const { cushion, otherAssets } = nationalShapes[index]!;
-  return { state: null, index, cushion, otherAssets };
+  medianShapes.set(state, shape);
+  return shape;
 }
 
 const round2 = (value: number) => Math.round(value * 100) / 100;
@@ -587,15 +588,11 @@ function openBankBooks(
   organizationId: EntityId,
   banksInTown: number,
   round: string,
-): TownBankBooks {
+): TownBankBooks | null {
   const P = TOWN_FINANCE_POLICY.bank;
   const state = world.jurisdictions[town]?.parentName ?? null;
-  const shape = drawBankShape(
-    state,
-    new SeededRng(world.seed)
-      .fork(`${TOWN_FINANCES_VERSION}:bank-shape:${organizationId}`)
-      .next(),
-  );
+  const shape = medianBankShape(state);
+  if (!shape) return null;
   const deposits = round2(
     (townDepositsPerResident(world, town) * townPeople(world, town)) /
       Math.max(1, banksInTown),
@@ -824,9 +821,12 @@ export function stepTownFinances(
       (sum, id) => sum + (pay.get(id) ?? 0),
       0,
     ) * 4;
-  for (const bankId of bankIds)
-    if (!banks[bankId] && yearlyTownPay > 0)
-      banks[bankId] = openBankBooks(world, town, bankId, bankIds.length, round);
+  for (const bankId of bankIds) {
+    if (!banks[bankId] && yearlyTownPay > 0) {
+      const opened = openBankBooks(world, town, bankId, bankIds.length, round);
+      if (opened) banks[bankId] = opened;
+    }
+  }
 
   const P = TOWN_FINANCE_POLICY.business;
   const demandGrowth = Math.exp(economy.growthGapPct / 400);

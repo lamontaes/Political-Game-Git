@@ -42,7 +42,7 @@ for row in json.load(open(f"{folder}/sec_20260630.json"))["data"]:
     other = (bank["ASSET"] - bank["CHBAL"] - bank["SC"] - bank["FREPO"]) / bank["DEP"]
     unins = uninsured[bank["CERT"]]["DEPUNINS"] / bank["DEP"]
     by_state[named["STNAME"].title().replace(" Of ", " of ")].append(
-        (round(cushion, 3), round(max(0.0, other), 3), round(unins, 3), bank["CERT"])
+        (round(cushion, 3), round(max(0.0, other), 3), round(unins, 3), bank["CERT"], bank["ASSET"])
     )
 
 out = [
@@ -63,8 +63,21 @@ total = 0
 for state in sorted(by_state):
     rows = sorted(by_state[state], key=lambda row: row[3])
     total += len(rows)
-    text = ";".join(f"{c:g},{o:g},{u:g}" for c, o, u, _ in rows)
+    text = ";".join(f"{c:g},{o:g},{u:g}" for c, o, u, _, _ in rows)
     out.append(f"  {json.dumps(state)}: {json.dumps(text)},")
+out.append("};")
+out.append("")
+out.extend([
+    "/** Observed [assets in thousands of dollars, certificate], in the same row order.",
+    " * Source: https://banks.data.fdic.gov/api/financials; June 30, 2026 report.",
+    " * Recovered October 2, 2026; all original 3,194 ratio rows are preserved.",
+    " */",
+    "export const FDIC_SMALL_BANK_RECORDS: Readonly<Record<string, readonly (readonly [number, number])[]>> = {",
+])
+for state in sorted(by_state):
+    rows = sorted(by_state[state], key=lambda row: row[3])
+    records = [[asset, cert] for _, _, _, cert, asset in rows]
+    out.append(f"  {json.dumps(state)}: {json.dumps(records)},")
 out.append("};")
 out.append("")
 out.append(f"export const FDIC_SMALL_BANK_COUNT = {total};")
