@@ -1,7 +1,21 @@
-import { settleTownCompensations } from "./living-world/town-pay";
+import {
+  settleTownCompensations,
+  type TownCompensationPeriod,
+} from "./living-world/town-pay";
+import {
+  growingIndex,
+  recordById,
+  recordsWithFieldValue,
+  type GrowingIndexKind,
+} from "./history-index";
 import { addDays, daysBetween } from "./dates";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
-import { currentLifeCutoff, workStatusAt, workRoleAt } from "./life-queries";
+import {
+  currentLifeCutoff,
+  workStatusAt,
+  workRoleAt,
+  workRelationshipHistoryForPerson,
+} from "./life-queries";
 import { recordedWorkAnnualPay } from "./recorded-work-pay";
 import { officePayInForce, paidOfficeOf } from "./office-pay";
 import { stateJurisdictionForKey } from "./life-places";
@@ -20,7 +34,13 @@ import {
   money,
   type CreateResourceFlowInput,
 } from "./resources";
-import type { EntityId, IsoDate, World, WorkRelationship } from "./types";
+import type {
+  EntityId,
+  IsoDate,
+  World,
+  WorkRelationship,
+  ResourceFlow,
+} from "./types";
 
 /**
  * Pay for holding a public office.
@@ -46,6 +66,38 @@ export const PAID_OFFICE_KINDS: readonly string[] = [
   "employment:executive-staff",
   "employment:congress-member",
 ];
+
+const OFFICE_WORK: GrowingIndexKind<WorkRelationship[]> = {
+  create: () => [],
+  add: (works, record) => {
+    const work = record as WorkRelationship;
+    if (
+      work.organizationId &&
+      PAID_OFFICE_KINDS.includes(work.kind) &&
+      (work.compensation === "paid" || work.compensation === "mixed")
+    )
+      works.push(work);
+  },
+};
+const WORK_PAY_FLOWS: GrowingIndexKind<Map<EntityId, ResourceFlow>> = {
+  create: () => new Map(),
+  add: (flows, record) => {
+    const flow = record as ResourceFlow;
+    if (flow.basisReference.kind === "work")
+      flows.set(flow.basisReference.workRelationshipId, flow);
+  },
+};
+const OFFICE_PAY_FLOWS: GrowingIndexKind<ResourceFlow[]> = {
+  create: () => [],
+  add: (flows, record) => {
+    const flow = record as ResourceFlow;
+    if (
+      flow.basisReference.kind === "work" &&
+      flow.stableKey.startsWith("office-salary:")
+    )
+      flows.push(flow);
+  },
+};
 
 const WEEK_DAYS = 7;
 
@@ -133,7 +185,7 @@ export function initializeOfficeSalaryFlows(
   personId: EntityId,
 ): World {
   let next = world;
-  for (const work of world.history.workRelationships) {
+  for (const work of workRelationshipHistoryForPerson(world, personId)) {
     if (work.personId !== personId || !work.organizationId) continue;
     if (!PAID_OFFICE_KINDS.includes(work.kind)) continue;
     if (work.compensation !== "paid" && work.compensation !== "mixed") continue;
@@ -205,27 +257,22 @@ function officeSalaryInput(
 
 /** All actually recorded paid offices, including NPCs, share the existing salary agreement writer. */
 export function initializeAllOfficeSalaryFlows(world: World): World {
-  const existing = new Set(
-    world.history.resourceFlows.flatMap((flow) =>
-      flow.basisReference.kind === "work"
-        ? [flow.basisReference.workRelationshipId]
-        : [],
-    ),
+  const existing = growingIndex(WORK_PAY_FLOWS, world.history.resourceFlows);
+  const missing = growingIndex(
+    OFFICE_WORK,
+    world.history.workRelationships,
+  ).filter(
+    (work) =>
+      !existing.has(work.id) &&
+      paidOfficeOf(world, work) &&
+      isActiveOn(world, work.id, world.currentDate),
   );
+  if (missing.length === 0) return world;
   return advanceWithWorldIntegrityAtEnd(() => {
     let next = world;
     const inputs: CreateResourceFlowInput[] = [];
     const accounts = new Map<EntityId, EntityId | null>();
-    for (const work of world.history.workRelationships) {
-      if (
-        !work.organizationId ||
-        existing.has(work.id) ||
-        (work.compensation !== "paid" && work.compensation !== "mixed") ||
-        !PAID_OFFICE_KINDS.includes(work.kind) ||
-        !paidOfficeOf(world, work) ||
-        !isActiveOn(world, work.id, world.currentDate)
-      )
-        continue;
+    for (const work of missing) {
       const pay = annualPay(world, work, world.currentDate);
       if (!pay) continue;
       next = ensureLifePathPersonalPosition(
@@ -242,19 +289,60 @@ export function initializeAllOfficeSalaryFlows(world: World): World {
 /** Calendar adapter only; every transfer still uses settleTownCompensations. */
 export function settleAllOfficeSalaries(world: World): World {
   return advanceWithWorldIntegrityAtEnd(() => {
-    let next = initializeAllOfficeSalaryFlows(world);
-    for (const work of world.history.workRelationships) {
-      if (
-        !work.organizationId ||
-        !PAID_OFFICE_KINDS.includes(work.kind) ||
-        (work.compensation !== "paid" && work.compensation !== "mixed") ||
-        !paidOfficeOf(world, work)
-      )
-        continue;
-      next = settleOne(next, work);
+    const next = initializeAllOfficeSalaryFlows(world);
+    const periods: TownCompensationPeriod[] = [];
+    for (const flow of growingIndex(
+      OFFICE_PAY_FLOWS,
+      next.history.resourceFlows,
+    )) {
+      if (flow.basisReference.kind !== "work") continue;
+      const work = recordById(
+        next.history.workRelationships,
+        flow.basisReference.workRelationshipId,
+      );
+      if (!work || !paidOfficeOf(next, work)) continue;
+      periods.push(...dueOfficePeriods(next, work, flow));
     }
-    return next;
+    return periods.length ? settleTownCompensations(next, periods) : next;
   }, world);
+}
+
+/** Read each flow's indexed recorded periods before the one common batch settlement. */
+function dueOfficePeriods(
+  world: World,
+  work: WorkRelationship,
+  flow: ResourceFlow,
+): TownCompensationPeriod[] {
+  let paidWeeks = 0;
+  for (const outcome of recordsWithFieldValue(
+    world.history.resourceTransferOutcomes,
+    "resourceFlowId",
+    flow.id,
+  )) {
+    const week =
+      daysBetween(flow.startsAt, outcome.periodStartsAt) / WEEK_DAYS + 1;
+    if (week > paidWeeks) paidWeeks = week;
+  }
+  const periods: TownCompensationPeriod[] = [];
+  const weeksDue = Math.floor(
+    daysBetween(flow.startsAt, world.currentDate) / WEEK_DAYS,
+  );
+  for (let week = paidWeeks + 1; week <= weeksDue; week += 1) {
+    const periodStartsAt = addDays(flow.startsAt, (week - 1) * WEEK_DAYS);
+    const dueOn = addDays(flow.startsAt, week * WEEK_DAYS);
+    if (!isActiveOn(world, work.id, addDays(dueOn, -1))) break;
+    periods.push({
+      stableKey: `${flow.stableKey}:${periodStartsAt}`,
+      payFlowId: flow.id,
+      activityId: flow.id,
+      periodStartsAt,
+      periodEndsAt: addDays(dueOn, -1),
+      onDate: dueOn,
+      note: "Salary for the week.",
+      provenance: flow.provenance,
+    });
+  }
+  return periods;
 }
 
 /**
@@ -265,7 +353,7 @@ export function settleAllOfficeSalaries(world: World): World {
  */
 export function settleOfficeSalaries(world: World, personId: EntityId): World {
   let next = world;
-  for (const work of world.history.workRelationships) {
+  for (const work of workRelationshipHistoryForPerson(world, personId)) {
     if (work.personId !== personId || !work.organizationId) continue;
     if (!PAID_OFFICE_KINDS.includes(work.kind)) continue;
     if (work.compensation !== "paid" && work.compensation !== "mixed") continue;
@@ -275,46 +363,16 @@ export function settleOfficeSalaries(world: World, personId: EntityId): World {
 }
 
 function settleOne(world: World, work: WorkRelationship): World {
-  const existing = world.history.resourceFlows.find(
-    (flow) =>
-      flow.basisReference.kind === "work" &&
-      flow.basisReference.workRelationshipId === work.id,
-  );
+  const existing = growingIndex(
+    WORK_PAY_FLOWS,
+    world.history.resourceFlows,
+  ).get(work.id);
   // Pay terms somebody else recorded are theirs; this only fills the gap.
   if (existing && existing.stableKey !== salaryKey(work)) return world;
   let next = world;
   if (!existing) return initializeOneSalaryFlow(world, work);
   const flow = existing;
-  let paidWeeks = 0;
-  for (const outcome of next.history.resourceTransferOutcomes) {
-    if (outcome.resourceFlowId !== flow.id) continue;
-    const week =
-      daysBetween(flow.startsAt, outcome.periodStartsAt) / WEEK_DAYS + 1;
-    if (week > paidWeeks) paidWeeks = week;
-  }
-  for (
-    let week = paidWeeks + 1;
-    week <=
-    Math.floor(daysBetween(flow.startsAt, next.currentDate) / WEEK_DAYS);
-    week += 1
-  ) {
-    const periodStartsAt = addDays(flow.startsAt, (week - 1) * WEEK_DAYS);
-    const dueOn = addDays(flow.startsAt, week * WEEK_DAYS);
-    if (dueOn > next.currentDate) break;
-    // A week that ends after the office did is not paid, and nothing later is.
-    if (!isActiveOn(next, work.id, addDays(dueOn, -1))) break;
-    next = settleTownCompensations(next, [
-      {
-        stableKey: `${flow.stableKey}:${periodStartsAt}`,
-        payFlowId: flow.id,
-        activityId: flow.id,
-        periodStartsAt,
-        periodEndsAt: addDays(dueOn, -1),
-        onDate: dueOn,
-        note: "Salary for the week.",
-        provenance: flow.provenance,
-      },
-    ]);
-  }
+  for (const period of dueOfficePeriods(next, work, flow))
+    next = settleTownCompensations(next, [period]);
   return next;
 }

@@ -1,9 +1,14 @@
-import { recordById } from "../history-index";
+import {
+  growingIndex,
+  recordById,
+  type GrowingIndexKind,
+} from "../history-index";
 import { workRoleAt, workStatusAt } from "../life-queries";
 import { savedAnnualOfficePayRule } from "../office-pay";
 import {
   officePayLawOfficeKey,
   ruleChangeProvisionHistoryRecords,
+  type RuleChangeProvisionRecord,
 } from "../enacted-rule-changes";
 import { stateJurisdictionForKey } from "../life-places";
 import { resourceFlowTermsAt } from "../resource-queries";
@@ -18,6 +23,21 @@ import type {
 } from "../law-consequence-types";
 import type { World } from "../types";
 
+const ANNUAL_OFFICE_RULES: GrowingIndexKind<Set<string>> = {
+  create: () => new Set(),
+  add: (fields, record) => {
+    const provision = record as RuleChangeProvisionRecord;
+    if (
+      [
+        "pay.governor.annualDollars",
+        "pay.stateLegislator.annualDollars",
+        "pay.trialJudge.annualDollars",
+      ].includes(provision.field)
+    )
+      fields.add(provision.field);
+  },
+};
+
 /** Resolve the actual annual office rule without converting its authority to hourly pay. */
 export function resolveSavedAnnualOfficePayConsequences(
   world: World,
@@ -28,6 +48,11 @@ export function resolveSavedAnnualOfficePayConsequences(
     context.completedShift ||
     context.questionKey ||
     context.origin === "in-force-at-start"
+  )
+    return [];
+  if (
+    growingIndex(ANNUAL_OFFICE_RULES, world.history.ruleChangeProvisions ?? [])
+      .size === 0
   )
     return [];
   if (context.onDate > world.currentDate)
