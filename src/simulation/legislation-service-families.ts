@@ -1,4 +1,4 @@
-import serviceData from "../../data/content/legislation-families/services.json";
+import serviceData from "../../data/content/legislation-families/services.json" with { type: "json" };
 import type { ProgramFamily } from "./legislation-content-contracts";
 import {
   programVariantFromData,

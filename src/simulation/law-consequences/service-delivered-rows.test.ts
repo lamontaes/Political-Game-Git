@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import inventory from "../../../docs/codex/missing-law-capabilities.json";
+import inventory from "../../../docs/codex/missing-law-capabilities.json" with { type: "json" };
 import { createNewGameWorld } from "../../presentation/new-game";
 import { sampledProofLocalityForState } from "../../presentation/new-game-geography";
 import { lifePlaceStateIdentities } from "../life-places";

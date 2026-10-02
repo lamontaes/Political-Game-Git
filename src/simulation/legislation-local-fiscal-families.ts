@@ -1,4 +1,4 @@
-import localFiscalData from "../../data/content/legislation-families/local-fiscal.json";
+import localFiscalData from "../../data/content/legislation-families/local-fiscal.json" with { type: "json" };
 import {
   programVariantFromData,
   type ProgramVariantData,
