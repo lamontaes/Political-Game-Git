@@ -490,8 +490,8 @@ const MANDATORY_MINIMUM_QUESTION =
 export function mandatoryJailUnderLaw(
   world: World,
   courtCase: CourtCase,
+  floor: ReturnType<typeof custodyFloorAt> = custodyFloorAt(world, courtCase),
 ): string | null {
-  const floor = custodyFloorAt(world, courtCase);
   if (floor)
     return floor.months > 0
       ? `The law requires at least ${floor.months} months in custody for this offense.`
@@ -754,9 +754,10 @@ export function evaluateSentence(
   judgeId: EntityId,
   courtCase: CourtCase,
   pleaded: boolean,
+  floor: ReturnType<typeof custodyFloorAt> = custodyFloorAt(world, courtCase),
 ): DecisionEvaluation {
   const key = `${courtCase.caseKey}:sentence`;
-  const bound = mandatoryJailUnderLaw(world, courtCase);
+  const bound = mandatoryJailUnderLaw(world, courtCase, floor);
   return evaluateDecision(world, {
     stableKey: key,
     decisionType: "justice.sentence",

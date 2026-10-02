@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+import { writeFileSync } from "node:fs";
+import { afterAll, describe, expect, it } from "vitest";
 import { renderPlaceCountyModule } from "../../../scripts/source/export-place-county-relations";
 import { drawRandomPlace } from "../../../tests/support/random-place";
 import { makeIsoDate } from "../dates";
@@ -123,8 +124,16 @@ const UNINSURED = "health.uninsured-pct";
 const base = (placeKey: string) =>
   PLACE_OUTCOME_BASES[UNINSURED]!.places[placeKey]!;
 
-describe("A167 city population across counties", () => {
+describe("A167 city population across two counties", () => {
   const seed = "team2-a167-county-population";
+  const receipts: unknown[] = [];
+  afterAll(() => {
+    if (process.env.TEAM2_A167_RECEIPT)
+      writeFileSync(
+        process.env.TEAM2_A167_RECEIPT,
+        JSON.stringify({ seed, records: receipts }, null, 2) + "\n",
+      );
+  });
   const places = Array.from({ length: 5 }, (_, index) =>
     drawRandomPlace(`${seed}:${index}`, (place) => {
       if (!place.sourceGeoid || localResidents(place.sourceGeoid) === null)
@@ -205,7 +214,10 @@ describe("A167 city population across counties", () => {
           record.measure === UNINSURED &&
           record.placeKey === place.stateJurisdictionKey,
       )!;
-      expect(stateRecord.places).toBeDefined();
+      const participantKeys = [key, ...countyKeys].sort();
+      expect(stateRecord.places!.map((share) => share.placeKey).sort()).toEqual(
+        participantKeys,
+      );
       for (const share of stateRecord.places!)
         expect(share.weight).toBeCloseTo(weights.get(share.placeKey)!, 12);
       const continued = JSON.parse(
@@ -214,20 +226,72 @@ describe("A167 city population across counties", () => {
           placeOutcomes: { months: [{ month: world.currentDate, records }] },
         }),
       ) as World;
-      expect(
-        placeOutcomeAt(
+      // This partial-world JSON reload checks saved allocation records only;
+      // complete canonical Save/Continue is outside this writer fixture.
+      const savedAllocation = participantKeys.map((placeKey) => {
+        const saved = records.filter(
+          (record) =>
+            record.measure === UNINSURED && record.placeKey === placeKey,
+        );
+        expect(saved).toHaveLength(1);
+        const record = saved[0]!;
+        const expectedJurisdiction =
+          lifePlaceByKey(placeKey)!.context.jurisdiction.id;
+        expect(record.jurisdictionId).toBe(expectedJurisdiction);
+        expect(record.stateKey).toBe(place.stateJurisdictionKey);
+        expect(record.weight).toBeCloseTo(weights.get(placeKey)!, 12);
+        const reloaded = placeOutcomeAt(
           continued,
           UNINSURED,
-          place.context.jurisdiction.id,
+          expectedJurisdiction,
           world.currentDate,
-        )?.weight,
-      ).toBeCloseTo(weights.get(key)!, 12);
+        )!;
+        expect(reloaded).toEqual(record);
+        return reloaded;
+      });
+      const deductions = parts.map(([county, share]) => {
+        const record = savedAllocation.find(
+          (saved) => saved.placeKey === `county:${county}`,
+        )!;
+        const before = areaResidents(county)!;
+        const after = record.weight! * state;
+        const deducted = before - after;
+        expect(deducted).toBeGreaterThan(0);
+        expect(deducted).toBeCloseTo(population * share!, 8);
+        return { county, share, before, after, deducted };
+      });
+      expect(
+        deductions.reduce((sum, row) => sum + row.deducted, 0),
+      ).toBeCloseTo(population, 8);
+      const savedResidents = savedAllocation.reduce(
+        (sum, record) => sum + record.weight! * state,
+        0,
+      );
+      expect(savedResidents).toBeCloseTo(
+        deductions.reduce((sum, row) => sum + row.before, 0),
+        8,
+      );
       expect(placeOutcomesForMonth(continued, world.currentDate)).toEqual(
         records,
       );
       expect(
         lifePlaceByJurisdictionId(place.context.jurisdiction.id)?.sourceGeoid,
       ).toBe(key);
+      receipts.push({
+        place: place.displayName,
+        placeKey: key,
+        jurisdictionId: place.context.jurisdiction.id,
+        stateKey: place.stateJurisdictionKey,
+        month: world.currentDate,
+        cityPopulation: population,
+        counties: deductions,
+        savedParticipants: savedAllocation.map((record) => ({
+          placeKey: record.placeKey,
+          jurisdictionId: record.jurisdictionId,
+          weight: record.weight,
+        })),
+        savedResidents,
+      });
     },
   );
 
