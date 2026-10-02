@@ -1,6 +1,8 @@
 import { addDays, makeIsoDate } from "../dates";
 import { STATUTE_EFFECTIVE_DEFAULT_DAYS } from "../enacted-rule-changes";
-import { lawInForce } from "../governing/law-in-force";
+import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
+import finances from "../../../data/research/money/state-local-finances-2022.json" with { type: "json" };
+import type { SPENDING_QUESTION_EFFECTS } from "./rules";
 import { mayAnswerQuestion } from "../governing/question-authority";
 import { measurePropositionAnswer } from "../issue-record";
 import {
@@ -13,6 +15,45 @@ import {
   type BudgetLawName,
   type BudgetLawReading,
 } from "./store";
+
+/** The existing spending row's annual change per resident, relative to opening law. */
+export function lawSpendingPerResident(
+  world: World,
+  jurisdictionId: EntityId,
+  effect: (typeof SPENDING_QUESTION_EFFECTS)[number],
+  date: IsoDate,
+): number | null {
+  const propositionId = propositionIdFor(world, effect.questionKey);
+  if (!propositionId) return null;
+  const now = lawInForce(world, jurisdictionId, propositionId, date)?.answer;
+  const began = lawInForceAtStart(world, jurisdictionId, propositionId, date);
+  return began === "no" && now === "yes"
+    ? effect.toYes
+    : began === "yes" && now === "no"
+      ? effect.toNo
+      : null;
+}
+
+/** Census state-and-local spending per resident; unread places use the national figure. */
+export function spendingPerResident(
+  placeKey: string,
+  category: string,
+): number {
+  const places = finances.places as unknown as Readonly<
+    Record<
+      string,
+      {
+        readonly stateAndLocalPerResident?: Readonly<Record<string, number>>;
+      }
+    >
+  >;
+  const value =
+    places[placeKey]?.stateAndLocalPerResident?.[category] ??
+    places.US?.stateAndLocalPerResident?.[category];
+  if (value === undefined)
+    throw new Error(`No spending baseline for ${category}.`);
+  return value;
+}
 
 /** The fiscal year a date falls in, for a year that starts on `startMonthDay`. */
 export function fiscalYearContaining(

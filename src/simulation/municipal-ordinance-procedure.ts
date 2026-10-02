@@ -1084,6 +1084,19 @@ export function overrideCouncilVeto(
     "vote-on-ordinance",
   );
   if (!authority.ok) return refuse(world, authority.reason);
+  return recordCouncilOverrideVote(world, input);
+}
+
+/** A saved council roll call reenacts a returned measure, independent of player control. */
+export function recordCouncilOverrideVote(
+  world: World,
+  input: {
+    readonly governmentKey: string;
+    readonly measureId: EntityId;
+    readonly dispositions: readonly LegislativeVoteDisposition[];
+    readonly provenance: LegislativeVoteProvenance;
+  },
+): MunicipalOrdinanceResult {
   const measure = measureOfThisCouncil(
     world,
     input.governmentKey,
@@ -1329,11 +1342,13 @@ export function councilActOverrideDeadlineHandler(
   );
 }
 
-export const COUNCIL_ACT_HANDLERS = [
-  [COUNCIL_READING_DUE, councilReadingDueHandler],
-  [COUNCIL_ACT_EXECUTIVE_DEADLINE, councilActExecutiveDeadlineHandler],
-  [COUNCIL_ACT_OVERRIDE_DEADLINE, councilActOverrideDeadlineHandler],
-] as const;
+export function councilActHandlers() {
+  return [
+    [COUNCIL_READING_DUE, councilReadingDueHandler],
+    [COUNCIL_ACT_EXECUTIVE_DEADLINE, councilActExecutiveDeadlineHandler],
+    [COUNCIL_ACT_OVERRIDE_DEADLINE, councilActOverrideDeadlineHandler],
+  ] as const;
+}
 
 // ---------------------------------------------------------------------------
 // rules-municipal-authority/v1 — what a council action needs

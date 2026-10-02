@@ -226,9 +226,12 @@ function envelopeFor(
   };
   switch (record.kind) {
     case "health-episode":
+      // A condition a person already held when the model first exposed them
+      // is a standing fact on their record, not news.
+      if (record.eventId === null) return null;
       return {
         ...base,
-        originEventId: record.eventId!,
+        originEventId: record.eventId,
         kind: "health-episode",
         geographyIds: homeOf(world, record.personId),
         actorIds: [],

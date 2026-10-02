@@ -554,9 +554,9 @@ export function paydayHandler(
   };
 }
 
-export const PAYDAY_HANDLERS = [
-  [PAYDAY_TRANSITION_KEY, paydayHandler],
-] as const;
+export function paydayHandlers() {
+  return [[PAYDAY_TRANSITION_KEY, paydayHandler]] as const;
+}
 
 // ─── Pay on record ──────────────────────────────────────────────────────
 
@@ -599,7 +599,7 @@ function latestRoles(world: World): ReadonlyMap<EntityId, WorkRoleRecord> {
 }
 
 /** The hours a week a town job is paid for. */
-function weeklyHoursOf(role: WorkRoleRecord): number {
+export function weeklyHoursOf(role: WorkRoleRecord): number {
   const { minimumHours, maximumHours } = role.timeDemand.expectedWeekly;
   return (minimumHours + maximumHours) / 2;
 }

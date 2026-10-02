@@ -1,4 +1,6 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import * as decisions from "./decisions";
+import { deserializeWorld, serializeWorld } from "./serialization";
 import { createDemoWorld } from "./demo";
 import {
   answerFavorAsk,
@@ -321,5 +323,134 @@ describe("What the person asked still feels they owe", () => {
       ).toEqual([]);
     }
     expect(told, `told in ${told}, kept quiet in ${kept}`).toBeGreaterThan(0);
+  });
+});
+
+describe("A125 favor callers require a selected decision", () => {
+  afterEach(() => vi.restoreAllMocks());
+
+  it("leaves an undecided favor ask unwritten through Continue and repeat", () => {
+    const setup = helped("favor-pending-boundary", "trade");
+    const original = decisions.evaluateDecision;
+    const spy = vi
+      .spyOn(decisions, "evaluateDecision")
+      .mockImplementation(
+        (
+          world: World,
+          input: Parameters<typeof decisions.evaluateDecision>[1],
+        ): ReturnType<typeof decisions.evaluateDecision> => {
+          const evaluation = original(world, input);
+          return input.decisionType === "people.ask-favor-back"
+            ? {
+                ...evaluation,
+                outcomeKind: "undecided",
+                selectedOptionKey: null,
+              }
+            : evaluation;
+        },
+      );
+    const world = later(setup.world, 1);
+    const pending = produceFavorCollection(world, setup.player);
+    expect(
+      spy.mock.calls.some(
+        (call: Parameters<typeof decisions.evaluateDecision>) =>
+          call[1].decisionType === "people.ask-favor-back",
+      ),
+    ).toBe(true);
+    expect(pending.history.events).toEqual(world.history.events);
+    expect(pending.history.relationshipInteractions).toEqual(
+      world.history.relationshipInteractions,
+    );
+    expect(favorAsksOf(pending, setup.player)).toEqual([]);
+    const continued = deserializeWorld(serializeWorld(pending));
+    expect(produceFavorCollection(continued, setup.player)).toEqual(continued);
+  });
+
+  it("keeps the selected ask writer after an unanswered evaluation", () => {
+    const setup = helped("favor-selected-boundary", "trade");
+    const original = decisions.evaluateDecision;
+    let selected = false;
+    vi.spyOn(decisions, "evaluateDecision").mockImplementation(
+      (
+        world: World,
+        input: Parameters<typeof decisions.evaluateDecision>[1],
+      ): ReturnType<typeof decisions.evaluateDecision> => {
+        const evaluation = original(world, input);
+        return input.decisionType === "people.ask-favor-back"
+          ? {
+              ...evaluation,
+              outcomeKind: selected ? "selected" : "undecided",
+              selectedOptionKey: selected ? "ask" : null,
+            }
+          : evaluation;
+      },
+    );
+    const pending = produceFavorCollection(later(setup.world, 1), setup.player);
+    expect(openFavorAsk(pending, setup.player)).toBeNull();
+    selected = true;
+    const asked = produceFavorCollection(
+      deserializeWorld(serializeWorld(pending)),
+      setup.player,
+    );
+    expect(openFavorAsk(asked, setup.player)).toMatchObject({
+      askerPersonId: setup.helper,
+      answer: null,
+      open: true,
+    });
+    expect(favorAsksOf(asked, setup.player)).toHaveLength(1);
+    expect(produceFavorCollection(asked, setup.player)).toEqual(asked);
+  });
+
+  it("records the player's refusal without inventing a claim or audience when telling is undecided", () => {
+    const setup = helped("favor-telling-boundary", "trade", "great");
+    const original = decisions.evaluateDecision;
+    const spy = vi
+      .spyOn(decisions, "evaluateDecision")
+      .mockImplementation(
+        (
+          world: World,
+          input: Parameters<typeof decisions.evaluateDecision>[1],
+        ): ReturnType<typeof decisions.evaluateDecision> => {
+          const evaluation = original(world, input);
+          if (input.decisionType === "people.ask-favor-back")
+            return {
+              ...evaluation,
+              outcomeKind: "selected",
+              selectedOptionKey: "ask",
+            };
+          if (input.decisionType === "people.tell-of-refusal")
+            return {
+              ...evaluation,
+              outcomeKind: "undecided",
+              selectedOptionKey: null,
+            };
+          return evaluation;
+        },
+      );
+    const asked = produceFavorCollection(later(setup.world, 1), setup.player);
+    const ask = openFavorAsk(asked, setup.player)!;
+    expect(ask).not.toBeNull();
+    const refused = answerFavorAsk(asked, ask.eventId, "refuse");
+    expect(
+      spy.mock.calls.some(
+        (call: Parameters<typeof decisions.evaluateDecision>) =>
+          call[1].decisionType === "people.tell-of-refusal",
+      ),
+    ).toBe(true);
+    expect(favorAsksOf(refused, setup.player).at(-1)!.answer).toBe("refuse");
+    expect(refused.history.relationshipInteractions).toContainEqual(
+      expect.objectContaining({
+        kind: "conflict:favor-refused",
+        change: "strained",
+      }),
+    );
+    expect(refused.history.claims).toEqual(asked.history.claims);
+    expect(refused.history.knowledge).toEqual(asked.history.knowledge);
+    const continued = deserializeWorld(serializeWorld(refused));
+    expect(continued.history.claims).toEqual(refused.history.claims);
+    expect(continued.history.knowledge).toEqual(refused.history.knowledge);
+    expect(() => answerFavorAsk(continued, ask.eventId, "refuse")).toThrow(
+      "already been answered",
+    );
   });
 });
