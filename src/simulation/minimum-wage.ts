@@ -277,13 +277,12 @@ const stateSettings = new WeakMap<
 >();
 
 /**
- * A state's own minimum wage on `onDate`, in cents an hour. Reads, in order:
- * a wage term an enacted bill filed (`labor.minimumWage.hourlyCents`); else
- * the term a state law that answered yes to raising the minimum wage carries
- * (`STATE_RAISE_TERM`, added to the rate on file, in yearly steps from the
- * law's own effective date) for as long as that law governs, so a later law
- * that answers no ends it; else the rate on file. Null when the state's rate
- * on file is unknown and no law sets one. Local minimums are NOT MODELED.
+ * The state's own hourly floor on the earning date, from an operative saved
+ * hourly rule or the canonical law's adopted target. Starting-law phases use
+ * the same dated final-term reader. The change baseline comes from the saved
+ * world opening; an unavailable baseline stays null without hiding a valid
+ * current floor. Historical reads honor their sequence cutoff. Federal and
+ * local floors are compared separately by minimumWageSettingAt.
  */
 export function stateMinimumSettingAt(
   world: World,
