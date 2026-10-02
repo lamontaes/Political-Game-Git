@@ -1,6 +1,6 @@
 import { expect, gameMounted, test, type Page } from "./fixtures";
 
-import { enterLife, goTo, leaveGame, startLife } from "./support/creator";
+import { enterLife, leaveGame, saveLife, startLife } from "./support/creator";
 import { drawRandomPlace } from "../support/random-place";
 
 /**
@@ -261,7 +261,7 @@ test.describe("The front door stays compact and readable over the room", () => {
       place: place.displayName,
     });
     await enterLife(page);
-    await goTo(page, "keep-world");
+    await saveLife(page);
     await leaveGame(page);
     await expect(page.getByTestId("continue")).toBeEnabled();
     await expect(page.getByTestId("continue")).toContainText(
