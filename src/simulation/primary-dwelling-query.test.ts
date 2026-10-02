@@ -209,8 +209,8 @@ describe("primaryDwellingOf preserves the recorded town-ward dwelling selection"
       const personId = world.personOrder[0]!;
       verify(world, personId, null);
       verify(world, createStableId("person", "fixture:unknown-person"), null);
-      let home: Dwelling;
-      [world, home] = addDwelling(world, "fixture:home");
+      const [worldWithHome, home] = addDwelling(world, "fixture:home");
+      world = worldWithHome;
       verify(world, personId, null);
       world = occupy(
         world,
@@ -226,8 +226,11 @@ describe("primaryDwellingOf preserves the recorded town-ward dwelling selection"
         "fixture:wrong-holder",
       );
       verify(world, personId, null);
-      let otherHome: Dwelling;
-      [world, otherHome] = addDwelling(world, "fixture:other-home");
+      const [worldWithOtherHome, otherHome] = addDwelling(
+        world,
+        "fixture:other-home",
+      );
+      world = worldWithOtherHome;
       world = tenure(
         world,
         otherHome,
@@ -250,8 +253,8 @@ describe("primaryDwellingOf preserves the recorded town-ward dwelling selection"
     (usps) => {
       let world = smallWorld(usps);
       const personId = world.personOrder[0]!;
-      let home: Dwelling;
-      [world, home] = addDwelling(world, "fixture:home");
+      const [worldWithHome, home] = addDwelling(world, "fixture:home");
+      world = worldWithHome;
       const endpoint = { kind: "person", personId } as const;
       world = tenure(world, home, endpoint, "fixture:tenure");
       world = occupy(world, home, endpoint, "fixture:secondary", "secondary");
@@ -264,10 +267,14 @@ describe("primaryDwellingOf preserves the recorded town-ward dwelling selection"
     (usps) => {
       let world = smallWorld(usps);
       const personId = world.personOrder[0]!;
-      let endpoint: DwellingOccupant;
-      [world, endpoint] = household(world, personId, "secondary");
-      let home: Dwelling;
-      [world, home] = addDwelling(world, "fixture:home");
+      const [worldWithEndpoint, endpoint] = household(
+        world,
+        personId,
+        "secondary",
+      );
+      world = worldWithEndpoint;
+      const [worldWithHome, home] = addDwelling(world, "fixture:home");
+      world = worldWithHome;
       world = tenure(world, home, endpoint, "fixture:tenure");
       world = occupy(world, home, endpoint, "fixture:occupancy");
       verify(world, personId, null);
@@ -303,16 +310,16 @@ describe("primaryDwellingOf preserves the recorded town-ward dwelling selection"
     (usps) => {
       let world = smallWorld(usps);
       const personId = world.personOrder[0]!;
-      let first: Dwelling;
-      [world, first] = addDwelling(world, "fixture:first");
+      const [worldWithFirst, first] = addDwelling(world, "fixture:first");
+      world = worldWithFirst;
       const person = { kind: "person", personId } as const;
       world = tenure(world, first, person, "fixture:first-tenure");
       world = occupy(world, first, person, "fixture:first-occupancy");
       verify(world, personId, first);
-      let endpoint: DwellingOccupant;
-      [world, endpoint] = household(world, personId);
-      let second: Dwelling;
-      [world, second] = addDwelling(world, "fixture:second");
+      const [worldWithEndpoint, endpoint] = household(world, personId);
+      world = worldWithEndpoint;
+      const [worldWithSecond, second] = addDwelling(world, "fixture:second");
+      world = worldWithSecond;
       world = tenure(world, second, endpoint, "fixture:second-tenure");
       world = occupy(world, second, endpoint, "fixture:second-occupancy");
       verify(world, personId, second);
@@ -337,8 +344,8 @@ describe("primaryDwellingOf preserves the recorded town-ward dwelling selection"
     (usps) => {
       let world = smallWorld(usps);
       const personId = world.personOrder[0]!;
-      let home: Dwelling;
-      [world, home] = addDwelling(world, "fixture:home");
+      const [worldWithHome, home] = addDwelling(world, "fixture:home");
+      world = worldWithHome;
       const endpoint = { kind: "person", personId } as const;
       world = tenure(world, home, endpoint, "fixture:tenure");
       world = occupy(world, home, endpoint, "fixture:occupancy");
@@ -363,8 +370,8 @@ describe("primaryDwellingOf preserves the recorded town-ward dwelling selection"
     (usps) => {
       let world = smallWorld(usps);
       const personId = world.personOrder[0]!;
-      let home: Dwelling;
-      [world, home] = addDwelling(world, "fixture:home");
+      const [worldWithHome, home] = addDwelling(world, "fixture:home");
+      world = worldWithHome;
       const endpoint = { kind: "person", personId } as const;
       world = tenure(world, home, endpoint, "fixture:tenure");
       const beforeOccupancySequence = world.history.nextSequence;
