@@ -14,6 +14,7 @@ import {
   scheduleCommitteeHearing,
   takeFloorVote,
   transmitMeasure,
+  type FloorVoteInput,
   type MeasureStepKey,
 } from "../simulation/legislation";
 import {
@@ -45,7 +46,10 @@ import { decideChamberVote } from "../simulation/governing/chamber-votes";
 import { committeeRoster } from "../simulation/governing/committee-assignment";
 import { memberBallotOn } from "../simulation/governing/member-ballots";
 import { executiveDesk } from "../simulation/governing/state-governing";
-import { legislativeBlueprintForMeasure } from "../simulation/governing/legislative-clock";
+import {
+  applyInstitutionStep,
+  legislativeBlueprintForMeasure,
+} from "../simulation/governing/legislative-clock";
 import { dispositionsHonoringOfficeInstructions } from "./office-vote-instruction";
 
 /**
@@ -337,6 +341,11 @@ export function applyLegislativeStep(
       };
     }
     case "move-floor-vote": {
+      if (position.phase !== "on-floor")
+        return {
+          world,
+          message: "The bill has no floor vote to take.",
+        };
       const body = bodyForChamber(scenario, chamberKey);
       const stage = floorStageByKey(chamber, position.floorStageKey ?? "");
       const stableKey = key(`floor:${chamberKey}:${stage.stageKey}`);
@@ -358,7 +367,7 @@ export function applyLegislativeStep(
           },
         ),
       });
-      const next = takeFloorVote(world, {
+      const voteInput: FloorVoteInput = {
         stableKey,
         measureId,
         dispositions,
@@ -371,7 +380,31 @@ export function applyLegislativeStep(
             ? [scenario.recordedSittingEventId]
             : [],
         },
-      });
+      };
+      const seatedMemberPersonIds = body.members.flatMap((member) =>
+        member.personId ? [member.personId] : [],
+      );
+      // A real saved body passes the caller's existing decision inputs through
+      // the shared driver. Legacy authored non-person bodies stay explicit;
+      // they cannot claim the driver's actual seated-member admission.
+      const driven =
+        seatedMemberPersonIds.length === body.members.length
+          ? applyInstitutionStep(world, measureId, (w) => w, {
+              recordedFloorVote: { ...voteInput, seatedMemberPersonIds },
+            })
+          : null;
+      if (driven && driven.kind !== "applied")
+        return {
+          world,
+          message:
+            driven.kind === "blocked"
+              ? driven.reason
+              : "The bill has no floor vote to take.",
+        };
+      const next =
+        driven?.kind === "applied"
+          ? driven.world
+          : takeFloorVote(world, voteInput);
       const after = measurePosition(next, measureId);
       if (after.phase === "failed") {
         return {

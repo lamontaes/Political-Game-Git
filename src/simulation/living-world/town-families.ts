@@ -44,7 +44,8 @@
  */
 
 import { ageOnDate, addDays } from "../dates";
-import { createStableId } from "../ids";
+import { createStableId, stableHash } from "../ids";
+import { largestRemainderAllocation } from "../largest-remainder";
 import {
   createHousehold,
   createPartnership,
@@ -74,6 +75,7 @@ import {
   LEAVING_HOME_VERSION,
 } from "./leaving-home";
 import { weighTownFamilyPlans, type TownCouple } from "./town-family-plans";
+import { SAME_SEX_COUPLE_SHARE } from "./town-residents";
 import {
   hudRentRowFor,
   marketRentMinor,
@@ -115,8 +117,6 @@ export const TOWN_FAMILY_CHANCES = {
     [45, 0.012],
     [65, 0],
   ] as readonly (readonly [number, number])[],
-  /** Share of adults who look for a partner of their own gender. */
-  sameGender: 0.06,
 } as const;
 
 /** The widest age gap between two people who start dating, in years. */
@@ -309,12 +309,74 @@ function readFamilies(world: World, town: EntityId): FamilyView {
   };
 }
 
+/**
+ * The share of a town's people who look for a partner of their own gender:
+ * the same figure the opening pairs couples by (`SAME_SEX_COUPLE_SHARE`,
+ * town-residents.ts), so a couple who meet in play are two women or two men
+ * as often as the town's opening couples are. ESTIMATED FROM AVERAGE: no
+ * place's own figure is on file, so every one of the 56 places takes the
+ * national share inferred from the Census Bureau's American Community Survey
+ * same-sex couple tables. In parts per million, the allocator's whole weights.
+ */
+export const SAME_GENDER_SHARE_PPM = Math.round(SAME_SEX_COUPLE_SHARE * 1e6);
+
+/**
+ * Who among the town's people looks for a partner of their own gender. It is
+ * a fact about a person, not a decision anybody makes, so it is allocated,
+ * not drawn: of the town's living women, and of its living men, exactly the
+ * share's whole number (largest remainder, `largestRemainderAllocation`) do.
+ * Which of them is the one choice left, among the real people there: they
+ * stand in an order the world's seed fixes for each person, and the first
+ * that many in it are the ones. Because the order is fixed, a person joining
+ * or leaving the town moves the count by at most one and changes nobody else
+ * but the one person at the edge of it. People who are neither recorded as a
+ * woman nor as a man are left to `drawnToEachOther`, as before.
+ */
+export function sameGenderSeekers(
+  world: World,
+  people: Iterable<Person>,
+): ReadonlySet<EntityId> {
+  const byGender = new Map<string, { id: EntityId; order: string }[]>();
+  for (const person of people) {
+    const gender = person.identity?.gender;
+    if (gender !== "female" && gender !== "male") continue;
+    const group = byGender.get(gender) ?? [];
+    group.push({
+      id: person.id,
+      order: stableHash(
+        `${world.seed}\n${TOWN_FAMILIES_VERSION}:looks-for:${person.id}`,
+      ),
+    });
+    byGender.set(gender, group);
+  }
+  const seekers = new Set<EntityId>();
+  for (const group of byGender.values()) {
+    const [count] = largestRemainderAllocation(
+      [SAME_GENDER_SHARE_PPM, 1_000_000 - SAME_GENDER_SHARE_PPM],
+      group.length,
+    );
+    group
+      .sort((a, b) =>
+        a.order !== b.order
+          ? a.order < b.order
+            ? -1
+            : 1
+          : a.id < b.id
+            ? -1
+            : 1,
+      )
+      .slice(0, count)
+      .forEach(({ id }) => seekers.add(id));
+  }
+  return seekers;
+}
+
 /** Whether two people could start dating, by who each of them looks for. */
-function drawnToEachOther(world: World, a: Person, b: Person): boolean {
-  const sameGenderSeeker = (person: Person) =>
-    new SeededRng(world.seed)
-      .fork(`${TOWN_FAMILIES_VERSION}:looks-for:${person.id}`)
-      .next() < TOWN_FAMILY_CHANCES.sameGender;
+function drawnToEachOther(
+  seekers: ReadonlySet<EntityId>,
+  a: Person,
+  b: Person,
+): boolean {
   const genderA = a.identity?.gender;
   const genderB = b.identity?.gender;
   const known = (gender: string | undefined) =>
@@ -322,8 +384,8 @@ function drawnToEachOther(world: World, a: Person, b: Person): boolean {
   if (!known(genderA) || !known(genderB)) return true;
   const same = genderA === genderB;
   return same
-    ? sameGenderSeeker(a) && sameGenderSeeker(b)
-    : !sameGenderSeeker(a) && !sameGenderSeeker(b);
+    ? seekers.has(a.id) && seekers.has(b.id)
+    : !seekers.has(a.id) && !seekers.has(b.id);
 }
 
 /** One quarterly turn of the town's families, on the world's current date. */
@@ -748,6 +810,10 @@ export function reviewTownFamilies(
     )
     .sort((x, y) => (x.person.id < y.person.id ? -1 : 1));
   const paired = new Set<EntityId>();
+  const seekers = sameGenderSeekers(
+    world,
+    [...view.people.values()].map(({ person }) => person),
+  );
   for (const seeker of singles) {
     if (paired.has(seeker.person.id)) continue;
     const rng = rngFor(`single:${seeker.person.id}`);
@@ -761,7 +827,7 @@ export function reviewTownFamilies(
         !paired.has(other.person.id) &&
         Math.abs(other.age - seeker.age) <= TOWN_DATING_AGE_GAP &&
         !kin?.has(other.person.id) &&
-        drawnToEachOther(world, seeker.person, other.person),
+        drawnToEachOther(seekers, seeker.person, other.person),
     );
     if (candidates.length === 0) continue;
     const match = candidates[rng.fork("who").integer(0, candidates.length)]!;

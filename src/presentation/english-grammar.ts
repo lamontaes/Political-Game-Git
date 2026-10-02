@@ -210,3 +210,26 @@ export function finishPlayerLine(text: string): string {
     .trim();
   return cleaned ? capitalize(cleaned) : cleaned;
 }
+
+/**
+ * A name said once in full, then shortened, as a speaker who has just named
+ * something goes on: "HB 214 … this bill", "Ordinance 12 … the ordinance".
+ * The first mention keeps the full name; each later one is `laterName`,
+ * capitalized where it starts a sentence. A line that never names it is
+ * unchanged.
+ */
+export function nameOnce(
+  text: string,
+  fullName: string,
+  laterName: string,
+): string {
+  const first = fullName.length > 0 ? text.indexOf(fullName) : -1;
+  if (first < 0) return text;
+  const pieces = text.slice(first + fullName.length).split(fullName);
+  let out = text.slice(0, first + fullName.length) + pieces[0]!;
+  for (const piece of pieces.slice(1)) {
+    out += /[.?!]["”’)]?\s+$/.test(out) ? capitalize(laterName) : laterName;
+    out += piece;
+  }
+  return out;
+}
