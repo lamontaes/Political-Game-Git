@@ -10,7 +10,7 @@ import {
   mediaOutlets,
   reporterRoles,
 } from "./outlets";
-import { MEDIA_ACTIVE_ASSIGNMENT_CAPACITY } from "./records";
+import { reporterWorkBudget } from "./story-work";
 
 const seed = "news-a154-actual-newsroom-capacity";
 // A test-place choice among all 56 governments, never an actor's outcome.
@@ -35,7 +35,11 @@ describe(`NEWS A154 saved newsroom capacity (${state}, ${seed})`, () => {
     const roles = reporterRoles(world, outlet.id);
     expect(roles.length).toBeGreaterThan(0);
     expect(outletAssignmentCapacity(world, outlet)).toBe(
-      MEDIA_ACTIVE_ASSIGNMENT_CAPACITY[outlet.resourceTier],
+      roles.reduce(
+        (minutes, role) =>
+          minutes + reporterWorkBudget(world, role)!.availableMinutes.minimum,
+        0,
+      ),
     );
     for (const role of roles) {
       const prior = workStatusAt(world, role.workRelationshipId)!;

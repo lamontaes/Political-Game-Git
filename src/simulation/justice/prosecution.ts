@@ -1,5 +1,7 @@
 import { juryCountyForPlace, summonJuryResidents } from "./jury-catchment";
 import { applyLawConsequences } from "../enacted-law-effects";
+import { custodyFloorAt } from "../law-consequences/legal-outcome";
+import { recordByStableKey } from "../history-index";
 import { addDays } from "../dates";
 import {
   ESTIMATED_CHARGE_DECISION_DAYS,
@@ -182,6 +184,41 @@ const OFFENSE_LABELS: Readonly<Record<string, string>> = {
 
 function offenseLabel(offenseKey: string): string {
   return OFFENSE_LABELS[offenseKey] ?? "a crime";
+}
+
+/** The saved case binds one operative floor to both sentence decisions. */
+function sentenceDecisionForCase(
+  world: World,
+  judgeId: EntityId,
+  courtCase: CourtCase,
+  pleaded: boolean,
+) {
+  const floor = custodyFloorAt(world, courtCase);
+  const saved = recordByStableKey(
+    world.history.decisionTraces,
+    `${courtCase.caseKey}:sentence:trace`,
+  );
+  // Preserve the published replay guard: a pending unsupported range never
+  // re-appends the already saved judge's sentence-kind decision.
+  if (
+    saved &&
+    (saved.context.actorPersonId !== judgeId ||
+      saved.context.decisionType !== "justice.sentence" ||
+      saved.context.subject?.kind !== "context:criminal-case" ||
+      saved.context.subject.key !== courtCase.caseKey)
+  )
+    return null;
+  const sentence =
+    saved ?? evaluateSentence(world, judgeId, courtCase, pleaded, floor);
+  if (!isSelectedDecision(sentence)) return null;
+  const next = saved ? world : recordDurableDecisionTrace(world, sentence);
+  const kind: SentenceKind =
+    sentence.selectedOptionKey === SENTENCE_JAIL ? "jail" : "probation";
+  const choice =
+    kind === "jail"
+      ? evaluateCustodyTerm(next, judgeId, courtCase, pleaded, floor)
+      : null;
+  return { world: next, sentence, kind, choice, floor };
 }
 
 function tagValue(event: HistoricalEvent, prefix: string): string | null {
@@ -870,15 +907,10 @@ export function advanceProsecutions(
 
     // The sitting judge who allowed this case to proceed chooses the sentence.
     next = prepareJudge(next, judgeId);
-    const sentence = evaluateSentence(next, judgeId, courtCase, pleaded);
-    if (!isSelectedDecision(sentence)) continue;
-    next = recordDurableDecisionTrace(next, sentence);
-    const kind: SentenceKind =
-      sentence.selectedOptionKey === SENTENCE_JAIL ? "jail" : "probation";
-    const choice =
-      kind === "jail"
-        ? evaluateCustodyTerm(next, judgeId, courtCase, pleaded)
-        : null;
+    const decision = sentenceDecisionForCase(next, judgeId, courtCase, pleaded);
+    if (!decision) continue;
+    next = decision.world;
+    const { sentence, kind, choice, floor } = decision;
     // Incarceration research does not authorize a probation duration. A
     // missing grade/range or undecided term remains pending, never midpoint.
     if (kind !== "jail" || !choice?.term) continue;
@@ -911,6 +943,14 @@ export function advanceProsecutions(
           ? [`justice.sentence-estimate-method:${choice.range.estimateMethod}`]
           : []),
         `justice.sentence-term-decision:${choice.evaluation.context.stableKey}`,
+        ...(floor
+          ? [
+              `justice.sentence-minimum-law:${floor.law.measureId}`,
+              ...floor.sourceRecordIds.map(
+                (id) => `justice.sentence-minimum-source:${id}`,
+              ),
+            ]
+          : []),
       ],
       motivation,
       decidedBy: { personId: judgeId, role: "Judge" },

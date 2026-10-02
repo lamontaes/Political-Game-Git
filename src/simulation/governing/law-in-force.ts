@@ -344,6 +344,13 @@ export interface StartingLawScope {
 }
 
 interface StartingLawRow {
+  /** Exact recorded workplace identities; no name or county-containment guess. */
+  readonly regionalTerms?: readonly {
+    readonly workplaceKeys: readonly string[];
+    readonly operativeAt: string;
+    readonly lawTerms: NonNullable<LegislativeProvisionRecord["lawTerms"]>;
+    readonly source: string;
+  }[];
   readonly scopeEvidence?: StartingLawScope;
   readonly phases?: readonly (Omit<StartingLawRow, "phases" | "before"> & {
     readonly operativeAt: string;
@@ -470,8 +477,23 @@ export function startingLawTerms(
   law: LawInForce,
   questionKey: string,
   onDate: IsoDate,
+  workplaceKey?: string,
 ): NonNullable<LegislativeProvisionRecord["lawTerms"]> {
-  return selectedStartingLawRow(law, questionKey, onDate)?.lawTerms ?? [];
+  const row = selectedStartingLawRow(law, questionKey, onDate);
+  if (!row?.regionalTerms) return row?.lawTerms ?? [];
+  if (!workplaceKey) return [];
+  const matches = row.regionalTerms.filter(
+    (region) =>
+      region.workplaceKeys.includes(workplaceKey) &&
+      region.operativeAt <= onDate,
+  );
+  const latest = matches.reduce<string | null>(
+    (date, region) =>
+      date === null || region.operativeAt > date ? region.operativeAt : date,
+    null,
+  );
+  const active = matches.filter((region) => region.operativeAt === latest);
+  return active.length === 1 ? active[0]!.lawTerms : [];
 }
 
 /** Structured applicability evidence; absent or not yet operative stays unknown. */

@@ -1,10 +1,16 @@
 import { describe, expect, it } from "vitest";
+import federalBudget from "../../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
 
 import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
 } from "../../presentation/new-game";
 import { governmentUnitsForPlace } from "../government-units";
+import { makeIsoDate } from "../dates";
+import {
+  budgetCandidates,
+  openGovernmentBudget,
+} from "../public-budgets/opening";
 import { requireLifePlace } from "../life-places";
 import {
   NATIONAL_ELECTION_JURISDICTION,
@@ -59,7 +65,7 @@ function cashOpening(world: World, identity: PublicGovernmentIdentity) {
   )?.openingBalance.minorUnits;
 }
 
-describe("fictional opening public cash", () => {
+describe("researched and estimated opening public cash", () => {
   it("saves all fifty state amounts and materializes federal, state and local accounts once", () => {
     let world = openingWorld();
     const profile = worldOpeningRecord(world)?.publicCashOpening;
@@ -89,10 +95,54 @@ describe("fictional opening public cash", () => {
     for (const identity of [federal, alaska, kentucky, local]) {
       world = ensurePublicGovernmentAccount(world, identity);
     }
-    expect(cashOpening(world, federal)).toBe(100_000_000_000);
-    expect(cashOpening(world, alaska)).toBe(10_000_000_000);
-    expect(cashOpening(world, kentucky)).toBe(10_000_000_000);
-    expect(cashOpening(world, local)).toBe(500_000_000);
+    const candidates = budgetCandidates(world).candidates;
+    const localAmounts: number[] = [];
+    const stateRatios: number[] = [];
+    for (const candidate of candidates) {
+      const budget = openGovernmentBudget(
+        world,
+        candidate,
+        makeIsoDate(world.currentDate),
+      );
+      if (typeof budget === "string") continue;
+      const amount = Math.round((budget.balance + budget.reserve) * 100);
+      if (candidate.level === "state") {
+        if (candidate.jurisdictionId in profile!.stateByJurisdictionId) {
+          stateRatios.push(
+            (budget.balance + budget.reserve) /
+              budget.years[0]!.appropriations.reduce(
+                (sum, amount) => sum + amount,
+                0,
+              ),
+          );
+          expect(profile!.stateByJurisdictionId[candidate.jurisdictionId]).toBe(
+            amount,
+          );
+        }
+      } else localAmounts.push(amount);
+    }
+    expect(stateRatios).toHaveLength(50);
+    expect(cashOpening(world, federal)).toBe(
+      Math.round(
+        federalBudget.outlaysTotal *
+          (stateRatios.reduce((sum, ratio) => sum + ratio, 0) /
+            stateRatios.length) *
+          100,
+      ),
+    );
+    expect(cashOpening(world, alaska)).toBe(
+      profile!.stateByJurisdictionId[alaska.jurisdictionId],
+    );
+    expect(cashOpening(world, kentucky)).toBe(
+      profile!.stateByJurisdictionId[kentucky.jurisdictionId],
+    );
+    expect(localAmounts.length).toBeGreaterThan(0);
+    expect(cashOpening(world, local)).toBe(
+      Math.round(
+        localAmounts.reduce((sum, amount) => sum + amount, 0) /
+          localAmounts.length,
+      ),
+    );
 
     const reloaded = deserializeWorld(serializeWorld(world));
     expect(worldOpeningRecord(reloaded)?.publicCashOpening).toEqual(profile);

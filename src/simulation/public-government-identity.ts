@@ -87,7 +87,9 @@ export function assertPublicGovernmentIdentity(
   const unit = governmentUnit(identity.governmentKey);
   if (
     unit?.functionalActive &&
-    (unit.unitType === "municipality" || unit.unitType === "county") &&
+    (unit.unitType === "municipality" ||
+      unit.unitType === "county" ||
+      unit.unitType === "township") &&
     governmentUnitJurisdictionId(unit) === identity.jurisdictionId
   )
     return;

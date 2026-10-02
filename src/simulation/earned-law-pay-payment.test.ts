@@ -4,6 +4,7 @@ import { addDays, daysBetween, simulationMinutesBetween } from "./dates";
 import { createScenarioWorld } from "./demo";
 import { applyLawConsequences } from "./enacted-law-effects";
 import { advanceWorld } from "./world";
+import { settleJobPay } from "./job-market";
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";
 import {
   scheduleLifePathSession,
@@ -67,6 +68,50 @@ const provenance = {
   kind: "authored" as const,
   note: "Explicit saved worker, contract and cash controls; not ordinary business wealth.",
 };
+
+it("a wage law without a saved amount records its exact gap without changing pay or crashing replay", () => {
+  const o = opened("3137000");
+  const law = enact(
+    o.world,
+    legislativeBlueprint("nebraska").pack,
+    stateJurisdictionForKey("US-NE")!.id,
+    STATE_MINIMUM_WAGE_QUESTION_KEY,
+    null,
+  );
+  const f = worker(law.world, o.place.context.jurisdiction.id);
+  const context = {
+    onDate: f.world.currentDate,
+    activity: "payroll" as const,
+    activityId: f.flow.id,
+    subjectIds: [f.personId],
+    questionKey: STATE_MINIMUM_WAGE_QUESTION_KEY,
+  };
+  const after = applyLawConsequences(f.world, context);
+  const gap = after.history.events.at(-1)!;
+  expect(gap.type).toBe("law.consequence-integrity-gap");
+  expect(gap.involvedEntityIds).toEqual([f.personId]);
+  expect(gap.tags).toEqual(
+    expect.arrayContaining([
+      STATE_MINIMUM_WAGE_QUESTION_KEY,
+      law.measureId,
+      "term:target",
+      "unit:minor/hour",
+    ]),
+  );
+  expect(gap.lawEffectStamps ?? []).toHaveLength(0);
+  expect(after.history.resourceFlowTerms).toBe(
+    f.world.history.resourceFlowTerms,
+  );
+  expect(after.history.resourceTransferOutcomes).toBe(
+    f.world.history.resourceTransferOutcomes,
+  );
+  expect(after.history.resourcePositions).toBe(
+    f.world.history.resourcePositions,
+  );
+  expect(applyLawConsequences(after, context)).toBe(after);
+  const reopened = deserializeWorld(serializeWorld(after));
+  expect(applyLawConsequences(reopened, context)).toBe(reopened);
+});
 
 function opened(placeKey: string) {
   const place = requireLifePlace(placeKey);
@@ -813,4 +858,37 @@ it("A38 ordinary weekly payment preserves actual saved-rule authority and withho
     withheldMinor: stub.withheld.minorUnits,
     netMinor: stub.netPaid.minorUnits,
   });
+});
+
+it("A38 weekly job caller uses only stamped canonical pay terms and replays once", () => {
+  const { law, f, clause, enactment } = savedWeeklyRuleFixture();
+  const due = advanceWorld(
+    { ...f.world, control: { kind: "person", personId: f.personId } },
+    7,
+    createFutureTransitionHandlerRegistry([]),
+  );
+  const paid = settleJobPay(due, f.personId);
+  const terms = resourceFlowTermsAt(paid, f.flow.id)!;
+  expect(terms.amount).toEqual(money(72000, "USD"));
+  expect(terms.lawEffectStamps).toEqual([
+    expect.objectContaining({
+      effectKind: "pay",
+      governingLawKey: law.measureId,
+      ruleAuthority: {
+        ruleChangeProvisionId: clause.id,
+        enactmentId: enactment.id,
+        field: "labor.minimumWage.hourlyCents",
+      },
+    }),
+  ]);
+  const stubs = recordedPayStubs(paid, f.personId).filter(
+    (row) => row.paycheck.resourceFlowId === f.flow.id,
+  );
+  expect(stubs).toHaveLength(1);
+  expect(stubs[0]!.paidGross).toEqual(money(72000, "USD"));
+  expect(stubs[0]!.withheld.minorUnits).toBeGreaterThan(0);
+  expect(stubs[0]!.assessmentStatus).toBe("recorded");
+  expect(settleJobPay(paid, f.personId)).toBe(paid);
+  const reopened = deserializeWorld(serializeWorld(paid));
+  expect(settleJobPay(reopened, f.personId)).toBe(reopened);
 });

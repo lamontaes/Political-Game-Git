@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { fundRecordedPayrollControl } from "../fixtures/recorded-payroll-capital";
 
 import {
   generateOpeningLife,
@@ -18,6 +19,7 @@ import {
   nextPaydayDate,
   PAYDAY_TRANSITION_KEY,
   paydayHandler,
+  startTownJobPay,
   townMinimumHourlyAt,
 } from "../../src/simulation/living-world/town-pay";
 import { ensureJurisdiction } from "../../src/simulation/national-election-geography";
@@ -71,7 +73,11 @@ function omahaGame() {
 }
 
 function runPaydays(start: World, since: IsoDate, days: number): World {
-  let world = start;
+  let world = fundRecordedPayrollControl(
+    withWorldIntegrityDeferred(() => startTownJobPay(start, null, since)),
+    days,
+    ADOPTED_CITY_TARGET_MINOR,
+  );
   let paidThrough = since;
   const until = addDays(since, days);
   withWorldIntegrityDeferred(() => {

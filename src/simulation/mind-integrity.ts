@@ -1,4 +1,6 @@
 import { makeIsoDate } from "./dates";
+import { compareDecisionOptionScores } from "./decision-scores";
+import { validateDecisionPeerEstimates } from "./decision-peer-estimates";
 import { createStableId } from "./ids";
 import {
   assertLifeHistorySourceAvailable,
@@ -749,6 +751,7 @@ function validateDecisionContext(
   trace: DecisionTraceRecord,
   context: DecisionContext,
 ): void {
+  validateDecisionPeerEstimates(world, context);
   if (context.options.length < 2) {
     throw new Error(`Decision trace has too few options: ${trace.id}`);
   }
@@ -884,12 +887,45 @@ function validateDecisionContext(
       if (
         evaluation.finalRank === null ||
         !Number.isSafeInteger(evaluation.finalRank) ||
-        evaluation.finalRank < 1 ||
-        ranks.has(evaluation.finalRank)
+        evaluation.finalRank < 1
       ) {
         throw new Error(`Decision option rank is invalid: ${trace.id}`);
       }
+      if (ranks.has(evaluation.finalRank)) {
+        const peer = trace.optionEvaluations
+          .slice(0, index)
+          .find((other) => other.finalRank === evaluation.finalRank)!;
+        if (
+          peer.randomContribution !== "none" ||
+          evaluation.randomContribution !== "none" ||
+          compareDecisionOptionScores(
+            context,
+            peer.optionKey,
+            evaluation.optionKey,
+          ) !== 0
+        ) {
+          throw new Error(`Decision tie rank is inconsistent: ${trace.id}`);
+        }
+      }
       ranks.add(evaluation.finalRank);
+      if (context.peerEstimates !== undefined) {
+        const expectedRank =
+          1 +
+          trace.optionEvaluations.filter(
+            (other) =>
+              other.available &&
+              compareDecisionOptionScores(
+                context,
+                other.optionKey,
+                evaluation.optionKey,
+              ) > 0,
+          ).length;
+        if (evaluation.finalRank !== expectedRank) {
+          throw new Error(
+            `Decision peer estimate rank is inconsistent: ${trace.id}`,
+          );
+        }
+      }
     } else if (
       evaluation.finalRank !== null ||
       evaluation.randomContribution !== "none"
@@ -899,16 +935,37 @@ function validateDecisionContext(
       );
     }
   }
-  const winner = trace.optionEvaluations.find(
-    (evaluation) => evaluation.finalRank === 1,
+  const winners = trace.optionEvaluations.filter(
+    (evaluation) => evaluation.available && evaluation.finalRank === 1,
   );
+  const winner = winners.find(
+    (evaluation) => evaluation.optionKey === trace.selectedOptionKey,
+  );
+  const prior =
+    winners.length > 1 && trace.outcomeKind === "selected"
+      ? [...world.history.decisionTraces]
+          .reverse()
+          .find(
+            (record) =>
+              record.context.actorPersonId === context.actorPersonId &&
+              record.context.decisionType === context.decisionType &&
+              record.recordedAt <= context.cutoff.asOfDate &&
+              record.sequence < context.cutoff.historySequenceExclusive,
+          )
+      : undefined;
   if (
     (trace.outcomeKind === "selected" &&
-      (!winner || trace.selectedOptionKey !== winner.optionKey)) ||
+      (!winner ||
+        (winners.length > 1 &&
+          (prior?.outcomeKind !== "selected" ||
+            prior.selectedOptionKey !== trace.selectedOptionKey)))) ||
     (trace.outcomeKind === "no-available-option" &&
-      (winner !== undefined || trace.selectedOptionKey !== null)) ||
+      (winners.length > 0 || trace.selectedOptionKey !== null)) ||
+    (trace.outcomeKind === "undecided" &&
+      (winners.length < 2 || trace.selectedOptionKey !== null)) ||
     (trace.outcomeKind !== "selected" &&
-      trace.outcomeKind !== "no-available-option")
+      trace.outcomeKind !== "no-available-option" &&
+      trace.outcomeKind !== "undecided")
   ) {
     throw new Error(`Decision trace outcome is inconsistent: ${trace.id}`);
   }

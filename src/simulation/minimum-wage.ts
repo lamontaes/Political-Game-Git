@@ -290,6 +290,7 @@ export function stateMinimumSettingAt(
   stateKey: string,
   onDate: IsoDate,
   cutoff?: HistoricalCutoff,
+  workplaceKey?: string,
 ): StateMinimumSetting | null {
   const enactments = world.history.legislativeEnactments;
   let cache: Map<string, StateMinimumSetting | null> | null = null;
@@ -300,9 +301,15 @@ export function stateMinimumSettingAt(
       stateSettings.set(enactments, cache);
     }
   }
-  const cacheKey = `${stateKey}:${onDate}:${world.startedAt}`;
+  const cacheKey = `${stateKey}:${onDate}:${world.startedAt}:${workplaceKey ?? ""}`;
   if (!cutoff && cache?.has(cacheKey)) return cache.get(cacheKey)!;
-  const setting = computeStateMinimumSetting(world, stateKey, onDate, cutoff);
+  const setting = computeStateMinimumSetting(
+    world,
+    stateKey,
+    onDate,
+    cutoff,
+    workplaceKey,
+  );
   if (!cutoff) cache?.set(cacheKey, setting);
   return setting;
 }
@@ -312,6 +319,7 @@ function computeStateMinimumSetting(
   stateKey: string,
   onDate: IsoDate,
   cutoff?: HistoricalCutoff,
+  workplaceKey?: string,
 ): StateMinimumSetting | null {
   const stateId = stateJurisdictionForKey(stateKey)?.id ?? null;
   const stateQuestion = Object.values(world.policyCatalog.propositions).find(
@@ -328,6 +336,7 @@ function computeStateMinimumSetting(
         unit: "minor/hour",
         onDate,
         cutoff,
+        workplaceKey,
       })
     : null;
   // The effect baseline is the saved world opening, not a later statutory phase.
@@ -349,6 +358,7 @@ function computeStateMinimumSetting(
         unit: "minor/hour",
         onDate: world.startedAt,
         cutoff,
+        workplaceKey,
       })
     : null;
   const beforeMinor = baselineTerm?.value ?? null;
@@ -390,6 +400,7 @@ function computeStateMinimumSetting(
         unit: "minor/hour",
         onDate,
         cutoff,
+        workplaceKey,
       });
       if (!term) return null;
       const measure = world.history.legislativeMeasures?.find(
@@ -542,7 +553,7 @@ export function minimumWageSettingAt(
       : null;
   const stateSetting =
     key && /^US-[A-Z]{2}$/.test(key)
-      ? stateMinimumSettingAt(world, key, onDate)
+      ? stateMinimumSettingAt(world, key, onDate, undefined, place?.key)
       : null;
   let state: MinimumWageSetting | null = stateSetting && {
     hourlyMinor: stateSetting.hourlyMinor,
