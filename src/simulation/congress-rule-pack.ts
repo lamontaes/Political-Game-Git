@@ -357,6 +357,10 @@ export const US_CONGRESS_RULE_PACK: LegislativeRulePack = {
   packId: US_CONGRESS_PACK_ID,
   jurisdictionKey: US_CONGRESS_JURISDICTION_KEY,
   displayName: "Congress of the United States",
+  seatRollSource: {
+    kind: "national-election-seats",
+    partyCueScope: "institution",
+  },
   basis: "researched",
   structure: "bicameral",
   chambers: [
