@@ -2226,8 +2226,8 @@
         {
           "kind": "present",
           "file": "src/simulation/world.ts",
-          "pattern": "applyDateBoundary\\(",
-          "why": "the shared date boundary both clocks call (world.ts:1427, #1324)"
+          "pattern": "advanceWorldMinutes\\(",
+          "why": "world.ts is the compatibility day adapter and delegates to the canonical minute clock, whose date boundary is checked separately"
         },
         {
           "kind": "present",
@@ -2284,7 +2284,7 @@
           "why": "character-history.ts moves time on the minute clock"
         }
       ],
-      "note": "Two present checks pass (shared applyDateBoundary, #1324) and eight fail (the unchecked body, its own due-item resolution and the three callers), so partly as verified."
+      "note": "The world.ts compatibility adapter now delegates to advanceWorldMinutes; requiring a direct applyDateBoundary call there would demand a second boundary. Keep the minute-clock boundary, removed unchecked day body/own due resolution, and all three caller migration checks unchanged. Passing static checks does not establish runtime/DST parity."
     },
     "A4": {
       "covers": "part",
@@ -3988,9 +3988,15 @@
       "checks": [
         {
           "kind": "present",
-          "file": "src/simulation/justice/prosecution.ts",
+          "file": "src/simulation/justice/sentencing-term.ts",
           "pattern": "custodyFloorAt\\(world,\\s*courtCase\\)",
-          "why": "the enacted mandatory-minimum floor raises the term (#1313, #1378) and is called from sentenceMonthsForCase"
+          "why": "the actual sentencing bounds read the canonical custody floor in sourcedCustodyBoundsForCase; the call moved out of prosecution.ts"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/justice/court-reasoning.ts",
+          "pattern": "custodyFloorAt\\(world,\\s*courtCase\\)",
+          "why": "the same canonical custody floor is read for mandatoryJailUnderLaw; no parallel floor calculation"
         },
         {
           "kind": "absent",
@@ -4010,7 +4016,7 @@
           "why": "the researched state sentencing ranges (#1544/#1555) must be read in play; today only a test imports them"
         }
       ],
-      "note": "The floor (#1313/#1378) passes; the midpoint expressions in termMonths still match and the research file has no non-test reader, so partly matches verified."
+      "note": "The canonical custody floor now has production consumers in justice/sentencing-term.ts (sourcedCustodyBoundsForCase) and justice/court-reasoning.ts (mandatoryJailUnderLaw). Both must be present. Keep the midpoint-removal and researched-range reader checks; this rule correction does not prove offense applicability or runtime sentencing."
     },
     "A102": {
       "covers": "part",
@@ -4288,8 +4294,8 @@
         {
           "kind": "absent",
           "file": "src/simulation/job-market.ts",
-          "pattern": "adultStartEmployer",
-          "why": "job-market.ts still takes an adult's first employer from the old local-economy engine (import :22, call :1581)"
+          "pattern": "from [\"']\\./local-economy[\"']",
+          "why": "job-market.ts must not obtain its opening employer from the old local-economy module; the adultStartEmployer name survives in the recorded-employer adapter"
         },
         {
           "kind": "absent",
@@ -4306,11 +4312,23 @@
         {
           "kind": "present",
           "file": "src/simulation/job-market.ts",
-          "pattern": "from \"\\./living-world/town-(finances|businesses|business-books)\"",
-          "why": "job-market.ts reads its employers from the town-finances business books"
+          "pattern": "from [\"']\\./recorded-employer[\"']",
+          "why": "job-market.ts imports the recorded employer adapter rather than the old local-economy engine"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/job-market.ts",
+          "pattern": "adultStartEmployer\\(world,\\s*person\\.id,\\s*input\\.jurisdictionId\\)",
+          "why": "the actual adult-opening job caller uses that adapter; an unused import alone cannot pass"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/recorded-employer.ts",
+          "pattern": "townBusinesses\\(world,\\s*jurisdictionId\\)",
+          "why": "the recorded-employer adapter obtains candidates from actual town-business job records, preserving the original town-business survivor requirement"
         }
       ],
-      "note": "Old engine is still live at every cited line (life-opportunities.ts:451, job-market.ts:22/:1581, local-economy.ts:137-214 and :698) and job-market.ts imports no town-finances module: 0 of 5 pass, not-started as verified."
+      "note": "Trace the actual opening employer path: job-market.ts imports and calls recorded-employer.ts, which queries townBusinesses and joins saved organization/work/role records, rejecting future work, unpaid/directing/professional roles, wrong workplace and unsourced pay. The adultStartEmployer name alone no longer identifies the retired engine. Keep the old refresh, fixed-revenue and automatically-completed-flow checks unchanged; local-economy.ts still contains those old writers, so this correction does not declare A58 complete."
     },
     "A54": {
       "covers": "whole",
