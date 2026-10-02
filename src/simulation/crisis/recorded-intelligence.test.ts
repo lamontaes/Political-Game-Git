@@ -6,6 +6,7 @@ import {
   prepareOpeningLife,
 } from "../../presentation/opening-life";
 import { createDemoWorld } from "../demo";
+import { addDays } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { lifePlaces } from "../life-places";
 import { deserializeWorld, serializeWorld } from "../serialization";
@@ -37,14 +38,14 @@ function declare(world: World) {
 function review(world: World, crisisId: EntityId, cycle: number) {
   const scheduled = scheduleFutureDueItem(world, {
     stableKey: `recorded-intelligence-test:cycle:${cycle}:due`,
-    dueAt: world.currentDate,
+    dueAt: addDays(world.currentDate, 1),
     transitionKey: INTERNATIONAL_DECISION_KEY,
     entityIds: [crisisId],
     jurisdictionId: null,
     provenance: { kind: "simulated", sourceEntityIds: [crisisId] },
   });
   return internationalCycleOrDecisionHandler(
-    scheduled,
+    { ...scheduled, currentDate: addDays(scheduled.currentDate, 1) },
     scheduled.history.futureDueItems.at(-1)!,
   ).world;
 }

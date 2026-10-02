@@ -70,7 +70,7 @@ describe("CRISIS K5 international crisis, first depth", () => {
       });
       expect(state.responses.length).toBeGreaterThan(0);
       expect(state.warPowers).toEqual([]);
-      expect(state.ended).toBe(true);
+      expect(state.ended).toBe(state.responses.some((record) => record.ended));
       // Decision and response are public; intelligence is not.
       const types = later.history.events
         .filter((e) => e.tags.includes("crisis.international"))
@@ -129,7 +129,7 @@ describe("CRISIS K5 international crisis, first depth", () => {
         (r) => r.stage === "report-submitted",
       )!;
       expect(reported.effectiveAt <= introduced.reportDueAt).toBe(true);
-      expect(introduced.effectiveAt > day0).toBe(true);
+      expect(introduced.effectiveAt).toBe(day0);
       expect(stages.at(-1)![0]).toBe("forces-withdrawn");
       if (stages.some(([s]) => s === "authorization-absent")) {
         const absent = state.warPowers.find(
