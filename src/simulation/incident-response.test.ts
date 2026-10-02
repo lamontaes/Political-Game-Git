@@ -1,6 +1,10 @@
+import { createNewGameWorld } from "../presentation/new-game";
+import { explicitNewGameSetup } from "../presentation/new-game-geography";
+import { drawRandomPlace } from "../../tests/support/random-place";
 import { describe, it, expect } from "vitest";
 import {
   recordEventKnowledge,
+  recordCausalProcess,
   recordWorkStatus,
   recordWorkRole,
   serializeWorld,
@@ -59,77 +63,161 @@ function followThrough(
   return w;
 }
 describe("incident response consumer", () => {
-  it("preserves decision, actual work, clock, follow-up and exact save chain", () => {
-    const f = responseFixture();
-    const before = serializeWorld(f.w);
-    incidentResponseView(f.w);
-    expect(serializeWorld(f.w)).toBe(before);
-    let w = followThrough(deserializeWorld(before), f.reportId, f.staff);
-    expect(w.history.workItemStates.at(-1)!.status).toBe("ready-for-review");
-    expect(w.history.workItemStates.at(-1)!.completedEffortMinutes).toBe(30);
-    expect(w.history.events.at(-1)!.type).toBe("incident.response.follow-up");
-    expect(serializeWorld(deserializeWorld(serializeWorld(w)))).toBe(
-      serializeWorld(w),
+  it("opens one new game at a random place and keeps response projection read-only", () => {
+    const seed = `a129-event-provenance-${Date.now()}`;
+    const place = drawRandomPlace(seed);
+    console.info(
+      JSON.stringify({ proof: "A129 Begin attempt", place: place.key, seed }),
     );
-    expect(w.history.resourceTransferOutcomes).toEqual(
-      f.w.history.resourceTransferOutcomes,
+    const game = createNewGameWorld(
+      explicitNewGameSetup({
+        placeKey: place.key,
+        seed,
+        startAge: 30,
+        depth: "summarize-earlier-life",
+        startingLife: "ordinary-life",
+      }),
     );
-    expect(w.history.incidents).toEqual(f.w.history.incidents);
-    w = createResourcePosition(w, {
-      stableKey: "response-funds",
-      owner: { kind: "organization", organizationId: f.organizationId },
-      openedAt: w.currentDate,
-      openingBalance: money(10000, "USD"),
-      provenance,
-    });
-    w = createResourceFlow(w, {
-      stableKey: "approved-response-allocation",
-      initialStatus: "expected",
-      source: { kind: "organization", organizationId: f.organizationId },
-      recipient: { kind: "person", personId: f.staff },
-      startsAt: addDays(w.currentDate, 1),
-      amount: money(2500, "USD"),
-      cadenceKind: "custom:one-time",
-      basisKind: "custom:incident-response",
-      basisReference: { kind: "general" },
-      restrictionKind: null,
-      jurisdictionId: f.jurisdictionId,
-      provenance,
-    });
-    const flow = w.history.resourceFlows.at(-1)!;
-    const follow = w.history.events.at(-1)!.id;
-    w = requestIncidentResources(w, f.reportId, flow.id);
-    const request = w.history.events.at(-1)!.id;
-    expect(() => deliverIncidentResources(w, follow, flow.id)).toThrow();
-    w = advanceWorldMinutes(w, 1440);
-    w = decideIncidentResourceRequest(w, request, true);
-    expect(w.history.resourceTransferOutcomes).toEqual(
-      f.w.history.resourceTransferOutcomes,
-    );
-    const unfunded = {
-      ...w,
-      history: {
-        ...w.history,
-        resourcePositions: w.history.resourcePositions.filter(
-          (p) => p.stableKey !== "response-funds",
-        ),
-      },
-    };
-    expect(() => deliverIncidentResources(unfunded, follow, flow.id)).toThrow(
-      /Insufficient/,
-    );
-    const delivered = deliverIncidentResources(w, follow, flow.id);
-    expect(
-      resourcePositionAt(delivered, flow.source, money(0, "USD").currency)!
-        .liquidBalance.minorUnits,
-    ).toBe(7500);
-    expect(() => deliverIncidentResources(delivered, follow, flow.id)).toThrow(
-      /already/,
-    );
-    expect(serializeWorld(deserializeWorld(serializeWorld(delivered)))).toBe(
-      serializeWorld(delivered),
+    const before = serializeWorld(game.world);
+    incidentResponseView(game.world);
+    expect(serializeWorld(game.world)).toBe(before);
+    expect(serializeWorld(deserializeWorld(before))).toBe(before);
+    console.info(
+      JSON.stringify({
+        proof: "A129 new game opened",
+        place: place.key,
+        seed,
+        worldId: game.world.id,
+      }),
     );
   });
+
+  it.each(["event", "legacy"] as const)(
+    "preserves decision, work, cash and save chain with %s provenance",
+    (mode) => {
+      const f = responseFixture();
+      const before = serializeWorld(f.w);
+      incidentResponseView(f.w);
+      expect(serializeWorld(f.w)).toBe(before);
+      let w = followThrough(deserializeWorld(before), f.reportId, f.staff);
+      expect(w.history.workItemStates.at(-1)!.status).toBe("ready-for-review");
+      expect(w.history.workItemStates.at(-1)!.completedEffortMinutes).toBe(30);
+      expect(w.history.events.at(-1)!.type).toBe("incident.response.follow-up");
+      expect(w.history.causalProcesses).toEqual(f.w.history.causalProcesses);
+      expect(w.history.effectActivations).toEqual(
+        f.w.history.effectActivations,
+      );
+      for (const response of w.history.events.filter(
+        (e) =>
+          e.type.startsWith("incident.response.") &&
+          !f.w.history.events.some((prior) => prior.id === e.id),
+      )) {
+        const sources = response.tags.filter((tag) =>
+          tag.startsWith("cause-event:"),
+        );
+        expect(sources).toHaveLength(1);
+        expect(
+          w.history.events.some(
+            (e) => e.id === sources[0]!.slice("cause-event:".length),
+          ),
+        ).toBe(true);
+      }
+      expect(serializeWorld(deserializeWorld(serializeWorld(w)))).toBe(
+        serializeWorld(w),
+      );
+      expect(w.history.resourceTransferOutcomes).toEqual(
+        f.w.history.resourceTransferOutcomes,
+      );
+      expect(w.history.incidents).toEqual(f.w.history.incidents);
+      w = createResourcePosition(w, {
+        stableKey: "response-funds",
+        owner: { kind: "organization", organizationId: f.organizationId },
+        openedAt: w.currentDate,
+        openingBalance: money(10000, "USD"),
+        provenance,
+      });
+      w = createResourceFlow(w, {
+        stableKey: "approved-response-allocation",
+        initialStatus: "expected",
+        source: { kind: "organization", organizationId: f.organizationId },
+        recipient: { kind: "person", personId: f.staff },
+        startsAt: addDays(w.currentDate, 1),
+        amount: money(2500, "USD"),
+        cadenceKind: "custom:one-time",
+        basisKind: "custom:incident-response",
+        basisReference: { kind: "general" },
+        restrictionKind: null,
+        jurisdictionId: f.jurisdictionId,
+        provenance,
+      });
+      const flow = w.history.resourceFlows.at(-1)!;
+      const follow = w.history.events.at(-1)!.id;
+      w = requestIncidentResources(w, f.reportId, flow.id);
+      const request = w.history.events.at(-1)!.id;
+      expect(() => deliverIncidentResources(w, follow, flow.id)).toThrow();
+      w = advanceWorldMinutes(w, 1440);
+      w = decideIncidentResourceRequest(w, request, true);
+      expect(w.history.resourceTransferOutcomes).toEqual(
+        f.w.history.resourceTransferOutcomes,
+      );
+      if (mode === "legacy") {
+        // Reconstruct the previous persisted source receipt, then remove the new
+        // event links so allocation authorization must read the old save route.
+        for (const response of w.history.events.filter((e) =>
+          e.type.startsWith("incident.response."),
+        )) {
+          const sourceId = response.tags
+            .find((tag) => tag.startsWith("cause-event:"))
+            ?.slice("cause-event:".length);
+          if (!sourceId) continue;
+          w = recordCausalProcess(w, {
+            stableKey: `${response.stableKey}:cause`,
+            kind: "incident:response",
+            effectiveAt: response.occurredAt,
+            recordedAt: w.currentDate,
+            sourceEntityIds: [sourceId as typeof response.id, response.id],
+            parentCausalIds: [],
+            provenance,
+          });
+        }
+        w = deserializeWorld(
+          serializeWorld({
+            ...w,
+            history: {
+              ...w.history,
+              events: w.history.events.map((e) => ({
+                ...e,
+                tags: e.tags.filter((tag) => !tag.startsWith("cause-event:")),
+              })),
+            },
+          }),
+        );
+      }
+      const unfunded = {
+        ...w,
+        history: {
+          ...w.history,
+          resourcePositions: w.history.resourcePositions.filter(
+            (p) => p.stableKey !== "response-funds",
+          ),
+        },
+      };
+      expect(() => deliverIncidentResources(unfunded, follow, flow.id)).toThrow(
+        /Insufficient/,
+      );
+      const delivered = deliverIncidentResources(w, follow, flow.id);
+      expect(
+        resourcePositionAt(delivered, flow.source, money(0, "USD").currency)!
+          .liquidBalance.minorUnits,
+      ).toBe(7500);
+      expect(() =>
+        deliverIncidentResources(delivered, follow, flow.id),
+      ).toThrow(/already/);
+      expect(serializeWorld(deserializeWorld(serializeWorld(delivered)))).toBe(
+        serializeWorld(delivered),
+      );
+    },
+  );
   it("requests do not approve work, allocate money or teach incident truth", () => {
     const f = responseFixture();
     const w = requestIncidentInformation(f.w, f.reportId, f.staff);

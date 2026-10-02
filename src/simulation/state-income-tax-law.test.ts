@@ -42,6 +42,14 @@ import { withholdingForPaycheck } from "./income-tax-withholding";
 import { lawInForce } from "./governing/law-in-force";
 import stateIncomeTax2026 from "../../data/research/money/state-income-tax-2026.json" with { type: "json" };
 
+import {
+  withOpenedBudgets,
+  PUBLIC_BUDGETS_VERSION,
+  BUDGET_SOURCES,
+  type PublicBudgetStore,
+} from "./public-budgets";
+import { readMonthFlows, settleGovernmentMonth } from "./public-budgets/month";
+
 /**
  * A state's income tax law, enacted in play, reaching the paycheck: a repeal
  * ends the withholding, an adoption starts it at the average of states with
@@ -384,11 +392,77 @@ describe("A22 adopted numeric terms reach the existing paycheck writer", () => {
       expect(collection.transferredAmount.minorUnits).toBeGreaterThanOrEqual(
         payments[0]!.amount.minorUnits,
       );
+      const month = makeIsoDate(`${world.currentDate.slice(0, 7)}-01`);
+      const empty: PublicBudgetStore = {
+        version: PUBLIC_BUDGETS_VERSION,
+        cursor: { flows: 0, outcomes: 0 },
+        governments: [],
+        adjustments: [],
+        unknown: [],
+      };
+      const budgets = withOpenedBudgets(world, empty, month);
+      const government = budgets.governments.find(
+        (row) => row.key === jurisdictionKey,
+      )!;
+      expect(government).toBeDefined();
+      const readFlows = readMonthFlows(world, budgets);
+      const recorded = readFlows.flows.recorded!.get(jurisdictionKey)!;
+      const incomeIndex = BUDGET_SOURCES.indexOf("individualIncomeTax");
+      // The state receipt can include its separately saved paid-leave allocation.
+      // Sum actual completed withholding transfers, never annualize an estimate.
+      const intoState = world.history.resourceTransferOutcomes.filter(
+        (outcome) => {
+          const flow = world.history.resourceFlows.find(
+            (flow) => flow.id === outcome.resourceFlowId,
+          )!;
+          return (
+            flow.basisKind === "custom:tax-withholding" &&
+            flow.recipient.kind === "organization" &&
+            flow.recipient.organizationId ===
+              readFlows.flows.cash!.get(jurisdictionKey)!.organizationId
+          );
+        },
+      );
+      const actualReceipts = intoState.reduce(
+        (sum, outcome) => sum + outcome.transferredAmount.minorUnits,
+        0,
+      );
+      expect(actualReceipts).toBeGreaterThanOrEqual(
+        payments[0]!.amount.minorUnits,
+      );
+      expect(recorded.revenueMinorUnits[incomeIndex]).toBe(actualReceipts);
+      expect(recorded.sourceRecordIds).toContain(collection.id);
+      const settled = settleGovernmentMonth(
+        world,
+        government,
+        month,
+        readFlows.flows,
+      ).government;
+      expect(settled.months.at(-1)!.revenue[incomeIndex]).toBe(
+        actualReceipts / 100,
+      );
+      expect(settled.months.at(-1)!.cashSettlement!.sourceRecordIds).toContain(
+        collection.id,
+      );
       const saved = deserializeWorld(serializeWorld(world));
       expect(assessPaychecksTaxes(saved, [outcomeId])).toBe(saved);
       expect(saved.history.statutoryTaxPayments).toEqual(
         world.history.statutoryTaxPayments,
       );
+      const restoredFlows = readMonthFlows(saved, budgets);
+      expect(
+        restoredFlows.flows.recorded!.get(jurisdictionKey)!.revenueMinorUnits[
+          incomeIndex
+        ],
+      ).toBe(actualReceipts);
+      expect(
+        settleGovernmentMonth(
+          saved,
+          government,
+          month,
+          restoredFlows.flows,
+        ).government.months.at(-1)!.revenue[incomeIndex],
+      ).toBe(actualReceipts / 100);
       stdout.write(
         JSON.stringify({
           seed: TERM_SEED,
@@ -405,6 +479,7 @@ describe("A22 adopted numeric terms reach the existing paycheck writer", () => {
           paymentId: payments[0]!.id,
           collectionOutcomeId: collection.id,
           collectedIncomeTaxMinor: payments[0]!.amount.minorUnits,
+          savedStateReceiptMinor: actualReceipts,
         }) + "\n",
       );
     },

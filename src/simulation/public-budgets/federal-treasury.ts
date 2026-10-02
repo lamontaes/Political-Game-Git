@@ -1,18 +1,14 @@
 import federal from "../../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
-import defenseData from "../../../data/research/federal/defense-contracts-by-state-fy2024.json" with { type: "json" };
-import farmData from "../../../data/research/federal/farm-payments-and-land-values-2025.json" with { type: "json" };
-import outlayTerms from "../../../data/research/federal/federal-outlay-terms-fy2025.json" with { type: "json" };
 import {
   defenseBuildUpShare,
   GROW_DEFENSE_SPENDING_QUESTION,
 } from "../federal-defense-spending";
 import {
-  CUT_FARM_SUBSIDIES_QUESTION,
-  FARM_PAYMENT_CUT_SHARE,
-} from "../federal-farm-subsidy-law";
-import {
   DEBT_LIMIT_CUTS_QUESTION,
   INCREASE_FOREIGN_AID_QUESTION,
+  federalLawInForceAt,
+  federalLawAmountAt,
+  recordedFederalAnnualSpendingBefore,
 } from "../federal-outlay-laws";
 import { lawInForce } from "../governing/law-in-force";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
@@ -41,41 +37,23 @@ import {
  *
  * A federal law moves a line through `FEDERAL_LAW_EFFECTS`, read from the
  * law in force on the first of each month. The represented people's own
- * federal withholding is left out: they are a few hundred of 340 million
- * taxpayers, so the national line already carries them.
+ * federal withholding reaches the shared government account/monthly cash
+ * settlement separately; top-rate receipts have no second treasury-share row.
+ * This legacy forecast reader is not a producer of actual cash receipts.
  */
 
-export const FEDERAL_RECEIPTS = [
-  "individualIncomeTax",
-  "payrollTaxes",
-  "corporateIncomeTax",
-  "customsDuties",
-  "exciseTaxes",
-  "estateAndGiftTaxes",
-  "miscellaneousReceipts",
-] as const;
-export type FederalReceipt = (typeof FEDERAL_RECEIPTS)[number];
-
-export const FEDERAL_OUTLAYS = [
-  "socialSecurity",
-  "medicare",
-  /** Medicaid and other health programs. */
-  "health",
-  "incomeSecurity",
-  "nationalDefense",
-  "veterans",
-  "netInterest",
-  /** Foreign aid and the State Department. */
-  "internationalAffairs",
-  /** Farm programs. */
-  "agriculture",
-  /** Includes FEMA disaster relief. */
-  "communityAndRegionalDevelopment",
-  "transportation",
-  "education",
-  "otherPrograms",
-] as const;
-export type FederalOutlay = (typeof FEDERAL_OUTLAYS)[number];
+import {
+  FEDERAL_RECEIPTS,
+  FEDERAL_OUTLAYS,
+  type FederalReceipt,
+  type FederalOutlay,
+} from "./federal-budget-categories";
+export {
+  FEDERAL_RECEIPTS,
+  FEDERAL_OUTLAYS,
+  type FederalReceipt,
+  type FederalOutlay,
+} from "./federal-budget-categories";
 
 type FederalLine =
   | { readonly kind: "receipt"; readonly key: FederalReceipt }
@@ -101,83 +79,116 @@ export interface FederalLawEffect {
   readonly shareOn?: (
     world: World,
     month: IsoDate,
-  ) => { readonly share: number; readonly measureId: EntityId } | null;
+  ) => {
+    readonly share: number;
+    readonly measureId: EntityId;
+    readonly monthlyBase?: number;
+  } | null;
 }
 
 const DEBT_LIMIT_CUT_LINES = FEDERAL_OUTLAYS.filter(
   (key) => key !== "nationalDefense" && key !== "netInterest",
 );
-const DEBT_LIMIT_CUT_SHARE_OF_LINES =
-  outlayTerms.debtLimitCut.yearlyDollars /
-  DEBT_LIMIT_CUT_LINES.reduce(
-    (sum, key) =>
-      sum + (federal.outlays as Readonly<Record<string, number>>)[key]!,
-    0,
-  );
-
-/** Farm program payments a cut removes, as a share of all farm outlays. */
-const FARM_CUT_SHARE_OF_AGRICULTURE =
-  (FARM_PAYMENT_CUT_SHARE * farmData.national.meanPaymentsYearly) /
-  federal.outlays.agriculture;
-
-/** Defense contracts, fiscal 2024, as a share of fiscal 2025 defense outlays. */
-const CONTRACTS_SHARE_OF_DEFENSE =
-  (defenseData.buildUp.contractsByFiscalYearBillions["2024"] * 1e9) /
-  federal.outlays.nationalDefense;
 
 export const FEDERAL_LAW_EFFECTS: readonly FederalLawEffect[] = [
   {
-    questionKey: "us-federal-positions:tax.raise-top-income-tax-rate",
-    line: { kind: "receipt", key: "individualIncomeTax" },
-    // 2.6 points on the $1.216 trillion taxed at 37% in tax year 2022,
-    // against the $2.099 trillion of income tax after credits that year.
-    toYes: (0.026 * 1_216_136_265) / 2_098_923_017,
-    toNo: null,
-    timing: "tax-year",
-    basis:
-      "A top rate of 39.6% instead of 37% collects 2.6 cents more on each dollar taxed in the top bracket: $31.6 billion on the $1.216 trillion taxed at 37% in tax year 2022, 1.51% of that year's individual income tax after credits (IRS Statistics of Income, Publication 1304, Table 3.4). The estimate is static: it leaves out any change in what top earners report.",
-  },
-  {
     questionKey: INCREASE_FOREIGN_AID_QUESTION,
     line: { kind: "outlay", key: "internationalAffairs" },
-    toYes: outlayTerms.foreignAid.medianRise,
+    toYes: null,
     toNo: null,
     timing: "month",
-    basis: `More foreign aid raises International Affairs outlays by ${(outlayTerms.foreignAid.medianRise * 100).toFixed(2)}%, the median yearly rise in the years they rose, fiscal 2016 to 2025 (Monthly Treasury Statement, Table 9; Build 11's federal-outlay-laws.ts).`,
+    basis:
+      "Final adopted annual foreign-aid appropriation against the complete saved preceding International Affairs spending year.",
+    shareOn: (world, month) => {
+      const aid = federalLawAmountAt(
+        world,
+        INCREASE_FOREIGN_AID_QUESTION,
+        "appropriation",
+        month,
+      );
+      const base = aid.law
+        ? recordedFederalAnnualSpendingBefore(
+            world,
+            FEDERAL_OUTLAYS.indexOf("internationalAffairs"),
+            aid.law.operativeAt,
+          )
+        : null;
+      return !aid.law || aid.amount === null || base === null
+        ? null
+        : {
+            share: aid.amount / base - 1,
+            measureId: aid.law.measureId,
+            monthlyBase: base / 12,
+          };
+    },
   },
-  // Cuts that pay for a higher debt limit: the Fiscal Responsibility Act's
-  // $150 billion a year, taken evenly from every line but defense and net
-  // interest, as that deal capped nondefense spending.
   ...DEBT_LIMIT_CUT_LINES.map((key): FederalLawEffect => ({
     questionKey: DEBT_LIMIT_CUTS_QUESTION,
     line: { kind: "outlay", key },
-    toYes: -DEBT_LIMIT_CUT_SHARE_OF_LINES,
+    toYes: null,
     toNo: null,
     timing: "month",
-    basis: `Paying for a higher debt limit cuts $${outlayTerms.debtLimitCut.yearlyDollars / 1e9} billion a year, the Fiscal Responsibility Act of 2023's $1.5 trillion over ten years (Congressional Budget Office), taken evenly from every outlay but national defense and net interest: ${(DEBT_LIMIT_CUT_SHARE_OF_LINES * 100).toFixed(2)}% of each.`,
+    basis:
+      "Final adopted annual offset allocated proportionally over the complete saved preceding eligible outlay categories, excluding defense and net interest.",
+    shareOn: (world, month) => {
+      const cut = federalLawAmountAt(
+        world,
+        DEBT_LIMIT_CUTS_QUESTION,
+        "offset",
+        month,
+      );
+      if (!cut.law || cut.amount === null) return null;
+      const bases = DEBT_LIMIT_CUT_LINES.map((line) =>
+        recordedFederalAnnualSpendingBefore(
+          world,
+          FEDERAL_OUTLAYS.indexOf(line),
+          cut.law!.operativeAt,
+          true,
+        ),
+      );
+      if (bases.some((base) => base === null)) return null;
+      const total = bases.reduce<number>((sum, base) => sum + base!, 0);
+      if (total === 0) return null;
+      return {
+        share: -Math.min(1, cut.amount / total),
+        measureId: cut.law.measureId,
+        monthlyBase: bases[DEBT_LIMIT_CUT_LINES.indexOf(key)]! / 12,
+      };
+    },
   })),
-  {
-    questionKey: CUT_FARM_SUBSIDIES_QUESTION,
-    line: { kind: "outlay", key: "agriculture" },
-    toYes: -FARM_CUT_SHARE_OF_AGRICULTURE,
-    toNo: null,
-    timing: "month",
-    basis: `Cutting farm subsidies removes ${(FARM_PAYMENT_CUT_SHARE * 100).toFixed(2)}% of the $${(farmData.national.meanPaymentsYearly / 1e9).toFixed(1)} billion a year of government payments to farms (2021 to 2025 average, USDA ERS), the median fall in the years payments fell since 1996: ${(FARM_CUT_SHARE_OF_AGRICULTURE * 100).toFixed(2)}% of Agriculture outlays (Build 11's federal-farm-subsidy-law.ts).`,
-  },
   {
     questionKey: GROW_DEFENSE_SPENDING_QUESTION,
     line: { kind: "outlay", key: "nationalDefense" },
     toYes: null,
     toNo: null,
     timing: "month",
-    basis: `Growing defense faster than inflation raises defense contracts, $${defenseData.buildUp.contractsByFiscalYearBillions["2024"]} billion in fiscal 2024 (USAspending.gov), ${(defenseData.buildUp.meanYearlyRealRise * 100).toFixed(2)}% a year for at most ${defenseData.buildUp.longestRunYears} years, the pace of the years they beat inflation (Build 11's federal-defense-spending.ts). Contracts are ${(CONTRACTS_SHARE_OF_DEFENSE * 100).toFixed(1)}% of defense outlays, so the line grows by that share of the contracts' rise.`,
+    basis:
+      "Final adopted annual defense appropriation against the complete saved preceding defense spending year; no contracts multiplier or historical ramp.",
     shareOn: (world, month) => {
-      const { share, lawMeasureId } = defenseBuildUpShare(world, month);
-      return lawMeasureId === null
+      const { share, lawMeasureId, unsupportedReason } = defenseBuildUpShare(
+        world,
+        month,
+      );
+      const law = federalLawInForceAt(
+        world,
+        GROW_DEFENSE_SPENDING_QUESTION,
+        month,
+      );
+      const annualBase = law
+        ? recordedFederalAnnualSpendingBefore(
+            world,
+            FEDERAL_OUTLAYS.indexOf("nationalDefense"),
+            law.operativeAt,
+          )
+        : null;
+      return lawMeasureId === null ||
+        unsupportedReason !== null ||
+        annualBase === null
         ? null
         : {
-            share: CONTRACTS_SHARE_OF_DEFENSE * share,
+            share,
             measureId: lawMeasureId as EntityId,
+            monthlyBase: annualBase / 12,
           };
     },
   },
@@ -261,10 +272,22 @@ function lawFactor(
   world: World,
   effect: FederalLawEffect,
   month: IsoDate,
-): { readonly factor: number; readonly measureId: EntityId } | null {
+): {
+  readonly factor: number;
+  readonly measureId: EntityId;
+  readonly baseAmount?: number;
+} | null {
   if (effect.shareOn) {
     const moved = effect.shareOn(world, month);
-    return moved && { factor: 1 + moved.share, measureId: moved.measureId };
+    return (
+      moved && {
+        factor: 1 + moved.share,
+        measureId: moved.measureId,
+        ...(moved.monthlyBase !== undefined
+          ? { baseAmount: moved.monthlyBase }
+          : {}),
+      }
+    );
   }
   const proposition = Object.values(
     world.policyCatalog?.propositions ?? {},
@@ -300,12 +323,18 @@ export function settleFederalTreasuryMonth(
   const programCosts = federalProgramCostsForMonth(world, month);
   const line = (kind: FederalLine["kind"], key: string, base: number) => {
     let amount = base;
+    let movedByLaw = false;
     for (const effect of FEDERAL_LAW_EFFECTS) {
       if (effect.line.kind !== kind || effect.line.key !== key) continue;
       const moved = lawFactor(world, effect, month);
       if (!moved) continue;
-      const next = amount * moved.factor;
-      const changedAmount = Math.round(next - amount);
+      const actualBase = moved.baseAmount ?? amount;
+      // Each law contributes its own change from its recorded base. Later
+      // effects must not replace an earlier law's adopted amount on this line.
+      const before = movedByLaw ? amount : actualBase;
+      const next = Math.max(0, before + actualBase * (moved.factor - 1));
+      const changedAmount = Math.round(next - before);
+      movedByLaw = true;
       const proposition =
         kind === "outlay" && changedAmount !== 0
           ? Object.values(world.policyCatalog?.propositions ?? {}).find(
@@ -382,6 +411,7 @@ export function settleFederalTreasuryMonth(
 
 /** Existing intercity rail payments use transportation; unclassified ones remain explicit. */
 export function federalProgramLine(programKey: string): FederalOutlay {
+  if (programKey.split(":")[0] === "farm") return "agriculture";
   return programKey.split(":")[0] === "passenger-rail"
     ? "transportation"
     : "otherPrograms";
