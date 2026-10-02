@@ -11,7 +11,7 @@ import { addDays, ageOnDate } from "../../src/simulation/dates";
 import { advanceWorld } from "../../src/simulation/world";
 import {
   drawFamilyShape,
-  TWO_PARENT_SHARE,
+  recordedFamilyEstimates,
 } from "../../src/simulation/family-shape";
 import { lifePlaceByKey } from "../../src/simulation/life-places";
 import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/place-population.generated";
@@ -77,23 +77,28 @@ function relatives(world: World, personId: EntityId, kind: string) {
 }
 
 describe("a family drawn from real shares", () => {
-  it("draws two parents and brothers and sisters at the Census shares", () => {
-    let twoParents = 0;
-    let siblings = 0;
-    const draws = 4000;
-    for (let index = 0; index < draws; index += 1) {
-      const shape = drawFamilyShape("family-shape-share", `person:${index}`);
-      if (shape.secondParent) twoParents += 1;
-      siblings += shape.siblingOffsetsYears.length;
-      expect(new Set(shape.siblingOffsetsYears).size).toBe(
-        shape.siblingOffsetsYears.length,
-      );
-      expect(shape.siblingOffsetsYears).not.toContain(0);
+  it("retains the current game's recorded family spread instead of Census shares", () => {
+    const { world } = newGameAdult(onePlaceEach()[0]!, "family-shape-share");
+    const estimate = recordedFamilyEstimates(world);
+    expect(estimate.samples.length).toBeGreaterThan(1);
+    const observed = new Set(
+      estimate.samples.map(
+        (row) =>
+          `${row.secondParent}:${[...row.siblingOffsetsYears].sort((a, b) => b - a).join(",")}`,
+      ),
+    );
+    const selected = new Set<string>();
+    const before = JSON.stringify(world);
+    for (let index = 0; index < estimate.samples.length * 4; index += 1) {
+      const key = `person:${index}`;
+      const shape = drawFamilyShape(world, key);
+      const pattern = `${Number(shape.secondParent)}:${shape.siblingOffsetsYears.join(",")}`;
+      expect(observed.has(pattern)).toBe(true);
+      selected.add(pattern);
+      expect(drawFamilyShape(world, key)).toEqual(shape);
     }
-    // CH-1 2025: 70.4%, moved at most three points by the world's spread.
-    expect(Math.abs(twoParents / draws - TWO_PARENT_SHARE)).toBeLessThan(0.05);
-    // Table 1, 2022, from the child's side: 1.80 brothers and sisters.
-    expect(Math.abs(siblings / draws - 1.8)).toBeLessThan(0.1);
+    expect(selected.size).toBeGreaterThan(1);
+    expect(JSON.stringify(world)).toBe(before);
   });
 
   it("makes a coherent family in every one of the 56 places", () => {
