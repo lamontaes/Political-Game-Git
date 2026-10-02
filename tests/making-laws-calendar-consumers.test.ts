@@ -196,7 +196,9 @@ describe(`Making Laws calendar consumers (seed ${SEED})`, () => {
   it.each(biennial)(
     "%s: bill parity and annual budget survive repeat scheduling and Continue",
     (usps) => {
-      const opening = stateOpening(usps, "2026-05-01");
+      // Keep the locality's opening winter offset valid; this is a date-input
+      // control after the last annual bill day, not a clock/DST advancement.
+      const opening = stateOpening(usps, "2026-11-15");
       const officeKey = `governor:${usps}`;
       const scheduled = scheduleGoverningSeasons(
         opening.world,

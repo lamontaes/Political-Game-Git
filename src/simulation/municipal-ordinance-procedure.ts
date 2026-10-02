@@ -387,8 +387,11 @@ export function scheduleOrdinaryCouncilReading(
       notBefore: earliest ?? undefined,
     },
   );
+  const stableKey = `${measure.stableKey}:reading:${question.floorStageKey}:due`;
+  if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
+    return world;
   return scheduleFutureDueItem(world, {
-    stableKey: `${measure.stableKey}:reading:${question.floorStageKey}:due`,
+    stableKey,
     dueAt,
     transitionKey: COUNCIL_READING_DUE,
     entityIds: [measureId],
