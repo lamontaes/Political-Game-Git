@@ -38,6 +38,7 @@ const receipts: {
   lawful: number;
   bearings: number;
   strong: number;
+  supported: number;
   negativeWithoutYes: number;
   positiveExistingYes: number;
   oldDirectionEligible: number;
@@ -82,6 +83,7 @@ describe(`Making Laws full state catalog first intakes (seed ${seed})`, () => {
         mayAnswerQuestion(world, fixture.stateJurisdictionId, id),
       );
       const strong = new Set<string>();
+      const supported = new Set<string>();
       const negativeWithoutYes = new Set<string>();
       const positiveExistingYes = new Set<string>();
       const oldDirectionEligible = new Set<string>();
@@ -93,6 +95,7 @@ describe(`Making Laws full state catalog first intakes (seed ${seed})`, () => {
         );
         for (const member of members) {
           const score = principledLeaning(world, member.personId!, id).score;
+          if (score !== 0) supported.add(proposition.stableKey);
           if (Math.abs(score) < 3) continue;
           strong.add(proposition.stableKey);
           if (score < 0 && (answer === null || answer === "no"))
@@ -135,6 +138,7 @@ describe(`Making Laws full state catalog first intakes (seed ${seed})`, () => {
           (id) => world.policyCatalog.propositions[id]!.principles?.length,
         ).length,
         strong: strong.size,
+        supported: supported.size,
         negativeWithoutYes: negativeWithoutYes.size,
         positiveExistingYes: positiveExistingYes.size,
         oldDirectionEligible: oldDirectionEligible.size,
@@ -186,7 +190,7 @@ describe(`Making Laws full state catalog first intakes (seed ${seed})`, () => {
       new Set(receipts.flatMap((receipt) => receipt.filed)).size,
     ).toBeGreaterThanOrEqual(24);
     expect(
-      new Set(receipts.map((receipt) => receipt.ordered.join("|"))).size,
+      new Set(receipts.map((receipt) => receipt.filed.join("|"))).size,
     ).toBeGreaterThan(1);
   });
   it.todo(
