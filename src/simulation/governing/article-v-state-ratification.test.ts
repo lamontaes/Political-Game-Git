@@ -40,6 +40,8 @@ let world: World;
 let measureId: EntityId;
 
 beforeAll(() => {
+  expect(places).toHaveLength(56);
+  expect(states).toHaveLength(5);
   world = ensureNationalElectionJurisdiction(
     smallWorld({ place: home.jurisdictionKey, seed, offices: ["congress"] })
       .world,
@@ -162,6 +164,7 @@ describe("A79 policy amendment ratification uses actual state chambers", () => {
     for (const place of places.filter(
       (row) => !admitted.includes(row.jurisdictionKey),
     )) {
+      expect(stateRatificationChambers(place.jurisdictionKey)).toBeNull();
       expect(
         recordArticleVStateMemberVote(world, measureId, place.jurisdictionKey),
         place.jurisdictionKey,
