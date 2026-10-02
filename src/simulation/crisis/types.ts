@@ -96,9 +96,9 @@ export interface HealthEpisodeRecord extends CrisisRecordBase {
 }
 
 /**
- * A change in a person's public health coverage, written by the quarterly
- * coverage pass (`health-coverage.ts`). While covered, the multiplier applies
- * to their all-cause hazard from `hazardFrom` within the program's ages.
+ * A change in a person's public health coverage, written by the monthly
+ * coverage pass. Legacy hazard fields remain readable for save compatibility;
+ * coverage does not multiply personal mortality strain.
  */
 export interface HealthCoverageRecord
   extends CrisisRecordBase, LawEffectStampedRecord {
@@ -111,7 +111,7 @@ export interface HealthCoverageRecord
   readonly householdSize: number;
   readonly monthlyIncomeMinor: number;
   readonly monthlyWorkHours: number | null;
-  /** Millionths applied to all-cause hazard while covered. */
+  /** Legacy save field; new coverage records use the neutral multiplier. */
   readonly hazardMultiplierMicros: number;
   readonly hazardFrom: IsoDate | null;
   readonly hazardBasis: string;

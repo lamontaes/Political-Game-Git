@@ -57,6 +57,8 @@ export type LawAmountUnit =
   | "people"
   | "count"
   | "ratio"
+  | "basis-points"
+  | "dollars/year"
   | "years"
   | "months"
   | "days";
