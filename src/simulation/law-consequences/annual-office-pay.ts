@@ -4,7 +4,7 @@ import {
   type GrowingIndexKind,
 } from "../history-index";
 import { workRoleAt, workStatusAt } from "../life-queries";
-import { savedAnnualOfficePayRule } from "../office-pay";
+import { paidOfficeOf, savedAnnualOfficePayRule } from "../office-pay";
 import {
   officePayLawOfficeKey,
   ruleChangeProvisionHistoryRecords,
@@ -25,7 +25,7 @@ import type { World } from "../types";
 
 const ANNUAL_OFFICE_RULES: GrowingIndexKind<Set<string>> = {
   create: () => new Set(),
-  add: (fields, record) => {
+  add: (states, record) => {
     const provision = record as RuleChangeProvisionRecord;
     if (
       [
@@ -34,7 +34,7 @@ const ANNUAL_OFFICE_RULES: GrowingIndexKind<Set<string>> = {
         "pay.trialJudge.annualDollars",
       ].includes(provision.field)
     )
-      fields.add(provision.field);
+      states.add(provision.stateUsps);
   },
 };
 
@@ -50,11 +50,11 @@ export function resolveSavedAnnualOfficePayConsequences(
     context.origin === "in-force-at-start"
   )
     return [];
-  if (
-    growingIndex(ANNUAL_OFFICE_RULES, world.history.ruleChangeProvisions ?? [])
-      .size === 0
-  )
-    return [];
+  const annualRuleStates = growingIndex(
+    ANNUAL_OFFICE_RULES,
+    world.history.ruleChangeProvisions ?? [],
+  );
+  if (annualRuleStates.size === 0) return [];
   if (context.onDate > world.currentDate)
     throw new Error("Annual pay cannot be resolved in the future");
   const flow = recordById(world.history.resourceFlows, context.activityId);
@@ -87,6 +87,16 @@ export function resolveSavedAnnualOfficePayConsequences(
     terms.status !== "active" ||
     terms.amount.currency !== "USD" ||
     terms.cadenceKind !== "schedule:weekly"
+  )
+    return [];
+  // A state's recorded clause cannot change another state's office pay.
+  // Keep the full authority reader when constitutional measures exist: its
+  // hierarchy and missing-authority checks must still see those measures.
+  const held = paidOfficeOf(world, work);
+  if (
+    !held ||
+    ((world.history.constitutionalMeasures?.length ?? 0) === 0 &&
+      !annualRuleStates.has(held.state))
   )
     return [];
   const saved = savedAnnualOfficePayRule(world, work, context.onDate);
