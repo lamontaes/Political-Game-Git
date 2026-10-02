@@ -101,7 +101,21 @@ export function resolvePriceCostConsequences(
     world.history.resourceFlows,
     activity?.resourceFlowId ?? context.activityId,
   );
-  if (!flow) throw new Error("Missing price-cost resource-flow activity");
+  if (!flow) {
+    // Payment dispatch also carries statutory tax outcomes, which are not priced flows.
+    if (context.activity === "payment" && !activity) return [];
+    throw new Error("Missing price-cost resource-flow activity");
+  }
+  const conditions = [...row.who.predicates, ...row.conditions];
+  if (
+    conditions.some(
+      (condition) =>
+        condition.capability === BASIS &&
+        typeof condition.parameters.basisKind === "string" &&
+        condition.parameters.basisKind !== flow.basisKind,
+    )
+  )
+    return [];
   if (flow.source.kind !== "person" || !world.people[flow.source.personId])
     throw new Error("Missing price-cost person payer capability");
   if (!context.subjectIds.includes(flow.source.personId)) return [];
@@ -151,7 +165,6 @@ export function resolvePriceCostConsequences(
   }
   if (!jurisdictionId || !world.jurisdictions[jurisdictionId])
     throw new Error("Missing price-cost application jurisdiction");
-  const conditions = [...row.who.predicates, ...row.conditions];
   if (!conditions.some((condition) => condition.capability === BASIS))
     throw new Error(
       "Price-cost requires an explicit flow-basis coverage predicate",
