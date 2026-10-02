@@ -4105,9 +4105,28 @@ export interface PublicProgramCapacityRecord extends PublicProgramRecordBase {
   readonly basis: PublicProgramBasis;
 }
 
+/** Explicit payable input; no enrollment count or budget forecast is a paid base. */
+export interface FederalStateProgramPaymentClaim {
+  readonly stableKey: string;
+  readonly recipientJurisdictionId: EntityId;
+  readonly dueAt: IsoDate;
+  readonly periodStartsAt: IsoDate;
+  readonly periodEndsAt: IsoDate;
+  readonly amountTerm: {
+    readonly questionKey: string;
+    readonly termKey: string;
+    readonly unit: "minor" | "ratio";
+  };
+  /** Actual completed state-paid program outcomes eligible under this claim. */
+  readonly eligibleExpenditureIds: readonly EntityId[];
+  /** Admitted provider classes for binding future actual state-paid installments. */
+  readonly eligibleProviderClassifications?: readonly OrganizationProfileRecord["classification"][];
+}
+
 /** Spending authority on an existing public account. Not cash. */
 export interface PublicProgramAppropriationRecord extends PublicProgramRecordBase {
   readonly kind: "appropriation";
+  readonly statePaymentClaims?: readonly FederalStateProgramPaymentClaim[];
   readonly accountOrganizationId: EntityId;
   readonly amount: MoneyAmount;
   readonly availableFrom: IsoDate;
@@ -4120,6 +4139,13 @@ export interface PublicProgramAppropriationRecord extends PublicProgramRecordBas
 /** One office's decision to commit part of an appropriation, including $0. */
 export interface PublicProgramCommitmentRecord extends PublicProgramRecordBase {
   readonly kind: "commitment";
+  readonly federalStatePayment?: {
+    readonly claimKey: string;
+    readonly eligibleExpenditureIds: readonly EntityId[];
+    readonly sourceRecordIds: readonly EntityId[];
+    readonly periodStartsAt: IsoDate;
+    readonly periodEndsAt: IsoDate;
+  };
   readonly appropriationId: EntityId;
   readonly alternativeKey: string;
   readonly alternativeTitle: string;
