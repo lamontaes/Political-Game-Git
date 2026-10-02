@@ -5,6 +5,7 @@ import {
   type NativeSessionQuery,
 } from "./native-session-bridge";
 
+import { MeetingStopActions } from "./MeetingStopActions";
 import { SetupScreen } from "./SetupScreen";
 import { QuestionnaireScreenView } from "./QuestionnaireScreenView";
 import { SavesScreen } from "./SavesScreen";
@@ -47,6 +48,7 @@ import { PersonPortrait } from "./PersonPortrait";
 import { useContentViewportCss } from "./overlay-viewport";
 import {
   describeTimeCommandPreview,
+  quietStretchRefusal,
   previewTimeCommand,
 } from "../presentation/time-command";
 import { acceptedOfferStarts } from "../presentation/offer-deadlines";
@@ -1497,6 +1499,10 @@ function PlayingScreen({
       ? {
           day: skipToLabel(day.target),
           week: skipToLabel(week.target),
+          untilNeededReason: quietStretchRefusal(
+            session.world,
+            session.personId,
+          ),
           untilNeeded: untilNeeded
             ? describeTimeCommandPreview(untilNeeded)
             : null,
@@ -2888,6 +2894,14 @@ function PlayingScreen({
                     ✕
                   </button>
                 </p>
+              ) : null}
+              {!shellReadOnly(session.world) ? (
+                <MeetingStopActions
+                  world={session.world}
+                  personId={session.personId}
+                  runner={timeRunner}
+                  onReport={(report) => setPassOutcome(report.outcome)}
+                />
               ) : null}
               {crisisStop.stop ? (
                 <p
