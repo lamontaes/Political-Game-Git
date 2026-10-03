@@ -1,6 +1,9 @@
 # Follow-ups (small stuff, noted, not blocking) — Oct 2
+
 ## HARD-CODED NUMBERS AND PLACEHOLDERS: FIX THESE FIRST (owner, Oct 2 11:05)
+
 Owner: quick ones are fixed now; the rest are listed here and fixed first when he says go, ahead of the bug list.
+
 - DONE (#2036): the HOME_PURCHASE_PLACEHOLDER is gone; down payments are sourced from NAR 2025. DONE (#2040): the mortgage rate is the policy rate plus a cited 2.525-point spread (FRED, Dec 31 2025). Also clear the stale placeholder-ledger.json rows. OLD ENTRY: Home buying: HOME_PURCHASE_PLACEHOLDER in src/simulation/home-purchase.ts:75 has a $50,000 down payment and a $1,200 monthly payment, national since Sept 23, scaled by town home prices. Fix: down payment = the game's recorded average down-payment share × price; monthly payment from the shared mortgage rate and term. Sent to Team 4 at 11:06 inside A53; if it takes more than 30 minutes it stays here.
 - DONE (#2013): 40-hour week replaced by recorded hours, or the game's occupation average.
 - Decision importance weights 1/2/4/6 in src/simulation/decision-scores.ts:8 (slight, moderate, strong, decisive). An authored scoring scale, not a world measure; listed for review.
@@ -8,7 +11,6 @@ Owner: quick ones are fixed now; the rest are listed here and fixed first when h
 - College tuition is a catalog constant (life-paths2-catalog.ts, e.g. periodCostMinor: 500000, i.e. $5,000 a period everywhere), and colleges in play record no location or state ownership. Being fixed inside #2011 (A21) per the 13:06 send-back.
 - STARTING LAW AMOUNTS (biggest gap): 40 starting laws declare amounts (rates, thresholds, ages, shares), and 886 of their 890 in-force places carry NO amount, so those laws do nothing at game start. Worst: balanced budget 55, income tax 47, voting restoration 45, Medicaid 44, grocery exemption 43, local authority 42, pensions 38, broadband 37, groundwater 37, collective bargaining 36. Systematic job posted in 00g at 2:58 (split by area, cited values, plus a test guard).
 - Sweep of everything on main: a checker is listing all placeholder numbers, names and events (11:06); results go here.
-
 
 From gates and the 7:30 playthrough. Fix after the audit reaches 80%, or when a team is free.
 
@@ -50,6 +52,7 @@ From gates and the 7:30 playthrough. Fix after the audit reaches 80%, or when a 
 - [14:47] FIX-FIRST: starting teacher salary floors (26 states) have no amounts, so they do nothing; starting levy bindings are missing (seen in #2055 gate). Team 6 sources them.
 
 ## 15:12 additions
+
 - FIX-FIRST: #2061 gate found ~28 placeholder words in data files outside the two assumption ledgers (Team J). List them and map or fix.
 - #2058 (A35) merged: in a 120-day random game no law story was published at all, so starting-law news never reached a reader in play. Check law-story publishing frequency.
 - #2055 (A15) merged with a FAIL on the play proof: no starting law of the three kinds applies in a random new game. Cause is the 886 missing starting-law amounts (systematic job by area, Team 6 guard test).
