@@ -221,7 +221,7 @@ export interface ChildhoodFamilyContext {
   readonly source: UpbringingSource;
 }
 
-function householdContext(world: World, personId: EntityId) {
+function selectedHouseholdMembers(world: World, personId: EntityId) {
   const parents = recordedParents(world, personId);
   const parentHousehold = parents
     .map((id) => householdMembershipsAt(world, id)[0])
@@ -231,6 +231,12 @@ function householdContext(world: World, personId: EntityId) {
   const members = household
     ? peopleInHouseholdAt(world, household.household.id)
     : [];
+  return { parents, parentHousehold, household, members };
+}
+
+function householdContext(world: World, personId: EntityId) {
+  const { parents, parentHousehold, household, members } =
+    selectedHouseholdMembers(world, personId);
   const kinds = household
     ? members.flatMap((id) =>
         householdMembershipsAt(world, id)
@@ -655,7 +661,9 @@ function childhoodFamilyContext(
     : donorId
       ? [donorId]
       : [];
-  const donorMembers = donorId ? householdContext(world, donorId).members : [];
+  const donorMembers = donorId
+    ? selectedHouseholdMembers(world, donorId).members
+    : [];
   const familySize =
     own.members.length ||
     donorMembers.length ||
