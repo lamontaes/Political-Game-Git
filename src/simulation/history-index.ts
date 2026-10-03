@@ -318,8 +318,8 @@ export interface GrowingIndexKind<I> {
 
 interface GrowingIndexState<I> {
   readonly byList: WeakMap<readonly unknown[], I>;
-  /** The indexed list each record is currently the last record of. */
-  readonly listEndingWith: WeakMap<object, readonly unknown[]>;
+  /** A weak reference to the indexed list ending with each record. */
+  readonly listEndingWith: WeakMap<object, WeakRef<readonly unknown[]>>;
 }
 
 const GROWING_STATES = new WeakMap<object, GrowingIndexState<unknown>>();
@@ -344,7 +344,7 @@ export function growingIndex<I>(
   for (let at = records.length - 1; at >= stop; at -= 1) {
     const record = records[at];
     if (typeof record !== "object" || record === null) break;
-    const earlier = state.listEndingWith.get(record);
+    const earlier = state.listEndingWith.get(record)?.deref();
     if (!earlier) continue;
     if (earlier.length !== at + 1 || !beginsWith(records, earlier)) break;
     index = state.byList.get(earlier);
@@ -363,7 +363,7 @@ export function growingIndex<I>(
   state.byList.set(records, index);
   const last = records.at(-1);
   if (typeof last === "object" && last !== null)
-    state.listEndingWith.set(last, records);
+    state.listEndingWith.set(last, new WeakRef(records));
   return index;
 }
 
