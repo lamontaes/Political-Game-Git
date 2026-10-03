@@ -50,10 +50,15 @@ import { createPolicyCatalog, createSyntheticPolicyCatalog } from "./policy";
 import { createProductionPolicyCatalog } from "./production-catalog";
 import { personName } from "./people";
 import { recordedPayStubs } from "./resource-income";
+import { payPayerAt } from "./pay-coverage-predicates";
+import { publicOrganizationKey } from "./tax-policy";
 import { resourceFlowTermsAt, resourcePositionAt } from "./resource-queries";
 import {
   createResourcePosition,
+  createResourceFlow,
   createWorkCompensation,
+  recordResourceTransferOutcome,
+  type CreateWorkCompensationInput,
   money,
 } from "./resources";
 import { deserializeWorld, serializeWorld } from "./serialization";
@@ -304,19 +309,48 @@ function worker(
   townPayroll = false,
   jobPayroll = false,
   shiftPayroll = false,
+  publicPayer = false,
 ) {
   const personId = start.personOrder[0]!;
   let world = createOrganization(start, {
     stableKey: "fixture:city-pay:employer",
     formedAt: start.currentDate,
-    provenance,
+    provenance: publicPayer
+      ? {
+          kind: "source-record",
+          reference: "https://example.invalid/controlled-public-pay-employer",
+          asOf: start.currentDate,
+        }
+      : provenance,
     initialProfile: {
       name: "Controlled city employer",
-      classification: "sector:private",
+      classification: publicPayer ? "sector:government" : "sector:private",
       locationJurisdictionId: jurisdictionId,
+      ...(publicPayer
+        ? {
+            publicGovernmentIdentity: {
+              kind: "jurisdiction" as const,
+              jurisdictionId,
+            },
+          }
+        : {}),
     },
   });
   const organizationId = world.history.organizations.at(-1)!.id;
+  let payerId = organizationId;
+  if (publicPayer) {
+    world = createOrganization(world, {
+      stableKey: publicOrganizationKey(jurisdictionId),
+      formedAt: world.currentDate,
+      provenance,
+      initialProfile: {
+        name: "Controlled public paying account",
+        classification: "sector:government",
+        locationJurisdictionId: jurisdictionId,
+      },
+    });
+    payerId = world.history.organizations.at(-1)!.id;
+  }
   world = createWorkRelationship(world, {
     stableKey: "fixture:city-pay:work",
     personId,
@@ -345,13 +379,12 @@ function worker(
     },
   });
   const work = world.history.workRelationships.at(-1)!;
-  world = createWorkCompensation(world, {
+  const compensation = {
     stableKey: townPayroll
       ? `${TOWN_PAY_VERSION}:job-pay:${work.id}`
       : jobPayroll
         ? `job-pay:${work.id}`
         : "fixture:city-pay:flow",
-    workRelationshipId: work.id,
     startsAt: world.currentDate,
     amount: money(shiftPayroll ? 7200 : 100, "USD"),
     cadenceKind: shiftPayroll
@@ -362,19 +395,31 @@ function worker(
     restrictionKind: null,
     jurisdictionId: null,
     provenance,
-  });
+  } satisfies Omit<CreateWorkCompensationInput, "workRelationshipId">;
+  world = publicPayer
+    ? createResourceFlow(world, {
+        ...compensation,
+        source: { kind: "organization", organizationId: payerId },
+        recipient: { kind: "person", personId },
+        basisKind: "compensation:work",
+        basisReference: { kind: "work", workRelationshipId: work.id },
+      })
+    : createWorkCompensation(world, {
+        ...compensation,
+        workRelationshipId: work.id,
+      });
   const flow = world.history.resourceFlows.at(-1)!;
   world = createResourcePosition(world, {
     stableKey: "fixture:city-pay:cash",
-    owner: { kind: "organization", organizationId },
+    owner: { kind: "organization", organizationId: payerId },
     openedAt: world.currentDate,
     openingBalance: money(1_000_000, "USD"),
     provenance,
   });
-  return { world, personId, organizationId, flow };
+  return { world, personId, organizationId, payerId, flow };
 }
 
-function completedEarnedLawFixture() {
+function completedEarnedLawFixture(publicPayer = false) {
   const o = opened("3137000");
   const law = enact(
     o.world,
@@ -391,6 +436,7 @@ function completedEarnedLawFixture() {
     false,
     false,
     true,
+    publicPayer,
   );
   if (f.flow.basisReference.kind !== "work")
     throw new Error("Missing controlled shift work binding");
@@ -669,6 +715,109 @@ it("A38 earned law raises only the actual completed interval without changing it
       ]),
     ),
   ).toBe(serializeWorld(paid));
+});
+
+it("A38 completed public-employer pay uses its distinct recorded account and replays after reload", () => {
+  const { f, worked, completion, period } = completedEarnedLawFixture(true);
+  const paid = settleTownCompensations(worked.world, [period]);
+  const outcome = paid.history.resourceTransferOutcomes.find(
+    (row) => row.stableKey === period.stableKey,
+  )!;
+  const assessment = paid.history.earnedLawPayAssessments!.find(
+    (row) => row.id === outcome.earnedLawPayAssessmentId,
+  )!;
+  expect(f.payerId).not.toBe(f.organizationId);
+  expect(assessment.organizationId).toBe(f.organizationId);
+  expect(
+    payPayerAt(paid, assessment.workRelationshipId, assessment.earnedCutoff),
+  ).toBe(f.payerId);
+  expect(f.flow.source).toEqual({
+    kind: "organization",
+    organizationId: f.payerId,
+  });
+  expect(outcome).toMatchObject({
+    status: "completed",
+    attemptedAmount: money(8000, "USD"),
+    transferredAmount: money(8000, "USD"),
+    provenance: { kind: "simulated-event", eventId: completion.id },
+  });
+  expect(
+    resourcePositionAt(
+      paid,
+      { kind: "organization", organizationId: f.payerId },
+      money(1, "USD").currency,
+    )!.liquidBalance,
+  ).toEqual(money(992000, "USD"));
+  expect(
+    resourcePositionAt(
+      paid,
+      { kind: "organization", organizationId: f.organizationId },
+      money(1, "USD").currency,
+    ),
+  ).toBeNull();
+  expect(settleTownCompensations(paid, [period])).toBe(paid);
+  const reopened = deserializeWorld(serializeWorld(paid));
+  expect(serializeWorld(reopened)).toBe(serializeWorld(paid));
+  expect(settleTownCompensations(reopened, [period])).toBe(reopened);
+  expect(
+    serializeWorld(
+      settleTownCompensations(deserializeWorld(serializeWorld(worked.world)), [
+        period,
+      ]),
+    ),
+  ).toBe(serializeWorld(paid));
+});
+
+it("A38 completed public-employer payment refuses a saved flow with the wrong payer", () => {
+  const { f, workId, worked, completion, earned, period } =
+    completedEarnedLawFixture(true);
+  const assessed = applyLawConsequences(worked.world, {
+    onDate: completion.occurredAt,
+    activity: "payroll",
+    activityId: workId,
+    subjectIds: [f.personId],
+    completedShift: { eventId: completion.id, termsId: earned.id },
+  });
+  const assessment = assessed.history.earnedLawPayAssessments!.at(-1)!;
+  expect(assessment.organizationId).toBe(f.organizationId);
+  expect(payPayerAt(assessed, workId, assessment.earnedCutoff)).toBe(f.payerId);
+  // Explicit corrupted-save control: canonical employer/account/work records
+  // remain intact; only the pay flow's payer is substituted with the employer.
+  const corrupted: World = {
+    ...assessed,
+    history: {
+      ...assessed.history,
+      resourceFlows: assessed.history.resourceFlows.map((flow) =>
+        flow.id === f.flow.id
+          ? {
+              ...flow,
+              source: {
+                kind: "organization" as const,
+                organizationId: f.organizationId,
+              },
+            }
+          : flow,
+      ),
+    },
+  };
+  const before = serializeWorld(corrupted);
+  expect(() =>
+    recordResourceTransferOutcome(corrupted, {
+      stableKey: period.stableKey,
+      resourceFlowId: f.flow.id,
+      periodStartsAt: period.periodStartsAt,
+      periodEndsAt: period.periodEndsAt,
+      occurredAt: worked.world.currentDate,
+      status: "completed",
+      attemptedAmount: assessment.assessedGross,
+      transferredAmount: assessment.assessedGross,
+      reasonKind: null,
+      note: null,
+      provenance: { kind: "simulated-event", eventId: completion.id },
+      earnedLawPayAssessmentId: assessment.id,
+    }),
+  ).toThrow(/worker employer flow/);
+  expect(serializeWorld(corrupted)).toBe(before);
 });
 
 it("A38 actual completed-shift payday delegates immutable earnings through the clock caller", () => {
