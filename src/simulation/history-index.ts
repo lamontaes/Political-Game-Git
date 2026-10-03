@@ -377,8 +377,8 @@ export function appendedList<T>(
 }
 
 interface HistoryAppendStream {
-  readonly base: readonly unknown[];
-  readonly tail?: {
+  base?: readonly unknown[];
+  tail?: {
     readonly prior: HistoryAppendStream;
     readonly added: readonly unknown[];
   };
@@ -397,7 +397,13 @@ export function withHistoryAppendTransaction(
   for (const family of families) {
     const records = world.history[family];
     if (Array.isArray(records))
-      transaction.set(records, { base: records, length: records.length });
+      transaction.set(
+        records,
+        APPEND_TRANSACTION?.get(records) ?? {
+          base: records,
+          length: records.length,
+        },
+      );
   }
   const outer = APPEND_TRANSACTION;
   let result: World;
@@ -413,17 +419,32 @@ export function withHistoryAppendTransaction(
     const records = result.history[family];
     if (!Array.isArray(records)) continue;
     const stream = transaction.get(records);
-    if (!stream?.tail) continue;
+    if (!stream || records === world.history[family]) continue;
     const chunks: (readonly unknown[])[] = [];
-    for (let at = stream; at.tail; at = at.tail.prior)
-      chunks.push(at.tail.added);
+    let root = stream;
+    for (; root.tail; root = root.tail.prior) chunks.push(root.tail.added);
     const added = chunks.reverse().flat();
-    const materialized = stream.base.concat(added);
+    // A shared ancestor may already back a longer committed sibling. Only
+    // its original logical prefix belongs to this append line.
+    const base = root.base!;
+    const prefix =
+      base.length === root.length ? base : base.slice(0, root.length);
+    const materialized = prefix.concat(added);
     // The plain list has exactly this immutable view's records and order.
     // Preserve the append proof so the next reader transfers its index.
     const lineage = LINES.get(records);
     if (lineage) LINES.set(materialized, { ...lineage });
     Object.assign(history, { [family]: materialized });
+    // Cached or held views keep their original lengths, but no longer hold
+    // this line's prior streams, chunks or old base array.
+    let current = stream;
+    for (;;) {
+      const prior = current.tail?.prior;
+      current.base = materialized;
+      delete current.tail;
+      if (!prior) break;
+      current = prior;
+    }
   }
   return { ...result, history };
 }
@@ -433,7 +454,6 @@ function appendHistoryView<T>(
   added: readonly T[],
 ): T[] {
   const stream: HistoryAppendStream = {
-    base: prior.base,
     tail: { prior, added: [...added] },
     length: prior.length + added.length,
   };
@@ -444,24 +464,24 @@ function appendHistoryView<T>(
     return value < stream.length ? value : undefined;
   };
   const valueAt = (at: number): unknown => {
-    if (at < stream.base.length) return stream.base[at];
     let current = stream;
     while (current.tail) {
       if (at >= current.tail.prior.length)
         return current.tail.added[at - current.tail.prior.length];
       current = current.tail.prior;
     }
-    return undefined;
+    return current.base![at];
   };
   const view = new Proxy<T[]>([], {
     get(target, key, receiver) {
       if (key === "length") return stream.length;
       if (key === Symbol.iterator)
         return function* () {
-          yield* stream.base;
           const chunks: (readonly unknown[])[] = [];
-          for (let at = stream; at.tail; at = at.tail.prior)
-            chunks.push(at.tail.added);
+          let root = stream;
+          for (; root.tail; root = root.tail.prior)
+            chunks.push(root.tail.added);
+          for (let at = 0; at < root.length; at += 1) yield root.base![at];
           for (let at = chunks.length - 1; at >= 0; at -= 1) yield* chunks[at]!;
         };
       const at = index(key);
