@@ -1,6 +1,12 @@
 import { describe, expect, it, vi } from "vitest";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { drawRandomPlace } from "../../tests/support/random-place";
+import * as families from "./family-shape";
+import {
+  createResourceFlow,
+  recordResourceFlowTerms,
+  money,
+} from "./resources";
 import * as childhood from "./childhood-record";
 import { addDays } from "./dates";
 import { personTrait } from "./people-traits";
@@ -123,5 +129,163 @@ describe(`upbringing read reuse (${place.displayName}, seed ${seed})`, () => {
     expect(theirs.personId).toBe(other);
     expect(theirs).not.toBe(own);
     expect(theirs).toEqual(upbringingFor({ ...world }, other));
+  });
+  it("reuses cohorts after irrelevant withholding appends without changing output or reload", () => {
+    const { world: empty, personId } = fixture();
+    const world = createResourceFlow(empty, {
+      stableKey: "cohort:initial-withholding",
+      source: { kind: "person", personId },
+      recipient: {
+        kind: "person",
+        personId: empty.personOrder.find((id) => id !== personId)!,
+      },
+      startsAt: empty.currentDate,
+      amount: money(100, "USD"),
+      cadenceKind: "schedule:monthly",
+      basisKind: "custom:tax-collection",
+      basisReference: { kind: "general" },
+      restrictionKind: null,
+      jurisdictionId: null,
+      provenance: {
+        kind: "authored",
+        note: "Existing nonempty withholding prefix control.",
+      },
+    });
+    const spy = vi.spyOn(families, "recordedFamilyEstimates");
+    try {
+      const before = upbringingFor(world, personId);
+      const calls = spy.mock.calls.length;
+      expect(calls).toBeGreaterThan(0);
+      const next = createResourceFlow(world, {
+        stableKey: "cohort:withholding",
+        source: { kind: "person", personId },
+        recipient: {
+          kind: "person",
+          personId: world.personOrder.find((id) => id !== personId)!,
+        },
+        startsAt: world.currentDate,
+        amount: money(100, "USD"),
+        cadenceKind: "schedule:monthly",
+        basisKind: "custom:tax-collection",
+        basisReference: { kind: "general" },
+        restrictionKind: null,
+        jurisdictionId: null,
+        provenance: {
+          kind: "authored",
+          note: "Explicit irrelevant withholding dependency control.",
+        },
+      });
+      expect(upbringingFor(next, personId)).toEqual(before);
+      expect(spy.mock.calls.length).toBe(calls);
+      expect(upbringingFor(world, personId)).toBe(before);
+      expect(
+        upbringingFor(deserializeWorld(serializeWorld(next)), personId),
+      ).toEqual(before);
+    } finally {
+      spy.mockRestore();
+    }
+  });
+
+  it("rebuilds for compensation and revised histories, preserves earlier snapshots and future date boundaries", () => {
+    const { world, personId } = smallWorld({
+      place: place.key,
+      seed,
+      household: true,
+    });
+    const spy = vi.spyOn(families, "recordedFamilyEstimates");
+    try {
+      const before = upbringingFor(world, personId);
+      const calls = spy.mock.calls.length;
+      const paidPersonId =
+        before.familyContext!.caregiverPersonIds[0] ?? personId;
+      const paid = createResourceFlow(world, {
+        stableKey: "cohort:income",
+        source: {
+          kind: "person",
+          personId: world.personOrder.find((id) => id !== paidPersonId)!,
+        },
+        recipient: { kind: "person", personId: paidPersonId },
+        startsAt: world.currentDate,
+        amount: money(100_000, "USD"),
+        cadenceKind: "schedule:monthly",
+        basisKind: "compensation:owner-draw",
+        basisReference: { kind: "general" },
+        restrictionKind: null,
+        jurisdictionId: null,
+        provenance: {
+          kind: "authored",
+          note: "Controlled recorded monthly compensation.",
+        },
+      });
+      const income = upbringingFor(paid, personId);
+      expect(spy.mock.calls.length).toBeGreaterThan(calls);
+      expect(income.familyContext).not.toEqual(before.familyContext);
+      expect(upbringingFor(world, personId)).toBe(before);
+      const flow = paid.history.resourceFlows.at(-1)!;
+      const terms = paid.history.resourceFlowTerms.at(-1)!;
+      const raised = recordResourceFlowTerms(paid, {
+        stableKey: "cohort:income-change",
+        resourceFlowId: flow.id,
+        effectiveAt: paid.currentDate,
+        status: "active",
+        amount: money(10_000_000, "USD"),
+        cadenceKind: terms.cadenceKind,
+        reason: "Controlled recorded compensation change.",
+        provenance: flow.provenance,
+        supersedesTermsId: terms.id,
+      });
+      const changed = upbringingFor(raised, personId);
+      expect(
+        changed.familyContext,
+        JSON.stringify({
+          income: income.familyContext,
+          changed: changed.familyContext,
+        }),
+      ).not.toEqual(income.familyContext);
+      expect(upbringingFor(paid, personId)).toBe(income);
+      const revised = {
+        ...raised,
+        history: {
+          ...raised.history,
+          resourceFlows: raised.history.resourceFlows.map((row, index) =>
+            index === 0 ? { ...row } : row,
+          ),
+        },
+      };
+      const count = spy.mock.calls.length;
+      expect(upbringingFor(revised, personId)).toEqual(changed);
+      expect(spy.mock.calls.length).toBeGreaterThan(count);
+      expect(
+        upbringingFor(deserializeWorld(serializeWorld(raised)), personId),
+      ).toEqual(changed);
+      const boundary = addDays(raised.currentDate, 2);
+      const dated = createResourceFlow(raised, {
+        stableKey: "cohort:future-income",
+        source: flow.source,
+        recipient: flow.recipient,
+        startsAt: boundary,
+        initialStatus: "expected",
+        amount: money(100_000, "USD"),
+        cadenceKind: "schedule:monthly",
+        basisKind: "compensation:owner-draw",
+        basisReference: { kind: "general" },
+        restrictionKind: null,
+        jurisdictionId: null,
+        provenance: flow.provenance,
+      });
+      upbringingFor(dated, personId);
+      const initial = spy.mock.calls.length;
+      const day = (date: typeof boundary) => ({
+        ...dated,
+        currentDate: date,
+        currentMoment: { ...dated.currentMoment, date },
+      });
+      upbringingFor(day(addDays(boundary, -1)), personId);
+      expect(spy.mock.calls.length).toBe(initial);
+      upbringingFor(day(boundary), personId);
+      expect(spy.mock.calls.length).toBeGreaterThan(initial);
+    } finally {
+      spy.mockRestore();
+    }
   });
 });

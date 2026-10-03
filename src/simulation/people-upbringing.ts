@@ -4,7 +4,11 @@ import {
   type RecordedFamilySample,
 } from "./family-shape";
 import { childhoodRecordEntries } from "./childhood-record";
-import { recordsByStringField } from "./history-index";
+import {
+  indexFollowingAppends,
+  recordById,
+  recordsByStringField,
+} from "./history-index";
 import { dateAtAge, daysBetween } from "./dates";
 import { townJobRate, townPayPercentile } from "./living-world/town-pay";
 import { stableHash } from "./ids";
@@ -318,18 +322,113 @@ interface FamilyCohortIndex {
   }[];
 }
 const FAMILY_COHORTS = new WeakMap<object, FamilyCohortIndex>();
+// Keep dependency tokens across irrelevant appends; revised/unknown prefixes
+// build new tokens. Every extension copies before changing a handed-out index.
+type CompensationFlows = readonly World["history"]["resourceFlows"][number][];
+const COMPENSATION_FLOWS = new WeakMap<object, CompensationFlows>();
+const RECENT_COMPENSATION_FLOWS: (readonly unknown[])[] = [];
+const COMPENSATION_TERMS = new WeakMap<
+  object,
+  {
+    cache: WeakMap<
+      object,
+      readonly World["history"]["resourceFlowTerms"][number][]
+    >;
+    recent: (readonly unknown[])[];
+  }
+>();
+function compensationDependencies(world: World) {
+  const flows = world.history.resourceFlows;
+  const isCompensation = (flow: (typeof flows)[number]) =>
+    flow.basisKind.startsWith("compensation:") &&
+    flow.recipient.kind === "person";
+  const extendFlows = (prior: CompensationFlows, from: number) => {
+    const added = flows.slice(from).filter(isCompensation);
+    return added.length ? [...prior, ...added] : prior;
+  };
+  const relevant = indexFollowingAppends(
+    COMPENSATION_FLOWS,
+    RECENT_COMPENSATION_FLOWS,
+    flows,
+    () => extendFlows([], 0),
+    extendFlows,
+  );
+  let slot = COMPENSATION_TERMS.get(relevant);
+  if (!slot) {
+    slot = { cache: new WeakMap(), recent: [] };
+    COMPENSATION_TERMS.set(relevant, slot);
+  }
+  const terms = world.history.resourceFlowTerms;
+  const extendTerms = (
+    prior: readonly (typeof terms)[number][],
+    from: number,
+  ) => {
+    const added = terms.slice(from).filter((row) => {
+      const flow = recordById(flows, row.resourceFlowId);
+      // Unknown references conservatively invalidate rather than dropping
+      // a dependency from a malformed or independently revised history.
+      return !flow || isCompensation(flow);
+    });
+    return added.length ? [...prior, ...added] : prior;
+  };
+  return [
+    relevant,
+    indexFollowingAppends(
+      slot.cache,
+      slot.recent,
+      terms,
+      () => extendTerms([], 0),
+      extendTerms,
+    ),
+  ] as const;
+}
+const FUTURE_DATES = new WeakMap<object, readonly string[]>();
+const RECENT_FUTURE_DATES: (readonly unknown[])[] = [];
+function nextRecordDate(
+  rows: readonly object[],
+  onDate: IsoDate,
+): IsoDate | undefined {
+  const extend = (prior: readonly string[], from: number) => {
+    const added = rows
+      .slice(from)
+      .flatMap((row) =>
+        Object.values(row).filter(
+          (value): value is string =>
+            typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value),
+        ),
+      );
+    return added.length ? [...new Set([...prior, ...added])].sort() : prior;
+  };
+  const dates = indexFollowingAppends(
+    FUTURE_DATES,
+    RECENT_FUTURE_DATES,
+    rows,
+    () => extend([], 0),
+    extend,
+  );
+  let low = 0;
+  let high = dates.length;
+  while (low < high) {
+    const middle = (low + high) >>> 1;
+    if (dates[middle]! <= onDate) low = middle + 1;
+    else high = middle;
+  }
+  return dates[low] as IsoDate | undefined;
+}
+
 function cohortKey(row: FamilyContextRead): string {
   return JSON.stringify([row.placeId, row.householdType, row.incomeBand]);
 }
 function familyCohortIndex(world: World): FamilyCohortIndex {
   const key = world.history.kinshipRelationships;
+  const [payFlows, payTerms] = compensationDependencies(world);
   const inputs = [
     world.people,
     world.history.householdMemberships,
     world.history.householdMembershipStates,
     world.history.householdLocations,
-    world.history.resourceFlows,
-    world.history.resourceFlowTerms,
+    payFlows,
+    payTerms,
     world.history.workRelationships,
     world.history.workStatuses,
     world.history.workRoles,
@@ -373,8 +472,7 @@ function familyCohortIndex(world: World): FamilyCohortIndex {
     world.history.kinshipRelationships,
     ...inputs.slice(1),
   ] as readonly (readonly object[])[]) {
-    for (const row of rows)
-      for (const value of Object.values(row)) consider(value);
+    consider(nextRecordDate(rows, world.currentDate));
   }
   for (const relationship of world.history.kinshipRelationships)
     for (const id of relationship.personIds)
