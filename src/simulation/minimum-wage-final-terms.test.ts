@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import startingLaw from "../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { authoredWageTerm } from "../../tests/fixtures/authored-wage-term";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { makeIsoDate, simulationMomentOnLocalDate } from "./dates";
@@ -475,5 +476,79 @@ describe("Your Money player script on the receiving payroll graph", () => {
   );
   it.todo(
     "repeat and Save/Continue without duplicate pay, withholding or reflection",
+  );
+});
+
+type StartingFloorRow = {
+  operativeAt?: string;
+  lawTerms?: readonly { key: string; value: number }[];
+  scopeEvidence?: { kind: string };
+  phases?: readonly StartingFloorRow[];
+};
+const startingFloorRows = startingLaw.questions[
+  "us-policy-positions:labor-workforce.raise-minimum-wage"
+].answers as Record<string, StartingFloorRow>;
+const federalStartingFloor = startingLaw.questions[
+  "us-federal-positions:labor-commerce.raise-federal-minimum-wage"
+].answers.US.lawTerms.find((term) => term.key === "floor")!.value;
+
+// Reader controls, not payroll acceptance. Missing applicability remains an
+// explicit unknown; these cases do not claim that every place has numeric scope.
+describe("A39 all56 current starting terms and recorded scheduled phases", () => {
+  it.each(places)(
+    "uses canonical dated text at the actual workplace in $jurisdictionKey",
+    (place: LifePlaceStateIdentity) => {
+      const { world, jurisdictionId } = smallWorld({
+        place: place.jurisdictionKey,
+        date: enactedAt,
+        seed: `${SEED}:${place.jurisdictionKey}:starting-phases`,
+      });
+      const row = startingFloorRows[place.jurisdictionKey]!;
+      expect(row, place.jurisdictionKey).toBeDefined();
+      const current = makeIsoDate("2026-10-02");
+      const dates = new Set([
+        current,
+        ...(row.phases ?? []).map((phase) =>
+          makeIsoDate(phase.operativeAt!),
+        ),
+      ]);
+      for (const onDate of dates) {
+        const snapshot = {
+          ...world,
+          currentDate: onDate,
+          currentMoment: simulationMomentOnLocalDate(world.currentMoment, onDate),
+        };
+        const selected = [row, ...(row.phases ?? [])]
+          .filter(
+            (phase) =>
+              (phase.operativeAt ?? startingLaw.defaultOperativeAt) <= onDate,
+          )
+          .sort((left, right) =>
+            (left.operativeAt ?? startingLaw.defaultOperativeAt).localeCompare(
+              right.operativeAt ?? startingLaw.defaultOperativeAt,
+            ),
+          )
+          .at(-1);
+        const target = selected?.lawTerms?.find((term) => term.key === "target");
+        const expected = target
+          ? Math.max(federalStartingFloor, target.value)
+          : selected?.scopeEvidence?.kind === "federal-standard"
+            ? federalStartingFloor
+            : null;
+        const actual = minimumWageSettingAt(snapshot, jurisdictionId, onDate);
+        expect(
+          actual?.hourlyMinor ?? null,
+          `${place.jurisdictionKey} ${onDate}`,
+        ).toBe(expected);
+        if (target) {
+          expect(
+            stateMinimumSettingAt(snapshot, place.jurisdictionKey, onDate)
+              ?.hourlyMinor,
+          ).toBe(target.value);
+        } else if (expected === null) {
+          expect(actual).toBeNull();
+        }
+      }
+    },
   );
 });
