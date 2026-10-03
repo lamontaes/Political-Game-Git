@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { recordsByStringField } from "./history-index";
 
 import {
   LEXINGTON_PLACEHOLDER_ID,
@@ -222,6 +223,84 @@ function addHousehold(
 }
 
 describe("Stage 5.1 organizations and work", () => {
+  it("keeps indexed profile groups and old branches intact across cutoffs and sorting", () => {
+    const first = addOrganization(
+      createLifeWorld("profile-index"),
+      "org:index",
+    );
+    const initial = organizationProfileAt(first.world, first.id)!;
+    const held = organizationProfileHistory(first.world, first.id);
+    const branch = (key: string, effectiveAt: World["currentDate"]) =>
+      recordOrganizationProfile(first.world, {
+        stableKey: key,
+        organizationId: first.id,
+        effectiveAt,
+        name: key,
+        classification: initial.classification,
+        locationJurisdictionId: initial.locationJurisdictionId,
+        provenance: AUTHORED,
+        supersedesProfileId: initial.id,
+      });
+    const left = branch("profile:left", "2010-01-01");
+    const right = branch("profile:right", "2020-01-01");
+    const leftRow = left.history.organizationProfiles.at(-1)!;
+    const rightRow = right.history.organizationProfiles.at(-1)!;
+    expect(organizationProfileHistory(left, first.id)).toEqual([
+      initial,
+      leftRow,
+    ]);
+    expect(organizationProfileHistory(right, first.id)).toEqual([
+      initial,
+      rightRow,
+    ]);
+    expect(held).toEqual([initial]);
+    expect(organizationProfileHistory(first.world, first.id)).toEqual([
+      initial,
+    ]);
+    expect(
+      organizationProfileHistory(right, first.id, {
+        asOfDate: "2019-01-01",
+        historySequenceExclusive: right.history.nextSequence,
+      }),
+    ).toEqual([initial]);
+    expect(
+      organizationProfileHistory(right, first.id, {
+        asOfDate: right.currentDate,
+        historySequenceExclusive: rightRow.sequence,
+      }),
+    ).toEqual([initial]);
+    const reversed = {
+      ...left,
+      history: {
+        ...left.history,
+        organizationProfiles: [leftRow, initial],
+      },
+    };
+    const shared = recordsByStringField(
+      reversed.history.organizationProfiles,
+      "organizationId",
+      first.id,
+    );
+    expect(organizationProfileHistory(reversed, first.id)).toEqual([
+      initial,
+      leftRow,
+    ]);
+    expect(shared).toEqual([leftRow, initial]);
+    const replaced = {
+      ...right,
+      history: { ...right.history, organizationProfiles: [rightRow] },
+    };
+    expect(organizationProfileHistory(replaced, first.id)).toEqual([rightRow]);
+    expect(organizationProfileAt(left, first.id)).toBe(leftRow);
+    expect(organizationProfileAt(right, first.id)).toBe(rightRow);
+    expect(
+      organizationProfileHistory(
+        deserializeWorld(serializeWorld(left)),
+        first.id,
+      ),
+    ).toEqual([initial, leftRow]);
+  });
+
   it("keeps organization identity stable across open classification, profile history, detail promotion, and save/load", () => {
     const first = addOrganization(
       createLifeWorld("organization-stability"),

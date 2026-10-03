@@ -108,12 +108,12 @@ export function organizationProfileHistory(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly OrganizationProfileRecord[] {
   validateCutoff(world, cutoff);
-  return world.history.organizationProfiles
-    .filter(
-      (record) =>
-        record.organizationId === organizationId &&
-        available(record.sequence, record.effectiveAt, cutoff),
-    )
+  return recordsByStringField(
+    world.history.organizationProfiles,
+    "organizationId",
+    organizationId,
+  )
+    .filter((record) => available(record.sequence, record.effectiveAt, cutoff))
     .sort(byEffectiveDateThenSequence);
 }
 
