@@ -248,6 +248,8 @@ describe.each(allPlaces())(
         reason: "Identical authored weekly contract for played/NPC parity.",
         provenance,
       });
+      base = cancelFixtureItemsBefore(base, date);
+      expect(date > revisedAt).toBe(true);
       // Record the shared future item while its due date is still in the future.
       const dueKey = `${TOWN_PAY_VERSION}:payday:${since}:fixture:${work.id}`;
       base = scheduleFutureDueItem(base, {
@@ -263,7 +265,6 @@ describe.each(allPlaces())(
       )!;
       expect(due).toBeDefined();
       expect(due.transitionKey).toBe(PAYDAY_TRANSITION_KEY);
-      base = cancelFixtureItemsBefore(base, date);
       base = withWorldIntegrityDeferred(() => ({
         ...base,
         currentDate: date,
