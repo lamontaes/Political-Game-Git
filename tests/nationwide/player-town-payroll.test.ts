@@ -8,6 +8,7 @@ import {
 import { DEFAULT_NEW_GAME_SETUP } from "../../src/presentation/new-game";
 import {
   addDays,
+  makeIsoDate,
   simulationMomentOnLocalDate,
 } from "../../src/simulation/dates";
 import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/place-population.generated";
@@ -17,6 +18,7 @@ import {
   TOWN_PAY_VERSION,
   PAYDAY_TRANSITION_KEY,
   nextPaydayDate,
+  nextRecordedPaydayDate,
   payPeriodEndingOn,
   paydayHandler,
   startTownJobPay,
@@ -69,9 +71,12 @@ function allPlaces() {
 
 /** NPC route through the same canonical payroll settlement as played work. */
 function npcPayday(world: World, due: FutureDueItem): World {
-  const since = due.stableKey.slice(
-    `${TOWN_PAY_VERSION}:payday:`.length,
-  ) as World["currentDate"];
+  if (due.transitionKey !== PAYDAY_TRANSITION_KEY)
+    throw new Error("Payday received another transition.");
+  const prefix = `${TOWN_PAY_VERSION}:payday:`;
+  const since = makeIsoDate(
+    due.stableKey.slice(prefix.length, prefix.length + 10),
+  );
   const played =
     world.control.kind === "person" ? world.control.personId : null;
   let next = startTownJobPay(world, played, since);
@@ -80,8 +85,8 @@ function npcPayday(world: World, due: FutureDueItem): World {
   next = noticeLawPayChanges(next, since);
   next = payTownPaydays(next, since, played);
   return scheduleFutureDueItem(next, {
-    stableKey: `${TOWN_PAY_VERSION}:payday:${next.currentDate}`,
-    dueAt: nextPaydayDate(next.currentDate),
+    stableKey: `${prefix}${next.currentDate}:${next.history.nextSequence}`,
+    dueAt: nextRecordedPaydayDate(next),
     transitionKey: PAYDAY_TRANSITION_KEY,
     entityIds: [next.id],
     jurisdictionId: null,
