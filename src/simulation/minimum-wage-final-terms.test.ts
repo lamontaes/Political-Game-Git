@@ -506,11 +506,14 @@ describe("A39 all56 current starting terms and recorded scheduled phases", () =>
       const row = startingFloorRows[place.jurisdictionKey]!;
       expect(row, place.jurisdictionKey).toBeDefined();
       const current = makeIsoDate("2026-10-02");
+      // Keep the saved world's chronology valid: older source phases are
+      // selected at opening, while later phases get their own dated snapshot.
       const dates = new Set([
+        enactedAt,
         current,
-        ...(row.phases ?? []).map((phase) =>
-          makeIsoDate(phase.operativeAt!),
-        ),
+        ...(row.phases ?? [])
+          .filter((phase) => phase.operativeAt! >= enactedAt)
+          .map((phase) => makeIsoDate(phase.operativeAt!)),
       ]);
       for (const onDate of dates) {
         const snapshot = {
