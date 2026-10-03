@@ -33,3 +33,25 @@ Nothing here is read by the game. After Claude CTO approves a batch in the
 - `batch-2-incomplete/`: the first, search-limited pass, kept for comparison.
 - `research-brief.md` and `apply.py`: the instructions each researcher
   followed and the script that moves approved rows into the game file.
+
+## Retired minimum-wage estimate parameters
+
+The minimum-wage reader now consumes the adopted numeric law terms and their
+source-dated phases in `data/research/laws/starting-law-2026.json`. A yes/no
+answer does not supply a wage amount. Missing regional or industry applicability
+remains unresolved; the federal standard does not settle those schedules.
+
+The following former simulation parameter files were retired from this branch:
+
+- `data/research/labor/state-minimum-wage-raise-term.json`: historical median
+  increases do not establish the amount or effective dates of a new law.
+- `data/research/labor/local-minimum-wage-premium.json`: the average premium in
+  a California locality sample does not establish another locality's ordinance.
+
+The research remains available in Git history at
+[the preserved A39 starting point](https://github.com/lamontaes/Political-Game-Git/tree/dabe31d2d32cf30f42cc208979d7618cc3d5a47b/data/research/labor).
+The historical calculation is also documented in
+[the retired state-raise evidence note](../evidence/state-minimum-wage-raise-term.md).
+The sourced dated wage matrix is retained as evidence; it is not a second
+runtime wage table. Opening-pay helper retirement remains subject to the
+separate A38 caller-parity hold.
