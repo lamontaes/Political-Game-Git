@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 
 import { appendedList } from "./history-index";
 import { resourcePositionAt } from "./resource-queries";
-import { makeCurrencyCode } from "./resources";
 import type {
   EntityId,
   HistoricalCutoff,
@@ -101,7 +100,6 @@ function day(n: number): string {
 
 describe("running balances", () => {
   it("keeps delayed fast and historical evidence fixed across appends and siblings", () => {
-    const currency = makeCurrencyCode("USD");
     const flow = {
       id: id("held-flow"),
       sequence: 2,
@@ -139,6 +137,7 @@ describe("running balances", () => {
       sequence: 4,
       date: day(1),
     };
+    const currency = lists.positions[0]!.openingBalance.currency;
     const held = Object.freeze(
       resourcePositionAt(worldOf(lists), owner(1), currency)!,
     );
