@@ -204,6 +204,13 @@ describe.each(allPlaces())(
           originalDue,
         ),
       );
+      const priorObligation = base.history.resourceTransferOutcomes.find(
+        (row) =>
+          row.resourceFlowId === openingFlow!.id &&
+          row.periodStartsAt === oldWindow.startsAt &&
+          row.periodEndsAt === oldWindow.endsAt,
+      );
+      expect(priorObligation, key).toBeDefined();
       const historicalWorld = base;
       const historicalCutoff = {
         asOfDate: base.currentDate,
@@ -240,6 +247,21 @@ describe.each(allPlaces())(
         reason: "Identical authored weekly contract for played/NPC parity.",
         provenance,
       });
+      // Record the shared future item while its due date is still in the future.
+      const dueKey = `${TOWN_PAY_VERSION}:payday:${since}:fixture:${work.id}`;
+      base = scheduleFutureDueItem(base, {
+        stableKey: dueKey,
+        dueAt: date,
+        transitionKey: PAYDAY_TRANSITION_KEY,
+        entityIds: [base.id],
+        jurisdictionId: null,
+        provenance,
+      });
+      const due = base.history.futureDueItems.find(
+        (item) => item.stableKey === dueKey,
+      )!;
+      expect(due).toBeDefined();
+      expect(due.transitionKey).toBe(PAYDAY_TRANSITION_KEY);
       base = cancelFixtureItemsBefore(base, date);
       base = withWorldIntegrityDeferred(() => ({
         ...base,
@@ -257,17 +279,6 @@ describe.each(allPlaces())(
         employee,
         money(0, "USD").currency,
       )!.liquidBalance.minorUnits;
-      // Both independent routes receive the same saved observation boundary.
-      base = scheduleFutureDueItem(base, {
-        stableKey: `${TOWN_PAY_VERSION}:payday:${since}:fixture:${work.id}`,
-        dueAt: date,
-        transitionKey: PAYDAY_TRANSITION_KEY,
-        entityIds: [base.id],
-        jurisdictionId: null,
-        provenance,
-      });
-      const due = base.history.futureDueItems.at(-1)!;
-      expect(due.transitionKey).toBe(PAYDAY_TRANSITION_KEY);
       const npc = withWorldIntegrityDeferred(() =>
         npcPayday({ ...base, control: { kind: "observer" } }, due),
       );
