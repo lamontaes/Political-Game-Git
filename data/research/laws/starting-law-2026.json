@@ -4568,13 +4568,45 @@
           "note": "American Samoa adopts the federal income-tax rules as the separate Samoan Income Tax, a territorial income tax with withholding on wages."
         },
         "US-AZ": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "unit": "ratio",
+              "value": 0.025
+            },
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "unit": "minor",
+              "value": 0
+            }
+          ],
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "2026 single-filer flat marginal rate and taxable-income threshold from state-income-tax-2026.json; threshold is cents of annual taxable income, after the separately read deduction."
         },
         "US-CA": {
           "answer": "yes"
         },
         "US-CO": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "unit": "ratio",
+              "value": 0.044
+            },
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "unit": "minor",
+              "value": 0
+            }
+          ],
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "2026 single-filer flat marginal rate and taxable-income threshold from state-income-tax-2026.json; threshold is cents of annual taxable income, after the separately read deduction."
         },
         "US-CT": {
           "answer": "yes"
@@ -4589,7 +4621,23 @@
           "answer": "no"
         },
         "US-GA": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "unit": "ratio",
+              "value": 0.0519
+            },
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "unit": "minor",
+              "value": 0
+            }
+          ],
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "2026 single-filer flat marginal rate and taxable-income threshold from state-income-tax-2026.json; threshold is cents of annual taxable income, after the separately read deduction."
         },
         "US-GU": {
           "answer": "yes",
@@ -4601,25 +4649,121 @@
           "answer": "yes"
         },
         "US-IA": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "unit": "ratio",
+              "value": 0.038
+            },
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "unit": "minor",
+              "value": 0
+            }
+          ],
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "2026 single-filer flat marginal rate and taxable-income threshold from state-income-tax-2026.json; threshold is cents of annual taxable income, after the separately read deduction."
         },
         "US-ID": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "unit": "ratio",
+              "value": 0.053
+            },
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "unit": "minor",
+              "value": 481100
+            }
+          ],
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "2026 single-filer flat marginal rate and taxable-income threshold from state-income-tax-2026.json; threshold is cents of annual taxable income, after the separately read deduction."
         },
         "US-IL": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "unit": "ratio",
+              "value": 0.0495
+            },
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "unit": "minor",
+              "value": 0
+            }
+          ],
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "2026 single-filer flat marginal rate and taxable-income threshold from state-income-tax-2026.json; threshold is cents of annual taxable income, after the separately read deduction."
         },
         "US-IN": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "unit": "ratio",
+              "value": 0.0295
+            },
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "unit": "minor",
+              "value": 0
+            }
+          ],
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "2026 single-filer flat marginal rate and taxable-income threshold from state-income-tax-2026.json; threshold is cents of annual taxable income, after the separately read deduction."
         },
         "US-KS": {
           "answer": "yes"
         },
         "US-KY": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "unit": "ratio",
+              "value": 0.035
+            },
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "unit": "minor",
+              "value": 0
+            }
+          ],
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "2026 single-filer flat marginal rate and taxable-income threshold from state-income-tax-2026.json; threshold is cents of annual taxable income, after the separately read deduction."
         },
         "US-LA": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "unit": "ratio",
+              "value": 0.03
+            },
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "unit": "minor",
+              "value": 0
+            }
+          ],
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "2026 single-filer flat marginal rate and taxable-income threshold from state-income-tax-2026.json; threshold is cents of annual taxable income, after the separately read deduction."
         },
         "US-MA": {
           "answer": "yes"
@@ -4631,7 +4775,23 @@
           "answer": "yes"
         },
         "US-MI": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "unit": "ratio",
+              "value": 0.0425
+            },
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "unit": "minor",
+              "value": 0
+            }
+          ],
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "2026 single-filer flat marginal rate and taxable-income threshold from state-income-tax-2026.json; threshold is cents of annual taxable income, after the separately read deduction."
         },
         "US-MN": {
           "answer": "yes"
@@ -4646,13 +4806,45 @@
           "note": "The Commonwealth adopts the Internal Revenue Code as the Northern Marianas Territorial Income Tax, a broad income tax on wages."
         },
         "US-MS": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "unit": "ratio",
+              "value": 0.04
+            },
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "unit": "minor",
+              "value": 1000000
+            }
+          ],
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "2026 single-filer flat marginal rate and taxable-income threshold from state-income-tax-2026.json; threshold is cents of annual taxable income, after the separately read deduction."
         },
         "US-MT": {
           "answer": "yes"
         },
         "US-NC": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "unit": "ratio",
+              "value": 0.0399
+            },
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "unit": "minor",
+              "value": 0
+            }
+          ],
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "2026 single-filer flat marginal rate and taxable-income threshold from state-income-tax-2026.json; threshold is cents of annual taxable income, after the separately read deduction."
         },
         "US-ND": {
           "answer": "yes"
@@ -4676,7 +4868,23 @@
           "answer": "yes"
         },
         "US-OH": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "unit": "ratio",
+              "value": 0.0275
+            },
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "unit": "minor",
+              "value": 2605000
+            }
+          ],
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "2026 single-filer flat marginal rate and taxable-income threshold from state-income-tax-2026.json; threshold is cents of annual taxable income, after the separately read deduction."
         },
         "US-OK": {
           "answer": "yes"
@@ -4685,7 +4893,23 @@
           "answer": "yes"
         },
         "US-PA": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "unit": "ratio",
+              "value": 0.0307
+            },
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "unit": "minor",
+              "value": 0
+            }
+          ],
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "2026 single-filer flat marginal rate and taxable-income threshold from state-income-tax-2026.json; threshold is cents of annual taxable income, after the separately read deduction."
         },
         "US-PR": {
           "answer": "yes",
@@ -4709,7 +4933,23 @@
           "answer": "no"
         },
         "US-UT": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "unit": "ratio",
+              "value": 0.045
+            },
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "unit": "minor",
+              "value": 0
+            }
+          ],
+          "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+          "note": "2026 single-filer flat marginal rate and taxable-income threshold from state-income-tax-2026.json; threshold is cents of annual taxable income, after the separately read deduction."
         },
         "US-VA": {
           "answer": "yes"
@@ -13333,40 +13573,88 @@
           "preempts": true,
           "cite": "Alaska Stat. §§ 39.35.255, 39.35.280",
           "source": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=39.35.255&secEnd=39.35.280",
-          "note": "Employers pay 22 percent of pay and the state must pay the rest of the board-adopted actuarial rate for the closed PERS plan each year."
+          "note": "Employers pay 22 percent of pay and the state must pay the rest of the board-adopted actuarial rate for the closed PERS plan each year.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-AL": {
           "answer": "yes",
           "preempts": true,
           "source": "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf",
-          "note": "State law requires employers in the Retirement Systems of Alabama to pay the actuarially determined contribution (NASRA 2015 summary; no later change found)."
+          "note": "State law requires employers in the Retirement Systems of Alabama to pay the actuarially determined contribution (NASRA 2015 summary; no later change found).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-AR": {
           "answer": "yes",
           "preempts": true,
           "source": "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf",
-          "note": "APERS and ATRS employers must pay the actuarially determined contribution by statute, though the teachers' employer rate is capped (NASRA 2015 summary)."
+          "note": "APERS and ATRS employers must pay the actuarially determined contribution by statute, though the teachers' employer rate is capped (NASRA 2015 summary).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-AS": {
           "answer": "yes",
           "preempts": true,
           "cite": "A.S.C.A. § 7.1433",
           "source": "https://asbar.org/code-annotated/7-1433-government-contributions-to-fund/",
-          "note": "The government must pay the retirement fund each year on an actuarially funded basis, the normal cost plus a level payment that pays off the unfunded accrued cost."
+          "note": "The government must pay the retirement fund each year on an actuarially funded basis, the normal cost plus a level payment that pays off the unfunded accrued cost.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-AZ": {
           "answer": "yes",
           "preempts": true,
           "cite": "Ariz. Rev. Stat. § 38-737",
           "source": "https://www.azleg.gov/ars/38/00737.htm",
-          "note": "Employer contributions to the Arizona State Retirement System must equal normal cost plus the amount to amortize the unfunded liability, as set by the board's actuary."
+          "note": "Employer contributions to the Arizona State Retirement System must equal normal cost plus the amount to amortize the unfunded liability, as set by the board's actuary.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-CA": {
           "answer": "yes",
           "preempts": true,
           "cite": "Cal. Gov. Code § 20814",
           "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=20814",
-          "note": "The Legislature must adopt the CalPERS board's actuarial contribution rates and appropriate them in the Budget Act; CalSTRS state contributions follow a separate statutory funding plan."
+          "note": "The Legislature must adopt the CalPERS board's actuarial contribution rates and appropriate them in the Budget Act; CalSTRS state contributions follow a separate statutory funding plan.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-CO": {
           "answer": "no",
@@ -13379,14 +13667,30 @@
           "answer": "yes",
           "preempts": true,
           "source": "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf",
-          "note": "State statutes require the actuarially determined contribution for SERS and the Teachers' Retirement Board (NASRA 2015 summary; the state statute site could not be fetched)."
+          "note": "State statutes require the actuarially determined contribution for SERS and the Teachers' Retirement Board (NASRA 2015 summary; the state statute site could not be fetched).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-DC": {
           "answer": "yes",
           "preempts": true,
           "cite": "D.C. Code § 1-907.03",
           "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-907.03",
-          "note": "The Retirement Board certifies the actuarially determined District payment each year, and the Mayor and Council must budget no less than that amount."
+          "note": "The Retirement Board certifies the actuarially determined District payment each year, and the Mayor and Council must budget no less than that amount.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-DE": {
           "answer": "yes",
@@ -13394,7 +13698,15 @@
           "preempts": true,
           "cite": "29 Del. C. § 5544(b)",
           "source": "https://delcode.delaware.gov/title29/c055/sc03/index.html",
-          "note": "The state's appropriation must equal the board-approved actuarial rate: normal cost plus 20-year amortization of the unfunded liability."
+          "note": "The state's appropriation must equal the board-approved actuarial rate: normal cost plus 20-year amortization of the unfunded liability.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-FL": {
           "answer": "no",
@@ -13406,7 +13718,15 @@
           "answer": "yes",
           "preempts": true,
           "source": "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf",
-          "note": "Georgia statutes require ERS and TRS employers to pay the actuarially determined contribution, and the state constitution requires actuarial funding standards (NASRA 2015 and 2017 summaries)."
+          "note": "Georgia statutes require ERS and TRS employers to pay the actuarially determined contribution, and the state constitution requires actuarial funding standards (NASRA 2015 and 2017 summaries).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-GU": {
           "answer": "yes",
@@ -13414,7 +13734,15 @@
           "operativeAt": "2003-03-01",
           "cite": "4 GCA § 8137",
           "source": "https://col.guamcourts.gov/sites/default/files/04gc008_Q.pdf",
-          "note": "The government must pay the Retirement Fund each year, on an actuarial funded basis, the normal cost plus an amortization of the unfunded liability, and the Board can enforce it in court by writ of mandate; the 100 percent rate has applied since March 1, 2003."
+          "note": "The government must pay the Retirement Fund each year, on an actuarial funded basis, the normal cost plus an amortization of the unfunded liability, and the Board can enforce it in court by writ of mandate; the 100 percent rate has applied since March 1, 2003.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-HI": {
           "answer": "no",
@@ -13427,14 +13755,30 @@
           "preempts": true,
           "cite": "Iowa Code § 97B.11",
           "source": "https://www.legis.iowa.gov/docs/code/97B.11.pdf",
-          "note": "IPERS contributions are the actuarially determined rate, split 60/40 employer/employee for regular members, but the regular rate may not change more than one percentage point a year."
+          "note": "IPERS contributions are the actuarially determined rate, split 60/40 employer/employee for regular members, but the regular rate may not change more than one percentage point a year.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-ID": {
           "answer": "yes",
           "preempts": true,
           "cite": "Idaho Code § 59-1322",
           "source": "https://legislature.idaho.gov/statutesrules/idstat/Title59/T59CH13/SECT59-1322/",
-          "note": "PERSI employers must pay normal cost plus an amortization payment at rates the board sets from the actuarial valuation."
+          "note": "PERSI employers must pay normal cost plus an amortization payment at rates the board sets from the actuarial valuation.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-IL": {
           "answer": "no",
@@ -13446,28 +13790,60 @@
           "answer": "yes",
           "preempts": true,
           "source": "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf",
-          "note": "State statute directs the board to calculate, and the legislature to fund, the actuarially determined contribution (NASRA 2015 summary)."
+          "note": "State statute directs the board to calculate, and the legislature to fund, the actuarially determined contribution (NASRA 2015 summary).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-KS": {
           "answer": "yes",
           "preempts": true,
           "cite": "Kan. Stat. § 74-4920",
           "source": "https://www.ksrevisor.gov/statutes/chapters/ch74/074_049_0020.html",
-          "note": "KPERS certifies an actuarial employer rate each year, but statute caps each year's increase (now 1.2 percent of pay), and lawmakers set fixed rates in several recent years."
+          "note": "KPERS certifies an actuarial employer rate each year, but statute caps each year's increase (now 1.2 percent of pay), and lawmakers set fixed rates in several recent years.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-KY": {
           "answer": "yes",
           "preempts": true,
           "cite": "Ky. Rev. Stat. § 61.565",
           "source": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=53370",
-          "note": "KERS and State Police employers must pay the actuarial normal cost plus the unfunded liability payment each year; the teachers' system uses fixed employer rates, and the state must make up any shortfall in the next budget."
+          "note": "KERS and State Police employers must pay the actuarial normal cost plus the unfunded liability payment each year; the teachers' system uses fixed employer rates, and the state must make up any shortfall in the next budget.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-LA": {
           "answer": "yes",
           "preempts": true,
           "cite": "La. Const. art. X, § 29(E)",
           "source": "https://www.nasra.org//Files/Topical%20Reports/Funding%20Policies/FundingLanguage.pdf",
-          "note": "The state constitution requires the legislature to fund the employer normal cost each year and amortize the unfunded liability on a set schedule."
+          "note": "The state constitution requires the legislature to fund the employer normal cost each year and amortize the unfunded liability on a set schedule.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-MA": {
           "answer": "no",
@@ -13481,21 +13857,45 @@
           "preempts": true,
           "cite": "Md. Code, State Pers. & Pens. § 21-304",
           "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gsp&section=21-304&enactments=false",
-          "note": "The state must pay at least the actuarial normal rate plus accrued liability rate for each state system; 2013 legislation ended the older below-actuarial corridor method."
+          "note": "The state must pay at least the actuarial normal rate plus accrued liability rate for each state system; 2013 legislation ended the older below-actuarial corridor method.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-ME": {
           "answer": "yes",
           "preempts": true,
           "cite": "Me. Const. art. IX, § 18-A",
           "source": "https://www.nasra.org//Files/Topical%20Reports/Funding%20Policies/FundingLanguage.pdf",
-          "note": "The state constitution requires normal cost to be funded each year on an actuarially sound basis and experience losses to be paid off within 10 years."
+          "note": "The state constitution requires normal cost to be funded each year on an actuarially sound basis and experience losses to be paid off within 10 years.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-MI": {
           "answer": "yes",
           "preempts": true,
           "cite": "Mich. Comp. Laws § 38.1341",
           "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-38-1341",
-          "note": "School retirement contribution rates must be set by annual actuarial valuation, including a payment on the unfunded liability."
+          "note": "School retirement contribution rates must be set by annual actuarial valuation, including a payment on the unfunded liability.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-MN": {
           "answer": "no",
@@ -13509,7 +13909,15 @@
           "preempts": true,
           "cite": "Mo. Rev. Stat. § 104.436",
           "source": "https://revisor.mo.gov/main/OneSection.aspx?section=104.436",
-          "note": "The MOSERS board certifies the actuarial rate and the commissioner must request that appropriation; NASRA reads this as a statutory actuarial requirement, but the teachers' plan uses a statutory rate."
+          "note": "The MOSERS board certifies the actuarial rate and the commissioner must request that appropriation; NASRA reads this as a statutory actuarial requirement, but the teachers' plan uses a statutory rate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-MP": {
           "answer": "no",
@@ -13523,7 +13931,15 @@
           "answer": "yes",
           "preempts": true,
           "source": "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf",
-          "note": "Mississippi statute requires PERS employer contribution rates sufficient to fund the actuarially determined contribution (NASRA 2015 summary; no later change found), after a phase-in in fiscal 2007 and 2008."
+          "note": "Mississippi statute requires PERS employer contribution rates sufficient to fund the actuarially determined contribution (NASRA 2015 summary; no later change found), after a phase-in in fiscal 2007 and 2008.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-MT": {
           "answer": "no",
@@ -13536,14 +13952,30 @@
           "preempts": true,
           "cite": "N.C. Gen. Stat. § 135-8(d)",
           "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_135/GS_135-8.html",
-          "note": "The yearly payment to the pension fund may not be less than the actuarially determined employer contribution rate."
+          "note": "The yearly payment to the pension fund may not be less than the actuarially determined employer contribution rate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-ND": {
           "answer": "yes",
           "preempts": true,
           "cite": "N.D. Cent. Code § 54-52-06",
           "source": "https://ndlegis.gov/cencode/t54c52.pdf",
-          "note": "State agencies must pay normal cost plus the actuarially determined amount to amortize the main PERS plan over a closed period beginning 1/1/2026, or the legislature may transfer at least that amount; the teachers' fund still uses fixed rates."
+          "note": "State agencies must pay normal cost plus the actuarially determined amount to amortize the main PERS plan over a closed period beginning 1/1/2026, or the legislature may transfer at least that amount; the teachers' fund still uses fixed rates.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-NE": {
           "answer": "yes",
@@ -13551,14 +13983,30 @@
           "preempts": true,
           "cite": "Neb. Rev. Stat. § 79-966.01",
           "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=79-966.01",
-          "note": "For the school plan, the state must pay any gap between the statutory rates and the actuarially required rate; the state and county cash balance plans also require the actuarial contribution."
+          "note": "For the school plan, the state must pay any gap between the statutory rates and the actuarially required rate; the state and county cash balance plans also require the actuarial contribution.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-NH": {
           "answer": "yes",
           "preempts": true,
           "cite": "N.H. Const. pt. 1, art. 36-a",
           "source": "https://www.nasra.org//Files/Topical%20Reports/Funding%20Policies/FundingLanguage.pdf",
-          "note": "The state constitution requires the actuarially certified employer contributions to be appropriated each fiscal year."
+          "note": "The state constitution requires the actuarially certified employer contributions to be appropriated each fiscal year.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-NJ": {
           "answer": "no",
@@ -13577,13 +14025,29 @@
           "preempts": true,
           "cite": "Nev. Rev. Stat. §§ 286.410, 286.450",
           "source": "https://www.leg.state.nv.us/NRS/NRS-286.html",
-          "note": "Nevada PERS contribution rates are the actuarially determined rates from the biennial valuation."
+          "note": "Nevada PERS contribution rates are the actuarially determined rates from the biennial valuation.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-NY": {
           "answer": "yes",
           "preempts": true,
           "source": "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf",
-          "note": "State law requires employers in the NY State and Local Retirement System and NYSTRS to pay the actuarially determined contribution (NASRA 2015 summary)."
+          "note": "State law requires employers in the NY State and Local Retirement System and NYSTRS to pay the actuarially determined contribution (NASRA 2015 summary).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-OH": {
           "answer": "no",
@@ -13603,14 +14067,30 @@
           "preempts": true,
           "cite": "Or. Rev. Stat. § 238.225",
           "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors238.html",
-          "note": "Employers must pay what the PERS board determines is actuarially necessary to fund benefits."
+          "note": "Employers must pay what the PERS board determines is actuarially necessary to fund benefits.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-PA": {
           "answer": "yes",
           "preempts": true,
           "cite": "24 Pa.C.S. § 8328",
           "source": "https://www.palegis.us/statutes/consolidated/view-statute?txtType=PDF&ttl=24&div=0&chapter=83&section=28&subsctn=0",
-          "note": "PSERS employers pay the actuarially required rate, except that a rate collar limits how much it can rise in one year."
+          "note": "PSERS employers pay the actuarially required rate, except that a rate collar limits how much it can rise in one year.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-PR": {
           "answer": "no",
@@ -13625,14 +14105,30 @@
           "preempts": true,
           "cite": "R.I. Gen. Laws § 36-10-2",
           "source": "https://webserver.rilegislature.gov/Statutes/TITLE36/36-10/36-10-2.htm",
-          "note": "The state must appropriate each year the actuarially computed percentage covering normal cost and the amortization of the unfunded liability."
+          "note": "The state must appropriate each year the actuarially computed percentage covering normal cost and the amortization of the unfunded liability.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-SC": {
           "answer": "yes",
           "preempts": true,
           "cite": "S.C. Const. art. X, § 16",
           "source": "https://www.nasra.org//Files/Topical%20Reports/Funding%20Policies/FundingLanguage.pdf",
-          "note": "The state constitution requires yearly appropriations sufficient on a sound actuarial basis, as determined by the system's governing body."
+          "note": "The state constitution requires yearly appropriations sufficient on a sound actuarial basis, as determined by the system's governing body.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-SD": {
           "answer": "no",
@@ -13645,7 +14141,15 @@
           "answer": "yes",
           "preempts": true,
           "source": "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf",
-          "note": "Employers in the Tennessee Consolidated Retirement System must pay the actuarially determined contribution by statute (NASRA 2015 summary)."
+          "note": "Employers in the Tennessee Consolidated Retirement System must pay the actuarially determined contribution by statute (NASRA 2015 summary).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-TX": {
           "answer": "no",
@@ -13658,14 +14162,30 @@
           "answer": "yes",
           "preempts": true,
           "source": "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf",
-          "note": "Utah statutes require Utah Retirement Systems employers to pay the actuarially determined contribution (NASRA 2015 summary)."
+          "note": "Utah statutes require Utah Retirement Systems employers to pay the actuarially determined contribution (NASRA 2015 summary).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-VA": {
           "answer": "yes",
           "preempts": true,
           "cite": "Va. Code § 51.1-145",
           "source": "https://law.lis.virginia.gov/vacode/title51.1/chapter1/section51.1-145/",
-          "note": "Employer contribution rates must be the actuarial normal plus accrued liability rates set biennially by the VRS board."
+          "note": "Employer contribution rates must be the actuarial normal plus accrued liability rates set biennially by the VRS board.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-VI": {
           "answer": "no",
@@ -13678,7 +14198,15 @@
           "preempts": true,
           "cite": "3 V.S.A. § 473",
           "source": "https://legislature.vermont.gov/statutes/section/03/016/00473",
-          "note": "The state must pay the actuarially determined employer contribution, plus extra fixed amounts while the fund is below 90 percent funded."
+          "note": "The state must pay the actuarially determined employer contribution, plus extra fixed amounts while the fund is below 90 percent funded.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-WA": {
           "answer": "no",
@@ -13692,13 +14220,29 @@
           "preempts": true,
           "cite": "Wis. Stat. § 40.05",
           "source": "https://docs.legis.wisconsin.gov/statutes/statutes/40/I/05",
-          "note": "Contributions are set at the total actuarially required contribution rate approved by the board and split between employer and employee."
+          "note": "Contributions are set at the total actuarially required contribution rate approved by the board and split between employer and employee.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-WV": {
           "answer": "yes",
           "preempts": true,
           "source": "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf",
-          "note": "PERS employers pay board-set rates meant to fund the actuarial contribution, and the state must pay extra to amortize the Teachers' system on a statutory schedule (NASRA 2015 summary)."
+          "note": "PERS employers pay board-set rates meant to fund the actuarial contribution, and the state must pay extra to amortize the Teachers' system on a statutory schedule (NASRA 2015 summary).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "key": "contribution",
+              "unit": "ratio",
+              "value": 1
+            }
+          ]
         },
         "US-WY": {
           "answer": "no",
@@ -17159,8 +17703,16 @@
           "operativeAt": "2007-03-14",
           "preempts": false,
           "cite": "D.C. Code § 6-1041.01 et seq.; 11-C DCMR ch. 10",
-          "source": "https://code.dccouncil.gov/us/dc/council/code/sections/6-1041.02",
-          "note": "The District's own inclusionary zoning law and zoning regulations require affordable units in covered new residential developments across the District."
+          "source": "https://dcoz.dc.gov/sites/default/files/dc/sites/dcoz/publication/attachments/Subtitle%20C.pdf",
+          "note": "The District's own inclusionary zoning law and zoning regulations require affordable units in covered new residential developments across the District. ESTIMATED FROM AVERAGE: 0.09 = (0.10 + 0.08) / 2, the two residential floor-area minimums in 11-C DCMR 1003.1-1003.2. The game has no frame, height, bonus-density or floor-area facts; this is the equal-weight two-category average represented as a share of comparable-sized game homes, not an exact project compliance finding.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+              "key": "share",
+              "value": 0.09,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-DE": {
           "answer": "no",
@@ -17325,7 +17877,15 @@
           "preempts": false,
           "cite": "N.J. Stat. Ann. § 52:27D-329.9; Fair Housing Act, N.J. Stat. Ann. § 52:27D-301 et seq.",
           "source": "https://pub.njleg.state.nj.us/bills/2008/PL08/46_.HTM",
-          "note": "Under the Mount Laurel doctrine and Fair Housing Act every town must plan for its fair share of affordable housing, typically through mandatory set-asides, and P.L.2008, c.46 requires a 20 percent set-aside in new developments in regional planning areas and state-funded projects."
+          "note": "Under the Mount Laurel doctrine and Fair Housing Act every town must plan for its fair share of affordable housing, typically through mandatory set-asides, and P.L.2008, c.46 requires a 20 percent set-aside in new developments in regional planning areas and state-funded projects. ESTIMATED FROM AVERAGE: 0.20 = (0.20 + 0.20) / 2, the two new-unit set-aside rules in P.L.2008 c.46 section 18(a)-(b), for regional-planning and state-financed projects. The game lacks these project-category facts and municipal exceptions; this source-category average supplies its existing covered private-home boundary, not a claim every New Jersey project is legally covered.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+              "key": "share",
+              "value": 0.2,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-NM": {
           "answer": "no",
