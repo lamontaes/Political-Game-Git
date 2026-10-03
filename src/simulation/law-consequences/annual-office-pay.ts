@@ -93,14 +93,14 @@ export function resolveSavedAnnualOfficePayConsequences(
   // A state's recorded clause cannot change another state's office pay.
   // Keep the full authority reader when constitutional measures exist: its
   // hierarchy and missing-authority checks must still see those measures.
-  const held = paidOfficeOf(world, work);
+  const held = paidOfficeOf(world, work, cutoff);
   if (
     !held ||
     ((world.history.constitutionalMeasures?.length ?? 0) === 0 &&
       !annualRuleStates.has(held.state))
   )
     return [];
-  const saved = savedAnnualOfficePayRule(world, work, context.onDate);
+  const saved = savedAnnualOfficePayRule(world, work, context.onDate, cutoff);
   if (
     !saved ||
     (context.governingLawId && context.governingLawId !== saved.rule.measureId)

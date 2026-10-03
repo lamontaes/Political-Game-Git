@@ -288,8 +288,12 @@ export function officePayInForce(
   world: World,
   work: WorkRelationship,
   onDate: IsoDate,
+  cutoff: HistoricalCutoff = {
+    asOfDate: onDate,
+    historySequenceExclusive: world.history.nextSequence,
+  },
 ): OfficePayInForce | null {
-  const held = paidOfficeOf(world, work);
+  const held = paidOfficeOf(world, work, cutoff);
   if (!held) return null;
   const stated = statePayFor(held.office, held.state);
   const estimate =
@@ -306,6 +310,7 @@ export function officePayInForce(
         officeKey: officePayLawOfficeKey(held.state),
         field,
         onDate,
+        cutoff,
       },
       published?.annualDollars ?? null,
     );
@@ -344,9 +349,13 @@ export function savedAnnualOfficePayRule(
   world: World,
   work: WorkRelationship,
   onDate: IsoDate,
+  cutoff: HistoricalCutoff = {
+    asOfDate: onDate,
+    historySequenceExclusive: world.history.nextSequence,
+  },
 ) {
-  const held = paidOfficeOf(world, work);
-  const legal = officePayInForce(world, work, onDate);
+  const held = paidOfficeOf(world, work, cutoff);
+  const legal = officePayInForce(world, work, onDate, cutoff);
   const field = held ? PAY_LAW_FIELD[held.office] : undefined;
   if (!held || !field || !legal?.law) return null;
   const rule = enactedRuleChangeAt(world, {
@@ -354,6 +363,7 @@ export function savedAnnualOfficePayRule(
     officeKey: officePayLawOfficeKey(held.state),
     field,
     onDate,
+    cutoff,
   });
   if (
     !rule ||
