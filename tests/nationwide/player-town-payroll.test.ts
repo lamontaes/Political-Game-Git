@@ -15,6 +15,7 @@ import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/pla
 import { TERRITORY_PLACE_ROWS } from "../../src/simulation/territory-places";
 import { TOWN_EMPLOYMENT_VERSION } from "../../src/simulation/living-world/town-employment";
 import {
+  type TownPayPeriod,
   TOWN_PAY_VERSION,
   PAYDAY_TRANSITION_KEY,
   nextPaydayDate,
@@ -22,13 +23,14 @@ import {
   payPeriodEndingOn,
   paydayHandler,
   startTownJobPay,
+  townPaySource,
   raiseTeacherPayToFloor,
   payTownPaydays,
 } from "../../src/simulation/living-world/town-pay";
 import { noticeLawPayChanges } from "../../src/simulation/law-effects-noticed";
 import {
-  createWorkCompensation,
   recordWorkCompensationTerms,
+  createResourceFlow,
   money,
 } from "../../src/simulation/resources";
 import { ensureLifePathPersonalPosition } from "../../src/simulation/life-paths2-resources";
@@ -69,6 +71,31 @@ function allPlaces() {
   }));
 }
 
+/** Retain the fixture's explicit calendar context before changing its date. */
+function cancelFixtureItemsBefore(
+  world: World,
+  date: World["currentDate"],
+): World {
+  return withWorldIntegrityDeferred(() => {
+    let next = world;
+    for (const item of world.history.futureDueItems) {
+      const state = world.history.futureDueItemStates
+        .filter((row) => row.dueItemId === item.id)
+        .at(-1);
+      if (state?.status !== "scheduled" || item.dueAt >= date) continue;
+      next = cancelFutureDueItem(next, {
+        stableKey: `fixture:payday-context:${item.id}`,
+        dueItemId: item.id,
+        effectiveAt: world.currentDate,
+        reasonKey: "fixture:controlled-payday-context",
+        context:
+          "Controlled payday context; no ordinary intervening-day advancement claimed.",
+      });
+    }
+    return next;
+  });
+}
+
 /** NPC route through the same canonical payroll settlement as played work. */
 function npcPayday(world: World, due: FutureDueItem): World {
   if (due.transitionKey !== PAYDAY_TRANSITION_KEY)
@@ -107,8 +134,10 @@ describe.each(allPlaces())(
           questionnaire: "skipped",
         }),
       ).game!;
-      const since = game.world.currentDate;
-      const work = game.world.history.workRelationships.find(
+      const openedAt = game.world.currentDate;
+      // The existing initializer owns employer-to-public-account binding.
+      const initialized = startTownJobPay(game.world, null, openedAt);
+      const work = initialized.history.workRelationships.find(
         (item) =>
           item.stableKey.startsWith(`${TOWN_EMPLOYMENT_VERSION}:`) &&
           item.compensation === "paid" &&
@@ -117,67 +146,169 @@ describe.each(allPlaces())(
       expect(work, key).toBeDefined();
       // Identical authored contract controls the comparison; it is not a new
       // population wage/rate assumption. The actor/job/employer are generated.
-      const openingFlow = game.world.history.resourceFlows.find(
+      const openingFlow = initialized.history.resourceFlows.find(
         (flow) =>
           flow.basisReference.kind === "work" &&
           flow.basisReference.workRelationshipId === work.id,
-      )!;
-      const openingTerms = openingFlow
-        ? resourceFlowTermsAt(game.world, openingFlow.id)!
-        : null;
+      );
       const provenance = {
         kind: "authored" as const,
         note: "Parity fixture: identical weekly contract, not empirical pay.",
       };
-      let base = openingTerms
-        ? recordWorkCompensationTerms(game.world, {
-            stableKey: `fixture:weekly-contract:${work.id}`,
-            workRelationshipId: work.id,
-            effectiveAt: since,
-            status: "active",
-            amount: money(200_000, "USD"),
-            cadenceKind: "schedule:town-weekly",
-            supersedesTermsId: openingTerms.id,
-            reason: "Identical authored weekly contract for played/NPC parity.",
-            provenance,
-          })
-        : createWorkCompensation(game.world, {
-            stableKey: `${TOWN_PAY_VERSION}:job-pay:${work.id}`,
-            workRelationshipId: work.id,
-            startsAt: since,
-            amount: money(200_000, "USD"),
-            cadenceKind: "schedule:town-weekly",
-            restrictionKind: null,
-            jurisdictionId: null,
-            provenance,
-          });
-      base = fundRecordedPayrollControl(base, 31, 200_000);
-      let date = nextPaydayDate(addDays(since, 7));
-      // The shared calendar also contains semimonthly paydays. Select a full
-      // weekly period for this contract rather than assuming its next date fits.
-      while (!payPeriodEndingOn("weekly", date, 0)) date = nextPaydayDate(date);
-      base = withWorldIntegrityDeferred(() => {
-        let next = base;
-        for (const item of base.history.futureDueItems) {
-          const state = base.history.futureDueItemStates
-            .filter((row) => row.dueItemId === item.id)
-            .at(-1);
-          if (state?.status !== "scheduled" || item.dueAt >= date) continue;
-          next = cancelFutureDueItem(next, {
-            stableKey: `fixture:payday-context:${item.id}`,
-            dueItemId: item.id,
-            effectiveAt: since,
-            reasonKey: "fixture:controlled-payday-context",
-            context:
-              "Controlled payday context; no ordinary intervening-day advancement claimed.",
-          });
-        }
-        return {
-          ...next,
-          currentDate: date,
-          currentMoment: simulationMomentOnLocalDate(next.currentMoment, date),
-        };
+      let contractWorld = initialized;
+      if (!openingFlow) {
+        // No native agreement exists: record only the explicit fixture contract.
+        // Keep the generated legal employer and its actual canonical public payer.
+        const payer = townPaySource(initialized, work.organizationId!);
+        contractWorld = createResourceFlow(payer.world, {
+          stableKey: `${TOWN_PAY_VERSION}:job-pay:${work.id}:fixture`,
+          source: {
+            kind: "organization",
+            organizationId: payer.organizationId,
+          },
+          recipient: { kind: "person", personId: work.personId },
+          startsAt: openedAt,
+          amount: money(200_000, "USD"),
+          cadenceKind: "schedule:town-weekly",
+          basisKind: "compensation:work",
+          basisReference: { kind: "work", workRelationshipId: work.id },
+          restrictionKind: null,
+          jurisdictionId: null,
+          provenance,
+        });
+      }
+      const contractFlow =
+        openingFlow ??
+        contractWorld.history.resourceFlows.find(
+          (flow) =>
+            flow.basisReference.kind === "work" &&
+            flow.basisReference.workRelationshipId === work.id,
+        );
+      expect(contractFlow, key).toBeDefined();
+      const contractTerms = resourceFlowTermsAt(
+        contractWorld,
+        contractFlow!.id,
+      )!;
+      const contractCadence =
+        /^schedule:town-(weekly|biweekly|semimonthly|monthly)(?:-(\d))?$/.exec(
+          contractTerms.cadenceKind,
+        );
+      expect(contractCadence, key).not.toBeNull();
+      let oldBoundary = nextPaydayDate(openedAt);
+      let oldWindow = payPeriodEndingOn(
+        contractCadence![1] as TownPayPeriod,
+        oldBoundary,
+        Number(contractCadence![2] ?? 0),
+      );
+      while (!oldWindow || oldWindow.startsAt < contractFlow!.startsAt) {
+        oldBoundary = nextPaydayDate(oldBoundary);
+        oldWindow = payPeriodEndingOn(
+          contractCadence![1] as TownPayPeriod,
+          oldBoundary,
+          Number(contractCadence![2] ?? 0),
+        );
+      }
+      const oldPeriod = oldWindow;
+      const revisedAt = openingFlow ? addDays(oldBoundary, 1) : openedAt;
+      let date = nextPaydayDate(addDays(revisedAt, 6));
+      let window = payPeriodEndingOn("weekly", date, 0);
+      while (!window || window.startsAt < revisedAt) {
+        date = nextPaydayDate(date);
+        window = payPeriodEndingOn("weekly", date, 0);
+      }
+      expect(window.startsAt >= contractFlow!.startsAt).toBe(true);
+      const since = addDays(window.startsAt, -1);
+      const originalDue = initialized.history.futureDueItems.find(
+        (item) => item.transitionKey === PAYDAY_TRANSITION_KEY,
+      )!;
+      expect(originalDue).toBeDefined();
+      // Native agreements retain genuine prior receipts before revision.
+      // A newly authored agreement starts at opening and has no native arrears.
+      let base = fundRecordedPayrollControl(contractWorld, 31, 200_000);
+      if (openingFlow) {
+        base = cancelFixtureItemsBefore(base, oldBoundary);
+        base = withWorldIntegrityDeferred(() =>
+          npcPayday(
+            {
+              ...base,
+              currentDate: oldBoundary,
+              currentMoment: simulationMomentOnLocalDate(
+                base.currentMoment,
+                oldBoundary,
+              ),
+              control: { kind: "observer" },
+            },
+            originalDue,
+          ),
+        );
+        const priorObligation = base.history.resourceTransferOutcomes.find(
+          (row) =>
+            row.resourceFlowId === openingFlow!.id &&
+            row.periodStartsAt === oldPeriod.startsAt &&
+            row.periodEndsAt === oldPeriod.endsAt,
+        );
+        expect(priorObligation, key).toBeDefined();
+      }
+      const historicalWorld = base;
+      const historicalCutoff = {
+        asOfDate: base.currentDate,
+        historySequenceExclusive: base.history.nextSequence,
+      };
+      const historicalLiabilities = [
+        ...(base.history.statutoryTaxLiabilities ?? []),
+      ];
+      const historicalTaxPayments = [
+        ...(base.history.statutoryTaxPayments ?? []),
+      ];
+      const historicalPayments = [...base.history.resourceTransferOutcomes];
+      const historicalPaymentIds = new Set(
+        historicalPayments.map((row) => row.id),
+      );
+      base = cancelFixtureItemsBefore(base, revisedAt);
+      base = withWorldIntegrityDeferred(() => ({
+        ...base,
+        currentDate: revisedAt,
+        currentMoment: simulationMomentOnLocalDate(
+          base.currentMoment,
+          revisedAt,
+        ),
+      }));
+      if (openingFlow) {
+        const openingTerms = resourceFlowTermsAt(base, openingFlow.id)!;
+        base = recordWorkCompensationTerms(base, {
+          stableKey: `fixture:weekly-contract:${work.id}`,
+          workRelationshipId: work.id,
+          effectiveAt: revisedAt,
+          status: "active",
+          amount: money(200_000, "USD"),
+          cadenceKind: "schedule:town-weekly",
+          supersedesTermsId: openingTerms.id,
+          reason: "Identical authored weekly contract for played/NPC parity.",
+          provenance,
+        });
+      }
+      base = cancelFixtureItemsBefore(base, date);
+      expect(date > revisedAt).toBe(true);
+      // Record the shared future item while its due date is still in the future.
+      const dueKey = `${TOWN_PAY_VERSION}:payday:${since}:fixture:${work.id}`;
+      base = scheduleFutureDueItem(base, {
+        stableKey: dueKey,
+        dueAt: date,
+        transitionKey: PAYDAY_TRANSITION_KEY,
+        entityIds: [base.id],
+        jurisdictionId: null,
+        provenance,
       });
+      const due = base.history.futureDueItems.find(
+        (item) => item.stableKey === dueKey,
+      )!;
+      expect(due).toBeDefined();
+      expect(due.transitionKey).toBe(PAYDAY_TRANSITION_KEY);
+      base = withWorldIntegrityDeferred(() => ({
+        ...base,
+        currentDate: date,
+        currentMoment: simulationMomentOnLocalDate(base.currentMoment, date),
+      }));
       base = ensureLifePathPersonalPosition(
         base,
         work.personId,
@@ -189,10 +320,6 @@ describe.each(allPlaces())(
         employee,
         money(0, "USD").currency,
       )!.liquidBalance.minorUnits;
-      const due = game.world.history.futureDueItems.find(
-        (item) => item.transitionKey === PAYDAY_TRANSITION_KEY,
-      )!;
-      expect(due).toBeDefined();
       const npc = withWorldIntegrityDeferred(() =>
         npcPayday({ ...base, control: { kind: "observer" } }, due),
       );
@@ -212,8 +339,58 @@ describe.each(allPlaces())(
           item.basisReference.workRelationshipId === work.id,
       )!;
       const pay = player.history.resourceTransferOutcomes.filter(
-        (item) => item.resourceFlowId === flow.id,
+        (item) =>
+          item.resourceFlowId === flow.id && !historicalPaymentIds.has(item.id),
       );
+      if (!openingFlow) {
+        for (const outcome of pay)
+          expect(outcome.periodStartsAt! >= contractFlow!.startsAt).toBe(true);
+      }
+      expect(
+        player.history.resourceTransferOutcomes.filter((row) =>
+          historicalPaymentIds.has(row.id),
+        ),
+      ).toEqual(historicalPayments);
+      expect(
+        npc.history.resourceTransferOutcomes.filter((row) =>
+          historicalPaymentIds.has(row.id),
+        ),
+      ).toEqual(historicalPayments);
+      for (const compared of [player, npc]) {
+        const liabilityIds = new Set(
+          historicalLiabilities.map((row) => row.id),
+        );
+        const taxPaymentIds = new Set(
+          historicalTaxPayments.map((row) => row.id),
+        );
+        expect(
+          (compared.history.statutoryTaxLiabilities ?? []).filter((row) =>
+            liabilityIds.has(row.id),
+          ),
+        ).toEqual(historicalLiabilities);
+        expect(
+          (compared.history.statutoryTaxPayments ?? []).filter((row) =>
+            taxPaymentIds.has(row.id),
+          ),
+        ).toEqual(historicalTaxPayments);
+        for (const owner of [contractFlow!.source, contractFlow!.recipient]) {
+          expect(
+            resourcePositionAt(
+              compared,
+              owner,
+              money(0, "USD").currency,
+              historicalCutoff,
+            ),
+          ).toEqual(
+            resourcePositionAt(
+              historicalWorld,
+              owner,
+              money(0, "USD").currency,
+              historicalCutoff,
+            ),
+          );
+        }
+      }
       expect(pay.length).toBeGreaterThan(0);
       expect(
         pay.every((item) => item.transferredAmount.minorUnits === 200_000),
