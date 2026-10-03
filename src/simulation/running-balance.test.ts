@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { appendedList } from "./history-index";
 import { resourcePositionAt } from "./resource-queries";
+import { makeCurrencyCode } from "./resources";
 import type {
   EntityId,
   HistoricalCutoff,
@@ -100,6 +101,7 @@ function day(n: number): string {
 
 describe("running balances", () => {
   it("keeps delayed fast and historical evidence fixed across appends and siblings", () => {
+    const currency = makeCurrencyCode("USD");
     const flow = {
       id: id("held-flow"),
       sequence: 2,
@@ -138,7 +140,7 @@ describe("running balances", () => {
       date: day(1),
     };
     const held = Object.freeze(
-      resourcePositionAt(worldOf(lists), owner(1), "USD")!,
+      resourcePositionAt(worldOf(lists), owner(1), currency)!,
     );
     expect(held.liquidBalance.minorUnits).toBe(990);
     const second: Lists = {
@@ -154,7 +156,7 @@ describe("running balances", () => {
       historySequenceExclusive: 5,
     } as HistoricalCutoff;
     const historical = Object.freeze(
-      resourcePositionAt(worldOf(second), owner(1), "USD", cutoff)!,
+      resourcePositionAt(worldOf(second), owner(1), currency, cutoff)!,
     );
     expect(historical.liquidBalance.minorUnits).toBe(990);
     const third: Lists = {
@@ -166,7 +168,7 @@ describe("running balances", () => {
       date: day(3),
     };
     expect(
-      resourcePositionAt(worldOf(third), owner(1), "USD")!.liquidBalance
+      resourcePositionAt(worldOf(third), owner(1), currency)!.liquidBalance
         .minorUnits,
     ).toBe(940);
     const sibling: Lists = {
@@ -178,7 +180,7 @@ describe("running balances", () => {
       date: day(2),
     };
     expect(
-      resourcePositionAt(worldOf(sibling), owner(1), "USD")!.liquidBalance
+      resourcePositionAt(worldOf(sibling), owner(1), currency)!.liquidBalance
         .minorUnits,
     ).toBe(900);
     Object.assign(cutoff, { asOfDate: day(3), historySequenceExclusive: 99 });
