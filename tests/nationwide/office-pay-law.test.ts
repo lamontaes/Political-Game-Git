@@ -33,6 +33,7 @@ import { settleTownCompensations } from "../../src/simulation/living-world/town-
 import { paidOfficeOf, statePayFor } from "../../src/simulation/office-pay";
 import { resourceFlowTermsHistory } from "../../src/simulation/resource-queries";
 import { createFutureTransitionHandlerRegistry } from "../../src/simulation/future-transitions";
+import { passOrdinaryDays } from "../../src/presentation/ordinary-life";
 import {
   enrollMeasure,
   introduceMeasure,
@@ -145,11 +146,13 @@ function omahaWithGovernorPayLaw(bill: PayBill, initialWorld?: World) {
   for (const stage of chamber.floorStages) {
     const until = measurePosition(world, measureId).earliestNextFloorDate;
     if (until && world.currentDate < until)
-      world = advanceWorld(
-        world,
-        daysBetween(world.currentDate, until),
-        createFutureTransitionHandlerRegistry([]),
-      );
+      world = initialWorld
+        ? passOrdinaryDays(world, daysBetween(world.currentDate, until))
+        : advanceWorld(
+            world,
+            daysBetween(world.currentDate, until),
+            createFutureTransitionHandlerRegistry([]),
+          );
     world = takeFloorVote(world, {
       stableKey: `${key}:${stage.stageKey}`,
       measureId,
@@ -458,10 +461,9 @@ it("opens an actual new game in a sampled place for the annual-office correction
   const newWeekly = Math.round((bill.annualDollars * 100) / 52);
   const paid = advanceWithWorldIntegrityAtEnd(() => {
     enacted = omahaWithGovernorPayLaw(bill, salaries);
-    let governed = advanceWorld(
+    let governed = passOrdinaryDays(
       enacted.world,
       daysBetween(enacted.world.currentDate, enacted.effectiveAt),
-      createFutureTransitionHandlerRegistry([]),
     );
     officials = held.filter((work) => {
       const office = paidOfficeOf(salaries, work);
@@ -487,10 +489,9 @@ it("opens an actual new game in a sampled place for the annual-office correction
       );
     }
     const payday = addDays(enacted.effectiveAt, 7);
-    governed = advanceWorld(
+    governed = passOrdinaryDays(
       governed,
       daysBetween(governed.currentDate, payday),
-      createFutureTransitionHandlerRegistry([]),
     );
     return settleTownCompensations(
       governed,

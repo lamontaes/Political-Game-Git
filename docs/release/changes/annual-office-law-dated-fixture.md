@@ -3,15 +3,16 @@ id: annual-office-law-dated-fixture
 impact: none
 ---
 
-# Annual-office law checks retain their scope
+# Annual-office law checks retain the ordinary clock
 
-Annual-office law checks retain their actual opening and recorded NPC salaries
-while avoiding repeated unrelated routines. Every legislative stage, law
-authority, shared settlement, assertion and the original time limit remain.
-Ordinary-clock runtime acceptance remains required.
+Annual-office law checks retain their original ordinary-clock route, actual
+opening and recorded NPC salaries. Every legislative stage, law authority,
+shared settlement, assertion and the original time limit remain unchanged.
+The clock-only variation was rejected, and its failed results remain recorded.
 
 ## Method
 
-The focused fixture advances its legislative and pay-period dates
-through the existing canonical clock and explicit handler registry used by its
-other cases.
+The original fixture was restored exactly. The empty-registry variation could
+not resolve a scheduled payday. Using the default registry resolved that error
+but still exceeded the original time limit. All three failed attempts remain
+in the retained test logs. No timing result is relabeled as a test pass.
