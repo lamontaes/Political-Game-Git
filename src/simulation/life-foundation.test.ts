@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { recordsByStringField } from "./history-index";
+import { makeIsoDate } from "./dates";
 
 import {
   LEXINGTON_PLACEHOLDER_ID,
@@ -241,8 +242,8 @@ describe("Stage 5.1 organizations and work", () => {
         provenance: AUTHORED,
         supersedesProfileId: initial.id,
       });
-    const left = branch("profile:left", "2010-01-01");
-    const right = branch("profile:right", "2020-01-01");
+    const left = branch("profile:left", makeIsoDate("2010-01-01"));
+    const right = branch("profile:right", makeIsoDate("2020-01-01"));
     const leftRow = left.history.organizationProfiles.at(-1)!;
     const rightRow = right.history.organizationProfiles.at(-1)!;
     expect(organizationProfileHistory(left, first.id)).toEqual([
@@ -259,7 +260,7 @@ describe("Stage 5.1 organizations and work", () => {
     ]);
     expect(
       organizationProfileHistory(right, first.id, {
-        asOfDate: "2019-01-01",
+        asOfDate: makeIsoDate("2019-01-01"),
         historySequenceExclusive: right.history.nextSequence,
       }),
     ).toEqual([initial]);
