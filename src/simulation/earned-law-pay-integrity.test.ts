@@ -26,7 +26,7 @@ import {
 } from "./law-consequences/pay-rows";
 import { assessedCompletedHourlyGrossMinor } from "./completed-hourly-gross";
 import { recordById, recordsWithFieldValue } from "./history-index";
-import { money } from "./resources";
+import { money, recordWorkCompensationTerms } from "./resources";
 import { resourceFlowTermsAt } from "./resource-queries";
 import { workRoleAt } from "./life-queries";
 import { lawEffectStamp } from "./law-effect-stamp";
@@ -42,9 +42,24 @@ import {
 import type { EarnedLawPayAssessmentRecord } from "./types";
 import type { ResolvedHourlyLawPayConsequence } from "./law-consequence-types";
 import type { EntityId, World } from "./types";
+import lawData from "../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import { applyLawConsequences } from "./enacted-law-effects";
+import { recordWorkRole } from "./life";
+import { lifePlaceByKey, lifePlaceByJurisdictionId } from "./life-places";
+import {
+  STATE_MINIMUM_WAGE_QUESTION_KEY,
+  stateMinimumSettingAt,
+} from "./minimum-wage";
 
 let world: World;
 let assessment: EarnedLawPayAssessmentRecord;
+const regionalCases = Object.entries(
+  lawData.questions[STATE_MINIMUM_WAGE_QUESTION_KEY].answers,
+).flatMap(([stateKey, answer]) =>
+  "regionalTerms" in answer
+    ? [{ stateKey, region: answer.regionalTerms[0]! }]
+    : [],
+);
 
 beforeAll(() => {
   const game = createNewGameWorld({
@@ -259,6 +274,132 @@ beforeAll(() => {
 });
 
 describe("saved earned-law assessment integrity", () => {
+  it.each(regionalCases)(
+    "validates recorded regional earned assessments and reloads in $stateKey",
+    ({ stateKey, region }) => {
+      const place = lifePlaceByKey(region.workplaceKeys[0]!)!;
+      const game = createNewGameWorld({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed: `earned-assessment-integrity:regional:${stateKey}`,
+        placeKey: place.key,
+        startAge: 30,
+        startingLife: "ordinary-life",
+        household: "lives-alone",
+        questionnaire: "skipped",
+        priors: [],
+      });
+      const entered = enterLifePath(game.world, "shop-assistant");
+      expect(entered.ok, entered.message).toBe(true);
+      const work = entered.world.history.workRelationships.at(-1)!;
+      const role = workRoleAt(entered.world, work.id)!;
+      const located = recordWorkRole(entered.world, {
+        stableKey: `test:regional-workplace:${work.id}`,
+        workRelationshipId: work.id,
+        effectiveAt: entered.world.currentDate,
+        title: role.title,
+        occupationClassification: role.occupationClassification,
+        locationJurisdictionId: place.context.jurisdiction.id,
+        timeDemand: role.timeDemand,
+        provenance: role.provenance,
+        supersedesRoleId: role.id,
+      });
+      const payFlow = located.history.resourceFlows.find(
+        (entry) =>
+          entry.basisReference.kind === "work" &&
+          entry.basisReference.workRelationshipId === work.id,
+      )!;
+      const initialTerms = resourceFlowTermsAt(located, payFlow.id)!;
+      // Controlled below-floor shift contract derived from the recorded
+      // hourly rate; the existing scheduled shift supplies its real duration.
+      const contracted = recordWorkCompensationTerms(located, {
+        stableKey: `test:regional-earned-contract:${work.id}`,
+        workRelationshipId: work.id,
+        effectiveAt: located.currentDate,
+        status: "active",
+        amount: money(region.lawTerms[0]!.value, "USD"),
+        cadenceKind: initialTerms.cadenceKind,
+        supersedesTermsId: initialTerms.id,
+        reason: "Recorded-rate-derived controlled below-floor shift contract.",
+        provenance: initialTerms.provenance,
+      });
+      const scheduled = scheduleLifePathSession(contracted, work.id);
+      expect(scheduled.ok, scheduled.message).toBe(true);
+      const worked = performLifePathSession(
+        scheduled.world,
+        scheduled.world.history.scheduledActivities.at(-1)!.id,
+      );
+      expect(worked.ok, worked.message).toBe(true);
+      const completion = worked.world.history.events.findLast(
+        (event) =>
+          event.type === "life-paths2.work-session" &&
+          event.involvedEntityIds.includes(work.id),
+      )!;
+      const cutoff = {
+        asOfDate: completion.occurredAt,
+        historySequenceExclusive: completion.sequence + 1,
+      };
+      const flow = worked.world.history.resourceFlows.find(
+        (entry) =>
+          entry.basisReference.kind === "work" &&
+          entry.basisReference.workRelationshipId === work.id,
+      )!;
+      const terms = resourceFlowTermsAt(worked.world, flow.id, cutoff)!;
+      const context = {
+        onDate: completion.occurredAt,
+        activity: "payroll" as const,
+        activityId: work.id,
+        subjectIds: [work.personId],
+        completedShift: { eventId: completion.id, termsId: terms.id },
+      };
+      const assessed = applyLawConsequences(worked.world, context);
+      const recorded = assessed.history.earnedLawPayAssessments!.filter(
+        (entry) =>
+          entry.completionEventId === completion.id &&
+          entry.resolvedConsequence.action === "raise-hourly-floor" &&
+          entry.resolvedConsequence.questionKey ===
+            STATE_MINIMUM_WAGE_QUESTION_KEY,
+      );
+      expect(recorded).toHaveLength(1);
+      const saved = recorded[0]!;
+      expect(saved.resolvedConsequence.amount.value).toBe(
+        region.lawTerms[0]!.value,
+      );
+      expect(saved.earnedCutoff).toEqual(cutoff);
+      expect(saved.earnedTermsId).toBe(terms.id);
+      expect(saved.contractualGross).toEqual(terms.amount);
+      expect(saved.resolvedConsequence.sourceRecordIds).toContain(
+        located.history.workRoles.at(-1)!.id,
+      );
+      const workplace = payWorkplaceAt(assessed, work.id, cutoff);
+      const workplaceKey = lifePlaceByJurisdictionId(
+        workplace.jurisdictionId!,
+      )!.key;
+      expect(workplaceKey).toBe(place.key);
+      // Supporting reader coverage only: this does not exercise a saved-rule
+      // assessment's validator branch or introduce a saved-rule fixture.
+      expect(
+        stateMinimumSettingAt(
+          assessed,
+          stateKey,
+          cutoff.asOfDate,
+          cutoff,
+          workplaceKey,
+        )?.hourlyMinor,
+      ).toBe(region.lawTerms[0]!.value);
+      expect(
+        stateMinimumSettingAt(assessed, stateKey, cutoff.asOfDate, cutoff),
+      ).toBeNull();
+      expect(() =>
+        validateEarnedLawPayAssessment(assessed, saved),
+      ).not.toThrow();
+      const reopened = deserializeWorld(serializeWorld(assessed));
+      expect(() =>
+        validateEarnedLawPayAssessment(reopened, saved),
+      ).not.toThrow();
+      expect(applyLawConsequences(reopened, context)).toBe(reopened);
+    },
+  );
+
   it("validates actual completed work without changing its world or earned terms", () => {
     const before = serializeWorld(world);
     expect(() =>
