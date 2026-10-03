@@ -272,6 +272,9 @@ function validateEarnedLawPayAuthority(
           unit: expression.unit,
           onDate: cutoff.asOfDate,
           cutoff,
+          workplaceKey: workplace.jurisdictionId
+            ? lifePlaceByJurisdictionId(workplace.jurisdictionId)?.key
+            : undefined,
         });
         if (
           !term ||
@@ -334,7 +337,13 @@ function validateEarnedLawPayAuthority(
       cutoff,
     });
     const legal = stateKey
-      ? stateMinimumSettingAt(world, stateKey, cutoff.asOfDate, cutoff)
+      ? stateMinimumSettingAt(
+          world,
+          stateKey,
+          cutoff.asOfDate,
+          cutoff,
+          place ? lifePlaceByJurisdictionId(place.id)?.key : undefined,
+        )
       : null;
     const template = MINIMUM_WAGE_PAY_ROWS[STATE_MINIMUM_WAGE_QUESTION_KEY]!;
     const match = matchPayCoveragePredicates(

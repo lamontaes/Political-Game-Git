@@ -289,6 +289,9 @@ export function resolvePayConsequences(
         unit,
         onDate: context.onDate,
         cutoff,
+        workplaceKey: workplace.jurisdictionId
+          ? lifePlaceByJurisdictionId(workplace.jurisdictionId)?.key
+          : undefined,
       });
       if (!term)
         throw new MissingLawConsequenceTerm(

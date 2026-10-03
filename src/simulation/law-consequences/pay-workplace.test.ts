@@ -15,8 +15,12 @@ import {
   publicTaxAccountForIdentity,
 } from "../tax-policy";
 import { deserializeWorld, serializeWorld } from "../serialization";
-import { resolveSavedHourlyPayConsequences } from "./pay";
+import {
+  resolvePayConsequences,
+  resolveSavedHourlyPayConsequences,
+} from "./pay";
 import { STATE_MINIMUM_WAGE_QUESTION_KEY } from "./pay-rows";
+import { MissingLawConsequenceTerm } from "../law-consequence-integrity-gap";
 
 const regional = Object.entries(
   lawData.questions[STATE_MINIMUM_WAGE_QUESTION_KEY].answers,
@@ -150,6 +154,26 @@ it.each(["role", "employer", "unbound", "public-employer"] as const)(
       const actual = reader.mock.results.at(-1)!.value;
       if (source === "unbound") expect(actual).toBeNull();
       else expect(actual?.hourlyMinor).toBe(regions[1]!.lawTerms[0]!.value);
+      const proposition = Object.values(
+        snapshot.policyCatalog.propositions,
+      ).find((row) => row.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY)!;
+      const row = proposition.consequences!.find(
+        (candidate) => candidate.kind === "pay",
+      )!;
+      const questionPay = () =>
+        resolvePayConsequences(snapshot, row, {
+          onDate: snapshot.currentDate,
+          activity: "payroll",
+          activityId: flow.id,
+          subjectIds: [personId],
+        });
+      if (source === "unbound")
+        expect(questionPay).toThrow(MissingLawConsequenceTerm);
+      else {
+        const resolved = questionPay();
+        expect(resolved).toHaveLength(1);
+        expect(resolved[0]!.value.value).toBe(regions[1]!.lawTerms[0]!.value);
+      }
       expect(serializeWorld(snapshot)).toBe(before);
       if (source === "public-employer") {
         expect(flow.source).not.toEqual({
