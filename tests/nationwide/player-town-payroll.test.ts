@@ -23,12 +23,14 @@ import {
   payPeriodEndingOn,
   paydayHandler,
   startTownJobPay,
+  townPaySource,
   raiseTeacherPayToFloor,
   payTownPaydays,
 } from "../../src/simulation/living-world/town-pay";
 import { noticeLawPayChanges } from "../../src/simulation/law-effects-noticed";
 import {
   recordWorkCompensationTerms,
+  createResourceFlow,
   money,
 } from "../../src/simulation/resources";
 import { ensureLifePathPersonalPosition } from "../../src/simulation/life-paths2-resources";
@@ -149,69 +151,104 @@ describe.each(allPlaces())(
           flow.basisReference.kind === "work" &&
           flow.basisReference.workRelationshipId === work.id,
       );
-      expect(openingFlow, key).toBeDefined();
-      const nativeTerms = resourceFlowTermsAt(initialized, openingFlow!.id)!;
-      const nativeCadence =
-        /^schedule:town-(weekly|biweekly|semimonthly|monthly)(?:-(\d))?$/.exec(
-          nativeTerms.cadenceKind,
+      const provenance = {
+        kind: "authored" as const,
+        note: "Parity fixture: identical weekly contract, not empirical pay.",
+      };
+      let contractWorld = initialized;
+      if (!openingFlow) {
+        // No native agreement exists: record only the explicit fixture contract.
+        // Keep the generated legal employer and its actual canonical public payer.
+        const payer = townPaySource(initialized, work.organizationId!);
+        contractWorld = createResourceFlow(payer.world, {
+          stableKey: `${TOWN_PAY_VERSION}:job-pay:${work.id}:fixture`,
+          source: {
+            kind: "organization",
+            organizationId: payer.organizationId,
+          },
+          recipient: { kind: "person", personId: work.personId },
+          startsAt: openedAt,
+          amount: money(200_000, "USD"),
+          cadenceKind: "schedule:town-weekly",
+          basisKind: "compensation:work",
+          basisReference: { kind: "work", workRelationshipId: work.id },
+          restrictionKind: null,
+          jurisdictionId: null,
+          provenance,
+        });
+      }
+      const contractFlow =
+        openingFlow ??
+        contractWorld.history.resourceFlows.find(
+          (flow) =>
+            flow.basisReference.kind === "work" &&
+            flow.basisReference.workRelationshipId === work.id,
         );
-      expect(nativeCadence, key).not.toBeNull();
+      expect(contractFlow, key).toBeDefined();
+      const contractTerms = resourceFlowTermsAt(
+        contractWorld,
+        contractFlow!.id,
+      )!;
+      const contractCadence =
+        /^schedule:town-(weekly|biweekly|semimonthly|monthly)(?:-(\d))?$/.exec(
+          contractTerms.cadenceKind,
+        );
+      expect(contractCadence, key).not.toBeNull();
       let oldBoundary = nextPaydayDate(openedAt);
       let oldWindow = payPeriodEndingOn(
-        nativeCadence![1] as TownPayPeriod,
+        contractCadence![1] as TownPayPeriod,
         oldBoundary,
-        Number(nativeCadence![2] ?? 0),
+        Number(contractCadence![2] ?? 0),
       );
-      while (!oldWindow || oldWindow.startsAt < openingFlow!.startsAt) {
+      while (!oldWindow || oldWindow.startsAt < contractFlow!.startsAt) {
         oldBoundary = nextPaydayDate(oldBoundary);
         oldWindow = payPeriodEndingOn(
-          nativeCadence![1] as TownPayPeriod,
+          contractCadence![1] as TownPayPeriod,
           oldBoundary,
-          Number(nativeCadence![2] ?? 0),
+          Number(contractCadence![2] ?? 0),
         );
       }
       const oldPeriod = oldWindow;
-      const revisedAt = addDays(oldBoundary, 1);
+      const revisedAt = openingFlow ? addDays(oldBoundary, 1) : openedAt;
       let date = nextPaydayDate(addDays(revisedAt, 6));
       let window = payPeriodEndingOn("weekly", date, 0);
       while (!window || window.startsAt < revisedAt) {
         date = nextPaydayDate(date);
         window = payPeriodEndingOn("weekly", date, 0);
       }
+      expect(window.startsAt >= contractFlow!.startsAt).toBe(true);
       const since = addDays(window.startsAt, -1);
-      const provenance = {
-        kind: "authored" as const,
-        note: "Parity fixture: identical weekly contract, not empirical pay.",
-      };
       const originalDue = initialized.history.futureDueItems.find(
         (item) => item.transitionKey === PAYDAY_TRANSITION_KEY,
       )!;
       expect(originalDue).toBeDefined();
-      // Close native-cadence obligations before the prospective revision.
-      // Both comparison branches retain these exact saved receipts.
-      let base = fundRecordedPayrollControl(initialized, 31, 200_000);
-      base = cancelFixtureItemsBefore(base, oldBoundary);
-      base = withWorldIntegrityDeferred(() =>
-        npcPayday(
-          {
-            ...base,
-            currentDate: oldBoundary,
-            currentMoment: simulationMomentOnLocalDate(
-              base.currentMoment,
-              oldBoundary,
-            ),
-            control: { kind: "observer" },
-          },
-          originalDue,
-        ),
-      );
-      const priorObligation = base.history.resourceTransferOutcomes.find(
-        (row) =>
-          row.resourceFlowId === openingFlow!.id &&
-          row.periodStartsAt === oldPeriod.startsAt &&
-          row.periodEndsAt === oldPeriod.endsAt,
-      );
-      expect(priorObligation, key).toBeDefined();
+      // Native agreements retain genuine prior receipts before revision.
+      // A newly authored agreement starts at opening and has no native arrears.
+      let base = fundRecordedPayrollControl(contractWorld, 31, 200_000);
+      if (openingFlow) {
+        base = cancelFixtureItemsBefore(base, oldBoundary);
+        base = withWorldIntegrityDeferred(() =>
+          npcPayday(
+            {
+              ...base,
+              currentDate: oldBoundary,
+              currentMoment: simulationMomentOnLocalDate(
+                base.currentMoment,
+                oldBoundary,
+              ),
+              control: { kind: "observer" },
+            },
+            originalDue,
+          ),
+        );
+        const priorObligation = base.history.resourceTransferOutcomes.find(
+          (row) =>
+            row.resourceFlowId === openingFlow!.id &&
+            row.periodStartsAt === oldPeriod.startsAt &&
+            row.periodEndsAt === oldPeriod.endsAt,
+        );
+        expect(priorObligation, key).toBeDefined();
+      }
       const historicalWorld = base;
       const historicalCutoff = {
         asOfDate: base.currentDate,
@@ -236,18 +273,20 @@ describe.each(allPlaces())(
           revisedAt,
         ),
       }));
-      const openingTerms = resourceFlowTermsAt(base, openingFlow!.id)!;
-      base = recordWorkCompensationTerms(base, {
-        stableKey: `fixture:weekly-contract:${work.id}`,
-        workRelationshipId: work.id,
-        effectiveAt: revisedAt,
-        status: "active",
-        amount: money(200_000, "USD"),
-        cadenceKind: "schedule:town-weekly",
-        supersedesTermsId: openingTerms.id,
-        reason: "Identical authored weekly contract for played/NPC parity.",
-        provenance,
-      });
+      if (openingFlow) {
+        const openingTerms = resourceFlowTermsAt(base, openingFlow.id)!;
+        base = recordWorkCompensationTerms(base, {
+          stableKey: `fixture:weekly-contract:${work.id}`,
+          workRelationshipId: work.id,
+          effectiveAt: revisedAt,
+          status: "active",
+          amount: money(200_000, "USD"),
+          cadenceKind: "schedule:town-weekly",
+          supersedesTermsId: openingTerms.id,
+          reason: "Identical authored weekly contract for played/NPC parity.",
+          provenance,
+        });
+      }
       base = cancelFixtureItemsBefore(base, date);
       expect(date > revisedAt).toBe(true);
       // Record the shared future item while its due date is still in the future.
@@ -303,6 +342,10 @@ describe.each(allPlaces())(
         (item) =>
           item.resourceFlowId === flow.id && !historicalPaymentIds.has(item.id),
       );
+      if (!openingFlow) {
+        for (const outcome of pay)
+          expect(outcome.periodStartsAt! >= contractFlow!.startsAt).toBe(true);
+      }
       expect(
         player.history.resourceTransferOutcomes.filter((row) =>
           historicalPaymentIds.has(row.id),
