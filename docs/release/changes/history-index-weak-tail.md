@@ -3,7 +3,8 @@ id: history-index-weak-tail
 impact: none
 ---
 
-The existing growing history index keeps weak references to old array tails.
+The growing history index reuses the existing append-aware index helper and
+its bounded recent-array retention instead of weak references to old tails.
 Indexed answers, append order, prefix guards and old-snapshot reads remain
-unchanged; an expired reference uses the existing rebuild fallback. This
-internal retention repair does not establish the cause of prior heap failures.
+unchanged; a cache miss uses the existing rebuild fallback. This internal
+retention repair does not establish that prior heap failures are resolved.
