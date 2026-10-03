@@ -16,5 +16,7 @@ order, household representatives and dated dependency checks are preserved.
 
 Family pay proxies reuse the existing parent-first household selection to read
 donor members without computing unused pay, work or congregation context.
+Household cohort representatives use that same selection and the existing
+adult age cutoff without computing unused income, type or congregation facts.
 Recorded parents, membership order, dated residence and cohort inputs remain
 unchanged; this introduces no retained cache or new family facts.

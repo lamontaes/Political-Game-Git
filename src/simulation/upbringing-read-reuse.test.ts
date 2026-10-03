@@ -130,6 +130,66 @@ describe(`upbringing read reuse (${place.displayName}, seed ${seed})`, () => {
     expect(theirs).not.toBe(own);
     expect(theirs).toEqual(upbringingFor({ ...world }, other));
   });
+  it("retains the first household representative and excludes households without adults across snapshots and reload", () => {
+    const { world, personId } = smallWorld({
+      place: place.key,
+      seed,
+      household: true,
+    });
+    const representative = world.history.householdMemberships[0]!.personId;
+    const before = upbringingFor(world, personId);
+    expect(before.familyContext?.cohortScope).toBe("household");
+    expect(before.familyContext?.comparablePersonIds).toEqual([representative]);
+    expect(before.familyContext?.estimateSamplePersonId).toBe(representative);
+    expect(
+      upbringingFor(deserializeWorld(serializeWorld(world)), personId),
+    ).toEqual(before);
+
+    const children = {
+      ...world,
+      people: Object.fromEntries(
+        Object.entries(world.people).map(([id, person]) => [
+          id,
+          {
+            ...person,
+            birthDate: world.currentDate,
+            establishedFacts: person.establishedFacts.map((fact) => ({
+              ...fact,
+              occurredAt: world.currentDate,
+              ...("endedAt" in fact && fact.endedAt !== null
+                ? { endedAt: world.currentDate }
+                : {}),
+            })),
+            ...(person.detailLevel === "materialized"
+              ? {
+                  details: {
+                    ...person.details,
+                    generatedFacts: person.details.generatedFacts.map(
+                      (fact) => ({
+                        ...fact,
+                        occurredAt: world.currentDate,
+                        ...("endedAt" in fact && fact.endedAt !== null
+                          ? { endedAt: world.currentDate }
+                          : {}),
+                      }),
+                    ),
+                  },
+                }
+              : {}),
+          },
+        ]),
+      ),
+    };
+    const withoutAdults = upbringingFor(children, personId);
+    expect(withoutAdults.familyContext?.cohortScope).toBe("no-sample");
+    expect(withoutAdults.familyContext?.comparablePersonIds).toEqual([]);
+    expect(withoutAdults.familyContext?.estimateSamplePersonId).toBeNull();
+    expect(
+      upbringingFor(deserializeWorld(serializeWorld(children)), personId),
+    ).toEqual(withoutAdults);
+    expect(upbringingFor(world, personId)).toBe(before);
+    expect(upbringingFor({ ...world }, personId)).toEqual(before);
+  });
   it("reuses cohorts after irrelevant withholding appends without changing output or reload", () => {
     const { world: empty, personId } = fixture();
     const world = createResourceFlow(empty, {
