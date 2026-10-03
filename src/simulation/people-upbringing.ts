@@ -1,18 +1,25 @@
+import {
+  drawFamilyShape,
+  recordedFamilyEstimates,
+  type RecordedFamilySample,
+} from "./family-shape";
 import { childhoodRecordEntries } from "./childhood-record";
 import { recordsByStringField } from "./history-index";
-import { ageOnDate, dateAtAge } from "./dates";
+import { dateAtAge, daysBetween } from "./dates";
+import { townJobRate, townPayPercentile } from "./living-world/town-pay";
+import { stableHash } from "./ids";
 import {
   annualPovertyLineMinor,
   recordedMonthlyPayByPerson,
 } from "./household-pay";
 import { homeStateKey } from "./state-jurisdiction-id";
 import {
+  activeOrganizationParticipationsAt,
   activeWorkRelationshipsAt,
   householdMembershipsAt,
   kinshipRelationshipsAt,
   peopleInHouseholdAt,
 } from "./life-queries";
-import { SeededRng } from "./rng";
 import type { EntityId, IsoDate, World } from "./types";
 import type { PeopleTrait, TraitValue } from "./people-trait-definitions";
 import type { TraitLifePart } from "./personality-trait-registry";
@@ -30,7 +37,8 @@ export type CaregivingClimate =
   | "harsh"
   // A person born in play: no household record says how their caregivers
   // treated them yet, so nothing is drawn and no tendency is read from it.
-  | "not-recorded";
+  | "not-recorded"
+  | "estimated-care";
 export type UpbringingEvent =
   | "parent-death"
   | "parent-separation"
@@ -61,11 +69,12 @@ export interface UpbringingSource {
 
 export interface PersonUpbringing {
   readonly personId: EntityId;
+  readonly familyContext?: ChildhoodFamilyContext;
   /**
    * "childhood-record": a person born in play, read from their childhood
    * record, the household pay and the family records with no draw.
-   * "game-profile": an opening-world person whose childhood predates the
-   * world, so named game profiles stand in for what was never recorded.
+   * "game-profile": retained for opening histories whose birth is not recorded;
+   * money may use its sourced estimate, while other fields use saved evidence.
    */
   readonly basis: "childhood-record" | "game-profile";
   readonly money: readonly {
@@ -187,6 +196,410 @@ export function familyMoneyFor(
   return { level, source: MONEY_FROM_RECORDS };
 }
 
+/** Opening-history proxies are explicitly estimates, never new family facts. */
+export interface ChildhoodFamilyContext {
+  readonly parentIds: readonly EntityId[];
+  readonly householdId: EntityId | null;
+  readonly householdMemberIds: readonly EntityId[];
+  readonly placeId: EntityId | null;
+  readonly householdType: string;
+  readonly incomeBand: FamilyMoney | "unrecorded-pay";
+  readonly estimatedIncomeBand?: FamilyMoney;
+  readonly incomeSourcePersonIds?: readonly EntityId[];
+  readonly congregationIds: readonly EntityId[];
+  readonly comparablePersonIds: readonly EntityId[];
+  readonly cohortScope: "exact" | "place" | "world" | "household" | "no-sample";
+  readonly estimateSamplePersonId: EntityId | null;
+  readonly caregiverPersonIds: readonly EntityId[];
+  readonly caregiverCapacity: number | null;
+  readonly estimatedParentCount: number | null;
+  readonly estimatedSiblingCount: number | null;
+  readonly source: UpbringingSource;
+}
+
+function householdContext(world: World, personId: EntityId) {
+  const parents = recordedParents(world, personId);
+  const parentHousehold = parents
+    .map((id) => householdMembershipsAt(world, id)[0])
+    .find(Boolean);
+  const household =
+    parentHousehold ?? householdMembershipsAt(world, personId)[0];
+  const members = household
+    ? peopleInHouseholdAt(world, household.household.id)
+    : [];
+  const kinds = household
+    ? members.flatMap((id) =>
+        householdMembershipsAt(world, id)
+          .filter((row) => row.household.id === household.household.id)
+          .map((row) => row.state.kind),
+      )
+    : [];
+  const householdType = [...new Set(kinds)].sort().join("+");
+  const pay = recordedMonthlyPayByPerson(world, world.currentDate);
+  const working = members.filter(
+    (id) => activeWorkRelationshipsAt(world, id).length > 0,
+  );
+  const state = homeStateKey(
+    world,
+    parentHousehold
+      ? parents.find(
+          (id) =>
+            householdMembershipsAt(world, id)[0]?.household.id ===
+            parentHousehold.household.id,
+        )!
+      : personId,
+  );
+  const knownPay =
+    !!state && working.length > 0 && working.every((id) => pay.has(id));
+  const annual = knownPay
+    ? members.reduce((sum, id) => sum + (pay.get(id) ?? 0), 0) * 12
+    : null;
+  const line =
+    state && members.length
+      ? annualPovertyLineMinor(state, members.length, world.currentDate)
+      : null;
+  const incomeBand: FamilyMoney | "unrecorded-pay" =
+    annual === null || line === null
+      ? "unrecorded-pay"
+      : annual <= line
+        ? "severe-scarcity"
+        : annual <= line * 2
+          ? "strained"
+          : "secure";
+  const congregationIds = [
+    ...new Set(
+      [personId, ...parents].flatMap((id) =>
+        activeOrganizationParticipationsAt(world, id)
+          .filter((row) => row.participation.kind === "membership:congregation")
+          .map((row) => row.participation.organizationId),
+      ),
+    ),
+  ].sort();
+  return {
+    placeId:
+      household?.location?.jurisdictionId ??
+      world.people[personId]!.homeJurisdictionId,
+    parents,
+    adultMembers: members.filter(
+      (id) => dateAtAge(world.people[id]!.birthDate, 18) <= world.currentDate,
+    ),
+    household,
+    members,
+    householdType,
+    incomeBand,
+    congregationIds,
+  };
+}
+
+type FamilyContextRead = ReturnType<typeof householdContext>;
+// Repeated immutable snapshots can share the index when their family inputs
+// are identical. Trait writes do not rebuild the world's family cohorts.
+interface FamilyCohortIndex {
+  readonly date: IsoDate;
+  readonly validUntil: IsoDate;
+  readonly inputs: readonly unknown[];
+  readonly estimate: ReturnType<typeof recordedFamilyEstimates>;
+  readonly byPerson: ReadonlyMap<EntityId, RecordedFamilySample>;
+  readonly exact: Map<string, RecordedFamilySample[]>;
+  readonly places: Map<EntityId, RecordedFamilySample[]>;
+  readonly paidPeopleByPlace: Map<EntityId, EntityId[]>;
+  readonly paidPeopleByState: Map<string, EntityId[]>;
+  readonly paidPeople: readonly EntityId[];
+  readonly estimatedMonthlyPay: ReadonlyMap<EntityId, number>;
+  readonly householdsByPlace: ReadonlyMap<
+    EntityId,
+    FamilyCohortIndex["householdSamples"]
+  >;
+  readonly householdSamples: readonly {
+    personId: EntityId;
+    placeId: EntityId;
+    adultIds: readonly EntityId[];
+    childCount: number;
+  }[];
+}
+const FAMILY_COHORTS = new WeakMap<object, FamilyCohortIndex>();
+function cohortKey(row: FamilyContextRead): string {
+  return JSON.stringify([row.placeId, row.householdType, row.incomeBand]);
+}
+function familyCohortIndex(world: World): FamilyCohortIndex {
+  const key = world.history.kinshipRelationships;
+  const inputs = [
+    world.people,
+    world.history.householdMemberships,
+    world.history.householdMembershipStates,
+    world.history.householdLocations,
+    world.history.resourceFlows,
+    world.history.resourceFlowTerms,
+    world.history.workRelationships,
+    world.history.workStatuses,
+    world.history.workRoles,
+  ];
+  const prior = FAMILY_COHORTS.get(key);
+  if (
+    prior &&
+    prior.date <= world.currentDate &&
+    world.currentDate < prior.validUntil &&
+    prior.inputs.every((value, index) => value === inputs[index])
+  )
+    return prior;
+  const estimate = recordedFamilyEstimates(world);
+  const exact = new Map<string, RecordedFamilySample[]>();
+  const places = new Map<EntityId, RecordedFamilySample[]>();
+  for (const sample of estimate.samples) {
+    const context = householdContext(world, sample.personId);
+    const groupKey = cohortKey(context);
+    const group = exact.get(groupKey) ?? [];
+    group.push(sample);
+    exact.set(groupKey, group);
+    const placeGroup = places.get(context.placeId) ?? [];
+    placeGroup.push(sample);
+    places.set(context.placeId, placeGroup);
+  }
+  // An unchanged family index survives ordinary date advances. Rebuild at
+  // an actual future record boundary or the next poverty-guideline year;
+  // daily trait reads never rescan the whole kinship history just for a date.
+  let validUntil =
+    `${Number(world.currentDate.slice(0, 4)) + 1}-01-01` as IsoDate;
+  const consider = (value: unknown) => {
+    if (
+      typeof value === "string" &&
+      /^\d{4}-\d{2}-\d{2}$/.test(value) &&
+      value > world.currentDate &&
+      value < validUntil
+    )
+      validUntil = value as IsoDate;
+  };
+  for (const rows of [
+    world.history.kinshipRelationships,
+    ...inputs.slice(1),
+  ] as readonly (readonly object[])[]) {
+    for (const row of rows)
+      for (const value of Object.values(row)) consider(value);
+  }
+  for (const relationship of world.history.kinshipRelationships)
+    for (const id of relationship.personIds)
+      consider(world.people[id]?.birthDate);
+  const estimatedMonthlyPay = new Map(
+    recordedMonthlyPayByPerson(world, world.currentDate),
+  );
+  for (const id of world.personOrder) {
+    if (estimatedMonthlyPay.has(id)) continue;
+    let monthly = 0;
+    for (const { relationship, role } of activeWorkRelationshipsAt(world, id)) {
+      if (relationship.compensation !== "paid") continue;
+      const rate = townJobRate(
+        role.occupationClassification,
+        role.locationJurisdictionId,
+        townPayPercentile(
+          daysBetween(relationship.startedAt, world.currentDate) / 365.25,
+        ),
+      );
+      const hours = role.timeDemand.expectedWeekly;
+      if (rate && hours)
+        monthly +=
+          (((rate.hourlyMinor * (hours.minimumHours + hours.maximumHours)) /
+            2) *
+            52) /
+          12;
+    }
+    if (monthly > 0) estimatedMonthlyPay.set(id, monthly);
+  }
+  const paidPeople = [...estimatedMonthlyPay.keys()].sort();
+  const paidPeopleByPlace = new Map<EntityId, EntityId[]>();
+  const paidPeopleByState = new Map<string, EntityId[]>();
+  for (const id of paidPeople) {
+    const place = world.people[id]?.homeJurisdictionId;
+    if (!place) continue;
+    const group = paidPeopleByPlace.get(place) ?? [];
+    group.push(id);
+    paidPeopleByPlace.set(place, group);
+    const state = homeStateKey(world, id);
+    if (state) {
+      const group = paidPeopleByState.get(state) ?? [];
+      group.push(id);
+      paidPeopleByState.set(state, group);
+    }
+  }
+  const seenHouseholds = new Set<EntityId>();
+  const householdSamples = [];
+  for (const membership of world.history.householdMemberships) {
+    const context = householdContext(world, membership.personId);
+    const householdId = context.household?.household.id;
+    if (
+      !householdId ||
+      seenHouseholds.has(householdId) ||
+      !context.adultMembers.length
+    )
+      continue;
+    seenHouseholds.add(householdId);
+    householdSamples.push({
+      personId: membership.personId,
+      placeId: context.placeId,
+      adultIds: context.adultMembers,
+      childCount: context.members.length - context.adultMembers.length,
+    });
+  }
+  const householdsByPlace = new Map<EntityId, typeof householdSamples>();
+  for (const row of householdSamples) {
+    const group = householdsByPlace.get(row.placeId) ?? [];
+    group.push(row);
+    householdsByPlace.set(row.placeId, group);
+  }
+  const result = {
+    householdsByPlace,
+    householdSamples,
+    estimatedMonthlyPay,
+    paidPeople,
+    paidPeopleByPlace,
+    paidPeopleByState,
+    date: world.currentDate,
+    validUntil,
+    inputs,
+    estimate,
+    byPerson: new Map(estimate.samples.map((row) => [row.personId, row])),
+    exact,
+    places,
+  };
+  FAMILY_COHORTS.set(key, result);
+  return result;
+}
+function childhoodFamilyContext(
+  world: World,
+  personId: EntityId,
+): ChildhoodFamilyContext {
+  const own = householdContext(world, personId);
+  const index = familyCohortIndex(world);
+  const exact = index.exact.get(cohortKey(own));
+  const place = index.places.get(own.placeId);
+  // Selected existing-code empty-cohort fallback: reuse saved family patterns,
+  // first in this place, then the game. Never synthesize relatives or events.
+  const peers = exact?.length
+    ? exact
+    : place?.length
+      ? place
+      : index.estimate.samples;
+  const cohortScope = exact?.length
+    ? "exact"
+    : place?.length
+      ? "place"
+      : peers.length
+        ? "world"
+        : own.adultMembers.length
+          ? "household"
+          : "no-sample";
+  const pattern =
+    index.byPerson.get(personId) ??
+    drawFamilyShape(world, world.people[personId]!.generationKey, {
+      ...index.estimate,
+      samples: peers,
+    }).representative;
+  // Known parents remain primary. Otherwise the current household's recorded
+  // adults are an explicitly estimated proxy; without either, use the saved
+  // family pattern's caregiver count per recorded child (siblings plus focus).
+  const caregiverPersonIds = own.parents.length
+    ? own.parents
+    : own.adultMembers;
+  const localHouseholds = index.householdsByPlace.get(own.placeId) ?? [];
+  const householdPeers = localHouseholds.length
+    ? localHouseholds
+    : index.householdSamples;
+  const householdProxy = householdPeers.length
+    ? householdPeers[
+        Number.parseInt(
+          stableHash(world.people[personId]!.generationKey).slice(-8),
+          16,
+        ) % householdPeers.length
+      ]
+    : undefined;
+  const caregiverCapacity = caregiverPersonIds.length
+    ? caregiverPersonIds.length
+    : pattern
+      ? pattern.parentIds.length / (pattern.siblingCount + 1)
+      : householdProxy
+        ? householdProxy.adultIds.length /
+          Math.max(1, householdProxy.childCount)
+        : null;
+  // Opening adults have no childhood payroll. Use their family's current
+  // pay as a labeled historical proxy; otherwise reuse a real family/job pay estimate in
+  // their place/state. Retain the sourced spread, never a universal secure band.
+  const pay = index.estimatedMonthlyPay;
+  const ownPayIds = [...new Set([...own.parents, ...own.members])].filter(
+    (id) => pay.has(id),
+  );
+  const state = homeStateKey(world, personId);
+  const localPay = index.paidPeopleByPlace.get(own.placeId);
+  const statePay = state ? index.paidPeopleByState.get(state) : undefined;
+  const candidates = localPay?.length
+    ? localPay
+    : statePay?.length
+      ? statePay
+      : index.paidPeople;
+  const donorId = candidates.length
+    ? candidates[
+        Number.parseInt(
+          stableHash(world.people[personId]!.generationKey).slice(-8),
+          16,
+        ) % candidates.length
+      ]
+    : undefined;
+  const incomeSourcePersonIds = ownPayIds.length
+    ? ownPayIds
+    : donorId
+      ? [donorId]
+      : [];
+  const donorMembers = donorId ? householdContext(world, donorId).members : [];
+  const familySize =
+    own.members.length ||
+    donorMembers.length ||
+    (pattern
+      ? pattern.parentIds.length + pattern.siblingCount + 1
+      : householdProxy
+        ? householdProxy.adultIds.length + householdProxy.childCount
+        : 0);
+  const annualPay =
+    incomeSourcePersonIds.reduce((sum, id) => sum + pay.get(id)!, 0) * 12;
+  const povertyLine =
+    state && familySize
+      ? annualPovertyLineMinor(state, familySize, world.currentDate)
+      : null;
+  const estimatedIncomeBand: FamilyMoney | undefined =
+    incomeSourcePersonIds.length && povertyLine !== null
+      ? annualPay <= povertyLine
+        ? "severe-scarcity"
+        : annualPay <= povertyLine * 2
+          ? "strained"
+          : "secure"
+      : undefined;
+  return {
+    estimatedIncomeBand,
+    incomeSourcePersonIds,
+    parentIds: own.parents,
+    householdId: own.household?.household.id ?? null,
+    householdMemberIds: own.members,
+    placeId: own.placeId,
+    householdType: own.householdType,
+    incomeBand: own.incomeBand,
+    congregationIds: own.congregationIds,
+    comparablePersonIds: pattern
+      ? peers.map((row) => row.personId)
+      : householdPeers.map((row) => row.personId),
+    cohortScope: !pattern && householdProxy ? "household" : cohortScope,
+    estimateSamplePersonId:
+      pattern?.personId ?? householdProxy?.personId ?? null,
+    caregiverPersonIds,
+    caregiverCapacity,
+    estimatedParentCount: own.parents.length
+      ? null
+      : (pattern?.parentIds.length ?? null),
+    estimatedSiblingCount: pattern?.siblingCount ?? null,
+    source: {
+      kind: "game-profile",
+      key: "recorded-family-childhood-context",
+      note: `ESTIMATED FROM GAME FAMILIES: parents, household adults, pay, place and congregation records supply the person's context. Caregiver availability uses those recorded adults or a saved family pattern's parents per child. Cohort scope: ${cohortScope}; exact place/type/income first, same place next, then the game's recorded families. Current payroll takes priority; otherwise the existing BLS May 2025 place/occupation wage reader and recorded job tenure/hours supply a labeled pay proxy. Income contributors are retained in incomeSourcePersonIds. The existing family-pattern reader retains observed spread. It assigns no real relatives, emotional treatment, faith or events.`,
+    },
+  };
+}
+
 function otherPerson(
   pair: readonly [EntityId, EntityId],
   personId: EntityId,
@@ -245,17 +658,9 @@ function homeStabilityLabel(disruption: number): HomeStability {
       : "disrupted";
 }
 
-/** What the old profile label stands for, in school-year moves (PLACEHOLDER). */
-const PROFILE_MOVES: Readonly<Record<HomeStability, number>> = {
-  stable: 0,
-  "some-moves": 1,
-  disrupted: 4,
-};
-
 /**
- * The same person in the same world always receives the same upbringing.
- * Existing parent and life records win over profile draws; missing history is
- * filled from named game profiles rather than disguised as sourced fact.
+ * Reads childhood and family evidence without assigning unrecorded events.
+ * Family money retains its labeled sourced estimate where pay is unread.
  */
 // The World is immutable. Repeated trait reads of this exact snapshot may
 // share one upbringing, but another snapshot or date always reads afresh.
@@ -283,118 +688,54 @@ export function upbringingFor(
 function readUpbringing(world: World, personId: EntityId): PersonUpbringing {
   const person = world.people[personId];
   if (!person) throw new Error(`No person ${personId} exists.`);
-  const rng = new SeededRng(world.seed).fork(`upbringing-v1:${personId}`);
-  const parents = recordedParents(world, personId);
+  const familyContext = childhoodFamilyContext(world, personId);
+  const parents = familyContext.parentIds;
   const parentDied = recordedChildhoodParentDeath(world, personId, parents);
-  const age = ageOnDate(person.birthDate, world.currentDate);
   const earlyMoney = familyMoneyFor(world, personId, "early-childhood");
   const laterMoney = familyMoneyFor(world, personId, "adolescence");
+  const contextualMoney = (row: ReturnType<typeof familyMoneyFor>) =>
+    row.source.kind === "public-data" &&
+    (familyContext.incomeBand !== "unrecorded-pay" ||
+      familyContext.estimatedIncomeBand !== undefined)
+      ? {
+          level:
+            familyContext.incomeBand === "unrecorded-pay"
+              ? familyContext.estimatedIncomeBand!
+              : familyContext.incomeBand,
+          source: familyContext.source,
+        }
+      : row;
   const money = [
-    { period: "early-childhood", ...earlyMoney },
-    { period: "adolescence", ...laterMoney },
+    { period: "early-childhood", ...contextualMoney(earlyMoney) },
+    { period: "adolescence", ...contextualMoney(laterMoney) },
   ] as const;
   const entries = recordsByStringField(
     childhoodRecordEntries(world),
     "personId",
     personId,
   );
-  if (entries.some(({ kind }) => kind === "birth")) {
-    const disruption = disruptionFromMoves(
-      entries.filter(({ kind }) => kind === "school-year-move").length,
-    );
-    return {
-      personId,
-      basis: "childhood-record",
-      money,
-      disruption,
-      homeStability: homeStabilityLabel(disruption),
-      caregiving: "not-recorded",
-      protectiveCaregiver: false,
-      events: parentDied ? ["parent-death"] : [],
-      schooling: [],
-      firstJob: "none",
-    };
-  }
-  const homeRoll = rng.fork("home").integer(0, 100);
-  const homeStability: HomeStability =
-    homeRoll < 63 ? "stable" : homeRoll < 86 ? "some-moves" : "disrupted";
-  const careRoll = rng.fork("care").integer(0, 100);
-  const caregiving: CaregivingClimate =
-    careRoll < 45
-      ? "protective-reliable"
-      : careRoll < 67
-        ? "consistent-firm"
-        : careRoll < 82
-          ? "inconsistent"
-          : careRoll < 95
-            ? "high-conflict"
-            : "harsh";
-  const protectiveCaregiver =
-    caregiving === "protective-reliable" ||
-    (caregiving !== "harsh" && rng.fork("protective").integer(0, 4) === 0);
-
-  const events: UpbringingEvent[] = [];
-  if (parentDied) events.push("parent-death");
-  // When parents exist, their records are authoritative: absence of a recorded
-  // death or separation is not replaced with a contradictory random event.
-  if (parents.length === 0) {
-    const familyRoll = rng.fork("family-event").integer(0, 100);
-    if (familyRoll < 4) events.push("parent-death");
-    else if (familyRoll < 28) events.push("parent-separation");
-  }
-  if (rng.fork("illness:self").integer(0, 100) < 9)
-    events.push("serious-illness");
-  if (rng.fork("illness:family").integer(0, 100) < 12)
-    events.push("family-illness-care");
-  if (rng.fork("law:allegation").integer(0, 100) < 5)
-    events.push("law-allegation");
-  if (rng.fork("law:conduct").integer(0, 100) < 3)
-    events.push("adjudicated-law-trouble");
-  if (
-    events.includes("law-allegation") &&
-    rng.fork("law:treatment").integer(0, 3) === 0
-  )
-    events.push("harsh-authority-treatment");
-
-  const schoolRoll = rng.fork("school").integer(0, 100);
-  const schooling: SchoolExperience[] = [
-    schoolRoll < 40
-      ? "reliable-support"
-      : schoolRoll < 58
-        ? "earned-success"
-        : schoolRoll < 76
-          ? "supported-setbacks"
-          : schoolRoll < 89
-            ? "peer-belonging"
-            : schoolRoll < 96
-              ? "ridicule-or-exclusion"
-              : "bullying",
-  ];
-  const firstJob: FirstJobExperience =
-    age < 16
-      ? "none"
-      : rng.fork("first-job:has-one").integer(0, 100) < 68
-        ? rng
-            .fork("first-job:kind")
-            .pick([
-              "reliable-supervision",
-              "autonomy",
-              "public-contact",
-              "precarious",
-            ] as const)
-        : "none";
-
+  const disruption = disruptionFromMoves(
+    entries.filter(({ kind }) => kind === "school-year-move").length,
+  );
   return {
     personId,
-    basis: "game-profile",
+    // Retain the legacy basis value for opening histories and save consumers.
+    // It supplies only the sourced money estimate, never invented life events.
+    basis: entries.some(({ kind }) => kind === "birth")
+      ? "childhood-record"
+      : "game-profile",
     money,
-    disruption: disruptionFromMoves(PROFILE_MOVES[homeStability]),
-    homeStability,
-    caregiving,
-    protectiveCaregiver,
-    events,
-    schooling,
-    firstJob,
+    disruption,
+    homeStability: homeStabilityLabel(disruption),
+    familyContext,
+    caregiving:
+      familyContext.caregiverCapacity === null
+        ? "not-recorded"
+        : "estimated-care",
+    protectiveCaregiver: false,
+    events: parentDied ? ["parent-death"] : [],
+    schooling: [],
+    firstJob: "none",
   };
 }
 
@@ -423,6 +764,17 @@ export function upbringingTraitTendencies(
       candidate("personality-v1:facet-practical", 2, "material scarcity"),
       candidate("personality-v1:facet-acquisitive", 1, "material scarcity"),
       candidate("personality-v1:voluntary-effort", 1, "material scarcity"),
+    );
+  if (
+    upbringing.caregiving === "estimated-care" &&
+    upbringing.familyContext?.caregiverCapacity
+  )
+    rows.push(
+      candidate(
+        "personality-v1:facet-duty-bound",
+        upbringing.familyContext.caregiverCapacity,
+        "estimated caregiver availability",
+      ),
     );
   if (upbringing.caregiving === "protective-reliable")
     rows.push(
@@ -792,6 +1144,8 @@ export function upbringingCoreValueFrom(
     )
       score += 1;
   } else if (trait === "reliability") {
+    if (upbringing.caregiving === "estimated-care")
+      score += upbringing.familyContext?.caregiverCapacity ?? 0;
     if (
       upbringing.caregiving === "consistent-firm" ||
       upbringing.firstJob === "reliable-supervision"
