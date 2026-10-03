@@ -254,7 +254,7 @@ describe("growing history index snapshot isolation", () => {
     add: (index, record) => index.set((record as { id: string }).id, record),
   };
 
-  it("rebuilds after a large append beyond the lookback and rereads the old snapshot", () => {
+  it("answers a large append and rereads the old snapshot", () => {
     const base = Object.freeze([{ id: "old" }]);
     expect(growingIndex(kind, base).get("old")).toBe(base[0]);
     const added = Array.from({ length: 1025 }, (_, at) => ({
