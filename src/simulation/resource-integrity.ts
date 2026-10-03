@@ -1,3 +1,4 @@
+import { validateEarnedLawPayAssessment } from "./earned-law-pay-integrity";
 import { assertPublicFundingMandate } from "./public-fiscal";
 import { assertProgramInstallmentBasis } from "./public-program-integrity";
 import { makeIsoDate } from "./dates";
@@ -379,10 +380,37 @@ export function assertResourceHousingIntegrity(
         `Resource outcome crosses an unprorated terms change: ${outcome.id}`,
       );
     }
+    let expectedAmount = terms?.amount;
+    if (outcome.earnedLawPayAssessmentId !== undefined) {
+      const assessment = recordById(
+        h.earnedLawPayAssessments ?? [],
+        outcome.earnedLawPayAssessmentId,
+      );
+      if (
+        !assessment ||
+        assessment.sequence >= outcome.sequence ||
+        assessment.recordedAt > outcome.occurredAt ||
+        assessment.resourceFlowId !== flow.id ||
+        assessment.earnedTermsId !== terms?.id ||
+        assessment.periodStartsAt !== outcome.periodStartsAt ||
+        assessment.periodEndsAt !== outcome.periodEndsAt ||
+        assessment.earnedCutoff.asOfDate !== termsCutoff.asOfDate ||
+        assessment.earnedCutoff.historySequenceExclusive !==
+          termsCutoff.historySequenceExclusive ||
+        outcome.provenance.kind !== "simulated-event" ||
+        outcome.provenance.eventId !== assessment.completionEventId
+      )
+        throw new Error(
+          `Resource outcome lacks matching saved earned assessment: ${outcome.id}`,
+        );
+      validateEarnedLawPayAssessment(world, assessment);
+      expectedAmount = assessment.assessedGross;
+    }
     if (
       !terms ||
       terms.status !== "active" ||
-      !sameMoney(terms.amount, outcome.attemptedAmount)
+      !expectedAmount ||
+      !sameMoney(expectedAmount, outcome.attemptedAmount)
     )
       throw new Error(
         `Resource outcome lacks matching active terms: ${outcome.id}`,

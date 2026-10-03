@@ -5,7 +5,11 @@ import {
   cancelFutureDueItem,
   futureDueItemStateAt,
 } from "./future-transitions";
-import { createOrganization, createWorkRelationship } from "./life";
+import {
+  createOrganization,
+  createWorkRelationship,
+  recordWorkRole,
+} from "./life";
 import {
   ensureNationalElectionJurisdiction,
   NATIONAL_ELECTION_JURISDICTION,
@@ -13,8 +17,11 @@ import {
 import {
   initializeOfficeSalaryFlows,
   settleOfficeSalaries,
+  settleAllOfficeSalaries,
 } from "./office-salary";
 import { settleTownCompensations } from "./living-world/town-pay";
+import { workRoleAt } from "./life-queries";
+import { requireLifePlace, stateJurisdictionForKey } from "./life-places";
 import { resourceFlowTermsAt, resourcePositionAt } from "./resource-queries";
 import { createResourcePosition, money } from "./resources";
 import { serializeWorld, deserializeWorld } from "./serialization";
@@ -102,7 +109,7 @@ it("A37 preserves recorded employer cash over two office pay periods", () => {
     ),
   ).toBe(serializeWorld(office));
 });
-function officeFixture(placeKey: string) {
+function officeFixture(placeKey: string, governor = false) {
   const seed = `office-payroll:${placeKey}`;
   // These are authored office-period controls, not opening-population tests.
   const game = smallWorld({ place: placeKey, seed });
@@ -113,7 +120,10 @@ function officeFixture(placeKey: string) {
   let world = ensureNationalElectionJurisdiction(opened);
   // Explicit authored review work, through the canonical saved-work writers.
   // This is not an election or an ordinary appointment proof.
-  const jurisdictionId = NATIONAL_ELECTION_JURISDICTION.id;
+  const state = requireLifePlace(placeKey).stateJurisdictionKey!;
+  const jurisdictionId = governor
+    ? stateJurisdictionForKey(state)!.id
+    : NATIONAL_ELECTION_JURISDICTION.id;
   const provenance = {
     kind: "authored" as const,
     note: "A37 fictional office-work payroll comparison.",
@@ -134,7 +144,9 @@ function officeFixture(placeKey: string) {
     personId,
     organizationId,
     startedAt: world.currentDate,
-    kind: "employment:congress-member",
+    kind: governor
+      ? "employment:executive-office"
+      : "employment:congress-member",
     compensation: "paid",
     authority: "directs-others",
     dependency: "independent",
@@ -142,7 +154,9 @@ function officeFixture(placeKey: string) {
     provenance,
     initialRole: {
       title: "Review member of Congress",
-      occupationClassification: "service:us-congress",
+      occupationClassification: governor
+        ? `service:${state.toLowerCase()}-governor`
+        : "service:us-congress",
       locationJurisdictionId: jurisdictionId,
       timeDemand: {
         expectedWeekly: { minimumHours: 35, maximumHours: 45 },
@@ -201,6 +215,18 @@ it.each(sampled)(
   "A37 preserves an actual saved review-office period through the one payroll in %s",
   (placeKey) => {
     const f = officeFixture(placeKey);
+    const pay = resourceFlowTermsAt(f.world, f.flow.id)!.amount;
+    // This is recorded fixture funding, not an inferred runtime government balance.
+    f.world = createResourcePosition(f.world, {
+      stableKey: `fixture:a37:sampled-cash:${f.flow.id}`,
+      owner: f.flow.source,
+      openedAt: f.world.currentDate,
+      openingBalance: money(pay.minorUnits * 2, pay.currency),
+      provenance: {
+        kind: "authored",
+        note: "Controlled saved government cash for the sampled office period and payroll costs; not an observed treasury balance.",
+      },
+    });
     const firstDue = addDays(f.flow.startsAt, 7);
     expect(
       settleOfficeSalaries(
@@ -271,3 +297,48 @@ it.each(sampled)(
     });
   },
 );
+
+it("settles an overdue office period by its start role after a later nonoffice role and Save/Continue", () => {
+  const f = officeFixture(sampled[0]!, true);
+  const pay = resourceFlowTermsAt(f.world, f.flow.id)!.amount;
+  let world = createResourcePosition(f.world, {
+    stableKey: "overdue-office:funding",
+    owner: f.flow.source,
+    openedAt: f.world.currentDate,
+    openingBalance: money(pay.minorUnits * 3, pay.currency),
+    provenance: {
+      kind: "authored",
+      note: "Controlled funding from three saved weekly agreements.",
+    },
+  });
+  const role = workRoleAt(world, f.work.id)!;
+  world = atControlledDate(world, addDays(f.flow.startsAt, 7));
+  world = recordWorkRole(world, {
+    stableKey: "overdue-office:later-nonoffice",
+    workRelationshipId: f.work.id,
+    effectiveAt: world.currentDate,
+    title: "Recorded nonoffice work",
+    occupationClassification: null,
+    locationJurisdictionId: role.locationJurisdictionId,
+    timeDemand: role.timeDemand,
+    supersedesRoleId: role.id,
+    provenance: f.flow.provenance,
+  });
+  const before = atControlledDate(world, addDays(f.flow.startsAt, 14));
+  const paid = settleAllOfficeSalaries(before);
+  const outcomes = paid.history.resourceTransferOutcomes.filter(
+    (row) => row.resourceFlowId === f.flow.id,
+  );
+  expect(outcomes).toHaveLength(1);
+  expect(outcomes[0]!.periodStartsAt).toBe(f.flow.startsAt);
+  expect(outcomes[0]!.transferredAmount).toEqual(pay);
+  expect(
+    resourcePositionAt(paid, f.flow.source, pay.currency)!.liquidBalance
+      .minorUnits,
+  ).toBe(pay.minorUnits * 2);
+  expect(settleAllOfficeSalaries(paid)).toBe(paid);
+  const reloaded = deserializeWorld(serializeWorld(before));
+  expect(serializeWorld(settleAllOfficeSalaries(reloaded))).toBe(
+    serializeWorld(paid),
+  );
+});

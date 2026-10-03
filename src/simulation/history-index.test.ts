@@ -3,6 +3,8 @@ import { describe, expect, it } from "vitest";
 import { eventIndexOf } from "./event-index";
 import {
   appendedList,
+  growingIndex,
+  type GrowingIndexKind,
   hasStableKey,
   recordById,
   recordByStableKey,
@@ -23,6 +25,60 @@ describe("state-intake history copy transaction", () => {
     ({
       history: { personalityTendencies: records, events: [] },
     }) as unknown as World;
+
+  it.each([false, true])(
+    "materializes shared-family branches (same view: %s)",
+    (sameView) => {
+      const base = Object.freeze([row("a")]);
+      const world = {
+        history: { personalityTendencies: base, events: base },
+      } as unknown as World;
+      let prefix: readonly ReturnType<typeof row>[] = base;
+      let sibling: readonly ReturnType<typeof row>[] = base;
+      const result = withHistoryAppendTransaction(
+        world,
+        ["personalityTendencies", "events"],
+        () => {
+          prefix = appendedList(base, [row("prefix")]);
+          const left = appendedList(prefix, [row("left")]);
+          sibling = appendedList(prefix, [row("right")]);
+          return {
+            history: {
+              personalityTendencies: left,
+              events: sameView ? left : sibling,
+            },
+          } as unknown as World;
+        },
+      );
+      expect(result.history.personalityTendencies.map((r) => r.id)).toEqual([
+        "a",
+        "prefix",
+        "left",
+      ]);
+      expect(result.history.events.map((r) => r.id)).toEqual([
+        "a",
+        "prefix",
+        sameView ? "left" : "right",
+      ]);
+      for (const records of [
+        result.history.personalityTendencies,
+        result.history.events,
+      ]) {
+        expect(Object.getOwnPropertyDescriptor(records, "0")?.writable).toBe(
+          true,
+        );
+      }
+      expect([...prefix].map((r) => r.id)).toEqual(["a", "prefix"]);
+      expect(sibling.map((r) => r.id)).toEqual(["a", "prefix", "right"]);
+      expect(appendedList(sibling, [row("later")]).map((r) => r.id)).toEqual([
+        "a",
+        "prefix",
+        "right",
+        "later",
+      ]);
+      expect(recordById(sibling, "left" as EntityId)).toBeUndefined();
+    },
+  );
 
   it("keeps every intermediate cutoff and branch immutable, with ordinary array reads", () => {
     const base = Object.freeze([row("a"), row("b", "q")]);
@@ -76,6 +132,178 @@ describe("state-intake history copy transaction", () => {
     ]);
     expect(recordById(next, "f" as EntityId)).toBe(next.at(-1));
     expect(recordById(first, "f" as EntityId)).toBeUndefined();
+  });
+
+  it("preserves held prefixes and unreturned siblings through commit and later appends", () => {
+    const base = Object.freeze([row("a"), row("b", "q")]);
+    let prefix: readonly ReturnType<typeof row>[] = base;
+    let sibling: readonly ReturnType<typeof row>[] = base;
+    let paused = base.values();
+    const result = withHistoryAppendTransaction(
+      worldWith(base),
+      ["personalityTendencies"],
+      () => {
+        prefix = appendedList(base, [row("prefix")]);
+        sibling = appendedList(prefix, [row("sibling", "q")]);
+        paused = prefix.values();
+        expect(paused.next().value).toBe(base[0]);
+        expect(recordById(prefix, "prefix" as EntityId)).toBe(prefix[2]);
+        expect(recordsByStringField(sibling, "personId", "q")).toEqual([
+          base[1],
+          sibling[3],
+        ]);
+        return worldWith(appendedList(prefix, [row("returned")]));
+      },
+    );
+    const next = appendedList(result.history.personalityTendencies, [
+      row("later") as never,
+    ]);
+    const siblingNext = appendedList(sibling, [row("sibling-later")]);
+    expect([...paused].map((record) => record.id)).toEqual(["b", "prefix"]);
+    expect(paused.next().done).toBe(true);
+    expect(prefix.length).toBe(3);
+    expect(prefix[2]).toEqual(row("prefix"));
+    expect(prefix[3]).toBeUndefined();
+    expect([...prefix].map((record) => record.id)).toEqual([
+      "a",
+      "b",
+      "prefix",
+    ]);
+    expect(prefix.map((record) => record.id)).toEqual(["a", "b", "prefix"]);
+    expect(prefix.slice(1)).toEqual([base[1], row("prefix")]);
+    expect(prefix.concat([row("concat")])).toEqual([
+      ...base,
+      row("prefix"),
+      row("concat"),
+    ]);
+    expect(Reflect.ownKeys(prefix)).toEqual(["0", "1", "2", "length"]);
+    expect(JSON.parse(JSON.stringify(prefix))).toEqual([
+      ...base,
+      row("prefix"),
+    ]);
+    expect(sibling.map((record) => record.id)).toEqual([
+      "a",
+      "b",
+      "prefix",
+      "sibling",
+    ]);
+    expect(siblingNext.map((record) => record.id)).toEqual([
+      "a",
+      "b",
+      "prefix",
+      "sibling",
+      "sibling-later",
+    ]);
+    expect(recordById(sibling, "returned" as EntityId)).toBeUndefined();
+    expect(recordById(siblingNext, "later" as EntityId)).toBeUndefined();
+    expect(recordById(prefix, "later" as EntityId)).toBeUndefined();
+    expect(recordById(next, "later" as EntityId)).toBe(next.at(-1));
+    expect(recordsByStringField(prefix, "personId", "p")).toEqual([
+      base[0],
+      row("prefix"),
+    ]);
+    expect(recordsByStringField(sibling, "personId", "q")).toEqual([
+      base[1],
+      row("sibling", "q"),
+    ]);
+    expect(() => {
+      (prefix as ReturnType<typeof row>[])[0] = row("bad");
+    }).toThrow("immutable");
+    expect(() => {
+      (prefix as ReturnType<typeof row>[]).length = 0;
+    }).toThrow("immutable");
+    expect(() => {
+      delete (sibling as ReturnType<typeof row>[])[0];
+    }).toThrow("immutable");
+    expect(() =>
+      Object.defineProperty(prefix, "0", { value: row("bad") }),
+    ).toThrow("immutable");
+    expect(() =>
+      (sibling as ReturnType<typeof row>[]).push(row("bad")),
+    ).toThrow("immutable");
+    expect(base).toEqual([row("a"), row("b", "q")]);
+  });
+
+  it("keeps held nested prefixes separate while the outer writer resumes", () => {
+    const base = Object.freeze([row("a")]);
+    let outerPrefix: readonly ReturnType<typeof row>[] = base;
+    let innerPrefix: readonly ReturnType<typeof row>[] = base;
+    let innerSibling: readonly ReturnType<typeof row>[] = base;
+    let paused = base.values();
+    const result = withHistoryAppendTransaction(
+      worldWith(base),
+      ["personalityTendencies"],
+      () => {
+        outerPrefix = appendedList(base, [row("outer")]);
+        const inner = withHistoryAppendTransaction(
+          worldWith(outerPrefix),
+          ["personalityTendencies"],
+          () => {
+            innerPrefix = appendedList(outerPrefix, [row("inner")]);
+            innerSibling = appendedList(innerPrefix, [
+              row("inner-sibling", "q"),
+            ]);
+            paused = innerPrefix.values();
+            expect(paused.next().value).toBe(base[0]);
+            return worldWith(
+              appendedList(innerPrefix, [row("inner-returned")]),
+            );
+          },
+        );
+        expect(
+          inner.history.personalityTendencies.map((record) => record.id),
+        ).toEqual(["a", "outer", "inner", "inner-returned"]);
+        expect(outerPrefix.map((record) => record.id)).toEqual(["a", "outer"]);
+        expect(innerPrefix.map((record) => record.id)).toEqual([
+          "a",
+          "outer",
+          "inner",
+        ]);
+        return worldWith(appendedList(outerPrefix, [row("outer-resumed")]));
+      },
+    );
+    const next = appendedList(result.history.personalityTendencies, [
+      row("after") as never,
+    ]);
+    expect(next.map((record) => record.id)).toEqual([
+      "a",
+      "outer",
+      "outer-resumed",
+      "after",
+    ]);
+    expect([...paused].map((record) => record.id)).toEqual(["outer", "inner"]);
+    expect(outerPrefix).toHaveLength(2);
+    expect(innerPrefix).toHaveLength(3);
+    expect(innerPrefix.slice(1)).toEqual([row("outer"), row("inner")]);
+    expect(JSON.parse(JSON.stringify(innerPrefix))).toEqual([
+      row("a"),
+      row("outer"),
+      row("inner"),
+    ]);
+    expect(innerSibling.map((record) => record.id)).toEqual([
+      "a",
+      "outer",
+      "inner",
+      "inner-sibling",
+    ]);
+    expect(
+      recordById(innerPrefix, "outer-resumed" as EntityId),
+    ).toBeUndefined();
+    expect(
+      recordById(innerSibling, "inner-returned" as EntityId),
+    ).toBeUndefined();
+    expect(recordById(next, "inner" as EntityId)).toBeUndefined();
+    expect(recordsByStringField(innerSibling, "personId", "q")).toEqual([
+      row("inner-sibling", "q"),
+    ]);
+    expect(
+      appendedList(innerSibling, [row("sibling-after")]).map(
+        (record) => record.id,
+      ),
+    ).toEqual(["a", "outer", "inner", "inner-sibling", "sibling-after"]);
+    expect(() =>
+      (innerPrefix as ReturnType<typeof row>[]).splice(0, 1),
+    ).toThrow("immutable");
   });
 
   it("leaves a no-op world alone and restores ordinary appends after a refusal", () => {
@@ -243,5 +471,58 @@ describe("immutable history lookup indexes", () => {
     expect(eventIndexOf(two).get("e1" as EntityId)?.summary).toBe("again");
     expect(eventIndexOf(one).get("e2" as EntityId)).toBeUndefined();
     expect(eventIndexOf(one).get("e1" as EntityId)?.summary).toBe("one");
+  });
+});
+
+describe("growing history index snapshot isolation", () => {
+  const kind: GrowingIndexKind<Map<string, unknown>> = {
+    create: () => new Map(),
+    add: (index, record) => index.set((record as { id: string }).id, record),
+  };
+
+  it("answers a large append and rereads the old snapshot", () => {
+    const base = Object.freeze([{ id: "old" }]);
+    expect(growingIndex(kind, base).get("old")).toBe(base[0]);
+    const added = Array.from({ length: 1025 }, (_, at) => ({
+      id: `added:${at}`,
+    }));
+    const grown = appendedList(base, added);
+    expect(growingIndex(kind, grown)).toEqual(
+      new Map(grown.map((record) => [record.id, record])),
+    );
+    expect(growingIndex(kind, base)).toEqual(new Map([["old", base[0]]]));
+    expect(grown.slice(0, base.length)).toEqual(base);
+  });
+
+  it("rereads old immutable snapshots and sibling branches after index adoption", () => {
+    const base = Object.freeze([{ id: "base" }]);
+    expect(growingIndex(kind, base).size).toBe(1);
+    const left = appendedList(base, [{ id: "left" }]);
+    const right = appendedList(base, [{ id: "right" }]);
+    expect(growingIndex(kind, left)).toEqual(
+      new Map(left.map((record) => [record.id, record])),
+    );
+    expect(growingIndex(kind, base)).toEqual(new Map([["base", base[0]]]));
+    expect(growingIndex(kind, right)).toEqual(
+      new Map(right.map((record) => [record.id, record])),
+    );
+    expect(growingIndex(kind, left).has("right")).toBe(false);
+    expect(growingIndex(kind, right).has("left")).toBe(false);
+    expect(growingIndex(kind, base).size).toBe(1);
+  });
+
+  it("refuses a shared ending record when the earlier prefix was rewritten", () => {
+    const shared = { id: "shared" };
+    const original = Object.freeze([{ id: "original" }, shared]);
+    expect(growingIndex(kind, original).has("original")).toBe(true);
+    const replacement = Object.freeze([{ id: "replacement" }, shared]);
+    const grown = appendedList(replacement, [{ id: "new" }]);
+    expect(growingIndex(kind, grown)).toEqual(
+      new Map(grown.map((record) => [record.id, record])),
+    );
+    expect(growingIndex(kind, grown).has("original")).toBe(false);
+    expect(growingIndex(kind, original)).toEqual(
+      new Map(original.map((record) => [record.id, record])),
+    );
   });
 });

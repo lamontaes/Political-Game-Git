@@ -1,3 +1,5 @@
+import { initializeAllOfficeSalaryFlows } from "../simulation/office-salary";
+import { initializeWorkPayCoverage } from "../simulation/pay-coverage";
 import { recoverOverdueProsecutions } from "../simulation/justice/prosecution-transitions";
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { recordOpeningWorkLocation } from "./opening-work-location";
@@ -42,7 +44,11 @@ import {
   CRUNCH46_WORLD_OPENING_VERSION,
 } from "../simulation";
 import { ensureMigrationSchedule } from "../simulation/migration";
-import { ensurePaydaySchedule } from "../simulation/living-world/town-pay";
+import {
+  ensurePaydaySchedule,
+  startTownJobPay,
+} from "../simulation/living-world/town-pay";
+import { ensureEmployerCashPositions } from "../simulation/opening-employer-cash";
 import { ensureRentDaySchedule } from "../simulation/living-world/town-rent";
 import { ensureCrimeProduction } from "../simulation/crime";
 import { ensureEpidemicProduction } from "../simulation/crisis/epidemic";
@@ -368,12 +374,25 @@ function completeOpeningLife(
     withBudgets,
     session.setup.worldOpeningVersion ?? LEGACY_WORLD_OPENING_VERSION,
   );
-  const world = openedWorld(
+  const withPayAgreements = openedWorld(
     withMortality,
     game.playerPersonId,
     session.setup.openingDataVersion,
     session.setup.livingWorldMemberNameVersion,
   );
+  const withOfficeSalaries = initializeAllOfficeSalaryFlows(withPayAgreements);
+  const withEmployerCash =
+    worldOpeningVersionOf(withOfficeSalaries) === CRUNCH46_WORLD_OPENING_VERSION
+      ? ensureEmployerCashPositions(
+          startTownJobPay(
+            withOfficeSalaries,
+            null,
+            withOfficeSalaries.currentDate,
+          ),
+          "opening",
+        )
+      : withOfficeSalaries;
+  const world = initializeWorkPayCoverage(withEmployerCash);
   return {
     ...session,
     phase: "world",

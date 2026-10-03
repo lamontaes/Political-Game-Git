@@ -4,7 +4,11 @@ import {
   type RecordedFamilySample,
 } from "./family-shape";
 import { childhoodRecordEntries } from "./childhood-record";
-import { recordsByStringField } from "./history-index";
+import {
+  indexFollowingAppends,
+  recordById,
+  recordsByStringField,
+} from "./history-index";
 import { dateAtAge, daysBetween } from "./dates";
 import { townJobRate, townPayPercentile } from "./living-world/town-pay";
 import { stableHash } from "./ids";
@@ -217,7 +221,7 @@ export interface ChildhoodFamilyContext {
   readonly source: UpbringingSource;
 }
 
-function householdContext(world: World, personId: EntityId) {
+function selectedHouseholdMembers(world: World, personId: EntityId) {
   const parents = recordedParents(world, personId);
   const parentHousehold = parents
     .map((id) => householdMembershipsAt(world, id)[0])
@@ -227,6 +231,12 @@ function householdContext(world: World, personId: EntityId) {
   const members = household
     ? peopleInHouseholdAt(world, household.household.id)
     : [];
+  return { parents, parentHousehold, household, members };
+}
+
+function householdContext(world: World, personId: EntityId) {
+  const { parents, parentHousehold, household, members } =
+    selectedHouseholdMembers(world, personId);
   const kinds = household
     ? members.flatMap((id) =>
         householdMembershipsAt(world, id)
@@ -318,18 +328,113 @@ interface FamilyCohortIndex {
   }[];
 }
 const FAMILY_COHORTS = new WeakMap<object, FamilyCohortIndex>();
+// Keep dependency tokens across irrelevant appends; revised/unknown prefixes
+// build new tokens. Every extension copies before changing a handed-out index.
+type CompensationFlows = readonly World["history"]["resourceFlows"][number][];
+const COMPENSATION_FLOWS = new WeakMap<object, CompensationFlows>();
+const RECENT_COMPENSATION_FLOWS: (readonly unknown[])[] = [];
+const COMPENSATION_TERMS = new WeakMap<
+  object,
+  {
+    cache: WeakMap<
+      object,
+      readonly World["history"]["resourceFlowTerms"][number][]
+    >;
+    recent: (readonly unknown[])[];
+  }
+>();
+function compensationDependencies(world: World) {
+  const flows = world.history.resourceFlows;
+  const isCompensation = (flow: (typeof flows)[number]) =>
+    flow.basisKind.startsWith("compensation:") &&
+    flow.recipient.kind === "person";
+  const extendFlows = (prior: CompensationFlows, from: number) => {
+    const added = flows.slice(from).filter(isCompensation);
+    return added.length ? [...prior, ...added] : prior;
+  };
+  const relevant = indexFollowingAppends(
+    COMPENSATION_FLOWS,
+    RECENT_COMPENSATION_FLOWS,
+    flows,
+    () => extendFlows([], 0),
+    extendFlows,
+  );
+  let slot = COMPENSATION_TERMS.get(relevant);
+  if (!slot) {
+    slot = { cache: new WeakMap(), recent: [] };
+    COMPENSATION_TERMS.set(relevant, slot);
+  }
+  const terms = world.history.resourceFlowTerms;
+  const extendTerms = (
+    prior: readonly (typeof terms)[number][],
+    from: number,
+  ) => {
+    const added = terms.slice(from).filter((row) => {
+      const flow = recordById(flows, row.resourceFlowId);
+      // Unknown references conservatively invalidate rather than dropping
+      // a dependency from a malformed or independently revised history.
+      return !flow || isCompensation(flow);
+    });
+    return added.length ? [...prior, ...added] : prior;
+  };
+  return [
+    relevant,
+    indexFollowingAppends(
+      slot.cache,
+      slot.recent,
+      terms,
+      () => extendTerms([], 0),
+      extendTerms,
+    ),
+  ] as const;
+}
+const FUTURE_DATES = new WeakMap<object, readonly string[]>();
+const RECENT_FUTURE_DATES: (readonly unknown[])[] = [];
+function nextRecordDate(
+  rows: readonly object[],
+  onDate: IsoDate,
+): IsoDate | undefined {
+  const extend = (prior: readonly string[], from: number) => {
+    const added = rows
+      .slice(from)
+      .flatMap((row) =>
+        Object.values(row).filter(
+          (value): value is string =>
+            typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value),
+        ),
+      );
+    return added.length ? [...new Set([...prior, ...added])].sort() : prior;
+  };
+  const dates = indexFollowingAppends(
+    FUTURE_DATES,
+    RECENT_FUTURE_DATES,
+    rows,
+    () => extend([], 0),
+    extend,
+  );
+  let low = 0;
+  let high = dates.length;
+  while (low < high) {
+    const middle = (low + high) >>> 1;
+    if (dates[middle]! <= onDate) low = middle + 1;
+    else high = middle;
+  }
+  return dates[low] as IsoDate | undefined;
+}
+
 function cohortKey(row: FamilyContextRead): string {
   return JSON.stringify([row.placeId, row.householdType, row.incomeBand]);
 }
 function familyCohortIndex(world: World): FamilyCohortIndex {
   const key = world.history.kinshipRelationships;
+  const [payFlows, payTerms] = compensationDependencies(world);
   const inputs = [
     world.people,
     world.history.householdMemberships,
     world.history.householdMembershipStates,
     world.history.householdLocations,
-    world.history.resourceFlows,
-    world.history.resourceFlowTerms,
+    payFlows,
+    payTerms,
     world.history.workRelationships,
     world.history.workStatuses,
     world.history.workRoles,
@@ -343,10 +448,20 @@ function familyCohortIndex(world: World): FamilyCohortIndex {
   )
     return prior;
   const estimate = recordedFamilyEstimates(world);
+  // One immutable build can encounter the same person in both ordered loops.
+  // Keep this map local: it must not retain contexts across snapshots or dates.
+  const contexts = new Map<EntityId, FamilyContextRead>();
+  const contextFor = (personId: EntityId): FamilyContextRead => {
+    const prior = contexts.get(personId);
+    if (prior) return prior;
+    const context = householdContext(world, personId);
+    contexts.set(personId, context);
+    return context;
+  };
   const exact = new Map<string, RecordedFamilySample[]>();
   const places = new Map<EntityId, RecordedFamilySample[]>();
   for (const sample of estimate.samples) {
-    const context = householdContext(world, sample.personId);
+    const context = contextFor(sample.personId);
     const groupKey = cohortKey(context);
     const group = exact.get(groupKey) ?? [];
     group.push(sample);
@@ -373,8 +488,7 @@ function familyCohortIndex(world: World): FamilyCohortIndex {
     world.history.kinshipRelationships,
     ...inputs.slice(1),
   ] as readonly (readonly object[])[]) {
-    for (const row of rows)
-      for (const value of Object.values(row)) consider(value);
+    consider(nextRecordDate(rows, world.currentDate));
   }
   for (const relationship of world.history.kinshipRelationships)
     for (const id of relationship.personIds)
@@ -423,20 +537,24 @@ function familyCohortIndex(world: World): FamilyCohortIndex {
   const seenHouseholds = new Set<EntityId>();
   const householdSamples = [];
   for (const membership of world.history.householdMemberships) {
-    const context = householdContext(world, membership.personId);
-    const householdId = context.household?.household.id;
-    if (
-      !householdId ||
-      seenHouseholds.has(householdId) ||
-      !context.adultMembers.length
-    )
+    const { household, members } = selectedHouseholdMembers(
+      world,
+      membership.personId,
+    );
+    const adultMembers = members.filter(
+      (id) => dateAtAge(world.people[id]!.birthDate, 18) <= world.currentDate,
+    );
+    const householdId = household?.household.id;
+    if (!householdId || seenHouseholds.has(householdId) || !adultMembers.length)
       continue;
     seenHouseholds.add(householdId);
     householdSamples.push({
       personId: membership.personId,
-      placeId: context.placeId,
-      adultIds: context.adultMembers,
-      childCount: context.members.length - context.adultMembers.length,
+      placeId:
+        household?.location?.jurisdictionId ??
+        world.people[membership.personId]!.homeJurisdictionId,
+      adultIds: adultMembers,
+      childCount: members.length - adultMembers.length,
     });
   }
   const householdsByPlace = new Map<EntityId, typeof householdSamples>();
@@ -547,7 +665,9 @@ function childhoodFamilyContext(
     : donorId
       ? [donorId]
       : [];
-  const donorMembers = donorId ? householdContext(world, donorId).members : [];
+  const donorMembers = donorId
+    ? selectedHouseholdMembers(world, donorId).members
+    : [];
   const familySize =
     own.members.length ||
     donorMembers.length ||

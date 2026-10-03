@@ -84,6 +84,30 @@ export type LawAmountExpression =
       right: LawAmountExpression;
     };
 
+/** One adopted rental rule; formula and coverage cannot come from different sections. */
+export interface RentalPriceRule {
+  readonly cap: LawAmountExpression;
+  readonly coverage: {
+    readonly minimumBuildingAgeYears?: number;
+    readonly exemptions: readonly (
+      "affordable-program-adjustment" | "separate-property-with-notice"
+    )[];
+    readonly dwellingClassifications?: readonly string[];
+    readonly maximumFacilitySpaces?: number;
+    readonly noticeDays?: number;
+  };
+  readonly from?: string;
+  readonly through?: string;
+  /** Published statutory index observation, not the world's modeled inflation. */
+  readonly index?: {
+    readonly changeRatio: number;
+    readonly publishedAt: string;
+    readonly from: string;
+    readonly through: string;
+    readonly source: string;
+  };
+}
+
 /** Capability names must resolve through the engine registry, never object paths or eval. */
 export interface LawConsequencePredicate {
   capability: string;
@@ -129,6 +153,7 @@ export interface LawConsequenceRow {
   onward?: LawConsequenceRow[];
 }
 export interface LawConsequenceContext {
+  completedShift?: { eventId: EntityId; termsId: EntityId };
   onDate: IsoDate;
   activity: LawConsequenceRow["when"];
   activityId: EntityId;
@@ -179,12 +204,29 @@ export interface ResolvedSavedHourlyPayConsequence extends Omit<
   };
 }
 
+/** Actual adopted annual office-pay authority, distinct from hourly floors. */
+export interface SavedAnnualOfficePayAuthority {
+  kind: "enacted-annual-office-pay-rule";
+  ruleChangeProvisionId: EntityId;
+  enactmentId: EntityId;
+  measureId: EntityId;
+  officeKey: string;
+  stateUsps: string;
+  field:
+    | "pay.governor.annualDollars"
+    | "pay.stateLegislator.annualDollars"
+    | "pay.trialJudge.annualDollars";
+  operativeAt: IsoDate;
+  applicability: RuleChangeApplicability;
+}
+
 /** Nonnumeric legal decisions are not encoded as invented zero-dollar amounts. */
 export type ResolvedLawValue =
   | { type: "amount"; value: number; unit: LawAmountUnit; currency?: string }
   | { type: "boolean"; value: boolean }
   | { type: "decision"; value: string };
 export interface ResolvedLawConsequence {
+  completedShift?: { eventId: EntityId; termsId: EntityId };
   row: LawConsequenceRow;
   law: LawInForce;
   questionKey: string;
@@ -230,8 +272,18 @@ export interface ResolvedTypedTaxConsequence extends Omit<
     levyProvisionId: EntityId;
   };
 }
+export interface ResolvedSavedRuleConsequence extends Omit<
+  ResolvedLawConsequence,
+  "law" | "questionKey"
+> {
+  authority:
+    | ResolvedSavedHourlyPayConsequence["authority"]
+    | SavedAnnualOfficePayAuthority;
+}
 export type ResolvedSavedLawConsequence =
-  ResolvedStandingServiceConsequence | ResolvedTypedTaxConsequence;
+  | ResolvedStandingServiceConsequence
+  | ResolvedTypedTaxConsequence
+  | ResolvedSavedRuleConsequence;
 export type ResolvedAnyLawConsequence =
   ResolvedLawConsequence | ResolvedSavedLawConsequence;
 

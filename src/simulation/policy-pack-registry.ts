@@ -1,3 +1,4 @@
+import { MINIMUM_WAGE_PAY_ROWS } from "./law-consequences/pay-rows";
 import {
   RENT_STABILIZATION_QUESTION,
   RENT_STABILIZATION_ROW,
@@ -48,13 +49,14 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
     propositions: US_POLICY_POSITIONS_PACK.propositions?.map((row) => {
       const key = `${US_POLICY_POSITIONS_PACK.pack}:${row.key}`;
       const coverage = COVERAGE_ELIGIBILITY_ROWS[key];
+      const pay = MINIMUM_WAGE_PAY_ROWS[key];
       const service = [
         ...(SERVICE_DELIVERED_LAW_ROWS[key] ?? []),
         ...(STATUTORY_WAGE_TAX_ROWS[key] ?? []),
       ];
       const rent = key === RENT_STABILIZATION_QUESTION;
       const tuition = key === TUITION_FREEZE_QUESTION;
-      if (!coverage && service.length === 0 && !rent && !tuition) return row;
+      if (!coverage && !pay && service.length === 0 && !rent && !tuition) return row;
       return {
         ...row,
         ...(rent
@@ -71,6 +73,7 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
           ...(rent ? [RENT_STABILIZATION_ROW] : []),
           ...(tuition ? [TUITION_FREEZE_ROW] : []),
           ...(coverage ? [coverage] : []),
+          ...(pay ? [pay] : []),
           ...service,
         ],
       };
@@ -88,13 +91,21 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
     ...US_FEDERAL_POSITIONS_PACK,
     propositions: US_FEDERAL_POSITIONS_PACK.propositions?.map((row) => {
       const key = `${US_FEDERAL_POSITIONS_PACK.pack}:${row.key}`;
+      const pay = MINIMUM_WAGE_PAY_ROWS[key];
       const service = [
         ...(SERVICE_DELIVERED_LAW_ROWS[key] ?? []),
         ...(STATUTORY_WAGE_TAX_ROWS[key] ?? []),
       ];
-      return service.length === 0
+      return service.length === 0 && !pay
         ? row
-        : { ...row, consequences: [...(row.consequences ?? []), ...service] };
+        : {
+            ...row,
+            consequences: [
+              ...(row.consequences ?? []),
+              ...(pay ? [pay] : []),
+              ...service,
+            ],
+          };
     }),
   },
   TAX_TERMS_POLICY_PACK,

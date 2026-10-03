@@ -1,5 +1,9 @@
 import { makeIsoDate } from "./dates";
-import { recordById, recordsByStringField } from "./history-index";
+import {
+  recordById,
+  recordsByKey,
+  recordsByStringField,
+} from "./history-index";
 import { factsForPerson } from "./people";
 import type {
   ChildAuthority,
@@ -90,9 +94,10 @@ export function currentLifeCutoff(world: World): HistoricalCutoff {
 export function organizationsAt(
   world: World,
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
+  organizations: readonly Organization[] = world.history.organizations,
 ): readonly Organization[] {
   validateCutoff(world, cutoff);
-  return world.history.organizations.filter((organization) =>
+  return organizations.filter((organization) =>
     available(organization.sequence, organization.formedAt, cutoff),
   );
 }
@@ -103,12 +108,12 @@ export function organizationProfileHistory(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly OrganizationProfileRecord[] {
   validateCutoff(world, cutoff);
-  return world.history.organizationProfiles
-    .filter(
-      (record) =>
-        record.organizationId === organizationId &&
-        available(record.sequence, record.effectiveAt, cutoff),
-    )
+  return recordsByStringField(
+    world.history.organizationProfiles,
+    "organizationId",
+    organizationId,
+  )
+    .filter((record) => available(record.sequence, record.effectiveAt, cutoff))
     .sort(byEffectiveDateThenSequence);
 }
 
@@ -684,10 +689,13 @@ export function kinshipRelationshipsAt(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly KinshipRelationship[] {
   validatePersonCutoff(world, personId, cutoff);
-  return world.history.kinshipRelationships.filter(
-    (relationship) =>
-      relationship.personIds.includes(personId) &&
-      available(relationship.sequence, relationship.establishedAt, cutoff),
+  return recordsByKey(
+    world.history.kinshipRelationships,
+    "life-queries:kinship-person-ids",
+    (relationship) => relationship.personIds,
+    personId,
+  ).filter((relationship) =>
+    available(relationship.sequence, relationship.establishedAt, cutoff),
   );
 }
 
