@@ -11,6 +11,75 @@ import { taxBaseOccurrenceSource } from "./tax-policy";
 import type { StatutoryTaxLiabilityRecord } from "./tax-types";
 import type { EntityId, World } from "./types";
 
+type AttributionFamily = "statutoryTaxLiabilities" | "statutoryTaxPayments";
+interface AttributionBatch {
+  readonly rows: Pick<World["history"], AttributionFamily>;
+  readonly stamps: Record<AttributionFamily, Map<EntityId, LawEffectStamp[]>>;
+}
+let attributionBatch: AttributionBatch | undefined;
+
+/** The completed paycheck pass only adds annotations. Keep its saved rows
+ * available to every canonical resolver and copy each changed family once.
+ * Nested passes over those same rows join the outer pass's stamp order.
+ */
+export function withStatutoryTaxLawAttributionBatch(
+  world: World,
+  run: (world: World) => World,
+): World {
+  const previous = attributionBatch;
+  if (
+    previous &&
+    previous.rows.statutoryTaxLiabilities ===
+      world.history.statutoryTaxLiabilities &&
+    previous.rows.statutoryTaxPayments === world.history.statutoryTaxPayments
+  )
+    return run(world);
+  const batch: AttributionBatch = {
+    rows: {
+      statutoryTaxLiabilities: world.history.statutoryTaxLiabilities,
+      statutoryTaxPayments: world.history.statutoryTaxPayments,
+    },
+    stamps: {
+      statutoryTaxLiabilities: new Map(),
+      statutoryTaxPayments: new Map(),
+    },
+  };
+  attributionBatch = batch;
+  let next: World;
+  try {
+    next = run(world);
+  } finally {
+    attributionBatch = previous;
+  }
+  if (
+    batch.stamps.statutoryTaxLiabilities.size === 0 &&
+    batch.stamps.statutoryTaxPayments.size === 0
+  )
+    return next;
+  return {
+    ...next,
+    history: {
+      ...next.history,
+      ...(batch.stamps.statutoryTaxLiabilities.size
+        ? {
+            statutoryTaxLiabilities: appendStamps(
+              next.history.statutoryTaxLiabilities ?? [],
+              batch.stamps.statutoryTaxLiabilities,
+            ),
+          }
+        : {}),
+      ...(batch.stamps.statutoryTaxPayments.size
+        ? {
+            statutoryTaxPayments: appendStamps(
+              next.history.statutoryTaxPayments ?? [],
+              batch.stamps.statutoryTaxPayments,
+            ),
+          }
+        : {}),
+    },
+  };
+}
+
 /** Attribution only. The statutory writer has already assessed and paid this
  * occurrence. Generic TaxBase assessment must never run for this source.
  * Starting-law attribution requires the same exact saved levy/question join.
@@ -51,18 +120,9 @@ export function appendStatutoryTaxLawAttribution(
     )
       return world;
     const stamp = stampFor(resolved, source.sourceRecordIds);
-    if (!stamp || hasStamp(liability, stamp)) return world;
-    return {
-      ...world,
-      history: {
-        ...world.history,
-        statutoryTaxLiabilities: appendStamp(
-          world.history.statutoryTaxLiabilities ?? [],
-          liability.id,
-          stamp,
-        ),
-      },
-    };
+    if (!stamp || hasStamp(world, "statutoryTaxLiabilities", liability, stamp))
+      return world;
+    return appendStamp(world, "statutoryTaxLiabilities", liability.id, stamp);
   }
   if (source.kind !== "statutory-payment") return world;
   // One transfer can pay income tax, FICA and premiums. A resolved allocation
@@ -96,18 +156,9 @@ export function appendStatutoryTaxLawAttribution(
   ];
   if (!ids.every((id) => resolved.sourceRecordIds.includes(id))) return world;
   const stamp = stampFor(resolved, ids);
-  if (!stamp || hasStamp(payment, stamp)) return world;
-  return {
-    ...world,
-    history: {
-      ...world.history,
-      statutoryTaxPayments: appendStamp(
-        world.history.statutoryTaxPayments ?? [],
-        payment.id,
-        stamp,
-      ),
-    },
-  };
+  if (!stamp || hasStamp(world, "statutoryTaxPayments", payment, stamp))
+    return world;
+  return appendStamp(world, "statutoryTaxPayments", payment.id, stamp);
 }
 
 function matchesLaw(
@@ -171,8 +222,20 @@ function stampFor(resolved: ResolvedLawConsequence, ids: readonly EntityId[]) {
   });
 }
 
-function hasStamp(row: object, stamp: LawEffectStamp): boolean {
-  return ((row as LawEffectStampedRecord).lawEffectStamps ?? []).some(
+function hasStamp(
+  world: World,
+  family: AttributionFamily,
+  row: { readonly id: EntityId },
+  stamp: LawEffectStamp,
+): boolean {
+  const queued =
+    attributionBatch?.rows[family] === world.history[family]
+      ? attributionBatch?.stamps[family].get(row.id)
+      : undefined;
+  return [
+    ...((row as LawEffectStampedRecord).lawEffectStamps ?? []),
+    ...(queued ?? []),
+  ].some(
     (prior) =>
       prior.governingLawKey === stamp.governingLawKey &&
       prior.questionKey === stamp.questionKey &&
@@ -182,20 +245,57 @@ function hasStamp(row: object, stamp: LawEffectStamp): boolean {
   );
 }
 
-function appendStamp<T extends { readonly id: EntityId }>(
-  rows: readonly T[],
+function appendStamp(
+  world: World,
+  family: AttributionFamily,
   id: EntityId,
   stamp: LawEffectStamp,
+): World {
+  if (
+    attributionBatch &&
+    attributionBatch.rows[family] === world.history[family]
+  ) {
+    const stamps = attributionBatch.stamps[family];
+    const queued = stamps.get(id);
+    if (queued) queued.push(stamp);
+    else stamps.set(id, [stamp]);
+    return world;
+  }
+  return {
+    ...world,
+    history: {
+      ...world.history,
+      ...(family === "statutoryTaxLiabilities"
+        ? {
+            statutoryTaxLiabilities: appendStamps(
+              world.history.statutoryTaxLiabilities ?? [],
+              new Map([[id, [stamp]]]),
+            ),
+          }
+        : {
+            statutoryTaxPayments: appendStamps(
+              world.history.statutoryTaxPayments ?? [],
+              new Map([[id, [stamp]]]),
+            ),
+          }),
+    },
+  };
+}
+
+function appendStamps<T extends { readonly id: EntityId }>(
+  rows: readonly T[],
+  stamps: ReadonlyMap<EntityId, readonly LawEffectStamp[]>,
 ): T[] {
-  return rows.map((row) =>
-    row.id === id
+  return rows.map((row) => {
+    const additions = stamps.get(row.id);
+    return additions
       ? {
           ...row,
           lawEffectStamps: [
             ...((row as LawEffectStampedRecord).lawEffectStamps ?? []),
-            stamp,
+            ...additions,
           ],
         }
-      : row,
-  );
+      : row;
+  });
 }

@@ -7,6 +7,7 @@ import { smallWorld } from "../../tests/fixtures/small-world";
 import { makeIsoDate } from "./dates";
 import { applyLawConsequences } from "./enacted-law-effects";
 import { lawInForce } from "./governing/law-in-force";
+import { recordsByStringField } from "./history-index";
 import { stableHash } from "./ids";
 import type { ResolvedLawConsequence } from "./law-consequence-types";
 import { TAX_REGISTRATION, STATUTORY_TAX_ACTION } from "./law-consequences/tax";
@@ -36,7 +37,10 @@ import {
   GRADUATED_STATE_INCOME_TAX_QUESTION,
 } from "./state-income-tax-law";
 import { assessPaychecksTaxes } from "./statutory-tax";
-import { appendStatutoryTaxLawAttribution } from "./statutory-tax-law-attribution";
+import {
+  appendStatutoryTaxLawAttribution,
+  withStatutoryTaxLawAttributionBatch,
+} from "./statutory-tax-law-attribution";
 import { taxBaseOccurrenceSource } from "./tax-policy";
 import { advanceWorld, assertWorldIntegrity } from "./world";
 
@@ -512,6 +516,101 @@ describe("A33 saved statutory attribution without another assessment", () => {
     expect(attributed.history.futureDueItems).toBe(
       later.history.futureDueItems,
     );
+  });
+
+  it("batches nested canonical stamps once without changing held rows or sibling histories", () => {
+    const f = fixture();
+    if (f.kind !== "supported")
+      throw new Error("Expected supported sampled fixture.");
+    const before = serializeWorld(f.world);
+    const heldLiabilities = recordsByStringField(
+      f.world.history.statutoryTaxLiabilities!,
+      "sourceOutcomeId",
+      f.outcomeId,
+    );
+    const heldPayments = recordsByStringField(
+      f.world.history.statutoryTaxPayments!,
+      "liabilityId",
+      f.liability.id,
+    );
+    const heldJson = JSON.stringify([heldLiabilities, heldPayments]);
+    const sequential = appendStatutoryTaxLawAttribution(
+      appendStatutoryTaxLawAttribution(f.world, f.assessment),
+      f.collection,
+    );
+    const batched = withStatutoryTaxLawAttributionBatch(f.world, (world) => {
+      const assessment = appendStatutoryTaxLawAttribution(world, f.assessment);
+      expect(assessment.history.statutoryTaxLiabilities).toBe(
+        world.history.statutoryTaxLiabilities,
+      );
+      const nested = withStatutoryTaxLawAttributionBatch(assessment, (next) => {
+        expect(appendStatutoryTaxLawAttribution(next, f.assessment)).toBe(next);
+        const collection = appendStatutoryTaxLawAttribution(next, f.collection);
+        expect(appendStatutoryTaxLawAttribution(collection, f.collection)).toBe(
+          collection,
+        );
+        expect(collection.history.statutoryTaxPayments).toBe(
+          world.history.statutoryTaxPayments,
+        );
+        return collection;
+      });
+      return nested;
+    });
+    expect(serializeWorld(batched)).toBe(serializeWorld(sequential));
+    expect(serializeWorld(deserializeWorld(serializeWorld(batched)))).toBe(
+      serializeWorld(batched),
+    );
+    expect(serializeWorld(f.world)).toBe(before);
+    expect(JSON.stringify([heldLiabilities, heldPayments])).toBe(heldJson);
+    expect(heldLiabilities).toContain(f.liability);
+    expect(heldPayments).toContain(f.payment);
+    expect(batched.history.resourceTransferOutcomes).toBe(
+      f.world.history.resourceTransferOutcomes,
+    );
+    const sibling = withStatutoryTaxLawAttributionBatch(f.world, (world) =>
+      appendStatutoryTaxLawAttribution(world, f.collection),
+    );
+    expect(serializeWorld(sibling)).toBe(
+      serializeWorld(appendStatutoryTaxLawAttribution(f.world, f.collection)),
+    );
+    expect(sibling.history.statutoryTaxLiabilities).toBe(
+      f.world.history.statutoryTaxLiabilities,
+    );
+    expect(
+      withStatutoryTaxLawAttributionBatch(batched, (world) =>
+        appendStatutoryTaxLawAttribution(
+          appendStatutoryTaxLawAttribution(world, f.assessment),
+          f.collection,
+        ),
+      ),
+    ).toBe(batched);
+    expect(withStatutoryTaxLawAttributionBatch(f.world, () => f.world)).toBe(
+      f.world,
+    );
+  });
+
+  it("discards an interrupted batch and restores the standalone writer", () => {
+    const f = fixture();
+    if (f.kind !== "supported")
+      throw new Error("Expected supported sampled fixture.");
+    const before = serializeWorld(f.world);
+    expect(() =>
+      withStatutoryTaxLawAttributionBatch(f.world, (world) => {
+        appendStatutoryTaxLawAttribution(world, f.assessment);
+        throw new Error("interrupted attribution pass");
+      }),
+    ).toThrow("interrupted attribution pass");
+    expect(serializeWorld(f.world)).toBe(before);
+    const standalone = appendStatutoryTaxLawAttribution(f.world, f.assessment);
+    expect(standalone).not.toBe(f.world);
+    expect(standalone.history.statutoryTaxLiabilities).not.toBe(
+      f.world.history.statutoryTaxLiabilities,
+    );
+    expect(
+      withStatutoryTaxLawAttributionBatch(f.world, (world) =>
+        appendStatutoryTaxLawAttribution(world, f.assessment),
+      ),
+    ).toEqual(standalone);
   });
 });
 
