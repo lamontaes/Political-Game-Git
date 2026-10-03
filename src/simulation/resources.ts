@@ -506,6 +506,10 @@ export function resourceTransferTermsCutoff(
   if (!completed || completed.sequence >= historySequenceExclusive)
     throw new Error("Resource provenance references an unavailable event.");
   if (completed.type !== "life-paths2.work-session") return current;
+  const earnedCutoff = {
+    asOfDate: completed.occurredAt,
+    historySequenceExclusive: completed.sequence + 1,
+  };
   const work =
     flow.basisReference.kind === "work"
       ? recordById(
@@ -516,7 +520,7 @@ export function resourceTransferTermsCutoff(
   if (
     !work ||
     flow.source.kind !== "organization" ||
-    flow.source.organizationId !== work.organizationId ||
+    flow.source.organizationId !== payPayerAt(world, work.id, earnedCutoff) ||
     flow.recipient.kind !== "person" ||
     flow.recipient.personId !== work.personId ||
     work.sequence >= completed.sequence ||
@@ -531,10 +535,7 @@ export function resourceTransferTermsCutoff(
       "Earned transfer terms must bind the saved completed work.",
     );
   }
-  return {
-    asOfDate: completed.occurredAt,
-    historySequenceExclusive: completed.sequence + 1,
-  };
+  return earnedCutoff;
 }
 
 function buildResourceTransferOutcome(
