@@ -115,7 +115,10 @@ export function resourcePositionAt(
       ledger.lastSequence < cutoff.historySequenceExclusive &&
       position.openedAt <= ledger.earliestAt &&
       ledger.latestAt <= cutoff.asOfDate)
-  )
+  ) {
+    let recordedIds = ledger?.outcomeIds;
+    const recordedCount = recordedIds?.length ?? 0;
+    let outcomeIds: EntityId[] | undefined;
     return {
       positionId: position.id,
       owner: { ...owner },
@@ -130,13 +133,23 @@ export function resourcePositionAt(
         ),
         currency,
       ),
-      outcomeIds: ledger ? [...ledger.outcomeIds] : [],
+      get outcomeIds(): EntityId[] {
+        // Running totals keep growing; evidence belongs to this snapshot's
+        // captured prefix, even if it is first read after another payment.
+        if (!outcomeIds) {
+          outcomeIds = recordedIds ? recordedIds.slice(0, recordedCount) : [];
+          recordedIds = undefined;
+        }
+        return outcomeIds;
+      },
     };
+  }
   // Some of the account's payments fall outside this reading (an earlier
   // moment, or before the position opened): read them one by one.
   let inflows = 0;
   let outflows = 0;
-  const outcomeIds: EntityId[] = [];
+  const asOfDate = cutoff.asOfDate;
+  const historySequenceExclusive = cutoff.historySequenceExclusive;
   // Only flows that touch this owner matter, and only their outcomes: both
   // are looked up by index, in history order, rather than read off every
   // flow and outcome the world has recorded, which grew with every payday.
@@ -146,12 +159,13 @@ export function resourcePositionAt(
   >();
   for (const flow of resourceFlowsTouching(world, endpoint))
     flows.set(flow.id, flow);
-  for (const outcome of resourceTransferOutcomesOfFlows(world, flows.keys())) {
+  const outcomes = resourceTransferOutcomesOfFlows(world, flows.keys());
+  for (const outcome of outcomes) {
     if (
       outcome.sequence <= position.sequence ||
-      outcome.sequence >= cutoff.historySequenceExclusive ||
+      outcome.sequence >= historySequenceExclusive ||
       outcome.occurredAt < position.openedAt ||
-      outcome.occurredAt > cutoff.asOfDate ||
+      outcome.occurredAt > asOfDate ||
       outcome.transferredAmount.currency !== currency ||
       outcome.transferredAmount.minorUnits === 0
     ) {
@@ -159,21 +173,20 @@ export function resourcePositionAt(
     }
     const flow = flows.get(outcome.resourceFlowId);
     if (!flow) continue;
-    let used = false;
     if (sameEndpoint(flow.recipient, endpoint)) {
       inflows = addExact(inflows, outcome.transferredAmount.minorUnits);
-      used = true;
     }
     if (sameEndpoint(flow.source, endpoint)) {
       outflows = addExact(outflows, outcome.transferredAmount.minorUnits);
-      used = true;
     }
-    if (used) outcomeIds.push(outcome.id);
   }
   const liquidMinorUnits = addExact(
     addExact(position.openingBalance.minorUnits, inflows),
     -outflows,
   );
+  let evidenceOutcomes: typeof outcomes | undefined = outcomes;
+  let evidenceFlows: typeof flows | undefined = flows;
+  let outcomeIds: EntityId[] | undefined;
   return {
     positionId: position.id,
     owner: { ...owner },
@@ -182,7 +195,31 @@ export function resourcePositionAt(
     inflows: money(inflows, currency),
     outflows: money(outflows, currency),
     liquidBalance: money(liquidMinorUnits, currency),
-    outcomeIds,
+    get outcomeIds(): EntityId[] {
+      if (outcomeIds) return outcomeIds;
+      outcomeIds = [];
+      for (const outcome of evidenceOutcomes!) {
+        if (
+          outcome.sequence <= position.sequence ||
+          outcome.sequence >= historySequenceExclusive ||
+          outcome.occurredAt < position.openedAt ||
+          outcome.occurredAt > asOfDate ||
+          outcome.transferredAmount.currency !== currency ||
+          outcome.transferredAmount.minorUnits === 0
+        )
+          continue;
+        const flow = evidenceFlows!.get(outcome.resourceFlowId);
+        if (
+          flow &&
+          (sameEndpoint(flow.recipient, endpoint) ||
+            sameEndpoint(flow.source, endpoint))
+        )
+          outcomeIds.push(outcome.id);
+      }
+      evidenceOutcomes = undefined;
+      evidenceFlows = undefined;
+      return outcomeIds;
+    },
   };
 }
 

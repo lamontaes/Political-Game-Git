@@ -99,6 +99,99 @@ function day(n: number): string {
 }
 
 describe("running balances", () => {
+  it("keeps delayed fast and historical evidence fixed across appends and siblings", () => {
+    const flow = {
+      id: id("held-flow"),
+      sequence: 2,
+      source: person(1),
+      recipient: person(2),
+      recordedAt: day(0),
+      startsAt: day(0),
+    } as unknown as ResourceFlow;
+    const payment = (
+      key: string,
+      sequence: number,
+      at: number,
+      amount: number,
+    ) =>
+      ({
+        id: id(key),
+        resourceFlowId: flow.id,
+        sequence,
+        occurredAt: day(at),
+        transferredAmount: { minorUnits: amount, currency: "USD" },
+      }) as unknown as ResourceTransferOutcome;
+    const first = payment("held-first", 3, 1, 10);
+    const lists: Lists = {
+      positions: [
+        {
+          id: id("held-position"),
+          sequence: 1,
+          owner: owner(1),
+          openedAt: day(0),
+          openingBalance: { minorUnits: 1000, currency: "USD" },
+        } as unknown as ResourcePosition,
+      ],
+      flows: [flow],
+      outcomes: [first],
+      sequence: 4,
+      date: day(1),
+    };
+    const held = Object.freeze(
+      resourcePositionAt(worldOf(lists), owner(1), "USD")!,
+    );
+    expect(held.liquidBalance.minorUnits).toBe(990);
+    const second: Lists = {
+      ...lists,
+      outcomes: appendedList(lists.outcomes, [
+        payment("held-second", 4, 2, 20),
+      ]),
+      sequence: 5,
+      date: day(2),
+    };
+    const cutoff = {
+      asOfDate: day(1),
+      historySequenceExclusive: 5,
+    } as HistoricalCutoff;
+    const historical = Object.freeze(
+      resourcePositionAt(worldOf(second), owner(1), "USD", cutoff)!,
+    );
+    expect(historical.liquidBalance.minorUnits).toBe(990);
+    const third: Lists = {
+      ...second,
+      outcomes: appendedList(second.outcomes, [
+        payment("held-third", 5, 3, 30),
+      ]),
+      sequence: 6,
+      date: day(3),
+    };
+    expect(
+      resourcePositionAt(worldOf(third), owner(1), "USD")!.liquidBalance
+        .minorUnits,
+    ).toBe(940);
+    const sibling: Lists = {
+      ...lists,
+      outcomes: appendedList(lists.outcomes, [
+        payment("held-sibling", 4, 2, 90),
+      ]),
+      sequence: 5,
+      date: day(2),
+    };
+    expect(
+      resourcePositionAt(worldOf(sibling), owner(1), "USD")!.liquidBalance
+        .minorUnits,
+    ).toBe(900);
+    Object.assign(cutoff, { asOfDate: day(3), historySequenceExclusive: 99 });
+    for (const snapshot of [held, historical]) {
+      const json = JSON.stringify(snapshot);
+      expect(JSON.parse(json).outcomeIds).toEqual([first.id]);
+      expect(snapshot.outcomeIds).toEqual([first.id]);
+      expect(snapshot.outcomeIds).toBe(snapshot.outcomeIds);
+      expect(JSON.stringify(snapshot)).toBe(json);
+      expect(snapshot.liquidBalance.minorUnits).toBe(990);
+    }
+  });
+
   it("equal the sum of every payment, however the balance is read", () => {
     let lists: Lists = {
       positions: [],

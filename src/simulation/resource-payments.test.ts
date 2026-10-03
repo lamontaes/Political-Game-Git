@@ -15,7 +15,7 @@ import {
   recordResourceTransferOutcome,
 } from "./resources";
 import { deserializeWorld, serializeWorld } from "./serialization";
-import type { ResourcePositionOwner } from "./types";
+import type { ResourcePositionOwner, World } from "./types";
 
 const provenance = {
   kind: "authored" as const,
@@ -30,6 +30,48 @@ const cases = pickDistinct(new SeededRng(seed), catalog, 3).flatMap((place) =>
     place: place.jurisdictionKey,
   })),
 );
+
+it("streams a large historical minimum without expanding checkpoints into call arguments", () => {
+  const count = 150_000;
+  const date = makeIsoDate("2026-01-05");
+  const payer: ResourcePositionOwner = {
+    kind: "person",
+    personId: "cash-payer" as never,
+  };
+  const world = {
+    currentDate: date,
+    history: {
+      resourceFlows: Array.from({ length: 3 }, (_, at) => ({
+        id: `cash-flow:${at}`,
+        source: payer,
+        recipient: { kind: "person", personId: "cash-recipient" },
+      })),
+      resourceTransferOutcomes: Array.from({ length: count }, (_, at) => ({
+        resourceFlowId: `cash-flow:${at % 3}`,
+        sequence: at + 1,
+        occurredAt: date,
+      })),
+      nextSequence: count + 2,
+    },
+  } as unknown as World;
+  let reads = 0;
+  const payment = paymentFromDatedCash(
+    world,
+    payer,
+    money(100, "USD"),
+    date,
+    (_world, _payer, _currency, cutoff) => {
+      reads += 1;
+      if (cutoff.historySequenceExclusive === 25_001) return null;
+      return cutoff.historySequenceExclusive === 75_001 ? 20 : 100;
+    },
+  );
+  expect(payment.availableMinor).toBe(20);
+  expect(payment.transferredAmount.minorUnits).toBe(20);
+  expect(payment.status).toBe("partial");
+  expect(reads).toBe(count + 3);
+});
+
 describe.each(cases)("dated cash for $kind in $place", ({ kind, place }) => {
   function fixture() {
     expect(catalog).toHaveLength(56);

@@ -70,6 +70,10 @@ export function createDatedCashPaymentReader(initial: World) {
       world.history.resourceFlows !== initial.history.resourceFlows
     )
       return datedCashBalanceAt(world, payer, currency, cutoff);
+    // A live frontier changes after the next payment. Keep only immutable
+    // historical checkpoints in this batch's reusable readings.
+    if (cutoff.historySequenceExclusive === world.history.nextSequence)
+      return datedCashBalanceAt(world, payer, currency, cutoff);
     const id =
       payer.kind === "person"
         ? payer.personId
@@ -262,15 +266,15 @@ function liveBoundaryMinimum(
   occurredAt: IsoDate,
   readBalance: DatedCashBalanceReader,
 ): number {
-  return Math.min(
-    ...[occurredAt, world.currentDate].flatMap((asOfDate) => {
-      const balance = readBalance(world, payer, currency, {
-        asOfDate,
-        historySequenceExclusive: world.history.nextSequence,
-      });
-      return balance === null ? [] : [balance];
-    }),
-  );
+  let minimum = Infinity;
+  for (const asOfDate of [occurredAt, world.currentDate]) {
+    const balance = readBalance(world, payer, currency, {
+      asOfDate,
+      historySequenceExclusive: world.history.nextSequence,
+    });
+    if (balance !== null) minimum = Math.min(minimum, balance);
+  }
+  return minimum;
 }
 
 function minimumOutcomeCashAt(
@@ -280,7 +284,7 @@ function minimumOutcomeCashAt(
   occurredAt: IsoDate,
   readBalance: DatedCashBalanceReader,
 ): number {
-  const checkpoints: HistoricalCutoff[] = [];
+  let minimum = Infinity;
   const touching = resourceFlowsTouching(world, payer);
   for (const outcome of resourceTransferOutcomesOfFlows(
     world,
@@ -289,17 +293,14 @@ function minimumOutcomeCashAt(
     if (
       outcome.occurredAt >= occurredAt &&
       outcome.occurredAt <= world.currentDate
-    )
-      checkpoints.push({
+    ) {
+      const balance = readBalance(world, payer, currency, {
         asOfDate: makeIsoDate(outcome.occurredAt),
         historySequenceExclusive: outcome.sequence + 1,
       });
-  }
-  return Math.min(
-    ...checkpoints.flatMap((cutoff) => {
-      const balance = readBalance(world, payer, currency, cutoff);
       // Transfers before this position was opened do not establish its cash.
-      return balance === null ? [] : [balance];
-    }),
-  );
+      if (balance !== null) minimum = Math.min(minimum, balance);
+    }
+  }
+  return minimum;
 }
