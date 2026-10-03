@@ -1,4 +1,5 @@
 import { validateEarnedLawPayAssessment } from "./earned-law-pay-integrity";
+import { payPayerAt } from "./pay-coverage-predicates";
 import type { LawEffectStampedRecord } from "./law-effect-stamp";
 import { eventById } from "./event-index";
 import {
@@ -630,7 +631,12 @@ function buildResourceTransferOutcome(
       flow.basisReference.workRelationshipId !==
         assessment.workRelationshipId ||
       flow.source.kind !== "organization" ||
-      flow.source.organizationId !== assessment.organizationId ||
+      flow.source.organizationId !==
+        payPayerAt(
+          world,
+          assessment.workRelationshipId,
+          assessment.earnedCutoff,
+        ) ||
       flow.recipient.kind !== "person" ||
       flow.recipient.personId !== assessment.personId ||
       !sameMoney(assessment.contractualGross, terms.amount) ||
