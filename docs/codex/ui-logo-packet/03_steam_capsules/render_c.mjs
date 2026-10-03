@@ -1,3 +1,5 @@
+import process from "node:process";
+import console from "node:console";
 import { chromium } from "playwright";
 import fs from "fs";
 const b = await chromium.launch();
@@ -12,7 +14,10 @@ for (const f of fs
   await p.goto("file://" + process.cwd() + "/" + f, {
     waitUntil: "networkidle",
   });
-  await p.evaluate(() => document.fonts.ready);
+  await p.evaluate(() => {
+    /* global document: readonly */
+    return document.fonts.ready;
+  });
   await p.waitForTimeout(500);
   const transparent = f.includes("library-logo");
   await p.screenshot({
