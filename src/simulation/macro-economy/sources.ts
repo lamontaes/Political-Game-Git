@@ -6,10 +6,7 @@ import {
 import { addDays, makeIsoDate } from "../dates";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import type { MacroShockKind } from "./policy";
-import {
-  worldMetricDefinitionByStableKey,
-  worldMetricStateForPeriodAt,
-} from "../world-metrics";
+import { worldMetricStateForPeriodAt } from "../world-metrics";
 import { monthEnd, monthKeyOf, monthStart } from "./store";
 import type { MacroScopeKey } from "./types";
 import { MACRO_ECONOMY_CONTRACT_VERSION } from "./types";
@@ -238,6 +235,12 @@ const TAX_COLLECTION_BASES: ReadonlySet<string> = new Set([
 export const PUBLIC_MONEY_ORIGIN_READER: MacroOriginReader = {
   key: "realized-public-money",
   origins: (world, throughDate) => {
+    const incomeDefinition = world.metricCatalog.definitionOrder
+      .map((id) => world.metricCatalog.definitions[id])
+      .find(
+        (definition) => definition?.stableKey === "income.aggregate-personal",
+      );
+    if (!incomeDefinition) return [];
     const flows = new Map(
       world.history.resourceFlows.map((flow) => [flow.id, flow]),
     );
@@ -299,8 +302,7 @@ export const PUBLIC_MONEY_ORIGIN_READER: MacroOriginReader = {
       .flatMap(([key, group]): readonly MacroShockOrigin[] => {
         const income = worldMetricStateForPeriodAt(
           world,
-          worldMetricDefinitionByStableKey(world, "income.aggregate-personal")
-            .id,
+          incomeDefinition.id,
           { jurisdictionId: group.jurisdictionId, segmentKey: null },
           {
             kind: "interval",

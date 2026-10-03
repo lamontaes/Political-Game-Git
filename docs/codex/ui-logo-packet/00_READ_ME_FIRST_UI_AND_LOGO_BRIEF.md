@@ -3,6 +3,7 @@
 **The job:** wire the approved **kit12** UI theme into the game, and put the approved **logo** into the title screen, the app and window icon, and the Steam folder. The owner approves pixels: show full-screen screenshots of every main screen before calling anything done. Game repo: `lamontaes/Political-Game-Git` (main). The full rules are in the repo at `docs/codex/handoff/HANDOFF-TO-CODEX-2026-10-02.md` (sections 11D, 11E and 12E are the UI and art rules).
 
 ## What's in this folder
+
 - `01_kit12_ui/`, the approved UI:
   - `kit12.css`: the spec, including tokens, components and the LIE CONTROL block;
   - `final.html` / `final.png`: the conversation screen;
@@ -25,6 +26,7 @@
 - `04_key_art/keyart-collage-v1-2752x1536.png`: the comic-panel key art (convention, Oval Office, Supreme Court, Senate floor, press briefing).
 
 ## Locked UI decisions (do not change)
+
 1. **Fonts** (kit12 tokens):
    - **Cinzel 800** for names and titles (the title "Our Civic Duty" is Cinzel, letter-spacing 0.07em, gold `#d6bd84`);
    - **Andada Pro** for speech and prose;
@@ -43,6 +45,7 @@
    - **the word "Lie" never appears**: no label, no tag.
 
    The spec is the LIE CONTROL block in kit12.css.
+
 5. **Radial menu** comes back (restyled; it must not bundle or cover the portrait). The **player portrait sits next to the clock** (bottom-left). **The date and time appear in ONE place only**, the player card. Check every screen for duplicated info.
 6. **Glossary underlines MUST SHIP:** civic terms get a tiny underline, hover shows the definition, and clicking "Mark as learned" removes the underline (the term stays in the glossary).
 7. **Hover:** people and buttons get a smooth white glow (red for a lie). People glow softly on hover.
@@ -63,15 +66,18 @@
 12. **Build mockups from real game screenshots** and real records, never generic scenes.
 
 ## Logo rules
+
 - The **ballot box**: navy with brass corners, **no lock**, front square to the camera, looking down at the lid, a thin-outline ballot, about 6/10 realism (not photoreal, not cartoony), no hands or skin.
 - **Wherever "OUR CIVIC DUTY" is spelled out next to the box, the ballot is BLANK** (owner: words on the ballot look like AI slop). The words are set in **Cinzel 900**, gold gradient `#f0d9a4 → #d6bd84 → #a87a48`, with a dark navy outline and shadow.
 - Use `emblem-final.png` for the icon and title lockup. Use `library-logo-1280x720.png` where a transparent stacked logo is needed.
 - The navy box is a branding pick; it does not break the "no navy in the game UI" rule.
 
 ## Steam
+
 Option C is approved: the full comic collage fading to navy, with the title along the bottom. All sizes are ready in `03_steam_capsules/`. Still to do: gameplay screenshots once kit12 is wired, at 1920×1080, at least 5 real gameplay shots. The library hero is upscaled, so a wider key-art version would sharpen it.
 
 ## How to verify (required)
+
 - A full-screen screenshot of each screen: title, play HUD, conversation (lie on and off), dossier, people, money, news, options.
 - Check: no navy, no duplicated date, glossary underline working, scales behaving.
 - Small PRs.

@@ -9,6 +9,7 @@ description: >
 # Brief a team (Lamontae: "bounded, specific, fleshed out ... work smarter")
 
 Every brief has, in order:
+
 1. The first line: "You are CLOUD X. <one-sentence job>." (only the first line previews).
 2. From, time, and whether it replaces earlier work.
 3. WHAT AND WHY: Lamontae's own words where they exist, and the player-visible goal.

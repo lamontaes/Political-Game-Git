@@ -28,7 +28,9 @@ Repo: lamontaes/Political-Game-Git. Always pass `-R lamontaes/Political-Game-Git
 Never merge the law stack or people-engine art without your own look. Never force-push, and never delete branches.
 
 ## Design check before EVERY merge (owner, Oct 1: "you are the only line of defense")
+
 merge.sh runs `design_check.py <pr> "<text>"` on the PR diff and refuses:
+
 - game code naming a specific law question or state code, unless the text has `Hardcode-ok: <why>`;
 - new game-code files or exported functions, unless the text has `Replaces: <old path removed>`.
-Before writing `Replaces:`, grep main for an existing helper that does the same job. If one exists, send the PR back to reuse it. Never merge a new path beside an old one; the PR must delete the path it replaces.
+  Before writing `Replaces:`, grep main for an existing helper that does the same job. If one exists, send the PR back to reuse it. Never merge a new path beside an old one; the PR must delete the path it replaces.
