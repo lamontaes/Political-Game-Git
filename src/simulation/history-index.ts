@@ -318,14 +318,11 @@ export interface GrowingIndexKind<I> {
 
 interface GrowingIndexState<I> {
   readonly byList: WeakMap<readonly unknown[], I>;
-  /** A weak reference to the indexed list ending with each record. */
-  readonly listEndingWith: WeakMap<object, WeakRef<readonly unknown[]>>;
+  /** Recent arrays retained by the existing bounded append cache. */
+  readonly recent: (readonly unknown[])[];
 }
 
 const GROWING_STATES = new WeakMap<object, GrowingIndexState<unknown>>();
-
-/** How far back from a list's end to look for the list it grew from. */
-const GROWING_LOOKBACK = 1024;
 
 export function growingIndex<I>(
   kind: GrowingIndexKind<I>,
@@ -333,38 +330,21 @@ export function growingIndex<I>(
 ): I {
   let state = GROWING_STATES.get(kind) as GrowingIndexState<I> | undefined;
   if (!state) {
-    state = { byList: new WeakMap(), listEndingWith: new WeakMap() };
+    state = { byList: new WeakMap(), recent: [] };
     GROWING_STATES.set(kind, state as GrowingIndexState<unknown>);
   }
-  const cached = state.byList.get(records);
-  if (cached !== undefined) return cached;
-  let index: I | undefined;
-  let from = 0;
-  const stop = Math.max(0, records.length - GROWING_LOOKBACK);
-  for (let at = records.length - 1; at >= stop; at -= 1) {
-    const record = records[at];
-    if (typeof record !== "object" || record === null) break;
-    const earlier = state.listEndingWith.get(record)?.deref();
-    if (!earlier) continue;
-    if (earlier.length !== at + 1 || !beginsWith(records, earlier)) break;
-    index = state.byList.get(earlier);
-    if (index === undefined) break;
-    state.byList.delete(earlier);
-    state.listEndingWith.delete(record);
-    from = at + 1;
-    break;
-  }
-  if (index === undefined) {
-    index = kind.create();
-    from = 0;
-  }
-  for (let at = from; at < records.length; at += 1)
-    kind.add(index, records[at], at);
-  state.byList.set(records, index);
-  const last = records.at(-1);
-  if (typeof last === "object" && last !== null)
-    state.listEndingWith.set(last, new WeakRef(records));
-  return index;
+  const extend = (index: I, from: number): I => {
+    for (let at = from; at < records.length; at += 1)
+      kind.add(index, records[at], at);
+    return index;
+  };
+  return indexFollowingAppends(
+    state.byList,
+    state.recent,
+    records,
+    () => extend(kind.create(), 0),
+    extend,
+  );
 }
 
 /**
