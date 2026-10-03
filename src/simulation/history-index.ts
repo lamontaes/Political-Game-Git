@@ -88,18 +88,22 @@ function adoptFromPrefix<V>(
   recent: (readonly unknown[])[],
   records: readonly unknown[],
 ): { readonly value: V; readonly from: number } | null {
+  const line = LINES.get(records)?.line;
   for (let at = recent.length - 1; at >= 0; at -= 1) {
     const prior = recent[at]!;
-    // Cheap rejections first: most recent arrays belong to other families.
+    if (prior.length === 0 || prior.length > records.length) continue;
+    const value = cache.get(prior);
+    if (value === undefined) continue;
+    // An append line already proves the prefix by identity. Reading its
+    // first record again would walk a transaction view's entire tail chain.
+    const proven = line !== undefined && LINES.get(prior)?.line === line;
     if (
-      prior.length === 0 ||
-      prior.length > records.length ||
-      records[prior.length - 1] !== prior[prior.length - 1] ||
-      records[0] !== prior[0]
+      !proven &&
+      (records[prior.length - 1] !== prior[prior.length - 1] ||
+        records[0] !== prior[0] ||
+        !startsWith(records, prior))
     )
       continue;
-    const value = cache.get(prior);
-    if (value === undefined || !startsWith(records, prior)) continue;
     cache.delete(prior);
     recent.splice(at, 1);
     return { value, from: prior.length };
@@ -378,6 +382,7 @@ export function appendedList<T>(
 
 interface HistoryAppendStream {
   base?: readonly unknown[];
+  readonly root?: HistoryAppendStream;
   tail?: {
     readonly prior: HistoryAppendStream;
     readonly added: readonly unknown[];
@@ -453,7 +458,9 @@ function appendHistoryView<T>(
   prior: HistoryAppendStream,
   added: readonly T[],
 ): T[] {
+  const root = prior.tail ? prior.root! : prior;
   const stream: HistoryAppendStream = {
+    root,
     tail: { prior, added: [...added] },
     length: prior.length + added.length,
   };
@@ -464,6 +471,9 @@ function appendHistoryView<T>(
     return value < stream.length ? value : undefined;
   };
   const valueAt = (at: number): unknown => {
+    // A base record precedes every chunk on this append line. Read its
+    // original logical prefix directly; commit rebinds the same base stream.
+    if (at < root.length) return root.base![at];
     let current = stream;
     while (current.tail) {
       if (at >= current.tail.prior.length)
@@ -603,7 +613,10 @@ const FIRST_RECORD_BY_ID: GrowingIndexKind<Map<unknown, unknown>> = {
 
 const GROUPED_BY_FIELD = new Map<
   string,
-  GrowingIndexKind<Map<unknown, unknown[]>>
+  {
+    readonly cache: WeakMap<object, Map<unknown, readonly unknown[]>>;
+    readonly recent: (readonly unknown[])[];
+  }
 >();
 
 /**
@@ -616,21 +629,40 @@ export function recordsWithFieldValue<T, K extends keyof T & string>(
   field: K,
   value: T[K],
 ): readonly T[] {
-  let kind = GROUPED_BY_FIELD.get(field);
-  if (!kind) {
-    kind = {
-      create: () => new Map(),
-      add: (index, record) => {
-        const key = (record as Record<string, unknown>)[field];
-        const group = index.get(key);
-        if (group) group.push(record);
-        else index.set(key, [record]);
-      },
-    };
-    GROUPED_BY_FIELD.set(field, kind);
+  let slot = GROUPED_BY_FIELD.get(field);
+  if (!slot) {
+    slot = { cache: new WeakMap(), recent: [] };
+    GROUPED_BY_FIELD.set(field, slot);
   }
   if (typeof value === "number" && Number.isNaN(value)) return [];
-  return (growingIndex(kind, records).get(value) ?? []) as readonly T[];
+  const extend = (
+    groups: Map<unknown, readonly unknown[]>,
+    from: number,
+  ): Map<unknown, readonly unknown[]> => {
+    const grown = new Map<unknown, unknown[]>();
+    for (let at = from; at < records.length; at += 1) {
+      const record = records[at]!;
+      const key = record[field];
+      let group = grown.get(key);
+      if (!group) {
+        // Groups already returned for an older snapshot stay unchanged.
+        // Copy each affected group once for this append batch.
+        group = [...(groups.get(key) ?? [])];
+        grown.set(key, group);
+      }
+      group.push(record);
+    }
+    for (const [key, group] of grown) groups.set(key, group);
+    return groups;
+  };
+  const groups = indexFollowingAppends(
+    slot.cache,
+    slot.recent,
+    records,
+    () => extend(new Map(), 0),
+    extend,
+  );
+  return (groups.get(value) ?? []) as readonly T[];
 }
 
 interface PeopleReadIndex {

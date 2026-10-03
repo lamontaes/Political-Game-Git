@@ -460,20 +460,3 @@ describe("A38 adopted city target", () => {
     ).toBeNull();
   });
 });
-
-describe("Your Money player script on the receiving payroll graph", () => {
-  it.todo("open an employed adult and inspect the saved pay stub");
-  it.todo(
-    "advance only the clock to payday and reconcile gross, tax, net and employer cash",
-  );
-  it.todo(
-    "pass a numeric wage through the actual desk and retain its authority on the next eligible paycheck",
-  );
-  it.todo("settle actual bills and inspect the household budget");
-  it.todo(
-    "join an assessment-linked completed paycheck to the existing noticing and voter reflection consumer",
-  );
-  it.todo(
-    "repeat and Save/Continue without duplicate pay, withholding or reflection",
-  );
-});

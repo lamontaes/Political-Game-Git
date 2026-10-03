@@ -6,6 +6,7 @@ import {
   growingIndex,
   type GrowingIndexKind,
   hasStableKey,
+  indexFollowingAppends,
   recordById,
   recordByStableKey,
   recordsByStringField,
@@ -25,6 +26,49 @@ describe("state-intake history copy transaction", () => {
     ({
       history: { personalityTendencies: records, events: [] },
     }) as unknown as World;
+
+  it("adopts proven append lines without rereading their first record and still checks rewritten prefixes", () => {
+    let firstReads = 0;
+    const base = new Proxy([row("a"), row("middle"), row("last")], {
+      get(target, key, receiver) {
+        if (key === "0") firstReads += 1;
+        return Reflect.get(target, key, receiver);
+      },
+    });
+    expect(recordById(base, "a" as EntityId)).toBe(base[0]);
+    const afterBuild = firstReads;
+    let prefix: readonly ReturnType<typeof row>[] = base;
+    let sibling: readonly ReturnType<typeof row>[] = base;
+    const result = withHistoryAppendTransaction(
+      worldWith(base),
+      ["personalityTendencies"],
+      () => {
+        let records = base;
+        for (let at = 0; at < 20; at += 1) {
+          const added = row(`added:${at}`);
+          records = appendedList(records, [added]);
+          expect(recordById(records, added.id)).toBe(added);
+          if (at === 9) prefix = records;
+        }
+        expect(firstReads).toBe(afterBuild);
+        sibling = appendedList(prefix, [row("sibling")]);
+        expect(recordById(sibling, "added:19" as EntityId)).toBeUndefined();
+        expect(recordById(sibling, "sibling" as EntityId)).toBe(sibling.at(-1));
+        return worldWith(records);
+      },
+    );
+    expect(prefix).toHaveLength(13);
+    expect(recordById(prefix, "added:19" as EntityId)).toBeUndefined();
+    expect(recordById(sibling, "added:19" as EntityId)).toBeUndefined();
+    expect(
+      recordById(result.history.personalityTendencies, "sibling" as EntityId),
+    ).toBeUndefined();
+    const rewritten = [base[0]!, row("replacement"), base[2]!];
+    const grown = appendedList(rewritten, [row("new")]);
+    expect(recordById(grown, "middle" as EntityId)).toBeUndefined();
+    expect(recordById(grown, "replacement" as EntityId)).toBe(rewritten[1]);
+    expect(recordById(base, "middle" as EntityId)).toBe(base[1]);
+  });
 
   it.each([false, true])(
     "materializes shared-family branches (same view: %s)",
@@ -359,6 +403,63 @@ describe("state-intake history copy transaction", () => {
 });
 
 describe("immutable history lookup indexes", () => {
+  it("does not read a recent prefix that no longer has an index to adopt", () => {
+    const first = { id: "first" };
+    const prior = new Proxy([first], {
+      get(target, key, receiver) {
+        if (key === "0") throw new Error("An unavailable prefix was read");
+        return Reflect.get(target, key, receiver);
+      },
+    });
+    const rows = [first, { id: "added" }];
+    const built = new Map(rows.map((row) => [row.id, row]));
+    expect(
+      indexFollowingAppends(
+        new WeakMap(),
+        [prior],
+        rows,
+        () => built,
+        () => {
+          throw new Error("An unavailable index was extended");
+        },
+      ),
+    ).toBe(built);
+  });
+
+  it("keeps held field groups unchanged through prefixes, sibling appends and rereads", () => {
+    const row = (id: string, owner: string | number) => ({ id, owner });
+    const base = Object.freeze([row("base", "payer"), row("other", 2)]);
+    const heldBase = recordsWithFieldValue(base, "owner", "payer");
+    const heldOther = recordsWithFieldValue(base, "owner", 2);
+    const prefix = appendedList(base, [row("prefix", "payer")]);
+    const heldPrefix = recordsWithFieldValue(prefix, "owner", "payer");
+    const left = appendedList(prefix, [
+      row("left-one", "payer"),
+      row("left-two", "payer"),
+    ]);
+    const right = appendedList(prefix, [row("right", "payer")]);
+    const heldLeft = recordsWithFieldValue(left, "owner", "payer");
+    expect(heldLeft).toEqual([base[0], prefix[2], left[3], left[4]]);
+    expect(recordsWithFieldValue(right, "owner", "payer")).toEqual([
+      base[0],
+      prefix[2],
+      right[3],
+    ]);
+    expect(heldBase).toEqual([base[0]]);
+    expect(heldPrefix).toEqual([base[0], prefix[2]]);
+    expect(heldOther).toEqual([base[1]]);
+    expect(recordsWithFieldValue(base, "owner", "payer")).toEqual(heldBase);
+    expect(recordsWithFieldValue(prefix, "owner", "payer")).toEqual(heldPrefix);
+    const later = appendedList(left, [row("later", "payer")]);
+    expect(recordsWithFieldValue(later, "owner", "payer")).toEqual([
+      ...heldLeft,
+      later[5],
+    ]);
+    expect(heldLeft).toEqual([base[0], prefix[2], left[3], left[4]]);
+    expect(heldBase).toEqual([base[0]]);
+    expect(recordsWithFieldValue(base, "owner", Number.NaN)).toEqual([]);
+  });
+
   it("keeps first-match and source order while a new array gets fresh entries", () => {
     const first = { id: "first" as EntityId, personId: "a", value: 1 };
     const duplicate = { id: "first" as EntityId, personId: "b", value: 2 };
