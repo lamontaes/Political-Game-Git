@@ -373,7 +373,7 @@ describe.each(allPlaces())(
             taxPaymentIds.has(row.id),
           ),
         ).toEqual(historicalTaxPayments);
-        for (const owner of [openingFlow!.source, openingFlow!.recipient]) {
+        for (const owner of [contractFlow!.source, contractFlow!.recipient]) {
           expect(
             resourcePositionAt(
               compared,
