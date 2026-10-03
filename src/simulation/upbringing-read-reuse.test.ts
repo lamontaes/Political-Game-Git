@@ -13,6 +13,7 @@ import { personTrait } from "./people-traits";
 import { upbringingFor } from "./people-upbringing";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { recordWorldEvent } from "./world";
+import type { Person, PersonFact } from "./types";
 
 const seed = "upbringing-read-reuse";
 const place = drawRandomPlace(seed);
@@ -145,39 +146,32 @@ describe(`upbringing read reuse (${place.displayName}, seed ${seed})`, () => {
       upbringingFor(deserializeWorld(serializeWorld(world)), personId),
     ).toEqual(before);
 
+    const childFact = (fact: PersonFact): PersonFact =>
+      "endedAt" in fact
+        ? {
+            ...fact,
+            occurredAt: world.currentDate,
+            endedAt: fact.endedAt === null ? null : world.currentDate,
+          }
+        : { ...fact, occurredAt: world.currentDate };
+    const child = (person: Person): Person => {
+      const establishedFacts = person.establishedFacts.map(childFact);
+      return person.detailLevel === "materialized"
+        ? {
+            ...person,
+            birthDate: world.currentDate,
+            establishedFacts,
+            details: {
+              ...person.details,
+              generatedFacts: person.details.generatedFacts.map(childFact),
+            },
+          }
+        : { ...person, birthDate: world.currentDate, establishedFacts };
+    };
     const children = {
       ...world,
       people: Object.fromEntries(
-        Object.entries(world.people).map(([id, person]) => [
-          id,
-          {
-            ...person,
-            birthDate: world.currentDate,
-            establishedFacts: person.establishedFacts.map((fact) => ({
-              ...fact,
-              occurredAt: world.currentDate,
-              ...("endedAt" in fact && fact.endedAt !== null
-                ? { endedAt: world.currentDate }
-                : {}),
-            })),
-            ...(person.detailLevel === "materialized"
-              ? {
-                  details: {
-                    ...person.details,
-                    generatedFacts: person.details.generatedFacts.map(
-                      (fact) => ({
-                        ...fact,
-                        occurredAt: world.currentDate,
-                        ...("endedAt" in fact && fact.endedAt !== null
-                          ? { endedAt: world.currentDate }
-                          : {}),
-                      }),
-                    ),
-                  },
-                }
-              : {}),
-          },
-        ]),
+        Object.entries(world.people).map(([id, person]) => [id, child(person)]),
       ),
     };
     const withoutAdults = upbringingFor(children, personId);
