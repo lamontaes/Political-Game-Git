@@ -4,6 +4,7 @@ import { createRoot } from "react-dom/client";
 import { initializeRuntimeArt } from "./presentation/runtime-art";
 import { setDeepTransitionInputGuard } from "./simulation/future-transitions";
 import "./styles.css";
+import "./player/kit12.css";
 import "./player/player.css";
 import "./player/shell.css";
 import "./player/docket.css";
