@@ -303,7 +303,7 @@ export function settleAllOfficeSalaries(world: World): World {
         next.history.workRelationships,
         flow.basisReference.workRelationshipId,
       );
-      if (!work || !paidOfficeOf(next, work)) continue;
+      if (!work) continue;
       periods.push(...dueOfficePeriods(next, work, flow));
     }
     return periods.length ? settleTownCompensations(next, periods) : next;
@@ -334,6 +334,13 @@ function dueOfficePeriods(
     const periodStartsAt = addDays(flow.startsAt, (week - 1) * WEEK_DAYS);
     const dueOn = addDays(flow.startsAt, week * WEEK_DAYS);
     if (!isActiveOn(world, work.id, addDays(dueOn, -1))) break;
+    if (
+      !paidOfficeOf(world, work, {
+        asOfDate: periodStartsAt,
+        historySequenceExclusive: world.history.nextSequence,
+      })
+    )
+      continue;
     periods.push({
       stableKey: `${flow.stableKey}:${periodStartsAt}`,
       payFlowId: flow.id,
