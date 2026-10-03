@@ -496,8 +496,14 @@ function familyCohortIndex(world: World): FamilyCohortIndex {
   const estimatedMonthlyPay = new Map(
     recordedMonthlyPayByPerson(world, world.currentDate),
   );
-  for (const id of world.personOrder) {
-    if (estimatedMonthlyPay.has(id)) continue;
+  const orderedPeople = new Set(world.personOrder);
+  const paidWorkPeople = new Set(
+    world.history.workRelationships.flatMap((work) =>
+      work.compensation === "paid" ? [work.personId] : [],
+    ),
+  );
+  for (const id of paidWorkPeople) {
+    if (!orderedPeople.has(id) || estimatedMonthlyPay.has(id)) continue;
     let monthly = 0;
     for (const { relationship, role } of activeWorkRelationshipsAt(world, id)) {
       if (relationship.compensation !== "paid") continue;

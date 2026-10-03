@@ -4,9 +4,16 @@ import { drawRandomPlace } from "../../tests/support/random-place";
 import * as families from "./family-shape";
 import {
   createResourceFlow,
+  createWorkCompensation,
   recordResourceFlowTerms,
   money,
 } from "./resources";
+import {
+  createOrganization,
+  createWorkRelationships,
+  recordWorkStatus,
+} from "./life";
+import * as lifeQueries from "./life-queries";
 import * as childhood from "./childhood-record";
 import { addDays } from "./dates";
 import { ensurePeopleTraits, personTrait } from "./people-traits";
@@ -21,6 +28,117 @@ const place = drawRandomPlace(seed);
 const fixture = () => smallWorld({ place: place.key, seed });
 
 describe(`upbringing read reuse (${place.displayName}, seed ${seed})`, () => {
+  it.each(["family-pay-candidates-one", "family-pay-candidates-two"])(
+    "estimates only recorded paid-work candidates without changing mixed-work evidence (%s)",
+    (seed) => {
+      const selected = drawRandomPlace(seed);
+      const small = smallWorld({
+        place: selected.key,
+        seed,
+        people: 8,
+        household: true,
+      });
+      const provenance = {
+        kind: "authored" as const,
+        note: "Controlled mixed-work upbringing fixture.",
+      };
+      let world = createOrganization(small.world, {
+        stableKey: "family-pay-candidates:employer",
+        formedAt: small.world.currentDate,
+        provenance,
+        initialProfile: {
+          name: "Recorded fixture employer",
+          classification: "enterprise:retail",
+          locationJurisdictionId: small.jurisdictionId,
+        },
+      });
+      const organizationId = world.history.organizations.at(-1)!.id;
+      world = createWorkRelationships(
+        world,
+        Array.from({ length: 4 }, (_, at) => ({
+          stableKey: `family-pay-candidates:work:${at}`,
+          personId: world.personOrder[at]!,
+          organizationId,
+          startedAt: world.currentDate,
+          kind: "employment:staff",
+          compensation: at === 2 ? ("unpaid" as const) : ("paid" as const),
+          authority: "directed",
+          dependency: "dependent",
+          economicRisk: "organization-borne",
+          provenance,
+          initialRole: {
+            title: "Recorded clerk",
+            occupationClassification: "occupation:cashier",
+            locationJurisdictionId: small.jurisdictionId,
+            timeDemand: {
+              expectedWeekly: { minimumHours: 32, maximumHours: 40 },
+              attention: "moderate",
+              concurrency: "mostly-exclusive",
+              scheduleRigidity: "rigid",
+              interruptibility: "limited",
+              locationJurisdictionId: small.jurisdictionId,
+            },
+          },
+        })),
+      );
+      const works = world.history.workRelationships.slice(-4);
+      world = recordWorkStatus(world, {
+        stableKey: "family-pay-candidates:ended",
+        workRelationshipId: works[3]!.id,
+        effectiveAt: world.currentDate,
+        status: "ended",
+        reason: "The recorded fixture job ended.",
+        provenance,
+        supersedesStatusId: world.history.workStatuses.at(-1)!.id,
+      });
+      world = createWorkCompensation(world, {
+        stableKey: "family-pay-candidates:known-pay",
+        workRelationshipId: works[0]!.id,
+        startsAt: world.currentDate,
+        amount: money(200_000, "USD"),
+        cadenceKind: "schedule:monthly",
+        restrictionKind: null,
+        jurisdictionId: small.jurisdictionId,
+        provenance,
+      });
+      const spy = vi.spyOn(lifeQueries, "activeWorkRelationshipsAt");
+      try {
+        const packet = upbringingFor(world, small.personId);
+        for (const [at, id] of world.personOrder.entries()) {
+          // Household evidence reads everyone once; the estimator additionally
+          // reads only unknown-pay paid candidates, including an ended job.
+          expect(
+            spy.mock.calls.filter(([, readId]) => readId === id),
+          ).toHaveLength(at === 1 || at === 3 ? 2 : 1);
+        }
+        expect(packet.familyContext?.incomeSourcePersonIds).toContain(
+          works[0]!.personId,
+        );
+        expect(packet.familyContext?.incomeSourcePersonIds).not.toContain(
+          works[2]!.personId,
+        );
+        expect(packet.familyContext?.incomeSourcePersonIds).not.toContain(
+          works[3]!.personId,
+        );
+        expect(
+          upbringingFor(
+            {
+              ...world,
+              personOrder: [...world.personOrder].reverse(),
+              history: {
+                ...world.history,
+                kinshipRelationships: [...world.history.kinshipRelationships],
+              },
+            },
+            small.personId,
+          ),
+        ).toEqual(packet);
+      } finally {
+        spy.mockRestore();
+      }
+    },
+  );
+
   it("reads one upbringing per seeded person and leaves completed seeds unchanged without an eager read", () => {
     const { world } = smallWorld({ place: place.key, seed, household: true });
     const dates = new Map(
