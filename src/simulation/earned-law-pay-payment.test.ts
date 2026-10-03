@@ -754,7 +754,7 @@ it("A38 completed public-employer pay uses its distinct recorded account and rep
       { kind: "organization", organizationId: f.organizationId },
       money(1, "USD").currency,
     ),
-  ).toBeNull();
+  ).toBeUndefined();
   expect(settleTownCompensations(paid, [period])).toBe(paid);
   const reopened = deserializeWorld(serializeWorld(paid));
   expect(serializeWorld(reopened)).toBe(serializeWorld(paid));
@@ -800,7 +800,10 @@ it("A38 completed public-employer payment refuses a saved flow with the wrong pa
       ),
     },
   };
-  const before = serializeWorld(corrupted);
+  const before = JSON.stringify(corrupted);
+  expect(() => serializeWorld(corrupted)).toThrow(
+    "Invalid earned law pay assessment (worker employer flow and performed activity)",
+  );
   expect(() =>
     recordResourceTransferOutcome(corrupted, {
       stableKey: period.stableKey,
@@ -816,8 +819,8 @@ it("A38 completed public-employer payment refuses a saved flow with the wrong pa
       provenance: { kind: "simulated-event", eventId: completion.id },
       earnedLawPayAssessmentId: assessment.id,
     }),
-  ).toThrow(/worker employer flow/);
-  expect(serializeWorld(corrupted)).toBe(before);
+  ).toThrow("Earned transfer terms must bind the saved completed work.");
+  expect(JSON.stringify(corrupted)).toBe(before);
 });
 
 it("A38 actual completed-shift payday delegates immutable earnings through the clock caller", () => {
