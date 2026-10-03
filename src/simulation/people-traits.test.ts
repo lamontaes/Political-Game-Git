@@ -1,6 +1,9 @@
 import { readFileSync } from "node:fs";
 import { canonicalJson } from "./canonical-json";
 import { describe, expect, it } from "vitest";
+import { smallWorld } from "../../tests/fixtures/small-world";
+import { createWorld } from "./world";
+import { createLifeMindCatalog } from "./life-mind-content";
 
 import {
   createNewGameWorld,
@@ -133,18 +136,30 @@ describe("A138: traits come from upbringing, not a lottery", () => {
   const { seed, usps, placeKey } = drawPlace();
   it(`two seeds give the same traits to people with the same upbringing (US-${usps}, seed ${seed})`, () => {
     const open = (worldSeed: string) => {
-      const game = createNewGameWorld({
-        ...DEFAULT_NEW_GAME_SETUP,
+      // Canonical residents without household, kinship or payroll histories
+      // have the same complete recorded upbringing across population seeds.
+      // Ordinary openings embed seed-specific family IDs in that packet.
+      const game = smallWorld({
         seed: worldSeed,
-        placeKey,
-        startAge: 40,
-        questionnaire: "skipped",
+        place: placeKey,
       });
       const people = game.world.personOrder.filter(
-        (id) => id !== game.playerPersonId,
+        (id) => id !== game.personId,
       );
       // An installed pack's seeded trait starts the same way the five do.
-      return { world: importContentPack(game.world, PATIENCE_PACK), people };
+      const world = createWorld({
+        seed: game.world.seed,
+        currentDate: game.world.currentDate,
+        currentMoment: game.world.currentMoment,
+        people: game.world.personOrder.map((id) => game.world.people[id]!),
+        jurisdictions: game.world.jurisdictionOrder.map(
+          (id) => game.world.jurisdictions[id]!,
+        ),
+        policyCatalog: game.world.policyCatalog,
+        mindCatalog: createLifeMindCatalog(),
+        control: game.world.control,
+      });
+      return { world: importContentPack(world, PATIENCE_PACK), people };
     };
     const first = open(`${seed}:first`);
     const second = open(`${seed}:second`);
