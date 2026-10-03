@@ -3,6 +3,7 @@ import { smallWorld } from "../../tests/fixtures/small-world";
 import { drawRandomPlace } from "../../tests/support/random-place";
 import { addDays, simulationMomentOnLocalDate } from "./dates";
 import { recordKinship } from "./life";
+import { createStableId } from "./ids";
 import { kinshipRelationshipsAt } from "./life-queries";
 import type { EntityId, KinshipRelationship, World } from "./types";
 
@@ -152,7 +153,8 @@ describe(`kinship relationships by person (${place.key}, seed ${seed})`, () => {
   });
 
   it("retains person and cutoff refusals even when no kinship rows match", () => {
-    expect(() => kinshipRelationshipsAt(base, "missing-person")).toThrow(
+    const missing = createStableId("person", "kinship-query-missing-person");
+    expect(() => kinshipRelationshipsAt(base, missing)).toThrow(
       "Missing person",
     );
     const current = {
