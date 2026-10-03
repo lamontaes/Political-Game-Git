@@ -85,8 +85,9 @@ function omahaWithGovernorPayLaw(bill: PayBill, initialWorld?: World) {
   const template = scenario.world.history.legislativeMeasures!.find(
     (measure) => measure.id === scenario.measureId,
   )!;
-  const game = smallWorld({ place: "3137000", seed: "office-pay-law-omaha" });
-  const startingWorld = initialWorld ?? game.world;
+  const startingWorld =
+    initialWorld ??
+    smallWorld({ place: "3137000", seed: "office-pay-law-omaha" }).world;
   if (startingWorld.control.kind !== "person")
     throw new Error("Actual controlled person required");
   const player = startingWorld.control.personId;
