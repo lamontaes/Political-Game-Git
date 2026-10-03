@@ -1,10 +1,10 @@
 import { expect, gameMounted, test, type Page } from "./fixtures";
 
-import { enterLife, goTo, leaveGame, startLife } from "./support/creator";
+import { enterLife, leaveGame, saveLife, startLife } from "./support/creator";
+import { drawRandomPlace } from "../support/random-place";
 
 /**
- * MORNING23 F: the title and creator have to be readable on the actual
- * ambient plates, without restoring the rejected light card.
+ * Approved kit12: title and creator remain readable on the actual ambient plates.
  */
 
 async function freshBrowser(page: Page) {
@@ -58,7 +58,15 @@ async function computed(page: Page, testId: string, selector?: string) {
     const style = getComputedStyle(node);
     return {
       color: style.color,
-      backgroundColor: style.backgroundColor,
+      backgroundColor: node.matches(
+        '[data-testid="title-screen"], [data-testid="setup-screen"]',
+      )
+        ? (style.backgroundImage.match(/rgba?\([^)]+\)/)?.[0] ??
+          style.backgroundColor)
+        : style.backgroundColor,
+      backgroundImage: style.backgroundImage,
+      backdropFilter: style.backdropFilter,
+      fontWeight: style.fontWeight,
       fontFamily: style.fontFamily,
       fontSize: Number.parseFloat(style.fontSize),
       opacity: Number(style.opacity),
@@ -72,7 +80,7 @@ test.describe("The front door stays compact and readable over the room", () => {
     { name: "1440x900", width: 1440, height: 900 },
     { name: "1280x720", width: 1280, height: 720 },
   ]) {
-    test(`uses ink type on framed paper and a serif wordmark at ${viewport.name}`, async ({
+    test(`uses kit12 glass and the approved Cinzel wordmark at ${viewport.name}`, async ({
       page,
     }) => {
       await page.setViewportSize(viewport);
@@ -84,22 +92,37 @@ test.describe("The front door stays compact and readable over the room", () => {
       await expect(page.getByTestId("title-tableau")).toHaveClass(/front-door/);
 
       /*
-       * The menu is one framed paper panel with ink type (UI overhaul,
-       * September 29, 2026), replacing ivory type over the room. Contrast is
-       * measured between the type and the panel's own paper.
+       * Contrast is measured against the dark backing beneath kit12 glass;
+       * the actual scene is also inspected in the full-screen visual gate.
        */
       const panel = await computed(page, "title-screen");
-      expect(relativeLuminance(panel.backgroundColor)).toBeGreaterThan(0.75);
+      expect(relativeLuminance(panel.backgroundColor)).toBeLessThan(0.03);
+      expect(panel.backgroundImage).toContain("42, 42, 44");
+      expect(panel.backdropFilter).toContain("blur(6px)");
       expect(panel.backgroundColor).not.toMatch(/248,\s*249,\s*252/);
 
       const heading = await computed(page, "title-screen", "h1");
       expect(contrast(heading.color, panel.backgroundColor)).toBeGreaterThan(7);
       expect(heading.fontSize).toBeGreaterThanOrEqual(22);
-      expect(heading.fontFamily).toMatch(/Palatino|Georgia|serif/i);
+      expect(heading.fontFamily).toMatch(/Cinzel/i);
+      expect(heading.fontWeight).toBe("900");
+      expect(heading.backgroundImage).toContain("240, 217, 164");
+      const emblem = page
+        .getByTestId("title-screen")
+        .locator(".front-door-emblem");
+      await expect(emblem).toHaveAttribute("src", "/branding/emblem-final.png");
+      expect(
+        await emblem.evaluate(
+          (node) => (node as HTMLImageElement).naturalWidth,
+        ),
+      ).toBeGreaterThan(0);
+      expect(
+        await page.evaluate(() => document.fonts.check('900 30px "Cinzel"')),
+      ).toBe(true);
       expect(contrast(panel.color, panel.backgroundColor)).toBeGreaterThan(7);
 
       const newGame = await computed(page, "new-game");
-      expect(newGame.fontFamily).toMatch(/ui-sans-serif|system-ui|sans-serif/i);
+      expect(newGame.fontFamily).toMatch(/Fira Sans/i);
       expect(contrast(newGame.color, panel.backgroundColor)).toBeGreaterThan(
         4.5,
       );
@@ -140,7 +163,7 @@ test.describe("The front door stays compact and readable over the room", () => {
     const cont = await computed(page, "continue");
     const panel = await computed(page, "title-screen");
     expect(cont.opacity).toBe(1);
-    // Dimmed, but still readable on the paper: at least 3:1.
+    // Disabled copy remains readable on the glass: at least 3:1.
     expect(contrast(cont.color, panel.backgroundColor)).toBeGreaterThan(3);
     await expect(page.getByTestId("continue")).toBeDisabled();
     // Saved games stays open with nothing saved: it is where an import lives.
@@ -180,7 +203,7 @@ test.describe("The front door stays compact and readable over the room", () => {
     const stage = await computed(page, "creator-stage-route", "h2");
     const creator = await computed(page, "setup-screen");
     expect(contrast(stage.color, creator.backgroundColor)).toBeGreaterThan(7);
-    expect(stage.fontFamily).toMatch(/Palatino|Georgia|serif/i);
+    expect(stage.fontFamily).toMatch(/Cinzel/i);
 
     const creatorBox = await page.getByTestId("setup-screen").boundingBox();
     expect(creatorBox).not.toBeNull();
@@ -195,9 +218,27 @@ test.describe("The front door stays compact and readable over the room", () => {
         const style = getComputedStyle(node);
         return { color: style.color, backgroundColor: style.backgroundColor };
       });
-    // A field is a light well on the paper, with ink type.
-    expect(relativeLuminance(field.backgroundColor)).toBeGreaterThan(0.8);
+    // Fields use an iron well with strong kit12 text.
+    expect(relativeLuminance(field.backgroundColor)).toBeLessThan(0.03);
     expect(contrast(field.color, field.backgroundColor)).toBeGreaterThan(7);
+    const footer = page.getByRole("group", { name: "Creator navigation" });
+    const footerStyle = await footer.evaluate(
+      (node) => getComputedStyle(node).backgroundColor,
+    );
+    expect(relativeLuminance(footerStyle)).toBeLessThan(0.03);
+    for (const button of await footer.getByRole("button").all()) {
+      const style = await button.evaluate((node) => {
+        const css = getComputedStyle(node);
+        return {
+          background: css.backgroundColor,
+          font: css.fontFamily,
+          shadow: css.boxShadow,
+        };
+      });
+      expect(style.background).toBe("rgba(0, 0, 0, 0)");
+      expect(style.font).toMatch(/Fira Sans/i);
+      expect(style.shadow).toBe("none");
+    }
   });
 
   test("wraps a long saved name on Continue without covering the room", async ({
@@ -205,15 +246,22 @@ test.describe("The front door stays compact and readable over the room", () => {
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await freshBrowser(page);
+    const place = drawRandomPlace(
+      "ui-kit12-foundation-20261002",
+      (candidate) => candidate.scope === "locality",
+    );
+    test.info().annotations.push({
+      type: "random-place",
+      description: place.displayName,
+    });
     await startLife(page, {
       age: 34,
       givenName: "Alexandrina-Therese",
       familyName: "Montgomery-Westmoreland",
-      place: "Lexington",
-      state: "Kentucky",
+      place: place.displayName,
     });
     await enterLife(page);
-    await goTo(page, "keep-world");
+    await saveLife(page);
     await leaveGame(page);
     await expect(page.getByTestId("continue")).toBeEnabled();
     await expect(page.getByTestId("continue")).toContainText(

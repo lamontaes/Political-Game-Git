@@ -21,6 +21,8 @@ files:
   - "!*.yml"
   - "!*.md"
 extraResources:
+  - from: build/icon.png
+    to: branding/icon.png
   - from: staged/client
     to: client
   - from: staged/build-identity.json
@@ -34,6 +36,7 @@ extraResources:
 publish: null
 
 mac:
+  icon: build/icon.icns
   category: public.app-category.simulation-games
   target:
     - target: dmg
@@ -48,6 +51,7 @@ dmg:
   writeUpdateInfo: false
 
 win:
+  icon: build/icon.ico
   target:
     - target: nsis
       arch: [x64]
