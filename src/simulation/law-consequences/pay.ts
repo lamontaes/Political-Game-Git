@@ -25,6 +25,7 @@ import {
 import { workRoleAt, workStatusAt } from "../life-queries";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { workPayCoverageAt } from "../pay-coverage-query";
+import { policyPropositionsByConsequenceRowId } from "../policy-proposition-index";
 import {
   matchPayCoveragePredicates,
   payWorkplaceAt,
@@ -167,9 +168,9 @@ export function resolvePayConsequences(
   if (context.onDate > world.currentDate)
     throw new Error("Pay activity cannot be in the future");
   if (row.when !== context.activity) return [];
-  const proposition = Object.values(world.policyCatalog.propositions).find(
-    (entry) => entry.consequences?.some((candidate) => candidate.id === row.id),
-  );
+  const proposition = policyPropositionsByConsequenceRowId(
+    world.policyCatalog.propositions,
+  ).get(row.id);
   if (!proposition) throw new Error(`Missing canonical pay row '${row.id}'`);
   if (context.questionKey && context.questionKey !== proposition.stableKey)
     return [];

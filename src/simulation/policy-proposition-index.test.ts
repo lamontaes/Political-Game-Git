@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { STATE_MINIMUM_WAGE_QUESTION_KEY } from "./law-consequences/pay-rows";
-import { policyPropositionsByKey } from "./policy-proposition-index";
+import {
+  policyPropositionsByConsequenceRowId,
+  policyPropositionsByKey,
+} from "./policy-proposition-index";
 import { createProductionPolicyCatalog } from "./production-catalog";
 import type { PolicyCatalog } from "./types";
 
@@ -59,5 +62,58 @@ describe("saved catalog proposition lookup", () => {
     expect(
       policyPropositionsByKey(withoutQuestion).get(question.stableKey),
     ).toBeUndefined();
+  });
+
+  it("retains Object.values first binding for duplicate consequence IDs", () => {
+    const row = question.consequences![0]!;
+    const duplicate = {
+      ...question,
+      stableKey: `${question.stableKey}:duplicate`,
+      consequences: [row],
+    };
+    const records = Object.freeze({
+      20: duplicate,
+      10: question,
+      withoutRows: { ...question, consequences: undefined },
+    });
+    const expected = Object.values(records).find((proposition) =>
+      proposition.consequences?.some((candidate) => candidate.id === row.id),
+    );
+    const index = policyPropositionsByConsequenceRowId(records);
+    expect(index.get(row.id)).toBe(expected);
+    expect(index.get(row.id)).toBe(question);
+    expect(index.get("absent-consequence")).toBeUndefined();
+    expect(policyPropositionsByConsequenceRowId(records)).toBe(index);
+    expect(policyPropositionsByKey(records).get(duplicate.stableKey)).toBe(
+      duplicate,
+    );
+  });
+
+  it("isolates removed and replaced consequence rows across catalog objects", () => {
+    const row = question.consequences![0]!;
+    const original = policyPropositionsByConsequenceRowId(propositions);
+    const replacedQuestion = { ...question, consequences: [] };
+    const replacement = Object.freeze({
+      ...propositions,
+      [question.id]: replacedQuestion,
+    });
+    expect(
+      policyPropositionsByConsequenceRowId(replacement).get(row.id),
+    ).toBeUndefined();
+    const alteredQuestion = {
+      ...question,
+      consequences: [
+        { ...row, evidence: { ...row.evidence, why: "Altered catalog row" } },
+      ],
+    };
+    const altered = Object.freeze({
+      ...propositions,
+      [question.id]: alteredQuestion,
+    });
+    expect(policyPropositionsByConsequenceRowId(altered).get(row.id)).toBe(
+      alteredQuestion,
+    );
+    expect(original.get(row.id)).toBe(question);
+    expect(policyPropositionsByConsequenceRowId(propositions)).toBe(original);
   });
 });

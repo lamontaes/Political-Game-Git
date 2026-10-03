@@ -21,6 +21,7 @@ import {
 } from "./pay";
 import { STATE_MINIMUM_WAGE_QUESTION_KEY } from "./pay-rows";
 import { MissingLawConsequenceTerm } from "../law-consequence-integrity-gap";
+import type { LawConsequenceContext } from "../law-consequence-types";
 
 const regional = Object.entries(
   lawData.questions[STATE_MINIMUM_WAGE_QUESTION_KEY].answers,
@@ -41,6 +42,116 @@ const provenance = {
   note: "Controlled saved employer and work contract; no employment or legal outcome inferred.",
 };
 afterEach(() => vi.restoreAllMocks());
+
+it("PAY retains the first duplicate row binding before checking the question context", () => {
+  const { world } = smallWorld({
+    place: home.key,
+    seed: "pay-first-canonical-row",
+    people: 3,
+  });
+  const proposition = Object.values(world.policyCatalog.propositions).find(
+    (entry) => entry.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY,
+  )!;
+  const row = proposition.consequences!.find(
+    (candidate) => candidate.kind === "pay",
+  )!;
+  const altered = {
+    ...row,
+    evidence: { ...row.evidence, why: "Noncanonical duplicate" },
+  };
+  const duplicate = {
+    ...proposition,
+    stableKey: `${proposition.stableKey}:duplicate`,
+    consequences: [altered],
+  };
+  const snapshot = {
+    ...world,
+    policyCatalog: {
+      ...world.policyCatalog,
+      propositions: { first: proposition, second: duplicate },
+    },
+  };
+  const context: LawConsequenceContext = {
+    onDate: world.currentDate,
+    activity: "payroll",
+    activityId: world.personOrder[0]!,
+    subjectIds: [],
+    questionKey: duplicate.stableKey,
+  };
+  expect(resolvePayConsequences(snapshot, altered, context)).toEqual([]);
+  expect(() =>
+    resolvePayConsequences(snapshot, altered, {
+      ...context,
+      questionKey: proposition.stableKey,
+    }),
+  ).toThrow("Pay row differs from its canonical catalog input");
+  expect(() =>
+    resolvePayConsequences(snapshot, row, {
+      ...context,
+      questionKey: proposition.stableKey,
+    }),
+  ).toThrow("Missing pay saved-flow/work activity capability");
+});
+
+it("PAY rejects altered or missing canonical rows after catalog replacement", () => {
+  const { world } = smallWorld({
+    place: home.key,
+    seed: "pay-replaced-canonical-row",
+    people: 3,
+  });
+  const proposition = Object.values(world.policyCatalog.propositions).find(
+    (entry) => entry.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY,
+  )!;
+  const row = proposition.consequences!.find(
+    (candidate) => candidate.kind === "pay",
+  )!;
+  const context: LawConsequenceContext = {
+    onDate: world.currentDate,
+    activity: "payroll",
+    activityId: world.personOrder[0]!,
+    subjectIds: [],
+    questionKey: proposition.stableKey,
+  };
+  expect(() => resolvePayConsequences(world, row, context)).toThrow(
+    "Missing pay saved-flow/work activity capability",
+  );
+  const altered = {
+    ...row,
+    evidence: { ...row.evidence, why: "Replacement canonical row" },
+  };
+  const replaced = {
+    ...world,
+    policyCatalog: {
+      ...world.policyCatalog,
+      propositions: {
+        ...world.policyCatalog.propositions,
+        [proposition.id]: { ...proposition, consequences: [altered] },
+      },
+    },
+  };
+  expect(() => resolvePayConsequences(replaced, row, context)).toThrow(
+    "Pay row differs from its canonical catalog input",
+  );
+  expect(() => resolvePayConsequences(replaced, altered, context)).toThrow(
+    "Missing pay saved-flow/work activity capability",
+  );
+  const removed = {
+    ...world,
+    policyCatalog: {
+      ...world.policyCatalog,
+      propositions: {
+        ...world.policyCatalog.propositions,
+        [proposition.id]: { ...proposition, consequences: [] },
+      },
+    },
+  };
+  expect(() => resolvePayConsequences(removed, row, context)).toThrow(
+    `Missing canonical pay row '${row.id}'`,
+  );
+  expect(() => resolvePayConsequences(world, row, context)).toThrow(
+    "Missing pay saved-flow/work activity capability",
+  );
+});
 
 it.each(["role", "employer", "unbound", "public-employer"] as const)(
   "PAY forwards the actual %s workplace to the regional reader, including reload",
