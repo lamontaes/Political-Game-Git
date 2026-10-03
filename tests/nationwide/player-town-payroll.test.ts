@@ -170,6 +170,7 @@ describe.each(allPlaces())(
           Number(nativeCadence![2] ?? 0),
         );
       }
+      const oldPeriod = oldWindow;
       const revisedAt = addDays(oldBoundary, 1);
       let date = nextPaydayDate(addDays(revisedAt, 6));
       let window = payPeriodEndingOn("weekly", date, 0);
@@ -207,8 +208,8 @@ describe.each(allPlaces())(
       const priorObligation = base.history.resourceTransferOutcomes.find(
         (row) =>
           row.resourceFlowId === openingFlow!.id &&
-          row.periodStartsAt === oldWindow.startsAt &&
-          row.periodEndsAt === oldWindow.endsAt,
+          row.periodStartsAt === oldPeriod.startsAt &&
+          row.periodEndsAt === oldPeriod.endsAt,
       );
       expect(priorObligation, key).toBeDefined();
       const historicalWorld = base;
