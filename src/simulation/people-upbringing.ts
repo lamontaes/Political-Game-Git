@@ -442,10 +442,20 @@ function familyCohortIndex(world: World): FamilyCohortIndex {
   )
     return prior;
   const estimate = recordedFamilyEstimates(world);
+  // One immutable build can encounter the same person in both ordered loops.
+  // Keep this map local: it must not retain contexts across snapshots or dates.
+  const contexts = new Map<EntityId, FamilyContextRead>();
+  const contextFor = (personId: EntityId): FamilyContextRead => {
+    const prior = contexts.get(personId);
+    if (prior) return prior;
+    const context = householdContext(world, personId);
+    contexts.set(personId, context);
+    return context;
+  };
   const exact = new Map<string, RecordedFamilySample[]>();
   const places = new Map<EntityId, RecordedFamilySample[]>();
   for (const sample of estimate.samples) {
-    const context = householdContext(world, sample.personId);
+    const context = contextFor(sample.personId);
     const groupKey = cohortKey(context);
     const group = exact.get(groupKey) ?? [];
     group.push(sample);
@@ -521,7 +531,7 @@ function familyCohortIndex(world: World): FamilyCohortIndex {
   const seenHouseholds = new Set<EntityId>();
   const householdSamples = [];
   for (const membership of world.history.householdMemberships) {
-    const context = householdContext(world, membership.personId);
+    const context = contextFor(membership.personId);
     const householdId = context.household?.household.id;
     if (
       !householdId ||
