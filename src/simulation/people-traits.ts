@@ -13,6 +13,7 @@ import { ageOnDate } from "./dates";
 import { PERSONALITY_PACK } from "./personality-catalogue";
 import {
   upbringingCoreValue,
+  upbringingCoreValueFrom,
   upbringingFor,
   upbringingTraitTendencies,
   type PersonUpbringing,
@@ -334,7 +335,8 @@ function seedRegisteredTrait(
   world: World,
   personId: EntityId,
   trait: RegisteredTrait,
-  onDate: IsoDate = world.currentDate,
+  onDate: IsoDate,
+  qualities: () => readonly UpbringingQuality[],
 ): World {
   const definition = traitDefinitionFromPack(trait);
   const next = ensureTraitDefinition(world, trait);
@@ -342,10 +344,7 @@ function seedRegisteredTrait(
   // reads, is theirs: a seed written over it would claim a first value for
   // somebody who already has a history on this trait.
   if (latestPersonalityTendency(next, personId, definition.id)) return next;
-  const lean = registeredTraitLean(
-    trait,
-    upbringingQualities(upbringingFor(next, personId)),
-  );
+  const lean = registeredTraitLean(trait, qualities());
   return recordPersonalityTendency(next, {
     stableKey: `${trait.qualifiedKey}:${personId}:seed`,
     personId,
@@ -402,10 +401,22 @@ function seedPeopleTraits(
       typeof onDate === "string" ? onDate : onDate.get(personId);
     if (personDate === undefined)
       throw new Error(`Missing trait seed date: ${personId}`);
+    // Only trait records and catalog definitions change within this person's
+    // seeding loop. Read the unchanged family/childhood evidence lazily once.
+    let upbringing: PersonUpbringing | undefined;
+    let qualities: readonly UpbringingQuality[] | undefined;
+    const readUpbringing = () => (upbringing ??= upbringingFor(next, personId));
+    const readQualities = () =>
+      (qualities ??= upbringingQualities(readUpbringing()));
     for (const trait of PEOPLE_TRAITS) {
-      if (personTrait(next, personId, trait).recordId !== null) continue;
+      const tendencyId = peopleTraitId(trait);
+      if (
+        next.mindCatalog.tendencies[tendencyId] &&
+        latestPersonalityTendency(next, personId, tendencyId)
+      )
+        continue;
       next = ensurePeopleTraitCatalog(next);
-      const value = seededTraitValue(next, personId, trait);
+      const value = upbringingCoreValueFrom(readUpbringing(), trait);
       next = recordPersonalityTendency(next, {
         stableKey: `${PEOPLE_MIND_VERSION}:${personId}:${trait}:seed`,
         personId,
@@ -421,9 +432,15 @@ function seedPeopleTraits(
       });
     }
     for (const trait of registeredSeededTraits(next)) {
-      next = seedRegisteredTrait(next, personId, trait, personDate);
+      next = seedRegisteredTrait(
+        next,
+        personId,
+        trait,
+        personDate,
+        readQualities,
+      );
     }
-    next = seedSalientQualities(next, personId, personDate);
+    next = seedSalientQualities(next, personId, personDate, readQualities);
   }
   return next;
 }
@@ -501,7 +518,8 @@ export function upbringingQualities(
 function seedSalientQualities(
   world: World,
   personId: EntityId,
-  onDate: IsoDate = world.currentDate,
+  onDate: IsoDate,
+  qualities: () => readonly UpbringingQuality[],
 ): World {
   const person = world.people[personId]!;
   const age = ageOnDate(person.birthDate, onDate);
@@ -520,9 +538,10 @@ function seedSalientQualities(
     .filter((trait): trait is RegisteredTrait => trait !== undefined);
   const selected = new Set(existing.map(({ qualifiedKey }) => qualifiedKey));
   const room = notableQualityRoom(age);
+  if (selected.size >= room) return world;
   let next = world;
   let slot = selected.size;
-  for (const quality of upbringingQualities(upbringingFor(world, personId))) {
+  for (const quality of qualities()) {
     if (selected.size >= room) break;
     const trait = byQualifiedKey.get(quality.trait);
     if (!trait || selected.has(quality.trait)) continue;
