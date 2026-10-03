@@ -1,5 +1,9 @@
 import { makeIsoDate } from "./dates";
-import { recordById, recordsByStringField } from "./history-index";
+import {
+  recordById,
+  recordsByKey,
+  recordsByStringField,
+} from "./history-index";
 import { factsForPerson } from "./people";
 import type {
   ChildAuthority,
@@ -685,10 +689,13 @@ export function kinshipRelationshipsAt(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly KinshipRelationship[] {
   validatePersonCutoff(world, personId, cutoff);
-  return world.history.kinshipRelationships.filter(
-    (relationship) =>
-      relationship.personIds.includes(personId) &&
-      available(relationship.sequence, relationship.establishedAt, cutoff),
+  return recordsByKey(
+    world.history.kinshipRelationships,
+    "life-queries:kinship-person-ids",
+    (relationship) => relationship.personIds,
+    personId,
+  ).filter((relationship) =>
+    available(relationship.sequence, relationship.establishedAt, cutoff),
   );
 }
 
