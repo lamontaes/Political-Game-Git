@@ -56,7 +56,8 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
       ];
       const rent = key === RENT_STABILIZATION_QUESTION;
       const tuition = key === TUITION_FREEZE_QUESTION;
-      if (!coverage && !pay && service.length === 0 && !rent && !tuition) return row;
+      if (!coverage && !pay && service.length === 0 && !rent && !tuition)
+        return row;
       return {
         ...row,
         ...(rent
