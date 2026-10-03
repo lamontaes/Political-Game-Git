@@ -9,8 +9,9 @@ import {
 } from "./resources";
 import * as childhood from "./childhood-record";
 import { addDays } from "./dates";
-import { personTrait } from "./people-traits";
+import { ensurePeopleTraits, personTrait } from "./people-traits";
 import { upbringingFor } from "./people-upbringing";
+import * as upbringing from "./people-upbringing";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { recordWorldEvent } from "./world";
 import type { Person, PersonFact } from "./types";
@@ -20,6 +21,33 @@ const place = drawRandomPlace(seed);
 const fixture = () => smallWorld({ place: place.key, seed });
 
 describe(`upbringing read reuse (${place.displayName}, seed ${seed})`, () => {
+  it("reads one upbringing per seeded person and leaves completed seeds unchanged without an eager read", () => {
+    const { world } = smallWorld({ place: place.key, seed, household: true });
+    const dates = new Map(
+      world.personOrder.map((id) => [id, world.people[id]!.birthDate]),
+    );
+    const actors = world.personOrder.filter(
+      (id) => world.control.kind !== "person" || id !== world.control.personId,
+    );
+    const spy = vi.spyOn(upbringing, "upbringingFor");
+    try {
+      const seeded = ensurePeopleTraits(world, world.personOrder, dates);
+      expect(spy.mock.calls.map(([, id]) => id)).toEqual(actors);
+      expect(seeded.history.personalityTendencies.length).toBeGreaterThan(0);
+      const records = seeded.history.personalityTendencies;
+      expect(records.map((row) => row.sequence)).toEqual(
+        records.map((_, index) => world.history.nextSequence + index),
+      );
+      for (const row of records)
+        expect(row.recordedAt).toBe(dates.get(row.personId));
+      spy.mockClear();
+      expect(ensurePeopleTraits(seeded, world.personOrder, dates)).toBe(seeded);
+      expect(spy).not.toHaveBeenCalled();
+      expect(seeded.history.personalityTendencies).toBe(records);
+    } finally {
+      spy.mockRestore();
+    }
+  });
   it("shares the upbringing read between sociability and conflict on one unchanged snapshot", () => {
     const { world, personId } = fixture();
     const spy = vi.spyOn(childhood, "childhoodRecordEntries");
