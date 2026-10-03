@@ -15,7 +15,10 @@ import {
   fileRuleChangeProvision,
   laborLawOfficeKey,
 } from "../../src/simulation/enacted-rule-changes";
-import { createFutureTransitionHandlerRegistry } from "../../src/simulation/future-transitions";
+import {
+  createFutureTransitionHandlerRegistry,
+  scheduledFutureDueItemsThrough,
+} from "../../src/simulation/future-transitions";
 import { applyLawConsequences } from "../../src/simulation/enacted-law-effects";
 import {
   enrollMeasure,
@@ -224,12 +227,23 @@ function runPaydays(
         currentDate: payday,
         currentMoment: simulationMomentOnLocalDate(world.currentMoment, payday),
       };
-      const due = world.history.futureDueItems.find(
+      const prefix = "town-pay-v2:payday:";
+      const matches = scheduledFutureDueItemsThrough(
+        world,
+        paidThrough,
+        payday,
+      ).filter(
         (item) =>
-          item.stableKey === `town-pay-v2:payday:${paidThrough}` &&
-          item.transitionKey === PAYDAY_TRANSITION_KEY,
+          item.transitionKey === PAYDAY_TRANSITION_KEY &&
+          item.stableKey.startsWith(prefix) &&
+          item.stableKey.slice(prefix.length, prefix.length + 10) ===
+            paidThrough,
       );
-      if (!due) throw new Error("Missing recorded payroll calendar item");
+      if (matches.length !== 1)
+        throw new Error(
+          `Expected one scheduled payroll item for ${paidThrough} through ${payday}; found ${matches.length}.`,
+        );
+      const due = matches[0]!;
       world = paydayHandler(world, due).world;
       paidThrough = payday;
     }

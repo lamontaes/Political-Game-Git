@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { fundRecordedPayrollControl } from "../fixtures/recorded-payroll-capital";
+import { scheduledFutureDueItemsThrough } from "../../src/simulation/future-transitions";
 
 import {
   addDays,
@@ -69,12 +70,23 @@ function runPaydays(start: World, since: IsoDate, days: number): World {
         currentDate: payday,
         currentMoment: simulationMomentOnLocalDate(world.currentMoment, payday),
       };
-      const due = world.history.futureDueItems.find(
+      const prefix = "town-pay-v2:payday:";
+      const matches = scheduledFutureDueItemsThrough(
+        world,
+        paidThrough,
+        payday,
+      ).filter(
         (item) =>
           item.transitionKey === PAYDAY_TRANSITION_KEY &&
-          item.stableKey === `town-pay-v2:payday:${paidThrough}`,
+          item.stableKey.startsWith(prefix) &&
+          item.stableKey.slice(prefix.length, prefix.length + 10) ===
+            paidThrough,
       );
-      if (!due) throw new Error("The fixture needs its actual saved payday.");
+      if (matches.length !== 1)
+        throw new Error(
+          `Expected one scheduled payroll item for ${paidThrough} through ${payday}; found ${matches.length}.`,
+        );
+      const due = matches[0]!;
       world = paydayHandler(world, due).world;
       paidThrough = payday;
     }
