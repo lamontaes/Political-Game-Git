@@ -3,14 +3,10 @@ id: annual-office-law-dated-fixture
 impact: none
 ---
 
-# Annual-office law checks retain the ordinary clock
-
 Annual-office law checks retain their original ordinary-clock route, actual
 opening and recorded NPC salaries. Every legislative stage, law authority,
 shared settlement, assertion and the original time limit remain unchanged.
 The clock-only variation was rejected, and its failed results remain recorded.
-
-## Method
 
 The original fixture was restored exactly. The empty-registry variation could
 not resolve a scheduled payday. Using the default registry resolved that error
