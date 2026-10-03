@@ -10,3 +10,6 @@ preserving their original prefix and cutoff across later payments and branches.
 Cash amounts, historical minima, unknown-cash handling and saved records do not
 change. The original city-law case must establish whether its heap failure is
 resolved.
+
+The held-snapshot regression reads its position's typed currency, preserving
+its isolated query-module entry and every original assertion.
