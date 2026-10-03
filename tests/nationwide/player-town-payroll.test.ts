@@ -69,6 +69,31 @@ function allPlaces() {
   }));
 }
 
+/** Retain the fixture's explicit calendar context before changing its date. */
+function cancelFixtureItemsBefore(
+  world: World,
+  date: World["currentDate"],
+): World {
+  return withWorldIntegrityDeferred(() => {
+    let next = world;
+    for (const item of world.history.futureDueItems) {
+      const state = world.history.futureDueItemStates
+        .filter((row) => row.dueItemId === item.id)
+        .at(-1);
+      if (state?.status !== "scheduled" || item.dueAt >= date) continue;
+      next = cancelFutureDueItem(next, {
+        stableKey: `fixture:payday-context:${item.id}`,
+        dueItemId: item.id,
+        effectiveAt: world.currentDate,
+        reasonKey: "fixture:controlled-payday-context",
+        context:
+          "Controlled payday context; no ordinary intervening-day advancement claimed.",
+      });
+    }
+    return next;
+  });
+}
+
 /** NPC route through the same canonical payroll settlement as played work. */
 function npcPayday(world: World, due: FutureDueItem): World {
   if (due.transitionKey !== PAYDAY_TRANSITION_KEY)
@@ -164,6 +189,7 @@ describe.each(allPlaces())(
       // Close native-cadence obligations before the prospective revision.
       // Both comparison branches retain these exact saved receipts.
       let base = fundRecordedPayrollControl(initialized, 31, 200_000);
+      base = cancelFixtureItemsBefore(base, oldBoundary);
       base = withWorldIntegrityDeferred(() =>
         npcPayday(
           {
@@ -178,10 +204,22 @@ describe.each(allPlaces())(
           originalDue,
         ),
       );
+      const historicalWorld = base;
+      const historicalCutoff = {
+        asOfDate: base.currentDate,
+        historySequenceExclusive: base.history.nextSequence,
+      };
+      const historicalLiabilities = [
+        ...(base.history.statutoryTaxLiabilities ?? []),
+      ];
+      const historicalTaxPayments = [
+        ...(base.history.statutoryTaxPayments ?? []),
+      ];
       const historicalPayments = [...base.history.resourceTransferOutcomes];
       const historicalPaymentIds = new Set(
         historicalPayments.map((row) => row.id),
       );
+      base = cancelFixtureItemsBefore(base, revisedAt);
       base = withWorldIntegrityDeferred(() => ({
         ...base,
         currentDate: revisedAt,
@@ -202,28 +240,12 @@ describe.each(allPlaces())(
         reason: "Identical authored weekly contract for played/NPC parity.",
         provenance,
       });
-      base = withWorldIntegrityDeferred(() => {
-        let next = base;
-        for (const item of base.history.futureDueItems) {
-          const state = base.history.futureDueItemStates
-            .filter((row) => row.dueItemId === item.id)
-            .at(-1);
-          if (state?.status !== "scheduled" || item.dueAt >= date) continue;
-          next = cancelFutureDueItem(next, {
-            stableKey: `fixture:payday-context:${item.id}`,
-            dueItemId: item.id,
-            effectiveAt: revisedAt,
-            reasonKey: "fixture:controlled-payday-context",
-            context:
-              "Controlled payday context; no ordinary intervening-day advancement claimed.",
-          });
-        }
-        return {
-          ...next,
-          currentDate: date,
-          currentMoment: simulationMomentOnLocalDate(next.currentMoment, date),
-        };
-      });
+      base = cancelFixtureItemsBefore(base, date);
+      base = withWorldIntegrityDeferred(() => ({
+        ...base,
+        currentDate: date,
+        currentMoment: simulationMomentOnLocalDate(base.currentMoment, date),
+      }));
       base = ensureLifePathPersonalPosition(
         base,
         work.personId,
@@ -278,6 +300,41 @@ describe.each(allPlaces())(
           historicalPaymentIds.has(row.id),
         ),
       ).toEqual(historicalPayments);
+      for (const compared of [player, npc]) {
+        const liabilityIds = new Set(
+          historicalLiabilities.map((row) => row.id),
+        );
+        const taxPaymentIds = new Set(
+          historicalTaxPayments.map((row) => row.id),
+        );
+        expect(
+          (compared.history.statutoryTaxLiabilities ?? []).filter((row) =>
+            liabilityIds.has(row.id),
+          ),
+        ).toEqual(historicalLiabilities);
+        expect(
+          (compared.history.statutoryTaxPayments ?? []).filter((row) =>
+            taxPaymentIds.has(row.id),
+          ),
+        ).toEqual(historicalTaxPayments);
+        for (const owner of [openingFlow!.source, openingFlow!.recipient]) {
+          expect(
+            resourcePositionAt(
+              compared,
+              owner,
+              money(0, "USD").currency,
+              historicalCutoff,
+            ),
+          ).toEqual(
+            resourcePositionAt(
+              historicalWorld,
+              owner,
+              money(0, "USD").currency,
+              historicalCutoff,
+            ),
+          );
+        }
+      }
       expect(pay.length).toBeGreaterThan(0);
       expect(
         pay.every((item) => item.transferredAmount.minorUnits === 200_000),
