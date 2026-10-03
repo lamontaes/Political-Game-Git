@@ -3,6 +3,8 @@ import { describe, expect, it } from "vitest";
 import { eventIndexOf } from "./event-index";
 import {
   appendedList,
+  growingIndex,
+  type GrowingIndexKind,
   hasStableKey,
   recordById,
   recordByStableKey,
@@ -243,5 +245,58 @@ describe("immutable history lookup indexes", () => {
     expect(eventIndexOf(two).get("e1" as EntityId)?.summary).toBe("again");
     expect(eventIndexOf(one).get("e2" as EntityId)).toBeUndefined();
     expect(eventIndexOf(one).get("e1" as EntityId)?.summary).toBe("one");
+  });
+});
+
+describe("growing history index snapshot isolation", () => {
+  const kind: GrowingIndexKind<Map<string, unknown>> = {
+    create: () => new Map(),
+    add: (index, record) => index.set((record as { id: string }).id, record),
+  };
+
+  it("rebuilds after a large append beyond the lookback and rereads the old snapshot", () => {
+    const base = Object.freeze([{ id: "old" }]);
+    expect(growingIndex(kind, base).get("old")).toBe(base[0]);
+    const added = Array.from({ length: 1025 }, (_, at) => ({
+      id: `added:${at}`,
+    }));
+    const grown = appendedList(base, added);
+    expect(growingIndex(kind, grown)).toEqual(
+      new Map(grown.map((record) => [record.id, record])),
+    );
+    expect(growingIndex(kind, base)).toEqual(new Map([["old", base[0]]]));
+    expect(grown.slice(0, base.length)).toEqual(base);
+  });
+
+  it("rereads old immutable snapshots and sibling branches after index adoption", () => {
+    const base = Object.freeze([{ id: "base" }]);
+    expect(growingIndex(kind, base).size).toBe(1);
+    const left = appendedList(base, [{ id: "left" }]);
+    const right = appendedList(base, [{ id: "right" }]);
+    expect(growingIndex(kind, left)).toEqual(
+      new Map(left.map((record) => [record.id, record])),
+    );
+    expect(growingIndex(kind, base)).toEqual(new Map([["base", base[0]]]));
+    expect(growingIndex(kind, right)).toEqual(
+      new Map(right.map((record) => [record.id, record])),
+    );
+    expect(growingIndex(kind, left).has("right")).toBe(false);
+    expect(growingIndex(kind, right).has("left")).toBe(false);
+    expect(growingIndex(kind, base).size).toBe(1);
+  });
+
+  it("refuses a shared ending record when the earlier prefix was rewritten", () => {
+    const shared = { id: "shared" };
+    const original = Object.freeze([{ id: "original" }, shared]);
+    expect(growingIndex(kind, original).has("original")).toBe(true);
+    const replacement = Object.freeze([{ id: "replacement" }, shared]);
+    const grown = appendedList(replacement, [{ id: "new" }]);
+    expect(growingIndex(kind, grown)).toEqual(
+      new Map(grown.map((record) => [record.id, record])),
+    );
+    expect(growingIndex(kind, grown).has("original")).toBe(false);
+    expect(growingIndex(kind, original)).toEqual(
+      new Map(original.map((record) => [record.id, record])),
+    );
   });
 });
