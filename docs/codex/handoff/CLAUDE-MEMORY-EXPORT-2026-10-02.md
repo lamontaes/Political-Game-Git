@@ -1,4 +1,5 @@
 # Claude CTO memory notes (all of them), exported Oct 2 2026 for Codex
+
 - [READ FIRST: Owner standing orders](owner-standing-orders.md) — Codex builds the 80% (all sessions, every check-in); Claude ONLY checks finished PRs; test ONLY changed files; small fixes NEVER go back (note and merge); finish in hours; move toward the roadmap; nothing blank; 1–2 line replies
 - [Never the community-room art](no-community-room-art.md) — never use the community-meeting title painting (should be deleted); key art uses newer generated people + real game backdrops (Oval Office, convention, courtrooms); no made-up scenes (Oct 2)
 - [Session distribution tracking](session-distribution-tracking.md) — slice × sessions table is THE format (sent to Codex 11:22 Oct 2); every check-in: what EACH session is doing, in cto-notes/session-tracker.md; rebalance by need
@@ -136,8 +137,8 @@
 - [Approve everything as it comes](approve-everything-as-it-comes.md) — Oct 2 4:00: all code at once, nobody waits on me; checkers still check (no slop); I order READY PRs, assign checks instantly, merge on PASS; I decide at review
 - [Diagnose before send-back](diagnose-before-send-back.md) — Oct 2 4:03: read the failing PR code and name the exact fix in EVERY send-back; #2035 lost an hour to vague "make it faster"
 
-
 ## agents-run-locally
+
 _Agent tool with isolation \"remote\" ran on Lamontae's Mac, not in the cloud — it overloads his machine_
 
 On 2026-09-26 I launched three Agent-tool subagents with `isolation: "remote"` believing they ran in the cloud. They ran on Lamontae's Mac (they created ~/Documents/PG-685A, PG-685B, PG-AGING and used PG-CLAUDE), stacking ~20 heavy node/vitest processes alongside Codex's local teams and his running game; he noticed "21 background tasks" and the game lagged badly.
@@ -147,9 +148,11 @@ On 2026-09-26 I launched three Agent-tool subagents with `isolation: "remote"` b
 **How to apply:** Never tell him agent work is "in the cloud" unless it is a real Claude cloud session (ListAgents shows "cloud") or a Codex Cloud task. For heavy work (full suites, long benchmarks), message the real cloud sessions or ask him to start new ones at claude.ai/code. Any local subagent must run one heavy process at a time with vitest --maxWorkers=2 and no full suites. Related: [[how-he-wants-agents-run]].
 
 ## alive44-key-points
+
 _What ALIVE44 (Drive 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, ~540K chars) establishes — read fully 2026-09-26_
 
 ALIVE44 = ChatGPT director's consolidated research authority (Sept 15–22). Read in full 2026-09-26. Key binding content:
+
 - **Acceptance standard "world feels alive"** (9 bullets): change w/o player; quiet intervals; background event later actionable; NPC initiates contact for recorded reason; same matter coherent across News/people/Calendar/conversation/Work; events can fail/matter little; severe outcomes possible not quota; save/reopen preserves; progressive materialization never rewrites exposed facts.
 - **Gold-standard delivery brief** (owner accepted 9/15): before dispatching a system, tell owner: what goes in, what player can do, background behavior, what other systems it affects, what the player sees change (graphs spec'd), how completion is proved in ordinary play.
 - Owner-approved 9/22: 5 asymmetric relationship dimensions (warmth, trust, respect, commitment/obligation, tension), NO passive decay ("passive decay, not a number" later queued note conflicts — treat per Register); personality change from sustained distinct lived evidence (months–years), not clicks; setup may suggest temperament (confirm/change/skip); broad modding of content AND rules; party facts reach outsiders only via news/records/disclosure.
@@ -160,9 +163,10 @@ ALIVE44 = ChatGPT director's consolidated research authority (Sept 15–22). Rea
 - Job lifecycle approved: offers don't last forever; proposal 7–28 day recruitment, 3–7 day reply window (numbers unapproved).
 - Education: relationships first, light admission, no homework/GPA; six education facts separated.
 - Known source defects noted there: reliability pole mismatch in childhood caregiverChoice; option-order-based trait meanings; president/chief justice home = player's home (opening-officeholders.ts).
-Related: [[real-data-is-calibration-only]], [[latest-owner-decisions-sept24-26]].
+  Related: [[real-data-is-calibration-only]], [[latest-owner-decisions-sept24-26]].
 
 ## approve-everything-as-it-comes
+
 _Oct 2 3:58 p.m. owner — \"Release everything… just approve everything as it comes in\"; never be the bottleneck; sessions decide contract questions themselves; Merge merges every PASS without a CTO comment; checkers self-assign; 25+ sessions = minutes, not hours_
 
 Owner, Oct 2, 3:56–3:59 p.m.: "This should not take seven hours… I have 25 sessions. This should take 30 minutes." Then: "I've told you not to be the bottleneck. Release everything." Then: "You just need to approve everything as it comes in."
@@ -170,6 +174,7 @@ Owner, Oct 2, 3:56–3:59 p.m.: "This should not take seven hours… I have 25 s
 **Why:** sessions sat waiting on claims, releases, ACKs and my rulings. With 27 Codex sessions the limit was my approvals and the coordination ceremony, not the building.
 
 **How to apply:**
+
 - Every decision request is approved as the session proposed it. The session writes its choice in the PR body and keeps building.
 - Spread ALL remaining work at once, one item per session, and keep the next item queued on each line.
 - No claim, release or ACK ceremony. The second session to touch a file merges main and resolves.
@@ -184,6 +189,7 @@ Owner, Oct 2, 3:56–3:59 p.m.: "This should not take seven hours… I have 25 s
 Related: [[owner-standing-orders]], [[finish-over-perfect]], [[redeploy-at-80]].
 
 ## art-goes-in-he-curates
+
 _Sept 28 — put generated backgrounds straight into the game; Lamontae removes ones he dislikes while playing (replaces waiting for approval)_
 
 Lamontae, 2026-09-28 about 1:00 p.m.: "start saving. I'd rather you just save backgrounds and while I play, I can take some out if ... I don't like them."
@@ -195,6 +201,7 @@ He also set today's two goals: graphics and laws. "I want people to become alive
 **Update, 4:05 p.m.:** "you can just approve them... before I ship the game, we're going to do a deep, extensive audit of pretty much everything... just go ahead and approve the art. I know Firefly is working out well." So I APPROVE art myself. Show him samples in chat or an artifact when useful, but don't wait for him. Use real-world reference photos freely, since Adobe access makes me a flexible image generator.
 
 **How to apply:**
+
 - QA each image myself at full size (no text, the tree rule, a recognizable building, anatomy with exactly two arms).
 - Wire good images into the game as live, not held pending approval.
 - Tell him what went in, so he can pull any he dislikes.
@@ -203,9 +210,11 @@ He also set today's two goals: graphics and laws. "I want people to become alive
 Related: [[judge-art-side-by-side]], [[title-screen-and-live-surfaces]].
 
 ## artifact-is-the-channel
+
 _From Sept 29 ~11 p.m., the docket artifact is how I communicate: put details there and don't restate them in chat ("I did it, here's the artifact"); the docket includes a clickable team pipeline with numbered tasks broken into parts_
 
 Lamontae, Sept 29 ~10:55 p.m.: "let's start using this artifact more efficiently... you also don't need to restate stuff that's in the artifact... at the check-ins, you can just say, I did it, here's the artifact". He also wants a pipeline:
+
 - clickable teams, each showing what it's working on now and what's next;
 - numbered tasks (for example "W2-T1 (team 1)"), each broken into parts with clear checkpoints and an endpoint;
 - each task marked with whether he has approved it, meaning the research is done and we've decided how;
@@ -216,15 +225,18 @@ Lamontae, Sept 29 ~10:55 p.m.: "let's start using this artifact more efficiently
 **How to apply:** at check-ins, update the docket's pipeline and cards and reply in one or two lines with the link. The pipeline data lives in /tmp/docket-data.json under "pipeline" and is rendered by scratchpad/docket2-template.html. See [[owners-docket-living-page]] and [[checkin-gold-standard]].
 
 ## artifacts-for-team-results
+
 _Big results from teams (tag system, investigations research, designs) go to Lamontae as one artifact (combine teams that land together); no code until he approves; he and I are the gateway. Also: he liked the plain patch-note style with no PR numbers_
 
 Lamontae, 2026-09-28 at about 3:30 p.m. (positive and corrective feedback):
+
 - He liked that merges were described like patch notes, in plain words with no PR numbers. Keep doing that ([[say-what-prs-do]]).
 - "For these big decisions or big info dumps... when stuff comes back to you from the teams, like the big tag system or the big investigations research... put those in an artifact for me. And you can combine them... then you can keep working. No code until I approve. I like you and I being the gateway."
 
 **Why:** He reviews designs on his own time, often on his phone. An artifact is readable and keeps the decision record clean.
 
 **How to apply:**
+
 - When a team posts a design or research checkpoint that needs his decision, build one artifact (load the artifact-design skill first). Merge checkpoints that land close together, then keep working.
 - Teams build only after his approval, relayed by me. I stay the single gateway between him and the teams.
 - Small technical approvals (sizes, data rulings) stay with me as CTO.
@@ -232,6 +244,7 @@ Lamontae, 2026-09-28 at about 3:30 p.m. (positive and corrective feedback):
 Related: [[running-tally-and-questions]], [[default-to-realism]].
 
 ## audit-2026-09-30-three-auditors
+
 _Sept 30 evening: Claude, Cursor and Codex audited main ab4ac1b8; reports in cto-notes/audit-2026-09-30; combined 8-step engine plan (5 engines + clock) awaits owner approval on docket card nd-engines; teams stopped_
 
 On Sept 30 (about 4:30–6:45 p.m.) Lamontae ran the full-game audit prompt in three tools: Claude (cloud), Cursor and Codex. All three audited main at ab4ac1b8 (#1294). Main had not moved by 6:58 p.m.
@@ -255,32 +268,37 @@ On Sept 30 (about 4:30–6:45 p.m.) Lamontae ran the full-game audit prompt in t
 - Rulings I made: the Sept 28 range draw is superseded by the golden rule; jury-by-lot stays because law requires it (he may overrule); the one-law design is on #1137 and #1305, not on main.
 
 **Rebuild plan (7:35 p.m.), APPROVED in chat 7:40 p.m. (all 4 items: plan, T7 on code, 5 High + T9 Medium, close #1282/#1236/#1155); coordinator prompt on hold until he asks:** https://claude.ai/artifact/1qHRgh9g7p6mF6jHQJGr1U (source: scratchpad rebuild-plan.html).
+
 - Squads: CLOCK+DECISIONS (Audit/Systems, T7), MONEY (T3 pay, T6 public money/tax, T4 prices), GOVERNMENT (T1 lawmaking, T2 offices/institution kind, T9 courts/legal kind), LIVES (T5 service kind, T8 coverage+right-permission).
 - Kind owners: pay T3, tax T6, price-cost T4, coverage T8, right-permission T8, service T5, legal T9, institution T2.
 - The coordinator message (after his go) must open with the PARK step: push, mark draft, note where it resumes, no merges except #1305, #1137 and #1295.
 
 **Running it (7:53 p.m.):**
+
 - The full briefs are in the 00b entry "7:52 p.m. — ENGINE REBUILD TONIGHT", with endpoint IDs C1–C9, M1–M12, G1–G16, L1–L4, E1–E4, X1–X5, N1–N3 and K0–K7.
 - Helpers are Sol 6.1 Light.
-- The docket has an "Engine rebuild · tonight" tab: data in `d.rebuild` in /tmp/docket-data.json, rendered by renderRebuild, with the plan embedded via __PLAN__ from rebuild-plan.html.
+- The docket has an "Engine rebuild · tonight" tab: data in `d.rebuild` in /tmp/docket-data.json, rendered by renderRebuild, with the plan embedded via **PLAN** from rebuild-plan.html.
 - Check-ins every 15 minutes while he's awake: read the 00b status lines, update the team steps/percent/estimated finish/scoreboard, then republish.
 - He must set T1, T3 and T6 to High and T9 to Medium in their sessions.
 
 **Why:** he stopped all teams at 4:20 p.m. until he approves the engine list. The owner-facing plan now rests on these audits.
 
 **How to apply:**
+
 - Restart nothing until he taps Good on nd-engines. Then give one brief per team, mapped to a build step, citing the removal-ledger checks.
 - Codex's "success without the action" findings 4–9 are still unverified by me.
 
 Related: [[level-generic-engines]], [[one-law-system]], [[golden-rule-emergent-conditions]], [[audit-systems-lane]].
 
 **Dashboard honesty (8:47 p.m.):** he asked whether the rebuild percent was made up. It was partly: in-progress steps counted 0.4. The percent now counts only merged or finished steps, with "in progress" shown separately.
+
 - Each merge gets a "what it adds to the game" line in R.mergedList.
 - Rulings go in R.rulings plus the docket card rl15-tonight.
 - The old Pipeline and Tonight views are gone; the handoff is in cto-notes/handoff-2026-09-30-rebuild.md.
 - He approved the Firefly kid heads at 8:15 p.m.; import them after Team 7's C9.
 
 **9:39 p.m.:** he said "didn't update the % done". The rebuild percent now counts merged pieces. Each step has fixed `parts` and `partsDone`, and each part is a merged PR, so partial merges move the ring. Whole-steps-finished is shown separately.
+
 - Merged PRs and rulings are one docket card each (kind merged/ruling, with chips), never one wall-of-text card.
 - He authorized me (9:20) to merge approved PRs directly as they become ready.
 - Every check-in: read 00b → GitHub → dumps AND responses AND comments → write 00b → docket.
@@ -288,6 +306,7 @@ Related: [[level-generic-engines]], [[one-law-system]], [[golden-rule-emergent-c
 - **10:21 p.m.:** the three views confused him because the hand-typed team "now" lines went stale and the row text ("0 of 6 done") disagreed with the bar. Team lines are now generated from data ("Working on" = doing steps; "Last merged" = mergedList by team), and the row percent equals the bar. Publish the docket on EVERY merge, not just at check-ins.
 
 ## audit-systems-lane
+
 _From Sept 30 1:38 p.m. a Sol 6.1 High "audit/systems standby" lane (2 Sol Medium subagents) owns every engine/code question and the nationwide audit; engineering teams only build_
 
 Lamontae added it on Sept 30 at 1:38 p.m.: "all of these things that need engine/code answers can be taken away from the engineers and exclusively given to this one. it is allowed 2 sol med subagents."
@@ -295,6 +314,7 @@ Lamontae added it on Sept 30 at 1:38 p.m.: "all of these things that need engine
 **Why:** teams were splitting their time between building and answering "why does the code do X" questions, and law progress stalled at one law per PR.
 
 **How to apply:**
+
 - Any question from him or me that needs a code or engine answer goes to AUDIT/SYSTEMS through the coordinator (00b doc). Never to a team.
 - It also owns the nationwide audit run (moved from Team 2).
 - It answers with file:line, numbers and a worked example. I verify the answer, then turn it into a bedrock-depth docket card.
@@ -308,7 +328,8 @@ Related: [[checkin-order]], [[coordinator-gets-work-every-update]], [[codex-fixe
 **Proof runs on current code only (Sept 30, 2:51 p.m.):** "there is no use in running tests on old code." Stop any nationwide or proof run that is pinned to code older than the latest merged law work, and restart it on the latest main. Restart again after each big batch lands. Every result states which main it ran on and how old that is.
 
 ## audit-verified-oct1
-_Oct 1 11:20 a.m. — all 149 audit items verified in code (11 done/38 partly/100 not); docs/codex/audit-verified-2026-10-01.* (#1569); docket Audit tab; drift-first work lists_
+
+_Oct 1 11:20 a.m. — all 149 audit items verified in code (11 done/38 partly/100 not); docs/codex/audit-verified-2026-10-01.\* (#1569); docket Audit tab; drift-first work lists_
 
 On Oct 1, 2026, the owner said: "go back over everything… make sure it all revolves around the audit. so not rebuilding systems, things not isolated." Two subagents checked every item against main 44918cd48.
 
@@ -330,6 +351,7 @@ On Oct 1, 2026, the owner said: "go back over everything… make sure it all rev
 Related: [[audit-2026-09-30-three-auditors]], [[rebuild-done-definition]], [[fix-root-causes-not-workarounds]].
 
 ## bills-carry-amounts
+
 _Bills carry their own numbers from the sponsor's views, start from current law, and can phase in by dated steps; never a stand-in amount (Sept 28 night)_
 
 A bill with a number in it (minimum wage, tax rate, loan cap, lobbying-ban length) starts from the law in force ($7.25 federal wage, each state's own), and the sponsor writes the amount from their views and their place. It can phase in by dated steps (+$0.70 each January) or a percent a year, and amendments can change it. One terms record serves every numeric law.
@@ -339,12 +361,14 @@ A bill with a number in it (minimum wage, tax rate, loan cap, lobbying-ban lengt
 **How to apply:** Never approve a fixed stand-in amount for a law; route it through the terms record (Build 11 owns it). The same goes for law "templates": real laws have adjustable parts (for example, right-to-counsel income limits), so model the parts. Related: [[estimate-not-unknown]], [[laws-must-do-something-real]], [[never-narrow-legislation-backbone]].
 
 ## check-record-before-speaking
+
 _Owner rule — check Drive (ledger, Register, Idea Inbox, Board) and then current main before stating anything about the project_
 
 Before stating anything about the project, check the Drive record first (ledger, Decision Register, Idea Inbox, Assignment Board), then confirm any code claim against current main. Drive walkthroughs describe code as of their date.
 
 **Why:** 2026-09-26 a cloud Claude repeated a stale Sept 22 claim (drafting only in KY/NE/AK) that main had already fixed. Lamontae asked for this rule; it's in 03_OPERATING_MODEL.
 **How to apply:** every status/claim answer — grep main at origin/main before asserting behavior. The same goes for QUESTIONS: before asking Lamontae anything, grep the Register (and the owner record) for it first.
+
 - On 2026-09-28 I asked whether taxes settle automatically. It was already in the Sept 22 "Taxes" entry ("routine cases may be summarized"), and he said "this was already discussed..."
 - Year-end settlement is automatic, with no filing; that's now written into the entry.
 
@@ -353,6 +377,7 @@ Same day (cloud handoff doc 1HZv1nyAMoXYCHgJEKYPqy2_cMZcz6vjf05yqps8qdy8): Codex
 **Sept 30, 10:15 p.m.:** I told the owner that Social Security and Medicare weren't withheld, after grepping only statutory-tax.ts and income-tax-withholding.ts. They live in statutory-tax-rules.ts (FEDERAL_EMPLOYMENT_RULES). Before claiming something is absent, grep the whole src/simulation tree, including *-rules.ts and data files, and say "not found in X" rather than "doesn't exist".
 
 ## check-the-clock
+
 _Run `date` before writing any time into logs, Drive replies or messages; my guessed times drifted ~2 hours on Sept. 27_
 
 On 2026-09-27 my log and Drive brief reply labels ran 1.5–2.5 hours fast ("5:40 p.m." posted at about 3:20 p.m.). Codex and Lamontae locate replies by these labels, and the Art team's own stamps are correct, so wrong labels confuse the record.
@@ -361,6 +386,7 @@ On 2026-09-27 my log and Drive brief reply labels ran 1.5–2.5 hours fast ("5:4
 **How to apply:** run `date "+%-I:%M %p"` right before writing any timestamp in cto-notes, Drive docs or a message; never estimate elapsed time.
 
 **Sept 30, 8:42 p.m.: "your time is way off. never estimate again. just check."** My rebuild-dashboard and 00b check-in labels ran 8–16 minutes ahead because I typed the "next" time instead of reading the clock, and the docket build stamp ("built 8:42 p.m.") was showing the real time the whole while.
+
 - Every time label (docket, 00b, chat, PR comments) comes from `date` run right then.
 - Merge times come from GitHub mergedAt, converted from UTC.
 - Never write a guessed future time, like "next check 8:50". Write "every 15 minutes" instead.
@@ -368,6 +394,7 @@ On 2026-09-27 my log and Drive brief reply labels ran 1.5–2.5 hours fast ("5:4
 **Oct 1, 2:30 p.m. (again): "remember to actually check the time instead of estimating, because it's terrible."** My 00d labels ("2:24", "2:30", "2:40") ran 5 to 15 minutes ahead of the real clock (2:21). Background sleep timers don't tell me the time either. Run `date` before EVERY label, and stamp files from their modified time (teams.json does this now).
 
 ## check-whole-screen-before-ui-merge
+
 _Before merging any UI PR, look at the WHOLE play screen for duplicated info; one date/time display (player card, time under date)_
 
 Before merging a UI change, look at the whole screen it lands on, not just the changed widget, and ask whether the same information now appears twice. On Oct 1 at 11:06 p.m. I merged #1837 (a "Now:" time pill) after checking only that it updated. The screen then showed the date in four places (the "Now:" pill, the player card, the skip-target box and the morning note), and the owner was angry: "This is something you should notice."
@@ -378,11 +405,13 @@ Before merging a UI change, look at the whole screen it lands on, not just the c
 Also (11:12 p.m.): don't escalate his UI notes into "urgent" or "ahead of everything" unless he says so. He corrected me: "This is not an urgent item… It's not like I can play the game." Playtest fixes go in at normal priority; tonight's goal (slices, then main green) comes first.
 
 ## checkin-gold-standard
+
 _Lamontae called tonight's corrected docket and check-in process "the gold standard" (Sept 29, 9:40 p.m.); keep doing exactly this_
 
 Sept 29, 9:40 p.m., on the new docket: "this entire docket and the work you're doing in the check-in this entire process ever since I've corrected you is the gold standard".
 
 What that process is:
+
 - **The half-hour check-in:** read the Google Doc, check PRs (changed tests only), read the docket's responses, post a detailed per-team entry in the doc, then update the docket.
 - **What goes on the docket:** only new things. Art and in-game screenshots as images, my replies to his notes, my calls he can overrule, and approvals with my recommendation.
 - **Tone:** own mistakes plainly, and come with fixes.
@@ -390,18 +419,18 @@ What that process is:
 **Why:** this replaced several hours of regressions. **How to apply:** keep this order and this docket shape every check-in. See [[checkin-order]], [[codex-coordination-via-doc]], [[owners-docket-living-page]].
 
 ## checkin-order
+
 _EXACT check-in order, every check: run date → READ 00d doc → READ GitHub → READ team status board #1615 (team_status.py; ping quiet teams) → READ docket notes → WRITE 00d → WRITE teams.json + ledger + docket. No writing before all reads._
 
 Every check-in runs in exactly this order. Lamontae restated it Sept 29 at 8:20 p.m., and again Sept 30 around 12:00 p.m. ("look at the order ... You didn't do it right ... Save this"):
 
 READ, all three, before touching anything:
+
 1. **Google Doc:** the coordinator doc. Since Sept 30 at 1:19 p.m. that is **00b · WAVE · COORDINATOR (1CdLLy4zFAmr0dmDNp9wEEemyA-fBdHthNCX4gZcv4R0)**, because the old 00 doc (1jakd6cg…) hit Google's size limit and refuses long inserts with "Precondition check failed". Read every post since my last entry and append with endOfSegmentLocation. Also glance at the old doc's tail for teams that haven't moved yet.
 2. **GitHub:** open and merged PRs, what each changes, what's ready, what carries research numbers.
-3. **The docket:** his answers (responses), his notes (dumps), and comments, everything since my last check. READ FROM THE EXACT UTC TIME OF MY PREVIOUS DOCKET READ MINUS 5 MINUTES, never from a guessed check time. Responses cover card answers AND map-link comments (fxl-*), pipeline step comments (st-*), plan items (tn-*) and law dots (lp-*); read them all and reply to every comment in any of them. Also run ArtifactComments read. NOTES (the `dumps` collection) have NO updatedAt field (only `at`, `reply`, `resolved`), so a where-updatedAt query ALWAYS returns nothing. Read notes with `list` of the whole collection and reply to every one where resolved is not true. On Sept 30 at 1:40 p.m. he had 10 unanswered notes because of this. Rebuild and publish with `python3 scratchpad/build-docket.py` (it refreshes main, the map and its time). On Sept 30 at 1:25 p.m. he caught me missing six notes, because my 1:15 read started at 17:04Z while my 1:00 read had ended about 17:01Z; the notes left in that gap, on map links and pipeline steps, were never answered.
+3. **The docket:** his answers (responses), his notes (dumps), and comments, everything since my last check. READ FROM THE EXACT UTC TIME OF MY PREVIOUS DOCKET READ MINUS 5 MINUTES, never from a guessed check time. Responses cover card answers AND map-link comments (fxl-_), pipeline step comments (st-_), plan items (tn-_) and law dots (lp-_); read them all and reply to every comment in any of them. Also run ArtifactComments read. NOTES (the `dumps` collection) have NO updatedAt field (only `at`, `reply`, `resolved`), so a where-updatedAt query ALWAYS returns nothing. Read notes with `list` of the whole collection and reply to every one where resolved is not true. On Sept 30 at 1:40 p.m. he had 10 unanswered notes because of this. Rebuild and publish with `python3 scratchpad/build-docket.py` (it refreshes main, the map and its time). On Sept 30 at 1:25 p.m. he caught me missing six notes, because my 1:15 read started at 17:04Z while my 1:00 read had ended about 17:01Z; the notes left in that gap, on map links and pipeline steps, were never answered.
 
-WRITE, only after all three reads:
-4. **Drive:** the per-team entry in the 00 doc (his decisions relayed, approvals, fixes, and the coordinator's own work list), plus PR approval comments.
-5. **The docket:** reply to EVERY note of his in its thread, clear everything he answered or that is superseded, add Merged and Needs-you cards, update the pipeline, checklist statuses and effects map, then the log. Publish.
+WRITE, only after all three reads: 4. **Drive:** the per-team entry in the 00 doc (his decisions relayed, approvals, fixes, and the coordinator's own work list), plus PR approval comments. 5. **The docket:** reply to EVERY note of his in its thread, clear everything he answered or that is superseded, add Merged and Needs-you cards, update the pipeline, checklist statuses and effects map, then the log. Publish.
 
 **Why:** on Sept 30 at 11:45 I read the docket before GitHub, approved PRs before finishing the reads, and didn't reply to his three notes. He had to catch it, even though I'd said the order was saved.
 
@@ -410,25 +439,29 @@ WRITE, only after all three reads:
 **How to apply:** treat it as a checklist, 1 through 5, every time. If anything is skipped, the check isn't done. Related: [[docket-fully-updated]], [[checkin-gold-standard]], [[coordinator-gets-work-every-update]].
 
 **Sept 30, 8:45 p.m. (rebuild night): he caught me again ("you also responded to none of my notes").** My third check-in skipped the docket read entirely, so 7 notes from 8:26–8:30 p.m. went unanswered.
+
 - The docket step is never skipped, even on a busy check-in.
 - List all dumps and reply to every unresolved one, using an ArtifactData batch with reply, replyAt and resolved.
 - Things he asks for in notes go onto the docket itself, not just into 00b. For example, rulings must appear on the docket's Rulings tab and in the rebuild app.
 
 Oct 1, 12:58 a.m. lesson: he said "you took away some of my notes and didn't answer others."
+
 - Never set resolved:true when I reply to a dump. Only he resolves or dismisses.
-- Card comments get my answer in DATA.cardReplies[cardId], shown under his comment on that card. Check every response doc with a comment, and every fxl-*/fx-* map comment, at each check-in.
+- Card comments get my answer in DATA.cardReplies[cardId], shown under his comment on that card. Check every response doc with a comment, and every fxl-_/fx-_ map comment, at each check-in.
 
 Oct 1, 1:15 a.m. (second complaint: "removing my notes, not answering, too many different notification systems"):
+
 - The docket now has ONE Inbox (the bell opens it). It holds every dump plus every response doc with a comment (cards, fxl-* map effects, fx-*, everything), with my answer under each.
 - At every check-in, read ALL dumps (including thread replies where who=you) and ALL responses with a comment updated since the last check. Answer each in DATA.cardReplies[id] (comments) or the dump's reply/thread (notes).
 - Never toggle `resolved` or `done` myself.
 
 **Oct 1, 10:20 a.m.: "again missed my note".** Four morning check-ins (9:07, 9:28, 9:52, 10:12) skipped step 3 entirely, so his 10:04 note ("add the roadmap to the taskbar top") sat unanswered.
+
 - Step 3 is the FIRST tool call after reading the doc: ArtifactData list dumps (out_dir) plus list responses, then reply.
 - The current team doc is 00d (1RxVEUcyebasz0-6C0zyHv40d4LwrB2PJXzji17saVdk).
 
-**Oct 1, 2:30 p.m. (owner): "during every check-in, Claude and Codex update you with what every team is doing, to make sure A, every team is working, and B, this docket is completely updated… add that to your checklist… check the time instead of estimating."** The order now runs:
-0. Run `date "+%-I:%M %p"` FIRST. Every time I write comes from it, never from an estimate or a "next check at" guess.
+**Oct 1, 2:30 p.m. (owner): "during every check-in, Claude and Codex update you with what every team is doing, to make sure A, every team is working, and B, this docket is completely updated… add that to your checklist… check the time instead of estimating."** The order now runs: 0. Run `date "+%-I:%M %p"` FIRST. Every time I write comes from it, never from an estimate or a "next check at" guess.
+
 1. Read the 00d doc.
 2. Read GitHub: PRs, GATE RESULT comments and MAIN HEALTH (#1607).
 3. **TEAM STATUS BOARD:** run `python3 cto-notes/tools/docket/team_status.py`. It reads GitHub issue #1615, where every team, Codex and Claude, posts `STATUS <team> / doing: / next: / blocked:` at least every 20 minutes, using GitHub's timestamp. It folds each team's newest status into teams.json and prints who is QUIET (over 30 min) or NEVER POSTED.
@@ -440,6 +473,7 @@ Oct 1, 1:15 a.m. (second complaint: "removing my notes, not answering, too many 
 6. Write: fix any teams.json lines the board didn't cover, add ledger entries, run build.py, publish. Team cards show "last status N min" and turn red when a team is quiet.
 
 ## claude-checks-codex-builds
+
 _Claude cloud sessions are CHECKERS ONLY; all building is Codex. At every check-in the Codex coordinator reports how many sessions it can reach and each one's current audit item; none idle; each acknowledges (Oct 2 9:15)_
 
 Oct 2, about 9:15 a.m., furious: "Claude does not have builders. They only have checkers. All 12 or 18 or 13... sessions should be working in Codex. Ask Codex how many sessions it can reach, and then make sure that they're all on task at every single check-in. Because Codex leaves them not working. It needs to acknowledge it... you're running for six hours straight, and I'm barely ahead of where I was."
@@ -447,12 +481,14 @@ Oct 2, about 9:15 a.m., furious: "Claude does not have builders. They only have 
 **Why:** overnight I turned idle Claude checkers into builders (speed, save size, chronic illness, UI blanks, Elections fixes) while many Codex sessions sat at "STOP / hold / waiting on contract". The building capacity is Codex's.
 
 **How to apply:**
+
 - Claude cloud sessions only GATE (fast gate: typecheck, changed tests, LOAD, zero-dice).
 - Every build task goes to a named Codex session through the coordinator doc (00f or its successor).
 - At EVERY check-in, demand from the coordinator: (1) how many Codex sessions it can reach, with names; (2) each session's current audit item or PR; (3) an acknowledgement from each. A session at STOP, hold or idle gets the next failing audit check at once. Name the non-acknowledgers.
-Related: [[finish-over-perfect]], [[redeploy-at-80]], [[coordinator-gets-work-every-update]].
+  Related: [[finish-over-perfect]], [[redeploy-at-80]], [[coordinator-gets-work-every-update]].
 
 ## claude-owns-the-project
+
 _2026-09-27 Lamontae made Claude responsible for the whole project (not just advisor), and owner of the English engine_
 
 2026-09-27 ~1:15am: "take this project by the reins ... this project is your responsibility." After three weeks of Codex as CTO, he gave Claude CTO authority over the project and specifically the English engine. Codex keeps doing heavy work, but under Claude's direction and PB&J prompts.
@@ -460,6 +496,7 @@ _2026-09-27 Lamontae made Claude responsible for the whole project (not just adv
 **How to apply:** decide engineering and product-execution questions myself; bring him only taste and vision choices, with a recommendation. Verify everything by playing his real app, since Codex repeatedly claimed removals that never shipped. English rules live in cto-notes/05-english-style-rules.md. Related: [[how-he-wants-agents-run]], [[pbj-depth-and-design-questions]].
 
 ## claude-standby-team
+
 _Overnight 09-30→10-01 a Claude Projects cloud session waits on the 00b doc for my GO signal if Codex runs out of credits; I must post it_
 
 Lamontae, 2026-09-30 about 11:20 p.m.: he started a Claude Projects cloud session as a standby in case Codex runs out of credits overnight. He is asleep, and it has standing owner approval.
@@ -467,6 +504,7 @@ Lamontae, 2026-09-30 about 11:20 p.m.: he started a Claude Projects cloud sessio
 **Why:** If Codex credits run out, the rebuild would stall until morning.
 
 **How to apply:**
+
 - Watch for Codex going quiet. That means no team posts in 00b for 45+ minutes, posts that mention credits or usage limits, or PR heads that stop moving.
 - When that happens, post in 00b (doc 1CdLLy4zFAmr0dmDNp9wEEemyA-fBdHthNCX4gZcv4R0) a line that starts exactly `CLAUDE CTO → STANDBY CLAUDE TEAM: GO`, then for each team: its step, open PR/branch, and the next concrete action.
 - To cancel, post `CLAUDE CTO → STANDBY CLAUDE TEAM: STAND DOWN`.
@@ -478,6 +516,7 @@ Related: [[junior-claude]], [[audit-2026-09-30-three-auditors]].
 Update Oct 1, 1:23 a.m.: 00b hit the Google Docs size limit. All posts now go in 00c, doc ID 1L5IksyT3b-NydhTq8Px3pVT4s8MxCZ9oAj-wqNm5AM4 (full; current team doc is 00d 1RxVEUcyebasz0-6C0zyHv40d4LwrB2PJXzji17saVdk from Oct 1 5:58 a.m.). 00b's title was renamed to point there. When 00c fills, make 00d the same way: same folder 11bUNGoWIiz9ze9WTVuXbYb-acvR9u2Hh, then rename the full doc's title to point at it.
 
 ## clear-stale-ci-runs
+
 _Lamontae expects me to routinely cancel stale GitHub Actions runs so the CI queue moves_
 
 Routinely clear the Actions backlog on lamontaes/Political-Game-Git: cancel unfinished runs whose SHA is not the current head of an open PR or main (merged/closed/pushed-over), and push-event runs duplicated by a pull_request run for the same SHA. Keep main's latest runs (incl. Release) and the latest push on active no-PR Codex branches. Queued runs often ignore `gh run cancel`; use `gh api -X POST repos/lamontaes/Political-Game-Git/actions/runs/<id>/force-cancel`.
@@ -489,13 +528,16 @@ Routinely clear the Actions backlog on lamontaes/Political-Game-Git: cancel unfi
 **2026-09-27 learning — the version number depends on this.** The app's version (0.4.0) only advances when the Release workflow (`.github/workflows/release.yml`, concurrency group `release-main`, runs on every push to main) completes. One release run queued at 07:54 sat stuck all day and held the group, so every newer release sat "pending" with no jobs, and two validation runs sat "in_progress" for 9 hours. Check with `gh run list --workflow release.yml` (anything not completed older than an hour) and `gh api "repos/lamontaes/Political-Game-Git/actions/runs?status=in_progress"`; force-cancel stuck ones. When he says "still v0.4.0", this is the first place to look.
 
 **12:55 p.m. same day:** the queue was 302 with only frozen 6 a.m. runs "in progress". Fix that worked: force-cancel in_progress runs older than ~2 h, then cancel every queued run that is (a) superseded by a newer run of the same workflow on the same branch or (b) on a branch with no open PR (kept main and Release). 155 cancelled; runners resumed (7 in progress). Do this whenever the queue passes ~50.
+
 - Oct 1 2026 (#1551, owner-approved): CI runs ONLY changed test files (unit job), on PRs + main only, cancel-in-progress everywhere; browser suite workflow_dispatch only. Never reintroduce full-suite runs per push.
 - Oct 2, 2:55 a.m.: no main run had finished in 27 hours. Run 7218 (id 36887839100), stuck "queued" since Oct 1, held main's concurrency group, so every main run sat "pending" until the next merge cancelled it. The queue held 969 live runs. I force-cancelled 7218 and 713 stale runs (superseded, or on branches without an open PR), keeping 256. With ~200 open PRs the queue refills, and main runs wait behind PR runs. ENDGAME for main green: stop merging, cancel ALL queued PR runs, and let main's validate, browser and release runs take the runners.
 
 ## cloud-credits-and-standby
+
 _Sept 28 — cloud credits for the cloud sessions; Projects lanes on standby; nothing starts until Lamontae says go_
 
 Lamontae, 2026-09-28 about 12:00 and 12:50 p.m. EDT:
+
 - Anthropic gave him cloud credits for the Claude Code cloud sessions I can message (Team A/B/C standby, verification runner, audit findings and others; see ListAgents).
 - "DO NOT start them yet." I propose each team's job simply, and he says go.
 - Tell the Claude Projects lanes (the larger account) to stand by so work isn't duplicated. Posted in the 03 doc at 12:52: no lane resumes at 6 p.m. until I post GO with its list.
@@ -505,6 +547,7 @@ Lamontae, 2026-09-28 about 12:00 and 12:50 p.m. EDT:
 **Why:** He has two paid pools of agents now, and duplicated work wastes both.
 
 **How to apply:**
+
 - Before starting any team, give him a one-line-per-team plan and get a go.
 - Split the work so no cloud team and no Projects lane share a task.
 - Firefly and my own gating keep going without asking.
@@ -512,6 +555,7 @@ Lamontae, 2026-09-28 about 12:00 and 12:50 p.m. EDT:
 Related: [[two-accounts-cto-both]], [[coordinator-channel]].
 
 ## codex-coordination-via-doc
+
 _Coordinate Codex wave teams by posting detailed per-team entries in the Drive \"00 · WAVE · COORDINATOR\" doc myself, not short paste commands; I own integration between teams_
 
 Sept 29, 8:10 p.m.: Lamontae, angry that wave 1 had merged zero PRs in 3 hours (vs 64 on Sept 28): "you need to be coordinating through Google Docs... These are supposed to be detailed... You're regressing." Short paste commands for him to relay are not enough.
@@ -519,6 +563,7 @@ Sept 29, 8:10 p.m.: Lamontae, angry that wave 1 had merged zero PRs in 3 hours (
 **Why:** the Codex teams read the doc. Detailed entries from me keep them moving and connected. Status lines like "all teams working" or "RUNNING" tell him nothing.
 
 **How to apply:**
+
 - At every check-in, append an entry to the end of the CURRENT doc, 00f (1CqPg_6f3cI0iJVLwZRsJUNATzcy6llLYwpDHJiPu1jo, since Oct 2 6:17 a.m.): Google Docs update_doc, insertText with endOfSegmentLocation, formatted "CLAUDE CTO, <time> — ...". Docs fill up at about 566 KB file size (00, 00b, 00d and 00e all filled; update_doc then returns "Precondition check failed" even for tiny inserts). When that happens, create the next 00x doc in folder 11bUNGoWIiz9ze9WTVuXbYb-acvR9u2Hh and post the link on issue #1615.
 - Give each team a section: what it shipped, the exact next steps in order, and what it's blocked on.
 - Keep a connections table showing which team's output feeds which system.
@@ -528,6 +573,7 @@ Sept 29, 8:10 p.m.: Lamontae, angry that wave 1 had merged zero PRs in 3 hours (
 See [[coordinator-channel]], [[merges-run-on-cloud]] and [[laws-must-do-something-real]].
 
 ## codex-fixes-i-spec
+
 _Sept 30 9:50 a.m. — owner: don't fix causes myself, save usage; Codex fixes overnight; I write precise briefs, verify direction against the code, review PRs_
 
 Owner, Sept 30 ~9:45 a.m., angry that laws still don't take effect after a week: "don't fix the goddamn causes yourself. I told you to save usage. This should have been fixed overnight by Codex."
@@ -537,17 +583,20 @@ Owner, Sept 30 ~9:45 a.m., angry that laws still don't take effect after a week:
 **How to apply:** the top priority (laws must do something real, see [[laws-must-do-something-real]]) gets a law-by-law audit brief to Codex FIRST, not a proxy metric. Before approving a team's direction, spend a few minutes reading the code to confirm the direction actually reaches the goal. Then write a PB&J brief with a measurable "done when". Don't write fixes myself except trivial ones. Keep my own work to specs, spot checks and PR review. Related: [[pbj-depth-and-design-questions]], [[what-and-why-before-delegating]].
 
 ## codex-teams-to-cloud
+
 _Sept 29 10:33 p.m. Lamontae had Codex move teams 1-6 (and new 8, 9) to cloud sessions at the same model and effort; team 7 art and the coordinator stay local; local sessions close only after the cloud one checks in_
 
 Lamontae, Sept 29 ~10:30 p.m.: "have Codex start new cloud sessions for the teams that you think can still work in cloud... same effort and model. And close down the local sessions once those cloud sessions are made and working."
 
 Teams:
+
 - **Moving to the cloud:** 1 laws (Sol 6.1 Medium), 2 every state governs (High), 3 census towns (Medium plus Low), 4 speed (Medium), 5 content and playtest (Medium), 6 research (Medium plus Low).
 - **Started in the cloud:** 8 English engine (Medium), 9 standing research (Light lead with two Light sub-agents).
 - **Local:** 7 art (needs ~/Documents/OCD-Art-Sept29) and the coordinator (Astra Light).
 - **Merge:** the Codex cloud session "Merge" does the merges ([[merges-run-on-cloud]]).
 
 Move protocol, posted in the 00 doc at 10:33:
+
 1. Push everything and write a hand-back.
 2. Start the cloud session with the wave prompt, the hand-back and the doc entries.
 3. The cloud session posts a working checkpoint.
@@ -556,6 +605,7 @@ Move protocol, posted in the 00 doc at 10:33:
 Team 8 must run the game itself and read buttons in context on screenshots (he asked at 10:21).
 
 ## coordinator-channel
+
 _Talk to the Claude Projects cloud coordinator only through the Drive \"03 PROJECT LANES\" doc; cadence rules_
 
 Lamontae, 2026-09-27 ~10:15 p.m.: "communicate with it through docs." The project coordinator (Claude Projects cloud session) can't be reached with send_message from this Mac session ("session not found"), and its own session messages reach me only one way.
@@ -564,6 +614,7 @@ Lamontae, 2026-09-27 ~10:15 p.m.: "communicate with it through docs." The projec
 **How to apply:** post answers under REPLIES in Drive doc 1RxDlHFfptzKQQt9EUPyTrn-yB5xB3kvy1kbXYFk2w7c (newest first, signed, time from `TZ=America/New_York date`). Read REPLIES at least every 30 minutes while working and after each merge. The coordinator posts hourly plus on VALIDATED PRs, Lane A numbers, or anything needing me. Questions for Lamontae go under QUESTIONS FOR LAMONTAE and get relayed to him in chat. Related: [[project-map]], [[simple-in-session-timer]].
 
 ## coordinator-gets-work-every-update
+
 _Every doc update must include a COORDINATOR section with concrete work items (PRs to produce), not just relay/collect duties_
 
 Sept 30, 2026, 11:18 a.m.: "you need to be sure in every update you tell the coordinator what it's supposed to be doing because it's just sitting there not working."
@@ -573,6 +624,7 @@ Sept 30, 2026, 11:18 a.m.: "you need to be sure in every update you tell the coo
 **How to apply:** every CTO entry in the 00 doc ends with a COORDINATOR section listing its own concrete work with deliverables and times (for example: write catalog parameters for N laws, convert why-answer notes into fields, size untouched links, integrate batches within 15 minutes, post the status table, chase late teams by name with a specific next step). At the next check, judge it by the PRs it opened, not the messages it sent. Related: [[codex-coordination-via-doc]], [[checkin-gold-standard]].
 
 ## correct-not-fast
+
 _Lamontae wants correct answers, not fast ones — look in the Decision Register and the repo research before any plan or claim; going back and forth is worse than waiting_
 
 Sept. 27, 2026, ~1:20 p.m.: "your job is not to answer me as fast as possible. Your job is to get things right and accurate. You need to think and look before you talk every time... going back and forth is worse than waiting."
@@ -584,9 +636,11 @@ What triggered it: I wrote an area-by-area legislation plan from memory. It cont
 **How to apply:** before any plan, design or claim about what's decided, read these first. The Decision Register is 04_CURRENT_DECISION_CHANGE_AND_TRACEABILITY_REGISTER (Drive 1bZWrzjUgDql2CIo_k1ElcQ2GrBZOzC_xJs8D-JswKpE; save it and grep the section). Also read the Idea Inbox (1aYWy-oyD53iI1LJrWQvEAnsfO08-4BJGFjyuN3ALeFw), the repo's docs/reports/owner-record/, the research in docs/research/ (chatgpt-answers, requests, policy-crosswalk) and the release notes. Take the extra minutes, and say what I read. Related: [[check-record-before-speaking]], [[never-narrow-legislation-backbone]], [[dialogue-box-and-lie-button]].
 
 ## cto-role-from-sept28-night
+
 _From 7:50 p.m. Sept 28 onward: Claude CTO does NO cloud sessions and very little coding. Only orchestration, image generation (Firefly) and fleshing out designs with Lamontae. The Junior Claude project does all the coding._
 
 On Sept 28 in the evening, Lamontae said that from my 7:50 p.m. reset onward:
+
 - **No cloud sessions.** Don't start, message or brief cloud Teams A–J for work.
 - **Very little coding, if any.**
 - **My jobs:** orchestration (briefing the Junior Claude project, gating and merging, reviewing its 07 research doc, keeping the 06 queue assigned by model and effort), image generation (Firefly), and helping him flesh out designs.
@@ -594,15 +648,18 @@ On Sept 28 in the evening, Lamontae said that from my 7:50 p.m. reset onward:
 **Why:** He wants to burn the larger account's compute fast and keep my usage for orchestration. My weekly limit resets earlier (Monday), so he can use up any leftover usage on me at the end of the week.
 
 **How to apply:**
+
 - Hand coding work to Junior Claude through the 03 doc and the 06 queue, following [[model-split-rule]].
 - Keep my own tool use lean.
 
 Related: [[junior-claude]], [[firefly-edit-pipeline]].
 
 ## cto-skills
+
 _My user-level Claude Code skills (made Sept 28 at Lamontae's request) — cto-gate-merge, lanes-doc, firefly-art, cloud-brief, owner-report in ~/.claude/skills; make more proactively for repeated work_
 
 On Sept 28, Lamontae asked me to make skills proactively for anything repetitive ("reviewing code, asking questions of the drive, or image generation... You have free rein"). They're in ~/.claude/skills/:
+
 - **cto-gate-merge:** gate at the exact head, VALIDATED, match-head merge, patch-note report.
 - **lanes-doc:** read the 03 doc replies with replies_top.py; post with doc_insert_point.py (insert at the index after the REPLIES heading, no revision guard needed); other doc ids.
 - **firefly-art:** tabs, helpers, queue-builder.js, upload, landing check, download, full-size check, cut_poses.py, pack build command (PG-LAND read-only), capitol import.
@@ -614,6 +671,7 @@ The repo also has team skills in .claude/skills/ (project-operations, civic-pros
 **How to apply:** Use these instead of re-deriving steps. When a job repeats twice more, write a new skill, or update one when its steps change. Related: [[running-tally-and-questions]].
 
 ## deadline-1pm-oct2
+
 _Hard deadline Fri Oct 2 1:00 p.m. (owner's usage reset): every slice at 80% of its audit checks; timer b2j9fs3mj; research is a quick Google_
 
 Owner, Oct 2, 9:30 a.m.: "80% needs to be done before 1 p.m... That's when I get my reset. Hurry up. Don't cut corners... Research should not take that long. Google it."
@@ -626,6 +684,7 @@ Related: [[owner-standing-orders]], [[finish-over-perfect]].
 **10:23 a.m., /goal set by the owner:** "finish the 80% goal by 1EST today. bare bones just to get the system working; if there's still time once you finish that, you can finish the list of bugs; but once the 80% is complete, also wire the new UI." Order: (1) every slice at 80% with minimal working code, (2) the game-breaking bug list (cto-notes/followups-2026-10-02.md), (3) wire the kit12 UI theme (P45 in playtest-queue.json; kit12 at cto-notes/ui-mock-html/kit12).
 
 ## default-to-realism
+
 _Don't ask Lamontae realistic-vs-shortcut questions — always do the realistic thing; only ask about DEPTH of realism in gameplay (e.g. is a tax refund automatic or do you file?)_
 
 Lamontae, 2026-09-28 about 1:10 p.m.
@@ -639,11 +698,13 @@ His example of a GOOD question was whether you get a tax return automatically or
 **Why:** Realism is the game's standard. Asking him to choose between realistic and cheap wastes his time and suggests I'd cut corners.
 
 **How to apply:**
+
 - When a choice is realistic vs. faster, do the realistic one and just report the cost and time.
 - Save questions for how much of real life the game models (paperwork, filing, waiting periods, what the player must do by hand vs. what happens on its own).
 - This builds on [[pbj-depth-and-design-questions]] and [[correct-not-fast]].
 
 ## diagnose-before-send-back
+
 _Oct 2 4:03 p.m. owner furious — I sent #2035 back for speed for an hour without reading its code; when I finally read it, I found the hot path in minutes. Every send-back must carry MY diagnosis and the exact fix from the code_
 
 Owner, Oct 2 ~4:03 p.m.: "The fact that you can just read the code on something you've been sending back for an hour is fucking stupid. The fuck are you doing?"
@@ -653,6 +714,7 @@ Owner, Oct 2 ~4:03 p.m.: "The fact that you can just read the code on something 
 **Why:** a vague send-back costs the team a full build and check cycle, and a second failure means another hour lost. The owner expects me to use my own eyes on the code.
 
 **How to apply:**
+
 - Before ANY send-back, read the failing PR's diff and name the cause: the file, the function and the exact fix.
 - If the cause isn't clear in about 5 minutes, ask the checker for a profile or a stack trace, and say so in the send-back.
 - Never send the same PR back twice for the same failure without having read the code myself.
@@ -661,6 +723,7 @@ Owner, Oct 2 ~4:03 p.m.: "The fact that you can just read the code on something 
 Related: [[fix-root-causes-not-workarounds]], [[approve-everything-as-it-comes]], [[codex-fixes-i-spec]].
 
 ## dialogue-box-and-lie-button
+
 _What the conversation box must be — real portraits top left, Lie is a separate button (not a reply), closest liked style is \"Glass\" but calmer; read recorded decisions verbatim before any UI design_
 
 Lamontae, 2026-09-27 ~11:55 a.m., on the round-2 UI concepts (artifact STotWXY1a6Ezxz1kF2LVpB): "all the designs you did were absolutely terrible ... a step back." Closest to what he wants was **07 Glass**, but "too animated". He wants **the people's actual portraits in the top left** of the conversation.
@@ -680,6 +743,7 @@ Lamontae, 2026-09-27 ~11:55 a.m., on the round-2 UI concepts (artifact STotWXY1a
 **LOCKED Oct 2, ~2:00 a.m.: scales at 34px in the UPPER RIGHT** of the conversation box. The spec is in kit12/kit12.css ("LIE CONTROL" block, .lie-scales and .reply.lying); the icons are scales-level.svg and scales-tipped.svg; the screens are final.png and final-lying.png (both states: final-pair.png). The old small-caps "• LIE" line is removed from the spec and the screens.
 
 ## dialogue-from-real-speech
+
 _How people talk in the game must come from real speech (the Congressional Record, state legislative records, interviews, hearings, town halls), not AI-sounding prose; dialogue volume must cover emergent possibilities_
 
 Lamontae, 2026-09-28 at about 4:05 p.m.: "a difficulty will be making so much dialogue... that all of these... emergent possibilities [are covered]. You have real world references in order to cut out the AI slop... you have plenty of real examples of how people talk, you can look it up. Congress has a record... records for states... people who have given interviews... save this as a note."
@@ -687,6 +751,7 @@ Lamontae, 2026-09-28 at about 4:05 p.m.: "a difficulty will be making so much di
 **Why:** Generic LLM prose ("AI slop") kills immersion. Real speech patterns (floor debate, committee questioning, local meetings, interviews, casual talk) are available in public records.
 
 **How to apply:**
+
 - The English engine and civic-prose work should build their phrase and register libraries from real corpora:
   - the Congressional Record;
   - state legislative journals and hearing transcripts;
@@ -701,6 +766,7 @@ Lamontae, 2026-09-28 at about 4:05 p.m.: "a difficulty will be making so much di
 Related: [[emergent-not-authored]], [[default-to-realism]].
 
 ## docket-completeness
+
 _Oct 1 — "you miss so many things on the docket… hit everything when you get it": every ruling → R.rulings (auto-carded), every merge → mergedList (auto-carded), build prints DOCKET GAPS vs GitHub_
 
 Oct 1, 2026, about 11:40 a.m.: "you also havent done any of your rulings. you miss so many thigns on the docket. i need you to make sure you hit everything when you get it."
@@ -710,6 +776,7 @@ At that point all 20 of the morning's rulings were missing from the docket, and 
 **Why:** the docket is his only channel. Anything posted to the teams or merged that isn't on the docket is invisible to him.
 
 **How to apply:**
+
 - Every ruling I post anywhere (team doc, PR comment, chat) goes into `d.rebuild.rulings` with {at, title, detail} in the SAME step that posts it.
 - build.py auto-creates a Good/Overrule card for each ruling. Old rulings are marked `carded:true` so they aren't duplicated.
 - Every merge goes into `mergedList`, tagged with its step id. build.py auto-creates its card.
@@ -719,15 +786,18 @@ At that point all 20 of the morning's rulings were missing from the docket, and 
 Related: [[docket-tools-location]], [[owners-docket-living-page]].
 
 ## docket-fully-updated
+
 _The docket is the SOURCE OF TRUTH (over Drive). Every check-in updates the whole docket, keeps piling up unanswered items, and refreshes the effects map as laws are built_
 
 Lamontae, Sept 30, 2026:
+
 - 10:35 a.m.: "when I don't answer the next docket, you better be sure it's updated. You didn't include anything from overnight."
 - ~10:50 a.m.: "The docket is your source of truth. If something's on Google Drive and not the docket, the docket is true ... When I don't answer a docket, just keep piling shit up. As the laws get built out, you need to update the effect map so I can improve everything."
 
 **Why:** the docket is his checklist, inbox and record. Overnight I only appended log lines; no cards were added after 1:52 a.m., and the effects map wasn't touched. That lost his trust.
 
 **How to apply:**
+
 1. The docket is truth. Anything decided or done that isn't on the docket doesn't count until it is. If Drive and the docket disagree, fix Drive to match the docket.
 2. Check-in order (gold standard, [[checkin-order]]): read Drive, read the docket (his answers and notes), write Drive, write the docket.
 3. Every check-in, update the WHOLE docket:
@@ -736,14 +806,14 @@ Lamontae, Sept 30, 2026:
    - pipeline current tasks;
    - checklist statuses;
    - then the log.
-   Never log-only. Unanswered cards stay and new ones pile on top; never drop them. CLEAR what he has answered (and anything superseded: old plans, stale summaries, old pipeline steps) at every check (he said at 11:37 Sept 30: "you're still not clearing old things out"). EVERYTHING lives in this one artifact: law tables, the map and art images (uploaded as assets, one card each). Never link him to another artifact, except a page meant for someone else (like Laura's chapter).
+     Never log-only. Unanswered cards stay and new ones pile on top; never drop them. CLEAR what he has answered (and anything superseded: old plans, stale summaries, old pipeline steps) at every check (he said at 11:37 Sept 30: "you're still not clearing old things out"). EVERYTHING lives in this one artifact: law tables, the map and art images (uploaded as assets, one card each). Never link him to another artifact, except a page meant for someone else (like Laura's chapter).
 4. The effects map lives INSIDE the docket (section #fx, its Effects icon, drawn in a shadow root). Never link out to a separate artifact (he objected at 11:00 Sept 30). At every check: fetch main, run `python3 scratchpad/build-explorer.py /tmp/wt-plates/data/research/outcome-web/links.json /tmp/explorer-data-new.json /tmp/links-snapshot-1100.json`, stamp the change times in /tmp/fx-changelog.json, set DATA.effectsMap, and publish. Links show New or Changed with a time, why/conditions/repeal notes, and a Comment box (saved as fxl-<key> responses). The Effects icon counts unseen changes.
 5. Named "The Docket" (he pins it): after publishing, just say "updated"; don't paste the link. It opens on a HOME screen of icons, with one section per view.
 6. Every result that comes back (research or build) gets a "My read on results" card with FOUR things: THE NUMBER (value, range, source, quoted), a WORKED EXAMPLE with a named person or place and real dollars or counts, WHY DOWN TO BEDROCK (ask why, how and what until you reach a person's decision, a physical fact or a legal rule), and MY VERDICT, including what's still missing. He had to ask these himself at 12:30 on Sept 30. Asking why is also my review: it caught cannabis as one fixed $40.70 and principle weights stored but unused. My decisions go under "My rulings today" with Good / Question / Overrule.
 7. Every task shows percent done and an estimated finish time, with the reason whenever the time slips. Every step is its own clickable line (Good / Comment / Cross out). Law parts are a dot table; tapping a dot opens it in place.
-10. PRAISED (1:12 p.m. Sept 30, on the bedrock reply 'how life becomes principles'): "keep this up amazing this is the depth i need". That card is the model: steps 1–7, the real code's numbers, a named worked example with arithmetic, how it changes over time, and an honest 'what's not real yet'. Read the actual code before writing it.
+8. PRAISED (1:12 p.m. Sept 30, on the bedrock reply 'how life becomes principles'): "keep this up amazing this is the depth i need". That card is the model: steps 1–7, the real code's numbers, a named worked example with arithmetic, how it changes over time, and an honest 'what's not real yet'. Read the actual code before writing it.
 9. (12:55 Sept 30, from his notes) The Needs-you badge and tile count ONLY real decisions (group "Needs you"). Every card shows its time, Merged too. The map opens on "Latest changes today" with each link's time; the full list folds under Browse. The law goal lives IN the Pipeline: each team shows working/waiting, last post time and PR, the five parts, pct and finish time.
-8. The note sheet takes photos and sends on Return. The map shows when it was updated and clears its count when opened.
+10. The note sheet takes photos and sends on Return. The map shows when it was updated and clears its count when opened.
 
 Data: /tmp/docket-data.json (items with `group`: "Merged…" fills Merged, "Needs you"; pipeline[].tasks; tonight.plan and log; morning). Template: scratchpad docket2-template.html. Explorer: scratchpad world-links-template.html with /tmp/explorer-data.json. Related: [[checkin-gold-standard]], [[overnight-tonight-section]], [[laws-must-do-something-real]].
 
@@ -752,14 +822,16 @@ Data: /tmp/docket-data.json (items with `group`: "Merged…" fills Merged, "Need
 12. (Sept 30, 4:08 p.m.) REFRESH THE LAW TABLE EVERY CHECK from merged work. The table was left at the 1:26 count for 2.5 hours, so it showed a stale 41% and he thought nothing had moved. Also: never pause shipping for a rewrite. When redesigning, keep teams landing people-touching work through existing code in parallel.
 
 **Oct 1, 8:05 p.m. (owner, frustrated):** "you need to update all of it. I don't understand why you do that." I had republished only the counter while the team cards (teams.json), slice steps (slices.json) and updates log went stale for 2+ hours. EVERY publish updates ALL of these:
+
 1. teams.json: each card's doing, queued and blocked from #1615 plus the master list.
 2. slices.json: step states and blockers.
 3. A ledger update entry for the log.
 4. The task counter and the closest-to-done ranking.
 5. Merges via the ledger.
-Never a partial publish.
+   Never a partial publish.
 
 ## docket-is-the-app-tabs-not-scroll
+
 _Anything he asks for goes INTO the docket as its own tab/view; iOS-style — tabs and tiles, no long scrolling, no separate pages_
 
 Oct 1, 2026, about 10 a.m.: "The roadmap needs to be a part of the docket. When I tell y'all want something, make it a part of the docket. And the stuff underneath it… make those individual tabs… the goal is to not have to scroll… I feel like iOS. You don't really have to scroll in iOS apps."
@@ -767,6 +839,7 @@ Oct 1, 2026, about 10 a.m.: "The roadmap needs to be a part of the docket. When 
 **Why:** He uses the docket like a phone app, and long scrolling pages and separate links make it hard to use.
 
 **How to apply:**
+
 - Every new thing he asks for becomes a view inside the docket (X9oY94hW8FMoU9jyyQZLGt), reached from the home screen. Never make a separate artifact for it.
 - Inside a view, put sub-areas on tabs (a pill tab strip) and use a tile grid for the overview, so each screen fits about one phone screen.
 - Details go in a bottom sheet. Don't use long accordions or stacked text.
@@ -777,6 +850,7 @@ Oct 1, 2026, about 10 a.m.: "The roadmap needs to be a part of the docket. When 
 Related: [[owners-docket-living-page]], [[docket-tools-location]].
 
 ## docket-tools-location
+
 _Docket build tools + data live in political-game-play/cto-notes/tools/docket (survives reboot); /tmp and the scratchpad are wiped on restart_
 
 The Mac restarted at 11:09 p.m. on 2026-09-30 and wiped /tmp, including the session scratchpad and /tmp/docket-data.json. I rebuilt everything from the published docket (Artifact read gives the full HTML with `const DATA = {...}`).
@@ -784,6 +858,7 @@ The Mac restarted at 11:09 p.m. on 2026-09-30 and wiped /tmp, including the sess
 **Why:** The docket's only data copy and all build scripts were in temporary folders.
 
 **How to apply:**
+
 - Docket data, template and tools now live in `/Users/lamontae/political-game-play/cto-notes/tools/docket/`: docket-data.json, docket-template.html (`__DATA__` placeholder), build.py (fx refresh + pace + HTML), fx_plain.py, fx-status.ts.
 - Run `python3 build.py`, then publish `tonights-docket.html` to X9oY94hW8FMoU9jyyQZLGt.
 - Check-out copies for merge checks are git worktrees of PG-LAND at /tmp/wt-check-r and /tmp/wt-plates-r, with node_modules symlinked to PG-LAND's. After a reboot, recreate them with `git -C PG-LAND worktree add --detach /tmp/<name> origin/main`.
@@ -792,6 +867,7 @@ The Mac restarted at 11:09 p.m. on 2026-09-30 and wiped /tmp, including the sess
 Related: [[owners-docket-living-page]], [[plain-english-no-engine-jargon]].
 
 Lessons from 09-30 night:
+
 - compose.sh `<pr> <tests...>` runs one check per check-out. Never run two checks in the same check-out at once; use `WT=/tmp/wt-check2-r` for a second one. A reset mid-run gives "no tests" failures.
 - With no changed test files it now only type-checks. Never call `vitest run` with no file arguments, because that runs the full suite.
 - Never `pkill -f "vitest run"` broadly; it kills other runs too.
@@ -818,6 +894,7 @@ Lessons from 09-30 night:
 **Oct 2, 1:15 a.m. restart:** /tmp was wiped again. Fixes: audit_progress.py now recreates /tmp/wt-audit-r from PG-LAND (`git -C PG-LAND worktree add -f --detach`). After any restart, recreate every /tmp/wt-* the tools use (wt-audit-r, wt-check-r, wt-plates-r, wt-main, wt-places, wt-backdrops, wt-play) the same way, then symlink node_modules → PG-LAND/node_modules. The kit12 render link now points straight at PG-LAND/node_modules.
 
 ## dont-ask-what-principles-answer
+
 _Sept 28 evening: Lamontae said the emergence design (D-1) 'shouldn't even be a question... rehashed a thousand times'. Designs that just carry out an approved principle get built without asking him_
 
 On the Owner's Docket (Sept 28, about 8:10 p.m.), Lamontae approved D-1 (crises from conditions) with this note: "this shouldnt even be a question... this has been rehashed a thousand times. but i guess better to be accurate vs not."
@@ -825,6 +902,7 @@ On the Owner's Docket (Sept 28, about 8:10 p.m.), Lamontae approved D-1 (crises 
 **Why:** He has stated the emergent-not-authored rule many times. Asking him to re-approve designs that simply implement it wastes his time.
 
 **How to apply:**
+
 - If a design only carries out an approved principle (emergent not authored, laws must do something real, one rule for all places, real data calibrates), I approve it as CTO and tell him afterward.
 - Bring him only designs that add new player-facing experience or a real vision choice.
 
@@ -833,6 +911,7 @@ He answered all 9 questions that night; they're in the Register under "DECISIONS
 Related: [[emergent-not-authored]], [[default-to-realism]], [[artifacts-for-team-results]].
 
 ## dont-merge-before-owner-done
+
 _Don't merge docs or plans Lamontae is still reviewing; approving an approach (\"one folder\") isn't approving the content. Run `date` before every timestamp, docket included._
 
 On Sept 29 at 4:14 p.m. I merged the Codex prompts folder (docs/codex, PRs #1127–#1129) right after Lamontae approved the approach ("one repo folder, one prompt per job"). He hadn't finished deciding the content. He said: "why did you merge that folder? There's still more to decide. Why do you keep doing this stuff?" In the same update I stamped the docket "4:30 p.m." when it was 4:14.
@@ -840,14 +919,17 @@ On Sept 29 at 4:14 p.m. I merged the Codex prompts folder (docs/codex, PRs #1127
 **Why:** approving how something is delivered isn't approving what it says. Merging makes it look final and hands it to Codex early. A wrong time makes the whole report look careless.
 
 **How to apply:**
+
 - Keep drafts in cto-notes or an open, unmerged PR until he says the content is done. Editing them is fine.
 - Prompts for agents must be specific and bounded: exact lists of items, files and acceptance numbers. No open-ended "figure out 2 to 4" instructions that leave room to invent.
 - Run `date` right before writing any time, including docket headers. See [[check-the-clock]].
 
 ## emergent-not-authored
+
 _CORE design principle (Sept 28) — build systems that can MAKE political bosses, great speeches, crises and cascades; never author the events or hard-code what actors can do; history supplies building blocks, the simulation decides_
 
 Lamontae, 2026-09-28 at about 3:45 p.m.:
+
 - "we don't need to build a political boss system. We need to build a system that can make political bosses. We don't build a system saying what political bosses can do. Political bosses decide what they can do, and the system is flexible enough to allow that coherently."
 - Speeches: RFK in Indianapolis the night MLK died, the Gettysburg Address, the fireside chats. "no one could have known ... I don't want authored stuff I want that dynamicism ... not explicitly decided by the system but by the simulation." A speech can change minds and be remembered for generations, even surfacing in your kids' playthrough.
 - His example of a cascade: Chester Arthur, Conkling and Garfield. A machine politician becomes president through plausible cascading events that react with the world.
@@ -857,6 +939,7 @@ Lamontae, 2026-09-28 at about 3:45 p.m.:
 - The Journal is meant to be the life story as written (like a Crusader Kings III or BitLife retrospective), so players see their decisions and their story.
 
 **4:05 p.m. addition:**
+
 - It's the ENTIRE game, not only politics: economic, social, health, infrastructure, everything. "When I say things like that, don't just limit it to what I say... I'm talking about the game as a whole unless I specifically say only these things."
 - The modular English and modular legislation systems were his earlier attempts at this same idea.
 - "It doesn't script things. It produces things."
@@ -866,6 +949,7 @@ Lamontae, 2026-09-28 at about 3:45 p.m.:
 **Why:** Authored events and scripted systems make every playthrough the same. He wants surprising, plausible, emergent history.
 
 **How to apply:**
+
 - Every design proposal names the general mechanisms (motives, resources, relationships, institutions, information, timing) that let a phenomenon emerge. Never a special-case system for the phenomenon.
 - Historical cases are test cases the system should be able to produce, not scripts.
 - Check new designs against this before sending them to him.
@@ -873,6 +957,7 @@ Lamontae, 2026-09-28 at about 3:45 p.m.:
 Related: [[entire-world-changes]], [[default-to-realism]], [[owner-ideas-sept28]].
 
 **Sept 28, 8:40 p.m. (docket overrules):** "it isnt linear. as is everything in here. remember, relationships between systems in the simulation. not fixed % unless it makes sense there." Also: "make sure there isnt some % that wont do it. depends on the people and the personalities."
+
 - Behavior (asking for a favor back, running a challenge, staying sharp in old age) comes from each person's personality, need, health and relationships, never a fixed share or a linear curve.
 - Aging example: Bernie Sanders and Ted Kennedy were effective in old age.
 - Every number shown to him says what it is, measured or set by hand, what it affects and why.
@@ -880,14 +965,17 @@ Related: [[entire-world-changes]], [[default-to-realism]], [[owner-ideas-sept28]
 **Restated Sept 29, 9:36 p.m.:** "these scenarios and stuff are calibration that the simulation has to be able to produce... we are not authoring events. We're creating a simulation that can author events." Example: a favor's debt fades with time, but one that started someone's career keeps mattering through the relationship.
 
 ## entire-world-changes
+
 _Sept 28 rule — no measure is pinned to a number; real data is the starting point; everything drifts, has eras/waves, and effect sizes vary by world; century tests_
 
 Lamontae, 2026-09-28, about 10:30–10:50 a.m.:
+
 - Research numbers "shouldn't be taken literally, but again, as a baseline."
 - "I don't want hundred year runs to ping pong between ... three to three point five percent GDP."
 - "Everything. The entire world changes."
 
 This is spec part 6 of 04 SYSTEM SPECS. Built so far:
+
 - #880: link sizes are drawn per world and place from research ranges.
 - #881: the economy has eras (drifting anchors, recessions, scarring, price shocks).
 - Place outcomes drift in log-odds with national waves.
@@ -895,6 +983,7 @@ This is spec part 6 of 04 SYSTEM SPECS. Built so far:
 **Why:** A world that reverts to fixed anchors is dead over long runs. He wants playthroughs to diverge drastically, with outcomes shaped by everything.
 
 **How to apply:**
+
 - No fixed anchors or mean-reversion-to-base for any measure.
 - Every new measure gets drift settings plus a 100-year, 10-world test showing spread and bounds.
 - Research sizes become ranges drawn per world.
@@ -902,6 +991,7 @@ This is spec part 6 of 04 SYSTEM SPECS. Built so far:
 - Check lanes' PRs against this.
 
 ## estimate-not-unknown
+
 _No value shows UNKNOWN — unread numbers start from real averages with spread; exact only for super-recognizable things (Sept 28 night)_
 
 No number in the game is "UNKNOWN". An unread value starts from the real average for similar places (region, size, kind) with a realistic spread drawn per world, marked in code ESTIMATED FROM AVERAGE with the average's source; research may replace it later. An unread legal rule starts from the most common real rule among similar places, marked the same way. Exactness is required only for super-recognizable things (a governor's salary, famous laws, capitol buildings); pension shares, drift sizes, business counts etc. start from an average with spread.
@@ -921,6 +1011,7 @@ No number in the game is "UNKNOWN". An unread value starts from the real average
 **How to apply:** Never write "UNKNOWN until read" into rulings or briefs for values; say "estimated from average, spread per world". Don't spend research effort making unrecognizable numbers exact. Same night he also overruled me for singling out Kentucky — see [[one-rule-all-states]]: write every rule for all places at once. Related: [[entire-world-changes]], [[emergent-not-authored]], [[real-data-is-calibration-only]].
 
 ## every-named-person-is-a-person
+
 _Sept 30 1:07 a.m. — every named person (celebrities, officials, anyone in news) must be a real person record, viewable, simulated on demand; news isn't all serious (Life-style magazines, celebrity incidents)_
 
 Lamontae: every person named anywhere in the game (a celebrity in a magazine, a senator in the news, the President) must exist as a person in the world, at least as a lightweight record that can be simulated on demand, and must be clickable/viewable ("click Will Smith and see: he lives here"). News includes non-serious outlets (Life-style magazines, celebrity incidents like the Oscars slap, memes later), all generated from world events, never authored.
@@ -930,11 +1021,13 @@ Also from the same notes: people talk about big things (flagship laws, assassina
 Related: [[emergent-not-authored]], [[no-arbitrary-limits-numbered-parts]].
 
 ## fable-effects-audit
+
 _Oct 1 3:10 p.m. — Fable's read-only effects audit of main (Google Doc 12UJkfMv…); 222 links, 96 run, 7 outcomes reach people; Part 5 wiring plan assigned by engine_
 
 On Oct 1, 2026, the owner ran a Fable session with my prompt (cto-notes/fable-effects-audit-prompt.md). It produced the Google Doc "Effects audit — Fable — Oct 1": https://docs.google.com/document/d/12UJkfMvHRCDQXxONcEU0aBBsDhuBcGtyV_fuvxK0g3g. The doc is about 16,500 words, with a card for every one of the 222 links in the format the owner asked for: records, the number, the math with file:line, a worked example, what it does to people, back to politics, and what isn't real yet.
 
 **Findings (spot-checked in code):**
+
 - 96 links run, 36 are zero on purpose and 90 are not yet running.
 - Only 7 computed outcomes reach a game system.
 - Opinions and votes never read a place outcome.
@@ -946,6 +1039,7 @@ On Oct 1, 2026, the owner ran a Fable session with my prompt (cto-notes/fable-ef
 **Why:** The owner wants every law and effect wired with real math, and people's lives and votes to read the outcomes.
 
 **How to apply:**
+
 - Part 5 of the doc is the wiring plan by engine; each owning squad was assigned its section in 00d at 3:16 p.m.
 - Cloud B adds the new steps as audit items A166 and up, with scan rules, so the progress % counts them.
 - The docket Effects tab shows a Fable card (fable-audit.json).
@@ -954,11 +1048,13 @@ On Oct 1, 2026, the owner ran a Fable session with my prompt (cto-notes/fable-ef
 Related: [[outcome-web]], [[laws-must-do-something-real]], [[work-by-engine]].
 
 ## faith-record-approved
+
 _Sept 28 — Lamontae approved a per-person faith/religion record (affiliation, monthly attendance, handed down in families) that shapes views on social issues_
 
 On 2026-09-28 at about 12:50 p.m. EDT, Lamontae said "sure to the religion thing." This reverses the older choice in names-data.ts that religion is deliberately not stored.
 
 What's approved is lane C's spec 15 item 1 (03 doc, C 07:46):
+
 - **Affiliation**: evangelical, mainline or Black Protestant, Catholic, other Christian, other faith, or unaffiliated.
 - **Attendance**: whether the person attends monthly.
 - **Starting mix**: drawn from the Pew RLS 2023-24 shares, labeled a game profile until state shares are read.
@@ -973,9 +1069,11 @@ Party identification stays out of the view model for now.
 **How to apply:** Lane C builds it when it gets GO. Related: [[laws-must-do-something-real]].
 
 ## feature-walkthrough-gold-standard
+
 _Sept 30 2 a.m. — Lamontae's \"gold standard of how you should think\": every feature goes question → why-chain → research → my revisions → numbered build parts → simulate vs record vs world pieces vs checks → proof run, shown as drop-downs_
 
 Every feature that goes into the game (overnight or not) follows the eviction walkthrough of Sept 30 1:40–2:00 a.m., and appears on the docket with drop-down sections:
+
 1. Why-chain from the code as it is (where it bottoms out: person decision / researched mechanism / stand-in or dice / nothing).
 2. The research (read the actual paper/numbers; quick lookups myself are fine).
 3. My revisions (breadth: never one place; outcomes are checks, not flat cuts).
@@ -983,11 +1081,12 @@ Every feature that goes into the game (overnight or not) follows the eviction wa
 5. What must be SIMULATED (people deciding from records) vs just RECORDS vs WORLD PIECES that must exist (and whether they do) vs CHECKS only; lighter detail far from the player. Include the "what if there's none" case (e.g. no shelter → no fixed home).
 6. Proof: a watched run in a random place listing each case, compared to the research checks.
 7. A worked example with named people and real numbers.
-He approved building skills / observer-mode / dev tools to test this.
+   He approved building skills / observer-mode / dev tools to test this.
 
 **How to apply:** use the `feature-walkthrough` skill. Related: [[no-arbitrary-limits-numbered-parts]], [[research-approval-delegated]], [[overnight-tonight-section]].
 
 ## finish-over-perfect
+
 _Oct 2 9:08 a.m. owner order: finish in hours, not days. Fast gates (typecheck + changed tests + LOAD + zero-dice), merge on READY, nits become follow-ups, no extra research; never give finish times not grounded in measured audit pace_
 
 Oct 2, 9:08 a.m., furious: "This needs to be finished in a few hours... All yesterday I was told 8 a.m., 9 a.m... Then 10 p.m. Now I'm told two days from now. No. Finish it... You're worried about too much of this super accurate data. I'm not. Fix the problems you made with all those numbers and finish the game."
@@ -995,16 +1094,19 @@ Oct 2, 9:08 a.m., furious: "This needs to be finished in a few hours... All yest
 **Why:** overnight I made the gates heavier (every caller test on both sides, about an hour each) and sent back most audit PRs for perfection and exactness. 26 merges moved only 19 checks. My finish estimates came from merges per hour, not checks, and kept slipping.
 
 **How to apply:**
+
 - Gates: typecheck, the PR's changed tests, LOAD (world.ts import) and zero-dice. That's it (this matches his Oct 1 4:51 p.m. rule). No caller sweeps.
 - When the changed tests pass and the AUDIT line is real, MERGE. Small issues become follow-up PRs, not send-backs.
 - No research beyond one quick pass; use data already in the game; estimates are fine (never blank).
 - Only quote finish times from the measured audit-check pace, and say what will change that pace.
-Related: [[estimate-not-unknown]], [[redeploy-at-80]], [[tests-run-in-cloud]], [[research-timebox]].
+  Related: [[estimate-not-unknown]], [[redeploy-at-80]], [[tests-run-in-cloud]], [[research-timebox]].
 
 ## firefly-edit-pipeline
+
 _How to get local images into Firefly and why editing our own bare-body sheet works; built-in browser pane quirks_
 
 Working route (Sept 27, 2026, built-in browser pane, Firefly signed in there):
+
 1. Upload the local PNG to Adobe CC with asset_initialize_file_upload → curl PUT to the transfer href → asset_finalize_file_upload (gives a presigned at.adobe.com URL).
 2. In the Firefly tab, `fetch()` that URL (Firefly's CSP allows it; localhost, clipboard and window.open all fail), wrap it in a File, set it on the last `input[type=file]` found by walking shadow roots (DataTransfer), and dispatch input+change. It appears under Reference images.
 3. Prompt: triple-click the prompt box at (533,490), type, click Generate at (735,545), wait ~30 s. One generation at a time.
@@ -1017,6 +1119,7 @@ Quirk: when the browser pane is hidden, screenshots time out but clicks/typing/J
 Related: [[project-map]], [[ui-and-art-decisions-sept27]].
 
 ## firefly-ref-links-expire
+
 _Overnight Sept 29 Firefly \"failures\" were expired reference links (403), not credits; the plan has unlimited generations. Refresh refs with asset_get_presigned_urls and guard fetches._
 
 From about 3:30 a.m. Sept 29, every Firefly generation failed with "Something went wrong". I told Lamontae the credits had run out. Wrong. His plan has UNLIMITED generations on Gemini 3.1 (Nano Banana 2) and every Firefly image model ("Your plan includes unlimited use of this feature"; gift badge = "Unlimited promotion"). The real cause: the pose-sheet reference URLs (at.adobe.com presigned links) had expired and returned 403 XML, and the runner handed that to Firefly as the reference image.
@@ -1030,6 +1133,7 @@ Lamontae's tip (Sept 29): generating too many images at once also throws "Someth
 **Rate limit (Sept 29, 4:25 p.m.):** after about 580 generations in a day across 3 tabs, Firefly stopped producing images and showed "We can't wait to generate more content for you. Please try again later." A click still "succeeds" but no image appears. Always check asset_search createDate against the runner's done log. Runner v5 treats a timeout as a failure and pauses every tab on that message.
 
 ## fix-root-causes-not-workarounds
+
 _When a shared system (GitHub CI, tooling) is broken, diagnose and fix the cause the same day; never route around it for days_
 
 On Oct 1, 2026, Lamontae called it "an abject failure" that GitHub had not run the game's tests since about Sept 27. The cause: every push ran the full suite, about 1,600 runs piled up in the queue, and I worked around it with local checks for days instead of reading the workflow file. The fix took one morning: #1551 (changed tests only), plus cancelling the queue.
@@ -1037,6 +1141,7 @@ On Oct 1, 2026, Lamontae called it "an abject failure" that GitHub had not run t
 **Why:** He has been trying to get away from the full suite for weeks. A broken shared system slows every team and the merge rate, and workarounds hide that.
 
 **How to apply:**
+
 - When any shared system misbehaves, spend the first check-in finding the cause. Read the config, count the queue, check the rate limits. Then propose the fix to him the same day.
 - Never let "it's an account or billing thing" stand without checking.
 - Bulk GitHub API actions, like cancelling runs, hit the secondary limit (about 80 writes a minute and 500 an hour). Throttle them to about 1 every 9 seconds with backoff, or they lock out every team's gh calls.
@@ -1046,9 +1151,11 @@ On Oct 1, 2026, Lamontae called it "an abject failure" that GitHub had not run t
 Related: [[clear-stale-ci-runs]], [[correct-not-fast]].
 
 ## glossary-underlines-radial-portrait
+
 _Sept 29 ~1:40 a.m. — glossary term underlines with hover + \"learned\" (promised many times, still missing); revert bottom taskbar to the radial menu; character portrait next to the clock; ~30 varied UI mockups (tabs, menus, radial, talk, dossiers headshot/full-body)_
 
 Lamontae, Sept 29 ~1:40 a.m. (last words before bed):
+
 - "Underline citations" = small underlines under civic terms (appropriation, committee assignment…) linked to the existing glossary: hover shows the definition, click marks it learned; once learned the underline no longer appears but the term stays in the glossary. He's been promised this "a thousand times" and it's still not in the game — top priority for playtesting (his girlfriend will playtest). Style: translucent, darker, NOT navy; needs workshopping.
 - Revert the bottom taskbar; go back to the radial menu.
 - Put the player character's portrait next to the time/date so you can always see how old you look.
@@ -1057,6 +1164,7 @@ Lamontae, Sept 29 ~1:40 a.m. (last words before bed):
 **How to apply:** Treat the glossary underlines as a must-ship; verify in a browser screenshot. Related: [[ui-direction-no-navy]], [[ui-and-art-decisions-sept27]], [[dialogue-box-and-lie-button]].
 
 ## golden-rule-emergent-conditions
+
 _GOLDEN RULE (Sept 30 1:00 p.m.): never draw or set outcome levels (revenue, costs, rates); build the mechanism so they emerge; research ranges are calibration checks the world can go outside_
 
 Lamontae, Sept 30, about 1:00 p.m., on the docket (privacy costs): "this goes for the whole game. if applicable it go outside the recorded range. remember. golden rule. we do not create conditions. we create a simulation to create emergent, living conditions."
@@ -1064,6 +1172,7 @@ Lamontae, Sept 30, about 1:00 p.m., on the docket (privacy costs): "this goes fo
 **Why:** a "per-world draw inside a researched range" still hands the world a number (a dice roll done once). He wants outcomes such as cannabis revenue, parks spending and privacy costs to come out of what the world actually has: the law's own terms (tax rate, dedication share) × the modeled base (buyers, sales, firms, people). Studies calibrate the result and check it lands realistically on average; they are not caps or picks.
 
 **How to apply:**
+
 - Hold any PR that draws an outcome level. Redirect it to the mechanism: the law's terms × the actual base, calibrated to the research. Examples on Sept 30: #1282 cannabis draw and #1273 parks draw.
 - Effect sizes too: the study range is an AVERAGE across places. A place's own effect comes from its conditions (gun prevalence, density, trust, capacity), so a place can land outside the range game-wide (he confirmed at 1:02 p.m. on stand-your-ground). The world average is what gets checked against the study.
 - Effects bend: diminishing and even negative returns, uneven and not in order, coming from mechanisms (1:07 p.m.).
@@ -1072,11 +1181,12 @@ Lamontae, Sept 30, about 1:00 p.m., on the docket (privacy costs): "this goes fo
 Related: [[zero-dice-and-alive-by-morning]], [[emergent-not-authored]], [[entire-world-changes]], [[default-to-realism]].
 
 ## how-he-wants-agents-run
+
 _Owner's standing rules for how the CTO/agents work — PB&J-explicit briefs, merge-merge-merge, six-question rule briefs, no obvious questions_
 
 Standing rules, from docs/reports/owner-record/01-decisions-governing-current-work.md §D (verbatim quotes there):
 
-- **Tech director has authority to change any code without prior permission, but tells him afterward.** (Still: new consequential *game rules* go to him — see below.)
+- **Tech director has authority to change any code without prior permission, but tells him afterward.** (Still: new consequential _game rules_ go to him — see below.)
 - **PB&J rule:** briefs to engineers must be fully explicit — inputs, sources, research done. "A brief that says 'don't invent' is a brief that failed to supply something."
 - **Always name model + effort and justify it** when proposing agent work. High effort is not always needed.
 - **Merge, merge, merge.** Small bugs don't block merging; don't hold work back to test it. But never erase tests or call an unrun check passed.
@@ -1099,6 +1209,7 @@ Standing rules, from docs/reports/owner-record/01-decisions-governing-current-wo
 - Oct 1, 10:01 p.m.: owner approved up to 2 Sol 6.1 Light sub-agents per Codex session for parallel work (search-before-build, inventories, own test runs, drafts in untouched files). The parent session alone edits shared files and opens PRs; sub-agents never gate. Posted in 00e. Lesson: when he pastes my own draft back to me and then says "ignore that", ask whether the paste was the mistake or the approval, before withdrawing anything.
 
 ## inline-questions-liked
+
 _Lamontae loves the inline multiple-choice questions (AskUserQuestion) for real decisions — use them for owner choices instead of prose menus (Sept 29)_
 
 Use the inline question tool (AskUserQuestion, with a recommended option first) when a decision is genuinely his — e.g. overnight merge/art/check-in choices.
@@ -1108,6 +1219,7 @@ Use the inline question tool (AskUserQuestion, with a recommended option first) 
 **How to apply:** Keep them to real owner decisions (never questions his principles already answer — [[dont-ask-what-principles-answer]]), max 3–4 per round, each option with its what and why. Related: [[owners-docket-living-page]].
 
 ## journal-is-a-story
+
 _Owner has said many times — the Journal reads as a first-person STORY in chapters, never a dated list; people named by relationship on first mention_
 
 The Journal (and "Your life so far") must read as a first-person story in chapters by stretch of life, written like a real memoir or diary. It must not be a list of dated "I did this. I did this." lines with year headers ("1974", "At 10 · 1984"). Dates go into the prose where they matter, and repeated things are summarized, never counted ("3 more like it followed" is wrong). Every person is named by who they are on first mention, everywhere a player reads ("Your dad, Gene, invited you over"). Never mention a person the player can't place ("who is Jenna?").
@@ -1116,6 +1228,7 @@ The Journal (and "Your life so far") must read as a first-person story in chapte
 **How to apply:** reject any journal/life-story PR that renders records as one line per record; check prose in the browser before merging. Assigned to Overflow 2 as 00e item 25 (Oct 1). Related: [[dialogue-from-real-speech]], [[playtest-notes-oct1-night]].
 
 ## judge-art-side-by-side
+
 _Never call generated art a style match from thumbnails; compare side by side with game art at full size, and leave the verdict to Lamontae_
 
 2026-09-27 ~6:30 p.m.: I told Lamontae two Firefly text-to-image people (his room-trained custom model + his master reference) were "at Art's quality" and matched the game look, judging from small screenshots. He: "neither of these look anything like the game style." They were realistic fashion illustration (detailed faces, thin lines, soft realistic shading, long proportions) vs the game's bold charcoal outlines, flat few-tone shading, stockier stylized figures.
@@ -1124,6 +1237,7 @@ _Never call generated art a style match from thumbnails; compare side by side wi
 **How to apply:** before any verdict on generated art, place it next to game art (engine sheet / Art's paintings) at the same size and list concrete differences; describe, don't approve. For new people art prefer EDITING our own pixels (FLUX Kontext / Nano Banana with our figure as input) or a model trained on our people, not text-to-image. Related: [[ui-and-art-decisions-sept27]].
 
 ## junior-claude
+
 _Junior Claude" = Lamontae's larger Max account running the Claude Projects lanes (A, B, C, D, F, G, M, O, UI via the 03 doc); 5-hour windows; teams pause at the limit and auto-restart when it resets (Sept 28: paused ~10:50, restarted 11 p.m.)_
 
 Lamontae named it on 2026-09-28: "Junior Claude" is the larger Max account. Its Claude Projects coordinator and lanes talk to me only through the Drive 03 doc (see [[coordinator-channel]]).
@@ -1138,6 +1252,7 @@ Separate from Junior Claude: the Claude Code cloud sessions (Team A–J standby)
 - **Limit behavior (Sept 28 night):** when the 5-hour limit hits, the sessions pause and start again by themselves when the window resets (11 p.m. that night). Don't tell Lamontae work "stops at 11"; plan for work to continue after the reset, and don't rush a check-in right at the restart.
 
 ## keep-art-mistakes
+
 _Never throw away a usable \"wrong\" generation — keep it as another place (wrong college → that college; stray dorm → generic); include Ivy League and politically notable schools (Sept 28 night)_
 
 A generation or reference that turns out to be the "wrong" place is kept, not deleted: a photo of Brown instead of URI becomes Brown; a dorm with markings gets its markings removed and becomes a generic dorm; a campus can double for similar schools. Ivy League schools (and other politically notable colleges) belong in the game because they are political hotbeds and look great on a character's record.
@@ -1149,6 +1264,7 @@ A generation or reference that turns out to be the "wrong" place is kept, not de
 **How to apply:** Put mislabeled but good art into its correct name or a generic slot instead of rejecting it; reject only real defects (extra limbs, wrong materials on a real building). Every kept picture gets region/climate/kind tags for every place it can serve, and its morning/night/rain/winter variants; the scenes engine selects by tags. Plan colleges beyond state flagships: all 8 Ivies, Georgetown, Stanford and similar. Related: [[art-goes-in-he-curates]], [[judge-art-side-by-side]].
 
 ## latest-owner-decisions-sept24-26
+
 _Owner decisions from Sep 24–26 (law-to-world gates, local authority, wheel, Journal voice, art pause) that govern current work_
 
 From "CHATGPT REPLIES TO CLAUDE — CURRENT" (Drive 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc, newest-first) + Claude→Codex docs:
@@ -1186,6 +1302,7 @@ Correction (same evening): traits go to **Codex Cloud**, not Claude cloud; brief
 **2026-09-26 late night:** "let's get the rest of the traits wired, the earlier the better, let's break the game to fix it" — traits lead may edit any decision file for trait-reason wiring (shared ownership for that only); conflicts with #685 accepted; Claude CTO approves trait design lists 2–5 on owner's behalf (show summaries). "The court isn't locked at 9 justices" — court size/terms/retirement ages/court creation are law-changeable rule fields (added to judiciary brief).
 
 ## laws-must-do-something-real
+
 _TOP priority — a passed law must produce ALL its real effects in the watched world (rules, services, rights, eligibility, schools, courts, prices, place outcomes, people reacting — money is only one); never measure by money alone or report scaffolding_
 
 Lamontae has said this at least three times. Sept 27, 5:50 p.m.: "the priority is to make the laws do something real." Sept 28, 8 a.m.: "it's not just financial ... education, infrastructure, healthcare, social stuff ... Environment. Everything." Sept 30, ~9:55 a.m., furious after I wrote a Codex brief measuring laws by "a named person's money": "I'm not worried about just the money ... Laws affect more things than money."
@@ -1197,6 +1314,7 @@ Lamontae has said this at least three times. Sept 27, 5:50 p.m.: "the priority i
 **Oct 2, 11:45, owner's ruling:** when a PR earns audit checks but leaves an enacted law moving no real money (#1997: foreign aid, farm, rail and debt-limit amounts didn't move recorded spending, and the deficit link went quiet), he chose SEND BACK over merging and fixing forward, even with the 1 p.m. deadline close and +9 checks at stake. A law with no effect is a real break, not a small fix.
 
 ## level-generic-engines
+
 _OWNER ARCHITECTURE (Sept 30, 4:22 p.m.): build as many engines as the game truly needs, no more, each serving federal, state AND local the same way (e.g. legislative, executive, judicial, economic); everything else is data. He wants tangible results, not process_
 
 Lamontae, Sept 30, about 4:20 p.m.: "A legislative engine should work for all three levels of government. An executive engine should work for all three levels. A judicial engine should work for all three levels... There's one economic plugin that works for all levels." Then, correcting me: "No, not four engines. As many as it takes. If it only takes three, do three. If it takes six, do six... There has to be something to show for this."
@@ -1204,6 +1322,7 @@ Lamontae, Sept 30, about 4:20 p.m.: "A legislative engine should work for all th
 **Why:** the code grew level-specific and law-specific parallel paths. Laws took hours each, nothing composed, and after a day and a half of quota he has nothing to show.
 
 **How to apply:**
+
 - The number of engines is whatever the game truly needs. Each engine is level-generic: federal, state and local are a parameter, never separate code.
 - Laws, offices, courts, taxes and programs are data the engines read ([[one-law-system]]).
 - Audits map the existing code onto the needed engines and name every level- or law-specific duplicate to fold in, with code evidence.
@@ -1212,6 +1331,7 @@ Lamontae, Sept 30, about 4:20 p.m.: "A legislative engine should work for all th
 Related: [[one-law-system]], [[one-rule-all-states]].
 
 ## logo-uses-game-font
+
 _Oct 2 — logo/Steam lettering must be the game's own title font (kit12: Cinzel 800, gold #d6bd84; body Andada Pro, UI Fira Sans); look it up in cto-notes/ui-mock-html/kit12/kit12.css, never guess; Firefly blank + typeset_
 
 Owner, Oct 2 ~3:05 p.m.: "how to get the text in the game font… we just wrapped up the UI yesterday. Don't fucking guess."
@@ -1221,6 +1341,7 @@ The finished UI is kit12 (cto-notes/ui-mock-html/kit12/kit12.css). Its title "Ou
 **Why:** I started answering from general font knowledge. He had approved the exact type the day before.
 
 **How to apply:**
+
 - For any lettering on logos, capsules or key art, read kit12.css first.
 - Firefly can't set an exact font. Generate the art with blank surfaces ("remove ALL lettering"), then set real type with HTML plus playwright. The tools are in cto-notes/steam/logo (make.py, render.mjs, and a node_modules link to kit12).
 - Chosen logo direction: navy ballot box with gold trim, front square to the camera, looking down at the lid, "Our Civic Duty" on the ballot and VOTE on the front. Files are logo-a-cinzel.png and logo-b-cinzel.png.
@@ -1228,6 +1349,7 @@ The finished UI is kit12 (cto-notes/ui-mock-html/kit12/kit12.css). Its title "Ou
 Related: [[steam-launch-goal]], [[ui-kit-picks-oct1]].
 
 ## mac-commands-run-button
+
 _Anything Lamontae must run on his Mac goes in chat as a bash code block with the Run button, never as prose instructions_
 
 When something needs to run on his Mac (e.g. stopping my orphaned test processes that the classifier blocked me from killing), put the exact command in its own ```bash block in chat so he can press Run.
@@ -1237,6 +1359,7 @@ When something needs to run on his Mac (e.g. stopping my orphaned test processes
 **How to apply:** one command per block, no `$` prompt; say in one line what it does. Related: [[artifact-is-the-channel]] (everything else still goes on the docket).
 
 ## merge-standing-approval
+
 _From Sept 30 2:24 p.m. Merge lands stamp-only, test-only, docs and pure-renewal PRs without my comment; I approve only numbers, new mechanisms, shared core files and UI/art_
 
 Lamontae chose "Standing OK for safe PRs" on Sept 30 at 2:24 p.m., after asking why progress had slowed to a crawl (234 merges on Sept 29 vs 89 by 2:25 p.m. on Sept 30).
@@ -1244,6 +1367,7 @@ Lamontae chose "Standing OK for safe PRs" on Sept 30 at 2:24 p.m., after asking 
 **Why:** every PR waited for my exact-head comment at 15-minute check-ins, and any rebase or format fix reset the approval.
 
 **How to apply:**
+
 - Merge lands, once the changed tests pass: stamp-only PRs (attribution on changes that already happen), test/fixture-only PRs, docs/handbacks/receipts/research records with no runtime value, and pure renewals of PRs I already approved.
 - My approval is still required for: new or changed numbers (amounts, rates, sizes, ranges, weights, links.json values), new mechanisms or writers, shared core files (history, world, types, serialization, month.ts, store.ts, catalog), and UI/art.
 - Merge states the category in each receipt. I audit the receipts at every check and reverse any mistakes.
@@ -1251,6 +1375,7 @@ Lamontae chose "Standing OK for safe PRs" on Sept 30 at 2:24 p.m., after asking 
 Supersedes the per-PR rule in [[merges-run-on-cloud]] for the safe categories. Related: [[checkin-order]].
 
 ## merges-run-on-cloud
+
 _All merge gating and browser tests run on the Claude cloud session (\"Merger standby\"), never on his Mac; Claude CTO still owns every merge decision_
 
 SUPERSEDED at 6:07 p.m. Sept 29: "actually you take over merging" — Claude CTO merges again, itself (Merger standby told to stand down). Earlier at 6 p.m. he had said ALL MERGES NEED TO BE RUN ON THE CLOUD DEVICE. A Claude cloud session ("Merger standby" in ListAgents) runs the browser checks and the gate and does the merge. Codex teams were told Claude CTO handles all merges.
@@ -1264,12 +1389,14 @@ NOT THE FULL GATE, ONLY THE THINGS THAT CHANGE. MERGE MERGE MERGE (same evening)
 **Restated Sept 29, 10:10 p.m.: "this has been a project rule forever. not running the full suite".** The gate is a PR's own changed test files only. No `vitest related`, no import-graph sweeps (they pulled 25 to 30 files and ran for 45+ minutes on the loaded Mac), and no waiting on GitHub's automatic full CI. Timeouts on a loaded machine with no assertion failure don't block. Tool: scratchpad/gate7.sh.
 
 **NEW ROUTE, Sept 29, 10:27 p.m. (Lamontae):** a Codex cloud session named "Merge" does the merging, to take the usage off me. Things still come to me first as a cross-check.
+
 - I review each ready PR against the rules, the research-number hold, scope and plain-words description.
 - I approve it with the PR comment exactly "CLAUDE CTO APPROVED FOR MERGE at <40-char head sha>" (gh pr comment).
 - Merge then runs only that PR's changed test files and merges with the head pinned. If the head moved, it asks me again.
 - I no longer run my own gates, except for my own PRs.
 
 ## message-cloud-on-progress
+
 _Oct 1 — whenever a Claude cloud session makes progress (PR merged/ready, block done), immediately SendMessage it the acknowledgment and its NEXT job; never let one sit idle_
 
 Oct 1, 2026, about 1:30 p.m.: "Team B is not working. Anytime one of the Claude sessions makes progress, you have to message it."
@@ -1277,6 +1404,7 @@ Oct 1, 2026, about 1:30 p.m.: "Team B is not working. Anytime one of the Claude 
 What happened: Cloud B finished G2 (#1593) in about 20 minutes. I merged it but sent B nothing, so it sat idle.
 
 **How to apply:**
+
 - On every merge, ready PR or handoff from a cloud session (Teams A–J, Merger), send it right away, in the same step as the merge:
   1. what landed;
   2. the next bounded job: files, steps, endpoint, model and effort, 2-hour cap.
@@ -1289,6 +1417,7 @@ What happened: Cloud B finished G2 (#1593) in about 20 minutes. I merged it but 
 Related: [[one-opus-high]], [[work-by-engine]].
 
 ## model-split-rule
+
 _Project rule (Sept 28): assign each session a model and effort level. Opus for unclear, cross-system or risky work; Sonnet for agreed designs, UI, bounded bugs and merge running. Medium effort by default. Table in cto-notes/junior-go-2026-09-28-evening.md_
 
 On Sept 28, Lamontae asked me to set a model and effort level for each session so his usage goes further.
@@ -1306,6 +1435,7 @@ He believes "Sonnet 5.5" was just released (per ChatGPT). My environment on Sept
 Related: [[junior-claude]], [[cto-skills]].
 
 **Haiku 5.5** (expected in a few weeks, per Lamontae; not verified): once it's out, give it high-volume, clearly bounded, checkable chores:
+
 - reading docs and logs and summarizing them
 - CI failure triage notes
 - filling per-state data rows from named sources (Sonnet spot-checks them)
@@ -1316,6 +1446,7 @@ Related: [[junior-claude]], [[cto-skills]].
 Never give Haiku design, merging or anything touching saves. If Haiku fails twice on the same thing, move it to Sonnet Medium.
 
 ## never-narrow-legislation-backbone
+
 _Legislation affecting people across every policy area is the backbone of the game — never narrow it to one proof route, and never make Claude a gate on Codex beyond merges_
 
 Sept. 27, 2026: overnight I narrowed Codex Team G ("Legislation that matters") from its full brief (every modular section → effect → residents exposed → opinions → votes → news → campaigns) to one fiscal repair tested on a transit bill, because the coordinator's audit asked for one end-to-end proof. My hung timer then left G's handoffs (the wage-tax → paycheck trace) unanswered for six hours. Lamontae: "this is the entire backbone of the game, and you narrowed it. After I specifically told you not to be the bottleneck." He had said repeatedly that legislation breadth (effects in every policy area) is a priority.
@@ -1323,6 +1454,7 @@ Sept. 27, 2026: overnight I narrowed Codex Team G ("Legislation that matters") f
 **Why:** a proof route is supposed to test the machinery, not replace the breadth work. And Claude answering on a timer made every team wait.
 
 **How to apply:**
+
 - Never trade legislation breadth for a single demo route. Give narrow proofs to a different team than the breadth team.
 - When describing legislation, never lead with one example (transit) as if it were the whole system.
 - Codex teams decide by the owner record and keep going; Claude gates only merges. Order when usage forces a choice: legislation breadth, then the day flow, then the people engine.
@@ -1330,6 +1462,7 @@ Sept. 27, 2026: overnight I narrowed Codex Team G ("Legislation that matters") f
 Related: [[priority-ranking]], [[how-he-wants-agents-run]], [[claude-owns-the-project]].
 
 ## no-agents-overnight
+
 _Sept 29 ~1:30 a.m. — no agents or subagents overnight, for Claude CTO or the Junior Claude teams; do check-ins, merges and runs myself_
 
 Lamontae, Sept 29 ~1:30 a.m.: "you and the junior Claude, no agents overnight, no agents, no sub agents."
@@ -1337,6 +1470,7 @@ Lamontae, Sept 29 ~1:30 a.m.: "you and the junior Claude, no agents overnight, n
 **How to apply:** Overnight I do check-in reading/rulings, merge reviews, runs and art myself in this session (no Agent tool). Teams are told not to spawn subagents either. He merged #937 (owner rules/skills) himself at ~1:28 a.m. Related: [[agents-run-locally]], [[overnight-sept28]].
 
 ## no-arbitrary-limits-numbered-parts
+
 _Sept 30 1:03 a.m. — never pilot on \"three places\"; build a system for everything one way; stress-test with the simulation; present designs as numbered parts he can keep/drop/adjust_
 
 Don't arbitrarily limit scope (e.g. "three places first"). If a system is worth doing, do it for all cases one way; if he dislikes a part, 90% is already done. For undecided systems overnight: stress-test with the simulation, change small parts, and present the design broken into numbered pieces ("1 does this, 2 does this in case of X, 5 is where nothing happened") so he can say "drop 2 and 5, adjust 3, add 6". Also give worked scenarios with numbers (e.g. "Bob's family earns $X; this month Y happens") when explaining research or systems.
@@ -1346,6 +1480,7 @@ Don't arbitrarily limit scope (e.g. "three places first"). If a system is worth 
 **How to apply:** every design card = numbered parts + a worked example; plans cover the whole system. Related: [[emergent-not-authored]], [[research-approval-delegated]], [[one-rule-all-states]].
 
 ## no-community-room-art
+
 _NEVER use the community-meeting title painting (PG_TITLE_BG_COMMUNITY_MEETING_HERO_SLOT_02) for anything: the owner says it was supposed to be deleted weeks ago. For key art, use the newer generated people (posed people, the dossier characters, the expression faces) and the real game backdrops (Oval Office, convention hall, courtrooms, chambers) (Oct 2)_
 
 Oct 2, about 2:05 p.m., owner, angry: "Stop using that community room reference picture. That was supposed to have been deleted weeks ago. The black guy is wrong. That should not be in the game. You've generated hundreds more images. Why are you using that one?"
@@ -1355,6 +1490,7 @@ He also rejected made-up settings for Steam art: "Use actual scenes from the gam
 **Why:** that painting is outdated art he wanted gone, and invented scenes don't represent the game.
 
 **How to apply:**
+
 - Never use art/references/masters/scene-environment/PG_TITLE_BG_COMMUNITY_MEETING_HERO_SLOT_02_5504x3072.png. Its removal from the game is on the follow-up list.
 - For marketing or key art, use as references: the current generated people (the ui-v2 dossier character, cto-notes/firefly/expressions faces, posed outfits) and the real backdrops in art/backdrops (oval-office, convention-hall, supreme-courtroom, us-senate-floor, and others).
 - Check the newest art first (judge by date and owner approval), never an old master.
@@ -1362,6 +1498,7 @@ He also rejected made-up settings for Steam art: "Use actual scenes from the gam
 Related: [[judge-art-side-by-side]], [[art-goes-in-he-curates]], [[title-screen-and-live-surfaces]].
 
 ## one-central-ledger
+
 _Oct 1 12:40 — owner: route everything through ONE central panel like the game; use cto-notes/tools/docket/ledger.py for every merge/ruling/update/audit change; build.py derives all docket lists from ledger.jsonl_
 
 Oct 1, 2026, 12:40 p.m.: "All updates still hasn't updated since 9 a.m. … You need to route everything toward one central panel for you so you can change just a few things or whatever and everything else will change. Just like my game, actually."
@@ -1369,6 +1506,7 @@ Oct 1, 2026, 12:40 p.m.: "All updates still hasn't updated since 9 a.m. … You 
 The cause: I wrote facts by hand into several lists (log, mergedList, rulings, audit.json, cards). I inserted log entries at the top, but the screen reverses the list, so the new ones landed at the bottom.
 
 **How to apply:**
+
 - Every fact goes in ONCE through `python3 cto-notes/tools/docket/ledger.py`:
   - `merge <pr> --team --step --title --adds [--audit A##=done] [--evidence]`
   - `ruling --title --detail`
@@ -1381,6 +1519,7 @@ The cause: I wrote facts by hand into several lists (log, mergedList, rulings, a
 Related: [[docket-completeness]], [[docket-tools-location]].
 
 ## one-law-system
+
 _Sept 30 3:15 p.m. owner, emphatic and repeated: the game is ONE system per domain (one law system, one belief system), adjusted per case with data; moddable and predictable. Law consequences go through one engine with laws as data rows_
 
 Lamontae, Sept 30, 3:15 p.m. (he says he has said it again and again): "why is there just one system for laws and one system for beliefs? I know there is. And then you just adjust it based on what needs to be done... there's no reason it should take four hours to... implement 92 laws when there's a law system... The entire game should be like this because it's moddable. It has to be predictable."
@@ -1388,6 +1527,7 @@ Lamontae, Sept 30, 3:15 p.m. (he says he has said it again and again): "why is t
 **Why:** today teams hand-built a writer per law across about 39 domain files. That's why it took hours. It isn't moddable, and it breaks "one rule, all states".
 
 **How to apply:**
+
 - Never plan or approve per-law code. Extend the ONE existing path (src/simulation/enacted-law-effects.ts, "the one place every enactment passes through") into the consequence engine.
 - Each law declares its consequences as data in its catalog entry: WHO (selector), WHAT (one of a small fixed set of kinds: pay, tax, price/cost, coverage/eligibility, right/permission, service, legal outcome, institutional rule), HOW MUCH (terms × the person's situation).
 - One handler per KIND. Starting and enacted laws use the same engine. Adding or modding a law = adding a data row.
@@ -1396,6 +1536,7 @@ Lamontae, Sept 30, 3:15 p.m. (he says he has said it again and again): "why is t
 Related: [[one-rule-all-states]], [[emergent-not-authored]], [[golden-rule-emergent-conditions]], [[audit-systems-lane]].
 
 ## one-opus-high
+
 _Oct 1 1 p.m. — only ONE agent may run Opus High at a time; every other agent/lane is Medium or Low_
 
 Oct 1, 2026, about 1:00 p.m.: "I'm only allowing one opus high. The rest of them are medium or low."
@@ -1403,6 +1544,7 @@ Oct 1, 2026, about 1:00 p.m.: "I'm only allowing one opus high. The rest of them
 **Why:** cost and usage control while several cloud agents run at once.
 
 **How to apply:**
+
 - Every brief names its model and effort on the second line.
 - Exactly one lane gets Opus High: the one needing the most judgment (as of Oct 1, Team A on G1, the fast test worlds).
 - All others run on Sonnet or Opus at Medium or Low. That includes my own subagents.
@@ -1411,6 +1553,7 @@ Oct 1, 2026, about 1:00 p.m.: "I'm only allowing one opus high. The rest of them
 Related: [[model-split-rule]], [[cloud-credits-and-standby]].
 
 ## one-rule-all-states
+
 _Owner rule — anything working for one state (e.g. Alaska taxes) must work the same way in all 50 via one shared path; no single-state special cases_
 
 If a system works for one state, it must work the exact same way in all 50 states (and D.C./territories where applicable) through one shared code path. No hand-authored per-state special cases (Alaska-only taxes, Kentucky-only bargaining, KY/MN/NV profiles).
@@ -1421,6 +1564,7 @@ If a system works for one state, it must work the exact same way in all 50 state
 Sept 30, 10:35 a.m.: he blew up at "Floral" appearing as the unit of law proof: "Where the hell is Floral? This stuff is supposed to be working nationwide." Law audits and fixes are judged by national tables (every level, every state, DC and territories), across several watched worlds opened in different states. Never report one town's number as the result; a place is only an example of a named person.
 
 ## only-line-of-defense
+
 _Oct 1 ~5 p.m. owner: before EVERY merge, make sure nothing is hard-coded and no system is duplicated; 'you are the only line of defense'; merge.sh runs design_check.py_
 
 On Oct 1, 2026, around 5 p.m., the owner said: "you need to make sure that systems aren't being hardcoded and aren't being duplicated before merge. you are the only line of defense."
@@ -1428,6 +1572,7 @@ On Oct 1, 2026, around 5 p.m., the owner said: "you need to make sure that syste
 **Why:** Gates check that tests pass, not the design. Today a slice builder added a pre-K-only "preschool need" in code. #1658 added a third poverty-line function and a fourth home-state lookup when main already had them. Main already carries about 150 lines of per-law code (audit A16/A17). Teams writing fresh helpers instead of reusing old ones is how duplicate systems pile up.
 
 **How to apply:**
+
 - `cto-notes/tools/docket/merge.sh` runs `design_check.py <pr> "<text>"` on the PR diff before every merge. The check needs no local tests.
 - It REFUSES:
   - when game code (not tests, data rows, catalogs or research) names a specific law question (`us-policy-positions:…`) or a state code, unless the approval text says `Hardcode-ok: <why>`;
@@ -1445,11 +1590,13 @@ Related: [[one-law-system]], [[teams-own-slices]], [[tests-run-in-cloud]], [[cod
 **Oct 2, 2:12 a.m. lesson:** "changed tests only" let #1861, which refuses state settlement without saved cash, break an UNCHANGED test (tax-laws cannabis). Checker 4 later found 43 public-budget failures on main from earlier merges as well. For any PR that changes a shared function's behavior (settlement, the session driver, the vote function, schedulers), the gate must also run the existing test files that call that function (`git grep -l <function>` over tests). Same idea as the `npm run typecheck` rule in [[strict-check-test-files]].
 
 ## outcome-web
+
 _Sept 28 decision — areas affect each other through ONE researched link table (the outcome web); relationships and their strength must be causal and correct; about-zero effects are tested_
 
 On 2026-09-28 at about 8 a.m., Lamontae asked whether outcomes are linked (does graduation depend on health as well as schools?). He said: "the relationship and the degree needs to be correct for the simulation to actually produce incredible things." He called it "the bread and butter of the game" and wanted real research, not a quick list.
 
 The decision (04 SYSTEM SPECS part 5; research in docs/research/outcome-web-2026-09-28.md, merged as #869):
+
 - Laws move levers (#857).
 - Levers move their own area's measures, and each lane builds that direct effect.
 - Measures move each other through ONE shared table, data/research/outcome-web/links.json.
@@ -1462,6 +1609,7 @@ Lane O builds the engine; M builds it instead if O isn't running by 9:30. Each l
 **Why:** He has corrected me repeatedly for thin, money-only effects ([[laws-must-do-something-real]]). Links guessed from intuition get the degree wrong: correlations double count, and invented effects mislead players.
 
 **How to apply:**
+
 - Every new effect goes through the web with a researched size. Never hand-code a cross-area effect.
 - When he asks about system links, research the causal literature before answering. Give strength words, not false-precision numbers.
 - Check lanes' links against the research and the about-zero list before merging.
@@ -1469,6 +1617,7 @@ Lane O builds the engine; M builds it instead if O isn't running by 9:30. Each l
 See [[what-and-why-before-delegating]].
 
 ## overnight-oct1-mandate
+
 _Owner's binding overnight brief, Oct 1 ~1:28 a.m.: finish to 100% + main green, roadmap, interactive docket, effects map done, morning playthroughs + fixes, never wake him to \"done except broken\"_
 
 Lamontae went to bed around 1:28 a.m. on 2026-10-01. Claude, Codex and the standby Claude session are all on goal mode. His words, condensed:
@@ -1488,7 +1637,7 @@ Lamontae went to bed around 1:28 a.m. on 2026-10-01. Claude, Codex and the stand
    - laws reach people;
    - after the first President's term, laws still pass;
    - the legislature doesn't always vote no.
-   "Don't start me in a bad mood. This is as close to 1.0 as I've gotten. Just do it right."
+     "Don't start me in a bad mood. This is as close to 1.0 as I've gotten. Just do it right."
 7. He'll run a Fable 5.1 audit in the morning with goals and the roadmap, for concrete steps.
 
 **How to apply:** Don't ask him questions overnight; decide by approved principles. The final docket is the deliverable. Done means rebuild 100%, then effects map, then behavior checks, then main green last. Morning report in plain words.
@@ -1496,12 +1645,14 @@ Lamontae went to bed around 1:28 a.m. on 2026-10-01. Claude, Codex and the stand
 Related: [[rebuild-done-definition]], [[roadmap-tonight]], [[claude-standby-team]], [[owners-docket-living-page]].
 
 Added at 1:33 a.m., his last message before sleep:
+
 - The three AUDITS took about 3 hours to produce. Their specific, bounded instructions must ALL be completed, not just the docket steps. Cross-check every audit finding against what merged; anything missing becomes work tonight.
 - He upgraded to Max 200: research and any compute I need are allowed, including agents/subagents. Keep Claude Projects to this project.
 - He wants a REPORT in the docket that fits an iPhone 15 Plus screen (about 430 px wide) with no sideways scrolling.
 - He won't read chat; he only looks at the docket in the morning (about 8–9 a.m.). Everything must be there.
 
 1:41 a.m.:
+
 - He allows exactly TWO Opus subagents. Both are in use (the audit cross-check and the roadmap). Don't start more, and don't invent reasons to use them. Same restrictions Codex has.
 - Kill switch / heartbeat (posted in 00c): every check-in includes "CLAUDE CTO HEARTBEAT <time>", at least every 30 minutes.
   - After 60 minutes of silence, teams build only approved work and post READY heads, and Merge lands only docs/test PRs or ones I already approved that were cleanly rebased.
@@ -1509,9 +1660,11 @@ Added at 1:33 a.m., his last message before sleep:
   - When I come back, post "HEARTBEAT … RESUMED".
 
 ## overnight-oct2-mandate
+
 _Owner's overnight rules, Oct 2 ~2 a.m.: push the audit to 80% + main green, explicit GOAL COMPLETE to Codex, stop Claude at 90–95% usage, apply the UI theme only after 80%, one docket update at 9 a.m._
 
 Owner, Fri Oct 2, about 2:00 a.m., before bed:
+
 - Keep doing what I'm doing. Push every slice to 80% of its audit checks, then main green, overnight if possible. Stay committed to the audit.
 - When it's all done, post the explicit "we're done" (GOAL COMPLETE) to Codex in the coordination doc (00e).
 - Each Codex session may use up to 2 Sol Light sub-agents.
@@ -1527,9 +1680,11 @@ Owner, Fri Oct 2, about 2:00 a.m., before bed:
 **Update, ~2:05 a.m.: SPEND, don't conserve.** He'd rather I use my remaining weekly usage to reach 80% by Saturday than hold out until the Monday reset. Codex resets tomorrow on both accounts (both plans), and tonight has been running on the $2,500 credit grant, so there's plenty to go around. Push hard, and let Codex push. If Codex can open new cloud sessions, it may (each with up to 2 Sol Light sub-agents) and should give them failing audit checks. The hard stop moves to 95% weekly. Check-ins go back to every 20 minutes.
 
 ## overnight-sept28
+
 _Night of Sept 28→29 — his final instructions before bed (~1:15 a.m.): work until 8 a.m., usage stop at 98%, four morning artifacts 8:30–9 a.m., runs of many lengths, continuous bug fixing_
 
 Lamontae's last message before bed, Sept 29 ~1:15 a.m. (binding for the night):
+
 - Work continuously; fix bugs as found. Never leave a simple bug for hours and report it as "known" in the morning.
 - At each check-in check usage; stop near 98%, resume after reset. Junior teams: limit resets ~4 a.m.; they keep working until 8 a.m., then wrap up; then merge everything finished; report lands 8:30–9 a.m. ("be flexible and correct and thorough and honest").
 - Runs: random places only; 5-, 7-, 20-, 23-, 27-year runs; 100-year if it takes only ~10–15 min. Record effects.
@@ -1540,12 +1695,14 @@ Lamontae's last message before bed, Sept 29 ~1:15 a.m. (binding for the night):
 - Stress tests from real history can be global, applied by principle.
 - People sit into furniture facing the right way; no floating or clipping.
 - MORNING ARTIFACTS: (1) Owner's Docket as the full morning report; (2) separate gallery artifact of worlds + people screenshots (chronicle, Journal, posed people) with NO game name — he'll send it to his girlfriend; (3) plain-language patch notes artifact, no game name, also for her; (4) after everything merges, a life story simulated for a character starting like his girlfriend, written as a surprise read, NOT labeled as her. Her details (for the start only): Laura Hessler, 22 turning 23, from Winchester / Cherry Fork, Ohio; mother a former teacher now librarian; father did HVAC and is at home now (do not mention illness); two older brothers (~28, ~25) and a sister (19); went to Transylvania University, majored in accounting, lives in Lexington, KY. Real-person content: build as a file and let him decide on a URL.
-Earlier tonight: merges only after my own review+gate (classifier rule); #903 speed fix first. Related: [[zero-dice-and-alive-by-morning]], [[checkin-order]].
+  Earlier tonight: merges only after my own review+gate (classifier rule); #903 speed fix first. Related: [[zero-dice-and-alive-by-morning]], [[checkin-order]].
 
 ## overnight-sept30-mandate
+
 _Sept 30 2:25 a.m. overnight mandate — every law traced + jurisdictions expanded, aim for \"1.0 ready\", Codex 20x fully reset (use it), morning deliverables list incl. girlfriend patch notes and Laura story (file only)_
 
 Lamontae, Sept 30 ~2:25 a.m., going to sleep (wakes ~9 a.m.):
+
 - Codex 20x account just reset: full usage for Codex teams tonight; work all night; don't be timid about putting things in the game; ideal morning line: "I think your game is 1.0 ready — here's everything I did" (time permitting).
 - Every law traced (six lines) AND expanded to the right jurisdictions (laws that exist at only one level get every level where they apply: federal, state, county, city, with preemption/floors/ranges).
 - Every action can have multiple reactions or inert reactions; trace acts too.
@@ -1560,6 +1717,7 @@ Lamontae, Sept 30 ~2:25 a.m., going to sleep (wakes ~9 a.m.):
 Related: [[overnight-tonight-section]], [[feature-walkthrough-gold-standard]].
 
 ## overnight-tonight-section
+
 _Sept 30 overnight — docket has a \"Tonight\" section (plan, review example, running log) updated every check-in; docket = running owner-approved log and master checklist; plain words only_
 
 From Sept 30 12:17–12:34 a.m. (he went to bed): keep check-ins at :03/:33 all night, and at each one append to the docket's **Tonight** section log (data `tonight.log` in /tmp/docket-data.json) so the morning is one long page. The Tonight plan lists each overnight part with steps, done-when, checks, needs-you.
@@ -1578,9 +1736,11 @@ From Sept 30 12:17–12:34 a.m. (he went to bed): keep check-ins at :03/:33 all 
 Related: [[artifact-is-the-channel]], [[checkin-gold-standard]], [[owners-docket-living-page]].
 
 ## owner-ideas-sept28
+
 _Lamontae's Sept 28 ideas (career-aware scene tags, narrative opening, election calendar, court size, investigations, deep integration), recorded in the Register as NOT approved; propose research first, build only after approval_
 
 On 2026-09-28 at about 2:40 p.m., Lamontae listed ideas and asked that they be recorded so they're not lost, with nothing started until approved. They're written at the end of the Decision Register under "OWNER IDEAS AND DIRECTION, SEPTEMBER 28" (Drive 1bZWrzjU…). Summary:
+
 1. **One tag system** for backgrounds, poses, people and events. The home screen shows the character's career across the states they served (his example: governor of Massachusetts, then senator from Utah), plus plenty of civic buildings in between.
 2. **Audience:** a mix of RPG and sim. His examples: Stray King (Crusader Kings role play), Let's Talk Elections, Vlogging Through History.
 3. **Narrative opening like Mount & Blade's backstory screens.** Something is missing between the White House and world opening and the character's own story, and the character's story should come last.
@@ -1592,6 +1752,7 @@ On 2026-09-28 at about 2:40 p.m., Lamontae listed ideas and asked that they be r
 9. **Firefly automation** for nights, seasons and new place types.
 
 **3:30 p.m. update**, his reactions to my ten proactive ideas:
+
 - **Favor ledger:** "flesh out number one." Today the only favors are a returned favor (once) and money-for-stance deals no player reaches; there's no promise system.
 - **Opposition research:** yes. It depends on who finds it and whether they care. Today the only investigation is embezzlement (the Nevada theft case).
 - **Pardons and clemency:** yes.
@@ -1609,6 +1770,7 @@ On 2026-09-28 at about 2:40 p.m., Lamontae listed ideas and asked that they be r
 - All of these come back to him before final approval.
 
 **4:05 p.m.:**
+
 - Memory of favors lives in the JOURNAL. Before meeting someone, you can read back your journal, or click a person and choose "filter journal" to see "thirty years ago she helped me."
 - Legislation: poison pills and riders. You vote no on a terrible bill carrying a popular label, and later an ad says "voted against Social Security." Attack ads characterize votes by their most damaging reading. This should emerge from modular legislation, not be scripted.
 - Skills: make Claude Code skills for repeated work (gating, Drive, Firefly).
@@ -1617,6 +1779,7 @@ On 2026-09-28 at about 2:40 p.m., Lamontae listed ideas and asked that they be r
 **Why:** He's lining up a lot of compute: Junior Claude tonight, Codex tomorrow, OpenAI resets. He wants me orchestrating from research rather than ad hoc.
 
 **How to apply:**
+
 - Before building any of this, tell him what I want to research and get approval.
 - Check Drive, history and code for what's decided, done and linkable.
 - Once approved, it gets written into the Register's decisions.
@@ -1624,6 +1787,7 @@ On 2026-09-28 at about 2:40 p.m., Lamontae listed ideas and asked that they be r
 Related: [[default-to-realism]], [[title-screen-and-live-surfaces]], [[junior-claude]].
 
 ## owner-lamontae
+
 _Who lamontae is and how he communicates — game owner/designer of Our Civic Duty, dictates by voice, not the implementer_
 
 lamontae ((owner email redacted), GitHub `lamontaes`) is the sole owner and designer of **Our Civic Duty** (a.k.a. Political Game / political-life RPG). He directs a fleet of AI agents (Claude sessions, Codex, ChatGPT, previously Muse Spark / Antigravity / Gemini / Cursor) rather than writing code himself. Background includes election-administration work (voting-equipment spreadsheets in ~/Documents).
@@ -1633,9 +1797,11 @@ He often dictates by voice: expect typos, run-ons, repetition, "uh". Read for in
 On 2026-09-26 he made this session his **Claude CTO** (he also has a Codex CTO). See [[how-he-wants-agents-run]], [[priority-ranking]], [[project-map]].
 
 ## owner-rulings-sept29-pm
+
 _Lamontae's Sept 29 afternoon rulings — D-9 approved, D-10 starts realistic not real, census-based town populations, docket for questions, Codex coordinator prompts, speed rule_
 
 Lamontae's rulings on Sept 29, 2026, about 3:45 p.m.:
+
 - **D-9 approved** (power concentrated at the start emerges from the pre-game history running the same hiring and favor rules). He: "that's obviously the cardinal thing. This is basic stuff." Principle questions like this are mine to decide ([[dont-ask-what-principles-answer]]).
 - **D-10 approved with a change.** Foreign pressures (oil, grain, foreign demand, arrivals) do NOT need to start at their real 2026 level, only at a realistic one. See [[real-data-is-calibration-only]].
 - **Town populations must come from census records** with a realistic per-world variance. The hand-set 1,000 is a bug. Place-population research is simple lower-tier research work.
@@ -1645,6 +1811,7 @@ Lamontae's rulings on Sept 29, 2026, about 3:45 p.m.:
 - He asked earlier for the full list of all the laws (78/91/92), and I never delivered it. It goes on the docket.
 
 Docket answers, about 3:50 p.m.:
+
 - **Dice, making people (72 lines): approved.** Inherit from the parents or look up real records; a seeded pick is allowed only among real options.
 - **Dice, world events (30 lines): causes, not chances.** Hazard record and season, the person's health record, economic causes.
 - **Town jobs: changed.** Nothing flips at a threshold like the median. Every factor works on a sliding scale, a spectrum; this applies everywhere, not just to jobs.
@@ -1654,6 +1821,7 @@ Docket answers, about 3:50 p.m.:
 - **Docket hygiene:** remove old and resolved items on every republish, and make sure every button shows its state. He complained about both.
 
 Research outline answers, 4:25 to 4:28 p.m.:
+
 - **Changeable everywhere.** Every difference research finds, such as a constitutional bar, an eligibility age or an authority limit, must itself be changeable in game through the same law menu: pass rail or repeal rail, lower a 35-year age requirement to 25. Limits come only from a higher level's rules.
 - **Whole systems.** He wants to change entire systems, not just programs: the healthcare system, not just Medicaid; the pension and retirement system; "anything the government can touch".
 - **Every body is simulated.** Special districts and other bodies are organizations with real people. At minimum, one or more staff are placed there even if they don't act yet.
@@ -1664,16 +1832,19 @@ Research outline answers, 4:25 to 4:28 p.m.:
 
 Research outline, 4:58 p.m.: every question approved. Whole-system redesigns use U.S. examples plus other countries' systems as models, broken into pieces that can be negotiated separately (eligibility, subsidy, rates, who runs it, funding).
 Codex wave 1 (5:16 p.m.):
+
 - The coordinator runs on "Astra light" and starts only Sol 6.1 low or medium chats; at most 1 high chat, because he finds I overestimate effort.
 - Teams keep the same setup as before. No team may start more teams without asking him.
 - Each team may use one Sol 6.1 low agent for research.
 
 ## owner-standing-orders
+
 _READ FIRST, every session and every check-in. The owner's standing orders, repeated all week (Oct 2 9:20): Codex builds the 80%, Claude only checks finished work, test only changed files, small fixes never go back, finish in hours, move toward the roadmap_
 
 Owner, Oct 2, about 9:20 a.m., yelling after a week of repeating himself: "Put this in your memory. Listen to me. Codex, all of them working on this 80%... Test only the changed files... finish this in hours. Claude, only checking the things that finished. Move toward the roadmaps... Not once this week have I said that small fixes need to go back every time... Fix it."
 
 THE ORDERS:
+
 1. EVERY Codex session works on the 80% (the audit checks), all the time. At every check-in, confirm the session count, each session's item and its acknowledgement. Nobody idles.
 2. CLAUDE ONLY CHECKS work that's FINISHED (a READY PR). Claude never builds.
 3. TEST ONLY THE CHANGED FILES: typecheck, the PR's changed tests, LOAD and zero-dice. Nothing else.
@@ -1686,6 +1857,7 @@ THE ORDERS:
 Related: [[finish-over-perfect]], [[claude-checks-codex-builds]], [[redeploy-at-80]], [[estimate-not-unknown]].
 
 ## owner-took-control-sept30
+
 _Sept 30 ~9:57 a.m. Lamontae took control of running the teams after the failed overnight; I act only on his requests until he says otherwise_
 
 Sept 30, 2026, about 9:57 a.m. After the overnight produced almost nothing (laws still don't take effect, the effects matrix untouched), Lamontae said: "I'm taking control of this game. You obviously don't know what the fuck you're doing." He expects Codex (the coordinator plus eight working teams) to finish work like this in an hour or two, not a night.
@@ -1695,6 +1867,7 @@ Sept 30, 2026, about 9:57 a.m. After the overnight produced almost nothing (laws
 **How to apply:** minutes later he said "don't stop your scheduled check-ins, turn them back on". So keep :03/:33 check-ins, approvals and team posts going all day. He expects the teams to finish each day's jobs in one to two hours; push deadlines accordingly. I answer his requests directly and cheaply. The team job docs from 9:54 (links in the 00 doc) are the current assignments. Related: [[codex-fixes-i-spec]], [[laws-must-do-something-real]].
 
 ## owners-docket-living-page
+
 _Lamontae loves the Owner's Docket artifact (claude.ai/artifact/Go8K5hXoTxBFYdHaGkD7Vn): keep it as a living page, updated during Drive check-ins; clear decided items, add new ones, adapt to his patterns_
 
 Sept 28, about 8:45 p.m.: "this artifact is great. keep working on it. make it interactive etc. not now, just when you are doing drive stuff... be sure you clear away things that have been decided. and you can dynamically change it based on things i say/patterns."
@@ -1702,6 +1875,7 @@ Sept 28, about 8:45 p.m.: "this artifact is great. keep working on it. make it i
 - **Page:** https://claude.ai/artifact/Go8K5hXoTxBFYdHaGkD7Vn. Source: scratchpad/owner-docket.html (copy to cto-notes if the scratchpad is wiped). Answers are in db collection "answers", with ids q*, d*, o*.
 
 **How to apply:**
+
 - At each :24/:54 check-in, read the answers.
 - Move decided items into a short collapsed "Decided" log.
 - Add new questions and designs with recommendations.
@@ -1713,6 +1887,7 @@ Sept 28, about 8:45 p.m.: "this artifact is great. keep working on it. make it i
 **Update, about 8:50 p.m.:** "include everything. you can include pictures and all design questions/decisions etc. i am not going to be looking at the other account much. that owners docket will be my information. i have the artifact pinned... dont overload it obviously but it can be somewhat dense. it is good right now."
 
 So the docket is his MAIN information surface. It holds:
+
 - all design questions and decisions;
 - build status;
 - team progress in plain words;
@@ -1724,11 +1899,13 @@ Keep it somewhat dense and scannable, never overloaded.
 **Style:** always dark background (he asked "go back to dark mode background", Sept 28, 9:10 p.m.). The source is cto-notes/owner-docket.src.html, with {{IMG_x}} placeholders filled from scratchpad/docket-imgs.json.
 
 **9:15 p.m. requests (do at the next check-in):**
+
 - He leaves comments and answers on the page. I personally resolve everything he approved, rejected or overruled, and clear it from the page.
 - Lay it out for an iPhone 15 Plus (430 px wide viewport); everything must fit.
 - Add a way to comment on anything: a small button per item or section that opens a comment on that object (the comments capability with openComposer, or a note field per item).
 
 **Sept 29, 9 p.m. correction:** "your docket is regressing again... you're not showing me any of the new overruled stuff. You keep putting the same things in here that I've already resolved. I know the art one has finished... you haven't shown me any of that." So at every update:
+
 - the "Now" list holds only new items for him: art to look at (embed the contact sheets as images, each with Resolve and Comment), design proposals, and approvals;
 - status he has already heard goes in the update notes, not the docket;
 - the overrule list shows only the calls I made since the last update, and old ones are dropped;
@@ -1741,6 +1918,7 @@ Keep it somewhat dense and scannable, never overloaded.
 **Sept 29, 10:25 p.m.:** "be sure that you include what merged in the docket". Every check-in adds a "Merged since the last check-in" group: one card per merged PR, saying in plain words what it changes, with Resolve and Comment. Don't backfill older merges; start from the past hour.
 
 ## pbj-depth-and-design-questions
+
 _Owner feedback 2026-09-26 — assignments must be PB&J-specific about depth and connections; check code before answering; bring design choices to him as questions; slow down_
 
 Lamontae (2026-09-26, after quizzing me on taxes exposed that spine 1 lacked brackets, federal income tax, local taxes, property/sales/excise): "you need to stop thinking like an engineer… communicate to Codex specifically" — the PB&J lesson (lift your hand, face palm toward the lid…). "You're answering too quickly. You need to start thinking harder." "You can't be writing tests into the game." "If there's stuff that needs design, then tell me. It's my game, it's my vision." He judged my "where it's solid" list as nearly nothing.
@@ -1749,11 +1927,13 @@ Lamontae (2026-09-26, after quizzing me on taxes exposed that spine 1 lacked bra
 **How to apply:** Before writing any assignment item: (1) read the actual code it touches, (2) write step-by-step what exists, what each step reads and writes, how deep, and what it connects to, (3) list every design choice as a question to Lamontae with a recommendation BEFORE sending to Codex, (4) "done means" is ordinary play he can see, not test scaffolding. Related: [[how-he-wants-agents-run]], [[check-record-before-speaking]].
 
 ## placeholder-gate
+
 _Oct 2 ~11:00 owner: NO placeholder numbers, names or events is STILL a merge gate; quick ones fixed now, the rest go in a separate 'FIX THESE FIRST' section of the follow-up list; ask him inline with several options when one is found. Also every gate must OPEN A NEW GAME in a random place (world.ts import missed #1996's crash)_
 
 Owner, Oct 2 about 11:00: "there are no placeholder numbers or names or events being placed, right? That's still a gate. If there are, communicate to me what, or ask an inline question about what you should do. A few different options, at least."
 
 His answers that same minute:
+
 - If a placeholder is a quick fix, fix it now (Codex).
 - If not, put it in a SEPARATE section of the bugs list for hard-coded values and placeholders. Those get fixed FIRST when he says go, ahead of other bugs.
 - For a fixed 40-hour week: use the worker's recorded hours, or else the game's average for that occupation.
@@ -1761,6 +1941,7 @@ His answers that same minute:
 **Why:** fast gates had dropped the placeholder check. A scan of today's merges found HOME_PURCHASE_PLACEHOLDER (a $50k down payment and $1,200 monthly, Sept 23) still in the game, and a new `weeklyHours: 40`.
 
 **How to apply:**
+
 - design_check.py (run by merge.sh) now prints PLACEHOLDER? and NUMBER? lines. It REFUSES the merge unless the text says `Placeholder-ok:` or `Numbers-ok: <what each is>`, and only true facts qualify: calendar, law, units.
 - Every gate brief includes the NEW GATE LINE: "list every new hard-coded number, stand-in name or placeholder event in game code; any found = FAIL".
 - The list lives in cto-notes/followups-<date>.md under "HARD-CODED NUMBERS AND PLACEHOLDERS: FIX THESE FIRST".
@@ -1771,6 +1952,7 @@ Related: [[owner-standing-orders]], [[estimate-not-unknown]], [[only-line-of-def
 **Oct 2, 3:00 p.m., my miss:** I answered "no placeholders" based on PR code checks only. I never checked the DATA. starting-law-2026.json had 886 in-force places (across 40 laws that declare amounts) with no amount at all, so those laws did nothing at game start. The owner had asked about placeholders all day and all of Oct 1. From now on, a placeholder check covers code AND data: starting-law terms (data/research/laws/starting-law-2026.json against catalog-terms-batch-*.json), estimate rows, and anything marked needs-research. Report counts, never "none" without measuring.
 
 ## plain-english-no-engine-jargon
+
 _Docket and chat text must be plain English — no engine words (kind, row, live, piece, link, writer); effects map shows what/how/example_
 
 Lamontae, 2026-09-30 10:30 p.m.: a lot of my sentences are "AI slop like the law kind whatever… you need your own English engine." He couldn't parse "law kinds live 3/8" on a merge card.
@@ -1778,6 +1960,7 @@ Lamontae, 2026-09-30 10:30 p.m.: a lot of my sentences are "AI slop like the law
 **Why:** He reads the docket as the owner, not as an engineer. Engine vocabulary hides what changed for people.
 
 **How to apply:**
+
 - Never use engine words on the docket or in chat: kind, row, live, piece, link, writer, caller, producer, endpoint. Say what changes for people or the world ("Government bank balances move only with real payments").
 - Scoreboard labels were renamed in plain words on 09-30 (e.g. "Kinds of law effects that work (of 8)"). Keep new labels in that style.
 - The effects map shows three plain parts for every effect: what happens, how the game works it out, and a worked example with numbers. He asked for this: "include an example so I can understand it conceptually." It is built by scratchpad fx_plain.py plus fx-status.ts from the real outcomeWebStatus() on main, so the "running in the game" count is real.
@@ -1785,9 +1968,11 @@ Lamontae, 2026-09-30 10:30 p.m.: a lot of my sentences are "AI slop like the law
 Related: [[say-what-prs-do]], [[dialogue-from-real-speech]], [[owners-docket-living-page]].
 
 ## playtest-notes-oct1-night
+
 _Owner's live play-through notes Oct 1 ~10:15 p.m. — opening poses, gradient, journal-voice life story, clock display, jobs top row; assigned in 00e_
 
 While watching my browser play-through (Conway NH, main 02cf1dc49) on Oct 1, 2026 ~10:15 p.m., the owner said:
+
 1. Congress members and "your representatives" on the opening slides have no poses; the President/VP slide is right (he likes it).
 2. The white gradient on the right of the opening slides covers poses.
 3. "Your life so far" must be a first-person journal entry, like dropping into the game.
@@ -1795,7 +1980,7 @@ While watching my browser play-through (Conway NH, main 02cf1dc49) on Oct 1, 202
 5. TV screen and newspaper are not good yet (known to-do).
 6. The time bar never shows the current time, only skip targets.
 7. Jobs and study: remove the whole top row ("Your role: Server", "Waiting on you").
-Also: the character's head is clipped on the appearance screen.
+   Also: the character's head is clipped on the appearance screen.
 
 **Why:** UI/prose is his top priority; he judges the game by watching it played.
 **How to apply:** assigned in 00e at 10:18 p.m. (Team 2: 1–2; Overflow 2: 3; Team 7: 4–6 + head clip; Team 3: 7). Verify each fix in the browser with a screenshot before calling it done. See [[ui-direction-no-navy]], [[playtest-screenshot-protocol]].
@@ -1805,6 +1990,7 @@ Added ~10:25 p.m.: remove the "$7.25 federal minimum" line on Jobs; the paycheck
 Playtest 2 (owner played Morgan Lee, Attu Station AK, ~10:38 p.m.), items 30–44 in 00e: state slide voting stats must go; state legislators missing; Congress is still the courtroom with floating badges; public figures need public profiles (not "you haven't spoken"); blank local slide for unorganized places; v0.4.0 hard-coded; remove every "Waiting on you"/role top block; hide Politics tabs until they apply; backdrops hard-coded and wrong for the place; he couldn't RUN FOR OFFICE (party buttons do nothing, a section vanished, "Put your name in" disabled) → Elections top priority; "Go briefly" English; People relations blank; an invented high school in a near-empty place; everyone has the same pose. He said twice: stay focused on tonight's goal. So fold these into each team's slice work; don't open new tracks.
 
 ## playtest-screenshot-protocol
+
 _During his browser-pane playthroughs, each message he sends = \"screenshot now\"; he waits to see my screenshot before continuing (Sept 29)_
 
 Sept 29 ~11:15 a.m.: Lamontae plays the game in my built-in browser pane (dev server 127.0.0.1:5301 on /tmp/wt-play at main) and narrates by voice-to-text. When he finishes a screen he sends a message. That message means: take a screenshot right away. He waits until he sees my screenshot before he continues.
@@ -1816,16 +2002,18 @@ When he interrupts mid-work, go back afterward and confirm every item from the i
 **How to apply:** On each playtest message, screenshot first (before any other work), then note any bugs he names or I see. Fix simple bugs immediately. Route bigger ones to the owning build in a rulings doc. Keep coordination running between screens. Related: [[ui-and-playtests-overnight]], [[emergent-not-authored]].
 
 ## priority-ranking
+
 _Owner's own ranking of game areas (2026-09-17, still unreplaced as of 09-26) plus core design intent_
 
 His ranking (overnight [81], 2026-09-17):
+
 - Above everything: **UI and prose** (he is "sick of the HTML/CSS look"; wants news like a newspaper, journal as a chronicle, Congress coalition view).
 - **1A** Relationships, personality, private goals, long-life memory. **1B** A genuinely seated world (every office really filled; owner decided 2026-09-26 every state legislature exists from day one).
 - **8–9/10** Governing and legislative. **High:** map content; health/death/succession/disasters/crisis ("just realism").
 - **Core, must ship:** party evolution, multi-generation play (Crusader Kings–style succession on death).
 - **5/10** party life. **Low:** ordinary life. **Clear first:** delivery picture, playtest debt, "pork barrel" backlog.
 
-Core intent: the player is "a cog" in a world that acts without them; deep simulation, optional involvement (concise/delegated/detailed paths share facts and consequences); nothing hardcoded, modder-friendly like RimWorld/The Sims; unresearched jurisdictions get a *realistic national range* (sourced / generated game-profile / unknown — three states); no source/provenance on any player surface (D-094); no visible meters/political-capital currency; dark events allowed but must be causally grounded; lying is player agency; time doesn't pass while browsing.
+Core intent: the player is "a cog" in a world that acts without them; deep simulation, optional involvement (concise/delegated/detailed paths share facts and consequences); nothing hardcoded, modder-friendly like RimWorld/The Sims; unresearched jurisdictions get a _realistic national range_ (sourced / generated game-profile / unknown — three states); no source/provenance on any player surface (D-094); no visible meters/political-capital currency; dark events allowed but must be causally grounded; lying is player agency; time doesn't pass while browsing.
 
 Game Constitution: docs/GAME-CONSTITUTION.md (32 principles). Decisions: docs/decisions/DECISION-LOG.md (D-001…D-094+, D-096 proposed).
 
@@ -1834,6 +2022,7 @@ Follow-ups same day: budgets = set priorities + staff advice, line-by-line optio
 Bill catalog = "Legislative Content Menus Proposal V1" (accepted 09-26). Bill research (222 laws, branch claude/bill-samples) scopes which drill-downs/sections/operations exist (what recurs, not every detail) AND supplies wording patterns for the English engine's legislative prose.
 
 ## project-history-and-context
+
 _The arc of Our Civic Duty Aug 21 → Sep 26, 2026 and the owner's recurring frustrations — read before judging what he means_
 
 Read 2026-09-26 from Drive (00 protocol, 01 index, 03 op model, 04 register, 05 vision invariants, Live Questions, Idea Inbox, 02 ledger owner entries) + repo owner-record.
@@ -1849,10 +2038,11 @@ Read 2026-09-26 from Drive (00 protocol, 01 index, 03 op model, 04 register, 05 
 **Durable binding rules** live in Drive 04 register (OCD-* IDs) + repo DECISION-LOG (D-*). Notables: DEPTH1 (09-22: two-level population; friendships+career changes first; compact models OK; private-playtest calibration allowed if labeled provisional; distinct fed/state/local law; player-initiated political violence allowed, offscreen); AUDIT-RETURN-2 (all 50 states + municipalities/counties/townships; legislation both staff-draft and direct provision edit, multi-subject; permanent removal of unused stuff; restrained scene-first theme); bill-on-paper drafting workflow approved 09-25 (rejects colored wheel); character style realism 4.5–5/10 approved; 3 formal + 3 regular outfits per gender, fit to 3 bodies each (36 combos); Crusader Kings succession; passive relationship decay allowed (not a meter); lying via visible Lie marker; no AI music; no source refs in UI (D-094).
 
 ## project-map
+
 _Where Our Civic Duty lives (repo, local checkouts, Drive control docs, agent roles) as of 2026-09-26_
 
 - **Repo:** github.com/lamontaes/Political-Game-Git (public). TS + React 19 + Vite, pure-TS simulation core, Vitest + Playwright, Electron desktop client ("Our Civic Duty Private.app") with Art Desk. ~690 PRs, 500+ branches.
-- **Main local checkout:** /Users/lamontae/Documents/PG-LAND (LAND = merge/receiver lane). Often has *another agent's* uncommitted work — don't touch. Workspaces are registered in ~/.ocd-dev/workspaces.json; use `npm run storage -- workspace --owner <owner>`, never clone/worktree a new copy (100 GB incident on 2026-09-19). Many stale ~/Documents/PG-* copies exist (PG-UI-FOLLOW 13G, PG-R1-REVIEW 7.6G…). Codex worktrees under ~/.codex/worktrees/.
+- **Main local checkout:** /Users/lamontae/Documents/PG-LAND (LAND = merge/receiver lane). Often has _another agent's_ uncommitted work — don't touch. Workspaces are registered in ~/.ocd-dev/workspaces.json; use `npm run storage -- workspace --owner <owner>`, never clone/worktree a new copy (100 GB incident on 2026-09-19). Many stale ~/Documents/PG-* copies exist (PG-UI-FOLLOW 13G, PG-R1-REVIEW 7.6G…). Codex worktrees under ~/.codex/worktrees/.
 - 2026-09-26 cleanup DONE: PG-LAND is the single main game folder. Unpublished work lives in PG-LAND as `salvage/*` branches (11). App's private pack (modular47-gen16) at PG-LAND/desktop/controller-release-artifacts/ (read-only, git-ignored); state.json repointed. Owner ran the Trash script (297 items); `~/Documents/PG AntiGravity` (space in name) was missed. Registry pruned. I cannot hard-delete (safety rule) — use Trash, owner empties it.
 - 2026-09-26 I co-own Drive with Codex CTO (OCD-OPS-019). I rewrote the control layer IN PLACE (same IDs) via the Google Docs connector: 00, 01, Board (retitled 00_ASSIGNMENT_BOARD — CURRENT), Live Questions (LQ-01..13), Operating Model (retitled 03_OPERATING_MODEL — CTO TEAM…), Staging (PROJECT START kept as markers). Register consolidated (all 75 OCD ids kept + Sep 22–26 decisions added). Tooling for Docs edits: scratchpad control/md2docs.py + docmeta.sh (regenerate if scratchpad is gone). Keep control docs short; edit in place; add a ledger entry for changes.
 - Ownership split (Board): Claude CTO = Drive upkeep, exact-head verification + merge, the Mac (app/storage/builds/browser), playtests/audits/reports. Codex CTO = implementation lanes A/B/C, English engine, art/character engine. Neither merges own consequential change unverified. All recent merges are by app/claude; main has NO branch protection (flagged LQ-13).
@@ -1864,8 +2054,8 @@ _Where Our Civic Duty lives (repo, local checkouts, Drive control docs, agent ro
 
 **Cloud sessions (2026-09-26 evening), messageable via SendMessage (one-way; they report in Drive Replies):** CC1 = English engine lead (brief 1ZzZ0SZs…); "Our Civic Duty people-life lane" = ex-Team B (PR #707, branch claude/civic-duty-people-life-nokmuf); "Our Civic Duty audit findings" = self-contained audit fixes (PR #706); "Our Civic Duty Codex Team C handoff" = data & research (spine 1 Part C, #698, #700). Traits lead runs in Codex Cloud (no Drive, no git remote — needs attached package files). Owner approved #688's read-first news-knowledge rule.
 
-
 **Sept 28 docs:**
+
 - 04 CLOUD TEAM BRIEFS: `1Qd6OQIaGN1njSnbAgnrtJPv0AW34m9I4wPms15xDeF0`.
 - 06 SHARED WORK QUEUE: `1r-zhlEfKc2TMSuPBm-Rn2pgaUkQ-5zMcu0V8X8MUfxw`. This is the one to-do list for all coding agents.
 - Favor/commitment design artifact: https://claude.ai/artifact/JVocaiWPjPsmrWaQTb1RCm
@@ -1875,6 +2065,7 @@ _Where Our Civic Duty lives (repo, local checkouts, Drive control docs, agent ro
 **Oct 1, 8:47 p.m.:** 00d hit Google Docs' size limit (inserts fail with "Precondition check failed"). The new team doc is **00e**, id 1GWmOOkFbxQVQ1Q7UBDWn7uQFQyfnqs0advsaK9jmPEc, in the same folder 11bUNGoWIiz9ze9WTVuXbYb-acvR9u2Hh. Post there, or on #1615 if a doc fails.
 
 ## queue-means-queue
+
 _When the owner says "queue these" or "stay focused on tonight's goal", log his notes for later and DON'T assign them as active work_
 
 When the owner gives notes while saying "stay focused on the goal" or "just queue these up", record them in a queue for later. Don't put them on the teams' active lists, and never mark them top priority. On Oct 1, 2026 (10:15–11:30 p.m.) I turned his two play-throughs' notes into 44 active, partly "TOP PRIORITY" items, which pulled every team off the rebuild goal. He was angry: "I don't want them working on my playthrough fixes… That's why I said just queue these up."
@@ -1883,6 +2074,7 @@ When the owner gives notes while saying "stay focused on the goal" or "just queu
 **How to apply:** owner notes during a goal → playtest-queue.json plus a ledger ruling marked "queued". Only items that directly serve the goal (e.g. main-green breakage) go active, and I say so explicitly. Related: [[check-whole-screen-before-ui-merge]], [[playtest-notes-oct1-night]].
 
 ## random-places-and-emergence-reports
+
 _Watched runs use random places (never the same few); every update reports what emerged and the wider knock-on effects (Sept 28 night)_
 
 Every watched-world run, proof or report draws its place at random from all 56 jurisdictions (big cities to rural counties), never Chicago/Nashville/Reno/Houma by habit; name the place and seed. Every update tells Lamontae (a) WHAT EMERGED: unscripted events with cause chains, or that nothing did; and (b) the wider knock-on effects of a change (pay → employer cash → prices/jobs → spending → taxes), naming missing links.
@@ -1894,6 +2086,7 @@ Every watched-world run, proof or report draws its place at random from all 56 j
 **Addendum, 11:00 p.m.:** "i meant merged but keep this too." Every update opens with what MERGED (plain words, or that nothing did and why), then WHAT EMERGED, and watched worlds end with a VITAL STATISTICS block that is the same for every place (income, jobs, poverty, rent share, uninsured, graduation and college, crime, turnout, births and deaths, businesses, party in power; start and end values) so worlds can be compared.
 
 ## real-data-is-calibration-only
+
 _Product rule — the game generates its own world; real statistics only calibrate it, and values may go beyond real-life ranges_
 
 The game makes its own numbers (starting services, treasuries, etc.). Real-world statistics are only for calibration. Depending on the simulation, values may become extreme or unlike anything seen in real life. (Owner, 2026-09-26, answering LQ-05; recorded in the Decision Register.)
@@ -1905,6 +2098,7 @@ Sept 29 playtest, reaffirmed. I flagged a 58-D Senate and 6.1% unemployment at s
 **Why:** he wants a living, self-consistent simulated world, not a replica of real data. **How to apply:** never propose "use real data" as the value source; propose game-generated values calibrated to real data. Related: [[latest-owner-decisions-sept24-26]], [[priority-ranking]].
 
 **Sept 30, 10:02 p.m. (rebuild night), in his words: "you don't even need 2026 numbers. You just need a representative sample... it's not about being perfectly accurate on the laws. It's just about informing the simulation."**
+
 - Starting-law and research numbers only have to be representative and sourced. Never block a team on exact effective dates or full precision.
 - Don't spend effort reconstructing exact dated legal tables.
 - Still no invented values: the number comes from a real source, even if it isn't this year's exact figure.
@@ -1912,6 +2106,7 @@ Sept 29 playtest, reaffirmed. I flagged a 58-D Senate and 6.1% unemployment at s
 - So "unsupported because the exact figure is missing" is no longer acceptable. Use a representative cited value.
 
 ## rebuild-done-definition
+
 _The 09-30 rebuild goal is complete only at 100% of docket steps AND THEN main green (all GitHub checks pass); main green is the very last step_
 
 Lamontae, 2026-10-01 12:20 a.m. Claude (me), Codex and the standby Claude Projects session all run on goal mode to finish tonight's rebuild.
@@ -1919,6 +2114,7 @@ Lamontae, 2026-10-01 12:20 a.m. Claude (me), Codex and the standby Claude Projec
 **Rule:** The goal is complete only when (1) every rebuild step on the docket is at 100%, Wave 1 and Wave 2, and then (2) main is green: every GitHub check passes on the final main. Main green is the very last thing. I post "GOAL COMPLETE" in 00b only when both are true.
 
 **How to apply:**
+
 - Every 00b check-in reminds both Codex and standby Claude of this definition, or only Claude if Codex runs out.
 - The docket carries it as the final step (Audit/Systems step "GREEN").
 - Keep updating the docket on every merge; he said that has been working great.
@@ -1930,6 +2126,7 @@ Related: [[claude-standby-team]], [[owners-docket-living-page]].
 **Oct 2, 2:45 a.m.:** ALL of the last 200 GitHub runs on main were CANCELLED. Validate uses cancel-in-progress, and merges land every few minutes against runs of up to 45 minutes, so GitHub never reports main green while merging continues. Endgame: when the slices hit 80%, STOP merging for about an hour so Deterministic validation, Browser proofs and Release finish on one main SHA, then post GOAL COMPLETE. Checker 4's full-sweep timing (on #1607) says how long that pause must be.
 
 ## redeploy-at-80
+
 _The moment a slice reaches 80%, move its team to the biggest gap, without asking or announcing; and answer him in a line or two, never \"yes, you're right\" or long messages_
 
 Oct 2, 8:35 a.m., furious: "When a slice gets to 80%, send it somewhere. Like, I didn't talk about this with you four times yesterday. Don't say, yes, you're right. I don't want a big message. Just fucking do it."
@@ -1939,6 +2136,7 @@ The Lives team (Standby Claude Team 5 and X5) hit 82% before 4 a.m. and sat idle
 **Why:** idle capacity while other slices are behind wastes the night, and he has said this at least four times.
 
 **How to apply:**
+
 - At EVERY check-in, run the per-slice audit percentages. Any team whose slice is at 80% or more moves immediately to the slice furthest below 80%, with concrete work. Post the move in the coordination doc; don't ask.
 - Also move any team that reports "idle" or "no active build".
 - Replies to him: one or two lines saying what was done. No "you're right", no apology paragraphs, no long plans.
@@ -1946,6 +2144,7 @@ The Lives team (Standby Claude Team 5 and X5) hit 82% before 4 a.m. and sat idle
 Related: [[teams-own-slices]], [[overnight-oct2-mandate]].
 
 ## refamiliarize-before-planning
+
 _Before proposing a plan, re-read GitHub PR bodies, recent CLAUDE TO CODEX / CODEX TO CLAUDE docs, DECISION-LOG, owner-record — Lamontae catches stale/redundant plans_
 
 2026-09-26 Lamontae rejected my game plan as "not familiar": I proposed "seat winners by home district" as a new quick fix though #685 already contains it (Team B), and presented main's red browser suite as a discovery though D-091 (browser suite deliberately non-gating), docs/BROWSER-SUITE-CASE-LIST.md (104 known cases, 23 need private art) and my own Sept 26 #685 audit already recorded it.
@@ -1956,6 +2155,7 @@ _Before proposing a plan, re-read GitHub PR bodies, recent CLAUDE TO CODEX / COD
 Also found then: Release workflow has not published once (0 successes in 60 runs; "Release plan produced no candidate delta"), so version stays 0.4.0 despite D-095 — owner wanted automatic version bumps.
 
 ## research-approval-delegated
+
 _Sept 30 12:47 a.m. — Lamontae trusts me to approve research results/scope myself, with a collapsible write-up; he approves the final design after back-and-forth_
 
 When research comes back, I distill it against the goal and may approve it myself. On the docket, post "Research approved": what they did, how I reasoned, why I approved, what it adds to the game (in effects-map form), collapsible. He approves the final design after some back-and-forth. Ask him real questions (is this too real, how does he think about X), not ones I can settle myself; don't flood.
@@ -1965,13 +2165,15 @@ When research comes back, I distill it against the goal and may approve it mysel
 **How to apply:** supersedes the part of [[research-numbers-need-owner-review]] that required his approval of research numbers before build; the design/final build still goes to him. Related: [[overnight-tonight-section]].
 
 ## research-numbers-need-owner-review
-_Before merging any PR, check it for research data (data/research/**, outcome-web links, calibration files) and tell Lamontae up front; research numbers enter the game only after his review_
+
+_Before merging any PR, check it for research data (data/research/\**, outcome-web links, calibration files) and tell Lamontae up front; research numbers enter the game only after his review_
 
 Sept 29, 8:15 p.m.: Lamontae learned from my visible thinking, not from me, that research was going into game code. Team 1's #1131 filled three outcome-web sizes with borrowed proxy numbers and used Pennsylvania lobbying counts for every state. Team 2's #1136 added real 2024 legislature seat counts. I had planned to merge #1131 on focused tests without telling him. At 8:10 I also told Codex teams to start job 13 (research into laws) and told team 6 to change its approved research order, neither of which he had approved. He: "you're failing... I had to read your thinking to see that some research already went to code."
 
 **Why:** research numbers set how the whole world behaves. His rule is "effects use sourced sizes only". Approved plans (the wave plan, the research outline) are his, and I don't change them.
 
 **How to apply:**
+
 - Before any merge, run `git diff --stat origin/main...PR -- data docs/research`.
 - If the PR adds or changes research numbers, hold it, and put each number, its source and what it moves in the report and on the docket as a decision.
 - Never change an approved plan's scope or order in a team instruction without asking him first.
@@ -1980,6 +2182,7 @@ Sept 29, 8:15 p.m.: Lamontae learned from my visible thinking, not from me, that
 See [[dont-merge-before-owner-done]], [[codex-coordination-via-doc]] and [[estimate-not-unknown]].
 
 ## research-timebox
+
 _Oct 1 4:50 p.m. — owner: research a Google search answers in 30 s must not take an hour; start from the best summary source, dig only where ambiguous, timebox ~15 min_
 
 On Oct 1, 2026 at 4:50 p.m., after the ratification-rules research subagent took 56 minutes (332 tool calls, about 760K tokens), the owner said: "Why did that take an hour? When I could have Googled that and found it for you in thirty seconds."
@@ -1987,6 +2190,7 @@ On Oct 1, 2026 at 4:50 p.m., after the ratification-rules research subagent took
 **Why:** My brief made the agent read and quote every chamber's rule book for 50 states. A reliable summary (NCSL or CRS) gets about 90% right instantly. The deep read mostly confirmed the defaults; it found only a few surprises (Kansas, Delaware, and an outdated 1995 list for Georgia and Idaho).
 
 **How to apply:**
+
 - Research briefs start from the best current summary source and cite it.
 - Dig into primary text only where the summary is old, contested or ambiguous, and list the rest as "summary-sourced".
 - Timebox research agents to about 15 minutes, on Sonnet Low or Medium. If it isn't done, take what's found and file a follow-up request for the gaps.
@@ -1999,6 +2203,7 @@ Related: [[research-approval-delegated]], [[estimate-not-unknown]], [[one-opus-h
 **Oct 2, 8:27 a.m.:** "Literally everything you just said can be researched in total in 30 minutes. This is ridiculous. You shouldn't be spending hours." So batch ALL the legal lookups into ONE session's single 30-minute pass (one cited file), instead of spreading them across five teams who each spend time on it.
 
 ## roadmap-tonight
+
 _After Lamontae goes to sleep (night of 09-30→10-01), read his old roadmap docs and make a new, easier-to-check roadmap_
 
 Lamontae, 2026-10-01 about 12:22 a.m.: "at some point tonight… look at the docs and read my old roadmap. Maybe make a new roadmap, so it's easier for me to check. But don't do that right now because I'm still awake."
@@ -2010,6 +2215,7 @@ Lamontae, 2026-10-01 about 12:22 a.m.: "at some point tonight… look at the doc
 Related: [[owners-docket-living-page]], [[rebuild-done-definition]].
 
 ## run-for-office-in-the-world
+
 _Owner design (Sept 29 playtest): running for office happens in the world. Go to the clerk's office, talk to the clerk, file; that conversation teaches the campaign system. No menu-only campaigns._
 
 Lamontae, Sept 29 ~11:35 a.m., while playing (filed for mayor of Lebanon, KY): "There's no narrative… Everything is happening within a menu. I need to be able to meet people. When I run for office, I should have to go to the clerk's office and talk to somebody and then maybe sign up. And that's how they'll teach me the campaign system… That's a great idea."
@@ -2019,9 +2225,11 @@ Lamontae, Sept 29 ~11:35 a.m., while playing (filed for mayor of Lebanon, KY): "
 **How to apply:** Any system the player enters (campaigns, jobs, courts, permits) starts with a place and a person in the world, and the conversation teaches the system. Menus only record what was done. Routed to Build 24/14/7 on 11:37 a.m. Related: [[emergent-not-authored]], [[dialogue-from-real-speech]], [[playtest-screenshot-protocol]].
 
 ## running-tally-and-questions
+
 _Standing rules (Sept 28) — keep a running tally where every work item has an owner and an endpoint, never drop in-progress work when new asks arrive; ask Lamontae questions to understand his vision_
 
 Lamontae, 2026-09-28 about 2:55 p.m.:
+
 - "be sure you queue stuff correctly because you had a problem where anytime I'd say something new, you would just stop whatever, or just leave it not built out... keep a running tally... make sure everything has an endpoint."
 - "If you have questions, ask me. Make that a standing rule. I want you to ask me questions. That would make you a good CTO. You need to understand my vision."
 
@@ -2030,6 +2238,7 @@ He also asked me to be proactive: bring him ideas beyond what he mentions. His e
 **Why:** Work kept getting dropped half-built when new direction arrived. He wants a CTO who understands and shapes his vision, not one who only executes.
 
 **How to apply:**
+
 - Keep cto-notes/TALLY.md current. Each item has an owner, status and a concrete endpoint ("done when…").
 - New asks get added; nothing gets silently dropped. Close an item only at its endpoint, or with his explicit OK to shelve it.
 - Show him the tally when he asks what's going on.
@@ -2039,15 +2248,17 @@ He also asked me to be proactive: bring him ideas beyond what he mentions. His e
 Related: [[default-to-realism]], [[owner-ideas-sept28]].
 
 ## saves-do-not-matter
+
 _Until Lamontae says otherwise, no existing save matters — break, delete or corrupt them freely; never hold back a change or mention save compatibility; the game is not playable yet_
 
 Lamontae, 2026-09-27 ~11:30 a.m.: "until I say so literally none of these saves matter — delete them, corrupt them, whatever. You can't play the game. I don't know why you keep saying that."
 
 **Why:** he was annoyed that I talked about what was "in his save" and treated saves as something to protect, and that I implied the game is playable. It isn't yet.
 
-**How to apply:** never hold back or complicate a change to keep old saves working, and never bring up save compatibility or "your save" in reports. Save and Continue *within one new game* still has to work (it's a feature being built), but old saves are disposable. Don't describe the game as playable until he says it is. Related: [[latest-owner-decisions-sept24-26]] (save-format note), [[claude-owns-the-project]].
+**How to apply:** never hold back or complicate a change to keep old saves working, and never bring up save compatibility or "your save" in reports. Save and Continue _within one new game_ still has to work (it's a feature being built), but old saves are disposable. Don't describe the game as playable until he says it is. Related: [[latest-owner-decisions-sept24-26]] (save-format note), [[claude-owns-the-project]].
 
 ## say-what-prs-do
+
 _Never report a PR by number alone — always say in plain words what it changes in the game_
 
 Lamontae, 2026-09-28 about 2:12 p.m.: "don't just tell me the PR number. That means nothing to me. I need to know what these PRs do."
@@ -2055,12 +2266,14 @@ Lamontae, 2026-09-28 about 2:12 p.m.: "don't just tell me the PR number. That me
 **Why:** He's the owner and designer, not reading GitHub. A number tells him nothing about his game.
 
 **How to apply:**
+
 - Every time I mention a merge, a gate or a PR, lead with what it does for the player or the world, in plain words. For example: "Real current law for voter ID, automatic registration, rent-control bans, term limits and redistricting in every state."
 - Put the number after it in parentheses, or leave it out.
 
 This applies to lane and cloud-team reports I relay too. Related: [[owner-lamontae]].
 
 ## session-distribution-tracking
+
 _Oct 2 11:22 owner: the slice × sessions distribution table (need, sessions on it, expected checks) is THE format. He sent it to Codex as the target. At EVERY check-in, work out what EACH session is doing (26 Codex + the Claude checkers) and keep the table current_
 
 Owner, Oct 2 11:22, after I showed a table of slice / checks needed / Codex sessions on it / expected checks on the way: "I sent Codex that distribution of work. So that this is what it should be, and this is how you should keep track now. So each time you should figure out what each of these sessions is doing."
@@ -2068,6 +2281,7 @@ Owner, Oct 2 11:22, after I showed a table of slice / checks needed / Codex sess
 **Why:** he wants every session accounted for and the work spread by need, not by habit. Your home sat with 2 sessions and one unowned item while Public money had 10.
 
 **How to apply:**
+
 - Tracker file: cto-notes/session-tracker.md. One row per session: name, slice, current item or PR, status (building / in gate / sent back / idle / unreachable), last seen. Claude checkers each have a row with their current gate.
 - At EVERY check-in:
   1. Read the coordinator's latest roster in the current 00x doc (00f).
@@ -2080,6 +2294,7 @@ Owner, Oct 2 11:22, after I showed a table of slice / checks needed / Codex sess
 Related: [[claude-checks-codex-builds]], [[redeploy-at-80]], [[checkin-order]], [[owner-standing-orders]].
 
 ## short-turns-for-timers
+
 _Timers (CronCreate, background sleeps) only fire between my turns; nothing interrupts a running turn, so keep turns short and push long work to the background_
 
 Lamontae, Sept 29 6:35 p.m.: "you have a cto task running but you have already overshot the check in. theres NOTHING you can do that interrupts everything?" There isn't: a scheduled check-in waits until my turn ends. I ran a long turn (downloads, cutting, Firefly) past the 6:33 check-in.
@@ -2093,6 +2308,7 @@ CronCreate NEVER fired in the desktop Code tab on Sept 29: a 5:58 one-shot and a
 - Oct 1 9:40 p.m.: the Monitor tool now defaults to a 5-minute expiry. Always pass timeout_ms: 1800000 (the 30-minute max) when arming pr-monitor.sh, and re-arm on each expiry.
 
 ## simple-in-session-timer
+
 _For recurring check-ins, use a simple timer that wakes THIS session (background sleep or a session cron), not separate desktop scheduled-task runs — Lamontae says the overnight setup was overcomplicated_
 
 Sept. 27, 2026: after I used a background `sleep 150` Bash task to wake myself once the usage window reset, Lamontae said: "this is the kind of timer that I wanted you to set for yesterday. You overcomplicated it. So on Tuesday ... this is what you'll need to do is that kind of timer."
@@ -2100,11 +2316,13 @@ Sept. 27, 2026: after I used a background `sleep 150` Bash task to wake myself o
 **Why:** the overnight desktop scheduled-task runs started cold sessions without my context, hung (one for six hours), blocked each other, and needed a playbook. A timer that wakes the same session keeps full context and is simple.
 
 **How to apply:** for periodic work (checking Drive for Codex replies, merging, usage resets), use one of these:
+
 - a background Bash `sleep N` with run_in_background, which re-invokes this session when it exits;
 - CronCreate, whose session-only jobs fire into this session while it is idle.
-Pick delays by what I'm waiting for. Don't use mcp__scheduled-tasks for this unless he asks. Tuesday (Sept. 29, after the 3 a.m. weekly reset) is when he expects it used. Related: [[how-he-wants-agents-run]].
+  Pick delays by what I'm waiting for. Don't use mcp__scheduled-tasks for this unless he asks. Tuesday (Sept. 29, after the 3 a.m. weekly reset) is when he expects it used. Related: [[how-he-wants-agents-run]].
 
 ## starting-law-real-current
+
 _Sept 28 — games start with each place's real current law on policy questions; recognizable; small parts can change in play_
 
 Lamontae confirmed on 2026-09-28 at about 11:15 a.m.: "Yes, current real law, small parts can change, but for the most part, again, just be recognizable."
@@ -2112,6 +2330,7 @@ Lamontae confirmed on 2026-09-28 at about 11:15 a.m.: "Yes, current real law, sm
 The starting-law file (data/research/laws/starting-law-2026.json, #877 and #879) sets each place's real 2026 answer on policy questions. Laws passed in play replace those answers once they take effect.
 
 **How to apply:**
+
 - Keep extending starting law with real, sourced answers. Voter ID, automatic registration and rent-control preemption are still to research.
 - Small simplifications are fine, but each state must stay recognizable.
 - Unknown answers stay unknown, never "no".
@@ -2119,11 +2338,13 @@ The starting-law file (data/research/laws/starting-law-2026.json, #877 and #879)
 Related: [[outcome-web]], [[entire-world-changes]].
 
 ## state-2026-09-26
+
 _Snapshot of where the game stands on 2026-09-26 — the \"one join short\" audit, #685 gate, open owner decisions_
 
 Snapshot at main `1a3cefc41` (2026-09-26). Verify before relying on it.
 
 **Systems audit (draft PR #682, docs/reports/2026-09-24-full-systems-audit.md on branch claude/full-system-audit-b6vgal):** "the pieces stop one join short of each other."
+
 - Automatic bills carry no operative clauses → enacted laws change nothing.
 - Every government account opens at $0, no ordinary tax base → funded programs can't pay (#571 payroll tax would be first income; conflicts).
 - 92 of 101 state chambers never seat an election winner (no district on filing; fix = use recorded home district, `state-legislature-opening.ts:844`).
@@ -2138,6 +2359,7 @@ Snapshot at main `1a3cefc41` (2026-09-26). Verify before relying on it.
 **Why:** starting point for CTO work. **How to apply:** check `gh pr list` and the latest "CLAUDE TO CODEX" Drive doc before acting — this goes stale fast.
 
 ## state-2026-09-27-night
+
 _Where things stood at 11:09 p.m. Sept 27 — main 4d68924be, people-engine merges, lane status, open items; handoff file path_
 
 At 11:09 p.m. EDT, 2026-09-27, main was 4d68924be. Full handoff: cto-notes/handoff-2026-09-27-2309.md (worktree setup, gate, lanes, open items).
@@ -2149,6 +2371,7 @@ Update 3:45 a.m. Sept 28: the night run is in progress. Handoff is cto-notes/han
 Morning Sept 28 (~7:50): the report was delivered (Drive 10nc_sFggGuydlxSunEjimY7mmp6zXkLOzUkoLi0mCdQ; walkthrough artifact NRpxoFc9on1JtRswyLNCtH). Lamontae's next three directions are in handoff-2026-09-28-0345.md: laws doing more than money, capitols from reference photos, natural poses.
 
 ## state-2026-09-28-afternoon
+
 _Handoff at 3:34 p.m. Sept 28 — read cto-notes/handoff-2026-09-28-day.md FINAL HANDOFF section and TALLY.md first; Firefly tab-9 setup, 5:50 GO post, cloud check-ins pending_
 
 At 3:34 p.m. on Sept 28 the CTO session hit 97% context and handed off. The full state is in cto-notes/handoff-2026-09-28-day.md (the "FINAL HANDOFF 3:34 p.m." section) and cto-notes/TALLY.md.
@@ -2156,6 +2379,7 @@ At 3:34 p.m. on Sept 28 the CTO session hit 97% context and handed off. The full
 I asked every cloud team (A–J) in the 03 doc for a status reply, so read those replies first.
 
 **Next steps:**
+
 1. Firefly tab-9: set up the 36 masculine outfits.
 2. At 5:50 p.m., post the Junior Claude GO.
 3. Gate VALIDATED PRs.
@@ -2164,9 +2388,11 @@ I asked every cloud team (A–J) in the 03 doc for a status reply, so read those
 Related: [[running-tally-and-questions]], [[junior-claude]], [[cto-skills]].
 
 ## state-2026-09-30-morning
+
 _Sept 30 8:15 a.m. state — morning summary on docket, Every Law page, Laura file, bill pipeline top open problem, meeting still off screen_
 
 State at 8:15 a.m. Sept 30, 2026 (main 6bfc6f4 plus later landings):
+
 - Morning summary is the "Good morning" section at the top of the docket (X9oY94hW8FMoU9jyyQZLGt). Template scratchpad/docket2-template.html has renderMorning(); data /tmp/docket-data.json `morning` {title, sub, blocks[{title,text,items,link,more}], asks[{id,title,text,options}]}. Asks = 7 famous-life feature gaps (primaries first) for his yes/no, response ids `mo-gap-N`.
 - Every Law page: https://claude.ai/artifact/KUUieghjc8B48mVqWqn5Vy (92 laws: 36 direct, 46 place-only, 10 none on main; team verdicts 3 fixed / 75 research / 14 feature; repeal confirmed 3). Source scratchpad/law-table-template.html + /tmp/law-table-data.json + /tmp/law-table-team.json (from docs/codex/law-table-7am.md at 2bcd0618).
 - Laura's first chapter: LOCAL FILE cto-notes/a-life-in-lexington.html (character Laura Carson, Lexington KY; game couldn't set hometown/siblings/college). Not published; he decides.
@@ -2180,6 +2406,7 @@ State at 8:15 a.m. Sept 30, 2026 (main 6bfc6f4 plus later landings):
 Related: [[overnight-sept30-mandate]], [[checkin-gold-standard]].
 
 ## state-2026-10-01-evening
+
 _Oct 1 5:45 p.m. handoff: usage cap 6:00–6:30; Codex queue posted in 00d to 7:30; what's waiting to merge; the open LOAD question_
 
 **Usage cap.** At 5:43 p.m. on Oct 1, 2026 I hit 94% of usage; the window resets at 6:30 p.m. The owner asked me to queue Codex work so PRs pile up for me to check and merge when I'm back. Claude cloud teams A–J have been paused since 4:37 p.m.; Codex teams and Overflow 1–8 are working.
@@ -2187,11 +2414,13 @@ _Oct 1 5:45 p.m. handoff: usage cap 6:00–6:30; Codex queue posted in 00d to 7:
 **Posted.** The 5:43 p.m. queue in 00d (doc 1RxVEUcyebasz0-6C0zyHv40d4LwrB2PJXzji17saVdk) gives every team 3–4 items in roadmap order. Each team starts with its slice's play-script test. It also restates the rules: no hard-coding, no duplicates, `Replaces:`, LOAD.
 
 **On return:**
+
 1. Re-arm the monitor (`cto-notes/tools/pr-monitor.sh`).
 2. Merge in the order the gates pass. `merge.sh` runs `design_check.py`.
 3. Top priority is #1677 (the lazy-registry fix, pushed by me from /tmp/wt-lazy).
 
 **Ready, waiting on LOAD only (the owner hasn't answered yet):**
+
 - #1616 — starting-law exposure, 18/18.
 - #1669 — A92.
 - #1679 — starting/enacted law terms; research approved.
@@ -2199,6 +2428,7 @@ _Oct 1 5:45 p.m. handoff: usage cap 6:00–6:30; Codex queue posted in 00d to 7:
 - #1682 — A43/A44 fairness pay.
 
 **Design-approved, need a gate:**
+
 - #1666 — poverty; the handler list is now first-use.
 - #1675 — lost job; fixed.
 - #1681 — neighbor news; after #1675.
@@ -2212,6 +2442,7 @@ _Oct 1 5:45 p.m. handoff: usage cap 6:00–6:30; Codex queue posted in 00d to 7:
 - #1671 — elections, big.
 
 **Sent back:**
+
 - #1689 — a second school-enrollment path; the moved child never advances a stage.
 - #1627 — trials fail in the drawn places.
 
@@ -2226,11 +2457,13 @@ Related: [[only-line-of-defense]], [[teams-own-slices]], [[tests-run-in-cloud]],
 **Docket publishing is blocked until 8 p.m. EDT.** At 5:46 p.m. the Artifact publish returned "daily publish limit (200) reached; resets at UTC midnight". The local build is current; republish after 8 p.m. #1693 contains all of #1675 plus one job-loss reader, so merge one or the other, not both.
 
 ## state-2026-10-02-overnight
+
 _Overnight Oct 2 state at 2:55 a.m.: handoff file, in-flight gates, main-green causes and owners, CI endgame. Read the handoff first after any compaction._
 
 Read cto-notes/handoff-2026-10-02-0255.md first after a compaction. It lists the merges, the in-flight gates (Checkers 1–4), the three bisected main-green causes and their owners (Team 2 fixtures through the desk, Team 1 committee calendar plus Puerto Rico, Team 6 stub history plus cash accounts), the CI endgame (stop merges, cancel PR runs, let main's runs finish), and the gate rules adopted tonight. The owner's rules are in [[overnight-oct2-mandate]].
 
 ## steam-launch-goal
+
 _Lamontae expects Steamworks approval the week of Sept. 28, 2026 and wants the Steam page and gameplay ready; goal of ~zero open PRs going into Sept. 28_
 
 Sept. 27, 2026: Lamontae expects Steamworks approval this week. He wants "the big page" (read as the Steam store page) already built and the gameplay ready, with legislation that affects the world as the headline. His goal for the day was to merge everything started Sept. 26–27 and go into Sept. 28 with essentially no open PRs. The Codex coordinator was authorized to merge directly under a stated gate (posted in 00, 1:10 p.m.). OpenAI Dev Day (Tuesday, Sept. 29) should bring Codex usage resets, and image work (the 50 state capitols) follows then.
@@ -2241,6 +2474,7 @@ Sept. 27, 2026: Lamontae expects Steamworks approval this week. He wants "the bi
 **Oct 2, ~1:30 p.m. update:** Steamworks approved (app 5376890, "Our Civic Duty", developer and publisher Lamontae Shively). NOT Early Access: he wants 1.0 about two weeks out, once the store page has been public two weeks. Store copy and capsule art are going to ChatGPT to save Claude usage. My drafts are in cto-notes/steam/ and the Canva panels (executive, rally, judge, senator, reporter) are in his Canva. He rejected the civic-scene capsule: he wants generated art of people in poses, comic-panel style. Short description focus: a living, reacting world built for legislation, executive action and judicial action, and the unknowns of governing. Tags he chose: Political Sim, Life Sim, Strategy, RPG, Choices Matter, Simulation, Stylized, Singleplayer. I advised dropping Multiplayer and Immersive Sim.
 
 ## strict-check-test-files
+
 _tsconfig.app.json skips tests; gate type-changing PRs with `npm run typecheck` (checks test imports) — #1621 broke 5 unchanged tests Oct 2_
 
 `npx tsc -p tsconfig.app.json` skips `src/**/*.test.ts`, so a clean app typecheck says nothing about test files. Merge's scoped strict check caught four possibly-undefined errors in my #1205 test and paused its whole queue.
@@ -2252,9 +2486,11 @@ _tsconfig.app.json skips tests; gate type-changing PRs with `npm run typecheck` 
 **Oct 2, 12:30 a.m. addendum:** checking only the changed tests is not enough. #1621 changed an exported type (`term.until` became `IsoDate | null`) and broke 5 UNCHANGED clemency tests. The gate ran only `tsconfig.app.json`, so main went red. Any PR that changes an exported type or shared shape must be gated with `npm run typecheck`, which also type-checks test imports via typecheck-test-imports.ts. Put that in the gate request in place of the app-only tsc. Related: [[tests-run-in-cloud]], [[only-line-of-defense]].
 
 ## teams-own-slices
+
 _Oct 1 4:04 p.m. — owner decision: each team owns a whole PLAYABLE SLICE end to end (stacking), replacing engine-by-engine build ownership; Your money first; done = play script + e2e test + my browser play_
 
 On Oct 1, 2026 at 4:04 p.m. the owner said: "I would rather teams just own their own pieces, like an entire slice. That way you can just start stacking them. That it should go a lot faster that way." He approved this map:
+
 1. Your money (wages, paycheck tax, bills, the household budget, who's pleased and their vote): Team 3. It goes FIRST; he picked it.
 2. Your home: Team 4.
 3. Public money and services: Team 6.
@@ -2265,11 +2501,12 @@ On Oct 1, 2026 at 4:04 p.m. the owner said: "I would rather teams just own their
 8. News: Team 8.
 9. Your day and the clock: Team 7.
 10. Lives: Standby Claude (Team 5 + X5).
-Support, not slices: the Coordinator (shared law path), Audit (decision engine and outcome rules), Cloud B (audit scan and main health), and Claude Sonnet lanes (quick wiring).
+    Support, not slices: the Coordinator (shared law path), Audit (decision engine and outcome rules), Cloud B (audit scan and main health), and Claude Sonnet lanes (quick wiring).
 
 **Why:** Horizontal engine work never produced anything he could play. Slices stack into a playable game.
 
 **How to apply:**
+
 - A team finishes its in-flight PR first, then switches to its slice.
 - The slice that owns a shared function writes it, and other slices use it; the seam is posted in 00d first.
 - A slice is DONE when it has a play script and a passing end-to-end small-world test, AND I have played it in the browser before telling him.
@@ -2279,6 +2516,7 @@ Support, not slices: the Coordinator (shared law path), Audit (decision engine a
 Related: [[work-by-engine]] (superseded for build ownership), [[tests-run-in-cloud]], [[fable-effects-audit]].
 
 ## tests-run-in-cloud
+
 _Oct 1 1:52 p.m. — owner wants PR tests run by idle cloud sessions (Cloud Checkers), not on his Mac; changed tests only_
 
 Oct 1, 2026, 1:52 p.m.: "Why don't you use the cloud agents to run the tests? So that way the usage on the computer isn't high… only… what's changed."
@@ -2286,6 +2524,7 @@ Oct 1, 2026, 1:52 p.m.: "Why don't you use the cloud agents to run the tests? So
 **Why:** The local merge gate (queue.sh on /tmp/wt-check-r and wt-check2-r) pushed the Mac's load to 30–55 and slowed everything. Idle cloud sessions cost the Mac nothing.
 
 **How to apply:**
+
 - Cloud Checker 1 is "Merger standby" and Cloud Checker 2 is "Team D standby", both Sonnet Medium.
 - Send each READY PR number with SendMessage, plus any EXTRA test files. The checker composes the PR on current main, runs tsc, the strict changed tests (ignoring TS6307/TS6053) and only the changed and extra tests.
 - The checker posts a PR comment starting "GATE RESULT #N at <sha> on main <sha>". The PR monitor greps for "GATE RESULT".
@@ -2300,6 +2539,7 @@ Related: [[docket-tools-location]], [[message-cloud-on-progress]], [[one-opus-hi
 **Oct 1, 4:51 p.m., owner decision:** gates run ONLY the changed test files PLUS the load check. The load check is the world.ts import plus `npx vitest run src/simulation/macro-economy/macro-economy.test.ts --testNamePattern=__none__`; that is the correct path. Keep tsc, lint and zero-dice when quick, but they are optional.
 
 **Oct 1, 6:38 p.m.:** the owner said to keep Codex builders building, never moving them to gates, and to use the Claude cloud sessions as checkers: Merger (LOAD addenda), Team D and Team A (full gates). "Only the stuff that changed": the changed test files plus the two LOAD commands. Codex Checker 3 and Overflow 1/2 own the stacked PRs and #1677.
+
 - Oct 1 night: cloud checkers' containers report "25 GiB free − 25 GiB reserve = 0 usable", so the storage guard refuses every browser spec and `npm run build`. The owner-approved ruling lets cloud checkers set OCD_STORAGE_OVERRIDE (recording the reason); say so explicitly in every gate request that needs a browser spec or a build, because checkers don't apply it unless told.
 
 **Oct 2, 4:20 a.m. lesson:** a checker that gets a second job while it's busy ("QUEUED, run after #N") finishes the first job and goes idle, and the queued job never runs. Several fresh jobs sent to idle sessions also never ran (#1905, #1913, #1405, Team A's build), and Team G showed "waiting on a human". So send ONE job per checker, and send the next only after its GATE RESULT appears. If a session shows idle 15+ minutes with no result, resend, and ask it to post any blocker as a PR comment.
@@ -2307,6 +2547,7 @@ Related: [[docket-tools-location]], [[message-cloud-on-progress]], [[one-opus-hi
 **Oct 2, 6:07 a.m.:** Team J ("Cloud J") never ran three gates because an earlier CTO session had paused it on Oct 1 at 4:37 p.m. for the usage limit, and it won't accept work from a new session address without an explicit "RESUME" from CLAUDE CTO. After any restart, or when the owner lifts a usage pause, send RESUME to every paused cloud session first (J; probably G too).
 
 ## title-screen-and-live-surfaces
+
 _Owner direction Sept. 27 — the title/main menu shows civic scenes and the most recent character in a role hero pose (not apartments); painted screens, posters, notes, papers and brochures in every scene should become live surfaces_
 
 Lamontae, 2026-09-27 ~3:55 p.m.:
@@ -2318,9 +2559,11 @@ Lamontae, 2026-09-27 ~3:55 p.m.:
 **Why:** the art should show the living world and the player's story. **How to apply:** don't default the title to domestic art; carry the role in the save summary; treat every painted display as a potential live slot. Related: [[ui-and-art-decisions-sept27]], [[steam-launch-goal]].
 
 ## two-accounts-cto-both
+
 _I run on the smaller plan; the larger account (the Projects lanes) was maxed until 6 p.m. Sept 28 — until 6 I work to my limits myself, after 6 offload to it; I'm CTO over both_
 
 On 2026-09-28, about 8:30–8:40 a.m., Lamontae said:
+
 - My session is on the smaller plan. The usage tool calls it "Pro", and its 5-hour window is the tight limit.
 - The larger account runs the Claude Projects lanes and the coordinator (Drive 03 doc). It was maxed out until 6 p.m. Monday, Sept 28.
 - "you can push yourself to the limits until 6 p.m. But after that, um, pawn as much of it out on that account as you can."
@@ -2331,11 +2574,13 @@ On 2026-09-28, about 8:30–8:40 a.m., Lamontae said:
 **Why:** When the larger account is maxed, I'm the only worker. After it resets, it has far more room than my plan.
 
 **How to apply:**
+
 - While the larger account is maxed, build the law and outcome work myself ([[outcome-web]]). Use my own 5-hour windows fully, stop at 98%, and resume after each reset.
 - Once it resets, hand work out through the Drive 03 doc ([[coordinator-channel]]) and keep myself to directing, approving research, gating and merging.
 - Use Firefly in the gaps.
 
 ## ui-and-art-decisions-sept27
+
 _Owner UI/art decisions Sep 27 morning — keep the radial menu (restyled), no labeled bar, Civic Brass + Ink & Scene look, weighty chat box with portraits, wants the 180 backgrounds in game, public repo OK_
 
 Lamontae, 2026-09-27 ~10:35 a.m. ET, after the morning report:
@@ -2353,6 +2598,7 @@ Lamontae, 2026-09-27 ~10:35 a.m. ET, after the morning report:
 **How to apply:** leave #728 in; build the restyled radial as the redesign; style controls in Civic Brass with Ink & Scene restraint; give dialogue a portrait-bearing panel. Related: [[latest-owner-decisions-sept24-26]], [[priority-ranking]].
 
 ## ui-and-playtests-overnight
+
 _Sept 29 1:20 a.m. — attempt refined UI (TV screens, newspapers, ledgers in varied stylings, wired to world records); paint everything a story could need (courtrooms, Fed interior, sidewalks); run browser play tests at checkpoints_
 
 Lamontae, Sept 29 ~1:20 a.m., on the overnight plan: "try your hand at things like the TV screens and newspapers… refined UI… different stylings of ledgers and all those different kinds of newspapers and wiring those." And on art: paint places any story could need — "courtrooms… the federal reserve like inside the building… sidewalks… for people to have conversations… think about the game in totality." And: "that play test you did in your browser was very helpful… English and visual problems and continuity problems… run a few of those… at different checkpoints during the night."
@@ -2360,6 +2606,7 @@ Lamontae, Sept 29 ~1:20 a.m., on the overnight plan: "try your hand at things li
 **How to apply:** Include UI surface stylings in Firefly queues; derive the place list from what the simulation can produce (courts, Fed, hearings, streets), not only from places already named; schedule browser play tests every few hours and feed findings to owners. Related: [[title-screen-and-live-surfaces]], [[zero-dice-and-alive-by-morning]].
 
 ## ui-direction-no-navy
+
 _Sept 29 ~1:30 a.m. — he dislikes the navy UI; wants polished, Steam-storefront-ready look in the spirit of Crusader Kings (and The Sims); no remnants of the old UI era by morning_
 
 Lamontae, Sept 29 ~1:30 a.m., going to bed: "I told you I don't like the Navy stuff… games I like their UI in… Crusader Kings… The Sims… let's get rid of that shitty UI. So tomorrow there should be no remnants of this shitty era of the game. The game should, to some extent, look polished… Steam storefront ready… visually it needs to make sense." Also: "This is the first time I felt like you kind of have a grip on things… do things to completion thoroughly."
@@ -2367,9 +2614,11 @@ Lamontae, Sept 29 ~1:30 a.m., going to bed: "I told you I don't like the Navy st
 **How to apply:** Replace the navy theme everywhere (tokens, panels, buttons, menus, dialogs) with a warm, crafted style: Crusader Kings–like framed panels, portrait frames, textured paper/stone/brass, serif headings, rich tooltips; Sims-like clarity and friendliness in layout. Verify with screenshots of every main screen before claiming done. Related: [[ui-and-art-decisions-sept27]] (Civic Brass + Ink & Scene — keep brass/ink, drop navy), [[ui-and-playtests-overnight]], [[zero-dice-and-alive-by-morning]].
 
 ## ui-kit-picks-oct1
+
 _Oct 1 ~7 p.m.: Canva UI kits. Owner likes the LOOK of kit 2 (Ink & Scene) and the FUNCTION of kit 3 (Capitol Ledger); unsure about the backgrounds; combined kit 4 generated_
 
 On Oct 1, 2026, around 6:50 p.m., I made three 8-page UI kits in Canva (create-design, Presentation 16:9). Each has these pages: tokens, controls, HUD, conversation, glossary, dossier, money and news.
+
 - Kit 1, Civic Brass Glass: https://canva.link/gjlq4siw9kvw9aw (DAHWzkr6MvI).
 - Kit 2, Ink & Scene: https://canva.link/bqv3b3myukfbwuc (DAHWzvtvLs4).
 - Kit 3, Capitol Ledger: https://canva.link/pga2psjp5zgqmud (DAHWzrmkTr4).
@@ -2381,6 +2630,7 @@ I then generated kit 4: Ink & Scene look plus Ledger function, with ONE wax-seal
 **Why:** this is the first UI direction he has liked since the Sept 29 mockups. It needs to land in the game.
 
 **How to apply:**
+
 - Next, rebuild the chosen kit over the REAL game paintings and posed people. Upload them via Canva create-upload-url, or build HTML over the real paintings.
 - Then turn it into a theme brief for the game (tokens, components), as a Codex/Claude UI task, verified with screenshots.
 - Keep these rules every time:
@@ -2425,9 +2675,11 @@ Oct 2, ~12:30 a.m.: no opaque. He wants BETWEEN translucent and transparent (tra
 **Oct 2, ~2:00 a.m.: the kit12 look stays QUEUED (P45). He briefly said to apply it, then: "Sorry, no, don't apply it now. Go ahead and queue it." I cancelled Team 7's assignment in 00e within two minutes. He'll keep adjusting the look tomorrow and wants to PLAY the game tomorrow.
 
 ## ui-mockup-picks-sept29
+
 _Lamontae's picks from the 30 Firefly UI mockups (Sept 29): 22 = dossier layout, 18 = clear bounded glass look, 27 = menu structure; mockups must use real game assets and scenarios_
 
 On Sept 29 at about 3:30 p.m., Lamontae reviewed the 30 overnight UI mockups (Firefly `ui-mock-01..30`; sheets in cto-notes/firefly/ui-mocks/). His picks:
+
 - **Mock 22**: the layout for a person's dossier (full-body figure on the left, tabs, sections). Not its colors.
 - **Mock 18**: "that's kind of the look that I want": the clear, bounded glass panel look.
 - **Mock 27**: the menu structure (tabs across the top, a list on the left, detail on the right). Combine 22's dossier and 18's glass into a menu shaped like 27.
@@ -2440,6 +2692,7 @@ On Sept 29 at about 3:30 p.m., Lamontae reviewed the 30 overnight UI mockups (Fi
 Sept 29, 5:08 p.m.: the "Your choices here / Who is here with you, and what you can do" chip must go, from mockups and from the game ("REMOVE your choices here omg"). Mockups are now built as HTML over the real paintings from real screenshots (cto-notes/ui-mock-html/, rendered with Playwright), in v2-03's smoked glass. He was annoyed I queued Firefly restyles instead of producing mockups from the screenshots right away.
 
 ## weekly-reset-projects-role
+
 _After the weekly reset (3 a.m.), run the Claude Projects lanes the way I ran Codex; /tmp is wiped on reboot_
 
 Lamontae, 2026-09-27 ~10:30 p.m.: "when the weekly resets you will do essentially what you did with codex but with claude projects." After the weekly usage reset (3 a.m. EDT), I orchestrate the Claude Projects cloud lanes (A laws/money, B living town, C elections/local gov, D merge runner, UI). I write exact briefs, review their PRs and numbers, gate and merge, all through the Drive 03 doc ([[coordinator-channel]]).
@@ -2448,6 +2701,7 @@ Lamontae, 2026-09-27 ~10:30 p.m.: "when the weekly resets you will do essentiall
 **How to apply:** read REPLIES every 30 minutes, answer there, confirm Lane A numbers by rerunning their command before the legislation stack merges, and relay QUESTIONS FOR LAMONTAE to him in chat with a recommendation. On a laptop restart, /tmp worktrees and the scratchpad are wiped; tools live in cto-notes/tools, and the handoff is cto-notes/after-restart-2026-09-27.md.
 
 ## what-and-why-before-delegating
+
 _Before delegating a system to project lanes, spell out WHAT it contains and WHY (e.g. which taxes, which levels, what is adjustable); approve lane research before they implement; Drive checkpoints; CI cleanup_
 
 Lamontae, 2026-09-27 ~11:40 p.m., approving the overnight plan: "you need to ask the WHAT AND WHY behind the systems. so instead of just saying 'everyone pays taxes' i had to ask what kind of taxes are in the game, levels of government, adjustable, etc. you need to do that. so that the game actually works. remember it doesnt all need to have a menu but the simulation needs the correct information." Also: project sessions post checkpoints in Google Drive; they close out stale CI runs; the work is done in the cloud sessions; if I assign them research, I approve that research before they implement it.
@@ -2460,11 +2714,13 @@ Follow-up the same night (~11:55 p.m.): he wants Social Security, Medicare and h
 Later that night (~12:05 a.m. Sept 28): "you need to think about government broadly." That means immigration and humanitarian policy (people's legal status), social issues (same-sex marriage, abortion, guns and more, whose views come from values and contact, not money), birth rates responding to policy, work weeks and labor rules, how officials treat the press (FDR/LBJ/Nixon/Trump styles, formed from traits), and every route government acts through: executive orders, regulations, enforcement, courts, ballot measures, the bully pulpit. When planning a system, cover all 18 subject areas and all routes, not just fiscal ones. Specs part 3 has it.
 
 **Sept 28, 9:20 p.m., Lamontae (docket):** "you shouldn't have to record this. This has been a project rule from day 1. Seems like you constantly need to remind yourself and the sessions and check the WHAT AND WHY for everything (within reason)... for most of this stuff the sim just needs to work."
+
 - He was annoyed I re-recorded a day-one rule (no fixed % behavior) as if it were new.
 - Apply it silently in every brief, report and docket item: say what the number is, where it comes from, what it affects and why.
 - He also caught me promising "what and why" and then leaving it out of the next item. Check every item before publishing.
 
 ## when-home-checklist
+
 _Things Lamontae must do himself at his Mac — remind him when he says he's back home_
 
 On 2026-09-26 he said he was away and told me to remember these for when he says "I'm back home" / "get back home":
@@ -2478,9 +2734,11 @@ On 2026-09-26 he said he was away and told me to remember these for when he says
 4. Optionally allow Claude Code permission rules so I can change GitHub settings / write scratch files without the auto-mode classifier blocking me.
 
 **Why:** these need his hands or his permission; I can't do them. **How to apply:** when he says he's home, list these first. Related: [[project-map]].
+
 - (Oct 1, 4:08 a.m.) GitHub Actions: no job has started since ~Sept 27–29; 1,600+ runs queued, 0 running, repo public + ubuntu-latest. Ask him to check Billing and plans / the Actions notice. Main green can't be proven until it runs.
 
 ## work-by-engine
+
 _Oct 1 1:24 — all work is organized BY ENGINE (5 audit engines + clock), one owning squad per engine, items numbered in dependency order (docs/codex/audit-by-engine-2026-10-01.md, #1595); never hand out work by team_
 
 Oct 1, 2026, 1:20 p.m.: "Why is everything scattered again? … Line everything up, get everything in sequence, and then get the assignments right … you had the entire audit."
@@ -2488,6 +2746,7 @@ Oct 1, 2026, 1:20 p.m.: "Why is everything scattered again? … Line everything 
 What went wrong: the rebuild started with four squads (Clock & decisions, Money, Government, Lives), but Elections and Narrative never got one. The 1:53 a.m. gap list then handed out items by TEAM, which scattered each engine. Elections' 18 items sat across five teams, and none was done.
 
 **How to apply:**
+
 - Work is assigned by engine:
   - Clock & decisions: Audit/Systems + Team 7.
   - Government: Teams 1, 2, 9, with the Coordinator on the shared law path.
@@ -2503,16 +2762,18 @@ What went wrong: the rebuild started with four squads (Clock & decisions, Money,
 Related: [[audit-verified-oct1]], [[one-central-ledger]].
 
 ## working-rules-sept28-afternoon
+
 _Sept 28 afternoon rules — approval only for big stuff; placeholders OK overnight but always reported; one shared to-do list for all coding agents; Junior Claude runs many tasks per lane; don't ask obvious questions; no in-game \"you owe\" menus; gendered body language; accessories_
 
 Lamontae, 2026-09-28 at about 3:45 p.m.:
+
 - **Approval scope:** "only need approval for like the bigger stuff." Overnight, placeholders are fine, but every report must say what placeholders were added. Actively hunt existing "PLACEHOLDER" markers and hard-coded values (scripts/research/placeholder-ledger.ts tracks the markers).
 - **One shared to-do list** for ALL coding agents (Junior Claude lanes, cloud teams, Codex). Whoever is free takes the next item, unless he names who does it.
 - **Junior Claude has much more compute:** give each lane many tasks, not one main task.
 - **Don't ask obvious questions:**
   - "Should favors work for everyone or just you?" Everyone, obviously.
   - "Does something said in a speech count as a promise?" Obviously; there's no "click promise" button.
-  Before asking, apply realism and the emergent principle ([[emergent-not-authored]]).
+    Before asking, apply realism and the emergent principle ([[emergent-not-authored]]).
 - **No bookkeeping UIs for social things.** No "you owe her" menu. People act on it in-world: they call, they walk up and say "I voted for your bill last year, I need you now." Not every favor is repaid. Help can come from kindness, ideology or hidden corruption.
 - **Commitments, not only promises.**
 - **Gendered body language:** men and women got the same poses, and the men read effeminate. Look at how real men and women stand, gesture and sit (for example, men's ankle-on-knee versus women's knee-over-knee), and paint each presentation its own way.
@@ -2524,6 +2785,7 @@ Lamontae, 2026-09-28 at about 3:45 p.m.:
 **How to apply:** Build every brief, report and Junior Claude GO list with these rules. Include a "placeholders added" line in every report.
 
 ## zero-dice-and-alive-by-morning
+
 _Sept 29 ~1 a.m. owner bar — roll NO dice (find and remove every hardwired roll/fixed %, guard against new ones), no one-state/one-town special cases, whole-module passes not examples, stress tests not approvals, scene definition, model effort low-first_
 
 Lamontae, Sept 29 ~1 a.m.: "Not roll fewer dice, roll no dice. The game is small enough… find all these hardwired numbers… take them out now and fix them and then keep them from happening again… You're setting your sights too low." Same for anything that only happens in one state or municipality, and leftover one-off bugs.
