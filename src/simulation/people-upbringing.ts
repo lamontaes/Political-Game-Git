@@ -537,20 +537,24 @@ function familyCohortIndex(world: World): FamilyCohortIndex {
   const seenHouseholds = new Set<EntityId>();
   const householdSamples = [];
   for (const membership of world.history.householdMemberships) {
-    const context = contextFor(membership.personId);
-    const householdId = context.household?.household.id;
-    if (
-      !householdId ||
-      seenHouseholds.has(householdId) ||
-      !context.adultMembers.length
-    )
+    const { household, members } = selectedHouseholdMembers(
+      world,
+      membership.personId,
+    );
+    const adultMembers = members.filter(
+      (id) => dateAtAge(world.people[id]!.birthDate, 18) <= world.currentDate,
+    );
+    const householdId = household?.household.id;
+    if (!householdId || seenHouseholds.has(householdId) || !adultMembers.length)
       continue;
     seenHouseholds.add(householdId);
     householdSamples.push({
       personId: membership.personId,
-      placeId: context.placeId,
-      adultIds: context.adultMembers,
-      childCount: context.members.length - context.adultMembers.length,
+      placeId:
+        household?.location?.jurisdictionId ??
+        world.people[membership.personId]!.homeJurisdictionId,
+      adultIds: adultMembers,
+      childCount: members.length - adultMembers.length,
     });
   }
   const householdsByPlace = new Map<EntityId, typeof householdSamples>();
