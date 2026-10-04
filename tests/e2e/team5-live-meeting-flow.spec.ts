@@ -3,7 +3,7 @@ import { enterLife, goTo, startLife, saveLife } from "./support/creator";
 
 // Same three distinct random draws as the source proof, including county-only Dyer.
 const places = [
-  { key: "3220700", place: "Dyer", state: "Nevada", route: "today" },
+  { key: "3220700", place: "Dyer", state: "Nevada", route: "calendar" },
   {
     key: "2537385",
     place: "Lunenburg",
@@ -56,23 +56,14 @@ for (const place of places)
     }
     await goTo(page, "nav-calendar");
     await expect(page.getByTestId("ordinary-section")).toBeVisible();
-    if (place.route === "today") {
-      await page
-        .getByRole("button", { name: "Posted public meeting", exact: true })
-        .click();
-    } else {
-      const entry = page
-        .locator('[data-testid^="calendar-entry-"]')
-        .filter({ hasText: "Posted public meeting" })
-        .first();
-      await entry.click();
-    }
+    const entry = page
+      .getByTestId("calendar-upcoming")
+      .locator('[data-testid^="calendar-entry-"]')
+      .filter({ hasText: "Posted public meeting" })
+      .first();
+    await entry.click();
     await page.getByTestId("calendar-play-event").focus();
     await page.keyboard.press("Enter");
-    await page
-      .getByRole("region", { name: "Calendar", exact: true })
-      .getByRole("button", { name: "Close", exact: true })
-      .click();
     const panel = page.getByTestId("ordinary-meeting-panel");
     await expect(panel).toBeVisible();
     await expect(panel.getByTestId("ordinary-meeting-people")).toBeVisible();
