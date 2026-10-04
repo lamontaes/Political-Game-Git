@@ -53,6 +53,7 @@ import {
   type RegionFill,
 } from "./political-map-model";
 import { MAP_CANVAS } from "./projection";
+import { mapLabelLayout } from "./map-label-layout";
 import {
   dateAtStep,
   stepForDate,
@@ -231,6 +232,38 @@ export function PoliticalMap(props: PoliticalMapProps) {
   const [query, setQuery] = useState("");
   const [view, setView] = useState<ViewBox>(preferences.view ?? HOME_VIEW);
   const svgRef = useRef<SVGSVGElement | null>(null);
+  const [viewport, setViewport] = useState({
+    width: 0,
+    height: 0,
+    fontFamily: "serif",
+  });
+  useEffect(() => {
+    const svg = svgRef.current;
+    if (!svg) return;
+    let live = true;
+    const update = () => {
+      if (!live) return;
+      const { width, height } = svg.getBoundingClientRect();
+      const fontFamily = getComputedStyle(svg).fontFamily;
+      setViewport((previous) =>
+        previous.width === width &&
+        previous.height === height &&
+        previous.fontFamily === fontFamily
+          ? previous
+          : { width, height, fontFamily },
+      );
+    };
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(svg);
+    void document.fonts.ready.then(() => {
+      if (live) setViewport((previous) => ({ ...previous }));
+    });
+    return () => {
+      live = false;
+      observer.disconnect();
+    };
+  }, [preferences.presentation, national]);
   const drag = useRef<{ x: number; y: number; moved: boolean } | null>(null);
 
   const setPrefs = useCallback(
@@ -610,7 +643,10 @@ export function PoliticalMap(props: PoliticalMapProps) {
     Boolean(entry),
   );
 
-  const labelSize = 11 * scaleHint;
+  const labelScale = Math.min(
+    viewport.width / view.w,
+    viewport.height / view.h,
+  );
   const insetFrames = useMemo(
     () =>
       (["alaska", "hawaii"] as const).flatMap((inset) => {
@@ -635,15 +671,51 @@ export function PoliticalMap(props: PoliticalMapProps) {
       }),
     [national],
   );
-  // Label only what is wide enough on screen to read; never a wall of text.
-  const labelFits = (feature: MapFeature, text: string) =>
-    ((feature.bbox[2] - feature.bbox[0]) / view.w) * 900 >
-      text.length * 7 + 6 &&
-    ((feature.bbox[3] - feature.bbox[1]) / view.h) * 560 > 14 &&
-    feature.bbox[2] > view.x &&
-    feature.bbox[0] < view.x + view.w &&
-    feature.bbox[3] > view.y &&
-    feature.bbox[1] < view.y + view.h;
+  const labels = useMemo(() => {
+    if (!preferences.labels || labelScale <= 0) return [];
+    const context = document.createElement("canvas").getContext("2d");
+    if (!context) return [];
+    const candidates = [
+      ...(!stateUsps && layer !== "state"
+        ? outlineStates.map((feature) => ({ feature, context: true }))
+        : []),
+      ...features.map((feature) => ({ feature, context: false })),
+    ];
+    // Keep a selected region readable before admitting neighboring labels.
+    candidates.sort(
+      (a, b) =>
+        Number(b.feature.geoid === selection?.geoid) -
+        Number(a.feature.geoid === selection?.geoid),
+    );
+    return mapLabelLayout(
+      view,
+      viewport,
+      candidates.map(({ feature, context: isContext }) => ({
+        key: `${isContext ? "context" : "region"}:${feature.geoid}`,
+        feature,
+        texts:
+          isContext || layer === "state"
+            ? [stateNameForUsps(feature.stateUsps), feature.stateUsps]
+            : [shortName(feature, layer)],
+        fontPixels: isContext ? 12.1 : 11,
+        context: isContext,
+      })),
+      (text, size) => {
+        context.font = `600 ${size}px ${viewport.fontFamily}`;
+        return context.measureText(text).width;
+      },
+    );
+  }, [
+    preferences.labels,
+    view,
+    viewport,
+    features,
+    outlineStates,
+    stateUsps,
+    layer,
+    selection?.geoid,
+    labelScale,
+  ]);
 
   return (
     <section
@@ -1018,52 +1090,18 @@ export function PoliticalMap(props: PoliticalMapProps) {
                   })
                 : null}
 
-              {preferences.labels && !stateUsps && layer !== "state"
-                ? outlineStates.map((feature) => {
-                    const name = stateNameForUsps(feature.stateUsps);
-                    const text = labelFits(feature, name)
-                      ? name
-                      : feature.stateUsps;
-                    return labelFits(feature, text) ? (
-                      <text
-                        key={`state-context-${feature.geoid}`}
-                        x={feature.label[0]}
-                        y={feature.label[1]}
-                        className="pg-map-label pg-map-state-label"
-                        fontSize={labelSize * 1.1}
-                        aria-hidden="true"
-                      >
-                        {text}
-                      </text>
-                    ) : null;
-                  })
-                : null}
-              {preferences.labels
-                ? features.map((feature) => {
-                    const text =
-                      layer === "state"
-                        ? labelFits(
-                            feature,
-                            stateNameForUsps(feature.stateUsps),
-                          )
-                          ? stateNameForUsps(feature.stateUsps)
-                          : feature.stateUsps
-                        : shortName(feature, layer);
-                    if (!labelFits(feature, text)) return null;
-                    return (
-                      <text
-                        key={`label-${feature.geoid}`}
-                        x={feature.label[0]}
-                        y={feature.label[1]}
-                        className="pg-map-label"
-                        fontSize={labelSize}
-                        aria-hidden="true"
-                      >
-                        {text}
-                      </text>
-                    );
-                  })
-                : null}
+              {labels.map((label) => (
+                <text
+                  key={label.key}
+                  x={label.feature.label[0]}
+                  y={label.feature.label[1]}
+                  className={`pg-map-label${label.context ? " pg-map-state-label" : ""}`}
+                  fontSize={label.fontPixels / labelScale}
+                  aria-hidden="true"
+                >
+                  {label.text}
+                </text>
+              ))}
 
               {markers.map((marker) => (
                 <g

@@ -254,6 +254,8 @@
   pointer-events: none;
 }
 .pg-map-label {
+  fill: #2e2619;
+  stroke-width: 0.15em;
   text-anchor: middle;
   dominant-baseline: central;
   font-weight: 600;
