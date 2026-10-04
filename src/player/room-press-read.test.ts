@@ -1,3 +1,4 @@
+import type { EntityId, IsoDate } from "../simulation";
 import { describe, expect, it } from "vitest";
 import type { LivingSurfaceRecord } from "../presentation/living-scene-surfaces";
 import {
@@ -9,15 +10,15 @@ import { EMPTY_SURFACE_PROJECTION } from "../presentation/surface-projection";
 import { roomPressPublicationId } from "./room-press-read";
 
 const story = {
-  publicationId: "controlled-publication",
+  publicationId: "controlled-publication" as EntityId,
   outletName: "Recorded outlet",
   headline: "Recorded story",
   deck: null,
   body: "Recorded body",
-  publishedAt: "2026-01-05",
+  publishedAt: "2026-01-05" as IsoDate,
 };
 const outlet = {
-  outletId: "controlled-outlet",
+  outletId: "controlled-outlet" as EntityId,
   outletKey: "controlled-key",
   name: story.outletName,
   look: 0,
@@ -47,7 +48,7 @@ const record: LivingSurfaceRecord = {
       id: story.publicationId,
       headline: story.headline,
       readerHeadline: story.headline,
-      sourceEventId: "controlled-source",
+      sourceEventId: "controlled-source" as EntityId,
       sourceRecordIds: [],
       body: story.body,
       outletKey: outlet.outletKey,
@@ -95,7 +96,10 @@ describe("exact room press-publication admission", () => {
         ...record,
         detail: {
           kind: "article",
-          article: { ...record.detail.article, id: "other-publication" },
+          article: {
+            ...record.detail.article,
+            id: "other-publication" as EntityId,
+          },
         },
       }),
     ).toBeNull();
