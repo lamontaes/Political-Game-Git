@@ -1,3 +1,5 @@
+import { useActionReceipt } from "./action-receipt";
+import { hasCurrentOffice } from "./current-office-access";
 import {
   NATIVE_SAVE_EVENT,
   NATIVE_SESSION_QUERY_EVENT,
@@ -474,7 +476,7 @@ export function PlayerGame() {
    */
   useContentViewportCss();
   const [saves, setSaves] = useState<readonly BrowserWorldSummary[]>([]);
-  const [notice, setNotice] = useState<string | null>(null);
+  const [notice, setNotice] = useActionReceipt();
   const [problem, setProblem] = useState<string | null>(null);
   const [damaged, setDamaged] = useState<readonly QuarantinedSave[]>([]);
   const savesUnavailable = store === null;
@@ -676,18 +678,20 @@ export function PlayerGame() {
             }
           : current,
       );
+      await refreshSaves();
       setNotice(
         shellSaved
           ? "Saved."
           : "Your life was saved, but your pins and display preferences could not be kept.",
+        shellSaved,
       );
-      await refreshSaves();
       return shellSaved;
     } catch {
       setProblem("This game could not be saved just now.");
       return false;
     } finally {
       saveInFlight.current = false;
+      setNotice((current) => (current === "Saving…" ? null : current));
     }
   }
 
@@ -751,7 +755,7 @@ export function PlayerGame() {
       });
     }
     await refreshSaves();
-    setNotice("Deleted.");
+    setNotice("Deleted.", true);
   }
 
   /**
@@ -918,7 +922,10 @@ export function PlayerGame() {
                   onOpen={(saveId) => void loadSave(saveId)}
                   onDelete={(saveId) => void deleteSave(saveId)}
                   onTransferSettled={(nextNotice, nextProblem) => {
-                    setNotice(nextNotice);
+                    setNotice(
+                      nextNotice,
+                      nextProblem === null && nextNotice !== null,
+                    );
                     setProblem(nextProblem);
                     void refreshSaves();
                   }}
@@ -1314,14 +1321,43 @@ function PlayingScreen({
   const [shell, dispatch] = useShell(session.world, session.saveId, shellStore);
   /*
    * The world introduction follows a new, not-yet-saved life until it is
-   * finished or skipped. Loaded lives never see it pushed at them; it stays
+   * finished with Begin. Loaded lives never see it pushed at them; it stays
    * available from News.
    */
   const orientation = useWorldOrientation(session.world, session.personId);
+  const firstLife = useRef(session.unsavedSeed !== null);
+  const [orientationPaused, setOrientationPaused] = useState(false);
   const showOrientation =
-    !observing &&
-    session.unsavedSeed !== null &&
-    !shell.progress.orientationSeen;
+    !observing && firstLife.current && !shell.progress.orientationSeen;
+
+  useEffect(() => {
+    if (
+      orientationPaused &&
+      shell.navigation === "closed" &&
+      activeView(shell).surface === "scene" &&
+      !shell.confirmingLeave
+    ) {
+      setOrientationPaused(false);
+    }
+  }, [
+    orientationPaused,
+    shell.navigation,
+    shell.history,
+    shell.confirmingLeave,
+  ]);
+
+  useEffect(() => {
+    if (!showOrientation || orientationPaused) return;
+    const pauseIntro = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      event.stopPropagation();
+      setOrientationPaused(true);
+      dispatch({ type: "open-nav-primary" });
+    };
+    document.addEventListener("keydown", pauseIntro, true);
+    return () => document.removeEventListener("keydown", pauseIntro, true);
+  }, [showOrientation, orientationPaused, dispatch]);
 
   const [assignment, setAssignment] = useState<LegislativeAssignment | null>(
     null,
@@ -1362,7 +1398,7 @@ function PlayingScreen({
    * calendar uses, with the same interruption preferences. The outcome is
    * said in the HUD so the player reads where time actually stopped and why.
    */
-  const [passOutcome, setPassOutcome] = useState<string | null>(null);
+  const [passOutcome, setPassOutcome] = useActionReceipt();
   /*
    * Where the clicked scene person stands, kept with that person. A card
    * reached any other way, or for somebody else, has no anchor and uses the
@@ -1429,6 +1465,7 @@ function PlayingScreen({
           report.stoppedEarly && report.target
             ? `${stoppedEarlyLabel(report.target)}${news ? ` ${news}` : ""}`
             : news,
+          report.status === "accepted" && !report.stoppedEarly,
         );
       });
     },
@@ -1437,7 +1474,10 @@ function PlayingScreen({
   const passUntilNeeded = useCallback(() => {
     crisisStop.watch();
     submitTime({ kind: "quiet-stretch" }, (report) => {
-      setPassOutcome(describeTimeCommandReport(report));
+      setPassOutcome(
+        describeTimeCommandReport(report),
+        report.status === "accepted" && !report.stoppedEarly,
+      );
       if (
         report.status === "accepted" &&
         report.reached &&
@@ -1836,15 +1876,7 @@ function PlayingScreen({
    * could not tell anybody whether what they were hunting for was behind it.
    * The hint is now built from what the Work surface will actually mount.
    */
-  const holdsOffice =
-    !capabilities.formativeYears &&
-    (judicialOfficeContexts(session.world).length > 0 ||
-      resolveExecutiveOffice(session.world) !== null ||
-      // A governorship is a held office recorded against the office itself,
-      // not an executive employment relationship, so it has to be asked for
-      // by name or the menu sends an officeholder to Campaigns.
-      governingOfficeForPerson(session.world, session.personId) !== null ||
-      capabilities.legislation);
+  const holdsOffice = hasCurrentOffice(session.world, session.personId);
   const workHint = capabilities.formativeYears
     ? "School, and anything waiting on you"
     : [
@@ -2023,6 +2055,8 @@ function PlayingScreen({
       open: openSurface === "options" || openSurface === "patch-notes",
       group: "options",
     });
+    if (showOrientation)
+      return entries.filter((entry) => entry.surface === "options");
     if (!readOnly) return entries;
     // Nobody is played: only the reading surfaces stay, and Politics opens
     // on who governs rather than on an office or a campaign.
@@ -2047,6 +2081,7 @@ function PlayingScreen({
     openSurface,
     view,
     readOnly,
+    showOrientation,
   ]);
 
   const openEntity = useCallback(
@@ -2503,7 +2538,7 @@ function PlayingScreen({
                     personId={session.personId}
                     onWorldChange={onWorldChange}
                     onOpenEntity={openEntity}
-                    onOutcome={setPassOutcome}
+                    onOutcome={(outcome) => setPassOutcome(outcome, true)}
                   />
                 </>
               ) : null}
@@ -2516,13 +2551,14 @@ function PlayingScreen({
                   personId={session.personId}
                   onWorldChange={onWorldChange}
                   onOpenEntity={openEntity}
-                  onOutcome={setPassOutcome}
+                  onOutcome={(outcome) => setPassOutcome(outcome, true)}
                 />
               ) : null}
-              {view.surface === "scene" && !readOnly ? (
-                <OpeningLifeFlow
-                  key={`${session.world.id}:${session.personId}`}
-                  /*
+              {(view.surface === "scene" || showOrientation) && !readOnly ? (
+                <div hidden={view.surface !== "scene" || orientationPaused}>
+                  <OpeningLifeFlow
+                    key={`${session.world.id}:${session.personId}`}
+                    /*
                     The room's own seam, wired at last. The moment is the
                     panel's body; the room offers it and the player opens it,
                     because a panel standing permanently over a full room
@@ -2530,79 +2566,88 @@ function PlayingScreen({
                     and the first orientation are full surfaces of their own,
                     so the moment is not offered underneath them.
                   */
-                  pendingAvailable={
-                    !conversation &&
-                    !showOrientation &&
-                    projectedMoment.scene.kind !== "ordinary-stretch"
-                  }
-                  pendingOpen={
-                    shell.momentOpen &&
-                    projectedMoment.scene.kind !== "ordinary-stretch"
-                  }
-                  pendingLife={
-                    <StoryView
-                      session={session}
-                      moment={projectedMoment}
-                      onWorldChange={onWorldChange}
-                    />
-                  }
-                  onOpenPending={() => dispatch({ type: "open-moment" })}
-                  onClosePending={() => dispatch({ type: "close-moment" })}
-                  world={session.world}
-                  playerPersonId={session.personId}
-                  onWorldChange={onWorldChange}
-                  transitionHandlers={createCampaignElectionTransitionRegistry()}
-                  onTalkTo={(personId) => talkTo(personId, undefined, "panel")}
-                  returnFocusTo={returnFocusTo}
-                  onFocusReturned={() => setReturnFocusTo(null)}
-                  foreground={
-                    conversation && view.surface === "scene" ? (
-                      <SceneConversation
-                        key={conversation.subject}
-                        world={session.world}
-                        playerPersonId={session.personId}
-                        subject={conversation.subject}
-                        addressee={conversation.addressee}
+                    pendingAvailable={
+                      !conversation &&
+                      !showOrientation &&
+                      projectedMoment.scene.kind !== "ordinary-stretch"
+                    }
+                    pendingOpen={
+                      shell.momentOpen &&
+                      projectedMoment.scene.kind !== "ordinary-stretch"
+                    }
+                    pendingLife={
+                      <StoryView
+                        session={session}
+                        moment={projectedMoment}
                         onWorldChange={onWorldChange}
-                        onChange={(next) =>
-                          dispatch({ type: "set-conversation", ...next })
-                        }
-                        onBack={() => {
-                          const facing = conversation.addressee;
-                          dispatch({ type: "end-conversation" });
-                          // Started from a record: Back returns to that record.
-                          if (canGoBack(shell)) {
-                            dispatch({ type: "back" });
-                            requestAnimationFrame(() =>
-                              document
-                                .querySelector<HTMLElement>(
-                                  ".pg-workspace-controls button",
-                                )
-                                ?.focus(),
-                            );
-                            return;
+                      />
+                    }
+                    onOpenPending={() => dispatch({ type: "open-moment" })}
+                    onClosePending={() => dispatch({ type: "close-moment" })}
+                    world={session.world}
+                    playerPersonId={session.personId}
+                    onWorldChange={onWorldChange}
+                    transitionHandlers={createCampaignElectionTransitionRegistry()}
+                    onTalkTo={(personId) =>
+                      talkTo(personId, undefined, "panel")
+                    }
+                    returnFocusTo={returnFocusTo}
+                    onFocusReturned={() => setReturnFocusTo(null)}
+                    foreground={
+                      conversation && view.surface === "scene" ? (
+                        <SceneConversation
+                          key={conversation.subject}
+                          world={session.world}
+                          playerPersonId={session.personId}
+                          subject={conversation.subject}
+                          addressee={conversation.addressee}
+                          onWorldChange={onWorldChange}
+                          onChange={(next) =>
+                            dispatch({ type: "set-conversation", ...next })
                           }
-                          if (facing !== "everyone") setReturnFocusTo(facing);
-                        }}
-                        transitionHandlers={createCampaignElectionTransitionRegistry()}
-                        presentPersonIds={presentPersonIds}
-                      />
-                    ) : showOrientation ? (
-                      <WorldOrientationPanel
-                        world={session.world}
-                        personId={session.personId}
-                        view={orientation.view}
-                        homeStateUsps={orientation.homeStateUsps}
-                        regionalPlate={orientation.regionalPlate}
-                        mode="first"
-                        onClose={() => dispatch({ type: "finish-orientation" })}
-                        onOpenPerson={(personId) =>
-                          dispatch({ type: "open-quick-dossier", personId })
-                        }
-                      />
-                    ) : null
-                  }
-                />
+                          onBack={() => {
+                            const facing = conversation.addressee;
+                            dispatch({ type: "end-conversation" });
+                            // Started from a record: Back returns to that record.
+                            if (canGoBack(shell)) {
+                              dispatch({ type: "back" });
+                              requestAnimationFrame(() =>
+                                document
+                                  .querySelector<HTMLElement>(
+                                    ".pg-workspace-controls button",
+                                  )
+                                  ?.focus(),
+                              );
+                              return;
+                            }
+                            if (facing !== "everyone") setReturnFocusTo(facing);
+                          }}
+                          transitionHandlers={createCampaignElectionTransitionRegistry()}
+                          presentPersonIds={presentPersonIds}
+                        />
+                      ) : showOrientation ? (
+                        <WorldOrientationPanel
+                          world={session.world}
+                          personId={session.personId}
+                          view={orientation.view}
+                          homeStateUsps={orientation.homeStateUsps}
+                          regionalPlate={orientation.regionalPlate}
+                          mode="first"
+                          onPause={() => {
+                            setOrientationPaused(true);
+                            dispatch({ type: "open-nav-primary" });
+                          }}
+                          onClose={() =>
+                            dispatch({ type: "finish-orientation" })
+                          }
+                          onOpenPerson={(personId) =>
+                            dispatch({ type: "open-quick-dossier", personId })
+                          }
+                        />
+                      ) : null
+                    }
+                  />
+                </div>
               ) : null}
             </SceneBackdrop>
 
@@ -2779,7 +2824,11 @@ function PlayingScreen({
 
             <div className="life-hud" data-testid="life-hud">
               {notice ? (
-                <p className="life-hud-note" role="status">
+                <p
+                  className="life-hud-note"
+                  role="status"
+                  data-transient="false"
+                >
                   {notice}
                 </p>
               ) : null}
@@ -2787,6 +2836,7 @@ function PlayingScreen({
                 <p
                   className="life-hud-note life-hud-note--problem"
                   role="status"
+                  data-transient="false"
                 >
                   {problem}
                 </p>
@@ -2808,18 +2858,24 @@ function PlayingScreen({
                   </button>
                 </p>
               ) : null}
-              {!shellReadOnly(session.world) ? (
+              {!showOrientation && !shellReadOnly(session.world) ? (
                 <MeetingStopActions
                   world={session.world}
                   personId={session.personId}
                   runner={timeRunner}
-                  onReport={(report) => setPassOutcome(report.outcome)}
+                  onReport={(report) =>
+                    setPassOutcome(
+                      report.outcome,
+                      report.status === "accepted" && !report.stoppedEarly,
+                    )
+                  }
                 />
               ) : null}
               {crisisStop.stop ? (
                 <p
                   className="life-hud-note life-hud-note--problem"
                   role="status"
+                  data-transient="false"
                   data-testid="crisis-stop"
                 >
                   {crisisStop.stop.sentence}
@@ -2868,7 +2924,7 @@ function PlayingScreen({
                   {person.name}: {person.wardrobeRefusal}
                 </p>
               ))}
-            {!showOrientation || shell.confirmingLeave ? (
+            {!showOrientation || orientationPaused || shell.confirmingLeave ? (
               <ShellNav
                 state={shell}
                 dispatch={dispatch}
@@ -2903,7 +2959,7 @@ function PlayingScreen({
                 }}
                 onSaveAndLeave={() => void saveAndReturnToTitle()}
                 onLeave={leaveNow}
-                {...(readOnly
+                {...(readOnly || showOrientation
                   ? {}
                   : {
                       onPassDays: passDays,
@@ -3235,7 +3291,11 @@ function renderWorkspace({
         active={active}
         onSelect={goTo}
         hidden={
-          capabilities.formativeYears || readOnly ? ["office", "campaigns"] : []
+          capabilities.formativeYears || readOnly
+            ? ["office", "campaigns"]
+            : !hasCurrentOffice(session.world, session.personId)
+              ? ["office"]
+              : []
         }
         subItems={subItems.map((item) => ({
           ...item,
@@ -4315,11 +4375,14 @@ function renderWorkspace({
           ? "jobs"
           : view.surface === "candidacy"
             ? "campaign"
-            : view.section === "office" ||
-                view.section === "campaign" ||
-                view.section === "jobs"
-              ? view.section
-              : "all";
+            : view.section === "office" &&
+                !hasCurrentOffice(session.world, session.personId)
+              ? "jobs"
+              : view.section === "office" ||
+                  view.section === "campaign" ||
+                  view.section === "jobs"
+                ? view.section
+                : "all";
       const sections: WorkSection[] = [];
       const officeHalf = half === "office" || half === "all";
       /*

@@ -69,7 +69,7 @@ import {
  * Every word and number comes from the orientation view, which reads the saved
  * World. Choosing a name opens that person's ordinary card — the same card the
  * People web opens — and grants nothing: no acquaintance, no knowledge, no
- * travel. Back, Next, Skip and Close are navigation only.
+ * travel. Back, Next, Begin and Close are navigation only.
  */
 export function WorldOrientationPanel({
   view,
@@ -77,6 +77,7 @@ export function WorldOrientationPanel({
   regionalPlate,
   mode,
   onClose,
+  onPause,
   onOpenPerson,
   world,
   personId,
@@ -95,6 +96,7 @@ export function WorldOrientationPanel({
   /** "first" follows a new life; "revisit" is reopened from the menu. */
   readonly mode: "first" | "revisit";
   readonly onClose: () => void;
+  readonly onPause?: () => void;
   readonly onOpenPerson: (personId: EntityId) => void;
   readonly world?: World;
   readonly personId?: EntityId;
@@ -408,8 +410,10 @@ export function WorldOrientationPanel({
       data-step={step.key}
       onKeyDown={(event) => {
         if (event.key !== "Escape") return;
+        event.preventDefault();
         event.stopPropagation();
-        close();
+        if (mode === "first") onPause?.();
+        else close();
       }}
     >
       <SceneChapterTransition
@@ -810,16 +814,16 @@ export function WorldOrientationPanel({
                       )
                 }
               >
-                {last ? "Done" : "Next"}
+                {last ? (mode === "first" ? "Begin" : "Close") : "Next"}
               </button>
-              {!last ? (
+              {!last && mode === "revisit" ? (
                 <button
                   type="button"
                   className="ui-action"
                   data-testid="orientation-skip"
                   onClick={close}
                 >
-                  {mode === "first" ? "Skip" : "Close"}
+                  Close
                 </button>
               ) : null}
             </div>
