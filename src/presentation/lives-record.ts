@@ -70,8 +70,7 @@ const CARE: Record<CaregivingClimate, string> = {
   inconsistent: "The adults who raised you were hard to predict.",
   "high-conflict": "There was a lot of conflict in the house.",
   harsh: "The adults who raised you were harsh.",
-  "estimated-care":
-    "ESTIMATED FROM AVERAGE: adults shared the care of the children in your family.",
+  "estimated-care": "Adults shared the care of the children in your family.",
   "not-recorded": "How the adults who raised you treated you is not on record.",
 };
 const EVENT: Record<UpbringingEvent, string> = {
@@ -117,21 +116,12 @@ function upbringingLines(world: World, personId: EntityId): readonly string[] {
         ? `Your parents were ${names.join(" and ")}${place ? `, in ${place}` : ""}.`
         : `${context.estimatedParentCount !== null ? `You grew up with ${context.estimatedParentCount} ${context.estimatedParentCount === 1 ? "parent" : "parents"}` : "You grew up"}${place ? ` in ${place}` : ""}.`,
     );
-    if (context.caregiverCapacity !== null)
-      lines.push(
-        `ESTIMATED FROM AVERAGE: about ${Number(context.caregiverCapacity.toFixed(2))} ${context.caregiverCapacity === 1 ? "caregiver" : "caregivers"} per child in your family.`,
-      );
     if (context.estimatedSiblingCount !== null)
       lines.push(
         `You grew up with ${context.estimatedSiblingCount} ${context.estimatedSiblingCount === 1 ? "sibling" : "siblings"}.`,
       );
     if (context.congregationIds.length)
       lines.push("Your family belonged to a congregation.");
-    if (
-      (early && early.source.kind !== "world-record") ||
-      (later && later.source.kind !== "world-record")
-    )
-      lines[0] = `ESTIMATED FROM AVERAGE: ${lines[0]}`;
   } else {
     lines.push(STABILITY[record.homeStability]);
   }
