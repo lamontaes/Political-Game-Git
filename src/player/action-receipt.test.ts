@@ -35,3 +35,35 @@ describe("completed action receipt lifetime", () => {
     expect(vi.getTimerCount()).toBe(0);
   });
 });
+
+it("waits for the actual CSS fade without duplicating its timing", async () => {
+  vi.useFakeTimers();
+  let finish!: () => void;
+  const fade = new Promise<void>((resolve) => {
+    finish = resolve;
+  });
+  const expire = vi.fn();
+  scheduleCompletedReceiptExpiry(true, expire, () => [fade]);
+  vi.advanceTimersByTime(3_000);
+  expect(expire).not.toHaveBeenCalled();
+  finish();
+  await Promise.resolve();
+  await Promise.resolve();
+  expect(expire).toHaveBeenCalledTimes(1);
+});
+
+it("cannot clear a replacement or unmounted receipt when an old fade finishes", async () => {
+  vi.useFakeTimers();
+  let finish!: () => void;
+  const fade = new Promise<void>((resolve) => {
+    finish = resolve;
+  });
+  const expire = vi.fn();
+  const cancel = scheduleCompletedReceiptExpiry(true, expire, () => [fade]);
+  vi.advanceTimersByTime(3_000);
+  cancel();
+  finish();
+  await Promise.resolve();
+  await Promise.resolve();
+  expect(expire).not.toHaveBeenCalled();
+});

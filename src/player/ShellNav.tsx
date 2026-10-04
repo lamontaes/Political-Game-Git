@@ -1,6 +1,10 @@
 import { formatMinute } from "../presentation/player-calendar";
 import { proseWeekdayDate } from "../presentation/prose-dates";
 import type { SimulationMoment } from "../simulation";
+import {
+  nativeQuitAvailable,
+  requestNativeQuit,
+} from "./native-session-bridge";
 import { InterruptionChecklist } from "./InterruptionChecklist";
 import {
   useEffect,
@@ -235,6 +239,7 @@ export function ShellNav({
   placeName,
   destinations,
   canSave,
+  firstIntro = false,
   unsaved,
   onSave,
   onSaveAndLeave,
@@ -261,6 +266,8 @@ export function ShellNav({
   readonly placeName: string | null;
   readonly destinations: readonly ShellDestination[];
   readonly canSave: boolean;
+  /** An unfinished first intro permits settings and native Quit only. */
+  readonly firstIntro?: boolean;
   readonly unsaved: boolean;
   readonly onSave: () => void;
   readonly onSaveAndLeave?: () => void;
@@ -434,16 +441,23 @@ export function ShellNav({
       : null;
 
   const primaryGroups = GROUP_ORDER.flatMap((group) => {
-    const entries = destinations.filter((entry) => entry.group === group);
+    const entries = destinations.filter(
+      (entry) =>
+        entry.group === group && (!firstIntro || entry.surface === "options"),
+    );
     return entries.length === 0 ? [] : [{ group, entries }];
   });
   const submenuEntries = submenuGroup
-    ? destinations.filter((entry) => entry.group === submenuGroup)
+    ? destinations.filter(
+        (entry) =>
+          entry.group === submenuGroup &&
+          (!firstIntro || entry.surface === "options"),
+      )
     : [];
   const layout = fanLayout(
     submenuGroup
       ? submenuEntries.length + 1
-      : primaryGroups.length + (canSave ? 1 : 0) + 1,
+      : primaryGroups.length + (canSave && !firstIntro ? 1 : 0) + 1,
   );
 
   /* Arrow keys, Home and End move through the entries, in reading order. */
@@ -699,7 +713,7 @@ export function ShellNav({
                   return renderEntry(
                     { ...only, hint: only.hint || meta.hint },
                     style,
-                    meta.label,
+                    firstIntro ? only.label : meta.label,
                   );
                 }
                 return (
@@ -727,7 +741,7 @@ export function ShellNav({
                 );
               })}
               <div className="pg-nav-persist">
-                {canSave ? (
+                {canSave && !firstIntro ? (
                   <button
                     type="button"
                     role="menuitem"
@@ -742,17 +756,24 @@ export function ShellNav({
                 <button
                   type="button"
                   role="menuitem"
-                  data-testid="leave-game"
+                  data-testid={firstIntro ? "quit-app" : "leave-game"}
+                  disabled={firstIntro && !nativeQuitAvailable()}
                   style={fanStyle(
                     layout,
-                    primaryGroups.length + (canSave ? 1 : 0),
+                    primaryGroups.length + (canSave && !firstIntro ? 1 : 0),
                   )}
                   onClick={() =>
-                    onAskLeave ? onAskLeave() : dispatch({ type: "ask-leave" })
+                    firstIntro
+                      ? requestNativeQuit()
+                      : onAskLeave
+                        ? onAskLeave()
+                        : dispatch({ type: "ask-leave" })
                   }
                 >
-                  Return to title
-                  <small>To the main menu</small>
+                  {firstIntro ? "Quit" : "Return to title"}
+                  <small>
+                    {firstIntro ? "Close the desktop app" : "To the main menu"}
+                  </small>
                 </button>
               </div>
             </>
@@ -760,7 +781,7 @@ export function ShellNav({
         </div>
       ) : null}
 
-      {state.confirmingLeave ? (
+      {state.confirmingLeave && !firstIntro ? (
         <div
           className="pg-nav-flyout pg-nav-confirm"
           role="alertdialog"

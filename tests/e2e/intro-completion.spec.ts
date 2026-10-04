@@ -26,12 +26,24 @@ test("first intro pauses on the same card and only Begin completes it", async ({
   const step = await intro.getAttribute("data-step");
   await page.keyboard.press("Escape");
   await expect(intro).toBeHidden();
-  await expect(page.getByTestId("leave-game")).toBeVisible();
+  await expect(page.getByTestId("quit-app")).toBeVisible();
+  await expect(page.getByTestId("quit-app")).toBeDisabled();
+  await expect(page.getByTestId("leave-game")).toHaveCount(0);
+  await expect(page.getByTestId("keep-world")).toHaveCount(0);
+  await expect(page.getByTestId("save-world")).toHaveCount(0);
+  await expect(page.getByRole("menuitem")).toHaveText([/Options/, /Quit/]);
   const clock = await page
     .getByTestId("shell-nav-cluster")
     .getAttribute("aria-label");
   await page.getByTestId("nav-options").click();
   await expect(page.getByTestId("options-workspace")).toBeVisible();
+  await expect(page.getByTestId("return-to-title")).toHaveCount(0);
+  await expect(page.getByText("Return to title", { exact: true })).toHaveCount(
+    0,
+  );
+  await expect(page.getByText("Retire from play", { exact: true })).toHaveCount(
+    0,
+  );
   await page.keyboard.press("Escape");
   await expect(intro).toBeVisible();
   await expect(intro).toHaveAttribute("data-step", step!);

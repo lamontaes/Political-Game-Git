@@ -1,4 +1,7 @@
-import { useActionReceipt } from "./action-receipt";
+import {
+  useActionReceipt,
+  type ActionReceiptPresentation,
+} from "./action-receipt";
 import { hasCurrentOffice } from "./current-office-access";
 import {
   NATIVE_SAVE_EVENT,
@@ -476,7 +479,7 @@ export function PlayerGame() {
    */
   useContentViewportCss();
   const [saves, setSaves] = useState<readonly BrowserWorldSummary[]>([]);
-  const [notice, setNotice] = useActionReceipt();
+  const [notice, setNotice, noticePresentation] = useActionReceipt();
   const [problem, setProblem] = useState<string | null>(null);
   const [damaged, setDamaged] = useState<readonly QuarantinedSave[]>([]);
   const savesUnavailable = store === null;
@@ -1077,6 +1080,7 @@ export function PlayerGame() {
       shellStore={shellStore}
       session={session}
       notice={notice}
+      noticePresentation={noticePresentation}
       problem={problem}
       onWorldChange={(world, base) => {
         // Nobody played, or a life that has ended: only the continuation
@@ -1188,6 +1192,7 @@ function observerShellMoment(world: World, personId: EntityId): StoryMoment {
 function PlayingScreen({
   session: storedSession,
   notice,
+  noticePresentation,
   problem,
   onWorldChange: commitWorld,
   onControlChange,
@@ -1201,6 +1206,7 @@ function PlayingScreen({
 }: {
   readonly session: Session;
   readonly notice: string | null;
+  readonly noticePresentation: ActionReceiptPresentation;
   readonly problem: string | null;
   /** `base` is the World the change was computed from; see the root guard. */
   readonly onWorldChange: (world: World, base?: World) => void;
@@ -1398,7 +1404,7 @@ function PlayingScreen({
    * calendar uses, with the same interruption preferences. The outcome is
    * said in the HUD so the player reads where time actually stopped and why.
    */
-  const [passOutcome, setPassOutcome] = useActionReceipt();
+  const [passOutcome, setPassOutcome, passPresentation] = useActionReceipt();
   /*
    * Where the clicked scene person stands, kept with that person. A card
    * reached any other way, or for somebody else, has no anchor and uses the
@@ -2284,6 +2290,7 @@ function PlayingScreen({
 
   async function pauseAndKeep(shellState: StoredShellState): Promise<boolean> {
     const checkpoint = observing ? await observerRunner.pause() : undefined;
+    if (showOrientation) return false;
     return onKeep(shellState, checkpoint);
   }
 
@@ -2324,6 +2331,7 @@ function PlayingScreen({
   }, [savingToTitle]);
 
   function leaveNow() {
+    if (showOrientation) return;
     if (returnToTitleRequest.current) {
       returnToTitleRequest.current.leaving = true;
     }
@@ -2331,12 +2339,14 @@ function PlayingScreen({
   }
 
   function beginReturnToTitle(fromHub: boolean) {
+    if (showOrientation) return;
     if (returnToTitleRequest.current || savingToTitle) return;
     returnToTitleRequest.current = { fromHub, leaving: false };
     dispatch({ type: "ask-leave" });
   }
 
   async function saveAndReturnToTitle() {
+    if (showOrientation) return;
     if (savingToTitle) return;
     const request = returnToTitleRequest.current;
     if (request) request.leaving = true;
@@ -2405,26 +2415,30 @@ function PlayingScreen({
     goToTheFloor,
     goToTheFloorFor,
     readOnly,
-    retireFromPlay: readOnly ? null : (
-      <RetireFromPlayAction
-        name={moment.personName}
-        onRetire={() => {
-          try {
-            const next = retireFromPlay(storedSession.world, session.personId);
-            onControlChange(next, storedSession.world, { kind: "retired" });
-            dispatch({ type: "go-to-scene" });
-            return null;
-          } catch (error) {
-            return error instanceof Error
-              ? error.message
-              : "This character could not be retired from play.";
-          }
-        }}
-      />
-    ),
+    retireFromPlay:
+      readOnly || showOrientation ? null : (
+        <RetireFromPlayAction
+          name={moment.personName}
+          onRetire={() => {
+            try {
+              const next = retireFromPlay(
+                storedSession.world,
+                session.personId,
+              );
+              onControlChange(next, storedSession.world, { kind: "retired" });
+              dispatch({ type: "go-to-scene" });
+              return null;
+            } catch (error) {
+              return error instanceof Error
+                ? error.message
+                : "This character could not be retired from play.";
+            }
+          }}
+        />
+      ),
     guideTermKey,
     onOpenGuideTerm: setGuideTermKey,
-    returnToTitle: (
+    returnToTitle: showOrientation ? null : (
       <ReturnToTitleAction
         needsConfirmation={needsLeaveConfirmation}
         confirming={shell.confirmingLeave}
@@ -2825,15 +2839,18 @@ function PlayingScreen({
             <div className="life-hud" data-testid="life-hud">
               {notice ? (
                 <p
+                  key={`notice:${notice}`}
+                  ref={noticePresentation.ref}
                   className="life-hud-note"
                   role="status"
-                  data-transient="false"
+                  data-transient={noticePresentation.completed}
                 >
                   {notice}
                 </p>
               ) : null}
               {problem ? (
                 <p
+                  key={`problem:${problem}`}
                   className="life-hud-note life-hud-note--problem"
                   role="status"
                   data-transient="false"
@@ -2843,6 +2860,9 @@ function PlayingScreen({
               ) : null}
               {passOutcome ? (
                 <p
+                  key={`outcome:${passOutcome}`}
+                  ref={passPresentation.ref}
+                  data-transient={passPresentation.completed}
                   className="life-hud-note life-hud-note--outcome"
                   role="status"
                   data-testid="pass-outcome"
@@ -2941,7 +2961,8 @@ function PlayingScreen({
                 currentMoment={session.world.currentMoment}
                 placeName={moment.placeName}
                 destinations={destinations}
-                canSave={!savesUnavailable}
+                firstIntro={showOrientation}
+                canSave={!savesUnavailable && !showOrientation}
                 unsaved={session.saveId === null}
                 leaving={savingToTitle}
                 leaveProblem={problem}

@@ -5,7 +5,7 @@ import { proseWeekdayDate } from "../presentation/prose-dates";
 import type { World } from "../simulation";
 import type { ReactNode } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
@@ -407,4 +407,42 @@ it("names a civic calendar choice without routing it to Work", () => {
   expect(html).toContain("Resident meeting is waiting on your calendar");
   expect(html).not.toContain("under Work");
   expect(html).not.toContain("Work needs you now");
+});
+
+describe("unfinished first-intro pause menu", () => {
+  it("offers only Options and native Quit, even with saved-state leave confirmation", () => {
+    vi.stubGlobal("window", { ocdDesktop: { requestQuit: async () => {} } });
+    try {
+      const html = renderToStaticMarkup(
+        <ShellNav
+          state={{
+            ...INITIAL_SHELL_STATE,
+            navigation: "primary",
+            confirmingLeave: true,
+          }}
+          dispatch={() => {}}
+          playerName="Player"
+          dateLabel="January 1, 2026"
+          placeName={null}
+          destinations={DESTINATIONS}
+          firstIntro
+          canSave
+          unsaved
+          onSave={() => {}}
+          onLeave={() => {}}
+        />,
+      );
+      expect(html).toContain('data-testid="nav-options"');
+      expect(html).toContain('data-testid="quit-app"');
+      expect(html).not.toContain('data-testid="keep-world"');
+      expect(html).not.toContain('data-testid="save-world"');
+      expect(html).not.toContain('data-testid="leave-game"');
+      expect(html).not.toContain('data-testid="leave-confirm"');
+      expect(html).not.toContain('data-testid="nav-calendar"');
+      expect(html).not.toContain("Return to title");
+      expect(html).not.toContain("Guide and options");
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
 });
