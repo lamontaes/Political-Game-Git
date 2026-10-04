@@ -140,6 +140,7 @@ export function SceneBackdrop({
   roomMedia,
   onOpenSurfaceEntity,
   onSelectPerson,
+  onInspectPerson,
   selectedPersonId = null,
   objects,
   placeBackdrop = null,
@@ -187,6 +188,8 @@ export function SceneBackdrop({
    * person, in the scene.
    */
   readonly onSelectPerson?: ScenePersonSelectionHandler;
+  /** Separate read-only inspection of the exact rendered person. */
+  readonly onInspectPerson?: ScenePersonSelectionHandler;
   /** The person whose action menu is open, so the button can say so. */
   readonly selectedPersonId?: string | null;
   /**
@@ -520,6 +523,7 @@ export function SceneBackdrop({
             people={placePeople}
             stageRef={viewportRef}
             onSelectPerson={onSelectPerson}
+            onInspectPerson={onInspectPerson}
             selectedPersonId={selectedPersonId}
           />
         ) : null}
@@ -675,8 +679,10 @@ export function SceneBackdrop({
                       type: "button" as const,
                       onClick: () =>
                         onSelectPerson(person.personId, person.engine),
-                      "aria-haspopup": "menu" as const,
-                      "aria-expanded": chosen,
+                      "aria-haspopup": onInspectPerson
+                        ? undefined
+                        : ("menu" as const),
+                      "aria-expanded": onInspectPerson ? undefined : chosen,
                       /*
                        * The accessible name is the presence line the room
                        * already computes — "Beth Mathis, your housemate" —
@@ -684,7 +690,9 @@ export function SceneBackdrop({
                        * about to choose and how this life knows them, which is
                        * exactly what the rail used to say.
                        */
-                      "aria-label": person.presence,
+                      "aria-label": onInspectPerson
+                        ? `Talk to ${person.presence}`
+                        : person.presence,
                     }
                   : {})}
                 className={`scene-person-token${onSelectPerson ? " scene-person-token--selectable" : ""}${chosen ? " scene-person-token--chosen" : ""}`}
@@ -853,6 +861,20 @@ export function SceneBackdrop({
                   ) : null}
                 </span>
               )}
+              {onInspectPerson ? (
+                <button
+                  type="button"
+                  className="ui-action ui-action--subtle"
+                  data-testid={`scene-inspect-${person.personId}`}
+                  aria-label={`Inspect ${person.name}`}
+                  style={{ pointerEvents: "auto" }}
+                  onClick={() =>
+                    onInspectPerson(person.personId, person.engine)
+                  }
+                >
+                  Inspect
+                </button>
+              ) : null}
             </div>
           ))}
         </div>

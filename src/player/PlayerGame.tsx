@@ -3,6 +3,7 @@ import {
   selectSceneAppearance,
   type SelectedSceneAppearance,
 } from "./scene-dossier-appearance";
+import { roomPortraitConversationEntry } from "./room-portrait-entry";
 import { currentOpeningLifeScene } from "../presentation/life-scene-flow";
 import type { EngineRecipe } from "../presentation/appearance-engine/pack";
 import {
@@ -1412,6 +1413,7 @@ function PlayingScreen({
    * said in the HUD so the player reads where time actually stopped and why.
    */
   const [passOutcome, setPassOutcome, passPresentation] = useActionReceipt();
+  const [roomTalkProblem, setRoomTalkProblem] = useState<string | null>(null);
   /*
    * Where the clicked scene person stands, kept with that person. A card
    * reached any other way, or for somebody else, has no anchor and uses the
@@ -2109,6 +2111,7 @@ function PlayingScreen({
   const openEntity = useCallback(
     (ref: ShellRef) => {
       setSelectedSceneAppearance(null);
+      setRoomTalkProblem(null);
       if (openSurface === "news" && ref.kind === "person")
         newsPersonReturn.current = ref.id;
       dispatch({ type: "open-entity", ref });
@@ -2230,6 +2233,10 @@ function PlayingScreen({
     if (!dossierSceneAppearance) setSelectedSceneAppearance(null);
   }, [dossierSceneAppearance]);
 
+  useEffect(() => {
+    setRoomTalkProblem(null);
+  }, [ordinarySceneKey, session.world.currentDate, view.surface]);
+
   const selectedDossier =
     shell.quickDossierPersonId === null
       ? null
@@ -2279,14 +2286,20 @@ function PlayingScreen({
       personId: EntityId,
       subject?: ConversationSubjectKey,
       invoker: "scene" | "panel" = "scene",
+      roomOnly = false,
     ) => {
-      if (readOnly) return;
-      const entry = openConversationWith(
-        session.world,
-        session.personId,
-        personId,
-      );
-      if (entry.kind === "unavailable") return;
+      if (readOnly) return READ_ONLY_REFUSAL;
+      const entry = roomOnly
+        ? roomPortraitConversationEntry(
+            session.world,
+            session.personId,
+            personId,
+            [...playScene.presentPeople, ...placePeople].map(
+              (person) => person.personId as EntityId,
+            ),
+          )
+        : openConversationWith(session.world, session.personId, personId);
+      if (entry.kind === "unavailable") return entry.reason;
       setReturnFocusPrefer(invoker);
       dispatch({
         type: "set-conversation",
@@ -2294,8 +2307,16 @@ function PlayingScreen({
         addressee: personId,
       });
       dispatch({ type: "talk-in-scene", personId });
+      return null;
     },
-    [session.world, session.personId, dispatch, readOnly],
+    [
+      session.world,
+      session.personId,
+      dispatch,
+      readOnly,
+      playScene.presentPeople,
+      placePeople,
+    ],
   );
 
   /*
@@ -2565,7 +2586,15 @@ function PlayingScreen({
                * only ever holds what the player put there.
                */
               selectedPersonId={shell.quickDossierPersonId}
-              onSelectPerson={(personId, engine?: EngineRecipe) => {
+              onSelectPerson={(personId) => {
+                if (showOrientation) return;
+                setSelectedSceneAppearance(null);
+                dispatch({ type: "close-quick-dossier" });
+                setRoomTalkProblem(
+                  talkTo(personId as EntityId, undefined, "scene", true),
+                );
+              }}
+              onInspectPerson={(personId, engine?: EngineRecipe) => {
                 // The renderer must supply the exact selected entry; an ID alone is unsupported.
                 setSelectedSceneAppearance(
                   selectSceneAppearance(
@@ -2900,6 +2929,16 @@ function PlayingScreen({
             {workspace}
 
             <div className="life-hud" data-testid="life-hud">
+              {roomTalkProblem ? (
+                <p
+                  className="life-hud-note life-hud-note--problem"
+                  role="status"
+                  data-transient="false"
+                  data-testid="room-talk-refusal"
+                >
+                  {roomTalkProblem}
+                </p>
+              ) : null}
               {notice ? (
                 <p
                   key={`notice:${notice}`}

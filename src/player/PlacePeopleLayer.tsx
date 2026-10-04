@@ -23,12 +23,14 @@ export function PlacePeopleLayer({
   people,
   stageRef,
   onSelectPerson,
+  onInspectPerson,
   selectedPersonId = null,
   nameplates = false,
 }: {
   readonly people: readonly BackdropPerson[];
   readonly stageRef: RefObject<HTMLDivElement | null>;
   readonly onSelectPerson?: ScenePersonSelectionHandler;
+  readonly onInspectPerson?: ScenePersonSelectionHandler;
   readonly selectedPersonId?: string | null;
   /** Show each person's name and title on a plate over their head. */
   readonly nameplates?: boolean;
@@ -83,8 +85,14 @@ export function PlacePeopleLayer({
             className="scene-place-person"
             data-testid="scene-place-person"
             data-person-id={person.personId}
-            aria-label={`${person.name}, ${person.title}`}
-            aria-pressed={selectedPersonId === person.personId}
+            aria-label={
+              onInspectPerson
+                ? `Talk to ${person.name}, ${person.title}`
+                : `${person.name}, ${person.title}`
+            }
+            aria-pressed={
+              onInspectPerson ? undefined : selectedPersonId === person.personId
+            }
             title={`${person.name}, ${person.title}`}
             onClick={() => onSelectPerson?.(person.personId, person.engine)}
             style={
@@ -126,7 +134,7 @@ export function PlacePeopleLayer({
             </span>
           </button>
         );
-        if (!nameplates) return button;
+        if (!nameplates && !onInspectPerson) return button;
         return (
           <Fragment key={person.personId}>
             {button}
@@ -151,11 +159,29 @@ export function PlacePeopleLayer({
                 } satisfies CSSProperties
               }
             >
-              <span className="scene-place-nameplate-name">{person.name}</span>
-              {person.title ? (
+              {nameplates ? (
+                <span className="scene-place-nameplate-name">
+                  {person.name}
+                </span>
+              ) : null}
+              {nameplates && person.title ? (
                 <span className="scene-place-nameplate-title">
                   {person.title}
                 </span>
+              ) : null}
+              {onInspectPerson ? (
+                <button
+                  type="button"
+                  className="ui-action ui-action--subtle"
+                  data-testid={`scene-inspect-${person.personId}`}
+                  aria-label={`Inspect ${person.name}`}
+                  style={{ pointerEvents: "auto" }}
+                  onClick={() =>
+                    onInspectPerson(person.personId, person.engine)
+                  }
+                >
+                  Inspect
+                </button>
               ) : null}
             </span>
           </Fragment>
