@@ -283,7 +283,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  overflow: hidden;
+  overflow: visible;
 }
 .title-tableau--art.front-door .game-creator--appearance .kit41-creator {
   display: flex;
@@ -294,14 +294,14 @@
 .title-tableau--art.front-door .kit41-creator-layout {
   min-height: 0;
   flex: 1;
-  overflow: hidden;
+  overflow: visible;
   padding-bottom: 0;
   grid-template-columns: minmax(230px, 35%) minmax(0, 1fr);
 }
 .title-tableau--art.front-door .kit41-creator-layout > div:last-child {
-  overflow-y: auto;
+  overflow-y: visible;
   min-height: 0;
-  padding: 0 10px 16px 0;
+  padding: 0;
 }
 .title-tableau--art.front-door .kit41-creator-preview {
   position: relative;
@@ -332,6 +332,7 @@
   flex-shrink: 0;
   margin-top: 8px;
   box-shadow: none;
+  background: transparent;
 }
 .appearance-arrow-choice {
   display: grid;
@@ -356,9 +357,9 @@
   display: contents;
 }
 .title-tableau--art.front-door .game-creator--appearance > .creator-summaries {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   flex-shrink: 0;
   margin-bottom: 10px;
 }
@@ -368,7 +369,8 @@
   > .creator-summary {
   margin: 0;
   min-height: 0;
-  width: 100%;
+  width: auto;
+  flex: 0 1 auto;
   padding: 6px 9px;
   font-size: 12px;
 }
@@ -444,14 +446,25 @@
 }
 .engine-appearance-controls {
   display: grid;
-  gap: 0.5rem;
-  max-width: 22rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem 1rem;
+  max-width: none;
 }
 .engine-appearance-row {
   display: grid;
-  grid-template-columns: 6.5rem 2rem 1fr 2rem;
+  grid-template-columns: 2rem minmax(0, 1fr) 2rem;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.25rem;
+  min-width: 0;
+}
+.engine-appearance-label {
+  grid-column: 1 / -1;
+  font: 500 0.875rem var(--ui);
+}
+.title-tableau--art.front-door .engine-appearance-row button,
+.title-tableau--art.front-door .engine-appearance-randomize {
+  min-height: 2rem;
+  padding: 0.2rem 0.4rem;
 }
 .engine-appearance-value {
   display: inline-flex;
@@ -516,14 +529,10 @@
   .game-setup-actions
   button {
   min-height: 2.75rem;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
   color: var(--gold);
-  font: 600 12px var(--ui);
+  font: 600 0.875rem var(--ui);
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  box-shadow: none;
 }
 .title-tableau--art.front-door
   .game-creator
@@ -531,7 +540,6 @@
   .game-setup-actions
   button[data-testid="begin"] {
   color: var(--text-strong);
-  border-bottom: 1.5px solid var(--red);
 }
 .title-tableau--art.front-door
   .game-creator

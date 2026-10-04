@@ -739,21 +739,13 @@ export function SetupScreen({
                   ))}
                 </div>
               ) : null}
-              {placeListOpen && placePage && placePage.total > 0 ? (
-                <div className="creator-place-pager" data-testid="place-pager">
-                  <p
-                    className="game-hint"
-                    role="status"
-                    data-testid="place-page-status"
-                  >
-                    {placePage.status}
-                  </p>
-                </div>
-              ) : placeListOpen && placeQuery.trim().length === 0 ? (
+              {placeListOpen &&
+              matchingPlaces.length === 0 &&
+              placeQuery.trim().length === 0 ? (
                 <p className="game-note" data-testid="place-prompt">
                   Choose a town in this state. {coverage.playerNote}
                 </p>
-              ) : placeListOpen ? (
+              ) : placeListOpen && matchingPlaces.length === 0 ? (
                 <p className="game-note" data-testid="place-no-match">
                   Nothing here matches that yet. {coverage.playerNote}
                 </p>

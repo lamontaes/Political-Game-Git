@@ -41,10 +41,10 @@ const PLATE: RegionalOpeningResult = {
   },
 };
 
-function render(regionalPlate?: RegionalOpeningResult): string {
+function render(regionalPlate?: RegionalOpeningResult, view = VIEW): string {
   return renderToStaticMarkup(
     <WorldOrientationPanel
-      view={VIEW}
+      view={view}
       homeStateUsps="AZ"
       regionalPlate={regionalPlate}
       mode="first"
@@ -97,11 +97,15 @@ describe("the removed locality step", () => {
 });
 
 describe("the full-screen opening card", () => {
+  const retainedView: OrientationView = {
+    ...VIEW,
+    steps: [{ ...VIEW.steps[0]!, key: "state", title: "Arizona" }],
+  };
   it("keeps the full-screen text and navigation without motion controls", () => {
-    const markup = render(PLATE);
+    const markup = render(PLATE, retainedView);
     expect(markup).toContain('class="pg-orientation"');
     expect(markup).toContain('class="pg-orientation-stage"');
-    expect(markup).toContain('data-backdrop="region"');
+    expect(markup).toContain('data-backdrop="place"');
     expect(markup).toContain('class="pg-orientation-scrim"');
     expect(markup).toContain('class="pg-orientation-copy"');
     expect(markup).not.toContain("Pause motion");
@@ -115,7 +119,7 @@ describe("the full-screen opening card", () => {
   });
 
   it("omits the city-hall picture when no regional picture resolves", () => {
-    const markup = render(undefined);
+    const markup = render(undefined, retainedView);
     expect(markup).toContain('data-backdrop="place"');
     expect(markup).not.toContain("orientation-place-backdrop");
     expect(markup).not.toContain("orientation-region-plate");

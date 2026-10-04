@@ -97,7 +97,7 @@ export function CreatorAppearanceStep({
             </div>
           </div>
           <div>
-            <h2>How you look</h2>
+            <h2>Character appearance</h2>
             <EngineAppearanceControls
               recipe={engine}
               onChange={(recipe) =>
@@ -162,7 +162,7 @@ export function CreatorAppearanceStep({
             ) : null}
           </div>
           <div>
-            <h2>How you look</h2>
+            <h2>Character appearance</h2>
             {ready ? (
               <p className="creator-preview-note">
                 Choose your appearance before beginning. These changes affect

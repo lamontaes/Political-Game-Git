@@ -240,9 +240,11 @@
  * Begin stay reachable with Safari chrome and at short windows.
  */
 .title-tableau--art.front-door .game-creator {
+  display: flex;
+  flex-direction: column;
   width: min(24rem, 100%);
   max-height: 100%;
-  overflow-y: auto;
+  overflow-y: visible;
   overscroll-behavior: contain;
   border: 2.5px solid var(--brass);
   border-radius: 2px;
@@ -254,6 +256,45 @@
   box-sizing: border-box;
   color: var(--front-door-ink);
   text-shadow: none;
+}
+
+.title-tableau--art.front-door .game-creator > section {
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.title-tableau--art.front-door .game-creator > section::-webkit-scrollbar {
+  display: none;
+}
+.title-tableau--art.front-door .game-creator .creator-summaries > button {
+  flex-shrink: 0;
+}
+.title-tableau--art.front-door .game-creator .game-search {
+  margin-block-start: 0.65rem;
+  min-width: 0;
+}
+
+.title-tableau--art.front-door
+  .game-creator
+  [data-testid="creator-stage-place"] {
+  display: flex;
+  flex-direction: column;
+}
+.title-tableau--art.front-door
+  .game-creator
+  [data-testid="creator-stage-place"]
+  > * {
+  flex-shrink: 0;
+}
+.title-tableau--art.front-door .game-creator [data-testid="state-choices"],
+.title-tableau--art.front-door .game-creator [data-testid="place-choices"] {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 32vh;
+  margin-block-end: 0.65rem;
+  padding: 0.2rem 0.15rem 0.35rem;
 }
 
 .title-tableau--art.front-door .game-creator h2 {
@@ -285,7 +326,20 @@
 }
 
 .title-tableau--art.front-door .game-creator .game-choices {
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
+}
+
+/* Keep the owner's Creator lists scrollable without visible scrollbar rails. */
+.front-door .game-creator,
+.front-door .game-creator [data-testid="state-choices"],
+.front-door .game-creator [data-testid="place-choices"] {
+  scrollbar-width: none;
+}
+.front-door .game-creator::-webkit-scrollbar,
+.front-door .game-creator [data-testid="state-choices"]::-webkit-scrollbar,
+.front-door .game-creator [data-testid="place-choices"]::-webkit-scrollbar {
+  display: none;
 }
 
 .title-tableau--art.front-door .game-creator .game-choices.game-choices-inline {
@@ -456,8 +510,8 @@
 
 /* One footer owns both directions, so Back cannot cover a step's Next. */
 .title-tableau--art.front-door .game-creator > .creator-navigation {
-  position: sticky;
-  bottom: 0;
+  position: relative;
+  flex-shrink: 0;
   z-index: 5;
   display: flex;
   flex-wrap: wrap;
@@ -470,9 +524,9 @@
   gap: 0.5rem;
   margin-top: 0.5rem;
   padding: 0.3rem;
-  background: #1c1c1e;
-  border-top: 1px solid rgb(176 138 62 / 0.6);
-  box-shadow: 0 -10px 18px -12px rgba(46, 30, 12, 0.45);
+  background: transparent;
+  border-top: 0;
+  box-shadow: none;
 }
 
 .title-tableau--art.front-door .game-creator > .creator-navigation button {
