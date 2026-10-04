@@ -50,9 +50,13 @@ test("Observer inspector waits for the actual paused generated world and reads w
     .getByRole("button")
     .last()
     .click();
-  await inspector.getByLabel("Direction", { exact: true }).selectOption("both");
+  await inspector
+    .getByRole("combobox", { name: "Direction", exact: true })
+    .selectOption("both");
   await inspector.getByLabel("Depth", { exact: true }).fill("2");
-  await inspector.getByLabel("Format", { exact: true }).selectOption("json");
+  await inspector
+    .getByRole("combobox", { name: "Format", exact: true })
+    .selectOption("json");
   await expect(page.getByTestId("trace-export")).not.toHaveValue("");
   const assertPure = async () =>
     expect(
