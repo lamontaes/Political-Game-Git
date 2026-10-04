@@ -548,7 +548,7 @@ export function ShellNav({
             >
               <button
                 type="button"
-                className="pg-nav-day"
+                className="pg-nav-day ui-action"
                 data-testid="shell-pass-day"
                 aria-disabled={passing || undefined}
                 title={
@@ -564,7 +564,7 @@ export function ShellNav({
               </button>
               <button
                 type="button"
-                className="pg-nav-day"
+                className="pg-nav-day ui-action"
                 data-testid="shell-pass-week"
                 aria-disabled={passing || undefined}
                 title={
@@ -581,7 +581,7 @@ export function ShellNav({
               {onPassUntilNeeded ? (
                 <button
                   type="button"
-                  className="pg-nav-day"
+                  className="pg-nav-day ui-action"
                   data-testid="shell-pass-until-needed"
                   aria-disabled={
                     passing || !passTargets?.untilNeeded || undefined
@@ -603,7 +603,7 @@ export function ShellNav({
               ) : null}
               <button
                 type="button"
-                className="pg-nav-day pg-nav-stops-toggle"
+                className="pg-nav-day pg-nav-stops-toggle ui-action"
                 data-testid="shell-stops-toggle"
                 aria-expanded={stopsOpen}
                 aria-controls="pg-nav-stops"

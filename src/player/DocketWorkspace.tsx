@@ -82,6 +82,7 @@ import { ProposalLayoutContext, ProposalView } from "./proposal/ProposalLayout";
 import { GuideTerm, GuideTermText } from "./GuideTerm";
 import { GameDateField } from "./controls/GameDateField";
 import { GameSelect } from "./controls/GameSelect";
+import { GameRange } from "./controls/GameRange";
 
 /**
  * The office's bills, and the drafting table beside them.
@@ -1981,9 +1982,8 @@ function ParameterControl({
     return (
       <label className="drafting-control" htmlFor={controlId}>
         <span className="drafting-control-label">{spec.label}</span>
-        <input
+        <GameRange
           id={controlId}
-          type="range"
           data-testid={controlId}
           min={spec.minMinorUnits}
           max={spec.maxMinorUnits}
@@ -2007,9 +2007,8 @@ function ParameterControl({
     return (
       <label className="drafting-control" htmlFor={controlId}>
         <span className="drafting-control-label">{spec.label}</span>
-        <input
+        <GameRange
           id={controlId}
-          type="range"
           data-testid={controlId}
           min={spec.min}
           max={spec.max}
@@ -2029,9 +2028,8 @@ function ParameterControl({
     return (
       <label className="drafting-control" htmlFor={controlId}>
         <span className="drafting-control-label">{spec.label}</span>
-        <input
+        <GameRange
           id={controlId}
-          type="range"
           data-testid={controlId}
           min={spec.minYears}
           max={spec.maxYears ?? spec.minYears + 10}
