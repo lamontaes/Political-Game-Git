@@ -4,6 +4,8 @@ import {
   type SelectedSceneAppearance,
 } from "./scene-dossier-appearance";
 import { roomPortraitConversationEntry } from "./room-portrait-entry";
+import { roomPressPublicationId } from "./room-press-read";
+import { readPressPublication } from "../simulation/press/read-publication";
 import { currentOpeningLifeScene } from "../presentation/life-scene-flow";
 import type { EngineRecipe } from "../presentation/appearance-engine/pack";
 import {
@@ -2560,6 +2562,21 @@ function PlayingScreen({
               placeSurfaces={placeSurfaces}
               readableSurfaces={readableSurfaces}
               roomMedia={roomMedia}
+              onReadSurface={(slotId, record) => {
+                if (readOnly || previewMode !== "production") return;
+                const publicationId = roomPressPublicationId(
+                  roomMedia,
+                  slotId,
+                  record,
+                );
+                if (!publicationId) return;
+                const next = readPressPublication(
+                  session.world,
+                  session.personId,
+                  publicationId,
+                );
+                if (next !== session.world) onWorldChange(next);
+              }}
               onOpenSurfaceEntity={openEntity}
               visualLibrary={sceneVisuals}
               people={scenePeople}
