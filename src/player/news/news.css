@@ -19,7 +19,7 @@
   border: 1px solid var(--pg-hairline, rgb(111 85 42 / 28%));
   border-radius: 3px;
   padding: 0.3rem 0.7rem;
-  background: rgb(255 251 242 / 80%);
+  background: var(--kit12-glass);
   color: inherit;
   font: inherit;
   font-size: 0.86rem;
@@ -29,7 +29,7 @@
 .pg-news-sections button[aria-current="page"],
 .pg-news-switch button[aria-pressed="true"] {
   border-color: var(--pg-brass, #c29b48);
-  background: rgb(235 224 206 / 92%);
+  background: var(--kit12-glass);
   font-weight: 650;
 }
 
@@ -45,19 +45,19 @@
   gap: 0.9rem;
   padding: 1rem 1.2rem 1.3rem;
   border-radius: 4px;
-  background: #f6f1e6;
-  color: #32291b;
+  background: var(--kit12-glass);
+  color: var(--text-strong);
 }
 
 .pg-news-read .pg-news-switch button {
-  background: #ece5d6;
-  color: #32291b;
+  background: var(--kit12-glass);
+  color: var(--text-strong);
   border-color: #bfb49f;
 }
 
 .pg-news-read .pg-news-switch button[aria-pressed="true"] {
-  background: #f1e9dc;
-  color: #372c14;
+  background: var(--kit12-glass);
+  color: var(--text-strong);
 }
 
 .pg-news-masthead {
@@ -80,33 +80,32 @@
 }
 
 .pg-news-masthead--front h2 {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--name);
   font-weight: 700;
 }
 
 .pg-news-masthead--0 {
-  font-family: "Iowan Old Style", Palatino, Georgia, serif;
+  font-family: var(--speech);
 }
 
 .pg-news-masthead--1 {
-  font-family:
-    "Avenir Next Condensed", "Arial Narrow", ui-sans-serif, sans-serif;
+  font-family: var(--speech);
   letter-spacing: 0.02em;
 }
 
 .pg-news-masthead--2 {
-  font-family: Didot, "Bodoni 72", Georgia, serif;
+  font-family: var(--speech);
   font-style: italic;
 }
 
 .pg-news-masthead--3 {
-  font-family: "Rockwell", "Courier New", ui-serif, serif;
+  font-family: var(--speech);
 }
 
 .pg-news-story {
   display: grid;
   gap: 0.3rem;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--speech);
 }
 
 .pg-news-story h3 {
@@ -129,14 +128,14 @@
   font-size: 0.72rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #6b5a3a;
+  color: var(--text-strong);
 }
 
 .pg-news-dateline {
   margin: 0;
-  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--speech);
   font-size: 0.78rem;
-  color: #32291b;
+  color: var(--text-strong);
 }
 
 .pg-news-body {
@@ -172,22 +171,22 @@
   border: 0;
   padding: 0;
   background: none;
-  color: #6b3b12;
+  color: var(--text-strong);
   font: inherit;
-  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--ui);
   font-size: 0.82rem;
   text-decoration: underline;
   cursor: pointer;
 }
 
 .pg-news-laws button {
-  font-family: Georgia, serif;
+  font-family: var(--ui);
   font-style: italic;
 }
 
 .pg-news-empty {
   margin: 0;
-  font-family: Georgia, serif;
+  font-family: var(--speech);
   font-style: italic;
 }
 

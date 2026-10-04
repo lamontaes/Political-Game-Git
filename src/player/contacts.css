@@ -23,7 +23,7 @@
   padding: 0.55rem 0.7rem;
   border: 1px solid var(--pg-hairline, rgb(111 85 42 / 28%));
   border-radius: 0.4rem;
-  background: rgb(255 251 242 / 72%);
+  background: var(--kit12-glass);
 }
 
 .pg-contacts--focused .pg-contact {
@@ -115,7 +115,7 @@
   font: inherit;
   font-size: 0.9rem;
   color: var(--pg-ivory, var(--run-a-ink));
-  background: #fffbf2;
+  background: var(--kit12-glass);
   border: 1px solid var(--pg-hairline, rgb(111 85 42 / 28%));
   border-radius: 0.3rem;
   color-scheme: dark;
@@ -124,7 +124,7 @@
 .pg-contact-note {
   margin: 0.5rem 0 0;
   font-size: 0.85rem;
-  color: #66451a;
+  color: var(--text-2);
 }
 
 /* The contact screen for one person, over whatever was open. */
@@ -137,11 +137,7 @@
   overflow: auto;
   color: var(--pg-ivory, var(--run-a-ink));
   font-family: var(--pg-font-ui, inherit);
-  background: linear-gradient(
-    180deg,
-    rgb(240 233 219 / 97%),
-    rgb(242 235 223 / 98%)
-  );
+  background: var(--kit12-glass);
   border: 1px solid var(--run-a-line);
   border-radius: 0.6rem;
   box-shadow:

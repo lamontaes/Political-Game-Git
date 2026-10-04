@@ -26,7 +26,7 @@
   padding: 0.55rem 0.7rem;
   border: 1px solid var(--run-a-line);
   border-radius: 0.3rem;
-  background: #f0e7d9;
+  background: var(--kit12-glass);
   color: var(--run-a-ink);
   font: inherit;
 }

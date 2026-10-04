@@ -53,7 +53,7 @@
   padding: var(--pg-space-3, 0.75rem);
   border: 1px solid var(--pg-hairline, rgb(111 85 42 / 28%));
   border-radius: var(--pg-radius, 3px);
-  background: rgb(255 251 242 / 72%);
+  background: var(--kit12-glass);
 }
 
 .pg-press-desk-card blockquote,

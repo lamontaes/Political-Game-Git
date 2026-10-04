@@ -209,7 +209,7 @@ body:where(.pg-game) button.pg-guide-term-trigger[aria-expanded="true"] {
   padding: 0.75rem 0.85rem 0.7rem;
   border: 1px solid rgb(90 62 24 / 55%);
   border-radius: 0.4rem;
-  background: var(--pg-paper-texture, none), rgb(248 242 229 / 97%);
+  background: var(--kit12-glass);
   box-shadow:
     var(--pg-frame, 0 0 0 1px rgb(90 62 24 / 55%)),
     0 12px 30px rgb(46 30 12 / 30%);
@@ -244,7 +244,7 @@ body:where(.pg-game) button.pg-guide-term-trigger[aria-expanded="true"] {
   font-family: var(--pg-font-display, Georgia, serif);
   font-size: 1.05rem;
   font-weight: 600;
-  color: var(--run-a-oxblood, #7a2e2a);
+  color: var(--text-strong);
 }
 
 .pg-guide-popover-definition {
@@ -279,7 +279,7 @@ body:where(.pg-game) button.pg-guide-popover-more,
   padding: 0.3rem 0.2rem;
   border: 0;
   background: none;
-  color: var(--run-a-muted, #5f4e3b);
+  color: var(--text-strong);
   font: inherit;
   font-size: 0.85rem;
   text-decoration: underline;
