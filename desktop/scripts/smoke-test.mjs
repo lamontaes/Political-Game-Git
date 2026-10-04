@@ -468,7 +468,9 @@ async function assertVisiblePerson(page, expected) {
   await page.getByText("Saved.", { exact: true }).waitFor({ timeout: 15000 });
   const records = await readSavedRecords(page, databaseName);
   if (records.worlds.length !== 1)
-    throw new Error("Expected exactly one persisted kept life.");
+    throw new Error(
+      `Expected exactly one persisted kept life. Found ${records.worlds.length} live save slots in ${databaseName}.`,
+    );
   identity = savedIdentity(records.worlds[0]);
   savedInterface = records.interfaces;
   check(
