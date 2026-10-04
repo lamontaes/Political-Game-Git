@@ -6,7 +6,7 @@ test("Observer inspector waits for the actual paused generated world and reads w
   await page.route("**/observer-access-proof*", (route) =>
     route.fulfill({
       contentType: "text/html",
-      body: '<div id="root"></div><script type="module" src="/tests/e2e/support/observer-inspector-harness.tsx"></script>',
+      body: '<div id="root"></div><script type="module">import RefreshRuntime from "/@react-refresh"; RefreshRuntime.injectIntoGlobalHook(window); window.$RefreshReg$ = () => {}; window.$RefreshSig$ = () => (type) => type; window.__vite_plugin_react_preamble_installed__ = true; await import("/tests/e2e/support/observer-inspector-harness.tsx");</script>',
     }),
   );
   await page.goto("/observer-access-proof");
@@ -81,7 +81,7 @@ test("the clock does not offer developer access without Observer admission callb
   await page.route("**/observer-access-proof*", (route) =>
     route.fulfill({
       contentType: "text/html",
-      body: '<div id="root"></div><script type="module" src="/tests/e2e/support/observer-inspector-harness.tsx"></script>',
+      body: '<div id="root"></div><script type="module">import RefreshRuntime from "/@react-refresh"; RefreshRuntime.injectIntoGlobalHook(window); window.$RefreshReg$ = () => {}; window.$RefreshSig$ = () => (type) => type; window.__vite_plugin_react_preamble_installed__ = true; await import("/tests/e2e/support/observer-inspector-harness.tsx");</script>',
     }),
   );
   await page.goto("/observer-access-proof?withoutInspector");
