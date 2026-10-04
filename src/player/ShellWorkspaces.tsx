@@ -472,6 +472,20 @@ export function PeopleWorkspace({
   readonly state: ShellState;
   readonly dispatch: (action: ShellAction) => void;
 }) {
+  const searchRef = useRef<HTMLDetailsElement>(null);
+  useEffect(() => {
+    const blurOutsideSearch = (event: PointerEvent) => {
+      const search = searchRef.current;
+      if (!search?.open || search.contains(event.target as Node)) return;
+      const input = search.querySelector("input");
+      input?.blur();
+      if (!input?.value.trim()) search.open = false;
+    };
+    document.addEventListener("pointerdown", blurOutsideSearch, true);
+    return () => {
+      document.removeEventListener("pointerdown", blurOutsideSearch, true);
+    };
+  }, []);
   const directory = useMemo(
     () => projectPeopleDirectory(world, personId),
     [world, personId],
@@ -508,17 +522,56 @@ export function PeopleWorkspace({
   return (
     <>
       <div className="pg-people-controls">
-        <label className="pg-field">
-          <span>Find somebody</span>
-          <input
-            type="search"
-            value={state.peopleQuery}
-            data-testid="people-search"
-            onChange={(event) =>
-              dispatch({ type: "set-people-query", query: event.target.value })
+        <details
+          ref={searchRef}
+          className="pg-people-search"
+          onBlur={(event) => {
+            if (
+              !event.currentTarget.contains(event.relatedTarget) &&
+              !event.currentTarget.querySelector("input")?.value.trim()
+            ) {
+              event.currentTarget.open = false;
             }
-          />
-        </label>
+          }}
+          onToggle={(event) => {
+            if (event.currentTarget.open) {
+              event.currentTarget.querySelector("input")?.focus();
+            }
+          }}
+          onKeyDown={(event) => {
+            if (event.key === "Escape") {
+              event.stopPropagation();
+              event.currentTarget.open = false;
+              event.currentTarget.querySelector("summary")?.focus();
+            }
+          }}
+        >
+          <summary>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <circle cx="10" cy="10" r="6" />
+              <path d="M 14.5 14.5 L 21 21" />
+            </svg>
+            Find somebody
+          </summary>
+          <label className="pg-field pg-people-search-entry">
+            <span className="sr-only">Find somebody</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <circle cx="10" cy="10" r="6" />
+              <path d="M 14.5 14.5 L 21 21" />
+            </svg>
+            <input
+              type="search"
+              value={state.peopleQuery}
+              data-testid="people-search"
+              onChange={(event) =>
+                dispatch({
+                  type: "set-people-query",
+                  query: event.target.value,
+                })
+              }
+            />
+          </label>
+        </details>
         <div
           className="pg-people-web-toolbar"
           role="group"

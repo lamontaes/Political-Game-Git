@@ -1,3 +1,62 @@
+.pg-game .pg-people-search > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.25rem 0;
+  list-style: none;
+  color: var(--text-2);
+  font: 500 0.9rem var(--ui);
+  cursor: pointer;
+  border: 0;
+  outline: none;
+  background: none;
+  box-shadow: none;
+}
+.pg-game .pg-people-search > summary:is(:hover, :focus-visible) {
+  outline: none;
+  color: var(--gold);
+  text-shadow: var(--kit12-hover-glow);
+}
+.pg-people-search > summary::-webkit-details-marker {
+  display: none;
+}
+.pg-people-search > summary > svg {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+}
+.pg-people-search[open] > .pg-field {
+  margin-top: 0.5rem;
+  inline-size: min(100%, 16rem);
+}
+.pg-game .pg-people-search > .pg-field input {
+  inline-size: 100%;
+  min-inline-size: 0;
+  box-sizing: border-box;
+  padding: 0.35rem 0;
+  border: 0;
+  border-bottom: 1px solid var(--pg-hairline);
+  border-radius: 0;
+  outline: none;
+  background: none;
+  box-shadow: none;
+  color: var(--text-strong);
+  caret-color: var(--gold);
+  font: 500 1rem var(--ui);
+}
+.pg-game
+  .pg-people-search
+  > .pg-field
+  input:is(:hover, :focus, :focus-visible) {
+  border: 0;
+  border-bottom: 1px solid var(--gold);
+  outline: none;
+  background: none;
+  box-shadow: none;
+}
+
 .pg-people-web-toolbar {
   display: flex;
   flex-wrap: wrap;
