@@ -198,8 +198,14 @@
 }
 
 .title-tableau--art.front-door .game-creator button {
-  background: rgba(22, 22, 24, 0.6);
-  border: 1px solid rgb(122 90 40 / 0.32);
+  background: linear-gradient(#363437, #202023);
+  border: 1px solid #171619;
+  border-radius: 5px;
+  box-shadow:
+    inset 0 1px 0 rgb(242 237 228 / 0.2),
+    inset 0 -1px 0 rgb(0 0 0 / 0.35),
+    0 3px 0 #121113,
+    0 5px 10px rgb(0 0 0 / 0.35);
 }
 
 .title-tableau--art.front-door .game-creator button small {
@@ -211,9 +217,21 @@
   .game-creator
   button:is(:hover, :focus-visible):not(:disabled) {
   color: #fff;
-  background: rgba(22, 22, 24, 0.82);
-  border-color: rgb(176 138 62 / 0.8);
-  box-shadow: inset 3px 0 var(--run-a-brass, #b08a3e);
+  background: linear-gradient(#403e42, #252428);
+  border-color: #171619;
+  box-shadow:
+    inset 0 1px 0 rgb(242 237 228 / 0.25),
+    0 3px 0 #121113,
+    0 5px 12px rgb(0 0 0 / 0.35);
+  text-shadow: 0 0 10px rgb(242 237 228 / 0.55);
+}
+
+.title-tableau--art.front-door .game-creator button.is-chosen {
+  color: var(--gold);
+  box-shadow:
+    inset 0 1px 0 rgb(242 237 228 / 0.2),
+    0 3px 0 #121113,
+    0 5px 10px rgb(0 0 0 / 0.35);
 }
 
 /*
@@ -465,15 +483,10 @@
 
 .title-tableau--art.front-door .game-creator > .creator-navigation button {
   min-height: 2.75rem;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
   color: var(--gold);
-  font: 600 12px var(--ui);
+  font: 600 0.875rem var(--ui);
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  box-shadow: none;
-  text-shadow: none;
 }
 .title-tableau--art.front-door
   .game-creator
