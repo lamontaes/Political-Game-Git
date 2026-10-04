@@ -105,7 +105,9 @@ describe("the full-screen opening card", () => {
     const markup = render(PLATE, retainedView);
     expect(markup).toContain('class="pg-orientation"');
     expect(markup).toContain('class="pg-orientation-stage"');
-    expect(markup).toContain('data-backdrop="place"');
+    expect(markup).toContain('data-backdrop="region"');
+    expect(markup).toContain('data-testid="orientation-region-plate"');
+    expect(markup).toContain("/assets/env_regional_sonoran_desert_v1.png");
     expect(markup).toContain('class="pg-orientation-scrim"');
     expect(markup).toContain('class="pg-orientation-copy"');
     expect(markup).not.toContain("Pause motion");
@@ -118,10 +120,12 @@ describe("the full-screen opening card", () => {
     expect(markup).toContain(">Done</button>");
   });
 
-  it("omits the city-hall picture when no regional picture resolves", () => {
+  it("uses the state capitol when no regional picture resolves", () => {
     const markup = render(undefined, retainedView);
     expect(markup).toContain('data-backdrop="place"');
-    expect(markup).not.toContain("orientation-place-backdrop");
+    expect(markup).toContain("orientation-place-backdrop");
+    expect(markup).toMatch(/data-place="state-capitol-[^"]+"/);
+    expect(markup).not.toContain('data-place="city-hall-exterior"');
     expect(markup).not.toContain("orientation-region-plate");
   });
 });
