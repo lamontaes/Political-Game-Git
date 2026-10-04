@@ -50,6 +50,7 @@ export function NewsDesk({
   onOutletChange,
   onOpenPerson,
   onOpenMeasure,
+  onReadPublication,
   around,
   directory,
   press,
@@ -64,6 +65,8 @@ export function NewsDesk({
   readonly onOpenPerson: (personId: EntityId) => void;
   /** Opens a law's own page from a story about it. */
   readonly onOpenMeasure?: (measureId: EntityId) => void;
+  /** Explicit headline read; absent in observer and informational previews. */
+  readonly onReadPublication?: (publicationId: EntityId) => void;
   readonly around: ReactNode;
   readonly directory: ReactNode;
   readonly press: ReactNode;
@@ -82,7 +85,12 @@ export function NewsDesk({
   const openArticle = (story: NewsStory) => {
     setReadNotice(null);
     // The headline click is the explicit read; front-page projection is free.
-    if (!unreadReports.has(story.id) || !runner) {
+    if (!unreadReports.has(story.id)) {
+      onReadPublication?.(story.id);
+      setSelectedId(story.id);
+      return;
+    }
+    if (!runner) {
       setSelectedId(story.id);
       return;
     }
