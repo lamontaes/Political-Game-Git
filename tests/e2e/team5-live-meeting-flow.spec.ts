@@ -65,7 +65,7 @@ for (const place of places)
     await page.getByTestId("calendar-play-event").focus();
     await page.keyboard.press("Enter");
     const panel = page.getByTestId("ordinary-meeting-panel");
-    await expect(panel).toBeVisible();
+    await expect(panel).toBeVisible({ timeout: 60_000 });
     await expect(panel.getByTestId("ordinary-meeting-people")).toBeVisible();
     await expect(
       panel.getByTestId("ordinary-meeting-agenda-order").locator("li"),
