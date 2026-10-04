@@ -1,3 +1,5 @@
+import { selectSceneAppearance } from "./scene-dossier-appearance";
+import type { PersonSceneAppearance } from "../presentation/person-scene-appearance";
 import "./world-orientation.css";
 import "./opening-legislature.css";
 import "./opening-family.css";
@@ -6,6 +8,7 @@ import "./opening-state-figures.css";
 import { projectLifeSoFarEnglish } from "../presentation/life-so-far-english";
 
 import {
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -78,6 +81,7 @@ export function WorldOrientationPanel({
   mode,
   onClose,
   onPause,
+  onSceneChange,
   onOpenPerson,
   world,
   personId,
@@ -97,7 +101,11 @@ export function WorldOrientationPanel({
   readonly mode: "first" | "revisit";
   readonly onClose: () => void;
   readonly onPause?: () => void;
-  readonly onOpenPerson: (personId: EntityId) => void;
+  readonly onSceneChange?: (sceneKey: string) => void;
+  readonly onOpenPerson: (
+    personId: EntityId,
+    sceneAppearance?: PersonSceneAppearance,
+  ) => void;
   readonly world?: World;
   readonly personId?: EntityId;
   readonly renderFigure?: (personId: EntityId) => ReactNode;
@@ -393,6 +401,24 @@ export function WorldOrientationPanel({
         : [],
     [step?.key, backdrop, world, personId, step?.people],
   );
+  const sceneKey = JSON.stringify([
+    "opening",
+    step?.key,
+    index,
+    backdropUrl(backdrop),
+  ]);
+  useEffect(() => {
+    onSceneChange?.(sceneKey);
+  }, [sceneKey, onSceneChange]);
+  const openStagedPerson = (id: string, people: typeof officePeople) => {
+    const entry = people.find((person) => person.personId === id);
+    if (!entry || !world) return;
+    onOpenPerson(
+      entry.personId as EntityId,
+      selectSceneAppearance(entry, world.currentDate, sceneKey)?.appearance,
+    );
+  };
+
   const layout =
     backdrop.kind === "neutral" && cast.length === 0 && !executiveWithoutPlate
       ? "centered"
@@ -446,6 +472,7 @@ export function WorldOrientationPanel({
               <PlacePeopleLayer
                 people={officePeople}
                 stageRef={officeStage}
+                onSelectPerson={(id) => openStagedPerson(id, officePeople)}
                 nameplates
               />
             </div>
@@ -516,12 +543,7 @@ export function WorldOrientationPanel({
                 people={legislaturePeople}
                 stageRef={legislatureStage}
                 nameplates
-                onSelectPerson={(id) => {
-                  const person = step.people.find(
-                    (entry) => entry.personId === id,
-                  );
-                  if (person) onOpenPerson(person.personId);
-                }}
+                onSelectPerson={(id) => openStagedPerson(id, legislaturePeople)}
               />
             </div>
           ) : step.key === "locality" ? null : (
