@@ -1,6 +1,8 @@
 ---
 id: selected-controls-main-foundation
 impact: patch
+section: Changed
+title: Player controls share the main menu's palette
 ---
 
 Player panels and controls share the main menu's glass, brass, and bundled
