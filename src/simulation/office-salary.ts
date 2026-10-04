@@ -5,7 +5,6 @@ import {
 import {
   growingIndex,
   recordById,
-  recordsWithFieldValue,
   type GrowingIndexKind,
 } from "./history-index";
 import { addDays, daysBetween } from "./dates";
@@ -40,6 +39,7 @@ import type {
   World,
   WorkRelationship,
   ResourceFlow,
+  ResourceTransferOutcome,
 } from "./types";
 
 /**
@@ -101,6 +101,26 @@ const OFFICE_PAY_FLOWS: GrowingIndexKind<ResourceFlow[]> = {
       flows.push(flow);
   },
 };
+
+// Every recorded outcome closes its period, regardless of payment status.
+const LAST_RECORDED_PERIOD: GrowingIndexKind<Map<EntityId, IsoDate>> = {
+  create: () => new Map(),
+  add: (periods, record) => {
+    const outcome = record as ResourceTransferOutcome;
+    const latest = periods.get(outcome.resourceFlowId);
+    if (latest === undefined || outcome.periodStartsAt > latest)
+      periods.set(outcome.resourceFlowId, outcome.periodStartsAt);
+  },
+};
+
+/** Opening prepares reads only; dated payment and eligibility stay on the clock. */
+function prepareOfficeSalaryReads(world: World): World {
+  growingIndex(OFFICE_WORK, world.history.workRelationships);
+  growingIndex(WORK_PAY_FLOWS, world.history.resourceFlows);
+  growingIndex(OFFICE_PAY_FLOWS, world.history.resourceFlows);
+  growingIndex(LAST_RECORDED_PERIOD, world.history.resourceTransferOutcomes);
+  return world;
+}
 
 const WEEK_DAYS = 7;
 
@@ -270,7 +290,7 @@ export function initializeAllOfficeSalaryFlows(world: World): World {
       paidOfficeOf(world, work) &&
       isActiveOn(world, work.id, world.currentDate),
   );
-  if (missing.length === 0) return world;
+  if (missing.length === 0) return prepareOfficeSalaryReads(world);
   return advanceWithWorldIntegrityAtEnd(() => {
     let next = world;
     const inputs: CreateResourceFlowInput[] = [];
@@ -285,7 +305,7 @@ export function initializeAllOfficeSalaryFlows(world: World): World {
       );
       inputs.push(officeSalaryInput(next, work, pay, accounts));
     }
-    return createResourceFlows(next, inputs);
+    return prepareOfficeSalaryReads(createResourceFlows(next, inputs));
   }, world);
 }
 
@@ -310,22 +330,20 @@ export function settleAllOfficeSalaries(world: World): World {
   }, world);
 }
 
-/** Read each flow's indexed recorded periods before the one common batch settlement. */
+/** Read each flow's latest recorded period before the one common batch settlement. */
 function dueOfficePeriods(
   world: World,
   work: WorkRelationship,
   flow: ResourceFlow,
 ): TownCompensationPeriod[] {
-  let paidWeeks = 0;
-  for (const outcome of recordsWithFieldValue(
+  const lastPeriod = growingIndex(
+    LAST_RECORDED_PERIOD,
     world.history.resourceTransferOutcomes,
-    "resourceFlowId",
-    flow.id,
-  )) {
-    const week =
-      daysBetween(flow.startsAt, outcome.periodStartsAt) / WEEK_DAYS + 1;
-    if (week > paidWeeks) paidWeeks = week;
-  }
+  ).get(flow.id);
+  const paidWeeks =
+    lastPeriod === undefined
+      ? 0
+      : Math.max(0, daysBetween(flow.startsAt, lastPeriod) / WEEK_DAYS + 1);
   const periods: TownCompensationPeriod[] = [];
   const weeksDue = Math.floor(
     daysBetween(flow.startsAt, world.currentDate) / WEEK_DAYS,

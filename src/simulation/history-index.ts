@@ -665,6 +665,34 @@ export function recordsWithFieldValue<T, K extends keyof T & string>(
   return (groups.get(value) ?? []) as readonly T[];
 }
 
+/** A metadata replacement no longer extends this array. Release only its
+ * existing lookup bindings and append candidates; held rows/groups stay intact,
+ * and an old snapshot rebuilds on its next read as it does after adoption.
+ */
+export function releaseHistoryReadIndexes(records: readonly unknown[]): void {
+  const release = (
+    cache: { delete(records: readonly unknown[]): boolean },
+    recent: (readonly unknown[])[],
+  ): void => {
+    cache.delete(records);
+    for (let at = recent.length - 1; at >= 0; at -= 1) {
+      if (recent[at] === records) recent.splice(at, 1);
+    }
+  };
+  release(RECORDS_BY_STRING_FIELD, RECENT_BY_STRING_FIELD);
+  for (const slot of KEYED_INDEXES.values()) release(slot.cache, slot.recent);
+  for (const slot of GROUPED_BY_FIELD.values())
+    release(slot.cache, slot.recent);
+  for (const kind of [
+    STABLE_KEYS,
+    FIRST_RECORD_BY_STABLE_KEY,
+    FIRST_RECORD_BY_ID,
+  ]) {
+    const state = GROWING_STATES.get(kind);
+    if (state) release(state.byList, state.recent);
+  }
+}
+
 interface PeopleReadIndex {
   readonly order: World["personOrder"];
   readonly value: unknown;

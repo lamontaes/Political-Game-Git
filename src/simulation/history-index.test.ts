@@ -9,8 +9,10 @@ import {
   indexFollowingAppends,
   recordById,
   recordByStableKey,
+  recordsByKey,
   recordsByStringField,
   recordsWithFieldValue,
+  releaseHistoryReadIndexes,
   withHistoryAppendTransaction,
 } from "./history-index";
 import type { HistoricalEvent } from "./types";
@@ -625,5 +627,92 @@ describe("growing history index snapshot isolation", () => {
     expect(growingIndex(kind, original)).toEqual(
       new Map(original.map((record) => [record.id, record])),
     );
+  });
+});
+
+describe("replaced history lookup ownership", () => {
+  const row = (id: string, personId = "p") => ({
+    id: id as EntityId,
+    stableKey: `released-history:${id}`,
+    personId,
+  });
+  const grouping = "released-history:test-person";
+  const keysOf = (record: ReturnType<typeof row>) => [record.personId];
+
+  it("drops ordinary lookup bindings without reading or changing held records", () => {
+    let indexedReads = 0;
+    const first = row("first");
+    const duplicate = { ...first, personId: "q" };
+    const records = new Proxy(Object.freeze([first, duplicate, row("last")]), {
+      get(target, key, receiver) {
+        if (typeof key === "string" && /^(0|[1-9]\d*)$/.test(key))
+          indexedReads += 1;
+        return Reflect.get(target, key, receiver);
+      },
+    });
+    expect(recordById(records, first.id)).toBe(first);
+    expect(recordByStableKey(records, first.stableKey)).toBe(first);
+    expect(hasStableKey(records, first.stableKey)).toBe(true);
+    const heldString = recordsByStringField(records, "personId", "p");
+    const heldField = recordsWithFieldValue(records, "personId", "p");
+    const heldKey = recordsByKey(records, grouping, keysOf, "p");
+    const beforeJson = JSON.stringify(records);
+    const beforeRelease = indexedReads;
+    releaseHistoryReadIndexes(records);
+    releaseHistoryReadIndexes(records);
+    expect(indexedReads).toBe(beforeRelease);
+    for (const read of [
+      () => recordById(records, first.id),
+      () => recordByStableKey(records, first.stableKey),
+      () => hasStableKey(records, first.stableKey),
+    ]) {
+      const beforeRead = indexedReads;
+      read();
+      expect(indexedReads).toBeGreaterThan(beforeRead);
+    }
+    expect(recordById(records, first.id)).toBe(first);
+    expect(recordByStableKey(records, first.stableKey)).toBe(first);
+    for (const [held, fresh] of [
+      [heldString, recordsByStringField(records, "personId", "p")],
+      [heldField, recordsWithFieldValue(records, "personId", "p")],
+      [heldKey, recordsByKey(records, grouping, keysOf, "p")],
+    ]) {
+      expect(fresh).not.toBe(held);
+      expect(fresh).toEqual(held);
+      expect(held).toEqual([first, records[2]]);
+    }
+    expect(JSON.stringify(records)).toBe(beforeJson);
+  });
+
+  it("rebuilds held originals, rewritten rows, append siblings and JSON reloads independently", () => {
+    const original = Object.freeze([row("first"), row("last", "q")]);
+    const held = recordsByStringField(original, "personId", "p");
+    expect(recordById(original, original[0]!.id)).toBe(original[0]);
+    const replacement = Object.freeze([
+      { ...original[0]!, annotation: "recorded metadata" },
+      original[1]!,
+    ]);
+    releaseHistoryReadIndexes(original);
+    const left = appendedList(original, [row("left")]);
+    const right = appendedList(replacement, [row("right")]);
+    expect(recordById(left, original[0]!.id)).toBe(original[0]);
+    expect(recordById(right, original[0]!.id)).toBe(replacement[0]);
+    expect(recordById(left, "right" as EntityId)).toBeUndefined();
+    expect(recordById(right, "left" as EntityId)).toBeUndefined();
+    expect(recordById(original, original[0]!.id)).toBe(original[0]);
+    expect(recordsByStringField(original, "personId", "p")).toEqual(held);
+    expect(held).toEqual([original[0]]);
+    expect(recordsByStringField(right, "personId", "p")).toEqual([
+      replacement[0],
+      right[2],
+    ]);
+    expect(JSON.parse(JSON.stringify(original))).toEqual([...original]);
+    const loaded: typeof right = JSON.parse(JSON.stringify(right));
+    expect(recordById(loaded, original[0]!.id)).toEqual(replacement[0]);
+    expect(recordsByStringField(loaded, "personId", "p")).toEqual([
+      replacement[0],
+      right[2],
+    ]);
+    expect(JSON.stringify(loaded)).toBe(JSON.stringify(right));
   });
 });

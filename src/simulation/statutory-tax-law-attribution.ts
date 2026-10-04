@@ -1,6 +1,6 @@
 import { canonicalJson } from "./canonical-json";
 import { lawInForce } from "./governing/law-in-force";
-import { recordById } from "./history-index";
+import { recordById, releaseHistoryReadIndexes } from "./history-index";
 import { lawEffectStamp } from "./law-effect-stamp";
 import type {
   LawEffectStamp,
@@ -286,7 +286,7 @@ function appendStamps<T extends { readonly id: EntityId }>(
   rows: readonly T[],
   stamps: ReadonlyMap<EntityId, readonly LawEffectStamp[]>,
 ): T[] {
-  return rows.map((row) => {
+  const replacement = rows.map((row) => {
     const additions = stamps.get(row.id);
     return additions
       ? {
@@ -298,4 +298,6 @@ function appendStamps<T extends { readonly id: EntityId }>(
         }
       : row;
   });
+  releaseHistoryReadIndexes(rows);
+  return replacement;
 }

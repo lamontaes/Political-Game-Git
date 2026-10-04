@@ -16,6 +16,7 @@ import {
 } from "./national-election-geography";
 import {
   initializeOfficeSalaryFlows,
+  initializeAllOfficeSalaryFlows,
   settleOfficeSalaries,
   settleAllOfficeSalaries,
 } from "./office-salary";
@@ -23,7 +24,11 @@ import { settleTownCompensations } from "./living-world/town-pay";
 import { workRoleAt } from "./life-queries";
 import { requireLifePlace, stateJurisdictionForKey } from "./life-places";
 import { resourceFlowTermsAt, resourcePositionAt } from "./resource-queries";
-import { createResourcePosition, money } from "./resources";
+import {
+  createResourcePosition,
+  money,
+  recordResourceTransferOutcomes,
+} from "./resources";
 import { serializeWorld, deserializeWorld } from "./serialization";
 import { SeededRng } from "./rng";
 import { PLACE_POPULATION_ROWS } from "./nationwide-world/place-population.generated";
@@ -182,7 +187,7 @@ function officeFixture(placeKey: string, governor = false) {
     withoutPay.history.resourceTransferOutcomes,
   );
   expect(initializeOfficeSalaryFlows(world, personId)).toBe(world);
-  return { world, work, flow, personId, seed, placeKey };
+  return { world, withoutPay, work, flow, personId, seed, placeKey };
 }
 
 function atControlledDate(world: World, date: IsoDate): World {
@@ -340,5 +345,101 @@ it("settles an overdue office period by its start role after a later nonoffice r
   const reloaded = deserializeWorld(serializeWorld(before));
   expect(serializeWorld(settleAllOfficeSalaries(reloaded))).toBe(
     serializeWorld(paid),
+  );
+});
+
+it("resumes after out-of-order partial and blocked periods without changing held saves", () => {
+  const f = officeFixture(sampled[0]!);
+  // Both opening initializer paths prepare reads without creating payment facts.
+  expect(serializeWorld(initializeAllOfficeSalaryFlows(f.withoutPay))).toBe(
+    serializeWorld(f.world),
+  );
+  const pay = resourceFlowTermsAt(f.world, f.flow.id)!.amount;
+  const funded = createResourcePosition(f.world, {
+    stableKey: "office-period-index:funding",
+    owner: f.flow.source,
+    openedAt: f.world.currentDate,
+    openingBalance: money(pay.minorUnits * 5, pay.currency),
+    provenance: {
+      kind: "authored",
+      note: "Controlled cash for saved partial, blocked and subsequent office periods.",
+    },
+  });
+  const held = initializeAllOfficeSalaryFlows(
+    atControlledDate(funded, addDays(f.flow.startsAt, 21)),
+  );
+  const heldSave = serializeWorld(held);
+  const withBlocked = recordResourceTransferOutcomes(held, [
+    {
+      stableKey: `${f.flow.stableKey}:${addDays(f.flow.startsAt, 7)}`,
+      resourceFlowId: f.flow.id,
+      periodStartsAt: addDays(f.flow.startsAt, 7),
+      periodEndsAt: addDays(f.flow.startsAt, 13),
+      occurredAt: addDays(f.flow.startsAt, 14),
+      status: "blocked",
+      attemptedAmount: pay,
+      transferredAmount: money(0, pay.currency),
+      reasonKind: "capacity:fixture-blocked",
+      note: "Recorded blocked second week.",
+      provenance: f.flow.provenance,
+    },
+  ]);
+  // Prepare the appended prefix, then record an earlier period later in history.
+  initializeAllOfficeSalaryFlows(withBlocked);
+  const recorded = recordResourceTransferOutcomes(withBlocked, [
+    {
+      stableKey: `${f.flow.stableKey}:${f.flow.startsAt}`,
+      resourceFlowId: f.flow.id,
+      periodStartsAt: f.flow.startsAt,
+      periodEndsAt: addDays(f.flow.startsAt, 6),
+      occurredAt: addDays(f.flow.startsAt, 7),
+      status: "partial",
+      attemptedAmount: pay,
+      transferredAmount: money(Math.floor(pay.minorUnits / 2), pay.currency),
+      reasonKind: "capacity:fixture-partial",
+      note: "Recorded partial first week, appended after the second week.",
+      provenance: f.flow.provenance,
+    },
+  ]);
+  const thirdStart = addDays(f.flow.startsAt, 14);
+  const shared = settleTownCompensations(recorded, [
+    {
+      stableKey: `${f.flow.stableKey}:${thirdStart}`,
+      payFlowId: f.flow.id,
+      activityId: f.flow.id,
+      periodStartsAt: thirdStart,
+      periodEndsAt: addDays(f.flow.startsAt, 20),
+      onDate: addDays(f.flow.startsAt, 21),
+      note: "Salary for the week.",
+      provenance: f.flow.provenance,
+    },
+  ]);
+  const resumed = settleAllOfficeSalaries(recorded);
+  expect(serializeWorld(resumed)).toBe(serializeWorld(shared));
+  expect(
+    resumed.history.resourceTransferOutcomes
+      .filter((row) => row.resourceFlowId === f.flow.id)
+      .map((row) => row.status),
+  ).toEqual(["blocked", "partial", "completed"]);
+  expect(settleAllOfficeSalaries(resumed)).toBe(resumed);
+  expect(serializeWorld(settleAllOfficeSalaries(withBlocked))).toBe(
+    serializeWorld(
+      settleAllOfficeSalaries(deserializeWorld(serializeWorld(withBlocked))),
+    ),
+  );
+  expect(
+    serializeWorld(
+      settleAllOfficeSalaries(deserializeWorld(serializeWorld(recorded))),
+    ),
+  ).toBe(serializeWorld(resumed));
+  const heldSettled = settleAllOfficeSalaries(held);
+  expect(
+    heldSettled.history.resourceTransferOutcomes.filter(
+      (row) => row.resourceFlowId === f.flow.id,
+    ),
+  ).toHaveLength(3);
+  expect(serializeWorld(held)).toBe(heldSave);
+  expect(serializeWorld(heldSettled)).toBe(
+    serializeWorld(settleAllOfficeSalaries(deserializeWorld(heldSave))),
   );
 });

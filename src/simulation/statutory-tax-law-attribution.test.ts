@@ -7,7 +7,7 @@ import { smallWorld } from "../../tests/fixtures/small-world";
 import { makeIsoDate } from "./dates";
 import { applyLawConsequences } from "./enacted-law-effects";
 import { lawInForce } from "./governing/law-in-force";
-import { recordsByStringField } from "./history-index";
+import { recordById, recordsByStringField } from "./history-index";
 import { stableHash } from "./ids";
 import type { ResolvedLawConsequence } from "./law-consequence-types";
 import { TAX_REGISTRATION, STATUTORY_TAX_ACTION } from "./law-consequences/tax";
@@ -564,6 +564,36 @@ describe("A33 saved statutory attribution without another assessment", () => {
     expect(JSON.stringify([heldLiabilities, heldPayments])).toBe(heldJson);
     expect(heldLiabilities).toContain(f.liability);
     expect(heldPayments).toContain(f.payment);
+    expect(
+      recordById(f.world.history.statutoryTaxLiabilities!, f.liability.id),
+    ).toBe(f.liability);
+    expect(
+      recordById(f.world.history.statutoryTaxPayments!, f.payment.id),
+    ).toBe(f.payment);
+    const freshLiabilities = recordsByStringField(
+      f.world.history.statutoryTaxLiabilities!,
+      "sourceOutcomeId",
+      f.outcomeId,
+    );
+    const freshPayments = recordsByStringField(
+      f.world.history.statutoryTaxPayments!,
+      "liabilityId",
+      f.liability.id,
+    );
+    expect(freshLiabilities).not.toBe(heldLiabilities);
+    expect(freshLiabilities).toEqual(heldLiabilities);
+    expect(freshPayments).not.toBe(heldPayments);
+    expect(freshPayments).toEqual(heldPayments);
+    expect(
+      recordById(batched.history.statutoryTaxLiabilities!, f.liability.id),
+    ).toEqual(
+      recordById(sequential.history.statutoryTaxLiabilities!, f.liability.id),
+    );
+    expect(
+      recordById(batched.history.statutoryTaxPayments!, f.payment.id),
+    ).toEqual(
+      recordById(sequential.history.statutoryTaxPayments!, f.payment.id),
+    );
     expect(batched.history.resourceTransferOutcomes).toBe(
       f.world.history.resourceTransferOutcomes,
     );
