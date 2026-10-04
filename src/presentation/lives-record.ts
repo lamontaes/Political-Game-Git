@@ -115,7 +115,7 @@ function upbringingLines(world: World, personId: EntityId): readonly string[] {
     lines.push(
       names.length
         ? `Your parents were ${names.join(" and ")}${place ? `, in ${place}` : ""}.`
-        : `ESTIMATED FROM AVERAGE: ${context.estimatedParentCount !== null ? `you grew up with ${context.estimatedParentCount} ${context.estimatedParentCount === 1 ? "parent" : "parents"}` : "you grew up"}${place ? ` in ${place}` : ""}.`,
+        : `${context.estimatedParentCount !== null ? `You grew up with ${context.estimatedParentCount} ${context.estimatedParentCount === 1 ? "parent" : "parents"}` : "You grew up"}${place ? ` in ${place}` : ""}.`,
     );
     if (context.caregiverCapacity !== null)
       lines.push(
@@ -123,7 +123,7 @@ function upbringingLines(world: World, personId: EntityId): readonly string[] {
       );
     if (context.estimatedSiblingCount !== null)
       lines.push(
-        `ESTIMATED FROM AVERAGE: you grew up with ${context.estimatedSiblingCount} ${context.estimatedSiblingCount === 1 ? "sibling" : "siblings"}.`,
+        `You grew up with ${context.estimatedSiblingCount} ${context.estimatedSiblingCount === 1 ? "sibling" : "siblings"}.`,
       );
     if (context.congregationIds.length)
       lines.push("Your family belonged to a congregation.");

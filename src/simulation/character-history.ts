@@ -2356,7 +2356,7 @@ const AUTHORED_SITUATIONS: readonly Omit<
       {
         key: "make-yourself-useful",
         label: "Make yourself useful",
-        description: "Take on one of the small jobs nobody has asked you to.",
+        description: "Take on one of the small jobs.",
         memory:
           "You took on one of the small jobs without being asked, and it stayed yours for years.",
         stance: "engaged",

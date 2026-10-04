@@ -15,7 +15,7 @@
   height: min(26rem, 48vh);
   border: 1px solid var(--pg-hairline);
   border-radius: 2px;
-  background: rgb(233 220 194 / 70%);
+  background: var(--kit12-glass);
 }
 
 .pg-relationship-web-edge {
@@ -199,7 +199,7 @@
   padding: 0;
   list-style: none;
   font-size: 0.78rem;
-  color: rgb(50 41 27 / 80%);
+  color: var(--text-strong);
 }
 .pg-relationship-web-legend li {
   display: inline-flex;

@@ -76,7 +76,7 @@
   min-width: 0;
   margin: 0;
   padding: 1rem;
-  background: rgb(255 251 242 / 80%);
+  background: var(--kit12-glass);
   border: 1px solid rgba(180, 201, 220, 0.32);
 }
 
@@ -238,7 +238,7 @@
 }
 
 .economic-sources a {
-  color: #55462e;
+  color: var(--text-strong);
 }
 
 @media (max-width: 760px) {

@@ -324,29 +324,28 @@ export function PlacesWorkspace({
                     onClick={() => runOffer(offer)}
                   >
                     {actionLabel(offer, world, personId)}
-                    {(() => {
-                      const command = offer.walkDestination
-                        ? {
-                            kind: "walk" as const,
-                            destination: offer.walkDestination,
-                          }
-                        : offer.activityId
-                          ? {
-                              kind: "attend-activity" as const,
-                              activityId: offer.activityId,
-                            }
-                          : null;
-                      const preview = command
-                        ? previewTimeCommand(world, personId, command)
-                        : null;
-                      return preview ? (
-                        <small>
-                          {" "}
-                          · until {describeTimeTarget(preview.target)}
-                        </small>
-                      ) : null;
-                    })()}
                   </button>
+                  {(() => {
+                    const command = offer.walkDestination
+                      ? {
+                          kind: "walk" as const,
+                          destination: offer.walkDestination,
+                        }
+                      : offer.activityId
+                        ? {
+                            kind: "attend-activity" as const,
+                            activityId: offer.activityId,
+                          }
+                        : null;
+                    const preview = command
+                      ? previewTimeCommand(world, personId, command)
+                      : null;
+                    return preview ? (
+                      <p className="places-offer-time">
+                        Until {describeTimeTarget(preview.target)}
+                      </p>
+                    ) : null;
+                  })()}
                   {offer.activityId &&
                   canPlanOrdinaryMeetingAttendance(
                     world,

@@ -21,10 +21,12 @@ if (!rootElement) {
 }
 
 rootElement.textContent = "Loading your game…";
+rootElement.classList.add("pg-bootstrap");
 
 initializeRuntimeArt(import.meta.env.VITE_RUNTIME_CONTENT === "1")
   .then(async () => {
     const { App } = await import("./App");
+    rootElement.classList.remove("pg-bootstrap");
     createRoot(rootElement).render(
       <StrictMode>
         <App />

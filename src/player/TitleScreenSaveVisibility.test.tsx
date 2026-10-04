@@ -48,10 +48,10 @@ function render(
 }
 
 describe("the title screen distinguishes a set-aside save from none", () => {
-  it("does not invite a player to import one when a save was kept", () => {
+  it("keeps saved games reachable when a save needs attention", () => {
     const markup = render([], [SET_ASIDE]);
-    expect(markup).toContain("1 saved game needs attention");
-    expect(markup).not.toContain("None yet");
+    expect(markup).toContain("Your saved game needs attention");
+    expect(markup).toMatch(/data-testid="open-saves">Saved games/);
   });
 
   it("says why Continue cannot be pressed rather than only disabling it", () => {
@@ -60,21 +60,23 @@ describe("the title screen distinguishes a set-aside save from none", () => {
     expect(markup).toContain("Your saved game needs attention");
   });
 
-  it("still invites an import when the store really is empty", () => {
+  it("disables saved games without subtext when the store is empty", () => {
     const markup = render([], []);
-    expect(markup).toContain("None yet");
+    expect(markup).toMatch(
+      /data-testid="open-saves" disabled="">Saved games<\/button>/,
+    );
+    expect(markup).not.toContain("None yet");
     expect(markup).not.toContain("needs attention");
   });
 
-  it("counts the set-aside ones beside the healthy ones", () => {
+  it("keeps healthy and set-aside saves reachable without a menu subtitle", () => {
     const healthy = {
       saveId: "save-2",
       playerName: "Kian Pearson",
       playerAge: 24,
     } as unknown as BrowserWorldSummary;
     const markup = render([healthy], [SET_ASIDE]);
-    expect(markup).toContain("1 saved");
-    expect(markup).toContain("1 needs attention");
+    expect(markup).toMatch(/data-testid="open-saves">Saved games<\/button>/);
   });
 });
 
@@ -141,7 +143,8 @@ describe("Observer Mode on the title screen", () => {
       />,
     );
     expect(markup).toContain('data-testid="watch-world"');
-    expect(markup).toContain("Watch the world");
+    expect(markup).toContain("Observer mode");
+    expect(markup).not.toContain("Nobody played. It runs on its own.");
   });
 
   it("does not present a watched world's resident as a played life", () => {

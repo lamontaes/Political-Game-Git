@@ -29,11 +29,7 @@
 }
 
 .pg-recap {
-  background: linear-gradient(
-    180deg,
-    rgb(239 231 217 / 94%),
-    rgb(241 234 221 / 96%)
-  );
+  background: var(--kit12-glass);
   border: 1px solid var(--run-a-line);
   border-radius: 0.9rem;
   box-shadow: 0 1.2rem 3rem rgb(46 30 12 / 29%);
@@ -84,7 +80,7 @@
   font: inherit;
   text-align: left;
   color: inherit;
-  background: rgb(238 229 213 / 92%);
+  background: var(--kit12-glass);
   border: 1px solid var(--run-a-line);
   border-radius: 0.55rem;
   cursor: pointer;
@@ -310,7 +306,7 @@
  */
 .pg-orientation {
   --pg-orientation-ground: #f1eadd;
-  --pg-orientation-panel: rgb(241 234 221 / 92%);
+  --pg-orientation-panel: var(--kit12-glass);
   --pg-orientation-actions-height: 4.25rem;
   position: fixed;
   inset: 0;
@@ -402,13 +398,7 @@
   overflow: hidden;
   isolation: isolate;
   container-type: size;
-  background:
-    radial-gradient(
-      ellipse at 30% 20%,
-      rgb(255 250 238 / 55%),
-      transparent 60%
-    ),
-    linear-gradient(180deg, #eee5d6, var(--pg-orientation-ground));
+  background: var(--kit12-glass);
 }
 
 .pg-orientation-backdrop {
@@ -467,8 +457,8 @@
   margin: 0;
   padding: 0.2rem 0.55rem;
   font-size: 0.78rem;
-  color: #5a4b31;
-  background: rgb(241 234 221 / 92%);
+  color: var(--text-strong);
+  background: var(--kit12-glass);
   border-radius: 3px;
 }
 
@@ -478,18 +468,7 @@
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background:
-    linear-gradient(
-      90deg,
-      transparent 0 70%,
-      rgb(242 235 224 / 15%) 85%,
-      rgb(242 235 224 / 35%) 100%
-    ),
-    linear-gradient(
-      0deg,
-      rgb(242 235 224 / 92%) 0,
-      transparent calc(var(--pg-orientation-actions-height) + 3rem)
-    );
+  background: var(--kit12-glass);
 }
 .pg-orientation-stage[data-backdrop="neutral"] .pg-orientation-scrim {
   display: none;
@@ -598,7 +577,7 @@
   gap: 0.5rem;
   margin: 0;
   padding: 0.7rem clamp(1rem, 3vw, 3rem);
-  background: linear-gradient(0deg, rgb(242 235 224 / 92%), rgb(38 26 14 / 0%));
+  background: var(--kit12-glass);
 }
 
 /* The officials who stand in a place, feet on the foot of the scene. */
@@ -647,7 +626,7 @@
   padding: 0.3rem 0.6rem;
   font-size: 0.82rem;
   text-align: center;
-  background: rgb(241 234 221 / 92%);
+  background: var(--kit12-glass);
   border: 1px solid var(--run-a-line);
   border-radius: 0.45rem;
 }
@@ -738,7 +717,7 @@
   gap: 0.5rem;
 }
 .pg-opening-official-labels .pg-orientation-person {
-  background: rgb(238 229 213 / 92%);
+  background: var(--kit12-glass);
 }
 
 /* The state card's reading surface: government, population, voting. */
@@ -746,14 +725,14 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  color: #3b2f14;
+  color: var(--text-strong);
 }
 .pg-regional-card-body h3 {
   margin: 0 0 0.4rem;
   font-size: 1rem;
 }
 .pg-regional-card-body a {
-  color: #876822;
+  color: var(--text-strong);
   text-underline-offset: 0.15em;
 }
 .pg-state-overview {
@@ -802,8 +781,8 @@
 .pg-regional-state-cards .ui-action[aria-pressed="true"],
 .pg-regional-state-cards
   .ui-action[aria-pressed="true"]:is(:hover, :focus-visible, :active) {
-  color: #32291b;
-  background: #ead094;
+  color: var(--text-strong);
+  background: var(--kit12-glass);
 }
 
 /* The population figure and its caption. */
@@ -821,7 +800,7 @@
   font-weight: 700;
   line-height: 1.1;
   font-variant-numeric: tabular-nums;
-  color: #3b2f14;
+  color: var(--text-strong);
 }
 .pg-state-population-unit {
   font-size: 1rem;
@@ -835,7 +814,7 @@
   font-size: 0.8rem;
   font-style: italic;
   letter-spacing: 0.01em;
-  color: #5a4b31;
+  color: var(--text-strong);
 }
 
 .pg-opening-household {
@@ -871,11 +850,7 @@
     transform: none;
   }
   .pg-orientation-scrim {
-    background: linear-gradient(
-      0deg,
-      rgb(242 235 224 / 92%) 0 45%,
-      transparent 75%
-    );
+    background: var(--kit12-glass);
   }
   .pg-orientation-cast,
   .pg-white-house-presentation[data-has-plate="false"] .pg-opening-officials {

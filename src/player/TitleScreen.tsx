@@ -46,7 +46,6 @@ import {
   artPreviewMode,
 } from "../presentation/art-preview";
 import { gameBuildProfile } from "../presentation/build-profile";
-import { PlayerVersion } from "./PlayerVersion";
 import {
   nativeQuitAvailable,
   requestNativeQuit,
@@ -286,7 +285,6 @@ export function AmbientTableau({
         cycleKey="title-hero"
       >
         {children(hero.presentation.description)}
-        <PlayerVersion />
       </TitleTableau>
     );
   }
@@ -300,7 +298,6 @@ export function AmbientTableau({
       leavingCycleKey={leavingCycleKey}
     >
       {children(presentation.description)}
-      <PlayerVersion />
     </TitleTableau>
   );
 }
@@ -484,8 +481,7 @@ export function TitleScreen({
         </button>
         {onWatch ? (
           <button type="button" data-testid="watch-world" onClick={onWatch}>
-            Watch the world
-            <small>Nobody played. It runs on its own.</small>
+            Observer mode
           </button>
         ) : null}
         <button
@@ -523,26 +519,9 @@ export function TitleScreen({
           type="button"
           data-testid="open-saves"
           onClick={onOpenSaves}
-          disabled={savesUnavailable}
+          disabled={savesUnavailable || (saves.length === 0 && setAside === 0)}
         >
           Saved games
-          <small>
-            {reading
-              ? "Opening…"
-              : outdated && saves.length === 0
-                ? "Reload the page to open them"
-                : unread && saves.length === 0
-                  ? "Could not be read just now"
-                  : saves.length > 0
-                    ? setAside > 0
-                      ? `${saves.length} saved \u00b7 ${setAside} needs attention`
-                      : `${saves.length} saved`
-                    : setAside > 0
-                      ? setAside === 1
-                        ? "1 saved game needs attention"
-                        : `${setAside} saved games need attention`
-                      : "None yet \u00b7 import one"}
-          </small>
         </button>
         <button
           type="button"
@@ -560,11 +539,19 @@ export function TitleScreen({
             Patch notes
           </button>
         ) : null}
-        {nativeQuitAvailable() ? (
-          <button type="button" data-testid="quit" onClick={requestNativeQuit}>
-            Quit
-          </button>
-        ) : null}
+        <button
+          type="button"
+          data-testid="quit"
+          disabled={!nativeQuitAvailable()}
+          title={
+            nativeQuitAvailable()
+              ? undefined
+              : "Quit is available in the desktop game."
+          }
+          onClick={requestNativeQuit}
+        >
+          Quit
+        </button>
       </div>
       {savesUnavailable ? (
         <p className="game-note">

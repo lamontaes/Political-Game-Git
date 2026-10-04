@@ -21,8 +21,6 @@ export function OpeningStatePopulation({
   readonly asOf: string;
 }) {
   const [result, setResult] = useState<MapPlaceDemography | null>(null);
-  const [failed, setFailed] = useState<string | null>(null);
-  const key = `${stateUsps}:${asOf}`;
   const geoid = stateUsps ? stateFips.get(stateUsps) : undefined;
   useEffect(() => {
     if (!stateUsps || !geoid) return;
@@ -37,13 +35,13 @@ export function OpeningStatePopulation({
         if (active) setResult(next);
       },
       () => {
-        if (active) setFailed(key);
+        // The same internal fallback remains visible if the lookup fails.
       },
     );
     return () => {
       active = false;
     };
-  }, [stateUsps, geoid, asOf, key]);
+  }, [stateUsps, geoid, asOf]);
   const ready =
     result?.selection.stateUsps === stateUsps && result.selection.asOf === asOf
       ? result
@@ -69,7 +67,6 @@ export function OpeningStatePopulation({
           </p>
           <figcaption className="pg-state-population-caption">
             {populationCaption(population.geography.name, population.period)}
-            {population.estimated ? " estimate" : ""}
           </figcaption>
         </figure>
       ) : stateUsps ? (
@@ -82,9 +79,7 @@ export function OpeningStatePopulation({
             <span className="pg-state-population-unit">people</span>
           </p>
           <figcaption className="pg-state-population-caption">
-            {failed === key
-              ? "Estimated from the average House district"
-              : "Estimated from the average House district; the exact count replaces it when it arrives"}
+            Residents of all ages
           </figcaption>
         </figure>
       ) : (
@@ -99,9 +94,9 @@ export function OpeningStatePopulation({
  * counted and when. The year is the figure's own reference year.
  */
 export function populationCaption(placeName: string, period: string): string {
-  const year = /^\d{4}$/.test(period) ? period : null;
+  void period; // Kept for callers; source vintage is no longer player text.
   const place = /^District of /.test(placeName)
     ? `the ${placeName}`
     : placeName;
-  return `Residents of ${place}, all ages${year ? `, ${year}` : ""}`;
+  return `Residents of ${place}, all ages`;
 }

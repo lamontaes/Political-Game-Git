@@ -167,7 +167,7 @@ export const ORDINARY_LIFE_WORK_ITEMS: readonly OrdinaryLifeWorkItemDefinition[]
       // what is true of it in any life — where it is posted, when it is,
       // and that nobody has asked — rather than inventing who called it.
       summary:
-        "A public meeting is on the local calendar for 6:30 in the evening, with its agenda posted. Anyone may go, and nobody has asked you to.",
+        "A public meeting is on the local calendar for 6:30 in the evening, with its agenda posted. Anyone may go.",
     },
   ];
 
@@ -357,8 +357,7 @@ export function openOrdinaryLifeRecords(
   next = createScheduledActivity(next, {
     stableKey: `${PUBLIC_MEETING_KEY}:activity`,
     title: "Posted public meeting",
-    summary:
-      "A local meeting on the published calendar. Anyone may attend; nobody has asked you to.",
+    summary: "A local meeting on the published calendar. Anyone may attend.",
     kind: "tentative",
     start: momentAt(world, 18, 30, addDays(world.currentDate, 1)),
     end: momentAt(world, 19, 45, addDays(world.currentDate, 1)),

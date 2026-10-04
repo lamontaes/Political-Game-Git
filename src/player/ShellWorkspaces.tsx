@@ -22,7 +22,6 @@ import {
   economicContextUnavailableReason,
 } from "../presentation/economic-context-bindings";
 import { DIAGNOSTICS } from "./diagnostics-profile";
-import { playerEconomicContextLines } from "../presentation/economic-context";
 import { buildIdentity } from "../release/build-identity";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { PrivateJournalEditor } from "./PrivateJournalEditor";
@@ -1604,9 +1603,6 @@ export function PersonalWorkspace({
   const homeId = world.people[personId]?.homeJurisdictionId;
   const economicPlace = homeId ? lifePlaceByJurisdictionId(homeId) : null;
   const economicJurisdictionId = homeId ?? undefined;
-  const economicLines = economicPlace
-    ? playerEconomicContextLines(economicPlace.key, world.currentDate)
-    : [];
   const economicBinding = economicPlace
     ? economicContextBindingForPlace(economicPlace.key)
     : null;
@@ -1638,145 +1634,158 @@ export function PersonalWorkspace({
    */
   return (
     <>
-      <header className="pg-personal-identity">
-        <h3 data-testid="personal-name">{record.identity.name}</h3>
-        <p className="game-band" data-testid="personal-age">
-          {record.identity.age}
-          {record.identity.placeName ? ` · ${record.identity.placeName}` : ""}
-        </p>
-      </header>
-
-      <details className="pg-personal-section" data-testid="life-introduction">
-        <summary>Household and world notes</summary>
-        <p>{intro.context}</p>
-        {intro.household.sentences.map((text) => (
-          <p key={text}>{text}</p>
-        ))}
-        {intro.household.grounding.length > 0 ? (
-          <div data-testid="life-grounding">
-            {intro.household.grounding.map((fact) => (
-              <p key={fact.basis} data-grounding={fact.kind}>
-                {fact.text}
-              </p>
-            ))}
-          </div>
-        ) : null}
-      </details>
-
-      <section className="pg-personal-section">
-        <h3>Appearance</h3>
-        <button
-          type="button"
-          className="ui-action"
-          data-testid="personal-appearance"
-          onClick={() => onOpenPerson(personId)}
-        >
-          Appearance and wardrobe
-        </button>
-        <p className="game-note">Change only your own saved appearance.</p>
-      </section>
-
-      {record.household.length > 0 ? (
-        <section className="pg-personal-section">
-          <h3>Household</h3>
-          <ul data-testid="personal-household">
-            {record.household.map((member) => (
-              <li key={member.personId}>
-                <button
-                  type="button"
-                  className="pg-inline-link"
-                  data-testid={`personal-household-${member.personId}`}
-                  onClick={() => onOpenPerson(member.personId)}
-                >
-                  {member.name}
-                </button>
-                {member.relationship ? `, ${member.relationship}` : ""}
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      {lives.upbringing.length > 0 ? (
-        <section className="pg-personal-section" aria-label="How you grew up">
-          <h3>How you grew up</h3>
-          <ul data-testid="personal-upbringing">
-            {lives.upbringing.map((line) => (
-              <li key={line}>{line}</li>
-            ))}
-          </ul>
-          {lives.leanings.length > 0 ? (
-            <p data-testid="personal-leanings">
-              What it left you with: {lives.leanings.join(", ").toLowerCase()}.
+      {section !== "finances" ? (
+        <>
+          <header className="pg-personal-identity">
+            <h3 data-testid="personal-name">{record.identity.name}</h3>
+            <p className="game-band" data-testid="personal-age">
+              {record.identity.age}
+              {record.identity.placeName
+                ? ` · ${record.identity.placeName}`
+                : ""}
             </p>
-          ) : null}
-        </section>
-      ) : null}
+          </header>
 
-      {lives.around.length > 0 ? (
-        <section className="pg-personal-section" aria-label="Around you">
-          <h3>Around you this past year</h3>
-          <ul data-testid="personal-around">
-            {lives.around.map((line) => (
-              <li key={line.key} data-kind={line.kind}>
-                <time dateTime={line.at}>{proseDate(line.at)}</time> ·{" "}
-                {line.sentence}
-              </li>
+          <details
+            className="pg-personal-section"
+            data-testid="life-introduction"
+          >
+            <summary>Household and world notes</summary>
+            <p>{intro.context}</p>
+            {intro.household.sentences.map((text) => (
+              <p key={text}>{text}</p>
             ))}
-          </ul>
-        </section>
-      ) : null}
-
-      {record.education.length > 0 ? (
-        <section className="pg-personal-section">
-          <h3>Education</h3>
-          <ul data-testid="personal-education">
-            {record.education.map((line) => (
-              <li key={line.key}>{line.text}</li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      {record.work.length > 0 ? (
-        <section className="pg-personal-section">
-          <h3>Work</h3>
-          <ul data-testid="personal-work">
-            {record.work.map((line) => (
-              <li key={line.key}>{line.text}</li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      <section className="pg-personal-section" aria-label="Your history">
-        <h3>History</h3>
-        <div className="pg-personal-chronology">
-          {history.chapters.length ? (
-            history.chapters.map((chapter) => (
-              <section key={chapter.key}>
-                <h4>{chapter.heading}</h4>
-                {chapter.entries.map((entry) => (
-                  <p key={entry.key}>
-                    <time dateTime={entry.at}>{proseDate(entry.at)}</time> ·{" "}
-                    {entry.sentence}
+            {intro.household.grounding.length > 0 ? (
+              <div data-testid="life-grounding">
+                {intro.household.grounding.map((fact) => (
+                  <p key={fact.basis} data-grounding={fact.kind}>
+                    {fact.text}
                   </p>
                 ))}
-              </section>
-            ))
-          ) : (
-            <p>No remembered milestones are recorded yet.</p>
-          )}
-        </div>
-      </section>
-      <section className="pg-personal-section" aria-label="Your goals">
-        <h3>Goals</h3>
-        {goals.length ? (
-          goals.map((goal) => <p key={goal.id}>{goal.objective}</p>)
-        ) : (
-          <p>No personal goals are recorded yet.</p>
-        )}
-      </section>
+              </div>
+            ) : null}
+          </details>
+
+          <section className="pg-personal-section">
+            <h3>Appearance</h3>
+            <button
+              type="button"
+              className="ui-action"
+              data-testid="personal-appearance"
+              onClick={() => onOpenPerson(personId)}
+            >
+              Appearance and wardrobe
+            </button>
+            <p className="game-note">Change only your own saved appearance.</p>
+          </section>
+
+          {record.household.length > 0 ? (
+            <section className="pg-personal-section">
+              <h3>Household</h3>
+              <ul data-testid="personal-household">
+                {record.household.map((member) => (
+                  <li key={member.personId}>
+                    <button
+                      type="button"
+                      className="pg-inline-link"
+                      data-testid={`personal-household-${member.personId}`}
+                      onClick={() => onOpenPerson(member.personId)}
+                    >
+                      {member.name}
+                    </button>
+                    {member.relationship ? `, ${member.relationship}` : ""}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
+          {lives.upbringing.length > 0 ? (
+            <section
+              className="pg-personal-section"
+              aria-label="How you grew up"
+            >
+              <h3>How you grew up</h3>
+              <ul data-testid="personal-upbringing">
+                {lives.upbringing.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
+              {lives.leanings.length > 0 ? (
+                <p data-testid="personal-leanings">
+                  What it left you with:{" "}
+                  {lives.leanings.join(", ").toLowerCase()}.
+                </p>
+              ) : null}
+            </section>
+          ) : null}
+
+          {lives.around.length > 0 ? (
+            <section className="pg-personal-section" aria-label="Around you">
+              <h3>Around you this past year</h3>
+              <ul data-testid="personal-around">
+                {lives.around.map((line) => (
+                  <li key={line.key} data-kind={line.kind}>
+                    <time dateTime={line.at}>{proseDate(line.at)}</time> ·{" "}
+                    {line.sentence}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
+          {record.education.length > 0 ? (
+            <section className="pg-personal-section">
+              <h3>Education</h3>
+              <ul data-testid="personal-education">
+                {record.education.map((line) => (
+                  <li key={line.key}>{line.text}</li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
+          {record.work.length > 0 ? (
+            <section className="pg-personal-section">
+              <h3>Work</h3>
+              <ul data-testid="personal-work">
+                {record.work.map((line) => (
+                  <li key={line.key}>{line.text}</li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
+          <section className="pg-personal-section" aria-label="Your history">
+            <h3>History</h3>
+            <div className="pg-personal-chronology">
+              {history.chapters.length ? (
+                history.chapters.map((chapter) => (
+                  <section key={chapter.key}>
+                    <h4>{chapter.heading}</h4>
+                    {chapter.entries.map((entry) => (
+                      <p key={entry.key}>
+                        <time dateTime={entry.at}>{proseDate(entry.at)}</time> ·{" "}
+                        {entry.sentence}
+                      </p>
+                    ))}
+                  </section>
+                ))
+              ) : (
+                <p>No remembered milestones are recorded yet.</p>
+              )}
+            </div>
+          </section>
+          <section className="pg-personal-section" aria-label="Your goals">
+            <h3>Goals</h3>
+            {goals.length ? (
+              goals.map((goal) => <p key={goal.id}>{goal.objective}</p>)
+            ) : (
+              <p>No personal goals are recorded yet.</p>
+            )}
+          </section>
+        </>
+      ) : null}
 
       {/*
         Three kinds of money, kept apart because the world keeps them apart.
@@ -1785,20 +1794,20 @@ export function PersonalWorkspace({
         what, and in the campaign case a legally false one.
       */}
       <section
-        className="pg-personal-section"
+        className="pg-personal-section pg-finances"
         ref={finances}
         tabIndex={-1}
         aria-label="Money and property"
         data-testid="personal-finances"
         data-landed={section === "finances" ? "true" : undefined}
       >
-        <h3>Money and property</h3>
+        <h3>Your accounts</h3>
         <ul className="pg-purses" data-testid="personal-purses">
           {record.purses.map((purse) => (
             <li key={purse.kind} data-purse={purse.kind}>
               <strong>{purse.label}</strong>
               <small>{purse.ownerNote}</small>
-              {purse.balance ? (
+              {purse.balance !== null ? (
                 <span data-testid={`purse-balance-${purse.kind}`}>
                   {formatMoney(purse.balance)}
                 </span>
@@ -1829,18 +1838,6 @@ export function PersonalWorkspace({
           {economicPlace?.displayName ?? "Home place not recorded"} ·{" "}
           {proseDate(world.currentDate)}
         </p>
-        {/*
-          The compact lines come from a generated file committed per place, and
-          only Lexington has one. Saying "no supported economic observations
-          are available for this place" was true of that file and false of the
-          screen: the panel below now fetches real figures for the same town
-          from the shipped corpus, so the sentence contradicted the numbers
-          printed underneath it. Where the panel can speak, it speaks; where
-          nothing can, the panel's own reason says why.
-        */}
-        {economicLines.length
-          ? economicLines.map((line) => <p key={line.key}>{line.text}</p>)
-          : null}
         {/*
           The binding registry decides whether this place has one, not a
           comparison against one named city. Most places now derive one from

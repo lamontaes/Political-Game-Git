@@ -370,7 +370,30 @@ export function SetupScreen({
               data-testid={`creator-summary-${step}`}
               onClick={() => reopen(step)}
             >
-              <span className="creator-summary-value">{summaryText[step]}</span>
+              <span className="creator-summary-value">
+                {step === "character" ? (
+                  <>
+                    <strong className="creator-summary-name">
+                      {[setup.givenName, setup.familyName]
+                        .filter(Boolean)
+                        .join(" ") || "A name you'll be given"}
+                    </strong>
+                    <span className="creator-summary-detail">
+                      Age {setup.startAge}
+                      {chosenGender
+                        ? ` · ${GENDER_IDENTITY_LABELS[chosenGender]}`
+                        : ""}
+                    </span>
+                    {birthDate ? (
+                      <span className="creator-summary-detail">
+                        Born {proseDate(birthDate)}
+                      </span>
+                    ) : null}
+                  </>
+                ) : (
+                  summaryText[step]
+                )}
+              </span>
               <span className="creator-summary-edit" aria-hidden="true">
                 Change
               </span>
