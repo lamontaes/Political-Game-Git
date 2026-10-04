@@ -27,7 +27,7 @@ const paused = recordWorldEvent(initial, {
   occurredAt: initial.currentDate,
   recordedAt: initial.currentDate,
   jurisdictionId: null,
-  involvedEntityIds: [],
+  involvedEntityIds: [initial.personOrder[0]!],
   participants: [],
   personFactConstraints: [],
   visibility: "public",
