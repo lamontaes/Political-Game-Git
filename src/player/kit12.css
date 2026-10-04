@@ -69,6 +69,7 @@
   --brass: #9c8350;
   --iron: #1c1a18;
   --gold: #d6bd84;
+  --kit12-hover-glow: 0 0 2px color-mix(in srgb, var(--gold) 20%, transparent);
   --red: #b9584a;
   --text: #f2ede4;
   --text-strong: #f6f1e8;
@@ -85,4 +86,117 @@
     0 0 0 1px var(--iron), inset 0 0 0 1px var(--iron),
     0 4px 0 rgba(0, 0, 0, 0.58), 0 12px 24px rgba(0, 0, 0, 0.58);
   --kit12-blur: blur(6px) saturate(0.65);
+}
+
+/* The main menu owns the palette for every player surface and portaled control. */
+:root {
+  color-scheme: dark;
+  --run-a-ink: var(--text-strong);
+  --run-a-muted: var(--text-2);
+  --run-a-paper: var(--glass-bottom);
+  --run-a-paper-soft: rgba(42, 42, 44, 0.6);
+  --run-a-paper-deep: #161618;
+  --run-a-gold: var(--gold);
+  --run-a-brass: var(--brass);
+  --run-a-brass-light: var(--gold);
+  --run-a-oxblood: var(--red);
+  --run-a-forest: #98b394;
+  --run-a-line: rgba(156, 131, 80, 0.55);
+  --run-a-focus: var(--gold);
+  --pg-font-display: var(--name);
+  --pg-font-ui: var(--ui);
+  --pg-font-prose: var(--speech);
+  --pg-glass: var(--glass-bottom);
+  --pg-glass-strong: #1c1c1e;
+  --pg-edge: inset 0 0 0 1px var(--iron);
+  --pg-blur: var(--kit12-blur);
+  --pg-ivory: var(--text-strong);
+  --pg-ivory-dim: var(--text-2);
+  --pg-ivory-faint: var(--text-3);
+  --pg-paper: var(--glass-bottom);
+  --pg-paper-deep: #161618;
+  --pg-brass: var(--gold);
+  --pg-brass-dim: rgba(156, 131, 80, 0.55);
+  --pg-hairline: rgba(156, 131, 80, 0.45);
+  --pg-shadow: 0 12px 24px rgba(0, 0, 0, 0.58);
+  --pg-frame: var(--kit12-frame);
+  --pg-paper-texture: var(--kit12-glass);
+  --pg-radius: 2px;
+  --pg-control-bg: var(--kit12-glass);
+  --pg-control-bg-flat: #1c1c1e;
+  --pg-control-ink: var(--text-strong);
+  --pg-control-muted: var(--text-2);
+  --pg-control-line: var(--brass);
+  --pg-control-accent: var(--gold);
+  --pg-control-focus: var(--gold);
+  --pg-control-radius: 2px;
+}
+
+.pg-bootstrap {
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  background: var(--kit12-glass);
+  color: var(--gold);
+  font: 500 1rem var(--ui);
+}
+
+.pg-game {
+  color: var(--text);
+  font-family: var(--ui);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.pg-game :is(h1, h2, h3, .life-identity-name) {
+  font-family: var(--name);
+  font-weight: 800;
+  color: var(--gold);
+}
+.pg-game :is(blockquote, .game-scene, .game-passage, .pg-talk-line) {
+  font-family: var(--speech);
+}
+.pg-game :is(.game-hint, .game-note, .game-band, .creator-preview-note) {
+  font-family: var(--ui);
+}
+.pg-game :is(button, input, textarea, select, label, small, time) {
+  font-family: var(--ui);
+}
+/* The bundled UI family stops at 600; old 750/800 controls synthesize bold. */
+.pg-game.pg-game :is(button, input, textarea, select) {
+  font-family: var(--ui);
+  font-weight: 500;
+}
+.pg-game.pg-game button :is(strong, small, time) {
+  font-family: var(--ui);
+  font-weight: inherit;
+}
+/* Kit12's 14.5px UI body applies inside menus; prose gets its own 500 face. */
+.pg-game .pg-workspace {
+  font: 400 14.5px/1.4 var(--ui);
+}
+.pg-game
+  .pg-workspace
+  :is(.game-scene, .game-passage, .pg-talk-line, blockquote) {
+  font-family: var(--speech);
+  font-weight: 500;
+}
+.pg-game .pg-workspace :is(.pg-tab, .ux39-calendar-toolbar button) {
+  font: 600 12px/1.4 var(--ui);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.pg-game .pg-workspace :is(.pg-calendar-day h3, .pg-calendar-heading) {
+  font: 600 12.5px/1.4 var(--ui);
+  letter-spacing: 0;
+  text-transform: none;
+}
+.pg-game .pg-workspace .pg-calendar-open strong {
+  font: 500 14.5px/1.4 var(--ui);
+}
+.pg-game :is(button, a, summary):hover {
+  color: #fff;
+  text-shadow: var(--kit12-hover-glow);
+}
+.pg-game :is(button, a, summary):focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
 }

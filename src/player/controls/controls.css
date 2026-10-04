@@ -9,17 +9,6 @@
  * body while the game is mounted, so developer tools keep their own look.
  */
 
-:root {
-  --pg-control-bg: linear-gradient(180deg, #fbf6ea, #efe3c9);
-  --pg-control-bg-flat: #f6eedd;
-  --pg-control-ink: var(--run-a-ink, #2b2118);
-  --pg-control-muted: var(--run-a-muted, #5f4e3b);
-  --pg-control-line: rgb(122 90 40 / 55%);
-  --pg-control-accent: var(--run-a-gold, #8a6420);
-  --pg-control-focus: var(--run-a-focus, #7a2e2a);
-  --pg-control-radius: 0.45rem;
-}
-
 /* ------------------------------------------------------------ GameSelect */
 
 .pg-select {
@@ -103,7 +92,7 @@
   list-style: none;
   border: 1px solid var(--pg-control-accent);
   border-radius: var(--pg-control-radius);
-  background: rgb(241 234 221 / 98%);
+  background: var(--kit12-glass);
   box-shadow: 0 18px 44px rgb(46 30 12 / 34%);
   color: var(--pg-control-ink);
   font-family: var(--pg-font-ui, Georgia, serif);
@@ -217,7 +206,7 @@
   height: 1.15rem;
   margin: 0 0.45rem 0 0;
   border: 1.5px solid rgb(90 62 24 / 75%);
-  background: #fffbf2;
+  background: var(--kit12-glass);
   vertical-align: -0.2rem;
   cursor: pointer;
   appearance: none;
@@ -309,7 +298,7 @@
   margin-top: -0.375rem;
   border: 2px solid var(--pg-control-focus);
   border-radius: 50%;
-  background: var(--run-a-paper, #f1eadd);
+  background: var(--kit12-glass);
   appearance: none;
 }
 
@@ -318,7 +307,7 @@
   height: 1.05rem;
   border: 2px solid var(--pg-control-focus);
   border-radius: 50%;
-  background: var(--run-a-paper, #f1eadd);
+  background: var(--kit12-glass);
 }
 
 .pg-game :where(input[type="range"])::-moz-range-progress {
@@ -336,15 +325,17 @@
  * its own look.
  */
 body:where(.pg-game) button {
+  border-radius: var(--pg-control-radius);
   border-color: var(--pg-control-line);
-  background: var(--pg-control-bg);
+  background: transparent;
   color: var(--pg-control-ink);
+  font-family: var(--ui);
   transition: border-color 0.15s ease;
 }
 
 body:where(.pg-game) button:where(:hover:not(:disabled)) {
   border-color: var(--pg-control-accent);
-  background: var(--pg-control-bg);
+  background: rgba(214, 189, 132, 0.08);
 }
 
 /*
@@ -353,7 +344,7 @@ body:where(.pg-game) button:where(:hover:not(:disabled)) {
  * `.class:focus-visible` ring still wins.
  */
 body:where(.pg-game) button:focus-visible {
-  outline: 3px solid var(--pg-control-focus);
+  outline: 2px solid var(--pg-control-focus);
   outline-offset: 2px;
 }
 

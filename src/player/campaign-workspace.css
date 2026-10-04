@@ -6,7 +6,7 @@
   border: 1px solid rgba(205, 174, 98, 0.46);
   border-radius: 0.65rem;
   padding: 1rem;
-  background: rgb(241 233 220 / 92%);
+  background: var(--kit12-glass);
 }
 
 .game-campaign-strategy h3,
@@ -28,8 +28,8 @@
 
 .game-campaign-strategy legend {
   margin-bottom: 0.35rem;
-  color: #876a22;
-  font-family: ui-sans-serif, system-ui, sans-serif;
+  color: var(--text-strong);
+  font-family: var(--speech);
   font-size: 0.72rem;
   font-weight: 750;
   letter-spacing: 0.08em;
@@ -49,7 +49,7 @@
 
 .game-campaign-strategy label:has(input:checked) {
   border-color: rgb(111 85 42 / 88%);
-  background: rgb(235 224 206 / 92%);
+  background: var(--kit12-glass);
 }
 
 .game-campaign-strategy label:has(input:focus-visible) {
@@ -74,7 +74,7 @@
 
 .game-campaign-strategy label small {
   margin-top: 0.25rem;
-  color: rgb(50 41 27 / 76%);
+  color: var(--text-2);
   line-height: 1.4;
 }
 
@@ -118,7 +118,7 @@
 .game-campaign-office-body,
 .game-campaign-office-line {
   margin-top: 0.2rem;
-  color: rgb(50 41 27 / 76%);
+  color: var(--text-strong);
   font-size: 0.88rem;
   line-height: 1.4;
 }
@@ -131,18 +131,18 @@
 .game-campaign-strategy
   label[data-eligible="false"]
   .game-campaign-office-status {
-  color: #8a6323;
+  color: var(--text-strong);
 }
 
 .game-campaign-detail {
   margin-top: 0.35rem;
   font-size: 0.85rem;
-  color: rgb(50 41 27 / 76%);
+  color: var(--text-strong);
 }
 
 .game-campaign-detail summary {
   cursor: pointer;
-  color: #876a22;
+  color: var(--text-strong);
 }
 
 .game-campaign-detail ul {
@@ -209,7 +209,7 @@
   border: 1px solid var(--pg-brass-dim, rgba(205, 174, 98, 0.46));
   border-radius: 0.65rem;
   padding: 1rem;
-  background: var(--pg-glass, rgb(241 233 220 / 92%));
+  background: var(--kit12-glass);
 }
 
 .game-campaign-life h3,
@@ -253,7 +253,7 @@
 .game-campaign-life-line,
 .game-campaign-week-sessions > li > span {
   display: block;
-  color: var(--pg-ivory-dim, rgb(50 41 27 / 76%));
+  color: var(--text-strong);
   font-size: 0.88rem;
   line-height: 1.4;
 }
@@ -315,7 +315,7 @@
   border: 1px solid rgb(111 85 42 / 28%);
   border-radius: 0.45rem;
   padding: 0.6rem 0.7rem;
-  background: rgb(255 251 242 / 72%);
+  background: var(--kit12-glass);
 }
 
 .game-campaign-life-chapter-name {
@@ -324,7 +324,7 @@
 }
 
 .game-campaign-life-chapter-name small {
-  color: var(--pg-ivory-dim, rgb(50 41 27 / 76%));
+  color: var(--text-2);
   font-size: 0.8rem;
 }
 

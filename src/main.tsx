@@ -9,6 +9,7 @@ import "./player/player.css";
 import "./player/shell.css";
 import "./player/docket.css";
 import "./player/front-door.css";
+import "./player/kit13.css";
 
 // The whole-save mutation proof runs in tests and development; a player's
 // clock keeps only the cheap shape check (see future-transitions.ts).
@@ -21,10 +22,12 @@ if (!rootElement) {
 }
 
 rootElement.textContent = "Loading your game…";
+rootElement.classList.add("pg-bootstrap");
 
 initializeRuntimeArt(import.meta.env.VITE_RUNTIME_CONTENT === "1")
   .then(async () => {
     const { App } = await import("./App");
+    rootElement.classList.remove("pg-bootstrap");
     createRoot(rootElement).render(
       <StrictMode>
         <App />

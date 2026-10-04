@@ -31,7 +31,7 @@
    * paper as every other panel, ink type, one brass rule inside a dark edge.
    * Nothing in it moves.
    */
-  background: var(--pg-paper-texture), rgb(246 239 225 / 96%);
+  background: var(--kit12-glass);
   border: 1px solid rgb(90 62 24 / 55%);
   border-radius: 0.5rem;
   box-shadow:
@@ -202,7 +202,7 @@ button.pg-talk-face:focus-visible .person-portrait-mark {
 /* Narration — a line with no speaker — is italic, as the sketch asks. */
 .pg-talk-line[data-narration="true"] {
   font-style: italic;
-  color: #594a25;
+  color: var(--text-strong);
 }
 
 .pg-talk-line {
@@ -236,7 +236,7 @@ button.pg-talk-face:focus-visible .person-portrait-mark {
 
 .pg-talk-trouble {
   margin: 0 0 0.5rem;
-  color: #66451a;
+  color: var(--text-strong);
 }
 
 /* The Lie button stands beside the replies it swaps, not above them. */
@@ -252,8 +252,8 @@ button.pg-talk-face:focus-visible .person-portrait-mark {
   padding: 0.18rem 0.5rem;
   border: 1px solid rgb(111 85 42 / 75%);
   border-radius: 0.4rem;
-  color: #75301d;
-  background: rgb(255 251 242 / 80%);
+  color: var(--text-strong);
+  background: var(--kit12-glass);
   font-size: 0.76rem;
   font-weight: 700;
 }
@@ -306,7 +306,7 @@ button.pg-talk-face:focus-visible .person-portrait-mark {
   font-weight: 600;
   line-height: 1.2;
   color: var(--run-a-ink);
-  background: rgb(255 251 242 / 80%);
+  background: var(--kit12-glass);
   border: 1px solid rgb(194 155 72 / 40%);
   border-radius: 0.4rem;
   text-align: left;
@@ -371,7 +371,7 @@ button.pg-talk-face:focus-visible .person-portrait-mark {
 }
 
 .pg-talk .pg-talk-chip[data-selected="true"] {
-  color: #0f261d;
+  color: var(--text-strong);
   text-shadow: none;
   background: var(--run-a-gold);
   border-color: var(--run-a-gold);
@@ -502,7 +502,7 @@ button.pg-talk-face:focus-visible .person-portrait-mark {
   border: 1px solid #d9826b;
   border-radius: 2px;
   padding: 0 0.35em;
-  color: #75301d;
+  color: var(--text-strong);
   font-size: 0.72em;
   font-weight: 700;
   letter-spacing: 0.08em;
