@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { flushSync } from "react-dom";
 
 const FADE_MS = 350;
 
@@ -19,7 +20,7 @@ export function LifeStartTransition({
 }) {
   const prepare = useRef(onPrepare);
   const [progress, setProgress] = useState<LifeStartProgress>({
-    label: "Preparing your world",
+    label: "Preparing your life",
     completed: 0,
     total: 0,
   });
@@ -28,14 +29,18 @@ export function LifeStartTransition({
     const reduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
+    let frame: number | undefined;
     const timer = window.setTimeout(
       () => {
         // Let the approved menu scene and initial status paint before beginning
         // synchronous world generation. Preparation then reports real work.
-        window.requestAnimationFrame(() => {
+        frame = window.requestAnimationFrame(() => {
           if (controller.signal.aborted) return;
           void prepare.current((next) => {
-            if (!controller.signal.aborted) setProgress(next);
+            if (!controller.signal.aborted) {
+              // Commit the status before generation yields to the next paint.
+              flushSync(() => setProgress(next));
+            }
           }, controller.signal);
         });
       },
@@ -44,12 +49,10 @@ export function LifeStartTransition({
     return () => {
       controller.abort();
       window.clearTimeout(timer);
+      if (frame !== undefined) window.cancelAnimationFrame(frame);
     };
   }, []);
-  const percent =
-    progress.total > 0
-      ? Math.round((100 * progress.completed) / progress.total)
-      : null;
+  const counted = progress.total > 0;
   return (
     <div
       className="pg-life-transition"
@@ -59,12 +62,16 @@ export function LifeStartTransition({
       <div className="pg-life-transition-progress" role="status">
         <p>{progress.label}</p>
         <progress
-          aria-label="World preparation"
-          {...(percent === null
+          aria-label={progress.label}
+          {...(!counted
             ? {}
             : { value: progress.completed, max: progress.total })}
         />
-        {percent !== null && <span>{percent}%</span>}
+        {counted && (
+          <span>
+            {progress.completed} / {progress.total}
+          </span>
+        )}
       </div>
     </div>
   );

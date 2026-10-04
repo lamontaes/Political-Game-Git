@@ -161,15 +161,15 @@ export async function generateOpeningLifeWithProgress(
 ): Promise<OpeningLifeSession> {
   if (session.game) return session;
   throwIfOpeningAborted(options.signal);
-  let start: OpeningLifeBuildStart | undefined;
-  advanceWithWorldIntegrityAtEnd(() => {
-    start = beginOpeningLife(session);
-    return start.world;
-  });
-  const beginning = start!;
+  const beginning = await runOpeningPreparationSteps(
+    beginOpeningLifeSteps(session),
+    (start) => start.world,
+    options,
+  );
   let world = beginning.world;
 
   if (beginning.prewarmNationwide) {
+    await reportOpeningStage("Preparing state legislatures", options);
     const chunks = prepareNationwideStateLegislatureOpeningChunks(
       world,
       beginning.game.playerPersonId,
@@ -196,6 +196,7 @@ export async function generateOpeningLifeWithProgress(
       await (options.yieldControl ?? yieldOpeningPreparationToHost)();
     }
 
+    await reportOpeningStage("Preparing Congress principles", options);
     const principles = prepareOpeningCongressPrinciplesChunks(world);
     while (true) {
       throwIfOpeningAborted(options.signal);
@@ -216,12 +217,11 @@ export async function generateOpeningLifeWithProgress(
   }
 
   throwIfOpeningAborted(options.signal);
-  let completed: OpeningLifeSession | undefined;
-  advanceWithWorldIntegrityAtEnd(() => {
-    completed = completeOpeningLife(beginning, world);
-    return completed.game!.world;
-  }, world);
-  return completed!;
+  return runOpeningPreparationSteps(
+    completeOpeningLifeSteps(beginning, world),
+    (completed) => completed.game!.world,
+    options,
+  );
 }
 
 interface OpeningLifeBuildStart {
@@ -232,7 +232,63 @@ interface OpeningLifeBuildStart {
   readonly homeStateUsps: string | null;
 }
 
-function beginOpeningLife(session: OpeningLifeSession): OpeningLifeBuildStart {
+interface OpeningPreparationStep {
+  readonly progress: OpeningLifeGenerationProgress;
+  readonly world?: World;
+}
+
+function openingStage(label: string, world?: World): OpeningPreparationStep {
+  return { progress: { label, completed: 0, total: 0 }, world };
+}
+
+/** Both paths run the same preparation steps in the same order. */
+function finishOpeningPreparationSteps<Result>(
+  steps: Generator<OpeningPreparationStep, Result, void>,
+  onProgress?: (progress: OpeningLifeGenerationProgress) => void,
+): Result {
+  let step = steps.next();
+  while (!step.done) {
+    onProgress?.(step.value.progress);
+    step = steps.next();
+  }
+  return step.value;
+}
+
+async function runOpeningPreparationSteps<Result>(
+  steps: Generator<OpeningPreparationStep, Result, void>,
+  resultWorld: (result: Result) => World,
+  options: OpeningLifeGenerationOptions,
+): Promise<Result> {
+  // The first yield describes work, before any of that work runs.
+  let step = steps.next();
+  while (!step.done) {
+    throwIfOpeningAborted(options.signal);
+    options.onProgress?.(step.value.progress);
+    await (options.yieldControl ?? yieldOpeningPreparationToHost)();
+    throwIfOpeningAborted(options.signal);
+    const previous = step.value.world;
+    advanceWithWorldIntegrityAtEnd(() => {
+      step = steps.next();
+      return step.done ? resultWorld(step.value) : step.value.world!;
+    }, previous);
+  }
+  return step.value;
+}
+
+async function reportOpeningStage(
+  label: string,
+  options: OpeningLifeGenerationOptions,
+): Promise<void> {
+  throwIfOpeningAborted(options.signal);
+  options.onProgress?.(openingStage(label).progress);
+  await (options.yieldControl ?? yieldOpeningPreparationToHost)();
+  throwIfOpeningAborted(options.signal);
+}
+
+function* beginOpeningLifeSteps(
+  session: OpeningLifeSession,
+): Generator<OpeningPreparationStep, OpeningLifeBuildStart, void> {
+  yield openingStage("Preparing your life");
   const game = createNewGameWorld(session.setup);
   // Begin persists this save's generated starting conditions first, so every
   // later opening step reads the same world. A legacy descriptor writes none.
@@ -251,6 +307,7 @@ function beginOpeningLife(session: OpeningLifeSession): OpeningLifeBuildStart {
   // Both opening-data versions place the player and seat the vice president;
   // only "playtest65-v1" also writes the two fixed, already-concluded local
   // matters, which a replay descriptor recorded under it must keep rebuilding.
+  yield openingStage("Preparing government", economic);
   const openingData = session.setup.openingDataVersion;
   const versionedOpening =
     openingData === "playtest65-v1" ||
@@ -321,7 +378,10 @@ function buildOpeningLife(
   session: OpeningLifeSession,
   onProgress?: (progress: OpeningLifeGenerationProgress) => void,
 ): OpeningLifeSession {
-  const start = beginOpeningLife(session);
+  const start = finishOpeningPreparationSteps(
+    beginOpeningLifeSteps(session),
+    onProgress,
+  );
   let world = start.world;
   if (start.prewarmNationwide) {
     for (const chunk of prepareNationwideStateLegislatureOpeningChunks(
@@ -345,13 +405,17 @@ function buildOpeningLife(
       });
     }
   }
-  return completeOpeningLife(start, world);
+  return finishOpeningPreparationSteps(
+    completeOpeningLifeSteps(start, world),
+    onProgress,
+  );
 }
 
-function completeOpeningLife(
+function* completeOpeningLifeSteps(
   start: OpeningLifeBuildStart,
   preparedWorld: World,
-): OpeningLifeSession {
+): Generator<OpeningPreparationStep, OpeningLifeSession, void> {
+  yield openingStage("Preparing world conditions", preparedWorld);
   const { session, game, prewarmNationwide } = start;
   const withLocalIntakes = prewarmNationwide
     ? scheduleLocalMemberAgendaIntakes(preparedWorld)
@@ -374,12 +438,13 @@ function completeOpeningLife(
     withBudgets,
     session.setup.worldOpeningVersion ?? LEGACY_WORLD_OPENING_VERSION,
   );
-  const withPayAgreements = openedWorld(
+  const withPayAgreements = yield* openedWorld(
     withMortality,
     game.playerPersonId,
     session.setup.openingDataVersion,
     session.setup.livingWorldMemberNameVersion,
   );
+  yield openingStage("Finalizing your life", withPayAgreements);
   const withOfficeSalaries = initializeAllOfficeSalaryFlows(withPayAgreements);
   const withEmployerCash =
     worldOpeningVersionOf(withOfficeSalaries) === CRUNCH46_WORLD_OPENING_VERSION
@@ -444,7 +509,14 @@ function throwIfOpeningAborted(signal?: AbortSignal): void {
 }
 
 function yieldOpeningPreparationToHost(): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, 0));
+  return new Promise((resolve) => {
+    if (typeof requestAnimationFrame === "function") {
+      // Resume in a task after the frame, rather than a microtask before paint.
+      requestAnimationFrame(() => setTimeout(resolve, 0));
+    } else {
+      setTimeout(resolve, 0);
+    }
+  });
 }
 
 /**
@@ -452,17 +524,18 @@ function yieldOpeningPreparationToHost(): Promise<void> {
  * legacy replay descriptor keeps exactly the world it always built, which is
  * what WORLD's unchanged-hash control depends on.
  */
-function openedWorld(
+function* openedWorld(
   world: World,
   playerPersonId: EntityId,
   openingDataVersion: NewGameSetup["openingDataVersion"],
   memberNameVersion?: NewGameSetup["livingWorldMemberNameVersion"],
-): World {
+): Generator<OpeningPreparationStep, World, void> {
   // Migration is scheduled only for a current opening too, so a legacy replay
   // keeps the world it always built (MIGRATION_SEAMS "old-saves").
   // The town's residents are seated before migration is scheduled, so the
   // first quarterly review already has neighbors who might leave.
   if (!pressOpeningApplies(world)) return world;
+  yield openingStage("Preparing local press and schedules", world);
   // The town government is seated from the same residents, so the council
   // and the mayor are people who live in the town, and its elections go on
   // the calendar with its council's meetings.
@@ -485,9 +558,9 @@ function openedWorld(
       ),
     ),
   );
-  return openingDataVersion === "playtest65-v3"
-    ? ensureOpeningJudiciary(opened, memberNameVersion)
-    : opened;
+  if (openingDataVersion !== "playtest65-v3") return opened;
+  yield openingStage("Preparing courts", opened);
+  return ensureOpeningJudiciary(opened, memberNameVersion);
 }
 
 /** Whether this world is an opening of the version the press setup is for. */
