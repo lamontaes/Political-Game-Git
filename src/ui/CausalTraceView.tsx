@@ -146,6 +146,12 @@ export function CausalTraceView({
         It is not part of the game.
       </p>
       <h1>Causal trace inspector</h1>
+      {world.history.decisionTraces.length === 0 ? (
+        <p data-testid="decision-traces-empty">
+          No saved decision traces in this snapshot. Inspection does not
+          evaluate or reconstruct missing decisions.
+        </p>
+      ) : null}
       <p>
         Every link shown here is a field the record itself carries. Where the
         repository recorded no parent, this page says UNKNOWN rather than

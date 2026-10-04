@@ -30,6 +30,15 @@ const world = evaluateTownCoupleActors(game.world, {
 const records = world.history.decisionTraces;
 
 describe("read-only saved decision details", () => {
+  it("reports the actual opening snapshot's missing retained traces without filling them", () => {
+    expect(openingTraceCount).toBe(0);
+    const before = canonicalJson(game.world);
+    const html = renderToStaticMarkup(
+      <CausalTraceView reviewWorld={game.world} />,
+    );
+    expect(html).toContain("No saved decision traces in this snapshot");
+    expect(canonicalJson(game.world)).toBe(before);
+  });
   it("compares actual recorded generated-world decisions with the shared calculator", () => {
     expect(records.length).toBeGreaterThan(0);
     const before = canonicalJson(world);
