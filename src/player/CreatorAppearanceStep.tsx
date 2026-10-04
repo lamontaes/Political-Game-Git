@@ -100,6 +100,7 @@ export function CreatorAppearanceStep({
             <h2>Character appearance</h2>
             <EngineAppearanceControls
               recipe={engine}
+              showBodyChoice={setup.gender === "nonbinary"}
               onChange={(recipe) =>
                 changeWorld(
                   withEngineChoice(

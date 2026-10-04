@@ -788,42 +788,44 @@ export function WorldOrientationPanel({
                 </>
               ) : null}
             </div>
+            <div className="pg-orientation-actions">
+              <button
+                type="button"
+                className="ui-action"
+                data-testid="orientation-back"
+                disabled={index === 0}
+                onClick={() => setIndex((current) => Math.max(0, current - 1))}
+              >
+                Back
+              </button>
+              <button
+                type="button"
+                className="ui-action ui-action--primary"
+                data-testid="orientation-next"
+                onClick={() =>
+                  last
+                    ? close()
+                    : setIndex((current) =>
+                        Math.min(steps.length - 1, current + 1),
+                      )
+                }
+              >
+                {last ? "Done" : "Next"}
+              </button>
+              {!last ? (
+                <button
+                  type="button"
+                  className="ui-action"
+                  data-testid="orientation-skip"
+                  onClick={close}
+                >
+                  {mode === "first" ? "Skip" : "Close"}
+                </button>
+              ) : null}
+            </div>
           </div>
         </div>
       </SceneChapterTransition>
-      <div className="pg-orientation-actions">
-        <button
-          type="button"
-          className="ui-action"
-          data-testid="orientation-back"
-          disabled={index === 0}
-          onClick={() => setIndex((current) => Math.max(0, current - 1))}
-        >
-          Back
-        </button>
-        <button
-          type="button"
-          className="ui-action ui-action--primary"
-          data-testid="orientation-next"
-          onClick={() =>
-            last
-              ? close()
-              : setIndex((current) => Math.min(steps.length - 1, current + 1))
-          }
-        >
-          {last ? "Done" : "Next"}
-        </button>
-        {!last ? (
-          <button
-            type="button"
-            className="ui-action"
-            data-testid="orientation-skip"
-            onClick={close}
-          >
-            {mode === "first" ? "Skip" : "Close"}
-          </button>
-        ) : null}
-      </div>
     </section>
   );
 }

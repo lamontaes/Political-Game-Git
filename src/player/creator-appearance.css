@@ -461,8 +461,8 @@
   grid-column: 1 / -1;
   font: 500 0.875rem var(--ui);
 }
-.title-tableau--art.front-door .engine-appearance-row button,
-.title-tableau--art.front-door .engine-appearance-randomize {
+.title-tableau--art.front-door .game-creator .engine-appearance-row button,
+.title-tableau--art.front-door .game-creator .engine-appearance-randomize {
   min-height: 2rem;
   padding: 0.2rem 0.4rem;
 }

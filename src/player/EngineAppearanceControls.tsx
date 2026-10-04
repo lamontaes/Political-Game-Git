@@ -96,10 +96,12 @@ export function EngineAppearanceControls({
   recipe,
   onChange,
   onRandomize,
+  showBodyChoice = true,
 }: {
   readonly recipe: EngineRecipe;
   readonly onChange: (recipe: EngineRecipe) => void;
   readonly onRandomize?: () => void;
+  readonly showBodyChoice?: boolean;
 }) {
   const pack = PEOPLE_PACK.presentations[recipe.presentation];
   const outfit = packOutfit(pack, recipe.outfit);
@@ -302,39 +304,41 @@ export function EngineAppearanceControls({
       className="engine-appearance-controls"
       data-testid="engine-appearance-controls"
     >
-      {rows.map((row) => (
-        <div
-          key={row.id}
-          className="engine-appearance-row"
-          data-testid={`engine-appearance-${row.id}`}
-        >
-          <span className="engine-appearance-label">{row.label}</span>
-          <button
-            type="button"
-            aria-label={`Previous ${row.label.toLowerCase()}`}
-            onClick={() => onChange(row.move(-1))}
+      {rows
+        .filter((row) => showBodyChoice || row.id !== "presentation")
+        .map((row) => (
+          <div
+            key={row.id}
+            className="engine-appearance-row"
+            data-testid={`engine-appearance-${row.id}`}
           >
-            ‹
-          </button>
-          <span className="engine-appearance-value">
-            {row.swatch ? (
-              <span
-                aria-hidden="true"
-                className="engine-appearance-swatch"
-                style={{ background: row.swatch }}
-              />
-            ) : null}
-            {row.value}
-          </span>
-          <button
-            type="button"
-            aria-label={`Next ${row.label.toLowerCase()}`}
-            onClick={() => onChange(row.move(1))}
-          >
-            ›
-          </button>
-        </div>
-      ))}
+            <span className="engine-appearance-label">{row.label}</span>
+            <button
+              type="button"
+              aria-label={`Previous ${row.label.toLowerCase()}`}
+              onClick={() => onChange(row.move(-1))}
+            >
+              ‹
+            </button>
+            <span className="engine-appearance-value">
+              {row.swatch ? (
+                <span
+                  aria-hidden="true"
+                  className="engine-appearance-swatch"
+                  style={{ background: row.swatch }}
+                />
+              ) : null}
+              {row.value}
+            </span>
+            <button
+              type="button"
+              aria-label={`Next ${row.label.toLowerCase()}`}
+              onClick={() => onChange(row.move(1))}
+            >
+              ›
+            </button>
+          </div>
+        ))}
       {onRandomize ? (
         <button
           type="button"
