@@ -105,7 +105,6 @@ import { PublicInformationPanel } from "./PublicInformationPanel";
 import { projectPublicInformationPanel } from "../presentation/public-information-adapters";
 import { LifeStartTransition } from "./LifeStartTransition";
 import { createBackgroundSavePreparer } from "./background-save-preparation";
-import { VenueActivityPanel } from "./VenueActivityPanel";
 import { completedActivityHere } from "../presentation/scene-venues";
 import {
   BrowserShellStateStore,
@@ -175,7 +174,6 @@ import {
 } from "../presentation/setup-questionnaire-flow";
 import { resolvePlayerCapabilities } from "../presentation/player-capabilities";
 import { projectToday, projectWorkRole } from "../presentation/day-overview";
-import { projectDayRhythm } from "../presentation/day-rhythm";
 import { projectHouseholdPapers } from "../presentation/household-papers";
 import { projectDynamicSurfaces } from "../presentation/surface-projection";
 import {
@@ -184,8 +182,6 @@ import {
 } from "../presentation/play-scene-context";
 import { planLifeScenePeople } from "../presentation/life-scene-people";
 import {
-  artPreviewBanner,
-  artPreviewIsShowingCandidateArt,
   artPreviewLibraries,
   artPreviewMode,
   previewDatabaseName,
@@ -201,7 +197,6 @@ import { placeBackdropPeople } from "../presentation/backdrop-people";
 import { projectBackdropSurfaces } from "../presentation/backdrop-surfaces";
 import { projectLivingSceneSurface } from "../presentation/living-scene-surfaces";
 import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-scene";
-import { ordinaryMeetingEntry } from "../simulation/ordinary-meeting-presence";
 import { projectCandidateGuidanceScene } from "../presentation/candidate-guidance-scene";
 import {
   PUBLIC_MEETING_ROOM_SCENE_ID,
@@ -281,7 +276,6 @@ import { useShell } from "./useShell";
 
 import { ShellNav, type ShellDestination } from "./ShellNav";
 import { ShellPinRail } from "./ShellPinRail";
-import { MorningThoughtPanel } from "./MorningThoughtPanel";
 import { WorldOrientationPanel } from "./WorldOrientationPanel";
 import { WorldOrientationEntry } from "./WorldOrientationEntry";
 import { useWorldOrientation } from "./useWorldOrientation";
@@ -1311,38 +1305,13 @@ function PlayingScreen({
     () => artPreviewLibraries(previewMode),
     [previewMode],
   );
-  const previewBanner = artPreviewBanner(previewMode);
-  const previewShowsCandidateArt = artPreviewIsShowingCandidateArt(previewMode);
 
   /*
    * One shell for the whole life: what is open, how the player got there, and
    * which references they have kept. It owns navigation and nothing else — the
    * gameplay writers below are still the only things that change the world.
    */
-  const [shell, dispatch, shellRecordReady] = useShell(
-    session.world,
-    session.saveId,
-    shellStore,
-  );
-  /* Saved interface progress frames the existing Today and recap readers. */
-  const dayRhythm = useMemo(
-    () =>
-      shellRecordReady
-        ? projectDayRhythm(
-            session.world,
-            session.personId,
-            shell.progress,
-            shell.preferences,
-          )
-        : { summary: null, morningThought: null },
-    [
-      session.world,
-      session.personId,
-      shell.progress,
-      shell.preferences,
-      shellRecordReady,
-    ],
-  );
+  const [shell, dispatch] = useShell(session.world, session.saveId, shellStore);
   /*
    * The world introduction follows a new, not-yet-saved life until it is
    * finished or skipped. Loaded lives never see it pushed at them; it stays
@@ -2201,36 +2170,6 @@ function PlayingScreen({
     if (!text) return null;
     return text.length > 72 ? `${text.slice(0, 70)}…` : text;
   }, [conversation, session.world, session.personId]);
-  /*
-   * Asked once, and kept: the same answer drives the Talk control AND the
-   * sentence beside it, so the two cannot disagree.
-   */
-  const talkingInTheRoom = conversation !== null && view.surface === "scene";
-  const meeting = useMemo(
-    () =>
-      view.surface === "scene" &&
-      !readOnly &&
-      !showOrientation &&
-      !conversation &&
-      (projectOrdinaryMeetingScene(session.world, session.personId) !== null ||
-        session.world.history.scheduledActivities.some(
-          (activity) =>
-            activity.location.locationKey === "ordinary-life:meeting-room" &&
-            ordinaryMeetingEntry(
-              session.world,
-              session.personId,
-              activity.id,
-            ) !== null,
-        )),
-    [
-      view.surface,
-      readOnly,
-      showOrientation,
-      conversation,
-      session.world,
-      session.personId,
-    ],
-  );
   const inspectTalkEntry = selectedDossier
     ? openConversationWith(
         session.world,
@@ -2430,7 +2369,6 @@ function PlayingScreen({
     openTheBill,
     goToTheFloor,
     goToTheFloorFor,
-    workHint,
     readOnly,
     retireFromPlay: readOnly ? null : (
       <RetireFromPlayAction
@@ -2498,29 +2436,6 @@ function PlayingScreen({
         people this life has are a rail on the right, and everything else is a
         quiet cluster in the corner that grows as you reach for it.
       */}
-            {previewBanner ? (
-              /*
-               * Said out loud, on the screen, for as long as the mode is on.
-               * A preview that looked like the game would be worse than no
-               * preview: somebody would screenshot unreleased art as if it had
-               * been approved. `role="status"` so it is announced rather than
-               * only seen.
-               *
-               * `data-candidate-art` carries the state the sentence describes,
-               * so a test can ask whether the bank is actually being drawn
-               * without pinning the wording. It reads "false" in every
-               * checkout a machine can make, because the bank is owner-private
-               * and absent from all of them.
-               */
-              <p
-                className="art-preview-banner"
-                role="status"
-                data-testid="art-preview-banner"
-                data-candidate-art={previewShowsCandidateArt ? "true" : "false"}
-              >
-                {previewBanner}
-              </p>
-            ) : null}
             <SceneBackdrop
               sceneId={sceneId}
               placeBackdrop={placeBackdrop}
@@ -2937,30 +2852,6 @@ function PlayingScreen({
                   </button>
                 </p>
               ) : null}
-              {/*
-                The optional morning note waits until the first orientation
-                tour, conversations, meetings and selected dossiers close.
-              */}
-              {!showOrientation &&
-              !talkingInTheRoom &&
-              !meeting &&
-              !selectedDossier &&
-              dayRhythm.morningThought ? (
-                <MorningThoughtPanel
-                  thought={dayRhythm.morningThought}
-                  onDismiss={(date) =>
-                    dispatch({ type: "acknowledge-morning-thought", date })
-                  }
-                  onOpenToday={() =>
-                    dispatch({ type: "go-to-surface", surface: "calendar" })
-                  }
-                />
-              ) : null}
-              {session.unsavedSeed !== null ? (
-                <p className="sr-only" data-testid="unsaved-note">
-                  This life has not been saved yet.
-                </p>
-              ) : null}
               <p className="sr-only" role="status">
                 {shell.announcement}
               </p>
@@ -3084,7 +2975,6 @@ function renderWorkspace({
   openTheBill,
   goToTheFloor,
   goToTheFloorFor,
-  workHint,
   readOnly,
   retireFromPlay,
   guideTermKey,
@@ -3112,7 +3002,6 @@ function renderWorkspace({
   readonly openTheBill: () => void;
   readonly goToTheFloor: () => void;
   readonly goToTheFloorFor: (bill: DocketBill) => void;
-  readonly workHint: string;
   /** Nobody is played, or the played life ended: reading surfaces only. */
   readonly readOnly: boolean;
   /** Options' Retire from play, or null when there is nobody to retire. */
@@ -3598,16 +3487,6 @@ function renderWorkspace({
           today={
             <TodayView
               session={session}
-              onWorldChange={(next) => {
-                onWorldChange(next);
-                if (
-                  projectOrdinaryMeetingScene(next, session.personId)?.phase ===
-                  "active"
-                )
-                  dispatch({ type: "go-to-scene" });
-              }}
-              workHint={workHint}
-              embedded
               onOpenCommitment={(activityId) =>
                 openEntity({ kind: "commitment", id: activityId })
               }
@@ -4857,23 +4736,6 @@ function StoryView({
         </p>
       </header>
 
-      {/*
-        What just happened here, inside the surface rather than in place of it.
-        This used to return early and replace the whole story section, so after
-        an activity the room's own narration and its choices were gone and
-        every spec waiting for story-section waited for something that could
-        not appear. The aftermath keeps its own id and sits above the moment.
-      */}
-      {completedActivityHere(session.world, session.personId) ? (
-        <div data-testid="activity-aftermath">
-          <VenueActivityPanel
-            world={session.world}
-            personId={session.personId}
-            onWorldChange={onWorldChange}
-          />
-        </div>
-      ) : null}
-
       {moment.connective.sentences.length > 0 ? (
         <p className="game-passage" data-testid="story-passage">
           {moment.connective.sentences.join(" ")}
@@ -5076,32 +4938,21 @@ function JournalView({
 /**
  * Today: what is happening, what is next, what is waiting, and the time.
  *
- * Reading this is free. The only controls on it that spend time are the ones
- * that say how much: carrying out what is planned (the activity's own
- * duration) and getting on with the day. Everything else is a link to the
- * destination that owns it — inspecting a commitment opens the calendar's
- * record of it, and work opens Work.
+ * Reading and opening its existing destinations spend no game time.
  */
 function TodayView({
   session,
-  onWorldChange,
-  workHint,
   onOpenCommitment,
   onOpenPerson,
   onGoTo,
-  embedded = false,
 }: {
   readonly session: Session;
-  readonly onWorldChange: (world: World) => void;
-  readonly workHint: string;
   readonly onOpenCommitment: (activityId: EntityId) => void;
   readonly onOpenPerson: (personId: EntityId) => void;
   readonly onGoTo: (
     surface: "work" | "calendar" | "places",
     section?: "campaign" | "jobs",
   ) => void;
-  /** Inside the Calendar, which carries its own day controls and entries. */
-  readonly embedded?: boolean;
 }) {
   const today = useMemo(
     () => projectToday(session.world, session.personId),
@@ -5147,16 +4998,21 @@ function TodayView({
       <section className="pg-today-block" aria-labelledby="pg-today-next">
         <h3 id="pg-today-next">Next</h3>
         {today.next ? (
-          <button
-            type="button"
-            className="ui-action ui-action--subtle pg-today-link"
-            data-testid="day-next"
-            data-activity-id={today.next.activityId}
-            onClick={() => onOpenCommitment(today.next!.activityId)}
-          >
-            {today.next.when} · {today.next.title}
-            <small>{today.next.locationLabel} · Read it in the calendar</small>
-          </button>
+          <div className="pg-today-entry">
+            <div className="pg-today-entry-meta">
+              <time>{today.next.when}</time>
+              <span>{today.next.locationLabel}</span>
+            </div>
+            <button
+              type="button"
+              className="ui-action pg-today-link"
+              data-testid="day-next"
+              data-activity-id={today.next.activityId}
+              onClick={() => onOpenCommitment(today.next!.activityId)}
+            >
+              {today.next.title}
+            </button>
+          </div>
         ) : (
           <p className="game-note" data-testid="day-next-none">
             Nothing else of yours is on the calendar.
@@ -5218,47 +5074,6 @@ function TodayView({
           </ul>
         </section>
       ) : null}
-
-      <section className="pg-today-block" aria-labelledby="pg-today-time">
-        <h3 id="pg-today-time">Use your time</h3>
-        <VenueActivityPanel
-          world={session.world}
-          personId={session.personId}
-          onWorldChange={onWorldChange}
-        />
-      </section>
-
-      <nav className="pg-today-links" aria-label="From today">
-        <button
-          type="button"
-          className="ui-action ui-action--subtle"
-          data-testid="day-open-work"
-          onClick={() => onGoTo("work")}
-        >
-          Your office and campaigns
-          <small>{workHint}</small>
-        </button>
-        {embedded ? null : (
-          <button
-            type="button"
-            className="ui-action ui-action--subtle"
-            data-testid="day-open-calendar"
-            onClick={() => onGoTo("calendar")}
-          >
-            Calendar
-            <small>Everything that is scheduled</small>
-          </button>
-        )}
-        <button
-          type="button"
-          className="ui-action ui-action--subtle"
-          data-testid="day-open-places"
-          onClick={() => onGoTo("places")}
-        >
-          Travel
-          <small>Where you can go from here</small>
-        </button>
-      </nav>
     </section>
   );
 }

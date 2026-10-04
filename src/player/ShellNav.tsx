@@ -500,14 +500,6 @@ export function ShellNav({
                   <span className="life-identity-name" data-testid="story-who">
                     {playerName}
                   </span>
-                  {unsaved ? (
-                    <span
-                      className="pg-nav-unsaved"
-                      title="This life has not been saved yet."
-                    >
-                      unsaved
-                    </span>
-                  ) : null}
                 </span>
                 <span className="pg-nav-date" data-testid="story-when">
                   {currentMoment

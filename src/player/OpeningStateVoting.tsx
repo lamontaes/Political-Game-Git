@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { GameSelect } from "./controls/GameSelect";
 import {
   queryStateVotingContext,
-  NO_SURVEY_TOTAL_REASON,
   type CpsVotingCell,
   type StateVotingContext,
 } from "../presentation/state-voting-context";
@@ -44,9 +43,7 @@ export function OpeningStateVoting({
   readonly asOf: string;
 }) {
   const [result, setResult] = useState<StateVotingContext | null>(null);
-  const [failed, setFailed] = useState<string | null>(null);
   const [breakdown, setBreakdown] = useState<Breakdown>("age");
-  const key = `${stateUsps}:${asOf}`;
   useEffect(() => {
     if (!stateUsps) return;
     let active = true;
@@ -55,13 +52,13 @@ export function OpeningStateVoting({
         if (active) setResult(next);
       },
       () => {
-        if (active) setFailed(key);
+        // Keep the existing internal fallback if the lookup is unavailable.
       },
     );
     return () => {
       active = false;
     };
-  }, [stateUsps, asOf, key]);
+  }, [stateUsps, asOf]);
   const ready =
     result?.stateUsps === stateUsps && result.asOf === asOf ? result : null;
   const totals = ready?.totals;
@@ -71,16 +68,9 @@ export function OpeningStateVoting({
       <h3>Reported voting · November 2024</h3>
       {!totals ? (
         <p role="status">
-          {(ready?.unavailableReason !== NO_SURVEY_TOTAL_REASON
-            ? ready?.unavailableReason
-            : null) ??
-            (stateUsps
-              ? `Estimated from the national average: about ${Math.round(NATIONAL_REPORTED_VOTING_2024.votedPercent)}% of citizen adults said they voted${
-                  failed === key || ready
-                    ? "."
-                    : ". The survey for this state replaces it when it arrives."
-                }`
-              : "Voting survey information is unavailable.")}
+          {stateUsps
+            ? `About ${Math.round(NATIONAL_REPORTED_VOTING_2024.votedPercent)}% of citizen adults voted.`
+            : "Voting information is unavailable."}
         </p>
       ) : (
         <>
@@ -160,10 +150,8 @@ export function OpeningStateVoting({
               <p>This breakdown is unavailable.</p>
             )}
             <p>
-              ± shows the margin of error in percentage points. These are
-              estimates for adults aged 18 and over rather than a count, and
-              being a citizen is not the same as being eligible to vote.
-              Registration figures are not available here.
+              Percentages cover citizen adults aged 18 and over. Registration
+              figures are not available here.
             </p>
           </details>
         </>

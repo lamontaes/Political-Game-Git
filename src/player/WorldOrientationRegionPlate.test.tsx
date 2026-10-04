@@ -10,8 +10,8 @@ import {
 import { populationCaption } from "./OpeningStatePopulation";
 
 /**
- * The locality card keeps its recorded text and navigation, with no picture.
- * Backdrop selection for the other cards remains independently covered.
+ * The owner removed the locality card from the introduction. Its old isolated
+ * fixture must therefore render no card. Other backdrops remain covered.
  */
 
 const VIEW: OrientationView = {
@@ -54,17 +54,16 @@ function render(regionalPlate?: RegionalOpeningResult): string {
   );
 }
 
-describe("the text-only locality step", () => {
-  it("keeps the recorded place and government text without a regional picture", () => {
+describe("the removed locality step", () => {
+  it("does not render the former locality card or its regional picture", () => {
     const markup = render(PLATE);
     expect(markup).not.toContain("<img");
     expect(markup).not.toContain("orientation-region-plate");
     expect(markup).not.toContain("/assets/env_regional_sonoran_desert_v1.png");
-    expect(markup).toContain("Tucson");
-    expect(markup).toContain("Regina Romero is Mayor.");
+    expect(markup).toBe("");
   });
 
-  it("keeps the text without a city-hall fallback when a regional picture is unavailable", () => {
+  it("does not restore the removed card when its picture is unavailable", () => {
     for (const miss of [
       undefined,
       {
@@ -92,8 +91,7 @@ describe("the text-only locality step", () => {
       expect(markup).not.toContain("<img");
       expect(markup).not.toContain("orientation-place-backdrop");
       expect(markup).not.toContain("orientation-region-plate");
-      expect(markup).toContain("Tucson");
-      expect(markup).toContain("Regina Romero is Mayor.");
+      expect(markup).toBe("");
     }
   });
 });
@@ -226,10 +224,10 @@ describe("which approved picture stands behind each card", () => {
 describe("the population caption", () => {
   it("reads as a caption for the figure, not a record label", () => {
     expect(populationCaption("Maryland", "2024")).toBe(
-      "Residents of Maryland, all ages, 2024",
+      "Residents of Maryland, all ages",
     );
     expect(populationCaption("District of Columbia", "2024")).toBe(
-      "Residents of the District of Columbia, all ages, 2024",
+      "Residents of the District of Columbia, all ages",
     );
     expect(populationCaption("Maryland", "")).toBe(
       "Residents of Maryland, all ages",

@@ -20,13 +20,13 @@ describe("the opening's state card is never blank or stuck loading", () => {
     expect(ALL_56).toHaveLength(56);
   });
 
-  it("shows an estimated population on the first paint in every jurisdiction", () => {
+  it("shows the internal population fallback without research labels in every jurisdiction", () => {
     for (const usps of ALL_56) {
       const html = renderToStaticMarkup(
         <OpeningStatePopulation stateUsps={usps} asOf="2026-01-05" />,
       );
       expect(html, usps).not.toContain("Loading");
-      expect(html, usps).toContain("Estimated");
+      expect(html, usps).not.toMatch(/estimate|average|source|2024/i);
       expect(html, usps).toContain(
         estimatedStatePopulation(usps).toLocaleString("en-US"),
       );
@@ -34,13 +34,15 @@ describe("the opening's state card is never blank or stuck loading", () => {
     }
   });
 
-  it("shows an estimated voting share on the first paint in every state", () => {
+  it("shows the internal voting fallback without research labels in every state", () => {
     for (const usps of ALL_56) {
       const html = renderToStaticMarkup(
         <OpeningStateVoting stateUsps={usps} asOf="2026-01-05" />,
       );
       expect(html, usps).not.toContain("Loading");
-      expect(html, usps).toContain("Estimated from the national average");
+      expect(html, usps).not.toMatch(
+        /estimated|national average|survey for this state/i,
+      );
       expect(html, usps).toContain(
         `${Math.round(NATIONAL_REPORTED_VOTING_2024.votedPercent)}%`,
       );

@@ -597,10 +597,7 @@ function formatHeadlineValue(value: number, unit: string): string {
   return formatGraphValue(value, unit);
 }
 
-/**
- * A place with no rent figure of its own is never left blank: its state's
- * areas are averaged, and the line says it is an estimate.
- */
+/** Missing local calibration reuses the state's existing rent calculation. */
 function EstimatedRent({ stateFips }: { readonly stateFips: string }) {
   const [rent, setRent] = useState<number | null>(null);
   useEffect(() => {
@@ -621,10 +618,6 @@ function EstimatedRent({ stateFips }: { readonly stateFips: string }) {
     <figure className="economic-graph" data-testid="economic-rent-estimate">
       <figcaption>
         <strong>Two-bedroom rent</strong>
-        <span>
-          Estimated from the average for this state; this place has no figure of
-          its own.
-        </span>
       </figcaption>
       <p className="economic-graph-latest">
         {`About ${new Intl.NumberFormat("en-US", {
