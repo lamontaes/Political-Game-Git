@@ -105,6 +105,19 @@ function accountGovernmentJurisdiction(
     : jurisdictionId;
 }
 
+type PublicAccountOrganization = World["history"]["organizations"][number];
+const PUBLIC_ACCOUNT_INDEX = new WeakMap<
+  object,
+  WeakMap<
+    object,
+    {
+      byKey: Map<string, PublicAccountOrganization[]>;
+      byJurisdiction: Map<EntityId, PublicAccountOrganization[]>;
+      order: Map<PublicAccountOrganization, number>;
+    }
+  >
+>();
+
 function publicAccountCandidates(
   world: World,
   identity: PublicGovernmentIdentity,
@@ -112,44 +125,67 @@ function publicAccountCandidates(
 ) {
   const desired = accountGovernmentJurisdiction(world, identity.jurisdictionId);
   const exactKey = publicGovernmentOrganizationKey(identity);
-  const organizations = cutoff
-    ? organizationsAt(world, cutoff)
-    : world.history.organizations;
-  return organizations.filter((organization) => {
-    if (organization.stableKey === exactKey) return true;
-    let jurisdictionId: EntityId | null = null;
-    const localPrefix = "public-government:local:";
-    if (organization.stableKey.startsWith(localPrefix)) {
-      let governmentKey: string;
-      try {
-        governmentKey = decodeURIComponent(
-          organization.stableKey.slice(localPrefix.length),
-        );
-      } catch {
-        return false;
+  const organizations = world.history.organizations;
+  let byWorld = PUBLIC_ACCOUNT_INDEX.get(organizations);
+  if (!byWorld) {
+    byWorld = new WeakMap();
+    PUBLIC_ACCOUNT_INDEX.set(organizations, byWorld);
+  }
+  let index = byWorld.get(world.jurisdictions);
+  if (!index) {
+    index = { byKey: new Map(), byJurisdiction: new Map(), order: new Map() };
+    for (const [position, organization] of organizations.entries()) {
+      index.order.set(organization, position);
+      const keyed = index.byKey.get(organization.stableKey) ?? [];
+      keyed.push(organization);
+      index.byKey.set(organization.stableKey, keyed);
+      let jurisdictionId: EntityId | null = null;
+      const localPrefix = "public-government:local:";
+      if (organization.stableKey.startsWith(localPrefix)) {
+        let governmentKey: string;
+        try {
+          governmentKey = decodeURIComponent(
+            organization.stableKey.slice(localPrefix.length),
+          );
+        } catch {
+          continue;
+        }
+        const unit = governmentUnit(governmentKey);
+        const municipal = unit ? null : municipalGovernmentByKey(governmentKey);
+        jurisdictionId =
+          unit?.functionalActive &&
+          (unit.unitType === "county" ||
+            unit.unitType === "municipality" ||
+            unit.unitType === "township")
+            ? governmentUnitJurisdictionId(unit)
+            : municipal?.placeGeoid
+              ? (lifePlaceByKey(municipal.placeGeoid)?.context.jurisdiction
+                  .id ?? null)
+              : null;
+      } else if (organization.stableKey.startsWith("public-government:")) {
+        jurisdictionId = organization.stableKey.slice(
+          "public-government:".length,
+        ) as EntityId;
       }
-      const unit = governmentUnit(governmentKey);
-      const municipal = unit ? null : municipalGovernmentByKey(governmentKey);
-      jurisdictionId =
-        unit?.functionalActive &&
-        (unit.unitType === "county" ||
-          unit.unitType === "municipality" ||
-          unit.unitType === "township")
-          ? governmentUnitJurisdictionId(unit)
-          : municipal?.placeGeoid
-            ? (lifePlaceByKey(municipal.placeGeoid)?.context.jurisdiction.id ??
-              null)
-            : null;
-    } else if (organization.stableKey.startsWith("public-government:")) {
-      jurisdictionId = organization.stableKey.slice(
-        "public-government:".length,
-      ) as EntityId;
+
+      if (jurisdictionId !== null) {
+        const key = accountGovernmentJurisdiction(world, jurisdictionId);
+        const rows = index.byJurisdiction.get(key) ?? [];
+        rows.push(organization);
+        index.byJurisdiction.set(key, rows);
+      }
     }
-    return (
-      jurisdictionId !== null &&
-      accountGovernmentJurisdiction(world, jurisdictionId) === desired
-    );
-  });
+    byWorld.set(world.jurisdictions, index);
+  }
+  const candidates = [
+    ...new Set([
+      ...(index.byKey.get(exactKey) ?? []),
+      ...(index.byJurisdiction.get(desired) ?? []),
+    ]),
+  ].sort((left, right) => index.order.get(left)! - index.order.get(right)!);
+  if (!cutoff) return candidates;
+  // Retain the canonical cutoff validation and availability reader.
+  return organizationsAt(world, cutoff, candidates);
 }
 
 export function taxPowerEvidenceFor(
@@ -887,9 +923,11 @@ export function recordTaxBase(
   makeIsoDate(input.occurredAt);
   validatePayer(world, input.payer);
   if (
-    world.history.taxBases?.some(
-      (row) => row.sourceEventId === input.sourceEventId,
-    )
+    recordsByStringField(
+      world.history.taxBases ?? [],
+      "sourceEventId",
+      input.sourceEventId,
+    ).length > 0
   )
     throw new Error("This occurrence already has a recorded tax base.");
   const source = taxBaseOccurrenceSource(world, input.sourceEventId);
@@ -2111,10 +2149,8 @@ export function publicTaxAccountEvidenceForIdentity(
   }
   const candidates = publicAccountCandidates(world, identity, cutoff);
   if (candidates.length !== 1) return null;
-  const organization = organizationsAt(world, cutoff).find(
-    (row) => row.id === candidates[0]!.id,
-  );
-  if (!organization) return null;
+  // Candidates already passed the same dated organization-availability read.
+  const organization = candidates[0]!;
   const profile = organizationProfileAt(world, organization.id, cutoff);
   return profile?.classification === "sector:government" &&
     profile.locationJurisdictionId !== null &&

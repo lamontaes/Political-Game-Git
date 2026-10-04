@@ -344,6 +344,13 @@ export interface StartingLawScope {
 }
 
 interface StartingLawRow {
+  /** Exact recorded workplace identities; no name or county-containment guess. */
+  readonly regionalTerms?: readonly {
+    readonly workplaceKeys: readonly string[];
+    readonly operativeAt: string;
+    readonly lawTerms: NonNullable<LegislativeProvisionRecord["lawTerms"]>;
+    readonly source: string;
+  }[];
   readonly scopeEvidence?: StartingLawScope;
   readonly phases?: readonly (Omit<StartingLawRow, "phases" | "before"> & {
     readonly operativeAt: string;
@@ -478,8 +485,23 @@ export function startingLawTerms(
   law: LawInForce,
   questionKey: string,
   onDate: IsoDate,
+  workplaceKey?: string,
 ): NonNullable<LegislativeProvisionRecord["lawTerms"]> {
-  return selectedStartingLawRow(law, questionKey, onDate)?.lawTerms ?? [];
+  const row = selectedStartingLawRow(law, questionKey, onDate);
+  if (!row?.regionalTerms) return row?.lawTerms ?? [];
+  if (!workplaceKey) return [];
+  const matches = row.regionalTerms.filter(
+    (region) =>
+      region.workplaceKeys.includes(workplaceKey) &&
+      region.operativeAt <= onDate,
+  );
+  const latest = matches.reduce<string | null>(
+    (date, region) =>
+      date === null || region.operativeAt > date ? region.operativeAt : date,
+    null,
+  );
+  const active = matches.filter((region) => region.operativeAt === latest);
+  return active.length === 1 ? active[0]!.lawTerms : [];
 }
 
 export function startingLawCategories(
@@ -675,12 +697,25 @@ export function lawInForceAtStart(
   onDate: IsoDate,
 ): PropositionAnswer | null {
   return (
-    startingLawCandidate(
-      world,
-      governingChain(jurisdictionId),
-      propositionId,
-      onDate,
-    )?.answer ?? null
+    startingLawInForce(world, jurisdictionId, propositionId, onDate)?.answer ??
+    null
+  );
+}
+
+/** The canonical starting law, for readers that also need its adopted terms. */
+export function startingLawInForce(
+  world: World,
+  jurisdictionId: EntityId,
+  propositionId: EntityId,
+  onDate: IsoDate,
+  cutoff?: HistoricalCutoff,
+): LawInForce | null {
+  return startingLawCandidate(
+    world,
+    governingChain(jurisdictionId),
+    propositionId,
+    onDate,
+    cutoff,
   );
 }
 

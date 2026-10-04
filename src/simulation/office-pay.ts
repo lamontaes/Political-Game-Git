@@ -16,12 +16,19 @@ import { workRoleAt } from "./life-queries";
 import stateHouseholdIncome2023 from "../../data/research/money/state-household-income-cps-2023.json" with { type: "json" };
 import { censusRegionOf } from "./world-setup/census-regions";
 import {
+  enactedRuleChangeAt,
   officePayLawOfficeKey,
   ruleValueInWorld,
   type AmendableRuleField,
   type RuleChangeApplicability,
 } from "./enacted-rule-changes";
-import type { EntityId, IsoDate, World, WorkRelationship } from "./types";
+import type {
+  EntityId,
+  HistoricalCutoff,
+  IsoDate,
+  World,
+  WorkRelationship,
+} from "./types";
 
 export { OFFICE_PAY_META };
 
@@ -189,8 +196,9 @@ const GOVERNOR_OCCUPATION = /^service:us-([a-z]{2})-governor$/;
 export function paidOfficeOf(
   world: World,
   work: WorkRelationship,
+  cutoff?: HistoricalCutoff,
 ): { readonly office: PaidOffice; readonly state: string } | null {
-  const role = workRoleAt(world, work.id);
+  const role = workRoleAt(world, work.id, cutoff);
   if (!role) return null;
   if (work.kind === "employment:congress-member")
     return { office: "member-of-congress", state: "US" };
@@ -280,8 +288,12 @@ export function officePayInForce(
   world: World,
   work: WorkRelationship,
   onDate: IsoDate,
+  cutoff: HistoricalCutoff = {
+    asOfDate: onDate,
+    historySequenceExclusive: world.history.nextSequence,
+  },
 ): OfficePayInForce | null {
-  const held = paidOfficeOf(world, work);
+  const held = paidOfficeOf(world, work, cutoff);
   if (!held) return null;
   const stated = statePayFor(held.office, held.state);
   const estimate =
@@ -298,6 +310,7 @@ export function officePayInForce(
         officeKey: officePayLawOfficeKey(held.state),
         field,
         onDate,
+        cutoff,
       },
       published?.annualDollars ?? null,
     );
@@ -329,4 +342,34 @@ export function officePayInForce(
         ...(estimate ? { estimatedBecause: estimate.basis } : {}),
       }
     : null;
+}
+
+/** Saved operative rule for the actual office; the same reader owns applicability. */
+export function savedAnnualOfficePayRule(
+  world: World,
+  work: WorkRelationship,
+  onDate: IsoDate,
+  cutoff: HistoricalCutoff = {
+    asOfDate: onDate,
+    historySequenceExclusive: world.history.nextSequence,
+  },
+) {
+  const held = paidOfficeOf(world, work, cutoff);
+  const legal = officePayInForce(world, work, onDate, cutoff);
+  const field = held ? PAY_LAW_FIELD[held.office] : undefined;
+  if (!held || !field || !legal?.law) return null;
+  const rule = enactedRuleChangeAt(world, {
+    stateUsps: held.state,
+    officeKey: officePayLawOfficeKey(held.state),
+    field,
+    onDate,
+    cutoff,
+  });
+  if (
+    !rule ||
+    rule.measureId !== legal.law.measureId ||
+    rule.value !== legal.annualDollars
+  )
+    throw new Error("Annual office pay differs from its saved authority");
+  return { rule, legal, state: held.state, field };
 }

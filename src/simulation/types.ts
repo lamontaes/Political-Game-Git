@@ -1,3 +1,4 @@
+import type { WorkPayCoverageDeterminationRecord } from "./pay-coverage-types";
 import type { LawScheduleTerm } from "./law-structured-terms";
 import type {
   PermitApplicationRecord,
@@ -5,6 +6,7 @@ import type {
 } from "./permit-types";
 import type {
   LawAmountUnit,
+  RentalPriceRule,
   LawConsequenceRow,
   ResolvedHourlyLawPayConsequence,
   ResolvedSavedHourlyPayConsequence,
@@ -238,6 +240,7 @@ export type EntityKind =
   | "resource-obligation-state"
   | "resource-position"
   | "earned-law-pay-assessment"
+  | "work-pay-coverage"
   | "resource-transfer-outcome"
   | "scheduled-activity"
   | "scheduled-activity-state"
@@ -4582,6 +4585,7 @@ export interface HistoryStore {
   readonly resourceTransferOutcomes: readonly ResourceTransferOutcome[];
   /** Absent in saves made before earned-law assessments were recorded. */
   readonly earnedLawPayAssessments?: readonly EarnedLawPayAssessmentRecord[];
+  readonly workPayCoverageDeterminations?: readonly WorkPayCoverageDeterminationRecord[];
   readonly resourceObligations: readonly ResourceObligation[];
   readonly resourceObligationStates: readonly ResourceObligationStateRecord[];
   readonly dwellings: readonly Dwelling[];
@@ -5281,6 +5285,7 @@ export interface LegislativeProvisionRecord {
     readonly key: string;
     readonly value: number;
     readonly unit: LawAmountUnit;
+    readonly rentalPriceRule?: RentalPriceRule;
   }[];
   /** Explicit annual amount; omission preserves older whole-program records. */
   readonly fiscalPeriod?: "annual";
