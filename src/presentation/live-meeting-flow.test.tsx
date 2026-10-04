@@ -4,18 +4,25 @@ import {
   deserializeWorld,
   serializeWorld,
   scheduledActivityState,
+  recordHouseholdLocation,
+  recordWorldEvent,
   type EntityId,
   type World,
 } from "../simulation";
-import { openOrdinaryLifeRecords } from "../simulation/life-opportunities";
+import { smallWorld } from "../../tests/fixtures/small-world";
+import { ensureLocalGovernmentSeats } from "../simulation/living-world/local-government-seats";
+import { openOrdinaryLife } from "./ordinary-life";
 import { speakAtOrdinaryMeeting } from "../simulation/ordinary-meeting-presence";
-import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
-import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { performVenueActivity, venueTimingLabel } from "./venue-activity";
 import { playCalendarActivity } from "./calendar-time-control";
 import { previewTimeCommand, submitTimeCommand } from "./time-command";
 import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
 import { projectToday } from "./day-overview";
+import {
+  goBrieflyToOrdinaryMeeting,
+  leaveOrdinaryMeeting,
+  ordinaryMeetingLeaveOffer,
+} from "./ordinary-meeting-actions";
 import { OrdinaryMeetingPanel } from "../player/OrdinaryMeetingPanel";
 
 // Reuse the three distinct logged random draws, including a county-only place.
@@ -29,18 +36,68 @@ describe.each(places)(
       activityId: EntityId,
       journeyId: EntityId;
     beforeAll(() => {
-      const game = generateOpeningLife(
-        prepareOpeningLife({
-          ...DEFAULT_NEW_GAME_SETUP,
-          seed: `team5-live-meeting:${placeKey}`,
-          placeKey,
-          startKind: "custom",
-          startAge: 22,
-          household: "shares-a-home",
-        }),
-      ).game!;
-      viewer = game.playerPersonId;
-      world = openOrdinaryLifeRecords(game.world, viewer);
+      const fixture = smallWorld({
+        place: placeKey,
+        seed: `team5-live-meeting:${placeKey}`,
+        people: 4,
+        household: true,
+      });
+      viewer = fixture.personId;
+      const housed = recordHouseholdLocation(fixture.world, {
+        stableKey: `meeting-home:${placeKey}`,
+        householdId: fixture.world.history.households[0]!.id,
+        supersedesLocationId:
+          fixture.world.history.householdLocations
+            .filter(
+              (location) =>
+                location.householdId ===
+                fixture.world.history.households[0]!.id,
+            )
+            .at(-1)?.id ?? null,
+        effectiveAt: fixture.world.currentDate,
+        jurisdictionId: fixture.jurisdictionId,
+        label: "Home",
+        kind: "residence:home",
+        provenance: {
+          kind: "authored",
+          note: "Recorded home endpoint for this isolated meeting route fixture",
+        },
+      });
+      const atHome = recordWorldEvent(housed, {
+        stableKey: `meeting-opening-location:${viewer}`,
+        type: "life.scene.arrived",
+        occurredAt: housed.currentDate,
+        recordedAt: housed.currentDate,
+        jurisdictionId: fixture.jurisdictionId,
+        involvedEntityIds: [viewer, housed.history.households[0]!.id],
+        participants: [
+          {
+            personId: viewer,
+            role: "presence:participant",
+            detail: "At home when this isolated route begins",
+          },
+        ],
+        personFactConstraints: [],
+        visibility: "private",
+        tags: ["fixture:meeting-initial-placement"],
+        summary: "You are at home.",
+        context: {
+          location: {
+            setting: "home",
+            label: "Home",
+            jurisdictionId: fixture.jurisdictionId,
+          },
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+      world = openOrdinaryLife(
+        ensureLocalGovernmentSeats(atHome, viewer),
+        viewer,
+      );
       activityId = world.history.scheduledActivities.find(
         (a) => a.location.locationKey === "ordinary-life:meeting-room",
       )!.id;
@@ -88,7 +145,12 @@ describe.each(places)(
         expect(html).toContain("ordinary-meeting-agenda-order");
         expect(html).toContain("ordinary-meeting-people");
         expect(html).toContain("ordinary-meeting-roll-call");
-        expect(html).toContain("Speak");
+        expect(html).not.toContain("speak-ordinary-meeting");
+        expect(html).not.toContain("meeting-speech-");
+        expect(html).not.toContain("ordinary-meeting-spoken-words");
+        expect(html).toContain(">Stay through the meeting</button>");
+        expect(html).toContain(">Go briefly</button>");
+        expect(html).toContain(">Leave and return home</button>");
         expect(serializeWorld(arrived)).toBe(before);
         expect(
           previewTimeCommand(arrived, viewer, {
@@ -125,6 +187,35 @@ describe.each(places)(
         ),
       ).toBe(false);
       expect(projectToday(finished, viewer).now).not.toContain("nobody else");
+    });
+    it("brief attendance and leaving use the retained return route", () => {
+      const arrived = performVenueActivity(world, viewer, activityId);
+      expect(ordinaryMeetingLeaveOffer(arrived, viewer, activityId).kind).toBe(
+        "available",
+      );
+      const left = leaveOrdinaryMeeting(arrived, viewer, activityId);
+      expect(left).not.toBe(arrived);
+      expect(
+        left.history.events.some(
+          (event) => event.type === "civic.meeting-left",
+        ),
+      ).toBe(true);
+      expect(left.history.events.at(-1)?.context.location?.setting).toBe(
+        "home",
+      );
+      expect(leaveOrdinaryMeeting(left, viewer, activityId)).toBe(left);
+      const brief = goBrieflyToOrdinaryMeeting(arrived, viewer, activityId);
+      expect(brief).not.toBe(arrived);
+      expect(
+        brief.history.events.some(
+          (event) => event.type === "civic.meeting-brief-visit",
+        ),
+      ).toBe(true);
+      expect(
+        brief.history.events.some(
+          (event) => event.type === "civic.meeting-attended",
+        ),
+      ).toBe(false);
     });
     it("Until needed on the meeting morning stops at its departure rather than skipping the evening", () => {
       const morning = submitTimeCommand(world, {
