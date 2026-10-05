@@ -8,7 +8,12 @@
     <link rel="stylesheet" href="candidate.css" />
   </head>
   <body>
-    <main id="scene" data-layout="1" data-phase="greeting"></main>
+    <main
+      id="scene"
+      class="pg-game"
+      data-layout="1"
+      data-phase="greeting"
+    ></main>
     <aside class="proposal-caption">
       Layout proposal: recorded exchange staged here; office attendance is not
       established.
@@ -56,7 +61,7 @@
         );
         document.head.append(selected);
         const content = required(p.phases?.[phase], `phases.${phase}`);
-        const panel = node("section", "panel exchange");
+        const panel = node("section", "panel exchange pg-talk");
         panel.setAttribute(
           "aria-label",
           phase === "room" ? p.roomLabel : "Conversation",
