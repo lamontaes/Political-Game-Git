@@ -1637,7 +1637,24 @@
           "answer": "yes"
         },
         "US-CA": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Cal. Bus. & Prof. Code § 26140; Rev. & Tax. Code § 34011.2",
+          "source": "https://www.cdtfa.ca.gov/lawguides/vol3/ctl/ctl-34011-2.html",
+          "note": "A person must be at least 21 to purchase adult-use cannabis; the excise tax is 15% of gross receipts from retail sales in force 10/1/2025 through 6/30/2026 (AB 564).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            },
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.15,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-CO": {
           "answer": "yes"
@@ -1663,7 +1680,15 @@
           "operativeAt": "2019-04-04",
           "cite": "11 GCA § 8108 (Guam Cannabis Industry Act of 2019)",
           "source": "https://col.guamcourts.gov/sites/default/files/11gc008_Q.pdf",
-          "note": "Guam law makes it lawful for a registered retail cannabis store to sell cannabis to adults 21 and older (P.L. 35-005, enacted April 4, 2019)."
+          "note": "Guam law makes it lawful for a registered retail cannabis store to sell cannabis to adults 21 and older (P.L. 35-005, enacted April 4, 2019).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            }
+          ]
         },
         "US-HI": {
           "answer": "no"
@@ -1696,10 +1721,44 @@
           "answer": "yes"
         },
         "US-ME": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Me. Rev. Stat. tit. 28-B, § 504(4); tit. 36, § 1811(5)",
+          "source": "https://legislature.maine.gov/statutes/36/title36sec1811.html",
+          "note": "Retail purchasers must be 21 or older. The adult-use retail sales tax is 14% on sales beginning 1/1/2026; cultivation transfers have separate weight-based excise rates.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            },
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.14,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-MI": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Mich. Comp. Laws § 333.27955; Michigan Regulation and Taxation of Marihuana Act, § 5",
+          "source": "https://www.michigan.gov/cra/sections/adult-use/michigan-regulation-and-taxation-of-marihuana-act",
+          "note": "The act permits adult-use sales only to people at least 21 years old. A 10% retail excise tax applies; a separate 24% wholesale tax began 1/1/2026 and has a different tax base.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            },
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.1,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-MN": {
           "answer": "yes"
@@ -1712,7 +1771,21 @@
           "operativeAt": "2018-09-21",
           "cite": "4 CMC § 53025 (Taulamwaar Sensible CNMI Cannabis Act of 2018)",
           "source": "https://cnmilaw.gov/docs/cmc_section/T4/53025.pdf",
-          "note": "A marijuana retailer holding a Commission retail license may sell marijuana items to adults 21 and older (P.L. 20-66, enacted September 21, 2018)."
+          "note": "A marijuana retailer holding a Commission retail license may sell marijuana items to adults 21 and older (P.L. 20-66, enacted September 21, 2018); adult-use retail sales also carry a 15% surtax, separate from first-sale and medical rates.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            },
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.15,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-MS": {
           "answer": "no"
@@ -1739,7 +1812,18 @@
           "answer": "yes"
         },
         "US-NV": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Nev. Rev. Stat. § 372A.290",
+          "source": "https://www.leg.state.nv.us/nrs/NRS-372A.html",
+          "note": "Adult-use retail cannabis is subject to a 10% excise tax; wholesale transfers have a separate tax and tax base.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.1,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-NY": {
           "answer": "yes"
@@ -7551,7 +7635,7 @@
           "preempts": true,
           "cite": "Mich. Const. art. IV, § 54",
           "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-Article-IV-54",
-          "note": "Twelve years total in the House and Senate combined, lifetime (2022 Proposal 1, replacing the 1992 six-year House and eight-year Senate limits)."
+          "note": "Twelve years total in the House and Senate combined, lifetime (2022 Proposal 1, replacing the 1992 six-year House and eight-year Senate limits); the existing consecutive-terms parameter cannot encode this lifetime cap."
         },
         "US-MN": {
           "answer": "no",
@@ -7604,7 +7688,15 @@
           "preempts": true,
           "cite": "Neb. Const. art. III, § 12",
           "source": "https://nebraskalegislature.gov/laws/articles.php?article=III-12",
-          "note": "Two consecutive four-year terms (eight years), then four years out (2000 Initiative 415). A 2026 ballot amendment (LR19CA) would allow three consecutive terms; not in force on 1/1/2026."
+          "note": "Two consecutive four-year terms (eight years), then four years out (2000 Initiative 415). A 2026 ballot amendment (LR19CA) would allow three consecutive terms; not in force on 1/1/2026.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+              "key": "limit",
+              "value": 2,
+              "unit": "count"
+            }
+          ]
         },
         "US-NH": {
           "answer": "no",
@@ -18181,7 +18273,15 @@
           "preempts": true,
           "cite": "Fla. Stat. § 501.1736 (ch. 2024-42, HB 3)",
           "source": "https://www.flsenate.gov/Laws/Statutes/2025/501.1736",
-          "note": "The law bars accounts for children under 14 and requires parental consent for ages 14 and 15; a federal judge enjoined it on 6/3/2025, but the Eleventh Circuit stayed that injunction on 11/25/2025, so it was enforceable on 1/1/2026 (the statute text does not itself spell out an age-verification method)."
+          "note": "The law bars accounts for children under 14 and requires parental consent for ages 14 and 15; a federal judge enjoined it on 6/3/2025, but the Eleventh Circuit stayed that injunction on 11/25/2025, so it was enforceable on 1/1/2026 (the statute text does not itself spell out an age-verification method).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+              "key": "minimum-age",
+              "value": 14,
+              "unit": "years"
+            }
+          ]
         },
         "US-GA": {
           "answer": "no",
@@ -18422,7 +18522,7 @@
           "preempts": true,
           "cite": "Va. Code § 59.1-577.1 (2025, c. 703, SB 854)",
           "source": "https://law.lis.virginia.gov/vacode/title59.1/chapter53/section59.1-577.1/",
-          "note": "Platforms must use commercially reasonable methods to determine whether a user is under 16 and limit such users to one hour a day absent verifiable parental consent; it took effect 1/1/2026 and was preliminarily enjoined by a federal judge on 2/27/2026."
+          "note": "Platforms must use commercially reasonable methods to determine whether a user is under 16 and limit such users to one hour a day absent verifiable parental consent; it took effect 1/1/2026 and was preliminarily enjoined by a federal judge on 2/27/2026. The parameter schema has no exact term for its protected-user boundary plus daily screen-time limit and parental-consent exception."
         },
         "US-VI": {
           "answer": "no",
@@ -19646,7 +19746,15 @@
           "preempts": true,
           "cite": "Alaska Stat. § 24.45.121(c)",
           "source": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=24.45.121&secEnd=24.45.121",
-          "note": "One year: a former legislator may not lobby the legislature for one year after leaving."
+          "note": "One year: a former legislator may not lobby the legislature for one year after leaving.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 1,
+              "unit": "years"
+            }
+          ]
         },
         "US-AL": {
           "answer": "yes",
@@ -19680,7 +19788,15 @@
           "preempts": true,
           "cite": "Cal. Gov. Code § 87406(b)",
           "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=87406",
-          "note": "One year: a former Member of the Legislature may not lobby the Legislature for pay for one year after leaving office (a member who resigns is barred until one year after that session adjourns)."
+          "note": "One year: a former Member of the Legislature may not lobby the Legislature for pay for one year after leaving office (a member who resigns is barred until one year after that session adjourns).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 1,
+              "unit": "years"
+            }
+          ]
         },
         "US-CO": {
           "answer": "yes",
@@ -19688,7 +19804,15 @@
           "preempts": true,
           "cite": "Colo. Const. art. XXIX, § 4",
           "source": "https://olls.info/crs/crs2025-title-00.htm",
-          "note": "Two years: a former member of the General Assembly may not represent others for pay before any member of the General Assembly or statewide elected officeholder for two years after leaving office."
+          "note": "Two years: a former member of the General Assembly may not represent others for pay before any member of the General Assembly or statewide elected officeholder for two years after leaving office.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 2,
+              "unit": "years"
+            }
+          ]
         },
         "US-CT": {
           "answer": "no",
@@ -19709,7 +19833,15 @@
           "preempts": true,
           "cite": "Del. Code tit. 29, § 5837",
           "source": "https://delcode.delaware.gov/title29/c058/sc04/index.html",
-          "note": "One year: a former member of the General Assembly may not lobby for pay for one year after leaving office (79 Del. Laws c. 427)."
+          "note": "One year: a former member of the General Assembly may not lobby for pay for one year after leaving office (79 Del. Laws c. 427).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 1,
+              "unit": "years"
+            }
+          ]
         },
         "US-FL": {
           "answer": "yes",
@@ -19717,7 +19849,15 @@
           "preempts": true,
           "cite": "Fla. Const. art. II, § 8(e), (f)(3)",
           "source": "https://www.flsenate.gov/Laws/Constitution",
-          "note": "Six years: a former legislator may not lobby the Legislature or any state agency for pay for six years after leaving office (the older two-year bar on representing others before one's former body also remains)."
+          "note": "Six years: a former legislator may not lobby the Legislature or any state agency for pay for six years after leaving office (the older two-year bar on representing others before one's former body also remains).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 6,
+              "unit": "years"
+            }
+          ]
         },
         "US-GA": {
           "answer": "yes",
@@ -19725,7 +19865,15 @@
           "preempts": true,
           "cite": "Ga. Code Ann. § 21-5-75(a); § 21-5-3(22)(D)",
           "source": "https://ethics.ga.gov/wp-content/uploads/2022/06/Campaign-Finance-Act.pdf",
-          "note": "One year: a former member of the General Assembly may not register as a lobbyist or lobby for one year after leaving office, unless he or she stays employed in state government."
+          "note": "One year: a former member of the General Assembly may not register as a lobbyist or lobby for one year after leaving office, unless he or she stays employed in state government.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 1,
+              "unit": "years"
+            }
+          ]
         },
         "US-GU": {
           "answer": "yes",
@@ -19740,14 +19888,30 @@
           "preempts": true,
           "cite": "Haw. Rev. Stat. § 84-18(b)-(c)",
           "source": "https://ethics.hawaii.gov/wp-content/uploads/2013/09/postEmpRestrict.pdf",
-          "note": "One year: for 12 months after leaving, a former legislator may not represent anyone for pay on matters involving official action by the Legislature (State Ethics Commission guide)."
+          "note": "One year: for 12 months after leaving, a former legislator may not represent anyone for pay on matters involving official action by the Legislature (State Ethics Commission guide).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 1,
+              "unit": "years"
+            }
+          ]
         },
         "US-IA": {
           "answer": "yes",
           "preempts": true,
           "cite": "Iowa Code § 68B.5A(4)",
           "source": "https://www.legis.iowa.gov/docs/code/68B.5A.pdf",
-          "note": "Two years: a former member of the General Assembly may not become a lobbyist within two years after leaving service."
+          "note": "Two years: a former member of the General Assembly may not become a lobbyist within two years after leaving service.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 2,
+              "unit": "years"
+            }
+          ]
         },
         "US-ID": {
           "answer": "no",
@@ -19762,14 +19926,30 @@
           "preempts": true,
           "cite": "5 ILCS 430/5-45(b-7)",
           "source": "https://www.ilga.gov/legislation/ILCS/details?ActID=2529&ChapterID=2&SeqStart=&&ChapAct=FullText",
-          "note": "Six months: a former member of the General Assembly may not do state-level lobbying in a General Assembly in which he or she served until six months after leaving office."
+          "note": "Six months: a former member of the General Assembly may not do state-level lobbying in a General Assembly in which he or she served until six months after leaving office.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 0.5,
+              "unit": "years"
+            }
+          ]
         },
         "US-IN": {
           "answer": "yes",
           "preempts": true,
           "cite": "Ind. Code § 2-7-5-7",
           "source": "https://www.in.gov/ilrc/files/Q_and_A_Document.pdf",
-          "note": "One year: a former member of the General Assembly may not register as a legislative lobbyist or work as a legislative liaison for 365 days after leaving (Lobby Registration Commission guidance)."
+          "note": "One year: a former member of the General Assembly may not register as a legislative lobbyist or work as a legislative liaison for 365 days after leaving (Lobby Registration Commission guidance).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 1,
+              "unit": "years"
+            }
+          ]
         },
         "US-KS": {
           "answer": "no",
@@ -19783,35 +19963,75 @@
           "preempts": true,
           "cite": "Ky. Rev. Stat. § 6.757(1)",
           "source": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=376",
-          "note": "Two years: a former legislator may not be a legislative agent (lobbyist), other than for a public agency, until two years after leaving office."
+          "note": "Two years: a former legislator may not be a legislative agent (lobbyist), other than for a public agency, until two years after leaving office.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 2,
+              "unit": "years"
+            }
+          ]
         },
         "US-LA": {
           "answer": "yes",
           "preempts": true,
           "cite": "La. Rev. Stat. § 42:1121(A)(1)",
           "source": "https://ethics.la.gov/Pub/Laws/ethsum.pdf?2025",
-          "note": "Two years: a former elected official, which includes a legislator, may not assist another person for pay in any transaction or appearance involving his or her former agency (for a legislator, the Legislature) for two years after leaving (Board of Ethics summary)."
+          "note": "Two years: a former elected official, which includes a legislator, may not assist another person for pay in any transaction or appearance involving his or her former agency (for a legislator, the Legislature) for two years after leaving (Board of Ethics summary).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 2,
+              "unit": "years"
+            }
+          ]
         },
         "US-MA": {
           "answer": "yes",
           "preempts": true,
           "cite": "Mass. Gen. Laws ch. 268A, § 5(e)",
           "source": "https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleI/Chapter268A/Section5",
-          "note": "One year: a former member of the General Court may not act as a legislative agent before the body he or she served for one year after leaving."
+          "note": "One year: a former member of the General Court may not act as a legislative agent before the body he or she served for one year after leaving.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 1,
+              "unit": "years"
+            }
+          ]
         },
         "US-MD": {
           "answer": "yes",
           "preempts": true,
           "cite": "Md. Code, Gen. Prov. § 5-504(d)(2)",
           "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=ggp&section=5-504&enactments=false",
-          "note": "One year: a former member of the General Assembly may not assist or represent another party for pay in a matter that is the subject of legislative action for one year after leaving office."
+          "note": "One year: a former member of the General Assembly may not assist or represent another party for pay in a matter that is the subject of legislative action for one year after leaving office.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 1,
+              "unit": "years"
+            }
+          ]
         },
         "US-ME": {
           "answer": "yes",
           "preempts": true,
           "cite": "Me. Rev. Stat. tit. 1, § 1024(1-A)",
           "source": "https://legislature.maine.gov/statutes/1/title1sec1024.html",
-          "note": "One year: a former Legislator may not engage in compensated lobbying until one year after his or her term ends (in this form since the 130th Legislature convened in December 2020)."
+          "note": "One year: a former Legislator may not engage in compensated lobbying until one year after his or her term ends (in this form since the 130th Legislature convened in December 2020).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 1,
+              "unit": "years"
+            }
+          ]
         },
         "US-MI": {
           "answer": "no",
@@ -19854,7 +20074,15 @@
           "preempts": true,
           "cite": "Mont. Code Ann. § 5-7-310",
           "source": "https://leg.mt.gov/bills/mca/title_0050/chapter_0070/part_0030/section_0100/0050-0070-0030-0100.html",
-          "note": "Two years: a person who served as a state legislator in the previous 24 months may not be licensed as a lobbyist (voter-approved I-153, 2006)."
+          "note": "Two years: a person who served as a state legislator in the previous 24 months may not be licensed as a lobbyist (voter-approved I-153, 2006).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 2,
+              "unit": "years"
+            }
+          ]
         },
         "US-NC": {
           "answer": "yes",
@@ -19868,7 +20096,15 @@
           "preempts": true,
           "cite": "N.D. Const. art. XIV, § 2(2)",
           "source": "https://www.ndlegis.gov/constit/a14.pdf",
-          "note": "Two years: an elected public official, including a legislator, may not be a lobbyist for two years after leaving office (voter-approved Measure 1, 2018)."
+          "note": "Two years: an elected public official, including a legislator, may not be a lobbyist for two years after leaving office (voter-approved Measure 1, 2018).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 2,
+              "unit": "years"
+            }
+          ]
         },
         "US-NE": {
           "answer": "no",
@@ -19889,7 +20125,15 @@
           "preempts": true,
           "cite": "N.J.S.A. 52:13C-21.4",
           "source": "https://pub.njleg.state.nj.us/statutes/STATUTES-TEXT.zip",
-          "note": "One year: a former member of the Legislature may not register as a governmental affairs agent (lobbyist) for one year after leaving office."
+          "note": "One year: a former member of the Legislature may not register as a governmental affairs agent (lobbyist) for one year after leaving office.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 1,
+              "unit": "years"
+            }
+          ]
         },
         "US-NM": {
           "answer": "no",
@@ -19910,14 +20154,30 @@
           "preempts": true,
           "cite": "N.Y. Pub. Off. Law § 73(8)(a)(iii)",
           "source": "https://legethics.ny.gov/advice-guidance/post-employment-restrictions-members-legislature",
-          "note": "Two years: a former member of the Senate or Assembly may not be paid to promote or oppose legislation before either house for two years after leaving."
+          "note": "Two years: a former member of the Senate or Assembly may not be paid to promote or oppose legislation before either house for two years after leaving.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 2,
+              "unit": "years"
+            }
+          ]
         },
         "US-OH": {
           "answer": "yes",
           "preempts": true,
           "cite": "Ohio Rev. Code § 102.03(A)(4)",
           "source": "https://codes.ohio.gov/ohio-revised-code/section-102.03",
-          "note": "One year: a former member of the General Assembly may not represent anyone on any matter before the General Assembly or its committees for one year after leaving."
+          "note": "One year: a former member of the General Assembly may not represent anyone on any matter before the General Assembly or its committees for one year after leaving.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 1,
+              "unit": "years"
+            }
+          ]
         },
         "US-OK": {
           "answer": "no",
@@ -19931,14 +20191,30 @@
           "preempts": true,
           "cite": "Or. Rev. Stat. § 244.045(6)",
           "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors244.html",
-          "note": "One year: a former member of the Legislative Assembly may not be paid for lobbying within one year after leaving the Legislative Assembly."
+          "note": "One year: a former member of the Legislative Assembly may not be paid for lobbying within one year after leaving the Legislative Assembly.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 1,
+              "unit": "years"
+            }
+          ]
         },
         "US-PA": {
           "answer": "yes",
           "preempts": true,
           "cite": "65 Pa. C.S. § 1103(g); § 1102",
           "source": "https://www.palegis.us/statutes/consolidated/view-statute?txtType=PDF&ttl=65&div=0&chpt=11&sctn=3&subsctn=0",
-          "note": "One year: a former public official, which includes an elected legislator, may not represent anyone for pay before the governmental body he or she served for one year after leaving."
+          "note": "One year: a former public official, which includes an elected legislator, may not represent anyone for pay before the governmental body he or she served for one year after leaving.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 1,
+              "unit": "years"
+            }
+          ]
         },
         "US-PR": {
           "answer": "no",
@@ -19952,28 +20228,60 @@
           "preempts": true,
           "cite": "R.I. Gen. Laws § 36-14-5(e)(4); § 36-14-2(8)(i)",
           "source": "https://webserver.rilegislature.gov/Statutes/TITLE36/36-14/36-14-5.htm",
-          "note": "One year: a former official may not represent others before the agency he or she served for one year after leaving, and 'state agency' includes either chamber of the General Assembly."
+          "note": "One year: a former official may not represent others before the agency he or she served for one year after leaving, and 'state agency' includes either chamber of the General Assembly.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 1,
+              "unit": "years"
+            }
+          ]
         },
         "US-SC": {
           "answer": "yes",
           "preempts": true,
           "cite": "S.C. Code § 2-17-15",
           "source": "https://www.scstatehouse.gov/code/t02c017.php",
-          "note": "One year: a member of the General Assembly may not serve as a lobbyist while in office or for one year after leaving (applies to members elected after 12/31/1991)."
+          "note": "One year: a member of the General Assembly may not serve as a lobbyist while in office or for one year after leaving (applies to members elected after 12/31/1991).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 1,
+              "unit": "years"
+            }
+          ]
         },
         "US-SD": {
           "answer": "yes",
           "preempts": true,
           "cite": "S.D. Codified Laws § 2-12-8.2",
           "source": "https://sdlegislature.gov/api/Statutes/2-12-8.2.html?all=true",
-          "note": "Two years: no elected state officer, which includes a legislator, may be paid, act or register as a lobbyist for two years after leaving state government (current text from 2017 session laws)."
+          "note": "Two years: no elected state officer, which includes a legislator, may be paid, act or register as a lobbyist for two years after leaving state government (current text from 2017 session laws).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 2,
+              "unit": "years"
+            }
+          ]
         },
         "US-TN": {
           "answer": "yes",
           "preempts": true,
           "cite": "Tenn. Code Ann. § 3-6-304(l)",
           "source": "https://www.tn.gov/content/dam/tn/ethicscommission/documents/Ethics%20Laws.1.24.pdf",
-          "note": "One year: a former member of the General Assembly may not be a lobbyist during the 12 months after leaving office (Ethics Commission compilation of ethics laws, January 2024)."
+          "note": "One year: a former member of the General Assembly may not be a lobbyist during the 12 months after leaving office (Ethics Commission compilation of ethics laws, January 2024).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 1,
+              "unit": "years"
+            }
+          ]
         },
         "US-TX": {
           "answer": "no",
@@ -20007,7 +20315,15 @@
           "preempts": true,
           "cite": "Vt. Stat. Ann. tit. 2, § 266(b)",
           "source": "https://legislature.vermont.gov/statutes/section/02/011/00266",
-          "note": "One year: a former legislator may not be a lobbyist in Vermont for one year after leaving office."
+          "note": "One year: a former legislator may not be a lobbyist in Vermont for one year after leaving office.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 1,
+              "unit": "years"
+            }
+          ]
         },
         "US-WA": {
           "answer": "no",
