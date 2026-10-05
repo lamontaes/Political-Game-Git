@@ -397,6 +397,10 @@ body:where(.pg-game) button:focus-visible {
   background: color-mix(in srgb, var(--pg-control-bg-flat) 25%, transparent);
   border-radius: var(--pg-control-radius);
 }
+.pg-split-record-figure > figure {
+  width: min(100%, max(6.5rem, calc((100dvh - 25rem) / 2)));
+  margin-inline: auto !important;
+}
 .pg-split-record-figure > button {
   display: block;
   margin: 0.5rem auto;

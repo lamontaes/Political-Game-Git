@@ -116,6 +116,11 @@ test("Personal separates current records from history without changing the life"
   await expect(history).toBeVisible();
   await history.getByRole("button", { name: "Back to profile" }).click();
   await page.setViewportSize({ width: 1200, height: 720 });
+  const narrowFigure = await figure.locator("figure").boundingBox();
+  const workspace = await page.getByTestId("personal-workspace").boundingBox();
+  expect(narrowFigure!.y + narrowFigure!.height).toBeLessThan(
+    workspace!.y + workspace!.height,
+  );
   await page.screenshot({
     path: test.info().outputPath("personal-profile-1200.png"),
   });
@@ -126,7 +131,7 @@ test("Personal separates current records from history without changing the life"
   let contactOpened = false;
   for (let index = 0; index < (await familyButtons.count()); index += 1) {
     await familyButtons.nth(index).click();
-    const card = page.getByTestId("quick-dossier");
+    const card = page.getByTestId("person-workspace");
     await expect(card).toBeVisible();
     const contact = card.getByTestId("person-contact");
     if ((await contact.count()) && (await contact.isEnabled())) {
@@ -147,7 +152,7 @@ test("Personal separates current records from history without changing the life"
       await expect(dialog).toHaveCount(0);
       contactOpened = true;
     }
-    await page.keyboard.press("Escape");
+    await goTo(page, "nav-personal");
     if (contactOpened) break;
   }
   expect(contactOpened).toBe(true);
