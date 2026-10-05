@@ -1,3 +1,4 @@
+import { observerInspectorCheckpoint } from "./observer-inspector-entry";
 import {
   NATIVE_SAVE_EVENT,
   NATIVE_SESSION_QUERY_EVENT,
@@ -323,7 +324,11 @@ import {
 } from "./return-to-title-bridge";
 import { HomePurchasePanel } from "./HomePurchasePanel";
 import { PersonalRoutinePanel } from "./PersonalRoutinePanel";
-import { ObserverClock, ObserverRecordWorkspace } from "./ObserverWorkspace";
+import {
+  ObserverClock,
+  ObserverRecordWorkspace,
+  ObserverInspectorWorkspace,
+} from "./ObserverWorkspace";
 import { ObserverRunController } from "./observer-run-controller";
 import {
   observerSetup,
@@ -1249,6 +1254,15 @@ function PlayingScreen({
    * through the last life played; that lens is never committed or saved.
    */
   const observing = isObserving(storedSession.world);
+  const latestInspectorWorld = useRef(storedSession.world);
+  latestInspectorWorld.current = storedSession.world;
+  const [inspectorWorld, setInspectorWorld] = useState<World | null>(null);
+  const admittedInspector = inspectorWorld
+    ? observerInspectorCheckpoint(storedSession.world, inspectorWorld)
+    : null;
+  useEffect(() => {
+    if (!admittedInspector) setInspectorWorld(null);
+  }, [admittedInspector]);
   const observerRunner = useMemo(
     () => new ObserverRunController(storedSession.world),
     [storedSession.world.id],
@@ -2807,6 +2821,14 @@ function PlayingScreen({
                 <span>Nobody is being played. You can look, not act.</span>
                 <ObserverClock
                   runner={observerRunner}
+                  onOpenInspector={(pausedWorld) => {
+                    setInspectorWorld(
+                      observerInspectorCheckpoint(
+                        latestInspectorWorld.current,
+                        pausedWorld,
+                      ),
+                    );
+                  }}
                   onOpenRecord={() =>
                     dispatch({
                       type: "go-to-surface",
@@ -2860,7 +2882,18 @@ function PlayingScreen({
               </button>
             ) : null}
 
-            {workspace}
+            {admittedInspector ? (
+              <WorkspaceFrame
+                title="Developer inspector"
+                testid="observer-inspector-workspace"
+                canGoBack
+                onBack={() => setInspectorWorld(null)}
+                onClose={() => setInspectorWorld(null)}
+              >
+                <ObserverInspectorWorkspace world={admittedInspector} />
+              </WorkspaceFrame>
+            ) : null}
+            <div hidden={admittedInspector !== null}>{workspace}</div>
 
             <div className="life-hud" data-testid="life-hud">
               {notice ? (
