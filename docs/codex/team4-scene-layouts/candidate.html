@@ -137,7 +137,8 @@
           replies.append(button);
         }
         panel.append(replies);
-        scene.append(panel);
+        if (content.segments.length || content.replies.length)
+          scene.append(panel);
         document.documentElement.dataset.ready = "true";
       } catch (error) {
         scene.append(node("pre", "input-error", error.message));

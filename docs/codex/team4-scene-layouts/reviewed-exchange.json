@@ -1,0 +1,96 @@
+{
+  "sourceReceipt": "https://github.com/lamontaes/Political-Game-Git/issues/2052#issuecomment-5986352062",
+  "exchangeBasis": "T3 reviewed conditional proposed utterances, unchanged; no current reachable or committed exchange",
+  "backgroundSha256": "579316bd2b64f6a1027390cd529b78e81eed82ec7d23b7630358910911ffec38",
+  "composedRoomUrl": "/art/backdrops/county-party-office__midday.jpg",
+  "roomLabel": "Layout staging only",
+  "sheet23ControlsCssUrl": null,
+  "scalesLevelUrl": "/docs/codex/ui-logo-packet/01_kit12_ui/scales-level.svg",
+  "scalesTippedUrl": "/docs/codex/ui-logo-packet/01_kit12_ui/scales-tipped.svg",
+  "people": {
+    "person_420ecc83597c8702": {
+      "name": "Marshall Alexander",
+      "portraitUrl": null,
+      "appearanceReceipt": "5986352062, composeEnginePerson; full figure SHA256 210e34176331273f46dca75971ec6a1c625767ed7a0477999f806632c5c93703"
+    },
+    "person_06c5298a681e97fe": {
+      "name": "Roland Alexander",
+      "portraitUrl": null,
+      "appearanceReceipt": "T3 same-world pure existing appearance recipe requested; not received"
+    }
+  },
+  "actualContext": {
+    "head": "2fe84d26812c78c808caff1e80409acfd5c1a68f",
+    "seed": "team3-oct5-proposed-news-exchanges",
+    "place": "Hinsdale, Montana",
+    "date": "2026-01-05",
+    "eventId": "event_b7b10df21b0d2005",
+    "knowledgeId": "knowledge_2189724938d919b7",
+    "currentRoom": null,
+    "currentPicker": null,
+    "committedConversation": false,
+    "officePresenceEstablished": false,
+    "narratorWords": null,
+    "savedChoiceKey": null,
+    "replyBinding": "proposed utterance ordinal3, no saved/canonical offered choice",
+    "roomOfferWords": null,
+    "quietTriggerProof": false
+  },
+  "phases": {
+    "greeting": {
+      "segments": [
+        {
+          "kind": "spoken",
+          "personId": "person_420ecc83597c8702",
+          "words": "The agenda has a question about the public meeting room."
+        },
+        {
+          "kind": "spoken",
+          "personId": "person_06c5298a681e97fe",
+          "words": "I hadn't heard. What does it say?"
+        }
+      ],
+      "replies": [
+        {
+          "recordKey": "proposal:5986352062:marshall-explanation",
+          "words": "Should it open one extra evening each week? There aren't any hours or a funding proposal attached."
+        }
+      ],
+      "canLie": false,
+      "lying": false
+    },
+    "conversation": {
+      "segments": [
+        {
+          "kind": "spoken",
+          "personId": "person_420ecc83597c8702",
+          "words": "The agenda has a question about the public meeting room."
+        },
+        {
+          "kind": "spoken",
+          "personId": "person_06c5298a681e97fe",
+          "words": "I hadn't heard. What does it say?"
+        }
+      ],
+      "replies": [
+        {
+          "recordKey": "proposal:5986352062:marshall-explanation",
+          "words": "Should it open one extra evening each week? There aren't any hours or a funding proposal attached."
+        }
+      ],
+      "canLie": false,
+      "lying": false
+    },
+    "room": {
+      "segments": [],
+      "replies": []
+    }
+  },
+  "omissions": [
+    "No narrator wording in reviewed packet: omitted rather than invented.",
+    "No greeting words: greeting query selects layout only, same recorded-subject proposed utterances.",
+    "No room return/more-talk words or legal action binding: background-only room comparison.",
+    "No office attendance/arrival/quiet-trigger/presence proof.",
+    "No informed or involved contrast cases authored."
+  ]
+}
