@@ -1,3 +1,4 @@
+import { everydayText } from "./everyday-english";
 import {
   CHAPTER_INVITATION_EVENT,
   CHAPTER_MEETING_ATTENDED_EVENT,
@@ -91,7 +92,18 @@ export function attendChapterMeeting(
       `invitation:${invitation.id}`,
       `chapter:${chapter.organizationId}`,
     ],
-    summary: `You attended the ${chapter.name} open meeting.`,
+    summary: everydayText(
+      performed,
+      personId,
+      "chapter-attended",
+      [activityId, invitation.id],
+      {
+        chapter: {
+          text: chapter.name,
+          sourceRecordIds: [chapter.organizationId, invitation.id],
+        },
+      },
+    ),
     context: {
       location: {
         jurisdictionId: meeting.location.jurisdictionId,
@@ -120,9 +132,12 @@ export function attendChapterMeeting(
     kind: "contact:chapter-meeting",
     change: before ? "maintained" : "formed",
     significance: "minor",
-    summary: before
-      ? "Saw the organizer again at a chapter meeting."
-      : "Met the organizer at a chapter meeting.",
+    summary: everydayText(
+      attended,
+      personId,
+      before ? "chapter-saw-organizer" : "chapter-met-organizer",
+      [met.id],
+    ),
     tags: [LIVING_WORLD_WRITER_VERSION],
   });
   // The living organizer's follow-up work (a canvass, a phone shift, a town
