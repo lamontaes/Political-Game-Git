@@ -166,8 +166,12 @@ test.describe("The front door stays compact and readable over the room", () => {
     // Disabled copy remains readable on the glass: at least 3:1.
     expect(contrast(cont.color, panel.backgroundColor)).toBeGreaterThan(3);
     await expect(page.getByTestId("continue")).toBeDisabled();
-    // Saved games stays open with nothing saved: it is where an import lives.
-    await expect(page.getByTestId("open-saves")).toBeEnabled();
+    // A successfully read empty store has no saved game to open.
+    await expect(page.getByTestId("open-saves")).toBeDisabled();
+    await expect(page.getByTestId("open-saves").locator("small")).toHaveCount(
+      0,
+    );
+    await expect(page.getByTestId("watch-world")).toHaveText("Observer mode");
   });
 
   test("moves focus visibly and activates New game from the keyboard", async ({

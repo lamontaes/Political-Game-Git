@@ -37,6 +37,7 @@ function render(
     <TitleScreen
       saves={saves}
       damaged={damaged}
+      saveListing="read"
       savesUnavailable={false}
       problem={null}
       onNewGame={() => {}}
@@ -47,10 +48,19 @@ function render(
   );
 }
 
+function saveButton(markup: string): string {
+  const match = markup.match(
+    /<button[^>]*data-testid="open-saves"[^>]*>[\s\S]*?<\/button>/,
+  );
+  if (!match) throw new Error("Missing saved-games action");
+  return match[0];
+}
+
 describe("the title screen distinguishes a set-aside save from none", () => {
   it("does not invite a player to import one when a save was kept", () => {
     const markup = render([], [SET_ASIDE]);
-    expect(markup).toContain("1 saved game needs attention");
+    expect(saveButton(markup)).not.toContain("disabled");
+    expect(saveButton(markup)).not.toContain("<small");
     expect(markup).not.toContain("None yet");
   });
 
@@ -60,21 +70,23 @@ describe("the title screen distinguishes a set-aside save from none", () => {
     expect(markup).toContain("Your saved game needs attention");
   });
 
-  it("still invites an import when the store really is empty", () => {
+  it("disables Saved games only when the store confirms the list is empty", () => {
     const markup = render([], []);
-    expect(markup).toContain("None yet");
+    expect(saveButton(markup)).toContain("disabled");
+    expect(markup).not.toContain("None yet");
     expect(markup).not.toContain("needs attention");
   });
 
-  it("counts the set-aside ones beside the healthy ones", () => {
+  it("retains recovery access alongside a healthy save without menu subtext", () => {
     const healthy = {
       saveId: "save-2",
       playerName: "Kian Pearson",
       playerAge: 24,
     } as unknown as BrowserWorldSummary;
     const markup = render([healthy], [SET_ASIDE]);
-    expect(markup).toContain("1 saved");
-    expect(markup).toContain("1 needs attention");
+    expect(saveButton(markup)).not.toContain("disabled");
+    expect(saveButton(markup)).not.toContain("<small");
+    expect(markup).toContain("Kian Pearson, 24");
   });
 });
 
@@ -103,6 +115,7 @@ describe("the title screen while the saved lives are being read", () => {
     const markup = renderListing("loading");
     expect(markup).not.toContain("None yet");
     expect(markup).toContain("Opening your saved lives");
+    expect(saveButton(markup)).not.toContain("disabled");
   });
 
   it("reports a failed read as a failed read, not blocked storage", () => {
@@ -112,6 +125,7 @@ describe("the title screen while the saved lives are being read", () => {
     expect(markup).toContain("could not be read just now");
     expect(markup).toContain("Nothing was deleted");
     expect(markup).toContain("Try again");
+    expect(saveButton(markup)).not.toContain("disabled");
   });
 
   it("asks for a reload when the saves were kept by a newer version", () => {
@@ -122,6 +136,7 @@ describe("the title screen while the saved lives are being read", () => {
     expect(markup).not.toContain("Try again");
     expect(markup).toContain("older copy of the game");
     expect(markup).toContain("Reload");
+    expect(saveButton(markup)).not.toContain("disabled");
     expect(markup).toContain("Nothing was deleted");
   });
 });
@@ -141,7 +156,8 @@ describe("Observer Mode on the title screen", () => {
       />,
     );
     expect(markup).toContain('data-testid="watch-world"');
-    expect(markup).toContain("Watch the world");
+    expect(markup).toContain("Observer mode");
+    expect(markup).not.toContain("Nobody played. It runs on its own.");
   });
 
   it("does not present a watched world's resident as a played life", () => {

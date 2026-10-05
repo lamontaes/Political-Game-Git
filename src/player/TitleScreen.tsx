@@ -455,6 +455,8 @@ export function TitleScreen({
   const reading = saveListing === "loading";
   const unread = saveListing === "failed";
   const outdated = saveListing === "outdated";
+  const confirmedEmpty =
+    saveListing === "read" && saves.length === 0 && setAside === 0;
 
   // The room behind this screen is painted by the persistent ambient shell in
   // `PlayerGame`, not here. Mounting a second tableau was what made New Game
@@ -481,8 +483,7 @@ export function TitleScreen({
         </button>
         {onWatch ? (
           <button type="button" data-testid="watch-world" onClick={onWatch}>
-            Watch the world
-            <small>Nobody played. It runs on its own.</small>
+            Observer mode
           </button>
         ) : null}
         <button
@@ -520,26 +521,9 @@ export function TitleScreen({
           type="button"
           data-testid="open-saves"
           onClick={onOpenSaves}
-          disabled={savesUnavailable}
+          disabled={savesUnavailable || confirmedEmpty}
         >
           Saved games
-          <small>
-            {reading
-              ? "Opening…"
-              : outdated && saves.length === 0
-                ? "Reload the page to open them"
-                : unread && saves.length === 0
-                  ? "Could not be read just now"
-                  : saves.length > 0
-                    ? setAside > 0
-                      ? `${saves.length} saved \u00b7 ${setAside} needs attention`
-                      : `${saves.length} saved`
-                    : setAside > 0
-                      ? setAside === 1
-                        ? "1 saved game needs attention"
-                        : `${setAside} saved games need attention`
-                      : "None yet \u00b7 import one"}
-          </small>
         </button>
         <button
           type="button"
