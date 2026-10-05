@@ -366,16 +366,18 @@ export function MeasurePaperWorkspace({
               })
             )}
           </ul>
-          <h4>What was asked for</h4>
-          <ul data-testid="record-negotiations">
-            {measureNegotiations(world, seat.measureId).length === 0 ? (
-              <li>Nobody has asked you for anything yet.</li>
-            ) : (
-              measureNegotiations(world, seat.measureId).map((negotiation) => (
-                <li key={negotiation.id}>{negotiation.request}</li>
-              ))
-            )}
-          </ul>
+          {measureNegotiations(world, seat.measureId).length > 0 ? (
+            <>
+              <h4>What was asked for</h4>
+              <ul data-testid="record-negotiations">
+                {measureNegotiations(world, seat.measureId).map(
+                  (negotiation) => (
+                    <li key={negotiation.id}>{negotiation.request}</li>
+                  ),
+                )}
+              </ul>
+            </>
+          ) : null}
           <button
             type="button"
             data-testid="close-panel"

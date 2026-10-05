@@ -48,7 +48,9 @@ test.beforeEach(async ({ page }) => {
   await expect(page.getByTestId("measure-floor-view")).toBeVisible();
 });
 
-test("the room, the bill, the bargain, and the vote", async ({ page }) => {
+test("the room, the bill, the bargain, and the vote", async ({
+  page,
+}, testInfo) => {
   const view = page.getByTestId("measure-floor-view");
   const scene = page.getByTestId("political-office-scene");
   await expect(scene).toBeVisible();
@@ -81,6 +83,23 @@ test("the room, the bill, the bargain, and the vote", async ({ page }) => {
   await page.getByTestId("read-fiscal-note").click();
   await expect(page.getByTestId("fiscal-note-body")).toContainText(
     "$8,000,000",
+  );
+  await page.getByTestId("close-panel").click();
+
+  // No negotiation has been recorded yet, so the record does not invent an
+  // empty request section or narrate the absence of one.
+  await page.getByTestId("open-record").click();
+  const recordScreenshot = testInfo.outputPath(
+    "record-with-no-negotiations.png",
+  );
+  await page.screenshot({ path: recordScreenshot, fullPage: true });
+  await testInfo.attach("record-with-no-negotiations", {
+    path: recordScreenshot,
+    contentType: "image/png",
+  });
+  await expect(page.getByTestId("record-negotiations")).toHaveCount(0);
+  await expect(page.getByTestId("record-panel")).not.toContainText(
+    "What was asked for",
   );
   await page.getByTestId("close-panel").click();
 
