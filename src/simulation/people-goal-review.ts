@@ -92,9 +92,16 @@ import type {
 
 const REVIEW_KEY_PREFIX = "people-goal-review:";
 
+function lifeAnchor(world: World): EntityId | null {
+  return (
+    world.preStartLife?.personId ??
+    (world.control.kind === "person" ? world.control.personId : null)
+  );
+}
+
 /** Schedules the first weekly review for a played life. Idempotent. */
 export function ensurePeopleGoalReview(world: World): World {
-  if (world.control.kind !== "person") return world;
+  if (!lifeAnchor(world)) return world;
   if (
     world.history.futureDueItems.some(
       (item) => item.transitionKey === GOAL_REVIEW_TRANSITION_KEY,
@@ -167,8 +174,8 @@ function adultAlive(world: World, personId: EntityId, dead: Set<EntityId>) {
  * on every load. The played person is never reviewed; their goals are theirs.
  */
 export function pursuitCandidates(world: World): readonly EntityId[] {
-  if (world.control.kind !== "person") return [];
-  const anchorId = world.control.personId;
+  const anchorId = lifeAnchor(world);
+  if (!anchorId) return [];
   const anchor = world.people[anchorId];
   if (!anchor) return [];
   const dead = new Set(
@@ -180,7 +187,7 @@ export function pursuitCandidates(world: World): readonly EntityId[] {
   return (Object.keys(world.people) as EntityId[])
     .filter(
       (id) =>
-        id !== anchorId &&
+        (id !== anchorId || world.preStartLife?.personId === id) &&
         adultAlive(world, id, dead) &&
         (world.people[id]!.homeJurisdictionId === anchor.homeJurisdictionId ||
           connected.has(id)),
@@ -276,8 +283,8 @@ function reviewPeopleGoalsUnchecked(world: World): GoalReviewResult {
   // person is given (`life-personality.ts`). They resolve here, once, the first
   // time the played life reaches them. Residents the played life has no tie
   // to stay light: they act only on circumstances, such as losing work.
-  if (next.control.kind === "person") {
-    const anchorId = next.control.personId;
+  const anchorId = lifeAnchor(next);
+  if (anchorId) {
     const tied = new Set([
       ...connectedTo(next, anchorId),
       ...coworkersOf(next, anchorId),
@@ -794,7 +801,8 @@ function pursueCall(
   goal: GoalStateRecord,
   purpose: "connection" | "learning",
 ): PursuitOutcome {
-  if (world.control.kind !== "person") return { kind: "waiting", world };
+  const anchorId = lifeAnchor(world);
+  if (!anchorId) return { kind: "waiting", world };
   const personId = goal.personId;
   const last = lastStepAt(world, goal);
   if (
@@ -803,7 +811,7 @@ function pursueCall(
   ) {
     return { kind: "waiting", world };
   }
-  const known = peopleTheyKnow(world, personId, world.control.personId);
+  const known = peopleTheyKnow(world, personId, anchorId);
   const reachable = known.filter((entry) => {
     if (purpose === "learning" && !teaches(world, entry.personId)) return false;
     const calls = callsBetween(world, personId, entry.personId);
@@ -1245,8 +1253,8 @@ function tellHousehold(
   eventId: EntityId,
   said: string | null,
 ): World {
-  if (!said || world.control.kind !== "person") return world;
-  const anchorId = world.control.personId;
+  const anchorId = lifeAnchor(world);
+  if (!said || !anchorId || anchorId === personId) return world;
   if (!connectedByHomeOrFamily(world, anchorId, personId)) return world;
   return recordEventKnowledge(world, {
     stableKey: `goal-told:${eventId}:${anchorId}`,

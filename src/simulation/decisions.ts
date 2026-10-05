@@ -375,7 +375,8 @@ export function assertNpcAutonomousApplication(
   }
   if (
     world.control.kind === "person" &&
-    world.control.personId === actorPersonId
+    world.control.personId === actorPersonId &&
+    world.preStartLife?.personId !== actorPersonId
   ) {
     throw new Error(
       "Autonomous application cannot make a major choice for the controlled person.",
