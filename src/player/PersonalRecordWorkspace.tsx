@@ -209,7 +209,10 @@ export function PersonalWorkspace({
                     );
                     return expression ? (
                       <p key={trait.id} data-record-id={trait.id}>
-                        {definition!.name}: {expression.description}
+                        {definition!.name}: {expression.label}
+                        {trait.strength === "subtle"
+                          ? " (a slight preference)"
+                          : ""}
                       </p>
                     ) : null;
                   })}
@@ -302,6 +305,14 @@ export function PersonalWorkspace({
               },
             )}
           </ul>
+          {lives.around.length ? (
+            <section aria-label="Around you">
+              <h3>Around you</h3>
+              {lives.around.map((line) => (
+                <p key={line.key}>{line.sentence}</p>
+              ))}
+            </section>
+          ) : null}
           {life.chapters.map((chapter) => (
             <section key={chapter.key}>
               <h3>{chapter.heading}</h3>

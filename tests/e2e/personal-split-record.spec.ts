@@ -8,7 +8,24 @@ import {
   workStatusAt,
 } from "../../src/simulation";
 import { startLife, enterLife, goTo, saveLife } from "./support/creator";
-import { readSavedLegislativeWorld } from "./support/legislative-entry";
+import type { Page } from "./fixtures";
+import type { World } from "../../src/simulation";
+
+async function savedLife(page: Page): Promise<World> {
+  return page.evaluate(async () => {
+    const modulePath = "/src/presentation/browser-world-repository.ts";
+    const { BrowserSaveStore } = (await import(
+      /* @vite-ignore */ modulePath
+    )) as typeof import("../../src/presentation/browser-world-repository");
+    const store = new BrowserSaveStore();
+    const listing = await store.list();
+    if (listing.saves.length !== 1)
+      throw new Error("Expected one saved life on the shelf");
+    const world = await store.inspect(listing.saves[0]!.saveId);
+    if (!world) throw new Error("Saved life is absent");
+    return world;
+  });
+}
 
 test("Personal separates current records from history without changing the life", async ({
   page,
@@ -26,7 +43,7 @@ test("Personal separates current records from history without changing the life"
   await enterLife(page);
   await saveLife(page);
   await page.keyboard.press("Escape");
-  const before = await readSavedLegislativeWorld(page);
+  const before = await savedLife(page);
   const personId = before.control.personId!;
   await goTo(page, "personal");
   const profile = page.getByTestId("personal-split-record");
@@ -102,7 +119,7 @@ test("Personal separates current records from history without changing the life"
     path: test.info().outputPath("personal-profile-1200.png"),
   });
   await saveLife(page);
-  const after = await readSavedLegislativeWorld(page);
+  const after = await savedLife(page);
   expect(after.currentDate).toBe(before.currentDate);
   expect(after.history).toEqual(before.history);
 });

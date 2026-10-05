@@ -1,6 +1,8 @@
 ---
 id: personal-split-record
 impact: patch
+section: Changed
+title: Personal separates current life from full history
 ---
 
 Personal opens with a full figure beside current work and schooling, followed by
