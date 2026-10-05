@@ -96,7 +96,7 @@ import {
   schoolStageCalendarEnd,
   schoolStageCalendarStart,
 } from "./school-stages";
-import { householdMembershipsAt } from "./life-queries";
+import { householdLocationAt, householdMembershipsAt } from "./life-queries";
 import { recordPersonDeath } from "./vitality";
 import { STRAIN_THRESHOLD } from "./crisis/mortality";
 import { firstThresholdDay, thresholdUnits } from "./crisis/hazard";
@@ -173,6 +173,11 @@ export interface CharacterHistoryContextPersonInput {
   readonly birthDate: IsoDate;
   readonly homeJurisdictionId: EntityId;
   readonly birthplaceJurisdictionId?: EntityId;
+  /** Actual supplied household evidence; current home alone does not establish an earlier residence. */
+  readonly residence?: {
+    readonly householdId: EntityId;
+    readonly establishedAt: IsoDate;
+  };
   /**
    * Gender and pronouns for somebody the world is inventing.
    *
@@ -546,6 +551,23 @@ function buildCharacterHistoryContextPerson(
   if (!world.jurisdictions[input.homeJurisdictionId]) {
     throw new Error("A context person requires an existing home jurisdiction.");
   }
+  const residenceAt = makeIsoDate(
+    input.residence?.establishedAt ?? world.currentDate,
+  );
+  if (residenceAt < birthDate || residenceAt > world.currentDate)
+    throw new Error(
+      "Context residence must fall between birth and the current date.",
+    );
+  if (
+    input.residence &&
+    householdLocationAt(world, input.residence.householdId, {
+      asOfDate: residenceAt,
+      historySequenceExclusive: world.history.nextSequence,
+    })?.jurisdictionId !== input.homeJurisdictionId
+  )
+    throw new Error(
+      "Context residence requires the supplied household's dated home.",
+    );
   const birthplace = input.birthplaceJurisdictionId ?? input.homeJurisdictionId;
   if (!world.jurisdictions[birthplace]) {
     throw new Error(
@@ -583,7 +605,7 @@ function buildCharacterHistoryContextPerson(
       id: createStableId("fact", `${id}:residence:initial`),
       stableKey: "residence:initial",
       kind: "residence",
-      occurredAt: world.currentDate,
+      occurredAt: residenceAt,
       endedAt: null,
       jurisdictionId: input.homeJurisdictionId,
       summary: `${fullName} resides in the recorded home jurisdiction.`,
@@ -640,14 +662,15 @@ export function createCharacterHistoryContextPerson(
     input,
     contextAppearanceLineage(world),
   );
-  if (!person) return world;
+  if (!person) return admitContextResidences(world, [input]);
   const next: World = {
     ...world,
     people: { ...world.people, [person.id]: person },
     personOrder: [...world.personOrder, person.id],
   };
-  assertWorldIntegrity(next);
-  return next;
+  const admitted = admitContextResidences(next, [input]);
+  assertWorldIntegrity(admitted);
+  return admitted;
 }
 
 /**
@@ -682,12 +705,47 @@ export function createCharacterHistoryContextPeople(
     people[person.id] = person;
     personOrder!.push(person.id);
   }
-  if (!people || !personOrder) return world;
+  if (!people || !personOrder) return admitContextResidences(world, inputs);
   const next: World = { ...world, people, personOrder };
   // Appended people carry this exact lineage, so they cannot change it.
   CONTEXT_LINEAGES.set(people, lineage);
   carryPeopleReadIndexesAfterAppend(world, next);
-  assertWorldIntegrity(next);
+  const admitted = admitContextResidences(next, inputs);
+  assertWorldIntegrity(admitted);
+  return admitted;
+}
+
+function admitContextResidences(
+  world: World,
+  inputs: readonly CharacterHistoryContextPersonInput[],
+): World {
+  let next = world;
+  for (const input of inputs) {
+    if (!input.residence) continue;
+    const personId = characterHistoryContextPersonId(world, input.stableKey);
+    if (
+      householdMembershipsAt(next, personId, {
+        asOfDate: input.residence.establishedAt,
+        historySequenceExclusive: next.history.nextSequence,
+      }).some(
+        (membership) =>
+          membership.household.id === input.residence!.householdId,
+      )
+    )
+      continue;
+    next = startHouseholdMembership(next, {
+      stableKey: `${input.stableKey}:residence:initial`,
+      personId,
+      householdId: input.residence.householdId,
+      startedAt: input.residence.establishedAt,
+      residenceRole: "primary",
+      kind: "resident:member",
+      provenance: {
+        kind: "generated",
+        generatorKey: `life-context-v1:${input.stableKey}`,
+      },
+    });
+  }
   return next;
 }
 
