@@ -1,8 +1,21 @@
 import { expect, test, type Page } from "@playwright/test";
 import { writeFile } from "node:fs/promises";
-import type { mountOpeningPreparationFixture } from "./support/opening-preparation-fixture";
+import type { OpeningLifeGenerationProgress } from "../../src/presentation/opening-life";
 
-type Fixture = ReturnType<typeof mountOpeningPreparationFixture>;
+type Fixture = {
+  evidence: {
+    status: string;
+    error: string | null;
+    place: string;
+    seed: string;
+    world: { id: string; date: string; people: number } | null;
+    reports: readonly OpeningLifeGenerationProgress[];
+    painted: readonly { requested: string; visible: string; value: string | null }[];
+    animation: string;
+  };
+  cancel: () => void;
+  hasPublishedGame: () => boolean;
+};
 declare global {
   interface Window {
     openingPreparationFixture: Fixture;
