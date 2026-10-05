@@ -330,7 +330,7 @@ function paycheckLiabilities(
   );
   const federalSchedule = federalLaw.schedule;
   const federalStamp = lawEffectStamp(federalLaw.governingLaw, {
-    effectKind: "federal-income-tax-withholding",
+    effectKind: "tax",
     questionKey: RAISE_TOP_FEDERAL_RATE_QUESTION,
     jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
     appliedAt: outcome.occurredAt,

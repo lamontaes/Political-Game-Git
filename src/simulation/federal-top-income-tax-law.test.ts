@@ -436,6 +436,15 @@ describe("a federal law on the top income tax rate, as enacted in play", () => {
       before.row.liability!.minorUnits,
     );
     expect(after.row.lawMeasureIds).toContain(measureId);
+    expect(after.row.lawEffectStamps).toHaveLength(1);
+    expect(after.row.lawEffectStamps![0]).toMatchObject({
+      effectKind: "tax",
+      questionKey: RAISE_TOP_FEDERAL_RATE_QUESTION,
+    });
+    expect(after.row.lawEffectStamps![0]!.sourceRecordIds).toContain(
+      after.row.sourceOutcomeId,
+    );
+
     const payment = after.paid.history.statutoryTaxPayments!.find(
       (entry) => entry.liabilityId === after.row.id,
     )!;
@@ -446,6 +455,35 @@ describe("a federal law on the top income tax rate, as enacted in play", () => {
         (entry) => entry.id === payment.id,
       ),
     ).toEqual(payment);
+    expect(
+      restored.history.statutoryTaxLiabilities!.find(
+        (entry) => entry.id === after.row.id,
+      )?.lawEffectStamps,
+    ).toEqual(after.row.lawEffectStamps);
+    // Explicit saved-history fixture: the old label remains readable, never a new-writer input.
+    const legacyStamp = {
+      ...after.row.lawEffectStamps![0]!,
+      effectKind: "federal-income-tax-withholding",
+    };
+    const legacySaved = {
+      ...after.paid,
+      history: {
+        ...after.paid.history,
+        statutoryTaxLiabilities:
+          after.paid.history.statutoryTaxLiabilities!.map((entry) =>
+            entry.id === after.row.id
+              ? { ...entry, lawEffectStamps: [legacyStamp] }
+              : entry,
+          ),
+      },
+    };
+    expect(
+      deserializeWorld(
+        serializeWorld(legacySaved),
+      ).history.statutoryTaxLiabilities!.find(
+        (entry) => entry.id === after.row.id,
+      )?.lawEffectStamps,
+    ).toEqual([legacyStamp]);
     console.info(
       `A28 recorded federal withholding: before=${before.row.liability!.minorUnits} after=${expected} minor; law=${measureId}`,
     );

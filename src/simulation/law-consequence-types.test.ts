@@ -15,7 +15,6 @@ it("closes new writer labels while listing the legacy labels to retire", () => {
     "congress-voting-seat-tenure",
     "election.state-legislative-candidacy-intent",
     "eviction-counsel-representation",
-    "federal-income-tax-withholding",
     "government-outlay-change",
     "government-program-payment",
     "health-coverage",
@@ -34,7 +33,6 @@ it("closes new writer labels while listing the legacy labels to retire", () => {
     "rent-stabilization-renewal",
     "state-revenue-loss",
     "state-spending",
-    "tax-policy",
     "teacher-pay",
     "work-compensation-payment",
   ] as const satisfies readonly LegacyEffectKind[];
@@ -46,4 +44,8 @@ it("closes new writer labels while listing the legacy labels to retire", () => {
   // @ts-expect-error Retired tax stamps remain readable, but new writers use tax.
   const retiredTax: LawEffectContext["effectKind"] = "tax-assessment";
   void retiredTax;
+  // @ts-expect-error New withholding writers use the same canonical tax kind.
+  const retiredWithholding: LawEffectContext["effectKind"] =
+    "federal-income-tax-withholding";
+  void retiredWithholding;
 });

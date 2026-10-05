@@ -24,7 +24,6 @@ export type LegacyEffectKind =
   | "congress-voting-seat-tenure"
   | "election.state-legislative-candidacy-intent"
   | "eviction-counsel-representation"
-  | "federal-income-tax-withholding"
   | "government-outlay-change"
   | "government-program-payment"
   | "health-coverage"
@@ -43,7 +42,6 @@ export type LegacyEffectKind =
   | "rent-stabilization-renewal"
   | "state-revenue-loss"
   | "state-spending"
-  | "tax-policy"
   | "teacher-pay"
   | "work-compensation-payment";
 
