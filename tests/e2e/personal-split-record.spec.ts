@@ -10,18 +10,19 @@ import {
 import { startLife, enterLife, goTo, saveLife } from "./support/creator";
 import type { Page } from "./fixtures";
 import type { World } from "../../src/simulation";
+import type * as SaveModule from "../../src/presentation/browser-world-repository";
 
 async function savedLife(page: Page): Promise<World> {
   return page.evaluate(async () => {
     const modulePath = "/src/presentation/browser-world-repository.ts";
     const { BrowserSaveStore } = (await import(
       /* @vite-ignore */ modulePath
-    )) as typeof import("../../src/presentation/browser-world-repository");
+    )) as typeof SaveModule;
     const store = new BrowserSaveStore();
     const listing = await store.list();
     if (listing.saves.length !== 1)
       throw new Error("Expected one saved life on the shelf");
-    const world = await store.inspect(listing.saves[0]!.saveId);
+    const world = await store.inspectSnapshot(listing.saves[0]!.saveId);
     if (!world) throw new Error("Saved life is absent");
     return world;
   });
@@ -118,6 +119,38 @@ test("Personal separates current records from history without changing the life"
   await page.screenshot({
     path: test.info().outputPath("personal-profile-1200.png"),
   });
+  await page.setViewportSize({ width: 1920, height: 1080 });
+  const familyButtons = profile
+    .getByTestId("personal-family")
+    .getByRole("button");
+  let contactOpened = false;
+  for (let index = 0; index < (await familyButtons.count()); index += 1) {
+    await familyButtons.nth(index).click();
+    const card = page.getByTestId("quick-dossier");
+    await expect(card).toBeVisible();
+    const contact = card.getByTestId("person-contact");
+    if ((await contact.count()) && (await contact.isEnabled())) {
+      await contact.click();
+      const dialog = page.getByTestId("contact-dialog");
+      await expect(
+        dialog.locator(".pg-split-record-figure figure"),
+      ).toHaveAttribute("data-figure-status", "ready");
+      await expect(dialog.getByTestId("contact-focus-panel")).toBeVisible();
+      await page.screenshot({
+        path: test.info().outputPath("contact-split-record-1920.png"),
+      });
+      await page.keyboard.press("Escape");
+      await expect(dialog).toHaveCount(0);
+      await contact.press("Enter");
+      await expect(dialog).toBeVisible();
+      await dialog.getByTestId("contact-dialog-close").press("Enter");
+      await expect(dialog).toHaveCount(0);
+      contactOpened = true;
+    }
+    await page.keyboard.press("Escape");
+    if (contactOpened) break;
+  }
+  expect(contactOpened).toBe(true);
   await saveLife(page);
   const after = await savedLife(page);
   expect(after.currentDate).toBe(before.currentDate);
