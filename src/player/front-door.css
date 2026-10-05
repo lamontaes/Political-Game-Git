@@ -169,7 +169,9 @@
 .title-tableau--art.front-door
   .game-title:not(.game-creator)
   button:focus-visible,
-.title-tableau--art.front-door .game-title input:focus-visible,
+.title-tableau--art.front-door
+  .game-title
+  input:not([type="search"]):focus-visible,
 .title-tableau--art.front-door .game-title summary:focus-visible {
   outline: 2px solid var(--front-door-focus);
   outline-offset: 3px;
@@ -644,7 +646,17 @@
   gap: 0.4rem;
   min-width: 0;
 }
-.creator-search-entry input {
+.pg-game .front-door .creator-search-entry input {
   flex: 1;
   min-width: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+  caret-color: var(--gold);
+}
+
+.creator-search-entry input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
 }

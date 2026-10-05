@@ -76,6 +76,9 @@ test("title and creator keep pointer and keyboard choices reachable", async ({
   await expect(placeSearch).toHaveValue("");
   await expect(placeSearch).toBeFocused();
   await placeSearch.fill(hometown.townQuery ?? "");
+  await expect(placeSearch).toHaveCSS("border-top-width", "0px");
+  await expect(placeSearch).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+  await expect(placeSearch).toHaveCSS("outline-style", "none");
   await page.screenshot({
     path: join(info.config.metadata.artifacts, "place-search.png"),
   });
