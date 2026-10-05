@@ -41,6 +41,7 @@ import {
 import { placeRegionalFacts } from "../presentation/place-regional-facts";
 import { queryHometownPopulationFacts } from "../presentation/place-hometown-population";
 import { questionnaireScreenFor } from "../presentation/setup-questionnaire-flow";
+import { CREATOR_LIFE_FORKS } from "../simulation/creator-life-forks";
 import {
   setupForArtPreview,
   type ArtPreviewMode,
@@ -339,8 +340,9 @@ export function SetupScreen({
                 : "Everyday life",
         ].join(" · ")
       : "",
-    whoAreYou:
-      setup.questionnaire === "skipped"
+    whoAreYou: setup.creatorLifeForks?.length
+      ? "Your life choices"
+      : setup.questionnaire === "skipped"
         ? "Discover through play"
         : "Answering a few questions",
   };
@@ -1045,46 +1047,63 @@ export function SetupScreen({
 
       {isCurrent("whoAreYou") ? (
         <section data-testid="creator-stage-whoareyou">
-          <h2>Who are you?</h2>
+          <h2>The choices you made</h2>
           <p className="game-note" data-testid="whoareyou-note">
-            A few imagined situations. Choose what you would do, or skip. These
-            answers do not write your character’s biography.
+            Choose what you set out to do. Your life follows these choices as
+            the years pass.
           </p>
           <div className="game-choices" data-testid="whoareyou-choices">
+            {CREATOR_LIFE_FORKS.map((fork) => (
+              <fieldset key={fork.key}>
+                <legend>{fork.prompt}</legend>
+                {fork.options.map((option) => (
+                  <button
+                    key={option.key}
+                    type="button"
+                    data-testid={`creator-fork-${fork.key}-${option.key}`}
+                    aria-pressed={
+                      setup.creatorLifeForks?.some(
+                        (choice) =>
+                          choice.forkKey === fork.key &&
+                          choice.optionKey === option.key,
+                      ) ?? false
+                    }
+                    onClick={() =>
+                      setSetup((now) => ({
+                        ...now,
+                        questionnaire: "skipped",
+                        priors: [],
+                        creatorLifeForks: [
+                          ...(now.creatorLifeForks ?? []).filter(
+                            (choice) => choice.forkKey !== fork.key,
+                          ),
+                          { forkKey: fork.key, optionKey: option.key },
+                        ],
+                      }))
+                    }
+                  >
+                    {option.label}
+                    <small>{option.description}</small>
+                  </button>
+                ))}
+              </fieldset>
+            ))}
             <button
               type="button"
               data-testid="whoareyou-answer"
-              className={
-                setup.questionnaire === "short" ? "is-chosen" : undefined
+              disabled={
+                setup.creatorLifeForks?.length !== CREATOR_LIFE_FORKS.length
               }
               onClick={() => {
                 setSetup((now) => ({
                   ...now,
-                  questionnaire: "short",
-                  priors: now.questionnaire === "short" ? now.priors : [],
+                  questionnaire: "skipped",
+                  priors: [],
                 }));
                 advanceTo("begin");
               }}
             >
-              Answer a few questions
-            </button>
-            <button
-              type="button"
-              data-testid="whoareyou-deep"
-              className={
-                setup.questionnaire === "deep" ? "is-chosen" : undefined
-              }
-              onClick={() => {
-                setSetup((now) => ({
-                  ...now,
-                  questionnaire: "deep",
-                  priors: now.questionnaire === "deep" ? now.priors : [],
-                }));
-                advanceTo("begin");
-              }}
-            >
-              Answer more questions
-              <small>You can begin your life whenever you are ready.</small>
+              Continue with these choices
             </button>
             <button
               type="button"
@@ -1097,6 +1116,7 @@ export function SetupScreen({
                   ...now,
                   questionnaire: "skipped",
                   priors: [],
+                  creatorLifeForks: [],
                 }));
                 advanceTo("begin");
               }}
