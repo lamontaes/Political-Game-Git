@@ -591,21 +591,11 @@ export function SceneConversation({
             </p>
           ) : leaving ? null : offeredSpeech.length > 0 ? (
             <div className="pg-talk-replies">
-              <button
-                type="button"
-                className="pg-talk-lie-toggle"
-                data-testid="talk-lie-toggle"
-                aria-pressed={canLie && lieMode}
-                disabled={!canLie}
-                title={
-                  canLie
-                    ? "Show what you could say knowing it is false"
-                    : "There is nothing here you know to be false"
-                }
-                onClick={() => setLieMode((active) => !active)}
-              >
-                Lie
-              </button>
+              <ConversationScales
+                available={canLie}
+                active={canLie && lieMode}
+                onToggle={() => setLieMode((active) => !active)}
+              />
               <div
                 className="pg-talk-choices"
                 role="group"
@@ -613,7 +603,7 @@ export function SceneConversation({
                 data-testid="conversation-intents"
                 data-columns={speech.length > 4 ? "true" : undefined}
               >
-                {speech.map((option) => {
+                {speech.map((option, index) => {
                   const lie = lieMarkerFor(option);
                   return (
                     <button
@@ -626,6 +616,7 @@ export function SceneConversation({
                           : "pg-talk-choice"
                       }
                       data-testid={`intent-${option.key}`}
+                      data-lying={lie ? "true" : undefined}
                       title={
                         lie
                           ? lie.description
@@ -635,11 +626,12 @@ export function SceneConversation({
                       }
                       onClick={() => say(option.key)}
                     >
-                      {lie ? (
-                        <span className="pg-talk-lie" data-testid="lie-marker">
-                          {lie.label}
-                        </span>
-                      ) : null}
+                      <span
+                        className="pg-talk-choice-number"
+                        aria-hidden="true"
+                      >
+                        {index + 1}.
+                      </span>{" "}
                       {option.spokenWords ?? option.label}
                     </button>
                   );
@@ -779,6 +771,45 @@ export function SceneConversation({
         </div>
       )}
     </section>
+  );
+}
+
+/** Selected presentation only; the caller retains deception selection and commit. */
+export function ConversationScales({
+  available,
+  active,
+  onToggle,
+}: {
+  readonly available: boolean;
+  readonly active: boolean;
+  readonly onToggle: () => void;
+}) {
+  const lying = available && active;
+  return (
+    <button
+      type="button"
+      className="pg-talk-lie-toggle"
+      data-testid="talk-lie-toggle"
+      aria-label="Show knowingly false replies"
+      aria-pressed={lying}
+      disabled={!available}
+      title={
+        available
+          ? "Show what you could say knowing it is false"
+          : "There is nothing here you know to be false"
+      }
+      onClick={onToggle}
+    >
+      <img
+        src={
+          lying ? "/ui/kit12/scales-tipped.svg" : "/ui/kit12/scales-level.svg"
+        }
+        width={34}
+        height={34}
+        alt=""
+        aria-hidden="true"
+      />
+    </button>
   );
 }
 
