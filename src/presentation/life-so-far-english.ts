@@ -1,7 +1,9 @@
 import {
+  describePersonContext,
   educationEnrollmentHistoryForPerson,
   educationEnrollmentStateAt,
   organizationProfileAt,
+  personName,
   workRelationshipHistoryForPerson,
   workStatusAt,
   type EntityId,
@@ -22,7 +24,17 @@ const PROGRAMS: Readonly<Record<string, string>> = {
 };
 
 /** Saved starts, not graduation or a claim about a real historical school. */
-export function projectLifeSoFarEnglish(world: World, personId: EntityId) {
+export interface LifeJournalLine {
+  readonly date: World["currentDate"];
+  readonly text: string;
+  readonly sourceRecordIds: readonly EntityId[];
+}
+
+export function projectLifeSoFarEnglish(
+  world: World,
+  personId: EntityId,
+  journalLine?: (line: LifeJournalLine) => void,
+) {
   const life = buildLifeIntroduction(world, personId);
   if (!life) return { sentences: [], sourceRecordIds: [] };
   const schooling = educationEnrollmentHistoryForPerson(world, personId)
@@ -46,13 +58,18 @@ export function projectLifeSoFarEnglish(world: World, personId: EntityId) {
     })
     .sort((a, b) => a.startedAt.localeCompare(b.startedAt));
   const schoolSentences: string[] = [];
-  for (let offset = 0; offset < schooling.length; offset += 3) {
-    const group = schooling.slice(offset, offset + 3);
+  for (
+    let offset = 0;
+    offset < schooling.length;
+    offset += journalLine ? 1 : 3
+  ) {
+    const group = schooling.slice(offset, offset + (journalLine ? 1 : 3));
     const facts = Object.fromEntries(
       group.map((school, index) => [`school-${index}`, school]),
     );
-    const core =
-      group.length === 1
+    const core = journalLine
+      ? "I began {{school-0}}."
+      : group.length === 1
         ? "You began {{school-0}}."
         : group.length === 2
           ? "You began {{school-0}}, followed by {{school-1}}."
@@ -60,7 +77,7 @@ export function projectLifeSoFarEnglish(world: World, personId: EntityId) {
     const bank: ComposedLineBank = {
       key: "opening-life-so-far",
       version: "1",
-      surface: "scene",
+      surface: journalLine ? "journal" : "scene",
       act: "tell",
       parts: {
         core: {
@@ -71,7 +88,7 @@ export function projectLifeSoFarEnglish(world: World, personId: EntityId) {
       },
     };
     const packet: GroundedEnglishPacket = {
-      surface: "scene",
+      surface: journalLine ? "journal" : "scene",
       momentKey: `life-so-far:${personId}:${world.currentDate}:${offset}`,
       worldSeed: world.seed,
       bankVersion: "1",
@@ -86,7 +103,14 @@ export function projectLifeSoFarEnglish(world: World, personId: EntityId) {
       })),
     };
     const rendered = composeGroundedLine(packet, bank);
-    if (rendered.kind === "rendered") schoolSentences.push(rendered.text);
+    if (rendered.kind === "rendered") {
+      schoolSentences.push(rendered.text);
+      journalLine?.({
+        date: group[0]!.startedAt,
+        text: rendered.text,
+        sourceRecordIds: packet.sourceRecordIds,
+      });
+    }
   }
   // The preceding family card and each person's dossier carry kinship detail.
   // This short overview follows schooling and work, rather than listing every
@@ -129,7 +153,7 @@ export function projectLifeSoFarEnglish(world: World, personId: EntityId) {
     const bank: ComposedLineBank = {
       key: "opening-recorded-work",
       version: "1",
-      surface: "scene",
+      surface: journalLine ? "journal" : "scene",
       act: "tell",
       parts: {
         core: {
@@ -137,16 +161,18 @@ export function projectLifeSoFarEnglish(world: World, personId: EntityId) {
             {
               key: entry.active ? "current-start" : "earlier-start",
               kind: "template",
-              text: entry.active
-                ? "Since {{work-year}}, you've worked at {{work-name}}."
-                : "You started work at {{work-name}} in {{work-year}}.",
+              text: journalLine
+                ? "I started work at {{work-name}} in {{work-year}}."
+                : entry.active
+                  ? "Since {{work-year}}, you've worked at {{work-name}}."
+                  : "You started work at {{work-name}} in {{work-year}}.",
             },
           ],
         },
       },
     };
     const packet: GroundedEnglishPacket = {
-      surface: "scene",
+      surface: journalLine ? "journal" : "scene",
       momentKey: `life-so-far:work:${personId}:${world.currentDate}:${entry.record.id}`,
       worldSeed: world.seed,
       bankVersion: "1",
@@ -161,7 +187,13 @@ export function projectLifeSoFarEnglish(world: World, personId: EntityId) {
       })),
     };
     const line = composeGroundedLine(packet, bank);
-    return line.kind === "rendered" ? [line.text] : [];
+    if (line.kind !== "rendered") return [];
+    journalLine?.({
+      date: entry.record.startedAt,
+      text: line.text,
+      sourceRecordIds,
+    });
+    return [line.text];
   });
   return {
     sentences: [
@@ -176,4 +208,68 @@ export function projectLifeSoFarEnglish(world: World, personId: EntityId) {
       ...work.flatMap((entry) => [entry.record.id, entry.organizationId]),
     ],
   };
+}
+
+/** First-person chapters use the same saved starts and English composition path. */
+export function projectLifeSoFarJournal(
+  world: World,
+  personId: EntityId,
+): readonly LifeJournalLine[] {
+  const lines: LifeJournalLine[] = [];
+  projectLifeSoFarEnglish(world, personId, (line) => lines.push(line));
+  const life = buildLifeIntroduction(world, personId);
+  if (!life) return lines;
+  // Relationship labels are canonical, not guessed from a name or portrait.
+  for (const relative of life.household) {
+    if (!relative.relationship) continue;
+    const context = describePersonContext(world, personId, relative.personId);
+    if (!context || !relative.relationship.startsWith("your ")) continue;
+    const sourceRecordIds = [
+      relative.personId,
+      ...context.anchors.map((anchor) => anchor.recordId),
+    ];
+    const facts = {
+      relative: {
+        text: `${relative.relationship.replace(/^your /, "my ")}, ${personName(world.people[relative.personId]!)}`,
+        sourceRecordIds,
+      },
+    };
+    const packet: GroundedEnglishPacket = {
+      surface: "journal",
+      momentKey: `life-journal:family:${personId}:${relative.personId}:${world.currentDate}`,
+      worldSeed: world.seed,
+      bankVersion: "1",
+      stage: "opening",
+      sourceRecordIds,
+      facts,
+      speaker: { personId, traits: {} },
+      viewer: { personId, traits: {} },
+      knowledge: [{ personId, factKey: "relative", sourceRecordIds }],
+    };
+    const bank: ComposedLineBank = {
+      key: "life-journal-family",
+      version: "1",
+      surface: "journal",
+      act: "tell",
+      parts: {
+        core: {
+          variants: [
+            {
+              key: "shared-home",
+              kind: "template",
+              text: "I live with {{relative}}.",
+            },
+          ],
+        },
+      },
+    };
+    const rendered = composeGroundedLine(packet, bank);
+    if (rendered.kind === "rendered")
+      lines.push({
+        date: world.currentDate,
+        text: rendered.text,
+        sourceRecordIds,
+      });
+  }
+  return lines.sort((a, b) => a.date.localeCompare(b.date));
 }

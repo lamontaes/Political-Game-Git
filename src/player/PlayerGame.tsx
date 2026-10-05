@@ -965,7 +965,8 @@ export function PlayerGame() {
       <AmbientTableau recent={saves[0] ?? null} still>
         {() => (
           <LifeStartTransition
-            onPrepare={async (report, signal) => {
+            onReturn={() => setScreen({ kind: "setup", draft: screen.setup })}
+            onPrepare={async (report, signal, deadlineAt) => {
               try {
                 report({ label: "Creating your life", completed: 0, total: 0 });
                 const game = (
@@ -973,6 +974,7 @@ export function PlayerGame() {
                     screen.setup,
                   ).finishTransitionWithProgress({
                     signal,
+                    deadlineAt,
                     onProgress: report,
                   })
                 ).game!;

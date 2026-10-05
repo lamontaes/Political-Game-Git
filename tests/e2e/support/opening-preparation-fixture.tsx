@@ -6,35 +6,27 @@ import {
   type OpeningLifeGenerationProgress,
 } from "../../../src/presentation/opening-life";
 import { DEFAULT_NEW_GAME_SETUP } from "../../../src/presentation/new-game";
-import { searchLifePlaces } from "../../../src/simulation/life-places";
-import { STATES } from "../../../src/simulation/state-reference";
+import { drawRandomPlace } from "../../support/random-place";
 import "../../../src/styles.css";
 import "../../../src/player/kit12.css";
 import "../../../src/player/shell.css";
 
 export function mountOpeningPreparationFixture(cancelAtFirstStage = false) {
-  const states = Object.keys(STATES);
-  const choose = (length: number) => {
-    const draw = crypto.getRandomValues(new Uint32Array(1))[0]!;
-    return Math.floor((draw / 2 ** 32) * length);
-  };
-  const state = states[choose(states.length)]!;
-  const places = searchLifePlaces("", 100, {
-    stateJurisdictionKey: `US-${state}`,
-    scope: "locality",
-  });
-  const place = places[choose(places.length)]!;
   const seed = `browser-opening-stages:${crypto.randomUUID()}`;
+  const place = drawRandomPlace(seed);
+  const startAge =
+    18 + (crypto.getRandomValues(new Uint32Array(1))[0]! % (70 - 18 + 1));
   const controller = createOpeningLifeController({
     ...DEFAULT_NEW_GAME_SETUP,
     seed,
     placeKey: place.key,
-    startAge: 30,
+    startAge,
   });
   const evidence = {
     seed,
     place: place.displayName,
-    reports: [] as OpeningLifeGenerationProgress[],
+    startAge,
+    reports: [] as Omit<OpeningLifeGenerationProgress, "world">[],
     painted: [] as {
       requested: string;
       visible: string;
@@ -60,8 +52,11 @@ export function mountOpeningPreparationFixture(cancelAtFirstStage = false) {
         try {
           const opened = await controller.finishTransitionWithProgress({
             signal,
+            deadlineAt: performance.now() + 2 * 60 * 1000,
             onProgress: (progress) => {
-              evidence.reports.push(progress);
+              const { world: checkpoint, ...receipt } = progress;
+              void checkpoint;
+              evidence.reports.push(receipt);
               report(progress);
               requestAnimationFrame(() => {
                 evidence.painted.push({

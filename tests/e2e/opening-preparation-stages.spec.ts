@@ -1,8 +1,28 @@
 import { expect, test, type Page } from "@playwright/test";
 import { writeFile } from "node:fs/promises";
-import type { mountOpeningPreparationFixture } from "./support/opening-preparation-fixture";
+import type { OpeningLifeGenerationProgress } from "../../src/presentation/opening-life";
 
-type Fixture = ReturnType<typeof mountOpeningPreparationFixture>;
+// Keep the browser proof's serialized contract independent of a TSX import;
+// the test-import typecheck compiles this file without JSX.
+type Fixture = {
+  evidence: {
+    status: string;
+    error: string | null;
+    place: string;
+    seed: string;
+    startAge: number;
+    world: { id: string; date: string; people: number } | null;
+    reports: readonly Omit<OpeningLifeGenerationProgress, "world">[];
+    painted: readonly {
+      requested: string;
+      visible: string;
+      value: string | null;
+    }[];
+    animation: string;
+  };
+  cancel: () => void;
+  hasPublishedGame: () => boolean;
+};
 declare global {
   interface Window {
     openingPreparationFixture: Fixture;
@@ -65,6 +85,14 @@ test("a fresh random life paints actual preparation stages and counts", async ({
   expect(evidence.error).toBeNull();
   expect(evidence.status).toBe("complete");
   expect(evidence.world!.people).toBeGreaterThan(0);
+  await expect(page.getByLabel("Elapsed preparation time")).toContainText(
+    "/ 2:00",
+  );
+  await expect(
+    page.getByRole("heading", { name: "My journal", exact: true }),
+  ).toBeVisible();
+  await expect(page.getByLabel("My journal")).toContainText("I ");
+  await expect(page.locator(".pg-life-transition-heading h1")).toBeVisible();
   const stages = [...new Set(evidence.reports.map((step) => step.label))];
   expect(stages).toEqual([
     "Preparing your life",

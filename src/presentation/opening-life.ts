@@ -88,10 +88,14 @@ export interface OpeningLifeGenerationProgress {
   readonly label: string;
   readonly completed: number;
   readonly total: number;
+  readonly world?: World;
+  readonly playerPersonId?: EntityId;
 }
 
 export interface OpeningLifeGenerationOptions {
   readonly signal?: AbortSignal;
+  /** Monotonic host deadline, shared with the historical runner. */
+  readonly deadlineAt?: number;
   readonly statesPerChunk?: number;
   readonly onProgress?: (progress: OpeningLifeGenerationProgress) => void;
   /** Lets the host paint between immutable preparation chunks. */
@@ -160,7 +164,7 @@ export async function generateOpeningLifeWithProgress(
   options: OpeningLifeGenerationOptions = {},
 ): Promise<OpeningLifeSession> {
   if (session.game) return session;
-  throwIfOpeningAborted(options.signal);
+  throwIfOpeningAborted(options.signal, options.deadlineAt);
   const beginning = await runOpeningPreparationSteps(
     beginOpeningLifeSteps(session),
     (start) => start.world,
@@ -179,7 +183,7 @@ export async function generateOpeningLifeWithProgress(
       },
     );
     while (true) {
-      throwIfOpeningAborted(options.signal);
+      throwIfOpeningAborted(options.signal, options.deadlineAt);
       let step:
         | IteratorResult<NationwideStateLegislatureOpeningChunk, World>
         | undefined;
@@ -192,6 +196,8 @@ export async function generateOpeningLifeWithProgress(
         label: "Preparing state legislatures",
         completed: step!.value.completedStates,
         total: step!.value.totalStates,
+        world,
+        playerPersonId: beginning.game.playerPersonId,
       });
       await (options.yieldControl ?? yieldOpeningPreparationToHost)();
     }
@@ -199,7 +205,7 @@ export async function generateOpeningLifeWithProgress(
     await reportOpeningStage("Preparing Congress principles", options);
     const principles = prepareOpeningCongressPrinciplesChunks(world);
     while (true) {
-      throwIfOpeningAborted(options.signal);
+      throwIfOpeningAborted(options.signal, options.deadlineAt);
       let step:
         IteratorResult<OpeningCongressPrinciplesChunk, World> | undefined;
       world = advanceWithWorldIntegrityAtEnd(() => {
@@ -211,12 +217,14 @@ export async function generateOpeningLifeWithProgress(
         label: "Preparing Congress principles",
         completed: step!.value.completedPeople,
         total: step!.value.totalPeople,
+        world,
+        playerPersonId: beginning.game.playerPersonId,
       });
       await (options.yieldControl ?? yieldOpeningPreparationToHost)();
     }
   }
 
-  throwIfOpeningAborted(options.signal);
+  throwIfOpeningAborted(options.signal, options.deadlineAt);
   return runOpeningPreparationSteps(
     completeOpeningLifeSteps(beginning, world),
     (completed) => completed.game!.world,
@@ -237,8 +245,21 @@ interface OpeningPreparationStep {
   readonly world?: World;
 }
 
-function openingStage(label: string, world?: World): OpeningPreparationStep {
-  return { progress: { label, completed: 0, total: 0 }, world };
+function openingStage(
+  label: string,
+  world?: World,
+  playerPersonId?: EntityId,
+): OpeningPreparationStep {
+  return {
+    progress: {
+      label,
+      completed: 0,
+      total: 0,
+      ...(world ? { world } : {}),
+      ...(playerPersonId ? { playerPersonId } : {}),
+    },
+    world,
+  };
 }
 
 /** Both paths run the same preparation steps in the same order. */
@@ -262,16 +283,17 @@ async function runOpeningPreparationSteps<Result>(
   // The first yield describes work, before any of that work runs.
   let step = steps.next();
   while (!step.done) {
-    throwIfOpeningAborted(options.signal);
+    throwIfOpeningAborted(options.signal, options.deadlineAt);
     options.onProgress?.(step.value.progress);
     await (options.yieldControl ?? yieldOpeningPreparationToHost)();
-    throwIfOpeningAborted(options.signal);
+    throwIfOpeningAborted(options.signal, options.deadlineAt);
     const previous = step.value.world;
     advanceWithWorldIntegrityAtEnd(() => {
       step = steps.next();
       return step.done ? resultWorld(step.value) : step.value.world!;
     }, previous);
   }
+  throwIfOpeningAborted(options.signal, options.deadlineAt);
   return step.value;
 }
 
@@ -279,10 +301,10 @@ async function reportOpeningStage(
   label: string,
   options: OpeningLifeGenerationOptions,
 ): Promise<void> {
-  throwIfOpeningAborted(options.signal);
+  throwIfOpeningAborted(options.signal, options.deadlineAt);
   options.onProgress?.(openingStage(label).progress);
   await (options.yieldControl ?? yieldOpeningPreparationToHost)();
-  throwIfOpeningAborted(options.signal);
+  throwIfOpeningAborted(options.signal, options.deadlineAt);
 }
 
 function* beginOpeningLifeSteps(
@@ -307,7 +329,7 @@ function* beginOpeningLifeSteps(
   // Both opening-data versions place the player and seat the vice president;
   // only "playtest65-v1" also writes the two fixed, already-concluded local
   // matters, which a replay descriptor recorded under it must keep rebuilding.
-  yield openingStage("Preparing government", economic);
+  yield openingStage("Preparing government", economic, game.playerPersonId);
   const openingData = session.setup.openingDataVersion;
   const versionedOpening =
     openingData === "playtest65-v1" ||
@@ -394,6 +416,8 @@ function buildOpeningLife(
         label: "Preparing state legislatures",
         completed: chunk.completedStates,
         total: chunk.totalStates,
+        world,
+        playerPersonId: start.game.playerPersonId,
       });
     }
     for (const chunk of prepareOpeningCongressPrinciplesChunks(world)) {
@@ -402,6 +426,8 @@ function buildOpeningLife(
         label: "Preparing Congress principles",
         completed: chunk.completedPeople,
         total: chunk.totalPeople,
+        world,
+        playerPersonId: start.game.playerPersonId,
       });
     }
   }
@@ -415,7 +441,11 @@ function* completeOpeningLifeSteps(
   start: OpeningLifeBuildStart,
   preparedWorld: World,
 ): Generator<OpeningPreparationStep, OpeningLifeSession, void> {
-  yield openingStage("Preparing world conditions", preparedWorld);
+  yield openingStage(
+    "Preparing world conditions",
+    preparedWorld,
+    start.game.playerPersonId,
+  );
   const { session, game, prewarmNationwide } = start;
   const withLocalIntakes = prewarmNationwide
     ? scheduleLocalMemberAgendaIntakes(preparedWorld)
@@ -444,7 +474,11 @@ function* completeOpeningLifeSteps(
     session.setup.openingDataVersion,
     session.setup.livingWorldMemberNameVersion,
   );
-  yield openingStage("Finalizing your life", withPayAgreements);
+  yield openingStage(
+    "Finalizing your life",
+    withPayAgreements,
+    game.playerPersonId,
+  );
   const withOfficeSalaries = initializeAllOfficeSalaryFlows(withPayAgreements);
   const withEmployerCash =
     worldOpeningVersionOf(withOfficeSalaries) === CRUNCH46_WORLD_OPENING_VERSION
@@ -501,7 +535,15 @@ function ensureHomeLocalGovernment(
   return withCountyBoards;
 }
 
-function throwIfOpeningAborted(signal?: AbortSignal): void {
+function throwIfOpeningAborted(
+  signal?: AbortSignal,
+  deadlineAt?: number,
+): void {
+  if (deadlineAt !== undefined && performance.now() >= deadlineAt) {
+    const error = new Error("This life reached the two-minute limit.");
+    error.name = "TimeoutError";
+    throw error;
+  }
   if (!signal?.aborted) return;
   const error = new Error("Opening preparation was aborted.");
   error.name = "AbortError";
@@ -535,7 +577,11 @@ function* openedWorld(
   // The town's residents are seated before migration is scheduled, so the
   // first quarterly review already has neighbors who might leave.
   if (!pressOpeningApplies(world)) return world;
-  yield openingStage("Preparing local press and schedules", world);
+  yield openingStage(
+    "Preparing local press and schedules",
+    world,
+    playerPersonId,
+  );
   // The town government is seated from the same residents, so the council
   // and the mayor are people who live in the town, and its elections go on
   // the calendar with its council's meetings.
@@ -559,7 +605,7 @@ function* openedWorld(
     ),
   );
   if (openingDataVersion !== "playtest65-v3") return opened;
-  yield openingStage("Preparing courts", opened);
+  yield openingStage("Preparing courts", opened, playerPersonId);
   return ensureOpeningJudiciary(opened, memberNameVersion);
 }
 
