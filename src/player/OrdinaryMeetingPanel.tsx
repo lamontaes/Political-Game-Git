@@ -1,18 +1,11 @@
 import { describePlacesOutcome } from "../presentation/player-places";
-import { describeInterval } from "../presentation/time-target-label";
 import { useState } from "react";
 import type { EntityId, World } from "../simulation";
 import {
   enterOrdinaryMeeting,
-  ORDINARY_MEETING_PRESENCE,
   ordinaryMeetingEntry,
-  speakAtOrdinaryMeeting,
 } from "../simulation/ordinary-meeting-presence";
 import { projectStoryMeetingScene } from "../presentation/story-scene-day";
-import {
-  storyScenePlayerOffers,
-  revalidateStoryScenePlayerOffer,
-} from "../presentation/story-scene-player-options";
 import {
   ordinaryMeetingLeaveOffer,
   leaveOrdinaryMeeting,
@@ -41,7 +34,6 @@ export function OrdinaryMeetingPanel({
   const runner = useTimeCommand({ world, personId, onWorldChange });
   const [outcome, setOutcome] = useState<string | null>(null);
   const [reading, setReading] = useState(true);
-  const [speaking, setSpeaking] = useState(false);
   const scene = projectStoryMeetingScene(world, personId);
   const entry = scene
     ? null
@@ -53,14 +45,6 @@ export function OrdinaryMeetingPanel({
         .map((activity) => ordinaryMeetingEntry(world, personId, activity.id))
         .find(Boolean);
   const activityId = scene?.activityId ?? entry?.activity.id;
-  const request = activityId
-    ? {
-        viewerPersonId: personId,
-        place: { kind: "activity" as const, activityId },
-        moment: world.currentMoment,
-      }
-    : null;
-  const offers = request ? storyScenePlayerOffers(world, request) : [];
   if (!activityId) return null;
   const agenda = projectLivingSceneSurface(world, personId, {
     kind: "agenda",
@@ -95,8 +79,6 @@ export function OrdinaryMeetingPanel({
                   {actor.name}
                 </button>{" "}
                 · {actor.role}
-                {/* PLACEHOLDER(overnight): Resident lines await the English engine's exact-word review. */}
-                {actor.spokenLine ? <p>{actor.spokenLine}</p> : null}
               </li>
             ))}
           </ul>
@@ -190,88 +172,11 @@ export function OrdinaryMeetingPanel({
             )
           }
         >
-          Enter the meeting · no time passes
+          Enter the meeting
         </button>
       ) : null}
       {scene?.phase === "active" ? (
         <>
-          {scene.availableActions.includes("speak") ? (
-            <button
-              type="button"
-              className="ui-action"
-              aria-expanded={speaking}
-              data-testid="speak-ordinary-meeting"
-              onClick={() => setSpeaking((value) => !value)}
-            >
-              Speak at the meeting
-            </button>
-          ) : null}
-          {speaking && scene.availableActions.includes("speak") ? (
-            <div role="group" aria-label="Choose your exact public comment">
-              {/* PLACEHOLDER(overnight): These exact speech choices are COPY-PENDING in the canonical producer. */}
-              {scene.speechChoices.map((choice) => (
-                <button
-                  key={choice.key}
-                  type="button"
-                  className="ui-action ui-action--subtle"
-                  disabled={runner.pending}
-                  data-testid={`meeting-speech-${choice.key}`}
-                  onClick={() =>
-                    runner.perform(
-                      (current) => {
-                        const offered = offers.find(
-                          (offer) =>
-                            offer.option.kind === "meeting-speech" &&
-                            offer.option.choice === choice.key &&
-                            offer.option.words === choice.words,
-                        );
-                        const checked =
-                          offered && request
-                            ? revalidateStoryScenePlayerOffer(
-                                current,
-                                {
-                                  ...request,
-                                  moment: current.currentMoment,
-                                },
-                                offered,
-                              )
-                            : null;
-                        const next =
-                          checked?.status === "ready"
-                            ? speakAtOrdinaryMeeting(
-                                current,
-                                personId,
-                                activityId,
-                                choice.key,
-                              )
-                            : current;
-                        const comment = next.history.events.find(
-                          (event) =>
-                            event.stableKey ===
-                            `${ORDINARY_MEETING_PRESENCE}:${activityId}:comment:${personId}`,
-                        );
-                        return {
-                          world: next,
-                          outcome:
-                            next === current
-                              ? "The comment was not recorded. No time passed."
-                              : (comment?.summary ?? choice.words),
-                        };
-                      },
-                      (report) => setOutcome(report.outcome),
-                    )
-                  }
-                >
-                  {choice.words}
-                </button>
-              ))}
-            </div>
-          ) : null}
-          {scene.spokenWords ? (
-            <p data-testid="ordinary-meeting-spoken-words">
-              You said: {scene.spokenWords}
-            </p>
-          ) : null}
           {scene.availableActions.includes("stay") ? (
             <button
               type="button"
@@ -286,9 +191,6 @@ export function OrdinaryMeetingPanel({
               }
             >
               Stay through the meeting
-              {stay?.elapsedMinutes !== undefined
-                ? ` · ${describeInterval(stay.elapsedMinutes)}`
-                : ""}
             </button>
           ) : null}
           {scene.availableActions.includes("go-briefly") ? (
@@ -328,10 +230,6 @@ export function OrdinaryMeetingPanel({
               }
             >
               Go briefly
-              {/* PLACEHOLDER(overnight): The canonical writer currently uses a 15-minute visit. */}
-              {leave.kind === "available"
-                ? ` · 15 minutes here, then ${describeInterval(leave.route.duration.minutes)} home`
-                : ""}
             </button>
           ) : null}
           {scene.availableActions.includes("leave") ? (
@@ -365,9 +263,6 @@ export function OrdinaryMeetingPanel({
               }
             >
               Leave and return home
-              {leave.kind === "available"
-                ? ` · ${describeInterval(leave.route.duration.minutes)}`
-                : ""}
             </button>
           ) : null}
           {leave.kind === "unavailable" ? <p>{leave.reason}</p> : null}
@@ -384,9 +279,6 @@ export function OrdinaryMeetingPanel({
           }
         >
           Return home
-          {home?.elapsedMinutes !== undefined
-            ? ` · ${describeInterval(home.elapsedMinutes)}`
-            : ""}
         </button>
       ) : null}
       {outcome ? <p role="status">{outcome}</p> : null}
