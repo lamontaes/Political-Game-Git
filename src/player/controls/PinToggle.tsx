@@ -1,12 +1,6 @@
 import type { MouseEventHandler } from "react";
 
-/**
- * The one pin control.
- *
- * A pin is a saved reference, so the control says "Pin" or "Unpin" in words
- * beside a pin icon rather than borrowing a favorite star. `aria-pressed`
- * carries the state and `name` completes the accessible label.
- */
+/** Saved pin action: accessible verb, existing icon, name on hover and focus. */
 export function PinIcon() {
   return (
     <svg
@@ -37,7 +31,7 @@ export function PinToggle({
   /** What is pinned, for the accessible label ("Pin Jane Doe"). */
   readonly name: string;
   readonly testid: string;
-  /** Names the kind beside the verb when one row can pin two things. */
+  /** Names the kind in the hover/focus label when one row can pin two things. */
   readonly noun?: string;
   readonly className?: string;
   readonly onToggle: MouseEventHandler<HTMLButtonElement>;
@@ -49,13 +43,10 @@ export function PinToggle({
       aria-pressed={pinned}
       aria-label={pinned ? `Unpin ${name}` : `Pin ${name}`}
       data-testid={testid}
+      data-pin-label={noun ? `${noun}: ${name}` : name}
       onClick={onToggle}
     >
       <PinIcon />
-      <span>
-        {pinned ? "Unpin" : "Pin"}
-        {noun ? ` ${noun}` : ""}
-      </span>
     </button>
   );
 }

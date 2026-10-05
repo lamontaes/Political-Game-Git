@@ -360,6 +360,7 @@ body:where(.pg-game) button:focus-visible {
 /* ------------------------------------------------------------ PinToggle */
 
 .pg-pin-toggle {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -372,4 +373,29 @@ body:where(.pg-game) button:focus-visible {
 
 .pg-pin-icon {
   flex: none;
+}
+
+/* The action verb stays in the accessible name; inspection labels do not pin. */
+.pg-pin-toggle::after {
+  content: attr(data-pin-label);
+  display: none;
+  position: absolute;
+  z-index: 10;
+  bottom: calc(100% + 0.3rem);
+  left: 0;
+  width: max-content;
+  max-width: min(18rem, 70vw);
+  padding: 0.3rem 0.45rem;
+  white-space: normal;
+  text-align: left;
+  color: var(--text-strong);
+  background: var(--kit12-glass);
+  border: 1px solid var(--pg-control-accent);
+  font: 400 0.8rem/1.4 var(--ui);
+  pointer-events: none;
+}
+
+.pg-pin-toggle:hover::after,
+.pg-pin-toggle:focus-visible::after {
+  display: block;
 }
