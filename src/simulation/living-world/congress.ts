@@ -7,6 +7,7 @@ import {
   type GrowingIndexKind,
 } from "../history-index";
 import { personName } from "../people";
+import { politicalStartingConditions } from "../world-setup/conditions";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import {
   type ChamberKey,
@@ -14,6 +15,7 @@ import {
   type CongressView,
   type PartyView,
   type PublicHolderView,
+  type PublicAffiliation,
   type SeatOccupant,
   type SeatView,
 } from "./contract";
@@ -86,6 +88,21 @@ function affiliationWithRoll(
   knownRoll: HistoricalEvent | null | undefined,
   asOf: IsoDate,
 ): EntityId | null {
+  const affiliation = publicAffiliationWithRoll(
+    world,
+    personId,
+    knownRoll,
+    asOf,
+  );
+  return affiliation.kind === "party" ? affiliation.partyOrganizationId : null;
+}
+
+function publicAffiliationWithRoll(
+  world: World,
+  personId: EntityId,
+  knownRoll: HistoricalEvent | null | undefined,
+  asOf: IsoDate,
+): PublicAffiliation {
   const recorded = recordsByStringField(
     world.history.organizationParticipations,
     "personId",
@@ -95,15 +112,53 @@ function affiliationWithRoll(
       participation.kind === PARTY_AFFILIATION_KIND &&
       participation.startedAt <= asOf,
   );
-  if (recorded.length > 0) return activeOrganization(world, recorded, asOf);
+  if (recorded.length > 0) {
+    const partyOrganizationId = activeOrganization(world, recorded, asOf);
+    return partyOrganizationId
+      ? { kind: "party", partyOrganizationId }
+      : { kind: "ended" };
+  }
   const roll =
     knownRoll === undefined
       ? currentRollEvent(world, personId, asOf)
       : knownRoll;
   const party = roll ? tagValue(roll, SEAT_PARTY_TAG) : null;
-  return party && party !== "none"
-    ? livingWorldOrganizationId(world, LIVING_WORLD_KEYS.nationalParty(party))
-    : null;
+  if (party && party !== "none")
+    return {
+      kind: "party",
+      partyOrganizationId: livingWorldOrganizationId(
+        world,
+        LIVING_WORLD_KEYS.nationalParty(party),
+      ),
+    };
+  const explicit = roll ? tagValue(roll, "affiliation:") : null;
+  if (explicit) return labelAffiliation(explicit);
+  // A legacy starting condition names a seat, not its subsequent occupants.
+  // Bind it only to the person originally generated for this exact tenure.
+  const conditions = politicalStartingConditions(world);
+  if (
+    !roll ||
+    !conditions ||
+    !roll.tags.includes("provenance:fictional-initial-tenure") ||
+    world.people[personId]?.generationKey !==
+      `life-context-v1:${roll.stableKey}:member` ||
+    conditions.effectiveDate > roll.recordedAt ||
+    conditions.recordedAt > roll.recordedAt ||
+    conditions.sequence >= roll.sequence
+  )
+    return { kind: "unknown" };
+  const seatKey = tagValue(roll, "seat:");
+  const starting = conditions.seats.find((seat) => seat.seatKey === seatKey);
+  return starting
+    ? labelAffiliation(starting.affiliation)
+    : { kind: "unknown" };
+}
+
+function labelAffiliation(label: string): PublicAffiliation {
+  if (label === "independent") return { kind: "independent" };
+  if (label === "unknown" || label === "none" || label === "unrecorded")
+    return { kind: "unknown" };
+  return { kind: "other", label };
 }
 
 /** A chamber caucus membership, with the same precedence as affiliation. */
@@ -366,6 +421,7 @@ function occupantFor(
     title: congressSeatTitle(seat),
     stateUsps: seat.stateUsps,
     partyOrganizationId: affiliationWithRoll(world, person.id, event, asOf),
+    affiliation: publicAffiliationWithRoll(world, person.id, event, asOf),
     caucusOrganizationId: caucusWithRoll(world, person.id, event, asOf),
     termId: event.id,
     startedAt: event.occurredAt,
@@ -381,6 +437,10 @@ function occupantFor(
 
 function totalsFor(seats: readonly SeatView[]): ChamberView["totals"] {
   const byParty = new Map<EntityId | null, number>();
+  const byAffiliation = new Map<
+    string,
+    { affiliation: PublicAffiliation; members: number }
+  >();
   const byCaucus = new Map<EntityId | null, number>();
   let members = 0;
   let vacancies = 0;
@@ -392,6 +452,14 @@ function totalsFor(seats: readonly SeatView[]): ChamberView["totals"] {
       members += 1;
       const { partyOrganizationId, caucusOrganizationId } =
         seat.occupant.member;
+      const affiliation: PublicAffiliation = seat.occupant.member
+        .affiliation ?? { kind: "unknown" };
+      const key = JSON.stringify(affiliation);
+      const group = byAffiliation.get(key);
+      byAffiliation.set(key, {
+        affiliation,
+        members: (group?.members ?? 0) + 1,
+      });
       byParty.set(
         partyOrganizationId,
         (byParty.get(partyOrganizationId) ?? 0) + 1,
@@ -415,6 +483,7 @@ function totalsFor(seats: readonly SeatView[]): ChamberView["totals"] {
       partyOrganizationId,
       members: count,
     })),
+    byAffiliation: [...byAffiliation.values()],
     byCaucus: order(byCaucus).map(([caucusOrganizationId, count]) => ({
       caucusOrganizationId,
       members: count,

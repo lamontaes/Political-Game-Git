@@ -1,5 +1,6 @@
 import type { OrientationHolderDisplay } from "./municipal-orientation-holder";
 import type { EntityId } from "../simulation";
+import type { PublicAffiliation } from "../simulation/living-world/contract";
 import { proseDate } from "./prose-dates";
 import {
   isFederalDistrictUsps,
@@ -50,6 +51,8 @@ export interface OrientationPerson {
 }
 
 export interface OrientationPartyCount {
+  /** Stable rendering identity for distinct affiliations with no organization. */
+  readonly displayKey?: string;
   readonly partyOrganizationId: EntityId | null;
   /** True for members with no recorded party: style it, don't color it. */
   readonly noParty: boolean;
@@ -181,17 +184,30 @@ function chamberFor(
     members: chamber.totals.members,
     vacancies: chamber.totals.vacancies,
     unrecorded: chamber.totals.noCurrentRecord,
-    parties: [...chamber.totals.byParty]
+    parties: [
+      ...(chamber.totals.byAffiliation ??
+        chamber.totals.byParty.map((entry) => ({
+          ...entry,
+          affiliation: entry.partyOrganizationId
+            ? {
+                kind: "party" as const,
+                partyOrganizationId: entry.partyOrganizationId,
+              }
+            : { kind: "unknown" as const },
+        }))),
+    ]
       .map((entry) => ({
-        partyOrganizationId: entry.partyOrganizationId,
-        noParty: entry.partyOrganizationId === null,
-        label: entry.partyOrganizationId
-          ? (parties.get(entry.partyOrganizationId)?.name ?? "Another party")
-          : "No party",
+        displayKey: JSON.stringify(entry.affiliation),
+        partyOrganizationId:
+          entry.affiliation.kind === "party"
+            ? entry.affiliation.partyOrganizationId
+            : null,
+        noParty: entry.affiliation.kind !== "party",
+        label: affiliationLabel(entry.affiliation, parties),
         members: entry.members,
         slot:
-          (entry.partyOrganizationId
-            ? slots.get(entry.partyOrganizationId)
+          (entry.affiliation.kind === "party"
+            ? slots.get(entry.affiliation.partyOrganizationId)
             : undefined) ?? slots.size,
       }))
       .sort(
@@ -375,7 +391,9 @@ function localityStep(
 }
 
 function personFor(
-  holder: OrientationHolderDisplay,
+  holder: OrientationHolderDisplay & {
+    readonly affiliation?: PublicAffiliation;
+  },
   parties: ReadonlyMap<EntityId, PartyView>,
 ): OrientationPerson {
   const facts: string[] = [];
@@ -388,11 +406,33 @@ function personFor(
     personId: holder.personId,
     name: holder.personName,
     title: holder.title,
-    party: holder.partyOrganizationId
-      ? (parties.get(holder.partyOrganizationId)?.name ?? null)
-      : null,
+    party: holder.affiliation
+      ? affiliationLabel(holder.affiliation, parties)
+      : holder.partyOrganizationId
+        ? (parties.get(holder.partyOrganizationId)?.name ?? null)
+        : null,
     facts,
   };
+}
+
+function affiliationLabel(
+  affiliation: PublicAffiliation,
+  parties: ReadonlyMap<EntityId, PartyView>,
+): string {
+  switch (affiliation.kind) {
+    case "party":
+      return (
+        parties.get(affiliation.partyOrganizationId)?.name ?? "Another party"
+      );
+    case "independent":
+      return "Independent";
+    case "other":
+      return affiliation.label;
+    case "ended":
+      return "Affiliation ended";
+    case "unknown":
+      return "Affiliation unknown";
+  }
 }
 
 function joinNames(names: readonly string[]): string {

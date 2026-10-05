@@ -42,6 +42,14 @@ export type LegacyProfilePartyKey =
  */
 export type MajorPartyKey = string;
 
+/** A public affiliation is not necessarily membership in a party organization. */
+export type PublicAffiliation =
+  | { readonly kind: "party"; readonly partyOrganizationId: EntityId }
+  | { readonly kind: "independent" }
+  | { readonly kind: "other"; readonly label: string }
+  | { readonly kind: "unknown" }
+  | { readonly kind: "ended" };
+
 export interface PublicHolderView {
   readonly personId: EntityId;
   readonly personName: string;
@@ -50,6 +58,8 @@ export interface PublicHolderView {
   readonly stateUsps: string | null;
   /** Null: no public party affiliation is recorded. Never a belief or vote. */
   readonly partyOrganizationId: EntityId | null;
+  /** Absent on older projections; null membership alone never means Independent. */
+  readonly affiliation?: PublicAffiliation;
   readonly caucusOrganizationId: EntityId | null;
   readonly termId: EntityId;
   readonly startedAt: IsoDate | null;
@@ -92,6 +102,11 @@ export interface ChamberTotals {
   /** Derived from seats and participations on every read; never stored. */
   readonly byParty: readonly {
     readonly partyOrganizationId: EntityId | null;
+    readonly members: number;
+  }[];
+  /** Public labels kept distinct without inventing party organizations. */
+  readonly byAffiliation?: readonly {
+    readonly affiliation: PublicAffiliation;
     readonly members: number;
   }[];
   readonly byCaucus: readonly {
