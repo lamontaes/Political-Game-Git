@@ -52,8 +52,10 @@ import {
   CAMPAIGN_SUPPORT_METRIC_STABLE_KEY,
   canonicalSupportBasisPoints,
   evaluateCampaignAwareOutcome,
+  campaignElectionTransitionHandler,
 } from "./campaigns";
 import { SIMULATION_ESTABLISHED_METRIC_STABLE_KEYS } from "./production-catalog";
+import { simulationMomentOnLocalDate } from "./dates";
 import { canonicalJson } from "./canonical-json";
 import { startingSupportAdjustment } from "./record-in-office";
 import { ensureWorldStartingConditions } from "./world-setup/conditions";
@@ -978,7 +980,7 @@ describe("A111 campaign support uses recorded inputs", () => {
       );
     },
   );
-  it("uses the latest saved share without an election-night swing, including reload", () => {
+  it("does not turn saved campaign support into synthetic ballots, including reload", () => {
     const filed = fileKentuckyCampaign("a111-election-share");
     const after = doOneSession(
       filed.world,
@@ -988,19 +990,28 @@ describe("A111 campaign support uses recorded inputs", () => {
       null,
     );
     for (const world of [after, deserializeWorld(serializeWorld(after))]) {
-      const outcome = evaluateCampaignAwareOutcome(
-        world,
-        filed.campaign.contestId,
-      );
-      for (const tally of outcome.tallies) {
-        const support = canonicalSupportBasisPoints(
-          world,
-          filed.campaign,
-          tally.candidatePersonId,
-        );
-        expect(tally.votes).toBe(support);
-        expect(tally.voteShare).toBe(support / 10000);
-      }
+      expect(() =>
+        evaluateCampaignAwareOutcome(world, filed.campaign.contestId),
+      ).toThrow("no resolved recorded voter count");
+      expect(electionContestResult(world, filed.campaign.contestId)).toBeNull();
+      const contest = requireElectionContest(world, filed.campaign.contestId);
+      const due = world.history.futureDueItems.find(
+        (item) =>
+          item.entityIds[0] === contest.id &&
+          item.transitionKey === "election:contest-resolution",
+      )!;
+      const onElectionDay = {
+        ...world,
+        currentDate: contest.electionDate,
+        currentMoment: simulationMomentOnLocalDate(
+          world.currentMoment,
+          contest.electionDate,
+        ),
+      };
+      const handled = campaignElectionTransitionHandler(onElectionDay, due);
+      expect(handled.status).toBe("blocked");
+      expect(handled.reasonKey).toBe("election:count-unavailable");
+      expect(electionContestResult(handled.world, contest.id)).toBeNull();
     }
   });
 });

@@ -1,5 +1,4 @@
 import { ensurePeopleTraitCatalog, ensurePeopleTraits } from "../people-traits";
-import { nationalMoodDemocraticShift } from "../national-mood";
 import { candidacyPackById } from "../candidacy-packs";
 import { addDays, makeIsoDate } from "../dates";
 import { decideAnotherTerm } from "../careers/another-term";
@@ -30,7 +29,6 @@ import {
 } from "./state-legislative-term-limits";
 import { lawInForce } from "../governing/law-in-force";
 import { lawEffectStamp } from "../law-effect-stamp";
-import { clampShare, logit, logistic } from "../world-setup/deterministic-math";
 import {
   isStateLegislativeSeatDue,
   stateLegislativeElectionRule,
@@ -543,13 +541,7 @@ function stateBallotsSet(world: World, year: number, packId?: string): boolean {
   );
 }
 
-/**
- * Each seat due this year whose nominees stand under different parties gets a
- * ballot of its own, counted on election day from the seat's voters
- * (`stateSeatElectorate`). A seat a campaign already holds on this ballot, a
- * field with two nominees of one party (a top-two primary's general), or a
- * seat with no recorded lean keeps the legislature's own decision below.
- */
+/** Each due seat uses the shared count, including same-party nominees. */
 function openStateBallots(
   world: World,
   packId: string,
@@ -561,6 +553,7 @@ function openStateBallots(
     : null;
   if (!pack || !jurisdiction) return world;
   const year = Number(electionDay.slice(0, 4));
+  const chamberPlans = planStateChambers(pack).chambers;
   const contested = contestedStateSeats(world, packId, electionDay);
   let next = world;
   for (const seat of regularSeatsDue(world, packId, year)) {
@@ -576,15 +569,12 @@ function openStateBallots(
           candidate.personId,
         ).some((death) => death.diedAt <= next.currentDate),
     );
-    const parties = nominees.map((candidate) => candidate.party);
-    if (
-      nominees.length === 0 ||
-      parties.some((party) => party === null) ||
-      new Set(parties).size !== parties.length ||
-      stateSeatDemocraticShare(next, packId, seat.officeKey, seat.ordinal) ===
-        null
-    )
-      continue;
+    if (nominees.length === 0) continue;
+    const district = chamberPlans.find(
+      (chamber) => chamber.officeKey === seat.officeKey,
+    )?.districts[seat.ordinal - 1];
+    // A district seat cannot silently acquire statewide voters.
+    if (!district) continue;
     next = scheduleElectionContest(next, {
       stableKey,
       jurisdictionId: jurisdiction.id,
@@ -593,6 +583,7 @@ function openStateBallots(
         title: seat.title,
         seatKey,
         occupationClassification: null,
+        districtBinding: bindingFromIdentity(district),
       },
       electionDate: electionDay,
       candidatePersonIds: nominees.map((candidate) => candidate.personId),
@@ -677,6 +668,7 @@ function holdStateLegislativeElection(
   const campaignSeats: string[] = [];
   const outcomes: SeatOutcome[] = [];
   const unfilled: string[] = [];
+  let countPending = false;
   for (const seat of regularSeatsDue(next, packId, year)) {
     const seatKey = `${seat.officeKey}|${seat.ordinal}`;
     const contestId = contested.get(seatKey);
@@ -713,45 +705,11 @@ function holdStateLegislativeElection(
     const ballotWinner = candidates.find(
       (candidate) => candidate.personId === counted.winnerPersonId,
     );
-    const share = stateSeatDemocraticShare(
-      next,
-      packId,
-      seat.officeKey,
-      seat.ordinal,
-    );
-    const incumbentBonus =
-      sitting?.party === "democratic"
-        ? STATE_LEGISLATURE_TURNOVER_PROFILE.incumbencyBonusLogit
-        : sitting?.party === "republican"
-          ? -STATE_LEGISLATURE_TURNOVER_PROFILE.incumbencyBonusLogit
-          : 0;
-    const electionShare =
-      share === null
-        ? null
-        : logistic(
-            logit(
-              clampShare(
-                share + nationalMoodDemocraticShift(world, electionDay),
-                1e-6,
-              ),
-            ) + incumbentBonus,
-          );
-    // PLACEHOLDER(overnight): the saved generated seat lean chooses between
-    // living candidates. A missing lean keeps the incumbent if they filed,
-    // then uses stable candidate order; it is not a fabricated vote margin.
-    const preferredParty =
-      electionShare === null
-        ? (sitting?.party ?? null)
-        : electionShare >= 0.5
-          ? "democratic"
-          : "republican";
-    // The seat's own count decides where there was one.
-    const winner =
-      ballotWinner ??
-      candidates.find((candidate) => candidate.party === preferredParty) ??
-      [...candidates].sort((left, right) =>
-        left.personId.localeCompare(right.personId),
-      )[0]!;
+    if (!ballotWinner) {
+      countPending = true;
+      continue;
+    }
+    const winner = ballotWinner;
     const returns = winner.personId === sitting?.personId;
     outcomes.push({
       officeKey: seat.officeKey,
@@ -763,6 +721,8 @@ function holdStateLegislativeElection(
       electedPersonId: winner.personId,
     });
   }
+  // Do not publish a chamber outcome that turns an unread count into a win.
+  if (countPending) return next;
   if (
     outcomes.length === 0 &&
     campaignSeats.length === 0 &&

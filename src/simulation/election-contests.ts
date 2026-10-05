@@ -244,14 +244,18 @@ function evaluateRecordedVoterBallots(
   input: RecordedVoterCountInput,
   retain: boolean,
 ): RecordedVoterCount {
+  if (input.electionDate > initialWorld.currentDate)
+    return { world: initialWorld, outcome: null };
   let result: RecordedVoterCount = { world: initialWorld, outcome: null };
   const world = writeWithWorldIntegrityOnce(initialWorld, () =>
     withHistoryAppendTransaction(initialWorld, ["decisionTraces"], (world) => {
-      result = countVoterBallots(world, input, retain);
+      // A read-only count uses a disposable immutable branch so its donor
+      // decisions are identical to an official count; only the latter is kept.
+      result = countVoterBallots(world, input, true);
       return result.world;
     }),
   );
-  return { world, outcome: result.outcome };
+  return { world: retain ? world : initialWorld, outcome: result.outcome };
 }
 
 function countVoterBallots(
@@ -395,7 +399,15 @@ function countVoterBallots(
       saved.set(trace.stableKey, trace);
   }
   const votes = new Map(input.candidatePersonIds.map((id) => [id, 0]));
-  for (const [voterId, context] of contexts) {
+  // Retain all voters with their own reasons before estimating unread ones.
+  // Every estimate then reads the complete actual donor cohort, independent
+  // of person-array order. Estimated traces never become donor reasons.
+  const orderedContexts = [...contexts].sort(
+    ([, left], [, right]) =>
+      Number(right.considerations.length > 0) -
+      Number(left.considerations.length > 0),
+  );
+  for (const [voterId, context] of orderedContexts) {
     if (!admitted.has(voterId)) continue;
     if (
       context.options.length < 2 ||

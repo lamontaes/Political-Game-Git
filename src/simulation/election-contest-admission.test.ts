@@ -163,9 +163,48 @@ describe("shared contest ballot admission", () => {
     expect(world.history.decisionTraces).toEqual(originalTraces);
   });
 
+  it("uses the complete recorded donor cohort independent of voter order", () => {
+    const { world, contest } = ballot();
+    const preview = evaluateDeterministicContestOutcome(world, contest);
+    const reordered = {
+      ...world,
+      personOrder: [...world.personOrder].reverse(),
+    };
+    const counted = resolveElectionContest(reordered, {
+      contestId: contest.id,
+    });
+    const result = electionContestResult(counted, contest.id)!;
+    expect(preview).toEqual({
+      winnerPersonId: result.winnerPersonId,
+      tallies: result.tallies,
+    });
+    const estimated = counted.history.decisionTraces.filter(
+      (trace) =>
+        trace.context.subject.kind === "context:election" &&
+        trace.context.subject.key === contest.stableKey &&
+        trace.context.peerEstimates,
+    );
+    expect(estimated.length).toBeGreaterThan(0);
+    for (const trace of estimated) {
+      for (const estimate of trace.context.peerEstimates!) {
+        expect(
+          estimate.samples.every(
+            (sample) =>
+              counted.history.decisionTraces.find(
+                (row) => row.id === sample.decisionTraceId,
+              )!.context.considerations.length > 0,
+          ),
+        ).toBe(true);
+      }
+    }
+  });
+
   it("counts only admitted voters through the shared resolver", () => {
     const { world, contest, voters } = ballot();
-    const all = resolveElectionContest(world, { contestId: contest.id });
+    const all = resolveElectionContest(world, {
+      contestId: contest.id,
+      admitVoter: (id) => voters.includes(id),
+    });
     const ward = resolveElectionContest(world, {
       contestId: contest.id,
       admitVoter: (id) => id === voters[0],
