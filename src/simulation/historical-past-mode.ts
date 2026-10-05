@@ -1,4 +1,8 @@
-import { growingIndex, type GrowingIndexKind } from "./history-index";
+import {
+  growingIndex,
+  recordsByKey,
+  type GrowingIndexKind,
+} from "./history-index";
 import { settleAllOfficeSalaries } from "./office-salary";
 import type { EntityId, GoalStateRecord, IsoDate, World } from "./types";
 
@@ -75,16 +79,22 @@ export function distantHistoricalRoutine(
     byFocus.set(mode.focusPersonId, nearby);
   }
   if (nearby.has(personId)) return false;
-  for (const rows of [
-    world.history.kinshipRelationships,
-    world.history.partnerships,
-    world.history.relationshipInteractions,
-  ])
-    for (const row of rows)
-      if (
-        row.personIds.includes(mode.focusPersonId) &&
-        row.personIds.includes(personId)
-      )
-        return false;
+  const families: readonly (readonly [
+    string,
+    readonly { readonly personIds: readonly EntityId[] }[],
+  ])[] = [
+    ["kinship", world.history.kinshipRelationships],
+    ["partnership", world.history.partnerships],
+    ["interaction", world.history.relationshipInteractions],
+  ];
+  for (const [family, rows] of families) {
+    const related = recordsByKey(
+      rows,
+      `historical-past:${family}`,
+      (row) => row.personIds,
+      mode.focusPersonId,
+    );
+    if (related.some((row) => row.personIds.includes(personId))) return false;
+  }
   return true;
 }
