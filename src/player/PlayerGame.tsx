@@ -2,6 +2,7 @@ import {
   currentSceneAppearance,
   expandSceneAppearance,
   selectSceneAppearance,
+  sceneMomentKey,
   type SelectedSceneAppearance,
 } from "./scene-dossier-appearance";
 import { currentOpeningLifeScene } from "../presentation/life-scene-flow";
@@ -2201,6 +2202,7 @@ function PlayingScreen({
     session.world.id,
     session.personId,
     sceneId,
+    sceneMomentKey(projectedMoment.scene),
     openingLifeScene?.eventId,
     openingLifeScene?.stageKey,
     completedActivityHere(session.world, session.personId)?.id,

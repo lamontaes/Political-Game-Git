@@ -4,6 +4,7 @@ import {
   currentSceneAppearance,
   expandSceneAppearance,
   selectSceneAppearance,
+  sceneMomentKey,
 } from "./scene-dossier-appearance";
 
 const recipe: EngineRecipe = {
@@ -133,4 +134,31 @@ describe("explicit scene-to-full-record expansion", () => {
       }),
     ).toBeNull();
   });
+});
+
+it("retires selection when an actual projected situation changes in the same room on the same date", () => {
+  const shared = {
+    kind: "adult" as const,
+    prose: "",
+    options: [],
+    withPeople: [],
+    presentPeople: [],
+  };
+  const originalKey = sceneMomentKey({
+    ...shared,
+    situationKey: "adult.work-good-week",
+  });
+  const nextKey = sceneMomentKey({
+    ...shared,
+    situationKey: "adult.work-rule-pressure",
+  });
+  const selected = selectSceneAppearance(
+    { personId: "person", engine: recipe },
+    context.onDate,
+    originalKey,
+  );
+  expect(originalKey).not.toBe(nextKey);
+  expect(
+    currentSceneAppearance(selected, { ...context, sceneKey: nextKey }),
+  ).toBeUndefined();
 });

@@ -1,3 +1,4 @@
+import type { StoryScene } from "../presentation/life-story";
 import type { PersonSceneAppearance } from "../presentation/person-scene-appearance";
 import type { EngineRecipe } from "../presentation/appearance-engine/pack";
 import type { EntityId } from "../simulation";
@@ -6,6 +7,20 @@ export interface SelectedSceneAppearance {
   readonly sceneKey: string;
   readonly appearance: PersonSceneAppearance;
   readonly expanded?: boolean;
+}
+
+/** Identify the actual projected moment even when date and room are unchanged. */
+export function sceneMomentKey(scene: StoryScene): string {
+  return JSON.stringify([
+    scene.kind,
+    scene.kind === "episode"
+      ? [scene.beat.instanceKey, scene.beat.stageKey]
+      : scene.kind === "adult" || scene.kind === "formative"
+        ? scene.situationKey
+        : null,
+    scene.kind === "formative" ? scene.withPersonId : null,
+    scene.presentPeople.map((person) => person.personId),
+  ]);
 }
 
 /** Forward the selected entry's resolved recipe, without resolving clothing again. */
