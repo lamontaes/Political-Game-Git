@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 
 import startingLaw from "../data/research/laws/starting-law-2026.json" with { type: "json" };
-import { createProductionPolicyCatalog } from "../src/simulation/production-catalog";
 
 type StartingLawAnswer = {
   answer?: string;
@@ -37,13 +36,15 @@ function policyArea(questionKey: string): string {
   return questionKey.split(":")[1]?.split(".")[0] ?? "unknown";
 }
 
-const catalog = createProductionPolicyCatalog();
-// A catalog parameter means the proposition has operative terms. Those terms
-// can be numeric amounts/schedules or a recorded category rule.
-const termQuestionKeys = Object.values(catalog.propositions)
-  .filter((proposition) => proposition.parameters?.length)
-  .map((proposition) => proposition.stableKey)
-  .filter((questionKey) => startingLawData.questions[questionKey]);
+// A question declares terms when any affirmative starting-law row carries
+// them. From then on, every affirmative place row for that question is checked.
+const termQuestionKeys = Object.entries(startingLawData.questions)
+  .filter(([, question]) =>
+    Object.values(question.answers).some(
+      (row) => row.answer === "yes" && carriesTerms(row),
+    ),
+  )
+  .map(([questionKey]) => questionKey);
 const policyAreas = [...new Set(termQuestionKeys.map(policyArea))].sort();
 
 describe("starting-law term completeness", () => {
