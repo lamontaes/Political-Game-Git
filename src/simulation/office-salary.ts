@@ -406,8 +406,8 @@ export function settleAllOfficeSalaries(world: World): World {
           cadenceKind: "schedule:annual",
           basisKind: flow.basisKind,
           basisReference: flow.basisReference,
-          restrictionKind: ownTerms[0]!.restrictionKind,
-          jurisdictionId: ownTerms[0]!.jurisdictionId,
+          restrictionKind: flow.restrictionKind,
+          jurisdictionId: flow.jurisdictionId,
           provenance,
         });
         const summaryFlow = next.history.resourceFlows.at(-1)!;
