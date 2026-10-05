@@ -1,0 +1,493 @@
+{
+  "scope": "Actual 2021 institutions; paused before historical advance. Not speed or five-year acceptance.",
+  "styles": {
+    "border": "1px",
+    "radius": "2px",
+    "shadow": "rgb(28, 26, 24) 0px 0px 0px 1px, rgb(28, 26, 24) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.24) 0px 6px 18px 0px",
+    "blur": "blur(6px) saturate(0.65)",
+    "font": "\"Fira Sans\", \"Helvetica Neue\", sans-serif"
+  },
+  "evidence": {
+    "seed": "browser-opening-stages:2c6a3b47-69ab-44f4-a81c-61d482987135",
+    "place": "Ophiem, Illinois",
+    "startAge": 30,
+    "reports": [
+      {
+        "label": "Preparing your life",
+        "completed": 0,
+        "total": 0
+      },
+      {
+        "label": "Preparing government",
+        "completed": 0,
+        "total": 0,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing state legislatures",
+        "completed": 0,
+        "total": 0
+      },
+      {
+        "label": "Preparing state legislatures",
+        "completed": 2,
+        "total": 50,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing state legislatures",
+        "completed": 4,
+        "total": 50,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing state legislatures",
+        "completed": 6,
+        "total": 50,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing state legislatures",
+        "completed": 8,
+        "total": 50,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing state legislatures",
+        "completed": 10,
+        "total": 50,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing state legislatures",
+        "completed": 12,
+        "total": 50,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing state legislatures",
+        "completed": 14,
+        "total": 50,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing state legislatures",
+        "completed": 16,
+        "total": 50,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing state legislatures",
+        "completed": 18,
+        "total": 50,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing state legislatures",
+        "completed": 20,
+        "total": 50,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing state legislatures",
+        "completed": 22,
+        "total": 50,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing state legislatures",
+        "completed": 24,
+        "total": 50,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing state legislatures",
+        "completed": 26,
+        "total": 50,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing state legislatures",
+        "completed": 28,
+        "total": 50,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing state legislatures",
+        "completed": 30,
+        "total": 50,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing state legislatures",
+        "completed": 32,
+        "total": 50,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing state legislatures",
+        "completed": 34,
+        "total": 50,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing state legislatures",
+        "completed": 36,
+        "total": 50,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing state legislatures",
+        "completed": 38,
+        "total": 50,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing state legislatures",
+        "completed": 40,
+        "total": 50,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing state legislatures",
+        "completed": 42,
+        "total": 50,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing state legislatures",
+        "completed": 44,
+        "total": 50,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing state legislatures",
+        "completed": 46,
+        "total": 50,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing state legislatures",
+        "completed": 48,
+        "total": 50,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing state legislatures",
+        "completed": 50,
+        "total": 50,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing Congress principles",
+        "completed": 0,
+        "total": 0
+      },
+      {
+        "label": "Preparing Congress principles",
+        "completed": 64,
+        "total": 535,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing Congress principles",
+        "completed": 128,
+        "total": 535,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing Congress principles",
+        "completed": 192,
+        "total": 535,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing Congress principles",
+        "completed": 256,
+        "total": 535,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing Congress principles",
+        "completed": 320,
+        "total": 535,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing Congress principles",
+        "completed": 384,
+        "total": 535,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing Congress principles",
+        "completed": 448,
+        "total": 535,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing Congress principles",
+        "completed": 512,
+        "total": 535,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing Congress principles",
+        "completed": 535,
+        "total": 535,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing world conditions",
+        "completed": 0,
+        "total": 0,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing local press and schedules",
+        "completed": 0,
+        "total": 0,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Preparing courts",
+        "completed": 0,
+        "total": 0,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Finalizing your life",
+        "completed": 0,
+        "total": 0,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      },
+      {
+        "label": "Living through 2021",
+        "completed": 0,
+        "total": 1830,
+        "playerPersonId": "person_eb64e8f87fb11a3b"
+      }
+    ],
+    "painted": [
+      {
+        "requested": "Preparing your life",
+        "visible": "Preparing your life",
+        "value": null
+      },
+      {
+        "requested": "Preparing government",
+        "visible": "Preparing government",
+        "value": null
+      },
+      {
+        "requested": "Preparing state legislatures",
+        "visible": "Preparing state legislatures",
+        "value": null
+      },
+      {
+        "requested": "Preparing state legislatures",
+        "visible": "Preparing state legislatures",
+        "value": "2"
+      },
+      {
+        "requested": "Preparing state legislatures",
+        "visible": "Preparing state legislatures",
+        "value": "4"
+      },
+      {
+        "requested": "Preparing state legislatures",
+        "visible": "Preparing state legislatures",
+        "value": "6"
+      },
+      {
+        "requested": "Preparing state legislatures",
+        "visible": "Preparing state legislatures",
+        "value": "8"
+      },
+      {
+        "requested": "Preparing state legislatures",
+        "visible": "Preparing state legislatures",
+        "value": "10"
+      },
+      {
+        "requested": "Preparing state legislatures",
+        "visible": "Preparing state legislatures",
+        "value": "12"
+      },
+      {
+        "requested": "Preparing state legislatures",
+        "visible": "Preparing state legislatures",
+        "value": "14"
+      },
+      {
+        "requested": "Preparing state legislatures",
+        "visible": "Preparing state legislatures",
+        "value": "16"
+      },
+      {
+        "requested": "Preparing state legislatures",
+        "visible": "Preparing state legislatures",
+        "value": "18"
+      },
+      {
+        "requested": "Preparing state legislatures",
+        "visible": "Preparing state legislatures",
+        "value": "20"
+      },
+      {
+        "requested": "Preparing state legislatures",
+        "visible": "Preparing state legislatures",
+        "value": "22"
+      },
+      {
+        "requested": "Preparing state legislatures",
+        "visible": "Preparing state legislatures",
+        "value": "24"
+      },
+      {
+        "requested": "Preparing state legislatures",
+        "visible": "Preparing state legislatures",
+        "value": "26"
+      },
+      {
+        "requested": "Preparing state legislatures",
+        "visible": "Preparing state legislatures",
+        "value": "28"
+      },
+      {
+        "requested": "Preparing state legislatures",
+        "visible": "Preparing state legislatures",
+        "value": "30"
+      },
+      {
+        "requested": "Preparing state legislatures",
+        "visible": "Preparing state legislatures",
+        "value": "32"
+      },
+      {
+        "requested": "Preparing state legislatures",
+        "visible": "Preparing state legislatures",
+        "value": "34"
+      },
+      {
+        "requested": "Preparing state legislatures",
+        "visible": "Preparing state legislatures",
+        "value": "36"
+      },
+      {
+        "requested": "Preparing state legislatures",
+        "visible": "Preparing state legislatures",
+        "value": "38"
+      },
+      {
+        "requested": "Preparing state legislatures",
+        "visible": "Preparing state legislatures",
+        "value": "40"
+      },
+      {
+        "requested": "Preparing state legislatures",
+        "visible": "Preparing state legislatures",
+        "value": "42"
+      },
+      {
+        "requested": "Preparing state legislatures",
+        "visible": "Preparing state legislatures",
+        "value": "44"
+      },
+      {
+        "requested": "Preparing state legislatures",
+        "visible": "Preparing state legislatures",
+        "value": "46"
+      },
+      {
+        "requested": "Preparing state legislatures",
+        "visible": "Preparing state legislatures",
+        "value": "48"
+      },
+      {
+        "requested": "Preparing state legislatures",
+        "visible": "Preparing state legislatures",
+        "value": "50"
+      },
+      {
+        "requested": "Preparing Congress principles",
+        "visible": "Preparing Congress principles",
+        "value": null
+      },
+      {
+        "requested": "Preparing Congress principles",
+        "visible": "Preparing Congress principles",
+        "value": "64"
+      },
+      {
+        "requested": "Preparing Congress principles",
+        "visible": "Preparing Congress principles",
+        "value": "128"
+      },
+      {
+        "requested": "Preparing Congress principles",
+        "visible": "Preparing Congress principles",
+        "value": "192"
+      },
+      {
+        "requested": "Preparing Congress principles",
+        "visible": "Preparing Congress principles",
+        "value": "256"
+      },
+      {
+        "requested": "Preparing Congress principles",
+        "visible": "Preparing Congress principles",
+        "value": "320"
+      },
+      {
+        "requested": "Preparing Congress principles",
+        "visible": "Preparing Congress principles",
+        "value": "384"
+      },
+      {
+        "requested": "Preparing Congress principles",
+        "visible": "Preparing Congress principles",
+        "value": "448"
+      },
+      {
+        "requested": "Preparing Congress principles",
+        "visible": "Preparing Congress principles",
+        "value": "512"
+      },
+      {
+        "requested": "Preparing Congress principles",
+        "visible": "Preparing Congress principles",
+        "value": "535"
+      },
+      {
+        "requested": "Preparing world conditions",
+        "visible": "Preparing world conditions",
+        "value": null
+      },
+      {
+        "requested": "Preparing local press and schedules",
+        "visible": "Preparing local press and schedules",
+        "value": null
+      },
+      {
+        "requested": "Preparing courts",
+        "visible": "Preparing courts",
+        "value": null
+      },
+      {
+        "requested": "Finalizing your life",
+        "visible": "Finalizing your life",
+        "value": null
+      },
+      {
+        "requested": "Living through 2021",
+        "visible": "Living through 2021",
+        "value": "0"
+      }
+    ],
+    "status": "preparing",
+    "error": null,
+    "world": null,
+    "animation": "pg-life-start"
+  }
+}
