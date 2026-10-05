@@ -112,5 +112,49 @@
       "publicIdentity": null,
       "flowIds": []
     }
-  ]
+  ],
+  "offerDateQuery": {
+    "scope": "Separate final-catalog fixture in the same locality; recorded prior-date authority stays unknown. Not a generated salary measurement.",
+    "occupation": "profession:teacher",
+    "percentile": 36.75,
+    "dates": [
+      {
+        "date": "2025-12-05",
+        "minimum": null,
+        "rate": null
+      },
+      {
+        "date": "2026-01-05",
+        "minimum": 12.77,
+        "rate": {
+          "soc": "25-2021",
+          "area": "31340",
+          "percentile": 36.75,
+          "hourlyMinor": 2394,
+          "floored": false
+        }
+      }
+    ]
+  },
+  "cleanMainSponsorReproduction": {
+    "head": "af8c098372379836cc22a0b487d10f79e2049a32",
+    "test": "src/simulation/teacher-sponsor-floor.test.ts",
+    "seed": "build20-teacher-floor-0835",
+    "pass": 1,
+    "fail": 2,
+    "vitestDurationSeconds": 83.2,
+    "testsDurationMs": 54050,
+    "failures": [
+      {
+        "line": 165,
+        "assertion": "teacher cohort is non-null",
+        "actual": null
+      },
+      {
+        "line": 266,
+        "assertion": "adopted floor is defined",
+        "actual": "undefined"
+      }
+    ]
+  }
 }
