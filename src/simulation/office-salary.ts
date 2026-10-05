@@ -1,3 +1,5 @@
+import { historicalWorldInputs } from "./historical-world-inputs";
+import { distantHistoricalRoutine } from "./historical-past-mode";
 import {
   settleTownCompensations,
   type TownCompensationPeriod,
@@ -108,8 +110,11 @@ const LAST_RECORDED_PERIOD: GrowingIndexKind<Map<EntityId, IsoDate>> = {
   add: (periods, record) => {
     const outcome = record as ResourceTransferOutcome;
     const latest = periods.get(outcome.resourceFlowId);
-    if (latest === undefined || outcome.periodStartsAt > latest)
-      periods.set(outcome.resourceFlowId, outcome.periodStartsAt);
+    const period = outcome.stableKey.startsWith("past-office-summary:")
+      ? addDays(outcome.periodEndsAt, -(WEEK_DAYS - 1))
+      : outcome.periodStartsAt;
+    if (latest === undefined || period > latest)
+      periods.set(outcome.resourceFlowId, period);
   },
 };
 
@@ -324,7 +329,56 @@ export function settleAllOfficeSalaries(world: World): World {
         flow.basisReference.workRelationshipId,
       );
       if (!work) continue;
-      periods.push(...dueOfficePeriods(next, work, flow));
+      if (!distantHistoricalRoutine(next, work.personId)) {
+        periods.push(...dueOfficePeriods(next, work, flow));
+        continue;
+      }
+      const last = growingIndex(
+        LAST_RECORDED_PERIOD,
+        next.history.resourceTransferOutcomes,
+      ).get(flow.id);
+      // No weekly history is authored for a distant routine. Close its own
+      // recorded earnings once a year, or at the explicit Begin boundary.
+      const closing = next.currentDate >= next.pastMode!.throughDate;
+      const firstUnpaidDue = addDays(
+        last ?? flow.startsAt,
+        last === undefined ? WEEK_DAYS : WEEK_DAYS + WEEK_DAYS,
+      );
+      if (
+        !closing &&
+        firstUnpaidDue.slice(0, 4) >= next.currentDate.slice(0, 4)
+      )
+        continue;
+      const due = dueOfficePeriods(next, work, flow).filter(
+        (period) =>
+          closing || period.onDate.slice(0, 4) < next.currentDate.slice(0, 4),
+      );
+      const years = new Map<string, TownCompensationPeriod[]>();
+      for (const period of due) {
+        const year = period.onDate.slice(0, 4);
+        const list = years.get(year) ?? [];
+        list.push(period);
+        years.set(year, list);
+      }
+      for (const list of years.values()) {
+        const first = list[0]!;
+        const final = list.at(-1)!;
+        if (!historicalWorldInputs(first.onDate).historical) {
+          periods.push(...list);
+          continue;
+        }
+        periods.push({
+          ...first,
+          stableKey: `past-office-summary:${flow.id}:${first.periodStartsAt}:${final.periodEndsAt}`,
+          periodEndsAt: final.periodEndsAt,
+          onDate: final.onDate,
+          pastRoutinePeriods: list,
+          provenance: {
+            kind: "authored",
+            note: "ESTIMATED FROM AVERAGE: distant historical routine salary summarized from this job's recorded period terms; private goals and nearby residents use ordinary payroll.",
+          },
+        });
+      }
     }
     return periods.length ? settleTownCompensations(next, periods) : next;
   }, world);
