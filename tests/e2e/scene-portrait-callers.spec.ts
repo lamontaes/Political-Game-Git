@@ -75,6 +75,11 @@ test("opening tour and ordinary scene inspect carry their actual rendered clothe
   await expanded.getByTestId("quick-dossier-close").click();
   while (await intro.isVisible())
     await intro.getByRole("button", { name: /^(Next|Begin|Done)$/ }).click();
+  const morningNote = page.getByRole("region", { name: "Morning note" });
+  if (await morningNote.isVisible())
+    await morningNote
+      .getByRole("button", { name: "Got it", exact: true })
+      .click();
   const ordinaryControls = page.locator(
     ".scene-person-token, .scene-place-person",
   );
