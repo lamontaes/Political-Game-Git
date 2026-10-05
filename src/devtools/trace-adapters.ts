@@ -1592,7 +1592,9 @@ function decisionTraceNode(record: DecisionTraceRecord): TraceNode {
           ]),
     ],
     links: [
-      ...(record.context.subject.kind === "context:legislative-question" &&
+      ...((record.context.subject.kind === "context:legislative-question" ||
+        (record.context.subject.kind === "context:life" &&
+          record.context.subject.key === "job-offer")) &&
       record.context.subject.entityId
         ? [
             {
@@ -2130,14 +2132,25 @@ export const BUILT_IN_TRACE_SOURCES: readonly TraceSource[] = [
     "history.jobApplicationSteps",
     "history.jobApplicationSteps",
     "life-record",
-    (world) => world.history.jobApplicationSteps ?? [],
-    (record) =>
+    (world) => {
+      const peopleByApplication = new Map(
+        (world.history.jobApplications ?? []).map((record) => [
+          record.id,
+          record.personId,
+        ]),
+      );
+      return (world.history.jobApplicationSteps ?? []).map((record) => ({
+        record,
+        personId: peopleByApplication.get(record.applicationId),
+      }));
+    },
+    ({ record, personId }) =>
       recordNode(
         "history.jobApplicationSteps",
         record,
         record.occurredAt,
         `${record.kind}: ${record.reason ?? record.kind}`,
-        [record.applicationId],
+        [record.applicationId, ...(personId ? [personId] : [])],
         [
           {
             kind: "source-record",

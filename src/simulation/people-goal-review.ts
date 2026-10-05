@@ -645,7 +645,11 @@ function decideOnOffer(
       asOfDate: withTraits.currentDate,
       historySequenceExclusive: withTraits.history.nextSequence,
     },
-    subject: { kind: "context:life", key: "job-offer", entityId: null },
+    subject: {
+      kind: "context:life",
+      key: "job-offer",
+      entityId: applicationId,
+    },
     options: [
       { key: "accept", label: "Take it", description: "Accept the offer." },
       {

@@ -5,7 +5,6 @@ import { LegislationDevRoute } from "./player/LegislationWorkspace";
 import { MeasureFloorView } from "./player/MeasureFloorView";
 import { PlayerGame } from "./player/PlayerGame";
 import { PlayerOffice } from "./player/PlayerOffice";
-import { CausalTraceView } from "./ui/CausalTraceView";
 import { CharacterProofView } from "./ui/CharacterProofView";
 import { ContentBrowserView } from "./ui/ContentBrowserView";
 import { DeveloperViewer } from "./ui/DeveloperViewer";
@@ -38,6 +37,13 @@ const ObserverDevRoute = import.meta.env.DEV
       })),
     )
   : () => null;
+const CausalTraceView = import.meta.env.DEV
+  ? lazy(() =>
+      import("./ui/CausalTraceView").then((module) => ({
+        default: module.CausalTraceView,
+      })),
+    )
+  : () => null;
 
 export function App() {
   const view = new URLSearchParams(window.location.search).get("view");
@@ -51,7 +57,12 @@ export function App() {
     );
   if (view === "review") return <DeveloperReviewHub />;
   if (view === "developer") return <DeveloperViewer />;
-  if (view === "causal-trace") return <CausalTraceView />;
+  if (import.meta.env.DEV && view === "causal-trace")
+    return (
+      <Suspense fallback={<p>Opening trace…</p>}>
+        <CausalTraceView />
+      </Suspense>
+    );
   if (view === "character-proof") return <CharacterProofView />;
   if (view === "content") return <ContentBrowserView />;
   if (view === "production-office") return <ProductionOfficeProofView />;

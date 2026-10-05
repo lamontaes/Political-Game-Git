@@ -16,6 +16,24 @@ import { ObserverRunController } from "../player/observer-run-controller";
 import { buildTraceIndex } from "../devtools";
 import { CausalTraceView } from "./CausalTraceView";
 
+async function readObserverSnapshot(file: File): Promise<World> {
+  const reader = file.stream().getReader();
+  const decoder = new TextDecoder();
+  const chunks: string[] = [];
+  try {
+    for (;;) {
+      const part = await reader.read();
+      if (part.done) break;
+      chunks.push(decoder.decode(part.value, { stream: true }));
+    }
+    const final = decoder.decode();
+    if (final) chunks.push(final);
+    return deserializeWorld(chunks);
+  } finally {
+    reader.releaseLock();
+  }
+}
+
 /** Development entry only. The worker owns the clock; the inspector sees acknowledged checkpoints. */
 export function ObserverDevRoute() {
   const params = new URLSearchParams(window.location.search);
@@ -55,10 +73,8 @@ export function ObserverDevRoute() {
           onChange={(event) => {
             const file = event.target.files?.[0];
             if (!file) return;
-            void file
-              .text()
-              .then((text) => {
-                const restored = deserializeWorld(text);
+            void readObserverSnapshot(file)
+              .then((restored) => {
                 if (!isObserving(restored))
                   throw new Error(
                     "Choose an Observer world. A played world cannot enter this route.",
