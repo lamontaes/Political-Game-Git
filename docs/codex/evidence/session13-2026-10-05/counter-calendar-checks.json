@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "branch": "codex/session13-elections-one-engine",
+  "testedImplementationCommit": "191cdf84a5d174a54a6e610ab914f187e1c3536a",
+  "subsequentReleaseMetadataCommit": "cdb5db96d1f8abcd99cbd92a427f1290d459133f",
+  "sourceChangeDuringTests": "Only release declaration headers changed; no simulation or test source changed.",
+  "workingTreeNote": "Untracked local Playwright runner remained; this is not a clean-checkout or browser proof.",
+  "runs": [
+    {
+      "log": "shared-calendar-tests.log",
+      "exitCode": 0,
+      "filesPassed": 5,
+      "testsPassed": 35,
+      "testsFailed": 0,
+      "durationSeconds": 41.35,
+      "executionSessionId": 99493
+    },
+    {
+      "log": "campaign-counter-test.log",
+      "exitCode": 0,
+      "filesPassed": 1,
+      "testsPassed": 1,
+      "testsSkipped": 34,
+      "testsFailed": 0,
+      "durationSeconds": 27.0,
+      "executionSessionId": 22641
+    },
+    {
+      "log": "zero-dice.log",
+      "exitCode": 0,
+      "existingAllowedLines": 124,
+      "newUses": 0,
+      "executionSessionId": 56141
+    },
+    {
+      "log": "release-check.log",
+      "exitCode": 0,
+      "executionSessionId": 93902
+    }
+  ],
+  "scope": "Focused unit checks. No completed full legislative turnover proof, full campaign suite, browser election proof, or performance acceptance.",
+  "ready": false
+}
