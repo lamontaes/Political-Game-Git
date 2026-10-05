@@ -1106,7 +1106,7 @@ export function assessTaxBase(
     );
   const stamp = lawApplication
     ? lawEffectStamp(governingLaw, {
-        effectKind: "tax-assessment",
+        effectKind: "tax",
         questionKey: lawApplication.questionKey,
         jurisdictionId: base.jurisdictionId,
         appliedAt: world.currentDate,
@@ -1282,7 +1282,7 @@ export function taxCollectionTransition(
           lawEffectStamps: assessment.lawEffectStamps
             .map((stamp) => ({
               ...stamp,
-              effectKind: "tax-collection",
+              effectKind: "tax",
               appliedAt: world.currentDate,
               sourceRecordIds: [
                 ...(stamp.sourceRecordIds ?? []),

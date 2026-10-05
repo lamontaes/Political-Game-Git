@@ -326,18 +326,43 @@ describe("tax kind uses saved typed levies, assessments and due collection", () 
       expect.objectContaining({
         governingLawKey: f.measureId,
         questionKey: QUESTION,
-        effectKind: "tax-assessment",
+        effectKind: "tax",
         jurisdictionId: world.history.taxBases![0]!.jurisdictionId,
       }),
     ]);
     expect(dispatch(world, f.context)).toBe(world);
-    const restored = deserializeWorld(serializeWorld(world));
+    // Old saves keep their original labels; only the next writer is migrated.
+    const legacy = {
+      ...world,
+      history: {
+        ...world.history,
+        taxAssessments: world.history.taxAssessments!.map((record) => ({
+          ...record,
+          lawEffectStamps: record.lawEffectStamps?.map((stamp) => ({
+            ...stamp,
+            effectKind: "tax-assessment",
+          })),
+        })),
+      },
+    };
+    const restored = deserializeWorld(serializeWorld(legacy));
+    expect(
+      restored.history.taxAssessments![0]!.lawEffectStamps![0]!.effectKind,
+    ).toBe("tax-assessment");
     expect(dispatch(restored, f.context)).toBe(restored);
     world = advanceWorld(restored, 1, createTaxTransitionHandlerRegistry());
     expect(balances(world, f.personId)).toEqual([10000, 0]);
     world = advanceWorld(world, 1, createTaxTransitionHandlerRegistry());
     expect(balances(world, f.personId)).toEqual([9900, 100]);
     expect(world.history.taxCollections).toHaveLength(1);
+    expect(world.history.taxCollections![0]!.lawEffectStamps).toEqual([
+      expect.objectContaining({
+        effectKind: "tax",
+        governingLawKey: f.measureId,
+        questionKey: QUESTION,
+        sourceRecordIds: expect.arrayContaining([assessment.id]),
+      }),
+    ]);
     const collection = world.history.taxCollections![0]!;
     const outcome = world.history.resourceTransferOutcomes.find(
       (row) => row.id === collection.resourceOutcomeId,

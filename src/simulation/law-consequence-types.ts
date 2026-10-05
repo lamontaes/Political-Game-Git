@@ -43,8 +43,6 @@ export type LegacyEffectKind =
   | "rent-stabilization-renewal"
   | "state-revenue-loss"
   | "state-spending"
-  | "tax-assessment"
-  | "tax-collection"
   | "tax-policy"
   | "teacher-pay"
   | "work-compensation-payment";
