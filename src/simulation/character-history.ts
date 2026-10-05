@@ -1287,6 +1287,7 @@ export function establishPreStartAdultHistory(
     readonly employerName: string;
     readonly employerFormedAt: IsoDate;
     readonly monthlyWageMinor: number;
+    readonly monthlyWageAtDate?: (onDate: IsoDate) => number;
     readonly workTitle?: string;
     readonly occupationClassification?: OccupationClassification;
   },
@@ -1445,15 +1446,21 @@ export function establishPreStartAdultHistory(
         },
       },
     });
-    // The observed terms start now. A past work start is not a claim that
-    // every earlier salary was actually paid; the forward year settles only
-    // its own months through the local business wage flow.
+    // Dated terms preserve the earlier nominal pay. Transfers remain separate;
+    // the forward clock settles only the periods it actually advances through.
     next = createResourceFlow(next, {
       stableKey: `${key}:local-pay`,
       source: { kind: "organization", organizationId: input.employerId },
       recipient: { kind: "person", personId: player.id },
-      startsAt: world.currentDate,
-      amount: money(input.monthlyWageMinor, "USD"),
+      startsAt: input.monthlyWageAtDate
+        ? next.history.workRelationships.at(-1)!.startedAt
+        : world.currentDate,
+      amount: money(
+        input.monthlyWageAtDate?.(
+          next.history.workRelationships.at(-1)!.startedAt,
+        ) ?? input.monthlyWageMinor,
+        "USD",
+      ),
       cadenceKind: "schedule:monthly",
       basisKind: "compensation:wages",
       basisReference: {
@@ -1464,6 +1471,20 @@ export function establishPreStartAdultHistory(
       jurisdictionId: input.jurisdictionId,
       provenance: generated,
     });
+    if (input.monthlyWageAtDate && workStart < world.currentDate) {
+      const flow = next.history.resourceFlows.at(-1)!;
+      next = recordResourceFlowTerms(next, {
+        stableKey: `${key}:local-pay-current`,
+        resourceFlowId: flow.id,
+        effectiveAt: world.currentDate,
+        amount: money(input.monthlyWageMinor, "USD"),
+        cadenceKind: "schedule:monthly",
+        status: "active",
+        reason: "Recorded pay at the start of these years.",
+        supersedesTermsId: next.history.resourceFlowTerms.at(-1)!.id,
+        provenance: generated,
+      });
+    }
   }
 
   const aliveOn = (personId: EntityId, date: IsoDate): boolean =>
