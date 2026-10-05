@@ -1221,6 +1221,21 @@
 .pg-life-transition-map {
   min-width: 0;
 }
+/* The loading story uses the same map as Government, with its editing and
+   inspection controls omitted from this narrow reading surface. */
+.pg-life-transition-map .pg-map-toolbar,
+.pg-life-transition-map .pg-map-history,
+.pg-life-transition-map .pg-map-side,
+.pg-life-transition-map .pg-map-attribution {
+  display: none;
+}
+.pg-life-transition-map .pg-map-body {
+  display: block;
+}
+.pg-life-transition-map .pg-map-svg {
+  background: var(--kit12-glass, #101621e8);
+  border-radius: 0;
+}
 @media (max-width: 800px) {
   .pg-life-transition-columns {
     grid-template-columns: 1fr;

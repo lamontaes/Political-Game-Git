@@ -115,7 +115,9 @@ test("a fresh random life paints actual preparation stages and counts", async ({
     evidence.painted.find((frame) => frame.requested === "Preparing courts")!
       .value,
   ).toBeNull();
-  await expect(page.getByRole("status")).not.toContainText("%");
+  await expect(page.locator(".pg-life-transition-progress")).not.toContainText(
+    "%",
+  );
   await page.screenshot({ path: info.outputPath("preparation-stage.png") });
 });
 

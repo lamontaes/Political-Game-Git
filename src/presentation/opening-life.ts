@@ -154,6 +154,22 @@ export function generateOpeningLife(
   return built!;
 }
 
+/** Seat the existing opening institutions in an already-built historical World.
+ * No character, money or history is reseeded; this is the same opening pipeline.
+ */
+export function preparePreStartInstitutions(
+  game: NewGame,
+  setup: NewGameSetup = game.setup,
+  onProgress?: (progress: OpeningLifeGenerationProgress) => void,
+): NewGame {
+  let opened: OpeningLifeSession | undefined;
+  advanceWithWorldIntegrityAtEnd(() => {
+    opened = buildOpeningLife(prepareOpeningLife(setup), onProgress, game);
+    return opened.game!.world;
+  }, game.world);
+  return opened!.game!;
+}
+
 /**
  * Asynchronous new-game path for a loading screen. Each state chunk is a
  * separate immutable World transition; progress is reported before yielding
@@ -162,11 +178,12 @@ export function generateOpeningLife(
 export async function generateOpeningLifeWithProgress(
   session: OpeningLifeSession,
   options: OpeningLifeGenerationOptions = {},
+  suppliedGame?: NewGame,
 ): Promise<OpeningLifeSession> {
   if (session.game) return session;
   throwIfOpeningAborted(options.signal, options.deadlineAt);
   const beginning = await runOpeningPreparationSteps(
-    beginOpeningLifeSteps(session),
+    beginOpeningLifeSteps(session, suppliedGame),
     (start) => start.world,
     options,
   );
@@ -309,9 +326,10 @@ async function reportOpeningStage(
 
 function* beginOpeningLifeSteps(
   session: OpeningLifeSession,
+  suppliedGame?: NewGame,
 ): Generator<OpeningPreparationStep, OpeningLifeBuildStart, void> {
   yield openingStage("Preparing your life");
-  const game = createNewGameWorld(session.setup);
+  const game = suppliedGame ?? createNewGameWorld(session.setup);
   // Begin persists this save's generated starting conditions first, so every
   // later opening step reads the same world. A legacy descriptor writes none.
   const conditioned = ensureWorldStartingConditions(game.world, {
@@ -399,9 +417,10 @@ function* beginOpeningLifeSteps(
 function buildOpeningLife(
   session: OpeningLifeSession,
   onProgress?: (progress: OpeningLifeGenerationProgress) => void,
+  suppliedGame?: NewGame,
 ): OpeningLifeSession {
   const start = finishOpeningPreparationSteps(
-    beginOpeningLifeSteps(session),
+    beginOpeningLifeSteps(session, suppliedGame),
     onProgress,
   );
   let world = start.world;
