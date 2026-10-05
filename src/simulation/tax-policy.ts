@@ -1505,7 +1505,10 @@ function append<
     history: {
       ...world.history,
       nextSequence: world.history.nextSequence + 1,
-      [field]: appendedList(world.history[field] ?? [], [record]),
+      [field]: appendedList<NonNullable<World["history"][K]>[number]>(
+        world.history[field] ?? [],
+        [record],
+      ),
     },
   };
 }
