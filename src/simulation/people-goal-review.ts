@@ -5,6 +5,7 @@ import {
   recordDurableDecisionTrace,
 } from "./decisions";
 import { eventById } from "./event-index";
+import { observerAnchorPersonId } from "./people-continuation";
 import { scheduleFutureDueItem } from "./future-transitions";
 import {
   activeEducationEnrollmentsAt,
@@ -96,16 +97,18 @@ import type {
 
 const REVIEW_KEY_PREFIX = "people-goal-review:";
 
-function lifeAnchor(world: World): EntityId | null {
+function goalReviewAnchor(world: World): EntityId | null {
   return (
     world.preStartLife?.personId ??
-    (world.control.kind === "person" ? world.control.personId : null)
+    (world.control.kind === "person"
+      ? world.control.personId
+      : observerAnchorPersonId(world))
   );
 }
 
-/** Schedules the first weekly review for a played life. Idempotent. */
+/** Schedules the weekly review around a played or observed life. Idempotent. */
 export function ensurePeopleGoalReview(world: World): World {
-  if (!lifeAnchor(world)) return world;
+  if (!goalReviewAnchor(world)) return world;
   if (
     world.history.futureDueItems.some(
       (item) => item.transitionKey === GOAL_REVIEW_TRANSITION_KEY,
@@ -172,13 +175,12 @@ function adultAlive(world: World, personId: EntityId, dead: Set<EntityId>) {
 }
 
 /**
- * Everybody the played life can run into: residents written out in the
- * played person's town, and anybody connected to the played person by home,
- * family or a recorded interaction. Sorted, so the week's order is the same
- * on every load. The played person is never reviewed; their goals are theirs.
+ * Everybody the anchor person can run into: residents written out in their
+ * town, and anybody connected by home, family or a recorded interaction.
+ * Sorted, so the week's order is the same on every load.
  */
 export function pursuitCandidates(world: World): readonly EntityId[] {
-  const anchorId = lifeAnchor(world);
+  const anchorId = goalReviewAnchor(world);
   if (!anchorId) return [];
   const anchor = world.people[anchorId];
   if (!anchor) return [];
@@ -191,7 +193,9 @@ export function pursuitCandidates(world: World): readonly EntityId[] {
   return (Object.keys(world.people) as EntityId[])
     .filter(
       (id) =>
-        (id !== anchorId || world.preStartLife?.personId === id) &&
+        (id !== anchorId ||
+          world.preStartLife?.personId === id ||
+          world.control.kind !== "person") &&
         adultAlive(world, id, dead) &&
         (world.people[id]!.homeJurisdictionId === anchor.homeJurisdictionId ||
           connected.has(id)),
