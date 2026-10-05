@@ -1,19 +1,19 @@
 {
   "expectedIdentity": {
     "workspace": "/workspace/Political-Game-Git",
-    "head": "354d70505e6761017fa0b3c4436a8956cb64ad83",
+    "head": "176bbff1c39718229a98fddae3011c85dd89fc6d",
     "branch": "codex/session2-kit13-creator",
     "dirty": false,
-    "sourceDigest": "79319c0ac8985493f83e53b308096ecc3f5d33ceb3375ddcbfb7a984dcb29eee"
+    "sourceDigest": "0dd22dd80ad514d1f0db0d47495a341a0e43a9f342139a8d2097b728b904b48b"
   },
   "served": {
     "workspace": "/workspace/Political-Game-Git",
-    "head": "354d70505e6761017fa0b3c4436a8956cb64ad83",
+    "head": "176bbff1c39718229a98fddae3011c85dd89fc6d",
     "branch": "codex/session2-kit13-creator",
     "dirty": false,
-    "sourceDigest": "79319c0ac8985493f83e53b308096ecc3f5d33ceb3375ddcbfb7a984dcb29eee",
-    "pid": 21299,
-    "runId": "creator-search-proven"
+    "sourceDigest": "0dd22dd80ad514d1f0db0d47495a341a0e43a9f342139a8d2097b728b904b48b",
+    "pid": 22179,
+    "runId": "creator-unframed-final"
   },
   "baseURL": "http://127.0.0.1:5297",
   "projects": [
