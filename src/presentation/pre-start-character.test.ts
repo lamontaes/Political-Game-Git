@@ -8,6 +8,8 @@ import {
 } from "../simulation/people-family";
 import { pursuitCandidates } from "../simulation/people-goal-review";
 import { SeededRng } from "../simulation/rng";
+import { beginHealthEpisode } from "../simulation/crisis/health";
+import { latestHealthState } from "../simulation/crisis/health-queries";
 import { CREATOR_LIFE_FORKS } from "../simulation/creator-life-forks";
 import {
   decodeReplayDescriptor,
@@ -51,6 +53,33 @@ const input = {
 };
 
 describe("a character remains in their birth World through Begin", () => {
+  it("admits dated health and its past course without advancing the clock", () => {
+    const built = buildPreStartCharacterWorld(input);
+    const onsetAt = addDays(built.world.currentDate, -90);
+    const recorded = beginHealthEpisode(built.world, {
+      stableKey: "session6:dated-health",
+      personId: built.playerPersonId,
+      onsetAt,
+      severity: "acute",
+      initialLimitation: "limited",
+      origin: {
+        kind: "authored",
+        note: "Historical writer regression, not a generated biography.",
+      },
+      causalParentIds: [],
+    });
+    expect(recorded.currentMoment).toEqual(built.world.currentMoment);
+    const episode = recorded.history.crisisRecords?.find(
+      (row) =>
+        row.kind === "health-episode" && row.personId === built.playerPersonId,
+    );
+    expect(episode?.effectiveAt).toBe(onsetAt);
+    expect(latestHealthState(recorded, episode!.id)?.state).toBe("recovered");
+    expect(latestHealthState(recorded, episode!.id)?.effectiveAt).toBe(
+      addDays(onsetAt, 21),
+    );
+    assertWorldIntegrity(recorded);
+  });
   it("admits a dependent Creator character into the household on their birth date", () => {
     const game = createPreStartNewGameWorld(
       {
