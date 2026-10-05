@@ -88,7 +88,7 @@ export type NominationPlan =
       /** The last day a candidate can file for this primary. */
       readonly filingDeadline: IsoDate;
       /**
-       * "set-for-2026" when the FEC's 2026 table gives this office's date;
+       * "set-for-2026" when the sourced 2026 table gives this office's date;
        * otherwise ESTIMATED FROM AVERAGE: the place's own 2026 gap before
        * its primary (each statute's wording is unread), or the median gap
        * where the place has none.
@@ -114,6 +114,7 @@ interface PlaceRow {
   readonly voterAccess: string | null;
   readonly filing?: {
     readonly deadlines2026: DatesByOffice;
+    readonly incumbentDeadlines2026?: DatesByOffice;
     readonly daysBeforePrimary: number | null;
   };
   readonly primary: {
@@ -182,22 +183,45 @@ function filingPlan(
   year: number,
   primaryDate: IsoDate,
   dateBasis: DateBasis,
+  incumbent = false,
 ): {
   filingDeadline: IsoDate;
   filingBasis: "set-for-2026" | "estimated-from-average";
 } {
-  // The 2026 table is for Congress; a governor's or legislator's deadline is
-  // inferred to match it until read, so only Congress counts as set.
+  // Non-federal dates count as read only when that exact office family is
+  // present; the Congress-wide fallback never supplies a sourced state date.
   if (
     year === 2026 &&
     dateBasis === "set-for-2026" &&
-    (family === "us-house" || family === "us-senate")
+    (family === "us-house" ||
+      family === "us-senate" ||
+      row.filing?.deadlines2026[family] !== undefined)
   ) {
-    const set = row.filing && dateFor(row.filing.deadlines2026, family);
+    const set =
+      row.filing &&
+      ((incumbent ? row.filing.incumbentDeadlines2026?.[family] : null) ??
+        (family === "us-house" || family === "us-senate"
+          ? dateFor(row.filing.deadlines2026, family)
+          : row.filing.deadlines2026[family]));
     if (set && set < primaryDate)
       return { filingDeadline: set as IsoDate, filingBasis: "set-for-2026" };
   }
-  const gap = row.filing?.daysBeforePrimary ?? MEDIAN_FILING_GAP_DAYS;
+  // Future estimates keep this office's own filing-to-primary interval.
+  // A congressional interval cannot stand in for a read legislative date.
+  const ownDeadline = row.filing?.deadlines2026[family];
+  const ownPrimary = dateFor(row.primary.dates2026, family);
+  const ownGap =
+    ownDeadline && ownPrimary
+      ? Math.round(
+          (Date.parse(ownPrimary) - Date.parse(ownDeadline)) / 86_400_000,
+        )
+      : null;
+  const gap =
+    ownGap !== null && ownGap > 0
+      ? ownGap
+      : family === "us-house" || family === "us-senate"
+        ? (row.filing?.daysBeforePrimary ?? MEDIAN_FILING_GAP_DAYS)
+        : MEDIAN_FILING_GAP_DAYS;
   return {
     filingDeadline: addDays(primaryDate, -gap),
     filingBasis: "estimated-from-average",
@@ -292,13 +316,14 @@ function compiledPrimaryDate(
  * `onDate` (the day the field files).
  */
 export function nominationPlan(
-  world: World,
+  world: World | null,
   query: {
     readonly stateUsps: string;
     readonly family: NominationOfficeFamily;
     readonly year: number;
     readonly onDate: IsoDate;
     readonly generalDay?: IsoDate;
+    readonly incumbent?: boolean;
   },
 ): NominationPlan {
   const { stateUsps, family, year } = query;
@@ -308,17 +333,28 @@ export function nominationPlan(
       known: false,
       reason: `No nomination rule has been read for ${stateUsps}.`,
     };
+  if (
+    year === 2026 &&
+    family === "state-legislature" &&
+    row.filing?.deadlines2026[family] === null
+  )
+    return {
+      known: false,
+      reason: `${row.name} has no regular state legislative election in 2026.`,
+    };
   const generalDay = query.generalDay ?? generalElectionDay(year);
   const officeKey = electionLawOfficeKey(stateUsps);
   const law = <T>(
     field: "nomination.primary.dateRule" | "nomination.method",
     compiled: T,
   ) =>
-    ruleValueInWorld(
-      world,
-      { jurisdiction: stateUsps, officeKey, field, onDate: query.onDate },
-      compiled,
-    );
+    world
+      ? ruleValueInWorld(
+          world,
+          { jurisdiction: stateUsps, officeKey, field, onDate: query.onDate },
+          compiled,
+        )
+      : { value: compiled, source: "compiled" as const };
 
   const methodLaw = law(
     "nomination.method",
@@ -378,7 +414,7 @@ export function nominationPlan(
       date: runoff.date,
     },
     advance: method === "top-four" ? 4 : 2,
-    ...filingPlan(row, family, year, primaryDate, dateBasis),
+    ...filingPlan(row, family, year, primaryDate, dateBasis, query.incumbent),
   };
 }
 

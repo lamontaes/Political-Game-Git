@@ -1,0 +1,17 @@
+{
+  "session": 13,
+  "result": "failed-no-completed-full-proof",
+  "executionSessionId": 58997,
+  "baseHead": "af8c098372379836cc22a0b487d10f79e2049a32",
+  "branch": "codex/session13-elections-one-engine",
+  "sourceState": "uncommitted local-count changes; started before the final local scheduling refactor",
+  "testsRequested": [
+    "src/simulation/election-contests.test.ts",
+    "src/presentation/local-elections.test.ts"
+  ],
+  "exitCode": 1,
+  "failure": "The local-election watched two-year test worker exhausted the default Node heap near 4 GiB after approximately 541.9 seconds. Vitest reported an unexpected fork-worker exit and a timeout terminating the local-election fork.",
+  "separateFailures": "12 synthetic-count assertions in election-contests.test.ts failed; the same 12 failures were subsequently reproduced on unchanged main.",
+  "rawOutputLocation": "Original exec session 58997 tool outputs in this Codex chat. No standalone raw transcript was captured by that command.",
+  "receiptLimits": "This preserves the observed failure; it is not a successful two-place proof, a speed comparison, or verification of the later committed candidate."
+}

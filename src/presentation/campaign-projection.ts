@@ -1026,19 +1026,29 @@ export function campaignElectionDate(
   const stateUsps = stateKey.replace(/^US-/, "");
   const dates = matchingSeats.map(
     (seat) =>
-      nextStateLegislativeElection(stateUsps, world.currentDate, {
-        officeKey,
-        ordinal: seat.ordinal,
-      }).electionDate,
+      nextStateLegislativeElection(
+        stateUsps,
+        world.currentDate,
+        {
+          officeKey,
+          ordinal: seat.ordinal,
+        },
+        world,
+      ).electionDate,
   );
   if (new Set(dates).size > 1)
     throw new Error("Choose the specific seat before filing in this district.");
   return (
     dates[0] ??
-    nextStateLegislativeElection(stateUsps, world.currentDate, {
-      officeKey,
-      ordinal: null,
-    }).electionDate
+    nextStateLegislativeElection(
+      stateUsps,
+      world.currentDate,
+      {
+        officeKey,
+        ordinal: null,
+      },
+      world,
+    ).electionDate
   );
 }
 

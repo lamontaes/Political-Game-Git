@@ -33,6 +33,13 @@ const places = (
           dates2026: Record<string, string>;
         };
         runoff: unknown;
+        filing: {
+          deadlines2026: Record<string, string | null>;
+          legislative2026Source?: {
+            url: string;
+            sourceAsOf: string;
+          };
+        };
       }
     >;
   }
@@ -61,6 +68,69 @@ const createMinimalWorld = () =>
   });
 
 describe("party nomination rules, 2026", () => {
+  it("uses the office's sourced deadline where legislative and federal dates differ", () => {
+    const world = createMinimalWorld();
+    const plan = (
+      stateUsps: string,
+      family: "state-legislature" | "us-house",
+      incumbent = false,
+    ) =>
+      nominationPlan(world, {
+        stateUsps,
+        family,
+        year: 2026,
+        onDate: makeIsoDate("2026-01-05"),
+        incumbent,
+      });
+    expect(plan("MA", "state-legislature")).toMatchObject({
+      known: true,
+      filingDeadline: "2026-05-26",
+      filingBasis: "set-for-2026",
+    });
+    expect(plan("MA", "us-house")).toMatchObject({
+      known: true,
+      filingDeadline: "2026-06-02",
+    });
+    expect(plan("NM", "state-legislature")).toMatchObject({
+      known: true,
+      filingDeadline: "2026-03-10",
+      filingBasis: "set-for-2026",
+    });
+    expect(plan("NM", "us-house")).toMatchObject({
+      known: true,
+      filingDeadline: "2026-02-03",
+    });
+    expect(plan("NE", "state-legislature", true)).toMatchObject({
+      known: true,
+      filingDeadline: "2026-02-17",
+    });
+    expect(plan("NE", "state-legislature", false)).toMatchObject({
+      known: true,
+      filingDeadline: "2026-03-02",
+    });
+    for (const state of ["LA", "MS", "NJ", "VA"])
+      expect(plan(state, "state-legislature")).toMatchObject({ known: false });
+  });
+
+  it("has an explicit 2026 legislative filing reading for every state and no synthetic off-year deadline", () => {
+    const states = Object.entries(places).filter(
+      ([key]) =>
+        !["US-DC", "US-AS", "US-GU", "US-MP", "US-PR", "US-VI"].includes(key),
+    );
+    expect(states).toHaveLength(50);
+    expect(
+      states.filter(
+        ([, row]) => row.filing.deadlines2026["state-legislature"] !== null,
+      ),
+    ).toHaveLength(46);
+    for (const [, row] of states) {
+      expect(row.filing.legislative2026Source).toMatchObject({
+        url: "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+        sourceAsOf: "2026-05-22",
+      });
+    }
+  });
+
   it("covers 50 states, D.C. and five territories", () => {
     expect(Object.keys(places)).toHaveLength(56);
   });
@@ -213,7 +283,7 @@ describe("party nomination rules, 2026", () => {
       filingDeadline: "2026-04-02",
     });
     expect(plan("VA", "us-house", 2026)).toMatchObject({
-      filingDeadline: "2026-05-26",
+      filingDeadline: "2026-05-25",
     });
     // A read rule carries no estimate.
     expect(plan("TX", "us-house", 2026)).toMatchObject({ estimated: [] });

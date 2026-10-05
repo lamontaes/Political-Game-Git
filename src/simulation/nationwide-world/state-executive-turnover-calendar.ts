@@ -13,6 +13,7 @@ import {
   termDatesAfterElectionInWorld,
 } from "./executive-term-rules-in-world";
 import type { StateExecutiveTermRuleInWorld } from "./executive-term-rules-in-world";
+import { nominationPlan } from "../nominations/nomination-rules";
 
 /**
  * GOVERNOR CONTINUITY — the calendar half, which the canonical clock calls.
@@ -22,24 +23,26 @@ import type { StateExecutiveTermRuleInWorld } from "./executive-term-rules-in-wo
 
 export const GOVERNOR_TURNOVER_VERSION = "governor-turnover/v1";
 
-/**
- * PROVISIONAL, and awaiting SOURCED RULES rather than anyone's sign-off.
- *
- * Whether an incumbent MAY stand again is the state's term limit, read per
- * state through `executive-term-limits.ts` (sourced, enacted in this World, or
- * the disclosed per-state draw), never a number here. Whether they WANT to is
- * their own decision (`decideAnotherTerm`), with no age or chance here. What
- * remains is when the field closes, filed as
- * executive-terms-and-incumbency-turnover.
- */
+/** Retained identity for existing intent and outcome records. */
 export const GOVERNOR_TURNOVER_PROFILE = {
   id: "ocd-governor-turnover-game-profile/v2",
-  /** The candidate field closes this many days before the general election. */
-  fieldClosesDaysBefore: 60,
 } as const;
 
-export function fieldClosingDate(electionDay: IsoDate): IsoDate {
-  return addDays(electionDay, -GOVERNOR_TURNOVER_PROFILE.fieldClosesDaysBefore);
+/** Office-specific filing deadline from the same reader used for nominations. */
+export function fieldClosingDate(
+  world: World,
+  stateUsps: string,
+  electionDay: IsoDate,
+): IsoDate {
+  const plan = nominationPlan(world, {
+    stateUsps,
+    family: "governor",
+    year: Number(electionDay.slice(0, 4)),
+    onDate: world.currentDate,
+    generalDay: electionDay,
+  });
+  if (!plan.known) throw new Error(plan.reason);
+  return plan.filingDeadline;
 }
 
 export function turnoverContestKey(officeKey: string, year: number): string {
@@ -71,7 +74,10 @@ function nextFieldClose(
   after: IsoDate,
 ): { readonly year: number; readonly electionDay: IsoDate } | null {
   let electionDay = nextRegularElectionInWorld(world, stateUsps, after);
-  while (electionDay !== null && fieldClosingDate(electionDay) <= after)
+  while (
+    electionDay !== null &&
+    fieldClosingDate(world, stateUsps, electionDay) <= after
+  )
     electionDay = nextRegularElectionInWorld(
       world,
       stateUsps,
@@ -101,13 +107,13 @@ export function scheduleNextFieldClose(
   const stateId = chiefExecutiveJurisdictionId(stateUsps)!;
   return scheduleFutureDueItem(registered, {
     stableKey,
-    dueAt: fieldClosingDate(next.electionDay),
+    dueAt: fieldClosingDate(world, stateUsps, next.electionDay),
     transitionKey: GOVERNOR_FIELD_CLOSE,
     entityIds: [stateId],
     jurisdictionId: stateId,
     provenance: {
       kind: "authored",
-      note: `${GOVERNOR_TURNOVER_PROFILE.id}: the candidate field for ${office.displayName} closes ${GOVERNOR_TURNOVER_PROFILE.fieldClosesDaysBefore} days before the ${next.electionDay} general election.`,
+      note: `Shared governor nomination calendar: candidate filing deadline for ${office.displayName}, general election ${next.electionDay}.`,
     },
   });
 }
@@ -139,9 +145,10 @@ export function applyGovernorTurnover(before: IsoDate, world: World): World {
 /** The field for this office's election on `electionDay` has closed. */
 export function regularFieldClosed(
   world: World,
+  stateUsps: string,
   electionDay: IsoDate,
 ): boolean {
-  return world.currentDate >= fieldClosingDate(electionDay);
+  return world.currentDate > fieldClosingDate(world, stateUsps, electionDay);
 }
 
 /** The regular election a filing made today would stand in, and the term it wins. */
@@ -166,7 +173,7 @@ export function nextFilableStateExecutiveTerm(
     stateUsps,
     addDays(world.currentDate, 1),
   );
-  if (electionDay !== null && regularFieldClosed(world, electionDay))
+  if (electionDay !== null && regularFieldClosed(world, stateUsps, electionDay))
     electionDay = nextRegularElectionInWorld(
       world,
       stateUsps,

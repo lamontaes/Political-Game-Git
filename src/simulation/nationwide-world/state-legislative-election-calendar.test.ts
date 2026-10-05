@@ -26,14 +26,14 @@ describe("when a state legislative seat is next on the ballot", () => {
 
   it("is November of the next even year in most states, not four weeks after filing", () => {
     expect(
-      nextStateLegislativeElection("NV", makeIsoDate("2026-08-01")),
+      nextStateLegislativeElection("NV", makeIsoDate("2026-03-13")),
     ).toMatchObject({
       electionDate: "2026-11-03",
-      fieldClosesOn: "2026-09-04",
+      fieldClosesOn: "2026-03-13",
     });
     // Once the field has closed, a filing stands in the next election.
     expect(
-      nextStateLegislativeElection("NV", makeIsoDate("2026-09-05"))
+      nextStateLegislativeElection("NV", makeIsoDate("2026-03-14"))
         .electionDate,
     ).toBe("2028-11-07");
     // An odd year has no legislative election in an even-year state.

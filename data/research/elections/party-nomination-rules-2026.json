@@ -43,13 +43,30 @@
       "source": "https://law.justia.com/codes/alabama/title-17/chapter-13/article-1/section-17-13-3/",
       "filing": {
         "deadlines2026": {
-          "all": "2026-01-23"
+          "all": "2026-01-23",
+          "state-legislature": "2026-01-23",
+          "governor": "2026-01-23"
         },
         "daysBeforePrimary": 116,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": "Primary 5/19 for districts 3, 4 and 5 and 8/11 for districts 1, 2, 6 and 7 (redistricting); runoff 6/16; deadline measured against 5/19"
+        "note": "Primary 5/19 for districts 3, 4 and 5 and 8/11 for districts 1, 2, 6 and 7 (redistricting); runoff 6/16; deadline measured against 5/19",
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Ala.Code17-13-5",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Ala.Code17-13-5",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-AK": {
@@ -76,13 +93,30 @@
       "source": "https://www.elections.alaska.gov/Core/primaryelectioninformation.php",
       "filing": {
         "deadlines2026": {
-          "all": "2026-06-01"
+          "all": "2026-06-01",
+          "state-legislature": "2026-06-01",
+          "governor": "2026-06-01"
         },
         "daysBeforePrimary": 78,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Alaska.Stat15.25.040",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Alaska.Stat15.25.040",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-AZ": {
@@ -108,13 +142,30 @@
       "source": "https://www.azleg.gov/ars/16/00201.htm",
       "filing": {
         "deadlines2026": {
-          "all": "2026-03-23"
+          "all": "2026-03-23",
+          "state-legislature": "2026-03-23",
+          "governor": "2026-03-23"
         },
         "daysBeforePrimary": 120,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Ariz.Rev.Stat16-311",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Ariz.Rev.Stat16-311",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-AR": {
@@ -156,13 +207,30 @@
       "source": "https://law.justia.com/codes/arkansas/title-7/chapter-7/subchapter-2/section-7-7-203/",
       "filing": {
         "deadlines2026": {
-          "all": "2025-11-11"
+          "all": "2025-11-11",
+          "state-legislature": "2025-11-11",
+          "governor": "2025-11-11"
         },
         "daysBeforePrimary": 112,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": "Runoff 3/31"
+        "note": "Runoff 3/31",
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Ark.Stat7-7-203",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Ark.Stat7-7-203",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-CA": {
@@ -196,13 +264,31 @@
       "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=ELEC&sectionNum=1201",
       "filing": {
         "deadlines2026": {
-          "all": "2026-03-06"
+          "all": "2026-03-06",
+          "state-legislature": "2026-03-06",
+          "governor": "2026-03-06"
         },
         "daysBeforePrimary": 88,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Cal.Elec.Code8020,8022",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true,
+          "exception": "March 11 if no incumbent files by March 6; the normal deadline is March 6."
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Cal.Elec.Code8020,8022",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-CO": {
@@ -228,13 +314,30 @@
       "source": "https://colorado.public.law/statutes/crs_1-4-101",
       "filing": {
         "deadlines2026": {
-          "all": "2026-03-18"
+          "all": "2026-03-18",
+          "state-legislature": "2026-03-18",
+          "governor": "2026-03-18"
         },
         "daysBeforePrimary": 104,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Colo.Rev.Stat1-4-801",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Colo.Rev.Stat1-4-801",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-CT": {
@@ -260,13 +363,30 @@
       "source": "https://law.justia.com/codes/connecticut/title-9/chapter-153/section-9-423/",
       "filing": {
         "deadlines2026": {
-          "all": "2026-06-09"
+          "all": "2026-06-09",
+          "state-legislature": "2026-06-09",
+          "governor": "2026-06-09"
         },
         "daysBeforePrimary": 63,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": "Party conventions first: Democratic May 11, Republican May 15"
+        "note": "Party conventions first: Democratic May 11, Republican May 15",
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Conn.Gen.Stat9-400",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Conn.Gen.Stat9-400",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-DE": {
@@ -294,13 +414,22 @@
       "source": "https://delcode.delaware.gov/title15/c031/sc01",
       "filing": {
         "deadlines2026": {
-          "all": "2026-07-14"
+          "all": "2026-07-14",
+          "state-legislature": "2026-07-14"
         },
         "daysBeforePrimary": 63,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Del.Code15-3101",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        }
       }
     },
     "US-DC": {
@@ -363,13 +492,30 @@
       "source": "https://www.flsenate.gov/Laws/Statutes/2025/Chapter100/All",
       "filing": {
         "deadlines2026": {
-          "all": "2026-04-24"
+          "all": "2026-04-24",
+          "state-legislature": "2026-06-12",
+          "governor": "2026-06-12"
         },
         "daysBeforePrimary": 116,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Fla.Stat99.06",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Fla.Stat99.06",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-GA": {
@@ -408,13 +554,30 @@
       "source": "https://law.justia.com/codes/georgia/title-21/chapter-2/article-4/part-2/section-21-2-150/",
       "filing": {
         "deadlines2026": {
-          "all": "2026-03-06"
+          "all": "2026-03-06",
+          "state-legislature": "2026-03-06",
+          "governor": "2026-03-06"
         },
         "daysBeforePrimary": 74,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": "Runoff 6/16"
+        "note": "Runoff 6/16",
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Ga.Code21-2-153",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Ga.Code21-2-153",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-HI": {
@@ -440,13 +603,30 @@
       "source": "https://law.onecle.com/hawaii/title-2/chapter-12/index.html",
       "filing": {
         "deadlines2026": {
-          "all": "2026-06-02"
+          "all": "2026-06-02",
+          "state-legislature": "2026-06-02",
+          "governor": "2026-06-02"
         },
         "daysBeforePrimary": 67,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Hawaii.Rev.Stat12-2.5,12-6",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Hawaii.Rev.Stat12-2.5,12-6",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-ID": {
@@ -472,13 +652,30 @@
       "source": "https://legislature.idaho.gov/wp-content/uploads/sessioninfo/2026/legislation/S1398.pdf",
       "filing": {
         "deadlines2026": {
-          "all": "2026-02-27"
+          "all": "2026-02-27",
+          "state-legislature": "2026-02-27",
+          "governor": "2026-02-27"
         },
         "daysBeforePrimary": 81,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Idaho.Code34-704",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Idaho.Code34-704",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-IL": {
@@ -504,13 +701,30 @@
       "source": "https://law.justia.com/codes/illinois/2022/chapter-10/act-10-ilcs-5/article-2a/",
       "filing": {
         "deadlines2026": {
-          "all": "2025-11-03"
+          "all": "2025-11-03",
+          "state-legislature": "2025-11-03",
+          "governor": "2025-11-03"
         },
         "daysBeforePrimary": 134,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Ill.Rev.Stat10-5/8-9",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Ill.Rev.Stat10-5/8-9",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-IN": {
@@ -537,13 +751,22 @@
       "source": "https://law.justia.com/codes/indiana/title-3/article-10/chapter-1/section-3-10-1-3/",
       "filing": {
         "deadlines2026": {
-          "all": "2026-02-06"
+          "all": "2026-02-06",
+          "state-legislature": "2026-02-06"
         },
         "daysBeforePrimary": 88,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": "Noon"
+        "note": "Noon",
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Ind.Code3-8-2-4",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        }
       }
     },
     "US-IA": {
@@ -570,13 +793,30 @@
       "source": "https://www.legis.iowa.gov/docs/ico/chapter/43.pdf",
       "filing": {
         "deadlines2026": {
-          "all": "2026-03-13"
+          "all": "2026-03-13",
+          "state-legislature": "2026-03-13",
+          "governor": "2026-03-13"
         },
         "daysBeforePrimary": 81,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Iowa.Code43.11",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Iowa.Code43.11",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-KS": {
@@ -602,13 +842,30 @@
       "source": "https://www.sos.ks.gov/elections/voter-information.html",
       "filing": {
         "deadlines2026": {
-          "all": "2026-06-01"
+          "all": "2026-06-01",
+          "state-legislature": "2026-06-01",
+          "governor": "2026-06-01"
         },
         "daysBeforePrimary": 64,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Kan.Stat25-205",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Kan.Stat25-205",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-KY": {
@@ -635,13 +892,22 @@
       "source": "https://codes.findlaw.com/ky/title-x-elections/ky-rev-st-sect-118-025.html",
       "filing": {
         "deadlines2026": {
-          "all": "2026-01-09"
+          "all": "2026-01-09",
+          "state-legislature": "2026-01-09"
         },
         "daysBeforePrimary": 130,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Ky.Rev.Stat118.165",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        }
       }
     },
     "US-LA": {
@@ -682,14 +948,24 @@
       "source": "https://www.270towin.com/content/changes-to-louisiana-primaries-effective-in-2026",
       "filing": {
         "deadlines2026": {
-          "us-senate": "2026-01-14",
-          "us-house": "2026-08-07"
+          "us-senate": "2026-02-13",
+          "us-house": "2026-08-07",
+          "state-legislature": null
         },
         "daysBeforePrimary": 122,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": "U.S. Senate: primary 5/16, filing 1/14. U.S. House moved to 11/3 (runoff 12/12), filing 8/7, after Louisiana v. Callais (Executive Order JML 26-038)"
+        "note": "U.S. Senate filing February 13, 2026, under HB 842 (2026); U.S. House filing August 7, 2026, with primary November 3 and runoff December 12.",
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "La.Rev.Stat18-467,18-468",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": false
+        },
+        "deadline2026AmendmentSource": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines (May 28 update; HB 842 (2026))"
       }
     },
     "US-ME": {
@@ -716,13 +992,30 @@
       "source": "https://legislature.maine.gov/statutes/21-A/title21-Asec339.html",
       "filing": {
         "deadlines2026": {
-          "all": "2026-03-16"
+          "all": "2026-03-16",
+          "state-legislature": "2026-03-15",
+          "governor": "2026-03-15"
         },
         "daysBeforePrimary": 85,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Me.Rev.Stat21A-335",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Me.Rev.Stat21A-335",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-MD": {
@@ -755,13 +1048,30 @@
       "source": "https://msa.maryland.gov/msa/mdmanual/41electp/html/forth.html",
       "filing": {
         "deadlines2026": {
-          "all": "2026-02-24"
+          "all": "2026-02-24",
+          "state-legislature": "2026-02-24",
+          "governor": "2026-02-24"
         },
         "daysBeforePrimary": 119,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Md.Elect.Code5-303",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Md.Elect.Code5-303",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-MA": {
@@ -785,13 +1095,30 @@
       "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVIII/Chapter53/Section28",
       "filing": {
         "deadlines2026": {
-          "all": "2026-06-02"
+          "all": "2026-06-02",
+          "state-legislature": "2026-05-26",
+          "governor": "2026-06-02"
         },
         "daysBeforePrimary": 91,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Mass.Gen.Laws53-48",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Mass.Gen.Laws53-48",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-MI": {
@@ -818,13 +1145,30 @@
       "source": "https://legislature.mi.gov/Laws/MCL?objectName=mcl-168-641",
       "filing": {
         "deadlines2026": {
-          "all": "2026-04-21"
+          "all": "2026-04-21",
+          "state-legislature": "2026-04-21",
+          "governor": "2026-04-21"
         },
         "daysBeforePrimary": 105,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Mich.Comp.Laws168.551",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Mich.Comp.Laws168.551",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-MN": {
@@ -850,13 +1194,30 @@
       "source": "https://www.revisor.mn.gov/statutes/cite/204D.03",
       "filing": {
         "deadlines2026": {
-          "all": "2026-06-02"
+          "all": "2026-06-02",
+          "state-legislature": "2026-06-02",
+          "governor": "2026-06-02"
         },
         "daysBeforePrimary": 70,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Minn.Stat204B.09",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Minn.Stat204B.09",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-MS": {
@@ -898,13 +1259,22 @@
       "source": "https://law.justia.com/codes/mississippi/title-23/chapter-15/article-33/section-23-15-1031/",
       "filing": {
         "deadlines2026": {
-          "all": "2025-12-26"
+          "all": "2025-12-26",
+          "state-legislature": null
         },
         "daysBeforePrimary": 74,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": "Runoff 4/7"
+        "note": "Runoff 4/7",
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Miss.Code23-15-299",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": false
+        }
       }
     },
     "US-MO": {
@@ -931,13 +1301,22 @@
       "source": "https://law.justia.com/codes/missouri/title-ix/chapter-115/section-115-121/",
       "filing": {
         "deadlines2026": {
-          "all": "2026-03-31"
+          "all": "2026-03-31",
+          "state-legislature": "2026-03-31"
         },
         "daysBeforePrimary": 126,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Mo.Rev.Stat115.349",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        }
       }
     },
     "US-MT": {
@@ -964,13 +1343,22 @@
       "source": "https://mca.legmt.gov/bills/mca/title_0130/chapter_0010/part_0010/section_0070/0130-0010-0010-0070.html",
       "filing": {
         "deadlines2026": {
-          "all": "2026-03-04"
+          "all": "2026-03-04",
+          "state-legislature": "2026-03-04"
         },
         "daysBeforePrimary": 90,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Mont.Code13-10-201",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        }
       }
     },
     "US-NE": {
@@ -1001,13 +1389,33 @@
       "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=s3204001000",
       "filing": {
         "deadlines2026": {
-          "all": "2026-03-02"
+          "all": "2026-03-02",
+          "state-legislature": "2026-03-02",
+          "governor": "2026-03-02"
         },
         "daysBeforePrimary": 71,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": "Incumbents file by 2/17; all others by 3/2"
+        "note": "Incumbents file by 2/17; all others by 3/2",
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Neb.Rev.Stat32-606",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "incumbentDeadlines2026": {
+          "state-legislature": "2026-02-17"
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Neb.Rev.Stat32-606",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-NV": {
@@ -1033,13 +1441,30 @@
       "source": "https://nevada.public.law/statutes/nrs_293.175",
       "filing": {
         "deadlines2026": {
-          "all": "2026-03-13"
+          "all": "2026-03-13",
+          "state-legislature": "2026-03-13",
+          "governor": "2026-03-13"
         },
         "daysBeforePrimary": 88,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Nev.Rev.Stat293.177",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Nev.Rev.Stat293.177",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-NH": {
@@ -1066,13 +1491,30 @@
       "source": "https://law.justia.com/codes/new-hampshire/title-lxiii/chapter-653/section-653-8/",
       "filing": {
         "deadlines2026": {
-          "all": "2026-06-12"
+          "all": "2026-06-12",
+          "state-legislature": "2026-06-12",
+          "governor": "2026-06-12"
         },
         "daysBeforePrimary": 88,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "NH.Rev.Stat655-14",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "NH.Rev.Stat655-14",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-NJ": {
@@ -1099,13 +1541,22 @@
       "source": "https://nj.gov/www.nj.gov/state/dos-statutes-elections-19-01-09.shtml",
       "filing": {
         "deadlines2026": {
-          "all": "2026-03-23"
+          "all": "2026-03-23",
+          "state-legislature": null
         },
         "daysBeforePrimary": 71,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "NJ.Rev.Stat19-23-14",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": false
+        }
       }
     },
     "US-NM": {
@@ -1132,13 +1583,30 @@
       "source": "https://law.justia.com/codes/new-mexico/chapter-1/article-8/",
       "filing": {
         "deadlines2026": {
-          "all": "2026-02-03"
+          "all": "2026-02-03",
+          "state-legislature": "2026-03-10",
+          "governor": "2026-03-10"
         },
         "daysBeforePrimary": 119,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "NM.Stat1-8-26",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "NM.Stat1-8-26",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-NY": {
@@ -1164,13 +1632,30 @@
       "source": "https://www.nysenate.gov/legislation/laws/ELN/8-100",
       "filing": {
         "deadlines2026": {
-          "all": "2026-04-06"
+          "all": "2026-04-06",
+          "state-legislature": "2026-04-06",
+          "governor": "2026-04-06"
         },
         "daysBeforePrimary": 78,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "NY.Elec.Law6-158",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "NY.Elec.Law6-158",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-NC": {
@@ -1212,13 +1697,22 @@
       "source": "https://ballotpedia.org/Primary_elections_in_North_Carolina",
       "filing": {
         "deadlines2026": {
-          "all": "2025-12-19"
+          "all": "2025-12-19",
+          "state-legislature": "2025-12-19"
         },
         "daysBeforePrimary": 74,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": "Runoff 5/12"
+        "note": "Runoff 5/12",
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "NC.Gen.Stat163-106.2",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        }
       }
     },
     "US-ND": {
@@ -1244,13 +1738,22 @@
       "source": "https://www.sos.nd.gov/sites/www/files/documents/elections/election-candidate-filing-info.pdf",
       "filing": {
         "deadlines2026": {
-          "all": "2026-04-06"
+          "all": "2026-04-06",
+          "state-legislature": "2026-04-06"
         },
         "daysBeforePrimary": 64,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "ND.Cent.Code16.1-12-04",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        }
       }
     },
     "US-OH": {
@@ -1286,13 +1789,30 @@
       "source": "https://codes.ohio.gov/ohio-revised-code/section-3501.01",
       "filing": {
         "deadlines2026": {
-          "all": "2026-02-04"
+          "all": "2026-02-04",
+          "state-legislature": "2026-02-04",
+          "governor": "2026-02-04"
         },
         "daysBeforePrimary": 90,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Ohio.Rev.Code3513.05",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Ohio.Rev.Code3513.05",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-OK": {
@@ -1335,13 +1855,30 @@
       "source": "https://law.justia.com/codes/oklahoma/title-26/section-26-1-102/",
       "filing": {
         "deadlines2026": {
-          "all": "2026-04-03"
+          "all": "2026-04-03",
+          "state-legislature": "2026-04-03",
+          "governor": "2026-04-03"
         },
         "daysBeforePrimary": 74,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": "Runoff 8/25"
+        "note": "Runoff 8/25",
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Okla.Stat26-5-110",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Okla.Stat26-5-110",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-OR": {
@@ -1367,13 +1904,30 @@
       "source": "https://oregon.public.law/statutes/ors_254.056",
       "filing": {
         "deadlines2026": {
-          "all": "2026-03-10"
+          "all": "2026-03-10",
+          "state-legislature": "2026-03-10",
+          "governor": "2026-03-10"
         },
         "daysBeforePrimary": 70,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": "Incumbents file by 3/3; all others by 3/10"
+        "note": "Incumbents file by 3/3; all others by 3/10",
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Or.Rev.Stat249.037",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Or.Rev.Stat249.037",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-PA": {
@@ -1399,13 +1953,30 @@
       "source": "https://codes.findlaw.com/pa/title-25-ps-elections-electoral-districts/pa-st-sect-25-2753/",
       "filing": {
         "deadlines2026": {
-          "all": "2026-03-10"
+          "all": "2026-03-10",
+          "state-legislature": "2026-03-10",
+          "governor": "2026-03-10"
         },
         "daysBeforePrimary": 70,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Pa.Stat25-2873",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Pa.Stat25-2873",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-RI": {
@@ -1429,13 +2000,30 @@
       "source": "https://ballot-access.org/2026/04/22/rhode-island-moves-2026-primaries-from-september-8-to-september-9-for-2026-only/",
       "filing": {
         "deadlines2026": {
-          "all": "2026-06-24"
+          "all": "2026-06-24",
+          "state-legislature": "2026-06-24",
+          "governor": "2026-06-24"
         },
         "daysBeforePrimary": 77,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "RI.Gen.Laws17-14-1",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "RI.Gen.Laws17-14-1",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-SC": {
@@ -1483,13 +2071,30 @@
       },
       "filing": {
         "deadlines2026": {
-          "all": "2026-03-30"
+          "all": "2026-03-30",
+          "state-legislature": "2026-03-30",
+          "governor": "2026-03-30"
         },
         "daysBeforePrimary": 71,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": "Noon; runoff 6/23"
+        "note": "Noon; runoff 6/23",
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "SC.Code7-11-15",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "SC.Code7-11-15",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-SD": {
@@ -1531,13 +2136,30 @@
       "source": "https://sdlegislature.gov/Statutes/Codified_Laws/12-2-1",
       "filing": {
         "deadlines2026": {
-          "all": "2026-03-31"
+          "all": "2026-03-31",
+          "state-legislature": "2026-03-31",
+          "governor": "2026-03-31"
         },
         "daysBeforePrimary": 63,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": "Runoff 7/28"
+        "note": "Runoff 7/28",
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "SD.Codified.Laws12-6-4",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "SD.Codified.Laws12-6-4",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-TN": {
@@ -1563,13 +2185,32 @@
       "source": "https://law.justia.com/codes/tennessee/title-2/chapter-1/section-2-1-104/",
       "filing": {
         "deadlines2026": {
-          "all": "2026-03-10"
+          "all": "2026-03-10",
+          "state-legislature": "2026-03-10",
+          "governor": "2026-03-10",
+          "us-house": "2026-05-15"
         },
         "daysBeforePrimary": 149,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": "Noon"
+        "note": "Noon",
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Tenn.Code2-5-101",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Tenn.Code2-5-101",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        },
+        "deadline2026AmendmentSource": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines (HB 7001 (2026), special House qualifying period)"
       }
     },
     "US-TX": {
@@ -1612,13 +2253,30 @@
       "source": "https://law.justia.com/codes/texas/election-code/title-4/chapter-41/subchapter-a/section-41-007/",
       "filing": {
         "deadlines2026": {
-          "all": "2025-12-08"
+          "all": "2025-12-08",
+          "state-legislature": "2025-12-08",
+          "governor": "2025-12-08"
         },
         "daysBeforePrimary": 85,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": "Runoff 5/26"
+        "note": "Runoff 5/26",
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Tex.Elect.Code172.023",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Tex.Elect.Code172.023",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-UT": {
@@ -1644,13 +2302,22 @@
       "source": "https://law.justia.com/codes/utah/title-20a/chapter-1/part-2/section-201-5",
       "filing": {
         "deadlines2026": {
-          "all": "2026-03-13"
+          "all": "2026-03-13",
+          "state-legislature": "2026-01-09"
         },
         "daysBeforePrimary": 102,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": "5 p.m.; party conventions April 10 to 25 come first"
+        "note": "5 p.m.; party conventions April 10 to 25 come first",
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Utah.Code20A-9-201.5",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        }
       }
     },
     "US-VT": {
@@ -1676,13 +2343,30 @@
       "source": "https://legislature.vermont.gov/statutes/section/17/049/02351",
       "filing": {
         "deadlines2026": {
-          "all": "2026-05-28"
+          "all": "2026-05-28",
+          "state-legislature": "2026-05-28",
+          "governor": "2026-05-28"
         },
         "daysBeforePrimary": 75,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Vt.Stat17-2356",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Vt.Stat17-2356",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-VA": {
@@ -1716,13 +2400,24 @@
       "filing": {
         "deadlines2026": {
           "all": "2026-05-26",
-          "us-senate": "2026-04-02"
+          "us-senate": "2026-04-02",
+          "state-legislature": null,
+          "us-house": "2026-05-25"
         },
         "daysBeforePrimary": 70,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": "U.S. House filing 5/26; U.S. Senate filing 4/2. Parties may nominate by convention instead of a primary"
+        "note": "U.S. House filing May 25, 2026, under HB 29; U.S. Senate filing April 2. Parties may nominate by convention instead of a primary.",
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Va.Code24.2-503,24.2-522,24.2-524",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": false
+        },
+        "deadline2026AmendmentSource": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines (HB 29 (2026))"
       }
     },
     "US-WA": {
@@ -1748,13 +2443,22 @@
       "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=29A.04.311",
       "filing": {
         "deadlines2026": {
-          "all": "2026-05-08"
+          "all": "2026-05-08",
+          "state-legislature": "2026-05-08"
         },
         "daysBeforePrimary": 88,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Wash.Rev.Code29A.24.050",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        }
       }
     },
     "US-WV": {
@@ -1780,13 +2484,22 @@
       "source": "https://code.wvlegislature.gov/3-5-1/",
       "filing": {
         "deadlines2026": {
-          "all": "2026-01-31"
+          "all": "2026-01-31",
+          "state-legislature": "2026-01-31"
         },
         "daysBeforePrimary": 101,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "WVa.Code3-5-7",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        }
       }
     },
     "US-WI": {
@@ -1812,13 +2525,30 @@
       "source": "https://docs.legis.wisconsin.gov/statutes/statutes/5/i/02/12s",
       "filing": {
         "deadlines2026": {
-          "all": "2026-06-01"
+          "all": "2026-06-01",
+          "state-legislature": "2026-06-01",
+          "governor": "2026-06-01"
         },
         "daysBeforePrimary": 71,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Wis.Stat8.15",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Wis.Stat8.15",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-WY": {
@@ -1845,13 +2575,30 @@
       "source": "https://law.justia.com/codes/wyoming/2021/title-22/chapter-2/section-22-2-104/",
       "filing": {
         "deadlines2026": {
-          "all": "2026-05-29"
+          "all": "2026-05-29",
+          "state-legislature": "2026-05-29",
+          "governor": "2026-05-29"
         },
         "daysBeforePrimary": 81,
         "otherOffices": "inferred-same-as-congress",
         "cite": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
         "verification": "read (fec.gov PDF, 9/28 about 11:21 p.m.); dates are FEC-compiled from state offices, statutes and parties; state statute text not read",
-        "note": null
+        "note": null,
+        "legislative2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Wyo.Stat22-5-209",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; statute text not independently reread",
+          "regularElectionHeld": true
+        },
+        "governor2026Source": {
+          "url": "https://www.ncsl.org/elections-and-campaigns/2026-candidate-filing-deadlines",
+          "statuteLocator": "Wyo.Stat22-5-209",
+          "sourceAsOf": "2026-05-22",
+          "retrievedAt": "2026-10-05",
+          "verification": "NCSL compiled statutory deadline; regular cycle read through existing executive term rules"
+        }
       }
     },
     "US-GU": {
@@ -1981,5 +2728,5 @@
       }
     }
   },
-  "filingSourceNote": "Research 9's primary-filing-deadlines-2026.csv (project files research/r9-primaries, read 9/28/2026 about 11:25 p.m. EDT), from the FEC's 2026 Congressional Primary Dates and Candidate Filing Deadlines (data as of May 18, 2026). daysBeforePrimary is the measured 2026 gap for Congress; each statute's own wording (a fixed date or a count of days) is not read, so later years keep the 2026 gap, ESTIMATED FROM AVERAGE. Governor and legislature deadlines are INFERRED to match Congress until read. Measured over the 52 places with a usable 2026 row: median 85.0 days, range 63 to 149."
+  "filingSourceNote": "Research 9's primary-filing-deadlines-2026.csv (project files research/r9-primaries, read 9/28/2026 about 11:25 p.m. EDT), from the FEC's 2026 Congressional Primary Dates and Candidate Filing Deadlines (data as of May 18, 2026). daysBeforePrimary is the measured 2026 gap for Congress; each statute's own wording (a fixed date or a count of days) is not read, so later years keep the 2026 gap, ESTIMATED FROM AVERAGE. Governor and legislature deadlines are INFERRED to match Congress until read. Measured over the 52 places with a usable 2026 row: median 85.0 days, range 63 to 149. Session 13 (October 5, 2026) adds exact state-legislature dates for all 50 states (46 regular-election deadlines, four explicit off years), exact governor filing dates for the 36 states with regular 2026 gubernatorial elections, and amended Louisiana Senate, Virginia House and Tennessee House deadlines from NCSL's May 28, 2026 statutory compilation. Nebraska incumbent/nonincumbent dates remain distinct. California's no-incumbent extension is recorded as an exception; statutory condition handling remains to be wired. Statute locators are retained per row; statute text was not reread in this lookup."
 }

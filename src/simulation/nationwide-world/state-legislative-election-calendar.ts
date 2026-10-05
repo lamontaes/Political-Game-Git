@@ -1,5 +1,5 @@
-import type { IsoDate } from "../types";
-import { fieldClosingDate } from "./state-executive-turnover-calendar";
+import type { IsoDate, World } from "../types";
+import { nominationPlan } from "../nominations/nomination-rules";
 import {
   generalElectionDay,
   isElectionYear,
@@ -24,9 +24,8 @@ import {
  * reviewed Kansas and Nebraska regular cycles below are explicit exceptions.
  * - Louisiana holds its elections on Saturdays with an October primary.
  *   Blanket rule: its general election is dated like everyone else's.
- * - Primaries, filing deadlines and petitions. Blanket rule: the field closes
- *   the same 60 days before the election as the governorship's does, and a
- *   filing after that stands in the following regular election.
+ * Filing deadlines use the shared office nomination reader: sourced 2026
+ * state-legislature deadlines, then the state's own estimated filing gap.
  * Filed with ChatGPT as `state-legislative-election-calendars`.
  */
 export const STATE_LEGISLATIVE_CALENDAR_PROFILE =
@@ -209,6 +208,7 @@ export function nextStateLegislativeElection(
     readonly officeKey: string;
     readonly ordinal: number | null;
   } | null = null,
+  world: World | null = null,
 ): StateLegislativeElection {
   const rule = seat
     ? stateLegislativeSeatElectionRule(stateUsps, seat.officeKey, seat.ordinal)
@@ -216,8 +216,16 @@ export function nextStateLegislativeElection(
   for (let year = Number(onDate.slice(0, 4)); ; year += 1) {
     if (!isElectionYear(rule, year)) continue;
     const electionDate = generalElectionDay(rule, year);
-    const closes = fieldClosingDate(electionDate);
-    if (onDate < closes)
+    const nomination = nominationPlan(world, {
+      stateUsps,
+      family: "state-legislature",
+      year,
+      onDate,
+      generalDay: electionDate,
+    });
+    if (!nomination.known) continue;
+    const closes = nomination.filingDeadline;
+    if (onDate <= closes)
       return {
         electionDate,
         fieldClosesOn: closes,
