@@ -1104,7 +1104,9 @@
   place-items: center;
   overflow: auto;
   padding: clamp(1rem, 3vw, 3rem);
-  background: var(--pg-paper-texture), #101621;
+  background: var(--kit12-glass);
+  backdrop-filter: var(--kit12-blur);
+  -webkit-backdrop-filter: var(--kit12-blur);
   color: var(--pg-ivory);
   animation: pg-life-start var(--pg-start-fade) ease-out both;
 }
@@ -1114,11 +1116,13 @@
   display: flex;
   flex-direction: column;
   padding: clamp(1rem, 2vw, 2rem);
-  border: 1px solid var(--pg-brass);
+  border: 1px solid var(--brass);
   box-shadow: var(--kit12-frame);
-  background: var(--kit12-glass, #101621e8);
+  background: var(--kit12-glass);
   backdrop-filter: var(--kit12-blur);
-  font-family: "Fira Sans", sans-serif;
+  -webkit-backdrop-filter: var(--kit12-blur);
+  border-radius: 2px;
+  font-family: var(--ui);
 }
 .pg-life-transition-heading {
   display: grid;
@@ -1126,13 +1130,11 @@
   gap: 0.4rem 1rem;
   align-items: center;
   padding-bottom: 1rem;
-  border-bottom: 1px solid var(--pg-brass);
+  border-bottom: 1px solid var(--brass);
 }
 .pg-life-transition-heading h1 {
   margin: 0;
-  font:
-    800 clamp(1.5rem, 3vw, 3rem)/1 "Cinzel",
-    serif;
+  font: 800 clamp(1.5rem, 3vw, 3rem)/1 var(--name);
 }
 .pg-life-transition-heading p {
   grid-column: 1;
@@ -1156,14 +1158,14 @@
 .pg-life-transition-progress progress {
   flex: 1;
   min-width: 8rem;
-  accent-color: var(--pg-brass);
+  accent-color: var(--brass);
 }
 .pg-life-transition-progress progress::-webkit-progress-bar {
-  background: var(--kit12-frame, #454748);
+  background: var(--iron);
 }
 .pg-life-transition-progress progress::-webkit-progress-value,
 .pg-life-transition-progress progress::-moz-progress-bar {
-  background: var(--pg-brass);
+  background: var(--kit13-brass-fill);
 }
 .pg-life-transition-columns {
   display: grid;
@@ -1174,7 +1176,7 @@
 }
 .pg-life-transition-columns h2,
 .pg-life-transition-journal h3 {
-  font-family: "Cinzel", serif;
+  font-family: var(--name);
   font-weight: 800;
 }
 .pg-life-transition-columns h2 {
@@ -1182,12 +1184,10 @@
   font-size: 1.2rem;
 }
 .pg-life-transition-journal {
-  font:
-    1.1rem/1.6 "Andada Pro",
-    serif;
+  font: 1.1rem/1.6 var(--speech);
 }
 .pg-life-transition-journal article {
-  border-top: 1px solid var(--kit12-frame, #454748);
+  border-top: 1px solid var(--iron);
 }
 .pg-life-transition-journal h3 {
   margin-bottom: 0.5rem;
@@ -1198,7 +1198,7 @@
 }
 .pg-life-transition-headlines article {
   padding: 0.7rem 0;
-  border-bottom: 1px solid var(--kit12-frame, #454748);
+  border-bottom: 1px solid var(--iron);
 }
 .pg-life-transition-headlines p {
   margin: 0;
@@ -1207,9 +1207,7 @@
 }
 .pg-life-transition-headlines h3 {
   margin: 0.35rem 0;
-  font:
-    600 1.1rem/1.35 "Andada Pro",
-    serif;
+  font: 600 1.1rem/1.35 var(--speech);
 }
 .pg-life-transition-map {
   min-width: 0;
@@ -1226,7 +1224,7 @@
   display: block;
 }
 .pg-life-transition-map .pg-map-svg {
-  background: var(--kit12-glass, #101621e8);
+  background: var(--kit12-glass);
   border-radius: 0;
 }
 @media (max-width: 800px) {
