@@ -11,7 +11,10 @@ import "../../../src/styles.css";
 import "../../../src/player/kit12.css";
 import "../../../src/player/shell.css";
 
-export function mountOpeningPreparationFixture(cancelAtFirstStage = false) {
+export function mountOpeningPreparationFixture(
+  cancelAtFirstStage = false,
+  pauseBeforeHistory = false,
+) {
   const seed = `browser-opening-stages:${crypto.randomUUID()}`;
   const place = drawRandomPlace(seed);
   const startAge =
@@ -43,6 +46,7 @@ export function mountOpeningPreparationFixture(cancelAtFirstStage = false) {
   document.body.append(host);
   const root = createRoot(host);
   let release: (() => void) | undefined;
+  let historyCheckpoint = false;
   root.render(
     createElement(LifeStartTransition, {
       onPrepare: async (report, signal, deadlineAt, advanceHistory) => {
@@ -59,6 +63,7 @@ export function mountOpeningPreparationFixture(cancelAtFirstStage = false) {
               const { world: checkpoint, ...receipt } = progress;
               void checkpoint;
               evidence.reports.push(receipt);
+              historyCheckpoint = progress.label.startsWith("Living through ");
               report(progress);
               requestAnimationFrame(() => {
                 evidence.painted.push({
@@ -72,12 +77,16 @@ export function mountOpeningPreparationFixture(cancelAtFirstStage = false) {
                 });
               });
             },
-            ...(cancelAtFirstStage
+            ...(cancelAtFirstStage || pauseBeforeHistory
               ? {
                   yieldControl: () =>
-                    new Promise<void>((resolve) => {
-                      release = resolve;
-                    }),
+                    cancelAtFirstStage || historyCheckpoint
+                      ? new Promise<void>((resolve) => {
+                          release = resolve;
+                        })
+                      : new Promise<void>((resolve) => {
+                          requestAnimationFrame(() => setTimeout(resolve, 0));
+                        }),
                 }
               : {}),
           });

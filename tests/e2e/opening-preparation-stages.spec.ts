@@ -29,7 +29,11 @@ declare global {
   }
 }
 
-async function openFixture(page: Page, cancel: boolean) {
+async function openFixture(
+  page: Page,
+  cancel: boolean,
+  pauseBeforeHistory = false,
+) {
   // This page has no PlayerGame, save repository, or owner-session route.
   await page.route("**/__opening-preparation-proof", (route) =>
     route.fulfill({
@@ -38,23 +42,85 @@ async function openFixture(page: Page, cancel: boolean) {
     }),
   );
   await page.goto("/__opening-preparation-proof");
-  await page.evaluate(async (cancelFirst) => {
-    const refreshPath = "/@react-refresh";
-    const refresh = await import(/* @vite-ignore */ refreshPath);
-    refresh.default.injectIntoGlobalHook(window);
-    Object.assign(window, {
-      $RefreshReg$: () => {},
-      $RefreshSig$: () => (type: unknown) => type,
-      __vite_plugin_react_preamble_installed__: true,
-    });
-    const path = "/tests/e2e/support/opening-preparation-fixture.tsx";
-    const { mountOpeningPreparationFixture } = await import(
-      /* @vite-ignore */ path
-    );
-    window.openingPreparationFixture =
-      mountOpeningPreparationFixture(cancelFirst);
-  }, cancel);
+  await page.evaluate(
+    async ({ cancelFirst, pauseHistory }) => {
+      const refreshPath = "/@react-refresh";
+      const refresh = await import(/* @vite-ignore */ refreshPath);
+      refresh.default.injectIntoGlobalHook(window);
+      Object.assign(window, {
+        $RefreshReg$: () => {},
+        $RefreshSig$: () => (type: unknown) => type,
+        __vite_plugin_react_preamble_installed__: true,
+      });
+      const path = "/tests/e2e/support/opening-preparation-fixture.tsx";
+      const { mountOpeningPreparationFixture } = await import(
+        /* @vite-ignore */ path
+      );
+      window.openingPreparationFixture = mountOpeningPreparationFixture(
+        cancelFirst,
+        pauseHistory,
+      );
+    },
+    { cancelFirst: cancel, pauseHistory: pauseBeforeHistory },
+  );
 }
+
+test("the shared glass loading screen paints a real checkpoint before advancing history", async ({
+  page,
+}, info) => {
+  await openFixture(page, false, true);
+  await expect(page.locator(".pg-life-transition-progress p")).toHaveText(
+    "Living through 2021",
+    { timeout: 30_000 },
+  );
+  await expect(page.locator(".pg-life-transition-heading h1")).toHaveText(
+    "2021",
+  );
+  await expect(page.getByLabel("My journal")).toContainText("I ");
+  await expect(page.getByTestId("political-map")).toBeVisible();
+  const frame = page.locator(".pg-life-transition-story");
+  const styles = await frame.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return {
+      border: style.borderTopWidth,
+      radius: style.borderRadius,
+      shadow: style.boxShadow,
+      blur: style.backdropFilter,
+      font: style.fontFamily,
+    };
+  });
+  expect(styles.border).toBe("1px");
+  expect(styles.radius).toBe("2px");
+  expect(styles.shadow).not.toBe("none");
+  expect(styles.blur).toContain("blur(");
+  expect(styles.font).toContain("Fira Sans");
+  const evidence = await page.evaluate(
+    () => window.openingPreparationFixture.evidence,
+  );
+  await writeFile(
+    info.outputPath("checkpoint-style.json"),
+    JSON.stringify(
+      {
+        scope:
+          "Actual 2021 institutions; paused before historical advance. Not speed or five-year acceptance.",
+        styles,
+        evidence,
+      },
+      null,
+      2,
+    ),
+  );
+  await page.screenshot({ path: info.outputPath("loading-glass-2021.png") });
+  await page.evaluate(() => window.openingPreparationFixture.cancel());
+  await page.waitForFunction(
+    () => window.openingPreparationFixture.evidence.status === "aborted",
+  );
+  expect(
+    await page.evaluate(() =>
+      window.openingPreparationFixture.hasPublishedGame(),
+    ),
+  ).toBe(false);
+});
 
 test("a fresh random life paints actual preparation stages and counts", async ({
   page,
