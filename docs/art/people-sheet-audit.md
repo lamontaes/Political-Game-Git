@@ -1,6 +1,6 @@
 # Existing sheet fixes and missing directional source art
 
-The inspected people already use premultiplied resampling, head-based garment registration, and bounded skin highlights. The worst raw neck-check results did not show a visible seam in four assembled close-ups. Directional rendering is still incomplete: both presentations have turned bodies and outfits, but no registered turned faces or hair. A room cannot turn the same person faithfully until those sources exist.
+The inspected people already use premultiplied resampling, head-based garment registration, and bounded skin highlights. The worst raw neck-check results did not show a visible seam in four assembled close-ups. Directional rendering is still incomplete: both presentations have turned standing bodies and outfits, but no registered turned faces, hair, seated bodies or seated outfits. A room cannot turn the same person faithfully until those sources exist.
 
 ## Findings
 
@@ -16,7 +16,7 @@ Measured: the current pack's turned face and hair lists are empty for both prese
 
 ## Source requirements
 
-The private source builder and the matching approved turned face/hair bank are needed to finish source repairs and directional seats. The pack builder currently points to source directories on the owner's Mac; those directories are absent here. Existing alternative character candidates do not supply the same saved identities and cannot silently replace them.
+The private source builder and the matching approved turned face/hair bank are needed to finish source repairs and directional seats. The exact IDs, filenames and registry paths are listed in [the source request](session11-source-request.json). The minimal recipient handoff is [here](session11-source-handoff.md). Turned standing views need 36 face files and 52 hair layers. Turned seating additionally needs six basic seated bodies and matching outfit/skin layers. The pack builder currently points to source directories on the owner's Mac; those directories are absent here. Existing alternative character candidates do not supply the same saved identities and cannot silently replace them.
 
 Keep each reproduced source repair in a separate pull request with before/after crops and derivative lineage. No artwork was changed for the four categories whose existing fixes were confirmed. The scalp-gap candidates and missing directional bank remain open.
 
