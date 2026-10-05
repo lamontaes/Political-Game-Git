@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { contactBases } from "./people-contact";
-import { ageOnDate } from "./dates";
+import { addDays, ageOnDate } from "./dates";
 import {
   ensurePeopleTraits,
   notableQualityRoom,
@@ -106,6 +106,27 @@ function drawn(world: ReturnType<typeof adultLife>["world"], id: EntityId) {
 }
 
 describe("upbringing and starting traits", () => {
+  it("keeps historical upbringing reads consistent when intake revisits earlier dates", () => {
+    const { world, playerId } = adultLife("upbringing-alternating-dates");
+    const people = [
+      playerId,
+      ...world.personOrder.filter((id) => id !== playerId).slice(0, 4),
+    ];
+    for (const currentDate of [
+      world.currentDate,
+      addDays(world.currentDate, 30),
+      addDays(world.currentDate, 10),
+      world.currentDate,
+    ]) {
+      const dated = { ...world, currentDate };
+      // An independent entity map forces a fresh cohort read from the same
+      // recorded facts, rather than reusing the historical intake cache.
+      const fresh = { ...dated, people: { ...dated.people } };
+      expect(people.map((id) => upbringingFor(dated, id))).toEqual(
+        people.map((id) => upbringingFor(fresh, id)),
+      );
+    }
+  });
   it("gives every generated NPC the notable traits their upbringing leans toward: the player's contacts at opening, anyone else when first needed", () => {
     const { world, playerId } = adultLife("upbringing-ordinary-route");
     const contacts = new Set(
