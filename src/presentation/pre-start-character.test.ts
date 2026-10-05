@@ -19,6 +19,10 @@ import {
   finishPreStartNewGameWorld,
 } from "./new-game";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
+import {
+  beginHistoricalPastMode,
+  endHistoricalPastMode,
+} from "../simulation/historical-past-mode";
 import { recordPersonDeath } from "../simulation/vitality";
 import { advanceWorld, assertWorldIntegrity } from "../simulation/world";
 import {
@@ -81,7 +85,21 @@ describe("a character remains in their birth World through Begin", () => {
     );
     const reopenedPast = deserializeWorld(serializeWorld(game.world));
     expect(reopenedPast.preStartLife).toEqual(game.world.preStartLife);
-    const advanced = advanceWorld(reopenedPast, 1);
+    const historical = beginHistoricalPastMode(
+      reopenedPast,
+      game.playerPersonId,
+      targetStartDate,
+    );
+    expect(() => endHistoricalPastMode(historical)).toThrow(
+      "recorded boundary",
+    );
+    const atBoundary = advanceWorld(historical, 1);
+    expect(() =>
+      finishPreStartNewGameWorld({ ...game, world: atBoundary }),
+    ).toThrow("before Begin");
+    const advanced = endHistoricalPastMode(atBoundary);
+    expect(advanced.currentMoment).toEqual(atBoundary.currentMoment);
+    expect(advanced.pastMode).toBeUndefined();
     const finished = finishPreStartNewGameWorld({ ...game, world: advanced });
     expect(finished.world.history).toBe(advanced.history);
     expect(finished.world.people).toBe(advanced.people);
