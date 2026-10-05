@@ -19,7 +19,12 @@
  * Enacted game taxes (`tax-policy.ts`) are a separate route and untouched.
  */
 import { createStableId } from "./ids";
-import { appendedList, recordById } from "./history-index";
+import {
+  appendedList,
+  growingIndex,
+  recordById,
+  type GrowingIndexKind,
+} from "./history-index";
 import {
   federalIncomeTaxUnderLaw,
   RAISE_TOP_FEDERAL_RATE_QUESTION,
@@ -165,12 +170,6 @@ export function assessPaychecksTaxes(
     const after = appendedList<object>(before, rows) as NonNullable<
       World["history"][typeof field]
     >;
-    const identity = TAX_ROW_IDENTITIES.get(before);
-    if (identity && before !== EMPTY_ROWS) {
-      TAX_ROW_IDENTITIES.delete(before);
-      for (const row of rows) remember(identity, row);
-      TAX_ROW_IDENTITIES.set(after, identity);
-    }
     history = { ...history, [field]: after };
   }
   if (history === next.history) return next;
@@ -1058,14 +1057,6 @@ function append<K extends "statutoryTaxLiabilities" | "statutoryTaxPayments">(
   const after = appendedList<object>(before, records) as NonNullable<
     World["history"][K]
   >;
-  // The new list inherits the old list's identity index, grown by the new
-  // rows. The old list gives it up, so a later look at it builds its own.
-  const identity = TAX_ROW_IDENTITIES.get(before);
-  if (identity && before !== EMPTY_ROWS) {
-    TAX_ROW_IDENTITIES.delete(before);
-    for (const record of records) remember(identity, record);
-    TAX_ROW_IDENTITIES.set(after, identity);
-  }
   return {
     ...world,
     history: {
@@ -1090,7 +1081,14 @@ interface TaxRowIdentity {
   readonly sources: Set<EntityId>;
 }
 
-const TAX_ROW_IDENTITIES = new WeakMap<readonly object[], TaxRowIdentity>();
+const TAX_ROW_IDENTITIES: GrowingIndexKind<TaxRowIdentity> = {
+  create: () => ({ ids: new Set(), keys: new Set(), sources: new Set() }),
+  add: (identity, row) =>
+    remember(
+      identity,
+      row as { readonly id: EntityId; readonly stableKey: string },
+    ),
+};
 const EMPTY_ROWS: readonly never[] = [];
 
 function remember(
@@ -1107,13 +1105,7 @@ function remember(
 function taxRowIdentity(
   rows: readonly { readonly id: EntityId; readonly stableKey: string }[],
 ): TaxRowIdentity {
-  let identity = TAX_ROW_IDENTITIES.get(rows);
-  if (!identity) {
-    identity = { ids: new Set(), keys: new Set(), sources: new Set() };
-    for (const row of rows) remember(identity, row);
-    TAX_ROW_IDENTITIES.set(rows, identity);
-  }
-  return identity;
+  return growingIndex(TAX_ROW_IDENTITIES, rows);
 }
 
 function sameOwner(
