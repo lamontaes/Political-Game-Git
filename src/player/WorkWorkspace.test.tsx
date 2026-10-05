@@ -4,7 +4,7 @@ import type { World, EntityId } from "../simulation";
 import type { WorkPendingEntry } from "../simulation/time-work";
 const readers = vi.hoisted(() => ({ pending: vi.fn(), passed: vi.fn() }));
 vi.mock("../simulation", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("../simulation")>()),
+  ...(await importOriginal<Record<string, unknown>>()),
   workPendingEntriesFor: readers.pending,
   workItemOccasionHasPassed: readers.passed,
 }));
