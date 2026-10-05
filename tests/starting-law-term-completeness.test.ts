@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import startingLaw from "../data/research/laws/starting-law-2026.json" with { type: "json" };
+import { createProductionPolicyCatalog } from "../src/simulation/production-catalog";
 
 type StartingLawAnswer = {
   answer?: string;
@@ -36,15 +37,13 @@ function policyArea(questionKey: string): string {
   return questionKey.split(":")[1]?.split(".")[0] ?? "unknown";
 }
 
-// A question declares terms when any affirmative starting-law row carries
-// them. From then on, every affirmative place row for that question is checked.
-const termQuestionKeys = Object.entries(startingLawData.questions)
-  .filter(([, question]) =>
-    Object.values(question.answers).some(
-      (row) => row.answer === "yes" && carriesTerms(row),
-    ),
-  )
-  .map(([questionKey]) => questionKey);
+const catalog = createProductionPolicyCatalog();
+// A catalog parameter means the proposition has operative terms. Those terms
+// can be numeric amounts/schedules or a recorded category rule.
+const termQuestionKeys = Object.values(catalog.propositions)
+  .filter((proposition) => proposition.parameters?.length)
+  .map((proposition) => proposition.stableKey)
+  .filter((questionKey) => startingLawData.questions[questionKey]);
 const policyAreas = [...new Set(termQuestionKeys.map(policyArea))].sort();
 
 describe("starting-law term completeness", () => {
@@ -56,6 +55,18 @@ describe("starting-law term completeness", () => {
       carriesTerms({ regionalTerms: [{ lawTerms: [{}] }] }),
       carriesTerms({ lawTerms: [] }),
     ]).toEqual([true, true, true, true, false]);
+  });
+
+  it("keeps wholly unfilled catalog questions in the expected guard set", () => {
+    const questionKey =
+      "us-policy-positions:fiscal.exempt-groceries-from-sales-tax";
+    expect(termQuestionKeys).toContain(questionKey);
+    const question = startingLawData.questions[questionKey]!;
+    const yesRows = Object.entries(question.answers).filter(
+      ([, row]) => row.answer === "yes",
+    );
+    expect(yesRows).toHaveLength(43);
+    expect(yesRows.every(([, row]) => !carriesTerms(row))).toBe(true);
   });
 
   it.each(policyAreas)(
