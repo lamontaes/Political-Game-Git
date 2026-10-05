@@ -1,0 +1,8 @@
+Clean main af8c098372379836cc22a0b487d10f79e2049a32 on host 3d03bfde5ee8.
+Command: node --max-old-space-size=4096 --import tsx scripts/speed-years/run.ts --seed session3-kit13-20261005 --place 1971040 --years 3 --exclusive --out test-results/session3-speed/main.json
+Managed storage test reservation; no concurrent browser, unit or candidate job.
+No completed-year row or baseline JSON was produced.
+At 902490 ms Node reported:
+FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory
+Process result: exit 128.
+The failure is on clean main before the screen candidate. No speed comparison or PASS is established.
