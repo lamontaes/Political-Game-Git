@@ -48,4 +48,7 @@ it("closes new writer labels while listing the legacy labels to retire", () => {
   const retiredWithholding: LawEffectContext["effectKind"] =
     "federal-income-tax-withholding";
   void retiredWithholding;
+  // @ts-expect-error Operative tax-policy effects retain their separate type; stamps use tax.
+  const retiredPolicyStamp: LawEffectContext["effectKind"] = "tax-policy";
+  void retiredPolicyStamp;
 });

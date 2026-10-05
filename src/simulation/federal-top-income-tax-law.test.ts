@@ -1,3 +1,5 @@
+import { writeFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { drawRandomPlace } from "../../tests/support/random-place";
 import { seatedCongressChamber } from "./governing/congress-chambers";
@@ -13,9 +15,14 @@ import {
   enterLifePath,
   scheduleLifePathSession,
   performLifePathSession,
+  lifePaths2Handlers,
 } from "./life-paths2";
 import { advanceWorld } from "./world";
-import { recordResourceFlowTerms, money } from "./resources";
+import {
+  recordResourceFlowTerms,
+  createResourcePosition,
+  money,
+} from "./resources";
 import { FEDERAL_INCOME_TAX_KEY } from "./statutory-tax";
 import { isTerritory } from "./statutory-tax-rules";
 import { serializeWorld, deserializeWorld } from "./serialization";
@@ -390,7 +397,19 @@ describe("a federal law on the top income tax rate, as enacted in play", () => {
       const terms = entered.world.history.resourceFlowTerms.find(
         (row) => row.resourceFlowId === flow.id,
       )!;
-      const agreed = recordResourceFlowTerms(entered.world, {
+      if (flow.source.kind !== "organization")
+        throw new Error("Controlled payroll requires its recorded employer.");
+      const funded = createResourcePosition(entered.world, {
+        stableKey: `${seed}:controlled-employer-cash`,
+        owner: flow.source,
+        openedAt: start.currentDate,
+        openingBalance: money(1_500_000, "USD"),
+        provenance: {
+          kind: "authored",
+          note: "Controlled employer cash for the test paycheck, not an observed balance.",
+        },
+      });
+      const agreed = recordResourceFlowTerms(funded, {
         stableKey: `${seed}:high-pay`,
         resourceFlowId: flow.id,
         effectiveAt: start.currentDate,
@@ -409,7 +428,13 @@ describe("a federal law on the top income tax rate, as enacted in play", () => {
       const activityId = scheduled.world.history.scheduledActivities.at(-1)!.id;
       const worked = performLifePathSession(scheduled.world, activityId);
       expect(worked.ok, worked.message).toBe(true);
-      const paid = advanceWorld(worked.world, 1);
+      const paid = advanceWorld(worked.world, 1, lifePaths2Handlers());
+      const paycheck = paid.history.resourceTransferOutcomes.find(
+        (entry) => entry.resourceFlowId === flow.id,
+      )!;
+      expect(paycheck).toBeDefined();
+      expect(paycheck.status).toBe("completed");
+      expect(paycheck.transferredAmount).toEqual(money(1_500_000, "USD"));
       const row = paid.history.statutoryTaxLiabilities!.find(
         (entry) => entry.taxKey === FEDERAL_INCOME_TAX_KEY,
       )!;
@@ -461,29 +486,54 @@ describe("a federal law on the top income tax rate, as enacted in play", () => {
       )?.lawEffectStamps,
     ).toEqual(after.row.lawEffectStamps);
     // Explicit saved-history fixture: the old label remains readable, never a new-writer input.
-    const legacyStamp = {
-      ...after.row.lawEffectStamps![0]!,
-      effectKind: "federal-income-tax-withholding",
-    };
-    const legacySaved = {
-      ...after.paid,
-      history: {
-        ...after.paid.history,
-        statutoryTaxLiabilities:
-          after.paid.history.statutoryTaxLiabilities!.map((entry) =>
-            entry.id === after.row.id
-              ? { ...entry, lawEffectStamps: [legacyStamp] }
-              : entry,
-          ),
-      },
-    };
-    expect(
-      deserializeWorld(
-        serializeWorld(legacySaved),
-      ).history.statutoryTaxLiabilities!.find(
-        (entry) => entry.id === after.row.id,
-      )?.lawEffectStamps,
-    ).toEqual([legacyStamp]);
+    for (const effectKind of ["federal-income-tax-withholding", "tax-policy"]) {
+      const legacyStamp = { ...after.row.lawEffectStamps![0]!, effectKind };
+      const legacySaved = {
+        ...after.paid,
+        history: {
+          ...after.paid.history,
+          statutoryTaxLiabilities:
+            after.paid.history.statutoryTaxLiabilities!.map((entry) =>
+              entry.id === after.row.id
+                ? { ...entry, lawEffectStamps: [legacyStamp] }
+                : entry,
+            ),
+        },
+      };
+      expect(
+        deserializeWorld(
+          serializeWorld(legacySaved),
+        ).history.statutoryTaxLiabilities!.find(
+          (entry) => entry.id === after.row.id,
+        )?.lawEffectStamps,
+      ).toEqual([legacyStamp]);
+    }
+    writeFileSync(
+      "/tmp/session21-federal-tax-kind.json",
+      JSON.stringify(
+        {
+          testedHead: execFileSync("git", ["rev-parse", "HEAD"], {
+            encoding: "utf8",
+          }).trim(),
+          seed,
+          place: { key: place.key, name: place.displayName },
+          controls:
+            "Authored 45% adopted rate, favorable votes, high-pay contract and employer cash; not natural economic behavior.",
+          grossMinor: 1_500_000,
+          beforeWithholdingMinor: before.row.liability!.minorUnits,
+          afterWithholdingMinor: expected,
+          paidWithholdingMinor: payment.amount.minorUnits,
+          measureId,
+          effectKind: after.row.lawEffectStamps![0]!.effectKind,
+          governingLawKey: after.row.lawEffectStamps![0]!.governingLawKey,
+          sourceRecordIds: after.row.lawEffectStamps![0]!.sourceRecordIds,
+          savedCanonicalStamp: true,
+          savedLegacyLabels: ["federal-income-tax-withholding", "tax-policy"],
+        },
+        null,
+        2,
+      ),
+    );
     console.info(
       `A28 recorded federal withholding: before=${before.row.liability!.minorUnits} after=${expected} minor; law=${measureId}`,
     );
