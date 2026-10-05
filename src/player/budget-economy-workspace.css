@@ -28,29 +28,23 @@
 }
 
 .budget-economy-header span,
-.budget-economy-boundary,
 .budget-economy-availability p,
 .budget-economy-unavailable p {
   color: var(--run-a-muted);
   line-height: 1.5;
 }
 
-.budget-economy-boundary {
-  max-width: 62rem;
-  margin: 0;
-}
-
 .budget-economy-availability,
 .budget-economy-unavailable {
   display: grid;
   gap: 0.35rem;
-  border-left: 0.25rem solid #64a8c9;
+  border-left: 1px solid var(--brass);
   padding: 0.75rem 1rem;
 }
 
 .budget-economy-availability[data-status="unavailable"],
 .budget-economy-unavailable {
-  border-left-color: #a69a84;
+  border-left-color: var(--pg-hairline);
 }
 
 .budget-economy-workspace > .economic-context-panel {
