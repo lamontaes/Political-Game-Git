@@ -1,4 +1,9 @@
-import { evaluateDecision, isSelectedDecision } from "./decisions";
+import {
+  evaluateDecision,
+  isSelectedDecision,
+  recordDurableDecisionTrace,
+} from "./decisions";
+import { withHistoryAppendTransaction } from "./history-index";
 import { isEligibleVoterIn } from "./issue-record";
 import {
   districtResidenceSince,
@@ -15,6 +20,7 @@ import { personName } from "./people";
 import type {
   CandidateTally,
   DecisionContext,
+  DecisionTraceRecord,
   PrivateBeliefRecord,
   CancelElectionContestInput,
   ElectionContestProvenance,
@@ -32,7 +38,7 @@ import type {
   World,
 } from "./types";
 import { isPersonAliveAt } from "./vitality-integrity";
-import { recordWorldEvent } from "./world";
+import { recordWorldEvent, writeWithWorldIntegrityOnce } from "./world";
 
 export const ELECTION_CONTEST_TRANSITION_KEY =
   "election:contest-resolution" as const;
@@ -153,6 +159,15 @@ export function evaluateDeterministicContestOutcome(
   readonly winnerPersonId: EntityId;
   readonly tallies: readonly CandidateTally[];
 } | null {
+  return evaluateRecordedContest(world, contest, admitVoter, false).outcome;
+}
+
+function evaluateRecordedContest(
+  world: World,
+  contest: ElectionContestRecord,
+  admitVoter: RecordedVoterCountInput["admitVoter"],
+  retain: boolean,
+): RecordedVoterCount {
   assertNotPresidentialOffice(contest.office.officeKey);
   if (contest.candidatePersonIds.length === 0) {
     throw new Error(
@@ -181,13 +196,17 @@ export function evaluateDeterministicContestOutcome(
       }
     : undefined;
   const admission = admitVoter ?? districtAdmission;
-  return countRecordedVoterBallots(world, {
-    stableKey: contest.stableKey,
-    jurisdictionId: contest.jurisdictionId,
-    electionDate: contest.electionDate,
-    candidatePersonIds: contest.candidatePersonIds,
-    ...(admission ? { admitVoter: admission } : {}),
-  });
+  return evaluateRecordedVoterBallots(
+    world,
+    {
+      stableKey: contest.stableKey,
+      jurisdictionId: contest.jurisdictionId,
+      electionDate: contest.electionDate,
+      candidatePersonIds: contest.candidatePersonIds,
+      ...(admission ? { admitVoter: admission } : {}),
+    },
+    retain,
+  );
 }
 
 export interface RecordedVoterCountInput {
@@ -209,6 +228,42 @@ export function countRecordedVoterBallots(
   readonly winnerPersonId: EntityId;
   readonly tallies: readonly CandidateTally[];
 } | null {
+  return evaluateRecordedVoterBallots(world, input, false).outcome;
+}
+
+type RecordedVoterCount = {
+  readonly world: World;
+  readonly outcome: {
+    readonly winnerPersonId: EntityId;
+    readonly tallies: readonly CandidateTally[];
+  } | null;
+};
+
+function evaluateRecordedVoterBallots(
+  initialWorld: World,
+  input: RecordedVoterCountInput,
+  retain: boolean,
+): RecordedVoterCount {
+  let result: RecordedVoterCount = { world: initialWorld, outcome: null };
+  const world = writeWithWorldIntegrityOnce(initialWorld, () =>
+    withHistoryAppendTransaction(initialWorld, ["decisionTraces"], (world) => {
+      result = countVoterBallots(world, input, retain);
+      return result.world;
+    }),
+  );
+  return { world, outcome: result.outcome };
+}
+
+function countVoterBallots(
+  world: World,
+  input: RecordedVoterCountInput,
+  retain: boolean,
+): RecordedVoterCount {
+  const initialWorld = world;
+  const unavailable = (): RecordedVoterCount => ({
+    world: initialWorld,
+    outcome: null,
+  });
   const candidates = new Set<string>(input.candidatePersonIds);
   const livingCandidates = new Set(
     input.candidatePersonIds.filter((personId) =>
@@ -322,22 +377,26 @@ export function countRecordedVoterBallots(
       retention: "ephemeral",
     });
   }
-  if (contexts.size === 0) return null;
-  const votes = new Map(input.candidatePersonIds.map((id) => [id, 0]));
-  for (const [voterId, context] of contexts) {
-    if (
-      !isEligibleVoterIn(
-        world,
-        voterId,
-        input.jurisdictionId,
-        input.electionDate,
-      )
-    )
-      continue;
+  if (contexts.size === 0) return unavailable();
+  const admitted = new Set<EntityId>();
+  for (const voterId of contexts.keys()) {
     const admission =
       input.admitVoter?.(voterId) ?? (input.admitVoter ? null : true);
-    if (admission === null) return null;
-    if (!admission) continue;
+    if (admission === null) return unavailable();
+    if (admission) admitted.add(voterId);
+  }
+  if (admitted.size === 0) return unavailable();
+  const saved = new Map<string, DecisionTraceRecord>();
+  for (const trace of world.history.decisionTraces) {
+    if (
+      trace.context.subject.kind === "context:election" &&
+      trace.context.subject.key === input.stableKey
+    )
+      saved.set(trace.stableKey, trace);
+  }
+  const votes = new Map(input.candidatePersonIds.map((id) => [id, 0]));
+  for (const [voterId, context] of contexts) {
+    if (!admitted.has(voterId)) continue;
     if (
       context.options.length < 2 ||
       context.randomness !== "none" ||
@@ -345,19 +404,30 @@ export function countRecordedVoterBallots(
         (option) => !candidates.has(option.key) && option.key !== "abstain",
       )
     )
-      return null;
-    const evaluation = evaluateDecision(world, context);
+      return unavailable();
+    const prior = saved.get(`${context.stableKey}:trace`);
+    const evaluation =
+      prior ??
+      evaluateDecision(world, {
+        ...context,
+        cutoff: {
+          ...context.cutoff,
+          historySequenceExclusive: world.history.nextSequence,
+        },
+        retention: retain ? "durable" : "ephemeral",
+      });
+    if (retain && !prior) world = recordDurableDecisionTrace(world, evaluation);
     if (isSelectedDecision(evaluation)) {
       if (evaluation.selectedOptionKey === "abstain") continue;
       const id = input.candidatePersonIds.find(
         (candidateId) => candidateId === evaluation.selectedOptionKey,
       );
-      if (!id) return null;
+      if (!id) return unavailable();
       votes.set(id, votes.get(id)! + 1);
     }
   }
   const total = [...votes.values()].reduce((sum, value) => sum + value, 0);
-  if (total === 0) return null;
+  if (total === 0) return { world, outcome: null };
   const tallies = input.candidatePersonIds
     .map((candidatePersonId) => ({
       candidatePersonId,
@@ -366,8 +436,11 @@ export function countRecordedVoterBallots(
     }))
     .sort((a, b) => b.votes - a.votes);
   if (tallies.length > 1 && tallies[0]!.votes === tallies[1]!.votes)
-    return null;
-  return { winnerPersonId: tallies[0]!.candidatePersonId, tallies };
+    return { world, outcome: null };
+  return {
+    world,
+    outcome: { winnerPersonId: tallies[0]!.candidatePersonId, tallies },
+  };
 }
 
 export function resolveElectionContest(
@@ -440,14 +513,16 @@ export function resolveElectionContest(
       voteShare: t.voteShare,
     }));
   } else {
-    const outcome = evaluateDeterministicContestOutcome(
+    const counted = evaluateRecordedContest(
       world,
       contest,
       input.admitVoter,
+      true,
     );
-    if (!outcome) return world;
-    winnerPersonId = outcome.winnerPersonId;
-    tallies = outcome.tallies;
+    world = counted.world;
+    if (!counted.outcome) return world;
+    winnerPersonId = counted.outcome.winnerPersonId;
+    tallies = counted.outcome.tallies;
   }
 
   const winner = world.people[winnerPersonId];

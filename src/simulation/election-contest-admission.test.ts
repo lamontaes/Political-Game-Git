@@ -3,6 +3,7 @@ import { addDays, simulationMomentOnLocalDate } from "./dates";
 import { createDemoWorld } from "./demo";
 import {
   electionContestResult,
+  evaluateDeterministicContestOutcome,
   resolveElectionContest,
   scheduleElectionContest,
 } from "./election-contests";
@@ -110,6 +111,56 @@ describe("shared contest ballot admission", () => {
     expect(
       resolveElectionContest(onElectionDay, { contestId: districtContest.id }),
     ).toBe(onElectionDay);
+  });
+
+  it("reuses recorded ballots after a voter changes their candidate opinion", () => {
+    const { world, contest, voters, candidates } = ballot();
+    const originalTraces = [...world.history.decisionTraces];
+    const resolved = resolveElectionContest(world, {
+      contestId: contest.id,
+      admitVoter: (id) => voters.includes(id),
+    });
+    const recorded = resolved.history.decisionTraces.filter(
+      (trace) =>
+        trace.context.subject.kind === "context:election" &&
+        trace.context.subject.key === contest.stableKey,
+    );
+    expect(recorded).toHaveLength(voters.length);
+    expect(
+      recorded.every((trace) => trace.context.retention === "durable"),
+    ).toBe(true);
+    const changed = recordPrivateBelief(resolved, {
+      stableKey: "admission-fixture:changed-opinion",
+      personId: voters[0]!,
+      propositionId: null,
+      subject: officialOpinionSubject(candidates[0]!),
+      formedAt: resolved.currentDate,
+      position: "oppose",
+      conviction: "strong",
+      salience: "central",
+      flexibility: "firm",
+      rationale:
+        "The voter now opposes the candidate after casting the ballot.",
+      formation: createFormationContext("reflection:fixture", {
+        note: "A subsequent opinion must not rewrite a recorded vote.",
+      }),
+      supersedesBeliefId: resolved.history.privateBeliefs.find(
+        (belief) =>
+          belief.personId === voters[0] &&
+          belief.subject?.kind === "official" &&
+          belief.subject.personId === candidates[0],
+      )!.id,
+    });
+    expect(
+      evaluateDeterministicContestOutcome(changed, contest, (id) =>
+        voters.includes(id),
+      ),
+    ).toEqual({
+      winnerPersonId: electionContestResult(resolved, contest.id)!
+        .winnerPersonId,
+      tallies: electionContestResult(resolved, contest.id)!.tallies,
+    });
+    expect(world.history.decisionTraces).toEqual(originalTraces);
   });
 
   it("counts only admitted voters through the shared resolver", () => {
