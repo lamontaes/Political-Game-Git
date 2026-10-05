@@ -1447,7 +1447,25 @@
           "answer": "yes"
         },
         "US-DC": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+              "key": "duration",
+              "value": 12,
+              "unit": "weeks"
+            },
+            {
+              "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+              "key": "replacement",
+              "value": 0.9,
+              "unit": "ratio"
+            }
+          ],
+          "cite": "FY2027 Budget Support Act of 2026, Bill 26-661; D.C. Code § 32-541.04",
+          "source": "https://dcpaidfamilyleave.dc.gov/program-updates/",
+          "note": "Effective October 1, 2026, parental leave remains 12 weeks; family-care leave is 6 weeks, medical leave 10 weeks, and prenatal leave 2 weeks. A sliding formula replaces up to 90% of covered wages; the weekly benefit maximum is $1,100. Current code text has not yet caught up with the agency update. Maximum wage-replacement share; the statute’s formula varies with weekly wage, leave category, and $1,100 weekly maximum.",
+          "operativeAt": "2026-10-01"
         },
         "US-DE": {
           "answer": "yes",
@@ -1496,7 +1514,18 @@
           "operativeAt": "2028-01-01",
           "before": {
             "answer": "no"
-          }
+          },
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+              "key": "duration",
+              "value": 12,
+              "unit": "weeks"
+            }
+          ],
+          "cite": "Md. Code, Labor & Employment, Title 8.3; Maryland FAMLI employee guidance",
+          "source": "https://paidleave.maryland.gov/employees/",
+          "note": "General statewide program allows up to 12 weeks in a 12-month period; benefits are scheduled to begin January 1, 2028, so the term applies when the row becomes operative."
         },
         "US-ME": {
           "answer": "yes",
@@ -1539,7 +1568,24 @@
           "answer": "no"
         },
         "US-NJ": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+              "key": "duration",
+              "value": 12,
+              "unit": "weeks"
+            },
+            {
+              "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+              "key": "replacement",
+              "value": 0.85,
+              "unit": "ratio"
+            }
+          ],
+          "cite": "N.J. Stat. Ann. § 43:21-39.1; NJ Department of Labor Family Leave Insurance guidance",
+          "source": "https://www.nj.gov/labor/myleavebenefits/worker/fli/",
+          "note": "Up to 12 consecutive weeks per 12 months or 56 intermittent days (8 weeks); the claim and qualifying-event rules apply. 2026 benefit replaces 85% of average weekly wage, subject to a maximum weekly benefit of $1,119."
         },
         "US-NM": {
           "answer": "no"
@@ -1548,7 +1594,24 @@
           "answer": "no"
         },
         "US-NY": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+              "key": "duration",
+              "value": 12,
+              "unit": "weeks"
+            },
+            {
+              "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+              "key": "replacement",
+              "value": 0.67,
+              "unit": "ratio"
+            }
+          ],
+          "cite": "N.Y. Workers’ Compensation Law § 204; NY Workers’ Compensation Board 2026 PFL update",
+          "source": "https://www.wcb.ny.gov/content/main/PressRe/paid-family-leave-2026.jsp",
+          "note": "Up to 12 weeks in a 52-week period for qualifying family-care and bonding leave. 2026 benefit replaces 67% of average weekly wage, subject to a maximum weekly benefit of $1,228.53."
         },
         "US-OH": {
           "answer": "no"
@@ -1557,7 +1620,30 @@
           "answer": "no"
         },
         "US-OR": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+              "key": "duration",
+              "value": 12,
+              "unit": "weeks"
+            },
+            {
+              "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+              "key": "rate",
+              "value": 60,
+              "unit": "basis-points"
+            },
+            {
+              "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+              "key": "cap",
+              "value": 18450000,
+              "unit": "dollars/year"
+            }
+          ],
+          "cite": "Or. Rev. Stat. § 657B.150; Paid Leave Oregon employer guidance",
+          "source": "https://paidleave.oregon.gov/employers-overview/",
+          "note": "Up to 12 weeks per benefit year, with up to two additional weeks for pregnancy, childbirth, or related conditions (14 maximum). For 2026 the total contribution is 1% of gross wages; the employee pays 60% of that contribution, equivalent to 60 basis points, and the employer pays the remainder subject to statutory exceptions. 2026 covered wages are capped at $184,500 per employee for the contribution calculation."
         },
         "US-PA": {
           "answer": "no"
@@ -1568,7 +1654,18 @@
           "note": "Not read in the 9/29/2026 pass."
         },
         "US-RI": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+              "key": "duration",
+              "value": 8,
+              "unit": "weeks"
+            }
+          ],
+          "cite": "R.I. Gen. Laws § 28-41-35(d)(5)",
+          "source": "https://webserver.rilegislature.gov/Statutes/TITLE28/28-41/28-41-35_28-41-35.htm",
+          "note": "Effective January 1, 2026, caregiver leave is up to eight weeks per benefit year; later scheduled replacement-rate increases do not apply in 2026."
         },
         "US-SC": {
           "answer": "no"
@@ -1602,7 +1699,18 @@
           "answer": "no"
         },
         "US-WA": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+              "key": "duration",
+              "value": 12,
+              "unit": "weeks"
+            }
+          ],
+          "cite": "RCW 50A.15.020; Washington Paid Family and Medical Leave current guidance",
+          "source": "https://paidleave.wa.gov/find-out-how-paid-leave-works/",
+          "note": "Family leave is up to 12 weeks; combined family and medical leave can reach 16 weeks, and pregnancy-related incapacity can extend the combined maximum to 18 weeks. 2026 maximum weekly benefit is $1,647; the replacement formula varies."
         },
         "US-WI": {
           "answer": "no"
