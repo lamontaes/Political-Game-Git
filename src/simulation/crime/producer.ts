@@ -506,7 +506,9 @@ export function sampleMonthlyCrime(
   monthStart: IsoDate,
   historySequenceExclusive = world.history.nextSequence,
 ): readonly SampledCrime[] {
-  const monthEnd = addDays(firstOfNextMonth(monthStart), -1);
+  const calendarEnd = addDays(firstOfNextMonth(monthStart), -1);
+  const monthEnd =
+    calendarEnd < world.currentDate ? calendarEnd : world.currentDate;
   const sampled: SampledCrime[] = [];
   for (const exposure of crimeExposures(
     world,

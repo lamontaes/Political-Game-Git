@@ -2,6 +2,7 @@
 import { advanceWorld, assertWorldIntegrity } from "../world";
 import { describe, expect, it } from "vitest";
 import { writeFileSync } from "node:fs";
+import { recordHouseholdLocation } from "../life";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { stableHash } from "../ids";
 import {
@@ -73,8 +74,18 @@ function openCrimeSmallWorld(seed: string) {
     household: true,
     seed,
   });
+  const admitted = recordHouseholdLocation(small.world, {
+    stableKey: "crime-small-world:location",
+    householdId: small.world.history.households.at(-1)!.id,
+    effectiveAt: small.world.currentDate,
+    jurisdictionId: small.jurisdictionId,
+    kind: "residence:home",
+    label: "Recorded fixture home",
+    provenance: { kind: "authored", note: "Crime fixture household location" },
+    supersedesLocationId: null,
+  });
   const world = ensureCrimeProduction(
-    ensureWorldStartingConditions(small.world, {
+    ensureWorldStartingConditions(admitted, {
       openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
       political: generatePoliticalStartingConditions,
     }),
