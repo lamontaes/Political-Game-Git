@@ -1,7 +1,6 @@
 import { considerationScore, recordDurableDecisionTrace } from "./decisions";
 import { decideMemberVote } from "./governing/member-vote-decision";
-import { favorStandingBetween } from "./favors";
-import { favorEventRefs } from "./patronage/favor-refs";
+import { favorRecords, favorStandingBetween } from "./favors";
 import { requireMeasure } from "./legislation";
 import { lawInForce } from "./governing/law-in-force";
 import { measurePropositionAnswer } from "./issue-record";
@@ -536,13 +535,22 @@ function memberConsiderations(
   // help when it counted (appointments-v1, through the one favor record). The
   // debt is read as it stands today, faded or held, never as a count.
   if (sponsorPersonId && sponsorPersonId !== input.personId) {
-    const owed = favorStandingBetween(
+    const standing = favorStandingBetween(
       world,
       input.personId,
       sponsorPersonId,
       world.currentDate,
-    ).receiverDebt;
-    const refs = favorEventRefs(world, input.personId, sponsorPersonId);
+    );
+    const owed = standing.receiverDebt;
+    // Cite the open help that produced this debt, rather than the latest
+    // favors, which may have been repaid or may be dated after this vote.
+    const openFavorIds = new Set(standing.openFavorIds);
+    const refs = favorRecords(world)
+      .filter((favor) => openFavorIds.has(favor.id))
+      .map((favor) => ({
+        kind: "historical-event" as const,
+        eventId: favor.eventId,
+      }));
     // A debt with no recorded moment behind it is not cited.
     if (owed !== "none" && refs.length > 0)
       considerations.push({

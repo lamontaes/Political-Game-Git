@@ -295,8 +295,10 @@ describe("member votes read what the member owes the bill's sponsor", () => {
     return { world, member: member! };
   }
 
-  function owed(owes: boolean) {
-    const { world, member } = owingWorld(owes);
+  function owed(owes: boolean, change?: (world: World) => World) {
+    const original = owingWorld(owes);
+    const member = original.member;
+    const world = change ? change(original.world) : original.world;
     return memberVoteConsiderations(world, {
       stableKey: "test:vote",
       personId: member,
@@ -326,5 +328,43 @@ describe("member votes read what the member owes the bill's sponsor", () => {
 
   it("owes nothing to a sponsor who never helped them", () => {
     expect(owed(false)).toEqual([]);
+  });
+
+  it("cites outstanding help even when repaid and future favors are newer", () => {
+    const [row] = owed(true, (world) => {
+      const original = world.history.favors![0]!;
+      const returned = {
+        ...original,
+        id: "favor_returned" as EntityId,
+        stableKey: "test:returned",
+        eventId: "event_returned" as EntityId,
+      };
+      return {
+        ...world,
+        history: {
+          ...world.history,
+          favors: [
+            original,
+            returned,
+            {
+              ...original,
+              id: "favor_repayment" as EntityId,
+              stableKey: "test:repayment",
+              giverPersonId: original.receiverPersonId,
+              receiverPersonId: original.giverPersonId,
+              inReturnForFavorId: returned.id,
+            },
+            {
+              ...original,
+              id: "favor_future" as EntityId,
+              stableKey: "test:future",
+              eventId: "event_future" as EntityId,
+              givenAt: makeIsoDate("2026-01-06"),
+            },
+          ],
+        },
+      };
+    });
+    expect(row?.sourceRefs).toEqual([{ kind: "historical-event", eventId }]);
   });
 });
