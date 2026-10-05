@@ -4,7 +4,10 @@ import {
   projectLifeConversation,
   type LifeTalkIntent,
 } from "./life-conversation";
-import type { ConversationRoomContext } from "./run-b-conversation";
+import {
+  resolveConversationListeners,
+  type ConversationRoomContext,
+} from "./run-b-conversation";
 import type { CommitConversationTurnInput } from "./run-b-conversation";
 import type { CommitConversationTurnResult } from "./run-b-conversation";
 import {
@@ -199,11 +202,17 @@ export function commitLifeTalkConversationTurn(
     );
   }
 
+  const actualListenerPersonIds = resolveConversationListeners(
+    input.room,
+    input.addressee,
+    input.audibility,
+  );
   const world = commitLifeConversation(inputWorld, {
     playerPersonId: input.room.playerPersonId,
     personId: addressee,
     intent: input.intent as LifeTalkIntent,
     revision: view.revision,
+    actualListenerPersonIds,
     ...(input.transitionHandlers
       ? { transitionHandlers: input.transitionHandlers }
       : {}),
@@ -223,9 +232,7 @@ export function commitLifeTalkConversationTurn(
       turnKey,
       outcome: "continued",
       responseSpeakerPersonId: addressee,
-      actualListenerPersonIds: input.room.normalHearingPersonIds.filter(
-        (id) => id !== input.room.playerPersonId,
-      ),
+      actualListenerPersonIds,
       claimRecipientPersonIds: [addressee],
       claimAudience: null,
       durableDecisionRecorded: false,
