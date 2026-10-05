@@ -502,11 +502,11 @@ function replyFor(
   };
   if (isTellIntent(intent)) {
     const topic = findTellTopic(world, playerPersonId, personId, intent);
-    return topic
-      ? tellAnswer(world, playerPersonId, personId, topic, {
-          parentOfYoungPlayer: parent && youngPlayer,
-        }).reply
-      : say("what-were-you-going-to-say");
+    if (!topic) return say("what-were-you-going-to-say");
+    const answer = tellAnswer(world, playerPersonId, personId, topic, {
+      parentOfYoungPlayer: parent && youngPlayer,
+    });
+    return worded({ text: answer.reply, parts: answer.parts });
   }
   switch (intent) {
     case "scene": {

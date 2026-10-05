@@ -14,6 +14,15 @@ import type { SmallTalkLine } from "./small-talk-english";
 
 /** The caller decides the speech act from records; the existing composer words it. */
 const CORES = {
+  "tell-privacy": "Can it wait? I need a little quiet right now.",
+  "tell-shared-plan": "Me too. I've been meaning to {{plan}}.",
+  "tell-guarded": "All right.",
+  "tell-parent-plan": "That sounds like a good idea.",
+  "tell-warm-plan": "That sounds good. I hope you find the time.",
+  "tell-plain-plan": "Good luck with it.",
+  "tell-parent-experience": "Thank you for telling me. How did that feel?",
+  "tell-warm-experience": "I'm glad you told me. How did it go?",
+  "tell-plain-experience": "Thanks for telling me.",
   "i-need-some-time-alone-now-lets":
     "I need some time alone now. Let’s leave it for another time.",
   "what-were-you-going-to-say": "What were you going to say?",
@@ -159,6 +168,20 @@ export const LIFE_REPLY_BANKS: Readonly<
       surface: "dialogue",
       act: key === "first-greeting" ? "greet" : "answer",
       parts: {
+        ...(key.startsWith("tell-")
+          ? {
+              opener: {
+                variants: [
+                  {
+                    key: "known-person",
+                    kind: "template" as const,
+                    text: "{{known-person}}?",
+                    requiresFacts: ["known-person"],
+                  },
+                ],
+              },
+            }
+          : {}),
         core: { variants: [{ key: "core", kind: "template", text: core }] },
         ...(continuation
           ? {
