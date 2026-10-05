@@ -132,8 +132,9 @@ export const MATTER_CHOICE_PREFIX = "Mention the news: ";
 export interface LifeTalkContext {
   readonly playerPersonId: EntityId;
   readonly personId: EntityId;
-  readonly setting: "home" | "school" | "neighborhood";
+  readonly setting: "home" | "school" | "neighborhood" | "work";
   readonly placeLabel: string;
+  readonly jurisdictionId: EntityId;
 }
 
 /** Exact relation + shared context, never the first person in a list. */
@@ -157,6 +158,9 @@ export function lifeTalkContext(
     personId,
     setting: scene.definition.setting,
     placeLabel: event?.context.location?.label ?? "Home",
+    jurisdictionId:
+      event?.context.location?.jurisdictionId ??
+      world.people[playerPersonId]!.homeJurisdictionId,
   };
 }
 
@@ -914,7 +918,7 @@ export function commitLifeConversation(
     type: "life.conversation",
     occurredAt: advanced.currentDate,
     recordedAt: advanced.currentDate,
-    jurisdictionId: world.people[input.playerPersonId]!.homeJurisdictionId,
+    jurisdictionId: view.context.jurisdictionId,
     involvedEntityIds: heardPersonIds,
     participants: [
       {
@@ -964,7 +968,7 @@ export function commitLifeConversation(
     summary: `${personName(world.people[input.playerPersonId]!)}: ${intentLabel}${/[.?!]$/.test(intentLabel) ? "" : "."} ${personName(world.people[input.personId]!)}: ${reply}`,
     context: {
       location: {
-        jurisdictionId: world.people[input.playerPersonId]!.homeJurisdictionId,
+        jurisdictionId: view.context.jurisdictionId,
         label: view.context.placeLabel,
         setting: view.context.setting,
       },

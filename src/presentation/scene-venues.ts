@@ -59,6 +59,14 @@ export interface SceneVenue {
  */
 export const SCENE_VENUES: readonly SceneVenue[] = [
   {
+    locationKey: "place:office",
+    sceneId: PRODUCTION_OFFICE_SCENE_ID,
+    reason:
+      "The recorded work schedule establishes an office; the released shared workroom depicts an office.",
+    isJourney: false,
+  },
+
+  {
     locationKey: "formative:school-corridor",
     sceneId: null,
     reason:

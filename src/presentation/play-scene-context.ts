@@ -12,7 +12,7 @@ import {
 } from "../simulation";
 import type { LifeSceneSetting } from "../simulation/opening-life-content";
 import { resolveLifeScene } from "./life-scene";
-import { openingWorkLocation } from "./opening-work-location";
+import { workplacePresence } from "./workplace-presence";
 import { recordedRoomPresence } from "./recorded-room-presence";
 import {
   currentOpeningLifeScene,
@@ -123,16 +123,32 @@ export function resolveOpeningPlaySceneContext(
       activityVenue,
     );
 
-  const workArrival = openingWorkLocation(world, personId);
-  if (workArrival?.context.location?.setting === "work")
+  const work = workplacePresence(world, personId);
+  if (work) {
+    const venue = sceneVenueForLocationKey(`place:${work.place}`);
+    const sceneId = venue?.sceneId;
     return {
       purpose: "activity",
-      locationKey: "life-circumstance:covered-shift",
-      sceneId: null,
-      reason: workArrival.summary,
-      placeLabel: workArrival.context.location.label,
-      presentPeople: [],
+      locationKey: work.locationKey,
+      sceneId: sceneId && libraryHas(scenes, library, sceneId) ? sceneId : null,
+      reason: work.arrival.summary,
+      placeLabel: work.location.label,
+      presentPeople: work.personIds.flatMap((id) => {
+        if (id === personId) return [];
+        const context = describePersonContext(world, personId, id);
+        return context
+          ? [
+              {
+                personId: id,
+                name: context.name,
+                relationship: context.relationship,
+                introduction: introducePerson(context),
+              },
+            ]
+          : [];
+      }),
     };
+  }
 
   if (setting === "neighborhood" || setting === null)
     return {

@@ -1,3 +1,4 @@
+import { chooseSceneFromRecordedReasons } from "./scene-person-reasons";
 import { meetingHomeRoute } from "./meeting-home-route";
 import { lifeActivityHandlers } from "./life-time-handlers";
 import { travelToPlace, type PlaceTravelProvider } from "./place-travel";
@@ -307,7 +308,7 @@ export function currentOpeningLifeScene(world: World, personId: EntityId) {
  * same family (its follow-through first), or to a scene whose counterpart
  * was part of that event. The first event that ties to any eligible scene
  * decides; within it, the earlier scene in order wins. With nothing tied,
- * the first eligible scene in order comes next. Nothing is drawn.
+ * the caller records a decision from this person’s actual scene causes.
  */
 function sceneTiedToLatestEvent<
   T extends {
@@ -319,7 +320,7 @@ function sceneTiedToLatestEvent<
   world: World,
   personId: EntityId,
   eligible: readonly T[],
-): { readonly choice: T; readonly eventId: EntityId | null } {
+): { readonly choice: T; readonly eventId: EntityId } | null {
   const events = world.history.events;
   for (let at = events.length - 1; at >= 0; at -= 1) {
     const event = events[at]!;
@@ -342,7 +343,7 @@ function sceneTiedToLatestEvent<
       );
     if (tied) return { choice: tied, eventId: event.id };
   }
-  return { choice: eligible[0]!, eventId: null };
+  return null;
 }
 
 /** Initial scene construction establishes presence. Later location changes belong to the place owner. */
@@ -412,7 +413,13 @@ export function openNextLifeScene(
   const pick = continuation
     ? { choice: continuation, eventId: previous!.id }
     : sceneTiedToLatestEvent(world, personId, eligible);
-  const { definition, counterpartPersonId, beat } = pick.choice;
+  const reasoned = pick
+    ? null
+    : chooseSceneFromRecordedReasons(world, personId, eligible);
+  const chosen = pick?.choice ?? reasoned?.choice;
+  if (!chosen) return reasoned?.world ?? world;
+  const sourceWorld = reasoned?.world ?? world;
+  const { definition, counterpartPersonId, beat } = chosen;
   const present =
     definition.setting === "home"
       ? homePeople(world, personId)
@@ -426,7 +433,7 @@ export function openNextLifeScene(
         ? "School"
         : "In your neighborhood";
   const summary = beat.prose;
-  let opened = recordWorldEvent(world, {
+  let opened = recordWorldEvent(sourceWorld, {
     stableKey: `opening-life:scene:${personId}:${definition.key}${definition.recurrence === "daily" ? `:${world.currentDate}` : ""}${beat.stageKey === "moment" ? "" : `:${beat.stageKey}`}`,
     type: OPEN,
     occurredAt: world.currentDate,
@@ -464,7 +471,8 @@ export function openNextLifeScene(
       `opening-stage:${beat.stageKey}`,
       "provenance:authored-premise",
       `moment:${JSON.stringify(world.currentMoment)}`,
-      ...(pick.eventId === null ? [] : [`follows-event:${pick.eventId}`]),
+      ...(pick ? [`follows-event:${pick.eventId}`] : []),
+      ...(reasoned ? [`scene-decision:${reasoned.decisionTraceId}`] : []),
     ],
     summary,
     context: {
