@@ -1,3 +1,5 @@
+import { writeFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
 import { createWorkItem } from "../time-work";
 import type { LawEffectContext } from "../law-effect-stamp";
 import { describe, expect, it } from "vitest";
@@ -122,6 +124,34 @@ describe("saved law permission family", () => {
         ?.id,
     ).toBe(saved.id);
 
+    expect(appendLawPermission(legacyResumed, law, context, input)).toBe(
+      legacyResumed,
+    );
+    writeFileSync(
+      "/tmp/session21-permission-kind.json",
+      JSON.stringify(
+        {
+          testedHead: execFileSync("git", ["rev-parse", "HEAD"], {
+            encoding: "utf8",
+          }).trim(),
+          scope:
+            "Authored generic permission review, not an eviction counsel service or representation claim.",
+          seed: world.seed,
+          personId: saved.subject.id,
+          name: personName(next.people[saved.subject.id]!),
+          recordId: saved.id,
+          status: saved.status,
+          governingLawKey: saved.lawEffectStamps[0].governingLawKey,
+          effectKind: saved.lawEffectStamps[0].effectKind,
+          sourceRecordIds: saved.sourceRecordIds,
+          savedLegacyLabel: legacyStamp.effectKind,
+          reloadedSameIdentity: true,
+          repeatedReviewIsIdempotent: true,
+        },
+        null,
+        2,
+      ),
+    );
     const resumed = deserializeWorld(serializeWorld(next));
     expect(
       latestLawPermission(resumed, input.subject, input.permissionKey),
