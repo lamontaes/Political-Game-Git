@@ -3693,15 +3693,13 @@ function renderWorkspace({
                 world={session.world}
                 personId={session.personId}
               />
-              {view.section === "finances" && (
-                <MoneyLawsPanel
-                  world={session.world}
-                  personId={session.personId}
-                  onOpenMeasure={(measureId) =>
-                    openEntity({ kind: "measure", id: measureId })
-                  }
-                />
-              )}
+              <MoneyLawsPanel
+                world={session.world}
+                personId={session.personId}
+                onOpenMeasure={(measureId) =>
+                  openEntity({ kind: "measure", id: measureId })
+                }
+              />
               <HomePurchasePanel
                 world={session.world}
                 personId={session.personId}
@@ -3736,53 +3734,49 @@ function renderWorkspace({
               personId={session.personId}
               onOpenPerson={openPerson}
             >
-              {view.section !== "finances" && (
-                <PersonalRoutinePanel
-                  world={session.world}
-                  personId={session.personId}
-                  onWorldChange={onWorldChange}
-                  onOpenEntity={openEntity}
-                  onTogglePin={togglePin}
-                  isPinned={pinnedRef}
-                />
-              )}
+              <PersonalRoutinePanel
+                world={session.world}
+                personId={session.personId}
+                onWorldChange={onWorldChange}
+                onOpenEntity={openEntity}
+                onTogglePin={togglePin}
+                isPinned={pinnedRef}
+              />
               <HomePurchasePanel
                 world={session.world}
                 personId={session.personId}
                 onWorldChange={onWorldChange}
               />
-              {view.section !== "finances" && (
-                <>
-                  <PersonalGoalsPanel
-                    world={session.world}
-                    personId={session.personId}
-                    onWorldChange={onWorldChange}
-                    onOpportunity={(opportunity) => {
-                      if (opportunity.kind === "talk" && opportunity.personId) {
-                        talkTo(
-                          opportunity.personId,
-                          (opportunity.subject ?? undefined) as
-                            ConversationSubjectKey | undefined,
-                        );
-                      } else if (opportunity.kind === "read-news") {
-                        dispatch({ type: "go-to-surface", surface: "news" });
-                      } else {
-                        dispatch({
-                          type: "go-to-surface",
-                          surface: "work",
-                          section: "campaign",
-                        });
-                      }
-                    }}
-                  />
-                  <CrisisNoticesPanel
-                    world={session.world}
-                    personId={session.personId}
-                    onWorldChange={onWorldChange}
-                    scope="personal"
-                  />
-                </>
-              )}
+              <>
+                <PersonalGoalsPanel
+                  world={session.world}
+                  personId={session.personId}
+                  onWorldChange={onWorldChange}
+                  onOpportunity={(opportunity) => {
+                    if (opportunity.kind === "talk" && opportunity.personId) {
+                      talkTo(
+                        opportunity.personId,
+                        (opportunity.subject ?? undefined) as
+                          ConversationSubjectKey | undefined,
+                      );
+                    } else if (opportunity.kind === "read-news") {
+                      dispatch({ type: "go-to-surface", surface: "news" });
+                    } else {
+                      dispatch({
+                        type: "go-to-surface",
+                        surface: "work",
+                        section: "campaign",
+                      });
+                    }
+                  }}
+                />
+                <CrisisNoticesPanel
+                  world={session.world}
+                  personId={session.personId}
+                  onWorldChange={onWorldChange}
+                  scope="personal"
+                />
+              </>
               <details data-testid="personal-life-choices">
                 <summary>Your day and choices</summary>
                 {/*
