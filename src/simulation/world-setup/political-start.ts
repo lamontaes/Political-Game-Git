@@ -1,3 +1,4 @@
+import { congressSeats } from "../living-world/congress-seats";
 import { canonicalJson } from "../canonical-json";
 import { electoralAllocationForCycle } from "../national-election-rules";
 import { sha256Hex } from "../sha256";
@@ -405,13 +406,37 @@ function conditionsFor(
   regime: StartingRegime,
   latents: PoliticalLatents,
 ): Draft {
-  const seats = [
-    ...calibrationRows("us-house"),
-    ...calibrationRows("us-senate"),
-  ]
-    .slice()
-    .sort((a, b) => a.contestKey.localeCompare(b.contestKey))
-    .map((row) => generateContest(world, latents, row));
+  const seats = congressSeats(world.currentDate)
+    .map((seat) => {
+      const exact = calibrationRow(seat.seatKey);
+      if (exact) return generateContest(world, latents, exact);
+      // A retired district has no row in the current source. Retain this
+      // state's recorded House observations as an explicitly estimated mean.
+      const peers = calibrationRows("us-house").filter(
+        (row) => row.stateUsps === seat.stateUsps,
+      );
+      const shares = peers.flatMap((row) =>
+        row.democraticTwoPartyShare === null
+          ? []
+          : [row.democraticTwoPartyShare],
+      );
+      const share = shares.length
+        ? shares.reduce((sum, value) => sum + value, 0) / shares.length
+        : null;
+      const source = peers[0];
+      if (!source) throw new Error(`No House evidence for ${seat.stateUsps}.`);
+      return generateContest(world, latents, {
+        ...source,
+        contestKey: seat.seatKey,
+        totalVotes: null,
+        democraticTwoPartyShare: share,
+        twoPartyMargin: share === null ? null : share * 2 - 1,
+        sourceRef: peers.map((row) => row.sourceRef).join("; "),
+        uncertaintyReason:
+          "estimated-retired-district-from-own-state-house-mean",
+      });
+    })
+    .sort((a, b) => a.seatKey.localeCompare(b.seatKey));
   return {
     kind: "political-starting-conditions",
     stableKey: "world-setup:crunch46-v1:political-starting-conditions",

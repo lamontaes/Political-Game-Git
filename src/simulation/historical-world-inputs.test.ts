@@ -9,6 +9,7 @@ import {
   historicalStartingLawRow,
   historicalWorldInputs,
 } from "./historical-world-inputs";
+import { generatePoliticalStartingConditions } from "./world-setup/political-start";
 import { congressSeats, seatTermWindow } from "./living-world/congress-seats";
 import { nationalElectionRules } from "./national-election-rules";
 import {
@@ -47,6 +48,22 @@ describe("historical inputs through the existing observer clock", () => {
         const law = historicalStartingLawRow(wageMatrix.questionKey, key, date);
         expect(law?.row.lawTerms?.[0]?.value).toBe(wage.value);
       }
+  });
+  it("prepares every former district instead of requesting the current map", () => {
+    const world = buildPreStartBackgroundWorld(input);
+    const political = generatePoliticalStartingConditions(
+      world,
+      "near-reference",
+    );
+    expect(political.seats.map((row) => row.seatKey).sort()).toEqual(
+      congressSeats(world.currentDate)
+        .map((row) => row.seatKey)
+        .sort(),
+    );
+    expect(
+      political.seats.find((row) => row.seatKey === "us-house:CA-53")
+        ?.uncertaintyReason,
+    ).toBe("estimated-retired-district-from-own-state-house-mean");
   });
   it("uses the previous House allocation until the 2023 term, without changing total seats", () => {
     const old = congressSeats(makeIsoDate("2021-01-01"));
