@@ -12692,8 +12692,17 @@
         },
         "US-AS": {
           "answer": "yes",
-          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (3 answer yes), because this place's own law could not be read.",
-          "note": "Tried: American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
+          "note": "Ordinary juvenile delinquency jurisdiction covers offenses committed before age 18; the upper included age is 17. Felony transfer and direct adult-charging exceptions apply, including offenses from age 14 and specified serious/repeat cases.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ],
+          "cite": "A.S.C.A. §§ 45.0103(2), (3), (9), 45.0115(c)",
+          "source": "https://asbar.org/code-annotated/45-0103-definitions/"
         },
         "US-AZ": {
           "answer": "yes",
@@ -13347,8 +13356,17 @@
         },
         "US-VI": {
           "answer": "yes",
-          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (3 answer yes), because this place's own law could not be read.",
-          "note": "Tried: V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found)."
+          "note": "Ordinary juvenile jurisdiction covers persons under 18; the upper included age is 17. Adult-transfer rules apply, but the full current offense-specific transfer list and retained-jurisdiction ceiling were not verified here.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ],
+          "cite": "5 V.I.C. § 2502(7); V.I. Rules of Family Division Proc. R. 1(f)(2), 17",
+          "source": "https://supreme.vicourts.org/UserFiles/Servers/Server_12810860/File/Promolugation%20Orders/PROM%202019-0009%20Prom%20Order%20Family%20Rules%20Full.pdf"
         },
         "US-VT": {
           "answer": "yes",
