@@ -1,4 +1,13 @@
 import {
+  currentSceneAppearance,
+  expandSceneAppearance,
+  selectSceneAppearance,
+  type SelectedSceneAppearance,
+} from "./scene-dossier-appearance";
+import { currentOpeningLifeScene } from "../presentation/life-scene-flow";
+import type { EngineRecipe } from "../presentation/appearance-engine/pack";
+import type { PersonSceneAppearance } from "../presentation/person-scene-appearance";
+import {
   NATIVE_SAVE_EVENT,
   NATIVE_SESSION_QUERY_EVENT,
   type NativeSaveRequest,
@@ -1399,6 +1408,15 @@ function PlayingScreen({
    * reached any other way, or for somebody else, has no anchor and uses the
    * consistent side placement.
    */
+  const [selectedSceneAppearance, setSelectedSceneAppearance] =
+    useState<SelectedSceneAppearance | null>(null);
+  const [openingSceneKey, setOpeningSceneKey] = useState("");
+  const onOpeningSceneChange = useCallback((key: string) => {
+    setOpeningSceneKey(key);
+    setSelectedSceneAppearance((current) =>
+      current?.sceneKey === key ? current : null,
+    );
+  }, []);
   const [cardAnchor, setCardAnchor] = useState<{
     readonly personId: EntityId;
     readonly rect: PersonCardAnchor;
@@ -2082,6 +2100,7 @@ function PlayingScreen({
 
   const openEntity = useCallback(
     (ref: ShellRef) => {
+      setSelectedSceneAppearance(null);
       if (openSurface === "news" && ref.kind === "person")
         newsPersonReturn.current = ref.id;
       dispatch({ type: "open-entity", ref });
@@ -2172,6 +2191,42 @@ function PlayingScreen({
     setFloorSeat(entry.seat);
     dispatch({ type: "go-to-scene" });
   }
+
+  const openingLifeScene = currentOpeningLifeScene(
+    session.world,
+    session.personId,
+  );
+  const ordinarySceneKey = JSON.stringify([
+    "ordinary",
+    session.world.id,
+    session.personId,
+    sceneId,
+    openingLifeScene?.eventId,
+    openingLifeScene?.stageKey,
+    completedActivityHere(session.world, session.personId)?.id,
+    playScene.locationKey,
+    playScene.purpose,
+    placeBackdrop?.place,
+    placeBackdrop?.variant,
+  ]);
+  const appearanceContext = {
+    personId:
+      shell.quickDossierPersonId ??
+      (view.surface === "entity" && view.ref.kind === "person"
+        ? view.ref.id
+        : null),
+    onDate: session.world.currentDate,
+    sceneKey: showOrientation ? openingSceneKey : ordinarySceneKey,
+    inScene: view.surface === "scene",
+    inExpandedRecord: view.surface === "entity" && view.ref.kind === "person",
+  };
+  const dossierSceneAppearance = currentSceneAppearance(
+    selectedSceneAppearance,
+    appearanceContext,
+  );
+  useEffect(() => {
+    if (!dossierSceneAppearance) setSelectedSceneAppearance(null);
+  }, [dossierSceneAppearance]);
 
   const selectedDossier =
     shell.quickDossierPersonId === null
@@ -2424,6 +2479,7 @@ function PlayingScreen({
     onWorldChange,
     openEntity,
     dossierFor,
+    sceneAppearance: dossierSceneAppearance,
     talkTo,
     openContact,
     presentPersonIds,
@@ -2554,7 +2610,14 @@ function PlayingScreen({
                * only ever holds what the player put there.
                */
               selectedPersonId={shell.quickDossierPersonId}
-              onSelectPerson={(personId) => {
+              onSelectPerson={(personId, engine?: EngineRecipe) => {
+                setSelectedSceneAppearance(
+                  selectSceneAppearance(
+                    { personId, engine },
+                    session.world.currentDate,
+                    ordinarySceneKey,
+                  ),
+                );
                 const button = document.querySelector<HTMLElement>(
                   `[data-testid="scene-person-${personId}"]`,
                 );
@@ -2680,10 +2743,16 @@ function PlayingScreen({
                         homeStateUsps={orientation.homeStateUsps}
                         regionalPlate={orientation.regionalPlate}
                         mode="first"
+                        onSceneChange={onOpeningSceneChange}
                         onClose={() => dispatch({ type: "finish-orientation" })}
-                        onOpenPerson={(personId) =>
-                          dispatch({ type: "open-quick-dossier", personId })
-                        }
+                        onOpenPerson={(personId, appearance) => {
+                          setSelectedSceneAppearance(
+                            appearance
+                              ? { sceneKey: openingSceneKey, appearance }
+                              : null,
+                          );
+                          dispatch({ type: "open-quick-dossier", personId });
+                        }}
                       />
                     ) : null
                   }
@@ -2696,6 +2765,7 @@ function PlayingScreen({
                 world={session.world}
                 playerId={session.personId}
                 dossier={selectedDossier}
+                sceneAppearance={dossierSceneAppearance}
                 anchor={
                   cardAnchor?.personId === selectedDossier.personId
                     ? cardAnchor.rect
@@ -2713,9 +2783,10 @@ function PlayingScreen({
                   })
                 }
                 onOpenLink={openEntity}
-                onOpenPerson={(personId) =>
-                  dispatch({ type: "open-quick-dossier", personId })
-                }
+                onOpenPerson={(personId) => {
+                  setSelectedSceneAppearance(null);
+                  dispatch({ type: "open-quick-dossier", personId });
+                }}
                 {...(readOnly
                   ? {}
                   : { onTalk: () => talkTo(selectedDossier.personId) })}
@@ -2741,9 +2812,18 @@ function PlayingScreen({
                     dispatch({ type: "go-to-scene" });
                   }
                 }}
-                onFullRecord={() =>
-                  openEntity({ kind: "person", id: selectedDossier.personId })
-                }
+                onFullRecord={() => {
+                  setSelectedSceneAppearance(
+                    expandSceneAppearance(
+                      selectedSceneAppearance,
+                      appearanceContext,
+                    ),
+                  );
+                  dispatch({
+                    type: "open-entity",
+                    ref: { kind: "person", id: selectedDossier.personId },
+                  });
+                }}
                 presentPersonIds={presentPersonIds}
                 talkUnavailable={
                   readOnly
@@ -3078,6 +3158,7 @@ function renderWorkspace({
   onWorldChange,
   openEntity,
   dossierFor,
+  sceneAppearance,
   talkTo,
   openContact,
   presentPersonIds,
@@ -3101,6 +3182,7 @@ function renderWorkspace({
   readonly onWorldChange: (world: World) => void;
   readonly openEntity: (ref: ShellRef) => void;
   readonly dossierFor: (personId: EntityId) => PersonDossier | null;
+  readonly sceneAppearance?: PersonSceneAppearance;
   readonly talkTo: (
     personId: EntityId,
     subject?: ConversationSubjectKey,
@@ -3449,6 +3531,7 @@ function renderWorkspace({
           world={session.world}
           playerId={session.personId}
           dossier={dossier}
+          sceneAppearance={sceneAppearance}
           pinned={pinnedRef({ kind: "person", id: dossier.personId })}
           onTogglePin={() =>
             togglePin({ kind: "person", id: dossier.personId })

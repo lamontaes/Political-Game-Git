@@ -2,7 +2,8 @@
 id: received-scene-portrait-clothing
 impact: patch
 section: Fixed
-title: Keep rendered scene clothing when inspecting a person
+title: Support scene appearance in person cards
 ---
 
-Inspecting a person from a scene retains the rendered clothing in their portrait and expanded figure.
+Person cards accept the selected scene appearance supplied by their caller,
+including expanded figures.

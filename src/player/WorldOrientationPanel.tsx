@@ -1,3 +1,5 @@
+import { selectSceneAppearance } from "./scene-dossier-appearance";
+import type { PersonSceneAppearance } from "../presentation/person-scene-appearance";
 import "./world-orientation.css";
 import "./opening-legislature.css";
 import "./opening-family.css";
@@ -6,6 +8,7 @@ import "./opening-state-figures.css";
 import { projectLifeSoFarEnglish } from "../presentation/life-so-far-english";
 
 import {
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -77,6 +80,7 @@ export function WorldOrientationPanel({
   regionalPlate,
   mode,
   onClose,
+  onSceneChange,
   onOpenPerson,
   world,
   personId,
@@ -95,7 +99,11 @@ export function WorldOrientationPanel({
   /** "first" follows a new life; "revisit" is reopened from the menu. */
   readonly mode: "first" | "revisit";
   readonly onClose: () => void;
-  readonly onOpenPerson: (personId: EntityId) => void;
+  readonly onSceneChange?: (sceneKey: string) => void;
+  readonly onOpenPerson: (
+    personId: EntityId,
+    sceneAppearance?: PersonSceneAppearance,
+  ) => void;
   readonly world?: World;
   readonly personId?: EntityId;
   readonly renderFigure?: (personId: EntityId) => ReactNode;
@@ -391,6 +399,24 @@ export function WorldOrientationPanel({
         : [],
     [step.key, backdrop, world, personId, step.people],
   );
+  const sceneKey = JSON.stringify([
+    "opening",
+    step?.key,
+    index,
+    backdropUrl(backdrop),
+  ]);
+  useEffect(() => {
+    onSceneChange?.(sceneKey);
+  }, [sceneKey, onSceneChange]);
+  const openStagedPerson = (id: string, people: typeof officePeople) => {
+    const entry = people.find((person) => person.personId === id);
+    if (!entry || !world) return;
+    onOpenPerson(
+      entry.personId as EntityId,
+      selectSceneAppearance(entry, world.currentDate, sceneKey)?.appearance,
+    );
+  };
+
   const layout =
     backdrop.kind === "neutral" && cast.length === 0 && !executiveWithoutPlate
       ? "centered"
@@ -439,6 +465,7 @@ export function WorldOrientationPanel({
               <SceneBackdrop backdrop={backdrop} />
               <PlacePeopleLayer
                 people={officePeople}
+                onSelectPerson={(id) => openStagedPerson(id, officePeople)}
                 stageRef={officeStage}
                 nameplates
               />
@@ -510,12 +537,7 @@ export function WorldOrientationPanel({
                 people={legislaturePeople}
                 stageRef={legislatureStage}
                 nameplates
-                onSelectPerson={(id) => {
-                  const person = step.people.find(
-                    (entry) => entry.personId === id,
-                  );
-                  if (person) onOpenPerson(person.personId);
-                }}
+                onSelectPerson={(id) => openStagedPerson(id, legislaturePeople)}
               />
             </div>
           ) : step.key === "locality" ? null : (
@@ -1050,7 +1072,11 @@ function PersonButton({
   compact = false,
 }: {
   readonly person: OrientationPerson;
-  readonly onOpenPerson: (personId: EntityId) => void;
+  readonly onSceneChange?: (sceneKey: string) => void;
+  readonly onOpenPerson: (
+    personId: EntityId,
+    sceneAppearance?: PersonSceneAppearance,
+  ) => void;
   readonly compact?: boolean;
 }) {
   return (
@@ -1081,7 +1107,11 @@ function ChamberBlock({
   readonly chamber: OrientationChamber;
   readonly homeStateUsps: string | null;
   readonly world?: World;
-  readonly onOpenPerson: (personId: EntityId) => void;
+  readonly onSceneChange?: (sceneKey: string) => void;
+  readonly onOpenPerson: (
+    personId: EntityId,
+    sceneAppearance?: PersonSceneAppearance,
+  ) => void;
 }) {
   const stateOptions = useMemo(() => {
     const seen = new Map<string, string>();
