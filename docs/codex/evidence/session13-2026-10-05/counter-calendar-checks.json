@@ -7,7 +7,7 @@
   "workingTreeNote": "Untracked local Playwright runner remained; this is not a clean-checkout or browser proof.",
   "runs": [
     {
-      "log": "shared-calendar-tests.log",
+      "log": "shared-calendar-tests.txt",
       "exitCode": 0,
       "filesPassed": 5,
       "testsPassed": 35,
@@ -16,7 +16,7 @@
       "executionSessionId": 99493
     },
     {
-      "log": "campaign-counter-test.log",
+      "log": "campaign-counter-test.txt",
       "exitCode": 0,
       "filesPassed": 1,
       "testsPassed": 1,
@@ -26,14 +26,14 @@
       "executionSessionId": 22641
     },
     {
-      "log": "zero-dice.log",
+      "log": "zero-dice.txt",
       "exitCode": 0,
       "existingAllowedLines": 124,
       "newUses": 0,
       "executionSessionId": 56141
     },
     {
-      "log": "release-check.log",
+      "log": "release-check.txt",
       "exitCode": 0,
       "executionSessionId": 93902
     }
