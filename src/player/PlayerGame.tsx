@@ -115,9 +115,7 @@ import { LifePathsPanel } from "./LifePathsPanel";
 /* PEOPLE/PRESS seam mounts (CRUNCH47 B1/B2). */
 import { ChildhoodMomentPanel } from "./ChildhoodMomentPanel";
 import { ContactsPanel } from "./ContactsPanel";
-import { ContactDialog } from "./ContactDialog";
 import { PressSourceDesk } from "./PressSourceDesk";
-import { RecallCardsPanel } from "./RecallCardsPanel";
 import { CivilPersonnelPanel } from "./CivilPersonnelPanel";
 import { JudicialOfficeWork } from "./JudicialOfficeWork";
 import { LegalRecordPanel, SelfRecordTabs } from "./LegalRecord";
@@ -2271,22 +2269,6 @@ function PlayingScreen({
     [session.world, session.personId, dispatch, readOnly],
   );
 
-  /*
-   * Contact on a person card opens its own screen over whatever is open, for
-   * that one person, and closing it leaves everything as it was. Presentation
-   * only: not saved, and opening it changes nothing in the world.
-   */
-  const [contactPersonId, setContactPersonId] = useState<EntityId | null>(null);
-  const openContact = useCallback(
-    (personId: EntityId) => {
-      if (!readOnly) setContactPersonId(personId);
-    },
-    [readOnly],
-  );
-  useEffect(() => {
-    if (readOnly) setContactPersonId(null);
-  }, [readOnly]);
-
   /* A conversation cannot go on once nobody is played. */
   useEffect(() => {
     if (readOnly) dispatch({ type: "end-conversation" });
@@ -2425,7 +2407,6 @@ function PlayingScreen({
     openEntity,
     dossierFor,
     talkTo,
-    openContact,
     presentPersonIds,
     openTheBill,
     goToTheFloor,
@@ -2720,11 +2701,6 @@ function PlayingScreen({
                   ? {}
                   : { onTalk: () => talkTo(selectedDossier.personId) })}
                 onMeet={() => dispatch({ type: "go-to-scene" })}
-                {...(readOnly
-                  ? {}
-                  : {
-                      onContact: () => openContact(selectedDossier.personId),
-                    })}
                 onTravel={() => {
                   if (readOnly) return;
                   const next = travelTowardsPerson(
@@ -2752,17 +2728,6 @@ function PlayingScreen({
                       ? inspectTalkEntry.reason
                       : null
                 }
-              />
-            ) : null}
-
-            {contactPersonId !== null && !readOnly ? (
-              <ContactDialog
-                key={contactPersonId}
-                world={session.world}
-                playerPersonId={session.personId}
-                personId={contactPersonId}
-                onWorldChange={onWorldChange}
-                onClose={() => setContactPersonId(null)}
               />
             ) : null}
 
@@ -3079,7 +3044,6 @@ function renderWorkspace({
   openEntity,
   dossierFor,
   talkTo,
-  openContact,
   presentPersonIds,
   openTheBill,
   goToTheFloor,
@@ -3105,8 +3069,6 @@ function renderWorkspace({
     personId: EntityId,
     subject?: ConversationSubjectKey,
   ) => void;
-  /** Contact on a person: its own screen over whatever is open. */
-  readonly openContact: (personId: EntityId) => void;
   /** Who the current scene puts in the room with the player. */
   readonly presentPersonIds: readonly EntityId[];
   readonly openTheBill: () => void;
@@ -3165,16 +3127,6 @@ function renderWorkspace({
     <PartyChapterSurface
       key={chapter.organizationId}
       chapter={chapter}
-      contact={
-        chapter.contact ? (
-          <ContactsPanel
-            world={session.world}
-            personId={session.personId}
-            contactEntry={chapter.contact}
-            onWorldChange={onWorldChange}
-          />
-        ) : null
-      }
       pinned={pinnedRef({ kind: "organization", id: chapter.organizationId })}
       onTogglePin={() =>
         togglePin({ kind: "organization", id: chapter.organizationId })
@@ -3454,9 +3406,6 @@ function renderWorkspace({
             togglePin({ kind: "person", id: dossier.personId })
           }
           onTalk={() => talkTo(dossier.personId)}
-          {...(readOnly
-            ? {}
-            : { onContact: () => openContact(dossier.personId) })}
           onMeet={() => dispatch({ type: "go-to-scene" })}
           talkUnavailable={entry.kind === "unavailable" ? entry.reason : null}
           onOpenLink={openEntity}
@@ -3644,23 +3593,11 @@ function renderWorkspace({
             state={shell}
             dispatch={dispatch}
           />
-          {/*
-            PEOPLE's two reading seams, on the surface People already means:
-            who this life can reach and what is outstanding between them, and
-            what they can be expected to remember. A recall card opens the
-            person through the same `openEntity` everything else uses, so Back
-            returns to the card.
-          */}
           <ContactsPanel
             query={shell.peopleQuery}
             world={session.world}
             personId={session.personId}
             onWorldChange={onWorldChange}
-          />
-          <RecallCardsPanel
-            world={session.world}
-            personId={session.personId}
-            onOpenEntity={openEntity}
           />
           {/*
             What this life can actually talk about, in the room it is in — as
