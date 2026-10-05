@@ -557,6 +557,10 @@ export function createPreStartNewGameWorld(
 
 /** Begin changes control only; the World and its money/history remain authoritative. */
 export function finishPreStartNewGameWorld(game: NewGame): NewGame {
+  if (game.world.pastMode)
+    throw new Error(
+      "Close the historical past at its recorded boundary before Begin.",
+    );
   const preStartLife = game.world.preStartLife;
   if (!preStartLife || preStartLife.personId !== game.playerPersonId)
     throw new Error("The game has no pre-start character to hand over.");
