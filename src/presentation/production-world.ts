@@ -82,6 +82,7 @@ import {
   recordCreatorLifeForks,
   type CreatorLifeForkChoice,
 } from "../simulation/creator-life-forks";
+import { historicalWorldInputs } from "../simulation/historical-world-inputs";
 import type {
   CharacterHistoryTransition,
   DistrictHomeJoinVersion,
@@ -478,6 +479,13 @@ export function buildProductionWorld(
       employerFormedAt: employer.organization.formedAt,
       workTitle: employer.kind.workerTitle,
       occupationClassification: employer.kind.workerOccupation,
+      monthlyWageAtDate: (onDate) =>
+        Math.round(
+          (localBusinessWageMinor(employer.kind, jurisdiction.id, world)
+            .monthlyMinor *
+            historicalWorldInputs(onDate).nominalFactor) /
+            historicalWorldInputs(world.currentDate).nominalFactor,
+        ),
       monthlyWageMinor: localBusinessWageMinor(
         employer.kind,
         jurisdiction.id,

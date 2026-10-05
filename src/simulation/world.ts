@@ -783,6 +783,17 @@ function validateWorldIntegrity(
     assertProductionCatalogBoundary(world);
   const startedAt = makeIsoDate(world.startedAt);
   const currentDate = makeIsoDate(world.currentDate);
+  if (world.preStartLife) {
+    const target = makeIsoDate(world.preStartLife.targetStartDate);
+    if (
+      !world.people[world.preStartLife.personId] ||
+      target <= startedAt ||
+      currentDate > target
+    )
+      throw new Error(
+        "The pre-start life must name a person and a future Begin boundary.",
+      );
+  }
   assertSimulationMoment(world.currentMoment);
   if (world.currentMoment.date !== currentDate) {
     throw new Error(
