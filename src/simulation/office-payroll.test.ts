@@ -1,3 +1,8 @@
+import {
+  beginHistoricalPastMode,
+  endHistoricalPastMode,
+  distantHistoricalRoutine,
+} from "./historical-past-mode";
 import { expect, it } from "vitest";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { addDays, simulationMomentOnLocalDate } from "./dates";
@@ -114,10 +119,10 @@ it("A37 preserves recorded employer cash over two office pay periods", () => {
     ),
   ).toBe(serializeWorld(office));
 });
-function officeFixture(placeKey: string, governor = false) {
+function officeFixture(placeKey: string, governor = false, date?: string) {
   const seed = `office-payroll:${placeKey}`;
   // These are authored office-period controls, not opening-population tests.
-  const game = smallWorld({ place: placeKey, seed });
+  const game = smallWorld({ place: placeKey, seed, date });
   const opened = game.world;
   if (opened.control.kind !== "person")
     throw new Error("Actual player required");
@@ -442,4 +447,77 @@ it("resumes after out-of-order partial and blocked periods without changing held
   expect(serializeWorld(heldSettled)).toBe(
     serializeWorld(settleAllOfficeSalaries(deserializeWorld(heldSave))),
   );
+});
+
+it("summarizes distant historical routine earnings and resumes ordinary payroll without duplicate pay", () => {
+  const f = officeFixture(sampled[0]!, false, "2021-01-01");
+  const focusId = f.world.personOrder.find((id) => id !== f.personId)!;
+  let initial: World = {
+    ...f.world,
+    control: { kind: "observer" },
+    people: {
+      ...f.world.people,
+      [focusId]: {
+        ...f.world.people[focusId]!,
+        homeJurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+      },
+    },
+  };
+  initial = createResourcePosition(initial, {
+    stableKey: "past-proof:employer-funds",
+    owner: { kind: "organization", organizationId: f.work.organizationId! },
+    openedAt: initial.currentDate,
+    openingBalance: money(1_000_000_000, "USD"),
+    provenance: {
+      kind: "authored",
+      note: "Controlled comparison account, not a population wage.",
+    },
+  });
+  const through = addDays(initial.currentDate, 365);
+  const past = beginHistoricalPastMode(initial, focusId, through);
+  expect(distantHistoricalRoutine(past, f.personId)).toBe(true);
+  expect(distantHistoricalRoutine(past, focusId)).toBe(false);
+  const at = (world: World, days: number): World => {
+    const date = addDays(initial.currentDate, days);
+    return {
+      ...world,
+      currentDate: date,
+      currentMoment: simulationMomentOnLocalDate(world.currentMoment, date),
+    };
+  };
+  const early = settleAllOfficeSalaries(at(past, 30));
+  expect(early.history.resourceTransferOutcomes).toBe(
+    initial.history.resourceTransferOutcomes,
+  );
+  const ordinary = settleAllOfficeSalaries(at(initial, 365));
+  const summarized = settleAllOfficeSalaries(at(past, 365));
+  const outcomes = (world: World) =>
+    world.history.resourceTransferOutcomes.filter(
+      (row) => row.resourceFlowId === f.flow.id,
+    );
+  expect(outcomes(summarized)).toHaveLength(1);
+  expect(outcomes(summarized)[0]!.attemptedAmount.minorUnits).toBe(
+    outcomes(ordinary).reduce(
+      (sum, row) => sum + row.attemptedAmount.minorUnits,
+      0,
+    ),
+  );
+  expect(summarized.history.decisionTraces).toBe(
+    initial.history.decisionTraces,
+  );
+  const reopened = deserializeWorld(serializeWorld(summarized));
+  expect(serializeWorld(settleAllOfficeSalaries(reopened))).toBe(
+    serializeWorld(summarized),
+  );
+  const finished = endHistoricalPastMode(summarized);
+  expect(finished.pastMode).toBeUndefined();
+  expect(finished.id).toBe(initial.id);
+  expect(finished.history).toBe(summarized.history);
+  const resumed = settleAllOfficeSalaries(at(finished, 372));
+  expect(outcomes(resumed).length).toBeGreaterThan(outcomes(finished).length);
+  expect(
+    outcomes(resumed)
+      .slice(1)
+      .every((row) => row.periodStartsAt > outcomes(finished)[0]!.periodEndsAt),
+  ).toBe(true);
 });
