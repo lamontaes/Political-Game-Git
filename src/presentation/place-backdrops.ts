@@ -4,6 +4,7 @@ import { activeDwellingOccupanciesAt } from "../simulation/resource-queries";
 import { householdMembershipsAt } from "../simulation";
 import { ELECTION_NIGHT_LOCATION_KEY } from "../simulation/campaign-speeches";
 import { backdropUrl } from "./backdrop-urls";
+import { openingWorkLocation } from "./opening-work-location";
 import type {
   DwellingClassification,
   EntityId,
@@ -292,11 +293,34 @@ export function electionNightLocationKey(
     : null;
 }
 
-/** The person's current workplace picture, or null when they have no job. */
+/** The work and picture category named by the existing selected arrival. */
+export function selectedWorkplaceForPerson(world: World, personId: EntityId) {
+  const arrival = openingWorkLocation(world, personId);
+  if (arrival?.context.location?.setting !== "work") return null;
+  const workTag = arrival.tags.find((tag) => tag.startsWith("work:"));
+  const placeTag = arrival.tags.find((tag) => tag.startsWith("place:"));
+  const work = activeWorkRelationshipsAt(world, personId).find(
+    (job) => job.relationship.id === workTag?.slice("work:".length),
+  );
+  const place = placeTag?.slice("place:".length);
+  if (!work || !place || !hasBackdrop(place)) return null;
+  return {
+    arrivalId: arrival.id,
+    workRelationshipId: work.relationship.id,
+    organizationId: work.relationship.organizationId,
+    jurisdictionId: work.role.locationJurisdictionId,
+    place,
+  };
+}
+
+/** The person's selected workplace picture, or their current job's picture. */
 export function workplacePlaceForPerson(
   world: World,
   personId: EntityId,
 ): string | null {
+  const arrival = openingWorkLocation(world, personId);
+  if (arrival?.context.location?.setting === "work")
+    return selectedWorkplaceForPerson(world, personId)?.place ?? null;
   const [work] = activeWorkRelationshipsAt(world, personId);
   return work ? workplacePlaceFor(work.role.occupationClassification) : null;
 }
