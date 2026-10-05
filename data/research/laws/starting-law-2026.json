@@ -4992,8 +4992,57 @@
         "US-GU": {
           "answer": "yes",
           "cite": "48 U.S.C. § 1421i",
-          "source": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title48-section1421i&num=0&edition=prelim",
-          "note": "The Guam Organic Act applies the federal income-tax laws in Guam as a separate Guam Territorial income tax payable to the government of Guam, so wages are taxed."
+          "source": "https://www.irs.gov/publications/p570",
+          "note": "Guam mirrors the federal individual income-tax rules for covered residents and source income under the Covenant; separate territorial filing, source, and credit rules apply. Schedule records the 2026 single-filer federal-mirror brackets and standard deduction.",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 1610000,
+                "sourceUrl": "https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026-including-amendments-from-the-one-big-beautiful-bill",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 1000
+                  },
+                  {
+                    "overMinor": 1240000,
+                    "rateBasisPoints": 1200
+                  },
+                  {
+                    "overMinor": 5040000,
+                    "rateBasisPoints": 2200
+                  },
+                  {
+                    "overMinor": 10570000,
+                    "rateBasisPoints": 2400
+                  },
+                  {
+                    "overMinor": 20177500,
+                    "rateBasisPoints": 3200
+                  },
+                  {
+                    "overMinor": 25622500,
+                    "rateBasisPoints": 3500
+                  },
+                  {
+                    "overMinor": 64060000,
+                    "rateBasisPoints": 3700
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ]
         },
         "US-HI": {
           "answer": "yes",
@@ -5853,8 +5902,57 @@
         "US-VI": {
           "answer": "yes",
           "cite": "48 U.S.C. § 1397",
-          "source": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title48-section1397&num=0&edition=prelim",
-          "note": "The federal income tax laws are in force in the Virgin Islands as its own income tax on wages, with the proceeds paid to the territory."
+          "source": "https://www.irs.gov/publications/p570",
+          "note": "The U.S. Virgin Islands mirrors federal individual income-tax rates for covered residents and source income; separate territorial filing, source, and credit rules apply. Schedule records the 2026 single-filer federal-mirror brackets and standard deduction.",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 1610000,
+                "sourceUrl": "https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026-including-amendments-from-the-one-big-beautiful-bill",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 1000
+                  },
+                  {
+                    "overMinor": 1240000,
+                    "rateBasisPoints": 1200
+                  },
+                  {
+                    "overMinor": 5040000,
+                    "rateBasisPoints": 2200
+                  },
+                  {
+                    "overMinor": 10570000,
+                    "rateBasisPoints": 2400
+                  },
+                  {
+                    "overMinor": 20177500,
+                    "rateBasisPoints": 3200
+                  },
+                  {
+                    "overMinor": 25622500,
+                    "rateBasisPoints": 3500
+                  },
+                  {
+                    "overMinor": 64060000,
+                    "rateBasisPoints": 3700
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ]
         },
         "US-VT": {
           "answer": "yes",
@@ -8339,7 +8437,49 @@
           "answer": "yes",
           "preempts": true,
           "source": "https://www.irs.gov/publications/p570",
-          "note": "IRS Publication 570 (2025) says Guam has its own tax system based on the same tax laws and tax rates that apply in the United States (seven graduated federal brackets); the Guam Department of Revenue and Taxation administers it as the Guam Territorial Income Tax."
+          "note": "Guam mirrors the federal individual income-tax rules for covered residents and source income under the Covenant; separate territorial filing, source, and credit rules apply. Schedule records the 2026 single-filer federal-mirror brackets and standard deduction.",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+              "key": "brackets",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 1610000,
+                "sourceUrl": "https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026-including-amendments-from-the-one-big-beautiful-bill",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 1000
+                  },
+                  {
+                    "overMinor": 1240000,
+                    "rateBasisPoints": 1200
+                  },
+                  {
+                    "overMinor": 5040000,
+                    "rateBasisPoints": 2200
+                  },
+                  {
+                    "overMinor": 10570000,
+                    "rateBasisPoints": 2400
+                  },
+                  {
+                    "overMinor": 20177500,
+                    "rateBasisPoints": 3200
+                  },
+                  {
+                    "overMinor": 25622500,
+                    "rateBasisPoints": 3500
+                  },
+                  {
+                    "overMinor": 64060000,
+                    "rateBasisPoints": 3700
+                  }
+                ]
+              }
+            }
+          ],
+          "cite": "48 U.S.C. § 1421i"
         },
         "US-HI": {
           "answer": "yes",
@@ -9034,7 +9174,49 @@
           "answer": "yes",
           "preempts": true,
           "source": "https://www.irs.gov/publications/p570",
-          "note": "IRS Publication 570 (2025) says the USVI has its own tax system based on the same tax laws and tax rates that apply in the United States, so wages face the graduated federal schedule; residents file Form 1040 with the Virgin Islands Bureau of Internal Revenue."
+          "note": "The U.S. Virgin Islands mirrors federal individual income-tax rates for covered residents and source income; separate territorial filing, source, and credit rules apply. Schedule records the 2026 single-filer federal-mirror brackets and standard deduction.",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+              "key": "brackets",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 1610000,
+                "sourceUrl": "https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026-including-amendments-from-the-one-big-beautiful-bill",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 1000
+                  },
+                  {
+                    "overMinor": 1240000,
+                    "rateBasisPoints": 1200
+                  },
+                  {
+                    "overMinor": 5040000,
+                    "rateBasisPoints": 2200
+                  },
+                  {
+                    "overMinor": 10570000,
+                    "rateBasisPoints": 2400
+                  },
+                  {
+                    "overMinor": 20177500,
+                    "rateBasisPoints": 3200
+                  },
+                  {
+                    "overMinor": 25622500,
+                    "rateBasisPoints": 3500
+                  },
+                  {
+                    "overMinor": 64060000,
+                    "rateBasisPoints": 3700
+                  }
+                ]
+              }
+            }
+          ],
+          "cite": "48 U.S.C. § 1397"
         },
         "US-VT": {
           "answer": "yes",
@@ -16207,8 +16389,16 @@
           "answer": "yes",
           "preempts": true,
           "cite": "Okla. Const. art. X, § 8B",
-          "source": "https://www.lincolninst.edu/app/uploads/2024/12/assessment_limits_2022-3.xlsx",
-          "note": "Assessment cap: taxable value may rise no more than 3% a year for homesteads and farm land and 5% for other property (Lincoln Institute 2022 table; the state court site that hosts the constitution blocked automated fetches)."
+          "source": "https://wagonercounty.ok.gov/179/What-is-the-3-5-Limitation-cap",
+          "note": "Taxable assessed value is limited to annual growth of 3% for homestead and agricultural property and 5% for other real property. This is an assessment-growth cap, not a property-tax bill cap.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+              "key": "cap",
+              "value": 0.03,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-OR": {
           "answer": "yes",
