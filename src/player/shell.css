@@ -1102,53 +1102,135 @@
   color: var(--pg-ivory-dim);
 }
 
+/* Recorded life preparation — replaces the former single-label loading card. */
 .pg-life-transition {
   position: fixed;
   inset: 0;
   z-index: 100;
   display: grid;
   place-items: center;
-  background: var(--kit12-glass);
+  overflow: auto;
+  padding: clamp(1rem, 3vw, 3rem);
+  background: var(--pg-paper-texture), #101621;
   color: var(--pg-ivory);
   animation: pg-life-start var(--pg-start-fade) ease-out both;
 }
-.pg-life-transition-progress {
+.pg-life-transition-story {
+  width: min(100%, 90rem);
+  max-height: calc(100dvh - 4rem);
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1rem, 2vw, 2rem);
+  border: 1px solid var(--pg-brass);
+  box-shadow: inset 0 0 0 1px var(--kit12-frame, #454748);
+  background: var(--kit12-glass, #101621e8);
+  backdrop-filter: blur(var(--kit12-blur, 16px));
+  font-family: "Fira Sans", sans-serif;
+}
+.pg-life-transition-heading {
   display: grid;
-  gap: 0.65rem;
-  justify-items: center;
-  width: min(28rem, calc(100vw - 3rem));
-  padding: 1.5rem;
-  border: 2.5px solid var(--brass);
-  border-radius: 2px;
-  background: var(--kit12-glass);
-  box-shadow: var(--kit12-frame);
-  backdrop-filter: var(--kit12-blur);
-  color: var(--text-strong);
-  text-align: center;
+  grid-template-columns: 1fr auto;
+  gap: 0.4rem 1rem;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--pg-brass);
+}
+.pg-life-transition-heading h1 {
+  margin: 0;
+  font:
+    800 clamp(1.5rem, 3vw, 3rem)/1 "Cinzel",
+    serif;
+}
+.pg-life-transition-heading p {
+  grid-column: 1;
+  margin: 0;
+}
+.pg-life-transition-clock {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  font-variant-numeric: tabular-nums;
+}
+.pg-life-transition-progress {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  align-items: center;
+  padding: 1rem 0;
 }
 .pg-life-transition-progress p {
   margin: 0;
-  color: var(--text-strong);
-  font: 500 1rem var(--ui);
 }
 .pg-life-transition-progress progress {
-  appearance: none;
-  width: 100%;
-  height: 0.5rem;
-  border: 1px solid var(--brass);
-  border-radius: 0;
-  background: var(--iron);
-  color: var(--gold);
+  flex: 1;
+  min-width: 8rem;
+  accent-color: var(--pg-brass);
 }
 .pg-life-transition-progress progress::-webkit-progress-bar {
-  background: var(--iron);
+  background: var(--kit12-frame, #454748);
 }
-.pg-life-transition-progress progress::-webkit-progress-value {
-  background: var(--gold);
-}
+.pg-life-transition-progress progress::-webkit-progress-value,
 .pg-life-transition-progress progress::-moz-progress-bar {
-  background: var(--gold);
+  background: var(--pg-brass);
 }
+.pg-life-transition-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  overflow: auto;
+  min-height: 0;
+}
+.pg-life-transition-columns h2,
+.pg-life-transition-journal h3 {
+  font-family: "Cinzel", serif;
+  font-weight: 800;
+}
+.pg-life-transition-columns h2 {
+  margin: 0 0 1rem;
+  font-size: 1.2rem;
+}
+.pg-life-transition-journal {
+  font:
+    1.1rem/1.6 "Andada Pro",
+    serif;
+}
+.pg-life-transition-journal article {
+  border-top: 1px solid var(--kit12-frame, #454748);
+}
+.pg-life-transition-journal h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+.pg-life-transition-headlines {
+  margin-bottom: 1.5rem;
+}
+.pg-life-transition-headlines article {
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--kit12-frame, #454748);
+}
+.pg-life-transition-headlines p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--pg-ivory-dim);
+}
+.pg-life-transition-headlines h3 {
+  margin: 0.35rem 0;
+  font:
+    600 1.1rem/1.35 "Andada Pro",
+    serif;
+}
+.pg-life-transition-map {
+  min-width: 0;
+}
+@media (max-width: 800px) {
+  .pg-life-transition-columns {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .pg-life-transition-story {
+    max-height: calc(100dvh - 2rem);
+  }
+}
+
 @keyframes pg-life-start {
   from {
     opacity: 0;
