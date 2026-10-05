@@ -41,11 +41,14 @@ test("Personal separates current records from history without changing the life"
   await page.setViewportSize({ width: 1920, height: 1080 });
   await page.goto(`/?seed=${seed}`);
   await startLife(page, { place: place.displayName, age: 34 });
+  await page.getByTestId("orientation-skip").click({ timeout: 120_000 });
   await enterLife(page);
   await saveLife(page);
   await page.keyboard.press("Escape");
   const before = await savedLife(page);
-  const personId = before.control.personId!;
+  if (before.control.kind !== "person")
+    throw new Error("Expected a played life");
+  const personId = before.control.personId;
   await goTo(page, "nav-personal");
   const profile = page.getByTestId("personal-split-record");
   await expect(profile).toBeVisible();
