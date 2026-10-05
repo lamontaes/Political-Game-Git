@@ -1,0 +1,15 @@
+{
+  "testedHead": "2177d5b8703d62433b02a5c8418b9d2acc19fc12",
+  "scope": "Authored generic permission review, not an eviction counsel service or representation claim.",
+  "seed": "permission-record-family",
+  "personId": "person_5c0b8b1287e868a4",
+  "name": "Lawrence Phelps",
+  "recordId": "decision_c8a459c56e0cab97",
+  "status": "permitted",
+  "governingLawKey": "starting-law:US-NY:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+  "effectKind": "right-permission",
+  "sourceRecordIds": ["household_4d220f41afe4d207"],
+  "savedLegacyLabel": "eviction-counsel-representation",
+  "reloadedSameIdentity": true,
+  "repeatedReviewIsIdempotent": true
+}
