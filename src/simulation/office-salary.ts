@@ -451,8 +451,6 @@ export function settleAllOfficeSalaries(world: World): World {
                 "The historical salary statement covers a completed period.",
               amount: terms.amount,
               cadenceKind: terms.cadenceKind,
-              restrictionKind: flow.restrictionKind,
-              jurisdictionId: flow.jurisdictionId,
               provenance: flow.provenance,
             });
           }
