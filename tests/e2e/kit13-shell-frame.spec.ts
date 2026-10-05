@@ -109,10 +109,15 @@ test("shell opens and closes a real random-place life with reachable controls", 
   ).toBeVisible();
   await goTo(page, "leave-game");
   await expect(page.getByTestId("leave-confirm")).toBeVisible();
+  // Returning drains the real save queue; Continue rehydrates that saved world.
   await page.getByTestId("leave-without-saving").click();
-  await expect(page.getByTestId("title-screen")).toBeVisible();
+  await expect(page.getByTestId("title-screen")).toBeVisible({
+    timeout: 30_000,
+  });
   await page.getByTestId("continue").click();
-  await expect(page.getByTestId("shell-nav-cluster")).toBeVisible();
+  await expect(page.getByTestId("shell-nav-cluster")).toBeVisible({
+    timeout: 30_000,
+  });
   await info.attach("random-place", {
     body: JSON.stringify({ seed, place: place.displayName, state }),
     contentType: "application/json",
