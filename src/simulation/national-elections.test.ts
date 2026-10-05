@@ -670,7 +670,7 @@ describe("National electoral resolution (supplied fictional results)", () => {
     ).toThrow(/does not match/);
     expect(deserializeWorld(serializeWorld(next))).toEqual(next);
   });
-  it("scheduled unit producer imports an existing supplied result and refuses a missing raw producer", () => {
+  it("scheduled unit producer uses the shared count and imports supplied results without certification", () => {
     const { world, electionId, a, b } = setup("linked-national-producer");
     const scheduled = scheduleNationalUnitContest(world, {
       stableKey: "national-ne-2",
@@ -680,6 +680,13 @@ describe("National electoral resolution (supplied fictional results)", () => {
       provenance,
     });
     const contestId = scheduled.history.electionContests!.at(-1)!.id;
+    expect(
+      scheduled.history.electionContests!.at(-1)!.office.districtBinding,
+    ).toMatchObject({
+      chamber: "congressional",
+      stateUsps: "NE",
+      geoid: "3102",
+    });
     const unresolved = advanceWorld(
       scheduled,
       37,
@@ -687,7 +694,7 @@ describe("National electoral resolution (supplied fictional results)", () => {
     );
     expect(unresolved.history.electionContestResults ?? []).toHaveLength(0);
     expect(unresolved.history.futureDueItemStates.at(-1)?.reasonKey).toBe(
-      "election:national-unit-result-missing",
+      "election:count-unavailable",
     );
     let supplied = resolveElectionContest(at(scheduled, "2028-11-07"), {
       contestId,

@@ -1,5 +1,9 @@
 import { evaluateDecision, isSelectedDecision } from "./decisions";
 import { isEligibleVoterIn } from "./issue-record";
+import {
+  districtResidenceSince,
+  recordedDistrictMembership,
+} from "./district-residence";
 import { eventById } from "./event-index";
 import { makeIsoDate } from "./dates";
 import {
@@ -155,12 +159,34 @@ export function evaluateDeterministicContestOutcome(
       `Cannot evaluate contest with no candidates: ${contest.id}`,
     );
   }
+  const binding = contest.office.districtBinding;
+  const districtAdmission = binding
+    ? (personId: EntityId): boolean | null => {
+        if (
+          districtResidenceSince(world, personId, binding, contest.electionDate)
+        )
+          return true;
+        const recorded = recordedDistrictMembership(
+          world,
+          personId,
+          binding.chamber,
+          contest.electionDate,
+        );
+        return recorded &&
+          recorded.binding.vintage === binding.vintage &&
+          recorded.binding.compilerVersion === binding.compilerVersion &&
+          recorded.binding.stateUsps === binding.stateUsps
+          ? false
+          : null;
+      }
+    : undefined;
+  const admission = admitVoter ?? districtAdmission;
   return countRecordedVoterBallots(world, {
     stableKey: contest.stableKey,
     jurisdictionId: contest.jurisdictionId,
     electionDate: contest.electionDate,
     candidatePersonIds: contest.candidatePersonIds,
-    ...(admitVoter ? { admitVoter } : {}),
+    ...(admission ? { admitVoter: admission } : {}),
   });
 }
 

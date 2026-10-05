@@ -1,9 +1,14 @@
 import { nationalOfficeRef } from "./national-election-offices";
+import { districtIdentityCatalog } from "../districts/catalog";
+import { bindingFromIdentity } from "../districts/query";
 import {
   nationalUnitJurisdiction,
   ensureJurisdiction,
 } from "./national-election-geography";
-import { scheduleElectionContest } from "./election-contests";
+import {
+  electionContestTransitionHandler,
+  scheduleElectionContest,
+} from "./election-contests";
 import { compareSimulationMoments } from "./dates";
 import {
   createFutureTransitionHandlerRegistry,
@@ -490,6 +495,20 @@ export function scheduleNationalUnitContest(
     throw new Error(
       "National unit jurisdiction does not match the selected canonical state/DC.",
     );
+  const [state, districtNumber] = input.unitKey.split("-");
+  const district = districtNumber
+    ? districtIdentityCatalog().find(
+        (identity) =>
+          identity.chamber === "congressional" &&
+          identity.stateUsps === state &&
+          !identity.isUnassignedResidual &&
+          Number(identity.districtCode) === Number(districtNumber),
+      )
+    : undefined;
+  if (districtNumber && !district)
+    throw new Error(
+      "National district unit lacks a canonical district binding.",
+    );
   const scheduled = scheduleElectionContest(
     ensureJurisdiction(world, jurisdiction),
     {
@@ -500,6 +519,7 @@ export function scheduleNationalUnitContest(
         title: `Presidential electors (${input.unitKey})`,
         seatKey: input.unitKey,
         occupationClassification: null,
+        ...(district ? { districtBinding: bindingFromIdentity(district) } : {}),
       },
       electionDate: rules.electionDate,
       candidatePersonIds: election.tickets.map(
@@ -552,7 +572,7 @@ export function importLinkedNationalContestResult(
     : world;
 }
 
-/** National unit schedules never invoke the legacy seeded popular-vote placeholder. */
+/** Elector-unit popular votes use the shared count before national import. */
 export function linkedNationalUnitTransition(
   world: World,
   due: FutureDueItem,
@@ -563,12 +583,21 @@ export function linkedNationalUnitTransition(
       record.kind === "contest-link" && record.contestId === contestId,
   );
   if (link?.kind !== "contest-link" || !contestId) return null;
-  const result = (world.history.electionContestResults ?? []).find(
+  let result = (world.history.electionContestResults ?? []).find(
     (record) => record.contestId === contestId,
   );
+  let countedWorld = world;
+  if (!result) {
+    const counted = electionContestTransitionHandler(world, due);
+    if (counted.status !== "resolved") return counted;
+    countedWorld = counted.world;
+    result = (countedWorld.history.electionContestResults ?? []).find(
+      (record) => record.contestId === contestId,
+    );
+  }
   if (!result)
     return {
-      world,
+      world: countedWorld,
       status: "blocked",
       reasonKey: "election:national-unit-result-missing",
       context:
@@ -576,11 +605,11 @@ export function linkedNationalUnitTransition(
       outcomeEventId: null,
     };
   return {
-    world: importLinkedNationalContestResult(world, contestId),
+    world: importLinkedNationalContestResult(countedWorld, contestId),
     status: "resolved",
     reasonKey: null,
     context:
-      "Supplied canonical unit result imported as raw totals; certification and electoral ballots remain separate.",
+      "Shared contest count imported as raw unit totals; certification and electoral ballots remain separate.",
     outcomeEventId: result.outcomeEventId,
   };
 }

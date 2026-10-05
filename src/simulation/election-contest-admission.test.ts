@@ -10,6 +10,8 @@ import { isEligibleVoterIn } from "./issue-record";
 import { officialOpinionSubject } from "./political-opinion-subjects";
 import { createFormationContext, recordPrivateBelief } from "./politics";
 import { recordPersonDeath } from "./vitality";
+import { districtIdentityCatalog } from "../districts/catalog";
+import { bindingFromIdentity } from "../districts/query";
 
 function ballot() {
   let world = createDemoWorld("session13-recorded-ballot-admission");
@@ -69,6 +71,47 @@ function ballot() {
 }
 
 describe("shared contest ballot admission", () => {
+  it("does not count statewide residence as unrecorded district membership", () => {
+    const { world, contest } = ballot();
+    const district = districtIdentityCatalog().find(
+      (identity) =>
+        identity.chamber === "congressional" &&
+        identity.stateUsps === "KY" &&
+        !identity.isUnassignedResidual,
+    )!;
+    const previousDate = addDays(world.currentDate, -1);
+    const scheduled = scheduleElectionContest(
+      {
+        ...world,
+        currentDate: previousDate,
+        currentMoment: simulationMomentOnLocalDate(
+          world.currentMoment,
+          previousDate,
+        ),
+      },
+      {
+        stableKey: "admission-fixture:district-ballot",
+        jurisdictionId: contest.jurisdictionId,
+        office: {
+          ...contest.office,
+          districtBinding: bindingFromIdentity(district),
+        },
+        electionDate: contest.electionDate,
+        candidatePersonIds: contest.candidatePersonIds,
+        provenance: { method: "authored", sourceEntityIds: [], note: null },
+      },
+    );
+    const onElectionDay = {
+      ...scheduled,
+      currentDate: world.currentDate,
+      currentMoment: world.currentMoment,
+    };
+    const districtContest = scheduled.history.electionContests!.at(-1)!;
+    expect(
+      resolveElectionContest(onElectionDay, { contestId: districtContest.id }),
+    ).toBe(onElectionDay);
+  });
+
   it("counts only admitted voters through the shared resolver", () => {
     const { world, contest, voters } = ballot();
     const all = resolveElectionContest(world, { contestId: contest.id });
