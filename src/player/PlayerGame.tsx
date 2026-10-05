@@ -315,7 +315,6 @@ import {
 import { GuideWorkspace } from "./GuideWorkspace";
 import { GuideHelpProvider } from "./GuideTerm";
 import { GuideHighlighter } from "./GuideHighlighter";
-import { PlayerVersion } from "./PlayerVersion";
 import { ReturnToTitleAction } from "./ReturnToTitleAction";
 import {
   RETURN_TO_TITLE_REQUEST_EVENT,
@@ -3030,8 +3029,6 @@ function PlayingScreen({
               dispatch={dispatch}
               onOpen={openEntity}
             />
-
-            <PlayerVersion />
 
             {floorSeat ? (
               <div

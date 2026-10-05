@@ -517,20 +517,21 @@ test.describe("the deliberate workspaces", () => {
     await expect(page.getByTestId("journal")).toBeVisible();
   });
 
-  test("patch notes and the version come from this checkout", async ({
+  test("patch notes preserve history without current version stamps", async ({
     page,
   }) => {
     await freshBrowser(page);
     await beginOrdinaryLife(page);
 
-    const corner = await page.getByTestId("shell-version").textContent();
+    await expect(page.getByTestId("shell-version")).toHaveCount(0);
     /* Patch notes are not a menu entry: they live under Options, on the
        Options workspace, which is the route a player has to them. */
     await goTo(page, "nav-options");
+    await expect(page.getByTestId("options-workspace")).not.toContainText(
+      /Version \d/,
+    );
     await page.getByTestId("nav-patch-notes").click();
-    const heading = await page.getByTestId("patch-notes-version").textContent();
-    /* One source. The corner and the screen cannot disagree. */
-    expect(heading).toContain(corner!.replace(/^v/, ""));
+    await expect(page.getByTestId("patch-notes-version")).toHaveCount(0);
 
     /*
      * UI9-11. Normal notes carry accepted releases only. A section the file
@@ -553,11 +554,9 @@ test.describe("the deliberate workspaces", () => {
       expect(line).toMatch(/Version .+ · .+/);
     }
 
-    /* And the running version is on the title screen's fixed corner stamp. */
+    /* The title also omits a current version stamp. */
     await page.goto("/");
-    await expect(page.getByTestId("shell-version")).toContainText(
-      corner!.replace(/^v/, ""),
-    );
+    await expect(page.getByTestId("shell-version")).toHaveCount(0);
   });
 
   test("Options only offers settings something reads", async ({ page }) => {
