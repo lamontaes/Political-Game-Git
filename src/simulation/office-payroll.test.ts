@@ -460,6 +460,37 @@ it("summarizes distant historical routine earnings and resumes ordinary payroll 
       [focusId]: {
         ...f.world.people[focusId]!,
         homeJurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+        establishedFacts: f.world.people[focusId]!.establishedFacts.map(
+          (fact) =>
+            fact.kind === "residence" && fact.endedAt === null
+              ? { ...fact, jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id }
+              : fact,
+        ),
+        ...(f.world.people[focusId]!.detailLevel === "materialized"
+          ? {
+              details: {
+                ...(
+                  f.world.people[focusId]! as Extract<
+                    World["people"][string],
+                    { detailLevel: "materialized" }
+                  >
+                ).details,
+                generatedFacts: (
+                  f.world.people[focusId]! as Extract<
+                    World["people"][string],
+                    { detailLevel: "materialized" }
+                  >
+                ).details.generatedFacts.map((fact) =>
+                  fact.kind === "residence" && fact.endedAt === null
+                    ? {
+                        ...fact,
+                        jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+                      }
+                    : fact,
+                ),
+              },
+            }
+          : {}),
       },
     },
   };
