@@ -109,7 +109,7 @@ describe("saved law permission family", () => {
         lawPermissionRecords: next.history.lawPermissionRecords!.map(
           (record) =>
             record.id === saved.id
-              ? { ...record, lawEffectStamps: [legacyStamp] }
+              ? { ...record, lawEffectStamps: [legacyStamp] as const }
               : record,
         ),
       },
