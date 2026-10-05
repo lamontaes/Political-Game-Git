@@ -3,6 +3,7 @@ import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { projectLifeStartStory } from "./life-start-story";
 import { buildPreStartCharacterWorld } from "./production-world";
 import { addDays } from "../simulation/dates";
+import { advanceObservedWorld } from "./observer-world";
 import { drawRandomPlace } from "../../tests/support/random-place";
 import {
   createStableId,
@@ -155,6 +156,14 @@ describe("the life loading screen reads saved chapters and published local news"
       built.world,
       built.playerPersonId,
       {
+        advanceHistory: async (world, days) => {
+          expect(world.pastMode).toEqual({
+            kind: "historical-past-v1",
+            focusPersonId: built.playerPersonId,
+            throughDate: targetStartDate,
+          });
+          return advanceObservedWorld(world, days);
+        },
         onProgress: (progress) => {
           expect(progress.world!.id).toBe(built.world.id);
           expect(progress.playerPersonId).toBe(built.playerPersonId);
@@ -167,5 +176,6 @@ describe("the life loading screen reads saved chapters and published local news"
       built.playerPersonId,
     );
     expect(advanced.currentDate).toBe(targetStartDate);
+    expect(advanced.pastMode).toBeUndefined();
   });
 });

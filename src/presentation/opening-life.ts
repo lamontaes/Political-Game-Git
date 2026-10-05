@@ -65,6 +65,10 @@ import {
 import type { World, EntityId } from "../simulation";
 import { isFederalDistrictUsps } from "../simulation/state-reference";
 import {
+  beginHistoricalPastMode,
+  endHistoricalPastMode,
+} from "../simulation/historical-past-mode";
+import {
   createNewGameWorld,
   createPreStartNewGameWorld,
   finishPreStartNewGameWorld,
@@ -171,13 +175,13 @@ export function generateOpeningLife(
     let step = steps.next();
     while (!step.done) {
       const next = advanceObservedWorld(step.value.world, step.value.days);
+      step = steps.next(next);
       reportHistoryCheckpoint(
-        next,
+        step.done ? step.value : next,
         historicalGame.playerPersonId,
         historicalGame.world,
         onProgress,
       );
-      step = steps.next(next);
     }
     built = {
       ...built!,
@@ -202,7 +206,7 @@ function* preStartHistorySteps(
   const target = initial.preStartLife.targetStartDate;
   if (target < initial.currentDate)
     throw new Error("This life has passed its starting boundary.");
-  let world = initial;
+  let world = beginHistoricalPastMode(initial, playerPersonId, target);
   while (world.currentDate < target) {
     const date = new Date(`${world.currentDate}T00:00:00Z`);
     date.setUTCMonth(date.getUTCMonth() + 1, 1);
@@ -226,7 +230,7 @@ function* preStartHistorySteps(
       );
     world = next;
   }
-  return world;
+  return endHistoricalPastMode(world);
 }
 
 function reportHistoryCheckpoint(
@@ -265,7 +269,12 @@ export async function advancePreStartHistory(
       : advanceObservedWorld(world, days);
     throwIfOpeningAborted(options.signal, options.deadlineAt);
     step = steps.next(next);
-    reportHistoryCheckpoint(next, playerPersonId, initial, options.onProgress);
+    reportHistoryCheckpoint(
+      step.done ? step.value : next,
+      playerPersonId,
+      initial,
+      options.onProgress,
+    );
   }
   return step.value;
 }
