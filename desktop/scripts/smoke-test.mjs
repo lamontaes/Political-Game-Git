@@ -121,15 +121,14 @@ async function launch() {
       })))
     : await app.firstWindow();
   const foreign = [];
-  if (nativeSessionChecks) {
-    // Electron's will-prevent-unload handler owns this decision. Playwright's
-    // automatic dialog dismissal can race the already-approved native close.
-    page.on("dialog", (dialog) => {
-      if (dialog.type() !== "beforeunload")
-        throw new Error(`Unexpected browser dialog: ${dialog.type()}`);
-      console.log("Native before-unload decision remains with the host.");
-    });
-  }
+  // Electron's will-prevent-unload handler owns this decision in standalone
+  // clients as well as the hub. Playwright's automatic dismissal can race a
+  // native close, even after the saved identity has been proven durable.
+  page.on("dialog", (dialog) => {
+    if (dialog.type() !== "beforeunload")
+      throw new Error(`Unexpected browser dialog: ${dialog.type()}`);
+    console.log("Native before-unload decision remains with the host.");
+  });
   page.on("request", (request) => {
     if (!isPackagedRenderRequest(request.url())) foreign.push(request.url());
   });
