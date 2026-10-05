@@ -1,6 +1,6 @@
 # Side-facing chairs need matching heads and seated paintings
 
-The source recipient needs to supply existing authored layers for the same people, plus the private repair pack. Turned standing paintings are present, but their matching heads are absent. Turned chairs also lack seated paintings. The published staging draft preserves the original art and lists unsupported people as selectable contacts. Source delivery and human artwork approval are separate gates. No remote file ID was recovered for the missing bank; the recipient must return its actual location.
+The source recipient needs to supply existing authored layers for the same people, plus verified private repair-bank delivery metadata. Turned standing paintings are present, but their matching heads are absent. Turned chairs also lack seated paintings. The published staging draft preserves the original art and lists unsupported people as selectable contacts. Source delivery and human artwork approval are separate gates. The historical private Drive kit is now readable, and the coordinator found current local candidates in LAND. Neither finding supplies the missing turned layers.
 
 ## Minimal recipient request
 
@@ -14,9 +14,11 @@ For chairs, that source root needs `seated/<presentation>-<build>-bare-v1.png` a
 
 Basic `seated` permits the existing fallback to preserve cushion contact. Exact writing, listening, speaking and meeting activities additionally need `seated-writing`, `seated-listening`, `seated-leaning` and `seated-hands-folded` source folders with the same layer names. This is a source request, not permission to claim those activities from a standing painting.
 
-Request the private pack identified in `docs/plans/active/modular45-people-repair.md:3`: `modular41-current-0a044d183ad7`, manifest SHA-256 `0a044d183ad7ac4f38f2e88f72ba294cd1496c8b4cc4466cce023b6a7b0694a2`. The missing recipient paths are `art/manifest/character_candidate_modular45_registry.json`, `art/authoring/modular45/build.py`, and `art/authoring/modular45/firefly/ledger.json`, together with the rasters those records reference. Keep private material outside public Git history.
+The earlier source request identified the private pack in `docs/plans/active/modular45-people-repair.md:3`: `modular41-current-0a044d183ad7`, manifest SHA-256 `0a044d183ad7ac4f38f2e88f72ba294cd1496c8b4cc4466cce023b6a7b0694a2`. These paths are absent from this checkout: `art/manifest/character_candidate_modular45_registry.json`, `art/authoring/modular45/build.py`, and `art/authoring/modular45/firefly/ledger.json`, together with the rasters those records reference. The coordinator now confirms those three files exist in LAND with a retained `modular47-gen16-postmerge-65f7704b6f35` candidate pack. This is distinct from the older requested pack and from runtime approval. Exact private delivery metadata remains pending. The coordinator is locating delivery metadata for the current local candidate bank; receiving it does not require relabeling that bank as the older pack. Keep private material outside public Git history.
 
 Rear-facing chairs need a separate authored rear-view bank and an explicit identity/schema mapping. The current engine has only `front` and `three-quarter` views (`src/presentation/appearance-engine/pack.ts:261`). No rear-view asset IDs or canonical source paths were found. Do not invent IDs or label mirrored front paintings as rear views.
+
+The [Drive reference inspection](session11-private-reference-inspection.md) identifies useful historical inputs and their limits. The machine-readable request records both the independently read Drive metadata and coordinator-reported LAND hashes.
 
 ## Existing source-bank inspection
 

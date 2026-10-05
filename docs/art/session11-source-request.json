@@ -800,7 +800,15 @@
     "registry": "art/manifest/character_candidate_modular45_registry.json",
     "builder": "art/authoring/modular45/build.py",
     "fireflyLedger": "art/authoring/modular45/firefly/ledger.json",
-    "present": false
+    "presentInThisCheckout": false,
+    "coordinatorLandLookup": {
+      "evidence": "Coordinator read-only lookup reported on October 5, 2026; not independently read in this execution environment",
+      "candidatePackId": "modular47-gen16-postmerge-65f7704b6f35",
+      "registrySha256": "0bfb02547a3d480ede5384100cd08af7f8fe99b65b62fe5bef9cf1f403ee319c",
+      "builderSha256": "769143237eea9a12791b8df2ac169b8e58f3819933d1522d82fe81e68ba02499",
+      "ledgerSha256": "0eeb3a48f66526b1945237f0d4d85c53e45260f9396ba6165066ccc914355fb1",
+      "status": "Current local candidates; not older requested pack, not runtime approval; exact private delivery metadata pending"
+    }
   },
   "rearView": {
     "registered": false,
@@ -1041,5 +1049,28 @@
       "source_sha256": "c811eff9d0ca01f5450ca503ec120fb7a5e4a5b268a2598ea5224d8f0103456b",
       "head_sha256": "79aeaf52acde6c02a8ea25b7329426ff83bb1fe5b29f4496ccfa0fda9c7a6281"
     }
-  ]
+  ],
+  "turnedOwnerLookup": {
+    "evidence": "Coordinator read-only lookup; owner Mac source root",
+    "standingFileCount": 156,
+    "absentSubfolders": ["faces", "hair", "seated"]
+  },
+  "privateDriveReference": {
+    "folderId": "1v8N5Zuo6-TPQtbVN0VpdjGAgQ3mTBg58",
+    "sourceCommit": "d75abfcb4cd0dd18550de1f5cd9b942ef214a782",
+    "contractFileId": "1Ry0mIISw7rlIejCb9Cf7f2aIAFQRLCma",
+    "contractSha256": "7e415cdd3c78410b7c9b94d9c7276e061586b45b8f1a916bc81b6c8bdc11725e",
+    "productionInputsFileId": "1GQX9mdvpamNyWslWyPbTyVHwN4eOBsvy",
+    "productionInputsSha256": "25f457f17b76a795f83d9625a3ea516a4715e3c6481a6cd12818175571950d26",
+    "status": "Private-unapproved historical KIT41 reference; not current runtime",
+    "posePackFileId": "1nYjToVvV1HxSDBRLE3PYV1RzltkPNvqv",
+    "correctedPosePackFileId": "1qwhL8BKSOZ3qjFdsCW2vsDqMBt2-MmJS",
+    "usefulInputs": [
+      "six standing front family contracts",
+      "collar and garment layer relations",
+      "26 front pose fits",
+      "16 corrected front identity fits",
+      "source provenance hashes and contact uncertainty"
+    ]
+  }
 }
