@@ -3854,6 +3854,8 @@ export interface ResolveElectionContestInput {
   readonly winnerPersonId?: EntityId;
   readonly tallies?: readonly CandidateTally[];
   readonly provenance?: ElectionContestProvenance;
+  /** Legal ballot admission supplied by the office adapter, never a second count. */
+  readonly admitVoter?: (personId: EntityId) => boolean | null;
 }
 
 export interface CancelElectionContestInput {

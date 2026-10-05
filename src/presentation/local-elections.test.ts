@@ -42,7 +42,8 @@ import {
 import { localGoverningBodyIdentity } from "../simulation/nationwide-world/local-governing-body-candidacy-packs";
 import {
   LOCAL_ELECTION_COUNT,
-  localElectionCountHandler,
+  localElectionResultHandler,
+  localContestTransition,
 } from "../simulation/living-world/local-elections";
 import { simulationMomentOnLocalDate } from "../simulation/dates";
 import { placeOutcomesForMonth } from "../simulation/outcome-web/place-outcomes";
@@ -60,7 +61,7 @@ import { drawRandomPlace } from "../../tests/support/random-place";
 
 /** An older saved world omits optional outcome books; explicit undefined is invalid JSON. */
 function withoutPlaceOutcomes(
-  world: Parameters<typeof localElectionCountHandler>[0],
+  world: Parameters<typeof localElectionResultHandler>[0],
 ) {
   const { placeOutcomes: omitted, ...rest } = world;
   void omitted;
@@ -163,9 +164,9 @@ describe(`${calendarPlace.displayName} elects its council, seed ${calendarSeed}`
         "2027-11-04",
         createFutureTransitionHandlerRegistry([
           [
-            LOCAL_ELECTION_COUNT,
+            ELECTION_CONTEST_TRANSITION_KEY,
             (atCount, item) => {
-              const key = item.stableKey.replace(/:count$/, "");
+              const key = item.stableKey.replace(/:due$/, "");
               const contest = atCount.history.electionContests?.find(
                 (row) => row.stableKey === key,
               );
@@ -225,7 +226,7 @@ describe(`${calendarPlace.displayName} elects its council, seed ${calendarSeed}`
                   });
                 }
               }
-              return localElectionCountHandler(recorded, item);
+              return localContestTransition(recorded, item)!;
             },
           ],
         ]),
@@ -491,7 +492,7 @@ describe("A112 town counts use saved support without a seed draw", () => {
           });
         }
         const registry = createFutureTransitionHandlerRegistry([
-          [LOCAL_ELECTION_COUNT, localElectionCountHandler],
+          [LOCAL_ELECTION_COUNT, localElectionResultHandler],
           [ELECTION_CONTEST_TRANSITION_KEY, electionContestTransitionHandler],
         ]);
         // Older scheduled races still contain both due items. The local
@@ -552,7 +553,7 @@ describe("A112 town counts use saved support without a seed draw", () => {
             outcomeEventId: null,
           },
         );
-        const unavailable = localElectionCountHandler(
+        const unavailable = localElectionResultHandler(
           withoutPlaceOutcomes(atVote),
           due,
         );
@@ -566,7 +567,7 @@ describe("A112 town counts use saved support without a seed draw", () => {
           ...atVote,
           history: { ...atVote.history, privateBeliefs: [] },
         };
-        const tied = localElectionCountHandler(neutral, due);
+        const tied = localElectionResultHandler(neutral, due);
         expect(tied.status).toBe("blocked");
         expect(tied.world).toBe(neutral);
         expect(electionContestResult(tied.world, contest.id)).toBeNull();
@@ -584,7 +585,7 @@ describe("A112 town counts use saved support without a seed draw", () => {
             ),
           },
         };
-        const reversedTie = localElectionCountHandler(reversed, due);
+        const reversedTie = localElectionResultHandler(reversed, due);
         expect(reversedTie.status).toBe("blocked");
         expect(reversedTie.world).toBe(reversed);
         const zeroTurnout = {
@@ -599,14 +600,14 @@ describe("A112 town counts use saved support without a seed draw", () => {
             })),
           },
         };
-        const empty = localElectionCountHandler(zeroTurnout, due);
+        const empty = localElectionResultHandler(zeroTurnout, due);
         expect(empty.status).toBe("resolved");
         expect(
           electionContestResult(empty.world, contest.id)!.tallies.map(
             (row) => row.votes,
           ),
         ).toEqual([3, 1, 0]);
-        const counted = localElectionCountHandler(atVote, due);
+        const counted = localElectionResultHandler(atVote, due);
         expect(counted.status).toBe("resolved");
         const result = electionContestResult(counted.world, contest.id)!;
         expect(result).not.toBeNull();

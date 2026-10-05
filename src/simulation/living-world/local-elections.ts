@@ -20,7 +20,6 @@ import {
 } from "../law-effect-stamp";
 import { campaigns } from "../campaign-queries";
 import {
-  countRecordedVoterBallots,
   cancelElectionContest,
   electionContestById,
   electionContestResult,
@@ -72,7 +71,6 @@ function nameOf(world: World, personId: EntityId): string {
   return person ? personName(person) : "A resident";
 }
 import type {
-  CandidateTally,
   EntityId,
   FutureDueItem,
   FutureTransitionHandlerResult,
@@ -812,20 +810,8 @@ function scheduleRace(
 ): World {
   const race = raceKey(input.unit.id, input.generalDate, input.seat);
   const stableKey = `${race}:${input.stage}`;
-  // The local count runs first; each handler returns its own terminal outcome.
-  let next = scheduleFutureDueItem(world, {
-    stableKey: `${stableKey}:count`,
-    dueAt: input.voteDate,
-    transitionKey: LOCAL_ELECTION_COUNT,
-    entityIds: [input.town],
-    jurisdictionId: input.town,
-    provenance: {
-      kind: "authored",
-      note: `${P.id}: the count for ${stableKey}.`,
-    },
-  });
   const label = seatLabelFor(input.office, input.seat);
-  next = scheduleElectionContest(next, {
+  const next = scheduleElectionContest(world, {
     stableKey,
     jurisdictionId: input.town,
     office: {
@@ -1132,35 +1118,22 @@ export function localElectionFilingHandler(
 /* The count                                                                   */
 /* -------------------------------------------------------------------------- */
 
-function countVotes(
+/** Resolve new town and county ballots on the shared contest due-item clock.
+ * The old local transition remains readable for saves made before this route.
+ */
+export function localContestTransition(
   world: World,
-  unit: GovernmentUnitIdentity,
-  town: EntityId,
-  seat: number,
-  candidates: readonly EntityId[],
-  electionDate: IsoDate,
-): CandidateTally[] | null {
-  const plan = councilWardPlan(unit);
-  const map = townWardMap(world, unit);
-  const ward = map && isWardSeat(plan, seat) ? seatWard(map, seat) : null;
-  const result = countRecordedVoterBallots(world, {
-    stableKey: `${raceKey(unit.id, electionDate, seat)}:recorded-voters`,
-    jurisdictionId: town,
-    electionDate,
-    candidatePersonIds: candidates,
-    ...(ward === null
-      ? {}
-      : {
-          admitVoter: (personId: EntityId) => {
-            const recordedWard = wardOfPerson(world, unit, town, personId);
-            return recordedWard === null ? null : recordedWard === ward;
-          },
-        }),
+  due: FutureDueItem,
+): FutureTransitionHandlerResult | null {
+  const contest = electionContestById(world, due.entityIds[0]!);
+  if (!contest || !countParts(`${contest.stableKey}:count`)) return null;
+  return localElectionResultHandler(world, {
+    ...due,
+    stableKey: `${contest.stableKey}:count`,
   });
-  return result ? [...result.tallies] : null;
 }
 
-export function localElectionCountHandler(
+export function localElectionResultHandler(
   world: World,
   due: FutureDueItem,
 ): FutureTransitionHandlerResult {
@@ -1181,48 +1154,39 @@ export function localElectionCountHandler(
   const label = seatLabelFor(office, seat);
   const phrase = seatPhrase(office, seat);
   const holder = holderOf(sittingLocalOfficers(world, unit), seat);
-  const living = contest.candidatePersonIds.filter((id) => alive(world, id));
-  const field = living.length > 0 ? living : contest.candidatePersonIds;
-  const counted = countVotes(
-    world,
-    unit,
-    town,
-    seat,
-    field,
-    contest.electionDate,
-  );
-  if (!counted || counted.length === 0)
+  const plan = councilWardPlan(unit);
+  const map = townWardMap(world, unit);
+  const ward = map && isWardSeat(plan, seat) ? seatWard(map, seat) : null;
+  let next = resolveElectionContest(world, {
+    stableKey: `${contestKey}:result`,
+    contestId: contest.id,
+    resolvedAt: world.currentDate,
+    ...(ward === null
+      ? {}
+      : {
+          admitVoter: (personId: EntityId) => {
+            const recordedWard = wardOfPerson(world, unit, town, personId);
+            return recordedWard === null ? null : recordedWard === ward;
+          },
+        }),
+    provenance: {
+      method: "simulated",
+      sourceEntityIds: [due.id, contest.id],
+      note: `${P.id}: the shared contest resolver counts eligible residents' saved candidate views at ${contest.electionDate}.`,
+    },
+  });
+  const result = electionContestResult(next, contest.id);
+  if (!result)
     return {
       world,
       status: "blocked",
-      reasonKey: counted
-        ? "local-election:no-ballots"
-        : "local-election:no-recorded-decision",
-      context: counted
-        ? "No admitted voter recorded a ballot; this race has no winner."
-        : "The saved voter decisions do not identify a unique winner.",
+      reasonKey: "local-election:no-recorded-decision",
+      context: "The saved voter decisions do not identify a unique winner.",
       outcomeEventId: null,
     };
-  if (counted.length > 1 && counted[0]!.votes === counted[1]!.votes)
-    return {
-      world,
-      status: "blocked",
-      reasonKey: "local-election:tied-count",
-      context:
-        "The leading candidates have equal vote totals; no winner has been recorded.",
-      outcomeEventId: null,
-    };
-  // Candidates who died before the vote are on the ballot with no votes.
-  const tallies: CandidateTally[] = [
-    ...counted,
-    ...contest.candidatePersonIds
-      .filter((id) => !field.includes(id))
-      .map((candidatePersonId) => ({
-        candidatePersonId,
-        votes: 0,
-        voteShare: 0,
-      })),
-  ];
+  const counted = result.tallies
+    .filter((row) => alive(world, row.candidatePersonId))
+    .sort((left, right) => right.votes - left.votes);
 
   let winner: EntityId | null = counted[0]!.candidatePersonId;
   let advancing: EntityId[] = [];
@@ -1262,19 +1226,6 @@ export function localElectionCountHandler(
       winner = counted[0]!.candidatePersonId;
     }
   }
-
-  let next = resolveElectionContest(world, {
-    stableKey: `${contestKey}:result`,
-    contestId: contest.id,
-    resolvedAt: world.currentDate,
-    winnerPersonId: winner,
-    tallies,
-    provenance: {
-      method: "simulated",
-      sourceEntityIds: [due.id, contest.id],
-      note: `${P.id}: eligible residents' saved candidate views at ${contest.electionDate} determine this town ${stage} count through the shared voter decision.`,
-    },
-  });
 
   if (stage === "primary") {
     next = event(next, {
@@ -1753,7 +1704,7 @@ export function localElectionHandlers() {
   return [
     [LOCAL_ELECTION_TERM_START, localElectionTermStartHandler],
     [LOCAL_ELECTION_FILING, localElectionFilingHandler],
-    [LOCAL_ELECTION_COUNT, localElectionCountHandler],
+    [LOCAL_ELECTION_COUNT, localElectionResultHandler],
     [LOCAL_GOVERNMENT_YEAR, localGovernmentYearHandler],
   ] as const;
 }

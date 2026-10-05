@@ -71,6 +71,7 @@ import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-exe
 import { localGoverningBodyIdentityForOfficeKey } from "./nationwide-world/local-governing-body-candidacy-packs";
 import {
   localElectionHandlers,
+  localContestTransition,
   localCampaignSeat,
   localSeatHolder,
   withdrawTownRaceForCampaign,
@@ -2226,6 +2227,8 @@ export function campaignElectionTransitionHandler(
   world: World,
   dueItem: FutureDueItem,
 ): FutureTransitionHandlerResult {
+  const local = localContestTransition(world, dueItem);
+  if (local) return local;
   const national = linkedNationalUnitTransition(world, dueItem);
   if (national) return national;
   const contestId = dueItem.entityIds[0];

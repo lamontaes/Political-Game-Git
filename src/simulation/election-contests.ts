@@ -144,6 +144,7 @@ export function scheduleElectionContest(
 export function evaluateDeterministicContestOutcome(
   world: World,
   contest: ElectionContestRecord,
+  admitVoter?: RecordedVoterCountInput["admitVoter"],
 ): {
   readonly winnerPersonId: EntityId;
   readonly tallies: readonly CandidateTally[];
@@ -159,6 +160,7 @@ export function evaluateDeterministicContestOutcome(
     jurisdictionId: contest.jurisdictionId,
     electionDate: contest.electionDate,
     candidatePersonIds: contest.candidatePersonIds,
+    ...(admitVoter ? { admitVoter } : {}),
   });
 }
 
@@ -182,6 +184,14 @@ export function countRecordedVoterBallots(
   readonly tallies: readonly CandidateTally[];
 } | null {
   const candidates = new Set<string>(input.candidatePersonIds);
+  const livingCandidates = new Set(
+    input.candidatePersonIds.filter((personId) =>
+      isPersonAliveAt(world, personId, {
+        asOfDate: input.electionDate,
+        historySequenceExclusive: world.history.nextSequence,
+      }),
+    ),
+  );
   if (
     candidates.size === 0 ||
     candidates.size !== input.candidatePersonIds.length
@@ -192,7 +202,7 @@ export function countRecordedVoterBallots(
   for (const belief of world.history.privateBeliefs) {
     if (
       belief.subject?.kind !== "official" ||
-      !candidates.has(belief.subject.personId) ||
+      !livingCandidates.has(belief.subject.personId) ||
       belief.formedAt > input.electionDate
     )
       continue;
@@ -265,11 +275,13 @@ export function countRecordedVoterBallots(
         entityId: null,
       },
       options: [
-        ...input.candidatePersonIds.map((key) => ({
-          key,
-          label: personName(world.people[key]!),
-          description: "Vote for this candidate.",
-        })),
+        ...input.candidatePersonIds
+          .filter((key) => livingCandidates.has(key))
+          .map((key) => ({
+            key,
+            label: personName(world.people[key]!),
+            description: "Vote for this candidate.",
+          })),
         {
           key: "abstain",
           label: "Do not choose a candidate",
@@ -402,7 +414,11 @@ export function resolveElectionContest(
       voteShare: t.voteShare,
     }));
   } else {
-    const outcome = evaluateDeterministicContestOutcome(world, contest);
+    const outcome = evaluateDeterministicContestOutcome(
+      world,
+      contest,
+      input.admitVoter,
+    );
     if (!outcome) return world;
     winnerPersonId = outcome.winnerPersonId;
     tallies = outcome.tallies;
