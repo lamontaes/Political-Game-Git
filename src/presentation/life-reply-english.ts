@@ -14,6 +14,34 @@ import type { SmallTalkLine } from "./small-talk-english";
 
 /** The caller decides the speech act from records; the existing composer words it. */
 const CORES = {
+  "running-open-agree-warm": "You should. I think you would be good at it.",
+  "running-open-agree-even": "If you want to, go ahead.",
+  "running-open-agree-worn": "Well, if it is what you want.",
+  "running-open-decline-warm":
+    "I'm not sure that is a good idea. It could take a lot out of you.",
+  "running-open-decline-even": "I'm not sure that is a good idea.",
+  "running-open-decline-worn": "I don't think you should.",
+  "running-open-undecided-warm":
+    "Running for office? Tell me more before I say anything.",
+  "running-open-undecided-even": "Tell me more before I say anything.",
+  "running-open-undecided-worn": "I would want to hear a lot more first.",
+  "running-help-agree": "Yes. Tell me what you need.",
+  "running-help-decline": "I'll cheer you on, but I can't do the campaigning.",
+  "running-help-undecided": "Let me think about it.",
+  "running-worry-risk":
+    "The money. A campaign costs a lot, and you could lose.",
+  "running-worry-conflict": "The arguing. People get nasty in an election.",
+  "running-worry-sociability": "Being in front of people all the time.",
+  "running-worry-none": "Nothing yet. Just go in with your eyes open.",
+  "running-election-soon": "That is not far off.",
+  "running-election-later": "That gives you some time.",
+  "running-election-unknown": "When is it, again?",
+  "running-news-involved": "I was part of that, you know.",
+  "running-news-informed": "I heard about that.",
+  "running-news-uninformed":
+    "I hadn't heard about that. Tell me what happened.",
+  "running-remember": "I remember that.",
+  "running-no-memory": "What do you mean?",
   "tell-privacy": "Can it wait? I need a little quiet right now.",
   "tell-shared-plan": "Me too. I've been meaning to {{plan}}.",
   "tell-guarded": "All right.",

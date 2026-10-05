@@ -813,7 +813,7 @@ export function commitLifeConversation(
   )
     return advanced;
   const { text: reply, parts: replyParts } = running
-    ? { text: running.reply, parts: [] as readonly ComposedPart[] }
+    ? { text: running.reply, parts: running.parts }
     : replyWithParts(world, view.context, input.intent);
   const tellTopic = isTellIntent(input.intent)
     ? findTellTopic(world, input.playerPersonId, input.personId, input.intent)
