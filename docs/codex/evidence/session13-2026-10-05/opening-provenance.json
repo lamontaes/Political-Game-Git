@@ -1,0 +1,40 @@
+{
+  "expectedIdentity": {
+    "workspace": "/workspace/Political-Game-Git",
+    "head": "c5d8540152f2f9a43513a26e3730601f95ea9bd6",
+    "branch": "codex/session13-elections-one-engine",
+    "dirty": true,
+    "sourceDigest": "0430e0caecc3dcfe8a4aaa7752421366c7ffa53c754cf5eab524f86111f73c65"
+  },
+  "served": {
+    "workspace": "/workspace/Political-Game-Git",
+    "head": "c5d8540152f2f9a43513a26e3730601f95ea9bd6",
+    "branch": "codex/session13-elections-one-engine",
+    "dirty": true,
+    "sourceDigest": "0430e0caecc3dcfe8a4aaa7752421366c7ffa53c754cf5eab524f86111f73c65",
+    "pid": 5995,
+    "runId": "session13-random-opening-stable-checkout"
+  },
+  "baseURL": "http://127.0.0.1:4186",
+  "projects": [
+    {
+      "name": "chromium",
+      "use": {
+        "baseURL": "http://127.0.0.1:4186",
+        "trace": "retain-on-failure",
+        "screenshot": "only-on-failure",
+        "video": "off",
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "browserName": "chromium",
+        "launchOptions": {
+          "executablePath": "/usr/bin/chromium",
+          "args": ["--no-sandbox"]
+        }
+      }
+    }
+  ],
+  "seedPolicy": "Each test retains its original control seed; actual URL/world seed is captured by review proof."
+}

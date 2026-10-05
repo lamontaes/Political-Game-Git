@@ -1,0 +1,55 @@
+{
+  "session": 13,
+  "status": "incomplete-not-ready",
+  "productionHead": "c5d8540152f2f9a43513a26e3730601f95ea9bd6",
+  "baseHead": "af8c098372379836cc22a0b487d10f79e2049a32",
+  "pullRequest": "https://github.com/lamontaes/Political-Game-Git/pull/2180",
+  "completed": [
+    "Town and county scheduled ballots dispatch through the shared contest due item and resolver.",
+    "Presidential elector-unit transitions dispatch through the shared contest resolver before importing raw totals.",
+    "District contests require recorded district membership; statewide residence does not count as membership.",
+    "Dead candidates retain their ballot row with zero votes."
+  ],
+  "checks": {
+    "admissionTests": "4 passed",
+    "nationalTests": "9 passed",
+    "recordedLocalBallotTest": "1 passed, 52 skipped; equivalent recorded ballots under two world seeds",
+    "eslintChangedFiles": "passed",
+    "prettierChangedFiles": "passed",
+    "zeroDice": "passed",
+    "releaseCheckPrMode": "passed",
+    "mergeTree": "clean against baseHead",
+    "typecheck": "failed: unchanged opening-preparation-stages.spec.ts TS6142 and three TS7006 errors",
+    "legacyContestTests": "12 failures also reproduced on unchanged main",
+    "fullLocalElectionTests": "worker exhausted the default Node heap during the watched two-year proof",
+    "threeYearSpeedComparison": "not run"
+  },
+  "openingEvidence": {
+    "scope": "new-game opening only; not election proof",
+    "selectionSeed": "session13-election-engine-opening",
+    "gameSeed": "session13-election-engine-real-game",
+    "place": "Jackson, Kentucky",
+    "character": "Emerson Dixon",
+    "startAge": 30,
+    "shownDate": "2026-01-05",
+    "shownLocalTime": "09:10",
+    "viewport": "1920x1080",
+    "test": "tests/e2e/session13-random-opening.spec.ts",
+    "runId": "session13-random-opening-stable-checkout",
+    "result": "1 passed; served identity and teardown source identity passed",
+    "screenshot": "random-place-opening.png",
+    "provenance": "opening-provenance.json",
+    "command": "PG_RUN_ID=session13-random-opening-stable-checkout PLAYWRIGHT_PORT=4186 VITE_CONFIG_NATIVE_IGNORE_WARNING=true npx playwright test --config playwright.session13.config.ts tests/e2e/session13-random-opening.spec.ts"
+  },
+  "remaining": [
+    "Campaign/governor/Congress support allocation counter and legislative seat-share fallback",
+    "Legislature intake windows and all-level jurisdiction/office calendar reader",
+    "Sourced 2026 calendar, Louisiana Saturday rules and territory schedules",
+    "Clerk conversation replacing the candidacy form",
+    "Election-night scene using actual recorded counts and office-transition oath",
+    "Recorded turnout changing election results and durable voter-decision reuse",
+    "Two random-state local filing plus legislature/Congress/governor election proof",
+    "Real-game clerk and election-night visual evidence",
+    "Clean full required gates and speed baseline/candidate comparison"
+  ]
+}
