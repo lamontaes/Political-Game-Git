@@ -10,7 +10,11 @@ type Fixture = {
     seed: string;
     world: { id: string; date: string; people: number } | null;
     reports: readonly OpeningLifeGenerationProgress[];
-    painted: readonly { requested: string; visible: string; value: string | null }[];
+    painted: readonly {
+      requested: string;
+      visible: string;
+      value: string | null;
+    }[];
     animation: string;
   };
   cancel: () => void;
