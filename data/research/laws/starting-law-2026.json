@@ -16792,7 +16792,15 @@
           "preempts": false,
           "cite": "25 Del. C. § 5602",
           "source": "https://delcode.delaware.gov/title25/c056/index.html",
-          "note": "Tenants at or below 200% of the federal poverty level have a statutory right to legal representation, but a legal aid provider may decline a case it finds lacks merit, small pro se landlords are excluded, and § 5607 phases it in through June 30, 2028 subject to funding."
+          "note": "Tenants at or below 200% of the federal poverty level have a statutory right to legal representation, but a legal aid provider may decline a case it finds lacks merit, small pro se landlords are excluded, and § 5607 phases it in through June 30, 2028 subject to funding. Income eligibility is household income at or below 200% of the federal poverty guidelines, measured over the prior 12 months. Case merit, funding, conflicts, and landlord-size exceptions apply; landlord exception includes three or fewer rental units when unrepresented.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+              "key": "income-limit",
+              "value": 2,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-FL": {
           "answer": "no",
@@ -17055,9 +17063,17 @@
           "answer": "yes",
           "operativeAt": "2021-04-22",
           "preempts": false,
-          "cite": "RCW 59.18.640",
+          "cite": "RCW 59.18.640(2)(b)",
           "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=59.18.640",
-          "note": "Courts must appoint a lawyer for any indigent tenant (on public assistance or at or below 200% of the federal poverty level) in an unlawful detainer case, subject to state appropriations; the April 22, 2021 date is from the act's emergency clause in RCW 59.18.620 notes."
+          "note": "Courts must appoint a lawyer for any indigent tenant (on public assistance or at or below 200% of the federal poverty level) in an unlawful detainer case, subject to state appropriations; the April 22, 2021 date is from the act's emergency clause in RCW 59.18.620 notes. Unlawful-detainer representation is available to tenants with annual after-tax income at or below 200% of current federal poverty guidelines or enumerated public-assistance status; implementation is subject to appropriated funds.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+              "key": "income-limit",
+              "value": 2,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-WI": {
           "answer": "no",
