@@ -2222,28 +2222,6 @@ export function OptionsWorkspace({
       </section>
 
       <section className="pg-personal-section">
-        <h3>Daily notes</h3>
-        <p className="game-note">
-          A morning note reads your current plans and decisions. You can turn it
-          off here; the day remains available in Calendar.
-        </p>
-        <label>
-          <input
-            type="checkbox"
-            checked={state.preferences.morningThoughts}
-            data-testid="option-morning-thoughts"
-            onChange={(event) =>
-              dispatch({
-                type: "set-morning-thoughts",
-                enabled: event.currentTarget.checked,
-              })
-            }
-          />{" "}
-          Show morning note
-        </label>
-      </section>
-
-      <section className="pg-personal-section">
         <h3>Motion</h3>
         <p className="game-note">
           Motion follows your system&rsquo;s reduced-motion setting, so nothing
