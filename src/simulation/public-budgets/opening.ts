@@ -1,3 +1,4 @@
+import { historicalWorldInputs } from "../historical-world-inputs";
 import paid from "../../../data/research/money/pension-contribution-paid.json" with { type: "json" };
 import flows from "../../../data/research/money/pension-flows.json" with { type: "json" };
 import funded from "../../../data/research/money/pension-funded-ratio.json" with { type: "json" };
@@ -848,11 +849,30 @@ export function openGovernmentBudget(
 ): PublicBudgetGovernment | string {
   const base = PLACES[candidate.stateKey];
   if (!base) return "Not in the budget research.";
-  const opening =
+  const baseline =
     candidate.level === "state"
       ? stateOpening(candidate, base)
       : localOpening(candidate, base);
-  if (typeof opening === "string") return opening;
+  if (typeof baseline === "string") return baseline;
+  const context = historicalWorldInputs(today);
+  const opening = context.historical
+    ? {
+        ...baseline,
+        revenue: baseline.revenue.map((value) =>
+          Math.round(value * context.nominalFactor),
+        ),
+        spending: baseline.spending.map((value) =>
+          Math.round(value * context.nominalFactor),
+        ),
+        debt: Math.round(baseline.debt * context.nominalFactor),
+        balance: Math.round(baseline.balance * context.nominalFactor),
+        reserve: Math.round(baseline.reserve * context.nominalFactor),
+        notes: [
+          ...baseline.notes,
+          `ESTIMATED FROM AVERAGE: this government's recorded opening amounts carried to ${context.year} with ${context.priceSource} price drift.`,
+        ],
+      }
+    : baseline;
   const { start, basis } = fiscalStartFor(candidate, base);
   const year = fiscalYearContaining(today, start);
   const laws = budgetLawReadings(

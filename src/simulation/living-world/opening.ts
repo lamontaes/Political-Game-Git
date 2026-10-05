@@ -195,7 +195,7 @@ export function ensureLivingWorldOpening(
 
   for (const chamberKey of ["us-house", "us-senate"] as const) {
     const chamberRng = rng.fork(`chamber:${chamberKey}`);
-    const seats = congressSeats().filter(
+    const seats = congressSeats(date).filter(
       (seat) => seat.chamberKey === chamberKey,
     );
     const [vacancyMin, vacancyMax] = PROFILE.vacancies[chamberKey];

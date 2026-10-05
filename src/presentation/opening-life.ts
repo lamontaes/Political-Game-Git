@@ -150,6 +150,24 @@ export function generateOpeningLife(
   return built!;
 }
 
+/** Open the existing institutions around a previously constructed historical life.
+ * Reuses the one opening pipeline; the caller advances its resulting World.
+ */
+export function preparePreStartInstitutions(
+  game: NewGame,
+  setup: NewGameSetup,
+  onProgress?: (progress: OpeningLifeGenerationProgress) => void,
+): NewGame {
+  if (game.world.control.kind !== "observer")
+    throw new Error("Historical institutions require an observer World.");
+  let built: OpeningLifeSession | undefined;
+  advanceWithWorldIntegrityAtEnd(() => {
+    built = buildOpeningLife(prepareOpeningLife(setup), onProgress, game);
+    return built.game!.world;
+  }, game.world);
+  return built!.game!;
+}
+
 /**
  * Asynchronous new-game path for a loading screen. Each state chunk is a
  * separate immutable World transition; progress is reported before yielding
@@ -287,9 +305,10 @@ async function reportOpeningStage(
 
 function* beginOpeningLifeSteps(
   session: OpeningLifeSession,
+  suppliedGame?: NewGame,
 ): Generator<OpeningPreparationStep, OpeningLifeBuildStart, void> {
   yield openingStage("Preparing your life");
-  const game = createNewGameWorld(session.setup);
+  const game = suppliedGame ?? createNewGameWorld(session.setup);
   // Begin persists this save's generated starting conditions first, so every
   // later opening step reads the same world. A legacy descriptor writes none.
   const conditioned = ensureWorldStartingConditions(game.world, {
@@ -377,9 +396,10 @@ function* beginOpeningLifeSteps(
 function buildOpeningLife(
   session: OpeningLifeSession,
   onProgress?: (progress: OpeningLifeGenerationProgress) => void,
+  suppliedGame?: NewGame,
 ): OpeningLifeSession {
   const start = finishOpeningPreparationSteps(
-    beginOpeningLifeSteps(session),
+    beginOpeningLifeSteps(session, suppliedGame),
     onProgress,
   );
   let world = start.world;

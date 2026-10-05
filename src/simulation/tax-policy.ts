@@ -7,7 +7,12 @@ import { TAX_NUMERIC_LAW_TERMS } from "./tax-law-term-keys";
 import { eventById } from "./event-index";
 import { lawInForce, type LawInForce } from "./governing/law-in-force";
 import { isLawEffectStamp, lawEffectStamp } from "./law-effect-stamp";
-import { recordById, recordsByStringField } from "./history-index";
+import {
+  appendedList,
+  recordById,
+  recordByStableKey,
+  recordsByStringField,
+} from "./history-index";
 import { assertTaxDraftIdentityIntegrity } from "./legislation-tax-identity";
 import powerProjection from "../fiscal-authority/tax-powers.generated.json" with { type: "json" };
 import { canonicalJson } from "./canonical-json";
@@ -1459,6 +1464,7 @@ export function taxEntityExists(world: World, id: EntityId): boolean {
 function taxRecordLists(world: World): readonly (readonly {
   readonly id: EntityId;
   readonly recordedAt: string;
+  readonly stableKey: string;
   readonly sequence: number;
 }[])[] {
   const history = world.history;
@@ -1487,8 +1493,10 @@ function append<
   record: NonNullable<World["history"][K]>[number],
 ): World {
   if (
-    taxHistoryRecords(world).some(
-      (row) => row.id === record.id || row.stableKey === record.stableKey,
+    taxRecordLists(world).some(
+      (rows) =>
+        recordById(rows, record.id) !== undefined ||
+        recordByStableKey(rows, record.stableKey) !== undefined,
     )
   )
     throw new Error("Duplicate tax history identity.");
@@ -1497,7 +1505,7 @@ function append<
     history: {
       ...world.history,
       nextSequence: world.history.nextSequence + 1,
-      [field]: [...(world.history[field] ?? []), record],
+      [field]: appendedList(world.history[field] ?? [], [record]),
     },
   };
 }

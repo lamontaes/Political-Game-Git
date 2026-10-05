@@ -1,5 +1,6 @@
 import { districtIdentityCatalog } from "../../districts/catalog";
 import { listDistrictIdentities } from "../../districts/query";
+import { historicalWorldInputs } from "../historical-world-inputs";
 import { makeIsoDate } from "../dates";
 import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
 import type { IsoDate } from "../types";
@@ -106,20 +107,33 @@ export interface CongressSeat {
   readonly senateClass: 1 | 2 | 3 | null;
 }
 
-let seatCache: readonly CongressSeat[] | null = null;
+const seatCache = new Map<string, readonly CongressSeat[]>();
 
 /** Every voting seat, in a stable order. Delegates are not chamber seats. */
-export function congressSeats(): readonly CongressSeat[] {
-  if (seatCache) return seatCache;
+export function congressSeats(onDate?: IsoDate): readonly CongressSeat[] {
+  const historical = onDate ? historicalWorldInputs(onDate) : null;
+  const key = Object.keys(historical?.houseSeats ?? {}).length
+    ? "previous"
+    : "current";
+  const cached = seatCache.get(key);
+  if (cached) return cached;
   const catalog = districtIdentityCatalog();
   const seats: CongressSeat[] = [];
   for (const stateUsps of [...US_STATE_USPS].sort()) {
-    for (const district of listDistrictIdentities(catalog, {
+    const current = listDistrictIdentities(catalog, {
       stateUsps,
       chamber: "congressional",
     })
       .map((record) => record.districtCode)
-      .sort()) {
+      .sort();
+    const count = historical?.houseSeats[stateUsps];
+    const districts =
+      count === undefined
+        ? current
+        : Array.from({ length: count }, (_, index) =>
+            count === 1 ? "00" : String(index + 1).padStart(2, "0"),
+          );
+    for (const district of districts) {
       seats.push({
         seatKey: `us-house:${stateUsps}-${district}`,
         chamberKey: "us-house",
@@ -142,7 +156,7 @@ export function congressSeats(): readonly CongressSeat[] {
       });
     }
   }
-  seatCache = seats;
+  seatCache.set(key, seats);
   return seats;
 }
 
