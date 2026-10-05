@@ -117,3 +117,11 @@ body {
   filter: drop-shadow(0 0 3px rgb(255 120 90 / 95%))
     drop-shadow(0 0 8px rgb(214 88 64 / 70%));
 }
+
+/* Outside the game scene; must remain visible on every comparison sheet. */
+.proposal-caption {
+  padding: 10px 16px;
+  color: #1c1a18;
+  background: #f6f1e8;
+  font: 400 14px/1.4 var(--ui);
+}

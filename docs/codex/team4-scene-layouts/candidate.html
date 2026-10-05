@@ -9,6 +9,10 @@
   </head>
   <body>
     <main id="scene" data-layout="1" data-phase="greeting"></main>
+    <aside class="proposal-caption">
+      Layout proposal: recorded exchange staged here; office attendance is not
+      established.
+    </aside>
     <script type="module">
       // Isolated binding only: no game imports, history writes or conversation engine.
       const params = new URLSearchParams(location.search);
@@ -38,6 +42,7 @@
         required(p.sourceReceipt, "T3 sourceReceipt");
         required(p.backgroundSha256, "original background SHA256");
         required(p.exchangeBasis, "current/proposed exchange basis");
+        required(p.actualContext, "recorded agenda exchange actual context");
         scene.dataset.layout = layout;
         scene.dataset.phase = phase;
         scene.dataset.sourceReceipt = p.sourceReceipt;
