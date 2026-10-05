@@ -1,3 +1,4 @@
+import { electionClerkFamily } from "./election-clerk-family";
 import type { EntityId, IsoDate, World } from "../simulation";
 import { officePhrase } from "./english-grammar";
 import { addDays } from "../simulation";
@@ -2013,6 +2014,7 @@ export const SCENE_FAMILY_DEFINITIONS: Readonly<
   "study-peer": studyPeer,
   "study-plan": studyPlan,
   "town-hall": townHall,
+  "election-clerk": electionClerkFamily,
 };
 
 /** When a situation stops being offered, counted from a date. */

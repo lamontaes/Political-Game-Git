@@ -1,0 +1,14 @@
+SURFACE: dialogue and choices
+CHARACTER: The player is the controlled person in this authored unit fixture.
+RELATIONSHIPS: The other participant is the recorded active City clerk. No earlier conversation or personal familiarity is established.
+KNOWN WORLD FACTS: This is an authored adapter fixture, not real-game visual proof. Both people have a current recorded encounter at the clerk's actual recorded office.
+Office review snapshot: {"key":"us-ky-general-assembly-v1:house","officeKey":"us-ky-general-assembly-v1:house","title":"Seat in the Kentucky House of Representatives","writer":"local-or-legislative","eligible":false,"eligibility":"Choose a district seat before filing.","electionDate":"2026-11-03","filingDeadline":"2026-01-09","filingBasis":"set-for-2026","districtBinding":null,"municipalSeatKey":null}
+Filing deadline: January 9, 2026. Its basis is set-for-2026.
+PLAYER KNOWLEDGE: The player chose to ask about this office. The opening asks which office interests them.
+CHARACTER KNOWLEDGE: The clerk's bound review reads the same current qualification and calendar readers as filing. Their saved role, status and encounter establish this review context.
+ESTABLISHED TRAITS: The actual fixture speaker traits feed the existing composer; no trait establishes a legal fact.
+EARLIER CHOICES: The player asked the selected requirements question.
+ALLOWED INTERPRETATION: Ordinary courteous question/answer phrasing only.
+UNKNOWN / DO NOT ASSUME: No paper, fee, phone call, arrival, weekday, motive, guarantee of winning, or successful filing is established.
+PURPOSE: Explain the selected office requirements without filing.
+OUTPUT REQUEST: Opening, selected question, and actual composed requirements reply only.

@@ -1,0 +1,13 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run build -- npm run typecheck
+
+[storage-guard] build: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+> political-life-rpg@0.4.0 typecheck
+> node --import tsx scripts/dev-lab/typecheck.ts && node --import tsx scripts/dev-lab/typecheck-test-imports.ts
+
+tests/e2e/opening-preparation-stages.spec.ts(3,53): error TS6142: Module './support/opening-preparation-fixture' was resolved to '/workspace/Political-Game-Git/tests/e2e/support/opening-preparation-fixture.tsx', but '--jsx' is not set.
+tests/e2e/opening-preparation-stages.spec.ts(68,52): error TS7006: Parameter 'step' implicitly has an 'any' type.
+tests/e2e/opening-preparation-stages.spec.ts(82,10): error TS7006: Parameter 'frame' implicitly has an 'any' type.
+tests/e2e/opening-preparation-stages.spec.ts(87,28): error TS7006: Parameter 'frame' implicitly has an 'any' type.

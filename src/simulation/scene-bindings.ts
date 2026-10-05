@@ -37,6 +37,7 @@ export const SCENE_FAMILIES = [
   // Build 22: somebody at a campaign town hall asks where the candidate
   // stands on a bill still in play.
   "town-hall",
+  "election-clerk",
 ] as const;
 export type SceneFamily = (typeof SCENE_FAMILIES)[number];
 

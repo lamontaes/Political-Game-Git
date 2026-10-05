@@ -1,0 +1,14 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- npx vitest run src/presentation/election-clerk.test.ts src/presentation/speaker-traits.test.ts
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+
+ Test Files  2 passed (2)
+      Tests  5 passed (5)
+   Start at  23:44:24
+   Duration  24.49s (transform 29.91s, setup 43ms, import 37.96s, tests 482ms, environment 1ms)
+

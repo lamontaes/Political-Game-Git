@@ -65,6 +65,7 @@ export const CONTEXTUAL_SCENE_SUBJECT = {
   "study-peer": "scene-study-peer",
   "study-plan": "scene-study-plan",
   "town-hall": "scene-town-hall",
+  "election-clerk": "scene-election-clerk",
 } as const satisfies Record<SceneFamily, string>;
 
 export type ContextualSceneSubject =
@@ -153,6 +154,8 @@ export interface SceneAnswer {
   readonly statement: string;
   /** Ways the other person answers. Every variant means the same thing. */
   readonly replies: readonly string[];
+  /** Election-clerk replies retain the existing composer’s selected parts. */
+  readonly clerkLinePartsTag?: string;
   /** What the speaker now makes of the player, if anything. */
   readonly perception?: string;
   /** The record's sentence: "The player …". */
@@ -561,6 +564,8 @@ export function contextualSubjectPresentation(): ContextualSubjectPresentation {
         (personId) => personId !== progress.binding.playerPersonId,
       );
       const tags = [sceneTurnTag(progress.bindingEventId)];
+      if (definition.family === "election-clerk" && answer.clerkLinePartsTag)
+        tags.push(answer.clerkLinePartsTag);
       if (!answer.followUp) tags.push(SCENE_SETTLED_TAG);
       if (answer.stance) {
         const stance: ClaimStance = {
