@@ -104,11 +104,9 @@ function FactList({
           className="pg-fact"
           data-attribution={fact.attribution}
         >
-          {fact.attribution === "known" ? null : (
-            <span className="pg-fact-attribution">
-              {fact.attribution === "record" ? "On the record" : "Reported"}
-            </span>
-          )}
+          {fact.attribution === "reported" ? (
+            <span className="pg-fact-attribution">Reported</span>
+          ) : null}
           <span>{fact.text}</span>
         </li>
       ))}
@@ -321,13 +319,6 @@ export function PersonCard({
                 data-testid="dossier-relation"
               >
                 {knownAs.charAt(0).toUpperCase() + knownAs.slice(1)}
-              </p>
-            ) : isYou ? (
-              <p
-                className="pg-person-card-relation"
-                data-testid="dossier-relation"
-              >
-                You
               </p>
             ) : null}
             {traitsSentence ? (
