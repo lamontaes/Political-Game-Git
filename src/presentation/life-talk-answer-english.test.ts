@@ -2,10 +2,9 @@ import { describe, expect, it } from "vitest";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { drawRandomPlace } from "../../tests/support/random-place";
 import { tellAnswer } from "./life-talk-topics";
-import {
-  latestGoalStatesForPerson,
-  relationshipHistory,
-} from "../simulation/queries";
+import { relationshipHistory } from "../simulation/queries";
+
+import { chooseOrdinaryLifeGoal } from "../simulation/life-personality";
 
 describe("an answer to a recorded story", () => {
   it("names only someone the listener already knows and creates no knowledge by rendering", () => {
@@ -18,20 +17,16 @@ describe("an answer to a recorded story", () => {
       startAge: 34,
     });
     const listenerId = world.personOrder.find((id) => id !== playerPersonId)!;
-    const connected = world.personOrder.find(
-      (id) =>
-        id !== playerPersonId &&
-        latestGoalStatesForPerson(world, id).some(
-          (goal) =>
-            goal.goalKey === "opening-life:connection" &&
-            goal.status === "active",
-        ),
+    // Explicit goal fixture through the existing writer; this is not live-game proof.
+    const planned = chooseOrdinaryLifeGoal(
+      { ...world, control: { kind: "person", personId: listenerId } },
+      listenerId,
+      "connection",
     );
-    expect(connected).toBeTruthy();
     const sharedPlan = tellAnswer(
-      world,
+      planned,
       playerPersonId,
-      connected!,
+      listenerId,
       {
         kind: "plan",
         key: "plan:connection",
