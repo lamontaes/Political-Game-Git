@@ -1620,7 +1620,18 @@
       "note": "D.C. allows possession but a congressional rider bars sales.",
       "answers": {
         "US-AK": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Alaska Stat. § 17.38.020",
+          "source": "https://www.elections.alaska.gov/petitions-and-ballot-measures/petition-status/petition_id/13psum/",
+          "note": "Adult-use retail is limited to people 21 or older under the voter-approved measure effective 2/24/2015.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            }
+          ]
         },
         "US-AL": {
           "answer": "no"
@@ -1634,7 +1645,24 @@
           "note": "Tried: American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
         },
         "US-AZ": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "A.R.S. §§ 36-2852(A), 42-5452",
+          "source": "https://www.azleg.gov/ars/42/05452.htm",
+          "note": "Adult-use purchasers must be 21 or older. A 16% excise tax applies to adult-use retail sales; separate transaction privilege taxes remain outside this rate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            },
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.16,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-CA": {
           "answer": "yes",
@@ -1657,17 +1685,56 @@
           ]
         },
         "US-CO": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Colo. Rev. Stat. § 39-28.8-202; Colo. Const. art. XVIII, § 16",
+          "source": "https://www.leg.colorado.gov/bills/SB17B-001",
+          "note": "Adult-use retail is limited to people 21 or older. The 15% retail marijuana sales tax excludes the separate 15% cultivation-transfer excise and local taxes.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            },
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.15,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-CT": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Conn. Pub. Act 21-1, § 1; Conn. Gen. Stat. § 12-330ll",
+          "source": "https://cga.ct.gov/2022/sup/chap_420h.htm",
+          "note": "Adult-use purchasers must be 21 or older. As of 1/1/2026, the excise tax is based on THC content and product type, so there is no single retail-sales share to record.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            }
+          ]
         },
         "US-DC": {
           "answer": "no",
           "note": "Possession legal; sales barred by Congress."
         },
         "US-DE": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "4 Del. C. § 1382",
+          "source": "https://delcode.delaware.gov/title4/c013/sc08/index.html",
+          "note": "A 15% excise tax applies to adult-use retail sales, with medical marijuana excluded. The tax is on retail sales and does not combine ordinary or local sales taxes.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.15,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-FL": {
           "answer": "no"
@@ -1700,7 +1767,18 @@
           "answer": "no"
         },
         "US-IL": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "410 ILCS 705/1-10 (definition of Purchaser)",
+          "source": "https://ilga.gov/Documents/legislation/ilcs/documents/041007050K1-10.htm",
+          "note": "Adult-use purchases are limited to people 21 or older; this term records the purchaser-age floor, not product-dependent cannabis excise rates.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            }
+          ]
         },
         "US-IN": {
           "answer": "no"
@@ -1715,10 +1793,32 @@
           "answer": "no"
         },
         "US-MA": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Mass. Gen. Laws ch. 64N, § 2",
+          "source": "https://www.mass.gov/info-details/mass-general-laws-c64n-ss-2",
+          "note": "Adult-use retail sales are subject to a 10.75% excise tax. The base excludes sales to another marijuana establishment; ordinary sales and local option taxes are separate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.1075,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-MD": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Md. Code, Tax-Gen. § 11-104(k)",
+          "source": "https://mgaleg.maryland.gov/mgawebsite/laws/StatuteText?article=gtg&section=11-104",
+          "note": "A 12% tax applies to adult-use cannabis retail sales beginning 7/1/2025. Medical and licensed business-to-business sales retain their statutory exemptions.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.12,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-ME": {
           "answer": "yes",
@@ -1761,10 +1861,32 @@
           ]
         },
         "US-MN": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Minn. Stat. § 295.81",
+          "source": "https://www.revisor.mn.gov/statutes/cite/295.81",
+          "note": "A 15% tax applies to taxable cannabis gross receipts, including taxable hemp products, beginning 7/1/2025. Statutory exemptions and ordinary sales taxes remain separate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.15,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-MO": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Mo. Const. art. XIV, § 2.6(1)",
+          "source": "https://health.mo.gov/business-professionals/cannabis-regulation/general-faqs",
+          "note": "The adult-use retail cannabis tax is 6%; the medical rate is 4%, and general and local taxes are separate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.06,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-MP": {
           "answer": "yes",
@@ -1791,7 +1913,18 @@
           "answer": "no"
         },
         "US-MT": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Montana adult-use cannabis tax",
+          "source": "https://revenue.mt.gov/taxes/miscellaneous-taxes-and-fees/cannabis/",
+          "note": "Adult-use retail sales are taxed at 20% of retail value; medical sales and county option taxes have separate rates.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.2,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-NC": {
           "answer": "no"
@@ -1806,10 +1939,32 @@
           "answer": "no"
         },
         "US-NJ": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "N.J.S.A. 24:6I-31 et seq. (CREAMM Act)",
+          "source": "https://pub.njleg.gov/bills/2020/AL21/16_.HTM",
+          "note": "Adult-use purchases are limited to people 21 or older. The cultivation social-equity fee is weight-based, not a retail-sales share.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            }
+          ]
         },
         "US-NM": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "N.M. Stat. Ann. § 7-42-3",
+          "source": "https://www.tax.newmexico.gov/businesses/cannabis-excise-tax/",
+          "note": "The adult-use cannabis excise tax is 13% of price paid from 7/1/2025 through 6/30/2026; medical exemptions and gross-receipts tax are separate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.13,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-NV": {
           "answer": "yes",
@@ -1826,16 +1981,49 @@
           ]
         },
         "US-NY": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "N.Y. Tax Law § 493(b)",
+          "source": "https://www.nysenate.gov/legislation/laws/TAX/493",
+          "note": "The state retail cannabis tax is 9% of retail sale or transfer price. The separate 4% local retail tax and wholesale tax are excluded.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.09,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-OH": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Ohio Rev. Code § 3780.22 (version effective 1/1/2026)",
+          "source": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/37/3780/3780.22/6-30-2025/3780.22-6-30-2025.pdf",
+          "note": "Adult-use cannabis retail sales are taxed at 10% of the retail price under the version in force 1/1/2026; ordinary taxes are separate. This section was replaced 3/20/2026.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.1,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-OK": {
           "answer": "no"
         },
         "US-OR": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Or. Rev. Stat. § 475C.674",
+          "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors475c.html",
+          "note": "Recreational cannabis retail sales carry a 17% state tax; medical exemptions and local option taxes are separate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.17,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-PA": {
           "answer": "no"
@@ -1847,7 +2035,18 @@
           "note": "Puerto Rico allows dispensaries to sell cannabis only to licensed medical patients, and the law prohibits recreational use."
         },
         "US-RI": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "R.I. Gen. Laws § 44-70-2",
+          "source": "https://webserver.rilegislature.gov/Statutes/TITLE44/44-70/44-70-2.htm",
+          "note": "A 10% cannabis tax applies to consumer sales to someone other than a cannabis establishment. Medical sales are exempt; general sales and local taxes are separate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.1,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-SC": {
           "answer": "no"
@@ -1877,10 +2076,32 @@
           "note": "Tried: V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found)."
         },
         "US-VT": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "32 V.S.A. § 7902",
+          "source": "https://legislature.vermont.gov/statutes/section/32/207/07902",
+          "note": "A 14% excise tax applies to adult-use retail cannabis sales price; registered medical dispensary sales are exempt, and ordinary sales taxes are separate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.14,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-WA": {
-          "answer": "yes"
+          "answer": "yes",
+          "cite": "Wash. Rev. Code § 69.50.535",
+          "source": "https://app.leg.wa.gov/rcw/default.aspx?cite=69.50.535",
+          "note": "Adult-use retail sales carry a 37% state cannabis excise tax. Qualified medical exemptions and ordinary sales taxes are separate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.37,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-WI": {
           "answer": "no"
@@ -7508,7 +7729,15 @@
           "preempts": true,
           "cite": "Ariz. Const. art. 4, pt. 2, § 21",
           "source": "https://www.ncsl.org/about-state-legislatures/state-constitutional-and-statutory-provisions-for-term-limits",
-          "note": "Eight years (four two-year terms) in each chamber, consecutive; adopted 1992."
+          "note": "Eight years (four two-year terms) in each chamber, consecutive; adopted 1992.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+              "key": "limit",
+              "value": 4,
+              "unit": "count"
+            }
+          ]
         },
         "US-CA": {
           "answer": "yes",
@@ -7608,7 +7837,15 @@
           "preempts": true,
           "cite": "La. Const. art. III, § 4(E)",
           "source": "https://www.ncsl.org/about-state-legislatures/state-constitutional-and-statutory-provisions-for-term-limits",
-          "note": "Three consecutive terms (12 years) in each chamber, consecutive; adopted 1995."
+          "note": "Three consecutive terms (12 years) in each chamber, consecutive; adopted 1995.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+              "key": "limit",
+              "value": 3,
+              "unit": "count"
+            }
+          ]
         },
         "US-MA": {
           "answer": "no",
@@ -7627,7 +7864,15 @@
           "preempts": true,
           "cite": "Me. Rev. Stat. tit. 21-A, § 553",
           "source": "https://www.mainelegislature.org/legis/statutes/21-a/title21-Asec553.html",
-          "note": "Four consecutive two-year terms (eight years) in each chamber, consecutive; statutory, adopted 1993."
+          "note": "Four consecutive two-year terms (eight years) in each chamber, consecutive; statutory, adopted 1993.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+              "key": "limit",
+              "value": 4,
+              "unit": "count"
+            }
+          ]
         },
         "US-MI": {
           "answer": "yes",
@@ -7778,7 +8023,15 @@
           "preempts": true,
           "cite": "S.D. Const. art. III, § 6",
           "source": "https://www.ncsl.org/about-state-legislatures/state-constitutional-and-statutory-provisions-for-term-limits",
-          "note": "Four consecutive two-year terms (eight years) in each chamber, consecutive; adopted 1992."
+          "note": "Four consecutive two-year terms (eight years) in each chamber, consecutive; adopted 1992.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+              "key": "limit",
+              "value": 4,
+              "unit": "count"
+            }
+          ]
         },
         "US-TN": {
           "answer": "no",
@@ -13529,8 +13782,16 @@
           "operativeAt": "2021-03-23",
           "preempts": true,
           "cite": "815 ILCS 123/15-5-5",
-          "source": "https://en.wikipedia.org/wiki/Payday_loans_in_the_United_States",
-          "note": "The Predatory Loan Prevention Act caps every consumer loan from a non-bank lender at 36% APR, counting all fees the way the Military Lending Act does."
+          "source": "https://www.ilga.gov/legislation/ilcs/documents/081501230K15-5-5.htm",
+          "note": "The 36% APR cap applies to covered lenders for loans made or renewed on or after 3/23/2021. Banks, savings banks, savings and loan associations, credit unions, insurance companies, and pawn transactions are statutory exceptions; APR uses the Act’s calculation.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+              "key": "cap",
+              "value": 0.36,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-IN": {
           "answer": "no",
@@ -13731,9 +13992,17 @@
           "answer": "yes",
           "operativeAt": "2016-11-16",
           "preempts": true,
-          "cite": "S.D. Codified Laws § 54-4-44",
+          "cite": "S.D. Codified Laws §§ 54-4-44 through 54-4-44.4",
           "source": "https://sdlegislature.gov/api/Statutes/54-4-44.html?all=true",
-          "note": "Voter-approved Initiated Measure 21 caps every licensed lender's loans at 36% a year including all fees and add-on products; loans above the cap are void."
+          "note": "The 36% annual finance-charge cap applies to lenders licensed under chapter 54-4. It includes ancillary products and services and charges incident to credit; statutory exceptions include late/check/attorney fees, certain vehicle-purchase loan fees, and qualifying business lending.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+              "key": "cap",
+              "value": 0.36,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-TN": {
           "answer": "no",
