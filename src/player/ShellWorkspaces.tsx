@@ -1852,16 +1852,18 @@ export function PersonalWorkspace({
         </ul>
       </section>
 
-      {/*
+      {DIAGNOSTICS ? (
+        <>
+          {/*
         The place, not the person. Same data, same source, stated as what it
         is: observations about where this life is lived.
       */}
-      <section
-        className="pg-personal-section"
-        aria-label="Economic context"
-        data-testid="personal-economic-context"
-      >
-        {/*
+          <section
+            className="pg-personal-section"
+            aria-label="Economic context"
+            data-testid="personal-economic-context"
+          >
+            {/*
           The binding registry decides whether this place has one, not a
           comparison against one named city. Most places now derive one from
           the county areas the Census records them in; a reviewed crosswalk
@@ -1872,26 +1874,31 @@ export function PersonalWorkspace({
           this panel simply missing from it, which reads as a broken screen
           rather than as an honest gap.
         */}
-        {economicBinding ? (
-          <EconomicContextPanel
-            binding={economicBinding}
-            simulationDate={world.currentDate}
-            diagnostics={DIAGNOSTICS}
-            world={world}
-            jurisdictionId={economicJurisdictionId}
-          />
-        ) : economicPlace ? (
-          <p className="game-note" data-testid="economic-context-unavailable">
-            {economicContextUnavailableReason(economicPlace.key)}
-          </p>
-        ) : null}
-        {economicPlace ? (
-          <TownBusinessesPanel
-            world={world}
-            jurisdictionId={economicPlace.context.jurisdiction.id}
-          />
-        ) : null}
-      </section>
+            {economicBinding ? (
+              <EconomicContextPanel
+                binding={economicBinding}
+                simulationDate={world.currentDate}
+                diagnostics={DIAGNOSTICS}
+                world={world}
+                jurisdictionId={economicJurisdictionId}
+              />
+            ) : economicPlace ? (
+              <p
+                className="game-note"
+                data-testid="economic-context-unavailable"
+              >
+                {economicContextUnavailableReason(economicPlace.key)}
+              </p>
+            ) : null}
+            {economicPlace ? (
+              <TownBusinessesPanel
+                world={world}
+                jurisdictionId={economicPlace.context.jurisdiction.id}
+              />
+            ) : null}
+          </section>
+        </>
+      ) : null}
     </>
   );
 }
