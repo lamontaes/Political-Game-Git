@@ -876,7 +876,8 @@ function establishAgeEligibleState(
       kind: "household",
       input: {
         stableKey: householdKey,
-        formedAt: world.currentDate,
+        formedAt:
+          preStartDates && dependent ? player.birthDate : world.currentDate,
         label: dependent
           ? `${player.familyName} household`
           : `${personName(player)}'s household`,
@@ -888,7 +889,8 @@ function establishAgeEligibleState(
       input: {
         stableKey: `${householdKey}:location`,
         householdStableKey: householdKey,
-        effectiveAt: world.currentDate,
+        effectiveAt:
+          preStartDates && dependent ? player.birthDate : world.currentDate,
         jurisdictionId,
         label: place.displayName,
         kind: "residence:home",
@@ -1138,7 +1140,7 @@ function establishAgeEligibleState(
         stableKey: `${stableKey}:membership:guardian`,
         personId: guardianId,
         householdId,
-        startedAt: world.currentDate,
+        startedAt: preStartDates ? player.birthDate : world.currentDate,
         residenceRole: "primary",
         kind: "resident:member",
         provenance: PROVENANCE,
@@ -1150,7 +1152,7 @@ function establishAgeEligibleState(
         stableKey: `${stableKey}:membership:player`,
         personId: player.id,
         householdId,
-        startedAt: world.currentDate,
+        startedAt: preStartDates ? player.birthDate : world.currentDate,
         residenceRole: "primary",
         kind: "resident:child",
         provenance: PROVENANCE,
@@ -1240,7 +1242,11 @@ function establishAgeEligibleState(
           stableKey: `${stableKey}:membership:sibling`,
           personId: siblingId,
           householdId,
-          startedAt: world.currentDate,
+          startedAt: preStartDates
+            ? siblingBirthDate > player.birthDate
+              ? siblingBirthDate
+              : player.birthDate
+            : world.currentDate,
           residenceRole: "primary",
           kind: "resident:child",
           provenance: PROVENANCE,
@@ -1315,7 +1321,7 @@ function establishAgeEligibleState(
           stableKey: `${otherKey}:membership`,
           personId: otherId,
           householdId,
-          startedAt: world.currentDate,
+          startedAt: preStartDates ? player.birthDate : world.currentDate,
           residenceRole: "primary",
           kind: "resident:member",
           provenance: PROVENANCE,
