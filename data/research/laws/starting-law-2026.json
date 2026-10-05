@@ -15902,16 +15902,32 @@
           "answer": "yes",
           "operativeAt": "2015-01-01",
           "preempts": true,
-          "cite": "Ariz. Const. art. 9, § 18",
+          "cite": "Ariz. Const. art. IX, § 18(3)(b)",
           "source": "https://www.azleg.gov/const/9/18.htm",
-          "note": "Assessment cap: the taxable (limited) value of all real property may rise no more than 5% a year over the prior year's limited value, for all property taxes since tax year 2015."
+          "note": "Assessment cap: the taxable (limited) value of all real property may rise no more than 5% a year over the prior year's limited value, for all property taxes since tax year 2015. Limited assessed-value annual growth is 5%, also subject to full cash value and statutory exclusions.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+              "key": "cap",
+              "value": 0.05,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-CA": {
           "answer": "yes",
           "preempts": true,
-          "cite": "Cal. Const. art. XIII A, § 2",
+          "cite": "Cal. Const. art. XIII A, § 2(b)",
           "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CONS&sectionNum=SEC.%202.&article=XIII%20A",
-          "note": "Assessment cap (Proposition 13): the assessed value of all real property may rise no more than 2% a year, or inflation if lower, until the property sells or is newly built."
+          "note": "Assessment cap (Proposition 13): the assessed value of all real property may rise no more than 2% a year, or inflation if lower, until the property sells or is newly built. Annual assessed-value growth is limited to 2% or inflation if lower; sale and new construction trigger reassessment.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+              "key": "cap",
+              "value": 0.02,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-CO": {
           "answer": "no",
@@ -15928,9 +15944,17 @@
         "US-DC": {
           "answer": "yes",
           "preempts": true,
-          "cite": "D.C. Code § 47-864",
+          "cite": "D.C. Code § 47-864(b)",
           "source": "https://code.dccouncil.gov/us/dc/council/code/sections/47-864",
-          "note": "Assessment cap by credit: an owner-occupied homestead is taxed on no more than 110% of last year's taxable assessment (102% for seniors and disabled owners); the excess is credited on the bill."
+          "note": "Assessment cap by credit: an owner-occupied homestead is taxed on no more than 110% of last year's taxable assessment (102% for seniors and disabled owners); the excess is credited on the bill. Ordinary homestead taxable assessment is capped at 110% of the prior taxable assessment; qualifying senior and disabled owners have a separate 102% limit.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+              "key": "cap",
+              "value": 0.1,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-DE": {
           "answer": "no",
@@ -15941,17 +15965,33 @@
         "US-FL": {
           "answer": "yes",
           "preempts": true,
-          "cite": "Fla. Const. art. VII, § 4(d), (g)",
+          "cite": "Fla. Const. art. VII, § 4(d), (g), (h)",
           "source": "https://www.flsenate.gov/Laws/Constitution",
-          "note": "Assessment cap (Save Our Homes): a homestead's assessed value may rise no more than 3% a year or inflation if lower; other property is capped at 10% a year for non-school taxes."
+          "note": "Assessment cap (Save Our Homes): a homestead's assessed value may rise no more than 3% a year or inflation if lower; other property is capped at 10% a year for non-school taxes. Homestead assessed-value growth is limited to the lesser of 3% or CPI; covered nonhomestead property is limited to 10% for non-school levies.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+              "key": "cap",
+              "value": 0.03,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-GA": {
           "answer": "yes",
           "operativeAt": "2025-01-01",
           "preempts": true,
-          "cite": "O.C.G.A. § 48-5-44.1 (HB 581, 2024)",
-          "source": "https://dor.georgia.gov/document/document/overview-floating-homestead-exemption-and-annual-inflationary-index-rate/download",
-          "note": "Assessment cap: a statewide floating homestead exemption holds a homestead's taxable assessed value to its base-year value adjusted for inflation (frozen for 2025, CPI from 2026), but each county, city or school district could opt out, and many school systems did."
+          "cite": "O.C.G.A. § 48-5-44.1; Georgia DOR 2026 annual inflation index bulletin",
+          "source": "https://dor.georgia.gov/document/document/2026-annual-inflationary-index-bulletinpdf/download",
+          "note": "Assessment cap: a statewide floating homestead exemption holds a homestead's taxable assessed value to its base-year value adjusted for inflation (frozen for 2025, CPI from 2026), but each county, city or school district could opt out, and many school systems did. The 2026 floating homestead exemption inflation index is 2.7%; availability depends on local taxing-jurisdiction participation and opt-outs.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+              "key": "cap",
+              "value": 0.027,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-GU": {
           "answer": "no",
@@ -16018,9 +16058,17 @@
         "US-MD": {
           "answer": "yes",
           "preempts": true,
-          "cite": "Md. Code, Tax-Prop. § 9-105",
+          "cite": "Md. Tax-Property § 9-105(e)",
           "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtp&section=9-105&enactments=false",
-          "note": "Assessment cap by credit: a homestead's taxable assessment for state tax may rise no more than 10% a year, and each county or city sets its own cap between 0% and 10%."
+          "note": "Assessment cap by credit: a homestead's taxable assessment for state tax may rise no more than 10% a year, and each county or city sets its own cap between 0% and 10%. State homestead-credit threshold is 10%; local thresholds vary from 0% to 10% by ordinance, so the local value is not inferred here.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+              "key": "cap",
+              "value": 0.1,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-ME": {
           "answer": "no",
@@ -16106,16 +16154,32 @@
         "US-NV": {
           "answer": "yes",
           "preempts": true,
-          "cite": "NRS 361.4723 (and 361.4722)",
-          "source": "https://www.leg.state.nv.us/NRS/NRS-361.html",
-          "note": "Tax-bill cap: an owner-occupied single-family home's property tax bill may rise no more than 3% a year through a partial abatement; other property has a separate, higher abatement cap."
+          "cite": "Nev. Rev. Stat. § 361.4723(1)",
+          "source": "https://www.leg.state.nv.us/NRS/NRS-361.html#NRS361Sec4723",
+          "note": "Tax-bill cap: an owner-occupied single-family home's property tax bill may rise no more than 3% a year through a partial abatement; other property has a separate, higher abatement cap. For covered owner-occupied single-family residences, annual property-tax-bill increase is limited to 3%; statutory exemptions apply.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+              "key": "cap",
+              "value": 0.03,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-NY": {
           "answer": "yes",
           "preempts": true,
           "cite": "N.Y. Real Prop. Tax Law § 1805",
-          "source": "https://newyork.public.law/laws/n.y._real_property_tax_law_section_1805",
-          "note": "Assessment cap only in New York City and Nassau County: one-to-three-family homes may rise no more than 6% a year and 20% over five years; the statewide 2% cap limits local levies, not individual bills."
+          "source": "https://www.nysenate.gov/legislation/laws/RPT/1805",
+          "note": "Assessment cap only in New York City and Nassau County: one-to-three-family homes may rise no more than 6% a year and 20% over five years; the statewide 2% cap limits local levies, not individual bills. Class-one properties and special assessing units are subject to a 6% annual and 20% five-year assessment-growth limit; this is not a statewide levy cap.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+              "key": "cap",
+              "value": 0.06,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-OH": {
           "answer": "no",
@@ -16133,9 +16197,17 @@
         "US-OR": {
           "answer": "yes",
           "preempts": true,
-          "cite": "Or. Const. art. XI, § 11; ORS 308.146",
+          "cite": "Or. Rev. Stat. § 308.146(1)",
           "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors308.html",
-          "note": "Assessment cap (Measure 50): each property's maximum assessed value may rise no more than 3% a year, and a sale does not reset it."
+          "note": "Assessment cap (Measure 50): each property's maximum assessed value may rise no more than 3% a year, and a sale does not reset it. Maximum assessed value generally grows by up to 3% annually, subject to the statutory lesser-of formula, real-market-value limit, and exceptions.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+              "key": "cap",
+              "value": 0.03,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-PA": {
           "answer": "no",
@@ -16158,9 +16230,17 @@
         "US-SC": {
           "answer": "yes",
           "preempts": true,
-          "cite": "S.C. Code § 12-37-3140",
+          "cite": "S.C. Code § 12-37-3140(B)",
           "source": "https://www.scstatehouse.gov/code/t12c037.php",
-          "note": "Assessment cap: at each five-year countywide reappraisal a property's value may rise no more than 15% (about 2.8% a year), reset on sale or new improvements."
+          "note": "Assessment cap: at each five-year countywide reappraisal a property's value may rise no more than 15% (about 2.8% a year), reset on sale or new improvements. Countywide reassessment increase is limited to 15% over the five-year reassessment period; not an annual cap.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+              "key": "cap",
+              "value": 0.15,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-SD": {
           "answer": "no",
@@ -16178,9 +16258,17 @@
         "US-TX": {
           "answer": "yes",
           "preempts": true,
-          "cite": "Tex. Tax Code § 23.23",
-          "source": "https://texas.public.law/statutes/tex._tax_code_section_23.23",
-          "note": "Assessment cap: a homestead's appraised value may rise no more than 10% a year; a temporary 20% cap on non-homestead property valued up to about $5 million runs through 2026."
+          "cite": "Tex. Tax Code § 23.23(a)",
+          "source": "https://comptroller.texas.gov/taxes/property-tax/valuing-property.php",
+          "note": "Assessment cap: a homestead's appraised value may rise no more than 10% a year; a temporary 20% cap on non-homestead property valued up to about $5 million runs through 2026. Homestead appraisal growth is limited to 10% annually, plus the value of new improvements.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+              "key": "cap",
+              "value": 0.1,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-UT": {
           "answer": "no",
@@ -16226,9 +16314,17 @@
         "US-WY": {
           "answer": "yes",
           "preempts": true,
-          "cite": "Wyo. Stat. § 39-11-105(a)(xliii)-(xliv)",
-          "source": "https://wyoleg.gov/statutes/compress/title39.pdf",
-          "note": "Assessment cap by exemption: any rise in a single-family home's (and its lot's) assessed value above 4% a year is exempt, reset on sale or structural additions."
+          "cite": "Wyo. Stat. § 39-11-105(a)(xliii)(A), (xliv)",
+          "source": "https://www.wyoleg.gov/statutes/compress/title39.pdf",
+          "note": "Assessment cap by exemption: any rise in a single-family home's (and its lot's) assessed value above 4% a year is exempt, reset on sale or structural additions. For qualifying single-family structure and associated improved land, assessed value above prior assessed value less the prior exemption is exempt up to 4%; statutory acquisition and improvement resets apply.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+              "key": "cap",
+              "value": 0.04,
+              "unit": "ratio"
+            }
+          ]
         }
       }
     },
@@ -16356,8 +16452,17 @@
         "US-KS": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
-          "note": "By statute, the enacted budget must leave an unspent State General Fund balance of 7.5% of expenditures, and the Budget Stabilization Fund receives a share of revenue above the consensus estimate (NASBO 2021)."
+          "source": "https://www.kslegislature.gov/b2025_26/laws/075_000_0000_chapter/075_067_0000_article/075_067_0002_section/075_067_0002_k/",
+          "note": "By statute, the enacted budget must leave an unspent State General Fund balance of 7.5% of expenditures, and the Budget Stabilization Fund receives a share of revenue above the consensus estimate (NASBO 2021). Required ending general-fund balance is at least 7.5% of authorized general-fund expenditures and demand transfers.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+              "key": "floor",
+              "value": 0.075,
+              "unit": "ratio"
+            }
+          ],
+          "cite": "K.S.A. § 75-6702(b)"
         },
         "US-KY": {
           "answer": "yes",
@@ -16390,9 +16495,17 @@
         "US-ME": {
           "answer": "yes",
           "preempts": true,
-          "cite": "5 M.R.S. § 1532",
+          "cite": "5 M.R.S. § 1532(1)",
           "source": "https://legislature.maine.gov/statutes/5/title5sec1532.html",
-          "note": "The Budget Stabilization Fund may not fall below 1% or exceed 18% of the prior year's General Fund revenue, and it receives a set share of the year-end unappropriated surplus."
+          "note": "The Budget Stabilization Fund may not fall below 1% or exceed 18% of the prior year's General Fund revenue, and it receives a set share of the year-end unappropriated surplus. General-fund balance generally may not fall below 1% or exceed 18% of prior-year general-fund revenue; § 1533 provides an exception.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+              "key": "floor",
+              "value": 0.01,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-MI": {
           "answer": "no",
