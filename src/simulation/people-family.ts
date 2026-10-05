@@ -68,6 +68,8 @@ export type FamilyAdditionInput =
       /** The birth date, which is also the event date. Not after today. */
       readonly occurredAt: string;
       readonly parentPersonIds: readonly EntityId[];
+      /** Creator identity already admitted to the same World, before play. */
+      readonly childPersonId?: EntityId;
       /** Optional; otherwise drawn by the common generator. */
       readonly givenName?: string;
       /** Optional; otherwise the first named parent's family name. */
@@ -210,6 +212,7 @@ export function recordFamilyAddition(
     const siblings = childrenOf(world, parents[0]!.id);
     if (
       siblings.some((id) => {
+        if (id === input.childPersonId) return false;
         const sibling = world.people[id]!;
         return (
           sibling.birthDate === occurredAt && sibling.givenName === givenName
@@ -218,16 +221,40 @@ export function recordFamilyAddition(
     ) {
       throw new Error("That child is already recorded.");
     }
-    const personKey = `${input.stableKey}:person`;
-    next = createCharacterHistoryContextPerson(next, {
-      stableKey: personKey,
-      givenName,
-      familyName,
-      birthDate: occurredAt,
-      homeJurisdictionId: parents[0]!.homeJurisdictionId,
-      identity,
-    });
-    childId = characterHistoryContextPersonId(next, personKey);
+    const existingChild = input.childPersonId
+      ? world.people[input.childPersonId]
+      : undefined;
+    if (input.childPersonId) {
+      if (world.preStartLife?.personId !== input.childPersonId)
+        throw new Error(
+          "Only the pre-start Creator identity can be admitted at birth.",
+        );
+      if (!existingChild || existingChild.birthDate !== occurredAt)
+        throw new Error(
+          "The admitted child's birth date must match the birth.",
+        );
+      if (
+        world.history.events.some(
+          (event) =>
+            event.type === FAMILY_MEMBER_ADDED_EVENT &&
+            event.tags.includes("family.birth") &&
+            event.involvedEntityIds.includes(input.childPersonId!),
+        )
+      )
+        throw new Error("That child's birth is already recorded.");
+      childId = existingChild.id;
+    } else {
+      const personKey = `${input.stableKey}:person`;
+      next = createCharacterHistoryContextPerson(next, {
+        stableKey: personKey,
+        givenName,
+        familyName,
+        birthDate: occurredAt,
+        homeJurisdictionId: parents[0]!.homeJurisdictionId,
+        identity,
+      });
+      childId = characterHistoryContextPersonId(next, personKey);
+    }
   } else {
     const child = world.people[input.childPersonId];
     if (!child) throw new Error("The child being adopted does not exist.");
@@ -324,13 +351,14 @@ export function recordFamilyAddition(
       : "lineal:adoptive-parent-child";
 
   for (const parent of parents) {
-    next = recordKinship(next, {
-      stableKey: `${input.stableKey}:kinship:${parent.id}`,
-      personIds: [parent.id, childId],
-      establishedAt: occurredAt,
-      kind: parentKind,
-      provenance,
-    });
+    if (!linked(next, parent.id, childId))
+      next = recordKinship(next, {
+        stableKey: `${input.stableKey}:kinship:${parent.id}`,
+        personIds: [parent.id, childId],
+        establishedAt: occurredAt,
+        kind: parentKind,
+        provenance,
+      });
     for (const grandparent of parentsOf(next, parent.id)) {
       if (linked(next, grandparent, childId)) continue;
       if (!alive(next, grandparent, occurredAt)) continue;
@@ -342,7 +370,16 @@ export function recordFamilyAddition(
         provenance,
       });
     }
-    if (ageOnDate(child.birthDate, occurredAt) < 18) {
+    if (
+      ageOnDate(child.birthDate, occurredAt) < 18 &&
+      !next.history.childAuthorities.some(
+        (entry) =>
+          entry.childPersonId === childId &&
+          entry.holder.kind === "person" &&
+          entry.holder.personId === parent.id &&
+          entry.establishedAt <= occurredAt,
+      )
+    ) {
       next = createChildAuthority(next, {
         stableKey: `${input.stableKey}:authority:${parent.id}`,
         childPersonId: childId,
@@ -378,7 +415,7 @@ export function recordFamilyAddition(
     });
   }
 
-  // Admit residence from the addition date, not a parent's later household.
+  // A dated addition belongs to the household on that date, not today's home.
   const additionCutoff = {
     ...currentLifeCutoff(next),
     asOfDate: occurredAt,

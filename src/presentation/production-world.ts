@@ -77,6 +77,7 @@ import { ensureTownHomes } from "../simulation/living-world/town-homes";
 import { ensureTownEmployment } from "../simulation/living-world/town-employment";
 import { drawFamilyShape } from "../simulation/family-shape";
 import { ensureStartingPersonalMoney } from "../simulation/starting-money";
+import { parentsOf, recordFamilyAddition } from "../simulation/people-family";
 import type {
   CharacterHistoryTransition,
   DistrictHomeJoinVersion,
@@ -369,6 +370,9 @@ export function buildProductionWorld(
     },
     jurisdictions: [jurisdiction],
     people: [player],
+    ...(input.preStartYear
+      ? { preStartLife: { personId: player.id, targetStartDate: currentDate } }
+      : {}),
     setupPriors: input.priors,
   });
 
@@ -403,6 +407,20 @@ export function buildProductionWorld(
     input.otherParent ?? null,
     input.familyShape ?? null,
   );
+  if (input.preStartYear) {
+    const parentPersonIds = parentsOf(world, player.id);
+    if (parentPersonIds.length === 0)
+      throw new Error(
+        "A pre-start character needs recorded living parents at birth.",
+      );
+    world = recordFamilyAddition(world, {
+      kind: "birth",
+      stableKey: "production:character-birth",
+      occurredAt: player.birthDate,
+      parentPersonIds,
+      childPersonId: player.id,
+    }).world;
+  }
   // Early family evidence seated the town before the player's caregivers existed.
   // Complete their employment and home through the existing opening writers.
   if (estimateOpeningFamily)
@@ -495,6 +513,23 @@ export function buildProductionWorld(
   return { world, playerPersonId: player.id, player };
 }
 
+/** Admit the character before the past runs; their ordinary writers act on this World. */
+export function buildPreStartCharacterWorld(
+  input: PreStartProductionWorldInput,
+): ProductionWorld {
+  const built = buildProductionWorld(input);
+  const world: World = {
+    ...built.world,
+    control: { kind: "observer" },
+    preStartLife: {
+      personId: built.playerPersonId,
+      targetStartDate: input.preStartYear.targetStartDate,
+    },
+  };
+  assertWorldIntegrity(world);
+  return { ...built, world };
+}
+
 /**
  * Make the prior-year world without the prospective player. The world can
  * advance institutions, businesses and background people before Begin, but
@@ -537,6 +572,33 @@ export function finalizePreStartPlayer(
   background: World,
   input: PreStartProductionWorldInput,
 ): ProductionWorld {
+  if (background.preStartLife) {
+    const { personId, targetStartDate } = background.preStartLife;
+    if (
+      targetStartDate !== input.preStartYear.targetStartDate ||
+      background.currentDate !== targetStartDate ||
+      background.currentMoment.date !== targetStartDate ||
+      background.id !== createWorldId(input.seed, "production") ||
+      !background.jurisdictions[input.place.context.jurisdiction.id]
+    )
+      throw new Error("The character's World has not reached Begin.");
+    const player = background.people[personId];
+    if (!player) throw new Error("The character is missing from their World.");
+    if (
+      background.history.personDeaths.some(
+        (death) =>
+          death.personId === personId && death.diedAt <= targetStartDate,
+      )
+    )
+      throw new Error(`${personName(player)} died before Begin.`);
+    const { preStartLife: _completed, ...preserved } = background;
+    const world: World = {
+      ...preserved,
+      control: { kind: "person", personId },
+    };
+    assertWorldIntegrity(world);
+    return { world, playerPersonId: personId, player };
+  }
   if (input.startingLife === "legislative-office")
     throw new Error(
       "A pre-start legislative staff job needs an office work path before player finalization.",
