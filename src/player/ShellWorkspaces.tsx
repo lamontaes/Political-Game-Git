@@ -503,8 +503,10 @@ export function PeopleWorkspace({
           ),
     [directory, category, state.peopleQuery],
   );
-  const [webExpanded, setWebExpanded] = useState(false);
-  const peopleView = state.preferences.peopleView;
+  const peopleView =
+    state.preferences.peopleView === "categories"
+      ? "list"
+      : state.preferences.peopleView;
   const showWeb = peopleView === "web";
   /*
    * Choosing somebody here opens the one person card the whole game uses,
@@ -578,7 +580,6 @@ export function PeopleWorkspace({
             [
               ["web", "Web"],
               ["list", "List"],
-              ["categories", "Categories"],
             ] as const
           ).map(([view, label]: readonly [PeopleView, string]) => (
             <button
@@ -624,112 +625,107 @@ export function PeopleWorkspace({
             focusId={focusId}
             category={category}
             query={state.peopleQuery}
-            expanded={webExpanded}
+            expanded={false}
             onSelect={selectPerson}
             onShowList={() =>
               dispatch({ type: "set-people-view", view: "list" })
             }
           />
-          <button
-            type="button"
-            className="ui-action ui-action--subtle"
-            data-testid="people-web-expand"
-            onClick={() => setWebExpanded((value) => !value)}
-          >
-            {webExpanded
-              ? "Show the nearby connections"
-              : "Show everyone you know"}
-          </button>
         </>
       ) : null}
 
-      {shown.length === 0 ? (
-        <p className="game-note" data-testid="people-empty">
-          Nobody here matches that. This life may simply not have met them yet.
-        </p>
-      ) : (
-        <ul
-          className="pg-people-list"
-          data-view={peopleView}
-          data-testid="people-list"
-        >
-          {shown.map((person) => {
-            const ref: ShellRef = { kind: "person", id: person.personId };
-            const pinned = isPinned(state, ref);
-            return (
-              <li key={person.personId}>
-                <button
-                  type="button"
-                  className="pg-person-row"
-                  data-testid={`people-person-${person.personId}`}
-                  onClick={() => selectPerson(person.personId)}
-                >
-                  <PersonPortrait
-                    world={world}
-                    personId={person.personId}
-                    size="small"
-                  />
-                  <strong>{person.name}</strong>
-                  {person.relationship ? (
-                    <small>{person.relationship}</small>
-                  ) : person.context ? (
-                    <small>{person.context}</small>
-                  ) : null}
-                  {person.strain ? (
-                    <small data-testid={`people-strain-${person.personId}`}>
-                      {person.strain}
-                    </small>
-                  ) : null}
-                </button>
-                <PinToggle
-                  className="ui-action ui-action--rail"
-                  pinned={pinned}
-                  name={person.name}
-                  testid={`people-pin-${person.personId}`}
-                  onToggle={() => dispatch({ type: "toggle-pin", ref })}
-                />
-              </li>
-            );
-          })}
-        </ul>
-      )}
+      {!showWeb ? (
+        <>
+          {shown.length === 0 ? (
+            <p className="game-note" data-testid="people-empty">
+              Nobody here matches that. This life may simply not have met them
+              yet.
+            </p>
+          ) : (
+            <ul
+              className="pg-people-list"
+              data-view={peopleView}
+              data-testid="people-list"
+            >
+              {shown.map((person) => {
+                const ref: ShellRef = { kind: "person", id: person.personId };
+                const pinned = isPinned(state, ref);
+                return (
+                  <li key={person.personId}>
+                    <button
+                      type="button"
+                      className="pg-person-row"
+                      data-testid={`people-person-${person.personId}`}
+                      onClick={() => selectPerson(person.personId)}
+                    >
+                      <PersonPortrait
+                        world={world}
+                        personId={person.personId}
+                        size="small"
+                      />
+                      <strong>{person.name}</strong>
+                      {person.relationship ? (
+                        <small>{person.relationship}</small>
+                      ) : person.context ? (
+                        <small>{person.context}</small>
+                      ) : null}
+                      {person.strain ? (
+                        <small data-testid={`people-strain-${person.personId}`}>
+                          {person.strain}
+                        </small>
+                      ) : null}
+                    </button>
+                    <PinToggle
+                      className="ui-action ui-action--rail"
+                      pinned={pinned}
+                      name={person.name}
+                      testid={`people-pin-${person.personId}`}
+                      onToggle={() => dispatch({ type: "toggle-pin", ref })}
+                    />
+                  </li>
+                );
+              })}
+            </ul>
+          )}
 
-      {category === "all" && directory.notYetMet.length > 0 ? (
-        <p className="game-note" data-testid="people-not-yet-met-note">
-          {directory.notYetMet.length === 1
-            ? "1 person you work or organize with is somebody you have not met yet."
-            : `${directory.notYetMet.length} people you work or organize with are somebody you have not met yet.`}{" "}
-          They are under Work and Politics.
-        </p>
-      ) : null}
-      {notYetMet.length > 0 ? (
-        <section
-          className="pg-people-not-yet-met"
-          aria-label="Not met yet"
-          data-testid="people-not-yet-met"
-        >
-          <h3>Not met yet</h3>
-          <ul className="pg-people-list" data-view="list">
-            {notYetMet.map((person) => (
-              <li key={person.personId}>
-                <button
-                  type="button"
-                  className="pg-person-row"
-                  data-testid={`people-unmet-${person.personId}`}
-                  onClick={() => selectPerson(person.personId)}
-                >
-                  <PersonPortrait
-                    world={world}
-                    personId={person.personId}
-                    size="small"
-                  />
-                  <strong>{person.name}</strong>
-                  {person.context ? <small>{person.context}</small> : null}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </section>
+          {category === "all" && directory.notYetMet.length > 0 ? (
+            <p className="game-note" data-testid="people-not-yet-met-note">
+              {directory.notYetMet.length === 1
+                ? "1 person you work or organize with is somebody you have not met yet."
+                : `${directory.notYetMet.length} people you work or organize with are somebody you have not met yet.`}{" "}
+              They are under Work and Politics.
+            </p>
+          ) : null}
+          {notYetMet.length > 0 ? (
+            <section
+              className="pg-people-not-yet-met"
+              aria-label="Not met yet"
+              data-testid="people-not-yet-met"
+            >
+              <h3>Not met yet</h3>
+              <ul className="pg-people-list" data-view="list">
+                {notYetMet.map((person) => (
+                  <li key={person.personId}>
+                    <button
+                      type="button"
+                      className="pg-person-row"
+                      data-testid={`people-unmet-${person.personId}`}
+                      onClick={() => selectPerson(person.personId)}
+                    >
+                      <PersonPortrait
+                        world={world}
+                        personId={person.personId}
+                        size="small"
+                      />
+                      <strong>{person.name}</strong>
+                      {person.context ? <small>{person.context}</small> : null}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+        </>
       ) : null}
     </>
   );
