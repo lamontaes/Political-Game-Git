@@ -32,6 +32,23 @@ test("title and creator keep pointer and keyboard choices reachable", async ({
   await expect(page.getByTestId("creator-engine-figure")).toBeVisible({
     timeout: 30_000,
   });
+  const identity = page.getByTestId("creator-summary-character");
+  const recordedName = await identity
+    .locator(".creator-summary-name")
+    .innerText();
+  await identity.focus();
+  await page.keyboard.press("Enter");
+  const first = await page
+    .getByLabel("First name", { exact: true })
+    .inputValue();
+  const last = await page.getByLabel("Last name", { exact: true }).inputValue();
+  expect(recordedName.toLowerCase()).toBe(`${first} ${last}`.toLowerCase());
+  await page.getByTestId("creator-continue-character").click();
+  await page.getByTestId("creator-continue-place").click();
+  await page.getByTestId("whoareyou-play").click();
+  await expect(page.getByTestId("creator-engine-figure")).toBeVisible({
+    timeout: 30_000,
+  });
   await page.screenshot({
     path: join(info.config.metadata.artifacts, "creator.png"),
   });
