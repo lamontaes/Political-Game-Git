@@ -23,11 +23,9 @@ it("closes new writer labels while listing the legacy labels to retire", () => {
     "inclusionary-affordable-rent",
     "justice.held-before-trial",
     "justice.released-before-trial",
-    "law.pay-compensation",
     "local.officeholder-retired",
     "local.wards-drawn",
     "minimum-custody-months",
-    "minimum-wage-compensation",
     "paid-leave-benefit",
     "paid-leave-budget-cost",
     "public-program-appropriation",
@@ -37,12 +35,13 @@ it("closes new writer labels while listing the legacy labels to retire", () => {
     "tax-assessment",
     "tax-collection",
     "tax-policy",
-    "teacher-pay",
-    "work-compensation-payment",
   ] as const satisfies readonly LegacyEffectKind[];
   expectTypeOf<(typeof legacy)[number]>().toEqualTypeOf<LegacyEffectKind>();
   expect(new Set(legacy).size).toBe(legacy.length);
   // @ts-expect-error A new bespoke outcome label must not enter the shared writer.
   const invented: LawEffectContext["effectKind"] = "invented-new-effect";
   void invented;
+  // @ts-expect-error Retired pay labels remain readable in saves, not new writers.
+  const retiredPay: LawEffectContext["effectKind"] = "teacher-pay";
+  void retiredPay;
 });

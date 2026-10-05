@@ -32,11 +32,9 @@ export type LegacyEffectKind =
   | "inclusionary-affordable-rent"
   | "justice.held-before-trial"
   | "justice.released-before-trial"
-  | "law.pay-compensation"
   | "local.officeholder-retired"
   | "local.wards-drawn"
   | "minimum-custody-months"
-  | "minimum-wage-compensation"
   | "paid-leave-benefit"
   | "paid-leave-budget-cost"
   | "public-program-appropriation"
@@ -45,9 +43,7 @@ export type LegacyEffectKind =
   | "state-spending"
   | "tax-assessment"
   | "tax-collection"
-  | "tax-policy"
-  | "teacher-pay"
-  | "work-compensation-payment";
+  | "tax-policy";
 
 /** Units are checked by the evaluator before a handler can write a record. */
 export const LAW_AMOUNT_UNITS = [
