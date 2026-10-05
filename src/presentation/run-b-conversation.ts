@@ -1,3 +1,4 @@
+import { recordConversationContact } from "./conversation-contact";
 import {
   SCHOOL_RAISE,
   SCHOOL_OFFER,
@@ -908,6 +909,22 @@ export function commitConversationTurn(
   // here, and all three taking the outcome the turn actually reached.
   const effect = commit.relationship?.(input.intent, resolved.outcome) ?? null;
   let relationshipConsequence: RelationshipChange | null = null;
+  // A spoken exchange is contact even when the subject declares no conduct effect.
+  // Overhearing and a silent room do not introduce somebody to the player.
+  if (
+    resolved.speakerPersonId !== null &&
+    resolved.dialogue !== null &&
+    claimRecipientPersonIds.includes(input.room.playerPersonId)
+  )
+    world = recordConversationContact(world, {
+      playerPersonId: input.room.playerPersonId,
+      personId: resolved.speakerPersonId,
+      eventId: event.id,
+      occurredAt: event.occurredAt,
+      timeTogether: false,
+      date: false,
+    });
+
   if (effect !== null) {
     if (resolved.speakerPersonId === null) {
       throw new Error(
