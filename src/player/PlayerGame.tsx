@@ -966,7 +966,7 @@ export function PlayerGame() {
         {() => (
           <LifeStartTransition
             onReturn={() => setScreen({ kind: "setup", draft: screen.setup })}
-            onPrepare={async (report, signal, deadlineAt) => {
+            onPrepare={async (report, signal, deadlineAt, advanceHistory) => {
               try {
                 report({ label: "Creating your life", completed: 0, total: 0 });
                 const game = (
@@ -975,6 +975,7 @@ export function PlayerGame() {
                   ).finishTransitionWithProgress({
                     signal,
                     deadlineAt,
+                    advanceHistory,
                     onProgress: report,
                   })
                 ).game!;

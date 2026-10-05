@@ -9,6 +9,8 @@ import { flushSync } from "react-dom";
 import type { OpeningLifeGenerationProgress } from "../presentation/opening-life";
 import { projectLifeStartStory } from "../presentation/life-start-story";
 import { proseDate } from "../presentation/prose-dates";
+import { ObserverRunController } from "./observer-run-controller";
+import type { World } from "../simulation/types";
 import { PoliticalMap } from "../maps/PoliticalMap";
 import {
   DEFAULT_MAP_PREFERENCES,
@@ -34,6 +36,7 @@ export function LifeStartTransition({
     report: (progress: LifeStartProgress) => void,
     signal: AbortSignal,
     deadlineAt: number,
+    advanceHistory: (world: World, days: number) => Promise<World>,
   ) => Promise<void>;
   readonly onReturn?: () => void;
 }) {
@@ -57,6 +60,18 @@ export function LifeStartTransition({
   );
   useEffect(() => {
     const controller = new AbortController();
+    let observer: ObserverRunController | undefined;
+    const stopObserver = () => observer?.dispose();
+    controller.signal.addEventListener("abort", stopObserver, { once: true });
+    const advanceHistory = (world: World, days: number): Promise<World> => {
+      if (controller.signal.aborted)
+        return Promise.reject(controller.signal.reason);
+      if (!observer) {
+        observer = new ObserverRunController(world);
+        observer.setCommit((next) => observer!.syncWorld(next));
+      } else observer.syncWorld(world);
+      return observer.step(days);
+    };
     const startedAt = performance.now();
     const deadlineAt = startedAt + LIFE_START_BUDGET_MS;
     const reduced = window.matchMedia(
@@ -96,6 +111,7 @@ export function LifeStartTransition({
               },
               controller.signal,
               deadlineAt,
+              advanceHistory,
             )
             .catch((error: unknown) => {
               if (!controller.signal.aborted) {
@@ -108,6 +124,7 @@ export function LifeStartTransition({
               }
             })
             .finally(() => {
+              stopObserver();
               window.clearInterval(clock);
               window.clearTimeout(deadline);
             });

@@ -1,3 +1,5 @@
+import { advanceObservedWorld } from "./observer-world";
+import { daysBetween, makeIsoDate } from "../simulation/dates";
 import { initializeAllOfficeSalaryFlows } from "../simulation/office-salary";
 import { initializeWorkPayCoverage } from "../simulation/pay-coverage";
 import { recoverOverdueProsecutions } from "../simulation/justice/prosecution-transitions";
@@ -96,6 +98,8 @@ export interface OpeningLifeGenerationOptions {
   readonly signal?: AbortSignal;
   /** Monotonic host deadline, shared with the historical runner. */
   readonly deadlineAt?: number;
+  /** Browser hosts use the existing Observer worker so the visible clock can paint. */
+  readonly advanceHistory?: (world: World, days: number) => Promise<World>;
   readonly statesPerChunk?: number;
   readonly onProgress?: (progress: OpeningLifeGenerationProgress) => void;
   /** Lets the host paint between immutable preparation chunks. */
@@ -152,6 +156,56 @@ export function generateOpeningLife(
     return built.game!.world;
   });
   return built!;
+}
+
+/** Calendar-month checkpoints over the existing Observer clock, never a second simulation. */
+export async function advancePreStartHistory(
+  initial: World,
+  playerPersonId: EntityId,
+  options: OpeningLifeGenerationOptions = {},
+): Promise<World> {
+  if (!initial.preStartLife || initial.preStartLife.personId !== playerPersonId)
+    throw new Error("This life has no recorded starting boundary.");
+  const target = initial.preStartLife.targetStartDate;
+  const total = daysBetween(initial.currentDate, target);
+  let world = initial;
+  const report = () =>
+    options.onProgress?.({
+      label: `Living through ${world.currentDate.slice(0, 4)}`,
+      completed: total - daysBetween(world.currentDate, target),
+      total,
+      world,
+      playerPersonId,
+    });
+  report();
+  while (world.currentDate < target) {
+    throwIfOpeningAborted(options.signal, options.deadlineAt);
+    await (options.yieldControl ?? yieldOpeningPreparationToHost)();
+    throwIfOpeningAborted(options.signal, options.deadlineAt);
+    const date = new Date(`${world.currentDate}T00:00:00Z`);
+    date.setUTCMonth(date.getUTCMonth() + 1, 1);
+    const nextMonth = makeIsoDate(date.toISOString().slice(0, 10));
+    const through = nextMonth < target ? nextMonth : target;
+    const days = daysBetween(world.currentDate, through);
+    world = options.advanceHistory
+      ? await options.advanceHistory(world, days)
+      : advanceObservedWorld(world, days);
+    throwIfOpeningAborted(options.signal, options.deadlineAt);
+    if (world.currentDate !== through)
+      throw new Error("This life stopped before its next chapter.");
+    if (
+      world.history.personDeaths.some(
+        (death) =>
+          death.personId === playerPersonId &&
+          death.diedAt <= world.currentDate,
+      )
+    )
+      throw new Error(
+        `${personName(world.people[playerPersonId]!)} died before Begin.`,
+      );
+    report();
+  }
+  return world;
 }
 
 /** Seat the existing opening institutions in an already-built historical World.

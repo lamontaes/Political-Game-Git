@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { projectLifeStartStory } from "./life-start-story";
+import { buildPreStartCharacterWorld } from "./production-world";
+import { addDays } from "../simulation/dates";
 import { drawRandomPlace } from "../../tests/support/random-place";
 import {
   createStableId,
@@ -9,6 +11,7 @@ import {
 } from "../simulation";
 import { projectLifeSoFarJournal } from "./life-so-far-english";
 import {
+  advancePreStartHistory,
   generateOpeningLifeWithProgress,
   prepareOpeningLife,
 } from "./opening-life";
@@ -129,5 +132,40 @@ describe("the life loading screen reads saved chapters and published local news"
         { deadlineAt: performance.now() - 1 },
       ),
     ).rejects.toMatchObject({ name: "TimeoutError" });
+  });
+  it("advances real prior-day records to Begin with the same character and World", async () => {
+    const targetStartDate = place.context.initialMoment.date;
+    const built = buildPreStartCharacterWorld({
+      seed,
+      place,
+      age: 38,
+      givenName: "",
+      familyName: "",
+      startingLife: "ordinary-life",
+      depth: "summarize-earlier-life",
+      household: "lives-alone",
+      preStartYear: {
+        version: "pre-start-world-year-v1",
+        targetStartDate,
+        priorYearStartDate: addDays(targetStartDate, -1),
+      },
+    });
+    const dates: string[] = [];
+    const advanced = await advancePreStartHistory(
+      built.world,
+      built.playerPersonId,
+      {
+        onProgress: (progress) => {
+          expect(progress.world!.id).toBe(built.world.id);
+          expect(progress.playerPersonId).toBe(built.playerPersonId);
+          dates.push(progress.world!.currentDate);
+        },
+      },
+    );
+    expect(dates).toEqual([built.world.currentDate, targetStartDate]);
+    expect(advanced.people[built.playerPersonId]!.id).toBe(
+      built.playerPersonId,
+    );
+    expect(advanced.currentDate).toBe(targetStartDate);
   });
 });
