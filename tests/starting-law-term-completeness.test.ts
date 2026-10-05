@@ -6,6 +6,7 @@ import { createProductionPolicyCatalog } from "../src/simulation/production-cata
 type StartingLawAnswer = {
   answer?: string;
   before?: StartingLawAnswer;
+  lawCategories?: readonly unknown[];
   lawSchedules?: readonly unknown[];
   lawTerms?: readonly unknown[];
   phases?: readonly StartingLawAnswer[];
@@ -19,7 +20,9 @@ const startingLawData = startingLaw as unknown as {
 function carriesTerms(row: StartingLawAnswer | undefined): boolean {
   if (!row) return false;
   if (
-    [row.lawTerms, row.lawSchedules].some((terms) => terms && terms.length > 0)
+    [row.lawTerms, row.lawSchedules, row.lawCategories].some(
+      (terms) => terms && terms.length > 0,
+    )
   ) {
     return true;
   }
@@ -35,6 +38,8 @@ function policyArea(questionKey: string): string {
 }
 
 const catalog = createProductionPolicyCatalog();
+// A catalog parameter means the proposition has operative terms. Those terms
+// can be numeric amounts/schedules or a recorded category rule.
 const termQuestionKeys = Object.values(catalog.propositions)
   .filter((proposition) => proposition.parameters?.length)
   .map((proposition) => proposition.stableKey)
@@ -46,7 +51,7 @@ describe("starting-law term completeness", () => {
     expect([
       carriesTerms({ lawTerms: [{}] }),
       carriesTerms({ before: { lawSchedules: [{}] } }),
-      carriesTerms({ phases: [{ lawTerms: [{}] }] }),
+      carriesTerms({ phases: [{ lawCategories: [{}] }] }),
       carriesTerms({ regionalTerms: [{ lawTerms: [{}] }] }),
       carriesTerms({ lawTerms: [] }),
     ]).toEqual([true, true, true, true, false]);
