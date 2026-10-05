@@ -13870,7 +13870,15 @@
           "operativeAt": "2007-09-20",
           "cite": "4 CMC § 60151(2)",
           "source": "https://cnmilaw.gov/docs/cmc_section/T4/60151.pdf",
-          "note": "Licensed finance companies may not charge an annual percentage rate above 34 percent, points and fees aside, and usury is a crime; the cap took effect September 20, 2007."
+          "note": "Licensed finance companies may not charge an annual percentage rate above 34 percent, points and fees aside, and usury is a crime; the cap took effect September 20, 2007.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+              "key": "cap",
+              "value": 0.34,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-MS": {
           "answer": "no",
@@ -13911,7 +13919,7 @@
           "preempts": true,
           "cite": "N.H. Rev. Stat. Ann. § 399-A:16(I)",
           "source": "https://www.gencourt.state.nh.us/rsa/html/XXXVI/399-A/399-A-16.htm",
-          "note": "Small loans are capped at 36% APR and payday loans are not issued, though vehicle title loans are licensed separately at higher rates."
+          "note": "The statute caps small-loan lenders at 36% under its APR formula but excludes one annual application fee up to $100 and one annual membership or participation fee up to $100; vehicle title loans are licensed separately at higher rates."
         },
         "US-NJ": {
           "answer": "yes",
