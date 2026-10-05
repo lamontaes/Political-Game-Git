@@ -388,6 +388,21 @@ async function assertVisiblePerson(page, expected) {
   return proof;
 }
 
+// ---- Native title: real game-frame Quit must exit the application ----------
+if (nativeSessionChecks) {
+  const { app, page } = await launch();
+  await page.getByTestId("quit").waitFor();
+  // Click the title's requestNativeQuit consumer in the managed app://game
+  // frame. A closed browser window is insufficient: observe application exit.
+  const closed = app.waitForEvent("close", { timeout: 30000 });
+  await page.getByTestId("quit").click();
+  await closed;
+  check(
+    "native: title Quit exits the desktop app through its game frame",
+    true,
+  );
+}
+
 // ---- Session 1: launch, create, keep --------------------------------------
 {
   const { app, page, foreign } = await launch();
