@@ -3,11 +3,16 @@ import { drawRandomPlace } from "../support/random-place";
 import { lifePlaceStateIdentities } from "../../src/simulation/life-places";
 import { fillCreator, enterLife } from "./support/creator";
 import { join } from "node:path";
+import { resolveExplicitCreatorHometown } from "../../src/presentation/new-game-geography";
 const seed = "session2-kit13-oct5";
 const place = drawRandomPlace(seed, (entry) => entry.scope === "locality");
 const state = lifePlaceStateIdentities().find(
   (entry) => entry.jurisdictionKey === place.stateJurisdictionKey,
 )!;
+const hometown = resolveExplicitCreatorHometown({
+  place: place.displayName,
+  state: state.name,
+});
 test("title and creator keep pointer and keyboard choices reachable", async ({
   page,
 }, info) => {
@@ -64,13 +69,13 @@ test("title and creator keep pointer and keyboard choices reachable", async ({
   await expect(stateChoice).toBeFocused();
   await stateChoice.click();
   const placeSearch = page.getByTestId("place-search");
-  await placeSearch.fill(place.displayName);
+  await placeSearch.fill(hometown.townQuery ?? "");
   await page
     .getByRole("button", { name: "Clear place search", exact: true })
     .click();
   await expect(placeSearch).toHaveValue("");
   await expect(placeSearch).toBeFocused();
-  await placeSearch.fill(place.displayName);
+  await placeSearch.fill(hometown.townQuery ?? "");
   await page.screenshot({
     path: join(info.config.metadata.artifacts, "place-search.png"),
   });
