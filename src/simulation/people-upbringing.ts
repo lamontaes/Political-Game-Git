@@ -336,16 +336,19 @@ function cohortCache(
   key: object,
   inputs: readonly object[],
 ): FamilyCohortCache {
-  let slot = FAMILY_COHORTS.get(key);
-  if (!slot) {
-    slot = { dependencies: new WeakMap(), intervals: [] };
+  const existing = FAMILY_COHORTS.get(key);
+  let slot: FamilyCohortCache = existing ?? {
+    dependencies: new WeakMap(),
+    intervals: [],
+  };
+  if (!existing) {
     FAMILY_COHORTS.set(key, slot);
   }
   // Intake seeds people at their own historical dates. Keep every valid
   // interval for these exact immutable inputs, rather than evicting one
   // date whenever the next person's intake reads an earlier date.
   for (const input of inputs) {
-    let next = slot.dependencies.get(input);
+    let next: FamilyCohortCache | undefined = slot.dependencies.get(input);
     if (!next) {
       next = { dependencies: new WeakMap(), intervals: [] };
       slot.dependencies.set(input, next);
