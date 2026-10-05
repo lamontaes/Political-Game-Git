@@ -8,6 +8,12 @@ import {
 } from "../simulation/people-family";
 import { pursuitCandidates } from "../simulation/people-goal-review";
 import { SeededRng } from "../simulation/rng";
+import { CREATOR_LIFE_FORKS } from "../simulation/creator-life-forks";
+import {
+  decodeReplayDescriptor,
+  encodeReplayDescriptor,
+} from "./new-game-identity";
+import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { recordPersonDeath } from "../simulation/vitality";
 import { advanceWorld, assertWorldIntegrity } from "../simulation/world";
 import {
@@ -36,6 +42,64 @@ const input = {
 };
 
 describe("a character remains in their birth World through Begin", () => {
+  it("records three Creator choices as durable decisions and goals the resident writers read", () => {
+    const creatorLifeForks = CREATOR_LIFE_FORKS.map((fork) => ({
+      forkKey: fork.key,
+      optionKey: "pursue" as const,
+    }));
+    const setup = {
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed,
+      placeKey: place.key,
+      creatorLifeForks,
+    };
+    expect(
+      decodeReplayDescriptor(encodeReplayDescriptor(setup))?.creatorLifeForks,
+    ).toEqual(creatorLifeForks);
+    const built = buildPreStartCharacterWorld({ ...input, creatorLifeForks });
+    const traces = built.world.history.decisionTraces.filter(
+      (trace) => trace.context.decisionType === "people.creator-life-fork",
+    );
+    expect(traces).toHaveLength(CREATOR_LIFE_FORKS.length);
+    expect(
+      traces.every(
+        (trace) =>
+          trace.selectedOptionKey === "pursue" &&
+          trace.context.randomness === "none",
+      ),
+    ).toBe(true);
+    for (const fork of CREATOR_LIFE_FORKS) {
+      expect(
+        built.world.history.goalStates
+          .filter(
+            (goal) =>
+              goal.personId === built.playerPersonId &&
+              goal.goalKey === fork.goalKey,
+          )
+          .at(-1)?.status,
+      ).toBe("active");
+    }
+    const stayed = buildPreStartCharacterWorld({
+      ...input,
+      creatorLifeForks: creatorLifeForks.map((choice) => ({
+        ...choice,
+        optionKey: "leave" as const,
+      })),
+    });
+    for (const fork of CREATOR_LIFE_FORKS) {
+      expect(
+        stayed.world.history.goalStates
+          .filter(
+            (goal) =>
+              goal.personId === stayed.playerPersonId &&
+              goal.goalKey === fork.goalKey,
+          )
+          .at(-1)?.status,
+      ).toBe("proposed");
+    }
+    expect(stayed.playerPersonId).toBe(built.playerPersonId);
+    assertWorldIntegrity(stayed.world);
+  });
   it("binds the Creator identity to a dated birth and makes them a resident during the past", () => {
     const built = buildPreStartCharacterWorld(input);
     const { world, playerPersonId, player } = built;

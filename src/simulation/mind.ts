@@ -823,7 +823,8 @@ function validateMindProvenance(
   assertOptional(provenance.note, "Mind provenance note");
   if (
     provenance.kind === "player-choice" &&
-    (world.control.kind !== "person" || world.control.personId !== personId)
+    (world.control.kind !== "person" || world.control.personId !== personId) &&
+    world.preStartLife?.personId !== personId
   ) {
     throw new Error("Player-choice provenance requires the controlled person.");
   }

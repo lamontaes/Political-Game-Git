@@ -78,6 +78,10 @@ import { ensureTownEmployment } from "../simulation/living-world/town-employment
 import { drawFamilyShape } from "../simulation/family-shape";
 import { ensureStartingPersonalMoney } from "../simulation/starting-money";
 import { parentsOf, recordFamilyAddition } from "../simulation/people-family";
+import {
+  recordCreatorLifeForks,
+  type CreatorLifeForkChoice,
+} from "../simulation/creator-life-forks";
 import type {
   CharacterHistoryTransition,
   DistrictHomeJoinVersion,
@@ -140,6 +144,7 @@ export const OTHER_PARENT_MINIMUM_AGE = 5;
 export type OpeningFamilyShape = "one-parent" | "two-parents" | "guardian";
 
 export interface ProductionWorldInput {
+  readonly creatorLifeForks?: readonly CreatorLifeForkChoice[];
   /** The full world seed, already derived from the player's setup. */
   readonly seed: string;
   /** World identity seed, before calibration; topology is not a shaped age range. */
@@ -405,7 +410,7 @@ export function buildProductionWorld(
     nameCorpusVersion,
     input.preStartYear !== undefined,
     input.otherParent ?? null,
-    input.familyShape ?? null,
+    input.familyShape ?? (input.preStartYear ? "two-parents" : null),
   );
   if (input.preStartYear) {
     const parentPersonIds = parentsOf(world, player.id);
@@ -510,6 +515,11 @@ export function buildProductionWorld(
     input.districtHomeJoinVersion,
   );
   assertWorldIntegrity(world);
+  world = recordCreatorLifeForks(
+    world,
+    player.id,
+    input.creatorLifeForks ?? [],
+  );
   return { world, playerPersonId: player.id, player };
 }
 
@@ -573,7 +583,8 @@ export function finalizePreStartPlayer(
   input: PreStartProductionWorldInput,
 ): ProductionWorld {
   if (background.preStartLife) {
-    const { personId, targetStartDate } = background.preStartLife;
+    const { preStartLife, ...preserved } = background;
+    const { personId, targetStartDate } = preStartLife;
     if (
       targetStartDate !== input.preStartYear.targetStartDate ||
       background.currentDate !== targetStartDate ||
@@ -591,7 +602,6 @@ export function finalizePreStartPlayer(
       )
     )
       throw new Error(`${personName(player)} died before Begin.`);
-    const { preStartLife: _completed, ...preserved } = background;
     const world: World = {
       ...preserved,
       control: { kind: "person", personId },
