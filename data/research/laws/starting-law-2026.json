@@ -17672,9 +17672,17 @@
         "US-MT": {
           "answer": "yes",
           "preempts": true,
-          "cite": "Mont. Code Ann. § 76-2-304(3) (SB 323, 2023)",
-          "source": "https://archive.legmt.gov/bills/mca/title_0760/chapter_0020/part_0030/section_0040/0760-0020-0030-0040.html",
-          "note": "Cities of at least 5,000 residents must allow a duplex as a permitted use on any lot where a single-family home is permitted; a Gallatin County court challenge (filed 12/2023) ended with a 3/3/2025 district court ruling upholding SB 323 in its entirety, affirmed by the Montana Supreme Court on 3/17/2026."
+          "cite": "Mont. Code Ann. § 76-2-304(3)",
+          "source": "https://mca.legmt.gov/bills/mca/title_0760/chapter_0020/part_0030/section_0040/0760-0020-0030-0040.html",
+          "note": "Cities of at least 5,000 residents must allow a duplex as a permitted use on any lot where a single-family home is permitted; a Gallatin County court challenge (filed 12/2023) ended with a 3/3/2025 district court ruling upholding SB 323 in its entirety, affirmed by the Montana Supreme Court on 3/17/2026. Cities with population of at least 5,000 must allow duplexes wherever single-family dwellings are permitted, with duplex rules no more restrictive than single-family rules.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+              "key": "units",
+              "value": 2,
+              "unit": "count"
+            }
+          ]
         },
         "US-NC": {
           "answer": "no",
@@ -17827,16 +17835,32 @@
           "answer": "yes",
           "operativeAt": "2023-07-01",
           "preempts": true,
-          "cite": "24 V.S.A. § 4412(1) (Act 47 of 2023, the HOME Act)",
+          "cite": "24 V.S.A. § 4412(1)",
           "source": "https://legislature.vermont.gov/statutes/section/24/117/04412",
-          "note": "Every municipality must allow a duplex in any district that allows year-round residential use, on the same lot size as a single-unit home, and in districts served by municipal water and sewer must allow up to four units (source history: 2023, No. 47, § 2, eff. July 1, 2023)."
+          "note": "Every municipality must allow a duplex in any district that allows year-round residential use, on the same lot size as a single-unit home, and in districts served by municipal water and sewer must allow up to four units (source history: 2023, No. 47, § 2, eff. July 1, 2023). Duplexes are permitted wherever single-family homes are allowed; up to four units may be allowed on the same lot size where municipal water and sewer are available and residential use is permitted.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+              "key": "units",
+              "value": 2,
+              "unit": "count"
+            }
+          ]
         },
         "US-WA": {
           "answer": "yes",
           "preempts": true,
-          "cite": "RCW 36.70A.635 (HB 1110, 2023)",
+          "cite": "RCW 36.70A.635",
           "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=36.70A.635",
-          "note": "Cities of 25,000 to 75,000 must allow at least two units per residential lot (four near major transit or with an affordable unit), and cities of 75,000 or more must allow four (six near transit or with affordable units); each city must comply at its next periodic comprehensive plan update, so a few smaller or later-cycle cities may not yet have been bound on 1/1/2026."
+          "note": "Cities of 25,000 to 75,000 must allow at least two units per residential lot (four near major transit or with an affordable unit), and cities of 75,000 or more must allow four (six near transit or with affordable units); each city must comply at its next periodic comprehensive plan update, so a few smaller or later-cycle cities may not yet have been bound on 1/1/2026. Minimum permitted units per lot vary by city size and qualifying transit/affordability: baseline two units in covered smaller cities, four in cities of at least 75,000, with up to six near qualifying transit or affordable-unit conditions. Cities from 25,000 to 74,999 have a two-unit baseline and four-unit alternatives; cities below 25,000 qualify in specified urban-growth areas. Statutory exceptions and implementation dates apply.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+              "key": "units",
+              "value": 2,
+              "unit": "count"
+            }
+          ]
         },
         "US-WI": {
           "answer": "no",
