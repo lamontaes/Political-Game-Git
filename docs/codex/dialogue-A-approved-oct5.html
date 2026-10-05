@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Cinzel;src:url('cinzel-800.ttf');font-weight:800}
+@font-face{font-family:Andada;src:url('andada-pro-400.ttf');font-weight:400}
+@font-face{font-family:Fira;src:url('fira-sans-400.ttf');font-weight:400}
+:root{--brass:#d6bd84;--ivory:#efe9df}
+*{box-sizing:border-box}body{margin:0;width:1920px;height:1080px;overflow:hidden;font-family:Fira,sans-serif;color:var(--ivory);background:#333}
+.room{position:absolute;inset:0;width:1920px;height:1080px;object-fit:cover}
+/* glass panel: between translucent and transparent, tight shadow, not brown */
+.panel{position:absolute;left:200px;right:200px;bottom:60px;height:390px;padding:24px 34px 40px;
+  background:linear-gradient(180deg,rgba(24,22,20,.62),rgba(18,17,16,.74));backdrop-filter:blur(10px) saturate(.9);
+  border:1px solid rgba(214,189,132,.55);border-radius:4px;box-shadow:0 6px 18px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,.04)}
+.strip{display:flex;gap:10px;align-items:flex-end;height:78px}
+.p{width:62px;height:66px;border:1.5px solid rgba(214,189,132,.35);background:#2a2926;overflow:hidden;opacity:.72;filter:saturate(.8);transition:all .2s}
+.p svg{display:block;width:100%;height:100%}
+.p.on{width:72px;height:76px;opacity:1;filter:none;border-color:var(--brass);box-shadow:0 0 0 1px rgba(214,189,132,.35),0 0 14px rgba(214,189,132,.35)}
+.tools{position:absolute;right:26px;top:20px;display:flex;gap:16px;align-items:center}
+.tools img{width:30px;height:30px;opacity:.75}.tools .x{font-size:26px;line-height:1;color:#d9d0bf;opacity:.8}
+.who{font-family:Cinzel,serif;font-weight:800;font-size:30px;color:var(--brass);margin:16px 0 2px;letter-spacing:.02em}
+.line{font-family:Andada,serif;font-size:34px;line-height:1.2;margin:0 0 14px}
+.c{display:grid;grid-template-columns:28px 1fr;gap:10px;font-size:20px;line-height:1.35;padding:4px 10px 4px 0;border-radius:3px;max-width:1300px}
+.c b{font-weight:400;color:#cdb37a}.c.hover{background:rgba(255,255,255,.06);color:#fff}
+.hist{position:absolute;left:34px;bottom:16px;display:flex;align-items:center;gap:8px;font-size:17px;color:#c9c0b1}
+.hist i{display:inline-block;width:18px;height:14px;border:1.5px solid #c9c0b1;border-radius:2px;position:relative}
+.hist i:after{content:"";position:absolute;left:3px;right:3px;top:3px;border-top:1.5px solid #c9c0b1;box-shadow:0 4px 0 #c9c0b1}
+</style></head><style>
+.panel{left:260px;right:260px;bottom:48px;height:230px;padding:16px 26px 14px}
+.row{display:flex;gap:18px;align-items:center}.strip{height:auto;gap:6px}.p{width:40px;height:44px}.p.on{width:48px;height:52px}
+.who{font-size:20px;margin:0}.line{font-size:22px;margin:0 0 8px}.c{font-size:16px;padding:2px 8px 2px 0;grid-template-columns:22px 1fr}.hist{font-size:14px;bottom:10px}
+</style><body><img class="room" src="room.jpg" alt=""><div class="panel"><div class="tools"><img src="scales-level.svg" alt=""><span class="x">×</span></div><div class="row"><div class="strip"><div class="p"><svg viewBox="274 529 135 146" preserveAspectRatio="xMidYMid slice"><image href="portrait-source.png" width="1671" height="941"/></svg></div>
+<div class="p on"><svg viewBox="432 517 153 160" preserveAspectRatio="xMidYMid slice"><image href="portrait-source.png" width="1671" height="941"/></svg></div>
+<div class="p"><svg viewBox="604 530 127 146" preserveAspectRatio="xMidYMid slice"><image href="portrait-source.png" width="1671" height="941"/></svg></div>
+<div class="p"><svg viewBox="751 530 127 146" preserveAspectRatio="xMidYMid slice"><image href="portrait-source.png" width="1671" height="941"/></svg></div>
+<div class="p"><svg viewBox="897 530 128 146" preserveAspectRatio="xMidYMid slice"><image href="portrait-source.png" width="1671" height="941"/></svg></div>
+<div class="p"><svg viewBox="1041 530 124 146" preserveAspectRatio="xMidYMid slice"><image href="portrait-source.png" width="1671" height="941"/></svg></div></div><div class="who">Roland</div></div><p class="line">I hadn't heard. What does it say?</p><div class="c hover"><b>1.</b><span>Should it open one extra evening each week? There aren't any hours or a funding proposal attached.</span></div>
+<div class="c"><b>2.</b><span>Let's talk about something else.</span></div>
+<div class="c"><b>3.</b><span>I should get going.</span></div><div class="hist"><i></i> History</div></div></body></html>
