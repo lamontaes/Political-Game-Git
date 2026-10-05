@@ -1977,22 +1977,16 @@ export function WorkWorkspace({
         <p className="game-note" data-testid="work-empty">
           Nothing is waiting on you at the moment.
         </p>
-      ) : (
+      ) : needsYou.length > 0 ? (
         <section className="pg-personal-section">
           <h3>Waiting on you</h3>
-          {needsYou.length === 0 ? (
-            <p className="game-note">
-              Nothing needs a decision from you right now.
-            </p>
-          ) : (
-            <ul data-testid="work-pending">
-              {needsYou.map((entry) => (
-                <li key={entry.item.id}>{entry.item.title}</li>
-              ))}
-            </ul>
-          )}
+          <ul data-testid="work-pending">
+            {needsYou.map((entry) => (
+              <li key={entry.item.id}>{entry.item.title}</li>
+            ))}
+          </ul>
         </section>
-      )}
+      ) : null}
       {children}
     </>
   );
