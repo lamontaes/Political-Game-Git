@@ -637,3 +637,14 @@
   color: var(--gold);
   text-shadow: none;
 }
+
+.creator-search-entry {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+.creator-search-entry input {
+  flex: 1;
+  min-width: 0;
+}

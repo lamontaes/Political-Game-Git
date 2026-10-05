@@ -44,6 +44,47 @@ test("title and creator keep pointer and keyboard choices reachable", async ({
   const last = await page.getByLabel("Last name", { exact: true }).inputValue();
   expect(recordedName.toLowerCase()).toBe(`${first} ${last}`.toLowerCase());
   await page.getByTestId("creator-continue-character").click();
+  await page.getByTestId("creator-change-state").click();
+  const stateSearch = page.getByTestId("state-search");
+  await stateSearch.fill(state.name);
+  await page
+    .getByRole("button", { name: "Clear state search", exact: true })
+    .click();
+  await expect(stateSearch).toHaveValue("");
+  await expect(stateSearch).toBeFocused();
+  await stateSearch.fill(state.name);
+  await page.screenshot({
+    path: join(info.config.metadata.artifacts, "state-search.png"),
+  });
+  await page
+    .getByRole("button", { name: "Return to states", exact: true })
+    .focus();
+  await page.keyboard.press("Enter");
+  const stateChoice = page.getByTestId(`state-${state.usps}`);
+  await expect(stateChoice).toBeFocused();
+  await stateChoice.click();
+  const placeSearch = page.getByTestId("place-search");
+  await placeSearch.fill(place.displayName);
+  await page
+    .getByRole("button", { name: "Clear place search", exact: true })
+    .click();
+  await expect(placeSearch).toHaveValue("");
+  await expect(placeSearch).toBeFocused();
+  await placeSearch.fill(place.displayName);
+  await page.screenshot({
+    path: join(info.config.metadata.artifacts, "place-search.png"),
+  });
+  await page
+    .getByRole("button", { name: "Return to places", exact: true })
+    .focus();
+  await page.keyboard.press("Enter");
+  const townChoice = page
+    .getByTestId("place-choices")
+    .getByRole("button")
+    .first();
+  await expect(townChoice).toBeFocused();
+  await expect(townChoice).toContainText(place.displayName);
+  await townChoice.click();
   await page.getByTestId("creator-continue-place").click();
   await page.getByTestId("whoareyou-play").click();
   await expect(page.getByTestId("creator-engine-figure")).toBeVisible({

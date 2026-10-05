@@ -12,7 +12,7 @@ import {
   creatorCharacterMissing,
   statedCreatorGender,
 } from "../presentation/creator-character";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   DEFAULT_NEW_GAME_SETUP,
   LEGISLATIVE_OFFICE_MINIMUM_AGE,
@@ -243,6 +243,10 @@ export function SetupScreen({
    * The step the player is on. It only moves forward on its own; the summaries
    * of finished steps move it back when one is reopened to change an answer.
    */
+  const stateSearchRef = useRef<HTMLInputElement>(null);
+  const placeSearchRef = useRef<HTMLInputElement>(null);
+  const stateChoicesRef = useRef<HTMLDivElement>(null);
+  const placeChoicesRef = useRef<HTMLDivElement>(null);
   const [current, setCurrent] = useState<CreatorStep>(
     initialSetup ? "begin" : "route",
   );
@@ -611,18 +615,52 @@ export function SetupScreen({
             </button>
           ) : (
             <>
-              <label className="game-search">
-                Choose a state
-                <input
-                  type="search"
-                  data-testid="state-search"
-                  value={stateQuery}
-                  placeholder="Type a state"
-                  onChange={(event) => setStateQuery(event.target.value)}
-                />
-              </label>
+              <div className="game-search">
+                <label htmlFor="creator-state-search">Choose a state</label>
+                <div className="creator-search-entry">
+                  <input
+                    id="creator-state-search"
+                    ref={stateSearchRef}
+                    type="search"
+                    data-testid="state-search"
+                    value={stateQuery}
+                    placeholder="Type a state"
+                    onChange={(event) => setStateQuery(event.target.value)}
+                  />
+                  {stateQuery && (
+                    <button
+                      type="button"
+                      className="pg-search-icon"
+                      aria-label="Clear state search"
+                      onClick={() => {
+                        setStateQuery("");
+                        stateSearchRef.current?.focus();
+                      }}
+                    >
+                      ×
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    className="pg-search-icon"
+                    aria-label="Return to states"
+                    disabled={matchingStates.length === 0}
+                    onClick={() =>
+                      stateChoicesRef.current
+                        ?.querySelector<HTMLButtonElement>("button")
+                        ?.focus()
+                    }
+                  >
+                    ↵
+                  </button>
+                </div>
+              </div>
               {matchingStates.length > 0 ? (
-                <div className="game-choices" data-testid="state-choices">
+                <div
+                  className="game-choices"
+                  data-testid="state-choices"
+                  ref={stateChoicesRef}
+                >
                   {matchingStates.map((state) => (
                     <button
                       key={state.jurisdictionKey}
@@ -651,19 +689,51 @@ export function SetupScreen({
           {location.stateJurisdictionKey ? (
             <>
               {placeListOpen ? (
-                <label className="game-search">
-                  Search places in this state
-                  <input
-                    type="search"
-                    data-testid="place-search"
-                    value={placeQuery}
-                    placeholder="Type a city or town"
-                    onChange={(event) => {
-                      setPlaceQuery(event.target.value);
-                      if (location.placeKey) setReplacingPlace(true);
-                    }}
-                  />
-                </label>
+                <div className="game-search">
+                  <label htmlFor="creator-place-search">
+                    Search places in this state
+                  </label>
+                  <div className="creator-search-entry">
+                    <input
+                      id="creator-place-search"
+                      ref={placeSearchRef}
+                      type="search"
+                      data-testid="place-search"
+                      value={placeQuery}
+                      placeholder="Type a city or town"
+                      onChange={(event) => {
+                        setPlaceQuery(event.target.value);
+                        if (location.placeKey) setReplacingPlace(true);
+                      }}
+                    />
+                    {placeQuery && (
+                      <button
+                        type="button"
+                        className="pg-search-icon"
+                        aria-label="Clear place search"
+                        onClick={() => {
+                          setPlaceQuery("");
+                          placeSearchRef.current?.focus();
+                        }}
+                      >
+                        ×
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      className="pg-search-icon"
+                      aria-label="Return to places"
+                      disabled={matchingPlaces.length === 0}
+                      onClick={() =>
+                        placeChoicesRef.current
+                          ?.querySelector<HTMLButtonElement>("button")
+                          ?.focus()
+                      }
+                    >
+                      ↵
+                    </button>
+                  </div>
+                </div>
               ) : null}
               {placeListOpen && custom && statewidePlace ? (
                 <div className="game-choices" data-testid="place-statewide">
@@ -697,6 +767,7 @@ export function SetupScreen({
                 <div
                   className="game-choices creator-place-scroll"
                   data-testid="place-choices"
+                  ref={placeChoicesRef}
                   key={`${location.stateJurisdictionKey}:${placeQuery}`}
                   tabIndex={0}
                   aria-label="Hometowns"

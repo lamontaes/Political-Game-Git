@@ -2984,19 +2984,6 @@
   color: var(--text-strong);
 }
 
-.pg-game .pg-people-search-entry .pg-search-icon {
-  flex: none;
-  border: 0;
-  padding: 0.25rem;
-  background: transparent;
-  box-shadow: none;
-  color: var(--text-3);
-  font: 400 1.25rem/1 var(--ui);
-  cursor: pointer;
-}
-.pg-game .pg-people-search-entry .pg-search-icon:hover {
-  color: var(--text-strong);
-}
 .pg-people-search-entry input::-webkit-search-cancel-button {
   -webkit-appearance: none;
 }
