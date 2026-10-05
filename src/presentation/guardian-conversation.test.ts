@@ -7,9 +7,15 @@ import {
   availablePlayerConversations,
   projectPlayerConversation,
 } from "./player-conversation";
-import { commitConversationTurn } from "./run-b-conversation";
+import {
+  commitConversationTurn,
+  resolveConversationListeners,
+} from "./run-b-conversation";
 import { openNextLifeScene, currentOpeningLifeScene } from "./life-scene-flow";
-import { projectLifeConversation } from "./life-conversation";
+import {
+  commitLifeConversation,
+  projectLifeConversation,
+} from "./life-conversation";
 import {
   activeChildAuthoritiesAt,
   assertWorldIntegrity,
@@ -102,6 +108,160 @@ describe("GUARDIAN12 — guardian and known-person conversation entry", () => {
       addressee: id!,
     });
     projectLifeConversation(world, playerPersonId, id!);
+    expect(serializeWorld(world)).toBe(before);
+  });
+
+  it("keeps quiet life-talk knowledge with actual hearers across save and reload", () => {
+    const { world, playerPersonId } = childInScene();
+    const counterpartId = guardianId(world, playerPersonId)!;
+    const before = serializeWorld(world);
+    const scene = currentOpeningLifeScene(world, playerPersonId)!;
+    const bystanderIds = scene.presentPersonIds.filter(
+      (id) => id !== playerPersonId && id !== counterpartId,
+    );
+    expect(bystanderIds.length).toBeGreaterThan(0);
+
+    for (const audibility of ["quiet", "normal"] as const) {
+      const view = projectPlayerConversation(
+        world,
+        playerPersonId,
+        "life-talk",
+        {
+          addressee: counterpartId,
+          audibility,
+        },
+      )!;
+      expect(view.audibility).toBe(audibility);
+      expect(view.room.physicallyPresentPersonIds).toEqual(
+        scene.presentPersonIds,
+      );
+      expect(view.room.privateAvailable).toBe(false);
+      expect(
+        view.audibilities.find((option) => option.key === audibility)
+          ?.available,
+      ).toBe(true);
+      const listeners = resolveConversationListeners(
+        view.room,
+        counterpartId,
+        audibility,
+      );
+      expect(listeners).toEqual(
+        audibility === "quiet"
+          ? [counterpartId]
+          : scene.presentPersonIds.filter((id) => id !== playerPersonId),
+      );
+      const result = commitConversationTurn(world, {
+        session: view.session,
+        room: view.room,
+        progress: view.progress,
+        turnOrdinal: view.turnOrdinal,
+        addressee: counterpartId,
+        audibility: view.audibility,
+        intent: "greet",
+      });
+      assertWorldIntegrity(result.world);
+      const event = result.world.history.events.at(-1)!;
+      expect(event.type).toBe("life.conversation");
+      expect(result.semantic.actualListenerPersonIds).toEqual(listeners);
+      expect(
+        event.participants.find((row) => row.role === "focus:subject")
+          ?.personId,
+      ).toBe(playerPersonId);
+      expect(
+        event.participants.find(
+          (row) => row.role === "coordination:counterpart",
+        )?.personId,
+      ).toBe(counterpartId);
+      const witnesses = event.participants
+        .filter((row) => row.role === "observation:witness")
+        .map((row) => row.personId);
+      expect(witnesses).toEqual(listeners.filter((id) => id !== counterpartId));
+      const recipients = scene.presentPersonIds.filter(
+        (id) => id === playerPersonId || listeners.includes(id),
+      );
+      expect(event.involvedEntityIds).toEqual(recipients);
+      const knowledge = result.world.history.knowledge.filter(
+        (row) => row.eventId === event.id,
+      );
+      expect(knowledge.map((row) => row.personId)).toEqual(recipients);
+      expect(knowledge.every((row) => row.source.kind === "direct")).toBe(true);
+      if (audibility === "quiet") {
+        expect(witnesses).toEqual([]);
+        for (const id of bystanderIds)
+          expect(
+            result.world.history.knowledge.filter((row) => row.personId === id),
+          ).toEqual(
+            world.history.knowledge.filter((row) => row.personId === id),
+          );
+      }
+      const restored = deserializeWorld(serializeWorld(result.world));
+      expect(
+        restored.history.events.find((row) => row.id === event.id),
+      ).toEqual(event);
+      expect(
+        restored.history.knowledge.filter((row) => row.eventId === event.id),
+      ).toEqual(knowledge);
+      const resumed = projectPlayerConversation(
+        restored,
+        playerPersonId,
+        "life-talk",
+        {
+          addressee: counterpartId,
+          audibility,
+        },
+      )!;
+      expect(resumed.audibility).toBe(audibility);
+      expect(resumed.addressee).toBe(counterpartId);
+      expect(resumed.turnOrdinal).toBe(view.turnOrdinal + 1);
+      expect(
+        projectLifeConversation(restored, playerPersonId, counterpartId)!
+          .transcript,
+      ).toHaveLength(1);
+      expect(serializeWorld(world)).toBe(before);
+    }
+  });
+
+  it("keeps direct normal-talk callers compatible and rejects invalid hearers", () => {
+    const { world, playerPersonId } = childInScene();
+    const counterpartId = guardianId(world, playerPersonId)!;
+    const view = projectPlayerConversation(world, playerPersonId, "life-talk", {
+      addressee: counterpartId,
+    })!;
+    const revision = projectLifeConversation(
+      world,
+      playerPersonId,
+      counterpartId,
+    )!.revision;
+    const input = {
+      playerPersonId,
+      personId: counterpartId,
+      intent: "greet" as const,
+      revision,
+    };
+    const before = serializeWorld(world);
+    const direct = commitLifeConversation(world, input);
+    const normal = commitConversationTurn(world, {
+      session: view.session,
+      room: view.room,
+      progress: view.progress,
+      turnOrdinal: view.turnOrdinal,
+      addressee: counterpartId,
+      audibility: "normal",
+      intent: "greet",
+    }).world;
+    expect(serializeWorld(direct)).toBe(serializeWorld(normal));
+    const absentId = world.personOrder.find(
+      (id) => !view.room.physicallyPresentPersonIds.includes(id),
+    )!;
+    expect(absentId).toBeTruthy();
+    for (const actualListenerPersonIds of [
+      [],
+      [counterpartId, absentId],
+      [counterpartId, playerPersonId],
+    ])
+      expect(() =>
+        commitLifeConversation(world, { ...input, actualListenerPersonIds }),
+      ).toThrow(/hearers must be present/);
     expect(serializeWorld(world)).toBe(before);
   });
 

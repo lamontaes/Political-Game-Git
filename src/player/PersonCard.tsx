@@ -13,6 +13,7 @@ import type { ShellRef } from "../presentation/shell-navigation";
 import type { EntityId, World } from "../simulation";
 import { pinKindLabel } from "./ShellPinRail";
 import { PersonPortrait } from "./PersonPortrait";
+import type { PersonSceneAppearance } from "../presentation/person-scene-appearance";
 import { SavedPersonFigure } from "./SavedPersonFigure";
 import { projectPersonContact } from "../presentation/person-contact";
 import {
@@ -104,11 +105,9 @@ function FactList({
           className="pg-fact"
           data-attribution={fact.attribution}
         >
-          {fact.attribution === "known" ? null : (
-            <span className="pg-fact-attribution">
-              {fact.attribution === "record" ? "On the record" : "Reported"}
-            </span>
-          )}
+          {fact.attribution === "reported" ? (
+            <span className="pg-fact-attribution">Reported</span>
+          ) : null}
           <span>{fact.text}</span>
         </li>
       ))}
@@ -136,6 +135,7 @@ export function PersonCard({
   talkUnavailable,
   onOpenLink,
   anchor = null,
+  sceneAppearance,
 }: {
   readonly world: World;
   readonly playerId: EntityId;
@@ -145,6 +145,7 @@ export function PersonCard({
   readonly mode: "overlay" | "workspace";
   /** The clicked scene person, when the card was opened from the room. */
   readonly anchor?: PersonCardAnchor | null;
+  readonly sceneAppearance?: PersonSceneAppearance;
   /** Who the room says is here. Presence is the room's answer, not a pin's. */
   readonly presentPersonIds?: readonly EntityId[];
   readonly onClose?: () => void;
@@ -307,6 +308,7 @@ export function PersonCard({
             world={world}
             personId={dossier.personId}
             size="large"
+            sceneAppearance={sceneAppearance}
           />
           <div className="pg-person-card-titles">
             <h2 data-testid="dossier-name">{dossier.name}</h2>
@@ -321,13 +323,6 @@ export function PersonCard({
                 data-testid="dossier-relation"
               >
                 {knownAs.charAt(0).toUpperCase() + knownAs.slice(1)}
-              </p>
-            ) : isYou ? (
-              <p
-                className="pg-person-card-relation"
-                data-testid="dossier-relation"
-              >
-                You
               </p>
             ) : null}
             {traitsSentence ? (
@@ -400,6 +395,7 @@ export function PersonCard({
             world={world}
             personId={dossier.personId}
             className="pg-record-figure"
+            sceneAppearance={sceneAppearance}
           />
         ) : null}
         <div className="pg-person-card-reading">

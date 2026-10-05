@@ -25,6 +25,10 @@ import {
   PEOPLE_PACK,
   peoplePackAvailable,
 } from "../presentation/appearance-engine/runtime";
+import {
+  withSceneClothing,
+  type PersonSceneAppearance,
+} from "../presentation/person-scene-appearance";
 
 /** Full-body record leaf. Reads the same saved appearance and wardrobe as the
  * room/headshot. The owning UI sizes this 1:2 stage; no identity reroll occurs. */
@@ -34,6 +38,7 @@ export function SavedPersonFigure({
   libraries: explicitLibraries,
   className,
   wear,
+  sceneAppearance,
 }: {
   readonly world: World;
   readonly personId: string;
@@ -44,6 +49,8 @@ export function SavedPersonFigure({
    * officeholders at work, so it asks for formal wear.
    */
   readonly wear?: "casual" | "business" | "formal";
+  /** Actual scene clothing for the expanded card, without saving it. */
+  readonly sceneAppearance?: PersonSceneAppearance;
 }) {
   const snapshot = useSavedRenderSnapshot(personId);
   const preference = useSavedWardrobe(personId);
@@ -67,7 +74,10 @@ export function SavedPersonFigure({
           married: () => isMarriedNow(world, person.id),
         })
       : null;
-  if (engine) {
+  const figureEngine = engine
+    ? withSceneClothing(engine, person.id, world.currentDate, sceneAppearance)
+    : null;
+  if (figureEngine) {
     return (
       <figure
         className={className}
@@ -83,7 +93,10 @@ export function SavedPersonFigure({
         }}
       >
         <div style={{ position: "absolute", inset: "4% 0 2% 0" }}>
-          <EngineFigure recipe={engine} testId="saved-person-full-body" />
+          <EngineFigure
+            recipe={figureEngine}
+            testId="saved-person-full-body"
+          />
         </div>
       </figure>
     );

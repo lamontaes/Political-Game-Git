@@ -20,6 +20,7 @@
  * choices — not a page.
  */
 .pg-talk {
+  position: relative;
   width: min(36rem, 100%);
   max-height: min(24rem, calc(var(--pg-vv-height, 100dvh) - 7.5rem));
   overflow: auto;
@@ -47,6 +48,7 @@
   align-items: center;
   gap: 0.35rem 0.6rem;
   padding-bottom: 0.3rem;
+  padding-right: 44px;
   border-bottom: 1px solid rgb(194 155 72 / 30%);
 }
 
@@ -239,39 +241,54 @@ button.pg-talk-face:focus-visible .person-portrait-mark {
   color: var(--text-strong);
 }
 
-/* The Lie button stands beside the replies it swaps, not above them. */
+/* Selected kit12 scales: the control changes offered replies, never a turn. */
 .pg-talk-replies {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: start;
-  gap: 0.45rem;
+  display: block;
 }
 
 .pg-talk .pg-talk-lie-toggle {
-  min-height: 1.7rem;
-  padding: 0.18rem 0.5rem;
-  border: 1px solid rgb(111 85 42 / 75%);
-  border-radius: 0.4rem;
-  color: var(--text-strong);
-  background: var(--kit12-glass);
-  font-size: 0.76rem;
-  font-weight: 700;
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  width: 44px;
+  height: 44px;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.pg-talk-lie-toggle img {
+  width: 34px;
+  height: 34px;
+  transition: filter 0.25s ease;
 }
 
 .pg-talk .pg-talk-lie-toggle[aria-pressed="true"] {
-  background: #6a352e;
-  border-color: #d9826b;
-  color: #fff3ed;
+  background: radial-gradient(circle, rgb(214 88 64 / 25%), transparent 72%);
+}
+
+.pg-talk-lie-toggle[aria-pressed="true"] img {
+  filter: drop-shadow(0 0 3px rgb(255 120 90 / 95%))
+    drop-shadow(0 0 8px rgb(214 88 64 / 70%));
 }
 
 .pg-talk .pg-talk-lie-toggle:disabled {
-  opacity: 0.4;
   cursor: default;
+}
+
+.pg-talk-lie-toggle:disabled img {
+  opacity: 0.28;
 }
 
 .pg-talk-choices {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 0.2rem 0.35rem;
 }
 
@@ -318,7 +335,7 @@ button.pg-talk-face:focus-visible .person-portrait-mark {
   padding: 0.2rem 0.55rem;
   background: transparent;
   border-color: transparent;
-  border-bottom-color: rgb(194 155 72 / 50%);
+  border-bottom-color: transparent;
   border-radius: 0;
   text-shadow: inherit;
 }
@@ -495,17 +512,31 @@ button.pg-talk-face:focus-visible .person-portrait-mark {
   width: 100%;
 }
 
-/* Shown only when the choice itself declares deliberate deception. */
-.pg-talk .pg-talk-lie {
-  display: inline-block;
-  margin-right: 0.45em;
-  border: 1px solid #d9826b;
-  border-radius: 2px;
-  padding: 0 0.35em;
-  color: var(--text-strong);
-  font-size: 0.72em;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  vertical-align: 0.1em;
+/* Deception is marked by the selected soft-red words and numeral, never a tag. */
+.pg-talk .pg-talk-choice[data-lying="true"] {
+  color: #ffc9bd;
+  text-shadow: 0 0 3px rgb(214 88 64 / 40%);
+}
+
+.pg-talk-choice-number {
+  color: var(--gold);
+  margin-right: 0.4em;
+}
+
+.pg-talk-choice[data-lying="true"] .pg-talk-choice-number {
+  color: #e39a89;
+}
+
+.pg-talk-lie-toggle:hover:not(:disabled):not([aria-pressed="true"]) img,
+.pg-talk-lie-toggle:focus-visible:not(:disabled):not([aria-pressed="true"])
+  img {
+  filter: drop-shadow(0 0 4px rgb(255 255 255 / 70%));
+}
+
+.pg-talk .pg-talk-choice[data-lying="true"]:hover:not(:disabled),
+.pg-talk .pg-talk-choice[data-lying="true"]:focus-visible:not(:disabled) {
+  color: #ffdcd3;
+  text-shadow:
+    0 0 6px rgb(232 96 70 / 75%),
+    0 0 16px rgb(214 88 64 / 35%);
 }

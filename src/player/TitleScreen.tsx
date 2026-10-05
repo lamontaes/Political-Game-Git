@@ -46,7 +46,6 @@ import {
   artPreviewMode,
 } from "../presentation/art-preview";
 import { gameBuildProfile } from "../presentation/build-profile";
-import { PlayerVersion } from "./PlayerVersion";
 import {
   nativeQuitAvailable,
   requestNativeQuit,
@@ -286,7 +285,6 @@ export function AmbientTableau({
         cycleKey="title-hero"
       >
         {children(hero.presentation.description)}
-        <PlayerVersion />
       </TitleTableau>
     );
   }
@@ -300,7 +298,6 @@ export function AmbientTableau({
       leavingCycleKey={leavingCycleKey}
     >
       {children(presentation.description)}
-      <PlayerVersion />
     </TitleTableau>
   );
 }

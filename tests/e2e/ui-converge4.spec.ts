@@ -239,7 +239,7 @@ test("private Journal intentions, grouped notes, real person links and history b
   expect(await savedWorld(page)).toEqual(initial);
 });
 
-test("title Patch notes shows every canonical section and real package version with keyboard Back", async ({
+test("title Patch notes keeps historical sections without a current version header with keyboard Back", async ({
   page,
 }, info) => {
   const canonical = readFileSync(
@@ -249,15 +249,10 @@ test("title Patch notes shows every canonical section and real package version w
   const headings = [...canonical.matchAll(/^##\s+(.+)$/gm)].map((match) =>
     match[1]!.trim(),
   );
-  const { version } = JSON.parse(
-    readFileSync(new URL("../../package.json", import.meta.url), "utf8"),
-  );
   await page.goto("/");
   await page.getByTestId("title-patch-notes").press("Enter");
   const workspace = page.getByTestId("title-patch-notes-workspace");
-  await expect(workspace.getByTestId("patch-notes-version")).toHaveText(
-    `Version ${version}`,
-  );
+  await expect(workspace.getByTestId("patch-notes-version")).toHaveCount(0);
   /*
    * UI9-11: normal notes carry the ACCEPTED releases, in file order.
    *

@@ -24,7 +24,7 @@ function render(state) {
     $("artdesk-source").value = state.artDeskSource ?? "published";
   if (document.activeElement !== $("artdesk-input"))
     $("artdesk-input").value = state.artDeskBranch;
-  $("arch").textContent = `${state.architecture} · hub ${state.hubVersion}`;
+  $("arch").textContent = state.architecture;
   const ids = state.identities ?? {};
   $("id-hub").textContent =
     `${ids.hub?.revision ?? "unknown"}${ids.hub?.desktopDirty ? " (uncommitted desktop changes)" : ""} · ${ids.hub?.signing ?? ""}`;

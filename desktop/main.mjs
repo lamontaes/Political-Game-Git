@@ -192,7 +192,6 @@ function showAbout() {
     type: "info",
     message: "Our Civic Duty",
     detail: [
-      `Release version: ${identity.version}`,
       `Build revision: ${identity.revision}${dirtyNote}`,
       `Composition: ${identity.composition}`,
       `Build profile: ${identity.profile ?? "production"}`,

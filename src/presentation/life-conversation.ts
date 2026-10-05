@@ -704,6 +704,8 @@ export function commitLifeConversation(
     readonly personId: EntityId;
     readonly intent: LifeTalkIntent;
     readonly revision: number;
+    /** Resolved room hearers, excluding the speaker; omitted means normal speech. */
+    readonly actualListenerPersonIds?: readonly EntityId[];
     readonly transitionHandlers?: FutureTransitionHandlerRegistry;
   },
 ): World {
@@ -723,6 +725,26 @@ export function commitLifeConversation(
     !view.intents.some((option) => option.key === input.intent)
   )
     throw new Error("This conversation choice is no longer available.");
+  const presentPersonIds = currentLifeTalkScene(
+    world,
+    input.playerPersonId,
+  )!.presentPersonIds;
+  const listenerIds = new Set(
+    input.actualListenerPersonIds ??
+      presentPersonIds.filter((id) => id !== input.playerPersonId),
+  );
+  if (
+    !listenerIds.has(input.personId) ||
+    [...listenerIds].some(
+      (id) => id === input.playerPersonId || !presentPersonIds.includes(id),
+    )
+  )
+    throw new Error(
+      "Conversation hearers must be present and include the counterpart.",
+    );
+  const heardPersonIds = presentPersonIds.filter(
+    (id) => id === input.playerPersonId || listenerIds.has(id),
+  );
   const minutes = input.intent === "spendTime" ? 30 : 0;
   const handlers = minutes
     ? lifeActivityHandlers(input.transitionHandlers)
@@ -873,8 +895,7 @@ export function commitLifeConversation(
     occurredAt: advanced.currentDate,
     recordedAt: advanced.currentDate,
     jurisdictionId: world.people[input.playerPersonId]!.homeJurisdictionId,
-    involvedEntityIds: currentLifeTalkScene(world, input.playerPersonId)!
-      .presentPersonIds,
+    involvedEntityIds: heardPersonIds,
     participants: [
       {
         personId: input.playerPersonId,
@@ -886,10 +907,8 @@ export function commitLifeConversation(
         role: "coordination:counterpart",
         detail: "Replied directly",
       },
-      ...currentLifeTalkScene(world, input.playerPersonId)!
-        .presentPersonIds.filter(
-          (id) => id !== input.playerPersonId && id !== input.personId,
-        )
+      ...heardPersonIds
+        .filter((id) => id !== input.playerPersonId && id !== input.personId)
         .map((id) => ({
           personId: id,
           role: "observation:witness" as const,
@@ -937,8 +956,7 @@ export function commitLifeConversation(
     },
   });
   const event = next.history.events.at(-1)!;
-  for (const personId of currentLifeTalkScene(world, input.playerPersonId)!
-    .presentPersonIds)
+  for (const personId of heardPersonIds)
     next = recordEventKnowledge(next, {
       stableKey: `${stableKey}:heard:${personId}`,
       personId,
