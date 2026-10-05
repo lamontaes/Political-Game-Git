@@ -15889,9 +15889,17 @@
         "US-AR": {
           "answer": "yes",
           "preempts": true,
-          "cite": "Ark. Const. amend. 79",
-          "source": "https://www.lincolninst.edu/app/uploads/2024/12/assessment_limits_2022-3.xlsx",
-          "note": "Assessment cap: after a countywide reappraisal, a homestead's assessed value may rise no more than 5% a year and other real property no more than 10% a year (Lincoln Institute 2022 table; primary text not fetched)."
+          "cite": "Ark. Const. amend. 79, § 1(b)–(d)",
+          "source": "https://www.sos.arkansas.gov/uploads/elections/Arkansas_Election_Laws_and_Constitution_2025_Edition.pdf",
+          "note": "Following reappraisal, assessed-value growth is capped annually at 5% for a homestead and 10% for other real property, with annual phase-in. Newly discovered property, construction, substantial improvements, and certain other cases are excluded; qualifying senior/disabled principal residences have a separate freeze. These are assessment limits, not a universal property-tax bill cap.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+              "key": "cap",
+              "value": 0.05,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-AS": {
           "answer": "no",
@@ -16079,9 +16087,17 @@
         "US-MI": {
           "answer": "yes",
           "preempts": true,
-          "cite": "Mich. Const. art. IX, § 3",
-          "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-Article-IX-3",
-          "note": "Assessment cap (Proposal A): each parcel's taxable value may rise no more than 5% a year or inflation if lower, until ownership transfers."
+          "cite": "Mich. Comp. Laws § 211.27a; Michigan State Tax Commission Bulletin 14 of 2025",
+          "source": "https://www.michigan.gov/treasury/-/media/Project/Websites/treasury/STC/Bulletins/2025/Bulletin-14-of-2025--Inflation-Rate-Multiplier-for-2026.pdf",
+          "note": "For 2026, the inflation multiplier is 1.027, so capped-value growth is limited to 2.7% under the lesser-of-inflation-or-5% rule; additions/losses alter the formula and ownership transfers may uncap taxable value. This limits taxable assessment, not the tax bill itself.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+              "key": "cap",
+              "value": 0.027,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-MN": {
           "answer": "no",
