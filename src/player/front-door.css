@@ -68,12 +68,6 @@
   overscroll-behavior: contain;
   padding: 1.35rem 1.25rem 1.2rem;
   box-sizing: border-box;
-  background: var(--kit12-glass);
-  border: 2.5px solid var(--brass);
-  border-radius: 2px;
-  backdrop-filter: var(--kit12-blur);
-  -webkit-backdrop-filter: var(--kit12-blur);
-  box-shadow: var(--kit12-frame);
   color: var(--front-door-ink);
   font-family: var(--front-door-read);
   text-shadow: none;
@@ -98,7 +92,7 @@
   display: block;
   font-family: var(--front-door-display);
   font-size: clamp(1.55rem, 2.1vw, 2rem);
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: 0.07em;
   line-height: 1.12;
   color: var(--gold);
@@ -135,7 +129,6 @@
   text-shadow: none;
   transform-origin: left center;
   transition:
-    transform 120ms ease,
     text-shadow 120ms ease,
     color 120ms ease;
 }
@@ -164,8 +157,7 @@
   background: transparent;
   border-color: transparent;
   box-shadow: none;
-  text-shadow: 0 0 10px rgb(242 237 228 / 0.55);
-  transform: scale(1.015);
+  text-shadow: var(--kit12-hover-glow);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -194,7 +186,8 @@
 
 .title-tableau--art.front-door .game-title button.is-chosen {
   color: var(--front-door-accent);
-  box-shadow: inset 3px 0 var(--run-a-brass, #b08a3e);
+  background: var(--glass-bottom);
+  box-shadow: none;
 }
 
 .title-tableau--art.front-door .game-creator button {
@@ -671,4 +664,10 @@
   .front-door button {
     transition: none;
   }
+}
+
+.title-tableau--art.front-door .game-title button:active:not(:disabled) {
+  background: var(--glass-bottom);
+  color: var(--gold);
+  text-shadow: none;
 }
