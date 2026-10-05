@@ -16,7 +16,11 @@ import {
   budgetCandidates,
   openGovernmentBudget,
 } from "./public-budgets/opening";
-import { serializeWorld, deserializeWorld } from "./serialization";
+import {
+  serializeWorld,
+  deserializeWorld,
+  writeWorldPayload,
+} from "./serialization";
 
 const seed = "session5-20261005-historical-world";
 const place = drawRandomPlace(seed);
@@ -37,6 +41,16 @@ const input = {
 };
 
 describe("historical inputs through the existing observer clock", () => {
+  it("measures the actual stored bytes without retaining a second payload", () => {
+    const world = buildPreStartBackgroundWorld(input);
+    let bytes = 0;
+    writeWorldPayload(world, (part) => {
+      bytes += new TextEncoder().encode(part).byteLength;
+    });
+    expect(bytes).toBe(
+      new TextEncoder().encode(serializeWorld(world)).byteLength,
+    );
+  });
   it("supplies all 56 wage floors for every historical year and keeps their basis", () => {
     for (const key of Object.keys(wageMatrix.places))
       for (const year of [2021, 2022, 2023, 2024, 2025]) {
