@@ -345,6 +345,7 @@ interface VoterEligibilityCache {
   readonly lastRelevantSequence: number;
   query: string;
   readonly groups: Map<string, Map<EntityId, boolean>>;
+  readonly electorates: Map<string, readonly EntityId[]>;
 }
 const VOTER_ELIGIBILITY_ANCHORS = new WeakMap<object, object>();
 
@@ -360,16 +361,21 @@ function voterEligibilityCache(world: World): VoterEligibilityCache {
     world.history.householdLocations,
     world.history.personDeaths,
   ];
-  return indexOverArrays(anchor, [world.jurisdictions, ...records], () => ({
-    // Canonical history families have increasing sequences. Unrelated
-    // election appends cannot change which residence/death rows are visible.
-    lastRelevantSequence: Math.max(
-      -1,
-      ...records.map((rows) => rows.at(-1)?.sequence ?? -1),
-    ),
-    query: "",
-    groups: new Map(),
-  }));
+  return indexOverArrays(
+    anchor,
+    [world.jurisdictions, world.personOrder, ...records],
+    () => ({
+      // Canonical history families have increasing sequences. Unrelated
+      // election appends cannot change which residence/death rows are visible.
+      lastRelevantSequence: Math.max(
+        -1,
+        ...records.map((rows) => rows.at(-1)?.sequence ?? -1),
+      ),
+      query: "",
+      groups: new Map(),
+      electorates: new Map(),
+    }),
+  );
 }
 
 export function isEligibleVoterIn(
@@ -390,6 +396,7 @@ export function isEligibleVoterIn(
   if (cache.query !== query) {
     cache.query = query;
     cache.groups.clear();
+    cache.electorates.clear();
   }
   // The existing reader uses state residence for every jurisdiction with a
   // state key. Share exactly that query across its same-date contests.
@@ -401,6 +408,31 @@ export function isEligibleVoterIn(
   const result = readEligibleVoterIn(world, personId, jurisdictionId, asOf);
   group.set(personId, result);
   return result;
+}
+
+/** The same canonical eligibility query, in the world's original voter order. */
+export function eligibleVotersIn(
+  world: World,
+  jurisdictionId: EntityId,
+  asOf: IsoDate,
+): readonly EntityId[] {
+  const jurisdiction = world.jurisdictions[jurisdictionId];
+  if (!jurisdiction) return [];
+  const stateKey = stateKeyForJurisdiction(jurisdiction);
+  const key = JSON.stringify([stateKey, stateKey ? null : jurisdictionId]);
+  // Establish this date/cutoff before consulting an electorate cached by
+  // another contest; an empty world has no voters to establish it for us.
+  const first = world.personOrder[0];
+  if (first === undefined) return [];
+  isEligibleVoterIn(world, first, jurisdictionId, asOf);
+  const cache = voterEligibilityCache(world);
+  const prior = cache.electorates.get(key);
+  if (prior) return prior;
+  const voters = world.personOrder.filter((id) =>
+    isEligibleVoterIn(world, id, jurisdictionId, asOf),
+  );
+  cache.electorates.set(key, voters);
+  return voters;
 }
 
 function readEligibleVoterIn(

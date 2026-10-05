@@ -1,5 +1,5 @@
 import { evaluateDecision, isSelectedDecision } from "./decisions";
-import { isEligibleVoterIn } from "./issue-record";
+import { eligibleVotersIn, isEligibleVoterIn } from "./issue-record";
 import { eventById } from "./event-index";
 import { makeIsoDate } from "./dates";
 import {
@@ -210,16 +210,11 @@ export function countRecordedVoterBallots(
     }
   }
   const contexts = new Map<EntityId, DecisionContext>();
-  for (const voterId of world.personOrder) {
-    if (
-      !isEligibleVoterIn(
-        world,
-        voterId,
-        input.jurisdictionId,
-        input.electionDate,
-      )
-    )
-      continue;
+  for (const voterId of eligibleVotersIn(
+    world,
+    input.jurisdictionId,
+    input.electionDate,
+  )) {
     const considerations: DecisionContext["considerations"][number][] = [];
     for (const [candidateId, belief] of views.get(voterId) ?? []) {
       if (belief.position !== "support" && belief.position !== "oppose")

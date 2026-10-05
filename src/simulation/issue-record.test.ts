@@ -20,6 +20,7 @@ import {
 } from "./policy";
 import { createFormationContext, recordPrivateBelief } from "./politics";
 import {
+  eligibleVotersIn,
   isEligibleVoterIn,
   issueRecordFor,
   issueStandingsFor,
@@ -225,6 +226,11 @@ describe("voters weighing an officeholder's record, question by question", () =>
         world.currentDate,
       ]) {
         const fresh = { ...world, people: { ...world.people } };
+        expect(eligibleVotersIn(world, setup.jurisdictionId, asOf)).toEqual(
+          fresh.personOrder.filter((id) =>
+            isEligibleVoterIn(fresh, id, setup.jurisdictionId, asOf),
+          ),
+        );
         expect(
           world.personOrder.map((id) =>
             isEligibleVoterIn(world, id, setup.jurisdictionId, asOf),
