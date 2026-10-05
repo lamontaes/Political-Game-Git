@@ -616,11 +616,6 @@
   color: var(--pg-brass);
 }
 
-.pg-personal-identity h3 {
-  margin: 0;
-  font-size: 1.4rem;
-}
-
 .pg-tag {
   margin-left: 0.5rem;
   padding: 0.05rem 0.35rem;
@@ -2506,14 +2501,6 @@
   }
 }
 
-.pg-personal-chronology {
-  max-height: 24rem;
-  overflow: auto;
-}
-.pg-personal-chronology time {
-  color: var(--pg-muted, #776340);
-  font-size: 0.85em;
-}
 .pg-opportunity-choices {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
