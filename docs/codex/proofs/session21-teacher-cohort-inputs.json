@@ -1,0 +1,116 @@
+{
+  "seed": "build20-teacher-floor-0835",
+  "place": "Appomattox, Virginia",
+  "stateId": "jurisdiction_b6689e8af16aa8e6",
+  "date": "2026-01-19",
+  "median": null,
+  "controlledPrinciplesApplied": false,
+  "teacherWorkCount": 13,
+  "teacherFlows": 0,
+  "teachers": [
+    {
+      "workId": "work-relationship_0094553ba6d15b96",
+      "employerId": "organization_2710b6ceab585b0e",
+      "occupation": "profession:teacher",
+      "status": "active",
+      "publicIdentity": null,
+      "flowIds": []
+    },
+    {
+      "workId": "work-relationship_c1f07aba9c797f31",
+      "employerId": "organization_db872be35b730c07",
+      "occupation": "profession:teacher",
+      "status": "active",
+      "publicIdentity": null,
+      "flowIds": []
+    },
+    {
+      "workId": "work-relationship_270fbccde34328d3",
+      "employerId": "organization_db872be35b730c07",
+      "occupation": "profession:teacher",
+      "status": "active",
+      "publicIdentity": null,
+      "flowIds": []
+    },
+    {
+      "workId": "work-relationship_e01b930eafa5ed46",
+      "employerId": "organization_db872be35b730c07",
+      "occupation": "profession:teacher",
+      "status": "active",
+      "publicIdentity": null,
+      "flowIds": []
+    },
+    {
+      "workId": "work-relationship_89c791f92054652e",
+      "employerId": "organization_2710b6ceab585b0e",
+      "occupation": "profession:teacher",
+      "status": "active",
+      "publicIdentity": null,
+      "flowIds": []
+    },
+    {
+      "workId": "work-relationship_94b5c60d1b3296a5",
+      "employerId": "organization_2710b6ceab585b0e",
+      "occupation": "profession:teacher",
+      "status": "active",
+      "publicIdentity": null,
+      "flowIds": []
+    },
+    {
+      "workId": "work-relationship_6a43a9c47151e817",
+      "employerId": "organization_2710b6ceab585b0e",
+      "occupation": "profession:teacher",
+      "status": "active",
+      "publicIdentity": null,
+      "flowIds": []
+    },
+    {
+      "workId": "work-relationship_e449672607d4835c",
+      "employerId": "organization_28d369b796e13b0d",
+      "occupation": "profession:teacher",
+      "status": "active",
+      "publicIdentity": null,
+      "flowIds": []
+    },
+    {
+      "workId": "work-relationship_868187a8573c3368",
+      "employerId": "organization_28d369b796e13b0d",
+      "occupation": "profession:teacher",
+      "status": "active",
+      "publicIdentity": null,
+      "flowIds": []
+    },
+    {
+      "workId": "work-relationship_2a08d4eb305929f7",
+      "employerId": "organization_28d369b796e13b0d",
+      "occupation": "profession:teacher",
+      "status": "active",
+      "publicIdentity": null,
+      "flowIds": []
+    },
+    {
+      "workId": "work-relationship_6926be5a1129bbf7",
+      "employerId": "organization_db872be35b730c07",
+      "occupation": "profession:teacher",
+      "status": "active",
+      "publicIdentity": null,
+      "flowIds": []
+    },
+    {
+      "workId": "work-relationship_d6ab3ba76758a05f",
+      "employerId": "organization_2710b6ceab585b0e",
+      "occupation": "profession:teacher",
+      "status": "active",
+      "publicIdentity": null,
+      "flowIds": []
+    },
+    {
+      "workId": "work-relationship_abdaf5d60ba2f43e",
+      "employerId": "organization_28d369b796e13b0d",
+      "occupation": "profession:teacher",
+      "status": "active",
+      "publicIdentity": null,
+      "flowIds": []
+    }
+  ]
+}
