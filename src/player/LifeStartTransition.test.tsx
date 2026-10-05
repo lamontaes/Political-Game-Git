@@ -3,6 +3,7 @@ import type * as React from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   LifeStartTransition,
+  LIFE_START_BUDGET_MS,
   type LifeStartProgress,
 } from "./LifeStartTransition";
 
@@ -16,10 +17,15 @@ vi.mock("react", async (original) => ({
   ...(await original<typeof React>()),
   useEffect: (effect: () => void | (() => void)) => hooks.effects.push(effect),
   useRef: (current: unknown) => ({ current }),
-  useState: (initial: LifeStartProgress) => [
-    hooks.progress ?? initial,
-    (next: LifeStartProgress) => {
-      hooks.progress = next;
+  useMemo: (compute: () => unknown) => compute(),
+  useState: (initial: unknown) => [
+    typeof initial === "object" && initial && "label" in initial
+      ? (hooks.progress ?? initial)
+      : initial,
+    (next: unknown) => {
+      if (typeof next === "function") return;
+      if (typeof next !== "object" || !next || !("label" in next)) return;
+      hooks.progress = next as LifeStartProgress;
       hooks.updates += 1;
     },
   ],
@@ -45,6 +51,8 @@ function mount(
     matchMedia: () => ({ matches: reduced }),
     setTimeout,
     clearTimeout,
+    setInterval,
+    clearInterval,
     requestAnimationFrame: (callback: () => void) => setTimeout(callback, 16),
     cancelAnimationFrame: cancelFrame,
   });
@@ -109,6 +117,24 @@ describe("life preparation status", () => {
     expect(mounted.cancelFrame).toHaveBeenCalledOnce();
     await vi.runAllTimersAsync();
     expect(prepare).not.toHaveBeenCalled();
+  });
+
+  it("aborts held preparation at two minutes including the initial fade", async () => {
+    let signal: AbortSignal | undefined;
+    const mounted = mount(false, async (_report, preparationSignal) => {
+      signal = preparationSignal;
+      await new Promise<void>((resolve) => {
+        preparationSignal.addEventListener("abort", () => resolve(), {
+          once: true,
+        });
+      });
+    });
+    await vi.advanceTimersByTimeAsync(LIFE_START_BUDGET_MS - 1);
+    expect(signal?.aborted).toBe(false);
+    await vi.advanceTimersByTimeAsync(1);
+    expect(signal?.aborted).toBe(true);
+    expect(signal?.reason).toMatchObject({ name: "TimeoutError" });
+    mounted.unmount();
   });
 
   it("ignores progress after cancellation", async () => {

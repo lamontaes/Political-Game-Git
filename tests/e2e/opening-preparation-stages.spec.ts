@@ -59,11 +59,15 @@ async function openFixture(page: Page, cancel: boolean) {
 test("a fresh random life paints actual preparation stages and counts", async ({
   page,
 }, info) => {
+  test.setTimeout(145_000);
   await openFixture(page, false);
-  await page.waitForFunction(() =>
-    ["complete", "failed"].includes(
-      window.openingPreparationFixture.evidence.status,
-    ),
+  await page.waitForFunction(
+    () =>
+      ["complete", "failed"].includes(
+        window.openingPreparationFixture.evidence.status,
+      ),
+    undefined,
+    { timeout: 125_000 },
   );
   const evidence = await page.evaluate(
     () => window.openingPreparationFixture.evidence,
@@ -94,7 +98,9 @@ test("a fresh random life paints actual preparation stages and counts", async ({
   await expect(page.getByLabel("My journal")).toContainText("I ");
   await expect(page.locator(".pg-life-transition-heading h1")).toBeVisible();
   const stages = [...new Set(evidence.reports.map((step) => step.label))];
-  expect(stages).toEqual([
+  expect(
+    stages.filter((stage) => !stage.startsWith("Living through ")),
+  ).toEqual([
     "Preparing your life",
     "Preparing government",
     "Preparing state legislatures",
@@ -104,6 +110,16 @@ test("a fresh random life paints actual preparation stages and counts", async ({
     "Preparing courts",
     "Finalizing your life",
   ]);
+  expect(stages.filter((stage) => stage.startsWith("Living through "))).toEqual(
+    [
+      "Living through 2021",
+      "Living through 2022",
+      "Living through 2023",
+      "Living through 2024",
+      "Living through 2025",
+      "Living through 2026",
+    ],
+  );
   for (const stage of stages) {
     expect(
       evidence.painted.some(

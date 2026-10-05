@@ -147,7 +147,7 @@ export function LifeStartTransition({
       data-testid="life-start-transition"
       style={{ "--pg-start-fade": `${FADE_MS}ms` } as CSSProperties}
     >
-      <div className="pg-life-transition-story">
+      <div className="pg-life-transition-story pg-glass-panel">
         <header className="pg-life-transition-heading">
           <h1>{story?.year ?? "Your life"}</h1>
           {story && (

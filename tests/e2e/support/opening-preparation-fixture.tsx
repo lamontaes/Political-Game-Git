@@ -21,6 +21,7 @@ export function mountOpeningPreparationFixture(cancelAtFirstStage = false) {
     seed,
     placeKey: place.key,
     startAge,
+    creatorLifeForks: [],
   });
   const evidence = {
     seed,
@@ -44,7 +45,7 @@ export function mountOpeningPreparationFixture(cancelAtFirstStage = false) {
   let release: (() => void) | undefined;
   root.render(
     createElement(LifeStartTransition, {
-      onPrepare: async (report, signal) => {
+      onPrepare: async (report, signal, deadlineAt, advanceHistory) => {
         evidence.status = "preparing";
         evidence.animation = getComputedStyle(
           host.querySelector(".pg-life-transition")!,
@@ -52,7 +53,8 @@ export function mountOpeningPreparationFixture(cancelAtFirstStage = false) {
         try {
           const opened = await controller.finishTransitionWithProgress({
             signal,
-            deadlineAt: performance.now() + 2 * 60 * 1000,
+            deadlineAt,
+            advanceHistory,
             onProgress: (progress) => {
               const { world: checkpoint, ...receipt } = progress;
               void checkpoint;
@@ -62,7 +64,8 @@ export function mountOpeningPreparationFixture(cancelAtFirstStage = false) {
                 evidence.painted.push({
                   requested: progress.label,
                   visible:
-                    host.querySelector("[role=status] p")?.textContent ?? "",
+                    host.querySelector(".pg-life-transition-progress p")
+                      ?.textContent ?? "",
                   value:
                     host.querySelector("progress")?.getAttribute("value") ??
                     null,

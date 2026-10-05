@@ -524,6 +524,10 @@ export function PlayerGame() {
   useEffect(() => {
     if (replaySetup === null || replayStarted.current) return;
     replayStarted.current = true;
+    if (replaySetup.creatorLifeForks !== undefined) {
+      setScreen({ kind: "transition", setup: replaySetup });
+      return;
+    }
     try {
       const game =
         createOpeningLifeController(replaySetup).finishTransition().game!;

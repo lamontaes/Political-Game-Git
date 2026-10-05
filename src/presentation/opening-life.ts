@@ -64,7 +64,11 @@ import {
 } from "../simulation/macro-economy";
 import type { World, EntityId } from "../simulation";
 import { isFederalDistrictUsps } from "../simulation/state-reference";
-import { createNewGameWorld } from "./new-game";
+import {
+  createNewGameWorld,
+  createPreStartNewGameWorld,
+  finishPreStartNewGameWorld,
+} from "./new-game";
 import { proseDate } from "./prose-dates";
 import type { NewGameSetup, NewGame } from "./new-game";
 import { buildLifeIntroduction } from "./life-introduction";
@@ -150,12 +154,96 @@ export function generateOpeningLife(
   // members and their histories one write at a time, so the opening is built
   // with those checks deferred and the World it hands over is validated once,
   // in full, at the end.
+  const historicalGame =
+    session.setup.creatorLifeForks !== undefined
+      ? createPreStartNewGameWorld(session.setup, makeIsoDate("2021-01-01"))
+      : undefined;
   let built: OpeningLifeSession | undefined;
   advanceWithWorldIntegrityAtEnd(() => {
-    built = buildOpeningLife(session, onProgress);
+    built = buildOpeningLife(session, onProgress, historicalGame);
     return built.game!.world;
   });
+  if (historicalGame) {
+    const steps = preStartHistorySteps(
+      built!.game!.world,
+      historicalGame.playerPersonId,
+    );
+    let step = steps.next();
+    while (!step.done) {
+      const next = advanceObservedWorld(step.value.world, step.value.days);
+      reportHistoryCheckpoint(
+        next,
+        historicalGame.playerPersonId,
+        historicalGame.world,
+        onProgress,
+      );
+      step = steps.next(next);
+    }
+    built = {
+      ...built!,
+      game: finishPreStartNewGameWorld({ ...built!.game!, world: step.value }),
+    };
+  }
   return built!;
+}
+
+interface PreStartHistoryStep {
+  readonly world: World;
+  readonly days: number;
+}
+
+/** One calendar plan used by synchronous replay and the yielding loading route. */
+function* preStartHistorySteps(
+  initial: World,
+  playerPersonId: EntityId,
+): Generator<PreStartHistoryStep, World, World> {
+  if (!initial.preStartLife || initial.preStartLife.personId !== playerPersonId)
+    throw new Error("This life has no recorded starting boundary.");
+  const target = initial.preStartLife.targetStartDate;
+  if (target < initial.currentDate)
+    throw new Error("This life has passed its starting boundary.");
+  let world = initial;
+  while (world.currentDate < target) {
+    const date = new Date(`${world.currentDate}T00:00:00Z`);
+    date.setUTCMonth(date.getUTCMonth() + 1, 1);
+    const nextMonth = makeIsoDate(date.toISOString().slice(0, 10));
+    const through = nextMonth < target ? nextMonth : target;
+    const next = yield { world, days: daysBetween(world.currentDate, through) };
+    if (
+      next.currentDate !== through ||
+      next.id !== initial.id ||
+      next.preStartLife?.personId !== playerPersonId
+    )
+      throw new Error("This life stopped before its next chapter.");
+    if (
+      next.history.personDeaths.some(
+        (death) =>
+          death.personId === playerPersonId && death.diedAt <= next.currentDate,
+      )
+    )
+      throw new Error(
+        `${personName(next.people[playerPersonId]!)} died before Begin.`,
+      );
+    world = next;
+  }
+  return world;
+}
+
+function reportHistoryCheckpoint(
+  world: World,
+  playerPersonId: EntityId,
+  initial: World,
+  report?: (progress: OpeningLifeGenerationProgress) => void,
+): void {
+  const target = initial.preStartLife!.targetStartDate;
+  const total = daysBetween(initial.currentDate, target);
+  report?.({
+    label: `Living through ${world.currentDate.slice(0, 4)}`,
+    completed: total - daysBetween(world.currentDate, target),
+    total,
+    world,
+    playerPersonId,
+  });
 }
 
 /** Calendar-month checkpoints over the existing Observer clock, never a second simulation. */
@@ -164,48 +252,22 @@ export async function advancePreStartHistory(
   playerPersonId: EntityId,
   options: OpeningLifeGenerationOptions = {},
 ): Promise<World> {
-  if (!initial.preStartLife || initial.preStartLife.personId !== playerPersonId)
-    throw new Error("This life has no recorded starting boundary.");
-  const target = initial.preStartLife.targetStartDate;
-  const total = daysBetween(initial.currentDate, target);
-  let world = initial;
-  const report = () =>
-    options.onProgress?.({
-      label: `Living through ${world.currentDate.slice(0, 4)}`,
-      completed: total - daysBetween(world.currentDate, target),
-      total,
-      world,
-      playerPersonId,
-    });
-  report();
-  while (world.currentDate < target) {
+  const steps = preStartHistorySteps(initial, playerPersonId);
+  let step = steps.next();
+  reportHistoryCheckpoint(initial, playerPersonId, initial, options.onProgress);
+  while (!step.done) {
     throwIfOpeningAborted(options.signal, options.deadlineAt);
     await (options.yieldControl ?? yieldOpeningPreparationToHost)();
     throwIfOpeningAborted(options.signal, options.deadlineAt);
-    const date = new Date(`${world.currentDate}T00:00:00Z`);
-    date.setUTCMonth(date.getUTCMonth() + 1, 1);
-    const nextMonth = makeIsoDate(date.toISOString().slice(0, 10));
-    const through = nextMonth < target ? nextMonth : target;
-    const days = daysBetween(world.currentDate, through);
-    world = options.advanceHistory
+    const { world, days } = step.value;
+    const next = options.advanceHistory
       ? await options.advanceHistory(world, days)
       : advanceObservedWorld(world, days);
     throwIfOpeningAborted(options.signal, options.deadlineAt);
-    if (world.currentDate !== through)
-      throw new Error("This life stopped before its next chapter.");
-    if (
-      world.history.personDeaths.some(
-        (death) =>
-          death.personId === playerPersonId &&
-          death.diedAt <= world.currentDate,
-      )
-    )
-      throw new Error(
-        `${personName(world.people[playerPersonId]!)} died before Begin.`,
-      );
-    report();
+    step = steps.next(next);
+    reportHistoryCheckpoint(next, playerPersonId, initial, options.onProgress);
   }
-  return world;
+  return step.value;
 }
 
 /** Seat the existing opening institutions in an already-built historical World.
@@ -236,6 +298,29 @@ export async function generateOpeningLifeWithProgress(
 ): Promise<OpeningLifeSession> {
   if (session.game) return session;
   throwIfOpeningAborted(options.signal, options.deadlineAt);
+  if (!suppliedGame && session.setup.creatorLifeForks !== undefined) {
+    // Creator forks are the explicit new route marker; older replay descriptors
+    // omit them and continue to rebuild their original opening byte for byte.
+    const game = createPreStartNewGameWorld(
+      session.setup,
+      makeIsoDate("2021-01-01"),
+    );
+    const prepared = await generateOpeningLifeWithProgress(
+      session,
+      options,
+      game,
+    );
+    const world = await advancePreStartHistory(
+      prepared.game!.world,
+      game.playerPersonId,
+      options,
+    );
+    throwIfOpeningAborted(options.signal, options.deadlineAt);
+    return {
+      ...prepared,
+      game: finishPreStartNewGameWorld({ ...prepared.game!, world }),
+    };
+  }
   const beginning = await runOpeningPreparationSteps(
     beginOpeningLifeSteps(session, suppliedGame),
     (start) => start.world,

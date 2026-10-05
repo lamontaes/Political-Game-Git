@@ -9,6 +9,9 @@ import {
   type EntityId,
   type World,
 } from "../simulation";
+import { speakerTraits } from "./speaker-traits";
+import { projectWorld39Journal } from "./world39-journal";
+import { journalInFirstPerson } from "./journal-first-person";
 import { buildLifeIntroduction } from "./life-introduction";
 import {
   composeGroundedLine,
@@ -95,7 +98,10 @@ export function projectLifeSoFarEnglish(
       stage: "opening",
       sourceRecordIds: group.flatMap((school) => school.sourceRecordIds),
       facts,
-      viewer: { personId, traits: {} },
+      ...(journalLine
+        ? { speaker: { personId, traits: speakerTraits(world, personId) } }
+        : {}),
+      viewer: { personId, traits: speakerTraits(world, personId) },
       knowledge: Object.entries(facts).map(([factKey, fact]) => ({
         personId,
         factKey,
@@ -179,7 +185,10 @@ export function projectLifeSoFarEnglish(
       stage: "opening",
       sourceRecordIds,
       facts,
-      viewer: { personId, traits: {} },
+      ...(journalLine
+        ? { speaker: { personId, traits: speakerTraits(world, personId) } }
+        : {}),
+      viewer: { personId, traits: speakerTraits(world, personId) },
       knowledge: Object.keys(facts).map((factKey) => ({
         personId,
         factKey,
@@ -217,6 +226,45 @@ export function projectLifeSoFarJournal(
 ): readonly LifeJournalLine[] {
   const lines: LifeJournalLine[] = [];
   projectLifeSoFarEnglish(world, personId, (line) => lines.push(line));
+  // Use the ordinary Journal's significance and knowledge filters for lived
+  // events, memories, accounts and views. Life starts above use their existing
+  // school/work writers; this does not create another event-selection engine.
+  for (const entry of projectWorld39Journal(world, personId).entries) {
+    if (
+      entry.at > world.currentDate ||
+      (entry.kind === "life" && !entry.id.startsWith("birth:"))
+    )
+      continue;
+    const sourceRecordIds = [entry.sourceId];
+    const packet: GroundedEnglishPacket = {
+      surface: "journal",
+      momentKey: `life-journal:${entry.id}`,
+      worldSeed: world.seed,
+      bankVersion: "1",
+      stage: "opening",
+      sourceRecordIds,
+      facts: {
+        entry: { text: journalInFirstPerson(entry.text), sourceRecordIds },
+      },
+      speaker: { personId, traits: speakerTraits(world, personId) },
+      viewer: { personId, traits: speakerTraits(world, personId) },
+      knowledge: [{ personId, factKey: "entry", sourceRecordIds }],
+    };
+    const bank: ComposedLineBank = {
+      key: "life-journal-recorded-entry",
+      version: "1",
+      surface: "journal",
+      act: "tell",
+      parts: {
+        core: {
+          variants: [{ key: "own-record", kind: "verbatim", factKey: "entry" }],
+        },
+      },
+    };
+    const rendered = composeGroundedLine(packet, bank);
+    if (rendered.kind === "rendered")
+      lines.push({ date: entry.at, text: rendered.text, sourceRecordIds });
+  }
   const life = buildLifeIntroduction(world, personId);
   if (!life) return lines;
   // Relationship labels are canonical, not guessed from a name or portrait.
@@ -242,8 +290,8 @@ export function projectLifeSoFarJournal(
       stage: "opening",
       sourceRecordIds,
       facts,
-      speaker: { personId, traits: {} },
-      viewer: { personId, traits: {} },
+      speaker: { personId, traits: speakerTraits(world, personId) },
+      viewer: { personId, traits: speakerTraits(world, personId) },
       knowledge: [{ personId, factKey: "relative", sourceRecordIds }],
     };
     const bank: ComposedLineBank = {
