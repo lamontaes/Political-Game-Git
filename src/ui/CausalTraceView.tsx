@@ -1,4 +1,5 @@
 import type { World } from "../simulation/types";
+import { personName } from "../simulation/people";
 import { useEffect, useMemo, useState } from "react";
 
 import {
@@ -23,16 +24,13 @@ import "./causal-trace.css";
  * The inspector, as a development route.
  *
  * It reads a world and never writes one. Every control here filters, selects
- * or walks; none of them records anything, and the world this page holds is
- * the same object from the first render to the last. That is the property the
- * tests assert, and it is the reason the page can be opened against a save
- * without the act of looking changing what is being looked at.
+ * or walks; none of them records anything. Each inspection names the supplied
+ * checkpoint and its content hash. The Observer may supply a later paused
+ * checkpoint, but looking at either one cannot alter its history.
  *
- * The page builds its own fixture world rather than reaching into a running
- * game. A diagnostic that can only be used while reproducing a bug is a
- * diagnostic nobody uses; this one opens on a deterministic conversation whose
- * causality is already interesting, and the seed is in the URL so a report can
- * name the exact world it is talking about.
+ * Without a supplied checkpoint the standalone route still opens its existing
+ * deterministic conversation fixture. The live Observer route supplies the
+ * acknowledged worker checkpoint instead of constructing a second world.
  */
 
 const AUDIBILITY_OPTIONS: readonly ConversationAudibility[] = [
@@ -121,12 +119,16 @@ export function CausalTraceView({
   );
 
   const selected = rootId ? (index.byId.get(rootId) ?? null) : null;
-  const decision = world.history.decisionTraces.find(
-    (record) => record.id === rootId,
-  );
   const walk = rootId
     ? walkTrace(index, { rootId, direction, maxDepth: depth })
     : null;
+  const decisionsById = new Map(
+    world.history.decisionTraces.map((record) => [record.id, record]),
+  );
+  const decision = (walk?.steps ?? [])
+    .filter((step) => step.direction !== "downstream")
+    .map((step) => decisionsById.get(step.nodeId))
+    .find((record) => record !== undefined);
   const exportDocument = rootId
     ? buildTraceExport(index, { rootId, direction, maxDepth: depth })
     : null;
@@ -385,6 +387,16 @@ export function CausalTraceView({
               {decision ? (
                 <section aria-label="Recorded considerations">
                   <h3>What they considered</h3>
+                  <p>
+                    {personName(world.people[decision.context.actorPersonId]!)}
+                    {": "}
+                    <button
+                      type="button"
+                      onClick={() => setSelectedId(decision.id)}
+                    >
+                      <code>{decision.id}</code>
+                    </button>
+                  </p>
                   <p>
                     {decision.context.options.find(
                       (option) => option.key === decision.selectedOptionKey,

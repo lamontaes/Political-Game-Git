@@ -347,6 +347,38 @@ describe("generated people pursue their own goals", () => {
     expect(reloaded.history.jobApplications).toEqual(
       world.history.jobApplications,
     );
+    const offerDecisions = reloaded.history.decisionTraces.filter(
+      (trace) => trace.context.decisionType === "people.job-offer-answer",
+    );
+    expect(offerDecisions.length).toBeGreaterThan(0);
+    expect(reloaded.history.decisionTraces).toEqual(
+      world.history.decisionTraces,
+    );
+    for (const decision of offerDecisions) {
+      expect(decision.context.retention).toBe("durable");
+      expect(decision.context.considerations.length).toBeGreaterThan(0);
+      const answer = reloaded.history.jobApplicationSteps!.find((step) => {
+        if (step.kind !== "accepted" && step.kind !== "refused") return false;
+        return reloaded.history.events
+          .find((event) => event.id === step.eventId)
+          ?.tags.includes(`decision-trace:${decision.id}`);
+      });
+      expect(answer).toBeDefined();
+      const application = reloaded.history.jobApplications!.find(
+        (row) => row.id === answer!.applicationId,
+      )!;
+      expect(application.personId).toBe(decision.context.actorPersonId);
+      const started = reloaded.history.jobApplicationSteps!.find(
+        (step) =>
+          step.applicationId === application.id && step.kind === "started",
+      );
+      if (started) {
+        expect(
+          reloaded.history.events.find((event) => event.id === started.eventId)
+            ?.tags,
+        ).toContain(`decision-trace:${decision.id}`);
+      }
+    }
     const replacements = reloaded.history.goalStates.filter(
       (record) => record.replacesGoalId !== null,
     );

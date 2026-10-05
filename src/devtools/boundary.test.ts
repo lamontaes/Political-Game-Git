@@ -109,6 +109,7 @@ describe("ordinary play cannot reach the development route", () => {
   it("admits the live Observer only through its development-only route", async () => {
     const app = await readFile(join(sourceRoot, "App.tsx"), "utf8");
     expect(app).toContain('import.meta.env.DEV && view === "observer-dev"');
+    expect(app).toContain('import.meta.env.DEV && view === "causal-trace"');
     expect(app).toMatch(/import\.meta\.env\.DEV\s*\?\s*lazy/);
     const route = await readFile(
       join(sourceRoot, "ui", "ObserverDevRoute.tsx"),
