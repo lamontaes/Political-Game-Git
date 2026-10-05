@@ -18232,8 +18232,16 @@
           "answer": "yes",
           "preempts": true,
           "cite": "Ala. Code §§ 16-6J-1 to 16-6J-9",
-          "source": "https://www.edchoice.org/school-choice/programs/creating-hope-opportunity-for-our-students-education/",
-          "note": "Universal-track education savings accounts (CHOOSE Act) since the 2025-26 school year, plus tax-credit scholarships for students zoned to failing schools since 2013."
+          "source": "https://governor.alabama.gov/newsroom/2026/07/governor-ivey-announces-funding-for-choose-act-education-savings-accounts-for-2026-2027-school-year/",
+          "note": "For 2026–27, participating-school accounts provide $7,000 per student; home education provides $2,000 per student with a $4,000 family cap. Eligibility restrictions apply. Other choice programs also exist.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+              "key": "award",
+              "value": 700000,
+              "unit": "minor"
+            }
+          ]
         },
         "US-AR": {
           "answer": "yes",
@@ -18297,8 +18305,16 @@
           "answer": "yes",
           "preempts": true,
           "cite": "O.C.G.A. §§ 20-2B-1 to 20-2B-31",
-          "source": "https://www.edchoice.org/school-choice/programs/georgia-promise-scholarship/",
-          "note": "Promise Scholarship accounts since 2025 for students zoned to low-performing schools, a special-needs voucher since 2007 and a tax-credit scholarship since 2008."
+          "source": "https://mygeorgiapromise.org/",
+          "note": "The Georgia Promise Scholarship 2026–27 award is up to $6,500 per student per year, paid in quarterly installments; eligibility is limited to qualifying attendance zones and residency requirements. The program may withhold up to 5% for administration. Other choice programs also exist.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+              "key": "award",
+              "value": 650000,
+              "unit": "minor"
+            }
+          ]
         },
         "US-GU": {
           "answer": "no",
@@ -18316,8 +18332,16 @@
           "answer": "yes",
           "preempts": true,
           "cite": "Iowa Code § 257.11B",
-          "source": "https://www.edchoice.org/school-choice/programs/education-savings-account-program/",
-          "note": "Universal education savings accounts (Students First) since 2023, plus a tax-credit scholarship."
+          "source": "https://educate.iowa.gov/pk-12/educational-choice/education-savings-accounts",
+          "note": "The 2026–27 Students First Education Savings Account amount is $8,148 per eligible student, paid half in fall and half in spring. Other choice programs also exist.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+              "key": "award",
+              "value": 814800,
+              "unit": "minor"
+            }
+          ]
         },
         "US-ID": {
           "answer": "yes",
@@ -18462,8 +18486,16 @@
           "answer": "yes",
           "preempts": true,
           "cite": "NRS 388D.250 to 388D.280",
-          "source": "https://www.edchoice.org/school-choice/programs/nevada-educational-choice-scholarship-program/",
-          "note": "Tax-credit scholarships for students in lower-income households only, since 2015."
+          "source": "https://doe.nv.gov/offices/office-of-student-and-school-supports/private-schools/nevada-educational-choice-scholarship-program-opportunity-scholarship",
+          "note": "The official 2026–27 Opportunity Scholarship maximum is $10,367 per student; this is a cap, not a guaranteed award. Eligibility is income-limited.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+              "key": "award",
+              "value": 1036700,
+              "unit": "minor"
+            }
+          ]
         },
         "US-NY": {
           "answer": "no",
@@ -18530,8 +18562,16 @@
           "answer": "yes",
           "preempts": true,
           "cite": "Tenn. Code Ann. §§ 49-6-3501 to 49-6-3512",
-          "source": "https://www.edchoice.org/school-choice/programs/tennessee-education-freedom-scholarship-act/",
-          "note": "Education Freedom Scholarships since the 2025-26 school year (20,000 seats), plus a Memphis-Nashville-Chattanooga education savings account and a special-needs account."
+          "source": "https://www.tn.gov/education/efs.html",
+          "note": "The 2026–27 Education Freedom Scholarship award is $7,530 per student; the program is capped at 20,000 scholarships. Other choice programs also exist.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+              "key": "award",
+              "value": 753000,
+              "unit": "minor"
+            }
+          ]
         },
         "US-TX": {
           "answer": "no",
@@ -18584,8 +18624,16 @@
           "answer": "yes",
           "preempts": true,
           "cite": "W. Va. Code § 18-31-1 et seq.",
-          "source": "https://www.edchoice.org/school-choice/programs/hope-scholarship-program/",
-          "note": "Near-universal Hope Scholarship education savings accounts since 2022."
+          "source": "https://wvde.us/hope-scholarship/",
+          "note": "The 2026–27 Hope Scholarship award is $5,435.62 per student. Eligibility remains subject to statutory qualification and application rules.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+              "key": "award",
+              "value": 543562,
+              "unit": "minor"
+            }
+          ]
         },
         "US-WY": {
           "answer": "no",
