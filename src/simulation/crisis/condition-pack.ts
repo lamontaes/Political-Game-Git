@@ -13,6 +13,7 @@ import {
 import { annualPovertyLineMinor } from "../household-pay";
 import type { MortalityCalibrationCategory } from "./mortality-table";
 import { appendCrisisRecords, crisisRecordId } from "./records";
+import { activeHealthEpisodes } from "./health-queries";
 import type {
   CrisisRecordInput,
   HealthCoverageRecord,
@@ -239,12 +240,18 @@ export function recordStartingConditions(
     const person = world.people[personId];
     if (!person) continue;
     const age = daysBetween(person.birthDate, date) / 365.25;
+    const held = new Set(
+      activeHealthEpisodes(world, personId).map(
+        (episode) => episode.conditionKey,
+      ),
+    );
     for (const key of startingConditionKeys(
       world.seed,
       personId,
       age,
       category,
     )) {
+      if (held.has(key)) continue;
       const hazard = conditionHazard(world.seed, personId, key, age);
       const stableKey = conditionEpisodeKey(personId, key);
       const id = crisisRecordId(world, stableKey);
