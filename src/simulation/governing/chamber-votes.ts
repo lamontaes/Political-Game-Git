@@ -47,6 +47,7 @@ import type { StandingBand } from "../relationship-standing";
 import { currentHistoricalCutoff } from "../queries";
 import type {
   DecisionConsideration,
+  DecisionEvaluation,
   DecisionSubject,
   EntityId,
   LegislativeMemberDisposition,
@@ -181,6 +182,8 @@ const PUBLIC_PARTIES = new WeakMap<World, Map<EntityId, string | null>>();
 
 interface ChamberVoteCommonInput {
   readonly stableKey: string;
+  /** Actual vote writers may retain the evaluations; previews only read them. */
+  readonly onDecision?: (evaluation: DecisionEvaluation) => void;
   readonly members: readonly SeatedMember[];
   /**
    * Decide only these members (by member key). The whole chamber still names
@@ -978,6 +981,7 @@ export function decideChamberVote(
       randomness: "none",
       retention: "ephemeral",
     });
+    input.onDecision?.(evaluation);
     const selected = evaluation.selectedOptionKey ?? "withhold";
     const decisive = considerations
       .filter((consideration) => consideration.optionKey === selected)

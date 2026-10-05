@@ -1,9 +1,10 @@
 import type { World } from "../simulation/types";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import {
   buildTraceExport,
   buildTraceIndex,
+  mindSourceTarget,
   createCausalTraceFixture,
   projectConversationObserverTrace,
   projectDecisionTraceDetails,
@@ -66,7 +67,13 @@ function matches(node: TraceNode, query: string): boolean {
 
 export function CausalTraceView({
   reviewWorld,
-}: { readonly reviewWorld?: World } = {}) {
+  initialRootId,
+  reviewIndex,
+}: {
+  readonly reviewWorld?: World;
+  readonly initialRootId?: EntityId;
+  readonly reviewIndex?: ReturnType<typeof buildTraceIndex>;
+} = {}) {
   const [seed, setSeed] = useState(
     () => readParam("seed") ?? "causal-trace-observer",
   );
@@ -76,10 +83,12 @@ export function CausalTraceView({
     "all",
   );
   const [sourceFilter, setSourceFilter] = useState<string>("all");
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(reviewWorld ? (initialRootId ?? "") : "");
   const [direction, setDirection] = useState<TraceDirection>("upstream");
   const [depth, setDepth] = useState(8);
-  const [selectedId, setSelectedId] = useState<EntityId | null>(null);
+  const [selectedId, setSelectedId] = useState<EntityId | null>(
+    initialRootId ?? null,
+  );
   const [exportFormat, setExportFormat] = useState<"markdown" | "json">(
     "markdown",
   );
@@ -90,7 +99,16 @@ export function CausalTraceView({
     [audibility, seed, reviewWorld],
   );
   const world = reviewWorld ?? fixture!.world;
-  const index = useMemo(() => buildTraceIndex(world), [world]);
+  const index = useMemo(
+    () => reviewIndex ?? buildTraceIndex(world),
+    [world, reviewIndex],
+  );
+  useEffect(() => {
+    setSelectedId(initialRootId ?? null);
+    if (reviewWorld) setQuery(initialRootId ?? "");
+    setDirection("upstream");
+    setDepth(8);
+  }, [initialRootId, reviewWorld]);
 
   const defaultRootId =
     world.history.decisionTraces.at(-1)?.id ?? index.nodes.at(-1)?.id ?? null;
@@ -104,6 +122,9 @@ export function CausalTraceView({
   );
 
   const selected = rootId ? (index.byId.get(rootId) ?? null) : null;
+  const decision = world.history.decisionTraces.find(
+    (record) => record.id === rootId,
+  );
   const walk = rootId
     ? walkTrace(index, { rootId, direction, maxDepth: depth })
     : null;
@@ -383,6 +404,48 @@ export function CausalTraceView({
                     );
                   })()
                 : null}
+              {decision ? (
+                <section aria-label="Recorded considerations">
+                  <h3>What they considered</h3>
+                  <p>
+                    {decision.context.options.find(
+                      (option) => option.key === decision.selectedOptionKey,
+                    )?.label ?? "The decision is pending."}
+                  </p>
+                  <ul>
+                    {decision.context.considerations.map((consideration) => (
+                      <li key={consideration.stableKey}>
+                        <p>
+                          {consideration.explanation} ({consideration.direction}
+                          , {consideration.importance})
+                        </p>
+                        <ul>
+                          {consideration.sourceRefs.map((ref, position) => {
+                            const id = mindSourceTarget(ref);
+                            const snapshot = decision.sourceSnapshots.find(
+                              (source) =>
+                                JSON.stringify(source.reference) ===
+                                JSON.stringify(ref),
+                            );
+                            return (
+                              <li key={position}>
+                                <button
+                                  type="button"
+                                  onClick={() => setSelectedId(id)}
+                                >
+                                  {snapshot
+                                    ? `${snapshot.label}: ${snapshot.content}`
+                                    : (index.byId.get(id)?.recordText ?? id)}
+                                </button>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              ) : null}
               <h3>Recorded links ({selected.links.length})</h3>
               {selected.links.length === 0 ? (
                 <p className="causal-trace__unknown">
@@ -464,7 +527,12 @@ export function CausalTraceView({
                       <td>{step.depth}</td>
                       <td>{step.direction}</td>
                       <td>
-                        <code>{step.nodeId}</code>
+                        <button
+                          type="button"
+                          onClick={() => setSelectedId(step.nodeId)}
+                        >
+                          <code>{step.nodeId}</code>
+                        </button>
                       </td>
                       <td>{index.byId.get(step.nodeId)?.recordClass ?? "—"}</td>
                       <td>

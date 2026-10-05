@@ -33,6 +33,9 @@ import { applyEnactedLawEffects } from "./enacted-law-effects";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { admitLocalFiscalMeasure } from "./local-fiscal-authority";
 import { currentMeasureProvisions } from "./legislative-politics";
+import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
+import { recordEventKnowledge } from "./records";
+import { ensureOfficeholderPrinciples } from "./governing/officeholder-principles";
 import {
   BILL_SIGN,
   BILL_RETURN,
@@ -92,6 +95,7 @@ import {
   municipalSeats,
 } from "./municipal-public-work";
 import type {
+  DecisionEvaluation,
   EntityId,
   FutureDueItem,
   FutureTransitionHandlerResult,
@@ -331,6 +335,7 @@ export function decideOrdinaryCouncilReading(
   governmentKey: string,
   measureId: EntityId,
   ownBallot?: "yea" | "nay" | "present-not-voting" | null,
+  onDecision?: (evaluation: DecisionEvaluation) => void,
 ): readonly LegislativeVoteDisposition[] | null {
   const question = municipalReadingQuestion(world, governmentKey, measureId);
   if (!question || councilSitsOnAuthoredCalendar(governmentKey)) return null;
@@ -352,6 +357,7 @@ export function decideOrdinaryCouncilReading(
       questionLabel: `${measure.designation} council reading`,
     },
     members,
+    ...(onDecision ? { onDecision } : {}),
     playerPersonId: playerId,
     playerBallot:
       ownBallot === undefined
@@ -1185,10 +1191,13 @@ export function councilReadingDueHandler(
     return resolved(world, "No ordinary council reading matches.");
   const question = municipalReadingQuestion(world, governmentKey, measure.id);
   if (!question) return resolved(world, "The reading was already decided.");
+  const evaluations: DecisionEvaluation[] = [];
   const dispositions = decideOrdinaryCouncilReading(
     world,
     governmentKey,
     measure.id,
+    undefined,
+    (evaluation) => evaluations.push(evaluation),
   );
   if (!dispositions)
     return {
@@ -1198,14 +1207,37 @@ export function councilReadingDueHandler(
       context: "No seated councilors can decide the scheduled reading.",
       outcomeEventId: null,
     };
-  const taken = recordCouncilReadingVote(world, {
+  // Retain only an actual roll call, never a preview. Earlier records in this
+  // batch are decisions, so rebasing the history frontier adds no new facts.
+  let traced = world;
+  const traceIds: EntityId[] = [];
+  for (const evaluation of evaluations) {
+    const durable = evaluateDecision(traced, {
+      ...evaluation.context,
+      cutoff: {
+        ...evaluation.context.cutoff,
+        historySequenceExclusive: traced.history.nextSequence,
+      },
+      retention: "durable",
+    });
+    if (
+      durable.selectedOptionKey !== evaluation.selectedOptionKey ||
+      durable.outcomeKind !== evaluation.outcomeKind
+    )
+      throw new Error(
+        "The recorded council decision changed while retaining its reasons.",
+      );
+    traced = recordDurableDecisionTrace(traced, durable);
+    traceIds.push(traced.history.decisionTraces.at(-1)!.id);
+  }
+  const taken = recordCouncilReadingVote(traced, {
     governmentKey,
     measureId: measure.id,
     dispositions,
     provenance: {
       method: "member-decisions",
       note: "The scheduled council reading used seated members' decisions and the player's saved ballot, if any.",
-      sourceEntityIds: [measure.id],
+      sourceEntityIds: [measure.id, ...traceIds],
     },
   });
   if (!taken.ok)

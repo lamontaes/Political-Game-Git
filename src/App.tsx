@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { LocationCompositionReview } from "./ui/LocationCompositionReview";
 import { DeveloperReviewHub } from "./ui/DeveloperReviewHub";
 import { LegislationDevRoute } from "./player/LegislationWorkspace";
@@ -30,10 +31,24 @@ import { ScenePresentationProofView } from "./ui/ScenePresentationProofView";
  * the second draws the prompt30 development fixture and its two authored legacy
  * sitters, and is kept only as regression evidence.
  */
+const ObserverDevRoute = import.meta.env.DEV
+  ? lazy(() =>
+      import("./ui/ObserverDevRoute").then((module) => ({
+        default: module.ObserverDevRoute,
+      })),
+    )
+  : () => null;
+
 export function App() {
   const view = new URLSearchParams(window.location.search).get("view");
   if (import.meta.env.DEV && view === "location-review")
     return <LocationCompositionReview />;
+  if (import.meta.env.DEV && view === "observer-dev")
+    return (
+      <Suspense fallback={<p>Opening Observer…</p>}>
+        <ObserverDevRoute />
+      </Suspense>
+    );
   if (view === "review") return <DeveloperReviewHub />;
   if (view === "developer") return <DeveloperViewer />;
   if (view === "causal-trace") return <CausalTraceView />;

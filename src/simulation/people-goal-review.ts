@@ -1,5 +1,9 @@
 import { addDays, ageOnDate, daysBetween } from "./dates";
-import { evaluateDecision, isSelectedDecision } from "./decisions";
+import {
+  evaluateDecision,
+  isSelectedDecision,
+  recordDurableDecisionTrace,
+} from "./decisions";
 import { eventById } from "./event-index";
 import { scheduleFutureDueItem } from "./future-transitions";
 import {
@@ -524,6 +528,7 @@ function pursueLivelihood(world: World, goal: GoalStateRecord): PursuitOutcome {
         decided.world,
         application.id,
         decided.accept,
+        decided.world.history.decisionTraces.at(-1)?.id,
       );
       if (!answered.ok) continue;
       next = answered.world;
@@ -653,10 +658,12 @@ function decideOnOffer(
     considerations,
     perceptionIds: [],
     randomness: "none",
-    retention: "ephemeral",
+    retention: "durable",
   });
   return {
-    world: withTraits,
+    world: isSelectedDecision(evaluation)
+      ? recordDurableDecisionTrace(withTraits, evaluation)
+      : withTraits,
     accept:
       evaluation.outcomeKind === "selected" &&
       evaluation.selectedOptionKey !== null

@@ -75,6 +75,7 @@ describe("ordinary play cannot reach the development route", () => {
           (path.endsWith(".ts") || path.endsWith(".tsx")) &&
           ![
             "CausalTraceView.tsx",
+            "ObserverDevRoute.tsx",
             "DeveloperReviewHub.tsx",
             "DeveloperViewer.tsx",
           ].some((name) => path.endsWith(name)),
@@ -103,6 +104,20 @@ describe("ordinary play cannot reach the development route", () => {
     // a `view` the player never sets.
     const occurrences = app.split("causal-trace").length - 1;
     expect(occurrences).toBe(1);
+  });
+
+  it("admits the live Observer only through its development-only route", async () => {
+    const app = await readFile(join(sourceRoot, "App.tsx"), "utf8");
+    expect(app).toContain('import.meta.env.DEV && view === "observer-dev"');
+    expect(app).toMatch(/import\.meta\.env\.DEV\s*\?\s*lazy/);
+    const route = await readFile(
+      join(sourceRoot, "ui", "ObserverDevRoute.tsx"),
+      "utf8",
+    );
+    expect(route).toContain("runner.pause()");
+    expect(route).toContain("runner.step(days)");
+    expect(route).toContain("reviewWorld={checkpoint}");
+    expect(route).not.toContain("createCausalTraceFixture");
   });
 
   it("mounts the disposable hub only through an explicit development entry", async () => {
