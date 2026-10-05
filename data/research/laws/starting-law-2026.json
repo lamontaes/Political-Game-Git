@@ -20166,8 +20166,17 @@
         "US-AL": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://www.nea.org/sites/default/files/2026-04/2024-2025-teacher-salary-benchmark-report-final-new.pdf",
-          "note": "Alabama pays teachers on a state minimum salary schedule set each year in the Education Trust Fund budget; NEA's 2024-25 benchmark report lists Alabama among states with state minimum salaries or salary schedules (statute page not fetched)."
+          "source": "https://www.alabamaachieves.org/wp-content/uploads/2026/06/LEA_ACCT_202665_2027SalarySchedTeachers_v1.pdf",
+          "note": "Alabama pays teachers on a state minimum salary schedule set each year in the Education Trust Fund budget; NEA's 2024-25 benchmark report lists Alabama among states with state minimum salaries or salary schedules (statute page not fetched). FY2027 classroom-teacher minimum for a bachelor-degree or nondegree classification with 0–2 years of experience; schedule is based on a 187-day contract, and credentials/experience can raise the floor.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 4855200,
+              "unit": "minor"
+            }
+          ],
+          "cite": "Alabama Department of Education, FY2027 Foundation Program State Minimum Salary Schedule"
         },
         "US-AR": {
           "answer": "yes",
@@ -20327,8 +20336,16 @@
           "answer": "yes",
           "preempts": true,
           "cite": "20-A M.R.S. § 13407",
-          "source": "https://legislature.maine.gov/statutes/20-A/title20-Asec13407.html",
-          "note": "$40,000 minimum salary for certified teachers since the 2022-23 school year."
+          "source": "https://legislature.maine.gov/statutes/20-a/title20-Asec13407.html",
+          "note": "$40,000 minimum salary for certified teachers since the 2022-23 school year. Statutory base minimum for certified teachers and qualifying career and technical education teachers since the 2022–23 school year.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 4000000,
+              "unit": "minor"
+            }
+          ]
         },
         "US-MI": {
           "answer": "no",
@@ -20349,7 +20366,15 @@
           "preempts": true,
           "cite": "RSMo § 163.172",
           "source": "https://revisor.mo.gov/main/OneSection.aspx?section=163.172",
-          "note": "$40,000 for a starting teacher from the 2025-26 school year (it was $25,000 through 2024-25), with inflation adjustments from 2028-29."
+          "note": "$40,000 for a starting teacher from the 2025-26 school year (it was $25,000 through 2024-25), with inflation adjustments from 2028-29. 2026–27 base minimum; qualifying teachers with a master’s degree or equivalent and at least 10 years of public-school experience have a $47,000 minimum.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 4000000,
+              "unit": "minor"
+            }
+          ]
         },
         "US-MP": {
           "answer": "no",
@@ -20426,16 +20451,32 @@
         "US-OH": {
           "answer": "yes",
           "preempts": true,
-          "cite": "Ohio Rev. Code § 3317.13",
+          "cite": "Ohio Rev. Code § 3317.13(C)",
           "source": "https://codes.ohio.gov/ohio-revised-code/section-3317.13",
-          "note": "$35,000 for a starting teacher with a bachelor's degree, on the state minimum salary schedule (as amended by House Bill 33, effective 10/3/2023)."
+          "note": "$35,000 for a starting teacher with a bachelor's degree, on the state minimum salary schedule (as amended by House Bill 33, effective 10/3/2023). Bachelor-degree, zero-service minimum. The state schedule has separate amounts by degree, service, and experience-credit rules.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 3500000,
+              "unit": "minor"
+            }
+          ]
         },
         "US-OK": {
           "answer": "yes",
           "preempts": true,
-          "cite": "70 O.S. § 18-114.15",
-          "source": "https://www.oklegislature.gov/OK_Statutes/CompleteTitles/os70.pdf",
-          "note": "$39,601 in salary and/or fringe benefits for a starting teacher with a bachelor's degree on the 2025-26 state minimum salary schedule."
+          "cite": "70 O.S. § 18-114.15; Oklahoma State Department of Education 2026–27 State Minimum Salary Schedule",
+          "source": "https://www.oklahoma.gov/content/dam/ok/en/osde/documents/services/school-personnel-records/2026-27%20State%20Minimum%20Salary%20Schedule.pdf",
+          "note": "$39,601 in salary and/or fringe benefits for a starting teacher with a bachelor's degree on the 2025-26 state minimum salary schedule. 2026–27 bachelor-degree, zero-experience row. The schedule’s compensation figure includes the employee-share retirement contribution where the district pays it; degree and experience rows differ.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 4160100,
+              "unit": "minor"
+            }
+          ]
         },
         "US-OR": {
           "answer": "no",
