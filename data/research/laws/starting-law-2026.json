@@ -20438,9 +20438,17 @@
         "US-NC": {
           "answer": "yes",
           "preempts": true,
-          "cite": "N.C.G.S. § 115C-302.1",
-          "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_115C/GS_115C-302.1.html",
-          "note": "State-allotted teachers are paid on the State salary schedule adopted in the budget act; the dollar amounts are set there, not in the statute."
+          "cite": "N.C. Session Law 2026-41, § 7A.1(a)",
+          "source": "https://www3.ncleg.gov/EnactedLegislation/SessionLaws/HTML/2025-2026/SL2026-41.html",
+          "note": "State-allotted teachers are paid on the State salary schedule adopted in the budget act; the dollar amounts are set there, not in the statute. FY2026–27 zero-experience bachelor schedule is $4,800 monthly; this annual floor is the 10-month schedule. Experience, NBPTS, advanced-degree supplements and grandfathered protections modify compensation.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 4800000,
+              "unit": "minor"
+            }
+          ]
         },
         "US-ND": {
           "answer": "no",
@@ -20548,9 +20556,17 @@
         "US-SC": {
           "answer": "yes",
           "preempts": true,
-          "cite": "S.C. Code § 59-20-50(4)(a)",
-          "source": "https://www.scstatehouse.gov/code/t59c020.php",
-          "note": "Districts must pay at least the statewide minimum salary schedule set in the annual budget; NEA reports the minimum was raised to $47,000 for 2024-25."
+          "cite": "South Carolina FY2026–27 State Aid to Classrooms salary schedule, H.5126 Part IB; S.C. Code § 59-20-50",
+          "source": "https://www.scstatehouse.gov/sess126_2025-2026/appropriations2026/tap1b.htm",
+          "note": "Districts must pay at least the statewide minimum salary schedule set in the annual budget; NEA reports the minimum was raised to $47,000 for 2024-25. FY2026–27 bachelor-degree, zero-experience annual floor. The enacted schedule has higher minimums for advanced degrees; statewide schedule and annual step requirements apply.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 5050000,
+              "unit": "minor"
+            }
+          ]
         },
         "US-SD": {
           "answer": "no",
@@ -20562,16 +20578,32 @@
         "US-TN": {
           "answer": "yes",
           "preempts": true,
-          "cite": "Tenn. Code § 49-3-306(a)(1)",
-          "source": "https://www.capitol.tn.gov/Bills/113/Bill/SB0281.pdf",
-          "note": "Teachers are paid at least the annual state salary schedule; the 2023 Teacher Paycheck Protection Act raises the minimum starting salary in steps to $50,000 by 2026-27."
+          "cite": "Tenn. Code Ann. § 49-3-306(a)(3)(D)",
+          "source": "https://comptroller.tn.gov/content/dam/cot/la/documents/resources/cpetraining2025/EducationMOETISARequiredLocalMatch.pdf",
+          "note": "Teachers are paid at least the annual state salary schedule; the 2023 Teacher Paycheck Protection Act raises the minimum starting salary in steps to $50,000 by 2026-27. FY2026–27 statutory teacher salary minimum reported by the State Comptroller; local salary schedules may be higher.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 5000000,
+              "unit": "minor"
+            }
+          ]
         },
         "US-TX": {
           "answer": "yes",
           "preempts": true,
-          "cite": "Tex. Educ. Code § 21.402",
-          "source": "https://texas.public.law/statutes/tex._educ._code_section_21.402",
-          "note": "Districts must pay classroom teachers at least the state minimum salary schedule set by the commissioner, by years of experience."
+          "cite": "Tex. Educ. Code § 21.402; 19 Tex. Admin. Code § 153.1021; Texas TRS 2026–27 State Minimum Salary Schedule",
+          "source": "https://trs.texas.gov/employers/contribution-resources/state-minimum",
+          "note": "Districts must pay classroom teachers at least the state minimum salary schedule set by the commissioner, by years of experience. Zero-experience minimum for the 10-month (187-day) teacher contract. The official 2026–27 schedule confirms $33,960; additional experience increases the schedule.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 3396000,
+              "unit": "minor"
+            }
+          ]
         },
         "US-UT": {
           "answer": "no",
