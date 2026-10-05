@@ -1,0 +1,119 @@
+/* Three isolated arrangements; selected kit carries fonts, glass and controls. */
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+}
+#scene {
+  position: relative;
+  width: 100%;
+  min-height: 100dvh;
+  background-position: center;
+  background-size: cover;
+}
+.exchange {
+  position: absolute;
+  padding: 18px 22px;
+  width: min(640px, calc(100% - 32px));
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+}
+.who {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding-right: 40px;
+}
+.bust {
+  object-fit: cover;
+}
+.speech {
+  margin: 8px 0 12px;
+}
+.narrator {
+  font-style: italic;
+  color: var(--text-2);
+  margin: 10px 0;
+}
+.reply,
+.room-offer {
+  text-align: left;
+  font: inherit;
+  background: transparent;
+  border: 0;
+  padding: 5px 0;
+  cursor: default;
+}
+.reply:disabled,
+.room-offer:disabled {
+  opacity: 0.4;
+}
+.lie-scales img {
+  display: block;
+  width: 34px;
+  height: 34px;
+}
+#scene[data-layout="1"] .exchange {
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+}
+#scene[data-layout="2"] .exchange {
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(440px, calc(100% - 32px));
+}
+#scene[data-layout="3"] .exchange {
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+}
+#scene[data-layout="3"][data-phase="greeting"] .exchange {
+  left: 24px;
+  bottom: auto;
+  top: 24px;
+  transform: none;
+  width: min(420px, calc(100% - 32px));
+}
+#scene[data-phase="room"] .exchange {
+  width: min(360px, calc(100% - 32px));
+}
+.input-error {
+  background: #1c1a18;
+  color: #f6f1e8;
+  white-space: pre-wrap;
+  padding: 24px;
+}
+@media (width <= 720px) {
+  #scene[data-layout="2"] .exchange {
+    top: auto;
+    bottom: 16px;
+    right: 16px;
+    transform: none;
+  }
+  #scene[data-layout="3"][data-phase="greeting"] .exchange {
+    left: 16px;
+    top: 16px;
+  }
+  .exchange {
+    padding: 14px 16px;
+  }
+}
+
+.lie-scales {
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+.lie-scales.unavailable img {
+  opacity: 0.28;
+}
+.lie-scales.on img {
+  filter: drop-shadow(0 0 3px rgb(255 120 90 / 95%))
+    drop-shadow(0 0 8px rgb(214 88 64 / 70%));
+}

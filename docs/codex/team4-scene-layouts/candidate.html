@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>County-party room — isolated layout comparison</title>
+    <link rel="stylesheet" href="../../ui-logo-packet/01_kit12_ui/kit12.css" />
+    <link rel="stylesheet" href="candidate.css" />
+  </head>
+  <body>
+    <main id="scene" data-layout="1" data-phase="greeting"></main>
+    <script type="module">
+      // Isolated binding only: no game imports, history writes or conversation engine.
+      const params = new URLSearchParams(location.search);
+      const layout = params.get("layout") ?? "1";
+      const phase = params.get("phase") ?? "greeting";
+      const scene = document.querySelector("#scene");
+      const required = (value, field) => {
+        if (!value) throw new Error(`Missing authoritative input: ${field}`);
+        return value;
+      };
+      const node = (tag, cls, text) => {
+        const result = document.createElement(tag);
+        result.className = cls;
+        if (text !== undefined) result.textContent = text;
+        return result;
+      };
+      try {
+        if (!["1", "2", "3"].includes(layout))
+          throw new Error("Invalid layout");
+        if (!["greeting", "room", "conversation"].includes(phase))
+          throw new Error("Invalid phase");
+        const response = await fetch(
+          required(params.get("packet"), "packet URL"),
+        );
+        if (!response.ok) throw new Error(`Packet HTTP ${response.status}`);
+        const p = await response.json();
+        required(p.sourceReceipt, "T3 sourceReceipt");
+        required(p.backgroundSha256, "original background SHA256");
+        required(p.exchangeBasis, "current/proposed exchange basis");
+        scene.dataset.layout = layout;
+        scene.dataset.phase = phase;
+        scene.dataset.sourceReceipt = p.sourceReceipt;
+        scene.style.backgroundImage = `url(${JSON.stringify(required(p.composedRoomUrl, "existing-renderer composedRoomUrl"))})`;
+        // Sheet23 is supplied by the live integrator; never reconstructed here.
+        const selected = node("link", "");
+        selected.rel = "stylesheet";
+        selected.href = required(
+          p.sheet23ControlsCssUrl,
+          "selected Sheet23 controls CSS URL",
+        );
+        document.head.append(selected);
+        const content = required(p.phases?.[phase], `phases.${phase}`);
+        const panel = node("section", "panel exchange");
+        panel.setAttribute(
+          "aria-label",
+          phase === "room" ? p.roomLabel : "Conversation",
+        );
+        if (phase !== "room") {
+          const scales = node(
+            "button",
+            `lie-scales${content.lying && content.canLie ? " on" : ""}${!content.canLie ? " unavailable" : ""}`,
+          );
+          scales.type = "button";
+          scales.setAttribute("aria-label", "Show knowingly false replies");
+          scales.setAttribute(
+            "aria-pressed",
+            String(Boolean(content.lying && content.canLie)),
+          );
+          scales.disabled = !content.canLie;
+          const icon = node("img", "");
+          icon.src = required(
+            content.lying && content.canLie
+              ? p.scalesTippedUrl
+              : p.scalesLevelUrl,
+            "selected scales URL",
+          );
+          icon.width = icon.height = 34;
+          icon.alt = "";
+          scales.append(icon);
+          panel.append(scales);
+        }
+        for (const segment of required(content.segments, `${phase}.segments`)) {
+          if (segment.kind === "narrator") {
+            panel.append(
+              node(
+                "p",
+                "prose narrator",
+                required(segment.words, "narrator words"),
+              ),
+            );
+          } else if (segment.kind === "spoken") {
+            const person = required(
+              p.people?.[segment.personId],
+              `person ${segment.personId}`,
+            );
+            const turn = node("section", "turn");
+            turn.dataset.personId = segment.personId;
+            const who = node("header", "who");
+            const portrait = node("img", "bust");
+            portrait.src = required(person.portraitUrl, "actual portrait URL");
+            portrait.alt = person.name;
+            who.append(
+              portrait,
+              node("span", "name", required(person.name, "actual name")),
+            );
+            turn.append(
+              who,
+              node(
+                "p",
+                "speech",
+                required(segment.words, "actual/proposed spoken words"),
+              ),
+            );
+            panel.append(turn);
+          } else throw new Error("Unknown segment kind");
+        }
+        const replies = node("div", "replies");
+        for (const reply of required(content.replies, `${phase}.replies`)) {
+          const button = node(
+            "button",
+            phase === "room" ? "action room-offer" : "reply",
+            required(reply.words, "reply words"),
+          );
+          button.type = "button";
+          button.dataset.recordKey = required(
+            reply.recordKey,
+            "existing reply/action key",
+          );
+          button.disabled = Boolean(reply.unavailable);
+          // Inert image-sheet control; does not evaluate or commit a reply.
+          replies.append(button);
+        }
+        panel.append(replies);
+        scene.append(panel);
+        document.documentElement.dataset.ready = "true";
+      } catch (error) {
+        scene.append(node("pre", "input-error", error.message));
+        document.documentElement.dataset.ready = "false";
+      }
+    </script>
+  </body>
+</html>
