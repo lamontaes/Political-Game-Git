@@ -13,7 +13,12 @@ import {
   decodeReplayDescriptor,
   encodeReplayDescriptor,
 } from "./new-game-identity";
-import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
+import {
+  DEFAULT_NEW_GAME_SETUP,
+  createPreStartNewGameWorld,
+  finishPreStartNewGameWorld,
+} from "./new-game";
+import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import { recordPersonDeath } from "../simulation/vitality";
 import { advanceWorld, assertWorldIntegrity } from "../simulation/world";
 import {
@@ -42,6 +47,52 @@ const input = {
 };
 
 describe("a character remains in their birth World through Begin", () => {
+  it("admits a dependent Creator character into the household on their birth date", () => {
+    const game = createPreStartNewGameWorld(
+      {
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed,
+        placeKey: place.key,
+        creatorLifeForks: [],
+      },
+      addDays(targetStartDate, -1),
+    );
+    const child = game.world.people[game.playerPersonId]!;
+    expect(parentsOf(game.world, child.id).length).toBeGreaterThan(0);
+    expect(
+      householdMembershipsAt(game.world, child.id, {
+        asOfDate: child.birthDate,
+        historySequenceExclusive: game.world.history.nextSequence,
+      }).length,
+    ).toBeGreaterThan(0);
+    assertWorldIntegrity(game.world);
+  });
+  it("preserves the resident ledger through the public finish and save boundaries", () => {
+    const setup = {
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed,
+      placeKey: place.key,
+      startAge: age,
+      creatorLifeForks: [],
+    };
+    const game = createPreStartNewGameWorld(
+      setup,
+      addDays(targetStartDate, -1),
+    );
+    const reopenedPast = deserializeWorld(serializeWorld(game.world));
+    expect(reopenedPast.preStartLife).toEqual(game.world.preStartLife);
+    const advanced = advanceWorld(reopenedPast, 1);
+    const finished = finishPreStartNewGameWorld({ ...game, world: advanced });
+    expect(finished.world.history).toBe(advanced.history);
+    expect(finished.world.people).toBe(advanced.people);
+    const saved = deserializeWorld(serializeWorld(finished.world));
+    expect(saved.id).toBe(game.world.id);
+    expect(saved.control).toEqual(finished.world.control);
+    expect(saved.people).toEqual(advanced.people);
+    expect(saved.history).toEqual(advanced.history);
+    expect(saved.preStartLife).toBeUndefined();
+    assertWorldIntegrity(saved);
+  });
   it("records three Creator choices as durable decisions and goals the resident writers read", () => {
     const creatorLifeForks = CREATOR_LIFE_FORKS.map((fork) => ({
       forkKey: fork.key,
