@@ -234,6 +234,15 @@ export function recordFamilyAddition(
           "The admitted child's birth date must match the birth.",
         );
       if (
+        !householdMembershipsAt(world, parents[0]!.id, {
+          ...currentLifeCutoff(world),
+          asOfDate: occurredAt,
+        }).length
+      )
+        throw new Error(
+          "The admitted child's parent needs a household on the birth date.",
+        );
+      if (
         world.history.events.some(
           (event) =>
             event.type === FAMILY_MEMBER_ADDED_EVENT &&
@@ -438,7 +447,8 @@ export function recordFamilyAddition(
       provenance,
     });
     for (const personId of next.personOrder) {
-      if (personId === childId) continue;
+      if (personId === childId || next.people[personId]!.birthDate > occurredAt)
+        continue;
       if (
         householdMembershipsAt(next, personId, additionCutoff).some(
           (entry) =>
