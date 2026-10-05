@@ -9,7 +9,11 @@ import {
 } from "./decision-peer-estimates";
 import { appendDecisionTraceRecord } from "./history";
 import { createStableId } from "./ids";
-import { recordById } from "./history-index";
+import {
+  growingIndex,
+  recordById,
+  type GrowingIndexKind,
+} from "./history-index";
 import { legislationEntityExists } from "./legislation";
 import { legislativePoliticsEntityExists } from "./legislative-politics";
 import { lifeEntityExists } from "./life-integrity";
@@ -45,6 +49,39 @@ const IMPORTANCES = ["slight", "moderate", "strong", "decisive"] as const;
 const CONFIDENCES = ["low", "medium", "high"] as const;
 const RANDOMNESS_POLICIES = ["none", "close-choices"] as const;
 const RETENTION_POLICIES = ["ephemeral", "durable"] as const;
+
+const TRACE_POSITIONS_BY_ACTOR: GrowingIndexKind<Map<EntityId, number[]>> = {
+  create: () => new Map(),
+  add(index, value, position) {
+    const trace = value as World["history"]["decisionTraces"][number];
+    const actor = trace.context.actorPersonId;
+    let positions = index.get(actor);
+    if (!positions) index.set(actor, (positions = []));
+    positions.push(position);
+  },
+};
+
+function lastVisibleActorTrace(world: World, context: DecisionContext) {
+  const records = world.history.decisionTraces;
+  const positions = growingIndex(TRACE_POSITIONS_BY_ACTOR, records).get(
+    context.actorPersonId,
+  );
+  for (let at = (positions?.length ?? 0) - 1; at >= 0; at -= 1) {
+    // A growing index may also have seen a later immutable snapshot.
+    // Read only positions actually present in this world's list.
+    const position = positions![at]!;
+    if (position >= records.length) continue;
+    const trace = records[position]!;
+    if (
+      trace.context.actorPersonId === context.actorPersonId &&
+      trace.context.decisionType === context.decisionType &&
+      trace.recordedAt <= context.cutoff.asOfDate &&
+      trace.sequence < context.cutoff.historySequenceExclusive
+    )
+      return trace;
+  }
+  return undefined;
+}
 
 /** Only a selected result authorizes an option's consequence. An undecided
  * result has no selected key and leaves the actor's choice pending. */
@@ -197,15 +234,7 @@ export function evaluateDecision(
   const unresolvedBaseChoice =
     available.length > 1 && (!hasAvailableConsideration || leaders.length > 1);
   const lastTrace = unresolvedBaseChoice
-    ? [...world.history.decisionTraces]
-        .reverse()
-        .find(
-          (trace) =>
-            trace.context.actorPersonId === context.actorPersonId &&
-            trace.context.decisionType === context.decisionType &&
-            trace.recordedAt <= context.cutoff.asOfDate &&
-            trace.sequence < context.cutoff.historySequenceExclusive,
-        )
+    ? lastVisibleActorTrace(world, context)
     : undefined;
   const priorSelection =
     lastTrace?.outcomeKind === "selected" &&

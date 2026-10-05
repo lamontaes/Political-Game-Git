@@ -444,8 +444,11 @@ export function settleAllOfficeSalaries(world: World): World {
             settled = recordResourceFlowTerms(settled, {
               stableKey: `${flow.stableKey}:closed`,
               resourceFlowId: flow.id,
+              supersedesTermsId: terms.id,
               effectiveAt: onDate,
               status: "ended",
+              reason:
+                "The historical salary statement covers a completed period.",
               amount: terms.amount,
               cadenceKind: terms.cadenceKind,
               restrictionKind: flow.restrictionKind,
