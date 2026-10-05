@@ -8167,8 +8167,8 @@ body:where(.pg-game) .game-campaign-tallies {
   gap: var(--pg-space-1);
   padding: var(--pg-space-3);
   border: 1px solid var(--pg-hairline);
-  border-radius: var(--pg-radius);
-  background: var(--pg-glass);
+  border-radius: 2px;
+  background: transparent;
 }
 
 .governing-matter h5,
