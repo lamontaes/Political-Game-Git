@@ -3,9 +3,14 @@ import { describe, expect, it } from "vitest";
 // World first, the order the game itself loads in.
 import { advanceWorld, assertWorldIntegrity } from "../world";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
-import { addDays, makeIsoDate } from "../dates";
+import { addDays, daysBetween, makeIsoDate } from "../dates";
 import { stableHash } from "../ids";
 import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
+import {
+  createHousehold,
+  recordHouseholdLocation,
+  startHouseholdMembership,
+} from "../life";
 import { recordRelationshipInteraction } from "../records";
 import type { EntityId, IsoDate, World } from "../types";
 import { ensureWorldStartingConditions } from "../world-setup/conditions";
@@ -49,15 +54,54 @@ function drawPlace(): { seed: string; usps: string } {
 const { seed, usps } = drawPlace();
 const label = `${usps}, seed ${seed}`;
 
-function opened() {
-  const small = smallWorld({ place: usps, people: 8, seed });
+function opened(production = true) {
+  const initial = smallWorld({ place: usps, people: 8, seed });
+  const small = smallWorld({
+    place: usps,
+    people: 8,
+    seed,
+    date: monthOf(initial.world.currentDate),
+  });
+  let admitted = small.world;
+  const provenance = {
+    kind: "authored" as const,
+    note: "Recorded crime fixture residences",
+  };
+  for (const personId of admitted.personOrder) {
+    const key = `a131-home:${personId}`;
+    admitted = createHousehold(admitted, {
+      stableKey: key,
+      formedAt: admitted.currentDate,
+      label: "Resident home",
+      provenance,
+    });
+    const householdId = admitted.history.households.at(-1)!.id;
+    admitted = recordHouseholdLocation(admitted, {
+      stableKey: `${key}:location`,
+      householdId,
+      effectiveAt: admitted.currentDate,
+      jurisdictionId: small.jurisdictionId,
+      kind: "residence:home",
+      label: "Resident home",
+      provenance,
+      supersedesLocationId: null,
+    });
+    admitted = startHouseholdMembership(admitted, {
+      stableKey: `${key}:member`,
+      personId,
+      householdId,
+      startedAt: admitted.currentDate,
+      residenceRole: "primary",
+      kind: "resident:member",
+      provenance,
+    });
+  }
   // The opening records its conditions, which is what schedules the crime pass.
-  const world = ensureCrimeProduction(
-    ensureWorldStartingConditions(small.world, {
-      openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
-      political: generatePoliticalStartingConditions,
-    }),
-  );
+  const conditioned = ensureWorldStartingConditions(admitted, {
+    openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+    political: generatePoliticalStartingConditions,
+  });
+  const world = production ? ensureCrimeProduction(conditioned) : conditioned;
   return { ...small, world };
 }
 
@@ -208,17 +252,24 @@ describe(`crime victims come from causes, not dice (A131; ${label})`, () => {
 
     // The first month, looking ahead from the opening, in which the town's
     // exposure reaches a named resident, once one resident knows another.
-    const small = opened();
-    const { acquainted: world } = acquaint(
+    const small = opened(false);
+    const { acquainted } = acquaint(
       small.world,
       small.jurisdictionId,
       small.personId,
     );
+    let world = acquainted;
     let month = monthOf(world.currentDate);
     let found: ReturnType<typeof sampleMonthlyCrime>[number] | null = null;
     for (let n = 0; n < 240 && !found; n++) {
+      const end = makeIsoDate(addDays(monthOf(addDays(month, 32)), -1));
+      if (end > world.currentDate)
+        world = advanceWorld(world, daysBetween(world.currentDate, end));
       found = sampleMonthlyCrime(world, month)[0] ?? null;
-      if (!found) month = monthOf(addDays(month, 32));
+      if (!found) {
+        month = monthOf(addDays(month, 32));
+        world = advanceWorld(world, daysBetween(world.currentDate, month));
+      }
     }
     expect(found, `${label}: a named offense within 20 years`).not.toBeNull();
     expect(JSON.stringify(sampleMonthlyCrime(world, month))).toBe(
@@ -240,12 +291,19 @@ describe(`crime victims come from causes, not dice (A131; ${label})`, () => {
     // Once it is on record, the victim carries it: their share of the next
     // offense of every kind grows against everyone else's.
     const victim = found!.victimPersonIds[0]!;
-    const dated: World = { ...world, currentDate: found!.occurredAt };
+    const dated =
+      found!.occurredAt > world.currentDate
+        ? advanceWorld(world, daysBetween(world.currentDate, found!.occurredAt))
+        : world;
     const recorded = recordSampledCrime(dated, month, found!);
     const next = monthOf(addDays(month, 32));
     expect(priorVictimizations(recorded, victim, next)).toBe(1);
     const share = (at: World, offense: CrimeExposure["offense"]) => {
-      const rows = crimeExposures(at, next).filter(
+      const advanced =
+        next > at.currentDate
+          ? advanceWorld(at, daysBetween(at.currentDate, next))
+          : at;
+      const rows = crimeExposures(advanced, next).filter(
         (row) => row.offense === offense,
       );
       const total = rows.reduce((sum, row) => sum + row.annualRate, 0);
