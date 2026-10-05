@@ -136,6 +136,7 @@ export function SceneBackdrop({
   people = [],
   surfaces = EMPTY_SURFACE_PROJECTION,
   readableSurfaces,
+  onReadSurface,
   roomMedia,
   onOpenSurfaceEntity,
   onSelectPerson,
@@ -157,6 +158,11 @@ export function SceneBackdrop({
    */
   readonly surfaces?: DynamicSurfaceProjection;
   readonly readableSurfaces?: ReadonlyMap<string, LivingSurfaceRecord>;
+  /** Explicit surface activation only; projection and reopening do not call it. */
+  readonly onReadSurface?: (
+    slotId: string,
+    record: LivingSurfaceRecord,
+  ) => void;
   /**
    * The room's live television and newspaper. Where the scene has the TV or
    * papers slot, it is drawn as a broadcast or a front page every day.
@@ -563,7 +569,11 @@ export function SceneBackdrop({
               bindings={bindings}
               plate={plate}
               readableSlotIds={readableSlotIds}
-              onRead={(slotId) => setReadingSlot({ sceneId, slotId })}
+              onRead={(slotId) => {
+                const record = readableSurfaces?.get(slotId);
+                if (record?.status === "bound") onReadSurface?.(slotId, record);
+                setReadingSlot({ sceneId, slotId });
+              }}
               renderSurface={(slotId) =>
                 slotId === ROOM_TELEVISION_SLOT_ID && roomMedia?.broadcast ? (
                   <RoomTelevision broadcast={roomMedia.broadcast} />

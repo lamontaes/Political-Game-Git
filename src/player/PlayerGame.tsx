@@ -86,6 +86,8 @@ import { personPronouns } from "../simulation/person-identity";
 import { PlacesWorkspace } from "./PlacesWorkspace";
 import { GovernmentBrowser } from "./politics/GovernmentBrowser";
 import { PublicServicePanel } from "./politics/PublicServicePanel";
+import { roomPressPublicationId } from "./room-press-read";
+import { readPressPublication } from "../simulation/press/read-publication";
 import { NewsDesk } from "./news/NewsDesk";
 import "./controls/controls.css";
 import { PinToggle } from "./controls/PinToggle";
@@ -1664,6 +1666,18 @@ function PlayingScreen({
     () => projectRoomMedia(session.world, session.personId),
     [session.world, session.personId],
   );
+  const readPublication = useCallback(
+    (publicationId: EntityId) => {
+      if (readOnly || previewMode !== "production") return;
+      const next = readPressPublication(
+        session.world,
+        session.personId,
+        publicationId,
+      );
+      if (next !== session.world) onWorldChange(next);
+    },
+    [readOnly, previewMode, session.world, session.personId, onWorldChange],
+  );
   // What the place picture's painted screens, boards and papers show today.
   const placeSurfaces = useMemo(
     () =>
@@ -2423,6 +2437,9 @@ function PlayingScreen({
     assignment,
     floorNote,
     onWorldChange,
+    ...(!readOnly && previewMode === "production"
+      ? { onReadPublication: readPublication }
+      : {}),
     openEntity,
     dossierFor,
     talkTo,
@@ -2529,6 +2546,16 @@ function PlayingScreen({
               placeSurfaces={placeSurfaces}
               readableSurfaces={readableSurfaces}
               roomMedia={roomMedia}
+              onReadSurface={(slotId, record) => {
+                if (readOnly || previewMode !== "production") return;
+                const publicationId = roomPressPublicationId(
+                  roomMedia,
+                  slotId,
+                  record,
+                );
+                if (!publicationId) return;
+                readPublication(publicationId);
+              }}
               onOpenSurfaceEntity={openEntity}
               visualLibrary={sceneVisuals}
               people={scenePeople}
@@ -3079,6 +3106,7 @@ function renderWorkspace({
   assignment,
   floorNote,
   onWorldChange,
+  onReadPublication,
   openEntity,
   dossierFor,
   talkTo,
@@ -3102,6 +3130,7 @@ function renderWorkspace({
   readonly assignment: LegislativeAssignment | null;
   readonly floorNote: string | null;
   readonly onWorldChange: (world: World) => void;
+  readonly onReadPublication?: (publicationId: EntityId) => void;
   readonly openEntity: (ref: ShellRef) => void;
   readonly dossierFor: (personId: EntityId) => PersonDossier | null;
   readonly talkTo: (
@@ -3850,6 +3879,7 @@ function renderWorkspace({
         "news-workspace",
         <NewsDesk
           world={session.world}
+          {...(onReadPublication ? { onReadPublication } : {})}
           context={
             view.section === "news-around"
               ? "around"

@@ -10,6 +10,12 @@ import {
 } from "../../simulation/serialization";
 import { projectRoomMedia } from "../../presentation/room-media";
 import {
+  ROOM_TELEVISION_SLOT_ID,
+  ROOM_PAPERS_SLOT_ID,
+} from "../../presentation/room-media";
+import { projectLivingSceneSurface } from "../../presentation/living-scene-surfaces";
+import { roomPressPublicationId } from "../room-press-read";
+import {
   projectNewsFrontPage,
   projectNewsArticle,
 } from "../../presentation/news-front-page";
@@ -124,6 +130,21 @@ describe("explicit press-story reads", () => {
     const before = serializeWorld(loaded);
     expect(readPressPublication(loaded, f.personId, row.id)).toBe(loaded);
     expect(serializeWorld(loaded)).toBe(before);
+  });
+  it("admits only the actual displayed room story and refuses a quiet paper's generic lead", () => {
+    const room = projectRoomMedia(f.world, f.personId);
+    const shown = publication();
+    const record = projectLivingSceneSurface(f.world, f.personId, {
+      kind: "news",
+      publicationId: shown.id,
+    });
+    expect(roomPressPublicationId(room, ROOM_TELEVISION_SLOT_ID, record)).toBe(
+      shown.id,
+    );
+    expect(room.frontPage?.story).toBeNull();
+    expect(
+      roomPressPublicationId(room, ROOM_PAPERS_SLOT_ID, record),
+    ).toBeNull();
   });
   it("leaves observer and a different reader informational", () => {
     const row = publication();
