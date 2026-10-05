@@ -476,6 +476,8 @@ export function buildProductionWorld(
       employerId: employer.organization.id,
       employerName,
       employerFormedAt: employer.organization.formedAt,
+      workTitle: employer.kind.workerTitle,
+      occupationClassification: employer.kind.workerOccupation,
       monthlyWageMinor: localBusinessWageMinor(
         employer.kind,
         jurisdiction.id,
@@ -587,8 +589,6 @@ export function finalizePreStartPlayer(
     const { personId, targetStartDate } = preStartLife;
     if (
       targetStartDate !== input.preStartYear.targetStartDate ||
-      background.currentDate !== targetStartDate ||
-      background.currentMoment.date !== targetStartDate ||
       background.id !== createWorldId(input.seed, "production") ||
       !background.jurisdictions[input.place.context.jurisdiction.id]
     )
@@ -602,6 +602,11 @@ export function finalizePreStartPlayer(
       )
     )
       throw new Error(`${personName(player)} died before Begin.`);
+    if (
+      background.currentDate !== targetStartDate ||
+      background.currentMoment.date !== targetStartDate
+    )
+      throw new Error("The character's World has not reached Begin.");
     const world: World = {
       ...preserved,
       control: { kind: "person", personId },

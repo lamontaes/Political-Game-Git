@@ -1,5 +1,6 @@
 import { expect, type Page } from "@playwright/test";
 import { chooseOption } from "./controls";
+import { CREATOR_LIFE_FORKS } from "../../../src/simulation/creator-life-forks";
 
 import { resolveExplicitCreatorHometown } from "../../../src/presentation/new-game-geography";
 
@@ -292,13 +293,15 @@ export async function fillCreator(
 
   await expect(page.getByTestId("creator-stage-whoareyou")).toBeVisible();
   const calibration = life.calibration ?? "skipped";
+  if (calibration !== "skipped") {
+    for (const fork of CREATOR_LIFE_FORKS)
+      await page.getByTestId(`creator-fork-${fork.key}-pursue`).click();
+  }
   await page
     .getByTestId(
       calibration === "skipped"
         ? "whoareyou-play"
-        : calibration === "deep"
-          ? "whoareyou-deep"
-          : "whoareyou-answer",
+        : "whoareyou-answer",
     )
     .click();
   await expect(page.getByTestId("begin")).toBeEnabled();

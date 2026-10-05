@@ -154,6 +154,7 @@ import type {
   Person,
   PersonFact,
   PersonIdentity,
+  OccupationClassification,
   World,
 } from "./types";
 import { advanceWorldMinutes } from "./time-work";
@@ -1228,6 +1229,8 @@ export function establishPreStartAdultHistory(
     readonly employerName: string;
     readonly employerFormedAt: IsoDate;
     readonly monthlyWageMinor: number;
+    readonly workTitle?: string;
+    readonly occupationClassification?: OccupationClassification;
   },
 ): World {
   const key = `pre-start-adult-history-v2:${input.personId}`;
@@ -1370,8 +1373,9 @@ export function establishPreStartAdultHistory(
       economicRisk: "organization-borne",
       provenance: generated,
       initialRole: {
-        title: "Staff member",
-        occupationClassification: "custom:local-business-staff",
+        title: input.workTitle ?? "Staff member",
+        occupationClassification:
+          input.occupationClassification ?? "custom:local-business-staff",
         locationJurisdictionId: input.jurisdictionId,
         timeDemand: {
           expectedWeekly: { minimumHours: 30, maximumHours: 40 },
@@ -3597,7 +3601,9 @@ export function generateQuickCharacterHistory(
           formedAt: age(0),
           provenance: generated,
           initialProfile: {
-            name: "Neighborhood Market",
+            name: input.preStartDates
+              ? `${homeJurisdiction!.name} Market`
+              : "Neighborhood Market",
             classification: "enterprise:retail",
             locationJurisdictionId: input.jurisdictionId,
           },
