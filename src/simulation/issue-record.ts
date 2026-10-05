@@ -8,6 +8,7 @@ import {
   stateResidenceSince,
 } from "./nationwide-world/residence-duration";
 import { isPersonAliveAt } from "./vitality-integrity";
+import { indexOverArrays } from "./history-index";
 import type {
   EntityId,
   IsoDate,
@@ -340,7 +341,69 @@ export function heldBeliefOn(
  * date: alive, of voting age, and living there by the same records a
  * residence qualification reads.
  */
+interface VoterEligibilityCache {
+  readonly lastRelevantSequence: number;
+  query: string;
+  readonly groups: Map<string, Map<EntityId, boolean>>;
+}
+const VOTER_ELIGIBILITY_ANCHORS = new WeakMap<object, object>();
+
+function voterEligibilityCache(world: World): VoterEligibilityCache {
+  let anchor = VOTER_ELIGIBILITY_ANCHORS.get(world.people);
+  if (!anchor) {
+    anchor = {};
+    VOTER_ELIGIBILITY_ANCHORS.set(world.people, anchor);
+  }
+  const records = [
+    world.history.householdMemberships,
+    world.history.householdMembershipStates,
+    world.history.householdLocations,
+    world.history.personDeaths,
+  ];
+  return indexOverArrays(anchor, [world.jurisdictions, ...records], () => ({
+    // Canonical history families have increasing sequences. Unrelated
+    // election appends cannot change which residence/death rows are visible.
+    lastRelevantSequence: Math.max(
+      -1,
+      ...records.map((rows) => rows.at(-1)?.sequence ?? -1),
+    ),
+    query: "",
+    groups: new Map(),
+  }));
+}
+
 export function isEligibleVoterIn(
+  world: World,
+  personId: EntityId,
+  jurisdictionId: EntityId,
+  asOf: IsoDate,
+): boolean {
+  const jurisdiction = world.jurisdictions[jurisdictionId];
+  if (!jurisdiction) return false;
+  const stateKey = stateKeyForJurisdiction(jurisdiction);
+  const cache = voterEligibilityCache(world);
+  const query = JSON.stringify([
+    world.currentDate,
+    asOf,
+    Math.min(world.history.nextSequence, cache.lastRelevantSequence + 1),
+  ]);
+  if (cache.query !== query) {
+    cache.query = query;
+    cache.groups.clear();
+  }
+  // The existing reader uses state residence for every jurisdiction with a
+  // state key. Share exactly that query across its same-date contests.
+  const groupKey = JSON.stringify([stateKey, stateKey ? null : jurisdictionId]);
+  let group = cache.groups.get(groupKey);
+  if (!group) cache.groups.set(groupKey, (group = new Map()));
+  const prior = group.get(personId);
+  if (prior !== undefined) return prior;
+  const result = readEligibleVoterIn(world, personId, jurisdictionId, asOf);
+  group.set(personId, result);
+  return result;
+}
+
+function readEligibleVoterIn(
   world: World,
   personId: EntityId,
   jurisdictionId: EntityId,
