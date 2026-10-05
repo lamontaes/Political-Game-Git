@@ -46,7 +46,7 @@ test("Personal separates current records from history without changing the life"
   await page.keyboard.press("Escape");
   const before = await savedLife(page);
   const personId = before.control.personId!;
-  await goTo(page, "personal");
+  await goTo(page, "nav-personal");
   const profile = page.getByTestId("personal-split-record");
   await expect(profile).toBeVisible();
   await expect(
