@@ -382,6 +382,7 @@ export interface CreateWorldInput {
   readonly incidentCatalog?: IncidentCatalog;
   readonly vitalityCatalog?: VitalityCatalog;
   readonly control?: ControlState;
+  readonly preStartLife?: World["preStartLife"];
   /**
    * The player's setup answers, if there were any. Passed in rather than
    * written afterwards so a world is never briefly missing the calibration it
@@ -517,6 +518,8 @@ export function createWorld(input: CreateWorldInput): World {
     input.jurisdictions,
     input.people,
     policyCatalog,
+    undefined,
+    input.preStartLife,
   );
   validateControl(control, new Set(input.people.map((person) => person.id)));
   const jurisdictions = input.jurisdictions.map(cloneJurisdiction);
@@ -525,6 +528,7 @@ export function createWorld(input: CreateWorldInput): World {
   if (input.setupPriors) assertSetupPriorIntegrity(input.setupPriors);
 
   const world: World = {
+    ...(input.preStartLife ? { preStartLife: input.preStartLife } : {}),
     schemaVersion: 15,
     generatorVersion: LINEAGE_GENERATOR_VERSION[lineage],
     id: worldId,
@@ -819,6 +823,7 @@ function validateWorldIntegrity(
         jurisdictionIds: new Set(world.jurisdictionOrder),
         personIds: new Set(world.personOrder),
       },
+      world.preStartLife,
     );
   } else if (!sameInitialEntities) {
     const jurisdictions = orderedRecords(
@@ -834,6 +839,8 @@ function validateWorldIntegrity(
       jurisdictions,
       people,
       world.policyCatalog,
+      undefined,
+      world.preStartLife,
     );
   }
   if (!previous || previous.mindCatalog !== world.mindCatalog)
@@ -1580,6 +1587,7 @@ function validateInitialEntities(
     readonly jurisdictionIds: ReadonlySet<EntityId>;
     readonly personIds: ReadonlySet<EntityId>;
   },
+  preStartLife?: World["preStartLife"],
 ): void {
   const entityIds = new Set<EntityId>([worldId]);
   const jurisdictionIds =
@@ -1631,7 +1639,13 @@ function validateInitialEntities(
     assertNonEmptyString(person.givenName, "Person given name");
     assertNonEmptyString(person.familyName, "Person family name");
     const birthDate = makeIsoDate(person.birthDate);
-    if (birthDate > currentDate) {
+    if (
+      birthDate > currentDate &&
+      !(
+        preStartLife?.personId === person.id &&
+        birthDate <= preStartLife.targetStartDate
+      )
+    ) {
       throw new Error(
         `Person birth date is after the world start date: ${person.id}`,
       );
