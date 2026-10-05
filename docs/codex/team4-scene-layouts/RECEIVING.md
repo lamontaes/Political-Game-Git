@@ -21,11 +21,13 @@ Buttons are inert presentation samples, not a new chat engine. The sequence is s
 ## Three comparisons to render
 
 1. **Shared lower-center:** greeting and ordinary conversation use the same lower-center composition. Room return is the same scene with its actual room offer.
-2. **Shared side:** greeting and conversation use a right-side composition, allowing more of the room center to remain visible. Narrow view relocates the same panel to the lower edge.
-3. **Distinct arrival:** compact upper-left arrival greeting versus lower-center ordinary conversation. Room return uses the actual offer without carrying an exchange panel full of old speech.
+2. **Compact arrival → normal dialogue:** compact upper-left arrival greeting opens the lower-center ordinary conversation for more talk. Room return uses the actual offer without carrying an exchange panel full of old speech.
+3. **Wider room-side composition:** greeting and conversation use a wider right-side composition with portraits and replies beside the visible room center. Narrow view relocates the same content to the lower edge.
 
 Use SAME exact packet, composed room, people, words and selected controls for all options. Capture each option's greeting → room → conversation at embedded and short/narrow viewport. Compose existing captures into three comparison sheets using T7's existing tools; no new renderer. Record viewport sizes, exact input hashes and asset status alongside sheets. If a long actual exchange clips, report it rather than deleting words or shrinking type. Author review precedes selection; no layout activation authorized.
 
 ## Render-route entrypoint
 
 Existing repository capture pattern: `docs/codex/ui-logo-packet/03_steam_capsules/render_c.mjs` (Playwright page navigation → `document.fonts.ready` → screenshot). It is a fixed Steam-file scanner, NOT a CLI for this candidate; do not claim it runs candidate URLs unmodified. T7 uses its existing local comparison capture route with this entrypoint: `<existing-isolated-static-origin>/docs/codex/team4-scene-layouts/candidate.html?packet=<served-packet-url>&layout=1&phase=greeting`. Repeat layout 1/2/3 and phase greeting/room/conversation. Wait for `document.documentElement.dataset.ready === "true"`, all images complete and fonts ready before capture; false means a missing input, not an acceptable mockup. Packet fetch requires the existing isolated HTTP route; no owner5294 reload/restart. T7 supplies exact command/route receipt from its current tools; Team4 does not invent a local executable endpoint.
+
+CTO endpoint: each option must show arrival, actual response choices, then return to the ordinary room after the short exchange; more-talk opens the actual normal exchange. Capture the same small presentation pause in T7's existing route before the room return (not simulated clock advancement). The packet also retains T1's actual party destination and quiet-arrival control receipt; absent content/control is explicitly marked missing, never replaced by master sample facts.

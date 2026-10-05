@@ -62,18 +62,18 @@ body {
   bottom: 24px;
   transform: translateX(-50%);
 }
-#scene[data-layout="2"] .exchange {
+#scene[data-layout="3"] .exchange {
   right: 24px;
   top: 50%;
   transform: translateY(-50%);
-  width: min(440px, calc(100% - 32px));
+  width: min(560px, calc(100% - 32px));
 }
-#scene[data-layout="3"] .exchange {
+#scene[data-layout="2"] .exchange {
   left: 50%;
   bottom: 24px;
   transform: translateX(-50%);
 }
-#scene[data-layout="3"][data-phase="greeting"] .exchange {
+#scene[data-layout="2"][data-phase="greeting"] .exchange {
   left: 24px;
   bottom: auto;
   top: 24px;
@@ -90,13 +90,13 @@ body {
   padding: 24px;
 }
 @media (width <= 720px) {
-  #scene[data-layout="2"] .exchange {
+  #scene[data-layout="3"] .exchange {
     top: auto;
     bottom: 16px;
     right: 16px;
     transform: none;
   }
-  #scene[data-layout="3"][data-phase="greeting"] .exchange {
+  #scene[data-layout="2"][data-phase="greeting"] .exchange {
     left: 16px;
     top: 16px;
   }
