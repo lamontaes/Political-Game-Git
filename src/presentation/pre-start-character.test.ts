@@ -74,6 +74,13 @@ describe("a character remains in their birth World through Begin", () => {
         row.kind === "health-episode" && row.personId === built.playerPersonId,
     );
     expect(episode?.effectiveAt).toBe(onsetAt);
+    expect(
+      recorded.history.knowledge.find(
+        (knowledge) =>
+          knowledge.personId === built.playerPersonId &&
+          knowledge.eventId === episode?.eventId,
+      )?.learnedAt,
+    ).toBe(onsetAt);
     expect(latestHealthState(recorded, episode!.id)?.state).toBe("recovered");
     expect(latestHealthState(recorded, episode!.id)?.effectiveAt).toBe(
       addDays(onsetAt, 21),
