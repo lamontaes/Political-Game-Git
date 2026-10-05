@@ -1,3 +1,4 @@
+import { HISTORICAL_WORLD_START_DATE } from "../historical-world-inputs";
 import { knownRule, unknownRule } from "../legislature-rules";
 import type { RuleSourceRef } from "../legislature-rules";
 import type { CandidacyPack, ElectiveOfficeOption } from "../candidacy-packs";
@@ -121,7 +122,9 @@ let bySeatKey: ReadonlyMap<string, CongressSeatIdentity> | null = null;
 
 function identities(): ReadonlyMap<string, CongressSeatIdentity> {
   bySeatKey ??= new Map(
-    congressSeats().map((seat) => [seat.seatKey, identityFor(seat)]),
+    [...congressSeats(HISTORICAL_WORLD_START_DATE), ...congressSeats()].map(
+      (seat) => [seat.seatKey, identityFor(seat)],
+    ),
   );
   return bySeatKey;
 }

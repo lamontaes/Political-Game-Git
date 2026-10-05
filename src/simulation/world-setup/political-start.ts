@@ -1,5 +1,5 @@
 import { canonicalJson } from "../canonical-json";
-import { ELECTORAL_ALLOCATION } from "../national-election-rules";
+import { electoralAllocationForCycle } from "../national-election-rules";
 import { sha256Hex } from "../sha256";
 import type { World } from "../types";
 import calibrationJson from "./electoral-calibration.generated.json" with { type: "json" };
@@ -290,7 +290,11 @@ export function generatePresidency(
   const add = (party: string, votes: number) => {
     electoralVotes[party] = (electoralVotes[party] ?? 0) + votes;
   };
-  for (const usps of Object.keys(ELECTORAL_ALLOCATION).sort()) {
+  for (const usps of Object.keys(
+    electoralAllocationForCycle(
+      Math.floor(Number(world.currentDate.slice(0, 4)) / 4) * 4,
+    ),
+  ).sort()) {
     const row = calibrationRow(`us-president:${usps}`);
     const baseline = row?.democraticTwoPartyShare ?? null;
     const winner =
@@ -302,14 +306,20 @@ export function generatePresidency(
             applySwing(baseline, sharedSwing(latents, usps)),
           );
     stateWinners[usps] = winner;
-    add(winner, ELECTORAL_ALLOCATION[usps]!);
+    add(
+      winner,
+      electoralAllocationForCycle(
+        Math.floor(Number(world.currentDate.slice(0, 4)) / 4) * 4,
+      )[usps]!,
+    );
   }
-  const totalElectors = Object.values(ELECTORAL_ALLOCATION).reduce(
-    (sum, value) => sum + value,
-    0,
-  );
+  const totalElectors = Object.values(
+    electoralAllocationForCycle(
+      Math.floor(Number(world.currentDate.slice(0, 4)) / 4) * 4,
+    ),
+  ).reduce((sum, value) => sum + value, 0);
   const majority = Math.floor(totalElectors / 2) + 1;
-  const reference = referencePresidentialWinner();
+  const reference = referencePresidentialWinner(world);
   for (const [party, votes] of Object.entries(electoralVotes)) {
     if (votes >= majority) {
       return {
@@ -335,10 +345,14 @@ export function generatePresidency(
   };
 }
 
-function referencePresidentialWinner(): string | null {
+function referencePresidentialWinner(world: World): string | null {
   let democratic = 0;
   let republican = 0;
-  for (const [usps, votes] of Object.entries(ELECTORAL_ALLOCATION)) {
+  for (const [usps, votes] of Object.entries(
+    electoralAllocationForCycle(
+      Math.floor(Number(world.currentDate.slice(0, 4)) / 4) * 4,
+    ),
+  )) {
     const row = calibrationRow(`us-president:${usps}`);
     if (!row?.referenceAffiliation) return null;
     if (row.referenceAffiliation === "democratic") democratic += votes;

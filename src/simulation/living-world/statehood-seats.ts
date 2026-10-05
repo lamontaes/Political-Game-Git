@@ -129,7 +129,7 @@ export function congressSeatsIn(
   world: World,
   asOf: IsoDate = world.currentDate,
 ): readonly CongressSeat[] {
-  const base = congressSeats();
+  const base = congressSeats(asOf);
   if (!world.history.legislativeEnactments?.length) return base;
   const admitted = statehoodAdmittedOn(world, asOf);
   if (!admitted || admitted > asOf) return base;

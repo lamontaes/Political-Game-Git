@@ -1,3 +1,4 @@
+import { historicalWorldInputs } from "../historical-world-inputs";
 import { settleAllOfficeSalaries } from "../office-salary";
 import { assessedCompletedHourlyGrossMinor } from "../completed-hourly-gross";
 import { payPayerAt, payWorkplaceAt } from "../pay-coverage-predicates";
@@ -366,6 +367,7 @@ export function townJobRate(
   jurisdictionId: EntityId | null,
   percentile: number,
   minimum: number | null = townMinimumHourly(jurisdictionId),
+  onDate?: IsoDate,
 ): TownJobRate | null {
   const soc = occupation ? TOWN_JOB_SOC[occupation] : undefined;
   const byArea = soc ? wageTable().get(soc) : undefined;
@@ -375,7 +377,11 @@ export function townJobRate(
     const cells = byArea.get(area);
     const annual = cells ? interpolate(cells, percentile) : null;
     if (annual === null) continue;
-    const hourly = annual / HOURS_PER_YEAR;
+    const hourly =
+      (annual / HOURS_PER_YEAR) *
+      (onDate && historicalWorldInputs(onDate).historical
+        ? historicalWorldInputs(onDate).nominalFactor
+        : 1);
     return {
       soc,
       area,
@@ -990,6 +996,7 @@ export function startTownJobPay(
       role.locationJurisdictionId,
       townPayPercentile(tenure),
       minimum,
+      startsAt,
     );
     if (!baseline) continue;
     const credentialPay = recordedCredentialHourlyPay(world, work.id, startsAt);
@@ -2112,7 +2119,9 @@ export function settleTownCompensations(
     ["resourceFlows", "resourceFlowTerms", "resourceTransferOutcomes"],
     (initial) => assessPaychecksTaxes(initial, ids),
   );
-  next = recordPaycheckTaxBases(next, ids);
+  next = withHistoryAppendTransaction(next, ["taxBases"], (initial) =>
+    recordPaycheckTaxBases(initial, ids),
+  );
 
   next = attributePaycheckTaxLaws(next, ids);
   // Benefits are paid after the premiums of the same paychecks reach the

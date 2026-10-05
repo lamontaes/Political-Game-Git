@@ -1,3 +1,7 @@
+import {
+  historicalWorldInputs,
+  FIRST_HISTORICAL_PRESIDENTIAL_CYCLE,
+} from "./historical-world-inputs";
 import { STATES } from "./state-reference";
 import { makeIsoDate, simulationMomentAtLocalTime } from "./dates";
 
@@ -18,11 +22,12 @@ export const NATIONAL_ALLOCATION_VERSION = "nara-2020-census-v1" as const;
 export const CARRIED_FORWARD_ALLOCATION_VERSION =
   "nara-2020-census-carried-forward-v1" as const;
 export type NationalAllocationVersion =
+  | "nara-2010-census-v1"
   | typeof NATIONAL_ALLOCATION_VERSION
   | typeof CARRIED_FORWARD_ALLOCATION_VERSION;
 
 /** The first presidential cycle this rule set covers. */
-export const FIRST_NATIONAL_CYCLE = 2024;
+export const FIRST_NATIONAL_CYCLE = FIRST_HISTORICAL_PRESIDENTIAL_CYCLE;
 
 export function isNationalElectionCycle(year: number): boolean {
   return (
@@ -108,38 +113,52 @@ export const CONTINGENT_STATES = Object.freeze(
     .filter((key) => STATES[key]?.jurisdictionKind === "state")
     .sort(),
 );
+export function electoralAllocationForCycle(
+  cycle: number,
+): Readonly<Record<string, number>> {
+  const historical = historicalWorldInputs(makeIsoDate(`${cycle}-11-01`));
+  return Object.fromEntries(
+    Object.entries(ELECTORAL_ALLOCATION).map(([state, current]) => [
+      state,
+      historical.houseSeats[state] === undefined
+        ? current
+        : historical.houseSeats[state]! + 2,
+    ]),
+  );
+}
+
 function buildNationalElectionRules(cycle: number) {
   if (!isNationalElectionCycle(cycle))
     throw new Error("Not a presidential election year.");
-  const units = Object.keys(ELECTORAL_ALLOCATION)
+  const allocation = electoralAllocationForCycle(cycle);
+  const units = Object.keys(allocation)
     .sort()
     .flatMap((state) => {
       if (STATES[state]?.electorAllocation === "congressional-district")
         return [
           { key: state, state, electors: 2, countsPopular: true },
-          ...Array.from(
-            { length: ELECTORAL_ALLOCATION[state]! - 2 },
-            (_, i) => ({
-              key: `${state}-${i + 1}`,
-              state,
-              electors: 1,
-              countsPopular: false,
-            }),
-          ),
+          ...Array.from({ length: allocation[state]! - 2 }, (_, i) => ({
+            key: `${state}-${i + 1}`,
+            state,
+            electors: 1,
+            countsPopular: false,
+          })),
         ];
       return [
         {
           key: state,
           state,
-          electors: ELECTORAL_ALLOCATION[state]!,
+          electors: allocation[state]!,
           countsPopular: true,
         },
       ];
     });
   return {
-    version: (cycle <= 2028
-      ? NATIONAL_ALLOCATION_VERSION
-      : CARRIED_FORWARD_ALLOCATION_VERSION) as NationalAllocationVersion,
+    version: (cycle < 2024
+      ? "nara-2010-census-v1"
+      : cycle <= 2028
+        ? NATIONAL_ALLOCATION_VERSION
+        : CARRIED_FORWARD_ALLOCATION_VERSION) as NationalAllocationVersion,
     cycle,
     units,
     electionDate: makeIsoDate(presidentialElectionDay(cycle)),

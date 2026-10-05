@@ -698,7 +698,7 @@ function openCongressBallots(
 ): World {
   const newStart = makeIsoDate(`${year + 1}-01-03`);
   let next = world;
-  for (const seat of congressSeats()) {
+  for (const seat of congressSeats(makeIsoDate(`${year + 1}-01-03`))) {
     if (seatTermWindow(seat, electionDay).endExclusive !== newStart) continue;
     const stableKey = ballotKey(seat.seatKey, year);
     if (
@@ -775,7 +775,7 @@ function holdCongressElection(world: World, year: number): World {
   if (hasStableKey(world.history.events, resultsKey(year))) return world;
   const electionDay = congressionalElectionDay(year);
   const newStart = makeIsoDate(`${year + 1}-01-03`);
-  const seats = congressSeats().filter(
+  const seats = congressSeats(makeIsoDate(`${year + 1}-01-03`)).filter(
     (seat) => seatTermWindow(seat, electionDay).endExclusive === newStart,
   );
   const recordOn = seatRecordsOn(world);
@@ -945,7 +945,9 @@ function seatCongressWinners(world: World, year: number): World {
   const results = recordByStableKey(world.history.events, resultsKey(year));
   if (!results) return world;
   const newStart = makeIsoDate(`${year + 1}-01-03`);
-  const seatsByKey = new Map(congressSeats().map((s) => [s.seatKey, s]));
+  const seatsByKey = new Map(
+    congressSeats(makeIsoDate(`${year + 1}-01-03`)).map((s) => [s.seatKey, s]),
+  );
   let next = world;
   for (const participant of results.participants) {
     const [seatKey, party, caucus, , serviceSince] = (
@@ -1125,7 +1127,10 @@ function holdCongressNominations(
   if (world.currentDate < `${year}-02-01` || before >= electionDay)
     return world;
   const seatsByKey = new Map(
-    congressSeats().map((seat) => [seat.seatKey, seat]),
+    congressSeats(makeIsoDate(`${year + 1}-01-03`)).map((seat) => [
+      seat.seatKey,
+      seat,
+    ]),
   );
   return holdFiledNominations(before, world, {
     fieldType: SLATE_EVENT,
@@ -1185,30 +1190,38 @@ export function applyCongressTurnover(before: IsoDate, world: World): World {
     const newStart = makeIsoDate(`${year + 1}-01-03`);
     // One plan per state and chamber: every seat of it shares the rule.
     const plans = new Map<string, NominationPlan>();
-    const due = congressSeats().flatMap((seat, index) => {
-      if (seatTermWindow(seat, electionDay).endExclusive !== newStart)
-        return [];
-      // The field never files later than the game's own intake day, so a
-      // day already past needs no look at the state's primary.
-      const base = congressCandidateIntakeDay(year, index);
-      if (base <= before) return [];
-      const planKey = `${seat.stateUsps}|${seat.chamberKey}`;
-      let plan = plans.get(planKey);
-      if (!plan) {
-        plan = congressNominationPlan(next, seat, year);
-        plans.set(planKey, plan);
-      }
-      const intakeDate = congressFieldIntakeDay(next, seat, year, index, plan);
-      if (before < intakeDate && intakeDate <= after)
-        return [{ seat, intakeDate }];
-      // Decision D-9: a game that opens after a state's real deadline starts
-      // with that field already filed, dated on the deadline. The game's own
-      // intake day not having passed means the field was never gathered.
-      return intakeDate <= before &&
-        !congressCandidateSlate(next, seat.seatKey, year)
-        ? [{ seat, intakeDate }]
-        : [];
-    });
+    const due = congressSeats(makeIsoDate(`${year + 1}-01-03`)).flatMap(
+      (seat, index) => {
+        if (seatTermWindow(seat, electionDay).endExclusive !== newStart)
+          return [];
+        // The field never files later than the game's own intake day, so a
+        // day already past needs no look at the state's primary.
+        const base = congressCandidateIntakeDay(year, index);
+        if (base <= before) return [];
+        const planKey = `${seat.stateUsps}|${seat.chamberKey}`;
+        let plan = plans.get(planKey);
+        if (!plan) {
+          plan = congressNominationPlan(next, seat, year);
+          plans.set(planKey, plan);
+        }
+        const intakeDate = congressFieldIntakeDay(
+          next,
+          seat,
+          year,
+          index,
+          plan,
+        );
+        if (before < intakeDate && intakeDate <= after)
+          return [{ seat, intakeDate }];
+        // Decision D-9: a game that opens after a state's real deadline starts
+        // with that field already filed, dated on the deadline. The game's own
+        // intake day not having passed means the field was never gathered.
+        return intakeDate <= before &&
+          !congressCandidateSlate(next, seat.seatKey, year)
+          ? [{ seat, intakeDate }]
+          : [];
+      },
+    );
     next = prepareCongressIntake(next, year, due);
     next = holdCongressNominations(before, next, year, electionDay);
     if (
