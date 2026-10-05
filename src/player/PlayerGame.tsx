@@ -309,6 +309,7 @@ import {
   PatchNotesWorkspace,
   PeopleWorkspace,
   PersonalWorkspace,
+  PersonalFinancesWorkspace,
   WorkWorkspace,
   WorkspaceFrame,
 } from "./ShellWorkspaces";
@@ -3686,6 +3687,18 @@ function renderWorkspace({
         view.section === "finances" ? "Money and property" : "Who you are",
         "personal-workspace",
         <>
+          {view.section === "finances" ? (
+            <PersonalFinancesWorkspace
+              world={session.world}
+              personId={session.personId}
+            />
+          ) : (
+            <PersonalWorkspace
+              world={session.world}
+              personId={session.personId}
+              onOpenPerson={openPerson}
+            />
+          )}
           {view.section !== "finances" && (
             <PersonalRoutinePanel
               world={session.world}
@@ -3696,12 +3709,6 @@ function renderWorkspace({
               isPinned={pinnedRef}
             />
           )}
-          <PersonalWorkspace
-            world={session.world}
-            personId={session.personId}
-            {...(view.section ? { section: view.section } : {})}
-            onOpenPerson={openPerson}
-          />
           {view.section === "finances" && (
             <MoneyLawsPanel
               world={session.world}

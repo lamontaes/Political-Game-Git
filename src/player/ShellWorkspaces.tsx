@@ -1,4 +1,3 @@
-import { projectLivesRecord } from "../presentation/lives-record";
 import { InterruptionChecklist } from "./InterruptionChecklist";
 import {
   dollars,
@@ -26,10 +25,7 @@ import { playerEconomicContextLines } from "../presentation/economic-context";
 import { buildIdentity } from "../release/build-identity";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { PrivateJournalEditor } from "./PrivateJournalEditor";
-import type {
-  PrivateJournal,
-  ShellSection,
-} from "../presentation/shell-navigation";
+import type { PrivateJournal } from "../presentation/shell-navigation";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
 import {
@@ -50,7 +46,6 @@ import {
 } from "../presentation/player-calendar";
 import { projectLifeRecord } from "../presentation/life-record";
 import { projectMeasureBriefing } from "../presentation/legislation-projection";
-import { projectOpeningLife } from "../presentation/opening-life";
 import { projectPersonalRecord } from "../presentation/personal-record";
 import { PATCH_NOTE_SECTIONS } from "../presentation/release-identity";
 import type {
@@ -110,7 +105,6 @@ import {
   workItemOccasionHasPassed,
   workPendingEntriesFor,
   type EntityId,
-  type MoneyAmount,
   type World,
 } from "../simulation";
 
@@ -1608,49 +1602,19 @@ function BillPaperView({ paper }: { readonly paper: BillPaper }) {
 
 /* ---------------------------------------------------------------- personal */
 
-function formatMoney(amount: MoneyAmount): string {
-  return dollars(amount);
-}
+export { PersonalWorkspace } from "./PersonalRecordWorkspace";
 
-export function PersonalWorkspace({
+export function PersonalFinancesWorkspace({
   world,
   personId,
-  section,
-  onOpenPerson,
 }: {
   readonly world: World;
   readonly personId: EntityId;
-  /** Which half of this record the player asked for, when they said. */
-  readonly section?: ShellSection;
-  readonly onOpenPerson: (id: EntityId) => void;
 }) {
   const record = useMemo(
     () => projectPersonalRecord(world, personId),
     [world, personId],
   );
-  const intro = useMemo(
-    () => projectOpeningLife(world, personId),
-    [world, personId],
-  );
-  const history = useMemo(
-    () => projectLifeRecord(world, personId),
-    [world, personId],
-  );
-  const lives = useMemo(
-    () => projectLivesRecord(world, personId),
-    [world, personId],
-  );
-  const goals = world.history.goalStates.filter(
-    (goal) =>
-      goal.personId === personId &&
-      !world.history.goalStates.some(
-        (newer) => newer.supersedesGoalStateId === goal.id,
-      ),
-  );
-  if (!record) {
-    return <p className="game-note">This world has no record of you.</p>;
-  }
-
   const homeId = world.people[personId]?.homeJurisdictionId;
   const economicPlace = homeId ? lifePlaceByJurisdictionId(homeId) : null;
   const economicJurisdictionId = homeId ?? undefined;
@@ -1660,187 +1624,14 @@ export function PersonalWorkspace({
   const economicBinding = economicPlace
     ? economicContextBindingForPlace(economicPlace.key)
     : null;
-
-  /*
-   * "Money and property" asked for the money, so put the money in front of
-   * them. The section is focusable and moved into view when that is the
-   * destination they chose, and left alone when it is not — so the identity
-   * route still opens at the top, on the person, where it should.
-   */
-  const finances = useRef<HTMLElement>(null);
-  useEffect(() => {
-    if (section !== "finances") return;
-    const node = finances.current;
-    if (!node) return;
-    node.scrollIntoView({ block: "start", behavior: "auto" });
-    node.focus({ preventScroll: true });
-  }, [section]);
-
-  /*
-   * Who you are, then what you have, then the wider place.
-   *
-   * This record used to open on regional economic observations and a chart,
-   * with the player's own name and age below them. The owner asked "Who am I?"
-   * and got labor statistics, which is the wrong answer to that question no
-   * matter how good the statistics are. The context is kept — it is real,
-   * sourced and worth reading — but it belongs after the person, framed as
-   * being about the place rather than about them.
-   */
+  if (!record) return null;
   return (
     <>
-      <header className="pg-personal-identity">
-        <h3 data-testid="personal-name">{record.identity.name}</h3>
-        <p className="game-band" data-testid="personal-age">
-          {record.identity.age}
-          {record.identity.placeName ? ` · ${record.identity.placeName}` : ""}
-        </p>
-      </header>
-
-      <details className="pg-personal-section" data-testid="life-introduction">
-        <summary>Household and world notes</summary>
-        <p>{intro.context}</p>
-        {intro.household.sentences.map((text) => (
-          <p key={text}>{text}</p>
-        ))}
-        {intro.household.grounding.length > 0 ? (
-          <div data-testid="life-grounding">
-            {intro.household.grounding.map((fact) => (
-              <p key={fact.basis} data-grounding={fact.kind}>
-                {fact.text}
-              </p>
-            ))}
-          </div>
-        ) : null}
-      </details>
-
-      <section className="pg-personal-section">
-        <h3>Appearance</h3>
-        <button
-          type="button"
-          className="ui-action"
-          data-testid="personal-appearance"
-          onClick={() => onOpenPerson(personId)}
-        >
-          Appearance and wardrobe
-        </button>
-        <p className="game-note">Change only your own saved appearance.</p>
-      </section>
-
-      {record.household.length > 0 ? (
-        <section className="pg-personal-section">
-          <h3>Household</h3>
-          <ul data-testid="personal-household">
-            {record.household.map((member) => (
-              <li key={member.personId}>
-                <button
-                  type="button"
-                  className="pg-inline-link"
-                  data-testid={`personal-household-${member.personId}`}
-                  onClick={() => onOpenPerson(member.personId)}
-                >
-                  {member.name}
-                </button>
-                {member.relationship ? `, ${member.relationship}` : ""}
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      {lives.upbringing.length > 0 ? (
-        <section className="pg-personal-section" aria-label="How you grew up">
-          <h3>How you grew up</h3>
-          <ul data-testid="personal-upbringing">
-            {lives.upbringing.map((line) => (
-              <li key={line}>{line}</li>
-            ))}
-          </ul>
-          {lives.leanings.length > 0 ? (
-            <p data-testid="personal-leanings">
-              What it left you with: {lives.leanings.join(", ").toLowerCase()}.
-            </p>
-          ) : null}
-        </section>
-      ) : null}
-
-      {lives.around.length > 0 ? (
-        <section className="pg-personal-section" aria-label="Around you">
-          <h3>Around you this past year</h3>
-          <ul data-testid="personal-around">
-            {lives.around.map((line) => (
-              <li key={line.key} data-kind={line.kind}>
-                <time dateTime={line.at}>{proseDate(line.at)}</time> ·{" "}
-                {line.sentence}
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      {record.education.length > 0 ? (
-        <section className="pg-personal-section">
-          <h3>Education</h3>
-          <ul data-testid="personal-education">
-            {record.education.map((line) => (
-              <li key={line.key}>{line.text}</li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      {record.work.length > 0 ? (
-        <section className="pg-personal-section">
-          <h3>Work</h3>
-          <ul data-testid="personal-work">
-            {record.work.map((line) => (
-              <li key={line.key}>{line.text}</li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      <section className="pg-personal-section" aria-label="Your history">
-        <h3>History</h3>
-        <div className="pg-personal-chronology">
-          {history.chapters.length ? (
-            history.chapters.map((chapter) => (
-              <section key={chapter.key}>
-                <h4>{chapter.heading}</h4>
-                {chapter.entries.map((entry) => (
-                  <p key={entry.key}>
-                    <time dateTime={entry.at}>{proseDate(entry.at)}</time> ·{" "}
-                    {entry.sentence}
-                  </p>
-                ))}
-              </section>
-            ))
-          ) : (
-            <p>No remembered milestones are recorded yet.</p>
-          )}
-        </div>
-      </section>
-      <section className="pg-personal-section" aria-label="Your goals">
-        <h3>Goals</h3>
-        {goals.length ? (
-          goals.map((goal) => <p key={goal.id}>{goal.objective}</p>)
-        ) : (
-          <p>No personal goals are recorded yet.</p>
-        )}
-      </section>
-
-      {/*
-        Three kinds of money, kept apart because the world keeps them apart.
-        A committee's treasury is the committee's; presenting it beside a
-        personal balance as one figure would be a false statement about who owns
-        what, and in the campaign case a legally false one.
-      */}
       <section
         className="pg-personal-section"
-        ref={finances}
         tabIndex={-1}
         aria-label="Money and property"
         data-testid="personal-finances"
-        data-landed={section === "finances" ? "true" : undefined}
       >
         <h3>Money and property</h3>
         <ul className="pg-purses" data-testid="personal-purses">
@@ -1850,7 +1641,7 @@ export function PersonalWorkspace({
               <small>{purse.ownerNote}</small>
               {purse.balance ? (
                 <span data-testid={`purse-balance-${purse.kind}`}>
-                  {formatMoney(purse.balance)}
+                  {dollars(purse.balance)}
                 </span>
               ) : (
                 <span
