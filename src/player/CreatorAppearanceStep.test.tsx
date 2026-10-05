@@ -42,6 +42,11 @@ describe("creator appearance step with no approved artwork", () => {
     expect(markup).toContain("kit41-creator-layout--no-figure");
   });
 
+  it("uses the approved appearance title", () => {
+    expect(markup).toContain("<h2>Character appearance</h2>");
+    expect(markup).not.toContain("<h2>How you look</h2>");
+  });
+
   it("still lets the player begin", () => {
     expect(markup).toMatch(/data-testid="begin"/);
     expect(markup).not.toMatch(/data-testid="begin"[^>]*disabled/);
