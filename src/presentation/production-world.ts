@@ -78,6 +78,7 @@ import { ensureTownEmployment } from "../simulation/living-world/town-employment
 import { drawFamilyShape } from "../simulation/family-shape";
 import { ensureStartingPersonalMoney } from "../simulation/starting-money";
 import { parentsOf, recordFamilyAddition } from "../simulation/people-family";
+import { recordEarlierConditionOnsets } from "../simulation/crisis/condition-onset";
 import {
   recordCreatorLifeForks,
   type CreatorLifeForkChoice,
@@ -426,6 +427,11 @@ export function buildProductionWorld(
       parentPersonIds,
       childPersonId: player.id,
     }).world;
+    const birth = world.history.events.find(
+      (event) => event.stableKey === "production:character-birth:event",
+    );
+    if (!birth) throw new Error("The character's birth event was not written.");
+    world = recordEarlierConditionOnsets(world, player.id, birth.id);
   }
   // Early family evidence seated the town before the player's caregivers existed.
   // Complete their employment and home through the existing opening writers.
