@@ -462,6 +462,9 @@ body:where(.pg-game) button:focus-visible {
   }
   .pg-split-record-current {
     padding: 0.5rem;
+  }
+}
+
 /* Approved Kit 13, consolidated into the existing theme. */
 /* Letterpress actions; text actions and the title list keep their own roles. */
 .pg-game.pg-game .ui-action,
