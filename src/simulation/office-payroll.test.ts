@@ -38,8 +38,8 @@ import { serializeWorld, deserializeWorld } from "./serialization";
 import { SeededRng } from "./rng";
 import { PLACE_POPULATION_ROWS } from "./nationwide-world/place-population.generated";
 import { TERRITORY_PLACE_ROWS } from "./territory-places";
-import { personName } from "./people";
-import { withWorldIntegrityDeferred } from "./world";
+import { personName, createLightweightPerson } from "./people";
+import { withWorldIntegrityDeferred, createWorld } from "./world";
 import type { World, IsoDate } from "./types";
 
 const places = new Map<string, [string, number]>();
@@ -451,48 +451,35 @@ it("resumes after out-of-order partial and blocked periods without changing held
 
 it("summarizes distant historical routine earnings and resumes ordinary payroll without duplicate pay", () => {
   const f = officeFixture(sampled[0]!, false, "2021-01-01");
-  const focusId = f.world.personOrder.find((id) => id !== f.personId)!;
+  const farPlace = requireLifePlace(sampled.find((key) => key !== f.placeKey)!);
+  const focus = createLightweightPerson({
+    worldId: f.world.id,
+    worldSeed: f.world.seed,
+    index: f.world.personOrder.length,
+    currentDate: f.world.currentDate,
+    homeJurisdictionId: farPlace.context.jurisdiction.id,
+  });
+  // Admit a genuinely distant authored fixture resident through the same
+  // person and World constructors; never rewrite a canonical residence fact.
+  const admitted = createWorld({
+    seed: f.world.seed,
+    currentDate: f.world.currentDate,
+    currentMoment: f.world.currentMoment,
+    people: [...f.world.personOrder.map((id) => f.world.people[id]!), focus],
+    jurisdictions: [
+      ...f.world.jurisdictionOrder.map((id) => f.world.jurisdictions[id]!),
+      farPlace.context.jurisdiction,
+    ],
+    policyCatalog: f.world.policyCatalog,
+  });
+  const focusId = focus.id;
   let initial: World = {
     ...f.world,
     control: { kind: "observer" },
-    people: {
-      ...f.world.people,
-      [focusId]: {
-        ...f.world.people[focusId]!,
-        homeJurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-        establishedFacts: f.world.people[focusId]!.establishedFacts.map(
-          (fact) =>
-            fact.kind === "residence" && fact.endedAt === null
-              ? { ...fact, jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id }
-              : fact,
-        ),
-        ...(f.world.people[focusId]!.detailLevel === "materialized"
-          ? {
-              details: {
-                ...(
-                  f.world.people[focusId]! as Extract<
-                    World["people"][string],
-                    { detailLevel: "materialized" }
-                  >
-                ).details,
-                generatedFacts: (
-                  f.world.people[focusId]! as Extract<
-                    World["people"][string],
-                    { detailLevel: "materialized" }
-                  >
-                ).details.generatedFacts.map((fact) =>
-                  fact.kind === "residence" && fact.endedAt === null
-                    ? {
-                        ...fact,
-                        jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-                      }
-                    : fact,
-                ),
-              },
-            }
-          : {}),
-      },
-    },
+    people: admitted.people,
+    personOrder: admitted.personOrder,
+    jurisdictions: admitted.jurisdictions,
+    jurisdictionOrder: admitted.jurisdictionOrder,
   };
   initial = createResourcePosition(initial, {
     stableKey: "past-proof:employer-funds",
