@@ -1,4 +1,4 @@
-import { useId, useMemo, useState } from "react";
+import { useId, useMemo, useState, type ReactNode } from "react";
 import {
   activeEducationEnrollmentsAt,
   activeWorkRelationshipsAt,
@@ -29,7 +29,9 @@ export function PersonalWorkspace({
   world,
   personId,
   onOpenPerson,
+  children,
 }: {
+  readonly children?: ReactNode;
   readonly world: World;
   readonly personId: EntityId;
   readonly onOpenPerson: (personId: EntityId) => void;
@@ -229,6 +231,7 @@ export function PersonalWorkspace({
               Open full history
             </button>
           </footer>
+          {children}
         </>
       ) : (
         <section

@@ -453,6 +453,7 @@ body:where(.pg-game) button:focus-visible {
 }
 .pg-contact-dialog:has(.pg-split-record-grid) {
   width: min(45rem, calc(100vw - 2rem));
+  backdrop-filter: var(--kit12-blur);
 }
 @media (max-width: 600px) {
   .pg-split-record-grid {

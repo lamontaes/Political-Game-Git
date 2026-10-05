@@ -96,6 +96,7 @@ test("Personal separates current records from history without changing the life"
     path: test.info().outputPath("personal-profile-1920.png"),
   });
   await profile.getByTestId("personal-full-history").click();
+  await expect(page.getByTestId("personal-life-choices")).toHaveCount(0);
   const history = profile.getByTestId("personal-history-page");
   await expect(history).toBeVisible();
   await expect(profile.getByTestId("personal-current-work")).toHaveCount(0);

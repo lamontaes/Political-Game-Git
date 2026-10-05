@@ -3688,95 +3688,125 @@ function renderWorkspace({
         "personal-workspace",
         <>
           {view.section === "finances" ? (
-            <PersonalFinancesWorkspace
-              world={session.world}
-              personId={session.personId}
-            />
-          ) : (
-            <PersonalWorkspace
-              world={session.world}
-              personId={session.personId}
-              onOpenPerson={openPerson}
-            />
-          )}
-          {view.section !== "finances" && (
-            <PersonalRoutinePanel
-              world={session.world}
-              personId={session.personId}
-              onWorldChange={onWorldChange}
-              onOpenEntity={openEntity}
-              onTogglePin={togglePin}
-              isPinned={pinnedRef}
-            />
-          )}
-          {view.section === "finances" && (
-            <MoneyLawsPanel
-              world={session.world}
-              personId={session.personId}
-              onOpenMeasure={(measureId) =>
-                openEntity({ kind: "measure", id: measureId })
-              }
-            />
-          )}
-          <HomePurchasePanel
-            world={session.world}
-            personId={session.personId}
-            onWorldChange={onWorldChange}
-          />
-          {view.section !== "finances" && (
             <>
-              <PersonalGoalsPanel
+              <PersonalFinancesWorkspace
                 world={session.world}
                 personId={session.personId}
-                onWorldChange={onWorldChange}
-                onOpportunity={(opportunity) => {
-                  if (opportunity.kind === "talk" && opportunity.personId) {
-                    talkTo(
-                      opportunity.personId,
-                      (opportunity.subject ?? undefined) as
-                        ConversationSubjectKey | undefined,
-                    );
-                  } else if (opportunity.kind === "read-news") {
-                    dispatch({ type: "go-to-surface", surface: "news" });
-                  } else {
-                    dispatch({
-                      type: "go-to-surface",
-                      surface: "work",
-                      section: "campaign",
-                    });
+              />
+              {view.section === "finances" && (
+                <MoneyLawsPanel
+                  world={session.world}
+                  personId={session.personId}
+                  onOpenMeasure={(measureId) =>
+                    openEntity({ kind: "measure", id: measureId })
                   }
-                }}
-              />
-              <CrisisNoticesPanel
+                />
+              )}
+              <HomePurchasePanel
                 world={session.world}
                 personId={session.personId}
                 onWorldChange={onWorldChange}
-                scope="personal"
               />
-            </>
-          )}
-          <details data-testid="personal-life-choices">
-            <summary>Your day and choices</summary>
-            {/*
+              <details data-testid="personal-life-choices">
+                <summary>Your day and choices</summary>
+                {/*
               Childhood is part of the day, not a place to go, so it mounts
               inside this existing section rather than on a surface of its own.
               It draws nothing outside the formative years; the producer gates
               that, and no age logic is decided here.
             */}
-            <ChildhoodMomentPanel
+                <ChildhoodMomentPanel
+                  world={session.world}
+                  personId={session.personId}
+                  onWorldChange={onWorldChange}
+                />
+                <LifeScenePanel
+                  world={session.world}
+                  playerPersonId={session.personId}
+                  onWorldChange={onWorldChange}
+                  onTalkTo={(personId) => talkTo(personId)}
+                  transitionHandlers={createCampaignElectionTransitionRegistry()}
+                  variant="workspace"
+                />
+              </details>
+            </>
+          ) : (
+            <PersonalWorkspace
               world={session.world}
               personId={session.personId}
-              onWorldChange={onWorldChange}
-            />
-            <LifeScenePanel
-              world={session.world}
-              playerPersonId={session.personId}
-              onWorldChange={onWorldChange}
-              onTalkTo={(personId) => talkTo(personId)}
-              transitionHandlers={createCampaignElectionTransitionRegistry()}
-              variant="workspace"
-            />
-          </details>
+              onOpenPerson={openPerson}
+            >
+              {view.section !== "finances" && (
+                <PersonalRoutinePanel
+                  world={session.world}
+                  personId={session.personId}
+                  onWorldChange={onWorldChange}
+                  onOpenEntity={openEntity}
+                  onTogglePin={togglePin}
+                  isPinned={pinnedRef}
+                />
+              )}
+              <HomePurchasePanel
+                world={session.world}
+                personId={session.personId}
+                onWorldChange={onWorldChange}
+              />
+              {view.section !== "finances" && (
+                <>
+                  <PersonalGoalsPanel
+                    world={session.world}
+                    personId={session.personId}
+                    onWorldChange={onWorldChange}
+                    onOpportunity={(opportunity) => {
+                      if (opportunity.kind === "talk" && opportunity.personId) {
+                        talkTo(
+                          opportunity.personId,
+                          (opportunity.subject ?? undefined) as
+                            ConversationSubjectKey | undefined,
+                        );
+                      } else if (opportunity.kind === "read-news") {
+                        dispatch({ type: "go-to-surface", surface: "news" });
+                      } else {
+                        dispatch({
+                          type: "go-to-surface",
+                          surface: "work",
+                          section: "campaign",
+                        });
+                      }
+                    }}
+                  />
+                  <CrisisNoticesPanel
+                    world={session.world}
+                    personId={session.personId}
+                    onWorldChange={onWorldChange}
+                    scope="personal"
+                  />
+                </>
+              )}
+              <details data-testid="personal-life-choices">
+                <summary>Your day and choices</summary>
+                {/*
+              Childhood is part of the day, not a place to go, so it mounts
+              inside this existing section rather than on a surface of its own.
+              It draws nothing outside the formative years; the producer gates
+              that, and no age logic is decided here.
+            */}
+                <ChildhoodMomentPanel
+                  world={session.world}
+                  personId={session.personId}
+                  onWorldChange={onWorldChange}
+                />
+                <LifeScenePanel
+                  world={session.world}
+                  playerPersonId={session.personId}
+                  onWorldChange={onWorldChange}
+                  onTalkTo={(personId) => talkTo(personId)}
+                  transitionHandlers={createCampaignElectionTransitionRegistry()}
+                  variant="workspace"
+                />
+              </details>
+            </PersonalWorkspace>
+          )}
         </>,
       );
 
