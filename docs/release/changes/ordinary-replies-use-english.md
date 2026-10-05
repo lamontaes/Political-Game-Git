@@ -1,6 +1,8 @@
 ---
 id: ordinary-replies-use-english
 impact: patch
+section: Changed
+title: Ordinary replies follow recorded speaking habits
 ---
 
 Ordinary conversations now build replies from the English engine's parts.
