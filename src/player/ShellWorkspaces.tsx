@@ -22,7 +22,6 @@ import {
   economicContextUnavailableReason,
 } from "../presentation/economic-context-bindings";
 import { DIAGNOSTICS } from "./diagnostics-profile";
-import { playerEconomicContextLines } from "../presentation/economic-context";
 import { buildIdentity } from "../release/build-identity";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { PrivateJournalEditor } from "./PrivateJournalEditor";
@@ -1650,9 +1649,6 @@ export function PersonalWorkspace({
   const homeId = world.people[personId]?.homeJurisdictionId;
   const economicPlace = homeId ? lifePlaceByJurisdictionId(homeId) : null;
   const economicJurisdictionId = homeId ?? undefined;
-  const economicLines = economicPlace
-    ? playerEconomicContextLines(economicPlace.key, world.currentDate)
-    : [];
   const economicBinding = economicPlace
     ? economicContextBindingForPlace(economicPlace.key)
     : null;
@@ -1824,12 +1820,6 @@ export function PersonalWorkspace({
         )}
       </section>
 
-      {/*
-        Three kinds of money, kept apart because the world keeps them apart.
-        A committee's treasury is the committee's; presenting it beside a
-        personal balance as one figure would be a false statement about who owns
-        what, and in the campaign case a legally false one.
-      */}
       <section
         className="pg-personal-section"
         ref={finances}
@@ -1840,24 +1830,25 @@ export function PersonalWorkspace({
       >
         <h3>Money and property</h3>
         <ul className="pg-purses" data-testid="personal-purses">
-          {record.purses.map((purse) => (
-            <li key={purse.kind} data-purse={purse.kind}>
-              <strong>{purse.label}</strong>
-              <small>{purse.ownerNote}</small>
-              {purse.balance ? (
-                <span data-testid={`purse-balance-${purse.kind}`}>
-                  {formatMoney(purse.balance)}
-                </span>
-              ) : (
-                <span
-                  className="game-note"
-                  data-testid={`purse-absent-${purse.kind}`}
-                >
-                  {purse.absence}
-                </span>
-              )}
-            </li>
-          ))}
+          {record.purses
+            .filter((purse) => purse.kind === "personal")
+            .map((purse) => (
+              <li key={purse.kind} data-purse={purse.kind}>
+                <strong>{purse.label}</strong>
+                {purse.balance !== null ? (
+                  <span data-testid={`purse-balance-${purse.kind}`}>
+                    {formatMoney(purse.balance)}
+                  </span>
+                ) : (
+                  <span
+                    className="game-note"
+                    data-testid={`purse-absent-${purse.kind}`}
+                  >
+                    {purse.absence}
+                  </span>
+                )}
+              </li>
+            ))}
         </ul>
       </section>
 
@@ -1870,23 +1861,6 @@ export function PersonalWorkspace({
         aria-label="Economic context"
         data-testid="personal-economic-context"
       >
-        <h3>The place you live</h3>
-        <p className="game-note">
-          {economicPlace?.displayName ?? "Home place not recorded"} ·{" "}
-          {proseDate(world.currentDate)}
-        </p>
-        {/*
-          The compact lines come from a generated file committed per place, and
-          only Lexington has one. Saying "no supported economic observations
-          are available for this place" was true of that file and false of the
-          screen: the panel below now fetches real figures for the same town
-          from the shipped corpus, so the sentence contradicted the numbers
-          printed underneath it. Where the panel can speak, it speaks; where
-          nothing can, the panel's own reason says why.
-        */}
-        {economicLines.length
-          ? economicLines.map((line) => <p key={line.key}>{line.text}</p>)
-          : null}
         {/*
           The binding registry decides whether this place has one, not a
           comparison against one named city. Most places now derive one from
