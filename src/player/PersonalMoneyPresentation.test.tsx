@@ -56,6 +56,7 @@ describe("personal money presentation", () => {
     expect(purses).not.toContain('data-purse="committee"');
     expect(purses).not.toContain("Nobody else can spend it");
     expect(markup).not.toContain("The place you live");
+    expect(markup).not.toContain('data-testid="personal-economic-context"');
     expect(markup).not.toContain("This is a benchmark");
     expect(JSON.stringify(world)).toBe(before);
   });
