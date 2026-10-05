@@ -14,6 +14,7 @@ import type {
   World,
 } from "../types";
 import type { CrimeOffense } from "./contract";
+import { crimeCutoff, crimeJusticeEvidenceAt } from "./dated-inputs";
 import { offenderForVictims } from "./offenders";
 
 /**
@@ -149,6 +150,7 @@ export function crimesSufferedBy(
   world: World,
   personId: EntityId,
   through = world.currentDate,
+  historySequenceExclusive = world.history.nextSequence,
 ): readonly EntityId[] {
   // Read through the history index, which follows appends: a write replaces
   // the events array, and a cache keyed on that array alone rebuilt this
@@ -163,9 +165,14 @@ export function crimesSufferedBy(
     for (const participant of event.participants)
       if (participant.role === VICTIM_ROLE && participant.personId === personId)
         ids.push(event.id);
-  return ids.filter(
-    (id) => (eventById(world, id)?.occurredAt ?? "") <= through,
-  );
+  return ids.filter((id) => {
+    const event = eventById(world, id);
+    return (
+      event !== undefined &&
+      event.occurredAt <= through &&
+      event.sequence < historySequenceExclusive
+    );
+  });
 }
 
 /** Offenses recorded against `personId` before `onDate`, reported or not. */
@@ -173,8 +180,14 @@ export function priorVictimizations(
   world: World,
   personId: EntityId,
   onDate: IsoDate,
+  historySequenceExclusive = world.history.nextSequence,
 ): number {
-  return crimesSufferedBy(world, personId, addDays(onDate, -1)).length;
+  return crimesSufferedBy(
+    world,
+    personId,
+    addDays(onDate, -1),
+    historySequenceExclusive,
+  ).length;
 }
 
 /** The victim's past with police before `onDate`: reports made, charges. */
@@ -182,11 +195,13 @@ function policeContact(
   world: World,
   personId: EntityId,
   onDate: IsoDate,
+  historySequenceExclusive = world.history.nextSequence,
 ): { reported: number; charged: number } {
   let reported = 0;
   for (const event of eventsOfType(world, "crime.offense-reported"))
     if (
       event.occurredAt < onDate &&
+      event.sequence < historySequenceExclusive &&
       event.participants.some((row) => row.personId === personId)
     )
       reported += 1;
@@ -194,6 +209,7 @@ function policeContact(
   for (const event of eventsOfType(world, "justice.prosecution-referred"))
     if (
       event.occurredAt < onDate &&
+      event.sequence < historySequenceExclusive &&
       event.participants.some(
         (row) => row.personId === personId && row.role === "focus:subject",
       )
@@ -222,8 +238,14 @@ export function reportConsiderations(
   offense: CrimeOffense,
   occurredAt: IsoDate,
   prefix: string,
+  historySequenceExclusive = world.history.nextSequence,
 ): DecisionConsideration[] {
-  const before = priorVictimizations(world, victimId, occurredAt);
+  const before = priorVictimizations(
+    world,
+    victimId,
+    occurredAt,
+    historySequenceExclusive,
+  );
   const rows: [string, string, number, string][] = [
     ["harm", REPORT_OPTIONS.report, R.harm[offense], "What was done to them."],
     [
@@ -239,7 +261,12 @@ export function reportConsiderations(
       "It has happened to them before.",
     ],
   ];
-  const contact = policeContact(world, victimId, occurredAt);
+  const contact = policeContact(
+    world,
+    victimId,
+    occurredAt,
+    historySequenceExclusive,
+  );
   rows.push(
     [
       "reported-before",
@@ -258,11 +285,16 @@ export function reportConsiderations(
   // things through or presses a wrong leans to calling; a conciliatory one
   // to letting it pass.
   // The player's temperament never decides anything for them.
+  const evidence = crimeJusticeEvidenceAt(
+    world,
+    crimeCutoff(world, occurredAt, historySequenceExclusive),
+    victimId,
+  );
   const temperament =
     world.control.kind === "person" && world.control.personId === victimId
       ? 0
-      : personTrait(world, victimId, "reliability").value +
-        personTrait(world, victimId, "conflict").value;
+      : personTrait(evidence, victimId, "reliability").value +
+        personTrait(evidence, victimId, "conflict").value;
   rows.push([
     "temperament",
     temperament >= 0 ? REPORT_OPTIONS.report : REPORT_OPTIONS.quiet,
@@ -323,6 +355,7 @@ export function decideReport(
     readonly targetId: EntityId;
     readonly victimPersonIds: readonly EntityId[];
   },
+  historySequenceExclusive = world.history.nextSequence,
 ): ReportDecision {
   const offender = offenderForVictims(
     world,
@@ -332,6 +365,7 @@ export function decideReport(
       victimPersonIds: input.victimPersonIds,
     },
     input.offense,
+    historySequenceExclusive,
   );
   const offenderPersonId = offender?.personId ?? null;
   const player =
@@ -340,12 +374,16 @@ export function decideReport(
     // The played person decides in play, never through the engine.
     if (victimId === player) continue;
     if (
-      victimReports(world, {
-        victimId,
-        offense: input.offense,
-        occurredAt: input.occurredAt,
-        targetId: input.targetId,
-      })
+      victimReports(
+        world,
+        {
+          victimId,
+          offense: input.offense,
+          occurredAt: input.occurredAt,
+          targetId: input.targetId,
+        },
+        historySequenceExclusive,
+      )
     )
       return {
         reported: true,
@@ -372,6 +410,7 @@ export function victimReports(
     readonly occurredAt: IsoDate;
     readonly targetId: EntityId;
   },
+  historySequenceExclusive = world.history.nextSequence,
 ): boolean {
   const prefix = `${CRIME_REPORTING_VERSION}:${input.offense}:${input.targetId}:${input.occurredAt}:${input.victimId}`;
   const evaluation = evaluateDecision(world, {
@@ -379,8 +418,8 @@ export function victimReports(
     decisionType: "crime.report-to-police",
     actorPersonId: input.victimId,
     cutoff: {
-      asOfDate: world.currentDate,
-      historySequenceExclusive: world.history.nextSequence,
+      asOfDate: input.occurredAt,
+      historySequenceExclusive,
     },
     subject: { kind: "context:crime", key: input.offense, entityId: null },
     options: [
@@ -402,6 +441,7 @@ export function victimReports(
       input.offense,
       input.occurredAt,
       prefix,
+      historySequenceExclusive,
     ),
     perceptionIds: [],
     randomness: "none",
