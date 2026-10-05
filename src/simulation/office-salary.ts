@@ -1,3 +1,4 @@
+import { resourceFlowTermsAt } from "./resource-queries";
 import { historicalWorldInputs } from "./historical-world-inputs";
 import { distantHistoricalRoutine } from "./historical-past-mode";
 import {
@@ -109,12 +110,15 @@ const LAST_RECORDED_PERIOD: GrowingIndexKind<Map<EntityId, IsoDate>> = {
   create: () => new Map(),
   add: (periods, record) => {
     const outcome = record as ResourceTransferOutcome;
-    const latest = periods.get(outcome.resourceFlowId);
+    const originalFlowId = outcome.stableKey.startsWith("past-office-summary:")
+      ? (outcome.stableKey.split(":")[1] as EntityId)
+      : outcome.resourceFlowId;
+    const latest = periods.get(originalFlowId);
     const period = outcome.stableKey.startsWith("past-office-summary:")
       ? addDays(outcome.periodEndsAt, -(WEEK_DAYS - 1))
       : outcome.periodStartsAt;
     if (latest === undefined || period > latest)
-      periods.set(outcome.resourceFlowId, period);
+      periods.set(originalFlowId, period);
   },
 };
 
@@ -317,7 +321,7 @@ export function initializeAllOfficeSalaryFlows(world: World): World {
 /** Calendar adapter only; every transfer still uses settleTownCompensations. */
 export function settleAllOfficeSalaries(world: World): World {
   return advanceWithWorldIntegrityAtEnd(() => {
-    const next = initializeAllOfficeSalaryFlows(world);
+    let next = initializeAllOfficeSalaryFlows(world);
     const periods: TownCompensationPeriod[] = [];
     for (const flow of growingIndex(
       OFFICE_PAY_FLOWS,
@@ -367,16 +371,55 @@ export function settleAllOfficeSalaries(world: World): World {
           periods.push(...list);
           continue;
         }
+        const ownTerms = list.map((period) =>
+          resourceFlowTermsAt(next, flow.id, {
+            asOfDate: period.periodStartsAt,
+            historySequenceExclusive: next.history.nextSequence,
+          }),
+        );
+        const currency = ownTerms[0]?.amount.currency;
+        if (
+          !currency ||
+          ownTerms.some(
+            (terms) =>
+              !terms ||
+              terms.status !== "active" ||
+              terms.amount.currency !== currency,
+          )
+        )
+          throw new Error(
+            "Historical routine summary requires its job's recorded active terms.",
+          );
+        const provenance = {
+          kind: "authored" as const,
+          note: "ESTIMATED FROM AVERAGE: distant historical routine salary summarized from this job's recorded period terms; private goals and nearby residents use ordinary payroll.",
+        };
+        next = createResourceFlow(next, {
+          stableKey: `past-office-summary-flow:${flow.id}:${first.periodStartsAt}:${final.periodEndsAt}`,
+          source: flow.source,
+          recipient: flow.recipient,
+          startsAt: first.periodStartsAt,
+          amount: money(
+            ownTerms.reduce((sum, terms) => sum + terms!.amount.minorUnits, 0),
+            currency,
+          ),
+          cadenceKind: "schedule:annual",
+          basisKind: flow.basisKind,
+          basisReference: flow.basisReference,
+          restrictionKind: ownTerms[0]!.restrictionKind,
+          jurisdictionId: ownTerms[0]!.jurisdictionId,
+          provenance,
+        });
+        const summaryFlow = next.history.resourceFlows.at(-1)!;
         periods.push({
           ...first,
+          payFlowId: summaryFlow.id,
+          activityId: summaryFlow.id,
           stableKey: `past-office-summary:${flow.id}:${first.periodStartsAt}:${final.periodEndsAt}`,
           periodEndsAt: final.periodEndsAt,
           onDate: final.onDate,
-          pastRoutinePeriods: list,
-          provenance: {
-            kind: "authored",
-            note: "ESTIMATED FROM AVERAGE: distant historical routine salary summarized from this job's recorded period terms; private goals and nearby residents use ordinary payroll.",
-          },
+          note: "Salary for the period.",
+          provenance,
         });
       }
     }

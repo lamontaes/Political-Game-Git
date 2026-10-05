@@ -524,7 +524,9 @@ it("summarizes distant historical routine earnings and resumes ordinary payroll 
   const summarized = settleAllOfficeSalaries(at(past, 365));
   const outcomes = (world: World) =>
     world.history.resourceTransferOutcomes.filter(
-      (row) => row.resourceFlowId === f.flow.id,
+      (row) =>
+        row.resourceFlowId === f.flow.id ||
+        row.stableKey.startsWith(`past-office-summary:${f.flow.id}:`),
     );
   expect(outcomes(summarized)).toHaveLength(1);
   expect(outcomes(summarized)[0]!.attemptedAmount.minorUnits).toBe(

@@ -1814,8 +1814,6 @@ export function payTownPaydays(
 
 /** A calendar request backed by an existing compensation flow and activity. */
 export interface TownCompensationPeriod {
-  /** Distant historical routine only; each constituent retains its recorded terms. */
-  readonly pastRoutinePeriods?: readonly TownCompensationPeriod[];
   readonly payFlowId: EntityId;
   readonly activityId: EntityId;
   readonly stableKey: string;
@@ -1991,26 +1989,7 @@ export function settleTownCompensations(
     const gross =
       assessment?.assessedGross ??
       period.completedShift?.amount ??
-      (period.pastRoutinePeriods
-        ? money(
-            period.pastRoutinePeriods.reduce((sum, constituent) => {
-              const own = resourceFlowTermsAt(next, flow.id, {
-                asOfDate: constituent.periodStartsAt,
-                historySequenceExclusive: next.history.nextSequence,
-              });
-              if (
-                !own ||
-                own.status !== "active" ||
-                own.amount.currency !== terms.amount.currency
-              )
-                throw new Error(
-                  "Historical routine summary has no matching saved compensation terms.",
-                );
-              return sum + own.amount.minorUnits;
-            }, 0),
-            terms.amount.currency,
-          )
-        : terms.amount);
+      terms.amount;
     const amount =
       unpaidDays === 0
         ? gross
