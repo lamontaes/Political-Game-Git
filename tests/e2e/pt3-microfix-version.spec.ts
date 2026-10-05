@@ -29,61 +29,45 @@ async function freshBrowser(page: Page) {
   await page.reload();
 }
 
-async function expectCornerVersion(
-  page: Page,
-  viewport: { width: number; height: number },
-) {
-  const version = page.getByTestId("shell-version");
-  await expect(version).toHaveCount(1);
-  await expect(version).toHaveText(/^v\d+\.\d+\.\d+$/);
-  // The build hash is not shown to the player; it stays in the tooltip.
+async function expectNoCurrentVersion(page: Page) {
+  await expect(page.getByTestId("shell-version")).toHaveCount(0);
   await expect(page.getByTestId("shell-build")).toHaveCount(0);
+  // The diagnostic identity remains available; only its visible stamp is removed.
   const response = await page.request.get("/__dev/identity");
   expect(response.ok()).toBe(true);
   const identity = await response.json();
-  await expect(version).toHaveAttribute(
-    "title",
-    identity.dirty ? `${identity.head} (uncommitted changes)` : identity.head,
-  );
-  await expect(version).not.toContainText(identity.head.slice(0, 7));
-
-  const geometry = await version.evaluate((element) => {
-    const style = window.getComputedStyle(element);
-    const box = element.getBoundingClientRect();
-    return {
-      position: style.position,
-      right: Number.parseFloat(style.right),
-      bottom: Number.parseFloat(style.bottom),
-      left: box.left,
-      top: box.top,
-      rightEdge: box.right,
-      bottomEdge: box.bottom,
-    };
-  });
-
-  expect(geometry.position).toBe("fixed");
-  expect(geometry.rightEdge).toBeLessThanOrEqual(viewport.width);
-  expect(geometry.bottomEdge).toBeLessThanOrEqual(viewport.height);
-  expect(geometry.left).toBeGreaterThan(0);
-  expect(geometry.top).toBeGreaterThan(0);
-  expect(viewport.width - geometry.rightEdge).toBeCloseTo(geometry.right, 0);
-  expect(viewport.height - geometry.bottomEdge).toBeCloseTo(geometry.bottom, 0);
+  expect(identity.head).toMatch(/^[0-9a-f]{40}$/);
+  expect(typeof identity.dirty).toBe("boolean");
 }
 
 for (const viewport of [
   { name: "desktop", width: 1440, height: 900 },
   { name: "narrow", width: 390, height: 844 },
 ]) {
-  test(`keeps one canonical version stamp in the viewport at ${viewport.name}`, async ({
+  test(`omits current version stamps throughout player routes at ${viewport.name}`, async ({
     page,
   }) => {
     await page.setViewportSize(viewport);
+    await page.addInitScript(() => {
+      const check = () => {
+        if (document.querySelector('[data-testid="shell-version"]'))
+          document.documentElement.setAttribute(
+            "data-test-version-stamp-seen",
+            "true",
+          );
+      };
+      new MutationObserver(check).observe(document, {
+        childList: true,
+        subtree: true,
+      });
+      check();
+    });
     await freshBrowser(page);
     await expect(page.getByTestId("title-screen")).toBeVisible();
-    await expectCornerVersion(page, viewport);
+    await expectNoCurrentVersion(page);
 
     await openCreator(page);
-    await expectCornerVersion(page, viewport);
+    await expectNoCurrentVersion(page);
 
     await page.getByTestId("start-normal").click();
     await completeCharacterStep(page, 30);
@@ -96,7 +80,7 @@ for (const viewport of [
     await page.getByTestId("whoareyou-answer").click();
     await page.getByTestId("begin").click();
     await expect(page.getByTestId("questionnaire-screen")).toBeVisible();
-    await expectCornerVersion(page, viewport);
+    await expectNoCurrentVersion(page);
 
     /*
      * `questionnaire-finish` does not finish anything. Its button reads
@@ -112,21 +96,23 @@ for (const viewport of [
      */
     await page.getByTestId("questionnaire-finish").click();
     await expect(page.getByTestId("begin")).toBeEnabled();
-    await expectCornerVersion(page, viewport);
+    await expectNoCurrentVersion(page);
 
     await page.getByTestId("begin").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await enterLife(page);
-    await expectCornerVersion(page, viewport);
+    await expectNoCurrentVersion(page);
+    await expect(page.locator("html")).not.toHaveAttribute(
+      "data-test-version-stamp-seen",
+      "true",
+    );
   });
 }
 
-test("uses the same version placement after a normal age-22 start", async ({
-  page,
-}) => {
+test("omits version stamps after a normal age-22 start", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await freshBrowser(page);
   await startLife(page, { age: 22, place: "Lexington", state: "Kentucky" });
   await enterLife(page);
-  await expectCornerVersion(page, { width: 1440, height: 900 });
+  await expectNoCurrentVersion(page);
 });

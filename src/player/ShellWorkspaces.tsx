@@ -52,10 +52,7 @@ import { projectLifeRecord } from "../presentation/life-record";
 import { projectMeasureBriefing } from "../presentation/legislation-projection";
 import { projectOpeningLife } from "../presentation/opening-life";
 import { projectPersonalRecord } from "../presentation/personal-record";
-import {
-  CANONICAL_VERSION,
-  PATCH_NOTE_SECTIONS,
-} from "../presentation/release-identity";
+import { PATCH_NOTE_SECTIONS } from "../presentation/release-identity";
 import type {
   PinSize,
   PeopleView,
@@ -2103,9 +2100,6 @@ export function PatchNotesWorkspace() {
   const withheld = PATCH_NOTE_SECTIONS.length - released.length;
   return (
     <>
-      <p className="game-band" data-testid="patch-notes-version">
-        Version {CANONICAL_VERSION}
-      </p>
       {/*
         The build stamp is a revision, which is a fact about where this bundle
         came from rather than anything in the game. It stays readable on a
@@ -2260,10 +2254,6 @@ export function OptionsWorkspace({
       {onOpenPatchNotes ? (
         <section className="pg-personal-section">
           <h3>This build</h3>
-          <p className="game-note">
-            Version {CANONICAL_VERSION}. What changed is read from the build
-            itself.
-          </p>
           <button
             type="button"
             className="ui-action ui-action--subtle"
