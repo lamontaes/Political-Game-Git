@@ -1,0 +1,13 @@
+{
+  "head": "ab45e7392394aa69fddeff800cc09a94d190103a",
+  "seed": "session21-pay-kind-30-day-opening",
+  "place": {
+    "key": "2233490",
+    "name": "Hayes, Louisiana"
+  },
+  "days": 30,
+  "from": "2026-01-05",
+  "through": "2026-02-04",
+  "people": 15512,
+  "newPayTerms": []
+}
