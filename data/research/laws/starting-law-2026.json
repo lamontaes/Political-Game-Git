@@ -9598,8 +9598,12 @@
           "answer": "yes",
           "operativeAt": "2025-07-01",
           "preempts": true,
+          "cite": "Haw. Rev. Stat. § 249-36, as amended by 2023 Haw. Sess. Laws Act 222",
           "source": "https://hidot.hawaii.gov/hawai%ca%bbi-road-usage-charge-program/",
-          "note": "Electric vehicles only: from 7/1/2025 owners choose a per-mile charge ($8 per 1,000 miles, capped at $50) or a flat $50, both replacing the $50 EV registration surcharge; HDOT says per-mile becomes mandatory for EVs by 2028. Cite omitted because the statute page (capitol.hawaii.gov, HRS § 249-36 / Act 222 of 2023) refused the request."
+          "note": "Electric vehicles only: from July 1, 2025 owners may choose 0.8 cents per mile capped at $50, or the flat $50 annual charge, replacing the EV registration surcharge; HDOT says per-mile becomes mandatory for EVs by 2028.",
+          "lawTerms": [
+            { "questionKey": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax", "key": "rate", "value": 0.8, "unit": "minor/vehicle-mile" }
+          ]
         },
         "US-IA": {
           "answer": "no",
@@ -9779,7 +9783,10 @@
           "preempts": true,
           "cite": "Or. Rev. Stat. § 319.885",
           "source": "https://www.oregon.gov/odot/programs/pages/orego.aspx",
-          "note": "OReGO is voluntary: enrolled drivers pay a per-mile charge (set by ORS 319.885 at 5% of the per-gallon tax) and get a credit for fuel tax paid; ODOT launched it 7/1/2015. HB 3991 (2025 special session, subject to referendum petitions per the ORS note) phases in a flat-or-per-mile choice for electric vehicles from 7/1/2027 and hybrids from 7/1/2028."
+          "note": "OReGO is voluntary: enrolled drivers pay the current 2-cent per-mile charge and get a credit for fuel tax paid; ODOT launched it July 1, 2015. HB 3991 (2025 special session, subject to referendum petitions per the ORS note) phases in a flat-or-per-mile choice for electric vehicles from July 1, 2027 and hybrids from July 1, 2028.",
+          "lawTerms": [
+            { "questionKey": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax", "key": "rate", "value": 2, "unit": "minor/vehicle-mile" }
+          ]
         },
         "US-PA": {
           "answer": "no",
@@ -9833,7 +9840,10 @@
           "preempts": true,
           "cite": "Utah Code § 72-1-213.1",
           "source": "https://le.utah.gov/xcode/Title72/Chapter1/C72-1-S213.1_2026050620260701.html",
-          "note": "Voluntary and limited to alternative fuel vehicles, whose owners may pay a per-mile charge in lieu of the flat annual alternative fuel vehicle fee (a fuel-tax substitute); the statute says the program began 1/1/2020. The only version the legislature site serves is the one effective 7/1/2026, so the 1/1/2026 text was not read directly."
+          "note": "For calendar year 2026, voluntarily enrolled alternative-fuel vehicles pay 1.25 cents per mile, capped at $180 for registration periods beginning in 2026; the charge substitutes for the flat annual alternative-fuel vehicle fee.",
+          "lawTerms": [
+            { "questionKey": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax", "key": "rate", "value": 1.25, "unit": "minor/vehicle-mile" }
+          ]
         },
         "US-VA": {
           "answer": "yes",
@@ -9841,7 +9851,7 @@
           "preempts": true,
           "cite": "Va. Code § 46.2-773",
           "source": "https://law.lis.virginia.gov/vacode/title46.2/chapter7/section46.2-773/",
-          "note": "Mileage Choice is voluntary for vehicles subject to the highway use fee (the fuel-tax substitute for efficient and electric vehicles) and charges per mile, capped at that fee; Acts 2020 c. 1230, enactment 6, made § 46.2-773 effective 7/1/2022."
+          "note": "Mileage Choice is voluntary for vehicles subject to the highway use fee. The mileage rate is each vehicle's highway use fee divided by the statewide average passenger miles for its registration period, and the total is capped at that fee. Acts 2020 c. 1230, enactment 6, made § 46.2-773 effective July 1, 2022."
         },
         "US-VI": {
           "answer": "no",
