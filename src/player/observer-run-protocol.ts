@@ -2,15 +2,28 @@ import type { IsoDate, World } from "../simulation/types";
 import type { ObserverHistoryCheckpoint } from "../presentation/observer-history-checkpoint";
 import type { PreparedRecord } from "../presentation/browser-world-repository";
 
+/** Loading is bounded and has no save until the existing Begin handoff. */
+export interface ObserverLoadingOptions {
+  readonly throughDate: IsoDate;
+}
+
 export type ObserverWorkerCommand =
-  | { readonly kind: "init"; readonly world: World }
+  | {
+      readonly kind: "init";
+      readonly world: World;
+      readonly loading?: ObserverLoadingOptions;
+    }
   | { readonly kind: "run" }
   | { readonly kind: "pause"; readonly requestId: number }
   | { readonly kind: "step"; readonly days: number; readonly requestId: number }
   | { readonly kind: "ack"; readonly checkpointId: number };
 
 export type ObserverWorkerMessage =
-  | { readonly kind: "progress"; readonly date: IsoDate }
+  | {
+      readonly kind: "progress";
+      readonly date: IsoDate;
+      readonly running?: false;
+    }
   | {
       readonly kind: "checkpoint";
       readonly checkpointId: number;

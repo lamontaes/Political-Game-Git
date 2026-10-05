@@ -5,9 +5,11 @@ import {
 import { observerHistoryCheckpoint } from "../presentation/observer-history-checkpoint";
 import { prepareWorldRecord } from "../presentation/browser-world-repository";
 import type { World } from "../simulation/types";
+import { daysBetween } from "../simulation/dates";
 import type {
   ObserverWorkerCommand,
   ObserverWorkerMessage,
+  ObserverLoadingOptions,
 } from "./observer-run-protocol";
 
 // The worker owns one canonical World, advanced by the same ordinary clock as
@@ -19,6 +21,7 @@ const scope = self as unknown as {
 const CHECKPOINT_WEEKS = 13;
 const RUN_BATCH_WEEKS = 4;
 let world: World | null = null;
+let loading: ObserverLoadingOptions | undefined;
 let checkpointBase: World | null = null;
 let wantedRun = false;
 let waitingForAck = 0;
@@ -38,7 +41,7 @@ function sendCheckpoint(requestId?: number): void {
     checkpoint: unchanged
       ? null
       : observerHistoryCheckpoint(checkpointBase, world),
-    ...(unchanged ? {} : { prepared: prepareWorldRecord(world) }),
+    ...(unchanged || loading ? {} : { prepared: prepareWorldRecord(world) }),
     ...(requestId === undefined ? {} : { requestId }),
   });
 }
@@ -53,7 +56,23 @@ function scheduleBatch(): void {
         RUN_BATCH_WEEKS,
         CHECKPOINT_WEEKS - weeksSinceCheckpoint,
       );
-      const next = advanceObservedWorldWeeks(world, weeks);
+      const remaining = loading
+        ? daysBetween(world.currentDate, loading.throughDate)
+        : null;
+      if (remaining !== null && remaining <= 0) {
+        wantedRun = false;
+        scope.postMessage({
+          kind: "progress",
+          date: world.currentDate,
+          running: false,
+        });
+        sendCheckpoint();
+        return;
+      }
+      const next =
+        remaining !== null && remaining < weeks * 7
+          ? advanceObservedWorld(world, remaining)
+          : advanceObservedWorldWeeks(world, weeks);
       if (next.currentDate === world.currentDate) {
         wantedRun = false;
         scope.postMessage({
@@ -64,8 +83,16 @@ function scheduleBatch(): void {
       }
       world = next;
       weeksSinceCheckpoint += weeks;
-      scope.postMessage({ kind: "progress", date: next.currentDate });
-      if (weeksSinceCheckpoint >= CHECKPOINT_WEEKS) sendCheckpoint();
+      const reachedBoundary =
+        loading && next.currentDate >= loading.throughDate;
+      if (reachedBoundary) wantedRun = false;
+      scope.postMessage({
+        kind: "progress",
+        date: next.currentDate,
+        ...(reachedBoundary ? { running: false } : {}),
+      });
+      if (reachedBoundary || weeksSinceCheckpoint >= CHECKPOINT_WEEKS)
+        sendCheckpoint();
       else scheduleBatch();
     } catch (error) {
       wantedRun = false;
@@ -81,7 +108,21 @@ function scheduleBatch(): void {
 scope.onmessage = (event) => {
   const command = event.data;
   if (command.kind === "init") {
+    if (
+      command.loading &&
+      (command.world.control.kind !== "observer" ||
+        command.world.preStartLife?.targetStartDate !==
+          command.loading.throughDate ||
+        command.world.currentDate > command.loading.throughDate)
+    ) {
+      scope.postMessage({
+        kind: "problem",
+        message: "Loading requires its recorded future Begin boundary.",
+      });
+      return;
+    }
     world = command.world;
+    loading = command.loading;
     checkpointBase = command.world;
     return;
   }
@@ -117,7 +158,19 @@ scope.onmessage = (event) => {
   }
   if (command.kind === "step" && !wantedRun && !waitingForAck) {
     try {
-      const next = advanceObservedWorld(world, command.days);
+      if (loading && (!Number.isSafeInteger(command.days) || command.days <= 0))
+        throw new Error("Loading requires a positive whole number of days.");
+      const days = loading
+        ? Math.min(
+            command.days,
+            daysBetween(world.currentDate, loading.throughDate),
+          )
+        : command.days;
+      if (loading && days <= 0) {
+        sendCheckpoint(command.requestId);
+        return;
+      }
+      const next = advanceObservedWorld(world, days);
       if (next.currentDate === world.currentDate) {
         scope.postMessage({
           kind: "problem",

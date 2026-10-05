@@ -4,6 +4,7 @@ import type { PreparedRecord } from "../presentation/browser-world-repository";
 import type {
   ObserverWorkerCommand,
   ObserverWorkerMessage,
+  ObserverLoadingOptions,
 } from "./observer-run-protocol";
 
 export interface ObserverRunView {
@@ -29,6 +30,8 @@ export class ObserverRunController {
   #view: ObserverRunView;
   #worker: Worker | null = null;
   #world: World;
+  readonly #loading: ObserverLoadingOptions | undefined;
+  #loadingCommit: ((next: World, base: World) => void) | undefined;
   #commit: (next: World, base: World, prepared: PreparedRecord) => void =
     () => {};
   #pendingCheckpoint: {
@@ -53,7 +56,18 @@ export class ObserverRunController {
     event.returnValue = "";
   };
 
-  constructor(world: World) {
+  constructor(
+    world: World,
+    options?: { readonly loading: ObserverLoadingOptions },
+  ) {
+    this.#loading = options?.loading;
+    if (
+      this.#loading &&
+      (world.control.kind !== "observer" ||
+        world.preStartLife?.targetStartDate !== this.#loading.throughDate ||
+        world.currentDate > this.#loading.throughDate)
+    )
+      throw new Error("Loading requires its recorded future Begin boundary.");
     this.#world = world;
     this.#view = {
       date: world.currentDate,
@@ -76,7 +90,16 @@ export class ObserverRunController {
   setCommit(
     commit: (next: World, base: World, prepared: PreparedRecord) => void,
   ): void {
+    if (this.#loading)
+      throw new Error("Loading requires its separate commit callback.");
     this.#commit = commit;
+  }
+
+  /** No prepared storage payload may reach the ordinary Observer save callback. */
+  setLoadingCommit(commit: (next: World, base: World) => void): void {
+    if (!this.#loading)
+      throw new Error("The ordinary Observer requires saved checkpoints.");
+    this.#loadingCommit = commit;
   }
 
   /** Called when the parent has actually rendered a checkpoint. */
@@ -104,6 +127,8 @@ export class ObserverRunController {
   }
 
   start(): void {
+    if (this.#loading && this.#world.currentDate >= this.#loading.throughDate)
+      return;
     if (this.#view.running || this.#view.busy || this.#pendingCheckpoint)
       return;
     if (!this.#ensureWorker()) return;
@@ -131,6 +156,8 @@ export class ObserverRunController {
     if (this.#view.running || this.#view.busy || this.#pendingCheckpoint) {
       return Promise.reject(new Error("The observer clock is already moving."));
     }
+    if (this.#loading && this.#world.currentDate >= this.#loading.throughDate)
+      return Promise.resolve(this.#world);
     if (!this.#ensureWorker()) {
       return Promise.reject(
         new Error(this.#view.problem ?? "The clock is unavailable."),
@@ -172,7 +199,11 @@ export class ObserverRunController {
       worker.onerror = () =>
         this.#fail("The background world stopped unexpectedly.");
       this.#worker = worker;
-      this.#post({ kind: "init", world: this.#world });
+      this.#post({
+        kind: "init",
+        world: this.#world,
+        ...(this.#loading ? { loading: this.#loading } : {}),
+      });
       return true;
     } catch {
       this.#update({
@@ -188,7 +219,10 @@ export class ObserverRunController {
 
   #receive(message: ObserverWorkerMessage): void {
     if (message.kind === "progress") {
-      this.#update({ date: message.date });
+      this.#update({
+        date: message.date,
+        ...(message.running === false ? { running: false } : {}),
+      });
       return;
     }
     if (message.kind === "problem") {
@@ -213,6 +247,8 @@ export class ObserverRunController {
         this.#world,
         message.checkpoint,
       );
+      if (this.#loading && next.currentDate > this.#loading.throughDate)
+        throw new Error("The loading checkpoint passed its Begin boundary.");
       if (
         next.currentDate === this.#world.currentDate &&
         next.actionSequence === this.#world.actionSequence &&
@@ -233,10 +269,15 @@ export class ObserverRunController {
           ? {}
           : { requestId: message.requestId }),
       };
-      if (!message.prepared) {
+      if (this.#loading) {
+        if (!this.#loadingCommit)
+          throw new Error("Loading has no checkpoint callback.");
+        this.#loadingCommit(next, this.#world);
+      } else if (!message.prepared) {
         throw new Error("The background checkpoint has no saved snapshot.");
+      } else {
+        this.#commit(next, this.#world, message.prepared);
       }
-      this.#commit(next, this.#world, message.prepared);
     } catch (error) {
       this.#fail(
         error instanceof Error

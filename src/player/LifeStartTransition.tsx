@@ -67,8 +67,12 @@ export function LifeStartTransition({
       if (controller.signal.aborted)
         return Promise.reject(controller.signal.reason);
       if (!observer) {
-        observer = new ObserverRunController(world);
-        observer.setCommit((next) => observer!.syncWorld(next));
+        if (!world.preStartLife)
+          return Promise.reject(new Error("This life has no Begin boundary."));
+        observer = new ObserverRunController(world, {
+          loading: { throughDate: world.preStartLife.targetStartDate },
+        });
+        observer.setLoadingCommit((next) => observer!.syncWorld(next));
       } else observer.syncWorld(world);
       return observer.step(days);
     };
