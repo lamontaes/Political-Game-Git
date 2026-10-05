@@ -64,6 +64,14 @@ export interface HomeLocalGovernmentUnits {
    * city, a county or a state, and where no town is a government.
    */
   readonly townships: readonly GovernmentUnitIdentity[];
+  /** A canonical state government that directly serves a locality with no
+   * municipal, township, or county government in the source records. */
+  readonly stateServed: {
+    readonly id: string;
+    readonly jurisdictionId: EntityId;
+    readonly name: string;
+    readonly stateUsps: string;
+  } | null;
   readonly countyStatus: CountyGovernmentStatus;
   readonly countyReason: string | null;
   /**
@@ -111,6 +119,7 @@ export function placeLocalGovernmentUnits(
     municipal: [],
     counties: [],
     townships: [],
+    stateServed: null,
     countyStatus,
     countyReason,
     countyShares: null,
@@ -131,6 +140,7 @@ export function placeLocalGovernmentUnits(
           municipal: [],
           counties: [county],
           townships: [],
+          stateServed: null,
           countyStatus: "established",
           countyReason: null,
           countyShares: null,
@@ -161,6 +171,7 @@ export function placeLocalGovernmentUnits(
       municipal,
       counties: relation.map((share) => share.unit),
       townships,
+      stateServed: null,
       countyStatus: "established",
       countyReason: null,
       countyShares: relation.map((share) => ({
@@ -179,15 +190,36 @@ export function placeLocalGovernmentUnits(
       municipal,
       counties: municipios,
       townships: [],
+      stateServed: null,
       countyStatus: "established",
       countyReason: null,
       countyShares: null,
     };
-  if (municipal.length === 0)
+  if (municipal.length === 0) {
+    const stateKey = place.stateJurisdictionKey;
+    const state = townships.length
+      ? null
+      : stateKey
+        ? stateJurisdictionForKey(stateKey)
+        : null;
     return {
-      ...none("locality", "not-established", countyRelationEmpty(term)),
+      ...none(
+        "locality",
+        "not-established",
+        state ? null : countyRelationEmpty(term),
+      ),
       townships,
+      stateServed:
+        state && stateKey
+          ? {
+              id: `state-service:${stateKey}`,
+              jurisdictionId: state.id,
+              name: state.name,
+              stateUsps: stateKey.slice(3),
+            }
+          : null,
     };
+  }
   const counties = new Map<string, GovernmentUnitIdentity>();
   for (const unit of municipal) {
     const county = unit.countyGeoid
@@ -200,6 +232,7 @@ export function placeLocalGovernmentUnits(
     municipal,
     counties: [...counties.values()],
     townships: [],
+    stateServed: null,
     countyStatus: counties.size > 0 ? "established" : "no-county-government",
     countyReason:
       counties.size > 0

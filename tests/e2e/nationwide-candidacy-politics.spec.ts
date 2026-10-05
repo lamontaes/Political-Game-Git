@@ -7,8 +7,26 @@ import {
   saveLife,
   startLife,
 } from "./support/creator";
+import { drawRandomPlace } from "../support/random-place";
+import { placeLocalGovernmentUnits } from "../../src/simulation/nationwide-world/local-governments";
 
 test.setTimeout(120_000);
+
+const STATE_SERVICE_SEED = "session8-atu-state-service-2026-10-05";
+const STATE_SERVED_PLACE = drawRandomPlace(STATE_SERVICE_SEED, (place) => {
+  if (place.stateJurisdictionKey !== "US-AK" || place.scope !== "locality")
+    return false;
+  const units = placeLocalGovernmentUnits(place);
+  return (
+    units.municipal.length === 0 &&
+    units.townships.length === 0 &&
+    units.counties.length === 0
+  );
+});
+if (!STATE_SERVED_PLACE.stateJurisdictionKey)
+  throw new Error(
+    `seed ${STATE_SERVICE_SEED} must select an Alaska locality with state identity`,
+  );
 
 async function openCandidacy(page: Page, activation: "pointer" | "keyboard") {
   await openShellMenu(page);
@@ -107,4 +125,30 @@ test("a place without a city government keeps its county and candidacy distinct"
     "data-office-key",
     "us-nv-governor",
   );
+});
+
+test(`state service is named for ${STATE_SERVED_PLACE.displayName} (seed ${STATE_SERVICE_SEED})`, async ({
+  page,
+}, testInfo) => {
+  await page.goto(`/?seed=${STATE_SERVICE_SEED}`);
+  await startLife(page, {
+    age: 40,
+    place: STATE_SERVED_PLACE.formalName ?? STATE_SERVED_PLACE.displayName,
+    state: "Alaska",
+  });
+  await enterLife(page);
+  await openCandidacy(page, "pointer");
+
+  const home = page.getByTestId("home-governments");
+  await expect(home).toHaveAttribute("data-place-scope", "locality");
+  await expect(home.getByTestId("home-no-municipal")).toBeVisible();
+  await expect(home.getByTestId("home-state-served")).toContainText(
+    "State government: Alaska serves this place.",
+  );
+  const screenshot = testInfo.outputPath("state-served-place.png");
+  await home.screenshot({ path: screenshot });
+  await testInfo.attach("state-served-place", {
+    path: screenshot,
+    contentType: "image/png",
+  });
 });

@@ -112,6 +112,11 @@ export function NationwideCandidacyWorkspace({
             </p>
           )
         ) : null}
+        {home.stateServed ? (
+          <p className="game-note" data-testid="home-state-served">
+            State government: {home.stateServed.name} serves this place.
+          </p>
+        ) : null}
         {home.counties.length > 0 ? (
           <ul data-testid="home-counties">
             {home.counties.map((unit) => {
