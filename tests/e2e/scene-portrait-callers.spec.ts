@@ -71,11 +71,8 @@ test("opening tour and ordinary scene inspect carry their actual rendered clothe
   const expanded = page.getByTestId("full-dossier");
   await expect(expanded).toHaveAttribute("data-person-id", stagedId!);
   expect(await drawnClothing(expanded)).toEqual(stagedClothes);
-  await expanded.getByTestId("person-full-record").click();
-  const fullRecord = page.getByTestId("person-workspace");
-  await expect(fullRecord).toBeVisible();
-  expect(await drawnClothing(fullRecord)).toEqual(stagedClothes);
-  await fullRecord.getByRole("button", { name: "Close", exact: true }).click();
+  // NPC records expand in this same card; only the player has a separate full-record route.
+  await expanded.getByTestId("quick-dossier-close").click();
   while (await intro.isVisible())
     await intro.getByRole("button", { name: /^(Next|Begin|Done)$/ }).click();
   const ordinaryControls = page.locator(
@@ -98,12 +95,9 @@ test("opening tour and ordinary scene inspect carry their actual rendered clothe
   ).toBe(clock);
   await card.getByTestId("quick-dossier-full").click();
   expect(await drawnClothing(expanded)).toEqual(ordinaryClothes);
-  await expanded.getByTestId("person-full-record").click();
-  await expect(fullRecord).toBeVisible();
-  expect(await drawnClothing(fullRecord)).toEqual(ordinaryClothes);
   expect(
     await page.getByTestId("shell-nav-cluster").getAttribute("aria-label"),
   ).toBe(clock);
-  await fullRecord.getByRole("button", { name: "Close", exact: true }).click();
-  await expect(fullRecord).toHaveCount(0);
+  await expanded.getByTestId("quick-dossier-close").click();
+  await expect(expanded).toHaveCount(0);
 });
