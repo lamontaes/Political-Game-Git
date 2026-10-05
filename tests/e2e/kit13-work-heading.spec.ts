@@ -38,9 +38,10 @@ test("work shows a decision heading only beside actual recorded decisions", asyn
     timeout: 90_000,
   });
   await enterLife(page);
-  await goTo(page, "nav-jobs");
-  const workspace = page.getByTestId("personal-work-section");
+  await goTo(page, "elsewhere-campaign");
+  const workspace = page.getByTestId("candidacy-workspace");
   await expect(workspace).toBeVisible();
+  await expect(workspace.getByTestId("work-role")).toBeVisible();
   await page.screenshot({
     path: join(info.config.metadata.artifacts, "work.png"),
   });
