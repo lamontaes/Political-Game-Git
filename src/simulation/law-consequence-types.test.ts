@@ -14,7 +14,6 @@ it("closes new writer labels while listing the legacy labels to retire", () => {
     "cannabis-selective-tax-revenue",
     "congress-voting-seat-tenure",
     "election.state-legislative-candidacy-intent",
-    "eviction-counsel-representation",
     "federal-income-tax-withholding",
     "government-outlay-change",
     "government-program-payment",
@@ -45,4 +44,8 @@ it("closes new writer labels while listing the legacy labels to retire", () => {
   // @ts-expect-error A new bespoke outcome label must not enter the shared writer.
   const invented: LawEffectContext["effectKind"] = "invented-new-effect";
   void invented;
+  // @ts-expect-error New permission writers use the shared kind, not the retired label.
+  const retiredPermission: LawEffectContext["effectKind"] =
+    "eviction-counsel-representation";
+  void retiredPermission;
 });

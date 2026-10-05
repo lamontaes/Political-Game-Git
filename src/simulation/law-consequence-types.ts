@@ -23,7 +23,6 @@ export type LegacyEffectKind =
   | "cannabis-selective-tax-revenue"
   | "congress-voting-seat-tenure"
   | "election.state-legislative-candidacy-intent"
-  | "eviction-counsel-representation"
   | "federal-income-tax-withholding"
   | "government-outlay-change"
   | "government-program-payment"

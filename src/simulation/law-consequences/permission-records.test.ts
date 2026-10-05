@@ -94,6 +94,34 @@ describe("saved law permission family", () => {
     );
     expect(saved.lawEffectStamps[0].governingLawKey).toBe(law.measureId);
     expect(saved.sourceRecordIds).toEqual(input.sourceRecordIds);
+    expect(saved.lawEffectStamps[0].effectKind).toBe("right-permission");
+    // A historical label is a saved fixture, not an input accepted by a new writer.
+    const legacyStamp = {
+      ...saved.lawEffectStamps[0],
+      effectKind: "eviction-counsel-representation",
+    };
+    const legacySaved = {
+      ...next,
+      history: {
+        ...next.history,
+        lawPermissionRecords: next.history.lawPermissionRecords!.map(
+          (record) =>
+            record.id === saved.id
+              ? { ...record, lawEffectStamps: [legacyStamp] }
+              : record,
+        ),
+      },
+    };
+    const legacyResumed = deserializeWorld(serializeWorld(legacySaved));
+    expect(
+      latestLawPermission(legacyResumed, input.subject, input.permissionKey)
+        ?.lawEffectStamps,
+    ).toEqual([legacyStamp]);
+    expect(
+      latestLawPermission(legacyResumed, input.subject, input.permissionKey)
+        ?.id,
+    ).toBe(saved.id);
+
     const resumed = deserializeWorld(serializeWorld(next));
     expect(
       latestLawPermission(resumed, input.subject, input.permissionKey),
