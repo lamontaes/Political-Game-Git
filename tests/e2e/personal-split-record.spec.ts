@@ -31,7 +31,7 @@ async function savedLife(page: Page): Promise<World> {
 test("Personal separates current records from history without changing the life", async ({
   page,
 }) => {
-  test.setTimeout(180_000);
+  test.setTimeout(240_000);
   const seed = "session9-split-record-oct5";
   const place = drawRandomPlace(
     seed,
@@ -164,4 +164,34 @@ test("Personal separates current records from history without changing the life"
   const after = await savedLife(page);
   expect(after.currentDate).toBe(before.currentDate);
   expect(after.history).toEqual(before.history);
+  await goTo(page, "leave-game");
+  await expect(page.getByTestId("leave-confirm")).toBeVisible();
+  await page.getByTestId("leave-without-saving").click();
+  await expect(page.getByTestId("title-screen")).toBeVisible({
+    timeout: 30_000,
+  });
+  await page.getByTestId("continue").click();
+  await expect(page.getByTestId("shell-nav-cluster")).toBeVisible({
+    timeout: 30_000,
+  });
+  await goTo(page, "nav-personal");
+  await expect(profile.getByTestId("personal-current-work")).toBeVisible();
+  await expect(figure.locator("figure")).toHaveAttribute(
+    "data-figure-status",
+    "ready",
+  );
+  const continuedWorkIds = await profile
+    .getByTestId("personal-current-work")
+    .locator("[data-record-id]")
+    .evaluateAll((nodes) =>
+      nodes.map((node) => node.getAttribute("data-record-id")),
+    );
+  expect(continuedWorkIds).toEqual(workIds);
+  const continued = await savedLife(page);
+  expect(continued.control).toEqual(before.control);
+  expect(continued.currentDate).toBe(before.currentDate);
+  expect(continued.history).toEqual(before.history);
+  await page.screenshot({
+    path: test.info().outputPath("personal-continued-1920.png"),
+  });
 });

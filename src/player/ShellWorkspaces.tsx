@@ -302,7 +302,7 @@ export function WorkspaceFrame({
   return (
     <section
       ref={frame}
-      className="pg-workspace civic-glass"
+      className="pg-workspace pg-glass-panel"
       data-closing={closing || undefined}
       style={
         shown
@@ -381,7 +381,7 @@ export function WorkspaceFrame({
             data-testid={`${testid}-close`}
             onClick={close}
           >
-            <span aria-hidden="true">✕</span>
+            <span aria-hidden="true">×</span>
           </button>
         </div>
       </header>
@@ -530,7 +530,7 @@ export function PeopleWorkspace({
             }
           }}
           onKeyDown={(event) => {
-            if (event.key === "Escape") {
+            if (event.key === "Escape" && event.currentTarget.open) {
               event.stopPropagation();
               event.currentTarget.open = false;
               event.currentTarget.querySelector("summary")?.focus();
@@ -544,14 +544,10 @@ export function PeopleWorkspace({
             </svg>
             Find somebody
           </summary>
-          <label className="pg-field pg-people-search-entry">
-            <span className="sr-only">Find somebody</span>
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <circle cx="10" cy="10" r="6" />
-              <path d="M 14.5 14.5 L 21 21" />
-            </svg>
+          <div className="pg-field pg-people-search-entry">
             <input
               type="search"
+              aria-label="Find somebody"
               value={state.peopleQuery}
               data-testid="people-search"
               onChange={(event) =>
@@ -561,7 +557,33 @@ export function PeopleWorkspace({
                 })
               }
             />
-          </label>
+            {state.peopleQuery ? (
+              <button
+                type="button"
+                className="pg-search-icon"
+                aria-label="Clear search"
+                onClick={() => {
+                  dispatch({ type: "set-people-query", query: "" });
+                  searchRef.current?.querySelector("input")?.focus();
+                }}
+              >
+                <span aria-hidden="true">×</span>
+              </button>
+            ) : null}
+            <button
+              type="button"
+              className="pg-search-icon"
+              aria-label="Return to people"
+              onClick={() => {
+                if (searchRef.current) {
+                  searchRef.current.open = false;
+                  searchRef.current.querySelector("summary")?.focus();
+                }
+              }}
+            >
+              <span aria-hidden="true">↵</span>
+            </button>
+          </div>
         </details>
         <div
           className="pg-people-web-toolbar"

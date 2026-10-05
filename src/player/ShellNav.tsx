@@ -478,7 +478,7 @@ export function ShellNav({
       data-testid="shell-nav"
       onKeyDown={onNavKeyDown}
     >
-      <div className="pg-nav-clock-and-controls" ref={rowRef}>
+      <div className="pg-nav-clock-and-controls pg-glass-panel" ref={rowRef}>
         <div className="pg-nav-row">
           <button
             type="button"
@@ -620,7 +620,7 @@ export function ShellNav({
               {stopsOpen && !open && !state.confirmingLeave ? (
                 <div
                   id="pg-nav-stops"
-                  className="pg-nav-stops"
+                  className="pg-nav-stops pg-glass-panel"
                   role="dialog"
                   aria-label="What passing time stops for"
                   data-testid="shell-stops"
@@ -666,7 +666,7 @@ export function ShellNav({
         <div
           key={visibleNavigation}
           id="pg-nav-flyout"
-          className="pg-nav-flyout"
+          className="pg-nav-flyout pg-glass-panel"
           data-motion={closing ? "closing" : "open"}
           inert={closing}
           aria-hidden={closing || undefined}
@@ -770,7 +770,7 @@ export function ShellNav({
 
       {state.confirmingLeave ? (
         <div
-          className="pg-nav-flyout pg-nav-confirm"
+          className="pg-nav-flyout pg-nav-confirm pg-glass-panel"
           role="alertdialog"
           aria-modal="true"
           aria-labelledby="pg-nav-confirm-title"
