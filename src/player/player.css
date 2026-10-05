@@ -4762,10 +4762,11 @@
   width: 2.6rem;
   height: 2.6rem;
   border-radius: 50%;
-  border: 1px solid #b4b4a8;
-  background: #eceade;
-  color: #32291b;
-  font-weight: 700;
+  border: 1px solid var(--pg-hairline);
+  background: var(--glass-bottom);
+  color: var(--text-1);
+  font-family: var(--ui);
+  font-weight: 600;
   letter-spacing: 0.02em;
 }
 
