@@ -1,4 +1,5 @@
 import "./pose41-scene.css";
+import type { ScenePersonSelectionHandler } from "../presentation/person-scene-appearance";
 import {
   sceneConversationFrame,
   type SceneConversationFrame,
@@ -185,7 +186,7 @@ export function SceneBackdrop({
    * arrangement being removed, not a requirement. Selection belongs on the
    * person, in the scene.
    */
-  readonly onSelectPerson?: (personId: string) => void;
+  readonly onSelectPerson?: ScenePersonSelectionHandler;
   /** The person whose action menu is open, so the button can say so. */
   readonly selectedPersonId?: string | null;
   /**
@@ -672,7 +673,8 @@ export function SceneBackdrop({
                 {...(onSelectPerson
                   ? {
                       type: "button" as const,
-                      onClick: () => onSelectPerson(person.personId),
+                      onClick: () =>
+                        onSelectPerson(person.personId, person.engine),
                       "aria-haspopup": "menu" as const,
                       "aria-expanded": chosen,
                       /*
@@ -836,7 +838,7 @@ export function SceneBackdrop({
                   data-testid={`scene-name-${person.personId}`}
                   aria-hidden="true"
                   tabIndex={-1}
-                  onClick={() => onSelectPerson(person.personId)}
+                  onClick={() => onSelectPerson(person.personId, person.engine)}
                 >
                   <strong>{person.name}</strong>
                   {person.relationship ? (

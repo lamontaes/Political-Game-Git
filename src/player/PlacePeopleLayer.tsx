@@ -6,6 +6,7 @@ import {
   type RefObject,
 } from "react";
 import { EngineFigure } from "./EnginePerson";
+import type { ScenePersonSelectionHandler } from "../presentation/person-scene-appearance";
 import {
   BACKDROP_ASPECT,
   BACKDROP_FOCUS_Y,
@@ -27,7 +28,7 @@ export function PlacePeopleLayer({
 }: {
   readonly people: readonly BackdropPerson[];
   readonly stageRef: RefObject<HTMLDivElement | null>;
-  readonly onSelectPerson?: (personId: string) => void;
+  readonly onSelectPerson?: ScenePersonSelectionHandler;
   readonly selectedPersonId?: string | null;
   /** Show each person's name and title on a plate over their head. */
   readonly nameplates?: boolean;
@@ -85,7 +86,7 @@ export function PlacePeopleLayer({
             aria-label={`${person.name}, ${person.title}`}
             aria-pressed={selectedPersonId === person.personId}
             title={`${person.name}, ${person.title}`}
-            onClick={() => onSelectPerson?.(person.personId)}
+            onClick={() => onSelectPerson?.(person.personId, person.engine)}
             style={
               {
                 position: "absolute",
