@@ -425,7 +425,7 @@ function conditionsFor(
         : null;
       const source = peers[0];
       if (!source) throw new Error(`No House evidence for ${seat.stateUsps}.`);
-      return generateContest(world, latents, {
+      const generated = generateContest(world, latents, {
         ...source,
         contestKey: seat.seatKey,
         totalVotes: null,
@@ -435,6 +435,11 @@ function conditionsFor(
         uncertaintyReason:
           "estimated-retired-district-from-own-state-house-mean",
       });
+      return {
+        ...generated,
+        uncertaintyReason:
+          "estimated-retired-district-from-own-state-house-mean",
+      };
     })
     .sort((a, b) => a.seatKey.localeCompare(b.seatKey));
   return {
