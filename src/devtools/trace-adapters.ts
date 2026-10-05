@@ -2085,17 +2085,23 @@ export const BUILT_IN_TRACE_SOURCES: readonly TraceSource[] = [
           record.personId,
         ]),
       );
+      const summariesByEvent = new Map(
+        world.history.events.map((event) => [event.id, event.summary]),
+      );
       return (world.history.jobApplicationSteps ?? []).map((record) => ({
         record,
         personId: peopleByApplication.get(record.applicationId),
+        text:
+          (record.eventId ? summariesByEvent.get(record.eventId) : null) ??
+          `${record.kind}: ${record.reason ?? record.kind}`,
       }));
     },
-    ({ record, personId }) =>
+    ({ record, personId, text }) =>
       recordNode(
         "history.jobApplicationSteps",
         record,
         record.occurredAt,
-        `${record.kind}: ${record.reason ?? record.kind}`,
+        text,
         [record.applicationId, ...(personId ? [personId] : [])],
         [
           {

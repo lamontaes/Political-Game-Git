@@ -44,6 +44,11 @@ import {
   projectOrdinaryDay,
 } from "./ordinary-life";
 import { projectWorld39Journal } from "./world39-journal";
+import {
+  observeFromOpening,
+  observerAnchorPersonId,
+} from "../simulation/people-continuation";
+import { advanceObservedWorld } from "./observer-world";
 
 /**
  * People pursue their own goals while the player looks elsewhere.
@@ -52,7 +57,7 @@ import { projectWorld39Journal } from "./world39-journal";
  * screen. Every assertion is about the canonical history the clock wrote:
  * which openings were applied to, who was called, what was blocked and why.
  */
-function life(seed = "goal-pursuit-life") {
+function life(seed = "goal-pursuit-life", observer = false) {
   const game = createNewGameWorld({
     ...DEFAULT_NEW_GAME_SETUP,
     startKind: "custom",
@@ -68,7 +73,9 @@ function life(seed = "goal-pursuit-life") {
     game.world,
     game.world.people[personId]!.homeJurisdictionId,
   );
-  const world = openWeeklyListings(openOrdinaryLife(local, personId), personId);
+  const world = observer
+    ? observeFromOpening(openWeeklyListings(local, personId), personId)
+    : openWeeklyListings(openOrdinaryLife(local, personId), personId);
   expect(
     townEmployerRoles(world, personId).length,
     "Recorded town employers expose actual roles",
@@ -125,6 +132,27 @@ function kindOf(record: GoalStateRecord): string {
 }
 
 describe("generated people pursue their own goals", () => {
+  it("reviews livelihoods around the recorded Observer anchor without taking control", () => {
+    const start = life("goal-pursuit-life", true);
+    const worker = residentWithJob(start.world, start.playerId);
+    let world = start.world;
+    world = loseJob(world, worker, "The shop closed early for winter.");
+    expect(pursuitCandidates(world)).toContain(worker);
+    expect(pursuitCandidates(world)).toContain(start.playerId);
+    world = advanceObservedWorld(world, 14 * 7);
+    expect(world.control.kind).toBe("observer");
+    expect(observerAnchorPersonId(world)).toBe(start.playerId);
+    const decisions = world.history.decisionTraces.filter(
+      (trace) => trace.context.decisionType === "people.job-offer-answer",
+    );
+    expect(decisions.length).toBeGreaterThan(0);
+    const restored = deserializeWorld(serializeWorld(world));
+    expect(restored.history.decisionTraces).toEqual(
+      world.history.decisionTraces,
+    );
+    expect(restored.control.kind).toBe("observer");
+  }, 120_000);
+
   it("two adults left alone for twelve weeks act, stay blocked, or set a goal aside, each for a recorded reason", () => {
     const start = life();
     const worker = residentWithJob(start.world, start.playerId);
@@ -354,6 +382,18 @@ describe("generated people pursue their own goals", () => {
     expect(reloaded.history.decisionTraces).toEqual(
       world.history.decisionTraces,
     );
+    const offerDecisionTags = new Set(
+      offerDecisions.map((decision) => `decision-trace:${decision.id}`),
+    );
+    expect(
+      reloaded.history.jobApplicationSteps!.some(
+        (step) =>
+          step.kind === "started" &&
+          reloaded.history.events
+            .find((event) => event.id === step.eventId)
+            ?.tags.some((tag) => offerDecisionTags.has(tag)),
+      ),
+    ).toBe(true);
     for (const decision of offerDecisions) {
       expect(decision.context.retention).toBe("durable");
       expect(decision.context.considerations.length).toBeGreaterThan(0);
@@ -368,6 +408,7 @@ describe("generated people pursue their own goals", () => {
         (row) => row.id === answer!.applicationId,
       )!;
       expect(application.personId).toBe(decision.context.actorPersonId);
+      expect(decision.context.subject.entityId).toBe(application.id);
       const started = reloaded.history.jobApplicationSteps!.find(
         (step) =>
           step.applicationId === application.id && step.kind === "started",
