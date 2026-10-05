@@ -108,7 +108,8 @@ describe("the rendered scene recipe selection producer", () => {
     },
   );
   it("old/modular scene art passes no invented recipe", () => {
-    const { engine: _engine, ...oldEntry } = person;
+    const { engine, ...oldEntry } = person;
+    expect(engine).toBe(recipe);
     const { nodes, onSelectPerson } = scene(oldEntry);
     click(
       nodes.find(

@@ -7,6 +7,7 @@ import {
 } from "../presentation/appearance-engine/pack";
 import { engineRecipeFor } from "../presentation/appearance-engine/recipe";
 import { PEOPLE_PACK } from "../presentation/appearance-engine/runtime";
+import type * as AppearanceRuntime from "../presentation/appearance-engine/runtime";
 import type { PersonSceneAppearance } from "../presentation/person-scene-appearance";
 import {
   PRODUCTION_CHARACTER_LIBRARY,
@@ -18,9 +19,9 @@ vi.mock("./SavedAppearance", () => ({
   useSavedWardrobe: () => undefined,
 }));
 vi.mock("../presentation/appearance-engine/runtime", async () => {
-  const actual = await vi.importActual<
-    typeof import("../presentation/appearance-engine/runtime")
-  >("../presentation/appearance-engine/runtime");
+  const actual = await vi.importActual<typeof AppearanceRuntime>(
+    "../presentation/appearance-engine/runtime",
+  );
   return { ...actual, peoplePackAvailable: () => true };
 });
 vi.mock("./EnginePerson", () => ({
