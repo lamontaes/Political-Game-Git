@@ -1,3 +1,19 @@
+import {
+  SCHOOL_RAISE,
+  SCHOOL_OFFER,
+  SCHOOL_SPLIT_AGREED,
+  SCHOOL_SPLIT_REFUSED,
+  SCHOOL_SPLIT_UNDECIDED,
+  NEIGHBORHOOD_MENTION,
+  NEIGHBORHOOD_SAY_GOING,
+  NEIGHBORHOOD_WILL_GO,
+  NEIGHBORHOOD_WILL_NOT_GO,
+  NEIGHBORHOOD_YOU_GO,
+  NEIGHBORHOOD_UNDECIDED,
+  composeSubjectReply,
+  type SubjectReplyBank,
+} from "./subject-reply-english";
+import { linePartsTag } from "./english-composition";
 import type { ChoiceTruthDeclaration } from "./lie-marker";
 import { stableHash } from "../simulation/ids";
 import { isContextualSceneProgress } from "./contextual-scenes";
@@ -32,7 +48,6 @@ import {
   advanceSchoolProject,
   conversationCommitContract,
   conversationSubjectPresentation,
-  selectAuthoredVariant,
 } from "./conversation-subjects";
 import {
   conversationPerceptionSubjectKey,
@@ -1323,7 +1338,6 @@ function resolveLegislativeProvisionResponse(
  * can: an NPC whose warmth was a function of the player's profile would be the
  * game deciding what somebody thinks of you.
  */
-type ResponseTone = "warm" | "even" | "worn";
 
 /**
  * A bank of lines that all mean the same thing, and what a listener makes of
@@ -1334,34 +1348,6 @@ type ResponseTone = "warm" | "even" | "worn";
  * sentence came out. Variation that changed the meaning would make the record
  * depend on which line was drawn.
  */
-interface TonedResponse {
-  readonly lines: readonly string[];
-  readonly perception: string;
-}
-
-type TonedBank = Readonly<Record<ResponseTone, TonedResponse>>;
-
-/** A wording variant in a tone already chosen; the meaning is the bank's. */
-function speakInTone(
-  world: World,
-  context: string,
-  tone: ResponseTone,
-  bank: TonedBank,
-): {
-  readonly line: string;
-  readonly perception: string;
-  readonly tone: ResponseTone;
-} {
-  const chosen = bank[tone];
-  return {
-    tone,
-    line: selectAuthoredVariant(world, `${context}:${tone}`, chosen.lines),
-    perception: chosen.perception,
-  };
-}
-
-/* -------------------------------------------------------------------------- */
-
 function fill(
   template: string,
   values: {
@@ -1375,141 +1361,6 @@ function fill(
     .replaceAll("{full}", values.full)
     .replaceAll("{errands}", values.errands);
 }
-
-const SCHOOL_RAISE: TonedBank = {
-  warm: {
-    lines: [
-      "“Can we look at the unfinished part together?” {name} says.",
-      "“Which part do you mean?” {name} says.",
-      "“Okay. What still needs doing?” {name} says.",
-    ],
-    perception: "{full} asked about the unfinished work.",
-  },
-  even: {
-    lines: [
-      "“What is left to do?” {name} says.",
-      "“Show me the part you mean,” {name} says.",
-      "“How do you want to divide it?” {name} says.",
-    ],
-    perception: "{full} asked about the unfinished work.",
-  },
-  worn: {
-    lines: [
-      "“What are you asking me to take on?” {name} says.",
-      "“Tell me what you need,” {name} says.",
-      "“What is still unfinished?” {name} says.",
-    ],
-    perception: "{full} asked about the unfinished work.",
-  },
-};
-
-const SCHOOL_OFFER: TonedBank = {
-  warm: {
-    lines: [
-      "“Thank you. I’ll leave that part to you,” {name} says.",
-      "“Okay. Let me know if you need to change that,” {name} says.",
-      "“Thanks for offering to do it,” {name} says.",
-    ],
-    perception: "{full} accepted the offer to handle that part.",
-  },
-  even: {
-    lines: [
-      "“All right. You take that part,” {name} says.",
-      "“Okay, that part is yours,” {name} says.",
-      "“I understand. You’re taking that part,” {name} says.",
-    ],
-    perception: "{full} accepted the offer to handle that part.",
-  },
-  worn: {
-    lines: [
-      "“Fine. You take that part,” {name} says.",
-      "“Okay. Let me know if that changes,” {name} says.",
-      "“All right. We’ve agreed on that part,” {name} says.",
-    ],
-    perception: "{full} accepted the offer to handle that part.",
-  },
-};
-
-const SCHOOL_SPLIT_AGREED: TonedBank = {
-  warm: {
-    lines: [
-      "“Yes. Which half would you like?” {name} says.",
-      "“Let’s split it. You can choose first,” {name} says.",
-      "“Half each sounds all right,” {name} says.",
-    ],
-    perception: "{full} agreed to divide the work.",
-  },
-  even: {
-    lines: [
-      "“Half each, then,” {name} says.",
-      "“All right. Let’s write down who has what,” {name} says.",
-      "“Yes, we can split it,” {name} says.",
-    ],
-    perception: "{full} agreed to divide the work.",
-  },
-  worn: {
-    lines: [
-      "“Half each. Let’s be clear about which parts,” {name} says.",
-      "“All right. Which part is mine?” {name} says.",
-      "“Yes. We should write down the split,” {name} says.",
-    ],
-    perception: "{full} agreed to divide the work.",
-  },
-};
-
-const SCHOOL_SPLIT_REFUSED: TonedBank = {
-  warm: {
-    lines: [
-      "“I’m sorry, but I can’t agree to half,” {name} says.",
-      "“No, I can’t take half of it,” {name} says.",
-      "“I’ll have to say no to that split,” {name} says.",
-    ],
-    perception: "{full} declined the proposed split.",
-  },
-  even: {
-    lines: [
-      "“I won’t take half,” {name} says.",
-      "“No. I can’t agree to that,” {name} says.",
-      "“That split doesn’t work for me,” {name} says.",
-    ],
-    perception: "{full} declined the proposed split.",
-  },
-  worn: {
-    lines: [
-      "“No. I’m not taking half,” {name} says.",
-      "“I won’t agree to that split,” {name} says.",
-      "“No. We need another arrangement,” {name} says.",
-    ],
-    perception: "{full} declined the proposed split.",
-  },
-};
-
-const SCHOOL_SPLIT_UNDECIDED: TonedBank = {
-  warm: {
-    lines: [
-      "“Let me look at what’s left first, and I’ll tell you tomorrow,” {name} says.",
-      "“Maybe. Can I see how much is left before I say?” {name} says.",
-      "“I want to check my week before I agree to half,” {name} says.",
-    ],
-    perception: "{full} did not say yet whether they would take half.",
-  },
-  even: {
-    lines: [
-      "“I don’t know yet. Let me see what’s left,” {name} says.",
-      "“I can’t say yet,” {name} says.",
-      "“Ask me again once I’ve seen the rest of it,” {name} says.",
-    ],
-    perception: "{full} did not say yet whether they would take half.",
-  },
-  worn: {
-    lines: [
-      "“I’m not agreeing to anything until I see it,” {name} says.",
-      "“I’ll decide once I know what half means,” {name} says.",
-      "“Not yet. Show me what’s left first,” {name} says.",
-    ],
-    perception: "{full} did not say yet whether they would take half.",
-  },
-};
 
 /**
  * What an answer to "split it with me" can mean. There is no counter here:
@@ -1603,13 +1454,25 @@ function resolveSchoolProjectResponse(
   // The tone comes from the speaker's own side of the relationship.
   const tone = standingTone(world, input.speakerPersonId, input.playerPersonId);
 
-  const say = (bank: TonedBank, outcome: ConversationOutcome, next = world) => {
-    const spoken = speakInTone(next, context, tone, bank);
+  const say = (
+    bank: SubjectReplyBank,
+    outcome: ConversationOutcome,
+    next = world,
+  ) => {
+    const spoken = composeSubjectReply(
+      next,
+      context,
+      tone,
+      bank,
+      input.speakerPersonId,
+      input.playerPersonId,
+    );
     return {
       world: next,
       outcome,
       speakerPersonId: input.speakerPersonId,
-      dialogue: fill(spoken.line, values),
+      dialogue: `“${spoken.text}” ${speaker.givenName} says.`,
+      extraTags: [linePartsTag(spoken.parts)],
       perception: fill(spoken.perception, values),
       durableDecisionRecorded: false,
     } satisfies ConversationResolvedResponse;
@@ -1658,168 +1521,6 @@ function resolveSchoolProjectResponse(
       throw new Error("That is not something to say about the project.");
   }
 }
-
-const NEIGHBORHOOD_MENTION: TonedBank = {
-  warm: {
-    lines: [
-      "“What do you think about going?” {name} says.",
-      "“Are you thinking of going?” {name} says.",
-      "“We can talk about the meeting,” {name} says.",
-    ],
-    perception: "{full} responded to the question about the meeting.",
-  },
-  even: {
-    lines: [
-      "“What about the meeting?” {name} says.",
-      "“Are you going?” {name} says.",
-      "“What did you want to ask?” {name} says.",
-    ],
-    perception: "{full} responded to the question about the meeting.",
-  },
-  worn: {
-    lines: [
-      "“What do you want to know?” {name} says.",
-      "“Is there something you want to ask me?” {name} says.",
-      "“Go ahead. What about it?” {name} says.",
-    ],
-    perception: "{full} responded to the question about the meeting.",
-  },
-};
-
-const NEIGHBORHOOD_SAY_GOING: TonedBank = {
-  warm: {
-    lines: [
-      "“Let me know what you hear there,” {name} says.",
-      "“I’d like to hear about it afterward,” {name} says.",
-      "“Tell me how it goes,” {name} says.",
-    ],
-    perception: "{full} acknowledged the plan to attend.",
-  },
-  even: {
-    lines: [
-      "“All right. Let me know how it goes,” {name} says.",
-      "“Okay. You can tell me afterward,” {name} says.",
-      "“I understand. You’re planning to go,” {name} says.",
-    ],
-    perception: "{full} acknowledged the plan to attend.",
-  },
-  worn: {
-    lines: [
-      "“All right. Tell me afterward,” {name} says.",
-      "“Okay. I heard you,” {name} says.",
-      "“Let me know if there’s something I should read,” {name} says.",
-    ],
-    perception: "{full} acknowledged the plan to attend.",
-  },
-};
-
-const NEIGHBORHOOD_WILL_GO: TonedBank = {
-  warm: {
-    lines: [
-      "“Yes, I’ll go,” {name} says.",
-      "“All right. I’ll come to the meeting,” {name} says.",
-      "“Yes. Let’s plan to go,” {name} says.",
-    ],
-    perception: "{full} agreed to attend the meeting.",
-  },
-  even: {
-    lines: [
-      "“I’ll go,” {name} says.",
-      "“All right, I’ll be there,” {name} says.",
-      "“Yes, I’ll come,” {name} says.",
-    ],
-    perception: "{full} agreed to attend the meeting.",
-  },
-  worn: {
-    lines: [
-      "“All right. I’ll go to this meeting,” {name} says.",
-      "“Yes. I’ll come this time,” {name} says.",
-      "“Okay, I’ll go,” {name} says.",
-    ],
-    perception: "{full} agreed to attend the meeting.",
-  },
-};
-
-const NEIGHBORHOOD_WILL_NOT_GO: TonedBank = {
-  warm: {
-    lines: [
-      "“No, but thank you for asking,” {name} says.",
-      "“I’m going to pass on this one,” {name} says.",
-      "“I won’t be coming, sorry,” {name} says.",
-    ],
-    perception: "{full} declined the invitation to the meeting.",
-  },
-  even: {
-    lines: [
-      "“I won’t be going,” {name} says.",
-      "“No, not this meeting,” {name} says.",
-      "“I’m not coming to this one,” {name} says.",
-    ],
-    perception: "{full} declined the invitation to the meeting.",
-  },
-  worn: {
-    lines: [
-      "“No. I’m not going,” {name} says.",
-      "“I’ll pass,” {name} says.",
-      "“No, I don’t want to go,” {name} says.",
-    ],
-    perception: "{full} declined the invitation to the meeting.",
-  },
-};
-
-const NEIGHBORHOOD_YOU_GO: TonedBank = {
-  warm: {
-    lines: [
-      "“You’d be better at it than me. Why don’t you go and tell me how it went?” {name} says.",
-      "“I think you should go. I’ll want to hear about it,” {name} says.",
-      "“You go, and let me know what they decide,” {name} says.",
-    ],
-    perception: "{full} suggested you go to the meeting yourself.",
-  },
-  even: {
-    lines: [
-      "“Why don’t you go instead?” {name} says.",
-      "“You go. You can tell me what happened,” {name} says.",
-      "“It sounds like it’s more your thing. You go,” {name} says.",
-    ],
-    perception: "{full} suggested you go to the meeting yourself.",
-  },
-  worn: {
-    lines: [
-      "“If it matters to you, you go,” {name} says.",
-      "“You’re the one who wants somebody there. You go,” {name} says.",
-      "“Go yourself,” {name} says.",
-    ],
-    perception: "{full} suggested you go to the meeting yourself.",
-  },
-};
-
-const NEIGHBORHOOD_UNDECIDED: TonedBank = {
-  warm: {
-    lines: [
-      "“Maybe. Let me see what that evening looks like,” {name} says.",
-      "“I might. I’ll let you know,” {name} says.",
-      "“I haven’t decided. Can I tell you later this week?” {name} says.",
-    ],
-    perception: "{full} had not decided whether to go to the meeting.",
-  },
-  even: {
-    lines: [
-      "“I don’t know yet,” {name} says.",
-      "“Maybe. I haven’t decided,” {name} says.",
-      "“I’ll see how the week goes,” {name} says.",
-    ],
-    perception: "{full} had not decided whether to go to the meeting.",
-  },
-  worn: {
-    lines: [
-      "“I’ll decide that myself,” {name} says.",
-      "“I haven’t made up my mind,” {name} says.",
-      "“We’ll see,” {name} says.",
-    ],
-    perception: "{full} had not decided whether to go to the meeting.",
-  },
-};
 
 /**
  * What an answer to "will you go to the meeting" can mean. The counter hands
@@ -1914,13 +1615,25 @@ function resolveNeighborhoodMeetingResponse(
   // The tone comes from the speaker's own side of the relationship.
   const tone = standingTone(world, input.speakerPersonId, input.playerPersonId);
 
-  const say = (bank: TonedBank, outcome: ConversationOutcome, next = world) => {
-    const spoken = speakInTone(next, context, tone, bank);
+  const say = (
+    bank: SubjectReplyBank,
+    outcome: ConversationOutcome,
+    next = world,
+  ) => {
+    const spoken = composeSubjectReply(
+      next,
+      context,
+      tone,
+      bank,
+      input.speakerPersonId,
+      input.playerPersonId,
+    );
     return {
       world: next,
       outcome,
       speakerPersonId: input.speakerPersonId,
-      dialogue: fill(spoken.line, values),
+      dialogue: `“${spoken.text}” ${speaker.givenName} says.`,
+      extraTags: [linePartsTag(spoken.parts)],
       perception: fill(spoken.perception, values),
       durableDecisionRecorded: false,
     } satisfies ConversationResolvedResponse;
