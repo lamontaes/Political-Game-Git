@@ -78,6 +78,17 @@ describe("a character remains in their birth World through Begin", () => {
     expect(latestHealthState(recorded, episode!.id)?.effectiveAt).toBe(
       addDays(onsetAt, 21),
     );
+    expect(() =>
+      beginHealthEpisode(built.world, {
+        stableKey: "session6:before-birth-health",
+        personId: built.playerPersonId,
+        onsetAt: addDays(built.player.birthDate, -1),
+        severity: "chronic",
+        initialLimitation: "none",
+        origin: { kind: "authored", note: "Invalid biography regression." },
+        causalParentIds: [],
+      }),
+    ).toThrow("between birth and the current date");
     assertWorldIntegrity(recorded);
   });
   it("admits a dependent Creator character into the household on their birth date", () => {
