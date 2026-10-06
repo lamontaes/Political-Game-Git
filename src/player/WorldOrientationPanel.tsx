@@ -1039,13 +1039,13 @@ function SceneBackdrop({
  */
 const SCENE_CAPTION: Readonly<Record<RegionalSceneKind, string>> = {
   "open-landscape": "Typical countryside near here.",
-  street: "A street of the kind common near here.",
-  shoreline: "Shoreline of the kind found near here.",
+  street: "A street from this area's regional illustration collection.",
+  shoreline: "A shoreline from this area's regional illustration collection.",
 };
 
 const SCENE_ALT: Readonly<Record<RegionalSceneKind, string>> = {
   "open-landscape": "Illustrated landscape typical of this area",
-  street: "Illustrated street of a kind common in this area",
+  street: "Illustrated street from this area's regional collection",
   shoreline: "Illustrated shoreline typical of this area",
 };
 
