@@ -15,11 +15,12 @@ Working branch: `codex/session57-lw03` (continuing the existing draft PR #2476)
 
 - Focused `policy-pack-tax-terms.test.ts`: 4/4 passed using the minimal Vitest config because the repository Vite config's source-identity plugin hits `spawnSync git EPERM` in this sandbox.
 - Targeted ESLint, Prettier, and `git diff --check`: passed.
-- Full typecheck is running; resume by polling the existing process or rerun `npm run typecheck`.
+- `npm run typecheck` reaches only the two known unrelated errors in untouched `src/simulation/press/press-premise.test.ts:35,125`, where fixtures omit `PlaySettings.personalLifeDepiction`.
+- PR #2476 is draft at head `1ca9d770e84674f4414d1604bf167d55a47acc8`; no runtime proof or merge is claimed.
 
 ## Next
 
-1. Obtain the exact canonical power instrument and saved liability/base contract for federal payroll and corporate terms; leave them unavailable until then.
+1. Ask the CTO for the exact canonical power instrument and saved liability/base contract for federal payroll and corporate terms; leave them unavailable until then.
 2. Rebase the draft onto #2480 after it lands and run the federal tax law → effect → named-person proof only from records that exist in a new random-place game.
 3. Do not open a second LW-03 PR; update #2476 with any further LW-03 changes.
 
