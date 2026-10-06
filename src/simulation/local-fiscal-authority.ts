@@ -277,7 +277,7 @@ export function admitLocalFiscalMeasure(
     lineages[0]?.variantKey !== "local-fix-it-first-v1"
   )
     return refused(
-      "The saved fiscal draft lineage does not name this local authority and full family version.",
+      "The saved fiscal draft lineage does not name this local government and full family version.",
     );
   const provisions = currentMeasureProvisions(world, measure.id);
   const fiscalClauses = provisions.filter(
