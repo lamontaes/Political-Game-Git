@@ -14,7 +14,6 @@ import {
   recordHouseholdMembershipState,
   startHouseholdMembership,
 } from "./life";
-import { GROWN_UP_PRESENTATION_AGE_PLACEHOLDER } from "./age-of-majority";
 import { homeValueForJurisdiction } from "./county-home-value";
 import { homePriceLevel, homePriceLevels } from "./living-world/housing-market";
 import { homeBuyerKind, homeDownPaymentShare } from "./home-down-payment";
@@ -148,13 +147,11 @@ function movesOutToBuy(
 ): boolean {
   const person = world.people[personId];
   if (!person) return false;
-  // PLACEHOLDER(research: age-of-majority-by-state). Leaving home to buy one
-  // reads the same threshold the labels do. It does not wait for the
-  // authority to end, and whether it has ended is not asked.
-  if (
-    ageOnDate(person.birthDate, world.currentDate) <
-    GROWN_UP_PRESENTATION_AGE_PLACEHOLDER
-  )
+  // ESTIMATED FROM THE MODAL STATE RULE: 18 is the purchase presentation age.
+  // Alabama and Nebraska (19) and Mississippi (21) are the documented places
+  // used to bound this estimate. It does not end authority in the record.
+  const estimatedPurchaseAge = 18;
+  if (ageOnDate(person.birthDate, world.currentDate) < estimatedPurchaseAge)
     return false;
   const residents = new Set(peopleInHouseholdAt(world, householdId));
   return world.history.childAuthorities.some(

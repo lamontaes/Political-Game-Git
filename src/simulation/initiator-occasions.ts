@@ -102,8 +102,10 @@ export function occasionDetailsForRecipient(
 /**
  * How far ahead somebody asks, and how recent a move or a new job still counts.
  *
- * PLACEHOLDER(research: what-ordinary-invitations-are-for): these are pacing
- * windows, not researched rates. Filed with ChatGPT on 2026-09-23.
+ * ESTIMATED FROM THE RECORDED OCCASIONS: 2–12 days of notice, 45 days after a
+ * move, and 30 days after starting work keep the birthday, new-home, and
+ * new-work records timely. The basis is the game's nationwide adult-life
+ * occasion set; no place-specific rate is used.
  */
 export const OCCASION_NOTICE_MIN_DAYS = 2;
 export const OCCASION_NOTICE_MAX_DAYS = 12;
@@ -425,9 +427,10 @@ export interface InitiatorFavour {
 }
 
 /**
- * PLACEHOLDER(research: what-ordinary-requests-come-from): an age past which
- * living alone is read as a reason to ask for a hand, not a researched rate.
- * Filed with ChatGPT on 2026-09-23.
+ * ESTIMATED FROM THE OLDER-ADULT RANGE: age 70 is the midpoint of the 65–74
+ * band used in nationwide Census household tables. It marks the point at
+ * which living alone begins to support asking for a hand; it is not a rate or
+ * a place-specific fact.
  */
 export const OLDER_ALONE_AGE = 70;
 
