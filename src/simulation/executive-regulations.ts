@@ -45,6 +45,7 @@ export function delegatedRegulationCandidates(
       continue;
     for (const [rowIndex, row] of (proposition.consequences ?? []).entries()) {
       for (const [termIndex, delegation] of (row.delegations ?? []).entries()) {
+        if (delegation.questionKey !== proposition.stableKey) continue;
         candidates.push({
           instance: `${measure.id}:${proposition.id}:${rowIndex}:${termIndex}:${delegation.key}`,
           subjectKey: delegation.questionKey,
