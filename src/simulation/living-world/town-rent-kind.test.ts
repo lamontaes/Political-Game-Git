@@ -2,7 +2,8 @@ import { writeFileSync } from "node:fs";
 import { expect, it, vi } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { enactThroughDesk } from "../../../tests/fixtures/enact-through-desk";
-import { makeIsoDate, simulationMomentOnLocalDate } from "../dates";
+import { governorOfficeForJurisdiction } from "../governing/state-governing";
+import { addDays, makeIsoDate, simulationMomentOnLocalDate } from "../dates";
 import { createHousehold, startHouseholdMembership } from "../life";
 import { lifePlaceByKey } from "../life-places";
 import { introduceMeasure } from "../legislation";
@@ -21,9 +22,13 @@ import {
   createDwelling,
   createHousingTenure,
   createResourceFlow,
+  recordResourceFlowTerms,
   money,
 } from "../resources";
+import { resourceFlowTermsAt } from "../resource-queries";
 import { deserializeWorld, serializeWorld } from "../serialization";
+import { resolveFutureDueItemsThrough } from "../future-transitions";
+import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import { SeededRng } from "../rng";
 import { personName } from "../people";
 import { personTrait } from "../people-traits";
@@ -86,13 +91,34 @@ function enactRentLaw(
       stableKey: "rent-kind:inclusionary-terms",
       measureId,
       provisionKey: "controlled-share",
-      title: "Controlled fixture set-aside",
-      summary:
-        "All eligible newly built fixture homes are set aside. Not a researched law value.",
-      questionKeys: [questionKey],
-      categories: [],
-      sourceDocumentKey: null,
+      sectionNumber: 1,
+      heading: "Controlled fixture set-aside",
+      text: "All eligible newly built fixture homes are set aside. Not a researched law value.",
+      beneficiary: {
+        kind: "general-application",
+        appliesToLabel: "eligible fixture rental homes",
+      },
+      applicationScope: { jurisdictionId, segmentKey: null },
       lawTerms: [{ questionKey, key: "share", value: 1, unit: "ratio" }],
+    });
+  }
+  if (questionKey === RENT_LAW_KEYS.rentStabilization) {
+    world = recordFiledProvision(world, {
+      stableKey: "rent-kind:cap-terms",
+      measureId,
+      provisionKey: "controlled-cap",
+      sectionNumber: 1,
+      heading: "Controlled rent cap",
+      text: "This fixture caps the covered market house renewal at five percent. Not a researched law value.",
+      beneficiary: {
+        kind: "general-application",
+        appliesToLabel: "covered fixture market houses",
+      },
+      applicationScope: { jurisdictionId, segmentKey: null },
+      lawTerms: [{ questionKey, key: "cap", value: 0.05, unit: "ratio" }],
+      lawCategories: [
+        { questionKey, key: "coverage", values: ["market:residential:house"] },
+      ],
     });
   }
   const bodies = pack.chambers.map((chamber) =>
@@ -139,6 +165,7 @@ function addHome(
   town: EntityId,
   key: string,
   establishedAt: string,
+  classification = "residential:house",
 ): { world: World; tenureId: EntityId } {
   world = createHousehold(world, {
     stableKey: `${key}:household`,
@@ -161,7 +188,7 @@ function addHome(
     establishedAt: makeIsoDate(establishedAt),
     jurisdictionId: town,
     locationLabel: "Controlled rental home",
-    classification: "residential:house",
+    classification,
     provenance,
   });
   const dwellingId = world.history.dwellings.at(-1)!.id;
@@ -209,6 +236,15 @@ it("saves all three actual rent writer stamps and historical labels without chan
     offices: ["governor", "state-legislature"],
   });
   let world = fixture.world;
+  const governor = governorOfficeForJurisdiction(
+    world,
+    `US-${fixture.stateUsps}`,
+  )!;
+  // Existing player-required governing work belongs to the seated governor.
+  world = {
+    ...world,
+    control: { kind: "person", personId: governor.holderPersonId },
+  };
   const tenants = world.personOrder
     .filter((id) => personTrait(world, id, "reliability").value >= 0)
     .slice(0, 2);
@@ -237,14 +273,15 @@ it("saves all three actual rent writer stamps and historical labels without chan
     (row) => row.tenureId === marketHome.tenureId,
   )!;
   expect(marketLease.regime).toBe("market");
-  world = atDate(world, "2026-01-06");
+  world = atDate(world, addDays(world.currentDate, 1));
   const affordableHome = addHome(
     world,
     tenants[1]!,
     owner,
     fixture.jurisdictionId,
     "rent-kind:affordable",
-    "2026-01-06",
+    world.currentDate,
+    "residential:apartment",
   );
   world = createResourceFlow(affordableHome.world, {
     stableKey: "rent-kind:controlled-income",
@@ -271,11 +308,35 @@ it("saves all three actual rent writer stamps and historical labels without chan
     (row) => row.resourceFlowId === affordableLease.flow.id,
   )!;
   expect(initialAffordable.lawEffectStamps?.[0]?.effectKind).toBe("price-cost");
-  world = atDate(world, "2027-01-06");
+  // Controlled prior affordable terms make the existing reset observable.
+  world = recordResourceFlowTerms(world, {
+    stableKey: "rent-kind:prior-affordable-terms",
+    resourceFlowId: affordableLease.flow.id,
+    effectiveAt: world.currentDate,
+    status: "active",
+    amount: money(Math.round(initialAffordable.amount.minorUnits * 0.9), "USD"),
+    cadenceKind: initialAffordable.cadenceKind,
+    reason: "Controlled prior affordable price",
+    provenance,
+    supersedesTermsId: initialAffordable.id,
+  });
+  // Process every authoritative due item through the controlled anniversary;
+  // this is a focused writer fixture, not a timed game-year simulation.
+  world = resolveFutureDueItemsThrough(
+    world,
+    addDays(world.currentDate, 366),
+    createCampaignElectionTransitionRegistry(),
+  );
   world = renewTownLeases(world, world.currentDate);
-  const marketRenewal = world.history.resourceFlowTerms.find(
+  // Native renewal dispatch reads the actual adopted cap and coverage clause.
+  // The old rent writer's numeric-cap branch is unreachable without a cap input.
+  const marketRequested = world.history.resourceFlowTerms.find(
     (row) => row.stableKey === `${marketLease.flow.stableKey}:renewal:1`,
   )!;
+  const marketRenewal = resourceFlowTermsAt(world, marketLease.flow.id)!;
+  expect(marketRenewal.amount.minorUnits).toBeLessThan(
+    marketRequested.amount.minorUnits,
+  );
   const affordableRenewal = world.history.resourceFlowTerms.find(
     (row) => row.stableKey === `${affordableLease.flow.stableKey}:renewal:1`,
   )!;
@@ -347,6 +408,7 @@ it("saves all three actual rent writer stamps and historical labels without chan
           affordableTenant: personName(world.people[tenants[1]!]!),
           landlord: personName(world.people[owner]!),
           initialAffordable,
+          marketRequested,
           marketRenewal,
           affordableRenewal,
           canonicalReload: true,
