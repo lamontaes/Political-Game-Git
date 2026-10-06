@@ -327,7 +327,7 @@ describe("92H inventory transcription", () => {
 
     const byStatus: Record<ExecutiveKernelStatus, number> = {
       IMPLEMENTABLE_WITH_CURRENT_MECHANICS: 0,
-      NEEDS_MECHANIC: 0,
+      REQUIRES_ADDITIONAL_MECHANICS: 0,
       RESEARCH_GAP: 0,
     };
     for (const row of EXECUTIVE_GOVERNING_KERNEL_ROWS)
@@ -380,7 +380,7 @@ describe("92H inventory transcription", () => {
  * ------------------------------------------------------------------ */
 
 describe("gated kernels", () => {
-  it("has no definition for any NEEDS_MECHANIC or RESEARCH_GAP row", () => {
+  it("has no definition for any REQUIRES_ADDITIONAL_MECHANICS or RESEARCH_GAP row", () => {
     for (const row of EXECUTIVE_GOVERNING_KERNEL_ROWS) {
       if (row.status === "IMPLEMENTABLE_WITH_CURRENT_MECHANICS") continue;
       expect(executiveGoverningKernelById(row.id)).toBeNull();
@@ -720,7 +720,7 @@ describe("92H-K-030 presentment", () => {
         "veto-with-message",
       ]);
       // Item and amendatory vetoes stay withheld even in packs that know a
-      // line-item veto exists: 92H marks both NEEDS_MECHANIC.
+      // line-item veto exists: 92H marks both REQUIRES_ADDITIONAL_MECHANICS.
       const itemVeto = options.withheld.find(
         (entry) => entry.option === "item-veto",
       )!;
@@ -818,7 +818,7 @@ describe("92H-K-030 presentment", () => {
       );
     }
 
-    // A power 92H marks NEEDS_MECHANIC.
+    // A power 92H marks REQUIRES_ADDITIONAL_MECHANICS.
     const itemVeto = compileExecutiveGoverningPlan(definition, {
       ...base,
       measure: {
@@ -901,7 +901,7 @@ describe("92H-K-131 audit corrective action", () => {
       (entry) => entry.stage === "follow-up",
     )!;
     expect(followUp.reason).toBe("deadline-not-sourced");
-    expect(followUp.note).toMatch(/UNKNOWN/);
+    expect(followUp.note).toContain("did not establish");
 
     const next = applyOrThrow(world, plan);
     expect(next.history.futureDueItems).toHaveLength(0);
