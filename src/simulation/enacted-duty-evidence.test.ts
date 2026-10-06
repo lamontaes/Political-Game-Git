@@ -174,7 +174,16 @@ beforeAll(() => {
 });
 
 describe("A97 duty settlement requires fulfillment evidence", () => {
-  it("does not call either a staffed or unstaffed covered body compliant without its act", () => {
+  it("keeps a body with workers open when it has no filing, report or service record", () => {
+    expect(
+      world.history.workRelationships.some(
+        (relationship) =>
+          relationship.organizationId === staffedId &&
+          relationship.personId === operatorId,
+      ),
+    ).toBe(true);
+    expect(enactedDutiesOf(world, measureId)[0]!.findings).toHaveLength(0);
+
     const next = settleEnactedDuty(world, duty.id);
     const findings = enactedDutiesOf(next, measureId)[0]!.findings;
     expect(

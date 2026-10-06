@@ -415,8 +415,9 @@ export function bodiesWithinDuty(
 }
 
 /**
- * On the compliance date: a finding for each body within the duty's reach.
- * A body already found is not found again.
+ * On the compliance date: an open finding for each body within the duty's
+ * reach. A body already found is not found again. Until a filing, report or
+ * service record has an approved join to this duty, staffing cannot close it.
  */
 export function settleEnactedDuty(world: World, dutyId: EntityId): World {
   const duty = enactedDutyRecords(world).find(
