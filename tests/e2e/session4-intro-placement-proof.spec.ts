@@ -59,15 +59,15 @@ for (let draw = 0; draw < 6; draw += 1) {
               '[data-material-group-state="pending"], [data-material-group-state="loading"], [data-material-state="loading"]',
             ).length ?? null,
           images: chapter
-            ? [...chapter.querySelectorAll("img")].map((image) => ({
+            ? Array.from(chapter.querySelectorAll("img")).map((image) => ({
                 currentSrc: image.currentSrc,
                 complete: image.complete,
                 naturalWidth: image.naturalWidth,
               }))
             : [],
-          problems: [
-            ...document.querySelectorAll('[role="alert"], .game-problem'),
-          ].map((node) => node.textContent),
+          problems: Array.from(
+            document.querySelectorAll('[role="alert"], .game-problem'),
+          ).map((node) => node.textContent),
         };
         const signature = JSON.stringify(observation);
         if (signature !== previous) {
@@ -122,7 +122,7 @@ for (let draw = 0; draw < 6; draw += 1) {
           ),
         ).toHaveCount(0);
         const imageReadiness = await chapter.evaluate(async (node) => {
-          const images = [...node.querySelectorAll("img")];
+          const images = Array.from(node.querySelectorAll("img"));
           await Promise.allSettled(images.map((image) => image.decode()));
           await new Promise<void>((resolve) =>
             requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
@@ -148,7 +148,7 @@ for (let draw = 0; draw < 6; draw += 1) {
               ),
             })),
           );
-        const screenshot = `${draw}-${cards.length}-${key}-full-size.png`;
+        const screenshot: string = `${draw}-${cards.length}-${key}-full-size.png`;
         await page.screenshot({
           path: info.outputPath(screenshot),
           fullPage: true,
