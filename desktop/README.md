@@ -157,12 +157,13 @@ the canonical version and exist only for throwaway artifacts.
   only through the environment or GitHub secrets. Without
   signing material the Mac build remains unsigned and stable updating remains
   disabled. No credential is read from a repository file or written to the
-  staged configuration. The update tests prove decisions and failure handling.
-  Direct Mac auto-install remains disabled pending an exactly-one-previous-build
-  retention manager and real Mac A→B→failed-launch→A runtime proof recorded in
-  `docs/codex/progress/session-55-updater.md`. Deterministic tests are not Mac
-  runtime proof. Do not disable
-  Gatekeeper or remove quarantine broadly.
+  staged configuration. Direct Mac installation remains player-confirmed,
+  with Later as the default. The retention manager keeps one prior app in a
+  separate Application Support directory and restores it after two starts
+  that do not render the title. Automatic install remains disabled until the
+  real signed Mac A→B→two failed B starts→A receipt is recorded in
+  `docs/codex/progress/session-55-updater.md`; deterministic tests are not Mac
+  runtime proof. Do not disable Gatekeeper or remove quarantine broadly.
 - `npm run secrets:scan` checks tracked repository files for environment files,
   signing keys/certificates, private-key blocks and common provider-token
   formats. It reports only the file and finding category, never the value.
