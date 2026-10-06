@@ -3,6 +3,7 @@ import { fixtureMeetsRecordedCandidacyAge } from "../../tests/fixtures/candidacy
 import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 import {
   addDays,
+  campaignHelperCandidates,
   candidacyPackById,
   createScenarioWorld,
   ensureCampaignOpponents,
@@ -13,12 +14,18 @@ import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
 import { generatePoliticalStartingConditions } from "./world-setup/political-start";
 import { ensureWorldStartingConditions } from "./world-setup/conditions";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "./world-setup/types";
-import { addCampaignHelper } from "./campaign-helpers";
+import {
+  addCampaignHelper,
+  askToHelp,
+  campaignHasHelper,
+} from "./campaign-helpers";
+import { recordRelationshipInteraction } from "./records";
 import type { EntityId, World } from "./types";
 
 function filedCampaign(): {
   world: World;
   campaignId: EntityId;
+  candidatePersonId: EntityId;
   people: EntityId[];
 } {
   const created = createScenarioWorld(
@@ -64,7 +71,12 @@ function filedCampaign(): {
     staffPersonIds: [],
     treasuryCurrency: makeCurrencyCode("USD"),
   });
-  return { world: filed.world, campaignId: filed.campaign.id, people };
+  return {
+    world: filed.world,
+    campaignId: filed.campaign.id,
+    candidatePersonId,
+    people,
+  };
 }
 
 describe("campaign helpers", () => {
@@ -105,5 +117,38 @@ describe("campaign helpers", () => {
         pay: null,
       }),
     ).toThrow("A campaign manager requires a funded salary.");
+  });
+
+  it("asks a known person through a deterministic decision and records the answer", () => {
+    const filed = filedCampaign();
+    const personId = filed.people[0]!;
+    const knownWorld = recordRelationshipInteraction(filed.world, {
+      stableKey: "campaign-helper-test:known-person",
+      personIds: [filed.candidatePersonId, personId],
+      eventId: null,
+      occurredAt: filed.world.currentDate,
+      kind: "contact:met-in-community",
+      change: "formed",
+      significance: "meaningful",
+      summary: "They met in their community.",
+      tags: [],
+    });
+    expect(campaignHelperCandidates(knownWorld, filed.campaignId)).toEqual(
+      expect.arrayContaining([{ personId, name: expect.any(String) }]),
+    );
+    const input = { campaignId: filed.campaignId, personId };
+    const first = askToHelp(knownWorld, input);
+    const replay = askToHelp(knownWorld, input);
+    expect(first).toEqual(replay);
+    expect(first.reasons.length).toBeGreaterThan(0);
+    expect(
+      first.world.history.events.some((event) => event.id === first.eventId),
+    ).toBe(true);
+    expect(campaignHelperCandidates(first.world, filed.campaignId)).not.toEqual(
+      expect.arrayContaining([{ personId, name: expect.any(String) }]),
+    );
+    expect(first.accepted).toBe(
+      campaignHasHelper(first.world, filed.campaignId, personId),
+    );
   });
 });

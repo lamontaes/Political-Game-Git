@@ -50,6 +50,17 @@ export type {
   ScheduledCampaignActionResult,
 } from "./campaigns";
 export {
+  addCampaignHelper,
+  askToHelp,
+  campaignHasHelper,
+  campaignHelperCandidates,
+} from "./campaign-helpers";
+export type {
+  AddCampaignHelperInput,
+  AskToHelpResult,
+  CampaignHelperRole,
+} from "./campaign-helpers";
+export {
   CAMPAIGN_LIFE_CATALOG,
   CAMPAIGN_LIFE_TRAVEL_COST_DISCLOSURE,
   campaignLifeCatalogEntry,
