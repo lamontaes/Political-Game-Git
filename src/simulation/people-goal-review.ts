@@ -179,6 +179,12 @@ function adultAlive(world: World, personId: EntityId, dead: Set<EntityId>) {
  * town, and anybody connected by home, family or a recorded interaction.
  * Sorted, so the week's order is the same on every load.
  */
+function goalReviewAnchor(world: World): EntityId | null {
+  return world.control.kind === "person"
+    ? world.control.personId
+    : observerAnchorPersonId(world);
+}
+
 export function pursuitCandidates(world: World): readonly EntityId[] {
   const anchorId = goalReviewAnchor(world);
   if (!anchorId) return [];
