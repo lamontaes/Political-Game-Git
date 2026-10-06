@@ -106,6 +106,11 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
     reader:
       "career.consider-another-term — src/simulation/traits/effects/self-confidence.ts",
   },
+  {
+    trait: "personality-v1:facet-nostalgic",
+    kind: "decision",
+    reader: "contact.answer — src/simulation/traits/effects/nostalgic.ts",
+  },
 ];
 
 /**
@@ -205,7 +210,6 @@ export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:facet-closeness-seeking",
   "personality-v1:facet-intimacy-guarded",
   "personality-v1:facet-devoted",
-  "personality-v1:facet-nostalgic",
   "personality-v1:facet-teasing",
 ] as const;
 
