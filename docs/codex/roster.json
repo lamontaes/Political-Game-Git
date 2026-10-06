@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-06T13:11:07Z",
+  "updatedAt": "2026-10-06T13:12:12Z",
   "updatedBy": "Session 45",
   "source": {
     "issue": "#2424",
@@ -662,7 +662,9 @@
     "Session14 explicitly retains LW02 (6016985693); Session56 hold remains confirmed and instructed.",
     "Session56 new LW06 claim (6016978603) conflicts with last-known Session30 owner; exact Session30 artifact/handoff queried and overlap held.",
     "Session21 shared release gate resolved: Session8 diagnosed identical corrected blob on main and #2547, with exact PR-range PASS (6016968574); no repair needed; Session21 notified to continue proof.",
-    "Historical failures are retained as historical evidence and are not treated as current without a current-head failure."
+    "Historical failures are retained as historical evidence and are not treated as current without a current-head failure.",
+    "Correction: Session49 actual evidence is command exec-aaab6fc4 EXIT 0/8.46s producing one Greasewood Arizona opening world (9,413 people; presentPeople empty); do not represent earlier commentary as an executed 20-world/20–40-line batch.",
+    "Session2 original work exact ownership 6016994640 is fully merged/no UI writer; local composition has 7 tests and type PASS, but browser storage failed (299 MiB short; private art missing), so no browser PASS. Current Session2 counterpart owns #2469 only."
   ],
   "localChatInventory": [
     {
@@ -826,9 +828,9 @@
       "appStatus": "active",
       "updatedAtEpoch": 1791290039,
       "updatedAt": "2026-10-06T12:33:59.000Z",
-      "currentTask": "ENGINE English hourly 20–40-line generated batch through exact Session 109 handoff",
-      "workProof": "board claim posted; no accepted batch receipt supplied",
-      "latestReceiptAt": "unknown"
+      "currentTask": "ENGINE English batch; actual next reachable encounter requested",
+      "workProof": "independently read command exec-aaab6fc4 EXIT 0 in 8.46s produced one Greasewood, Arizona opening world (9,413 people; presentPeople=[]); temporary runner removed; no confirmed live 20-world batch or 20–40-line output",
+      "latestReceiptAt": "not supplied"
     },
     {
       "id": "01a10f8a-dde5-7690-b362-d1f90153c0ea",
@@ -1669,6 +1671,22 @@
       "receiptTimestamp": "board comment 6016968574",
       "exactHead": "not supplied",
       "source": "coordinator-provided ownership closure"
+    },
+    {
+      "session": 49,
+      "task": "ENGINE English generated batch",
+      "state": "independently read command exec-aaab6fc4 EXIT 0 in 8.46 seconds; produced ONE Greasewood, Arizona opening world with 9,413 people and presentPeople=[]; temporary runner removed; no confirmed live 20-world batch or 20–40-line output; requested actual batch handle and next reachable engine encounter",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided evidence correction with independently read command result"
+    },
+    {
+      "session": 2,
+      "task": "original 2 exact ownership and browser proof",
+      "state": "exact ownership 6016994640 fully merged/no UI writer; actual local composition 7 tests and type PASS; browser storage failed at 299 MiB short/private art missing; no browser PASS; current 2 counterpart owns #2469 only",
+      "receiptTimestamp": "ownership reference 6016994640; exact receipt times not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided ownership and proof audit"
     }
   ],
   "coordinatorChat": {
