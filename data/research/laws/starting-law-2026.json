@@ -20038,7 +20038,15 @@
           "preempts": true,
           "cite": "Ala. Code § 36-25-13(a)-(b)",
           "source": "https://alison.legislature.state.al.us/code-of-alabama?section=36-25-13",
-          "note": "Two years after the elected term: a former legislator may not lobby for a fee before the legislative body he or she served for two years after the term of office ends, even if he or she left early."
+          "note": "A former legislator may not represent a person for compensation before the legislative body of which the legislator was a member for two years after leaving that membership.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 2,
+              "unit": "years"
+            }
+          ]
         },
         "US-AR": {
           "answer": "yes",
@@ -20571,8 +20579,16 @@
           "answer": "yes",
           "preempts": true,
           "cite": "Utah Code § 67-24-103",
-          "source": "https://le.utah.gov/xcode/Title67/Chapter24/C67-24-S103_2026050620260506.html",
-          "note": "One year: a former member of the Legislature may not register or lobby for one calendar year after leaving office (Lobbying Restrictions Act of 2009; the section was amended again in 2026, effective 5/6/2026, keeping the one-year period)."
+          "source": "https://le.utah.gov/xcode/Title67/Chapter24/C67-24-S103_1800010118000101.pdf",
+          "note": "As of 1/1/2026, covered former state officials, including legislators, may not lobby or become a lobbyist for one calendar year after leaving office; exceptions include lobbying for oneself or an associated business that is not primarily engaged in governmental relations.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "key": "period",
+              "value": 1,
+              "unit": "years"
+            }
+          ]
         },
         "US-VA": {
           "answer": "no",
