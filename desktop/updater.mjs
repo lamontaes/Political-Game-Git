@@ -217,9 +217,9 @@ export async function runUpdateCheck(deps) {
     const installNow = await deps.ask(
       `Version ${result.updateInfo.version} is ready.`,
       "Install and restart now? Nothing will install until you confirm. Your current play and saves stay in place.",
-      ["Install and restart", "Later"],
+      ["Later", "Install and restart"],
     );
-    if (installNow !== 0) {
+    if (installNow !== 1) {
       updater.setAutoInstallOnAppQuit(false);
       await deps.notify(
         "The update is ready when you are.",
