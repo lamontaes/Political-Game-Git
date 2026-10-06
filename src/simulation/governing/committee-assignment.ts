@@ -1,4 +1,7 @@
-import type { SeatedBody, SeatedMember } from "../legislation-scenarios";
+import type {
+  SeatedBody,
+  SeatedMember,
+} from "../legislation-scenarios";
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import { currentHistoricalCutoff } from "../queries";
 import { personName } from "../people";
@@ -60,6 +63,11 @@ export interface CommitteeAssignmentRun {
   readonly world: World;
   readonly body: CommitteeAssignmentBody;
   readonly assignments: readonly CommitteeSeatAssignment[];
+}
+
+export interface CommitteeSeatedChamber {
+  readonly body: SeatedBody;
+  readonly seats: number;
 }
 
 export interface CommitteePreferenceRun {
@@ -323,22 +331,25 @@ export function committeeAssignmentBodyForRound(
   };
 }
 
-/** The most recently recorded round for a chamber, without guessing a date. */
-export function committeeAssignmentBodyForLatestRound(
+/**
+ * STUB until Session 21 wires saved assignments into seatedChamberForPack.
+ * This adapter enriches the real seated body only with seat events already in
+ * world history for the caller's exact organizing round; it preserves the
+ * current member keys and never guesses an assignment round or seat.
+ */
+export function committeeSeatedChamberWithRecordedAssignments(
   world: World,
-  body: SeatedBody,
+  chamber: CommitteeSeatedChamber,
   jurisdictionId: EntityId,
-): CommitteeAssignmentBody {
-  const assignments = committeeSeatAssignments(world, {
-    jurisdictionId,
-    chamberKey: body.chamberKey,
-  });
-  const latestRoundKey = assignments.at(-1)?.assignmentRoundKey;
+  assignmentRoundKey: string,
+): CommitteeSeatedChamber {
   return {
-    ...body,
-    committeeAssignmentRecords: latestRoundKey
-      ? assignments.filter((row) => row.assignmentRoundKey === latestRoundKey)
-      : [],
+    ...chamber,
+    body: committeeAssignmentBodyForRound(
+      world,
+      chamber.body,
+      { jurisdictionId, assignmentRoundKey },
+    ),
   };
 }
 

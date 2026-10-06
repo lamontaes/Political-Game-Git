@@ -13,6 +13,7 @@ import {
   committeeAssignmentBodyForRound,
   committeeRoster,
   committeeRosters,
+  committeeSeatedChamberWithRecordedAssignments,
   committeesForMember,
   committeesForPerson,
   recordPlayerCommitteeRequest,
@@ -116,7 +117,7 @@ function assignedInPlace(place: string, seed: string) {
       },
     ],
   });
-  return { result, body, jurisdictionId, assigner };
+  return { result, body, jurisdictionId, assigner, initialWorld: world };
 }
 
 describe("recorded committee requests and assignments", () => {
@@ -195,9 +196,18 @@ describe("recorded committee requests and assignments", () => {
   });
 
   it("reads rosters only from the seat decisions on the body", () => {
-    const { result } = assignedInPlace("OH", "recorded-roster");
+    const { result, body, jurisdictionId } = assignedInPlace(
+      "OH",
+      "recorded-roster",
+    );
+    const seated = committeeSeatedChamberWithRecordedAssignments(
+      result.world,
+      { body, seats: body.members.length },
+      jurisdictionId,
+      "2026-organizing",
+    );
     const roster = committeeRoster(
-      result.body,
+      seated.body,
       COMMITTEES,
       "ways-and-means",
       "pack:house",
@@ -226,6 +236,26 @@ describe("recorded committee requests and assignments", () => {
     expect(
       committeeRosters(result.body, COMMITTEES, "pack:house").get("education"),
     ).toEqual([]);
+  });
+
+  it("keeps actual member IDs and yields no appointments until records exist", () => {
+    const { initialWorld, body, jurisdictionId } = assignedInPlace(
+      "VT",
+      "b10-p3-honest-reader-stub",
+    );
+    const seated = committeeSeatedChamberWithRecordedAssignments(
+      initialWorld,
+      { body, seats: body.members.length },
+      jurisdictionId,
+      "2026-organizing",
+    );
+    expect(seated.body.members.map((member) => member.memberKey)).toEqual(
+      body.members.map((member) => member.memberKey),
+    );
+    expect(
+      committeeRoster(seated.body, COMMITTEES, "ways-and-means", "ignored"),
+    ).toEqual([]);
+    expect(seated.seats).toBe(body.members.length);
   });
 
   it("holds the proportional party ratio in three seeded random states and replays deterministically", () => {
