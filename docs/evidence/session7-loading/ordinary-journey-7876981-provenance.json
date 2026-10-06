@@ -1,0 +1,29 @@
+{
+  "servedSource": {
+    "workspace": "/workspace/Political-Game-Git",
+    "head": "7876981b228d092d2acd17cbfab991d422f8325d",
+    "branch": "codex/session7-life-loading-main",
+    "dirty": false,
+    "sourceDigest": "fe5fbcc50f21922eca5e509a40b6f8d10fa5123d488bf5c3ad0525c74dcd8e0d",
+    "pid": 46017,
+    "runId": "session7-opening-runtime-7876981-existing-ffmpeg"
+  },
+  "querySeed": "session7-creator-staged-handoff",
+  "worldId": "world_c6d79909e7727935",
+  "personId": "person_aac2c26c49798447",
+  "initialDate": "2021-01-01",
+  "targetDate": "2026-01-05",
+  "lastWorkerProgressDate": "2021-05-01",
+  "lastDisplayedDateHeading": "2021Oak Grove, South Carolina \u00b7 May 1, 20212:00 / 2:00",
+  "loadingMillisecondsObserved": 120219,
+  "runnerExitCode": 1,
+  "historyCompletedBeforePrompts": false,
+  "saved": false,
+  "reopened": false,
+  "limitations": [
+    "This cap-failed run never reached prompts, choices, first play, Save or Continue.",
+    "No separate annual benchmark or completed-world save-size measurement was run.",
+    "The first attempt failed before opening a page because the default ffmpeg path was absent; the retry used the existing /tmp/session7-browsers binary.",
+    "Configured composition typing at the served head failed in a new clock test helper; this is preserved separately from runtime cap evidence."
+  ]
+}
