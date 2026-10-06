@@ -19,6 +19,7 @@ import { scheduleResidentServiceRequests } from "../public-service-producer";
 import { reviewGoverningOutturns } from "./state-governing";
 import { PUBLIC_PROGRAM_CAPACITY_OUTTURN_RECEIVERS } from "../law-consequence-module-manifest";
 import { applyPublicProgramCapacityOutturnReceivers } from "../public-program-capacity-outturn";
+import type { PublicProgramCapacityOutturnReceiverRegistration } from "../public-program-capacity-outturn";
 import {
   appropriationCommittedMinorUnits,
   appropriationPinnedPaymentsMinorUnits,
@@ -987,6 +988,7 @@ export function settleProgramInstallment(
   world: World,
   commitmentId: EntityId,
   index: number,
+  receivers: readonly PublicProgramCapacityOutturnReceiverRegistration[] = PUBLIC_PROGRAM_CAPACITY_OUTTURN_RECEIVERS,
 ): { world: World; installment: PublicProgramInstallmentRecord } {
   const commitment = commitmentById(world, commitmentId);
   if (!commitment) throw new Error("No such program commitment.");
@@ -1144,7 +1146,7 @@ export function settleProgramInstallment(
       next,
       commitment,
       installment,
-      PUBLIC_PROGRAM_CAPACITY_OUTTURN_RECEIVERS,
+      receivers,
     );
   }
   next = closeWorkIfDone(next, commitment);
@@ -1360,6 +1362,7 @@ function resolved(
 export function programInstallmentHandler(
   world: World,
   due: FutureDueItem,
+  receivers: readonly PublicProgramCapacityOutturnReceiverRegistration[] = PUBLIC_PROGRAM_CAPACITY_OUTTURN_RECEIVERS,
 ): FutureTransitionHandlerResult {
   const target = dueTarget(world, due, "");
   if (!target) return resolved(world, "No program commitment matches.", null);
@@ -1367,6 +1370,7 @@ export function programInstallmentHandler(
     world,
     target.commitment.id,
     target.index,
+    receivers,
   );
   return {
     world: next,
@@ -1381,6 +1385,7 @@ export function programInstallmentHandler(
 export function programDeliveryHandler(
   world: World,
   due: FutureDueItem,
+  receivers: readonly PublicProgramCapacityOutturnReceiverRegistration[] = PUBLIC_PROGRAM_CAPACITY_OUTTURN_RECEIVERS,
 ): FutureTransitionHandlerResult {
   const target = dueTarget(world, due, ":delivery");
   if (!target) return resolved(world, "No program commitment matches.", null);
@@ -1409,7 +1414,7 @@ export function programDeliveryHandler(
     recorded,
     target.commitment,
     installment,
-    PUBLIC_PROGRAM_CAPACITY_OUTTURN_RECEIVERS,
+    receivers,
   );
   const outturn = programOutturns(
     next,

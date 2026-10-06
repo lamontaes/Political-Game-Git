@@ -230,6 +230,9 @@ in checked-in manifest order. Receivers are pure deterministic reducers and
 must not use dice or write a competing public-program record. The saved
 outturn is passed through unchanged when `restoredUnits` is `0` or `null`;
 zero creates no downstream capacity delta, and `null` remains unknown.
+The installment and delivery handlers accept an optional per-call registration
+list for explicit composition and focused tests; ordinary simulation dispatch
+uses the generated static list. No mutable registration singleton is used.
 
 Register receivers by exporting
 `publicProgramCapacityOutturnReceivers` from the owning law-consequence
