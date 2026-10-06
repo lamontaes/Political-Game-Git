@@ -4523,6 +4523,13 @@ export type ChildhoodRecordEntry =
       readonly kind: "no-school-on-record";
       readonly toJurisdictionId: EntityId;
       readonly grade: number;
+    })
+  | (ChildhoodRecordEntryBase & {
+      /** An adult responsible for the child made this recorded choice. */
+      readonly kind: "caregiver-choice";
+      readonly caregiverPersonId: EntityId;
+      readonly situationKey: LifeSituationKey;
+      readonly optionKey: string;
     });
 
 export interface HistoryStore {
