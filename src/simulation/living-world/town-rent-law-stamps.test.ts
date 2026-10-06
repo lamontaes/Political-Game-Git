@@ -234,7 +234,7 @@ describe("saved town rent consequences retain governing laws", () => {
         expect(terms.reason).toContain("Rent stabilization");
         expect(terms.lawEffectStamps?.[0]).toMatchObject({
           questionKey: RENT_LAW_KEYS.rentStabilization,
-          effectKind: "rent-stabilization-renewal",
+          effectKind: "price-cost",
           jurisdictionId: town,
           appliedAt: due,
         });
@@ -356,7 +356,7 @@ describe("saved town rent consequences retain governing laws", () => {
         )!;
         expect(affordableTerms.lawEffectStamps?.[0]).toMatchObject({
           questionKey: RENT_LAW_KEYS.inclusionary,
-          effectKind: "inclusionary-affordable-rent",
+          effectKind: "price-cost",
         });
         const legacyAffordable = recordResourceFlowTerms(letWorld, {
           stableKey: "test:legacy-affordable-terms",

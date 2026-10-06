@@ -1329,7 +1329,7 @@ export function startTownLeases(world: World, dueOn: IsoDate): World {
     if (regime === "affordable" && inclusionary) {
       const terms = next.history.resourceFlowTerms.at(-1)!;
       const stamp = lawEffectStamp(inclusionary.law, {
-        effectKind: "inclusionary-affordable-rent",
+        effectKind: "price-cost",
         questionKey: RENT_LAW_KEYS.inclusionary,
         jurisdictionId: town,
         appliedAt: dueOn,
@@ -1655,7 +1655,7 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
         );
       if (rule && dwelling.establishedAt > rule.operativeAt) {
         const stamp = lawEffectStamp(rule, {
-          effectKind: "inclusionary-affordable-rent",
+          effectKind: "price-cost",
           questionKey: RENT_LAW_KEYS.inclusionary,
           jurisdictionId: lease.town,
           appliedAt: dueOn,
@@ -1694,7 +1694,7 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
       amount = renewal.amountMinor;
       if (capped) {
         const stamp = lawEffectStamp(rule, {
-          effectKind: "rent-stabilization-renewal",
+          effectKind: "price-cost",
           questionKey: RENT_LAW_KEYS.rentStabilization,
           jurisdictionId: lease.town,
           appliedAt: dueOn,
