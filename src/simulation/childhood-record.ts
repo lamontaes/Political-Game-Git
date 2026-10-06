@@ -1,6 +1,7 @@
 import { ageOnDate, makeIsoDate } from "./dates";
 import { eventById } from "./event-index";
 import { appendedList, recordsByStringField } from "./history-index";
+import { organizationProfileAt } from "./life-queries";
 import { createStableId } from "./ids";
 import type { ChildhoodRecordEntry, EntityId, World } from "./types";
 
@@ -69,6 +70,10 @@ type EntryInput =
   | Omit<
       Extract<ChildhoodRecordEntry, { kind: "no-school-on-record" }>,
       "id" | "sequence" | "recordedAt"
+    >
+  | Omit<
+      Extract<ChildhoodRecordEntry, { kind: "faith-choice" }>,
+      "id" | "sequence" | "recordedAt"
     >;
 
 /**
@@ -85,6 +90,31 @@ export function appendChildhoodEntry(world: World, input: EntryInput): World {
     throw new Error("A childhood entry cannot take effect in the future.");
   if (!eventById(world, input.sourceRecordId))
     throw new Error("A childhood entry cites a record the World holds.");
+  if (input.kind === "faith-choice") {
+    const source = eventById(world, input.sourceRecordId)!;
+    if (
+      source.occurredAt !== effectiveAt ||
+      !source.involvedEntityIds.includes(input.personId) ||
+      !source.participants.some(
+        (participant) =>
+          participant.personId === input.personId &&
+          participant.role === "agency:actor",
+      ) ||
+      !source.tags.includes(input.situationKey) ||
+      !source.tags.includes(`choice.${input.optionKey}`)
+    )
+      throw new Error(
+        "A faith choice cites that person's dated formative choice event.",
+      );
+    if (
+      input.congregationId !== null &&
+      organizationProfileAt(world, input.congregationId, {
+        asOfDate: effectiveAt,
+        historySequenceExclusive: world.history.nextSequence,
+      })?.classification !== "membership:congregation"
+    )
+      throw new Error("A faith choice names a congregation in the World.");
+  }
   const id = createStableId(
     "childhood-entry",
     `${world.id}:${input.stableKey}`,
@@ -125,7 +155,24 @@ export function assertChildhoodRecordIntegrity(world: World): void {
       source.sequence >= entry.sequence ||
       !source.involvedEntityIds.includes(entry.personId) ||
       (entry.kind === "birth" && entry.birthDate !== person.birthDate) ||
-      (entry.kind !== "birth" &&
+      (entry.kind === "faith-choice" &&
+        (!source ||
+          source.occurredAt !== entry.effectiveAt ||
+          !source.involvedEntityIds.includes(entry.personId) ||
+          !source.participants.some(
+            (participant) =>
+              participant.personId === entry.personId &&
+              participant.role === "agency:actor",
+          ) ||
+          !source.tags.includes(entry.situationKey) ||
+          !source.tags.includes(`choice.${entry.optionKey}`) ||
+          (entry.congregationId !== null &&
+            organizationProfileAt(world, entry.congregationId, {
+              asOfDate: entry.effectiveAt,
+              historySequenceExclusive: world.history.nextSequence,
+            })?.classification !== "membership:congregation"))) ||
+      ((entry.kind === "school-year-move" ||
+        entry.kind === "no-school-on-record") &&
         (!Number.isInteger(entry.grade) || entry.grade < 0 || entry.grade > 12))
     )
       throw new Error(`Invalid childhood entry: ${entry.stableKey}`);

@@ -1,0 +1,242 @@
+[
+  {
+    "game": "Crusader Kings III",
+    "viewport": [1920, 1080],
+    "destinations": [
+      "People",
+      "Who you are",
+      "Money & property",
+      "Jobs & study",
+      "Politics",
+      "News",
+      "Journal",
+      "Travel",
+      "Calendar",
+      "Guide",
+      "Options"
+    ],
+    "clipped": [],
+    "overflow": [],
+    "overlap": [],
+    "playerCard": {
+      "x": 24,
+      "y": 912,
+      "w": 550,
+      "h": 144
+    },
+    "clockContained": true,
+    "controlsContained": true,
+    "playerCardOverlaps": [],
+    "menuMarks": false
+  },
+  {
+    "game": "Suzerain",
+    "viewport": [1920, 1080],
+    "destinations": [
+      "Politics",
+      "News",
+      "Journal",
+      "Calendar",
+      "People",
+      "Who you are",
+      "Money & property",
+      "Jobs & study",
+      "Travel",
+      "Guide",
+      "Options"
+    ],
+    "clipped": [],
+    "overflow": [],
+    "overlap": [],
+    "playerCard": {
+      "x": 24,
+      "y": 912,
+      "w": 550,
+      "h": 144
+    },
+    "clockContained": true,
+    "controlsContained": true,
+    "playerCardOverlaps": [],
+    "menuMarks": false
+  },
+  {
+    "game": "Frostpunk",
+    "viewport": [1920, 1080],
+    "destinations": [
+      "Calendar",
+      "People",
+      "Politics",
+      "News",
+      "Journal",
+      "Who you are",
+      "Money & property",
+      "Jobs & study",
+      "Travel",
+      "Guide",
+      "Options"
+    ],
+    "clipped": [],
+    "overflow": [],
+    "overlap": [],
+    "playerCard": {
+      "x": 24,
+      "y": 912,
+      "w": 550,
+      "h": 144
+    },
+    "clockContained": true,
+    "controlsContained": true,
+    "playerCardOverlaps": [],
+    "menuMarks": false
+  },
+  {
+    "game": "Football Manager",
+    "viewport": [1920, 1080],
+    "destinations": [
+      "Calendar",
+      "People",
+      "Politics",
+      "News",
+      "Journal",
+      "Who you are",
+      "Money & property",
+      "Jobs & study",
+      "Travel",
+      "Guide",
+      "Options"
+    ],
+    "clipped": [],
+    "overflow": [],
+    "overlap": [],
+    "playerCard": {
+      "x": 24,
+      "y": 912,
+      "w": 550,
+      "h": 144
+    },
+    "clockContained": true,
+    "controlsContained": true,
+    "playerCardOverlaps": [],
+    "menuMarks": false
+  },
+  {
+    "game": "The Sims 4",
+    "viewport": [1920, 1080],
+    "destinations": [
+      "Calendar",
+      "People",
+      "Politics",
+      "News",
+      "Journal",
+      "Who you are",
+      "Money & property",
+      "Jobs & study",
+      "Travel",
+      "Guide",
+      "Options"
+    ],
+    "clipped": [],
+    "overflow": [],
+    "overlap": [],
+    "playerCard": {
+      "x": 24,
+      "y": 912,
+      "w": 550,
+      "h": 144
+    },
+    "clockContained": true,
+    "controlsContained": true,
+    "playerCardOverlaps": [],
+    "menuMarks": false
+  },
+  {
+    "game": "Disco Elysium",
+    "viewport": [1920, 1080],
+    "destinations": [
+      "Calendar",
+      "People",
+      "Politics",
+      "News",
+      "Journal",
+      "Who you are",
+      "Money & property",
+      "Jobs & study",
+      "Travel",
+      "Guide",
+      "Options"
+    ],
+    "clipped": [],
+    "overflow": [],
+    "overlap": [],
+    "playerCard": {
+      "x": 24,
+      "y": 912,
+      "w": 550,
+      "h": 144
+    },
+    "clockContained": true,
+    "controlsContained": true,
+    "playerCardOverlaps": [],
+    "menuMarks": false
+  },
+  {
+    "game": "Baldur’s Gate 3",
+    "viewport": [1920, 1080],
+    "destinations": [
+      "Calendar",
+      "People",
+      "Politics",
+      "News",
+      "Journal",
+      "Who you are",
+      "Money & property",
+      "Jobs & study",
+      "Travel",
+      "Guide",
+      "Options"
+    ],
+    "clipped": [],
+    "overflow": [],
+    "overlap": [],
+    "playerCard": {
+      "x": 24,
+      "y": 912,
+      "w": 550,
+      "h": 144
+    },
+    "clockContained": true,
+    "controlsContained": true,
+    "playerCardOverlaps": [],
+    "menuMarks": false
+  },
+  {
+    "game": "Civilization VI",
+    "viewport": [1920, 1080],
+    "destinations": [
+      "Politics",
+      "News",
+      "Calendar",
+      "Journal",
+      "Travel",
+      "People",
+      "Who you are",
+      "Money & property",
+      "Jobs & study",
+      "Guide",
+      "Options"
+    ],
+    "clipped": [],
+    "overflow": [],
+    "overlap": [],
+    "playerCard": {
+      "x": 24,
+      "y": 912,
+      "w": 550,
+      "h": 144
+    },
+    "clockContained": true,
+    "controlsContained": true,
+    "playerCardOverlaps": [],
+    "menuMarks": false
+  }
+]

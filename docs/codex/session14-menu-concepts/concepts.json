@@ -1,0 +1,66 @@
+[
+  {
+    "game": "Crusader Kings III",
+    "file": "Crusader-Kings-III.png",
+    "html": "Crusader-Kings-III.html",
+    "structure": "Character rail",
+    "rationale": "Character-focused edge navigation with domain grouping; the room stays visible to the right.",
+    "ownership": "Session14 primary"
+  },
+  {
+    "game": "Suzerain",
+    "file": "Suzerain.png",
+    "html": "Suzerain.html",
+    "structure": "Desk folio",
+    "rationale": "A broad desk-like folio: civic destinations lead, personal and practical routes sit beneath.",
+    "ownership": "Session14 primary"
+  },
+  {
+    "game": "Frostpunk",
+    "file": "Frostpunk.png",
+    "html": "Frostpunk.html",
+    "structure": "Command hub",
+    "rationale": "A centered command hub with an elliptical orbit, separate from the portrait; short horizontal labels replace tilted portrait-fan labels.",
+    "ownership": "Session14 primary"
+  },
+  {
+    "game": "Football Manager",
+    "file": "Football-Manager.png",
+    "html": "Football-Manager.html",
+    "structure": "Slim workbench",
+    "rationale": "A persistent text sidebar and small selected-section heading; no fabricated inbox, work tasks or statistics.",
+    "ownership": "Session14 primary"
+  },
+  {
+    "game": "The Sims 4",
+    "file": "The-Sims-4.png",
+    "html": "The-Sims-4.html",
+    "structure": "Split bottom dock",
+    "rationale": "A split bottom dock preserves the active-person corner while everyday destinations run along the lower edge.",
+    "ownership": "Session14 supplemental exploration; Session3 independently requested for this game"
+  },
+  {
+    "game": "Disco Elysium",
+    "file": "Disco-Elysium.png",
+    "html": "Disco-Elysium.html",
+    "structure": "Reading column",
+    "rationale": "A quiet right-side reading column, with unboxed text destinations and a clear selected line; no dialogue or invented story.",
+    "ownership": "Session14 supplemental exploration; Session3 independently requested for this game"
+  },
+  {
+    "game": "Baldur\u2019s Gate 3",
+    "file": "Baldurs-Gate-3.png",
+    "html": "Baldurs-Gate-3.html",
+    "structure": "Action toolbar",
+    "rationale": "An all-destinations lower action toolbar with readable labels; uses game-owned grain, not fantasy spell icons.",
+    "ownership": "Session14 supplemental exploration; Session3 independently requested for this game"
+  },
+  {
+    "game": "Civilization VI",
+    "file": "Civilization-VI.png",
+    "html": "Civilization-VI.html",
+    "structure": "Edge banners",
+    "rationale": "Global civic tools occupy the upper edge, personal/practical destinations the lower right; date/time stay solely on the player card.",
+    "ownership": "Session14 supplemental exploration; Session3 independently requested for this game"
+  }
+]
