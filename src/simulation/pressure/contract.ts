@@ -167,7 +167,7 @@ export const PRESSURE_SEAMS: readonly PressureSeam[] = [
     status: "built",
     rule: "BLANKET: each reported assault or robbery in town beyond the police log's usual quarter adds 5 percent to the town's push, which a resident with a recorded cause weighs on leaving. Every town has the same usual log, so only an unusually bad quarter pushes. Crime is not compared between states.",
     where:
-      "src/simulation/migration/review.ts BLANKET_TOWN_CRIME_PUSH_PER_EXCESS_REPORT",
+      "src/simulation/migration/review.ts TOWN_CRIME_PUSH_ESTIMATE_PER_EXCESS_REPORT",
   },
   {
     key: "cause-family",
