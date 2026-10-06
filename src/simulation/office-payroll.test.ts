@@ -30,11 +30,13 @@ import { workRoleAt } from "./life-queries";
 import { requireLifePlace, stateJurisdictionForKey } from "./life-places";
 import { resourceFlowTermsAt, resourcePositionAt } from "./resource-queries";
 import {
+  createResourceFlow,
   createResourcePosition,
   money,
   recordResourceTransferOutcomes,
 } from "./resources";
 import { serializeWorld, deserializeWorld } from "./serialization";
+import { assessPaycheckTaxes } from "./statutory-tax";
 import { SeededRng } from "./rng";
 import { PLACE_POPULATION_ROWS } from "./nationwide-world/place-population.generated";
 import { TERRITORY_PLACE_ROWS } from "./territory-places";
@@ -566,6 +568,64 @@ it("summarizes distant historical routine earnings and resumes ordinary payroll 
       row.stableKey.startsWith(`past-office-summary:${f.flow.id}:`),
     ),
   ).toHaveLength(1);
+  // Two actual controlled installments in the same distant month must retain
+  // both money transfers without repeating the identical unknown authority.
+  const installment = firstMonth.history.resourceTransferOutcomes.at(-1)!;
+  const monthlyFlow = firstMonth.history.resourceFlows.find(
+    (row) => row.id === installment.resourceFlowId,
+  )!;
+  const payAnotherInstallment = (historical: boolean) => {
+    let next = createResourceFlow(firstMonth, {
+      stableKey: historical
+        ? "past-office-summary-flow:fixture:second-installment"
+        : "fixture:ordinary-second-installment",
+      source: monthlyFlow.source,
+      recipient: monthlyFlow.recipient,
+      startsAt: monthlyFlow.startsAt,
+      amount: installment.transferredAmount,
+      cadenceKind: "schedule:monthly",
+      basisKind: historical
+        ? "custom:historical-office-summary"
+        : "custom:fixture-second-installment",
+      basisReference: monthlyFlow.basisReference,
+      restrictionKind: monthlyFlow.restrictionKind,
+      jurisdictionId: monthlyFlow.jurisdictionId,
+      provenance: monthlyFlow.provenance,
+    });
+    const flow = next.history.resourceFlows.at(-1)!;
+    next = recordResourceTransferOutcomes(next, [
+      {
+        stableKey: `${flow.stableKey}:payment`,
+        resourceFlowId: flow.id,
+        periodStartsAt: installment.periodStartsAt,
+        periodEndsAt: installment.periodEndsAt,
+        occurredAt: installment.occurredAt,
+        status: installment.status,
+        attemptedAmount: installment.transferredAmount,
+        transferredAmount: installment.transferredAmount,
+        reasonKind: "capacity:fixture-second-installment",
+        note: "Controlled second salary installment for authority observation parity.",
+        provenance: monthlyFlow.provenance,
+      },
+    ]);
+    const paid = next.history.resourceTransferOutcomes.at(-1)!;
+    return { world: assessPaycheckTaxes(next, paid.id), outcomeId: paid.id };
+  };
+  const compacted = payAnotherInstallment(true);
+  expect(compacted.world.history.resourceTransferOutcomes.length).toBe(
+    firstMonth.history.resourceTransferOutcomes.length + 1,
+  );
+  expect(compacted.world.history.statutoryTaxLiabilities).toBe(
+    firstMonth.history.statutoryTaxLiabilities,
+  );
+  const ordinaryInstallment = payAnotherInstallment(false);
+  expect(
+    ordinaryInstallment.world.history.statutoryTaxLiabilities!.length,
+  ).toBeGreaterThan(firstMonth.history.statutoryTaxLiabilities!.length);
+  const compactReopened = deserializeWorld(serializeWorld(compacted.world));
+  expect(
+    serializeWorld(assessPaycheckTaxes(compactReopened, compacted.outcomeId)),
+  ).toBe(serializeWorld(compactReopened));
   const ordinary = settleAllOfficeSalaries(at(initial, 365));
   const summarized = settleAllOfficeSalaries(at(past, 365));
   const outcomes = (world: World) =>

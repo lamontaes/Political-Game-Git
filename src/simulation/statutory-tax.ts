@@ -16,6 +16,11 @@
  *    than stored, so it cannot drift from the records it summarizes and stays
  *    owed for as long as the save does.
  *
+ * Distant historical monthly routine pay is the explicit exception to
+ * repeating unknown/not-imposed observations: retain the actual first source
+ * for each authority/rule/month, and preserve every assessed liability and
+ * payment. This does not turn an unknown rule into a zero tax or settle debt.
+ *
  * Enacted game taxes (`tax-policy.ts`) are a separate route and untouched.
  */
 import { createStableId } from "./ids";
@@ -113,7 +118,27 @@ export function assessPaycheckTaxes(world: World, outcomeId: EntityId): World {
   )
     return world;
 
-  const drafts = paycheckLiabilities(world, flow, outcome);
+  const allDrafts = paycheckLiabilities(world, flow, outcome);
+  // The historical writer marks only distant monthly routine pay with this
+  // basis. Keep its actual authority/unknown observation once per month;
+  // a later routine paycheck supplies no new debt or authority. The retained
+  // record continues to describe its own source, never an invented total.
+  // The persisted basis keeps re-assessment idempotent after Begin/reload.
+  const historicalRoutine =
+    flow.basisKind === "custom:historical-office-summary" &&
+    flow.stableKey.startsWith("past-office-summary-flow:") &&
+    outcome.occurredAt < "2026-01-01";
+  const observed = historicalRoutine
+    ? growingIndex(
+        ROUTINE_TAX_OBSERVATIONS,
+        world.history.statutoryTaxLiabilities ?? EMPTY_ROWS,
+      )
+    : null;
+  const drafts = allDrafts.filter((draft) => {
+    const key = historicalRoutine ? routineTaxObservationKey(draft) : null;
+    if (key === null) return true;
+    return !observed!.has(key) && !pendingRows?.routineObservations.has(key);
+  });
   const next = append(
     world,
     "statutoryTaxLiabilities",
@@ -149,6 +174,7 @@ export function assessPaychecksTaxes(
     statutoryTaxLiabilities: [],
     statutoryTaxPayments: [],
     identity: { ids: new Set(), keys: new Set(), sources: new Set() },
+    routineObservations: new Set(),
   };
   pendingRows = held;
   let next = world;
@@ -185,6 +211,7 @@ interface PendingTaxRows {
   >[number][];
   /** Ids, keys and assessed pay of the rows held back. */
   readonly identity: TaxRowIdentity;
+  readonly routineObservations: Set<string>;
 }
 
 /** A test sets this to compare a batch with the same paychecks one by one. */
@@ -1044,6 +1071,12 @@ function append<K extends "statutoryTaxLiabilities" | "statutoryTaxPayments">(
     for (const record of records) {
       (pendingRows[field] as (typeof record)[]).push(record);
       remember(pendingRows.identity, record);
+      if (field === "statutoryTaxLiabilities") {
+        const key = routineTaxObservationKey(
+          record as StatutoryTaxLiabilityRecord,
+        );
+        if (key !== null) pendingRows.routineObservations.add(key);
+      }
     }
     return {
       ...world,
@@ -1089,6 +1122,33 @@ const TAX_ROW_IDENTITIES: GrowingIndexKind<TaxRowIdentity> = {
       row as { readonly id: EntityId; readonly stableKey: string },
     ),
 };
+/** Unknown/zero observations are not money or assessed debt. All assessed
+ * liabilities, including assessed zero, retain their ordinary source rows. */
+function routineTaxObservationKey(row: LiabilityDraft): string | null {
+  if (row.status === "assessed" || row.collection !== "none") return null;
+  if (row.liability !== null && row.liability.minorUnits !== 0) return null;
+  return JSON.stringify([
+    row.occurredAt.slice(0, 7),
+    row.taxKey,
+    row.authorityKey,
+    row.payer.kind,
+    row.status,
+    row.wages.currency,
+    row.researchQuestionId,
+    row.sourceUrl,
+    row.lawMeasureIds ?? [],
+    row.lawEffectStamps ?? [],
+  ]);
+}
+
+const ROUTINE_TAX_OBSERVATIONS: GrowingIndexKind<Set<string>> = {
+  create: () => new Set(),
+  add: (keys, record) => {
+    const key = routineTaxObservationKey(record as StatutoryTaxLiabilityRecord);
+    if (key !== null) keys.add(key);
+  },
+};
+
 const EMPTY_ROWS: readonly never[] = [];
 
 function remember(
