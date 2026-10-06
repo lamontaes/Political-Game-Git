@@ -16,6 +16,7 @@ import { facetEnviousEffects } from "./facet-envious";
 import { facetForgivingEffects } from "./facet-forgiving";
 import { facetFriendlyEffects } from "./facet-friendly";
 import { facetGenerousEffects } from "./facet-generous";
+import { facetHotHeadedEffects } from "./facet-hot-headed";
 import { facetGentleEffects } from "./facet-gentle";
 import { facetHostileEffects } from "./facet-hostile";
 import { facetHumbleEffects } from "./facet-humble";
@@ -68,6 +69,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetHostileEffects,
     ...facetHumbleEffects,
     ...facetMeticulousEffects,
+    ...facetHotHeadedEffects,
     ...facetNurturingEffects,
     ...facetOpenMindedEffects,
     ...facetOpportunisticEffects,
