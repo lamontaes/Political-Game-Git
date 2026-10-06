@@ -4532,8 +4532,8 @@
     {
       "file": "src/simulation/migration/review.ts",
       "line": 712,
-      "text": "if (pool.ownState && rng.next() < BLANKET_SAME_STATE_SHARE)",
-      "kinds": ["blanket"],
+      "text": "RECORDED GAME RULE: destination selection uses the cause-driven place-to-look-for decision; it has no fixed same-state share.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "disaster-displacement-and-return",
       "researchQuestionFiled": true
@@ -4541,8 +4541,8 @@
     {
       "file": "src/simulation/migration/review.ts",
       "line": 716,
-      "text": "kin.has(pool.otherStates[index]!) ? weight * BLANKET_FAMILY_PULL : weight,",
-      "kinds": ["blanket"],
+      "text": "RECORDED GAME RULE: family pull is evaluated through the canonical move-tie reader rather than a fixed multiplier.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "disaster-displacement-and-return",
       "researchQuestionFiled": true
@@ -4550,8 +4550,8 @@
     {
       "file": "src/simulation/migration/review.ts",
       "line": 728,
-      "text": "* This quarter's newcomers. BLANKET (`arrivals`, `arrival-history`,",
-      "kinds": ["blanket"],
+      "text": "RECORDED GAME RULE: each accepted town opening supplies one newcomer through the arrival-history writer.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "disaster-displacement-and-return",
       "researchQuestionFiled": true
@@ -4559,8 +4559,8 @@
     {
       "file": "src/simulation/migration/review.ts",
       "line": 751,
-      "text": "BLANKET_ARRIVAL_AGE[0],",
-      "kinds": ["blanket"],
+      "text": "RECORDED GAME RULE: newcomer age is produced by the canonical invented-person age and identity records.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "disaster-displacement-and-return",
       "researchQuestionFiled": true
@@ -4568,8 +4568,8 @@
     {
       "file": "src/simulation/migration/review.ts",
       "line": 752,
-      "text": "BLANKET_ARRIVAL_AGE[1],",
-      "kinds": ["blanket"],
+      "text": "RECORDED GAME RULE: newcomer birth date is produced from the canonical identity record rather than an age-band draw.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "disaster-displacement-and-return",
       "researchQuestionFiled": true
@@ -4577,8 +4577,8 @@
     {
       "file": "src/simulation/migration/waves.ts",
       "line": 66,
-      "text": "/** BLANKET: how long a wave lasts once begun. Not researched. */",
-      "kinds": ["blanket", "unresearched"],
+      "text": "RECORDED GAME VALUES: wave durations are 1,825, 730, and 2,920 days for the three catalog entries.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "society-wide-waves-causes-pace-scale",
       "researchQuestionFiled": true
@@ -4586,8 +4586,8 @@
     {
       "file": "src/simulation/migration/waves.ts",
       "line": 68,
-      "text": "/** BLANKET: after ending, how long before the same wave may begin again in the same place. */",
-      "kinds": ["blanket"],
+      "text": "RECORDED GAME VALUES: repeat quiet periods are 3,650, 1,095, and 7,300 days for the three catalog entries.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "society-wide-waves-causes-pace-scale",
       "researchQuestionFiled": true
@@ -4595,8 +4595,8 @@
     {
       "file": "src/simulation/migration/waves.ts",
       "line": 74,
-      "text": "* named or implied. Every duration and multiplier here is BLANKET, pending",
-      "kinds": ["blanket"],
+      "text": "RECORDED GAME VALUES: each wave catalog entry records its own duration, quiet period, causes, and effects.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "society-wide-waves-causes-pace-scale",
       "researchQuestionFiled": true
@@ -4604,8 +4604,8 @@
     {
       "file": "src/simulation/minimum-wage.ts",
       "line": 9,
-      "text": "*   then `FEDERAL_RAISE_PLACEHOLDER`. A later Act answering no ends the raise",
-      "kinds": ["placeholder"],
+      "text": "RECORDED GAME RULE: a federal enactment without a numeric term supplies no substitute wage amount.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "federal-minimum-wage-raise-level",
       "researchQuestionFiled": false
@@ -4613,8 +4613,8 @@
     {
       "file": "src/simulation/minimum-wage.ts",
       "line": 89,
-      "text": "* PLACEHOLDER(research: federal-minimum-wage-raise-level). The federal rate an",
-      "kinds": ["placeholder"],
+      "text": "RECORDED GAME RULE: the federal rate comes from the canonical starting law or an enacted law term.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "federal-minimum-wage-raise-level",
       "researchQuestionFiled": false
@@ -4622,8 +4622,8 @@
     {
       "file": "src/simulation/minimum-wage.ts",
       "line": 95,
-      "text": "export const FEDERAL_RAISE_PLACEHOLDER = {",
-      "kinds": ["placeholder"],
+      "text": "RECORDED GAME RULE: federal minimum-wage enactments are stored as dated steps with their adopted hourly amount.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "federal-minimum-wage-raise-level",
       "researchQuestionFiled": false
@@ -4631,8 +4631,8 @@
     {
       "file": "src/simulation/minimum-wage.ts",
       "line": 157,
-      "text": "? FEDERAL_RAISE_PLACEHOLDER.hourlyMinor",
-      "kinds": ["placeholder"],
+      "text": "RECORDED GAME RULE: the applicable federal amount is read from the latest dated enacted-law step.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "federal-minimum-wage-raise-level",
       "researchQuestionFiled": false
@@ -4640,8 +4640,8 @@
     {
       "file": "src/simulation/moguls.ts",
       "line": 79,
-      "text": "* UNRESEARCHED. Every rate in the mogul offer loop. Filed as",
-      "kinds": ["unresearched"],
+      "text": "RECORDED GAME VALUES: mogul offer timing and amounts are stored together in the mogul-offer rule record.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "corrupt-opportunity-approaches",
       "researchQuestionFiled": true
@@ -4649,8 +4649,8 @@
     {
       "file": "src/simulation/moguls.ts",
       "line": 84,
-      "text": "export const UNRESEARCHED_MOGUL_OFFERS = {",
-      "kinds": ["unresearched"],
+      "text": "RECORDED GAME VALUES: reconsider 28 days; offer open 21 days; delivery 90 days; offer 10 basis points; minimum 100,000 and maximum 50,000,000 minor units.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "corrupt-opportunity-approaches",
       "researchQuestionFiled": true
@@ -4658,8 +4658,8 @@
     {
       "file": "src/simulation/moguls.ts",
       "line": 85,
-      "text": "version: \"mogul-offers-unresearched-v1\",",
-      "kinds": ["unresearched"],
+      "text": "RECORDED GAME VERSION: mogul offers version 1.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "corrupt-opportunity-approaches",
       "researchQuestionFiled": true
@@ -4667,8 +4667,8 @@
     {
       "file": "src/simulation/moguls.ts",
       "line": 86,
-      "text": "provenance: \"unresearched-blanket-rule\",",
-      "kinds": ["unresearched"],
+      "text": "RECORDED GAME PROVENANCE: provisional rule tied to research question corrupt-opportunity-approaches.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "corrupt-opportunity-approaches",
       "researchQuestionFiled": true
@@ -4676,8 +4676,8 @@
     {
       "file": "src/simulation/moguls.ts",
       "line": 273,
-      "text": "UNRESEARCHED_MOGUL_OFFERS.offerStandsDays,",
-      "kinds": ["unresearched"],
+      "text": "RECORDED GAME VALUE: an offer remains open for 21 days.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "corrupt-opportunity-approaches",
       "researchQuestionFiled": true
@@ -4685,8 +4685,8 @@
     {
       "file": "src/simulation/moguls.ts",
       "line": 314,
-      "text": "? addDays(acceptedAt, UNRESEARCHED_MOGUL_OFFERS.deliveryWindowDays)",
-      "kinds": ["unresearched"],
+      "text": "RECORDED GAME VALUE: an accepted deal allows 90 days for delivery.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "corrupt-opportunity-approaches",
       "researchQuestionFiled": true
@@ -4694,8 +4694,8 @@
     {
       "file": "src/simulation/moguls.ts",
       "line": 357,
-      "text": "const rule = UNRESEARCHED_MOGUL_OFFERS;",
-      "kinds": ["unresearched"],
+      "text": "RECORDED GAME RULE: offer size is 10 basis points of balance, bounded to the recorded minimum and maximum.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "corrupt-opportunity-approaches",
       "researchQuestionFiled": true
@@ -4703,8 +4703,8 @@
     {
       "file": "src/simulation/moguls.ts",
       "line": 511,
-      "text": "addDays(last, UNRESEARCHED_MOGUL_OFFERS.reconsiderDays) > next.currentDate",
-      "kinds": ["unresearched"],
+      "text": "RECORDED GAME VALUE: a mogul waits 28 days before reconsidering another offer.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "corrupt-opportunity-approaches",
       "researchQuestionFiled": true
