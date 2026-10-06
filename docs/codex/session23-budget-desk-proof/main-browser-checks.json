@@ -1,0 +1,100 @@
+{
+  "proofHead": "83cc2f3bd437aece3368cf129370885fdac0ae06",
+  "main": "e591ffc637d1f6db84d2ff920e8662ce123202ed",
+  "runId": "session23-p4-main-e591-creator-repair",
+  "browser": {
+    "exitCode": 0,
+    "result": "1 PASS, 8.6 minutes; final saved-record equality passed",
+    "command": "NODE_OPTIONS='--import=tsx' PG_RUN_ID=session23-p4-main-e591-creator-repair PLAYWRIGHT_PORT=4183 OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev npx --no-install playwright test tests/e2e/session23-executive-budget-desk.spec.ts --config=/tmp/session23-playwright.config.ts --project=chromium --workers=1",
+    "identity": {
+      "expectedIdentity": {
+        "workspace": "/workspace/Political-Game-Git",
+        "head": "83cc2f3bd437aece3368cf129370885fdac0ae06",
+        "branch": "codex/session23-p4-dollar-budget-desk",
+        "dirty": false,
+        "sourceDigest": "81d0a603f6c83c6d9a0cf7e2176beb081dec6a8b41ddcb3682b5e72a098bbb18"
+      },
+      "served": {
+        "workspace": "/workspace/Political-Game-Git",
+        "head": "83cc2f3bd437aece3368cf129370885fdac0ae06",
+        "branch": "codex/session23-p4-dollar-budget-desk",
+        "dirty": false,
+        "sourceDigest": "81d0a603f6c83c6d9a0cf7e2176beb081dec6a8b41ddcb3682b5e72a098bbb18",
+        "pid": 61847,
+        "runId": "session23-p4-main-e591-creator-repair"
+      },
+      "baseURL": "http://127.0.0.1:4183",
+      "projects": [
+        {
+          "name": "chromium",
+          "use": {
+            "baseURL": "http://127.0.0.1:4183",
+            "trace": "retain-on-failure",
+            "screenshot": "only-on-failure",
+            "video": "off",
+            "viewport": {
+              "width": 1280,
+              "height": 720
+            },
+            "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.7922.34 Safari/537.36",
+            "screen": {
+              "width": 1920,
+              "height": 1080
+            },
+            "deviceScaleFactor": 1,
+            "isMobile": false,
+            "hasTouch": false,
+            "defaultBrowserType": "chromium",
+            "launchOptions": {
+              "executablePath": "/usr/bin/chromium"
+            }
+          }
+        }
+      ],
+      "seedPolicy": "Each test retains its original control seed; actual URL/world seed is captured by review proof."
+    },
+    "logSha256": "ad401594a139361d16e2cececf53fc7d7f6baec6b11b831b6f856dd4ed152768",
+    "tail": "[1/1] [chromium] \u203a tests/e2e/session23-executive-budget-desk.spec.ts:20:1 \u203a authored governor seat: a new life requests dollars and reloads a different enacted amount\n[chromium] \u203a tests/e2e/session23-executive-budget-desk.spec.ts:20:1 \u203a authored governor seat: a new life requests dollars and reloads a different enacted amount\n{\"randomPlace\":\"Terre Haute, Indiana\",\"randomPlaceKey\":\"1875428\",\"proofKind\":\"authored governor seat for the original new life and supplied legislative votes; no natural election or NPC bargaining proof\",\"seed\":\"setup-v3:b0afec5a06bd0c47:{\\\"v\\\":3,\\\"seed\\\":\\\"session23-part4-dollar-budget-new-game-2026-10-06\\\",\\\"placeKey\\\":\\\"1875428\\\",\\\"startAge\\\":40,\\\"birthMonth\\\":1,\\\"birthDay\\\":1,\\\"depth\\\":\\\"play-formative-years\\\",\\\"startingLife\\\":\\\"ordinary-life\\\",\\\"household\\\":\\\"shares-a-home\\\",\\\"givenName\\\":\\\"Emerson\\\",\\\"familyName\\\":\\\"Stuart\\\",\\\"gender\\\":\\\"female\\\",\\\"pronouns\\\":\\\"she-her\\\"}\",\"worldId\":\"world_1babde85a1cf4a0a\",\"moment\":{\"date\":\"2026-01-19\",\"minuteOfDay\":420,\"timeZone\":\"America/New_York\",\"utcOffsetMinutes\":-300},\"controlledPersonId\":\"person_b4607782c8d06f2c\",\"office\":{\"officeKey\":\"us-in-governor\",\"stateUsps\":\"IN\",\"title\":\"Governor of Indiana\",\"jurisdictionId\":\"jurisdiction_6d6a95d42895c878\",\"organizationId\":\"organization_1b1b5b9cc00d5d3e\",\"holderPersonId\":\"person_b4607782c8d06f2c\",\"termId\":\"event_256ae545f891239a\",\"termStartedAt\":\"2026-01-05\",\"termEndsAt\":\"2029-01-01\",\"controlledByPlayer\":true,\"calendarBasis\":\"game-profile\",\"calendarNote\":\"The term runs 4 years, beginning the first Monday of January, with an election every 4 years in November.\"},\"requests\":[{\"matterId\":\"event_0ed000642efbecb9\",\"decisionEventId\":\"event_a25159f24968ef43\",\"officeKey\":\"us-in-governor\",\"personId\":\"person_b4607782c8d06f2c\",\"governmentIdentity\":{\"kind\":\"jurisdiction\",\"jurisdictionId\":\"jurisdiction_6d6a95d42895c878\"},\"startsOn\":\"2026-01-05\",\"endsOn\":\"2027-01-05\",\"lines\":[{\"familyKey\":\"transit-access\",\"amount\":{\"minorUnits\":400000025,\"currency\":\"USD\"}}],\"event\":{\"id\":\"event_b954d8044e2c2687\",\"stableKey\":\"state-governing/v1:us-in-governor:event_256ae545f891239a:budget:entry:event_256ae545f891239a:dollar-request\",\"sequence\":71519,\"type\":\"governing.budget-request\",\"occurredAt\":\"2026-01-05\",\"recordedAt\":\"2026-01-05\",\"jurisdictionId\":\"jurisdiction_6d6a95d42895c878\",\"involvedEntityIds\":[\"organization_1b1b5b9cc00d5d3e\",\"person_b4607782c8d06f2c\"],\"participants\":[{\"personId\":\"person_b4607782c8d06f2c\",\"role\":\"agency:budget-request\",\"detail\":\"Governor of Indiana\"}],\"personFactConstraints\":[],\"visibility\":\"public\",\"tags\":[\"executive-budget-request:%7B%22matterId%22%3A%22event_0ed000642efbecb9%22%2C%22decisionEventId%22%3A%22event_a25159f24968ef43%22%2C%22officeKey%22%3A%22us-in-governor%22%2C%22personId%22%3A%22person_b4607782c8d06f2c%22%2C%22governmentIdentity%22%3A%7B%22kind%22%3A%22jurisdiction%22%2C%22jurisdictionId%22%3A%22jurisdiction_6d6a95d42895c878%22%7D%2C%22startsOn%22%3A%222026-01-05%22%2C%22endsOn%22%3A%222027-01-05%22%2C%22lines%22%3A%5B%7B%22familyKey%22%3A%22transit-access%22%2C%22amount%22%3A%7B%22minorUnits%22%3A400000025%2C%22currency%22%3A%22USD%22%7D%7D%5D%7D\",\"matter:event_0ed000642efbecb9\",\"office:us-in-governor\",\"source-event:event_a25159f24968ef43\",\"term:event_256ae545f891239a\"],\"summary\":\"Governor of Indiana requested $4,000,000.25 for Transit access for 2026-01-05 through 2027-01-05. This is a request to the legislature, not authority to spend.\",\"context\":{\"location\":null,\"socialContext\":null,\"pressure\":null,\"choice\":\"Requested dollar amounts by program family.\",\"motivation\":null,\"immediateReaction\":null}}}],\"appropriations\":[{\"kind\":\"appropriation\",\"programKey\":\"transit-access:in\",\"jurisdictionId\":\"jurisdiction_6d6a95d42895c878\",\"accountOrganizationId\":\"organization_0ebd6944f26195b7\",\"amount\":{\"minorUnits\":300000000,\"currency\":\"USD\"},\"availableFrom\":\"2026-01-19\",\"availableThrough\":\"2027-01-18\",\"basis\":{\"kind\":\"game-profile\",\"note\":\"enacted-appropriations/v1: adopted by section 3 of Budget comparison 1, Transit Access Pilot. The amount is that section's own enacted figure.\"},\"sourceMeasureId\":\"legislative-measure_414166e01dc6a044\",\"id\":\"public-program-record_6c191e06688620d6\",\"stableKey\":\"public-program/v1:transit-access:in:appropriation:measure-budget-comparison-1-pilot-support-limit\",\"sequence\":377731,\"recordedAt\":\"2026-01-19\",\"eventId\":\"event_99bf350cc617a27e\"}],\"matters\":[{\"id\":\"event_0ed000642efbecb9\",\"status\":\"decided\",\"decision\":{\"id\":\"event_a25159f24968ef43\",\"stableKey\":\"state-governing/v1:us-in-governor:event_256ae545f891239a:budget:entry:event_256ae545f891239a:decided\",\"sequence\":71515,\"type\":\"governing.matter-decided\",\"occurredAt\":\"2026-01-05\",\"recordedAt\":\"2026-01-05\",\"jurisdictionId\":\"jurisdiction_6d6a95d42895c878\",\"involvedEntityIds\":[\"organization_1b1b5b9cc00d5d3e\",\"person_b4607782c8d06f2c\",\"work-item_d1a6e65af2e96687\"],\"participants\":[{\"personId\":\"person_b4607782c8d06f2c\",\"role\":\"agency:decider\",\"detail\":\"player\"}],\"personFactConstraints\":[],\"visibility\":\"public\",\"tags\":[\"choice:budget:request-dollars\",\"decided-by:player\",\"matter-family:budget\",\"matter:event_0ed000642efbecb9\",\"office:us-in-governor\",\"state-governing/v1\"],\"summary\":\"Emerson Stuart, Governor of Indiana, prepared a dollar budget request for the legislature.\",\"context\":{\"location\":null,\"socialContext\":null,\"pressure\":null,\"choice\":\"Prepare a dollar request\",\"motivation\":null,\"immediateReaction\":null}}}],\"enactments\":[{\"id\":\"legislative-enactment_db6098e44ef201da\",\"stableKey\":\"measure:legislative-measure_414166e01dc6a044:enactment\",\"sequence\":377728,\"measureId\":\"legislative-measure_414166e01dc6a044\",\"resolvedAt\":\"2026-01-19\",\"outcome\":\"enacted\",\"actDesignation\":null,\"effectiveAt\":\"2026-01-19\",\"finalPassageAt\":\"2026-01-19\",\"outcomeEventId\":\"event_58f5a37c472c10f8\"}]}\n\n  Slow test file: [chromium] \u203a tests/e2e/session23-executive-budget-desk.spec.ts (8.3m)\n  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel\n  1 passed (8.6m)"
+  },
+  "files": {
+    "main-new-game-dollar-budget-desk.png": "1786f355609621d29745d487c52befd66cd23f1c1214cc6f3d97e9553d899d65",
+    "main-record-lines.json": "533b02266919af914a9b32455e73f6085849d88d4fa3b86d4e7e9c25c1c35bbe"
+  },
+  "limitations": [
+    "Ordinary generated life with explicitly authored governor tenure and supplied legislative votes. No natural election or NPC bargaining proof.",
+    "Configured typecheck independently reproduces two unchanged main press fixture errors; exact main baseline retained.",
+    "Canonical main three-year speed baseline exhausted its original 4096 MB heap before year 1. Comparison remains unverified; no repeat, reduced world or increased heap."
+  ],
+  "finalChecks": [
+    {
+      "path": "/tmp/session23-p4-creator-helper-types.log",
+      "exitCode": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tail": ""
+    },
+    {
+      "path": "/tmp/session23-p4-creator-helper-lint.log",
+      "exitCode": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tail": ""
+    },
+    {
+      "path": "/tmp/session23-p4-creator-helper-format.log",
+      "exitCode": 0,
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "tail": "Checking formatting...\nAll matched files use Prettier code style!"
+    },
+    {
+      "path": "/tmp/session23-p4-current-release-identity.log",
+      "exitCode": 0,
+      "sha256": "752d7b6160f02e3afab639265a4c90f3e78128db2a41571b59497856b9e167a4",
+      "tail": "\n> political-life-rpg@0.4.0 release:check\n> node --import tsx scripts/release/index.ts check --mode pr --base origin/main --head HEAD\n\nrelease:check \u2014 version 0.4.0, revision ec0c3bb, 1685 pending declaration(s), declaration range origin/main..HEAD (pr). OK."
+    },
+    {
+      "path": "/tmp/session23-p4-ec4b-zero-dice.log",
+      "exitCode": 0,
+      "sha256": "c1c70d95dc66ee5ae8140d3fbb0ccadccd8c53ba9f2684dbc99306d5566ff24d",
+      "tail": "\n> political-life-rpg@0.4.0 zero-dice\n> node scripts/zero-dice-guard.mjs\n\nzero-dice: nothing new; 122 allowed lines left."
+    }
+  ]
+}

@@ -779,6 +779,7 @@ export function SetupScreen({
                         ...now,
                         placeKey: statewidePlace.key,
                       }));
+                      advanceTo("background");
                     }}
                   >
                     {statewidePlace.displayName}
@@ -825,6 +826,7 @@ export function SetupScreen({
                               ? "ordinary-life"
                               : now.startingLife,
                         }));
+                        advanceTo(custom ? "background" : "difficulty");
                       }}
                     >
                       {candidate.displayName}
@@ -1429,21 +1431,6 @@ export function SetupScreen({
             data-testid="creator-continue-character"
             disabled={characterMissing.length > 0 || (ageChosen && !ageUsable)}
             onClick={continueCharacter}
-          >
-            Next
-          </button>
-        ) : null}
-        {isCurrent("place") ? (
-          <button
-            type="button"
-            className="game-creator-next creator-primary-action"
-            data-testid="creator-continue-place"
-            disabled={
-              !place ||
-              !creatorLocationIsReady(location, custom ? "custom" : "normal") ||
-              replacingPlace
-            }
-            onClick={() => advanceTo(custom ? "background" : "difficulty")}
           >
             Next
           </button>

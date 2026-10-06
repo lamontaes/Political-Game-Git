@@ -1,3 +1,6 @@
+import { recordConversationContact } from "./conversation-contact";
+import { lifeReplyLine, type LifeReplyKey } from "./life-reply-english";
+import type { GroundedEnglishFact } from "./grounded-english";
 import {
   activeOrdinaryGoal,
   completeOrdinaryGoal,
@@ -49,7 +52,6 @@ import {
   describePersonContext,
   personName,
   recordEventKnowledge,
-  recordRelationshipInteraction,
   recordWorldEvent,
   advanceWorldMinutes,
   kinshipRelationshipsAt,
@@ -65,9 +67,6 @@ import {
 } from "../simulation/queries";
 import type {
   EntityId,
-  IsoDate,
-  RelationshipSignificance,
-  RelationshipInteractionKind,
   World,
   FutureTransitionHandlerRegistry,
 } from "../simulation";
@@ -420,6 +419,11 @@ function replyFor(
 ): string {
   const { playerPersonId, personId } = context;
   const history = turns(world, playerPersonId, personId);
+  const say = (
+    key: LifeReplyKey,
+    facts: Readonly<Record<string, GroundedEnglishFact>> = {},
+  ) =>
+    worded(lifeReplyLine(world, personId, playerPersonId, history, key, facts));
   const previous = history.at(-1);
   const child =
     ageOnDate(world.people[personId]!.birthDate, world.currentDate) < 13;
@@ -455,8 +459,13 @@ function replyFor(
       (intent === "suggestQuiet" && proposal.terms.activity === "quiet"));
   if (matchesProposal)
     return activeOrdinaryGoal(world, personId, "privacy")
-      ? "I need some time alone now. Let’s leave it for another time."
-      : `Yes, let's ${proposal.label.replace("you both", "we both")}.`;
+      ? say("i-need-some-time-alone-now-lets")
+      : say("proposal-accepted", {
+          activity: {
+            text: proposal.label.replace("you both", "we both"),
+            sourceRecordIds: [proposal.request.id],
+          },
+        });
   const privatePerson =
     latestPersonalValue(world, personId, LIFE_MIND_IDS.privacy)?.orientation ===
     "embraces";
@@ -490,148 +499,151 @@ function replyFor(
   };
   if (isTellIntent(intent)) {
     const topic = findTellTopic(world, playerPersonId, personId, intent);
-    return topic
-      ? tellAnswer(world, playerPersonId, personId, topic, {
-          parentOfYoungPlayer: parent && youngPlayer,
-        }).reply
-      : "What were you going to say?";
+    if (!topic) return say("what-were-you-going-to-say");
+    const answer = tellAnswer(world, playerPersonId, personId, topic, {
+      parentOfYoungPlayer: parent && youngPlayer,
+    });
+    return worded({ text: answer.reply, parts: answer.parts });
   }
   switch (intent) {
     case "scene": {
       const scene = currentLifeTalkScene(world, playerPersonId)!;
       if (scene.definition.key === "early.home.broken-mug")
         return parent
-          ? "Tell me what happened. Leave the pieces alone; I will help with those."
-          : "We should ask for help with the broken pieces.";
+          ? say("tell-me-what-happened-leave-the-pieces")
+          : say("we-should-ask-for-help-with-the");
       if (scene.definition.key === "early.home.bedtime-delay")
         return parent
-          ? "It is bedtime. Put the toy away, please."
-          : "It is time to put the toy away.";
+          ? say("it-is-bedtime-put-the-toy-away")
+          : say("it-is-time-to-put-the-toy");
       if (scene.definition.key === "early.home.food-refusal")
         return parent
-          ? "Would you try one bite? You can tell me if you do not like it."
-          : "You do not have to pretend you like it.";
+          ? say("would-you-try-one-bite-you-can")
+          : say("you-do-not-have-to-pretend-you");
       if (scene.definition.key === "young.home.ask-about-childhood")
-        return "What would you like to know about school?";
+        return say("what-would-you-like-to-know-about");
       if (scene.definition.key === "early.community.curious-neighbor")
-        return "Do you like your teacher?";
-      const sceneQuestion: Readonly<Record<string, string>> = {
-        "early.school.lunchbox-swap": "Do you want to keep your snack?",
-        "early.peer.sidewalk-game": "Shall we try one round with that rule?",
-        "early.peer.secret-whisper": "Do you want to talk about the story?",
-        "early.peer.dropped-treat": "Can you stay with me for a minute?",
-        "early.peer.roughhouse-line": "Do you want to stop playing tag?",
-        "early.community.library-quiet":
-          "Should we move farther apart so we can listen?",
-        "early.school.crayon-sharing": "Can I use the crayon when you finish?",
-        "early.school.playground-turn": "Do you want a turn on the swing?",
-        "early.school.spilled-paint": "Can you help blot the paper?",
-        "early.peer.toy-damage-accidental": "Can you show me the wheel?",
-        "adult.home.shared-time": "Would you like to talk about your day?",
-        "early.community.lost-pet-flyer":
-          "Shall we look at the flyer together?",
-        "early.community.sidewalk-curb": "Will you wait here with me?",
-        "early.family.packing-boxes": "Is there a toy you want to keep?",
-        "adult.trans.college-vs-work":
-          "What would you like to know before deciding?",
-        "adult.trans.drop-class-keep-job":
-          "Do you want to ask about another shift first?",
+        return say("do-you-like-your-teacher");
+      const sceneQuestion: Readonly<Record<string, LifeReplyKey>> = {
+        "early.school.lunchbox-swap": "do-you-want-to-keep-your-snack",
+        "early.peer.sidewalk-game": "shall-we-try-one-round-with-that",
+        "early.peer.secret-whisper": "do-you-want-to-talk-about-the",
+        "early.peer.dropped-treat": "can-you-stay-with-me-for-a",
+        "early.peer.roughhouse-line": "do-you-want-to-stop-playing-tag",
+        "early.community.library-quiet": "should-we-move-farther-apart-so-we",
+        "early.school.crayon-sharing": "can-i-use-the-crayon-when-you",
+        "early.school.playground-turn": "do-you-want-a-turn-on-the",
+        "early.school.spilled-paint": "can-you-help-blot-the-paper",
+        "early.peer.toy-damage-accidental": "can-you-show-me-the-wheel",
+        "adult.home.shared-time": "would-you-like-to-talk-about-your",
+        "early.community.lost-pet-flyer": "shall-we-look-at-the-flyer-together",
+        "early.community.sidewalk-curb": "will-you-wait-here-with-me",
+        "early.family.packing-boxes": "is-there-a-toy-you-want-to",
+        "adult.trans.college-vs-work": "what-would-you-like-to-know-before",
+        "adult.trans.drop-class-keep-job": "do-you-want-to-ask-about-another",
       };
       if (sceneQuestion[scene.definition.key])
-        return sceneQuestion[scene.definition.key]!;
+        return say(sceneQuestion[scene.definition.key]!);
       // The only established topic is the scene's saved premise, not a new
       // worry or a fabricated past exchange attributed to this person.
-      return "What would you like to do?";
+      return say("what-would-you-like-to-do");
     }
     case "date":
       return willingToDate(world, personId)
-        ? "Yes. I'd like that. We could sit and talk for a while."
+        ? say("yes-id-like-that-we-could-sit")
         : (invitationLine("date", false) ??
-            "No, thank you. I'd like to keep this as it is.");
+            say("no-thank-you-id-like-to-keep"));
     case "suggestGame":
       return acceptsActivity(world, personId, intent)
-        ? (invitationLine("game", true) ??
-            "Yes, I'd like to play a game together.")
+        ? (invitationLine("game", true) ?? say("yes-id-like-to-play-a-game"))
         : (invitationLine("game", false) ??
-            "Not a game right now, thanks. I'd rather leave it for another time.");
+            say("not-a-game-right-now-thanks-id"));
     case "suggestQuiet":
       return acceptsActivity(world, personId, intent)
-        ? (invitationLine("quiet", true) ??
-            "Yes. Let's sit and talk for a while.")
+        ? (invitationLine("quiet", true) ?? say("yes-lets-sit-and-talk-for-a"))
         : (invitationLine("quiet", false) ??
-            "I'd rather not sit and talk right now. Thanks for asking.");
+            say("id-rather-not-sit-and-talk-right"));
     case "spendTime":
       return proposal
-        ? `I'm glad we took time to ${proposal.label.replace("you both", "we both")}.`
-        : "I'm glad we took some time together.";
+        ? say("time-spent-on-proposal", {
+            activity: {
+              text: proposal.label.replace("you both", "we both"),
+              sourceRecordIds: [proposal.request.id],
+            },
+          })
+        : say("im-glad-we-took-some-time-together");
     case "acceptProposal":
-      return "That invitation is no longer open.";
+      return say("that-invitation-is-no-longer-open");
     case "declineProposal":
-      return "All right. Maybe another time.";
+      return say("all-right-maybe-another-time");
     case "cancelProposal":
-      return "All right. Let’s leave it.";
+      return say("all-right-lets-leave-it");
     case "greet":
       if (parent && youngPlayer)
         return history.length
-          ? "Hi, sweetheart. What is it?"
-          : "Hi, sweetheart.";
+          ? say("hi-sweetheart-what-is-it")
+          : say("hi-sweetheart");
       if (history.length) {
         const again = greetAgainLine(world, personId, playerPersonId, history);
-        return again ? worded(again) : "Hi again.";
+        return again ? worded(again) : say("hi-again");
       }
-      return `Hi, ${world.people[playerPersonId]!.givenName}.`;
+      return say("first-greeting", {
+        listener: {
+          text: world.people[playerPersonId]!.givenName,
+          sourceRecordIds: [playerPersonId],
+        },
+      });
     case "activity":
       if (activeOrdinaryGoal(world, personId, "privacy"))
-        return "I need some privacy right now. Let's leave activities for another time.";
+        return say("i-need-some-privacy-right-now-lets");
       if (parent && youngPlayer)
         return leisure === "explore"
-          ? "We could try a new game. Would you like that?"
+          ? say("we-could-try-a-new-game-would")
           : leisure === "company"
-            ? "We could play together. You can choose the game."
-            : "How about a game we both know?";
+            ? say("we-could-play-together-you-can-choose")
+            : say("how-about-a-game-we-both-know");
       if (leisure === "explore")
         return child
-          ? "Can we try a new game?"
-          : "We could try a new game. Would you like that?";
+          ? say("can-we-try-a-new-game")
+          : say("we-could-try-a-new-game-would");
       if (leisure === "company")
         return child
-          ? "Let's play a game together."
-          : "I'd like some company. We could sit and talk together.";
+          ? say("lets-play-a-game-together")
+          : say("id-like-some-company-we-could-sit");
       return child
-        ? "Can we play a game we both know?"
-        : "How about a game we both know?";
+        ? say("can-we-play-a-game-we-both")
+        : say("how-about-a-game-we-both-know");
     case "share":
-      if (parent && youngPlayer)
-        return "Of course. What do you want to tell me?";
+      if (parent && youngPlayer) return say("of-course-what-do-you-want-to");
       if (privatePerson)
         return child
-          ? "Not right now. Can we talk about something else?"
-          : "I'd rather keep that to myself for now.";
-      if (approach === "ask") return "Sure. What did you want to talk about?";
-      if (approach === "listen") return "I'm listening. Go ahead.";
-      return "Yes. Tell me what's on your mind.";
+          ? say("not-right-now-can-we-talk-about")
+          : say("id-rather-keep-that-to-myself-for");
+      if (approach === "ask") return say("sure-what-did-you-want-to-talk");
+      if (approach === "listen") return say("im-listening-go-ahead");
+      return say("yes-tell-me-whats-on-your-mind");
     case "explain":
       if (
         previous?.tags.includes("life.talk:suggestGame") ||
         previous?.tags.includes("life.talk:suggestQuiet")
       )
         return previous.tags.includes("life.answer:company-accepted")
-          ? "That sounds like a way I'd enjoy spending time together."
-          : "It isn't what I feel like doing right now. We can leave it there.";
+          ? say("that-sounds-like-a-way-id-enjoy")
+          : say("it-isnt-what-i-feel-like-doing");
       if (previous?.tags.includes("life.talk:share"))
         return previous.tags.includes("life.answer:private")
-          ? "I'm not ready to talk about it. Please leave it there."
-          : "I said yes because I want to hear what you have to say.";
+          ? say("im-not-ready-to-talk-about-it")
+          : say("i-said-yes-because-i-want-to");
       return previous?.tags.includes("life.answer:explore")
-        ? "I want to try something I haven't done before."
+        ? say("i-want-to-try-something-i-havent")
         : previous?.tags.includes("life.answer:company")
-          ? "I want to spend time with you."
-          : "I'd like to do something I already enjoy.";
+          ? say("i-want-to-spend-time-with-you")
+          : say("id-like-to-do-something-i-already");
     case "matter":
     case "officials": {
       if (intent === "matter") {
         const matter = currentKnownMatter(world, playerPersonId);
-        if (!matter) return "What did you want to talk about?";
+        if (!matter) return say("what-did-you-want-to-talk-about");
         const awareness = matterAwareness(world, personId, matter.eventId);
         if (awareness === "uninformed") {
           const unheard = matterUninformedLine(
@@ -641,21 +653,19 @@ function replyFor(
             history,
             matter.eventId,
           );
-          return unheard ? worded(unheard) : "I hadn't heard about that.";
+          return unheard ? worded(unheard) : say("i-hadnt-heard-about-that");
         }
         if (!activeOrdinaryGoal(world, personId, "privacy"))
           return awareness === "involved"
-            ? "I was involved in that."
-            : "I heard about that.";
+            ? say("i-was-involved-in-that")
+            : say("i-heard-about-that");
       } else if (!activeOrdinaryGoal(world, personId, "privacy")) {
         const line = officialViewLine(world, personId, playerPersonId, history);
-        return line
-          ? worded(line)
-          : "I don't have much to say about the people in office right now.";
+        return line ? worded(line) : say("i-dont-have-much-to-say-about");
       }
       // Someone keeping to themselves declines either question the same way.
       // The sentence is written once, so its one prose anchor stays settled.
-      return "I'd rather not get into that right now.";
+      return say("id-rather-not-get-into-that-right");
     }
     case "remember": {
       // A matter the two of you discussed is more memorable than small talk.
@@ -665,7 +675,12 @@ function replyFor(
           event.tags.some((tag) => tag.startsWith("life.matter:")),
         );
       if (matterTurn?.context.choice?.startsWith(MATTER_CHOICE_PREFIX))
-        return `I remember you bringing up “${matterTurn.context.choice.slice(MATTER_CHOICE_PREFIX.length)}”`;
+        return say("remembered-topic", {
+          topic: {
+            text: matterTurn.context.choice.slice(MATTER_CHOICE_PREFIX.length),
+            sourceRecordIds: [matterTurn.id],
+          },
+        });
       // The player's own speech, once, if this person heard it or was told.
       const spokeOfSpeech = history.some((event) =>
         (linePartsOf(event.tags) ?? []).some((key) =>
@@ -683,17 +698,22 @@ function replyFor(
             event.tags.includes("life.talk:share"),
         ) ?? previous;
       return remembered
-        ? `I remember saying, “${remembered.context.immediateReaction}”`
-        : "We haven't talked about that.";
+        ? say("remembered-words", {
+            quote: {
+              text: remembered.context.immediateReaction!,
+              sourceRecordIds: [remembered.id],
+            },
+          })
+        : say("we-havent-talked-about-that");
     }
     case "acknowledge":
-      return "Thanks for hearing me out.";
+      return say("thanks-for-hearing-me-out");
     case "leave":
-      return "See you.";
+      return say("see-you");
     case "nothing":
       return parent && youngPlayer
-        ? "All right. You can tell me whenever you like."
-        : "All right. Another time, then.";
+        ? say("all-right-you-can-tell-me-whenever")
+        : say("all-right-another-time-then");
   }
 }
 
@@ -790,7 +810,7 @@ export function commitLifeConversation(
   )
     return advanced;
   const { text: reply, parts: replyParts } = running
-    ? { text: running.reply, parts: [] as readonly ComposedPart[] }
+    ? { text: running.reply, parts: running.parts }
     : replyWithParts(world, view.context, input.intent);
   const tellTopic = isTellIntent(input.intent)
     ? findTellTopic(world, input.playerPersonId, input.personId, input.intent)
@@ -1001,88 +1021,6 @@ export function commitLifeConversation(
       event.id,
     );
     next = completeOrdinaryGoal(next, input.personId, "connection", event.id);
-  }
-  return next;
-}
-
-/**
- * Put a conversation on the two people's shared record.
- *
- * Before this, talking to somebody wrote an event and what each person heard,
- * and nothing between the two of them: after an afternoon of talk and a game,
- * the person card still said they last spoke months ago, and time apart could
- * not be measured because time together was never recorded.
- *
- * One day's talk is one episode, whatever the number of turns, so the record
- * says the two of them spoke that day and not that they spoke eleven times, as
- * the conduct rubric for `what-moves-a-relationship` asks. All of it is contact
- * that keeps the two of them in touch and moves none of the five lines on its
- * own: a chat is slight, half an hour together or an agreed date is more, and
- * none of it is affection earned by repetition. What either of them does with
- * that time is its own conduct. A refusal writes no extra record: it is the
- * other person's answer, not a mark against anyone.
- */
-function recordConversationContact(
-  world: World,
-  input: {
-    readonly playerPersonId: EntityId;
-    readonly personId: EntityId;
-    readonly eventId: EntityId;
-    readonly occurredAt: IsoDate;
-    readonly timeTogether: boolean;
-    readonly date: boolean;
-  },
-): World {
-  const base = `life-talk:${input.occurredAt}:${input.playerPersonId}:${input.personId}`;
-  const episodes: {
-    key: string;
-    kind: RelationshipInteractionKind;
-    significance: RelationshipSignificance;
-    summary: string;
-  }[] = [
-    {
-      key: `${base}:spoke`,
-      kind: "contact:conversation",
-      significance: "minor",
-      summary: "Spoke together.",
-    },
-  ];
-  if (input.timeTogether) {
-    episodes.push({
-      key: `${base}:time-together`,
-      kind: "contact:time-together",
-      significance: "meaningful",
-      summary: "Spent time together.",
-    });
-  }
-  if (input.date) {
-    episodes.push({
-      key: `${base}:date`,
-      kind: "contact:date",
-      significance: "meaningful",
-      summary: "Agreed this was a date.",
-    });
-  }
-  let next = world;
-  for (const episode of episodes) {
-    if (
-      next.history.relationshipInteractions.some(
-        (interaction) => interaction.stableKey === episode.key,
-      )
-    ) {
-      continue;
-    }
-    next = recordRelationshipInteraction(next, {
-      stableKey: episode.key,
-      personIds: [input.playerPersonId, input.personId],
-      eventId: input.eventId,
-      occurredAt: input.occurredAt,
-      kind: episode.kind,
-      change: "maintained",
-      significance: episode.significance,
-      summary: episode.summary,
-      tags: ["life.conversation"],
-    });
   }
   return next;
 }

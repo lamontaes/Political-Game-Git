@@ -34,3 +34,22 @@ test("Observer inspector uses the paused current world and returns to the same r
   await expect(record).toBeVisible();
   expect(await record.textContent()).toBe(summary);
 });
+
+test("a fresh observed world does not repeat the nobody-played explanation", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.getByTestId("watch-world").click();
+  await expect(page.getByTestId("observing-label")).toBeVisible({
+    timeout: 60_000,
+  });
+  await expect(
+    page.getByText("Nobody is being played.", { exact: false }),
+  ).toHaveCount(0);
+
+  await page.getByTestId("open-world-record").click();
+  await expect(page.getByTestId("world-record-summary")).toBeVisible();
+  await expect(
+    page.getByText("Nobody is being played.", { exact: false }),
+  ).toHaveCount(0);
+});

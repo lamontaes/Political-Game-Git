@@ -1438,7 +1438,7 @@ export function electedMembersFor(
   if (electedMembers === undefined) return requireFormalSeatCount(chamber);
   if (!Number.isSafeInteger(electedMembers) || electedMembers <= 0) {
     throw new Error(
-      `The ${chamber.name} needs a positive count of elected members.`,
+      `The ${chamber.name} needs a positive count of elected officials.`,
     );
   }
   if (

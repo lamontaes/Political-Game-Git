@@ -268,6 +268,29 @@ describe("collars sit in front of the neck", () => {
     expect(px(30, anchors.neck.row - 2)).not.toEqual([40, 50, 90]); // the head wins above the neck row
   });
 
+  it("keeps front hair over a high collar while the collar still covers the neck", () => {
+    const body = figure(5, 25);
+    const anchors = measureBodyAnchors(body);
+    const head = createRaster(60, 100);
+    fill(head, 22, 5, 37, 30, SKIN);
+    const shirt = createRaster(60, 100);
+    const hair = createRaster(60, 100);
+    const COLLAR: Rgba = [40, 50, 90, 255];
+    const HAIR: Rgba = [70, 35, 20, 255];
+    fill(shirt, 20, anchors.neck.row, 39, 60, COLLAR);
+    fill(hair, 22, anchors.neck.row, 24, anchors.neck.row + 2, HAIR);
+    const out = assemblePerson(anchors, [
+      { slot: "body", raster: body },
+      { slot: "top", raster: shirt },
+      { slot: "head", raster: head },
+      { slot: "front-hair", raster: hair },
+    ]);
+    const px = (x: number, y: number) =>
+      Array.from(out.data.slice((y * 60 + x) * 4, (y * 60 + x) * 4 + 3));
+    expect(px(23, anchors.neck.row + 1)).toEqual([70, 35, 20]);
+    expect(px(30, anchors.neck.row + 1)).toEqual([40, 50, 90]);
+  });
+
   it("lets an outfit replace separate top, bottoms, shoes and dress", () => {
     const anchors = measureBodyAnchors(figure(5, 25));
     const layer = createRaster(60, 100);

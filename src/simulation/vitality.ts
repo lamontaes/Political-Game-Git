@@ -73,6 +73,14 @@ export function recordPersonDeath(
   assertStableKey(input.stableKey, "Person-death stable key");
   assertSemanticKey(input.causeKey, "Person-death cause key");
   assertNonEmpty(input.summary, "Person-death summary");
+  // Annual life-table probabilities describe a population total; they must
+  // never select an individual death. Older saves can still carry records
+  // written by that retired transition, but no current writer may add one.
+  if (input.causeKey === MORTALITY_TRANSITION_KEY) {
+    throw new Error(
+      "The retired annual mortality check cannot write a person death.",
+    );
+  }
   const person = world.people[input.personId];
   if (!person) throw new Error(`Missing death person: ${input.personId}`);
   const diedAt = makeIsoDate(input.diedAt);

@@ -127,6 +127,9 @@ export interface RecordPressAdviserFeedbackInput {
 }
 
 export interface PressInterviewProjection {
+  readonly arrangementEventId: EntityId;
+  readonly preparationEventId: EntityId | null;
+  readonly preparationKnowledgeIds: readonly EntityId[];
   readonly activityId: EntityId;
   readonly reporterPersonId: EntityId;
   readonly reporterName: string;
@@ -865,6 +868,13 @@ export function projectPressInterview(
   const feedback = findEvent(world, activityId, "press.adviser-feedback-given");
   return {
     activityId,
+    arrangementEventId: press.arrangement.id,
+    preparationEventId: preparation?.id ?? null,
+    preparationKnowledgeIds: preparation
+      ? preparation.tags
+          .filter((tag) => tag.startsWith("press.knowledge:"))
+          .map((tag) => tag.slice("press.knowledge:".length) as EntityId)
+      : [],
     reporterPersonId: press.reporterPersonId,
     reporterName: personName(world.people[press.reporterPersonId]!),
     subjectPersonId: press.subjectPersonId,

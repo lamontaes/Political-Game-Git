@@ -1,3 +1,12 @@
+import type { GroundedEnglishFact } from "./grounded-english";
+import {
+  composeSubjectReply,
+  SCHOOL_OPEN,
+  SUBJECT_OPEN,
+  MEETING_OPEN,
+  SUBJECT_SETTLED,
+} from "./subject-reply-english";
+import { standingTone } from "./reply-meaning";
 import { personName, SeededRng } from "../simulation";
 import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
 import type {
@@ -345,10 +354,6 @@ const legislativeDraftSubject: ConversationSubjectPresentation<RunCLegislativeCo
   };
 
 /* -------------------------------------------------------------------------- */
-function fillName(line: string, name: string): string {
-  return line.replace("{name}", name);
-}
-
 /* Two students and one piece of unstarted work.                               */
 /* -------------------------------------------------------------------------- */
 
@@ -404,23 +409,37 @@ const schoolProjectSubject: ConversationSubjectPresentation<SchoolProjectConvers
     },
     openingBeat(world, room, addressee, progress) {
       const speaker = speakerFor(world, room, addressee);
+      const words = progress.subjectFacts.work;
+      const source = world.history.events.find(
+        (event) =>
+          event.summary === words &&
+          (event.participants.some((p) => p.personId === speaker.personId) ||
+            world.history.knowledge.some(
+              (record) =>
+                record.personId === speaker.personId &&
+                record.eventId === event.id,
+            )),
+      );
+      const facts: Record<string, GroundedEnglishFact> = source
+        ? { work: { text: words, sourceRecordIds: [source.id] } }
+        : {};
+      const line = composeSubjectReply(
+        world,
+        `opening:${progress.subject}:${speaker.personId}`,
+        standingTone(world, speaker.personId, room.playerPersonId),
+        progress.phase === "settled"
+          ? SUBJECT_SETTLED
+          : source
+            ? SCHOOL_OPEN
+            : SUBJECT_OPEN,
+        speaker.personId,
+        room.playerPersonId,
+        facts,
+      );
       return {
         speakerPersonId: speaker.personId,
         speakerName: speaker.name,
-        dialogue:
-          progress.phase === "settled"
-            ? `“All right,” ${world.people[speaker.personId]!.givenName} says.`
-            : fillName(
-                selectAuthoredVariant(
-                  world,
-                  `school-opening:${speaker.personId}`,
-                  [
-                    "“Nobody has started the last part of the project, and it’s due at the end of next week,” {name} says.",
-                    "“We still haven’t split up the last part of the project. It’s due at the end of next week,” {name} says.",
-                  ],
-                ),
-                world.people[speaker.personId]!.givenName,
-              ),
+        dialogue: `“${line.text}” ${world.people[speaker.personId]!.givenName} says.`,
       };
     },
   };
@@ -516,23 +535,37 @@ const neighborhoodMeetingSubject: ConversationSubjectPresentation<NeighborhoodMe
     },
     openingBeat(world, room, addressee, progress) {
       const speaker = speakerFor(world, room, addressee);
+      const words = progress.subjectFacts.notice;
+      const source = world.history.events.find(
+        (event) =>
+          event.summary === words &&
+          (event.participants.some((p) => p.personId === speaker.personId) ||
+            world.history.knowledge.some(
+              (record) =>
+                record.personId === speaker.personId &&
+                record.eventId === event.id,
+            )),
+      );
+      const facts: Record<string, GroundedEnglishFact> = source
+        ? { notice: { text: words, sourceRecordIds: [source.id] } }
+        : {};
+      const line = composeSubjectReply(
+        world,
+        `opening:${progress.subject}:${speaker.personId}`,
+        standingTone(world, speaker.personId, room.playerPersonId),
+        progress.phase === "settled"
+          ? SUBJECT_SETTLED
+          : source
+            ? MEETING_OPEN
+            : SUBJECT_OPEN,
+        speaker.personId,
+        room.playerPersonId,
+        facts,
+      );
       return {
         speakerPersonId: speaker.personId,
         speakerName: speaker.name,
-        dialogue:
-          progress.phase === "settled"
-            ? `“Right,” ${shortPersonName(world, speaker.personId)} says. “That is settled, then.”`
-            : fillName(
-                selectAuthoredVariant(
-                  world,
-                  `meeting-opening:${speaker.personId}`,
-                  [
-                    "“Did you see the notice about the public meeting?” {name} asks.",
-                    "“There’s a public meeting posted. Did you see it?” {name} asks.",
-                  ],
-                ),
-                world.people[speaker.personId]!.givenName,
-              ),
+        dialogue: `“${line.text}” ${world.people[speaker.personId]!.givenName} says.`,
       };
     },
   };
