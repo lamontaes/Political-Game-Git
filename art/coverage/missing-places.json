@@ -1,0 +1,381 @@
+{
+  "schema": "ocd-place-demand-audit/v1",
+  "basis": "Independent source inventory: missing lists only known literal location targets absent from the painted manifest. Unresolved dispatch and dynamic expressions prevent a complete venue coverage claim. No wiring, tags, painting, or art acceptance.",
+  "sources": [
+    {
+      "path": "art/backdrops/manifest.json",
+      "sha256": "61474d0978002d3f29313eb16c2393ae694f60ac7a640913e56c25002f4141e9"
+    },
+    {
+      "path": "src/presentation/place-backdrops.ts",
+      "sha256": "51fdd023240d51e451d04602b82c97b1c99071b15b1800282dc8eb758144e36d"
+    },
+    {
+      "path": "src/presentation/scene-venues.ts",
+      "sha256": "0b131fe3f2c154594860f2d52f98bf7933c5b231ff1e0f2ba12c33ef9e8f5b79"
+    },
+    {
+      "path": "src/simulation/campaign-life-activities.ts",
+      "sha256": "0480d1407b1d988151bfeb830fb44dda7629385bf5441865cba22111fd98a76a"
+    },
+    {
+      "path": "src/simulation/campaign-life-catalog.ts",
+      "sha256": "e0eb682cf3b557aa75f52310e09a76d3c3845b736a1b868882bfe807bcef2476"
+    },
+    {
+      "path": "src/simulation/campaign-life-types.ts",
+      "sha256": "8d42919db4af969c6d1d4dd69e8f39fab3c0416a70d76f2050e897eb5980047f"
+    },
+    {
+      "path": "src/simulation/campaign-routine.ts",
+      "sha256": "ded0b38b4b6dfb23c8bd5039b9dcf6d92eeef081468139d53a2e5c03aae53d34"
+    },
+    {
+      "path": "src/simulation/campaign-speeches.ts",
+      "sha256": "c1c9e4024b50cad680cd527b24903961e509a1278ea73766dd87a2cdc6b4df04"
+    },
+    {
+      "path": "src/simulation/campaign-weekly-plans.ts",
+      "sha256": "9e55c0036fb23cbcb07a59b1c01fcbe37929a0cac4db3fc2ed64b0e6f94a1c95"
+    },
+    {
+      "path": "src/simulation/campaigns.ts",
+      "sha256": "97b5b0cbb0e05c24dde12c5f51a26be8719ae1d3ce3e937f0716ab57eced9148"
+    },
+    {
+      "path": "src/simulation/civil-personnel-actions.ts",
+      "sha256": "f7ade61a1be59680af5344beb7f03f03123c8e35f667affbf798165dd6c5dba5"
+    },
+    {
+      "path": "src/simulation/executive-work-context.ts",
+      "sha256": "be9651384bb3ed7e3aa5589dd329f44257633a5831d648e5072a51ca013ab0e2"
+    },
+    {
+      "path": "src/simulation/governing/legislative-clock.ts",
+      "sha256": "04485e9c450b7f478b81ff95561a3950b30eab44184b45176e0391c638e20318"
+    },
+    {
+      "path": "src/simulation/governing/member-ballots.ts",
+      "sha256": "60a6d3dec9a2683218e93a33087185c6e9710d0ae07bcb1474eb26471dfba7e5"
+    },
+    {
+      "path": "src/simulation/incident-response.ts",
+      "sha256": "e2e310f7be0da20eb53d78a972c62319d749b8fa5b833fef4f02d062436e5fed"
+    },
+    {
+      "path": "src/simulation/judicial-office-work.ts",
+      "sha256": "2d521106556c7defa7f210c7382d278a1123779cfc6841549c58324772e15585"
+    },
+    {
+      "path": "src/simulation/life-circumstances.ts",
+      "sha256": "cd8c7fcf88da732496fddc435de89deb3d8f44931f2007ddbf6d7deeb1e33f5b"
+    },
+    {
+      "path": "src/simulation/life-opportunities.ts",
+      "sha256": "7633e540edbcbb0e61c19f87ea43b04f7a4589d894587cc9b79952cea50be2f9"
+    },
+    {
+      "path": "src/simulation/life-paths2.ts",
+      "sha256": "f66e878300a9be3883a7f26a7cf1d573977ae14f6aab9362352965761d4532d2"
+    },
+    {
+      "path": "src/simulation/living-world/party-chapters.ts",
+      "sha256": "fc87fc4757be1c82625c09e54d9c7ac12540d8fb321876bd496b01b3ed78c424"
+    },
+    {
+      "path": "src/simulation/municipal-public-work.ts",
+      "sha256": "1299a159ec0be476927d000ae6850f326b36da3e1d5426be3af495a7b63072c5"
+    },
+    {
+      "path": "src/simulation/ordinary-meeting-presence.ts",
+      "sha256": "e38981f6d65d90d96b1f797950b036cf9d54378d75aa701da23be7704072f701"
+    },
+    {
+      "path": "src/simulation/people-contact-events.ts",
+      "sha256": "d52e92993aa5ae5be36a9b4f82b01bbb88c2a51fdf0bb9bce8c62c084cc0aeb5"
+    },
+    {
+      "path": "src/simulation/people-contact.ts",
+      "sha256": "1006b1bd37b4f93fcad3651733ecdaea22540e963ac55e4377cadeb5f26bbb4b"
+    },
+    {
+      "path": "src/simulation/press-interview-producers.ts",
+      "sha256": "df530ef0c7851b0c4888a76b65718c98e64ba85fc11bf95211ef5308f5bf6f73"
+    },
+    {
+      "path": "src/simulation/press-interviews.ts",
+      "sha256": "b1326f03eb9e6a177edc41cfd5a1c4c847c9bdce2f43bb889dd92c8dc85febb2"
+    },
+    {
+      "path": "src/simulation/public-service-requests.ts",
+      "sha256": "75b0044a96bfaa52081ec068eb52d16be50bf5ff0c805962f768bd63c25e7474"
+    },
+    {
+      "path": "src/simulation/time-work.ts",
+      "sha256": "02f732237254f0a7043bbe1f3a0c7d15292660897384c90dfdb8e271645ab26c"
+    },
+    {
+      "path": "src/simulation/types.ts",
+      "sha256": "1c4c2c30fdff27d4f8643ede1e0385587228cb9213b9d0f570053d6e8d502a11"
+    }
+  ],
+  "inventory": [
+    {
+      "locationKey": "campaign-call-desk",
+      "place": "phone-bank-room",
+      "sources": [
+        { "source": "src/presentation/place-backdrops.ts", "line": 389 },
+        { "source": "src/presentation/scene-venues.ts", "line": 132 },
+        { "source": "src/simulation/campaign-routine.ts", "line": 71 },
+        { "source": "src/simulation/campaign-weekly-plans.ts", "line": 176 }
+      ]
+    },
+    {
+      "locationKey": "campaign-election-night",
+      "place": "election-night-venue",
+      "sources": [
+        { "source": "src/presentation/place-backdrops.ts", "line": 393 },
+        { "source": "src/presentation/scene-venues.ts", "line": 104 }
+      ]
+    },
+    {
+      "locationKey": "campaign-life:town-hall-school-gym",
+      "place": "school-gym-town-hall",
+      "sources": [
+        { "source": "src/presentation/place-backdrops.ts", "line": 394 },
+        { "source": "src/presentation/scene-venues.ts", "line": 97 },
+        { "source": "src/simulation/campaign-life-catalog.ts", "line": 36 }
+      ]
+    },
+    {
+      "locationKey": "campaign-office",
+      "place": "campaign-storefront",
+      "sources": [
+        { "source": "src/presentation/place-backdrops.ts", "line": 390 },
+        { "source": "src/presentation/scene-venues.ts", "line": 139 },
+        { "source": "src/simulation/campaign-weekly-plans.ts", "line": 187 }
+      ]
+    },
+    {
+      "locationKey": "campaign-remote-phone",
+      "place": "phone-bank-room",
+      "sources": [
+        { "source": "src/presentation/place-backdrops.ts", "line": 387 },
+        { "source": "src/simulation/campaign-life-catalog.ts", "line": 69 }
+      ]
+    },
+    {
+      "locationKey": "east-end-community-room",
+      "place": "community-room",
+      "sources": [
+        { "source": "src/presentation/place-backdrops.ts", "line": 382 },
+        { "source": "src/presentation/scene-venues.ts", "line": 111 }
+      ]
+    },
+    {
+      "locationKey": "episode:school",
+      "place": "classroom",
+      "sources": [
+        { "source": "src/presentation/place-backdrops.ts", "line": 376 },
+        { "source": "src/presentation/scene-venues.ts", "line": 69 }
+      ]
+    },
+    {
+      "locationKey": "executive-office",
+      "place": "governor-office",
+      "sources": [
+        { "source": "src/presentation/place-backdrops.ts", "line": 384 },
+        { "source": "src/presentation/scene-venues.ts", "line": 125 }
+      ]
+    },
+    {
+      "locationKey": "executive-work:office",
+      "place": "governor-office",
+      "sources": [
+        { "source": "src/presentation/place-backdrops.ts", "line": 385 },
+        { "source": "src/simulation/executive-work-context.ts", "line": 506 }
+      ]
+    },
+    {
+      "locationKey": "formative:school-corridor",
+      "place": "classroom",
+      "sources": [
+        { "source": "src/presentation/place-backdrops.ts", "line": 375 },
+        { "source": "src/presentation/scene-venues.ts", "line": 62 }
+      ]
+    },
+    {
+      "locationKey": "life-favor:proofreading",
+      "place": "diner",
+      "sources": [
+        { "source": "src/presentation/place-backdrops.ts", "line": 391 }
+      ]
+    },
+    {
+      "locationKey": "office-to-east-end",
+      "place": "main-street",
+      "sources": [
+        { "source": "src/presentation/place-backdrops.ts", "line": 383 },
+        { "source": "src/presentation/scene-venues.ts", "line": 160 }
+      ]
+    },
+    {
+      "locationKey": "ordinary-life:meeting-room",
+      "place": "public-meeting-room",
+      "sources": [
+        { "source": "src/presentation/place-backdrops.ts", "line": 381 },
+        { "source": "src/presentation/scene-venues.ts", "line": 90 },
+        { "source": "src/simulation/campaign-life-catalog.ts", "line": 24 },
+        { "source": "src/simulation/life-opportunities.ts", "line": 368 },
+        {
+          "source": "src/simulation/living-world/party-chapters.ts",
+          "line": 692
+        },
+        {
+          "source": "src/simulation/living-world/party-chapters.ts",
+          "line": 996
+        }
+      ]
+    },
+    {
+      "locationKey": "ordinary-life:to-meeting-room",
+      "place": "main-street",
+      "sources": [
+        { "source": "src/presentation/place-backdrops.ts", "line": 379 },
+        { "source": "src/presentation/scene-venues.ts", "line": 83 },
+        { "source": "src/simulation/life-opportunities.ts", "line": 391 },
+        {
+          "source": "src/simulation/living-world/party-chapters.ts",
+          "line": 716
+        }
+      ]
+    },
+    {
+      "locationKey": "private-field-call",
+      "place": "phone-bank-room",
+      "sources": [
+        { "source": "src/presentation/place-backdrops.ts", "line": 388 },
+        { "source": "src/presentation/scene-venues.ts", "line": 153 }
+      ]
+    }
+  ],
+  "missing": [],
+  "unresolved": [
+    {
+      "locationKey": "campaign-doors",
+      "target": "doors",
+      "sources": [
+        { "source": "src/presentation/place-backdrops.ts", "line": 386 },
+        { "source": "src/presentation/scene-venues.ts", "line": 146 },
+        { "source": "src/simulation/campaign-routine.ts", "line": 63 },
+        { "source": "src/simulation/campaign-weekly-plans.ts", "line": 165 }
+      ]
+    },
+    {
+      "locationKey": "home",
+      "target": "home",
+      "sources": [
+        { "source": "src/presentation/place-backdrops.ts", "line": 374 }
+      ]
+    },
+    {
+      "locationKey": "incident-response:current-office",
+      "target": "workplace",
+      "sources": [
+        { "source": "src/presentation/place-backdrops.ts", "line": 378 },
+        { "source": "src/simulation/incident-response.ts", "line": 410 }
+      ]
+    },
+    {
+      "locationKey": "lexington-legislative-office",
+      "target": null,
+      "sources": [{ "source": "src/presentation/scene-venues.ts", "line": 118 }]
+    },
+    {
+      "locationKey": "life-circumstance:covered-shift",
+      "target": "workplace",
+      "sources": [
+        { "source": "src/presentation/place-backdrops.ts", "line": 377 },
+        { "source": "src/presentation/scene-venues.ts", "line": 76 },
+        { "source": "src/simulation/life-circumstances.ts", "line": 1212 }
+      ]
+    }
+  ],
+  "dynamic": [
+    {
+      "source": "src/simulation/campaign-life-activities.ts",
+      "line": 652,
+      "expression": "entry.locationKey"
+    },
+    {
+      "source": "src/simulation/campaign-life-activities.ts",
+      "line": 673,
+      "expression": "entry.journeyKey"
+    },
+    {
+      "source": "src/simulation/campaign-weekly-plans.ts",
+      "line": 934,
+      "expression": "session.locationKey"
+    },
+    {
+      "source": "src/simulation/campaigns.ts",
+      "line": 2597,
+      "expression": "work.locationKey"
+    },
+    {
+      "source": "src/simulation/civil-personnel-actions.ts",
+      "line": 827,
+      "expression": "`${PREFIX}:${position.organizationId}`"
+    },
+    {
+      "source": "src/simulation/governing/legislative-clock.ts",
+      "line": 1770,
+      "expression": "MEMBER_BALLOT_LOCATION_KEY"
+    },
+    {
+      "source": "src/simulation/judicial-office-work.ts",
+      "line": 296,
+      "expression": "`judicial-office:${courtOrganizationId}`"
+    },
+    {
+      "source": "src/simulation/judicial-office-work.ts",
+      "line": 601,
+      "expression": "`judicial-office:${courtOrganizationId}`"
+    },
+    {
+      "source": "src/simulation/life-opportunities.ts",
+      "line": 888,
+      "expression": "`life-opportunity:${input.kind}`"
+    },
+    {
+      "source": "src/simulation/life-paths2.ts",
+      "line": 574,
+      "expression": "`life-paths2:${path.id}`"
+    },
+    {
+      "source": "src/simulation/life-paths2.ts",
+      "line": 905,
+      "expression": "`life-paths2:${path.id}`"
+    },
+    {
+      "source": "src/simulation/municipal-public-work.ts",
+      "line": 938,
+      "expression": "`municipal:${input.governmentKey}:${input.seriesKey}`"
+    },
+    {
+      "source": "src/simulation/municipal-public-work.ts",
+      "line": 1323,
+      "expression": "`municipal-notes:${governmentKey}:${personId}`"
+    },
+    {
+      "source": "src/simulation/people-contact.ts",
+      "line": 658,
+      "expression": "CONTACT_LOCATION_KEY"
+    },
+    {
+      "source": "src/simulation/public-service-requests.ts",
+      "line": 430,
+      "expression": "`public-service:${operatorId}`"
+    }
+  ]
+}
