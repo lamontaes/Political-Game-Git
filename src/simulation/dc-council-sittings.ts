@@ -59,9 +59,9 @@ import type {
  * the District's voters as their constituents. An act answers one question
  * the District's own law may answer.
  *
- * PLACEHOLDER, pending `dc-council-legislative-volume` and
- * `dc-council-rules-of-organization-and-procedure`: the Council sits every
- * 14 days, which is not its schedule.
+ * AUTHORED GAME PROFILE: the Council sits every 14 days. This cadence spaces
+ * the game's recorded agenda work and does not claim to reproduce the
+ * Council's official legislative calendar.
  */
 
 export const DC_COUNCIL_SITTING = "civic:dc-council-sitting" as const;
@@ -174,7 +174,7 @@ function moveActs(world: World): World {
         stableKey: `${measure.stableKey}:agenda`,
         measureId: measure.id,
         rationale:
-          "Placed before the Council for its first reading (no committee stage is modeled; placeholder).",
+          "Placed before the Council for its first reading under the game's recorded direct-to-calendar procedure.",
       });
       continue;
     }

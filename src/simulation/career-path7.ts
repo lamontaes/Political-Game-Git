@@ -25,7 +25,6 @@ import {
 import { resourceFlowTermsAt } from "./resource-queries";
 import { recordWorldEvent } from "./world";
 import {
-  JOB_MARKET_PLACEHOLDER,
   JOB_TIMING,
   holdsWork,
   leaveFirstJobFor,
@@ -43,6 +42,16 @@ import {
   shiftPayAtHire,
 } from "./life-paths2";
 import type { LifePathResult } from "./life-paths2";
+
+/**
+ * ESTIMATED FROM AVERAGE: every recorded employer currently uses the
+ * job-market profile's two-day missed-start grace period and three-to-seven
+ * day follow-up window; no offer carries a place-specific timing source.
+ */
+const CAREER_OFFER_TIMING_ESTIMATE = {
+  missedStartGraceDays: 2,
+  followUpStartDays: { minimum: 3, maximum: 7 },
+} as const;
 export interface CareerTask {
   readonly id: string;
   readonly text: string;
@@ -550,7 +559,7 @@ function endOffer(
  */
 export function settleCareerOffers(w: World, personId: EntityId): World {
   let n = w;
-  const grace = JOB_MARKET_PLACEHOLDER.missedStartGraceDays;
+  const grace = CAREER_OFFER_TIMING_ESTIMATE.missedStartGraceDays;
   for (const r of w.history.workRelationships) {
     if (r.personId !== personId || !r.stableKey.startsWith("career-path7:"))
       continue;
@@ -595,7 +604,8 @@ export function settleCareerOffers(w: World, personId: EntityId): World {
         someoneKnownWorksAt(n, personId, r.organizationId)) ||
         !othersWaitingAt(n, personId, r.organizationId));
     if (callsBack) {
-      const { minimum, maximum } = JOB_MARKET_PLACEHOLDER.followUpStartDays;
+      const { minimum, maximum } =
+        CAREER_OFFER_TIMING_ESTIMATE.followUpStartDays;
       // The long end when the person has a job to leave first.
       const startAt = addDays(
         n.currentDate,

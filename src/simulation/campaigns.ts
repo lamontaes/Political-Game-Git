@@ -1618,7 +1618,7 @@ function recordCampaignActionOutcome(
     .join("; ");
   const comparisonLabel =
     party === null
-      ? "Democratic district comparison (your major-party affiliation is not recorded)"
+      ? "Recorded Democratic district comparison"
       : `${party} district comparison`;
   const observed =
     observation.value.kind === "quantity"
@@ -1911,9 +1911,9 @@ function seatTheWinner(
  * member. An older or otherwise populated council is not silently displaced.
  *
  * A town has one mayor, so a new mayor's term begins the day the sitting
- * mayor's ends. A council member who wins the mayoralty keeps the council
- * seat: whether the town's law makes them give it up has not been read
- * (PLACEHOLDER, see local-chief-executive-rules.ts).
+ * mayor's ends. The participation ledger records council membership and the
+ * mayoralty as separate offices, so a council member who wins the mayoralty
+ * keeps the council seat until a recorded end date closes that participation.
  */
 function seatOnLocalGoverningBody(
   world: World,

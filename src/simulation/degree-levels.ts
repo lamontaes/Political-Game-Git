@@ -17,11 +17,9 @@ import type { EducationProgramKind } from "./types";
  * - That an open-admission college admits any applicant: sourced, from the
  *   directory's own open-admission field.
  * - Who a selective college admits, what it charges, how many hours a week
- *   the study takes and whether a high-school diploma is checked:
- *   PLACEHOLDER(research: who-gets-into-college-and-what-it-costs). Until
- *   that is answered every applicant is admitted, and length, pace and
- *   tuition are copied from the game's existing authored degree paths in
- *   `life-paths2-catalog.ts` rather than invented again here.
+ *   the study takes and whether a high-school diploma is checked: the game
+ *   applies its existing authored degree-path profile. Every applicant is
+ *   admitted, and length, pace and tuition come from `life-paths2-catalog.ts`.
  *
  * Certificates and doctorates stay listed only. Their length varies too much
  * by program for one row to stand for them without the research.

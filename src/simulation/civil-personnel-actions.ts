@@ -1916,7 +1916,7 @@ function position(world: World, incumbency: PersonnelIncumbencyRecord) {
 
 function nameOf(world: World, personId: EntityId): string {
   const person = world.people[personId];
-  return person ? personName(person) : "Unknown person";
+  return person ? personName(person) : `Person ${personId}`;
 }
 
 function blockedArbitration(): PersonnelStep {

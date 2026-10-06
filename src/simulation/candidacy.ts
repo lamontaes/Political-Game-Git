@@ -500,7 +500,7 @@ function assessEnactedQualification(
         change.field === "qualification.districtResidenceYears" &&
         person.districtIsUnknown
           ? `This office requires ${required} of residence in the district, ${law.slice(0, -1)}. This character's town lies across more than one district, so the game cannot say which one they live in, and it will not pick one to answer for them.`
-          : `This office requires ${required} of residence in ${place}, ${law.slice(0, -1)}. The game has not recorded when this character came to live here, so it will not guess whether they qualify.`,
+          : `This office requires ${required} of residence in ${place}, ${law.slice(0, -1)}. No dated residence fact establishes the required period, so the recorded evidence does not qualify them.`,
       source: null,
     };
   const held = completedMonthsBetween(person.since, person.onDate);
@@ -663,8 +663,8 @@ export function candidacyEligibility(
   const boundDistrict = boundOption?.office.districtBinding ?? null;
   // A district-residence rule is asked about before any seat is bound, which
   // is every time the player looks at whether they could stand at all. With no
-  // binding to measure against, this used to answer null, and null reads as
-  // "the game has not recorded when this character came to live here" — so
+  // binding to measure against, this used to answer null and reject the
+  // residence evidence — so
   // every office whose rules carry a district-residence requirement refused
   // forever, in a world that had recorded the membership on its first day.
   // Falling back to the person's own recorded district for this chamber asks

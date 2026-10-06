@@ -1066,7 +1066,7 @@ export const CRISIS_FUNDING_ROWS: readonly CrisisFundingRow[] = [
     },
     state: {
       unreported:
-        "Funded primarily by SAMHSA grants; the report gives FY26 total funding as unknown.",
+        "Funded primarily by SAMHSA grants; the 2025 report records no FY26 total, so the game uses no amount as appropriation authority.",
     },
   },
   {

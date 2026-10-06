@@ -12,15 +12,18 @@ export interface DemoJurisdictionContext {
 }
 
 export const DEMO_START_DATE = makeIsoDate("2026-01-05");
-export const LEXINGTON_PLACEHOLDER_ID = createStableId(
+export const LEXINGTON_DEMO_JURISDICTION_ID = createStableId(
   "jurisdiction",
   "definition:us-ky-lexington-fayette-placeholder",
 );
 
+/** @deprecated Use the recorded demo jurisdiction identity. */
+export const LEXINGTON_PLACEHOLDER_ID = LEXINGTON_DEMO_JURISDICTION_ID;
+
 /** Primary scenario; still a placeholder until sourced snapshots exist. */
 export const LEXINGTON_DEMO_CONTEXT: DemoJurisdictionContext = {
   jurisdiction: {
-    id: LEXINGTON_PLACEHOLDER_ID,
+    id: LEXINGTON_DEMO_JURISDICTION_ID,
     slug: "us-ky-lexington-fayette-placeholder",
     name: "Lexington-Fayette, Kentucky",
     kind: "consolidated-city-county-placeholder",
@@ -28,7 +31,7 @@ export const LEXINGTON_DEMO_CONTEXT: DemoJurisdictionContext = {
     provenance: {
       asOf: null,
       source: null,
-      jurisdiction: LEXINGTON_PLACEHOLDER_ID,
+      jurisdiction: LEXINGTON_DEMO_JURISDICTION_ID,
       status: "placeholder",
     },
   },

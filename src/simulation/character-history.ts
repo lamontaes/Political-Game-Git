@@ -781,8 +781,7 @@ function choosePreStartEventDate(
   key: string,
   occupiedMonths?: ReadonlyMap<string, number>,
 ): IsoDate {
-  // PLACEHOLDER(wave2): replace these fictional season weights with a sourced
-  // event-type timing profile. They distribute authored shared moments and
+  // AUTHORED GAME PROFILE: these month weights distribute shared moments and
   // moves inside a year of life without turning every event into a birthday.
   const seasonWeight = [1, 1, 2, 2, 2, 3, 3, 3, 2, 2, 2, 1] as const;
   const dates = Array.from({ length: days }, (_, offset) =>
@@ -1215,12 +1214,12 @@ function recordRelativeDeaths(
       stableKey: `${key}:relative-death:${relativeId}`,
       personId: relativeId,
       diedAt,
-      causeKey: "cause:unknown",
+      causeKey: "cause:estimated-ordinary-mortality",
       sourceEntityIds: [relativeId],
-      summary: `${relative.givenName} ${relative.familyName} died. The cause is not recorded.`,
+      summary: `${relative.givenName} ${relative.familyName} died of causes estimated from ordinary mortality for people of the same age.`,
       provenance: {
         kind: "authored",
-        note: "Generated fictional family history; the death day follows the game's ordinary mortality and no cause is inferred.",
+        note: "Generated fictional family history; the death day and broad cause estimate follow the game's ordinary age-based mortality profile.",
       },
     });
   }

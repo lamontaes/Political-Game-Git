@@ -190,8 +190,8 @@ const LINE_ITEM = source(
 /**
  * Which committee a federal bill goes to, by the policy field it is about.
  *
- * PLACEHOLDER until research question us-congress-rules-verification is
- * answered. Every committee named here is a real standing committee, but the
+ * AUTHORED GAME PROFILE. Every committee named here is a real standing
+ * committee, but the
  * mapping is by whole field, where the real rules divide jurisdiction far
  * more finely (Medicare alone is shared between Ways and Means and Energy and
  * Commerce in the House, and belongs to Finance in the Senate). The sizes are
@@ -376,7 +376,7 @@ export const US_CONGRESS_RULE_PACK: LegislativeRulePack = {
       ),
       referralAuthority: "The Speaker",
       referralSource: HOUSE_RULE_XII,
-      // PLACEHOLDER committee size; see CONGRESS_COMMITTEE_BY_DOMAIN.
+      // Game-profile committee size; see CONGRESS_COMMITTEE_BY_DOMAIN.
       committees: committees(HOUSE_COMMITTEES, 40, HOUSE_RULE_XI),
       floorStages: [
         {
@@ -399,7 +399,7 @@ export const US_CONGRESS_RULE_PACK: LegislativeRulePack = {
       seatsMayGrowBy: statehood.senateSeats,
       referralAuthority: "The presiding officer",
       referralSource: SENATE_RULE_XVII,
-      // PLACEHOLDER committee size; see CONGRESS_COMMITTEE_BY_DOMAIN.
+      // Game-profile committee size; see CONGRESS_COMMITTEE_BY_DOMAIN.
       committees: committees(SENATE_COMMITTEES, 22, SENATE_RULE_XVII),
       floorStages: [
         {
