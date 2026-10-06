@@ -71,10 +71,16 @@ and the plain turned-input gap message, as posted in the
 [current board receipt](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6019766375).
 Formatter, ESLint, whitespace, no-dice
 and Lexington grep on both changed source files pass (grep has no matches).
-Full npm run typecheck fails at time-command.ts lines 325, 326, 327 and 396
+Before landed main was incorporated, full npm run typecheck failed at time-command.ts lines 325, 326, 327 and 396
 with TS2339 missing moment; these unrelated baseline failures stay with their
 existing owner. The focused strict production/test typecheck passed. The earlier 157/4
 receipt above describes the superseded missing-input assertion, not a new failure.
+
+Gate recovery: verified #2733 merged at 99f04b3113ba7604707b9e06ff7472f520f356d0.
+This branch incorporates actual landed main without changing clock/trait writers.
+All earlier CI/typecheck results above belong to their stated older heads.
+Run required checks on the new published head and record exact outcomes on
+#2424; do not transfer old CI. The source/input-gap scope is unchanged.
 
 Exact next command (from /workspace/game, with subprocess execution enabled):
 
