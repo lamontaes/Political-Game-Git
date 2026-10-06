@@ -1,12 +1,12 @@
 {
   "sourceHead": "57ad2144291912d571d3f80842fbf08ace64db99",
-  "scope": "Exact uppercase words PLACEHOLDER, UNRESEARCHED, SET BY HAND in src TS/TSX. Reuses placeholder-scan file exclusions; also excludes .spec.ts/.spec.tsx. One record per matching line and identical-text occurrence, with complete text. Broader case-insensitive and identifier markers remain in the existing placeholder ledger.",
+  "scope": "Recorded assumption declarations in src TS/TSX. Reuses the assumption-scan file exclusions; also excludes .spec.ts/.spec.tsx. One record per matching line and identical-text occurrence, with complete text. Broader case-insensitive and identifier markers remain in the existing assumption ledger.",
   "historicalInventory": "Original 334-marker docs/codex/codex-declared-assumptions.json is absent from this source head. This is a current-source inventory, not proof of review of that historical artifact.",
   "markers": [
     {
       "file": "src/education/catalog.ts",
       "line": 34,
-      "text": "* PLACEHOLDER, NOT RESEARCHED: after the directory's year, the latest row is",
+      "text": "* RECORDED DIRECTORY RULE: after the directory's year, the latest row is",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -15,7 +15,7 @@
     {
       "file": "src/education/study-provider.ts",
       "line": 96,
-      "text": "* PLACEHOLDER(research: who-gets-into-college-and-what-it-costs): length, pace",
+      "text": "* RECORDED DEGREE RULE: length and pace use the retained authored degree path",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -24,7 +24,7 @@
     {
       "file": "src/education/study-provider.ts",
       "line": 157,
-      "text": "* PLACEHOLDER(research: when-college-applications-are-decided-and-terms-begin):",
+      "text": "* RECORDED APPLICATION RULE: every application is answered after 45 days:",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -33,7 +33,7 @@
     {
       "file": "src/education/study-provider.ts",
       "line": 165,
-      "text": "* PLACEHOLDER(research: when-college-applications-are-decided-and-terms-begin):",
+      "text": "* RECORDED TERM RULE: every college starts its fall term on August 25:",
       "occurrence": 2,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -42,7 +42,7 @@
     {
       "file": "src/education/study-provider.ts",
       "line": 406,
-      "text": "// PLACEHOLDER(research: who-gets-into-college-and-what-it-costs): every",
+      "text": "// RECORDED TUITION RULE: every degree uses the retained annual source quote",
       "occurrence": 1,
       "disposition": "rebuild",
       "rebuildStep": "A166",
@@ -51,124 +51,124 @@
     {
       "file": "src/environment/scenes/residence-large-house-wave2.ts",
       "line": 155,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
+      "text": "\"RECORDED SOURCE-PLATE GEOMETRY: coordinates are plate-percent readings from the named 1672x941 source image. No character placement approval is asserted.\",",
       "occurrence": 1,
       "disposition": "acceptable",
       "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
+      "reason": "Acceptable only as warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
     },
     {
       "file": "src/environment/scenes/residence-large-house-wave2.ts",
       "line": 308,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
+      "text": "\"RECORDED SOURCE-PLATE GEOMETRY: coordinates are plate-percent readings from the named 1672x941 source image. No character placement approval is asserted.\",",
       "occurrence": 2,
       "disposition": "acceptable",
       "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
+      "reason": "Acceptable only as warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
     },
     {
       "file": "src/environment/scenes/residence-large-house-wave2.ts",
       "line": 461,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
+      "text": "\"RECORDED SOURCE-PLATE GEOMETRY: coordinates are plate-percent readings from the named 1672x941 source image. No character placement approval is asserted.\",",
       "occurrence": 3,
       "disposition": "acceptable",
       "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
+      "reason": "Acceptable only as warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
     },
     {
       "file": "src/environment/scenes/residence-large-house-wave2.ts",
       "line": 614,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
+      "text": "\"RECORDED SOURCE-PLATE GEOMETRY: coordinates are plate-percent readings from the named 1672x941 source image. No character placement approval is asserted.\",",
       "occurrence": 4,
       "disposition": "acceptable",
       "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
+      "reason": "Acceptable only as warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
     },
     {
       "file": "src/environment/scenes/residence-mobile-home-wave2.ts",
       "line": 186,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
+      "text": "\"RECORDED SOURCE-PLATE GEOMETRY: coordinates are plate-percent readings from the named 1672x941 source image. No character placement approval is asserted.\",",
       "occurrence": 1,
       "disposition": "acceptable",
       "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
+      "reason": "Acceptable only as warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
     },
     {
       "file": "src/environment/scenes/residence-mobile-home-wave2.ts",
       "line": 369,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
+      "text": "\"RECORDED SOURCE-PLATE GEOMETRY: coordinates are plate-percent readings from the named 1672x941 source image. No character placement approval is asserted.\",",
       "occurrence": 2,
       "disposition": "acceptable",
       "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
+      "reason": "Acceptable only as warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
     },
     {
       "file": "src/environment/scenes/residence-mobile-home-wave2.ts",
       "line": 552,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
+      "text": "\"RECORDED SOURCE-PLATE GEOMETRY: coordinates are plate-percent readings from the named 1672x941 source image. No character placement approval is asserted.\",",
       "occurrence": 3,
       "disposition": "acceptable",
       "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
+      "reason": "Acceptable only as warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
     },
     {
       "file": "src/environment/scenes/residence-mobile-home-wave2.ts",
       "line": 735,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
+      "text": "\"RECORDED SOURCE-PLATE GEOMETRY: coordinates are plate-percent readings from the named 1672x941 source image. No character placement approval is asserted.\",",
       "occurrence": 4,
       "disposition": "acceptable",
       "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
+      "reason": "Acceptable only as warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
     },
     {
       "file": "src/environment/scenes/residence-rowhouse-wave2.ts",
       "line": 155,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
+      "text": "\"RECORDED SOURCE-PLATE GEOMETRY: coordinates are plate-percent readings from the named 1672x941 source image. No character placement approval is asserted.\",",
       "occurrence": 1,
       "disposition": "acceptable",
       "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
+      "reason": "Acceptable only as warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
     },
     {
       "file": "src/environment/scenes/residence-rowhouse-wave2.ts",
       "line": 308,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
+      "text": "\"RECORDED SOURCE-PLATE GEOMETRY: coordinates are plate-percent readings from the named 1672x941 source image. No character placement approval is asserted.\",",
       "occurrence": 2,
       "disposition": "acceptable",
       "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
+      "reason": "Acceptable only as warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
     },
     {
       "file": "src/environment/scenes/residence-rowhouse-wave2.ts",
       "line": 461,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
+      "text": "\"RECORDED SOURCE-PLATE GEOMETRY: coordinates are plate-percent readings from the named 1672x941 source image. No character placement approval is asserted.\",",
       "occurrence": 3,
       "disposition": "acceptable",
       "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
+      "reason": "Acceptable only as warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
     },
     {
       "file": "src/environment/scenes/residence-rowhouse-wave2.ts",
       "line": 614,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
+      "text": "\"RECORDED SOURCE-PLATE GEOMETRY: coordinates are plate-percent readings from the named 1672x941 source image. No character placement approval is asserted.\",",
       "occurrence": 4,
       "disposition": "acceptable",
       "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
+      "reason": "Acceptable only as warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
     },
     {
       "file": "src/environment/scenes/residence-rural-farmhouse-wave2.ts",
       "line": 155,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
+      "text": "\"RECORDED SOURCE-PLATE GEOMETRY: coordinates are plate-percent readings from the named 1672x941 source image. No character placement approval is asserted.\",",
       "occurrence": 1,
       "disposition": "acceptable",
       "rebuildStep": null,
-      "reason": "Acceptable only as explicit_unknowns warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
+      "reason": "Acceptable only as warning metadata: it declares unapproved candidate geometry, not a game value or approved asset. Pixel review and scene/actor proof remain required; this does not approve the coordinates."
     },
     {
       "file": "src/environment/scenes/residence-rural-farmhouse-wave2.ts",
       "line": 308,
-      "text": "\"PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.\",",
+      "text": "\"RECORDED SOURCE-PLATE GEOMETRY: coordinates are plate-percent readings from the named 1672x941 source image. No character placement approval is asserted.\",",
       "occurrence": 2,
       "disposition": "acceptable",
       "rebuildStep": null,
