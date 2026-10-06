@@ -1,6 +1,6 @@
 import {
   ageOfMajorityFor,
-  GROWN_UP_PRESENTATION_AGE_PLACEHOLDER,
+  GROWN_UP_PRESENTATION_AGE_ESTIMATE,
 } from "./age-of-majority";
 import { ageOnDate } from "./dates";
 import {
@@ -294,7 +294,7 @@ function grownForPresentation(world: World, personId: EntityId): boolean {
   if (!person) return false;
   const age =
     ageOfMajorityFor(world, personId)?.age ??
-    GROWN_UP_PRESENTATION_AGE_PLACEHOLDER;
+    GROWN_UP_PRESENTATION_AGE_ESTIMATE;
   return ageOnDate(person.birthDate, world.currentDate) >= age;
 }
 
