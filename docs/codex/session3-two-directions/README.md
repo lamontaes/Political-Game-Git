@@ -1,6 +1,6 @@
 # Two smaller player-card directions, at rest and open
 
-Historical comparison. The latest unified candidate is Session 14’s `cb409b4a41c92c93ba896ffe13b7415624bf5d1d`, posted in issue comment 6008376630. Its REST shows bust and clock only; its OPEN retains the bounded content donor. These older four captures preserve the requested redo and its provenance. They are not the current radial proposal. Do not restore the REST info card or circular portrait from them. Owner approval remains pending.
+This preserves the completed comparison as historical evidence. The latest unified candidate belongs to Session 14 and remains unapproved. Its resting view has only the bust and clock. Do not restore the older resting card or circular portrait from these captures.
 
 MERGED: No mockup implementation. Both directions remain unpicked. A puts the portrait at the center of the radial fan with the clock beside it. B uses a compact ledger and expands into a wider record. Both show actual relationship names, use the recovered sheet's brass ornaments and retain direct day controls. The owner must choose before production work.
 
@@ -39,3 +39,5 @@ Session 3 owns this card comparison. Session 14 retains its broader radial/menu 
 Measured: One browser case passed in 54.9 seconds. Four final screenshots capture the two directions at rest and open. Human inspection checked the enlarged portrait, named relationships, full ledger date and sheet-derived ornaments. Prototype pointer handlers open the fan and ledger; actual game navigation, advancement and Save/Continue are not implemented by this overlay.
 
 Method: Clean served source is `58468eccd118734fa52ad99f84aea6f32aecf7e9`, bound in `provenance.json`. Seed is `session3-kit13-20261005`, locality Scarville, Iowa. The first two-direction case failed because an ornament extended beyond its frame. The next case passed layout checks, but visual review found the date underneath an ornament and a portrait captured mid-transition. The final case corrects those issues and waits for the real transition to settle. Every earlier receipt remains preserved. Storage guard refusals occurred before browser startup; byte-identical owned copies were linked without deleting their paths or content. No year job ran.
+
+Latest unified candidate reference: Session 14 source `cb409b4a41c92c93ba896ffe13b7415624bf5d1d`, board comment 6008376630. Its OPEN retains donor `f7caa95003fa263b5b4afe01af17088f4a8a6821`. The owner pick remains pending.
