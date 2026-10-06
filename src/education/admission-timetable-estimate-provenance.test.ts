@@ -7,11 +7,10 @@ import {
 } from "./study-provider";
 
 describe("the admission timetable says where it comes from", () => {
-  it("is marked estimated from the average and names its research key", () => {
-    expect(ADMISSION_TIMETABLE_ESTIMATE.provenance).toBe(
-      "estimated-from-average",
-    );
-    expect(ADMISSION_TIMETABLE_ESTIMATE.estimated).toBe(true);
+  it("is marked designed with a rationale and names its research key", () => {
+    expect(ADMISSION_TIMETABLE_ESTIMATE.provenance).toBe("designed");
+    expect(ADMISSION_TIMETABLE_ESTIMATE.estimated).toBe(false);
+    expect(ADMISSION_TIMETABLE_ESTIMATE.rationale).toMatch(/reads .* balances/);
     expect(ADMISSION_TIMETABLE_ESTIMATE.researchQuestionId).toBe(
       "when-college-applications-are-decided-and-terms-begin",
     );
