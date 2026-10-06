@@ -29,7 +29,7 @@ export const LAW_EFFECTS_NOTICED_VERSION = "law-effects-noticed/v1";
 const LOOK_BACK_DAYS = 35;
 
 /** Pay periods in a year, read from the flow's cadence. */
-function periodsPerYear(cadenceKind: string): number | null {
+export function periodsPerYear(cadenceKind: string): number | null {
   const match = /(semimonthly|biweekly|weekly|monthly)/.exec(cadenceKind);
   if (!match) return null;
   return { weekly: 52, biweekly: 26, semimonthly: 24, monthly: 12 }[

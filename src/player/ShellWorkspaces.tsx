@@ -1,4 +1,3 @@
-import { projectLivesRecord } from "../presentation/lives-record";
 import { InterruptionChecklist } from "./InterruptionChecklist";
 import {
   dollars,
@@ -25,11 +24,6 @@ import { DIAGNOSTICS } from "./diagnostics-profile";
 import { playerEconomicContextLines } from "../presentation/economic-context";
 import { buildIdentity } from "../release/build-identity";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
-import { PrivateJournalEditor } from "./PrivateJournalEditor";
-import type {
-  PrivateJournal,
-  ShellSection,
-} from "../presentation/shell-navigation";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
 import {
@@ -48,9 +42,7 @@ import {
   type CalendarEntry,
   type CalendarHorizon,
 } from "../presentation/player-calendar";
-import { projectLifeRecord } from "../presentation/life-record";
 import { projectMeasureBriefing } from "../presentation/legislation-projection";
-import { projectOpeningLife } from "../presentation/opening-life";
 import { projectPersonalRecord } from "../presentation/personal-record";
 import { PATCH_NOTE_SECTIONS } from "../presentation/release-identity";
 import type {
@@ -110,7 +102,6 @@ import {
   workItemOccasionHasPassed,
   workPendingEntriesFor,
   type EntityId,
-  type MoneyAmount,
   type World,
 } from "../simulation";
 
@@ -308,7 +299,7 @@ export function WorkspaceFrame({
   return (
     <section
       ref={frame}
-      className="pg-workspace civic-glass"
+      className="pg-workspace pg-glass-panel"
       data-closing={closing || undefined}
       style={
         shown
@@ -387,7 +378,7 @@ export function WorkspaceFrame({
             data-testid={`${testid}-close`}
             onClick={close}
           >
-            <span aria-hidden="true">✕</span>
+            <span aria-hidden="true">×</span>
           </button>
         </div>
       </header>
@@ -536,7 +527,7 @@ export function PeopleWorkspace({
             }
           }}
           onKeyDown={(event) => {
-            if (event.key === "Escape") {
+            if (event.key === "Escape" && event.currentTarget.open) {
               event.stopPropagation();
               event.currentTarget.open = false;
               event.currentTarget.querySelector("summary")?.focus();
@@ -550,14 +541,10 @@ export function PeopleWorkspace({
             </svg>
             Find somebody
           </summary>
-          <label className="pg-field pg-people-search-entry">
-            <span className="sr-only">Find somebody</span>
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <circle cx="10" cy="10" r="6" />
-              <path d="M 14.5 14.5 L 21 21" />
-            </svg>
+          <div className="pg-field pg-people-search-entry">
             <input
               type="search"
+              aria-label="Find somebody"
               value={state.peopleQuery}
               data-testid="people-search"
               onChange={(event) =>
@@ -567,7 +554,33 @@ export function PeopleWorkspace({
                 })
               }
             />
-          </label>
+            {state.peopleQuery ? (
+              <button
+                type="button"
+                className="pg-search-icon"
+                aria-label="Clear search"
+                onClick={() => {
+                  dispatch({ type: "set-people-query", query: "" });
+                  searchRef.current?.querySelector("input")?.focus();
+                }}
+              >
+                <span aria-hidden="true">×</span>
+              </button>
+            ) : null}
+            <button
+              type="button"
+              className="pg-search-icon"
+              aria-label="Return to people"
+              onClick={() => {
+                if (searchRef.current) {
+                  searchRef.current.open = false;
+                  searchRef.current.querySelector("summary")?.focus();
+                }
+              }}
+            >
+              <span aria-hidden="true">↵</span>
+            </button>
+          </div>
         </details>
         <div
           className="pg-people-web-toolbar"
@@ -1608,49 +1621,19 @@ function BillPaperView({ paper }: { readonly paper: BillPaper }) {
 
 /* ---------------------------------------------------------------- personal */
 
-function formatMoney(amount: MoneyAmount): string {
-  return dollars(amount);
-}
+export { PersonalWorkspace } from "./PersonalRecordWorkspace";
 
-export function PersonalWorkspace({
+export function PersonalFinancesWorkspace({
   world,
   personId,
-  section,
-  onOpenPerson,
 }: {
   readonly world: World;
   readonly personId: EntityId;
-  /** Which half of this record the player asked for, when they said. */
-  readonly section?: ShellSection;
-  readonly onOpenPerson: (id: EntityId) => void;
 }) {
   const record = useMemo(
     () => projectPersonalRecord(world, personId),
     [world, personId],
   );
-  const intro = useMemo(
-    () => projectOpeningLife(world, personId),
-    [world, personId],
-  );
-  const history = useMemo(
-    () => projectLifeRecord(world, personId),
-    [world, personId],
-  );
-  const lives = useMemo(
-    () => projectLivesRecord(world, personId),
-    [world, personId],
-  );
-  const goals = world.history.goalStates.filter(
-    (goal) =>
-      goal.personId === personId &&
-      !world.history.goalStates.some(
-        (newer) => newer.supersedesGoalStateId === goal.id,
-      ),
-  );
-  if (!record) {
-    return <p className="game-note">This world has no record of you.</p>;
-  }
-
   const homeId = world.people[personId]?.homeJurisdictionId;
   const economicPlace = homeId ? lifePlaceByJurisdictionId(homeId) : null;
   const economicJurisdictionId = homeId ?? undefined;
@@ -1660,187 +1643,14 @@ export function PersonalWorkspace({
   const economicBinding = economicPlace
     ? economicContextBindingForPlace(economicPlace.key)
     : null;
-
-  /*
-   * "Money and property" asked for the money, so put the money in front of
-   * them. The section is focusable and moved into view when that is the
-   * destination they chose, and left alone when it is not — so the identity
-   * route still opens at the top, on the person, where it should.
-   */
-  const finances = useRef<HTMLElement>(null);
-  useEffect(() => {
-    if (section !== "finances") return;
-    const node = finances.current;
-    if (!node) return;
-    node.scrollIntoView({ block: "start", behavior: "auto" });
-    node.focus({ preventScroll: true });
-  }, [section]);
-
-  /*
-   * Who you are, then what you have, then the wider place.
-   *
-   * This record used to open on regional economic observations and a chart,
-   * with the player's own name and age below them. The owner asked "Who am I?"
-   * and got labor statistics, which is the wrong answer to that question no
-   * matter how good the statistics are. The context is kept — it is real,
-   * sourced and worth reading — but it belongs after the person, framed as
-   * being about the place rather than about them.
-   */
+  if (!record) return null;
   return (
     <>
-      <header className="pg-personal-identity">
-        <h3 data-testid="personal-name">{record.identity.name}</h3>
-        <p className="game-band" data-testid="personal-age">
-          {record.identity.age}
-          {record.identity.placeName ? ` · ${record.identity.placeName}` : ""}
-        </p>
-      </header>
-
-      <details className="pg-personal-section" data-testid="life-introduction">
-        <summary>Household and world notes</summary>
-        <p>{intro.context}</p>
-        {intro.household.sentences.map((text) => (
-          <p key={text}>{text}</p>
-        ))}
-        {intro.household.grounding.length > 0 ? (
-          <div data-testid="life-grounding">
-            {intro.household.grounding.map((fact) => (
-              <p key={fact.basis} data-grounding={fact.kind}>
-                {fact.text}
-              </p>
-            ))}
-          </div>
-        ) : null}
-      </details>
-
-      <section className="pg-personal-section">
-        <h3>Appearance</h3>
-        <button
-          type="button"
-          className="ui-action"
-          data-testid="personal-appearance"
-          onClick={() => onOpenPerson(personId)}
-        >
-          Appearance and wardrobe
-        </button>
-        <p className="game-note">Change only your own saved appearance.</p>
-      </section>
-
-      {record.household.length > 0 ? (
-        <section className="pg-personal-section">
-          <h3>Household</h3>
-          <ul data-testid="personal-household">
-            {record.household.map((member) => (
-              <li key={member.personId}>
-                <button
-                  type="button"
-                  className="pg-inline-link"
-                  data-testid={`personal-household-${member.personId}`}
-                  onClick={() => onOpenPerson(member.personId)}
-                >
-                  {member.name}
-                </button>
-                {member.relationship ? `, ${member.relationship}` : ""}
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      {lives.upbringing.length > 0 ? (
-        <section className="pg-personal-section" aria-label="How you grew up">
-          <h3>How you grew up</h3>
-          <ul data-testid="personal-upbringing">
-            {lives.upbringing.map((line) => (
-              <li key={line}>{line}</li>
-            ))}
-          </ul>
-          {lives.leanings.length > 0 ? (
-            <p data-testid="personal-leanings">
-              What it left you with: {lives.leanings.join(", ").toLowerCase()}.
-            </p>
-          ) : null}
-        </section>
-      ) : null}
-
-      {lives.around.length > 0 ? (
-        <section className="pg-personal-section" aria-label="Around you">
-          <h3>Around you this past year</h3>
-          <ul data-testid="personal-around">
-            {lives.around.map((line) => (
-              <li key={line.key} data-kind={line.kind}>
-                <time dateTime={line.at}>{proseDate(line.at)}</time> ·{" "}
-                {line.sentence}
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      {record.education.length > 0 ? (
-        <section className="pg-personal-section">
-          <h3>Education</h3>
-          <ul data-testid="personal-education">
-            {record.education.map((line) => (
-              <li key={line.key}>{line.text}</li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      {record.work.length > 0 ? (
-        <section className="pg-personal-section">
-          <h3>Work</h3>
-          <ul data-testid="personal-work">
-            {record.work.map((line) => (
-              <li key={line.key}>{line.text}</li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      <section className="pg-personal-section" aria-label="Your history">
-        <h3>History</h3>
-        <div className="pg-personal-chronology">
-          {history.chapters.length ? (
-            history.chapters.map((chapter) => (
-              <section key={chapter.key}>
-                <h4>{chapter.heading}</h4>
-                {chapter.entries.map((entry) => (
-                  <p key={entry.key}>
-                    <time dateTime={entry.at}>{proseDate(entry.at)}</time> ·{" "}
-                    {entry.sentence}
-                  </p>
-                ))}
-              </section>
-            ))
-          ) : (
-            <p>No remembered milestones are recorded yet.</p>
-          )}
-        </div>
-      </section>
-      <section className="pg-personal-section" aria-label="Your goals">
-        <h3>Goals</h3>
-        {goals.length ? (
-          goals.map((goal) => <p key={goal.id}>{goal.objective}</p>)
-        ) : (
-          <p>No personal goals are recorded yet.</p>
-        )}
-      </section>
-
-      {/*
-        Three kinds of money, kept apart because the world keeps them apart.
-        A committee's treasury is the committee's; presenting it beside a
-        personal balance as one figure would be a false statement about who owns
-        what, and in the campaign case a legally false one.
-      */}
       <section
         className="pg-personal-section"
-        ref={finances}
         tabIndex={-1}
         aria-label="Money and property"
         data-testid="personal-finances"
-        data-landed={section === "finances" ? "true" : undefined}
       >
         <h3>Money and property</h3>
         <ul className="pg-purses" data-testid="personal-purses">
@@ -1850,7 +1660,7 @@ export function PersonalWorkspace({
               <small>{purse.ownerNote}</small>
               {purse.balance ? (
                 <span data-testid={`purse-balance-${purse.kind}`}>
-                  {formatMoney(purse.balance)}
+                  {dollars(purse.balance)}
                 </span>
               ) : (
                 <span
@@ -1972,108 +1782,6 @@ export function WorkWorkspace({
         </section>
       )}
       {children}
-    </>
-  );
-}
-
-/* ----------------------------------------------------------------- journal */
-
-export function JournalWorkspace({
-  journal,
-  onJournalChange,
-  world,
-  personId,
-  onOpenPerson,
-}: {
-  readonly journal: PrivateJournal;
-  readonly onJournalChange: (journal: PrivateJournal) => void;
-  readonly world: World;
-  readonly personId: EntityId;
-  readonly onOpenPerson: (id: EntityId) => void;
-}) {
-  const record = useMemo(
-    () => projectLifeRecord(world, personId),
-    [world, personId],
-  );
-
-  return (
-    <>
-      <PrivateJournalEditor
-        journal={journal}
-        onChange={onJournalChange}
-        people={record.people}
-        events={record.chapters.flatMap((chapter) => chapter.entries)}
-        onOpenPerson={onOpenPerson}
-      />
-      <p className="game-note">{record.summary}</p>
-
-      <h3>What has happened</h3>
-      {record.chapters.length === 0 ? (
-        <p className="game-note" data-testid="journal-empty">
-          Nothing has been written down yet. It will fill up as the life goes
-          on.
-        </p>
-      ) : (
-        <ol data-testid="journal-entries">
-          {record.chapters.map((chapter) => (
-            <li key={chapter.key}>
-              <strong>{chapter.heading}</strong>
-              <ul>
-                {chapter.entries.map((entry) => (
-                  <li
-                    key={entry.key}
-                    id={`journal-entry-${encodeURIComponent(entry.key)}`}
-                  >
-                    {entry.sentence}
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ol>
-      )}
-
-      {/*
-        People are linked by the id the record already carries. No name is
-        parsed out of a sentence to find a link: a reference exists because the
-        record established it, or it does not exist at all.
-      */}
-      {record.people.length > 0 ? (
-        <>
-          <h3>People</h3>
-          <ul data-testid="journal-people">
-            {record.people.map((person) => (
-              <li key={person.personId}>
-                <button
-                  type="button"
-                  className="pg-inline-link"
-                  data-testid={`journal-person-${person.personId}`}
-                  onClick={() => onOpenPerson(person.personId)}
-                >
-                  {person.name}
-                </button>
-                <span> {person.sentence.slice(person.name.length)}</span>
-              </li>
-            ))}
-          </ul>
-        </>
-      ) : null}
-
-      {record.open.length > 0 ? (
-        <>
-          <h3>Still open</h3>
-          <ul data-testid="journal-open">
-            {record.open.map((entry) => (
-              <li
-                key={entry.key}
-                id={`journal-entry-${encodeURIComponent(entry.key)}`}
-              >
-                {entry.sentence}
-              </li>
-            ))}
-          </ul>
-        </>
-      ) : null}
     </>
   );
 }
@@ -2219,28 +1927,6 @@ export function OptionsWorkspace({
             </button>
           ))}
         </div>
-      </section>
-
-      <section className="pg-personal-section">
-        <h3>Daily notes</h3>
-        <p className="game-note">
-          A morning note reads your current plans and decisions. You can turn it
-          off here; the day remains available in Calendar.
-        </p>
-        <label>
-          <input
-            type="checkbox"
-            checked={state.preferences.morningThoughts}
-            data-testid="option-morning-thoughts"
-            onChange={(event) =>
-              dispatch({
-                type: "set-morning-thoughts",
-                enabled: event.currentTarget.checked,
-              })
-            }
-          />{" "}
-          Show morning note
-        </label>
       </section>
 
       <section className="pg-personal-section">

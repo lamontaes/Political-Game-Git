@@ -22,6 +22,8 @@ import {
 } from "./appearance-engine/runtime";
 import { placeWear } from "./dress-code";
 import { workUniform } from "./work-uniform";
+import { selectedWorkplaceForPerson } from "./place-backdrops";
+import { isPersonAliveAt } from "../simulation/vitality-integrity";
 
 /**
  * PEOPLE AT WORK IN A PLACE PICTURE.
@@ -295,16 +297,30 @@ export function placeBackdropPeople(
 ): BackdropPeople {
   const stage = backdropStaging(place);
   // Missing staging still reports the scene's actual people below.
-  const town = playerTown(world, playerId);
+  const workplace = selectedWorkplaceForPerson(world, playerId);
+  const selected = workplace?.place === place ? workplace : null;
+  const town = selected?.jurisdictionId ?? playerTown(world, playerId);
   const wear = STAFF_WEAR[place] ?? placeWear(place, world.currentDate);
   const presentIds = new Set(
     present
       .map((person) => person.personId)
       .filter((id) => id !== playerId && world.people[id]),
   );
-  const onShift = (
-    town ? peopleAtWorkAt(world, town, place, moment) : []
-  ).filter((worker) => worker.personId !== playerId);
+  const onShift = (town ? peopleAtWorkAt(world, town, place, moment) : [])
+    .filter((worker) => worker.personId !== playerId)
+    .filter(
+      (worker) =>
+        !selected ||
+        (selected.organizationId !== null &&
+          worker.organizationId === selected.organizationId),
+    )
+    .filter((worker) =>
+      isPersonAliveAt(world, worker.personId, {
+        asOfDate:
+          moment.date <= world.currentDate ? moment.date : world.currentDate,
+        historySequenceExclusive: world.history.nextSequence,
+      }),
+    );
   const shiftByPerson = new Map(
     onShift.map((worker) => [worker.personId, worker]),
   );

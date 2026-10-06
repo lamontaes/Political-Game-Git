@@ -461,7 +461,7 @@ export function TitleScreen({
   // flash: two of them, each with its own cycle and its own cover transform,
   // swapped at a route change.
   return (
-    <main className="game-title" data-testid="title-screen">
+    <main className="game-title pg-glass-panel" data-testid="title-screen">
       {/*
             The room is the picture; it does not need a line telling the player
             it is a room (Task A). The environment-description prose — "a hall …

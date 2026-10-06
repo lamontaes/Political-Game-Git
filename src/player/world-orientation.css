@@ -28,17 +28,6 @@
   color: var(--run-a-ink);
 }
 
-.pg-recap {
-  background: linear-gradient(
-    180deg,
-    rgb(239 231 217 / 94%),
-    rgb(241 234 221 / 96%)
-  );
-  border: 1px solid var(--run-a-line);
-  border-radius: 0.9rem;
-  box-shadow: 0 1.2rem 3rem rgb(46 30 12 / 29%);
-}
-
 .pg-orientation-kicker {
   margin: 0 0 0.35rem;
   font-size: 0.76rem;
