@@ -642,6 +642,7 @@ function productionWorldInputForSetup(
     // The build seed, not the world's identity: the calibration is allowed to
     // change what the generator draws, and never which world this is.
     seed: buildSeedFor(setup),
+    familyMoneyPremise: setup.playSettings?.premises?.familyMoney ?? "ordinary",
     familyStructureSeed: worldSeedFor(setup),
     ...(setup.familyShape === undefined
       ? {}
