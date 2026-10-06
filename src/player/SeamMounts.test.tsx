@@ -4,11 +4,13 @@ import { beforeAll, describe, expect, it, vi } from "vitest";
 vi.setConfig({ testTimeout: 300_000 });
 
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../presentation/opening-life";
+import { generateOpeningLife, prepareOpeningLife } from "../presentation/opening-life";
 import { openOrdinaryLife } from "../presentation/ordinary-life";
+import {
+  recordWorldEvent,
+  startHouseholdMembership,
+} from "../simulation";
+import { householdMembershipsAt } from "../simulation/life-queries";
 import { askToMeet, projectContacts } from "../presentation/people-contacts";
 import { projectChildhoodMoment } from "../presentation/childhood";
 import { projectDisclosure } from "../presentation/press-disclosure";
@@ -62,6 +64,58 @@ function childLife(seed: string, startAge: number): Life {
   return { world: game.world, personId: game.playerPersonId };
 }
 
+function adultWithARecordedRoom(): Life {
+  const life = adultLife("ui47-seam-mounts-room");
+  const companionId = life.world.personOrder.find(
+    (id) =>
+      id !== life.personId && householdMembershipsAt(life.world, id).length === 0,
+  );
+  if (!companionId) throw new Error("The fixture needs a household companion.");
+  const provenance = {
+    kind: "authored" as const,
+    note: "Recorded-room conversation regression fixture.",
+  };
+  const householdId = householdMembershipsAt(life.world, life.personId)[0]
+    ?.membership.householdId;
+  if (!householdId) throw new Error("The fixture needs a recorded household.");
+  let world = startHouseholdMembership(life.world, {
+    stableKey: `ui47-room:membership:${companionId}`,
+    personId: companionId,
+    householdId,
+    startedAt: life.world.currentDate,
+    residenceRole: "secondary",
+    kind: "resident:member",
+    provenance,
+  });
+  const jurisdictionId = world.people[life.personId]!.homeJurisdictionId;
+  world = recordWorldEvent(world, {
+    stableKey: "ui47-room:scene",
+    type: "life.scene.opened",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId,
+    involvedEntityIds: [life.personId, companionId],
+    participants: [life.personId, companionId].map((personId) => ({
+      personId,
+      role: "presence:participant" as const,
+      detail: "At home together",
+    })),
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [`moment:${JSON.stringify(world.currentMoment)}`],
+    summary: "They are at home together.",
+    context: {
+      location: { jurisdictionId, label: "Home", setting: "home" },
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  return { world, personId: life.personId };
+}
+
 function contacts(life: Life) {
   return renderToStaticMarkup(
     <ContactsPanel
@@ -73,11 +127,13 @@ function contacts(life: Life) {
 }
 
 let adult: Life;
+let roomLife: Life;
 /** The same life after asking somebody to meet, which closes a channel. */
 let asked: Life;
 
 beforeAll(() => {
   adult = adultLife("ui47-seam-mounts");
+  roomLife = adultWithARecordedRoom();
   const view = projectContacts(adult.world, adult.personId);
   const other = view.contacts[0]!;
   asked = {
@@ -263,8 +319,8 @@ describe("Conversations in People", () => {
   function starters(presentPersonIds: readonly EntityId[]) {
     return renderToStaticMarkup(
       <ConversationStarters
-        world={adult.world}
-        personId={adult.personId}
+        world={roomLife.world}
+        personId={roomLife.personId}
         presentPersonIds={presentPersonIds}
         onStart={() => {}}
       />,
@@ -273,8 +329,8 @@ describe("Conversations in People", () => {
 
   it("never says somebody is here who the room does not hold", () => {
     const available = availablePlayerConversations(
-      adult.world,
-      adult.personId,
+      roomLife.world,
+      roomLife.personId,
     ).filter((entry) => entry.room.eligibleAddresseePersonIds.length > 0);
     expect(available.length).toBeGreaterThan(0);
     // Nobody in the room: nothing is offered under "here".
@@ -301,16 +357,16 @@ describe("Conversations in People", () => {
 describe("A conversation with somebody who is not in the room", () => {
   function opened(presentPersonIds: readonly EntityId[]) {
     const entry = availablePlayerConversations(
-      adult.world,
-      adult.personId,
+      roomLife.world,
+      roomLife.personId,
     ).find(
       (candidate) => candidate.room.eligibleAddresseePersonIds.length > 0,
     )!;
     const other = entry.room.eligibleAddresseePersonIds[0]!;
     const html = renderToStaticMarkup(
       <SceneConversation
-        world={adult.world}
-        playerPersonId={adult.personId}
+        world={roomLife.world}
+        playerPersonId={roomLife.personId}
         subject={entry.subject}
         addressee={other}
         onWorldChange={() => {}}

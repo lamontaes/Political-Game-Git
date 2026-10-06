@@ -172,7 +172,7 @@ describe("PEOPLE P3: reaching somebody", () => {
           activity.kind === "confirmed" &&
           activity.sourceEntityIds.includes(proposal.eventId),
       )!;
-      expect(meeting.participantPersonIds.sort()).toEqual(
+      expect([...meeting.participantPersonIds].sort()).toEqual(
         [player, other].sort(),
       );
       expect(scheduledActivityState(settled, meeting.id).start.date).toBe(on);
