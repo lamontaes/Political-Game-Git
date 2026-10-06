@@ -2,6 +2,7 @@ import { rentConstructionCovered } from "./rent-construction-coverage";
 import {
   RENT_COVERAGE_PREDICATE,
   RENT_CAP_TERM,
+  RENT_STABILIZATION_QUESTION,
   RENT_STABILIZATION_ROW,
 } from "./rent-stabilization-row";
 import { townLeases, rentPriceLevel } from "../living-world/town-rent";
@@ -499,8 +500,10 @@ export function applyPriceCostConsequence(
     supersedesTermsId: previous.id,
     lawEffectStamps: [stamp],
   });
-  // The law's price change reaches the person who pays it: the saving (or the
-  // rise) per payment, named next to their pay.
+  // A rent change reaches the renter who pays it: the saving (or the rise) per
+  // month, named next to their pay. The tuition freeze lands through
+  // tuition-freeze-noticed.ts, so it is not exposed twice here.
+  if (current.questionKey !== RENT_STABILIZATION_QUESTION) return repriced;
   const saved = previous.amount.minorUnits - resolved.value.value;
   const periods = periodsPerYear(previous.cadenceKind);
   const repricedTerms = recordByStableKey(
@@ -512,7 +515,7 @@ export function applyPriceCostConsequence(
     stableKey: `${stableKey}:exposure`,
     personId: resolved.subject.id,
     measureId: current.law.measureId,
-    channel: resolved.row.id === RENT_STABILIZATION_ROW.id ? "rent" : "benefit",
+    channel: "rent",
     direction: saved >= 0 ? "gain" : "cost",
     amount: money(
       Math.abs(periods ? Math.round((saved * periods) / 12) : saved),
