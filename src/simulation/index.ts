@@ -77,7 +77,7 @@ export {
 } from "./campaign-life-activities";
 export type {
   CampaignGuidanceOffice,
-  CampaignGuidanceUnestablished,
+  CampaignGuidanceEstablished,
   CampaignGuidanceValue,
   CampaignGuidanceView,
   CampaignLifeActivityState,
@@ -106,6 +106,14 @@ export {
   petitionSignaturesForCampaign,
 } from "./candidate-petitions";
 export type { AskToSignInput, AskToSignResult } from "./candidate-petitions";
+export {
+  candidateFilingTerms,
+  filingTermsCoverage,
+} from "./candidate-filing-terms";
+export type {
+  CandidateFilingTerms,
+  FilingOfficeFamily,
+} from "./candidate-filing-terms";
 export {
   CAMPAIGN_CONTACT_MET_KIND,
   CAMPAIGN_CONTACT_RECURRING_KIND,
