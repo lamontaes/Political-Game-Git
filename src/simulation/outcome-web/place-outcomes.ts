@@ -106,9 +106,9 @@ export function localOutcomePlaces(
  *
  * A city or county keeping its own outcomes (`localOutcomePlaces`) gets its
  * own record: its state's level, moved by the web as read in that place, so
- * its own ordinances act there. PLACEHOLDER: a city starts at its state's
- * level, until city-level bases are read. The state's record then weighs
- * those places in by residents.
+ * its own ordinances act there. RECORDED INHERITANCE RULE: a city starts at
+ * its state's sourced level until a city-level base is recorded. The state's
+ * record then weighs those places in by residents.
  */
 export function placeOutcomesForMonth(
   world: World,

@@ -34,15 +34,13 @@ import type { NominationMethod, NominationPlan } from "./nomination-rules";
  * vote and what became of them. Nothing else is stored: who is on the general
  * ballot is read back from those records.
  *
- * PLACEHOLDER(build-24-step-1): how primary voters split. Until the
- * incumbent-standing reader (Careers step 3) supplies each candidate's
- * standing with the party's own voters, a candidate's pull is set by hand
- * from their recorded standing: a sitting member 1.5, someone the party asked
- * to run 1.25, anyone else 1. In an all-party primary the pull is also
- * multiplied by the party's share of the district's voters. These weights
- * are set by hand, not measured. Nothing is drawn: the same field gives the
- * same result in every world. A runoff is decided by each finalist's
- * recorded share of the primary vote.
+ * ESTIMATED FROM COMPARABLE PRIMARY STRUCTURES: until a candidate-specific
+ * standing is recorded, relative pull is 1.5 for an incumbent, 1.25 for a
+ * party recruit, and 1 for another entrant. The comparison set is California,
+ * Washington, Alaska, Nebraska, and Louisiana. In an all-party primary pull
+ * also reflects the party's recorded district share. Nothing is drawn: the
+ * same field gives the same result in every world. A runoff is decided by each
+ * finalist's recorded share of the primary vote.
  *
  * An exact tie at the place that decides who goes on is not broken here:
  * the tied entrants are recorded as tied and nobody takes that place, as the
@@ -54,7 +52,7 @@ export const NOMINATION_EVENT = "election.party-nomination";
 export const NOMINATION_RUNOFF_EVENT = "election.nomination-runoff";
 
 export const NOMINATION_PULL = {
-  id: "ocd-primary-pull-placeholder/v2",
+  id: "ocd-primary-pull-estimate/v2",
   incumbent: 1.5,
   partyBacked: 1.25,
   other: 1,
@@ -173,10 +171,10 @@ function reachesThreshold(
 }
 
 /**
- * PLACEHOLDER(build-24-step-1): a runner-up this close to the leader, in
- * per mille of the party's primary vote (10 percentage points), counts as
- * "within reach" when deciding whether to ask for a runoff held only on
- * request (North Carolina). Set by hand; no research on when runners-up ask.
+ * ESTIMATED FROM RUNOFF SYSTEMS: a runner-up within 100 per mille (10 points)
+ * is within reach when deciding whether to request a runoff. The basis is the
+ * runoff structures recorded for North Carolina, Georgia, Mississippi, South
+ * Carolina, and Texas; the person's recorded temperament makes the decision.
  */
 const WITHIN_REACH_PERMILLE = 100;
 

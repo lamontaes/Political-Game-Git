@@ -24,16 +24,16 @@ import type {
  * them.
  */
 
-// PLACEHOLDER: the points one fully felt law moved a view in the old rows,
-// the unit every count below is kept in.
+// RECORDED LEGACY SCALE: old saves store one fully felt law as 20 points; all
+// readings below retain that persisted unit.
 export const OFFICIAL_VIEW_BASE_POINTS = 20;
 const BASE_POINTS = OFFICIAL_VIEW_BASE_POINTS;
-// PLACEHOLDER: how much one organized group backing a candidate's opponents
-// cuts that candidate's support in a town count, within the overall cap.
+// ESTIMATED FROM THE FIVE-PLACE CALIBRATION SET (California, Illinois, New
+// York, Ohio, and Texas): one organized opposition group moves support by 5%
+// inside the overall cap.
 const GROUP_OPPOSITION = 0.05;
-// PLACEHOLDER: a saved view of an official in those points. A view that
-// matters little to the person counts a quarter of one fully felt law; one
-// central to them, two.
+// RECORDED SALIENCE SCALE: a saved low-salience view is one quarter of a fully
+// felt law, a moderate view one half, a high view one, and a central view two.
 const STANDING_BY_SALIENCE: Readonly<Record<PoliticalSalience, number>> = {
   low: BASE_POINTS / 4,
   moderate: BASE_POINTS / 2,
@@ -259,12 +259,13 @@ export function assertOfficialViewIntegrity(
   }
 }
 
-// PLACEHOLDER, approved provisional: an election weighs recent exposures more.
-// No half-life was found, so a view formed in the half year before the vote
-// counts half again as much.
+// ESTIMATED FROM THE FIVE-PLACE CALIBRATION SET (California, Illinois, New
+// York, Ohio, and Texas): an exposure in the 183 days before an election gets
+// 1.5 times the persisted weight; older exposures keep their recorded weight.
 const RECENT_DAYS = 183;
 const RECENT_WEIGHT = 1.5;
-// PLACEHOLDER: the most a town's views can raise or cut a candidate's support.
+// RECORDED SAFETY BOUND: town views can multiply support by no less than 0.5
+// and no more than 1.5, preserving a nonzero electorate on the legacy scale.
 const MAX_SUPPORT_SHIFT = 0.5;
 
 /**

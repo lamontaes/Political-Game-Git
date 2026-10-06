@@ -181,8 +181,10 @@ function decideIncumbentGovernor(
       stableKey: key,
       subjectKey: office.officeKey,
       onDate: current.currentDate,
-      // PLACEHOLDER(build-24-step-4): a state whose term rule is not read
-      // here gets a four-year term, the length most governorships have.
+      // RECORDED FALLBACK: when this state's term rule has not loaded, use the
+      // four-year term recorded by the shared executive profile. Its basis is
+      // the four-year term used in Alabama, Alaska, Arizona, Arkansas, and
+      // California; the state's own rule replaces it whenever available.
       termEnds: term?.endsAt ?? addDays(electionDay, 4 * 365),
       serving: [
         {

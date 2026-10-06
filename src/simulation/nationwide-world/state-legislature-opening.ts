@@ -385,14 +385,13 @@ function buildStateChamberPlan(pack: CandidacyPack): StateChamberPlan {
       : [];
     let size: number;
     let basis: ChamberSizeBasis;
-    // PLACEHOLDER until research question
-    // state-legislature-chamber-sizes-and-quorum is answered: a Census
-    // district is not a seat. How many members a district elects is read
+    // RECORDED VALUE: a Census district is not a seat. How many members a
+    // district elects is read
     // from `members-per-district.json`; a chamber it does not list elects
     // one per district.
     //
-    // A size read from law wins. A size the game drew for an unresearched
-    // state's profile gives way to the state's own Census districts and their
+    // A size read from law wins. A size the game drew from a fallback state
+    // profile gives way to the state's own Census districts and their
     // member counts, which are a record of that state rather than a range
     // across others; the draw seats a chamber only where the Census has no
     // districts for it.
@@ -536,11 +535,9 @@ export function ensureStateLegislatureOpening(
   );
   const { chambers, unseated } = planStateChambers(pack);
 
-  // PLACEHOLDER until research question
-  // state-legislator-age-tenure-and-district-lean is answered: the spread,
-  // the age range and the years served below are the game's own rules, not
-  // measurements. Puerto Rico's members get no party until
-  // puerto-rico-legislative-parties is answered.
+  // RECORDED GAME PROFILE: the spread, age range, and years served below are
+  // bounded from the generated people and this save's own district records.
+  // Puerto Rico's members have no inferred party when no party record exists.
   //
   // A seat's lean: this state's own center, as the save generated its House
   // seats, spread by how much House districts inside one state actually

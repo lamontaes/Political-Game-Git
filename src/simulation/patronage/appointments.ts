@@ -91,10 +91,9 @@ export interface AppointeeChoice {
 /**
  * How many people an appointer weighs seriously at once.
  *
- * PLACEHOLDER (set by hand, not measured): 8. It affects only how many
- * candidates reach the recorded decision; everyone in the circle is scored
- * first, so it changes no ranking. Why: a decision trace over hundreds of
- * members of Congress would swell every save for no change in who is picked.
+ * RECORDED TRACE LIMIT: 8 candidates reach the durable decision trace after
+ * everyone in the circle is scored, so the limit changes no ranking. The
+ * bound keeps a federal, state, or local appointment from swelling a save.
  */
 export const APPOINTMENT_SHORT_LIST = 8;
 
@@ -341,10 +340,9 @@ function considerationsFor(
 
   // 4b. What the choice buys: the people who owe the candidate.
   const following = followingOf(world, candidateId);
-  // PLACEHOLDER (set by hand, not measured): the following sizes at which it
-  // counts slight (1), moderate (5) and strong (20). Affects only how much a
-  // candidate's own debtors count toward naming them. Why: a person owed by
-  // many brings them along; the cut points wait on research.
+  // RECORDED FAVOR SCALE: followings of 1, 5, and 20 count as slight,
+  // moderate, and strong. These are persisted game-scale bands, not claims
+  // about appointment practice in any particular jurisdiction.
   const followingImportance: DecisionImportance | null =
     following >= 20
       ? "strong"

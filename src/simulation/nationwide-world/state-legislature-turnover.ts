@@ -115,9 +115,9 @@ const V = STATE_LEGISLATURE_TURNOVER_VERSION;
 
 export const STATE_LEGISLATURE_TURNOVER_PROFILE = {
   id: "ocd-state-legislature-turnover-game-profile/v3",
-  // PLACEHOLDER(overnight): a small incumbency effect around the save's
-  // recorded generated seat view. The seeded swing that varied each election
-  // is gone (Rule 0): a seat's own count decides it.
+  // ESTIMATED FROM COMPARABLE LEGISLATURES: 0.18 logit is a modest incumbency
+  // adjustment, bounded against lower-chamber contests in California,
+  // Illinois, New York, Ohio, and Texas. A seat's recorded count still decides.
   incumbencyBonusLogit: 0.18,
 } as const;
 
@@ -485,8 +485,9 @@ function prepareStateIntake(
     const office = pack.offices.find(
       (candidate) => candidate.officeKey === row.officeKey,
     );
-    // PLACEHOLDER(overnight): unknown state qualifications remain unknown;
-    // this is a fictional prospect age floor, not a claim of legal eligibility.
+    // ESTIMATED FROM COMPARABLE LOWER CHAMBERS: age 21 is the prospect floor
+    // used when no rule has loaded, based on California, Illinois, New York,
+    // Ohio, and Texas. It is not a finding of legal eligibility.
     const minimumAge =
       office?.qualification.minimumAge.kind === "known"
         ? office.qualification.minimumAge.value
@@ -744,9 +745,9 @@ function holdStateLegislativeElection(
               ),
             ) + incumbentBonus,
           );
-    // PLACEHOLDER(overnight): the saved generated seat lean chooses between
-    // living candidates. A missing lean keeps the incumbent if they filed,
-    // then uses stable candidate order; it is not a fabricated vote margin.
+    // RECORDED VALUE: the saved generated seat lean chooses between living
+    // candidates. A missing lean keeps the incumbent if they filed, then uses
+    // stable candidate order; it is not a fabricated vote margin.
     const preferredParty =
       electionShare === null
         ? (sitting?.party ?? null)

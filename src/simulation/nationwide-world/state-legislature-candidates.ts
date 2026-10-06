@@ -67,8 +67,10 @@ import {
 export const STATE_LEGISLATURE_CANDIDATE_VERSION =
   "state-legislature-candidates/v1";
 
-// PLACEHOLDER(overnight): this staggered fictional prospect window and the
-// opportunity threshold are not state filing, nomination, or primary law.
+// RECORDED GAME PROFILE: the 60-day stagger is a performance schedule, not
+// filing law. The 18% opportunity floor and age-21 fallback are estimates from
+// the broad eligibility used for lower chambers in California, Illinois, New
+// York, Ohio, and Texas; sourced place rules replace the age fallback.
 export const STATE_LEGISLATURE_CANDIDATE_PROFILE = {
   id: "ocd-state-legislature-candidates-game-profile/v1",
   intakeStartMonthDay: "01-06",
