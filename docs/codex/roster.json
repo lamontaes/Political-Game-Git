@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-06T12:56:59Z",
+  "updatedAt": "2026-10-06T13:00:00Z",
   "updatedBy": "Session 45",
   "source": {
     "issue": "#2424",
@@ -607,8 +607,8 @@
         "doc": "docs/codex/roster.json"
       },
       "currentPr": "https://github.com/lamontaes/Political-Game-Git/pull/2549 (open)",
-      "head": "52e60dd565f40bcb9e4db3553f9a8c323a9854b3",
-      "lastPostAt": "2026-10-06T12:55:52Z",
+      "head": "99c2c2529860415110c6ba9a13ca6c5676a67e4a",
+      "lastPostAt": "2026-10-06T13:00:00Z",
       "state": "active; PR #2549 open"
     }
   ],
@@ -633,7 +633,8 @@
     "Execution and latest receipt are recorded only when an activity audit or timestamped board receipt supplied evidence; app status/update time is separate.",
     "New CTO instruction: every open PR composes fresh origin/main lint fixes and reruns exact-head checks; merge #2452/#2458/#2466 only after their reruns are green.",
     "Sessions 20, 24, 48 and 55 have already received continue-independent-unclaimed-POOL requests; no duplicate pings or assignments sent by Session45.",
-    "Session105 BG-53 is a board claim without supported chat ID/host mapping."
+    "Session105 BG-53 is a board claim without supported chat ID/host mapping.",
+    "Latest activity-marker audit supersedes prior no-output snapshots for Sessions 3/16/31/52; outcomes remain coordinator-reported, with no independent rerun by Session45."
   ],
   "localChatInventory": [
     {
@@ -687,8 +688,8 @@
       "appStatus": "active",
       "updatedAtEpoch": 1791290774,
       "updatedAt": "2026-10-06T12:46:14.000Z",
-      "currentTask": "current assignment not supplied",
-      "workProof": "in-progress turn but no output/tool marker; execution unverified",
+      "currentTask": "Kit13 menu concepts; Drive 00g dispatch read",
+      "workProof": "discovery active; command and Drive read completed; no implementation yet",
       "latestReceiptAt": "unknown"
     },
     {
@@ -720,8 +721,8 @@
       "appStatus": "active",
       "updatedAtEpoch": 1791290621,
       "updatedAt": "2026-10-06T12:43:41.000Z",
-      "currentTask": "current assignment not supplied",
-      "workProof": "in-progress turn but no output/tool marker; execution unverified",
+      "currentTask": "current assignment; rebase from 68c8 to 8b0a877",
+      "workProof": "command completed; focused gates in progress; exact command/head not supplied",
       "latestReceiptAt": "unknown"
     },
     {
@@ -731,8 +732,8 @@
       "appStatus": "active",
       "updatedAtEpoch": 1791290607,
       "updatedAt": "2026-10-06T12:43:27.000Z",
-      "currentTask": "current assignment not supplied",
-      "workProof": "in-progress turn but no output/tool marker; execution unverified",
+      "currentTask": "LW17 person landings",
+      "workProof": "coordinator reports 56/56 local and type/import(798) PASS; positive minimum-sentence test publication next; exact proof artifact/time not supplied",
       "latestReceiptAt": "unknown"
     },
     {
@@ -742,8 +743,8 @@
       "appStatus": "active",
       "updatedAtEpoch": 1791290574,
       "updatedAt": "2026-10-06T12:42:54.000Z",
-      "currentTask": "current assignment not supplied",
-      "workProof": "in-progress turn but no output/tool marker; execution unverified",
+      "currentTask": "SNAP integration",
+      "workProof": "actual 30-second timeout observed; rerun live; routed to current-main #2470 fixture fix rather than duplicate old type failure",
       "latestReceiptAt": "unknown"
     },
     {
@@ -1283,35 +1284,35 @@
     },
     {
       "session": 3,
-      "task": "current assignment not confirmed",
-      "state": "turn in progress; no output/tool marker; execution unverified",
+      "task": "Kit13 menu concepts; Drive 00g dispatch read",
+      "state": "discovery active; command and Drive read completed; no implementation yet",
       "receiptTimestamp": "not supplied",
       "exactHead": "not supplied",
-      "source": "coordinator-provided repeated snapshots"
+      "source": "latest coordinator execution-marker audit; reported, not independently re-executed"
     },
     {
       "session": 16,
-      "task": "current assignment not confirmed",
-      "state": "turn in progress; no output/tool marker; execution unverified",
+      "task": "current assignment; rebase from 68c8 to 8b0a877",
+      "state": "command completed; focused gates in progress; exact command/head not supplied",
       "receiptTimestamp": "not supplied",
       "exactHead": "not supplied",
-      "source": "coordinator-provided repeated snapshots"
+      "source": "latest coordinator execution-marker audit; reported, not independently re-executed"
     },
     {
       "session": 31,
-      "task": "current assignment not confirmed",
-      "state": "turn in progress; no output/tool marker; execution unverified",
+      "task": "LW17 person landings",
+      "state": "coordinator reports 56/56 local and type/import(798) PASS; positive minimum-sentence test publication next; exact proof artifact/time not supplied",
       "receiptTimestamp": "not supplied",
-      "exactHead": "not supplied",
-      "source": "coordinator-provided repeated snapshots"
+      "exactHead": "2504c9b244b9 (as supplied; not independently resolved)",
+      "source": "latest coordinator execution-marker audit; reported, not independently re-executed"
     },
     {
       "session": 52,
-      "task": "current assignment not confirmed",
-      "state": "turn in progress; no output/tool marker; execution unverified",
+      "task": "SNAP integration",
+      "state": "actual 30-second timeout observed; rerun live; routed to current-main #2470 fixture fix rather than duplicate old type failure",
       "receiptTimestamp": "not supplied",
       "exactHead": "not supplied",
-      "source": "coordinator-provided repeated snapshots"
+      "source": "latest coordinator execution-marker audit; reported, not independently re-executed"
     },
     {
       "session": 48,
