@@ -603,6 +603,8 @@ interface HouseholdPersonProjection {
   readonly sequenceCeiling: number;
   resultKey: string | undefined;
   result: readonly ActiveHouseholdMembership[] | undefined;
+  currentResultKey: string | undefined;
+  currentResult: readonly ActiveHouseholdMembership[] | undefined;
 }
 
 // Join a person's recorded membership histories once per contributing revision.
@@ -749,11 +751,14 @@ export function householdMembershipsAt(
       sequenceCeiling: maximum + 1,
       resultKey: undefined,
       result: undefined,
+      currentResultKey: undefined,
+      currentResult: undefined,
     };
     if (!HOUSEHOLD_PROJECTIONS.has(memberships)) householdProjectionCount += 1;
     HOUSEHOLD_PROJECTIONS.set(memberships, person);
   }
   const key = `${cutoff.asOfDate}|${Math.min(cutoff.historySequenceExclusive, person.sequenceCeiling)}`;
+  if (person.currentResultKey === key) return person.currentResult!;
   if (person.resultKey === key) return person.result!;
   const result: ActiveHouseholdMembership[] = [];
   for (const row of person.rows) {
@@ -768,9 +773,18 @@ export function householdMembershipsAt(
       location: lastHouseholdRowAt(row.locations, cutoff) ?? null,
     });
   }
-  // One cutoff view per person, rather than retaining several days of answers.
-  person.resultKey = key;
-  person.result = result;
+  // Protect the current complete view from historical validation reads. Keep
+  // only one additional historical cutoff, rather than several days of views.
+  if (
+    cutoff.asOfDate === world.currentDate &&
+    cutoff.historySequenceExclusive >= person.sequenceCeiling
+  ) {
+    person.currentResultKey = key;
+    person.currentResult = result;
+  } else {
+    person.resultKey = key;
+    person.result = result;
+  }
   return result;
 }
 
