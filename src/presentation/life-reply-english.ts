@@ -44,7 +44,7 @@ const CORES = {
   "running-remember": "I remember that.",
   "running-no-memory": "What do you mean?",
   "tell-privacy": "Can it wait? I need a little quiet right now.",
-  "tell-shared-plan": "Same here. {{followup}}",
+  "tell-shared-plan": "Oh? {{followup}}",
   "tell-guarded": "All right.",
   "tell-parent-plan": "Oh, good. {{followup}}",
   "tell-warm-plan": "Oh yeah? {{followup}}",

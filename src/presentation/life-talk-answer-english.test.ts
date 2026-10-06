@@ -38,7 +38,7 @@ describe("an answer to a recorded story", () => {
       },
       { parentOfYoungPlayer: false },
     );
-    expect(sharedPlan.reply).toBe("Same here. Which people?");
+    expect(sharedPlan.reply).toBe("Oh? Which people?");
 
     const otherPersonId = world.personOrder.find(
       (id) =>
