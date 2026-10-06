@@ -16,6 +16,7 @@ import type { World } from "./types";
 import { VOTES_AND_OUTREACH_DECISIONS } from "./traits/votes-and-outreach-decisions";
 import { FACET_HUMBLE_EFFECTS } from "./traits/effects/facet-humble";
 import { FACET_PROUD_EFFECTS } from "./traits/effects/facet-proud";
+import { FACET_SMUG_EFFECTS } from "./traits/effects/facet-smug";
 import { FACET_APPROVAL_SEEKING_EFFECTS } from "./traits/effects/facet-approval-seeking";
 import { FACET_SELF_CONSCIOUS_EFFECTS } from "./traits/effects/facet-self-conscious";
 import {
@@ -55,6 +56,7 @@ const EFFECT_PACKS = [
   FACET_HUMBLE_EFFECTS,
   FACET_SELF_CONSCIOUS_EFFECTS,
   FACET_APPROVAL_SEEKING_EFFECTS,
+  FACET_SMUG_EFFECTS,
 ] as const;
 
 let cached: TraitRegistry | null = null;
