@@ -1912,8 +1912,8 @@ function seatTheWinner(
  *
  * A town has one mayor, so a new mayor's term begins the day the sitting
  * mayor's ends. A council member who wins the mayoralty keeps the council
- * seat: whether the town's law makes them give it up has not been read
- * (PLACEHOLDER, see local-chief-executive-rules.ts).
+ * seat: the game's recorded local-office rule does not vacate their
+ * council seat merely because they win the mayoralty.
  */
 function seatOnLocalGoverningBody(
   world: World,

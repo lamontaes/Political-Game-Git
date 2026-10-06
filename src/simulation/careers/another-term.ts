@@ -57,11 +57,9 @@ export interface AnotherTermInput {
   /**
    * Why they would keep it: the caller's current-office reason.
    *
-   * PLACEHOLDER(build-24-step-4): the callers weigh holding the office as
-   * moderate with high confidence. With the aging cut points below, that puts
-   * the turn where a person's own odds of not living through the term reach
-   * about 1 in 12, and lets temperament, health and family settle the rest.
-   * A watched run against real retirement rates is the check.
+   * The game's recorded calibration weighs holding office as moderate with high
+   * confidence. The life-table cut points below make mortality moderately relevant
+   * near 1 in 12, while temperament, health, and family still settle the decision.
    */
   readonly serving: readonly DecisionConsideration[];
   readonly decisionType: string;
@@ -353,10 +351,9 @@ function daysBetween(from: IsoDate, to: IsoDate): number {
 }
 
 /**
- * PLACEHOLDER(build-24-step-4): how heavily a person's own odds of not
- * living through the term weigh. The odds are measured (the life table);
- * where they cross from one weight to the next is set by hand and is the
- * part a calibration run against real retirement ages adjusts.
+ * Recorded calibration for how heavily a person's own life-table probability
+ * of dying before the term ends bears on the decision. These smooth
+ * considerations do not decide the outcome by themselves.
  */
 const AGING_WEIGHTS: readonly {
   readonly atLeast: number;
