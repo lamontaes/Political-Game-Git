@@ -316,7 +316,16 @@ export function previewTimeCommand(
       };
     }
   }
-  const target = morningAfter(world, days);
+  const morningTarget = morningAfter(world, days);
+  // A known appointment carries its exact departure moment. "Until needed"
+  // should reach that need in one press, rather than stopping at the ordinary
+  // 7 a.m. day boundary and asking the player to press the same control again.
+  const target =
+    command.kind === "quiet-stretch" &&
+    cappedBy?.moment &&
+    cappedBy.moment.date === morningTarget.date
+      ? cappedBy.moment
+      : morningTarget;
   return { target, targetDate: target.date, days, cappedBy };
 }
 
@@ -376,12 +385,24 @@ function run(
         }),
       ),
     );
-  const next =
+  let next =
     command.kind === "quiet-stretch"
       ? formativeIntervalAt(world, request.personId) !== null
         ? letStoryTimePass(world, request.personId, advance)
         : letAdultTimePass(world, preview.days, advance)
       : advance(world, preview.days);
+  if (
+    command.kind === "quiet-stretch" &&
+    preview.cappedBy?.moment &&
+    next.currentMoment.date === preview.target.date &&
+    compareSimulationMoments(next.currentMoment, preview.target) < 0
+  ) {
+    next = advanceWorldMinutes(
+      next,
+      simulationMinutesBetween(next.currentMoment, preview.target),
+      interruptionHandlers(),
+    );
+  }
   return {
     world: next,
     reached: next.currentMoment,
