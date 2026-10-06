@@ -47,6 +47,8 @@ function readState(root) {
     typeof value.previousVersion !== "string" ||
     (typeof value.pendingVersion !== "string" &&
       value.pendingVersion !== null) ||
+    (value.outcome !== undefined &&
+      !["pending", "ready", "failed"].includes(value.outcome)) ||
     !Number.isInteger(value.failedStarts) ||
     value.failedStarts < 0
   )
@@ -116,6 +118,7 @@ export function prepareMacUpdateRetention({
     previousVersion: currentVersion,
     pendingVersion: nextVersion,
     failedStarts: 0,
+    outcome: "pending",
   });
   return { previousVersion: currentVersion, previousPath: previous };
 }
