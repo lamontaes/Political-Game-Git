@@ -86,8 +86,12 @@ function aWorld() {
 }
 
 const base = aWorld();
+const controlledPersonId =
+  base.control.kind === "person" ? base.control.personId : null;
+if (!controlledPersonId)
+  throw new Error("The expression proof world must control a character.");
 const others = Object.keys(base.people)
-  .filter((id) => id !== base.control.personId)
+  .filter((id) => id !== controlledPersonId)
   .sort() as EntityId[];
 const [A, B] = [others[0]!, others[1]!];
 
