@@ -73,11 +73,13 @@ export const TAX_TERM_QUESTION_ROWS: readonly PolicyPropositionRow[] =
         key,
         value: field,
       })),
-      ...(family.key === "excise"
+      ...(family.key === "excise" ||
+        (level.key === "state" &&
+          ["income", "sales", "property", "payroll"].some((key) => key === family.key))
         ? {
             consequences: [
               {
-                id: `tax:${level.key}:excise:recorded-base`,
+                id: `tax:${level.key}:${family.key}:recorded-base`,
                 kind: "tax" as const,
                 when: "assessment" as const,
                 who: {
