@@ -97,7 +97,10 @@ const baseWithPolicyCatalog = {
   },
 };
 
-function coverageHistoryBefore(world: World, sequence: number): World["history"] {
+function coverageHistoryBefore(
+  world: World,
+  sequence: number,
+): World["history"] {
   const records = Object.fromEntries(
     Object.entries(world.history).map(([key, value]) => {
       if (
@@ -110,10 +113,7 @@ function coverageHistoryBefore(world: World, sequence: number): World["history"]
         )
       )
         return [key, value];
-      return [
-        key,
-        value.filter((record) => record.sequence < sequence),
-      ];
+      return [key, value.filter((record) => record.sequence < sequence)];
     }),
   );
   return {
@@ -157,7 +157,6 @@ function installProductionCatalogCoverage(world: World): World {
 }
 
 export const base = installProductionCatalogCoverage(baseWithPolicyCatalog);
-
 
 export function enact(
   world: World,

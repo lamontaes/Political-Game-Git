@@ -37,7 +37,14 @@ export const SERVICE_DELIVERED_LAW_ROWS: Readonly<
     [
       {
         id: `${questionKey}:recorded-funded-service`,
-        kind: "service-delivered",
+        kind:
+          questionKey ===
+          "us-policy-positions:civil-family-community.fund-public-libraries"
+            ? "public-library-service"
+            : questionKey ===
+                "us-policy-positions:civil-family-community.dedicated-parks-funding"
+              ? "parks-service-spending"
+              : "service-delivered",
         when: "service",
         who: { selector: SERVICE_SELECTOR, predicates: [] },
         what: SERVICE_ACTION,

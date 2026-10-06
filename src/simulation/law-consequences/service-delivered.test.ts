@@ -127,8 +127,9 @@ describe("service kind reuses actual completion and recipient records", () => {
           event.type === "service.delivery-recorded" &&
           event.involvedEntityIds.includes(pre.activityId),
       )!;
-      const noticed = noticeCivilFamilyServiceDelivery(completed, receipt);
-      const exposure = noticed.history.lawExposures?.find(
+      // The typed module lands the saved delivery through the ordinary effect
+      // path. Seeing the same receipt again must not duplicate that exposure.
+      const exposure = completed.history.lawExposures?.find(
         (row) => row.sourceRecordId === receipt.id,
       );
       expect(exposure).toMatchObject({
@@ -140,11 +141,13 @@ describe("service kind reuses actual completion and recipient records", () => {
         amount: null,
         sourceRecordId: receipt.id,
       });
-      expect(lawExposureSentence(noticed, pre.personId, exposure!)).toContain(
+      expect(lawExposureSentence(completed, pre.personId, exposure!)).toContain(
         "changed a public service you used",
       );
-      expect(noticeCivilFamilyServiceDelivery(noticed, receipt)).toBe(noticed);
-      const restored = deserializeWorld(serializeWorld(noticed));
+      expect(noticeCivilFamilyServiceDelivery(completed, receipt)).toBe(
+        completed,
+      );
+      const restored = deserializeWorld(serializeWorld(completed));
       expect(
         noticeCivilFamilyServiceDelivery(restored, receipt).history
           .lawExposures,

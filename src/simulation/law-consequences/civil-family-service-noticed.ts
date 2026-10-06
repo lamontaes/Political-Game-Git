@@ -52,6 +52,5 @@ export function noticeCivilFamilyServiceDelivery(
     amount: null,
     cadence: null,
     sourceRecordId: event.id,
-    includeFamily: false,
   });
 }
