@@ -33,29 +33,15 @@ import type {
 export const APPEAL_FILED_EVENT = "justice.appeal-filed";
 export const APPEAL_DECIDED_EVENT = "justice.appeal-decided";
 
-export type AppealableJudgment =
-  | {
-      readonly kind: "sentence";
-      readonly outcomeKey: "conviction";
-      readonly termMonths: number;
-      readonly minimumMonths: number;
-      readonly maximumMonths: number | null;
-    }
-  | {
-      readonly kind: "eviction";
-      readonly outcomeKey: "eviction-ordered";
-      readonly withinLaw: boolean;
-    }
-  | {
-      readonly kind: "conviction";
-      readonly outcomeKey: "conviction";
-    }
-  | {
-      readonly kind: "acquittal";
-      readonly outcomeKey: "acquittal";
-    };
+type AppealableJudgment = {
+  readonly kind: "sentence";
+  readonly outcomeKey: "conviction";
+  readonly termMonths: number;
+  readonly minimumMonths: number;
+  readonly maximumMonths: number | null;
+};
 
-export interface AppealInput {
+interface AppealInput {
   readonly stableKey: string;
   readonly caseKey: string;
   readonly judgmentEventId: EntityId;
@@ -260,15 +246,12 @@ function consideration(
   };
 }
 
-function judgmentOutsideLaw(judgment: AppealableJudgment): boolean | null {
-  if (judgment.kind === "sentence")
-    return (
-      judgment.termMonths < judgment.minimumMonths ||
-      (judgment.maximumMonths !== null &&
-        judgment.termMonths > judgment.maximumMonths)
-    );
-  if (judgment.kind === "eviction") return !judgment.withinLaw;
-  return null;
+function judgmentOutsideLaw(judgment: AppealableJudgment): boolean {
+  return (
+    judgment.termMonths < judgment.minimumMonths ||
+    (judgment.maximumMonths !== null &&
+      judgment.termMonths > judgment.maximumMonths)
+  );
 }
 
 function appellateLevel(
@@ -280,14 +263,10 @@ function appellateLevel(
 }
 
 /** Evaluate whether the losing party files an appeal from a saved judgment. */
-export function evaluateAppealFiling(
+function evaluateAppealFiling(
   world: World,
   input: AppealInput,
 ): DecisionEvaluation | null {
-  // housing.evicted currently lacks the saved case key, evidence finding and
-  // operative legal-bound record required to support a civil appeal.
-  if (input.judgment.kind === "acquittal" || input.judgment.kind === "eviction")
-    return null;
   const outsideLaw = judgmentOutsideLaw(input.judgment);
   const stableKey = `${input.stableKey}:file`;
   const considerations: DecisionConsideration[] = [
@@ -446,12 +425,7 @@ function voteConsiderations(
 }
 
 /** File and decide an appeal only when an appellate court and seated judges exist. */
-export function appealJudgment(
-  world: World,
-  input: AppealInput,
-): AppealResult | null {
-  if (input.judgment.kind === "acquittal" || input.judgment.kind === "eviction")
-    return null;
+function appealJudgment(world: World, input: AppealInput): AppealResult | null {
   const appellateCourt = courtFor(
     world,
     input.venueJurisdictionId,
