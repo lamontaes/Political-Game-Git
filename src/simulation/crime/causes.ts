@@ -67,14 +67,14 @@ export const CRIME_CAUSE_SEAMS: readonly CrimeCauseSeam[] = [
     connects:
       "A named person turning to crime from money trouble, grievance or habit.",
     status: "built",
-    rule: "PLACEHOLDER weights: an offense the police log is laid at the door of the resident whose circumstances (age, being out of work, a past record, knowing the victim, a taste for risk) point to it most, when they reach the bar; police arrest them when the victim knows them, they have a record, or the circumstances point plainly; the arrest goes to prosecutors.",
+    rule: "Weights ESTIMATED FROM AVERAGE: an offense the police log is laid at the door of the resident whose circumstances (age, being out of work, a past record, knowing the victim, a taste for risk) point to it most, when they reach the bar; police arrest them when the victim knows them, they have a record, or the circumstances point plainly; the arrest goes to prosecutors.",
     where: "src/simulation/crime/offenders.ts",
   },
   {
     key: "effect-moving-away",
     connects: "Crime frightening a state and pushing people to leave a town.",
     status: "built",
-    rule: "BLANKET: reported offenses beyond a town's ordinary police log add fear to its state in the pressure layer, more for violent offenses. The pressure to leave the town is the migration lane's town push.",
+    rule: "Same for every town: reported offenses beyond a town's ordinary police log add fear to its state in the pressure layer, more for violent offenses. The pressure to leave the town is the migration lane's town push.",
     where:
       "src/simulation/pressure/causes.ts; src/simulation/migration/review.ts",
   },
