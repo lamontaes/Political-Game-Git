@@ -10,3 +10,5 @@ Retain bounded per-person historical views across unrelated sequence advances on
 Bound joined household projections to one protected current result plus one historical cutoff result per person in one world and calendar month, for at most 16 recently touched person groups. Clear them on world/month switches. Select latest available rows directly from raw recorded groups without retaining sorted copies. Preserve historical and old-World answers after eviction.
 
 Alias the person fast lookup to the existing field grouping and append-candidate list. Invalidate the prior direct alias on adoption; retain no second strong list of history arrays.
+
+Add a bounded, explicitly untimed Inspector allocation-survivor diagnostic using the existing canonical Day runner. Sampling weights are not exact retained bytes or performance acceptance.
