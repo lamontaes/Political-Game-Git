@@ -66,7 +66,7 @@ describe("one compiled government resolves one saved treasury", () => {
     });
     expect(
       adopted.world.history.publicProgramRecords!.find(
-        (row) => row.id === adopted.id,
+        (row) => row.kind === "appropriation" && row.id === adopted.id,
       )?.accountOrganizationId,
     ).toBe(old.organizationId);
     expect(cash(adopted.world, old.organizationId)).toBe(balance);

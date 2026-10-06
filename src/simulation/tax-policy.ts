@@ -279,6 +279,21 @@ export function ensurePublicGovernmentAccount(
     throw new Error(
       "The saved public account has no valid dated government ownership evidence.",
     );
+  if (
+    !organization &&
+    identity.kind === "local-government" &&
+    recordsByStringField(
+      next.history.organizations,
+      "stableKey",
+      publicGovernmentOrganizationKey({
+        kind: "jurisdiction",
+        jurisdictionId: identity.jurisdictionId,
+      }),
+    ).length > 0
+  )
+    throw new Error(
+      "A saved geographic public account has no unique compiled government match; recorded ownership migration is required before another account can open.",
+    );
   if (!organization) {
     next = createOrganization(next, {
       stableKey: key,
