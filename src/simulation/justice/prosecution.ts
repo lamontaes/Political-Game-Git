@@ -44,6 +44,7 @@ import {
 } from "../law-effect-stamp";
 import {
   bailMinorUnits,
+  recordedChargeBailMinorUnits,
   PRETRIAL_VERSION,
   pretrialLawAt,
   pretrialGoverningLawAt,
@@ -779,14 +780,15 @@ export function advanceProsecutions(
       next = followUp(next, referral, referral, PROSECUTION_CHARGED_EVENT, {
         extraTags: (() => {
           const courtId = savedTrialCourtForCase(next, courtCase);
+          const amount = bailMinorUnits(next, {
+            venueJurisdictionId: courtCase.venueJurisdictionId,
+            offenseKey: courtCase.offenseKey,
+          });
           return courtId
             ? [
                 `justice.court:${courtId}`,
-                ...(pretrialLawAt(next, courtCase.venueJurisdictionId) ===
-                "money-bail"
-                  ? [
-                      `justice.cash-bail-amount:${bailMinorUnits(courtCase.offenseKey)}`,
-                    ]
+                ...(amount !== null
+                  ? [`justice.cash-bail-amount:${amount}`]
                   : []),
               ]
             : [];
@@ -973,8 +975,9 @@ function dollars(minorUnits: number): string {
 
 /**
  * Whether the defendant waits for trial at home or in jail, on the day they
- * are charged. Where the law in force sets money bail, the court sets it by
- * the offense and the defendant goes home if they have the money to pay it;
+ * are charged. Money bail uses the saved charge amount from operative terms;
+ * an absent amount leaves the decision pending. Actual full cash goes through
+ * the existing court payment writer;
  * where the law ends money bail, the defendant goes home unless a judge
  * orders them held, which the law allows only for a violent offense. The hold
  * lasts until the case ends. Where no law answers the question, nothing is
@@ -991,7 +994,9 @@ function decideBeforeTrial(
   if (!law) return world;
   const name = personName(world.people[subjectId]!);
   if (law === "money-bail") {
-    const bail = bailMinorUnits(courtCase.offenseKey);
+    const bail = recordedChargeBailMinorUnits(world, charged.id);
+    // A missing authority is pending, not a made-up amount or a detention order.
+    if (bail === null) return world;
     const courtId = tagValue(charged, "justice.court:");
     const opened = ensureStartingPersonalMoney(world, subjectId).world;
     const payment = courtId
@@ -1191,10 +1196,10 @@ export function postCashBail(
     (p) => p.role === "focus:subject",
   )?.personId;
   const courtId = charged && tagValue(charged, "justice.court:");
-  const amount = Number(
-    charged && tagValue(charged, "justice.cash-bail-amount:"),
-  );
-  if (!charged || !subjectId || !courtId)
+  const amount = charged
+    ? recordedChargeBailMinorUnits(world, charged.id)
+    : null;
+  if (!charged || !subjectId || !courtId || amount === null)
     return { world, status: "unsupported" };
   const payment = payFullCashBail(world, {
     chargedEventId: charged.id,

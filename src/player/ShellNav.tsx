@@ -111,7 +111,7 @@ const GROUP_LABELS: Readonly<
   people: { label: "People", hint: "Who you know, and how" },
   politics: { label: "Politics", hint: "Office, elections and government" },
   news: { label: "News", hint: "What has been published" },
-  journal: { label: "Journal", hint: "Your private notes and chapters" },
+  journal: { label: "Journal", hint: "Your life chapters" },
   personal: { label: "Personal", hint: "You, work and study, money" },
   travel: { label: "Travel", hint: "Where you are and where you can go" },
   options: {

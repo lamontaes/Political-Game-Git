@@ -2,7 +2,6 @@ import type { PersonWardrobePreference } from "./person-visual-selection";
 import {
   compareSimulationMoments,
   type EntityId,
-  type IsoDate,
   type SimulationMoment,
 } from "../simulation";
 import type { GovernmentPlace, GovernmentScope } from "./politics-government";
@@ -182,8 +181,6 @@ export interface ShellPreferences {
    * (`interruption-policy.ts`), which is the only place these are consumed.
    */
   readonly interruptions: InterruptionPreferences;
-  /** Whether the optional morning thought appears. Interface only. */
-  readonly morningThoughts: boolean;
   readonly proposalLayout: ProposalLayout;
   readonly newsMode: NewsMode;
   /** The publication the News reader opens on in publication mode. */
@@ -236,7 +233,6 @@ export const DEFAULT_PREFERENCES: ShellPreferences = {
   defaultPinSize: "normal",
   followedNewsOutletKeys: [],
   interruptions: DEFAULT_INTERRUPTIONS,
-  morningThoughts: true,
   proposalLayout: "auto",
   newsMode: "front",
   newsOutletKey: null,
@@ -247,21 +243,6 @@ export const DEFAULT_PREFERENCES: ShellPreferences = {
   map: DEFAULT_MAP_PREFERENCES,
   learnedGuideTermKeys: [],
 };
-
-/** Private player writing, never simulation facts or NPC knowledge. */
-export interface JournalNote {
-  readonly id: string;
-  readonly title: string;
-  readonly body: string;
-  readonly group: string;
-  readonly personId: EntityId | null;
-  readonly eventKey: string | null;
-}
-export interface PrivateJournal {
-  readonly ambition: string;
-  readonly notes: readonly JournalNote[];
-}
-export const EMPTY_JOURNAL: PrivateJournal = { ambition: "", notes: [] };
 
 /**
  * What this player has already been shown, kept per saved life.
@@ -282,8 +263,6 @@ export interface InterfaceProgress {
   readonly recapFrontier: number | null;
   /** Last World moment whose ordinary day and recap were acknowledged. */
   readonly recapThroughMoment?: SimulationMoment | null;
-  /** Last local date whose optional morning thought was dismissed. */
-  readonly morningThoughtSeenOn?: IsoDate | null;
 }
 
 export const INITIAL_INTERFACE_PROGRESS: InterfaceProgress = {
@@ -357,16 +336,6 @@ export interface ShellState {
   readonly peopleQuery: string;
   readonly preferences: ShellPreferences;
   readonly personWardrobes: Readonly<Record<string, PersonWardrobePreference>>;
-  /**
-   * Private notebooks, one per played person in this slot, so a character
-   * continued after another never reads the predecessor's notes.
-   */
-  readonly journals: Readonly<Record<string, PrivateJournal>>;
-  /**
-   * A slot-wide notebook from before notebooks were kept per person that
-   * could not yet be given to anyone. Kept and written back, never dropped.
-   */
-  readonly legacyJournal: PrivateJournal;
   readonly progress: InterfaceProgress;
   /** Announced to assistive technology after a navigation action. */
   readonly announcement: string;
@@ -386,8 +355,6 @@ export const INITIAL_SHELL_STATE: ShellState = {
   preferences: DEFAULT_PREFERENCES,
   announcement: "",
   personWardrobes: {},
-  journals: {},
-  legacyJournal: EMPTY_JOURNAL,
   progress: INITIAL_INTERFACE_PROGRESS,
 };
 
@@ -395,11 +362,6 @@ export type ShellAction =
   | {
       readonly type: "set-person-wardrobe";
       readonly preference: PersonWardrobePreference;
-    }
-  | {
-      readonly type: "set-journal";
-      readonly personId: EntityId;
-      readonly journal: PrivateJournal;
     }
   | { readonly type: "toggle-navigation" }
   | {
@@ -512,8 +474,6 @@ export type ShellAction =
       readonly personWardrobes?: Readonly<
         Record<string, PersonWardrobePreference>
       >;
-      readonly journals?: Readonly<Record<string, PrivateJournal>>;
-      readonly legacyJournal?: PrivateJournal;
       readonly pins: readonly ShellPin[];
       readonly preferences: ShellPreferences;
       readonly progress?: InterfaceProgress;
@@ -534,8 +494,6 @@ export type ShellAction =
       readonly throughSequence: number;
       readonly throughMoment?: SimulationMoment;
     }
-  | { readonly type: "acknowledge-morning-thought"; readonly date: IsoDate }
-  | { readonly type: "set-morning-thoughts"; readonly enabled: boolean }
   /** Drops pins whose target this world no longer has. */
   | { readonly type: "prune-pins"; readonly keep: readonly string[] }
   | { readonly type: "escape" };
@@ -1023,18 +981,11 @@ export function shellReducer(
           [action.preference.personId]: action.preference,
         },
       };
-    case "set-journal":
-      return {
-        ...state,
-        journals: { ...state.journals, [action.personId]: action.journal },
-      };
     case "restore":
       return {
         ...state,
         pins: action.pins,
         preferences: action.preferences,
-        journals: action.journals ?? {},
-        legacyJournal: action.legacyJournal ?? EMPTY_JOURNAL,
         personWardrobes: action.personWardrobes ?? {},
         progress: action.progress ?? LEGACY_INTERFACE_PROGRESS,
       };
@@ -1096,24 +1047,6 @@ export function shellReducer(
         },
       };
     }
-
-    case "acknowledge-morning-thought":
-      if (
-        state.progress.morningThoughtSeenOn &&
-        state.progress.morningThoughtSeenOn >= action.date
-      )
-        return state;
-      return {
-        ...state,
-        progress: { ...state.progress, morningThoughtSeenOn: action.date },
-      };
-
-    case "set-morning-thoughts":
-      if (state.preferences.morningThoughts === action.enabled) return state;
-      return {
-        ...state,
-        preferences: { ...state.preferences, morningThoughts: action.enabled },
-      };
 
     /*
      * A pin points at a canonical entity. Loading a world that never had that

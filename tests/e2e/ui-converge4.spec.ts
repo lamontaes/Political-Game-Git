@@ -1,10 +1,4 @@
 import { saveLife } from "./support/creator";
-import {
-  chooseOption,
-  chosenValue,
-  expectChosen,
-  optionEntries,
-} from "./support/controls";
 import { readFileSync } from "node:fs";
 import type { Page } from "@playwright/test";
 import type { World } from "../../src/simulation";
@@ -149,94 +143,6 @@ test("normal Carson City citizen attends a public session and retains the real v
   });
   await save(page);
   expect(await savedWorld(page)).toEqual(attended);
-});
-
-test("private Journal intentions, grouped notes, real person links and history bookmarks survive reload without changing World", async ({
-  page,
-}, info) => {
-  await page.goto("/?seed=ui-converge4-journal");
-  await startLife(page, {
-    place: "Lexington",
-    state: "Kentucky",
-    age: 38,
-    route: "custom",
-    household: "shares-a-home",
-  });
-  await enterOpening(page);
-  await save(page);
-  const initial = await savedWorld(page);
-  await goTo(page, "nav-journal-entry");
-  await page.getByText("Private notes and intentions", { exact: true }).click();
-  const notebook = page.getByRole("region", { name: "Private notebook" });
-  await notebook
-    .getByLabel("My intentions")
-    .fill("I want to remember the people I meet.");
-  await notebook
-    .getByRole("button", { name: "Add private note" })
-    .press("Enter");
-  const note = notebook.getByTestId("private-note").first();
-  await note.getByLabel("Title", { exact: true }).fill("A private reminder");
-  await note
-    .getByRole("textbox", { name: "Note", exact: true })
-    .fill("Ask about their week when we next talk.");
-  await note.getByLabel("Group", { exact: true }).fill("People");
-  const personOption = (
-    await optionEntries(note.getByLabel("Linked person"))
-  )[1]!;
-  const personId = personOption.value;
-  const personName = personOption.label;
-  expect(personId).toBeTruthy();
-  expect(initial.people[personId!]).toBeDefined();
-  await chooseOption(note.getByLabel("Linked person"), personId!);
-  await chooseOption(note.getByLabel("History bookmark"), { index: 1 });
-  const bookmark = await chosenValue(note.getByLabel("History bookmark"));
-  await note.getByRole("link", { name: "Read bookmarked history" }).click();
-  await expect(
-    page.locator(`[id="journal-entry-${encodeURIComponent(bookmark)}"]`),
-  ).toBeInViewport();
-  await note
-    .getByRole("button", { name: `Open ${personName}`, exact: true })
-    .press("Enter");
-  await expect(
-    page.getByTestId("person-workspace").locator("[data-person-id]").first(),
-  ).toHaveAttribute("data-person-id", personId!);
-  await page.getByTestId("person-workspace-back").click();
-  await page.getByText("Private notes and intentions", { exact: true }).click();
-  await expect(note.getByLabel("Title", { exact: true })).toHaveValue(
-    "A private reminder",
-  );
-  await notebook.getByRole("button", { name: "Add private note" }).click();
-  const second = notebook.getByTestId("private-note").nth(1);
-  await second.getByLabel("Title", { exact: true }).fill("Another thought");
-  await second.getByLabel("Group", { exact: true }).fill("Later");
-  await notebook.getByLabel("Show group").focus();
-  await chooseOption(notebook.getByLabel("Show group"), "People");
-  await expect(notebook.getByTestId("private-note")).toHaveCount(1);
-  await chooseOption(notebook.getByLabel("Show group"), "");
-  await expect(notebook.getByTestId("private-note")).toHaveCount(2);
-  await save(page);
-  expect(await savedWorld(page)).toEqual(initial);
-  await continueSaved(page);
-  await goTo(page, "nav-journal-entry");
-  await page.getByText("Private notes and intentions", { exact: true }).click();
-  await expect(notebook.getByLabel("My intentions")).toHaveValue(
-    "I want to remember the people I meet.",
-  );
-  await expect(notebook.getByTestId("private-note")).toHaveCount(2);
-  await expect(
-    note.getByRole("textbox", { name: "Note", exact: true }),
-  ).toHaveValue("Ask about their week when we next talk.");
-  await expectChosen(note.getByLabel("Linked person"), personId);
-  await expectChosen(note.getByLabel("History bookmark"), bookmark);
-  await chooseOption(notebook.getByLabel("Show group"), "Later");
-  await expect(
-    notebook.getByTestId("private-note").getByLabel("Title", { exact: true }),
-  ).toHaveValue("Another thought");
-  await page.screenshot({
-    path: info.outputPath("private-journal-reloaded.png"),
-  });
-  await save(page);
-  expect(await savedWorld(page)).toEqual(initial);
 });
 
 test("title Patch notes keeps historical sections without a current version header with keyboard Back", async ({

@@ -16,7 +16,6 @@ import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { passOrdinaryDays } from "./ordinary-life";
 import { projectDayRhythm } from "./day-rhythm";
 import {
-  DEFAULT_PREFERENCES,
   INITIAL_SHELL_STATE,
   INITIAL_INTERFACE_PROGRESS,
   shellReducer,
@@ -45,45 +44,20 @@ function progressAt(world: World): InterfaceProgress {
 }
 
 describe("ordinary day rhythm", () => {
-  it("uses Today for an optional morning thought without writing World facts", () => {
+  it("has no morning note and does not write World facts", () => {
     const { world, playerPersonId } = opening("day-rhythm-morning");
     const progress = progressAt(world);
     const before = serializeWorld(world);
-    const read = projectDayRhythm(
-      world,
-      playerPersonId,
-      progress,
-      DEFAULT_PREFERENCES,
-    );
-    expect(read.morningThought?.date).toBe(world.currentDate);
-    expect(read.morningThought?.today.now.length).toBeGreaterThan(0);
-    expect(read.summary).toBeNull();
+    const read = projectDayRhythm(world, playerPersonId, progress);
+    expect(read).toEqual({ summary: null });
     expect(serializeWorld(world)).toBe(before);
-    expect(
-      projectDayRhythm(world, playerPersonId, progress, {
-        morningThoughts: false,
-      }).morningThought,
-    ).toBeNull();
-    expect(
-      projectDayRhythm(
-        world,
-        playerPersonId,
-        { ...progress, morningThoughtSeenOn: world.currentDate },
-        DEFAULT_PREFERENCES,
-      ).morningThought,
-    ).toBeNull();
   });
 
   it("records a quiet crossed day and does not repeat it after save/reload", () => {
     const { world, playerPersonId } = opening("day-rhythm-quiet");
     const progress = progressAt(world);
     const next = passOrdinaryDays(world, 1);
-    const read = projectDayRhythm(
-      next,
-      playerPersonId,
-      progress,
-      DEFAULT_PREFERENCES,
-    );
+    const read = projectDayRhythm(next, playerPersonId, progress);
     expect(read.summary).toMatchObject({
       since: world.currentMoment,
       through: next.currentMoment,
@@ -108,12 +82,7 @@ describe("ordinary day rhythm", () => {
       }),
     )!;
     expect(
-      projectDayRhythm(
-        next,
-        playerPersonId,
-        reopened.progress!,
-        reopened.preferences,
-      ).summary,
+      projectDayRhythm(next, playerPersonId, reopened.progress!).summary,
     ).toBeNull();
   });
 
@@ -148,12 +117,7 @@ describe("ordinary day rhythm", () => {
       stableKey: "day-rhythm-library-report",
       sourceEventId: eventWorld.history.events.at(-1)!.id,
     });
-    const read = projectDayRhythm(
-      published,
-      playerPersonId,
-      progress,
-      DEFAULT_PREFERENCES,
-    );
+    const read = projectDayRhythm(published, playerPersonId, progress);
     expect(read.summary?.completedDay).toBe(false);
     expect(read.summary?.recap).toEqual(
       projectWorldRecap(published, playerPersonId, progress.recapFrontier!),
