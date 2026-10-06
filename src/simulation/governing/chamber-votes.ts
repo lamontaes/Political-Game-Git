@@ -1,3 +1,4 @@
+import { stateMemberSeatingEvidence } from "./member-seating";
 import { considerationScore } from "../decisions";
 import { decideMemberVote } from "./member-vote-decision";
 import {
@@ -117,22 +118,33 @@ export function seatedChamberForPack(
   const members = stateLegislators(world, candidacyPackId)
     .filter((member) => member.officeKey === officeKey)
     .sort((l, r) => l.ordinal - r.ordinal);
-  if (!sizeTag) return null;
+  const jurisdictionId = opening?.jurisdictionId;
+  if (!sizeTag || !jurisdictionId) return null;
   const seats = Number(sizeTag.split(":")[2]);
   return {
     seats,
     body: {
       chamberKey,
       chamberName,
-      members: members.map((member): SeatedMember => ({
-        memberKey: `${officeKey}:seat:${member.ordinal}`,
-        name: personName(world.people[member.personId]!),
-        personId: member.personId,
-        partyKey: member.party,
-        caucusLabel: member.party
-          ? `${member.party.charAt(0).toUpperCase()}${member.party.slice(1)}`
-          : "No party",
-      })),
+      members: members.map((member): SeatedMember => {
+        const seating = stateMemberSeatingEvidence(
+          world,
+          candidacyPackId,
+          jurisdictionId,
+          member,
+        );
+        return {
+          tenureStartedAt: seating?.occurredAt ?? null,
+          seatingEventId: seating?.eventId ?? null,
+          memberKey: `${officeKey}:seat:${member.ordinal}`,
+          name: personName(world.people[member.personId]!),
+          personId: member.personId,
+          partyKey: member.party,
+          caucusLabel: member.party
+            ? `${member.party.charAt(0).toUpperCase()}${member.party.slice(1)}`
+            : "No party",
+        };
+      }),
     },
   };
 }

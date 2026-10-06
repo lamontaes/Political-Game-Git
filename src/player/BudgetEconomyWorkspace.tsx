@@ -55,12 +55,6 @@ export function BudgetEconomyWorkspace({
         </p>
       </header>
 
-      <p className="budget-economy-boundary">
-        Reading this page does not change a budget, grant fiscal authority, or
-        move time. Reference observations and this save&rsquo;s government
-        history remain separately labeled.
-      </p>
-
       <MacroConditionsPanel world={world} jurisdictionId={jurisdictionId} />
 
       <section
