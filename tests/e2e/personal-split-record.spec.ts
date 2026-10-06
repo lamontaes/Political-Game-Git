@@ -93,6 +93,7 @@ test("Personal separates current records from history without changing the life"
   ]);
   expect(boxes[0]!.x + boxes[0]!.width).toBeLessThan(boxes[1]!.x);
   await page.screenshot({
+    animations: "disabled",
     path: test.info().outputPath("personal-profile-1920.png"),
   });
   await profile.getByTestId("personal-full-history").click();
@@ -112,6 +113,7 @@ test("Personal separates current records from history without changing the life"
     if (status?.status === "ended") await expect(line).toContainText(" to ");
   }
   await page.screenshot({
+    animations: "disabled",
     path: test.info().outputPath("personal-history-1920.png"),
   });
   await history.getByRole("button", { name: "Back to profile" }).press("Enter");
@@ -126,6 +128,7 @@ test("Personal separates current records from history without changing the life"
     workspace!.y + workspace!.height,
   );
   await page.screenshot({
+    animations: "disabled",
     path: test.info().outputPath("personal-profile-1200.png"),
   });
   await page.setViewportSize({ width: 1920, height: 1080 });
@@ -146,6 +149,7 @@ test("Personal separates current records from history without changing the life"
       ).toHaveAttribute("data-figure-status", "ready");
       await expect(dialog.getByTestId("contact-focus-panel")).toBeVisible();
       await page.screenshot({
+        animations: "disabled",
         path: test.info().outputPath("contact-split-record-1920.png"),
       });
       await page.keyboard.press("Escape");
@@ -192,6 +196,7 @@ test("Personal separates current records from history without changing the life"
   expect(continued.currentDate).toBe(before.currentDate);
   expect(continued.history).toEqual(before.history);
   await page.screenshot({
+    animations: "disabled",
     path: test.info().outputPath("personal-continued-1920.png"),
   });
 });
