@@ -501,16 +501,16 @@ describe("GOVERNING K3: an office after its holder dies", () => {
       next,
       UNRESEARCHED_OFFICIAL_FUNERAL.daysToFuneral,
     );
-    expect(
-      afterFuneral.history.events.some(
-        (event) =>
-          event.type === OFFICIAL_FUNERAL_EVENT_TYPES.funeral &&
-          event.involvedEntityIds.includes(president),
-      ),
-    ).toBe(true);
+    const funeral = afterFuneral.history.events.find(
+      (event) =>
+        event.type === OFFICIAL_FUNERAL_EVENT_TYPES.funeral &&
+        event.involvedEntityIds.includes(president),
+    );
+    expect(funeral).toBeDefined();
     console.info(
       `WATCHED RUN P1 — ${place.displayName} (seed ${seed}): a public capacity notice caused the Vice President to act as President; the recorded recovery ended that acting term; the later recorded death transferred the presidency to the Vice President under the Twenty-Fifth Amendment and opened a nomination; the death record scheduled the funeral.`,
     );
+    console.info(`NEWS/JOURNAL — ${funeral!.summary}`);
     const reopened = deserializeWorld(serializeWorld(next));
     expect(currentPresidentOf(reopened)!.personId).toBe(vice.personId);
   }, 300_000);
