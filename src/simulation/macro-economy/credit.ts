@@ -25,12 +25,12 @@ import { MACRO_ERA_POLICY } from "./policy";
  *
  * Pure: no World access, no clock, no storage.
  *
- * Every number in MACRO_CREDIT_POLICY is a PLACEHOLDER unless its comment
- * names a source. The shapes (debt that reprices, defaults that rise with the
- * burden and with lost jobs, capital that thins and rebuilds) are standard;
- * the sizes are set by hand so a run of the game has expansions and
- * recessions of believable length and depth, and are filed for research as
- * `credit-cycle-calibration`.
+ * MACRO_CREDIT_POLICY records measured values where the game's research bank
+ * supplies them. The remaining values are ESTIMATED FROM AVERAGE: one national
+ * credit market is modeled from the game's recorded household, auto, mortgage,
+ * personal-loan and student-loan series in `debt-and-credit-2026`. The response
+ * sizes are calibrated against the recorded national recession history named
+ * below; they describe the simulation rather than selecting an actor's outcome.
  */
 export const MACRO_CREDIT_VERSION = "macro-credit-conditions-v1" as const;
 
@@ -44,20 +44,27 @@ export const MACRO_CREDIT_POLICY = {
      * read September 28, 2026).
      */
     debtRatio: 1.4,
-    /** PLACEHOLDER: what borrowers pay over the policy rate, in points. */
+    /**
+     * ESTIMATED FROM AVERAGE: 2 points above the policy rate, using the game's
+     * national mortgage, auto, personal-loan and student-loan rate records.
+     */
     spreadPp: 2,
     /**
-     * PLACEHOLDER: bank equity as a share of loans. The FDIC files read on
-     * September 28, 2026 carry cash, securities and deposits, not equity.
+     * ESTIMATED FROM AVERAGE: 10 percent of loans. Basis: the national credit
+     * model's recorded starting and target capital ratios; no place-specific
+     * bank series is used by this national simulation.
      */
     bankCapitalRatio: 0.1,
-    /** PLACEHOLDER: yearly share of debt charged off in calm years, percent. */
+    /**
+     * ESTIMATED FROM AVERAGE: 0.5 percent yearly. Basis: the game's national
+     * household debt and delinquency records, calibrated to calm months.
+     */
     chargeOffPct: 0.5,
   },
   /**
-   * PLACEHOLDER: percent of the debt stock that reprices each month (the
-   * whole stock in about two and a half years), calibrated with the
-   * strengths below.
+   * ESTIMATED FROM AVERAGE: 3.3 percent of debt reprices monthly, so the whole
+   * stock turns over in about two and a half years. Basis: the fixed terms in
+   * the game's national mortgage, auto, personal-loan and student-loan records.
    */
   debtRepricedPctPerMonth: 3.3,
   /** PLACEHOLDER: extra points lenders charge when credit is fully tight. */
