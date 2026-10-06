@@ -1,3 +1,4 @@
+import type { BrowserSaveStore as SaveStore } from "../../src/presentation/browser-world-repository";
 import { expect, test } from "./fixtures";
 import { enterLife, goTo, saveLife, startLife } from "./support/creator";
 import { SeededRng } from "../../src/simulation/rng";
@@ -73,8 +74,7 @@ for (const character of ["Avery", "Jordan"])
       const traitsPath = "/src/presentation/speaker-traits.ts";
       const { BrowserSaveStore } = await import(/* @vite-ignore */ storePath);
       const { speakerTraits } = await import(/* @vite-ignore */ traitsPath);
-      const store: import("../../src/presentation/browser-world-repository").BrowserSaveStore =
-        new BrowserSaveStore();
+      const store: SaveStore = new BrowserSaveStore();
       const shelf = await store.list();
       if (shelf.saves.length !== 1)
         throw new Error("Expected the player's one actual saved life.");
