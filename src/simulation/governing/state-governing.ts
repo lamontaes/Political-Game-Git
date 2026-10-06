@@ -2142,10 +2142,10 @@ function applyConsequence(
                 decodeURIComponent(municipalKey),
                 measure,
                 signed ? "signed" : "vetoed",
-                signed
-                  ? "The executive signed the council act."
-                  : billReasons?.trim() ||
-                      "The executive returned the council act with reasons for disapproval.",
+                billReasons?.trim() ||
+                  (signed
+                    ? "The executive signed the council act."
+                    : "The executive returned the council act with reasons for disapproval."),
                 office.holderPersonId,
               )
             : world;

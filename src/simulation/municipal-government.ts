@@ -872,6 +872,7 @@ export function municipalRulePackFor(
   const overrideRow = powerRow(reading, "OVERRIDE", "COUNCIL");
   const vetoRow = powerRow(reading, "VETO", "MAYOR");
   const executiveTitle = reading.mayor?.title ?? "Mayor";
+  const actionDayBasis = reading.procedure.mayoralActionWindow?.dayBasis;
   const executiveSource = municipalRuleSourceRef(
     reading,
     reading.procedure.mayoralAction ?? "executive action on an ordinance",
@@ -1081,16 +1082,16 @@ export function municipalRulePackFor(
       actionWindowDaysAfterAdjournment: notApplicableRule(
         "A municipal body sits continuously here; no instrument read establishes an adjournment window.",
       ),
-      actionWindowDayBasisInSession: reading.procedure.mayoralActionWindow
-        ? knownRule(
-            reading.procedure.mayoralActionWindow.dayBasis,
-            executiveSource,
-          )
-        : presentment
-          ? unknownRule(
-              "No instrument read establishes the executive action window's day basis.",
-            )
-          : notApplicableRule("No executive presentment window runs."),
+      actionWindowDayBasisInSession:
+        actionDayBasis === "CALENDAR" ||
+        actionDayBasis === "BUSINESS" ||
+        actionDayBasis === "SUNDAYS_EXCEPTED"
+          ? knownRule(actionDayBasis, executiveSource)
+          : presentment
+            ? unknownRule(
+                "No instrument read establishes the executive action window's day basis.",
+              )
+            : notApplicableRule("No executive presentment window runs."),
       actionWindowDayBasisAfterAdjournment: notApplicableRule(
         "No municipal adjournment window is established.",
       ),

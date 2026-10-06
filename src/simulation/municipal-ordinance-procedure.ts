@@ -79,6 +79,7 @@ import type { SeatedMember } from "./legislation-scenarios";
 import { personName } from "./people";
 import {
   municipalGovernmentByKey,
+  municipalGovernmentForRulePackId,
   municipalRulePackFor,
   municipalRuleSourceRef,
   municipalVoteThresholdRule,
@@ -1233,7 +1234,9 @@ export function councilActExecutiveDeadlineHandler(
   if (!measure) return resolved(world, "No measure matches.");
   if (measurePosition(world, measure.id).phase !== "awaiting-executive")
     return resolved(world, "The executive already acted.");
-  const governmentKey = councilOfMeasure(measure);
+  const governmentKey =
+    municipalGovernmentForRulePackId(measure.rulePackId)?.key ??
+    councilOfMeasure(measure);
   if (!governmentKey) return resolved(world, "No council matches.");
   const next = openMunicipalBillMatter(world, measure, governmentKey);
   const matter = governingMatters(next).find(
