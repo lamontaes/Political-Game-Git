@@ -400,6 +400,14 @@ export function PersonCard({
         ) : null}
         <div className="pg-person-card-reading">
           <section className="pg-dossier-section" aria-label="What you know">
+            {(dossier.notesMode === "full" ||
+              (dossier.notesMode === "light" && expanded)) &&
+            dossier.reminders.length > 0 ? (
+              <div data-testid="dossier-reminders">
+                <h3>What you may need to remember</h3>
+                <FactList facts={dossier.reminders} testId="dossier-reminder" />
+              </div>
+            ) : null}
             <p
               className="pg-person-card-read"
               data-testid={
