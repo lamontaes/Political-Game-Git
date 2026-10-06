@@ -120,6 +120,13 @@ import {
   principleAnswersConsideration,
 } from "./officeholder-principles";
 import { publicPartyOf } from "./chamber-votes";
+import {
+  BUDGET_DOLLARS,
+  BUDGET_DOLLARS_VERSION,
+  recordExecutiveBudgetRequest,
+  validateExecutiveBudgetRequestLines,
+  type ExecutiveBudgetRequestLine,
+} from "./executive-budget-requests";
 
 /**
  * STATE GOVERNING — the shared practical loop every governorship runs.
@@ -764,6 +771,28 @@ function optionsFor(
       ];
     }
     case "budget": {
+      if (event.tags.includes(BUDGET_DOLLARS_VERSION))
+        return [
+          {
+            key: BUDGET_DOLLARS,
+            label: "Prepare a dollar request",
+            effect:
+              "Choose amounts by program family for the legislature to consider.",
+            tradeoff:
+              "The legislature may change the request; only its enacted appropriation authorizes spending.",
+            personId: null,
+            assessment: null,
+          },
+          {
+            key: BUDGET_FLAT,
+            label: "Keep the existing priorities",
+            effect: "Record no new dollar request.",
+            tradeoff:
+              "Existing plans continue; this does not enact a budget or renew expired spending authority.",
+            personId: null,
+            assessment: null,
+          },
+        ];
       const keys = event.tags
         .filter((tag) => tag.startsWith("program:"))
         .map((tag) => tag.slice("program:".length));
@@ -929,9 +958,9 @@ const FAMILY_TEXT: Record<
   },
   budget: {
     title: () => "Set the budget request",
-    ask: "The budget office needs your priorities before the request goes to the legislature.",
+    ask: "The budget office needs your requested amounts and priorities before the request goes to the legislature.",
     ifIgnored:
-      "The budget office sends a request that keeps this year's priorities.",
+      "No new dollar request is recorded; existing plans retain only their existing spending authority.",
   },
   bill: {
     title: (subject) => `A bill on ${subject} is on your desk`,
@@ -1565,6 +1594,7 @@ function openMatter(
     tags: [
       STATE_GOVERNING_VERSION,
       `matter-family:${input.family}`,
+      ...(input.family === "budget" ? [BUDGET_DOLLARS_VERSION] : []),
       `office:${office.officeKey}`,
       ...(deadline ? [`deadline:${deadline}`] : []),
       ...(input.subjectKey ? [`subject:${input.subjectKey}`] : []),
@@ -1687,7 +1717,7 @@ export function openClemencyMatter(
 
 /**
  * The first days in office: the office needs a chief of staff and a first
- * priority. Opened once per term, the day after entry.
+ * priority and a dollar budget request. Opened once per term, the day after entry.
  */
 export function openTransitionMatters(world: World, officeKey: string): World {
   const office = governingOfficeByKey(world, officeKey);
@@ -1715,6 +1745,11 @@ export function openTransitionMatters(world: World, officeKey: string): World {
   next = openMatter(next, office, {
     family: "agenda",
     instance: "first-year",
+    programKeys,
+  });
+  next = openMatter(next, office, {
+    family: "budget",
+    instance: `entry:${office.termId}`,
     programKeys,
   });
   // Money the government has already adopted is waiting for this office.
@@ -1970,9 +2005,14 @@ function decisionSummary(
             visibility: "public",
           };
     case "budget":
+      if (option.key === BUDGET_DOLLARS)
+        return {
+          summary: `${who}, ${office.title}, prepared a dollar budget request for the legislature.`,
+          visibility: "public",
+        };
       return option.key === BUDGET_FLAT
         ? {
-            summary: `${who}, ${office.title}, sent the legislature a budget that holds spending where it is.`,
+            summary: `${who}, ${office.title}, kept the existing budget priorities without recording a new dollar request.`,
             visibility: "public",
           }
         : {
@@ -2401,6 +2441,12 @@ export function decideGoverningMatter(
   const option = matter.options.find((o) => o.key === optionKey);
   if (!option)
     return { ok: false, world, reason: "That choice is not available." };
+  if (option.key === BUDGET_DOLLARS)
+    return {
+      ok: false,
+      world,
+      reason: "Choose the budget period and requested dollar amounts first.",
+    };
   let next = world;
   if (matter.family === "bill" && matter.measureId) {
     const measure = world.history.legislativeMeasures?.find(
@@ -2448,6 +2494,63 @@ export function decideGoverningMatter(
     ok: true,
     world: decided,
   };
+}
+
+/** The same decision writer, with actual dollar lines rather than a priority slogan. */
+export function decideGoverningBudgetRequest(
+  world: World,
+  matterId: EntityId,
+  input: {
+    readonly startsOn: IsoDate;
+    readonly endsOn: IsoDate;
+    readonly lines: readonly ExecutiveBudgetRequestLine[];
+  },
+): GoverningActionResult {
+  const matter = openMatterForPlayer(world, matterId);
+  if (typeof matter === "string") return { ok: false, world, reason: matter };
+  const option =
+    matter.family === "budget"
+      ? matter.options.find((entry) => entry.key === BUDGET_DOLLARS)
+      : null;
+  if (!option)
+    return {
+      ok: false,
+      world,
+      reason: "This matter does not accept a dollar request.",
+    };
+  try {
+    validateExecutiveBudgetRequestLines(input.lines);
+    const start = makeIsoDate(input.startsOn);
+    const end = makeIsoDate(input.endsOn);
+    if (end < start)
+      throw new Error("The requested budget period ends before it starts.");
+    const decided = recordDecision(
+      world,
+      matter,
+      option,
+      "player",
+      matter.holderPersonId,
+    );
+    const decision = governingMatterById(decided, matter.id)?.decision;
+    if (!decision) throw new Error("The budget decision was not recorded.");
+    return {
+      ok: true,
+      world: recordExecutiveBudgetRequest(decided, {
+        ...input,
+        matterId,
+        decisionEventId: decision.id,
+      }),
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      world,
+      reason:
+        error instanceof Error
+          ? error.message
+          : "The budget request could not be recorded.",
+    };
+  }
 }
 
 /** Hand the matter to the chief of staff, who takes their own recommendation. */
