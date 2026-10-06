@@ -14,7 +14,11 @@ import { CAMPAIGN_HOURS_TEXT } from "../presentation/campaign-hours-text";
 
 const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as const;
 const LENGTHS = [30, 60, 90, 120, 180, 240] as const;
-const WORK: readonly CampaignRoutineWork[] = ["outreach", "fundraising"];
+const WORK: readonly CampaignRoutineWork[] = [
+  "outreach",
+  "fundraising",
+  "petition",
+];
 
 /** Where a row starts before the candidate has ever set hours for it. */
 const FRESH: Readonly<
@@ -22,6 +26,7 @@ const FRESH: Readonly<
 > = {
   outreach: { startMinute: 18 * 60, minutes: 120 },
   fundraising: { startMinute: 10 * 60, minutes: 60 },
+  petition: { startMinute: 14 * 60, minutes: 120 },
 };
 
 interface HoursRow {

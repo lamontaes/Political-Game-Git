@@ -15,7 +15,11 @@ import {
   stateJurisdictionForKey,
 } from "./index";
 import type { EntityId, World } from "./index";
-import { currentCampaignRoutine, setCampaignRoutine } from "./campaign-routine";
+import {
+  CAMPAIGN_ROUTINE_WORK,
+  currentCampaignRoutine,
+  setCampaignRoutine,
+} from "./campaign-routine";
 import { campaignActionForActivity } from "./campaign-queries";
 import {
   createScheduledActivity,
@@ -31,6 +35,8 @@ import type { RoutineTimeHook } from "./types";
 import { simulationMomentAtLocalTime } from "./dates";
 import { assertWorldIntegrity } from "./world";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
+import { smallWorld } from "../../tests/fixtures/small-world";
+import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 import {
   generateOpeningLife,
   prepareOpeningLife,
@@ -138,6 +144,47 @@ const SATURDAY_CALLS = {
 };
 
 describe("standing campaign hours (D-11)", () => {
+  it(
+    "gathers petition signatures when a standing petition block completes",
+    () => {
+      const small = smallWorld({
+        place: "US-KY",
+        people: 8,
+        seed: "petition-routine-completes",
+        offices: ["state-legislature"],
+      });
+      const world = fileForOffice(small.world, small.personId);
+      const personId = small.personId;
+      const block = {
+        work: "petition" as const,
+        weekdays: [1, 2, 3, 4, 5, 6, 0],
+        startMinute: 19 * 60,
+        minutes: 60,
+      };
+      const routineSet = setCampaignRoutine(world, personId, [block]);
+      expect(CAMPAIGN_ROUTINE_WORK.petition.label).toBe(
+        "Gathering petition signatures",
+      );
+      const campaign = campaignForCandidate(routineSet, personId)!;
+      const completed = passDays(routineSet, 7);
+      const asks = completed.history.events.filter(
+        (event) =>
+          event.tags.includes("campaign:candidate-petition-ask") &&
+          event.tags.includes(`campaign:${campaign.id}`),
+      );
+      expect(asks.length).toBeGreaterThan(0);
+      expect(
+        asks.every((event) =>
+          ["campaign.petition-signed", "campaign.petition-declined"].includes(
+            event.type,
+          ),
+        ),
+      ).toBe(true);
+      assertWorldIntegrity(deserializeWorld(serializeWorld(completed)));
+    },
+    SLOW,
+  );
+
   it(
     "runs the routine on the ordinary clock until it is changed, and writes each session up",
     () => {

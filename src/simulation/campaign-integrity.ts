@@ -812,7 +812,7 @@ function assertCampaignRoutineIntegrity(
       routine.supersedesRoutineId !== (latest.get(campaign.id) ?? null) ||
       routine.blocks.some(
         (block) =>
-          !["outreach", "fundraising"].includes(block.work) ||
+          !["outreach", "fundraising", "petition"].includes(block.work) ||
           block.weekdays.length === 0 ||
           block.weekdays.some(
             (day) => !Number.isSafeInteger(day) || day < 0 || day > 6,
