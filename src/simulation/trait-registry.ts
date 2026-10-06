@@ -14,9 +14,6 @@ import type { WorldContentPacks } from "./runtime-content-packs";
 import { loadTraitPacks, type TraitRegistry } from "./trait-packs";
 import type { World } from "./types";
 import { VOTES_AND_OUTREACH_DECISIONS } from "./traits/votes-and-outreach-decisions";
-import { FACET_HUMBLE_EFFECTS } from "./traits/effects/facet-humble";
-import { FACET_PROUD_EFFECTS } from "./traits/effects/facet-proud";
-import { FACET_SELF_CONSCIOUS_EFFECTS } from "./traits/effects/facet-self-conscious";
 import {
   FACET_AFFECTIONATE_DECISIONS,
   FACET_AFFECTIONATE_EFFECTS,
@@ -48,12 +45,7 @@ export const BUILT_IN_TRAIT_DECISIONS = [
 ];
 
 /** Effect readers are separate packs so each trait can be added independently. */
-const EFFECT_PACKS = [
-  FACET_AFFECTIONATE_EFFECTS,
-  FACET_PROUD_EFFECTS,
-  FACET_HUMBLE_EFFECTS,
-  FACET_SELF_CONSCIOUS_EFFECTS,
-] as const;
+const EFFECT_PACKS = [FACET_AFFECTIONATE_EFFECTS] as const;
 
 let cached: TraitRegistry | null = null;
 
