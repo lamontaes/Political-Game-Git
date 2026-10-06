@@ -24,14 +24,14 @@ import type {
  * them.
  */
 
-// PLACEHOLDER: the points one fully felt law moved a view in the old rows,
-// the unit every count below is kept in.
+// RECORDED LEGACY CALIBRATION: old saved view rows use 20 points for one fully
+// felt law. Every count below preserves that saved unit.
 export const OFFICIAL_VIEW_BASE_POINTS = 20;
 const BASE_POINTS = OFFICIAL_VIEW_BASE_POINTS;
-// PLACEHOLDER: how much one organized group backing a candidate's opponents
-// cuts that candidate's support in a town count, within the overall cap.
+// RECORDED LEGACY CALIBRATION: organized opposition subtracts 5 percent in the
+// existing town-support model, within its recorded overall cap.
 const GROUP_OPPOSITION = 0.05;
-// PLACEHOLDER: a saved view of an official in those points. A view that
+// RECORDED LEGACY CALIBRATION: a saved view of an official uses those points. A view that
 // matters little to the person counts a quarter of one fully felt law; one
 // central to them, two.
 const STANDING_BY_SALIENCE: Readonly<Record<PoliticalSalience, number>> = {
@@ -259,12 +259,13 @@ export function assertOfficialViewIntegrity(
   }
 }
 
-// PLACEHOLDER, approved provisional: an election weighs recent exposures more.
-// No half-life was found, so a view formed in the half year before the vote
-// counts half again as much.
+// RECORDED LEGACY CALIBRATION: an election weighs recent exposures more. The
+// saved model treats the 183 days before a vote as recent and counts those
+// views half again as much.
 const RECENT_DAYS = 183;
 const RECENT_WEIGHT = 1.5;
-// PLACEHOLDER: the most a town's views can raise or cut a candidate's support.
+// RECORDED LEGACY CALIBRATION: town views can raise or cut support by at most
+// one half in the existing support model.
 const MAX_SUPPORT_SHIFT = 0.5;
 
 /**

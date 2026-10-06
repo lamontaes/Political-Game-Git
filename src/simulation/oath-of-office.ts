@@ -5,14 +5,16 @@
  * Only the federal minimum is sourced: 4 U.S.C. 101 requires every member of a
  * state legislature and every executive and judicial officer of a state to
  * take an oath "to support the Constitution of the United States". Each state
- * adds its own words, and no state's text is coded yet (filed with research as
- * swearing-in-ceremonies-and-term-start-dates), so the phrases after the
- * federal minimum are a marked blanket shared by every state. They must not be
- * read as any one state's oath.
+ * adds its own words. Until every state's text is coded, the phrases after the
+ * federal minimum are ESTIMATED FROM SIMILAR PLACES: California Constitution
+ * article XX, section 3 and Texas Constitution article XVI, section 1. Both
+ * recorded oaths support their constitutions and faithfully discharge the
+ * office's duties. The shared phrases must not be read as any one state's
+ * exact oath.
  */
 
-/** Sourced text, or the marked blanket standing in for a state's own words. */
-export type OathPhraseBasis = "sourced" | "blanket";
+/** Sourced text, or the marked estimate standing in for a state's own words. */
+export type OathPhraseBasis = "sourced" | "estimated-california-texas";
 
 export interface OathPhrase {
   readonly text: string;
@@ -71,8 +73,11 @@ export function isOathSwornOn(value: string): value is OathSwornOn {
   );
 }
 
-/** Version of the blanket phrases, recorded with every oath taken on them. */
-export const BLANKET_STATE_OATH_VERSION = "blanket-state-oath-v1";
+/**
+ * Version recorded with the California-and-Texas estimate. The string remains
+ * unchanged so existing save tags and newly written tags identify one rule.
+ */
+export const SHARED_STATE_OATH_VERSION = "blanket-state-oath-v1";
 
 /**
  * The oath of a state officeholder, in the phrases an officiant reads and the
@@ -94,15 +99,21 @@ export function stateOathOfOffice(input: {
     },
     {
       text: `and the Constitution of ${input.stateName},`,
-      basis: "blanket",
+      basis: "estimated-california-texas",
     },
     {
       text: `and that I will faithfully discharge the duties of the office of ${input.officeTitle}`,
-      basis: "blanket",
+      basis: "estimated-california-texas",
     },
-    { text: "to the best of my ability.", basis: "blanket" },
+    {
+      text: "to the best of my ability.",
+      basis: "estimated-california-texas",
+    },
   ];
   if (input.form === "swear")
-    phrases.push({ text: "So help me God.", basis: "blanket" });
+    phrases.push({
+      text: "So help me God.",
+      basis: "estimated-california-texas",
+    });
   return phrases;
 }

@@ -32,7 +32,7 @@ export function nationalUnitJurisdiction(
   const unit = nationalElectionRules(cycle).units.find(
     (unit) => unit.key === unitKey,
   );
-  if (!unit) throw new Error("Unknown national result unit.");
+  if (!unit) throw new Error("Unrecognized national result unit.");
   const jurisdiction = stateJurisdictionForKey(`US-${unit.state}`);
   if (!jurisdiction)
     throw new Error("Canonical state/DC jurisdiction identity unavailable.");

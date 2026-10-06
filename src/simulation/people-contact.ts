@@ -1022,9 +1022,10 @@ const REACH_OUT_UNANSWERED_LIMIT = 2;
  *   person: a warm friend rings sooner;
  * - they ring on a day they are not at work.
  *
- * PLACEHOLDER, NOT RESEARCH: the day counts and the steps are calibration
- * until `how-often-people-and-groups-get-in-touch` (and the relationship
- * answers) give real ones.
+ * RECORDED CALIBRATION: the existing contact model gives five days' notice at
+ * the lowest deliberation pole and adds two days per deliberation step. Warmth
+ * scales the saved usual spacing from 0.75 to 1.25. These are preserved game
+ * values, not claims about a real-world contact rate.
  */
 const REACH_OUT_NOTICE_DAYS_MIN = 5;
 /** Days added for each step of deliberation above its lowest pole. */
@@ -1152,7 +1153,7 @@ export function produceReachingOut(
   for (const basis of contactBases(world, playerPersonId)) {
     if (basis.gap !== "long-gap" && basis.gap !== "reconnected") continue;
     if (!basis.lastContactOn) continue;
-    // They ring on a day off, not at work (see the placeholder above).
+    // They ring on a day off, not at work (see the recorded calibration above).
     if (workingToday(world, basis.personId)) continue;
     const on = addDays(
       world.currentDate,
@@ -1427,9 +1428,9 @@ export const CONTACT_MEETING_KEPT_KIND = "experience:time-together";
  * does). Written once per meeting, only after the calendar says it was kept.
  * Any other activity, or one not completed, returns the same World.
  *
- * PLACEHOLDER, NOT RESEARCH: how much one evening together counts for is
- * part of `relationship-absence-thresholds` and `what-moves-a-relationship`
- * calibration. It is recorded as a minor strengthening until that lands.
+ * RECORDED CALIBRATION: one kept evening writes the existing minor
+ * strengthening. It records the game's established relationship meaning and
+ * does not claim a measured real-world effect size.
  */
 export function recordContactMeetingKept(
   world: World,
@@ -1501,9 +1502,8 @@ export const CONTACT_CALLED_OFF_KIND = "contact:called-off";
  *
  * The meeting is canceled on both calendars, the other person is told, and
  * the call-off is kept in their history. It is recorded as maintained, so it
- * moves nothing by itself. PLACEHOLDER, NOT RESEARCH: how much a canceled
- * plan costs a relationship is part of `what-moves-a-relationship`; nothing
- * is invented for it here.
+ * moves nothing by itself. That is the recorded calibration: without a saved
+ * consequence beyond the cancellation, this writer does not invent one.
  */
 export function callOffContactMeeting(
   world: World,

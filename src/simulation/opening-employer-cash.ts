@@ -209,7 +209,7 @@ function readStaffedPlaceEmployerCashEstimate(
   );
   const placeDescription = targetProfile.locationJurisdictionId
     ? `recorded employer place ${targetProfile.locationJurisdictionId}`
-    : `recorded worker home jurisdiction(s) ${targetPlaces.join(", ")} because the employer worksite is unknown`;
+    : `recorded worker home jurisdiction(s) ${targetPlaces.join(", ")} because the employer has no saved worksite jurisdiction`;
   return {
     status: "estimated",
     amount: money(mean, currency),

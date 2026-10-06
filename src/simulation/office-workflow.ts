@@ -256,7 +256,7 @@ export function recordOfficeVoteInstruction(
   try {
     measure = requireMeasure(world, input.measureId);
   } catch {
-    return refused(world, "That bill is not recorded in this World.");
+    return refused(world, "That bill has no record in this World.");
   }
   const preference = currentOfficeWorkflowPreference(
     world,
@@ -272,7 +272,7 @@ export function recordOfficeVoteInstruction(
   if (preference.votingMode === "handle-individually") {
     return refused(
       world,
-      "This office handles votes one at a time, so a standing instruction is not recorded.",
+      "This office handles votes one at a time and does not accept standing instructions.",
     );
   }
   const version = measureTextVersion(world, measure.id);

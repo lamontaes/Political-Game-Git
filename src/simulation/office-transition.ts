@@ -34,7 +34,7 @@
 
 import { addDays, makeIsoDate } from "./dates";
 import {
-  BLANKET_STATE_OATH_VERSION,
+  SHARED_STATE_OATH_VERSION,
   isOathSwornOn,
   OATH_FORMS,
 } from "./oath-of-office";
@@ -607,7 +607,7 @@ export function takeOathOfOffice(
       "office-oath",
       `${OATH_SWORN_ON_TAG}${input.swornOn}`,
       `${OATH_FORM_TAG}${input.form}`,
-      BLANKET_STATE_OATH_VERSION,
+      SHARED_STATE_OATH_VERSION,
     ],
     summary,
     context: {

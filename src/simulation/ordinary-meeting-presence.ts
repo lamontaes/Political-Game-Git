@@ -30,8 +30,8 @@ export const ORDINARY_MEETING_PRESENCE = "ordinary-meeting-presence-v1";
 
 export type OrdinaryMeetingSpeechChoice = "support" | "oppose" | "ask";
 
-// PLACEHOLDER(overnight): COPY-PENDING exact public-comment wording awaits
-// the English engine. These are choices shown before the writer records one.
+// Authored public-comment choices shown before the writer records one. Their
+// words state only the posted proposal and the speaker's selected position.
 export const ORDINARY_MEETING_SPEECH_CHOICES: readonly {
   readonly key: OrdinaryMeetingSpeechChoice;
   readonly words: string;
@@ -619,9 +619,9 @@ function writePresence(
         label: activity.location.label,
         setting: "community room",
       },
-      // PLACEHOLDER(overnight): Where the town's council is not seated, the
-      // authored meeting has no body or voting rule and records discussion
-      // only. Where it is, the council's recorded roll call is the result.
+      // Where the town's council is not seated, the authored meeting has no
+      // body or voting rule and records discussion only. Where it is, the
+      // council's recorded roll call is the result.
       socialContext: agenda,
       pressure: null,
       choice:

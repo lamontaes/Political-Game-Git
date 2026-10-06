@@ -842,7 +842,7 @@ function validateNationalRecord(
     }
     case "term-plan": {
       if (!["president", "vice-president"].includes(record.office))
-        throw new Error("Unknown national office.");
+        throw new Error("Unrecognized national office.");
       const outcome = nationalOutcome(world, record.electionId, record.office);
       if (
         !outcome ||
@@ -1017,7 +1017,7 @@ function validateNationalRecord(
       break;
     }
     default:
-      throw new Error("Unknown national record kind.");
+      throw new Error("Unrecognized national record kind.");
   }
 }
 export function assertNationalElectionIntegrity(
