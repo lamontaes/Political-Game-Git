@@ -1,0 +1,1181 @@
+{
+  "testedHead": "e09d6fd317d9e99f290842ac1f51ecddb69a66c7",
+  "scope": "Existing authored Alaska tax enactment/actual collection producer; controlled family fixture, not natural election or turnout acceptance",
+  "seed": "legislative-core-alaska-2026",
+  "worldId": "world_68352dee54a800b7",
+  "place": "jurisdiction_7a7ff2336824055b",
+  "sourceDate": "2027-05-06",
+  "reflectionDate": "2027-05-09",
+  "playerId": "person_f7f9336dc0144486",
+  "spouseId": "person_f7f9346dc0144639",
+  "collection": {
+    "id": "tax-collection_7590b0b9fb9a8b83",
+    "stableKey": "tax-assessment:jurisdiction_7a7ff2336824055b:tax:test-excise:tax-base_94404a9e4b513437:collection",
+    "sequence": 152,
+    "recordedAt": "2027-05-06",
+    "assessmentId": "tax-assessment_703bd76c8e351331",
+    "status": "collected",
+    "transferredAmount": {
+      "minorUnits": 100,
+      "currency": "USD"
+    },
+    "resourceOutcomeId": "resource-transfer-outcome_37b2df419993a069",
+    "outcomeEventId": "event_bcd0dcd2a004bb5d",
+    "reason": null,
+    "lawEffectStamps": [
+      {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "legislative-measure_bcb6f12c8d2dabd5",
+        "source": "enacted",
+        "effectKind": "tax-collection",
+        "questionKey": "us-tax-terms:state.excise-tax-terms",
+        "jurisdictionId": "jurisdiction_7a7ff2336824055b",
+        "operativeAt": "2027-05-04",
+        "appliedAt": "2027-05-06",
+        "sourceRecordIds": [
+          "tax-base_94404a9e4b513437",
+          "event_5d43b9f96c26bb48",
+          "tax-policy_e3e540be6759c9b6",
+          "legislative-enactment_88e2f15758f65c09",
+          "tax-proposal_482c7ffa2b632a0e",
+          "legislative-provision_eb7ccab88d623e59",
+          "tax-assessment_703bd76c8e351331",
+          "resource-transfer-outcome_37b2df419993a069",
+          "event_bcd0dcd2a004bb5d"
+        ]
+      }
+    ]
+  },
+  "exposure": {
+    "stableKey": "tax-assessment:jurisdiction_7a7ff2336824055b:tax:test-excise:tax-base_94404a9e4b513437:collection:exposure:person_f7f9336dc0144486:family:person_f7f9346dc0144639",
+    "personId": "person_f7f9346dc0144639",
+    "measureId": "legislative-measure_bcb6f12c8d2dabd5",
+    "sectionKey": null,
+    "channel": "tax-payment",
+    "relation": "family",
+    "viaPersonId": "person_f7f9336dc0144486",
+    "direction": "cost",
+    "amount": {
+      "minorUnits": 100,
+      "currency": "USD"
+    },
+    "cadence": "one-time",
+    "monthlyPay": null,
+    "sourceRecordId": "tax-collection_7590b0b9fb9a8b83",
+    "id": "law-exposure_7c88717e65aae3f3",
+    "sequence": 154,
+    "recordedAt": "2027-05-06"
+  },
+  "due": {
+    "id": "future-due-item_98233157de399e43",
+    "stableKey": "official-view:reflect:law-exposure_7c88717e65aae3f3",
+    "sequence": 155,
+    "scheduledAt": "2027-05-06",
+    "dueAt": "2027-05-09",
+    "transitionKey": "people:official-view-reflection",
+    "entityIds": ["person_f7f9346dc0144639"],
+    "jurisdictionId": null,
+    "provenance": {
+      "kind": "initialization",
+      "reference": "official-view:reflect"
+    }
+  },
+  "reflection": {
+    "id": "event_f673fcabb0888005",
+    "stableKey": "official-view:reflection:law-exposure_7c88717e65aae3f3",
+    "sequence": 161,
+    "type": "people.law-reflection",
+    "occurredAt": "2027-05-09",
+    "recordedAt": "2027-05-09",
+    "jurisdictionId": null,
+    "involvedEntityIds": [
+      "legislative-measure_bcb6f12c8d2dabd5",
+      "person_f7f9346dc0144639"
+    ],
+    "participants": [
+      {
+        "personId": "person_f7f9346dc0144639",
+        "role": "focus:subject",
+        "detail": null
+      }
+    ],
+    "personFactConstraints": [],
+    "visibility": "private",
+    "tags": ["people.official-view"],
+    "summary": "Thought over what Authored tax test did to their household, and who was behind it.",
+    "context": {
+      "location": null,
+      "socialContext": null,
+      "pressure": null,
+      "choice": null,
+      "motivation": null,
+      "immediateReaction": null
+    }
+  },
+  "receipts": [
+    {
+      "officialId": "person_f7f9336dc0144486",
+      "beliefId": "belief_ce4865ce20c4c0e4",
+      "formedAt": "2027-05-09",
+      "sequence": 163,
+      "view": {
+        "points": -5,
+        "belief": {
+          "stableKey": "official-view:law-exposure_7c88717e65aae3f3:person_f7f9336dc0144486:belief",
+          "personId": "person_f7f9346dc0144639",
+          "propositionId": null,
+          "formedAt": "2027-05-09",
+          "subject": {
+            "kind": "official",
+            "personId": "person_f7f9336dc0144486"
+          },
+          "position": "oppose",
+          "conviction": "moderate",
+          "salience": "low",
+          "flexibility": "open",
+          "rationale": "Autonomous proposal selected opposition; see durable decision trace.",
+          "formation": {
+            "reason": "reflection:initial",
+            "relevantEventIds": ["event_f673fcabb0888005"],
+            "sourceFactIds": [],
+            "propositionExposureIds": [],
+            "memoryIds": [],
+            "eventKnowledgeIds": [],
+            "claimIds": [],
+            "relationshipInteractionIds": [],
+            "subjectKnowledgeIds": [],
+            "decisionTraceIds": ["decision-trace_5a1e08f4a4bfbdad"],
+            "cue": null,
+            "evidenceReference": null,
+            "note": "Applied by the Stage 4 general decision engine's political-belief adapter."
+          },
+          "supersedesBeliefId": null,
+          "id": "belief_ce4865ce20c4c0e4",
+          "sequence": 163
+        },
+        "rows": []
+      },
+      "trace": {
+        "decisionId": "decision_f246b47f4ddae74d",
+        "context": {
+          "stableKey": "official-view:law-exposure_7c88717e65aae3f3:person_f7f9336dc0144486",
+          "decisionType": "political-belief-formation",
+          "actorPersonId": "person_f7f9346dc0144639",
+          "cutoff": {
+            "asOfDate": "2027-05-09",
+            "historySequenceExclusive": 162
+          },
+          "subject": {
+            "kind": "entity:official",
+            "key": "official:person_f7f9336dc0144486",
+            "entityId": "person_f7f9336dc0144486"
+          },
+          "options": [
+            {
+              "key": "conflicted",
+              "label": "conflicted",
+              "description": "Form a private view that retains materially conflicting considerations."
+            },
+            {
+              "key": "defer",
+              "label": "defer",
+              "description": "Recognize the question but defer forming a private view."
+            },
+            {
+              "key": "no-opinion",
+              "label": "no opinion",
+              "description": "Do not form a private view at this time."
+            },
+            {
+              "key": "opposition",
+              "label": "opposition",
+              "description": "Form a private view in opposition."
+            },
+            {
+              "key": "support",
+              "label": "support",
+              "description": "Form a private view in support."
+            },
+            {
+              "key": "tentative-opposition",
+              "label": "tentative opposition",
+              "description": "Form a tentative private view in opposition."
+            },
+            {
+              "key": "tentative-support",
+              "label": "tentative support",
+              "description": "Form a tentative private view in support."
+            }
+          ],
+          "constraints": [],
+          "considerations": [
+            {
+              "stableKey": "default:no-opinion",
+              "optionKey": "no-opinion",
+              "sourceType": "context:opinion-readiness",
+              "direction": "supports",
+              "importance": "moderate",
+              "confidence": "medium",
+              "explanation": "Without enough personally meaningful reason, the actor may leave the question unresolved.",
+              "sourceRefs": []
+            },
+            {
+              "stableKey": "factor:law-exposure:law-exposure_7c88717e65aae3f3",
+              "optionKey": "opposition",
+              "sourceType": "information:law-exposure",
+              "direction": "supports",
+              "importance": "moderate",
+              "confidence": "high",
+              "explanation": "This official voted for a law that cost the person's household.",
+              "sourceRefs": [
+                {
+                  "kind": "historical-event",
+                  "eventId": "event_f673fcabb0888005"
+                }
+              ]
+            }
+          ],
+          "perceptionIds": [],
+          "randomness": "none",
+          "retention": "durable"
+        },
+        "optionEvaluations": [
+          {
+            "optionKey": "conflicted",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [],
+            "preference": "mixed",
+            "randomContribution": "none",
+            "finalRank": 3
+          },
+          {
+            "optionKey": "defer",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [],
+            "preference": "mixed",
+            "randomContribution": "none",
+            "finalRank": 3
+          },
+          {
+            "optionKey": "no-opinion",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": ["default:no-opinion"],
+            "preference": "supported",
+            "randomContribution": "none",
+            "finalRank": 2
+          },
+          {
+            "optionKey": "opposition",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [
+              "factor:law-exposure:law-exposure_7c88717e65aae3f3"
+            ],
+            "preference": "supported",
+            "randomContribution": "none",
+            "finalRank": 1
+          },
+          {
+            "optionKey": "support",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [],
+            "preference": "mixed",
+            "randomContribution": "none",
+            "finalRank": 3
+          },
+          {
+            "optionKey": "tentative-opposition",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [],
+            "preference": "mixed",
+            "randomContribution": "none",
+            "finalRank": 3
+          },
+          {
+            "optionKey": "tentative-support",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [],
+            "preference": "mixed",
+            "randomContribution": "none",
+            "finalRank": 3
+          }
+        ],
+        "outcomeKind": "selected",
+        "selectedOptionKey": "opposition",
+        "sourceSnapshots": [
+          {
+            "reference": {
+              "kind": "historical-event",
+              "eventId": "event_f673fcabb0888005"
+            },
+            "label": "Event · people.law-reflection",
+            "content": "Thought over what Authored tax test did to their household, and who was behind it."
+          }
+        ],
+        "rngVersion": "decision-rng-v1",
+        "stableKey": "official-view:law-exposure_7c88717e65aae3f3:person_f7f9336dc0144486:trace",
+        "recordedAt": "2027-05-09",
+        "id": "decision-trace_5a1e08f4a4bfbdad",
+        "sequence": 162
+      }
+    },
+    {
+      "officialId": "person_f7f9316dc0144120",
+      "beliefId": "belief_5e9cf1ded0516fe3",
+      "formedAt": "2027-05-09",
+      "sequence": 165,
+      "view": {
+        "points": -5,
+        "belief": {
+          "stableKey": "official-view:law-exposure_7c88717e65aae3f3:person_f7f9316dc0144120:belief",
+          "personId": "person_f7f9346dc0144639",
+          "propositionId": null,
+          "formedAt": "2027-05-09",
+          "subject": {
+            "kind": "official",
+            "personId": "person_f7f9316dc0144120"
+          },
+          "position": "oppose",
+          "conviction": "moderate",
+          "salience": "low",
+          "flexibility": "open",
+          "rationale": "Autonomous proposal selected opposition; see durable decision trace.",
+          "formation": {
+            "reason": "reflection:initial",
+            "relevantEventIds": ["event_f673fcabb0888005"],
+            "sourceFactIds": [],
+            "propositionExposureIds": [],
+            "memoryIds": [],
+            "eventKnowledgeIds": [],
+            "claimIds": [],
+            "relationshipInteractionIds": [],
+            "subjectKnowledgeIds": [],
+            "decisionTraceIds": ["decision-trace_93bdb75ead52f9e0"],
+            "cue": null,
+            "evidenceReference": null,
+            "note": "Applied by the Stage 4 general decision engine's political-belief adapter."
+          },
+          "supersedesBeliefId": null,
+          "id": "belief_5e9cf1ded0516fe3",
+          "sequence": 165
+        },
+        "rows": []
+      },
+      "trace": {
+        "decisionId": "decision_2d1e3f4551930768",
+        "context": {
+          "stableKey": "official-view:law-exposure_7c88717e65aae3f3:person_f7f9316dc0144120",
+          "decisionType": "political-belief-formation",
+          "actorPersonId": "person_f7f9346dc0144639",
+          "cutoff": {
+            "asOfDate": "2027-05-09",
+            "historySequenceExclusive": 164
+          },
+          "subject": {
+            "kind": "entity:official",
+            "key": "official:person_f7f9316dc0144120",
+            "entityId": "person_f7f9316dc0144120"
+          },
+          "options": [
+            {
+              "key": "conflicted",
+              "label": "conflicted",
+              "description": "Form a private view that retains materially conflicting considerations."
+            },
+            {
+              "key": "defer",
+              "label": "defer",
+              "description": "Recognize the question but defer forming a private view."
+            },
+            {
+              "key": "no-opinion",
+              "label": "no opinion",
+              "description": "Do not form a private view at this time."
+            },
+            {
+              "key": "opposition",
+              "label": "opposition",
+              "description": "Form a private view in opposition."
+            },
+            {
+              "key": "support",
+              "label": "support",
+              "description": "Form a private view in support."
+            },
+            {
+              "key": "tentative-opposition",
+              "label": "tentative opposition",
+              "description": "Form a tentative private view in opposition."
+            },
+            {
+              "key": "tentative-support",
+              "label": "tentative support",
+              "description": "Form a tentative private view in support."
+            }
+          ],
+          "constraints": [],
+          "considerations": [
+            {
+              "stableKey": "default:no-opinion",
+              "optionKey": "no-opinion",
+              "sourceType": "context:opinion-readiness",
+              "direction": "supports",
+              "importance": "moderate",
+              "confidence": "medium",
+              "explanation": "Without enough personally meaningful reason, the actor may leave the question unresolved.",
+              "sourceRefs": []
+            },
+            {
+              "stableKey": "factor:law-exposure:law-exposure_7c88717e65aae3f3",
+              "optionKey": "opposition",
+              "sourceType": "information:law-exposure",
+              "direction": "supports",
+              "importance": "moderate",
+              "confidence": "high",
+              "explanation": "This official voted for a law that cost the person's household.",
+              "sourceRefs": [
+                {
+                  "kind": "historical-event",
+                  "eventId": "event_f673fcabb0888005"
+                }
+              ]
+            }
+          ],
+          "perceptionIds": [],
+          "randomness": "none",
+          "retention": "durable"
+        },
+        "optionEvaluations": [
+          {
+            "optionKey": "conflicted",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [],
+            "preference": "mixed",
+            "randomContribution": "none",
+            "finalRank": 3
+          },
+          {
+            "optionKey": "defer",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [],
+            "preference": "mixed",
+            "randomContribution": "none",
+            "finalRank": 3
+          },
+          {
+            "optionKey": "no-opinion",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": ["default:no-opinion"],
+            "preference": "supported",
+            "randomContribution": "none",
+            "finalRank": 2
+          },
+          {
+            "optionKey": "opposition",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [
+              "factor:law-exposure:law-exposure_7c88717e65aae3f3"
+            ],
+            "preference": "supported",
+            "randomContribution": "none",
+            "finalRank": 1
+          },
+          {
+            "optionKey": "support",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [],
+            "preference": "mixed",
+            "randomContribution": "none",
+            "finalRank": 3
+          },
+          {
+            "optionKey": "tentative-opposition",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [],
+            "preference": "mixed",
+            "randomContribution": "none",
+            "finalRank": 3
+          },
+          {
+            "optionKey": "tentative-support",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [],
+            "preference": "mixed",
+            "randomContribution": "none",
+            "finalRank": 3
+          }
+        ],
+        "outcomeKind": "selected",
+        "selectedOptionKey": "opposition",
+        "sourceSnapshots": [
+          {
+            "reference": {
+              "kind": "historical-event",
+              "eventId": "event_f673fcabb0888005"
+            },
+            "label": "Event · people.law-reflection",
+            "content": "Thought over what Authored tax test did to their household, and who was behind it."
+          }
+        ],
+        "rngVersion": "decision-rng-v1",
+        "stableKey": "official-view:law-exposure_7c88717e65aae3f3:person_f7f9316dc0144120:trace",
+        "recordedAt": "2027-05-09",
+        "id": "decision-trace_93bdb75ead52f9e0",
+        "sequence": 164
+      }
+    },
+    {
+      "officialId": "person_f7f9326dc01442d3",
+      "beliefId": "belief_eef3e1ad86b7e20a",
+      "formedAt": "2027-05-09",
+      "sequence": 167,
+      "view": {
+        "points": -5,
+        "belief": {
+          "stableKey": "official-view:law-exposure_7c88717e65aae3f3:person_f7f9326dc01442d3:belief",
+          "personId": "person_f7f9346dc0144639",
+          "propositionId": null,
+          "formedAt": "2027-05-09",
+          "subject": {
+            "kind": "official",
+            "personId": "person_f7f9326dc01442d3"
+          },
+          "position": "oppose",
+          "conviction": "moderate",
+          "salience": "low",
+          "flexibility": "open",
+          "rationale": "Autonomous proposal selected opposition; see durable decision trace.",
+          "formation": {
+            "reason": "reflection:initial",
+            "relevantEventIds": ["event_f673fcabb0888005"],
+            "sourceFactIds": [],
+            "propositionExposureIds": [],
+            "memoryIds": [],
+            "eventKnowledgeIds": [],
+            "claimIds": [],
+            "relationshipInteractionIds": [],
+            "subjectKnowledgeIds": [],
+            "decisionTraceIds": ["decision-trace_1ad7f500e86a8cf7"],
+            "cue": null,
+            "evidenceReference": null,
+            "note": "Applied by the Stage 4 general decision engine's political-belief adapter."
+          },
+          "supersedesBeliefId": null,
+          "id": "belief_eef3e1ad86b7e20a",
+          "sequence": 167
+        },
+        "rows": []
+      },
+      "trace": {
+        "decisionId": "decision_93db09551cfd5db3",
+        "context": {
+          "stableKey": "official-view:law-exposure_7c88717e65aae3f3:person_f7f9326dc01442d3",
+          "decisionType": "political-belief-formation",
+          "actorPersonId": "person_f7f9346dc0144639",
+          "cutoff": {
+            "asOfDate": "2027-05-09",
+            "historySequenceExclusive": 166
+          },
+          "subject": {
+            "kind": "entity:official",
+            "key": "official:person_f7f9326dc01442d3",
+            "entityId": "person_f7f9326dc01442d3"
+          },
+          "options": [
+            {
+              "key": "conflicted",
+              "label": "conflicted",
+              "description": "Form a private view that retains materially conflicting considerations."
+            },
+            {
+              "key": "defer",
+              "label": "defer",
+              "description": "Recognize the question but defer forming a private view."
+            },
+            {
+              "key": "no-opinion",
+              "label": "no opinion",
+              "description": "Do not form a private view at this time."
+            },
+            {
+              "key": "opposition",
+              "label": "opposition",
+              "description": "Form a private view in opposition."
+            },
+            {
+              "key": "support",
+              "label": "support",
+              "description": "Form a private view in support."
+            },
+            {
+              "key": "tentative-opposition",
+              "label": "tentative opposition",
+              "description": "Form a tentative private view in opposition."
+            },
+            {
+              "key": "tentative-support",
+              "label": "tentative support",
+              "description": "Form a tentative private view in support."
+            }
+          ],
+          "constraints": [],
+          "considerations": [
+            {
+              "stableKey": "default:no-opinion",
+              "optionKey": "no-opinion",
+              "sourceType": "context:opinion-readiness",
+              "direction": "supports",
+              "importance": "moderate",
+              "confidence": "medium",
+              "explanation": "Without enough personally meaningful reason, the actor may leave the question unresolved.",
+              "sourceRefs": []
+            },
+            {
+              "stableKey": "factor:law-exposure:law-exposure_7c88717e65aae3f3",
+              "optionKey": "opposition",
+              "sourceType": "information:law-exposure",
+              "direction": "supports",
+              "importance": "moderate",
+              "confidence": "high",
+              "explanation": "This official voted for a law that cost the person's household.",
+              "sourceRefs": [
+                {
+                  "kind": "historical-event",
+                  "eventId": "event_f673fcabb0888005"
+                }
+              ]
+            }
+          ],
+          "perceptionIds": [],
+          "randomness": "none",
+          "retention": "durable"
+        },
+        "optionEvaluations": [
+          {
+            "optionKey": "conflicted",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [],
+            "preference": "mixed",
+            "randomContribution": "none",
+            "finalRank": 3
+          },
+          {
+            "optionKey": "defer",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [],
+            "preference": "mixed",
+            "randomContribution": "none",
+            "finalRank": 3
+          },
+          {
+            "optionKey": "no-opinion",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": ["default:no-opinion"],
+            "preference": "supported",
+            "randomContribution": "none",
+            "finalRank": 2
+          },
+          {
+            "optionKey": "opposition",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [
+              "factor:law-exposure:law-exposure_7c88717e65aae3f3"
+            ],
+            "preference": "supported",
+            "randomContribution": "none",
+            "finalRank": 1
+          },
+          {
+            "optionKey": "support",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [],
+            "preference": "mixed",
+            "randomContribution": "none",
+            "finalRank": 3
+          },
+          {
+            "optionKey": "tentative-opposition",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [],
+            "preference": "mixed",
+            "randomContribution": "none",
+            "finalRank": 3
+          },
+          {
+            "optionKey": "tentative-support",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [],
+            "preference": "mixed",
+            "randomContribution": "none",
+            "finalRank": 3
+          }
+        ],
+        "outcomeKind": "selected",
+        "selectedOptionKey": "opposition",
+        "sourceSnapshots": [
+          {
+            "reference": {
+              "kind": "historical-event",
+              "eventId": "event_f673fcabb0888005"
+            },
+            "label": "Event · people.law-reflection",
+            "content": "Thought over what Authored tax test did to their household, and who was behind it."
+          }
+        ],
+        "rngVersion": "decision-rng-v1",
+        "stableKey": "official-view:law-exposure_7c88717e65aae3f3:person_f7f9326dc01442d3:trace",
+        "recordedAt": "2027-05-09",
+        "id": "decision-trace_1ad7f500e86a8cf7",
+        "sequence": 166
+      }
+    },
+    {
+      "officialId": "person_f7f9376dc0144b52",
+      "beliefId": "belief_edb950fb0fe6facd",
+      "formedAt": "2027-05-09",
+      "sequence": 169,
+      "view": {
+        "points": -5,
+        "belief": {
+          "stableKey": "official-view:law-exposure_7c88717e65aae3f3:person_f7f9376dc0144b52:belief",
+          "personId": "person_f7f9346dc0144639",
+          "propositionId": null,
+          "formedAt": "2027-05-09",
+          "subject": {
+            "kind": "official",
+            "personId": "person_f7f9376dc0144b52"
+          },
+          "position": "oppose",
+          "conviction": "moderate",
+          "salience": "low",
+          "flexibility": "open",
+          "rationale": "Autonomous proposal selected opposition; see durable decision trace.",
+          "formation": {
+            "reason": "reflection:initial",
+            "relevantEventIds": ["event_f673fcabb0888005"],
+            "sourceFactIds": [],
+            "propositionExposureIds": [],
+            "memoryIds": [],
+            "eventKnowledgeIds": [],
+            "claimIds": [],
+            "relationshipInteractionIds": [],
+            "subjectKnowledgeIds": [],
+            "decisionTraceIds": ["decision-trace_424ba8a0f648a056"],
+            "cue": null,
+            "evidenceReference": null,
+            "note": "Applied by the Stage 4 general decision engine's political-belief adapter."
+          },
+          "supersedesBeliefId": null,
+          "id": "belief_edb950fb0fe6facd",
+          "sequence": 169
+        },
+        "rows": []
+      },
+      "trace": {
+        "decisionId": "decision_2a202b46793d4dca",
+        "context": {
+          "stableKey": "official-view:law-exposure_7c88717e65aae3f3:person_f7f9376dc0144b52",
+          "decisionType": "political-belief-formation",
+          "actorPersonId": "person_f7f9346dc0144639",
+          "cutoff": {
+            "asOfDate": "2027-05-09",
+            "historySequenceExclusive": 168
+          },
+          "subject": {
+            "kind": "entity:official",
+            "key": "official:person_f7f9376dc0144b52",
+            "entityId": "person_f7f9376dc0144b52"
+          },
+          "options": [
+            {
+              "key": "conflicted",
+              "label": "conflicted",
+              "description": "Form a private view that retains materially conflicting considerations."
+            },
+            {
+              "key": "defer",
+              "label": "defer",
+              "description": "Recognize the question but defer forming a private view."
+            },
+            {
+              "key": "no-opinion",
+              "label": "no opinion",
+              "description": "Do not form a private view at this time."
+            },
+            {
+              "key": "opposition",
+              "label": "opposition",
+              "description": "Form a private view in opposition."
+            },
+            {
+              "key": "support",
+              "label": "support",
+              "description": "Form a private view in support."
+            },
+            {
+              "key": "tentative-opposition",
+              "label": "tentative opposition",
+              "description": "Form a tentative private view in opposition."
+            },
+            {
+              "key": "tentative-support",
+              "label": "tentative support",
+              "description": "Form a tentative private view in support."
+            }
+          ],
+          "constraints": [],
+          "considerations": [
+            {
+              "stableKey": "default:no-opinion",
+              "optionKey": "no-opinion",
+              "sourceType": "context:opinion-readiness",
+              "direction": "supports",
+              "importance": "moderate",
+              "confidence": "medium",
+              "explanation": "Without enough personally meaningful reason, the actor may leave the question unresolved.",
+              "sourceRefs": []
+            },
+            {
+              "stableKey": "factor:law-exposure:law-exposure_7c88717e65aae3f3",
+              "optionKey": "opposition",
+              "sourceType": "information:law-exposure",
+              "direction": "supports",
+              "importance": "moderate",
+              "confidence": "high",
+              "explanation": "This official voted for a law that cost the person's household.",
+              "sourceRefs": [
+                {
+                  "kind": "historical-event",
+                  "eventId": "event_f673fcabb0888005"
+                }
+              ]
+            }
+          ],
+          "perceptionIds": [],
+          "randomness": "none",
+          "retention": "durable"
+        },
+        "optionEvaluations": [
+          {
+            "optionKey": "conflicted",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [],
+            "preference": "mixed",
+            "randomContribution": "none",
+            "finalRank": 3
+          },
+          {
+            "optionKey": "defer",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [],
+            "preference": "mixed",
+            "randomContribution": "none",
+            "finalRank": 3
+          },
+          {
+            "optionKey": "no-opinion",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": ["default:no-opinion"],
+            "preference": "supported",
+            "randomContribution": "none",
+            "finalRank": 2
+          },
+          {
+            "optionKey": "opposition",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [
+              "factor:law-exposure:law-exposure_7c88717e65aae3f3"
+            ],
+            "preference": "supported",
+            "randomContribution": "none",
+            "finalRank": 1
+          },
+          {
+            "optionKey": "support",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [],
+            "preference": "mixed",
+            "randomContribution": "none",
+            "finalRank": 3
+          },
+          {
+            "optionKey": "tentative-opposition",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [],
+            "preference": "mixed",
+            "randomContribution": "none",
+            "finalRank": 3
+          },
+          {
+            "optionKey": "tentative-support",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [],
+            "preference": "mixed",
+            "randomContribution": "none",
+            "finalRank": 3
+          }
+        ],
+        "outcomeKind": "selected",
+        "selectedOptionKey": "opposition",
+        "sourceSnapshots": [
+          {
+            "reference": {
+              "kind": "historical-event",
+              "eventId": "event_f673fcabb0888005"
+            },
+            "label": "Event · people.law-reflection",
+            "content": "Thought over what Authored tax test did to their household, and who was behind it."
+          }
+        ],
+        "rngVersion": "decision-rng-v1",
+        "stableKey": "official-view:law-exposure_7c88717e65aae3f3:person_f7f9376dc0144b52:trace",
+        "recordedAt": "2027-05-09",
+        "id": "decision-trace_424ba8a0f648a056",
+        "sequence": 168
+      }
+    },
+    {
+      "officialId": "person_f7f9386dc0144d05",
+      "beliefId": "belief_fa8eaabef7b92544",
+      "formedAt": "2027-05-09",
+      "sequence": 171,
+      "view": {
+        "points": -5,
+        "belief": {
+          "stableKey": "official-view:law-exposure_7c88717e65aae3f3:person_f7f9386dc0144d05:belief",
+          "personId": "person_f7f9346dc0144639",
+          "propositionId": null,
+          "formedAt": "2027-05-09",
+          "subject": {
+            "kind": "official",
+            "personId": "person_f7f9386dc0144d05"
+          },
+          "position": "oppose",
+          "conviction": "moderate",
+          "salience": "low",
+          "flexibility": "open",
+          "rationale": "Autonomous proposal selected opposition; see durable decision trace.",
+          "formation": {
+            "reason": "reflection:initial",
+            "relevantEventIds": ["event_f673fcabb0888005"],
+            "sourceFactIds": [],
+            "propositionExposureIds": [],
+            "memoryIds": [],
+            "eventKnowledgeIds": [],
+            "claimIds": [],
+            "relationshipInteractionIds": [],
+            "subjectKnowledgeIds": [],
+            "decisionTraceIds": ["decision-trace_8d434b965138df1d"],
+            "cue": null,
+            "evidenceReference": null,
+            "note": "Applied by the Stage 4 general decision engine's political-belief adapter."
+          },
+          "supersedesBeliefId": null,
+          "id": "belief_fa8eaabef7b92544",
+          "sequence": 171
+        },
+        "rows": []
+      },
+      "trace": {
+        "decisionId": "decision_ef4f01163e2d1c2d",
+        "context": {
+          "stableKey": "official-view:law-exposure_7c88717e65aae3f3:person_f7f9386dc0144d05",
+          "decisionType": "political-belief-formation",
+          "actorPersonId": "person_f7f9346dc0144639",
+          "cutoff": {
+            "asOfDate": "2027-05-09",
+            "historySequenceExclusive": 170
+          },
+          "subject": {
+            "kind": "entity:official",
+            "key": "official:person_f7f9386dc0144d05",
+            "entityId": "person_f7f9386dc0144d05"
+          },
+          "options": [
+            {
+              "key": "conflicted",
+              "label": "conflicted",
+              "description": "Form a private view that retains materially conflicting considerations."
+            },
+            {
+              "key": "defer",
+              "label": "defer",
+              "description": "Recognize the question but defer forming a private view."
+            },
+            {
+              "key": "no-opinion",
+              "label": "no opinion",
+              "description": "Do not form a private view at this time."
+            },
+            {
+              "key": "opposition",
+              "label": "opposition",
+              "description": "Form a private view in opposition."
+            },
+            {
+              "key": "support",
+              "label": "support",
+              "description": "Form a private view in support."
+            },
+            {
+              "key": "tentative-opposition",
+              "label": "tentative opposition",
+              "description": "Form a tentative private view in opposition."
+            },
+            {
+              "key": "tentative-support",
+              "label": "tentative support",
+              "description": "Form a tentative private view in support."
+            }
+          ],
+          "constraints": [],
+          "considerations": [
+            {
+              "stableKey": "default:no-opinion",
+              "optionKey": "no-opinion",
+              "sourceType": "context:opinion-readiness",
+              "direction": "supports",
+              "importance": "moderate",
+              "confidence": "medium",
+              "explanation": "Without enough personally meaningful reason, the actor may leave the question unresolved.",
+              "sourceRefs": []
+            },
+            {
+              "stableKey": "factor:law-exposure:law-exposure_7c88717e65aae3f3",
+              "optionKey": "opposition",
+              "sourceType": "information:law-exposure",
+              "direction": "supports",
+              "importance": "moderate",
+              "confidence": "high",
+              "explanation": "This official voted for a law that cost the person's household.",
+              "sourceRefs": [
+                {
+                  "kind": "historical-event",
+                  "eventId": "event_f673fcabb0888005"
+                }
+              ]
+            }
+          ],
+          "perceptionIds": [],
+          "randomness": "none",
+          "retention": "durable"
+        },
+        "optionEvaluations": [
+          {
+            "optionKey": "conflicted",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [],
+            "preference": "mixed",
+            "randomContribution": "none",
+            "finalRank": 3
+          },
+          {
+            "optionKey": "defer",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [],
+            "preference": "mixed",
+            "randomContribution": "none",
+            "finalRank": 3
+          },
+          {
+            "optionKey": "no-opinion",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": ["default:no-opinion"],
+            "preference": "supported",
+            "randomContribution": "none",
+            "finalRank": 2
+          },
+          {
+            "optionKey": "opposition",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [
+              "factor:law-exposure:law-exposure_7c88717e65aae3f3"
+            ],
+            "preference": "supported",
+            "randomContribution": "none",
+            "finalRank": 1
+          },
+          {
+            "optionKey": "support",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [],
+            "preference": "mixed",
+            "randomContribution": "none",
+            "finalRank": 3
+          },
+          {
+            "optionKey": "tentative-opposition",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [],
+            "preference": "mixed",
+            "randomContribution": "none",
+            "finalRank": 3
+          },
+          {
+            "optionKey": "tentative-support",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [],
+            "preference": "mixed",
+            "randomContribution": "none",
+            "finalRank": 3
+          }
+        ],
+        "outcomeKind": "selected",
+        "selectedOptionKey": "opposition",
+        "sourceSnapshots": [
+          {
+            "reference": {
+              "kind": "historical-event",
+              "eventId": "event_f673fcabb0888005"
+            },
+            "label": "Event · people.law-reflection",
+            "content": "Thought over what Authored tax test did to their household, and who was behind it."
+          }
+        ],
+        "rngVersion": "decision-rng-v1",
+        "stableKey": "official-view:law-exposure_7c88717e65aae3f3:person_f7f9386dc0144d05:trace",
+        "recordedAt": "2027-05-09",
+        "id": "decision-trace_8d434b965138df1d",
+        "sequence": 170
+      }
+    }
+  ],
+  "quietReason": "official-view:controlled-person",
+  "saveReload": true,
+  "replay": true,
+  "initialHarnessFailure": "Zero-day advance rejected by existing positive-day guard; replay corrected to repeat same three-day input."
+}
