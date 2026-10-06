@@ -4,7 +4,10 @@ import { activeLifePathWorkers } from "./life-paths2-workers";
 import { lateTermEntryRecorded } from "./late-term-entry-events";
 import { isPersonAliveAt } from "./vitality-integrity";
 /** EXEC-WORK2: read canonical office/work/evidence, never caller authority. */
-import { EXECUTIVE_AUTHORITY_RULE_PACKS } from "./executive-authority-rule-packs";
+import {
+  executiveRulePackForOfficeKey,
+  EXECUTIVE_AUTHORITY_RULE_PACKS,
+} from "./executive-authority-rule-packs";
 import type { ExecutiveAuthorityRulePack } from "./executive-authority-rules";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
 import { electionContestResult } from "./election-contests";
@@ -72,12 +75,16 @@ export function resolveExecutiveOffice(world: World) {
         relationship.organizationId,
         cutoff,
       );
-      const pack = EXECUTIVE_AUTHORITY_RULE_PACKS.find(
-        (p) =>
-          role.occupationClassification === `service:${p.office.officeKey}` &&
-          profile?.classification === `service:${p.office.officeKey}`,
+      const prefix = "service:";
+      if (!role.occupationClassification?.startsWith(prefix)) return [];
+      const pack = executiveRulePackForOfficeKey(
+        role.occupationClassification.slice(prefix.length),
       );
-      if (!pack) return [];
+      if (
+        !pack ||
+        profile?.classification !== `service:${pack.office.officeKey}`
+      )
+        return [];
       const jurisdiction = stateJurisdictionForKey(pack.jurisdictionKey);
       if (
         !jurisdiction ||
@@ -150,15 +157,19 @@ export interface ElectedExecutiveOfficeIdentity {
 export function electedExecutiveOfficeForKey(
   officeKey: string,
 ): ElectedExecutiveOfficeIdentity | null {
-  const pack = EXECUTIVE_AUTHORITY_RULE_PACKS.find(
-    (candidate) => candidate.office.officeKey === officeKey,
-  );
+  const pack = executiveRulePackForOfficeKey(officeKey);
+  // Existing office bodies keep their saved identity when an estimated rule
+  // profile becomes available; this legacy list supplies keys, never authority.
+  const legacyBodyKey =
+    EXECUTIVE_AUTHORITY_RULE_PACKS.find(
+      (candidate) => candidate.office.officeKey === officeKey,
+    )?.packId ?? officeKey;
   if (pack)
     return {
       officeKey,
       title: pack.office.title,
       jurisdictionKey: pack.jurisdictionKey,
-      bodyKey: `executive-office:${pack.packId}`,
+      bodyKey: `executive-office:${legacyBodyKey}`,
       pack,
     };
   const identity = stateExecutiveIdentityForOfficeKey(officeKey);

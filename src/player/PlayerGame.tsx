@@ -124,7 +124,6 @@ import { CivilPersonnelPanel } from "./CivilPersonnelPanel";
 import { JudicialOfficeWork } from "./JudicialOfficeWork";
 import { LegalRecordPanel, SelfRecordTabs } from "./LegalRecord";
 import { judicialOfficeContexts } from "../simulation/judicial-office-work";
-import { ExecutiveWorkWorkspace } from "./ExecutiveWorkWorkspace";
 import { GoverningBriefing } from "./GoverningBriefing";
 import { GoverningOfficeDesk } from "./GoverningOfficeDesk";
 import { governingOfficeForPerson } from "../simulation/governing/state-governing";
@@ -4639,20 +4638,13 @@ function renderWorkspace({
                 world={session.world}
                 personId={session.personId}
                 onWorldChange={onWorldChange}
+                handlers={createCampaignElectionTransitionRegistry()}
               />
               <GoverningOfficeDesk
                 world={session.world}
                 personId={session.personId}
                 onWorldChange={onWorldChange}
               />
-              {executive ? (
-                <ExecutiveWorkWorkspace
-                  world={session.world}
-                  onWorldChange={onWorldChange}
-                  handlers={createCampaignElectionTransitionRegistry()}
-                  placement="inline"
-                />
-              ) : null}
             </>
           ),
         });

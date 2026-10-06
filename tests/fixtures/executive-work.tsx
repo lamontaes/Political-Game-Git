@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createRoot } from "react-dom/client";
-import { ExecutiveWorkWorkspace } from "../../src/player/ExecutiveWorkWorkspace";
+import { GoverningBriefing } from "../../src/player/GoverningBriefing";
 import { EXECUTIVE_GOVERNING_KERNELS } from "../../src/simulation/executive-governing-kernel-bank";
 import {
   deserializeWorld,
@@ -31,8 +31,14 @@ function Review() {
       </output>
       <output aria-label="Date">{world.currentDate}</output>
       {open && (
-        <ExecutiveWorkWorkspace
+        <GoverningBriefing
           world={world}
+          personId={
+            world.control.kind === "person"
+              ? world.control.personId
+              : world.personOrder[0]!
+          }
+          placement="overlay"
           onWorldChange={setWorld}
           onClose={() => setOpen(false)}
         />
