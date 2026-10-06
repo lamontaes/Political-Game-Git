@@ -18,5 +18,5 @@ SP05 birthday reuse is published on draft PR #2461, registered branch `codex/ses
 ## Next
 
 1. Commit the faith/choice/interface changes on this registered branch, and push to `origin/codex/session6-p5-faith-memory-mainline` (existing PR #2440 head branch).
-3. Update PR #2440 body with exact head, focused tests/typecheck, care-weight contract, and choice-writer behavior. Publish the `faithChoice?: EntityId | null` writer contract for Session 4's formative scene offer; do not claim the offer itself is implemented.
-4. Continue Session 6's independent faith and long-memory work. Do not rebase from closed #43 or resume SP05 performance edits/profiles without a new dispatch.
+2. Update PR #2440 body with exact head, focused tests/typecheck, care-weight contract, and choice-writer behavior. Publish the `faithChoice?: EntityId | null` writer contract for Session 4's formative scene offer; do not claim the offer itself is implemented.
+3. Continue Session 6's independent faith and long-memory work. Do not rebase from closed #43 or resume SP05 performance edits/profiles without a new dispatch.
