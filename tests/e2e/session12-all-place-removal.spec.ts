@@ -23,6 +23,7 @@ test("ordinary random-place entry keeps shared geography and a saved life", asyn
     route: "normal",
   });
   await page.screenshot({
+    animations: "disabled",
     path: join(info.config.metadata.artifacts, "ordinary-creator.png"),
   });
   await page.getByTestId("begin").click();
@@ -31,6 +32,7 @@ test("ordinary random-place entry keeps shared geography and a saved life", asyn
   });
   await enterLife(page);
   await page.screenshot({
+    animations: "disabled",
     path: join(info.config.metadata.artifacts, "ordinary-life.png"),
   });
   await goTo(page, "nav-calendar");
@@ -38,6 +40,7 @@ test("ordinary random-place entry keeps shared geography and a saved life", asyn
   await expect(calendar).toBeVisible();
   await expect(calendar).not.toContainText("Lexington time");
   await page.screenshot({
+    animations: "disabled",
     path: join(info.config.metadata.artifacts, "ordinary-calendar.png"),
   });
   await page.getByTestId("calendar-workspace-close").click();
@@ -65,6 +68,7 @@ test("ordinary random-place entry keeps shared geography and a saved life", asyn
     timeout: 30_000,
   });
   await page.screenshot({
+    animations: "disabled",
     path: join(info.config.metadata.artifacts, "ordinary-continued.png"),
   });
   await info.attach("random-place", {
