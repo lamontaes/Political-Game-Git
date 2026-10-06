@@ -6,7 +6,7 @@ import { facetOpenMindedEffects } from "./facet-open-minded";
 import { facetProudEffects } from "./facet-proud";
 import { facetArgumentativeEffects } from "./facet-argumentative";
 import { facetBluntEffects } from "./facet-blunt";
-import { methodRevisionEffects } from "./method-revision";
+import { voluntaryEffortEffects } from "./voluntary-effort";
 import { facetBrazenEffects } from "./facet-brazen";
 import { facetCockyEffects } from "./facet-cocky";
 import { facetComfortingEffects } from "./facet-comforting";
@@ -18,13 +18,10 @@ import { facetMeticulousEffects } from "./facet-meticulous";
 import { facetNurturingEffects } from "./facet-nurturing";
 import { facetOpportunisticEffects } from "./facet-opportunistic";
 import { facetSkepticalEffects } from "./facet-skeptical";
-import { concernForDistressEffects } from "./concern-for-distress";
 import { facetStudiousEffects } from "./facet-studious";
 import { facetSupportiveEffects } from "./facet-supportive";
-import { outwardEmotionalDisplayEffects } from "./outward-emotional-display";
 import { facetTenderHeartedEffects } from "./facet-tender-hearted";
 import { facetZealousEffects } from "./facet-zealous";
-import { uncertainOutlookEffects } from "./uncertain-outlook";
 import { selfConfidenceEffects } from "./self-confidence";
 
 /**
@@ -33,9 +30,7 @@ import { selfConfidenceEffects } from "./self-confidence";
  */
 export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
   return [
-    ...methodRevisionEffects,
     ...facetSelfConsciousEffects,
-    ...concernForDistressEffects,
     ...facetHumbleEffects,
     ...facetOpenMindedEffects,
     ...facetProudEffects,
@@ -45,11 +40,10 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetCockyEffects,
     ...facetComfortingEffects,
     ...facetDefensiveEffects,
-    ...uncertainOutlookEffects,
     ...facetCruelEffects,
-    ...outwardEmotionalDisplayEffects,
     ...facetEnviousEffects,
     ...facetGentleEffects,
+    ...voluntaryEffortEffects,
     ...facetMeticulousEffects,
     ...facetNurturingEffects,
     ...facetOpportunisticEffects,
