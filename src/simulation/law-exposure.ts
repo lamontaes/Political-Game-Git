@@ -5,6 +5,7 @@ import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import { createStableId } from "./ids";
 import { activePartnershipsAt } from "./life-queries";
 import { scheduleFutureDueItem } from "./future-transitions";
+import { placeOutcomeRecords } from "./outcome-web/place-outcome-store";
 import type {
   EntityId,
   IsoDate,
@@ -41,6 +42,8 @@ export interface LawExposureInput {
   readonly sourceRecordId: EntityId;
   /** Write a family exposure for each active partner. Default true. */
   readonly includeFamily?: boolean;
+  /** A saved place-measure landing. The measure record is the source. */
+  readonly outcome?: LawExposureRecord["outcome"];
 }
 
 /**
@@ -114,8 +117,28 @@ export function recordLawExposure(
 ): World {
   if (!world.people[input.personId])
     throw new Error("A law exposure needs a person in the world.");
-  if (!recordedLawAt(world, input.measureId, world.currentDate))
+  const exposureAt = input.outcome?.month ?? world.currentDate;
+  if (!recordedLawAt(world, input.measureId, exposureAt))
     throw new Error("Only a recorded law in force can reach a person.");
+  if (input.outcome && input.channel !== "outcome-web")
+    throw new Error(
+      "A place-outcome exposure must use the outcome-web channel.",
+    );
+  if (input.outcome && !Number.isFinite(input.outcome.value))
+    throw new Error("A place-outcome exposure needs a finite measured value.");
+  if (input.outcome && input.outcome.month.slice(8) !== "01")
+    throw new Error("A place-outcome exposure must use the month's first day.");
+  if (
+    input.outcome &&
+    !placeOutcomeRecords(world).some(
+      (record) =>
+        record.id === input.sourceRecordId &&
+        record.month === input.outcome!.month,
+    )
+  )
+    throw new Error(
+      "A place-outcome exposure must name its saved measure record.",
+    );
   if ((input.amount === null) !== (input.cadence === null))
     throw new Error("A law exposure's amount and cadence go together.");
   if (input.amount !== null && input.amount.minorUnits < 0)
@@ -133,10 +156,13 @@ export function recordLawExposure(
     direction: input.direction,
     amount: input.amount,
     cadence: input.cadence,
-    monthlyPay: monthlyPay(world, input.personId, world.currentDate),
+    monthlyPay: input.outcome
+      ? null
+      : monthlyPay(world, input.personId, world.currentDate),
     sourceRecordId: input.sourceRecordId,
+    ...(input.outcome ? { outcome: input.outcome } : {}),
   });
-  if (input.includeFamily === false) return next;
+  if (input.includeFamily === false || input.outcome) return next;
   for (const partnership of activePartnershipsAt(world, input.personId)) {
     for (const partnerId of partnership.personIds) {
       if (partnerId === input.personId || !world.people[partnerId]) continue;
@@ -157,6 +183,38 @@ export function recordLawExposure(
     }
   }
   return next;
+}
+
+/**
+ * Landing-contract adapter for a named person and a saved monthly place
+ * measure. It appends each month separately, preserving the measure's value
+ * (including zero) and exact source record. It never writes partner or
+ * anonymous aggregate rows.
+ */
+export function recordPlaceOutcomeLawExposure(
+  world: World,
+  input: {
+    readonly person: EntityId;
+    readonly lawKey: string;
+    readonly measureId: EntityId;
+    readonly cause: EntityId;
+    readonly kind: NonNullable<LawExposureRecord["outcome"]>["kind"];
+    readonly value: number;
+    readonly month: IsoDate;
+  },
+): World {
+  return recordLawExposure(world, {
+    stableKey: `outcome-web:${input.lawKey}:${input.month}:${input.person}:${input.cause}`,
+    personId: input.person,
+    measureId: input.measureId,
+    channel: "outcome-web",
+    direction: "none",
+    amount: null,
+    cadence: null,
+    sourceRecordId: input.cause,
+    includeFamily: false,
+    outcome: { kind: input.kind, value: input.value, month: input.month },
+  });
 }
 
 /**
@@ -445,6 +503,15 @@ export function assertLawExposureIntegrity(
   ids: Set<EntityId>,
 ): void {
   const rows = world.history.lawExposures ?? [];
+  const placeOutcomesById = new Map(
+    placeOutcomeRecords(world)
+      .filter((record) => record.id)
+      .map((record) => [record.id!, record]),
+  );
+  for (const id of placeOutcomesById.keys()) {
+    if (ids.has(id)) throw new Error(`Duplicate entity ID: ${id}`);
+    ids.add(id);
+  }
   if (rows.length === 0) return;
   const hasNews = rows.some((row) => row.relation === "news");
   const knowledgeById = new Map(
@@ -481,9 +548,20 @@ export function assertLawExposureIntegrity(
     if (
       !ids.has(row.sourceRecordId) &&
       !eventsById.has(row.sourceRecordId) &&
+      !(row.outcome && placeOutcomesById.has(row.sourceRecordId)) &&
       !(row.relation === "news" && knowledgeById.has(row.sourceRecordId))
     )
       throw new Error("A law exposure's source record is missing.");
+    if (row.outcome) {
+      const source = placeOutcomesById.get(row.sourceRecordId);
+      if (
+        row.channel !== "outcome-web" ||
+        row.relation !== "own" ||
+        row.outcome.month !== source?.month ||
+        !Number.isFinite(row.outcome.value)
+      )
+        throw new Error("A place-outcome exposure does not match its cause.");
+    }
     if (
       (row.relation === "family" || row.relation === "friend") !==
       (row.viaPersonId !== null)
