@@ -91,4 +91,76 @@ describe("recordMisconductAct", () => {
       expect(result.occurrence.occurrenceEventId).toBe(result.event.id);
     },
   );
+
+  it("links an existing canonical purchase flow without writing it twice", () => {
+    const world = createScenarioWorld(
+      "misconduct-act:existing-flow",
+      KENTUCKY_CONTEXT,
+      { peopleCount: 3 },
+    );
+    const [officialId, clerkId, vendorId] = world.personOrder;
+    const transaction = recordMisconductAct(world, {
+      stableKey: "misconduct-act:existing-flow:seed",
+      family: "M1",
+      actorPersonIds: [officialId!],
+      participantPersonIds: [officialId!, vendorId!],
+      flows: [
+        {
+          flow: {
+            stableKey: "misconduct-act:existing-flow:transaction",
+            source: { kind: "person", personId: officialId! },
+            recipient: { kind: "person", personId: vendorId! },
+            startsAt: world.currentDate,
+            initialStatus: "active",
+            amount: { minorUnits: 1, currency: makeCurrencyCode("USD") },
+            cadenceKind: "schedule:one-time",
+            basisKind: "custom:test-purchase",
+            basisReference: { kind: "general" },
+            restrictionKind: null,
+            jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
+          },
+          outcome: null,
+        },
+      ],
+      artifacts: [
+        {
+          stableKey: "misconduct-act:existing-flow:seed-artifact",
+          evidenceKind: "record:campaign-ledger-entry",
+          createdAt: world.currentDate,
+          recordedAt: world.currentDate,
+          access: "restricted",
+          description: "Seed transaction record.",
+        },
+      ],
+      jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
+      summary: "A seed transaction was recorded.",
+      choice: "Record one transaction.",
+    });
+    const flowId = transaction.occurrence.resourceFlowIds[0]!;
+    const flowCount = transaction.world.history.resourceFlows.length;
+    const linked = recordMisconductAct(transaction.world, {
+      stableKey: "misconduct-act:existing-flow:contract",
+      family: "M8",
+      actorPersonIds: [officialId!],
+      participantPersonIds: [officialId!, clerkId!, vendorId!],
+      relatedEntityIds: [flowId],
+      existingResourceFlowIds: [flowId],
+      flows: [],
+      artifacts: [
+        {
+          stableKey: "misconduct-act:existing-flow:contract-artifact",
+          evidenceKind: "record:contract-award",
+          createdAt: world.currentDate,
+          recordedAt: world.currentDate,
+          access: "public",
+          description: "A public award record.",
+        },
+      ],
+      jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
+      summary: "A completed contract was steered.",
+      choice: "Award the purchase to a favored business.",
+    });
+    expect(linked.occurrence.resourceFlowIds).toEqual([flowId]);
+    expect(linked.world.history.resourceFlows).toHaveLength(flowCount);
+  });
 });

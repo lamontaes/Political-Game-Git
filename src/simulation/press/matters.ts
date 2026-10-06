@@ -114,6 +114,8 @@ export interface RecordMisconductActInput {
   /** Every person who handled or received part of this act. */
   readonly participantPersonIds: readonly EntityId[];
   readonly relatedEntityIds?: readonly EntityId[];
+  /** Existing canonical transactions, such as a Session 20 program purchase. */
+  readonly existingResourceFlowIds?: readonly EntityId[];
   readonly flows: readonly MisconductFlowInput[];
   readonly artifacts: readonly MisconductArtifactInput[];
   readonly occurredAt?: IsoDate;
@@ -192,7 +194,12 @@ export function recordMisconductAct(
   });
   const event = next.history.events.at(-1)!;
   const provenance = { kind: "simulated-event" as const, eventId: event.id };
-  const resourceFlowIds: EntityId[] = [];
+  const resourceFlowIds = sortedUnique(input.existingResourceFlowIds ?? []);
+  for (const flowId of resourceFlowIds) {
+    if (!next.history.resourceFlows.some((flow) => flow.id === flowId)) {
+      throw new Error(`Missing existing misconduct resource flow: ${flowId}`);
+    }
+  }
   for (const item of input.flows) {
     next = createResourceFlow(next, {
       ...item.flow,

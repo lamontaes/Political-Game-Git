@@ -1,5 +1,6 @@
 import { queryPersonnelProtections } from "../civil-personnel";
 import type { PersonnelClassContext } from "../civil-personnel-contract";
+import { recordMisconductAct } from "../press/matters";
 import { wasPersonalAppointment } from "../patronage/appointments";
 import { evaluateDecision } from "../decisions";
 import { currentHistoricalCutoff } from "../queries";
@@ -8,6 +9,7 @@ import type {
   DecisionConsideration,
   DecisionOption,
   EntityId,
+  IsoDate,
   World,
 } from "../types";
 
@@ -25,7 +27,7 @@ export interface RecordedContractPurchase {
   readonly handledByPersonIds: readonly EntityId[];
   readonly vendorParticipantPersonIds: readonly EntityId[];
   readonly jurisdictionId: EntityId;
-  readonly occurredAt: string;
+  readonly occurredAt: IsoDate;
 }
 
 /** Subset accepted by Session 25's shared writer for an M8 act. */
@@ -35,18 +37,19 @@ export interface ContractSteeringActInput {
   readonly actorPersonIds: readonly EntityId[];
   readonly participantPersonIds: readonly EntityId[];
   readonly relatedEntityIds: readonly EntityId[];
+  readonly existingResourceFlowIds: readonly EntityId[];
   readonly flows: readonly [];
   readonly artifacts: readonly [
     {
       readonly stableKey: string;
       readonly evidenceKind: "record:contract-award";
-      readonly createdAt: string;
-      readonly recordedAt: string;
+      readonly createdAt: IsoDate;
+      readonly recordedAt: IsoDate;
       readonly access: "public";
       readonly description: string;
     },
   ];
-  readonly occurredAt: string;
+  readonly occurredAt: IsoDate;
   readonly jurisdictionId: EntityId;
   readonly summary: string;
   readonly choice: string;
@@ -96,6 +99,7 @@ export function contractSteeringActInput(input: {
     actorPersonIds: actors,
     participantPersonIds: participants,
     relatedEntityIds: [purchase.resourceFlowId, purchase.businessId],
+    existingResourceFlowIds: [purchase.resourceFlowId],
     flows: [],
     artifacts: [
       {
@@ -112,6 +116,21 @@ export function contractSteeringActInput(input: {
     summary: `A public contract for ${purchase.programKey} was steered to a favored business.`,
     choice: "Award the completed purchase to the favored business.",
   };
+}
+
+/** Call the single misconduct writer after Session 20's purchase has landed. */
+export function recordContractSteeringAct(
+  world: World,
+  input: Parameters<typeof contractSteeringActInput>[0],
+): {
+  readonly world: World;
+  readonly occurrence:
+    ReturnType<typeof recordMisconductAct>["occurrence"] | null;
+} {
+  const act = contractSteeringActInput(input);
+  if (!act) return { world, occurrence: null };
+  const recorded = recordMisconductAct(world, act);
+  return { world: recorded.world, occurrence: recorded.occurrence };
 }
 
 /** A protected appointment is eligible only when sourced law and the saved

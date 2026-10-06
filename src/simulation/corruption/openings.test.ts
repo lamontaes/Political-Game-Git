@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
 import type { PersonnelClassContext } from "../civil-personnel-contract";
+import { createScenarioWorld, makeCurrencyCode } from "../index";
+import { makeIsoDate } from "../dates";
+import { KENTUCKY_CONTEXT } from "../legislation-scenarios";
+import { recordMisconductAct } from "../press/matters";
 import { createPortabilityFixture } from "../portability-fixture";
 import type { DecisionConsideration } from "../types";
 import {
@@ -7,6 +11,7 @@ import {
   contractPurchaseCanOpenMisconduct,
   evaluateCorruptionOpening,
   protectedPatronageIsEligible,
+  recordContractSteeringAct,
   undisclosedConflictIsEligible,
 } from "./openings";
 
@@ -55,7 +60,7 @@ describe("corruption opening seams", () => {
         handledByPersonIds: ["person:clerk" as never],
         vendorParticipantPersonIds: ["person:vendor" as never],
         jurisdictionId: "jurisdiction:mn" as never,
-        occurredAt: "2025-01-01",
+        occurredAt: makeIsoDate("2025-01-01"),
       }),
     ).toBe(true);
     expect(
@@ -68,7 +73,7 @@ describe("corruption opening seams", () => {
         handledByPersonIds: [],
         vendorParticipantPersonIds: ["person:vendor" as never],
         jurisdictionId: "jurisdiction:mn" as never,
-        occurredAt: "2025-01-01",
+        occurredAt: makeIsoDate("2025-01-01"),
       }),
     ).toBe(false);
   });
@@ -157,7 +162,7 @@ describe("corruption opening seams", () => {
       handledByPersonIds: [world.personOrder[1]!],
       vendorParticipantPersonIds: [world.personOrder[2]!],
       jurisdictionId: "jurisdiction:mn" as never,
-      occurredAt: "2026-10-01",
+      occurredAt: makeIsoDate("2026-10-01"),
     };
     const decision = {
       ...evaluateCorruptionOpening(world, {
@@ -180,6 +185,7 @@ describe("corruption opening seams", () => {
       steeringOptionKey: "steer",
     });
     expect(input?.family).toBe("M8");
+    expect(input?.existingResourceFlowIds).toEqual([purchase.resourceFlowId]);
     expect(input?.relatedEntityIds).toContain(purchase.resourceFlowId);
     expect(input?.participantPersonIds).toHaveLength(3);
     expect(input?.artifacts[0]?.evidenceKind).toBe("record:contract-award");
@@ -191,5 +197,87 @@ describe("corruption opening seams", () => {
         steeringOptionKey: "steer",
       }),
     ).toBeNull();
+  });
+
+  it("records a contract occurrence against the existing purchase flow once", () => {
+    const world = createScenarioWorld(
+      "corruption:existing-contract-flow",
+      KENTUCKY_CONTEXT,
+      { peopleCount: 3 },
+    );
+    const [officialId, clerkId, vendorId] = world.personOrder;
+    const transaction = recordMisconductAct(world, {
+      stableKey: "corruption:existing-contract-flow:seed",
+      family: "M1",
+      actorPersonIds: [officialId!],
+      participantPersonIds: [officialId!, vendorId!],
+      flows: [
+        {
+          flow: {
+            stableKey: "corruption:existing-contract-flow:flow",
+            source: { kind: "person", personId: officialId! },
+            recipient: { kind: "person", personId: vendorId! },
+            startsAt: world.currentDate,
+            initialStatus: "active",
+            amount: { minorUnits: 1, currency: makeCurrencyCode("USD") },
+            cadenceKind: "schedule:one-time",
+            basisKind: "custom:test-purchase",
+            basisReference: { kind: "general" },
+            restrictionKind: null,
+            jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
+          },
+          outcome: null,
+        },
+      ],
+      artifacts: [
+        {
+          stableKey: "corruption:existing-contract-flow:seed-record",
+          evidenceKind: "record:campaign-ledger-entry",
+          createdAt: world.currentDate,
+          recordedAt: world.currentDate,
+          access: "restricted",
+          description: "Seed transaction record.",
+        },
+      ],
+      jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
+      summary: "A seed transaction was recorded.",
+      choice: "Record one transaction.",
+    });
+    const resourceFlowId = transaction.occurrence.resourceFlowIds[0]!;
+    const businessId = vendorId! as never;
+    const decision = {
+      ...evaluateCorruptionOpening(transaction.world, {
+        stableKey: "corruption:contract-decision",
+        actorPersonId: officialId!,
+        subjectKey: "local-program-contracts",
+        options: [
+          { key: "decline", label: "Decline", description: "Decline." },
+          { key: "steer", label: "Steer", description: "Steer." },
+        ],
+        considerations: [],
+      }),
+      selectedOptionKey: "steer",
+      outcomeKind: "selected" as const,
+    };
+    const flowCount = transaction.world.history.resourceFlows.length;
+    const recorded = recordContractSteeringAct(transaction.world, {
+      stableKey: "corruption:steered-contract",
+      steeringOptionKey: "steer",
+      decision,
+      purchase: {
+        status: "completed",
+        resourceFlowId,
+        programKey: "road-repair",
+        businessId,
+        awardingOfficialIds: [officialId!],
+        handledByPersonIds: [clerkId!],
+        vendorParticipantPersonIds: [vendorId!],
+        jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
+        occurredAt: transaction.world.currentDate,
+      },
+    });
+    expect(recorded.occurrence?.family).toBe("M8");
+    expect(recorded.occurrence?.resourceFlowIds).toEqual([resourceFlowId]);
+    expect(recorded.world.history.resourceFlows).toHaveLength(flowCount);
   });
 });
