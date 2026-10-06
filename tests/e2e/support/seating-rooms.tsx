@@ -111,7 +111,6 @@ function Proof() {
           stageRef={stage}
           onSelectPerson={setSelected}
           selectedPersonId={selected}
-          nameplates
         />
       </div>
     </main>
