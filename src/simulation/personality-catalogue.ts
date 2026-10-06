@@ -5,6 +5,7 @@ import type {
   TraitPack,
   TraitScale,
 } from "./trait-packs";
+import { PERSONALITY_TRAIT_EFFECTS } from "./traits/effects";
 
 /**
  * The personality catalog: the named qualities a person can be known for,
@@ -241,7 +242,7 @@ export function personalityCataloguePack(): TraitPack {
   return {
     pack: PERSONALITY_PACK,
     traits: CATALOGUE_SCALES.map(declarationFor),
-    effects: CATALOGUE_EFFECTS,
+    effects: [...CATALOGUE_EFFECTS, ...PERSONALITY_TRAIT_EFFECTS],
   };
 }
 
