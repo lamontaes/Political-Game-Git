@@ -131,6 +131,8 @@ export function playChildhoodMoment(
   input: {
     readonly personId: EntityId;
     readonly optionKey?: string;
+    /** A faith choice only when the player made faith part of this scene. */
+    readonly faithChoice?: EntityId | null;
   },
 ): World {
   const moment = projectChildhoodMoment(world, input.personId);
@@ -163,16 +165,26 @@ export function playChildhoodMoment(
         ? { decisionMakerPersonId: moment.caregiverPersonId }
         : {}),
     });
-    return moment.agency === "caregiver-led" && moment.caregiverPersonId
-      ? recordCaregiverChoice(
-          chosen,
-          input.personId,
-          moment.caregiverPersonId,
-          scene,
-          decided.optionKey,
-          formativeKey,
-        )
-      : chosen;
+    const recorded =
+      moment.agency === "caregiver-led" && moment.caregiverPersonId
+        ? recordCaregiverChoice(
+            chosen,
+            input.personId,
+            moment.caregiverPersonId,
+            scene,
+            decided.optionKey,
+            formativeKey,
+          )
+        : chosen;
+    return recordFormativePlayerTraitChoice(world, recorded, {
+      personId: input.personId,
+      situationKey: scene.situationKey,
+      optionKey: decided.optionKey,
+      choiceLabel:
+        scene.options.find((option) => option.key === decided.optionKey)
+          ?.label ?? decided.optionKey,
+      faithChoice: input.faithChoice,
+    });
   }
   if (moment.action === "choose") {
     if (!input.optionKey) {
@@ -191,6 +203,7 @@ export function playChildhoodMoment(
       choiceLabel:
         scene.options.find((option) => option.key === input.optionKey)?.label ??
         input.optionKey,
+      faithChoice: input.faithChoice,
     });
   }
   if (input.optionKey) {

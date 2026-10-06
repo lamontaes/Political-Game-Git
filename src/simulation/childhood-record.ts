@@ -1,6 +1,7 @@
 import { ageOnDate, makeIsoDate } from "./dates";
 import { eventById } from "./event-index";
 import { appendedList, recordsByStringField } from "./history-index";
+import { organizationProfileAt } from "./life-queries";
 import { createStableId } from "./ids";
 import { activeChildAuthoritiesAt } from "./life-queries";
 import type { ChildhoodRecordEntry, EntityId, World } from "./types";
@@ -76,6 +77,10 @@ type EntryInput =
   | Omit<
       Extract<ChildhoodRecordEntry, { kind: "caregiver-choice" }>,
       "id" | "sequence" | "recordedAt"
+    >
+  | Omit<
+      Extract<ChildhoodRecordEntry, { kind: "faith-choice" }>,
+      "id" | "sequence" | "recordedAt"
     >;
 
 /**
@@ -121,6 +126,31 @@ export function appendChildhoodEntry(world: World, input: EntryInput): World {
     throw new Error(
       "A caregiver choice needs an adult caregiver and its formative event.",
     );
+  }
+  if (input.kind === "faith-choice") {
+    const source = eventById(world, input.sourceRecordId)!;
+    if (
+      source.occurredAt !== effectiveAt ||
+      !source.involvedEntityIds.includes(input.personId) ||
+      !source.participants.some(
+        (participant) =>
+          participant.personId === input.personId &&
+          participant.role === "agency:actor",
+      ) ||
+      !source.tags.includes(input.situationKey) ||
+      !source.tags.includes(`choice.${input.optionKey}`)
+    )
+      throw new Error(
+        "A faith choice cites that person's dated formative choice event.",
+      );
+    if (
+      input.congregationId !== null &&
+      organizationProfileAt(world, input.congregationId, {
+        asOfDate: effectiveAt,
+        historySequenceExclusive: world.history.nextSequence,
+      })?.classification !== "membership:congregation"
+    )
+      throw new Error("A faith choice names a congregation in the World.");
   }
   const id = createStableId(
     "childhood-entry",
@@ -191,7 +221,23 @@ export function assertChildhoodRecordIntegrity(world: World): void {
             ({ authority }) =>
               authority.holder.kind === "person" &&
               authority.holder.personId === entry.caregiverPersonId,
-          )))
+          ))) ||
+      (entry.kind === "faith-choice" &&
+        (!source ||
+          source.occurredAt !== entry.effectiveAt ||
+          !source.involvedEntityIds.includes(entry.personId) ||
+          !source.participants.some(
+            (participant) =>
+              participant.personId === entry.personId &&
+              participant.role === "agency:actor",
+          ) ||
+          !source.tags.includes(entry.situationKey) ||
+          !source.tags.includes(`choice.${entry.optionKey}`) ||
+          (entry.congregationId !== null &&
+            organizationProfileAt(world, entry.congregationId, {
+              asOfDate: entry.effectiveAt,
+              historySequenceExclusive: world.history.nextSequence,
+            })?.classification !== "membership:congregation")))
     )
       throw new Error(`Invalid childhood entry: ${entry.stableKey}`);
     keys.add(entry.stableKey);

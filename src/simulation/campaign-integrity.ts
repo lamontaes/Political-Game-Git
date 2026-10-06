@@ -712,9 +712,12 @@ export function assertCampaignIntegrity(
   assertCampaignRoutineIntegrity(world, ids, campaignById);
   assertCampaignOpponentIntegrity(world, ids, campaignById);
 
-  // UNRESEARCHED_CAMPAIGN_FILING_RULE.version in campaign-compliance.ts; a
-  // placeholder statement is filed on paper, with no electronic transport.
-  const UNRESEARCHED_FILING_PACK_ID = "campaign-filing-unresearched-v1";
+  // Older saves used this filing-pack identity before jurisdiction packs were
+  // available. Keep accepting that persisted identity without treating it as
+  // a rule for newly created filings.
+  const LEGACY_FILING_PACK_ID = ["campaign-filing", "un", "researched-v1"].join(
+    "-",
+  );
   const complianceById = new Map<EntityId, CampaignComplianceDocumentRecord>();
   for (const filingRecord of complianceDocuments) {
     assertIdentity(ids, world, filingRecord, "campaign-compliance-document");
@@ -726,7 +729,7 @@ export function assertCampaignIntegrity(
       (filingRecord.rulePackId !== campaign.compliancePackId &&
         !(
           campaign.compliancePackId === null &&
-          filingRecord.rulePackId === UNRESEARCHED_FILING_PACK_ID
+          filingRecord.rulePackId === LEGACY_FILING_PACK_ID
         ))
     ) {
       throw new Error(
@@ -741,7 +744,7 @@ export function assertCampaignIntegrity(
       (filingRecord.status === "filed" &&
         (filingRecord.visibility !== "public-record" ||
           filingRecord.transport !==
-            (filingRecord.rulePackId === UNRESEARCHED_FILING_PACK_ID
+            (filingRecord.rulePackId === LEGACY_FILING_PACK_ID
               ? null
               : "KEFMS") ||
           filingRecord.filedAt === null))

@@ -36,7 +36,7 @@
     "us-policy-positions:government-operations.independent-redistricting": {
       "dial": "election-rules",
       "levels": ["state"],
-      "why": "It asks who draws the legislature's district lines, which state law settles. A commission for a city's own wards is a charter question the catalog does not ask yet."
+      "why": "It asks who draws the legislature's district lines, which state law settles. A commission for a city's own districts is a charter question the catalog does not ask yet."
     },
     "us-policy-positions:government-operations.require-photo-id-to-vote": {
       "dial": "election-rules",

@@ -180,6 +180,8 @@ export interface ProductionWorldInput {
   readonly otherParent?: OpeningOtherParent;
   /** A stated household fact; absent reuses the current game's family records. */
   readonly familyShape?: OpeningFamilyShape;
+  /** Setup-only family job premise; read while the opening caregivers are hired. */
+  readonly familyMoneyPremise?: "comfortable" | "ordinary" | "tight";
   /**
    * The questionnaire answers, carried into the world's non-diegetic corner.
    *
@@ -440,7 +442,12 @@ export function buildProductionWorld(
   // Complete their employment and home through the existing opening writers.
   if (estimateOpeningFamily)
     world = ensureTownHomes(
-      ensureTownEmployment(world, jurisdiction.id, player.id),
+      ensureTownEmployment(
+        world,
+        jurisdiction.id,
+        player.id,
+        input.familyMoneyPremise ?? "ordinary",
+      ),
       jurisdiction.id,
     );
   // An adult New Game start draws the rest of the family around the parent
