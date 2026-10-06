@@ -55,37 +55,6 @@ const CORES = {
   "i-need-some-time-alone-now-lets":
     "I need some time alone now. Let’s leave it for another time.",
   "what-were-you-going-to-say": "What were you going to say?",
-  "tell-me-what-happened-leave-the-pieces":
-    "Tell me what happened. Leave the pieces alone; I will help with those.",
-  "we-should-ask-for-help-with-the":
-    "We should ask for help with the broken pieces.",
-  "it-is-bedtime-put-the-toy-away": "It is bedtime. Put the toy away, please.",
-  "it-is-time-to-put-the-toy": "It is time to put the toy away.",
-  "would-you-try-one-bite-you-can":
-    "Would you try one bite? You can tell me if you do not like it.",
-  "you-do-not-have-to-pretend-you": "You do not have to pretend you like it.",
-  "what-would-you-like-to-know-about":
-    "What would you like to know about school?",
-  "do-you-like-your-teacher": "Do you like your teacher?",
-  "do-you-want-to-keep-your-snack": "Do you want to keep your snack?",
-  "shall-we-try-one-round-with-that": "Shall we try one round with that rule?",
-  "do-you-want-to-talk-about-the": "Do you want to talk about the story?",
-  "can-you-stay-with-me-for-a": "Can you stay with me for a minute?",
-  "do-you-want-to-stop-playing-tag": "Do you want to stop playing tag?",
-  "should-we-move-farther-apart-so-we":
-    "Should we move farther apart so we can listen?",
-  "can-i-use-the-crayon-when-you": "Can I use the crayon when you finish?",
-  "do-you-want-a-turn-on-the": "Do you want a turn on the swing?",
-  "can-you-help-blot-the-paper": "Can you help blot the paper?",
-  "can-you-show-me-the-wheel": "Can you show me the wheel?",
-  "would-you-like-to-talk-about-your": "Would you like to talk about your day?",
-  "shall-we-look-at-the-flyer-together": "Shall we look at the flyer together?",
-  "will-you-wait-here-with-me": "Will you wait here with me?",
-  "is-there-a-toy-you-want-to": "Is there a toy you want to keep?",
-  "what-would-you-like-to-know-before":
-    "What would you like to know before deciding?",
-  "do-you-want-to-ask-about-another":
-    "Do you want to ask about another shift first?",
   "what-would-you-like-to-do": "What would you like to do?",
   "yes-id-like-that-we-could-sit":
     "Yes. I'd like that. We could sit and talk for a while.",
@@ -162,22 +131,6 @@ export type LifeReplyKey = keyof typeof CORES;
 /** Follow-up questions change the subject within the actual saved situation. */
 const FOLLOWUPS: Partial<Record<LifeReplyKey, string>> = {
   "first-greeting": "How are you?",
-  "tell-me-what-happened-leave-the-pieces": "Did anyone get hurt?",
-  "it-is-bedtime-put-the-toy-away": "Do you need help putting it away?",
-  "would-you-try-one-bite-you-can": "What do you think of it?",
-  "do-you-like-your-teacher": "What do you like doing at school?",
-  "do-you-want-to-keep-your-snack": "Would you rather trade?",
-  "shall-we-try-one-round-with-that": "Do you want to go first?",
-  "can-i-use-the-crayon-when-you": "What are you drawing?",
-  "do-you-want-a-turn-on-the": "Do you want me to wait?",
-  "can-you-show-me-the-wheel": "What happened to it?",
-  "would-you-like-to-talk-about-your": "Is there anything you want to tell me?",
-  "shall-we-look-at-the-flyer-together": "Where should we look first?",
-  "will-you-wait-here-with-me": "Can we cross together?",
-  "is-there-a-toy-you-want-to": "Which one matters most to you?",
-  "what-would-you-like-to-know-before":
-    "Are you leaning toward school or work?",
-  "do-you-want-to-ask-about-another": "Would you rather keep the class?",
   "i-was-involved-in-that": "What have you heard about it?",
   "i-heard-about-that": "How did you hear about it?",
   "remembered-topic": "What happened after that?",
