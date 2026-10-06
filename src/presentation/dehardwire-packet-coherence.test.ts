@@ -25,7 +25,7 @@ import {
   BENEFICIARY_LABEL,
   PLACE_LABEL,
   PROGRAM_AMOUNT_MINOR_UNITS,
-} from "./legislative-bargaining-brief";
+} from "./legislative-bargaining-fixture";
 
 /**
  * DIRECTOR42 ROLE B — one bill, described the same way everywhere.

@@ -6,6 +6,7 @@ import {
 import { inventedPersonBirthDate } from "../simulation/invented-person-age";
 import { resolveLegislativeFilingEntry } from "./legislative-filing-entry";
 import { proseDate } from "./prose-dates";
+import { legislativeBlueprintForMeasure } from "../simulation/governing/legislative-clock";
 import {
   activeMemberSeats,
   resolveActiveMemberSeat,
@@ -1296,7 +1297,15 @@ export function fileSelectedDraftFromOffice(
  */
 export function recompileSavedBill(
   world: World,
-  bill: DocketBill,
+  bill: Pick<
+    DocketBill,
+    | "measureId"
+    | "componentKeys"
+    | "scenarioKey"
+    | "sponsorPersonId"
+    | "jurisdictionId"
+    | "designation"
+  >,
   playerPersonId?: EntityId,
 ): CompiledBillDraft | { readonly unavailable: string } {
   const lineage = draftLineageForMeasure(world, bill.measureId);
@@ -1377,6 +1386,29 @@ export function recompileSavedBill(
   } catch (caught) {
     return { unavailable: (caught as Error).message };
   }
+}
+
+/** Re-read a measure written by any sponsor from its saved draft lineage. */
+export function recompileRecordedMeasureDraft(
+  world: World,
+  measureId: EntityId,
+): CompiledBillDraft | { readonly unavailable: string } {
+  const measure = (world.history.legislativeMeasures ?? []).find(
+    (row) => row.id === measureId,
+  );
+  if (!measure) return { unavailable: "That measure is no longer on file." };
+  const blueprint = legislativeBlueprintForMeasure(world, measure);
+  const componentKeys = (world.history.legislativeDraftLineages ?? [])
+    .filter((row) => row.measureId === measureId && row.componentKey)
+    .map((row) => row.componentKey!);
+  return recompileSavedBill(world, {
+    measureId,
+    componentKeys,
+    scenarioKey: blueprint.scenarioKey,
+    sponsorPersonId: measure.sponsorPersonId,
+    jurisdictionId: measure.jurisdictionId,
+    designation: measure.designation,
+  });
 }
 
 /** An adult old enough to be seated. No other claim is made about them. */
