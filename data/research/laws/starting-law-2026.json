@@ -18261,7 +18261,7 @@
           "preempts": true,
           "cite": "Ala. Code §§ 16-6J-1 to 16-6J-9",
           "source": "https://governor.alabama.gov/newsroom/2026/07/governor-ivey-announces-funding-for-choose-act-education-savings-accounts-for-2026-2027-school-year/",
-          "note": "For 2026–27, participating-school accounts provide $7,000 per student; home education provides $2,000 per student with a $4,000 family cap. Eligibility restrictions apply. Other choice programs also exist.",
+          "note": "For 2026–27, the participating-school account maximum is $7,000 per student, limited to qualifying education expenses. Home education provides up to $2,000 per student with a $4,000 family cap. Eligibility restrictions apply. Other choice programs also exist.",
           "lawTerms": [
             {
               "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
@@ -18476,8 +18476,8 @@
           "answer": "yes",
           "preempts": true,
           "cite": "N.C. Gen. Stat. §§ 115C-562.1 to 115C-562.8",
-          "source": "https://www.edchoice.org/school-choice/programs/north-carolina-opportunity-scholarships/",
-          "note": "Universal-eligibility Opportunity Scholarship vouchers (about 103,400 students) and a special-needs education savings account."
+          "source": "https://k12prod.ncseaa.edu/media/boadvxj3/award-tiers.pdf",
+          "note": "For 2026–27, Opportunity Scholarship award caps are $7,942, $7,148, $4,766, or $3,574 by household income tier, paid half each semester and limited to tuition and fees. Tier thresholds vary by household size; tier 4 covers income above tier 3 or unreported income. The catalog lacks annual-USD tier thresholds, so no single award term is recorded. A special-needs ESA also exists."
         },
         "US-ND": {
           "answer": "no",
