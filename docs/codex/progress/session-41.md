@@ -26,7 +26,7 @@ LW-28 library and parks saved service effects. Draft PR #2460 is open from `code
 - Session20 is the sole owner of generated-manifest admission. Main's manifest is empty, so `npm run check:law-consequence-modules` reports manifest drift and default service-effect tests fail capability validation until Session20 admits this module. A proof-only generated manifest makes the focused suites pass; it remains uncommitted. Do not edit `public-program.ts` or the shared registry.
 - The latest main typecheck also has the unrelated `press-premise.test.ts` errors noted above; test-file typecheck cannot be reported as passing until the mainline fixture owner repairs them.
 - The one-module generated manifest is not Prettier-clean: the generator emits multiline arrays that Prettier collapses. Session20 owns the generator and should make generated output Prettier-clean without weakening its drift check.
-- Publish the rebased head, give Session20 that exact head for non-empty manifest admission, then verify Node/profile/source-replay/runtime registration and complete random-place new-game/save-continue proof.
+- Session20 has the rebased #2460 head and admission request via board comment 6015653491. Once its generated-manifest follow-up lands, verify Node/profile/source-replay/runtime registration and complete random-place new-game/save-continue proof.
 - Add park proximity, opening-state, and worker effects only when their owners provide the required recorded fields and data. Actual area exposure follows operational outturns by recorded residence; visit notices remain tied to actual visitor receipts.
 - Random-place new-game/save-continue proof remains pending actual module admission into the generated manifest and runtime dispatch.
 - Candidate is published on PR #2460; no merge or build.
@@ -35,4 +35,4 @@ LW-28 library and parks saved service effects. Draft PR #2460 is open from `code
 
 `git status --short --branch`
 
-Then publish this rebased candidate, coordinate generated-manifest admission with Session20, and complete runtime and random-place new-game/save-continue proof after admission.
+Then check Session20's generated-manifest follow-up, rerun the current-main typecheck after the unrelated baseline fixture repair, and complete runtime and random-place new-game/save-continue proof after admission.
