@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 
 import { makeIsoDate } from "./dates";
-import { memberVoteConsiderations } from "./legislative-member-decisions";
+import {
+  livedOutcomeVoteConsiderations,
+  memberVoteConsiderations,
+} from "./legislative-member-decisions";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import { createPortabilityFixture } from "./portability-fixture";
 import type { EntityId, PrivateBeliefRecord, World } from "./types";
@@ -246,6 +249,41 @@ describe("member votes read what constituents made of an existing law", () => {
       { optionKey: "vote-nay", importance: "slight" },
     ]);
     expect(lobby(withLaw("no", [], 0))).toEqual([]);
+  });
+
+  it("shares the same saved-outcome reading with constitutional policy votes", () => {
+    const world = withLaw("no", [-20, -15], 12);
+    const rows = livedOutcomeVoteConsiderations({
+      world,
+      officialId: memberId,
+      lawMeasureId: lawId,
+      currentAnswer: "yes",
+      proposedAnswer: "no",
+      groupAnswer: "no",
+      subjectQuestion: "Should the state fund rural transit?",
+    });
+    expect(rows).toMatchObject([
+      {
+        stableKey: `member:organized-interest:${lawId}`,
+        optionKey: "vote-yea",
+        importance: "moderate",
+      },
+      {
+        stableKey: `member:constituents:${lawId}`,
+        optionKey: "vote-yea",
+        importance: "moderate",
+      },
+    ]);
+    expect(
+      livedOutcomeVoteConsiderations({
+        world,
+        officialId: memberId,
+        lawMeasureId: lawId,
+        currentAnswer: "yes",
+        proposedAnswer: "no",
+        groupAnswer: null,
+      }).map((row) => row.sourceType),
+    ).toEqual(["context:constituents-view"]);
   });
 });
 
