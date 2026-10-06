@@ -1,0 +1,45 @@
+{
+  "version": "campaign-unit-prices-estimated-v1",
+  "currency": "USD",
+  "prices": {
+    "yard-sign": {
+      "label": "Yard sign",
+      "unit": "sign",
+      "priceMinorUnits": 1500,
+      "estimated": true,
+      "derivation": "Estimated at roughly twenty U.S. letter stamps using the project's $0.73 2024 USPS rate; no unit price found in the single campaign-material search."
+    },
+    "palm-card": {
+      "label": "Palm card",
+      "unit": "card",
+      "priceMinorUnits": 15,
+      "estimated": true,
+      "derivation": "Estimated at about one fifth of a U.S. letter stamp using the project's $0.73 2024 USPS rate; no unit price found in the single campaign-material search."
+    },
+    "postage": {
+      "label": "Postage",
+      "unit": "piece",
+      "priceMinorUnits": 73,
+      "estimated": true,
+      "derivation": "The project's campaign calibration records $0.73 per USPS letter stamp in 2024; the current local mailing rate is not compiled."
+    },
+    "print-ad": {
+      "label": "Local print ad",
+      "unit": "placement",
+      "priceMinorUnits": 36500,
+      "estimated": true,
+      "derivation": "Estimated at the cost of 500 U.S. letter stamps using the project's $0.73 2024 USPS rate; no local rate card was found in the single campaign-material search."
+    },
+    "filing-fee": {
+      "label": "Candidate filing fee",
+      "unit": "filing",
+      "priceMinorUnits": 7500,
+      "estimated": true,
+      "derivation": "B01 reports a $75 Provo, Utah city-council filing-fee example; used as the unread-place fallback until candidate-filing-terms.json supplies local law."
+    }
+  },
+  "householdCount": {
+    "source": "ACS 2020-2024 place population for places present in place-population-acs-2024.json, converted to households at 2.5 people per household; otherwise the current world’s recorded households at the campaign jurisdiction.",
+    "estimatedFallback": "Recorded household count from the game world; no households are manufactured."
+  }
+}
