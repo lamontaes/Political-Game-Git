@@ -14,7 +14,7 @@
   width: 100%;
   padding: 0.55rem 0.7rem;
   border: 1px solid var(--run-a-line);
-  border-radius: 0.3rem;
+  border-radius: 2px;
   background: var(--kit12-glass);
   color: var(--run-a-ink);
   font: inherit;
@@ -43,7 +43,7 @@
   margin-block: 0.75rem;
   padding: 0.7rem;
   border: 1px solid var(--run-a-line);
-  border-radius: 0.3rem;
+  border-radius: 2px;
 }
 
 .transit-workspace .transit-outcome h4 {

@@ -1274,7 +1274,30 @@ for (const sex of ["feminine", "masculine"] as const) {
   };
 }
 
+const slotKindsByPose: NonNullable<PeoplePackManifest["slotKindsByPose"]> =
+  Object.fromEntries(
+    [
+      ...new Set([
+        "standing",
+        "seated",
+        ...Object.values(presentations).flatMap((p) =>
+          Object.keys(p.poses ?? {}),
+        ),
+      ]),
+    ].map((pose) => [
+      pose,
+      [
+        pose === "seated" || pose.startsWith("seated-")
+          ? "sit"
+          : pose === "podium"
+            ? "podium"
+            : "stand",
+      ],
+    ]),
+  );
+
 const manifest: PeoplePackManifest = {
+  slotKindsByPose,
   version: PEOPLE_PACK_VERSION,
   canvas: { width: 512, height: 768 + HEADROOM / 2 },
   presentations: presentations as PeoplePackManifest["presentations"],
