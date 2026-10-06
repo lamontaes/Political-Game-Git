@@ -1,0 +1,30 @@
+{
+  "head": "ec0c3bb47ad29bb7748901440b8e397c3cf33f55",
+  "sourceDigest": "8b24a40a174edea18ad68c5c580c7cf0e115d8f0f4aeeb7f52e1b90167236101",
+  "runId": "session23-p4-main-e591-optional-budget",
+  "exitCode": 1,
+  "routeReached": "Creator Difficulty; no world creation or governing calls",
+  "failure": "Shared creator helper expected whoareyou without taking the new Difficulty navigation. Screenshot shows Difficulty and Keep defaults.",
+  "repair": "Keep defaults through creator-skip-difficulty before the existing whoareyou assertion; no timeout or governing assertion changes.",
+  "tracePath": "test-results/runs/session23-p4-main-e591-optional-budget/results/session23-executive-budget-dedd0--a-different-enacted-amount-chromium/trace.zip",
+  "traceSha256": "02294d9a992bf43c30335563b8ccefd11dbfb6e3d594568bd20ca2eb458fbd23",
+  "actualActions": [
+    {
+      "callId": "call@112",
+      "method": "click",
+      "selector": "internal:testid=[data-testid=\"creator-continue-place\"s]",
+      "startTime": 51847.56,
+      "endTime": 51944.03,
+      "error": null
+    },
+    {
+      "callId": "call@114",
+      "method": "expect",
+      "selector": "internal:testid=[data-testid=\"creator-stage-whoareyou\"s]",
+      "startTime": 51948.437,
+      "endTime": 56953.201,
+      "error": "Expect failed"
+    }
+  ],
+  "logSha256": "6bbc14c942764b8b05e836a8682df6b4e9caca00ab93ec985bf3c4556fa499f7"
+}

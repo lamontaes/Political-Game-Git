@@ -1578,7 +1578,7 @@ export function decideLawMoneyReaction(
  * collected last year at today's economy, and a county or city expects its
  * state aid at the state's current rate. It pays interest and the pension
  * share its law requires, sets aside the reserve deposit its law requires,
- * and plans programs to spend the rest (PLACEHOLDER rule). Under a
+ * and allocates the rest in the prior adopted program proportions. Under a
  * balanced-budget law programs shrink when that is less than last year;
  * without one they are not cut at adoption, and the gap shows up as a
  * deficit. The balance above the reserve target is carried in and spent

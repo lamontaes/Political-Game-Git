@@ -800,7 +800,7 @@ function validateStringArray(
     if (!isNonEmptyString(entry)) {
       errors.push(`${entryPath} must be a non-empty string.`);
     } else if (options.sourceIds && !options.sourceIds.has(entry)) {
-      errors.push(`${entryPath} references unknown source ID '${entry}'.`);
+      errors.push(`${entryPath} references unrecognized source ID '${entry}'.`);
     }
   });
 }
@@ -820,7 +820,7 @@ function validateMeasurement(
   const hasUnknownDiscriminator = Object.hasOwn(value, "state");
   if (hasKnownDiscriminator && hasUnknownDiscriminator) {
     errors.push(
-      `${path} cannot contain both known 'value' and unknown 'state' discriminators.`,
+      `${path} cannot contain both resolved 'value' and unresolved 'state' discriminators.`,
     );
     return;
   }
@@ -872,7 +872,7 @@ function validateMeasurement(
     ]) {
       if (Object.hasOwn(value, forbiddenField)) {
         errors.push(
-          `${path} unknown measurement cannot contain '${forbiddenField}'.`,
+          `${path} unresolved measurement cannot contain '${forbiddenField}'.`,
         );
       }
     }
@@ -881,7 +881,7 @@ function validateMeasurement(
   }
 
   errors.push(
-    `${path} must contain either a known 'value' or an explicit unknown 'state'.`,
+    `${path} must contain either a resolved 'value' or an explicit unresolved 'state'.`,
   );
 }
 
@@ -1058,7 +1058,7 @@ function validateCameras(
         errors.push(`${path}.target_zone_id must be a non-empty string.`);
       } else if (!zoneIds.has(entry.target_zone_id)) {
         errors.push(
-          `${path}.target_zone_id references unknown zone ID '${entry.target_zone_id}'.`,
+          `${path}.target_zone_id references unrecognized zone ID '${entry.target_zone_id}'.`,
         );
       }
     }
@@ -1711,7 +1711,7 @@ function validateCalibration(
     errors.push(`${path}.evidence_identifier must be a non-empty source ID.`);
   } else if (!sourceIds.has(value.evidence_identifier)) {
     errors.push(
-      `${path}.evidence_identifier references unknown source ID '${value.evidence_identifier}'.`,
+      `${path}.evidence_identifier references unrecognized source ID '${value.evidence_identifier}'.`,
     );
   }
   validateOptionalNonEmptyString(
@@ -2005,7 +2005,7 @@ export function parseEnvironmentSceneSpec(json: string): EnvironmentSceneSpec {
     parsed = JSON.parse(json) as unknown;
   } catch (error) {
     const message =
-      error instanceof Error ? error.message : "unknown parse error";
+      error instanceof Error ? error.message : "unavailable parse-error detail";
     throw new Error(`Malformed JSON: ${message}`);
   }
 

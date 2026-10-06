@@ -1257,7 +1257,7 @@ const RICHMOND: MunicipalPackInput = {
   meetingPlaces: [],
   meetingSeries: [],
   unresolved: [
-    "An exact numeric reading count and standing committee referral remain UNKNOWN. Charter §§ 4.09–4.11 establish ordinary and emergency procedure; consumer steps must enforce the stated hearing, notice and separate-meeting conditions.",
+    "Charter §§ 4.09–4.11 establish ordinary and emergency procedure but do not state a numeric reading count or standing committee referral. Consumer steps must enforce the recorded hearing, notice and separate-meeting conditions without adding either rule.",
     "The council's own meeting cadence and venue are not in the enacted text retrieved for this record.",
     "Whether council elections here are partisan or nonpartisan was not established by any instrument read; the charter states only that council candidates are nominated by petition and that no primary is held.",
   ],

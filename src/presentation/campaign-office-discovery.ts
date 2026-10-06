@@ -92,7 +92,7 @@ export function projectCampaignOffices(world: World, personId: EntityId) {
         electionDate,
         timing: electionDate
           ? `The next election is ${proseDate(electionDate)}.`
-          : "The next election date is not known.",
+          : "This office record has no scheduled election date.",
         connections: [
           ...(own ? ["Your recorded campaign is for this office."] : []),
           ...[...new Set(contacts)].map(

@@ -1,4 +1,5 @@
 import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
+import { withMinorityPartyProcedureRows } from "./minority-party-procedure";
 import statehood from "../../data/research/congress/statehood-seats.json" with { type: "json" };
 import {
   fractionOf,
@@ -353,7 +354,7 @@ function chamber(input: {
   };
 }
 
-export const US_CONGRESS_RULE_PACK: LegislativeRulePack = {
+const RAW_US_CONGRESS_RULE_PACK: LegislativeRulePack = {
   packId: US_CONGRESS_PACK_ID,
   jurisdictionKey: US_CONGRESS_JURISDICTION_KEY,
   displayName: "Congress of the United States",
@@ -529,9 +530,25 @@ export const US_CONGRESS_RULE_PACK: LegislativeRulePack = {
   ],
 };
 
+export const US_CONGRESS_RULE_PACK = withMinorityPartyProcedureRows(
+  RAW_US_CONGRESS_RULE_PACK,
+);
+
 /** The Congress pack, when that is the id asked for. */
 export function federalRulePackById(
   packId: string,
 ): LegislativeRulePack | null {
   return packId === US_CONGRESS_PACK_ID ? US_CONGRESS_RULE_PACK : null;
+}
+
+/**
+ * Whether a rule-pack id names the federal Congress pack.
+ *
+ * Consumers ask the registry and read the pack's jurisdiction instead of
+ * copying the current pack id into policy branches. That keeps Congress an
+ * institutional rule pack: replacing its version does not require every
+ * consumer to learn another magic id.
+ */
+export function isCongressRulePack(packId: string): boolean {
+  return federalRulePackById(packId)?.jurisdictionKey === "US";
 }

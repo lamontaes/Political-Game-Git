@@ -36,6 +36,10 @@ import { CampaignHoursPanel } from "./CampaignHoursPanel";
 import { projectCampaignWeekPanel } from "../presentation/campaign-life-surface";
 import { projectCampaignWeekActions } from "../simulation";
 import {
+  petitionEventsForCampaign,
+  petitionSignaturesForCampaign,
+} from "../simulation/candidate-petitions";
+import {
   campaignPlanningLayout,
   isPrimaryCampaignPlanningSlot,
 } from "./campaign-planning-layout";
@@ -160,6 +164,12 @@ export function CampaignWorkspace({
     () => projectCampaignWeekActions(world, personId),
     [world, personId],
   );
+  const petitionCount = useMemo(() => {
+    if (!view.campaignId) return null;
+    const petitionEvents = petitionEventsForCampaign(world, view.campaignId);
+    if (petitionEvents.length === 0) return null;
+    return petitionSignaturesForCampaign(world, view.campaignId).length;
+  }, [world, view.campaignId]);
   const [problem, setProblem] = useState<string | null>(null);
   const [helperNotice, setHelperNotice] = useState<string | null>(null);
   const [selectedGeography, setSelectedGeography] = useState<string | null>(
@@ -580,6 +590,11 @@ export function CampaignWorkspace({
           <p data-testid="campaign-treasury">
             The committee has {money(view.treasury)}.
           </p>
+          {petitionCount !== null ? (
+            <p data-testid="campaign-petition-signatures">
+              Signatures you have: {petitionCount}.
+            </p>
+          ) : null}
           {view.phase === "active" ? (
             <CampaignOwnMoney
               world={world}

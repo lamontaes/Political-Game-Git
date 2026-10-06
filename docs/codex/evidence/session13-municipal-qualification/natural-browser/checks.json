@@ -1,0 +1,85 @@
+{
+  "phase": "P1",
+  "piece": "municipal qualification and filing",
+  "runId": "session13-municipal-natural-saved-4601bb033",
+  "runHandle": 78463,
+  "terminalExitCode": 0,
+  "testsPassed": 2,
+  "sourceHead": "4601bb033ac5942e2cc77de6ff711ff5674bc4f6",
+  "sourceIdentity": "provenance.json",
+  "flow": [
+    "ordinary creator age 34",
+    "existing intro controls",
+    "Campaigns",
+    "actual office choice",
+    "canonical filing",
+    "explicit player Save",
+    "reload",
+    "player Continue",
+    "same recorded campaign band"
+  ],
+  "doesNotEstablish": [
+    "age-18 council journey",
+    "played clerk scene",
+    "election night",
+    "win/lose",
+    "ordinance or later election"
+  ],
+  "retainedFailureRuns": [
+    "session13-municipal-natural-4601bb033",
+    "session13-municipal-natural-4601bb033-retry"
+  ],
+  "cloudOverrideAuthority": "CTO6009033958",
+  "screenshots": [
+    {
+      "place": "east-providence",
+      "file": "east-providence/01-generated-life.png",
+      "sha256": "a869eb2d61495ab0b4c99f625d8e50b676a553125f29d341ddc868ab3610f152"
+    },
+    {
+      "place": "east-providence",
+      "file": "east-providence/02-office-offer.png",
+      "sha256": "ec740a2525ffa81e7ea1fb7ea2fd2f0410c512bdfecff21bd986b779428e2102"
+    },
+    {
+      "place": "east-providence",
+      "file": "east-providence/03-selected-office.png",
+      "sha256": "4c09e25ae07009cdc66e74c94b099f313a728fd6df0ab06845731ee27e29952b"
+    },
+    {
+      "place": "east-providence",
+      "file": "east-providence/04-filed.png",
+      "sha256": "fdb4ea7beec334b76ae26b811bc206fbcf409d8a769d07634c167e1fe8279cae"
+    },
+    {
+      "place": "east-providence",
+      "file": "east-providence/05-reloaded.png",
+      "sha256": "01759310c48294474c26e4ba04e74ec7e4798785efc48db2c934832752a21484"
+    },
+    {
+      "place": "rocky-mount",
+      "file": "rocky-mount/01-generated-life.png",
+      "sha256": "be0914702e47c65e2acf3eaee5ac756c9378a0f4bb5485f205a23c5d2ed32544"
+    },
+    {
+      "place": "rocky-mount",
+      "file": "rocky-mount/02-office-offer.png",
+      "sha256": "d36328b263f00562242bc5094af4c018fff862dbedeec7c653a41e0326d4a8d5"
+    },
+    {
+      "place": "rocky-mount",
+      "file": "rocky-mount/03-selected-office.png",
+      "sha256": "395a651ac1acc9222b4129323ce547de696599854f59a518bde17465c6998337"
+    },
+    {
+      "place": "rocky-mount",
+      "file": "rocky-mount/04-filed.png",
+      "sha256": "8080df41c0e4d046e1159acaed3b982276692ecfd88b5a1bb12f198b14bc6b34"
+    },
+    {
+      "place": "rocky-mount",
+      "file": "rocky-mount/05-reloaded.png",
+      "sha256": "a9b8b5244b6504cc952d9c86da21da8bf834f5fb3c6c5e24f9c3365c3de8f236"
+    }
+  ]
+}

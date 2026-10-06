@@ -56,7 +56,7 @@ export function validateFemaCorpus(
       severity: "error",
       code: "fema/coverage-overclaim",
       message:
-        "This corpus holds a bounded slice of the declaration universe and must say so. #66's failure to label its 15 records as a sample is what let a fabricated set read as the record of what FEMA has declared.",
+        "This corpus holds a bounded subset of the declaration universe and must say so. #66's failure to label its 15 records as a bounded subset is what let a fabricated set read as the record of what FEMA has declared.",
     });
   }
 

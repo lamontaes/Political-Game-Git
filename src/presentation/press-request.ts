@@ -1,3 +1,5 @@
+import { composePressLine } from "./press-english";
+import type { GroundedEnglishPacket } from "./grounded-english";
 import { activeWorkRelationshipsAt } from "../simulation/life-queries";
 import type {
   PressInterviewChannel,
@@ -159,26 +161,33 @@ function articleFor(word: string): string {
   return /^[aeiou]/i.test(word) ? "an" : "a";
 }
 
-/** Reporter-owned question grounded in the selected public development. */
+/** Reporter-owned question uses only the reporter's recorded knowledge. */
 export function composeReporterQuestion(input: {
   readonly subjectSummary: string;
   readonly terms: PressRecordTerms;
+  readonly grounding: GroundedEnglishPacket | null;
 }):
   | { readonly ok: true; readonly statement: string }
-  | {
-      readonly ok: false;
-      readonly reason: string;
-    } {
+  | { readonly ok: false; readonly reason: string } {
+  if (!input.grounding) return { ok: false, reason: "Choose a reporter." };
   const subject = input.subjectSummary.trim();
-  if (!subject)
-    return {
-      ok: false,
-      reason: "No public development is recorded for a reporter question.",
-    };
-  return {
-    ok: true,
-    statement: `${subject} Asked ${TERMS_WORDS[input.terms]}: what is established about this, and what remains open?`,
-  };
+  const knowsSubject = Object.entries(input.grounding.facts).some(
+    ([key, fact]) =>
+      fact?.text.trim() === subject &&
+      input.grounding!.knowledge.some(
+        (known) =>
+          known.personId === input.grounding!.speaker?.personId &&
+          known.factKey === key,
+      ),
+  );
+  const line = composePressLine(
+    input.grounding,
+    knowsSubject ? "reporter-known-topic" : "reporter-unknown-topic",
+    knowsSubject ? { subject } : {},
+  );
+  return line
+    ? { ok: true, statement: line.text }
+    : { ok: false, reason: "Choose a public development." };
 }
 
 export function composePressAnswer(input: {
@@ -187,57 +196,39 @@ export function composePressAnswer(input: {
   readonly primaryQuestion: string;
   readonly followUpQuestion: string;
   readonly correctingEvidence?: readonly string[];
+  readonly grounding: GroundedEnglishPacket | null;
 }):
   | { readonly ok: true; readonly statement: string }
-  | {
-      readonly ok: false;
-      readonly reason: string;
-    } {
-  const followUp =
+  | { readonly ok: false; readonly reason: string } {
+  const question =
     input.followUpQuestion.trim() || input.primaryQuestion.trim();
-  if (!followUp)
-    return {
-      ok: false,
-      reason: "No reporter question is recorded to answer.",
-    };
+  if (!question || !input.grounding)
+    return { ok: false, reason: "Choose a question from the interview." };
   const facts = uniqueRecordedStatements(input.knownFacts);
-  const linked = uniqueRecordedStatements(
-    input.correctingEvidence ?? [],
-  ).filter((entry) => facts.includes(entry));
-  if (input.intent === "add-context") {
-    const fact = facts[0];
-    if (!fact)
-      return {
-        ok: true,
-        statement: `Asked “${followUp}”, the source will not add claims that are not already recorded.`,
-      };
-    return {
-      ok: true,
-      statement: `${fact} That recorded fact does not establish an outcome that has not happened.`,
-    };
-  }
-  if (input.intent === "challenge-premise") {
-    const correction = linked[0];
-    if (!correction)
-      return {
-        ok: true,
-        statement: `The source does not accept that “${followUp}” is established by the record now in hand.`,
-      };
-    return {
-      ok: true,
-      statement: `The source challenges the premise of “${followUp}”, citing the recorded fact: ${correction}`,
-    };
-  }
-  const fact = facts[0];
-  if (!fact)
-    return {
-      ok: true,
-      statement: `Asked “${followUp}”, the source answers without treating that question as an established fact.`,
-    };
-  return {
-    ok: true,
-    statement: `Asked “${followUp}”, the source answers from the record: ${fact}`,
-  };
+  const linked = uniqueRecordedStatements(input.correctingEvidence).filter(
+    (entry) => facts.includes(entry),
+  );
+  const fact = input.intent === "challenge-premise" ? linked[0] : facts[0];
+  const key =
+    input.intent === "challenge-premise"
+      ? fact
+        ? "challenge-premise"
+        : "challenge-unknown"
+      : input.intent === "add-context"
+        ? fact
+          ? "add-context"
+          : "context-unknown"
+        : fact
+          ? "answer-directly"
+          : "answer-unknown";
+  // The selected question must also belong to this actual interview packet.
+  const line = composePressLine(input.grounding, key, {
+    question,
+    ...(fact ? { fact } : {}),
+  });
+  return line
+    ? { ok: true, statement: line.text }
+    : { ok: false, reason: "Read the preparation before answering." };
 }
 
 function uniqueRecordedStatements(

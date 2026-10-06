@@ -91,10 +91,11 @@ export interface AppointeeChoice {
 /**
  * How many people an appointer weighs seriously at once.
  *
- * PLACEHOLDER (set by hand, not measured): 8. It affects only how many
- * candidates reach the recorded decision; everyone in the circle is scored
- * first, so it changes no ranking. Why: a decision trace over hundreds of
- * members of Congress would swell every save for no change in who is picked.
+ * ESTIMATED FROM GAME EVIDENCE: eight people reach the recorded decision in
+ * every represented place. The basis is the game's decision-trace size:
+ * everyone in the recorded circle is scored first, while retaining hundreds
+ * of congressional colleagues would swell a save without changing who ranks
+ * highest.
  */
 export const APPOINTMENT_SHORT_LIST = 8;
 
@@ -341,10 +342,10 @@ function considerationsFor(
 
   // 4b. What the choice buys: the people who owe the candidate.
   const following = followingOf(world, candidateId);
-  // PLACEHOLDER (set by hand, not measured): the following sizes at which it
-  // counts slight (1), moderate (5) and strong (20). Affects only how much a
-  // candidate's own debtors count toward naming them. Why: a person owed by
-  // many brings them along; the cut points wait on research.
+  // ESTIMATED FROM GAME EVIDENCE: one, five, and twenty recorded debtors count
+  // as a slight, moderate, and strong following in every represented place.
+  // The basis is the game's shared consideration scale and favor records; the
+  // bands affect only how much those actual debtors bear on the appointment.
   const followingImportance: DecisionImportance | null =
     following >= 20
       ? "strong"

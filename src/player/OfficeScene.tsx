@@ -356,8 +356,7 @@ export function OfficeScene({
       ref={sceneViewportRef}
       className="office-scene"
       aria-label={
-        sceneLabel ??
-        `A quiet legislative office in ${fixture.locationDisplayName}`
+        sceneLabel ?? `Legislative office in ${fixture.locationDisplayName}`
       }
       data-testid="political-office-scene"
     >

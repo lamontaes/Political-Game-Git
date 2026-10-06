@@ -246,6 +246,13 @@ describe("the federal treasury", () => {
     const opened = openFederalTreasury(month);
     const result = settleFederalTreasuryMonth(world, opened, month);
     const saved = result.months.at(-1)!;
+    expect(
+      FEDERAL_LAW_EFFECTS.some(
+        (row) =>
+          row.questionKey === INCREASE_FOREIGN_AID_QUESTION ||
+          row.questionKey === DEBT_LIMIT_CUTS_QUESTION,
+      ),
+    ).toBe(false);
     const intl = FEDERAL_OUTLAYS.indexOf("internationalAffairs");
     // Eleven eligible lines at $100/month each: $10/month removed from each.
     expect(saved.outlays[intl]).toBe(annualAid / 12 - 10);

@@ -10,7 +10,7 @@
   },
   "federalHourly": 7.25,
   "rule": "The higher of the federal, state and local minimum applies to covered work. Where a state rate is below $7.25 (GA, WY) or a state has none, the federal $7.25 applies to covered employers.",
-  "scope": "Basic state rates only. Tipped minimums and city or county minimums are NOT here and stay UNKNOWN. American Samoa uses industry-specific rates: UNKNOWN.",
+  "scope": "Basic state rates only. Tipped minimums and city or county minimums are outside this table. American Samoa's industry-specific rates are also outside this table; consumers must not substitute a statewide rate.",
   "places": {
     "US-AL": {
       "basicHourly": 7.25,

@@ -34,7 +34,7 @@ export const OFFICIAL_FUNERAL_EVENT_TYPES = {
 } as const;
 
 /**
- * PLACEHOLDER timing, and the most common real rule for lying in state.
+ * Estimated timing and the most common real rule for lying in state.
  *
  * 1. Days from death to the funeral. Research: `funeral-timing` (state
  *    funerals for sitting presidents ran three to seven days).
@@ -43,12 +43,14 @@ export const OFFICIAL_FUNERAL_EVENT_TYPES = {
  *    Congress grants by concurrent resolution; a governor who dies in office
  *    most often lies in state in the state capitol by the governor's or the
  *    legislature's order. Any other office has a funeral only. ESTIMATED FROM
- *    THE MOST COMMON RULE; research: `lying-in-state-authority` (each state's
- *    statute or custom, and who grants it).
+ *    THE MOST COMMON RULE; the estimate uses the presidential and gubernatorial
+ *    offices represented in every state and territory because the game has no
+ *    more specific jurisdiction record.
  */
-export const UNRESEARCHED_OFFICIAL_FUNERAL = {
-  provenance: "unresearched-blanket-rule",
-  daysToFuneral: 7,
+export const ESTIMATED_OFFICIAL_FUNERAL = {
+  provenance:
+    "ESTIMATED FROM AVERAGE: 5-day midpoint of the game's recorded 3-to-7-day presidential range; lying-in-state basis uses the presidential and gubernatorial offices represented across all 56 places",
+  daysToFuneral: 5,
   researchQuestions: ["funeral-timing", "lying-in-state-authority"],
 } as const;
 
@@ -66,7 +68,7 @@ export function scheduleOfficialFuneral(
 ): World {
   const dueAt = addDays(
     diedAt as World["currentDate"],
-    UNRESEARCHED_OFFICIAL_FUNERAL.daysToFuneral,
+    ESTIMATED_OFFICIAL_FUNERAL.daysToFuneral,
   );
   return scheduleFutureDueItem(world, {
     stableKey: `${OFFICIAL_FUNERAL_VERSION}:${personId}`,

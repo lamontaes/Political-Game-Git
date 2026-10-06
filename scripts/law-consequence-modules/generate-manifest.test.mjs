@@ -3,12 +3,34 @@ import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
+import { format, resolveConfig } from "prettier";
 import {
   checkLawConsequenceManifest,
   discoverLawConsequenceModules,
   renderLawConsequenceManifest,
   writeLawConsequenceManifest,
 } from "./generate-manifest.mjs";
+
+test("empty, single and multiple module manifests satisfy the formatter", async () => {
+  const options = await resolveConfig(import.meta.filename);
+  for (const keys of [
+    [],
+    ["a"],
+    ["a", "b"],
+    ["election-state-landings"],
+    ["election-local-landings", "election-state-landings"],
+    [
+      "long-election-local-landings-module",
+      "long-election-state-landings-module",
+    ],
+  ]) {
+    const rendered = renderLawConsequenceManifest(keys);
+    assert.equal(
+      rendered,
+      await format(rendered, { ...options, parser: "typescript" }),
+    );
+  }
+});
 
 test("checked-in manifest lists exactly the module folders", () => {
   const keys = discoverLawConsequenceModules();

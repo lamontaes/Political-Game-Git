@@ -64,10 +64,13 @@ import {
  *    column is empty, so the District reads the local column whole.
  * 2. A territory opens from its NASBO totals: one revenue line whose source is
  *    unknown and one program line whose split is unknown.
- * 3. A county or city takes its PLACEHOLDER share of its state's local
- *    figures per resident (`rules.ts`), times its own population.
+ * 3. A county or city takes the estimated county or city program share in
+ *    `rules.ts` from its state's local figures per resident, times its own
+ *    population. The estimates use the same 50-state-and-D.C. Census local
+ *    government base that supplies those figures.
  * 4. A state's opening balance and reserve are NASBO's fiscal 2026 estimates;
- *    a local government's are its state's shares of spending (PLACEHOLDER).
+ *    a local government's use its state's recorded shares of spending, or
+ *    the median share among the 50 states and D.C. when no share is recorded.
  *
  * A figure read for the government itself (a state's Census column, a
  * territory's NASBO totals) opens exactly as read. An estimate from an
@@ -144,6 +147,31 @@ const MEDIAN_RAINY_DAY_SHARE = (() => {
     .map(
       (place) =>
         place.generalFundFY2026Millions.rainyDayFundBalance! /
+        place.generalFundFY2026Millions.expenditures!,
+    )
+    .sort((a, b) => a - b);
+  const middle = Math.floor(shares.length / 2);
+  return shares.length % 2
+    ? shares[middle]!
+    : (shares[middle - 1]! + shares[middle]!) / 2;
+})();
+
+/**
+ * The median ending balance as a share of general-fund spending among the
+ * states and D.C. for which NASBO reports both fiscal 2026 figures. This is
+ * the opening estimate when NASBO has no ending-balance figure.
+ */
+const MEDIAN_ENDING_BALANCE_SHARE = (() => {
+  const shares = Object.values(PLACES)
+    .filter(
+      (place) =>
+        place.state &&
+        place.generalFundFY2026Millions.endingBalance !== null &&
+        place.generalFundFY2026Millions.expenditures,
+    )
+    .map(
+      (place) =>
+        place.generalFundFY2026Millions.endingBalance! /
         place.generalFundFY2026Millions.expenditures!,
     )
     .sort((a, b) => a - b);
@@ -715,7 +743,7 @@ function stateOpening(
   notes.push(interestNote(interestRate, DEFAULT_STATE_INTEREST_RATE));
   notes.push(
     balance === null
-      ? "Opening balance unknown in NASBO; opens at none."
+      ? `Opening balance: ESTIMATED FROM AVERAGE, NASBO has no figure, so ${Math.round(MEDIAN_ENDING_BALANCE_SHARE * 1000) / 1000} of spending, the median ending-balance share of the states and D.C. that NASBO reports (fiscal 2026).`
       : "Opening balance: NASBO's estimate of the fiscal 2026 general fund ending balance.",
     rainy === null
       ? `Opening reserve: ESTIMATED FROM AVERAGE, NASBO has no figure, so ${Math.round(MEDIAN_RAINY_DAY_SHARE * 1000) / 1000} of spending, the median rainy-day share of the states NASBO reports (fiscal 2026).`
@@ -727,7 +755,11 @@ function stateOpening(
     spending,
     debt,
     interestRate,
-    balance: Math.round((balance ?? 0) * 1_000_000),
+    balance: Math.round(
+      balance === null
+        ? totalSpending * MEDIAN_ENDING_BALANCE_SHARE
+        : balance * 1_000_000,
+    ),
     reserve: Math.round(
       rainy === null
         ? totalSpending * MEDIAN_RAINY_DAY_SHARE
@@ -791,7 +823,7 @@ function localOpening(
   const balanceShare =
     stateSpend && general.endingBalance !== null
       ? Math.max(0, general.endingBalance / stateSpend)
-      : 0;
+      : MEDIAN_ENDING_BALANCE_SHARE;
   const reserveShare =
     stateSpend && general.rainyDayFundBalance !== null
       ? general.rainyDayFundBalance / stateSpend
@@ -811,10 +843,10 @@ function localOpening(
     reserve: Math.round(total * reserveShare),
     notes: [
       base.local
-        ? `Census 2022 local-government figures per resident in ${base.name}, the ${level} share of each program (PLACEHOLDER table, research: local-government-finances-by-type), times ${populationSource} population, times the calibration factor.`
-        : `ESTIMATED FROM AVERAGE: Census publishes no local-government finances for ${base.name}, so the national average per resident (the 50 states and D.C., weighted by population), the ${level} share of each program (PLACEHOLDER table), times ${populationSource} population, times the calibration factor.`,
+        ? `Census 2022 local-government figures per resident in ${base.name}, times the estimated ${level} share of each program used across the 50 states and D.C., times ${populationSource} population, times the calibration factor.`
+        : `ESTIMATED FROM AVERAGE: Census publishes no local-government finances for ${base.name}, so the national average per resident (the 50 states and D.C., weighted by population), times the estimated ${level} share of each program used across those places, times ${populationSource} population, times the calibration factor.`,
       `Revenue: ${LOCAL_REVENUE_RULE}.`,
-      "Opening balance and reserve: the state's general fund balance and rainy-day shares of spending (PLACEHOLDER, research: local-government-finances-by-type).",
+      `Opening balance and reserve: estimated at the state's recorded general-fund ending-balance and rainy-day shares of spending; where NASBO records no state share, the estimate uses the median among the states and D.C. it reports (${Math.round(MEDIAN_ENDING_BALANCE_SHARE * 1000) / 1000} balance and ${Math.round(MEDIAN_RAINY_DAY_SHARE * 1000) / 1000} reserve).`,
       interestNote(localRate, DEFAULT_LOCAL_INTEREST_RATE),
     ],
   };
@@ -937,7 +969,7 @@ export function openGovernmentBudget(
         : `Pension share paid: ${paid.share}, ESTIMATED FROM AVERAGE (the median of every plan in the Public Plans Database, fiscal 2022 to 2024); its own plans are not listed.`,
       ...(basis === "state-start-placeholder"
         ? [
-            "Budget year: begins when the state's does (PLACEHOLDER, research: local-government-finances-by-type).",
+            "Budget year: ESTIMATED FROM AVERAGE to begin when its state's does; every county and city without a recorded city rule uses its state's NASBO fiscal-year start, across the 50 states and D.C.",
           ]
         : []),
       "Adoption is automatic each year; a budget passed as a bill comes later.",

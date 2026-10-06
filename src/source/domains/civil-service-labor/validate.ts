@@ -85,7 +85,7 @@ export function validateCivilServiceLaborCorpus(
         findings.push({
           severity: "error",
           code: "civil-service-labor/unknown-has-value",
-          message: `${record.recordId} gives an UNKNOWN field a value.`,
+          message: `${record.recordId} gives an unresolved field a value.`,
           recordId: record.recordId,
         });
       }

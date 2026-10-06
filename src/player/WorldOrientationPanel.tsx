@@ -448,7 +448,6 @@ export function WorldOrientationPanel({
               <PlacePeopleLayer
                 people={scenePeople}
                 stageRef={sceneStage}
-                nameplates
                 overflowLabel="More illustrated people"
                 onSelectPerson={(id) => {
                   const selected = sceneRoster.find(
@@ -491,13 +490,18 @@ export function WorldOrientationPanel({
                   ) : null)}
                 <div className="pg-opening-officials">
                   {step.people.map((person, position) => (
-                    <article
+                    <button
                       key={person.personId}
+                      type="button"
                       className={
                         position === 0
-                          ? "pg-opening-president"
-                          : "pg-opening-vice-president"
+                          ? "pg-opening-person-trigger pg-opening-president"
+                          : "pg-opening-person-trigger pg-opening-vice-president"
                       }
+                      aria-label={`Open person card for ${person.name}`}
+                      title={`Open person card for ${person.name}`}
+                      data-testid={`opening-official-${person.personId}`}
+                      onClick={() => onOpenPerson(person.personId)}
                     >
                       {renderFigure?.(person.personId) ??
                         (world ? (
@@ -508,7 +512,7 @@ export function WorldOrientationPanel({
                             wear="formal"
                           />
                         ) : null)}
-                    </article>
+                    </button>
                   ))}
                 </div>
               </div>
@@ -594,19 +598,6 @@ export function WorldOrientationPanel({
               ) : null}
 
               <div className="pg-orientation-reading">
-                {step.key === "executive" && step.people.length > 0 ? (
-                  <div className="pg-opening-official-labels">
-                    {step.people.map((person) => (
-                      <PersonButton
-                        key={person.personId}
-                        person={person}
-                        onOpenPerson={onOpenPerson}
-                        compact
-                      />
-                    ))}
-                  </div>
-                ) : null}
-
                 {step.key === "state" ? (
                   <div className="pg-regional-state-information">
                     <div className="pg-regional-card-body pg-state-overview">
@@ -1039,13 +1030,13 @@ function SceneBackdrop({
  */
 const SCENE_CAPTION: Readonly<Record<RegionalSceneKind, string>> = {
   "open-landscape": "Typical countryside near here.",
-  street: "A street of the kind common near here.",
-  shoreline: "Shoreline of the kind found near here.",
+  street: "A street from this area's regional illustration collection.",
+  shoreline: "A shoreline from this area's regional illustration collection.",
 };
 
 const SCENE_ALT: Readonly<Record<RegionalSceneKind, string>> = {
   "open-landscape": "Illustrated landscape typical of this area",
-  street: "Illustrated street of a kind common in this area",
+  street: "Illustrated street from this area's regional collection",
   shoreline: "Illustrated shoreline typical of this area",
 };
 

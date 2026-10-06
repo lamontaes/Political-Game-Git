@@ -58,6 +58,11 @@ import {
 } from "./district-residence";
 import { districtIdentityCatalog } from "../districts/catalog";
 import {
+  candidateFilingTerms,
+  type CandidateFilingTerms,
+  type FilingOfficeFamily,
+} from "./candidate-filing-terms";
+import {
   gazetteerChamberForOfficeChamberKey,
   listDistrictIdentities,
 } from "../districts/query";
@@ -334,6 +339,8 @@ export interface CandidacyEligibility {
   /** The pack the jurisdiction itself declares, if it declares one. */
   readonly pack: CandidacyPack | null;
   readonly office: ElectiveOfficeOption | null;
+  /** The fee, petition, and filing dates read through the one place data path. */
+  readonly filingTerms: CandidateFilingTerms | null;
   /** Every production-compiled field checked for this candidate. */
   readonly qualificationAssessments: readonly QualificationAssessment[];
   readonly blocks: readonly CandidacyBlock[];
@@ -882,6 +889,19 @@ export function candidacyEligibility(
     });
   }
 
+  const filingFamily: FilingOfficeFamily = executive
+    ? "statewideExecutive"
+    : congress
+      ? "federalLegislative"
+      : local
+        ? "local"
+        : "stateLegislative";
+  const filingStateUsps = stateJurisdictionKey?.replace(/^US-/, "") ?? null;
+  const filingTerms =
+    option && filingStateUsps
+      ? candidateFilingTerms(filingStateUsps, filingFamily)
+      : null;
+
   return {
     eligible: blocks.length === 0,
     minimumAgeEstimate,
@@ -889,6 +909,7 @@ export function candidacyEligibility(
     personId: input.personId,
     pack,
     office: boundOption,
+    filingTerms,
     qualificationAssessments,
     blocks: distinctBlocks(blocks),
   };

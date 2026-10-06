@@ -1,3 +1,4 @@
+import { speakerTraits } from "./speaker-traits";
 import {
   speechMovesOf,
   type ElectionSpeechMove,
@@ -277,7 +278,7 @@ export function electionSpeechWords(
     stage: "adult",
     sourceRecordIds: [event.id],
     facts,
-    speaker: { personId: speakerId, traits: {} },
+    speaker: { personId: speakerId, traits: speakerTraits(world, speakerId) },
     knowledge: Object.entries(facts).map(([factKey, fact]) => ({
       personId: speakerId,
       factKey,

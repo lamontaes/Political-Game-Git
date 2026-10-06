@@ -1,3 +1,4 @@
+import type { GroundedEnglishPerson } from "./grounded-english";
 import { reachInSpeech } from "../simulation";
 import type { ClaimAudience, EntityId, ProvisionReach } from "../simulation";
 import { nameOnce } from "./english-grammar";
@@ -98,6 +99,8 @@ export interface LegislativeMotifFacts {
  * engine words cites these.
  */
 export interface LegislativeMotifGrounding {
+  readonly speakerTraits: GroundedEnglishPerson["traits"];
+  readonly listenerTraits: GroundedEnglishPerson["traits"];
   readonly worldSeed: string;
   readonly speakerPersonId: EntityId;
   readonly listenerPersonId: EntityId;
@@ -236,6 +239,8 @@ function composedLine(context: LegislativeMotifContext) {
       family: context.family as (typeof ENGLISH_MOTIF_FAMILIES)[number],
       voice: context.voice,
       worldSeed: grounding.worldSeed,
+      speakerTraits: grounding.speakerTraits,
+      listenerTraits: grounding.listenerTraits,
       momentKey: `${context.variantSeed}:${context.voice}`,
       speakerPersonId: grounding.speakerPersonId,
       listenerPersonId: grounding.listenerPersonId,
@@ -244,6 +249,8 @@ function composedLine(context: LegislativeMotifContext) {
   }
   return composeCostObjection({
     worldSeed: grounding.worldSeed,
+    speakerTraits: grounding.speakerTraits,
+    listenerTraits: grounding.listenerTraits,
     momentKey: `${context.variantSeed}:${context.voice}`,
     speakerPersonId: grounding.speakerPersonId,
     listenerPersonId: grounding.listenerPersonId,
