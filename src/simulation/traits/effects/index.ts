@@ -6,6 +6,7 @@ import { facetOpenMindedEffects } from "./facet-open-minded";
 import { facetProudEffects } from "./facet-proud";
 import { facetArgumentativeEffects } from "./facet-argumentative";
 import { facetBluntEffects } from "./facet-blunt";
+import { methodRevisionEffects } from "./method-revision";
 import { facetBrazenEffects } from "./facet-brazen";
 import { facetCockyEffects } from "./facet-cocky";
 import { facetComfortingEffects } from "./facet-comforting";
@@ -32,6 +33,7 @@ import { selfConfidenceEffects } from "./self-confidence";
  */
 export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
   return [
+    ...methodRevisionEffects,
     ...facetSelfConsciousEffects,
     ...concernForDistressEffects,
     ...facetHumbleEffects,
