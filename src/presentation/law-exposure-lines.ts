@@ -56,6 +56,11 @@ const CHANNEL_WORDS: Record<
     gain: "saved {whom} {amount} on a public service",
     none: "changed a public service {whom} used",
   },
+  "outcome-web": {
+    cost: "recorded an environmental exposure for {whom}",
+    gain: "recorded an environmental exposure for {whom}",
+    none: "recorded the place measure for {whom}",
+  },
   rent: {
     cost: "raised {whose} rent by {amount}",
     gain: "lowered {whose} rent by {amount}",
