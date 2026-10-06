@@ -1,6 +1,24 @@
-import { campaignById, requireCampaign } from "./campaign-queries";
+import {
+  campaignById,
+  campaignState,
+  requireCampaign,
+} from "./campaign-queries";
+import { evaluateCampaignHelpDecision } from "./campaign-help-decision";
 import { createWorkRelationship } from "./life";
-import type { EntityId, MoneyAmount, World } from "./types";
+import { kinshipRelationshipsAt } from "./life-queries";
+import { peopleKnownTo, viewOfOfficial } from "./living-world/official-views";
+import { readRelationshipStanding } from "./relationship-standing";
+import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
+import { workSchedulesFor } from "./living-world/work-schedules";
+import { personName } from "./people";
+import { recordWorldEvent } from "./world";
+import { recordRelationshipInteraction } from "./records";
+import type {
+  DecisionConsideration,
+  EntityId,
+  MoneyAmount,
+  World,
+} from "./types";
 
 export type CampaignHelperRole = "volunteer" | "manager";
 
@@ -10,6 +28,265 @@ export interface AddCampaignHelperInput {
   readonly role: CampaignHelperRole;
   /** A manager is paid; a volunteer has no salary. */
   readonly pay: MoneyAmount | null;
+}
+
+export interface AskToHelpResult {
+  readonly world: World;
+  readonly campaignId: EntityId;
+  readonly personId: EntityId;
+  readonly accepted: boolean;
+  readonly reasonBeliefId: EntityId | null;
+  readonly reasons: readonly string[];
+  readonly eventId: EntityId;
+}
+
+/** Ask a person the candidate knows to volunteer for the active campaign. */
+export function askToHelp(
+  inputWorld: World,
+  input: { readonly campaignId: EntityId; readonly personId: EntityId },
+): AskToHelpResult {
+  const campaign = requireCampaign(inputWorld, input.campaignId);
+  if (campaignState(inputWorld, campaign.id).status !== "active") {
+    throw new Error("A finished campaign cannot recruit helpers.");
+  }
+  if (!inputWorld.people[input.personId]) {
+    throw new Error(`Campaign helper is missing: ${input.personId}`);
+  }
+  if (
+    !peopleKnownTo(inputWorld, campaign.candidatePersonId).includes(
+      input.personId,
+    )
+  ) {
+    throw new Error("Campaigns can ask only people the candidate knows.");
+  }
+  if (campaignHasHelper(inputWorld, campaign.id, input.personId)) {
+    throw new Error("This person already helps the campaign.");
+  }
+  const stableKey = `${campaign.stableKey}:ask-help:${input.personId}`;
+  if (
+    inputWorld.history.events.some(
+      (event) => event.stableKey === `${stableKey}:event`,
+    )
+  ) {
+    throw new Error("This person has already answered the campaign's request.");
+  }
+
+  // Trait facts are lazily established by the canonical PEOPLE writer before
+  // they influence a consequential personal choice.
+  const world = ensurePeopleTraits(inputWorld, [input.personId]);
+  const view = viewOfOfficial(
+    world,
+    input.personId,
+    campaign.candidatePersonId,
+  );
+  const considerations: DecisionConsideration[] = [];
+  if (view.belief) {
+    const importance =
+      view.belief.salience === "central"
+        ? "decisive"
+        : view.belief.salience === "high"
+          ? "strong"
+          : view.belief.salience === "moderate"
+            ? "moderate"
+            : "slight";
+    considerations.push({
+      stableKey: `${stableKey}:candidate-view:${view.belief.id}`,
+      optionKey: view.belief.position === "support" ? "help" : "decline",
+      sourceType: "mind:political-belief",
+      direction: "supports",
+      importance,
+      confidence: "high",
+      explanation:
+        view.belief.position === "support"
+          ? "They have a favorable view of the candidate."
+          : "They have reservations about the candidate.",
+      sourceRefs: [{ kind: "private-belief", beliefId: view.belief.id }],
+    });
+  }
+
+  const familyTie = kinshipRelationshipsAt(world, input.personId).find((tie) =>
+    tie.personIds.includes(campaign.candidatePersonId),
+  );
+  if (familyTie) {
+    considerations.push({
+      stableKey: `${stableKey}:family:${familyTie.id}`,
+      optionKey: "help",
+      sourceType: "context:family-relationship",
+      direction: "supports",
+      importance: "strong",
+      confidence: "high",
+      explanation: `They are family (${familyTie.kind.replace(/^.*:/, "").replaceAll("-", " ")}).`,
+      sourceRefs: [],
+    });
+  }
+
+  const standing = readRelationshipStanding(
+    world,
+    input.personId,
+    campaign.candidatePersonId,
+  );
+  const warmth = standing.readings.warmth;
+  if (warmth.band !== "none") {
+    const interactionId = warmth.basis.at(-1);
+    considerations.push({
+      stableKey: `${stableKey}:warmth:${interactionId ?? "recorded"}`,
+      optionKey: warmth.adverse ? "decline" : "help",
+      sourceType: "social:relationship",
+      direction: "supports",
+      importance:
+        warmth.band === "strong"
+          ? "strong"
+          : warmth.band === "marked"
+            ? "moderate"
+            : "slight",
+      confidence: "high",
+      explanation: warmth.adverse
+        ? "Their relationship has been strained."
+        : "Their relationship has been warm.",
+      sourceRefs: interactionId
+        ? [{ kind: "relationship-interaction", interactionId }]
+        : [],
+    });
+  }
+
+  const scheduledHours = workSchedulesFor(world, input.personId).reduce(
+    (sum, schedule) => sum + schedule.weeklyHours,
+    0,
+  );
+  const freeHours = Math.max(0, 168 - scheduledHours);
+  considerations.push({
+    stableKey: `${stableKey}:available-hours`,
+    optionKey: freeHours >= 96 ? "help" : "decline",
+    sourceType: "context:work-schedule",
+    direction: "supports",
+    importance:
+      freeHours >= 120 ? "strong" : freeHours >= 72 ? "moderate" : "slight",
+    confidence: "medium",
+    explanation:
+      freeHours >= 96
+        ? "Their work schedule leaves room for campaign work."
+        : "Their work schedule leaves little free time for campaign work.",
+    sourceRefs: [],
+  });
+  considerations.push(
+    ...traitConsiderations(world, input.personId, `${stableKey}:traits`, [
+      {
+        trait: "sociability",
+        pole: "high",
+        optionKey: "help",
+        explanation: "They are outgoing and comfortable working with people.",
+      },
+      {
+        trait: "reliability",
+        pole: "high",
+        optionKey: "help",
+        explanation: "They tend to follow through on commitments.",
+      },
+      {
+        trait: "risk",
+        pole: "high",
+        optionKey: "help",
+        explanation: "They are willing to take on a new commitment.",
+      },
+    ]),
+  );
+  const evaluation = evaluateCampaignHelpDecision(world, {
+    stableKey,
+    decisionType: "campaign.helper-request",
+    actorPersonId: input.personId,
+    subjectKey: `campaign-helper:${campaign.id}`,
+    options: [
+      {
+        key: "help",
+        label: "Help",
+        description: "Join the campaign as a volunteer.",
+      },
+      {
+        key: "decline",
+        label: "Decline",
+        description: "Turn down the request.",
+      },
+    ],
+    considerations,
+  });
+  const accepted = evaluation.selectedOptionKey === "help";
+  const reasons = considerations
+    .filter((row) => row.optionKey === (accepted ? "help" : "decline"))
+    .map((row) => row.explanation);
+  let next = world;
+  if (accepted) {
+    next = addCampaignHelper(next, {
+      campaignId: campaign.id,
+      personId: input.personId,
+      role: "volunteer",
+      pay: null,
+    });
+  }
+  next = recordWorldEvent(next, {
+    stableKey: `${stableKey}:event`,
+    type: "campaign.helper-request-decided",
+    occurredAt: next.currentDate,
+    recordedAt: next.currentDate,
+    jurisdictionId: campaign.jurisdictionId,
+    involvedEntityIds: [
+      campaign.id,
+      campaign.candidatePersonId,
+      input.personId,
+    ],
+    participants: [
+      {
+        personId: campaign.candidatePersonId,
+        role: "agency:campaign-candidate",
+        detail: "Asked someone they know to help.",
+      },
+      {
+        personId: input.personId,
+        role: accepted ? "agency:campaign-volunteer" : "focus:asked-of",
+        detail: accepted
+          ? "Agreed to help the campaign."
+          : "Turned down the request.",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [
+      "campaign:helper-request",
+      accepted ? "campaign:accepted" : "campaign:declined",
+      ...(view.belief ? [`campaign:reason-belief:${view.belief.id}`] : []),
+    ],
+    summary: `${personName(next.people[input.personId]!)} ${accepted ? "agreed to help" : "declined to help"}${reasons[0] ? ` because ${reasons[0].toLowerCase()}` : ""}.`,
+    context: {
+      location: null,
+      socialContext: "A personal campaign request",
+      pressure: null,
+      choice: accepted ? "help" : "decline",
+      motivation: reasons[0] ?? null,
+      immediateReaction: null,
+    },
+  });
+  const eventId = next.history.events.at(-1)!.id;
+  if (accepted) {
+    next = recordRelationshipInteraction(next, {
+      stableKey: `${stableKey}:relationship`,
+      personIds: [campaign.candidatePersonId, input.personId],
+      eventId,
+      occurredAt: next.currentDate,
+      kind: "support:campaign-help",
+      change: "formed",
+      significance: "meaningful",
+      summary: `${personName(next.people[input.personId]!)} joined the campaign as a volunteer.`,
+      tags: [`relationship.actor:${campaign.candidatePersonId}`],
+    });
+  }
+  return {
+    world: next,
+    campaignId: campaign.id,
+    personId: input.personId,
+    accepted,
+    reasonBeliefId: view.belief?.id ?? null,
+    reasons,
+    eventId,
+  };
 }
 
 /** Record campaign staff in the canonical work relationship history. */
@@ -129,4 +406,26 @@ export function campaignHasHelper(
           ?.personId === personId,
     ) ?? false
   );
+}
+
+/** People the candidate knows who have not already answered a help request. */
+export function campaignHelperCandidates(
+  world: World,
+  campaignId: EntityId,
+): readonly { readonly personId: EntityId; readonly name: string }[] {
+  const campaign = requireCampaign(world, campaignId);
+  return peopleKnownTo(world, campaign.candidatePersonId)
+    .filter((personId) => !campaignHasHelper(world, campaignId, personId))
+    .filter(
+      (personId) =>
+        !world.history.events.some(
+          (event) =>
+            event.stableKey ===
+            `${campaign.stableKey}:ask-help:${personId}:event`,
+        ),
+    )
+    .flatMap((personId) => {
+      const person = world.people[personId];
+      return person ? [{ personId, name: personName(person) }] : [];
+    });
 }
