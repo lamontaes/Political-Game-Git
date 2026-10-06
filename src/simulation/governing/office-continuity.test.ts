@@ -59,7 +59,6 @@ import {
 import { federalColleaguesOf } from "../patronage/federal-circle";
 import {
   HOUSE_SPECIAL_ELECTION,
-  SENATE_VACANCY_PROFILE,
   VICE_PRESIDENTIAL_VACANCY_PROFILE,
   VICE_PRESIDENT_NOMINATED_EVENT,
   VICE_PRESIDENT_NOMINATION,
@@ -203,9 +202,13 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     expect(view().occupant.kind).toBe("vacancy");
 
     // The state's law: the governor appoints, of the same party.
+    const appointment = next.history.futureDueItems.find((due) =>
+      due.stableKey.includes(`:appointment:${seat.seatKey}:`),
+    );
+    expect(appointment).toBeDefined();
     next = passOrdinaryDays(
       next,
-      SENATE_VACANCY_PROFILE.daysFromVacancyToAppointment,
+      daysBetween(next.currentDate, appointment!.dueAt),
     );
     const appointed = view();
     expect(appointed.occupant.kind).toBe("member");
