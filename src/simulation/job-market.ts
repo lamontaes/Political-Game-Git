@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import {
   settleTownCompensations,
   stateMedianAnnualWage,
@@ -167,7 +168,7 @@ export const JOB_TURNOVER = {
  * sourced occupation/workplace median is an estimated vacant-role offer
  * (owner approval, October 1, 9:47 p.m.), not this government's pay scale.
  */
-export const PUBLIC_BODY_ROLE_PLACEHOLDER = {
+export const PUBLIC_BODY_ROLE_PROFILE = {
   researchQuestionId: "public-employer-roles-and-pay",
   title: "Office clerk",
   occupationClassification: "occupation:office-clerk",
@@ -272,7 +273,7 @@ function publicBodyRolePay(
   currency: string;
   source: EmployerRole["source"];
 } | null {
-  const role = PUBLIC_BODY_ROLE_PLACEHOLDER;
+  const role = PUBLIC_BODY_ROLE_PROFILE;
   const offeredHours =
     (role.weeklyHours.minimumHours + role.weeklyHours.maximumHours) / 2;
   const cutoff = currentLifeCutoff(world);
@@ -329,7 +330,7 @@ export function townEmployerRoles(
   for (const organizationId of publicBodyOrganizations(world, personId)) {
     const profile = organizationProfileAt(world, organizationId);
     if (!profile?.locationJurisdictionId) continue;
-    const role = PUBLIC_BODY_ROLE_PLACEHOLDER;
+    const role = PUBLIC_BODY_ROLE_PROFILE;
     const pay = publicBodyRolePay(
       world,
       organizationId,
@@ -538,6 +539,7 @@ function note(
     readonly involved: readonly EntityId[];
     readonly jurisdictionId: EntityId | null;
     readonly summary: string;
+    readonly decisionTraceId?: EntityId;
   },
 ): { world: World; eventId: EntityId } {
   const next = recordWorldEvent(world, {
@@ -556,7 +558,12 @@ function note(
     ],
     personFactConstraints: [],
     visibility: "private",
-    tags: ["job-market"],
+    tags: [
+      "job-market",
+      ...(input.decisionTraceId
+        ? [`decision-trace:${input.decisionTraceId}`]
+        : []),
+    ],
     summary: input.summary,
     context: {
       location: null,
@@ -888,7 +895,7 @@ export function openWeeklyListings(world: World, personId: EntityId): World {
         kind: "authored",
         note:
           role.source === "public-body-profile"
-            ? `Opening, answer and start timing are drawn from the placeholder calibration in job-market.ts. The role remains the public-body profile (research: ${PUBLIC_BODY_ROLE_PLACEHOLDER.researchQuestionId}). ESTIMATE FROM SOURCE: its vacant-role offer uses the BLS May 2025 OEWS occupation median for the recorded workplace's state or territory, with the source reader's national fallback where that cell is withheld (https://www.bls.gov/oes/); occupation ${role.occupationClassification}, workplace ${role.jurisdictionId}, annual base ${role.annualMinor} USD cents at the stated hours. Recorded employer pay replaces this estimate when read; this is not an observed employer pay scale.`
+            ? `Opening, answer and start timing are drawn from the placeholder calibration in job-market.ts. The role remains the public-body profile (research: ${PUBLIC_BODY_ROLE_PROFILE.researchQuestionId}). ESTIMATE FROM SOURCE: its vacant-role offer uses the BLS May 2025 OEWS occupation median for the recorded workplace's state or territory, with the source reader's national fallback where that cell is withheld (https://www.bls.gov/oes/); occupation ${role.occupationClassification}, workplace ${role.jurisdictionId}, annual base ${role.annualMinor} USD cents at the stated hours. Recorded employer pay replaces this estimate when read; this is not an observed employer pay scale.`
             : PROVENANCE_NOTE,
       },
     });
@@ -1104,6 +1111,7 @@ function addStep(
     readonly agreedWeeklyHours?: number | null;
     readonly workRelationshipId?: EntityId | null;
     readonly summary: string;
+    readonly decisionTraceId?: EntityId;
   },
 ): World {
   const index = applicationSteps(world, application.id).length;
@@ -1120,6 +1128,7 @@ function addStep(
     ],
     jurisdictionId: opening.jurisdictionId,
     summary: step.summary,
+    ...(step.decisionTraceId ? { decisionTraceId: step.decisionTraceId } : {}),
   });
   return append(noted.world, "jobApplicationSteps", "job-application-step", {
     stableKey,
@@ -1474,8 +1483,15 @@ export function answerJobOfferAsResident(
   world: World,
   applicationId: EntityId,
   accept: boolean,
+  decisionTraceId?: EntityId,
 ): JobMarketResult {
-  return answerOffer(world, applicationId, accept, residentCanAct);
+  return answerOffer(
+    world,
+    applicationId,
+    accept,
+    residentCanAct,
+    decisionTraceId,
+  );
 }
 
 function answerOffer(
@@ -1483,12 +1499,31 @@ function answerOffer(
   applicationId: EntityId,
   accept: boolean,
   canAct: (world: World, personId: EntityId) => string | null,
+  decisionTraceId?: EntityId,
 ): JobMarketResult {
   const application = (world.history.jobApplications ?? []).find(
     (row) => row.id === applicationId,
   );
   if (!application)
     return { world, ok: false, message: "There is no such application." };
+  if (decisionTraceId) {
+    const trace = world.history.decisionTraces.find(
+      (record) => record.id === decisionTraceId,
+    );
+    if (
+      !trace ||
+      trace.context.actorPersonId !== application.personId ||
+      trace.context.decisionType !== "people.job-offer-answer" ||
+      trace.context.stableKey !== `goal-offer:${applicationId}` ||
+      trace.outcomeKind !== "selected" ||
+      trace.selectedOptionKey !== (accept ? "accept" : "hold-out")
+    )
+      return {
+        world,
+        ok: false,
+        message: "The saved decision does not authorize this answer.",
+      };
+  }
   const refusal = canAct(world, application.personId);
   if (refusal) return { world, ok: false, message: refusal };
   const played = isPlayed(world, application.personId);
@@ -1506,6 +1541,7 @@ function answerOffer(
     return {
       world: addStep(world, application, {
         kind: "refused",
+        decisionTraceId,
         occurredAt: world.currentDate,
         summary: played
           ? `You turned down ${employer}'s offer.`
@@ -1517,6 +1553,7 @@ function answerOffer(
   return {
     world: addStep(world, application, {
       kind: "accepted",
+      decisionTraceId,
       occurredAt: world.currentDate,
       startAt: latest.startAt,
       summary: played
@@ -1605,6 +1642,17 @@ function beginWork(world: World, applicationId: EntityId): JobMarketResult {
   const application = (world.history.jobApplications ?? []).find(
     (row) => row.id === applicationId,
   )!;
+  const acceptedStep = applicationSteps(world, applicationId).find(
+    (step) => step.kind === "accepted",
+  );
+  const acceptance = acceptedStep?.eventId
+    ? eventById(world, acceptedStep.eventId)
+    : null;
+  const traceTag = acceptance?.tags.find((tag) =>
+    tag.startsWith("decision-trace:"),
+  );
+  const decisionTraceId = traceTag?.slice("decision-trace:".length) as
+    EntityId | undefined;
   const opening = jobOpening(world, application.openingId)!;
   const offer = applicationOffer(world, applicationId)!;
   const employer = organizationName(world, opening.organizationId);
@@ -1657,6 +1705,7 @@ function beginWork(world: World, applicationId: EntityId): JobMarketResult {
   });
   next = addStep(next, application, {
     kind: "started",
+    ...(decisionTraceId ? { decisionTraceId } : {}),
     occurredAt: world.currentDate,
     workRelationshipId: work.id,
     summary: isPlayed(world, application.personId)

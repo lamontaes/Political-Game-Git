@@ -4,6 +4,7 @@ import {
 } from "./demo-jurisdiction-context";
 import {
   US_CONGRESS_PACK_ID,
+  isCongressRulePack,
   US_CONGRESS_RULE_PACK,
 } from "./congress-rule-pack";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
@@ -111,7 +112,7 @@ function stateLocalityPlace(stateKey: string): LifePlace | null {
 export function legislativeInstitutionContext(
   pack: LegislativeRulePack,
 ): DemoJurisdictionContext {
-  if (pack.packId === US_CONGRESS_PACK_ID)
+  if (isCongressRulePack(pack.packId))
     return {
       jurisdiction: NATIONAL_ELECTION_JURISDICTION,
       // Only the static scenario blueprint reads this moment. A live Congress

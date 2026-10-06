@@ -1401,7 +1401,9 @@ export function MunicipalWorkspace({
                     : "Unknown"}{" "}
                   {"part-time employees; observed "}
                   {proseDate(row.referenceDate)}
-                  {". Full-time equivalent: unknown."}{" "}
+                  {
+                    ". The publisher does not report full-time equivalents, and headcount cannot establish them."
+                  }{" "}
                   {municipalCapacitySourceUrl(row.evidence.artifactId) && (
                     <a
                       href={municipalCapacitySourceUrl(

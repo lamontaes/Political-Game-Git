@@ -348,11 +348,7 @@ import {
 } from "./return-to-title-bridge";
 import { HomePurchasePanel } from "./HomePurchasePanel";
 import { PersonalRoutinePanel } from "./PersonalRoutinePanel";
-import {
-  ObserverClock,
-  ObserverRecordWorkspace,
-  ObserverInspectorWorkspace,
-} from "./ObserverWorkspace";
+import { ObserverClock, ObserverRecordWorkspace } from "./ObserverWorkspace";
 import { ObserverRunController } from "./observer-run-controller";
 import {
   observerSetup,
@@ -363,6 +359,13 @@ import { PoliticsWorkspace } from "./ConstitutionalWorkspace";
 
 /* The map carries its geometry; it loads only when a player opens it. */
 const PoliticalMap = lazy(() => import("../maps/PoliticalMap"));
+const ObserverInspectorRoute = import.meta.env.DEV
+  ? lazy(() =>
+      import("../ui/ObserverDevRoute").then((module) => ({
+        default: module.ObserverDevRoute,
+      })),
+    )
+  : () => null;
 
 /*
  * The map recomputes pinned-seat highlights whenever its focus object changes,
@@ -2884,7 +2887,7 @@ function PlayingScreen({
                 data-testid="observing-label"
               >
                 <strong>Observing</strong>
-                <span>Nobody is being played. You can look, not act.</span>
+                <span>You can look, not act.</span>
                 <ObserverClock
                   runner={observerRunner}
                   onOpenInspector={(pausedWorld) => {
@@ -2956,7 +2959,9 @@ function PlayingScreen({
                 onBack={() => setInspectorWorld(null)}
                 onClose={() => setInspectorWorld(null)}
               >
-                <ObserverInspectorWorkspace world={admittedInspector} />
+                <Suspense fallback={<p>Opening Observer inspector…</p>}>
+                  <ObserverInspectorRoute initialWorld={admittedInspector} />
+                </Suspense>
               </WorkspaceFrame>
             ) : null}
             <div hidden={admittedInspector !== null}>{workspace}</div>

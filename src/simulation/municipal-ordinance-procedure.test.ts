@@ -27,6 +27,7 @@ import {
 } from "./municipal-public-work";
 import {
   admitCouncilAction,
+  decideOrdinaryCouncilReading,
   councilActHandlers,
   municipalOrdinanceStatus,
   municipalReadingQuestion,
@@ -151,6 +152,47 @@ describe("a Charlottesville general ordinance through the shared measure engine"
     expect(
       deserializeWorld(serializeWorld(finished)).history.legislativeVotes,
     ).toEqual(finished.history.legislativeVotes);
+  });
+
+  it("retains a mayor's actual council decision but keeps previews read-only", () => {
+    const { world, key, member } = charlottesville();
+    const { world: onAgenda, measureId } = introduced(world, key);
+    const observed: World = { ...onAgenda, control: { kind: "observer" } };
+    const before = serializeWorld(observed);
+    expect(
+      decideOrdinaryCouncilReading(observed, key, measureId),
+    ).not.toBeNull();
+    expect(serializeWorld(observed)).toBe(before);
+    const scheduled = scheduleOrdinaryCouncilReading(observed, key, measureId);
+    const finished = advanceWorld(
+      scheduled,
+      4,
+      createFutureTransitionHandlerRegistry([...councilActHandlers()]),
+    );
+    const vote = finished.history.legislativeVotes!.find(
+      (record) => record.measureId === measureId,
+    )!;
+    const trace = finished.history.decisionTraces.find(
+      (record) =>
+        record.context.actorPersonId === member &&
+        record.context.decisionType === "legislation.member-vote",
+    )!;
+    expect(trace).toBeDefined();
+    expect(trace.context.retention).toBe("durable");
+    expect(trace.context.considerations.length).toBeGreaterThan(0);
+    expect(vote.provenance.sourceEntityIds).toContain(trace.id);
+    expect(
+      vote.dispositions.find((row) => row.personId === member)?.disposition,
+    ).toBe(
+      trace.selectedOptionKey === "vote-yea"
+        ? "yea"
+        : trace.selectedOptionKey === "vote-nay"
+          ? "nay"
+          : "present-not-voting",
+    );
+    expect(
+      deserializeWorld(serializeWorld(finished)).history.decisionTraces,
+    ).toEqual(finished.history.decisionTraces);
   });
 
   it("enforces the declared timing and actual quorum in the shared driver", () => {
