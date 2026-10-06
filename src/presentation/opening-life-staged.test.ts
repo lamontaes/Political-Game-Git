@@ -19,6 +19,7 @@ import { addDays } from "../simulation/dates";
 import { projectCreatorLifeForkMoments } from "../simulation/creator-life-forks";
 import { serializeWorld, deserializeWorld } from "../simulation";
 import { projectLifeStartStory } from "./life-start-story";
+import { openSavedPlayedLife } from "./open-saved-played-life";
 
 it("retains the Creator's actual staged World and person without rebuilding", () => {
   const seed = "session7-staged-creator";
@@ -253,6 +254,35 @@ it(
         (trace) => trace.context.decisionType === "people.creator-life-fork",
       ),
     ).toHaveLength(choices.length);
+    const continued = openSavedPlayedLife(restored, game.playerPersonId);
+    expect(continued.id).toBe(restored.id);
+    expect(continued.people[game.playerPersonId]).toEqual(
+      restored.people[game.playerPersonId],
+    );
+    expect(continued.control).toEqual(restored.control);
+    expect(continued.currentMoment).toEqual(restored.currentMoment);
+    expect(continued.currentDate).toBe(restored.currentDate);
+    expect(continued.preStartLife).toBeUndefined();
+    expect(continued.pastMode).toBeUndefined();
+    const savedChoices = restored.history.decisionTraces.filter(
+      (trace) => trace.context.decisionType === "people.creator-life-fork",
+    );
+    expect(
+      continued.history.decisionTraces.filter(
+        (trace) => trace.context.decisionType === "people.creator-life-fork",
+      ),
+    ).toEqual(savedChoices);
+    const reopened = openSavedPlayedLife(
+      deserializeWorld(serializeWorld(continued)),
+      game.playerPersonId,
+    );
+    expect(reopened.control).toEqual(continued.control);
+    expect(reopened.currentMoment).toEqual(continued.currentMoment);
+    expect(
+      reopened.history.decisionTraces.filter(
+        (trace) => trace.context.decisionType === "people.creator-life-fork",
+      ),
+    ).toEqual(savedChoices);
     expect(() =>
       createOpeningLifeController(answered.setup, answered, {
         game: completed,
