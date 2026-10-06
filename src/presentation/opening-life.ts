@@ -400,6 +400,12 @@ function buildOpeningLife(
       });
     }
     world = scheduleNationwideStateBillSeasons(world);
+    // D.C. is a state-level legislature too: seat its Council and seed the
+    // existing Council calendar for every opening world, not only a D.C.-home
+    // player. The Council keeps its own member-agenda intake and numbering.
+    world = scheduleDcCouncilSitting(
+      ensureDistrictOfColumbiaCouncilOpening(world),
+    );
     for (const chunk of prepareOpeningCongressPrinciplesChunks(world)) {
       world = chunk.world;
       onProgress?.({

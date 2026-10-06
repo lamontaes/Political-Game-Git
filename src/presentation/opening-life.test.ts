@@ -17,6 +17,7 @@ import {
   restoreOpeningLife,
 } from "./opening-life";
 import { seatedCongressChamber } from "../simulation/governing/congress-chambers";
+import { DC_COUNCIL_SITTING } from "../simulation/dc-council-sittings";
 import {
   congressIntakeHandler,
   CONGRESS_INTAKE_TRANSITION,
@@ -97,6 +98,16 @@ describe("OPENING-LIFE1 opening lifecycle", () => {
       },
     );
     const world = opened.game!.world;
+    expect(
+      world.history.futureDueItems.some(
+        (item) => item.transitionKey === DC_COUNCIL_SITTING,
+      ),
+    ).toBe(true);
+    expect(
+      world.history.events.some((event) =>
+        event.stableKey === "dc-council-opening/v1:opening",
+      ),
+    ).toBe(true);
     const congressIds = ["house", "senate"].flatMap(
       (chamber) =>
         seatedCongressChamber(world, chamber)?.body.members.flatMap((member) =>
