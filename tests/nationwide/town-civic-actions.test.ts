@@ -197,8 +197,7 @@ describe(
         }
         for (const tag of contact!.tags.filter(
           (value) =>
-            value.startsWith("reason:") ||
-            value.startsWith("source-record:"),
+            value.startsWith("reason:") || value.startsWith("source-record:"),
         ))
           expect(opened.tags).toContain(tag);
       }
