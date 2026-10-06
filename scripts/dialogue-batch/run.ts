@@ -23,6 +23,7 @@
  */
 import { mkdirSync, writeFileSync } from "node:fs";
 import { batchStats, statsSummary, type BatchStat } from "./stats";
+import { LIFE_TALK_INTENTS } from "../../src/presentation/life-conversation";
 import { dirname } from "node:path";
 import {
   activeWorkRelationshipsAt,
@@ -464,6 +465,7 @@ function greeting(
     axis: "trait",
     composer: "lifeReplyLine (first-greeting) in life-reply-english.ts",
     situation: `${ctx.playerName} says hello for the first time to ${describeWho(speaker)}${label}. ${note}`,
+    prior: LIFE_TALK_INTENTS.greet,
     speaker,
     line: line.text,
     parts: line.parts,
@@ -549,6 +551,7 @@ function sceneQuestion(
       axis: "place",
       composer: "lifeReplyLine (scene question) in life-reply-english.ts",
       situation: `${setting === "home" ? "At home" : setting === "school" ? "At school" : "In the neighborhood"}, in the authored scene "${scene.key}" (${scene.premise.replace(/\{\w+\}/g, speaker.given)}), ${ctx.playerName} asks ${describeWho(speaker)} what is happening here.`,
+      prior: LIFE_TALK_INTENTS.scene,
       speaker,
       line: line.text,
       parts: line.parts,
@@ -581,6 +584,7 @@ function invitationAccept(ctx: WorldContext): Produced {
     axis: "interaction",
     composer: "invitationAgreeLine in refusal-english.ts",
     situation: `${ctx.playerName} suggests playing a game together to ${describeWho(speaker)}, who is free to say yes (no privacy goal; leisure style "${leisureOf(ctx.world, speaker.id)}").`,
+    prior: LIFE_TALK_INTENTS.suggestGame,
     speaker,
     line: line.text,
     parts: line.parts,
@@ -614,6 +618,7 @@ function invitationDecline(ctx: WorldContext): Produced {
       axis: "interaction",
       composer: "invitationDeclineLine in refusal-english.ts",
       situation: `${ctx.playerName} suggests playing a game together to ${describeWho(speaker)}, whose record gives ${why}.`,
+      prior: LIFE_TALK_INTENTS.suggestGame,
       speaker,
       line: line.text,
       parts: line.parts,
@@ -653,6 +658,7 @@ function dateDecline(ctx: WorldContext): Produced {
     axis: "relationship",
     composer: "invitationDeclineLine (date) in refusal-english.ts",
     situation: `${ctx.playerName} asks ${describeWho(speaker)} if they would like this to be a date; their record shows no openness to it.`,
+    prior: LIFE_TALK_INTENTS.date,
     speaker,
     line: line.text,
     parts: line.parts,
@@ -671,6 +677,7 @@ function rememberTopic(ctx: WorldContext): Produced {
     axis: "experience",
     composer: "lifeReplyLine (remembered-topic) in life-reply-english.ts",
     situation: `${ctx.playerName} asks ${describeWho(speaker)} about an earlier conversation, which was about this real item of news: "${matter.headline}"`,
+    prior: LIFE_TALK_INTENTS.remember,
     speaker,
     line: line.text,
     parts: line.parts,
@@ -948,6 +955,7 @@ function matterUninformed(ctx: WorldContext): Produced {
     axis: "experience",
     composer: "matterUninformedLine in small-talk-english.ts",
     situation: `${ctx.playerName} brings up the news ("${matter.headline}") with ${describeWho(speaker)}, who has no record of learning it.`,
+    prior: LIFE_TALK_INTENTS.matter,
     speaker,
     line: line.text,
     parts: line.parts,
@@ -976,6 +984,7 @@ function matterHeard(ctx: WorldContext): Produced {
     axis: "experience",
     composer: "lifeReplyLine (matter awareness) in life-reply-english.ts",
     situation: `${ctx.playerName} brings up the news ("${matter.headline}") with ${describeWho(speaker)}, who ${awareness === "involved" ? "was part of it" : "has a record of learning it"}.`,
+    prior: LIFE_TALK_INTENTS.matter,
     speaker,
     line: line.text,
     parts: line.parts,
@@ -999,6 +1008,7 @@ function officialsView(ctx: WorldContext): Produced {
       axis: "belief",
       composer: "officialViewLine in small-talk-english.ts",
       situation: `${ctx.playerName} asks ${describeWho(speaker)} what they think of the people in office; they hold a saved view of an official over a law or something that happened to them.`,
+      prior: LIFE_TALK_INTENTS.officials,
       speaker,
       line: line.text,
       parts: line.parts,
@@ -1022,6 +1032,7 @@ function privacyMood(ctx: WorldContext): Produced {
     axis: "mood",
     composer: "lifeReplyLine (privacy) in life-reply-english.ts",
     situation: `${ctx.playerName} asks ${describeWho(speaker)} what they would like to do; their record holds an active goal to keep to themselves.`,
+    prior: LIFE_TALK_INTENTS.activity,
     speaker,
     line: line.text,
     parts: line.parts,
@@ -1108,6 +1119,7 @@ const SITUATIONS: readonly Situation[] = [
         axis: "relationship",
         composer: "lifeReplyLine (hi-sweetheart) in life-reply-english.ts",
         situation: `${ctx.playerName}, a young child, says hello to ${describeWho(speaker)}.`,
+        prior: LIFE_TALK_INTENTS.greet,
         speaker,
         line: line.text,
         parts: line.parts,
@@ -1244,9 +1256,17 @@ export function batchSummary(result: BatchResult): string {
       `  world ${world.index}: ${world.player}, age ${world.playerAge}, ${world.place}, ${world.date}${world.advancedDays ? ` (moved ${world.advancedDays} days)` : ""}`,
     );
   out.push("");
+  // The whole exchange, so a grade is of the reply to something, not a line
+  // on its own: the situation, the turn before (as the player saw it), then
+  // the reply the engine composed.
   for (const line of result.lines)
     out.push(
-      `[${line.axis}] ${line.id} — ${line.speaker.name} (${line.speaker.age}): "${line.line}"`,
+      `[${line.axis}] ${line.id}`,
+      `  Situation: ${line.situation}`,
+      ...(line.prior !== undefined
+        ? [`  ${line.world.player}: "${line.prior}"`]
+        : []),
+      `  ${line.speaker.name} (${line.speaker.age}): "${line.line}"`,
     );
   out.push("", "Against the everyday card:", ...statsSummary(result.stats));
   if (result.skipped.length) {
