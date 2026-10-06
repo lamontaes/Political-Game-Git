@@ -62,7 +62,7 @@ import {
   seatedStateLegislators,
 } from "./joint-assembly";
 import {
-  SENATE_APPOINTMENT_PLACEHOLDER_DAYS,
+  senateAppointmentTiming,
   SENATE_SPECIAL_ELECTION_ESTIMATED_DAYS,
   senateVacancyLaw,
 } from "../nationwide-world/senate-vacancy-law";
@@ -181,13 +181,13 @@ function voterChoice(
  *
  * PLACEHOLDER (filed as `us-senate-vacancy-appointment-and-special-election`):
  * the appointee is still a generated person, not someone the governor
- * knows, and the days to an appointment where the statute sets none.
+ * knows. Unrecorded appointment timing is a marked legal-window estimate.
  */
 export const SENATE_APPOINTMENT = "governing:senate-appointment";
 
 export const SENATE_VACANCY_PROFILE = {
   id: "ocd-senate-vacancy-game-profile/v1",
-  daysFromVacancyToAppointment: 10,
+  daysFromVacancyToAppointment: senateAppointmentTiming(null)!.days,
 } as const;
 
 const APPOINTED_FOR_TAG = "appointed-for-vacancy:";
@@ -449,9 +449,9 @@ function nextCongressionalElectionAfter(date: IsoDate): IsoDate {
  * A vacant U.S. Senate seat, filled under the state's own law
  * (`senate-vacancy-law.ts`): an appointment where the governor may make one,
  * then a special election, prompt or at the next regular November election
- * as the state's statute says. PLACEHOLDER (SENATE_VACANCY_PROFILE) only
- * where the law is silent or unrecorded: the days to an appointment with no
- * statutory deadline, and a prompt election's unrecorded window.
+ * as the state's statute says. Appointment timing uses the recorded latest
+ * window or a marked median proxy from comparable legal windows. A prompt
+ * election's unrecorded window is separately estimated.
  */
 function openSenateVacancy(
   world: World,
@@ -497,13 +497,14 @@ function openSenateVacancy(
   }
   const law = senateVacancyLaw(seat.stateUsps);
   const appoints = law ? law.appointment !== "none" : true;
-  const deadline = law?.appointmentDeadlineDays ?? null;
-  const appointmentDay = addDays(
-    from,
-    deadline === null
-      ? SENATE_APPOINTMENT_PLACEHOLDER_DAYS
-      : Math.min(SENATE_APPOINTMENT_PLACEHOLDER_DAYS, deadline),
-  );
+  const timing = senateAppointmentTiming(law);
+  const modeledAppointmentDay = timing
+    ? addDays(vacancyDate, timing.days)
+    : from;
+  // A late notice cannot restart a statutory window. Process an overdue
+  // appointment on the next available clock day, while retaining the original bound in provenance.
+  const appointmentDay =
+    modeledAppointmentDay <= from ? addDays(from, 1) : modeledAppointmentDay;
   const window = seatTermWindow(seat, vacancyDate);
   const regular = congressionalElectionDay(
     Number(window.endExclusive.slice(0, 4)) - 1,
@@ -523,9 +524,7 @@ function openSenateVacancy(
       jurisdictionId: stateId,
       provenance: {
         kind: "authored",
-        note: law
-          ? `${seat.stateUsps} law (${law.citation ?? law.source}): the governor makes a temporary appointment (U.S. Const. amend. XVII).`
-          : `${SENATE_VACANCY_PROFILE.id}: the governor makes a temporary appointment (U.S. Const. amend. XVII); the appointment, its party and its ${SENATE_VACANCY_PROFILE.daysFromVacancyToAppointment}-day interval are a game profile.`,
+        note: `${law ? `${seat.stateUsps} law (${law.citation ?? law.source})` : SENATE_VACANCY_PROFILE.id}: the governor makes a temporary appointment (U.S. Const. amend. XVII). ${timing!.basis === "recorded-deadline" ? `Modeled timing uses the recorded ${timing!.days}-day latest appointment window; this is not an observed appointment date and earlier appointment may be lawful.` : `ESTIMATED FROM LEGAL WINDOWS: ${timing!.days} days, the median of ${timing!.comparatorCount} recorded deadlines (${timing!.comparison}); legal deadlines are a proxy, not observed governor appointment durations.`}${appointmentDay !== modeledAppointmentDay ? " Notice arrived after the modeled date; schedule the overdue appointment on the next available clock day without restarting the window." : ""}`,
       },
     });
   const nextGeneral = nextCongressionalElectionAfter(
