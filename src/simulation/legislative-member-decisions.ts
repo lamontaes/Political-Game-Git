@@ -209,6 +209,71 @@ export function memberVoteConsiderations(
   return memberConsiderations(world, input);
 }
 
+/**
+ * How people reached by an existing law have made its responsible official
+ * look, and whether changing that law would answer their experience. This is
+ * the shared lived-outcome consideration for ordinary bills and constitutional
+ * policy amendments. It reads only saved law exposures, views, and groups.
+ */
+export interface LivedOutcomeVoteInput {
+  readonly world: World;
+  readonly officialId: EntityId;
+  readonly lawMeasureId: EntityId;
+  readonly currentAnswer: "yes" | "no";
+  readonly proposedAnswer: "yes" | "no";
+  readonly groupAnswer?: "yes" | "no" | null;
+  readonly subjectQuestion?: string | null;
+  readonly proposalLabel?: "bill" | "proposal";
+  readonly keySuffix?: string;
+}
+
+export function livedOutcomeVoteConsiderations({
+  world,
+  officialId,
+  lawMeasureId,
+  currentAnswer,
+  proposedAnswer,
+  groupAnswer = proposedAnswer,
+  subjectQuestion = null,
+  proposalLabel = "proposal",
+  keySuffix = lawMeasureId,
+}: LivedOutcomeVoteInput): readonly DecisionConsideration[] {
+  const considerations: DecisionConsideration[] = [];
+  const changesLaw = currentAnswer !== proposedAnswer;
+
+  const lobbying = membersAgainstLaw(world, lawMeasureId);
+  if (lobbying > 0 && groupAnswer !== null)
+    considerations.push({
+      stableKey: `member:organized-interest:${keySuffix}`,
+      optionKey: currentAnswer !== groupAnswer ? "vote-yea" : "vote-nay",
+      sourceType: "context:organized-interest",
+      direction: "supports",
+      importance:
+        lobbying >= 30 ? "strong" : lobbying >= 10 ? "moderate" : "slight",
+      confidence: "medium",
+      explanation: `Groups of people the current law cost want it ${currentAnswer !== groupAnswer ? `changed, as this ${proposalLabel} would` : `changed, and this ${proposalLabel} would keep it`}.`,
+      sourceRefs: [],
+    });
+
+  const net = netViewOnLaw(world, officialId, lawMeasureId);
+  if (net !== 0) {
+    const yea = net < 0 ? changesLaw : !changesLaw;
+    const size = Math.abs(net);
+    considerations.push({
+      stableKey: `member:constituents:${keySuffix}`,
+      optionKey: yea ? "vote-yea" : "vote-nay",
+      sourceType: "context:constituents-view",
+      direction: "supports",
+      importance: size >= 60 ? "strong" : size >= 20 ? "moderate" : "slight",
+      confidence: "medium",
+      explanation: `People the current law${subjectQuestion ? ` on ${subjectQuestion}` : ""} reached ${net < 0 ? "blame" : "credit"} this official for it, and this ${proposalLabel} would ${changesLaw ? "change" : "keep"} that law.`,
+      sourceRefs: [],
+    });
+  }
+
+  return considerations;
+}
+
 function memberConsiderations(
   world: World,
   input: DeriveMemberDispositionInput,
@@ -392,42 +457,23 @@ function memberConsiderations(
         measure,
         answer.propositionId,
       );
-      // Organized interests: the groups a law's cost-bearers formed lobby
-      // every member to change it.
-      const lobbying = membersAgainstLaw(world, law.measureId);
-      if (lobbying > 0 && billAnswerForGroups) {
-        const changesLaw = law.answer !== billAnswerForGroups;
-        considerations.push({
-          stableKey: `member:organized-interest:${law.measureId}:${answer.propositionId}`,
-          optionKey: changesLaw ? "vote-yea" : "vote-nay",
-          sourceType: "context:organized-interest",
-          direction: "supports",
-          // PLACEHOLDER: group members to the engine's ordinal weight.
-          importance:
-            lobbying >= 30 ? "strong" : lobbying >= 10 ? "moderate" : "slight",
-          confidence: "medium",
-          explanation: `Groups of people the current law cost want it ${changesLaw ? "changed, as this bill would" : "changed, and this bill would keep it"}.`,
-          sourceRefs: [],
-        });
-      }
-      const net = netViewOnLaw(world, input.personId, law.measureId);
-      if (net === 0) continue;
-      const changes = law.answer !== answer.answer;
-      const yea = net < 0 ? changes : !changes;
-      const proposition =
-        world.policyCatalog.propositions[answer.propositionId];
-      // PLACEHOLDER: net view points to the engine's ordinal weight.
-      const size = Math.abs(net);
-      considerations.push({
-        stableKey: `member:constituents:${law.measureId}:${answer.propositionId}`,
-        optionKey: yea ? "vote-yea" : "vote-nay",
-        sourceType: "context:constituents-view",
-        direction: "supports",
-        importance: size >= 60 ? "strong" : size >= 20 ? "moderate" : "slight",
-        confidence: "medium",
-        explanation: `People the current law on ${proposition?.question ?? "this question"} reached ${net < 0 ? "blame" : "credit"} the member for it, and this bill would ${changes ? "change" : "keep"} that law.`,
-        sourceRefs: [],
+      // Both law-interest groups and saved views formed after people lived
+      // the law use one interpretation, including for constitutional policy
+      // amendments that would change the same policy.
+      const outcomes = livedOutcomeVoteConsiderations({
+        world,
+        officialId: input.personId,
+        lawMeasureId: law.measureId,
+        currentAnswer: law.answer,
+        proposedAnswer: answer.answer,
+        groupAnswer: billAnswerForGroups,
+        subjectQuestion:
+          world.policyCatalog.propositions[answer.propositionId]?.question ??
+          null,
+        proposalLabel: "bill",
+        keySuffix: `${law.measureId}:${answer.propositionId}`,
       });
+      considerations.push(...outcomes);
     }
   }
 
