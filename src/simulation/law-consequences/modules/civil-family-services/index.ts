@@ -15,9 +15,10 @@ import type { EntityId, HistoricalEvent, World } from "../../../types";
 import { noticeCivilFamilyServiceDelivery } from "../../civil-family-service-noticed";
 import { applyLawConsequences } from "../../../enacted-law-effects";
 import type {
-  PublicProgramCapacityOutturnRecord,
-  PublicProgramCommitmentRecord,
-} from "../../../types";
+  PublicProgramCapacityOutturnContext,
+  PublicProgramCapacityOutturnReceiver,
+  PublicProgramCapacityOutturnReceiverRegistration,
+} from "../../../public-program-capacity-outturn";
 import { recordParksServiceAreaEffect } from "../../parks-service-area";
 import { lawInForce } from "../../../governing/law-in-force";
 import { hasHouseholdResidenceInJurisdiction } from "../../../life-queries";
@@ -196,80 +197,92 @@ const parksServiceRegistration: LawConsequenceKindRegistration<ResolvedLawConseq
 export const registrations: readonly LawConsequenceKindRegistration<ResolvedLawConsequence>[] =
   [libraryServiceRegistration, parksServiceRegistration];
 
-/** Proposed Session 20 post-outturn receiver contract; pending confirmation. */
-export type ParksCapacityOutturnReceiver = (
-  world: World,
-  savedOutturn: PublicProgramCapacityOutturnRecord,
-  commitment: PublicProgramCommitmentRecord,
-) => World;
-
 /**
  * Route an actual saved parks outturn through the ordinary law dispatcher.
- * Context comes only from its saved event, commitment and appropriation.
+ * Uses Session20's published context; caller-provided facts are not accepted.
  */
-export const receiveParksCapacityOutturn: ParksCapacityOutturnReceiver = (
-  world,
-  savedOutturn,
-  commitment,
-) => {
-  if (
-    savedOutturn.kind !== "capacity-outturn" ||
-    commitment.kind !== "commitment"
-  )
-    return world;
-
-  const savedRecords = world.history.publicProgramRecords ?? [];
-  const outturn = savedRecords.find(
-    (record) =>
-      record.kind === "capacity-outturn" && record.id === savedOutturn.id,
-  );
-  const savedCommitment = savedRecords.find(
-    (record) => record.kind === "commitment" && record.id === commitment.id,
-  );
-  if (
-    outturn?.kind !== "capacity-outturn" ||
-    savedCommitment?.kind !== "commitment" ||
-    !outturn.programKey.startsWith("parks:") ||
-    outturn.commitmentId !== savedCommitment.id ||
-    outturn.commitmentId !== commitment.id
-  )
-    return world;
-
-  const appropriation = savedRecords.find(
-    (record) =>
-      record.kind === "appropriation" &&
-      record.id === savedCommitment.appropriationId,
-  );
-  if (
-    appropriation?.kind !== "appropriation" ||
-    appropriation.jurisdictionId !== outturn.jurisdictionId ||
-    !appropriation.sourceMeasureId
-  )
-    return world;
-
-  const event = eventById(world, outturn.eventId);
-  if (!event || event.occurredAt !== world.currentDate) return world;
-  const cutoff = {
-    asOfDate: event.occurredAt,
-    historySequenceExclusive: outturn.sequence,
-  };
-  const subjectIds = (Object.keys(world.people) as EntityId[])
-    .filter((personId) =>
-      hasHouseholdResidenceInJurisdiction(
-        world,
-        personId,
-        outturn.jurisdictionId,
-        cutoff,
-      ),
+export const receiveParksCapacityOutturn: PublicProgramCapacityOutturnReceiver =
+  (world, context: PublicProgramCapacityOutturnContext): World => {
+    const { outturn, eventDate, commitment, installment, appropriation } =
+      context;
+    const sourceMeasureId = context.sourceMeasureId;
+    if (
+      outturn.kind !== "capacity-outturn" ||
+      !outturn.programKey.startsWith("parks:") ||
+      commitment.kind !== "commitment" ||
+      installment.kind !== "installment" ||
+      appropriation.kind !== "appropriation" ||
+      outturn.commitmentId !== commitment.id ||
+      outturn.installmentId !== installment.id ||
+      installment.commitmentId !== commitment.id ||
+      commitment.appropriationId !== appropriation.id ||
+      appropriation.jurisdictionId !== outturn.jurisdictionId ||
+      sourceMeasureId === null ||
+      sourceMeasureId !== (appropriation.sourceMeasureId ?? null)
     )
-    .sort();
+      return world;
 
-  return applyLawConsequences(world, {
-    activity: "service",
-    activityId: outturn.id,
-    onDate: event.occurredAt,
-    questionKey: PARKS_QUESTION,
-    governingLawId: appropriation.sourceMeasureId,
-    subjectIds,
-  });
-};
+    const savedRecords = world.history.publicProgramRecords ?? [];
+    if (
+      !savedRecords.some(
+        (record) =>
+          record.kind === "capacity-outturn" && record.id === outturn.id,
+      ) ||
+      !savedRecords.some(
+        (record) => record.kind === "commitment" && record.id === commitment.id,
+      ) ||
+      !savedRecords.some(
+        (record) =>
+          record.kind === "installment" && record.id === installment.id,
+      ) ||
+      !savedRecords.some(
+        (record) =>
+          record.kind === "appropriation" && record.id === appropriation.id,
+      )
+    )
+      return world;
+
+    const savedOutturn = savedRecords.find(
+      (record) =>
+        record.kind === "capacity-outturn" && record.id === outturn.id,
+    );
+    const event = eventById(world, outturn.eventId);
+    if (
+      savedOutturn?.kind !== "capacity-outturn" ||
+      !event ||
+      event.occurredAt !== eventDate ||
+      event.occurredAt !== world.currentDate
+    )
+      return world;
+    const cutoff = {
+      asOfDate: eventDate,
+      historySequenceExclusive: savedOutturn.sequence,
+    };
+    const subjectIds = (Object.keys(world.people) as EntityId[])
+      .filter((personId) =>
+        hasHouseholdResidenceInJurisdiction(
+          world,
+          personId,
+          savedOutturn.jurisdictionId,
+          cutoff,
+        ),
+      )
+      .sort();
+
+    return applyLawConsequences(world, {
+      activity: "service",
+      activityId: savedOutturn.id,
+      onDate: eventDate,
+      questionKey: PARKS_QUESTION,
+      governingLawId: sourceMeasureId,
+      subjectIds,
+    });
+  };
+
+export const publicProgramCapacityOutturnReceivers: readonly PublicProgramCapacityOutturnReceiverRegistration[] =
+  [
+    {
+      key: "parks-law-service-area",
+      receive: receiveParksCapacityOutturn,
+    },
+  ];

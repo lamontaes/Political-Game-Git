@@ -2,10 +2,11 @@ import { describe, expect, it } from "vitest";
 import { addDays } from "../dates";
 import { hasHouseholdResidenceInJurisdiction } from "../life-queries";
 import { publicProgramRecordId } from "../public-program-integrity";
+import { applyPublicProgramCapacityOutturnReceivers } from "../public-program-capacity-outturn";
 import { recordWorldEvent } from "../world";
 import { lawExposureSentence } from "../../presentation/law-exposure-lines";
 import { applyLawConsequences } from "../enacted-law-effects";
-import { receiveParksCapacityOutturn } from "./modules/civil-family-services";
+import { publicProgramCapacityOutturnReceivers } from "./modules/civil-family-services";
 import { LAW_CONSEQUENCE_REGISTRATIONS } from "../law-consequence-registry";
 import type {
   EntityId,
@@ -137,20 +138,15 @@ describe("parks law area effects", () => {
     expect(savedOutturn.kind).toBe("capacity-outturn");
     if (savedOutturn.kind !== "capacity-outturn") throw new Error("fixture");
     if (commitment.record.kind !== "commitment") throw new Error("fixture");
-    const worldWithOutturn: World = {
-      ...outturn.world,
-      history: {
-        ...outturn.world.history,
-        publicProgramRecords: [
-          ...(outturn.world.history.publicProgramRecords ?? []),
-          savedOutturn,
-        ],
-      },
-    };
-    const reached = receiveParksCapacityOutturn(
+    const worldWithOutturn = outturn.world;
+    const installmentRecord = installment.record;
+    if (installmentRecord.kind !== "installment") throw new Error("fixture");
+    const reached = applyPublicProgramCapacityOutturnReceivers(
+      installment.world,
       worldWithOutturn,
-      savedOutturn,
       commitment.record,
+      installmentRecord,
+      publicProgramCapacityOutturnReceivers,
     );
     const exposures = reached.history.lawExposures ?? [];
     expect(
@@ -183,29 +179,33 @@ describe("parks law area effects", () => {
         .sort(),
     ).toEqual(before.sort());
     expect(
-      receiveParksCapacityOutturn(reached, savedOutturn, commitment.record),
+      applyPublicProgramCapacityOutturnReceivers(
+        reached,
+        reached,
+        commitment.record,
+        installmentRecord,
+        publicProgramCapacityOutturnReceivers,
+      ),
     ).toBe(reached);
 
-    const zeroOutturn = {
-      ...savedOutturn,
-      id: `zero:${savedOutturn.id}` as EntityId,
+    const zeroSaved = saveParkRecord(worldWithOutturn, "capacity-outturn", {
+      commitmentId: commitment.record.id,
+      installmentId: installmentRecord.id,
       unitsOperational: 0,
       restoredUnits: 0,
-    };
-    const worldWithZeroOutturn: World = {
-      ...worldWithOutturn,
-      history: {
-        ...worldWithOutturn.history,
-        publicProgramRecords: [
-          ...(worldWithOutturn.history.publicProgramRecords ?? []),
-          zeroOutturn,
-        ],
-      },
-    };
-    const zeroReached = receiveParksCapacityOutturn(
-      worldWithZeroOutturn,
-      zeroOutturn,
+      serviceLabel: "Park opening hours",
+      unitLabel: "hours per week",
+      placeLabel: funded.jurisdiction.name,
+    });
+    if (zeroSaved.record.kind !== "capacity-outturn")
+      throw new Error("fixture");
+    const zeroOutturn = zeroSaved.record;
+    const zeroReached = applyPublicProgramCapacityOutturnReceivers(
+      worldWithOutturn,
+      zeroSaved.world,
       commitment.record,
+      installmentRecord,
+      publicProgramCapacityOutturnReceivers,
     );
     const zeroCause = zeroReached.history.lawExposures!.filter(
       (row) => row.sourceRecordId === zeroOutturn.id,
@@ -218,25 +218,24 @@ describe("parks law area effects", () => {
       lawExposureSentence(zeroReached, zeroCause[0]!.personId, zeroCause[0]!),
     ).toContain("closed is derived from the count");
 
-    const unknownOutturn = {
-      ...savedOutturn,
-      id: `unknown:${savedOutturn.id}` as EntityId,
+    const unknownSaved = saveParkRecord(zeroSaved.world, "capacity-outturn", {
+      commitmentId: commitment.record.id,
+      installmentId: installmentRecord.id,
+      unitsOperational: 4,
       restoredUnits: null,
-    };
-    const worldWithUnknownOutturn: World = {
-      ...worldWithOutturn,
-      history: {
-        ...worldWithOutturn.history,
-        publicProgramRecords: [
-          ...(worldWithOutturn.history.publicProgramRecords ?? []),
-          unknownOutturn,
-        ],
-      },
-    };
-    const unknownReached = receiveParksCapacityOutturn(
-      worldWithUnknownOutturn,
-      unknownOutturn,
+      serviceLabel: "Park opening hours",
+      unitLabel: "hours per week",
+      placeLabel: funded.jurisdiction.name,
+    });
+    if (unknownSaved.record.kind !== "capacity-outturn")
+      throw new Error("fixture");
+    const unknownOutturn = unknownSaved.record;
+    const unknownReached = applyPublicProgramCapacityOutturnReceivers(
+      zeroSaved.world,
+      unknownSaved.world,
       commitment.record,
+      installmentRecord,
+      publicProgramCapacityOutturnReceivers,
     );
     const unknownCause = unknownReached.history.lawExposures!.find(
       (row) => row.sourceRecordId === unknownOutturn.id,
