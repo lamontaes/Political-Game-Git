@@ -222,6 +222,15 @@ describe.each(samples)(
       expect(latestDisposition(answered, recorded.lead.id)?.decision).toBe(
         "subject-responded",
       );
+      expect(
+        answered.history.relationshipInteractions.some(
+          (interaction) =>
+            interaction.eventId === response!.id &&
+            interaction.personIds.includes(familiar.personId) &&
+            interaction.personIds.includes(f.personId) &&
+            interaction.tags.includes("press.call.answered"),
+        ),
+      ).toBe(true);
       expect(storyWorkItem(assigned, recorded.lead.id)).not.toBeNull();
       expect(
         assigned.history.futureDueItems.some(
