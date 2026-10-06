@@ -513,6 +513,23 @@
   color: var(--text-strong);
   border-bottom: 0;
 }
+/* The approved primary corner marks a held static action, never its resting face. */
+.pg-game.pg-game
+  .title-tableau--art.front-door
+  .game-creator
+  > .creator-navigation
+  .creator-primary-action:active:not(:disabled) {
+  background-image:
+    url("/ui/kit13/primary-corner.svg"), var(--kit13-grain),
+    var(--kit13-button-face);
+  background-position: left top;
+  background-size:
+    20px 20px,
+    96px 64px,
+    auto;
+  background-repeat: no-repeat, repeat, no-repeat;
+}
+
 .title-tableau--art.front-door
   .game-creator
   > .creator-navigation
