@@ -21,6 +21,12 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import electron from "electron";
 import { runUpdateCheck, updateActivation } from "./updater.mjs";
+import {
+  macAppBundleFromExecutable,
+  markMacUpdateReady,
+  noteMacUpdateStart,
+  prepareMacUpdateRetention,
+} from "./update-retention.mjs";
 import { windowsAllClosed } from "./window-close.mjs";
 import { portableDownloadSavePath } from "./download-policy.mjs";
 import {
@@ -121,7 +127,25 @@ function readUpdateConfig() {
 }
 
 const updateConfig = readUpdateConfig();
-const activation = updateActivation(updateConfig, identity);
+let activation = updateActivation(updateConfig, identity);
+const directMacStable =
+  process.platform === "darwin" &&
+  app.isPackaged &&
+  updateConfig.channel === "stable" &&
+  activation.active;
+let retentionStartup = { action: "none" };
+let retentionError = null;
+if (directMacStable) {
+  try {
+    retentionStartup = noteMacUpdateStart({
+      appBundlePath: macAppBundleFromExecutable(process.execPath),
+      appDataPath: app.getPath("appData"),
+    });
+  } catch (error) {
+    retentionError = error;
+    activation = { active: false, reason: "retention-unavailable" };
+  }
+}
 
 let updateCheckInFlight = false;
 
@@ -163,6 +187,15 @@ async function checkForUpdates() {
           checkForUpdates: () => autoUpdater.checkForUpdates(),
           downloadUpdate: () => autoUpdater.downloadUpdate(),
           quitAndInstall: () => autoUpdater.quitAndInstall(),
+          prepareUpdateRetention: (nextVersion) => {
+            if (!directMacStable || retentionError)
+              throw new Error("Mac update fallback is not available");
+            return prepareMacUpdateRetention({
+              appBundlePath: macAppBundleFromExecutable(process.execPath),
+              appDataPath: app.getPath("appData"),
+              nextVersion,
+            });
+          },
           setAutoInstallOnAppQuit: (value) => {
             autoUpdater.autoInstallOnAppQuit = value;
           },
@@ -228,6 +261,29 @@ function createWindow() {
       preload: undefined,
     },
   });
+  if (directMacStable && !retentionError) {
+    win.webContents.on("did-finish-load", () => {
+      void win.webContents
+        .executeJavaScript(
+          'Boolean(document.querySelector("[data-testid=\\"title-screen\\"]"))',
+        )
+        .then((titleRendered) => {
+          if (!titleRendered) return;
+          const outcome = markMacUpdateReady({
+            appBundlePath: macAppBundleFromExecutable(process.execPath),
+            appDataPath: app.getPath("appData"),
+          });
+          if (outcome.action === "rollback-notice") {
+            void dialog.showMessageBox({
+              type: "info",
+              message: "The update did not start correctly.",
+              detail: `Our Civic Duty reopened the previous version (${outcome.previousVersion}). Your saves were left in place.`,
+            });
+          }
+        })
+        .catch(() => {});
+    });
+  }
   // Open at the size of the screen rather than as a small window.
   win.once("ready-to-show", () => {
     win.maximize();
@@ -309,6 +365,11 @@ if (!app.requestSingleInstanceLock()) {
   });
 
   app.whenReady().then(() => {
+    if (retentionStartup.action === "rollback-restored") {
+      app.relaunch();
+      app.quit();
+      return;
+    }
     protocol.handle(APP_SCHEME, (request) =>
       serveAppRequest(contentRoot, request),
     );
