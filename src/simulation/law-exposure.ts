@@ -230,6 +230,8 @@ export function livedOutcomeReflectionKey(
 }
 
 export const LIVED_OUTCOME_REFLECTION_PREFIX = "lived-outcome:reflect:";
+export const CONSTITUENT_CASE_REFLECTION_PREFIX =
+  "official-view:constituent-case:reflect:";
 
 /** Schedules one reflection on one recorded outcome. */
 export function scheduleLivedOutcomeReflection(
@@ -243,6 +245,42 @@ export function scheduleLivedOutcomeReflection(
     personId,
     livedOutcomeReflectionKey(personId, sourceRecordId),
   );
+}
+
+/** Schedules the resident's reflection on their recorded office's answer. */
+export function scheduleConstituentCaseReflection(
+  world: World,
+  residentId: EntityId,
+  officialId: EntityId,
+  closedCaseEventId: EntityId,
+): World {
+  const closed = world.history.events.find(
+    (event) =>
+      event.id === closedCaseEventId && event.type === "office.case-closed",
+  );
+  if (
+    !world.people[residentId] ||
+    !world.people[officialId] ||
+    !closed?.involvedEntityIds.includes(residentId) ||
+    !closed.involvedEntityIds.includes(officialId)
+  )
+    return world;
+  if (world.control.kind === "person" && world.control.personId === residentId)
+    return world;
+  const stableKey = `${CONSTITUENT_CASE_REFLECTION_PREFIX}${closedCaseEventId}`;
+  if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
+    return world;
+  return scheduleFutureDueItem(world, {
+    stableKey,
+    dueAt: addDays(world.currentDate, REFLECTION_DAYS),
+    transitionKey: OFFICIAL_VIEW_TRANSITION_KEY,
+    entityIds: [...new Set([residentId, officialId, closedCaseEventId])].sort(),
+    jurisdictionId: closed.jurisdictionId,
+    provenance: {
+      kind: "initialization",
+      reference: "official-view:constituent-case-reflection",
+    },
+  });
 }
 
 function scheduleReflection(

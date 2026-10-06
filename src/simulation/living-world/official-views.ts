@@ -1,5 +1,6 @@
 import { ageOnDate } from "../dates";
 import {
+  CONSTITUENT_CASE_REFLECTION_PREFIX,
   LIVED_OUTCOME_REFLECTION_PREFIX,
   OFFICIAL_VIEW_TRANSITION_KEY,
   lawExposureFeltSize,
@@ -174,6 +175,8 @@ export function officialViewReflectionHandler(
     throw new Error("The official view handler received another transition.");
   if (dueItem.stableKey.startsWith(LIVED_OUTCOME_REFLECTION_PREFIX))
     return reflectOnLivedOutcome(world, dueItem);
+  if (dueItem.stableKey.startsWith(CONSTITUENT_CASE_REFLECTION_PREFIX))
+    return reflectOnConstituentCase(world, dueItem);
   const done = (
     next: World,
     reason: string,
@@ -225,6 +228,133 @@ export function officialViewReflectionHandler(
   if (exposure.relation === "own")
     for (const hearerId of hearersOf(world, exposure))
       next = recordHeardExposure(next, exposure, hearerId);
+  return done(next, "reflected");
+}
+
+/** A resident reflects on what their official did with the recorded case. */
+function reflectOnConstituentCase(
+  world: World,
+  dueItem: FutureDueItem,
+): FutureTransitionHandlerResult {
+  const done = (
+    next: World,
+    reason: string,
+  ): FutureTransitionHandlerResult => ({
+    world: next,
+    status: "resolved",
+    reasonKey: `${V}:constituent-case-${reason}`,
+    context: null,
+    outcomeEventId: null,
+  });
+  const closed = world.history.events.find(
+    (event) =>
+      event.type === "office.case-closed" &&
+      dueItem.stableKey === `${CONSTITUENT_CASE_REFLECTION_PREFIX}${event.id}`,
+  );
+  const residentId = closed?.participants.find(
+    ({ role }) => role === "focus:subject",
+  )?.personId;
+  const officialId = closed?.participants.find(
+    ({ role }) => role === "focus:object",
+  )?.personId;
+  if (
+    !residentId ||
+    !officialId ||
+    !world.people[residentId] ||
+    !world.people[officialId] ||
+    !closed
+  )
+    return done(world, "record-not-present");
+  if (world.control.kind === "person" && world.control.personId === residentId)
+    return done(world, "controlled-person");
+  const answer = closed.tags
+    .find((tag) => tag.startsWith("answer:"))
+    ?.slice("answer:".length);
+  const favors =
+    answer === "help" || answer === "refer"
+      ? "support"
+      : answer === "ignore"
+        ? "opposition"
+        : null;
+  if (!favors) return done(world, "no-view-reason");
+  const knowledgeKey = `official-view:constituent-case:knowledge:${closed.id}:${residentId}`;
+  let next = world;
+  let knowledge = next.history.knowledge.find(
+    (record) => record.stableKey === knowledgeKey,
+  );
+  if (!knowledge) {
+    next = recordEventKnowledge(next, {
+      stableKey: knowledgeKey,
+      personId: residentId,
+      eventId: closed.id,
+      learnedAt: next.currentDate,
+      believedSummary: closed.summary,
+      accuracy: "accurate",
+      confidence: "high",
+      source: { kind: "direct" },
+    });
+    knowledge = next.history.knowledge.at(-1);
+  }
+  if (!knowledge) return done(next, "knowledge-not-recorded");
+  const reflectionId = `${V}:constituent-case-reflection:${closed.id}`;
+  next = recordWorldEvent(next, {
+    stableKey: reflectionId,
+    type: "people.constituent-case-reflection",
+    occurredAt: next.currentDate,
+    recordedAt: next.currentDate,
+    jurisdictionId: closed.jurisdictionId,
+    involvedEntityIds: [residentId, officialId],
+    participants: [
+      { personId: residentId, role: "focus:subject", detail: null },
+      { personId: officialId, role: "focus:object", detail: null },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: ["people.official-view", `case:${closed.id}`, `answer:${answer}`],
+    summary:
+      answer === "ignore"
+        ? "Thought over being ignored by an official they contacted."
+        : answer === "refer"
+          ? "Thought over an official referring their case to someone who could help."
+          : "Thought over an official helping with their case.",
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const reflection = next.history.events.at(-1)!;
+  const magnitude =
+    reactionLens(next, residentId) * (answer === "refer" ? 0.5 : 1);
+  const reason: PoliticalBeliefFormationFactor = {
+    stableKey: `constituent-case:${closed.id}`,
+    favors,
+    sourceType: "information:constituent-case",
+    importance: IMPORTANCE_FROM.find(([minimum]) => magnitude >= minimum)![1],
+    confidence: "high",
+    explanation:
+      answer === "ignore"
+        ? "The official ignored a case the resident brought them."
+        : answer === "refer"
+          ? "The official referred the resident's case for help."
+          : "The official helped with a case the resident brought them.",
+    sourceRefs: [
+      { kind: "historical-event", eventId: reflection.id },
+      { kind: "historical-event", eventId: closed.id },
+      { kind: "event-knowledge", knowledgeId: knowledge.id },
+    ],
+  };
+  next = formViewFromFactor(
+    next,
+    residentId,
+    officialId,
+    { factor: reason, felt: magnitude },
+    `${V}:constituent-case:${closed.id}:${residentId}:${officialId}`,
+    "The official's case response runs against the view this resident already held.",
+  );
   return done(next, "reflected");
 }
 
