@@ -26,7 +26,10 @@ import { InlineDayControl } from "./controls/InlineDayControl";
 import { nationalMedianWageSentence } from "../presentation/career-wage";
 import { proseDate } from "../presentation/prose-dates";
 import { addDays } from "../simulation/dates";
-import { JOB_MARKET_PLACEHOLDER } from "../simulation/job-market";
+
+/** The job-market record allows two days after a missed start. */
+const MISSED_START_GRACE_DAYS = 2;
+
 export function CareerPathsPanel({
   world,
   onWorldChange,
@@ -131,10 +134,7 @@ export function CareerPathsPanel({
         const expectedStart = careerExpectedStart(world, r.id) ?? r.startedAt;
         const startReached = expectedStart <= world.currentDate;
         const calledBack = expectedStart !== r.startedAt;
-        const beginBy = addDays(
-          expectedStart,
-          JOB_MARKET_PLACEHOLDER.missedStartGraceDays,
-        );
+        const beginBy = addDays(expectedStart, MISSED_START_GRACE_DAYS);
         return (
           <article key={r.id}>
             <h4>{workRoleAt(world, r.id)?.title}</h4>
