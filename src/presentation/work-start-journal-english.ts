@@ -126,6 +126,7 @@ export function buildSavedWorkStartJournalPacket(
   for (const tendency of world.history.personalityTendencies)
     if (
       tendency.personId === personId &&
+      !tendency.scopeTags.includes("life:romantic-orientation:private") &&
       tendency.recordedAt <= status.effectiveAt
     )
       traits[`expression:${tendency.expressionKey}`] = {

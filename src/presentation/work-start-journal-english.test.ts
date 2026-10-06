@@ -53,6 +53,9 @@ describe("saved work-start Journal English", () => {
     });
     expect(built.kind).toBe("packet");
     if (built.kind !== "packet") return;
+    expect(
+      Object.keys(built.packet.facts).some((key) => key.includes("identified")),
+    ).toBe(false);
     expect(built.packet.stage).toBe("active");
     const result = renderGroundedEnglish(built.packet, WORK_START_JOURNAL_BANK);
     expect(result).toMatchObject({

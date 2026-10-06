@@ -1,4 +1,4 @@
-import { ageOnDate } from "./dates";
+import { ageOnDate, daysBetween } from "./dates";
 import { evaluateDecision, isSelectedDecision } from "./decisions";
 import { createPartnership, recordPartnershipState } from "./life";
 import { LIFE_MIND_IDS } from "./life-mind-content";
@@ -9,7 +9,8 @@ import {
   partnershipStateHistory,
 } from "./life-queries";
 import { personName } from "./people";
-import { latestPersonalValue } from "./queries";
+import { personTrait } from "./people-traits";
+import { latestPersonalValue, latestPersonalValuesForPerson } from "./queries";
 import { recordRelationshipInteraction } from "./records";
 import { readRelationshipStanding } from "./relationship-standing";
 import type {
@@ -33,13 +34,10 @@ import { recordWorldEvent } from "./world";
  * Every answer is the other person's, weighed from their own side through the
  * shared decision evaluator, and a no is as real as a yes.
  *
- * PLACEHOLDER, NOT RESEARCH: which considerations bear on saying yes, how much
- * each weighs, and how many dates come before asking are filed with ChatGPT as
- * `how-two-people-become-a-couple` (the rules) and
- * `how-american-couples-form-in-numbers` (the measured pace). The game has no
- * model of attraction; openness to company, how the two of them already
- * stand, and whether the person asked is already with somebody stand in until
- * those answers land.
+ * Interest is derived from what each person has recorded about the other,
+ * their shared values and settings, life stages, and the answerer's own
+ * temperament. The cohort-calibrated private identity record is not shown and
+ * does not act as a compatibility score or gate.
  */
 
 export const DATE_OCCASION = "date";
@@ -51,6 +49,7 @@ export const COUPLE_DECLINED_EVENT = "life.couple-declined";
 export const COUPLE_ENDED_EVENT = "life.couple-ended";
 
 /** Calibration: kept dates before either of them may ask. See header. */
+/** The legacy default, retained for callers that display the old calibration. */
 export const DATES_BEFORE_ASKING = 2;
 
 const ADULT_AGE = 18;
@@ -205,6 +204,136 @@ export function romanticConsiderations(
       sourceRefs: [{ kind: "personal-value", valueRecordId: connection.id }],
     });
   }
+  const answererValues = latestPersonalValuesForPerson(world, answererId);
+  const askerValueById = new Map(
+    latestPersonalValuesForPerson(world, askerId).map((value) => [
+      value.valueId,
+      value,
+    ]),
+  );
+  const matchedValues = answererValues.flatMap((value) => {
+    const other = askerValueById.get(value.valueId);
+    return other && other.orientation === value.orientation
+      ? [value, other]
+      : [];
+  });
+  if (matchedValues.length > 0) {
+    considerations.push({
+      stableKey: `${stableKey}:shared-values`,
+      optionKey: "accept",
+      sourceType: "mind:personal-value",
+      direction: "supports",
+      importance: "moderate",
+      confidence: "medium",
+      explanation: "They see some important parts of life in a similar way.",
+      sourceRefs: matchedValues.slice(0, 6).map((value) => ({
+        kind: "personal-value" as const,
+        valueRecordId: value.id,
+      })),
+    });
+  }
+  const shared = world.history.relationshipInteractions.filter(
+    (interaction) =>
+      interaction.personIds.includes(answererId) &&
+      interaction.personIds.includes(askerId),
+  );
+  if (shared.length > 0) {
+    const last = shared.at(-1)!;
+    const recencyDays = daysBetween(last.occurredAt, world.currentDate);
+    considerations.push({
+      stableKey: `${stableKey}:time-together`,
+      optionKey: "accept",
+      sourceType: "social:relationship",
+      direction: "supports",
+      importance:
+        shared.length >= 5
+          ? "strong"
+          : shared.length >= 2
+            ? "moderate"
+            : "slight",
+      confidence: "high",
+      explanation:
+        recencyDays <= 30
+          ? `They have spent time together ${shared.length} ${shared.length === 1 ? "time" : "times"}, most recently this month.`
+          : `They have spent time together ${shared.length} ${shared.length === 1 ? "time" : "times"}.`,
+      sourceRefs: shared.slice(-3).map((interaction) => ({
+        kind: "relationship-interaction" as const,
+        interactionId: interaction.id,
+      })),
+    });
+    const sharedTags = new Set(
+      shared
+        .flatMap((interaction) => interaction.tags)
+        .filter((tag) => /^(work|campaign|school|party-chapter):/.test(tag)),
+    );
+    if (sharedTags.size > 0) {
+      considerations.push({
+        stableKey: `${stableKey}:shared-setting`,
+        optionKey: "accept",
+        sourceType: "social:relationship",
+        direction: "supports",
+        importance: "moderate",
+        confidence: "medium",
+        explanation:
+          "They know each other through a shared part of their lives.",
+        sourceRefs: shared.slice(-3).map((interaction) => ({
+          kind: "relationship-interaction" as const,
+          interactionId: interaction.id,
+        })),
+      });
+    }
+  }
+  const answererAge = ageOnDate(
+    world.people[answererId]!.birthDate,
+    world.currentDate,
+  );
+  const askerAge = ageOnDate(
+    world.people[askerId]!.birthDate,
+    world.currentDate,
+  );
+  const answererStage =
+    answererAge < 25
+      ? "young-adult"
+      : answererAge < 40
+        ? "adult"
+        : "later-adult";
+  const askerStage =
+    askerAge < 25 ? "young-adult" : askerAge < 40 ? "adult" : "later-adult";
+  if (answererStage !== askerStage && Math.abs(answererAge - askerAge) >= 8) {
+    considerations.push({
+      stableKey: `${stableKey}:life-stage`,
+      optionKey: "decline",
+      sourceType: "context:life",
+      direction: "supports",
+      importance: "moderate",
+      confidence: "medium",
+      explanation: "They are at different stages of life.",
+      sourceRefs: [],
+    });
+  }
+  const sociability = personTrait(world, answererId, "sociability");
+  if (sociability.value !== 0) {
+    considerations.push({
+      stableKey: `${stableKey}:temperament`,
+      optionKey: sociability.value > 0 ? "accept" : "decline",
+      sourceType: "mind:personality",
+      direction: "supports",
+      importance: "slight",
+      confidence: "medium",
+      explanation:
+        sociability.value > 0
+          ? "They are open to meeting someone new."
+          : "They are reserved about getting close.",
+      sourceRefs: sociability.recordId
+        ? [
+            {
+              kind: "personality-tendency",
+              tendencyRecordId: sociability.recordId,
+            },
+          ]
+        : [],
+    });
+  }
   const readings = readRelationshipStanding(
     world,
     answererId,
@@ -271,10 +400,18 @@ export function coupleAskRefusal(
   if (coupleBetween(world, personId, otherId))
     return "You are already together.";
   const dates = keptDates(world, personId, otherId).length;
-  if (dates < DATES_BEFORE_ASKING) {
+  const deliberation =
+    (personTrait(world, personId, "deliberation").value +
+      personTrait(world, otherId, "deliberation").value) /
+    2;
+  const requiredDates = Math.max(
+    1,
+    Math.min(4, Math.round(2 - deliberation / 2)),
+  );
+  if (dates < requiredDates) {
     return dates === 0
       ? "You have not been out together yet."
-      : "You have only been out together once.";
+      : "You have not spent enough time together yet.";
   }
   if (
     world.history.events.some(

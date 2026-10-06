@@ -1,0 +1,58 @@
+{
+  "version": "romantic-orientation-cohorts/v1",
+  "measure": "U.S. adults who identify as LGBTQ+",
+  "sourceYear": 2023,
+  "source": {
+    "publisher": "Gallup",
+    "author": "Jeffrey M. Jones",
+    "title": "LGBTQ+ Identification in U.S. Now at 7.6%",
+    "published": "2024-03-13",
+    "url": "https://news.gallup.com/poll/611864/lgbtq-identification.aspx",
+    "population": "U.S. adults age 18 and older; aggregated 2023 Gallup telephone surveys; more than 12,000 respondents"
+  },
+  "rows": [
+    {
+      "cohort": "silent-and-older",
+      "birthYears": "1945 and earlier",
+      "share": 0.011,
+      "basis": "sourced"
+    },
+    {
+      "cohort": "baby-boomer",
+      "birthYears": "1946-1964",
+      "share": 0.023,
+      "basis": "sourced"
+    },
+    {
+      "cohort": "generation-x",
+      "birthYears": "1965-1980",
+      "share": 0.045,
+      "basis": "sourced"
+    },
+    {
+      "cohort": "millennial",
+      "birthYears": "1981-1996",
+      "share": 0.098,
+      "basis": "sourced"
+    },
+    {
+      "cohort": "generation-z-adult",
+      "birthYears": "1997-2006 (adults in 2023)",
+      "share": 0.223,
+      "basis": "sourced"
+    },
+    {
+      "cohort": "generation-z-younger",
+      "birthYears": "2007 onward",
+      "share": 0.223,
+      "basis": "estimated",
+      "estimateMethod": "Nearest measured adult cohort (Gen Z, 1997-2006) carried forward; Gallup's 2023 estimate does not include these people as adults."
+    }
+  ],
+  "limitations": [
+    "Gallup measures adult self-identification, not a person's romantic or sexual attraction, partner-gender preference, or behavior.",
+    "The survey category includes transgender and other identities; the cohort share is only a coarse population calibration proxy, not a claim that every non-heterosexual orientation has this same prevalence.",
+    "A stable seeded draw uses these aggregate shares only to create a private fictional identification record. It is not personal observation, diagnosis, compatibility, or a public stat.",
+    "Nonresponse is not imputed as heterosexual identity in the cited table; this implementation's two-way split necessarily folds nonresponse into the majority estimate and is marked low-confidence."
+  ]
+}

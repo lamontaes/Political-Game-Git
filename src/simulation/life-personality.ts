@@ -13,6 +13,10 @@ import {
   type PersonUpbringing,
 } from "./people-upbringing";
 import { latestPersonalityTendency } from "./queries";
+import {
+  romanticOrientationCohortForBirthDate,
+  seededRomanticOrientation,
+} from "./romantic-orientation";
 import type { EntityId, World } from "./types";
 
 type Orientation = "embraces" | "questions" | "conflicted";
@@ -84,8 +88,20 @@ export function establishLifePersonality(
   world: World,
   personId: EntityId,
 ): World {
-  if (latestPersonalityTendency(world, personId, LIFE_MIND_IDS.conversation))
-    return world;
+  const orientationRecord = latestPersonalityTendency(
+    world,
+    personId,
+    LIFE_MIND_IDS.romanticOrientation,
+  );
+  const hasOrdinaryPersonality = !!latestPersonalityTendency(
+    world,
+    personId,
+    LIFE_MIND_IDS.conversation,
+  );
+  if (hasOrdinaryPersonality)
+    return orientationRecord
+      ? world
+      : establishRomanticOrientation(world, personId);
   const leans = lifePersonalityFromUpbringing(upbringingFor(world, personId));
   const provenance = createMindProvenance("authored", {
     note: `${LIFE_MIND_CONTENT_VERSION}: fictional ordinary-life preferences read from this person's upbringing; no empirical or demographic inference.`,
@@ -127,7 +143,7 @@ export function establishLifePersonality(
     });
   }
   const goal = leans.goal;
-  return recordGoalState(next, {
+  next = recordGoalState(next, {
     stableKey: `${LIFE_MIND_CONTENT_VERSION}:${personId}:ordinary-goal`,
     personId,
     goalKey: `opening-life:${goal}`,
@@ -143,6 +159,38 @@ export function establishLifePersonality(
     provenance,
     replacesGoalId: null,
     supersedesGoalStateId: null,
+  });
+  return orientationRecord
+    ? next
+    : establishRomanticOrientation(next, personId);
+}
+
+/** Record one private cohort-calibrated identification at a person's birth. */
+function establishRomanticOrientation(world: World, personId: EntityId): World {
+  const person = world.people[personId];
+  if (!person) return world;
+  if (
+    latestPersonalityTendency(
+      world,
+      personId,
+      LIFE_MIND_IDS.romanticOrientation,
+    )
+  )
+    return world;
+  const cohort = romanticOrientationCohortForBirthDate(person.birthDate);
+  return recordPersonalityTendency(world, {
+    stableKey: `${LIFE_MIND_CONTENT_VERSION}:${personId}:romantic-orientation`,
+    personId,
+    tendencyId: LIFE_MIND_IDS.romanticOrientation,
+    recordedAt: person.birthDate,
+    expressionKey: seededRomanticOrientation(world, personId),
+    strength: "subtle",
+    confidence: "low",
+    scopeTags: ["life:romantic-orientation:private"],
+    provenance: createMindProvenance("authored", {
+      note: `Private birth-cohort estimate from Gallup ${cohort.sourceYear} U.S. adult self-identification rates; see data/research/romantic-orientation-cohorts.json. This is not observed personal information or attraction detail.`,
+    }),
+    supersedesTendencyId: null,
   });
 }
 

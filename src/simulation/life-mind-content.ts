@@ -61,6 +61,25 @@ const tendencies = [
       },
     ],
   ),
+  createPersonalityTendencyDefinition(
+    `${LIFE_MIND_CONTENT_VERSION}:romantic-orientation`,
+    "Private romantic orientation estimate",
+    "A private, inborn cohort-calibrated identification record. The broad category is not a compatibility rule or a public trait.",
+    [
+      {
+        key: "heterosexual-identified",
+        label: "Heterosexual identification",
+        description:
+          "Cohort-based estimate; individual preference detail is unknown.",
+      },
+      {
+        key: "lgbtq-plus-identified",
+        label: "LGBTQ+ identification",
+        description:
+          "Cohort-based estimate; individual preference detail is unknown.",
+      },
+    ],
+  ),
 ];
 const values = [
   createPersonalValueDefinition(
@@ -83,6 +102,7 @@ const values = [
 export const LIFE_MIND_IDS = {
   conversation: tendencies[0]!.id,
   leisure: tendencies[1]!.id,
+  romanticOrientation: tendencies[2]!.id,
   privacy: values[0]!.id,
   connection: values[1]!.id,
   learning: values[2]!.id,
