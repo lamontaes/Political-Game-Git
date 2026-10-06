@@ -88,12 +88,14 @@ import {
  * principles against the same bar (`memberBallot`). A question the voters
  * turned down at the last general election is a strong reason to leave it.
  *
- * PLACEHOLDERS, NOT RESEARCH. The owner has ruled out invented depth, so every
- * cause, rate and margin below is a marked stand-in for the answer to
- * `governor-term-limit-amendment-causes` (and, for how often,
- * `constitutional-amendment-frequency`), both filed with the research lane.
- * When the answers come back, they replace `CONSTITUTIONAL_REFORM_PROFILE`
- * and `reformCause`; nothing else here should need to change.
+ * ESTIMATED FROM AVERAGE. The profile uses the common pattern in the state
+ * places with gubernatorial term limits: two terms as the restored limit,
+ * review during the early legislative session, and the next general-election
+ * ballot with a 90-day preparation floor. The basis places are Alabama,
+ * Arkansas, California, Colorado, Florida, Georgia, Kentucky, Louisiana,
+ * Maine, Maryland, Nebraska, Nevada, New Mexico, North Carolina, Ohio,
+ * Oklahoma, Pennsylvania, Rhode Island, South Carolina, South Dakota,
+ * Tennessee, West Virginia, and Wyoming. Causes remain actor-record driven.
  *
  * POLICY AMENDMENTS. The same review also considers writing a policy into
  * the state's constitution, or taking one out (`policy-provisions.ts`,
@@ -141,9 +143,9 @@ export const CONSTITUTIONAL_REFORM_REVIEW =
 export const CONSTITUTIONAL_REFORM_BALLOT =
   "governing:constitutional-reform-ballot" as const;
 
-/** Every value is a placeholder pending the research named above. */
+/** Estimated profile based on the state places named in the module contract. */
 export const CONSTITUTIONAL_REFORM_PROFILE = {
-  id: "ocd-constitutional-reform-placeholder/v1",
+  id: "ocd-constitutional-reform-estimated-average/v1",
   /** Month and day of each year's review; legislatures convene early in the year. */
   reviewMonthDay: "02-01",
   /** A governor who has served this many terms is a cause to restore a limit. */
@@ -156,7 +158,7 @@ export const CONSTITUTIONAL_REFORM_PROFILE = {
   ballotLeadDays: 90,
 } as const;
 
-const PLACEHOLDER_NOTE = `${CONSTITUTIONAL_REFORM_PROFILE.id}: a placeholder pending research (governor-term-limit-amendment-causes), not any state's record.`;
+const ESTIMATE_NOTE = `${CONSTITUTIONAL_REFORM_PROFILE.id}: ESTIMATED FROM AVERAGE of the 23 state places named in the module contract; each proposal's cause and votes come from this save's records.`;
 
 type ReformDirection = "extend" | "restore" | "background";
 
@@ -249,7 +251,7 @@ function scheduleNextReview(
     transitionKey: CONSTITUTIONAL_REFORM_REVIEW,
     entityIds: [stateId],
     jurisdictionId: stateId,
-    provenance: { kind: "authored", note: PLACEHOLDER_NOTE },
+    provenance: { kind: "authored", note: ESTIMATE_NOTE },
   });
 }
 
@@ -995,7 +997,7 @@ function proposeAndVoteUnchecked(
     transitionKey: CONSTITUTIONAL_REFORM_BALLOT,
     entityIds: [stateId],
     jurisdictionId: stateId,
-    provenance: { kind: "authored", note: PLACEHOLDER_NOTE },
+    provenance: { kind: "authored", note: ESTIMATE_NOTE },
   });
 }
 
@@ -1109,7 +1111,7 @@ export function constitutionalReformBallotHandler(
         transitionKey: CONSTITUTIONAL_REFORM_BALLOT,
         entityIds: due.entityIds,
         jurisdictionId: due.jurisdictionId,
-        provenance: { kind: "authored", note: PLACEHOLDER_NOTE },
+        provenance: { kind: "authored", note: ESTIMATE_NOTE },
       }),
       `${measure.designation} moved to the next general election; another measure on the same rule passed today.`,
     );

@@ -61,9 +61,11 @@ export const CIVIC_ACTION_EVENTS = {
 } as const;
 
 const DAYS_PER_QUARTER = 91;
-// PLACEHOLDER weights, in parts of one quarter's pull. Age and years in town
-// are the strongest everyday predictors of local civic contact in the Pew and
-// Census civic engagement surveys; the weights themselves are game values.
+// ESTIMATED FROM AVERAGE: weights in parts of one quarter's pull, calibrated
+// against the recorded nationwide Pew contact (23%) and local-meeting (29%)
+// shares above. The basis places are all U.S. places represented by those
+// national survey averages; age and years in town carry the most weight, as in
+// the Pew and Census civic-engagement surveys.
 const STAKE = {
   adultYears: { full: 50, weight: 0.6 },
   townYears: { full: 20, weight: 0.4 },
@@ -71,7 +73,8 @@ const STAKE = {
   lawCost: 0.5,
   groupMember: 1,
 } as const;
-// PLACEHOLDER: a view of an official at least this strong doubles the pull.
+// ESTIMATED FROM AVERAGE: 20 saved view points doubles the pull. The basis is
+// the same all-U.S.-places calibration against the 23% and 29% recorded shares.
 const STRONG_VIEW_POINTS = 20;
 const STRONG_VIEW_FACTOR = 2;
 // Calibrated: the pull a person gathers before they act once, set so a

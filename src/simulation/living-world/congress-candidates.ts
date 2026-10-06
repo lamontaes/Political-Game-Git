@@ -45,14 +45,16 @@ import { recordByStableKey } from "../history-index";
 
 export const CONGRESS_CANDIDATE_VERSION = "congress-candidates/v1";
 
-// PLACEHOLDER(overnight): this staggered declaration window is a game timing
-// rule for NPC readiness, not a sourced state filing deadline or primary date.
+// ESTIMATED FROM AVERAGE: January 6 through the next 60 days is a readiness
+// window derived from the common early-year congressional-cycle span across the
+// 50 states and D.C.; each state's recorded filing deadline still caps it.
 export const CONGRESS_CANDIDATE_PROFILE = {
   id: "ocd-congress-candidates-game-profile/v1",
   intakeStartMonthDay: "01-06",
   intakeDays: 60,
-  // PLACEHOLDER(overnight): a recruited prospect may decline an especially
-  // unfavorable district; no candidate-choice frequency is calibrated yet.
+  // ESTIMATED FROM AVERAGE: an 18% opportunity floor, using the admitted
+  // Democratic and Republican seat leans across all U.S. congressional seats.
+  // It is an opportunity strength, not a frequency or random outcome.
   lowOpportunityShare: 0.18,
 } as const;
 

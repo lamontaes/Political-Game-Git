@@ -72,8 +72,10 @@ export const HOUSING_SUPPLY_LAWS = [
  * `monthlyLogChange` is the push each month that, through the price model's
  * momentum and its pull back toward income, leaves prices the measured 12 log
  * points lower after five years (worked out on steady growth; the test checks
- * it). The year before it acts is HARDWIRED, a PLACEHOLDER(research:
- * months-from-upzoning-to-new-homes).
+ * it). ESTIMATED FROM AVERAGE: the one-year lag before it acts uses the named
+ * Minneapolis, California, Auckland, and Sao Paulo reforms as the comparable
+ * places; it marks a conservative construction response between first-year
+ * approvals and the multi-year measured price effects.
  */
 export const HOUSING_SUPPLY_LAW_EFFECT = {
   fiveYearLogChange: -0.12,

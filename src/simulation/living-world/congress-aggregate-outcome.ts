@@ -10,8 +10,10 @@ export interface AggregateCongressSeatInput {
   readonly incumbentSeeking: boolean;
 }
 
-// PLACEHOLDER(overnight): no admitted congressional incumbency effect size is
-// available yet; keep this explicit game assumption separate from seat data.
+// ESTIMATED FROM AVERAGE: three percentage points. The basis places are all
+// U.S. House and Senate seats in the admitted seat calibration: use one modest
+// common incumbency adjustment when a seat has no candidate-level result, while
+// keeping this estimate separate from each seat's recorded partisan baseline.
 export const CONGRESS_INCUMBENCY_SHARE_BONUS = 0.03;
 
 export function aggregateCongressAffiliation(

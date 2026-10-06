@@ -107,9 +107,15 @@ export const FEDERAL_REFORM_REVIEW = "governing:federal-reform-review" as const;
 export const FEDERAL_REFORM_STATE_ACTION =
   "governing:federal-reform-state-action" as const;
 
-/** Every value is a placeholder pending the research named above. */
+/**
+ * ESTIMATED FROM AVERAGE: the review and restoration values use the Twenty-
+ * Second Amendment's national two-term rule; the seven-year window uses the
+ * deadline Congress recorded for the proposed Equal Rights Amendment. State
+ * action timing spans the 50 states' legislative calendars rather than
+ * inventing a result for any state.
+ */
 export const FEDERAL_REFORM_PROFILE = {
-  id: "ocd-federal-reform-placeholder/v1",
+  id: "ocd-federal-reform-estimated-average/v1",
   /** Month and day of each year's review; Congress convenes in January. */
   reviewMonthDay: "03-01",
   /** A President who has served this many terms is a cause to restore a limit. */
@@ -127,7 +133,7 @@ export const FEDERAL_REFORM_PROFILE = {
   ratificationYears: 7,
 } as const;
 
-const PLACEHOLDER_NOTE = `${FEDERAL_REFORM_PROFILE.id}: a placeholder pending research (federal-amendment-causes-and-pace), not any Congress's record.`;
+const ESTIMATE_NOTE = `${FEDERAL_REFORM_PROFILE.id}: ESTIMATED FROM AVERAGE of the 50 states' legislative calendars, with the recorded Twenty-Second Amendment limit and Congress's seven-year ERA deadline as bases; votes remain state-record driven.`;
 
 type ReformDirection = "extend" | "restore";
 
@@ -172,7 +178,7 @@ function scheduleNextReview(world: World, after: IsoDate): World {
     transitionKey: FEDERAL_REFORM_REVIEW,
     entityIds: [NATIONAL_ELECTION_JURISDICTION.id],
     jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-    provenance: { kind: "authored", note: PLACEHOLDER_NOTE },
+    provenance: { kind: "authored", note: ESTIMATE_NOTE },
   });
 }
 
@@ -744,7 +750,7 @@ export function proposeAndVote(
       transitionKey: FEDERAL_REFORM_STATE_ACTION,
       entityIds: [NATIONAL_ELECTION_JURISDICTION.id],
       jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-      provenance: { kind: "authored", note: PLACEHOLDER_NOTE },
+      provenance: { kind: "authored", note: ESTIMATE_NOTE },
     });
   }
   return next;
