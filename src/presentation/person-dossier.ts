@@ -28,7 +28,6 @@ import type { ShellRef } from "./shell-navigation";
 import { municipalGovernmentByKey } from "../simulation/municipal-government";
 import { allUndertakings, assessUndertaking } from "../simulation/undertakings";
 import { favorRecords, favorStandingBetween } from "../simulation/favors";
-import { playSettingsOf } from "../simulation/play-settings";
 
 /**
  * What the player makes of somebody, read from the records they can see.
@@ -446,9 +445,7 @@ export function projectPersonDossier(
   if (!subject) return null;
   const context = describePersonContext(world, playerId, personId);
   const details = buildDetails(world, playerId, personId);
-  const notesMode = playSettingsOf(world).notes;
-  const reminders =
-    notesMode === "none" ? [] : buildReminders(world, playerId, personId);
+  const reminders = buildReminders(world, playerId, personId);
 
   return {
     personId,

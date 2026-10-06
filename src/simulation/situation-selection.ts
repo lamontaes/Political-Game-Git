@@ -8,7 +8,6 @@ import {
 import { lowestDigestFirst, sha256Hex } from "./sha256";
 import { canonicalPriorEncoding, setupPriorsOf } from "./setup-priors";
 import type {
-  ChallengeIntensity,
   LifeSituationBand,
   LifeSituationKey,
   World,
@@ -91,8 +90,6 @@ export interface SituationCandidate {
 }
 
 export interface SituationSelectionInput {
-  /** Changes ordering only; absent legacy callers use today's standard weights. */
-  readonly intensity?: ChallengeIntensity;
   /**
    * Deterministic and derived from the world seed and the persisted priors.
    * It decides ordering only; it never reaches a generator, so it cannot
@@ -217,7 +214,6 @@ export function rankSituations(
     const pacingPenalty = pacingPenaltyFor(
       candidate.stakes,
       recentLoad,
-      input.intensity ?? "standard",
     );
     return {
       candidate,
@@ -324,24 +320,12 @@ function winsWithout(
   );
 }
 
-export const PACING_WEIGHTS: Readonly<
-  Record<
-    ChallengeIntensity,
-    { readonly pressure: number; readonly quiet: number }
-  >
-> = {
-  quiet: { pressure: 1.8, quiet: 0.1 },
-  standard: { pressure: PACING_PENALTY, quiet: MONOTONY_PENALTY },
-  relentless: { pressure: 0.55, quiet: 0.8 },
-};
-
 function pacingPenaltyFor(
   stakes: LifeStakesTier,
   recentLoad: number,
-  intensity: ChallengeIntensity,
 ): number {
   const load = STAKES_LOAD[stakes];
-  const weights = PACING_WEIGHTS[intensity];
+  const weights = { pressure: PACING_PENALTY, quiet: MONOTONY_PENALTY };
   if (recentLoad >= 0.6) {
     // Recently demanding. A demanding candidate pays for it.
     return weights.pressure * load * recentLoad;

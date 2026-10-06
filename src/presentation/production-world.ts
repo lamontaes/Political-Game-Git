@@ -180,8 +180,6 @@ export interface ProductionWorldInput {
   readonly otherParent?: OpeningOtherParent;
   /** A stated household fact; absent reuses the current game's family records. */
   readonly familyShape?: OpeningFamilyShape;
-  /** Setup-only family job premise; read while the opening caregivers are hired. */
-  readonly familyMoneyPremise?: "comfortable" | "ordinary" | "tight";
   /**
    * The questionnaire answers, carried into the world's non-diegetic corner.
    *
@@ -446,7 +444,6 @@ export function buildProductionWorld(
         world,
         jurisdiction.id,
         player.id,
-        input.familyMoneyPremise ?? "ordinary",
       ),
       jurisdiction.id,
     );

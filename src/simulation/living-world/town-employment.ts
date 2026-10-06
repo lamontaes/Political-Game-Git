@@ -45,7 +45,6 @@ import {
   activeCareResponsibilitiesAt,
   activeEducationEnrollmentsAt,
   activeWorkRelationshipsAt,
-  kinshipRelationshipsAt,
   organizationClosingAt,
   organizationProfileAt,
 } from "../life-queries";
@@ -1234,7 +1233,6 @@ export function ensureTownEmployment(
   world: World,
   town: EntityId,
   playerPersonId: EntityId | null,
-  familyMoney: "comfortable" | "ordinary" | "tight" = "ordinary",
 ): World {
   const working = new Set(
     world.history.workRelationships.map((row) => row.personId),
@@ -1245,26 +1243,8 @@ export function ensureTownEmployment(
       !working.has(resident.personId) &&
       laborStatus(world, resident) === "employed",
   );
-  const familyIds =
-    playerPersonId === null
-      ? []
-      : kinshipRelationshipsAt(world, playerPersonId)
-          .filter(
-            (entry) =>
-              entry.kind.startsWith("lineal:") &&
-              entry.kind.includes("parent-child"),
-          )
-          .map((entry) => entry.personIds.find((id) => id !== playerPersonId)!)
-          .filter(
-            (id) =>
-              world.people[id] !== undefined &&
-              world.people[id]!.birthDate <
-                world.people[playerPersonId]!.birthDate,
-          );
   return fillTownJobs(world, town, open, {
     round: null,
-    familyMoney,
-    familyPersonIds: familyIds,
   });
 }
 
@@ -1387,8 +1367,6 @@ export function fillTownJobs(
   open: readonly Resident[],
   options: {
     readonly round: string | null;
-    readonly familyMoney?: "comfortable" | "ordinary" | "tight";
-    readonly familyPersonIds?: readonly EntityId[];
     /**
      * Hire everyone into this one employer instead (a business just opened):
      * the first who is old enough runs it, the rest take its other roles.
@@ -1409,7 +1387,6 @@ export function fillTownJobs(
   const today = world.currentDate;
   const prefix = `${TOWN_EMPLOYMENT_VERSION}:${town}`;
   const round = options.round;
-  const familyPersonIds = new Set(options.familyPersonIds ?? []);
   const jobKey = (personId: EntityId) =>
     round === null
       ? `${prefix}:job:${personId}`
@@ -1540,18 +1517,7 @@ export function fillTownJobs(
       const balance =
         (entry.weight / total) * (held + 1) -
         (counted().byRole.get(`${workplace.key}|${entry.title}`) ?? 0);
-      if (!familyPersonIds.has(resident.personId)) return balance;
-      const premise = options.familyMoney ?? "ordinary";
-      const management = entry.authority === "directs-others" ? 1 : 0;
-      return (
-        balance +
-        (premise === "comfortable"
-          ? management
-          : premise === "tight"
-            ? -management
-            : 0) *
-          100
-      );
+      return balance;
     };
     return [...fits].sort(
       (a, b) => short(b) - short(a) || a.title.localeCompare(b.title),

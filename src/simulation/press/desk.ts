@@ -951,17 +951,9 @@ function editorialDecision(
   reporterId: EntityId,
 ): FutureTransitionHandlerResult {
   const material = storyMaterial(world, lead);
-  const outlet = requirePressRecord(world, "media-outlet", lead.outletId);
-  const standard = outlet.editorialStandard ?? "realistic";
   const history = dispositionsForLead(world, lead.id);
   const alreadyHeld = history.some((record) => record.decision === "held");
-  const canPublishFull =
-    standard === "tougher"
-      ? material.corroborated || material.usable.length > 0
-      : standard === "gentler"
-        ? material.corroborated &&
-          (material.usable.length >= 2 || material.publicBasis.length > 0)
-        : material.corroborated;
+  const canPublishFull = material.corroborated;
   const canNarrow = !material.corroborated && material.publicBasis.length > 0;
   const constraints: DecisionConstraint[] = [];
   if (!canPublishFull) {
@@ -970,9 +962,7 @@ function editorialDecision(
       optionKey: "publish",
       kind: "editorial:corroboration",
       explanation:
-        standard === "gentler"
-          ? "This outlet waits for a second source, a document, or a public record before printing an allegation."
-          : "Anonymous information needs a named source, a second source or a document before it runs.",
+        "Anonymous information needs a named source, a second source or a document before it runs.",
       sourceRefs: [],
     });
   }
