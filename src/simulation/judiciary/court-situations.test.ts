@@ -15,12 +15,14 @@ const event = (overrides: Partial<HistoricalEvent> = {}): HistoricalEvent =>
     involvedEntityIds: [],
     participants: [
       {
-        personId: "person-defendant" as HistoricalEvent["involvedEntityIds"][number],
+        personId:
+          "person-defendant" as HistoricalEvent["involvedEntityIds"][number],
         role: "focus:defendant",
         detail: "named in the charge",
       },
       {
-        personId: "person-counsel" as HistoricalEvent["involvedEntityIds"][number],
+        personId:
+          "person-counsel" as HistoricalEvent["involvedEntityIds"][number],
         role: "defense:counsel",
         detail: "recorded appearance",
       },
@@ -45,7 +47,11 @@ const decision = (): DecisionEvaluation =>
     decisionId: "decision-1",
     context: {
       options: [
-        { key: "release", label: "Release", description: "Release before trial." },
+        {
+          key: "release",
+          label: "Release",
+          description: "Release before trial.",
+        },
         { key: "hold", label: "Hold", description: "Hold before trial." },
       ],
       considerations: [
@@ -74,12 +80,16 @@ describe("courtroom situation adapter", () => {
     });
 
     expect(result.caseRecord).toBe(record);
-    expect(result.parties.map(({ personId, role }) => ({ personId, role }))).toEqual([
+    expect(
+      result.parties.map(({ personId, role }) => ({ personId, role })),
+    ).toEqual([
       { personId: "person-defendant", role: "focus:defendant" },
       { personId: "person-counsel", role: "defense:counsel" },
     ]);
     expect(result.counsel).toHaveLength(1);
-    expect(result.lawBound).toBe("The law requires at least 24 months in custody.");
+    expect(result.lawBound).toBe(
+      "The law requires at least 24 months in custody.",
+    );
     expect(result.pendingMatters).toEqual(["Sentence remains pending."]);
     expect(result.choices).toEqual([
       {
@@ -102,7 +112,9 @@ describe("courtroom situation adapter", () => {
   });
 
   it("does not infer counsel from law or an empty record", () => {
-    const result = courtSituationFor({ caseRecord: event({ participants: [] }) });
+    const result = courtSituationFor({
+      caseRecord: event({ participants: [] }),
+    });
     expect(result.parties).toEqual([]);
     expect(result.counsel).toEqual([]);
     expect(result.lawBound).toBeNull();
