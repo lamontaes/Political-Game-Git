@@ -22,6 +22,7 @@ import { facetStudiousEffects } from "./facet-studious";
 import { facetSupportiveEffects } from "./facet-supportive";
 import { facetTenderHeartedEffects } from "./facet-tender-hearted";
 import { facetZealousEffects } from "./facet-zealous";
+import { facetPersistentEffects } from "./facet-persistent";
 import { selfConfidenceEffects } from "./self-confidence";
 
 /**
@@ -48,6 +49,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetNurturingEffects,
     ...facetOpportunisticEffects,
     ...facetSkepticalEffects,
+    ...facetPersistentEffects,
     ...facetStudiousEffects,
     ...facetSupportiveEffects,
     ...facetTenderHeartedEffects,
