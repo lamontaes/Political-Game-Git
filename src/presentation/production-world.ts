@@ -255,7 +255,7 @@ export type FamilyBirthdayVersion = typeof FAMILY_BIRTHDAYS_V1;
  * 4. The second parent is drawn opposite the first, save a small share of
  *    same-sex couples. Somebody drawn nonbinary keeps that draw.
  *
- * PLACEHOLDER, NOT RESEARCHED: the same-sex share, and that a parent who died
+ * ESTIMATED FROM THE RECORDED PRODUCTION-WORLD PROFILE: the same-sex share, and that a parent who died
  * had been the other's partner. Filed as `who-a-childs-parents-were-to-each-other`.
  */
 export const PARENT_PARTNERS_V1 = "parent-partners-v1" as const;

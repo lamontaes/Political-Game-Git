@@ -3,19 +3,19 @@
   "generatedBy": "scripts/research/placeholder-ledger.ts",
   "pathRule": "money covers files whose values reach pay, prices, balances or public money; law covers files that make, number, decide, enact or apply law, or seat the bodies that do; government covers elections, candidacies, offices and the press; other covers everything else. scripts/research/placeholder-scan.ts assigns the category by file.",
   "counts": {
-    "markers": 758,
+    "markers": 737,
     "byKind": {
-      "unresearched": 221,
-      "placeholder": 422,
+      "unresearched": 213,
+      "placeholder": 407,
       "blanket": 130
     },
     "byPath": {
-      "other": 473,
+      "other": 463,
       "money": 73,
-      "law": 133,
-      "government": 79
+      "law": 125,
+      "government": 76
     },
-    "withoutQuestion": 460,
+    "withoutQuestion": 443,
     "questionNotFiled": 30,
     "moneyOrLawQuestions": 61
   },
@@ -561,24 +561,6 @@
       "researchQuestionFiled": false
     },
     {
-      "file": "src/presentation/life-talk-topics.ts",
-      "line": 32,
-      "text": "* PLACEHOLDER, NOT RESEARCH. What counts as news and how a listener answers are",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/presentation/life-talk-topics.ts",
-      "line": 198,
-      "text": "* PLACEHOLDER: the answers themselves are interim, pending the research",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
       "file": "src/presentation/local-economy-carried.ts",
       "line": 26,
       "text": "* BLANKET RULE, pending research question",
@@ -586,96 +568,6 @@
       "path": "other",
       "researchQuestionId": "local-economic-figures-after-the-last-real-edition",
       "researchQuestionFiled": true
-    },
-    {
-      "file": "src/presentation/ordinary-meeting-actions.ts",
-      "line": 303,
-      "text": "// PLACEHOLDER(overnight): Fifteen minutes is the authored short-visit",
-      "kinds": ["placeholder"],
-      "path": "law",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/presentation/people-directory.ts",
-      "line": 87,
-      "text": "* PLACEHOLDER, NOT RESEARCH: filed as `how-many-colleagues-a-person-knows`.",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": "how-many-colleagues-a-person-knows",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/presentation/place-backdrops.ts",
-      "line": 91,
-      "text": "* PLACEHOLDER(wave2): sunrise and sunset by month, in local minutes, for about",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/presentation/place-backdrops.ts",
-      "line": 125,
-      "text": "* PLACEHOLDER(wave2): about one day in five is rainy, the same for every",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/presentation/production-world.ts",
-      "line": 226,
-      "text": "* PLACEHOLDER, NOT RESEARCHED: the same-sex share, and that a parent who died",
-      "kinds": ["placeholder", "unresearched"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/presentation/social-invitation.ts",
-      "line": 31,
-      "text": "* PLACEHOLDER, NOT RESEARCHED: filed as `what-ordinary-invitations-are-for`,",
-      "kinds": ["placeholder", "unresearched"],
-      "path": "other",
-      "researchQuestionId": "what-ordinary-invitations-are-for",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/age-of-majority.ts",
-      "line": 40,
-      "text": "* PLACEHOLDER(research: age-of-majority-by-state). A presentation threshold",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": "age-of-majority-by-state",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/age-of-majority.ts",
-      "line": 46,
-      "text": "export const GROWN_UP_PRESENTATION_AGE_PLACEHOLDER = 18;",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": "age-of-majority-by-state",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/simulation/campaign-compliance.ts",
-      "line": 566,
-      "text": "* PLACEHOLDER. The first filing a campaign owes where the game has not read",
-      "kinds": ["placeholder"],
-      "path": "law",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/campaign-compliance.ts",
-      "line": 576,
-      "text": "export const UNRESEARCHED_CAMPAIGN_FILING_RULE = {",
-      "kinds": ["unresearched"],
-      "path": "law",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
     },
     {
       "file": "src/simulation/campaign-compliance.ts",
@@ -697,44 +589,8 @@
     },
     {
       "file": "src/simulation/campaign-compliance.ts",
-      "line": 583,
-      "text": "export const UNRESEARCHED_CAMPAIGN_FILING_PACK_ID =",
-      "kinds": ["unresearched"],
-      "path": "law",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/campaign-compliance.ts",
-      "line": 584,
-      "text": "UNRESEARCHED_CAMPAIGN_FILING_RULE.version;",
-      "kinds": ["unresearched"],
-      "path": "law",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/campaign-compliance.ts",
       "line": 587,
       "text": "export function unresearchedStatementDeadlineDays(",
-      "kinds": ["unresearched"],
-      "path": "law",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/campaign-compliance.ts",
-      "line": 591,
-      "text": "UNRESEARCHED_CAMPAIGN_FILING_RULE.statementOfOrganizationWithinDays;",
-      "kinds": ["unresearched"],
-      "path": "law",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/campaign-compliance.ts",
-      "line": 594,
-      "text": "`${UNRESEARCHED_CAMPAIGN_FILING_RULE.version}:${stateJurisdictionKey}`,",
       "kinds": ["unresearched"],
       "path": "law",
       "researchQuestionId": null,
@@ -746,42 +602,6 @@
       "text": "withinDays: unresearchedStatementDeadlineDays(stateKey),",
       "kinds": ["unresearched"],
       "path": "law",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/campaign-compliance.ts",
-      "line": 643,
-      "text": "rulePackId: UNRESEARCHED_CAMPAIGN_FILING_PACK_ID,",
-      "kinds": ["unresearched"],
-      "path": "law",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/campaign-contact-calibration.ts",
-      "line": 15,
-      "text": "// PLACEHOLDER(wave2): Nickerson's contextual nonpartisan GOTV comparison",
-      "kinds": ["placeholder"],
-      "path": "government",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/campaign-contact-calibration.ts",
-      "line": 21,
-      "text": "// PLACEHOLDER(wave2): this phone shift is treated as manual dialing until",
-      "kinds": ["placeholder"],
-      "path": "government",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
-      "file": "src/simulation/campaign-contact-calibration.ts",
-      "line": 52,
-      "text": "// PLACEHOLDER(wave2): one candidate shift minute counts as one volunteer-",
-      "kinds": ["placeholder"],
-      "path": "government",
       "researchQuestionId": null,
       "researchQuestionFiled": false
     },

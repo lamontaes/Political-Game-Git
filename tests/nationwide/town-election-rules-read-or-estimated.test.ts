@@ -24,7 +24,7 @@ import {
   FILING_LEAD_SOURCE,
 } from "../../src/simulation/nationwide-world/town-election-calendar";
 import {
-  UNRESEARCHED_CAMPAIGN_FILING_RULE,
+  ESTIMATED_CAMPAIGN_FILING_RULE,
   unresearchedStatementDeadlineDays,
 } from "../../src/simulation/campaign-compliance";
 
@@ -61,9 +61,7 @@ describe("one rule for every town in all 56 places", () => {
       expect(
         unresearchedStatementDeadlineDays(state.jurisdictionKey),
         state.usps,
-      ).toBe(
-        UNRESEARCHED_CAMPAIGN_FILING_RULE.statementOfOrganizationWithinDays,
-      );
+      ).toBe(ESTIMATED_CAMPAIGN_FILING_RULE.statementOfOrganizationWithinDays);
     }
   });
 });

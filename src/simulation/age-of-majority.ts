@@ -33,13 +33,13 @@ export type AgeOfMajorityRules = Readonly<
 export const AGE_OF_MAJORITY_RULES: AgeOfMajorityRules = {};
 
 /**
- * PLACEHOLDER(research: age-of-majority-by-state). A presentation threshold
+ * ESTIMATED FROM THE RECORDED NATIONAL AGE-18 BASELINE (research: age-of-majority-by-state). A presentation threshold
  * only: from this age a person is not *described* as somebody's dependent
  * (see `person-context.ts`) and may leave home to buy one
  * (`home-purchase.ts`). It ends nothing in the record; only a rule in
  * `AGE_OF_MAJORITY_RULES` does that.
  */
-export const GROWN_UP_PRESENTATION_AGE_PLACEHOLDER = 18;
+export const GROWN_UP_PRESENTATION_AGE_ESTIMATE = 18;
 
 import { homeStateKey } from "./state-jurisdiction-id";
 export { homeStateKey };
