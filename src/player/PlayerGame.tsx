@@ -223,6 +223,7 @@ import {
 import { OrdinaryMeetingPanel } from "./OrdinaryMeetingPanel";
 import {
   AmbientTableau,
+  resolvedTitleLecternHero,
   TitleScreen,
   type SaveListingState,
 } from "./TitleScreen";
@@ -905,7 +906,10 @@ export function PlayerGame() {
     screen.kind === "patch-notes"
   ) {
     return (
-      <AmbientTableau recent={saves[0] ?? null}>
+      <AmbientTableau
+        recent={saves[0] ?? null}
+        hero={resolvedTitleLecternHero(saves)}
+      >
         {() => (
           <>
             <TitleScreen
