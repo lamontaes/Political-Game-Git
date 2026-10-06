@@ -9,6 +9,11 @@ import {
   legislativeProcedureForJurisdiction,
   regularSessionYearForWorld,
 } from "../legislative-procedure-world";
+import { chiefExecutiveJurisdictionId } from "../nationwide-world/government-jurisdiction";
+import {
+  stateExecutiveIdentity,
+  US_STATE_USPS,
+} from "../nationwide-world/state-executive-candidacy-packs";
 import type { EntityId, World } from "../types";
 
 /**
@@ -21,6 +26,54 @@ const STATE_GOVERNING_VERSION = "state-governing/v1";
 export const GOVERNING_SEASON = "governing:season" as const;
 
 export type SeasonKind = "budget" | "bill";
+
+/** Seed the same rolling bill-season queue for every opened statehouse. */
+export function scheduleNationwideStateBillSeasons(
+  world: World,
+  states: readonly string[] = US_STATE_USPS,
+): World {
+  let next = world;
+  for (const stateUsps of states) {
+    const identity = stateExecutiveIdentity(stateUsps);
+    const jurisdictionId = chiefExecutiveJurisdictionId(stateUsps);
+    if (!identity || !jurisdictionId || !next.jurisdictions[jurisdictionId])
+      continue;
+    next = scheduleNextStateBillSeason(
+      next,
+      identity.officeKey,
+      jurisdictionId,
+    );
+  }
+  return next;
+}
+
+function scheduleNextStateBillSeason(
+  world: World,
+  officeKey: string,
+  jurisdictionId: EntityId,
+): World {
+  const calendar =
+    legislativeProcedureForJurisdiction(world, jurisdictionId)?.baselinePack
+      .session.sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.state;
+  const dueAt = nextSessionCalendarDate(calendar, world.currentDate, "bill", {
+    eligibleYear: (year) =>
+      regularSessionYearForWorld(world, jurisdictionId, year),
+  });
+  const stableKey = `${STATE_GOVERNING_VERSION}:season:${officeKey}:bill:${dueAt}`;
+  if (world.history.futureDueItems.some((due) => due.stableKey === stableKey))
+    return world;
+  return scheduleFutureDueItem(world, {
+    stableKey,
+    dueAt,
+    transitionKey: GOVERNING_SEASON,
+    entityIds: [jurisdictionId],
+    jurisdictionId,
+    provenance: {
+      kind: "authored",
+      note: `${calendar.id}: ${calendar.note}`,
+    },
+  });
+}
 
 /**
  * Makes sure a governorship has its next budget season and bill day on the
@@ -63,12 +116,11 @@ export function scheduleGoverningSeasons(
     ? ["budget"]
     : ["budget", "bill"];
   for (const kind of kinds) {
-    const dueAt = nextSessionCalendarDate(calendar, next.currentDate, kind, {
-      eligibleYear:
-        kind === "bill"
-          ? (year) => regularSessionYearForWorld(next, jurisdictionId, year)
-          : undefined,
-    });
+    if (kind === "bill") {
+      next = scheduleNextStateBillSeason(next, officeKey, jurisdictionId);
+      continue;
+    }
+    const dueAt = nextSessionCalendarDate(calendar, next.currentDate, kind);
     const stableKey = `${STATE_GOVERNING_VERSION}:season:${officeKey}:${kind}:${dueAt}`;
     if (next.history.futureDueItems.some((due) => due.stableKey === stableKey))
       continue;

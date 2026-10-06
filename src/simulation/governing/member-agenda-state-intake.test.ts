@@ -21,7 +21,7 @@ import { seatedChamberForPack } from "./chamber-votes";
 import { principledLeaning } from "./officeholder-principles";
 import { governingSeasonHandler } from "./state-governing";
 import {
-  scheduleGoverningSeasons,
+  scheduleNationwideStateBillSeasons,
   GOVERNING_SEASON,
 } from "./governing-calendar";
 import { regularSessionYearForWorld } from "../legislative-procedure-world";
@@ -86,11 +86,7 @@ describe("state intake requires an actual seated sponsor, everywhere", () => {
     const place = new SeededRng("g1-real-state-sponsor").pick(active);
     const jurisdictionId = stateJurisdictionForKey(`US-${place}`)!.id;
     const officeKey = stateExecutiveIdentity(place)!.officeKey;
-    const scheduled = scheduleGoverningSeasons(
-      start,
-      officeKey,
-      jurisdictionId,
-    );
+    const scheduled = scheduleNationwideStateBillSeasons(start, [place]);
     // Controlled saved-world snapshot on the already scheduled bill date.
     const onDate = makeIsoDate("2026-02-15");
     start = {

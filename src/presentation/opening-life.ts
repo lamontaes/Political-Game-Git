@@ -21,6 +21,7 @@ import {
 } from "../simulation/living-world/local-government-seats";
 import { scheduleDcCouncilSitting } from "../simulation/dc-council-sittings";
 import { scheduleLocalMemberAgendaIntakes } from "../simulation/governing/member-agenda";
+import { scheduleNationwideStateBillSeasons } from "../simulation/governing/governing-calendar";
 import { seatedCongressChamber } from "../simulation/governing/congress-chambers";
 import { ensureOfficeholderPrinciples } from "../simulation/governing/officeholder-principles";
 import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
@@ -398,6 +399,7 @@ function buildOpeningLife(
         total: chunk.totalStates,
       });
     }
+    world = scheduleNationwideStateBillSeasons(world);
     for (const chunk of prepareOpeningCongressPrinciplesChunks(world)) {
       world = chunk.world;
       onProgress?.({

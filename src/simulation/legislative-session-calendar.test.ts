@@ -8,7 +8,10 @@ import {
 } from "./legislative-session-calendar";
 import { scheduleCongressSitting } from "./governing/congress-chambers";
 import { scheduleDcCouncilSitting } from "./dc-council-sittings";
-import { scheduleGoverningSeasons } from "./governing/governing-calendar";
+import {
+  scheduleGoverningSeasons,
+  scheduleNationwideStateBillSeasons,
+} from "./governing/governing-calendar";
 import { ensureLocalCouncilMeetings } from "./living-world/local-council-meetings";
 import { municipalGovernmentByKey } from "./municipal-government";
 import { DC_GOVERNMENT_KEY } from "./nationwide-world/district-of-columbia-council-opening";
@@ -19,6 +22,33 @@ import { createWorld } from "./world";
 import type { EntityId } from "./types";
 
 describe("one legislative session timetable", () => {
+  it("seeds state bill intake rows from the existing session calendar at opening", () => {
+    const states = ["MS", "NE"];
+    const jurisdictions = states.map((state) =>
+      stateJurisdictionForKey(`US-${state}`)!,
+    );
+    const world = createWorld({
+      seed: "a11-state-bill-intakes-at-opening",
+      currentDate: makeIsoDate("2026-01-05"),
+      jurisdictions,
+      people: [],
+    });
+    const scheduled = scheduleNationwideStateBillSeasons(world, states);
+    const billRows = scheduled.history.futureDueItems.filter((row) =>
+      row.stableKey.includes(":bill:"),
+    );
+
+    expect(billRows).toHaveLength(states.length);
+    expect(billRows.every((row) => row.transitionKey === "governing:season")).toBe(
+      true,
+    );
+    expect(billRows.every((row) => row.dueAt > world.currentDate)).toBe(true);
+    expect(scheduleNationwideStateBillSeasons(scheduled, states)).toEqual(
+      scheduled,
+    );
+    expect(scheduled.history.legislativeMeasures ?? []).toHaveLength(0);
+  });
+
   it("schedules the DC body's existing fourteen-day row once without inventing a vote", () => {
     const government = municipalGovernmentByKey(DC_GOVERNMENT_KEY)!;
     const place = lifePlaceByKey(government.placeGeoid!)!;
