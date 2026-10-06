@@ -14,7 +14,7 @@ import {
   recordHouseholdMembershipState,
   startHouseholdMembership,
 } from "./life";
-import { GROWN_UP_PRESENTATION_AGE_PLACEHOLDER } from "./age-of-majority";
+import { ESTIMATED_GROWN_UP_PRESENTATION_AGE } from "./age-of-majority";
 import { homeValueForJurisdiction } from "./county-home-value";
 import { homePriceLevel, homePriceLevels } from "./living-world/housing-market";
 import { homeBuyerKind, homeDownPaymentShare } from "./home-down-payment";
@@ -148,12 +148,12 @@ function movesOutToBuy(
 ): boolean {
   const person = world.people[personId];
   if (!person) return false;
-  // PLACEHOLDER(research: age-of-majority-by-state). Leaving home to buy one
-  // reads the same threshold the labels do. It does not wait for the
-  // authority to end, and whether it has ended is not asked.
+  // ESTIMATED FROM AVERAGE: 18 is the age of majority in the 47 states other
+  // than Alabama, Mississippi, and Nebraska. Leaving home to buy one reads
+  // that same presentation threshold without ending an authority record.
   if (
     ageOnDate(person.birthDate, world.currentDate) <
-    GROWN_UP_PRESENTATION_AGE_PLACEHOLDER
+    ESTIMATED_GROWN_UP_PRESENTATION_AGE
   )
     return false;
   const residents = new Set(peopleInHouseholdAt(world, householdId));

@@ -180,15 +180,15 @@ export function recordCampaignFundraiserReceipts(
 }
 
 /**
- * UNRESEARCHED. How much of their own money a candidate may put into their
- * committee. Federal law sets no limit on a candidate's own money, and this
- * blanket rule follows it everywhere until the per-state answer to
- * `how-a-campaign-can-be-paid-for` lands: the only limit is what the
- * candidate actually has.
+ * ESTIMATED FROM A SIMILAR JURISDICTION. The FEC records that a federal
+ * candidate may spend an unlimited amount of personal funds on their own
+ * campaign. Places without a read state or local rule use that federal rule
+ * as their estimate: no monetary ceiling beyond the money actually recorded
+ * in the candidate's account.
  */
-export const UNRESEARCHED_OWN_MONEY_RULE = {
+export const ESTIMATED_OWN_MONEY_RULE = {
   version: "campaign-own-money-unresearched-v1",
-  provenance: "unresearched-blanket-rule",
+  provenance: "estimated-from-federal-rule",
   limitMinorUnits: null,
 } as const;
 
@@ -287,7 +287,7 @@ export function contributeOwnMoneyToCampaign(
     personFactConstraints: [],
     visibility: "public",
     tags: [
-      UNRESEARCHED_OWN_MONEY_RULE.version,
+      ESTIMATED_OWN_MONEY_RULE.version,
       "campaign-finance:own-money",
       "time-neutral",
     ],

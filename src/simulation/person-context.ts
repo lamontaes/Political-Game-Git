@@ -1,6 +1,6 @@
 import {
   ageOfMajorityFor,
-  GROWN_UP_PRESENTATION_AGE_PLACEHOLDER,
+  ESTIMATED_GROWN_UP_PRESENTATION_AGE,
 } from "./age-of-majority";
 import { ageOnDate } from "./dates";
 import {
@@ -286,15 +286,16 @@ function siblingWord(person: Person, older: boolean | null): string {
  * Presentation only. Where the person's state has a sourced age of majority
  * that age is used; where it has none, the authority's end is unknown and the
  * record stays open (see `coming-of-age.ts`), but a twenty-seven-year-old is
- * still not introduced as having "your guardian". The fallback is
- * PLACEHOLDER(research: age-of-majority-by-state), and it writes nothing.
+ * still not introduced as having "your guardian". ESTIMATED FROM AVERAGE: the
+ * fallback is 18, the age in the 47 states other than Alabama, Mississippi,
+ * and Nebraska. It writes nothing.
  */
 function grownForPresentation(world: World, personId: EntityId): boolean {
   const person = world.people[personId];
   if (!person) return false;
   const age =
     ageOfMajorityFor(world, personId)?.age ??
-    GROWN_UP_PRESENTATION_AGE_PLACEHOLDER;
+    ESTIMATED_GROWN_UP_PRESENTATION_AGE;
   return ageOnDate(person.birthDate, world.currentDate) >= age;
 }
 
