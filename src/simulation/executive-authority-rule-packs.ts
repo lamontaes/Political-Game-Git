@@ -427,7 +427,7 @@ const US_FEDERAL_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
     "Whether the convening power limits Congress's agenda is unresolved; Article II is silent, and silence is not a rule.",
     "Federal directive/executive-order authority and general supervisory authority are unresolved: Article II has no express clause for either, and neither is inferred from the vesting clause.",
     "Statutory reorganization authority is unresolved; the accepted R3H reorganization rows for the federal executive are themselves UNKNOWN.",
-    "The emergency-powers regime is resolved only as to the declaration power and congressional termination (50 U.S.C. Secs. 1621, 1622). No accepted node states an initial duration or a presidential extension mechanism, so both stay unknown.",
+    "The emergency-powers regime is resolved only as to the declaration power and congressional termination (50 U.S.C. Secs. 1621, 1622). The accepted nodes record neither an initial duration nor a presidential extension mechanism.",
   ],
 };
 
@@ -714,7 +714,7 @@ const KENTUCKY_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
     KY_SEC_77,
   ],
   unresolvedGaps: [
-    "Removal, executive orders, reorganization, emergency declarations, budget submission and the administrative duty stay unknown: the accepted R3H rows for them are themselves UNKNOWN.",
+    "The accepted R3H rows supply no operative value for removal, executive orders, reorganization, emergency declarations, budget submission or the administrative duty.",
     "Kentucky's general appointment power, and whether appointments require legislative confirmation, are both unresolved. The accepted R3H appointment node cites Ky. Const. Sec. 76, a vacancy-filling clause narrower than the general power this contract's field describes, so it does not fill it.",
     "Special-session convening and agenda scope are held by accepted R3H nodes but routed to R3J, not compiled here.",
   ],
@@ -862,7 +862,7 @@ const NEBRASKA_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
     NE_ART4_S14,
   ],
   unresolvedGaps: [
-    "Removal, executive orders, reorganization, emergency declarations and the administrative duty stay unknown: the accepted R3H rows for them are themselves UNKNOWN.",
+    "The accepted R3H rows supply no operative value for removal, executive orders, reorganization, emergency declarations or the administrative duty.",
     "The Nebraska budget-submission duty is established, but no accepted node states its deadline.",
     "Special-session convening and agenda scope are held by accepted R3H nodes but routed to R3J, not compiled here.",
   ],
@@ -1046,7 +1046,7 @@ const ALASKA_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
     AK_ART9_S12,
   ],
   unresolvedGaps: [
-    "Executive orders, emergency declarations and the administrative duty stay unknown: the accepted R3H rows for them are themselves UNKNOWN.",
+    "The accepted R3H rows supply no operative value for executive orders, emergency declarations or the administrative duty.",
     "Alaska's clemency model is unresolved. The accepted value subjects the gubernatorial power to procedure prescribed by law, which may install a board, so neither executive-sole nor a board model is established.",
     "Whether Alaska's reorganization authority itself sunsets is unresolved; the accepted node states a disapproval window over an order, which is a different thing.",
     "Special-session convening and agenda scope are held by accepted R3H nodes but routed to R3J, not compiled here.",
@@ -1207,8 +1207,8 @@ const MINNESOTA_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
     MN_STAT_12_31,
   ],
   unresolvedGaps: [
-    "Removal, executive orders, reorganization and the administrative duty stay unknown: the accepted R3H rows for them are themselves UNKNOWN.",
-    "Minnesota clemency is unresolved. The accepted R3H clemency rows for Minnesota are themselves UNKNOWN, and no clemency mapping is carried: the mapping that appeared in rejected national research rested on a source that does not support it.",
+    "The accepted R3H rows supply no operative value for removal, executive orders, reorganization or the administrative duty.",
+    "The accepted R3H clemency rows supply no operative value, and no clemency mapping is carried: the mapping that appeared in rejected national research rested on a source that does not support it.",
     "The special-session convening power is held by an accepted R3H node but routed to R3J; no accepted node states an agenda restriction.",
   ],
 };
@@ -1436,7 +1436,7 @@ const ILLINOIS_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
     IL_EMERGENCY_ACT,
   ],
   unresolvedGaps: [
-    "Executive orders and the administrative duty stay unknown: the accepted R3H rows for them are themselves UNKNOWN.",
+    "The accepted R3H rows supply no operative value for executive orders or the administrative duty.",
     "Illinois's clemency model is unresolved. The accepted value subjects the gubernatorial power to regulation of the manner of application, which may install a review board, so neither executive-sole nor a board model is established.",
     "Whether Illinois's reorganization authority itself sunsets is unresolved; the accepted node states a disapproval window over an order, which is a different thing.",
     "How an Illinois disaster proclamation is extended, and how the General Assembly may terminate one, are unresolved.",

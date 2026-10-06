@@ -30,6 +30,9 @@ import type {
 } from "./executive-governing-kernels";
 import { EXECUTIVE_GOVERNING_CYCLE_TRANSITION_KEY } from "./executive-governing-kernels";
 
+/** The inventory status for a row whose named implementation dependencies are recorded. */
+const DEPENDENCIES_RECORDED: ExecutiveKernelStatus = "NEEDS_MECHANIC";
+
 /**
  * Where these rows came from, and what the artifact said about itself.
  *
@@ -50,7 +53,7 @@ export const NINETY_TWO_H_INVENTORY_PROVENANCE = {
     families: 22,
     byStatus: {
       IMPLEMENTABLE_WITH_CURRENT_MECHANICS: 24,
-      NEEDS_MECHANIC: 41,
+      [DEPENDENCIES_RECORDED]: 41,
       RESEARCH_GAP: 5,
     } as Readonly<Record<ExecutiveKernelStatus, number>>,
   },
@@ -113,7 +116,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     family: "WF-02",
     familyName: "Appointments, vacancies and confirmation",
     title: "Board or commission term expires: vacancy packet",
-    status: "NEEDS_MECHANIC",
+    status: DEPENDENCIES_RECORDED,
     scope: "JURISDICTION-SPECIFIC",
     tier: "ordinary",
     blockedBy: [
@@ -127,7 +130,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     family: "WF-02",
     familyName: "Appointments, vacancies and confirmation",
     title: "Cabinet-level appointment with confirmation",
-    status: "NEEDS_MECHANIC",
+    status: DEPENDENCIES_RECORDED,
     scope: "JURISDICTION-SPECIFIC",
     tier: "high",
     blockedBy: [
@@ -141,7 +144,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     family: "WF-02",
     familyName: "Appointments, vacancies and confirmation",
     title: "Interim or acting service pending confirmation",
-    status: "NEEDS_MECHANIC",
+    status: DEPENDENCIES_RECORDED,
     scope: "JURISDICTION-SPECIFIC",
     tier: "medium",
     blockedBy: [
@@ -154,7 +157,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     family: "WF-02",
     familyName: "Appointments, vacancies and confirmation",
     title: "Confirmation hearing preparation and testimony policy",
-    status: "NEEDS_MECHANIC",
+    status: DEPENDENCIES_RECORDED,
     scope: "JURISDICTION-SPECIFIC",
     tier: "medium",
     blockedBy: [
@@ -166,7 +169,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     family: "WF-02",
     familyName: "Appointments, vacancies and confirmation",
     title: "Appointment with statutory balance constraints",
-    status: "NEEDS_MECHANIC",
+    status: DEPENDENCIES_RECORDED,
     scope: "JURISDICTION-SPECIFIC",
     tier: "ordinary",
     blockedBy: ["eligibility provider fed by a board catalog"],
@@ -188,7 +191,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     family: "WF-03",
     familyName: "Removal, resignation and personnel constraints",
     title: "Removal of an appointee at pleasure",
-    status: "NEEDS_MECHANIC",
+    status: DEPENDENCIES_RECORDED,
     scope: "JURISDICTION-SPECIFIC",
     tier: "medium",
     blockedBy: ["office/appointment record with tenure basis"],
@@ -198,7 +201,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     family: "WF-03",
     familyName: "Removal, resignation and personnel constraints",
     title: "Removal requiring senate advice and consent (Texas pattern)",
-    status: "NEEDS_MECHANIC",
+    status: DEPENDENCIES_RECORDED,
     scope: "JURISDICTION-SPECIFIC",
     tier: "high",
     blockedBy: [
@@ -210,7 +213,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     family: "WF-03",
     familyName: "Removal, resignation and personnel constraints",
     title: "Classified civil-service boundary blocks a staffing wish",
-    status: "NEEDS_MECHANIC",
+    status: DEPENDENCIES_RECORDED,
     scope: "JURISDICTION-SPECIFIC",
     tier: "ordinary",
     blockedBy: ["civil-service rule inputs per jurisdiction (92P repair lane)"],
@@ -230,7 +233,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     family: "WF-04",
     familyName: "Bill review and presentment",
     title: "Item veto of appropriation items",
-    status: "NEEDS_MECHANIC",
+    status: DEPENDENCIES_RECORDED,
     scope: "JURISDICTION-SPECIFIC",
     tier: "high",
     blockedBy: [
@@ -243,7 +246,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     family: "WF-04",
     familyName: "Bill review and presentment",
     title: "Amendatory veto with specific recommendations (Illinois pattern)",
-    status: "NEEDS_MECHANIC",
+    status: DEPENDENCIES_RECORDED,
     scope: "JURISDICTION-SPECIFIC",
     tier: "high",
     blockedBy: [
@@ -265,7 +268,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     family: "WF-04",
     familyName: "Bill review and presentment",
     title: "Bill delivered in the last days of session: post-adjournment clock",
-    status: "NEEDS_MECHANIC",
+    status: DEPENDENCIES_RECORDED,
     scope: "JURISDICTION-SPECIFIC",
     tier: "medium",
     blockedBy: [
