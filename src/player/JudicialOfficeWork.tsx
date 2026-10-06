@@ -10,9 +10,12 @@ import {
   respondToJudicialOfficeWork,
   type JudicialOfficeResult,
 } from "../simulation/judicial-office-work";
+import { recordOfficeWorkflowPreference } from "../simulation/office-workflow";
 import type {
   EntityId,
   FutureTransitionHandlerRegistry,
+  JudicialChambersCaseKind,
+  JudicialChambersWorkflowMode,
   World,
 } from "../simulation/types";
 import "./judicial-office.css";
@@ -42,13 +45,64 @@ export function JudicialOfficeWork({
     return (
       <p role="status">This judicial office is no longer available to you.</p>
     );
+  const office = view.office;
+  const preference = view.preference;
   const active = view.assignments.filter((a) => a.state.status === "active");
   const following = view.followUps.filter((f) => f.state.status === "active");
+  const chambers: readonly [JudicialChambersCaseKind, string][] = [
+    ["criminal-sentence", "Criminal sentences"],
+    ["pretrial-detention", "Pretrial detention"],
+    ["eviction", "Eviction cases"],
+    ["law-review", "Challenges to laws"],
+  ];
+  function setChambersMode(
+    kind: JudicialChambersCaseKind,
+    mode: JudicialChambersWorkflowMode,
+  ) {
+    const result = recordOfficeWorkflowPreference(world, {
+      personId: office.principalId,
+      officeRelationshipId: office.workRelationshipId,
+      votingMode: null,
+      caseworkMode: preference?.caseworkMode ?? "staff-handles-and-briefs",
+      judicialCaseHandling: {
+        ...preference?.judicialCaseHandling,
+        [kind]: mode,
+      },
+    });
+    if (result.kind === "recorded") {
+      onWorldChange(result.world);
+      setMessage(null);
+    } else setMessage(result.reason);
+  }
   return (
     <section className="judicial-office" aria-label="Judicial office work">
       <h2>Office work</h2>
       <p>{view.office.name}</p>
       {message && <p role="alert">{message}</p>}
+      <fieldset>
+        <legend>How your chambers handles cases</legend>
+        <p>
+          Choose which decisions you hear and which follow your usual practice.
+        </p>
+        {chambers.map(([kind, label]) => (
+          <label key={kind}>
+            {label}{" "}
+            <select
+              aria-label={label}
+              value={view.judicialCaseHandling[kind]}
+              onChange={(event) =>
+                setChambersMode(
+                  kind,
+                  event.currentTarget.value as JudicialChambersWorkflowMode,
+                )
+              }
+            >
+              <option value="hear-myself">I hear the case</option>
+              <option value="decide-as-usual">Decide as I usually do</option>
+            </select>
+          </label>
+        ))}
+      </fieldset>
       {!active.length && !following.length && (
         <button
           type="button"
