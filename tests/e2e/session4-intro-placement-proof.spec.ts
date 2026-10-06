@@ -1,5 +1,5 @@
 import { expect, test } from "./fixtures";
-import { saveLife, startLife } from "./support/creator";
+import { fillCreator, saveLife } from "./support/creator";
 import { drawRandomPlace } from "../support/random-place";
 import { lifePlaceStateIdentities } from "../../src/simulation/life-places";
 import type { BrowserSaveStore as SaveStore } from "../../src/presentation/browser-world-repository";
@@ -18,7 +18,11 @@ for (let draw = 0; draw < 6; draw += 1) {
     test.setTimeout(180_000);
     await page.setViewportSize({ width: 1920, height: 1080 });
     await page.goto(`/?seed=${encodeURIComponent(seed)}`);
-    await startLife(page, {
+    const pageErrors: { at: number; message: string }[] = [];
+    page.on("pageerror", (error) =>
+      pageErrors.push({ at: Date.now(), message: error.message }),
+    );
+    await fillCreator(page, {
       age: 18,
       state: state.name,
       place: place.displayName,
@@ -26,78 +30,161 @@ for (let draw = 0; draw < 6; draw += 1) {
       givenName: "Avery",
       familyName: "Morgan",
     });
-    const intro = page.getByTestId("world-orientation");
-    await expect(intro).toBeVisible();
-    const cards = [];
-    while (await intro.isVisible()) {
-      const heading = intro
-        .locator('[data-testid^="orientation-step-"]')
-        .first();
-      const key = (await heading.getAttribute("data-testid"))!.slice(
-        "orientation-step-".length,
-      );
-      const people = await intro
-        .locator("[data-person-id]")
-        .evaluateAll((nodes) =>
-          nodes.map((node) => ({
-            personId: node.getAttribute("data-person-id"),
-            slotId: node.getAttribute("data-slot-id"),
-            slotRole: node.getAttribute("data-slot-role"),
-            pose: node.getAttribute("data-pose-id"),
-            facing: node.getAttribute("data-facing"),
-            depth: node.getAttribute("data-depth"),
-            selectionRecordIds: node.getAttribute("data-selection-record-ids"),
-          })),
+    // Observe the existing phase boundaries before changing capture readiness.
+    // This reader changes neither production timing nor canonical World state.
+    await page.evaluate(() => {
+      let previous = "";
+      const observations: unknown[] = [];
+      const observe = () => {
+        const intro = document.querySelector(
+          '[data-testid="world-orientation"]',
         );
-      const screenshot = `${draw}-${key}-full-size.png`;
-      await page.screenshot({
-        path: info.outputPath(screenshot),
-        fullPage: true,
-      });
-      cards.push({ key, title: await heading.innerText(), screenshot, people });
-      const next = intro.getByTestId("orientation-next");
-      await next.focus();
-      await page.keyboard.press("Enter");
-    }
-    await saveLife(page);
-    const recorded = await page.evaluate(async () => {
-      const storePath = "/src/presentation/browser-world-repository.ts";
-      const sourcePath = "/src/presentation/living-scene-facts.ts";
-      const { BrowserSaveStore } = await import(/* @vite-ignore */ storePath);
-      const { projectLivingSceneOpening } = await import(
-        /* @vite-ignore */ sourcePath
-      );
-      const store: SaveStore = new BrowserSaveStore();
-      const summary = (await store.list()).saves[0]!;
-      const world = await store.inspectSnapshot(summary.saveId);
-      if (!world) throw new Error("Actual captured life was not saved.");
-      return {
-        worldId: world.id,
-        seed: world.seed,
-        moment: world.currentMoment,
-        playerPersonId: summary.playerPersonId,
-        selectionProjection: projectLivingSceneOpening(
-          world,
-          summary.playerPersonId,
-        ),
+        const chapter = intro?.querySelector(
+          '.pg-scene-chapter[data-stage="current"]',
+        );
+        const observation = {
+          playing: !!document.querySelector('[data-testid="play-screen"]'),
+          loading:
+            document.querySelector('[data-testid="life-start-transition"]')
+              ?.textContent ?? null,
+          step: intro?.getAttribute("data-step") ?? null,
+          ready:
+            intro
+              ?.querySelector('[data-testid="scene-chapters"]')
+              ?.getAttribute("data-ready") ?? null,
+          chapter: chapter?.getAttribute("data-chapter") ?? null,
+          inert: chapter?.hasAttribute("inert") ?? null,
+          pendingMaterials:
+            chapter?.querySelectorAll(
+              '[data-material-group-state="pending"], [data-material-group-state="loading"], [data-material-state="loading"]',
+            ).length ?? null,
+          images: chapter
+            ? [...chapter.querySelectorAll("img")].map((image) => ({
+                currentSrc: image.currentSrc,
+                complete: image.complete,
+                naturalWidth: image.naturalWidth,
+              }))
+            : [],
+          problems: [
+            ...document.querySelectorAll('[role="alert"], .game-problem'),
+          ].map((node) => node.textContent),
+        };
+        const signature = JSON.stringify(observation);
+        if (signature !== previous) {
+          observations.push({ at: performance.now(), ...observation });
+          previous = signature;
+        }
       };
+      Object.defineProperty(window, "session4IntroTiming", {
+        value: observations,
+      });
+      new MutationObserver(observe).observe(document.body, {
+        subtree: true,
+        childList: true,
+        attributes: true,
+        characterData: true,
+      });
+      document.addEventListener("load", observe, true);
+      document.addEventListener("error", observe, true);
+      observe();
     });
-    await info.attach("six-place-intro-card-receipt", {
-      body: JSON.stringify(
-        {
-          seed,
-          place,
-          state,
-          cards,
-          recorded,
-          method:
-            "DOM placement attributes observed on each card; selection projection read from the actual saved World afterward. Null fields remain missing proof, not inferred defaults.",
-        },
-        null,
-        2,
-      ),
-      contentType: "application/json",
-    });
-    expect(cards.length).toBeGreaterThan(0);
+    const beginAt = await page.evaluate(() => performance.now());
+    await page.getByTestId("begin").click();
+    const intro = page.getByTestId("world-orientation");
+    try {
+      await expect(intro).toBeVisible();
+      const cards = [];
+      while (await intro.isVisible()) {
+        const heading = intro
+          .locator('[data-testid^="orientation-step-"]')
+          .first();
+        const key = (await heading.getAttribute("data-testid"))!.slice(
+          "orientation-step-".length,
+        );
+        const people = await intro
+          .locator("[data-person-id]")
+          .evaluateAll((nodes) =>
+            nodes.map((node) => ({
+              personId: node.getAttribute("data-person-id"),
+              slotId: node.getAttribute("data-slot-id"),
+              slotRole: node.getAttribute("data-slot-role"),
+              pose: node.getAttribute("data-pose-id"),
+              facing: node.getAttribute("data-facing"),
+              depth: node.getAttribute("data-depth"),
+              selectionRecordIds: node.getAttribute(
+                "data-selection-record-ids",
+              ),
+            })),
+          );
+        const screenshot = `${draw}-${key}-full-size.png`;
+        await page.screenshot({
+          path: info.outputPath(screenshot),
+          fullPage: true,
+        });
+        const rawPlacementTrace = await intro.getAttribute(
+          "data-placement-trace",
+        );
+        cards.push({
+          key,
+          title: await heading.innerText(),
+          screenshot,
+          people,
+          placementTrace: rawPlacementTrace
+            ? JSON.parse(rawPlacementTrace)
+            : null,
+        });
+        const next = intro.getByTestId("orientation-next");
+        await next.focus();
+        await page.keyboard.press("Enter");
+      }
+      await saveLife(page);
+      const recorded = await page.evaluate(async () => {
+        const storePath = "/src/presentation/browser-world-repository.ts";
+        const sourcePath = "/src/presentation/living-scene-facts.ts";
+        const { BrowserSaveStore } = await import(/* @vite-ignore */ storePath);
+        const { projectLivingSceneOpening } = await import(
+          /* @vite-ignore */ sourcePath
+        );
+        const store: SaveStore = new BrowserSaveStore();
+        const summary = (await store.list()).saves[0]!;
+        const world = await store.inspectSnapshot(summary.saveId);
+        if (!world) throw new Error("Actual captured life was not saved.");
+        return {
+          worldId: world.id,
+          seed: world.seed,
+          moment: world.currentMoment,
+          playerPersonId: summary.playerPersonId,
+          selectionProjection: projectLivingSceneOpening(
+            world,
+            summary.playerPersonId,
+          ),
+        };
+      });
+      await info.attach("six-place-intro-card-receipt", {
+        body: JSON.stringify(
+          {
+            seed,
+            place,
+            state,
+            cards,
+            recorded,
+            method:
+              "DOM placement attributes observed on each card; selection projection read from the actual saved World afterward. Null fields remain missing proof, not inferred defaults.",
+          },
+          null,
+          2,
+        ),
+        contentType: "application/json",
+      });
+      expect(cards.length).toBeGreaterThan(0);
+    } finally {
+      const observations = await page.evaluate(() =>
+        Reflect.get(window, "session4IntroTiming"),
+      );
+      await info.attach("observed-intro-phase-timing", {
+        body: JSON.stringify({ beginAt, observations, pageErrors }, null, 2),
+        contentType: "application/json",
+      });
+    }
   });
 }

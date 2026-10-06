@@ -111,6 +111,31 @@ for (const character of ["Avery", "Jordan"])
     });
     expect(saved.words).toBe(words);
     expect(saved.counterpartPersonId).not.toBeNull();
+    // Preserve the actual saved exchange before a failing Continue can prevent
+    // evidence attachment. No replacement facts or synthetic save are inserted.
+    await info.attach("observed-exchange", {
+      body: JSON.stringify({ character, place, state, words, saved }, null, 2),
+      contentType: "application/json",
+    });
+    const snapshot = await page.evaluate(async () => {
+      const storePath = "/src/presentation/browser-world-repository.ts";
+      const serializationPath = "/src/simulation/serialization.ts";
+      const { BrowserSaveStore } = await import(/* @vite-ignore */ storePath);
+      const { createWorldSnapshot, serializeWorldSnapshotPayload } =
+        await import(/* @vite-ignore */ serializationPath);
+      const store: SaveStore = new BrowserSaveStore();
+      const summary = (await store.list()).saves[0]!;
+      const world = await store.inspectSnapshot(summary.saveId);
+      if (!world) throw new Error("Actual save snapshot was unavailable.");
+      return {
+        summary,
+        payload: serializeWorldSnapshotPayload(createWorldSnapshot(world)),
+      };
+    });
+    await info.attach("actual-saved-world-before-continue", {
+      body: JSON.stringify(snapshot),
+      contentType: "application/json",
+    });
     await page.reload();
     await page.getByTestId("continue").click();
     await enterLife(page);
@@ -118,8 +143,4 @@ for (const character of ["Avery", "Jordan"])
       "aria-label",
       /January 6, 2026/,
     );
-    await info.attach("observed-exchange", {
-      body: JSON.stringify({ character, place, state, words, saved }, null, 2),
-      contentType: "application/json",
-    });
   });
