@@ -4,6 +4,7 @@ import {
   delegatedRegulationCandidates,
   openDelegatedRegulationDrafts,
 } from "./executive-regulations";
+import { delegatedRegulationAuthority } from "./executive-regulation-issuance";
 import { SeededRng } from "./rng";
 import { STATES } from "./state-reference";
 import { searchLifePlaces } from "./life-places";
@@ -66,7 +67,7 @@ describe("delegated regulation drafting", () => {
     ).toEqual([]);
   });
 
-  it("checks for a real delegated law in a randomly placed new governor game", () => {
+  it("does not invent a regulation when a random new game has no delegation", () => {
     const seed = "session38-regulation-discovery-new-game-20261006";
     const rng = new SeededRng(seed);
     const stateUsps = rng.pick(Object.keys(STATES));
@@ -111,12 +112,53 @@ describe("delegated regulation drafting", () => {
 
     expect(candidates).toEqual([]);
     expect(drafts).toBe(world);
+    const proposition = Object.values(world.policyCatalog.propositions).find(
+      (candidate) => candidate.stableKey.endsWith("require-photo-id-to-vote"),
+    )!;
+    const forgedTerm = {
+      key: "invented-limit",
+      questionKey: proposition.stableKey,
+      minimum: 0,
+      maximum: 5,
+      unit: "count" as const,
+      sourceIds: ["unverified-section"],
+    };
+    const forgedMatter = {
+      family: "regulation",
+      officeKey: office.officeKey,
+      holderPersonId: holder.personId,
+      measureId: "unrecorded-statute" as EntityId,
+      openedEvent: {
+        participants: [
+          { personId: playerId, role: "agency:drafter", detail: null },
+        ],
+      },
+    } as unknown as Parameters<
+      typeof delegatedRegulationAuthority
+    >[1]["matter"];
+    expect(
+      delegatedRegulationAuthority(world, {
+        office,
+        matter: forgedMatter,
+        actorPersonId: holder.personId,
+        propositionId: proposition.id,
+        delegation: forgedTerm,
+        value: 3,
+        drafterPersonId: playerId,
+      }),
+    ).toMatchObject({
+      allowed: false,
+      reason:
+        "The proposed rule is missing its exact recorded delegation, range, or agency-head draft.",
+    });
     console.info("Session 38 delegated-regulation random new-game proof", {
       seed,
       place: place.displayName,
       jurisdictionKey,
       worldId: world.id,
       candidateCount: candidates.length,
+      forgedTermDecision:
+        "refused because no exact catalog delegation is recorded",
       note: "No enacted delegating statute or Session 23 agency-head appointment is fabricated.",
     });
   });

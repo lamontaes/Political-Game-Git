@@ -39,6 +39,70 @@ export function delegatedRegulationAuthority(
       reason: "This office has no recorded delegated rulemaking authority.",
       jurisdictionKey: null,
     };
+  const delegation = input.delegation as LawDelegationTerm | null;
+  if (
+    !delegation ||
+    typeof delegation.key !== "string" ||
+    typeof delegation.questionKey !== "string" ||
+    !Array.isArray(delegation.sourceIds) ||
+    delegation.sourceIds.some((sourceId) => typeof sourceId !== "string") ||
+    (delegation.unit !== null && typeof delegation.unit !== "string") ||
+    (delegation.minimum !== null && !Number.isFinite(delegation.minimum)) ||
+    (delegation.maximum !== null && !Number.isFinite(delegation.maximum)) ||
+    (delegation.minimum === null && delegation.maximum === null) ||
+    (delegation.minimum !== null &&
+      delegation.maximum !== null &&
+      delegation.minimum > delegation.maximum)
+  )
+    return {
+      allowed: false,
+      reason:
+        "The proposed rule is missing a valid, bounded delegation from the statute.",
+      jurisdictionKey,
+    };
+  const proposition = world.policyCatalog.propositions[input.propositionId];
+  const declared = proposition?.consequences?.some((row) =>
+    (row.delegations ?? []).some(
+      (term) =>
+        term.key === delegation.key &&
+        term.questionKey === delegation.questionKey &&
+        term.minimum === delegation.minimum &&
+        term.maximum === delegation.maximum &&
+        term.unit === delegation.unit &&
+        term.sourceIds.length === delegation.sourceIds.length &&
+        term.sourceIds.every(
+          (sourceId, index) => sourceId === delegation.sourceIds[index],
+        ),
+    ),
+  );
+  const drafterIsRecorded = input.matter.openedEvent.participants.some(
+    (participant) =>
+      participant.personId === input.drafterPersonId &&
+      participant.role === "agency:drafter",
+  );
+  if (
+    input.matter.family !== "regulation" ||
+    input.matter.officeKey !== input.office.officeKey ||
+    input.matter.holderPersonId !== input.office.holderPersonId ||
+    input.actorPersonId !== input.office.holderPersonId ||
+    !input.matter.measureId ||
+    !delegation.key.trim() ||
+    delegation.questionKey !== proposition?.stableKey ||
+    !delegation.unit ||
+    delegation.sourceIds.length === 0 ||
+    !Number.isFinite(input.value) ||
+    (delegation.minimum !== null && input.value < delegation.minimum) ||
+    (delegation.maximum !== null && input.value > delegation.maximum) ||
+    !declared ||
+    !world.people[input.drafterPersonId] ||
+    !drafterIsRecorded
+  )
+    return {
+      allowed: false,
+      reason:
+        "The proposed rule is missing its exact recorded delegation, range, or agency-head draft.",
+      jurisdictionKey,
+    };
   const law = lawInForce(
     world,
     input.office.jurisdictionId,
@@ -51,8 +115,8 @@ export function delegatedRegulationAuthority(
       {
         kind: "delegated-term",
         propositionId: input.propositionId,
-        statuteMeasureId: input.matter.measureId!,
-        delegation: input.delegation,
+        statuteMeasureId: input.matter.measureId,
+        delegation,
         value: input.value,
       },
       law,
