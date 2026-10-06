@@ -1,11 +1,15 @@
 import { describe, expect, it } from "vitest";
 import { createDemoWorld } from "../demo";
 import { createOrganization, createOrganizationParticipation } from "../life";
+import { organizationParticipationStateAt } from "../life-queries";
 import type { EntityId, PrivateBeliefRecord } from "../types";
 import { recordRelationshipInteraction } from "../records";
 import { recordPersonDeath } from "../vitality";
 import { movementOf } from "./movements";
-import { decideSuccession } from "./movement-succession";
+import {
+  decideSuccession,
+  movementBodyReviewTransitionHandler,
+} from "./movement-succession";
 
 describe("movementOf", () => {
   it("derives a movement and its members from active organization records", () => {
@@ -111,7 +115,7 @@ describe("movementOf", () => {
   });
 });
 
-function successionWorld(seed: string) {
+function successionWorld(seed: string, personalFollower = false) {
   const world = createDemoWorld(seed);
   const adults = world.personOrder.filter(
     (id) => world.people[id]!.birthDate <= world.currentDate,
@@ -153,9 +157,18 @@ function successionWorld(seed: string) {
       personId,
       organizationId,
       startedAt: next.currentDate,
-      kind: "membership:movement",
-      roleKind: "member:movement",
-      context: "Belongs to the movement.",
+      kind:
+        personalFollower && personId === memberId
+          ? "membership:movement-personal"
+          : "membership:movement",
+      roleKind:
+        personalFollower && personId === memberId
+          ? "member:movement-personal"
+          : "member:movement",
+      context:
+        personalFollower && personId === memberId
+          ? "Follows the founder personally."
+          : "Belongs to the movement's cause.",
       provenance: { kind: "authored", note: "Succession test fixture." },
     });
   next = recordRelationshipInteraction(next, {
@@ -271,5 +284,71 @@ describe("member-led movement succession", () => {
         sourceType: "context:relationship-history",
       }),
     );
+  });
+
+  it("reviews members at the scheduled date, letting personal followers leave while cause members stay", () => {
+    const fixture = successionWorld("b20-membership-review", true);
+    const deceased = recordPersonDeath(fixture.world, {
+      stableKey: "b20-membership-review:leader-death",
+      personId: fixture.leaderId,
+      diedAt: fixture.world.currentDate,
+      causeKey: "cause:movement-review-fixture",
+      sourceEntityIds: [fixture.world.id],
+      summary: "The movement's leader died in the membership review fixture.",
+      provenance: {
+        kind: "authored",
+        note: "Movement membership review fixture.",
+      },
+    });
+    const dueItem = deceased.history.futureDueItems.find(
+      (item) =>
+        item.stableKey.startsWith("movement-succession:") &&
+        item.stableKey.endsWith(":review"),
+    );
+    expect(dueItem).toBeDefined();
+    expect(dueItem?.dueAt).toMatch(/^\d{4}-\d{2}-01$/);
+    const succession = deceased.history.events.find((event) =>
+      event.stableKey.startsWith("movement-succession:"),
+    )!;
+    const newLeaderId = succession.tags
+      .find((tag) => tag.startsWith("leader:person_"))!
+      .slice("leader:".length) as EntityId;
+    const strained = recordRelationshipInteraction(deceased, {
+      stableKey: "b20-membership-review:member-disagrees-with-successor",
+      personIds: [fixture.memberId, newLeaderId],
+      eventId: null,
+      occurredAt: deceased.currentDate,
+      kind: "conflict:leadership",
+      change: "strained",
+      significance: "major",
+      summary: "The member disagreed with the new leader's approach.",
+      tags: ["leadership-disagreement"],
+    });
+    const reviewed = movementBodyReviewTransitionHandler(
+      strained,
+      dueItem!,
+    ).world;
+    const personalParticipation =
+      reviewed.history.organizationParticipations.find(
+        (participation) =>
+          participation.stableKey === "b20-membership-review:member:0",
+      )!;
+    const causeParticipation = reviewed.history.organizationParticipations.find(
+      (participation) =>
+        participation.stableKey === "b20-membership-review:member:1",
+    )!;
+
+    expect(
+      organizationParticipationStateAt(reviewed, personalParticipation.id)
+        ?.status,
+    ).toBe("ended");
+    expect(
+      organizationParticipationStateAt(reviewed, causeParticipation.id)?.status,
+    ).toBe("active");
+    expect(
+      reviewed.history.decisionTraces.some(
+        (trace) => trace.context.decisionType === "movement.membership-review",
+      ),
+    ).toBe(true);
   });
 });
