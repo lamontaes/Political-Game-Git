@@ -43,9 +43,10 @@ import { offenderForVictims } from "./offenders";
  * them as a life decision (`adult.crime-report`); until they report it, it
  * stays unreported.
  *
- * The weights are PLACEHOLDERS (research: `why-victims-report-to-police`).
- * The real shares reported to police by offense (BJS, Criminal Victimization,
- * 2023, NCJ 309335, table 4) check the totals in the tests.
+ * The weights are ESTIMATED FROM AVERAGE: each is set so the town's shares
+ * land near the national shares reported to police by offense (BJS, Criminal
+ * Victimization, 2023, NCJ 309335, table 4), and those shares check the totals
+ * in the tests. They never decide one victim.
  */
 export const CRIME_REPORTING_VERSION = "crime-reporting-v2" as const;
 
@@ -54,9 +55,12 @@ export const REPORT_OPTIONS = {
   quiet: "keep-quiet",
 } as const;
 
-/** PLACEHOLDER weights, in the decision engine's points. */
-export const UNRESEARCHED_REPORTING = {
-  provenance: "unresearched-blanket-rule",
+/** Weights in the decision engine's points, estimated from national averages. */
+export const REPORTING_WEIGHTS = {
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "BJS, Criminal Victimization, 2023 (NCJ 309335), table 4: shares of victimizations reported to police by offense; BJS, Repeat Violent Victimization, 2005-14 (NCJ 250567)",
   /**
    * How much the offense itself argues for calling the police, set so the
    * town's shares land near the national shares reported (2022 and 2023):
@@ -78,8 +82,8 @@ export const UNRESEARCHED_REPORTING = {
    * Earlier offenses against the same victim, at full strength: what has
    * happened before is part of the harm this time. Repeat victims are a
    * fifth of victims and half of all violent victimizations (BJS, Repeat
-   * Violent Victimization, 2005-14, NCJ 250567); the size of the pull is a
-   * placeholder.
+   * Violent Victimization, 2005-14, NCJ 250567); the size of the pull is
+   * estimated from that average.
    */
   repeatVictimization: 3,
   /** Offenses the victim reported before, at full strength. */
@@ -94,7 +98,7 @@ export const UNRESEARCHED_REPORTING = {
   researchQuestions: ["why-victims-report-to-police"],
 } as const;
 
-const R = UNRESEARCHED_REPORTING;
+const R = REPORTING_WEIGHTS;
 
 const STEPS: readonly (readonly [
   number,

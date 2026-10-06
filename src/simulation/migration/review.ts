@@ -62,10 +62,7 @@ import {
   peopleInHouseholdAt,
   workRoleAt,
 } from "../life-queries";
-import {
-  UNRESEARCHED_LOCAL_CRIME,
-  UNRESEARCHED_TOWN_POLICE_LOG,
-} from "../crime/contract";
+import { LOCAL_CRIME_RATES, TOWN_POLICE_LOG } from "../crime/contract";
 import { localCrimeFigures } from "../crime/producer";
 import {
   macroConditionsAt,
@@ -671,18 +668,17 @@ export function townCrimePush(world: World, town: EntityId): number {
   );
   const violent = figures.reported.assault + figures.reported.robbery;
   const weight = (offense: string) => {
-    const rule = UNRESEARCHED_LOCAL_CRIME.offenses.find(
+    const rule = LOCAL_CRIME_RATES.offenses.find(
       (row) => row.offense === offense,
     )!;
     return rule.annualRate * rule.reportedShare;
   };
-  const all = UNRESEARCHED_LOCAL_CRIME.offenses.reduce(
+  const all = LOCAL_CRIME_RATES.offenses.reduce(
     (sum, rule) => sum + weight(rule.offense),
     0,
   );
   const expected =
-    ((UNRESEARCHED_TOWN_POLICE_LOG.reportedPerMonth *
-      MIGRATION_REVIEW_INTERVAL_DAYS) /
+    ((TOWN_POLICE_LOG.reportedPerMonth * MIGRATION_REVIEW_INTERVAL_DAYS) /
       30.4) *
     ((weight("assault") + weight("robbery")) / all);
   const excess = Math.max(0, violent - expected);
