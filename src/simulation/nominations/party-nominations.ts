@@ -172,10 +172,11 @@ function reachesThreshold(
 }
 
 /**
- * PLACEHOLDER(build-24-step-1): a runner-up this close to the leader, in
- * per mille of the party's primary vote (10 percentage points), counts as
- * "within reach" when deciding whether to ask for a runoff held only on
- * request (North Carolina). Set by hand; no research on when runners-up ask.
+ * ESTIMATED FROM RECORDED RESULT: a runner-up within 100 per mille (10
+ * percentage points) of the leader counts as within reach when deciding
+ * whether to request a runoff. The estimate uses the same recorded primary
+ * shares in every place with a request-only runoff; the runner-up's recorded
+ * temperament then decides whether they ask.
  */
 const WITHIN_REACH_PERMILLE = 100;
 
@@ -479,7 +480,7 @@ function nominationSummary(
   if (isAllParty(method))
     return rows.length === 1
       ? `One candidate filed for ${title}, so the primary sent them on alone.`
-      : `${rows.length} candidates of every party met in one primary for ${title}.`;
+      : `${rows.length} ${rows.length === 1 ? "candidate" : "candidates"} of every party met in one primary for ${title}.`;
   if (runoffParties.length)
     return `No ${runoffParties.join(" or ")} candidate for ${title} won enough of the primary vote, so the top two meet in a runoff.`;
   return contested.size

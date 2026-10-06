@@ -8,11 +8,85 @@
 
 import type { DelimitedRow, ParseDefect } from "../../core/index";
 import { GEO_FIELD } from "./acquisition";
-import type { PlaceCountyPartRecord, PublisherPartFlag } from "./types";
+import type {
+  PlaceCountyPartRecord,
+  PlaceDistrictPopulationRecord,
+  PublisherPartFlag,
+} from "./types";
 
 export interface PlaceCountyNormalizeResult {
   readonly records: readonly PlaceCountyPartRecord[];
   readonly defects: readonly ParseDefect[];
+}
+
+export interface DistrictPopulationBlock {
+  readonly blockGeoid: string;
+  readonly placeGeoid: string | null;
+  readonly districtGeoid: string;
+  readonly chamber: PlaceDistrictPopulationRecord["chamber"];
+  readonly boundaryVintage: string;
+  readonly population: number;
+}
+
+/** Join inputs are publisher block counts and dated assignments, never areas. */
+export function normalizeDistrictPopulationParts(
+  rows: Iterable<DistrictPopulationBlock>,
+  artifactId: string,
+): readonly PlaceDistrictPopulationRecord[] {
+  const seen = new Set<string>();
+  const parts = new Map<string, PlaceDistrictPopulationRecord>();
+  const totals = new Map<string, number>();
+  let line = 0;
+  for (const row of rows) {
+    line += 1;
+    const blockKey = `${row.boundaryVintage}:${row.chamber}:${row.blockGeoid}`;
+    if (seen.has(blockKey))
+      throw new Error(`Duplicate district block ${blockKey}`);
+    seen.add(blockKey);
+    if (
+      !/^\d{15}$/.test(row.blockGeoid) ||
+      !Number.isSafeInteger(row.population) ||
+      row.population < 0 ||
+      row.districtGeoid.slice(0, 2) !== row.blockGeoid.slice(0, 2)
+    )
+      throw new Error(`Invalid district population block ${blockKey}`);
+    if (row.placeGeoid === null) continue;
+    if (
+      !/^\d{7}$/.test(row.placeGeoid) ||
+      row.placeGeoid.slice(0, 2) !== row.blockGeoid.slice(0, 2)
+    )
+      throw new Error(`Invalid Census place for block ${blockKey}`);
+    const group = `${row.boundaryVintage}:${row.placeGeoid}:${row.chamber}`;
+    const recordId = `district:${group}:${row.districtGeoid}`;
+    totals.set(group, (totals.get(group) ?? 0) + row.population);
+    const previous = parts.get(recordId);
+    parts.set(recordId, {
+      relationKind: "legislative-district",
+      recordId,
+      placeGeoid: row.placeGeoid,
+      stateFips: row.blockGeoid.slice(0, 2),
+      chamber: row.chamber,
+      districtGeoid: row.districtGeoid,
+      boundaryVintage: row.boundaryVintage,
+      populationAsOf: "2020-04-01",
+      partPopulationCount:
+        (previous?.partPopulationCount ?? 0) + row.population,
+      placePopulationCount: 0,
+      evidence: previous?.evidence ?? {
+        artifactId,
+        locator: { kind: "delimited-row", artifactId, line },
+        providerNativeId: recordId,
+      },
+    });
+  }
+  return [...parts.values()]
+    .map((part) => ({
+      ...part,
+      placePopulationCount: totals.get(
+        `${part.boundaryVintage}:${part.placeGeoid}:${part.chamber}`,
+      )!,
+    }))
+    .sort((a, b) => a.recordId.localeCompare(b.recordId));
 }
 
 interface Part {

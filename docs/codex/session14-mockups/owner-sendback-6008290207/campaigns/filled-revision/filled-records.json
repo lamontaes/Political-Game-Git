@@ -1,0 +1,43 @@
+{
+  "identity": {
+    "name": "Kaitlyn Watkins",
+    "age": 34,
+    "home": "Ashland, Oregon",
+    "worldSource": "0d7453f9de2f3dcf14ca75ee24eb4510cf6fa87a",
+    "seed": "session14-campaigns-records-20261005"
+  },
+  "basis": "Sourced filled mockup reading; original World snapshot unmodified. Not production data integration. No estimates needed for displayed rows.",
+  "elections": [
+    {
+      "title": "Ashland City Council",
+      "date": "November 3, 2026",
+      "detail": "Four seats: three four-year terms and one two-year term. All seats are elected citywide.",
+      "source": "https://www.ashlandoregon.gov/540/Elections"
+    },
+    {
+      "title": "Jackson County Commissioner",
+      "date": "May 19, 2026 \u00b7 Primary",
+      "detail": "November 3, 2026 \u00b7 General election. Positions 1 and 3.",
+      "sources": [
+        "https://sos.oregon.gov/elections/Documents/county-city-district-candidates.pdf",
+        "https://www.ballotready.org/people/rick-dyer",
+        "https://theballotbrief.com/state/oregon/jackson-county/commissioner-position-3"
+      ]
+    }
+  ],
+  "councilRules": {
+    "qualification": "You must be at least 18, be registered to vote in Ashland, and live within the city limits when you file.",
+    "signatures": 25,
+    "filingFeeDollars": 0,
+    "firstDay": "June 3, 2026",
+    "newCandidateDeadline": "August 18, 2026",
+    "incumbentDeadline": "August 11, 2026",
+    "sources": [
+      "https://www.ashlandoregon.gov/540/Elections",
+      "https://ashlandoregon.gov/CivicAlerts.aspx?AID=255&ARC=668",
+      "https://sos.oregon.gov/elections/Pages/voteinor.aspx"
+    ]
+  },
+  "excludedPriorRow": "Mayor removed: official council page confirms current term ends December2028, not2026. No speculative mayor election date displayed.",
+  "scope": "Local council qualification shown; county qualification not asserted. No personal registration/citizenship inference."
+}

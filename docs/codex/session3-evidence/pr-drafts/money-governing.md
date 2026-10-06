@@ -1,0 +1,41 @@
+# Money and Governing use the shared glass appearance
+
+Before: Measured in the before capture: Money and Governing use rounded inner cards. Governing offers an Office tab to the ordinary resident.
+
+After: Measured in the after capture: Inner cards have square edges. The ordinary resident sees no Office or empty Issues tab.
+
+Publication remains held until Session 1 passes the shell prerequisite.
+
+## Replacement and proof
+
+Replaces: `src/player/player.css:8164` removes the rounded office-list card background. `src/player/budget-economy-workspace.css:37` replaces the blue availability stripe with a brass hairline. `src/player/PlayerGame.tsx:3330` uses the existing fiscal and office readers to withhold empty Issues, Budget, Parties and premature Office tabs. These are measured source changes.
+
+Built on Session 2's published shell foundation. Session 9 owns the Personal split-record extraction.
+
+Money before:
+
+![Before](https://raw.githubusercontent.com/lamontaes/Political-Game-Git/codex/session3-money-governing/docs/codex/session3-evidence/money-governing/money-before.png)
+
+Money after:
+
+![After](https://raw.githubusercontent.com/lamontaes/Political-Game-Git/codex/session3-money-governing/docs/codex/session3-evidence/money-governing/money-after.png)
+
+Governing before:
+
+![Before](https://raw.githubusercontent.com/lamontaes/Political-Game-Git/codex/session3-money-governing/docs/codex/session3-evidence/money-governing/governing-before.png)
+
+Governing after:
+
+![After](https://raw.githubusercontent.com/lamontaes/Political-Game-Git/codex/session3-money-governing/docs/codex/session3-evidence/money-governing/governing-after.png)
+
+Office before:
+
+![Before](https://raw.githubusercontent.com/lamontaes/Political-Game-Git/codex/session3-money-governing/docs/codex/session3-evidence/money-governing/office-before.png)
+
+Office after:
+
+![After](https://raw.githubusercontent.com/lamontaes/Political-Game-Git/codex/session3-money-governing/docs/codex/session3-evidence/money-governing/office-after.png)
+
+## Validation and next step
+
+Measured local checks: full typecheck, changed-file ESLint and Prettier, zero-dice, committed release declaration range and merge-tree against current main pass. The composed browser cases pass (2/2); Calendar and Campaign unit tests pass (6/6). Measured preserved clean-main failure: the original three-year run exhausted Node’s 4 GiB heap before completing its first year (about 902 seconds; exit 128). No speed comparison is established. Further year timing belongs to Session 5 under the CTO instruction. Measured 30-day opening: the canonical observer advances from January 5 to February 4, 2026, using the same random-place seed and Scarville locality. The receipt names tested source `203d4be05dca287af5d75088d6c110a8503a11e6`. The screen candidate has no changes in `src/simulation`, `src/presentation` or `data`; unchanged simulation behavior is inferred from that source boundary. The ordinary new-life walk uses Scarville, Iowa, seed `session3-kit13-20261005`, at 1920×1080. The custom legislative staff start checks that Office stays hidden without a seat. Office and Transit captures use the existing supplied recorded-member term; it does not establish ordinary election reachability. The coordinator retains merge authority.

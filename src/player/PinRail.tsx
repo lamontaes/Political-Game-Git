@@ -142,7 +142,7 @@ export function PinRail({ people, state, dispatch }: PinRailProps) {
                 className="context-pin civic-glass"
                 data-pin-id={pin.id}
                 data-size={size}
-                aria-label={`${pin.label}. ${pin.kind}. Display size ${size}. Open pin controls.`}
+                aria-label={`${pin.label}. ${pin.kind}. Display size ${size}. Pin controls.`}
                 aria-expanded={controlsOpen}
                 aria-controls={
                   controlsOpen ? `pin-controls-${pin.id}` : undefined

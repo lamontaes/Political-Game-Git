@@ -286,7 +286,7 @@ function OfficePathTable() {
         ? "flattened (authored recipe)"
         : visual.modular
           ? `modular (generation ${visual.modular.catalogGeneration})`
-          : "placeholder (fail closed)",
+          : "no compatible visual (rendering withheld)",
       detail: visual.asset
         ? visual.asset.assetId
         : visual.modular

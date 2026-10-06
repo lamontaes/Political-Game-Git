@@ -306,7 +306,7 @@ describe("an independent ward commission law", { timeout: 600_000 }, () => {
         }),
       ]);
       expect(drawn.summary).toMatch(
-        /drawn by an independent commission, the independent ward commission law took effect/,
+        /drawn by an independent commission, the independent district commission law took effect/,
       );
       // Its map holds until the next redistricting; a second review is a no-op.
       expect(redistrictForWardCommission(world, unit, town)).toBe(world);

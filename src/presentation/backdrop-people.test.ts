@@ -6,8 +6,12 @@ import {
   backdropStaging,
   placeBackdropPeople,
   spotFigure,
+  spotPose,
+  type StagingSpot,
 } from "./backdrop-people";
 import { hasBackdrop } from "./place-backdrops";
+import { peopleAtWorkAt } from "../simulation/living-world/work-schedules";
+import { playerTown } from "../simulation/living-world/town-residents";
 import { addDays, simulationMomentOnLocalDate } from "../simulation/dates";
 import type { IsoDate, World } from "../simulation";
 
@@ -77,6 +81,74 @@ describe("people at work in place pictures", { timeout: 180_000 }, () => {
     ).toHaveLength(0);
   });
 
+  it("keeps the counter for a scene cashier when a customer is listed first", () => {
+    const [customer, cashier] = Object.values(world.people)
+      .filter((person) => person.id !== player && person.appearance)
+      .slice(0, 2);
+    if (!customer || !cashier) throw new Error("two present people are needed");
+    const people = placeBackdropPeople(
+      world,
+      player,
+      "store",
+      world.currentMoment,
+      [
+        { personId: customer.id, title: "Customer" },
+        {
+          personId: cashier.id,
+          title: "Cashier",
+          role: "staff-behind-counter",
+        },
+      ],
+    );
+    const counterTop = staging.places.store.spots.find(
+      (spot) => "group" in spot && spot.group === "counter",
+    )!.clipBelowY;
+    expect(
+      people.find((person) => person.personId === cashier.id)?.clipBelowPercent,
+    ).toBe(counterTop);
+    const visitor = people.find((person) => person.personId === customer.id);
+    expect(visitor?.clipBelowPercent ?? null).toBeNull();
+    expect(
+      [...people, ...people.overflow].filter(
+        (person) => person.personId === customer.id,
+      ),
+    ).toHaveLength(1);
+  });
+
+  it("uses an on-shift clerk's recorded job when the scene omits their title", () => {
+    const morning = at(world, world.currentDate, 2, 10 * 60);
+    const clerk = peopleAtWorkAt(
+      world,
+      playerTown(world, player)!,
+      "clerk-counter",
+      morning,
+    ).find((worker) => worker.title === "City clerk")!;
+    expect(clerk).toBeDefined();
+    const customer = Object.values(world.people).find(
+      (person) =>
+        person.id !== player &&
+        person.id !== clerk.personId &&
+        person.appearance,
+    )!;
+    const people = placeBackdropPeople(
+      world,
+      player,
+      "clerk-counter",
+      morning,
+      [
+        { personId: customer.id, title: "Customer" },
+        { personId: clerk.personId },
+      ],
+    );
+    const placed = people.find((person) => person.personId === clerk.personId)!;
+    expect(placed.title).toBe(clerk.title);
+    const stage = staging.places["clerk-counter"];
+    const counterTops = stage.spots
+      .filter((spot) => "group" in spot && spot.group === "counter")
+      .map((spot) => spot.clipBelowY);
+    expect(counterTops).toContain(placed.clipBelowPercent);
+  });
+
   it("puts nearer people lower and larger", () => {
     const morning = at(world, world.currentDate, 2, 10 * 60);
     const hallway = placeBackdropPeople(
@@ -99,7 +171,10 @@ describe("people at work in place pictures", { timeout: 180_000 }, () => {
     const officers = Object.values(world.people)
       .filter((person) => person.id !== player && person.appearance)
       .slice(0, 5)
-      .map((person) => ({ personId: person.id }));
+      .map((person) => ({
+        personId: person.id,
+        role: "member-at-dais" as const,
+      }));
     expect(officers).toHaveLength(5);
     const chamber = placeBackdropPeople(
       world,
@@ -142,7 +217,14 @@ describe("people at work in place pictures", { timeout: 180_000 }, () => {
       (spot) => spot.pose === "stand",
     );
     for (const { personId } of pair) {
-      const placed = office.find((person) => person.personId === personId)!;
+      const placed = office.find((person) => person.personId === personId);
+      if (!placed) {
+        expect(
+          office.overflow.find((person) => person.personId === personId)
+            ?.reason,
+        ).toBe("missing-art");
+        continue;
+      }
       // Nothing is hidden behind furniture, and each stands centered on a
       // standing spot.
       expect(placed.clipBelowPercent).toBeNull();
@@ -168,7 +250,8 @@ describe("people at work in place pictures", { timeout: 180_000 }, () => {
       { standing: true },
     );
     const titleOf = (id: string) =>
-      office.find((person) => person.personId === id)?.title;
+      [...office, ...office.overflow].find((person) => person.personId === id)
+        ?.title;
     expect(titleOf(first.id)).toBe("President of the United States");
     // No title named: the plate shows the name alone.
     expect(titleOf(second.id)).toBe("");
@@ -189,5 +272,103 @@ describe("people at work in place pictures", { timeout: 180_000 }, () => {
     expect(
       spotFigure(backdropStaging("clerk-counter")!, counter).clipBandEndPercent,
     ).toBeNull();
+  });
+  it("keeps every chair seated across activities and uses the marked floor", () => {
+    for (const stage of Object.values(staging.places)) {
+      for (const spot of stage.spots as readonly StagingSpot[]) {
+        if (spot.pose === "sit") {
+          expect(spot.seatY).toBeDefined();
+          for (const activity of [
+            "speaking",
+            "listening",
+            "desk",
+            "waiting",
+            "meeting",
+            "idle",
+            "speech",
+          ] as const)
+            expect(spotPose(spot, activity).startsWith("seated")).toBe(true);
+        }
+        if (spot.floor)
+          expect(
+            "floors" in stage
+              ? (stage.floors as Record<string, number>)[spot.floor]
+              : undefined,
+          ).toBeDefined();
+      }
+    }
+    const stage = {
+      horizonY: 20,
+      metersPercent: 1,
+      floors: { dais: 2 },
+      spots: [],
+    };
+    const floor = { x: 50, y: 50, pose: "stand" as const };
+    expect(spotFigure(stage, { ...floor, floor: "dais" }).heightPercent).toBe(
+      spotFigure(stage, floor).heightPercent * stage.floors.dais,
+    );
+    expect(spotPose({ ...floor, pose: "podium" }, "listening")).toBe("podium");
+  });
+
+  it("accounts for everyone when a room fills, and when staging is missing", () => {
+    const present = Object.values(world.people)
+      .filter((person) => person.id !== player && person.appearance)
+      .slice(0, staging.places.office.spots.length + 1)
+      .map((person) => ({ personId: person.id }));
+    const night = at(world, world.currentDate, 2, 21 * 60);
+    const placed = placeBackdropPeople(world, player, "office", night, present);
+    expect(placed.overflow.length).toBeGreaterThan(0);
+    expect(
+      [...placed, ...placed.overflow].map((person) => person.personId).sort(),
+    ).toEqual(present.map((person) => person.personId).sort());
+    const absent = placeBackdropPeople(
+      world,
+      player,
+      "no-such-place",
+      night,
+      present,
+    );
+    expect(absent).toHaveLength(0);
+    expect(absent.overflow.map((person) => person.personId)).toEqual(
+      present.map((person) => person.personId),
+    );
+    expect(absent.overflow.every((person) => person.reason === "no-spot")).toBe(
+      true,
+    );
+  });
+
+  it("keeps standing-only overflow off chairs and follows the speaking activity", () => {
+    const present = Object.values(world.people)
+      .filter((person) => person.id !== player && person.appearance)
+      .slice(0, staging.places["oval-office"].spots.length)
+      .map((person) => ({ personId: person.id }));
+    const placed = placeBackdropPeople(
+      world,
+      player,
+      "oval-office",
+      world.currentMoment,
+      present,
+      {
+        standing: true,
+        speakerId: present[0]!.personId,
+      },
+    );
+    expect(placed.overflow.length).toBeGreaterThan(0);
+    expect(
+      placed.every((person) => !person.engine.pose?.startsWith("seated")),
+    ).toBe(true);
+    const speaker = placed.find(
+      (person) => person.personId === present[0]!.personId,
+    );
+    if (speaker) expect(speaker.engine.pose).toBe("explaining");
+    else
+      expect(
+        placed.overflow.find(
+          (person) => person.personId === present[0]!.personId,
+        )?.reason,
+      ).toBe("missing-art");
+    expect(spotPose({ x: 50, y: 50, pose: "stand" }, "speaking")).toBe(
+      "explaining",
+    );
   });
 });

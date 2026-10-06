@@ -44,7 +44,6 @@ import {
   PROSECUTION_REFERRED_EVENT,
   PROSECUTION_SENTENCED_EVENT,
   referForProsecution,
-  regulatorRefers,
   UNRESEARCHED_PROSECUTION,
 } from "../simulation/justice/prosecution";
 import { successorCandidates } from "../simulation/people-continuation";
@@ -520,19 +519,16 @@ describe("a Washington candidate who keeps taking after a finding", () => {
     expect(leads.length).toBeGreaterThan(0);
   });
 
-  it("goes to prosecutors once a finding shows they knew, and people decide the case", () => {
-    // The first finding settles itself; the second, taken after the first
-    // told them the rule, is knowing and willful and goes to prosecutors.
+  it("sends each supported finding to a prosecutor, who decides the case", () => {
+    // Each finding reaches a prosecutor. The prosecutor's recorded decision
+    // determines whether a charge follows.
     const events = (w: World, type: string) =>
       w.history.events.filter(
         (event) =>
           event.type === type &&
           event.participants.some((entry) => entry.personId === run.personId),
       );
-    const expected = findings.filter((_, index) =>
-      regulatorRefers({ standingFindings: index + 1, deniedIt: false }),
-    );
-    expect(expected).toHaveLength(findings.length - 1);
+    const expected = findings;
     const referrals = events(world, PROSECUTION_REFERRED_EVENT);
     expect(referrals.map((event) => event.occurredAt)).toEqual(
       expected.map((step) => step.at),
@@ -667,7 +663,7 @@ describe("a Washington candidate who lies to reporters about the money", () => {
     ).toBe(true);
   });
 
-  it("goes to prosecutors on the first finding, because the denial shows they knew", () => {
+  it("sends a first finding to prosecutors for an individual charging decision", () => {
     const referrals = run.after.history.events.filter(
       (event) =>
         event.type === PROSECUTION_REFERRED_EVENT &&

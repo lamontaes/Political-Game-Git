@@ -19,6 +19,8 @@ import {
   ageOnDate,
   campaignActionResult,
   campaignActions,
+  askToHelp,
+  campaignHelperCandidates,
   campaignForCandidate,
   campaignResultsFor,
   campaignState,
@@ -63,6 +65,7 @@ import type {
   EntityId,
   IsoDate,
   MoneyAmount,
+  AskToHelpResult,
   World,
 } from "../simulation";
 import { moneyText } from "../simulation/money-text";
@@ -281,6 +284,14 @@ export interface CampaignView {
   readonly daysLeft: number | null;
   readonly treasury: MoneyAmount;
   readonly offers: readonly CampaignActionOffer[];
+  readonly helpers: readonly {
+    readonly personId: EntityId;
+    readonly name: string;
+  }[];
+  readonly helperCandidates: readonly {
+    readonly personId: EntityId;
+    readonly name: string;
+  }[];
   readonly sessions: readonly CampaignSessionRecord[];
   readonly reading: CampaignReading | null;
   readonly tallies: readonly CampaignTallyLine[];
@@ -529,6 +540,17 @@ export function projectCampaign(
     treasury,
     offers:
       state.status === "active" ? offersFor(world, campaign, treasury) : [],
+    helpers: campaign.staffWorkRelationshipIds.flatMap((workId) => {
+      const relationship = world.history.workRelationships.find(
+        (row) => row.id === workId,
+      );
+      const helper = relationship ? world.people[relationship.personId] : null;
+      return helper ? [{ personId: helper.id, name: personName(helper) }] : [];
+    }),
+    helperCandidates:
+      state.status === "active"
+        ? campaignHelperCandidates(world, campaign.id)
+        : [],
     sessions: sessionsFor(world, campaign),
     reading: latestReading(world, campaign),
     // A speech already given stays on the record; one not given is offered
@@ -583,6 +605,14 @@ export function projectCampaign(
           ? `${candidateName} lost${resultMargin(result, personId)}.`
           : null,
   };
+}
+
+export function askCampaignHelper(
+  world: World,
+  campaignId: EntityId,
+  personId: EntityId,
+): AskToHelpResult {
+  return askToHelp(world, { campaignId, personId });
 }
 
 /**
@@ -733,6 +763,8 @@ function notYetFiled(
     daysLeft: null,
     treasury: emptyTreasury,
     offers: [] as readonly CampaignActionOffer[],
+    helpers: [] as const,
+    helperCandidates: [] as const,
     sessions: [] as readonly CampaignSessionRecord[],
     reading: null,
     tallies: [] as readonly CampaignTallyLine[],

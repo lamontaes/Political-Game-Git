@@ -5,6 +5,8 @@ import {
   createDemoWorld,
   createWorldSnapshot,
   deserializeWorld,
+  introduceMeasure,
+  legislativeBlueprint,
   measurePosition,
   recordWorldEvent,
   serializeWorld,
@@ -30,11 +32,12 @@ import {
 } from "./legislation-world";
 import { createNewGameWorld } from "./new-game";
 import { observeWorld, retireFromPlay } from "./people-continuation";
-import { resolvePlayerCapabilities } from "./player-capabilities";
+import { resolveActiveMemberSeat } from "./legislative-member-seat";
 import { openOrdinaryLife } from "./ordinary-life";
 import { openNextLifeScene } from "./life-scene-flow";
 import { projectPlayerConversation } from "./player-conversation";
 import { commitConversationTurn } from "./run-b-conversation";
+import { addSuppliedLegislativeSeat } from "../../tests/fixtures/supplied-legislative-seat";
 
 /**
  * A fake IndexedDB that can be made slow or made to fail.
@@ -1251,8 +1254,8 @@ describe("A bill moved through committee survives leaving", () => {
   /**
    * The same defect, on a second production path.
    *
-   * Opening legislative work and taking a step both write canonical history
-   * and leave `actionSequence` exactly where it was, so under the old contract
+   * Legislative steps can write canonical history while leaving
+   * `actionSequence` exactly where it was, so under the old contract
    * a player could move a measure to referral, through a hearing and out of
    * committee, autosave after each step, and find on reload that none of it
    * happened. That is not a variant of the conversation bug; it is the same
@@ -1278,16 +1281,41 @@ describe("A bill moved through committee survives leaving", () => {
       givenName: null,
       familyName: null,
     });
-    const capabilities = resolvePlayerCapabilities(game.world);
-    const saveId = store.newSaveId(game.world);
-    expect((await store.save(game.world, saveId)).status).toBe("saved");
+    // Supplied seat and legacy office bill: this isolates persistence, not
+    // ordinary election or bill-intake production. A staff job alone cannot
+    // supply a seated sponsor or authorize the opener to fabricate a bill.
+    const seat = addSuppliedLegislativeSeat(
+      game.world,
+      game.playerPersonId,
+      "US-KY",
+      "house",
+    );
+    const blueprint = legislativeBlueprint("kentucky");
+    expect(resolveActiveMemberSeat(seat.world, seat.personId).kind).toBe(
+      "seated",
+    );
+    const ready = introduceMeasure(seat.world, {
+      stableKey: "legislative-work:kentucky:measure",
+      jurisdictionId: seat.jurisdictionId,
+      rulePackId: seat.packId,
+      designation: "HB 1",
+      shortTitle: blueprint.shortTitle,
+      summary: blueprint.summary,
+      origin: "member-introduction",
+      subjectClass: blueprint.subjectClass,
+      originChamberKey: "house",
+      sponsorPersonId: seat.personId,
+    });
+    const saveId = store.newSaveId(ready);
+    expect((await store.save(ready, saveId)).status).toBe("saved");
 
-    const opened = openLegislativeWork(game.world, {
+    const opened = openLegislativeWork(ready, {
       scenarioKey: "kentucky",
       playerPersonId: game.playerPersonId,
-      jurisdictionId: capabilities.legislativeJurisdictionId!,
+      jurisdictionId: seat.jurisdictionId,
     });
-    expect(opened.world.actionSequence).toBe(game.world.actionSequence);
+    expect(opened.assignment.sponsorPersonId).toBe(seat.personId);
+    expect(opened.world.actionSequence).toBe(ready.actionSequence);
     expect((await store.autosave(opened.world, saveId)).status).toBe("saved");
 
     let moved = opened.world;
@@ -1310,7 +1338,7 @@ describe("A bill moved through committee survives leaving", () => {
     }
     // Some steps advance the clock and some only write history. The ones that
     // only write history are the ones the old contract lost, and there is at
-    // least one of them in an ordinary bill's path through committee.
+    // least one of them in this supplied legacy bill's committee path.
     expect(stepsThatDidNotAdvanceTheSequence.length).toBeGreaterThan(0);
     expect((await store.flush()).status).toBe("settled");
 
