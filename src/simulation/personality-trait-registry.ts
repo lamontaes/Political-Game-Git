@@ -106,6 +106,12 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
     reader:
       "career.consider-another-term — src/simulation/traits/effects/self-confidence.ts",
   },
+  {
+    trait: "personality-v1:outward-emotional-display",
+    kind: "decision",
+    reader:
+      "clemency.petition — src/simulation/traits/effects/outward-emotional-display.ts",
+  },
 ];
 
 /**
@@ -125,7 +131,6 @@ export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:method-revision",
   "personality-v1:patience",
   "personality-v1:action-despite-fear",
-  "personality-v1:outward-emotional-display",
   "personality-v1:uncertain-outlook",
   "personality-v1:facet-cocky",
   "personality-v1:facet-proud",

@@ -1,11 +1,14 @@
 import type { TraitEffectDeclaration } from "../../trait-packs";
+import { outwardEmotionalDisplayEffects } from "./outward-emotional-display";
 import { selfConfidenceEffects } from "./self-confidence";
 
 /**
- * The catalog's effect readers, collected without putting every trait in one
- * shared data file. Each trait owns one leaf module so later additions do not
- * rewrite another trait's rows.
+ * The catalog's effect readers, one trait per leaf module so later additions
+ * do not rewrite another trait's rows.
  */
 export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
-  return [...selfConfidenceEffects];
+  return [
+    ...outwardEmotionalDisplayEffects,
+    ...selfConfidenceEffects,
+  ];
 }
