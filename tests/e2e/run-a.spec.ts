@@ -28,7 +28,7 @@ test("loads the player-facing office instead of only the diagnostic viewer", asy
   await expect(page.getByTestId("political-office-scene")).toBeVisible();
   await expect(page.getByTestId("political-office-scene")).toHaveAttribute(
     "aria-label",
-    "A quiet legislative office in Lexington, Kentucky",
+    "Legislative office in Lexington, Kentucky",
   );
   await expect(page.getByTestId("navigation-cluster")).toHaveAttribute(
     "aria-label",

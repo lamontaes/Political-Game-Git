@@ -146,7 +146,7 @@ export function PermanentShell({
           aria-controls={
             state.navigation !== "closed" ? "run-a-navigation" : undefined
           }
-          aria-label={`${formattedTime}. ${formattedDate}. ${fixture.locationLabel}. Open navigation.`}
+          aria-label={`${formattedTime}. ${formattedDate}. ${fixture.locationLabel}. Navigation menu.`}
           onClick={() => dispatch({ type: "toggle-navigation" })}
           data-testid="navigation-cluster"
         >
