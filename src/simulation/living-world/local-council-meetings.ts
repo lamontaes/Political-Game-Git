@@ -54,6 +54,7 @@ import {
 import { PUBLIC_MEETING_KEY } from "../life-opportunities";
 import { playerTown } from "./town-residents";
 import { epidemicCouncilMeetingDecision } from "../crisis/epidemic";
+import { peopleKnownTo } from "./official-views";
 
 /**
  * The player's town council meets and votes.
@@ -87,6 +88,127 @@ export const LOCAL_COUNCIL_MEETINGS_VERSION = "local-council-meetings/v1";
 const V = LOCAL_COUNCIL_MEETINGS_VERSION;
 
 export const LOCAL_COUNCIL_MEETING = "civic:local-council-meeting" as const;
+
+export type CouncilMeetingMatterReason =
+  | "player-sponsored"
+  | "player-amended"
+  | "player-campaign-stand"
+  | "known-person-contacted"
+  | "known-person-will-speak"
+  | "recorded-opposing-stance"
+  | "known-person-reached";
+
+export interface CouncilMeetingAgendaItem {
+  readonly measure: LegislativeMeasureRecord;
+  /** Every saved fact that makes this item matter; an empty list means quiet. */
+  readonly reasons: readonly CouncilMeetingMatterReason[];
+}
+
+/**
+ * Reads the agenda for one scheduled council meeting and explains, without an
+ * importance score, which items matter to the player. Later producers attach
+ * contacts, speakers, and reached people to the measure by including its ID in
+ * the event's involved entities; this reader never invents that relationship.
+ */
+export function meetingItemsThatMatter(
+  world: World,
+  playerId: EntityId,
+  meetingDueItemId: EntityId,
+): readonly CouncilMeetingAgendaItem[] {
+  const due = world.history.futureDueItems.find(
+    (item) => item.id === meetingDueItemId,
+  );
+  if (!due?.jurisdictionId || due.transitionKey !== LOCAL_COUNCIL_MEETING)
+    return [];
+
+  const known = new Set(peopleKnownTo(world, playerId));
+  const measures = (world.history.legislativeMeasures ?? []).filter(
+    (measure) =>
+      measure.jurisdictionId === due.jurisdictionId &&
+      !measurePosition(world, measure.id).terminal,
+  );
+
+  return measures.map((measure) => {
+    const reasons = new Set<CouncilMeetingMatterReason>();
+    if (measure.sponsorPersonId === playerId) reasons.add("player-sponsored");
+    if (
+      (world.history.legislativeAmendments ?? []).some(
+        (row) =>
+          row.measureId === measure.id && row.offeredByPersonId === playerId,
+      )
+    )
+      reasons.add("player-amended");
+
+    const propositionIds = new Set(measure.propositionIds ?? []);
+    if (
+      world.history.campaignCommitments.some(
+        (row) =>
+          row.personId === playerId && propositionIds.has(row.propositionId),
+      )
+    )
+      reasons.add("player-campaign-stand");
+
+    const relatedEvents = world.history.events.filter((event) =>
+      event.involvedEntityIds.includes(measure.id),
+    );
+    if (
+      relatedEvents.some(
+        (event) =>
+          event.type === "life.contacted-official" &&
+          event.involvedEntityIds.some((id) => known.has(id)),
+      )
+    )
+      reasons.add("known-person-contacted");
+    if (
+      relatedEvents.some(
+        (event) =>
+          event.type === "life.attended-public-meeting" &&
+          event.involvedEntityIds.some((id) => known.has(id)),
+      )
+    )
+      reasons.add("known-person-will-speak");
+
+    const latestPublicPositions = new Map<
+      string,
+      (typeof world.history.publicPositions)[number]
+    >();
+    for (const position of world.history.publicPositions)
+      if (propositionIds.has(position.propositionId))
+        latestPublicPositions.set(
+          `${position.personId}:${position.propositionId}`,
+          position,
+        );
+    const answers = new Map(
+      (measure.propositionAnswers ?? []).map((row) => [
+        row.propositionId,
+        row.answer,
+      ]),
+    );
+    if (
+      [...latestPublicPositions.values()].some((position) => {
+        if (position.audience !== "public") return false;
+        const answer = answers.get(position.propositionId);
+        return (
+          answer !== undefined &&
+          ((answer === "yes" && position.stance === "oppose") ||
+            (answer === "no" && position.stance === "support"))
+        );
+      })
+    )
+      reasons.add("recorded-opposing-stance");
+
+    if (
+      relatedEvents.some(
+        (event) =>
+          event.tags.includes("legislative-effect") &&
+          event.involvedEntityIds.some((id) => known.has(id)),
+      )
+    )
+      reasons.add("known-person-reached");
+
+    return { measure, reasons: [...reasons] };
+  });
+}
 
 /** The ordinance the posted public meeting takes up, for one town. */
 export function postedMeetingOrdinanceKey(town: EntityId): string {
