@@ -22,6 +22,14 @@ import { composeWorldTimeHandlers } from "../campaigns";
 import { createPressTransitionRegistry } from "../press/transitions";
 import { PRESS_DESK_SWEEP_TRANSITION_KEY } from "../press/desk";
 import { currentLifeCutoff } from "../life-queries";
+import { ensureOpeningJudiciary } from "../judiciary/opening";
+import { courtFor } from "../judiciary/court-for";
+import {
+  seatHolderAt,
+  seatJudge,
+  seatsForCourt,
+  vacateJudicialSeat,
+} from "../judiciary/courts";
 import {
   cancelFutureDueItem,
   createFutureTransitionHandlerRegistry,
@@ -35,14 +43,17 @@ import { personName } from "../people";
 import type { EntityId, World } from "../types";
 import {
   advanceProsecutions,
+  courtCasesOf,
   enterPlea,
   referForProsecution,
   PROSECUTION_CHARGED_EVENT,
   PROSECUTION_DECLINED_EVENT,
+  PROSECUTION_SENTENCED_EVENT,
   UNRESEARCHED_PROSECUTION,
 } from "./prosecution";
 import { prosecutionTimingFor } from "./prosecution-timing";
 import { PROSECUTION_STAGE_TRANSITION_KEY } from "./prosecution-transitions";
+import type { CourtCase } from "./court-reasoning";
 
 function seatedProsecutor(
   world: World,
@@ -347,6 +358,139 @@ describe("A104 an unseated prosecutor leaves the saved case pending", () => {
     expect(
       serializeWorld(advanceProsecutions(world, built.referral.referralId)),
     ).toBe(serializeWorld(world));
+  });
+  it("leaves a sentence pending for the player seated on the trial bench", () => {
+    const fixture = smallWorld({
+      seed: `${seed}:player-bench`,
+      place: place.key,
+    });
+    const playerId = fixture.personId;
+    const defendantId = fixture.world.personOrder.find(
+      (id) => id !== playerId,
+    )!;
+    expect(defendantId).toBeDefined();
+    const prosecutor = seatedProsecutor(
+      fixture.world,
+      defendantId,
+      fixture.jurisdictionId,
+    );
+    let world = ensureOpeningJudiciary(prosecutor.world);
+    const court = courtFor(
+      world,
+      fixture.jurisdictionId,
+      "local-general-trial",
+      "criminal",
+    );
+    expect(court).not.toBeNull();
+    const seat = seatsForCourt(world, court!.courtId, world.currentDate)[0]!;
+    expect(seat).toBeDefined();
+    if (seatHolderAt(world, seat.seatId, world.currentDate))
+      world = vacateJudicialSeat(world, {
+        seatId: seat.seatId,
+        vacatedAt: world.currentDate,
+        reason: "resignation",
+      });
+    world = seatJudge(world, {
+      seatId: seat.seatId,
+      personId: playerId,
+      startedAt: world.currentDate,
+      selection: {
+        path: "appointment",
+        selectionRecordId: null,
+        decisionRecordId: null,
+        selectingPersonId: null,
+        contestId: null,
+        note: "Controlled b13 fixture seats the actual player in the trial court.",
+      },
+      termEndsAt: null,
+      retentionDueAt: null,
+    });
+    const referral = referForProsecution(world, {
+      stableKey: "b13:player-bench-case",
+      subjectPersonId: defendantId,
+      jurisdictionId: fixture.jurisdictionId,
+      offenseKey: "crime:robbery",
+      evidence: "documentary",
+      standingFindings: 6,
+      basisEventIds: [],
+      referredBy: {
+        kind: "police",
+        label: "recorded police referral",
+        personId: null,
+      },
+    });
+    const referralPastDue: World = {
+      ...referral.world,
+      history: {
+        ...referral.world.history,
+        events: referral.world.history.events.map((event) =>
+          event.id === referral.referralId
+            ? {
+                ...event,
+                occurredAt: addDays(
+                  referral.world.currentDate,
+                  -UNRESEARCHED_PROSECUTION.chargeDecisionDays,
+                ),
+              }
+            : event,
+        ),
+      },
+    };
+    const referralEvent = referral.world.history.events.find(
+      (event) => event.id === referral.referralId,
+    )!;
+    const resolveAfterDays = prosecutionTimingFor(
+      fixture.place.stateJurisdictionKey,
+    ).resolveAfterDays;
+    const charged = advanceProsecutions(referralPastDue, referral.referralId);
+    const chargedEvent = charged.history.events.find(
+      (event) => event.type === PROSECUTION_CHARGED_EVENT,
+    );
+    expect(chargedEvent?.involvedEntityIds).toContain(defendantId);
+    const courtCase: CourtCase = {
+      caseKey: referralEvent.stableKey,
+      defendantId,
+      offenseKey: "crime:robbery",
+      offenseLabel: "robbery",
+      evidence: "documentary",
+      standingFindings: 6,
+      venueJurisdictionId: fixture.jurisdictionId,
+      stateKey: fixture.place.stateJurisdictionKey,
+    };
+    const trialDue: World = {
+      ...charged,
+      history: {
+        ...charged.history,
+        events: charged.history.events.map((event) =>
+          event.id === chargedEvent?.id
+            ? {
+                ...event,
+                occurredAt: addDays(charged.currentDate, -resolveAfterDays),
+              }
+            : event,
+        ),
+      },
+    };
+    expect(courtReasoning.sentencingJudge(trialDue, courtCase, 0)).toBe(
+      playerId,
+    );
+    const pending = advanceProsecutions(trialDue, referral.referralId);
+    expect(
+      pending.history.events.some(
+        (event) =>
+          event.type === PROSECUTION_SENTENCED_EVENT &&
+          event.involvedEntityIds.includes(defendantId),
+      ),
+    ).toBe(false);
+    expect(courtCasesOf(pending, defendantId)[0]?.sentencedEventId).toBeNull();
+    expect(
+      pending.history.decisionTraces.some(
+        (trace) =>
+          trace.context.stableKey ===
+          `${referralEvent.stableKey}:sentence:trace`,
+      ),
+    ).toBe(false);
+    assertWorldIntegrity(pending);
   });
   it("records the seated prosecutor's actual decision and preserves it through save/reopen", () => {
     const built = referralFixture(true);
