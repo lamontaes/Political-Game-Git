@@ -124,18 +124,20 @@ the canonical version and exist only for throwaway artifacts.
   their own explicit feed settings (`OCD_INTERNAL_UPDATE_FEED_URL` and
   `OCD_PRIVATE_UPDATE_FEED_URL`) and retain the ask-first update selector.
   Steam builds always stage with updates disabled.
-- Stable builds check on open, assess version/channel before installation,
-  download and verify updates in the background, and set install-on-quit only
-  after a successful verified download. The new build starts on the next open;
-  no update restarts play or skips the normal save/close guard. Stable builds
-  remain disabled if no HTTPS feed or signing material is configured.
+- Stable builds check on open, assess version/channel before downloading,
+  verify updates in the background, and then offer explicit "Install and
+  restart" and "Later" buttons. Auto-install-on-quit remains disabled. The
+  player must confirm installation and every window must pass the normal
+  save/close guard before restart. Stable builds remain disabled if no HTTPS
+  feed or signing material is configured.
 - Internal/private "Check for Updates…" is finite and user-controlled: check → ask →
   download → ask again; nothing restarts on its own and unsaved play is
   never discarded (install-on-restart only proceeds once every window
   actually closed through the normal close flow after the game's
   unsaved-work guard; a timeout is not treated as persistence, and a
-  blocked or failed flush does not force quit or claim a safe update). Choosing "Later"
-  arms install-on-your-own-next-quit — exactly what the dialog says.
+  blocked or failed flush does not force quit or claim a safe update). Choosing
+  "Later" leaves the downloaded update unapplied; the player can check again
+  when ready.
   Malformed metadata, an untrusted-channel candidate, a downgrade, and
   a failed or unverifiable download are refused and surfaced. The whole
   contract is deterministic: `npm test` runs `tests/auto-update.test.mjs`
@@ -147,14 +149,23 @@ the canonical version and exist only for throwaway artifacts.
   Steam upload is implied. Channel policy: everything this tooling
   produces is `channel: internal` unless an explicit channel is passed.
   A build stamped `stable` cannot receive an internal/private candidate.
-- `CSC_LINK`, `CSC_KEY_PASSWORD`, `CSC_NAME`, and Apple's notarization
-  credentials are build environment values or GitHub secrets only. Without
+- `OCD_STABLE_UPDATE_FEED_URL`, `OCD_INTERNAL_UPDATE_FEED_URL`, and
+  `OCD_PRIVATE_UPDATE_FEED_URL` are feed settings, not credentials.
+  `CSC_LINK`, `CSC_KEY_PASSWORD`, and optional `CSC_NAME` hold the signing
+  identity through the build environment or GitHub secrets. Apple notarization
+  uses `APPLE_ID`, `APPLE_APP_SPECIFIC_PASSWORD`, and `APPLE_TEAM_ID`, also
+  only through the environment or GitHub secrets. Without
   signing material the Mac build remains unsigned and stable updating remains
   disabled. No credential is read from a repository file or written to the
   staged configuration. The update tests prove decisions and failure handling.
-  Signed Mac install and retaining exactly one prior-version fallback are not
-  yet implemented or proven by this deterministic harness. Do not disable
+  Direct Mac auto-install remains disabled pending an exactly-one-previous-build
+  retention manager and real Mac A→B→failed-launch→A runtime proof recorded in
+  `docs/codex/progress/session-55-updater.md`. Deterministic tests are not Mac
+  runtime proof. Do not disable
   Gatekeeper or remove quarantine broadly.
+- `npm run secrets:scan` checks tracked repository files for environment files,
+  signing keys/certificates, private-key blocks and common provider-token
+  formats. It reports only the file and finding category, never the value.
 
 ### Private controller versus public auto-update
 
