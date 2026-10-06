@@ -22,10 +22,12 @@ import {
  * keeps the seat is the law's answer at sentencing (`recordOfficeConsequence`),
  * so an office never goes on leave here.
  *
- * PLACEHOLDER (hand-set): the employer holds the job through the term. No
- * employer in the game is a person who decides yet, so whether one lets a
- * worker go while they are away, or takes them back after, is not decided
- * here; the leave is only the fact that they were not there.
+ * ESTIMATED FROM AVERAGE: the employer holds the job through the term. The
+ * federal and state rule is that employment is at will, so a real employer may
+ * let a worker go, but no employer in the game is a person who decides this
+ * yet, so the leave is only the fact that the worker was not there. Whether
+ * one lets a worker go while they are away, or takes them back after, is not
+ * decided here.
  */
 
 export const JAIL_ABSENCE_VERSION = "justice-jail-absence-v1";
