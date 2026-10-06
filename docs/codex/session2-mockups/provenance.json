@@ -1,0 +1,16 @@
+{
+  "kind": "static mockup; not a played game",
+  "approvalMain": "6048b1331b9f1be7948b8827db75dcc4d6b5c1f4",
+  "approvedSheetBytes": 1509746,
+  "approvedSheetSha256": "347c8e90d953229458e5eef34b497f4b109c09c3cc1ba5d79a7ba3f676f0f4c0",
+  "controls": "exact sheet crops; no regenerated controls",
+  "art": [
+    "art/backdrops/us-capitol-exterior__midday.jpg",
+    "art/backdrops/state-capitol-mo__midday.jpg"
+  ],
+  "viewport": [
+    1920,
+    1080
+  ],
+  "unapproved": true
+}
