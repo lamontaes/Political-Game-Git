@@ -599,9 +599,11 @@ interface HouseholdPersonProjection {
     readonly locations: readonly HouseholdLocationRecord[];
     readonly locationGroup: readonly HouseholdLocationRecord[];
   }[];
-  statesSource: World["history"]["householdMembershipStates"];
-  householdsSource: World["history"]["households"];
-  locationsSource: World["history"]["householdLocations"];
+  // Revision identity must not retain a whole old history array per person.
+  // A collected revision triggers conservative group validation on the next read.
+  statesSource: WeakRef<World["history"]["householdMembershipStates"]>;
+  householdsSource: WeakRef<World["history"]["households"]>;
+  locationsSource: WeakRef<World["history"]["householdLocations"]>;
   readonly sequenceCeiling: number;
   readonly results: Map<string, readonly ActiveHouseholdMembership[]>;
 }
@@ -639,9 +641,9 @@ export function householdMembershipsAt(
   let person = HOUSEHOLD_PROJECTIONS.get(memberships);
   if (
     person &&
-    (person.statesSource !== history.householdMembershipStates ||
-      person.householdsSource !== history.households ||
-      person.locationsSource !== history.householdLocations)
+    (person.statesSource.deref() !== history.householdMembershipStates ||
+      person.householdsSource.deref() !== history.households ||
+      person.locationsSource.deref() !== history.householdLocations)
   ) {
     const unchanged = person.rows.every(
       (row) =>
@@ -660,9 +662,9 @@ export function householdMembershipsAt(
           ) === row.locationGroup),
     );
     if (unchanged) {
-      person.statesSource = history.householdMembershipStates;
-      person.householdsSource = history.households;
-      person.locationsSource = history.householdLocations;
+      person.statesSource = new WeakRef(history.householdMembershipStates);
+      person.householdsSource = new WeakRef(history.households);
+      person.locationsSource = new WeakRef(history.householdLocations);
     } else person = undefined;
   }
   if (!person) {
@@ -697,9 +699,9 @@ export function householdMembershipsAt(
     });
     person = {
       rows,
-      statesSource: history.householdMembershipStates,
-      householdsSource: history.households,
-      locationsSource: history.householdLocations,
+      statesSource: new WeakRef(history.householdMembershipStates),
+      householdsSource: new WeakRef(history.households),
+      locationsSource: new WeakRef(history.householdLocations),
       sequenceCeiling: maximum + 1,
       results: new Map(),
     };
