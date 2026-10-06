@@ -30,7 +30,7 @@ import {
 import {
   CHANGE_AUTHORED_IMPULSES,
   CRUNCH46_PROVISIONAL_POLICY,
-  UNRESEARCHED_UNEMPLOYMENT_RECOVERY,
+  ESTIMATED_UNEMPLOYMENT_RECOVERY,
   type MacroRegime,
   type MacroShockKind,
 } from "./policy";
@@ -207,7 +207,7 @@ describe("section 13 kernel arithmetic", () => {
   });
 
   const calm = { growth: 0, unemployment: 0, inflation: 0 };
-  const natural = UNRESEARCHED_UNEMPLOYMENT_RECOVERY.naturalRatePct;
+  const natural = ESTIMATED_UNEMPLOYMENT_RECOVERY.naturalRatePct;
   const steady = (unemploymentPct: number): MacroMonthlyState => ({
     growthPct: 2,
     unemploymentPct,
