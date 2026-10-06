@@ -32,3 +32,9 @@ LW06 draft #2490 and LW07 draft #2481 remain preserved and unmerged. Their law-t
 - Replayed on the P3 branch; focused `vote-bargaining-public-pressure.test.ts` passes 3/3.
 - Public-pressure channel rows and contact-driven consideration are in the P4 commit. This does not add a knowledge writer.
 - Resume branch: `codex/session30-b08-p4-current-rebased`. Next: publish the P4 draft against P3 PR #2543, then replay P5 and its commitment-outcome tests.
+
+## B08 P5
+
+- Replayed on current-main P4; focused `legislative-commitment-consequences.test.ts` passes 3/3.
+- P5 code commit: `17d216640`; current stack root: `8b0a877778bb12e27365a2cb87165faf08ed240f`.
+- Resume branch: `codex/session30-b08-p5-current-rebased`. Next: refresh existing P5 PR #2397 to this head and set its base to P4 PR #2545, then replay P6 and P7 against this stack.
