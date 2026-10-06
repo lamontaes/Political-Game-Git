@@ -208,7 +208,6 @@ export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:initial-trust",
   "personality-v1:bond-loyalty",
   "personality-v1:truthfulness",
-  "personality-v1:method-revision",
   "personality-v1:patience",
   "personality-v1:action-despite-fear",
   "personality-v1:outward-emotional-display",
