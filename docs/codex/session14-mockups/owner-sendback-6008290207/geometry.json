@@ -1,0 +1,15 @@
+{
+  "center": [105, 985],
+  "radius": 330,
+  "anglesDegrees": [
+    15.0, 22.5, 30.0, 37.5, 45.0, 52.5, 60.0, 67.5, 75.0, 82.5, 90.0
+  ],
+  "rotatedPillPolygonOverlaps": [],
+  "readabilityChanges": {
+    "radialFont": 17,
+    "priorRadialFont": 14,
+    "glassRestOpacity": 0.86,
+    "glassOpenOpacity": 0.96
+  },
+  "furnitureOcclusion": "Fan now overlays sofa with its own control faces; earlier furniture-clearance claim does not apply. Owner review required. Rotated labels and vertical card reach remain explicit design risks."
+}

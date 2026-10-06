@@ -35,6 +35,7 @@ import {
 import { isPersonAliveAt } from "./vitality-integrity";
 import { assertWorldIntegrity, recordWorldEvent } from "./world";
 import { personnelRecords } from "./civil-personnel-integrity";
+import { JOB_TRAIT_DECISIONS, jobTraitConsiderations } from "./traits/jobs";
 import type {
   PersonnelProcedure,
   PersonnelProcedureKey,
@@ -1193,9 +1194,14 @@ function employeeAppealChoice(
       },
     ],
     constraints: [],
-    considerations: [],
+    considerations: jobTraitConsiderations(
+      world,
+      employee,
+      appealDecisionKey(found.action.id),
+      JOB_TRAIT_DECISIONS.dischargeAppeal,
+    ),
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "durable",
   });
   if (!isSelectedDecision(evaluation)) return world;
@@ -1369,9 +1375,14 @@ function commissionerDecision(
       },
     ],
     constraints: [],
-    considerations: [],
+    considerations: jobTraitConsiderations(
+      world,
+      commissioner,
+      settlementDecisionKey(appeal.id),
+      JOB_TRAIT_DECISIONS.commissionerSettlement,
+    ),
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "durable",
   });
   if (!isSelectedDecision(evaluation)) return world;

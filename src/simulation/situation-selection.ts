@@ -7,7 +7,12 @@ import {
 } from "./player-model";
 import { lowestDigestFirst, sha256Hex } from "./sha256";
 import { canonicalPriorEncoding, setupPriorsOf } from "./setup-priors";
-import type { LifeSituationBand, LifeSituationKey, World } from "./types";
+import type {
+  ChallengeIntensity,
+  LifeSituationBand,
+  LifeSituationKey,
+  World,
+} from "./types";
 
 /**
  * The seed the adaptive layer orders by.
@@ -86,6 +91,8 @@ export interface SituationCandidate {
 }
 
 export interface SituationSelectionInput {
+  /** Changes ordering only; absent legacy callers use today's standard weights. */
+  readonly intensity?: ChallengeIntensity;
   /**
    * Deterministic and derived from the world seed and the persisted priors.
    * It decides ordering only; it never reaches a generator, so it cannot
@@ -207,7 +214,11 @@ export function rankSituations(
     const collision = CROSS_PRESSURE_WEIGHT * pressure.strength;
     const continuity = candidate.followsFromHistory ? CONTINUITY_WEIGHT : 0;
     const noveltyPenalty = recent.has(candidate.key) ? NOVELTY_PENALTY : 0;
-    const pacingPenalty = pacingPenaltyFor(candidate.stakes, recentLoad);
+    const pacingPenalty = pacingPenaltyFor(
+      candidate.stakes,
+      recentLoad,
+      input.intensity ?? "standard",
+    );
     return {
       candidate,
       pressure,
@@ -313,16 +324,32 @@ function winsWithout(
   );
 }
 
-function pacingPenaltyFor(stakes: LifeStakesTier, recentLoad: number): number {
+export const PACING_WEIGHTS: Readonly<
+  Record<
+    ChallengeIntensity,
+    { readonly pressure: number; readonly quiet: number }
+  >
+> = {
+  quiet: { pressure: 1.8, quiet: 0.1 },
+  standard: { pressure: PACING_PENALTY, quiet: MONOTONY_PENALTY },
+  relentless: { pressure: 0.55, quiet: 0.8 },
+};
+
+function pacingPenaltyFor(
+  stakes: LifeStakesTier,
+  recentLoad: number,
+  intensity: ChallengeIntensity,
+): number {
   const load = STAKES_LOAD[stakes];
+  const weights = PACING_WEIGHTS[intensity];
   if (recentLoad >= 0.6) {
     // Recently demanding. A demanding candidate pays for it.
-    return PACING_PENALTY * load * recentLoad;
+    return weights.pressure * load * recentLoad;
   }
   if (recentLoad <= 0.15) {
     // Recently quiet. An ordinary candidate pays a smaller price, so a life
     // does not settle permanently into the undemanding end.
-    return MONOTONY_PENALTY * (1 - load);
+    return weights.quiet * (1 - load);
   }
   return 0;
 }
