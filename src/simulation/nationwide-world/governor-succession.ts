@@ -138,6 +138,47 @@ export function seatGovernorSuccessor(
       immediateReaction: null,
     },
   });
+  // Tenure is intentionally kept as the office-state record. The separate
+  // public event carries the news meaning of a governor's change of office.
+  next = recordWorldEvent(next, {
+    stableKey: `${stableKey}:governor-changed`,
+    type: "office.governor-changed",
+    occurredAt: input.vacancyDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: office.jurisdictionId,
+    involvedEntityIds: [successorId, organization.id, input.formerHolderId],
+    participants: [
+      {
+        personId: successorId,
+        role: "focus:subject",
+        detail: office.displayName,
+      },
+      ...(former
+        ? [{
+            personId: input.formerHolderId,
+            role: "focus:former-holder" as const,
+            detail: office.displayName,
+          }]
+        : []),
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      `office:${office.officeKey}`,
+      `state:${office.stateUsps}`,
+      "importance:major",
+      "provenance:succession",
+    ],
+    summary: `${personName(next.people[successorId]!)} succeeded to ${office.displayName}${former ? ` after ${personName(former)} left office` : ""}.`,
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
   return { world: next, successorId };
 }
 

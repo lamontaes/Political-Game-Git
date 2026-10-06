@@ -318,6 +318,13 @@ describe("Kentucky bicameral path", () => {
       },
     });
 
+    const enactmentEvent = world.history.events.find(
+      (event) => event.type === "legislation.measure-enacted" &&
+        event.tags.includes("legislation.enacted"),
+    );
+    expect(enactmentEvent?.jurisdictionId).toBeDefined();
+    expect(enactmentEvent?.tags).toContain("importance:notable");
+
     expect(world.history.legislativeEnactments?.at(-1)).toMatchObject({
       effectiveAt: addDays(world.currentDate, 45),
       effectiveDateBasis: "game-default",

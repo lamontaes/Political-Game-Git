@@ -41,6 +41,7 @@ import {
   enactmentOperative,
   enactmentsAnswering,
   judicialRulingKey,
+  stateJurisdictionOf,
 } from "../governing/law-in-force";
 import {
   ensureOfficeholderPrinciples,
@@ -439,6 +440,13 @@ function reviewOne(
       `votes:${LAW_STRUCK}:${toStrike}`,
       `votes:${LAW_STANDS}:${votes.length - toStrike}`,
       struck ? "outcome:struck" : "outcome:upheld",
+      // A state highest court ruling on a state-wide law has statewide reach.
+      // Local ordinance review and federal rulings retain their own scope.
+      ...(court.level === "local-highest" &&
+      stateJurisdictionOf(input.measure.jurisdictionId) ===
+        input.measure.jurisdictionId
+        ? ["importance:major"]
+        : []),
     ],
     summary: struck
       ? `The ${court.name} struck down ${input.measure.designation} (${law}), ${toStrike} to ${votes.length - toStrike}, as violating ${input.reviewed.claim}. It will not take effect.`

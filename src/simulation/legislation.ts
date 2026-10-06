@@ -3175,7 +3175,16 @@ export function recordEnactment(
     rationale: "The measure completed every required step and became law.",
     summary: `${measure.designation} — ${measure.shortTitle} — became law.`,
     eventType: "legislation.measure-enacted",
-    tags: ["legislation.enacted"],
+    tags: [
+      "legislation.enacted",
+      // Record the reach that the law itself establishes. The state-wide
+      // scale is notable; the current measure contract does not preserve a
+      // person count or enacted dollar total, so we do not promote it to
+      // national scale from its subject label alone.
+      ...(government === "state" || government === "territory"
+        ? ["importance:notable"]
+        : []),
+    ],
   });
 
   const event = recordByStableKey(
