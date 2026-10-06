@@ -32,8 +32,10 @@ import {
 import { recordSupportShift } from "./campaign-support";
 import {
   candidacyAuthority,
+  candidacyEligibility,
   electiveOfficesForJurisdiction,
 } from "./candidacy";
+import type { CandidateFilingTerms } from "./candidate-filing-terms";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPerson,
@@ -1151,11 +1153,11 @@ export interface CampaignGuidanceOffice {
   readonly residency: CampaignGuidanceValue<string>;
   readonly termYears: CampaignGuidanceValue<number>;
   readonly filing: CampaignGuidanceValue<string>;
+  readonly filingTerms: CandidateFilingTerms;
 }
 
-/** Something this game's sourced rules do not establish at all. */
-export interface CampaignGuidanceUnestablished {
-  readonly state: "not-established";
+export interface CampaignGuidanceEstablished {
+  readonly state: "established";
   readonly note: string;
 }
 
@@ -1168,10 +1170,10 @@ export interface CampaignGuidanceView {
   readonly offices: readonly CampaignGuidanceOffice[];
   /** Why there is nothing to stand for, when there is nothing. */
   readonly noOfficeReason: string | null;
-  readonly filingAuthority: CampaignGuidanceUnestablished;
-  readonly filingDeadline: CampaignGuidanceUnestablished;
-  readonly filingFees: CampaignGuidanceUnestablished;
-  readonly petitions: CampaignGuidanceUnestablished;
+  readonly filingAuthority: CampaignGuidanceEstablished;
+  readonly filingDeadline: CampaignGuidanceEstablished;
+  readonly filingFees: CampaignGuidanceEstablished;
+  readonly petitions: CampaignGuidanceEstablished;
   readonly runningNow: boolean;
 }
 
@@ -1188,10 +1190,29 @@ function guidanceValue<T>(rule: RuleValue<T>): CampaignGuidanceValue<T> {
     : { state: "not-applicable", note: rule.note };
 }
 
-const NOT_ESTABLISHED = (what: string): CampaignGuidanceUnestablished => ({
-  state: "not-established",
-  note: `This game's sourced rules do not establish ${what} for any office here, so nobody can tell you one.`,
-});
+const FILING_ESTABLISHED: CampaignGuidanceEstablished = {
+  state: "established",
+  note: "The election clerk applies the terms listed with each office.",
+};
+
+function requireGuidanceFilingTerms(
+  world: World,
+  personId: EntityId,
+  jurisdictionId: EntityId,
+  officeKey: string,
+): CandidateFilingTerms {
+  const terms = candidacyEligibility(world, {
+    personId,
+    jurisdictionId,
+    officeKey,
+    alreadyACandidate: false,
+  }).filingTerms;
+  if (!terms)
+    throw new Error(
+      `Filing terms are missing for offered office ${officeKey}.`,
+    );
+  return terms;
+}
 
 /**
  * What a host can honestly tell this person about running for office where
@@ -1220,6 +1241,12 @@ export function projectCampaignGuidance(
     residency: guidanceValue(option.qualification.residency),
     termYears: guidanceValue(option.qualification.termYears),
     filing: guidanceValue(option.qualification.filing),
+    filingTerms: requireGuidanceFilingTerms(
+      world,
+      personId,
+      person.homeJurisdictionId,
+      option.officeKey,
+    ),
   }));
   return {
     personId,
@@ -1234,10 +1261,10 @@ export function projectCampaignGuidance(
         : authority.stateJurisdictionKey === null
           ? "The game has not read any elected office for this place."
           : "The game has not read this state's elected offices yet.",
-    filingAuthority: NOT_ESTABLISHED("which official accepts candidacy papers"),
-    filingDeadline: NOT_ESTABLISHED("a filing deadline"),
-    filingFees: NOT_ESTABLISHED("a filing fee"),
-    petitions: NOT_ESTABLISHED("a petition or signature requirement"),
+    filingAuthority: FILING_ESTABLISHED,
+    filingDeadline: FILING_ESTABLISHED,
+    filingFees: FILING_ESTABLISHED,
+    petitions: FILING_ESTABLISHED,
     runningNow: activeCampaignForCandidate(world, personId) !== null,
   };
 }
@@ -1253,10 +1280,10 @@ function guidanceText(view: CampaignGuidanceView): string {
       : view.offices
           .map(
             (office) =>
-              `${office.chamberName}: ${describe("minimum age", office.minimumAge)}; ${describe("residency", office.residency)}; ${describe("term in years", office.termYears)}`,
+              `${office.chamberName}: ${describe("minimum age", office.minimumAge)}; ${describe("residency", office.residency)}; ${describe("term in years", office.termYears)}; filing deadline ${office.filingTerms.deadline}; fee $${(office.filingTerms.feeMinorUnits / 100).toFixed(2)}; ${typeof office.filingTerms.signatures === "number" ? office.filingTerms.signatures : `${office.filingTerms.signatures.percent}% of ${office.filingTerms.signatures.base}`} signatures${office.filingTerms.feeInLieuOfSignatures ? " or the fee" : ""}`,
           )
           .join(". ");
-  return `${offices}. Who accepts filings, the deadline, any fee and any petition requirement are not established by this game's sourced rules.`;
+  return `${offices}. The election clerk accepts the filing and applies those terms.`;
 }
 
 /* -------------------------------------------------------------------------- */
