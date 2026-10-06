@@ -2,16 +2,31 @@
  * The direct-update seam, as decisions rather than wiring.
  *
  * Everything here is deliberately free of Electron so the update contract
- * can be proved deterministically (desktop/tests/updater.test.mjs):
- * activation gates, candidate assessment (downgrade and channel refusal),
- * and the full user-controlled check → ask → download → ask flow with
- * every failure surfaced instead of retried. main.mjs supplies the real
- * dialog/window/electron-updater dependencies.
+ * can be proved deterministically (desktop/tests/auto-update.test.mjs):
+ * build config, activation gates, candidate assessment (downgrade and channel
+ * refusal), stable background download, and the internal user-controlled flow.
  *
- * Proving this logic with fakes proves the logic only. It is NOT a claim
- * of signed Mac automatic-update installation, which remains unverified
- * until real signing credentials exist.
+ * Proving this logic with fakes proves the logic only. It does not establish
+ * that a signed Mac package has been built or launched against a feed.
  */
+
+/** Build-only settings. Feed URLs are configuration, never credentials. */
+export function updateConfigForBuild({
+  channel,
+  distribution,
+  feedURL,
+  signingConfigured = false,
+}) {
+  if (distribution === "steam")
+    return { enabled: false, channel, feedURL: null };
+  if (!["stable", "internal", "private"].includes(channel))
+    return { enabled: false, channel: "internal", feedURL: null };
+  if (!isHttpsFeedURL(feedURL))
+    return { enabled: false, channel, feedURL: null };
+  if (channel === "stable" && !signingConfigured)
+    return { enabled: false, channel, feedURL: null };
+  return { enabled: true, channel, feedURL };
+}
 
 /**
  * Whether the direct updater may run at all.
@@ -27,9 +42,29 @@ export function updateActivation(config, identity) {
   if (config.enabled !== true) return { active: false, reason: "disabled" };
   if (typeof config.feedURL !== "string" || config.feedURL === "")
     return { active: false, reason: "no-feed" };
-  if (!config.feedURL.startsWith("https://"))
+  if (!isHttpsFeedURL(config.feedURL))
     return { active: false, reason: "insecure-feed" };
+  if (
+    !["internal", "private", "stable"].includes(config.channel) ||
+    (identity.channel && identity.channel !== config.channel)
+  )
+    return { active: false, reason: "untrusted-channel" };
   return { active: true, reason: "active" };
+}
+
+function isHttpsFeedURL(value) {
+  if (typeof value !== "string") return false;
+  try {
+    const parsed = new URL(value);
+    return (
+      parsed.protocol === "https:" &&
+      parsed.hostname !== "" &&
+      parsed.username === "" &&
+      parsed.password === ""
+    );
+  } catch {
+    return false;
+  }
 }
 
 /**
@@ -116,8 +151,9 @@ export function assessCandidate({ currentVersion, channel, updateInfo }) {
  *                          normal close flow; resolves true only if all
  *                          actually closed (the game finished persisting)
  *
- * Returns a stable outcome string; every path surfaces its truth to the
- * player and none of them retries, deletes, or installs silently.
+ * Stable builds download an assessed, signature-verified candidate without
+ * interrupting play and arm installation on the player's next quit. Internal
+ * builds retain the explicit ask-first flow.
  */
 export async function runUpdateCheck(deps) {
   const { activation } = deps;
@@ -159,11 +195,30 @@ export async function runUpdateCheck(deps) {
     return `refused-${assessment.reason}`;
   }
   if (assessment.action === "none") {
-    await deps.notify(
-      "You are on the newest available build.",
-      `Version ${deps.currentVersion}.`,
-    );
+    if (deps.channel !== "stable")
+      await deps.notify(
+        "You are on the newest available build.",
+        `Version ${deps.currentVersion}.`,
+      );
     return "up-to-date";
+  }
+
+  if (deps.channel === "stable") {
+    try {
+      await updater.downloadUpdate();
+    } catch (error) {
+      await deps.notify(
+        "The update could not be downloaded and verified.",
+        `${String(error?.message ?? error)}\n\nNothing was installed; the current build is untouched.`,
+      );
+      return "download-failed";
+    }
+    updater.setAutoInstallOnAppQuit(true);
+    await deps.notify(
+      `Version ${result.updateInfo.version} is ready.`,
+      "It will install the next time you quit and open the app. Your current play and saves stay in place.",
+    );
+    return "stable-downloaded-for-next-quit";
   }
 
   const wanted = await deps.ask(
