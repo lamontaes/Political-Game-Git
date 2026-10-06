@@ -1,184 +1,294 @@
 import { describe, expect, it } from "vitest";
-import {
-  observerSetup,
-  openObserverWorld,
-} from "../../presentation/observer-world";
-import {
-  lifePlaceStateIdentities,
-  stateJurisdictionForKey,
-} from "../life-places";
-import { pickDistinct, SeededRng } from "../rng";
+import { createDemoWorld } from "../demo";
+import { personName } from "../people";
 import { recordWorldEvent } from "../world";
-import { courtFor } from "../judiciary/court-for";
-import { seatJudge, seatsForCourt } from "../judiciary/courts";
-import type { EntityId } from "../types";
-import { appealJudgment, type AppealInput } from "./appeals";
+import { addJudicialCourt, seatJudge } from "../judiciary/courts";
+import { judicialSeatId, type JudicialCourtRules } from "../judiciary/types";
+import { drawRandomPlace } from "../../../tests/support/random-place";
+import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
+import { appealJudgment, evaluateAppealChoice } from "./appeals";
 
-const SEED = "b13-p4-appeal-bounds-20261006";
-let opened: ReturnType<typeof openObserverWorld> | null = null;
+const rules: JudicialCourtRules = {
+  authorizedSeats: { state: "known", value: 1, basis: "game-profile", referenceId: "appeal-test" },
+  termYears: { state: "unknown", reason: "test" },
+  mandatoryRetirementAge: { state: "unknown", reason: "test" },
+  caseJurisdiction: { state: "unknown", reason: "test" },
+  selectionRecordId: null,
+  amendmentRoute: { state: "unknown", reason: "test" },
+};
 
-function fixture() {
-  opened ??= openObserverWorld(observerSetup(SEED));
-  let world = opened.world;
-  const state = pickDistinct(
-    new SeededRng(SEED),
-    lifePlaceStateIdentities(),
-    1,
-  )[0]!;
-  const venue = stateJurisdictionForKey(state.jurisdictionKey)!.id;
-  const court = courtFor(world, venue, "local-intermediate", "criminal");
-  expect(court, "random-place appellate court").not.toBeNull();
-  const seats = seatsForCourt(world, court!.courtId);
-  expect(seats.length, "saved appellate seats").toBeGreaterThan(0);
-  const occupied = new Set(
-    seats
-      .map(
-        (seat) =>
-          world.judiciary!.seatTenures.find(
-            (tenure) =>
-              tenure.seatId === seat.seatId && tenure.endedAt === null,
-          )?.personId,
-      )
-      .filter((id): id is EntityId => id !== undefined),
-  );
-  if (occupied.size === 0) {
-    const seat = seats[0]!;
-    const judge = world.personOrder.find((id) => !occupied.has(id))!;
-    world = seatJudge(world, {
-      seatId: seat.seatId,
-      personId: judge,
-      startedAt: world.currentDate,
-      selection: {
-        path: "judicial-assignment",
-        selectionRecordId: null,
-        decisionRecordId: null,
-        selectingPersonId: null,
-        contestId: null,
-        note: "Test fixture seats a judge in the existing appellate court.",
-      },
-      termEndsAt: null,
-      retentionDueAt: null,
-    });
-  }
-  const judgeIds = seats
-    .map(
-      (seat) =>
-        world.judiciary!.seatTenures.find(
-          (tenure) => tenure.seatId === seat.seatId && tenure.endedAt === null,
-        )?.personId,
-    )
-    .filter((id): id is EntityId => id !== undefined);
-  const excluded = new Set(judgeIds);
-  const people = world.personOrder.filter((id) => !excluded.has(id));
-  const appellant = people[0]!;
-  const respondent = people[1]!;
-  const trialJudge = people[2]!;
-  world = recordWorldEvent(world, {
-    stableKey: "b13-p4:test-judgment",
-    type: "justice.sentence-imposed",
+function courtWorld(termMonths: number) {
+  const seed = "b13-p4-appeals-random-place-proof";
+  const place = drawRandomPlace(seed, (candidate) => candidate.stateJurisdictionKey === "US-ID");
+  const game = createNewGameWorld({
+    ...DEFAULT_NEW_GAME_SETUP,
+    placeKey: place.key,
+    seed,
+  });
+  let world = game.world;
+  const jurisdictionId = world.jurisdictionOrder[0]!;
+  const trialCourtId = "appeal-test:trial";
+  const appellateCourtId = "appeal-test:appellate";
+  world = addJudicialCourt(world, {
+    courtId: appellateCourtId,
+    jurisdictionId,
+    name: "Appeal test appellate court",
+    level: "local-intermediate",
+    parentCourtId: null,
+    sourceRecordId: null,
+    identityBasis: "game-profile",
+    createdAt: world.currentDate,
+    rules,
+  });
+  world = addJudicialCourt(world, {
+    courtId: trialCourtId,
+    jurisdictionId,
+    name: "Appeal test trial court",
+    level: "local-general-trial",
+    parentCourtId: appellateCourtId,
+    sourceRecordId: null,
+    identityBasis: "game-profile",
+    createdAt: world.currentDate,
+    rules,
+  });
+  world = seatJudge(world, {
+    seatId: judicialSeatId(appellateCourtId, 1),
+    personId: world.personOrder[2]!,
+    startedAt: world.currentDate,
+    selection: {
+      path: "initial-world",
+      selectionRecordId: null,
+      decisionRecordId: null,
+      selectingPersonId: null,
+      contestId: null,
+      note: "Appeal test fixture.",
+    },
+    termEndsAt: null,
+    retentionDueAt: null,
+  });
+  const appellantId = game.playerPersonId;
+  const trialJudgeId = world.personOrder.find((personId) => personId !== appellantId)!;
+  const basis = recordWorldEvent(world, {
+    stableKey: "appeal-test:burglary-basis",
+    type: "crime.burglary-recorded",
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
-    jurisdictionId: venue,
-    involvedEntityIds: [appellant, respondent, trialJudge],
+    jurisdictionId,
+    involvedEntityIds: [appellantId],
+    participants: [{ personId: appellantId, role: "focus:defendant", detail: null }],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [],
+    summary: "A recorded burglary basis.",
+    context: { location: null, socialContext: null, pressure: null, choice: null, motivation: null, immediateReaction: null },
+  });
+  const basisId = basis.history.events.at(-1)!.id;
+  const referral = recordWorldEvent(basis, {
+    stableKey: "appeal-test:burglary-referral",
+    type: "justice.prosecution-referred",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId,
+    involvedEntityIds: [appellantId],
+    participants: [{ personId: appellantId, role: "focus:subject", detail: null }],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [
+      "justice.offense:crime:burglary",
+      "justice.evidence:circumstantial",
+      "justice.standing-findings:0",
+      "justice.sentencing-applicability:version:1",
+      "justice.sentencing-applicability:grade:value:burglary",
+      `justice.sentencing-applicability:grade:source:${basisId}`,
+      "justice.sentencing-applicability:dwelling:value:true",
+      `justice.sentencing-applicability:dwelling:source:${basisId}`,
+    ],
+    summary: "The prosecutor referred a burglary case.",
+    context: { location: null, socialContext: "Criminal case", pressure: null, choice: null, motivation: null, immediateReaction: null },
+  });
+  const referralId = referral.history.events.at(-1)!.id;
+  world = recordWorldEvent(referral, {
+    stableKey: "appeal-test:sentence",
+    type: "justice.sentenced",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId,
+    involvedEntityIds: [appellantId, trialJudgeId],
     participants: [
-      { personId: appellant, role: "focus:defendant", detail: null },
-      { personId: respondent, role: "focus:complainant", detail: null },
-      { personId: trialJudge, role: "focus:judge", detail: null },
+      { personId: appellantId, role: "focus:defendant", detail: null },
+      { personId: trialJudgeId, role: "agency:decided", detail: "Judge" },
     ],
     personFactConstraints: [],
     visibility: "public",
-    tags: ["case:b13-p4:test-case"],
-    summary: "A test court imposed a sentence.",
+    tags: ["justice.sentence:jail", `justice.referral:${referralId}`, `justice.sentence-months:${termMonths}`],
+    summary: "The court sentenced the defendant to jail.",
     context: {
       location: null,
-      socialContext: null,
+      socialContext: "Criminal case",
       pressure: null,
       choice: null,
       motivation: null,
       immediateReaction: null,
     },
   });
-  const judgmentEventId = world.history.events.at(-1)!.id;
-  const base: Omit<AppealInput, "stableKey" | "judgment"> = {
-    caseKey: "b13-p4:test-case",
-    judgmentEventId,
-    appellantPersonId: appellant,
-    opposingPersonId: respondent,
-    trialJudgePersonId: trialJudge,
-    venueJurisdictionId: venue,
-    trialCourtLevel: "local-general-trial",
-    caseKind: "criminal",
-    evidence: "circumstantial",
-    means: "adequate",
-    judgmentMagnitude: "substantial",
-  };
-  return { world, base, judgeIds };
+  return { world, place, seed, judgmentEventId: world.history.events.at(-1)!.id, appellantId, trialJudgeId };
 }
 
-describe("appellate review uses the recorded legal bounds", () => {
-  it("reverses a sentence below its lawful minimum in a random-place game", () => {
-    const { world, base } = fixture();
-    const result = appealJudgment(world, {
-      ...base,
-      stableKey: "b13-p4:out-of-bounds",
-      judgment: {
-        kind: "sentence",
-        outcomeKey: "conviction",
-        termMonths: 10,
-        minimumMonths: 24,
-        maximumMonths: 60,
-      },
+function runBoundsAppeal(termMonths: number) {
+  const fixture = courtWorld(termMonths);
+  const result = appealJudgment(fixture.world, {
+    stableKey: `appeal-test:${termMonths}`,
+    judgmentEventId: fixture.judgmentEventId,
+    appellantPersonId: fixture.appellantId,
+    trialJudgePersonId: fixture.trialJudgeId,
+    caseKind: "criminal",
+  });
+  return { ...fixture, result };
+}
+
+describe("appeals", () => {
+  it("uses the shared decision engine with the appellant's means, evidence, outcome and legal edge", () => {
+    const fixture = courtWorld(130);
+    const decision = evaluateAppealChoice(fixture.world, {
+      stableKey: "appeal-fixture:case-1",
+      judgmentEventId: fixture.judgmentEventId,
+      appellantPersonId: fixture.appellantId,
+      trialJudgePersonId: fixture.trialJudgeId,
+      caseKind: "criminal",
     });
-    expect(result).not.toBeNull();
-    expect(result!.outcome).toBe("reverse");
-    expect(result!.votes.length).toBeGreaterThan(0);
-    const filed = result!.world.history.events.at(-2)!;
-    const decided = result!.world.history.events.at(-1)!;
-    expect(filed.type).toBe("justice.appeal-filed");
-    expect(filed.involvedEntityIds).toContain(base.appellantPersonId);
-    expect(decided.type).toBe("justice.appeal-decided");
-    expect(decided.involvedEntityIds).toContain(base.trialJudgePersonId);
-    expect(decided.tags).toContain(`court:${result!.appellateCourtId}`);
-    expect(decided.tags).toContain("outcome:reverse");
+
+    expect(decision.context.randomness).toBe("none");
+    expect(decision.context.actorPersonId).toBe(fixture.appellantId);
+    expect(decision.context.considerations.map((row) => row.stableKey)).toEqual(
+      expect.arrayContaining([
+        "appeal-fixture:case-1:outcome",
+        "appeal-fixture:case-1:evidence",
+      ]),
+    );
+    expect(decision.context.considerations.map((row) => row.stableKey)).not.toContain(
+      "appeal-fixture:case-1:edge-of-law",
+    );
+    const hasRecordedMeans = fixture.world.history.resourcePositions.some(
+      (position) => position.owner.kind === "person" && position.owner.personId === fixture.appellantId,
+    );
+    expect(decision.context.considerations.some((row) => row.stableKey.endsWith(":means"))).toBe(hasRecordedMeans);
   });
 
-  it("affirms a sentence inside its lawful range in the same new game", () => {
-    const { world, base } = fixture();
-    const result = appealJudgment(world, {
-      ...base,
-      stableKey: "b13-p4:in-bounds",
-      judgment: {
-        kind: "sentence",
-        outcomeKey: "conviction",
-        termMonths: 24,
-        minimumMonths: 24,
-        maximumMonths: 60,
-      },
+  it("reads an actual upper-bound sentence as at the legal edge", () => {
+    const fixture = courtWorld(120);
+    const decision = evaluateAppealChoice(fixture.world, {
+      stableKey: "appeal-fixture:case-at-edge",
+      judgmentEventId: fixture.judgmentEventId,
+      appellantPersonId: fixture.appellantId,
+      trialJudgePersonId: fixture.trialJudgeId,
+      caseKind: "criminal",
     });
-    expect(result).not.toBeNull();
-    expect(result!.outcome).toBe("affirm");
-    expect(result!.votes.length).toBeGreaterThan(0);
+
+    expect(decision.context.considerations.map((row) => row.stableKey)).toContain(
+      "appeal-fixture:case-at-edge:edge-of-law",
+    );
   });
 
-  it("does not offer an appeal from an acquittal or an ungrounded eviction record", () => {
-    const { world, base } = fixture();
-    expect(
-      appealJudgment(world, {
-        ...base,
-        stableKey: "b13-p4:acquittal",
-        judgment: { kind: "acquittal", outcomeKey: "acquittal" },
-      }),
-    ).toBeNull();
-    expect(
-      appealJudgment(world, {
-        ...base,
-        stableKey: "b13-p4:eviction",
-        judgment: {
-          kind: "eviction",
-          outcomeKey: "eviction-ordered",
-          withinLaw: true,
-        },
-      }),
-    ).toBeNull();
+  it("does not allow an acquittal to be appealed", () => {
+    let world = createDemoWorld("appeal-acquittal-contract", { peopleCount: 3 });
+    const judgeId = world.personOrder[0]!;
+    const appellantId = world.personOrder[1]!;
+    world = recordWorldEvent(world, {
+      stableKey: "appeal-fixture:acquittal",
+      type: "justice.case-ended",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: world.jurisdictionOrder[0]!,
+      involvedEntityIds: [judgeId, appellantId],
+      participants: [
+        { personId: appellantId, role: "focus:defendant", detail: null },
+        { personId: judgeId, role: "agency:decided", detail: "Judge" },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: ["justice.outcome:acquitted"],
+      summary: "The jury acquitted the defendant.",
+      context: {
+        location: null,
+        socialContext: "Criminal case",
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+
+    const judgmentEventId = world.history.events.at(-1)!.id;
+    const result = appealJudgment(world, {
+      stableKey: "appeal-fixture:acquittal",
+      judgmentEventId,
+      appellantPersonId: appellantId,
+      trialJudgePersonId: judgeId,
+      caseKind: "criminal",
+    });
+
+    expect(result.status).toBe("unsupported");
+    expect(result.appealEventId).toBeNull();
+    expect(result.world).toBe(world);
+  });
+
+  it("fails closed for an eviction row without saved appeal bounds", () => {
+    let world = createDemoWorld("appeal-eviction-contract", { peopleCount: 3 });
+    const judgeId = world.personOrder[0]!;
+    const tenantId = world.personOrder[1]!;
+    world = recordWorldEvent(world, {
+      stableKey: "appeal-fixture:eviction",
+      type: "housing.evicted",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: world.jurisdictionOrder[0]!,
+      involvedEntityIds: [judgeId, tenantId],
+      participants: [
+        { personId: tenantId, role: "focus:tenant", detail: null },
+        { personId: judgeId, role: "focus:judge", detail: null },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [],
+      summary: "The tenant was evicted after a recorded hearing.",
+      context: {
+        location: null,
+        socialContext: "Civil case",
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+
+    const result = appealJudgment(world, {
+      stableKey: "appeal-fixture:eviction",
+      judgmentEventId: world.history.events.at(-1)!.id,
+      appellantPersonId: tenantId,
+      trialJudgePersonId: judgeId,
+      caseKind: "civil",
+    });
+
+    expect(result.status).toBe("unsupported");
+    expect(result.world).toBe(world);
+    expect(result.legalBounds).toBeNull();
+  });
+
+  it("reverses an out-of-bounds sentence", () => {
+    const proof = runBoundsAppeal(130);
+    expect(proof.result.status).toBe("decided");
+    expect(proof.result.votes).toEqual([{ judgeId: expect.any(String), result: "reverse" }]);
+    expect(proof.result.result).toBe("reverse");
+    expect(proof.result.legalBounds?.sourceRecordIds.length).toBeGreaterThan(0);
+    console.info("b13-p4 appeal proof", JSON.stringify({ seed: proof.seed, place: proof.place.key, playerId: proof.appellantId, playerName: personName(proof.world.people[proof.appellantId]!), judgmentEventId: proof.judgmentEventId, appellateJudgeId: proof.result.votes[0]!.judgeId, result: proof.result.result, ...proof.result.legalBounds }));
+  });
+
+  it("affirms a sentence inside the law's bounds", () => {
+    const proof = runBoundsAppeal(60);
+    expect(proof.result.status).toBe("decided");
+    expect(proof.result.votes).toEqual([{ judgeId: expect.any(String), result: "affirm" }]);
+    expect(proof.result.result).toBe("affirm");
+    expect(proof.result.legalBounds?.sourceRecordIds.length).toBeGreaterThan(0);
+    console.info("b13-p4 appeal proof", JSON.stringify({ seed: proof.seed, place: proof.place.key, playerId: proof.appellantId, playerName: personName(proof.world.people[proof.appellantId]!), judgmentEventId: proof.judgmentEventId, appellateJudgeId: proof.result.votes[0]!.judgeId, result: proof.result.result, ...proof.result.legalBounds }));
   });
 });
