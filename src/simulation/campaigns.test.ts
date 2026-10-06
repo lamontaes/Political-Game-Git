@@ -978,7 +978,7 @@ describe("A111 campaign support uses recorded inputs", () => {
       );
     },
   );
-  it("uses the latest saved share without an election-night swing, including reload", () => {
+  it("does not turn saved campaign support into votes before election day, including reload", () => {
     const filed = fileKentuckyCampaign("a111-election-share");
     const after = doOneSession(
       filed.world,
@@ -988,19 +988,9 @@ describe("A111 campaign support uses recorded inputs", () => {
       null,
     );
     for (const world of [after, deserializeWorld(serializeWorld(after))]) {
-      const outcome = evaluateCampaignAwareOutcome(
-        world,
-        filed.campaign.contestId,
-      );
-      for (const tally of outcome.tallies) {
-        const support = canonicalSupportBasisPoints(
-          world,
-          filed.campaign,
-          tally.candidatePersonId,
-        );
-        expect(tally.votes).toBe(support);
-        expect(tally.voteShare).toBe(support / 10000);
-      }
+      expect(() =>
+        evaluateCampaignAwareOutcome(world, filed.campaign.contestId),
+      ).toThrow("This contest has no resolved recorded voter count.");
     }
   });
 });

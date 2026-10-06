@@ -193,6 +193,7 @@ export function countRecordedVoterBallots(
   readonly tallies: readonly CandidateTally[];
   readonly byPrecinct: readonly ElectionPrecinctTally[] | null;
 } | null {
+  if (input.electionDate > world.currentDate) return null;
   const candidates = new Set<string>(input.candidatePersonIds);
   if (
     candidates.size === 0 ||

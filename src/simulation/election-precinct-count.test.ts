@@ -13,6 +13,7 @@ import {
 } from "./national-election-geography";
 import { projectNationalElectionResults } from "../presentation/national-election-results";
 import { electionNightReports } from "../presentation/election-night-reporting";
+import { evaluateCampaignAwareOutcome } from "./campaigns";
 import {
   countRecordedVoterBallots,
   electionContestResult,
@@ -89,6 +90,20 @@ function ballot() {
   );
   return { world, contest, input, voters };
 }
+
+it("campaign previews use the identical recorded voter count and never count a future election", () => {
+  const f = ballot();
+  const count = countRecordedVoterBallots(f.world, f.input);
+  expect(count).not.toBeNull();
+  for (const world of [f.world, deserializeWorld(serializeWorld(f.world))]) {
+    expect(evaluateCampaignAwareOutcome(world, f.contest.id)).toEqual(count);
+    const futureInput = {
+      ...f.input,
+      electionDate: addDays(world.currentDate, 1),
+    };
+    expect(countRecordedVoterBallots(world, futureInput)).toBeNull();
+  }
+});
 
 it("groups the same ballots, saves the same winner and exact sums, and reloads unchanged", () => {
   const fixture = ballot();

@@ -117,6 +117,7 @@ import {
 import {
   ELECTION_CONTEST_TRANSITION_KEY,
   electionContestResult,
+  evaluateDeterministicContestOutcome,
   electionContestStatus,
   electionContestTransitionHandler,
   requireElectionContest,
@@ -237,7 +238,6 @@ import { campaignLifeHandlers } from "./campaign-life-handlers";
 import { ensureCampaignWeeklyEvaluation } from "./campaign-opponents";
 import {
   SUPPORT_DENOMINATOR,
-  SUPPORT_FLOOR_BASIS_POINTS,
   latestSupportState,
   quantityBasisPoints,
   recordSupportShift,
@@ -1724,42 +1724,16 @@ function recordCampaignActionOutcome(
 /* Election day                                                                */
 /* -------------------------------------------------------------------------- */
 
-/** Read the latest saved candidate support without an election-night swing. */
+/** Preview the same recorded voter count used by the election handler. */
 export function evaluateCampaignAwareOutcome(
   world: World,
   contestId: EntityId,
 ): CampaignOutcome {
   const contest = requireElectionContest(world, contestId);
-  const campaign = campaignForContest(world, contestId);
-  if (!campaign || contest.candidatePersonIds.length < 2) {
-    throw new Error(
-      "A campaign-aware result needs a filed campaign and somebody to run against.",
-    );
-  }
-  const scores = campaign.candidateSupportScopes.map((scope) => {
-    const support = quantityBasisPoints(
-      latestSupportState(world, campaign, scope),
-    );
-    return {
-      id: scope.candidatePersonId,
-      weight: Math.max(SUPPORT_FLOOR_BASIS_POINTS, support),
-    };
-  });
-  const votes = allocateBasisPoints(scores);
-  const tallies = contest.candidatePersonIds
-    .map((candidatePersonId) => ({
-      candidatePersonId,
-      votes: votes[candidatePersonId]!,
-      voteShare: Number(
-        (votes[candidatePersonId]! / SUPPORT_DENOMINATOR).toFixed(4),
-      ),
-    }))
-    .sort(
-      (left, right) =>
-        right.votes - left.votes ||
-        left.candidatePersonId.localeCompare(right.candidatePersonId),
-    );
-  return { winnerPersonId: tallies[0]!.candidatePersonId, tallies };
+  const outcome = evaluateDeterministicContestOutcome(world, contest);
+  if (!outcome)
+    throw new Error("This contest has no resolved recorded voter count.");
+  return outcome;
 }
 
 /**
@@ -2225,7 +2199,7 @@ export function resolveCampaignElectionFromRecordedInput(
  * Election day, arriving on the world's own clock.
  *
  * Registered against the accepted election-contest transition key, so a contest
- * with a campaign behind it resolves from that campaign's support and a contest
+ * with a campaign behind it resolves from the recorded voter count and a contest
  * without one falls straight through to the substrate's own handler. There is no
  * second election engine and no second calendar.
  */
@@ -2240,7 +2214,6 @@ export function campaignElectionTransitionHandler(
   if (!campaign || campaignState(world, campaign.id).status !== "active") {
     return electionContestTransitionHandler(world, dueItem);
   }
-  const outcome = evaluateCampaignAwareOutcome(world, campaign.contestId);
   const workEventIds = (world.history.campaignActionResults ?? [])
     .filter((result) =>
       (world.history.campaignActions ?? []).some(
@@ -2255,15 +2228,21 @@ export function campaignElectionTransitionHandler(
     stableKey: `${dueItem.stableKey}:campaign-result`,
     contestId: campaign.contestId,
     resolvedAt: dueItem.dueAt,
-    winnerPersonId: outcome.winnerPersonId,
-    tallies: outcome.tallies,
     provenance: {
       method: "simulated",
       sourceEntityIds: [dueItem.id, campaign.contestId, ...workEventIds],
-      note: "Resolved from recorded canonical candidate support.",
+      note: "Counted recorded voter decisions through the shared election resolver.",
     },
   });
-  const result = electionContestResult(resolved, campaign.contestId)!;
+  const result = electionContestResult(resolved, campaign.contestId);
+  if (!result)
+    return {
+      world: resolved,
+      status: "blocked",
+      reasonKey: "election:count-unavailable",
+      context: "The recorded ballots do not establish a winner.",
+      outcomeEventId: null,
+    };
   const closed = closeCampaignAfterElection(resolved, campaign, result.id);
   return {
     world: closed,
