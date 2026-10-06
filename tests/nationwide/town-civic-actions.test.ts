@@ -312,6 +312,18 @@ describe(
           event.participants.find((row) => row.role === "focus:subject")!
             .personId,
         );
+        const reasons = event.tags.filter((tag) =>
+          tag.startsWith("contact-reason:"),
+        );
+        expect(reasons.length).toBeGreaterThan(0);
+        for (const source of event.tags
+          .filter((tag) => tag.startsWith("contact-source:"))
+          .map((tag) => tag.slice("contact-source:".length)))
+          expect(event.involvedEntityIds).toContain(source);
+        if (reasons.includes("contact-reason:general-opinion"))
+          expect(
+            event.tags.some((tag) => tag.startsWith("contact-source:")),
+          ).toBe(false);
       }
     });
   },

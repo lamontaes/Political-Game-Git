@@ -8,9 +8,11 @@ import { activeWorkRelationshipsAt } from "../life-queries";
 import { homeLocalGovernmentUnits } from "../nationwide-world/local-governments";
 import { homeJurisdictionResidenceSince } from "../nationwide-world/residence-duration";
 import {
+  lawInterestMeasure,
   lawInterestMembersInTown,
   strongestOfficialStanding,
 } from "../official-view-reads";
+import { livedOutcomesOf } from "./lived-outcomes";
 import type { EntityId, FutureDueItem, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import {
@@ -18,6 +20,14 @@ import {
   sittingLocalOfficers,
 } from "./local-government-seats";
 import { reactionLens } from "./official-views";
+import {
+  councilWardPlan,
+  homePosition,
+  isWardSeat,
+  seatWard,
+  townWardMap,
+  wardAt,
+} from "./town-wards";
 
 /**
  * Light civic actions (spec 5): residents contact an official or show up at a
@@ -39,8 +49,9 @@ import { reactionLens } from "./official-views";
  * government meeting (Pew). The measures below are set so a town's totals
  * land near them; `tests/nationwide/town-civic-actions.test.ts` checks it.
  *
- * NOT MODELED: what the contact said. Attendance names the existing scheduled
- * council meeting held in the reviewed quarter, dated on that meeting. A
+ * A contact carries only reasons already present in the resident's records;
+ * when none exists it is explicitly a general opinion call. Attendance names
+ * the existing scheduled council meeting held in the reviewed quarter, dated on that meeting. A
  * scheduled meeting is eligible only on the current review date.
  */
 
@@ -86,6 +97,80 @@ interface CivicStake {
     readonly officialId: EntityId;
     readonly points: number;
   } | null;
+}
+
+export type CivicContactReasonKind =
+  | "law-exposure"
+  | "lived-outcome"
+  | "official-view"
+  | "law-interest-group"
+  | "general-opinion";
+
+export interface CivicContactReason {
+  readonly kind: CivicContactReasonKind;
+  /** The canonical record behind the reason; null only for general opinion. */
+  readonly sourceRecordId: EntityId | null;
+  /** The law or official the source concerns, when the record names one. */
+  readonly subjectId: EntityId | null;
+}
+
+/**
+ * Recorded reasons this resident can actually raise today. The ordered list
+ * is stable so replaying a quarter records the same source chain.
+ */
+export function civicContactReasons(
+  world: World,
+  personId: EntityId,
+  town: EntityId,
+): readonly CivicContactReason[] {
+  const yearAgo = addDays(world.currentDate, -365);
+  const reasons: CivicContactReason[] = [];
+  for (const exposure of world.history.lawExposures ?? [])
+    if (
+      exposure.personId === personId &&
+      exposure.relation === "own" &&
+      exposure.direction === "cost" &&
+      exposure.recordedAt > yearAgo &&
+      exposure.recordedAt <= world.currentDate
+    )
+      reasons.push({
+        kind: "law-exposure",
+        sourceRecordId: exposure.id,
+        subjectId: exposure.measureId,
+      });
+  for (const outcome of livedOutcomesOf(world, personId).filter(
+    (row) => row.at > yearAgo,
+  ))
+    reasons.push({
+      kind: "lived-outcome",
+      sourceRecordId: outcome.sourceRecordId,
+      subjectId: null,
+    });
+  const view = strongestOfficialStanding(world, personId);
+  if (view) {
+    const source = view.belief?.id ?? view.rows.at(-1)?.id ?? null;
+    if (source)
+      reasons.push({
+        kind: "official-view",
+        sourceRecordId: source,
+        subjectId: view.officialId,
+      });
+  }
+  const groups = new Set(lawInterestMembersInTown(world, town));
+  if (groups.has(personId))
+    for (const participation of world.history.organizationParticipations) {
+      if (participation.personId !== personId) continue;
+      const measureId = lawInterestMeasure(world, participation.organizationId);
+      if (measureId)
+        reasons.push({
+          kind: "law-interest-group",
+          sourceRecordId: participation.id,
+          subjectId: measureId,
+        });
+    }
+  return reasons.length > 0
+    ? reasons
+    : [{ kind: "general-opinion", sourceRecordId: null, subjectId: null }];
 }
 
 /** What gives this resident a stake in the town's government, today. */
@@ -200,14 +285,53 @@ export function reviewTownCivicActions(
   for (const personId of residents) {
     const stake = civicStake(world, personId, town, groupMembers);
     if (passesMeasure(stake, "contacted", today)) {
-      const officialId = stake.view?.officialId ?? headOfTown;
+      const officialId =
+        stake.view?.officialId ??
+        wardRepresentative(world, units, personId) ??
+        headOfTown;
       if (officialId && officialId !== personId)
-        next = record(next, town, reviewKey, "contacted", personId, officialId);
+        next = record(
+          next,
+          town,
+          reviewKey,
+          "contacted",
+          personId,
+          officialId,
+          null,
+          civicContactReasons(world, personId, town),
+        );
     }
     if (officers.length > 0 && passesMeasure(stake, "attended", today))
       next = record(next, town, reviewKey, "attended", personId, null, meeting);
   }
   return next;
+}
+
+/** The member elected by this resident's ward, where the seat records one. */
+function wardRepresentative(
+  world: World,
+  units: ReturnType<typeof homeLocalGovernmentUnits>["municipal"],
+  personId: EntityId,
+): EntityId | null {
+  for (const unit of units) {
+    const plan = councilWardPlan(unit);
+    const map = townWardMap(world, unit);
+    const town = world.people[personId]?.homeJurisdictionId;
+    const position = town ? homePosition(world, town, personId) : null;
+    if (!map || position === null) continue;
+    const residentWard = wardAt(map, position);
+    for (const officer of sittingLocalOfficers(world, unit)) {
+      const seat = /seat (\d+)$/.exec(officer.seatLabel)?.[1];
+      if (
+        !officer.mayor &&
+        seat &&
+        isWardSeat(plan, Number(seat)) &&
+        seatWard(map, Number(seat)) === residentWard
+      )
+        return officer.personId;
+    }
+  }
+  return null;
 }
 
 interface QuarterMeeting {
@@ -267,11 +391,16 @@ function record(
   personId: EntityId,
   officialId: EntityId | null,
   meeting: QuarterMeeting | null = null,
+  reasons: readonly CivicContactReason[] = [],
 ): World {
   const today = world.currentDate;
   if (action === "attended" && !meeting) return world;
   const ids = officialId ? [personId, officialId] : [personId];
   if (meeting) ids.push(meeting.item.id);
+  for (const reason of reasons) {
+    if (reason.sourceRecordId) ids.push(reason.sourceRecordId);
+    if (reason.subjectId) ids.push(reason.subjectId);
+  }
   return recordWorldEvent(world, {
     stableKey: `${CIVIC_ACTIONS_VERSION}:${town}:${reviewKey}:${action}:${personId}`,
     type: CIVIC_ACTION_EVENTS[action],
@@ -297,6 +426,13 @@ function record(
       "life.civic",
       CIVIC_ACTIONS_VERSION,
       ...(meeting ? [`meeting:${meeting.item.id}`] : []),
+      ...reasons.flatMap((reason) => [
+        `contact-reason:${reason.kind}`,
+        ...(reason.sourceRecordId
+          ? [`contact-source:${reason.sourceRecordId}`]
+          : []),
+        ...(reason.subjectId ? [`contact-subject:${reason.subjectId}`] : []),
+      ]),
     ],
     summary:
       action === "contacted"
@@ -307,7 +443,10 @@ function record(
       socialContext: null,
       pressure: null,
       choice: null,
-      motivation: null,
+      motivation:
+        action === "contacted"
+          ? reasons.map((reason) => reason.kind).join(", ")
+          : null,
       immediateReaction: null,
     },
   });
