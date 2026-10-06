@@ -1,0 +1,96 @@
+{
+  "source": "f88508186b78f526ecf89a420b5fb584171e039a",
+  "seed": "session5-one-month-3c40ddf2-3ead-4375-b68a-a9eedaf046ec",
+  "place": {
+    "key": "5568175",
+    "displayName": "Ripon, Wisconsin",
+    "formalName": "Ripon",
+    "withinName": "Wisconsin",
+    "context": {
+      "jurisdiction": {
+        "id": "jurisdiction_49f20ed9755d8146",
+        "slug": "us-place-5568175",
+        "name": "Ripon, Wisconsin",
+        "kind": "census-place",
+        "parentName": "Wisconsin",
+        "provenance": {
+          "asOf": "2026-01-05",
+          "source": "census-gazetteer-2025-places-zip",
+          "jurisdiction": "jurisdiction_49f20ed9755d8146",
+          "status": "approved"
+        }
+      },
+      "initialMoment": {
+        "date": "2026-01-05",
+        "minuteOfDay": 550,
+        "timeZone": "America/Chicago",
+        "utcOffsetMinutes": -360
+      },
+      "creationSummary": "Seeded world in Ripon, Wisconsin, from the 2025 Census Gazetteer place identity.",
+      "goalScope": "Ripon, Wisconsin",
+      "householdLocationLabel": "Ripon, Wisconsin"
+    },
+    "scope": "locality",
+    "stateJurisdictionKey": "US-WI",
+    "capabilities": {
+      "legislativeScenarioKey": null,
+      "candidacyPackId": null
+    },
+    "sourceGeoid": "5568175"
+  },
+  "setup": {
+    "playSettings": {
+      "challenge": "standard",
+      "notes": "full",
+      "saves": "free",
+      "premises": {
+        "familyMoney": "ordinary",
+        "press": "realistic",
+        "ongoingMoneyCosts": "standard"
+      }
+    },
+    "startKind": "normal",
+    "placeKey": "5568175",
+    "startAge": 40,
+    "depth": "play-formative-years",
+    "startingLife": "ordinary-life",
+    "household": "shares-a-home",
+    "givenName": null,
+    "familyName": null,
+    "gender": "female",
+    "appearanceRecipeVersion": "appearance-recipe-v2",
+    "givenNameGenerationVersion": "given-name-v3",
+    "childhoodGenerationVersion": "childhood-v2",
+    "partyChapterNameVersion": "resident-names-v1",
+    "schoolNameVersion": "school-names-v3",
+    "placeNameVersion": "place-names-v1",
+    "schoolStageVersion": "school-stages-v2",
+    "familyBirthdayVersion": "family-birthdays-v1",
+    "parentPartnerVersion": "parent-partners-v1",
+    "adultStartWorkVersion": "adult-start-work-v1",
+    "districtHomeJoinVersion": "congressional-home-join-v1",
+    "questionnaireCopyVersion": "playtest65-v2",
+    "questionnaireSelectionVersion": "curated-v1",
+    "openingWorkLocationVersion": "schedule-v1",
+    "worldOpeningVersion": "world-opening-crunch46-v1",
+    "openingDataVersion": "playtest65-v3",
+    "livingWorldMemberNameVersion": "cohort-v1",
+    "questionnaire": "skipped",
+    "priors": [],
+    "birthMonth": 1,
+    "birthDay": 1,
+    "seed": "session5-one-month-3c40ddf2-3ead-4375-b68a-a9eedaf046ec"
+  },
+  "pid": 41190,
+  "heapLimit": 4496293888,
+  "window": ["2026-01-05", "2026-02-05"],
+  "route": "ordinary generated normal life, canonical daily Day action, no campaign or fixture injection",
+  "samplingIntervalUs": 1000,
+  "preciseCoverage": false,
+  "limitations": [
+    "New random route, not Session48 retained seed",
+    "Headless Day computation excludes browser navigation/render",
+    "Sampled inclusive producer costs overlap; no annual/save/Continue acceptance",
+    "Appended row body bytes exclude save containers; no full World payload written"
+  ]
+}
