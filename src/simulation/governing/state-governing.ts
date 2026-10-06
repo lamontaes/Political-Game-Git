@@ -1531,6 +1531,7 @@ export function openExecutiveOrderMatter(
   input: {
     readonly instance: string;
     readonly subject: string;
+    readonly subjectKey?: string;
     readonly sourceEventId: EntityId;
   },
 ): World {
@@ -1540,9 +1541,126 @@ export function openExecutiveOrderMatter(
     family: "executive-order",
     instance: input.instance,
     titleSubject: input.subject,
-    subjectKey: input.subject,
+    subjectKey: input.subjectKey ?? input.subject,
     sourceEventId: input.sourceEventId,
   });
+}
+
+/**
+ * A recorded condition can prompt an NPC officeholder to issue an order. The
+ * decision reads the recorded agenda priority and any principle answers the
+ * caller can ground in the condition; the order still passes through this
+ * office's shared matter records and authority check.
+ */
+export function considerExecutiveOrderCondition(
+  world: World,
+  officeKey: string,
+  input: {
+    readonly instance: string;
+    readonly subject: string;
+    readonly subjectKey: string;
+    readonly sourceEventId: EntityId;
+    readonly principleAnswers: readonly {
+      readonly propositionId: EntityId;
+      readonly answer: "yes" | "no";
+    }[];
+  },
+): World {
+  const office = governingOfficeByKey(world, officeKey);
+  if (!office || !authorityJurisdictionForOffice(world, office)) return world;
+  if (controlledPersonId(world) === office.holderPersonId)
+    return openExecutiveOrderMatter(world, officeKey, input);
+
+  const considerations: DecisionConsideration[] = [];
+  const priority = currentPriority(world, office);
+  if (priority)
+    considerations.push({
+      stableKey: `executive-order:priority:${office.officeKey}:${input.subjectKey}`,
+      optionKey: "issue",
+      sourceType: "context:agenda-priority",
+      direction: priority === input.subjectKey ? "supports" : "opposes",
+      importance: "strong",
+      confidence: "high",
+      explanation:
+        priority === input.subjectKey
+          ? "The recorded condition concerns the officeholder's first priority."
+          : "The recorded condition concerns a different subject than the officeholder's first priority.",
+      sourceRefs: [{ kind: "historical-event", eventId: input.sourceEventId }],
+    });
+  const principles = principleAnswersConsideration(
+    world,
+    office.holderPersonId,
+    input.principleAnswers,
+  );
+  if (principles)
+    considerations.push({
+      ...principles,
+      stableKey: `executive-order:${principles.stableKey}`,
+      optionKey: principles.optionKey === "vote-yea" ? "issue" : "pass",
+      direction: principles.optionKey === "vote-yea" ? "supports" : "opposes",
+      explanation:
+        principles.optionKey === "vote-yea"
+          ? `The officeholder's recorded principles support action on ${input.subject}.`
+          : `The officeholder's recorded principles oppose action on ${input.subject}.`,
+    });
+  const stableKey = `${STATE_GOVERNING_VERSION}:${office.officeKey}:${office.termId}:executive-order-decision:${input.instance}`;
+  const saved = world.history.decisionTraces.find(
+    (trace) => trace.context.stableKey === stableKey,
+  );
+  if (saved) return world;
+  const evaluation = evaluateDecision(world, {
+    stableKey,
+    decisionType: "governing:executive-order-condition",
+    actorPersonId: office.holderPersonId,
+    cutoff: currentHistoricalCutoff(world),
+    subject: {
+      kind: "context:governing-matter",
+      key: `${office.officeKey}:${input.subjectKey}`,
+      entityId: null,
+    },
+    options: [
+      {
+        key: "issue",
+        label: "Issue the executive order",
+        description: `Direct the executive branch on ${input.subject}.`,
+      },
+      {
+        key: "pass",
+        label: "Take no action by order",
+        description: "Leave the executive branch's existing work in place.",
+      },
+    ],
+    constraints: [],
+    considerations,
+    perceptionIds: [],
+    randomness: "none",
+    retention: "durable",
+  });
+  const traced = recordDurableDecisionTrace(world, evaluation);
+  if (
+    evaluation.outcomeKind !== "selected" ||
+    evaluation.selectedOptionKey !== "issue"
+  )
+    return traced;
+  const opened = openExecutiveOrderMatter(traced, officeKey, input);
+  const matter = governingMatters(opened, officeKey).find(
+    (candidate) =>
+      candidate.family === "executive-order" &&
+      candidate.stableKey.endsWith(`:executive-order:${input.instance}`),
+  );
+  const orderOption = matter?.options.find(
+    (option) => option.key === "order:agency-instructions",
+  );
+  return matter && orderOption
+    ? recordDecision(
+        opened,
+        matter,
+        orderOption,
+        "officeholder",
+        office.holderPersonId,
+        `The recorded condition concerns ${input.subject}, and the officeholder's priority and principles support directing the agency.`,
+      )
+    : opened;
 }
 
 /** Delegated rule drafts matching the office's agenda priority come first. */
@@ -2195,16 +2313,38 @@ function decisionSummary(
             summary: `${office.title} directed agencies to begin work on ${subjectLabel(matter.subjectKey)}.`,
             visibility: "public",
           };
-    case "executive-order":
-      return option.key === "order:independent-policy"
-        ? {
-            summary: `${who}, ${office.title}, asked to create independent policy by order. The request was refused: an executive action cannot create independent policy; the legislature must enact it or a law must delegate the term.`,
-            visibility: "limited",
-          }
+    case "executive-order": {
+      const jurisdictionKey = authorityJurisdictionForOffice(world, office);
+      const clause =
+        option.key === "order:independent-policy"
+          ? ({
+              kind: "independent-policy",
+              topicKey: matter.subjectKey ?? "unspecified-policy",
+            } as const)
+          : ({
+              kind: "executive-branch-management",
+              topicKey: "agency-instructions",
+            } as const);
+      const authority = jurisdictionKey
+        ? decideExecutiveActionAuthority(
+            executiveRulePackForJurisdiction(jurisdictionKey),
+            clause,
+            null,
+          )
         : {
+            allowed: false,
+            reason: "This office has no recorded executive-order authority.",
+          };
+      return authority.allowed
+        ? {
             summary: `${who}, ${office.title}, directed an agency's internal work by executive order.`,
             visibility: "public",
+          }
+        : {
+            summary: `${who}, ${office.title}, requested an executive order on ${matter.subjectKey ?? "this matter"}. The request was refused: ${authority.reason}`,
+            visibility: "limited",
           };
+    }
     case "regulation":
       return {
         summary: `${who}, ${office.title}, reviewed the proposed rule: ${option.label.toLowerCase()}.`,

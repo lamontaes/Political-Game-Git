@@ -7,6 +7,8 @@ title: Executive orders use the shared office desk
 
 State and federal executive orders open and resolve through the existing
 governing matter inbox. Management orders write to the shared law measure and
-enactment records, while requests to create independent policy are refused
-with the reason. Recorded executive priority now orders delegated-rule drafts
-and sets an enforcement ranking for the office's top and remaining topics.
+enactment records, while requests that exceed recorded authority are refused
+with the reason. Computer-run executives can evaluate a recorded condition
+against their priority and recorded principles before acting. Recorded priority
+orders delegated-rule matters and sets an enforcement ranking for the office's
+top and remaining topics.

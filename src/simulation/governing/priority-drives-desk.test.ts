@@ -3,6 +3,7 @@ import { smallWorld } from "../../../tests/fixtures/small-world";
 import type { EntityId, World } from "../types";
 import {
   currentPriority,
+  considerExecutiveOrderCondition,
   decideGoverningMatter,
   enforcementPriorityForLaw,
   governingMatters,
@@ -31,6 +32,19 @@ describe("executive priority drives delegated drafting", () => {
     const agenda = governingMatters(world, office.officeKey).find(
       (matter) => matter.family === "agenda" && matter.status === "open",
     );
+    const staff = governingMatters(world, office.officeKey).find(
+      (matter) =>
+        matter.family === "chief-of-staff" && matter.status === "open",
+    );
+    if (staff?.options[0]) {
+      const hired = decideGoverningMatter(
+        world,
+        staff.id,
+        staff.options[0].key,
+      );
+      expect(hired.ok).toBe(true);
+      world = hired.world;
+    }
     expect(agenda).toBeDefined();
     if (!agenda) throw new Error("The governor has no priority matter.");
     const chosen = agenda.options.find(
@@ -44,6 +58,19 @@ describe("executive priority drives delegated drafting", () => {
     world = decision.world;
     const priority = currentPriority(world, office);
     expect(priority).toBe(chosen.key.slice("priority:".length));
+    const implementation = governingMatters(world, office.officeKey).find(
+      (matter) =>
+        matter.family === "implementation" && matter.status === "open",
+    );
+    if (implementation?.options[0]) {
+      const directed = decideGoverningMatter(
+        world,
+        implementation.id,
+        implementation.options[0].key,
+      );
+      expect(directed.ok).toBe(true);
+      world = directed.world;
+    }
 
     const drafts = [
       { subjectKey: "health", measureId: "measure-health" },
@@ -80,6 +107,31 @@ describe("executive priority drives delegated drafting", () => {
       office.officeKey,
     ).filter((matter) => matter.family === "regulation");
     expect(openedRegulations[0]?.subjectKey).toBe(priority);
+    const npcWorld: World = {
+      ...world,
+      control: { kind: "observer" },
+    };
+    const conditionSource = world.history.events.find(
+      (event) =>
+        event.type === "governing.matter-decided" &&
+        event.tags.includes(`matter:${agenda.id}`),
+    )!.id;
+    const npcDecision = considerExecutiveOrderCondition(
+      npcWorld,
+      office.officeKey,
+      {
+        instance: "priority-condition",
+        subject: "the office's first priority",
+        subjectKey: priority!,
+        sourceEventId: conditionSource,
+        principleAnswers: [],
+      },
+    );
+    expect(
+      npcDecision.history.legislativeMeasures?.some(
+        (measure) => measure.governmentInstrument === "executive-order",
+      ),
+    ).toBe(true);
     console.info(
       "Priority desk proof",
       JSON.stringify({
