@@ -299,9 +299,7 @@ export async function fillCreator(
   }
   await page
     .getByTestId(
-      calibration === "skipped"
-        ? "whoareyou-play"
-        : "whoareyou-answer",
+      calibration === "skipped" ? "whoareyou-play" : "whoareyou-answer",
     )
     .click();
   await expect(page.getByTestId("begin")).toBeEnabled();
