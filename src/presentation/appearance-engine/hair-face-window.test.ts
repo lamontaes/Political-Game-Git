@@ -195,4 +195,50 @@ describe("source-bound front hair face window", () => {
       composeEnginePerson(baseline, read, pixie).raster.data,
     );
   });
+
+  it("keeps the complete facial-feature window visible for every front hair style", () => {
+    const checkedStyles: string[] = [];
+    for (const presentation of ["feminine", "masculine"] as const) {
+      const pack = manifest.presentations[presentation];
+      const face = pack.faces.find((candidate) =>
+        candidate.id.startsWith("20s30s-"),
+      )!;
+      for (const hair of pack.hair) {
+        const recipe = {
+          presentation,
+          build: "average" as const,
+          shade: 3,
+          face: face.id,
+          hair: hair.id,
+          hairColor: "natural",
+          outfit: "casual",
+        };
+        const composed = composeEnginePerson(manifest, read, recipe).raster;
+        const withoutFrontHair = composeEnginePerson(
+          manifest,
+          (name) =>
+            name === hair.front
+              ? createRaster(manifest.canvas.width, manifest.canvas.height)
+              : read(name),
+          recipe,
+        ).raster;
+
+        // This source-authored window spans both eyes, the nose and the mouth.
+        // Side locks and bangs may frame it, but no front-hair pixels may cover it.
+        for (let y = 112; y <= 155; y += 1) {
+          for (let x = 248; x <= 264; x += 1) {
+            const at = (y * composed.width + x) * 4;
+            expect(
+              composed.data.slice(at, at + 4),
+              `${presentation}/${hair.id} covers the face at ${x},${y}`,
+            ).toEqual(withoutFrontHair.data.slice(at, at + 4));
+          }
+        }
+        checkedStyles.push(`${presentation}/${hair.id}`);
+      }
+    }
+
+    expect(checkedStyles).toHaveLength(26);
+    expect(new Set(checkedStyles).size).toBe(checkedStyles.length);
+  });
 });

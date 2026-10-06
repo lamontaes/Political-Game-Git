@@ -22,6 +22,8 @@
  * This is a development tool for reviewing wording. It is never part of play.
  */
 import { mkdirSync, writeFileSync } from "node:fs";
+import { batchStats, statsSummary, type BatchStat } from "./stats";
+import { LIFE_TALK_INTENTS } from "../../src/presentation/life-conversation";
 import { dirname } from "node:path";
 import {
   activeWorkRelationshipsAt,
@@ -33,7 +35,6 @@ import type { EntityId, World } from "../../src/simulation";
 import { lifePlaceStateIdentities } from "../../src/simulation/life-places";
 import { LIFE_MIND_IDS } from "../../src/simulation/life-mind-content";
 import { activeOrdinaryGoal } from "../../src/simulation/life-personality";
-import { OPENING_LIFE_SCENES } from "../../src/simulation/opening-life-content";
 import { describePersonContext } from "../../src/simulation/person-context";
 import {
   latestPersonalValue,
@@ -133,6 +134,8 @@ export interface BatchLine {
   };
   /** What the harness chose, as opposed to what the records hold. */
   readonly harness: readonly string[];
+  /** The turn this line answers, when the situation records one. */
+  readonly prior?: string;
 }
 
 export interface BatchSkip {
@@ -155,6 +158,8 @@ export interface BatchResult {
   readonly worlds: readonly BatchWorldSummary[];
   readonly lines: readonly BatchLine[];
   readonly skipped: readonly BatchSkip[];
+  /** The lines measured against the everyday register card. */
+  readonly stats: readonly BatchStat[];
 }
 
 export interface BatchOptions {
@@ -367,6 +372,8 @@ interface Produced {
   readonly line: string;
   readonly parts: readonly ComposedPart[];
   readonly harness?: readonly string[];
+  /** The turn the line answers, when the situation records one. */
+  readonly prior?: string;
 }
 
 const partKeys = (parts: readonly ComposedPart[]) =>
@@ -457,99 +464,10 @@ function greeting(
     axis: "trait",
     composer: "lifeReplyLine (first-greeting) in life-reply-english.ts",
     situation: `${ctx.playerName} says hello for the first time to ${describeWho(speaker)}${label}. ${note}`,
+    prior: LIFE_TALK_INTENTS.greet,
     speaker,
     line: line.text,
     parts: line.parts,
-  };
-}
-
-/** The scene question's key, as the conversation maps a scene to a reply. */
-const SCENE_QUESTION: Readonly<Record<string, LifeReplyKey>> = {
-  "early.school.lunchbox-swap": "do-you-want-to-keep-your-snack",
-  "early.peer.sidewalk-game": "shall-we-try-one-round-with-that",
-  "early.peer.secret-whisper": "do-you-want-to-talk-about-the",
-  "early.peer.dropped-treat": "can-you-stay-with-me-for-a",
-  "early.peer.roughhouse-line": "do-you-want-to-stop-playing-tag",
-  "early.community.library-quiet": "should-we-move-farther-apart-so-we",
-  "early.school.crayon-sharing": "can-i-use-the-crayon-when-you",
-  "early.school.playground-turn": "do-you-want-a-turn-on-the",
-  "early.school.spilled-paint": "can-you-help-blot-the-paper",
-  "early.peer.toy-damage-accidental": "can-you-show-me-the-wheel",
-  "adult.home.shared-time": "would-you-like-to-talk-about-your",
-  "early.community.lost-pet-flyer": "shall-we-look-at-the-flyer-together",
-  "early.community.sidewalk-curb": "will-you-wait-here-with-me",
-  "early.family.packing-boxes": "is-there-a-toy-you-want-to",
-  "adult.trans.college-vs-work": "what-would-you-like-to-know-before",
-  "adult.trans.drop-class-keep-job": "do-you-want-to-ask-about-another",
-  "young.home.ask-about-childhood": "what-would-you-like-to-know-about",
-  "early.community.curious-neighbor": "do-you-like-your-teacher",
-};
-const SCENE_BY_PARENT: Readonly<
-  Record<string, readonly [LifeReplyKey, LifeReplyKey]>
-> = {
-  "early.home.broken-mug": [
-    "tell-me-what-happened-leave-the-pieces",
-    "we-should-ask-for-help-with-the",
-  ],
-  "early.home.bedtime-delay": [
-    "it-is-bedtime-put-the-toy-away",
-    "it-is-time-to-put-the-toy",
-  ],
-  "early.home.food-refusal": [
-    "would-you-try-one-bite-you-can",
-    "you-do-not-have-to-pretend-you",
-  ],
-};
-
-function sceneQuestion(
-  setting: "home" | "school" | "neighborhood",
-): (ctx: WorldContext) => Produced {
-  return (ctx) => {
-    const options = OPENING_LIFE_SCENES.filter(
-      (scene) =>
-        scene.setting === setting &&
-        ctx.playerAge >= scene.ages[0] &&
-        ctx.playerAge <= scene.ages[1] &&
-        (SCENE_QUESTION[scene.key] || SCENE_BY_PARENT[scene.key]),
-    ).flatMap((scene) => {
-      const speakers = ctx.cast.filter((person) =>
-        scene.cast === "guardian"
-          ? isParent(person)
-          : scene.cast === "peer"
-            ? isPeer(person)
-            : scene.cast === "sibling"
-              ? isSibling(person)
-              : scene.cast === "housemate"
-                ? /housemate|roommate|partner|spouse|husband|wife/.test(
-                    person.relation ?? "",
-                  )
-                : false,
-      );
-      return speakers.map((speaker) => ({ scene, speaker }));
-    });
-    if (options.length === 0)
-      skip(
-        `no authored ${setting} scene fits a ${ctx.playerAge}-year-old with someone from the cast`,
-      );
-    const { scene, speaker } =
-      options[Math.floor(ctx.random() * options.length)]!;
-    const byParent = SCENE_BY_PARENT[scene.key];
-    const key = byParent
-      ? byParent[isParent(speaker) ? 0 : 1]
-      : SCENE_QUESTION[scene.key]!;
-    const line = reply(ctx, speaker, key);
-    return {
-      axis: "place",
-      composer: "lifeReplyLine (scene question) in life-reply-english.ts",
-      situation: `${setting === "home" ? "At home" : setting === "school" ? "At school" : "In the neighborhood"}, in the authored scene "${scene.key}" (${scene.premise.replace(/\{\w+\}/g, speaker.given)}), ${ctx.playerName} asks ${describeWho(speaker)} what is happening here.`,
-      speaker,
-      line: line.text,
-      parts: line.parts,
-      harness: [
-        `The scene is authored content for ages ${scene.ages.join("-")}; it was not live in the world's own record, so the harness set it and chose the speaker whose relation the scene's cast asks for.`,
-        `Reply key ${key} is the one the conversation maps this scene to.`,
-      ],
-    };
   };
 }
 
@@ -574,6 +492,7 @@ function invitationAccept(ctx: WorldContext): Produced {
     axis: "interaction",
     composer: "invitationAgreeLine in refusal-english.ts",
     situation: `${ctx.playerName} suggests playing a game together to ${describeWho(speaker)}, who is free to say yes (no privacy goal; leisure style "${leisureOf(ctx.world, speaker.id)}").`,
+    prior: LIFE_TALK_INTENTS.suggestGame,
     speaker,
     line: line.text,
     parts: line.parts,
@@ -607,6 +526,7 @@ function invitationDecline(ctx: WorldContext): Produced {
       axis: "interaction",
       composer: "invitationDeclineLine in refusal-english.ts",
       situation: `${ctx.playerName} suggests playing a game together to ${describeWho(speaker)}, whose record gives ${why}.`,
+      prior: LIFE_TALK_INTENTS.suggestGame,
       speaker,
       line: line.text,
       parts: line.parts,
@@ -646,6 +566,7 @@ function dateDecline(ctx: WorldContext): Produced {
     axis: "relationship",
     composer: "invitationDeclineLine (date) in refusal-english.ts",
     situation: `${ctx.playerName} asks ${describeWho(speaker)} if they would like this to be a date; their record shows no openness to it.`,
+    prior: LIFE_TALK_INTENTS.date,
     speaker,
     line: line.text,
     parts: line.parts,
@@ -664,6 +585,7 @@ function rememberTopic(ctx: WorldContext): Produced {
     axis: "experience",
     composer: "lifeReplyLine (remembered-topic) in life-reply-english.ts",
     situation: `${ctx.playerName} asks ${describeWho(speaker)} about an earlier conversation, which was about this real item of news: "${matter.headline}"`,
+    prior: LIFE_TALK_INTENTS.remember,
     speaker,
     line: line.text,
     parts: line.parts,
@@ -731,6 +653,7 @@ function toldPlan(which: 0 | 1): (ctx: WorldContext) => Produced {
       speaker: chosen.speaker,
       line: chosen.reply,
       parts: chosen.parts,
+      prior: chosen.topicLabel,
     };
   };
 }
@@ -940,6 +863,7 @@ function matterUninformed(ctx: WorldContext): Produced {
     axis: "experience",
     composer: "matterUninformedLine in small-talk-english.ts",
     situation: `${ctx.playerName} brings up the news ("${matter.headline}") with ${describeWho(speaker)}, who has no record of learning it.`,
+    prior: LIFE_TALK_INTENTS.matter,
     speaker,
     line: line.text,
     parts: line.parts,
@@ -968,6 +892,7 @@ function matterHeard(ctx: WorldContext): Produced {
     axis: "experience",
     composer: "lifeReplyLine (matter awareness) in life-reply-english.ts",
     situation: `${ctx.playerName} brings up the news ("${matter.headline}") with ${describeWho(speaker)}, who ${awareness === "involved" ? "was part of it" : "has a record of learning it"}.`,
+    prior: LIFE_TALK_INTENTS.matter,
     speaker,
     line: line.text,
     parts: line.parts,
@@ -991,6 +916,7 @@ function officialsView(ctx: WorldContext): Produced {
       axis: "belief",
       composer: "officialViewLine in small-talk-english.ts",
       situation: `${ctx.playerName} asks ${describeWho(speaker)} what they think of the people in office; they hold a saved view of an official over a law or something that happened to them.`,
+      prior: LIFE_TALK_INTENTS.officials,
       speaker,
       line: line.text,
       parts: line.parts,
@@ -1014,6 +940,7 @@ function privacyMood(ctx: WorldContext): Produced {
     axis: "mood",
     composer: "lifeReplyLine (privacy) in life-reply-english.ts",
     situation: `${ctx.playerName} asks ${describeWho(speaker)} what they would like to do; their record holds an active goal to keep to themselves.`,
+    prior: LIFE_TALK_INTENTS.activity,
     speaker,
     line: line.text,
     parts: line.parts,
@@ -1067,8 +994,6 @@ const SITUATIONS: readonly Situation[] = [
       );
     },
   },
-  { id: "scene-home", run: sceneQuestion("home") },
-  { id: "scene-school", run: sceneQuestion("school") },
   { id: "invite-game-accept", run: invitationAccept },
   { id: "invite-game-decline", run: invitationDecline },
   { id: "remember-news-topic", run: rememberTopic },
@@ -1083,7 +1008,6 @@ const SITUATIONS: readonly Situation[] = [
   { id: "officials-view", run: officialsView },
   // Fallbacks, used only when one above cannot be worded in any world.
   { id: "told-plan-second-listener", run: toldPlan(1) },
-  { id: "scene-neighborhood", run: sceneQuestion("neighborhood") },
   { id: "school-offer", run: schoolReply("offer") },
   { id: "invite-date-decline", run: dateDecline },
   { id: "matter-heard", run: matterHeard },
@@ -1100,6 +1024,7 @@ const SITUATIONS: readonly Situation[] = [
         axis: "relationship",
         composer: "lifeReplyLine (hi-sweetheart) in life-reply-english.ts",
         situation: `${ctx.playerName}, a young child, says hello to ${describeWho(speaker)}.`,
+        prior: LIFE_TALK_INTENTS.greet,
         speaker,
         line: line.text,
         parts: line.parts,
@@ -1212,12 +1137,19 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
           date: ctx.world.currentDate,
         },
         harness: made.harness ?? [],
+        ...(made.prior !== undefined ? { prior: made.prior } : {}),
       });
       return;
     }
     skipped.push({ id: situation.id, reason: reasons.join(" | ") });
   });
-  return { seed: options.seed, worlds: summaries, lines, skipped };
+  return {
+    seed: options.seed,
+    worlds: summaries,
+    lines,
+    skipped,
+    stats: batchStats(lines),
+  };
 }
 
 export function batchSummary(result: BatchResult): string {
@@ -1229,10 +1161,19 @@ export function batchSummary(result: BatchResult): string {
       `  world ${world.index}: ${world.player}, age ${world.playerAge}, ${world.place}, ${world.date}${world.advancedDays ? ` (moved ${world.advancedDays} days)` : ""}`,
     );
   out.push("");
+  // The whole exchange, so a grade is of the reply to something, not a line
+  // on its own: the situation, the turn before (as the player saw it), then
+  // the reply the engine composed.
   for (const line of result.lines)
     out.push(
-      `[${line.axis}] ${line.id} — ${line.speaker.name} (${line.speaker.age}): "${line.line}"`,
+      `[${line.axis}] ${line.id}`,
+      `  Situation: ${line.situation}`,
+      ...(line.prior !== undefined
+        ? [`  ${line.world.player}: "${line.prior}"`]
+        : []),
+      `  ${line.speaker.name} (${line.speaker.age}): "${line.line}"`,
     );
+  out.push("", "Against the everyday card:", ...statsSummary(result.stats));
   if (result.skipped.length) {
     out.push("", "Skipped:");
     for (const entry of result.skipped)

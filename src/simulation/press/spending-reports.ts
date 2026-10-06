@@ -4,9 +4,16 @@ import {
 } from "../campaign-operating-costs";
 import { campaignOpponentRecords, campaigns } from "../campaign-queries";
 import { addDays } from "../dates";
+import { currentLifeCutoff, organizationProfileAt } from "../life-queries";
 import { organizationNameAt } from "../living-world/party-registry";
 import { personName } from "../people";
-import type { CurrencyCode, EntityId, IsoDate, World } from "../types";
+import type {
+  CurrencyCode,
+  EntityId,
+  HistoricalCutoff,
+  IsoDate,
+  World,
+} from "../types";
 import { recordWorldEvent } from "../world";
 import { PRESS_CONTRACT_VERSION } from "./records";
 import { sortedUnique } from "./shared";
@@ -34,17 +41,39 @@ export const CAMPAIGN_SPENDING_REPORTED_EVENT =
 export type SpendingPurpose =
   "advertising" | "paid-to-candidate" | OperatingCategory | "other";
 
-/** What a payee is paid for, read from its latest profile. */
+/** What a payee is paid for, read from its profile as of the cutoff. */
 function vendorCategory(
   world: World,
   organizationId: EntityId,
+  cutoff: HistoricalCutoff,
 ): OperatingCategory | null {
-  let classification: string | null = null;
-  for (const record of world.history.organizationProfiles) {
-    if (record.organizationId === organizationId)
-      classification = record.classification;
-  }
-  return operatingCategoryOfClassification(classification);
+  return operatingCategoryOfClassification(
+    organizationProfileAt(world, organizationId, cutoff)?.classification,
+  );
+}
+
+/** The name a payee or committee carried as of the cutoff. */
+function nameAsOf(
+  world: World,
+  organizationId: EntityId,
+  cutoff: HistoricalCutoff,
+): string | null {
+  return organizationProfileAt(world, organizationId, cutoff)?.name ?? null;
+}
+
+/**
+ * What the world knew when a report was filed: records dated on or before the
+ * filing date and written before the filing itself. A rename, a new vendor
+ * classification or a later payment cannot rewrite a report already filed.
+ */
+function filingCutoff(event: {
+  readonly occurredAt: IsoDate;
+  readonly sequence: number;
+}): HistoricalCutoff {
+  return {
+    asOfDate: event.occurredAt,
+    historySequenceExclusive: event.sequence,
+  };
 }
 
 export interface SpendingReportLine {
@@ -91,16 +120,25 @@ function committees(world: World): readonly Committee[] {
   return [...own, ...rivals];
 }
 
-/** Every completed payment out of each committee, by committee, oldest first. */
+/**
+ * Every completed payment out of each committee, by committee, oldest first,
+ * as the records stood at the cutoff (now, when none is given).
+ */
 function completedSpending(
   world: World,
   organizationIds: ReadonlySet<EntityId>,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): ReadonlyMap<EntityId, readonly SpendingReportLine[]> {
   const flows = new Map(world.history.resourceFlows.map((f) => [f.id, f]));
   const byCommittee = new Map<EntityId, SpendingReportLine[]>();
   const all = committees(world);
   for (const outcome of world.history.resourceTransferOutcomes) {
     if (outcome.status !== "completed") continue;
+    if (
+      outcome.sequence >= cutoff.historySequenceExclusive ||
+      outcome.occurredAt > cutoff.asOfDate
+    )
+      continue;
     const flow = flows.get(outcome.resourceFlowId);
     if (flow?.source.kind !== "organization") continue;
     const organizationId = flow.source.organizationId;
@@ -115,7 +153,8 @@ function completedSpending(
             recipient.organizationId === committee.vendorOrganizationId
           ? "advertising"
           : recipient.kind === "organization"
-            ? (vendorCategory(world, recipient.organizationId) ?? "other")
+            ? (vendorCategory(world, recipient.organizationId, cutoff) ??
+              "other")
             : "other";
     const payee =
       recipient.kind === "person"
@@ -123,7 +162,7 @@ function completedSpending(
           ? personName(world.people[recipient.personId]!)
           : "A person no longer on record"
         : recipient.kind === "organization"
-          ? (organizationNameAt(world, recipient.organizationId) ??
+          ? (nameAsOf(world, recipient.organizationId, cutoff) ??
             "An unnamed organization")
           : "An unnamed payee";
     const lines = byCommittee.get(organizationId) ?? [];
@@ -242,13 +281,6 @@ export function campaignSpendingReports(
     (row) => row.organizationId === committeeOrganizationId,
   );
   if (!committee) return [];
-  const lines = new Map(
-    (
-      completedSpending(world, new Set([committeeOrganizationId])).get(
-        committeeOrganizationId,
-      ) ?? []
-    ).map((line) => [line.flowId, line]),
-  );
   return world.history.events
     .filter(
       (event) =>
@@ -256,6 +288,16 @@ export function campaignSpendingReports(
         event.involvedEntityIds.includes(committeeOrganizationId),
     )
     .map((event) => {
+      const cutoff = filingCutoff(event);
+      const lines = new Map(
+        (
+          completedSpending(
+            world,
+            new Set([committeeOrganizationId]),
+            cutoff,
+          ).get(committeeOrganizationId) ?? []
+        ).map((line) => [line.flowId, line]),
+      );
       const filed = event.involvedEntityIds
         .map((id) => lines.get(id))
         .filter((line): line is SpendingReportLine => line !== undefined)
@@ -268,11 +310,13 @@ export function campaignSpendingReports(
         eventId: event.id,
         filedAt: event.occurredAt,
         committeeName:
+          nameAsOf(world, committeeOrganizationId, cutoff) ??
           organizationNameAt(
             world,
             committeeOrganizationId,
             event.occurredAt,
-          ) ?? "A campaign committee",
+          ) ??
+          "A campaign committee",
         candidatePersonId: committee.candidatePersonId,
         lines: filed,
         totalMinorUnits: filed.reduce(
