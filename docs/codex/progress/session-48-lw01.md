@@ -8,6 +8,7 @@ Status: draft implementation against an explicit local admission stub. This is n
 - `src/simulation/law-consequences/government-operations-rows.ts`: the three government-operations law rows.
 - `src/simulation/law-consequences/modules/government-operations/index.ts`: typed selectors, resolver, permission writer, dated event, and law-exposure writer.
 - `src/simulation/law-consequences/modules/government-operations.test.ts`: new-game tests with a local registry/catalog admission stub.
+- `docs/release/changes/government-operations-law-permissions.md`: the repository-native release declaration for the permission/effect behavior.
 
 The shared generated manifest and policy-pack admission registry are intentionally untouched; Session20 is their sole writer. The test's `includeGovernmentOperationsRows` and explicit registration are temporary local test wiring only.
 
