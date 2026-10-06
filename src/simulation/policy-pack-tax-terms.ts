@@ -1,5 +1,6 @@
 import powers from "../../data/research/powers-catalog/catalog.json" with { type: "json" };
 import type { PolicyPack, PolicyPropositionRow } from "./policy-packs";
+import { LW07_CITY_TAX_TERM_ROWS } from "./law-consequences/modules/lw07-city-tax-terms";
 import { TAX_LAW_TERM_KEYS } from "./tax-law-term-keys";
 
 /** Questions name decisions; they grant no taxing power and set no rate or base. */
@@ -54,6 +55,13 @@ export const TAX_QUESTION_LEVELS = [
   { key: "county", name: "county" },
   { key: "city", name: "city" },
 ] as const;
+
+function cityTaxTermConsequence(levelKey: string, familyKey: string) {
+  if (levelKey !== "city") return undefined;
+  return LW07_CITY_TAX_TERM_ROWS.find(
+    (row) => row.id === `tax:city:${familyKey}:recorded-base`,
+  );
+}
 
 export const TAX_TERM_QUESTION_ROWS: readonly PolicyPropositionRow[] =
   TAX_QUESTION_LEVELS.flatMap((level) =>
@@ -113,7 +121,11 @@ export const TAX_TERM_QUESTION_ROWS: readonly PolicyPropositionRow[] =
               },
             ],
           }
-        : {}),
+        : cityTaxTermConsequence(level.key, family.key)
+          ? {
+              consequences: [cityTaxTermConsequence(level.key, family.key)!],
+            }
+          : {}),
       tags: ["tax", "adopted-terms-required"],
     })),
   );
