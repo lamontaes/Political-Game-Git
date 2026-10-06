@@ -11,6 +11,11 @@ import { latestPersonalityTendency } from "./queries";
 import { ensurePeopleTraitCatalog } from "./people-traits";
 import { peopleTraitId, TRAIT_SHAPES } from "./people-trait-definitions";
 import { contactBases } from "./people-contact";
+import {
+  currentLifeCutoff,
+  householdMembershipsAt,
+  kinshipRelationshipsAt,
+} from "./life-queries";
 import { introductionSpacingDays } from "./social-introductions";
 import type { EntityId, World } from "./types";
 
@@ -106,8 +111,8 @@ describe("how often a life starts a conversation (BG-69)", () => {
     const { world: opened, personId, label } = newAdult(SEED);
     const kinWithoutRecord = contactBases(opened, personId).filter(
       (basis) =>
-        basis.basis.includes("family") &&
-        !basis.basis.includes("shares your home") &&
+        basis.ties.includes("kin") &&
+        !basis.ties.includes("household") &&
         basis.lastContactOn === null,
     );
     // The drawn life must actually have such kin, or the control proves nothing.
@@ -135,5 +140,35 @@ describe("how often a life starts a conversation (BG-69)", () => {
     }
     // More than the two calls the old 45-day pace allowed in 56 days.
     expect(proposals.length, label).toBeGreaterThan(2);
+  });
+
+  it("reads kin and housemates from the kinship and household records, not from the wording of the basis", () => {
+    const { world, personId, label } = newAdult(SEED);
+    const cutoff = currentLifeCutoff(world);
+    const kin = new Set(
+      kinshipRelationshipsAt(world, personId, cutoff).flatMap((row) =>
+        row.personIds.filter((id) => id !== personId),
+      ),
+    );
+    const myHouseholds = new Set(
+      householdMembershipsAt(world, personId, cutoff).map(
+        (entry) => entry.household.id,
+      ),
+    );
+    const housemates = new Set(
+      world.history.householdMemberships
+        .filter((row) => myHouseholds.has(row.householdId))
+        .map((row) => row.personId),
+    );
+    const bases = contactBases(world, personId);
+    expect(kin.size, label).toBeGreaterThan(0);
+    for (const basis of bases) {
+      expect(basis.ties.includes("kin"), `${label} ${basis.name}`).toBe(
+        kin.has(basis.personId),
+      );
+      expect(basis.ties.includes("household"), `${label} ${basis.name}`).toBe(
+        housemates.has(basis.personId),
+      );
+    }
   });
 });

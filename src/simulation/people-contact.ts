@@ -139,11 +139,21 @@ export interface ContactChannel {
   readonly note: string | null;
 }
 
+/**
+ * How two people are tied, read from the records and not from the wording of
+ * `basis`: housemates share a household membership, kin share a kinship
+ * relationship, and so on. Callers decide on this, never on the sentence.
+ */
+export type ContactTie =
+  "household" | "kin" | "work" | "group" | "acquaintance" | "party-organizer";
+
 export interface ContactBasis {
   readonly personId: EntityId;
   readonly name: string;
   /** Household, kin, work, group — how the two of them actually overlap. */
   readonly basis: readonly string[];
+  /** The same overlaps as record-derived kinds; decide on these, not on `basis` text. */
+  readonly ties: readonly ContactTie[];
   readonly channels: readonly ContactChannel[];
   readonly lastContactOn: IsoDate | null;
   readonly gap:
@@ -164,11 +174,15 @@ export function contactBases(
 ): readonly ContactBasis[] {
   const cutoff = currentLifeCutoff(world);
   const bases = new Map<EntityId, Set<string>>();
-  const add = (otherId: EntityId, basis: string) => {
+  const tiesOf = new Map<EntityId, Set<ContactTie>>();
+  const add = (otherId: EntityId, basis: string, tie: ContactTie) => {
     if (otherId === personId || !alive(world, otherId)) return;
     const found = bases.get(otherId) ?? new Set<string>();
     found.add(basis);
     bases.set(otherId, found);
+    const kinds = tiesOf.get(otherId) ?? new Set<ContactTie>();
+    kinds.add(tie);
+    tiesOf.set(otherId, kinds);
   };
   const myHouseholds = new Set(
     householdMembershipsAt(world, personId, cutoff).map(
@@ -177,12 +191,12 @@ export function contactBases(
   );
   for (const record of world.history.householdMemberships) {
     if (myHouseholds.has(record.householdId)) {
-      add(record.personId, "shares your home");
+      add(record.personId, "shares your home", "household");
     }
   }
   for (const kin of kinshipRelationshipsAt(world, personId, cutoff)) {
     const other = kin.personIds.find((id) => id !== personId);
-    if (other) add(other, "family");
+    if (other) add(other, "family", "kin");
   }
   const myEmployers = new Set(
     activeWorkRelationshipsAt(world, personId, cutoff).map(
@@ -191,7 +205,7 @@ export function contactBases(
   );
   for (const record of world.history.workRelationships) {
     if (myEmployers.has(record.organizationId)) {
-      add(record.personId, "works where you work");
+      add(record.personId, "works where you work", "work");
     }
   }
   const myGroups = new Set(
@@ -201,7 +215,7 @@ export function contactBases(
   );
   for (const record of world.history.organizationParticipations) {
     if (myGroups.has(record.organizationId)) {
-      add(record.personId, "in the same group as you");
+      add(record.personId, "in the same group as you", "group");
     }
   }
   for (const interaction of world.history.relationshipInteractions) {
@@ -212,7 +226,7 @@ export function contactBases(
       continue;
     }
     const other = interaction.personIds.find((id) => id !== personId);
-    if (other) add(other, "somebody you know");
+    if (other) add(other, "somebody you know", "acquaintance");
   }
   // A party chapter's organizer is somebody an adult can reach about party
   // work. A child was offered a meeting with one (Juneau playtest,
@@ -222,7 +236,11 @@ export function contactBases(
     !!person && ageOnDate(person.birthDate, world.currentDate) >= 18;
   for (const chapter of adult ? homePartyChapters(world) : []) {
     if (chapter.organizerPersonId) {
-      add(chapter.organizerPersonId, `public organizer of ${chapter.name}`);
+      add(
+        chapter.organizerPersonId,
+        `public organizer of ${chapter.name}`,
+        "party-organizer",
+      );
     }
   }
   return [...bases.entries()]
@@ -236,7 +254,10 @@ export function contactBases(
         personId: otherId,
         name: personName(world.people[otherId]!),
         basis: [...basis].sort(),
-        channels: contactChannels(world, personId, otherId, [...basis]),
+        ties: [...(tiesOf.get(otherId) ?? [])].sort(),
+        channels: contactChannels(world, personId, otherId, [
+          ...(tiesOf.get(otherId) ?? []),
+        ]),
         lastContactOn: continuity.lastMeaningfulContactAt,
         gap: continuity.continuity,
       };
@@ -248,18 +269,14 @@ function contactChannels(
   world: World,
   personId: EntityId,
   otherId: EntityId,
-  basis: readonly string[],
+  ties: readonly ContactTie[],
 ): readonly ContactChannel[] {
   const open = openProposal(world, personId, otherId);
   const waiting = open
     ? "You have already asked, and they have not answered yet."
     : null;
-  const publicChapter = basis.some((entry) =>
-    entry.startsWith("public organizer of "),
-  );
-  const personalBasis = basis.some(
-    (entry) => !entry.startsWith("public organizer of "),
-  );
+  const publicChapter = ties.includes("party-organizer");
+  const personalBasis = ties.some((tie) => tie !== "party-organizer");
   const channels: ContactChannel[] = personalBasis
     ? [{ kind: "call", label: "By phone", note: waiting }]
     : [];
@@ -270,15 +287,15 @@ function contactChannels(
       note: waiting,
     });
   }
-  if (basis.includes("shares your home")) {
+  if (ties.includes("household")) {
     channels.push({ kind: "in-person", label: "At home", note: null });
   }
-  if (basis.includes("works where you work")) {
+  if (ties.includes("work")) {
     channels.push({ kind: "through-work", label: "At work", note: waiting });
   }
   // A member of the organizer's own chapter reaches them through it once.
   if (
-    basis.includes("in the same group as you") &&
+    ties.includes("group") &&
     !channels.some((channel) => channel.kind === "through-group")
   ) {
     channels.push({
@@ -994,6 +1011,14 @@ export function lapseStaleProposals(world: World): World {
  * two contact proposals in 56 days). Each person's own decision and the
  * per-pair spacing below already keep one friend from being the only one who
  * rings, so this only keeps two calls from landing in the same week.
+ *
+ * SOURCE (ESTIMATED FROM AVERAGE): Pew Research Center, "Keeping in touch
+ * across generations" (2015): 46% of parents with a grown child living away
+ * are in touch daily and 39% weekly, and 28% of adults with a living
+ * grandparent are in touch weekly or daily (36% more monthly). Contact with
+ * close family is a weekly matter for most adults, so a week between one
+ * relative's call and the next, across all of a life's relatives, is the
+ * floor; how often each one rings is their own decision.
  */
 const REACH_OUT_SPACING_DAYS = 7;
 /**
@@ -1166,8 +1191,8 @@ export function produceReachingOut(
     // day, and anybody else with no contact on record has no basis yet.
     const keptUpWithByKin =
       basis.lastContactOn === null &&
-      basis.basis.includes("family") &&
-      !basis.basis.includes("shares your home");
+      basis.ties.includes("kin") &&
+      !basis.ties.includes("household");
     if (!basis.lastContactOn && !keptUpWithByKin) continue;
     // They ring on a day off, not at work (see the placeholder above).
     if (workingToday(world, basis.personId)) continue;

@@ -149,7 +149,7 @@ export function projectContacts(
       channels: basis.channels,
       actions: [
         childAskingAnAdult(world, personId, basis.personId, {
-          family: basis.basis.includes("family"),
+          family: basis.ties.includes("kin"),
           livesWithYou,
         })
           ? {
