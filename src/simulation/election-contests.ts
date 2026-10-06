@@ -231,8 +231,18 @@ export function countRecordedVoterBallots(
   return evaluateRecordedVoterBallots(world, input, false).outcome;
 }
 
-type RecordedVoterCount = {
+/** Retain actual ballots for stage adapters, including tied counts. */
+export function recordElectionBallots(
+  world: World,
+  input: RecordedVoterCountInput,
+): RecordedVoterCount {
+  return evaluateRecordedVoterBallots(world, input, true);
+}
+
+export type RecordedVoterCount = {
   readonly world: World;
+  /** Null means the count could not admit its electorate or build valid contexts. */
+  readonly tallies: readonly CandidateTally[] | null;
   readonly outcome: {
     readonly winnerPersonId: EntityId;
     readonly tallies: readonly CandidateTally[];
@@ -245,8 +255,12 @@ function evaluateRecordedVoterBallots(
   retain: boolean,
 ): RecordedVoterCount {
   if (input.electionDate > initialWorld.currentDate)
-    return { world: initialWorld, outcome: null };
-  let result: RecordedVoterCount = { world: initialWorld, outcome: null };
+    return { world: initialWorld, tallies: null, outcome: null };
+  let result: RecordedVoterCount = {
+    world: initialWorld,
+    tallies: null,
+    outcome: null,
+  };
   const world = writeWithWorldIntegrityOnce(initialWorld, () =>
     withHistoryAppendTransaction(initialWorld, ["decisionTraces"], (world) => {
       // A read-only count uses a disposable immutable branch so its donor
@@ -255,7 +269,11 @@ function evaluateRecordedVoterBallots(
       return result.world;
     }),
   );
-  return { world: retain ? world : initialWorld, outcome: result.outcome };
+  return {
+    world: retain ? world : initialWorld,
+    tallies: result.tallies,
+    outcome: result.outcome,
+  };
 }
 
 function countVoterBallots(
@@ -266,6 +284,7 @@ function countVoterBallots(
   const initialWorld = world;
   const unavailable = (): RecordedVoterCount => ({
     world: initialWorld,
+    tallies: null,
     outcome: null,
   });
   const candidates = new Set<string>(input.candidatePersonIds);
@@ -439,18 +458,21 @@ function countVoterBallots(
     }
   }
   const total = [...votes.values()].reduce((sum, value) => sum + value, 0);
-  if (total === 0) return { world, outcome: null };
   const tallies = input.candidatePersonIds
     .map((candidatePersonId) => ({
       candidatePersonId,
       votes: votes.get(candidatePersonId)!,
-      voteShare: votes.get(candidatePersonId)! / total,
+      voteShare: total === 0 ? 0 : votes.get(candidatePersonId)! / total,
     }))
     .sort((a, b) => b.votes - a.votes);
-  if (tallies.length > 1 && tallies[0]!.votes === tallies[1]!.votes)
-    return { world, outcome: null };
+  if (
+    total === 0 ||
+    (tallies.length > 1 && tallies[0]!.votes === tallies[1]!.votes)
+  )
+    return { world, tallies, outcome: null };
   return {
     world,
+    tallies,
     outcome: { winnerPersonId: tallies[0]!.candidatePersonId, tallies },
   };
 }

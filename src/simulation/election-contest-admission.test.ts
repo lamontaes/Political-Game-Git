@@ -4,6 +4,7 @@ import { createDemoWorld } from "./demo";
 import {
   electionContestResult,
   evaluateDeterministicContestOutcome,
+  recordElectionBallots,
   resolveElectionContest,
   scheduleElectionContest,
 } from "./election-contests";
@@ -11,6 +12,13 @@ import { isEligibleVoterIn } from "./issue-record";
 import { officialOpinionSubject } from "./political-opinion-subjects";
 import { createFormationContext, recordPrivateBelief } from "./politics";
 import { recordPersonDeath } from "./vitality";
+import {
+  generalCandidatesFromField,
+  holdNominationPrimary,
+  nominationPrimaryRecord,
+} from "./nominations/party-nominations";
+import { recordWorldEvent } from "./world";
+import type { HoldNominationInput } from "./nominations/party-nominations";
 import { districtIdentityCatalog } from "../districts/catalog";
 import { bindingFromIdentity } from "../districts/query";
 
@@ -72,6 +80,189 @@ function ballot() {
 }
 
 describe("shared contest ballot admission", () => {
+  it("does not promote an incumbent while its recorded primary remains pending", () => {
+    const { world, contest, candidates } = ballot();
+    const field = candidates.map((personId, index) => ({
+      personId,
+      party: "Fixture party",
+      incumbent: index === 1,
+    }));
+    expect(generalCandidatesFromField(world, "legacy-field", field)).toEqual(
+      field,
+    );
+    const recorded = recordWorldEvent(world, {
+      stableKey: "pending-field",
+      type: "fixture.candidate-field",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: contest.jurisdictionId,
+      involvedEntityIds: candidates,
+      participants: candidates.map((personId) => ({
+        personId,
+        role: "presence:candidate" as const,
+        detail: null,
+      })),
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [`primary-date:${world.currentDate}`],
+      summary: "Authored candidate field for pending nomination coverage.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    expect(
+      generalCandidatesFromField(recorded, "pending-field", field),
+    ).toEqual([]);
+  });
+
+  it("counts an all-party primary from recorded voters and refuses unknown party admission", () => {
+    const { world, contest, voters, candidates } = ballot();
+    const input: HoldNominationInput = {
+      stableKey: "admission-fixture:nomination",
+      seatKey: "fixture-seat",
+      title: "Fixture council seat",
+      jurisdictionId: contest.jurisdictionId,
+      involvedEntityIds: candidates,
+      entrants: candidates.map((personId, index) => ({
+        personId,
+        party: "Fixture party",
+        incumbent: index === 1,
+        partyBacked: index === 1,
+      })),
+      partyShare: () => 0.01,
+      plan: {
+        known: true,
+        stateUsps: "CA",
+        family: "state-legislature",
+        year: 2026,
+        method: "top-two",
+        primaryDate: world.currentDate,
+        dateBasis: "set-for-2026",
+        estimated: [],
+        runoff: null,
+        advance: 1,
+        filingDeadline: addDays(world.currentDate, -10),
+        filingBasis: "set-for-2026",
+      },
+      admitVoter: (id) => voters.includes(id),
+    };
+    const counted = holdNominationPrimary(world, input);
+    const primary = nominationPrimaryRecord(counted, input.stableKey)!;
+    expect(
+      primary.participants.find((row) => row.personId === candidates[0])
+        ?.detail,
+    ).toBe("Fixture party|1000|advanced");
+    expect(
+      primary.participants.find((row) => row.personId === candidates[1])
+        ?.detail,
+    ).toBe("Fixture party|0|lost");
+    expect(primary.tags).toContain("recorded-voter-ballots/v1");
+    expect(counted.history.decisionTraces.length).toBe(
+      world.history.decisionTraces.length + voters.length,
+    );
+    expect(holdNominationPrimary(counted, input)).toBe(counted);
+    expect(
+      holdNominationPrimary(world, { ...input, admitVoter: undefined }),
+    ).toBe(world);
+    expect(
+      holdNominationPrimary(world, {
+        ...input,
+        admitVoter: undefined,
+        plan: { ...input.plan, method: "party-primary" },
+      }),
+    ).toBe(world);
+    expect(
+      holdNominationPrimary(world, {
+        ...input,
+        plan: { ...input.plan, method: "party-primary" },
+        entrants: world.personOrder.slice(0, 4).map((personId, index) => ({
+          personId,
+          party: index < 2 ? "First party" : "Second party",
+          incumbent: false,
+          partyBacked: false,
+        })),
+        admitVoter: (id) => voters.includes(id),
+      }),
+    ).toBe(world);
+  });
+
+  it("retains tied actual counts without choosing a winner", () => {
+    const { world, contest, voters, candidates } = ballot();
+    let tied = world;
+    tied = recordPrivateBelief(tied, {
+      stableKey: "admission-fixture:second-voter-prefers-second",
+      personId: voters[1]!,
+      propositionId: null,
+      subject: officialOpinionSubject(candidates[1]!),
+      formedAt: world.currentDate,
+      position: "support",
+      conviction: "strong",
+      salience: "central",
+      flexibility: "firm",
+      rationale: "Authored equal-count fixture.",
+      formation: createFormationContext("reflection:fixture", {
+        note: "Second voter prefers the second candidate.",
+      }),
+      supersedesBeliefId: tied.history.privateBeliefs.find(
+        (belief) =>
+          belief.personId === voters[1] &&
+          belief.subject?.kind === "official" &&
+          belief.subject.personId === candidates[1],
+      )!.id,
+    });
+    tied = recordPrivateBelief(tied, {
+      stableKey: "admission-fixture:second-voter-opposes-first",
+      personId: voters[1]!,
+      propositionId: null,
+      subject: officialOpinionSubject(candidates[0]!),
+      formedAt: world.currentDate,
+      position: "oppose",
+      conviction: "strong",
+      salience: "central",
+      flexibility: "firm",
+      rationale: "Authored equal-count fixture.",
+      formation: createFormationContext("reflection:fixture", {
+        note: "Second voter opposes the first candidate.",
+      }),
+      supersedesBeliefId: tied.history.privateBeliefs.find(
+        (belief) =>
+          belief.personId === voters[1] &&
+          belief.subject?.kind === "official" &&
+          belief.subject.personId === candidates[0],
+      )!.id,
+    });
+    const input = {
+      stableKey: "admission-fixture:primary-count",
+      jurisdictionId: contest.jurisdictionId,
+      electionDate: contest.electionDate,
+      candidatePersonIds: candidates,
+      admitVoter: (id: (typeof voters)[number]) =>
+        voters.slice(0, 2).includes(id),
+    };
+    const counted = recordElectionBallots(tied, input);
+    expect(counted.outcome).toBeNull();
+    expect(counted.tallies?.map((row) => row.votes)).toEqual([1, 1]);
+    expect(counted.world.history.decisionTraces.length).toBe(
+      tied.history.decisionTraces.length + 2,
+    );
+    const replayed = recordElectionBallots(counted.world, input);
+    expect(replayed.tallies).toEqual(counted.tallies);
+    expect(replayed.world.history.decisionTraces).toEqual(
+      counted.world.history.decisionTraces,
+    );
+    const future = recordElectionBallots(tied, {
+      ...input,
+      electionDate: addDays(tied.currentDate, 1),
+    });
+    expect(future.world).toBe(tied);
+    expect(future.tallies).toBeNull();
+  });
+
   it("does not count statewide residence as unrecorded district membership", () => {
     const { world, contest } = ballot();
     const district = districtIdentityCatalog().find(

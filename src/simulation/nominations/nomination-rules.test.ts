@@ -9,6 +9,8 @@ import { makeIsoDate } from "../dates";
 import { createStableId } from "../ids";
 import { stateJurisdictionForKey } from "../life-places";
 import { createLightweightPerson } from "../people";
+import { officialOpinionSubject } from "../political-opinion-subjects";
+import { createFormationContext, recordPrivateBelief } from "../politics";
 import { STATES } from "../state-reference";
 import { drawRandomPlace } from "../../../tests/support/random-place";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
@@ -357,27 +359,17 @@ describe("A114: a primary is decided by the entrants' records, not a draw", () =
       ? permille < plan.runoff.thresholdPercent * 10
       : permille <= plan.runoff.thresholdPercent * 10);
 
-  // The same four people every time; only the world's seed, the input the
-  // old campaign draw read, differs between runs. A person's id comes from
-  // the world id and their index, not from where they live.
-  const worldId = createWorldId("a114-entrants");
+  // Keep one stable fixture world; different nomination context keys count
+  // the same recorded electorate without changing the world's identity.
   const person = (index: number, homeJurisdictionId: EntityId) =>
     createLightweightPerson({
-      worldId,
+      worldId: createWorldId("a114-entrants"),
       worldSeed: "a114-entrants",
-      index,
+      index: index * 6,
+      profile: "stress",
       currentDate: makeIsoDate("2026-01-05"),
       homeJurisdictionId,
     });
-  const entrantsWorld = (usps: string) => {
-    const state = stateJurisdictionForKey(`US-${usps}`)!;
-    return createWorld({
-      seed: "a114-entrants",
-      currentDate: makeIsoDate("2026-12-31"),
-      people: [0, 1, 2, 3].map((index) => person(index, state.id)),
-      jurisdictions: [state],
-    });
-  };
   const [first, second, third, fourth] = [0, 1, 2, 3].map(
     (index) => person(index, stateJurisdictionForKey("US-DC")!.id).id,
   ) as [EntityId, EntityId, EntityId, EntityId];
@@ -398,15 +390,64 @@ describe("A114: a primary is decided by the entrants' records, not a draw", () =
     plan: KnownPlan,
     seed: string,
     entrants: readonly NominationEntrant[],
+    ballots: readonly number[],
   ) {
-    const base = entrantsWorld(usps);
-    const world: World = { ...base, seed };
+    const state = stateJurisdictionForKey(`US-${usps}`)!;
+    const voterParty = new Map<EntityId, string>();
+    const preferences: {
+      voter: EntityId;
+      preferred: EntityId;
+      party: string;
+    }[] = [];
+    let index = 4;
+    for (const [at, candidate] of entrants.entries())
+      for (let vote = 0; vote < ballots[at]!; vote += 1) {
+        const voter = person(index++, state.id).id;
+        voterParty.set(voter, candidate.party);
+        preferences.push({
+          voter,
+          preferred: candidate.personId,
+          party: candidate.party,
+        });
+      }
+    let world: World = createWorld({
+      seed: "a114-entrants",
+      currentDate: makeIsoDate("2026-12-31"),
+      people: Array.from({ length: index }, (_, at) => person(at, state.id)),
+      jurisdictions: [state],
+    });
+    for (const preference of preferences)
+      for (const candidate of entrants.filter(
+        (row) => row.party === preference.party,
+      ))
+        world = recordPrivateBelief(world, {
+          stableKey: `fixture:${preference.voter}:${candidate.personId}`,
+          personId: preference.voter,
+          propositionId: null,
+          subject: officialOpinionSubject(candidate.personId),
+          formedAt: makeIsoDate("2026-01-05"),
+          position: "support",
+          conviction: "strong",
+          salience:
+            candidate.personId === preference.preferred
+              ? "central"
+              : candidate.personId === second
+                ? "high"
+                : "moderate",
+          flexibility: "firm",
+          rationale: "Authored fixture voter preference.",
+          formation: createFormationContext("reflection:fixture", {
+            note: "Controlled actual ballots.",
+          }),
+          supersedesBeliefId: null,
+        });
     const input = {
-      stableKey: `a114:us-house-${usps}-01:2026`,
+      stableKey: `${seed}:us-house-${usps}-01:2026`,
       seatKey: `us-house-${usps}-01`,
       title: `${STATES[usps]!.name}'s 1st District`,
       jurisdictionId: stateJurisdictionForKey(`US-${usps}`)!.id,
       involvedEntityIds: [],
+      admitVoter: (id: EntityId, party: string) => voterParty.get(id) === party,
     };
     const held = holdNominationPrimary(world, {
       ...input,
@@ -446,22 +487,29 @@ describe("A114: a primary is decided by the entrants' records, not a draw", () =
   const where = (drawn: { usps: string; name: string; seed: string }) =>
     `${drawn.name}, ${drawn.usps}, place seed ${drawn.seed}`;
 
-  it(`nominates the same person with the same shares under two seeds (${where(outright)})`, () => {
+  it(`counts the same recorded electorate in two nomination contexts (${where(outright)})`, () => {
     const field = [
       entrant(first, "republican", "incumbent"),
       entrant(second, "republican", "self-starter"),
       entrant(third, "democratic", "recruit"),
       entrant(fourth, "democratic", "self-starter"),
     ];
-    const one = primary(outright.usps, outright.plan, "a114-first-seed", field);
+    const one = primary(
+      outright.usps,
+      outright.plan,
+      "a114-first-seed",
+      field,
+      [9, 6, 5, 4],
+    );
     const two = primary(
       outright.usps,
       outright.plan,
       "a114-second-seed",
       field,
+      [9, 6, 5, 4],
     );
-    // Shares are per 1,000 primary votes in each party: a sitting member 1.5
-    // to 1, a party recruit 1.25 to 1.
+    // Fifteen recorded Republican voters split nine to six; nine recorded
+    // Democratic voters split five to four. Standing supplies no votes.
     expect(results(one.record)).toEqual({
       [first]: "republican|600|nominated",
       [second]: "republican|400|lost",
@@ -474,7 +522,7 @@ describe("A114: a primary is decided by the entrants' records, not a draw", () =
     );
   });
 
-  it(`decides a runoff by each finalist's recorded share of the primary vote (${where(withRunoff)})`, () => {
+  it(`counts fresh runoff decisions instead of recycling primary shares (${where(withRunoff)})`, () => {
     const { world, record, stableKey } = primary(
       withRunoff.usps,
       withRunoff.plan,
@@ -484,6 +532,7 @@ describe("A114: a primary is decided by the entrants' records, not a draw", () =
         entrant(second, "republican", "recruit"),
         entrant(third, "republican", "self-starter"),
       ],
+      [6, 5, 4],
     );
     // Nobody reached the place's threshold, so the top two meet again.
     expect(results(record)).toEqual({
@@ -491,13 +540,14 @@ describe("A114: a primary is decided by the entrants' records, not a draw", () =
       [second]: "republican|333|runoff",
       [third]: "republican|267|lost",
     });
-    // 400 to 333 in the primary is 546 to 454 between the two.
+    // The four third-candidate voters prefer the second finalist, changing
+    // the runoff to six versus nine actual votes.
     expect(results(runoffOf(world, stableKey))).toEqual({
-      [first]: "republican|546|nominated",
-      [second]: "republican|454|lost",
+      [first]: "republican|400|lost",
+      [second]: "republican|600|nominated",
     });
     expect(nominationNominees(world, stableKey)).toEqual([
-      { personId: first, party: "republican" },
+      { personId: second, party: "republican" },
     ]);
   });
 
@@ -511,9 +561,10 @@ describe("A114: a primary is decided by the entrants' records, not a draw", () =
         entrant(second, "democratic", "self-starter"),
         entrant(third, "democratic", "self-starter"),
       ],
+      [0, 2, 2],
     );
     expect(results(record)).toEqual({
-      [first]: "republican|1000|unopposed",
+      [first]: "republican|0|unopposed",
       [second]: "democratic|500|tied",
       [third]: "democratic|500|tied",
     });
@@ -533,9 +584,10 @@ describe("A114: a primary is decided by the entrants' records, not a draw", () =
         entrant(second, "democratic", "self-starter"),
         entrant(third, "democratic", "self-starter"),
       ],
+      [0, 2, 2],
     );
     expect(results(record)).toEqual({
-      [first]: "republican|1000|unopposed",
+      [first]: "republican|0|unopposed",
       [second]: "democratic|500|runoff",
       [third]: "democratic|500|runoff",
     });

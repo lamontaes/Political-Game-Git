@@ -1,4 +1,6 @@
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
+import { recordElectionBallots } from "../election-contests";
+import { isEligibleVoterIn } from "../issue-record";
 import {
   ensurePeopleTraitCatalog,
   ensurePeopleTraits,
@@ -30,19 +32,16 @@ import type { NominationMethod, NominationPlan } from "./nomination-rules";
  *   outright; otherwise the top two go on.
  *
  * One public record per seat and stage (`election.party-nomination`, then
- * `election.nomination-runoff`) names every entrant with their share of the
- * vote and what became of them. Nothing else is stored: who is on the general
- * ballot is read back from those records.
+ * `election.nomination-runoff`) names every entrant with their share and status.
+ * Actual counts remain in ballot-votes tags and durable voter decision traces.
+ * Unopposed procedural nominations claim no votes. The general ballot is
+ * read back from these nomination records.
  *
- * PLACEHOLDER(build-24-step-1): how primary voters split. Until the
- * incumbent-standing reader (Careers step 3) supplies each candidate's
- * standing with the party's own voters, a candidate's pull is set by hand
- * from their recorded standing: a sitting member 1.5, someone the party asked
- * to run 1.25, anyone else 1. In an all-party primary the pull is also
- * multiplied by the party's share of the district's voters. These weights
- * are set by hand, not measured. Nothing is drawn: the same field gives the
- * same result in every world. A runoff is decided by each finalist's
- * recorded share of the primary vote.
+ * Contested ballots use the shared recorded-voter count. Party primaries
+ * require a caller's recorded legal stage electorate admission; public party
+ * affiliation and district party shares do not establish that admission.
+ * Missing admission leaves the stage pending. Runoffs count new dated voter
+ * decisions rather than converting primary shares into new votes.
  *
  * An exact tie at the place that decides who goes on is not broken here:
  * the tied entrants are recorded as tied and nobody takes that place, as the
@@ -52,13 +51,6 @@ import type { NominationMethod, NominationPlan } from "./nomination-rules";
 export const NOMINATION_VERSION = "party-nominations/v1";
 export const NOMINATION_EVENT = "election.party-nomination";
 export const NOMINATION_RUNOFF_EVENT = "election.nomination-runoff";
-
-export const NOMINATION_PULL = {
-  id: "ocd-primary-pull-placeholder/v2",
-  incumbent: 1.5,
-  partyBacked: 1.25,
-  other: 1,
-} as const;
 
 export interface NominationEntrant {
   readonly personId: EntityId;
@@ -85,6 +77,8 @@ type Status =
 interface Tally {
   readonly entrant: NominationEntrant;
   readonly permille: number;
+  readonly share: number;
+  readonly votes: number | null;
 }
 
 const primaryKey = (key: string) => `${key}:primary`;
@@ -105,50 +99,55 @@ function eventByKey(world: World, stableKey: string): HistoricalEvent | null {
   let index = EVENTS_BY_KEY.get(events);
   if (!index) {
     index = new Map();
-    for (const event of events)
-      if (
-        event.type === NOMINATION_EVENT ||
-        event.type === NOMINATION_RUNOFF_EVENT
-      )
-        index.set(event.stableKey, event);
+    for (const event of events) index.set(event.stableKey, event);
     EVENTS_BY_KEY.set(events, index);
   }
   return index.get(stableKey) ?? null;
 }
 
-/** An entrant's pull with the voters, from their recorded standing. */
-function pullOf(
-  entrant: NominationEntrant,
-  partyShare: ((party: string) => number | null) | null,
-): number {
-  const base = entrant.incumbent
-    ? NOMINATION_PULL.incumbent
-    : entrant.partyBacked
-      ? NOMINATION_PULL.partyBacked
-      : NOMINATION_PULL.other;
-  const share = partyShare ? (partyShare(entrant.party) ?? 0.5) : 1;
-  return base * Math.max(share, 0.01);
-}
-
-function tally(
+function countStage(
+  world: World,
+  input: Pick<
+    HoldNominationInput,
+    "stableKey" | "jurisdictionId" | "admitVoter"
+  >,
   entrants: readonly NominationEntrant[],
-  pull: (entrant: NominationEntrant) => number,
-): readonly Tally[] {
-  const pulls = entrants.map((entrant) => ({
-    entrant,
-    pull: pull(entrant),
-  }));
-  const total = pulls.reduce((sum, row) => sum + row.pull, 0);
-  return pulls
-    .map((row) => ({
-      entrant: row.entrant,
-      permille: Math.round((row.pull / total) * 1000),
-    }))
-    .sort(
-      (a, b) =>
-        b.permille - a.permille ||
-        a.entrant.personId.localeCompare(b.entrant.personId),
-    );
+  party: string,
+  stage: "primary" | "runoff",
+  date: IsoDate,
+): { world: World; tallies: readonly Tally[] } | null {
+  if (entrants.length === 0 || date > world.currentDate) return null;
+  if (entrants.length === 1)
+    return {
+      world,
+      tallies: [{ entrant: entrants[0]!, permille: 0, share: 0, votes: null }],
+    };
+  // A state's jurisdiction alone cannot prove a numbered seat electorate.
+  if (!input.admitVoter) return null;
+  const counted = recordElectionBallots(world, {
+    stableKey: `${input.stableKey}:${stage}:${party}`,
+    jurisdictionId: input.jurisdictionId,
+    electionDate: date,
+    candidatePersonIds: entrants.map((entrant) => entrant.personId),
+    ...(input.admitVoter
+      ? {
+          admitVoter: (id: EntityId) =>
+            input.admitVoter!(id, party, stage, date),
+        }
+      : {}),
+  });
+  if (!counted.tallies || counted.tallies.every((row) => row.votes === 0))
+    return null;
+  const byId = new Map(entrants.map((entrant) => [entrant.personId, entrant]));
+  return {
+    world: counted.world,
+    tallies: counted.tallies.map((row) => ({
+      entrant: byId.get(row.candidatePersonId)!,
+      permille: Math.round(row.voteShare * 1000),
+      share: row.voteShare,
+      votes: row.votes,
+    })),
+  };
 }
 
 /**
@@ -159,17 +158,17 @@ function tally(
 function tiedAtLine(tallies: readonly Tally[], goOn: number): number | null {
   const last = tallies[goOn - 1];
   const next = tallies[goOn];
-  return last && next && last.permille === next.permille ? last.permille : null;
+  return last && next && last.share === next.share ? last.share : null;
 }
 
 function reachesThreshold(
-  permille: number,
+  share: number,
   runoff: NonNullable<Extract<NominationPlan, { known: true }>["runoff"]>,
 ): boolean {
-  const threshold = runoff.thresholdPercent * 10;
+  const threshold = runoff.thresholdPercent / 100;
   return runoff.outright === "at-least"
-    ? permille >= threshold
-    : permille > threshold;
+    ? share >= threshold
+    : share > threshold;
 }
 
 /**
@@ -258,7 +257,16 @@ export interface HoldNominationInput {
   readonly involvedEntityIds: readonly EntityId[];
   readonly plan: Extract<NominationPlan, { known: true }>;
   readonly entrants: readonly NominationEntrant[];
-  /** The party's share of the district's voters, for an all-party primary. */
+  /** Recorded legal seat/stage admission, including one-party ballot choice.
+   * Null is unread. Public party affiliation is not statutory registration.
+   */
+  readonly admitVoter?: (
+    personId: EntityId,
+    party: string,
+    stage: "primary" | "runoff",
+    date: IsoDate,
+  ) => boolean | null;
+  /** Legacy caller input; aggregate party shares never supply ballots. */
   readonly partyShare: (party: string) => number | null;
 }
 
@@ -274,6 +282,7 @@ export function holdNominationPrimary(
   const stableKey = primaryKey(input.stableKey);
   if (eventByKey(world, stableKey)) return world;
   const { plan } = input;
+  if (plan.primaryDate > world.currentDate) return world;
   let next = world;
   const rows: { tally: Tally; status: Status; party: string }[] = [];
   const runoffParties: string[] = [];
@@ -285,15 +294,53 @@ export function holdNominationPrimary(
           party,
           entrants: input.entrants.filter((entrant) => entrant.party === party),
         }));
+  if (
+    !isAllParty(plan.method) &&
+    groups.some((group) => group.entrants.length > 1)
+  ) {
+    if (!input.admitVoter) return world;
+    // A party primary cannot count the same person's ballot in two parties.
+    // Admission must be read for every party, including an unopposed party.
+    for (const personId of world.personOrder) {
+      if (
+        !isEligibleVoterIn(
+          world,
+          personId,
+          input.jurisdictionId,
+          plan.primaryDate,
+        )
+      )
+        continue;
+      let admittedParties = 0;
+      for (const group of groups) {
+        const admitted = input.admitVoter(
+          personId,
+          group.party,
+          "primary",
+          plan.primaryDate,
+        );
+        if (admitted === null) return world;
+        if (admitted && ++admittedParties > 1) return world;
+      }
+    }
+  }
   for (const group of groups) {
-    const tallies = tally(group.entrants, (entrant) =>
-      pullOf(entrant, isAllParty(plan.method) ? input.partyShare : null),
+    const counted = countStage(
+      next,
+      input,
+      group.entrants,
+      group.party,
+      "primary",
+      plan.primaryDate,
     );
+    if (!counted) return world;
+    next = counted.world;
+    const tallies = counted.tallies;
     if (isAllParty(plan.method)) {
       const majority =
         plan.method === "all-party-majority" &&
         tallies.length > 0 &&
-        tallies[0]!.permille > 500;
+        tallies[0]!.share > 0.5;
       const goOn = majority ? 1 : plan.advance;
       const tied = tiedAtLine(tallies, goOn);
       tallies.forEach((row, index) =>
@@ -303,7 +350,7 @@ export function holdNominationPrimary(
           status:
             tallies.length === 1
               ? "unopposed"
-              : tied !== null && row.permille === tied
+              : tied !== null && row.share === tied
                 ? "tied"
                 : index < goOn
                   ? majority
@@ -327,7 +374,7 @@ export function holdNominationPrimary(
     let needsRunoff =
       runoff !== null &&
       runoff.date !== null &&
-      !reachesThreshold(leader.permille, runoff) &&
+      !reachesThreshold(leader.share, runoff) &&
       (runoff.minimumCandidates === null ||
         tallies.length >= runoff.minimumCandidates);
     if (needsRunoff && runoff!.onRequest) {
@@ -347,7 +394,7 @@ export function holdNominationPrimary(
         tally: row,
         party: group.party,
         status:
-          tied !== null && row.permille === tied
+          tied !== null && row.share === tied
             ? "tied"
             : needsRunoff
               ? index < 2
@@ -357,7 +404,7 @@ export function holdNominationPrimary(
                 ? "nominated"
                 : runoff?.onRequest &&
                     index === 1 &&
-                    !reachesThreshold(leader.permille, runoff)
+                    !reachesThreshold(leader.share, runoff)
                   ? "conceded"
                   : "lost",
       }),
@@ -386,7 +433,12 @@ export function holdNominationPrimary(
     visibility: "public",
     tags: [
       NOMINATION_VERSION,
-      NOMINATION_PULL.id,
+      "recorded-voter-ballots/v1",
+      ...rows.flatMap((row) =>
+        row.tally.votes === null
+          ? []
+          : [`ballot-votes:${row.tally.entrant.personId}:${row.tally.votes}`],
+      ),
       `seat:${input.seatKey}`,
       `method:${plan.method}`,
       `date-basis:${plan.dateBasis}`,
@@ -443,21 +495,19 @@ export function holdNominationRunoff(
   const primary = eventByKey(world, primaryKey(input.stableKey));
   if (!primary || eventByKey(world, runoffKey(input.stableKey))) return world;
   const date = runoffDateOf(primary);
-  if (!date) return world;
+  if (!date || date > world.currentDate) return world;
   const parties = primary.tags
     .filter((tag) => tag.startsWith("runoff-party:"))
     .map((tag) => tag.slice("runoff-party:".length));
-  const rows: { personId: EntityId; detail: string }[] = [];
+  const rows: { personId: EntityId; detail: string; votes: number | null }[] =
+    [];
   let tiedParties: string[] = [];
+  let next = world;
   for (const party of parties) {
-    // Each finalist's recorded share of the primary vote is their standing
-    // with the party's voters in the runoff.
-    const primaryShare = new Map<EntityId, number>();
     const entrants: NominationEntrant[] = primary.participants.flatMap(
       (participant) => {
-        const [p, permille, status] = (participant.detail ?? "").split("|");
+        const [p, , status] = (participant.detail ?? "").split("|");
         if (p !== party || status !== "runoff") return [];
-        primaryShare.set(participant.personId, Number(permille));
         return [
           {
             personId: participant.personId,
@@ -476,16 +526,18 @@ export function holdNominationRunoff(
             death.personId === entrant.personId && death.diedAt <= date,
         ),
     );
-    const tallies = tally(living, (entrant) =>
-      Math.max(primaryShare.get(entrant.personId) ?? 0, 1),
-    );
+    const counted = countStage(next, input, living, party, "runoff", date);
+    if (!counted) return world;
+    next = counted.world;
+    const tallies = counted.tallies;
     const tied = tiedAtLine(tallies, 1);
     if (tied !== null) tiedParties = [...tiedParties, party];
     tallies.forEach((row, index) =>
       rows.push({
         personId: row.entrant.personId,
+        votes: row.votes,
         detail: `${party}|${row.permille}|${
-          tied !== null && row.permille === tied
+          tied !== null && row.share === tied
             ? "tied"
             : index === 0
               ? "nominated"
@@ -494,7 +546,7 @@ export function holdNominationRunoff(
       }),
     );
   }
-  return recordWorldEvent(world, {
+  return recordWorldEvent(next, {
     stableKey: runoffKey(input.stableKey),
     type: NOMINATION_RUNOFF_EVENT,
     occurredAt: date,
@@ -512,7 +564,10 @@ export function holdNominationRunoff(
     visibility: "public",
     tags: [
       NOMINATION_VERSION,
-      NOMINATION_PULL.id,
+      "recorded-voter-ballots/v1",
+      ...rows.flatMap((row) =>
+        row.votes === null ? [] : [`ballot-votes:${row.personId}:${row.votes}`],
+      ),
       `seat:${input.seatKey}`,
       `primary:${primary.id}`,
     ],
@@ -583,6 +638,7 @@ export interface FiledSeat {
   /** The plan under the law in force when the year's filing opened. */
   readonly plan: () => NominationPlan;
   readonly partyShare: (party: string) => number | null;
+  readonly admitVoter?: HoldNominationInput["admitVoter"];
   /** Whether this person was alive on a date. */
   readonly aliveOn: (personId: EntityId, date: IsoDate) => boolean;
 }
@@ -627,6 +683,7 @@ export function holdFiledNominations(
       title: seat.title,
       jurisdictionId: seat.jurisdictionId,
       involvedEntityIds: seat.involvedEntityIds,
+      ...(seat.admitVoter ? { admitVoter: seat.admitVoter } : {}),
     };
     if (primaryDue) {
       const plan = seat.plan();
@@ -670,8 +727,10 @@ function tagOf(event: HistoricalEvent, prefix: string): string | null {
 
 /**
  * The general-election candidates from a filed field: the nomination stage's
- * nominees, in the order they finished, once it has finished; otherwise one
- * per party, the sitting member first, then the party's recruit.
+ * nominees, in the order they finished, once it has finished. A field with
+ * a recorded primary remains pending until its nomination records exist.
+ * Legacy fields without a primary retain their entrants, without an
+ * incumbent or party-recruit selection masquerading as a primary result.
  */
 export function generalCandidatesFromField<
   T extends {
@@ -688,15 +747,7 @@ export function generalCandidatesFromField<
       return filed ? [filed] : [];
     });
   }
-  const byParty = new Map<string | null, T>();
-  for (const row of field) {
-    const held = byParty.get(row.party);
-    if (
-      !held ||
-      (row.incumbent && !held.incumbent) ||
-      (held.selfStarter && !row.selfStarter && !held.incumbent)
-    )
-      byParty.set(row.party, row);
-  }
-  return field.filter((row) => byParty.get(row.party) === row);
+  const filed = eventByKey(world, fieldStableKey);
+  if (filed && tagOf(filed, "primary-date:")) return [];
+  return field;
 }
