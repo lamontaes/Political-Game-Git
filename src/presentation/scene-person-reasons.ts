@@ -75,7 +75,11 @@ function sourceFor(
     : null;
 }
 
-/** No record-supported separation means no unsolicited scene, not list order. */
+/**
+ * No record-supported separation means no unsolicited scene, not list order.
+ * The option labels are trace identifiers for the saved decision record only;
+ * nothing here is worded for the player.
+ */
 export function chooseSceneFromRecordedReasons<T extends Candidate>(
   world: World,
   personId: EntityId,
@@ -148,12 +152,12 @@ export function chooseSceneFromRecordedReasons<T extends Candidate>(
       ...candidates.map((candidate) => ({
         key: keyOf(candidate),
         label: candidate.definition.key,
-        description: "Consider the scene's recorded circumstances.",
+        description: "trace:recorded-circumstances",
       })),
       {
         key: "leave-quiet",
-        label: "Leave the moment quiet",
-        description: "Do not introduce an unsolicited scene.",
+        label: "trace:no-recorded-separation",
+        description: "trace:no-scene",
       },
     ],
     constraints: [],
