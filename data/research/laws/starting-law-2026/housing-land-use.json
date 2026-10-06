@@ -1,0 +1,1723 @@
+{
+  "questions": {
+    "us-policy-positions:housing-land-use.rent-stabilization": {
+      "source": "NMHC and NAA rent-control preemption tracking (2022-2025), Virginia Housing Commission study (June 2026), state code sites and Justia for each statute; searched 2026-09-28.",
+      "note": "No with preempts false: no statewide limit, and cities may set their own. Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "answers": {
+        "US-AK": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Alaska Stat. ch. 34.03 (Uniform Residential Landlord and Tenant Act)",
+          "source": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=34.03.010&secEnd=34.03.380",
+          "note": "Alaska's landlord-tenant act sets no rent limit and has no bar on local rent control, and AS 34.03.310(a)(4) even protects tenants who complain to agencies enforcing governmental rent controls."
+        },
+        "US-AL": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ala. Code § 11-80-8.1",
+          "source": "https://law.justia.com/codes/alabama/title-11/title-3/chapter-80/section-11-80-8-1/"
+        },
+        "US-AR": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ark. Code § 14-16-601",
+          "source": "https://law.justia.com/codes/arkansas/2020/title-14/subtitle-2/chapter-16/subchapter-6/section-14-16-601/"
+        },
+        "US-AS": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 2 territories read for this question (2 answer no), because this place's own law could not be read.",
+          "note": "Tried: American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
+        },
+        "US-AZ": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "A.R.S. § 33-1329",
+          "source": "https://www.azleg.gov/ars/33/01329.htm",
+          "note": "Preemption dates from 1981 and covers charter cities."
+        },
+        "US-CA": {
+          "answer": "yes",
+          "operativeAt": "2020-01-01",
+          "preempts": false,
+          "cite": "Cal. Civ. Code § 1947.12 (AB 1482, Tenant Protection Act of 2019)",
+          "source": "https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=201920200AB1482",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+              "key": "new-construction-exemption-years",
+              "value": 15,
+              "unit": "years"
+            },
+            {
+              "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+              "key": "cap",
+              "value": 0.1,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+              "key": "cap-inflation-offset",
+              "value": 0.05,
+              "unit": "ratio"
+            }
+          ],
+          "note": "Caps increases at 5% plus local CPI or 10%, whichever is lower, on most units 15+ years old; exempts qualifying owner-noticed single-family homes and condos; sunsets 2030-01-01."
+        },
+        "US-CO": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "C.R.S. § 38-12-301",
+          "source": "https://law.justia.com/codes/colorado/title-38/tenants-and-landlords/article-12/part-3/section-38-12-301/",
+          "note": "HB23-1115, which would have repealed the preemption, passed the House in 2023 but did not become law."
+        },
+        "US-CT": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Conn. Gen. Stat. §§ 7-148b to 7-148f",
+          "source": "https://www.cga.ct.gov/current/pub/chap_098.htm",
+          "note": "Towns may, and towns of 25,000 or more must, create fair rent commissions that can cut an excessive rent or increase case by case, but there is no annual numeric cap."
+        },
+        "US-DC": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "D.C. Code § 42-3502.08 (Rental Housing Act of 1985)",
+          "source": "https://code.dccouncil.gov/us/dc/council/code/sections/42-3502.08",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+              "key": "cap",
+              "value": 0.1,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+              "key": "cap-inflation-offset",
+              "value": 0.02,
+              "unit": "ratio"
+            }
+          ],
+          "note": "District-wide rent stabilization covers most pre-1976 units: CPI-W plus 2%, capped at 10%, once per 12 months; lower cap for registered elderly or disabled tenants."
+        },
+        "US-DE": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "25 Del. C. ch. 51 et seq. (Residential Landlord-Tenant Code)",
+          "source": "https://delcode.delaware.gov/title25/c051/sc01/index.html",
+          "note": "Delaware's landlord-tenant code sets no general rent-increase limit and neither it nor the home-rule limits in 22 Del. C. § 835 bar local rent control; the rent-justification law covers only manufactured-home lot rents."
+        },
+        "US-FL": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Fla. Stat. §§ 125.0103, 166.043",
+          "source": "https://www.flsenate.gov/Laws/Statutes/2023/125.0103",
+          "note": "The 2023 Live Local Act removed the former housing-emergency exception effective 2023-07-01."
+        },
+        "US-GA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "O.C.G.A. § 44-7-19",
+          "source": "https://law.justia.com/codes/georgia/title-44/chapter-7/article-1/section-44-7-19/",
+          "note": "Enacted 1984."
+        },
+        "US-GU": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "21 GCA ch. 48 (Guam Landlord and Tenant Rental Act of 2018)",
+          "source": "https://col.guamcourts.gov/sites/default/files/21gc048_Q.pdf",
+          "note": "The Guam landlord-tenant act sets deposits, notices and remedies but contains no rent limit or rent-increase cap, so Guam has no rent stabilization."
+        },
+        "US-HI": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Haw. Rev. Stat. ch. 521 (Residential Landlord-Tenant Code)",
+          "source": "https://cca.hawaii.gov/wp-content/uploads/2026/02/2024-Landlord-Tenant-Handbook-Final.pdf",
+          "note": "The state consumer-protection handbook says there is no limit on the amount of a rent increase because there is no rent control in Hawaii, and no statute barring county rent control was found."
+        },
+        "US-IA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Iowa Code § 364.3",
+          "source": "https://law.justia.com/codes/iowa/title-ix/chapter-364/section-364-3/"
+        },
+        "US-ID": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Idaho Code § 55-307",
+          "source": "https://legislature.idaho.gov/statutesrules/idstat/title55/t55ch3/sect55-307/"
+        },
+        "US-IL": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "50 ILCS 825 (Rent Control Preemption Act)",
+          "source": "https://www.ilga.gov/legislation/ilcs/ilcs3.asp?ActID=748&ChapterID=11",
+          "note": "Enacted 1997; repeal bills (e.g., SB 1260, 2025) have not passed."
+        },
+        "US-IN": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ind. Code § 32-31-1-20",
+          "source": "https://law.justia.com/codes/indiana/title-32/article-31/chapter-1/section-32-31-1-20/"
+        },
+        "US-KS": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "K.S.A. § 12-16,120",
+          "source": "https://ksrevisor.gov/statutes/chapters/ch12/012_016_0120.html"
+        },
+        "US-KY": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "KRS § 65.875",
+          "source": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=23533",
+          "note": "Only the General Assembly may enact rent control on private property."
+        },
+        "US-LA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "La. R.S. § 9:3258",
+          "source": "https://law.justia.com/codes/louisiana/revised-statutes/title-9/rs-9-3258/",
+          "note": "Lessor rights may not be altered except by state law (Acts 1977, No. 655); it is an implied rather than rent-specific preemption."
+        },
+        "US-MA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Mass. G.L. c. 40P (Rent Control Prohibition Act, 1994 Question 9)",
+          "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVII/Chapter40P",
+          "note": "The Supreme Judicial Court removed a 2026 rent-control initiative from the ballot."
+        },
+        "US-MD": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Montgomery County rent stabilization law (county ordinance, 2023)",
+          "source": "https://www.montgomerycountymd.gov/department-housing-community-affairs/rent-stabilization",
+          "note": "Maryland has no statewide cap, and Montgomery County runs an Office of Rent Stabilization that limits increases on licensed rental units at least 23 years old."
+        },
+        "US-ME": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Portland, Me., rent control ordinance (November 2020 referendum)",
+          "source": "https://nextcity.org/urbanist-news/portland-maine-passed-rent-control-heres-how",
+          "note": "Maine has no statewide cap, and Portland voters adopted a local ordinance that limits annual rent increases."
+        },
+        "US-MI": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "MCL § 123.411",
+          "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-123-411",
+          "note": "1988 PA 226."
+        },
+        "US-MN": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Minn. Stat. § 471.9996",
+          "source": "https://www.revisor.mn.gov/statutes/cite/471.9996",
+          "note": "Local rent control is prohibited unless voters approve it at a general election, which St. Paul and Minneapolis have done, so cities may act only by referendum."
+        },
+        "US-MO": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "RSMo § 441.043",
+          "source": "https://revisor.mo.gov/main/OneSection.aspx?section=441.043",
+          "note": "Preemption was broadened in August 2025 to other landlord-tenant topics."
+        },
+        "US-MP": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "2 CMC ch. 40 (P.L. 10-67, residential landlord-tenant provisions)",
+          "source": "https://cnmilaw.gov/docs/cmc_section/T2/40201.pdf",
+          "note": "The Commonwealth Code has no rent limit or rent-increase cap and does not bar local rent rules, so the Northern Mariana Islands has no statewide rent stabilization."
+        },
+        "US-MS": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Miss. Code § 21-17-5(2)",
+          "source": "https://law.justia.com/codes/mississippi/title-21/chapter-17/section-21-17-5/",
+          "note": "Municipalities may not regulate residential rent without prior legislative approval."
+        },
+        "US-MT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Mont. Code Ann. § 7-1-111",
+          "source": "https://mca.legmt.gov/bills/mca/title_0070/chapter_0010/part_0010/section_0110/0070-0010-0010-0110.html",
+          "note": "Express denial of local rent-control power added in 2023 (sources name SB 105 or HB 463); opponents said it was already prohibited."
+        },
+        "US-NC": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "N.C.G.S. § 42-14.1",
+          "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_42/GS_42-14.1.html"
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "N.D.C.C. § 47-16-02.1",
+          "source": "https://ndlegis.gov/cencode/t47c16.html"
+        },
+        "US-NE": {
+          "answer": "no",
+          "operativeAt": "2025-09-03",
+          "preempts": true,
+          "cite": "LB 266 (2025)",
+          "source": "https://www.nebraskalegislature.gov/FloorDocs/109/PDF/Slip/LB266.pdf",
+          "note": "Signed 2025-04-07; takes effect three months after the 2025 session adjourned (operative date computed, not stated in results)."
+        },
+        "US-NH": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "N.H. RSA 31:39; RSA 47:17 (enumerated bylaw powers; no grant over rents); RSA 540, 540-A (no rent-limit provision)",
+          "source": "https://www.gencourt.state.nh.us/rsa/html/III/31/31-39.htm",
+          "note": "Weak: no statute bars local rent limits, but New Hampshire follows Dillon's Rule and no statute gives towns or cities power over rents."
+        },
+        "US-NJ": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "N.J.S.A. 2A:42-84.5 (30-year new-construction exemption); municipal police power (Helmsley v. Borough of Fort Lee, 78 N.J. 200 (1978))",
+          "source": "https://www.nj.gov/dca/codes/publications/pdf_lti/t_i_r.pdf",
+          "note": "The state Department of Community Affairs says New Jersey has no state law controlling rents and municipalities may pass rent control or rent leveling ordinances, with new construction exempt for 30 years."
+        },
+        "US-NM": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "NMSA § 47-8A-1",
+          "source": "https://law.justia.com/codes/new-mexico/chapter-47/article-8a/section-47-8a-1/",
+          "note": "A 2025 repeal bill (SB 216) failed."
+        },
+        "US-NV": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Nev. Rev. Stat. ch. 118A (NRS 118A.300 notice of rent increase)",
+          "source": "https://www.leg.state.nv.us/nrs/nrs-118a.html",
+          "note": "Nevada's landlord-tenant chapter requires only 60 days' notice of a rent increase and contains no bar on local rent control."
+        },
+        "US-NY": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Emergency Tenant Protection Act of 1974 (local opt-in)",
+          "source": "https://hcr.ny.gov/office-rent-administration-ora",
+          "note": "The state ETPA lets a municipality adopt rent stabilization after declaring a local housing emergency, so limits apply only in New York City and opt-in localities."
+        },
+        "US-OH": {
+          "answer": "no",
+          "operativeAt": "2022-09-23",
+          "preempts": true,
+          "cite": "Ohio Rev. Code § 5321.19 (HB 430)",
+          "source": "https://codes.ohio.gov/ohio-revised-code/section-5321.19",
+          "note": "HB 430 added an express preemption of local rent control and rent stabilization."
+        },
+        "US-OK": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "11 O.S. § 14-101.1",
+          "source": "https://law.justia.com/codes/oklahoma/title-11/section-11-14-101-1/",
+          "note": "Enacted 1988."
+        },
+        "US-OR": {
+          "answer": "yes",
+          "operativeAt": "2019-02-28",
+          "preempts": false,
+          "cite": "ORS 90.323 (SB 608, 2019; amended by SB 611, 2023)",
+          "source": "https://olis.oregonlegislature.gov/liz/2019R1/Downloads/MeasureDocument/SB608/Enrolled",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+              "key": "new-construction-exemption-years",
+              "value": 15,
+              "unit": "years"
+            },
+            {
+              "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+              "key": "cap",
+              "value": 0.1,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+              "key": "cap-inflation-offset",
+              "value": 0.07,
+              "unit": "ratio"
+            }
+          ],
+          "note": "Cap is 7% plus CPI; SB 611 (effective 2023-07-06) added a 10% ceiling; units under 15 years old are exempt; ORS 91.225 still preempts local rent control.",
+          "constructionSource": "https://olis.oregonlegislature.gov/liz/2023R1/Downloads/MeasureDocument/SB611/Enrolled",
+          "constructionQuote": "The first certificate of occupancy for the dwelling unit was issued less than 15 years from the date of the notice of the rent increase.",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "preempts": false,
+              "cite": "ORS 90.323 and 90.324; Oregon Office of Economic Analysis 2026 maximum annual rent increase",
+              "source": "https://www.oregon.gov/das/oea/pages/rent-stabilization.aspx",
+              "sourceQuote": "The allowable rent increase percentage for the previous year, 2026, was 9.5%.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "new-construction-exemption-years",
+                  "value": 15,
+                  "unit": "years"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap",
+                  "value": 0.095,
+                  "unit": "ratio"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap-inflation-offset",
+                  "value": 0.07,
+                  "unit": "ratio"
+                }
+              ],
+              "note": "The annual cap replaces the ceiling scalar for this calendar year. The 15-year construction exemption remains. ORS 90.323(5)(b) also exempts specified regulated-affordable rent changes; recorded tenancy regimes do not establish every exemption fact."
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "preempts": false,
+              "cite": "ORS 90.323 and 90.324; Oregon Office of Economic Analysis 2027 maximum annual rent increase",
+              "source": "https://www.oregon.gov/das/oea/pages/rent-stabilization.aspx",
+              "sourceQuote": "For 2027, the maximum allowable rent increase percentage for tenancies subject to ORS 90.324(b) is 10%.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "new-construction-exemption-years",
+                  "value": 15,
+                  "unit": "years"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap",
+                  "value": 0.1,
+                  "unit": "ratio"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap-inflation-offset",
+                  "value": 0.07,
+                  "unit": "ratio"
+                }
+              ],
+              "note": "The annual cap replaces the ceiling scalar for this calendar year. The 15-year construction exemption remains. ORS 90.323(5)(b) also exempts specified regulated-affordable rent changes; recorded tenancy regimes do not establish every exemption fact."
+            }
+          ]
+        },
+        "US-PA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "53 Pa.C.S. § 2962(f); no rent-specific statute",
+          "source": "https://www.palegis.us/statutes/consolidated/view-statute?txtType=PDF&ttl=53&div=0&chapter=29&section=62&subsctn=0",
+          "note": "Weak: no statute bans rent control, but the home-rule law and Dillon's Rule keep cities from capping rents."
+        },
+        "US-PR": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 2 territories read for this question (2 answer no), because this place's own law could not be read.",
+          "note": "Tried: P.R. Laws Ann. tit. 17 rent-regulation statute (Ley de Alquileres Razonables, Ley 464 of 1946) not located: LexJuris yearly law menus 1990-2026 list no rent-control law or repeal (lexjuris.com/lexlex/Leyes<year>/lexl<year>Menu.htm); Ley 132-2011 (repeal of Ley 142-1968) is a building-maintenance law, not rent control; bvirtualogp.pr.gov PDFs 404; the pre-1990 statute text could not be reached."
+        },
+        "US-RI": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "R.I. Gen. Laws § 34-18-16.1",
+          "source": "https://webserver.rilegislature.gov/Statutes/TITLE34/34-18/34-18-16.1.htm",
+          "note": "Rhode Island requires only 60 days' notice of a rent increase (120 days for month-to-month tenants over 62) and has no statute barring local rent control."
+        },
+        "US-SC": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "S.C. Code § 27-39-60",
+          "source": "https://law.justia.com/codes/south-carolina/title-27/chapter-39/section-27-39-60/",
+          "note": "1985 Act No. 184."
+        },
+        "US-SD": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "SDCL § 6-1-13",
+          "source": "https://sdlegislature.gov/Statutes/6-1-13",
+          "note": "SL 1990, ch 51."
+        },
+        "US-TN": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Tenn. Code § 66-35-102",
+          "source": "https://law.justia.com/codes/tennessee/title-66/chapter-35/section-66-35-102/",
+          "note": "Enacted 1996; last amended effective 2024-07-01."
+        },
+        "US-TX": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Tex. Loc. Gov't Code § 214.902",
+          "source": "https://law.justia.com/codes/texas/local-government-code/title-7/subtitle-a/chapter-214/subchapter-z/section-214-902/",
+          "note": "Cities may impose rent control only in a disaster-declared housing emergency with the governor's approval."
+        },
+        "US-UT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Utah Code § 57-20-1",
+          "source": "https://le.utah.gov/xcode/Title57/Chapter20/57-20-S1.html?v=C57-20-S1_1800010118000101",
+          "note": "Local rent control requires express legislative approval."
+        },
+        "US-VA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Va. Code § 55.1-1200 et seq. (VRLTA supersession) with Dillon Rule",
+          "source": "https://vhc.virginia.gov/VHC%20Local%20Rent%20Regulation%20Authority%20Bill%20Study%20(14).pdf",
+          "note": "No rent-specific preemption statute; localities lack authority because the VRLTA supersedes local landlord-tenant ordinances, and 2026 bills HB 278/SB 355 to authorize local rent regulation were sent to study."
+        },
+        "US-VI": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 2 territories read for this question (2 answer no), because this place's own law could not be read.",
+          "note": "Tried: V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found)."
+        },
+        "US-VT": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "9 V.S.A. ch. 137 (Residential Rental Agreements)",
+          "source": "https://legislature.vermont.gov/statutes/chapter/09/137",
+          "note": "Vermont's rental chapter, current through the 2025 session, has no rent cap and no bar on local rent control, though a city would need a charter change approved by the legislature."
+        },
+        "US-WA": {
+          "answer": "yes",
+          "operativeAt": "2025-05-07",
+          "preempts": false,
+          "cite": "RCW 59.18 (HB 1217, 2025)",
+          "source": "https://www.commerce.wa.gov/housing-policy/hb1217-landlord-resource-center/",
+          "constructionSource": "https://app.leg.wa.gov/RCW/default.aspx?cite=59.18.710",
+          "constructionQuote": "A tenancy in a dwelling unit for which the first certificate of occupancy was issued 12 or less years before the date of the notice of the rent increase.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+              "key": "new-construction-exemption-years",
+              "value": 12,
+              "unit": "years"
+            },
+            {
+              "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+              "key": "cap",
+              "value": 0.1,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+              "key": "cap-inflation-offset",
+              "value": 0.07,
+              "unit": "ratio"
+            }
+          ],
+          "note": "Cap is the lesser of 7% plus CPI or 10% over 12 months (9.683% for 2026); RCW 59.18.710(1)(a): first certificate of occupancy issued 12 or less years before notice is exempt; expires 2040-07-01; RCW 35.21.830 still preempts local rent control.",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "preempts": false,
+              "cite": "RCW 59.18.700; Washington Department of Commerce 2026 maximum annual rent increase",
+              "source": "https://www.commerce.wa.gov/housing-policy/hb1217-landlord-resource-center/",
+              "sourceQuote": "Maximum annual rent increase percent through 12/31/2026: 9.683%",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "new-construction-exemption-years",
+                  "value": 12,
+                  "unit": "years"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap",
+                  "value": 0.09683,
+                  "unit": "ratio"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap-inflation-offset",
+                  "value": 0.07,
+                  "unit": "ratio"
+                }
+              ],
+              "note": "The announced calendar-year maximum replaces the statutory ceiling scalar. The sourced 12-year construction exemption remains; RCW 59.18.710 contains additional property and landlord exemptions not established by a tenancy regime alone."
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "preempts": false,
+              "cite": "RCW 59.18.700; Washington Department of Commerce 2027 maximum annual rent increase",
+              "source": "https://www.commerce.wa.gov/housing-policy/hb1217-landlord-resource-center/",
+              "sourceQuote": "Maximum annual rent increase percent through 12/31/2027: 10%",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "new-construction-exemption-years",
+                  "value": 12,
+                  "unit": "years"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap",
+                  "value": 0.1,
+                  "unit": "ratio"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap-inflation-offset",
+                  "value": 0.07,
+                  "unit": "ratio"
+                }
+              ],
+              "note": "The announced calendar-year maximum replaces the statutory ceiling scalar. The sourced 12-year construction exemption remains; RCW 59.18.710 contains additional property and landlord exemptions not established by a tenancy regime alone."
+            }
+          ]
+        },
+        "US-WI": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Wis. Stat. § 66.1015",
+          "source": "https://docs.legis.wisconsin.gov/statutes/statutes/66/X/1015"
+        },
+        "US-WV": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "W. Va. Code §§ 8-12-5, 8-1-5a(k)",
+          "source": "https://code.wvlegislature.gov/8-12-5/",
+          "note": "Cities hold only the powers the code lists, and the list in § 8-12-5 (read 9/28/2026) grants no power over rents; its item (43) is a general welfare clause. The home rule section adds that municipalities \"may not prohibit or effectively limit the rental of a property\" (§ 8-1-5a(k)). So a typical city may not set rent limits."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Wyo. Stat. §§ 1-21-1201 to -1211 (Residential Rental Property Act)",
+          "source": "https://wyoleg.gov/statutes/compress/title01.pdf",
+          "note": "No rent-control preemption appears in Wyoming's landlord-tenant, municipal (Title 15) or property (Title 34) statutes as compiled in May 2026, so the claim of a preemption statute is unsupported."
+        }
+      }
+    },
+    "us-policy-positions:housing-land-use.right-to-counsel-in-eviction": {
+      "source": "NCCRC 'Enacted Eviction Right to Counsel and Eviction Defense Programs' matrix (last modified August/September 2026; lists 5 statewide RTC laws: WA, MD, CT, MN, NE, plus Delaware as an eviction defense program), with state code pages for WA, MD, MN, NE, DE fetched 9/28/2026.",
+      "note": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "answers": {
+        "US-AK": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-AL": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-AR": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-AS": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://asbar.org/legal-resources/code-annotated/code-annotated-by-title-and-chapter/",
+          "note": "Weak: the American Samoa Code has no landlord-tenant or eviction chapter (the counsel chapter, 46.10, covers criminal cases), so no right to a lawyer in eviction exists and no law bars a local program."
+        },
+        "US-AZ": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-CA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-CO": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-CT": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "Conn. Gen. Stat. § 47a-75",
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Income-eligible tenants (at or below 80% of state median income) get a lawyer in eviction (summary process) and subsidy-termination proceedings through a Judicial Branch program launched January 2022 and phased in by the administering entity; the state code site (cga.ct.gov) failed TLS verification, so the NCCRC matrix is the source."
+        },
+        "US-DC": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights (D.C. is not listed among its right-to-counsel jurisdictions)."
+        },
+        "US-DE": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "25 Del. C. § 5602",
+          "source": "https://delcode.delaware.gov/title25/c056/index.html",
+          "note": "Tenants at or below 200% of the federal poverty level have a statutory right to legal representation, but a legal aid provider may decline a case it finds lacks merit, small pro se landlords are excluded, and § 5607 phases it in through June 30, 2028 subject to funding."
+        },
+        "US-FL": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-GA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-GU": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "21 GCA ch. 48",
+          "source": "https://col.guamcourts.gov/sites/default/files/21gc048_Q.pdf",
+          "note": "Guam's Landlord and Tenant Rental Act of 2018 gives a tenant no right to a free lawyer in an eviction case and does not bar a local program."
+        },
+        "US-HI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-IA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-ID": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-IL": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-IN": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-KS": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-KY": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-LA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-MA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-MD": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "Md. Code, Real Prop. § 8-901 et seq. (§ 8-902)",
+          "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=grp&section=8-902&enactments=false",
+          "note": "Tenants with household income at or below 50% of state median income have access to a lawyer in eviction and subsidy-termination proceedings, run by the Maryland Legal Services Corporation and phased in subject to funding (enacted 2021)."
+        },
+        "US-ME": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-MI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-MN": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "Minn. Stat. § 504B.268",
+          "source": "https://www.revisor.mn.gov/statutes/cite/504B.268",
+          "note": "Narrow reach: only public housing tenants facing a breach-of-lease eviction who cannot afford counsel get a court-appointed lawyer (enacted 2023 c 52); other tenants have no statewide right."
+        },
+        "US-MO": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-MP": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "2 CMC § 40206",
+          "source": "https://cnmilaw.gov/docs/cmc_section/T2/40206.pdf",
+          "note": "Commonwealth law gives a tenant facing summary eviction in Superior Court no right to a free lawyer and does not bar a local program."
+        },
+        "US-MS": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-MT": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-NC": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-NE": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "Neb. Rev. Stat. § 71-15,139(5)",
+          "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=71-15,139",
+          "note": "Very narrow reach: only public housing residents in a city of the metropolitan class (currently only Omaha) get a court-appointed lawyer, paid by the housing agency, in termination hearings and related evictions (Laws 2024, LB840); no right for other tenants."
+        },
+        "US-NH": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-NJ": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-NM": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-NV": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-NY": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-OH": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-OK": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-OR": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-PA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-PR": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: Puerto Rico is not on the National Coalition for a Civil Right to Counsel list of enacted eviction counsel laws (last modified September 2026), and nothing bars a local program."
+        },
+        "US-RI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-SC": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-SD": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-TN": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-TX": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-UT": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-VA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-VI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: the Virgin Islands is not on the National Coalition for a Civil Right to Counsel list of enacted eviction counsel laws (last modified September 2026), and nothing bars a local program."
+        },
+        "US-VT": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-WA": {
+          "answer": "yes",
+          "operativeAt": "2021-04-22",
+          "preempts": false,
+          "cite": "RCW 59.18.640",
+          "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=59.18.640",
+          "note": "Courts must appoint a lawyer for any indigent tenant (on public assistance or at or below 200% of the federal poverty level) in an unlawful detainer case, subject to state appropriations; the April 22, 2021 date is from the act's emergency clause in RCW 59.18.620 notes."
+        },
+        "US-WI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-WV": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+          "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+        }
+      }
+    },
+    "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones": {
+      "source": "State code pages fetched 9/28/2026: ORS 197A.420, Cal. Gov. Code 65852.21, RCW 36.70A.635, 30-A M.R.S. 4364-A, MCA 76-2-304, 24 V.S.A. 4412, A.R.S. 9-462.13; Montana Free Press (3/3/2025, 3/18/2026) on the SB 323 litigation; 'no' answers rest on each state's own zoning statute or section list (weak) because no complete current tracker fetched (Terner Center 2/2023 database is self-described as not comprehensive).",
+      "note": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "answers": {
+        "US-AK": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Alaska Stat. § 29.40.040",
+          "source": "https://www.pew.org/en/research-and-analysis/articles/2025/09/15/state-legislatures-make-bipartisan-breakthroughs-on-policies-that-promote-housing",
+          "note": "Weak: No state law requires cities to allow duplexes or more on single-family lots (Pew, 9/15/2025, lists no such law here); cities set their own zoning."
+        },
+        "US-AL": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Ala. Code § 11-52-70",
+          "source": "https://www.pew.org/en/research-and-analysis/articles/2025/09/15/state-legislatures-make-bipartisan-breakthroughs-on-policies-that-promote-housing",
+          "note": "Weak: No state law requires cities to allow duplexes or more on single-family lots (Pew, 9/15/2025, lists no such law here); cities set their own zoning."
+        },
+        "US-AR": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Ark. Code § 14-56-416 (2025 Ark. Act 313 is ADU only)",
+          "source": "https://www.pew.org/en/research-and-analysis/articles/2025/09/15/state-legislatures-make-bipartisan-breakthroughs-on-policies-that-promote-housing",
+          "note": "Weak: Arkansas Act 313 of 2025 requires accessory dwelling units on single-family lots only, and no state law requires duplexes or more; cities set their own zoning."
+        },
+        "US-AS": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "A.S.C.A. § 26.0314",
+          "source": "https://asbar.org/code-annotated/26-0314-single-dwelling-zones-r1/",
+          "note": "American Samoa's single dwelling (R1) zone permits only one-family dwellings and their accessory uses, so duplexes are not allowed by right there."
+        },
+        "US-AZ": {
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "preempts": true,
+          "cite": "Ariz. Rev. Stat. § 9-462.13 (HB 2721, 2024)",
+          "source": "https://www.azleg.gov/ars/9/00462-13.htm",
+          "note": "Cities of 75,000 or more must allow duplexes, triplexes, fourplexes and townhomes as a permitted use on all single-family lots within one mile of the central business district (and on 20% of new developments over 10 acres) by 1/1/2026; a city that misses the deadline must allow middle housing on all single-family lots."
+        },
+        "US-CA": {
+          "answer": "yes",
+          "operativeAt": "2022-01-01",
+          "preempts": true,
+          "cite": "Cal. Gov. Code § 65852.21 (SB 9, Stats. 2021, ch. 162)",
+          "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=65852.21",
+          "note": "Every city and county must approve up to two units on a single-family lot ministerially, without a hearing, in urbanized areas (with a companion lot-split rule allowing up to four units); the fetched text reflects a 2026 amendment (SB 1426) that did not change the 1/1/2026 answer."
+        },
+        "US-CO": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://leg.colorado.gov/bills/hb24-1313",
+          "note": "Weak: HB24-1313 sets transit-area zoning-capacity goals (average 40 units per acre) for transit-oriented communities and HB24-1152 covers accessory dwelling units only; neither requires duplexes on single-family lots."
+        },
+        "US-CT": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Conn. Gen. Stat. § 8-2 (2025 H.B. 8002)",
+          "source": "https://ctmirror.org/2025/11/17/ct-housing-bill-special-session-what-to-know/",
+          "note": "Connecticut H.B. 8002 (signed 11/26/2025) rewards towns that add housing near transit and downtowns but leaves residential zoning to each town, so no state law requires duplexes on single-family lots."
+        },
+        "US-DC": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://dcoz.dc.gov/",
+          "note": "There is no state layer: the District's own Zoning Commission writes its zoning regulations, so no higher law requires duplexes on single-family lots."
+        },
+        "US-DE": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "22 Del. C. § 301",
+          "source": "https://www.pew.org/en/research-and-analysis/articles/2025/09/15/state-legislatures-make-bipartisan-breakthroughs-on-policies-that-promote-housing",
+          "note": "Weak: No state law requires cities to allow duplexes or more on single-family lots (Pew, 9/15/2025, lists no such law here); cities set their own zoning."
+        },
+        "US-FL": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Fla. Stat. § 166.04151 (Live Local Act, 2023)",
+          "source": "https://www.pew.org/en/research-and-analysis/articles/2025/09/15/state-legislatures-make-bipartisan-breakthroughs-on-policies-that-promote-housing",
+          "note": "Weak: Florida law requires multifamily housing only in commercial, industrial and mixed-use zones (Live Local Act), and no state law requires duplexes on single-family lots."
+        },
+        "US-GA": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "O.C.G.A. § 36-66-1 et seq.",
+          "source": "https://www.pew.org/en/research-and-analysis/articles/2025/09/15/state-legislatures-make-bipartisan-breakthroughs-on-policies-that-promote-housing",
+          "note": "Weak: No state law requires cities to allow duplexes or more on single-family lots (Pew, 9/15/2025, lists no such law here); cities set their own zoning."
+        },
+        "US-GU": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "21 Guam Code § 61305 (\"R1\" One-Family Dwelling Zone)",
+          "source": "https://law.justia.com/codes/guam/title-21/division-2/chapter-61/",
+          "note": "Guam's zoning law permits only one-family dwellings (and accessory units) by right in the R1 zone, and duplexes there need conditional-use approval."
+        },
+        "US-HI": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Haw. Rev. Stat. § 46-4 (2025 H.B. 1409 is transit-area only)",
+          "source": "https://www.pew.org/en/research-and-analysis/articles/2025/09/15/state-legislatures-make-bipartisan-breakthroughs-on-policies-that-promote-housing",
+          "note": "Weak: Hawaii H.B. 1409 (2025) rewards counties that allow apartments near transit, but no state law requires duplexes or more on single-family lots."
+        },
+        "US-IA": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Iowa Code ch. 414",
+          "source": "https://www.legis.iowa.gov/docs/code/414.pdf",
+          "note": "Weak: The state's city zoning chapter contains no requirement that cities allow duplexes or more on single-family lots; cities set their own zoning."
+        },
+        "US-ID": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Idaho Code tit. 67, ch. 65",
+          "source": "https://legislature.idaho.gov/statutesrules/idstat/Title67/T67CH65/",
+          "note": "Weak: The state's Local Land Use Planning Act (section list) contains no requirement that cities allow duplexes or more on single-family lots; cities set their own zoning."
+        },
+        "US-IL": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "65 ILCS 5/11-13-1",
+          "source": "https://www.pew.org/en/research-and-analysis/articles/2025/09/15/state-legislatures-make-bipartisan-breakthroughs-on-policies-that-promote-housing",
+          "note": "Weak: No state law requires cities to allow duplexes or more on single-family lots (Pew, 9/15/2025, lists no such law here); cities set their own zoning."
+        },
+        "US-IN": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Ind. Code art. 36-7-4",
+          "source": "https://www.pew.org/en/research-and-analysis/articles/2025/09/15/state-legislatures-make-bipartisan-breakthroughs-on-policies-that-promote-housing",
+          "note": "Weak: No state law requires cities to allow duplexes or more on single-family lots (Pew, 9/15/2025, lists no such law here); cities set their own zoning."
+        },
+        "US-KS": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Kan. Stat. ch. 12, art. 7",
+          "source": "https://www.ksrevisor.gov/statutes/ksa_ch12.html",
+          "note": "Weak: The state's planning and zoning article (section list) contains no requirement that cities allow duplexes or more on single-family lots; cities set their own zoning."
+        },
+        "US-KY": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "KRS ch. 100",
+          "source": "https://www.pew.org/en/research-and-analysis/articles/2025/09/15/state-legislatures-make-bipartisan-breakthroughs-on-policies-that-promote-housing",
+          "note": "Weak: No state law requires cities to allow duplexes or more on single-family lots (Pew, 9/15/2025, lists no such law here); cities set their own zoning."
+        },
+        "US-LA": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "La. R.S. 33:4721",
+          "source": "https://www.pew.org/en/research-and-analysis/articles/2025/09/15/state-legislatures-make-bipartisan-breakthroughs-on-policies-that-promote-housing",
+          "note": "Weak: No state law requires cities to allow duplexes or more on single-family lots (Pew, 9/15/2025, lists no such law here); cities set their own zoning."
+        },
+        "US-MA": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Mass. Gen. Laws ch. 40A, §§ 3, 3A",
+          "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVII/Chapter40A/Section3A",
+          "note": "Weak: The MBTA Communities law requires one as-of-right multifamily district of reasonable size near transit and § 3 now allows accessory dwelling units by right, but no statute requires duplexes on every single-family lot."
+        },
+        "US-MD": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Md. Code, Land Use tit. 4 (2025 H.B. 1466 is ADU only)",
+          "source": "https://www.pew.org/en/research-and-analysis/articles/2025/09/15/state-legislatures-make-bipartisan-breakthroughs-on-policies-that-promote-housing",
+          "note": "Weak: Maryland H.B. 1466 (2025) requires every jurisdiction to permit accessory dwelling units, but no state law requires duplexes or more on single-family lots."
+        },
+        "US-ME": {
+          "answer": "yes",
+          "operativeAt": "2024-01-01",
+          "preempts": true,
+          "cite": "30-A M.R.S. § 4364-A (LD 2003, 2022; amended 2023 and 2025)",
+          "source": "https://legislature.maine.gov/statutes/30-A/title30-Asec4364-A-2.html",
+          "note": "Every municipality must allow up to two units on a vacant residential lot (four in designated growth areas with water and sewer) and up to two added units on a lot with an existing home; implementation date 1/1/2024, or 7/1/2024 where voters must approve ordinances; a 2025 amendment raised the per-lot allowances."
+        },
+        "US-MI": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Mich. Comp. Laws 125.3101 et seq. (Zoning Enabling Act, 2006 PA 110)",
+          "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-Act-110-of-2006",
+          "note": "Weak: The state's Zoning Enabling Act (section list) contains no requirement that cities allow duplexes or more on single-family lots; cities set their own zoning."
+        },
+        "US-MN": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Minn. Stat. § 462.357",
+          "source": "https://www.revisor.mn.gov/statutes/cite/462.357",
+          "note": "Weak: The municipal zoning statute has no duplex mandate; Minneapolis ended single-family-only zoning by its own ordinance."
+        },
+        "US-MO": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Mo. Rev. Stat. § 89.020",
+          "source": "https://www.pew.org/en/research-and-analysis/articles/2025/09/15/state-legislatures-make-bipartisan-breakthroughs-on-policies-that-promote-housing",
+          "note": "Weak: No state law requires cities to allow duplexes or more on single-family lots (Pew, 9/15/2025, lists no such law here); cities set their own zoning."
+        },
+        "US-MP": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (2 answer no), because this place's own law could not be read.",
+          "note": "Tried: Tried cnmilaw.gov 10 CMC § 3511 (Saipan Zoning Law, PDF at cnmilaw.gov/docs/cmc_section/T10/3511.pdf), which only enacts the 145-page Saipan Zoning Law by reference without its text, and cnmilaw.org (dynamic pages); could not read the residential-zone permitted-uses table."
+        },
+        "US-MS": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Miss. Code § 17-1-3",
+          "source": "https://www.pew.org/en/research-and-analysis/articles/2025/09/15/state-legislatures-make-bipartisan-breakthroughs-on-policies-that-promote-housing",
+          "note": "Weak: No state law requires cities to allow duplexes or more on single-family lots (Pew, 9/15/2025, lists no such law here); cities set their own zoning."
+        },
+        "US-MT": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Mont. Code Ann. § 76-2-304(3) (SB 323, 2023)",
+          "source": "https://archive.legmt.gov/bills/mca/title_0760/chapter_0020/part_0030/section_0040/0760-0020-0030-0040.html",
+          "note": "Cities of at least 5,000 residents must allow a duplex as a permitted use on any lot where a single-family home is permitted; a Gallatin County court challenge (filed 12/2023) ended with a 3/3/2025 district court ruling upholding SB 323 in its entirety, affirmed by the Montana Supreme Court on 3/17/2026."
+        },
+        "US-NC": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "N.C. Gen. Stat. ch. 160D, art. 7",
+          "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/ByArticle/Chapter_160D/Article_7.html",
+          "note": "Weak: The state's zoning article contains no requirement that cities allow duplexes or more on single-family lots; cities set their own zoning."
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "N.D. Cent. Code ch. 40-47",
+          "source": "https://ndlegis.gov/cencode/t40c47.pdf",
+          "note": "Weak: The state's municipal zoning chapter contains no requirement that cities allow duplexes or more on single-family lots; cities set their own zoning."
+        },
+        "US-NE": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Neb. Rev. Stat. ch. 19",
+          "source": "https://nebraskalegislature.gov/laws/browse-chapters.php?chapter=19",
+          "note": "Weak: Chapter 19 requires larger cities to adopt affordable housing action plans but contains no duplex-by-right mandate for single-family lots."
+        },
+        "US-NH": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "N.H. RSA ch. 674",
+          "source": "https://gc.nh.gov/rsa/html/NHTOC/NHTOC-LXIV-674.htm",
+          "note": "Weak: The zoning chapter requires workforce housing opportunities and allows attached and detached accessory dwelling units, and multifamily on commercially zoned land, but has no duplex-by-right mandate for single-family lots."
+        },
+        "US-NJ": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "N.J.S.A. 40:55D-62",
+          "source": "https://www.pew.org/en/research-and-analysis/articles/2025/09/15/state-legislatures-make-bipartisan-breakthroughs-on-policies-that-promote-housing",
+          "note": "Weak: No state law requires cities to allow duplexes or more on single-family lots (Pew, 9/15/2025, lists no such law here); cities set their own zoning."
+        },
+        "US-NM": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "N.M. Stat. § 3-21-1",
+          "source": "https://www.pew.org/en/research-and-analysis/articles/2025/09/15/state-legislatures-make-bipartisan-breakthroughs-on-policies-that-promote-housing",
+          "note": "Weak: No state law requires cities to allow duplexes or more on single-family lots (Pew, 9/15/2025, lists no such law here); cities set their own zoning."
+        },
+        "US-NV": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Nev. Rev. Stat. ch. 278",
+          "source": "https://www.leg.state.nv.us/NRS/NRS-278.html",
+          "note": "Weak: The state's planning and zoning chapter contains no requirement that cities allow duplexes or more on single-family lots; cities set their own zoning."
+        },
+        "US-NY": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "N.Y. Gen. City Law § 20(24)",
+          "source": "https://www.pew.org/en/research-and-analysis/articles/2025/09/15/state-legislatures-make-bipartisan-breakthroughs-on-policies-that-promote-housing",
+          "note": "Weak: No state law requires cities to allow duplexes or more on single-family lots (Pew, 9/15/2025, lists no such law here); cities set their own zoning."
+        },
+        "US-OH": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Ohio Rev. Code ch. 713",
+          "source": "https://codes.ohio.gov/ohio-revised-code/chapter-713",
+          "note": "Weak: The state's municipal planning and zoning chapter contains no requirement that cities allow duplexes or more on single-family lots; cities set their own zoning."
+        },
+        "US-OK": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "11 O.S. § 43-101",
+          "source": "https://www.pew.org/en/research-and-analysis/articles/2025/09/15/state-legislatures-make-bipartisan-breakthroughs-on-policies-that-promote-housing",
+          "note": "Weak: No state law requires cities to allow duplexes or more on single-family lots (Pew, 9/15/2025, lists no such law here); cities set their own zoning."
+        },
+        "US-OR": {
+          "answer": "yes",
+          "operativeAt": "2021-06-30",
+          "preempts": true,
+          "cite": "ORS 197A.420 (Or. Laws 2019, ch. 639, HB 2001)",
+          "source": "https://oregon.public.law/statutes/ors_197A.420",
+          "note": "Cities of 10,000 or more must allow a duplex on every lot where a detached house is allowed, and cities of 25,000 or more plus Portland-metro cities and counties must allow all middle housing (duplexes through fourplexes, townhouses, cottage clusters); medium cities complied by 6/30/2021, large cities by 6/30/2022."
+        },
+        "US-PA": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "53 P.S. § 10601 et seq.",
+          "source": "https://www.pew.org/en/research-and-analysis/articles/2025/09/15/state-legislatures-make-bipartisan-breakthroughs-on-policies-that-promote-housing",
+          "note": "Weak: No state law requires cities to allow duplexes or more on single-family lots (Pew, 9/15/2025, lists no such law here); cities set their own zoning."
+        },
+        "US-PR": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (2 answer no), because this place's own law could not be read.",
+          "note": "Tried: Tried the Junta de Planificación Reglamento Conjunto summary of zoning districts (jp.pr.gov, 404), bvirtualogp.pr.gov (404) and lexjuris.com (home page only); could not read the R-1 permitted-uses text."
+        },
+        "US-RI": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "R.I. Gen. Laws § 45-24-37",
+          "source": "https://webserver.rilegislature.gov/Statutes/TITLE45/45-24/45-24-37_45-24-37.htm",
+          "note": "Weak: The state permitted-uses section (version effective 1/1/2026) makes accessory dwelling units and attached single-family units permitted uses but does not require duplexes on single-family lots."
+        },
+        "US-SC": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "S.C. Code § 6-29-720",
+          "source": "https://www.pew.org/en/research-and-analysis/articles/2025/09/15/state-legislatures-make-bipartisan-breakthroughs-on-policies-that-promote-housing",
+          "note": "Weak: No state law requires cities to allow duplexes or more on single-family lots (Pew, 9/15/2025, lists no such law here); cities set their own zoning."
+        },
+        "US-SD": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "S.D. Codified Laws ch. 11-4",
+          "source": "https://sdlegislature.gov/api/Statutes/11-4.html",
+          "note": "Weak: The state's municipal zoning chapter (section list) contains no requirement that cities allow duplexes or more on single-family lots; cities set their own zoning."
+        },
+        "US-TN": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Tenn. Code § 13-7-201",
+          "source": "https://www.pew.org/en/research-and-analysis/articles/2025/09/15/state-legislatures-make-bipartisan-breakthroughs-on-policies-that-promote-housing",
+          "note": "Weak: No state law requires cities to allow duplexes or more on single-family lots (Pew, 9/15/2025, lists no such law here); cities set their own zoning."
+        },
+        "US-TX": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Tex. Loc. Gov't Code ch. 211 (2025 S.B. 15 and S.B. 840)",
+          "source": "https://www.pew.org/en/research-and-analysis/articles/2025/09/15/state-legislatures-make-bipartisan-breakthroughs-on-policies-that-promote-housing",
+          "note": "Weak: Texas S.B. 15 (2025) allows single-family homes on 3,000-square-foot lots in new subdivisions and S.B. 840 allows apartments in commercial zones, but neither requires duplexes on existing single-family lots."
+        },
+        "US-UT": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Utah Code § 10-9a-501 et seq. (2025 H.B. 37)",
+          "source": "https://le.utah.gov/Session/2025/bills/enrolled/HB0037.pdf",
+          "note": "Utah H.B. 37 (2025) only authorizes cities and counties to allow more density in exchange for affordability terms, and no state law requires duplexes or more on single-family lots."
+        },
+        "US-VA": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Va. Code tit. 15.2, ch. 22",
+          "source": "https://law.lis.virginia.gov/vacode/title15.2/chapter22/",
+          "note": "Weak: The state's planning and zoning chapter (section list) contains no requirement that cities allow duplexes or more on single-family lots; cities set their own zoning."
+        },
+        "US-VI": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "V.I. Code tit. 29, § 228 (table of permitted uses, R-1)",
+          "source": "https://law.justia.com/codes/virgin-islands/2019/title-29/chapter-3/subchapter-i/228/",
+          "note": "The territorial zoning table lets two-family dwellings be built as of right in the R-1 low-density residential zone beside single-family homes, and it has no single-family-only zone (read from the 2019 codification)."
+        },
+        "US-VT": {
+          "answer": "yes",
+          "operativeAt": "2023-07-01",
+          "preempts": true,
+          "cite": "24 V.S.A. § 4412(1) (Act 47 of 2023, the HOME Act)",
+          "source": "https://legislature.vermont.gov/statutes/section/24/117/04412",
+          "note": "Every municipality must allow a duplex in any district that allows year-round residential use, on the same lot size as a single-unit home, and in districts served by municipal water and sewer must allow up to four units (source history: 2023, No. 47, § 2, eff. July 1, 2023)."
+        },
+        "US-WA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "RCW 36.70A.635 (HB 1110, 2023)",
+          "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=36.70A.635",
+          "note": "Cities of 25,000 to 75,000 must allow at least two units per residential lot (four near major transit or with an affordable unit), and cities of 75,000 or more must allow four (six near transit or with affordable units); each city must comply at its next periodic comprehensive plan update, so a few smaller or later-cycle cities may not yet have been bound on 1/1/2026."
+        },
+        "US-WI": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Wis. Stat. § 62.23(7)",
+          "source": "https://www.pew.org/en/research-and-analysis/articles/2025/09/15/state-legislatures-make-bipartisan-breakthroughs-on-policies-that-promote-housing",
+          "note": "Weak: No state law requires cities to allow duplexes or more on single-family lots (Pew, 9/15/2025, lists no such law here); cities set their own zoning."
+        },
+        "US-WV": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "W. Va. Code ch. 8A, art. 7",
+          "source": "https://code.wvlegislature.gov/8A-7/",
+          "note": "Weak: The state's zoning article contains no requirement that cities allow duplexes or more on single-family lots; cities set their own zoning."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Wyo. Stat. tit. 15",
+          "source": "https://wyoleg.gov/statutes/compress/title15.pdf",
+          "note": "Weak: The state's cities and towns title contains no requirement that cities allow duplexes or more on single-family lots; cities set their own zoning."
+        }
+      }
+    },
+    "us-policy-positions:housing-land-use.inclusionary-requirement": {
+      "source": "State code pages fetched 9/28/2026 (Ariz., Tex., Wis., Kan., Mont., Idaho, Mo., Cal., Or., Fla., Mass., D.C., N.J. P.L.2008 c.46, Colo. HB21-1117); Grounded Solutions Network inclusionaryhousing.org legal-issues page (undated, pre-2021) as the weak absence tracker.",
+      "note": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "answers": {
+        "US-AK": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+        },
+        "US-AL": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+        },
+        "US-AR": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+        },
+        "US-AS": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "A.S.C.A. §§ 26.0301 to 26.0323",
+          "source": "https://asbar.org/code-annotated/26-0304-zoning-board-members-term-authority/",
+          "note": "The territorial zoning chapter divides the islands into zones under one Zoning Board and has no requirement for below-market homes in new developments."
+        },
+        "US-AZ": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ariz. Rev. Stat. § 9-461.16",
+          "source": "https://www.azleg.gov/ars/9/00461-16.htm",
+          "note": "Cities may not impose any requirement that sets the sale or lease price of a home or reserves it for a class of residents; voluntary incentives and density bonuses remain allowed."
+        },
+        "US-CA": {
+          "answer": "no",
+          "operativeAt": "2018-01-01",
+          "preempts": false,
+          "cite": "Cal. Gov. Code § 65850(g)",
+          "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=65850",
+          "note": "State law authorizes cities to require affordable rental units in new development (AB 1505); it requires affordable units statewide only in the coastal zone, where feasible (Gov. Code § 65590(d))."
+        },
+        "US-CO": {
+          "answer": "no",
+          "operativeAt": "2021-09-07",
+          "preempts": false,
+          "cite": "Colo. Rev. Stat. § 29-20-104 (as amended by HB21-1117)",
+          "source": "https://leg.colorado.gov/bills/hb21-1117",
+          "note": "HB21-1117 confirmed local authority to require new affordable units, exempting such rules from the rent-control ban if they offer alternatives to on-site units; before then rental inclusionary rules were preempted."
+        },
+        "US-CT": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+        },
+        "US-DC": {
+          "answer": "yes",
+          "operativeAt": "2007-03-14",
+          "preempts": false,
+          "cite": "D.C. Code § 6-1041.01 et seq.; 11-C DCMR ch. 10",
+          "source": "https://dcoz.dc.gov/sites/default/files/dc/sites/dcoz/publication/attachments/Subtitle%20C.pdf",
+          "note": "The District's own inclusionary zoning law and zoning regulations require affordable units in covered new residential developments across the District. ESTIMATED FROM AVERAGE: 0.09 = (0.10 + 0.08) / 2, the two residential floor-area minimums in 11-C DCMR 1003.1-1003.2. The game has no frame, height, bonus-density or floor-area facts; this is the equal-weight two-category average represented as a share of comparable-sized game homes, not an exact project compliance finding.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+              "key": "share",
+              "value": 0.09,
+              "unit": "ratio"
+            }
+          ]
+        },
+        "US-DE": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+        },
+        "US-FL": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Fla. Stat. § 166.04151; § 125.01055",
+          "source": "https://www.flsenate.gov/Laws/Statutes/2025/166.04151",
+          "note": "Cities may adopt inclusionary housing ordinances, but must provide incentives that fully offset the developer's cost of the affordable contribution (since ch. 2019-165)."
+        },
+        "US-GA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+        },
+        "US-GU": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "21 GCA § 612A03",
+          "source": "https://col.guamcourts.gov/sites/default/files/21gc061_Q.pdf",
+          "note": "Guam does not require below-market homes in new developments; its 2025 Affordable Housing Streamline Zoning Act only speeds zoning for projects that choose to include deed-restricted affordable units."
+        },
+        "US-HI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+        },
+        "US-IA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+        },
+        "US-ID": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Idaho Code § 55-306",
+          "source": "https://legislature.idaho.gov/statutesrules/idstat/title55/t55ch3/sect55-306/",
+          "note": "State law bars local rules that regulate rent on private residential property, which likely reaches rental set-asides, but no statute bars for-sale inclusionary requirements."
+        },
+        "US-IL": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+        },
+        "US-IN": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Secondary source only: the Grounded Solutions Network legal-issues page lists Indiana among states barring at least some form of mandatory inclusionary housing; the Indiana Code site is script-only and the statute text could not be fetched."
+        },
+        "US-KS": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Kan. Stat. Ann. § 12-16,120",
+          "source": "https://www.ksrevisor.org/statutes/chapters/ch12/012_016_0120.html",
+          "note": "Local governments may not control rent or purchase price of private residential property or require an owner to agree to such controls as a condition of a permit, plat or rezoning; voluntary agreements for incentives remain allowed (history: L. 2001, ch. 134; L. 2016, ch. 104)."
+        },
+        "US-KY": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+        },
+        "US-LA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+        },
+        "US-MA": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Mass. Gen. Laws ch. 40A, § 9",
+          "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVII/Chapter40A/Section9",
+          "note": "State zoning law lets towns condition special permits on affordable units; there is no statewide set-aside requirement (Chapter 40B is an override for developers, not a mandate)."
+        },
+        "US-MD": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+        },
+        "US-ME": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+        },
+        "US-MI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+        },
+        "US-MN": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+        },
+        "US-MO": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Mo. Rev. Stat. § 441.043",
+          "source": "https://revisor.mo.gov/main/OneSection.aspx?section=441.043",
+          "note": "Missouri bars local regulation of rent on private rental property, which may reach rental set-asides, but no statute addresses for-sale inclusionary requirements."
+        },
+        "US-MP": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "2 CMC § 7221 et seq.",
+          "source": "https://cnmilaw.gov/docs/cmc_section/T2/7221.pdf",
+          "note": "Weak: the Commonwealth zoning code creates a Zoning Board but requires no below-market homes in new developments, and islands keep their own zoning laws."
+        },
+        "US-MS": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+        },
+        "US-MT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Mont. Code Ann. § 76-2-302(6)-(7)",
+          "source": "https://leg.mt.gov/bills/mca/title_0760/chapter_0020/part_0030/section_0020/0760-0020-0030-0020.html",
+          "note": "Municipal zoning may not require a fee or a dedication or reservation of property to provide housing at specified income levels or sale prices (amended by 2021 Mont. Laws ch. 249); the text bars fees and dedications rather than naming on-site set-asides."
+        },
+        "US-NC": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+        },
+        "US-NE": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+        },
+        "US-NH": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+        },
+        "US-NJ": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "N.J. Stat. Ann. § 52:27D-329.9; Fair Housing Act, N.J. Stat. Ann. § 52:27D-301 et seq.",
+          "source": "https://pub.njleg.state.nj.us/bills/2008/PL08/46_.HTM",
+          "note": "Under the Mount Laurel doctrine and Fair Housing Act every town must plan for its fair share of affordable housing, typically through mandatory set-asides, and P.L.2008, c.46 requires a 20 percent set-aside in new developments in regional planning areas and state-funded projects. ESTIMATED FROM AVERAGE: 0.20 = (0.20 + 0.20) / 2, the two new-unit set-aside rules in P.L.2008 c.46 section 18(a)-(b), for regional-planning and state-financed projects. The game lacks these project-category facts and municipal exceptions; this source-category average supplies its existing covered private-home boundary, not a claim every New Jersey project is legally covered.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+              "key": "share",
+              "value": 0.2,
+              "unit": "ratio"
+            }
+          ]
+        },
+        "US-NM": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+        },
+        "US-NV": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+        },
+        "US-NY": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+        },
+        "US-OH": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+        },
+        "US-OK": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+        },
+        "US-OR": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Or. Rev. Stat. § 197A.465 (formerly § 197.309)",
+          "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors197A.html",
+          "note": "Cities and counties may require up to 20 percent affordable units in new multiunit buildings of 20 or more units with an in-lieu fee option (since 2016 SB 1533); the Metro regional government remains barred."
+        },
+        "US-PA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+        },
+        "US-PR": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Ley 107-2020, Art. 1.010(o) (21 L.P.R.A. § 7015(o))",
+          "source": "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/107-2020.pdf",
+          "note": "Weak: Puerto Rico law requires no below-market homes in new developments, and the Municipal Code lets municipalities contribute to planning and solving the problem of affordable housing, with no bar on their own rules."
+        },
+        "US-RI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+        },
+        "US-SC": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+        },
+        "US-SD": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+        },
+        "US-TN": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Secondary source only: the Grounded Solutions Network legal-issues page lists Tennessee among states barring at least some form of mandatory inclusionary housing; the statute text (reportedly Tenn. Code Ann. § 66-35-102) could not be fetched."
+        },
+        "US-TX": {
+          "answer": "no",
+          "operativeAt": "2005-09-01",
+          "preempts": true,
+          "cite": "Tex. Loc. Gov't Code § 214.905; § 250.008",
+          "source": "https://tcss.legis.texas.gov/resources/LG/htm/LG.214.htm",
+          "note": "Cities may not set a maximum sales price for privately produced housing (H.B. 2266, 2005), and § 250.008 (2017) bars linkage fees; voluntary incentive programs remain allowed."
+        },
+        "US-UT": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+        },
+        "US-VA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+        },
+        "US-VI": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 4 territories read for this question (4 answer no), because this place's own law could not be read.",
+          "note": "Tried: Virgin Islands Code copies tried: legvi.org/vicode (404), vicourts.org/publication_and_reports/resources/virgin_islands_code (redirects to advance.lexis.com, needs JavaScript), lexisnexis.com/hottopics/vicode (empty), law.justia.com/codes/virgin-islands (403 even through r.jina.ai), govt.westlaw.com/vicode (timeout), codes.findlaw.com/vi (404), vicode.elaws.us (timeout), lawserver.com (JavaScript redirect), casetext (gone), courtlistener search (throttled); also vivote.gov, bir.vi.gov, dlca.vi.gov, vihfa.gov and vipd.vi.gov, which do not carry it. vihfa.gov has no zoning or inclusionary rule."
+        },
+        "US-VT": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+        },
+        "US-WA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+        },
+        "US-WI": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Wis. Stat. § 66.1015(3)",
+          "source": "https://docs.legis.wisconsin.gov/statutes/statutes/66/x/1015",
+          "note": "No city, village, town or county may enact, impose or enforce an inclusionary zoning requirement (added by 2017 Wis. Act 243; rental inclusionary zoning was already preempted by the rent-control ban per a 2006 appellate ruling)."
+        },
+        "US-WV": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+          "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+        }
+      }
+    }
+  }
+}

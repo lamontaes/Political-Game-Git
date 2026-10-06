@@ -2,7 +2,7 @@ import { appendFileSync } from "node:fs";
 
 import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
-import data from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import data from "../../../data/research/laws/starting-law-2026/index";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../dates";
 import { createCharacterHistoryContextPerson } from "../character-history";

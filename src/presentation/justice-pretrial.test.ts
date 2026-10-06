@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import startingLaw from "../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../data/research/laws/starting-law-2026/index";
 import { searchLifePlaces } from "../simulation";
 import { OFFICE_EMPLOYMENT_KINDS } from "../simulation/governing/office-consequence";
 import { workStatusAt } from "../simulation/life-queries";

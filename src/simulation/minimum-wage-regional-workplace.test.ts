@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import lawData from "../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import lawData from "../../data/research/laws/starting-law-2026/index";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { drawRandomPlace } from "../../tests/support/random-place";
 import { makeIsoDate, simulationMomentOnLocalDate } from "./dates";

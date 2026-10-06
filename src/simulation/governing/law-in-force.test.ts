@@ -5,7 +5,7 @@ import { recordedSessionAdjournment } from "./session-adjournments";
 import { readFinalEnactedLawTerm } from "./final-law-term-query";
 import { describe, expect, it } from "vitest";
 
-import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../../data/research/laws/starting-law-2026/index";
 import { makeIsoDate } from "../dates";
 import { stateJurisdictionForKey } from "../life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";

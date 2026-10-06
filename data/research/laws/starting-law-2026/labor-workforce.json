@@ -1,0 +1,3099 @@
+{
+  "questions": {
+    "us-policy-positions:labor-workforce.right-to-work": {
+      "source": "National Right to Work Legal Defense Foundation and state guides (2026): 26 states; Michigan repealed its law effective Feb. 13, 2024.",
+      "note": "",
+      "answers": {
+        "US-AK": {
+          "answer": "no"
+        },
+        "US-AL": {
+          "answer": "yes"
+        },
+        "US-AR": {
+          "answer": "yes"
+        },
+        "US-AS": {
+          "answer": "yes",
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (2 answer yes), because this place's own law could not be read.",
+          "note": "Tried: American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
+        },
+        "US-AZ": {
+          "answer": "yes"
+        },
+        "US-CA": {
+          "answer": "no"
+        },
+        "US-CO": {
+          "answer": "no"
+        },
+        "US-CT": {
+          "answer": "no"
+        },
+        "US-DC": {
+          "answer": "no"
+        },
+        "US-DE": {
+          "answer": "no"
+        },
+        "US-FL": {
+          "answer": "yes"
+        },
+        "US-GA": {
+          "answer": "yes"
+        },
+        "US-GU": {
+          "answer": "yes"
+        },
+        "US-HI": {
+          "answer": "no"
+        },
+        "US-IA": {
+          "answer": "yes"
+        },
+        "US-ID": {
+          "answer": "yes"
+        },
+        "US-IL": {
+          "answer": "no"
+        },
+        "US-IN": {
+          "answer": "yes"
+        },
+        "US-KS": {
+          "answer": "yes"
+        },
+        "US-KY": {
+          "answer": "yes"
+        },
+        "US-LA": {
+          "answer": "yes"
+        },
+        "US-MA": {
+          "answer": "no"
+        },
+        "US-MD": {
+          "answer": "no"
+        },
+        "US-ME": {
+          "answer": "no"
+        },
+        "US-MI": {
+          "answer": "no",
+          "operativeAt": "2024-02-13",
+          "note": "Repealed its right-to-work law in 2024."
+        },
+        "US-MN": {
+          "answer": "no"
+        },
+        "US-MO": {
+          "answer": "no"
+        },
+        "US-MP": {
+          "answer": "yes",
+          "cite": "4 CMC §§ 9402, 9405 (P.L. 9-48)",
+          "source": "https://cnmilaw.gov/docs/cmc_section/T4/9405.pdf",
+          "note": "Commonwealth law makes it unlawful for an employer and a union to require union membership as a condition of employment."
+        },
+        "US-MS": {
+          "answer": "yes"
+        },
+        "US-MT": {
+          "answer": "no"
+        },
+        "US-NC": {
+          "answer": "yes"
+        },
+        "US-ND": {
+          "answer": "yes"
+        },
+        "US-NE": {
+          "answer": "yes"
+        },
+        "US-NH": {
+          "answer": "no"
+        },
+        "US-NJ": {
+          "answer": "no"
+        },
+        "US-NM": {
+          "answer": "no"
+        },
+        "US-NV": {
+          "answer": "yes"
+        },
+        "US-NY": {
+          "answer": "no"
+        },
+        "US-OH": {
+          "answer": "no"
+        },
+        "US-OK": {
+          "answer": "yes"
+        },
+        "US-OR": {
+          "answer": "no"
+        },
+        "US-PA": {
+          "answer": "no"
+        },
+        "US-PR": {
+          "answer": "no",
+          "cite": "P.R. Laws, Ley 130 de 1945 (Ley de Relaciones del Trabajo de Puerto Rico), art. 8 (29 L.P.R.A. § 69)",
+          "source": "http://www.lexjuris.com/trabajo/lex1945130.htm",
+          "note": "Puerto Rico law recognizes union-shop and maintenance-of-membership agreements that make union membership a condition of employment, so it has no right-to-work law."
+        },
+        "US-RI": {
+          "answer": "no"
+        },
+        "US-SC": {
+          "answer": "yes"
+        },
+        "US-SD": {
+          "answer": "yes"
+        },
+        "US-TN": {
+          "answer": "yes"
+        },
+        "US-TX": {
+          "answer": "yes"
+        },
+        "US-UT": {
+          "answer": "yes"
+        },
+        "US-VA": {
+          "answer": "yes"
+        },
+        "US-VI": {
+          "answer": "yes",
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (2 answer yes), because this place's own law could not be read.",
+          "note": "Tried: V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found)."
+        },
+        "US-VT": {
+          "answer": "no"
+        },
+        "US-WA": {
+          "answer": "no"
+        },
+        "US-WI": {
+          "answer": "yes"
+        },
+        "US-WV": {
+          "answer": "yes"
+        },
+        "US-WY": {
+          "answer": "yes"
+        }
+      }
+    },
+    "us-policy-positions:labor-workforce.paid-family-leave": {
+      "source": "State program guides (2026): Bipartisan Policy Center, Center for American Progress, The Standard.",
+      "note": "Operative dates are when benefits begin; Virginia's 2026 law is to confirm.",
+      "answers": {
+        "US-AK": {
+          "answer": "no"
+        },
+        "US-AL": {
+          "answer": "no"
+        },
+        "US-AR": {
+          "answer": "no"
+        },
+        "US-AS": {
+          "answer": "no",
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 51 places read for this question (36 answer no), because this place's own law was not read.",
+          "note": "Not read in the 9/29/2026 pass."
+        },
+        "US-AZ": {
+          "answer": "no"
+        },
+        "US-CA": {
+          "answer": "yes"
+        },
+        "US-CO": {
+          "answer": "yes"
+        },
+        "US-CT": {
+          "answer": "yes"
+        },
+        "US-DC": {
+          "answer": "yes"
+        },
+        "US-DE": {
+          "answer": "yes",
+          "operativeAt": "2026-01-01"
+        },
+        "US-FL": {
+          "answer": "no"
+        },
+        "US-GA": {
+          "answer": "no"
+        },
+        "US-GU": {
+          "answer": "no",
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 51 places read for this question (36 answer no), because this place's own law was not read.",
+          "note": "Not read in the 9/29/2026 pass."
+        },
+        "US-HI": {
+          "answer": "no"
+        },
+        "US-IA": {
+          "answer": "no"
+        },
+        "US-ID": {
+          "answer": "no"
+        },
+        "US-IL": {
+          "answer": "no"
+        },
+        "US-IN": {
+          "answer": "no"
+        },
+        "US-KS": {
+          "answer": "no"
+        },
+        "US-KY": {
+          "answer": "no"
+        },
+        "US-LA": {
+          "answer": "no"
+        },
+        "US-MA": {
+          "answer": "yes"
+        },
+        "US-MD": {
+          "answer": "yes",
+          "operativeAt": "2028-01-01",
+          "before": {
+            "answer": "no"
+          }
+        },
+        "US-ME": {
+          "answer": "yes",
+          "operativeAt": "2026-05-01",
+          "before": {
+            "answer": "no"
+          }
+        },
+        "US-MI": {
+          "answer": "no"
+        },
+        "US-MN": {
+          "answer": "yes",
+          "operativeAt": "2026-01-01"
+        },
+        "US-MO": {
+          "answer": "no"
+        },
+        "US-MP": {
+          "answer": "no",
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 51 places read for this question (36 answer no), because this place's own law was not read.",
+          "note": "Not read in the 9/29/2026 pass."
+        },
+        "US-MS": {
+          "answer": "no"
+        },
+        "US-MT": {
+          "answer": "no"
+        },
+        "US-NC": {
+          "answer": "no"
+        },
+        "US-ND": {
+          "answer": "no"
+        },
+        "US-NE": {
+          "answer": "no"
+        },
+        "US-NH": {
+          "answer": "no"
+        },
+        "US-NJ": {
+          "answer": "yes"
+        },
+        "US-NM": {
+          "answer": "no"
+        },
+        "US-NV": {
+          "answer": "no"
+        },
+        "US-NY": {
+          "answer": "yes"
+        },
+        "US-OH": {
+          "answer": "no"
+        },
+        "US-OK": {
+          "answer": "no"
+        },
+        "US-OR": {
+          "answer": "yes"
+        },
+        "US-PA": {
+          "answer": "no"
+        },
+        "US-PR": {
+          "answer": "no",
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 51 places read for this question (36 answer no), because this place's own law was not read.",
+          "note": "Not read in the 9/29/2026 pass."
+        },
+        "US-RI": {
+          "answer": "yes"
+        },
+        "US-SC": {
+          "answer": "no"
+        },
+        "US-SD": {
+          "answer": "no"
+        },
+        "US-TN": {
+          "answer": "no"
+        },
+        "US-TX": {
+          "answer": "no"
+        },
+        "US-UT": {
+          "answer": "no"
+        },
+        "US-VA": {
+          "answer": "yes",
+          "operativeAt": "2028-01-01",
+          "note": "Enacted April 22, 2026; the benefit start date is to confirm.",
+          "before": {
+            "answer": "no"
+          }
+        },
+        "US-VI": {
+          "answer": "no",
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 51 places read for this question (36 answer no), because this place's own law was not read.",
+          "note": "Not read in the 9/29/2026 pass."
+        },
+        "US-VT": {
+          "answer": "no"
+        },
+        "US-WA": {
+          "answer": "yes"
+        },
+        "US-WI": {
+          "answer": "no"
+        },
+        "US-WV": {
+          "answer": "no"
+        },
+        "US-WY": {
+          "answer": "no"
+        }
+      }
+    },
+    "us-policy-positions:labor-workforce.raise-minimum-wage": {
+      "source": "data/research/money/minimum-wage-dated-matrix-2026.json; dated official rows published c4e1a148049a654920a9811c8d2a25aec44c8c96. Numeric terms carry source effective dates, not the research as-of date.",
+      "note": "Standard category is the approved default. Lower or exceptional categories require actual saved facts and an authored canonical exception row. Regional and industry-only matrices without a bound standard remain unbound; their research tiers are preserved, not applied universally. No state statute is fabricated where federal law alone supplies the floor.",
+      "answers": {
+        "US-AK": {
+          "answer": "yes",
+          "operativeAt": "2025-07-01",
+          "source": "https://www.elections.alaska.gov/doc/oep/2024/Ballot%20Measure%201_Eng.pdf",
+          "quote": "The Act raises it to $13.00 per hour on July 1, 2025.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1300,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-07-01",
+              "source": "https://labor.alaska.gov/lss/whhome.htm",
+              "quote": "As of July 1, 2026, The Alaska minimum wage is increasing from $13.00 to $14.00 per hour.",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1400,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2027-07-01",
+              "source": "https://www.elections.alaska.gov/doc/oep/2024/Ballot%20Measure%201_Eng.pdf",
+              "quote": "The Act raises it to $15.00 per hour on July 1, 2027.",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1500,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AK"
+        },
+        "US-AL": {
+          "answer": "no",
+          "wageTermsStatus": "Federal authority supplies the numeric floor; no state statute or state numeric term.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AL",
+          "scopeEvidence": {
+            "kind": "federal-standard",
+            "rows": [
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AL/rows/0",
+                "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+                "operativeAt": "2009-07-24"
+              }
+            ]
+          }
+        },
+        "US-AR": {
+          "answer": "yes",
+          "operativeAt": "2021-01-01",
+          "source": "https://labor.arkansas.gov/labor/labor-standards/minimum-wage-and-overtime/",
+          "quote": "Effective January 1, 2021, the minimum wage in Arkansas is $11.00 per hour. The Arkansas Minimum Wage Act covers employers with 4 or more employees.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "four-or-more-employees",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1100,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AR"
+        },
+        "US-AS": {
+          "answer": "no",
+          "cite": "Pub. L. 110-28 § 8103, as amended by Pub. L. 114-61; 29 U.S.C. § 206 note",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/retail",
+          "note": "American Samoa has no territorial minimum wage; its industry rates are set by federal law and stay below $7.25 (for example $6.20 for retail since September 30, 2024) until they reach the federal rate.",
+          "wageTermsStatus": "Federal authority only; no state numeric term. Industry-specific federal rates need actual saved scope.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS",
+          "scopeEvidence": {
+            "kind": "unresolved-industry",
+            "rows": [
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/0",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/bottling",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/1",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/2",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/construction",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/3",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/4",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/finance",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/5",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/6",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/fish-canning",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/7",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/8",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/garment",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/9",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/10",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/government",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/11",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/12",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/hotel",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/13",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/14",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/petroleum",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/15",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/16",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/printing",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/17",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/18",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/private-hospitals",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/19",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/20",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/publishing",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/21",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/22",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/retail",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/23",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/24",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/ship-maintenance",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/25",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/26",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/shipping-transport",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/27",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/28",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/shipping-transport",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/29",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/30",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/shipping-transport",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/31",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/32",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/tour-travel",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/33",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/34",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/miscellaneous",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/35",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              }
+            ]
+          }
+        },
+        "US-AZ": {
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://www.azica.gov/news/2026-minimum-wage-increase-effective-january-1-2026",
+          "quote": "2026 Minimum Wage Increase - Effective January 1, 2026",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1515,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AZ"
+        },
+        "US-CA": {
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://www.dir.ca.gov/dlse/faq_minimumwage.htm",
+          "quote": "Effective January 1, 2026, the minimum wage is $16.90 per hour for all employers",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1690,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "source": "https://dir.ca.gov/DIRNews/2026/2026-66.html",
+              "quote": "Beginning January 1, 2027, California’s statewide minimum wage will increase to $17.40 per hour",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1740,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-CA"
+        },
+        "US-CO": {
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://cdle.colorado.gov/sites/cdle/files/adopted_2026_temporary_pay_calc_order_7_ccr_1103-14_12.12.2025.pdf",
+          "quote": "Adopted as temporary rules on December 12, 2025; effective January 1, 2026 ... Minimum Pay Level in 2026 Level Future Annual COMPS Order Rule (Yearly Calculation) Adjustments $15.16 per hour",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1516,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-CO"
+        },
+        "US-CT": {
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://portal.ct.gov/dol/divisions/wage-and-workplace-standards",
+          "quote": "$16.94 effective on January 1, 2026",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1694,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "source": "https://portal.ct.gov/governor/news/press-releases/2026/08-2026/governor-lamont-announces-minimum-wage-will-increase",
+              "quote": "Connecticut’s minimum wage will adjust to $17.48 per hour beginning January 1, 2027",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1748,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-CT"
+        },
+        "US-DC": {
+          "answer": "yes",
+          "operativeAt": "2025-07-01",
+          "source": "https://does.dc.gov/sites/default/files/dc/sites/does/publication/attachments/2025%20Minimum%20Wage%20Increase%20Notice_7.1.25.pdf",
+          "quote": "Beginning July 1, 2025, the minimum wage in the District of Columbia will increase from $17.50 per hour to $17.95 per hour for all workers, regardless of size of employer.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1795,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-07-01",
+              "source": "https://does.dc.gov/sites/default/files/dc/sites/does/publication/attachments/2026%20Minimum%20Wage%20Increase%20Notice_0.pdf",
+              "quote": "Beginning July 1, 2026, the minimum wage in the District of Columbia will increase from $17.95 per hour to $18.40 per hour for all workers, regardless of size of employer.",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1840,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-DC"
+        },
+        "US-DE": {
+          "answer": "yes",
+          "operativeAt": "2025-01-01",
+          "source": "https://industrialaffairs.delaware.gov/en-us/knowledgebase-employee/what-is-the-current-minimum-wage-in-delaware",
+          "quote": "As of January 1, 2025, the minimum wage is $15.00 per hour",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1500,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-DE"
+        },
+        "US-FL": {
+          "answer": "yes",
+          "operativeAt": "2025-09-30",
+          "source": "https://www.floridajobs.org/docs/default-source/business-growth-and-partnerships/for-employers/posters-and-required-notices/2025-minimum-wage/2025-minimum-wage-announcement.pdf",
+          "quote": "Effective September 30, 2025, the Florida minimum wage will be $14.00 per hour.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1400,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-09-30",
+              "source": "https://floridajobs.org/florida-minimum-wage",
+              "quote": "The $15.00 per hour will be effective from September 30, 2026, to December 31, 2027.",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1500,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-FL"
+        },
+        "US-GA": {
+          "answer": "no",
+          "operativeAt": "2024-01-01",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... Georgia ... 2024: $5.15(d) ... (d) - Rates applicable to employers of six or more. In West Virginia, applicable to employers of six or more in one location.",
+          "operativeBasis": "dol-history-table-january-1",
+          "coverageTier": "six-or-more-employees-not-flsa-covered",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 515,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "no",
+              "operativeAt": "2026-10-01",
+              "source": "https://dol.georgia.gov/minimum-wage",
+              "quote": "Georgia's minimum wage is $5.15 per hour, however, with some limited exceptions, the federal minimum wage rate applies.",
+              "operativeBasis": "in-force-as-read",
+              "coverageTier": "six-or-more-employees-not-flsa-covered",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 515,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-GA"
+        },
+        "US-GU": {
+          "answer": "yes",
+          "operativeAt": "2021-09-01",
+          "source": "https://dol.guam.gov/compliance/whd/frequently-asked-questions/",
+          "quote": "As of September 01, 2021, the current minimum wage rate is $9.25 (Guam P.L. 36-1).",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 925,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-GU"
+        },
+        "US-HI": {
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://labor.hawaii.gov/wsd/minimum-wage/",
+          "quote": "$16.00 per hour beginning January 1, 2026",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1600,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2028-01-01",
+              "source": "https://labor.hawaii.gov/wsd/minimum-wage/",
+              "quote": "$18.00 per hour beginning January 1, 2028",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1800,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-HI"
+        },
+        "US-IA": {
+          "answer": "no",
+          "operativeAt": "2024-01-01",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... Iowa ... 2024: $7.25",
+          "operativeBasis": "dol-history-table-january-1",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "no",
+              "operativeAt": "2026-10-01",
+              "source": "https://dial.iowa.gov/hearings/wage-and-child-labor/wages",
+              "quote": "What is the current minimum wage? $7.25 per hour.",
+              "operativeBasis": "in-force-as-read",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 725,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-IA"
+        },
+        "US-ID": {
+          "answer": "no",
+          "operativeAt": "2024-01-01",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... Idaho ... 2024: $7.25",
+          "operativeBasis": "dol-history-table-january-1",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "no",
+              "operativeAt": "2026-10-01",
+              "source": "https://www.labor.idaho.gov/businesses/labor-laws/labor-laws-faq/",
+              "quote": "The current Idaho state minimum wage is $7.25 per hour.",
+              "operativeBasis": "in-force-as-read",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 725,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-ID"
+        },
+        "US-IL": {
+          "answer": "yes",
+          "operativeAt": "2025-01-01",
+          "source": "https://labor.illinois.gov/faqs/minimum-wage-overtime-faq.html",
+          "quote": "Beginning January 1, 2025, the minimum wage in Illinois is $15.00 per hour for those individuals who are 18 years and older.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "four-or-more-employees-adults",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1500,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-IL"
+        },
+        "US-IN": {
+          "answer": "no",
+          "operativeAt": "2009-07-24",
+          "source": "https://www.in.gov/dol/files/updated-pdfs-4-7-2026/Indiana2009MinimumWage.pdf",
+          "quote": "Both the federal and Indiana state minimum wage increased from $6.55 per hour to $7.25 per hour, effective July 24, 2009.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "two-or-more-employees",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-IN"
+        },
+        "US-KS": {
+          "answer": "no",
+          "operativeAt": "2010-01-01",
+          "source": "https://www.ksrevisor.gov/statutes/chapters/ch44/044_012_0003.html",
+          "quote": "on and after January 1, 2010, employee wages shall be paid at a rate of not less than $7.25 an hour.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "not-flsa-covered",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-KS"
+        },
+        "US-KY": {
+          "answer": "no",
+          "operativeAt": "2009-07-01",
+          "source": "https://elc.ky.gov/workplace-standards/Pages/Wages-and-Hours.aspx",
+          "quote": "Effective July 1, 2009, the minimum wage is $7.25 per hour.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-KY"
+        },
+        "US-LA": {
+          "answer": "no",
+          "wageTermsStatus": "Federal authority supplies the numeric floor; no state statute or state numeric term.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-LA",
+          "scopeEvidence": {
+            "kind": "federal-standard",
+            "rows": [
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-LA/rows/0",
+                "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+                "operativeAt": "2009-07-24"
+              }
+            ]
+          }
+        },
+        "US-MA": {
+          "answer": "yes",
+          "operativeAt": "2024-01-01",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... Massachusetts ... 2024: $15.00",
+          "operativeBasis": "dol-history-table-january-1",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1500,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-10-01",
+              "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXXI/Chapter151/Section1",
+              "quote": "A wage of less than $15.00 per hour, in any occupation, as defined in this chapter, shall conclusively be presumed to be oppressive and unreasonable",
+              "operativeBasis": "in-force-as-read",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1500,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-MA"
+        },
+        "US-MD": {
+          "answer": "yes",
+          "operativeAt": "2024-01-01",
+          "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gle&section=3-413&enactments=false",
+          "quote": "(ii) beginning January 1, 2024, $15.00 per hour.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1500,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-MD"
+        },
+        "US-ME": {
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://www.maine.gov/labor/news_events/article.shtml?id=13338762",
+          "quote": "Effective tomorrow, January 1, 2026, the state minimum wage will increase from $14.65 to $15.10 per hour.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1510,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-ME"
+        },
+        "US-MI": {
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://www.michigan.gov/leo/bureaus-agencies/ber/wage-and-hour/min-wage",
+          "quote": "Effective January 1, 2026, the minimum wage rate is $13.73 per hour.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1373,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "source": "https://www.michigan.gov/leo/bureaus-agencies/ber/wage-and-hour/min-wage",
+              "quote": "Effective January 1, 2027, the minimum wage rate is $15.00 per hour.",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1500,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-MI"
+        },
+        "US-MN": {
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://www.dli.mn.gov/business/employment-practices/minimum-wage-minnesota",
+          "quote": "Amount as of Jan. 1, 2026 Amount as of Jan. 1, 2027 State minimum wage $11.41 an hour $11.87 an hour",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "all-employers",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1141,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "source": "https://www.dli.mn.gov/business/employment-practices/minimum-wage-minnesota",
+              "quote": "Effective Jan. 1, 2027 , Minnesota’s minimum-wage rate will be adjusted for inflation to $11.87 an hour for all employers in the state.",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "all-employers",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1187,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-MN"
+        },
+        "US-MO": {
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://revisor.mo.gov/main/OneSection.aspx?section=290.502",
+          "quote": "increased by $1.25 per hour, to $15.00 per hour, effective January 1, 2026.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1500,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-MO"
+        },
+        "US-MP": {
+          "answer": "no",
+          "wageTermsStatus": "Federal authority supplies the numeric floor; no state statute or state numeric term.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-MP"
+        },
+        "US-MS": {
+          "answer": "no",
+          "wageTermsStatus": "Federal authority supplies the numeric floor; no state statute or state numeric term.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-MS",
+          "scopeEvidence": {
+            "kind": "federal-standard",
+            "rows": [
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-MS/rows/0",
+                "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+                "operativeAt": "2009-07-24"
+              }
+            ]
+          }
+        },
+        "US-MT": {
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://erd.dli.mt.gov/_docs/labor-standards/2026-MINIMUM-WAGE-POSTER.pdf",
+          "quote": "MONTANA’S MINIMUM WAGE (Effective 1/1/2026) $10.85",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1085,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-MT"
+        },
+        "US-NC": {
+          "answer": "no",
+          "operativeAt": "2024-01-01",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... North Carolina ... 2024: $7.25",
+          "operativeBasis": "dol-history-table-january-1",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "no",
+              "operativeAt": "2026-10-01",
+              "source": "https://www.labor.nc.gov/workplace-rights/employee-rights-regarding-time-worked-and-wages-earned/minimum-wage-nc",
+              "quote": "The minimum wage in North Carolina is currently $7.25 an hour.",
+              "operativeBasis": "in-force-as-read",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 725,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NC"
+        },
+        "US-ND": {
+          "answer": "no",
+          "operativeAt": "2024-01-01",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... North Dakota ... 2024: $7.25",
+          "operativeBasis": "dol-history-table-january-1",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "no",
+              "operativeAt": "2026-10-01",
+              "source": "https://www.nd.gov/labor/sites/www/files/documents/Brochures/Wage&Hour%20and%20Equal%20Emp.pdf",
+              "quote": "The minimum wage in North Dakota is $7.25 per",
+              "operativeBasis": "in-force-as-read",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 725,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-ND"
+        },
+        "US-NE": {
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://dol.nebraska.gov/webdocs/getfile/18bc2309-85ed-4957-b072-e899caeaca99",
+          "quote": "July 18, 2026 $15.00* ... *Unchanged from January 1, 2026.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1500,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "source": "https://dol.nebraska.gov/webdocs/getfile/18bc2309-85ed-4957-b072-e899caeaca99",
+              "quote": "January 1, 2027 $15.26",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1526,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2028-01-01",
+              "source": "https://dol.nebraska.gov/webdocs/getfile/18bc2309-85ed-4957-b072-e899caeaca99",
+              "quote": "January 1, 2028 $15.53",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1553,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2029-01-01",
+              "source": "https://dol.nebraska.gov/webdocs/getfile/18bc2309-85ed-4957-b072-e899caeaca99",
+              "quote": "January 1, 2029 $15.80",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1580,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2030-01-01",
+              "source": "https://dol.nebraska.gov/webdocs/getfile/18bc2309-85ed-4957-b072-e899caeaca99",
+              "quote": "January 1, 2030 $16.08",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1608,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NE"
+        },
+        "US-NH": {
+          "answer": "no",
+          "operativeAt": "2024-01-01",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... New Hampshire ... 2024: $7.25",
+          "operativeBasis": "dol-history-table-january-1",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "no",
+              "operativeAt": "2026-07-01",
+              "source": "https://www.dol.gov/agencies/whd/minimum-wage/state",
+              "quote": "Basic Minimum Rate (per hour): $7.25",
+              "operativeBasis": "in-force-as-of-source-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 725,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NH"
+        },
+        "US-NJ": {
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://www.nj.gov/labor/lwdhome/press/2025/20251001_Minimum_Wage.shtml",
+          "quote": "New Jersey’s statewide minimum wage will increase by $0.43 to $15.92 per hour for most employees, effective January 1, 2026.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "most-employers",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1592,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NJ"
+        },
+        "US-NM": {
+          "answer": "yes",
+          "operativeAt": "2023-01-01",
+          "source": "https://www.dws.nm.gov/Minimum-Wage-Information",
+          "quote": "New Mexico state minimum wage $12.00 per hour effective January 1, 2023",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1200,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NM"
+        },
+        "US-NV": {
+          "answer": "yes",
+          "operativeAt": "2024-07-01",
+          "source": "https://labor.nv.gov/",
+          "quote": "Minimum wage in the state of Nevada increased to $12.00 an hour on July 1, 2024.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1200,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NV"
+        },
+        "US-NY": {
+          "answer": "yes",
+          "wageTermsStatus": "Partially bound exact county workplace identities; unresolved locality/metro-boundary joins remain explicit.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NY",
+          "scopeEvidence": {
+            "kind": "unresolved-regional",
+            "rows": [
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NY/rows/0",
+                "source": "https://dol.ny.gov/minimum-wage-0",
+                "operativeAt": "2026-01-01"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NY/rows/1",
+                "source": "https://dol.ny.gov/minimum-wage-0",
+                "operativeAt": "2026-01-01"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NY/rows/2",
+                "source": "https://dol.ny.gov/minimum-wage-0",
+                "operativeAt": "2026-01-01"
+              }
+            ]
+          },
+          "regionalTerms": [
+            {
+              "workplaceKeys": ["county:36059", "county:36103", "county:36119"],
+              "operativeAt": "2026-01-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1700,
+                  "unit": "minor/hour"
+                }
+              ],
+              "source": "https://dol.ny.gov/minimum-wage-0",
+              "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NY/rows/1",
+              "tier": "long-island-and-westchester",
+              "geographyEvidence": {
+                "source": "https://www.nysenate.gov/legislation/laws/LAB/652",
+                "recordSource": "src/simulation/national-counties.generated.ts",
+                "scope": "Exact recorded county workplace identity; no city/county containment or Portland urban growth boundary membership claimed."
+              }
+            }
+          ]
+        },
+        "US-OH": {
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://com.ohio.gov/about-us/media-center/news/ohio-minimum-wage-set-to-increase-in-2026-11",
+          "quote": "Ohio’s minimum wage is scheduled to increase Jan. 1, 2026, to $11 per hour for non-tipped employees ... Effective Jan. 1, 2026, the Ohio minimum wage will apply to businesses with annual gross receipts of more than $405,000",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "above-small-employer-threshold",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1100,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "source": "https://ohio.gov/home/news-and-events/all-news/com-2027-minimum-wage-sept26",
+              "quote": "the Ohio Department of Commerce announced the 2027 Ohio minimum wage that will go into effect on Jan. 1. The adjusted amounts, $11.40 per hour for non-tipped employees",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "above-small-employer-threshold",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1140,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OH"
+        },
+        "US-OK": {
+          "answer": "no",
+          "operativeAt": "2009-07-24",
+          "source": "https://oklahoma.gov/labor/workplace-rights/wage-hour/faqs---wage-and-hour.html",
+          "quote": "The federal and state minimum wage of $7.25 per hour has been in effect since July 24, 2000.",
+          "operativeBasis": "statute-date-corrected-to-federal",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OK"
+        },
+        "US-OR": {
+          "answer": "yes",
+          "wageTermsStatus": "Partially bound exact county workplace identities; unresolved locality/metro-boundary joins remain explicit.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR",
+          "scopeEvidence": {
+            "kind": "unresolved-regional",
+            "rows": [
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/0",
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage-schedule.aspx",
+                "operativeAt": "2025-07-01"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/1",
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage-schedule.aspx",
+                "operativeAt": "2025-07-01"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/2",
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage-schedule.aspx",
+                "operativeAt": "2025-07-01"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/3",
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+                "operativeAt": "2026-07-01"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/4",
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+                "operativeAt": "2026-07-01"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/5",
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+                "operativeAt": "2026-07-01"
+              }
+            ]
+          },
+          "regionalTerms": [
+            {
+              "workplaceKeys": [
+                "county:41003",
+                "county:41007",
+                "county:41009",
+                "county:41017",
+                "county:41027",
+                "county:41029",
+                "county:41033",
+                "county:41039",
+                "county:41041",
+                "county:41043",
+                "county:41047",
+                "county:41053",
+                "county:41057",
+                "county:41065",
+                "county:41071"
+              ],
+              "operativeAt": "2025-07-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1505,
+                  "unit": "minor/hour"
+                }
+              ],
+              "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage-schedule.aspx",
+              "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/1",
+              "tier": "standard",
+              "geographyEvidence": {
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+                "recordSource": "src/simulation/national-counties.generated.ts",
+                "scope": "Exact recorded county workplace identity; no city/county containment or Portland urban growth boundary membership claimed."
+              }
+            },
+            {
+              "workplaceKeys": [
+                "county:41001",
+                "county:41011",
+                "county:41013",
+                "county:41015",
+                "county:41019",
+                "county:41021",
+                "county:41023",
+                "county:41025",
+                "county:41031",
+                "county:41035",
+                "county:41037",
+                "county:41045",
+                "county:41049",
+                "county:41055",
+                "county:41059",
+                "county:41061",
+                "county:41063",
+                "county:41069"
+              ],
+              "operativeAt": "2025-07-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1405,
+                  "unit": "minor/hour"
+                }
+              ],
+              "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage-schedule.aspx",
+              "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/2",
+              "tier": "nonurban",
+              "geographyEvidence": {
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+                "recordSource": "src/simulation/national-counties.generated.ts",
+                "scope": "Exact recorded county workplace identity; no city/county containment or Portland urban growth boundary membership claimed."
+              }
+            },
+            {
+              "workplaceKeys": [
+                "county:41003",
+                "county:41007",
+                "county:41009",
+                "county:41017",
+                "county:41027",
+                "county:41029",
+                "county:41033",
+                "county:41039",
+                "county:41041",
+                "county:41043",
+                "county:41047",
+                "county:41053",
+                "county:41057",
+                "county:41065",
+                "county:41071"
+              ],
+              "operativeAt": "2026-07-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1555,
+                  "unit": "minor/hour"
+                }
+              ],
+              "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+              "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/4",
+              "tier": "standard",
+              "geographyEvidence": {
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+                "recordSource": "src/simulation/national-counties.generated.ts",
+                "scope": "Exact recorded county workplace identity; no city/county containment or Portland urban growth boundary membership claimed."
+              }
+            },
+            {
+              "workplaceKeys": [
+                "county:41001",
+                "county:41011",
+                "county:41013",
+                "county:41015",
+                "county:41019",
+                "county:41021",
+                "county:41023",
+                "county:41025",
+                "county:41031",
+                "county:41035",
+                "county:41037",
+                "county:41045",
+                "county:41049",
+                "county:41055",
+                "county:41059",
+                "county:41061",
+                "county:41063",
+                "county:41069"
+              ],
+              "operativeAt": "2026-07-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1455,
+                  "unit": "minor/hour"
+                }
+              ],
+              "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+              "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/5",
+              "tier": "nonurban",
+              "geographyEvidence": {
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+                "recordSource": "src/simulation/national-counties.generated.ts",
+                "scope": "Exact recorded county workplace identity; no city/county containment or Portland urban growth boundary membership claimed."
+              }
+            }
+          ]
+        },
+        "US-PA": {
+          "answer": "no",
+          "operativeAt": "2024-01-01",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... Pennsylvania ... 2024: $7.25",
+          "operativeBasis": "dol-history-table-january-1",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "no",
+              "operativeAt": "2026-10-01",
+              "source": "https://www.pa.gov/agencies/dli/resources/compliance-laws-and-regulations/labor-management-relations/pennsylvania-s-minimum-wage-act",
+              "quote": "Employees being paid less than $7.25/hour",
+              "operativeBasis": "in-force-as-read",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 725,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-PA"
+        },
+        "US-PR": {
+          "answer": "yes",
+          "operativeAt": "2024-07-01",
+          "source": "https://bvirtualogp.pr.gov/ogp/bvirtual/leyesreferencia/pdf/47-2021.pdf",
+          "quote": "Para el 1 de julio de 2024, el aumento al salario mínimo de Puerto Rico será a diez dólares con cincuenta centavos la hora ($10.50/hr)",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1050,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-PR"
+        },
+        "US-RI": {
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://webserver.rilegislature.gov/Statutes/TITLE28/28-12/28-12-3.htm",
+          "quote": "(p) Commencing January 1, 2026, the minimum wage is sixteen dollars ($16.00) per hour.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1600,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "source": "https://webserver.rilegislature.gov/Statutes/TITLE28/28-12/28-12-3.htm",
+              "quote": "(q) Commencing January 1, 2027, the minimum wage is seventeen dollars ($17.00) per",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1700,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-RI"
+        },
+        "US-SC": {
+          "answer": "no",
+          "wageTermsStatus": "Federal authority supplies the numeric floor; no state statute or state numeric term.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-SC",
+          "scopeEvidence": {
+            "kind": "federal-standard",
+            "rows": [
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-SC/rows/0",
+                "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+                "operativeAt": "2009-07-24"
+              }
+            ]
+          }
+        },
+        "US-SD": {
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://dlr.sd.gov/employment_laws/minimum_wage.aspx",
+          "quote": "The minimum wage for non-tipped employees in South Dakota is $11.85/hour . (Effective Jan. 1, 2026.)",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1185,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-SD"
+        },
+        "US-TN": {
+          "answer": "no",
+          "wageTermsStatus": "Federal authority supplies the numeric floor; no state statute or state numeric term.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-TN",
+          "scopeEvidence": {
+            "kind": "federal-standard",
+            "rows": [
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-TN/rows/0",
+                "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+                "operativeAt": "2009-07-24"
+              }
+            ]
+          }
+        },
+        "US-TX": {
+          "answer": "no",
+          "operativeAt": "2009-07-24",
+          "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+          "quote": "Jul 24, 2009 $7.25 for all covered, nonexempt workers",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-TX"
+        },
+        "US-UT": {
+          "answer": "no",
+          "operativeAt": "2024-01-01",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... Utah ... 2024: $7.25",
+          "operativeBasis": "dol-history-table-january-1",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "no",
+              "operativeAt": "2026-07-01",
+              "source": "https://www.dol.gov/agencies/whd/minimum-wage/state",
+              "quote": "Basic Minimum Rate (per hour): $7.25",
+              "operativeBasis": "in-force-as-of-source-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 725,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-UT"
+        },
+        "US-VA": {
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://doli.virginia.gov/2025/07/29/virginia-minimum-wage-rate-increasing-effective-january-1-2026/",
+          "quote": "The Virginia adjusted state hourly minimum wage rate for January 1, 2026 until January 1, 2027 is $12.77",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1277,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "source": "https://www.governor.virginia.gov/newsroom/news-releases/2026/april-releases/name-1116004-en.html",
+              "quote": "The legislation will then increase the minimum wage to $13.75 per hour on January 1, 2027",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1375,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2028-01-01",
+              "source": "https://www.governor.virginia.gov/newsroom/news-releases/2026/april-releases/name-1116004-en.html",
+              "quote": "subsequently increase the minimum wage to $15.00 per hour on January 1, 2028",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1500,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-VA"
+        },
+        "US-VI": {
+          "answer": "yes",
+          "operativeAt": "2024-01-01",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... U.S. Virgin Islands ... 2024: $10.50(j)",
+          "operativeBasis": "dol-history-table-january-1",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1050,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-04-24",
+              "source": "https://www.vidol.gov/2026/04/10/virgin-islands-minimum-wage-increase-to-12-00-per-hour-effective-april-24-2026/",
+              "quote": "$12.00 per hour – Effective April 24, 2026",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1200,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2027-06-01",
+              "source": "https://www.vidol.gov/2026/04/10/virgin-islands-minimum-wage-increase-to-12-00-per-hour-effective-april-24-2026/",
+              "quote": "$14.00 per hour – Effective June 1, 2027",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1400,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2028-06-01",
+              "source": "https://www.vidol.gov/2026/04/10/virgin-islands-minimum-wage-increase-to-12-00-per-hour-effective-april-24-2026/",
+              "quote": "$15.00 per hour – Effective June 1, 2028",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1500,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-VI"
+        },
+        "US-VT": {
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://labor.vermont.gov/press-release/vermont-department-labor-announces-minimum-wage-increase-starting-january-2026",
+          "quote": "Beginning January 1, 2026, the State’s minimum wage will increase from $14.01 to $14.42 per hour",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1442,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-VT"
+        },
+        "US-WA": {
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://lni.wa.gov/workers-rights/wages/minimum-wage/",
+          "quote": "The 2026 minimum wage in the state of Washington is $17.13 per hour.",
+          "operativeBasis": "source-stated-year",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1713,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "source": "https://lni.wa.gov/workers-rights/wages/minimum-wage/",
+              "quote": "The new minimum wage for 2027 will be $17.73 an hour for most workers. The minimum wage for 14-and 15-year-old workers will be $15.07 an hour. These changes take effect Jan. 1, 2027.",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1773,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-WA"
+        },
+        "US-WI": {
+          "answer": "no",
+          "operativeAt": "2009-07-24",
+          "source": "https://dwd.wisconsin.gov/er/laborstandards/minimumwage.htm",
+          "quote": "Wisconsin's Current Minimum Wage Rates Rate Type As of 7/24/09 Adult $7.25",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-WI"
+        },
+        "US-WV": {
+          "answer": "yes",
+          "operativeAt": "2024-01-01",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... West Virginia ... 2024: $8.75 ... (d) - Rates applicable to employers of six or more. In West Virginia, applicable to employers of six or more in one location.",
+          "operativeBasis": "dol-history-table-january-1",
+          "coverageTier": "six-or-more-employees-per-location",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 875,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-10-01",
+              "source": "https://labor.wv.gov/wage-hour/jobs-act/minimum-wage",
+              "quote": "the state minimum wage of $8.75 will apply whenever there are six (6) or more non-exempt employees",
+              "operativeBasis": "in-force-as-read",
+              "coverageTier": "six-or-more-employees-per-location",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 875,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-WV"
+        },
+        "US-WY": {
+          "answer": "no",
+          "operativeAt": "2024-01-01",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... Wyoming ... 2024: $5.15",
+          "operativeBasis": "dol-history-table-january-1",
+          "coverageTier": "not-flsa-covered",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 515,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "no",
+              "operativeAt": "2026-10-01",
+              "source": "https://dws.wyo.gov/dws-division/labor-standards/workers-and-job-seekers/faq/",
+              "quote": "Wyoming law sets the minimum wage at $5.15 per hour, but most workers must be paid at least the federal minimum wage of $7.25 per hour.",
+              "operativeBasis": "in-force-as-read",
+              "coverageTier": "not-flsa-covered",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 515,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-WY"
+        }
+      }
+    },
+    "us-policy-positions:labor-workforce.local-minimum-wage-authority": {
+      "source": "State code sites (IA, KS, MO, NC, OH, WI, UT, TX, ID, OR, FL, SC, MI, LA, AZ, WA, CO, AR), Eleventh Circuit en banc opinion (12/13/2019), NELP preemption brief (July 2017) and NYC agenda (Dec. 2025), NLC 'City Rights in an Era of Preemption' (2017/2018), UC Berkeley Labor Center local ordinance inventory (07/23/2026), all fetched September 2026.",
+      "note": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "answers": {
+        "US-AK": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "Alaska Const. art. X, § 11; AS 29.10.200",
+          "source": "https://ltgov.alaska.gov/information/alaskas-constitution/",
+          "note": "Home-rule boroughs and cities may exercise all legislative powers not prohibited by law or charter, and the list of home-rule limits in AS 29.10.200 (checked at https://www.akleg.gov/basis/statutes.asp?media=print&secStart=29.10.200&secEnd=29.10.200) says nothing about wages; no Alaska city has yet adopted one."
+        },
+        "US-AL": {
+          "answer": "no",
+          "operativeAt": "2016-02-25",
+          "preempts": true,
+          "cite": "Ala. Act No. 2016-18 (Ala. Code § 25-7-41)",
+          "source": "https://media.ca11.uscourts.gov/opinions/pub/files/201711009.enb.pdf",
+          "note": "Signed February 25, 2016, voiding Birmingham's $10.10 ordinance; the Eleventh Circuit (en banc, 2019) dismissed the challenge for lack of standing."
+        },
+        "US-AR": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ark. Code § 11-4-221",
+          "source": "https://arkleg.state.ar.us/Acts/FTPDocument?path=%2FACTS%2F2017R%2FPublic%2F&file=643.pdf&ddBienniumSession=2017%2F2017R",
+          "note": "Act 643 of 2017 (approved 03/24/2017, no emergency clause) bars counties, cities and towns from requiring a minimum or living wage above state or federal law."
+        },
+        "US-AS": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "A.S.C.A. § 32.0320",
+          "source": "https://asbar.org/code-annotated/32-0320-minimum-wage/",
+          "note": "American Samoa sets its minimum wage by territorial statute and the federal schedule, and no village or county has wage-setting power under it."
+        },
+        "US-AZ": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "A.R.S. § 23-364(I)",
+          "source": "https://www.azleg.gov/ars/23/00364.htm",
+          "note": "Counties, cities and towns may set higher minimum wages by ordinance; Flagstaff and Tucson have done so."
+        },
+        "US-CA": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
+          "note": "No state preemption; about 40 cities and counties, including Los Angeles, San Francisco and San Diego, have their own higher minimum wages."
+        },
+        "US-CO": {
+          "answer": "yes",
+          "operativeAt": "2020-01-01",
+          "preempts": false,
+          "cite": "C.R.S. § 29-1-1401; § 8-6-101(4)",
+          "source": "https://leg.colorado.gov/sites/default/files/2019a_1210_signed.pdf",
+          "note": "H.B. 19-1210 repealed the prior ban on local minimum wages; Denver, Edgewater and Boulder County have since adopted them."
+        },
+        "US-CT": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Conn. Gen. Stat. ch. 558 (§ 31-58)",
+          "source": "https://www.cga.ct.gov/current/pub/chap_558.htm",
+          "note": "Connecticut sets one statewide minimum wage under chapter 558 and neither authorizes nor bars a local minimum wage, and no Connecticut town or city has adopted one."
+        },
+        "US-DC": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "D.C. Code § 32-1003",
+          "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
+          "note": "D.C. has no state above it; the D.C. Council sets a local minimum wage above the federal rate (ordinance dates from 1992)."
+        },
+        "US-DE": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "19 Del. C. ch. 9 (§ 902)",
+          "source": "https://delcode.delaware.gov/title19/c009/index.html",
+          "note": "Delaware sets one statewide minimum wage under 19 Del. C. chapter 9 and neither authorizes nor bars a local minimum wage, and no Delaware city or county has adopted one."
+        },
+        "US-FL": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Fla. Stat. § 218.077(2)",
+          "source": "https://www.flsenate.gov/Laws/Statutes/2025/218.077",
+          "note": "The statute (ch. 2003-87) bars local minimum wages, though Fla. Const. art. X, § 24(f) says the amendment does not limit any public body from requiring higher wages; ch. 2024-80 tightens the ban (adds 'maintain' and contractor wage rules) effective 09/30/2026."
+        },
+        "US-GA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "O.C.G.A. § 34-4-3.1(b)",
+          "source": "https://law.justia.com/codes/georgia/title-34/chapter-4/section-34-4-3-1/",
+          "note": "Georgia preempts every local wage or employment benefit mandate and bars counties and cities from adopting, keeping or enforcing one (enacted by Ga. L. 2004, p. 377)."
+        },
+        "US-GU": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "22 Guam Code Ann. ch. 3, art. 1 (§ 3101 et seq.)",
+          "source": "https://law.justia.com/codes/guam/title-22/division-1/chapter-3/",
+          "note": "Guam sets one territorywide minimum wage in its Minimum Wage and Hour Act and gives its villages no wage-setting power, though nothing in it expressly bars one."
+        },
+        "US-HI": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Haw. Rev. Stat. ch. 387",
+          "source": "https://law.justia.com/codes/hawaii/title-21/chapter-387/",
+          "note": "Hawaii sets one statewide minimum wage under chapter 387 and neither authorizes nor bars a county minimum wage, and no Hawaii county has adopted one."
+        },
+        "US-IA": {
+          "answer": "no",
+          "operativeAt": "2017-03-30",
+          "preempts": true,
+          "cite": "Iowa Code § 364.3(12)",
+          "source": "https://www.legis.iowa.gov/docs/code/364.3.pdf",
+          "note": "Ordinances adopted before 03/30/2017 were voided, including the Johnson, Linn, Polk, Lee and Wapello County wages."
+        },
+        "US-ID": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Idaho Code § 44-1502(4)",
+          "source": "https://legislature.idaho.gov/statutesrules/idstat/Title44/T44CH15/SECT44-1502/",
+          "note": "Section history lists amendments in 2007 and 2016 (ch. 145); the exact date subsection (4) took effect was not confirmed."
+        },
+        "US-IL": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://www.chicago.gov/city/en/depts/bacp/supp_info/minimumwageinformation.html",
+          "note": "Home-rule units may set higher wages; Chicago and Cook County have (many Cook County municipalities have opted out of the county rate)."
+        },
+        "US-IN": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ind. Code § 22-2-2-10.5",
+          "source": "https://law.justia.com/codes/indiana/title-22/article-2/chapter-2/section-22-2-2-10-5/",
+          "note": "A unit of local government may not establish, mandate or require a minimum wage above the state or federal rate (added by P.L. 211-2011)."
+        },
+        "US-KS": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "K.S.A. 12-16,130(a)(3)",
+          "source": "https://www.ksrevisor.org/statutes/chapters/ch12/012_016_0130.html",
+          "note": "Bars cities and counties from requiring wages above the minimum wage unless state or federal law requires them; enacted 2013 per NELP."
+        },
+        "US-KY": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "KRS 337.275 (as construed in Ky. Restaurant Ass'n v. Louisville/Jefferson County Metro Gov't, Ky. 2016)",
+          "source": "https://www.nlc.org/wp-content/uploads/2017/02/NLC-SML-Preemption-Report-2017-pages.pdf",
+          "note": "No express statute; the Kentucky Supreme Court held in 2016 that the state wage law leaves no room for local minimums, voiding the Louisville and Lexington ordinances."
+        },
+        "US-LA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "La. R.S. 23:642(B)",
+          "source": "https://legis.la.gov/Legis/Law.aspx?d=83958",
+          "note": "Enacted by Acts 1997, No. 317; amended 2012."
+        },
+        "US-MA": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Mass. Gen. Laws ch. 151, § 1",
+          "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXXI/Chapter151/Section1",
+          "note": "Massachusetts sets one statewide minimum wage under chapter 151 and neither authorizes nor bars a local minimum wage, and no Massachusetts city or town has adopted one."
+        },
+        "US-MD": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
+          "note": "Montgomery and Howard Counties have local minimum wages above the state rate."
+        },
+        "US-ME": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
+          "note": "No state preemption found; Portland and Rockland have local minimum wages above the state rate."
+        },
+        "US-MI": {
+          "answer": "no",
+          "operativeAt": "2015-06-30",
+          "preempts": true,
+          "cite": "MCL 123.1385",
+          "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-123-1385",
+          "note": "Local Government Labor Regulatory Limitation Act, 2015 PA 105, immediate effect."
+        },
+        "US-MN": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
+          "note": "Minneapolis and St. Paul have local minimum wages above the state rate."
+        },
+        "US-MO": {
+          "answer": "no",
+          "operativeAt": "2017-08-28",
+          "preempts": true,
+          "cite": "RSMo 290.528",
+          "source": "https://revisor.mo.gov/main/OneSection.aspx?section=290.528",
+          "note": "H.B. 1194 & 1193 (2017) nullified the St. Louis ordinance after the state supreme court struck the older 1998 ban (RSMo 67.1571) on single-subject grounds."
+        },
+        "US-MP": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "4 CMC § 9221",
+          "source": "https://cnmilaw.gov/docs/cmc_section/T4/9221.pdf",
+          "note": "The Northern Mariana Islands set one territorywide minimum wage in 4 CMC section 9221 and give municipalities no wage-setting power, though nothing in it expressly bars one."
+        },
+        "US-MS": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Miss. Code Ann. § 17-1-51",
+          "source": "https://www.nelp.org/publication/fighting-preemption-local-minimum-wage-laws/",
+          "note": "Cited by NELP (July 2017) among states that bar local minimum wages; the state code text itself was not reachable."
+        },
+        "US-MT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Mont. Code Ann. § 7-1-111(23)",
+          "source": "https://leg.mt.gov/bills/mca/title_0070/chapter_0010/part_0010/section_0110/0070-0010-0010-0110.html",
+          "note": "Self-government units are denied any power to require a private employer to pay a wage or benefit not required by state or federal law (subsection (2) also bars acting on Title 39, the labor title); the section history lists several 2021 amendments, and which one added (23) was not confirmed."
+        },
+        "US-NC": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "N.C. Gen. Stat. § 95-25.1(d)",
+          "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_95/GS_95-25.1.html",
+          "note": "Current subsection (d), added by S.L. 2023-134, s. 5.9(a), preempts local rules on private-employer pay; the earlier subsection (c) from the 2016 law was repealed by S.L. 2017-4."
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "N.D.C.C. § 40-05.1-06",
+          "source": "https://ndlegis.gov/cencode/t40c05-1.pdf",
+          "note": "Weak: North Dakota applies Dillon's Rule (Wikipedia table) and home-rule cities get only the powers enumerated in § 40-05.1-06, which list no wage power; the general-welfare ordinance power in subsection 10 has not been tested on wages."
+        },
+        "US-NE": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://nebraskapublicmedia.org/en/news/news-articles/the-will-of-the-voters-matters-lincoln-city-council-votes-to-maintain-15-minimum-wage/",
+          "note": "Nebraska has no statute barring local minimum wages, and Omaha has its own local minimum wage ordinance (Lincoln adopted one in 2026, effective after 1/1/2026)."
+        },
+        "US-NH": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "RSA 31:39",
+          "source": "https://en.wikipedia.org/wiki/Home_rule_in_the_United_States",
+          "note": "Weak: New Hampshire follows Dillon's Rule with no home rule (Wikipedia table), and the town bylaw powers in RSA 31:39 (https://gc.nh.gov/rsa/html/III/31/31-39.htm) list no wage power."
+        },
+        "US-NJ": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "N.J.S.A. 34:11-56a et seq.",
+          "source": "https://www.nj.gov/labor/wageandhour/tools-resources/laws/wage-hour.shtml",
+          "note": "New Jersey sets one statewide minimum wage under its Wage and Hour Law and neither authorizes nor bars a local minimum wage, and no New Jersey municipality has adopted one."
+        },
+        "US-NM": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
+          "note": "Santa Fe city and county, Las Cruces and Albuquerque have local minimum wages."
+        },
+        "US-NV": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "NRS 268.001; NRS 268.003(1)(c)",
+          "source": "https://www.leg.state.nv.us/nrs/nrs-268.html",
+          "note": "Weak: Nevada keeps Dillon's Rule except for city 'matters of local concern', a term that excludes matters needing statewide uniformity and business activities subject to substantial state regulation, and no statute grants wage-setting power."
+        },
+        "US-NY": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "N.Y. Labor Law § 652 (as construed in Wholesale Laundry Bd. of Trade v. City of New York, 1962)",
+          "source": "https://www.nelp.org/insights-research/nelps-new-york-city-worker-justice-agenda/",
+          "note": "No express statute; a 1962 court ruling holds cities cannot set their own minimum wage, and advocates argue it could be reconsidered; the higher NYC/Long Island/Westchester rates are set by state law."
+        },
+        "US-OH": {
+          "answer": "no",
+          "operativeAt": "2017-03-21",
+          "preempts": true,
+          "cite": "Ohio Rev. Code § 4111.02",
+          "source": "https://codes.ohio.gov/ohio-revised-code/section-4111.02",
+          "note": "Added by S.B. 331 (131st General Assembly)."
+        },
+        "US-OK": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Okla. Stat. tit. 40, § 160",
+          "source": "https://www.nelp.org/publication/fighting-preemption-local-minimum-wage-laws/",
+          "note": "Cited by NELP (July 2017) among states that bar local minimum wages; the statute text was not reachable (oscn.net bot challenge)."
+        },
+        "US-OR": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "ORS 653.017",
+          "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors653.html",
+          "note": "Enacted 2001 (ch. 967); local governments may set wages only for their own employees, contracts and subsidies; the Portland-metro, standard and nonurban tiers are set by state law (ORS 653.025)."
+        },
+        "US-PA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "43 P.S. § 333.114a (Act 112 of 2006)",
+          "source": "https://www.phila.gov/2019-01-31-higher-minimum-wage-for-pennsylvania/",
+          "note": "Philadelphia states it is preempted by Act 112 from passing any minimum wage law."
+        },
+        "US-PR": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "P.R. Laws Ann. tit. 29, § 245 et seq. (Ley 180-1998; Ley 47-2021)",
+          "source": "https://www.lexjuris.com/lexlex/leyes2021/lexl2021047.htm",
+          "note": "Puerto Rico sets one territorywide minimum wage by law (Law 180-1998, as amended by Law 47-2021) and gives municipalities no wage-setting power, though nothing in it expressly bars one."
+        },
+        "US-RI": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "R.I. Gen. Laws § 28-12-25",
+          "source": "https://www.nelp.org/publication/fighting-preemption-local-minimum-wage-laws/",
+          "note": "Cited by NELP (July 2017) among states that bar local minimum wages; the state statute site was not reachable from this environment."
+        },
+        "US-SC": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "S.C. Code Ann. § 6-1-130(B)",
+          "source": "https://www.scstatehouse.gov/code/t06c001.php",
+          "note": "Enacted by 2002 Act No. 243; bars local minimum wages above the federal rate."
+        },
+        "US-SD": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "SDCL 6-12-5; SDCL 6-12-6",
+          "source": "https://sdlegislature.gov/api/Statutes/6-12.html?all=true",
+          "note": "Only home-rule charter units qualify: their ordinances may set standards higher than state law unless a state law provides otherwise, though SDCL 6-12-6(1) withholds power over private civil relationships and no local wage has been tested."
+        },
+        "US-TN": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Tenn. Code Ann. § 50-2-112",
+          "source": "https://www.nelp.org/publication/fighting-preemption-local-minimum-wage-laws/",
+          "note": "Cited by NELP (July 2017) among states that bar local minimum wages; the state code text was not reachable."
+        },
+        "US-TX": {
+          "answer": "no",
+          "operativeAt": "2003-09-01",
+          "preempts": true,
+          "cite": "Tex. Lab. Code § 62.0515(a)",
+          "source": "https://tcss.legis.texas.gov/resources/LA/htm/LA.62.htm",
+          "note": "The state minimum wage supersedes local wage ordinances for private employment, except public contracts."
+        },
+        "US-UT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Utah Code § 34-40-106(1)",
+          "source": "https://le.utah.gov/xcode/Title34/Chapter40/C34-40-S106_1800010118000101.html",
+          "note": "Cities, towns and counties may not require a minimum wage above the federal minimum; last amended 2005."
+        },
+        "US-VA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Va. Code § 15.2-1102 (charter powers, read under Dillon's Rule)",
+          "source": "https://en.wikipedia.org/wiki/Home_rule_in_the_United_States",
+          "note": "Weak: Virginia follows Dillon's Rule with no home rule (Wikipedia table); the general-welfare charter powers in Va. Code § 15.2-1102 (https://law.lis.virginia.gov/vacode/title15.2/chapter11/section15.2-1102/) grant no wage power in terms, and no Virginia locality has one."
+        },
+        "US-VI": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "V.I. Code tit. 24, § 4",
+          "source": "https://law.justia.com/codes/virgin-islands/title-24/chapter-1/",
+          "note": "The Virgin Islands sets its minimum wage through a territorial wage board and has no local governments that could set their own."
+        },
+        "US-VT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "24 V.S.A. § 2291",
+          "source": "https://legislature.vermont.gov/statutes/section/24/061/02291",
+          "note": "Weak: Vermont follows Dillon's Rule with no home rule (Wikipedia table), and the enumerated municipal powers in 24 V.S.A. § 2291 include no power to set wages."
+        },
+        "US-WA": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "RCW 49.46.120",
+          "source": "https://app.leg.wa.gov/rcw/default.aspx?cite=49.46.120",
+          "note": "State law is a floor that leaves more favorable local wage ordinances in force; Seattle, SeaTac, Tukwila and others have higher rates."
+        },
+        "US-WI": {
+          "answer": "no",
+          "operativeAt": "2005-06-16",
+          "preempts": true,
+          "cite": "Wis. Stat. § 104.001(2)",
+          "source": "https://docs.legis.wisconsin.gov/statutes/statutes/104/001",
+          "note": "2005 Wis. Act 12 voided any local minimum wage ordinance in effect on June 16, 2005 (Madison's)."
+        },
+        "US-WV": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "W. Va. Code § 21-5C-2",
+          "source": "https://code.wvlegislature.gov/21-5C-2/",
+          "note": "West Virginia sets one statewide minimum wage in article 5C and neither authorizes nor bars a local minimum wage, and no West Virginia city or county has adopted one."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Wyo. Stat. § 27-4-202",
+          "source": "https://law.justia.com/codes/wyoming/title-27/chapter-4/article-2/",
+          "note": "Wyoming sets its statewide minimum wage in article 2 of chapter 4 and neither authorizes nor bars a local minimum wage, and no Wyoming city or county has adopted one."
+        }
+      }
+    },
+    "us-policy-positions:labor-workforce.public-sector-collective-bargaining": {
+      "source": "State code and labor-board pages fetched 9/28/2026 (leginfo, delcode, DC Code, Florida, Iowa, Kansas, Massachusetts, Maine, Maryland, Michigan, Minnesota, Missouri, Montana, Nebraska, Nevada, New Hampshire, NJ PERC, NM PELRB, NY PERB, Ohio, Oregon, Pennsylvania, Rhode Island, South Dakota, Vermont, Washington, Wisconsin, NC, Texas, Virginia, Colorado General Assembly, Illinois and Hawaii labor boards); NCTQ teacher-bargaining database (updated January 2019) for states without a statute; Wikipedia for Utah HB 267 and Wisconsin Act 10.",
+      "note": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "answers": {
+        "US-AK": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Alaska Stat. § 23.40.080",
+          "source": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=23.40.080&secEnd=23.40.080",
+          "note": "All public employees: state and local workers and teachers may bargain collectively under the Public Employment Relations Act."
+        },
+        "US-AL": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+          "note": "No bargaining statute; Alabama courts hold public agencies may not bargain absent express statutory authority, though they may meet and confer (teacher data updated January 2019)."
+        },
+        "US-AR": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+          "note": "No public-sector bargaining statute; the general labor policy (Ark. Code § 11-3-301) gives no duty to bargain, so any bargaining is voluntary for the employer."
+        },
+        "US-AS": {
+          "answer": "yes",
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (2 answer yes), because this place's own law could not be read.",
+          "note": "Tried: American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
+        },
+        "US-AZ": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+          "note": "No bargaining statute; public employers may only 'meet and confer' (Ariz. Att'y Gen. Op. I06-004), with some cities such as Phoenix acting by local ordinance."
+        },
+        "US-CA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Cal. Gov. Code § 3502 (MMBA); §§ 3512 et seq. (Dills Act); §§ 3540 et seq. (EERA)",
+          "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=3502.",
+          "note": "All public employees: local government (MMBA), state (Dills Act) and school (EERA) employees have bargaining rights."
+        },
+        "US-CO": {
+          "answer": "yes",
+          "operativeAt": "2023-07-01",
+          "preempts": true,
+          "cite": "C.R.S. § 24-50-1101 et seq. (state employees, HB20-1153); C.R.S. § 8-3.3-101 et seq. (county employees, SB22-230)",
+          "source": "https://leg.colorado.gov/bills/sb22-230",
+          "note": "State employees (2020 Partnership Act) and employees of counties with 7,500+ people (from July 1, 2023); teachers and city workers bargain only where the local employer agrees."
+        },
+        "US-CT": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Conn. Gen. Stat. §§ 5-271 (state employees), 7-468 (municipal employees), 10-153d (teachers)",
+          "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+          "note": "All public employees: state, municipal and teacher bargaining acts; the state code site (cga.ct.gov) was unreachable, so the fetched source shows the teacher statute only."
+        },
+        "US-DC": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "D.C. Code § 1-617.06",
+          "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-617.06",
+          "note": "All District government employees may bargain collectively under the Comprehensive Merit Personnel Act."
+        },
+        "US-DE": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "19 Del. C. §§ 1302, 1303",
+          "source": "https://delcode.delaware.gov/title19/c013/index.html",
+          "note": "State employees and local employers with 25+ full-time employees (or that opt in); teachers have a separate act (14 Del. C. ch. 40)."
+        },
+        "US-FL": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Fla. Const. art. I, § 6; Fla. Stat. § 447.301",
+          "source": "https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0400-0499/0447/Sections/0447.301.html",
+          "note": "All public employees have a constitutional and statutory right to bargain collectively; recent laws added membership and recertification rules but kept the right."
+        },
+        "US-GA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "O.C.G.A. § 20-2-989.10 (teachers)",
+          "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+          "note": "No general bargaining law; the teacher statute says nothing permits collective bargaining, and only firefighters have a local-option law (O.C.G.A. § 25-5-1 et seq.)."
+        },
+        "US-GU": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "4 GCA §§ 10105-10110 (Public Employee-Management Relations Act)",
+          "source": "https://col.guamcourts.gov/sites/default/files/4gc010.pdf",
+          "note": "Guam public employees may organize, and a qualified employee organization with majority support in an appropriate unit gets exclusive recognition by government management."
+        },
+        "US-HI": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Haw. Rev. Stat. §§ 89-3, 89-9",
+          "source": "https://labor.hawaii.gov/hlrb/",
+          "note": "All public employees: state and county employees and teachers bargain under HRS chapter 89, enforced by the Hawaii Labor Relations Board."
+        },
+        "US-IA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Iowa Code §§ 20.8, 20.9",
+          "source": "https://www.legis.iowa.gov/docs/code/20.8.pdf",
+          "note": "All public employees keep the right, but since 2017 units with fewer than 30% public-safety members bargain only over base wages."
+        },
+        "US-ID": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Idaho Code § 33-1271 (teachers)",
+          "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+          "note": "Teachers (and firefighters under Idaho Code § 44-1801 et seq.) only; state and other local employees have no bargaining right."
+        },
+        "US-IL": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "5 ILCS 315 (Illinois Public Labor Relations Act); 115 ILCS 5 (educational employees); Ill. Const. art. I, § 25",
+          "source": "https://ilrb.illinois.gov/",
+          "note": "All public employees: state and local workers under the Public Labor Relations Act and school employees under the Educational Labor Relations Act; a 2022 constitutional amendment added a right to bargain."
+        },
+        "US-IN": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ind. Code § 20-29-6-1 (teachers)",
+          "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+          "note": "Teachers only, limited to wages and benefits; state employees have had no bargaining since a 2005 executive order was rescinded, and other local employees have no statute."
+        },
+        "US-KS": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "K.S.A. §§ 75-4321, 75-4324 (PEERA); K.S.A. § 72-2218 et seq. (teachers)",
+          "source": "https://www.ksrevisor.gov/statutes/chapters/ch75/075_043_0024.html",
+          "note": "State employees and teachers are covered; other local employers come under the act only if their governing body elects it (the act says 'meet and confer')."
+        },
+        "US-KY": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+          "note": "No general public-sector bargaining law; a public agency may choose to negotiate but has no duty to (Fayette County Educ. Ass'n v. Hardy, 1980); only some police and firefighter statutes exist."
+        },
+        "US-LA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+          "note": "No public-sector bargaining statute; school boards and localities may bargain at their discretion (Louisiana Teachers' Ass'n v. Orleans Parish School Bd., 1974)."
+        },
+        "US-MA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "M.G.L. c. 150E, § 2",
+          "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXXI/Chapter150E/Section2",
+          "note": "All public employees: state, municipal and school employees bargain under chapter 150E."
+        },
+        "US-MD": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Md. Code, State Pers. & Pens. § 3-501; Md. Code, Educ. §§ 6-402, 6-408",
+          "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gsp&section=3-501&enactments=false",
+          "note": "State employees and public school employees bargain by statute; county and city employees depend on local law."
+        },
+        "US-ME": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "26 M.R.S. §§ 963, 965; 26 M.R.S. §§ 979-B, 1023 (state and university employees)",
+          "source": "https://legislature.maine.gov/statutes/26/title26sec963.html",
+          "note": "All public employees: municipal, school, state and university employees bargain under separate acts."
+        },
+        "US-MI": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "MCL 423.209, 423.215 (PERA)",
+          "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-423-209",
+          "note": "Local and school employees under PERA; classified state employees bargain under the Civil Service Commission's constitutional authority; the 2023 right-to-work repeal did not change this."
+        },
+        "US-MN": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Minn. Stat. § 179A.06",
+          "source": "https://www.revisor.mn.gov/statutes/cite/179A.06",
+          "note": "All public employees: state, local and school employees bargain under the Public Employment Labor Relations Act."
+        },
+        "US-MO": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Mo. Const. art. I, § 29; RSMo § 105.510",
+          "source": "https://revisor.mo.gov/main/OneSection.aspx?section=I++++29&constit=y",
+          "note": "All public employees, including teachers and police, under the constitutional right to bargain as applied to the public sector in Independence-NEA v. Independence School District (2007); a 2018 restrictive law (HB 1413) was later struck down."
+        },
+        "US-MP": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "1 CMC §§ 9701-9711 (Public Employees Strike Act of 1991)",
+          "source": "https://cnmilaw.gov/docs/cmc_section/T1/9705.pdf",
+          "note": "Public employees may not strike and the Act only sets up mediation, fact-finding and arbitration of disputes, with no statutory right to organize or bargain, and wage disputes go to the Civil Service Commission."
+        },
+        "US-MS": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+          "note": "No public-sector bargaining statute; teachers may join unions but employers have no duty to bargain (Jackson v. Hazlehurst Mun. Separate School Dist., 1983)."
+        },
+        "US-MT": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Mont. Code Ann. § 39-31-201",
+          "source": "https://leg.mt.gov/bills/mca/title_0390/chapter_0310/part_0020/section_0010/0390-0310-0020-0010.html",
+          "note": "All public employees: state, local and school employees."
+        },
+        "US-NC": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "N.C. Gen. Stat. § 95-98",
+          "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_95/GS_95-98.html",
+          "note": "State law declares any public-sector collective bargaining contract illegal and void."
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "N.D. Cent. Code § 15.1-16-13 (teachers)",
+          "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+          "note": "Teachers only; state and other local employees have no bargaining right."
+        },
+        "US-NE": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Neb. Rev. Stat. § 48-837",
+          "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=48-837",
+          "note": "All public employees, with disputes resolved by the Commission of Industrial Relations; state employees also under the State Employees Collective Bargaining Act."
+        },
+        "US-NH": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "RSA 273-A:3",
+          "source": "https://gc.nh.gov/rsa/html/XXIII/273-A/273-A-3.htm",
+          "note": "All public employees: state, local and school employees bargain under RSA 273-A."
+        },
+        "US-NJ": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "N.J.S.A. 34:13A-5.3; N.J. Const. art. I, ¶ 19",
+          "source": "https://www.nj.gov/perc/documents/Chapter%2013A.pdf?ver=20220404",
+          "note": "All public employees: state, local and school employees."
+        },
+        "US-NM": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "NMSA 1978 §§ 10-7E-1 to 10-7E-26 (Public Employee Bargaining Act)",
+          "source": "https://pelrb.nm.gov/",
+          "note": "All public employees: state and local employees and teachers; the current act (2003) reinstated bargaining after the first act expired in 1999."
+        },
+        "US-NV": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "NRS 288.150 (local government); NRS 288.500 (state executive branch)",
+          "source": "https://www.leg.state.nv.us/NRS/NRS-288.html",
+          "note": "Local government employees and teachers since 1969; state executive-branch employees were added by SB 135 (2019)."
+        },
+        "US-NY": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "N.Y. Civ. Serv. Law §§ 203, 204 (Taylor Law)",
+          "source": "https://perb.ny.gov/",
+          "note": "All public employees: state, local and school employees under the Taylor Law."
+        },
+        "US-OH": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Ohio Rev. Code § 4117.03",
+          "source": "https://codes.ohio.gov/ohio-revised-code/section-4117.03",
+          "note": "All public employees: state, local and school employees (the 2011 SB 5 limits were repealed by referendum)."
+        },
+        "US-OK": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "70 O.S. § 509.6 (teachers); 11 O.S. § 51-101 et seq. (police and fire)",
+          "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+          "note": "Teachers and police/fire only; state employees have no right, and the 2004 law for general employees of large cities was repealed in 2011."
+        },
+        "US-OR": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "ORS 243.662",
+          "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors243.html",
+          "note": "All public employees: state, local and school employees."
+        },
+        "US-PA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "43 P.S. § 1101.401 (Act 195 of 1970)",
+          "source": "https://www.palegis.us/statutes/unconsolidated/law-information/view-statute?txtType=PDF&SessYr=1970&ActNum=0195.&SessInd=0",
+          "note": "All public employees: state, local and school employees under the Public Employe Relations Act; police and fire under Act 111."
+        },
+        "US-PR": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "P.R. Laws, Ley 45-1998 (Ley de Relaciones del Trabajo para el Servicio Público); Ley 9-2021",
+          "source": "https://www.lexjuris.com/lexlex/Leyes2021/lexl2021009.htm",
+          "note": "Central-government employees may bargain collectively under Ley 45-1998, and Ley 9-2021 (June 30, 2021) was enacted to guarantee collective bargaining."
+        },
+        "US-RI": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "R.I. Gen. Laws § 36-11-1 (state employees); § 28-9.4-3 (municipal employees); § 28-9.3 (teachers)",
+          "source": "https://webserver.rilegislature.gov/Statutes/TITLE36/36-11/36-11-1.htm",
+          "note": "All public employees: state, municipal and school employees."
+        },
+        "US-SC": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+          "note": "Public employees have no right to collective bargaining (Branch v. City of Myrtle Beach, S.C. 2000), and no statute grants one."
+        },
+        "US-SD": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "SDCL §§ 3-18-2, 3-18-3",
+          "source": "https://sdlegislature.gov/api/Statutes/3-18-2.html",
+          "note": "All public employees, including state employees, may designate representatives to meet and negotiate in good faith."
+        },
+        "US-TN": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Tenn. Code Ann. § 49-5-608 (collaborative conferencing)",
+          "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+          "note": "No public-sector bargaining law; since 2011 teachers have only 'collaborative conferencing' on listed topics, which replaced bargaining."
+        },
+        "US-TX": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Tex. Gov't Code § 617.002",
+          "source": "https://tcss.legis.texas.gov/resources/GV/htm/GV.617.htm",
+          "note": "State law bars public employers from recognizing a union or signing a bargaining contract; only police and firefighters may bargain where local voters adopt it (Local Gov't Code ch. 143, 174)."
+        },
+        "US-UT": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Utah_House_Bill_267",
+          "note": "No statute gives public employees a bargaining right; HB 267 (2025) would ban it outright but was blocked on May 6, 2025 pending a November 3, 2026 referendum, and a reported December 2025 repeal was not verified here."
+        },
+        "US-VA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Va. Code § 40.1-57.2",
+          "source": "https://law.lis.virginia.gov/vacode/title40.1/chapter4/section40.1-57.2/",
+          "note": "No right: bargaining is barred unless a county, city, town or school board opts in by ordinance (allowed since May 1, 2021), and state employees are excluded."
+        },
+        "US-VI": {
+          "answer": "yes",
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (2 answer yes), because this place's own law could not be read.",
+          "note": "Tried: V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found)."
+        },
+        "US-VT": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "3 V.S.A. § 903; 21 V.S.A. ch. 22; 16 V.S.A. ch. 57",
+          "source": "https://legislature.vermont.gov/statutes/section/03/027/00903",
+          "note": "All public employees: state, municipal and school employees."
+        },
+        "US-WA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "RCW 41.56.040 (local); RCW 41.80.050 (state); RCW 41.59 (teachers)",
+          "source": "https://app.leg.wa.gov/rcw/default.aspx?cite=41.80.050",
+          "note": "All public employees: state, local and school employees."
+        },
+        "US-WI": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Wis. Stat. § 111.70(2), (4)(mb) (2011 Act 10)",
+          "source": "https://docs.legis.wisconsin.gov/statutes/statutes/111/iv/70/2",
+          "note": "General municipal and school employees (and state employees) keep a right to bargain limited to total base wages since Act 10; a Dane County ruling of 12/2/2024 struck much of Act 10 but was on appeal, and either way a bargaining right existed on 1/1/2026."
+        },
+        "US-WV": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+          "note": "No public-sector bargaining statute; employers may negotiate voluntarily but no binding bargaining right exists."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://teacherquality.nctq.org/contract-database/collectiveBargaining",
+          "note": "Only firefighters have a bargaining statute (Wyo. Stat. § 27-10-101 et seq.); school boards may bargain voluntarily (1978 Att'y Gen. opinion)."
+        }
+      }
+    }
+  }
+}

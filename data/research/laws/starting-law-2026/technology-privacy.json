@@ -1,0 +1,1099 @@
+{
+  "questions": {
+    "us-policy-positions:technology-privacy.consumer-data-privacy-law": {
+      "source": "State statute sites and attorney general privacy pages fetched 9/28/2026 (Cal. OAG, Va. LIS, Colo. AG, Conn. AG, Tex. Capitol, Or. Legislature/DOJ, Mont. MCA 2025, Iowa Code 2026, Del. Code/DOJ, Neb. Legislature, N.H. RSA, N.J. P.L.2023 c.266, Tenn. Pub. Ch. 408, Minn. Revisor, Md. 2024 ch. 455, Ky. Acts 2024 ch. 72, R.I. Gen. Laws, Utah Code, Fla. Senate, Vt. Act 145, Nev. NRS, Wash. AG).",
+      "note": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "answers": {
+        "US-AK": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-AL": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "A comprehensive privacy law was signed in 2026 but takes effect 2027-05-01."
+        },
+        "US-AR": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-AS": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: American Samoa has no comprehensive consumer data privacy law in effect (it is not on the IAPP list of signed laws, updated 9/8/2026), and nothing in its code bars a local rule."
+        },
+        "US-AZ": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-CA": {
+          "answer": "yes",
+          "operativeAt": "2023-01-01",
+          "preempts": true,
+          "cite": "Cal. Civ. Code §§ 1798.100, 1798.105, 1798.106",
+          "source": "https://oag.ca.gov/privacy/ccpa",
+          "note": "The CCPA gave rights to know and delete on 1/1/2020; the CPRA (Proposition 24) added the right to correct on 1/1/2023, when all three rights were in effect."
+        },
+        "US-CO": {
+          "answer": "yes",
+          "operativeAt": "2023-07-01",
+          "preempts": true,
+          "cite": "Colo. Rev. Stat. § 6-1-1306",
+          "source": "https://coag.gov/resources/colorado-privacy-act/",
+          "note": "Colorado Privacy Act (SB 21-190)."
+        },
+        "US-CT": {
+          "answer": "yes",
+          "operativeAt": "2023-07-01",
+          "preempts": true,
+          "cite": "Conn. Gen. Stat. § 42-515 et seq. (Connecticut Data Privacy Act)",
+          "source": "https://portal.ct.gov/ag/sections/privacy/the-connecticut-data-privacy-act",
+          "note": "The attorney general's page confirms the effective date and the rights to access, correct and delete; the statute site cga.ct.gov refused the connection, so the exact rights section is not cited."
+        },
+        "US-DC": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: the District has no comprehensive consumer data privacy law in effect (it is not on the IAPP list of signed laws, updated 9/8/2026), and nothing in D.C. law bars a local rule."
+        },
+        "US-DE": {
+          "answer": "yes",
+          "operativeAt": "2025-01-01",
+          "preempts": true,
+          "cite": "6 Del. C. § 12D-104",
+          "source": "https://attorneygeneral.delaware.gov/fraud/personal-data-privacy-portal/consumer/",
+          "note": "Delaware Personal Data Privacy Act (84 Del. Laws c. 197); statute text at https://delcode.delaware.gov/title6/c012d/index.html. An amended version of the chapter takes effect 1/1/2027."
+        },
+        "US-FL": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Fla. Stat. §§ 501.702, 501.705",
+          "source": "https://www.flsenate.gov/Laws/Statutes/2025/501.702",
+          "note": "The Florida Digital Bill of Rights (ch. 2023-201, effective 7/1/2024) gives rights to access, correct and delete, but only against controllers with over $1 billion in global revenue that meet narrow tests, so it is not a comprehensive law."
+        },
+        "US-GA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-GU": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: Guam has no comprehensive consumer data privacy law in effect (it is not on the IAPP list of signed laws, updated 9/8/2026), and nothing in Guam law bars a local rule."
+        },
+        "US-HI": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-IA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Iowa Code § 715D.3",
+          "source": "https://www.legis.iowa.gov/docs/code/715D.pdf",
+          "note": "The Iowa Consumer Data Protection Act (2023 Acts ch. 17, effective 1/1/2025) gives rights to access, delete, copy and opt out but no right to correct."
+        },
+        "US-ID": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-IL": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-IN": {
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "On the IAPP list of signed comprehensive privacy laws, in effect from 2026-01-01."
+        },
+        "US-KS": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-KY": {
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "preempts": true,
+          "cite": "2024 Ky. Acts ch. 72 (HB 15), § 3 (KRS ch. 367)",
+          "source": "https://apps.legislature.ky.gov/law/acts/24RS/documents/0072.pdf",
+          "note": "Kentucky Consumer Data Protection Act; Section 12 sets 1/1/2026, the reference date itself."
+        },
+        "US-LA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "A comprehensive privacy law was signed in 2026 but takes effect 2027-01-01."
+        },
+        "US-MA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-MD": {
+          "answer": "yes",
+          "operativeAt": "2025-10-01",
+          "preempts": true,
+          "cite": "Md. Code, Com. Law § 14-4605",
+          "source": "https://mgaleg.maryland.gov/2024RS/Chapters_noln/CH_455_sb0541e.pdf",
+          "note": "Maryland Online Data Privacy Act (2024 ch. 455, SB 541); Section 4 sets 10/1/2025."
+        },
+        "US-ME": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-MI": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-MN": {
+          "answer": "yes",
+          "operativeAt": "2025-07-31",
+          "preempts": true,
+          "cite": "Minn. Stat. § 325M.14",
+          "source": "https://www.revisor.mn.gov/statutes/cite/325M.14",
+          "note": "Minnesota Consumer Data Privacy Act (Laws 2024, ch. 121, art. 5); postsecondary institutions have until 7/31/2029."
+        },
+        "US-MO": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-MP": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: the Commonwealth has no comprehensive consumer data privacy law in effect (it is not on the IAPP list of signed laws, updated 9/8/2026), and nothing in Commonwealth law bars a local rule."
+        },
+        "US-MS": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-MT": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Mont. Code Ann. § 30-14-2808",
+          "source": "https://mca.legmt.gov/bills/mca/title_0300/chapter_0140/part_0280/section_0080/0300-0140-0280-0080.html",
+          "note": "Montana Consumer Data Privacy Act (Ch. 681, L. 2023), in the 2025 MCA; its effective date (widely reported as 10/1/2024) was not confirmed on a fetched page because the session-law PDF returned 404 and dojmt.gov refused."
+        },
+        "US-NC": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-NE": {
+          "answer": "yes",
+          "operativeAt": "2025-01-01",
+          "preempts": true,
+          "cite": "Neb. Rev. Stat. § 87-1107",
+          "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=87-1107",
+          "note": "Nebraska Data Privacy Act (LB 1074, 2024); Section 100 of the act makes it operative 1/1/2025 (https://nebraskalegislature.gov/FloorDocs/108/PDF/Slip/LB1074.pdf)."
+        },
+        "US-NH": {
+          "answer": "yes",
+          "operativeAt": "2025-01-01",
+          "preempts": true,
+          "cite": "RSA 507-H:4",
+          "source": "https://gc.nh.gov/rsa/html/LII/507-H/507-H-4.htm",
+          "note": "The source note reads 2024, 5:1, eff. Jan. 1, 2025."
+        },
+        "US-NJ": {
+          "answer": "yes",
+          "operativeAt": "2025-01-15",
+          "preempts": true,
+          "cite": "N.J.S.A. 56:8-166.10",
+          "source": "https://pub.njleg.state.nj.us/Bills/2022/PL23/266_.HTM",
+          "note": "P.L.2023, c.266 was approved 1/16/2024 and takes effect on the 365th day after enactment, which is 1/15/2025."
+        },
+        "US-NM": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-NV": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "NRS 603A.345",
+          "source": "https://www.leg.state.nv.us/nrs/nrs-603a.html",
+          "note": "Nevada's online privacy law (NRS 603A.300 to 603A.360) gives only a right to opt out of sale, not rights to access, correct or delete."
+        },
+        "US-NY": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-OH": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-OK": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "A comprehensive privacy law was signed in 2026 but takes effect 2027-01-01."
+        },
+        "US-OR": {
+          "answer": "yes",
+          "operativeAt": "2024-07-01",
+          "preempts": true,
+          "cite": "ORS 646A.574",
+          "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors646A.html",
+          "note": "Oregon Consumer Privacy Act (2023 c.369); the effective date is from the Oregon DOJ privacy page, https://www.doj.state.or.us/consumer-protection/id-theft-data-breaches/privacy/."
+        },
+        "US-PA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-PR": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: Puerto Rico has no comprehensive consumer data privacy law in effect (it is not on the IAPP list of signed laws, updated 9/8/2026), and nothing in its law bars a local rule."
+        },
+        "US-RI": {
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "preempts": true,
+          "cite": "R.I. Gen. Laws § 6-48.1-5",
+          "source": "https://webserver.rilegislature.gov/Statutes/TITLE6/6-48.1/6-48.1-5.htm",
+          "note": "Rhode Island Data Transparency and Privacy Protection Act (P.L. 2024, ch. 430 and 453), effective 1/1/2026, the reference date itself; the statute says customer rather than consumer."
+        },
+        "US-SC": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-SD": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-TN": {
+          "answer": "yes",
+          "operativeAt": "2025-07-01",
+          "preempts": true,
+          "cite": "Tenn. Code Ann. § 47-18-3203",
+          "source": "https://publications.tnsosfiles.com/acts/113/pub/pc0408.pdf",
+          "note": "Tennessee Information Protection Act (2023 Pub. Ch. 408, HB 1181); Section 6 sets 7/1/2025."
+        },
+        "US-TX": {
+          "answer": "yes",
+          "operativeAt": "2024-07-01",
+          "preempts": true,
+          "cite": "Tex. Bus. & Com. Code § 541.051",
+          "source": "https://capitol.texas.gov/tlodocs/88R/billtext/html/HB00004F.htm",
+          "note": "Texas Data Privacy and Security Act (HB 4, 2023); Section 7 sets 7/1/2024, and the attorney general's page confirms it."
+        },
+        "US-UT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Utah Code § 13-61-201",
+          "source": "https://le.utah.gov/xcode/Title13/Chapter61/C13-61-S201_2026070120250507.html",
+          "note": "The Utah Consumer Privacy Act (in effect 12/31/2023) gave rights to access and delete but no right to correct on 1/1/2026; Laws 2025 ch. 468 adds a right to correct effective 7/1/2026, which turns this into yes on that date."
+        },
+        "US-VA": {
+          "answer": "yes",
+          "operativeAt": "2023-01-01",
+          "preempts": true,
+          "cite": "Va. Code § 59.1-577",
+          "source": "https://law.lis.virginia.gov/vacode/title59.1/chapter53/section59.1-577/",
+          "note": "Virginia Consumer Data Protection Act (2021 Sp. Sess. I, ch. 35/36); the enactment clause sets 1/1/2023, confirmed at https://legacylis.virginia.gov/cgi-bin/legp604.exe?212+ful+CHAP0035."
+        },
+        "US-VI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: the Virgin Islands has no comprehensive consumer data privacy law in effect (it is not on the IAPP list of signed laws, updated 9/8/2026), and nothing found bars a local rule."
+        },
+        "US-VT": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://legislature.vermont.gov/Documents/2026/Docs/ACTS/ACT145/ACT145%20Act%20Summary.pdf",
+          "note": "Vermont enacted a comprehensive law (S.71, Act 145, signed 6/16/2026) with access, correct and delete rights, but it takes effect 1/1/2028."
+        },
+        "US-WA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.atg.wa.gov/data-privacy",
+          "note": "Washington's privacy law is the My Health My Data Act (HB 1155), limited to consumer health data; the attorney general's privacy hub lists no comprehensive consumer data law."
+        },
+        "US-WI": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-WV": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://assets.contentstack.io/v3/assets/bltd4dd5b2d705252bc/blt90070182553bdfe6/State_Comp_Privacy_Law_Chart.pdf",
+          "note": "Weak: not on the IAPP list of signed comprehensive state privacy laws (updated 9/8/2026)."
+        }
+      }
+    },
+    "us-policy-positions:technology-privacy.restrict-government-facial-recognition": {
+      "source": "State code sites fetched 9/28/2026 (WA RCW 43.386, Va. Code 15.2-1723.2, Me. 25 MRSA 6001, Mass. GL c.6 s.220, Md. CP 2-501/2-503, Mont. 44-15, Utah SB 34 enrolled, Colo. SB 22-113 signed, Vt. Act 166 (2020) and 20 VSA 4622, Minn. 626.19, N.H. 105-D:2, Or. 133.741, Tex. HB 149); Fight for the Future Ban Facial Recognition map (live page, entries dated 2019-2023) for AL, IL, NY and weak no answers.",
+      "note": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "answers": {
+        "US-AK": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-AL": {
+          "answer": "yes",
+          "operativeAt": "2022-07-01",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Alabama's 2022 law bars police from using a facial recognition match as the sole basis for probable cause or an arrest; secondary tracker only, because the Alabama code site could not be reached."
+        },
+        "US-AR": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-AS": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (3 answer no), because this place's own law could not be read.",
+          "note": "Tried: American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
+        },
+        "US-AZ": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-CA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: California's body-camera facial recognition ban (Penal Code § 832.19, AB 1215) expired 1/1/2023 and no statewide replacement was found; cities such as San Francisco and Oakland have their own bans."
+        },
+        "US-CO": {
+          "answer": "yes",
+          "operativeAt": "2022-08-10",
+          "preempts": false,
+          "cite": "Colo. Rev. Stat. §§ 24-18-301 to -309",
+          "source": "https://leg.colorado.gov/sites/default/files/2022a_113_signed.pdf",
+          "note": "SB 22-113 requires state and local agencies to file notice and accountability reports and use human review, and bars police from ongoing surveillance or real-time identification without a warrant; the date is the 90-day effective date inferred from the referendum clause."
+        },
+        "US-CT": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-DC": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-DE": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-FL": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-GA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-GU": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Guam Code Annotated (searched for facial recognition)",
+          "source": "https://col.guamcourts.gov/sites/default/files/5gc033.pdf",
+          "note": "The only mention of facial recognition in the Guam code is a definition inside the notary law; nothing limits government use of it."
+        },
+        "US-HI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-IA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-ID": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-IL": {
+          "answer": "yes",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "A 2021 law (SB 225) bars the Secretary of State from giving facial recognition searches of license photos to any agency for federal immigration enforcement; this is a narrow restriction, confirmed only on a secondary tracker because ilga.gov could not be reached."
+        },
+        "US-IN": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-KS": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-KY": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: a 2022 law (SB 176) created a working group to study police facial recognition policy but set no restriction; no later statute was found."
+        },
+        "US-LA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: Louisiana's 2021 measure only requested a study of police facial recognition; no restricting statute was found."
+        },
+        "US-MA": {
+          "answer": "yes",
+          "operativeAt": "2020-12-31",
+          "preempts": false,
+          "cite": "Mass. Gen. Laws ch. 6, § 220",
+          "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleII/Chapter6/Section220",
+          "note": "Police may run a facial recognition search only through a written request to the motor vehicle registry, state police or FBI, for a court order or an emergency, and every search must be documented and reported."
+        },
+        "US-MD": {
+          "answer": "yes",
+          "operativeAt": "2024-10-01",
+          "preempts": false,
+          "cite": "Md. Code, Crim. Proc. §§ 2-501 to 2-510",
+          "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcp&section=2-503&enactments=false",
+          "note": "Maryland limits police facial recognition to listed serious crimes, forbids live or real-time identification and use on sketches, requires independent human verification, and bars identification based solely on a match."
+        },
+        "US-ME": {
+          "answer": "yes",
+          "operativeAt": "2021-10-18",
+          "preempts": false,
+          "cite": "25 M.R.S. § 6001",
+          "source": "https://legislature.maine.gov/statutes/25/title25sec6001.html",
+          "note": "Maine bars state and local officials from using facial surveillance except for a written request to the state police or motor vehicle bureau when there is probable cause of a serious crime, and a match cannot alone justify an arrest; the date is the general 90-day effective date of PL 2021, c. 394."
+        },
+        "US-MI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-MN": {
+          "answer": "yes",
+          "operativeAt": "2020-08-01",
+          "preempts": false,
+          "cite": "Minn. Stat. § 626.19, subd. 3(b)",
+          "source": "https://www.revisor.mn.gov/statutes/cite/626.19",
+          "note": "Narrow: police may not deploy a drone with facial recognition or other biometric matching unless a warrant expressly authorizes it; the date assumes the general August 1 effective date of 2020 c. 82."
+        },
+        "US-MO": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-MP": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://cnmilaw.gov/search?q=facial+recognition",
+          "note": "A search of the Commonwealth Code and Register found no law limiting government use of facial recognition, and no rule that bars local limits."
+        },
+        "US-MS": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-MT": {
+          "answer": "yes",
+          "operativeAt": "2023-10-01",
+          "preempts": false,
+          "cite": "Mont. Code Ann. §§ 44-15-101 to -112",
+          "source": "https://archive.legmt.gov/bills/mca/title_0440/chapter_0150/part_0010/section_0060/0440-0150-0010-0060.html",
+          "note": "Montana bans continuous facial surveillance by government, requires a warrant for most police facial recognition searches, and bars using a match as the sole basis for probable cause; the date assumes Montana's default October 1 effective date for Ch. 781, L. 2023."
+        },
+        "US-NC": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-NE": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-NH": {
+          "answer": "yes",
+          "operativeAt": "2017-01-01",
+          "preempts": false,
+          "cite": "N.H. Rev. Stat. § 105-D:2, XII",
+          "source": "https://www.gencourt.state.nh.us/rsa/html/VII/105-D/105-D-2.htm",
+          "note": "Narrow: body-camera recordings may not be run through facial recognition or other automated analysis, except that a still image may be shared to help identify people."
+        },
+        "US-NJ": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current. New Jersey was flagged as possible, but no statute was found."
+        },
+        "US-NM": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-NV": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-NY": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "N.Y. Educ. Law § 106-b",
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: a 2020 state law paused the use of facial recognition and other biometric identification in schools, and the state education commissioner later barred facial recognition in schools; confirmed only on a secondary tracker because nysenate.gov and nysed.gov could not be reached."
+        },
+        "US-OH": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-OK": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-OR": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "Or. Rev. Stat. § 133.741(1)(b)(D)",
+          "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors133.html",
+          "note": "Narrow: police body-camera policies must prohibit using facial recognition or other biometric matching on body-camera recordings; enacted in 2015 (exact effective date not confirmed)."
+        },
+        "US-PA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-PR": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.lexjuris.com/lexlex/Leyes2024/lexl2024Menu.htm",
+          "note": "No Puerto Rico law limiting government or police use of facial recognition appears in the index of enacted laws for 2002 through 2026."
+        },
+        "US-RI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-SC": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-SD": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-TN": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-TX": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://capitol.texas.gov/tlodocs/89R/billtext/html/HB00149F.htm",
+          "note": "Weak: the Texas Responsible AI Governance Act (HB 149, Bus. & Com. Code § 552.054, effective 1/1/2026) bars government AI from identifying people by biometric data or scraped images without consent only where that would violate their rights, and its definition of biometric data excludes photographs and video, so it is not counted as a facial recognition restriction."
+        },
+        "US-UT": {
+          "answer": "yes",
+          "operativeAt": "2021-05-05",
+          "preempts": false,
+          "cite": "Utah Code §§ 77-23e-101 to -106",
+          "source": "https://le.utah.gov/~2021/bills/static/SB0034.html",
+          "note": "A government entity may not run facial recognition on an image database except through a written police request with a case number and, for a crime, facts showing a fair probability the person committed a listed felony, handled by a trained employee."
+        },
+        "US-VA": {
+          "answer": "yes",
+          "operativeAt": "2022-07-01",
+          "preempts": false,
+          "cite": "Va. Code § 15.2-1723.2",
+          "source": "https://law.lis.virginia.gov/vacode/title15.2/chapter17/section15.2-1723.2/",
+          "note": "Local police may use facial recognition only for listed purposes, not for real-time tracking or as probable cause in a warrant affidavit, and must post a policy and keep records; this replaced a 2021 ban (date from secondary tracker), and a revised version takes effect 7/1/2026."
+        },
+        "US-VI": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (3 answer no), because this place's own law could not be read.",
+          "note": "Tried: V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found)."
+        },
+        "US-VT": {
+          "answer": "yes",
+          "preempts": false,
+          "cite": "2020 Vt. Acts & Resolves No. 166, § 14 (uncodified); 20 V.S.A. § 4622(d)(2)",
+          "source": "https://legislature.vermont.gov/Documents/2020/Docs/ACTS/ACT166/ACT166%20As%20Enacted.pdf",
+          "note": "Vermont bars police from using facial recognition until the General Assembly authorizes it, except where the drone law allows it; the drone law separately forbids facial recognition on drone data about anyone other than the target, and a 2022 amendment reportedly allows use in child sexual exploitation cases."
+        },
+        "US-WA": {
+          "answer": "yes",
+          "operativeAt": "2021-07-01",
+          "preempts": false,
+          "cite": "Wash. Rev. Code ch. 43.386",
+          "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=43.386&full=true",
+          "note": "State and local agencies must file notice and an accountability report, test and train for facial recognition, and need a warrant or court order for ongoing surveillance, real-time identification or persistent tracking."
+        },
+        "US-WI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-WV": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.banfacialrecognition.com/map/",
+          "note": "Weak: not on the Fight for the Future Ban Facial Recognition tracker's list of state laws, and no state statute was found; that tracker is not fully current."
+        }
+      }
+    },
+    "us-policy-positions:technology-privacy.age-verification-for-social-media": {
+      "source": "Wikipedia 'Online age verification laws in the United States' (fetched 9/28/2026) as the complete tracker; Supreme Court order 25A97 (8/14/2025); Fifth Circuit No. 24-60341 (4/17/2025); Tennessee General Assembly HB1891 page; Fla. Stat. 501.1736 (flsenate.gov); Va. Code 59.1-577.1; Utah PI order (9/10/2024); SC HB 3431 page; news reports for LA, NE, TX, VA injunctions.",
+      "note": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "answers": {
+        "US-AK": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        },
+        "US-AL": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        },
+        "US-AR": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ark. Code Ann. § 4-88-1401 et seq. (Act 689 of 2023)",
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Arkansas's Social Media Safety Act (SB 396, 2023) was enjoined in August 2023 and permanently struck down in March 2025, so it was not enforceable on 1/1/2026."
+        },
+        "US-AS": {
+          "answer": "no",
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (3 answer no), because this place's own law could not be read.",
+          "note": "Tried: American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
+        },
+        "US-AZ": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        },
+        "US-CA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "California's SB 976 requires age assurance only from 1/1/2027, and the Age-Appropriate Design Code (AB 2273) is enjoined; no social media age-verification duty was enforceable on 1/1/2026."
+        },
+        "US-CO": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026. Colorado's SB26-051 is an operating-system age-attestation law effective 7/1/2028, which does not count here."
+        },
+        "US-CT": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026. Connecticut's 2023 SB 3 is a data-privacy law without an account age-verification mandate, and the 2025 social media bill (HB 6587) died."
+        },
+        "US-DC": {
+          "answer": "no",
+          "cite": "Online age verification laws in the United States (state list)",
+          "source": "https://en.wikipedia.org/wiki/Online_age_verification_laws_in_the_United_States",
+          "note": "The District is not on the list of jurisdictions with a social media age-verification law, and the D.C. Code has none in force."
+        },
+        "US-DE": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        },
+        "US-FL": {
+          "answer": "yes",
+          "operativeAt": "2025-11-25",
+          "preempts": true,
+          "cite": "Fla. Stat. § 501.1736 (ch. 2024-42, HB 3)",
+          "source": "https://www.flsenate.gov/Laws/Statutes/2025/501.1736",
+          "note": "The law bars accounts for children under 14 and requires parental consent for ages 14 and 15; a federal judge enjoined it on 6/3/2025, but the Eleventh Circuit stayed that injunction on 11/25/2025, so it was enforceable on 1/1/2026 (the statute text does not itself spell out an age-verification method)."
+        },
+        "US-GA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Georgia's SB 351 (Act 463, 2024), requiring age verification and parental consent under 16, was preliminarily enjoined by a federal judge in June 2025 and remained blocked on 1/1/2026."
+        },
+        "US-GU": {
+          "answer": "no",
+          "cite": "Guam Code Annotated (searched for social media age or parental-consent rules)",
+          "source": "https://col.guamcourts.gov/sites/default/files/09gc019_Q.pdf",
+          "note": "The Guam code mentions social media only inside a criminal threats statute and has no age-verification or parental-consent law for social media accounts."
+        },
+        "US-HI": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        },
+        "US-IA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        },
+        "US-ID": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Idaho's HB 542 (age estimation and parental consent under 17) was signed 4/2/2026 and took effect 7/1/2026, after the 1/1/2026 reference date."
+        },
+        "US-IL": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Illinois's HB 5511 (Children's Social Media Safety Act) was signed 7/31/2026 and takes effect 1/1/2028."
+        },
+        "US-IN": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Indiana's HB 1408 (parental consent under 16 on large platforms) was signed 3/4/2026 and takes effect 1/1/2027."
+        },
+        "US-KS": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        },
+        "US-KY": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        },
+        "US-LA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "La. R.S. 51:1751 et seq. (Act 456 of 2023, SB 162)",
+          "source": "https://www.wafb.com/2025/12/16/louisianas-law-requiring-social-media-age-verification-minors-slapped-down-court/",
+          "note": "Louisiana's age-verification law (SB 162, 2023, as amended by HB 577) was permanently enjoined by a federal judge on 12/15/2025; the separate HB 61 (R.S. 9:2717.1) requires written parental consent for minors' online contracts but no age verification."
+        },
+        "US-MA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        },
+        "US-MD": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        },
+        "US-ME": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        },
+        "US-MI": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        },
+        "US-MN": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Minnesota's HF 4138 (age estimation and parental consent under 16) was signed 5/26/2026 and takes effect 7/1/2027."
+        },
+        "US-MO": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        },
+        "US-MP": {
+          "answer": "no",
+          "source": "https://cnmilaw.gov/search?q=social+media",
+          "note": "A search of the Commonwealth Code found no law requiring social media platforms to verify user ages or get parental consent."
+        },
+        "US-MS": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Miss. H.B. 1126 (2024), § 4 (Walker Montgomery Protecting Children Online Act)",
+          "source": "https://www.supremecourt.gov/opinions/24pdf/25a97_5h25.pdf",
+          "note": "The law requires commercially reasonable age verification and parental consent for minors; the Fifth Circuit vacated the first injunction on 4/17/2025 and the Supreme Court refused on 8/14/2025 to lift the stay of a later injunction, so it was enforceable on 1/1/2026."
+        },
+        "US-MT": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        },
+        "US-NC": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        },
+        "US-NE": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://nebraskapublicmedia.org/en/news/news-articles/federal-judge-blocks-nebraskas-social-media-age-verification-law-from-going-into-effect-in-july/",
+          "note": "Nebraska's LB 383 (Parental Rights in Social Media Act) had a 7/1/2026 effective date and its age-verification and parental-consent provisions were preliminarily enjoined on 6/27/2026."
+        },
+        "US-NH": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        },
+        "US-NJ": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        },
+        "US-NM": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        },
+        "US-NV": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        },
+        "US-NY": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://legislation.nysenate.gov/pdf/bills/2023/S7694A",
+          "note": "New York's SAFE for Kids Act requires age determination only after the Attorney General's rules; guidance issued 7/29/2026 makes it effective 1/25/2027."
+        },
+        "US-OH": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ohio Rev. Code § 1349.09",
+          "source": "https://codes.ohio.gov/ohio-revised-code/section-1349.09",
+          "note": "Ohio's Social Media Parental Notification Act (R.C. 1349.09) was enjoined in January 2024 and permanently enjoined on 4/16/2025; the Sixth Circuit upheld it on 6/18/2026, after the reference date."
+        },
+        "US-OK": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        },
+        "US-OR": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        },
+        "US-PA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        },
+        "US-PR": {
+          "answer": "no",
+          "cite": "P.R. Laws, Ley 185-2024 (Ley para la Protección de la Privacidad Cibernética de los Niños y Jóvenes)",
+          "source": "https://www.lexjuris.com/lexlex/Leyes2024/lexl2024185.htm",
+          "note": "Ley 185-2024 limits how social media sites collect and share data about known minors, but it does not require them to verify ages or get verified parental consent to open an account."
+        },
+        "US-RI": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        },
+        "US-SC": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.scstatehouse.gov/sess126_2025-2026/bills/3431.htm",
+          "note": "South Carolina's HB 3431 (age verification and parental consent under 18) was signed and took effect 2/5/2026 as Act No. 96, after the 1/1/2026 reference date."
+        },
+        "US-SD": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        },
+        "US-TN": {
+          "answer": "yes",
+          "operativeAt": "2025-01-01",
+          "preempts": true,
+          "cite": "Tenn. Code Ann. § 47-18-5703 (Pub. Ch. 899, 2024)",
+          "source": "https://wapp.capitol.tn.gov/apps/BillInfo/Default?BillNumber=HB1891&ga=113",
+          "note": "Platforms must verify the age of new account holders and verify parental consent for minors; a federal judge denied NetChoice a preliminary injunction on 6/18/2025, so the law was in force on 1/1/2026."
+        },
+        "US-TX": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.texastribune.org/2025/02/07/texas-scope-act-minors-social-media-restrictions/",
+          "note": "Texas's SCOPE Act (HB 18) relies on self-declared age at registration, and a federal judge preliminarily enjoined its age-verification provisions on 2/7/2025; the App Store Accountability Act (SB 2420) does not count here."
+        },
+        "US-UT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Utah Code §§ 13-71-101 to -401",
+          "source": "https://netchoice.org/wp-content/uploads/2024/09/NetChoice-v-Reyes-2024.09.10-ECF-86-ORDER-Granting-PI.pdf",
+          "note": "Utah's Minor Protection in Social Media Act (Utah Code §§ 13-71-101 to -401, 2024), which replaced the 2023 act, was preliminarily enjoined in full on 9/10/2024 and the appeal was still pending on 1/1/2026."
+        },
+        "US-VA": {
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "preempts": true,
+          "cite": "Va. Code § 59.1-577.1 (2025, c. 703, SB 854)",
+          "source": "https://law.lis.virginia.gov/vacode/title59.1/chapter53/section59.1-577.1/",
+          "note": "Platforms must use commercially reasonable methods to determine whether a user is under 16 and limit such users to one hour a day absent verifiable parental consent; it took effect 1/1/2026 and was preliminarily enjoined by a federal judge on 2/27/2026."
+        },
+        "US-VI": {
+          "answer": "no",
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (3 answer no), because this place's own law could not be read.",
+          "note": "Tried: V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found)."
+        },
+        "US-VT": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Vermont's Age-Appropriate Design Code Act (S.69, 2025) takes full effect 1/1/2027."
+        },
+        "US-WA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        },
+        "US-WI": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        },
+        "US-WV": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Social_media_age_verification_laws_in_the_United_States",
+          "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
+        }
+      }
+    }
+  }
+}

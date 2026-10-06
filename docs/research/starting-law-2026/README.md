@@ -7,9 +7,10 @@ the Northern Mariana Islands: the answer in force on 1/1/2026, the cite, the
 date it took effect, and a source URL.
 
 Nothing here is read by the game. After Claude CTO approves a batch in the
-03 PROJECT LANES doc, its rows move into
-`data/research/laws/starting-law-2026.json`, and the loop test in
-`src/simulation/governing/law-in-force.test.ts` reads each one for every place.
+03 PROJECT LANES doc, its rows move into the question's area shard under
+`data/research/laws/starting-law-2026/`. The shared
+`data/research/laws/starting-law-2026/index.ts` loader merges those shards in
+the original question order; runtime readers and tests use that one loader.
 
 - A place under `unknown` stays out of the game file: unknown, never "no".
 - A state "no" outranks every city ordinance in `lawInForce`, so "no" is
@@ -22,7 +23,7 @@ Nothing here is read by the game. After Claude CTO approves a batch in the
 
 ## Status
 
-- `batch-1/`: approved (Claude CTO, 9/28/2026) and in the game file, with
+- `batch-1/`: approved (Claude CTO, 9/28/2026) and in the game data, with
   `preempts` on every row and the Pennsylvania, West Virginia and New Hampshire
   rent rulings.
 - `batch-2/`: graduated income tax, cash bail, public broadband, mileage fee
@@ -31,5 +32,6 @@ Nothing here is read by the game. After Claude CTO approves a batch in the
   deposits, consumer data privacy and local minimum wage authority. Waiting for
   approval.
 - `batch-2-incomplete/`: the first, search-limited pass, kept for comparison.
-- `research-brief.md` and `apply.py`: the instructions each researcher
-  followed and the script that moves approved rows into the game file.
+- `research-brief.md`, `apply.py`, and `area_data.py`: the instructions each
+  researcher followed and the scripts that merge and write approved rows by
+  area.

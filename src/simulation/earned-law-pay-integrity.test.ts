@@ -42,7 +42,7 @@ import {
 import type { EarnedLawPayAssessmentRecord } from "./types";
 import type { ResolvedHourlyLawPayConsequence } from "./law-consequence-types";
 import type { EntityId, World } from "./types";
-import lawData from "../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import lawData from "../../data/research/laws/starting-law-2026/index";
 import { applyLawConsequences } from "./enacted-law-effects";
 import { recordWorkRole } from "./life";
 import { lifePlaceByKey, lifePlaceByJurisdictionId } from "./life-places";

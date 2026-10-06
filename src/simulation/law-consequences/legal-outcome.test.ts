@@ -1,6 +1,6 @@
 import { afterAll, describe, expect, it } from "vitest";
 import { writeFileSync } from "node:fs";
-import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../../data/research/laws/starting-law-2026/index";
 import { makeIsoDate, addDays } from "../dates";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import {

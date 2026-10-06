@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import startingLaw from "../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../data/research/laws/starting-law-2026/index";
 import { createScenarioWorld } from "./demo";
 import { searchLifePlaces, stateJurisdictionForKey } from "./life-places";
 import { ensureJurisdiction } from "./national-election-geography";

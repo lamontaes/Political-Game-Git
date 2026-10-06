@@ -1,0 +1,1155 @@
+{
+  "questions": {
+    "us-policy-positions:education.universal-preschool": {
+      "source": "Education Commission of the States and NIEER (2025): Colorado, Florida, Oklahoma, Vermont and D.C. offer universal pre-K to four-year-olds.",
+      "note": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "answers": {
+        "US-AK": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/alaska",
+          "note": "The Alaska Pre-Elementary program is a competitive grant to selected school districts, not a place for every child. State law does not bar cities or counties from funding preschool."
+        },
+        "US-AL": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/alabama",
+          "note": "First Class Pre-K is a voluntary grant program open to four-year-olds, but it funds limited classrooms rather than a place for every family that asks. State law does not bar cities or counties from funding preschool."
+        },
+        "US-AR": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/arkansas",
+          "note": "Arkansas Better Chance serves children with income or risk factors listed in the program rules, not every family. State law does not bar cities or counties from funding preschool."
+        },
+        "US-AS": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "A.S.C.A. §§ 16.1501, 16.1502",
+          "source": "https://asbar.org/code-annotated/16-1501-establishment-of-program/",
+          "note": "The code sets up an early childhood education program in the Department of Education but promises no place to every four-year-old, and it does not bar villages from funding preschool."
+        },
+        "US-AZ": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/arizona",
+          "note": "State support is a Quality First scholarship for lower-income families, not a place for every child. State law does not bar cities or counties from funding preschool."
+        },
+        "US-CA": {
+          "answer": "yes",
+          "operativeAt": "2025-07-01",
+          "cite": "Cal. Educ. Code § 48000(c)(1)(G)",
+          "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=EDC&sectionNum=48000",
+          "note": "From the 2025-26 school year every child who turns four by September 1 must be admitted to transitional kindergarten, and the date is the start of that school year."
+        },
+        "US-CO": {
+          "answer": "yes",
+          "operativeAt": "2023-08-01"
+        },
+        "US-CT": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/connecticut",
+          "note": "School Readiness funds are for children in lower-income households or priority towns, not every family. State law does not bar cities or counties from funding preschool."
+        },
+        "US-DC": {
+          "answer": "yes"
+        },
+        "US-DE": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/delaware",
+          "note": "The Early Childhood Assistance Program serves four-year-olds who qualify for Head Start, not every family. State law does not bar cities or counties from funding preschool."
+        },
+        "US-FL": {
+          "answer": "yes"
+        },
+        "US-GA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/georgia",
+          "note": "Georgia's Pre-K Program is open to every four-year-old but voluntary for providers and capped by lottery funds, so the state does not guarantee a place for every family. State law does not bar cities or counties from funding preschool."
+        },
+        "US-GU": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "17 GCA ch. 6, §§ 6105.1, 6107",
+          "source": "https://col.guamcourts.gov/sites/default/files/17gc006.pdf",
+          "note": "Guam's education code starts public schooling at kindergarten (five years old by July 31) and only lets gifted four-year-olds enter early, so it funds no preschool for every child, and it does not bar villages from doing so."
+        },
+        "US-HI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/hawaii",
+          "note": "State preschool seats are limited and the Preschool Open Doors subsidy is income-based, so not every family gets a place. State law does not bar cities or counties from funding preschool."
+        },
+        "US-IA": {
+          "answer": "yes",
+          "cite": "Iowa Code §§ 256C.2, 256C.3(1)",
+          "source": "https://www.legis.iowa.gov/docs/code/256C.3.pdf",
+          "note": "The Statewide Voluntary Preschool Program is open to every four-year-old resident and funded for each child enrolled, though each school district chooses to take part."
+        },
+        "US-ID": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/idaho",
+          "note": "State law funds no preschool program of its own for four-year-olds, and it does not bar cities or counties from funding one."
+        },
+        "US-IL": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/illinois",
+          "note": "Preschool for All is a competitive grant program aimed at children at risk of academic failure, not every family. State law does not bar cities or counties from funding preschool."
+        },
+        "US-IN": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/indiana",
+          "note": "On My Way Pre-K is a voucher for low-income four-year-olds, not a place for every child. State law does not bar cities or counties from funding preschool."
+        },
+        "US-KS": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/kansas",
+          "note": "State preschool money goes to at-risk children and a small pilot, not every family. State law does not bar cities or counties from funding preschool."
+        },
+        "US-KY": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/kentucky",
+          "note": "State preschool serves four-year-olds under an income limit and children with disabilities, not every family. State law does not bar cities or counties from funding preschool."
+        },
+        "US-LA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/louisiana",
+          "note": "LA 4 and related programs serve children at or below 200 percent of poverty, not every family. State law does not bar cities or counties from funding preschool."
+        },
+        "US-MA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/massachusetts",
+          "note": "Commonwealth Preschool Partnerships grants go to selected districts, which set their own priorities, so not every family gets a place. State law does not bar cities or counties from funding preschool."
+        },
+        "US-MD": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/maryland",
+          "note": "State prekindergarten is free for four-year-olds from lower-income families, with expansion under the Blueprint, not every family. State law does not bar cities or counties from funding preschool."
+        },
+        "US-ME": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/maine",
+          "note": "The public preschool program is optional for each school unit and funded only where the unit chooses to run it (20-A M.R.S. § 4271), so no family is assured a place. State law does not bar cities or counties from funding preschool."
+        },
+        "US-MI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/michigan",
+          "note": "The Great Start Readiness Program funds capped grants to intermediate districts, with children served by eligibility and priority guidelines (MCL 388.1632d), not every family. State law does not bar cities or counties from funding preschool."
+        },
+        "US-MN": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/minnesota",
+          "note": "Voluntary Pre-K and school readiness money serves children with at least one risk factor, not every family. State law does not bar cities or counties from funding preschool."
+        },
+        "US-MO": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/missouri",
+          "note": "State pre-K counts only a small share of a district's low-income children, not every family. State law does not bar cities or counties from funding preschool."
+        },
+        "US-MP": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "3 CMC § 1122",
+          "source": "https://www.cnmilaw.gov/docs/cmc_section/T3/1122.pdf",
+          "note": "The Education Act tells the Board of Education to provide programs suited to student needs but does not entitle every four-year-old to a preschool place, and it does not bar municipalities from funding preschool."
+        },
+        "US-MS": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/mississippi",
+          "note": "Early Learning Collaboratives are grant-funded in selected communities, not a place for every child. State law does not bar cities or counties from funding preschool."
+        },
+        "US-MT": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/montana",
+          "note": "State preschool programs admit children by screening scores at selected sites, not every family. State law does not bar cities or counties from funding preschool."
+        },
+        "US-NC": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/north-carolina",
+          "note": "NC Pre-K serves children at or below 75 percent of state median income plus a small share with risk factors, not every family. State law does not bar cities or counties from funding preschool."
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/north-dakota",
+          "note": "State-funded preschool is limited grants for low-income children, not every family. State law does not bar cities or counties from funding preschool."
+        },
+        "US-NE": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/nebraska",
+          "note": "State preschool requires that most children in each program have a listed risk factor, not every family. State law does not bar cities or counties from funding preschool."
+        },
+        "US-NH": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/new-hampshire",
+          "note": "State law funds no preschool program of its own for four-year-olds, and it does not bar cities or counties from funding one."
+        },
+        "US-NJ": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/new-jersey",
+          "note": "Preschool is funded in Abbott and expansion districts, about half of districts, not statewide for every child. State law does not bar cities or counties from funding preschool."
+        },
+        "US-NM": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/new-mexico",
+          "note": "NM PreK is a competitive grant program with priority for Title I attendance zones, not a place for every family. State law does not bar cities or counties from funding preschool."
+        },
+        "US-NV": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/nevada",
+          "note": "State pre-K goes to programs serving children with the highest need, not every family. State law does not bar cities or counties from funding preschool."
+        },
+        "US-NY": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/new-york",
+          "note": "Universal Prekindergarten is funded as grants to participating school districts, and the Regents' goal of truly universal access is set for 2035, so no place is assured for every child. State law does not bar cities or counties from funding preschool."
+        },
+        "US-OH": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/ohio",
+          "note": "Early Childhood Education grants serve children found eligible through a unified state process, not every family. State law does not bar cities or counties from funding preschool."
+        },
+        "US-OK": {
+          "answer": "yes"
+        },
+        "US-OR": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/oregon",
+          "note": "Oregon Pre-K follows federal Head Start income rules and serves children from low-income families, not every family. State law does not bar cities or counties from funding preschool."
+        },
+        "US-PA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/pennsylvania",
+          "note": "Pre-K Counts serves children in households up to 300 percent of poverty through competitive grants, not every family. State law does not bar cities or counties from funding preschool."
+        },
+        "US-PR": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Ley 85-2018 (Ley de Reforma Educativa de Puerto Rico)",
+          "source": "https://www.lexjuris.com/lexlex/Leyes2018/lexl2018085.pdf",
+          "note": "The Education Reform Act lists pre-kindergarten among the basic school programs but gives no four-year-old a right to a state-funded place, and it does not bar municipalities from funding preschool."
+        },
+        "US-RI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/rhode-island",
+          "note": "State Pre-K is a lottery in participating communities only, not a place for every child. State law does not bar cities or counties from funding preschool."
+        },
+        "US-SC": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/south-carolina",
+          "note": "The Child Early Reading Development and Education Program serves children eligible for free lunch or Medicaid, not every family. State law does not bar cities or counties from funding preschool."
+        },
+        "US-SD": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/south-dakota",
+          "note": "State law funds no preschool program of its own for four-year-olds, and it does not bar cities or counties from funding one."
+        },
+        "US-TN": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/tennessee",
+          "note": "Voluntary Pre-K gives priority to low-income children and has limited seats, not a place for every family. State law does not bar cities or counties from funding preschool."
+        },
+        "US-TX": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/texas",
+          "note": "Public prekindergarten is for four-year-olds who meet listed eligibility, such as low income or limited English, not every family. State law does not bar cities or counties from funding preschool."
+        },
+        "US-UT": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/utah",
+          "note": "Preschool grants prioritize high-quality seats for eligible three- and four-year-olds, not every family. State law does not bar cities or counties from funding preschool."
+        },
+        "US-VA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/virginia",
+          "note": "The Virginia Preschool Initiative serves four-year-olds identified as at risk, not every family. State law does not bar cities or counties from funding preschool."
+        },
+        "US-VI": {
+          "answer": "yes",
+          "operativeAt": "2012-03-07",
+          "cite": "V.I. Code tit. 17, § 231",
+          "source": "https://law.justia.com/codes/virgin-islands/title-17/chapter-20/231/",
+          "note": "The Department of Education must run a territory-wide voluntary pre-kindergarten program for four-year-olds, aimed at all children who are four, with selection criteria left to Commissioner rules; the section was added March 7, 2012."
+        },
+        "US-VT": {
+          "answer": "yes"
+        },
+        "US-WA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/washington",
+          "note": "The Early Childhood Education and Assistance Program is for children who meet income or special-circumstance criteria, not every family. State law does not bar cities or counties from funding preschool."
+        },
+        "US-WI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/wisconsin",
+          "note": "Four-year-old kindergarten is open to every child if a school district offers it, but districts are not required to offer it, so the state does not assure a place for every child. State law does not bar cities or counties from funding preschool."
+        },
+        "US-WV": {
+          "answer": "yes",
+          "cite": "W. Va. Code § 18-5-44(d), (e)",
+          "source": "https://code.wvlegislature.gov/18-5-44/",
+          "note": "County boards must provide early childhood education programs for all children who are four before the school-year cutoff date, open to every child."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://nieer.org/yearbook/2025/state-profiles/wyoming",
+          "note": "State law funds no preschool program of its own for four-year-olds, and it does not bar cities or counties from funding one."
+        }
+      }
+    },
+    "us-policy-positions:education.public-funds-for-private-schooling": {
+      "source": "EdChoice 'School Choice in America' state and program pages (program facts last updated 12/16/2025, fetched 9/28/2026); Wyoming Department of Education ESA page and Idaho State Tax Commission parental-choice credit page (fetched 9/28/2026).",
+      "note": "Every place is answered.",
+      "answers": {
+        "US-AK": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "AS § 14.03.300-320",
+          "source": "https://www.edchoice.org/school-choice/programs/correspondence-school-allotment-program/",
+          "note": "Correspondence-school allotments may buy individual courses at private schools, but the state education department bars their use for full-time private school enrollment, so no public money follows a student to a private school."
+        },
+        "US-AL": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Ala. Code §§ 16-6J-1 to 16-6J-9",
+          "source": "https://www.edchoice.org/school-choice/programs/creating-hope-opportunity-for-our-students-education/",
+          "note": "Universal-track education savings accounts (CHOOSE Act) since the 2025-26 school year, plus tax-credit scholarships for students zoned to failing schools since 2013."
+        },
+        "US-AR": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Ark. Code Ann. §§ 6-18-2501 to 6-18-2511",
+          "source": "https://www.edchoice.org/school-choice/programs/arkansas-childrens-educational-freedom-account-program/",
+          "note": "Education savings accounts (Education Freedom Accounts) since 2023, universal by 2025-26, plus a small tax-credit scholarship."
+        },
+        "US-AS": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.edchoice.org/state/american-samoa/",
+          "note": "EdChoice reports no private school choice program."
+        },
+        "US-AZ": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Ariz. Rev. Stat. §§ 15-2401 to 15-2404",
+          "source": "https://www.edchoice.org/school-choice/programs/arizona-empowerment-scholarship-accounts/",
+          "note": "Universal education savings accounts (about 96,800 students), plus four tax-credit scholarship programs, the oldest since 1997."
+        },
+        "US-CA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.edchoice.org/state/california/",
+          "note": "No private school choice program."
+        },
+        "US-CO": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.edchoice.org/state/colorado/",
+          "note": "No program; the Douglas County district voucher was repealed after years of litigation."
+        },
+        "US-CT": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.edchoice.org/state/connecticut/",
+          "note": "No private school choice program."
+        },
+        "US-DC": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "D.C. Code § 38-1853",
+          "source": "https://www.edchoice.org/school-choice/programs/district-of-columbia-opportunity-scholarship-program/",
+          "note": "Federally funded Opportunity Scholarship vouchers for low-income students only, since 2004 (about 1,400 students)."
+        },
+        "US-DE": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.edchoice.org/state/delaware/",
+          "note": "No private school choice program."
+        },
+        "US-FL": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Fla. Stat. §§ 1002.394, 1002.395",
+          "source": "https://www.edchoice.org/school-choice/programs/florida-family-empowerment-scholarship-program/",
+          "note": "Universal education savings accounts (Family Empowerment Scholarships) and a tax-credit scholarship; the largest program in the country."
+        },
+        "US-GA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "O.C.G.A. §§ 20-2B-1 to 20-2B-31",
+          "source": "https://www.edchoice.org/school-choice/programs/georgia-promise-scholarship/",
+          "note": "Promise Scholarship accounts since 2025 for students zoned to low-performing schools, a special-needs voucher since 2007 and a tax-credit scholarship since 2008."
+        },
+        "US-GU": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.edchoice.org/state/guam/",
+          "note": "EdChoice reports no private school choice program."
+        },
+        "US-HI": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.edchoice.org/state/hawaii/",
+          "note": "No private school choice program."
+        },
+        "US-IA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Iowa Code § 257.11B",
+          "source": "https://www.legis.iowa.gov/docs/code/257.11B.pdf",
+          "note": "Students First ESA: $7,988 (798800 USD minor units) per approved pupil for the 2025-26 school budget year, July 1, 2025 through June 30, 2026; not a monthly or calendar-year payment. Eligible pupils are Iowa residents in K-12 attending an accredited nonpublic school located in Iowa full-time, regardless of family income; an approved application is required each school year. The existing tax-credit scholarship answer is preserved; this award term describes Students First only.",
+          "operativeAt": "2025-07-01",
+          "operativeBasis": "source-stated-effective-date",
+          "quote": "257.11B(2)(a)(3): For school budget years beginning on or after July 1, 2025, resident pupils eligible to enroll in kindergarten through grade twelve who attend a nonpublic school are eligible. 257.11B(4): Each payment equals the regular program state cost per pupil for the same school budget year.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+              "key": "award",
+              "value": 798800,
+              "unit": "minor"
+            }
+          ],
+          "before": {
+            "answer": "yes",
+            "preempts": true
+          },
+          "phases": [
+            {
+              "answer": "yes",
+              "preempts": true,
+              "operativeAt": "2026-07-01",
+              "source": "https://www.legis.iowa.gov/docs/code/257.11B.pdf",
+              "note": "Annual applications and a same-school-budget-year award are required. The 2025-26 amount is not carried into a later school year."
+            }
+          ],
+          "awardSource": "https://drive.google.com/uc?id=1jRZY13wU6vWnWw5s4ZbEHN0n5B714v9K&export=download",
+          "awardSourceField": "Iowa Department of Management, Aid and Levy, Tax Certification, and Program Summary FY2026: Aid&Levy F214/G214 labels L729 FY26 Regular Program State Cost Per Pupil; Data_AidAndLevy GN1=L729, GN2=7988 (also GN3/GN4=7988). Linked by https://dom.iowa.gov/local-government/school-resources.",
+          "eligibilitySource": "https://educate.iowa.gov/press-release/2025-04-15/iowa-department-education-announces-opening-2025-26-students-first-education-savings-account",
+          "eligibilitySourceDate": "2025-04-15"
+        },
+        "US-ID": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Idaho Code § 63-3029N",
+          "source": "https://www.edchoice.org/school-choice/programs/idaho-parental-choice-tax-credit/",
+          "note": "Refundable parental-choice tax credit (up to $5,000 per student, $7,500 with a disability) funded by a $50 million appropriation, covering private school tuition paid in 2025; awards were claimed on 2025 returns filed in 2026, and advance payments began in 2026."
+        },
+        "US-IL": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "35 ILCS 5/201(m)",
+          "source": "https://www.edchoice.org/school-choice/programs/illinois-tax-credits-for-educational-expenses/",
+          "note": "Only a nonrefundable income-tax credit for a family's own education expenses remains; the Invest in Kids tax-credit scholarship expired at the end of 2024."
+        },
+        "US-IN": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Ind. Code §§ 20-51-1 to 20-51-4",
+          "source": "https://www.edchoice.org/school-choice/programs/indiana-choice-scholarship-program/",
+          "note": "Near-universal vouchers (Choice Scholarships) since 2011, plus a special-needs education savings account and a tax-credit scholarship."
+        },
+        "US-KS": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "K.S.A. § 72-4351 et seq.",
+          "source": "https://www.edchoice.org/school-choice/programs/kansas-tax-credit-for-low-income-students-scholarship-program/",
+          "note": "Tax-credit scholarships for low-income students only, since 2015."
+        },
+        "US-KY": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.edchoice.org/state/kentucky/",
+          "note": "No program; the 2021 tax-credit account law was struck by the state Supreme Court and 2024 Amendment 2 failed."
+        },
+        "US-LA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "La. Rev. Stat. §§ 17:4037.1 to 17:4037.12",
+          "source": "https://www.edchoice.org/school-choice/programs/la-giving-all-true-opportunity-to-rise-gator-program/",
+          "note": "LA GATOR education savings accounts since the 2025-26 school year (about 6,000 students), plus a special-needs voucher and a tuition-donation tax-credit scholarship."
+        },
+        "US-MA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.edchoice.org/state/massachusetts/",
+          "note": "No private school choice program."
+        },
+        "US-MD": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Senate Bill 190 (2016), budget item R00A03.05",
+          "source": "https://www.edchoice.org/school-choice/programs/maryland-broadening-options-opportunities-students-today-boost-program/",
+          "note": "BOOST vouchers for low-income students only, funded at $9 million for 2025-26 (about 3,000 students)."
+        },
+        "US-ME": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Me. Rev. Stat. tit. 20-A §§ 5203-5206",
+          "source": "https://www.edchoice.org/school-choice/programs/maine-town-tuitioning-program/",
+          "note": "Town tuitioning only: students in towns with no public school at their grade level may take public tuition to a chosen private school."
+        },
+        "US-MI": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.edchoice.org/state/michigan/",
+          "note": "No program; the state constitution bars public aid to private schools."
+        },
+        "US-MN": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Minn. Stat. §§ 290.0674, 290.0132 subd. 4",
+          "source": "https://www.edchoice.org/school-choice/programs/minnesota-k-12-education-credit/",
+          "note": "Only a tax deduction for a family's own tuition and a refundable credit for non-tuition expenses; no public money pays private tuition."
+        },
+        "US-MO": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Mo. Rev. Stat. §§ 135.712 to 135.719, 166.700 to 166.720",
+          "source": "https://www.edchoice.org/school-choice/programs/missouri-empowerment-scholarship-accounts-program/",
+          "note": "Tax-credit education savings accounts (MOScholars) since 2021, open to families by income tier (about 2,700 students)."
+        },
+        "US-MP": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.edchoice.org/state/northern-mariana-islands/",
+          "note": "EdChoice reports no private school choice program."
+        },
+        "US-MS": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Miss. Code Ann. §§ 37-181-1 to 37-181-21",
+          "source": "https://www.edchoice.org/school-choice/programs/mississippi-equal-opportunity-for-students-with-special-needs-program/",
+          "note": "Education savings accounts and vouchers for students with disabilities or dyslexia only."
+        },
+        "US-MT": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Mont. Code Ann. §§ 20-7-1701 to 20-7-1710",
+          "source": "https://www.edchoice.org/school-choice/programs/montana-special-needs-equal-opportunity-education-savings-account-program/",
+          "note": "Special-needs education savings accounts since 2024 and a tax-credit scholarship since 2015."
+        },
+        "US-NC": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "N.C. Gen. Stat. §§ 115C-562.1 to 115C-562.8",
+          "source": "https://www.edchoice.org/school-choice/programs/north-carolina-opportunity-scholarships/",
+          "note": "Universal-eligibility Opportunity Scholarship vouchers (about 103,400 students) and a special-needs education savings account."
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.edchoice.org/state/north-dakota/",
+          "note": "No private school choice program."
+        },
+        "US-NE": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.edchoice.org/state/nebraska/",
+          "note": "No program on 1/1/2026; the 2024 LB 1402 scholarships were repealed by referendum in November 2024."
+        },
+        "US-NH": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "N.H. Rev. Stat. §§ 194-F:1 to 194-F:12",
+          "source": "https://www.edchoice.org/school-choice/programs/education-freedom-account-program/",
+          "note": "Education Freedom Accounts since 2021 (universal from 2025-26), plus a tax-credit scholarship and town tuitioning."
+        },
+        "US-NJ": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.edchoice.org/state/new-jersey/",
+          "note": "No private school choice program."
+        },
+        "US-NM": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.edchoice.org/state/new-mexico/",
+          "note": "No private school choice program."
+        },
+        "US-NV": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "NRS 388D.250 to 388D.280",
+          "source": "https://www.edchoice.org/school-choice/programs/nevada-educational-choice-scholarship-program/",
+          "note": "Tax-credit scholarships for students in lower-income households only, since 2015."
+        },
+        "US-NY": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.edchoice.org/state/new-york/",
+          "note": "No private school choice program."
+        },
+        "US-OH": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Ohio Rev. Code §§ 3310.01 to 3310.17, 3310.032",
+          "source": "https://www.edchoice.org/school-choice/programs/ohio-educational-choice-scholarship-program/",
+          "note": "Near-universal EdChoice vouchers, Cleveland, autism and special-needs vouchers, and a tax-credit scholarship."
+        },
+        "US-OK": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Okla. Stat. tit. 70 §§ 28-100 to 28-103, § 13-101.2",
+          "source": "https://www.edchoice.org/school-choice/programs/oklahoma-parental-choice-tax-credit-act/",
+          "note": "Refundable parental-choice tax credit for private tuition since 2024 (about 39,200 students), a special-needs voucher since 2010 and a tax-credit scholarship."
+        },
+        "US-OR": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.edchoice.org/state/oregon/",
+          "note": "No private school choice program."
+        },
+        "US-PA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "24 P.S. §§ 20-2001-B to 20-2013-B",
+          "source": "https://www.edchoice.org/school-choice/programs/pennsylvania-educational-improvement-tax-credit-program/",
+          "note": "Tax-credit scholarships only (Educational Improvement and Opportunity Scholarship tax credits); no voucher or education savings account."
+        },
+        "US-PR": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "3 L.P.R.A. § 9814",
+          "source": "https://www.edchoice.org/school-choice/programs/puerto-rico-this-program/",
+          "note": "Small voucher program (Libre Selección de Escuelas) since 2019, capped at 3% of enrollment with priority for low-income and special-needs students (about 880 students)."
+        },
+        "US-RI": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "R.I. Gen. Laws §§ 44-62-1 to 44-62-7",
+          "source": "https://www.edchoice.org/school-choice/programs/rhode-island-tax-credits-for-contributions-to-scholarship-organizations/",
+          "note": "Small tax-credit scholarship for lower-income students only (about 430 students)."
+        },
+        "US-SC": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "S.C. Code Ann. §§ 59-8-110 to 59-8-170; § 12-6-3790",
+          "source": "https://www.edchoice.org/school-choice/programs/south-carolina-education-scholarship-trust-fund-program/",
+          "note": "Income-limited education savings accounts (up to 300% of the poverty line, 10,000 seats in 2025-26) after a 2025 law restored tuition use struck by the state Supreme Court in 2024, plus a special-needs tax-credit scholarship since 2014."
+        },
+        "US-SD": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "S.D. Codified Laws §§ 13-65-1 to 13-65-12",
+          "source": "https://www.edchoice.org/school-choice/programs/south-dakota-partners-in-education-tax-credit-program/",
+          "note": "Tax-credit scholarships for lower-income students only, since 2016."
+        },
+        "US-TN": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Tenn. Code Ann. §§ 49-6-3501 to 49-6-3512",
+          "source": "https://www.edchoice.org/school-choice/programs/tennessee-education-freedom-scholarship-act/",
+          "note": "Education Freedom Scholarships since the 2025-26 school year (20,000 seats), plus a Memphis-Nashville-Chattanooga education savings account and a special-needs account."
+        },
+        "US-TX": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Tex. Educ. Code §§ 29.351-29.374",
+          "source": "https://www.edchoice.org/school-choice/programs/texas-education-savings-account-program/",
+          "note": "No program in operation on 1/1/2026; the 2025 education savings account (Tex. Educ. Code §§ 29.351-29.374) launches with the 2026-27 school year."
+        },
+        "US-UT": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Utah Code §§ 53F-4-301 to 53F-4-307; 53F-6-401 to 53F-6-414",
+          "source": "https://www.edchoice.org/school-choice/programs/utah-carson-smith-special-needs-scholarship-program/",
+          "note": "Special-needs vouchers since 2005 stood regardless of litigation; the Utah Fits All accounts, under court challenge, also paid 2025-26 scholarships to about 18,400 students."
+        },
+        "US-VA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Va. Code §§ 58.1-439.25 to 58.1-439.28",
+          "source": "https://www.edchoice.org/school-choice/programs/virginia-education-improvement-scholarships-tax-credits-program/",
+          "note": "Tax-credit scholarships for lower-income and special-needs students only, since 2013."
+        },
+        "US-VI": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.edchoice.org/state/united-states-virgin-islands/",
+          "note": "EdChoice reports no private school choice program."
+        },
+        "US-VT": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "16 V.S.A. §§ 821-836",
+          "source": "https://www.edchoice.org/school-choice/programs/vermont-town-tuitioning-program/",
+          "note": "Town tuitioning only: students in towns with no public school at their grade level may take public tuition to a chosen private school."
+        },
+        "US-WA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.edchoice.org/state/washington/",
+          "note": "No private school choice program."
+        },
+        "US-WI": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Wis. Stat. §§ 119.23, 118.60, 115.7915",
+          "source": "https://www.edchoice.org/school-choice/programs/wisconsin-milwaukee-parental-choice-program/",
+          "note": "Income-limited vouchers in Milwaukee since 1990, Racine and statewide, plus a special-needs voucher."
+        },
+        "US-WV": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "W. Va. Code § 18-31-1 et seq.",
+          "source": "https://www.edchoice.org/school-choice/programs/hope-scholarship-program/",
+          "note": "Near-universal Hope Scholarship education savings accounts since 2022."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Wyo. Stat. §§ 21-2-901 to 21-2-909",
+          "source": "https://edu.wyoming.gov/parents/education-savings-accounts/",
+          "note": "The Steamboat Legacy education savings accounts were blocked by a district court injunction on 1/1/2026 (the Wyoming Supreme Court refused a stay on 10/7/2025) and no 2025-26 payments flowed until the court lifted the injunction in 2026; payouts resume for 2026-27."
+        }
+      }
+    },
+    "us-policy-positions:education.raise-teacher-minimum-salary": {
+      "source": "State code pages fetched 9/28/2026 (legislature sites for AR, DE, IA, ID, KY, ME, MO, NJ, NM, NC, OH, OK, PA, SC, TX, WA, WV and the no states), plus NEA's 2024-25 Teacher Salary Benchmark Report (April 2026) for AL, GA, MS and CO; NCTQ's state tracker was refused (403).",
+      "note": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "answers": {
+        "US-AK": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "AS 14.20.158; AS 14.20.240-.270 (repealed)",
+          "source": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=14.20.220&secEnd=14.20.280",
+          "note": "Alaska's state salary scale sections were repealed in 1970 and 1984; districts pay under local salary schedules."
+        },
+        "US-AL": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.nea.org/sites/default/files/2026-04/2024-2025-teacher-salary-benchmark-report-final-new.pdf",
+          "note": "Alabama pays teachers on a state minimum salary schedule set each year in the Education Trust Fund budget; NEA's 2024-25 benchmark report lists Alabama among states with state minimum salaries or salary schedules (statute page not fetched)."
+        },
+        "US-AR": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Ark. Code § 6-17-2403",
+          "source": "https://arkleg.state.ar.us/Home/FTPDocument?path=%2FACTS%2F2023R%2FPublic%2FACT237.pdf",
+          "note": "$50,000 minimum base salary for a starting teacher since the 2023-24 school year, under the LEARNS Act (Act 237 of 2023).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 5000000,
+              "unit": "minor"
+            }
+          ]
+        },
+        "US-AS": {
+          "answer": "yes",
+          "cite": "A.S.C.A. § 16.1004",
+          "source": "https://asbar.org/code-annotated/16-1004-payscale/",
+          "note": "The Department of Human Resources must use an official teacher payscale that follows the one appended to Public Law 30-20 (2008)."
+        },
+        "US-AZ": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "A.R.S. § 15-502",
+          "source": "https://www.azleg.gov/viewdocument/?docName=https://www.azleg.gov/ars/15/00502.htm",
+          "note": "Weak: the governing board fixes employee salaries; no statewide minimum teacher salary found."
+        },
+        "US-CA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Cal. Educ. Code § 45022",
+          "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=EDC&sectionNum=45022",
+          "note": "Weak: each governing board fixes certificated pay; no statewide minimum teacher salary found."
+        },
+        "US-CO": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.nea.org/sites/default/files/2026-04/2024-2025-teacher-salary-benchmark-report-final-new.pdf",
+          "note": "Weak: NEA describes Colorado starting pay as set by district bargaining and district salary schedules; no statewide minimum found."
+        },
+        "US-CT": {
+          "answer": "no",
+          "cite": "Conn. Gen. Stat. § 10-153d",
+          "source": "https://www.cga.ct.gov/current/pub/chap_166.htm",
+          "note": "Chapter 166 sets no minimum teacher salary; boards of education negotiate pay with the teachers' union."
+        },
+        "US-DC": {
+          "answer": "no",
+          "cite": "D.C. Code tit. 38, ch. 19",
+          "source": "https://code.dccouncil.gov/us/dc/council/code/titles/38/chapters/19/subchapters/I",
+          "note": "The Code's teacher chapter has no salary schedule or minimum salary section; pay is set outside the Code."
+        },
+        "US-DE": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "14 Del. C. § 1305",
+          "source": "https://delcode.delaware.gov/title14/c013/index.html",
+          "note": "Statewide indexed salary schedule for teachers (the state-paid portion), with the base dollar amount set in the annual budget and local supplements added on top."
+        },
+        "US-FL": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Fla. Stat. § 1012.22(1)(c)",
+          "source": "https://www.flsenate.gov/Laws/Statutes/2025/1012.22",
+          "note": "District school boards adopt salary schedules; the state's Teacher Salary Increase Allocation funds raises but sets no enforceable statutory minimum salary."
+        },
+        "US-GA": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.nea.org/sites/default/files/2026-04/2024-2025-teacher-salary-benchmark-report-final-new.pdf",
+          "note": "Georgia pays teachers on the State Board of Education's state salary schedule (O.C.G.A. § 20-2-212); NEA's 2024-25 benchmark report lists Georgia among states with state minimum salaries or salary schedules (statute page not fetched)."
+        },
+        "US-GU": {
+          "answer": "yes",
+          "cite": "4 GCA §§ 6201, 6205.1",
+          "source": "https://col.guamcourts.gov/sites/default/files/04gc006.pdf",
+          "note": "The Uniform Position Classification and Salary Administration Act sets the pay schedule for Department of Education teachers, with step 1 as the pay for initial employment; the teacher plan reproduced in the Code dates from the 2014 pay study."
+        },
+        "US-HI": {
+          "answer": "no",
+          "cite": "HRS § 302A-624(a)",
+          "source": "https://www.capitol.hawaii.gov/hrscurrent/Vol05_Ch0261-0319/HRS0302A/HRS_0302A-0624.htm",
+          "note": "The teachers' salary schedule is negotiated under section 89-9, so no statute fixes a minimum; only substitute pay has a legal floor."
+        },
+        "US-IA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Iowa Code § 284.15(2)(a)",
+          "source": "https://www.legis.iowa.gov/docs/code/284.15.pdf",
+          "note": "$50,000 for a starting teacher from the 2025-26 school year ($47,500 in 2024-25).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 5000000,
+              "unit": "minor"
+            }
+          ]
+        },
+        "US-ID": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Idaho Code § 33-1004E; § 33-1004B",
+          "source": "https://legislature.idaho.gov/statutesrules/idstat/Title33/T33CH10/SECT33-1004E/",
+          "note": "No full-time teacher may be paid less than the minimum on the state career ladder; the first residency cell was $41,500 in 2024-25 and is adjusted for 2025-26."
+        },
+        "US-IL": {
+          "answer": "yes",
+          "cite": "105 ILCS 5/24-8",
+          "source": "https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=010500050K24-8",
+          "note": "School boards must pay full-time teachers at least $40,000 for 2023-24, raised each year by the consumer price index (in force on 1/1/2026)."
+        },
+        "US-IN": {
+          "answer": "no",
+          "cite": "IC 20-28-9-1.5",
+          "source": "https://codes.findlaw.com/in/title-20-education/in-code-sect-20-28-9-1-5/",
+          "note": "The old statutory minimum, IC 20-28-9-1, was repealed in 2011; each school corporation adopts a local compensation plan with its own salary range."
+        },
+        "US-KS": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "K.S.A. 72-2220",
+          "source": "https://www.ksrevisor.gov/statutes/chapters/ch72/072_022_0020.html",
+          "note": "Weak: teacher salaries are negotiated locally under the professional negotiations act; no statewide minimum found."
+        },
+        "US-KY": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "KRS 157.320(14)",
+          "source": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=55950",
+          "note": "When the biennial budget contains a minimum statewide salary schedule, no teacher may be paid less than it; the dollar amounts are set in the budget bill, not in the statute."
+        },
+        "US-LA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "La. R.S. 17:418",
+          "source": "https://legis.la.gov/Legis/Law.aspx?d=81043",
+          "note": "Each school system sets its own salary schedule; the old state minimum salary schedule sections were repealed by Act 1 of 2012."
+        },
+        "US-MA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Mass. Gen. Laws ch. 71, § 40",
+          "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXII/Chapter71/Section40",
+          "note": "Only a local-option floor ($18,000 or $20,000) that applies if a school committee and appropriating authority vote to adopt it; no statewide mandate."
+        },
+        "US-MD": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Md. Code, Educ. § 6-1009(e)",
+          "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=ged&section=6-1009&enactments=false",
+          "note": "Enacted but not yet in force on 1/1/2026: the Blueprint sets a $60,000 minimum teacher salary beginning 7/1/2026 (2026-27 school year)."
+        },
+        "US-ME": {
+          "answer": "yes",
+          "preempts": true,
+          "operativeAt": "2022-07-01",
+          "before": {
+            "answer": "yes",
+            "preempts": true
+          },
+          "cite": "20-A M.R.S. § 13407(3)",
+          "source": "https://legislature.maine.gov/statutes/20-A/title20-Asec13407.html",
+          "note": "$40,000 minimum salary for certified teachers and career and technical education teachers for the school year starting after June 30, 2022, and each subsequent school year, in force on 1/1/2026.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 4000000,
+              "unit": "minor"
+            }
+          ]
+        },
+        "US-MI": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "MCL 380.1231",
+          "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-380-1231",
+          "note": "Weak: district boards hire and contract with teachers; no statewide minimum found."
+        },
+        "US-MN": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Minn. Stat. § 122A.40",
+          "source": "https://www.revisor.mn.gov/statutes/cite/122A.40",
+          "note": "Weak: salary is set in district contracts and bargaining; no statewide minimum found."
+        },
+        "US-MO": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "RSMo § 163.172",
+          "source": "https://revisor.mo.gov/main/OneSection.aspx?section=163.172",
+          "note": "$40,000 for a starting teacher from the 2025-26 school year (it was $25,000 through 2024-25), with inflation adjustments from 2028-29."
+        },
+        "US-MP": {
+          "answer": "no",
+          "cite": "3 CMC § 1172",
+          "source": "https://www.cnmilaw.gov/docs/cmc_section/T3/1172.pdf",
+          "note": "The Board of Education writes teacher pay rules by regulation, merit based and subject to funds, so no statute sets a minimum salary."
+        },
+        "US-MS": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://www.nea.org/sites/default/files/2026-04/2024-2025-teacher-salary-benchmark-report-final-new.pdf",
+          "note": "Mississippi pays teachers on a state salary schedule (Miss. Code § 37-19-7), raised in 2022 to about $41,500 for a starting teacher; NEA's 2024-25 benchmark report lists Mississippi among states with state minimum salaries (statute page not fetched)."
+        },
+        "US-MT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "MCA 20-4-201",
+          "source": "https://archive.legmt.gov/bills/mca/title_0200/chapter_0040/part_0020/section_0010/0200-0040-0020-0010.html",
+          "note": "Weak: trustees contract with teachers; the state's starting-pay incentive program sets no mandatory minimum."
+        },
+        "US-NC": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "N.C.G.S. § 115C-302.1",
+          "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_115C/GS_115C-302.1.html",
+          "note": "State-allotted teachers are paid on the State salary schedule adopted in the budget act; the dollar amounts are set there, not in the statute."
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "N.D.C.C. ch. 15.1-16",
+          "source": "https://ndlegis.gov/cencode/t15-1c16.pdf",
+          "note": "Weak: salaries are negotiated by district boards and teacher units; no statewide minimum found."
+        },
+        "US-NE": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Neb. Rev. Stat. § 48-818",
+          "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=48-818",
+          "note": "Weak: teacher pay is bargained locally, with the Commission of Industrial Relations setting comparable wages in disputes; no statewide minimum found."
+        },
+        "US-NH": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://gc.nh.gov/rsa/html/XV/189/189-mrg.htm",
+          "note": "Weak: districts set teacher pay and report average salaries; no statewide minimum found."
+        },
+        "US-NJ": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "N.J.S.A. 18A:29-5",
+          "source": "https://pub.njleg.gov/statutes/STATUTES-TEXT.zip",
+          "note": "$18,500 statutory minimum for a full-time teacher, unchanged since 1985 and far below actual pay."
+        },
+        "US-NM": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "NMSA 1978 § 22-10A-7(G)",
+          "source": "https://www.nmlegis.gov/Sessions/22%20Regular/final/SB0001.pdf",
+          "note": "$50,000 minimum for a level one (starting) teacher since Senate Bill 1 of 2022, with higher tiers for level two and three."
+        },
+        "US-NV": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.leg.state.nv.us/NRS/NRS-391.html",
+          "note": "A statutory commission studies whether districts should use a minimum salary scale, which confirms none is required; districts set pay."
+        },
+        "US-NY": {
+          "answer": "no",
+          "cite": "N.Y. Educ. Law art. 51 (§ 3101)",
+          "source": "https://www.nysenate.gov/legislation/laws/EDN/3101",
+          "note": "Article 51 of the Education Law only defines terms and prorating for teacher salaries; districts set pay by contract."
+        },
+        "US-OH": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Ohio Rev. Code § 3317.13",
+          "source": "https://codes.ohio.gov/ohio-revised-code/section-3317.13",
+          "note": "$35,000 for a starting teacher with a bachelor's degree, on the state minimum salary schedule (as amended by House Bill 33, effective 10/3/2023)."
+        },
+        "US-OK": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "70 O.S. § 18-114.15",
+          "source": "https://www.oklegislature.gov/OK_Statutes/CompleteTitles/os70.pdf",
+          "note": "$39,601 in salary and/or fringe benefits for a starting teacher with a bachelor's degree on the 2025-26 state minimum salary schedule."
+        },
+        "US-OR": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://oregon.public.law/statutes/ors_342.934",
+          "note": "Weak: ORS chapter 342 sets a minimum only for substitute teachers (ORS 342.610); districts set regular teacher pay."
+        },
+        "US-PA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "24 P.S. § 11-1142.1",
+          "source": "https://www.palegis.us/statutes/unconsolidated/law-information/view-statute?txtType=PDF&SessYr=1949&SessInd=0&ActNum=0014.",
+          "note": "$18,500 statutory minimum for a full-time teacher since the 1988-89 school term, far below actual pay."
+        },
+        "US-PR": {
+          "answer": "yes",
+          "operativeAt": "2008-07-01",
+          "cite": "Ley 158-1999 (Carrera Magisterial); Ley 109-2008",
+          "source": "https://www.lexjuris.com/LEXMATE/educacion/lexleymagisterial.htm",
+          "note": "Law sets a basic salary of $1,750 a month for a full-time public school teacher hired from 7/1/2008; I did not check for later raises."
+        },
+        "US-RI": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "R.I. Gen. Laws § 16-7-29",
+          "source": "https://webserver.rilegislature.gov/Statutes/TITLE16/16-7/16-7-29.htm",
+          "note": "The 'minimum salary schedule' section requires each district to adopt a step schedule but sets no dollar floor."
+        },
+        "US-SC": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "S.C. Code § 59-20-50(4)(a)",
+          "source": "https://www.scstatehouse.gov/code/t59c020.php",
+          "note": "Districts must pay at least the statewide minimum salary schedule set in the annual budget; NEA reports the minimum was raised to $47,000 for 2024-25."
+        },
+        "US-SD": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "SDCL 13-13-73.8",
+          "source": "https://sdlegislature.gov/api/Statutes/13-13-73.8.html",
+          "note": "Enacted but not yet in force on 1/1/2026: from 7/1/2026 each district must pay at least the state minimum salary ($45,000 for fiscal 2025, indexed), enforced by aid cuts under § 13-13-73.9."
+        },
+        "US-TN": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Tenn. Code § 49-3-306(a)(1)",
+          "source": "https://www.capitol.tn.gov/Bills/113/Bill/SB0281.pdf",
+          "note": "Teachers are paid at least the annual state salary schedule; the 2023 Teacher Paycheck Protection Act raises the minimum starting salary in steps to $50,000 by 2026-27."
+        },
+        "US-TX": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Tex. Educ. Code § 21.402",
+          "source": "https://texas.public.law/statutes/tex._educ._code_section_21.402",
+          "note": "Districts must pay classroom teachers at least the state minimum salary schedule set by the commissioner, by years of experience."
+        },
+        "US-UT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Utah Code § 53F-2-405",
+          "source": "https://le.utah.gov/xcode/Title53F/Chapter2/C53F-2-S405_2026050620260701.html",
+          "note": "The state funds educator salary adjustments by allocation; no statutory minimum salary."
+        },
+        "US-VA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Va. Code § 22.1-289.1",
+          "source": "https://law.lis.virginia.gov/vacode/title22.1/chapter15/section22.1-289.1/",
+          "note": "The Code sets only a goal of competitive pay and a biennial review; localities set salaries."
+        },
+        "US-VI": {
+          "answer": "yes",
+          "cite": "V.I. Code tit. 3, § 554",
+          "source": "https://law.justia.com/codes/virgin-islands/title-3/chapter-25/subchapter-v/554/",
+          "note": "The Code still prints a statutory Teacher Schedule (basic pay grades for teachers), last amended in 1970, so its dollar amounts are old and actual pay is likely set by union contract."
+        },
+        "US-VT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "16 V.S.A. ch. 57",
+          "source": "https://legislature.vermont.gov/statutes/section/16/057/01981",
+          "note": "Weak: teacher pay is bargained with school boards; no statewide minimum found."
+        },
+        "US-WA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "RCW 28A.400.200(2)(c)",
+          "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=28A.400.200",
+          "note": "Full-time certificated instructional staff must earn at least $40,000, adjusted annually for inflation and regional cost since the 2018-19 school year."
+        },
+        "US-WI": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Wis. Stat. § 118.21",
+          "source": "https://docs.legis.wisconsin.gov/statutes/statutes/118/21",
+          "note": "Weak: school boards contract with teachers; no statewide minimum found."
+        },
+        "US-WV": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "W. Va. Code § 18A-4-2",
+          "source": "https://code.wvlegislature.gov/18A-4-2/",
+          "note": "Teachers receive at least the State Minimum Salary Schedule in the statute (A.B., zero years: $43,015 on the schedule effective for 2026-27), plus county supplements."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Wyo. Stat. § 21-7-104",
+          "source": "https://wyoleg.gov/statutes/compress/title21.pdf",
+          "note": "Weak: teachers are placed on each district's own salary schedule; no statewide minimum found."
+        }
+      }
+    }
+  }
+}

@@ -25,7 +25,7 @@ import { PLACE_OUTCOME_BASES } from "./place-outcome-store";
  * that state twelve months after it takes effect; an Act of Congress acts
  * everywhere it is not already redundant, because a state that already caps
  * rates has already had the effect. The starting law says which states cap
- * rates on the first day (data/research/laws/starting-law-2026.json): Alabama
+ * rates on the first day (data/research/laws/starting-law-2026/business-commerce.json): Alabama
  * does not and Arkansas does.
  */
 const STATE_QUESTION = "proposition_state_loan_cap" as EntityId;

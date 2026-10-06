@@ -13,7 +13,7 @@ import type { EntityId, World } from "../types";
  *
  * The question "Should release before trial be decided without money bail?"
  * is answered for every place by the starting law
- * (`data/research/laws/starting-law-2026.json`), and an enacted law changes
+ * (`data/research/laws/starting-law-2026/justice-public-safety.json`), and an enacted law changes
  * the answer from its effective date. Where the answer is no, the court sets
  * money bail and the defendant goes home only if they can pay. Where it is
  * yes, nobody is held for want of money; a judge may hold a defendant only

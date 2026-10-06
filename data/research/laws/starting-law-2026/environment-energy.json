@@ -1,0 +1,1852 @@
+{
+  "questions": {
+    "us-policy-positions:environment-energy.ban-new-gas-hookups": {
+      "source": "State codes and enacted bills fetched September 2026: flsenate.gov, codes.ohio.gov, capitol.texas.gov, le.utah.gov, ksrevisor.gov, revisor.mo.gov, legis.iowa.gov, code.wvlegislature.gov, gc.nh.gov, ncleg.gov, apps.legislature.ky.gov, arkleg.state.ar.us, leg.mt.gov, wyoleg.gov, sdlegislature.gov, ndlegis.gov, nebraskalegislature.gov and legislature.maine.gov; the N.Y. Mulhern Gas stipulation (11/12/2025); the Wash. Supreme Court I-2066 opinion (9/17/2026); the Ninth Circuit Berkeley opinion (1/2/2024); Mass. St. 2022 c. 179; NPR (2/22/2021) for Arizona.",
+      "note": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "answers": {
+        "US-AK": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.nature.com/articles/s44168-024-00176-4/tables/1",
+          "note": "No statewide gas ban and no state law barring local governments from restricting gas hookups; the npj Climate Action tracker (bills through 6/2023) lists no enacted preemption here, and none was found since."
+        },
+        "US-AL": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "2021 Ala. HB 446 (signed 5/3/2021)",
+          "source": "https://www.npga.org/news-resources/alabama-and-georgia-enact-laws-protecting-propane-and-natural-gas/",
+          "note": "Alabama HB 446 bars governmental entities from prohibiting use of an authorized utility service, and the governor signed it 5/3/2021; the Act number, code section and effective date were not read from a state page."
+        },
+        "US-AR": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ark. Code § 14-1-104",
+          "source": "https://www.arkleg.state.ar.us/Home/FTPDocument?path=%2FACTS%2F2021R%2FPublic%2FACT308.pdf",
+          "note": "Act 308 of 2021 (SB 137), approved 3/9/2021 without an emergency clause; the general effective date for 2021 acts was not confirmed."
+        },
+        "US-AS": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.nature.com/articles/s44168-024-00176-4/tables/1",
+          "note": "No territorial law banning gas hookups in new buildings or barring local governments from doing so was found for American Samoa, and the multistate tracker lists none."
+        },
+        "US-AZ": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.npr.org/2021/02/22/967439914/as-cities-grapple-with-climate-change-gas-utilities-fight-to-stay-in-business",
+          "note": "NPR (2/22/2021) reports that in February 2020 the Legislature passed a bill barring cities and counties from banning new gas hookups (HB 2686). azleg.gov refused automated fetches, so the statute text, cite and exact date were not confirmed from a primary page."
+        },
+        "US-CA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://cdn.ca9.uscourts.gov/datastore/opinions/2024/01/02/21-16278.pdf",
+          "note": "There is no statewide ban and no state preemption, and cities adopted their own gas bans (Berkeley, 2019). However, the Ninth Circuit held in California Restaurant Ass'n v. City of Berkeley (amended 1/2/2024) that federal EPCA preempts building codes banning gas piping in new buildings, which constrains local bans across the Ninth Circuit."
+        },
+        "US-CO": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.nature.com/articles/s44168-024-00176-4/tables/1",
+          "note": "No statewide gas ban and no state law barring local governments from restricting gas hookups; the npj Climate Action tracker (bills through 6/2023) lists no enacted preemption here, and none was found since."
+        },
+        "US-CT": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.nature.com/articles/s44168-024-00176-4/tables/1",
+          "note": "No statewide gas ban and no state law barring local governments from restricting gas hookups; the npj Climate Action tracker (bills through 6/2023) lists no enacted preemption here, and none was found since."
+        },
+        "US-DC": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "D.C. Law 24-177, D.C. Official Code § 6-1453.01",
+          "source": "https://code.dccouncil.gov/us/dc/council/laws/24-177",
+          "note": "The 2022 act requires net-zero-energy building rules by 12/31/2026 (and bars permits after that date under Appendix Z if the Mayor misses it), so no gas ban was in force on 1/1/2026 and the District has no separate local layer to preempt."
+        },
+        "US-DE": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.nature.com/articles/s44168-024-00176-4/tables/1",
+          "note": "No statewide gas ban and no state law barring local governments from restricting gas hookups; the npj Climate Action tracker (bills through 6/2023) lists no enacted preemption here, and none was found since."
+        },
+        "US-FL": {
+          "answer": "no",
+          "operativeAt": "2021-07-01",
+          "preempts": true,
+          "cite": "Fla. Stat. § 366.032",
+          "source": "https://www.flsenate.gov/Laws/Statutes/2025/366.032",
+          "note": "Enacted by ch. 2021-150 (HB 919, effective 7/1/2021 per https://www.flsenate.gov/Session/Bill/2021/919); bars local governments from restricting the fuel sources utilities may supply, and later amendments add appliances."
+        },
+        "US-GA": {
+          "answer": "no",
+          "preempts": true,
+          "operativeAt": "2021-05-06",
+          "cite": "O.C.G.A. § 46-1-6 (HB 150, 2021)",
+          "source": "https://gov.georgia.gov/document/2021-signed-legislation/hb-150/download",
+          "note": "No governmental entity may adopt a policy that prohibits utility or gas connections based on the type or source of energy or fuel; the act took effect on the governor's approval on 5/6/2021 (per the National Propane Gas Association)."
+        },
+        "US-GU": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.nature.com/articles/s44168-024-00176-4/tables/1",
+          "note": "No territorial law banning gas hookups in new buildings or barring local governments from doing so was found for Guam, and the multistate tracker lists none."
+        },
+        "US-HI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.nature.com/articles/s44168-024-00176-4/tables/1",
+          "note": "No statewide gas ban and no state law barring local governments from restricting gas hookups; the npj Climate Action tracker (bills through 6/2023) lists no enacted preemption here, and none was found since."
+        },
+        "US-IA": {
+          "answer": "no",
+          "operativeAt": "2021-07-01",
+          "preempts": true,
+          "cite": "Iowa Code § 364.3(13) (cities); § 331.301(19) (counties)",
+          "source": "https://www.legis.iowa.gov/docs/code/364.3.pdf",
+          "note": "2021 Iowa Acts ch. 44; cities and counties may not restrict natural gas or propane service. The date is inferred from the statute's reference to ordinances adopted before 7/1/2021 and Iowa's usual July 1 effective date."
+        },
+        "US-ID": {
+          "answer": "no",
+          "preempts": true,
+          "operativeAt": "2023-07-01",
+          "cite": "Idaho Code §§ 31-881 (counties), 50-346 (cities)",
+          "source": "https://legislature.idaho.gov/sessioninfo/2023/legislation/H0106/",
+          "note": "HB 106 (2023), Session Law ch. 55, bars counties and cities from prohibiting an energy utility connection or restricting its fuel source, effective 7/1/2023."
+        },
+        "US-IL": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.nature.com/articles/s44168-024-00176-4/tables/1",
+          "note": "No statewide gas ban and no state law barring local governments from restricting gas hookups; the npj Climate Action tracker (bills through 6/2023) lists no enacted preemption here, and none was found since."
+        },
+        "US-IN": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ind. Code § 8-1-2-101.2 (HEA 1191, 2021)",
+          "source": "https://codes.findlaw.com/in/title-8-utilities-and-transportation/in-code-sect-8-1-2-101-2/",
+          "note": "Counties, cities and towns may not bar a utility from serving, or a customer from connecting to, a utility service based on its energy source; the governor signed HEA 1191 on 4/29/2021 (the exact effective date was not read)."
+        },
+        "US-KS": {
+          "answer": "no",
+          "operativeAt": "2021-04-22",
+          "preempts": true,
+          "cite": "K.S.A. 66-1288 (Kansas Energy Choice Act)",
+          "source": "https://www.ksrevisor.gov/statutes/chapters/ch66/066_012_0088.html",
+          "note": "L. 2021, ch. 26 (SB 24); municipalities may not restrict an end-use customer's use of natural gas or propane."
+        },
+        "US-KY": {
+          "answer": "no",
+          "operativeAt": "2021-06-29",
+          "preempts": true,
+          "cite": "2021 Ky. Acts ch. 120 (HB 207), § 1 (new section of KRS Chapter 65)",
+          "source": "https://apps.legislature.ky.gov/law/acts/21RS/documents/0120.pdf",
+          "note": "Signed 3/25/2021 with no emergency clause, so it took effect on the 2021 normal effective date of 6/29/2021 (https://legislature.ky.gov/Law/Statutes/Pages/KrsEffDates.aspx); the KRS section number was not captured."
+        },
+        "US-LA": {
+          "answer": "no",
+          "preempts": true,
+          "operativeAt": "2020-08-01",
+          "cite": "La. R.S. 40:1730.21.1 (2020 La. Acts No. 46, SB 492)",
+          "source": "https://legis.la.gov/legis/BillInfo.aspx?s=20RS&b=SB492&sbi=y",
+          "note": "No parish or municipality may adopt a code or land-use rule restricting a person from using a capable, authorized utility provider; Act 46 took effect 8/1/2020."
+        },
+        "US-MA": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "St. 2022, c. 179, § 84",
+          "source": "https://malegislature.gov/Laws/SessionLaws/Acts/2022/Chapter179",
+          "note": "No statewide ban. The 2022 climate law lets up to 10 cities and towns in a DOER demonstration project require fossil fuel-free new construction 'notwithstanding' chapters 40A, 142 and 164. Outside the pilot, general state law limits local bans, so local action is allowed only for pilot towns."
+        },
+        "US-MD": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.nature.com/articles/s44168-024-00176-4/tables/1",
+          "note": "No statewide gas ban and no state law barring local governments from restricting gas hookups; the npj Climate Action tracker (bills through 6/2023) lists no enacted preemption here, and none was found since."
+        },
+        "US-ME": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Me. Rev. Stat. tit. 30-A, § 3016",
+          "source": "https://legislature.maine.gov/statutes/30-A/title30-Asec3016.html",
+          "note": "P.L. 2025, c. 456 bars municipalities, unless another statute authorizes it, from prohibiting the heating or energy system a person chooses. It was a 2025 non-emergency law, presumably in force before 1/1/2026, but the effective date was not confirmed."
+        },
+        "US-MI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.nature.com/articles/s44168-024-00176-4/tables/1",
+          "note": "No statewide ban and no enacted preemption: HB 4575 (2022) passed only the House, so local governments are not barred (tracker covers bills through 6/2023)."
+        },
+        "US-MN": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.nature.com/articles/s44168-024-00176-4/tables/1",
+          "note": "No statewide gas ban and no state law barring local governments from restricting gas hookups; the npj Climate Action tracker (bills through 6/2023) lists no enacted preemption here, and none was found since."
+        },
+        "US-MO": {
+          "answer": "no",
+          "operativeAt": "2021-08-28",
+          "preempts": true,
+          "cite": "Mo. Rev. Stat. § 67.309",
+          "source": "https://revisor.mo.gov/main/OneSection.aspx?section=67.309",
+          "note": "L. 2021 H.B. 734 merged with S.B. 44; no political subdivision may prohibit a utility connection based on the type or source of energy."
+        },
+        "US-MP": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.nature.com/articles/s44168-024-00176-4/tables/1",
+          "note": "No territorial law banning gas hookups in new buildings or barring local governments from doing so was found for the Northern Mariana Islands, and the multistate tracker lists none."
+        },
+        "US-MS": {
+          "answer": "no",
+          "preempts": true,
+          "operativeAt": "2021-03-17",
+          "cite": "Miss. HB 632 (2021), the \"All Fuels Act of 2021\"",
+          "source": "https://billstatus.ls.state.ms.us/2021/pdf/history/HB/HB0632.xml",
+          "note": "No political subdivision may prohibit the connection or reconnection of a service based on the type or source of energy; the governor approved it 3/17/2021 and it took effect on passage."
+        },
+        "US-MT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Mont. Code Ann. § 7-1-111(28)",
+          "source": "https://leg.mt.gov/bills/mca/title_0070/chapter_0010/part_0010/section_0110/0070-0010-0010-0110.html",
+          "note": "Self-government local units are denied any power to prohibit or impede an electric, natural gas, propane or other energy connection; the 2019 code lacks this clause, so it was added by a 2021 or 2023 amendment (exact chapter and date not confirmed)."
+        },
+        "US-NC": {
+          "answer": "no",
+          "operativeAt": "2023-06-26",
+          "preempts": true,
+          "cite": "N.C. Gen. Stat. § 160A-203.3 (cities); § 153A-145.11 (counties)",
+          "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_160A/GS_160A-203.3.html",
+          "note": "S.L. 2023-58 (HB 130) became law without the governor's signature on 6/26/2023 and took effect then (https://www.ncleg.gov/EnactedLegislation/SessionLaws/HTML/2023-2024/SL2023-58.html)."
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "N.D. Cent. Code §§ 40-01-25 (cities), 11-10-32 (counties)",
+          "source": "https://ndlegis.gov/cencode/t40c01.pdf",
+          "note": "Cities and counties may not prohibit or impede a utility connection based on fuel source; enacted in 2023 (per the earlier draft), effective date not confirmed. County text at https://ndlegis.gov/cencode/t11c10.pdf."
+        },
+        "US-NE": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Neb. Rev. Stat. § 13-407",
+          "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=13-407",
+          "note": "Laws 2024, LB 867, § 12; no county, city or village may restrict the fuel sources a natural gas utility or propane dealer supplies. The effective date was not confirmed."
+        },
+        "US-NH": {
+          "answer": "no",
+          "operativeAt": "2022-07-01",
+          "preempts": true,
+          "cite": "N.H. Rev. Stat. § 155-A:2, V-b; § 155-A:3, XI",
+          "source": "https://gc.nh.gov/rsa/html/XII/155-A/155-A-mrg.htm",
+          "note": "No local ordinance or code may bar a person from installing a heating or energy system of their choice or connecting to an energy provider; both paragraphs trace to 2022 N.H. Laws ch. 311, effective 7/1/2022 (inferred from the section source notes)."
+        },
+        "US-NJ": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.nature.com/articles/s44168-024-00176-4/tables/1",
+          "note": "No statewide gas ban and no state law barring local governments from restricting gas hookups; the npj Climate Action tracker (bills through 6/2023) lists no enacted preemption here, and none was found since."
+        },
+        "US-NM": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.nature.com/articles/s44168-024-00176-4/tables/1",
+          "note": "No statewide gas ban and no state law barring local governments from restricting gas hookups; the npj Climate Action tracker (bills through 6/2023) lists no enacted preemption here, and none was found since."
+        },
+        "US-NV": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.nature.com/articles/s44168-024-00176-4/tables/1",
+          "note": "No statewide gas ban and no state law barring local governments from restricting gas hookups; the npj Climate Action tracker (bills through 6/2023) lists no enacted preemption here, and none was found since."
+        },
+        "US-NY": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "N.Y. Energy Law § 11-104(6); Exec. Law § 378(19)",
+          "source": "https://earthjustice.org/wp-content/uploads/2025/11/stipulation-1.pdf",
+          "note": "The All-Electric Buildings Act bars fossil-fuel equipment in most new buildings of seven stories or fewer 'on or after December 31, 2025' (https://www.nysenate.gov/legislation/laws/ENG/11-104), but a stipulation filed 11/12/2025 in Mulhern Gas Co. v. Mosley (N.D.N.Y. 1:23-cv-01267) suspends the implementing code rules (19 NYCRR 1240.6, Subpart 1229-2) until the Second Circuit appeal and any certiorari petition are resolved. So no statewide ban was in force on 1/1/2026. Local action is allowed: New York City Local Law 154 of 2021 bars on-site fossil-fuel combustion in new buildings (https://www.nyc.gov/assets/buildings/local_laws/ll154of2021.pdf)."
+        },
+        "US-OH": {
+          "answer": "no",
+          "operativeAt": "2021-09-30",
+          "preempts": true,
+          "cite": "Ohio Rev. Code §§ 4933.40-4933.41",
+          "source": "https://codes.ohio.gov/ohio-revised-code/section-4933.41",
+          "note": "HB 201 (134th G.A.); no political subdivision may adopt a building code or other rule that limits consumers' use of available natural gas or propane service."
+        },
+        "US-OK": {
+          "answer": "no",
+          "preempts": true,
+          "operativeAt": "2020-11-01",
+          "cite": "11 O.S. § 14-107(E) (HB 3619, 2020)",
+          "source": "https://www.oklegislature.gov/BillInfo.aspx?Bill=HB3619&Session=2000",
+          "note": "No city, town or county may adopt building or construction rules restricting or prohibiting connections to lawful utility providers; the act took effect 11/1/2020."
+        },
+        "US-OR": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.nature.com/articles/s44168-024-00176-4/tables/1",
+          "note": "No statewide gas ban and no state law barring local governments from restricting gas hookups; the npj Climate Action tracker (bills through 6/2023) lists no enacted preemption here, and none was found since."
+        },
+        "US-PA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.nature.com/articles/s44168-024-00176-4/tables/1",
+          "note": "No statewide ban and no enacted preemption: SB 143 (2023) passed only the Senate, so local governments are not barred (tracker covers bills through 6/2023)."
+        },
+        "US-PR": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.nature.com/articles/s44168-024-00176-4/tables/1",
+          "note": "No territorial law banning gas hookups in new buildings or barring local governments from doing so was found for Puerto Rico, and the multistate tracker lists none."
+        },
+        "US-RI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.nature.com/articles/s44168-024-00176-4/tables/1",
+          "note": "No statewide gas ban and no state law barring local governments from restricting gas hookups; the npj Climate Action tracker (bills through 6/2023) lists no enacted preemption here, and none was found since."
+        },
+        "US-SC": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "S.C. Code tit. 6, chs. 1, 7, 9 and 29 (checked)",
+          "source": "https://www.scstatehouse.gov/code/t06c001.php",
+          "note": "No statewide ban, and the local-government provisions of S.C. Code tit. 6 contain no energy-choice or fuel-source preemption; the multistate tracker lists no South Carolina bill passed."
+        },
+        "US-SD": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "S.D. Codified Laws §§ 6-1-23, 6-1-24",
+          "source": "https://sdlegislature.gov/api/Statutes/Statute/6-1",
+          "note": "SL 2023, ch. 19 and ch. 20 bar local bans on fuel gas appliances and on natural gas or propane service; the exact effective date (South Dakota's usual date is 7/1) was not confirmed."
+        },
+        "US-TN": {
+          "answer": "no",
+          "preempts": true,
+          "operativeAt": "2020-03-26",
+          "cite": "2020 Tenn. Pub. Acts ch. 591 (SB 1934), amending Tenn. Code Ann. titles 5, 6, 7, 65 and 68",
+          "source": "https://wapp.capitol.tn.gov/apps/BillInfo/Default.aspx?BillNumber=SB1934&GA=111",
+          "note": "Public Chapter 591 bars political subdivisions from prohibiting a utility connection based on the type or source of energy delivered."
+        },
+        "US-TX": {
+          "answer": "no",
+          "operativeAt": "2021-05-18",
+          "preempts": true,
+          "cite": "Tex. Util. Code § 181.903",
+          "source": "https://capitol.texas.gov/tlodocs/87R/billtext/html/HB00017F.htm",
+          "note": "HB 17 (87th Leg.) took effect immediately when signed on 5/18/2021 (https://capitol.texas.gov/BillLookup/History.aspx?LegSess=87R&Bill=HB17); bars cities from limiting utility connections by the type or source of energy."
+        },
+        "US-UT": {
+          "answer": "no",
+          "operativeAt": "2021-02-25",
+          "preempts": true,
+          "cite": "Utah Code § 10-9a-530 (cities); county counterpart enacted as § 17-27a-526",
+          "source": "https://le.utah.gov/~2021/bills/hbillenr/HB0017.htm",
+          "note": "H.B. 17 (2021), effective 2/25/2021 per https://le.utah.gov/~2021/bills/static/HB0017.html; cities and counties may not prohibit connection of an energy utility service."
+        },
+        "US-VA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.nature.com/articles/s44168-024-00176-4/tables/1",
+          "note": "No statewide ban and no enacted preemption: HB 1783 (2023) passed only the House, so local governments are not barred (tracker covers bills through 6/2023)."
+        },
+        "US-VI": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.nature.com/articles/s44168-024-00176-4/tables/1",
+          "note": "No territorial law banning gas hookups in new buildings or barring local governments from doing so was found for the U.S. Virgin Islands, and the multistate tracker lists none."
+        },
+        "US-VT": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.nature.com/articles/s44168-024-00176-4/tables/1",
+          "note": "No statewide gas ban and no state law barring local governments from restricting gas hookups; the npj Climate Action tracker (bills through 6/2023) lists no enacted preemption here, and none was found since."
+        },
+        "US-WA": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://www.courts.wa.gov/opinions/pdf/1042400.pdf",
+          "note": "Initiative 2066 (Laws of 2025, ch. 1) barred local governments from discouraging or prohibiting gas, but the King County Superior Court declared it unconstitutional in its entirety before 1/1/2026, and the state Supreme Court affirmed on 9/17/2026 (Climate Solutions v. State, No. 104240-0). The state has no statewide ban; the WA state energy code favors heat pumps but was not verified as barring gas."
+        },
+        "US-WI": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Wis. 2023 SB 49 (proposed Wis. Stat. § 66.04045, not enacted)",
+          "source": "https://docs.legis.wisconsin.gov/2023/proposals/sb49",
+          "note": "The Legislature passed a bill barring local limits on utility service by energy source, but the governor vetoed it and the override failed 5/15/2024, so no preemption is in force."
+        },
+        "US-WV": {
+          "answer": "no",
+          "operativeAt": "2021-07-07",
+          "preempts": true,
+          "cite": "W. Va. Code § 8-12-23",
+          "source": "https://code.wvlegislature.gov/8-12-23/",
+          "note": "HB 2842 (2021), effective ninety days from passage on 7/7/2021 per https://www.wvlegislature.gov/Bill_Status/Bills_history.cfm?input=2842&year=2021&sessiontype=RS&btype=bill."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Wyo. Stat. §§ 15-1-132 (cities and towns), 18-2-116 (counties)",
+          "source": "https://wyoleg.gov/statutes/compress/title15.pdf",
+          "note": "No city, town or county may prohibit the connection of electric, natural gas, propane or other energy utility service; the enacting year and effective date were not found in the compiled titles."
+        }
+      }
+    },
+    "us-policy-positions:environment-energy.bottle-deposit": {
+      "source": "State codes and agency pages fetched 9/28/2026 (leginfo.legislature.ca.gov, legis.iowa.gov, legislature.maine.gov, malegislature.gov, legislature.mi.gov, oregon.public.law, legislature.vermont.gov, delcode.delaware.gov, col.guamcourts.gov) plus CT DEEP, Hawaii DOH, NY DEC and Oregon OLCC pages; Wikipedia 'Container deposit legislation in the United States' and bottlebill.org (Guam page, Existing Programs list, © 2026) for context; no 2025 enactment of a new state deposit law was found.",
+      "note": "Every place is answered.",
+      "answers": {
+        "US-AK": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-AL": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-AR": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-AS": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-AZ": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-CA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Cal. Pub. Res. Code § 14560",
+          "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PRC&sectionNum=14560.",
+          "note": "California sets a refund value of 5 cents under 24 fluid ounces and 10 cents at 24 fluid ounces or more; the program dates from the 1986 act."
+        },
+        "US-CO": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-CT": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Conn. Gen. Stat. § 22a-244",
+          "source": "https://portal.ct.gov/deep/reduce-reuse-recycle/bottles/connecticut-bottle-bill",
+          "note": "The deposit rose from 5 to 10 cents on 1/1/2024; the statute site cga.ct.gov could not be fetched, so the cite rests on the DEEP page and common citation."
+        },
+        "US-DC": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-DE": {
+          "answer": "no",
+          "operativeAt": "2010-12-01",
+          "preempts": true,
+          "cite": "Del. Code Ann. tit. 7, § 6051 et seq. (77 Del. Laws c. 275)",
+          "source": "https://delcode.delaware.gov/title7/c060/sc03/index.html",
+          "note": "Delaware repealed its 5-cent deposit by SB 234 (2010), replacing it with universal recycling; deposits ended 12/1/2010 per the Wikipedia summary, and the current code carries no deposit requirement."
+        },
+        "US-FL": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-GA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-GU": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "10 Guam Code Ann. § 44119",
+          "source": "https://col.guamcourts.gov/sites/default/files/10gc044.pdf",
+          "note": "The Guam Beverage Container Recycling Act of 2010 (P.L. 30-221) takes effect only after a written agreement with the Navy and Air Force commands, and no government page shows that happened; Guam EPA's 2026 Recycling Guide (https://epa.guam.gov/wp-content/uploads/2026/05/2026-Recycling-Guide.pdf) lists no redemption program."
+        },
+        "US-HI": {
+          "answer": "yes",
+          "operativeAt": "2005-01-01",
+          "preempts": true,
+          "cite": "Haw. Rev. Stat. ch. 342G, pt. VIII",
+          "source": "https://health.hawaii.gov/hi5/",
+          "note": "The Department of Health says the Deposit Beverage Container program has run since January 2005 under the 2002 law; the HRS site returned 403, so the chapter cite is unverified here."
+        },
+        "US-IA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Iowa Code § 455C.2",
+          "source": "https://www.legis.iowa.gov/docs/code/455C.pdf",
+          "note": "A refund value of 5 cents is paid by the consumer on each covered beverage container."
+        },
+        "US-ID": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-IL": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-IN": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-KS": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-KY": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-LA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-MA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Mass. Gen. Laws ch. 94, § 323",
+          "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXV/Chapter94/Section323",
+          "note": "The 1982 law covers carbonated beverages only; the 2014 ballot expansion failed."
+        },
+        "US-MD": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-ME": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Me. Rev. Stat. tit. 38, § 3103",
+          "source": "https://legislature.maine.gov/statutes/38/title38sec3103.html",
+          "note": "The bottle law now sits in Title 38, chapter 33; the old Title 32, chapter 28 sections are repealed."
+        },
+        "US-MI": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Mich. Comp. Laws § 445.572",
+          "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-445-572",
+          "note": "Initiated Law 1 of 1976 sets a 10-cent deposit."
+        },
+        "US-MN": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-MO": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-MP": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-MS": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-MT": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-NC": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-NE": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-NH": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-NJ": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-NM": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-NV": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-NY": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "N.Y. Envtl. Conserv. Law art. 27, tit. 10",
+          "source": "https://dec.ny.gov/environmental-protection/recycling-composting/bottle-bill",
+          "note": "The Returnable Container Act requires a deposit of at least 5 cents; the nysenate.gov statute page returned 403."
+        },
+        "US-OH": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-OK": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-OR": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Or. Rev. Stat. § 459A.705",
+          "source": "https://oregon.public.law/statutes/ors_459a.705",
+          "note": "The refund value is 10 cents since 2017; canned wine was added on 7/1/2025 (OLCC page https://www.oregon.gov/olcc/pages/bottle_bill.aspx)."
+        },
+        "US-PA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-PR": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-RI": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-SC": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-SD": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-TN": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-TX": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-UT": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-VA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-VI": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-VT": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Vt. Stat. Ann. tit. 10, § 1522",
+          "source": "https://legislature.vermont.gov/statutes/section/10/053/01522",
+          "note": "A 2025 overhaul keeps the deposit and phases in a producer responsibility organization, with labeling changes on 7/1/2026 and PRO participation required from 7/1/2027 (DEC page https://dec.vermont.gov/waste-management/solid/product-stewardship/bottle-bill)."
+        },
+        "US-WA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-WI": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-WV": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.bottlebill.org/proposed-laws/",
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+        }
+      }
+    },
+    "us-policy-positions:environment-energy.clean-electricity-standard": {
+      "source": "State statute and code pages fetched 9/28/2026 (legislature code sites for most states, CT PURA RPS page, IL Power Agency page, TX HB 1500 enrolled text, PR LexJuris Acts 17-2019 and 1-2025); Wikipedia 'Renewable portfolio standards in the United States' for states with no standard. The LBNL site (emp.lbl.gov) refused the fetch, and the DSIRE program pages are script-rendered.",
+      "note": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "answers": {
+        "US-AK": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+          "note": "Alaska has no mandatory standard, only a nonbinding goal of 50% renewable electricity by 2025; it is absent from this list of standards."
+        },
+        "US-AL": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+          "note": "Alabama has no state renewable or clean electricity standard; it is absent from this list of standards."
+        },
+        "US-AR": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+          "note": "Arkansas has no state renewable or clean electricity standard; it is absent from this list of standards."
+        },
+        "US-AS": {
+          "answer": "yes",
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (3 answer yes), because this place's own law could not be read.",
+          "note": "Tried: American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
+        },
+        "US-AZ": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Ariz. Admin. Code R14-2-1801 et seq. (Renewable Energy Standard and Tariff)",
+          "source": "https://azcc.gov/utilities/electric/renewable-energy-standard-and-tariff",
+          "note": "The Corporation Commission rules, approved in 2006, still require regulated utilities to generate 15 percent of their energy from renewable resources by 2025, a binding target the state page still lists as in force."
+        },
+        "US-CA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Cal. Pub. Util. Code §§ 399.15, 454.53",
+          "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PUC&sectionNum=399.15",
+          "note": "Mandatory: 60% renewable by 2030, 90% renewable-plus-zero-carbon by 2035, and 100% clean by 2045."
+        },
+        "US-CO": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Colo. Rev. Stat. §§ 40-2-124, 40-2-125.5",
+          "source": "https://leg.colorado.gov/bills/sb19-236",
+          "note": "Mandatory renewable energy standard (30% for large investor-owned utilities since 2020), plus a 2019 clean energy plan requirement of an 80% carbon cut by 2030 and 100% clean by 2050 for the largest utility; statute text was not fetched, only the enacted bill summaries."
+        },
+        "US-CT": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Conn. Gen. Stat. § 16-245a",
+          "source": "https://portal.ct.gov/pura/rps/renewable-portfolio-standards-overview",
+          "note": "Mandatory: the regulator's table sets Class I at 25% in 2026 rising to 29% in 2030 (37% across all classes)."
+        },
+        "US-DC": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "D.C. Code § 34-1432",
+          "source": "https://code.dccouncil.gov/us/dc/council/code/sections/34-1432",
+          "note": "Mandatory: 100% renewable by 2032, with the solar share rising to 15% by 2041."
+        },
+        "US-DE": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Del. Code tit. 26, § 354",
+          "source": "https://delcode.delaware.gov/title26/c001/sc03a/index.html",
+          "note": "Mandatory: 25.5% in 2026 rising to 40% renewable by 2035, with a 10% solar share."
+        },
+        "US-FL": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+          "note": "Florida has no state renewable or clean electricity standard; it is absent from this list of standards."
+        },
+        "US-GA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+          "note": "Georgia has no mandatory standard; this page lists it among voluntary-goal states."
+        },
+        "US-GU": {
+          "answer": "yes",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Energy_in_Guam",
+          "note": "Guam law requires rising renewable shares (5% in 2015 up to 25% by 2035 per this page); the utility now commits to 50% by 2030 and 100% by 2040, but the Guam Code page did not load, so any later statutory increase was not verified."
+        },
+        "US-HI": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Haw. Rev. Stat. § 269-92",
+          "source": "https://data.capitol.hawaii.gov/hrscurrent/Vol05_Ch0261-0319/HRS0269/HRS_0269-0092.htm",
+          "note": "Mandatory: 40% renewable by 2030, 70% by 2040, 100% by 2045."
+        },
+        "US-IA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Iowa Code § 476.44",
+          "source": "https://www.legis.iowa.gov/docs/code/476.44.pdf",
+          "note": "Iowa's only requirement is a fixed 105 MW share of alternative-energy purchases for its two investor-owned utilities (met in 1999), not a rising standard; some trackers still count it as an RPS."
+        },
+        "US-ID": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+          "note": "Idaho has no state renewable or clean electricity standard; it is absent from this list of standards."
+        },
+        "US-IL": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "20 ILCS 3855/1-75(c)",
+          "source": "https://ipa.illinois.gov/renewable-resources.html",
+          "note": "Mandatory renewable portfolio standard, updated by the 2021 Climate and Equitable Jobs Act to 40% renewable by the 2030 delivery year and 50% by 2040; the agency page confirms the standard, but the statute page (ilga.gov) did not load, so the target figures are from the Act as known."
+        },
+        "US-IN": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+          "note": "Indiana has only a voluntary clean energy portfolio goal."
+        },
+        "US-KS": {
+          "answer": "no",
+          "operativeAt": "2016-01-01",
+          "preempts": true,
+          "cite": "Kan. Stat. § 66-1256",
+          "source": "https://www.ksrevisor.gov/statutes/chapters/ch66/066_012_0056.html",
+          "note": "Kansas made its standard a voluntary goal of 20% of peak demand by 2020, effective January 1, 2016."
+        },
+        "US-KY": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+          "note": "Kentucky has no state renewable or clean electricity standard; it is absent from this list of standards."
+        },
+        "US-LA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+          "note": "Louisiana has no state renewable or clean electricity standard; it is absent from this list of standards."
+        },
+        "US-MA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Mass. Gen. Laws ch. 25A, § 11F",
+          "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleII/Chapter25A/Section11F",
+          "note": "Mandatory: Class I rises 3 points a year through 2029 (about 40% by 2030), then 1 point a year indefinitely."
+        },
+        "US-MD": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Md. Code, Pub. Util. § 7-703",
+          "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gpu&section=7-703&enactments=false",
+          "note": "Mandatory: 50% Tier 1 renewable by 2030, including 14.5% solar."
+        },
+        "US-ME": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Me. Rev. Stat. tit. 35-A, § 3210",
+          "source": "https://legislature.maine.gov/statutes/35-A/title35-Asec3210.html",
+          "note": "Mandatory: the new-renewable requirement rises to 40% in 2030 and 50% by 2040, under a statutory goal of 90% renewable plus 10% clean by 2040 (amended by P.L. 2025, c. 386)."
+        },
+        "US-MI": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Mich. Comp. Laws § 460.1028",
+          "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-460-1028",
+          "note": "Mandatory: 15% through 2029, 50% renewable in 2030, 60% from 2035 (2023 law; a separate 100% clean standard targets 2040)."
+        },
+        "US-MN": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Minn. Stat. § 216B.1691",
+          "source": "https://www.revisor.mn.gov/statutes/cite/216B.1691",
+          "note": "Mandatory: 80% carbon-free by 2030 for public utilities, 90% by 2035, 100% carbon-free by 2040."
+        },
+        "US-MO": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Mo. Rev. Stat. § 393.1030",
+          "source": "https://revisor.mo.gov/main/OneSection.aspx?section=393.1030",
+          "note": "Mandatory: rose in steps to 15% renewable in 2021 and holds at 15% each year after (investor-owned utilities); no further increase is scheduled."
+        },
+        "US-MP": {
+          "answer": "yes",
+          "preempts": true,
+          "operativeAt": "2006-08-10",
+          "cite": "4 CMC §§ 8522-8524",
+          "source": "https://cnmilaw.gov/docs/cmc_section/T4/8522.pdf",
+          "note": "Each electric utility must reach a renewable portfolio standard of 20% of net sales (set by P.L. 15-23 in 2006, lowered and reset to 2016 by P.L. 18-62 on 9/4/2014), enforced by fines of up to $10,000 a day, so the rule is a single plateau rather than a rising ladder."
+        },
+        "US-MS": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+          "note": "Mississippi has no state renewable or clean electricity standard; it is absent from this list of standards."
+        },
+        "US-MT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Mont. Code § 69-3-2004 (repealed)",
+          "source": "https://leg.mt.gov/bills/mca/title_0690/chapter_0030/part_0200/section_0040/0690-0030-0200-0040.html",
+          "note": "Montana's 15% renewable standard was repealed in 2021 (Ch. 542, L. 2021)."
+        },
+        "US-NC": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "N.C. Gen. Stat. §§ 62-133.8, 62-110.9",
+          "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_62/GS_62-133.8.html",
+          "note": "Mandatory: the renewable standard reached 12.5% in 2021 and holds there, and a separate carbon plan requires carbon neutrality by 2050."
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "N.D. Cent. Code § 49-02-28 (repealed)",
+          "source": "https://www.ndlegis.gov/cencode/t49c02.pdf",
+          "note": "North Dakota had only a voluntary 10% objective, and it was repealed in 2025 (S.L. 2025, ch. 432)."
+        },
+        "US-NE": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+          "note": "Nebraska has no state renewable or clean electricity standard; it is absent from this list of standards."
+        },
+        "US-NH": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "N.H. Rev. Stat. § 362-F:3",
+          "source": "https://gc.nh.gov/rsa/html/XXXIV/362-F/362-F-3.htm",
+          "note": "Mandatory: the schedule rose to its final level in 2025 (Class I 15%, about 25.2% across all classes) and holds there each year after; no further increase is scheduled."
+        },
+        "US-NJ": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "N.J. Stat. § 48:3-87",
+          "source": "https://pub.njleg.gov/bills/2018/PL18/17_.HTM",
+          "note": "Mandatory: 35% Class I renewable by 2025 and 50% by 2030 (P.L. 2018, c. 17)."
+        },
+        "US-NM": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "N.M. Stat. § 62-16-4",
+          "source": "https://www.nmlegis.gov/Sessions/19%20Regular/final/SB0489.pdf",
+          "note": "Mandatory: 50% renewable by 2030, 80% by 2040, and 100% zero-carbon by 2045 for public utilities (2050 for co-ops), per the 2019 Energy Transition Act."
+        },
+        "US-NV": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Nev. Rev. Stat. § 704.7821",
+          "source": "https://www.leg.state.nv.us/nrs/nrs-704.html",
+          "note": "Mandatory: 42% for 2027-2029 and 50% renewable from 2030."
+        },
+        "US-NY": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "N.Y. Pub. Serv. Law § 66-p",
+          "source": "https://newyork.public.law/laws/n.y._public_service_law_section_66-p",
+          "note": "Mandatory: 70% renewable by 2030 and zero-emission electricity by 2040 (2019 climate law); the official state pages refused the fetch, so this uses a statute mirror."
+        },
+        "US-OH": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Ohio Rev. Code § 4928.64",
+          "source": "https://codes.ohio.gov/ohio-revised-code/section-4928.64",
+          "note": "Mandatory in 2026: 8% in 2025 rising to 8.5% in 2026, the final benchmark, after which HB 6 (2019) ends the requirement."
+        },
+        "US-OK": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+          "note": "Oklahoma has only a voluntary renewable goal."
+        },
+        "US-OR": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Or. Rev. Stat. §§ 469A.052, 469A.410",
+          "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors469a.html",
+          "note": "Mandatory: 50% renewable by 2040 for large utilities, plus clean-energy targets of 80% below baseline emissions by 2030 and 100% clean by 2040."
+        },
+        "US-PA": {
+          "answer": "yes",
+          "operativeAt": "2005-02-28",
+          "preempts": true,
+          "cite": "73 P.S. § 1648.3",
+          "source": "https://www.palegis.us/statutes/unconsolidated/law-information/view-statute?txtType=PDF&SessYr=2004&ActNum=0213.&SessInd=0",
+          "note": "Mandatory: rose to its final level of 18% (8% Tier I plus 10% Tier II) in the 15th year after enactment (2021) and holds there each year after; no further increase is scheduled."
+        },
+        "US-PR": {
+          "answer": "yes",
+          "operativeAt": "2019-04-11",
+          "preempts": true,
+          "cite": "P.R. Laws, Act 82-2010, art. 2.3 (as amended by Act 17-2019 and Act 1-2025)",
+          "source": "https://www.lexjuris.com/lexlex/Leyes2025/lexl2025001.htm",
+          "note": "Mandatory portfolio for each retail provider of 100% renewable by 2050; Act 1-2025 (March 19, 2025) removed the interim 40%-by-2025 and 60%-by-2040 steps set by Act 17-2019 and pushed the coal phase-out to 2032."
+        },
+        "US-RI": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "R.I. Gen. Laws § 39-26-4",
+          "source": "https://webserver.rilegislature.gov/Statutes/TITLE39/39-26/39-26-4.htm",
+          "note": "Mandatory: rising yearly to 100% renewable by 2033."
+        },
+        "US-SC": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+          "note": "South Carolina has no state renewable or clean electricity standard; it is absent from this list of standards."
+        },
+        "US-SD": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "S.D. Codified Laws § 49-34A-101",
+          "source": "https://sdlegislature.gov/api/Statutes/49-34A-101.html",
+          "note": "South Dakota has only a voluntary objective of 10% by 2015."
+        },
+        "US-TN": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+          "note": "Tennessee has no state renewable or clean electricity standard; it is absent from this list of standards."
+        },
+        "US-TX": {
+          "answer": "no",
+          "operativeAt": "2025-09-01",
+          "preempts": true,
+          "cite": "Tex. Util. Code § 39.904 (repealed)",
+          "source": "https://capitol.texas.gov/tlodocs/88R/billtext/html/HB01500F.htm",
+          "note": "HB 1500 (2023) repealed the renewable standard (Util. Code § 39.904) and ran a solar-only transition program that ended September 1, 2025; the old 10,000 MW goal was met in 2010."
+        },
+        "US-UT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Utah Code § 54-17-602",
+          "source": "https://le.utah.gov/xcode/Title54/Chapter17/C54-17-S602_2024050120240501.html",
+          "note": "Utah's 20% target applies only to the extent it is cost-effective, so it is a goal, not a requirement."
+        },
+        "US-VA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Va. Code § 56-585.5",
+          "source": "https://law.lis.virginia.gov/vacode/title56/chapter23/section56-585.5/",
+          "note": "Mandatory: 100% renewable by 2045 for Dominion and by 2050 for Appalachian Power (Virginia Clean Economy Act, 2020)."
+        },
+        "US-VI": {
+          "answer": "yes",
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (3 answer yes), because this place's own law could not be read.",
+          "note": "Tried: V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found)."
+        },
+        "US-VT": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Vt. Stat. tit. 30, § 8005",
+          "source": "https://legislature.vermont.gov/statutes/section/30/089/08005",
+          "note": "Mandatory: 100% renewable by 2030 for most providers (2035 for municipal utilities), with a new-renewable requirement rising to 20% by 2035."
+        },
+        "US-WA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Wash. Rev. Code §§ 19.405.040, 19.405.050",
+          "source": "https://app.leg.wa.gov/rcw/default.aspx?cite=19.405.050",
+          "note": "Mandatory: greenhouse-gas-neutral by 2030 and 100% clean by 2045 (Clean Energy Transformation Act)."
+        },
+        "US-WI": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Wis. Stat. § 196.378",
+          "source": "https://docs.legis.wisconsin.gov/statutes/statutes/196/378",
+          "note": "Mandatory: each utility had to rise 6 points above its baseline by 2015 (statewide goal 10%) and may not fall below that level; no further increase is scheduled."
+        },
+        "US-WV": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "W. Va. Code ch. 24, art. 2F (repealed)",
+          "source": "https://code.wvlegislature.gov/24-2F-5/",
+          "note": "West Virginia's alternative and renewable portfolio standard was repealed in 2015 (Acts 2015, ch. 55)."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+          "note": "Wyoming has no state renewable or clean electricity standard; it is absent from this list of standards."
+        }
+      }
+    },
+    "us-policy-positions:environment-energy.price-carbon": {
+      "source": "rggi.org Elements of RGGI and state regulations pages (fetched 9/28/2026, 2026 cap for eleven states), RGGI 'Welcome Virginia' statement 4/29/2026, CARB Cap-and-Invest program page (2026), RCW 70A.65 (app.leg.wa.gov), Oregon DEQ CPP page, Wikipedia RGGI and Climate Commitment Act articles.",
+      "note": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "answers": {
+        "US-AK": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-AL": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-AR": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-AS": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (3 answer no), because this place's own law could not be read.",
+          "note": "Tried: American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
+        },
+        "US-AZ": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-CA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Cal. Health & Safety Code § 38562; Cal. Code Regs. tit. 17, § 95800 et seq.",
+          "source": "https://ww2.arb.ca.gov/our-work/programs/cap-and-trade-program",
+          "note": "Economy-wide cap-and-trade (renamed Cap-and-Invest after the 2025 extension, Stats. 2025, ch. 117) covering power, industry and transportation fuels; start date not stated on the fetched pages."
+        },
+        "US-CO": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-CT": {
+          "answer": "yes",
+          "operativeAt": "2009-01-01",
+          "preempts": true,
+          "cite": "Conn. Gen. Stat. § 22a-200c; R.C.S.A. § 22a-174-31",
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger."
+        },
+        "US-DC": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "RGGI participating states (11); California and Washington programs",
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "The District is not in RGGI and has no cap-and-trade or carbon tax in its code, and nothing in D.C. law bars it, so no carbon price applied on 1/1/2026."
+        },
+        "US-DE": {
+          "answer": "yes",
+          "operativeAt": "2009-01-01",
+          "preempts": true,
+          "cite": "Del. Code tit. 7, ch. 60, § 6043; 7 DE Admin. Code 1147",
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger."
+        },
+        "US-FL": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-GA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-GU": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "Guam Code Annotated (searched for carbon and greenhouse gas pricing)",
+          "source": "https://col.guamcourts.gov/sites/default/files/5gc016.pdf",
+          "note": "The Guam Code Annotated has no carbon tax, fee or cap-and-trade program."
+        },
+        "US-HI": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-IA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-ID": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-IL": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-IN": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-KS": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-KY": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-LA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-MA": {
+          "answer": "yes",
+          "operativeAt": "2009-01-01",
+          "preempts": true,
+          "cite": "M.G.L. c. 21A, § 22; 310 CMR 7.70",
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger. Massachusetts also caps power-plant CO2 under 310 CMR 7.74."
+        },
+        "US-MD": {
+          "answer": "yes",
+          "operativeAt": "2009-01-01",
+          "preempts": true,
+          "cite": "COMAR 26.09 (Maryland CO2 Budget Trading Program)",
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger."
+        },
+        "US-ME": {
+          "answer": "yes",
+          "operativeAt": "2009-01-01",
+          "preempts": true,
+          "cite": "Me. Rev. Stat. tit. 38, ch. 3-B; DEP ch. 156",
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger."
+        },
+        "US-MI": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-MN": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-MO": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-MP": {
+          "answer": "no",
+          "preempts": false,
+          "source": "https://cnmilaw.gov/search?q=carbon",
+          "note": "A search of the Commonwealth Code found no carbon price, cap-and-trade or emissions allowance program."
+        },
+        "US-MS": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-MT": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-NC": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "North Carolina's entry into RGGI was blocked by the fiscal year 2023-25 budget; weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-NE": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-NH": {
+          "answer": "yes",
+          "operativeAt": "2009-01-01",
+          "preempts": true,
+          "cite": "RSA 125-O:20 to 125-O:29; N.H. Admin. R. Env-A 4600",
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger."
+        },
+        "US-NJ": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "N.J.A.C. 7:27C",
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger. New Jersey left RGGI after 2011 and reentered under a 1/29/2018 executive order; its current participation date was not found on a fetched page."
+        },
+        "US-NM": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-NV": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-NY": {
+          "answer": "yes",
+          "operativeAt": "2009-01-01",
+          "preempts": true,
+          "cite": "6 NYCRR Part 242; 21 NYCRR Part 507",
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger. New York's economy-wide cap-and-invest program had not launched on 1/1/2026 and does not count."
+        },
+        "US-OH": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-OK": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-OR": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.oregon.gov/deq/ghgp/cpp/pages/default.aspx",
+          "note": "Oregon's Climate Protection Program is a declining cap on fuel suppliers and industry that hands out free compliance instruments with no auction, so it is treated as no market carbon price, though companies can trade instruments and buy Community Climate Investment credits."
+        },
+        "US-PA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://en.wikipedia.org/wiki/Regional_Greenhouse_Gas_Initiative",
+          "note": "Pennsylvania's RGGI rule was enjoined from 2022 and struck by the Commonwealth Court on 11/1/2023, so the state never took part in auctions, and the budget passed 11/12/2025 withdrew it from RGGI."
+        },
+        "US-PR": {
+          "answer": "no",
+          "preempts": false,
+          "cite": "P.R. Laws, Ley 33-2019 (Ley de Mitigación, Adaptación y Resiliencia al Cambio Climático)",
+          "source": "https://www.lexjuris.com/lexlex/Leyes2019/lexl2019033.htm",
+          "note": "Puerto Rico sets climate targets by law but has no carbon tax, cap-and-trade or emissions allowance market, and it is not in RGGI."
+        },
+        "US-RI": {
+          "answer": "yes",
+          "operativeAt": "2009-01-01",
+          "preempts": true,
+          "cite": "R.I. Gen. Laws §§ 23-82-1 et seq.; Air Pollution Control Reg. No. 46",
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger."
+        },
+        "US-SC": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-SD": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-TN": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-TX": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-UT": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-VA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "9VAC5-140 (Regulation for Emissions Trading Programs)",
+          "source": "https://www.rggi.org/sites/default/files/Uploads/Press-Releases/2026_04_29_VA_Welcome_Statement.pdf",
+          "note": "Virginia ceased RGGI participation at the end of 2023 and was not participating on 1/1/2026 despite a court ruling against the withdrawal; Governor Spanberger approved a regulation reinstating its CO2 budget trading program, and participation and compliance resume 7/1/2026 (power sector only)."
+        },
+        "US-VI": {
+          "answer": "no",
+          "preempts": false,
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (3 answer no), because this place's own law could not be read.",
+          "note": "Tried: V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found)."
+        },
+        "US-VT": {
+          "answer": "yes",
+          "operativeAt": "2009-01-01",
+          "preempts": true,
+          "cite": "Vermont CO2 Budget Trading Program Regulations",
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger."
+        },
+        "US-WA": {
+          "answer": "yes",
+          "operativeAt": "2023-01-01",
+          "preempts": true,
+          "cite": "RCW 70A.65.060–70A.65.100 (Climate Commitment Act)",
+          "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=70A.65.060",
+          "note": "Economy-wide cap-and-invest program launched in 2023; Initiative 2117 to repeal it failed in November 2024 with about 62% voting no."
+        },
+        "US-WI": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-WV": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.rggi.org/program-overview-and-design/elements",
+          "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+        }
+      }
+    },
+    "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties": {
+      "source": "EPA Green Book, Current Nonattainment Counties for All Criteria Pollutants (data current as of September 30, 2026; states, D.C. and territories), read 10/01/2026.",
+      "note": "Yes means at least one county is currently designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates under the Clean Air Act, so the state carries an EPA-approved plan of emission limits for it. No area is yet listed under the 2024 PM-2.5 standard. Designation dates were not checked county by county.",
+      "answers": {
+        "US-AL": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026."
+        },
+        "US-AK": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "42 U.S.C. §§ 7407(d), 7502",
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "The EPA Green Book lists 1 county here as nonattainment for particulates (PM-2.5): Fairbanks North Star Borough. The state must carry an EPA-approved clean-up plan for it."
+        },
+        "US-AZ": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "42 U.S.C. §§ 7407(d), 7502",
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "The EPA Green Book lists 7 counties here as nonattainment for particulates (PM-10, PM-2.5): Cochise County, Gila County, Maricopa County, Pima County, Pinal County, Santa Cruz County, Yuma County. The state must carry an EPA-approved clean-up plan for them."
+        },
+        "US-AR": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026."
+        },
+        "US-CA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "42 U.S.C. §§ 7407(d), 7502",
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "The EPA Green Book lists 29 counties here as nonattainment for particulates (PM-10, PM-2.5): 29 counties including Alameda, Contra Costa, El Dorado, Fresno and Yolo. The state must carry an EPA-approved clean-up plan for them."
+        },
+        "US-CO": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026. Its nonattainment counties are for ozone only."
+        },
+        "US-CT": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026. Its nonattainment counties are for ozone only."
+        },
+        "US-DE": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026. Its nonattainment counties are for ozone only."
+        },
+        "US-FL": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026."
+        },
+        "US-GA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026."
+        },
+        "US-HI": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026."
+        },
+        "US-ID": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "42 U.S.C. §§ 7407(d), 7502",
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "The EPA Green Book lists 2 counties here as nonattainment for particulates (PM-10): Bannock County, Power County. The state must carry an EPA-approved clean-up plan for them."
+        },
+        "US-IL": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026. Its nonattainment counties are for ozone only."
+        },
+        "US-IN": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026. Its nonattainment counties are for ozone only."
+        },
+        "US-IA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026."
+        },
+        "US-KS": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026."
+        },
+        "US-KY": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026. Its nonattainment counties are for ozone and sulfur dioxide only."
+        },
+        "US-LA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026. Its nonattainment counties are for sulfur dioxide only."
+        },
+        "US-ME": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026."
+        },
+        "US-MD": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026. Its nonattainment counties are for ozone and sulfur dioxide only."
+        },
+        "US-MA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026. Its nonattainment counties are for ozone only."
+        },
+        "US-MI": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026. Its nonattainment counties are for ozone only."
+        },
+        "US-MN": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026. Its nonattainment counties are for lead only."
+        },
+        "US-MS": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026."
+        },
+        "US-MO": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026. Its nonattainment counties are for ozone, lead and sulfur dioxide only."
+        },
+        "US-MT": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "42 U.S.C. §§ 7407(d), 7502",
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "The EPA Green Book lists 2 counties here as nonattainment for particulates (PM-10): Lake County, Rosebud County. The state must carry an EPA-approved clean-up plan for them."
+        },
+        "US-NE": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026."
+        },
+        "US-NV": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026. Its nonattainment counties are for ozone only."
+        },
+        "US-NH": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026."
+        },
+        "US-NJ": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026. Its nonattainment counties are for ozone only."
+        },
+        "US-NM": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "42 U.S.C. §§ 7407(d), 7502",
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "The EPA Green Book lists 1 county here as nonattainment for particulates (PM-10): Dona Ana County. The state must carry an EPA-approved clean-up plan for it."
+        },
+        "US-NY": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "42 U.S.C. §§ 7407(d), 7502",
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "The EPA Green Book lists 1 county here as nonattainment for particulates (PM-10): New York County. The state must carry an EPA-approved clean-up plan for it."
+        },
+        "US-NC": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026."
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026."
+        },
+        "US-OH": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026."
+        },
+        "US-OK": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026."
+        },
+        "US-OR": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "42 U.S.C. §§ 7407(d), 7502",
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "The EPA Green Book lists 1 county here as nonattainment for particulates (PM-2.5): Klamath County. The state must carry an EPA-approved clean-up plan for it."
+        },
+        "US-PA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026. Its nonattainment counties are for ozone, lead and sulfur dioxide only."
+        },
+        "US-RI": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026."
+        },
+        "US-SC": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026."
+        },
+        "US-SD": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026."
+        },
+        "US-TN": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026. Its nonattainment counties are for sulfur dioxide only."
+        },
+        "US-TX": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "42 U.S.C. §§ 7407(d), 7502",
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "The EPA Green Book lists 1 county here as nonattainment for particulates (PM-10): El Paso County. The state must carry an EPA-approved clean-up plan for it."
+        },
+        "US-UT": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026. Its nonattainment counties are for ozone and sulfur dioxide only."
+        },
+        "US-VT": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026."
+        },
+        "US-VA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026. Its nonattainment counties are for ozone and sulfur dioxide only."
+        },
+        "US-WA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026."
+        },
+        "US-WV": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026."
+        },
+        "US-WI": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026. Its nonattainment counties are for ozone only."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026. Its nonattainment counties are for ozone only."
+        },
+        "US-DC": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026. Its nonattainment counties are for ozone only."
+        },
+        "US-AS": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026."
+        },
+        "US-GU": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026. Its nonattainment counties are for sulfur dioxide only."
+        },
+        "US-MP": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026."
+        },
+        "US-PR": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026. Its nonattainment counties are for lead and sulfur dioxide only."
+        },
+        "US-VI": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+          "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026."
+        }
+      }
+    }
+  }
+}

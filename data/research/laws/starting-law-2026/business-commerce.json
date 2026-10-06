@@ -1,0 +1,1037 @@
+{
+  "questions": {
+    "us-policy-positions:business-commerce.legalize-cannabis-sales": {
+      "source": "State cannabis law guides and the Tax Foundation's 2026 marijuana tax map: 24 states legal for adults; Virginia retail from 2027.",
+      "note": "D.C. allows possession but a congressional rider bars sales.",
+      "answers": {
+        "US-AK": {
+          "answer": "yes",
+          "cite": "Alaska Stat. § 17.38.020",
+          "source": "https://www.elections.alaska.gov/petitions-and-ballot-measures/petition-status/petition_id/13psum/",
+          "note": "Adult-use retail is limited to people 21 or older under the voter-approved measure effective 2/24/2015.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            }
+          ]
+        },
+        "US-AL": {
+          "answer": "no"
+        },
+        "US-AR": {
+          "answer": "no"
+        },
+        "US-AS": {
+          "answer": "yes",
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (2 answer yes), because this place's own law could not be read.",
+          "note": "Tried: American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
+        },
+        "US-AZ": {
+          "answer": "yes",
+          "cite": "A.R.S. §§ 36-2852(A), 42-5452",
+          "source": "https://www.azleg.gov/ars/42/05452.htm",
+          "note": "Adult-use purchasers must be 21 or older. A 16% excise tax applies to adult-use retail sales; separate transaction privilege taxes remain outside this rate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            },
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.16,
+              "unit": "ratio"
+            }
+          ]
+        },
+        "US-CA": {
+          "answer": "yes",
+          "cite": "Cal. Bus. & Prof. Code § 26140; Rev. & Tax. Code § 34011.2",
+          "source": "https://www.cdtfa.ca.gov/lawguides/vol3/ctl/ctl-34011-2.html",
+          "note": "Adult-use purchasers must be 21 or older. Under the 2026 California Department of Tax and Fee Administration code revision, the 15% cannabis excise tax applies to gross receipts from retail sales; a temporary 19% rate applied only from 7/1/2025 through 9/30/2025. Beginning in fiscal year 2028-29, the department must adjust the rate every two years to replace revenue from the former weight-based cultivation tax, capped at 19% and rounded to the nearest quarter point. The future adjusted rate is not yet known.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            },
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.15,
+              "unit": "ratio"
+            }
+          ]
+        },
+        "US-CO": {
+          "answer": "yes",
+          "cite": "Colo. Rev. Stat. § 39-28.8-202; Colo. Const. art. XVIII, § 16",
+          "source": "https://www.leg.colorado.gov/bills/SB17B-001",
+          "note": "Adult-use retail is limited to people 21 or older. The 15% retail marijuana sales tax excludes the separate 15% cultivation-transfer excise and local taxes.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            },
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.15,
+              "unit": "ratio"
+            }
+          ]
+        },
+        "US-CT": {
+          "answer": "yes",
+          "cite": "Conn. Pub. Act 21-1, § 1; Conn. Gen. Stat. § 12-330ll",
+          "source": "https://cga.ct.gov/2022/sup/chap_420h.htm",
+          "note": "Adult-use purchasers must be 21 or older. As of 1/1/2026, the excise tax is based on THC content and product type, so there is no single retail-sales share to record.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            }
+          ]
+        },
+        "US-DC": {
+          "answer": "no",
+          "note": "Possession legal; sales barred by Congress."
+        },
+        "US-DE": {
+          "answer": "yes",
+          "cite": "4 Del. C. § 1382",
+          "source": "https://delcode.delaware.gov/title4/c013/sc08/index.html",
+          "note": "A 15% excise tax applies to adult-use retail sales, with medical marijuana excluded. The tax is on retail sales and does not combine ordinary or local sales taxes.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.15,
+              "unit": "ratio"
+            }
+          ]
+        },
+        "US-FL": {
+          "answer": "no"
+        },
+        "US-GA": {
+          "answer": "no"
+        },
+        "US-GU": {
+          "answer": "yes",
+          "operativeAt": "2019-04-04",
+          "cite": "11 GCA § 8108 (Guam Cannabis Industry Act of 2019)",
+          "source": "https://col.guamcourts.gov/sites/default/files/11gc008_Q.pdf",
+          "note": "Guam law makes it lawful for a registered retail cannabis store to sell cannabis to adults 21 and older (P.L. 35-005, enacted April 4, 2019).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            }
+          ]
+        },
+        "US-HI": {
+          "answer": "no"
+        },
+        "US-IA": {
+          "answer": "no"
+        },
+        "US-ID": {
+          "answer": "no"
+        },
+        "US-IL": {
+          "answer": "yes",
+          "cite": "410 ILCS 705/1-10 (definition of Purchaser)",
+          "source": "https://ilga.gov/Documents/legislation/ilcs/documents/041007050K1-10.htm",
+          "note": "Adult-use purchases are limited to people 21 or older; this term records the purchaser-age floor, not product-dependent cannabis excise rates.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            }
+          ]
+        },
+        "US-IN": {
+          "answer": "no"
+        },
+        "US-KS": {
+          "answer": "no"
+        },
+        "US-KY": {
+          "answer": "no"
+        },
+        "US-LA": {
+          "answer": "no"
+        },
+        "US-MA": {
+          "answer": "yes",
+          "cite": "Mass. Gen. Laws ch. 64N, § 2",
+          "source": "https://www.mass.gov/info-details/mass-general-laws-c64n-ss-2",
+          "note": "Adult-use retail sales are subject to a 10.75% excise tax. The base excludes sales to another marijuana establishment; ordinary sales and local option taxes are separate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.1075,
+              "unit": "ratio"
+            }
+          ]
+        },
+        "US-MD": {
+          "answer": "yes",
+          "cite": "Md. Code, Tax-Gen. § 11-104(k)",
+          "source": "https://mgaleg.maryland.gov/mgawebsite/laws/StatuteText?article=gtg&section=11-104",
+          "note": "A 12% tax applies to adult-use cannabis retail sales beginning 7/1/2025. Medical and licensed business-to-business sales retain their statutory exemptions.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.12,
+              "unit": "ratio"
+            }
+          ]
+        },
+        "US-ME": {
+          "answer": "yes",
+          "cite": "Me. Rev. Stat. tit. 28-B, § 504(4); tit. 36, § 1811(5)",
+          "source": "https://legislature.maine.gov/statutes/36/title36sec1811.html",
+          "note": "Retail purchasers must be 21 or older. The adult-use retail sales tax is 14% on sales beginning 1/1/2026; cultivation transfers have separate weight-based excise rates.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            },
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.14,
+              "unit": "ratio"
+            }
+          ]
+        },
+        "US-MI": {
+          "answer": "yes",
+          "cite": "Mich. Comp. Laws § 333.27955; Michigan Regulation and Taxation of Marihuana Act, § 5",
+          "source": "https://www.michigan.gov/cra/sections/adult-use/michigan-regulation-and-taxation-of-marihuana-act",
+          "note": "The act permits adult-use sales only to people at least 21 years old. A 10% retail excise tax applies; a separate 24% wholesale tax began 1/1/2026 and has a different tax base.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            },
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.1,
+              "unit": "ratio"
+            }
+          ]
+        },
+        "US-MN": {
+          "answer": "yes",
+          "cite": "Minn. Stat. § 295.81",
+          "source": "https://www.revisor.mn.gov/statutes/cite/295.81",
+          "note": "A 15% tax applies to taxable cannabis gross receipts, including taxable hemp products, beginning 7/1/2025. Statutory exemptions and ordinary sales taxes remain separate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.15,
+              "unit": "ratio"
+            }
+          ]
+        },
+        "US-MO": {
+          "answer": "yes",
+          "cite": "Mo. Const. art. XIV, § 2.6(1)",
+          "source": "https://health.mo.gov/business-professionals/cannabis-regulation/general-faqs",
+          "note": "The adult-use retail cannabis tax is 6%; the medical rate is 4%, and general and local taxes are separate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.06,
+              "unit": "ratio"
+            }
+          ]
+        },
+        "US-MP": {
+          "answer": "yes",
+          "operativeAt": "2018-09-21",
+          "cite": "4 CMC § 53025 (Taulamwaar Sensible CNMI Cannabis Act of 2018)",
+          "source": "https://cnmilaw.gov/docs/cmc_section/T4/53025.pdf",
+          "note": "A marijuana retailer holding a Commission retail license may sell marijuana items to adults 21 and older (P.L. 20-66, enacted September 21, 2018); adult-use retail sales also carry a 15% surtax, separate from first-sale and medical rates.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            },
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.15,
+              "unit": "ratio"
+            }
+          ]
+        },
+        "US-MS": {
+          "answer": "no"
+        },
+        "US-MT": {
+          "answer": "yes",
+          "cite": "Montana adult-use cannabis tax",
+          "source": "https://revenue.mt.gov/taxes/miscellaneous-taxes-and-fees/cannabis/",
+          "note": "Adult-use retail sales are taxed at 20% of retail value; medical sales and county option taxes have separate rates.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.2,
+              "unit": "ratio"
+            }
+          ]
+        },
+        "US-NC": {
+          "answer": "no"
+        },
+        "US-ND": {
+          "answer": "no"
+        },
+        "US-NE": {
+          "answer": "no"
+        },
+        "US-NH": {
+          "answer": "no"
+        },
+        "US-NJ": {
+          "answer": "yes",
+          "cite": "N.J.S.A. 24:6I-31 et seq. (CREAMM Act)",
+          "source": "https://pub.njleg.gov/bills/2020/AL21/16_.HTM",
+          "note": "Adult-use purchases are limited to people 21 or older. The cultivation social-equity fee is weight-based, not a retail-sales share.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            }
+          ]
+        },
+        "US-NM": {
+          "answer": "yes",
+          "cite": "N.M. Stat. Ann. § 7-42-3",
+          "source": "https://www.tax.newmexico.gov/businesses/cannabis-excise-tax/",
+          "note": "The adult-use cannabis excise tax is 13% of price paid from 7/1/2025 through 6/30/2026; medical exemptions and gross-receipts tax are separate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.13,
+              "unit": "ratio"
+            }
+          ]
+        },
+        "US-NV": {
+          "answer": "yes",
+          "cite": "Nev. Rev. Stat. § 372A.290",
+          "source": "https://www.leg.state.nv.us/nrs/NRS-372A.html",
+          "note": "Adult-use retail cannabis is subject to a 10% excise tax; wholesale transfers have a separate tax and tax base.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.1,
+              "unit": "ratio"
+            }
+          ]
+        },
+        "US-NY": {
+          "answer": "yes",
+          "cite": "N.Y. Tax Law § 493(b)",
+          "source": "https://www.nysenate.gov/legislation/laws/TAX/493",
+          "note": "The state retail cannabis tax is 9% of retail sale or transfer price. The separate 4% local retail tax and wholesale tax are excluded.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.09,
+              "unit": "ratio"
+            }
+          ]
+        },
+        "US-OH": {
+          "answer": "yes",
+          "cite": "Ohio Rev. Code § 3780.22 (version effective 1/1/2026)",
+          "source": "https://codes.ohio.gov/assets/laws/revised-code/authenticated/37/3780/3780.22/6-30-2025/3780.22-6-30-2025.pdf",
+          "note": "Adult-use cannabis retail sales are taxed at 10% of the retail price under the version in force 1/1/2026; ordinary taxes are separate. This section was replaced 3/20/2026.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.1,
+              "unit": "ratio"
+            }
+          ]
+        },
+        "US-OK": {
+          "answer": "no"
+        },
+        "US-OR": {
+          "answer": "yes",
+          "cite": "Or. Rev. Stat. § 475C.674",
+          "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors475c.html",
+          "note": "Recreational cannabis retail sales carry a 17% state tax; medical exemptions and local option taxes are separate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.17,
+              "unit": "ratio"
+            }
+          ]
+        },
+        "US-PA": {
+          "answer": "no"
+        },
+        "US-PR": {
+          "answer": "no",
+          "cite": "P.R. Laws, Ley 42-2017 (Ley MEDICINAL)",
+          "source": "https://www.lexjuris.com/lexlex/Leyes2017/lexl2017042.htm",
+          "note": "Puerto Rico allows dispensaries to sell cannabis only to licensed medical patients, and the law prohibits recreational use."
+        },
+        "US-RI": {
+          "answer": "yes",
+          "cite": "R.I. Gen. Laws § 44-70-2",
+          "source": "https://webserver.rilegislature.gov/Statutes/TITLE44/44-70/44-70-2.htm",
+          "note": "A 10% cannabis tax applies to consumer sales to someone other than a cannabis establishment. Medical sales are exempt; general sales and local taxes are separate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.1,
+              "unit": "ratio"
+            }
+          ]
+        },
+        "US-SC": {
+          "answer": "no"
+        },
+        "US-SD": {
+          "answer": "no"
+        },
+        "US-TN": {
+          "answer": "no"
+        },
+        "US-TX": {
+          "answer": "no"
+        },
+        "US-UT": {
+          "answer": "no"
+        },
+        "US-VA": {
+          "answer": "yes",
+          "before": {
+            "answer": "no"
+          },
+          "operativeAt": "2027-07-01",
+          "cite": "2026 Va. Acts, Sp. Sess. I, ch. 1, item 4-14; Va. Code §§ 4.1-1004, 4.1-1104",
+          "source": "https://budget.lis.virginia.gov/item/2026/2/HB30/Chapter/4/4-14/",
+          "note": "HB 30 starts adult-use retail sales July 1, 2027. Purchasers must be 21 or older. The state retail excise tax is 6% through June 30, 2029; it becomes 8% July 1, 2029. The tax is on taxable marijuana sales, in addition to ordinary sales tax and authorized local tax; medical patient sales, inter-establishment sales, industrial hemp and hemp products are excluded.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "minimum-age",
+              "value": 21,
+              "unit": "years"
+            },
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.06,
+              "unit": "ratio"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2029-07-01",
+              "cite": "2026 Va. Acts, Sp. Sess. I, ch. 1, item 4-14; Va. Code §§ 4.1-1004, 4.1-1104",
+              "source": "https://budget.lis.virginia.gov/item/2026/2/HB30/Chapter/4/4-14/",
+              "note": "The state retail excise tax increases from 6% to 8% July 1, 2029; the 21-year-old purchase floor and taxable-sales scope continue.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+                  "key": "minimum-age",
+                  "value": 21,
+                  "unit": "years"
+                },
+                {
+                  "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+                  "key": "tax-rate",
+                  "value": 0.08,
+                  "unit": "ratio"
+                }
+              ]
+            }
+          ]
+        },
+        "US-VI": {
+          "answer": "yes",
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (2 answer yes), because this place's own law could not be read.",
+          "note": "Tried: V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found)."
+        },
+        "US-VT": {
+          "answer": "yes",
+          "cite": "32 V.S.A. § 7902",
+          "source": "https://legislature.vermont.gov/statutes/section/32/207/07902",
+          "note": "A 14% excise tax applies to adult-use retail cannabis sales price; registered medical dispensary sales are exempt, and ordinary sales taxes are separate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.14,
+              "unit": "ratio"
+            }
+          ]
+        },
+        "US-WA": {
+          "answer": "yes",
+          "cite": "Wash. Rev. Code § 69.50.535",
+          "source": "https://app.leg.wa.gov/rcw/default.aspx?cite=69.50.535",
+          "note": "Adult-use retail sales carry a 37% state cannabis excise tax. Qualified medical exemptions and ordinary sales taxes are separate.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "key": "tax-rate",
+              "value": 0.37,
+              "unit": "ratio"
+            }
+          ]
+        },
+        "US-WI": {
+          "answer": "no"
+        },
+        "US-WV": {
+          "answer": "no"
+        },
+        "US-WY": {
+          "answer": "no"
+        }
+      }
+    },
+    "us-policy-positions:business-commerce.cap-consumer-loan-rates": {
+      "source": "NCLC, Predatory Installment Lending in the States (December 2025; rates current as of September 2025) with Appendices B-C and its December 2025 fact sheet; CRL, Red Alert Rates payday APR map (June 2023); state code pages for SD, MT, NH, NC, MN, WV, OH, VA, RI and Colorado Proposition 111 text, fetched 9/28/2026.",
+      "note": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "answers": {
+        "US-AK": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+          "note": "Payday loans are legal at about 424% APR (CRL), though small installment loans are capped at 36% (NCLC)."
+        },
+        "US-AL": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ala. Code § 5-18-15(m)",
+          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+          "note": "Payday loans are legal at about 456% APR (CRL), and small installment loans reach about 107% APR (NCLC)."
+        },
+        "US-AR": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Ark. Const. amend. 89",
+          "source": "https://www.nclc.org/wp-content/uploads/2025/12/2025_APR-Annual-Report_Appendix-C.pdf",
+          "note": "The state constitution caps interest at 17% a year, so payday loans are not made (NCLC: 17% maximum on a $500 loan)."
+        },
+        "US-AS": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "A.S.C.A. §§ 28.1501, 28.1502",
+          "source": "https://asbar.org/code-annotated/28-1501-interest-rate-agreements-signed-and-written-charge-for-loans/",
+          "note": "American Samoa caps interest at 15 percent a year, lets licensed banks charge up to 24 percent on loans of $5,000 or less, and limits approved small-loan agencies to $8 per $100 per year."
+        },
+        "US-AZ": {
+          "answer": "yes",
+          "operativeAt": "2010-07-01",
+          "preempts": true,
+          "cite": "Ariz. Rev. Stat. §§ 6-632(A), 6-635(A)(4)",
+          "source": "https://en.wikipedia.org/wiki/Payday_loans_in_the_United_States",
+          "note": "Payday lending ended when its exemption expired on 7/1/2010; consumer loans are capped at 36% interest plus a 5% origination fee (about 54% all-in on a $500 six-month loan per NCLC), and vehicle title loans remain a separate high-cost product."
+        },
+        "US-CA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Cal. Fin. Code §§ 22303, 22305",
+          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+          "note": "Payday loans up to $300 are legal at about 460% APR (CRL), and $500 installment loans may reach about 45% APR (NCLC)."
+        },
+        "US-CO": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Colo. Rev. Stat. § 5-3.1-105",
+          "source": "https://leg.colorado.gov/sites/default/files/images/olls/crs2023-title-05.pdf",
+          "note": "Effective 2/1/2019, deferred-deposit and payday loans are capped at 36% APR; this does not establish the cap for other consumer loan products. NCLC reports a separate installment-credit option may still cost about 78% on a six-month $500 loan.",
+          "operativeAt": "2019-02-01",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+              "key": "cap",
+              "value": 0.36,
+              "unit": "ratio",
+              "scope": {
+                "kind": "consumer-credit",
+                "lenderClass": "deferred-deposit-loan-lender",
+                "productClass": "deferred-deposit-payday-loan",
+                "rateBasis": "statutory-apr",
+                "includedChargeKeys": ["all-authorized-charges"],
+                "exceptionSetKey": "none"
+              }
+            }
+          ]
+        },
+        "US-CT": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Conn. Gen. Stat. §§ 36a-555(2), 36a-558",
+          "source": "https://www.nclc.org/wp-content/uploads/2025/12/2025_APR-Annual-Report_Appendix-C.pdf",
+          "note": "Small loans are capped at 36% APR counting all fees, including so-called voluntary and add-on charges, and payday loans are not made."
+        },
+        "US-DC": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "D.C. Code §§ 26-905, 28-3301(a)",
+          "source": "https://www.nclc.org/wp-content/uploads/2025/12/2025_APR-Annual-Report_Appendix-C.pdf",
+          "note": "Small loans by licensed lenders are capped at 24% APR and payday lending is not permitted."
+        },
+        "US-DE": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Del. Code Ann. tit. 5, §§ 2229, 2237",
+          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+          "note": "Payday loans are legal at about 639% APR (CRL), and the state places no APR cap on installment loans (NCLC)."
+        },
+        "US-FL": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Fla. Stat. § 516.031",
+          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+          "note": "Payday loans are legal at about 293% APR (CRL), and $500 installment loans may reach about 52% APR (NCLC)."
+        },
+        "US-GA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Ga. Code Ann. §§ 7-3-11, 7-4-18",
+          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+          "note": "Payday loans are not issued; small installment loans are limited to 10% discount interest plus fees under a 60% ceiling (NCLC: about 61% all-in on a $500 six-month loan), and vehicle title pawns remain a separate high-cost product."
+        },
+        "US-GU": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "14 GCA §§ 3201, 3508",
+          "source": "https://col.guamcourts.gov/sites/default/files/14gc003.pdf",
+          "note": "Guam's Uniform Consumer Credit Code caps ordinary consumer loans at 10 percent a year and licensed small loans at 3 percent a month on the first $300 (36 percent a year) with lower rates above that."
+        },
+        "US-HI": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Haw. Rev. Stat. §§ 480J-2, 480J-4",
+          "source": "https://www.nclc.org/wp-content/uploads/2025/12/2025_APR-Annual-Report_Appendix-B.pdf",
+          "note": "A 2021 law (H.B. 1192) replaced payday loans with installment loans allowing 36% interest plus a $30 monthly fee, about 146% APR on a $500 six-month loan (NCLC)."
+        },
+        "US-IA": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+          "note": "Payday loans are legal at about 247% APR (CRL), though small installment loans are capped at 36% (NCLC)."
+        },
+        "US-ID": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Idaho Code §§ 28-42-201(1), 28-45-106",
+          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+          "note": "Payday loans are legal at about 475% APR (CRL), and installment loans have no cap except unconscionability (NCLC)."
+        },
+        "US-IL": {
+          "answer": "yes",
+          "operativeAt": "2021-03-23",
+          "preempts": true,
+          "cite": "815 ILCS 123/15-5-5",
+          "source": "https://www.ilga.gov/legislation/ilcs/documents/081501230K15-5-5.htm",
+          "note": "The 36% APR cap applies to covered lenders for loans made or renewed on or after 3/23/2021. Banks, savings banks, savings and loan associations, credit unions, insurance companies, and pawn transactions are statutory exceptions; APR uses the Act’s calculation.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+              "key": "cap",
+              "value": 0.36,
+              "unit": "ratio"
+            }
+          ]
+        },
+        "US-IN": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ind. Code §§ 24-4.5-3-201, 24-4.5-3-508",
+          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+          "note": "Payday loans are legal at about 372% APR (CRL), and $500 installment loans may reach about 89% APR (NCLC)."
+        },
+        "US-KS": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Kan. Stat. Ann. § 16a-2-401",
+          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+          "note": "Payday loans are legal at about 391% APR (CRL), and $500 installment loans may reach about 43% APR (NCLC)."
+        },
+        "US-KY": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ky. Rev. Stat. Ann. §§ 286.4-530, 286.4-533",
+          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+          "note": "Deferred-deposit (payday) loans remain legal at about 450% APR (CRL); a 2024 law repealed only high-cost auto title loans (NCLC)."
+        },
+        "US-LA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "La. Stat. Ann. §§ 9:3519, 9:3530",
+          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+          "note": "Payday loans up to $350 are legal at about 410% APR (CRL), and $500 installment loans may reach about 85% APR (NCLC)."
+        },
+        "US-MA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Mass. Gen. Laws ch. 140, § 100",
+          "source": "https://www.nclc.org/wp-content/uploads/2025/12/2025_APR-Annual-Report_Appendix-C.pdf",
+          "note": "Small loans up to $6,000 are capped at 23% interest plus a $20 fee (about 37% all-in on a $500 six-month loan per NCLC), and payday loans are not made."
+        },
+        "US-MD": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Md. Code, Com. Law § 12-306(a)(6)",
+          "source": "https://www.nclc.org/wp-content/uploads/2025/12/2025_APR-Annual-Report_Appendix-C.pdf",
+          "note": "Small loans are capped at 33% on the first $1,000 and 24% above that, and payday loans are not made."
+        },
+        "US-ME": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Me. Stat. tit. 9-A, § 2-401(2)",
+          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+          "note": "Payday loans are legal with fee limits, still about 228% APR (CRL), though installment loans are capped at 30% (NCLC)."
+        },
+        "US-MI": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Mich. Comp. Laws §§ 493.13, 445.1854",
+          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+          "note": "Payday loans are legal at about 356% APR (CRL), and $500 installment loans may reach about 43% APR (NCLC)."
+        },
+        "US-MN": {
+          "answer": "yes",
+          "operativeAt": "2024-01-01",
+          "preempts": true,
+          "cite": "Minn. Stat. §§ 47.60, 47.601",
+          "source": "https://www.revisor.mn.gov/statutes/cite/47.601",
+          "note": "For nonbank consumer short-term loans of $1,300 or less meeting Minn. Stat. § 47.601's repayment test, the statutory maximum APR is 50%; rates above 36% require § 47.603 underwriting. This product-specific cap does not establish a general consumer-loan cap.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+              "key": "cap",
+              "value": 0.5,
+              "unit": "ratio",
+              "scope": {
+                "kind": "consumer-credit",
+                "lenderClass": "nonbank-lender",
+                "productClass": "short-term-loan-up-to-1300-repayment-test",
+                "rateBasis": "statutory-apr",
+                "includedChargeKeys": ["charges-in-statutory-apr"],
+                "exceptionSetKey": "ability-to-repay-underwriting-required-above-36-percent"
+              }
+            }
+          ]
+        },
+        "US-MO": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Mo. Rev. Stat. § 408.100",
+          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+          "note": "Payday loans are legal at about 652% APR (CRL), and the state places no APR cap on installment loans (NCLC)."
+        },
+        "US-MP": {
+          "answer": "yes",
+          "preempts": true,
+          "operativeAt": "2007-09-20",
+          "cite": "4 CMC § 60151(2)",
+          "source": "https://cnmilaw.gov/docs/cmc_section/T4/60151.pdf",
+          "note": "Licensed finance companies may not charge an annual percentage rate above 34 percent, points and fees aside, and usury is a crime; the cap took effect September 20, 2007.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+              "key": "cap",
+              "value": 0.34,
+              "unit": "ratio"
+            }
+          ]
+        },
+        "US-MS": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Miss. Code Ann. §§ 75-67-619, 75-67-181",
+          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+          "note": "Payday loans are legal at about 572% APR (CRL), and the Credit Availability Act allows installment loans at about 305% APR (NCLC)."
+        },
+        "US-MT": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Mont. Code Ann. § 31-1-722; § 32-5-301(1)",
+          "source": "https://leg.mt.gov/bills/mca/title_0310/chapter_0010/part_0070/section_0220/0310-0010-0070-0220.html",
+          "note": "Voter-approved I-164 (approved 11/2/2010) caps deferred-deposit (payday) loans at 36% a year, and consumer loans are also capped at 36% APR."
+        },
+        "US-NC": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "N.C. Gen. Stat. § 53-176",
+          "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_53/GS_53-176.html",
+          "note": "Payday loans are not issued; consumer finance installment loans are capped at 33% on the first $4,000 plus a processing fee of up to $30 (NCLC: 16% maximum on a six-month $500 loan)."
+        },
+        "US-ND": {
+          "answer": "no",
+          "preempts": true,
+          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+          "note": "Deferred-presentment (payday) loans are legal at about 521% APR (CRL), even though a 2021 law caps money brokers' loans at 36% (NCLC)."
+        },
+        "US-NE": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Neb. Rev. Stat. §§ 45-902, 45-918, 45-919; Neb. Dep't of Banking & Fin. DDS Interpretive Opinion No. 1 (Dec. 7, 2020)",
+          "source": "https://ndbf.nebraska.gov/sites/default/files/legal/DDS%20Interpretative%20Opinions_1.pdf",
+          "note": "Initiative 428 caps APR at 36% including fees and charges for licensed delayed-deposit transactions only; the 2025 replacement installment-loan rules are separate and permit different principal-tier rates and fees.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+              "key": "cap",
+              "value": 0.36,
+              "unit": "ratio",
+              "scope": {
+                "kind": "consumer-credit",
+                "lenderClass": "licensed-small-loan-lender",
+                "productClass": "small-loan-excluding-payday-and-title",
+                "rateBasis": "statutory-apr",
+                "includedChargeKeys": ["charges-in-statutory-apr"],
+                "exceptionSetKey": "exclude-one-application-fee-and-one-annual-participation-or-membership-fee-each-up-to-100"
+              }
+            }
+          ]
+        },
+        "US-NH": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "N.H. Rev. Stat. Ann. § 399-A:16(I)",
+          "source": "https://gc.nh.gov/rsa/html/XXXVI/399-A/399-A-16.htm",
+          "note": "For small loans other than payday or title loans, the statutory APR cap is 36%. Its formula excludes one application fee and one participation or membership fee per borrower per year, each up to $100. The separate payday-loan section also sets a 36% APR cap; this term reflects only the small-loan rule in §399-A:16(I).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+              "key": "cap",
+              "value": 0.36,
+              "unit": "ratio",
+              "scope": {
+                "kind": "consumer-credit",
+                "lenderClass": "licensed-small-loan-lender",
+                "productClass": "small-loan-excluding-payday-and-title",
+                "rateBasis": "statutory-apr",
+                "includedChargeKeys": ["charges-in-statutory-apr"],
+                "exceptionSetKey": "exclude-one-application-fee-and-one-annual-participation-or-membership-fee-each-up-to-100"
+              }
+            }
+          ]
+        },
+        "US-NJ": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "N.J. Stat. Ann. § 2C:21-19",
+          "source": "https://www.nclc.org/wp-content/uploads/2025/12/2025_APR-Annual-Report_Appendix-C.pdf",
+          "note": "The criminal usury law limits non-bank loans to 30% APR, which rules out payday lending."
+        },
+        "US-NM": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "N.M. Stat. Ann. § 58-15-17",
+          "source": "https://www.nclc.org/wp-content/uploads/2025/12/2025_APR-Annual-Report_Appendix-B.pdf",
+          "note": "A 2022 law (H.B. 132) replaced 175% storefront loans with a 36% interest cap plus a 5% fee on loans of $500 or less (NCLC: about 52% all-in on a $500 six-month loan)."
+        },
+        "US-NV": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Nev. Rev. Stat. §§ 604A.400, 604A.0703",
+          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+          "note": "Payday loans are legal at about 548% APR (CRL), and $500 installment loans may reach about 40% APR (NCLC)."
+        },
+        "US-NY": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "N.Y. Penal Law § 190.40",
+          "source": "https://www.nclc.org/wp-content/uploads/2025/12/2025_APR-Annual-Report_Appendix-C.pdf",
+          "note": "The criminal usury law limits non-bank loans to 25% APR, which rules out payday lending."
+        },
+        "US-OH": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Ohio Rev. Code § 1321.40",
+          "source": "https://codes.ohio.gov/ohio-revised-code/section-1321.40",
+          "note": "The 2018 short-term loan law allows 28% interest plus a monthly fee of up to $30 and a 2% origination charge, about 145% APR on a $500 six-month loan (NCLC)."
+        },
+        "US-OK": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Okla. Stat. tit. 59, § 3150.10(B)",
+          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+          "note": "Payday loans are legal at about 424% APR (CRL), and small installment loans may reach about 204% APR (NCLC)."
+        },
+        "US-OR": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Or. Rev. Stat. § 725.340(1)(a)",
+          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+          "note": "Payday loans of at least 31 days are legal at up to about 140% APR (CRL), though installment loans are capped at 36% (NCLC)."
+        },
+        "US-PA": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "7 Pa. Stat. Ann. § 6213(E), (F)",
+          "source": "https://www.nclc.org/wp-content/uploads/2025/12/2025_APR-Annual-Report_Appendix-C.pdf",
+          "note": "Payday loans are not made, and consumer discount loans are limited to discount interest and small fees (NCLC: 27% maximum on a $500 six-month loan)."
+        },
+        "US-PR": {
+          "answer": "no",
+          "cite": "Puerto Rico OCIF Regulation 5782, arts. 2-4, 7, 11, 17; OCIF 2024 Regulations-in-Force Inventory",
+          "source": "https://docs.pr.gov/files/OCIF/LEYES-REGLAMENTOS-CARTAS-CIRCULARES/Reglamentos/Regl.%205782%20Tasas%20Inter%C3%A9s%20Pr%C3%A9stamos%20Personales%20Peque%C3%B1os.pdf",
+          "note": "For cash advances of $5,000 or less to natural persons under Law 106-1965, repaid in substantially equal monthly installments, Regulation 5782 article 4 fixes no maximum annual interest rate and allows rates set by free competition; article 17 repeals the former maximum-rate rule. Separately regulated banks, credit unions, pawnshops, and bona fide credit sales are excluded. The 2024 OCIF inventory lists the regulation as in force; this finding does not establish that every consumer credit product has no separate limit."
+        },
+        "US-RI": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "R.I. Gen. Laws § 19-14.4-5.1",
+          "source": "https://webserver.rilegislature.gov/Statutes/TITLE19/19-14.4/INDEX.htm",
+          "note": "Deferred-deposit (payday) loans up to $500 with a 10% fee (about 261% APR per CRL) remain legal on 1/1/2026; the statute is repealed effective 1/1/2027, which would leave the 36%-and-lower small-loan caps."
+        },
+        "US-SC": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "S.C. Code Ann. § 37-3-201",
+          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+          "note": "Payday loans are legal at about 391% APR (CRL), and $500 installment loans may reach about 72% APR (NCLC)."
+        },
+        "US-SD": {
+          "answer": "yes",
+          "operativeAt": "2016-11-16",
+          "preempts": true,
+          "cite": "S.D. Codified Laws §§ 54-4-44 through 54-4-44.4",
+          "source": "https://sdlegislature.gov/api/Statutes/54-4-44.html?all=true",
+          "note": "The 36% annual finance-charge cap applies to lenders licensed under chapter 54-4. It includes ancillary products and services and charges incident to credit; statutory exceptions include late/check/attorney fees, certain vehicle-purchase loan fees, and qualifying business lending.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+              "key": "cap",
+              "value": 0.36,
+              "unit": "ratio",
+              "scope": {
+                "kind": "consumer-credit",
+                "lenderClass": "licensed-small-loan-lender",
+                "productClass": "small-loan-excluding-payday-and-title",
+                "rateBasis": "statutory-apr",
+                "includedChargeKeys": ["charges-in-statutory-apr"],
+                "exceptionSetKey": "exclude-one-application-fee-and-one-annual-participation-or-membership-fee-each-up-to-100"
+              }
+            }
+          ]
+        },
+        "US-TN": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Tenn. Code Ann. § 45-5-403(b)",
+          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+          "note": "Payday loans are legal at about 460% APR (CRL), and $500 installment loans may reach about 114% APR (NCLC)."
+        },
+        "US-TX": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Tex. Fin. Code §§ 342.252, 342.259",
+          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+          "note": "Payday loans are legal at about 662% APR (CRL), and $500 installment loans may reach about 116% APR (NCLC)."
+        },
+        "US-UT": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Utah Code Ann. §§ 70C-2-101, 70C-7-106",
+          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+          "note": "Payday loans are legal at about 543% APR (CRL), and installment loans have no cap except unconscionability (NCLC)."
+        },
+        "US-VA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Va. Code Ann. § 6.2-1817",
+          "source": "https://law.lis.virginia.gov/vacode/title6.2/chapter18/section6.2-1817/",
+          "note": "The 2020 Fairness in Lending Act ended single-payment payday loans but allows short-term loans at 36% interest plus a monthly fee of up to $25, about 129% APR on a $500 six-month loan (NCLC)."
+        },
+        "US-VI": {
+          "answer": "yes",
+          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (3 answer yes), because this place's own law could not be read.",
+          "note": "Tried: Virgin Islands Code copies tried: legvi.org/vicode (404), vicourts.org/publication_and_reports/resources/virgin_islands_code (redirects to advance.lexis.com, needs JavaScript), lexisnexis.com/hottopics/vicode (empty), law.justia.com/codes/virgin-islands (403 even through r.jina.ai), govt.westlaw.com/vicode (timeout), codes.findlaw.com/vi (404), vicode.elaws.us (timeout), lawserver.com (JavaScript redirect), casetext (gone), courtlistener search (throttled); also vivote.gov, bir.vi.gov, dlca.vi.gov, vihfa.gov and vipd.vi.gov, which do not carry it. No consumer loan interest cap statute was reachable."
+        },
+        "US-VT": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "Vt. Stat. Ann. tit. 8, § 2230(a)",
+          "source": "https://www.nclc.org/wp-content/uploads/2025/12/2025_APR-Annual-Report_Appendix-C.pdf",
+          "note": "Non-bank loans are capped at 24% on the first $1,000 and 12% above that, and payday loans are not made."
+        },
+        "US-WA": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Wash. Rev. Code § 31.04.105",
+          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+          "note": "Payday loans are legal under a small loan endorsement at about 391% APR (CRL), and $500 installment loans may reach about 39% APR (NCLC)."
+        },
+        "US-WI": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Wis. Stat. § 138.09(7)(bp), (k)",
+          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+          "note": "Payday loans are legal at about 537% APR (CRL), and installment loans have no cap except unconscionability (NCLC)."
+        },
+        "US-WV": {
+          "answer": "yes",
+          "preempts": true,
+          "cite": "W. Va. Code § 46A-4-107(7)",
+          "source": "https://code.wvlegislature.gov/46A-4-107/",
+          "note": "Payday loans are not made, and small consumer loans are capped at 31% interest plus a 2% processing fee (NCLC: about 38% all-in on a $500 six-month loan)."
+        },
+        "US-WY": {
+          "answer": "no",
+          "preempts": true,
+          "cite": "Wyo. Stat. Ann. § 40-14-310",
+          "source": "https://www.responsiblelending.org/sites/default/files/nodes/files/research-publication/crl-red-alert-rates-payday-ratecap-map-jun2023.pdf",
+          "note": "Payday loans are legal at about 316% APR (CRL), though installment loans are capped at 36% on the first $1,000 (NCLC)."
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import { recordById, recordByStableKey } from "../history-index";
 import { operativeDateForEnactment } from "../legislative-effective-date";
-import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../../data/research/laws/starting-law-2026/index";
 import { makeIsoDate } from "../dates";
 import {
   enactmentStatuteDateContext,
@@ -44,8 +44,8 @@ import { constitutionalPolicyProvisions } from "../policy-provisions";
  * "no": the status quo on a question nobody has legislated is unknown, and a
  * caller must say so rather than read it as either answer.
  *
- * What a place's law already said when the game began is read from
- * `data/research/laws/starting-law-2026.json` (researched, for the questions
+ * What a place's law already said when the game began is read through the
+ * `data/research/laws/starting-law-2026/index.ts` loader (researched, for the questions
  * it covers): a state's answer is a state statute, the United States' a
  * federal one, each in force from its operative date. It ranks like any other
  * law, so a law enacted in play at the same or a higher level governs once it
