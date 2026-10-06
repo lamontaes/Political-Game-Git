@@ -1,163 +1,129 @@
-import test from "node:test";
 import assert from "node:assert/strict";
+import test from "node:test";
 import {
-  mkdtempSync,
-  realpathSync,
-  mkdirSync,
-  writeFileSync,
-  readFileSync,
+  cpSync,
   existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  realpathSync,
   rmSync,
-  symlinkSync,
+  writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import {
-  recordVersionOwnership,
-  retireOwnedVersions,
-} from "../private-controller/update-retention.mjs";
-import { leaseUpdateWorkspace } from "../private-controller/update-workspace.mjs";
+  macAppBundleFromExecutable,
+  markMacUpdateReady,
+  noteMacUpdateStart,
+  prepareMacUpdateRetention,
+} from "../update-retention.mjs";
 
 function fixture(t) {
-  const root = realpathSync(mkdtempSync(path.join(tmpdir(), "ocd-retention-")));
+  const root = realpathSync(
+    mkdtempSync(path.join(tmpdir(), "ocd-mac-retention-")),
+  );
   t.after(() => rmSync(root, { recursive: true, force: true }));
-  mkdirSync(path.join(root, "versions"));
-  const state = (tracks) =>
-    writeFileSync(
-      path.join(root, "state.json"),
-      JSON.stringify({ schema: 2, tracks }),
-    );
-  state({});
-  const build = (number, owned = true) => {
-    const revision = String(number).padStart(40, "0"),
-      sha = String(number).padStart(64, "0");
-    const folder = path.join(
-      root,
-      "versions",
-      `${revision}-${sha.slice(0, 16)}`,
-    );
-    const appPath = path.join(folder, "Our Civic Duty Internal Art Review.app");
-    const resources = path.join(appPath, "Contents/Resources");
-    mkdirSync(path.join(resources, "client"), { recursive: true });
-    writeFileSync(path.join(resources, "client/index.html"), "payload");
+  const appDataPath = path.join(root, "Application Support");
+  mkdirSync(appDataPath);
+  const appBundlePath = path.join(root, "Our Civic Duty.app");
+  const writeBuild = (bundle, version) => {
+    const resources = path.join(bundle, "Contents/Resources");
+    mkdirSync(resources, { recursive: true });
     writeFileSync(
       path.join(resources, "build-identity.json"),
-      JSON.stringify({ revision, clientTreeSha256: sha }),
+      JSON.stringify({ version }),
     );
-    if (owned) recordVersionOwnership(root, folder);
-    return { revision, appPath, folder };
+    writeFileSync(path.join(resources, "payload"), version);
   };
-  return { root, state, build };
+  writeBuild(appBundlePath, "1.0.0");
+  return { root, appDataPath, appBundlePath, writeBuild };
 }
 
-test("keeps every track slot, received build/base and active revision; retires only superseded owned payloads", (t) => {
-  const f = fixture(t),
-    builds = Array.from({ length: 10 }, (_, i) => f.build(i + 1));
-  f.state({
-    main: { current: builds[0], previous: builds[1], pending: builds[2] },
-    preview: { current: builds[3], previous: builds[4], pending: builds[5] },
+function replaceBuild(f, version) {
+  rmSync(f.appBundlePath, { recursive: true, force: true });
+  f.writeBuild(f.appBundlePath, version);
+}
+
+test("keeps one prior app and restores it after two starts without title readiness", (t) => {
+  const f = fixture(t);
+  const retained = prepareMacUpdateRetention({
+    ...f,
+    nextVersion: "2.0.0",
   });
-  mkdirSync(path.join(f.root, "received"));
-  writeFileSync(
-    path.join(f.root, "received/preview.json"),
-    JSON.stringify({
-      build: builds[6],
-      base: { revision: builds[7].revision },
-    }),
-  );
-  const result = retireOwnedVersions({
-    dataRoot: f.root,
-    activeRevisions: [builds[8].revision],
+  assert.equal(retained.previousVersion, "1.0.0");
+  replaceBuild(f, "2.0.0");
+  assert.deepEqual(noteMacUpdateStart(f), {
+    action: "pending",
+    failedStarts: 1,
   });
-  assert.deepEqual(result.removed, [builds[9].folder]);
-  for (const build of builds.slice(0, 9)) assert.ok(existsSync(build.folder));
+  assert.deepEqual(noteMacUpdateStart(f), {
+    action: "rollback-restored",
+    previousVersion: "1.0.0",
+  });
+  assert.equal(
+    JSON.parse(
+      readFileSync(
+        path.join(f.appBundlePath, "Contents/Resources/build-identity.json"),
+        "utf8",
+      ),
+    ).version,
+    "1.0.0",
+  );
+  assert.deepEqual(noteMacUpdateStart(f), {
+    action: "rollback-complete",
+    previousVersion: "1.0.0",
+  });
+  assert.deepEqual(markMacUpdateReady(f), {
+    action: "rollback-notice",
+    previousVersion: "1.0.0",
+  });
+  assert.equal(
+    existsSync(path.join(f.appDataPath, "Our Civic Duty Updates", "previous")),
+    false,
+  );
 });
 
-test("historical, changed, added-evidence and pinned payloads stay", (t) => {
-  const f = fixture(t),
-    historical = f.build(1, false),
-    changed = f.build(2),
-    evidence = f.build(3),
-    pinned = f.build(4);
-  writeFileSync(
-    path.join(changed.appPath, "Contents/Resources/client/index.html"),
-    "changed",
+test("title readiness keeps one fallback and later updates replace it", (t) => {
+  const f = fixture(t);
+  prepareMacUpdateRetention({ ...f, nextVersion: "2.0.0" });
+  replaceBuild(f, "2.0.0");
+  assert.deepEqual(noteMacUpdateStart(f), {
+    action: "pending",
+    failedStarts: 1,
+  });
+  assert.deepEqual(markMacUpdateReady(f), {
+    action: "ready",
+    previousVersion: "1.0.0",
+  });
+  assert.deepEqual(noteMacUpdateStart(f), { action: "stable" });
+  prepareMacUpdateRetention({ ...f, nextVersion: "3.0.0" });
+  const previous = path.join(
+    f.appDataPath,
+    "Our Civic Duty Updates",
+    "previous",
   );
-  writeFileSync(
-    path.join(evidence.folder, "unique-notes.txt"),
-    "keep this evidence",
+  assert.equal(
+    JSON.parse(
+      readFileSync(
+        path.join(previous, "Contents/Resources/build-identity.json"),
+        "utf8",
+      ),
+    ).version,
+    "2.0.0",
   );
-  writeFileSync(path.join(pinned.appPath, "Contents/.pin"), "needed");
-  const result = retireOwnedVersions({ dataRoot: f.root });
-  assert.equal(result.removed.length, 0);
-  for (const build of [historical, changed, evidence, pinned])
-    assert.ok(existsSync(build.folder));
+  assert.deepEqual(noteMacUpdateStart(f), { action: "install-not-applied" });
 });
 
-test("symlinks cannot make retirement delete a foreign payload or reference root", (t) => {
-  const f = fixture(t),
-    a = f.build(1),
-    b = f.build(2);
-  symlinkSync(
-    a.folder,
-    path.join(f.root, "versions", `${"f".repeat(40)}-${"f".repeat(16)}`),
-  );
-  symlinkSync(
-    path.join(a.appPath, "Contents/Resources/client/index.html"),
-    path.join(b.folder, "borrowed"),
-  );
-  f.state({ main: { current: a } });
-  assert.equal(retireOwnedVersions({ dataRoot: f.root }).removed.length, 0);
-  assert.ok(existsSync(a.folder));
-  assert.ok(existsSync(b.folder));
-  const alias = path.join(f.root, "alias");
-  symlinkSync(f.root, alias);
-  assert.throws(() => retireOwnedVersions({ dataRoot: alias }), /aliased/);
-});
-
-test("a live updater lease prevents retirement", (t) => {
-  const f = fixture(t),
-    a = f.build(1),
-    release = leaseUpdateWorkspace(f.root);
-  try {
-    assert.throws(
-      () => retireOwnedVersions({ dataRoot: f.root }),
-      /Another update/,
-    );
-    assert.ok(existsSync(a.folder));
-  } finally {
-    release();
-  }
-});
-
-test("unknown state or received records preserve every version", (t) => {
-  const f = fixture(t),
-    a = f.build(1);
-  writeFileSync(path.join(f.root, "state.json"), "invalid");
-  assert.throws(() => retireOwnedVersions({ dataRoot: f.root }));
-  assert.ok(existsSync(a.folder));
-  f.state({});
-  mkdirSync(path.join(f.root, "received"));
-  writeFileSync(path.join(f.root, "received/unknown.json"), "{}");
-  assert.throws(
-    () => retireOwnedVersions({ dataRoot: f.root }),
-    /Unknown received/,
-  );
-  assert.ok(existsSync(a.folder));
-});
-
-test("ownership receipts cannot be reissued over old or modified files", (t) => {
-  const f = fixture(t),
-    a = f.build(1);
-  const before = readFileSync(path.join(a.folder, ".ocd-client-payload.json"));
-  writeFileSync(path.join(a.folder, "evidence.txt"), "private evidence");
-  assert.throws(
-    () => recordVersionOwnership(f.root, a.folder),
-    /Unknown version contents/,
-  );
-  assert.ok(
-    readFileSync(path.join(a.folder, ".ocd-client-payload.json")).equals(
-      before,
+test("bundle path resolver requires a Mac app bundle", () => {
+  assert.equal(
+    macAppBundleFromExecutable(
+      "/Applications/Our Civic Duty.app/Contents/MacOS/App",
     ),
+    "/Applications/Our Civic Duty.app",
+  );
+  assert.throws(
+    () => macAppBundleFromExecutable("/usr/bin/electron"),
+    /Mac app bundle/,
   );
 });
