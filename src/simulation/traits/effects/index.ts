@@ -12,6 +12,7 @@ import { facetCockyEffects } from "./facet-cocky";
 import { facetComfortingEffects } from "./facet-comforting";
 import { facetCompetitiveEffects } from "./facet-competitive";
 import { facetCruelEffects } from "./facet-cruel";
+import { facetAnalyticalEffects } from "./facet-analytical";
 import { facetDefensiveEffects } from "./facet-defensive";
 import { facetDutyBoundEffects } from "./facet-duty-bound";
 import { facetEnviousEffects } from "./facet-envious";
@@ -95,6 +96,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...initialTrustEffects,
     ...methodRevisionEffects,
     ...outwardEmotionalDisplayEffects,
+    ...facetAnalyticalEffects,
     ...patienceEffects,
     ...selfConfidenceEffects,
     ...uncertainOutlookEffects,
