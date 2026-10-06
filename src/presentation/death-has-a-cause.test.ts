@@ -37,7 +37,10 @@ import { composeConnectiveNarration } from "./life-narration";
 import { projectWorld39Journal } from "./world39-journal";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { stableHash } from "../simulation/ids";
-import { lifePlaceStateIdentities } from "../simulation/life-places";
+import {
+  lifePlaceStateIdentities,
+  searchLifePlaces,
+} from "../simulation/life-places";
 import { ensureCrisisMortality } from "../simulation/crisis";
 import { projectObserverPerson } from "./observer-world";
 import { passOrdinaryDays } from "./ordinary-life";
@@ -54,7 +57,19 @@ const PLACE_SEED = "death-has-a-cause-1";
 const STATES = lifePlaceStateIdentities();
 const STATE =
   STATES[
-    Number(BigInt(`0x${stableHash(PLACE_SEED)}`) % BigInt(STATES.length))
+    Number(
+      BigInt(`0x${stableHash(`${PLACE_SEED}:state`)}`) % BigInt(STATES.length),
+    )
+  ]!;
+const PLACES = searchLifePlaces("", 5000, {
+  stateJurisdictionKey: STATE.jurisdictionKey,
+  scope: "locality",
+});
+const PLACE =
+  PLACES[
+    Number(
+      BigInt(`0x${stableHash(`${PLACE_SEED}:town`)}`) % BigInt(PLACES.length),
+    )
   ]!;
 
 const SLOW = 60_000;
@@ -65,7 +80,7 @@ function daysBetweenDates(from: IsoDate, to: IsoDate): number {
 
 /** A played life in the drawn place, with ordinary mortality running. */
 function smallLife(seed: string) {
-  const small = smallWorld({ place: STATE.usps, people: 4, seed });
+  const small = smallWorld({ place: PLACE.key, people: 4, seed });
   return {
     world: ensureCrisisMortality(small.world),
     playerId: small.personId,
@@ -204,7 +219,7 @@ function fatalEpisodes(world: World, personId: EntityId) {
   );
 }
 
-describe(`a death has a cause (${STATE.name}, ${STATE.usps}, seed ${PLACE_SEED})`, () => {
+describe(`a death has a cause (${PLACE.displayName}, seed ${PLACE_SEED})`, () => {
   it(
     "a 31-year-old's illness begins when their recorded strain crosses, the family is told, and the death keeps its day",
     () => {
@@ -480,7 +495,16 @@ describe(`a death has a cause (${STATE.name}, ${STATE.usps}, seed ${PLACE_SEED})
       assertWorldIntegrity(reopened);
       expect(reopened.currentDate).toBe(death!.diedAt);
       expect(death!.causeKey).toBe(DEATH_CAUSE_ILLNESS_WITH_COURSE);
-      const view = projectLifeContinuation(current, playerId)!;
+      const view = projectLifeContinuation(reopened, playerId)!;
+      expect(view.lookBack.through).toBe(death!.diedAt);
+      expect(
+        view.lookBack.chapters
+          .flatMap((chapter) => chapter.paragraphs)
+          .join(" "),
+      ).not.toMatch(
+        /\b(?:January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4}\b/,
+      );
+      expect(view.lookBack.record.causeOfDeath).toBeTruthy();
       expect(view.heading).toBe(
         deathSentence(
           personName(current.people[playerId]!),

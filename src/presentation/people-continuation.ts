@@ -1,5 +1,7 @@
 import {
+  activePartnershipsAt,
   createCampaignElectionTransitionRegistry,
+  kinshipRelationshipsAt,
   personName,
 } from "../simulation";
 import type { EntityId, IsoDate, World } from "../simulation";
@@ -18,8 +20,44 @@ import {
   type SuccessorRelation,
 } from "../simulation/people-continuation";
 import { deathSentence } from "../simulation/crisis/death-causes";
+import { officesHeldOverLife } from "../simulation/crisis/offices";
 import { describePersonContext } from "../simulation/person-context";
+import { ownElectionResultsDecided } from "./own-election";
+import { projectLifeRecord, type LifeRecordChapter } from "./life-record";
+import { composeChapters } from "./journal-chapters";
+import { entrySignificance } from "./journal-significance";
+import { journalInFirstPerson } from "./journal-first-person";
+import { addDays } from "../simulation/dates";
 import { proseDate } from "./prose-dates";
+
+export interface LookBackChapter {
+  readonly key: string;
+  readonly title: string;
+  readonly paragraphs: readonly string[];
+}
+
+export interface LookBackRecord {
+  readonly offices: readonly string[];
+  readonly races: readonly string[];
+  readonly laws: readonly string[];
+  readonly family: readonly string[];
+  readonly causeOfDeath: string | null;
+}
+
+export interface LookBackMemory {
+  readonly key: string;
+  readonly text: string;
+  readonly at: IsoDate;
+  readonly sourceRecordIds: readonly EntityId[];
+  readonly significance: number;
+}
+
+export interface LifeLookBack {
+  readonly through: IsoDate;
+  readonly chapters: readonly LookBackChapter[];
+  readonly remembered: readonly LookBackMemory[];
+  readonly record: LookBackRecord;
+}
 
 /**
  * The typed adapter UI mounts when a played life ends (CRUNCH46 P5/P6).
@@ -79,6 +117,7 @@ export interface LifeContinuationView {
   readonly predecessorName: string;
   readonly ended: "death" | "retirement";
   readonly heading: string;
+  readonly lookBack: LifeLookBack;
   readonly choices: readonly ContinuationChoice[];
   /** Said when nobody in the family can be played. */
   readonly noSuccessorReason: string | null;
@@ -130,6 +169,7 @@ export function projectLifeContinuation(
       };
     },
   );
+  const lookBack = projectLookBack(world, playedPersonId, ended.on);
   return {
     predecessorId: playedPersonId,
     predecessorName: name,
@@ -144,6 +184,7 @@ export function projectLifeContinuation(
             proseDate(ended.on),
           )
         : `You stopped playing ${name} on ${proseDate(ended.on)}. ${person.givenName} goes on living.`,
+    lookBack,
     choices,
     noSuccessorReason:
       choices.filter((choice) => choice.prominent).length === 0 &&
@@ -160,6 +201,266 @@ export function projectLifeContinuation(
         : "Unknown",
     })),
   };
+}
+
+/**
+ * Read a life back from the canonical records at a cutoff. Until Q3 part 3's
+ * shared chapter composer lands, chapter boundaries reuse projectLifeRecord;
+ * this adapter applies the journal voice and the life-end cutoff without
+ * creating or saving a second biography.
+ */
+export function projectLookBack(
+  world: World,
+  personId: EntityId,
+  through: IsoDate = world.currentDate,
+): LifeLookBack {
+  const person = world.people[personId];
+  const cutoff = through > world.currentDate ? world.currentDate : through;
+  const clipped: World = { ...world, currentDate: cutoff };
+  const source = projectLifeRecord(clipped, personId);
+  const sourceChapters = composeChapters(clipped, personId, cutoff);
+  const kin = new Map<
+    EntityId,
+    {
+      readonly name: string;
+      readonly relationship: string;
+      readonly establishedAt: IsoDate;
+    }
+  >();
+  if (person) {
+    for (const relationship of kinshipRelationshipsAt(clipped, personId)) {
+      const otherId = relationship.personIds.find((id) => id !== personId);
+      if (!otherId || kin.has(otherId)) continue;
+      const context = describePersonContext(clipped, personId, otherId);
+      if (context?.relationship)
+        kin.set(otherId, {
+          name: context.name,
+          relationship: context.relationship.replace(/^your\s+/i, "my "),
+          establishedAt: relationship.establishedAt,
+        });
+    }
+  }
+  const introduced = new Set<EntityId>();
+  const namedInFirstPerson = (raw: string, at: IsoDate): string => {
+    let text = journalInFirstPerson(raw);
+    const ordered = [...kin.entries()].sort(
+      (a, b) => b[1].name.length - a[1].name.length,
+    );
+    for (const [relativeId, entry] of ordered) {
+      if (at < entry.establishedAt) continue;
+      const escaped = entry.name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const exactName = `(?<![\\w-])${escaped}(?![\\w-])`;
+      const pattern = new RegExp(exactName, "g");
+      const relative = world.people[relativeId];
+      const firstName = relative?.givenName ?? entry.name.split(/\s+/)[0]!;
+      let firstMention = !introduced.has(relativeId);
+      text = text.replace(pattern, (match) => {
+        if (firstMention) {
+          firstMention = false;
+          introduced.add(relativeId);
+          return `${entry.relationship}, ${match}`;
+        }
+        return firstName;
+      });
+    }
+    return yearOnlyDates(text);
+  };
+
+  const chapters: LookBackChapter[] = sourceChapters.flatMap((chapter) => {
+    const entries = chapter.entries.filter((entry) => entry.at <= cutoff);
+    if (entries.length === 0) return [];
+    const firstYear = entries[0]!.at.slice(0, 4);
+    const lastYear = entries.at(-1)!.at.slice(0, 4);
+    const title =
+      firstYear === lastYear
+        ? `In ${firstYear}`
+        : `${firstYear} to ${lastYear}`;
+    return [
+      {
+        key: chapter.key,
+        title,
+        paragraphs: entries.map((entry) =>
+          namedInFirstPerson(entry.sentence, entry.at),
+        ),
+      },
+    ];
+  });
+
+  const memories = source.chapters
+    .flatMap((chapter) => chapter.entries)
+    .filter((entry) => entry.at <= cutoff)
+    .flatMap((entry) => {
+      const eventIds = new Set<EntityId>();
+      const sourceRecordIds = new Set<EntityId>();
+      for (const anchor of entry.anchors) {
+        sourceRecordIds.add(anchor.recordId);
+        if (anchor.store === "events") eventIds.add(anchor.recordId);
+        if (anchor.store === "memories") {
+          const memory = world.history.memories.find(
+            (row) => row.id === anchor.recordId && row.personId === personId,
+          );
+          if (memory) eventIds.add(memory.eventId);
+        }
+      }
+      const signal = entrySignificance(
+        clipped,
+        personId,
+        [...eventIds],
+        entry.at,
+        cutoff,
+      );
+      // The threshold is evidence-based: more reach, surviving memories,
+      // closed threads, or time elapsed can qualify a line; no fixed count.
+      if (signal.score < 3) return [];
+      const ids = [...sourceRecordIds];
+      return [
+        {
+          key: entry.key,
+          text: namedInFirstPerson(entry.sentence, entry.at),
+          at: entry.at,
+          sourceRecordIds: ids,
+          significance: signal.score,
+        },
+      ];
+    })
+    .sort(
+      (a, b) => b.significance - a.significance || a.at.localeCompare(b.at),
+    );
+
+  const offices = officesHeldOverLife(world, personId, cutoff).map((office) => {
+    const start = office.startsAt.slice(0, 4);
+    const end = office.endsAt ? addDays(office.endsAt, -1).slice(0, 4) : null;
+    return end && end >= start
+      ? `${office.title}, ${start}–${end}`
+      : `${office.title}, ${start}`;
+  });
+  const races = ownElectionResultsDecided(world, personId, null, cutoff).map(
+    (result) =>
+      `${yearOnlyDates(
+        journalInFirstPerson(
+          result.sentence.replace(/,\s*\d+(?:\.\d+)?% to \d+(?:\.\d+)?%/, ""),
+        ),
+      )} (${result.resolvedAt.slice(0, 4)})`,
+  );
+  // A signature belongs to the signer only when its canonical disposition's
+  // event names them as the actor. A title or office held at the time alone
+  // is not enough to claim that the person signed a particular law.
+  const signedMeasureIds = new Set(
+    (world.history.executiveDispositions ?? [])
+      .filter(
+        (disposition) =>
+          disposition.action === "signed" && disposition.actedAt <= cutoff,
+      )
+      .filter((disposition) =>
+        world.history.events.some(
+          (event) =>
+            event.occurredAt === disposition.actedAt &&
+            event.involvedEntityIds.includes(disposition.id) &&
+            event.participants.some(
+              (participant) =>
+                participant.personId === personId &&
+                participant.role === "focus:subject",
+            ),
+        ),
+      )
+      .map((disposition) => disposition.measureId),
+  );
+  const measures = new Map(
+    (world.history.legislativeMeasures ?? [])
+      .filter(
+        (measure) =>
+          measure.sponsorPersonId === personId ||
+          signedMeasureIds.has(measure.id),
+      )
+      .map((measure) => [measure.id, measure] as const),
+  );
+  const laws = (world.history.legislativeEnactments ?? [])
+    .filter((enactment) => {
+      const measure = measures.get(enactment.measureId);
+      return (
+        enactment.outcome === "enacted" &&
+        enactment.resolvedAt <= cutoff &&
+        measure !== undefined &&
+        measure.introducedAt <= cutoff
+      );
+    })
+    .sort((a, b) => a.resolvedAt.localeCompare(b.resolvedAt))
+    .map((enactment) => {
+      const measure = measures.get(enactment.measureId)!;
+      const title = measure.shortTitle.trim();
+      const plainTitle =
+        /^(?:H\.?B\.?|S\.?B\.?|H\.?J\.?R\.?|S\.?J\.?R\.?)\s*\d+[A-Z-]*$/i.test(
+          title,
+        )
+          ? measure.summary.trim()
+          : title;
+      return `${plainTitle} (${enactment.resolvedAt.slice(0, 4)})`;
+    });
+
+  const family = new Map<EntityId, string>();
+  for (const relationship of kinshipRelationshipsAt(clipped, personId)) {
+    const otherId = relationship.personIds.find((id) => id !== personId);
+    if (!otherId || family.has(otherId)) continue;
+    const context = describePersonContext(clipped, personId, otherId);
+    if (!context) continue;
+    const role = context.relationship?.replace(/^your\s+/i, "") ?? "family";
+    const dead = world.history.personDeaths.some(
+      (death) => death.personId === otherId && death.diedAt <= through,
+    );
+    family.set(otherId, `${role}: ${context.name}${dead ? " (died)" : ""}`);
+  }
+  for (const partnership of clipped.history.partnerships) {
+    if (!partnership.personIds.includes(personId)) continue;
+    const otherId = partnership.personIds.find((id) => id !== personId);
+    if (!otherId || family.has(otherId)) continue;
+    const context = describePersonContext(clipped, personId, otherId);
+    if (context)
+      family.set(
+        otherId,
+        `partner: ${context.name}${world.history.personDeaths.some((death) => death.personId === otherId && death.diedAt <= through) ? " (died)" : ""}`,
+      );
+  }
+  // Read active partnerships as well as ended ones, since older saves may not
+  // retain every partnership state transition.
+  for (const partnership of activePartnershipsAt(clipped, personId)) {
+    const otherId = partnership.personIds.find((id) => id !== personId);
+    if (!otherId || family.has(otherId)) continue;
+    const context = describePersonContext(clipped, personId, otherId);
+    if (context) family.set(otherId, `partner: ${context.name}`);
+  }
+  const death = world.history.personDeaths.find(
+    (record) => record.personId === personId && record.diedAt <= cutoff,
+  );
+  const causeOfDeath = death
+    ? yearOnlyDates(
+        deathSentence(
+          personName(person!),
+          death.causeKey,
+          proseDate(death.diedAt),
+        ),
+      )
+    : null;
+  return {
+    through: cutoff,
+    chapters,
+    remembered: memories.map((entry) => ({ ...entry, text: entry.text })),
+    record: {
+      offices: [...new Set(offices)],
+      races,
+      laws,
+      family: [...family.values()],
+      causeOfDeath,
+    },
+  };
+}
+
+function yearOnlyDates(text: string): string {
+  return text
+    .replace(/\b\d{4}-\d{2}-\d{2}\b/g, (date) => date.slice(0, 4))
+    .replace(
+      /\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},\s+(\d{4})\b/g,
+      "$1",
+    );
 }
 
 /** Retire the played character from play (they live on). */
