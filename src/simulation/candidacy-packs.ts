@@ -15,6 +15,7 @@ import type {
   RuleValue,
 } from "./legislature-rules";
 import type { ElectiveOfficeRef } from "./types";
+import type { MunicipalMinimumAgeEstimate } from "./municipal-qualification-estimate";
 import { candidateQualificationRuleSet } from "./candidate-qualification";
 import { makeIsoDate } from "./dates";
 import { stateExecutiveCandidacyPacks } from "./nationwide-world/state-executive-candidacy-packs";
@@ -66,6 +67,7 @@ import type {
 export interface ElectiveOfficeQualification {
   /** The age the jurisdiction requires. Unknown until a source says. */
   readonly minimumAge: RuleValue<number>;
+  readonly minimumAgeEstimate?: MunicipalMinimumAgeEstimate;
   /** How long a candidate must have lived in the state or the district. */
   readonly residency: RuleValue<string>;
   /** How long the winner serves. */
@@ -543,7 +545,12 @@ function congressPack(packId: string): CandidacyPack | null {
 /** A town's governing body, resolved from its own pack id; built on demand. */
 function localGoverningBodyPack(packId: string): CandidacyPack | null {
   const identity = localGoverningBodyIdentityForPackId(packId);
-  return identity ? localGoverningBodyCandidacyPack(identity) : null;
+  return identity
+    ? localGoverningBodyCandidacyPack(
+        identity,
+        stateCandidacyPack(`US-${identity.unit.stateUsps}`),
+      )
+    : null;
 }
 
 /**

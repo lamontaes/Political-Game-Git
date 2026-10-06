@@ -138,7 +138,8 @@ export function projectGoverningBriefing(
       ? `Your term runs until ${americanDate(office.termEndsAt)}.`
       : "Your term's end date is not established.",
     calendarNote:
-      office.officeKey === "us-president"
+      office.officeKey === "us-president" ||
+      office.programOffice?.kind === "municipal"
         ? office.calendarNote
         : describeStateExecutiveTerm(
             // The rule of the term being served, not of the next one: a law that

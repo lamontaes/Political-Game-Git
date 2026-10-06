@@ -76,8 +76,12 @@ export function noticeLawPayChanges(world: World, since: IsoDate): World {
       row.supersedesTermsId,
     );
     const periods = periodsPerYear(row.cadenceKind);
-    if (!before || periods === null) continue;
-    const change = row.amount.minorUnits - before.amount.minorUnits;
+    const beforePeriods = before ? periodsPerYear(before.cadenceKind) : null;
+    if (!before || periods === null || beforePeriods === null) continue;
+    // Compare annual amounts: changing pay frequency alone is not a raise.
+    const change =
+      row.amount.minorUnits * periods -
+      before.amount.minorUnits * beforePeriods;
     if (change === 0) continue;
     next = recordLawExposure(next, {
       stableKey,
@@ -85,10 +89,7 @@ export function noticeLawPayChanges(world: World, since: IsoDate): World {
       measureId,
       channel: "paycheck",
       direction: change > 0 ? "gain" : "cost",
-      amount: money(
-        Math.round((Math.abs(change) * periods) / 12),
-        row.amount.currency,
-      ),
+      amount: money(Math.round(Math.abs(change) / 12), row.amount.currency),
       cadence: "monthly",
       sourceRecordId: row.id,
     });

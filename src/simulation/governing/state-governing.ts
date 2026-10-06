@@ -17,8 +17,15 @@ import { currentFederalTenure } from "../federal-tenures";
 import { nationalOfficeHolder } from "../national-election-consumer";
 import {
   municipalOrganizationFor,
+  municipalGovernmentJurisdictionId,
   municipalSeats,
 } from "../municipal-public-work";
+import { municipalExecutiveHolder } from "../municipal-ordinance-procedure";
+import {
+  municipalGovernmentByKey,
+  primaryReading,
+} from "../municipal-government";
+import { recordsByKey, recordById, stableKeysOf } from "../history-index";
 import { publicGovernmentIdentityForRecord } from "../public-government-identity";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { drawCanonicalNamedIdentity, personName } from "../people";
@@ -220,14 +227,90 @@ function officeFromHolder(
   };
 }
 
-/** Every governorship this World has materialized, with its current holder. */
+/** A municipal executive uses the government's existing organization and seat. */
+function municipalGoverningOffice(
+  world: World,
+  governmentKey: string,
+): GoverningOffice | null {
+  const government = municipalGovernmentByKey(governmentKey);
+  const organization = municipalOrganizationFor(world, governmentKey);
+  const jurisdictionId = municipalGovernmentJurisdictionId(
+    world,
+    governmentKey,
+  );
+  const holderPersonId = municipalExecutiveHolder(world, governmentKey);
+  if (!government || !organization || !jurisdictionId || !holderPersonId)
+    return null;
+  const seat = municipalSeats(world, governmentKey).find(
+    (candidate) =>
+      candidate.role === "mayor" && candidate.personId === holderPersonId,
+  );
+  if (!seat) return null;
+  const participation = recordById(
+    world.history.organizationParticipations,
+    seat.participationId,
+  );
+  if (!participation) return null;
+  const reading = primaryReading(government);
+  return {
+    officeKey: `program-office:local:${encodeURIComponent(governmentKey)}`,
+    stateUsps: government.state,
+    title: `${reading.mayor?.title ?? "Mayor"} of ${government.placeName ?? government.displayName}`,
+    jurisdictionId,
+    organizationId: organization.id,
+    holderPersonId,
+    termId: participation.id,
+    termStartedAt: participation.startedAt,
+    termEndsAt: null,
+    controlledByPlayer: controlledPersonId(world) === holderPersonId,
+    calendarBasis:
+      reading.evidence === "game-profile" ? "game-profile" : "mixed",
+    calendarNote: null,
+    programOffice: { kind: "municipal", governmentKey },
+  };
+}
+
+/** Only installed governments are inspected; the index follows organization appends. */
+function municipalGoverningOffices(world: World): readonly GoverningOffice[] {
+  const organizations = recordsByKey(
+    world.history.organizations,
+    "governing:municipal-organizations",
+    (organization) =>
+      /^(municipal-government|local-government):/.test(organization.stableKey)
+        ? ["municipal"]
+        : [],
+    "municipal",
+  );
+  const offices = new Map<string, GoverningOffice>();
+  for (const organization of organizations) {
+    const key = organization.stableKey.replace(
+      /^(municipal-government|local-government):/,
+      "",
+    );
+    const government = municipalGovernmentByKey(key);
+    if (!government) continue;
+    const office = municipalGoverningOffice(world, government.key);
+    if (office) offices.set(office.officeKey, office);
+  }
+  return [...offices.values()];
+}
+
+/** Every materialized governorship and municipal executive with a current holder. */
 export function currentGoverningOffices(
   world: World,
 ): readonly GoverningOffice[] {
-  return currentStateExecutiveHolders(world).flatMap((holder) => {
+  const stateOffices = currentStateExecutiveHolders(world).flatMap((holder) => {
     const office = officeFromHolder(world, holder);
     return office ? [office] : [];
   });
+  // A consolidated state/local executive already has one governing office.
+  const holders = new Set(stateOffices.map((office) => office.holderPersonId));
+  return [
+    ...stateOffices,
+    ...municipalGoverningOffices(world).filter(
+      (office) => !holders.has(office.holderPersonId),
+    ),
+  ];
 }
 
 /** The recorded Presidency has a holder even when no staff organization exists. */
@@ -321,6 +404,17 @@ function programOfficeForAppropriation(
       kind: "municipal",
       governmentKey: identity.governmentKey,
     };
+    const executive = municipalGoverningOffice(world, identity.governmentKey);
+    if (
+      executive &&
+      programAuthority(
+        world,
+        executive.holderPersonId,
+        descriptor,
+        appropriation,
+      ).status === "available"
+    )
+      return executive;
     const organization = municipalOrganizationFor(
       world,
       identity.governmentKey,
@@ -647,9 +741,9 @@ function optionsFor(
                 {
                   key: `budget:${familyKey}`,
                   label: `Put more into ${title.toLowerCase()}`,
-                  effect: `The budget you send the legislature asks for more for ${title.toLowerCase()}.`,
+                  effect: `The budget request asks for more for ${title.toLowerCase()}.`,
                   tradeoff:
-                    "Other requests wait, and legislators may cut it back.",
+                    "Other requests wait, and the governing body may cut it back.",
                   personId: null,
                   assessment: null,
                 },
@@ -796,7 +890,7 @@ const FAMILY_TEXT: Record<
   },
   agenda: {
     title: () => "Set the first priority",
-    ask: "Agencies are asking what the governor wants done first.",
+    ask: "Agencies are asking what the officeholder wants done first.",
     ifIgnored: "Agencies keep their current plans. No priority is set.",
   },
   budget: {
@@ -1054,11 +1148,13 @@ export function evaluateAgendaPriority(
   if (!office || matter.family !== "agenda" || matter.options.length < 2)
     return null;
   const level =
-    office.jurisdictionId === NATIONAL_ELECTION_JURISDICTION.id
-      ? "federal"
-      : office.stateUsps
-        ? "state"
-        : null;
+    office.programOffice?.kind === "municipal"
+      ? "local"
+      : office.jurisdictionId === NATIONAL_ELECTION_JURISDICTION.id
+        ? "federal"
+        : office.stateUsps
+          ? "state"
+          : null;
   if (!level) return null;
   const considerations: DecisionConsideration[] = [];
   for (const option of matter.options) {
@@ -1888,7 +1984,7 @@ function decisionSummary(
             visibility: "limited",
           }
         : {
-            summary: `${office.title} directed state agencies to begin work on ${subjectLabel(matter.subjectKey)}.`,
+            summary: `${office.title} directed agencies to begin work on ${subjectLabel(matter.subjectKey)}.`,
             visibility: "public",
           };
   }
@@ -2204,6 +2300,9 @@ function openMatterForPlayer(
   if (matter.status !== "open") return "That matter has already been settled.";
   if (controlledPersonId(world) !== matter.holderPersonId)
     return "Only the officeholder can decide this.";
+  const office = governingOfficeByKey(world, matter.officeKey);
+  if (!office || office.holderPersonId !== matter.holderPersonId)
+    return "This matter no longer belongs to a current office.";
   const measure =
     matter.family === "bill" && matter.measureId
       ? world.history.legislativeMeasures?.find(
@@ -2366,6 +2465,30 @@ export function scheduleGoverningTransition(
       sourceEntityIds: [input.relationshipId],
     },
   });
+}
+
+/** Clock adapter: admit each municipal term once, including older saved seats. */
+export function synchronizeMunicipalGoverningOffices(world: World): World {
+  let next = world;
+  const keys = stableKeysOf(world.history.events);
+  for (const office of currentGoverningOffices(world)) {
+    if (office.programOffice?.kind !== "municipal") continue;
+    const key = matterStableKey(office, "agenda", "first-year");
+    if (keys.has(key)) continue;
+    next = openTransitionMatters(next, office.officeKey);
+    next = openMatter(next, office, {
+      family: "budget",
+      instance: `entry:${office.termId}`,
+      programKeys: PROGRAM_FAMILIES.map((family) => family.familyKey),
+    });
+    next = scheduleGoverningSeasons(
+      next,
+      office.officeKey,
+      office.jurisdictionId,
+      office.programOffice,
+    );
+  }
+  return next;
 }
 
 export function governingTransitionHandler(
@@ -3084,6 +3207,7 @@ export function governingSeasonHandler(
     });
   } else if (
     kind === "bill" &&
+    office?.programOffice?.kind !== "municipal" &&
     !offCycleBill &&
     jurisdictionId !== null &&
     stateUsps
@@ -3118,7 +3242,14 @@ export function governingSeasonHandler(
   }
   if (office) next = openProgramMatters(next, office);
   if (jurisdictionId)
-    next = scheduleGoverningSeasons(next, officeKey!, jurisdictionId);
+    next = scheduleGoverningSeasons(
+      next,
+      officeKey!,
+      jurisdictionId,
+      office?.programOffice?.kind === "municipal"
+        ? office.programOffice
+        : undefined,
+    );
   return resolved(
     next,
     offCycleBill
@@ -3138,7 +3269,9 @@ export function governorOfficeForJurisdiction(
   const stateUsps = jurisdictionKey.replace(/^US-/, "");
   return (
     currentGoverningOffices(world).find(
-      (candidate) => candidate.stateUsps === stateUsps,
+      (candidate) =>
+        candidate.stateUsps === stateUsps &&
+        candidate.programOffice?.kind !== "municipal",
     ) ?? null
   );
 }
