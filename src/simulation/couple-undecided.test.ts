@@ -9,12 +9,12 @@ import {
   COUPLE_DECLINED_EVENT,
   COUPLE_FORMED_EVENT,
   DATE_KIND,
-  DATES_BEFORE_ASKING,
   coupleAskRefusal,
   coupleBetween,
   dateRefusal,
 } from "./couples";
 import { askToBeTogether } from "../presentation/people-contacts";
+import { ensurePeopleTraits } from "./people-traits";
 
 function eligibleRequest() {
   let world = createDemoWorld("c8-couple-undecided");
@@ -30,7 +30,8 @@ function eligibleRequest() {
     throw new Error("The fixture requires two eligible recorded adults.");
   // Control is fixture context; people and the dated history remain canonical.
   world = { ...world, control: { kind: "person", personId: pair.personId } };
-  for (let date = 0; date < DATES_BEFORE_ASKING; date++) {
+  world = ensurePeopleTraits(world, [pair.otherPersonId]);
+  for (let date = 0; date < 1; date++) {
     world = recordWorldEvent(world, {
       stableKey: `c8:kept-date:${date}`,
       type: "life.date-held",

@@ -39,6 +39,7 @@ import {
 } from "./formative-context";
 import type { ConversationRoomContext } from "./run-b-conversation";
 import { payFirstJob } from "../simulation/job-market";
+import type { CharacterHistoryMode } from "../simulation/character-history";
 import { schoolNameToday } from "../simulation/school-stages";
 import { recordedRoomPresence } from "./recorded-room-presence";
 
@@ -274,6 +275,13 @@ function atSchool(
 
 export interface ChooseFormativeOptionInput {
   readonly personId: EntityId;
+  readonly choiceMakerPersonId?: EntityId;
+  readonly mode?: CharacterHistoryMode;
+  readonly caregiverChoice?: {
+    readonly caregiverPersonId: EntityId;
+    readonly decisionMaker: "caregiver" | "child";
+    readonly steerOptionKey?: string;
+  };
   readonly situationKey: LifeSituationKey;
   readonly optionKey: string;
   readonly withPersonId: EntityId | null;
@@ -331,8 +339,14 @@ export function chooseFormativeOption(
 
   const result = resolveLifeSituation(withWorld, {
     stableKey: `formative-play:${input.personId}:${played}:${input.situationKey}`,
-    mode: "played",
+    mode: input.mode ?? "played",
     personId: input.personId,
+    ...(input.choiceMakerPersonId
+      ? { choiceMakerPersonId: input.choiceMakerPersonId }
+      : {}),
+    ...(input.caregiverChoice
+      ? { caregiverChoice: input.caregiverChoice }
+      : {}),
     situationKey: input.situationKey,
     optionKey: input.optionKey,
     occurredAt: world.currentDate,

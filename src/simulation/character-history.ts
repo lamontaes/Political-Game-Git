@@ -71,6 +71,7 @@ import {
   drawCanonicalNamedIdentity,
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
   LEGACY_GIVEN_NAME_GENERATION_VERSION,
+  personName,
   type GivenNameGenerationVersion,
 } from "./people";
 import {
@@ -96,7 +97,11 @@ import {
   schoolStageCalendarEnd,
   schoolStageCalendarStart,
 } from "./school-stages";
-import { householdLocationAt, householdMembershipsAt } from "./life-queries";
+import {
+  activeChildAuthoritiesAt,
+  householdLocationAt,
+  householdMembershipsAt,
+} from "./life-queries";
 import { recordPersonDeath } from "./vitality";
 import { STRAIN_THRESHOLD } from "./crisis/mortality";
 import { firstThresholdDay, thresholdUnits } from "./crisis/hazard";
@@ -161,7 +166,8 @@ import { advanceWorldMinutes } from "./time-work";
 import { composeWorldTimeHandlers } from "./campaigns";
 
 /** A small, explicit production boundary; it stores no biography alongside world history. */
-export type CharacterHistoryMode = "played" | "quick-generated" | "authored";
+export type CharacterHistoryMode =
+  "played" | "parent-played" | "quick-generated" | "authored";
 
 export type CharacterHistoryProvenance =
   | LifeRecordProvenance
@@ -505,6 +511,8 @@ export interface CharacterHistoryPlan {
   readonly stableKey: string;
   readonly mode: CharacterHistoryMode;
   readonly personId: EntityId;
+  /** Controlled caregiver acting for the person whose history is changing. */
+  readonly choiceMakerPersonId?: EntityId;
   readonly transitions: readonly CharacterHistoryTransition[];
 }
 
@@ -2292,6 +2300,9 @@ export function applyCharacterHistoryPlan(
           eventKnowledgeId: knowledge?.id ?? null,
           provenance: createMindProvenance(mindProvenanceKind(plan.mode), {
             sourceRefs: [{ kind: "historical-event", eventId: event.id }],
+            ...(plan.choiceMakerPersonId
+              ? { actorPersonId: plan.choiceMakerPersonId }
+              : {}),
           }),
         });
         break;
@@ -2299,7 +2310,11 @@ export function applyCharacterHistoryPlan(
       case "temporary-state":
         next = recordTemporaryState(next, {
           ...transition.input,
-          provenance: createMindProvenance(mindProvenanceKind(plan.mode)),
+          provenance: createMindProvenance(mindProvenanceKind(plan.mode), {
+            ...(plan.choiceMakerPersonId
+              ? { actorPersonId: plan.choiceMakerPersonId }
+              : {}),
+          }),
         });
         break;
       case "development-proposal": {
@@ -3056,6 +3071,14 @@ export interface ResolveLifeSituationInput {
   readonly stableKey: string;
   readonly mode: CharacterHistoryMode;
   readonly personId: EntityId;
+  /** Optional controlled caregiver who made the choice for this person. */
+  readonly choiceMakerPersonId?: EntityId;
+  /** Recorded adult agency for a choice that forms a child's life history. */
+  readonly caregiverChoice?: {
+    readonly caregiverPersonId: EntityId;
+    readonly decisionMaker: "caregiver" | "child";
+    readonly steerOptionKey?: string;
+  };
   readonly situationKey: LifeSituationKey;
   readonly optionKey: string;
   readonly occurredAt: IsoDate;
@@ -3101,6 +3124,24 @@ export function resolveLifeSituation(
   world: World,
   input: ResolveLifeSituationInput,
 ): LifeSituationResolution {
+  if (input.choiceMakerPersonId) {
+    if (
+      (input.mode === "played" || input.mode === "parent-played") &&
+      (world.control.kind !== "person" ||
+        world.control.personId !== input.choiceMakerPersonId)
+    )
+      throw new Error("The choice maker must be the controlled caregiver.");
+    const isCaregiver = activeChildAuthoritiesAt(world, input.personId, {
+      asOfDate: input.occurredAt,
+      historySequenceExclusive: world.history.nextSequence,
+    }).some(
+      ({ authority }) =>
+        authority.holder.kind === "person" &&
+        authority.holder.personId === input.choiceMakerPersonId,
+    );
+    if (!isCaregiver)
+      throw new Error("A parent choice requires recorded caregiver authority.");
+  }
   const available = availableLifeSituations(world, {
     personId: input.personId,
     asOfDate: input.occurredAt,
@@ -3150,16 +3191,50 @@ export function resolveLifeSituation(
   }
   const shared = other !== null && witnessed !== null ? other : null;
   const eventStableKey = `${input.stableKey}:event`;
+  if (
+    input.mode === "parent-played" &&
+    (!input.caregiverChoice ||
+      input.caregiverChoice.decisionMaker !== "caregiver" ||
+      input.caregiverChoice.caregiverPersonId !== input.choiceMakerPersonId)
+  ) {
+    throw new Error("Parent-played history needs the recorded parent chooser.");
+  }
+  if (
+    input.caregiverChoice &&
+    input.caregiverChoice.caregiverPersonId === input.personId
+  ) {
+    throw new Error("A child cannot be their own caregiver.");
+  }
+  const caregiverPersonId = input.caregiverChoice?.caregiverPersonId;
+  const caregiver = caregiverPersonId
+    ? requirePerson(world, caregiverPersonId)
+    : null;
+  const caregiverChoiceTags = input.caregiverChoice
+    ? [
+        "caregiver-choice",
+        `caregiver-choice.subject:${input.personId}`,
+        `caregiver-choice.caregiver:${caregiverPersonId}`,
+        `caregiver-choice.decision-maker:${input.caregiverChoice.decisionMaker}`,
+        ...(input.caregiverChoice.steerOptionKey
+          ? [`caregiver-choice.steer:${input.caregiverChoice.steerOptionKey}`]
+          : []),
+      ]
+    : [];
   const basePlan: CharacterHistoryPlan = {
     stableKey: input.stableKey,
     mode: input.mode,
     personId: input.personId,
+    ...(input.choiceMakerPersonId
+      ? { choiceMakerPersonId: input.choiceMakerPersonId }
+      : {}),
     transitions: [
       {
         kind: "event",
         input: {
           stableKey: eventStableKey,
-          type: situationEventType(input.situationKey),
+          type: input.caregiverChoice
+            ? "life.formative-caregiver-choice"
+            : situationEventType(input.situationKey),
           occurredAt: input.occurredAt,
           recordedAt: world.currentDate,
           jurisdictionId: input.jurisdictionId,
@@ -3170,13 +3245,35 @@ export function resolveLifeSituation(
           // and still handed the sentence, because being listed as a
           // participant is what person history reads. Somebody who witnessed
           // nothing is not on the record of it.
-          involvedEntityIds: [input.personId, ...(shared ? [shared] : [])],
+          involvedEntityIds: [
+            input.personId,
+            ...(shared ? [shared] : []),
+            ...(caregiver ? [caregiver.id] : []),
+          ],
           participants: [
             {
               personId: input.personId,
-              role: "agency:actor",
+              role:
+                input.mode === "parent-played"
+                  ? "focus:subject"
+                  : "agency:actor",
               detail: option.label,
             },
+            ...(caregiver
+              ? [
+                  {
+                    personId: caregiver.id,
+                    role:
+                      input.caregiverChoice?.decisionMaker === "caregiver"
+                        ? ("agency:actor" as const)
+                        : ("coordination:advisor" as const),
+                    detail:
+                      input.caregiverChoice?.steerOptionKey ??
+                      input.caregiverChoice?.decisionMaker ??
+                      "caregiver",
+                  },
+                ]
+              : []),
             ...(shared
               ? [
                   {
@@ -3189,7 +3286,11 @@ export function resolveLifeSituation(
           ],
           personFactConstraints: [],
           visibility: "limited",
-          tags: [input.situationKey, `choice.${input.optionKey}`],
+          tags: [
+            input.situationKey,
+            `choice.${input.optionKey}`,
+            ...caregiverChoiceTags,
+          ],
           summary: option.memory,
           context: {
             location: input.jurisdictionId
@@ -3242,6 +3343,41 @@ export function resolveLifeSituation(
       },
     },
   ];
+  if (caregiver) {
+    const caregiverDetail =
+      input.caregiverChoice?.decisionMaker === "child"
+        ? `${personName(requirePerson(world, input.personId))} chose ${option.label} after your guidance.`
+        : `You chose ${option.label} for ${personName(requirePerson(world, input.personId))}.`;
+    if (caregiver.id !== shared) {
+      consequenceTransitions.push({
+        kind: "knowledge",
+        input: {
+          stableKey: `${input.stableKey}:knowledge:${caregiver.id}`,
+          personId: caregiver.id,
+          eventStableKey,
+          learnedAt: input.occurredAt,
+          believedSummary: caregiverDetail,
+          accuracy: "accurate",
+          confidence: "high",
+          source: { kind: "direct" },
+        },
+      });
+    }
+    consequenceTransitions.push({
+      kind: "memory",
+      input: {
+        stableKey: `${input.stableKey}:memory:${caregiver.id}`,
+        personId: caregiver.id,
+        eventStableKey,
+        formedAt: input.occurredAt,
+        rememberedSummary: caregiverDetail,
+        interpretation: caregiverDetail,
+        strength: "moderate",
+        relevanceTags: ["caregiver-choice", input.situationKey],
+        supersedesMemoryId: null,
+      },
+    });
+  }
   if (shared !== null && witnessed !== null) {
     // What they saw, not what the other person privately made of it, and
     // partial because watching is not being told.
@@ -3357,6 +3493,9 @@ export function resolveLifeSituation(
     stableKey: `${input.stableKey}:consequences`,
     mode: input.mode,
     personId: input.personId,
+    ...(input.choiceMakerPersonId
+      ? { choiceMakerPersonId: input.choiceMakerPersonId }
+      : {}),
     transitions: consequenceTransitions,
   }).world;
   const event = requiredEvent(next, eventStableKey);
@@ -4449,7 +4588,7 @@ function requirePerson(world: World, personId: EntityId): Person {
 }
 
 function mindProvenanceKind(mode: CharacterHistoryMode) {
-  return mode === "played"
+  return mode === "played" || mode === "parent-played"
     ? ("player-choice" as const)
     : mode === "authored"
       ? ("authored" as const)

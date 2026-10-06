@@ -27,7 +27,7 @@ function sourceReferenceLabel(reference: MindSourceReference): string {
   const identifier = Object.entries(reference).find(
     ([key]) => key !== "kind",
   )?.[1];
-  return `${reference.kind} · ${String(identifier)}`;
+  return `${reference.kind} · ${String(identifier)}${"personId" in reference && reference.personId ? ` · person ${reference.personId}` : ""}`;
 }
 
 function provenanceLines(provenance: MindRecordProvenance): readonly string[] {

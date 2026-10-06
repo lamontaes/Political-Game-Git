@@ -146,8 +146,14 @@ describe("upbringing and starting traits", () => {
     for (const row of contexts) {
       for (const id of row.familyContext?.incomeSourcePersonIds ?? [])
         expect(world.people[id]).toBeDefined();
-      // Estimates describe available caregivers, never emotional treatment.
-      expect(row.caregiving).toBe("estimated-care");
+      // Recorded caregivers receive an estimate until their own choices add
+      // observed parenting evidence; a family-size estimate does not create a
+      // caregiver who is absent from the life record.
+      expect(row.caregiving).toBe(
+        (row.familyContext?.parentIds.length ?? 0) > 0
+          ? "estimated-care"
+          : "not-recorded",
+      );
       expect(row.familyContext?.caregiverCapacity).toBeGreaterThan(0);
       expect(row.familyContext?.source.note).toContain(
         "ESTIMATED FROM GAME FAMILIES",

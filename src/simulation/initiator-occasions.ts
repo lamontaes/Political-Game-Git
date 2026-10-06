@@ -45,7 +45,10 @@ import type {
  * told; the writer in `life-opportunities.ts` records it as told-by.
  */
 
-/** The reasons this module can read. Bounded; each names its own record. */
+/** The reasons this module can read. Bounded; each names its own record.
+ * Dating is deliberately absent: the owner deleted the random date prompt.
+ * Romance begins through recorded time together and the existing direct
+ * contact actions, not an occasion notification. */
 export type InitiatorOccasionReason = "birthday" | "new-home" | "new-work";
 
 export interface InitiatorOccasion {

@@ -18,13 +18,14 @@ import {
 } from "./household-pay";
 import { homeStateKey } from "./state-jurisdiction-id";
 import {
+  activeChildAuthoritiesAt,
   activeOrganizationParticipationsAt,
   activeWorkRelationshipsAt,
   householdMembershipsAt,
   kinshipRelationshipsAt,
   peopleInHouseholdAt,
 } from "./life-queries";
-import type { EntityId, IsoDate, World } from "./types";
+import type { EntityId, HistoricalEvent, IsoDate, World } from "./types";
 import type { PeopleTrait, TraitValue } from "./people-trait-definitions";
 import type { TraitLifePart } from "./personality-trait-registry";
 import { isPersonAliveAt } from "./vitality-integrity";
@@ -843,6 +844,29 @@ function readUpbringing(world: World, personId: EntityId): PersonUpbringing {
   const disruption = disruptionFromMoves(
     entries.filter(({ kind }) => kind === "school-year-move").length,
   );
+  const caregiverIds = new Set<string>([
+    ...parents,
+    ...activeChildAuthoritiesAt(world, personId).flatMap(({ authority }) =>
+      authority.holder.kind === "person" &&
+      authority.holder.personId !== personId
+        ? [authority.holder.personId]
+        : [],
+    ),
+  ]);
+  const care = caregivingFromChoices(
+    world.history.events.filter(
+      (event) =>
+        event.type === "life.formative-caregiver-choice" &&
+        event.tags.includes("caregiver-choice") &&
+        event.tags.includes(`caregiver-choice.subject:${personId}`) &&
+        event.tags.some(
+          (tag) =>
+            tag.startsWith("caregiver-choice.caregiver:") &&
+            caregiverIds.has(tag.slice("caregiver-choice.caregiver:".length)),
+        ),
+    ),
+    parents.length > 0,
+  );
   return {
     personId,
     // Retain the legacy basis value for opening histories and save consumers.
@@ -854,15 +878,72 @@ function readUpbringing(world: World, personId: EntityId): PersonUpbringing {
     disruption,
     homeStability: homeStabilityLabel(disruption),
     familyContext,
-    caregiving:
-      familyContext.caregiverCapacity === null
-        ? "not-recorded"
-        : "estimated-care",
-    protectiveCaregiver: false,
+    caregiving: care.climate,
+    protectiveCaregiver: care.protective,
     events: parentDied ? ["parent-death"] : [],
     schooling: [],
     firstJob: "none",
   };
+}
+
+/**
+ * Conservative readings of actions recorded on caregivers. A child's answer
+ * is never treated as the parent's style; in shared years only the parent's
+ * recorded steer supplies an action. Family size alone is not parenting.
+ */
+function caregivingFromChoices(
+  events: readonly HistoricalEvent[],
+  hasRecordedCaregiver: boolean,
+): {
+  readonly climate: CaregivingClimate;
+  readonly protective: boolean;
+} {
+  const supportive = new Set([
+    "formative.household-transition:settle-in",
+    "formative.illness-in-the-house:keep-close",
+    "formative.friend-conflict:repair",
+    "formative.teacher-mentor:accept-guidance",
+    "formative.lunch-table:make-room",
+    "formative.lunch-table:go-with-them",
+  ]);
+  const firm = new Set([
+    "formative.broken-object:say-what-happened",
+    "formative.school-entry:join-in",
+    "formative.school-rule-input:speak-up",
+    "formative.care-conflict:keep-the-commitment",
+  ]);
+  let supportiveCount = 0;
+  let firmCount = 0;
+  for (const event of events) {
+    const situationKey = event.tags.find((tag) => tag.startsWith("formative."));
+    const decisionMaker = event.tags.find((tag) =>
+      tag.startsWith("caregiver-choice.decision-maker:"),
+    );
+    const optionKey =
+      decisionMaker === "caregiver-choice.decision-maker:caregiver"
+        ? event.tags
+            .find((tag) => tag.startsWith("choice."))
+            ?.slice("choice.".length)
+        : decisionMaker === "caregiver-choice.decision-maker:child"
+          ? event.tags
+              .find((tag) => tag.startsWith("caregiver-choice.steer:"))
+              ?.slice("caregiver-choice.steer:".length)
+          : undefined;
+    if (!situationKey || !optionKey) continue;
+    const key = `${situationKey}:${optionKey}`;
+    if (supportive.has(key)) supportiveCount += 1;
+    if (firm.has(key)) firmCount += 1;
+  }
+  if (supportiveCount === 0 && firmCount === 0)
+    return {
+      climate: hasRecordedCaregiver ? "estimated-care" : "not-recorded",
+      protective: false,
+    };
+  if (supportiveCount === firmCount)
+    return { climate: "inconsistent", protective: supportiveCount > 0 };
+  return supportiveCount > firmCount
+    ? { climate: "protective-reliable", protective: true }
+    : { climate: "consistent-firm", protective: false };
 }
 
 const candidate = (
@@ -890,17 +971,6 @@ export function upbringingTraitTendencies(
       candidate("personality-v1:facet-practical", 2, "material scarcity"),
       candidate("personality-v1:facet-acquisitive", 1, "material scarcity"),
       candidate("personality-v1:voluntary-effort", 1, "material scarcity"),
-    );
-  if (
-    upbringing.caregiving === "estimated-care" &&
-    upbringing.familyContext?.caregiverCapacity
-  )
-    rows.push(
-      candidate(
-        "personality-v1:facet-duty-bound",
-        upbringing.familyContext.caregiverCapacity,
-        "estimated caregiver availability",
-      ),
     );
   if (upbringing.caregiving === "protective-reliable")
     rows.push(

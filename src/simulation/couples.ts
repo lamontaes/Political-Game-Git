@@ -2,14 +2,16 @@ import { ageOnDate } from "./dates";
 import { evaluateDecision, isSelectedDecision } from "./decisions";
 import { createPartnership, recordPartnershipState } from "./life";
 import { LIFE_MIND_IDS } from "./life-mind-content";
+import { ensurePeopleTraits, personTrait } from "./people-traits";
 import {
   activePartnershipsAt,
+  activeWorkRelationshipsAt,
   currentLifeCutoff,
   kinshipRelationshipsAt,
   partnershipStateHistory,
 } from "./life-queries";
-import { personName } from "./people";
-import { latestPersonalValue } from "./queries";
+import { factsForPerson, personName } from "./people";
+import { latestPersonalValue, latestPersonalValuesForPerson } from "./queries";
 import { recordRelationshipInteraction } from "./records";
 import { readRelationshipStanding } from "./relationship-standing";
 import type {
@@ -50,10 +52,11 @@ export const COUPLE_FORMED_EVENT = "life.couple-formed";
 export const COUPLE_DECLINED_EVENT = "life.couple-declined";
 export const COUPLE_ENDED_EVENT = "life.couple-ended";
 
-/** Calibration: kept dates before either of them may ask. See header. */
-export const DATES_BEFORE_ASKING = 2;
-
 const ADULT_AGE = 18;
+
+export type WorkplaceRomanceRule = "weigh-against" | "allow" | "refuse";
+/** The owner's workplace-romance option b: legal, recorded, and personally complicated. */
+export const WORKPLACE_ROMANCE_RULE: WorkplaceRomanceRule = "weigh-against";
 
 function isAdult(world: World, personId: EntityId): boolean {
   const person = world.people[personId];
@@ -101,6 +104,8 @@ export function dateRefusal(
   }
   if (areKin(world, personId, otherId)) return "You are family.";
   if (everInTheirCare(world, personId, otherId)) return "You are family.";
+  const workplace = workplaceRomanceWeighs(world, personId, otherId);
+  if (workplace.refusal) return workplace.refusal;
   /*
    * One person at a time. A Massachusetts life asked a second person to be a
    * couple while still with the first, heard yes, and had two partners; then
@@ -172,6 +177,8 @@ export function romanticConsiderations(
   askerId: EntityId,
 ): DecisionConsideration[] {
   const considerations: DecisionConsideration[] = [];
+  const workplace = workplaceRomanceWeighs(world, askerId, answererId);
+  considerations.push(...workplace.considerations);
   const taken = withSomebodyElse(world, answererId, askerId);
   if (taken) {
     considerations.push({
@@ -205,11 +212,8 @@ export function romanticConsiderations(
       sourceRefs: [{ kind: "personal-value", valueRecordId: connection.id }],
     });
   }
-  const readings = readRelationshipStanding(
-    world,
-    answererId,
-    askerId,
-  ).readings;
+  const standing = readRelationshipStanding(world, answererId, askerId);
+  const readings = standing.readings;
   // How they stand is read from what passed between them; the latest of it
   // is what the answer cites.
   const latest = world.history.relationshipInteractions
@@ -227,6 +231,114 @@ export function romanticConsiderations(
         },
       ]
     : [];
+  const sharedHistory = world.history.relationshipInteractions.filter(
+    (interaction) =>
+      interaction.personIds.includes(answererId) &&
+      interaction.personIds.includes(askerId),
+  );
+  if (sharedHistory.length > 0) {
+    const recency = standing.absence.currency;
+    considerations.push({
+      stableKey: `${stableKey}:time-together`,
+      optionKey: "accept",
+      sourceType: "social:relationship",
+      direction: "supports",
+      importance:
+        readings.warmth.band === "strong" && !readings.warmth.adverse
+          ? "strong"
+          : "moderate",
+      confidence: "high",
+      explanation:
+        recency === "current" &&
+        readings.warmth.band === "strong" &&
+        !readings.warmth.adverse
+          ? "They have kept finding time for one another."
+          : recency === "dormant"
+            ? "They spent time together, though it has been a while."
+            : "They have spent time together.",
+      sourceRefs: sharedHistory.slice(-4).map((interaction) => ({
+        kind: "relationship-interaction" as const,
+        interactionId: interaction.id,
+      })),
+    });
+  }
+  const sharedSettings = new Map<string, typeof sharedHistory>();
+  for (const interaction of sharedHistory) {
+    const labels = new Set<string>();
+    if (
+      interaction.kind.startsWith("work:") ||
+      interaction.tags.some((tag) => tag.includes("shared-work"))
+    )
+      labels.add("work");
+    if (
+      interaction.kind.includes("shared-school") ||
+      interaction.tags.some((tag) => tag.includes("shared-school"))
+    )
+      labels.add("school");
+    if (interaction.tags.some((tag) => tag.startsWith("campaign.")))
+      labels.add("campaign");
+    if (interaction.tags.some((tag) => tag.startsWith("party.")))
+      labels.add("party");
+    for (const label of labels) {
+      const rows = sharedSettings.get(label) ?? [];
+      sharedSettings.set(label, [...rows, interaction]);
+    }
+  }
+  for (const [setting, interactions] of sharedSettings) {
+    considerations.push({
+      stableKey: `${stableKey}:shared-${setting}`,
+      optionKey: "accept",
+      sourceType: "social:relationship",
+      direction: "supports",
+      importance: readings.warmth.band === "strong" ? "moderate" : "slight",
+      confidence: "medium",
+      explanation: `They have crossed paths through ${setting === "work" ? "work" : setting === "school" ? "school" : setting === "campaign" ? "campaign work" : "their party"}.`,
+      sourceRefs: interactions.slice(-3).map((interaction) => ({
+        kind: "relationship-interaction" as const,
+        interactionId: interaction.id,
+      })),
+    });
+  }
+  const answererAge = ageOnDate(
+    world.people[answererId]!.birthDate,
+    world.currentDate,
+  );
+  const askerAge = ageOnDate(
+    world.people[askerId]!.birthDate,
+    world.currentDate,
+  );
+  const youngerAge = Math.min(answererAge, askerAge);
+  const ageGap = Math.abs(answererAge - askerAge);
+  if (ageGap > 0 && sharedHistory.length > 0) {
+    const ageFacts = [answererId, askerId].flatMap((personId) => {
+      const fact = factsForPerson(world.people[personId]!).find(
+        (candidate) => candidate.kind === "birth-date",
+      );
+      return fact
+        ? [
+            {
+              kind: "person-fact" as const,
+              factId: fact.id,
+              personId,
+            },
+          ]
+        : [];
+    });
+    const gapShare = ageGap / Math.max(1, youngerAge);
+    considerations.push({
+      stableKey: `${stableKey}:life-stage`,
+      optionKey: "decline",
+      sourceType: "context:life",
+      direction: "supports",
+      importance: gapShare > 0.75 ? "moderate" : "slight",
+      confidence: "medium",
+      explanation:
+        youngerAge < 30 && ageGap > 5
+          ? "They are at noticeably different stages in life."
+          : "They have had different amounts of time to build their lives.",
+      sourceRefs: ageFacts,
+    });
+  }
   if (
     !readings.warmth.adverse &&
     (readings.warmth.band === "marked" || readings.warmth.band === "strong")
@@ -257,7 +369,168 @@ export function romanticConsiderations(
       sourceRefs: between,
     });
   }
+  const answererValues = latestPersonalValuesForPerson(world, answererId);
+  const askerValues = latestPersonalValuesForPerson(world, askerId);
+  const askerValuesById = new Map(
+    askerValues.map((value) => [value.valueId, value]),
+  );
+  const sharedValues = answererValues.flatMap((value) => {
+    const other = askerValuesById.get(value.valueId);
+    return other ? [{ value, other }] : [];
+  });
+  const alignedValues = sharedValues.filter(
+    ({ value, other }) => value.orientation === other.orientation,
+  );
+  const differingValues = sharedValues.filter(
+    ({ value, other }) => value.orientation !== other.orientation,
+  );
+  if (sharedHistory.length > 0 && alignedValues.length > 0) {
+    considerations.push({
+      stableKey: `${stableKey}:shared-values`,
+      optionKey: "accept",
+      sourceType: "mind:personal-value",
+      direction: "supports",
+      importance: alignedValues.length > 1 ? "moderate" : "slight",
+      confidence: "medium",
+      explanation: "They see eye to eye on some things that matter to them.",
+      sourceRefs: alignedValues.flatMap(({ value, other }) => [
+        { kind: "personal-value" as const, valueRecordId: value.id },
+        {
+          kind: "personal-value" as const,
+          valueRecordId: other.id,
+          personId: other.personId,
+        },
+      ]),
+    });
+  }
+  if (sharedHistory.length > 0 && differingValues.length > 0) {
+    considerations.push({
+      stableKey: `${stableKey}:different-values`,
+      optionKey: "decline",
+      sourceType: "mind:personal-value",
+      direction: "supports",
+      importance: differingValues.length > 1 ? "moderate" : "slight",
+      confidence: "medium",
+      explanation: "They see some important things differently.",
+      sourceRefs: differingValues.flatMap(({ value, other }) => [
+        { kind: "personal-value" as const, valueRecordId: value.id },
+        {
+          kind: "personal-value" as const,
+          valueRecordId: other.id,
+          personId: other.personId,
+        },
+      ]),
+    });
+  }
+  const sociability = personTrait(world, answererId, "sociability");
+  if (sociability.recordId !== null && sociability.value !== 0) {
+    const outgoing = sociability.value > 0;
+    considerations.push({
+      stableKey: `${stableKey}:sociability`,
+      optionKey: outgoing ? "accept" : "decline",
+      sourceType: "mind:personality",
+      direction: "supports",
+      importance: Math.abs(sociability.value) > 1 ? "moderate" : "slight",
+      confidence: "medium",
+      explanation: outgoing
+        ? "They are usually glad to make room for people."
+        : "They usually take their time letting people close.",
+      sourceRefs: [
+        {
+          kind: "personality-tendency",
+          tendencyRecordId: sociability.recordId,
+        },
+      ],
+    });
+  }
+  for (const { personId, role } of [
+    { personId: answererId, role: "answerer" },
+    { personId: askerId, role: "asker" },
+  ] as const) {
+    const deliberation = personTrait(world, personId, "deliberation");
+    if (deliberation.recordId === null || deliberation.value === 0) continue;
+    const takesTime = deliberation.value < 0;
+    considerations.push({
+      stableKey: `${stableKey}:deliberation:${role}`,
+      optionKey: takesTime ? "decline" : "accept",
+      sourceType: "mind:personality",
+      direction: "supports",
+      importance: Math.abs(deliberation.value) > 1 ? "moderate" : "slight",
+      confidence: "medium",
+      explanation:
+        role === "answerer"
+          ? takesTime
+            ? "They like to take their time before making a commitment."
+            : "They are open to acting when the moment feels right."
+          : takesTime
+            ? "They take a relationship seriously before asking for more."
+            : "They can act quickly on a feeling.",
+      sourceRefs: [
+        {
+          kind: "personality-tendency",
+          tendencyRecordId: deliberation.recordId,
+        },
+      ],
+    });
+  }
   return considerations;
+}
+
+/**
+ * How a real authority relationship affects the two people's decision.
+ * Change this one switch if the owner chooses to remove the personal concern
+ * or to forbid these relationships. The default leaves it allowed.
+ */
+export function workplaceRomanceWeighs(
+  world: World,
+  askerId: EntityId,
+  answererId: EntityId,
+): {
+  readonly considerations: DecisionConsideration[];
+  readonly refusal: string | null;
+} {
+  if (WORKPLACE_ROMANCE_RULE === "allow")
+    return { considerations: [], refusal: null };
+  const askerWork = activeWorkRelationshipsAt(world, askerId);
+  const answererWork = activeWorkRelationshipsAt(world, answererId);
+  const authorityGap = askerWork.some((left) =>
+    answererWork.some(
+      (right) =>
+        left.relationship.organizationId !== null &&
+        left.relationship.organizationId ===
+          right.relationship.organizationId &&
+        ((left.relationship.authority === "directs-others" &&
+          right.relationship.authority !== "directs-others") ||
+          (right.relationship.authority === "directs-others" &&
+            left.relationship.authority !== "directs-others")),
+    ),
+  );
+  if (!authorityGap) return { considerations: [], refusal: null };
+  if (WORKPLACE_ROMANCE_RULE === "refuse")
+    return {
+      considerations: [],
+      refusal: "You have authority over one another at work.",
+    };
+  const value = latestPersonalValue(world, answererId, LIFE_MIND_IDS.privacy);
+  return {
+    considerations:
+      value?.orientation === "embraces"
+        ? [
+            {
+              stableKey: `workplace-romance:${askerId}:${answererId}:${world.currentDate}`,
+              optionKey: "decline",
+              sourceType: "mind:personal-value",
+              direction: "supports",
+              importance: "slight",
+              confidence: "medium",
+              explanation:
+                "They prefer to keep their private life separate from a work relationship where one person has authority.",
+              sourceRefs: [{ kind: "personal-value", valueRecordId: value.id }],
+            },
+          ]
+        : [],
+    refusal: null,
+  };
 }
 
 /** Why this person cannot ask the other to be a couple now, or null. */
@@ -270,11 +543,13 @@ export function coupleAskRefusal(
   if (refusal) return refusal;
   if (coupleBetween(world, personId, otherId))
     return "You are already together.";
-  const dates = keptDates(world, personId, otherId).length;
-  if (dates < DATES_BEFORE_ASKING) {
-    return dates === 0
-      ? "You have not been out together yet."
-      : "You have only been out together once.";
+  const haveSpentTimeTogether = world.history.relationshipInteractions.some(
+    (interaction) =>
+      interaction.personIds.includes(personId) &&
+      interaction.personIds.includes(otherId),
+  );
+  if (!haveSpentTimeTogether) {
+    return "You have not spent time together yet.";
   }
   if (
     world.history.events.some(
@@ -310,13 +585,14 @@ export function askToBeACouple(
   const asker = world.people[personId]!;
   const asked = world.people[otherPersonId]!;
   const key = `couple:${personId}:${otherPersonId}:${world.currentDate}:${world.history.nextSequence}`;
-  const evaluation = evaluateDecision(world, {
+  const withTraits = ensurePeopleTraits(world, [otherPersonId]);
+  const evaluation = evaluateDecision(withTraits, {
     stableKey: `${key}:answer`,
     decisionType: "people.couple-answer",
     actorPersonId: otherPersonId,
     cutoff: {
       asOfDate: world.currentDate,
-      historySequenceExclusive: world.history.nextSequence,
+      historySequenceExclusive: withTraits.history.nextSequence,
     },
     subject: { kind: "context:life", key: "couple-request", entityId: null },
     options: [
@@ -328,24 +604,29 @@ export function askToBeACouple(
       },
     ],
     constraints: [],
-    considerations: romanticConsiderations(world, key, otherPersonId, personId),
+    considerations: romanticConsiderations(
+      withTraits,
+      key,
+      otherPersonId,
+      personId,
+    ),
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "ephemeral",
   });
   if (!isSelectedDecision(evaluation)) {
-    return { world, accepted: null };
+    return { world: withTraits, accepted: null };
   }
   // Somebody already with another person does not become a second couple;
   // what weighs on their answer is in `romanticConsiderations`, and this is
   // the one outcome it cannot be.
   const accepted =
     evaluation.selectedOptionKey === "accept" &&
-    !withSomebodyElse(world, otherPersonId, personId);
+    !withSomebodyElse(withTraits, otherPersonId, personId);
   const summary = accepted
     ? `${personName(asker)} asked ${personName(asked)} to be a couple, and ${asked.givenName} said yes.`
     : `${personName(asker)} asked ${personName(asked)} to be a couple, and ${asked.givenName} said no.`;
-  let next = recordWorldEvent(world, {
+  let next = recordWorldEvent(withTraits, {
     stableKey: key,
     type: accepted ? COUPLE_FORMED_EVENT : COUPLE_DECLINED_EVENT,
     occurredAt: world.currentDate,

@@ -10,6 +10,7 @@ import {
   recordDurableDecisionTrace,
 } from "../simulation/decisions";
 import { activeChildAuthoritiesAt } from "../simulation/life-queries";
+import { stableHash } from "../simulation/ids";
 import {
   ensurePeopleTraits,
   traitConsiderations,
@@ -98,7 +99,10 @@ export function projectChildhoodMoment(
     interval.agency === "caregiver-led" && !caregiverId
       ? "shared"
       : interval.agency;
-  const watching = agency === "caregiver-led";
+  const playerIsCaregiver =
+    world.control.kind === "person" && caregiverId === world.control.personId;
+  const watching = agency === "caregiver-led" && !playerIsCaregiver;
+  const steering = agency === "shared" && playerIsCaregiver;
   return {
     personName: years.personName,
     age: years.age,
@@ -107,12 +111,16 @@ export function projectChildhoodMoment(
     caregiverName,
     scene: years.scene,
     action: watching ? "watch" : "choose",
-    actionLabel: watching ? "See what happened" : "Choose",
+    actionLabel: watching ? "See what happened" : steering ? "Guide" : "Choose",
     note: watching
       ? `${years.personName} is ${years.age}. ${caregiverName ?? "The adult at home"} decides these things; what stays is what ${years.personName} remembers of them.`
-      : agency === "shared"
-        ? `${years.personName} is ${years.age}, old enough to be asked and young enough to be steered.`
-        : null,
+      : agency === "caregiver-led" && playerIsCaregiver
+        ? `You are raising ${years.personName}. Choose how you respond to this moment.`
+        : steering
+          ? `${years.personName} is old enough to make the choice. Tell them what you think; they will decide.`
+          : agency === "shared"
+            ? `${years.personName} is ${years.age}, old enough to be asked and young enough to be steered.`
+            : null,
     years,
   };
 }
@@ -155,12 +163,50 @@ export function playChildhoodMoment(
     if (!input.optionKey) {
       throw new Error("This age chooses for themselves; name the choice.");
     }
+    if (
+      world.control.kind === "person" &&
+      moment.agency === "shared" &&
+      moment.caregiverPersonId === world.control.personId
+    ) {
+      return playSharedCaregiverMoment(
+        world,
+        input.personId,
+        moment,
+        scene,
+        input.optionKey,
+      );
+    }
     const chosen = chooseFormativeOption(world, {
       personId: input.personId,
+      ...(world.control.kind === "person" &&
+      moment.agency === "caregiver-led" &&
+      moment.caregiverPersonId === world.control.personId
+        ? {
+            choiceMakerPersonId: moment.caregiverPersonId,
+            mode: "parent-played" as const,
+          }
+        : {}),
+      ...(world.control.kind === "person" &&
+      moment.agency === "caregiver-led" &&
+      moment.caregiverPersonId === world.control.personId
+        ? {
+            caregiverChoice: {
+              caregiverPersonId: moment.caregiverPersonId,
+              decisionMaker: "caregiver" as const,
+            },
+          }
+        : {}),
       situationKey: scene.situationKey,
       optionKey: input.optionKey,
       withPersonId: scene.withPersonId,
     });
+    if (
+      world.control.kind === "person" &&
+      moment.agency === "caregiver-led" &&
+      moment.caregiverPersonId === world.control.personId
+    ) {
+      return chosen;
+    }
     return recordFormativePlayerTraitChoice(world, chosen, {
       personId: input.personId,
       situationKey: scene.situationKey,
@@ -175,14 +221,123 @@ export function playChildhoodMoment(
       "At this age the adult responsible decides; the player watches.",
     );
   }
-  const chosen = caregiverChoice(world, input.personId, moment, scene);
-  if (chosen === null) return world;
-  return chooseFormativeOption(world, {
+  const choice = childhoodChoice(world, input.personId, moment, scene, true);
+  if (choice.optionKey === null) return choice.world;
+  const resolved = chooseFormativeOption(choice.world, {
     personId: input.personId,
+    choiceMakerPersonId: moment.caregiverPersonId!,
+    mode: "quick-generated",
+    caregiverChoice: {
+      caregiverPersonId: moment.caregiverPersonId!,
+      decisionMaker: "caregiver",
+    },
     situationKey: scene.situationKey,
-    optionKey: chosen,
+    optionKey: choice.optionKey,
     withPersonId: scene.withPersonId,
   });
+  return resolved;
+}
+
+function playSharedCaregiverMoment(
+  world: World,
+  childPersonId: EntityId,
+  moment: ChildhoodMoment,
+  scene: FormativeScene,
+  steerOptionKey: string,
+): World {
+  const caregiverPersonId = moment.caregiverPersonId!;
+  const steer = scene.options.find((option) => option.key === steerOptionKey);
+  if (!steer) throw new Error("Choose one of the ways to guide them.");
+  const withTraits = ensurePeopleTraits(world, [childPersonId]);
+  const options = scene.options.map((option) => ({
+    key: option.key,
+    label: option.label,
+    description: option.description,
+  }));
+  const stableKey = `childhood:shared:${childPersonId}:${scene.situationKey}:${world.currentDate}`;
+  const considerations: DecisionConsideration[] = [
+    ...traitConsiderations(
+      withTraits,
+      childPersonId,
+      stableKey,
+      options.flatMap((option) =>
+        (OPTION_LEANS[option.key] ?? []).map((lean) => ({
+          optionKey: option.key,
+          trait: lean.trait,
+          pole: lean.pole,
+          explanation: lean.explanation,
+        })),
+      ),
+    ),
+    {
+      stableKey: `${stableKey}:parent-steer`,
+      optionKey: steerOptionKey,
+      sourceType: "context:life",
+      direction: "supports",
+      importance: "slight",
+      confidence: "high",
+      explanation: `Their parent encouraged them to ${steer.label.toLowerCase()}.`,
+      sourceRefs: [],
+    },
+  ];
+  let evaluation = evaluateDecision(withTraits, {
+    stableKey,
+    decisionType: "people.shared-caregiver-choice",
+    actorPersonId: childPersonId,
+    cutoff: {
+      asOfDate: withTraits.currentDate,
+      historySequenceExclusive: withTraits.history.nextSequence,
+    },
+    subject: { kind: "context:life", key: scene.situationKey, entityId: null },
+    options,
+    constraints: [],
+    considerations,
+    perceptionIds: [],
+    randomness: "none",
+    retention: "durable",
+  });
+  if (!isSelectedDecision(evaluation)) {
+    const fallback = deterministicChoice(world, childPersonId, scene, options);
+    evaluation = evaluateDecision(withTraits, {
+      stableKey,
+      decisionType: "people.shared-caregiver-choice",
+      actorPersonId: childPersonId,
+      cutoff: {
+        asOfDate: withTraits.currentDate,
+        historySequenceExclusive: withTraits.history.nextSequence,
+      },
+      subject: {
+        kind: "context:life",
+        key: scene.situationKey,
+        entityId: null,
+      },
+      options,
+      constraints: [],
+      considerations: [
+        ...considerations,
+        fallbackConsideration(stableKey, fallback),
+      ],
+      perceptionIds: [],
+      randomness: "none",
+      retention: "durable",
+    });
+  }
+  const withTrace = recordDurableDecisionTrace(withTraits, evaluation);
+  if (!isSelectedDecision(evaluation)) return withTrace;
+  const selectedOptionKey = evaluation.selectedOptionKey;
+  const resolved = chooseFormativeOption(withTrace, {
+    personId: childPersonId,
+    mode: "quick-generated",
+    caregiverChoice: {
+      caregiverPersonId,
+      decisionMaker: "child",
+      steerOptionKey,
+    },
+    situationKey: scene.situationKey,
+    optionKey: selectedOptionKey,
+    withPersonId: scene.withPersonId,
+  });
+  return resolved;
 }
 
 /**
@@ -318,6 +473,7 @@ function childhoodChoice(
   if (!caregiverId || options.length === 1)
     return { world, optionKey: options[0]!.key };
   const withTraits = ensurePeopleTraits(world, [caregiverId]);
+  const stableKey = `childhood:${personId}:${scene.situationKey}:${withTraits.currentDate}`;
   const considerations: readonly DecisionConsideration[] = [
     ...traitConsiderations(
       withTraits,
@@ -376,26 +532,35 @@ function childhoodChoice(
         : [],
     ),
   ];
-  const evaluation = evaluateDecision(withTraits, {
-    stableKey: `childhood:${personId}:${scene.situationKey}:${withTraits.currentDate}`,
-    decisionType: "people.caregiver-choice",
-    actorPersonId: caregiverId,
-    cutoff: {
-      asOfDate: withTraits.currentDate,
-      historySequenceExclusive: withTraits.history.nextSequence,
-    },
-    subject: {
-      kind: "context:life",
-      key: scene.situationKey,
-      entityId: null,
-    },
-    options,
-    constraints: [],
-    considerations,
-    perceptionIds: [],
-    randomness: "none",
-    retention: durable ? "durable" : "ephemeral",
-  });
+  const evaluate = (reasons: readonly DecisionConsideration[]) =>
+    evaluateDecision(withTraits, {
+      stableKey,
+      decisionType: "people.caregiver-choice",
+      actorPersonId: caregiverId,
+      cutoff: {
+        asOfDate: withTraits.currentDate,
+        historySequenceExclusive: withTraits.history.nextSequence,
+      },
+      subject: {
+        kind: "context:life",
+        key: scene.situationKey,
+        entityId: null,
+      },
+      options,
+      constraints: [],
+      considerations: reasons,
+      perceptionIds: [],
+      randomness: "none",
+      retention: durable ? "durable" : "ephemeral",
+    });
+  let evaluation = evaluate(considerations);
+  if (!isSelectedDecision(evaluation)) {
+    const fallback = deterministicChoice(world, personId, scene, options);
+    evaluation = evaluate([
+      ...considerations,
+      fallbackConsideration(stableKey, fallback),
+    ]);
+  }
   return {
     world: durable
       ? recordDurableDecisionTrace(withTraits, evaluation)
@@ -403,6 +568,42 @@ function childhoodChoice(
     optionKey: isSelectedDecision(evaluation)
       ? evaluation.selectedOptionKey
       : null,
+  };
+}
+
+function deterministicChoice(
+  world: World,
+  actorPersonId: EntityId,
+  scene: FormativeScene,
+  options: readonly { readonly key: string }[],
+): string {
+  return options.slice().sort((left, right) => {
+    const leftHash = stableHash(
+      `${world.seed}\nchildhood-choice:${actorPersonId}:${scene.situationKey}:${left.key}`,
+    );
+    const rightHash = stableHash(
+      `${world.seed}\nchildhood-choice:${actorPersonId}:${scene.situationKey}:${right.key}`,
+    );
+    return (
+      leftHash.localeCompare(rightHash) || left.key.localeCompare(right.key)
+    );
+  })[0]!.key;
+}
+
+function fallbackConsideration(
+  stableKey: string,
+  optionKey: string,
+): DecisionConsideration {
+  return {
+    stableKey: `${stableKey}:deterministic-tie-break`,
+    optionKey,
+    sourceType: "context:life",
+    direction: "supports",
+    importance: "slight",
+    confidence: "low",
+    explanation:
+      "When their reasons did not settle it, they chose this way forward.",
+    sourceRefs: [],
   };
 }
 

@@ -9,6 +9,7 @@ import {
 import { legislationEntityExists } from "./legislation";
 import { legislativePoliticsEntityExists } from "./legislative-politics";
 import { lifeEntityExists } from "./life-integrity";
+import { activeChildAuthoritiesAt } from "./life-queries";
 import { eventById } from "./event-index";
 import { indexOverArrays, recordById } from "./history-index";
 import { resourceHousingEntityExists } from "./resource-integrity";
@@ -1002,6 +1003,23 @@ function validateProvenance(
 ): void {
   assertMember(MIND_PROVENANCE_KINDS, provenance.kind, "mind provenance kind");
   assertOptionalString(provenance.note, "Mind provenance note");
+  const actorPersonId = provenance.actorPersonId ?? personId;
+  if (!world.people[actorPersonId])
+    throw new Error(`Unknown mind provenance actor: ${actorPersonId}`);
+  if (actorPersonId !== personId) {
+    const isCaregiver = activeChildAuthoritiesAt(world, personId, {
+      asOfDate: date,
+      historySequenceExclusive: sequence,
+    }).some(
+      ({ authority }) =>
+        authority.holder.kind === "person" &&
+        authority.holder.personId === actorPersonId,
+    );
+    if (!isCaregiver)
+      throw new Error(
+        "A different person's agency requires recorded caregiver authority.",
+      );
+  }
   validateSourceRefs(world, personId, date, sequence, provenance.sourceRefs);
 }
 
@@ -1031,7 +1049,7 @@ function validateSourceRefs(
   for (const reference of references) {
     switch (reference.kind) {
       case "person-fact": {
-        const person = world.people[personId];
+        const person = world.people[reference.personId ?? personId];
         const fact = person
           ? factsForPerson(person).find(
               (candidate) => candidate.id === reference.factId,
@@ -1068,7 +1086,7 @@ function validateSourceRefs(
       case "personal-value":
         validateOwnedRecord(
           recordById(world.history.personalValues, reference.valueRecordId),
-          personId,
+          reference.personId ?? personId,
           asOfDate,
           sequenceExclusive,
           (candidate) => candidate.recordedAt,
@@ -1540,6 +1558,15 @@ function canonicalSourceRefs(
 function sourceRefKey(reference: MindSourceReference): string {
   if (reference.kind === "life-history") {
     return `${reference.kind}:${lifeHistoryReferenceKey(reference.reference)}`;
+  }
+  if (reference.kind === "person-fact" || reference.kind === "personal-value") {
+    const recordId =
+      reference.kind === "person-fact"
+        ? reference.factId
+        : reference.valueRecordId;
+    return reference.personId
+      ? `${reference.kind}:${reference.personId}:${recordId}`
+      : `${reference.kind}:${recordId}`;
   }
   const id = Object.entries(reference).find(([key]) => key !== "kind")?.[1];
   return `${reference.kind}:${String(id)}`;

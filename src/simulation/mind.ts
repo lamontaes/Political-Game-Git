@@ -19,6 +19,7 @@ import type {
 import { createStableId } from "./ids";
 import { recordById, recordsByStringField } from "./history-index";
 import { lifeEntityExists } from "./life-integrity";
+import { activeChildAuthoritiesAt } from "./life-queries";
 import { resourceHousingEntityExists } from "./resource-integrity";
 import {
   assertLifeHistorySourceAvailable,
@@ -105,6 +106,7 @@ export function createMindProvenance(
     kind,
     sourceRefs: input.sourceRefs ?? [],
     note: input.note ?? null,
+    ...(input.actorPersonId ? { actorPersonId: input.actorPersonId } : {}),
   };
 }
 
@@ -552,9 +554,9 @@ export function validateMindSourceReferences(
             "Biography facts lack append availability and cannot be introduced into a reconstructed historical cutoff; durable traces must freeze facts when used at the current frontier.",
           );
         }
-        const fact = factsForPerson(requirePerson(world, personId)).find(
-          (record) => record.id === reference.factId,
-        );
+        const fact = factsForPerson(
+          requirePerson(world, reference.personId ?? personId),
+        ).find((record) => record.id === reference.factId);
         if (!fact || fact.occurredAt > asOfDate) {
           throw new Error(
             `Unavailable person-fact source: ${reference.factId}`,
@@ -587,7 +589,7 @@ export function validateMindSourceReferences(
       case "personal-value":
         assertOwnedHistoryRecord(
           recordById(world.history.personalValues, reference.valueRecordId),
-          personId,
+          reference.personId ?? personId,
           asOfDate,
           historySequenceExclusive,
           (record) => record.recordedAt,
@@ -821,17 +823,36 @@ function validateMindProvenance(
 ): void {
   assertMember(MIND_PROVENANCE_KINDS, provenance.kind, "mind provenance kind");
   assertOptional(provenance.note, "Mind provenance note");
+  const actorPersonId = provenance.actorPersonId ?? personId;
+  requirePersonAt(world, actorPersonId, date);
+  if (actorPersonId !== personId) {
+    const isCaregiver = activeChildAuthoritiesAt(world, personId, {
+      asOfDate: date,
+      historySequenceExclusive: world.history.nextSequence,
+    }).some(
+      ({ authority }) =>
+        authority.holder.kind === "person" &&
+        authority.holder.personId === actorPersonId,
+    );
+    if (!isCaregiver)
+      throw new Error(
+        "A different person's agency requires recorded caregiver authority.",
+      );
+  }
   if (
     provenance.kind === "player-choice" &&
-    (world.control.kind !== "person" || world.control.personId !== personId) &&
-    world.preStartLife?.personId !== personId
+    (world.control.kind !== "person" ||
+      world.control.personId !== actorPersonId) &&
+    world.preStartLife?.personId !== actorPersonId
   ) {
-    throw new Error("Player-choice provenance requires the controlled person.");
+    throw new Error(
+      `Player-choice provenance requires the controlled actor (${world.control.kind === "person" ? world.control.personId : world.control.kind} vs ${actorPersonId}).`,
+    );
   }
   if (
     requiresPlayerAgency &&
     world.control.kind === "person" &&
-    world.control.personId === personId &&
+    world.control.personId === actorPersonId &&
     provenance.kind !== "player-choice"
   ) {
     throw new Error(
@@ -1219,6 +1240,15 @@ function canonicalMindSourceRefs(
 function mindSourceReferenceKey(reference: MindSourceReference): string {
   if (reference.kind === "life-history") {
     return `${reference.kind}:${lifeHistoryReferenceKey(reference.reference)}`;
+  }
+  if (reference.kind === "person-fact" || reference.kind === "personal-value") {
+    const recordId =
+      reference.kind === "person-fact"
+        ? reference.factId
+        : reference.valueRecordId;
+    return reference.personId
+      ? `${reference.kind}:${reference.personId}:${recordId}`
+      : `${reference.kind}:${recordId}`;
   }
   const id = Object.entries(reference).find(([key]) => key !== "kind")?.[1];
   return `${reference.kind}:${String(id)}`;

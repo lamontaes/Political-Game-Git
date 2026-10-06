@@ -1150,12 +1150,22 @@ export type MindRecordProvenanceKind =
   "authored" | "reflection" | "development-proposal" | "player-choice";
 
 export type MindSourceReference =
-  | { readonly kind: "person-fact"; readonly factId: EntityId }
+  | {
+      readonly kind: "person-fact";
+      readonly factId: EntityId;
+      /** Present when a decision cites another participant's public biography. */
+      readonly personId?: EntityId;
+    }
   | {
       readonly kind: "personality-tendency";
       readonly tendencyRecordId: EntityId;
     }
-  | { readonly kind: "personal-value"; readonly valueRecordId: EntityId }
+  | {
+      readonly kind: "personal-value";
+      readonly valueRecordId: EntityId;
+      /** Present when a pairwise decision compares both people's values. */
+      readonly personId?: EntityId;
+    }
   | { readonly kind: "goal-state"; readonly goalStateId: EntityId }
   | {
       readonly kind: "temporary-state";
@@ -1204,6 +1214,8 @@ export interface MindRecordProvenance {
   readonly kind: MindRecordProvenanceKind;
   readonly sourceRefs: readonly MindSourceReference[];
   readonly note: string | null;
+  /** Person whose agency produced this record when it concerns another person. */
+  readonly actorPersonId?: EntityId;
 }
 
 export type MindStrength = "subtle" | "moderate" | "strong" | "defining";

@@ -760,12 +760,15 @@ export function npcContactAnswer(
       sourceRefs: [],
     });
   }
+  // Record the answerer's seeded temperament before deriving the romantic
+  // reasons; the actor making this decision must be able to cite it.
+  const withTraits = ensurePeopleTraits(world, [to]);
   // A date is answered as one: who they are with, whether they want company,
   // and how the two of them stand.
   if (proposal.tags.includes(DATE_OCCASION_TAG)) {
     considerations.push(
       ...romanticConsiderations(
-        world,
+        withTraits,
         `contact:${proposalEventId}:date`,
         to,
         from,
@@ -784,7 +787,6 @@ export function npcContactAnswer(
   // so a record written now is not available to it and the decision refused
   // its own citation. An unrecorded asker contributes nothing, which is the
   // same answer the player gets before they have said who they are.
-  const withTraits = ensurePeopleTraits(world, [to]);
   // Somebody keeping time for themselves turns down more of what is optional
   // (NPC goal pursuit research, family G: "decline optional commitments").
   // It is a lean beside everything else, not a refusal; somebody without that

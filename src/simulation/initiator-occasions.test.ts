@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, expectTypeOf, it, vi } from "vitest";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import * as decisions from "./decisions";
 import { lifePlaceStateIdentities } from "./life-places";
@@ -21,6 +21,7 @@ import {
   OCCASION_NOTICE_MAX_DAYS,
   OLDER_ALONE_AGE,
 } from "./initiator-occasions";
+import type { InitiatorOccasionReason } from "./initiator-occasions";
 import {
   currentLifeCutoff,
   householdMembershipsAt,
@@ -59,6 +60,13 @@ function hostsWithHomes(world: World, playerId: EntityId): EntityId[] {
 }
 
 describe("a reason to have people over, read from the host's own life", () => {
+  it("keeps the deleted random date prompt out of invitation occasions", () => {
+    expectTypeOf<InitiatorOccasionReason>().toEqualTypeOf<
+      "birthday" | "new-home" | "new-work"
+    >();
+    expectTypeOf<InitiatorOccasionReason>().not.toEqualTypeOf<"date">();
+  });
+
   it("is a birthday only in the days before it, and names the real age and date", () => {
     const { world, personId } = start();
     const hosts = hostsWithHomes(world, personId);

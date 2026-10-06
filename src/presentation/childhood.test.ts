@@ -3,6 +3,7 @@ import { assertWorldIntegrity, serializeWorld } from "../simulation";
 import { formativeIntervalAt } from "../simulation/character-history";
 import { playerTemperament } from "../simulation/people-player-traits";
 import { personTrait } from "../simulation/people-traits";
+import { upbringingFor } from "../simulation/people-upbringing";
 import {
   caregiverChoice,
   caregiverFor,
@@ -65,6 +66,21 @@ describe("PEOPLE P14: a childhood that is lived before it is directed", () => {
         .length,
     );
     expect(playerTemperament(played, player).said).toEqual([]);
+    const caregiver = caregiverFor(world, player)!;
+    expect(played.history.events).toContainEqual(
+      expect.objectContaining({
+        type: "life.formative-caregiver-choice",
+        involvedEntityIds: expect.arrayContaining([player, caregiver]),
+      }),
+    );
+    expect(
+      played.history.decisionTraces.some(
+        (trace) =>
+          trace.context.actorPersonId === caregiver &&
+          trace.context.decisionType === "people.caregiver-choice",
+      ),
+    ).toBe(true);
+    expect(upbringingFor(played, player).caregiving).not.toBe("estimated-care");
     assertWorldIntegrity(played);
   });
 
