@@ -4454,8 +4454,7 @@ function renderWorkspace({
             ) : null}
             {assignmentIsOther ? (
               <p className="game-note" data-testid="other-measure-open">
-                Also open, and not the one you are working on:{" "}
-                {assignmentName ?? "another measure"}.
+                Also open: {assignmentName ?? "another measure"}
               </p>
             ) : null}
             <button
