@@ -1,4 +1,7 @@
 {
+  "selection": {
+    "requiredMatch": ["region", "climate", "terrain", "size"]
+  },
   "campuses": [
     {
       "campus": "ak",
