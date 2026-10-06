@@ -930,13 +930,23 @@ describe("Procedural discipline", () => {
         electedMembers: elected,
         provenance: AUTHORED,
       };
-      expect(() =>
-        takeFloorVote(ready, {
-          ...input,
-          presentMembers: short,
-          dispositions: dispositionsFromCounts(members, { yea: short, nay: 0 }),
-        }),
-      ).toThrow(`${short} present, ${required} required`);
+      const noQuorum = takeFloorVote(ready, {
+        ...input,
+        presentMembers: short,
+        dispositions: dispositionsFromCounts(members, { yea: short, nay: 0 }),
+      });
+      expect(noQuorum.history.legislativeActions!.at(-1)).toMatchObject({
+        kind: "quorum-not-present",
+        rationale: expect.stringContaining(
+          `${short} members were present; ${required} were required`,
+        ),
+      });
+      expect(measureVotes(noQuorum, fixture.measureId).at(-1)).toMatchObject({
+        tally: { yea: short, nay: 0 },
+      });
+      expect(measurePosition(noQuorum, fixture.measureId).phase).toBe(
+        "on-floor",
+      );
       const passed = takeFloorVote(ready, {
         ...input,
         presentMembers: required,

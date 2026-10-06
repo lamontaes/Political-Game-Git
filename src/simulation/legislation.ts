@@ -2516,9 +2516,20 @@ export function takeFloorVote(world: World, input: FloorVoteInput): World {
         : membership,
   );
   if (present < requiredQuorum.requiredVotes)
-    throw new Error(
-      `The ${chamber.name} cannot transact business: ${quorum.label} (${present} present, ${requiredQuorum.requiredVotes} required).`,
-    );
+    return appendAction(world, {
+      measure,
+      kind: "quorum-not-present",
+      stableKey: `${input.stableKey}:quorum-not-present`,
+      chamberKey: chamber.chamberKey,
+      committeeKey: null,
+      floorStageKey: stage.stageKey,
+      actorLabel: chamber.name,
+      rationale: `${quorum.label}: ${present} members were present; ${requiredQuorum.requiredVotes} were required.`,
+      summary: `The ${chamber.name} could not transact business on ${measure.designation}: ${present} present, ${requiredQuorum.requiredVotes} required for quorum.`,
+      eventType: "legislation.quorum-not-present",
+      tags: ["legislation.procedure"],
+      vote,
+    });
 
   const passed = vote.outcome === "passed";
   const onward = nextFloorStageKey(chamber, stage.stageKey);

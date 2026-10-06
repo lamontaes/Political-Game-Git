@@ -1051,6 +1051,199 @@ export interface DecideFloorHoldResult {
   readonly held: boolean;
 }
 
+export type QuorumAttendanceReason = Omit<
+  DecisionConsideration,
+  "optionKey"
+> & {
+  readonly optionKey: "stay" | "walk-out";
+};
+
+export interface DecideQuorumAttendanceInput {
+  readonly measureId: EntityId;
+  readonly chamberKey: string;
+  readonly stableKey: string;
+  readonly members: readonly SeatedMember[];
+  readonly playerPersonId?: EntityId | null;
+  readonly playerChoice?: "stay" | "walk-out" | null;
+  readonly leadershipRequests?: ReadonlyMap<EntityId, QuorumAttendanceReason>;
+  readonly homeOpinions?: ReadonlyMap<EntityId, QuorumAttendanceReason>;
+  readonly traitReasons?: ReadonlyMap<
+    EntityId,
+    readonly QuorumAttendanceReason[]
+  >;
+}
+
+export interface QuorumAttendanceDecision {
+  readonly memberKey: string;
+  readonly personId: EntityId | null;
+  readonly attendance: "present" | "walk-out";
+  readonly reason: string;
+}
+
+/** Every seated member decides to attend or walk out using the chamber's data. */
+export function decideQuorumAttendance(
+  world: World,
+  input: DecideQuorumAttendanceInput,
+): readonly QuorumAttendanceDecision[] {
+  const measure = requireMeasure(world, input.measureId);
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  const chamber = chamberByKey(pack, input.chamberKey);
+  const procedure = minorityPartyProcedureRows(pack).find(
+    (row) => row.chamberKey === input.chamberKey,
+  );
+  if (procedure?.quorum.kind !== "known")
+    throw new Error(`The ${chamber.name} has no resolved quorum rule.`);
+  const mayCompelAttendance = procedure.mayCompelAttendance;
+  const absencePenalty = procedure.absencePenalty;
+  if (mayCompelAttendance.kind !== "known" || absencePenalty.kind !== "known")
+    throw new Error(`The ${chamber.name} has no resolved attendance rules.`);
+
+  return input.members.map((member) => {
+    const personId = member.personId;
+    if (!personId)
+      return {
+        memberKey: member.memberKey,
+        personId: null,
+        attendance: "present",
+        reason: "member:unidentified-member-attends",
+      };
+    if (personId === input.playerPersonId) {
+      if (!input.playerChoice)
+        return {
+          memberKey: member.memberKey,
+          personId,
+          attendance: "present",
+          reason: "player:attendance-not-chosen",
+        };
+      return {
+        memberKey: member.memberKey,
+        personId,
+        attendance: input.playerChoice === "walk-out" ? "walk-out" : "present",
+        reason:
+          input.playerChoice === "walk-out"
+            ? "player:chose-to-walk-out"
+            : "player:chose-to-attend",
+      };
+    }
+
+    const ownReasons = memberVoteConsiderations(world, {
+      stableKey: `${input.stableKey}:${member.memberKey}:view`,
+      personId,
+      question: {
+        question: {
+          measureId: measure.id,
+          purpose: "floor-stage",
+          forumKey: input.chamberKey,
+          floorStageKey: measurePosition(world, measure.id).floorStageKey,
+          amendmentStableKey: null,
+          provisionKey: null,
+        },
+        questionLabel: "Whether to take up this measure today",
+      },
+    }).flatMap((reason) => {
+      if (reason.optionKey !== "vote-yea" && reason.optionKey !== "vote-nay")
+        return [];
+      const favorsMeasure = reason.optionKey === "vote-yea";
+      return [
+        {
+          ...reason,
+          stableKey: `member:quorum-attendance:${reason.stableKey}`,
+          optionKey: favorsMeasure ? "stay" : "walk-out",
+          explanation: favorsMeasure
+            ? "The member wants this measure considered, which weighs in favor of attending."
+            : "The member opposes this measure, which weighs in favor of staying away.",
+        },
+      ];
+    });
+    const leaderRequest = input.leadershipRequests?.get(personId);
+    const homeOpinion = input.homeOpinions?.get(personId);
+    const traitReasons = input.traitReasons?.get(personId) ?? [];
+    const attendanceRuleReason: QuorumAttendanceReason | null =
+      mayCompelAttendance.value && absencePenalty.value === "chamber-prescribed"
+        ? {
+            stableKey: "attendance:compel-and-penalty-rule",
+            optionKey: "stay",
+            sourceType: "context:chamber-attendance-rule",
+            direction: "supports",
+            importance: "slight",
+            confidence: "medium",
+            explanation:
+              "This chamber can compel attendance and prescribes a penalty for absence.",
+            sourceRefs: [],
+          }
+        : null;
+    const considerations = [
+      ...ownReasons,
+      ...(leaderRequest
+        ? [{ ...leaderRequest, stableKey: `leader:${leaderRequest.stableKey}` }]
+        : []),
+      ...(homeOpinion
+        ? [{ ...homeOpinion, stableKey: `home:${homeOpinion.stableKey}` }]
+        : []),
+      ...traitReasons.map((reason) => ({
+        ...reason,
+        stableKey: `trait:${reason.stableKey}`,
+      })),
+      ...(attendanceRuleReason ? [attendanceRuleReason] : []),
+    ];
+    const evaluation = evaluateDecision(world, {
+      stableKey: `${input.stableKey}:${member.memberKey}:attendance`,
+      decisionType: "legislation.quorum-attendance",
+      actorPersonId: personId,
+      cutoff: currentHistoricalCutoff(world),
+      subject: {
+        kind: "context:legislative-question",
+        key: `${measure.stableKey}:quorum-attendance`,
+        entityId: measure.id,
+      },
+      options: [
+        {
+          key: "stay",
+          label: "Attend the sitting",
+          description: "Be present when the chamber considers the measure.",
+        },
+        {
+          key: "walk-out",
+          label: "Stay away",
+          description: "Withhold a quorum for the chamber's business.",
+        },
+      ],
+      constraints: [],
+      considerations,
+      perceptionIds: [],
+      randomness: "none",
+      retention: "durable",
+    });
+    const attendance =
+      evaluation.selectedOptionKey === "walk-out" ? "walk-out" : "present";
+    const decisive = considerations.find(
+      (reason) => reason.optionKey === evaluation.selectedOptionKey,
+    );
+    return {
+      memberKey: member.memberKey,
+      personId,
+      attendance,
+      reason: decisive?.stableKey ?? "member:no-attendance-reason",
+    };
+  });
+}
+
+/** Apply attendance choices to the chamber's otherwise-decided roll call. */
+export function applyQuorumAttendanceToBallots(
+  ballots: readonly LegislativeVoteDisposition[],
+  attendance: readonly QuorumAttendanceDecision[],
+): readonly LegislativeVoteDisposition[] {
+  const byMember = new Map(
+    attendance.map((decision) => [decision.memberKey, decision]),
+  );
+  return ballots.map((ballot) => {
+    const decision = byMember.get(ballot.memberKey);
+    return decision?.attendance === "walk-out"
+      ? { ...ballot, disposition: "absent", reason: decision.reason }
+      : ballot;
+  });
+}
+
 /** Decide whether an individual member holds a floor under the body's rules. */
 export function decideFloorHold(
   world: World,

@@ -75,7 +75,9 @@ import {
   floorStageTakesAmendments,
 } from "./chamber-procedure";
 import {
+  applyQuorumAttendanceToBallots,
   decideChamberVote,
+  decideQuorumAttendance,
   publicPartyOf,
   seatedChamberForPack,
 } from "./chamber-votes";
@@ -989,15 +991,27 @@ export function applyInstitutionStep(
         kind: "blocked",
         reason: `The ${chamber.name} has no recorded member decisions on this question.`,
       };
+    const attendance = decideQuorumAttendance(world, {
+      measureId,
+      chamberKey,
+      stableKey: `${stableKey}:attendance`,
+      members: body.members,
+      playerPersonId:
+        world.control.kind === "person" ? world.control.personId : null,
+    });
+    const dispositions = applyQuorumAttendanceToBallots(
+      decided.dispositions,
+      attendance,
+    );
     return applyInstitutionFloorVote(
       onFloor,
       {
         stableKey,
         measureId,
-        dispositions: decided.dispositions,
+        dispositions,
         presentMembers:
           decided.method === "member-decisions"
-            ? present(decided.dispositions)
+            ? present(dispositions)
             : body.members.length,
         electedMembers: body.members.length,
         provenance: local
