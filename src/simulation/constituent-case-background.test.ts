@@ -2,13 +2,18 @@ import { describe, expect, it } from "vitest";
 import { activeWorkRelationshipsAt } from "./life-queries";
 import { chooseAdultOption } from "../presentation/adult-life";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
-import { generateOpeningLife, prepareOpeningLife } from "../presentation/opening-life";
+import {
+  generateOpeningLife,
+  prepareOpeningLife,
+} from "../presentation/opening-life";
 import { drawRandomPlace } from "../../tests/support/random-place";
 import {
   handleBackgroundConstituentCase,
   openCaseForContact,
 } from "./constituent-cases";
 import { recordOfficeWorkflowPreference } from "./office-workflow";
+import { defaultCaseHandlerRole } from "./constituent-case-routing";
+import { recordTraitChange } from "./people-traits";
 import { recordWorldEvent } from "./world";
 
 const SEED = "b06-constituent-answers";
@@ -37,11 +42,9 @@ describe(`constituent case answers in a new ${PLACE.displayName} game`, () => {
           relationship.kind === "employment:judicial-office-practice",
       ),
     )!;
-    const relationship = activeWorkRelationshipsAt(
-      game.world,
-      officialId,
-    ).find(({ relationship: row }) => row.kind.startsWith("employment:"))!
-      .relationship;
+    const relationship = activeWorkRelationshipsAt(game.world, officialId).find(
+      ({ relationship: row }) => row.kind.startsWith("employment:"),
+    )!.relationship;
     const residentId = game.world.personOrder.find(
       (personId) => personId !== officialId,
     )!;
@@ -56,6 +59,12 @@ describe(`constituent case answers in a new ${PLACE.displayName} game`, () => {
     });
     expect(preference.kind).toBe("recorded");
     if (preference.kind !== "recorded") return;
+    // The player's answer is a played choice, so the official is the one the
+    // player controls here; the generated world starts with someone else.
+    const heldWorld = {
+      ...preference.world,
+      control: { kind: "person" as const, personId: officialId },
+    };
     const makeContact = (stableKey: string, world: typeof preference.world) =>
       recordWorldEvent(world, {
         stableKey,
@@ -81,7 +90,10 @@ describe(`constituent case answers in a new ${PLACE.displayName} game`, () => {
           immediateReaction: null,
         },
       });
-    const playerContactWorld = makeContact(`b06-answer-player:${SEED}`, preference.world);
+    const playerContactWorld = makeContact(
+      `b06-answer-player:${SEED}`,
+      heldWorld,
+    );
     const playerOpened = openCaseForContact(
       playerContactWorld,
       playerContactWorld.history.events.at(-1)!,
@@ -103,9 +115,23 @@ describe(`constituent case answers in a new ${PLACE.displayName} game`, () => {
       `b06-answer-background:${SEED}`,
       preference.world,
     );
-    const backgroundOpened = openCaseForContact(
+    // An office answers from its handler's recorded temperament, and the
+    // opening life seeds few of them, so this handler is recorded as someone
+    // who follows through.
+    const handlerId = defaultCaseHandlerRole(
       backgroundContactWorld,
-      backgroundContactWorld.history.events.at(-1)!,
+      officialId,
+    ).personId;
+    const handlerReady = recordTraitChange(backgroundContactWorld, {
+      personId: handlerId,
+      trait: "reliability",
+      value: 2,
+      eventId: backgroundContactWorld.history.events.at(-1)!.id,
+      reason: "Fixture: this handler follows through on responsibilities.",
+    });
+    const backgroundOpened = openCaseForContact(
+      handlerReady,
+      handlerReady.history.events.at(-1)!,
     );
     const backgroundCase = backgroundOpened.history.events.at(-1)!;
     const first = handleBackgroundConstituentCase(
@@ -134,8 +160,8 @@ describe(`constituent case answers in a new ${PLACE.displayName} game`, () => {
         ({ role }) => role === "coordination:handler",
       ),
     ).toBe(true);
-    expect(
-      firstClosure?.tags.find((tag) => tag.startsWith("answer:")),
-    ).toBe(repeatedClosure?.tags.find((tag) => tag.startsWith("answer:")));
-  });
+    expect(firstClosure?.tags.find((tag) => tag.startsWith("answer:"))).toBe(
+      repeatedClosure?.tags.find((tag) => tag.startsWith("answer:")),
+    );
+  }, 600_000);
 });

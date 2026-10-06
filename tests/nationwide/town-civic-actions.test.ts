@@ -10,6 +10,8 @@ import {
   resolveFutureDueItemsThrough,
   scheduleFutureDueItem,
 } from "../../src/simulation/future-transitions";
+import { officialViewReflectionHandler } from "../../src/simulation/living-world/official-views";
+import { OFFICIAL_VIEW_TRANSITION_KEY } from "../../src/simulation/law-exposure";
 import { describe, expect, it } from "vitest";
 import {
   deserializeWorld,
@@ -80,9 +82,12 @@ describe(
       }
       return isolated;
     });
-    const councilHandlers = createFutureTransitionHandlerRegistry(
-      localCouncilMeetingHandlers(),
-    );
+    // A closed office case schedules the resident's reflection, so the
+    // production reflection handler runs beside the council meetings.
+    const councilHandlers = createFutureTransitionHandlerRegistry([
+      ...localCouncilMeetingHandlers(),
+      [OFFICIAL_VIEW_TRANSITION_KEY, officialViewReflectionHandler],
+    ]);
     let events: World["history"]["events"] = [];
     const quarters: World[] = [];
     function observeYear(): void {
