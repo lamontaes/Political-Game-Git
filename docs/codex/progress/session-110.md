@@ -1,3 +1,28 @@
+# Usage-limit handoff — October 6, 2026, 17:55 UTC
+
+Owner requested fast natural handoff; no new tasks. Current workspace `/workspace/Political-Game-Git`, branch `session-110/b18-p5`. Source local AND verified published remote head `4b06295c90daae227a23f5941d5c19ce5e52a075`; main base `3e61cdf6de1f8e5105622e8328d1012b8514a51c`. This marker-only follow-up commit is published next; final exact ref is recorded on #2424. Draft [#2755](https://github.com/lamontaes/Political-Game-Git/pull/2755), NOT READY. No source dirty after commit; preserve untracked `/workspace/Political-Game-Git/session110-recall-probe.config.ts`.
+
+Protests: named field-reach invitations, recorded NPC decisions with beliefs/standing/actual shifts, ignored-human guard, one attendance counter, public turnout event/reload, local cause input only. Venue category data is source-grounded; actual parcel availability/permits are not established by it. Canonical calendar, human played action, official decision consumption and below-state pressure units remain unresolved (board6021997924). No playable/generated-world/real-law consequence claim.
+
+Executed receipts: final protest Vitest handle8133 TERMINAL exit1, 5/6 PASS18.04s at17:53:32UTC; retained publication assertion fails at protest-attendance.test.ts303 (desk lead exists, publication absent). Log `/tmp/session110-protest-handoff-check.log`. Changed ESLint/Prettier PASS. Actual release comparison `3e61cdf6..4b06295c --mode pr` PASS1712 pending, `/tmp/session110-protest-release-handoff.log`. Earlier npm typecheck26014 TERMINAL exit1: own draft contract diagnostics plus Session132-owned senate-appointment-window provenance.note; own errors corrected afterward but NOT recompiled. Log `/tmp/session110-protest-typecheck.log`. No live test/compiler/speed handles. Prior protest probes logs `/tmp/session110-protest-{first,second,third,fourth,fifth}-check.log` preserved, not gate PASS.
+
+Other published work: founder draft[#2750](https://github.com/lamontaes/Political-Game-Git/pull/2750) local/remote `25b1428c2e0f63779e143a2b8e4313ad0d0285ba`, six scoped PASS17.86s at17:29:07; own full consumer16/18 versus exact baseline17/18, retain test512 own recorded-goal regression and baseline hearing failure separately. Logs `/tmp/session110-founder-law-exposure-{regression,baseline}.log`; fixture/action-day holder31 question6021682748. Founder branch retained in primary, no dirty founder copy. Ballot draft[#2746](https://github.com/lamontaes/Political-Game-Git/pull/2746) retained `/tmp/session-110-signers-check`, branch `session-110/b18-p3`, local/remote `bfad65a8d6536d8d191ebb76c601fc19f6ad9797`; seven scoped PASS20.34s, canonical citizen enactment writer21 pending, no next-day lawInForce claim. Its art symlink creates fake tracked deletions: NEVER stage them.
+
+Earlier drafts2726(d171412f),2727(d7221295),2728(0a36ef18) remain separate source26/group31/played ballot seams. Rules2731,signers2735,fixture2745 landed; no old CI transfer. Full legacy recall34839/95498 OOM remains NOT PASS; last unresolved test recall.test359 cached ordinaryStart recall-A, no rerun. Preserve `/tmp/session110-recall-heap-probe.log`, `-heap-events.jsonl`, `-worker-snapshot.txt`, `/tmp/session-110-petition-rules-final.log`, publisher scripts `/tmp/session110-publish.py` and `-publish-new.py`, all other-owner evidence/temp files. No reset/stash/clean/new workspace.
+
+EXACT next action in existing primary workspace:
+
+```bash
+cd /workspace/Political-Game-Git
+sed -n '185,250p' src/simulation/press/desk.ts
+tail -45 /tmp/session110-protest-handoff-check.log
+npm run typecheck > /tmp/session110-protest-resumed-typecheck.log 2>&1
+```
+
+Inspect canonical publication versus archive idempotence and actual reporter work before any repair; preserve the failing assertion. Receive actual main and only actual conflicts after saving, follow newest CTO typecheck-before-READY rule; no new feature tasks while handoff stop remains in force.
+
+---
+
 # Session 110
 
 Board #2424. Current branch session-110/b18-p2-s1, base ae27b4da00da3d9391a9d4c34776f1ef28f436cc; claim6019477505. One recall.ts writer, signers b18-p2-s2 sequenced after this.
