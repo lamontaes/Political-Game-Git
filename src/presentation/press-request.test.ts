@@ -93,8 +93,9 @@ describe("ordinary press structured statements", () => {
     expect(question.statement).toContain(
       "The council published the hearing notice.",
     );
-    expect(question.statement).toContain("What happened?");
-    expect(question.statement).not.toContain("still open");
+    expect(question.statement).toContain(
+      "What is established, and what is still open?",
+    );
   });
 
   it("composes an exact answer from recorded facts before commit", () => {
