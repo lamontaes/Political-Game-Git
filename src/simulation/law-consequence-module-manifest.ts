@@ -2,6 +2,7 @@
 import type { AnyLawConsequenceKindRegistration } from "./law-consequence-types";
 import type { PublicProgramCapacityOutturnReceiverRegistration } from "./public-program-capacity-outturn";
 import * as lawConsequenceElectionStateLandingsRegistrations from "./law-consequences/modules/election-state-landings";
+import * as lawConsequenceGovernmentOperationsRegistrations from "./law-consequences/modules/government-operations";
 
 interface GeneratedLawConsequenceModule {
   readonly registrations: readonly AnyLawConsequenceKindRegistration[];
@@ -9,9 +10,15 @@ interface GeneratedLawConsequenceModule {
 }
 
 const GENERATED_LAW_CONSEQUENCE_MODULES: readonly GeneratedLawConsequenceModule[] =
-  [lawConsequenceElectionStateLandingsRegistrations];
+  [
+    lawConsequenceElectionStateLandingsRegistrations,
+    lawConsequenceGovernmentOperationsRegistrations,
+  ];
 
-export const LAW_CONSEQUENCE_MODULE_KEYS = ["election-state-landings"] as const;
+export const LAW_CONSEQUENCE_MODULE_KEYS = [
+  "election-state-landings",
+  "government-operations",
+] as const;
 
 export const LAW_CONSEQUENCE_MODULE_REGISTRATIONS: readonly AnyLawConsequenceKindRegistration[] =
   Object.freeze(
