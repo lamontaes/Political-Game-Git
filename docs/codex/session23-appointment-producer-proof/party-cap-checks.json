@@ -1,0 +1,48 @@
+{
+  "status": "INCOMPLETE: existing appointment fixtures lack positive affiliation evidence; assertions unchanged",
+  "composition": "0677afa9cc0c313660d77a867e1434977036bc75",
+  "rule": "Use canonical public party organization identity, including minor parties; missing affiliation cannot prove compliance when it could exceed the two-member cap.",
+  "ownerQuestion": "https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6016417685",
+  "receipts": [
+    {
+      "log": "/tmp/session23-p3-party-cap-tests.log",
+      "exitCode": 1,
+      "sha256": "e7814fbf9e5efe61660b84f6f8f8cbcb3fc4e8d97349b84e79034301a9ee7c8d",
+      "tail": " \u276f createOrganization src/simulation/life.ts:370:3\n \u276f affiliated src/simulation/governing/executive-appointment-eligibility.test.ts:105:12\n \u276f src/simulation/governing/executive-appointment-eligibility.test.ts:135:17\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af[4/6]\u23af\n\n FAIL  src/simulation/governing/executive-appointment-eligibility.test.ts > executive board party eligibility > keeps an unknown affiliation unverified whenever it could change the statutory cap\nError: Organization classification must use a recognized semantic namespace and stable content key: civic:political-party\n \u276f assertOpenTaxonomyKey src/simulation/taxonomy.ts:307:11\n    305| ): asserts value is `${Namespace}:${string}` {\n    306|   if (!isOpenTaxonomyKey(value, namespaces)) {\n    307|     throw new Error(\n       |           ^\n    308|       `${label} must use a recognized semantic namespace and stable co\u2026\n    309|     );\n \u276f validateOrganizationProfile src/simulation/life.ts:2017:3\n \u276f createOrganization src/simulation/life.ts:370:3\n \u276f affiliated src/simulation/governing/executive-appointment-eligibility.test.ts:105:12\n \u276f src/simulation/governing/executive-appointment-eligibility.test.ts:163:17\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af[5/6]\u23af\n\n FAIL  src/simulation/governing/executive-appointments.test.ts > named executive appointment vacancy evidence > a governor's actual choice records nomination lineage without seating or a favor\nAssertionError: expected [] to include 'person_50fa04ff0525585e'\n \u276f src/simulation/governing/executive-appointments.test.ts:425:61\n    423|     )!;\n    424|     expect(matter.deadline).toBeNull();\n    425|     expect(matter.options.map((option) => option.personId)).toContain(\n       |                                                             ^\n    426|       candidate,\n    427|     );\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af[6/6]\u23af\n\n\n Test Files  3 failed (3)\n      Tests  6 failed | 6 passed (12)\n   Start at  12:41:15\n   Duration  42.35s (transform 24.89s, setup 69ms, import 39.35s, tests 2.21s, environment 2ms)\n"
+    },
+    {
+      "log": "/tmp/session23-p3-party-cap-types.log",
+      "exitCode": 2,
+      "sha256": "4a61b16a9c23d176dabce64b7840a8523d2fa892942ef6b43a16fff25e96734d",
+      "tail": "src/simulation/governing/executive-appointment-eligibility.test.ts(111,9): error TS2322: Type '\"civic:political-party\"' is not assignable to type '`sector:${string}` | `membership:${string}` | `service:${string}` | `enterprise:${string}` | `community:${string}` | `international:${string}` | `custom:${string}`'."
+    },
+    {
+      "log": "/tmp/session23-p3-party-cap-final-focused.log",
+      "exitCode": 0,
+      "sha256": "38b491f53e9351f1f9c1bcca0aae2b6dc9f3b9f530ffc146259283a97f024c87",
+      "tail": "  - import \"./identity\" without a file extension (scripts/dev-lab/vite-identity.ts:3:32). Add the file extension\n  - import \"../../src/authoring/artbench\" without a file extension (scripts/dev-lab/artbench-bridge.ts:19:8). Add the file extension\n  - import \"./raster-decode\" without a file extension (scripts/dev-lab/art-desk-bridge.ts:34:30). Add the file extension\n  - import \"../../src/authoring/art-desk-cards\" without a file extension (scripts/dev-lab/artbench-bridge.ts:26:8). Add the file extension\n  - import \"./art-desk-inputs\" without a file extension (scripts/dev-lab/art-desk-bridge.ts:36:43). Add the file extension\n  - import \"../../src/authoring/art-desk-request-code\" without a file extension (scripts/dev-lab/artbench-bridge.ts:27:36). Add the file extension\n  - import \"./art-desk-bridge\" without a file extension (scripts/dev-lab/artbench-bridge.ts:28:50). Add the file extension\n  - import \"./artbench-store\" without a file extension (scripts/dev-lab/artbench-bridge.ts:36:8). Add the file extension\n  - import \"./raster-decode\" without a file extension (scripts/dev-lab/art-desk-inputs.ts:14:30). Add the file extension\n  - import \"./artbench-thumbnails\" without a file extension (scripts/dev-lab/artbench-bridge.ts:37:32). Add the file extension\n  - import \"./asset-request\" without a file extension (src/authoring/art-desk-request-code.ts:1:35). Add the file extension\n  - import \"../../src/authoring/artbench\" without a file extension (scripts/dev-lab/artbench-store.ts:63:8). Add the file extension\n  - import \"./asset-request\" without a file extension (src/authoring/art-desk-cards.ts:1:35). Add the file extension\n  - import \"./artbench\" without a file extension (src/authoring/art-desk-request-code.ts:2:41). Add the file extension\n  - import \"../../src/authoring/asset-request\" without a file extension (scripts/dev-lab/artbench-store.ts:64:35). Add the file extension\n  - import \"./art-desk-usage\" without a file extension (src/authoring/art-desk-cards.ts:2:55). Add the file extension\n  - import \"../../src/authoring/art-desk-request-code\" without a file extension (scripts/dev-lab/artbench-store.ts:68:8). Add the file extension\n  - import \"./art-desk-request-code\" without a file extension (src/authoring/art-desk-cards.ts:6:8). Add the file extension\n  - import \"../../src/authoring/art-desk-cards\" without a file extension (scripts/dev-lab/artbench-store.ts:69:40). Add the file extension\n  - import \"./artbench\" without a file extension (src/authoring/art-desk-cards.ts:15:8). Add the file extension\n  - import \"../../src/authoring/asset-review\" without a file extension (scripts/dev-lab/artbench-store.ts:70:42). Add the file extension\n  - import \"./artbench\" without a file extension (src/authoring/art-desk-cards.ts:16:34). Add the file extension\n  - import \"../../src/authoring/art-desk-notifications\" without a file extension (scripts/dev-lab/artbench-store.ts:71:38). Add the file extension\n  - import \"./art-desk-inputs\" without a file extension (scripts/dev-lab/artbench-store.ts:72:27). Add the file extension\n  - import \"./raster-decode\" without a file extension (scripts/dev-lab/artbench-store.ts:73:50). Add the file extension\n  - import \"./artbench\" without a file extension (src/authoring/art-desk-usage.ts:1:61). Add the file extension\n  - import \"./asset-request\" without a file extension (src/authoring/artbench.ts:18:35). Add the file extension\n  - import \"./artbench\" without a file extension (src/authoring/art-desk-notifications.ts:1:59). Add the file extension\n  - import \"./asset-review\" without a file extension (src/authoring/artbench.ts:19:42). Add the file extension\n  - import \"./art-desk-cards\" without a file extension (src/authoring/art-desk-notifications.ts:7:8). Add the file extension\nSet `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.\n\n RUN  v4.1.1 /workspace/Political-Game-Git\n\n\n Test Files  1 passed (1)\n      Tests  2 passed (2)\n   Start at  12:43:40\n   Duration  29.50s (transform 23.77s, setup 46ms, import 28.96s, tests 318ms, environment 1ms)\n"
+    },
+    {
+      "log": "/tmp/session23-p3-party-cap-final-types.log",
+      "exitCode": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tail": ""
+    },
+    {
+      "log": "/tmp/session23-p3-party-cap-final-lint.log",
+      "exitCode": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tail": ""
+    },
+    {
+      "log": "/tmp/session23-p3-party-cap-final-format.log",
+      "exitCode": 0,
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "tail": "Checking formatting...\nAll matched files use Prettier code style!"
+    }
+  ],
+  "checkedFiles": {
+    "src/simulation/governing/executive-appointment-eligibility.ts": "ae513378a70137a1228f87582d5d03a9246e645b91a6c2b80580e9ded25085e7",
+    "src/simulation/governing/executive-appointment-eligibility.test.ts": "13772f63102c30bae299143395361b892c0d264675f6c61e51a4efcacec3b49c"
+  }
+}

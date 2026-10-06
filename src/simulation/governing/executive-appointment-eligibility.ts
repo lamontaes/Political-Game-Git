@@ -4,7 +4,8 @@ import {
   organizationProfileAt,
 } from "../life-queries";
 import type { EntityId, World } from "../types";
-import { publicPartyOf } from "./chamber-votes";
+import { publicPartyAffiliation } from "../living-world/congress";
+import { partyUnit, partyUnitStatusAt } from "../living-world/party-registry";
 import { executiveAppointmentPost } from "./executive-appointment-posts";
 import {
   latestExecutiveAppointmentSeat,
@@ -59,18 +60,30 @@ export function executiveAppointmentEligibility(
         return "fails";
     }
   }
-  const party = publicPartyOf(world, person.id);
+  const party = nationalPartyIdentity(world, person.id);
   let sameParty = 0;
+  let unknownParty = 0;
+  let incumbents = 0;
   for (let seat = 1; seat <= post.seats; seat += 1) {
     const term = latestExecutiveAppointmentSeat(world, post.officeKey, seat);
-    if (!term || term.type !== "world.office-tenure") continue;
+    if (!term) {
+      // Missing opening evidence cannot establish an empty seat.
+      unknownParty += 1;
+      incumbents += 1;
+      continue;
+    }
+    if (term.type !== "world.office-tenure") continue;
     const end = appointmentTag(term, "term-end:");
     if (end && end <= world.currentDate) continue;
     const holder = term.participants.find(
       (participant) => participant.role === "focus:subject",
     )?.personId;
+    if (!holder) {
+      unknownParty += 1;
+      incumbents += 1;
+      continue;
+    }
     if (
-      !holder ||
       world.history.personDeaths.some(
         (death) =>
           death.personId === holder && death.diedAt <= world.currentDate,
@@ -78,8 +91,10 @@ export function executiveAppointmentEligibility(
     )
       continue;
     if (holder === person.id) return "fails";
-    if (party !== null && publicPartyOf(world, holder) === party)
-      sameParty += 1;
+    incumbents += 1;
+    const incumbentParty = nationalPartyIdentity(world, holder);
+    if (incumbentParty === null) unknownParty += 1;
+    else if (party !== null && incumbentParty === party) sameParty += 1;
   }
   if (
     party !== null &&
@@ -87,5 +102,34 @@ export function executiveAppointmentEligibility(
     sameParty >= post.samePartyLimit
   )
     return "fails";
+  if (
+    post.samePartyLimit !== null &&
+    (party === null ? incumbents : sameParty + unknownParty) >=
+      post.samePartyLimit
+  )
+    return "unverified";
   return "meets";
+}
+
+/** Resolve existing public affiliation to the actual party's root unit.
+ * A chapter is not a separate party, and missing identity is not unaffiliated. */
+function nationalPartyIdentity(
+  world: World,
+  personId: EntityId,
+): EntityId | null {
+  let organizationId = publicPartyAffiliation(world, personId);
+  const seen = new Set<EntityId>();
+  while (organizationId) {
+    if (seen.has(organizationId)) return null;
+    seen.add(organizationId);
+    const unit = partyUnit(world, organizationId);
+    if (!unit || partyUnitStatusAt(world, organizationId).kind !== "active")
+      return null;
+    if (unit.parentOrganizationId) {
+      organizationId = unit.parentOrganizationId;
+      continue;
+    }
+    return unit.level === "national" ? unit.organizationId : null;
+  }
+  return null;
 }
