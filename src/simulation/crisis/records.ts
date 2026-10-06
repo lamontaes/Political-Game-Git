@@ -239,7 +239,7 @@ function validateCrisisRecords(
   let previousSequence = -1;
   for (const record of records) {
     if (record.schemaVersion !== CRISIS_RECORD_SCHEMA)
-      fail(record, "unknown schema version");
+      fail(record, "schema version does not match the crisis record schema");
     if (keys.has(record.stableKey)) fail(record, "duplicate stable key");
     keys.add(record.stableKey);
     if (record.id !== crisisRecordId(world, record.stableKey))
@@ -285,7 +285,7 @@ function validateCrisisRecords(
       }
       case "mortality-calibration":
         if (!MORTALITY_CALIBRATION_CATEGORIES.includes(record.category))
-          fail(record, "unknown calibration category");
+          fail(record, "calibration category is not in the recorded catalog");
         if (!record.basis.trim()) fail(record, "calibration needs a basis");
         break;
       case "health-episode":
@@ -307,7 +307,7 @@ function validateCrisisRecords(
       case "health-state": {
         const episode = episodes.get(record.episodeId);
         if (!episode || episode.personId !== record.personId)
-          fail(record, "state for an unknown episode");
+          fail(record, "state has no earlier matching episode");
         const prior = latestState.get(record.episodeId);
         if (prior?.state === "deceased" || prior?.state === "recovered")
           fail(record, "episode already ended");
@@ -326,7 +326,7 @@ function validateCrisisRecords(
       case "health-disclosure": {
         const episode = episodes.get(record.episodeId);
         if (!episode || episode.personId !== record.personId)
-          fail(record, "disclosure for an unknown episode");
+          fail(record, "disclosure has no earlier matching episode");
         const prior = latestDisclosure.get(record.episodeId);
         if (
           prior &&
@@ -334,12 +334,12 @@ function validateCrisisRecords(
         )
           fail(record, "disclosed information cannot become less known");
         if (record.recipientIds.some((id) => !world.people[id]))
-          fail(record, "unknown disclosure recipient");
+          fail(record, "disclosure recipient is not a recorded person");
         if (
           record.decidedByPersonId !== null &&
           !world.people[record.decidedByPersonId]
         )
-          fail(record, "unknown disclosure decider");
+          fail(record, "disclosure decider is not a recorded person");
         latestDisclosure.set(record.episodeId, record);
         break;
       }
@@ -384,7 +384,7 @@ function validateCrisisRecords(
       case "disaster-assessment":
       case "disaster-response":
         if (!hazards.has(record.episodeId))
-          fail(record, "response for an unknown hazard episode");
+          fail(record, "response has no earlier matching hazard episode");
         break;
       case "repair-progress": {
         const damage = damages.get(record.damageId);
@@ -413,7 +413,7 @@ function validateCrisisRecords(
       case "counterparty-response":
       case "war-powers":
         if (!crises.has(record.crisisId))
-          fail(record, "record for an unknown international crisis");
+          fail(record, "record has no earlier matching international crisis");
         if (
           record.kind === "war-powers" &&
           record.terminationAt !== null &&

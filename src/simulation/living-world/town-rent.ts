@@ -187,11 +187,13 @@ export const RENT_LAW_KEYS = {
 // ─── Numbers ────────────────────────────────────────────────────────────
 
 /**
- * PLACEHOLDER(research: who-owns-rental-homes). Who owns a rented home of
- * each kind: a person, a business or the public housing body. Set near the
- * Census Rental Housing Finance Survey picture as remembered (individual
- * owners hold most rented houses and a minority of apartments; public
- * housing is a few percent of rented homes), not read from the table.
+ * ESTIMATED FROM AVERAGE: who owns a rented home of each kind—a person, a
+ * business or the public housing body. Basis: the nationwide Census Rental
+ * Housing Finance Survey pattern recorded when this model was authored:
+ * individual owners hold most rented houses and a minority of apartments,
+ * while public housing is a few percent of rented homes. Places used: the
+ * survey's United States rental properties, applied to every supported place
+ * until that place records its own ownership mix.
  */
 export const LANDLORD_SHARES: Readonly<
   Record<TownHomeKind, Readonly<Record<LandlordKind, number>>>
@@ -288,7 +290,10 @@ export function marketRentLevel(
  * tenant does, and the judge. The share of filings that end in eviction is a
  * result to check against the record (`EVICTION_MEASURED`), never a roll.
  *
- * PLACEHOLDER(research: eviction-filing-and-outcome), set by hand:
+ * ESTIMATED FROM AVERAGE. Basis: the recorded filing and judgment checks
+ * below plus the Providence, Rhode Island watched case. Places used:
+ * Providence for payment-plan behavior and the nationwide studies named in
+ * `EVICTION_MEASURED` for outcome checks:
  * - a landlord files at two months owed; a conciliatory person who rents out
  *   their own home waits a third month;
  * - a conciliatory person landlord settles a case up to three months behind;
@@ -1505,7 +1510,9 @@ function endpointKey(endpoint: ResourceEndpoint): string {
  * is not one of the tenants: the one letting the fewest homes, then the one
  * with the highest recorded pay (people with more means let more homes),
  * then by record. A firm is the one letting the fewest homes, then by
- * record. HARDWIRED, a PLACEHOLDER(research: who-lets-homes).
+ * record. ESTIMATED FROM AVERAGE: means and current holdings order otherwise
+ * eligible landlords. Basis: the town's recorded pay and property holdings;
+ * places used: all supported U.S. jurisdictions.
  */
 function chooseLandlord(
   world: World,

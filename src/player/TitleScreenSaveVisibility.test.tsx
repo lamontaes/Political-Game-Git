@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
 
@@ -47,23 +49,17 @@ function render(
   );
 }
 
-describe("the title screen distinguishes a set-aside save from none", () => {
-  it("does not invite a player to import one when a save was kept", () => {
+describe("the title screen shows saved-game counts as data only", () => {
+  it("shows the set-aside count on Continue and on Saved games", () => {
     const markup = render([], [SET_ASIDE]);
-    expect(markup).toContain("1 saved game needs attention");
-    expect(markup).not.toContain("None yet");
+    expect(markup).toMatch(/data-testid="continue-set-aside">1</);
+    expect(markup).toMatch(/Saved games<small>0 · 1</);
   });
 
-  it("says why Continue cannot be pressed rather than only disabling it", () => {
-    const markup = render([], [SET_ASIDE]);
-    expect(markup).toContain("continue-set-aside");
-    expect(markup).toContain("Your saved game needs attention");
-  });
-
-  it("still invites an import when the store really is empty", () => {
+  it("shows nothing under Saved games when the store is empty", () => {
     const markup = render([], []);
-    expect(markup).toContain("None yet");
-    expect(markup).not.toContain("needs attention");
+    expect(markup).not.toContain("continue-set-aside");
+    expect(markup).not.toContain("<small>");
   });
 
   it("counts the set-aside ones beside the healthy ones", () => {
@@ -73,8 +69,7 @@ describe("the title screen distinguishes a set-aside save from none", () => {
       playerAge: 24,
     } as unknown as BrowserWorldSummary;
     const markup = render([healthy], [SET_ASIDE]);
-    expect(markup).toContain("1 saved");
-    expect(markup).toContain("1 needs attention");
+    expect(markup).toMatch(/Saved games<small>1 · 1</);
   });
 });
 
@@ -97,33 +92,41 @@ describe("the title screen while the saved lives are being read", () => {
     );
   }
 
-  it("does not say there are none before the list has been read", () => {
-    // A 40 MB life takes a while to open; the empty list in the meantime
-    // read as "None yet".
+  it("shows no line while the list is being read", () => {
     const markup = renderListing("loading");
-    expect(markup).not.toContain("None yet");
-    expect(markup).toContain("Opening your saved lives");
+    expect(markup).toContain('data-listing="loading"');
+    expect(markup).not.toContain("<small>");
+    expect(markup).not.toContain('<p class="game-');
   });
 
-  it("reports a failed read as a failed read, not blocked storage", () => {
+  it("offers only Try again for a failed read", () => {
     const markup = renderListing("failed");
-    expect(markup).not.toContain("None yet");
-    expect(markup).not.toContain("will not let the game store anything");
-    expect(markup).toContain("could not be read just now");
-    expect(markup).toContain("Nothing was deleted");
+    expect(markup).toContain('data-testid="saves-unread"');
     expect(markup).toContain("Try again");
+    expect(markup).not.toContain('<p class="game-');
   });
 
-  it("asks for a reload when the saves were kept by a newer version", () => {
-    // A cached page from before an update cannot open a database the update
-    // already moved on; it showed no saves at all, as if the life were gone.
+  it("offers only Reload when the saves were kept by a newer version", () => {
     const markup = renderListing("outdated");
-    expect(markup).not.toContain("None yet");
-    expect(markup).not.toContain("Try again");
-    expect(markup).toContain("older copy of the game");
+    expect(markup).toContain('data-testid="saves-outdated"');
     expect(markup).toContain("Reload");
-    expect(markup).toContain("Nothing was deleted");
+    expect(markup).not.toContain("Try again");
+    expect(markup).not.toContain('<p class="game-');
   });
+});
+
+describe("the title and saves screens carry no authored sentence", () => {
+  it.each(["TitleScreen.tsx", "SavesScreen.tsx", "TitleTableau.tsx"])(
+    "%s has no sentence literal",
+    (file) => {
+      const text = readFileSync(join(__dirname, file), "utf8")
+        .split("\n")
+        .filter((line) => !/^\s*(\/\/|\*|\/\*)/.test(line))
+        .join("\n");
+      expect(text.match(/"[A-Z][^"]{25,}[.?!]"/g) ?? []).toEqual([]);
+      expect(text.match(/>[A-Z][a-z ,]{25,}/g) ?? []).toEqual([]);
+    },
+  );
 });
 
 describe("Observer Mode on the title screen", () => {
@@ -153,8 +156,8 @@ describe("Observer Mode on the title screen", () => {
       residence: { jurisdictionId: "j", name: "Webster Groves" },
     } as unknown as BrowserWorldSummary;
     const markup = render([watched], []);
-    expect(markup).toContain("Watching the world");
     expect(markup).not.toContain("Dana Reyes");
+    expect(markup).toContain("Webster Groves");
   });
 
   it("names the saved character's role beside their name", () => {

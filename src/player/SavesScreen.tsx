@@ -16,7 +16,6 @@ export function SavesScreen({
   store,
   saves,
   damaged,
-  savesUnavailable,
   saveListing,
   onRetrySaves,
   notice,
@@ -48,54 +47,29 @@ export function SavesScreen({
   return (
     <main className="game-saves" data-testid="saves-screen">
       <h1>Saved games</h1>
-      {savesUnavailable ? (
-        <p className="game-note">
-          This browser will not let the game store anything.
-        </p>
-      ) : null}
       {notice ? <p className="game-note">{notice}</p> : null}
       {problem ? (
         <p className="game-problem" role="alert">
           {problem}
         </p>
       ) : null}
-      {saveListing === "loading" ? (
-        <p className="game-note" data-testid="saves-reading">
-          Opening your saved lives. A long life can take a moment.
-        </p>
-      ) : null}
       {saveListing === "failed" ? (
-        <p className="game-problem" role="alert" data-testid="saves-unread">
-          Your saved lives could not be read just now. Nothing was deleted.{" "}
-          <button type="button" onClick={onRetrySaves}>
-            Try again
-          </button>
-        </p>
+        <button type="button" data-testid="saves-unread" onClick={onRetrySaves}>
+          Try again
+        </button>
       ) : null}
       {saveListing === "outdated" ? (
-        <p className="game-problem" role="alert" data-testid="saves-outdated">
-          This page is an older copy of the game than the one that kept your
-          saved lives. Reload the page to open them. Nothing was deleted.{" "}
-          <button type="button" onClick={reloadPage}>
-            Reload
-          </button>
-        </p>
-      ) : null}
-      {saves.length === 0 && !savesUnavailable && saveListing === "read" ? (
-        <p className="game-note" data-testid="saves-empty">
-          No lives are saved in this browser yet. You can import a saved life
-          below.
-        </p>
+        <button type="button" data-testid="saves-outdated" onClick={reloadPage}>
+          Reload
+        </button>
       ) : null}
       <ul>
         {saves.map((save) => (
           <li key={save.saveId} data-testid="save-entry">
             <div>
-              <strong>
-                {save.observing ? "Watching the world" : save.playerName}
-              </strong>
+              <strong>{save.observing ? "" : save.playerName}</strong>
               <span>
-                {save.observing ? "Nobody played" : save.playerAge}
+                {save.observing ? "" : save.playerAge}
                 {save.residence ? ` · ${save.residence.name}` : ""} ·{" "}
                 {proseDate(save.currentMoment.date)}
               </span>
@@ -123,10 +97,10 @@ export function SavesScreen({
                       setConfirming(null);
                     }}
                   >
-                    Delete for good
+                    Delete
                   </button>
                   <button type="button" onClick={() => setConfirming(null)}>
-                    Keep it
+                    Keep
                   </button>
                 </>
               ) : (
@@ -146,10 +120,6 @@ export function SavesScreen({
       {damaged.length > 0 ? (
         <section className="game-saves-damaged" data-testid="damaged-saves">
           <h2>Set aside</h2>
-          <p className="game-note">
-            These could not be opened. They are still here — nothing was thrown
-            away — and the rest of your games are unaffected.
-          </p>
           <ul>
             {damaged.map((entry, index) => (
               <li
@@ -157,17 +127,6 @@ export function SavesScreen({
                 data-testid="damaged-entry"
               >
                 <span>{entry.reason}</span>
-                {entry.defect === "could-not-open-now" ? (
-                  <span className="game-note">
-                    The browser would not read it this time, so it cannot be
-                    removed now either. Try again later.
-                  </span>
-                ) : entry.mightBeReadableLater ? (
-                  <span className="game-note">
-                    A later version of the game may be able to open it, so it is
-                    worth keeping for now.
-                  </span>
-                ) : null}
                 {entry.saveId && entry.defect !== "could-not-open-now" ? (
                   // Not offered for a save the browser would not read just
                   // now: removing it reads the whole record, and would fail
@@ -186,10 +145,10 @@ export function SavesScreen({
                           setConfirming(null);
                         }}
                       >
-                        Remove for good
+                        Remove
                       </button>
                       <button type="button" onClick={() => setConfirming(null)}>
-                        Keep it
+                        Keep
                       </button>
                     </>
                   ) : (
@@ -198,7 +157,7 @@ export function SavesScreen({
                       data-testid="delete-damaged"
                       onClick={() => setConfirming(entry.saveId as EntityId)}
                     >
-                      Remove it
+                      Remove
                     </button>
                   )
                 ) : null}

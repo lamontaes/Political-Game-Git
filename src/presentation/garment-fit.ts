@@ -271,7 +271,7 @@ export interface ValidatedGarmentFitBounds {
  * the envelope, and coherent with its partner. A missing field takes the
  * default; a present-but-wrong field is an error, never silently defaulted,
  * because a bank that says `"maxScale": null` is telling you something is
- * wrong with the bank. Unknown keys are refused for the same reason: a
+ * wrong with the bank. Unrecognized keys are refused for the same reason: a
  * misspelled bound is a bound that does not apply.
  */
 export function validateGarmentFitBounds(
@@ -291,7 +291,7 @@ export function validateGarmentFitBounds(
   for (const key of Object.keys(record)) {
     if (!(BOUND_KEYS as readonly string[]).includes(key)) {
       errors.push(
-        `Fit bank bounds declare unknown limit '${key}'. A limit the contract does not know is a limit that is not applied.`,
+        `Fit bank bounds declare unrecognized limit '${key}'. A limit outside the contract is not applied.`,
       );
     }
   }
