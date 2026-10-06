@@ -5,6 +5,8 @@
   "programKey": "standing:rural-transit-assistance",
   "serviceQuestion": "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
   "contractPriceMinorUnitsPerHour": 10000,
+  "contractPriceEstimated": true,
+  "contractPriceEstimatedFrom": "ESTIMATED FROM AVERAGE: a round per-vehicle-service-hour contract price for rural bus service, to be replaced by the National Transit Database national average operating expense per vehicle revenue hour (FTA NTD annual data tables) once that table is read",
   "serviceChoices": [
     {
       "value": "weekday",
