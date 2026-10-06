@@ -56,6 +56,7 @@ import {
 import { goalConsiderations, activeGoalFor } from "../people-goal-pursuit";
 import { isLivelihoodGoalKey } from "../people-goal-pursuit-content";
 import type { DecisionEvaluation } from "../types";
+import { JOB_TRAIT_DECISIONS, jobTraitConsiderations } from "../traits/jobs";
 
 /** A saved wish to stop working is weighed against saved livelihood goals.
  * No wish on record means no proposed quit, rather than an evidence-free tie.
@@ -100,20 +101,28 @@ export function decideTownWorkerQuit(
       { key: "quit", label: "Quit", description: "End the current job." },
     ],
     constraints: [],
-    considerations: goalConsiderations(world, personId, stableKey, [
-      {
-        optionKey: "quit",
-        goalKey: decline.goalKey,
-        direction: "supports",
-        explanation: decline.objective,
-      },
-      ...livelihoodKeys.map((goalKey) => ({
-        optionKey: "continue-work",
-        goalKey,
-        direction: "supports" as const,
-        explanation: "They are pursuing paid work.",
-      })),
-    ]),
+    considerations: [
+      ...goalConsiderations(world, personId, stableKey, [
+        {
+          optionKey: "quit",
+          goalKey: decline.goalKey,
+          direction: "supports",
+          explanation: decline.objective,
+        },
+        ...livelihoodKeys.map((goalKey) => ({
+          optionKey: "continue-work",
+          goalKey,
+          direction: "supports" as const,
+          explanation: "They are pursuing paid work.",
+        })),
+      ]),
+      ...jobTraitConsiderations(
+        world,
+        personId,
+        stableKey,
+        JOB_TRAIT_DECISIONS.workerQuit,
+      ),
+    ],
     perceptionIds: [],
     randomness: "none",
     retention: "durable",
