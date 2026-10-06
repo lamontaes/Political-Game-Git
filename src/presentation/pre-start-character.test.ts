@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { smallWorld } from "../../tests/fixtures/small-world";
 import { drawRandomPlace } from "../../tests/support/random-place";
 import { addDays, ageOnDate } from "../simulation/dates";
 import { householdMembershipsAt } from "../simulation/life-queries";
@@ -10,13 +11,18 @@ import { pursuitCandidates } from "../simulation/people-goal-review";
 import { SeededRng } from "../simulation/rng";
 import { beginHealthEpisode } from "../simulation/crisis/health";
 import { latestHealthState } from "../simulation/crisis/health-queries";
-import { CREATOR_LIFE_FORKS } from "../simulation/creator-life-forks";
+import {
+  CREATOR_LIFE_FORKS,
+  projectCreatorLifeForkMoments,
+  recordCreatorLifeForks,
+} from "../simulation/creator-life-forks";
 import {
   decodeReplayDescriptor,
   encodeReplayDescriptor,
 } from "./new-game-identity";
 import {
   DEFAULT_NEW_GAME_SETUP,
+  applyPreStartCreatorLifeForks,
   createPreStartNewGameWorld,
   finishPreStartNewGameWorld,
 } from "./new-game";
@@ -53,6 +59,118 @@ const input = {
 };
 
 describe("a character remains in their birth World through Begin", () => {
+  it("does not create a life prompt or a choice from a current home field alone", () => {
+    const small = smallWorld({ place: place.key, seed });
+    expect(projectCreatorLifeForkMoments(small.world, small.personId)).toEqual(
+      [],
+    );
+    expect(() =>
+      recordCreatorLifeForks(small.world, small.personId, [
+        { forkKey: "work", optionKey: "pursue" },
+      ]),
+    ).toThrow("requires its recorded life moment");
+  });
+  it("projects recorded life moments and applies answers to that same staged World", () => {
+    const checkpoints: { id: string; date: string; events: number }[] = [];
+    const game = createPreStartNewGameWorld(
+      {
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed,
+        placeKey: place.key,
+        startAge: age,
+        creatorLifeForks: [],
+      },
+      addDays(targetStartDate, -1),
+      (world, personId) => {
+        expect(world.people[personId]).toBeDefined();
+        checkpoints.push({
+          id: world.id,
+          date: world.currentDate,
+          events: world.history.events.length,
+        });
+      },
+    );
+    expect(checkpoints.length).toBeGreaterThan(1);
+    expect(
+      checkpoints.every(
+        (row) =>
+          row.id === game.world.id && row.date === game.world.currentDate,
+      ),
+    ).toBe(true);
+    expect(checkpoints.at(-1)!.events).toBeGreaterThan(checkpoints[0]!.events);
+    const elementary = game.world.history.educationEnrollments.find(
+      (row) =>
+        row.personId === game.playerPersonId &&
+        row.programKind === "schooling:elementary",
+    )!;
+    const elementaryStates =
+      game.world.history.educationEnrollmentStates.filter(
+        (row) => row.enrollmentId === elementary.id,
+      );
+    expect(elementaryStates.some((row) => row.status === "transferred")).toBe(
+      false,
+    );
+    expect(elementaryStates.some((row) => row.status === "completed")).toBe(
+      true,
+    );
+    const before = serializeWorld(game.world);
+    const moments = projectCreatorLifeForkMoments(
+      game.world,
+      game.playerPersonId,
+    );
+    expect(moments).toHaveLength(3);
+    expect(serializeWorld(game.world)).toBe(before);
+    for (const moment of moments) {
+      expect(moment.sourceRefs.length).toBeGreaterThan(0);
+      expect(moment.prompt).not.toContain("?");
+      expect(moment.prompt).toContain(moment.occurredAt);
+      expect(moment.occurredAt <= game.world.currentDate).toBe(true);
+    }
+    const chosen = applyPreStartCreatorLifeForks(
+      game,
+      moments.map((moment) => ({ forkKey: moment.key, optionKey: "pursue" })),
+    );
+    expect(chosen.world.id).toBe(game.world.id);
+    expect(chosen.world.people).toBe(game.world.people);
+    expect(chosen.world.currentMoment).toBe(game.world.currentMoment);
+    expect(chosen.world.history.workRelationships).toBe(
+      game.world.history.workRelationships,
+    );
+    const traces = chosen.world.history.decisionTraces.filter(
+      (trace) => trace.context.decisionType === "people.creator-life-fork",
+    );
+    expect(traces).toHaveLength(moments.length);
+    const refs = JSON.stringify(traces);
+    for (const moment of moments)
+      for (const ref of moment.sourceRefs) {
+        expect(refs).toContain(
+          ref.kind === "life-history"
+            ? ref.reference.recordId
+            : ref.kind === "historical-event"
+              ? ref.eventId
+              : "",
+        );
+      }
+    expect(
+      applyPreStartCreatorLifeForks(
+        chosen,
+        moments.map((moment) => ({ forkKey: moment.key, optionKey: "pursue" })),
+      ).world,
+    ).toBe(chosen.world);
+    expect(() =>
+      applyPreStartCreatorLifeForks(
+        chosen,
+        moments.map((moment) => ({ forkKey: moment.key, optionKey: "leave" })),
+      ),
+    ).toThrow("cannot be replaced");
+    const restored = deserializeWorld(serializeWorld(chosen.world));
+    expect(restored.history.decisionTraces).toEqual(
+      chosen.world.history.decisionTraces,
+    );
+    expect(
+      projectCreatorLifeForkMoments(restored, game.playerPersonId),
+    ).toEqual(moments);
+  });
   it("admits dated health and its past course without advancing the clock", () => {
     const built = buildPreStartCharacterWorld(input);
     const onsetAt = addDays(built.world.currentDate, -90);
