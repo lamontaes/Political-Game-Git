@@ -177,6 +177,11 @@ import {
 
 import { openOrdinaryLife } from "../presentation/ordinary-life";
 import {
+  beginHistoricalPastMode,
+  endHistoricalPastMode,
+} from "../simulation/historical-past-mode";
+import { advanceWorld } from "../simulation/world";
+import {
   answerQuestionnaire,
   endQuestionnaireEarly,
   questionnaireScreenFor,
@@ -1079,7 +1084,20 @@ export function PlayerGame() {
                     stagedGame,
                     completedSetup.creatorLifeForks ?? [],
                   );
-                  const begun = finishPreStartNewGameWorld(answered);
+                  const preStart = answered.world.preStartLife;
+                  if (!preStart)
+                    throw new Error("The staged character is missing.");
+                  const historical = beginHistoricalPastMode(
+                    answered.world,
+                    answered.playerPersonId,
+                    preStart.targetStartDate,
+                  );
+                  const atBoundary = advanceWorld(historical, 1);
+                  const closed = endHistoricalPastMode(atBoundary);
+                  const begun = finishPreStartNewGameWorld({
+                    ...answered,
+                    world: closed,
+                  });
                   beginLife(completedSetup, begun);
                 } catch (error) {
                   setProblem(
