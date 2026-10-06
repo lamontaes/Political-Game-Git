@@ -11,6 +11,32 @@ import type {
   AnyLawConsequenceKindRegistration,
 } from "./law-consequence-types";
 import type { LawConsequenceCapabilities } from "./law-consequence-validation";
+import { optionalGlob } from "../presentation/optional-glob";
+
+type LawConsequenceModule = {
+  registrations: readonly AnyLawConsequenceKindRegistration[];
+};
+
+// Every folder under modules owns its registration export. Vite eagerly
+// collects them in browser builds and Vitest, so adding a kind does not edit
+// this shared registry. Keep eager loading: resolve/apply are synchronous.
+const lawConsequenceModuleFiles = optionalGlob(() =>
+  import.meta.glob<LawConsequenceModule>(
+    "./law-consequences/modules/*/index.ts",
+    { eager: true },
+  ),
+);
+
+const extensionRegistrations = Object.entries(lawConsequenceModuleFiles)
+  .sort(([left], [right]) => left.localeCompare(right))
+  .flatMap(([file, module]) => {
+    const candidate = module as Partial<LawConsequenceModule>;
+    if (!Array.isArray(candidate.registrations))
+      throw new Error(
+        `Law consequence module ${file} must export registrations.`,
+      );
+    return candidate.registrations;
+  });
 
 /** Sole registration surface. Coordinator appends reviewed kind exports here. */
 export const LAW_CONSEQUENCE_REGISTRATIONS: readonly AnyLawConsequenceKindRegistration[] =
@@ -23,6 +49,7 @@ export const LAW_CONSEQUENCE_REGISTRATIONS: readonly AnyLawConsequenceKindRegist
     SERVICE_DELIVERED_REGISTRATION,
     RIGHT_PERMISSION_REGISTRATION,
     INSTITUTION_RULE_REGISTRATION,
+    ...extensionRegistrations,
   ];
 
 export function createLawConsequenceRegistry(

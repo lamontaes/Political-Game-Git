@@ -16,7 +16,9 @@ export type LawConsequenceKind =
   | "right-permission"
   | "service-delivered"
   | "legal-outcome"
-  | "institution-rule";
+  | "institution-rule"
+  | "public-library-service"
+  | "parks-service-spending";
 
 /** Existing bespoke stamp labels awaiting migration; new kinds use LawConsequenceKind. */
 export type LegacyEffectKind =

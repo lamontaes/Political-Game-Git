@@ -115,6 +115,21 @@ Situation-row shape: there is no single exported "situation row" on main. Neares
 | `recordedPayStubs`                | src/simulation/resource-income.ts:43                                             | A person's recorded pay stubs.             | On main.                                     |
 | `assessPaycheckTaxes`             | src/simulation/statutory-tax.ts:92                                               | Withholding on a paycheck.                 | On main.                                     |
 
+### LW-28 receiving contract (Session 20 → Session 41)
+
+Put each handler at `src/simulation/law-consequences/modules/<module-key>/index.ts`
+and export `registrations: readonly AnyLawConsequenceKindRegistration[]` (or
+the narrower `LawConsequenceKindRegistration<T>[]`). The shared registry
+eagerly loads modules in sorted path order; duplicate kind owners fail registry
+creation. Session 41 owns those modules and scoped effect adapters. In `apply`,
+call the canonical domain writer and pass the ID of the actual saved effect
+record to `recordLawExposure` with the affected person, canonical `measureId`,
+channel, direction, and supported amount. For a non-money effect use direction
+`none` with null amount and cadence. This saves an idempotent named-person
+exposure and schedules the normal official reflection. Aggregate reports and
+catalog rows do not count as a landing. Session 19's `lawInForce` remains
+unchanged.
+
 ## 9. Session 19: law data
 
 | Name                   | File:line                                                                                                                                                                                                  | What it does                                                                                                                                         | If not merged                                                  |
