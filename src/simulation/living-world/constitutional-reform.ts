@@ -3,6 +3,7 @@ import { municipalGovernmentByKey } from "../municipal-government";
 import { municipalGovernmentJurisdictionId } from "../municipal-public-work";
 import { nextTownElection } from "../nationwide-world/town-election-calendar";
 import { recordWorldEvent } from "../world";
+import citizenChangeBackRows from "../../../data/research/elections/citizen-measure-change-back.json";
 import {
   constitutionalActions,
   ordinaryBallotMeasures,
@@ -1020,6 +1021,88 @@ function proposeAndVoteUnchecked(
 export interface BallotMeasureSubject {
   readonly jurisdictionId: EntityId;
   readonly ruleDelta: ConstitutionalRuleDelta;
+}
+
+export interface CitizenMeasureChangeBackRule {
+  readonly protectionYears: number;
+  readonly amendmentShareDuringProtection: {
+    readonly numerator: number;
+    readonly denominator: number;
+    readonly base: string;
+  };
+  readonly legislativeRepealDuringProtection: boolean;
+  readonly directVoterChangeAllowed: boolean;
+  readonly basis: string;
+  readonly reason: string;
+  readonly sources: readonly {
+    readonly url: string;
+    readonly citation: string;
+    readonly reviewedAt: string;
+  }[];
+}
+
+/** One per-place row; unread state and municipal terms retain their estimate label. */
+export function citizenMeasureChangeBackRule(
+  stateUsps: string,
+  processKind: OrdinaryBallotMeasureInput["processKind"],
+): CitizenMeasureChangeBackRule {
+  const places: Readonly<
+    Record<
+      string,
+      {
+        statute: CitizenMeasureChangeBackRule;
+        ordinance: CitizenMeasureChangeBackRule;
+      }
+    >
+  > = citizenChangeBackRows.places;
+  const row = places[`US-${stateUsps.toUpperCase()}`]?.[processKind];
+  if (!row) throw new Error("Citizen measure rules require a supported place.");
+  return row;
+}
+
+/** Admission seam for the canonical law writer; ordinary passage rules still apply. */
+export function citizenMeasureChangeBackAdmission(input: {
+  readonly rule: CitizenMeasureChangeBackRule;
+  readonly enactedAt: IsoDate;
+  readonly changeAt: IsoDate;
+  readonly authority: "legislature" | "voters";
+  readonly change: "amend" | "repeal";
+}): {
+  readonly allowed: boolean;
+  readonly requiredShare:
+    CitizenMeasureChangeBackRule["amendmentShareDuringProtection"] | null;
+  readonly reason: string;
+} {
+  const { rule } = input;
+  if (input.changeAt < input.enactedAt)
+    return {
+      allowed: false,
+      requiredShare: null,
+      reason: "A change cannot precede the measure's enactment.",
+    };
+  if (input.authority === "voters")
+    return {
+      allowed: rule.directVoterChangeAllowed,
+      requiredShare: null,
+      reason: rule.reason,
+    };
+  const protectedThroughYear =
+    Number(input.enactedAt.slice(0, 4)) + rule.protectionYears;
+  const protectionEndsAt = `${protectedThroughYear}${input.enactedAt.slice(4)}`;
+  if (input.changeAt >= protectionEndsAt)
+    return {
+      allowed: true,
+      requiredShare: null,
+      reason:
+        "The protection period has ended; the existing ordinary legislative passage rules apply.",
+    };
+  if (input.change === "repeal" && !rule.legislativeRepealDuringProtection)
+    return { allowed: false, requiredShare: null, reason: rule.reason };
+  return {
+    allowed: true,
+    requiredShare: rule.amendmentShareDuringProtection,
+    reason: rule.reason,
+  };
 }
 
 export function recordedBallotTally(
