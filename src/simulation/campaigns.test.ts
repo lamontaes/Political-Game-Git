@@ -48,6 +48,7 @@ import {
 } from "./index";
 import { contributeOwnMoneyToCampaign } from "./campaign-money-sources";
 import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
+import { KENTUCKY_CAMPAIGN_COMPLIANCE_PACK } from "./campaign-compliance";
 
 import {
   CAMPAIGN_SUPPORT_METRIC_STABLE_KEY,
