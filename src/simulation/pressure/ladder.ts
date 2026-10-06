@@ -27,8 +27,8 @@
  * state and quarter the ladder reads it, so the engine's rules evaluate the
  * same canonical value its records cite.
  *
- * Every number in `BLANKET_POLITICAL_VIOLENCE` is a placeholder, filed with
- * ChatGPT as `political-violence-what-builds-to-an-attack`. The ladder installs
+ * Every number in `POLITICAL_VIOLENCE_ESTIMATE` is ESTIMATED FROM AVERAGE,
+ * filed with ChatGPT as `political-violence-what-builds-to-an-attack`. The ladder installs
  * its metric and two incident definitions the first time a state's anger
  * crosses the line, so a world where nothing does is unchanged.
  */
@@ -72,8 +72,16 @@ import { homeStateKeyOf } from "./anger";
 import type { PressureReading } from "./contract";
 import { worldStates } from "./step";
 
-/** BLANKET placeholders; see the file comment. None is researched. */
-export const BLANKET_POLITICAL_VIOLENCE = Object.freeze({
+/**
+ * ESTIMATED FROM AVERAGE; see the file comment. The anger index is a game
+ * scale from 0 to 1 that no published survey measures, so these sizes are
+ * estimates pending the research request, not a researched table.
+ */
+export const POLITICAL_VIOLENCE_ESTIMATE = Object.freeze({
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "game anger scale (0 to 1); sizes ordered by the hazard magnitude scale until `political-violence-what-builds-to-an-attack` is answered",
   /** Anger at or under this sets nothing off: how bad counts as bad. */
   angerLine: 0.3,
   /** Unrest is lasting once it has held through this many re-checks. */
@@ -143,7 +151,7 @@ function angerOverLine(metricId: EntityId): IncidentRule {
     metricId,
     reference: { kind: "at-evaluation" },
     comparison: "at-least",
-    threshold: angerValue(BLANKET_POLITICAL_VIOLENCE.angerLine + 0.0001),
+    threshold: angerValue(POLITICAL_VIOLENCE_ESTIMATE.angerLine + 0.0001),
     reasonKey: "pressure:anger-over-line",
   };
 }
@@ -288,7 +296,7 @@ function scopeOf(reading: PressureReading): MetricScope {
  * how long and how far anger stays over its line decides it.
  */
 export function threatAttemptLine(): number {
-  return BLANKET_POLITICAL_VIOLENCE.attemptLine;
+  return POLITICAL_VIOLENCE_ESTIMATE.attemptLine;
 }
 
 /**
@@ -310,7 +318,7 @@ export function threatStrain(
         sum +
         Math.max(
           0,
-          reading.levels.anger - BLANKET_POLITICAL_VIOLENCE.angerLine,
+          reading.levels.anger - POLITICAL_VIOLENCE_ESTIMATE.angerLine,
         ),
       0,
     );
@@ -334,7 +342,7 @@ export function stepPressureLadder(
   world: World,
   latest: readonly PressureReading[],
 ): World {
-  const policy = BLANKET_POLITICAL_VIOLENCE;
+  const policy = POLITICAL_VIOLENCE_ESTIMATE;
   const store = world.pressure;
   if (!store) return world;
   const unrestId = unrestIncidentDefinition().id;
