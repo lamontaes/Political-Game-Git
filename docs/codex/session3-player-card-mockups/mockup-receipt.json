@@ -1,0 +1,26 @@
+{
+  "stage": "MOCKUP ONLY \u2014 no owner selection or implementation approval",
+  "sourceHead": "772d1bfdc36d44e23bdc34e5e07082493888e026",
+  "browserOverrides": true,
+  "productionSourceChanged": false,
+  "viewportSizes": [
+    [1920, 1080],
+    [1024, 768]
+  ],
+  "proof": "1 browser case passed; native live scene/portrait/record context retained; no production interaction/save/clock proof",
+  "existingProofHead": "203d4be05dca287af5d75088d6c110a8503a11e6",
+  "files": {
+    "graphite-1024.png": "7d14de7e76dc19888272c45e8aa55f6161ab711ec98d79dafdebd213d774c29c",
+    "current-player-card.png": "a41ffa73d8f394f97f8fc2162fea357a5a2dd5ba480954309424584afb3c139b",
+    "warm-1920.png": "d157d1820dd9aabb7ee50d6ef5c656e46cb3f3e657a667d5ad5d80177c1948d7",
+    "graphite-focus-1920.png": "7eccda795f214b84ed6ae8f333f468112c6f2d74750cd32df64a6c83cf0f1d3f",
+    "capture-script.txt": "a9171bad68ec539bd3daa491812936fa3eb4c505c21abe1f70eea856b4bc516a",
+    "warm-focus-1920.png": "d157d1820dd9aabb7ee50d6ef5c656e46cb3f3e657a667d5ad5d80177c1948d7",
+    "graphite-1920.png": "7eccda795f214b84ed6ae8f333f468112c6f2d74750cd32df64a6c83cf0f1d3f",
+    "provenance.json": "7d539f61d7be3857c26df8d1eeee659707cf9c47096d7cd563d5a5803031f10d",
+    "warm-1024.png": "3d6445266a81496881d8ce07cb66d0a38e971da4b200603efce88aeea42c6f79",
+    "recorded-content.json": "2da43f54998ccbd7370628fb85f4b87366623f380de1e52ef9ea14f8c74dc749",
+    "README.md": "1690bc5fa6ef027fef9a4107093cb7b677275daa9403ac3bcbe43bcb270528d6",
+    "capture-config.txt": "3ce98e55de0cd08bffbfa2bfba08d08e5314fc103d467ffa4ec5828ccbe81e3f"
+  }
+}

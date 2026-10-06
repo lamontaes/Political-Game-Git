@@ -1,0 +1,10 @@
+import config from '../../playwright.config';
+import { defineConfig } from '@playwright/test';
+export default defineConfig({
+ ...config,
+ testDir: '.', testMatch: 'player-card.spec.ts',
+ globalSetup: '../../scripts/dev-lab/verify-server.ts',
+ globalTeardown: '../../scripts/dev-lab/verify-evidence.ts',
+ webServer: {...config.webServer, cwd: '/workspace/Political-Game-Git'},
+ projects: [{name:'chromium',use:{browserName:'chromium'}}],
+});

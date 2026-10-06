@@ -1,0 +1,56 @@
+{
+  "seed": "session3-kit13-20261005",
+  "place": {
+    "key": "1971040",
+    "displayName": "Scarville, Iowa",
+    "formalName": "Scarville",
+    "withinName": "Iowa",
+    "context": {
+      "jurisdiction": {
+        "id": "jurisdiction_40931e828a02e027",
+        "slug": "us-place-1971040",
+        "name": "Scarville, Iowa",
+        "kind": "census-place",
+        "parentName": "Iowa",
+        "provenance": {
+          "asOf": "2026-01-05",
+          "source": "census-gazetteer-2025-places-zip",
+          "jurisdiction": "jurisdiction_40931e828a02e027",
+          "status": "approved"
+        }
+      },
+      "initialMoment": {
+        "date": "2026-01-05",
+        "minuteOfDay": 550,
+        "timeZone": "America/Chicago",
+        "utcOffsetMinutes": -360
+      },
+      "creationSummary": "Seeded world in Scarville, Iowa, from the 2025 Census Gazetteer place identity.",
+      "goalScope": "Scarville, Iowa",
+      "householdLocationLabel": "Scarville, Iowa"
+    },
+    "scope": "locality",
+    "stateJurisdictionKey": "US-IA",
+    "capabilities": {
+      "legislativeScenarioKey": null,
+      "candidacyPackId": null
+    },
+    "sourceGeoid": "1971040"
+  },
+  "payload": {
+    "name": "Brianna Kennedy",
+    "date": "Monday, January 5, 2026",
+    "time": "9:10 AM",
+    "place": "Scarville, Iowa",
+    "portrait": "<figure class=\"person-portrait person-portrait--small\" data-testid=\"person-portrait\" data-likeness=\"engine\" data-refusal=\"\"><span aria-hidden=\"true\" class=\"person-portrait-mark\" style=\"position: relative; overflow: hidden; flex-shrink: 0;\"><img class=\"engine-portrait\" alt=\"\" aria-hidden=\"true\" draggable=\"false\" data-testid=\"person-portrait-engine\" data-engine-recipe=\"feminine|average|6|20s30s-04|afro|black|hoodie-jeans|standing|bottom=khaki|top=navy\" src=\"blob:http://127.0.0.1:5344/07b29331-7fbf-4981-a1f7-0b63ad7fa93e\" style=\"position: absolute; height: 342.954%; width: auto; max-width: none; top: -17.8947%; left: 50%; transform: translateX(-49.3164%); pointer-events: none;\"></span><figcaption><strong>Brianna Kennedy</strong></figcaption></figure>"
+  },
+  "context": {
+    "age": "34",
+    "work": "Production worker at Chapman Tool and Die, since 2026.",
+    "household": "Joshua Snow, your roommate",
+    "family": "Your parents were Nancy Kennedy and Malik Kennedy, in Scarville, Iowa. You grew up with 1 sibling.",
+    "saved": "Not saved yet"
+  },
+  "stage": "mockup only",
+  "source": "clean772d1bfdc; isolated browser DOM styles; production unchanged"
+}
