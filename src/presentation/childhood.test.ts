@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { drawRandomPlace } from "../../tests/support/random-place";
-import { assertWorldIntegrity, serializeWorld } from "../simulation";
+import { ageOnDate, assertWorldIntegrity, serializeWorld } from "../simulation";
 import { formativeIntervalAt } from "../simulation/character-history";
 import { playerTemperament } from "../simulation/people-player-traits";
 import { personTrait } from "../simulation/people-traits";
+import { appendChildhoodEntry } from "../simulation/childhood-record";
+import type { EntityId } from "../simulation";
 import {
   caregiverChoice,
   caregiverFor,
@@ -86,6 +88,39 @@ describe("PEOPLE P14: a childhood that is lived before it is directed", () => {
         randomChild.player,
       )!.scene!.situationKey,
     });
+    const source = played.history.events.find(
+      (event) => event.id === choice?.sourceRecordId,
+    )!;
+    expect(source.tags).toContain(`choice.${choice!.optionKey}`);
+    expect(source.participants).toContainEqual(
+      expect.objectContaining({
+        personId: choice!.caregiverPersonId,
+        role: "agency:actor",
+      }),
+    );
+    const unauthorizedAdult = Object.keys(played.people).find(
+      (candidate) =>
+        candidate !== randomChild.player &&
+        candidate !== choice!.caregiverPersonId &&
+        ageOnDate(played.people[candidate]!.birthDate, played.currentDate) >=
+          18,
+    ) as EntityId | undefined;
+    if (unauthorizedAdult) {
+      const {
+        id: _id,
+        sequence: _sequence,
+        recordedAt: _recordedAt,
+        stableKey: _stableKey,
+        ...entry
+      } = choice!;
+      expect(() =>
+        appendChildhoodEntry(played, {
+          ...entry,
+          stableKey: "test-unauthorized-caregiver",
+          caregiverPersonId: unauthorizedAdult,
+        }),
+      ).toThrow(/adult caregiver and its formative event/);
+    }
     expect(
       played.history.events.some(
         (event) => event.id === choice?.sourceRecordId,

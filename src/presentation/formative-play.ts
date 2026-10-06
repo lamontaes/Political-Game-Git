@@ -277,6 +277,8 @@ export interface ChooseFormativeOptionInput {
   readonly situationKey: LifeSituationKey;
   readonly optionKey: string;
   readonly withPersonId: EntityId | null;
+  /** Adult whose recorded authority makes this a caregiver-led choice. */
+  readonly decisionMakerPersonId?: EntityId;
 }
 
 /** Records the answer without advancing the surrounding life. */
@@ -333,6 +335,7 @@ export function chooseFormativeOption(
     stableKey: `formative-play:${input.personId}:${played}:${input.situationKey}`,
     mode: "played",
     personId: input.personId,
+    decisionMakerPersonId: input.decisionMakerPersonId,
     situationKey: input.situationKey,
     optionKey: input.optionKey,
     occurredAt: world.currentDate,

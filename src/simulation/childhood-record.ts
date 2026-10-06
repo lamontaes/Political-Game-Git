@@ -2,6 +2,7 @@ import { ageOnDate, makeIsoDate } from "./dates";
 import { eventById } from "./event-index";
 import { appendedList, recordsByStringField } from "./history-index";
 import { createStableId } from "./ids";
+import { activeChildAuthoritiesAt } from "./life-queries";
 import type { ChildhoodRecordEntry, EntityId, World } from "./types";
 
 /**
@@ -99,7 +100,21 @@ export function appendChildhoodEntry(world: World, input: EntryInput): World {
       ageOnDate(world.people[input.caregiverPersonId]!.birthDate, effectiveAt) <
         18 ||
       !input.optionKey.trim() ||
-      !source.tags.includes(input.situationKey))
+      !source.tags.includes(input.situationKey) ||
+      !source.tags.includes(`choice.${input.optionKey}`) ||
+      !source.participants.some(
+        (participant) =>
+          participant.personId === input.caregiverPersonId &&
+          participant.role === "agency:actor",
+      ) ||
+      !activeChildAuthoritiesAt(world, input.personId, {
+        asOfDate: effectiveAt,
+        historySequenceExclusive: source.sequence,
+      }).some(
+        ({ authority }) =>
+          authority.holder.kind === "person" &&
+          authority.holder.personId === input.caregiverPersonId,
+      ))
   ) {
     throw new Error(
       "A caregiver choice needs an adult caregiver and its formative event.",
@@ -159,7 +174,21 @@ export function assertChildhoodRecordIntegrity(world: World): void {
           caregiver.id === person.id ||
           ageOnDate(caregiver.birthDate, entry.effectiveAt) < 18 ||
           !entry.optionKey.trim() ||
-          !source.tags.includes(entry.situationKey)))
+          !source.tags.includes(entry.situationKey) ||
+          !source.tags.includes(`choice.${entry.optionKey}`) ||
+          !source.participants.some(
+            (participant) =>
+              participant.personId === entry.caregiverPersonId &&
+              participant.role === "agency:actor",
+          ) ||
+          !activeChildAuthoritiesAt(world, entry.personId, {
+            asOfDate: entry.effectiveAt,
+            historySequenceExclusive: source.sequence,
+          }).some(
+            ({ authority }) =>
+              authority.holder.kind === "person" &&
+              authority.holder.personId === entry.caregiverPersonId,
+          )))
     )
       throw new Error(`Invalid childhood entry: ${entry.stableKey}`);
     keys.add(entry.stableKey);

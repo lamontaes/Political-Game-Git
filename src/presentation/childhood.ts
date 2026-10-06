@@ -150,6 +150,9 @@ export function playChildhoodMoment(
       situationKey: scene.situationKey,
       optionKey: decided.optionKey,
       withPersonId: scene.withPersonId,
+      ...(moment.agency === "caregiver-led" && moment.caregiverPersonId
+        ? { decisionMakerPersonId: moment.caregiverPersonId }
+        : {}),
     });
     return moment.agency === "caregiver-led" && moment.caregiverPersonId
       ? recordCaregiverChoice(
@@ -192,6 +195,7 @@ export function playChildhoodMoment(
     situationKey: scene.situationKey,
     optionKey: chosen,
     withPersonId: scene.withPersonId,
+    decisionMakerPersonId: moment.caregiverPersonId ?? undefined,
   });
   return moment.caregiverPersonId
     ? recordCaregiverChoice(
@@ -216,9 +220,15 @@ function recordCaregiverChoice(
       (event) =>
         event.occurredAt === world.currentDate &&
         event.tags.includes(scene.situationKey) &&
+        event.tags.includes(`choice.${optionKey}`) &&
+        event.participants.some(
+          (participant) =>
+            participant.personId === caregiverPersonId &&
+            participant.role === "agency:actor",
+        ) &&
         event.involvedEntityIds.includes(personId),
     )
-    .at(-1);
+    .at(0);
   if (!source)
     throw new Error("The caregiver choice has no formative event to cite.");
   return appendChildhoodEntry(world, {
