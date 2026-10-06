@@ -12,6 +12,7 @@ import {
 import { TAX_TERMS_POLICY_PACK } from "./policy-pack-tax-terms";
 import { COVERAGE_ELIGIBILITY_ROWS } from "./law-consequences/coverage-eligibility-rows";
 import { SERVICE_DELIVERED_LAW_ROWS } from "./law-consequences/service-delivered-data";
+import { DEVELOPMENT_INCENTIVE_AWARD_ROW } from "./law-consequences/modules/lw08-development-incentive-cap/rows";
 import {
   loadPolicyPacks,
   type PolicyPack,
@@ -56,7 +57,16 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
       ];
       const rent = key === RENT_STABILIZATION_QUESTION;
       const tuition = key === TUITION_FREEZE_QUESTION;
-      if (!coverage && !pay && service.length === 0 && !rent && !tuition)
+      const developmentIncentive =
+        key === "us-policy-positions:business-commerce.cap-development-incentives";
+      if (
+        !coverage &&
+        !pay &&
+        service.length === 0 &&
+        !rent &&
+        !tuition &&
+        !developmentIncentive
+      )
         return row;
       return {
         ...row,
@@ -73,6 +83,7 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
           ...(row.consequences ?? []),
           ...(rent ? [RENT_STABILIZATION_ROW] : []),
           ...(tuition ? [TUITION_FREEZE_ROW] : []),
+          ...(developmentIncentive ? [DEVELOPMENT_INCENTIVE_AWARD_ROW] : []),
           ...(coverage ? [coverage] : []),
           ...(pay ? [pay] : []),
           ...service,
