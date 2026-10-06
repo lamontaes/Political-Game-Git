@@ -12,8 +12,8 @@ import {
 } from "./office-qualification-rules";
 
 describe("production-compiled office qualification rules", () => {
-  it("exposes 69 unique claims across the seven recovered source states", () => {
-    expect(OFFICE_QUALIFICATIONS_META.recordCount).toBe(69);
+  it("exposes 72 unique claims across the seven recovered source states", () => {
+    expect(OFFICE_QUALIFICATIONS_META.recordCount).toBe(72);
     expect(QUALIFICATION_SOURCED_STATE_KEYS).toEqual([
       "US-MA",
       "US-MN",
