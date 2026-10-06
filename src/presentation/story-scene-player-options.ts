@@ -28,7 +28,7 @@ function requestKey(request: StorySceneRequest): string {
   const placeKey =
     place.kind === "activity"
       ? [place.kind, place.activityId]
-      : place.kind === "opened-scene"
+      : place.kind === "opened-scene" || place.kind === "recorded-place"
         ? [place.kind, place.eventId]
         : place.kind === "household"
           ? [place.kind, place.householdId]
