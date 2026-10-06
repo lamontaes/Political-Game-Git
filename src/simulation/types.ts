@@ -108,6 +108,7 @@ export type EntityKind =
   | "constitutional-action"
   | "crisis-record"
   | "constitutional-rule-version"
+  | "legislative-proposal"
   | "rule-change-provision"
   | "rule-change-consequence-binding"
   | "tax-proposal"
@@ -4649,6 +4650,8 @@ export interface HistoryStore {
   /** CRISIS severe-event records; absent in Worlds written before them. */
   readonly crisisRecords?: readonly CrisisRecord[];
   readonly legislativeMeasures?: readonly LegislativeMeasureRecord[];
+  /** Separate from filed measures: a proposal has not entered the chamber. */
+  readonly legislativeProposals?: readonly LegislativeProposalRecord[];
   readonly legislativeActions?: readonly LegislativeActionRecord[];
   readonly committeeReferrals?: readonly CommitteeReferralRecord[];
   readonly committeeActions?: readonly CommitteeActionRecord[];
@@ -4758,6 +4761,19 @@ export interface LegislativeMeasureNumberingSession {
   readonly label: string;
   /** "HB 1 (2027 Regular Session)", "H.R. 1, 120th Congress". */
   readonly fullDesignation: string;
+}
+
+/** A member's saved ordinance draft before any chamber has received it. */
+export interface LegislativeProposalRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly governmentKey: string;
+  readonly jurisdictionId: EntityId;
+  readonly sponsorPersonId: EntityId;
+  readonly title: string;
+  readonly operativeText: string;
+  readonly proposedAt: IsoDate;
 }
 
 export interface LegislativeMeasureRecord {

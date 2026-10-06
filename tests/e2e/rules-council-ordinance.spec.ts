@@ -190,16 +190,44 @@ test("a seated Charlottesville councilor passes an ordinance by keyboard and it 
 
   // Introduce by keyboard: type the title and press Enter in the field.
   let panel = await openLocalGovernment(page);
-  const title = panel.getByTestId("municipal-ordinance-title");
-  await title.fill("Sidewalk dining permits");
-  await title.press("Enter");
+  const beforeProposal = deserializeWorld((await savedRecord(page)).payload);
+  const measureCountBeforeProposal =
+    beforeProposal.history.legislativeMeasures?.length ?? 0;
+  await panel.getByTestId("municipal-proposal-title").fill("Library crossing");
+  await panel
+    .getByTestId("municipal-proposal-text")
+    .fill("The city shall maintain a marked crosswalk at the public library.");
+  await panel.getByTestId("propose-municipal-ordinance").press("Enter");
+  const proposalPaper = panel.getByTestId("municipal-proposal-paper");
+  await expect(proposalPaper).toContainText(
+    "PROPOSAL · NOT INTRODUCED · NOT LAW",
+  );
+  await expect(proposalPaper).toContainText("Library crossing");
+  await expect(proposalPaper).toContainText(
+    "The city shall maintain a marked crosswalk at the public library.",
+  );
+  await saveLife(page);
+  const savedProposal = deserializeWorld((await savedRecord(page)).payload);
+  expect(savedProposal.history.legislativeProposals).toHaveLength(1);
+  expect(savedProposal.history.legislativeMeasures?.length ?? 0).toBe(
+    measureCountBeforeProposal,
+  );
+  await page.reload();
+  await page.getByTestId("continue").click();
+  await enterLife(page);
+  panel = await openLocalGovernment(page);
+  await expect(panel.getByTestId("municipal-proposal-paper")).toContainText(
+    "Library crossing",
+  );
+
+  await panel.getByRole("button", { name: "Introduce this proposal" }).click();
   // The council's own ordinances are listed too; follow the player's.
   const mine = (region: typeof panel) =>
     region
       .getByTestId("municipal-ordinance")
-      .filter({ hasText: "Sidewalk dining permits" });
+      .filter({ hasText: "Library crossing" });
   const ordinance = mine(panel);
-  await expect(ordinance).toContainText(/ORD \d+: Sidewalk dining permits/);
+  await expect(ordinance).toContainText(/ORD \d+: Library crossing/);
   await expect(ordinance).toContainText("not yet on the council agenda");
 
   // Put it on the agenda with Space.
