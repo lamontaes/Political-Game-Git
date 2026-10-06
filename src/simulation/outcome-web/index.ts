@@ -109,6 +109,8 @@ export interface OutcomeLink {
   /** Declared structural inventory; never proof of delivery to a person. */
   readonly status: OutcomeLinkStatus;
   readonly unsupportedReason: OutcomeLinkUnsupportedReason | null;
+  /** Owner-deferred links retain their evidence but are not used in play. */
+  readonly consumed?: boolean;
   readonly anchor: string;
   /** Developer reference only. Never shown on a player screen. */
   readonly source: string;
@@ -446,8 +448,9 @@ export function outcomeLinksFedByQuestion(
   const measures = LAW_QUESTION_MEASURES[questionKey] ?? [];
   return OUTCOME_LINKS.filter(
     (link) =>
-      link.from === `${LAW_CAUSE_PREFIX}${questionKey}` ||
-      measures.includes(link.from),
+      link.consumed !== false &&
+      (link.from === `${LAW_CAUSE_PREFIX}${questionKey}` ||
+        measures.includes(link.from)),
   );
 }
 
@@ -611,6 +614,10 @@ export function validateOutcomeLinkInventory(
   links: readonly OutcomeLink[],
 ): void {
   for (const link of links) {
+    if (link.consumed !== undefined && typeof link.consumed !== "boolean")
+      throw new Error(
+        `Outcome link has an invalid consumption flag: ${link.key}`,
+      );
     const actual = outcomeLinkStatus(link);
     if (link.status !== actual)
       throw new Error(
@@ -637,6 +644,7 @@ export function outcomeWebStatus(): readonly {
   readonly status: OutcomeLinkStatus;
   readonly evidence: OutcomeEvidence;
   readonly unsupportedReason: OutcomeLinkUnsupportedReason | null;
+  readonly consumed: boolean;
 }[] {
   validateOutcomeLinkInventory(OUTCOME_LINKS);
   return OUTCOME_LINKS.map((link) => ({
@@ -647,6 +655,7 @@ export function outcomeWebStatus(): readonly {
     status: outcomeLinkStatus(link),
     evidence: link.evidence,
     unsupportedReason: link.unsupportedReason,
+    consumed: link.consumed !== false,
   }));
 }
 
@@ -797,7 +806,12 @@ export function outcomeFactor(
 ): OutcomeReading {
   const causes: OutcomeCause[] = [];
   for (const link of OUTCOME_LINKS) {
-    if (link.to !== outcome || outcomeLinkStatus(link) !== "built") continue;
+    if (
+      link.consumed === false ||
+      link.to !== outcome ||
+      outcomeLinkStatus(link) !== "built"
+    )
+      continue;
     const measure = outcomeMeasure(link.from)!;
     const readAt = lagged(asOf, link.lagMonths);
     const value = measure.read(world, jurisdictionId, readAt);
