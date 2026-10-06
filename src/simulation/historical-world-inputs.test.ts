@@ -20,6 +20,7 @@ import {
   serializeWorld,
   deserializeWorld,
   writeWorldPayload,
+  readWorldSnapshot,
 } from "./serialization";
 
 const seed = "session5-20261005-historical-world";
@@ -50,6 +51,24 @@ describe("historical inputs through the existing observer clock", () => {
     expect(bytes).toBe(
       new TextEncoder().encode(serializeWorld(world)).byteLength,
     );
+  });
+  it("reopens a one-shot streamed payload through the canonical reader", () => {
+    const world = buildPreStartBackgroundWorld({
+      ...input,
+      givenName: "Zoë",
+      familyName: "O'Neill",
+    });
+    const saved = serializeWorld(world);
+    function* chunks() {
+      for (let index = 0; index < saved.length; index += 7)
+        yield saved.slice(index, index + 7);
+    }
+    const oneShot = chunks();
+    const restored = readWorldSnapshot(oneShot).world;
+    expect(oneShot.next().done).toBe(true);
+    expect(serializeWorld(restored)).toBe(saved);
+    expect(restored.history.events).toEqual(world.history.events);
+    expect(restored.currentMoment).toEqual(world.currentMoment);
   });
   it("supplies all 56 wage floors for every historical year and keeps their basis", () => {
     for (const key of Object.keys(wageMatrix.places))
