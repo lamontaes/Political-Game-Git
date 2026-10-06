@@ -724,7 +724,7 @@ describe("Stage 5.1 households, kinship, partnership, and care", () => {
       person,
       originalCutoff,
     );
-    for (let revision = 0; revision < 1025; revision += 1) {
+    for (let revision = 0; revision < 32769; revision += 1) {
       const snapshot = {
         ...world,
         history: {

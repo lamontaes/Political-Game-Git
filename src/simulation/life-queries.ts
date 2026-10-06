@@ -601,13 +601,15 @@ interface HouseholdPersonProjection {
   }[];
   sourceRevision: object;
   readonly sequenceCeiling: number;
-  readonly results: Map<string, readonly ActiveHouseholdMembership[]>;
+  resultKey: string | undefined;
+  result: readonly ActiveHouseholdMembership[] | undefined;
 }
 
 // Join a person's recorded membership histories once per contributing revision.
 // Cutoff queries only choose available rows; public history readers remain intact.
-const HOUSEHOLD_PROJECTION_LIMIT = 1024;
-const HOUSEHOLD_PROJECTIONS = new Map<object, HouseholdPersonProjection>();
+const HOUSEHOLD_PROJECTION_LIMIT = 32768;
+let HOUSEHOLD_PROJECTIONS = new WeakMap<object, HouseholdPersonProjection>();
+let householdProjectionCount = 0;
 let householdProjectionRun: string | undefined;
 let householdProjectionMonth: string | undefined;
 
@@ -617,7 +619,8 @@ function scopeHouseholdProjections(world: World): void {
     householdProjectionRun !== world.id ||
     householdProjectionMonth !== month
   ) {
-    HOUSEHOLD_PROJECTIONS.clear();
+    HOUSEHOLD_PROJECTIONS = new WeakMap();
+    householdProjectionCount = 0;
     householdProjectionRun = world.id;
     householdProjectionMonth = month;
   }
@@ -680,6 +683,13 @@ export function householdMembershipsAt(
   if (memberships.length === 0) return NO_HOUSEHOLD_MEMBERSHIPS;
   // Group identities change only when that person's rows change. Unrelated
   // appends keep those immutable groups and their joined projection intact.
+  if (
+    householdProjectionCount >= HOUSEHOLD_PROJECTION_LIMIT &&
+    !HOUSEHOLD_PROJECTIONS.has(memberships)
+  ) {
+    HOUSEHOLD_PROJECTIONS = new WeakMap();
+    householdProjectionCount = 0;
+  }
   let person = HOUSEHOLD_PROJECTIONS.get(memberships);
   const sourceRevision = householdSourceRevision(history);
   if (person && person.sourceRevision !== sourceRevision) {
@@ -737,21 +747,14 @@ export function householdMembershipsAt(
       rows,
       sourceRevision,
       sequenceCeiling: maximum + 1,
-      results: new Map(),
+      resultKey: undefined,
+      result: undefined,
     };
-    // Keep only the most recently touched person groups in this run/month.
-    // Eviction changes reuse, never a recorded answer or a held result.
-    if (HOUSEHOLD_PROJECTIONS.size >= HOUSEHOLD_PROJECTION_LIMIT) {
-      HOUSEHOLD_PROJECTIONS.delete(HOUSEHOLD_PROJECTIONS.keys().next().value!);
-    }
-    HOUSEHOLD_PROJECTIONS.set(memberships, person);
-  } else {
-    HOUSEHOLD_PROJECTIONS.delete(memberships);
+    if (!HOUSEHOLD_PROJECTIONS.has(memberships)) householdProjectionCount += 1;
     HOUSEHOLD_PROJECTIONS.set(memberships, person);
   }
   const key = `${cutoff.asOfDate}|${Math.min(cutoff.historySequenceExclusive, person.sequenceCeiling)}`;
-  const cached = person.results.get(key);
-  if (cached) return cached;
+  if (person.resultKey === key) return person.result!;
   const result: ActiveHouseholdMembership[] = [];
   for (const row of person.rows) {
     const { membership, household } = row;
@@ -765,9 +768,9 @@ export function householdMembershipsAt(
       location: lastHouseholdRowAt(row.locations, cutoff) ?? null,
     });
   }
-  person.results.set(key, result);
-  if (person.results.size > 8)
-    person.results.delete(person.results.keys().next().value!);
+  // One cutoff view per person, rather than retaining several days of answers.
+  person.resultKey = key;
+  person.result = result;
   return result;
 }
 
