@@ -10,6 +10,7 @@ import {
   giveElectionSpeech,
   askCampaignHelper,
   offerCampaignManagerJob,
+  askCampaignDonorForContribution,
   groupCampaignSessions,
   projectCampaign,
   spendAnAfternoon,
@@ -163,6 +164,7 @@ export function CampaignWorkspace({
   );
   const [problem, setProblem] = useState<string | null>(null);
   const [helperNotice, setHelperNotice] = useState<string | null>(null);
+  const [donorAskDollars, setDonorAskDollars] = useState(100);
   const [selectedGeography, setSelectedGeography] = useState<string | null>(
     null,
   );
@@ -739,6 +741,82 @@ export function CampaignWorkspace({
                   Changing the plan does not use any time. The work happens when
                   you choose it below.
                 </p>
+              </section>
+            ) : null}
+
+            {planning.slots.includes("immediate") ? (
+              <section
+                aria-labelledby="campaign-donors-title"
+                data-testid="campaign-donors"
+              >
+                <h3 id="campaign-donors-title">People who gave</h3>
+                <label>
+                  Ask each person for $
+                  <input
+                    aria-label="Contribution ask in dollars"
+                    type="number"
+                    min="1"
+                    step="1"
+                    value={donorAskDollars}
+                    onChange={(event) =>
+                      setDonorAskDollars(Number(event.target.value))
+                    }
+                  />
+                </label>
+                {view.donors.length ? (
+                  <ul>
+                    {view.donors.map((donor, index) => (
+                      <li key={`${donor.personId}-${index}`}>
+                        {donor.name}: {donor.outcome}
+                        {donor.outcome === "gave"
+                          ? ` ${displayMoney({ minorUnits: donor.amountMinorUnits, currency: view.treasury.currency })}`
+                          : ""}
+                        {donor.reason
+                          ? ` — ${donor.reason}`
+                          : donor.reasonBeliefId
+                            ? " — based on their view of you"
+                            : ""}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>No one has been asked to give yet.</p>
+                )}
+                {view.donorCandidates.length ? (
+                  <ul aria-label="People you know who could give">
+                    {view.donorCandidates.map((donor) => (
+                      <li key={donor.personId}>
+                        <button
+                          type="button"
+                          data-testid={`ask-campaign-donor-${donor.personId}`}
+                          onClick={() => {
+                            try {
+                              const result = askCampaignDonorForContribution(
+                                world,
+                                view.campaignId!,
+                                donor.personId,
+                                Math.max(1, Math.floor(donorAskDollars * 100)),
+                              );
+                              onWorldChange(result.world);
+                              setHelperNotice(
+                                `${donor.name} ${result.ask.outcome === "gave" ? `gave ${displayMoney({ minorUnits: result.ask.amountMinorUnits, currency: view.treasury.currency })}` : result.ask.outcome}: ${result.reasons.join(" ") || result.view}. Recorded means: ${result.meansMinorUnits ?? "unknown"}; contribution limit: ${result.limit.minorUnits} ${view.treasury.currency}${result.limit.estimated ? " (estimated)" : ""}.`,
+                              );
+                              setProblem(null);
+                            } catch (error) {
+                              setProblem(
+                                error instanceof Error
+                                  ? error.message
+                                  : String(error),
+                              );
+                            }
+                          }}
+                        >
+                          Ask {donor.name} for ${donorAskDollars}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
               </section>
             ) : null}
 
