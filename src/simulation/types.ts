@@ -124,6 +124,7 @@ export type EntityKind =
   | "loan-repayment-allocation"
   | "loan-discharge"
   | "law-exposure"
+  | "place-outcome"
   | "official-view"
   | "job-opening"
   | "job-application"
@@ -937,6 +938,7 @@ export type LawExposureChannel =
   | "job-rule"
   | "business-rule"
   | "public-service"
+  | "outcome-web"
   | "rent";
 
 /**
@@ -981,6 +983,12 @@ export interface LawExposureRecord {
    * for a news exposure, the reader's knowledge of the story.
    */
   readonly sourceRecordId: EntityId;
+  /** A monthly place-outcome landing, retaining its exact measure record. */
+  readonly outcome?: {
+    readonly kind: "EXPOSURE" | "FLAG" | "AMOUNT" | "EVENT";
+    readonly value: number;
+    readonly month: IsoDate;
+  };
   /** For a news exposure: the story it came from, record by record. */
   readonly news?: LawExposureNewsProvenance;
 }
