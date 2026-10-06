@@ -745,7 +745,7 @@
         "nuclear": 0.459936324314,
         "wind": 0.000322225526,
         "solar": 0.026528516834,
-        "hydro": 5.8844796e-05
+        "hydro": 5.8844796e-5
       },
       "untrackedResidualMwh": 1230323,
       "untrackedResidualShare": 0.020445666652
