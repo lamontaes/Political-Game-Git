@@ -291,6 +291,12 @@ export async function fillCreator(
     await page.getByTestId("creator-continue-background").click();
   }
 
+  // The creator inserts an optional settings stage after a normal hometown
+  // or after the background stage for a custom start. Keep the defaults when
+  // a test has not opted into changing them.
+  await expect(page.getByTestId("creator-stage-difficulty")).toBeVisible();
+  await page.getByTestId("creator-skip-difficulty").click();
+
   await expect(page.getByTestId("creator-stage-whoareyou")).toBeVisible();
   const calibration = life.calibration ?? "skipped";
   let answeredMoments = false;
