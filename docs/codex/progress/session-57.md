@@ -6,6 +6,7 @@
 - Posted `Session 57 takes LW-03` on #2424 (comment 6015586619) before editing. The work branch is `codex/session57-lw03`, based on current main `e591ffc637d1f6db84d2ff920e8662ce123202ed`.
 - Added guarded tax consequence rows for federal income, sales, payroll, and corporate tax-term questions. Rows use the existing `tax` consequence kind and actual saved tax bases; they add no tax rate, authority, taxable amount, or recipient.
 - Added focused policy-pack assertions for the four rows. LW-04 has a separate draft PR #2468 from a Luna helper; it is marked BLOCKED/IN PROGRESS because its binder, checks, and named-person proof remain unresolved.
+- Added a release declaration with `impact: none`, since these rows do not resolve until federal binding is supported.
 
 ## Verification and blocker
 
