@@ -13,6 +13,8 @@ import {
   OUTCOMES_PRODUCED,
   outcomeFactor,
   outcomeLinkStatus,
+  outcomeLinksFedByQuestion,
+  outcomeWebStatus,
 } from ".";
 import { PLACE_OUTCOME_BASES } from "./place-outcome-store";
 
@@ -99,7 +101,7 @@ const began = (
 )[QUESTION_KEY]!.answers;
 
 describe("groundwater limits", () => {
-  it("has a starting answer in all 56 places and a sized link that acts", () => {
+  it("retains all starting answers and research while leaving the deferred link unconsumed", () => {
     expect(Object.keys(began)).toHaveLength(56);
     const yes = Object.values(began).filter((row) => row.answer === "yes");
     expect(yes).toHaveLength(37);
@@ -110,6 +112,11 @@ describe("groundwater limits", () => {
     expect(link.size).toBe(-0.31);
     expect(link.range).toEqual([-0.4, -0.21]);
     expect(link.lagMonths).toBe(12);
+    expect(link.consumed).toBe(false);
+    expect(outcomeLinksFedByQuestion(QUESTION_KEY)).toEqual([]);
+    expect(outcomeWebStatus().find((row) => row.key === LINK)?.consumed).toBe(
+      false,
+    );
   });
 
   it("starts the 50 states and Puerto Rico at their 2015 irrigation pumping", () => {
@@ -120,17 +127,21 @@ describe("groundwater limits", () => {
     expect(OUTCOMES_PRODUCED.has(MEASURE)).toBe(true);
   });
 
-  it("moves irrigation pumping 31% a year after a state changes its answer, in every place with data", () => {
+  it("does not consume an enacted groundwater cap in any place with recorded base data", () => {
     const places = Object.keys(PLACE_OUTCOME_BASES[MEASURE]!.places);
     for (const key of places) {
       const state = stateJurisdictionForKey(key)!.id;
       const flipped = began[key]!.answer === "yes" ? "no" : "yes";
       const world = worldWith([law(state, flipped, "2026-07-01")]);
       expect(pumped(world, state, "2027-06-15").multiplier, key).toBe(1);
-      expect(pumped(world, state, "2027-07-15").multiplier, key).toBeCloseTo(
-        flipped === "yes" ? 0.69 : 1.31,
-        10,
-      );
+      expect(world.history.legislativeEnactments).toHaveLength(1);
+      expect(pumped(world, state, "2027-07-15").multiplier, key).toBe(1);
+      expect(
+        pumped(world, state, "2027-07-15").causes.some(
+          (cause) => cause.key === LINK,
+        ),
+        key,
+      ).toBe(false);
       // Enacting what the place already had changes nothing.
       const same = worldWith([law(state, began[key]!.answer, "2026-07-01")]);
       expect(pumped(same, state, "2027-07-15").multiplier, key).toBe(1);

@@ -181,4 +181,4 @@ No new annual run, timing reduction or save-size reduction is claimed. Observer 
 
 ## Method
 
-Base: `ab009f288a67d2a8b7be12411fca8bf1232f91d3`. Branch: `codex/session12-lexington-removal`. Focused receipts are under `test-results/session12/lexington-*.{json,log}`. Read-only base comparisons load original tracked sources through the existing Vite configuration; no second checkout or World advance was used for the retention comparison.
+Removal base: `ab009f288a67d2a8b7be12411fca8bf1232f91d3`. Current main `139ed9935bfaa970d59cbfb373068b65b0d2411c` was integrated without rewriting published branch history. Branch: `codex/session12-lexington-removal`. Focused receipts are under `test-results/session12/lexington-*.{json,log}`. Read-only base comparisons load original tracked sources through the existing Vite configuration; no second checkout or World advance was used for the retention comparison.
