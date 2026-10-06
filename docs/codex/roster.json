@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-06T13:02:38Z",
+  "updatedAt": "2026-10-06T13:07:20Z",
   "updatedBy": "Session 45",
   "source": {
     "issue": "#2424",
-    "lastReadCommentId": 6016855352,
+    "lastReadCommentId": 6016873722,
     "mainHead": "e597ec933608993a9ecfef6110b3f9b9f856a3c7",
     "localInventorySource": "user-provided supported app inventory"
   },
@@ -637,7 +637,17 @@
     "Latest activity-marker audit supersedes prior no-output snapshots for Sessions 3/16/31/52; outcomes remain coordinator-reported, with no independent rerun by Session45.",
     "LW-05 ownership remains unresolved between Sessions 9 and 20 until an explicit old-artifact or handoff is supplied.",
     "Board root #6016855352 confirms Session56 original resumed on disjoint work; previous app inventory's idle status remains the earlier inventory snapshot, not current execution state.",
-    "The latest #2529 repository failure is current hosted evidence, not the stale lint failures fixed by #2470; its unit run was still live at 13:01:56 UTC."
+    "The latest #2529 repository failure is current hosted evidence, not the stale lint failures fixed by #2470; its unit run was still live at 13:01:56 UTC.",
+    "Coordinator activity delta received after board comment 6016855352; exact receipt times/heads remain absent unless stated.",
+    "Session26 terminally failed on capacity service; same existing work resume sent without model or workspace change.",
+    "Session16 terminally blocked by obsolete #2052 route after #2573 health consumer reported 140-local PASS; current #2424 route and independent next work delivered.",
+    "Session21 terminally drafted #2547 with controlled-proof-only state; random-place proof resume delivered.",
+    "Session47 terminally reported #2415 scene-composer; 20-year proof pending; retained handle and independent work requested.",
+    "Session9 explicitly holds LW05 overlap; independent next work sent; LW05 remains unresolved pending explicit handoff.",
+    "Session20 published #2529 formatting correction at f728f910; fresh exact-head audit queued and checks are not PASS.",
+    "Session55 now has a completed command receipt for P1 schema validation; this supersedes earlier idle/no-output state.",
+    "Session49 is running a two-day random-locale engine multi-life packet; command completed and batch publication pending.",
+    "Session15 Steam work is newly visible but parked and not pinged."
   ],
   "localChatInventory": [
     {
@@ -1468,6 +1478,78 @@
       "receiptTimestamp": "board root comment 2026-10-06T13:02:38Z",
       "exactHead": "not supplied",
       "source": "board comment 6016855352"
+    },
+    {
+      "session": 26,
+      "task": "capacity-service terminal failure / resume",
+      "state": "terminal FAILED; resume request sent on same existing work, no model or workspace change",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided latest recovery delta"
+    },
+    {
+      "session": 16,
+      "task": "#2573 health consumer / routing",
+      "state": "terminally blocked on obsolete #2052 route after reported 140-local PASS; current #2424 route and independent next work delivered",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided latest recovery delta"
+    },
+    {
+      "session": 21,
+      "task": "#2547 controlled proof",
+      "state": "terminal draft; controlled-proof-only; random-place proof resume delivered",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided latest recovery delta"
+    },
+    {
+      "session": 47,
+      "task": "#2415 scene-composer and 20-year proof",
+      "state": "terminal; proof pending; retained handle and independent work requested",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided latest recovery delta"
+    },
+    {
+      "session": 9,
+      "task": "LW05 overlap",
+      "state": "explicit hold; independent next work sent; LW05 ownership unresolved pending explicit handoff",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided latest recovery delta"
+    },
+    {
+      "session": 20,
+      "task": "#2529 format correction",
+      "state": "correction published at f728f910; fresh exact-head audit queued; checks not PASS",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "f728f910",
+      "source": "coordinator-provided latest recovery delta"
+    },
+    {
+      "session": 55,
+      "task": "P1 schema validation",
+      "state": "command completed; supersedes prior idle/no-output state",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided latest recovery delta"
+    },
+    {
+      "session": 49,
+      "task": "two-day random-locale engine multi-life packet",
+      "state": "command completed; batch publication pending",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided latest recovery delta"
+    },
+    {
+      "session": 15,
+      "task": "Steam",
+      "state": "newly visible idle; parked and not pinged",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not applicable",
+      "source": "coordinator-provided latest recovery delta"
     }
   ],
   "coordinatorChat": {
@@ -1592,10 +1674,10 @@
     },
     {
       "pr": 2529,
-      "head": "a4087a5",
-      "repositoryJob": "112274399135 FAILED changed-file Prettier (generate-manifest.test.mjs, enacted-law-effects.ts)",
-      "unitJob": "still live",
-      "local240": "separate result; not substituted for hosted checks"
+      "head": "f728f910",
+      "repositoryJob": "format correction published",
+      "freshAudit": "queued",
+      "checks": "not PASS"
     }
   ],
   "handoffs": [
