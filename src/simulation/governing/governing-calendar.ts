@@ -1,3 +1,7 @@
+import {
+  municipalGovernmentByKey,
+  primaryReading,
+} from "../municipal-government";
 import { nextSessionCalendarDate } from "../legislative-session-calendar";
 import { LEGISLATIVE_SESSION_CALENDARS } from "../legislative-session-calendar-data";
 import { scheduleFutureDueItem } from "../future-transitions";
@@ -27,12 +31,38 @@ export function scheduleGoverningSeasons(
   world: World,
   officeKey: string,
   jurisdictionId: EntityId,
+  municipal?: { readonly kind: "municipal"; readonly governmentKey: string },
 ): World {
-  const calendar =
+  const government = municipal
+    ? municipalGovernmentByKey(municipal.governmentKey)
+    : null;
+  const submission = government
+    ? primaryReading(government).budget.submissionDeadline?.monthDay
+    : null;
+  const baseline =
     legislativeProcedureForJurisdiction(world, jurisdictionId)?.baselinePack
       .session.sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.state;
+  const budgetCalendar = baseline.tasks?.budget
+    ? baseline
+    : LEGISLATIVE_SESSION_CALENDARS.state;
+  const calendar = submission
+    ? {
+        ...baseline,
+        id: `municipal-budget:${municipal!.governmentKey}`,
+        note: "The recorded municipal budget submission date.",
+        tasks: {
+          ...baseline.tasks,
+          budget: { kind: "annual" as const, monthDays: [submission] },
+        },
+      }
+    : municipal
+      ? budgetCalendar
+      : baseline;
   let next = world;
-  for (const kind of ["budget", "bill"] as const) {
+  const kinds: readonly SeasonKind[] = municipal
+    ? ["budget"]
+    : ["budget", "bill"];
+  for (const kind of kinds) {
     const dueAt = nextSessionCalendarDate(calendar, next.currentDate, kind, {
       eligibleYear:
         kind === "bill"
