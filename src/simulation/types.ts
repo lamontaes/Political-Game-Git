@@ -5785,6 +5785,11 @@ export interface World {
   readonly incidentCatalog: IncidentCatalog;
   readonly vitalityCatalog: VitalityCatalog;
   readonly control: ControlState;
+  /** Prospective player identity and recorded Begin boundary; absent in legacy saves. */
+  readonly preStartLife?: {
+    readonly personId: EntityId;
+    readonly targetStartDate: IsoDate;
+  };
   readonly history: HistoryStore;
   /**
    * What the player answered at setup, kept beside the world rather than in
