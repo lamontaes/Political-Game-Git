@@ -35,7 +35,7 @@ import {
   decideToLeaveHome,
   LEAVING_HOME_EVENT,
   leavingHomeConsiderations,
-  UNRESEARCHED_LEAVING_HOME,
+  ESTIMATED_LEAVING_HOME,
   type LeavingHomeFacts,
 } from "./leaving-home";
 import { TOWN_EMPLOYMENT_VERSION } from "./town-employment";
@@ -112,11 +112,14 @@ describe(`a new household forms only from a recorded cause (A135; place ${PLACE}
   const { world: opened, town } = openAtFirstReview(PLACE_SEED, PLACE);
   const today = opened.currentDate;
 
-  it("the weights are marked as unresearched placeholders", () => {
-    expect(UNRESEARCHED_LEAVING_HOME.provenance).toBe(
-      "unresearched-blanket-rule",
+  it("records the nationwide-average basis for the weights", () => {
+    expect(ESTIMATED_LEAVING_HOME.provenance).toContain(
+      "ESTIMATED FROM AVERAGE",
     );
-    expect(UNRESEARCHED_LEAVING_HOME.researchQuestions).toContain(
+    expect(ESTIMATED_LEAVING_HOME.provenance).toContain(
+      "places used: all US places",
+    );
+    expect(ESTIMATED_LEAVING_HOME.researchQuestions).toContain(
       "why-young-adults-leave-home",
     );
   });

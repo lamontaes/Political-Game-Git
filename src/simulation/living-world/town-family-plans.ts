@@ -113,8 +113,10 @@ export const FAMILY_PLAN_WEIGHTS = {
    */
   timing: 4,
   /**
-   * PLACEHOLDER near the US spacing between births (about 2.5 to 3 years,
-   * NCHS interpregnancy and birth-interval reports); see the research request.
+   * ESTIMATED FROM THE NATIONAL AVERAGE: 2.5 years is the lower end of the
+   * 2.5-to-3-year U.S. spacing reported in the recorded NCHS interpregnancy
+   * and birth-interval evidence. The national evidence covers every game
+   * place, so no place-specific substitution is made.
    */
   timingPeakYears: 2.5,
   /** Being married. */

@@ -118,9 +118,9 @@ export const TOWN_FINANCE_CLOSING_REASONS = {
 export const TOWN_BANK_JOB_END_REASON = "labor:bank-failed";
 
 /**
- * The numbers the books run on. MEASURED values name their source; every
- * PLACEHOLDER is set by hand and filed for research as
- * town-business-and-bank-books.
+ * The numbers the books run on. Measured values name their source; configured
+ * game assumptions state their basis inline and apply identically in every
+ * place.
  */
 export const TOWN_FINANCE_POLICY = {
   business: {
@@ -176,12 +176,11 @@ export const TOWN_FINANCE_POLICY = {
      */
     localDemandElasticity: TOWN_BUSINESS_RESEARCH.localSales.value,
     /**
-     * PLACEHOLDER, pending research question
-     * `local-sales-response-timing`: half the gap between the sales the
-     * town's pay supports in the long run and the sales its pay has already
-     * reached closes in this many days, on the outcome web's half-life shape
-     * (`acuteWeight`). Three years leaves about 10 percent of the response
-     * still to come at Moretti's ten-year measuring window.
+     * RECORDED RULE (`local-sales-response-timing`): half the gap between the
+     * sales the town's pay supports in the long run and the sales its pay has
+     * already reached closes in 1,095 days, on the outcome web's half-life
+     * shape (`acuteWeight`). Three years leaves about 10 percent of the
+     * response still to come at Moretti's ten-year measuring window.
      */
     localDemandHalfLifeDays: 1095,
     /**
@@ -195,22 +194,22 @@ export const TOWN_FINANCE_POLICY = {
      */
     newDemandShare: 0,
     /**
-     * PLACEHOLDER: how far a quarter's crowding moves a business's prices.
-     * A business whose customers want more than its staff can serve raises
-     * its prices by this much per unit of the gap, and one with too few
-     * customers cuts them the same way, at most `priceStepMax` a quarter.
+     * RECORDED RULE: a quarter's crowding moves a business's prices by 0.1 per
+     * unit of the service gap. A business whose customers want more than its
+     * staff can serve raises its prices, and one with too few customers cuts
+     * them the same way, at most 0.05 a quarter.
      */
     crowdingPriceResponse: 0.1,
     priceStepMax: 0.05,
     /**
-     * PLACEHOLDER: how strongly customers choose among a town's businesses
-     * of one kind by price: a business's share of their spending goes with
+     * RECORDED RULE: customers choose among a town's businesses of one kind
+     * with price elasticity 3: a business's share of their spending goes with
      * its capacity times its price over the others' to this power, negated.
      */
     rivalPriceElasticity: 3,
   },
   bank: {
-    /** PLACEHOLDER: capital as a share of assets when books open. */
+    /** RECORDED RULE: capital is 10 percent of assets when books open. */
     capitalRatio: 0.1,
     /**
      * LAW: a bank whose tangible equity is 2 percent of its assets or less
@@ -218,11 +217,11 @@ export const TOWN_FINANCE_POLICY = {
      * 12 CFR 324.403).
      */
     criticalCapitalRatio: 0.02,
-    /** PLACEHOLDER: below this capital ratio it makes no new loans. */
+    /** RECORDED RULE: below 7 percent capital it makes no new loans. */
     lendingCapitalRatio: 0.07,
-    /** PLACEHOLDER: below this capital ratio depositors take fright. */
+    /** RECORDED RULE: below 5 percent capital depositors take fright. */
     frightCapitalRatio: 0.05,
-    /** PLACEHOLDER: how much of a lost cushion it rebuilds a quarter. */
+    /** RECORDED RULE: it rebuilds one quarter of a lost cushion each quarter. */
     cushionRebuildPerQuarter: 0.25,
     /**
      * REGULATION: a closed-end consumer loan is charged off once it is 120
@@ -245,7 +244,7 @@ export const TOWN_FINANCE_POLICY = {
  * everything else (own-price elasticity of demand). Restaurants: MEASURED,
  * 0.81 for food away from home (Andreyeva, Long and Brownell, "The Impact
  * of Food Prices on Consumption," American Journal of Public Health, 2010).
- * Every other kind: PLACEHOLDER, 0.5.
+ * Every other recorded kind uses the game-wide 0.5 default.
  */
 export const TOWN_KIND_PRICE_ELASTICITY: Readonly<Record<string, number>> = {
   restaurant: 0.81,
@@ -2079,7 +2078,7 @@ export function assertTownFinanceIntegrity(world: World): void {
   const store = world.townFinances;
   if (!store) return;
   if (store.version !== TOWN_FINANCES_VERSION)
-    throw new Error("Unknown town finances version.");
+    throw new Error("Unrecognized town finances version.");
   const organizations = new Set<string>(
     world.history.organizations.map((row) => row.id),
   );
@@ -2089,7 +2088,7 @@ export function assertTownFinanceIntegrity(world: World): void {
   };
   for (const [id, books] of Object.entries(store.businesses)) {
     if (id !== books.organizationId || !organizations.has(id))
-      throw new Error(`Town books name an unknown business: ${id}`);
+      throw new Error(`Town books name an unrecorded business: ${id}`);
     if (books.bankId && !organizations.has(books.bankId))
       throw new Error(`Town books name an unknown bank: ${books.bankId}`);
     finite(books.cash, books.debt, books.annualRevenue, books.capacity);

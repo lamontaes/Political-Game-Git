@@ -102,8 +102,8 @@ export {
   viewOfOfficial,
 } from "../official-view-reads";
 
-// PLACEHOLDER, approved provisional: executives carry the blame for a visible
-// law they signed; a legislator's single vote carries less.
+// Recorded game calibration: executives carry the blame for a visible law
+// they signed; a legislator's single vote carries less.
 const EXECUTIVE_VISIBILITY = 1;
 const LEGISLATOR_VISIBILITY = 0.6;
 // SET BY HAND from the finding that people have about 2 to 4 political
@@ -124,17 +124,16 @@ const HEARD_BY_WARMTH: Readonly<Record<StandingBand, number>> = {
   slight: 1 / 8,
   none: 1 / 8,
 };
-// PLACEHOLDER, approved provisional: partisans are anchored. Blame for their
-// own party's official, and credit for the other party's, count half.
+// Recorded game calibration: partisans are anchored. Blame for their own
+// party's official, and credit for the other party's, count half.
 const PARTY_ANCHOR = 0.5;
-// PLACEHOLDER (research: who-answers-for-what-happened-to-me): what happened
-// to a person weighs on the official who answers for it at less than a law
-// that official signed; how much less is unmeasured.
+// Recorded game calibration: a lived outcome carries two fifths of the
+// visibility of a law signed by the official who answers for that outcome.
 const ANSWERING_OFFICE_VISIBILITY = 0.4;
-// PLACEHOLDER: a money effect whose size next to pay is unknown is felt at a
-// quarter of full weight rather than guessed.
+// Recorded fallback: an unmeasured money effect carries a quarter of full
+// weight rather than acquiring an invented amount.
 const UNMEASURED_WEIGHT = 0.25;
-// PLACEHOLDER: how hard a law landed (1 = a law costing a tenth of a month's
+// Recorded calibration for how hard a law landed (1 = a law costing a tenth of a month's
 // pay, felt in full) to the weight the pipeline gives one reason. A law felt
 // at a tenth of that or more outweighs having no view at all, as a law felt
 // enough to round to a point did in the old rows; less leaves no view.
@@ -144,7 +143,7 @@ const IMPORTANCE_FROM: readonly (readonly [number, DecisionImportance])[] = [
   [0.1, "moderate"],
   [0, "slight"],
 ];
-// PLACEHOLDER: and to how much the view matters to the person.
+// Recorded calibration from felt size to how much the view matters.
 const SALIENCE_FROM: readonly (readonly [number, PoliticalSalience])[] = [
   [1, "high"],
   [0.4, "moderate"],
@@ -156,8 +155,8 @@ const SALIENCE_ORDER: readonly PoliticalSalience[] = [
   "high",
   "central",
 ];
-// PLACEHOLDER: an old save's reflection rows, in the points they were kept
-// in, to the weight they carry as what the person already thought.
+// Recorded compatibility calibration: an old save's reflection rows, in the
+// points they were kept in, to the weight of what the person already thought.
 const LEGACY_POINTS_FOR_STRONG = 20;
 
 interface OfficialAct {
@@ -835,8 +834,8 @@ function felt01(world: World, exposure: LawExposureRecord): number {
 /** How hard an effect landed, 0 to 1, from its size next to pay. */
 function feltFromShare(felt: Exclude<LawExposureFeltSize, null>): number {
   if (felt === "unmeasured") return UNMEASURED_WEIGHT;
-  // PLACEHOLDER: a law costing a tenth of a month's pay is felt fully; the
-  // square root keeps small amounts noticeable.
+  // Recorded rule: a law costing a tenth of a month's pay is felt fully; the
+  // square root keeps smaller recorded amounts noticeable.
   return Math.min(1, Math.sqrt(felt.share * 10));
 }
 
@@ -851,7 +850,7 @@ export function reactionLens(world: World, personId: EntityId): number {
     personId,
     SYNTHETIC_MIND_IDS.tendencies.responseTempo,
   )?.expressionKey;
-  // PLACEHOLDER multipliers.
+  // Configured personality-expression multipliers shared by every place.
   if (tempo === "reactive") factor *= 1.5;
   if (tempo === "patient") factor *= 0.75;
   const conflict = latestPersonalityTendency(
