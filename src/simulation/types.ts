@@ -1,3 +1,4 @@
+import type { HistoricalPastMode } from "./historical-past-mode";
 import type { WorkPayCoverageDeterminationRecord } from "./pay-coverage-types";
 import type { LawScheduleTerm } from "./law-structured-terms";
 import type {
@@ -5762,6 +5763,11 @@ export interface SetupPriorStore {
 }
 
 export interface World {
+<<<<<<< HEAD
+=======
+  /** Loading-only routine summary mode; removed at the recorded Begin boundary. */
+  readonly pastMode?: HistoricalPastMode;
+>>>>>>> d80f2fce7 (Use a type import for the historical mode)
   /** Saved courts and seated judges; absent in lives created before courts opened. */
   readonly judiciary?: JudiciaryState;
   /** Immutable validated definitions accepted for this life; absent in legacy saves. */
