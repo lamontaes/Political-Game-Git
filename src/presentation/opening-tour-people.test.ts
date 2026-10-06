@@ -107,9 +107,59 @@ describe("recorded representatives on the opening legislature card", () => {
         expect(person.title).toBe(
           people.find((record) => record.personId === person.personId)!.title,
         );
+      const chapters = projectLivingSceneOpening(
+        world,
+        playerPersonId,
+      ).chapters;
+      const legislature = chapters.find(
+        (chapter) => chapter.key === "legislature",
+      )!.actors;
+      expect(legislature.map((actor) => actor.person.personId)).toEqual(
+        people.map((person) => person.personId),
+      );
+      for (const actor of legislature) {
+        const work = world.history.workRelationships.find(
+          (record) => record.id === actor.recordIds[0],
+        );
+        expect(work?.personId).toBe(actor.person.personId);
+        expect(actor.presenceBasis).toBe("illustrative-public-role");
+        expect(actor.provenance.kind).toBe("state-legislator-work");
+      }
+      const furniture = openingTourStagedPeople(
+        world,
+        playerPersonId,
+        "state-legislative-chamber-bicameral",
+        people,
+        {
+          furniture: true,
+          memberIds: new Set(people.map((person) => person.personId)),
+        },
+      );
+      const trace = introPlacementTrace(furniture, legislature);
+      expect(trace.people.length).toBeGreaterThan(0);
+      expect(trace.people.every((person) => person.selectionGap === null)).toBe(
+        true,
+      );
+      expect(
+        [...furniture, ...furniture.overflow]
+          .map((person) => person.personId)
+          .sort(),
+      ).toEqual(people.map((person) => person.personId).sort());
       const family = openingFamilyPeople(world, playerPersonId);
       const saved = projectOpeningFamily(world, playerPersonId);
       expect(family.length).toBeGreaterThan(0);
+      const parents = chapters.find(
+        (chapter) => chapter.key === "parents",
+      )!.actors;
+      expect(parents.map((actor) => actor.person.personId)).toEqual(
+        family.map((person) => person.personId),
+      );
+      for (const actor of parents) {
+        expect(actor.recordIds.length).toBeGreaterThan(0);
+        expect(actor.presenceBasis).toBe("illustrative-family-record");
+        expect(["kinship", "child-authority"]).toContain(actor.provenance.kind);
+      }
+
       expect(family.map((person) => person.personId)).toEqual(
         saved.parents.map((member) => member.personId),
       );
