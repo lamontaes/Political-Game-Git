@@ -12,6 +12,10 @@ import { checkAmericanEnglish } from "../scripts/prose-eval/american-english";
 
 const PARTS_DIR = path.resolve(__dirname, "../data/english/parts");
 
+/** Hosts whose records are U.S. government works, so their wording may ship. */
+const PUBLIC_DOMAIN_SOURCES =
+  /^https:\/\/www\.(?:govinfo\.gov|supremecourt\.gov)\//;
+
 const DEVELOPER_WORDS = [
   "game profile",
   "catalog",
@@ -73,7 +77,8 @@ describe("English part banks", () => {
           expect(part.source.document.trim()).not.toBe("");
           expect(part.source.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
           expect(part.source.url).toMatch(/^https:\/\//);
-          if (part.shippable) expect(part.source.url).toMatch(/govinfo\.gov/);
+          if (part.shippable)
+            expect(part.source.url).toMatch(PUBLIC_DOMAIN_SOURCES);
         }
       });
 
