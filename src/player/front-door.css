@@ -68,12 +68,6 @@
   overscroll-behavior: contain;
   padding: 1.35rem 1.25rem 1.2rem;
   box-sizing: border-box;
-  background: var(--kit12-glass);
-  border: 2.5px solid var(--brass);
-  border-radius: 2px;
-  backdrop-filter: var(--kit12-blur);
-  -webkit-backdrop-filter: var(--kit12-blur);
-  box-shadow: var(--kit12-frame);
   color: var(--front-door-ink);
   font-family: var(--front-door-read);
   text-shadow: none;
@@ -98,7 +92,7 @@
   display: block;
   font-family: var(--front-door-display);
   font-size: clamp(1.55rem, 2.1vw, 2rem);
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: 0.07em;
   line-height: 1.12;
   color: var(--gold);
@@ -118,7 +112,7 @@
   max-width: none;
 }
 
-.title-tableau--art.front-door .game-title button {
+.title-tableau--art.front-door .game-title:not(.game-creator) button {
   align-items: flex-start;
   width: 100%;
   min-height: 2.75rem;
@@ -135,7 +129,6 @@
   text-shadow: none;
   transform-origin: left center;
   transition:
-    transform 120ms ease,
     text-shadow 120ms ease,
     color 120ms ease;
 }
@@ -145,7 +138,7 @@
   text-transform: uppercase;
 }
 
-.title-tableau--art.front-door .game-title button small {
+.title-tableau--art.front-door .game-title:not(.game-creator) button small {
   max-width: 100%;
   color: var(--front-door-ink-dim);
   font-weight: 500;
@@ -158,77 +151,50 @@
 }
 
 .title-tableau--art.front-door
-  .game-title
+  .game-title:not(.game-creator)
   button:is(:hover, :focus-visible):not(:disabled) {
   color: #fff;
   background: transparent;
   border-color: transparent;
   box-shadow: none;
-  text-shadow: 0 0 10px rgb(242 237 228 / 0.55);
-  transform: scale(1.015);
+  text-shadow: var(--kit12-hover-glow);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .title-tableau--art.front-door .game-title button {
+  .title-tableau--art.front-door .game-title:not(.game-creator) button {
     transition: none;
   }
 }
 
-.title-tableau--art.front-door .game-title button:focus-visible,
-.title-tableau--art.front-door .game-title input:focus-visible,
+.title-tableau--art.front-door
+  .game-title:not(.game-creator)
+  button:focus-visible,
+.title-tableau--art.front-door
+  .game-title
+  input:not([type="search"]):focus-visible,
 .title-tableau--art.front-door .game-title summary:focus-visible {
   outline: 2px solid var(--front-door-focus);
   outline-offset: 3px;
 }
 
-.title-tableau--art.front-door .game-title button:disabled {
+.title-tableau--art.front-door .game-title:not(.game-creator) button:disabled {
   cursor: not-allowed;
   opacity: 1;
   color: var(--text-2);
   background: transparent;
 }
 
-.title-tableau--art.front-door .game-title button:disabled small {
+.title-tableau--art.front-door
+  .game-title:not(.game-creator)
+  button:disabled
+  small {
   color: var(--text-2);
 }
 
-.title-tableau--art.front-door .game-title button.is-chosen {
+.title-tableau--art.front-door .game-title:not(.game-creator) button.is-chosen {
   color: var(--front-door-accent);
-  box-shadow: inset 3px 0 var(--run-a-brass, #b08a3e);
-}
-
-.title-tableau--art.front-door .game-creator button {
-  background: linear-gradient(#363437, #202023);
-  border: 1px solid #171619;
-  border-radius: 5px;
-  box-shadow:
-    inset 0 1px 0 rgb(242 237 228 / 0.2),
-    inset 0 -1px 0 rgb(0 0 0 / 0.35),
-    0 3px 0 #121113,
-    0 5px 10px rgb(0 0 0 / 0.35);
-}
-
-.title-tableau--art.front-door .game-creator button small {
-  color: var(--front-door-ink);
-  opacity: 1;
-}
-
-.title-tableau--art.front-door
-  .game-creator
-  button:is(:hover, :focus-visible):not(:disabled) {
-  color: var(--text-strong);
-  border-color: #85817a;
-  filter: brightness(1.06);
-  box-shadow: var(--kit13-control-shadow);
-  text-shadow: none;
-}
-
-.title-tableau--art.front-door .game-creator button.is-chosen {
-  color: var(--gold);
-  box-shadow:
-    inset 0 1px 0 rgb(242 237 228 / 0.2),
-    0 3px 0 #121113,
-    0 5px 10px rgb(0 0 0 / 0.35);
+  background: var(--glass-bottom);
+  box-shadow: none;
 }
 
 /*
@@ -243,12 +209,6 @@
   max-height: 100%;
   overflow-y: visible;
   overscroll-behavior: contain;
-  border: 2.5px solid var(--brass);
-  border-radius: 2px;
-  background: var(--kit12-glass);
-  backdrop-filter: var(--kit12-blur);
-  -webkit-backdrop-filter: var(--kit12-blur);
-  box-shadow: var(--kit12-frame);
   padding: 0.9rem 1rem 1rem;
   box-sizing: border-box;
   color: var(--front-door-ink);
@@ -371,11 +331,10 @@
 
 .title-tableau--art.front-door .game-creator .game-fields input,
 .title-tableau--art.front-door .game-creator input[type="text"],
-.title-tableau--art.front-door .game-creator input[type="number"],
-.title-tableau--art.front-door .game-creator input[type="search"] {
+.title-tableau--art.front-door .game-creator input[type="number"] {
   background: #1c1c1e;
   border: 1px solid rgb(122 90 40 / 0.45);
-  border-radius: 3px;
+  border-radius: 1px;
   color: var(--front-door-ink);
   font-family: var(--front-door-read);
   font-weight: 500;
@@ -452,7 +411,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .title-tableau--art.front-door .game-title h1,
-  .title-tableau--art.front-door .game-title button {
+  .title-tableau--art.front-door .game-title:not(.game-creator) button {
     transition: none;
   }
 }
@@ -554,6 +513,23 @@
   color: var(--text-strong);
   border-bottom: 0;
 }
+/* The approved primary corner marks a held static action, never its resting face. */
+.pg-game.pg-game
+  .title-tableau--art.front-door
+  .game-creator
+  > .creator-navigation
+  .creator-primary-action:active:not(:disabled) {
+  background-image:
+    url("/ui/kit13/primary-corner.svg"), var(--kit13-grain),
+    var(--kit13-button-face);
+  background-position: left top;
+  background-size:
+    20px 20px,
+    96px 64px,
+    auto;
+  background-repeat: no-repeat, repeat, no-repeat;
+}
+
 .title-tableau--art.front-door
   .game-creator
   > .creator-navigation
@@ -671,4 +647,33 @@
   .front-door button {
     transition: none;
   }
+}
+
+.title-tableau--art.front-door
+  .game-title:not(.game-creator)
+  button:active:not(:disabled) {
+  background: var(--glass-bottom);
+  color: var(--gold);
+  text-shadow: none;
+}
+
+.creator-search-entry {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+.pg-game .front-door .creator-search-entry input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+  caret-color: var(--gold);
+}
+
+.creator-search-entry input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
 }

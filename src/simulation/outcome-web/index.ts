@@ -109,6 +109,8 @@ export interface OutcomeLink {
   /** Declared structural inventory; never proof of delivery to a person. */
   readonly status: OutcomeLinkStatus;
   readonly unsupportedReason: OutcomeLinkUnsupportedReason | null;
+  /** Owner-deferred links retain their evidence but are not used in play. */
+  readonly consumed?: boolean;
   readonly anchor: string;
   /** Developer reference only. Never shown on a player screen. */
   readonly source: string;
@@ -134,6 +136,9 @@ export interface OutcomeLink {
 }
 
 export const OUTCOME_LINKS = web.links as readonly OutcomeLink[];
+const OUTCOME_LINK_BY_KEY = new Map(
+  OUTCOME_LINKS.map((link) => [link.key, link]),
+);
 
 const TARGET_BOUNDS = web.targets as Readonly<
   Record<string, { readonly floor: number; readonly ceiling: number }>
@@ -443,8 +448,9 @@ export function outcomeLinksFedByQuestion(
   const measures = LAW_QUESTION_MEASURES[questionKey] ?? [];
   return OUTCOME_LINKS.filter(
     (link) =>
-      link.from === `${LAW_CAUSE_PREFIX}${questionKey}` ||
-      measures.includes(link.from),
+      link.consumed !== false &&
+      (link.from === `${LAW_CAUSE_PREFIX}${questionKey}` ||
+        measures.includes(link.from)),
   );
 }
 
@@ -608,6 +614,10 @@ export function validateOutcomeLinkInventory(
   links: readonly OutcomeLink[],
 ): void {
   for (const link of links) {
+    if (link.consumed !== undefined && typeof link.consumed !== "boolean")
+      throw new Error(
+        `Outcome link has an invalid consumption flag: ${link.key}`,
+      );
     const actual = outcomeLinkStatus(link);
     if (link.status !== actual)
       throw new Error(
@@ -634,6 +644,7 @@ export function outcomeWebStatus(): readonly {
   readonly status: OutcomeLinkStatus;
   readonly evidence: OutcomeEvidence;
   readonly unsupportedReason: OutcomeLinkUnsupportedReason | null;
+  readonly consumed: boolean;
 }[] {
   validateOutcomeLinkInventory(OUTCOME_LINKS);
   return OUTCOME_LINKS.map((link) => ({
@@ -644,6 +655,7 @@ export function outcomeWebStatus(): readonly {
     status: outcomeLinkStatus(link),
     evidence: link.evidence,
     unsupportedReason: link.unsupportedReason,
+    consumed: link.consumed !== false,
   }));
 }
 
@@ -665,10 +677,60 @@ export interface OutcomeReading {
   readonly causes: readonly OutcomeCause[];
 }
 
+/** A post-run check, never a replacement for the calculated effect. */
+export interface OutcomeRangeViolation {
+  readonly kind: "link" | "target";
+  readonly key: string;
+  readonly value: number;
+  readonly floor: number | null;
+  readonly ceiling: number | null;
+}
+
+/** Check the table's ranges after computing an outcome without changing it. */
+export function outcomeRangeViolations(
+  reading: OutcomeReading,
+): readonly OutcomeRangeViolation[] {
+  const violations: OutcomeRangeViolation[] = [];
+  const check = (
+    kind: OutcomeRangeViolation["kind"],
+    key: string,
+    value: number,
+    floor: number | null,
+    ceiling: number | null,
+  ) => {
+    if (
+      !Number.isFinite(value) ||
+      (floor !== null && value < floor) ||
+      (ceiling !== null && value > ceiling)
+    )
+      violations.push({ kind, key, value, floor, ceiling });
+  };
+  for (const cause of reading.causes) {
+    const link = OUTCOME_LINK_BY_KEY.get(cause.key);
+    if (link)
+      check(
+        "link",
+        link.key,
+        cause.factor,
+        link.floor ?? 0,
+        link.ceiling ?? null,
+      );
+  }
+  const bounds = TARGET_BOUNDS[reading.outcome];
+  check(
+    "target",
+    reading.outcome,
+    reading.multiplier,
+    bounds?.floor ?? null,
+    bounds?.ceiling ?? null,
+  );
+  return violations;
+}
+
 /**
  * How much one link moves its outcome when the cause sits `delta` units from
  * its baseline (`value` is the cause itself, for thresholds). Returns the
- * factor on the outcome's rate, before the moderator and the link's bounds.
+ * factor on the outcome's rate, before the moderator. Ranges are checks only.
  */
 export function shapedLinkFactor(
   link: Pick<OutcomeLink, "shape" | "size">,
@@ -733,8 +795,8 @@ function lagged(asOf: IsoDate, lagMonths: number): IsoDate {
 
 /**
  * The multiplier on `outcome`'s base rate in one place on one date, from every
- * built link into it, with each link's part. Each link's factor keeps to its
- * own bounds (none below zero), and the product keeps to the outcome's bounds.
+ * built link into it, with each link's part. The table's ranges never clip
+ * a cause or their product; `outcomeRangeViolations` checks the finished run.
  */
 export function outcomeFactor(
   world: World,
@@ -744,7 +806,12 @@ export function outcomeFactor(
 ): OutcomeReading {
   const causes: OutcomeCause[] = [];
   for (const link of OUTCOME_LINKS) {
-    if (link.to !== outcome || outcomeLinkStatus(link) !== "built") continue;
+    if (
+      link.consumed === false ||
+      link.to !== outcome ||
+      outcomeLinkStatus(link) !== "built"
+    )
+      continue;
     const measure = outcomeMeasure(link.from)!;
     const readAt = lagged(asOf, link.lagMonths);
     const value = measure.read(world, jurisdictionId, readAt);
@@ -784,10 +851,6 @@ export function outcomeFactor(
         continue;
       }
     }
-    factor = Math.min(
-      link.ceiling ?? Number.POSITIVE_INFINITY,
-      Math.max(link.floor ?? 0, factor),
-    );
     causes.push({
       key: link.key,
       from: link.from,
@@ -799,11 +862,7 @@ export function outcomeFactor(
     });
   }
   const product = causes.reduce((total, cause) => total * cause.factor, 1);
-  const bounds = TARGET_BOUNDS[outcome];
-  const multiplier = bounds
-    ? Math.min(bounds.ceiling, Math.max(bounds.floor, product))
-    : product;
-  return { outcome, multiplier, causes };
+  return { outcome, multiplier: product, causes };
 }
 
 /** How far back an acute link still counts, for callers that keep events. */

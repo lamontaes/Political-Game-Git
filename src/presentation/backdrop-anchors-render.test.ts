@@ -44,7 +44,6 @@ function read(file: string): Raster {
 function recipeAt(spot: StagingSpot, index: number): EngineRecipe {
   const presentation = index % 2 === 0 ? "feminine" : "masculine";
   const pack = PACK.presentations[presentation];
-  const seed = `anchor-render-${index}`;
   const recipe: EngineRecipe = {
     presentation,
     build: BODY_BUILDS[index % BODY_BUILDS.length]!,
@@ -53,7 +52,7 @@ function recipeAt(spot: StagingSpot, index: number): EngineRecipe {
     hair: pack.hair[index % pack.hair.length]!.id,
     hairColor: "natural",
     outfit: pack.outfits.find((outfit) => outfit.tags.includes("business"))!.id,
-    pose: spotPose(spot, seed),
+    pose: spotPose(spot),
     view: spotView(spot),
   };
   if (spot.facing !== "left" && spot.facing !== "right") return recipe;

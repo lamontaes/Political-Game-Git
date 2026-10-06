@@ -20,10 +20,10 @@
 .pg-politics-sub,
 .pg-government-scopes button,
 .pg-government-places button {
-  border: 1px solid var(--pg-hairline, rgb(111 85 42 / 28%));
-  border-radius: 3px;
+  border: 1px solid var(--pg-hairline);
+  border-radius: 2px;
   padding: 0.35rem 0.75rem;
-  background: var(--kit12-glass);
+  background: transparent;
   color: inherit;
   font: inherit;
   font-size: 0.88rem;
@@ -40,14 +40,14 @@
 .pg-government-scopes button[aria-pressed="true"],
 .pg-government-places button[aria-pressed="true"] {
   border-color: var(--pg-brass, #c29b48);
-  background: var(--kit12-glass);
-  font-weight: 650;
+  background: transparent;
+  font-weight: 600;
 }
 
 .pg-politics-tab:focus-visible,
 .pg-politics-sub:focus-visible,
 .pg-government button:focus-visible {
-  outline: 2px solid #f4d68a;
+  outline: 2px solid var(--gold);
   outline-offset: 2px;
 }
 
@@ -66,7 +66,7 @@
 
 .pg-government-place-label {
   font-size: 0.72rem;
-  font-weight: 750;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-strong);
@@ -99,10 +99,10 @@
 }
 
 .pg-government-branch {
-  border: 1px solid var(--pg-hairline, rgb(111 85 42 / 28%));
-  border-radius: 0.45rem;
+  border: 1px solid var(--pg-hairline);
+  border-radius: 2px;
   padding: 0.7rem 0.8rem;
-  background: var(--kit12-glass);
+  background: transparent;
 }
 
 .pg-government-branch h3 {
@@ -127,7 +127,7 @@
 }
 
 .pg-government-entry-title {
-  font-weight: 650;
+  font-weight: 600;
 }
 
 .pg-government-holder {
@@ -148,10 +148,10 @@
 }
 
 .pg-government-represented {
-  border: 1px solid var(--pg-hairline, rgb(111 85 42 / 28%));
-  border-radius: 0.45rem;
+  border: 1px solid var(--pg-hairline);
+  border-radius: 2px;
   padding: 0.7rem 0.8rem;
-  background: var(--kit12-glass);
+  background: transparent;
 }
 
 .pg-government-represented h3 {
@@ -186,7 +186,7 @@
 
 .pg-government-subhead {
   margin-top: 0.4rem;
-  font-weight: 650;
+  font-weight: 600;
 }
 
 .pg-government-seat-status {
@@ -214,7 +214,7 @@
 
 .pg-government-counts dd {
   margin: 0;
-  font-weight: 650;
+  font-weight: 600;
 }
 
 .pg-government-roster-all {
@@ -243,7 +243,7 @@
 
 .pg-government-holder:focus-visible,
 .pg-government-record:focus-visible {
-  outline: 2px solid #f4d68a;
+  outline: 2px solid var(--gold);
   outline-offset: 2px;
 }
 
@@ -289,7 +289,7 @@
 .pg-public-services-list > li {
   padding: var(--pg-space-2) var(--pg-space-3);
   border: 1px solid var(--pg-hairline);
-  border-radius: var(--pg-radius);
+  border-radius: 2px;
 }
 
 .pg-public-services-name {

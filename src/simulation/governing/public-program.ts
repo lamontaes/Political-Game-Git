@@ -1,3 +1,4 @@
+import { publicTaxAccountEvidenceForIdentity } from "../tax-policy";
 import { bindFederalClaimsForPaidStateInstallment } from "../federal-state-program-payments";
 import { farmProgramPaymentAt } from "../federal-farm-payments";
 import { createStableId } from "../ids";
@@ -34,7 +35,6 @@ import { currentStateExecutiveHolders } from "../nationwide-world/state-executiv
 import {
   assertPublicGovernmentIdentity,
   publicGovernmentIdentityForRecord,
-  publicGovernmentOrganizationKey,
   samePublicGovernmentIdentity,
 } from "../public-government-identity";
 import {
@@ -476,11 +476,8 @@ export function recordProgramAppropriation(
   assertPublicGovernmentIdentity(world, identity);
   if (
     identity.kind === "local-government" &&
-    !world.history.organizations.some(
-      (organization) =>
-        organization.id === input.accountOrganizationId &&
-        organization.stableKey === publicGovernmentOrganizationKey(identity),
-    )
+    publicTaxAccountEvidenceForIdentity(world, identity)?.organizationId !==
+      input.accountOrganizationId
   )
     throw new Error(
       "A local appropriation must use that government's canonical public account.",

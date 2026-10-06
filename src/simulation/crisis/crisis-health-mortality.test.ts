@@ -371,6 +371,23 @@ describe("CRISIS K2 health, disclosure, recovery and death", () => {
         e.tags.includes("crisis.health"),
       );
       expect(events.map((e) => e.visibility)).toEqual(["private"]);
+      const patientKnowledge = ill.history.knowledge.filter(
+        (k) => k.personId === patient,
+      );
+      expect(patientKnowledge).toHaveLength(1);
+      expect(patientKnowledge[0]).toMatchObject({
+        eventId: episode.eventId,
+        learnedAt: world.currentDate,
+        believedSummary: events[0]!.summary,
+        accuracy: "accurate",
+        confidence: "high",
+        source: { kind: "direct" },
+      });
+      const reopened = deserializeWorld(serializeWorld(ill));
+      expect(reopened.history.knowledge).toEqual(ill.history.knowledge);
+      expect(reopened.currentDate).toBe(world.currentDate);
+      expect(reopened.id).toBe(world.id);
+      expect(() => assertWorldIntegrity(reopened)).not.toThrow();
       expect(
         crisisEnvelopesBetween(
           ill,
