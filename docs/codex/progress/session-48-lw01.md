@@ -20,4 +20,4 @@ The outstanding production boundary is Session20's real manifest/catalog registr
 
 ## Checks
 
-Focused result from the implementation owner: `src/simulation/law-consequences/modules/government-operations.test.ts` — 2 tests passed. Prettier and `git diff --check` passed on the four owned source/test files. A full typecheck was attempted while unrelated shared-checkout edits were in progress and reported diagnostics in those edits; no LW-01 diagnostic was reported. Re-run full repository checks after concurrent owners finish and after Session20 admission is composed.
+Focused result from the implementation owner: `src/simulation/law-consequences/modules/government-operations.test.ts` — 2 tests passed. Prettier and `git diff --check` passed on the owned source/test files and release declaration. A full `npm run typecheck` completed on the current composition; it reports only two existing missing `personalLifeDepiction` fields in `src/simulation/press/press-premise.test.ts` (lines 35 and 125), with no LW-01 diagnostic. Re-run after that fixture owner lands its fix and after Session20 admission is composed.
