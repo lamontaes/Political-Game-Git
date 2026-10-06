@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { peopleKnownTo } from "../simulation/living-world/official-views";
 import {
+  councilContactReasonSources,
   meetingItemsThatMatter,
   postedMeetingOrdinanceKey,
 } from "../simulation/living-world/local-council-meetings";
@@ -231,6 +232,26 @@ describe("meetingItemsThatMatter", { timeout: 60_000 }, () => {
       monthlyPay: null,
       sourceRecordId: "council-matter-source" as EntityId,
     } as const;
+    const vote = {
+      id: "council-matter-contact-vote" as EntityId,
+      stableKey: "council-matter-contact-vote",
+      sequence: world.history.nextSequence,
+      measureId,
+      forum: { kind: "chamber", chamberKey: "council" },
+      purpose: "floor-stage",
+      floorStageKey: null,
+      takenAt: world.currentDate,
+      eligibleMembers: 1,
+      presentMembers: 1,
+      dispositions: [],
+      tally: { yea: 1, nay: 0, presentNotVoting: 0 },
+      thresholdLabel: "majority",
+      denominatorKind: "members-present",
+      denominatorValue: 1,
+      requiredVotes: 1,
+      outcome: "passed",
+      provenance: { kind: "authored", note: "Fixture vote source." },
+    } as const;
     const amendment = {
       id: "council-matter-amendment" as EntityId,
       stableKey: "council-matter-amendment",
@@ -245,6 +266,25 @@ describe("meetingItemsThatMatter", { timeout: 60_000 }, () => {
       status: "adopted",
       voteId: "council-matter-amendment-vote" as EntityId,
     } as const;
+    const reasonLinkedContact = {
+      ...event,
+      id: "council-matter-reason-contact" as EntityId,
+      stableKey: "council-matter-reason-contact",
+      involvedEntityIds: [playerId, knownPersonId, vote.id],
+    };
+    const reasonLinkedWorld = withHistory(world, {
+      events: [...world.history.events, reasonLinkedContact],
+      legislativeVotes: [vote],
+    });
+    expect(
+      councilContactReasonSources(reasonLinkedWorld, reasonLinkedContact),
+    ).toEqual([
+      {
+        kind: "legislative-vote",
+        sourceRecordId: vote.id,
+        measureId,
+      },
+    ]);
     const cases: readonly [string, World][] = [
       [
         "player-sponsored",
@@ -278,10 +318,7 @@ describe("meetingItemsThatMatter", { timeout: 60_000 }, () => {
         "player-recorded-view",
         withHistory(world, { privateBeliefs: [belief] }),
       ],
-      [
-        "known-person-contact",
-        withHistory(world, { events: [...world.history.events, event] }),
-      ],
+      ["known-person-contact", reasonLinkedWorld],
       [
         "member-public-opposition",
         withHistory(world, { publicPositions: [position] }),
@@ -294,5 +331,24 @@ describe("meetingItemsThatMatter", { timeout: 60_000 }, () => {
         expectedKind,
       ]);
     }
+
+    const directLink = withHistory(world, {
+      events: [...world.history.events, event],
+    });
+    expect(reasonKinds(directLink, playerId, dueItemId)).toEqual([
+      "known-person-contact",
+    ]);
+    const generalContact = withHistory(world, {
+      events: [
+        ...world.history.events,
+        {
+          ...event,
+          id: "council-matter-general-contact" as EntityId,
+          stableKey: "council-matter-general-contact",
+          involvedEntityIds: [playerId, knownPersonId],
+        },
+      ],
+    });
+    expect(reasonKinds(generalContact, playerId, dueItemId)).toEqual([]);
   });
 });

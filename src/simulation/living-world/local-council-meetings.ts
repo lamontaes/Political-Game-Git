@@ -9,7 +9,9 @@ import {
 import { councilBallotPartisanship } from "../governing/body-partisanship";
 import { publicPartyOf } from "../governing/chamber-votes";
 import { personName } from "../people";
+import { lawInterestMeasure } from "../official-view-reads";
 import { peopleKnownTo } from "./official-views";
+import { livedOutcomesOf } from "./lived-outcomes";
 import {
   councilRules,
   lawJurisdiction,
@@ -108,6 +110,8 @@ export type CouncilMeetingMatterReason =
       readonly kind: "known-person-contact";
       readonly recordId: EntityId;
       readonly personId: EntityId;
+      readonly sourceKind: CouncilContactReasonSourceKind | "agenda-item";
+      readonly sourceRecordId: EntityId;
     }
   | {
       readonly kind: "member-public-opposition";
@@ -125,6 +129,99 @@ export type CouncilMeetingMatterReason =
 export interface CouncilMeetingMatter {
   readonly measureId: EntityId;
   readonly reasons: readonly CouncilMeetingMatterReason[];
+}
+
+export type CouncilContactReasonSourceKind =
+  | "law-exposure"
+  | "lived-outcome"
+  | "legislative-vote"
+  | "official-view"
+  | "official"
+  | "law-interest-group";
+
+export interface CouncilContactReasonSource {
+  readonly kind: CouncilContactReasonSourceKind;
+  readonly sourceRecordId: EntityId;
+  /** Null when the linked record does not itself identify a measure. */
+  readonly measureId: EntityId | null;
+}
+
+/**
+ * Read optional B06 reason references attached to a civic contact's existing
+ * entity links. Missing references produce no topic. This does not reconstruct
+ * a reason from the resident, contacted official, or a public policy stance.
+ */
+export function councilContactReasonSources(
+  world: World,
+  contact: World["history"]["events"][number],
+): readonly CouncilContactReasonSource[] {
+  if (contact.type !== "life.contacted-official") return [];
+  const references = new Set(contact.involvedEntityIds);
+  const sources: CouncilContactReasonSource[] = [];
+  const push = (source: CouncilContactReasonSource) => {
+    if (
+      !sources.some(
+        (row) =>
+          row.kind === source.kind &&
+          row.sourceRecordId === source.sourceRecordId,
+      )
+    )
+      sources.push(source);
+  };
+  for (const exposure of world.history.lawExposures ?? [])
+    if (references.has(exposure.id))
+      push({
+        kind: "law-exposure",
+        sourceRecordId: exposure.id,
+        measureId: exposure.measureId,
+      });
+  for (const vote of world.history.legislativeVotes ?? [])
+    if (references.has(vote.id))
+      push({
+        kind: "legislative-vote",
+        sourceRecordId: vote.id,
+        measureId: vote.measureId,
+      });
+  for (const view of world.history.officialViews ?? [])
+    if (references.has(view.id))
+      push({
+        kind: "official-view",
+        sourceRecordId: view.id,
+        measureId: view.measureId,
+      });
+  for (const belief of world.history.privateBeliefs)
+    if (references.has(belief.id) && belief.subject?.kind === "official")
+      push({
+        kind: "official",
+        sourceRecordId: belief.id,
+        measureId: null,
+      });
+  for (const organization of world.history.organizations)
+    if (references.has(organization.id)) {
+      const measureId = lawInterestMeasure(world, organization.id);
+      if (measureId)
+        push({
+          kind: "law-interest-group",
+          sourceRecordId: organization.id,
+          measureId,
+        });
+    }
+  const residentId = contact.participants.find(
+    (participant) => participant.role === "focus:subject",
+  )?.personId;
+  if (residentId)
+    for (const outcome of livedOutcomesOf(
+      world,
+      residentId,
+      contact.occurredAt,
+    ))
+      if (references.has(outcome.sourceRecordId))
+        push({
+          kind: "lived-outcome",
+          sourceRecordId: outcome.sourceRecordId,
+          measureId: null,
+        });
+  return sources;
 }
 
 /**
@@ -244,12 +341,18 @@ export function meetingItemsThatMatter(
             propositionId: belief.propositionId,
           });
 
+  const measuresById = new Map(
+    (world.history.legislativeMeasures ?? []).map((measure) => [
+      measure.id,
+      measure,
+    ]),
+  );
   for (const event of world.history.events)
     if (
       event.type === "life.contacted-official" &&
       event.occurredAt <= due.dueAt &&
       event.involvedEntityIds.includes(playerId)
-    )
+    ) {
       for (const measureId of reasonsByMeasure.keys())
         if (event.involvedEntityIds.includes(measureId))
           for (const personId of knownPeople)
@@ -258,7 +361,35 @@ export function meetingItemsThatMatter(
                 kind: "known-person-contact",
                 recordId: event.id,
                 personId,
+                sourceKind: "agenda-item",
+                sourceRecordId: measureId,
               });
+      const contactPeople = event.involvedEntityIds.filter((personId) =>
+        knownPeople.has(personId),
+      );
+      for (const source of councilContactReasonSources(world, event)) {
+        if (!source.measureId) continue;
+        const sourceMeasure = measuresById.get(source.measureId);
+        if (!sourceMeasure) continue;
+        const relatedMeasures = new Set<EntityId>();
+        if (reasonsByMeasure.has(source.measureId))
+          relatedMeasures.add(source.measureId);
+        for (const answer of measureAnswersAt(world, source.measureId))
+          for (const measureId of measuresByQuestion
+            .get(answer.propositionId)
+            ?.keys() ?? [])
+            relatedMeasures.add(measureId);
+        for (const measureId of relatedMeasures)
+          for (const personId of contactPeople)
+            add(measureId, {
+              kind: "known-person-contact",
+              recordId: event.id,
+              personId,
+              sourceKind: source.kind,
+              sourceRecordId: source.sourceRecordId,
+            });
+      }
+    }
 
   const currentPositions = world.history.publicPositions.filter(
     (record) => record.statedAt <= due.dueAt,
