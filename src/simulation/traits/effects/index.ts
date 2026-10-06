@@ -1,6 +1,8 @@
 import type { TraitEffectDeclaration } from "../../trait-packs";
 import { bondLoyaltyEffects } from "./bond-loyalty";
 import { facetSelfConsciousEffects } from "./facet-self-conscious";
+import { patienceEffects } from "./patience";
+import { facetHostileEffects } from "./facet-hostile";
 import { facetHumbleEffects } from "./facet-humble";
 import { facetOpenMindedEffects } from "./facet-open-minded";
 import { facetProudEffects } from "./facet-proud";
@@ -30,7 +32,9 @@ import { selfConfidenceEffects } from "./self-confidence";
 export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
   return [
     ...facetSelfConsciousEffects,
+    ...facetHostileEffects,
     ...facetHumbleEffects,
+    ...patienceEffects,
     ...facetOpenMindedEffects,
     ...facetProudEffects,
     ...facetArgumentativeEffects,

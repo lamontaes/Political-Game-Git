@@ -668,19 +668,6 @@ function replyFor(
       return say("id-rather-not-get-into-that-right");
     }
     case "remember": {
-      // A matter the two of you discussed is more memorable than small talk.
-      const matterTurn = [...history]
-        .reverse()
-        .find((event) =>
-          event.tags.some((tag) => tag.startsWith("life.matter:")),
-        );
-      if (matterTurn?.context.choice?.startsWith(MATTER_CHOICE_PREFIX))
-        return say("remembered-topic", {
-          topic: {
-            text: matterTurn.context.choice.slice(MATTER_CHOICE_PREFIX.length),
-            sourceRecordIds: [matterTurn.id],
-          },
-        });
       // The player's own speech, once, if this person heard it or was told.
       const spokeOfSpeech = history.some((event) =>
         (linePartsOf(event.tags) ?? []).some((key) =>
