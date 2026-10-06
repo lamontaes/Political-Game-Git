@@ -1,4 +1,5 @@
 import { lifeReplyLine, type LifeReplyKey } from "./life-reply-english";
+import { planQuestion } from "./plan-question";
 import type { ComposedPart } from "./english-composition";
 import type { GroundedEnglishFact } from "./grounded-english";
 import { latestGoalStatesForPerson } from "../simulation/queries";
@@ -236,18 +237,24 @@ export function tellAnswer(
         record.goalKey === `opening-life:${topic.goal}` &&
         record.status === "active",
     );
-    if (goal) {
-      facts.plan = {
-        text: lowerFirst(goal.objective)
-          .replace(/\byou know\b/g, "I know")
-          .replace(/\byourself\b/g, "myself"),
-        sourceRecordIds: [goal.id],
+    // What the player said: the plan's own words, which the listener asks about.
+    const told = latestGoalStatesForPerson(world, playerPersonId).find(
+      (record) =>
+        record.goalKey === `opening-life:${topic.goal}` &&
+        record.status === "active",
+    );
+    const question = told ? planQuestion(told.objective) : null;
+    if (told && question)
+      facts["plan-question"] = {
+        text: question,
+        sourceRecordIds: [told.id],
       };
-      return answer("tell-shared-plan");
-    }
+    if (stance === "guarded" && !goal) return answer("tell-guarded");
+    // With nothing open in the plan to ask about, the listener only reacts.
+    if (!facts["plan-question"]) return answer("tell-plan-open");
     return answer(
-      stance === "guarded"
-        ? "tell-guarded"
+      goal
+        ? "tell-shared-plan"
         : options.parentOfYoungPlayer
           ? "tell-parent-plan"
           : stance === "warm"

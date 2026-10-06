@@ -43,11 +43,12 @@ const CORES = {
   "running-remember": "I remember that.",
   "running-no-memory": "What do you mean?",
   "tell-privacy": "Can it wait? I need a little quiet right now.",
-  "tell-shared-plan": "Me too. I've been meaning to {{plan}}.",
+  "tell-shared-plan": "{{plan-question}}",
   "tell-guarded": "All right.",
-  "tell-parent-plan": "That sounds like a good idea.",
-  "tell-warm-plan": "That sounds good. I hope you find the time.",
-  "tell-plain-plan": "Good luck with it.",
+  "tell-parent-plan": "{{plan-question}}",
+  "tell-warm-plan": "{{plan-question}}",
+  "tell-plain-plan": "{{plan-question}}",
+  "tell-plan-open": "Oh yeah?",
   "tell-parent-experience": "Thank you for telling me. How did that feel?",
   "tell-warm-experience": "I'm glad you told me. How did it go?",
   "tell-plain-experience": "Thanks for telling me.",
@@ -158,6 +159,20 @@ const CORES = {
 } as const;
 export type LifeReplyKey = keyof typeof CORES;
 
+/**
+ * Short reactions that open an answer to something the player just said they
+ * plan to do, before the question about the thing itself. Everyday talk is
+ * mostly turns of a few words (Santa Barbara corpus, counted by Research 2:
+ * median four words, 45 percent at three words or fewer), so the reaction is
+ * a word or two and the question carries the turn.
+ */
+const PLAN_REACTIONS: Partial<Record<LifeReplyKey, readonly string[]>> = {
+  "tell-shared-plan": ["Oh yeah?", "Huh."],
+  "tell-parent-plan": ["Oh yeah?", "Oh, nice."],
+  "tell-warm-plan": ["Oh nice.", "Oh yeah?"],
+  "tell-plain-plan": ["Oh?", "Oh yeah?"],
+};
+
 /** Follow-up questions change the subject within the actual saved situation. */
 const FOLLOWUPS: Partial<Record<LifeReplyKey, string>> = {
   "first-greeting": "How are you?",
@@ -196,16 +211,27 @@ export const LIFE_REPLY_BANKS: Readonly<
       surface: "dialogue",
       act: key === "first-greeting" ? "greet" : "answer",
       parts: {
-        ...(key.startsWith("tell-")
+        ...(key.startsWith("tell-") || PLAN_REACTIONS[key as LifeReplyKey]
           ? {
               opener: {
                 variants: [
-                  {
-                    key: "known-person",
-                    kind: "template" as const,
-                    text: "{{known-person}}?",
-                    requiresFacts: ["known-person"],
-                  },
+                  ...(key.startsWith("tell-")
+                    ? [
+                        {
+                          key: "known-person",
+                          kind: "template" as const,
+                          text: "{{known-person}}?",
+                          requiresFacts: ["known-person"],
+                        },
+                      ]
+                    : []),
+                  ...(PLAN_REACTIONS[key as LifeReplyKey] ?? []).map(
+                    (text) => ({
+                      key: text.toLowerCase().replace(/[^a-z]+/g, "-"),
+                      kind: "template" as const,
+                      text,
+                    }),
+                  ),
                 ],
               },
             }
