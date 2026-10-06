@@ -97,7 +97,8 @@ import {
   seatsForCourt,
   type JudicialSeatHolder,
 } from "../judiciary/courts";
-import { courtFor } from "../judiciary/court-for";
+import { controlledPersonId, courtFor } from "../judiciary/court-for";
+import { judicialCaseHandling } from "../office-workflow";
 import { personTrait } from "../people-traits";
 import {
   macroConditionsAt,
@@ -2110,7 +2111,13 @@ function trialJudge(
   const courtId = court.courtId;
   for (const seat of seatsForCourt(world, courtId, onDate)) {
     const holder = seatHolderAt(world, seat.seatId, onDate);
-    if (holder && world.people[holder.personId]) return { ...holder, courtId };
+    if (!holder || !world.people[holder.personId]) continue;
+    if (
+      holder.personId === controlledPersonId(world) &&
+      judicialCaseHandling(world, holder.personId, "eviction") === "hear-myself"
+    )
+      return null;
+    return { ...holder, courtId };
   }
   return null;
 }
