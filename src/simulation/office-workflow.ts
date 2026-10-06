@@ -20,6 +20,7 @@ import type {
   OfficeBriefingInspectionRecord,
   OfficeBriefingItemKind,
   OfficeCaseworkWorkflowMode,
+  CouncilMeetingDepth,
   OfficeVoteInstructionDisposition,
   OfficeVoteInstructionRecord,
   OfficeVotingWorkflowMode,
@@ -38,6 +39,11 @@ const CASEWORK_MODES: readonly OfficeCaseworkWorkflowMode[] = [
   "player-handles-all",
   "staff-routine-player-exceptions",
   "staff-handles-and-briefs",
+];
+
+const COUNCIL_MEETING_DEPTHS: readonly CouncilMeetingDepth[] = [
+  "what-matters",
+  "everything",
 ];
 
 const INSTRUCTION_DISPOSITIONS: readonly OfficeVoteInstructionDisposition[] = [
@@ -83,6 +89,18 @@ export function currentOfficeWorkflowPreference(
           !superseded.has(record.id),
       )
       .sort((left, right) => right.sequence - left.sequence)[0] ?? null
+  );
+}
+
+/** Missing values in older saves retain the ordinary focused-meeting default. */
+export function officeCouncilMeetingDepth(
+  world: World,
+  personId: EntityId,
+  officeRelationshipId: EntityId,
+): CouncilMeetingDepth {
+  return (
+    currentOfficeWorkflowPreference(world, personId, officeRelationshipId)
+      ?.meetingDepth ?? "what-matters"
   );
 }
 
@@ -153,6 +171,7 @@ export interface RecordOfficeWorkflowPreferenceInput {
   /** Null only for an office that casts no votes; a legislative seat needs one. */
   readonly votingMode: OfficeVotingWorkflowMode | null;
   readonly caseworkMode: OfficeCaseworkWorkflowMode;
+  readonly meetingDepth?: CouncilMeetingDepth;
 }
 
 export function recordOfficeWorkflowPreference(
@@ -186,15 +205,27 @@ export function recordOfficeWorkflowPreference(
   if (!CASEWORK_MODES.includes(input.caseworkMode)) {
     return refused(world, "That casework workflow is not a supported choice.");
   }
+  if (
+    input.meetingDepth !== undefined &&
+    !COUNCIL_MEETING_DEPTHS.includes(input.meetingDepth)
+  ) {
+    return refused(
+      world,
+      "That council meeting depth is not a supported choice.",
+    );
+  }
   const current = currentOfficeWorkflowPreference(
     world,
     input.personId,
     input.officeRelationshipId,
   );
+  const meetingDepth =
+    input.meetingDepth ?? current?.meetingDepth ?? "what-matters";
   if (
     current &&
     current.votingMode === input.votingMode &&
-    current.caseworkMode === input.caseworkMode
+    current.caseworkMode === input.caseworkMode &&
+    (current.meetingDepth ?? "what-matters") === meetingDepth
   ) {
     return { kind: "recorded", world };
   }
@@ -210,6 +241,7 @@ export function recordOfficeWorkflowPreference(
     officeRelationshipId: input.officeRelationshipId,
     votingMode: input.votingMode,
     caseworkMode: input.caseworkMode,
+    meetingDepth,
     recordedAt: makeIsoDate(world.currentDate),
     supersedesPreferenceId: current?.id ?? null,
   };

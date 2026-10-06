@@ -5147,6 +5147,9 @@ export type OfficeCaseworkWorkflowMode =
   | "staff-routine-player-exceptions"
   | "staff-handles-and-briefs";
 
+/** Default amount of council agenda material to play for an office. */
+export type CouncilMeetingDepth = "what-matters" | "everything";
+
 /**
  * An authorized staff position of an elected office.
  *
@@ -5205,6 +5208,8 @@ export interface OfficeWorkflowPreferenceRecord {
    */
   readonly votingMode: OfficeVotingWorkflowMode | null;
   readonly caseworkMode: OfficeCaseworkWorkflowMode;
+  /** Older saved preferences omit this and use the what-matters default. */
+  readonly meetingDepth?: CouncilMeetingDepth;
   readonly recordedAt: IsoDate;
   readonly supersedesPreferenceId: EntityId | null;
 }

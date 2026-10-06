@@ -9,6 +9,9 @@ import {
 import { councilBallotPartisanship } from "../governing/body-partisanship";
 import { publicPartyOf } from "../governing/chamber-votes";
 import { personName } from "../people";
+import { lawInterestMeasure } from "../official-view-reads";
+import { peopleKnownTo } from "./official-views";
+import { livedOutcomesOf } from "./lived-outcomes";
 import {
   councilRules,
   lawJurisdiction,
@@ -24,9 +27,11 @@ import {
 } from "../government-units";
 import {
   introduceMeasure,
+  measureAmendments,
   measurePosition,
   placeMeasureOnCalendar,
 } from "../legislation";
+import { measureAnswersAt } from "../vote-bundle";
 import { chamberByKey } from "../legislature-rules";
 import { rulePackById } from "../legislature-rule-packs";
 import { nextMeasureNumbering } from "../measure-numbering";
@@ -87,6 +92,374 @@ export const LOCAL_COUNCIL_MEETINGS_VERSION = "local-council-meetings/v1";
 const V = LOCAL_COUNCIL_MEETINGS_VERSION;
 
 export const LOCAL_COUNCIL_MEETING = "civic:local-council-meeting" as const;
+
+export type CouncilMeetingMatterReason =
+  | { readonly kind: "player-sponsored"; readonly recordId: EntityId }
+  | { readonly kind: "player-amended"; readonly recordId: EntityId }
+  | {
+      readonly kind: "player-stand";
+      readonly recordId: EntityId;
+      readonly propositionId: EntityId;
+    }
+  | {
+      readonly kind: "player-recorded-view";
+      readonly recordId: EntityId;
+      readonly propositionId: EntityId;
+    }
+  | {
+      readonly kind: "known-person-contact";
+      readonly recordId: EntityId;
+      readonly personId: EntityId;
+      readonly sourceKind: CouncilContactReasonSourceKind | "agenda-item";
+      readonly sourceRecordId: EntityId;
+    }
+  | {
+      readonly kind: "member-public-opposition";
+      readonly recordId: EntityId;
+      readonly personId: EntityId;
+      readonly propositionId: EntityId;
+    }
+  | {
+      readonly kind: "known-person-effect";
+      readonly recordId: EntityId;
+      readonly personId: EntityId;
+      readonly propositionId: EntityId;
+    };
+
+export interface CouncilMeetingMatter {
+  readonly measureId: EntityId;
+  readonly reasons: readonly CouncilMeetingMatterReason[];
+}
+
+export type CouncilContactReasonSourceKind =
+  | "law-exposure"
+  | "lived-outcome"
+  | "legislative-vote"
+  | "official-view"
+  | "official"
+  | "law-interest-group";
+
+export interface CouncilContactReasonSource {
+  readonly kind: CouncilContactReasonSourceKind;
+  readonly sourceRecordId: EntityId;
+  /** Null when the linked record does not itself identify a measure. */
+  readonly measureId: EntityId | null;
+}
+
+/**
+ * Read optional B06 reason references attached to a civic contact's existing
+ * entity links. Missing references produce no topic. This does not reconstruct
+ * a reason from the resident, contacted official, or a public policy stance.
+ */
+export function councilContactReasonSources(
+  world: World,
+  contact: World["history"]["events"][number],
+): readonly CouncilContactReasonSource[] {
+  if (contact.type !== "life.contacted-official") return [];
+  const references = new Set(contact.involvedEntityIds);
+  const sources: CouncilContactReasonSource[] = [];
+  const push = (source: CouncilContactReasonSource) => {
+    if (
+      !sources.some(
+        (row) =>
+          row.kind === source.kind &&
+          row.sourceRecordId === source.sourceRecordId,
+      )
+    )
+      sources.push(source);
+  };
+  for (const exposure of world.history.lawExposures ?? [])
+    if (references.has(exposure.id))
+      push({
+        kind: "law-exposure",
+        sourceRecordId: exposure.id,
+        measureId: exposure.measureId,
+      });
+  for (const vote of world.history.legislativeVotes ?? [])
+    if (references.has(vote.id))
+      push({
+        kind: "legislative-vote",
+        sourceRecordId: vote.id,
+        measureId: vote.measureId,
+      });
+  for (const view of world.history.officialViews ?? [])
+    if (references.has(view.id))
+      push({
+        kind: "official-view",
+        sourceRecordId: view.id,
+        measureId: view.measureId,
+      });
+  for (const belief of world.history.privateBeliefs)
+    if (references.has(belief.id) && belief.subject?.kind === "official")
+      push({
+        kind: "official",
+        sourceRecordId: belief.id,
+        measureId: null,
+      });
+  for (const organization of world.history.organizations)
+    if (references.has(organization.id)) {
+      const measureId = lawInterestMeasure(world, organization.id);
+      if (measureId)
+        push({
+          kind: "law-interest-group",
+          sourceRecordId: organization.id,
+          measureId,
+        });
+    }
+  const residentId = contact.participants.find(
+    (participant) => participant.role === "focus:subject",
+  )?.personId;
+  if (residentId)
+    for (const outcome of livedOutcomesOf(
+      world,
+      residentId,
+      contact.occurredAt,
+    ))
+      if (references.has(outcome.sourceRecordId))
+        push({
+          kind: "lived-outcome",
+          sourceRecordId: outcome.sourceRecordId,
+          measureId: null,
+        });
+  return sources;
+}
+
+/**
+ * Read the recorded matters scheduled for this council meeting and explain
+ * why each one matters to the player or someone they know. This is a record
+ * reader: it assigns no importance score and writes no vote or event.
+ */
+export function meetingItemsThatMatter(
+  world: World,
+  playerId: EntityId,
+  meetingDueItemId: EntityId,
+  agendaMeasureIds?: readonly EntityId[],
+): readonly CouncilMeetingMatter[] {
+  const due = world.history.futureDueItems.find(
+    (item) => item.id === meetingDueItemId,
+  );
+  if (
+    !due ||
+    due.transitionKey !== LOCAL_COUNCIL_MEETING ||
+    !due.jurisdictionId ||
+    !world.people[playerId]
+  )
+    return [];
+  const match = new RegExp(
+    `^${V.replace("/", "\\/")}:((?:gus2025|municipio):[^:]+):(meeting|posted-meeting):`,
+  ).exec(due.stableKey);
+  const unit = match ? governmentUnit(match[1]!) : null;
+  const rules = unit ? councilRules(unit) : null;
+  if (!unit || !rules) return [];
+
+  const membersById = new Set(
+    members(world, unit).map((seat) => seat.personId),
+  );
+  const knownPeople = new Set(peopleKnownTo(world, playerId));
+  const recordedAgenda = agendaMeasureIds ? new Set(agendaMeasureIds) : null;
+  const candidates = councilMeasures(
+    world,
+    rules,
+    lawJurisdiction(world, unit, due.jurisdictionId).jurisdictionId,
+  ).filter((measure) => {
+    if (recordedAgenda) return recordedAgenda.has(measure.id);
+    const phase = measurePosition(world, measure.id).phase;
+    return (
+      (phase === "awaiting-referral" || phase === "on-floor") &&
+      (phase !== "on-floor" || measure.introducedAt < due.dueAt)
+    );
+  });
+  const reasonsByMeasure = new Map(
+    candidates.map((measure) => [
+      measure.id,
+      [] as CouncilMeetingMatterReason[],
+    ]),
+  );
+  const measuresByQuestion = new Map<EntityId, Map<EntityId, "yes" | "no">>();
+  const add = (measureId: EntityId, reason: CouncilMeetingMatterReason) =>
+    reasonsByMeasure.get(measureId)?.push(reason);
+  for (const measure of candidates) {
+    if (measure.sponsorPersonId === playerId)
+      add(measure.id, { kind: "player-sponsored", recordId: measure.id });
+    for (const amendment of measureAmendments(world, measure.id))
+      if (amendment.offeredByPersonId === playerId)
+        add(measure.id, { kind: "player-amended", recordId: amendment.id });
+    for (const answer of measureAnswersAt(world, measure.id)) {
+      const answerByMeasure =
+        measuresByQuestion.get(answer.propositionId) ??
+        new Map<EntityId, "yes" | "no">();
+      answerByMeasure.set(measure.id, answer.answer);
+      measuresByQuestion.set(answer.propositionId, answerByMeasure);
+    }
+  }
+
+  const currentCommitments = world.history.campaignCommitments.filter(
+    (record) => record.madeAt <= due.dueAt,
+  );
+  const supersededCommitments = new Set(
+    currentCommitments.flatMap((record) =>
+      record.supersedesCommitmentId ? [record.supersedesCommitmentId] : [],
+    ),
+  );
+  for (const commitment of currentCommitments)
+    if (
+      commitment.personId === playerId &&
+      !supersededCommitments.has(commitment.id)
+    )
+      for (const measureId of measuresByQuestion
+        .get(commitment.propositionId)
+        ?.keys() ?? [])
+        add(measureId, {
+          kind: "player-stand",
+          recordId: commitment.id,
+          propositionId: commitment.propositionId,
+        });
+
+  const currentBeliefs = world.history.privateBeliefs.filter(
+    (record) => record.formedAt <= due.dueAt,
+  );
+  const supersededBeliefs = new Set(
+    currentBeliefs.flatMap((record) =>
+      record.supersedesBeliefId ? [record.supersedesBeliefId] : [],
+    ),
+  );
+  for (const belief of currentBeliefs)
+    if (
+      belief.personId === playerId &&
+      belief.propositionId &&
+      !supersededBeliefs.has(belief.id) &&
+      belief.position !== "uncertain" &&
+      belief.position !== "conflicted"
+    )
+      for (const [measureId, answer] of measuresByQuestion.get(
+        belief.propositionId,
+      ) ?? [])
+        if (
+          (belief.position === "oppose" && answer === "yes") ||
+          (belief.position === "support" && answer === "no")
+        )
+          add(measureId, {
+            kind: "player-recorded-view",
+            recordId: belief.id,
+            propositionId: belief.propositionId,
+          });
+
+  const measuresById = new Map(
+    (world.history.legislativeMeasures ?? []).map((measure) => [
+      measure.id,
+      measure,
+    ]),
+  );
+  for (const event of world.history.events)
+    if (
+      event.type === "life.contacted-official" &&
+      event.occurredAt <= due.dueAt &&
+      event.involvedEntityIds.includes(playerId)
+    ) {
+      for (const measureId of reasonsByMeasure.keys())
+        if (event.involvedEntityIds.includes(measureId))
+          for (const personId of knownPeople)
+            if (event.involvedEntityIds.includes(personId))
+              add(measureId, {
+                kind: "known-person-contact",
+                recordId: event.id,
+                personId,
+                sourceKind: "agenda-item",
+                sourceRecordId: measureId,
+              });
+      const contactPeople = event.involvedEntityIds.filter((personId) =>
+        knownPeople.has(personId),
+      );
+      for (const source of councilContactReasonSources(world, event)) {
+        if (!source.measureId) continue;
+        const sourceMeasure = measuresById.get(source.measureId);
+        if (!sourceMeasure) continue;
+        const relatedMeasures = new Set<EntityId>();
+        if (reasonsByMeasure.has(source.measureId))
+          relatedMeasures.add(source.measureId);
+        for (const answer of measureAnswersAt(world, source.measureId))
+          for (const measureId of measuresByQuestion
+            .get(answer.propositionId)
+            ?.keys() ?? [])
+            relatedMeasures.add(measureId);
+        for (const measureId of relatedMeasures)
+          for (const personId of contactPeople)
+            add(measureId, {
+              kind: "known-person-contact",
+              recordId: event.id,
+              personId,
+              sourceKind: source.kind,
+              sourceRecordId: source.sourceRecordId,
+            });
+      }
+    }
+
+  const currentPositions = world.history.publicPositions.filter(
+    (record) => record.statedAt <= due.dueAt,
+  );
+  const supersededPositions = new Set(
+    currentPositions.flatMap((record) =>
+      record.supersedesPublicPositionId
+        ? [record.supersedesPublicPositionId]
+        : [],
+    ),
+  );
+  for (const position of currentPositions)
+    if (
+      !supersededPositions.has(position.id) &&
+      (position.personId === playerId || position.audience === "public") &&
+      (membersById.has(position.personId) || position.personId === playerId)
+    )
+      for (const [measureId, answer] of measuresByQuestion.get(
+        position.propositionId,
+      ) ?? [])
+        if (
+          (position.stance === "oppose" && answer === "yes") ||
+          (position.stance === "support" && answer === "no")
+        )
+          add(
+            measureId,
+            position.personId === playerId
+              ? {
+                  kind: "player-recorded-view",
+                  recordId: position.id,
+                  propositionId: position.propositionId,
+                }
+              : {
+                  kind: "member-public-opposition",
+                  recordId: position.id,
+                  personId: position.personId,
+                  propositionId: position.propositionId,
+                },
+          );
+
+  const sourceMeasuresById = new Map(
+    (world.history.legislativeMeasures ?? []).map((measure) => [
+      measure.id,
+      measure,
+    ]),
+  );
+  for (const exposure of world.history.lawExposures ?? []) {
+    if (!knownPeople.has(exposure.personId) || exposure.recordedAt > due.dueAt)
+      continue;
+    if (!sourceMeasuresById.has(exposure.measureId)) continue;
+    for (const answer of measureAnswersAt(world, exposure.measureId))
+      for (const measureId of measuresByQuestion
+        .get(answer.propositionId)
+        ?.keys() ?? [])
+        add(measureId, {
+          kind: "known-person-effect",
+          recordId: exposure.id,
+          personId: exposure.personId,
+          propositionId: answer.propositionId,
+        });
+  }
+
+  return candidates.map((measure) => ({
+    measureId: measure.id,
+    reasons: reasonsByMeasure.get(measure.id) ?? [],
+  }));
+}
 
 /** The ordinance the posted public meeting takes up, for one town. */
 export function postedMeetingOrdinanceKey(town: EntityId): string {
