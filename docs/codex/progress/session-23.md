@@ -20,37 +20,34 @@ has no invented legal deadline or required-time blocker. Nomination records
 retain the actual post, seat, vacancy, former term, matter, and decision trace.
 Nomination does not seat the person or record an appointment favor.
 
-Checked so far: 11 appointment/favor tests passed; three vacancy tests passed
-with canonical save/reload. Explicit changed-root typechecking, including the
-test roots, passed before the latest additional governor route test. Retained
-failed logs identify duplicate trace replay, an incorrect test import, a wrong
-save payload call, and an event-only introduction that did not establish an
-acquaintance. Their assertions were preserved and the actual writers corrected.
+Checked producer milestone: 23 tests passed across appointments, appointment
+favors, named executive posts, and the existing canonical vitality regression
+file. Explicit changed-root typechecking includes tests and the death hook and
+passes. Cabinet/opening and death-hook changed lint pass. Configured typecheck
+is running in `/tmp/session23-p3-opening-configured-types.log`; inspect its exit
+before claiming that check. Portable source hashes, executed receipts, and
+retained failure tails are in `docs/codex/session23-appointment-producer-proof/checks.json`.
 
-Current run: `/tmp/session23-p3-governor-known-candidate-tests.log`. Inspect its
-exit status and results before further source changes. Next command:
+The same opening producer now saves three board incumbents with disclosed term
+years/stagger and fifteen cabinet heads without invented fixed term limits.
+It adds no treasury or funding. Real resignation closes the incumbent's saved
+membership. A bounded hook after the canonical death record commits uses an
+append-following holder index, records only current named-seat vacancies, and
+opens the actual governor's matter. Defense eligibility remains unverified
+without positive civilian-life and complete commissioned-service history.
+Cabinet sources retain their official editions and limited researched scope.
 
-```sh
-tail -30 /tmp/session23-p3-governor-known-candidate-tests.log
-```
-
-Next: finish the governor choice-to-nomination test and recheck types; publish
-the exact producer head to Session 21. Its executive-appointment member-vote
-input owns admission in `chamber-votes.ts`; this lane owns the confirmation
-caller using actual House and Senate rosters and the sourced joint majority.
-Do not disguise this as a judicial, clemency, or constitutional vote. Consume
-Session 13's current citizenship reader when admitted; until then the existing
-positive-birth legacy fallback is permitted only without canonical citizenship
-status records, and status presence remains unverified. No citizenship
-transition is written to qualify a nominee and no private read grants knowledge.
-
-Still required for Part 3: generated opening incumbents with disclosed term
-provenance, real vacancy-to-confirmation-to-seating proof, other appointment
-domains, cabinet depth, additive scene packet, new-game desk screenshot and
-saved IDs, changed tests/types/lint/format/release/zero-dice, and one ready PR.
-AS39.05.053 supports March 1 expiration, not current expiration years or an
-invented stagger. AS39.25.060 supports six-year terms and unexpired remainders.
-Current live three-seat incumbency is not verified from inaccessible rosters.
+Next: compose Session 21's exact #2463 head
+`6133f05526b213000af15087758722817605cb00` as a labeled candidate dependency,
+then implement one exported confirmation caller and one seating writer. The
+caller takes the saved nomination, resolves actual House and Senate rosters,
+combines the Alaska joint body, and calls `decideChamberVote` once. Do not use
+two chamber passage requirements or a Senate-only proxy. Still required: other
+appointment domains, cabinet depth, additive scene packet, actual confirmation
+and seating, new-game desk screenshot and saved follow-through, final changed
+checks and one ready Part 3 PR. The natural route and played scene remain
+unverified. Session 13's citizenship reader is an open dependency; do not write
+a citizenship transition to qualify an appointment.
 
 Separate unfinished work: the natural mayor election journey stalled at the
 January 31–February 1 scheduled navigation; its preserved compact trace receipt

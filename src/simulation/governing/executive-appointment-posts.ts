@@ -1,4 +1,5 @@
 import { executiveProfileForOfficeKey } from "../executive-authority-game-profile";
+import { FEDERAL_CABINET_POSTS } from "./executive-cabinet-posts";
 import type { RuleSourceRef } from "../legislature-rules";
 
 /** Named posts add their special statute to the shared executive rule path.
@@ -7,10 +8,18 @@ export interface ExecutiveAppointmentPost {
   readonly officeKey: string;
   readonly title: string;
   readonly appointerOfficeKey: string;
+  /** The shared rules' identifier can differ from the actual held office. */
+  readonly authorityOfficeKey: string;
+  readonly organizationName: string;
+  readonly kind: "board" | "department-head";
+  readonly colleagueScope: "legislature" | "federal";
+  readonly specialQualification: "none" | "defense-civilian-service-history";
   readonly jurisdictionKey: string;
   readonly seats: number;
   readonly termYears: number | null;
   readonly termEndMonthDay: string | null;
+  /** Fictional opening conditions, not the state's actual seat stagger. */
+  readonly openingTermOffsetsYears: readonly number[];
   readonly vacancyTerm: "unexpired-remainder" | "new-term";
   readonly confirmation: "none" | "senate" | "joint-legislature";
   readonly confirmationMajority: "all-members" | "members-voting";
@@ -55,10 +64,16 @@ const NAMED_POSTS: readonly ExecutiveAppointmentPost[] = [
     officeKey: "us-ak-personnel-board",
     title: "Personnel Board member",
     appointerOfficeKey: "us-ak-governor",
+    authorityOfficeKey: "us-ak-governor",
+    organizationName: "Personnel Board",
+    kind: "board",
+    colleagueScope: "legislature",
+    specialQualification: "none",
     jurisdictionKey: "US-AK",
     seats: 3,
     termYears: 6,
     termEndMonthDay: "03-01",
+    openingTermOffsetsYears: [0, 2, 4],
     vacancyTerm: "unexpired-remainder",
     confirmation: "joint-legislature",
     confirmationMajority: "all-members",
@@ -67,6 +82,7 @@ const NAMED_POSTS: readonly ExecutiveAppointmentPost[] = [
     samePartyLimit: 2,
     sources: PERSONNEL_BOARD_SOURCES,
   },
+  ...FEDERAL_CABINET_POSTS,
 ];
 
 export function executiveAppointmentPost(
@@ -76,7 +92,7 @@ export function executiveAppointmentPost(
     (candidate) => candidate.officeKey === officeKey,
   );
   if (!post) return null;
-  const profile = executiveProfileForOfficeKey(post.appointerOfficeKey);
+  const profile = executiveProfileForOfficeKey(post.authorityOfficeKey);
   if (
     !profile ||
     profile.pack.jurisdictionKey !== post.jurisdictionKey ||

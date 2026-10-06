@@ -29,6 +29,12 @@ export function executiveAppointmentEligibility(
     )
   )
     return "fails";
+  // This requires positive civilian-life and complete regular commissioned
+  // service/grade/relief evidence. Generic work rows and their absence cannot
+  // establish that fact. Keep the seam explicit until its canonical producer
+  // is supplied; never create a qualification transition here.
+  if (post.specialQualification === "defense-civilian-service-history")
+    return "unverified";
   if (post.citizenshipRequired) {
     // Session 13 owns the current-status reader (#2455). Until admitted, retain
     // its documented positive-birth legacy fallback only for people with no

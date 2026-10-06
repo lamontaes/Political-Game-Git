@@ -1,4 +1,5 @@
 import { inventedPersonBirthDate } from "../invented-person-age";
+import { ensureExecutiveAppointmentOpening } from "./executive-appointment-opening";
 import { ensurePeopleTraits } from "../people-traits";
 import { executiveProfileForOfficeKey } from "../executive-authority-game-profile";
 import { rulePackById } from "../legislature-rule-packs";
@@ -8,7 +9,11 @@ import {
   appointmentShortList,
   chooseAppointee,
 } from "../patronage/appointments";
-import { executiveAppointmentPost } from "./executive-appointment-posts";
+import {
+  executiveAppointmentPost,
+  executiveAppointmentPostsForOffice,
+} from "./executive-appointment-posts";
+import { federalColleaguesOf } from "../patronage/federal-circle";
 import { executiveAppointmentEligibility } from "./executive-appointment-eligibility";
 import {
   executiveAppointmentVacancy,
@@ -1581,9 +1586,16 @@ function appointmentCircleForOffice(
   world: World,
   office: GoverningOffice,
 ): readonly EntityId[] {
-  const profile = executiveProfileForOfficeKey(office.officeKey);
+  const posts = executiveAppointmentPostsForOffice(office.officeKey);
+  const profile = executiveProfileForOfficeKey(
+    posts[0]?.authorityOfficeKey ?? office.officeKey,
+  );
   const ref = profile?.pack.presentment.legislativeRulePackId;
-  const colleagues: EntityId[] = [];
+  const colleagues: EntityId[] = posts.some(
+    (post) => post.colleagueScope === "federal",
+  )
+    ? [...federalColleaguesOf(world)]
+    : [];
   if (ref?.kind === "known") {
     const pack = rulePackById(ref.value);
     for (const chamber of pack.chambers) {
@@ -1826,13 +1838,15 @@ export function openClemencyMatter(
  */
 export function openTransitionMatters(world: World, officeKey: string): World {
   const office = governingOfficeByKey(world, officeKey);
-  if (!office || !office.organizationId) return world;
+  if (!office) return world;
+  const appointedOpening = ensureExecutiveAppointmentOpening(world, office);
+  if (!office.organizationId) return appointedOpening;
   const key = matterStableKey(office, "chief-of-staff", "transition");
-  if (world.history.events.some((event) => event.stableKey === key))
-    return world;
+  if (appointedOpening.history.events.some((event) => event.stableKey === key))
+    return appointedOpening;
   // The office's positions exist before anybody is hired into them: that is
   // what makes an unfilled one findable by somebody looking for the work.
-  const staffed = establishOfficeStaffPositions(world, office);
+  const staffed = establishOfficeStaffPositions(appointedOpening, office);
   const candidates = createCandidates(staffed.world, office, key, 3);
   // A chief of staff who served the last holder is still employed; the new
   // holder keeps them or replaces them, and does not end up with two.

@@ -4,7 +4,10 @@ import { createPortabilityFixture } from "../portability-fixture";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import { recordWorldEvent } from "../world";
 import { recordRelationshipInteraction } from "../records";
+import { recordPersonDeath } from "../vitality";
 import { favorRecords } from "../favors";
+import { organizationParticipationStateAt } from "../life-queries";
+import { ensureExecutiveAppointmentOpening } from "./executive-appointment-opening";
 import {
   createCharacterHistoryContextPeople,
   characterHistoryContextPersonId,
@@ -20,7 +23,12 @@ import {
   governingOfficeForPerson,
 } from "./state-governing";
 import type { World } from "../types";
-import { executiveAppointmentPost } from "./executive-appointment-posts";
+import {
+  executiveAppointmentPost,
+  executiveAppointmentPostsForOffice,
+} from "./executive-appointment-posts";
+import { executiveAppointmentEligibility } from "./executive-appointment-eligibility";
+import type { GoverningOffice } from "./state-governing";
 import {
   executiveAppointmentVacancy,
   latestExecutiveAppointmentSeat,
@@ -70,6 +78,254 @@ function term(world: World, endOffset: number) {
 }
 
 describe("named executive appointment vacancy evidence", () => {
+  test("cabinet heads share the post and causal vacancy path without invented term limits or military qualifications", () => {
+    const before = createPortabilityFixture();
+    const person = before.people[before.personOrder[0]!]!;
+    // Controlled opening-producer fixture, not an elected Presidency proof.
+    const office: GoverningOffice = {
+      officeKey: "us-president",
+      stateUsps: "",
+      title: "President",
+      jurisdictionId: person.homeJurisdictionId,
+      organizationId: null,
+      holderPersonId: person.id,
+      termId: person.id,
+      termStartedAt: null,
+      termEndsAt: null,
+      controlledByPlayer: true,
+      calendarBasis: "verified",
+      calendarNote: null,
+    };
+    const posts = executiveAppointmentPostsForOffice(office.officeKey);
+    expect(posts).toHaveLength(15);
+    expect(
+      posts.every(
+        (post) =>
+          post.authorityOfficeKey === "us-federal-president" &&
+          post.confirmation === "senate",
+      ),
+    ).toBe(true);
+    const after = ensureExecutiveAppointmentOpening(before, office);
+    const terms = posts.map((post) =>
+      latestExecutiveAppointmentSeat(after, post.officeKey, 1)!,
+    );
+    expect(
+      terms.every(
+        (term) =>
+          term.type === "world.office-tenure" &&
+          !term.tags.some((tag) => tag.startsWith("term-end:")),
+      ),
+    ).toBe(true);
+    expect(after.history.futureDueItems).toEqual(before.history.futureDueItems);
+    expect(after.history.resourcePositions).toEqual(
+      before.history.resourcePositions,
+    );
+    expect(after.history.resourceTransferOutcomes).toEqual(
+      before.history.resourceTransferOutcomes,
+    );
+    expect(ensureExecutiveAppointmentOpening(after, office)).toBe(after);
+    expect(
+      executiveAppointmentEligibility(
+        after,
+        "us-cabinet-defense",
+        person.id,
+        office.jurisdictionId,
+      ),
+    ).toBe("unverified");
+    const restored = deserializeWorld(serializeWorld(after));
+    expect(
+      latestExecutiveAppointmentSeat(restored, posts[0]!.officeKey, 1),
+    ).toEqual(terms[0]);
+    const term = terms[0]!;
+    const holder = term.participants[0]!.personId;
+    const resigned = recordWorldEvent(restored, {
+      stableKey: "fixture:cabinet:resigned",
+      type: "world.office-resignation",
+      occurredAt: restored.currentDate,
+      recordedAt: restored.currentDate,
+      jurisdictionId: office.jurisdictionId,
+      involvedEntityIds: [holder],
+      participants: [
+        {
+          personId: holder,
+          role: "focus:actor",
+          detail: "Resigning department head",
+        },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [`appointment-term:${term.id}`],
+      summary: "An actual saved department head resigns.",
+      context: CONTEXT,
+    });
+    const vacant = recordExecutiveAppointmentVacancy(resigned, {
+      incumbentTermEventId: term.id,
+      cause: "resignation",
+      causeEventId: resigned.history.events.at(-1)!.id,
+    });
+    const vacancy = latestExecutiveAppointmentSeat(
+      vacant,
+      posts[0]!.officeKey,
+      1,
+    )!;
+    expect(executiveAppointmentVacancy(vacant, vacancy.id)).toMatchObject({
+      incumbentTermEventId: term.id,
+      formerHolderPersonId: holder,
+      endExclusive: null,
+    });
+    expect(vacant.history.resourcePositions).toEqual(
+      before.history.resourcePositions,
+    );
+  });
+
+  test("the canonical death writer vacates a saved current board seat and opens the governor's matter", () => {
+    const initial = createPortabilityFixture();
+    const before = ensureStateExecutiveIncumbent(
+      initial,
+      initial.personOrder[0]!,
+      "AK",
+    );
+    const governor = currentStateExecutiveHolders(before).find(
+      (holder) => holder.stateUsps === "AK",
+    )!;
+    const office = governingOfficeForPerson(before, governor.personId)!;
+    const opened = ensureExecutiveAppointmentOpening(before, office);
+    const term = latestExecutiveAppointmentSeat(opened, POST, 1)!;
+    const personId = term.participants[0]!.personId;
+    const after = recordPersonDeath(opened, {
+      stableKey: "fixture:appointed-incumbent:death",
+      personId,
+      diedAt: opened.currentDate,
+      causeKey: "mortality:recorded-cause",
+      sourceEntityIds: [personId],
+      summary: "The saved board incumbent died in this controlled fixture.",
+      provenance: {
+        kind: "authored",
+        note: "Controlled death-hook fixture, not a mortality forecast.",
+      },
+    });
+    const vacancy = latestExecutiveAppointmentSeat(after, POST, 1)!;
+    expect(vacancy.type).toBe("world.office-vacancy");
+    expect(vacancy.tags).toContain(
+      `source-event:${after.history.personDeaths.at(-1)!.eventId}`,
+    );
+    expect(
+      governingMatters(after, office.officeKey).some(
+        (matter) =>
+          matter.family === "appointment" &&
+          matter.openedEvent.tags.includes(`appointment-vacancy:${vacancy.id}`),
+      ),
+    ).toBe(true);
+    expect(latestExecutiveAppointmentSeat(after, POST, 2)).toEqual(
+      latestExecutiveAppointmentSeat(opened, POST, 2),
+    );
+    expect(after.history.resourcePositions).toEqual(
+      opened.history.resourcePositions,
+    );
+    const restored = deserializeWorld(serializeWorld(after));
+    expect(latestExecutiveAppointmentSeat(restored, POST, 1)).toEqual(vacancy);
+  });
+
+  test("generated opening incumbents have saved terms and due items without a vacancy or new funding", () => {
+    const initial = createPortabilityFixture();
+    const before = ensureStateExecutiveIncumbent(
+      initial,
+      initial.personOrder[0]!,
+      "AK",
+    );
+    const governor = currentStateExecutiveHolders(before).find(
+      (holder) => holder.stateUsps === "AK",
+    )!;
+    const office = governingOfficeForPerson(before, governor.personId)!;
+    const after = ensureExecutiveAppointmentOpening(before, office);
+    const terms = [1, 2, 3].map((seat) =>
+      latestExecutiveAppointmentSeat(after, POST, seat)!,
+    );
+    expect(terms.every((record) => record.type === "world.office-tenure")).toBe(
+      true,
+    );
+    expect(
+      terms.every((record) =>
+        record.tags.includes("opening-term-years:game-profile"),
+      ),
+    ).toBe(true);
+    expect(
+      terms.every((record) =>
+        record.tags.some((tag) => /^term-end:\d{4}-03-01$/.test(tag)),
+      ),
+    ).toBe(true);
+    expect(
+      terms.every((record) =>
+        after.history.futureDueItems.some(
+          (due) =>
+            due.entityIds.includes(record.id) &&
+            due.stableKey === `${record.stableKey}:term-expiry`,
+        ),
+      ),
+    ).toBe(true);
+    expect(
+      after.history.events.filter(
+        (event) => event.type === "world.office-vacancy",
+      ),
+    ).toEqual(
+      before.history.events.filter(
+        (event) => event.type === "world.office-vacancy",
+      ),
+    );
+    expect(after.history.resourcePositions).toEqual(
+      before.history.resourcePositions,
+    );
+    expect(after.history.resourceTransferOutcomes).toEqual(
+      before.history.resourceTransferOutcomes,
+    );
+    expect(ensureExecutiveAppointmentOpening(after, office)).toBe(after);
+    const restored = deserializeWorld(serializeWorld(after));
+    expect(latestExecutiveAppointmentSeat(restored, POST, 1)).toEqual(terms[0]);
+    // A real saved resignation, rather than absence of an incumbent, vacates
+    // the seat and ends the same canonical membership. It preserves the
+    // incumbent's unexpired term end for a replacement.
+    const holder = terms[0]!.participants[0]!.personId;
+    const resigned = recordWorldEvent(after, {
+      stableKey: "fixture:opening-incumbent-resigned",
+      type: "world.office-resignation",
+      occurredAt: after.currentDate,
+      recordedAt: after.currentDate,
+      jurisdictionId: office.jurisdictionId,
+      involvedEntityIds: [holder],
+      participants: [
+        {
+          personId: holder,
+          role: "focus:actor",
+          detail: "Resigning incumbent",
+        },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [`appointment-term:${terms[0]!.id}`],
+      summary: "The fixture records the incumbent's actual resignation.",
+      context: CONTEXT,
+    });
+    const vacant = recordExecutiveAppointmentVacancy(resigned, {
+      incumbentTermEventId: terms[0]!.id,
+      cause: "resignation",
+      causeEventId: resigned.history.events.at(-1)!.id,
+    });
+    const vacancy = latestExecutiveAppointmentSeat(vacant, POST, 1)!;
+    expect(executiveAppointmentVacancy(vacant, vacancy.id)?.endExclusive).toBe(
+      terms[0]!.tags
+        .find((tag) => tag.startsWith("term-end:"))!
+        .slice("term-end:".length),
+    );
+    const participation = vacant.history.organizationParticipations.find(
+      (row) => row.stableKey === `${terms[0]!.stableKey}:participation`,
+    )!;
+    expect(
+      organizationParticipationStateAt(vacant, participation.id)?.status,
+    ).toBe("ended");
+    expect(vacant.history.resourcePositions).toEqual(
+      before.history.resourcePositions,
+    );
+  });
   test("a governor's actual choice records nomination lineage without seating or a favor", () => {
     const initial = createPortabilityFixture();
     let world = ensureStateExecutiveIncumbent(

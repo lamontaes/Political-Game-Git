@@ -85,7 +85,7 @@ canonical status presence is unverified. No transition is written to qualify a
 nominee. A recorded party or employment fact is read through existing writers
 and readers, not a parallel personnel or citizenship store.
 
-The four producer tests cover inventory versus vacancy, actual expired term
+The seven producer tests cover inventory versus vacancy, actual expired term
 lineage and reload, refusal of future/unrelated departures, and an authored
 governor's recorded acquaintance → player choice → nomination → reload without
 seating or a favor. These are controlled fixtures, not natural election,
@@ -93,3 +93,19 @@ ordinary opening-incumbent, played scene, hearing, confirmation, or seating
 evidence. The Part 3 browser screenshot and full saved follow-through remain
 pending. Appointment favors belong only after actual confirmation and seating,
 under the existing preferential-tie-over-better-merit rule.
+
+The additive `executive-appointment-opening.ts` now materializes the named
+opening cohort through existing context-person, organization, participation,
+and tenure writers. Board expiration years and staggering are marked fictional
+opening estimates; cabinet heads have no invented expiration date. The cabinet
+post table supplies all fifteen departments with separate held-office and rule
+identifiers. It does not assert researched coverage of every collateral
+qualification. Defense remains unverified without its actual service-history
+producer. No funds or government accounts are created by this producer.
+
+`processExecutiveAppointmentDeath(world, personId, deathEventId)` uses the
+append-following holder index after `recordPersonDeath` has saved the canonical
+death record. It rechecks current seats through the existing causal vacancy
+writer, then opens the actual executive matter. A saved incumbent resignation
+also closes its existing canonical membership. Portable controlled-test and
+failure receipts are in `session23-appointment-producer-proof/checks.json`.

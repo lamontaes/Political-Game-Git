@@ -2,10 +2,15 @@ import { eventById } from "../event-index";
 import { growingIndex, type GrowingIndexKind } from "../history-index";
 import { makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
+import { recordOrganizationParticipationState } from "../life";
+import { organizationParticipationStateAt } from "../life-queries";
 import { recordWorldEvent } from "../world";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { executiveAppointmentPost } from "./executive-appointment-posts";
-import { governingOfficeForPerson } from "./state-governing";
+import {
+  governingOfficeForPerson,
+  openExecutiveAppointmentMatter,
+} from "./state-governing";
 import { executiveAppointmentEligibility } from "./executive-appointment-eligibility";
 
 export function recordExecutiveAppointmentNomination(
@@ -180,6 +185,50 @@ const POST_RECORDS: GrowingIndexKind<Map<string, HistoricalEvent[]>> = {
   },
 };
 
+const HOLDER_TERMS: GrowingIndexKind<Map<EntityId, HistoricalEvent[]>> = {
+  create: () => new Map(),
+  add(index, record) {
+    const event = record as HistoricalEvent;
+    if (
+      event.type !== "world.office-tenure" ||
+      !appointmentTag(event, "appointment-post:")
+    )
+      return;
+    const holder = event.participants.find(
+      (participant) => participant.role === "focus:subject",
+    )?.personId;
+    if (holder) index.set(holder, [...(index.get(holder) ?? []), event]);
+  },
+};
+
+/** Called after the canonical death record exists. Lookup follows appended
+ * tenure records; the writer rechecks that every affected seat is current.
+ * Neither a daily scan nor a missing-incumbent inference is needed. */
+export function processExecutiveAppointmentDeath(
+  world: World,
+  personId: EntityId,
+  deathEventId: EntityId,
+): World {
+  let next = world;
+  const terms =
+    growingIndex(HOLDER_TERMS, world.history.events).get(personId) ?? [];
+  for (const term of terms) {
+    const vacant = recordExecutiveAppointmentVacancy(next, {
+      incumbentTermEventId: term.id,
+      cause: "death",
+      causeEventId: deathEventId,
+    });
+    if (vacant === next) continue;
+    const postKey = appointmentTag(term, "appointment-post:")!;
+    const seat = Number(appointmentTag(term, "appointment-seat:"));
+    const vacancy = latestExecutiveAppointmentSeat(vacant, postKey, seat);
+    next = vacancy
+      ? openExecutiveAppointmentMatter(vacant, vacancy.id)
+      : vacant;
+  }
+  return next;
+}
+
 /** Reads only this named seat's saved canonical office records. An inventory
  * row or absent record cannot establish either an incumbent or a vacancy. */
 export function latestExecutiveAppointmentSeat(
@@ -344,7 +393,7 @@ export function recordExecutiveAppointmentVacancy(
     )
   )
     return world;
-  return recordWorldEvent(world, {
+  let vacant = recordWorldEvent(world, {
     stableKey: `${term.stableKey}:vacancy:${input.cause}:${cause.id}`,
     type: "world.office-vacancy",
     occurredAt:
@@ -378,4 +427,26 @@ export function recordExecutiveAppointmentVacancy(
       immediateReaction: null,
     },
   });
+  const vacancyEvent = vacant.history.events.at(-1)!;
+  const participation = vacant.history.organizationParticipations.find(
+    (row) =>
+      row.stableKey === `${term.stableKey}:participation` &&
+      row.personId === holder,
+  );
+  const state = participation
+    ? organizationParticipationStateAt(vacant, participation.id)
+    : null;
+  if (participation && state && state.status !== "ended") {
+    vacant = recordOrganizationParticipationState(vacant, {
+      stableKey: `${vacancyEvent.stableKey}:participation-ended`,
+      participationId: participation.id,
+      effectiveAt: vacancyEvent.occurredAt,
+      status: "ended",
+      roleKind: null,
+      context: null,
+      supersedesStateId: state.id,
+      provenance: { kind: "simulated-event", eventId: vacancyEvent.id },
+    });
+  }
+  return vacant;
 }

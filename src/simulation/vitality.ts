@@ -1,3 +1,4 @@
+import { processExecutiveAppointmentDeath } from "./governing/executive-appointments";
 import { makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
 import { recordWorldEvent, assertWorldIntegrity } from "./world";
@@ -151,7 +152,10 @@ export function recordPersonDeath(
     },
   };
   assertWorldIntegrity(next);
-  return succeedDeceasedLeader(next, input.personId);
+  return succeedDeceasedLeader(
+    processExecutiveAppointmentDeath(next, input.personId, event.id),
+    input.personId,
+  );
 }
 
 export function recordPersonFunctionalCapacity(
