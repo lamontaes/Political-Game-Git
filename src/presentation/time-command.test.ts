@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import {
   addDays,
@@ -33,6 +33,7 @@ import { acceptedOfferStarts } from "./offer-deadlines";
 import { openOrdinaryLife } from "./ordinary-life";
 import { declineVenueActivity } from "./venue-activity";
 import { declineCalendarActivity } from "./calendar-time-control";
+import * as routineOutcome from "./routine-outcome";
 import {
   describeTimeCommandPreview,
   nextKnownCalendarItem,
@@ -74,6 +75,27 @@ function request(
 const fixedClock = () => 0;
 
 describe("the canonical time command", () => {
+  it("derives routine outcome text only when a receipt reader requests it", () => {
+    const { world, personId } = adultLife("lazy-routine-outcome");
+    const describe = vi.spyOn(routineOutcome, "describeRoutineOutcome");
+    const advanced = submitTimeCommand(
+      world,
+      request(world, personId, { kind: "days", days: 1 }),
+      fixedClock,
+    );
+
+    expect(advanced.receipt.status).toBe("accepted");
+    expect(describe).not.toHaveBeenCalled();
+    expect(recentTimeCommandReceipts().at(-1)).not.toHaveProperty("outcome");
+
+    const notice = advanced.receipt.outcome;
+    expect(typeof notice).toBe("string");
+    expect(describe).toHaveBeenCalledTimes(1);
+    expect(advanced.receipt.outcome).toBe(notice);
+    expect(describe).toHaveBeenCalledTimes(1);
+    describe.mockRestore();
+  });
+
   it("advances a child's day and week through the same clock", () => {
     const built = createNewGameWorld({
       ...DEFAULT_NEW_GAME_SETUP,
