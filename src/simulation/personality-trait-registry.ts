@@ -6,6 +6,7 @@ import {
 } from "./people-trait-definitions";
 import type { CatalogueScale } from "./personality-catalogue";
 import { CATALOGUE_SCALES } from "./personality-catalogue.generated";
+import { loadedTraitRegistry } from "./trait-registry";
 
 /** The five words Lamontae approved for how strongly a trait is held. */
 export const TRAIT_STRENGTH_LEVELS = [
@@ -212,7 +213,6 @@ export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:outward-emotional-display",
   "personality-v1:uncertain-outlook",
   "personality-v1:facet-cocky",
-  "personality-v1:facet-proud",
   "personality-v1:facet-humble",
   "personality-v1:facet-self-conscious",
   "personality-v1:facet-approval-seeking",
@@ -287,6 +287,11 @@ export function traitsWithoutReaderOrDebt(
   const accountedFor = new Set([
     ...readers.map(({ trait }) => trait),
     ...notYetConnected,
+    ...loadedTraitRegistry().report.packs.flatMap(({ consumedBy }) =>
+      Object.entries(consumedBy)
+        .filter(([, decisions]) => decisions.length > 0)
+        .map(([trait]) => trait),
+    ),
   ]);
   return traits
     .map(({ qualifiedKey }) => qualifiedKey)

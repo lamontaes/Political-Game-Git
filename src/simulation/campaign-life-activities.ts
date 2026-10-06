@@ -50,6 +50,8 @@ import {
   simulationMomentAtLocalTime,
 } from "./dates";
 import { evaluateDecision } from "./decisions";
+import { registeredTraitConsiderations } from "./trait-readings";
+import { traitRegistryFor } from "./trait-registry";
 import {
   electionContestStatus,
   requireElectionContest,
@@ -1445,9 +1447,19 @@ function supportRequestDecision(
       },
     ],
     constraints: [],
-    considerations,
+    considerations: [
+      ...considerations,
+      ...registeredTraitConsiderations(
+        world,
+        traitRegistryFor(world),
+        record.hostPersonId,
+        decisionKey,
+        "campaign.support-request",
+        record.subjectPersonId,
+      ),
+    ],
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "ephemeral",
   });
   return evaluation.selectedOptionKey === "grant"
@@ -2253,7 +2265,19 @@ export function campaignLifeOutreachTransitionHandler(
     },
     options,
     constraints: [],
-    considerations,
+    considerations: [
+      ...considerations,
+      ...registeredTraitConsiderations(
+        world,
+        traitRegistryFor(world),
+        hostId,
+        `${dueItem.stableKey}:decision`,
+        "campaign.organizer-outreach",
+        subjectId,
+      ).filter((reason) =>
+        options.some((option) => option.key === reason.optionKey),
+      ),
+    ],
     perceptionIds: [],
     randomness: "none",
     retention: "ephemeral",
