@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
+import { createScenarioWorld } from "./demo";
 import { drawRandomPlace } from "../../tests/support/random-place";
 import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
-import { createScenarioWorld } from "./demo";
 import { addDays, makeIsoDate, simulationMomentOnLocalDate } from "./dates";
 import {
   electiveOfficesForJurisdiction,

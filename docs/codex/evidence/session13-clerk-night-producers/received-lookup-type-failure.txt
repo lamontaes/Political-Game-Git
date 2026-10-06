@@ -1,0 +1,17 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run build -- env NODE_OPTIONS=--max-old-space-size=8192 npm run typecheck
+
+[storage-guard] build: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+> political-life-rpg@0.4.0 typecheck
+> node --import tsx scripts/dev-lab/typecheck.ts && node --import tsx scripts/dev-lab/typecheck-test-imports.ts
+
+src/simulation/election-contest-lookups.test.ts(62,50): error TS2345: Argument of type '"lookup"' is not assignable to parameter of type 'EntityKind'.
+src/simulation/election-contest-lookups.test.ts(65,52): error TS2345: Argument of type '"lookup"' is not assignable to parameter of type 'EntityKind'.
+src/simulation/election-contest-lookups.test.ts(76,26): error TS2345: Argument of type '"lookup"' is not assignable to parameter of type 'EntityKind'.
+src/simulation/election-contest-lookups.test.ts(83,38): error TS2345: Argument of type '"lookup"' is not assignable to parameter of type 'EntityKind'.
+src/simulation/election-contest-lookups.test.ts(96,43): error TS2345: Argument of type '"lookup"' is not assignable to parameter of type 'EntityKind'.
+src/simulation/election-contest-lookups.test.ts(99,41): error TS2345: Argument of type '"lookup"' is not assignable to parameter of type 'EntityKind'.
+src/simulation/election-contest-lookups.test.ts(104,39): error TS2345: Argument of type '"lookup"' is not assignable to parameter of type 'EntityKind'.
+src/simulation/election-contest-lookups.test.ts(149,30): error TS2345: Argument of type '"lookup"' is not assignable to parameter of type 'EntityKind'.
