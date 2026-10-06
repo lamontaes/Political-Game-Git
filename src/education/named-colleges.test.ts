@@ -3,6 +3,8 @@ import kindsText from "../../data/research/places/college-kinds.json?raw";
 import overridesText from "../../data/research/places/college-kind-overrides.json?raw";
 import campusManifestText from "../../art/campuses/manifest.json?raw";
 import hotbedsText from "../../data/research/places/political-hotbeds.json?raw";
+import fireHotbedSourceText from "../../data/research/places/political-hotbed-sources/fire-2025-bottom-quartile.json?raw";
+import chronicleHotbedSourceText from "../../data/research/places/political-hotbed-sources/chronicle-2024-encampment-campuses.json?raw";
 import { collegePlaceFor } from "./college-places";
 import type { EducationInstitution } from "./types";
 
@@ -15,11 +17,30 @@ const campusManifest = JSON.parse(campusManifestText) as {
 const overrides = JSON.parse(overridesText) as {
   readonly ivyLeague: readonly string[];
   readonly flagships: readonly string[];
-  readonly politicalHotbeds: readonly string[];
 };
 const hotbeds = JSON.parse(hotbedsText) as {
-  readonly campuses: readonly { id: string; name: string; evidence: string }[];
-  readonly sources: readonly { id: string; url: string }[];
+  readonly classificationStatus: string;
+  readonly campuses: readonly {
+    id: string;
+    name: string;
+    evidence: readonly {
+      sourceId: string;
+      status: string;
+      rank?: number;
+      score?: number;
+    }[];
+  }[];
+  readonly sources: readonly { id: string; published: string; url: string }[];
+};
+const fireHotbedSource = JSON.parse(fireHotbedSourceText) as {
+  readonly campuses: readonly {
+    rank: number;
+    score: number;
+    ipedsUnitId: string;
+  }[];
+};
+const chronicleHotbedSource = JSON.parse(chronicleHotbedSourceText) as {
+  readonly campuses: readonly { ipedsUnitId: string }[];
 };
 
 function institution(
@@ -65,26 +86,44 @@ describe("IPEDS college places", () => {
     }
   });
 
-  it("keeps 25 sourced hotbeds tied to IPEDS identities and resolves a painted DC college", () => {
-    expect(hotbeds.campuses).toHaveLength(25);
-    expect(new Set(hotbeds.campuses.map((row) => row.id)).size).toBe(25);
+  it("generates every lower-quartile FIRE campus and Chronicle source campus", () => {
+    expect(hotbeds.classificationStatus).toBe("estimated");
+    expect(fireHotbedSource.campuses.map((row) => row.rank)).toEqual(
+      Array.from({ length: 63 }, (_, index) => index + 189),
+    );
     expect(hotbeds.sources.length).toBeGreaterThanOrEqual(2);
     expect(
-      hotbeds.campuses.every((row) =>
-        hotbeds.sources.some((source) => source.id === row.evidence),
+      hotbeds.sources.every(
+        (source) =>
+          /^\d{4}-\d{2}-\d{2}$/.test(source.published) &&
+          source.url.startsWith("https://"),
       ),
+    ).toBe(true);
+    const outputIds = new Set(hotbeds.campuses.map((row) => row.id));
+    expect(outputIds.size).toBe(hotbeds.campuses.length);
+    expect(hotbeds.campuses.length).toBeGreaterThanOrEqual(
+      fireHotbedSource.campuses.length,
+    );
+    expect(
+      fireHotbedSource.campuses.every((sourceRow) => {
+        const output = hotbeds.campuses.find(
+          (row) => row.id === sourceRow.ipedsUnitId,
+        );
+        return output?.evidence.some(
+          (item) =>
+            item.sourceId === "fire-2025-cfsr" &&
+            item.status === "estimated" &&
+            item.rank === sourceRow.rank &&
+            item.score === sourceRow.score,
+        );
+      }),
     ).toBe(true);
     expect(
-      hotbeds.campuses.every((row) =>
-        kinds.institutions.some(
-          (kindRow) => kindRow.id === `ipeds-unit:${row.id}`,
-        ),
+      chronicleHotbedSource.campuses.every((sourceRow) =>
+        outputIds.has(sourceRow.ipedsUnitId),
       ),
     ).toBe(true);
-    expect(overrides.politicalHotbeds).toEqual(
-      hotbeds.campuses.map((row) => row.id).sort(),
-    );
-    for (const id of overrides.politicalHotbeds) {
+    for (const { id } of hotbeds.campuses) {
       expect(
         kinds.institutions.some((row) => row.id === `ipeds-unit:${id}`),
       ).toBe(true);
@@ -94,7 +133,7 @@ describe("IPEDS college places", () => {
     );
     expect(collegePlaceFor(institution("ipeds-unit:131496"))).toMatchObject({
       campus: "dc",
-      kind: "private",
+      kind: "political-hotbed",
     });
   });
 

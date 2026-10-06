@@ -1,0 +1,105 @@
+{
+  "sourceId": "chronicle-2024-campus-encampments",
+  "title": "How Colleges Have Responded to Student Encampments",
+  "authors": ["Sonel Cutler", "Forest Hunt", "Alecia Taylor"],
+  "publisher": "The Chronicle of Higher Education",
+  "published": "2024-05-01",
+  "retrieved": "2026-10-06",
+  "url": "https://www.chronicle.com/article/how-colleges-have-responded-to-student-encampments",
+  "scope": "23 campuses individually named in the article’s campus-specific examples and outcomes. The article’s wider analysis covers 50 encampments, but does not expose a complete machine-readable list of those 50 in this source package.",
+  "membershipStatus": "reported event inclusion; this event-set proxy does not imply higher overall political activity or represent all political viewpoints.",
+  "campuses": [
+    {
+      "ipedsUnitId": "110635",
+      "name": "University of California-Berkeley"
+    },
+    {
+      "ipedsUnitId": "110662",
+      "name": "University of California-Los Angeles"
+    },
+    {
+      "ipedsUnitId": "131469",
+      "name": "George Washington University"
+    },
+    {
+      "ipedsUnitId": "134130",
+      "name": "University of Florida"
+    },
+    {
+      "ipedsUnitId": "139658",
+      "name": "Emory University"
+    },
+    {
+      "ipedsUnitId": "147767",
+      "name": "Northwestern University"
+    },
+    {
+      "ipedsUnitId": "151351",
+      "name": "Indiana University-Bloomington"
+    },
+    {
+      "ipedsUnitId": "165662",
+      "name": "Emerson College"
+    },
+    {
+      "ipedsUnitId": "166027",
+      "name": "Harvard University"
+    },
+    {
+      "ipedsUnitId": "168148",
+      "name": "Tufts University"
+    },
+    {
+      "ipedsUnitId": "171100",
+      "name": "Michigan State University"
+    },
+    {
+      "ipedsUnitId": "189097",
+      "name": "Barnard College"
+    },
+    {
+      "ipedsUnitId": "190150",
+      "name": "Columbia University in the City of New York"
+    },
+    {
+      "ipedsUnitId": "190415",
+      "name": "Cornell University"
+    },
+    {
+      "ipedsUnitId": "193654",
+      "name": "The New School"
+    },
+    {
+      "ipedsUnitId": "193900",
+      "name": "New York University"
+    },
+    {
+      "ipedsUnitId": "195030",
+      "name": "University of Rochester"
+    },
+    {
+      "ipedsUnitId": "209807",
+      "name": "Portland State University"
+    },
+    {
+      "ipedsUnitId": "216287",
+      "name": "Swarthmore College"
+    },
+    {
+      "ipedsUnitId": "217156",
+      "name": "Brown University"
+    },
+    {
+      "ipedsUnitId": "233921",
+      "name": "Virginia Polytechnic Institute and State University"
+    },
+    {
+      "ipedsUnitId": "235167",
+      "name": "The Evergreen State College"
+    },
+    {
+      "ipedsUnitId": "243780",
+      "name": "Purdue University-Main Campus"
+    }
+  ]
+}

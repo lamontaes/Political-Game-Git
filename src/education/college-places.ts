@@ -74,12 +74,18 @@ export function collegePlaceFor(
             ? "private"
             : "regional-public"
     : null;
+  const kind =
+    paintedKind === "ivy-league" || paintedKind === "flagship"
+      ? paintedKind
+      : row.kind === "political-hotbed"
+        ? row.kind
+        : (paintedKind ?? row.kind);
   return {
     id: institution.id,
     name: institution.name,
     city: institution.city,
     state: institution.state,
-    kind: paintedKind ?? row.kind,
+    kind,
     campus: row.campus ?? campusRecord?.campus ?? null,
     sourceYear: row.sourceYear,
   };

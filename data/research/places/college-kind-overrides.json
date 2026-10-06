@@ -1,5 +1,5 @@
 {
-  "source": "Curated identity rows keyed by IPEDS unit ID; flagships follow the campus manifest, the Ivy League list follows the eight member institutions, and political hotbeds follow data/research/places/political-hotbeds.json.",
+  "source": "Curated identity rows keyed by IPEDS unit ID; flagships follow the campus manifest and the Ivy League list follows the eight member institutions. Political-hotbed identities are generated from the sourced rank and event sets in data/research/places/political-hotbed-sources/.",
   "ivyLeague": [
     "130794",
     "166027",
@@ -65,32 +65,5 @@
     "240754",
     "240790",
     "243665"
-  ],
-  "politicalHotbeds": [
-    "110635",
-    "110662",
-    "131469",
-    "131496",
-    "134130",
-    "139658",
-    "147767",
-    "151351",
-    "165662",
-    "166027",
-    "168148",
-    "171100",
-    "189097",
-    "190150",
-    "190415",
-    "193654",
-    "193900",
-    "194824",
-    "195030",
-    "209807",
-    "216287",
-    "217156",
-    "233921",
-    "235167",
-    "243780"
   ]
 }

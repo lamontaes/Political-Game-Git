@@ -1,149 +1,1074 @@
 {
-  "schemaVersion": 1,
-  "methodology": "Political-hotbed is a sourced selection of campuses with documented, consequential political speech or protest activity. This 25-campus candidate set combines 23 campuses explicitly discussed in The Chronicle's 2024 report on student encampments, plus Georgetown University and Rensselaer Polytechnic Institute, which FIRE identifies among schools repeatedly performing poorly in its multi-year political-speech controversy rankings. The Chronicle cohort is concentrated on one 2024 issue and is not a balanced measure of ideology or a claim that these campuses have higher activism than unlisted campuses. FIRE's survey measures speech climate and political tolerance, not activism frequency. Revisit as more cross-ideological event data is sourced.",
+  "schemaVersion": 2,
+  "reviewedAt": "2026-10-06",
+  "classificationStatus": "estimated",
+  "methodology": "A campus is tagged political-hotbed when it appears in either the lower quartile of FIRE's 2025 ordered free-speech rankings (ranks 189–251 of 251) or the Chronicle's named 2024 encampment-campus set. This is a proxy-based estimate of campus political salience, not a measured activism rate, political viewpoint, or chapter-existence claim. FIRE scores and ranks are reported measures; Chronicle event inclusion is reported; hotbed classification is estimated from those sources.",
   "sources": [
+    {
+      "id": "fire-2025-cfsr",
+      "title": "2025 College Free Speech Rankings",
+      "publisher": "Foundation for Individual Rights and Expression",
+      "published": "2024-09-03",
+      "retrieved": "2026-10-06",
+      "url": "https://www.thefire.org/research-learn/2025-college-free-speech-rankings",
+      "coverage": "63 campuses, every ordered FIRE rank 189–251; FIRE/College Pulse measure of campus free-speech climate, not political activism or partisan composition."
+    },
     {
       "id": "chronicle-2024-campus-encampments",
       "title": "How Colleges Have Responded to Student Encampments",
       "publisher": "The Chronicle of Higher Education",
       "published": "2024-05-01",
+      "retrieved": "2026-10-06",
       "url": "https://www.chronicle.com/article/how-colleges-have-responded-to-student-encampments",
-      "scope": "50 encampments beginning April 19–26, 2024; names listed below are explicitly discussed in its report."
-    },
-    {
-      "id": "fire-2025-recurring-speech-controversies",
-      "title": "2025 College Free Speech Rankings",
-      "publisher": "Foundation for Individual Rights and Expression",
-      "published": "2024-09",
-      "url": "https://www.thefire.org/research-learn/2025-college-free-speech-rankings",
-      "scope": "FIRE describes Georgetown and Rensselaer Polytechnic Institute among schools that have consistently performed poorly and received lifetime censorship awards; this is political speech-climate evidence, not an activism-rate measure."
+      "coverage": "23 campuses individually named in the article’s campus-specific examples and outcomes. The article’s wider analysis covers 50 encampments, but does not expose a complete machine-readable list of those 50 in this source package."
     }
   ],
   "campuses": [
     {
       "id": "110635",
-      "name": "University of California-Berkeley",
-      "evidence": "chronicle-2024-campus-encampments"
+      "name": "University of California, Berkeley",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 225,
+          "score": 34.22,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Yellow"
+        },
+        {
+          "sourceId": "chronicle-2024-campus-encampments",
+          "status": "reported"
+        }
+      ]
+    },
+    {
+      "id": "110644",
+      "name": "University of California, Davis",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 239,
+          "score": 26.72,
+          "speechClimate": "Poor",
+          "spotlightRating": "Yellow"
+        }
+      ]
     },
     {
       "id": "110662",
-      "name": "University of California-Los Angeles",
-      "evidence": "chronicle-2024-campus-encampments"
+      "name": "University of California, Los Angeles",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 220,
+          "score": 35.07,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Green"
+        },
+        {
+          "sourceId": "chronicle-2024-campus-encampments",
+          "status": "reported"
+        }
+      ]
+    },
+    {
+      "id": "121345",
+      "name": "Pomona College",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 242,
+          "score": 25.42,
+          "speechClimate": "Poor",
+          "spotlightRating": "Yellow"
+        }
+      ]
+    },
+    {
+      "id": "123961",
+      "name": "University of Southern California",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 245,
+          "score": 19.79,
+          "speechClimate": "Very Poor",
+          "spotlightRating": "Red"
+        }
+      ]
+    },
+    {
+      "id": "127060",
+      "name": "University of Denver",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 210,
+          "score": 37.99,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Yellow"
+        }
+      ]
+    },
+    {
+      "id": "128902",
+      "name": "Connecticut College",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 202,
+          "score": 38.89,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Red"
+        }
+      ]
+    },
+    {
+      "id": "129020",
+      "name": "University of Connecticut",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 196,
+          "score": 39.68,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Yellow"
+        }
+      ]
+    },
+    {
+      "id": "131159",
+      "name": "American University",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 237,
+          "score": 29.31,
+          "speechClimate": "Poor",
+          "spotlightRating": "Yellow"
+        }
+      ]
     },
     {
       "id": "131469",
       "name": "George Washington University",
-      "evidence": "chronicle-2024-campus-encampments"
+      "evidence": [
+        {
+          "sourceId": "chronicle-2024-campus-encampments",
+          "status": "reported"
+        }
+      ]
     },
     {
       "id": "131496",
       "name": "Georgetown University",
-      "evidence": "fire-2025-recurring-speech-controversies"
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 240,
+          "score": 25.96,
+          "speechClimate": "Poor",
+          "spotlightRating": "Red"
+        }
+      ]
+    },
+    {
+      "id": "131520",
+      "name": "Howard University",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 236,
+          "score": 29.77,
+          "speechClimate": "Poor",
+          "spotlightRating": "Red"
+        }
+      ]
     },
     {
       "id": "134130",
       "name": "University of Florida",
-      "evidence": "chronicle-2024-campus-encampments"
+      "evidence": [
+        {
+          "sourceId": "chronicle-2024-campus-encampments",
+          "status": "reported"
+        }
+      ]
     },
     {
       "id": "139658",
       "name": "Emory University",
-      "evidence": "chronicle-2024-campus-encampments"
+      "evidence": [
+        {
+          "sourceId": "chronicle-2024-campus-encampments",
+          "status": "reported"
+        }
+      ]
+    },
+    {
+      "id": "144740",
+      "name": "DePaul University",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 201,
+          "score": 38.89,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Yellow"
+        }
+      ]
+    },
+    {
+      "id": "146719",
+      "name": "Loyola University Chicago",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 209,
+          "score": 38.03,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Red"
+        }
+      ]
     },
     {
       "id": "147767",
       "name": "Northwestern University",
-      "evidence": "chronicle-2024-campus-encampments"
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 238,
+          "score": 29.04,
+          "speechClimate": "Poor",
+          "spotlightRating": "Red"
+        },
+        {
+          "sourceId": "chronicle-2024-campus-encampments",
+          "status": "reported"
+        }
+      ]
     },
     {
       "id": "151351",
-      "name": "Indiana University-Bloomington",
-      "evidence": "chronicle-2024-campus-encampments"
+      "name": "Indiana University",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 243,
+          "score": 24.67,
+          "speechClimate": "Poor",
+          "spotlightRating": "Yellow"
+        },
+        {
+          "sourceId": "chronicle-2024-campus-encampments",
+          "status": "reported"
+        }
+      ]
+    },
+    {
+      "id": "153384",
+      "name": "Grinnell College",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 191,
+          "score": 40.58,
+          "speechClimate": "Slightly Below Average",
+          "spotlightRating": "Red"
+        }
+      ]
+    },
+    {
+      "id": "153658",
+      "name": "University of Iowa",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 216,
+          "score": 36.23,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Yellow"
+        }
+      ]
+    },
+    {
+      "id": "155317",
+      "name": "University of Kansas",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 203,
+          "score": 38.76,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Yellow"
+        }
+      ]
+    },
+    {
+      "id": "159391",
+      "name": "Louisiana State University",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 199,
+          "score": 39.26,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Red"
+        }
+      ]
+    },
+    {
+      "id": "160755",
+      "name": "Tulane University",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 217,
+          "score": 35.96,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Yellow"
+        }
+      ]
+    },
+    {
+      "id": "164924",
+      "name": "Boston College",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 189,
+          "score": 40.76,
+          "speechClimate": "Slightly Below Average",
+          "spotlightRating": "Red"
+        }
+      ]
+    },
+    {
+      "id": "165015",
+      "name": "Brandeis University",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 231,
+          "score": 31.96,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Yellow"
+        }
+      ]
+    },
+    {
+      "id": "165334",
+      "name": "Clark University",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 214,
+          "score": 37.08,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Red"
+        }
+      ]
     },
     {
       "id": "165662",
       "name": "Emerson College",
-      "evidence": "chronicle-2024-campus-encampments"
+      "evidence": [
+        {
+          "sourceId": "chronicle-2024-campus-encampments",
+          "status": "reported"
+        }
+      ]
     },
     {
       "id": "166027",
       "name": "Harvard University",
-      "evidence": "chronicle-2024-campus-encampments"
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 251,
+          "score": 0.008,
+          "speechClimate": "Abysmal",
+          "spotlightRating": "Yellow"
+        },
+        {
+          "sourceId": "chronicle-2024-campus-encampments",
+          "status": "reported"
+        }
+      ]
+    },
+    {
+      "id": "166939",
+      "name": "Mount Holyoke College",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 207,
+          "score": 38.11,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Red"
+        }
+      ]
     },
     {
       "id": "168148",
       "name": "Tufts University",
-      "evidence": "chronicle-2024-campus-encampments"
+      "evidence": [
+        {
+          "sourceId": "chronicle-2024-campus-encampments",
+          "status": "reported"
+        }
+      ]
+    },
+    {
+      "id": "169248",
+      "name": "Central Michigan University",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 232,
+          "score": 31.45,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Yellow"
+        }
+      ]
     },
     {
       "id": "171100",
       "name": "Michigan State University",
-      "evidence": "chronicle-2024-campus-encampments"
+      "evidence": [
+        {
+          "sourceId": "chronicle-2024-campus-encampments",
+          "status": "reported"
+        }
+      ]
+    },
+    {
+      "id": "172699",
+      "name": "Western Michigan University",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 193,
+          "score": 40.12,
+          "speechClimate": "Slightly Below Average",
+          "spotlightRating": "Red"
+        }
+      ]
+    },
+    {
+      "id": "182670",
+      "name": "Dartmouth College",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 224,
+          "score": 34.37,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Yellow"
+        }
+      ]
+    },
+    {
+      "id": "186131",
+      "name": "Princeton University",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 223,
+          "score": 34.49,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Red"
+        }
+      ]
+    },
+    {
+      "id": "186380",
+      "name": "Rutgers University",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 198,
+          "score": 39.38,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Yellow"
+        }
+      ]
+    },
+    {
+      "id": "187985",
+      "name": "University of New Mexico",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 219,
+          "score": 35.46,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Yellow"
+        }
+      ]
     },
     {
       "id": "189097",
       "name": "Barnard College",
-      "evidence": "chronicle-2024-campus-encampments"
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 247,
+          "score": 15.62,
+          "speechClimate": "Very Poor",
+          "spotlightRating": "Yellow"
+        },
+        {
+          "sourceId": "chronicle-2024-campus-encampments",
+          "status": "reported"
+        }
+      ]
+    },
+    {
+      "id": "190099",
+      "name": "Colgate University",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 211,
+          "score": 37.92,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Red"
+        }
+      ]
     },
     {
       "id": "190150",
-      "name": "Columbia University in the City of New York",
-      "evidence": "chronicle-2024-campus-encampments"
+      "name": "Columbia University",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 250,
+          "score": 0.008,
+          "speechClimate": "Abysmal",
+          "spotlightRating": "Yellow"
+        },
+        {
+          "sourceId": "chronicle-2024-campus-encampments",
+          "status": "reported"
+        }
+      ]
     },
     {
       "id": "190415",
       "name": "Cornell University",
-      "evidence": "chronicle-2024-campus-encampments"
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 215,
+          "score": 36.49,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Yellow"
+        },
+        {
+          "sourceId": "chronicle-2024-campus-encampments",
+          "status": "reported"
+        }
+      ]
+    },
+    {
+      "id": "191241",
+      "name": "Fordham University",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 234,
+          "score": 30.97,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Red"
+        }
+      ]
     },
     {
       "id": "193654",
       "name": "The New School",
-      "evidence": "chronicle-2024-campus-encampments"
+      "evidence": [
+        {
+          "sourceId": "chronicle-2024-campus-encampments",
+          "status": "reported"
+        }
+      ]
     },
     {
       "id": "193900",
       "name": "New York University",
-      "evidence": "chronicle-2024-campus-encampments"
-    },
-    {
-      "id": "194824",
-      "name": "Rensselaer Polytechnic Institute",
-      "evidence": "fire-2025-recurring-speech-controversies"
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 249,
+          "score": 3.33,
+          "speechClimate": "Abysmal",
+          "spotlightRating": "Yellow"
+        },
+        {
+          "sourceId": "chronicle-2024-campus-encampments",
+          "status": "reported"
+        }
+      ]
     },
     {
       "id": "195030",
       "name": "University of Rochester",
-      "evidence": "chronicle-2024-campus-encampments"
+      "evidence": [
+        {
+          "sourceId": "chronicle-2024-campus-encampments",
+          "status": "reported"
+        }
+      ]
+    },
+    {
+      "id": "196060",
+      "name": "University at Albany, State University of New York",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 212,
+          "score": 37.66,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Yellow"
+        }
+      ]
+    },
+    {
+      "id": "196167",
+      "name": "SUNY Geneseo",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 206,
+          "score": 38.13,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Yellow"
+        }
+      ]
+    },
+    {
+      "id": "196413",
+      "name": "Syracuse University",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 246,
+          "score": 17.24,
+          "speechClimate": "Very Poor",
+          "spotlightRating": "Yellow"
+        }
+      ]
+    },
+    {
+      "id": "201645",
+      "name": "Case Western Reserve University",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 195,
+          "score": 39.9,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Red"
+        }
+      ]
+    },
+    {
+      "id": "202480",
+      "name": "University of Dayton",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 192,
+          "score": 40.41,
+          "speechClimate": "Slightly Below Average",
+          "spotlightRating": "Red"
+        }
+      ]
+    },
+    {
+      "id": "209551",
+      "name": "University of Oregon",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 200,
+          "score": 39.22,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Yellow"
+        }
+      ]
     },
     {
       "id": "209807",
       "name": "Portland State University",
-      "evidence": "chronicle-2024-campus-encampments"
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 194,
+          "score": 40.08,
+          "speechClimate": "Slightly Below Average",
+          "spotlightRating": "Red"
+        },
+        {
+          "sourceId": "chronicle-2024-campus-encampments",
+          "status": "reported"
+        }
+      ]
+    },
+    {
+      "id": "212106",
+      "name": "Duquesne University",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 222,
+          "score": 34.54,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Yellow"
+        }
+      ]
+    },
+    {
+      "id": "212674",
+      "name": "Gettysburg College",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 197,
+          "score": 39.64,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Red"
+        }
+      ]
+    },
+    {
+      "id": "212911",
+      "name": "Haverford College",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 190,
+          "score": 40.74,
+          "speechClimate": "Slightly Below Average",
+          "spotlightRating": "Red"
+        }
+      ]
+    },
+    {
+      "id": "213385",
+      "name": "Lafayette College",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 213,
+          "score": 37.54,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Red"
+        }
+      ]
+    },
+    {
+      "id": "214777",
+      "name": "Pennsylvania State University",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 228,
+          "score": 33.18,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Yellow"
+        }
+      ]
+    },
+    {
+      "id": "215062",
+      "name": "University of Pennsylvania",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 248,
+          "score": 12.5,
+          "speechClimate": "Very Poor",
+          "spotlightRating": "Yellow"
+        }
+      ]
+    },
+    {
+      "id": "215293",
+      "name": "University of Pittsburgh",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 208,
+          "score": 38.04,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Yellow"
+        }
+      ]
     },
     {
       "id": "216287",
       "name": "Swarthmore College",
-      "evidence": "chronicle-2024-campus-encampments"
+      "evidence": [
+        {
+          "sourceId": "chronicle-2024-campus-encampments",
+          "status": "reported"
+        }
+      ]
     },
     {
       "id": "217156",
       "name": "Brown University",
-      "evidence": "chronicle-2024-campus-encampments"
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 229,
+          "score": 33.13,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Yellow"
+        },
+        {
+          "sourceId": "chronicle-2024-campus-encampments",
+          "status": "reported"
+        }
+      ]
+    },
+    {
+      "id": "217819",
+      "name": "College of Charleston",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 204,
+          "score": 38.74,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Yellow"
+        }
+      ]
+    },
+    {
+      "id": "218070",
+      "name": "Furman University",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 221,
+          "score": 34.74,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Red"
+        }
+      ]
+    },
+    {
+      "id": "225511",
+      "name": "University of Houston",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 230,
+          "score": 32.36,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Yellow"
+        }
+      ]
+    },
+    {
+      "id": "227216",
+      "name": "University of North Texas",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 205,
+          "score": 38.6,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Yellow"
+        }
+      ]
+    },
+    {
+      "id": "228778",
+      "name": "University of Texas at Austin",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 244,
+          "score": 23.39,
+          "speechClimate": "Poor",
+          "spotlightRating": "Yellow"
+        }
+      ]
+    },
+    {
+      "id": "230764",
+      "name": "University of Utah",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 241,
+          "score": 25.46,
+          "speechClimate": "Poor",
+          "spotlightRating": "Yellow"
+        }
+      ]
+    },
+    {
+      "id": "231174",
+      "name": "University of Vermont",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 233,
+          "score": 31.35,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Yellow"
+        }
+      ]
     },
     {
       "id": "233921",
       "name": "Virginia Polytechnic Institute and State University",
-      "evidence": "chronicle-2024-campus-encampments"
+      "evidence": [
+        {
+          "sourceId": "chronicle-2024-campus-encampments",
+          "status": "reported"
+        }
+      ]
     },
     {
       "id": "235167",
       "name": "The Evergreen State College",
-      "evidence": "chronicle-2024-campus-encampments"
+      "evidence": [
+        {
+          "sourceId": "chronicle-2024-campus-encampments",
+          "status": "reported"
+        }
+      ]
+    },
+    {
+      "id": "236948",
+      "name": "University of Washington",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 226,
+          "score": 34.14,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Red"
+        }
+      ]
+    },
+    {
+      "id": "239105",
+      "name": "Marquette University",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 235,
+          "score": 30.96,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Red"
+        }
+      ]
+    },
+    {
+      "id": "240444",
+      "name": "University of Wisconsin-Madison",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 227,
+          "score": 33.96,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Yellow"
+        }
+      ]
+    },
+    {
+      "id": "243744",
+      "name": "Stanford University",
+      "evidence": [
+        {
+          "sourceId": "fire-2025-cfsr",
+          "status": "estimated",
+          "rank": 218,
+          "score": 35.49,
+          "speechClimate": "Below Average",
+          "spotlightRating": "Yellow"
+        }
+      ]
     },
     {
       "id": "243780",
       "name": "Purdue University-Main Campus",
-      "evidence": "chronicle-2024-campus-encampments"
+      "evidence": [
+        {
+          "sourceId": "chronicle-2024-campus-encampments",
+          "status": "reported"
+        }
+      ]
     }
   ]
 }

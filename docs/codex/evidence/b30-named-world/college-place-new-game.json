@@ -38,6 +38,6 @@
     },
     "scenario": "A new game used a seeded draw from accepted locality life places. Applying to Emory from the shipped IPEDS directory saved the hotbed kind on the canonical college organization profile."
   },
-  "hotbedSources": "data/research/places/political-hotbeds.json",
-  "sourceCoverageNote": "The Chronicle cohort is centered on 2024 Gaza encampments; FIRE measures speech climate and tolerance, not activism frequency. The source set is a candidate list with this limitation recorded, not a claim of balanced ideology or complete national coverage."
+  "hotbedSources": "data/research/places/political-hotbed-sources/ and regenerated data/research/places/political-hotbeds.json",
+  "sourceCoverageNote": "The regenerated set includes all 63 campuses at FIRE 2025 ranks 189–251 and the 23 campuses explicitly named in Chronicle's May 2024 examples, deduplicated to 75 IPEDS identities. The hotbed tag is an estimate from those proxies; FIRE measures speech climate and tolerance, not activism frequency, while the Chronicle event set concerns Gaza encampments and is not a complete transcription of all 50 encampments."
 }
