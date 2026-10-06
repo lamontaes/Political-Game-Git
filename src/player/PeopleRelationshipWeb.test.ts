@@ -20,4 +20,13 @@ describe("the People screen carries no authored sentence", () => {
       expect(code.match(/>\s*[A-Z][a-z]+ [a-z ,']{25,}/g) ?? []).toEqual([]);
     }
   });
+
+  it("prints the recorded name under every node", () => {
+    const web = readFileSync(
+      join(__dirname, "PeopleRelationshipWeb.tsx"),
+      "utf8",
+    );
+    expect(web).not.toMatch(/named\b/);
+    expect(web).toContain("{shownLabel}");
+  });
 });

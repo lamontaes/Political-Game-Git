@@ -152,12 +152,6 @@ export function PeopleRelationshipWeb({
             }
             inCategory={inCategory(node.personId)}
             onPath={connection?.personIds.has(node.personId) ?? false}
-            named={
-              node.labeled ||
-              node.personId === web.focusId ||
-              node.personId === selectedId ||
-              connectedIds.has(node.personId)
-            }
             onSelect={onSelect}
           />
         ))}
@@ -213,13 +207,10 @@ function WebNode({
   dimmedBySelection,
   inCategory,
   onPath,
-  named,
   onSelect,
 }: {
   readonly world: World;
   readonly node: LaidOutNode;
-  /** Whether to print the name; a crowded ring keeps it to the tooltip. */
-  readonly named: boolean;
   readonly matched: boolean;
   readonly focused: boolean;
   readonly selected: boolean;
@@ -281,21 +272,19 @@ function WebNode({
         The whole name is a target. Safari hit-tests SVG text by glyph, so a
         click between letters would fall through; this box catches it.
       */}
-      {named ? (
-        <>
-          <rect
-            className="pg-relationship-web-label-hit"
-            data-testid={`people-web-label-${node.personId}`}
-            x={-labelWidth / 2}
-            y={size / 2 + 5}
-            width={labelWidth}
-            height={17}
-          />
-          <text x={0} y={size / 2 + 17} textAnchor="middle">
-            {shownLabel}
-          </text>
-        </>
-      ) : null}
+      <>
+        <rect
+          className="pg-relationship-web-label-hit"
+          data-testid={`people-web-label-${node.personId}`}
+          x={-labelWidth / 2}
+          y={size / 2 + 5}
+          width={labelWidth}
+          height={17}
+        />
+        <text x={0} y={size / 2 + 17} textAnchor="middle">
+          {shownLabel}
+        </text>
+      </>
     </g>
   );
 }
