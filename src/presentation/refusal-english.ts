@@ -1,3 +1,4 @@
+import { conversationRegister } from "./conversation-register";
 import { speakerTraits } from "./speaker-traits";
 import { ageOnDate } from "../simulation";
 import { LIFE_MIND_IDS } from "../simulation/life-mind-content";
@@ -112,7 +113,18 @@ const COMPANY_DECLINE: ComposedLineBank = {
     closer: {
       variants: [
         { key: "another-time", kind: "template", text: "Maybe another time." },
-        { key: "thanks-asking", kind: "template", text: "Thanks for asking." },
+        {
+          key: "thanks-asking",
+          kind: "template",
+          text: "Thanks for asking.",
+          registers: ["small-talk"],
+        },
+        {
+          key: "maybe-later",
+          kind: "template",
+          text: "Maybe later.",
+          registers: ["family"],
+        },
       ],
     },
   },
@@ -309,7 +321,7 @@ function compose(
     recentPartKeys: history
       .slice(-6)
       .flatMap((event) => linePartsOf(event.tags) ?? []),
-    register: "small-talk",
+    register: conversationRegister(world, speakerId, playerPersonId),
   });
   return line.kind === "rendered"
     ? { text: line.text, parts: line.parts }
