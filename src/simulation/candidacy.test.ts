@@ -22,6 +22,12 @@ import {
 const places = lifePlaceStateIdentities();
 const selected = places[randomInt(places.length)]!;
 const seed = "session-110-filing-gate";
+function executiveJurisdiction(usps: string) {
+  const jurisdictionId = chiefExecutiveJurisdictionId(usps);
+  if (jurisdictionId === null)
+    throw new Error("The fixture requires an executive jurisdiction.");
+  return jurisdictionId;
+}
 afterEach(() => vi.restoreAllMocks());
 
 describe("the one candidacy filing gate", () => {
@@ -32,7 +38,7 @@ describe("the one candidacy filing gate", () => {
       const office = stateExecutiveIdentity(place.usps)!;
       const result = candidacyEligibility(fixture.world, {
         personId: fixture.personId,
-        jurisdictionId: chiefExecutiveJurisdictionId(place.usps),
+        jurisdictionId: executiveJurisdiction(place.usps),
         officeKey: office.officeKey,
         alreadyACandidate: false,
       });
@@ -50,7 +56,8 @@ describe("the one candidacy filing gate", () => {
     const unread = places.filter((place) => {
       const office = stateExecutiveIdentity(place.usps)!;
       return (
-        officeQualifications(place.jurisdictionKey, "GOVERNOR").length === 0 &&
+        officeQualifications(place.jurisdictionKey, "GOVERNOR", "2026-01-05")
+          .length === 0 &&
         candidateQualificationRuleSet(
           office.candidacyPackId,
           office.officeKey,
@@ -71,7 +78,7 @@ describe("the one candidacy filing gate", () => {
       };
       const result = candidacyEligibility(world, {
         personId: person.id,
-        jurisdictionId: chiefExecutiveJurisdictionId(place.usps),
+        jurisdictionId: executiveJurisdiction(place.usps),
         officeKey: stateExecutiveIdentity(place.usps)!.officeKey,
         alreadyACandidate: false,
       });
@@ -101,7 +108,7 @@ describe("the one candidacy filing gate", () => {
       expect(
         candidacyEligibility(young, {
           personId: person.id,
-          jurisdictionId: chiefExecutiveJurisdictionId(place.usps),
+          jurisdictionId: executiveJurisdiction(place.usps),
           officeKey: result.office!.officeKey,
           alreadyACandidate: false,
         }).blocks.some((block) => block.kind === "profile-minimum-age"),
