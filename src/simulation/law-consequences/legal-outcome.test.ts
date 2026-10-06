@@ -410,6 +410,39 @@ describe("recorded floors reach saved sentences", () => {
         "lawEffectStamps.0.governingLawKey",
         measured.id,
       );
+      const legacyKinds = [
+        "justice.held-before-trial",
+        "justice.released-before-trial",
+        "minimum-custody-months",
+      ] as const;
+      for (const effectKind of legacyKinds) {
+        const legacyStamp = { ...consequence.lawEffectStamps[0]!, effectKind };
+        const legacyWorld = {
+          ...reloaded,
+          history: {
+            ...reloaded.history,
+            legalOutcomeConsequences:
+              reloaded.history.legalOutcomeConsequences!.map((record) =>
+                record.id === consequence.id
+                  ? { ...record, lawEffectStamps: [legacyStamp] as const }
+                  : record,
+              ),
+          },
+        };
+        const legacyLoaded = deserializeWorld(serializeWorld(legacyWorld));
+        const legacyRecord =
+          legacyLoaded.history.legalOutcomeConsequences!.find(
+            (record) => record.id === consequence.id,
+          )!;
+        expect(legacyRecord).toEqual({
+          ...consequence,
+          lawEffectStamps: [legacyStamp],
+        });
+        expect(legalOutcomeRegistration.apply(legacyLoaded, resolved[0]!)).toBe(
+          legacyLoaded,
+        );
+        expect(legacyRecord.effectKind).toBe("minimum-custody-months");
+      }
       namedProofs.push({
         seed,
         place: state.jurisdictionKey,
@@ -426,6 +459,7 @@ describe("recorded floors reach saved sentences", () => {
         summary: saved.summary,
         consequenceId: consequence.id,
         stamps: consequence.lawEffectStamps,
+        legacyKindsReloaded: legacyKinds,
       });
     },
     120_000,
