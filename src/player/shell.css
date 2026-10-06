@@ -578,7 +578,7 @@
 
 .pg-workspace-head h2 {
   margin: 0.1rem 0 0;
-  font-size: 1.25rem;
+  font: 800 1.25rem/1.25 var(--name);
   overflow-wrap: anywhere;
 }
 
@@ -614,11 +614,6 @@
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--pg-brass);
-}
-
-.pg-personal-identity h3 {
-  margin: 0;
-  font-size: 1.4rem;
 }
 
 .pg-tag {
@@ -848,11 +843,9 @@
 
 .pg-purses li {
   display: grid;
-  gap: 0.1rem;
-  padding: 0.5rem 0.65rem;
-  border: 1px solid var(--pg-hairline);
-  border-radius: 2px;
-  background: var(--kit12-glass);
+  gap: var(--pg-space-1);
+  padding-block: var(--pg-space-2);
+  border-bottom: 1px solid var(--pg-hairline);
 }
 
 .pg-purses small {
@@ -1902,10 +1895,6 @@
 
 .pg-workspace {
   font-family: var(--pg-font-ui);
-  background: var(--pg-glass-strong);
-  backdrop-filter: var(--pg-blur);
-  border: 1px solid var(--pg-hairline);
-  box-shadow: var(--pg-edge), var(--pg-shadow);
 }
 
 .pg-workspace-head h2 {
@@ -2469,14 +2458,6 @@
   }
 }
 
-.pg-personal-chronology {
-  max-height: 24rem;
-  overflow: auto;
-}
-.pg-personal-chronology time {
-  color: var(--pg-muted, #776340);
-  font-size: 0.85em;
-}
 .pg-opportunity-choices {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -2562,8 +2543,6 @@
 /*
  * The main menu's glass and brass frame is shared by player panels.
  */
-.pg-workspace,
-.pg-nav-flyout,
 .pg-person-card--overlay,
 .pg-recap,
 .pg-continuation,
@@ -2594,7 +2573,7 @@
  * Windows too narrow or too short for the rings keep a framed paper list.
  */
 @media (min-width: 761px) and (min-height: 700px) {
-  .pg-nav-flyout:not(.pg-nav-confirm) {
+  .pg-game .pg-nav-flyout:not(.pg-nav-confirm) {
     position: absolute;
     left: calc(var(--pg-nav-pad) + 1px + var(--pg-nav-avatar) / 2);
     bottom: calc(100% + 1rem);
@@ -2638,10 +2617,10 @@
     height: 4.4rem;
     padding: 0.45rem;
     gap: 0;
-    border: 2.5px solid var(--brass);
+    border: 1px solid var(--brass);
     border-radius: 50%;
     background: var(--kit12-glass);
-    box-shadow: var(--kit12-frame);
+    box-shadow: inset 0 0 0 1px var(--iron);
     backdrop-filter: var(--kit12-blur);
     color: var(--text-strong);
     text-align: center;
@@ -2659,7 +2638,7 @@
   .pg-nav-flyout:not(.pg-nav-confirm)
     > button[role="menuitem"]
     + button[role="menuitem"] {
-    border-top: 2.5px solid var(--brass);
+    border-top: 1px solid var(--brass);
     border-radius: 50%;
   }
   .pg-nav-flyout:not(.pg-nav-confirm) button[role="menuitem"]:hover,
@@ -2672,7 +2651,7 @@
   }
   .pg-nav-flyout:not(.pg-nav-confirm)
     button[role="menuitem"][aria-pressed="true"] {
-    background: var(--kit12-glass);
+    background: var(--glass-bottom);
     border-color: var(--gold);
     color: var(--gold);
   }
@@ -2876,4 +2855,159 @@
   display: grid;
   gap: 0.35rem;
   max-width: calc(100dvw - 2.3rem);
+}
+
+/* Approved Kit 13, consolidated into the existing theme. */
+/* One compact surround contains the portrait, live clock and time controls. */
+.pg-game.pg-game .pg-nav-clock-and-controls {
+  --kit13-frame-corner: 20px;
+  padding: 0.55rem;
+  color: var(--text-strong);
+}
+
+.pg-game.pg-game .pg-nav-copy {
+  gap: 0.1rem;
+  line-height: 1.2;
+}
+
+.pg-game.pg-game .pg-nav-identity {
+  color: var(--gold);
+  font: 800 0.92rem var(--name);
+}
+
+.pg-game.pg-game :is(.pg-nav-date, .pg-nav-time, .pg-nav-place) {
+  color: var(--text-2);
+  font: 400 0.76rem var(--ui);
+}
+
+.pg-game.pg-game .pg-nav-days {
+  gap: 3px;
+}
+
+.pg-game.pg-game .pg-nav-day.ui-action {
+  min-height: 1.8rem;
+  padding: 0.2rem 0.6rem;
+  color: var(--text-strong);
+  font: 500 0.76rem var(--ui);
+  letter-spacing: 0.02em;
+  text-transform: none;
+  backdrop-filter: none;
+}
+
+.pg-game.pg-game .pg-nav-day[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.pg-game.pg-game .life-hud-note {
+  --kit13-frame-corner: 12px;
+  padding: 0.45rem 0.7rem;
+  font: 400 0.85rem/1.4 var(--ui);
+}
+
+/* Search changes surface in place; its existing details/escape flow is retained. */
+.pg-game.pg-game .pg-people-search {
+  inline-size: min(100%, 14rem);
+}
+
+.pg-game.pg-game .pg-people-search > summary {
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-block-size: 2.4rem;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid transparent;
+  color: var(--text-3);
+  font: 400 0.875rem/1.25 var(--ui);
+  text-shadow: none;
+}
+
+.pg-game.pg-game .pg-people-search > summary:is(:hover, :focus-visible) {
+  border-color: rgb(242 237 228 / 10%);
+  background: transparent;
+  color: var(--text-2);
+  text-shadow: none;
+}
+
+.pg-game.pg-game .pg-people-search[open] > summary {
+  display: none;
+}
+
+.pg-game.pg-game .pg-people-search[open] > .pg-people-search-entry {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  gap: 0.45rem;
+  inline-size: 100%;
+  min-block-size: 2.4rem;
+  margin: 0;
+  padding: 0.35rem 0.5rem;
+  border: 0;
+  background: transparent;
+}
+
+.pg-game.pg-game .pg-people-search svg {
+  display: block;
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.75;
+}
+
+.pg-game.pg-game .pg-people-search .pg-field input,
+.pg-game.pg-game
+  .pg-people-search
+  .pg-field
+  input:is(:hover, :focus, :focus-visible) {
+  flex: 1;
+  inline-size: 100%;
+  min-inline-size: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+  color: var(--text-strong);
+  caret-color: var(--gold);
+  font: 400 1rem/1.25 var(--ui);
+}
+
+/* Flat glass menu entries: hover stays quiet, activation makes the face solid. */
+.pg-nav-flyout button[role="menuitem"] {
+  box-shadow: none;
+  text-shadow: none;
+  transition:
+    background 120ms ease,
+    color 120ms ease;
+}
+.pg-nav-flyout button[role="menuitem"]:active,
+.pg-nav-flyout button[role="menuitem"][aria-pressed="true"] {
+  background: var(--glass-bottom);
+  color: var(--gold);
+}
+.pg-workspace-controls .ui-icon-button {
+  color: var(--text-3);
+  font-weight: 400;
+}
+.pg-workspace-controls .ui-icon-button:hover {
+  color: var(--text-strong);
+}
+
+.pg-game .pg-people-search-entry .pg-search-icon {
+  flex: none;
+  border: 0;
+  padding: 0.25rem;
+  background: transparent;
+  box-shadow: none;
+  color: var(--text-3);
+  font: 400 1.25rem/1 var(--ui);
+  cursor: pointer;
+}
+.pg-game .pg-people-search-entry .pg-search-icon:hover {
+  color: var(--text-strong);
+}
+.pg-people-search-entry input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
 }
