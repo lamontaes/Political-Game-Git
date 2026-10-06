@@ -937,7 +937,8 @@ export type LawExposureChannel =
   | "job-rule"
   | "business-rule"
   | "public-service"
-  | "rent";
+  | "rent"
+  | "court-outcome";
 
 /**
  * A dated record that an enacted law actually reached one person: the law, how

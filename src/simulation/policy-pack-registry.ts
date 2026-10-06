@@ -12,6 +12,7 @@ import {
 import { TAX_TERMS_POLICY_PACK } from "./policy-pack-tax-terms";
 import { COVERAGE_ELIGIBILITY_ROWS } from "./law-consequences/coverage-eligibility-rows";
 import { SERVICE_DELIVERED_LAW_ROWS } from "./law-consequences/service-delivered-data";
+import { LW17_PERSON_LANDING_ROWS } from "./law-consequences/lw17-person-landing-rows";
 import {
   loadPolicyPacks,
   type PolicyPack,
@@ -48,6 +49,7 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
     ...US_POLICY_POSITIONS_PACK,
     propositions: US_POLICY_POSITIONS_PACK.propositions?.map((row) => {
       const key = `${US_POLICY_POSITIONS_PACK.pack}:${row.key}`;
+      const justice = LW17_PERSON_LANDING_ROWS[key] ?? [];
       const coverage = COVERAGE_ELIGIBILITY_ROWS[key];
       const pay = MINIMUM_WAGE_PAY_ROWS[key];
       const service = [
@@ -56,7 +58,14 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
       ];
       const rent = key === RENT_STABILIZATION_QUESTION;
       const tuition = key === TUITION_FREEZE_QUESTION;
-      if (!coverage && !pay && service.length === 0 && !rent && !tuition)
+      if (
+        justice.length === 0 &&
+        !coverage &&
+        !pay &&
+        service.length === 0 &&
+        !rent &&
+        !tuition
+      )
         return row;
       return {
         ...row,
@@ -76,6 +85,7 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
           ...(coverage ? [coverage] : []),
           ...(pay ? [pay] : []),
           ...service,
+          ...justice,
         ],
       };
     }),

@@ -83,6 +83,7 @@ type Reach =
   | "job-rule"
   | "business-rule"
   | "public-service"
+  | "court-outcome"
   | "health-coverage";
 
 interface Touch {
@@ -487,6 +488,8 @@ function effectPhrase(group: readonly Touch[], count: number): string {
       return `recorded public health coverage eligibility ${group[0]!.coverage ? "began" : "ended"} for ${plural(count, "resident", "residents")}`;
     case "public-service":
       return `changed a public service for ${plural(count, "resident", "residents")}`;
+    case "court-outcome":
+      return `changed court outcomes for ${plural(count, "defendant", "defendants")}`;
   }
 }
 

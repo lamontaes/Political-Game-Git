@@ -81,3 +81,20 @@ it("admits the existing rights handler without borrowing another kind capability
       ?.has("recorded-tax-base-payer"),
   ).toBe(false);
 });
+
+it("registers person-level justice outcomes under their own selectors", () => {
+  const registry = createLawConsequenceRegistry();
+  const handler = registry.handlers.get("justice-person-exposure");
+  expect(handler?.owner).toBe("LW-17 person landings");
+  expect(
+    registry.capabilities.selectorsByKind?.get("justice-person-exposure"),
+  ).toEqual(
+    new Set(["justice.pretrial-defendant", "justice.sentenced-defendant"]),
+  );
+  expect(registry.capabilities.actions.get("justice-person-exposure")).toEqual(
+    new Set([
+      "record-cash-bail-exposure",
+      "record-mandatory-minimum-exposure",
+    ]),
+  );
+});

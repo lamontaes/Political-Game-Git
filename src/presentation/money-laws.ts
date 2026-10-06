@@ -81,6 +81,11 @@ const TOWN_WORDS: Record<
     cost: (who, sum) => `raised the rent of ${who} by ${sum}`,
     none: (who) => `changed the rent rules for ${who}`,
   },
+  "court-outcome": {
+    gain: (who) => `changed a court outcome for ${who}`,
+    cost: (who) => `changed a court outcome for ${who}`,
+    none: (who) => `changed a court outcome for ${who}`,
+  },
 };
 
 /**

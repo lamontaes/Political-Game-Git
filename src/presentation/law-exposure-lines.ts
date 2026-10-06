@@ -61,6 +61,11 @@ const CHANNEL_WORDS: Record<
     gain: "lowered {whose} rent by {amount}",
     none: "changed the rules on {whose} rent",
   },
+  "court-outcome": {
+    cost: "changed the outcome of {whose} court case",
+    gain: "changed the outcome of {whose} court case",
+    none: "changed the outcome of {whose} court case",
+  },
 };
 
 function amountText(exposure: LawExposureRecord): string {
