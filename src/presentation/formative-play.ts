@@ -302,7 +302,11 @@ export function chooseFormativeOption(
   const person = world.people[input.personId];
   if (!person) throw new Error("This character is not in the world.");
   const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
-  const stableKey = formativePlayStableKey(world, input.personId, input.situationKey);
+  const stableKey = formativePlayStableKey(
+    world,
+    input.personId,
+    input.situationKey,
+  );
   const jurisdictionId = place?.context.jurisdiction.id ?? null;
   const takingTheJob =
     input.situationKey === "formative.teen-work-opportunity" &&
