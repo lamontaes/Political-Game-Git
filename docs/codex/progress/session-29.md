@@ -5,11 +5,11 @@ four laws. Added a disabled readiness contract and regression test that retain
 the candidate effect, evidence status, and exact missing records/research for
 future implementation. No runtime law row is activated.
 
-Verification: the focused Vitest command is blocked because Vite's identity
-plugin cannot spawn `git` in this sandbox. `npm run typecheck` reaches the
-repository typecheck and reports existing errors in
-`src/simulation/press/press-premise.test.ts` (missing `personalLifeDepiction`);
-it does not report an error in the new LW-09 files. `git diff --check` passes.
+Verification: after composing onto current `origin/main` e597ec933, focused
+Vitest passes (1 test) and Prettier/ESLint/diff checks pass. Main merge #2470
+fixed the previous unrelated press fixture errors; post-rebase test-inclusive
+typecheck is running. Release declaration is
+`docs/release/changes/lw09-effect-readiness-contract.md` (`impact: none`).
 
 Next: coordinate with the owning session when canonical effect/person records
 exist, then add the measured law rows, effect module and random-place proof.
