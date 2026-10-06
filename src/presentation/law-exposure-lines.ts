@@ -129,7 +129,9 @@ export function lawExposureSentence(
     parkOutturn?.kind === "capacity-outturn"
   )
     return parkOutturn.unitsOperational > 0
-      ? `The ${named} recorded ${parkOutturn.unitsOperational} operational ${parkOutturn.unitLabel ?? "park service units"} for ${parkOutturn.serviceLabel ?? "park service"} in your area.`
+      ? parkOutturn.restoredUnits === null
+        ? `The ${named} recorded ${parkOutturn.unitsOperational} operational ${parkOutturn.unitLabel ?? "park service units"} for ${parkOutturn.serviceLabel ?? "park service"} in your area; how many units were newly restored is unknown and estimated.`
+        : `The ${named} recorded ${parkOutturn.unitsOperational} operational ${parkOutturn.unitLabel ?? "park service units"} for ${parkOutturn.serviceLabel ?? "park service"} in your area.`
       : `The ${named} recorded zero operational units for ${parkOutturn.serviceLabel ?? "park service"} in your area; closed is derived from the count because no open-state field is recorded.`;
   const sentence = friend
     ? `${via!.givenName} told you the ${named} ${words}`

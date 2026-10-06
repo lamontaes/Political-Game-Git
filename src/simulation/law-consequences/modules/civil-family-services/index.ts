@@ -11,8 +11,13 @@ import type {
   LawConsequenceRow,
   ResolvedLawConsequence,
 } from "../../../law-consequence-types";
-import type { HistoricalEvent, World } from "../../../types";
+import type { EntityId, HistoricalEvent, World } from "../../../types";
 import { noticeCivilFamilyServiceDelivery } from "../../civil-family-service-noticed";
+import { applyLawConsequences } from "../../../enacted-law-effects";
+import type {
+  PublicProgramCapacityOutturnRecord,
+  PublicProgramCommitmentRecord,
+} from "../../../types";
 import { recordParksServiceAreaEffect } from "../../parks-service-area";
 import { lawInForce } from "../../../governing/law-in-force";
 import { hasHouseholdResidenceInJurisdiction } from "../../../life-queries";
@@ -190,3 +195,81 @@ const parksServiceRegistration: LawConsequenceKindRegistration<ResolvedLawConseq
 
 export const registrations: readonly LawConsequenceKindRegistration<ResolvedLawConsequence>[] =
   [libraryServiceRegistration, parksServiceRegistration];
+
+/** Proposed Session 20 post-outturn receiver contract; pending confirmation. */
+export type ParksCapacityOutturnReceiver = (
+  world: World,
+  savedOutturn: PublicProgramCapacityOutturnRecord,
+  commitment: PublicProgramCommitmentRecord,
+) => World;
+
+/**
+ * Route an actual saved parks outturn through the ordinary law dispatcher.
+ * Context comes only from its saved event, commitment and appropriation.
+ */
+export const receiveParksCapacityOutturn: ParksCapacityOutturnReceiver = (
+  world,
+  savedOutturn,
+  commitment,
+) => {
+  if (
+    savedOutturn.kind !== "capacity-outturn" ||
+    commitment.kind !== "commitment"
+  )
+    return world;
+
+  const savedRecords = world.history.publicProgramRecords ?? [];
+  const outturn = savedRecords.find(
+    (record) =>
+      record.kind === "capacity-outturn" && record.id === savedOutturn.id,
+  );
+  const savedCommitment = savedRecords.find(
+    (record) => record.kind === "commitment" && record.id === commitment.id,
+  );
+  if (
+    outturn?.kind !== "capacity-outturn" ||
+    savedCommitment?.kind !== "commitment" ||
+    !outturn.programKey.startsWith("parks:") ||
+    outturn.commitmentId !== savedCommitment.id ||
+    outturn.commitmentId !== commitment.id
+  )
+    return world;
+
+  const appropriation = savedRecords.find(
+    (record) =>
+      record.kind === "appropriation" &&
+      record.id === savedCommitment.appropriationId,
+  );
+  if (
+    appropriation?.kind !== "appropriation" ||
+    appropriation.jurisdictionId !== outturn.jurisdictionId ||
+    !appropriation.sourceMeasureId
+  )
+    return world;
+
+  const event = eventById(world, outturn.eventId);
+  if (!event || event.occurredAt !== world.currentDate) return world;
+  const cutoff = {
+    asOfDate: event.occurredAt,
+    historySequenceExclusive: outturn.sequence,
+  };
+  const subjectIds = (Object.keys(world.people) as EntityId[])
+    .filter((personId) =>
+      hasHouseholdResidenceInJurisdiction(
+        world,
+        personId,
+        outturn.jurisdictionId,
+        cutoff,
+      ),
+    )
+    .sort();
+
+  return applyLawConsequences(world, {
+    activity: "service",
+    activityId: outturn.id,
+    onDate: event.occurredAt,
+    questionKey: PARKS_QUESTION,
+    governingLawId: appropriation.sourceMeasureId,
+    subjectIds,
+  });
+};

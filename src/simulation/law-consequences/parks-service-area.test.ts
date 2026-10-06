@@ -5,7 +5,7 @@ import { publicProgramRecordId } from "../public-program-integrity";
 import { recordWorldEvent } from "../world";
 import { lawExposureSentence } from "../../presentation/law-exposure-lines";
 import { applyLawConsequences } from "../enacted-law-effects";
-import { recordParksServiceAreaEffect } from "./parks-service-area";
+import { receiveParksCapacityOutturn } from "./modules/civil-family-services";
 import { LAW_CONSEQUENCE_REGISTRATIONS } from "../law-consequence-registry";
 import type {
   EntityId,
@@ -136,15 +136,7 @@ describe("parks law area effects", () => {
     const savedOutturn = outturn.record;
     expect(savedOutturn.kind).toBe("capacity-outturn");
     if (savedOutturn.kind !== "capacity-outturn") throw new Error("fixture");
-
-    const context = {
-      onDate: funded.world.currentDate,
-      activity: "service" as const,
-      activityId: savedOutturn.id,
-      subjectIds: before,
-      questionKey: PARKS,
-      governingLawId: funded.measureId,
-    };
+    if (commitment.record.kind !== "commitment") throw new Error("fixture");
     const worldWithOutturn: World = {
       ...outturn.world,
       history: {
@@ -155,10 +147,10 @@ describe("parks law area effects", () => {
         ],
       },
     };
-    const reached = applyLawConsequences(
+    const reached = receiveParksCapacityOutturn(
       worldWithOutturn,
-      context,
-      LAW_CONSEQUENCE_REGISTRATIONS,
+      savedOutturn,
+      commitment.record,
     );
     const exposures = reached.history.lawExposures ?? [];
     expect(
@@ -191,12 +183,13 @@ describe("parks law area effects", () => {
         .sort(),
     ).toEqual(before.sort());
     expect(
-      applyLawConsequences(reached, context, LAW_CONSEQUENCE_REGISTRATIONS),
+      receiveParksCapacityOutturn(reached, savedOutturn, commitment.record),
     ).toBe(reached);
 
     const zeroOutturn = {
       ...savedOutturn,
       id: `zero:${savedOutturn.id}` as EntityId,
+      unitsOperational: 0,
       restoredUnits: 0,
     };
     const worldWithZeroOutturn: World = {
@@ -209,9 +202,10 @@ describe("parks law area effects", () => {
         ],
       },
     };
-    const zeroReached = recordParksServiceAreaEffect(
+    const zeroReached = receiveParksCapacityOutturn(
       worldWithZeroOutturn,
       zeroOutturn,
+      commitment.record,
     );
     const zeroCause = zeroReached.history.lawExposures!.filter(
       (row) => row.sourceRecordId === zeroOutturn.id,
@@ -220,6 +214,36 @@ describe("parks law area effects", () => {
     expect(
       zeroCause.every((row) => row.direction === "none" && row.amount === null),
     ).toBe(true);
+    expect(
+      lawExposureSentence(zeroReached, zeroCause[0]!.personId, zeroCause[0]!),
+    ).toContain("closed is derived from the count");
+
+    const unknownOutturn = {
+      ...savedOutturn,
+      id: `unknown:${savedOutturn.id}` as EntityId,
+      restoredUnits: null,
+    };
+    const worldWithUnknownOutturn: World = {
+      ...worldWithOutturn,
+      history: {
+        ...worldWithOutturn.history,
+        publicProgramRecords: [
+          ...(worldWithOutturn.history.publicProgramRecords ?? []),
+          unknownOutturn,
+        ],
+      },
+    };
+    const unknownReached = receiveParksCapacityOutturn(
+      worldWithUnknownOutturn,
+      unknownOutturn,
+      commitment.record,
+    );
+    const unknownCause = unknownReached.history.lawExposures!.find(
+      (row) => row.sourceRecordId === unknownOutturn.id,
+    )!;
+    expect(
+      lawExposureSentence(unknownReached, unknownCause.personId, unknownCause),
+    ).toContain("newly restored is unknown and estimated");
   });
 
   it("writes nothing when no park service units changed", () => {
