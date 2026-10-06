@@ -1,4 +1,3 @@
-import { SeededRng } from "../rng";
 import type { SeatedBody, SeatedMember } from "../legislation-scenarios";
 
 /**
@@ -14,7 +13,8 @@ import type { SeatedBody, SeatedMember } from "../legislation-scenarios";
  * sizes. It stores nothing, so it cannot drift from a save, and it returns
  * the same roster every time it is asked.
  */
-export const COMMITTEE_ASSIGNMENT_PROFILE = "governing-committee-assignment/v1";
+export const COMMITTEE_ASSIGNMENT_PROFILE =
+  "governing-committee-assignment/v2-recorded-seating";
 
 export interface AssignableCommittee {
   readonly committeeKey: string;
@@ -24,7 +24,7 @@ export interface AssignableCommittee {
 /**
  * Deals members to committees so that everybody serves before anybody serves
  * twice. Committees are taken in compiled order, each one drawing the next
- * `appointedMembers` from a seeded ordering of the body and wrapping around
+ * `appointedMembers` from the recorded seniority order of the body and wrapping around
  * when it reaches the end. A committee larger than its own chamber seats the
  * whole chamber once rather than seating anybody twice.
  */
@@ -34,7 +34,9 @@ export function committeeRosters(
   seedKey: string,
 ): ReadonlyMap<string, readonly SeatedMember[]> {
   const rosters = new Map<string, readonly SeatedMember[]>();
-  const order = seatingOrder(body, seedKey);
+  // Retained caller argument identifies the institution, never a random order.
+  void seedKey;
+  const order = seatingOrder(body);
   if (order.length === 0) {
     for (const committee of committees) rosters.set(committee.committeeKey, []);
     return rosters;
@@ -99,20 +101,32 @@ export function committeesForPerson(
 }
 
 /**
- * A seeded ordering of the chamber. Seeding on the chamber and the body's own
- * membership means the roster is stable for a given legislature and changes
- * when its membership does, which is what a reseated chamber should do.
+ * Actual seating date establishes seniority; equal dates use stable identity.
+ * An incomplete or ambiguous body cannot establish a committee appointment.
+ * Never substitute generated employment dates or a seed for seating evidence.
  */
-function seatingOrder(
-  body: SeatedBody,
-  seedKey: string,
-): readonly SeatedMember[] {
-  const rng = new SeededRng(
-    `${COMMITTEE_ASSIGNMENT_PROFILE}:${seedKey}:${body.chamberKey}:${body.members.length}`,
+function seatingOrder(body: SeatedBody): readonly SeatedMember[] {
+  const identities = new Set<string>();
+  const people = new Set<string>();
+  for (const member of body.members) {
+    if (
+      !member.personId ||
+      !member.seatingEventId ||
+      !member.tenureStartedAt ||
+      identities.has(member.memberKey) ||
+      people.has(member.personId)
+    )
+      return [];
+    identities.add(member.memberKey);
+    people.add(member.personId);
+  }
+  return [...body.members].sort(
+    (left, right) =>
+      left.tenureStartedAt!.localeCompare(right.tenureStartedAt!) ||
+      (left.memberKey < right.memberKey
+        ? -1
+        : left.memberKey > right.memberKey
+          ? 1
+          : 0),
   );
-  const pool = [...body.members];
-  const order: SeatedMember[] = [];
-  while (pool.length > 0)
-    order.push(pool.splice(rng.integer(0, pool.length), 1)[0]!);
-  return order;
 }

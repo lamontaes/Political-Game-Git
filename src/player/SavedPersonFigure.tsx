@@ -93,10 +93,7 @@ export function SavedPersonFigure({
         }}
       >
         <div style={{ position: "absolute", inset: "4% 0 2% 0" }}>
-          <EngineFigure
-            recipe={figureEngine}
-            testId="saved-person-full-body"
-          />
+          <EngineFigure recipe={figureEngine} testId="saved-person-full-body" />
         </div>
       </figure>
     );

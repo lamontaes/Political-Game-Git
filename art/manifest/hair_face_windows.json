@@ -1,0 +1,17 @@
+{
+  "schema": "hair-face-windows-v1",
+  "note": "Candidate authored native boundaries, not automatic source or pixel approval. Runtime derives the mask from the actual selected face alpha. Originals and missing views remain unchanged.",
+  "styles": {
+    "hair-feminine-afro-front.png": {
+      "sourceFront": "hair-feminine-afro-front.png",
+      "sourceSha256": "c3896011eba3c030ceb90daece3b541cc3891ef9090d28eff6876b285589558e",
+      "canvas": { "width": 512, "height": 808 },
+      "view": "front",
+      "fromRow": 108,
+      "throughRow": 160,
+      "insetPixels": 1,
+      "featherRows": 3,
+      "approval": "candidate"
+    }
+  }
+}

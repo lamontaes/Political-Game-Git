@@ -61,7 +61,17 @@ export const PRETRIAL_HOLD = "court:hold-before-trial" as const;
 /** Offenses with violence against a person. */
 const VIOLENT_OFFENSES = new Set(["crime:assault", "crime:robbery"]);
 /** Offenses that abuse a public office or a campaign's trust. */
-const PUBLIC_TRUST_OFFENSES = new Set(["campaign-funds-personal-use"]);
+const PUBLIC_TRUST_OFFENSES = new Set([
+  "campaign-funds-personal-use",
+  "honest-services-contract-steering",
+  "public-bribery",
+  "public-kickback",
+  "protected-job-patronage",
+  "public-funds-embezzlement",
+  "theft-of-public-money",
+  "extortion-under-color-of-official-right",
+  "unreported-official-gift",
+]);
 
 /** The case as every decider in it sees it. */
 export interface CourtCase {
@@ -255,10 +265,20 @@ export function juryPool(world: World, courtCase: CourtCase): EntityId[] {
  * jury statute draws its panels by lot. The draw picks who sits; it decides
  * nothing any of them does.
  */
-/** Existing blanket panel target; jurisdiction-specific legal sizes are unread. */
-export const UNRESEARCHED_JURY_PANEL = {
+/**
+ * ESTIMATED FROM AVERAGE: the most common legal size of a felony jury. Twelve
+ * is the federal rule (Fed. R. Crim. P. 23(b)) and the rule in most states;
+ * the Constitution allows as few as six (Williams v. Florida, 399 U.S. 78
+ * (1970)) and forbids five (Ballew v. Georgia, 435 U.S. 223 (1978)), and a
+ * few states seat six or eight for some offenses. Each state's own size is
+ * not read yet, so every place starts from the common rule.
+ */
+export const JURY_PANEL_ESTIMATE = {
   size: 12,
-  provenance: "unresearched-existing-panel-size",
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "Fed. R. Crim. P. 23(b) and the common state felony rule of twelve; floor of six from Williams v. Florida, 399 U.S. 78 (1970) and Ballew v. Georgia, 435 U.S. 223 (1978)",
 } as const;
 
 export function empanelJury(
@@ -272,7 +292,7 @@ export function empanelJury(
   );
   const drawn: EntityId[] = [];
   const remaining = [...pool];
-  while (drawn.length < UNRESEARCHED_JURY_PANEL.size && remaining.length > 0)
+  while (drawn.length < JURY_PANEL_ESTIMATE.size && remaining.length > 0)
     drawn.push(remaining.splice(rng.integer(0, remaining.length), 1)[0]!);
   return drawn;
 }

@@ -13,6 +13,8 @@ import {
 import type { LifeSceneSetting } from "../simulation/opening-life-content";
 import { resolveLifeScene } from "./life-scene";
 import { workplacePresence } from "./workplace-presence";
+import { openingWorkLocation } from "./opening-work-location";
+import { selectedWorkplaceForPerson } from "./place-backdrops";
 import { recordedRoomPresence } from "./recorded-room-presence";
 import {
   currentOpeningLifeScene,
@@ -69,6 +71,10 @@ export interface PlaySceneContext {
   readonly reason: string;
   readonly placeLabel: string | null;
   readonly presentPeople: readonly ScenePerson[];
+  /** Pictured workplace identity only; this does not admit people as present. */
+  readonly workplace?: NonNullable<
+    ReturnType<typeof selectedWorkplaceForPerson>
+  >;
 }
 
 type ContextScene =
@@ -132,6 +138,9 @@ export function resolveOpeningPlaySceneContext(
       locationKey: work.locationKey,
       sceneId: sceneId && libraryHas(scenes, library, sceneId) ? sceneId : null,
       reason: work.arrival.summary,
+      ...(selectedWorkplaceForPerson(world, personId)
+        ? { workplace: selectedWorkplaceForPerson(world, personId)! }
+        : {}),
       placeLabel: work.location.label,
       presentPeople: work.personIds.flatMap((id) => {
         if (id === personId) return [];
@@ -147,6 +156,20 @@ export function resolveOpeningPlaySceneContext(
             ]
           : [];
       }),
+    };
+  }
+
+  const workArrival = openingWorkLocation(world, personId);
+  if (workArrival?.context.location?.setting === "work") {
+    const workplace = selectedWorkplaceForPerson(world, personId);
+    return {
+      purpose: "activity",
+      locationKey: "life-circumstance:covered-shift",
+      sceneId: null,
+      reason: workArrival.summary,
+      placeLabel: workArrival.context.location.label,
+      presentPeople: [],
+      ...(workplace ? { workplace } : {}),
     };
   }
 
@@ -171,6 +194,27 @@ export function resolveOpeningPlaySceneContext(
     scenes,
     library,
   );
+}
+
+/**
+ * Resolve the room at the current moment, using opening placement only while
+ * an opening scene or today's recorded work arrival is actually current.
+ *
+ * The opening location record remains useful history after its day has ended.
+ * Treating that historical record as the live room left the status card at
+ * yesterday's workplace and discarded the ordinary day's present people.
+ */
+export function resolveCurrentPlaySceneContext(
+  world: World,
+  personId: EntityId,
+  scene: StoryScene,
+  scenes: SceneRegistry = SCENE_REGISTRY,
+  library: RuntimeVisualLibrary = PRODUCTION_VISUAL_LIBRARY,
+): PlaySceneContext {
+  return currentOpeningLifeScene(world, personId) ||
+    openingWorkLocation(world, personId)
+    ? resolveOpeningPlaySceneContext(world, personId, scenes, library)
+    : resolvePlaySceneContext(world, personId, scene, scenes, library);
 }
 
 export function resolvePlaySceneContext(

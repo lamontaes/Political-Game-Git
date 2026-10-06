@@ -10,6 +10,7 @@
     "strict": true,
     "resolveJsonModule": true,
     "noEmit": true,
+    "jsx": "react-jsx",
     "types": ["node", "vite/client"]
   },
   "include": [
@@ -39,6 +40,8 @@
     "src/simulation/**/*.ts",
     "src/source/**/*.ts",
     "tests/e2e/**/*.ts",
+    "tests/e2e/support/opening-preparation-fixture.tsx",
+    "src/player/LifeStartTransition.tsx",
     "tests/support/random-place.ts",
     "tests/support/recorded-civic-journalist.ts",
     "tests/fixtures/**/*.ts",

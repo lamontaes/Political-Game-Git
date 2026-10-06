@@ -87,10 +87,9 @@ describe("marking a term learned", () => {
     });
     expect(marked.preferences.learnedGuideTermKeys).toEqual(["quorum"]);
     expect(marked.announcement).toBe("Term marked as learned.");
-    // Nothing else in the shell moved: no navigation, no pins, no journal.
+    // Nothing else in the shell moved: no navigation, pins, or progress.
     expect(marked.history).toEqual(INITIAL_SHELL_STATE.history);
     expect(marked.pins).toEqual(INITIAL_SHELL_STATE.pins);
-    expect(marked.journal).toEqual(INITIAL_SHELL_STATE.journal);
     expect(marked.progress).toEqual(INITIAL_SHELL_STATE.progress);
 
     const cleared = shellReducer(marked, {

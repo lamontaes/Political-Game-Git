@@ -8,6 +8,7 @@ import { placePopulation } from "../nationwide-world/place-population";
 import { STATES } from "../state-reference";
 import type { EntityId, IsoDate, World } from "../types";
 import { AREA_RESIDENTS_ROWS } from "./area-residents.generated";
+import type { OutcomeRangeViolation } from ".";
 
 /**
  * PLACE OUTCOMES: the outcomes the world keeps for each state, D.C. and
@@ -71,6 +72,8 @@ export interface PlaceOutcomeRecord {
   readonly value: number;
   /** Each outcome-web link that moved it this month, and by how much. */
   readonly causes: readonly { readonly key: string; readonly factor: number }[];
+  /** Table range violations from the completed calculation; no clipping. */
+  readonly rangeViolations?: readonly OutcomeRangeViolation[];
 }
 
 /** A city's or county's part in its state's value. */

@@ -22,8 +22,8 @@
   gap: 0.2rem;
   padding: 0.55rem 0.7rem;
   border: 1px solid var(--pg-hairline, rgb(111 85 42 / 28%));
-  border-radius: 0.4rem;
-  background: var(--kit12-glass);
+  border-radius: 2px;
+  background: transparent;
 }
 
 .pg-contacts--focused .pg-contact {
@@ -42,8 +42,8 @@
 .pg-contact-name,
 .pg-recall-list > li > strong {
   display: block;
-  font-weight: 700;
-  color: var(--pg-ivory, var(--run-a-ink));
+  font: 800 0.95rem var(--name);
+  color: var(--gold);
 }
 
 .pg-contact-meta {
@@ -77,7 +77,7 @@
   font-size: 0.75rem;
   color: var(--pg-ivory-dim, var(--run-a-muted));
   border: 1px solid var(--pg-hairline, rgb(111 85 42 / 28%));
-  border-radius: 1rem;
+  border-radius: 2px;
 }
 
 .pg-contact-channels > li[data-blocked="true"] {
@@ -117,7 +117,7 @@
   color: var(--pg-ivory, var(--run-a-ink));
   background: var(--kit12-glass);
   border: 1px solid var(--pg-hairline, rgb(111 85 42 / 28%));
-  border-radius: 0.3rem;
+  border-radius: 2px;
   color-scheme: dark;
 }
 
@@ -136,13 +136,12 @@
   padding: 0;
   overflow: auto;
   color: var(--pg-ivory, var(--run-a-ink));
-  font-family: var(--pg-font-ui, inherit);
+  font-family: var(--ui);
   background: var(--kit12-glass);
-  border: 1px solid var(--run-a-line);
-  border-radius: 0.6rem;
-  box-shadow:
-    0 1px 0 #fffcf4 inset,
-    0 1.2rem 3rem rgb(46 30 12 / 35%);
+  border: 1px solid var(--brass);
+  border-radius: 2px;
+  box-shadow: var(--kit12-frame);
+  backdrop-filter: var(--kit12-blur);
 }
 
 .pg-contact-dialog-body {
@@ -154,7 +153,7 @@
 }
 
 .pg-contact-dialog::backdrop {
-  background: rgb(38 26 14 / 55%);
+  background: rgb(0 0 0 / 55%);
   animation: pg-contact-fade 180ms ease-out;
 }
 
@@ -209,8 +208,8 @@
 
 .pg-contact-dialog-who h2 {
   margin: 0;
-  font-family: var(--pg-font-display, Georgia, serif);
-  font-size: 1.15rem;
+  font: 800 1.15rem var(--name);
+  color: var(--gold);
   line-height: 1.2;
 }
 

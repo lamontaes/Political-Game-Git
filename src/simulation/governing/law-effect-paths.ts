@@ -193,9 +193,9 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
   // bill's clause figures, priced per hour) is written as a public program
   // appropriation when the act takes effect; the state's transit service
   // program then pays for the hours and returns service to use. The size is
-  // the bill's own term, not a fixed rate. PLACEHOLDER: the ridership that
-  // service draws is Build 3's transit link, and the hour price is a game
-  // profile until a sourced price is read.
+  // the bill's own term, not a fixed rate. The ridership that service draws
+  // is Build 3's transit link, and the hour price is marked ESTIMATED FROM
+  // AVERAGE in data/content/legislation-families/transit.json.
   {
     questionKey: STATE_TRANSIT_SERVICE_QUESTION,
     kind: "state-spending",
