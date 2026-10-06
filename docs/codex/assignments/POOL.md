@@ -1,6 +1,6 @@
 # POOL: the one work pool
 
-**Keep building.** This file is the one list of everything open. When you finish or pause, take the next unclaimed item (status "open") in the order below: post "Session N takes <item>" on #2052, build it, merge it on its own changed tests, then take the next. Before every pause, push and leave a resume marker at `docs/codex/progress/session-<N>.md` saying what is done and what is next. Stop only when the pool is empty. Do not wait for the coordinator, a phase or main green. The roster keeper (Session 45) updates claims and statuses hourly.
+**Keep building.** This file is the one list of everything open. When you finish or pause, take the next unclaimed item (status "open") in the order below: post "Session N takes <item>" on #2425, build it, merge it on its own changed tests, then take the next. Before every pause, push and leave a resume marker at `docs/codex/progress/session-<N>.md` saying what is done and what is next. Stop only when the pool is empty. Do not wait for the coordinator, a phase or main green. The roster keeper (Session 45) updates claims and statuses hourly.
 
 Order: T9-0 and T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (council journey first), LW-11 on, T3-T13, audit repairs (AU), placeholders (PH), then one item per trait (T9-<trait-id>).
 

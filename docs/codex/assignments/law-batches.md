@@ -8,7 +8,7 @@ Generated 2026-10-06 by cto-notes/tools/laws_wired.mjs against main. Rerun it to
 - Nothing blank: where the law's own number is not known for a place, estimate it from similar places and mark it as an estimate (basis and the places used on the row).
 - One law engine. Add rows as data (WHO / WHAT / HOW MUCH) and register a kind through `src/simulation/law-consequence-registry.ts` if one is missing. No per-law code paths.
 - Make the effect land on named people through Session 20's landing engine (`applyLawConsequences`, `recordLawExposure`, the `law-effects-noticed.ts` pattern), so the exposure names the person, the law and the amount.
-- One PR per batch. Post "Session N takes LW-xx" on #2052 before starting. Whoever merges second rebases.
+- One PR per batch. Post "Session N takes LW-xx" on #2425 before starting. Whoever merges second rebases.
 - Proof for each law: start a new game in a random place where the law is in force and print the cause chain: law, effect, person.
 
 ## Today's numbers
