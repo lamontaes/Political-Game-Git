@@ -26,13 +26,7 @@ import {
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { createOpeningLifeController } from "./opening-life";
 import { joinOrdinaryGroup } from "./ordinary-community";
-import {
-  currentOpeningLifeScene,
-  openNextLifeScene,
-  openOptionalLifeActivity,
-  walkOpeningNeighborhood,
-} from "./life-scene-flow";
-import { projectLifeConversation } from "./life-conversation";
+import { openOptionalLifeActivity } from "./life-scene-flow";
 
 function start(age = 24, seed = "ordinary-agency") {
   return createNewGameWorld({

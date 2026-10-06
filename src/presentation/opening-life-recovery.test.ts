@@ -1,9 +1,5 @@
-import {
-  episodeCapabilities,
-  episodeFacts,
-  eligibleEpisodeBeats,
-} from "../simulation/life-episodes";
-import { OPENING_LIFE_FAMILIES } from "../simulation/opening-life-content";
+import { episodeCapabilities, episodeFacts } from "../simulation/life-episodes";
+
 import { addDays } from "../simulation/dates";
 import { describe, expect, it } from "vitest";
 import {

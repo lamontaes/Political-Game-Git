@@ -1,25 +1,12 @@
-import {
-  activeOrdinaryGoal,
-  completeOrdinaryGoal,
-  chooseOrdinaryLifeGoal,
-} from "../simulation/life-personality";
-import type { LifeTalkIntent } from "./life-conversation";
 import { describe, expect, it } from "vitest";
 import {
   assertWorldIntegrity,
   serializeWorld,
   deserializeWorld,
-  recordWorldEvent,
-  type EntityId,
-  type World,
 } from "../simulation";
-import {
-  isArchivedRoutineOpeningSceneKey,
-  openingLifeSceneAtStage,
-  OPENING_LIFE_SCENES,
-} from "../simulation/opening-life-content";
+import { isArchivedRoutineOpeningSceneKey } from "../simulation/opening-life-content";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
-import { schoolStageToday } from "../simulation/school-stages";
+
 import {
   openNextLifeScene,
   currentOpeningLifeScene,
@@ -28,10 +15,6 @@ import {
   availableOptionalLifeActivities,
   openOptionalLifeActivity,
 } from "./life-scene-flow";
-import {
-  commitLifeConversation,
-  projectLifeConversation,
-} from "./life-conversation";
 
 function start(seed: string, startAge = 6) {
   return createNewGameWorld({
@@ -40,49 +23,6 @@ function start(seed: string, startAge = 6) {
     household: "shares-a-home",
     seed,
     startAge,
-  });
-}
-
-function previouslyOpenedRoutineScene(
-  world: World,
-  personId: EntityId,
-  key: string,
-  stageKey: "moment" | "follow-through",
-): World {
-  const archived = OPENING_LIFE_SCENES.find((scene) => scene.key === key)!;
-  const definition = openingLifeSceneAtStage(archived, stageKey)!;
-  const jurisdictionId = world.people[personId]!.homeJurisdictionId;
-  return recordWorldEvent(world, {
-    stableKey: `test:previously-opened:${key}:${stageKey}`,
-    type: "life.scene.opened",
-    occurredAt: world.currentDate,
-    recordedAt: world.currentDate,
-    jurisdictionId,
-    involvedEntityIds: [personId],
-    participants: [
-      {
-        personId,
-        role: "focus:subject",
-        detail: "Present in the authored scene",
-      },
-    ],
-    personFactConstraints: [],
-    visibility: "private",
-    tags: [
-      "opening-life-v1",
-      `family:${key}`,
-      `opening-stage:${stageKey}`,
-      `moment:${JSON.stringify(world.currentMoment)}`,
-    ],
-    summary: definition.premise,
-    context: {
-      location: { jurisdictionId, label: "Home", setting: "home" },
-      socialContext: null,
-      pressure: null,
-      choice: null,
-      motivation: null,
-      immediateReaction: null,
-    },
   });
 }
 
@@ -148,5 +88,4 @@ describe("OPENING-LIFE1 canonical scenes", () => {
   });
 });
 
-describe("ordinary conversation follow-through", () => {
-});
+describe("ordinary conversation follow-through", () => {});

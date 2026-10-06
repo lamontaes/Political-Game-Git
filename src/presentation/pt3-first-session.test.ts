@@ -1,21 +1,8 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  advanceWorldMinutes,
-  describePersonContext,
-  introducePerson,
-  type EntityId,
-  type World,
-} from "../simulation";
-import {
-  OPENING_LIFE_FOLLOWUPS,
-  OPENING_LIFE_SCENES,
-  OPENING_SCENE_TIME_WINDOWS,
-} from "../simulation/opening-life-content";
-import {
   availableOpeningLifeScenes,
   availableOptionalLifeActivities,
-  chooseOpeningLifeScene,
   currentOpeningLifeScene,
   openNextLifeScene,
 } from "./life-scene-flow";
@@ -44,24 +31,6 @@ function start(
     household,
   });
   return { world: game.world, personId: game.playerPersonId };
-}
-
-/** Open scenes, answering with the first choice, until `key` is the current one. */
-function openUntil(world: World, personId: EntityId, key: string): World {
-  let next = openNextLifeScene(world, personId);
-  for (let step = 0; step < 12; step++) {
-    const scene = currentOpeningLifeScene(next, personId);
-    if (!scene) return next;
-    if (scene.definition.key === key && scene.stageKey === "moment")
-      return next;
-    const choice =
-      scene.choices.find((entry) => entry.key === "rest") ?? scene.choices[0]!;
-    next = openNextLifeScene(
-      chooseOpeningLifeScene(next, personId, scene.eventId, choice.key),
-      personId,
-    );
-  }
-  return next;
 }
 
 describe("the first session reads differently in three different lives", () => {

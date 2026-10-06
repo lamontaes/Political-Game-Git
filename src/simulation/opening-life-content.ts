@@ -29,10 +29,6 @@ export interface LifeSceneDefinition {
 /** No fixed quiet-time scene is offered as an optional activity. */
 export const OPTIONAL_OPENING_LIFE_ACTIVITY_KEYS: ReadonlySet<string> =
   new Set();
-const SOURCE =
-  "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view";
-/** The reviewed packets, outputs and verdicts behind the PT3 first-session copy. */
-const PT3_FIRST_SESSION_SOURCE = "prose-review/pt3-first-session";
 
 /** Retired routine scenes are no longer offered in ordinary play. */
 export function isArchivedRoutineOpeningSceneKey(key: string): boolean {
@@ -65,35 +61,6 @@ export function openingChoiceMinutes(
       ? definition.minutes
       : 0)
   );
-}
-
-function scene(
-  key: string,
-  ages: readonly [number, number],
-  setting: LifeSceneSetting,
-  cast: LifeSceneCast,
-  premise: string,
-  choices: readonly LifeSceneChoice[],
-  minutes = 10,
-  source?: string,
-): LifeSceneDefinition {
-  return {
-    key,
-    ...(key === "young.home.choose-activity" || key === "adult.home.free-time"
-      ? { recurrence: "daily" as const }
-      : {}),
-    ages,
-    setting,
-    cast,
-    premise,
-    choices,
-    minutes,
-    source:
-      source ??
-      (key.startsWith("adult.home.") || key.startsWith("young.home.")
-        ? "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit"
-        : SOURCE),
-  };
 }
 /** Deliberately empty (owner, Oct 6): the authored scene bank is removed. Scenes start from world records. */
 export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [];

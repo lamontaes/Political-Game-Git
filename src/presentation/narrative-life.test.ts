@@ -8,7 +8,6 @@ import {
   episodeBankSummary,
   episodeInstances,
   narrativeThreads,
-  playedEpisodeStages,
   playerModelFor,
   serializeWorld,
   simulationMomentEpochMinute,
@@ -370,22 +369,6 @@ describe("There is enough authored content to play with", () => {
     }
   });
 });
-
-/* -------------------------------------------------------------------------- */
-/* Path 1 — a formative thread returns, and its later beat depends on a choice */
-/* -------------------------------------------------------------------------- */
-
-/*
- * This path used to run on "someone at home is not all right": noticing an
- * older sibling coming in late, then asking them about it months later. The
- * dialogue review of 2026-09-23 withheld that opening, because nothing records
- * the sibling's late returns, so no ordinary childhood reaches it. The same
- * mechanic — a later beat with the same person that exists only because of
- * one earlier answer — is held on the childhood conversation that still plays:
- * asking a guardian what school was like for them, which alone opens the beat
- * where the player waits for the answer.
- */
-const ASKED_EPISODE = "opening.young.home.ask-about-childhood";
 
 /* -------------------------------------------------------------------------- */
 /* Path 2 — a quiet stretch is narrated rather than skipped                    */
