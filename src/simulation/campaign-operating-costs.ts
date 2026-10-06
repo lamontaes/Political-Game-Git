@@ -1,3 +1,5 @@
+import unitPriceResearch from "../../data/research/campaign-reality/campaign-unit-prices.json" with { type: "json" };
+import placePopulations from "../../data/research/money/place-population-acs-2024.json" with { type: "json" };
 import {
   campaignActionResult,
   campaignActions,
@@ -5,6 +7,8 @@ import {
   campaigns as campaignRecords,
 } from "./campaign-queries";
 import { scheduleFutureDueItem } from "./future-transitions";
+import { requireCampaign } from "./campaign-queries";
+import { lifePlaceByJurisdictionId } from "./life-places";
 import {
   resourceFlowsTouching,
   resourceFlowTermsAt,
@@ -14,10 +18,12 @@ import {
 import {
   recordResourceTransferOutcome,
   recordResourceFlowTerms,
+  createResourceFlow,
 } from "./resources";
 import { scheduledActivityState } from "./time-work";
 import type {
   CampaignRecord,
+  CampaignPurchaseRecord,
   EntityId,
   IsoDate,
   FutureDueItem,
@@ -27,25 +33,199 @@ import type {
 } from "./types";
 import { recordWorldEvent } from "./world";
 
-/** Persisted legacy version label; no new amount or schedule comes from it. */
-export const UNRESEARCHED_OPERATING_COSTS = {
-  version: "campaign-operating-costs-unresearched-v1",
-  categories: {
-    office: {},
-    printing: {},
-    postage: {},
-    travel: {},
-    events: {},
-    "phones-and-software": {},
-    food: {},
-    "bank-fees": {},
-  },
+export const CAMPAIGN_OPERATING_COST_CATEGORIES = {
+  office: {},
+  printing: {},
+  postage: {},
+  travel: {},
+  events: {},
+  "phones-and-software": {},
+  food: {},
+  "bank-fees": {},
 } as const;
-export type OperatingCategory =
-  keyof typeof UNRESEARCHED_OPERATING_COSTS.categories;
+export type OperatingCategory = keyof typeof CAMPAIGN_OPERATING_COST_CATEGORIES;
 export const OPERATING_CATEGORIES = Object.keys(
-  UNRESEARCHED_OPERATING_COSTS.categories,
+  CAMPAIGN_OPERATING_COST_CATEGORIES,
 ) as readonly OperatingCategory[];
+
+export const CAMPAIGN_UNIT_PRICES = unitPriceResearch.prices;
+export type CampaignPurchaseKind = keyof typeof CAMPAIGN_UNIT_PRICES;
+export interface CampaignPlaceCounts {
+  readonly households: number;
+  readonly basis: "census-population-estimate" | "recorded-world-households";
+  readonly estimated: true;
+}
+
+/** Uses place population where the Census place table covers it; otherwise
+ * counts recorded households in this world. No household is created here.
+ */
+export function campaignPlaceCounts(
+  world: World,
+  campaignId: EntityId,
+): CampaignPlaceCounts {
+  const campaign = requireCampaign(world, campaignId);
+  const place = lifePlaceByJurisdictionId(campaign.jurisdictionId);
+  const geoid = place?.sourceGeoid;
+  const population = geoid
+    ? (placePopulations.places as Record<string, number>)[geoid]
+    : undefined;
+  if (population !== undefined)
+    return {
+      households: Math.max(1, Math.ceil(population / 2.5)),
+      basis: "census-population-estimate",
+      estimated: true,
+    };
+  const currentLocations = new Map<
+    string,
+    { date: string; jurisdictionId: EntityId }
+  >();
+  for (const row of world.history.householdLocations) {
+    if (row.effectiveAt > world.currentDate) continue;
+    const prior = currentLocations.get(row.householdId);
+    if (!prior || row.effectiveAt > prior.date)
+      currentLocations.set(row.householdId, {
+        date: row.effectiveAt,
+        jurisdictionId: row.jurisdictionId,
+      });
+  }
+  const households = [...currentLocations.values()].filter(
+    (row) => row.jurisdictionId === campaign.jurisdictionId,
+  ).length;
+  return { households, basis: "recorded-world-households", estimated: true };
+}
+
+export function campaignPurchases(
+  world: World,
+  campaignId: EntityId,
+): readonly CampaignPurchaseRecord[] {
+  requireCampaign(world, campaignId);
+  return (world.history.campaignPurchases ?? []).filter(
+    (row) => row.campaignId === campaignId,
+  );
+}
+
+export function quoteCampaignPurchase(
+  item: CampaignPurchaseKind,
+  units: number,
+): {
+  readonly item: CampaignPurchaseKind;
+  readonly units: number;
+  readonly unitPriceMinorUnits: number;
+  readonly totalMinorUnits: number;
+  readonly estimated: boolean;
+  readonly derivation: string;
+} {
+  if (!Number.isSafeInteger(units) || units <= 0)
+    throw new Error(
+      "A campaign purchase needs a positive whole number of units.",
+    );
+  const price = CAMPAIGN_UNIT_PRICES[item];
+  return {
+    item,
+    units,
+    unitPriceMinorUnits: price.priceMinorUnits,
+    totalMinorUnits: price.priceMinorUnits * units,
+    estimated: price.estimated,
+    derivation: price.derivation,
+  };
+}
+
+/** Suggested quantities scale with the place. These are estimates, not a campaign target. */
+export function suggestedCampaignUnits(
+  item: CampaignPurchaseKind,
+  households: number,
+): number {
+  if (!Number.isSafeInteger(households) || households < 0)
+    throw new Error("Households must be a non-negative whole number.");
+  if (item === "yard-sign") return Math.max(1, Math.ceil(households / 10));
+  if (item === "palm-card" || item === "postage")
+    return Math.max(1, households);
+  return 1;
+}
+
+export function buyCampaignUnits(
+  world: World,
+  input: {
+    readonly campaignId: EntityId;
+    readonly item: CampaignPurchaseKind;
+    readonly units: number;
+  },
+): World {
+  const campaign = requireCampaign(world, input.campaignId);
+  const quote = quoteCampaignPurchase(input.item, input.units);
+  const ordinal =
+    (world.history.campaignPurchases ?? []).filter(
+      (row) => row.campaignId === campaign.id && row.item === input.item,
+    ).length + 1;
+  const eventWorld = recordWorldEvent(world, {
+    stableKey: `${campaign.stableKey}:purchase:${input.item}:${ordinal}`,
+    type: "campaign.operating-unit-purchase",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: campaign.jurisdictionId,
+    involvedEntityIds: [
+      campaign.id,
+      campaign.organizationId,
+      campaign.advertisingVendorOrganizationId,
+    ],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: ["campaign:operating-purchase"],
+    summary: `The campaign purchased ${quote.units} ${CAMPAIGN_UNIT_PRICES[input.item].unit}${quote.units === 1 ? "" : "s"}.`,
+    context: {
+      location: null,
+      socialContext: "Campaign purchase",
+      pressure: null,
+      choice: input.item,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const eventId = eventWorld.history.events.at(-1)!.id;
+  let next = createResourceFlow(eventWorld, {
+    stableKey: `${campaign.stableKey}:purchase-flow:${input.item}:${ordinal}`,
+    source: { kind: "organization", organizationId: campaign.organizationId },
+    recipient: {
+      kind: "organization",
+      organizationId: campaign.advertisingVendorOrganizationId,
+    },
+    startsAt: world.currentDate,
+    initialStatus: "active",
+    amount: {
+      minorUnits: quote.totalMinorUnits,
+      currency: campaign.treasuryCurrency,
+    },
+    cadenceKind: "schedule:one-time",
+    basisKind: "custom:campaign-expenditure",
+    basisReference: { kind: "general" },
+    restrictionKind: "purpose:campaign",
+    jurisdictionId: campaign.jurisdictionId,
+    provenance: { kind: "simulated-event", eventId },
+  });
+  const flow = next.history.resourceFlows.at(-1)!;
+  const outcomesBefore = next.history.resourceTransferOutcomes.length;
+  next = payRecordedCampaignOperatingBill(next, flow.id);
+  if (next.history.resourceTransferOutcomes.length === outcomesBefore)
+    throw new Error("The campaign treasury cannot cover this purchase.");
+  const purchase: CampaignPurchaseRecord = {
+    id: flow.id,
+    campaignId: campaign.id,
+    purchasedOn: world.currentDate,
+    item: input.item,
+    units: quote.units,
+    unitPriceMinorUnits: quote.unitPriceMinorUnits,
+    totalMinorUnits: quote.totalMinorUnits,
+    flowId: flow.id,
+  };
+  return {
+    ...next,
+    history: {
+      ...next.history,
+      campaignPurchases: [...(next.history.campaignPurchases ?? []), purchase],
+    },
+  };
+}
 export const CAMPAIGN_OPERATING_PAYMENT_KEY = "campaign:operating-payment";
 export const CAMPAIGN_OPERATING_PAYMENT_EVENT =
   "campaign-finance.operating-payment";
