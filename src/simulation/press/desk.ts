@@ -45,6 +45,7 @@ import {
   partyContactsForSubject,
   produceMatterResponses,
 } from "./responses";
+import { openPersonalLifeMatter } from "./matters";
 import { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import { headlineFor } from "./story-voice";
 
@@ -1493,11 +1494,64 @@ export function pressDeskSweepHandler(
   // moved in a place, become records first, so this sweep can judge them
   // (law-effect-news.ts).
   const reported = reportLawOutcomes(reportLawEffects(world, frontier));
-  const candidates = reported.history.events.filter(
+  let candidates = reported.history.events.filter(
     (event) =>
       event.sequence > frontier && eventIsNewsCandidate(reported, event),
   );
   let next = reported;
+  const personalMatterEvents: HistoricalEvent[] = [];
+  const ensurePersonalMatter = (
+    event: HistoricalEvent,
+    subjectPersonIds: readonly EntityId[],
+    publicClaimId?: EntityId,
+  ) => {
+    if (subjectPersonIds.length === 0) return;
+    let matter = pressRecordsOfKind(next, "matter").find(
+      (record) =>
+        record.family === "personal-life" &&
+        record.personalEventId === event.id,
+    );
+    if (!matter) {
+      const openedMatter = openPersonalLifeMatter(next, {
+        stableKey: `press46:personal-matter:${event.id}`,
+        sourceEventId: event.id,
+        subjectPersonIds,
+        ...(publicClaimId ? { publicClaimId } : {}),
+      });
+      next = openedMatter.world;
+      matter = openedMatter.matter;
+      // The helper also writes the public event that the existing desk routes.
+      const opened = next.history.events.find(
+        (candidate) =>
+          candidate.stableKey ===
+          `press46:personal-matter:${event.id}:on-record`,
+      );
+      if (opened) personalMatterEvents.push(opened);
+    } else {
+      const opened = next.history.events.find(
+        (candidate) =>
+          candidate.type === "matter.personal-life-opened" &&
+          matterIdOf(candidate) === matter!.id,
+      );
+      if (opened) personalMatterEvents.push(opened);
+    }
+  };
+  for (const event of candidates) {
+    if (event.type === "crime.arrest-made" && matterIdOf(event) === null) {
+      ensurePersonalMatter(event, subjectsOf(next, event));
+    }
+  }
+  for (const claim of reported.history.claims) {
+    if (claim.audience !== "public") continue;
+    const event = eventById(reported, claim.eventId);
+    if (event?.type !== "life.couple-ended") continue;
+    ensurePersonalMatter(
+      event,
+      sortedUnique([...subjectsOf(next, event), claim.speakerPersonId]),
+      claim.id,
+    );
+  }
+  candidates = [...candidates, ...personalMatterEvents];
   // A work-blocked checkpoint is terminal on the due ledger. The existing
   // weekly desk resumes it only after its saved work actually becomes ready.
   for (const lead of storyLeads(next)) {
