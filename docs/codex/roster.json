@@ -1,0 +1,611 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-10-06T04:44:00Z",
+  "updatedBy": "Session 45",
+  "source": {
+    "issue": "#2052",
+    "lastReadCommentId": 6009494323,
+    "mainHead": "d8dcd3ade2fc7aa477cd38dcfdac3caed17a6ce2"
+  },
+  "sessions": [
+    {
+      "session": 1,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 2,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 3,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 4,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 5,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 6,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 7,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 8,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 9,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 10,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 11,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 12,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 13,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 14,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 15,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 16,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 17,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 18,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 19,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 20,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 21,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 22,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 23,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 24,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 25,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unknown",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 26,
+      "model": "GPT-6 Luna",
+      "effort": "Medium",
+      "assignment": {
+        "bankId": "b01",
+        "doc": "docs/codex/assignments/ask-to-sign.md"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "active/unknown-post-time"
+    },
+    {
+      "session": 27,
+      "model": "GPT-6 Luna",
+      "effort": "Medium",
+      "assignment": {
+        "bankId": "b02",
+        "doc": "docs/codex/assignments/campaign-money.md"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "active/unknown-post-time"
+    },
+    {
+      "session": 28,
+      "model": "GPT-6 Luna",
+      "effort": "Medium",
+      "assignment": {
+        "bankId": "b06",
+        "doc": "docs/codex/assignments/constituents.md"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "active/unknown-post-time"
+    },
+    {
+      "session": 29,
+      "model": "GPT-6 Luna",
+      "effort": "Medium",
+      "assignment": {
+        "bankId": "b07",
+        "doc": "docs/codex/assignments/what-people-think-of-you.md"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "active/unknown-post-time"
+    },
+    {
+      "session": 30,
+      "model": "GPT-6 Luna",
+      "effort": "Medium",
+      "assignment": {
+        "bankId": "b08",
+        "doc": "docs/codex/assignments/vote-bargaining.md"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "active/unknown-post-time"
+    },
+    {
+      "session": 31,
+      "model": "GPT-6 Luna",
+      "effort": "Medium",
+      "assignment": {
+        "bankId": "b04",
+        "doc": "docs/codex/assignments/losing.md"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "active/unknown-post-time"
+    },
+    {
+      "session": 32,
+      "model": "GPT-6 Luna",
+      "effort": "Medium",
+      "assignment": {
+        "bankId": "b09",
+        "doc": "docs/codex/assignments/poison-pills-and-riders.md"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "active/unknown-post-time"
+    },
+    {
+      "session": 33,
+      "model": "GPT-6 Luna",
+      "effort": "Medium",
+      "assignment": {
+        "bankId": "b10",
+        "doc": "docs/codex/assignments/committees-and-leadership.md"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "active/unknown-post-time"
+    },
+    {
+      "session": 34,
+      "model": "GPT-6 Luna",
+      "effort": "Medium",
+      "assignment": {
+        "bankId": "b11",
+        "doc": "docs/codex/assignments/your-week-and-state-capital-table.md"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "active/unknown-post-time"
+    },
+    {
+      "session": 35,
+      "model": "GPT-6 Luna",
+      "effort": "Medium",
+      "assignment": {
+        "bankId": "b12",
+        "doc": "docs/codex/assignments/minority-tools.md"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "active/unknown-post-time"
+    },
+    {
+      "session": 36,
+      "model": "GPT-6 Luna",
+      "effort": "Medium",
+      "assignment": {
+        "bankId": "b14",
+        "doc": "docs/codex/assignments/corruption.md"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "active/unknown-post-time"
+    },
+    {
+      "session": 37,
+      "model": "GPT-6 Luna",
+      "effort": "Medium",
+      "assignment": {
+        "bankId": "b26",
+        "doc": "docs/codex/assignments/scandals-and-press.md"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "active/unknown-post-time"
+    },
+    {
+      "session": 38,
+      "model": "GPT-6 Luna",
+      "effort": "Medium",
+      "assignment": {
+        "bankId": "b17",
+        "doc": "docs/codex/assignments/executive-orders.md"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "active/unknown-post-time"
+    },
+    {
+      "session": 39,
+      "model": "GPT-6 Luna",
+      "effort": "Medium",
+      "assignment": {
+        "bankId": "b19",
+        "doc": "docs/codex/assignments/death-look-back.md"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "active/unknown-post-time"
+    },
+    {
+      "session": 40,
+      "model": "GPT-6 Luna",
+      "effort": "Medium",
+      "assignment": {
+        "bankId": "b21",
+        "doc": "docs/codex/assignments/family.md"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "active/unknown-post-time"
+    },
+    {
+      "session": 41,
+      "model": "GPT-6 Luna",
+      "effort": "Medium",
+      "assignment": {
+        "bankId": "b23",
+        "doc": "docs/codex/assignments/real-local-names.md"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "active/unknown-post-time"
+    },
+    {
+      "session": 42,
+      "model": "GPT-6 Luna",
+      "effort": "Medium",
+      "assignment": {
+        "bankId": "b13",
+        "doc": "docs/codex/assignments/judge-play.md"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "active/unknown-post-time"
+    },
+    {
+      "session": 43,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unclaimed-reserve",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 44,
+      "model": "unknown",
+      "effort": "unknown",
+      "assignment": {
+        "bankId": "unclaimed-reserve",
+        "doc": "unknown"
+      },
+      "currentPr": "unknown",
+      "head": "unknown",
+      "lastPostAt": "unknown",
+      "state": "unknown"
+    },
+    {
+      "session": 45,
+      "model": "GPT-6 Luna",
+      "effort": "Low",
+      "assignment": {
+        "bankId": "roster-keeper",
+        "doc": "docs/codex/roster.json"
+      },
+      "currentPr": "this PR",
+      "head": "pending",
+      "lastPostAt": "2026-10-06T04:44:00Z",
+      "state": "active"
+    }
+  ],
+  "reserveOrder": [
+    "b15 investigations",
+    "b16 redistricting",
+    "b18 citizen actions",
+    "b20",
+    "b22",
+    "b24",
+    "b25"
+  ],
+  "notes": [
+    "Unknown means not verified from bounded board or PR evidence; no model switch inferred from owner intent.",
+    "Exact assignment document paths for Sessions 26–42 are unverified; filenames here are descriptive slugs based on board labels and must be corrected from canonical assignment list.",
+    "Session 42 claim b13 is seen twice in recent issue comments; duplicate board posts are not separate claims."
+  ]
+}
