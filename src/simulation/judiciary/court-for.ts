@@ -10,6 +10,11 @@ import type { JudicialCourt, JudicialCourtLevel } from "./types";
 
 export type CourtCaseKind = "law-review" | "criminal" | "civil";
 
+/** The only person whose own judicial choices may pause for player input. */
+export function controlledPersonId(world: World): EntityId | null {
+  return world.control.kind === "person" ? world.control.personId : null;
+}
+
 let courtJurisdictions: ReadonlyMap<EntityId, EntityId> | null = null;
 function courtJurisdictionOf(state: EntityId): EntityId {
   courtJurisdictions ??= new Map(
