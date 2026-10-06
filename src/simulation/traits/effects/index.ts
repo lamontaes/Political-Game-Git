@@ -1,11 +1,18 @@
 import type { TraitEffectDeclaration } from "../../trait-packs";
+import { bondLoyaltyEffects } from "./bond-loyalty";
 import { facetSelfConsciousEffects } from "./facet-self-conscious";
+import { patienceEffects } from "./patience";
+import { facetHostileEffects } from "./facet-hostile";
 import { facetHumbleEffects } from "./facet-humble";
+import { facetOpenMindedEffects } from "./facet-open-minded";
 import { facetProudEffects } from "./facet-proud";
+import { facetArgumentativeEffects } from "./facet-argumentative";
 import { facetBluntEffects } from "./facet-blunt";
 import { facetBrazenEffects } from "./facet-brazen";
 import { facetCockyEffects } from "./facet-cocky";
 import { facetComfortingEffects } from "./facet-comforting";
+import { facetDefensiveEffects } from "./facet-defensive";
+import { facetCruelEffects } from "./facet-cruel";
 import { facetEnviousEffects } from "./facet-envious";
 import { facetGentleEffects } from "./facet-gentle";
 import { facetMeticulousEffects } from "./facet-meticulous";
@@ -16,6 +23,7 @@ import { facetStudiousEffects } from "./facet-studious";
 import { facetSupportiveEffects } from "./facet-supportive";
 import { facetTenderHeartedEffects } from "./facet-tender-hearted";
 import { facetZealousEffects } from "./facet-zealous";
+import { initialTrustEffects } from "./initial-trust";
 import { selfConfidenceEffects } from "./self-confidence";
 
 /**
@@ -25,12 +33,19 @@ import { selfConfidenceEffects } from "./self-confidence";
 export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
   return [
     ...facetSelfConsciousEffects,
+    ...facetHostileEffects,
     ...facetHumbleEffects,
+    ...patienceEffects,
+    ...initialTrustEffects,
+    ...facetOpenMindedEffects,
     ...facetProudEffects,
+    ...facetArgumentativeEffects,
     ...facetBluntEffects,
     ...facetBrazenEffects,
     ...facetCockyEffects,
     ...facetComfortingEffects,
+    ...facetDefensiveEffects,
+    ...facetCruelEffects,
     ...facetEnviousEffects,
     ...facetGentleEffects,
     ...facetMeticulousEffects,
@@ -42,5 +57,6 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetTenderHeartedEffects,
     ...facetZealousEffects,
     ...selfConfidenceEffects,
+    ...bondLoyaltyEffects,
   ];
 }
