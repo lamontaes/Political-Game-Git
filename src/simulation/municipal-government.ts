@@ -1081,6 +1081,19 @@ export function municipalRulePackFor(
       actionWindowDaysAfterAdjournment: notApplicableRule(
         "A municipal body sits continuously here; no instrument read establishes an adjournment window.",
       ),
+      actionWindowDayBasisInSession: reading.procedure.mayoralActionWindow
+        ? knownRule(
+            reading.procedure.mayoralActionWindow.dayBasis,
+            executiveSource,
+          )
+        : presentment
+          ? unknownRule(
+              "No instrument read establishes the executive action window's day basis.",
+            )
+          : notApplicableRule("No executive presentment window runs."),
+      actionWindowDayBasisAfterAdjournment: notApplicableRule(
+        "No municipal adjournment window is established.",
+      ),
       inactionOutcomeInSession: reading.procedure.mayoralActionWindow
         ? knownRule(
             reading.procedure.mayoralActionWindow.inactionOutcome ===

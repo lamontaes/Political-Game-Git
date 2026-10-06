@@ -19,8 +19,13 @@ import {
   municipalOrganizationFor,
   municipalGovernmentJurisdictionId,
   municipalSeats,
+  municipalMeasures,
 } from "../municipal-public-work";
-import { municipalExecutiveHolder } from "../municipal-ordinance-procedure";
+import {
+  municipalExecutiveHolder,
+  recordCouncilExecutiveDecision,
+  recordCouncilExecutiveInaction,
+} from "../municipal-ordinance-procedure";
 import {
   municipalGovernmentByKey,
   primaryReading,
@@ -35,6 +40,7 @@ import { regularSessionYearForWorld } from "../legislative-procedure-world";
 import {
   COMMITTEE_HEARING_TRANSITION_KEY,
   committeeHearingTransitionHandler,
+  measureActions,
   recordExecutiveInaction,
   measurePosition,
 } from "../legislation";
@@ -47,6 +53,7 @@ import type {
   FutureTransitionHandlerResult,
   HistoricalEvent,
   IsoDate,
+  LegislativeMeasureRecord,
   PublicGovernmentIdentity,
   PublicProgramAppropriationRecord,
   World,
@@ -359,6 +366,33 @@ export function openPresidentBillMatter(
     (m) => m.measureId === measure.id && m.status === "open",
   );
   return matter ? applyExecutiveBillInaction(next, matter) : next;
+}
+
+/** A council's actual presentment joins the same bound executive bill matter. */
+export function openMunicipalBillMatter(
+  world: World,
+  measure: LegislativeMeasureRecord,
+  governmentKey: string,
+): World {
+  const holder = municipalExecutiveHolder(world, governmentKey);
+  const office = holder ? governingOfficeForPerson(world, holder) : null;
+  if (
+    !office ||
+    !municipalMeasures(world, governmentKey).some(
+      (entry) => entry.id === measure.id,
+    ) ||
+    measurePosition(world, measure.id).phase !== "awaiting-executive"
+  )
+    return world;
+  return openMatter(world, office, {
+    family: "bill",
+    instance: `measure:${measure.id}`,
+    measureId: measure.id,
+    extraTags: [`municipal-government:${encodeURIComponent(governmentKey)}`],
+    sourceEventId: measureActions(world, measure.id).find(
+      (action) => action.kind === "presented-to-executive",
+    )?.eventId,
+  });
 }
 
 export function governingOfficeForPerson(
@@ -1996,6 +2030,7 @@ function applyConsequence(
   matter: GoverningMatter,
   option: GoverningMatterOption | null,
   decisionEventId: EntityId,
+  billReasons?: string,
 ): World {
   if (!option) {
     if (matter.family === "bill" && matter.measureId) return world;
@@ -2093,6 +2128,28 @@ function applyConsequence(
         // what follows (enactment, or the legislature's override) runs
         // through the legislature's own steps.
         const signed = option.key === "bill:sign";
+        const municipalKey = tagValue(
+          matter.openedEvent,
+          "municipal-government:",
+        );
+        if (municipalKey) {
+          const measure = world.history.legislativeMeasures?.find(
+            (entry) => entry.id === matter.measureId,
+          );
+          return measure
+            ? recordCouncilExecutiveDecision(
+                world,
+                decodeURIComponent(municipalKey),
+                measure,
+                signed ? "signed" : "vetoed",
+                signed
+                  ? "The executive signed the council act."
+                  : billReasons?.trim() ||
+                      "The executive returned the council act with reasons for disapproval.",
+                office.holderPersonId,
+              )
+            : world;
+        }
         let next = recordGovernorDecisionOnMeasure(
           world,
           matter.measureId,
@@ -2219,6 +2276,7 @@ function recordDecision(
   option: GoverningMatterOption | null,
   mode: GoverningDecisionMode | "lapsed",
   deciderPersonId: EntityId,
+  billReasons?: string,
 ): World {
   const office = governingOfficeByKey(world, matter.officeKey);
   if (!office || office.holderPersonId !== matter.holderPersonId)
@@ -2274,7 +2332,14 @@ function recordDecision(
     decision.id,
     option ? "completed" : "cancelled",
   );
-  const outcome = applyConsequence(next, office, matter, option, decision.id);
+  const outcome = applyConsequence(
+    next,
+    office,
+    matter,
+    option,
+    decision.id,
+    billReasons,
+  );
   if (matter.family === "clemency" && option) {
     const petitionId = tagValue(matter.openedEvent, "source-event:");
     if (petitionId)
@@ -2310,6 +2375,13 @@ function openMatterForPlayer(
         )
       : undefined;
   const window = measure ? executiveBillActionWindow(world, measure) : null;
+  if (
+    measure &&
+    measurePosition(world, measure.id).phase !== "awaiting-executive"
+  )
+    return "This bill is no longer awaiting executive action.";
+  if (measure && !window)
+    return "No executable action window is recorded for this bill.";
   const deadline =
     matter.family === "bill" ? window?.lastActionDate : matter.deadline;
   if (deadline && world.currentDate > deadline)
@@ -2322,6 +2394,7 @@ export function decideGoverningMatter(
   world: World,
   matterId: EntityId,
   optionKey: string,
+  billReasons?: string,
 ): GoverningActionResult {
   const matter = openMatterForPlayer(world, matterId);
   if (typeof matter === "string") return { ok: false, world, reason: matter };
@@ -2363,6 +2436,7 @@ export function decideGoverningMatter(
     option,
     "player",
     matter.holderPersonId,
+    billReasons,
   );
   if (decided === world)
     return {
@@ -2531,6 +2605,17 @@ function applyExecutiveBillInaction(
     world.currentDate <= window.lastActionDate
   )
     return world;
+  const municipalKey = tagValue(matter.openedEvent, "municipal-government:");
+  if (municipalKey) {
+    const enacted = recordCouncilExecutiveInaction(
+      world,
+      decodeURIComponent(municipalKey),
+      measure,
+    );
+    return enacted === world
+      ? world
+      : recordDecision(enacted, matter, null, "lapsed", matter.holderPersonId);
+  }
   const inactive = recordExecutiveInaction(world, {
     stableKey: `${matter.stableKey}:executive-inaction`,
     measureId: measure.id,
