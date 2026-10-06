@@ -37,10 +37,8 @@ export interface JournalSection {
    * The entries again, as a chronicle is read: each carries the month it
    * happened in when the month changes, and a new paragraph starts at a month
    * change once the current one has run a few sentences. Only the record's own
-   * dates are used. The retrospective voice the owner asked for ("who would
-   * have known", "you had no idea what you were in for") is PENDING RESEARCH,
-   * question `journal-chronicle-voice`, and is not written until it is
-   * answered.
+   * dates are used. JournalChronicleLine text is told in the character's own
+   * first-person voice by World39Journal.
    */
   readonly chronicle: readonly JournalChronicleLine[];
 }
