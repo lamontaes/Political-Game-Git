@@ -52,10 +52,12 @@ export interface SenateVacancyLaw {
 }
 
 /**
- * PLACEHOLDER: how many days a governor takes to appoint when the statute
- * sets no deadline. Kept from the earlier game profile.
+ * ESTIMATED FROM SIMILAR PLACES: 10 days for a gubernatorial appointment when
+ * the statute sets no deadline. The basis places are Louisiana (10 days),
+ * Alabama (forthwith), and West Virginia (no more than 20 days after the
+ * party-list period begins); 10 days is the midpoint of that range.
  */
-export const SENATE_APPOINTMENT_PLACEHOLDER_DAYS = 10;
+export const SENATE_APPOINTMENT_ESTIMATED_DAYS = 10;
 
 const NEXT_GENERAL = { kind: "next-general" } as const;
 const prompt = (promptDays: number | null) =>

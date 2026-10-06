@@ -97,10 +97,10 @@ export function isUsState(stateUsps: string): stateUsps is UsStateUsps {
 /**
  * The five inhabited territories, each of which elects its own Governor.
  *
- * PLACEHOLDER. That each territory has one elected Governor is well known, but
- * the organic acts and territorial constitutions that establish the office
- * were not retrieved here, so no qualification, term or filing value is taken
- * from them: every one stays UNKNOWN below, and the game's own national-range
+ * RECORDED VALUE. USA.gov's state-governor directory lists a Governor for each
+ * of the five inhabited territories. No qualification, term, or filing value
+ * is taken from that directory: every one stays UNKNOWN below, and the game's
+ * own national-range
  * profile fills the gap exactly as it does for an unread state, disclosed as
  * the game's own. The territory research request (`territory-place-identities`)
  * asks for the real rules. A territory is its own government and electorate;
@@ -257,17 +257,17 @@ const DISTRICT_STRUCTURE_SOURCE: RuleSourceRef = {
 };
 
 /**
- * PLACEHOLDER. Establishes only that the territory elects one Governor; the
- * organic act or territorial constitution itself was not retrieved.
+ * RECORDED VALUE. Establishes only that each territory has one Governor; it
+ * does not establish a qualification, term, or filing rule.
  */
 const TERRITORY_STRUCTURE_SOURCE: RuleSourceRef = {
   authority: "research-reference",
-  citation: "Territory research request territory-place-identities",
-  sourceTitle: "U.S. territory governments (placeholder until researched)",
-  sourceUrl: null,
-  retrievedAt: null,
-  verification: "unresolved",
-  note: "Each inhabited territory elects one Governor. Nothing about who may hold the office, how long a term runs or how a candidate files is taken from this placeholder.",
+  citation: "USA.gov, State governors",
+  sourceTitle: "State governors",
+  sourceUrl: "https://www.usa.gov/state-governor",
+  retrievedAt: "2026-10-06",
+  verification: "partial",
+  note: "USA.gov lists a Governor for each inhabited territory. Nothing about who may hold the office, how long a term runs, or how a candidate files is taken from that directory.",
 };
 
 function candidacyPackFor(identity: StateExecutiveIdentity): CandidacyPack {

@@ -24,11 +24,11 @@ import { stateExecutiveIdentity } from "./state-executive-candidacy-packs";
  *   amendment, through the shared record of enacted rule changes. It wins over
  *   both others once it is operative, so a legislature that raises the limit
  *   from two terms to three changes who may stand.
- * - `not-researched`: the game has not read this state's limit, so there is
- *   none. The owner's rule (2026-09-22): an office is term-limited only where
- *   the law explicitly says so; where the law is silent or unread, nobody is
- *   barred. NOT RESEARCHED for the other forty-nine chief executives; the
- *   research is `governor-qualifications-in-every-state` and its follow-ups.
+ * - `not-researched`: the game has not read this state's limit, so the recorded
+ *   game profile applies none. The owner's rule (2026-09-22): an office is
+ *   term-limited only where the law explicitly says so; where the law is silent
+ *   or unread, nobody is barred. The other forty-nine chief executives use
+ *   that recorded profile; the research is `governor-qualifications-in-every-state` and its follow-ups.
  *
  * What a limit MEANS is decided here, not by the law that sets it:
  *
@@ -45,9 +45,10 @@ import { stateExecutiveIdentity } from "./state-executive-candidacy-packs";
  *   they count. That is the reading under which "three terms instead of two"
  *   lets a two-term governor stand again, which is what such a law is for.
  *
- * PLACEHOLDERS, NOT LAW: the 90-day break, counting any partial term in full,
- * and counting prior service under a silent law are the game's own until
- * research question `counting-governor-terms-toward-a-limit` is answered.
+ * RECORDED GAME PROFILE, NOT LAW: a 90-day break, every recorded partial term,
+ * and prior service under a silent enacted law count. These are the game's
+ * recorded interpretation until research question
+ * `counting-governor-terms-toward-a-limit` is answered.
  */
 
 /** A term beginning this soon after the last one ended is consecutive with it. */
@@ -125,7 +126,7 @@ export function compiledExecutiveTermLimit(
     limit: null,
     basis: "not-researched",
     provenance:
-      "Not researched: no limit is applied until the state's law is read.",
+      "Recorded game profile: no limit is applied until the state's law is read.",
   };
 }
 

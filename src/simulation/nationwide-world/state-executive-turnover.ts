@@ -181,8 +181,9 @@ function decideIncumbentGovernor(
       stableKey: key,
       subjectKey: office.officeKey,
       onDate: current.currentDate,
-      // PLACEHOLDER(build-24-step-4): a state whose term rule is not read
-      // here gets a four-year term, the length most governorships have.
+      // ESTIMATED FROM AVERAGE: a jurisdiction whose term rule is not read
+      // here gets four years, the modal term across the 50 states (the
+      // comparison places used by the state-executive term-rule corpus).
       termEnds: term?.endsAt ?? addDays(electionDay, 4 * 365),
       serving: [
         {

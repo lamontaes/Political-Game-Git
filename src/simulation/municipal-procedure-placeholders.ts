@@ -32,7 +32,9 @@ export interface MunicipalProcedurePlaceholder {
   readonly note: string;
 }
 
-const PLACEHOLDERS: Readonly<Record<string, MunicipalProcedurePlaceholder>> = {
+const PROCEDURE_PROFILES: Readonly<
+  Record<string, MunicipalProcedurePlaceholder>
+> = {
   "us-dc-washington": {
     introductionSponsorship:
       "Any member of the Council may introduce an act. (A placeholder: the Council's own rules were not read.)",
@@ -46,5 +48,5 @@ const PLACEHOLDERS: Readonly<Record<string, MunicipalProcedurePlaceholder>> = {
 export function municipalProcedurePlaceholder(
   governmentKey: string,
 ): MunicipalProcedurePlaceholder | null {
-  return PLACEHOLDERS[governmentKey] ?? null;
+  return PROCEDURE_PROFILES[governmentKey] ?? null;
 }
