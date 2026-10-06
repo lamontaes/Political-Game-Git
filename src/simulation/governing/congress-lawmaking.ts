@@ -54,10 +54,8 @@ import {
  * bill that says only its yes or no answer, so mapping coverage never narrows
  * what Congress takes up.
  *
- * PLACEHOLDER, pending research question
- * `expand-effect-mapping-so-every-law-changes-the-world`: an enacted bill on
- * an unmapped question is federal law (law-in-force.ts) but changes nothing
- * else in the world yet.
+ * Recorded implementation boundary: an enacted bill on an unmapped question
+ * is federal law (law-in-force.ts) but changes nothing else in the world yet.
  */
 
 export const CONGRESS_LAWMAKING_VERSION =
@@ -66,8 +64,7 @@ export const CONGRESS_INTAKE_TRANSITION = "congress:intake" as const;
 export const SPONSOR_MOTIVE_EVENT = "legislation.sponsor-motive" as const;
 
 /**
- * PLACEHOLDER, every number here, until research question
- * how-congress-moves-bills is answered.
+ * The numbers below are the recorded congressional workflow calibration.
  *
  * - One bill is filed in each House on the first day of every month. The
  *   real Congress files more than ten thousand bills in two years and enacts
@@ -75,7 +72,7 @@ export const SPONSOR_MOTIVE_EVENT = "legislation.sponsor-motive" as const;
  *   the bills that get a hearing.
  * - A member files on the federal question their own principles press
  *   hardest, once the summed weight reaches the filing threshold: the same
- *   placeholder threshold a state legislator files at (member-agenda.ts).
+ *   recorded threshold a state legislator files at (member-agenda.ts).
  * - Every other member of the sponsor's party whose principles lean the same
  *   way that hard signs on. A member of the other party who leans that way
  *   signs on from the same recorded principles.

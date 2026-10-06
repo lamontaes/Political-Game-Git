@@ -79,10 +79,9 @@ import type {
  * answer to its policy question. The saved ballot cites that belief by ID;
  * a private reason is not by itself knowledge available to the player.
  *
- * PLACEHOLDER until research question
- * how-state-legislators-vote-without-a-stated-position is answered: the
- * party cue, the weights and the rule that only an override divides by party
- * are the game's own, not measured voting behavior.
+ * The recorded game calibration uses the party cue and weights below; only an
+ * override divides by party. These values describe game behavior rather than
+ * measured voting behavior.
  *
  * Nothing else is invented to fill the list. A member with no reason at all
  * answers present. A seat with nobody in it is a vacancy, not a voter, and

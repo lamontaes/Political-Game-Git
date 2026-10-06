@@ -248,7 +248,10 @@ export function readOrEstimateFinalEnactedLawCategories(
     (row) => row.stableKey === input.questionKey,
   );
   if (!proposition)
-    return { kind: "unsupported", reason: "The policy question is unknown." };
+    return {
+      kind: "unsupported",
+      reason: "The policy question is absent from the policy catalog.",
+    };
   const parameter = proposition.parameters.find(
     (row) => row.key === input.termKey,
   );
@@ -718,7 +721,7 @@ export function readOrEstimateFinalEnactedLawTerm(
     return {
       kind: "unsupported",
       reason:
-        "A modeled amount requires an explicit, validated target scope; missing scope is unknown.",
+        "A modeled amount requires an explicit, validated target scope; this law has none.",
     };
 
   const targetPlaceKey = startingLawPlaceKey(input.jurisdictionId);

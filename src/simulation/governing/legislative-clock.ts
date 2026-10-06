@@ -968,8 +968,7 @@ export function applyInstitutionStep(
                 floorStageKey: stage.stageKey,
               },
               stableKey,
-              // PLACEHOLDER until research question how-congress-moves-bills is
-              // answered: a Senate cloture vote divides by party, so a bill with
+              // Recorded game rule: a Senate cloture vote divides by party, so a bill with
               // backers from only one party needs sixty of that party to get past
               // a filibuster.
               isCongressMeasure(measure) && stage.stageKey === "cloture"

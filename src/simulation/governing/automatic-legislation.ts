@@ -1408,7 +1408,7 @@ export function introduceAutomaticLawMeasure(
   const measure = next.history.legislativeMeasures?.at(-1);
   if (!measure)
     throw new Error(
-      `${input.designation} was not recorded after introduction.`,
+      `${input.designation} is missing from legislative history after introduction.`,
     );
   if (!automaticDraftMatchesMeasure(next, measure, draft, governmentLevel))
     throw new Error(

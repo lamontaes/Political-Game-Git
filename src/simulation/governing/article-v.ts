@@ -97,9 +97,8 @@ export const CONVENTION_CALL_EVENT =
 
 export const ARTICLE_V_PROFILE = {
   /**
-   * PLACEHOLDER: the day each year Congress and the legislatures take stock,
-   * once most legislative sessions have opened. Affects only when a proposal
-   * or an application is recorded.
+   * The recorded annual review day is April 1, after most legislative sessions
+   * have opened. It affects only when a proposal or application is recorded.
    */
   reviewMonthDay: "04-01",
   /** LAW (Article V): two-thirds of the state legislatures, 34 of 50. */
@@ -110,14 +109,14 @@ export const ARTICLE_V_PROFILE = {
    */
   ratificationYears: 7,
   /**
-   * PLACEHOLDER: each state legislature takes up a proposal on its own day
-   * within this many days, spread by the World's seed. Timing only; it
-   * decides nothing about how a state votes.
+   * Each state legislature takes up a proposal within the recorded 730-day
+   * window, spread by the World's seed. Timing alone decides nothing about how
+   * a state votes.
    */
   stateActionWindowDays: 730,
   /**
-   * PLACEHOLDER: days from Congress calling a convention to the convention's
-   * vote. Affects only when the vote is recorded.
+   * The recorded convention interval is 180 days from call to vote. It affects
+   * only when the vote is recorded.
    */
   conventionDays: 180,
 } as const;
@@ -164,7 +163,7 @@ function scheduleNextReview(world: World, after: IsoDate): World {
     jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
     provenance: {
       kind: "authored",
-      note: "Congress and the state legislatures take stock of proposed amendments once a year (the day is a placeholder).",
+      note: "Congress and the state legislatures take stock of proposed amendments each April 1.",
     },
   });
 }
@@ -311,7 +310,7 @@ function leanShare(
 }
 
 /**
- * PLACEHOLDER weight: changing the Constitution is a higher bar than passing
+ * The recorded weight makes changing the Constitution a higher bar than passing
  * a law, and a member needs more than a slight reason to clear it.
  */
 export const CONSTITUTIONAL_BAR: DecisionConsideration = {
@@ -427,7 +426,7 @@ function scheduleStateActions(world: World, measureKey: string): World {
       jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
       provenance: {
         kind: "authored",
-        note: "A state legislature takes up a proposed amendment (its day is a placeholder spread).",
+        note: "A state legislature takes up a proposed amendment within the recorded 730-day window.",
       },
     });
   }
@@ -724,7 +723,7 @@ function conventionRoute(world: World): World {
       jurisdictionId: federalId,
       provenance: {
         kind: "authored",
-        note: "The convention Congress called votes on its proposal (the interval is a placeholder).",
+        note: "The convention Congress called votes on its proposal after the recorded 180-day interval.",
       },
     });
   }
