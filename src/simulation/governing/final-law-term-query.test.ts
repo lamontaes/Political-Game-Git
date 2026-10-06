@@ -242,20 +242,15 @@ describe("source-first modeled starting-law amount adapter", () => {
     const { world, targetLaw, targetJurisdictionId } = lawTermWorld("CA");
     vi.spyOn(lawReader, "startingLawSchedules").mockReturnValue([
       {
-        questionKey: "us-policy-positions:environment-energy.bottle-deposit",
-        key: "deposit",
+        questionKey: CLEAN_STANDARD,
+        key: "target",
       } as never,
     ]);
-    const bottleLaw = {
-      ...targetLaw,
-      measureId:
-        "starting-law:US-CA:us-policy-positions:environment-energy.bottle-deposit" as EntityId,
-    };
     expect(
-      readOrEstimateFinalEnactedLawTerm(world, bottleLaw, {
-        questionKey: "us-policy-positions:environment-energy.bottle-deposit",
-        termKey: "deposit",
-        unit: "minor/container",
+      readOrEstimateFinalEnactedLawTerm(world, targetLaw, {
+        questionKey: CLEAN_STANDARD,
+        termKey: "target",
+        unit: "ratio",
         jurisdictionId: targetJurisdictionId,
         onDate: TERM_DATE,
       }),
