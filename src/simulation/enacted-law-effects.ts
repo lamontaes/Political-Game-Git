@@ -1,6 +1,6 @@
 import {
   createLawConsequenceRegistry,
-  LAW_CONSEQUENCE_REGISTRATIONS,
+  lawConsequenceRegistrations,
 } from "./law-consequence-registry";
 import { validateLawConsequences } from "./law-consequence-validation";
 import { MissingLawConsequenceTerm } from "./law-consequence-integrity-gap";
@@ -796,7 +796,7 @@ function levelOfGovernment(
 export function applyLawConsequences(
   world: World,
   context: LawConsequenceContext,
-  registrations: readonly AnyLawConsequenceKindRegistration[] = LAW_CONSEQUENCE_REGISTRATIONS,
+  registrations: readonly AnyLawConsequenceKindRegistration[] = lawConsequenceRegistrations(),
 ): World {
   const registry = createLawConsequenceRegistry([
     ...LAW_CONSEQUENCE_REGISTRATIONS,
