@@ -10,13 +10,6 @@
       "code": "export const HEAD_FEATHER_SHARE = 0.02;"
     },
     {
-      "file": "src/presentation/appearance-engine/assemble.ts",
-      "kind": "fixed-share",
-      "build": "Build 6",
-      "count": 1,
-      "code": "export const COLLAR_BAND_SHARE = 0.03;"
-    },
-    {
       "file": "src/presentation/appearance-engine/expression-chooser.ts",
       "kind": "roll",
       "build": "Build 6",

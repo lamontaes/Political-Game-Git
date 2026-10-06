@@ -207,15 +207,6 @@ const CLOTHING: ReadonlySet<LayerSlot> = new Set([
   "outfit",
 ]);
 
-/** The rows of a clothing layer that lie in the collar band, and nothing else. */
-function collarBand(raster: Raster, fromRow: number, toRow: number): Raster {
-  const data = new Uint8ClampedArray(raster.data.length);
-  const start = Math.max(0, fromRow) * raster.width * 4;
-  const end = Math.min(raster.height, toRow + 1) * raster.width * 4;
-  data.set(raster.data.subarray(start, end), start);
-  return { width: raster.width, height: raster.height, data };
-}
-
 /** The body with every pixel a garment hides made empty. */
 function hideBody(raster: Raster, garments: readonly PersonLayer[]): Raster {
   const data = new Uint8ClampedArray(raster.data);
@@ -253,10 +244,8 @@ const HEAD_MARGIN = 2;
 /**
  * Place and composite in one step, on the body's own canvas.
  *
- * The head is drawn above the clothes, so a collar can never cover a jaw.
- * But a collar and a tie sit in FRONT of the neck: in the band between the
- * measured neck row and the standard neckline, clothing is drawn once more on
- * top of the head. Above the neck row the head always wins.
+ * The head and hair are drawn above the clothes, so a hood or collar can never
+ * leave a strip across either one.
  */
 export function assemblePerson(
   body: BodyAnchors,
@@ -295,20 +284,5 @@ export function assemblePerson(
             raster: ownHeadHidden ? withoutOwnHead(hidden, body) : hidden,
           };
         });
-  const neckline =
-    body.neck.row + Math.round((body.feet - body.top) * COLLAR_BAND_SHARE);
-  const collars = placed
-    .filter((layer) => CLOTHING.has(layer.slot))
-    .map((layer) => ({
-      ...layer,
-      raster: collarBand(
-        layer.raster,
-        body.neck.row - layer.dy,
-        neckline - layer.dy,
-      ),
-    }));
-  return composite(canvas.width, canvas.height, [...placed, ...collars]);
+  return composite(canvas.width, canvas.height, placed);
 }
-
-/** The collar band reaches this share of the figure's height below the neck row. */
-export const COLLAR_BAND_SHARE = 0.03;
