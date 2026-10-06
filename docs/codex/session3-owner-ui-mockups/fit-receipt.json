@@ -1,0 +1,140 @@
+{
+  "stage": "Owner-ruling browser mockup only; not production",
+  "fits": [
+    {
+      "state": "card",
+      "panel": {
+        "x": 18,
+        "y": 722.203125,
+        "width": 620,
+        "height": 339.796875
+      },
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "overflow": [],
+      "clipped": [],
+      "roomVisibleFraction": 0.898401783130787,
+      "fonts": {
+        "source": true,
+        "crimson": true
+      }
+    },
+    {
+      "state": "money",
+      "panel": {
+        "x": 18,
+        "y": 858.921875,
+        "width": 620,
+        "height": 203.078125
+      },
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "overflow": [],
+      "clipped": [],
+      "roomVisibleFraction": 0.9392802674093365,
+      "fonts": {
+        "source": true,
+        "crimson": true
+      }
+    },
+    {
+      "state": "stub",
+      "panel": {
+        "x": 18,
+        "y": 679.765625,
+        "width": 620,
+        "height": 382.234375
+      },
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "overflow": [],
+      "clipped": [],
+      "roomVisibleFraction": 0.8857131016107254,
+      "fonts": {
+        "source": true,
+        "crimson": true
+      }
+    },
+    {
+      "state": "card",
+      "panel": {
+        "x": 14,
+        "y": 420.046875,
+        "width": 580,
+        "height": 333.953125
+      },
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "overflow": [],
+      "clipped": [],
+      "roomVisibleFraction": 0.7537068525950114,
+      "fonts": {
+        "source": true,
+        "crimson": true
+      }
+    },
+    {
+      "state": "money",
+      "panel": {
+        "x": 14,
+        "y": 554.921875,
+        "width": 580,
+        "height": 199.078125
+      },
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "overflow": [],
+      "clipped": [],
+      "roomVisibleFraction": 0.8531782627105713,
+      "fonts": {
+        "source": true,
+        "crimson": true
+      }
+    },
+    {
+      "state": "stub",
+      "panel": {
+        "x": 14,
+        "y": 375.765625,
+        "width": 580,
+        "height": 378.234375
+      },
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "overflow": [],
+      "clipped": [],
+      "roomVisibleFraction": 0.7210490703582764,
+      "fonts": {
+        "source": true,
+        "crimson": true
+      }
+    }
+  ],
+  "identity": {
+    "name": "Brianna Kennedy",
+    "date": "Monday, January 5, 2026",
+    "time": "9:10 AM",
+    "home": "Scarville, Iowa",
+    "portrait": "<figure class=\"person-portrait person-portrait--small\" data-testid=\"person-portrait\" data-likeness=\"engine\" data-refusal=\"\"><span aria-hidden=\"true\" class=\"person-portrait-mark\" style=\"position: relative; overflow: hidden; flex-shrink: 0;\"><img class=\"engine-portrait\" alt=\"\" aria-hidden=\"true\" draggable=\"false\" data-testid=\"person-portrait-engine\" data-engine-recipe=\"feminine|average|6|20s30s-04|afro|black|hoodie-jeans|standing|bottom=khaki|top=navy\" src=\"blob:http://127.0.0.1:5344/a1594856-c583-4a54-a6c8-789f3ab79409\" style=\"position: absolute; height: 342.954%; width: auto; max-width: none; top: -17.8947%; left: 50%; transform: translateX(-49.3164%); pointer-events: none;\"></span><figcaption><strong>Brianna Kennedy</strong></figcaption></figure>"
+  },
+  "facts": {
+    "age": "34",
+    "work": "Production worker at Chapman Tool and Die, since 2026.",
+    "household": "Joshua Snow, your roommate",
+    "family": "Your parents were Nancy Kennedy and Malik Kennedy, in Scarville, Iowa. You grew up with 1 sibling."
+  },
+  "controlledPaymentSource": "25a3e5539 controlled fixture, not this character payment",
+  "sourceHead": "cf5002bddcbf3a597db1dcf9ba6659e46d666edc"
+}
