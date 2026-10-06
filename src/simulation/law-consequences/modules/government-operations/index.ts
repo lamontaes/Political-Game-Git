@@ -20,10 +20,7 @@ import type {
   ResolvedLawConsequence,
 } from "../../../law-consequence-types";
 import type { EntityId, World } from "../../../types";
-import {
-  GOVERNMENT_OPERATIONS_QUESTION_KEYS,
-  GOVERNMENT_OPERATIONS_LAW_ROWS,
-} from "../../government-operations-rows";
+import { GOVERNMENT_OPERATIONS_LAW_ROWS } from "../../government-operations-rows";
 
 const KIND = "government-operations" as const;
 const VOTING_SELECTOR = "government-operations-voting-age-resident";
