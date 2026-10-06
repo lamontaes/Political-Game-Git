@@ -49,7 +49,10 @@ import {
   startTownJobPay,
 } from "../simulation/living-world/town-pay";
 import { ensureEmployerCashPositions } from "../simulation/opening-employer-cash";
-import { ensureRentDaySchedule } from "../simulation/living-world/town-rent";
+import {
+  ensureRentDaySchedule,
+  startTownLeases,
+} from "../simulation/living-world/town-rent";
 import { ensureCrimeProduction } from "../simulation/crime";
 import { ensureEpidemicProduction } from "../simulation/crisis/epidemic";
 import { ensurePlaceOutcomes } from "../simulation/outcome-web/place-outcomes";
@@ -550,11 +553,17 @@ function* openedWorld(
   );
   // Payday starts with the same opening, so a watched world's jobs pay too,
   // and so does rent day, so its renters pay their landlords.
+  const playerHouseholdId = householdMembershipsAt(seated, playerPersonId).find(
+    (row) => row.state.residenceRole === "primary",
+  )?.household.id;
+  const withPlayerLease = playerHouseholdId
+    ? startTownLeases(seated, seated.currentDate, playerHouseholdId)
+    : seated;
   const opened = ensureRentDaySchedule(
     ensurePaydaySchedule(
       ensureMigrationSchedule(
         ensureLocalCouncilMeetings(
-          ensureLocalElectionCalendar(seated, playerPersonId),
+          ensureLocalElectionCalendar(withPlayerLease, playerPersonId),
           playerPersonId,
         ),
       ),

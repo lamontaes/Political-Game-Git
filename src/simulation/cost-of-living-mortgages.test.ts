@@ -144,7 +144,7 @@ describe("recorded shared mortgages remain household housing bills", () => {
           game.playerPersonId,
           addDays(today, -1),
         ),
-      ).toBeNull();
+      ).toEqual([]);
       expect(serializeWorld(world)).toBe(before);
       expect(
         recordedHouseholdHousingBillsAt(
