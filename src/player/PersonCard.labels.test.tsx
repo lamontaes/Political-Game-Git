@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { renderToStaticMarkup } from "react-dom/server";
 import { expect, it, vi } from "vitest";
 import type { EntityId, World } from "../simulation/types";
@@ -188,4 +190,19 @@ it("prints a refusal to talk once, not twice, on the card", () => {
   );
   expect(html.split(refusal).length - 1).toBe(1);
   expect(html).toContain('data-testid="dossier-talk-unavailable"');
+});
+
+describe("the personal screens carry no authored sentence", () => {
+  it.each([
+    "PersonCard.tsx",
+    "PersonalGoalsPanel.tsx",
+    "PersonalRoutinePanel.tsx",
+  ])("%s has no sentence literal or helper paragraph", (file) => {
+    const text = readFileSync(join(__dirname, file), "utf8")
+      .split("\n")
+      .filter((line) => !/^\s*(\/\/|\*|\/\*)/.test(line))
+      .join("\n");
+    expect(text.match(/"[A-Z][^"]{25,}[.?!]"/g) ?? []).toEqual([]);
+    expect(text.match(/>\s*[A-Z][a-z]+ [a-z ,'&;]{25,}/g) ?? []).toEqual([]);
+  });
 });
