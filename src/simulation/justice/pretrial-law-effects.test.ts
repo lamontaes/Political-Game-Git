@@ -96,6 +96,7 @@ describe("saved pretrial law attribution", () => {
       expect(saved.lawEffectStamps).toHaveLength(1);
       const stamp = saved.lawEffectStamps![0]!;
       expect(isLawEffectStamp(stamp)).toBe(true);
+      expect(stamp.effectKind).toBe("legal-outcome");
       expect(stamp.governingLawKey).toBe(law!.measureId);
       expect(stamp.questionKey).toBe(
         "us-policy-positions:justice-public-safety.end-cash-bail",
@@ -103,6 +104,30 @@ describe("saved pretrial law attribution", () => {
       expect(stamp.jurisdictionId).toBe(jurisdictionId);
       expect(stamp.sourceRecordIds).toContain(referral.referralId);
       expect(stamp.sourceRecordIds).toContain(events[0]!.id);
+      const savedEvent = reloaded.history.events.find(
+        (event) => event.id === events[0]!.id,
+      )!;
+      const historicalStamp = { ...stamp, effectKind: savedEvent.type };
+      const legacyWorld = {
+        ...reloaded,
+        history: {
+          ...reloaded.history,
+          events: reloaded.history.events.map((event) =>
+            event.id === savedEvent.id
+              ? { ...event, lawEffectStamps: [historicalStamp] }
+              : event,
+          ),
+        },
+      };
+      const legacyLoaded = deserializeWorld(serializeWorld(legacyWorld));
+      const legacyEvent = legacyLoaded.history.events.find(
+        (event) => event.id === savedEvent.id,
+      )! as typeof savedEvent & LawEffectStampedRecord;
+      expect(legacyEvent.type).toBe(savedEvent.type);
+      expect(legacyEvent.lawEffectStamps).toEqual([historicalStamp]);
+      expect(advanceProsecutions(legacyLoaded).history.events).toEqual(
+        legacyLoaded.history.events,
+      );
       const receipt = JSON.stringify({
         seed,
         place: place.key,
@@ -112,6 +137,10 @@ describe("saved pretrial law attribution", () => {
         stampedConsequences: events.length,
         jurisdiction: state.jurisdictionKey,
         reloadedStampValid: true,
+        eventType: savedEvent.type,
+        canonicalStamp: stamp,
+        historicalStamp,
+        legacyReloadIdempotent: true,
       });
       if (process.env.TEAM9_PRETRIAL_RECEIPT)
         appendFileSync(process.env.TEAM9_PRETRIAL_RECEIPT, `${receipt}\n`);

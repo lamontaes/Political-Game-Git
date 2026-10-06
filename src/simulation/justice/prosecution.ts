@@ -469,7 +469,7 @@ function recordFollowUp(
   const stamp = lawEffectStamp(
     pretrialGoverningLawAt(world, venueJurisdictionId),
     {
-      effectKind: type,
+      effectKind: "legal-outcome",
       questionKey: END_CASH_BAIL_QUESTION,
       jurisdictionId: venueJurisdictionId,
       appliedAt: event.occurredAt,
