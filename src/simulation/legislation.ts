@@ -1612,9 +1612,9 @@ export function introduceMeasure(
         const target = (world.history.legislativeMeasures ?? []).find(
           (candidate) => candidate.id === targetMeasureId,
         );
-        const targetEnactment = (world.history.legislativeEnactments ?? []).find(
-          (candidate) => candidate.measureId === targetMeasureId,
-        );
+        const targetEnactment = (
+          world.history.legislativeEnactments ?? []
+        ).find((candidate) => candidate.measureId === targetMeasureId);
         if (
           !target ||
           target.governmentInstrument !== "executive-order" ||
@@ -1622,8 +1622,12 @@ export function introduceMeasure(
           targetEnactment?.outcome !== "enacted" ||
           targetEnactment.effectiveAt === null ||
           targetEnactment.effectiveAt > world.currentDate ||
-          (targetEnactment.expiresAt != null && targetEnactment.expiresAt < world.currentDate)
-        ) throw new Error("Only an inherited executive order still in force can be revoked.");
+          (targetEnactment.expiresAt != null &&
+            targetEnactment.expiresAt < world.currentDate)
+        )
+          throw new Error(
+            "Only an inherited executive order still in force can be revoked.",
+          );
       }
       const currentLaw =
         check.clause.kind === "delegated-term" ||

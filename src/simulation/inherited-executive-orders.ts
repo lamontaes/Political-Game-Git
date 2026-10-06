@@ -18,9 +18,12 @@ export function inheritedExecutiveOrders(
         enactment.effectiveAt === null ||
         enactment.effectiveAt > world.currentDate ||
         (enactment.expiresAt != null && enactment.expiresAt < world.currentDate)
-      ) return [];
+      )
+        return [];
       return (measure.executiveAuthorityChecks ?? []).flatMap(({ clause }) =>
-        clause.kind === "revoke-executive-order" ? [clause.targetMeasureId] : [],
+        clause.kind === "revoke-executive-order"
+          ? [clause.targetMeasureId]
+          : [],
       );
     }),
   );
@@ -30,7 +33,8 @@ export function inheritedExecutiveOrders(
       measure.jurisdictionId !== jurisdictionId ||
       measure.sponsorPersonId === incomingHolderId ||
       revoked.has(measure.id)
-    ) return false;
+    )
+      return false;
     const enactment = enactments.find((row) => row.measureId === measure.id);
     return Boolean(
       enactment?.outcome === "enacted" &&
