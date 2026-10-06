@@ -81,6 +81,16 @@ export function recordProspectRunChoice(args: {
           { kind: "historical-event", eventId: args.recruitmentEventId },
         ],
       },
+      {
+        stableKey: `${stableKey}:campaign-cost`,
+        optionKey: "decline",
+        sourceType: "context:campaign-cost",
+        direction: "supports",
+        importance: "strong",
+        confidence: "medium",
+        explanation: "A campaign takes a year of their life and money.",
+        sourceRefs: [],
+      },
       ...(args.opportunity !== null &&
       args.opportunity < args.lowOpportunityShare
         ? [
