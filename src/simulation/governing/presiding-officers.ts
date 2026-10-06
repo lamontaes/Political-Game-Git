@@ -42,7 +42,12 @@ import { ensureOfficeholderPrinciples } from "./officeholder-principles";
 export const PRESIDING_OFFICER_VOTE_EVENT =
   "governing.presiding-officer-vote" as const;
 
-/** PLACEHOLDER (hand-set): how many of a caucus's members stand for its nomination. */
+/**
+ * How many of a caucus's members stand for its nomination: a performance cap
+ * on the caucus count, not a claim about any one place. Real nominations run
+ * from one candidate to a handful, so the five longest-serving members cover
+ * every ordinary contest without weighing the whole caucus one by one.
+ */
 const CAUCUS_CANDIDATES = 5;
 
 export interface ChamberMember extends BallotMember {

@@ -109,6 +109,7 @@ import {
 } from "./congress-chambers";
 import { chamberByKey, floorStageByKey } from "../legislature-rules";
 import type { CommitteeRule, LegislativeRulePack } from "../legislature-rules";
+import { legislativeSittingHandler } from "./legislative-sittings";
 import { personName } from "../people";
 import type {
   EntityId,
@@ -1303,7 +1304,31 @@ export function createInstitutionStepHandler(
       return done(world, "No measure stands behind this step.");
     if (measurePosition(world, measureId).outcome !== null)
       return done(world, "This measure already has a recorded outcome.");
-    const result = applyInstitutionStep(world, measureId, onExecutiveDesk);
+    const results: InstitutionStepResult[] = [];
+    const pack = legislativeRulePackForWorld(
+      world,
+      requireMeasure(world, measureId).rulePackId,
+    );
+    const stepped = legislativeSittingHandler(world, {
+      chambers: pack.chambers,
+      session: pack.session,
+      measureIds: [measureId],
+      eligible: (current, id) => measurePosition(current, id).outcome === null,
+      takeStep: (current, id) =>
+        applyInstitutionStep(current, id, onExecutiveDesk),
+      applyResult: (current, _id, nextResult) => {
+        results.push(nextResult);
+        return nextResult.kind === "applied" || nextResult.kind === "executive"
+          ? nextResult.world
+          : nextResult.kind === "wait-until" && nextResult.world
+            ? nextResult.world
+            : current;
+      },
+    });
+    // Keep the existing due-handler state machine below as the owner of
+    // rescheduling, outcome reporting, and terminal status.
+    void stepped;
+    const result = results[0] ?? { kind: "idle" as const };
     switch (result.kind) {
       case "idle":
         return done(world, "Nothing for the institution to do.");

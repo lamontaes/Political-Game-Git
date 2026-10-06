@@ -423,6 +423,26 @@ describe("Medicaid expansion coverage reaches named people", () => {
         (row) => row.covered && row.stateKey === stateKey,
       );
       expect(covered.length).toBeGreaterThan(0);
+      // The pass that recorded each coverage change also named the person and
+      // the law in a saved exposure: a gain for the covered, no dollar amount.
+      for (const row of covered) {
+        expect(
+          (world.history.lawExposures ?? []).filter(
+            (exposure) =>
+              exposure.sourceRecordId === row.id &&
+              exposure.relation === "own" &&
+              exposure.personId === row.personId,
+          ),
+          row.basis,
+        ).toMatchObject([
+          {
+            channel: "benefit",
+            direction: "gain",
+            amount: null,
+            measureId: row.lawEffectStamps![0]!.governingLawKey,
+          },
+        ]);
+      }
       for (const row of covered) {
         const decision = medicaidCoverageDecision(
           world,

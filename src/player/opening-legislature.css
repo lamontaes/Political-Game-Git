@@ -2,13 +2,6 @@
 .pg-orientation[data-step="legislature"] .pg-orientation-staged {
   right: 48%;
 }
-.pg-orientation[data-step="legislature"] .scene-place-nameplate {
-  box-sizing: border-box;
-  width: 18%;
-}
-.pg-orientation[data-step="legislature"] .scene-place-nameplate-title {
-  overflow-wrap: anywhere;
-}
 @media (max-width: 760px) {
   .pg-orientation[data-step="legislature"] .pg-orientation-staged {
     right: 0;

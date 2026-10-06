@@ -2,6 +2,7 @@ import { inventedPersonBirthDate } from "./invented-person-age";
 import { eventById } from "./event-index";
 import { modelCampaignFieldReach } from "./campaign-contact-calibration";
 import { wasRefused } from "./scheduled-activity-answer";
+import { onShiftAt, workSchedulesFor } from "./living-world/work-schedules";
 import { rememberedAdverseFindingsAgainst } from "./press/findings";
 import {
   CAMPAIGN_LIFE_CATALOG,
@@ -50,6 +51,7 @@ import {
   simulationMomentAtLocalTime,
 } from "./dates";
 import { evaluateDecision } from "./decisions";
+import { evaluateCampaignHelpDecision } from "./campaign-help-decision";
 import { registeredTraitConsiderations } from "./trait-readings";
 import { traitRegistryFor } from "./trait-registry";
 import {
@@ -1416,19 +1418,11 @@ function supportRequestDecision(
       sourceRefs: [{ kind: "historical-event", eventId: finding.step.eventId }],
     });
   }
-  const evaluation = evaluateDecision(world, {
+  const evaluation = evaluateCampaignHelpDecision(world, {
     stableKey: decisionKey,
     decisionType: "campaign.support-request",
     actorPersonId: record.hostPersonId,
-    cutoff: {
-      asOfDate: world.currentDate,
-      historySequenceExclusive: world.history.nextSequence,
-    },
-    subject: {
-      kind: "context:life",
-      key: "campaign-support-request",
-      entityId: null,
-    },
+    subjectKey: "campaign-support-request",
     options: [
       {
         key: "grant",
@@ -1446,7 +1440,6 @@ function supportRequestDecision(
         description: "Leave it for the chapter to take up later.",
       },
     ],
-    constraints: [],
     considerations: [
       ...considerations,
       ...registeredTraitConsiderations(
@@ -1458,9 +1451,6 @@ function supportRequestDecision(
         record.subjectPersonId,
       ),
     ],
-    perceptionIds: [],
-    randomness: "none",
-    retention: "ephemeral",
   });
   return evaluation.selectedOptionKey === "grant"
     ? "granted"
@@ -1842,7 +1832,15 @@ export function recordCampaignLifeAttendance(
     fieldReach: openCampaign
       ? modelCampaignFieldReach(
           record.form,
-          minutes * new Set(activity.participantPersonIds).size,
+          minutes *
+            new Set([
+              ...activity.participantPersonIds,
+              ...activeStaffPersonIds(world, openCampaign).filter((staffId) =>
+                workSchedulesFor(world, staffId, activityState.start.date).some(
+                  (schedule) => onShiftAt(schedule, activityState.start),
+                ),
+              ),
+            ]).size,
         )
       : null,
     relationshipInteractionIds,

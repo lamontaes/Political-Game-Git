@@ -358,6 +358,9 @@ function kentuckyChamber(
     chamberKey,
     name,
     billDesignationPrefix,
+    // The CSG table reports current seats, not the statute or district plan
+    // that formally authorizes Kentucky's chamber size. Keep that separate
+    // count in seatsForChamber rather than promoting it to a legal rule row.
     seats: unknownRule(
       "The game does not know how many seats Kentucky's chamber formally has, and it will not guess a number.",
     ),
@@ -576,7 +579,7 @@ const NE_QUORUM: RuleSourceRef = {
   sourceUrl: "https://nebraskalegislature.gov/laws/articles.php?article=III-10",
   retrievedAt: "2026-10-01",
   verification: "verified",
-  note: '"A majority of the members elected to the Legislature shall constitute a quorum." This expressly uses members elected, so a vacancy changes the denominator; neither attendance nor authorized seats substitutes for elected members.',
+  note: '"A majority of the members elected to the Legislature shall constitute a quorum." This expressly uses members elected, so a vacancy changes the denominator; neither attendance nor authorized seats substitutes for members elected.',
 };
 
 const NE_LAWMAKING = source(
@@ -2268,6 +2271,9 @@ function nevadaChamber(
     chamberKey,
     name,
     billDesignationPrefix,
+    // The CSG table reports Nevada's current seats, not the ordinary law that
+    // authorizes its districts. The runtime may use that sourced count for
+    // seating people; this legal rule row stays unknown until the authority is read.
     seats: unknownRule(
       "The game does not know how many seats Nevada's chamber formally has: Nevada leaves the number to ordinary law, which draws the districts rather than stating a count. The game will not guess one.",
     ),

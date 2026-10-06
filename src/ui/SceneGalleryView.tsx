@@ -187,7 +187,7 @@ function SceneCard({ scene }: { readonly scene: RegisteredScene }) {
           <dd>
             {scene.floorCalibration
               ? `near ${scene.floorCalibration.near.floor_y_percent}% to far ${scene.floorCalibration.far.floor_y_percent}%`
-              : "not measured — see what is unknown, below"}
+              : "No floor calibration is present in this scene specification"}
           </dd>
         </dl>
 
