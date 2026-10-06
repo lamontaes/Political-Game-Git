@@ -25,7 +25,7 @@ import { sortedUnique } from "./shared";
  *
  * - Votes: every open contest the respondent is a candidate in loses them
  *   support, handed to the rest of the field (`recordSupportLoss`). The size
- *   is an UNRESEARCHED blanket rule (`UNRESEARCHED_FINDING_EFFECTS`).
+ *   comes from the recorded finding-consequence estimate in `findings.ts`.
  * - Money: a finding or conciliation about campaign money the respondent
  *   took for themselves (M1) orders it repaid to the committee it came from.
  *   The amount is the recorded misuse itself, not a fine: no researched

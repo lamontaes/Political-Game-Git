@@ -13,7 +13,7 @@ import { lifePlaceStateIdentities } from "./life-places";
 import { applyFindingConsequences } from "./press/finding-consequences";
 import {
   ADVERSE_PUBLIC_OUTCOMES,
-  UNRESEARCHED_FINDING_EFFECTS,
+  RECORDED_FINDING_EFFECTS,
 } from "./press/findings";
 import type { ProceedingOutcome } from "./press/records";
 import { appendPressRecord } from "./press/store";
@@ -127,7 +127,7 @@ describe(`finding support uses the campaign engine in ${place!.jurisdictionKey}`
       const actual = shares(f, after);
       expect(actual[f.respondentId]).toBe(
         before[f.respondentId]! -
-          UNRESEARCHED_FINDING_EFFECTS.supportLossBasisPoints[outcome],
+          RECORDED_FINDING_EFFECTS.supportLossBasisPoints[outcome],
       );
       expect(Object.values(actual).reduce((sum, value) => sum + value, 0)).toBe(
         SUPPORT_DENOMINATOR,

@@ -8,7 +8,7 @@ import {
 } from "./macro-economy/readers";
 import {
   rememberedAdverseFindingsAgainst,
-  UNRESEARCHED_FINDING_EFFECTS,
+  RECORDED_FINDING_EFFECTS,
 } from "./press/findings";
 import type { EntityId, IsoDate, World } from "./types";
 
@@ -120,6 +120,6 @@ export function startingSupportAdjustment(
           ?.weight ?? 0)
       : 0) +
     disasterHandlingWeight(world, personId, asOf) -
-    findings.length * UNRESEARCHED_FINDING_EFFECTS.laterContestWeightPenalty
+    findings.length * RECORDED_FINDING_EFFECTS.laterContestWeightPenalty
   );
 }

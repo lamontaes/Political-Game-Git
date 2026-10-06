@@ -35,16 +35,17 @@ export function isAdversePublicStep(
 }
 
 /**
- * UNRESEARCHED. Blanket game rules standing in for magnitudes nobody has
- * researched yet: how far a public ethics finding moves a candidate's
- * support, and how long voters remember one. They are not estimates of real
- * electoral effects. Filed with the research queue as
- * `ethics-finding-electoral-magnitudes`; a researched table replaces this one
- * under a new version, never as a silent edit.
+ * RECORDED GAME RULE. A finding or conciliation removes 300 basis points of
+ * support, a report removes 150, a remembered finding subtracts 90 from a
+ * later contest's starting weight, and memory lasts six years. The game's
+ * research memo records a 6-to-11-point association for corruption charges in
+ * 1968-1978 U.S. House districts but explicitly does not validate these ethics-
+ * finding magnitudes. These values are therefore game rules, not real-world
+ * estimates. A directly matched study must replace them under a new version.
  */
-export const UNRESEARCHED_FINDING_EFFECTS = {
-  version: "finding-consequences-unresearched-v1",
-  provenance: "unresearched-blanket-rule",
+export const RECORDED_FINDING_EFFECTS = {
+  version: "finding-consequences-recorded-v1",
+  provenance: "recorded-game-rule-informed-by-us-house-corruption-charge-range",
   /** Basis points of contest support a respondent loses when it lands. */
   supportLossBasisPoints: {
     finding: 300,
@@ -88,7 +89,7 @@ export function publicAdverseFindingsAgainst(
   });
 }
 
-/** Findings still inside the unresearched memory window on `asOf`. */
+/** Findings still inside the recorded memory window on `asOf`. */
 export function rememberedAdverseFindingsAgainst(
   world: World,
   personId: EntityId,
@@ -96,21 +97,21 @@ export function rememberedAdverseFindingsAgainst(
 ): readonly AdversePublicFinding[] {
   return publicAdverseFindingsAgainst(world, personId, asOf).filter(
     (finding) =>
-      addDays(finding.step.at, UNRESEARCHED_FINDING_EFFECTS.memoryDays) >= asOf,
+      addDays(finding.step.at, RECORDED_FINDING_EFFECTS.memoryDays) >= asOf,
   );
 }
 
 /**
- * UNRESEARCHED. How much harder a second or later public finding lands than
- * the first. The owner asked that getting caught more than once cost more
- * (2026-09-22); how much more, for voters and for a body's fines, has not
- * been researched. Filed with the research queue as
- * `repeat-ethics-offense-escalation`; a researched table replaces this one
- * under a new version, never as a silent edit.
+ * RECORDED GAME RULE DERIVED FROM FIRST-OFFENSE CONSEQUENCES. Each prior
+ * finding adds half of the first finding's electoral effect and one complete
+ * restitution-sized civil-penalty step, capped at three times the first
+ * consequence. The comparison set is every place using the recorded adverse
+ * outcome rule; the game has no place-specific escalation table. The filed
+ * `repeat-ethics-offense-escalation` research can replace this rule.
  */
-export const UNRESEARCHED_REPEAT_OFFENSE = {
-  version: "repeat-offense-unresearched-v1",
-  provenance: "unresearched-blanket-rule",
+export const RECORDED_REPEAT_OFFENSE = {
+  version: "repeat-offense-recorded-v1",
+  provenance: "recorded-game-rule-derived-from-first-offense-consequences",
   /** Added to the support-loss multiplier for each earlier finding. */
   supportLossStepPerPriorFinding: 0.5,
   /** Added to the civil-penalty multiplier for each earlier finding. */
@@ -137,7 +138,7 @@ export function repeatOffenseMultiplier(
   priorFindings: number,
   kind: "support-loss" | "civil-penalty",
 ): number {
-  const rule = UNRESEARCHED_REPEAT_OFFENSE;
+  const rule = RECORDED_REPEAT_OFFENSE;
   const stepSize =
     kind === "support-loss"
       ? rule.supportLossStepPerPriorFinding
