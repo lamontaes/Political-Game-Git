@@ -35,10 +35,17 @@ merge is claimed.
 
 ## Next actions
 
-Finish the checked Part 4 landing, then compose and land #2458 veto results and
-#2452 one executive inbox in the CTO's order. Preserve all new main families,
-shared bill fallback and budget semantics. Their previous checked heads and
-random-place browser receipts remain historical evidence until composition.
+Part 5 #2458 is now actually merged at `e597ec933608993a9ecfef6110b3f9b9f856a3c7`,
+from head `aaaf35a26537042eaab374ea600c0688b942346f`. Its item-veto admission,
+fourth bill-reasons argument, results reader and scene data adapter are preserved.
+The Uehling NE and Brookston IN browser receipts remain pinned to their actual
+checked head in `docs/codex/session23-veto-desk-proof/`; a played veto scene and
+Indiana majority-rounding owner question remain unresolved.
+
+Finish Part 4 composition with that actual main, checking both dollar-request
+and item-selection guards. Then land Part 4 and compose #2452 one executive inbox
+with actual main. The latest budget proof is historical until the new composition
+is checked. Next command: run the focused budget, bill and item-veto tests.
 
 Part 3's appointment producer milestone is published at `86e93d591` on
 `codex/session23-p3-player-appointments`. It includes real board confirmation,

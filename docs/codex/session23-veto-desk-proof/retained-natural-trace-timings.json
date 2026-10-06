@@ -1,0 +1,136 @@
+{
+  "sourceTraceSha256": "2d7d4b82ddcd0c150cb685c6bc56a8076b44c38022d6d5f22048bcca5a240dee",
+  "mainHead": "139ed9935",
+  "traceEntry": "0-trace.trace",
+  "clock": "Playwright monotonic milliseconds relative to trace context; not simulation time",
+  "lastDayActions": [
+    {
+      "callId": "call@642",
+      "selector": "internal:testid=[data-testid=\"shell-pass-day\"s]",
+      "startTimeMs": 211917.104,
+      "endTimeMs": 215818.284,
+      "durationMs": 3901.18,
+      "error": null
+    },
+    {
+      "callId": "call@662",
+      "selector": "internal:testid=[data-testid=\"shell-pass-day\"s]",
+      "startTimeMs": 217537.367,
+      "endTimeMs": 221188.756,
+      "durationMs": 3651.389,
+      "error": null
+    },
+    {
+      "callId": "call@682",
+      "selector": "internal:testid=[data-testid=\"shell-pass-day\"s]",
+      "startTimeMs": 223419.066,
+      "endTimeMs": 233152.42,
+      "durationMs": 9733.354,
+      "error": null
+    },
+    {
+      "callId": "call@702",
+      "selector": "internal:testid=[data-testid=\"shell-pass-day\"s]",
+      "startTimeMs": 236489.68,
+      "endTimeMs": 244365.032,
+      "durationMs": 7875.352,
+      "error": null
+    },
+    {
+      "callId": "call@722",
+      "selector": "internal:testid=[data-testid=\"shell-pass-day\"s]",
+      "startTimeMs": 247595.025,
+      "endTimeMs": 277601.257,
+      "durationMs": 30006.232,
+      "error": "Timeout 30000ms exceeded."
+    }
+  ],
+  "failedAction": {
+    "callId": "call@722",
+    "startTimeMs": 247595.025,
+    "endTimeMs": 277601.257,
+    "durationMs": 30006.232,
+    "performClickStartedMs": 247673.503,
+    "clickDoneMs": 268382.76,
+    "performClickIntervalMs": 20709.257,
+    "scheduledNavigationWaitStartedMs": 268382.847,
+    "scheduledNavigationWaitToTimeoutMs": 9218.41,
+    "targetTitle": "Skip to Sunday, February 1, 2026, 7:00 AM",
+    "logs": [
+      {
+        "type": "log",
+        "time": 247597.098,
+        "message": "waiting for getByTestId('shell-pass-day')"
+      },
+      {
+        "type": "log",
+        "time": 247599.962,
+        "message": "  locator resolved to <button type=\"button\" class=\"pg-nav-day ui-action\" data-testid=\"shell-pass-day\" title=\"Skip to Sunday, February 1, 2026, 7:00 AM. Your routine runs; stops early for anything protected.\">\u2026</button>"
+      },
+      {
+        "type": "log",
+        "time": 247601.424,
+        "message": "attempting click action"
+      },
+      {
+        "type": "log",
+        "time": 247601.455,
+        "message": "  waiting for element to be visible, enabled and stable"
+      },
+      {
+        "type": "log",
+        "time": 247659.447,
+        "message": "  element is visible, enabled and stable"
+      },
+      {
+        "type": "log",
+        "time": 247659.47,
+        "message": "  scrolling into view if needed"
+      },
+      {
+        "type": "log",
+        "time": 247665.24,
+        "message": "  done scrolling"
+      },
+      {
+        "type": "log",
+        "time": 247673.503,
+        "message": "  performing click action"
+      },
+      {
+        "type": "log",
+        "time": 268382.76,
+        "message": "  click action done"
+      },
+      {
+        "type": "log",
+        "time": 268382.847,
+        "message": "  waiting for scheduled navigations to finish"
+      }
+    ]
+  },
+  "actualConsole": [
+    {
+      "time": 14344.829,
+      "messageType": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "time": 14443.292,
+      "messageType": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "time": 24705.364,
+      "messageType": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+    }
+  ],
+  "absentTiming": [
+    "No simulation handler start/end records",
+    "No advanceWorld phase timings",
+    "No Feb 1 producer elapsed-time record",
+    "No knowledge of actual navigation completion after timeout"
+  ],
+  "interpretation": "The action timeout establishes a 30.006232-second browser action span. The click-performing interval is 20.709257 seconds and the remaining scheduled-navigation wait is 9.218410 seconds. Neither interval isolates a simulation handler. The full route duration is not Feb 1 handler time."
+}
