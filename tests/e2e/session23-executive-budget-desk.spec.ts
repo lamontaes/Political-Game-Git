@@ -79,6 +79,12 @@ test("authored governor seat: a new life requests dollars and reloads a differen
     contentType: "image/png",
   });
   await saveLife(page);
+  // Read the saved records from the title screen, without keeping a second
+  // deserialized whole World beside the actively played one in this renderer.
+  await page.reload();
+  await expect(page.getByTestId("title-screen")).toBeVisible({
+    timeout: 30_000,
+  });
   const before = await evidence(page);
   expect(JSON.parse(before.seed.slice(before.seed.indexOf("{")))).toMatchObject(
     { seed, placeKey: place.key, startAge: 40, startingLife: "ordinary-life" },
@@ -109,6 +115,10 @@ test("authored governor seat: a new life requests dollars and reloads a differen
       .getByTestId("governing-briefing")
       .getByTestId("executive-budget-comparison"),
   ).toContainText("$3,000,000.00");
+  await page.reload();
+  await expect(page.getByTestId("title-screen")).toBeVisible({
+    timeout: 30_000,
+  });
   expect(await evidence(page)).toEqual(before);
 });
 
