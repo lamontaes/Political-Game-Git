@@ -284,6 +284,17 @@ export function composeGroundedLine(
       continue;
     }
 
+    // In ordinary talk a turn asks one thing (Research 2, everyday and family
+    // cards: about one turn in ten is a question, and a turn that asks hands
+    // the floor over). A second question waits for the answer to the first.
+    if (
+      !required &&
+      asksAlready(parts, rendered.text) &&
+      context.register &&
+      REGISTER_CARDS[context.register].setting === "private"
+    )
+      continue;
+
     parts.push({
       part,
       partKey: `${bankKey}:${part}:${rendered.variantKey}`,
@@ -303,6 +314,10 @@ export function composeGroundedLine(
     parts,
     sourceRecordIds: [...sourceRecordIds],
   };
+}
+
+function asksAlready(parts: readonly ComposedPart[], next: string): boolean {
+  return next.includes("?") && parts.some((part) => part.text.includes("?"));
 }
 
 /**
