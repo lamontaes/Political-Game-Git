@@ -6,6 +6,7 @@ import type {
 } from "./permit-types";
 import type {
   LawAmountUnit,
+  LawTermScope,
   RentalPriceRule,
   LawConsequenceRow,
   ResolvedHourlyLawPayConsequence,
@@ -5285,6 +5286,8 @@ export interface LegislativeProvisionRecord {
     readonly key: string;
     readonly value: number;
     readonly unit: LawAmountUnit;
+    /** Missing legacy scope is unknown, never an implicit statewide rule. */
+    readonly scope?: LawTermScope;
     readonly rentalPriceRule?: RentalPriceRule;
   }[];
   /** Explicit annual amount; omission preserves older whole-program records. */
