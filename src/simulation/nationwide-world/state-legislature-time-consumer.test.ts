@@ -11,7 +11,7 @@ import {
   resolveFutureDueItemsThrough,
 } from "../future-transitions";
 import { deserializeWorld, serializeWorld } from "../serialization";
-import type { IsoDate, World } from "../types";
+import type { EntityId, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import { composeWorldTimeHandlers } from "../campaigns";
 import { advanceWorldMinutes } from "../time-work";
@@ -31,7 +31,7 @@ function atDate(world: World, date: IsoDate): World {
   return advanceWorldMinutes(world, minutes);
 }
 
-function state(world: World, dueItemId: string) {
+function state(world: World, dueItemId: EntityId) {
   return futureDueItemStateAt(world, dueItemId, {
     asOfDate: world.currentDate,
     historySequenceExclusive: world.history.nextSequence,
