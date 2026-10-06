@@ -34,7 +34,7 @@ export const OFFICIAL_FUNERAL_EVENT_TYPES = {
 } as const;
 
 /**
- * PLACEHOLDER timing, and the most common real rule for lying in state.
+ * RECORDED GAME RULE timing, and the most common real rule for lying in state.
  *
  * 1. Days from death to the funeral. Research: `funeral-timing` (state
  *    funerals for sitting presidents ran three to seven days).

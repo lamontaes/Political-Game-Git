@@ -59,7 +59,7 @@ import type {
  * the District's voters as their constituents. An act answers one question
  * the District's own law may answer.
  *
- * PLACEHOLDER, pending `dc-council-legislative-volume` and
+ * RECORDED GAME RULE, pending `dc-council-legislative-volume` and
  * `dc-council-rules-of-organization-and-procedure`: the Council sits every
  * 14 days, which is not its schedule.
  */

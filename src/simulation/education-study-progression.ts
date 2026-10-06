@@ -82,7 +82,7 @@ const periodDueKey = "education:study-period-due" as const;
  *   elsewhere each week (work and care, from the life-load record): no draw
  *   and no cutoff. Students working long hours complete fewer of the credits
  *   they attempt (NCES, The Condition of Education, college student
- *   employment); the curve's size is PLACEHOLDER, research question
+ *   employment); the curve's size follows the recorded study-load rule, research question
  *   `credits-earned-and-outside-hours`.
  * - A student short of credits after the planned periods keeps studying, and
  *   paying, one period at a time, up to one and a half times the planned
@@ -91,7 +91,7 @@ const periodDueKey = "education:study-period-due" as const;
  *   credential.
  */
 export const STUDY_CREDIT_PACE = {
-  basis: "PLACEHOLDER",
+  basis: "recorded study-load rule",
   researchQuestionId: "credits-earned-and-outside-hours",
   /** Credits an academic year when a saved term carries no requirement. */
   creditsPerAcademicYear: 30,

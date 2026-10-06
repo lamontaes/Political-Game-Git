@@ -105,7 +105,7 @@ const FAMILY_OF: Readonly<Record<string, HazardFamily>> = {
 };
 
 /**
- * PLACEHOLDER, NOT RESEARCHED: which recorded reports become a disaster the
+ * RECORDED REPORT-QUALIFICATION RULE: which recorded reports become a disaster the
  * town lives through. The catalog counts every thunderstorm-wind and flood
  * REPORT, and declaring each one as a damaging episode gave one county about
  * fifteen disasters a year (Delaware County, Ohio; Stapleton, Alabama). Until

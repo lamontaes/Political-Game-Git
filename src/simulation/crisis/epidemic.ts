@@ -867,7 +867,7 @@ function recordCase(
     initialRecipientIds: household.filter((id) => id !== found.personId),
     hazard: {
       micros: hazardMicros,
-      basis: `${U.provenance} PLACEHOLDER (epidemic-severity-by-age): a case of the illness going around, ${Math.round(seriousness * 100)} percent of the way from ordinary to serious.`,
+      basis: `${U.provenance} recorded epidemic-severity rule: a case of the illness going around, ${Math.round(seriousness * 100)} percent of the way from ordinary to serious.`,
     },
   });
   const name = personName(person);

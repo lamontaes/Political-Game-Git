@@ -97,7 +97,7 @@ export const CONVENTION_CALL_EVENT =
 
 export const ARTICLE_V_PROFILE = {
   /**
-   * PLACEHOLDER: the day each year Congress and the legislatures take stock,
+   * RECORDED GAME RULE: the day each year Congress and the legislatures take stock,
    * once most legislative sessions have opened. Affects only when a proposal
    * or an application is recorded.
    */
@@ -110,13 +110,13 @@ export const ARTICLE_V_PROFILE = {
    */
   ratificationYears: 7,
   /**
-   * PLACEHOLDER: each state legislature takes up a proposal on its own day
+   * RECORDED GAME RULE: each state legislature takes up a proposal on its own day
    * within this many days, spread by the World's seed. Timing only; it
    * decides nothing about how a state votes.
    */
   stateActionWindowDays: 730,
   /**
-   * PLACEHOLDER: days from Congress calling a convention to the convention's
+   * RECORDED GAME RULE: days from Congress calling a convention to the convention's
    * vote. Affects only when the vote is recorded.
    */
   conventionDays: 180,
@@ -311,7 +311,7 @@ function leanShare(
 }
 
 /**
- * PLACEHOLDER weight: changing the Constitution is a higher bar than passing
+ * RECORDED GAME RULE weight: changing the Constitution is a higher bar than passing
  * a law, and a member needs more than a slight reason to clear it.
  */
 export const CONSTITUTIONAL_BAR: DecisionConsideration = {

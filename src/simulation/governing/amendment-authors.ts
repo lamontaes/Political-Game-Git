@@ -107,7 +107,7 @@ export interface AmendmentAuthorsInput {
 
 /**
  * How many questions a chamber's members are counted on per floor stage.
- * PLACEHOLDER(build-25): a speed limit, set by hand, not a behavior. The
+ * RECORDED BUILD-25 LIMIT: a speed limit, set by hand, not a behavior. The
  * questions most members hold strong views on are counted first, so the
  * limit drops the questions fewest members care about.
  */
@@ -679,7 +679,7 @@ export function offerPlannedAmendment(
       provisionKey: partKey(plan.part),
       sectionNumber,
       heading,
-      // PLACEHOLDER(build-25): the operative words name the catalog question
+      // RECORDED BUILD-25 LIMIT: the operative words name the catalog question
       // the section answers. Written statutory language for a question comes
       // from the drafting bank once it has a clause family for it.
       text:

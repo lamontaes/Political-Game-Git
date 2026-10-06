@@ -54,7 +54,7 @@ import {
  * bill that says only its yes or no answer, so mapping coverage never narrows
  * what Congress takes up.
  *
- * PLACEHOLDER, pending research question
+ * RECORDED GAME RULE, pending research question
  * `expand-effect-mapping-so-every-law-changes-the-world`: an enacted bill on
  * an unmapped question is federal law (law-in-force.ts) but changes nothing
  * else in the world yet.

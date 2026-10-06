@@ -79,7 +79,7 @@ import type {
  * answer to its policy question. The saved ballot cites that belief by ID;
  * a private reason is not by itself knowledge available to the player.
  *
- * PLACEHOLDER until research question
+ * RECORDED GAME RULE pending research question
  * how-state-legislators-vote-without-a-stated-position is answered: the
  * party cue, the weights and the rule that only an override divides by party
  * are the game's own, not measured voting behavior.

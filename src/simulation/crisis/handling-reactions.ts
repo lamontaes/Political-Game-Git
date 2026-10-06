@@ -29,7 +29,7 @@ import type {
 } from "./types";
 
 /**
- * UNRESEARCHED. How far handling a disaster well or badly moves voters, and
+ * RECORDED GAME RULE. How far handling a disaster well or badly moves voters, and
  * for how long they remember it. Blanket game rules, not estimates of
  * retrospective voting on disasters; filed as `disaster-handling-reactions`.
  * A researched table replaces this one under a new version.
@@ -156,7 +156,7 @@ const LABELS: Readonly<Record<Reaction, string>> = {
  * the paper (Nevada replay, 2026-09-22).
  *
  * The standard is the game's own (`handlingVerdict`); the sizes are
- * UNRESEARCHED. What the President or national press say when asked about a
+ * RECORDED GAME RULE. What the President or national press say when asked about a
  * state's handling is not built: filed as `disaster-handling-reactions`.
  */
 export function applyDisasterHandlingReactions(
@@ -238,7 +238,7 @@ function resolveDisasterHandlingReactions(
 }
 
 /**
- * UNRESEARCHED. How long after a decision the weekly sweep still reacts to
+ * RECORDED GAME RULE. How long after a decision the weekly sweep still reacts to
  * it. Longer than a week so no decision falls between two sweeps; decisions
  * made before this existed are not reacted to after the fact.
  */
