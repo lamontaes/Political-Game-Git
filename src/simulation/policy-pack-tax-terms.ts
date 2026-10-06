@@ -97,6 +97,7 @@ function taxTermConsequenceRow(
     evidence: {
       sourceIds: [
         "src/simulation/tax-policy.ts",
+        ...(federalTerm ? ["src/simulation/tax-law-term-binding.ts"] : []),
         federalTerm
           ? "src/simulation/law-consequences/tax.ts"
           : "src/fiscal-authority/tax-powers.generated.json",
@@ -109,7 +110,7 @@ function taxTermConsequenceRow(
         ? "The common tax consequence reader derives an assessment from the adopted terms and the saved tax base; the row supplies no rate or amount."
         : "The adopted rate and allowance apply to the saved base; collection uses the existing due payment writer.",
       uncertainty: federalTerm
-        ? "Federal tax-term binding is not yet supported by the shared reader. Until its exact law, power, and source-record contract is admitted, no assessment is resolved."
+        ? "The existing tax resolver calls bindTaxLawTerms(world, { law, questionKey, proposalId, onDate, cutoff }). Until this federal question has an admitted law, power, and saved-record binding, no assessment is resolved."
         : "This row supplies no rate, authority, taxable occurrence or recipient. Missing bindings refuse assessment.",
     },
   };

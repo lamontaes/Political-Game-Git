@@ -45,7 +45,13 @@ it("loads tax questions without assigning any rates or replacing existing questi
       what: "assess-enacted-tax-base",
       amount: { op: "record", key: "enacted-tax-assessment", unit: "minor" },
       evidence: {
-        uncertainty: expect.stringContaining("Federal tax-term binding"),
+        sourceIds: expect.arrayContaining([
+          "src/simulation/law-consequences/tax.ts",
+          "src/simulation/tax-law-term-binding.ts",
+        ]),
+        uncertainty: expect.stringContaining(
+          "bindTaxLawTerms(world, { law, questionKey, proposalId, onDate, cutoff })",
+        ),
       },
     });
   }
