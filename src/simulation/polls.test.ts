@@ -66,7 +66,7 @@ describe("poll sampling and reported uncertainty", () => {
         fieldedAt: world.currentDate,
       }),
     ).toThrow(
-      "Cannot commission a paid poll yet: no modeled polling vendor/resource endpoint or researched place-wage price adjustment exists.",
+      "Cannot commission a paid poll yet: no modeled polling vendor/resource endpoint, no saved nonresponse reason for poll interviews, and no researched place-wage price adjustment exist.",
     );
   });
 });
