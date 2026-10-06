@@ -35,7 +35,7 @@ SP-C stays draft until CPU decreases, maximum sampled heap is at or below baseli
 
 ## Exact method
 
-Latest production source: `82444c69de858b80bfe8f529af7f39e9da8ba420`. Baseline: `f88508186b78f526ecf89a420b5fb584171e039a`, retained exec 72328. Candidate exec 18689, PID 61214, exited 0. It started October 6, 2026, at 8:25:19 a.m. Eastern. 
+Latest production source: `82444c69de858b80bfe8f529af7f39e9da8ba420`. Baseline: `f88508186b78f526ecf89a420b5fb584171e039a`, retained exec 72328. Candidate exec 18689, PID 61214, exited 0. It started October 6, 2026, at 8:25:19 a.m. Eastern.
 
 Ripon, Wisconsin, place 5568175; world `world_5f9b74dcb02d14ae`, player `person_e54ea866a602ad62`. The [portable input](../../../scripts/dev-lab/session5-history-lookup/ripon-input.json) contains the exact recorded seed and normal age-40 setup.
 
