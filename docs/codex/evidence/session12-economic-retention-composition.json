@@ -1,0 +1,83 @@
+{
+  "phase": "P1",
+  "piece": "shared hometown and recorded docket economic retention composition",
+  "pr": 2298,
+  "checkedSourceHead": "d2e2825cc5913ee1d6ec7dabc3cca35637ec4bc0",
+  "integratedMain": "d8dcd3ade2fc7aa477cd38dcfdac3caed17a6ce2",
+  "composition": "normal --no-ff merge; merge-tree exit 0 and no manual conflict edits",
+  "reviewedHead": "b185ebaaf3a6b6123ea27611e31372abaa2ec539",
+  "independentReviewReceipt": "https://github.com/lamontaes/Political-Game-Git/issues/2052#issuecomment-6009463931",
+  "independentReviewScope": "9 tests/3 files and a separate saved/reloaded retained Personal finances receiver passed on b185eba; not independently rerun at this composition",
+  "reviewedFileParity": [
+    {
+      "path": "src/presentation/economic-context-bindings.ts",
+      "identicalToReviewedHead": true,
+      "sha256": "256da49e3a7f396ea8ab7fe21137505b8a6404e75b6411db478528102169b904"
+    },
+    {
+      "path": "src/presentation/generated/economic-context-crosswalks.generated.json",
+      "identicalToReviewedHead": true,
+      "sha256": "54af9dbb968e5a575e87fd6a74942c136e191aa6c81048847a083b8a11eb0050"
+    },
+    {
+      "path": "src/player/PersonalFinancesWorkspace.test.tsx",
+      "identicalToReviewedHead": true,
+      "sha256": "f6a0bb56b5a2e6e2c62b048d824d8413c491e8adfc2e33608cfe02b2bc4b28c6"
+    },
+    {
+      "path": "src/simulation/life-places.ts",
+      "identicalToReviewedHead": true,
+      "sha256": "31aa75dc8fe853f77b4304ea858a48097fa40f7a1c4de42bacfced47b18d4dd3"
+    },
+    {
+      "path": "src/player/ShellWorkspaces.tsx",
+      "identicalToReviewedHead": true,
+      "sha256": "0fc0391f152b1fbdaa29c530351c79304ce65d5fac54ab625c056e632d665144"
+    },
+    {
+      "path": "src/presentation/legislative-bargaining-world.ts",
+      "identicalToReviewedHead": true,
+      "sha256": "6d229321f6918cfd1c0249f7751928d212eef89268f7053fa3f03508b4348dc4"
+    }
+  ],
+  "focusedTests": {
+    "command": "npx vitest run src/player/PersonalFinancesWorkspace.test.tsx tests/nationwide/economic-context-nationwide.test.ts src/presentation/economic-context-panel.test.ts src/presentation/legislative-bargaining-entry.test.ts src/presentation/new-game-geography.test.ts --reporter=json --outputFile=test-results/session12/economic-retention-composed.json",
+    "passed": 77,
+    "failed": 0,
+    "fileCount": 5,
+    "exitCode": 0
+  },
+  "fullTyping": {
+    "command": "NODE_OPTIONS=--max-old-space-size=6144 npm run typecheck",
+    "exitCode": 0,
+    "status": "PASS",
+    "logSha256": "83a14eeeb25a86a76ee70661c64dbbd9b7a171f85de4da9d8569cab1f42bf812",
+    "terminalLog": "> political-life-rpg@0.4.0 typecheck\n> node --import tsx scripts/dev-lab/typecheck.ts && node --import tsx scripts/dev-lab/typecheck-test-imports.ts\n\ntypecheck-test-imports: 802 test files no typecheck project covers (src/authoring 19, src/connectivity 2, src/player 84, src/presentation 535, src/r1-review 9, src/research 2, src/devtools 1, tests 150), 0 unresolved import(s).",
+    "execution": "Sequentially after focused tests; no competing timing job started"
+  },
+  "checks": {
+    "changedFileEslint": "PASS",
+    "changedFilePrettier": "PASS",
+    "diffCheck": "PASS against current main",
+    "zeroDice": "PASS; no new allowed lines",
+    "releaseCheck": {
+      "status": "FAIL inherited current-main declaration",
+      "problem": "medicaid-coverage-reads-enacted-income-limit.md id medicaid-coverage-enacted-income-limit differs from filename stem",
+      "candidateDiffForFile": "none",
+      "immutableMainProductionParserProbe": "same failure reproduced; not a full clean-main gate rerun"
+    }
+  },
+  "remainingLimits": [
+    "Prior Walsh browser source remains 3445972; no composition-head browser rerun.",
+    "Archived morning23-old-gen2 World fails unchanged integrity guard before rendering; no historical render acceptance.",
+    "Naturally seated bargaining remains unproved; supplied-seat regressions are controlled.",
+    "No annual run or new time advance.",
+    "No main landing or merge authorization inferred from independent bounded review."
+  ],
+  "b23Handoff": {
+    "ownerSession": 41,
+    "sourceOnlyHead": "f8d45f98d119f91db7b92994997491b89fd29587",
+    "receipt": "docs/codex/evidence/b23-source-handoff/receipt.json",
+    "duplicateWriterStopped": true
+  }
+}
