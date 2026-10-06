@@ -16,6 +16,7 @@ import type { World } from "./types";
 import { VOTES_AND_OUTREACH_DECISIONS } from "./traits/votes-and-outreach-decisions";
 import { FACET_HUMBLE_EFFECTS } from "./traits/effects/facet-humble";
 import { FACET_PROUD_EFFECTS } from "./traits/effects/facet-proud";
+import { FACET_SASSY_EFFECTS } from "./traits/effects/facet-sassy";
 import { FACET_INFORMAL_EFFECTS } from "./traits/effects/facet-informal";
 import { FACET_POLITE_EFFECTS } from "./traits/effects/facet-polite";
 import { FACET_FRIENDLY_EFFECTS } from "./traits/effects/facet-friendly";
@@ -69,6 +70,7 @@ const EFFECT_PACKS = [
   FACET_FRIENDLY_EFFECTS,
   FACET_POLITE_EFFECTS,
   FACET_INFORMAL_EFFECTS,
+  FACET_SASSY_EFFECTS,
 ] as const;
 
 let cached: TraitRegistry | null = null;
