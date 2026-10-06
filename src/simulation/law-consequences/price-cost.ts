@@ -489,7 +489,7 @@ export function applyPriceCostConsequence(
     status: "active",
     amount: money(resolved.value.value, previous.amount.currency),
     cadenceKind: previous.cadenceKind,
-    reason: `Price terms under ${current.law.measureId}.`,
+    reason: `${previous.reason} The price changed under ${current.law.measureId}.`,
     provenance: {
       kind: "authored",
       note: `Applied law consequence ${current.row.id} to the recorded price activity.`,
