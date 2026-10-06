@@ -248,6 +248,7 @@ export function SetupScreen({
    * The step the player is on. It only moves forward on its own; the summaries
    * of finished steps move it back when one is reopened to change an answer.
    */
+  const [beginSlot, setBeginSlot] = useState<HTMLElement | null>(null);
   const stateSearchRef = useRef<HTMLInputElement>(null);
   const placeSearchRef = useRef<HTMLInputElement>(null);
   const stateChoicesRef = useRef<HTMLDivElement>(null);
@@ -1375,6 +1376,9 @@ export function SetupScreen({
             Next
           </button>
         ) : null}
+        {onReady && problems.length === 0 ? (
+          <span ref={setBeginSlot} className="creator-begin-slot" />
+        ) : null}
         {isCurrent("difficulty") ? (
           <>
             <button
@@ -1402,6 +1406,7 @@ export function SetupScreen({
           key={JSON.stringify(committed)}
           setup={committed}
           mode={previewMode}
+          beginSlot={beginSlot}
           onBegin={(appearance) =>
             onBegin(committed, appearance, true, matchingStagedGame)
           }
