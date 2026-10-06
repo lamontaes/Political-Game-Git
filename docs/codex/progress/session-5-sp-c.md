@@ -35,6 +35,22 @@ SP-C stays draft until CPU decreases, maximum sampled heap is at or below baseli
 
 ## Exact method
 
+### Bounded allocation evidence
+
+The [allocation packet](../session5-sp-c/allocation-diagnostic.json) records four observations from a separate diagnostic. The [stack attribution](../session5-sp-c/allocation-stacks.json) assigns every sampled self weight once to its nearest source caller, including native Map and array allocations. Its final denominator is 474,874,408 estimated surviving allocation bytes.
+
+At the final observation, history-index allocations account for 67,498,856 bytes, or 14.21% of that denominator. Household-reader allocations account for 405,568 bytes, or 0.09%. The diagnostic's action instrumentation accounts for 21,195,504 bytes, or 4.46%. These are estimated allocation weights, not exact retained heap or a comparison against the baseline.
+
+The largest index stack contributes 8,257,616 sampled bytes through tax entity checks, growing index construction and native Map insertion. Resource-history field grouping contributes additional array allocations. These paths appear in the stack packet. The existing append caches retain recent source arrays, while household projections retain at most 16 touched groups. Source establishes those references; sampling does not establish which reference retains any particular sampled allocation.
+
+Canonical records also grow during this window. The January 18–19 action appends 68,285 statutory tax liabilities totaling 49,242,726 serialized row-body bytes. It also appends 19,428 transfer outcomes totaling 14,191,080 row-body bytes. Those measured rows must not be described as daily snapshots or deleted as a memory fix.
+
+The next bounded hypothesis is that append-index grouping and its recent-array references retain historical groups beyond the current read scope. A targeted reference-lifetime diagnostic must distinguish those groups from current canonical history and harness allocations before a cache repair. The present sample does not prove that hypothesis or explain the baseline-relative heap increase. No further cache iteration or month comparison has started.
+
+Diagnostic exec 33328, PID 62373, exited 0 with 16 accepted actions through January 20. Its frozen source is `f69228a131af6ea0ce651c82ba132d9aea717ba9`; production files are unchanged from the failed candidate. The [diagnostic driver](../../../scripts/dev-lab/session5-history-lookup/retention-run.mjs) uses the same Ripon input and 4096 MB old-space setting. Inspector allocation sampling uses a 65,536-byte interval and excludes collected objects. Each of four raw profiles stayed below the 8 MiB limit. The packet includes raw hashes and observation timestamps. Sampling changes runtime and collection behavior, so its CPU and heap rows are not acceptance evidence.
+
+The [portable attribution command](../../../scripts/dev-lab/session5-history-lookup/attribute-retention.mjs) takes the four raw profile paths as arguments. Nearest-source buckets are disjoint; inclusive ancestor weights are never added together. Raw profiles remain at `/tmp/session5-retention-f692-Jan20`. No heap snapshot, whole-World save, reload, heap increase or source change occurred during the diagnostic.
+
 Latest production source: `82444c69de858b80bfe8f529af7f39e9da8ba420`. Baseline: `f88508186b78f526ecf89a420b5fb584171e039a`, retained exec 72328. Candidate exec 18689, PID 61214, exited 0. It started October 6, 2026, at 8:25:19 a.m. Eastern.
 
 Ripon, Wisconsin, place 5568175; world `world_5f9b74dcb02d14ae`, player `person_e54ea866a602ad62`. The [portable input](../../../scripts/dev-lab/session5-history-lookup/ripon-input.json) contains the exact recorded seed and normal age-40 setup.

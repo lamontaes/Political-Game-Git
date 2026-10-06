@@ -1,0 +1,445 @@
+{
+  "source": "f69228a131af6ea0ce651c82ba132d9aea717ba9",
+  "productionSource": "82444c69de858b80bfe8f529af7f39e9da8ba420",
+  "exec": 33328,
+  "pid": 62373,
+  "exitCode": 0,
+  "acceptedActions": 16,
+  "window": ["2026-01-05", "2026-01-20"],
+  "acceptance": false,
+  "method": "65536-byte Inspector allocation sampling, collected objects excluded; estimated surviving allocation weights, not retained bytes, dominators, call counts or timing proof",
+  "stages": [
+    {
+      "stage": "action0",
+      "date": "2026-01-06",
+      "observedAtUTC": "2026-10-06T12:47:35.188Z",
+      "memory": {
+        "rss": 865239040,
+        "heapTotal": 699805696,
+        "heapUsed": 492767680,
+        "external": 3713447,
+        "arrayBuffers": 1192639
+      },
+      "rawSHA256": "33ee0aeae32975afae12193dbe34f515b1bcd93a6d1409dd0800d431e0db76f4",
+      "rawBytes": 402029,
+      "sampledWeightDenominator": 212924704,
+      "topSelf": [
+        {
+          "function": "createCharacterHistoryContextPeople",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/character-history.ts",
+          "weight": 21357088,
+          "percent": 10.03034762936667
+        },
+        {
+          "function": "set",
+          "url": "",
+          "weight": 21308928,
+          "percent": 10.007729305097449
+        },
+        {
+          "function": "trim",
+          "url": "",
+          "weight": 16986640,
+          "percent": 7.977768516705323
+        },
+        {
+          "function": "add",
+          "url": "",
+          "weight": 11043672,
+          "percent": 5.186656030293226
+        },
+        {
+          "function": "push",
+          "url": "",
+          "weight": 9987264,
+          "percent": 4.69051444589539
+        },
+        {
+          "function": "load",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/government-units.ts",
+          "weight": 9728024,
+          "percent": 4.568762486104008
+        },
+        {
+          "function": "createStableId",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/ids.ts",
+          "weight": 7997568,
+          "percent": 3.7560545346584115
+        },
+        {
+          "function": "buildCharacterHistoryContextPerson",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/character-history.ts",
+          "weight": 6819336,
+          "percent": 3.2026983585709248
+        },
+        {
+          "function": "determineWorkPayCoverage",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/pay-coverage.ts",
+          "weight": 6231016,
+          "percent": 2.9263941116010663
+        },
+        {
+          "function": "createWorkRelationships",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/life.ts",
+          "weight": 5753416,
+          "percent": 2.7020894672700826
+        },
+        {
+          "function": "Set",
+          "url": "",
+          "weight": 5640216,
+          "percent": 2.6489251336472446
+        },
+        {
+          "function": "nationwideRows",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/life-places.ts",
+          "weight": 5109664,
+          "percent": 2.3997516042102847
+        },
+        {
+          "function": "municipalGovernments",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/municipal-government.ts",
+          "weight": 4794328,
+          "percent": 2.2516541810009985
+        },
+        {
+          "function": "resourceFlowHistory",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/resources.ts",
+          "weight": 3868496,
+          "percent": 1.816837561507189
+        },
+        {
+          "function": "map",
+          "url": "",
+          "weight": 3609648,
+          "percent": 1.6952697043552072
+        }
+      ],
+      "ownedIndexWeight": 3475152
+    },
+    {
+      "stage": "action15",
+      "date": "2026-01-20",
+      "observedAtUTC": "2026-10-06T12:48:35.830Z",
+      "memory": {
+        "rss": 1585262592,
+        "heapTotal": 1076150272,
+        "heapUsed": 751635688,
+        "external": 3707438,
+        "arrayBuffers": 1192639
+      },
+      "rawSHA256": "553c01e2b9dccd80612cd7a96147a628e820981be7845cffcfe119be9a0684d8",
+      "rawBytes": 758999,
+      "sampledWeightDenominator": 474874408,
+      "topSelf": [
+        {
+          "function": "set",
+          "url": "",
+          "weight": 51030360,
+          "percent": 10.746074991684958
+        },
+        {
+          "function": "createCharacterHistoryContextPeople",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/character-history.ts",
+          "weight": 37561432,
+          "percent": 7.909761268920603
+        },
+        {
+          "function": "trim",
+          "url": "",
+          "weight": 35420256,
+          "percent": 7.458868156146246
+        },
+        {
+          "function": "add",
+          "url": "",
+          "weight": 32784360,
+          "percent": 6.903795919025395
+        },
+        {
+          "function": "push",
+          "url": "",
+          "weight": 28607008,
+          "percent": 6.024120802905007
+        },
+        {
+          "function": "",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/statutory-tax.ts",
+          "weight": 22885552,
+          "percent": 4.819285186663502
+        },
+        {
+          "function": "measureAction",
+          "url": "file:///workspace/session5-integration-proof/scripts/dev-lab/session5-history-lookup/instrument.mjs",
+          "weight": 20664208,
+          "percent": 4.351510136549621
+        },
+        {
+          "function": "resourceFlowHistory",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/resources.ts",
+          "weight": 17573392,
+          "percent": 3.7006399384655824
+        },
+        {
+          "function": "append",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/statutory-tax.ts",
+          "weight": 16593384,
+          "percent": 3.494267899145241
+        },
+        {
+          "function": "createStableId",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/ids.ts",
+          "weight": 11865912,
+          "percent": 2.498747416179985
+        },
+        {
+          "function": "buildResourceTransferOutcome",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/resources.ts",
+          "weight": 11540152,
+          "percent": 2.430148225633587
+        },
+        {
+          "function": "load",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/government-units.ts",
+          "weight": 9728024,
+          "percent": 2.0485466970037267
+        },
+        {
+          "function": "buildCharacterHistoryContextPerson",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/character-history.ts",
+          "weight": 7803032,
+          "percent": 1.6431780421403548
+        },
+        {
+          "function": "map",
+          "url": "",
+          "weight": 6756712,
+          "percent": 1.422841889597049
+        },
+        {
+          "function": "",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/history-index.ts",
+          "weight": 6425000,
+          "percent": 1.3529893150190566
+        }
+      ],
+      "ownedIndexWeight": 13242976
+    },
+    {
+      "stage": "action6",
+      "date": "2026-01-11",
+      "observedAtUTC": "2026-10-06T12:47:46.259Z",
+      "memory": {
+        "rss": 1037275136,
+        "heapTotal": 855367680,
+        "heapUsed": 531772560,
+        "external": 3709892,
+        "arrayBuffers": 1192639
+      },
+      "rawSHA256": "a0c9417402209257f17191d2a258d38aa520dc3f048e8a61406be0464be8374e",
+      "rawBytes": 488081,
+      "sampledWeightDenominator": 251890992,
+      "topSelf": [
+        {
+          "function": "createCharacterHistoryContextPeople",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/character-history.ts",
+          "weight": 38545008,
+          "percent": 15.302257414588292
+        },
+        {
+          "function": "set",
+          "url": "",
+          "weight": 25221072,
+          "percent": 10.012693109724227
+        },
+        {
+          "function": "trim",
+          "url": "",
+          "weight": 20397344,
+          "percent": 8.097686954998375
+        },
+        {
+          "function": "add",
+          "url": "",
+          "weight": 11940536,
+          "percent": 4.740358480147635
+        },
+        {
+          "function": "push",
+          "url": "",
+          "weight": 11317496,
+          "percent": 4.4930133904907565
+        },
+        {
+          "function": "load",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/government-units.ts",
+          "weight": 9728024,
+          "percent": 3.861997573934681
+        },
+        {
+          "function": "createStableId",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/ids.ts",
+          "weight": 8260472,
+          "percent": 3.2793836470341104
+        },
+        {
+          "function": "buildCharacterHistoryContextPerson",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/character-history.ts",
+          "weight": 7016184,
+          "percent": 2.7854048865709338
+        },
+        {
+          "function": "determineWorkPayCoverage",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/pay-coverage.ts",
+          "weight": 6231016,
+          "percent": 2.4736954467986694
+        },
+        {
+          "function": "createWorkRelationships",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/life.ts",
+          "weight": 5753416,
+          "percent": 2.2840896192111546
+        },
+        {
+          "function": "Set",
+          "url": "",
+          "weight": 5713368,
+          "percent": 2.268190678291505
+        },
+        {
+          "function": "nationwideRows",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/life-places.ts",
+          "weight": 5109664,
+          "percent": 2.0285219250714612
+        },
+        {
+          "function": "municipalGovernments",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/municipal-government.ts",
+          "weight": 4794328,
+          "percent": 1.9033344392085287
+        },
+        {
+          "function": "map",
+          "url": "",
+          "weight": 4458288,
+          "percent": 1.7699275248397928
+        },
+        {
+          "function": "resourceFlowHistory",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/resources.ts",
+          "weight": 3868496,
+          "percent": 1.5357817956427755
+        }
+      ],
+      "ownedIndexWeight": 4675440
+    },
+    {
+      "stage": "opening",
+      "date": "2026-01-05",
+      "observedAtUTC": "2026-10-06T12:47:31.677Z",
+      "memory": {
+        "rss": 817455104,
+        "heapTotal": 655695872,
+        "heapUsed": 463812976,
+        "external": 4089814,
+        "arrayBuffers": 1192639
+      },
+      "rawSHA256": "4689993148f78179dbac2ef30e80301b20a3018bd4c3f7b26ca579e228919414",
+      "rawBytes": 293882,
+      "sampledWeightDenominator": 185069624,
+      "topSelf": [
+        {
+          "function": "set",
+          "url": "",
+          "weight": 18956632,
+          "percent": 10.242973206667346
+        },
+        {
+          "function": "trim",
+          "url": "",
+          "weight": 13313176,
+          "percent": 7.193604067623761
+        },
+        {
+          "function": "createWorkRelationships",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/life.ts",
+          "weight": 12218144,
+          "percent": 6.601917557254021
+        },
+        {
+          "function": "createCharacterHistoryContextPeople",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/character-history.ts",
+          "weight": 11504768,
+          "percent": 6.216453976261388
+        },
+        {
+          "function": "load",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/government-units.ts",
+          "weight": 9728024,
+          "percent": 5.256413121582827
+        },
+        {
+          "function": "add",
+          "url": "",
+          "weight": 8150176,
+          "percent": 4.40384317201617
+        },
+        {
+          "function": "createStableId",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/ids.ts",
+          "weight": 7669728,
+          "percent": 4.1442392512776705
+        },
+        {
+          "function": "push",
+          "url": "",
+          "weight": 7448880,
+          "percent": 4.024906864240455
+        },
+        {
+          "function": "determineWorkPayCoverage",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/pay-coverage.ts",
+          "weight": 6231016,
+          "percent": 3.366849656537909
+        },
+        {
+          "function": "buildCharacterHistoryContextPerson",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/character-history.ts",
+          "weight": 5901392,
+          "percent": 3.188741551665983
+        },
+        {
+          "function": "Set",
+          "url": "",
+          "weight": 5640216,
+          "percent": 3.047618446558253
+        },
+        {
+          "function": "nationwideRows",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/life-places.ts",
+          "weight": 5109664,
+          "percent": 2.760941471410781
+        },
+        {
+          "function": "municipalGovernments",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/municipal-government.ts",
+          "weight": 4794328,
+          "percent": 2.5905537042642934
+        },
+        {
+          "function": "createOrganizationParticipations",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/life.ts",
+          "weight": 4463624,
+          "percent": 2.4118620352305897
+        },
+        {
+          "function": "resourceFlowHistory",
+          "url": "file:///workspace/session5-integration-proof/src/simulation/resources.ts",
+          "weight": 3934048,
+          "percent": 2.1257124291774643
+        }
+      ],
+      "ownedIndexWeight": 3175296
+    }
+  ]
+}
