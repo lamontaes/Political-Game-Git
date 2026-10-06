@@ -15,6 +15,8 @@ import {
   questionKey,
 } from "../../../tests/fixtures/funded-service-fixture";
 import type { LawConsequenceRow } from "../law-consequence-types";
+import { lawExposureSentence } from "../../presentation/law-exposure-lines";
+import { noticeCivilFamilyServiceDelivery } from "./civil-family-service-noticed";
 import {
   applyLawServiceConsequence,
   resolveLawServiceConsequence,
@@ -108,6 +110,48 @@ const context = (f: ReturnType<typeof fixture>) => ({
 });
 
 describe("service kind reuses actual completion and recipient records", () => {
+  it.each(
+    lifePlaceStateIdentities().flatMap((state) =>
+      [
+        "us-policy-positions:civil-family-community.dedicated-parks-funding",
+        "us-policy-positions:civil-family-community.fund-public-libraries",
+      ].map((key) => ({ state, key })),
+    ),
+  )(
+    "saves a named person's service-law exposure and Journal line: $state.jurisdictionKey / $key",
+    ({ state, key }) => {
+      const pre = fixture(state.jurisdictionKey, false, true, key);
+      const completed = performScheduledActivity(pre.world, pre.activityId);
+      const receipt = completed.history.events.find(
+        (event) =>
+          event.type === "service.delivery-recorded" &&
+          event.involvedEntityIds.includes(pre.activityId),
+      )!;
+      const noticed = noticeCivilFamilyServiceDelivery(completed, receipt);
+      const exposure = noticed.history.lawExposures?.find(
+        (row) => row.sourceRecordId === receipt.id,
+      );
+      expect(exposure).toMatchObject({
+        personId: pre.personId,
+        measureId: receipt.lawEffectStamps?.[0]?.governingLawKey,
+        channel: "public-service",
+        relation: "own",
+        direction: "none",
+        amount: null,
+        sourceRecordId: receipt.id,
+      });
+      expect(lawExposureSentence(noticed, pre.personId, exposure!)).toContain(
+        "changed a public service you used",
+      );
+      expect(noticeCivilFamilyServiceDelivery(noticed, receipt)).toBe(noticed);
+      const restored = deserializeWorld(serializeWorld(noticed));
+      expect(
+        noticeCivilFamilyServiceDelivery(restored, receipt).history
+          .lawExposures,
+      ).toEqual(restored.history.lawExposures);
+    },
+  );
+
   it.each(
     lifePlaceStateIdentities().flatMap((state) =>
       // This authored state-procedure trip fixture covers the two original

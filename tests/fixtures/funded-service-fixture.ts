@@ -9,6 +9,7 @@ import {
 import { applyLegislativeStep } from "../../src/presentation/legislation-session";
 import { recordGovernorDecisionOnMeasure } from "../../src/simulation/governing/legislative-clock";
 import { createProductionPolicyCatalog } from "../../src/simulation/production-catalog";
+import { determineWorkPayCoverage } from "../../src/simulation/pay-coverage";
 import { createOrganization } from "../../src/simulation/life";
 import { stateJurisdictionForKey } from "../../src/simulation/life-places";
 import { publicProgramRecordId } from "../../src/simulation/public-program-integrity";
@@ -45,7 +46,7 @@ export const provenance = {
 };
 export const procedure = createLegislativeScenario("alaska");
 const catalog = createProductionPolicyCatalog();
-export const base = {
+const baseWithPolicyCatalog = {
   ...procedure.world,
   policyCatalog: {
     ...catalog,
@@ -95,6 +96,68 @@ export const base = {
     ],
   },
 };
+
+function coverageHistoryBefore(world: World, sequence: number): World["history"] {
+  const records = Object.fromEntries(
+    Object.entries(world.history).map(([key, value]) => {
+      if (
+        !Array.isArray(value) ||
+        !value.every(
+          (record) =>
+            record &&
+            typeof record === "object" &&
+            Number.isInteger(record.sequence),
+        )
+      )
+        return [key, value];
+      return [
+        key,
+        value.filter((record) => record.sequence < sequence),
+      ];
+    }),
+  );
+  return {
+    ...records,
+    nextSequence: sequence,
+  } as World["history"];
+}
+
+function installProductionCatalogCoverage(world: World): World {
+  let next = world;
+  for (const stale of world.history.workPayCoverageDeterminations ?? []) {
+    // createLegislativeScenario builds its opening jobs before this fixture
+    // installs the production catalog. Recompute that saved determination at
+    // its original history cutoff, then replace it in place; later history
+    // keeps its original append-only sequence numbers.
+    const snapshot: World = {
+      ...next,
+      history: coverageHistoryBefore(next, stale.sequence),
+    };
+    const refreshed = determineWorkPayCoverage(
+      snapshot,
+      [stale.workRelationshipId],
+      stale.reason,
+    ).history.workPayCoverageDeterminations?.find(
+      (record) => record.workRelationshipId === stale.workRelationshipId,
+    );
+    if (!refreshed)
+      throw new Error("Fixture pay coverage could not be rebuilt.");
+    next = {
+      ...next,
+      history: {
+        ...next.history,
+        workPayCoverageDeterminations:
+          next.history.workPayCoverageDeterminations!.map((record) =>
+            record.id === stale.id ? refreshed : record,
+          ),
+      },
+    };
+  }
+  return next;
+}
+
+export const base = installProductionCatalogCoverage(baseWithPolicyCatalog);
+
 
 export function enact(
   world: World,
