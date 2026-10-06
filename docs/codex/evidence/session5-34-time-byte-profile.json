@@ -8233,5 +8233,2715 @@
     "No claim that every recurring record is a removable daily snapshot.",
     "Health/death/decision and priced authority meaning must be preserved.",
     "No new annual benchmark or World mutation."
+  ],
+  "financialFamiliesByRecordedOrEffectiveDate": {
+    "resourceFlowTerms": {
+      "2013-01-01": {
+        "rows": 1,
+        "recordBodyBytes": 466,
+        "groups": {
+          "active": {
+            "count": 1,
+            "bytes": 466
+          }
+        }
+      },
+      "2021-01-01": {
+        "rows": 14833,
+        "recordBodyBytes": 10620958,
+        "groups": {
+          "active": {
+            "count": 14833,
+            "bytes": 10620958
+          }
+        }
+      },
+      "2021-01-29": {
+        "rows": 14772,
+        "recordBodyBytes": 9022774,
+        "groups": {
+          "active": {
+            "count": 7386,
+            "bytes": 4208561
+          },
+          "ended": {
+            "count": 7386,
+            "bytes": 4814213
+          }
+        }
+      },
+      "2021-02-26": {
+        "rows": 14772,
+        "recordBodyBytes": 9022774,
+        "groups": {
+          "active": {
+            "count": 7386,
+            "bytes": 4208561
+          },
+          "ended": {
+            "count": 7386,
+            "bytes": 4814213
+          }
+        }
+      },
+      "2021-03-26": {
+        "rows": 14772,
+        "recordBodyBytes": 9023113,
+        "groups": {
+          "active": {
+            "count": 7386,
+            "bytes": 4208900
+          },
+          "ended": {
+            "count": 7386,
+            "bytes": 4814213
+          }
+        }
+      },
+      "2021-04-30": {
+        "rows": 14772,
+        "recordBodyBytes": 9023113,
+        "groups": {
+          "active": {
+            "count": 7386,
+            "bytes": 4208561
+          },
+          "ended": {
+            "count": 7386,
+            "bytes": 4814552
+          }
+        }
+      },
+      "2021-05-28": {
+        "rows": 14772,
+        "recordBodyBytes": 9022774,
+        "groups": {
+          "active": {
+            "count": 7386,
+            "bytes": 4208561
+          },
+          "ended": {
+            "count": 7386,
+            "bytes": 4814213
+          }
+        }
+      },
+      "2021-06-25": {
+        "rows": 14772,
+        "recordBodyBytes": 9023113,
+        "groups": {
+          "active": {
+            "count": 7386,
+            "bytes": 4208900
+          },
+          "ended": {
+            "count": 7386,
+            "bytes": 4814213
+          }
+        }
+      },
+      "2021-07-30": {
+        "rows": 14772,
+        "recordBodyBytes": 9023113,
+        "groups": {
+          "active": {
+            "count": 7386,
+            "bytes": 4208561
+          },
+          "ended": {
+            "count": 7386,
+            "bytes": 4814552
+          }
+        }
+      },
+      "2021-08-27": {
+        "rows": 14772,
+        "recordBodyBytes": 9022774,
+        "groups": {
+          "active": {
+            "count": 7386,
+            "bytes": 4208561
+          },
+          "ended": {
+            "count": 7386,
+            "bytes": 4814213
+          }
+        }
+      },
+      "2021-09-24": {
+        "rows": 14772,
+        "recordBodyBytes": 9023113,
+        "groups": {
+          "active": {
+            "count": 7386,
+            "bytes": 4208900
+          },
+          "ended": {
+            "count": 7386,
+            "bytes": 4814213
+          }
+        }
+      },
+      "2021-10-29": {
+        "rows": 14772,
+        "recordBodyBytes": 9023113,
+        "groups": {
+          "active": {
+            "count": 7386,
+            "bytes": 4208561
+          },
+          "ended": {
+            "count": 7386,
+            "bytes": 4814552
+          }
+        }
+      },
+      "2021-11-26": {
+        "rows": 14772,
+        "recordBodyBytes": 9023113,
+        "groups": {
+          "active": {
+            "count": 7386,
+            "bytes": 4208900
+          },
+          "ended": {
+            "count": 7386,
+            "bytes": 4814213
+          }
+        }
+      },
+      "2021-12-31": {
+        "rows": 14758,
+        "recordBodyBytes": 9015133,
+        "groups": {
+          "active": {
+            "count": 7372,
+            "bytes": 4200581
+          },
+          "ended": {
+            "count": 7386,
+            "bytes": 4814552
+          }
+        }
+      },
+      "2022-01-07": {
+        "rows": 20,
+        "recordBodyBytes": 10830,
+        "groups": {
+          "active": {
+            "count": 20,
+            "bytes": 10830
+          }
+        }
+      },
+      "2022-01-28": {
+        "rows": 14764,
+        "recordBodyBytes": 9017886,
+        "groups": {
+          "active": {
+            "count": 7382,
+            "bytes": 4206281
+          },
+          "ended": {
+            "count": 7382,
+            "bytes": 4811605
+          }
+        }
+      },
+      "2022-02-25": {
+        "rows": 14764,
+        "recordBodyBytes": 9017886,
+        "groups": {
+          "active": {
+            "count": 7382,
+            "bytes": 4206281
+          },
+          "ended": {
+            "count": 7382,
+            "bytes": 4811605
+          }
+        }
+      },
+      "2022-03-25": {
+        "rows": 14764,
+        "recordBodyBytes": 9018225,
+        "groups": {
+          "active": {
+            "count": 7382,
+            "bytes": 4206620
+          },
+          "ended": {
+            "count": 7382,
+            "bytes": 4811605
+          }
+        }
+      },
+      "2022-04-29": {
+        "rows": 14764,
+        "recordBodyBytes": 9018225,
+        "groups": {
+          "active": {
+            "count": 7382,
+            "bytes": 4206281
+          },
+          "ended": {
+            "count": 7382,
+            "bytes": 4811944
+          }
+        }
+      },
+      "2022-05-27": {
+        "rows": 14764,
+        "recordBodyBytes": 9017886,
+        "groups": {
+          "active": {
+            "count": 7382,
+            "bytes": 4206281
+          },
+          "ended": {
+            "count": 7382,
+            "bytes": 4811605
+          }
+        }
+      },
+      "2022-06-24": {
+        "rows": 14764,
+        "recordBodyBytes": 9018225,
+        "groups": {
+          "active": {
+            "count": 7382,
+            "bytes": 4206620
+          },
+          "ended": {
+            "count": 7382,
+            "bytes": 4811605
+          }
+        }
+      },
+      "2022-07-29": {
+        "rows": 14764,
+        "recordBodyBytes": 9018225,
+        "groups": {
+          "active": {
+            "count": 7382,
+            "bytes": 4206281
+          },
+          "ended": {
+            "count": 7382,
+            "bytes": 4811944
+          }
+        }
+      },
+      "2022-08-26": {
+        "rows": 14764,
+        "recordBodyBytes": 9018225,
+        "groups": {
+          "active": {
+            "count": 7382,
+            "bytes": 4206620
+          },
+          "ended": {
+            "count": 7382,
+            "bytes": 4811605
+          }
+        }
+      },
+      "2022-09-30": {
+        "rows": 14764,
+        "recordBodyBytes": 9018225,
+        "groups": {
+          "active": {
+            "count": 7382,
+            "bytes": 4206281
+          },
+          "ended": {
+            "count": 7382,
+            "bytes": 4811944
+          }
+        }
+      },
+      "2022-10-28": {
+        "rows": 14764,
+        "recordBodyBytes": 9022858,
+        "groups": {
+          "active": {
+            "count": 7382,
+            "bytes": 4211253
+          },
+          "ended": {
+            "count": 7382,
+            "bytes": 4811605
+          }
+        }
+      },
+      "2022-11-25": {
+        "rows": 14764,
+        "recordBodyBytes": 9032989,
+        "groups": {
+          "active": {
+            "count": 7382,
+            "bytes": 4214002
+          },
+          "ended": {
+            "count": 7382,
+            "bytes": 4818987
+          }
+        }
+      },
+      "2022-12-30": {
+        "rows": 12272,
+        "recordBodyBytes": 7610385,
+        "groups": {
+          "active": {
+            "count": 4890,
+            "bytes": 2791059
+          },
+          "ended": {
+            "count": 7382,
+            "bytes": 4819326
+          }
+        }
+      },
+      "2023-01-06": {
+        "rows": 1271,
+        "recordBodyBytes": 836850,
+        "groups": {
+          "active": {
+            "count": 1230,
+            "bytes": 810118
+          },
+          "ended": {
+            "count": 41,
+            "bytes": 26732
+          }
+        }
+      },
+      "2023-01-27": {
+        "rows": 10928,
+        "recordBodyBytes": 6685716,
+        "groups": {
+          "active": {
+            "count": 5464,
+            "bytes": 3118834
+          },
+          "ended": {
+            "count": 5464,
+            "bytes": 3566882
+          }
+        }
+      },
+      "2023-02-24": {
+        "rows": 10928,
+        "recordBodyBytes": 6685940,
+        "groups": {
+          "active": {
+            "count": 5464,
+            "bytes": 3119058
+          },
+          "ended": {
+            "count": 5464,
+            "bytes": 3566882
+          }
+        }
+      },
+      "2023-03-31": {
+        "rows": 10928,
+        "recordBodyBytes": 6685940,
+        "groups": {
+          "active": {
+            "count": 5464,
+            "bytes": 3118834
+          },
+          "ended": {
+            "count": 5464,
+            "bytes": 3567106
+          }
+        }
+      },
+      "2023-04-28": {
+        "rows": 10928,
+        "recordBodyBytes": 6685716,
+        "groups": {
+          "active": {
+            "count": 5464,
+            "bytes": 3118834
+          },
+          "ended": {
+            "count": 5464,
+            "bytes": 3566882
+          }
+        }
+      },
+      "2023-05-26": {
+        "rows": 10928,
+        "recordBodyBytes": 6685940,
+        "groups": {
+          "active": {
+            "count": 5464,
+            "bytes": 3119058
+          },
+          "ended": {
+            "count": 5464,
+            "bytes": 3566882
+          }
+        }
+      },
+      "2023-06-30": {
+        "rows": 10928,
+        "recordBodyBytes": 6685940,
+        "groups": {
+          "active": {
+            "count": 5464,
+            "bytes": 3118834
+          },
+          "ended": {
+            "count": 5464,
+            "bytes": 3567106
+          }
+        }
+      },
+      "2023-07-28": {
+        "rows": 10928,
+        "recordBodyBytes": 6685716,
+        "groups": {
+          "active": {
+            "count": 5464,
+            "bytes": 3118834
+          },
+          "ended": {
+            "count": 5464,
+            "bytes": 3566882
+          }
+        }
+      },
+      "2023-08-25": {
+        "rows": 10928,
+        "recordBodyBytes": 6685940,
+        "groups": {
+          "active": {
+            "count": 5464,
+            "bytes": 3119058
+          },
+          "ended": {
+            "count": 5464,
+            "bytes": 3566882
+          }
+        }
+      },
+      "2023-09-29": {
+        "rows": 10928,
+        "recordBodyBytes": 6685940,
+        "groups": {
+          "active": {
+            "count": 5464,
+            "bytes": 3118834
+          },
+          "ended": {
+            "count": 5464,
+            "bytes": 3567106
+          }
+        }
+      },
+      "2023-10-27": {
+        "rows": 10928,
+        "recordBodyBytes": 6685716,
+        "groups": {
+          "active": {
+            "count": 5464,
+            "bytes": 3118834
+          },
+          "ended": {
+            "count": 5464,
+            "bytes": 3566882
+          }
+        }
+      },
+      "2023-11-24": {
+        "rows": 10928,
+        "recordBodyBytes": 6685940,
+        "groups": {
+          "active": {
+            "count": 5464,
+            "bytes": 3119058
+          },
+          "ended": {
+            "count": 5464,
+            "bytes": 3566882
+          }
+        }
+      },
+      "2023-12-29": {
+        "rows": 10748,
+        "recordBodyBytes": 6583160,
+        "groups": {
+          "active": {
+            "count": 5284,
+            "bytes": 3016054
+          },
+          "ended": {
+            "count": 5464,
+            "bytes": 3567106
+          }
+        }
+      },
+      "2024-01-05": {
+        "rows": 116,
+        "recordBodyBytes": 107354,
+        "groups": {
+          "active": {
+            "count": 116,
+            "bytes": 107354
+          }
+        }
+      },
+      "2024-01-26": {
+        "rows": 10684,
+        "recordBodyBytes": 6536388,
+        "groups": {
+          "active": {
+            "count": 5342,
+            "bytes": 3049172
+          },
+          "ended": {
+            "count": 5342,
+            "bytes": 3487216
+          }
+        }
+      },
+      "2024-02-23": {
+        "rows": 10684,
+        "recordBodyBytes": 6536612,
+        "groups": {
+          "active": {
+            "count": 5342,
+            "bytes": 3049396
+          },
+          "ended": {
+            "count": 5342,
+            "bytes": 3487216
+          }
+        }
+      },
+      "2024-03-29": {
+        "rows": 10684,
+        "recordBodyBytes": 6536612,
+        "groups": {
+          "active": {
+            "count": 5342,
+            "bytes": 3049172
+          },
+          "ended": {
+            "count": 5342,
+            "bytes": 3487440
+          }
+        }
+      },
+      "2024-04-26": {
+        "rows": 10684,
+        "recordBodyBytes": 6536612,
+        "groups": {
+          "active": {
+            "count": 5342,
+            "bytes": 3049396
+          },
+          "ended": {
+            "count": 5342,
+            "bytes": 3487216
+          }
+        }
+      },
+      "2024-05-31": {
+        "rows": 10684,
+        "recordBodyBytes": 6536612,
+        "groups": {
+          "active": {
+            "count": 5342,
+            "bytes": 3049172
+          },
+          "ended": {
+            "count": 5342,
+            "bytes": 3487440
+          }
+        }
+      },
+      "2024-06-28": {
+        "rows": 10684,
+        "recordBodyBytes": 6536388,
+        "groups": {
+          "active": {
+            "count": 5342,
+            "bytes": 3049172
+          },
+          "ended": {
+            "count": 5342,
+            "bytes": 3487216
+          }
+        }
+      },
+      "2024-07-26": {
+        "rows": 10684,
+        "recordBodyBytes": 6536612,
+        "groups": {
+          "active": {
+            "count": 5342,
+            "bytes": 3049396
+          },
+          "ended": {
+            "count": 5342,
+            "bytes": 3487216
+          }
+        }
+      },
+      "2024-08-30": {
+        "rows": 10684,
+        "recordBodyBytes": 6536612,
+        "groups": {
+          "active": {
+            "count": 5342,
+            "bytes": 3049172
+          },
+          "ended": {
+            "count": 5342,
+            "bytes": 3487440
+          }
+        }
+      },
+      "2024-09-27": {
+        "rows": 10684,
+        "recordBodyBytes": 6536388,
+        "groups": {
+          "active": {
+            "count": 5342,
+            "bytes": 3049172
+          },
+          "ended": {
+            "count": 5342,
+            "bytes": 3487216
+          }
+        }
+      },
+      "2024-10-25": {
+        "rows": 10684,
+        "recordBodyBytes": 6536612,
+        "groups": {
+          "active": {
+            "count": 5342,
+            "bytes": 3049396
+          },
+          "ended": {
+            "count": 5342,
+            "bytes": 3487216
+          }
+        }
+      },
+      "2024-11-29": {
+        "rows": 10684,
+        "recordBodyBytes": 6536612,
+        "groups": {
+          "active": {
+            "count": 5342,
+            "bytes": 3049172
+          },
+          "ended": {
+            "count": 5342,
+            "bytes": 3487440
+          }
+        }
+      },
+      "2024-12-27": {
+        "rows": 10048,
+        "recordBodyBytes": 6173512,
+        "groups": {
+          "active": {
+            "count": 4706,
+            "bytes": 2686296
+          },
+          "ended": {
+            "count": 5342,
+            "bytes": 3487216
+          }
+        }
+      },
+      "2025-01-03": {
+        "rows": 3713,
+        "recordBodyBytes": 2619623,
+        "groups": {
+          "active": {
+            "count": 3692,
+            "bytes": 2605931
+          },
+          "ended": {
+            "count": 21,
+            "bytes": 13692
+          }
+        }
+      },
+      "2025-01-10": {
+        "rows": 65,
+        "recordBodyBytes": 37561,
+        "groups": {
+          "active": {
+            "count": 44,
+            "bytes": 23848
+          },
+          "ended": {
+            "count": 21,
+            "bytes": 13713
+          }
+        }
+      },
+      "2025-01-15": {
+        "rows": 96,
+        "recordBodyBytes": 140928,
+        "groups": {
+          "active": {
+            "count": 96,
+            "bytes": 140928
+          }
+        }
+      },
+      "2025-01-29": {
+        "rows": 96,
+        "recordBodyBytes": 58752,
+        "groups": {
+          "active": {
+            "count": 48,
+            "bytes": 27408
+          },
+          "ended": {
+            "count": 48,
+            "bytes": 31344
+          }
+        }
+      },
+      "2025-01-31": {
+        "rows": 13064,
+        "recordBodyBytes": 7992531,
+        "groups": {
+          "active": {
+            "count": 6532,
+            "bytes": 3728362
+          },
+          "ended": {
+            "count": 6532,
+            "bytes": 4264169
+          }
+        }
+      },
+      "2025-02-26": {
+        "rows": 96,
+        "recordBodyBytes": 58752,
+        "groups": {
+          "active": {
+            "count": 48,
+            "bytes": 27408
+          },
+          "ended": {
+            "count": 48,
+            "bytes": 31344
+          }
+        }
+      },
+      "2025-02-28": {
+        "rows": 13064,
+        "recordBodyBytes": 7992348,
+        "groups": {
+          "active": {
+            "count": 6532,
+            "bytes": 3728362
+          },
+          "ended": {
+            "count": 6532,
+            "bytes": 4263986
+          }
+        }
+      },
+      "2025-03-26": {
+        "rows": 96,
+        "recordBodyBytes": 58752,
+        "groups": {
+          "active": {
+            "count": 48,
+            "bytes": 27408
+          },
+          "ended": {
+            "count": 48,
+            "bytes": 31344
+          }
+        }
+      },
+      "2025-03-28": {
+        "rows": 13064,
+        "recordBodyBytes": 7992348,
+        "groups": {
+          "active": {
+            "count": 6532,
+            "bytes": 3728362
+          },
+          "ended": {
+            "count": 6532,
+            "bytes": 4263986
+          }
+        }
+      },
+      "2025-04-25": {
+        "rows": 13064,
+        "recordBodyBytes": 7992642,
+        "groups": {
+          "active": {
+            "count": 6532,
+            "bytes": 3728656
+          },
+          "ended": {
+            "count": 6532,
+            "bytes": 4263986
+          }
+        }
+      },
+      "2025-04-30": {
+        "rows": 96,
+        "recordBodyBytes": 58752,
+        "groups": {
+          "active": {
+            "count": 48,
+            "bytes": 27408
+          },
+          "ended": {
+            "count": 48,
+            "bytes": 31344
+          }
+        }
+      },
+      "2025-05-28": {
+        "rows": 96,
+        "recordBodyBytes": 58752,
+        "groups": {
+          "active": {
+            "count": 48,
+            "bytes": 27408
+          },
+          "ended": {
+            "count": 48,
+            "bytes": 31344
+          }
+        }
+      },
+      "2025-05-30": {
+        "rows": 13064,
+        "recordBodyBytes": 7992642,
+        "groups": {
+          "active": {
+            "count": 6532,
+            "bytes": 3728362
+          },
+          "ended": {
+            "count": 6532,
+            "bytes": 4264280
+          }
+        }
+      },
+      "2025-06-25": {
+        "rows": 96,
+        "recordBodyBytes": 58752,
+        "groups": {
+          "active": {
+            "count": 48,
+            "bytes": 27408
+          },
+          "ended": {
+            "count": 48,
+            "bytes": 31344
+          }
+        }
+      },
+      "2025-06-27": {
+        "rows": 13064,
+        "recordBodyBytes": 7992348,
+        "groups": {
+          "active": {
+            "count": 6532,
+            "bytes": 3728362
+          },
+          "ended": {
+            "count": 6532,
+            "bytes": 4263986
+          }
+        }
+      },
+      "2025-07-25": {
+        "rows": 13064,
+        "recordBodyBytes": 7992642,
+        "groups": {
+          "active": {
+            "count": 6532,
+            "bytes": 3728656
+          },
+          "ended": {
+            "count": 6532,
+            "bytes": 4263986
+          }
+        }
+      },
+      "2025-07-30": {
+        "rows": 96,
+        "recordBodyBytes": 58752,
+        "groups": {
+          "active": {
+            "count": 48,
+            "bytes": 27408
+          },
+          "ended": {
+            "count": 48,
+            "bytes": 31344
+          }
+        }
+      },
+      "2025-08-27": {
+        "rows": 96,
+        "recordBodyBytes": 58752,
+        "groups": {
+          "active": {
+            "count": 48,
+            "bytes": 27408
+          },
+          "ended": {
+            "count": 48,
+            "bytes": 31344
+          }
+        }
+      },
+      "2025-08-29": {
+        "rows": 13064,
+        "recordBodyBytes": 7992642,
+        "groups": {
+          "active": {
+            "count": 6532,
+            "bytes": 3728362
+          },
+          "ended": {
+            "count": 6532,
+            "bytes": 4264280
+          }
+        }
+      },
+      "2025-09-24": {
+        "rows": 96,
+        "recordBodyBytes": 58752,
+        "groups": {
+          "active": {
+            "count": 48,
+            "bytes": 27408
+          },
+          "ended": {
+            "count": 48,
+            "bytes": 31344
+          }
+        }
+      },
+      "2025-09-26": {
+        "rows": 13064,
+        "recordBodyBytes": 7992642,
+        "groups": {
+          "active": {
+            "count": 6532,
+            "bytes": 3728656
+          },
+          "ended": {
+            "count": 6532,
+            "bytes": 4263986
+          }
+        }
+      },
+      "2025-10-29": {
+        "rows": 96,
+        "recordBodyBytes": 58752,
+        "groups": {
+          "active": {
+            "count": 48,
+            "bytes": 27408
+          },
+          "ended": {
+            "count": 48,
+            "bytes": 31344
+          }
+        }
+      },
+      "2025-10-31": {
+        "rows": 13064,
+        "recordBodyBytes": 7992642,
+        "groups": {
+          "active": {
+            "count": 6532,
+            "bytes": 3728362
+          },
+          "ended": {
+            "count": 6532,
+            "bytes": 4264280
+          }
+        }
+      },
+      "2025-11-26": {
+        "rows": 96,
+        "recordBodyBytes": 58752,
+        "groups": {
+          "active": {
+            "count": 48,
+            "bytes": 27408
+          },
+          "ended": {
+            "count": 48,
+            "bytes": 31344
+          }
+        }
+      },
+      "2025-11-28": {
+        "rows": 13064,
+        "recordBodyBytes": 7992348,
+        "groups": {
+          "active": {
+            "count": 6532,
+            "bytes": 3728362
+          },
+          "ended": {
+            "count": 6532,
+            "bytes": 4263986
+          }
+        }
+      },
+      "2025-12-26": {
+        "rows": 6532,
+        "recordBodyBytes": 4263986,
+        "groups": {
+          "ended": {
+            "count": 6532,
+            "bytes": 4263986
+          }
+        }
+      },
+      "2025-12-31": {
+        "rows": 48,
+        "recordBodyBytes": 31344,
+        "groups": {
+          "ended": {
+            "count": 48,
+            "bytes": 31344
+          }
+        }
+      },
+      "2026-01-02": {
+        "rows": 56,
+        "recordBodyBytes": 106526,
+        "groups": {
+          "active": {
+            "count": 56,
+            "bytes": 106526
+          }
+        }
+      },
+      "2026-01-05": {
+        "rows": 10529,
+        "recordBodyBytes": 4926068,
+        "groups": {
+          "active": {
+            "count": 10529,
+            "bytes": 4926068
+          }
+        }
+      }
+    },
+    "resourceFlows": {
+      "2021-01-01": {
+        "rows": 7447,
+        "recordBodyBytes": 7614115,
+        "groups": {
+          "custom:business-revenue": {
+            "count": 15,
+            "bytes": 22121
+          },
+          "compensation:wages": {
+            "count": 46,
+            "bytes": 66269
+          },
+          "compensation:work": {
+            "count": 7386,
+            "bytes": 7525725
+          }
+        }
+      },
+      "2021-02-05": {
+        "rows": 7386,
+        "recordBodyBytes": 5487798,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 7386,
+            "bytes": 5487798
+          }
+        }
+      },
+      "2021-03-05": {
+        "rows": 7386,
+        "recordBodyBytes": 5495184,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 7386,
+            "bytes": 5495184
+          }
+        }
+      },
+      "2021-04-02": {
+        "rows": 7386,
+        "recordBodyBytes": 5495184,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 7386,
+            "bytes": 5495184
+          }
+        }
+      },
+      "2021-05-07": {
+        "rows": 7386,
+        "recordBodyBytes": 5495184,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 7386,
+            "bytes": 5495184
+          }
+        }
+      },
+      "2021-06-04": {
+        "rows": 7386,
+        "recordBodyBytes": 5495184,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 7386,
+            "bytes": 5495184
+          }
+        }
+      },
+      "2021-07-02": {
+        "rows": 7386,
+        "recordBodyBytes": 5495184,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 7386,
+            "bytes": 5495184
+          }
+        }
+      },
+      "2021-08-06": {
+        "rows": 7386,
+        "recordBodyBytes": 5495184,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 7386,
+            "bytes": 5495184
+          }
+        }
+      },
+      "2021-09-03": {
+        "rows": 7386,
+        "recordBodyBytes": 5495184,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 7386,
+            "bytes": 5495184
+          }
+        }
+      },
+      "2021-10-01": {
+        "rows": 7386,
+        "recordBodyBytes": 5495184,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 7386,
+            "bytes": 5495184
+          }
+        }
+      },
+      "2021-11-05": {
+        "rows": 7386,
+        "recordBodyBytes": 5495184,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 7386,
+            "bytes": 5495184
+          }
+        }
+      },
+      "2021-12-03": {
+        "rows": 7386,
+        "recordBodyBytes": 5495184,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 7386,
+            "bytes": 5495184
+          }
+        }
+      },
+      "2022-01-07": {
+        "rows": 7396,
+        "recordBodyBytes": 5501924,
+        "groups": {
+          "compensation:work": {
+            "count": 10,
+            "bytes": 6740
+          },
+          "custom:historical-office-summary": {
+            "count": 7386,
+            "bytes": 5495184
+          }
+        }
+      },
+      "2022-02-04": {
+        "rows": 7382,
+        "recordBodyBytes": 5492208,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 7382,
+            "bytes": 5492208
+          }
+        }
+      },
+      "2022-03-04": {
+        "rows": 7382,
+        "recordBodyBytes": 5492208,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 7382,
+            "bytes": 5492208
+          }
+        }
+      },
+      "2022-04-01": {
+        "rows": 7382,
+        "recordBodyBytes": 5492208,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 7382,
+            "bytes": 5492208
+          }
+        }
+      },
+      "2022-05-06": {
+        "rows": 7382,
+        "recordBodyBytes": 5492208,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 7382,
+            "bytes": 5492208
+          }
+        }
+      },
+      "2022-06-03": {
+        "rows": 7382,
+        "recordBodyBytes": 5492208,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 7382,
+            "bytes": 5492208
+          }
+        }
+      },
+      "2022-07-01": {
+        "rows": 7382,
+        "recordBodyBytes": 5492208,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 7382,
+            "bytes": 5492208
+          }
+        }
+      },
+      "2022-08-05": {
+        "rows": 7382,
+        "recordBodyBytes": 5492208,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 7382,
+            "bytes": 5492208
+          }
+        }
+      },
+      "2022-09-02": {
+        "rows": 7382,
+        "recordBodyBytes": 5492208,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 7382,
+            "bytes": 5492208
+          }
+        }
+      },
+      "2022-10-07": {
+        "rows": 7382,
+        "recordBodyBytes": 5492208,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 7382,
+            "bytes": 5492208
+          }
+        }
+      },
+      "2022-11-04": {
+        "rows": 7382,
+        "recordBodyBytes": 5492208,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 7382,
+            "bytes": 5492208
+          }
+        }
+      },
+      "2022-12-02": {
+        "rows": 7382,
+        "recordBodyBytes": 5497180,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 7382,
+            "bytes": 5497180
+          }
+        }
+      },
+      "2023-01-06": {
+        "rows": 7997,
+        "recordBodyBytes": 6057242,
+        "groups": {
+          "compensation:work": {
+            "count": 615,
+            "bytes": 557652
+          },
+          "custom:historical-office-summary": {
+            "count": 7382,
+            "bytes": 5499590
+          }
+        }
+      },
+      "2023-02-03": {
+        "rows": 5505,
+        "recordBodyBytes": 4101225,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 5505,
+            "bytes": 4101225
+          }
+        }
+      },
+      "2023-03-03": {
+        "rows": 5464,
+        "recordBodyBytes": 4070680,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 5464,
+            "bytes": 4070680
+          }
+        }
+      },
+      "2023-04-07": {
+        "rows": 5464,
+        "recordBodyBytes": 4070680,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 5464,
+            "bytes": 4070680
+          }
+        }
+      },
+      "2023-05-05": {
+        "rows": 5464,
+        "recordBodyBytes": 4070680,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 5464,
+            "bytes": 4070680
+          }
+        }
+      },
+      "2023-06-02": {
+        "rows": 5464,
+        "recordBodyBytes": 4070680,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 5464,
+            "bytes": 4070680
+          }
+        }
+      },
+      "2023-07-07": {
+        "rows": 5464,
+        "recordBodyBytes": 4070680,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 5464,
+            "bytes": 4070680
+          }
+        }
+      },
+      "2023-08-04": {
+        "rows": 5464,
+        "recordBodyBytes": 4070680,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 5464,
+            "bytes": 4070680
+          }
+        }
+      },
+      "2023-09-01": {
+        "rows": 5464,
+        "recordBodyBytes": 4070680,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 5464,
+            "bytes": 4070680
+          }
+        }
+      },
+      "2023-10-06": {
+        "rows": 5464,
+        "recordBodyBytes": 4070680,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 5464,
+            "bytes": 4070680
+          }
+        }
+      },
+      "2023-11-03": {
+        "rows": 5464,
+        "recordBodyBytes": 4070680,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 5464,
+            "bytes": 4070680
+          }
+        }
+      },
+      "2023-12-01": {
+        "rows": 5464,
+        "recordBodyBytes": 4070680,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 5464,
+            "bytes": 4070680
+          }
+        }
+      },
+      "2024-01-05": {
+        "rows": 5522,
+        "recordBodyBytes": 4154254,
+        "groups": {
+          "compensation:work": {
+            "count": 58,
+            "bytes": 83574
+          },
+          "custom:historical-office-summary": {
+            "count": 5464,
+            "bytes": 4070680
+          }
+        }
+      },
+      "2024-02-02": {
+        "rows": 5342,
+        "recordBodyBytes": 3979790,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 5342,
+            "bytes": 3979790
+          }
+        }
+      },
+      "2024-03-01": {
+        "rows": 5342,
+        "recordBodyBytes": 3979790,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 5342,
+            "bytes": 3979790
+          }
+        }
+      },
+      "2024-04-05": {
+        "rows": 5342,
+        "recordBodyBytes": 3979790,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 5342,
+            "bytes": 3979790
+          }
+        }
+      },
+      "2024-05-03": {
+        "rows": 5342,
+        "recordBodyBytes": 3979790,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 5342,
+            "bytes": 3979790
+          }
+        }
+      },
+      "2024-06-07": {
+        "rows": 5342,
+        "recordBodyBytes": 3979790,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 5342,
+            "bytes": 3979790
+          }
+        }
+      },
+      "2024-07-05": {
+        "rows": 5342,
+        "recordBodyBytes": 3979790,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 5342,
+            "bytes": 3979790
+          }
+        }
+      },
+      "2024-08-02": {
+        "rows": 5342,
+        "recordBodyBytes": 3979790,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 5342,
+            "bytes": 3979790
+          }
+        }
+      },
+      "2024-09-06": {
+        "rows": 5342,
+        "recordBodyBytes": 3979790,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 5342,
+            "bytes": 3979790
+          }
+        }
+      },
+      "2024-10-04": {
+        "rows": 5342,
+        "recordBodyBytes": 3979790,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 5342,
+            "bytes": 3979790
+          }
+        }
+      },
+      "2024-11-01": {
+        "rows": 5342,
+        "recordBodyBytes": 3979790,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 5342,
+            "bytes": 3979790
+          }
+        }
+      },
+      "2024-12-06": {
+        "rows": 5342,
+        "recordBodyBytes": 3979790,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 5342,
+            "bytes": 3979790
+          }
+        }
+      },
+      "2025-01-03": {
+        "rows": 7188,
+        "recordBodyBytes": 5828819,
+        "groups": {
+          "compensation:work": {
+            "count": 1846,
+            "bytes": 1849029
+          },
+          "custom:historical-office-summary": {
+            "count": 5342,
+            "bytes": 3979790
+          }
+        }
+      },
+      "2025-01-10": {
+        "rows": 22,
+        "recordBodyBytes": 14850,
+        "groups": {
+          "compensation:work": {
+            "count": 22,
+            "bytes": 14850
+          }
+        }
+      },
+      "2025-01-15": {
+        "rows": 48,
+        "recordBodyBytes": 121248,
+        "groups": {
+          "compensation:work": {
+            "count": 48,
+            "bytes": 121248
+          }
+        }
+      },
+      "2025-02-07": {
+        "rows": 6622,
+        "recordBodyBytes": 4933390,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 6622,
+            "bytes": 4933390
+          }
+        }
+      },
+      "2025-03-07": {
+        "rows": 6580,
+        "recordBodyBytes": 4902100,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 6580,
+            "bytes": 4902100
+          }
+        }
+      },
+      "2025-04-04": {
+        "rows": 6580,
+        "recordBodyBytes": 4902100,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 6580,
+            "bytes": 4902100
+          }
+        }
+      },
+      "2025-05-02": {
+        "rows": 6580,
+        "recordBodyBytes": 4902100,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 6580,
+            "bytes": 4902100
+          }
+        }
+      },
+      "2025-06-06": {
+        "rows": 6580,
+        "recordBodyBytes": 4902100,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 6580,
+            "bytes": 4902100
+          }
+        }
+      },
+      "2025-07-04": {
+        "rows": 6580,
+        "recordBodyBytes": 4902100,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 6580,
+            "bytes": 4902100
+          }
+        }
+      },
+      "2025-08-01": {
+        "rows": 6580,
+        "recordBodyBytes": 4902100,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 6580,
+            "bytes": 4902100
+          }
+        }
+      },
+      "2025-09-05": {
+        "rows": 6580,
+        "recordBodyBytes": 4902100,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 6580,
+            "bytes": 4902100
+          }
+        }
+      },
+      "2025-10-03": {
+        "rows": 6580,
+        "recordBodyBytes": 4902100,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 6580,
+            "bytes": 4902100
+          }
+        }
+      },
+      "2025-11-07": {
+        "rows": 6580,
+        "recordBodyBytes": 4902100,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 6580,
+            "bytes": 4902100
+          }
+        }
+      },
+      "2025-12-05": {
+        "rows": 6580,
+        "recordBodyBytes": 4902100,
+        "groups": {
+          "custom:historical-office-summary": {
+            "count": 6580,
+            "bytes": 4902100
+          }
+        }
+      },
+      "2026-01-02": {
+        "rows": 6636,
+        "recordBodyBytes": 5017642,
+        "groups": {
+          "compensation:work": {
+            "count": 56,
+            "bytes": 115542
+          },
+          "custom:historical-office-summary": {
+            "count": 6580,
+            "bytes": 4902100
+          }
+        }
+      },
+      "2026-01-05": {
+        "rows": 10529,
+        "recordBodyBytes": 6337051,
+        "groups": {
+          "custom:tax-withholding": {
+            "count": 10529,
+            "bytes": 6337051
+          }
+        }
+      }
+    },
+    "resourceTransferOutcomes": {
+      "2021-01-29": {
+        "rows": 7386,
+        "recordBodyBytes": 4890028,
+        "groups": {
+          "completed": {
+            "count": 7386,
+            "bytes": 4890028
+          }
+        }
+      },
+      "2021-02-26": {
+        "rows": 7386,
+        "recordBodyBytes": 4894000,
+        "groups": {
+          "completed": {
+            "count": 7386,
+            "bytes": 4894000
+          }
+        }
+      },
+      "2021-03-26": {
+        "rows": 7386,
+        "recordBodyBytes": 4894000,
+        "groups": {
+          "completed": {
+            "count": 7386,
+            "bytes": 4894000
+          }
+        }
+      },
+      "2021-04-30": {
+        "rows": 7386,
+        "recordBodyBytes": 4894678,
+        "groups": {
+          "completed": {
+            "count": 7386,
+            "bytes": 4894678
+          }
+        }
+      },
+      "2021-05-28": {
+        "rows": 7386,
+        "recordBodyBytes": 4894000,
+        "groups": {
+          "completed": {
+            "count": 7386,
+            "bytes": 4894000
+          }
+        }
+      },
+      "2021-06-25": {
+        "rows": 7386,
+        "recordBodyBytes": 4894000,
+        "groups": {
+          "completed": {
+            "count": 7386,
+            "bytes": 4894000
+          }
+        }
+      },
+      "2021-07-30": {
+        "rows": 7386,
+        "recordBodyBytes": 4894678,
+        "groups": {
+          "completed": {
+            "count": 7386,
+            "bytes": 4894678
+          }
+        }
+      },
+      "2021-08-27": {
+        "rows": 7386,
+        "recordBodyBytes": 4894000,
+        "groups": {
+          "completed": {
+            "count": 7386,
+            "bytes": 4894000
+          }
+        }
+      },
+      "2021-09-24": {
+        "rows": 7386,
+        "recordBodyBytes": 4894000,
+        "groups": {
+          "completed": {
+            "count": 7386,
+            "bytes": 4894000
+          }
+        }
+      },
+      "2021-10-29": {
+        "rows": 7386,
+        "recordBodyBytes": 4894678,
+        "groups": {
+          "completed": {
+            "count": 7386,
+            "bytes": 4894678
+          }
+        }
+      },
+      "2021-11-26": {
+        "rows": 7386,
+        "recordBodyBytes": 4894000,
+        "groups": {
+          "completed": {
+            "count": 7386,
+            "bytes": 4894000
+          }
+        }
+      },
+      "2021-12-31": {
+        "rows": 7386,
+        "recordBodyBytes": 4894678,
+        "groups": {
+          "completed": {
+            "count": 7386,
+            "bytes": 4894678
+          }
+        }
+      },
+      "2022-01-28": {
+        "rows": 7382,
+        "recordBodyBytes": 4891348,
+        "groups": {
+          "completed": {
+            "count": 7382,
+            "bytes": 4891348
+          }
+        }
+      },
+      "2022-02-25": {
+        "rows": 7382,
+        "recordBodyBytes": 4891348,
+        "groups": {
+          "completed": {
+            "count": 7382,
+            "bytes": 4891348
+          }
+        }
+      },
+      "2022-03-25": {
+        "rows": 7382,
+        "recordBodyBytes": 4891348,
+        "groups": {
+          "completed": {
+            "count": 7382,
+            "bytes": 4891348
+          }
+        }
+      },
+      "2022-04-29": {
+        "rows": 7382,
+        "recordBodyBytes": 4892026,
+        "groups": {
+          "completed": {
+            "count": 7382,
+            "bytes": 4892026
+          }
+        }
+      },
+      "2022-05-27": {
+        "rows": 7382,
+        "recordBodyBytes": 4891348,
+        "groups": {
+          "completed": {
+            "count": 7382,
+            "bytes": 4891348
+          }
+        }
+      },
+      "2022-06-24": {
+        "rows": 7382,
+        "recordBodyBytes": 4891348,
+        "groups": {
+          "completed": {
+            "count": 7382,
+            "bytes": 4891348
+          }
+        }
+      },
+      "2022-07-29": {
+        "rows": 7382,
+        "recordBodyBytes": 4892026,
+        "groups": {
+          "completed": {
+            "count": 7382,
+            "bytes": 4892026
+          }
+        }
+      },
+      "2022-08-26": {
+        "rows": 7382,
+        "recordBodyBytes": 4891348,
+        "groups": {
+          "completed": {
+            "count": 7382,
+            "bytes": 4891348
+          }
+        }
+      },
+      "2022-09-30": {
+        "rows": 7382,
+        "recordBodyBytes": 4892026,
+        "groups": {
+          "completed": {
+            "count": 7382,
+            "bytes": 4892026
+          }
+        }
+      },
+      "2022-10-28": {
+        "rows": 7382,
+        "recordBodyBytes": 4891348,
+        "groups": {
+          "completed": {
+            "count": 7382,
+            "bytes": 4891348
+          }
+        }
+      },
+      "2022-11-25": {
+        "rows": 7382,
+        "recordBodyBytes": 4898730,
+        "groups": {
+          "completed": {
+            "count": 7382,
+            "bytes": 4898730
+          }
+        }
+      },
+      "2022-12-30": {
+        "rows": 7382,
+        "recordBodyBytes": 4899408,
+        "groups": {
+          "completed": {
+            "count": 7382,
+            "bytes": 4899408
+          }
+        }
+      },
+      "2023-01-06": {
+        "rows": 41,
+        "recordBodyBytes": 27142,
+        "groups": {
+          "completed": {
+            "count": 41,
+            "bytes": 27142
+          }
+        }
+      },
+      "2023-01-27": {
+        "rows": 5464,
+        "recordBodyBytes": 3625876,
+        "groups": {
+          "completed": {
+            "count": 5464,
+            "bytes": 3625876
+          }
+        }
+      },
+      "2023-02-24": {
+        "rows": 5464,
+        "recordBodyBytes": 3625876,
+        "groups": {
+          "completed": {
+            "count": 5464,
+            "bytes": 3625876
+          }
+        }
+      },
+      "2023-03-31": {
+        "rows": 5464,
+        "recordBodyBytes": 3626324,
+        "groups": {
+          "completed": {
+            "count": 5464,
+            "bytes": 3626324
+          }
+        }
+      },
+      "2023-04-28": {
+        "rows": 5464,
+        "recordBodyBytes": 3625876,
+        "groups": {
+          "completed": {
+            "count": 5464,
+            "bytes": 3625876
+          }
+        }
+      },
+      "2023-05-26": {
+        "rows": 5464,
+        "recordBodyBytes": 3625876,
+        "groups": {
+          "completed": {
+            "count": 5464,
+            "bytes": 3625876
+          }
+        }
+      },
+      "2023-06-30": {
+        "rows": 5464,
+        "recordBodyBytes": 3626324,
+        "groups": {
+          "completed": {
+            "count": 5464,
+            "bytes": 3626324
+          }
+        }
+      },
+      "2023-07-28": {
+        "rows": 5464,
+        "recordBodyBytes": 3625876,
+        "groups": {
+          "completed": {
+            "count": 5464,
+            "bytes": 3625876
+          }
+        }
+      },
+      "2023-08-25": {
+        "rows": 5464,
+        "recordBodyBytes": 3625876,
+        "groups": {
+          "completed": {
+            "count": 5464,
+            "bytes": 3625876
+          }
+        }
+      },
+      "2023-09-29": {
+        "rows": 5464,
+        "recordBodyBytes": 3626324,
+        "groups": {
+          "completed": {
+            "count": 5464,
+            "bytes": 3626324
+          }
+        }
+      },
+      "2023-10-27": {
+        "rows": 5464,
+        "recordBodyBytes": 3625876,
+        "groups": {
+          "completed": {
+            "count": 5464,
+            "bytes": 3625876
+          }
+        }
+      },
+      "2023-11-24": {
+        "rows": 5464,
+        "recordBodyBytes": 3625876,
+        "groups": {
+          "completed": {
+            "count": 5464,
+            "bytes": 3625876
+          }
+        }
+      },
+      "2023-12-29": {
+        "rows": 5464,
+        "recordBodyBytes": 3626324,
+        "groups": {
+          "completed": {
+            "count": 5464,
+            "bytes": 3626324
+          }
+        }
+      },
+      "2024-01-26": {
+        "rows": 5342,
+        "recordBodyBytes": 3544868,
+        "groups": {
+          "completed": {
+            "count": 5342,
+            "bytes": 3544868
+          }
+        }
+      },
+      "2024-02-23": {
+        "rows": 5342,
+        "recordBodyBytes": 3544868,
+        "groups": {
+          "completed": {
+            "count": 5342,
+            "bytes": 3544868
+          }
+        }
+      },
+      "2024-03-29": {
+        "rows": 5342,
+        "recordBodyBytes": 3545316,
+        "groups": {
+          "completed": {
+            "count": 5342,
+            "bytes": 3545316
+          }
+        }
+      },
+      "2024-04-26": {
+        "rows": 5342,
+        "recordBodyBytes": 3544868,
+        "groups": {
+          "completed": {
+            "count": 5342,
+            "bytes": 3544868
+          }
+        }
+      },
+      "2024-05-31": {
+        "rows": 5342,
+        "recordBodyBytes": 3545316,
+        "groups": {
+          "completed": {
+            "count": 5342,
+            "bytes": 3545316
+          }
+        }
+      },
+      "2024-06-28": {
+        "rows": 5342,
+        "recordBodyBytes": 3544868,
+        "groups": {
+          "completed": {
+            "count": 5342,
+            "bytes": 3544868
+          }
+        }
+      },
+      "2024-07-26": {
+        "rows": 5342,
+        "recordBodyBytes": 3544868,
+        "groups": {
+          "completed": {
+            "count": 5342,
+            "bytes": 3544868
+          }
+        }
+      },
+      "2024-08-30": {
+        "rows": 5342,
+        "recordBodyBytes": 3545316,
+        "groups": {
+          "completed": {
+            "count": 5342,
+            "bytes": 3545316
+          }
+        }
+      },
+      "2024-09-27": {
+        "rows": 5342,
+        "recordBodyBytes": 3544868,
+        "groups": {
+          "completed": {
+            "count": 5342,
+            "bytes": 3544868
+          }
+        }
+      },
+      "2024-10-25": {
+        "rows": 5342,
+        "recordBodyBytes": 3544868,
+        "groups": {
+          "completed": {
+            "count": 5342,
+            "bytes": 3544868
+          }
+        }
+      },
+      "2024-11-29": {
+        "rows": 5342,
+        "recordBodyBytes": 3545316,
+        "groups": {
+          "completed": {
+            "count": 5342,
+            "bytes": 3545316
+          }
+        }
+      },
+      "2024-12-27": {
+        "rows": 5342,
+        "recordBodyBytes": 3544868,
+        "groups": {
+          "completed": {
+            "count": 5342,
+            "bytes": 3544868
+          }
+        }
+      },
+      "2025-01-03": {
+        "rows": 21,
+        "recordBodyBytes": 13902,
+        "groups": {
+          "completed": {
+            "count": 21,
+            "bytes": 13902
+          }
+        }
+      },
+      "2025-01-10": {
+        "rows": 21,
+        "recordBodyBytes": 13944,
+        "groups": {
+          "completed": {
+            "count": 21,
+            "bytes": 13944
+          }
+        }
+      },
+      "2025-01-29": {
+        "rows": 48,
+        "recordBodyBytes": 31872,
+        "groups": {
+          "completed": {
+            "count": 48,
+            "bytes": 31872
+          }
+        }
+      },
+      "2025-01-31": {
+        "rows": 6532,
+        "recordBodyBytes": 4334794,
+        "groups": {
+          "completed": {
+            "count": 6532,
+            "bytes": 4334794
+          }
+        }
+      },
+      "2025-02-26": {
+        "rows": 48,
+        "recordBodyBytes": 31872,
+        "groups": {
+          "completed": {
+            "count": 48,
+            "bytes": 31872
+          }
+        }
+      },
+      "2025-02-28": {
+        "rows": 6532,
+        "recordBodyBytes": 4334428,
+        "groups": {
+          "completed": {
+            "count": 6532,
+            "bytes": 4334428
+          }
+        }
+      },
+      "2025-03-26": {
+        "rows": 48,
+        "recordBodyBytes": 31872,
+        "groups": {
+          "completed": {
+            "count": 48,
+            "bytes": 31872
+          }
+        }
+      },
+      "2025-03-28": {
+        "rows": 6532,
+        "recordBodyBytes": 4334428,
+        "groups": {
+          "completed": {
+            "count": 6532,
+            "bytes": 4334428
+          }
+        }
+      },
+      "2025-04-25": {
+        "rows": 6532,
+        "recordBodyBytes": 4334428,
+        "groups": {
+          "completed": {
+            "count": 6532,
+            "bytes": 4334428
+          }
+        }
+      },
+      "2025-04-30": {
+        "rows": 48,
+        "recordBodyBytes": 31872,
+        "groups": {
+          "completed": {
+            "count": 48,
+            "bytes": 31872
+          }
+        }
+      },
+      "2025-05-28": {
+        "rows": 48,
+        "recordBodyBytes": 31872,
+        "groups": {
+          "completed": {
+            "count": 48,
+            "bytes": 31872
+          }
+        }
+      },
+      "2025-05-30": {
+        "rows": 6532,
+        "recordBodyBytes": 4335016,
+        "groups": {
+          "completed": {
+            "count": 6532,
+            "bytes": 4335016
+          }
+        }
+      },
+      "2025-06-25": {
+        "rows": 48,
+        "recordBodyBytes": 31872,
+        "groups": {
+          "completed": {
+            "count": 48,
+            "bytes": 31872
+          }
+        }
+      },
+      "2025-06-27": {
+        "rows": 6532,
+        "recordBodyBytes": 4334428,
+        "groups": {
+          "completed": {
+            "count": 6532,
+            "bytes": 4334428
+          }
+        }
+      },
+      "2025-07-25": {
+        "rows": 6532,
+        "recordBodyBytes": 4334428,
+        "groups": {
+          "completed": {
+            "count": 6532,
+            "bytes": 4334428
+          }
+        }
+      },
+      "2025-07-30": {
+        "rows": 48,
+        "recordBodyBytes": 31872,
+        "groups": {
+          "completed": {
+            "count": 48,
+            "bytes": 31872
+          }
+        }
+      },
+      "2025-08-27": {
+        "rows": 48,
+        "recordBodyBytes": 31872,
+        "groups": {
+          "completed": {
+            "count": 48,
+            "bytes": 31872
+          }
+        }
+      },
+      "2025-08-29": {
+        "rows": 6532,
+        "recordBodyBytes": 4335016,
+        "groups": {
+          "completed": {
+            "count": 6532,
+            "bytes": 4335016
+          }
+        }
+      },
+      "2025-09-24": {
+        "rows": 48,
+        "recordBodyBytes": 31872,
+        "groups": {
+          "completed": {
+            "count": 48,
+            "bytes": 31872
+          }
+        }
+      },
+      "2025-09-26": {
+        "rows": 6532,
+        "recordBodyBytes": 4334428,
+        "groups": {
+          "completed": {
+            "count": 6532,
+            "bytes": 4334428
+          }
+        }
+      },
+      "2025-10-29": {
+        "rows": 48,
+        "recordBodyBytes": 31872,
+        "groups": {
+          "completed": {
+            "count": 48,
+            "bytes": 31872
+          }
+        }
+      },
+      "2025-10-31": {
+        "rows": 6532,
+        "recordBodyBytes": 4335016,
+        "groups": {
+          "completed": {
+            "count": 6532,
+            "bytes": 4335016
+          }
+        }
+      },
+      "2025-11-26": {
+        "rows": 48,
+        "recordBodyBytes": 31872,
+        "groups": {
+          "completed": {
+            "count": 48,
+            "bytes": 31872
+          }
+        }
+      },
+      "2025-11-28": {
+        "rows": 6532,
+        "recordBodyBytes": 4334428,
+        "groups": {
+          "completed": {
+            "count": 6532,
+            "bytes": 4334428
+          }
+        }
+      },
+      "2025-12-26": {
+        "rows": 6532,
+        "recordBodyBytes": 4334428,
+        "groups": {
+          "completed": {
+            "count": 6532,
+            "bytes": 4334428
+          }
+        }
+      },
+      "2025-12-31": {
+        "rows": 48,
+        "recordBodyBytes": 31872,
+        "groups": {
+          "completed": {
+            "count": 48,
+            "bytes": 31872
+          }
+        }
+      },
+      "2026-01-02": {
+        "rows": 6501,
+        "recordBodyBytes": 6165005,
+        "groups": {
+          "completed": {
+            "count": 6501,
+            "bytes": 6165005
+          }
+        }
+      },
+      "2026-01-05": {
+        "rows": 10529,
+        "recordBodyBytes": 6179378,
+        "groups": {
+          "completed": {
+            "count": 10529,
+            "bytes": 6179378
+          }
+        }
+      }
+    }
+  },
+  "otherLargestHistoryArrays": [
+    {
+      "family": "events",
+      "storedArrayBytes": 102164656
+    },
+    {
+      "family": "decisionTraces",
+      "storedArrayBytes": 82869753
+    },
+    {
+      "family": "statutoryTaxLiabilities",
+      "storedArrayBytes": 47687221
+    },
+    {
+      "family": "crisisRecords",
+      "storedArrayBytes": 44636402
+    },
+    {
+      "family": "futureDueItemStates",
+      "storedArrayBytes": 20402246
+    },
+    {
+      "family": "workPayCoverageDeterminations",
+      "storedArrayBytes": 12112704
+    },
+    {
+      "family": "futureDueItems",
+      "storedArrayBytes": 11660890
+    },
+    {
+      "family": "principles",
+      "storedArrayBytes": 10595020
+    },
+    {
+      "family": "organizationParticipationStates",
+      "storedArrayBytes": 10328207
+    },
+    {
+      "family": "householdMembershipStates",
+      "storedArrayBytes": 9561857
+    },
+    {
+      "family": "householdLocations",
+      "storedArrayBytes": 9561505
+    },
+    {
+      "family": "organizationParticipations",
+      "storedArrayBytes": 9193769
+    },
+    {
+      "family": "electionContests",
+      "storedArrayBytes": 9021186
+    },
+    {
+      "family": "districtResidenceIntervals",
+      "storedArrayBytes": 8740542
+    },
+    {
+      "family": "householdMemberships",
+      "storedArrayBytes": 7960080
+    }
+  ],
+  "topLevelWorldContainerBytes": [
+    {
+      "container": "world.history",
+      "bytes": 1522298241
+    },
+    {
+      "container": "world.people",
+      "bytes": 42938714
+    },
+    {
+      "container": "world.placeOutcomes",
+      "bytes": 39569129
+    },
+    {
+      "container": "world.publicBudgets",
+      "bytes": 31903409
+    },
+    {
+      "container": "world.judiciary",
+      "bytes": 2024546
+    },
+    {
+      "container": "world.personOrder",
+      "bytes": 742977
+    },
+    {
+      "container": "world.pressure",
+      "bytes": 312016
+    },
+    {
+      "container": "tendenciesPacking.strings",
+      "bytes": 283720
+    },
+    {
+      "container": "world.policyCatalog",
+      "bytes": 279586
+    },
+    {
+      "container": "rollCalls.rosters",
+      "bytes": 275414
+    },
+    {
+      "container": "world.macroEconomy",
+      "bytes": 231623
+    },
+    {
+      "container": "world.jurisdictions",
+      "bytes": 24259
+    },
+    {
+      "container": "world.mindCatalog",
+      "bytes": 9431
+    },
+    {
+      "container": "world.jurisdictionOrder",
+      "bytes": 2593
+    },
+    {
+      "container": "world.metricCatalog",
+      "bytes": 1362
+    },
+    {
+      "container": "rollCalls.reasons",
+      "bytes": 142
+    },
+    {
+      "container": "world.currentMoment",
+      "bytes": 92
+    },
+    {
+      "container": "world.causalMechanismCatalog",
+      "bytes": 86
+    },
+    {
+      "container": "world.vitalityCatalog",
+      "bytes": 86
+    },
+    {
+      "container": "world.setupPriors",
+      "bytes": 83
+    },
+    {
+      "container": "world.incidentCatalog",
+      "bytes": 78
+    },
+    {
+      "container": "world.control",
+      "bytes": 54
+    }
   ]
 }
