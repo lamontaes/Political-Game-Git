@@ -1,0 +1,67 @@
+{
+  "session": 21,
+  "task": "Committee dependency TS6307 inclusion diagnosis",
+  "checkedHead": "cf3619f7cca8ab0838b70e6b8059525a84cd527f",
+  "reportedFailingMain": "c76514832e9c866b5cf5967206bed554b6a1e88e",
+  "reportedFailure": {
+    "source": "Session2 issue2052 comment6007463024",
+    "diagnostic": "TS6307 chamber-votes.ts:1 imports member-seating.ts not listed in generated Node project",
+    "generatedConfigOnOtherHost": "test-results/runs/5a1c7557-6844-4211-b269-2f201a09ea33/typecheck/tsconfig.node.json",
+    "reproducedHere": false
+  },
+  "currentMainCheck": {
+    "command": "npm run storage -- run test -- npm run typecheck",
+    "handle": 84050,
+    "exitCode": 0,
+    "compositePreserved": true,
+    "unresolvedImports": 0,
+    "testFilesOutsideSemanticCoverage": 795,
+    "log": "/tmp/session21-ts6307-main.log"
+  },
+  "generatedConfig": {
+    "file": "test-results/runs/8fff84ba-ff08-4afa-bd07-b8ec9a45a361/typecheck/tsconfig.node.json",
+    "extends": "tsconfig.node.json",
+    "overrides": ["compilerOptions.types", "compilerOptions.tsBuildInfoFile"],
+    "explicitFilesOverride": false,
+    "parsedRootCount": 2676,
+    "memberSeatingIncluded": true,
+    "chamberVotesIncluded": true,
+    "parseErrors": 0
+  },
+  "reportedMainConfigParse": {
+    "head": "c76514832e9c866b5cf5967206bed554b6a1e88e",
+    "config": "tsconfig.node.json",
+    "parsedRootCount": 2674,
+    "memberSeatingIncluded": true,
+    "chamberVotesIncluded": true,
+    "composite": true,
+    "parseErrors": 0
+  },
+  "existingDependencyClosure": {
+    "config": "tsconfig.node.json",
+    "include": "src/simulation/**/*.ts",
+    "importer": "src/simulation/governing/chamber-votes.ts:1",
+    "dependency": "src/simulation/governing/member-seating.ts"
+  },
+  "mainDelta": {
+    "generatorAndDependencySource": "Unchanged between c765 and cf3619f7c",
+    "nodeConfig": "cf adds JSX setting and two opening TSX roots; simulation wildcard unchanged"
+  },
+  "ownership": {
+    "sharedConfigOwner": "Session19",
+    "coordinationComments": [6007485011, 6007500358],
+    "sharedEdits": false,
+    "proposedHunk": null,
+    "reason": "Existing source closure includes dependency and current configured semantic check passes. Need actual failing artifact before a justified change."
+  },
+  "nextEvidenceRequired": [
+    "Exact failing generated config bytes",
+    "Exact terminal diagnostic/head",
+    "Config/source mutation chronology during run"
+  ],
+  "limitations": [
+    "No independent reproduction of other-host TS6307",
+    "No noncomposite bypass, excluded assertion, duplicate include or semantic-check weakening",
+    "No repair or combined-tree acceptance claimed"
+  ]
+}
