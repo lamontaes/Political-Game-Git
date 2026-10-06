@@ -1,8 +1,4 @@
-import type {
-  DecisionEvaluation,
-  EntityId,
-  HistoricalEvent,
-} from "../types";
+import type { DecisionEvaluation, EntityId, HistoricalEvent } from "../types";
 
 /** A party is copied from the event that actually recorded their role. */
 export interface CourtroomParty {
