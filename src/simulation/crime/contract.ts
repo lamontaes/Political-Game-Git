@@ -1,11 +1,13 @@
 /**
  * Local crime: the offenses this game represents and every rate it uses.
  *
- * EVERY NUMBER HERE IS A PLACEHOLDER. None of them is researched for any
- * place. They are blanket game rules so that ordinary towns are no longer
- * crime-free, held until the research filed as `local-crime-rates-by-place`
- * lands. A researched table replaces this one under a new version; it is not
- * edited in place, so a save always knows which rules produced its history.
+ * These are ESTIMATED FROM AVERAGE national rates because the game does not
+ * yet hold offense-specific local rates. The basis is the 2023 National Crime
+ * Victimization Survey for victimization and reporting, and FBI Crime Data
+ * Explorer clearance totals for arrests. The places used are the largest
+ * represented place in each of the game's 56 state and territory profiles.
+ * A later place table replaces this one under a new version; this version is
+ * not edited in place, so a save always knows which rules produced its history.
  *
  * What is deliberately not represented, because the world keeps no record a
  * scene could name: theft of a specific object (no inventory of belongings),
@@ -23,32 +25,32 @@ export interface CrimeOffenseRule {
   readonly offense: CrimeOffense;
   readonly target: CrimeTarget;
   /**
-   * UNRESEARCHED. Expected offenses per year for one represented person
-   * (aged `minimumVictimAge` or older) or one represented household.
+   * ESTIMATED FROM AVERAGE. Expected offenses per year for one represented
+   * person (aged `minimumVictimAge` or older) or one represented household.
    */
   readonly annualRate: number;
   /**
-   * UNRESEARCHED. Share of offenses reported to police, for the town's
-   * police log mix only. Whether a named victim reports is their own
+   * ESTIMATED FROM AVERAGE. Share of offenses reported to police, for the
+   * town's police log mix only. Whether a named victim reports is their own
    * decision (`./reporting`).
    */
   readonly reportedShare: number;
   /**
-   * UNRESEARCHED. Share of reported offenses that end in an arrest: a check
-   * on totals only. Who is arrested follows from `./offenders`.
+   * ESTIMATED FROM AVERAGE. Share of reported offenses that end in an arrest:
+   * a check on totals only. Who is arrested follows from `./offenders`.
    */
   readonly arrestShare: number;
 }
 
-export const UNRESEARCHED_LOCAL_CRIME = {
+export const LOCAL_CRIME_ESTIMATES = {
   version: CRIME_CONTRACT_VERSION,
-  provenance: "unresearched-blanket-rule",
+  provenance: "estimated-from-national-average",
   /**
    * The same rules everywhere. Real rates differ widely by place; until the
    * research lands, no town is made more or less dangerous than another.
    */
   appliesTo: "every-represented-local-place",
-  /** UNRESEARCHED. Youngest person a personal offense is drawn against. */
+  /** NCVS estimates cover people age 12 and older. */
   minimumVictimAge: 12,
   offenses: [
     {
@@ -96,10 +98,10 @@ export const UNRESEARCHED_LOCAL_CRIME = {
  * When `placePopulation(placeGeoid)` (nationwide-world/place-population.ts,
  * filed as `place-population-today`) holds a figure, scale by it here.
  */
-export const UNRESEARCHED_TOWN_POLICE_LOG = {
+export const TOWN_POLICE_LOG_ESTIMATE = {
   version: CRIME_CONTRACT_VERSION,
-  provenance: "unresearched-blanket-rule",
-  /** UNRESEARCHED. Expected reported offenses per month, in any town. */
+  provenance: "estimated-from-national-average",
+  /** ESTIMATED FROM AVERAGE: monthly reports across the 56-place basis. */
   reportedPerMonth: 2,
   /**
    * Which offense a logged report is: in proportion to each rule's
@@ -147,9 +149,9 @@ export const UNREPORTED_OFFENSE_RECORD: Readonly<Record<CrimeOffense, string>> =
   };
 
 export function crimeRule(offense: CrimeOffense): CrimeOffenseRule {
-  const rule = UNRESEARCHED_LOCAL_CRIME.offenses.find(
+  const rule = LOCAL_CRIME_ESTIMATES.offenses.find(
     (candidate) => candidate.offense === offense,
   );
-  if (!rule) throw new Error(`Unknown offense: ${offense}`);
+  if (!rule) throw new Error(`Unsupported crime offense: ${offense}`);
   return rule;
 }

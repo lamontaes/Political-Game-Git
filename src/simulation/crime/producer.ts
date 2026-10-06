@@ -40,8 +40,8 @@ import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import {
   CRIME_CONTRACT_VERSION,
   REPORTED_OFFENSE_PHRASE,
-  UNRESEARCHED_LOCAL_CRIME,
-  UNRESEARCHED_TOWN_POLICE_LOG,
+  LOCAL_CRIME_ESTIMATES,
+  TOWN_POLICE_LOG_ESTIMATE,
   UNREPORTED_OFFENSE_RECORD,
   VICTIM_KNOWS,
   type CrimeOffense,
@@ -53,7 +53,7 @@ import {
   offenderWeight,
   offenseAgainstAPerson,
   policeCanName,
-  UNRESEARCHED_OFFENDERS,
+  OFFENDER_FACTORS,
 } from "./offenders";
 import { decideReport, priorVictimizations } from "./reporting";
 
@@ -75,7 +75,7 @@ import { decideReport, priorVictimizations } from "./reporting";
  * they can name them. An arrest is public and goes to prosecutors through
  * `referForProsecution`.
  *
- * Every rate is in `UNRESEARCHED_LOCAL_CRIME`. Nothing here reads a place's
+ * Every rate is in `LOCAL_CRIME_ESTIMATES`. Nothing here reads a place's
  * real crime rate, police force or budget yet, and nothing here moves an
  * election; both are filed as research.
  */
@@ -155,7 +155,7 @@ export interface SampledCrime {
 /**
  * PLACEHOLDER sizes: how a town's offenses fall on its people and homes
  * (A131). Nothing is drawn. The town's total for each offense is the rate in
- * `UNRESEARCHED_LOCAL_CRIME` times every represented target, moved by the
+ * `LOCAL_CRIME_ESTIMATES` times every represented target, moved by the
  * place's conditions (`./causes`); that total is a check, and causes decide
  * who it falls on:
  *
@@ -240,7 +240,7 @@ export function crimeExposures(
   const cutoff = crimeCutoff(world, monthStart, historySequenceExclusive);
   const alive = (personId: EntityId) =>
     isPersonAliveAt(world, personId, cutoff);
-  const { minimumVictimAge } = UNRESEARCHED_LOCAL_CRIME;
+  const { minimumVictimAge } = LOCAL_CRIME_ESTIMATES;
   const oldEnough = (personId: EntityId) =>
     ageOnDate(world.people[personId]!.birthDate, monthStart) >=
     minimumVictimAge;
@@ -271,7 +271,7 @@ export function crimeExposures(
     // A home nobody represented lives in has nobody to notice or report it.
     const knowers = residents.filter(oldEnough);
     if (knowers.length === 0) continue;
-    for (const rule of UNRESEARCHED_LOCAL_CRIME.offenses) {
+    for (const rule of LOCAL_CRIME_ESTIMATES.offenses) {
       if (rule.target !== "household") continue;
       add(location.jurisdictionId, {
         offense: rule.offense,
@@ -289,7 +289,7 @@ export function crimeExposures(
     if (!residence || !isLocalPlace(residence)) continue;
     if (!world.jurisdictions[residence]) continue;
     if (!alive(personId) || !oldEnough(personId)) continue;
-    for (const rule of UNRESEARCHED_LOCAL_CRIME.offenses) {
+    for (const rule of LOCAL_CRIME_ESTIMATES.offenses) {
       if (rule.target !== "person") continue;
       add(residence, {
         offense: rule.offense,
@@ -304,7 +304,7 @@ export function crimeExposures(
   const opened = openedOn(world, monthStart);
   const { pointsPerFold, strangerPoints, repeatPull } =
     UNRESEARCHED_VICTIM_EXPOSURE;
-  const { nameAt } = UNRESEARCHED_OFFENDERS;
+  const { nameAt } = OFFENDER_FACTORS;
   const pull = (points: number) => Math.exp((points - nameAt) / pointsPerFold);
   const exposures: CrimeExposure[] = [];
   for (const town of [...targetsByTown.keys()].sort()) {
@@ -318,7 +318,7 @@ export function crimeExposures(
       offender,
       known: new Set(crimeKnownTiesAt(world, [offender.personId], cutoff)),
     }));
-    for (const rule of UNRESEARCHED_LOCAL_CRIME.offenses) {
+    for (const rule of LOCAL_CRIME_ESTIMATES.offenses) {
       const ofRule = targets.filter(
         (target) => target.offense === rule.offense,
       );
@@ -584,12 +584,12 @@ export function sampleTownPoliceLog(
   const monthEnd = addDays(firstOfNextMonth(monthStart), -1);
   const multiplier = causeMultipliers(world, monthStart);
   const since = openedOn(world, monthStart);
-  const baseWeights = UNRESEARCHED_LOCAL_CRIME.offenses.map((rule) => ({
+  const baseWeights = LOCAL_CRIME_ESTIMATES.offenses.map((rule) => ({
     offense: rule.offense,
     weight: rule.annualRate * rule.reportedShare,
   }));
   const baseTotal = baseWeights.reduce((sum, row) => sum + row.weight, 0);
-  const perYear = UNRESEARCHED_TOWN_POLICE_LOG.reportedPerMonth * 12;
+  const perYear = TOWN_POLICE_LOG_ESTIMATE.reportedPerMonth * 12;
   const logged: LoggedTownCrime[] = [];
   for (const jurisdictionId of townsWithResidents(world)) {
     // The causes move each offense; the log's size moves with their mix.

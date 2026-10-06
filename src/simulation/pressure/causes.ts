@@ -5,10 +5,7 @@
  * the reason.
  */
 
-import {
-  UNRESEARCHED_TOWN_POLICE_LOG,
-  type CrimeOffense,
-} from "../crime/contract";
+import { TOWN_POLICE_LOG_ESTIMATE, type CrimeOffense } from "../crime/contract";
 import { CRIME_EVENT_TYPES, offenseOf } from "../crime/producer";
 import type { HazardMagnitude } from "../crisis/types";
 import {
@@ -123,7 +120,7 @@ export function causesInPeriod(
   const periodDays =
     (Date.parse(periodEnd) - Date.parse(periodStart)) / 86_400_000 + 1;
   const ordinaryReports = Math.round(
-    (UNRESEARCHED_TOWN_POLICE_LOG.reportedPerMonth * periodDays * 12) / 365.25,
+    (TOWN_POLICE_LOG_ESTIMATE.reportedPerMonth * periodDays * 12) / 365.25,
   );
   const reportedByTown = new Map<EntityId, HistoricalEvent[]>();
   for (const event of world.history.events) {

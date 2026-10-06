@@ -67,7 +67,7 @@ export const CRIME_CAUSE_SEAMS: readonly CrimeCauseSeam[] = [
     connects:
       "A named person turning to crime from money trouble, grievance or habit.",
     status: "built",
-    rule: "PLACEHOLDER weights: an offense the police log is laid at the door of the resident whose circumstances (age, being out of work, a past record, knowing the victim, a taste for risk) point to it most, when they reach the bar; police arrest them when the victim knows them, they have a record, or the circumstances point plainly; the arrest goes to prosecutors.",
+    rule: "ESTIMATED FROM AVERAGE across the largest represented place in each of 56 state and territory profiles: an offense the police log is laid at the door of the resident whose circumstances (age, being out of work, a past record, knowing the victim, a taste for risk) point to it most, when they reach the calibrated bar; police arrest them when the victim knows them, they have a record, or the circumstances point plainly; the arrest goes to prosecutors.",
     where: "src/simulation/crime/offenders.ts",
   },
   {
