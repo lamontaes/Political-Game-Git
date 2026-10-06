@@ -1,7 +1,4 @@
-import {
-  activeCampaignForCandidate,
-  requireCampaign,
-} from "./campaign-queries";
+import { requireCampaign } from "./campaign-queries";
 import { addCampaignHelper } from "./campaign-helpers";
 import { evaluateDecision } from "./decisions";
 import { requireElectionContest } from "./election-contests";
@@ -12,7 +9,6 @@ import {
   workRoleHistory,
   workStatusHistory,
 } from "./life-queries";
-import { addDays } from "./dates";
 import { recordWorldEvent } from "./world";
 import { resourcePositionAt } from "./resource-queries";
 import { createResourceFlow } from "./resources";
