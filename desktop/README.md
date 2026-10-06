@@ -117,11 +117,19 @@ the canonical version and exist only for throwaway artifacts.
 
 ## Updates
 
-- Direct updater (electron-updater, generic provider) ships **disabled
-  and unconfigured**: `update-config.json` has `enabled: false` and no
-  feed URL. Activating it requires explicitly writing an authorized
-  https endpoint at stage time — a deliberate, reviewed act.
-- "Check for Updates…" is finite and user-controlled: check → ask →
+- Direct updater (electron-updater, generic provider) stays disabled unless
+  staging receives a channel feed URL over the environment. Stable staging
+  uses `--channel stable`, `OCD_STABLE_UPDATE_FEED_URL`, and signing material
+  supplied through `CSC_LINK` or `CSC_NAME`. Internal and private builds keep
+  their own explicit feed settings (`OCD_INTERNAL_UPDATE_FEED_URL` and
+  `OCD_PRIVATE_UPDATE_FEED_URL`) and retain the ask-first update selector.
+  Steam builds always stage with updates disabled.
+- Stable builds check on open, assess version/channel before installation,
+  download and verify updates in the background, and set install-on-quit only
+  after a successful verified download. The new build starts on the next open;
+  no update restarts play or skips the normal save/close guard. Stable builds
+  remain disabled if no HTTPS feed or signing material is configured.
+- Internal/private "Check for Updates…" is finite and user-controlled: check → ask →
   download → ask again; nothing restarts on its own and unsaved play is
   never discarded (install-on-restart only proceeds once every window
   actually closed through the normal close flow after the game's
@@ -129,25 +137,24 @@ the canonical version and exist only for throwaway artifacts.
   blocked or failed flush does not force quit or claim a safe update). Choosing "Later"
   arms install-on-your-own-next-quit — exactly what the dialog says.
   Malformed metadata, an untrusted-channel candidate, a downgrade, and
-  a failed or unverifiable download are refused and surfaced, never
-  retried or silently installed. The whole contract is deterministic:
-  `npm test` runs `tests/updater.test.mjs` against the extracted seam
-  in `updater.mjs` (logic proof only — NOT signed automatic-install
-  proof).
+  a failed or unverifiable download are refused and surfaced. The whole
+  contract is deterministic: `npm test` runs `tests/auto-update.test.mjs`
+  and `tests/updater.test.mjs` against the extracted seam in `updater.mjs`.
 - Steam-output builds (`npm run dist:steam`, which stamps
   `distribution: steam` and produces bare directories suitable for later
   SteamPipe upload) **hard-disable** the direct updater regardless of
   configuration — Steam owns delivery there. No AppID exists and no
   Steam upload is implied. Channel policy: everything this tooling
-  produces is `channel: internal`; a stable channel is a later, separate
-  authorization, so internal candidates cannot silently migrate stable
-  saves.
-- Signing/notarization hooks exist in `electron-builder.yml`
-  (`identity`, `hardenedRuntime`, `notarize`, or `CSC_LINK`/
-  `CSC_KEY_PASSWORD`). Until credentials exist, Mac builds are unsigned
-  (Gatekeeper may require the ordinary one-time right-click → Open
-  confirmation), and **signed Mac automatic-update installation is NOT
-  VERIFIED**. Do not disable Gatekeeper or remove quarantine broadly.
+  produces is `channel: internal` unless an explicit channel is passed.
+  A build stamped `stable` cannot receive an internal/private candidate.
+- `CSC_LINK`, `CSC_KEY_PASSWORD`, `CSC_NAME`, and Apple's notarization
+  credentials are build environment values or GitHub secrets only. Without
+  signing material the Mac build remains unsigned and stable updating remains
+  disabled. No credential is read from a repository file or written to the
+  staged configuration. The update tests prove decisions and failure handling.
+  Signed Mac install and retaining exactly one prior-version fallback are not
+  yet implemented or proven by this deterministic harness. Do not disable
+  Gatekeeper or remove quarantine broadly.
 
 ### Private controller versus public auto-update
 
