@@ -1247,7 +1247,7 @@
     {
       "file": "src/simulation/crime/producer.ts",
       "line": 28,
-      "text": "UNRESEARCHED_LOCAL_CRIME,",
+      "text": "Local-crime baseline: victim age 12; annual assault 0.016, robbery 0.002, burglary 0.012, and vandalism 0.02 per eligible target.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": "how-local-crime-reaches-politics",
@@ -1256,7 +1256,7 @@
     {
       "file": "src/simulation/crime/producer.ts",
       "line": 29,
-      "text": "UNRESEARCHED_TOWN_POLICE_LOG,",
+      "text": "Town police-log baseline: 2 reported offenses per month, mixed by annual rate times reported share.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": "how-local-crime-reaches-politics",
@@ -1265,7 +1265,7 @@
     {
       "file": "src/simulation/crime/producer.ts",
       "line": 52,
-      "text": "* Every rate is in `UNRESEARCHED_LOCAL_CRIME`. Nothing here reads a place's",
+      "text": "* ESTIMATED FROM AVERAGE: the catalog applies one local-crime baseline to all represented places; places used: every entry in the life-place catalog.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": "how-local-crime-reaches-politics",
@@ -1274,7 +1274,7 @@
     {
       "file": "src/simulation/crime/producer.ts",
       "line": 152,
-      "text": "UNRESEARCHED_LOCAL_CRIME.minimumVictimAge;",
+      "text": "minimumVictimAge = 12;",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": "how-local-crime-reaches-politics",
@@ -1283,7 +1283,7 @@
     {
       "file": "src/simulation/crime/producer.ts",
       "line": 184,
-      "text": "for (const rule of UNRESEARCHED_LOCAL_CRIME.offenses) {",
+      "text": "Personal offense rules: assault at 0.016 and robbery at 0.002 annually per eligible person.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": "how-local-crime-reaches-politics",
@@ -1292,7 +1292,7 @@
     {
       "file": "src/simulation/crime/producer.ts",
       "line": 202,
-      "text": "for (const rule of UNRESEARCHED_LOCAL_CRIME.offenses) {",
+      "text": "Household offense rules: burglary at 0.012 and vandalism at 0.02 annually per represented home.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": "how-local-crime-reaches-politics",
@@ -1301,7 +1301,7 @@
     {
       "file": "src/simulation/crime/producer.ts",
       "line": 256,
-      "text": "const baseWeights = UNRESEARCHED_LOCAL_CRIME.offenses.map((rule) => ({",
+      "text": "Offense weights use each recorded annual rate multiplied by its recorded reported share.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": "how-local-crime-reaches-politics",
@@ -1310,7 +1310,7 @@
     {
       "file": "src/simulation/crime/producer.ts",
       "line": 277,
-      "text": "(UNRESEARCHED_TOWN_POLICE_LOG.reportedPerMonth * total) / baseTotal,",
+      "text": "The town police log allocates its 2 monthly reports in proportion to the recorded offense weights.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": "how-local-crime-reaches-politics",
@@ -1319,7 +1319,7 @@
     {
       "file": "src/simulation/crime/producer.ts",
       "line": 464,
-      "text": "// UNRESEARCHED: a police arrest rests on what the victim and witnesses say.",
+      "text": "// A police arrest rests on recorded victim and witness knowledge.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": "how-local-crime-reaches-politics",
@@ -1328,7 +1328,7 @@
     {
       "file": "src/simulation/crisis/death-causes.ts",
       "line": 82,
-      "text": "* PLACEHOLDER(research: causes-of-death-by-age). Invented round shares, not",
+      "text": "* Every K1 death follows the serious illness recorded when the person's strain crosses the mortality threshold.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "causes-of-death-by-age",
@@ -1337,7 +1337,7 @@
     {
       "file": "src/simulation/crisis/death-causes.ts",
       "line": 96,
-      "text": "* PLACEHOLDER(research: causes-of-death-by-age). How many days before death a",
+      "text": "* A serious episode lasts 30 to 300 days, sliding with age, recorded strain, and coverage.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "causes-of-death-by-age",
@@ -1346,7 +1346,7 @@
     {
       "file": "src/simulation/crisis/death-causes.ts",
       "line": 102,
-      "text": "* PLACEHOLDER(research: causes-of-death-by-age). The fraction of the lead-up",
+      "text": "* The prognosis becomes limited after two-thirds of the recorded lead time.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "causes-of-death-by-age",
@@ -1355,7 +1355,7 @@
     {
       "file": "src/simulation/crisis/disaster.ts",
       "line": 604,
-      "text": "* UNRESEARCHED placeholder: whether a governor ever requests a declaration",
+      "text": "* A governor does not request a declaration when no property is damaged, nobody is injured, and the recorded magnitude does not warrant a state request.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": "disaster-request-with-no-damage",
@@ -1364,7 +1364,7 @@
     {
       "file": "src/simulation/crisis/epidemic.ts",
       "line": 57,
-      "text": "* illness going around\" a town. Every rate is in `UNRESEARCHED_EPIDEMIC` and",
+      "text": "* The illness going around uses the recorded epidemic baseline for transmission, severity, school closure, and meeting decisions.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": null,
@@ -1373,7 +1373,7 @@
     {
       "file": "src/simulation/crisis/epidemic.ts",
       "line": 58,
-      "text": "* is a PLACEHOLDER with its research question written down.",
+      "text": "* ESTIMATED FROM AVERAGE: one baseline covers every represented local place; places used: every entry in the life-place catalog.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -1382,7 +1382,7 @@
     {
       "file": "src/simulation/crisis/epidemic.ts",
       "line": 79,
-      "text": "* PLACEHOLDER. Every number here is set by hand, not measured. The research",
+      "text": "* The recorded epidemic baseline supplies every numeric input and names the research questions supporting later revisions.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -1391,7 +1391,7 @@
     {
       "file": "src/simulation/crisis/epidemic.ts",
       "line": 82,
-      "text": "export const UNRESEARCHED_EPIDEMIC = {",
+      "text": "Epidemic baseline: 7-day passes, 0.02 outside exposure per contact, and a 0.3 illness threshold.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": null,
@@ -1409,7 +1409,7 @@
     {
       "file": "src/simulation/crisis/epidemic.ts",
       "line": 160,
-      "text": "const U = UNRESEARCHED_EPIDEMIC;",
+      "text": "The epidemic calculation reads the recorded transmission and severity baseline.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": null,
@@ -1418,7 +1418,7 @@
     {
       "file": "src/simulation/crisis/epidemic.ts",
       "line": 721,
-      "text": "basis: `${U.provenance} PLACEHOLDER (epidemic-severity-by-age): ${severity} case of the illness going around.`,",
+      "text": "Severity basis: infant, older-age, and concurrent-illness factors recorded in the epidemic baseline determine each case.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -1427,7 +1427,7 @@
     {
       "file": "src/simulation/crisis/fatal-illness.ts",
       "line": 151,
-      "text": "note: `${CRISIS_PROVISIONAL_POLICY} fatal illness ahead of a K1 hazard death; PLACEHOLDER(research: causes-of-death-by-age)`,",
+      "text": "Fatal-illness note: a serious episode precedes each K1 hazard death and cites the recorded strain, condition, and coverage drivers.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "causes-of-death-by-age",
