@@ -119,6 +119,8 @@ export function LifeStartTransition({
             )
             .catch((error: unknown) => {
               if (!controller.signal.aborted) {
+                if (performance.now() >= deadlineAt)
+                  setElapsed(LIFE_START_BUDGET_MS);
                 setProblem(
                   error instanceof Error
                     ? error.message

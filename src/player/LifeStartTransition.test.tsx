@@ -11,6 +11,8 @@ const hooks = vi.hoisted(() => ({
   effects: [] as (() => void | (() => void))[],
   progress: null as LifeStartProgress | null,
   updates: 0,
+  elapsed: 0,
+  problem: null as string | null,
 }));
 
 vi.mock("react", async (original) => ({
@@ -21,8 +23,20 @@ vi.mock("react", async (original) => ({
   useState: (initial: unknown) => [
     typeof initial === "object" && initial && "label" in initial
       ? (hooks.progress ?? initial)
-      : initial,
+      : typeof initial === "number"
+        ? hooks.elapsed
+        : initial === null
+          ? hooks.problem
+          : initial,
     (next: unknown) => {
+      if (typeof next === "number") {
+        hooks.elapsed = next;
+        return;
+      }
+      if (typeof next === "string") {
+        hooks.problem = next;
+        return;
+      }
       if (typeof next === "function") return;
       if (typeof next !== "object" || !next || !("label" in next)) return;
       hooks.progress = next as LifeStartProgress;
@@ -35,9 +49,12 @@ beforeEach(() => {
   hooks.effects = [];
   hooks.progress = null;
   hooks.updates = 0;
+  hooks.elapsed = 0;
+  hooks.problem = null;
   vi.useFakeTimers();
 });
 afterEach(() => {
+  vi.restoreAllMocks();
   vi.useRealTimers();
   vi.unstubAllGlobals();
 });
@@ -134,6 +151,32 @@ describe("life preparation status", () => {
     await vi.advanceTimersByTimeAsync(1);
     expect(signal?.aborted).toBe(true);
     expect(signal?.reason).toMatchObject({ name: "TimeoutError" });
+    mounted.unmount();
+  });
+
+  it("shows 2:00 when preparation detects the deadline before the timeout callback", async () => {
+    vi.spyOn(performance, "now").mockReturnValue(0);
+    let reject!: (error: Error) => void;
+    const mounted = mount(
+      true,
+      () =>
+        new Promise<void>((_resolve, fail) => {
+          reject = fail;
+        }),
+    );
+    await vi.advanceTimersByTimeAsync(16);
+    hooks.elapsed = LIFE_START_BUDGET_MS - 1000;
+    vi.spyOn(performance, "now").mockReturnValue(LIFE_START_BUDGET_MS);
+    const error = new Error("This life reached the two-minute limit.");
+    error.name = "TimeoutError";
+    reject(error);
+    await vi.advanceTimersByTimeAsync(0);
+    const rendered = renderToStaticMarkup(
+      <LifeStartTransition onPrepare={async () => {}} />,
+    );
+    expect(rendered).toContain("2:00 / 2:00");
+    expect(rendered).toContain(error.message);
+    expect(rendered).not.toContain("1:59 / 2:00");
     mounted.unmount();
   });
 
