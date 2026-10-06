@@ -4,7 +4,11 @@ import {
 } from "../political-belief-formation";
 import { partyOpinionSubject } from "../political-opinion-subjects";
 import { deserializeWorld, serializeWorld } from "../serialization";
-import { scheduleFutureDueItem } from "../future-transitions";
+import {
+  scheduleFutureDueItem,
+  scheduledFutureDueItemsThrough,
+  setFutureDueItemTerminalState,
+} from "../future-transitions";
 import { beforeAll, describe, expect, it } from "vitest";
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
 import {
@@ -12,9 +16,16 @@ import {
   prepareOpeningLife,
 } from "../../presentation/opening-life";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
-import { addDays } from "../dates";
-import type { EntityId, World } from "../types";
-import { advanceWorld, assertWorldIntegrity } from "../world";
+import { addDays, simulationMomentOnLocalDate } from "../dates";
+import type {
+  EntityId,
+  World,
+} from "../types";
+import {
+  advanceWithWorldIntegrityAtEnd,
+  advanceWorld,
+  assertWorldIntegrity,
+} from "../world";
 import { partyRecords } from "../world-setup/integrity";
 import {
   caucusMembership,
@@ -34,8 +45,10 @@ import {
   partyBodyMembers,
   partyActorStance,
   partyEvolutionRecords,
+  partyPlatformAt,
   partyUnitLeaders,
   partyUnitOfficersAt,
+  partyBodyReviewTransitionHandler,
   proposePartyInitiative,
   recordPartyBodyDecision,
   respondToPartyInitiative,
@@ -123,6 +136,62 @@ function firstHouseMember(world: World): EntityId {
   )!;
   if (seat.occupant.kind !== "member") throw new Error("No seated member.");
   return seat.occupant.member.personId;
+}
+
+function advancePartyOnlyWorld(world: World, days: number): World {
+  return advanceWithWorldIntegrityAtEnd(() => {
+    const targetDate = addDays(world.currentDate, days);
+    let next = world;
+    while (true) {
+      const item = scheduledFutureDueItemsThrough(
+        next,
+        next.currentDate,
+        targetDate,
+      )[0];
+      if (!item) break;
+      next = {
+        ...next,
+        currentDate: item.dueAt,
+        currentMoment: simulationMomentOnLocalDate(
+          next.currentMoment,
+          item.dueAt,
+        ),
+      };
+      const isPartyReview =
+        item.transitionKey === PARTY_BODY_REVIEW_TRANSITION_KEY;
+      if (isPartyReview) {
+        const result = partyBodyReviewTransitionHandler(next, item);
+        next = result.world;
+        next = setFutureDueItemTerminalState(next, {
+          stableKey: `party-watch:${item.stableKey}:${next.history.nextSequence}`,
+          dueItemId: item.id,
+          effectiveAt: item.dueAt,
+          status: result.status,
+          reasonKey: result.reasonKey,
+          context: result.context,
+          outcomeEventId: result.outcomeEventId,
+        });
+      } else {
+        next = setFutureDueItemTerminalState(next, {
+          stableKey: `party-watch:isolated:${item.stableKey}:${next.history.nextSequence}`,
+          dueItemId: item.id,
+          effectiveAt: item.dueAt,
+          status: "blocked",
+          reasonKey: "party-watch:other-system-isolated",
+          context: "This watched run advances party body reviews only.",
+          outcomeEventId: null,
+        });
+      }
+    }
+    return {
+      ...next,
+      currentDate: targetDate,
+      currentMoment: simulationMomentOnLocalDate(
+        next.currentMoment,
+        targetDate,
+      ),
+    };
+  }, world);
 }
 
 function foundParty(
@@ -768,6 +837,75 @@ describe("a member weighing whether to leave the body", () => {
         expect(assessment.allies.length).toBeGreaterThan(0);
         expect(assessment.disputedDecisionIds.length).toBeGreaterThan(0);
       }
+      assertWorldIntegrity(world);
+    },
+    LONG,
+  );
+});
+
+describe("a twenty-year party drift run", () => {
+  it(
+    "records platform movement with members and an actual split in a random opening state",
+    () => {
+      const startingPlatforms = partyRecords(base).filter(
+        (record) => record.kind === "party-platform",
+      ).length;
+      const world = advancePartyOnlyWorld(base, 365 * 20);
+      const platforms = partyRecords(world).filter(
+        (record) => record.kind === "party-platform",
+      );
+      const changedPlatforms = platforms.filter((platform) => {
+        if (platform.kind !== "party-platform" || !platform.supersedesPlatformId)
+          return false;
+        const previous = platforms.find(
+          (candidate) => candidate.id === platform.supersedesPlatformId,
+        );
+        return (
+          previous?.kind === "party-platform" &&
+          JSON.stringify(previous.positions) !== JSON.stringify(platform.positions)
+        );
+      });
+      const changes = partyEvolutionRecords(world);
+      const split = changes.find((record) => record.change === "split-off");
+      expect(platforms.length).toBeGreaterThan(startingPlatforms);
+      expect(changedPlatforms.length).toBeGreaterThan(0);
+      const changedPlatform = changedPlatforms[0]!;
+      if (changedPlatform.kind !== "party-platform")
+        throw new Error("A changed party platform was misclassified.");
+      const decision = partyBodyDecisions(
+        world,
+        changedPlatform.organizationId,
+      ).find((record) => record.id === changedPlatform.decisionId)!;
+      expect(decision.participantPersonIds.length).toBeGreaterThan(0);
+      expect(
+        partyPlatformAt(
+          world,
+          changedPlatform.organizationId,
+          changedPlatform.effectiveDate,
+        )?.positions.find(
+          (position) => position.questionKey === decision.questionKey,
+        )?.optionKey,
+      ).toBe(decision.adoptedOptionKey);
+      expect(split).toBeDefined();
+      expect(split!.movedPersonIds.length).toBeGreaterThan(0);
+      const splitInitiative = partyRecords(world).find(
+        (record) =>
+          record.kind === "party-initiative" &&
+          record.id === split!.initiativeId,
+      );
+      expect(splitInitiative?.kind).toBe("party-initiative");
+      if (splitInitiative?.kind !== "party-initiative")
+        throw new Error("A split needs its recorded member initiative.");
+      expect(splitInitiative.reasonKeys).toContain("allies:1");
+      const chapter = homePartyChapters(base)[0]!;
+      const place = base.jurisdictions[chapter.jurisdictionId]!.name;
+      const event = world.history.events.find(
+        (item) => item.id === split!.publicEventId,
+      )!;
+      console.info(
+        `WATCHED RUN P5 — ${place} (seed world46-parties): members' recorded views shaped body votes and moved the party platform over 20 years; repeated recorded disagreements led a named dissenter and one ally to choose leaving; the original party continued with its remaining members.`,
+      );
+      console.info(`NEWS/JOURNAL — ${event.summary}`);
       assertWorldIntegrity(world);
     },
     LONG,
