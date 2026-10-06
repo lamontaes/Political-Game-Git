@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-06T04:44:00Z",
+  "updatedAt": "2026-10-06T04:47:00Z",
   "updatedBy": "Session 45",
   "source": {
     "issue": "#2052",
@@ -335,81 +335,87 @@
     },
     {
       "session": 26,
-      "model": "GPT-6 Luna",
-      "effort": "Medium",
+      "model": "unknown",
+      "effort": "unknown",
       "assignment": {
         "bankId": "b01",
-        "doc": "docs/codex/assignments/ask-to-sign.md"
+        "label": "askToSign",
+        "doc": "unknown"
       },
       "currentPr": "unknown",
       "head": "unknown",
       "lastPostAt": "unknown",
-      "state": "active/unknown-post-time"
+      "state": "activity observed; process time unverified"
     },
     {
       "session": 27,
-      "model": "GPT-6 Luna",
-      "effort": "Medium",
+      "model": "unknown",
+      "effort": "unknown",
       "assignment": {
         "bankId": "b02",
-        "doc": "docs/codex/assignments/campaign-money.md"
+        "label": "campaign money",
+        "doc": "unknown"
       },
       "currentPr": "unknown",
       "head": "unknown",
       "lastPostAt": "unknown",
-      "state": "active/unknown-post-time"
+      "state": "activity observed; process time unverified"
     },
     {
       "session": 28,
-      "model": "GPT-6 Luna",
-      "effort": "Medium",
+      "model": "unknown",
+      "effort": "unknown",
       "assignment": {
         "bankId": "b06",
-        "doc": "docs/codex/assignments/constituents.md"
+        "label": "constituents",
+        "doc": "unknown"
       },
       "currentPr": "unknown",
       "head": "unknown",
       "lastPostAt": "unknown",
-      "state": "active/unknown-post-time"
+      "state": "activity observed; process time unverified"
     },
     {
       "session": 29,
-      "model": "GPT-6 Luna",
-      "effort": "Medium",
+      "model": "unknown",
+      "effort": "unknown",
       "assignment": {
         "bankId": "b07",
-        "doc": "docs/codex/assignments/what-people-think-of-you.md"
+        "label": "what people think of you",
+        "doc": "unknown"
       },
       "currentPr": "unknown",
       "head": "unknown",
       "lastPostAt": "unknown",
-      "state": "active/unknown-post-time"
+      "state": "activity observed; process time unverified"
     },
     {
       "session": 30,
-      "model": "GPT-6 Luna",
-      "effort": "Medium",
+      "model": "unknown",
+      "effort": "unknown",
       "assignment": {
         "bankId": "b08",
-        "doc": "docs/codex/assignments/vote-bargaining.md"
+        "label": "vote bargaining",
+        "doc": "unknown"
       },
       "currentPr": "unknown",
       "head": "unknown",
       "lastPostAt": "unknown",
-      "state": "active/unknown-post-time"
+      "state": "activity observed; process time unverified"
     },
     {
       "session": 31,
-      "model": "GPT-6 Luna",
-      "effort": "Medium",
+      "model": "unknown",
+      "effort": "unknown",
       "assignment": {
         "bankId": "b04",
-        "doc": "docs/codex/assignments/losing.md"
+        "label": "losing",
+        "doc": "unknown"
       },
       "currentPr": "unknown",
       "head": "unknown",
       "lastPostAt": "unknown",
-      "state": "active/unknown-post-time"
+      "state": "activity observed; process time unverified"
     },
     {
       "session": 32,
@@ -417,12 +423,13 @@
       "effort": "Medium",
       "assignment": {
         "bankId": "b09",
-        "doc": "docs/codex/assignments/poison-pills-and-riders.md"
+        "label": "poison pills",
+        "doc": "unknown"
       },
       "currentPr": "unknown",
       "head": "unknown",
       "lastPostAt": "unknown",
-      "state": "active/unknown-post-time"
+      "state": "activity observed; process time unverified"
     },
     {
       "session": 33,
@@ -430,12 +437,13 @@
       "effort": "Medium",
       "assignment": {
         "bankId": "b10",
-        "doc": "docs/codex/assignments/committees-and-leadership.md"
+        "label": "committees",
+        "doc": "unknown"
       },
       "currentPr": "unknown",
       "head": "unknown",
       "lastPostAt": "unknown",
-      "state": "active/unknown-post-time"
+      "state": "activity observed; process time unverified"
     },
     {
       "session": 34,
@@ -443,12 +451,13 @@
       "effort": "Medium",
       "assignment": {
         "bankId": "b11",
-        "doc": "docs/codex/assignments/your-week-and-state-capital-table.md"
+        "label": "capital/home",
+        "doc": "unknown"
       },
       "currentPr": "unknown",
       "head": "unknown",
       "lastPostAt": "unknown",
-      "state": "active/unknown-post-time"
+      "state": "activity observed; process time unverified"
     },
     {
       "session": 35,
@@ -456,12 +465,13 @@
       "effort": "Medium",
       "assignment": {
         "bankId": "b12",
-        "doc": "docs/codex/assignments/minority-tools.md"
+        "label": "minority tools",
+        "doc": "unknown"
       },
       "currentPr": "unknown",
       "head": "unknown",
       "lastPostAt": "unknown",
-      "state": "active/unknown-post-time"
+      "state": "activity observed; process time unverified"
     },
     {
       "session": 36,
@@ -469,12 +479,13 @@
       "effort": "Medium",
       "assignment": {
         "bankId": "b14",
-        "doc": "docs/codex/assignments/corruption.md"
+        "label": "corruption",
+        "doc": "unknown"
       },
       "currentPr": "unknown",
       "head": "unknown",
       "lastPostAt": "unknown",
-      "state": "active/unknown-post-time"
+      "state": "activity observed; process time unverified"
     },
     {
       "session": 37,
@@ -482,12 +493,13 @@
       "effort": "Medium",
       "assignment": {
         "bankId": "b26",
-        "doc": "docs/codex/assignments/scandals-and-press.md"
+        "label": "scandals",
+        "doc": "unknown"
       },
       "currentPr": "unknown",
       "head": "unknown",
       "lastPostAt": "unknown",
-      "state": "active/unknown-post-time"
+      "state": "activity observed; process time unverified"
     },
     {
       "session": 38,
@@ -495,12 +507,13 @@
       "effort": "Medium",
       "assignment": {
         "bankId": "b17",
-        "doc": "docs/codex/assignments/executive-orders.md"
+        "label": "executive orders",
+        "doc": "unknown"
       },
       "currentPr": "unknown",
       "head": "unknown",
       "lastPostAt": "unknown",
-      "state": "active/unknown-post-time"
+      "state": "activity observed; process time unverified"
     },
     {
       "session": 39,
@@ -508,12 +521,13 @@
       "effort": "Medium",
       "assignment": {
         "bankId": "b19",
-        "doc": "docs/codex/assignments/death-look-back.md"
+        "label": "death look-back",
+        "doc": "unknown"
       },
       "currentPr": "unknown",
       "head": "unknown",
       "lastPostAt": "unknown",
-      "state": "active/unknown-post-time"
+      "state": "activity observed; process time unverified"
     },
     {
       "session": 40,
@@ -521,12 +535,13 @@
       "effort": "Medium",
       "assignment": {
         "bankId": "b21",
-        "doc": "docs/codex/assignments/family.md"
+        "label": "family",
+        "doc": "unknown"
       },
       "currentPr": "unknown",
       "head": "unknown",
       "lastPostAt": "unknown",
-      "state": "active/unknown-post-time"
+      "state": "activity observed; process time unverified"
     },
     {
       "session": 41,
@@ -534,25 +549,27 @@
       "effort": "Medium",
       "assignment": {
         "bankId": "b23",
-        "doc": "docs/codex/assignments/real-local-names.md"
+        "label": "local names",
+        "doc": "unknown"
       },
       "currentPr": "unknown",
       "head": "unknown",
       "lastPostAt": "unknown",
-      "state": "active/unknown-post-time"
+      "state": "activity observed; process time unverified"
     },
     {
       "session": 42,
-      "model": "GPT-6 Luna",
-      "effort": "Medium",
+      "model": "unknown",
+      "effort": "unknown",
       "assignment": {
         "bankId": "b13",
-        "doc": "docs/codex/assignments/judge-play.md"
+        "label": "judge play",
+        "doc": "unknown"
       },
       "currentPr": "unknown",
       "head": "unknown",
       "lastPostAt": "unknown",
-      "state": "active/unknown-post-time"
+      "state": "activity observed; process time unverified"
     },
     {
       "session": 43,
@@ -588,9 +605,9 @@
         "bankId": "roster-keeper",
         "doc": "docs/codex/roster.json"
       },
-      "currentPr": "this PR",
-      "head": "pending",
-      "lastPostAt": "2026-10-06T04:44:00Z",
+      "currentPr": "https://github.com/lamontaes/Political-Game-Git/pull/2322",
+      "head": "d186d7b961580c038a5f4280703c80858a4b5859",
+      "lastPostAt": "2026-10-06T04:46:39Z",
       "state": "active"
     }
   ],
@@ -604,8 +621,9 @@
     "b25"
   ],
   "notes": [
-    "Unknown means not verified from bounded board or PR evidence; no model switch inferred from owner intent.",
-    "Exact assignment document paths for Sessions 26–42 are unverified; filenames here are descriptive slugs based on board labels and must be corrected from canonical assignment list.",
-    "Session 42 claim b13 is seen twice in recent issue comments; duplicate board posts are not separate claims."
+    "Unknown means not verified from bounded board/PR evidence; owner intent to switch models is not evidence of a completed switch.",
+    "Session 26–42 canonical assignment doc paths are unknown pending a verified file index.",
+    "The #2052 recent coordinator snapshot lists assignments 26–41; Session 42 b13 claim observed; duplicate comments do not indicate additional claims.",
+    "No IDLE state is inferred without timestamp evidence of two hours without post or push."
   ]
 }
