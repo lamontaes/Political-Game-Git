@@ -1,4 +1,4 @@
-import { type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import type {
   EntityId,
   World,
@@ -6,6 +6,9 @@ import type {
 } from "../../simulation";
 import { currentOpeningLifeScene } from "../../presentation/life-scene-flow";
 import { LifeScenePanel } from "./LifeScenePanel";
+import { nextPlayedSceneSpeaker } from "../../presentation/scene-conversation";
+import { recordedRoomPresence } from "../../presentation/recorded-room-presence";
+import { SceneConversation } from "../SceneConversation";
 
 /** Typed root integration seam. The caller keeps its navigation, save store and scene. */
 export interface OpeningLifeFlowProps {
@@ -31,9 +34,54 @@ export interface OpeningLifeFlowProps {
  * Household/world facts live on Personal, on demand.
  */
 export function OpeningLifeFlow(props: OpeningLifeFlowProps) {
+  const [dismissedPresence, setDismissedPresence] = useState<EntityId | null>(
+    null,
+  );
+  const [activeExchange, setActiveExchange] = useState<{
+    presenceId: EntityId;
+    speakerId: EntityId;
+  } | null>(null);
+  const speaker = useMemo(
+    () => nextPlayedSceneSpeaker(props.world, props.playerPersonId),
+    [props.world, props.playerPersonId],
+  );
+  const presence = recordedRoomPresence(props.world, props.playerPersonId);
+  const presenceId = presence?.eventId ?? null;
+  useEffect(() => {
+    if (speaker && presenceId && presenceId !== dismissedPresence)
+      setActiveExchange((previous) =>
+        previous?.presenceId === presenceId && previous.speakerId === speaker
+          ? previous
+          : { presenceId, speakerId: speaker },
+      );
+  }, [speaker, presenceId, dismissedPresence]);
+  const currentSpeaker =
+    activeExchange?.presenceId === presenceId &&
+    presence?.personIds.includes(activeExchange.speakerId)
+      ? activeExchange.speakerId
+      : speaker;
   const scene = currentOpeningLifeScene(props.world, props.playerPersonId);
 
   if (props.foreground) return <>{props.foreground}</>;
+  if (currentSpeaker && presence && dismissedPresence !== presence.eventId)
+    return (
+      <SceneConversation
+        world={props.world}
+        playerPersonId={props.playerPersonId}
+        subject="life-talk"
+        addressee={currentSpeaker}
+        onWorldChange={props.onWorldChange}
+        onChange={(next) => {
+          if (next.addressee !== "everyone") props.onTalkTo(next.addressee);
+        }}
+        onBack={() => setDismissedPresence(presence.eventId)}
+        transitionHandlers={props.transitionHandlers}
+        presentPersonIds={presence.personIds}
+      />
+    );
+  // Compatibility consumes only an already recorded canonical opening beat.
+  // NEW transitions are supplied by live records through the shared foreground.
+  if (!scene) return null;
   if (props.pendingOpen && props.pendingAvailable && props.pendingLife) {
     return (
       <div
@@ -64,7 +112,6 @@ export function OpeningLifeFlow(props: OpeningLifeFlowProps) {
       </div>
     );
   }
-  if (!scene) return null;
   return (
     <>
       <LifeScenePanel

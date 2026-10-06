@@ -138,7 +138,6 @@ import {
   ROOM_TELEVISION_SLOT_ID,
 } from "../presentation/room-media";
 import { CampaignLifePanel } from "./CampaignLifePanel";
-import { CandidateGuidancePanel } from "./CandidateGuidancePanel";
 import { resolveExecutiveOffice } from "../simulation/executive-work-context";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import {
@@ -218,7 +217,6 @@ import {
   PUBLIC_MEETING_ROOM_SCENE_ID,
   SCENE_REGISTRY,
 } from "../presentation/scene-registry";
-import { OrdinaryMeetingPanel } from "./OrdinaryMeetingPanel";
 import {
   AmbientTableau,
   TitleScreen,
@@ -2662,32 +2660,6 @@ function PlayingScreen({
                 });
               }}
             >
-              {view.surface === "scene" &&
-              !readOnly &&
-              !showOrientation &&
-              !conversation ? (
-                <>
-                  <OrdinaryMeetingPanel
-                    world={session.world}
-                    personId={session.personId}
-                    onWorldChange={onWorldChange}
-                    onOpenEntity={openEntity}
-                    onOutcome={setPassOutcome}
-                  />
-                </>
-              ) : null}
-              {view.surface === "scene" &&
-              !readOnly &&
-              !showOrientation &&
-              !conversation ? (
-                <CandidateGuidancePanel
-                  world={session.world}
-                  personId={session.personId}
-                  onWorldChange={onWorldChange}
-                  onOpenEntity={openEntity}
-                  onOutcome={setPassOutcome}
-                />
-              ) : null}
               {view.surface === "scene" && !readOnly ? (
                 <OpeningLifeFlow
                   key={`${session.world.id}:${session.personId}`}
