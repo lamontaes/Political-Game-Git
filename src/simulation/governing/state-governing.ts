@@ -957,8 +957,22 @@ function optionsFor(
       ];
     case "inherited-executive-order":
       return [
-        { key: "inherited-order:keep", label: "Keep this order", effect: "Leave the inherited order in force.", tradeoff: "The prior executive's direction continues.", personId: null, assessment: null },
-        { key: "inherited-order:revoke", label: "Revoke this order", effect: "End the inherited order by executive action.", tradeoff: "Agencies will no longer follow this order.", personId: null, assessment: null },
+        {
+          key: "inherited-order:keep",
+          label: "Keep this order",
+          effect: "Leave the inherited order in force.",
+          tradeoff: "The prior executive's direction continues.",
+          personId: null,
+          assessment: null,
+        },
+        {
+          key: "inherited-order:revoke",
+          label: "Revoke this order",
+          effect: "End the inherited order by executive action.",
+          tradeoff: "Agencies will no longer follow this order.",
+          personId: null,
+          assessment: null,
+        },
       ];
     case "regulation": {
       const encoded = tagValue(event, "delegation-term:");
@@ -2188,8 +2202,9 @@ export function openTransitionMatters(world: World, officeKey: string): World {
   const office = governingOfficeByKey(world, officeKey);
   if (!office || !office.organizationId) return world;
   const key = matterStableKey(office, "chief-of-staff", "transition");
-  if (world.history.events.some((event) => event.stableKey === key))
-    return world;
+  if (world.history.events.some((event) => event.stableKey === key)) {
+    return openInheritedExecutiveOrderMatters(world, office);
+  }
   // The office's positions exist before anybody is hired into them: that is
   // what makes an unfilled one findable by somebody looking for the work.
   const staffed = establishOfficeStaffPositions(world, office);
@@ -2212,7 +2227,22 @@ export function openTransitionMatters(world: World, officeKey: string): World {
     instance: "first-year",
     programKeys,
   });
-  for (const order of inheritedExecutiveOrders(next, office.jurisdictionId, office.holderPersonId)) {
+  next = openInheritedExecutiveOrderMatters(next, office);
+  // Money the government has already adopted is waiting for this office.
+  return openProgramMatters(next, office);
+}
+
+/** Open transition review independently of the other once-per-term matters. */
+function openInheritedExecutiveOrderMatters(
+  world: World,
+  office: GoverningOffice,
+): World {
+  let next = world;
+  for (const order of inheritedExecutiveOrders(
+    next,
+    office.jurisdictionId,
+    office.holderPersonId,
+  )) {
     next = openMatter(next, office, {
       family: "inherited-executive-order",
       instance: order.id,
@@ -2220,8 +2250,7 @@ export function openTransitionMatters(world: World, officeKey: string): World {
       titleSubject: `${order.designation}, ${order.shortTitle}`,
     });
   }
-  // Money the government has already adopted is waiting for this office.
-  return openProgramMatters(next, office);
+  return next;
 }
 
 /* ------------------------------------------------------------------ *
@@ -2592,12 +2621,18 @@ function decisionSummary(
         : {
             summary: `${who}, ${office.title}, requested an executive order on ${matter.subjectKey ?? "this matter"}. The request was refused: ${authority.reason}`,
             visibility: "limited",
-        };
+          };
     }
     case "inherited-executive-order":
       return option.key === "inherited-order:revoke"
-        ? { summary: `${who}, ${office.title}, revoked the inherited order ${measureTitle(world, matter.measureId) ?? ""} for their own reasons.`, visibility: "public" }
-        : { summary: `${who}, ${office.title}, kept the inherited order ${measureTitle(world, matter.measureId) ?? ""} in force.`, visibility: "public" };
+        ? {
+            summary: `${who}, ${office.title}, revoked the inherited order ${measureTitle(world, matter.measureId) ?? ""} for their own reasons.`,
+            visibility: "public",
+          }
+        : {
+            summary: `${who}, ${office.title}, kept the inherited order ${measureTitle(world, matter.measureId) ?? ""} in force.`,
+            visibility: "public",
+          };
     case "regulation":
       if (option.key === "regulation:return")
         return {
@@ -2711,9 +2746,12 @@ function applyConsequence(
       return next;
     }
     case "inherited-executive-order": {
-      if (option.key !== "inherited-order:revoke" || !matter.measureId) return world;
+      if (option.key !== "inherited-order:revoke" || !matter.measureId)
+        return world;
       const jurisdictionKey = authorityJurisdictionForOffice(world, office);
-      const target = (world.history.legislativeMeasures ?? []).find((row) => row.id === matter.measureId);
+      const target = (world.history.legislativeMeasures ?? []).find(
+        (row) => row.id === matter.measureId,
+      );
       if (!jurisdictionKey || !target) return world;
       return issueExecutiveInstrument(world, {
         stableKey: `${matter.stableKey}:revocation`,
@@ -2724,7 +2762,8 @@ function applyConsequence(
         designation: `Executive Order ${(world.history.legislativeMeasures ?? []).filter((row) => row.governmentInstrument === "executive-order" && row.jurisdictionId === office.jurisdictionId).length + 1}`,
         shortTitle: `Revoke ${target.designation}`,
         summary: `Revoke ${target.designation}: ${billReasons?.trim() || option.effect}`,
-        actorLabel: executiveRulePackForJurisdiction(jurisdictionKey).displayName,
+        actorLabel:
+          executiveRulePackForJurisdiction(jurisdictionKey).displayName,
         actorPersonId: office.holderPersonId,
         rationale: billReasons?.trim() || option.effect,
         sourceDocumentKey: `session9:executive-order:${jurisdictionKey}:revoke:${target.id}`,
@@ -2733,7 +2772,14 @@ function applyConsequence(
         expiresAt: null,
         propositionIds: [],
         propositionAnswers: [],
-        authorityChecks: [{ clause: { kind: "revoke-executive-order", targetMeasureId: target.id } }],
+        authorityChecks: [
+          {
+            clause: {
+              kind: "revoke-executive-order",
+              targetMeasureId: target.id,
+            },
+          },
+        ],
       });
     }
     case "regulation": {
