@@ -234,13 +234,14 @@ const CATALOGUE_EFFECTS: TraitPack["effects"] = [
       },
     ],
   },
+  ...personalityTraitEffects(),
 ];
 
 export function personalityCataloguePack(): TraitPack {
   return {
     pack: PERSONALITY_PACK,
     traits: CATALOGUE_SCALES.map(declarationFor),
-    effects: [...personalityTraitEffects(), ...CATALOGUE_EFFECTS],
+    effects: CATALOGUE_EFFECTS,
   };
 }
 

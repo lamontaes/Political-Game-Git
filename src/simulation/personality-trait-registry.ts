@@ -106,6 +106,90 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
     reader:
       "career.consider-another-term — src/simulation/traits/effects/self-confidence.ts",
   },
+  {
+    trait: "personality-v1:facet-affectionate",
+    kind: "decision",
+    reader:
+      "registeredTraitConsiderations — src/simulation/traits/effects/facet-affectionate.ts",
+  },
+  {
+    trait: "personality-v1:facet-thrill-seeking",
+    kind: "decision",
+    reader:
+      "registeredTraitConsiderations — src/simulation/traits/effects/facet-thrill-seeking.ts",
+  },
+  {
+    trait: "personality-v1:facet-zealous",
+    kind: "decision",
+    reader:
+      "registeredTraitConsiderations — src/simulation/traits/effects/facet-zealous.ts",
+  },
+  {
+    trait: "personality-v1:facet-envious",
+    kind: "decision",
+    reader:
+      "registeredTraitConsiderations — src/simulation/traits/effects/facet-envious.ts",
+  },
+  {
+    trait: "personality-v1:facet-gentle",
+    kind: "decision",
+    reader:
+      "registeredTraitConsiderations — src/simulation/traits/effects/facet-gentle.ts",
+  },
+  {
+    trait: "personality-v1:facet-supportive",
+    kind: "decision",
+    reader:
+      "registeredTraitConsiderations — src/simulation/traits/effects/facet-supportive.ts",
+  },
+  {
+    trait: "personality-v1:facet-comforting",
+    kind: "decision",
+    reader:
+      "registeredTraitConsiderations — src/simulation/traits/effects/facet-comforting.ts",
+  },
+  {
+    trait: "personality-v1:facet-nurturing",
+    kind: "decision",
+    reader:
+      "registeredTraitConsiderations — src/simulation/traits/effects/facet-nurturing.ts",
+  },
+  {
+    trait: "personality-v1:facet-tender-hearted",
+    kind: "decision",
+    reader:
+      "registeredTraitConsiderations — src/simulation/traits/effects/facet-tender-hearted.ts",
+  },
+  {
+    trait: "personality-v1:facet-opportunistic",
+    kind: "decision",
+    reader:
+      "registeredTraitConsiderations — src/simulation/traits/effects/facet-opportunistic.ts",
+  },
+  {
+    trait: "personality-v1:facet-studious",
+    kind: "decision",
+    reader:
+      "registeredTraitConsiderations — src/simulation/traits/effects/facet-studious.ts",
+  },
+  {
+    trait: "personality-v1:facet-blunt",
+    kind: "decision",
+    reader:
+      "registeredTraitConsiderations — src/simulation/traits/effects/facet-blunt.ts",
+  },
+  {
+    trait: "personality-v1:facet-brazen",
+    kind: "decision",
+    reader:
+      "registeredTraitConsiderations — src/simulation/traits/effects/facet-brazen.ts",
+  },
+  {
+    trait: "personality-v1:facet-meticulous",
+    kind: "decision",
+    reader:
+      "registeredTraitConsiderations — src/simulation/traits/effects/facet-meticulous.ts",
+  },
 ];
 
 /**
@@ -134,7 +218,6 @@ export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:facet-approval-seeking",
   "personality-v1:facet-smug",
   "personality-v1:facet-entitled",
-  "personality-v1:facet-brazen",
   "personality-v1:facet-assertive",
   "personality-v1:facet-deferential",
   "personality-v1:facet-shy",
@@ -142,14 +225,12 @@ export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:facet-independent",
   "personality-v1:facet-friendly",
   "personality-v1:facet-charming",
-  "personality-v1:facet-blunt",
   "personality-v1:facet-tactful",
   "personality-v1:facet-polite",
   "personality-v1:facet-informal",
   "personality-v1:facet-sassy",
   "personality-v1:facet-mischievous",
   "personality-v1:facet-dramatic",
-  "personality-v1:facet-studious",
   "personality-v1:facet-curious",
   "personality-v1:facet-analytical",
   "personality-v1:facet-practical",
@@ -160,24 +241,17 @@ export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:facet-cynical",
   "personality-v1:facet-daydreaming",
   "personality-v1:facet-observant",
-  "personality-v1:facet-meticulous",
   "personality-v1:facet-persistent",
   "personality-v1:facet-duty-bound",
   "personality-v1:facet-work-centered",
   "personality-v1:facet-ambitious",
   "personality-v1:facet-contented",
   "personality-v1:facet-competitive",
-  "personality-v1:facet-opportunistic",
   "personality-v1:facet-enterprising",
   "personality-v1:facet-self-serving",
   "personality-v1:facet-acquisitive",
   "personality-v1:facet-generous",
-  "personality-v1:facet-gentle",
-  "personality-v1:facet-supportive",
-  "personality-v1:facet-comforting",
-  "personality-v1:facet-nurturing",
   "personality-v1:facet-philanthropic",
-  "personality-v1:facet-envious",
   "personality-v1:facet-cruel",
   "personality-v1:facet-sincere",
   "personality-v1:facet-manipulative",
@@ -185,23 +259,19 @@ export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:facet-fair-minded",
   "personality-v1:facet-arbitrary",
   "personality-v1:facet-fickle",
-  "personality-v1:facet-zealous",
   "personality-v1:facet-argumentative",
   "personality-v1:facet-mediating",
   "personality-v1:facet-forgiving",
   "personality-v1:facet-vindictive",
   "personality-v1:facet-defensive",
   "personality-v1:facet-hostile",
-  "personality-v1:facet-thrill-seeking",
   "personality-v1:facet-calm",
   "personality-v1:facet-hot-headed",
   "personality-v1:facet-sensitive",
-  "personality-v1:facet-tender-hearted",
   "personality-v1:facet-excitable",
   "personality-v1:facet-light-hearted",
   "personality-v1:facet-restless",
   "personality-v1:facet-brooding",
-  "personality-v1:facet-affectionate",
   "personality-v1:facet-closeness-seeking",
   "personality-v1:facet-intimacy-guarded",
   "personality-v1:facet-devoted",
