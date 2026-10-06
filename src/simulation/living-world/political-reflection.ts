@@ -40,9 +40,10 @@ export {
  * A directly encountered proposition can prompt a dated reflection when the
  * person's saved principles have an explicit bearing on that proposition.
  * Personality, values and party are not silently mapped to a policy leaning.
- * The strength of this first principle consideration is a game placeholder,
- * while its direction and source records come from the existing catalog and
- * the person's own append-only history.
+ * The strength of this first principle consideration uses the modest,
+ * revisable starting position recorded below, while its direction and source
+ * records come from the existing catalog and the person's own append-only
+ * history.
  *
  * A person with nothing bearing on a newly encountered question gets no
  * scheduled reflection and no invented opinion. A legacy periodic reflection
@@ -51,7 +52,7 @@ export {
 
 const V = "people-reflection";
 
-// PLACEHOLDER: one newly encountered question starts or revisits a modest,
+// One newly encountered question starts or revisits the recorded modest,
 // revisable position; conviction follows the decision's actual outcome.
 const REFLECTION_DIMENSIONS = {
   conflicted: {

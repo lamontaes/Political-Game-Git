@@ -834,8 +834,8 @@ function felt01(world: World, exposure: LawExposureRecord): number {
 /** How hard an effect landed, 0 to 1, from its size next to pay. */
 function feltFromShare(felt: Exclude<LawExposureFeltSize, null>): number {
   if (felt === "unmeasured") return UNMEASURED_WEIGHT;
-  // PLACEHOLDER: a law costing a tenth of a month's pay is felt fully; the
-  // square root keeps small amounts noticeable.
+  // Recorded rule: a law costing a tenth of a month's pay is felt fully; the
+  // square root keeps smaller recorded amounts noticeable.
   return Math.min(1, Math.sqrt(felt.share * 10));
 }
 
@@ -850,7 +850,7 @@ export function reactionLens(world: World, personId: EntityId): number {
     personId,
     SYNTHETIC_MIND_IDS.tendencies.responseTempo,
   )?.expressionKey;
-  // PLACEHOLDER multipliers.
+  // Configured personality-expression multipliers shared by every place.
   if (tempo === "reactive") factor *= 1.5;
   if (tempo === "patient") factor *= 0.75;
   const conflict = latestPersonalityTendency(

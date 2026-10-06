@@ -116,7 +116,7 @@ export interface PartyActorStance {
 
 function question(key: string) {
   const found = PARTY_QUESTIONS.find((candidate) => candidate.key === key);
-  if (!found) throw new Error(`Unknown party question: ${key}`);
+  if (!found) throw new Error(`Unrecognized party question: ${key}`);
   return found;
 }
 
@@ -508,7 +508,7 @@ export function recordPartyBodyDecision(
       if (
         !catalog.options.some((option) => option.key === input.controlledChoice)
       ) {
-        throw new Error(`Unknown option: ${input.controlledChoice}`);
+        throw new Error(`Unrecognized option: ${input.controlledChoice}`);
       }
       votes.set(personId, {
         questionKey: catalog.key,
@@ -910,7 +910,7 @@ export function proposePartyInitiative(
 function requireInitiative(world: World, id: EntityId): PartyInitiativeRecord {
   const record = partyRecords(world).find((candidate) => candidate.id === id);
   if (!record || record.kind !== "party-initiative") {
-    throw new Error(`Unknown party initiative: ${id}`);
+    throw new Error(`No recorded party initiative has ID: ${id}`);
   }
   return record;
 }
