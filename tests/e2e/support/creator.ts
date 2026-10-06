@@ -147,7 +147,6 @@ export async function chooseCreatorLocation(
       throw new Error("Statewide start is a custom-only control.");
     }
     await page.getByTestId("place-statewide-choice").click();
-    await page.getByTestId("creator-continue-place").click();
     return;
   }
 
@@ -179,7 +178,6 @@ export async function chooseCreatorLocation(
       .filter({ hasText: new RegExp(hometown.townMatch ?? "^$", "i") })
       .first()
       .click();
-  await page.getByTestId("creator-continue-place").click();
 }
 
 function escapeForRegExp(value: string): string {
