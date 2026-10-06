@@ -112,7 +112,7 @@ export function requireExplicitPlaceKey(
   const key = placeKey?.trim() ?? "";
   if (key.length === 0) {
     throw new Error(
-      "Choose a place the game can start a life in. Lexington is not assumed.",
+      "Choose a place where the game can start a life. No town is selected for you.",
     );
   }
   return key;
@@ -316,7 +316,7 @@ export function resolveExplicitCreatorHometown(
     "";
   if (!stateName) {
     throw new Error(
-      "Name the state, then a town. Lexington and Kentucky are not assumed.",
+      "Name the state, then a town. No state or town is selected for you.",
     );
   }
   const state = namedState(stateName);

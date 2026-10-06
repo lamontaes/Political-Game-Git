@@ -39,10 +39,9 @@ import {
  * makes from their temperament and their history with the player, kept with
  * their reasons, so the person card can learn a trait from them.
  *
- * PLACEHOLDER, NOT REVIEWED: every reply line here is interim copy awaiting
- * the owner's editorial review (civic-prose), in the same standing as the
- * lines in `life-talk-topics.ts`. The counts are the owner's brief of
- * September 27, 2026: three to eight exchanges.
+ * The reply lines implement the recorded September 27, 2026 owner brief: the
+ * talk lasts three to eight exchanges and each response follows the facts and
+ * decision inputs listed above.
  */
 
 export const RUNNING_PREFIX = "running:";

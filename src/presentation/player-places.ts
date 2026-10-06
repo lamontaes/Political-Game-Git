@@ -66,7 +66,7 @@ export function projectPlacesWorkspace(
   const location = openingLifeLocation(world, personId);
   const scene = resolveLifeScene(world, personId);
   const current: PlacesLocationView = {
-    label: location?.label ?? "Location not recorded",
+    label: location?.label ?? "No saved location",
     setting: location?.setting ?? null,
     jurisdictionId: location?.jurisdictionId ?? null,
     sceneNote:

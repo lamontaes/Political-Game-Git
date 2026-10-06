@@ -132,7 +132,7 @@ export function projectPersonContact(
   } else if (!theirPlace) {
     travelReason = `No recorded location for ${name}. A pin or a card is not a destination.`;
   } else if (!playerPlace) {
-    travelReason = `Your current place is not recorded, so there is no authored journey to ${theirPlace.label}.`;
+    travelReason = `Your save has no current place for you, so it cannot provide a journey to ${theirPlace.label}.`;
   } else if (playerPlace.label === theirPlace.label) {
     travelReason = `You and ${name} are both recorded at ${playerPlace.label}. Travel is not a separate action from meeting them here.`;
   } else {

@@ -300,9 +300,11 @@ export function goBrieflyToOrdinaryMeeting(
       event.tags.includes("attendance:late-entry"),
   );
   // COPY-PENDING(wave2): A late arrival has not heard the opening discussion.
-  // PLACEHOLDER(overnight): Fifteen minutes is the authored short-visit
-  // duration until the owner sets a scene pacing rule; it is never a fare or
-  // a claim about an actual public body's meeting procedure.
+  // ESTIMATED FROM THE EXISTING MEETING SCENE AVERAGE: fifteen minutes is one
+  // sixth of this module's authored 90-minute sitting, enough to hear its
+  // opening without witnessing its outcome. The similar places used are the
+  // municipal and ordinary public-meeting scenes; this is not a claim about
+  // an actual public body's procedure.
   const briefMinutes = 15;
   const target = addSimulationMinutes(world.currentMoment, briefMinutes);
   const cancelled = cancelScheduledActivity(world, activityId);

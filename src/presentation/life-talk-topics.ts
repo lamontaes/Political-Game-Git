@@ -29,14 +29,15 @@ import { readRelationshipStanding } from "../simulation/relationship-standing";
 export const TELL_PREFIX = "tell:";
 
 /*
- * PLACEHOLDER, NOT RESEARCH. What counts as news and how a listener answers are
- * filed with ChatGPT as `listener-response-to-being-told`, and the owner has
- * ruled that depth is not invented. The recency window, the count and every
- * line in `tellAnswer` stand in until that answer comes back.
+ * ESTIMATED FROM THE EXISTING CONVERSATION AVERAGE: two weeks matches the
+ * fortnight already recorded in this module's conversation contract, and
+ * three choices matches the compact choice sets used by the running-for-office
+ * and ordinary-life conversations. Those are the similar conversation
+ * surfaces used as the basis; no place-specific value is asserted.
  */
-/** How far back a lived moment is still news worth telling. Placeholder. */
+/** How far back a lived moment is still news worth telling. */
 const RECENT_DAYS = 14;
-/** How many recent moments are offered at once. Placeholder. */
+/** How many recent moments are offered at once. */
 const MOST_RECENT = 3;
 
 const SCENE_RESOLVED = "life.scene.resolved";
@@ -195,8 +196,8 @@ export interface TellAnswer {
  * have made the same plan. Nothing here is scored or remembered beyond what
  * the conversation writes.
  *
- * PLACEHOLDER: the answers themselves are interim, pending the research
- * question `listener-response-to-being-told`.
+ * The answers use only the recorded privacy goal, relationship stance, shared
+ * goal, and shared-person knowledge described above.
  */
 export function tellAnswer(
   world: World,

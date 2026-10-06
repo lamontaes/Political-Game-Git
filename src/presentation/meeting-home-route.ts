@@ -92,13 +92,13 @@ function resolveMeetingHomeRoute(
         (lateArrival ? "cancelled" : "completed"),
   );
   if (journeys.length !== 1)
-    return unavailable("The outward journey is not recorded.");
+    return unavailable("This meeting has no outward journey in the save.");
   const journey = journeys[0]!;
   const homes = householdMembershipsAt(world, personId).filter(
     (entry) => entry.state.residenceRole === "primary",
   );
   if (homes.length !== 1 || !homes[0]!.location)
-    return unavailable("The home endpoint is not recorded.");
+    return unavailable("This household has no saved home endpoint.");
   const home = homes[0]!;
   const location = home.location!;
   if (
@@ -121,9 +121,11 @@ function resolveMeetingHomeRoute(
   const state = scheduledActivityState(world, journey.id);
   const minutes = simulationMinutesBetween(state.start, state.end);
   if (!Number.isSafeInteger(minutes) || minutes <= 0)
-    return unavailable("The local journey's duration is not recorded.");
+    return unavailable("This local journey has no usable saved duration.");
   if (lateArrival && !origin.tags.includes(`duration-minutes:${minutes}`))
-    return unavailable("The outward travel time is not recorded.");
+    return unavailable(
+      "The meeting arrival has no matching saved travel time.",
+    );
   return {
     kind: "available",
     route: {

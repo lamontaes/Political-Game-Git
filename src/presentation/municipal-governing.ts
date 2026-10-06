@@ -261,7 +261,7 @@ export function ensureAuthoredPublicMeeting(
     return {
       ok: false as const,
       world,
-      reason: "The authored sitting was not recorded.",
+      reason: "The scheduled sitting is absent from the resulting world.",
     };
   return { ok: true as const, world: next, activityId: meeting.id };
 }

@@ -93,7 +93,7 @@ export function evaluateOfficeVoteInstruction(
     return {
       kind: "refused",
       code: "measure-missing",
-      reason: "That bill is not recorded in this World.",
+      reason: "That bill does not exist in this World's legislative record.",
     };
   }
   const preference = currentOfficeWorkflowPreference(
