@@ -369,7 +369,7 @@ function validateLandmarks(
     (id) => !(POSE_LANDMARK_IDS as readonly string[]).includes(id),
   );
   for (const id of extra.sort()) {
-    errors.push(`${label} declares unknown landmark '${id}'.`);
+    errors.push(`${label} declares unsupported landmark '${id}'.`);
   }
   if (errors.some((error) => error.startsWith(label))) {
     // Ordering checks below would report noise on an incomplete set.

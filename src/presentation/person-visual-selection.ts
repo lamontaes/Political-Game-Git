@@ -203,7 +203,7 @@ export function setPersonVisualSelection(
 ): World {
   const person = world.people[personId];
   if (!person || person.id !== personId)
-    throw new Error(`Unknown canonical person '${personId}'.`);
+    throw new Error(`Canonical person '${personId}' does not exist.`);
   if (!person.appearance)
     throw new Error(
       `Person '${personId}' has no saved appearance to select within.`,

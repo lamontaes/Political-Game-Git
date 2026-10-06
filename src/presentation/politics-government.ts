@@ -866,7 +866,7 @@ function houseNote(
   });
   return candidates.length > 1
     ? `Your home place is split between ${candidates.slice(0, -1).join(", ")} and ${candidates.at(-1)!}, and the save does not record which one your home is in.`
-    : `Your congressional district in ${state} is not recorded for your home.`;
+    : `Your home has no saved congressional district in ${state}.`;
 }
 
 const chamberPlanCache = new Map<
@@ -1088,7 +1088,7 @@ function representedBy(
         : null,
       holders,
       note: !identity
-        ? "Your district for this chamber is not recorded for your home."
+        ? "Your home has no saved district for this chamber."
         : holders.length === 0
           ? "No current record of who holds this seat."
           : atLarge > 0

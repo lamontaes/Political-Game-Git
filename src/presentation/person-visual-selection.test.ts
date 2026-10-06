@@ -299,7 +299,7 @@ describe("explicit saved appearance selection", () => {
     }
     expect(() =>
       setPersonVisualSelection(world, "missing-person", selection, context),
-    ).toThrow(/Unknown canonical person/);
+    ).toThrow(/Canonical person 'missing-person' does not exist/);
     const baked = createCharacterComponentLibrary(
       records.map((entry) =>
         entry.component?.kind === "body"

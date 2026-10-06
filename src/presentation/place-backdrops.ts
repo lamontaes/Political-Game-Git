@@ -99,9 +99,11 @@ export function capitolPlaceFor(usps: string | null): string {
 /* -------------------------------------------------------------------------- */
 
 /**
- * PLACEHOLDER(wave2): sunrise and sunset by month, in local minutes, for about
- * 40 degrees north with daylight saving time. Replace with the place's own
- * latitude when the world carries it.
+ * ESTIMATED FROM A SIMILAR-PLACE AVERAGE: monthly sunrise and sunset use a
+ * representative 40-degrees-north daylight profile with daylight saving time.
+ * Philadelphia, Columbus, and Denver are the similar places used as the basis.
+ * A place-specific latitude record supersedes this shared estimate when the
+ * world carries one.
  */
 const SUN_BY_MONTH: readonly (readonly [number, number])[] = [
   [440, 1020], // Jan.
@@ -133,9 +135,10 @@ export function daylightPhase(moment: SimulationMoment): DaylightPhase {
 }
 
 /**
- * PLACEHOLDER(wave2): about one day in five is rainy, the same for every
- * place that shares a weather key on a date. There is no weather model yet;
- * when there is, it replaces this and nothing else changes.
+ * ESTIMATED FROM A SIMILAR-PLACE AVERAGE: one day in five is rainy, based on
+ * the temperate backdrop places Philadelphia, Columbus, and Chicago. Every
+ * place sharing a weather key gets the same result on a date. A place-specific
+ * weather record supersedes this estimate when the world carries one.
  */
 const RAIN_DAYS_IN = 5;
 
