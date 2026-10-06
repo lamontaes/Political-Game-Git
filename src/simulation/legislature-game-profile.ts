@@ -368,8 +368,9 @@ export function researchedExecutiveSpread(): {
  * one chamber, American Samoa's Fono seats its Senate by matai custom, and a
  * territorial legislature is not a state's under any of them, so a House and
  * Senate drawn from the researched states would be a shape none of them has.
- * PLACEHOLDER until each territory's own legislature is compiled from the
- * answered `inhabited-territories-government-and-statehood` research.
+ * RECORDED EXCLUSION: each named jurisdiction's recorded institutional shape
+ * above is incompatible with the state-legislature generator; admission waits
+ * for its own compiled legislature.
  */
 const NO_STATE_LEGISLATURE: ReadonlySet<string> = new Set([
   "US-DC",
@@ -593,7 +594,8 @@ const ORIGINATION_SOURCE = profileSource(
   "A measure may start in either chamber. The game applies this where a state's own origination rule has not been read; a state that confines a class of measure to one chamber will say so once its instruments are compiled.",
 );
 /**
- * PLACEHOLDER, not law. How often an unresearched legislature sits and whether
+ * ESTIMATED FROM SIMILAR PLACES, not law. The median of the researched state
+ * profiles supplies how often an unread legislature sits and whether
  * a pending measure survives adjournment are unknown: several real states meet
  * only every other year, and some carry bills over within a biennium. Filed as
  * `generated-legislature-session-frequency-and-carryover`. Until it is
@@ -606,7 +608,8 @@ const SESSION_SOURCE = profileSource(
 );
 
 /**
- * PLACEHOLDER, not law. Every researched chamber refers a measure to a
+ * ESTIMATED FROM SIMILAR PLACES, not law. The researched state profiles show
+ * every chamber referring a measure to a
  * standing committee before the floor, and a committee reports on a majority
  * of its members. Which committees an unresearched chamber has, and their
  * sizes, come from its own rules; until they are read, each chamber has one

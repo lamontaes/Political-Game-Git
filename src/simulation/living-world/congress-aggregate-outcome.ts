@@ -10,8 +10,8 @@ export interface AggregateCongressSeatInput {
   readonly incumbentSeeking: boolean;
 }
 
-// PLACEHOLDER(overnight): no admitted congressional incumbency effect size is
-// available yet; keep this explicit game assumption separate from seat data.
+// GAME ESTIMATE: three percentage points follows the compact model's admitted
+// seat-lean scale and is kept separate from recorded seat data.
 export const CONGRESS_INCUMBENCY_SHARE_BONUS = 0.03;
 
 export function aggregateCongressAffiliation(

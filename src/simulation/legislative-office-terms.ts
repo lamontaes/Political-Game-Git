@@ -45,8 +45,8 @@ import type {
 } from "./types";
 
 import {
-  BLANKET_LEGISLATIVE_TERM_RULE_VERSION,
-  blanketLegislativeTermYears,
+  ESTIMATED_LEGISLATIVE_TERM_RULE_VERSION,
+  estimatedLegislativeTermYears,
   KS_TERM_RULE_VERSION,
   KY_TERM_RULE_VERSION,
   NE_TERM_RULE_VERSION,
@@ -57,7 +57,7 @@ import {
 import { commencementInYear } from "./nationwide-world/state-executive-term-rules";
 
 export {
-  BLANKET_LEGISLATIVE_TERM_RULE_VERSION,
+  ESTIMATED_LEGISLATIVE_TERM_RULE_VERSION,
   KS_TERM_RULE_VERSION,
   KY_TERM_RULE_VERSION,
   NE_TERM_RULE_VERSION,
@@ -192,7 +192,7 @@ export function legislativeTermDates(officeKey: string, electionDate: IsoDate) {
   const office = legislativeOfficeOption(officeKey);
   if (!office) return null;
   const termYears = office.qualification.termYears;
-  const years = blanketLegislativeTermYears(
+  const years = estimatedLegislativeTermYears(
     officeKey,
     termYears.kind === "known" ? termYears.value : null,
   );
@@ -200,8 +200,8 @@ export function legislativeTermDates(officeKey: string, electionDate: IsoDate) {
   return {
     startsAt: makeIsoDate(`${startYear}-01-01`),
     endsAt: makeIsoDate(`${startYear + years}-01-01`),
-    ruleVersion: BLANKET_LEGISLATIVE_TERM_RULE_VERSION,
-    note: "Blanket rule, not researched for this state: the term begins on January 1 after the election.",
+    ruleVersion: ESTIMATED_LEGISLATIVE_TERM_RULE_VERSION,
+    note: "ESTIMATED FROM SIMILAR PLACES: January 1 follows Kentucky; term length uses the recorded office term or the Kentucky, Kansas, and Nebraska chamber pattern.",
     sourceUrl: "",
     basis: "blanket" as const,
   };

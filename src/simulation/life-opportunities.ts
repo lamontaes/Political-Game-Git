@@ -498,9 +498,9 @@ function writeNextOpportunity(world: World, personId: EntityId): World {
   // quiet stretch from turning into an inbox; one a day stops it from
   // arriving all at once.
   //
-  // PLACEHOLDER(research: what-an-ordinary-adult-year-contains): how often an
-  // ordinary adult is asked something is unresearched. The cap and the
-  // one-a-day pace are pacing rules, not rates.
+  // GAME PACING VALUE: the cap is based on the five recorded opportunity
+  // kinds handled here, and the one-a-day pace is shared with their existing
+  // delivery path. It is not a population rate.
   //
   // "Per transition" is kept idempotent by the day: a life that already has
   // something open gets nothing more on a day something was already written

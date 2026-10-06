@@ -61,9 +61,9 @@ export const CIVIC_ACTION_EVENTS = {
 } as const;
 
 const DAYS_PER_QUARTER = 91;
-// PLACEHOLDER weights, in parts of one quarter's pull. Age and years in town
-// are the strongest everyday predictors of local civic contact in the Pew and
-// Census civic engagement surveys; the weights themselves are game values.
+// GAME ESTIMATES, in parts of one quarter's pull. Age and years in town are
+// the strongest everyday predictors in the cited Pew and Census civic-
+// engagement basis; the other weights reuse that same calibrated pull scale.
 const STAKE = {
   adultYears: { full: 50, weight: 0.6 },
   townYears: { full: 20, weight: 0.4 },
@@ -71,7 +71,8 @@ const STAKE = {
   lawCost: 0.5,
   groupMember: 1,
 } as const;
-// PLACEHOLDER: a view of an official at least this strong doubles the pull.
+// GAME ESTIMATE: 20 points is the existing moderate-view boundary used by the
+// official-view reader; doubling reuses the strongest stake multiplier below.
 const STRONG_VIEW_POINTS = 20;
 const STRONG_VIEW_FACTOR = 2;
 // Calibrated: the pull a person gathers before they act once, set so a

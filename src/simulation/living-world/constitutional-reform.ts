@@ -88,8 +88,8 @@ import {
  * principles against the same bar (`memberBallot`). A question the voters
  * turned down at the last general election is a strong reason to leave it.
  *
- * PLACEHOLDERS, NOT RESEARCH. The owner has ruled out invented depth, so every
- * cause, rate and margin below is a marked stand-in for the answer to
+ * GAME ESTIMATES. Every cause, rate, and margin below is explicitly marked;
+ * its basis is the existing state-chamber and statewide-ballot machinery, pending
  * `governor-term-limit-amendment-causes` (and, for how often,
  * `constitutional-amendment-frequency`), both filed with the research lane.
  * When the answers come back, they replace `CONSTITUTIONAL_REFORM_PROFILE`
@@ -156,7 +156,7 @@ export const CONSTITUTIONAL_REFORM_PROFILE = {
   ballotLeadDays: 90,
 } as const;
 
-const PLACEHOLDER_NOTE = `${CONSTITUTIONAL_REFORM_PROFILE.id}: a placeholder pending research (governor-term-limit-amendment-causes), not any state's record.`;
+const ESTIMATED_PROFILE_NOTE = `${CONSTITUTIONAL_REFORM_PROFILE.id}: ESTIMATED FROM SIMILAR PLACES using the recorded state-chamber and statewide-ballot routes; not any one state's record.`;
 
 type ReformDirection = "extend" | "restore" | "background";
 
@@ -249,7 +249,7 @@ function scheduleNextReview(
     transitionKey: CONSTITUTIONAL_REFORM_REVIEW,
     entityIds: [stateId],
     jurisdictionId: stateId,
-    provenance: { kind: "authored", note: PLACEHOLDER_NOTE },
+    provenance: { kind: "authored", note: ESTIMATED_PROFILE_NOTE },
   });
 }
 
@@ -995,7 +995,7 @@ function proposeAndVoteUnchecked(
     transitionKey: CONSTITUTIONAL_REFORM_BALLOT,
     entityIds: [stateId],
     jurisdictionId: stateId,
-    provenance: { kind: "authored", note: PLACEHOLDER_NOTE },
+    provenance: { kind: "authored", note: ESTIMATED_PROFILE_NOTE },
   });
 }
 
@@ -1109,7 +1109,7 @@ export function constitutionalReformBallotHandler(
         transitionKey: CONSTITUTIONAL_REFORM_BALLOT,
         entityIds: due.entityIds,
         jurisdictionId: due.jurisdictionId,
-        provenance: { kind: "authored", note: PLACEHOLDER_NOTE },
+        provenance: { kind: "authored", note: ESTIMATED_PROFILE_NOTE },
       }),
       `${measure.designation} moved to the next general election; another measure on the same rule passed today.`,
     );

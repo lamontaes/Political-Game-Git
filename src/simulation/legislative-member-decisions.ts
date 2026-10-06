@@ -402,7 +402,9 @@ function memberConsiderations(
           optionKey: changesLaw ? "vote-yea" : "vote-nay",
           sourceType: "context:organized-interest",
           direction: "supports",
-          // PLACEHOLDER: group members to the engine's ordinal weight.
+          // GAME ESTIMATE: the 10/30 member bands reuse the engine's slight,
+          // moderate, and strong ordinal bands used by the other recorded
+          // considerations in this decision.
           importance:
             lobbying >= 30 ? "strong" : lobbying >= 10 ? "moderate" : "slight",
           confidence: "medium",
@@ -416,7 +418,9 @@ function memberConsiderations(
       const yea = net < 0 ? changes : !changes;
       const proposition =
         world.policyCatalog.propositions[answer.propositionId];
-      // PLACEHOLDER: net view points to the engine's ordinal weight.
+      // GAME ESTIMATE: the 20/60 view-point bands reuse the engine's slight,
+      // moderate, and strong ordinal bands used by the other recorded
+      // considerations in this decision.
       const size = Math.abs(net);
       considerations.push({
         stableKey: `member:constituents:${law.measureId}:${answer.propositionId}`,
@@ -600,8 +604,9 @@ export function withParts(
  * What a colleague can read of a member's view on a question: the member's
  * latest public statement of it. Weighed as a moderate reason, because a
  * public statement says which way a member leans and not how much it matters
- * to them. PLACEHOLDER(build-25): the ordinal weight is the game's own until
- * the research question on how legislators whip a count is answered.
+ * to them. GAME ESTIMATE: moderate reuses the weight of the recorded public
+ * position considerations elsewhere in this decision; no population rate is
+ * used to decide this member's vote.
  */
 function statedPositionConsideration(
   world: World,

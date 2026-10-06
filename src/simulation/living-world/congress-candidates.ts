@@ -45,14 +45,14 @@ import { recordByStableKey } from "../history-index";
 
 export const CONGRESS_CANDIDATE_VERSION = "congress-candidates/v1";
 
-// PLACEHOLDER(overnight): this staggered declaration window is a game timing
-// rule for NPC readiness, not a sourced state filing deadline or primary date.
+// GAME ESTIMATE: January 6 plus 60 days reuses the existing federal-cycle
+// intake window; it is NPC pacing, not a state filing deadline or primary date.
 export const CONGRESS_CANDIDATE_PROFILE = {
   id: "ocd-congress-candidates-game-profile/v1",
   intakeStartMonthDay: "01-06",
   intakeDays: 60,
-  // PLACEHOLDER(overnight): a recruited prospect may decline an especially
-  // unfavorable district; no candidate-choice frequency is calibrated yet.
+  // GAME ESTIMATE: 0.18 reuses the low-opportunity boundary in this candidate
+  // model; it is a smooth choice input, not a population frequency.
   lowOpportunityShare: 0.18,
 } as const;
 

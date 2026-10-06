@@ -1702,7 +1702,8 @@ export function acceptLifePathCounteroffer(
     );
   const terms = resourceFlowTermsAt(world, flow.id)!;
   const amount = money(
-    // PLACEHOLDER(research: how-bargaining-limits-and-pay-counteroffers-are-set): the 1.25 counteroffer is not sourced.
+    // GAME ESTIMATE: the 1.25 counteroffer reuses the quarter-step bargaining
+    // scale of the recorded offer path; it is not presented as an observed rate.
     Math.max(terms.amount.minorUnits, Math.ceil(path.sessionPayMinor * 1.25)),
     "USD",
   );

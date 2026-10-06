@@ -13,7 +13,7 @@ import {
   bindRuleCapabilityResolver,
   OFFICE_OATH_TAKEN,
   oathChoiceOf,
-  BLANKET_LEGISLATIVE_TERM_RULE_VERSION,
+  ESTIMATED_LEGISLATIVE_TERM_RULE_VERSION,
   legislativeBlueprint,
   legislativeTermDates,
   legislativeTermForRelationship,
@@ -49,7 +49,7 @@ describe("a legislative term in a state with no sourced term rule", () => {
       election,
     )!;
     expect(ilHouse.basis).toBe("blanket");
-    expect(ilHouse.ruleVersion).toBe(BLANKET_LEGISLATIVE_TERM_RULE_VERSION);
+    expect(ilHouse.ruleVersion).toBe(ESTIMATED_LEGISLATIVE_TERM_RULE_VERSION);
     expect([ilHouse.startsAt, ilHouse.endsAt]).toEqual([
       "2027-01-01",
       "2029-01-01",
@@ -80,7 +80,7 @@ describe("a legislative term in a state with no sourced term rule", () => {
     expect(workStatusAt(decided, seat.id)?.status).toBe("expected");
     const term = legislativeTermForRelationship(decided, seat.id)!;
     expect(term.entry.stableKey).toContain(
-      BLANKET_LEGISLATIVE_TERM_RULE_VERSION,
+      ESTIMATED_LEGISLATIVE_TERM_RULE_VERSION,
     );
     expect(activeLegislativeTermEvidence(decided, seat.id)).toBeNull();
     const theirs = personPronouns(decided.people[personId]).possessivePronoun;

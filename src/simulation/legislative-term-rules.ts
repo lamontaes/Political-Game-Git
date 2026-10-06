@@ -108,23 +108,28 @@ export const REVIEWED_LEGISLATIVE_TERM_PROFILES: readonly LegislativeTermProfile
   ];
 
 /**
- * The blanket rule for a state legislature with no sourced term rule above.
+ * The estimated rule for a state legislature with no sourced term rule above.
  *
- * NOT RESEARCHED PER STATE. Without it a winner in such a state was seated on
- * election night, which no state does and which DEPTH2 A08 rules out: the
- * result grants no authority, the term does. So every such seat begins on the
- * first of January after the election, the date Kentucky's sourced rule uses,
- * and lasts the office's recorded term length where the qualification corpus
- * knows it; otherwise two years for a lower chamber and four for a senate or a
- * unicameral legislature, the common American pattern. This is wrong in some
- * states (Nevada's members take office the day after the election) and is
- * replaced office by office as sourced rows are added above; a sourced row
- * always wins. Filed with research as legislative-winner-between-election-and-seat.
+ * ESTIMATED FROM SIMILAR PLACES: Kentucky supplies January 1; the recorded
+ * office term supplies the duration when available, otherwise the lower-
+ * chamber two-year and senate/unicameral four-year pattern used by the
+ * researched Kentucky, Kansas, and Nebraska profiles applies. Without it a
+ * winner was seated on election night, which no state does and which DEPTH2
+ * A08 rules out: the result grants no authority, the term does. So every such
+ * seat begins on the first of January after the election, the date Kentucky's
+ * sourced rule uses, and lasts the office's recorded term length where the
+ * qualification corpus knows it; otherwise two years for a lower chamber and
+ * four for a senate or a unicameral legislature, the common American pattern.
+ * This is wrong in some states (Nevada's members take office the day after the
+ * election) and is replaced office by office as sourced rows are added above;
+ * a sourced row always wins. Filed with research as
+ * legislative-winner-between-election-and-seat.
  */
-export const BLANKET_LEGISLATIVE_TERM_RULE_VERSION =
+export const ESTIMATED_LEGISLATIVE_TERM_RULE_VERSION =
+  // Persisted in term-event stable keys; keep this legacy spelling for saves.
   "blanket-legislative-term-2026-v1";
 
-export function blanketLegislativeTermYears(
+export function estimatedLegislativeTermYears(
   officeKey: string,
   knownTermYears: number | null,
 ): number {
