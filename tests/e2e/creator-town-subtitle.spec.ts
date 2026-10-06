@@ -21,6 +21,8 @@ test("Creator renders recorded town subtitle without list helper copy", async ({
   await page.getByTestId("creator-continue-character").click();
   await expect(page.getByTestId("place-prompt")).toHaveCount(0);
   await page.getByTestId("state-search").fill(place.withinName!);
+  if (!place.stateJurisdictionKey)
+    throw new Error("The drawn town has no state.");
   await page
     .getByTestId(`state-${place.stateJurisdictionKey.slice(-2)}`)
     .click();
