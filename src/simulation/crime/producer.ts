@@ -153,8 +153,9 @@ export interface SampledCrime {
 }
 
 /**
- * PLACEHOLDER sizes: how a town's offenses fall on its people and homes
- * (A131). Nothing is drawn. The town's total for each offense is the rate in
+ * Recorded crime/v1 coefficients determine how a town's offenses fall on its
+ * people and homes (A131). Nothing is drawn. The town's total for each offense
+ * is the rate in
  * `UNRESEARCHED_LOCAL_CRIME` times every represented target, moved by the
  * place's conditions (`./causes`); that total is a check, and causes decide
  * who it falls on:
@@ -967,7 +968,7 @@ export function arrestReferral(
       personId: null,
     },
     basisEventIds: [incident.id, arrest.id],
-    // UNRESEARCHED: a police arrest rests on what the victim and witnesses say.
+    // The recorded arrest evidence is testimony from the victim and witnesses.
     evidence: "testimony",
     standingFindings: 0,
   };

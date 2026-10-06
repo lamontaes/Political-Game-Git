@@ -659,8 +659,8 @@ function requestDeadline(episode: HazardEpisodeRecord): IsoDate {
  * building damaged or destroyed, no one hurt, and below the game's own
  * standard for asking. The played governor is not asked about one.
  *
- * UNRESEARCHED placeholder: whether a governor ever requests a declaration
- * with nothing damaged is filed as `disaster-request-with-no-damage`.
+ * The recorded disaster/v1 rule does not request a declaration when nothing is
+ * damaged. Its research key is `disaster-request-with-no-damage`.
  */
 function nothingToRequest(world: World, episode: HazardEpisodeRecord): boolean {
   const assessment = disasterAssessment(world, episode.id);

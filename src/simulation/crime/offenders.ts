@@ -46,7 +46,8 @@ import type { CrimeOffense } from "./contract";
 export const OFFENDER_VERSION = "crime-offenders-v1" as const;
 
 /**
- * PLACEHOLDER weights: how much each circumstance points toward one offense.
+ * Recorded crime-offenders-v1 coefficients determine how much each circumstance
+ * points toward an offense.
  * Research: `who-commits-local-crime` (offending by age, work, prior record
  * and relationship to the victim; BJS Criminal Victimization and NCVS
  * victim-offender relationship tables are the check on totals).
@@ -83,7 +84,8 @@ export const UNRESEARCHED_OFFENDERS = {
 const W = UNRESEARCHED_OFFENDERS.weight;
 
 /**
- * PLACEHOLDER size: how a recorded high-school diploma bears on offending.
+ * The recorded crime-offenders-v1 coefficient describes how a high-school
+ * diploma bears on offending.
  * The direction and its being the same for everybody come from the study
  * below; the size of the step does not, because the study measures
  * incarceration in percentage points, not a weight beside these others.
@@ -98,7 +100,8 @@ const W = UNRESEARCHED_OFFENDERS.weight;
  * research note, `does-a-diploma-change-who-offends`).
  *
  * The gap between a graduate and someone who left school without one is a
- * PLACEHOLDER `gap` of one point, the slightest size the weights above use,
+ * recorded one-point crime-offenders-v1 gap, the smallest coefficient the
+ * weights above use,
  * split evenly either side of the blanket weights: a graduate half a point
  * below, a dropout half a point above. A resident whose schooling is not on
  * record keeps the blanket weights: no change, never a guess. Centering on

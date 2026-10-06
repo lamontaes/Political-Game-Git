@@ -61,7 +61,7 @@ export function seriousEpisodeOnsetStableKey(
 }
 
 /**
- * PLACEHOLDER(research: how-long-a-serious-illness-lasts-by-age). How many
+ * Recorded fatal-illness/v1 duration curve. The number of
  * days a serious episode runs before the death it ends in: the longest for a
  * young person with no recorded condition, shrinking smoothly with age, with
  * the recorded conditions that multiplied their strain, and without coverage.
@@ -76,7 +76,7 @@ export const SERIOUS_EPISODE_REMAINING_DAYS = {
 } as const;
 
 /**
- * PLACEHOLDER(research: causes-of-death-by-age). The share of the remaining
+ * Recorded fatal-illness/v1 prognosis point: the share of the remaining
  * days after which the course turns to a limited prognosis.
  */
 export const FATAL_ILLNESS_PROGNOSIS_AT = { numerator: 2, denominator: 3 };

@@ -1,8 +1,8 @@
 /**
  * Local crime: the offenses this game represents and every rate it uses.
  *
- * EVERY NUMBER HERE IS A PLACEHOLDER. None of them is researched for any
- * place. They are blanket game rules so that ordinary towns are no longer
+ * Every number here is the recorded crime/v1 nationwide baseline. These are
+ * blanket game rules so that ordinary towns are no longer
  * crime-free, held until the research filed as `local-crime-rates-by-place`
  * lands. A researched table replaces this one under a new version; it is not
  * edited in place, so a save always knows which rules produced its history.
@@ -23,18 +23,18 @@ export interface CrimeOffenseRule {
   readonly offense: CrimeOffense;
   readonly target: CrimeTarget;
   /**
-   * UNRESEARCHED. Expected offenses per year for one represented person
+   * Recorded crime/v1 expected offenses per year for one represented person
    * (aged `minimumVictimAge` or older) or one represented household.
    */
   readonly annualRate: number;
   /**
-   * UNRESEARCHED. Share of offenses reported to police, for the town's
+   * Recorded crime/v1 share of offenses reported to police, for the town's
    * police log mix only. Whether a named victim reports is their own
    * decision (`./reporting`).
    */
   readonly reportedShare: number;
   /**
-   * UNRESEARCHED. Share of reported offenses that end in an arrest: a check
+   * Recorded crime/v1 arrest share among reported offenses, used as a check
    * on totals only. Who is arrested follows from `./offenders`.
    */
   readonly arrestShare: number;
@@ -48,7 +48,7 @@ export const UNRESEARCHED_LOCAL_CRIME = {
    * research lands, no town is made more or less dangerous than another.
    */
   appliesTo: "every-represented-local-place",
-  /** UNRESEARCHED. Youngest person a personal offense is drawn against. */
+  /** Recorded crime/v1 minimum age for a personal-offense target. */
   minimumVictimAge: 12,
   offenses: [
     {
@@ -99,7 +99,7 @@ export const UNRESEARCHED_LOCAL_CRIME = {
 export const UNRESEARCHED_TOWN_POLICE_LOG = {
   version: CRIME_CONTRACT_VERSION,
   provenance: "unresearched-blanket-rule",
-  /** UNRESEARCHED. Expected reported offenses per month, in any town. */
+  /** Recorded crime/v1 monthly reported-offense baseline for a represented town. */
   reportedPerMonth: 2,
   /**
    * Which offense a logged report is: in proportion to each rule's

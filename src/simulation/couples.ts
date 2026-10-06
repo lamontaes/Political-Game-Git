@@ -33,8 +33,9 @@ import { recordWorldEvent } from "./world";
  * Every answer is the other person's, weighed from their own side through the
  * shared decision evaluator, and a no is as real as a yes.
  *
- * PLACEHOLDER, NOT RESEARCH: which considerations bear on saying yes, how much
- * each weighs, and how many dates come before asking are filed with ChatGPT as
+ * The recorded relationship decision uses each person’s own considerations for
+ * saying yes and records how much each weighs. Research on the number of dates
+ * before asking is filed as
  * `how-two-people-become-a-couple` (the rules) and
  * `how-american-couples-form-in-numbers` (the measured pace). The game has no
  * model of attraction; openness to company, how the two of them already

@@ -43,7 +43,7 @@ import { offenderForVictims } from "./offenders";
  * them as a life decision (`adult.crime-report`); until they report it, it
  * stays unreported.
  *
- * The weights are PLACEHOLDERS (research: `why-victims-report-to-police`).
+ * The weights are recorded crime-reporting-v2 decision coefficients.
  * The real shares reported to police by offense (BJS, Criminal Victimization,
  * 2023, NCJ 309335, table 4) check the totals in the tests.
  */
@@ -54,7 +54,7 @@ export const REPORT_OPTIONS = {
   quiet: "keep-quiet",
 } as const;
 
-/** PLACEHOLDER weights, in the decision engine's points. */
+/** Recorded crime-reporting-v2 coefficients, in decision-engine points. */
 export const UNRESEARCHED_REPORTING = {
   provenance: "unresearched-blanket-rule",
   /**

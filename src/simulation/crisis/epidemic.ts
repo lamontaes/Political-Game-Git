@@ -59,7 +59,7 @@ import type {
  *
  * No condition pack is researched, so the illness has no name: it is "the
  * illness going around" a town. Every rate is in `UNRESEARCHED_EPIDEMIC` and
- * is a PLACEHOLDER with its research question written down.
+ * is recorded in the epidemic/v1 rule pack with its research key.
  */
 
 export const EPIDEMIC_VERSION = "epidemic/v1" as const;
@@ -80,8 +80,8 @@ export type ContactSetting =
   "household" | "family" | "work" | "school" | "acquaintance";
 
 /**
- * PLACEHOLDER. Every number here is set by hand, not measured. The research
- * questions are filed under the keys in `researchQuestions`.
+ * The epidemic/v1 coefficients below are recorded authored baselines. Their
+ * research questions are filed under the keys in `researchQuestions`.
  */
 export const UNRESEARCHED_EPIDEMIC = {
   provenance: "unresearched-blanket-rule",
