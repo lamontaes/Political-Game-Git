@@ -1,0 +1,119 @@
+{
+  "session": 63137,
+  "exitCode": 1,
+  "durationSeconds": 2699.15,
+  "testFiles": {
+    "passed": 3,
+    "failed": 2,
+    "total": 5
+  },
+  "tests": {
+    "passed": 18,
+    "failed": 13,
+    "total": 31
+  },
+  "sourceBoundary": "Meeting failures completed before isolated presence edits; entire expanded run not certified exact-head",
+  "failures": [
+    {
+      "file": "src/presentation/ordinary-meeting-scene.test.ts",
+      "name": "opens the posted meeting at its start through the normal Attend command, then finishes on a second choice",
+      "line": 138,
+      "failureKind": "assertion",
+      "observed": "refused instead of accepted"
+    },
+    {
+      "file": "src/presentation/ordinary-meeting-scene.test.ts",
+      "name": "records a local chair only on successful attendance in 2743000",
+      "line": 215,
+      "failureKind": "assertion",
+      "observed": "false instead of true"
+    },
+    {
+      "file": "src/presentation/ordinary-meeting-scene.test.ts",
+      "name": "records a local chair only on successful attendance in 1150000",
+      "line": 254,
+      "failureKind": "assertion",
+      "observed": "home is the same world instead of a distinct transition"
+    },
+    {
+      "file": "src/presentation/ordinary-meeting-scene.test.ts",
+      "name": "enters explicitly then stays through the remaining meeting exactly once in 2743000",
+      "line": 278,
+      "failureKind": "assertion",
+      "observed": "active scene instead of null"
+    },
+    {
+      "file": "src/presentation/ordinary-meeting-scene.test.ts",
+      "name": "enters explicitly then stays through the remaining meeting exactly once in 1150000",
+      "line": 278,
+      "failureKind": "assertion",
+      "observed": "active scene instead of null"
+    },
+    {
+      "file": "src/presentation/ordinary-meeting-scene.test.ts",
+      "name": "records the seated council at the meeting in a watched place (build-25:meeting:1)",
+      "line": 416,
+      "failureKind": "assertion",
+      "observed": "false instead of true"
+    },
+    {
+      "file": "src/presentation/ordinary-meeting-scene.test.ts",
+      "name": "leaves without attendance credit, charges only the recorded return and refuses a changed home endpoint",
+      "line": 420,
+      "failureKind": "timeout",
+      "observed": "60000ms timeout"
+    },
+    {
+      "file": "src/presentation/ordinary-meeting-scene.test.ts",
+      "name": "records a short visit and returns home without full meeting credit",
+      "line": 476,
+      "failureKind": "timeout",
+      "observed": "60000ms timeout"
+    },
+    {
+      "file": "src/presentation/party-chapter-encounter.test.ts",
+      "line": 87,
+      "name": "an organizer invites during ordinary time without the player asking",
+      "failureKind": "assertion",
+      "observed": "expected null not to be null"
+    },
+    {
+      "file": "src/presentation/party-chapter-encounter.test.ts",
+      "line": 125,
+      "name": "decline releases the hold, and the same organizer asks again later",
+      "failureKind": "TypeError",
+      "observed": "Cannot read properties of null (reading 'world')"
+    },
+    {
+      "file": "src/presentation/party-chapter-encounter.test.ts",
+      "line": 168,
+      "name": "accept makes a commitment, attending meets the same organizer, and nothing is joined",
+      "failureKind": "TypeError",
+      "observed": "Cannot read properties of null (reading 'world')"
+    },
+    {
+      "file": "src/presentation/party-chapter-encounter.test.ts",
+      "line": 247,
+      "name": "an unanswered invitation lapses without penalty while the world continues",
+      "failureKind": "TypeError",
+      "observed": "Cannot read properties of null (reading 'world')"
+    },
+    {
+      "file": "src/presentation/party-chapter-encounter.test.ts",
+      "line": 277,
+      "name": "negative control: a chapter with no active organizer does not reach out",
+      "failureKind": "timeout",
+      "observed": "30000ms timeout"
+    }
+  ],
+  "classification": "UNCLASSIFIED; regression chase canceled by CTO6006113884",
+  "status": "OBSOLETE_ROUTE_RECEIPT; not replacement-scene acceptance",
+  "baselineStop": {
+    "session": 65055,
+    "baseline": "af8c098372379836cc22a0b487d10f79e2049a32",
+    "exitCode": 143,
+    "completedResult": false,
+    "testFileSHA256": "cade99ae724c93b52d1a7557b4afdbe5cb04357b57cf2e259502240c729209de",
+    "termination": "SIGTERM only verified owned process group17302 per superseding instruction"
+  }
+}
