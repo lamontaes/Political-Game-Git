@@ -606,7 +606,22 @@ interface HouseholdPersonProjection {
 
 // Join a person's recorded membership histories once per contributing revision.
 // Cutoff queries only choose available rows; public history readers remain intact.
-const HOUSEHOLD_PROJECTIONS = new WeakMap<object, HouseholdPersonProjection>();
+const HOUSEHOLD_PROJECTION_LIMIT = 1024;
+const HOUSEHOLD_PROJECTIONS = new Map<object, HouseholdPersonProjection>();
+let householdProjectionRun: string | undefined;
+let householdProjectionMonth: string | undefined;
+
+function scopeHouseholdProjections(world: World): void {
+  const month = world.currentDate.slice(0, 7);
+  if (
+    householdProjectionRun !== world.id ||
+    householdProjectionMonth !== month
+  ) {
+    HOUSEHOLD_PROJECTIONS.clear();
+    householdProjectionRun = world.id;
+    householdProjectionMonth = month;
+  }
+}
 const NO_HOUSEHOLD_MEMBERSHIPS: readonly ActiveHouseholdMembership[] = [];
 
 // Opaque identity tokens retain no history arrays. Nested weak keys identify
@@ -655,6 +670,7 @@ export function householdMembershipsAt(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly ActiveHouseholdMembership[] {
   validatePersonCutoff(world, personId, cutoff);
+  scopeHouseholdProjections(world);
   const history = world.history;
   const memberships = recordsByStringField(
     history.householdMemberships,
@@ -723,6 +739,14 @@ export function householdMembershipsAt(
       sequenceCeiling: maximum + 1,
       results: new Map(),
     };
+    // Keep only the most recently touched person groups in this run/month.
+    // Eviction changes reuse, never a recorded answer or a held result.
+    if (HOUSEHOLD_PROJECTIONS.size >= HOUSEHOLD_PROJECTION_LIMIT) {
+      HOUSEHOLD_PROJECTIONS.delete(HOUSEHOLD_PROJECTIONS.keys().next().value!);
+    }
+    HOUSEHOLD_PROJECTIONS.set(memberships, person);
+  } else {
+    HOUSEHOLD_PROJECTIONS.delete(memberships);
     HOUSEHOLD_PROJECTIONS.set(memberships, person);
   }
   const key = `${cutoff.asOfDate}|${Math.min(cutoff.historySequenceExclusive, person.sequenceCeiling)}`;

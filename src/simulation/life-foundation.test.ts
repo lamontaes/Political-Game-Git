@@ -701,6 +701,47 @@ describe("Stage 5.1 households, kinship, partnership, and care", () => {
     expect(householdMembershipsAt(unrelatedHousehold, person)).toBe(
       originalMemberships,
     );
+    const nextMonth = {
+      ...world,
+      currentDate: makeIsoDate(
+        `${Number(world.currentDate.slice(0, 4)) + 1}-01-01`,
+      ),
+    };
+    const originalCutoff = currentLifeCutoff(world);
+    const monthView = householdMembershipsAt(nextMonth, person, originalCutoff);
+    expect(monthView).toEqual(originalMemberships);
+    expect(monthView).not.toBe(originalMemberships);
+    const revisited = householdMembershipsAt(world, person, originalCutoff);
+    expect(revisited).toEqual(originalMemberships);
+    expect(revisited).not.toBe(monthView);
+    expect(householdMembershipsAt(world, person, originalCutoff)).toBe(
+      revisited,
+    );
+    // More distinct recorded revisions than the month cache retains must evict
+    // the oldest projection, while recomputing exactly the same held answer.
+    const beforeEviction = householdMembershipsAt(
+      world,
+      person,
+      originalCutoff,
+    );
+    for (let revision = 0; revision < 1025; revision += 1) {
+      const snapshot = {
+        ...world,
+        history: {
+          ...world.history,
+          householdMemberships: world.history.householdMemberships.map(
+            (membership) => ({ ...membership }),
+          ),
+        },
+      };
+      expect(householdMembershipsAt(snapshot, person, originalCutoff)).toEqual(
+        beforeEviction,
+      );
+    }
+    const afterEviction = householdMembershipsAt(world, person, originalCutoff);
+    expect(afterEviction).toEqual(beforeEviction);
+    expect(afterEviction).not.toBe(beforeEviction);
+    expect(beforeEviction).toEqual(originalMemberships);
     const secondaryMembership = world.history.householdMemberships.find(
       (membership) => membership.stableKey === "membership:secondary",
     );
