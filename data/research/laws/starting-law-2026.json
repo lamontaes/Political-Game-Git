@@ -19264,7 +19264,15 @@
           "preempts": true,
           "cite": "Fla. Stat. § 501.1736 (ch. 2024-42, HB 3)",
           "source": "https://www.flsenate.gov/Laws/Statutes/2025/501.1736",
-          "note": "The law bars accounts for children under 14 and requires parental consent for ages 14 and 15; a federal judge enjoined it on 6/3/2025, but the Eleventh Circuit stayed that injunction on 11/25/2025, so it was enforceable on 1/1/2026 (the statute text does not itself spell out an age-verification method)."
+          "note": "The law bars accounts for children under 14 and requires parental consent for ages 14 and 15; a federal judge enjoined it on 6/3/2025, but the Eleventh Circuit stayed that injunction on 11/25/2025, so it was enforceable on 1/1/2026 (the statute text does not itself spell out an age-verification method).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+              "key": "minimum-age",
+              "value": 14,
+              "unit": "years"
+            }
+          ]
         },
         "US-GA": {
           "answer": "no",
