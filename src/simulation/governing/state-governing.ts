@@ -960,7 +960,8 @@ function optionsFor(
             label: "Send it back for more work",
             effect:
               "Return the proposed rule because its delegating statute and term range are not recorded.",
-            tradeoff: "No delegated term changes until its legal authority is recorded.",
+            tradeoff:
+              "No delegated term changes until its legal authority is recorded.",
             personId: null,
             assessment: null,
           },
