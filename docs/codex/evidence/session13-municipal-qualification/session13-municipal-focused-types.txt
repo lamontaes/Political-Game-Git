@@ -1,0 +1,7 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- node /tmp/session13-municipal-focused-type.mjs
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+Focused changed-root typing: 0 errors in 8 roots

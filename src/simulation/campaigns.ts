@@ -849,7 +849,15 @@ export function fileCampaign(
     ],
     personFactConstraints: [],
     visibility: "public",
-    tags: ["campaign.filing", "election.candidacy"],
+    tags: [
+      "campaign.filing",
+      "election.candidacy",
+      ...(eligibility.minimumAgeEstimate
+        ? [
+            `qualification.minimum-age-estimate:${JSON.stringify(eligibility.minimumAgeEstimate)}`,
+          ]
+        : []),
+    ],
     summary: `${candidate.givenName} ${candidate.familyName} filed to run for ${option.office.title}.`,
     context: {
       location: {
