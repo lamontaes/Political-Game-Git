@@ -1,7 +1,5 @@
 import {
   controlledCommitmentsBlockingMinuteAdvance,
-  currentLifeCutoff,
-  futureDueItemStateAt,
   scheduledActivityState,
   simulationMinutesBetween,
   type EntityId,
@@ -10,7 +8,6 @@ import {
 import { moneyText } from "../simulation/money-text";
 import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
 import { recordedPayStubs } from "../simulation/resource-income";
-import { proseDate } from "./prose-dates";
 
 /** "7:00 a.m.": a time of day as a person would say it. */
 export function proseClockTime(minuteOfDay: number): string {
@@ -48,10 +45,14 @@ export function describeRoutineOutcome(
   );
   const lines = elapsed === 0 ? ["No time passed."] : [];
   const events = after.history.events.slice(before.history.events.length);
-  const work = events.filter(
-    (e) =>
-      e.type === "life-paths2.work-session" &&
-      e.involvedEntityIds.includes(personId),
+  const newPayStubIds = new Set(
+    recordedPayStubs(after, personId)
+      .filter((stub) =>
+        after.history.resourceTransferOutcomes
+          .slice(before.history.resourceTransferOutcomes.length)
+          .some((outcome) => outcome.id === stub.paycheck.id),
+      )
+      .map((stub) => stub.paycheck.id),
   );
   const amounts = new Map<
     string,
@@ -60,6 +61,7 @@ export function describeRoutineOutcome(
   for (const outcome of after.history.resourceTransferOutcomes.slice(
     before.history.resourceTransferOutcomes.length,
   )) {
+    if (newPayStubIds.has(outcome.id)) continue;
     const flow = after.history.resourceFlows.find(
       (f) => f.id === outcome.resourceFlowId,
     );
@@ -85,73 +87,6 @@ export function describeRoutineOutcome(
   for (const { label, currency, minorUnits } of amounts.values())
     if (minorUnits > 0)
       lines.push(`${label} ${moneyText({ currency, minorUnits })}.`);
-  const newTransfers = new Set(
-    after.history.resourceTransferOutcomes
-      .slice(before.history.resourceTransferOutcomes.length)
-      .map((row) => row.id),
-  );
-  for (const stub of recordedPayStubs(after, personId)) {
-    if (!newTransfers.has(stub.paycheck.id)) continue;
-    const details = [
-      stub.paidGross.minorUnits === stub.promisedGross.minorUnits
-        ? `gross ${moneyText(stub.paidGross)}`
-        : `gross received ${moneyText(stub.paidGross)} of ${moneyText(stub.promisedGross)}`,
-    ];
-    for (const tax of stub.taxes) {
-      const key = tax.liability.taxKey;
-      const label =
-        key === "us-federal:income-tax-withholding"
-          ? "Federal income tax"
-          : key.endsWith(":wage-income-tax")
-            ? "State income tax"
-            : key.endsWith(":social-security-employee")
-              ? "Social Security"
-              : key.endsWith(":medicare-employee")
-                ? "Medicare"
-                : key.endsWith(":additional-medicare-withholding")
-                  ? "Additional Medicare"
-                  : key.endsWith(":paid-leave-premium")
-                    ? "Paid family leave premium"
-                    : "Other payroll tax";
-      if (tax.liability.liability === null) details.push(`${label} not priced`);
-      else if (tax.liability.status === "not-imposed")
-        details.push(`${label} not imposed`);
-      else {
-        const unpaid = Math.max(
-          0,
-          tax.liability.liability.minorUnits - tax.withheld.minorUnits,
-        );
-        details.push(
-          `${label} withheld ${moneyText(tax.withheld)}${
-            unpaid > 0
-              ? ` (${moneyText({ currency: tax.withheld.currency, minorUnits: unpaid })} remains unpaid)`
-              : ""
-          }`,
-        );
-      }
-    }
-    if (stub.assessmentStatus === "not-recorded")
-      details.push("withholding assessment not recorded");
-    details.push(`net received ${moneyText(stub.netPaid)}`);
-    const lawNames = [
-      ...new Set(
-        stub.laws.flatMap((row) => (row.designation ? [row.designation] : [])),
-      ),
-    ];
-    if (lawNames.length) details.push(`law: ${lawNames.join(", ")}`);
-    lines.push(`Paycheck: ${details.join("; ")}.`);
-  }
-  for (const due of after.history.futureDueItems) {
-    if (
-      due.transitionKey === "life-paths2:pay" &&
-      due.entityIds.some((id) => work.some((e) => e.id === id)) &&
-      futureDueItemStateAt(after, due.id, currentLifeCutoff(after))?.status ===
-        "scheduled"
-    )
-      lines.push(
-        `Earned pay is due ${proseDate(due.dueAt)}; it has not posted yet.`,
-      );
-  }
   for (const state of after.history.futureDueItemStates.slice(
     before.history.futureDueItemStates.length,
   )) {
