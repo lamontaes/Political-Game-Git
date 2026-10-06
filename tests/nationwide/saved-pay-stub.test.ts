@@ -1,8 +1,9 @@
 import { describe, expect, it } from "vitest";
+import { explicitNewGameSetup } from "../../src/presentation/new-game-geography";
 import {
-  createNewGameWorld,
-  DEFAULT_NEW_GAME_SETUP,
-} from "../../src/presentation/new-game";
+  generateOpeningLife,
+  prepareOpeningLife,
+} from "../../src/presentation/opening-life";
 import { describeRoutineOutcome } from "../../src/presentation/routine-outcome";
 import {
   enterLifePath,
@@ -47,8 +48,7 @@ while (sampled.length < 5)
 describe.each(sampled)("saved pay stub in %s", (placeKey) => {
   it("reconciles actual employee payments and the displayed starting taxes, preserves unknowns/partial pay, and never posts money", () => {
     const seed = `saved-pay-stub:${placeKey}`;
-    const game = createNewGameWorld({
-      ...DEFAULT_NEW_GAME_SETUP,
+    const setup = explicitNewGameSetup({
       startAge: 30,
       placeKey,
       startingLife: "ordinary-life",
@@ -57,6 +57,9 @@ describe.each(sampled)("saved pay stub in %s", (placeKey) => {
       priors: [],
       seed,
     });
+    const opening = generateOpeningLife(prepareOpeningLife(setup));
+    expect(opening.game).toBeDefined();
+    const game = opening.game!;
     const personId = game.playerPersonId;
     const entered = enterLifePath(game.world, "shop-assistant");
     expect(entered.ok, entered.message).toBe(true);
@@ -82,6 +85,34 @@ describe.each(sampled)("saved pay stub in %s", (placeKey) => {
     expect(notice).not.toContain("net received");
     expect(notice).not.toContain("Received $");
     expect(notice).not.toContain("Payment for the completed shift");
+    const paycheckFlow = before.history.resourceFlows.find(
+      (flow) => flow.id === stub.paycheck.resourceFlowId,
+    )!;
+    expect(paycheckFlow.source.kind).toBe("organization");
+    if (paycheckFlow.source.kind === "organization") {
+      const employerCash = resourcePositionAt(
+        paid,
+        {
+          kind: "organization",
+          organizationId: paycheckFlow.source.organizationId,
+        },
+        money(0, "USD").currency,
+      );
+      expect(employerCash?.liquidBalance.minorUnits).toBeGreaterThan(0);
+      const position = paid.history.resourcePositions.find(
+        (row) => row.id === employerCash!.positionId,
+      );
+      expect(position?.provenance).toMatchObject({
+        kind: "authored",
+        note: expect.stringContaining(
+          "ESTIMATED OPENING STOCK recorded before payroll settlement.",
+        ),
+      });
+      expect(position?.provenance).toMatchObject({
+        kind: "authored",
+        note: expect.stringContaining("ESTIMATED FROM AVERAGE:"),
+      });
+    }
     expect(stub.taxes.length).toBeGreaterThan(0);
     const liabilityIds = new Set(stub.taxes.map((row) => row.liability.id));
     const actualPayments = paid.history.statutoryTaxPayments!.filter((row) =>
@@ -173,5 +204,5 @@ describe.each(sampled)("saved pay stub in %s", (placeKey) => {
         netMinor: stub.netPaid.minorUnits,
       }),
     );
-  }, 120000);
+  }, 180000);
 });
