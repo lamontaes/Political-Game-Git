@@ -36,6 +36,7 @@ function oneSourceOutcome(standard: "gentler" | "tougher") {
       challenge: "standard",
       notes: "full",
       saves: "free",
+      personalLifeDepiction: "full",
       premises: {
         familyMoney: "ordinary",
         press: standard,
@@ -126,6 +127,7 @@ describe("press premise", () => {
         challenge: "standard" as const,
         notes: "full" as const,
         saves: "free" as const,
+        personalLifeDepiction: "full" as const,
         premises: {
           familyMoney: "ordinary" as const,
           press: "tougher" as const,
