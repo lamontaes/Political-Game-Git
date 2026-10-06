@@ -64,7 +64,7 @@ function resolveMeetingHomeRoute(
     !origin.tags.includes("route:ordinary-life:to-meeting-room") ||
     !origin.tags.includes("place:ordinary-life:meeting-room")
   )
-    return unavailable("No return journey from this place is recorded.");
+    return unavailable("You can't head home from here right now.");
   const meetings = world.history.scheduledActivities.filter(
     (activity) =>
       origin.involvedEntityIds.includes(activity.id) &&
@@ -77,7 +77,7 @@ function resolveMeetingHomeRoute(
       ).includes(scheduledActivityState(world, activity.id).status),
   );
   if (meetings.length !== 1)
-    return unavailable("No eligible local meeting is recorded here.");
+    return unavailable("You can't head home from here right now.");
   const meeting = meetings[0]!;
   const lateArrival = origin.tags.includes("travel:late-meeting");
   const journeys = world.history.scheduledActivities.filter(
@@ -92,13 +92,13 @@ function resolveMeetingHomeRoute(
         (lateArrival ? "cancelled" : "completed"),
   );
   if (journeys.length !== 1)
-    return unavailable("The outward journey is not recorded.");
+    return unavailable("You can't head home from here right now.");
   const journey = journeys[0]!;
   const homes = householdMembershipsAt(world, personId).filter(
     (entry) => entry.state.residenceRole === "primary",
   );
   if (homes.length !== 1 || !homes[0]!.location)
-    return unavailable("The home endpoint is not recorded.");
+    return unavailable("You can't head home from here right now.");
   const home = homes[0]!;
   const location = home.location!;
   if (
@@ -106,9 +106,7 @@ function resolveMeetingHomeRoute(
     location.sequence > journey.sequence ||
     home.state.sequence > journey.sequence
   )
-    return unavailable(
-      "Your home has changed since this local route was arranged.",
-    );
+    return unavailable("Your home has changed since you set out.");
   const homeOrigin = world.history.events.find(
     (event) =>
       event.sequence < origin.sequence &&
@@ -117,13 +115,13 @@ function resolveMeetingHomeRoute(
       event.participants.some((entry) => entry.personId === personId),
   );
   if (!homeOrigin)
-    return unavailable("This local journey has no recorded home endpoint.");
+    return unavailable("You can't head home from here right now.");
   const state = scheduledActivityState(world, journey.id);
   const minutes = simulationMinutesBetween(state.start, state.end);
   if (!Number.isSafeInteger(minutes) || minutes <= 0)
-    return unavailable("The local journey's duration is not recorded.");
+    return unavailable("You can't head home from here right now.");
   if (lateArrival && !origin.tags.includes(`duration-minutes:${minutes}`))
-    return unavailable("The outward travel time is not recorded.");
+    return unavailable("You can't head home from here right now.");
   return {
     kind: "available",
     route: {
