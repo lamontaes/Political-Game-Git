@@ -293,14 +293,18 @@ export async function fillCreator(
 
   await expect(page.getByTestId("creator-stage-whoareyou")).toBeVisible();
   const calibration = life.calibration ?? "skipped";
+  let answeredMoments = false;
   if (calibration !== "skipped") {
-    for (const fork of CREATOR_LIFE_FORKS)
-      await page.getByTestId(`creator-fork-${fork.key}-pursue`).click();
+    for (const fork of CREATOR_LIFE_FORKS) {
+      const pursue = page.getByTestId(`creator-fork-${fork.key}-pursue`);
+      if (await pursue.count()) {
+        await pursue.click();
+        answeredMoments = true;
+      }
+    }
   }
   await page
-    .getByTestId(
-      calibration === "skipped" ? "whoareyou-play" : "whoareyou-answer",
-    )
+    .getByTestId(answeredMoments ? "whoareyou-answer" : "whoareyou-play")
     .click();
   await expect(page.getByTestId("begin")).toBeEnabled();
 }
