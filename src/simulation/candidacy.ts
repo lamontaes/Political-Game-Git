@@ -1,6 +1,14 @@
 import { placeLocalGovernmentUnits } from "./nationwide-world/local-governments";
 import { candidacyPackById, stateCandidacyPack } from "./candidacy-packs";
 import { settledQualification } from "./settled-qualifications";
+import {
+  standInQualification,
+  standInQualificationSourceRef,
+} from "./office-qualification-profile";
+import {
+  nominationPlan,
+  nominationRuleRow,
+} from "./nominations/nomination-rules";
 import { knownRule, unknownRule } from "./legislature-rules";
 import type { RuleValue } from "./legislature-rules";
 import type { QualificationOfficeFamily } from "./office-qualification-rules";
@@ -813,12 +821,34 @@ export function candidacyEligibility(
   // Dated compiled and enacted assessments above take precedence. Only an
   // office with no assessed age reads its own pack; no general adult floor.
   if (qualificationRules === null && !sourcedMinimumAge && option) {
-    const rule = recordedMinimumAge(
+    let rule = recordedMinimumAge(
       option,
       stateJurisdictionKey,
       officeFamily,
       world.currentDate,
     );
+    // Executive packs defer qualifications to this gate. With no assessed
+    // age, use the existing same-office estimate, never refuse for research
+    // missing from that pack. An assessed or enacted rule takes precedence.
+    if (rule.kind === "unknown" && executive && stateJurisdictionKey) {
+      const estimate = standInQualification(
+        stateJurisdictionKey,
+        "MINIMUM_AGE",
+        "GOVERNOR",
+      );
+      if (estimate) {
+        rule = knownRule(
+          estimate.value,
+          standInQualificationSourceRef(estimate),
+        );
+        minimumAgeRequirement = `You must be at least ${estimate.value} to run for this office. This age is ESTIMATED FROM AVERAGE.`;
+        if (boundOption)
+          boundOption = {
+            ...boundOption,
+            qualification: { ...boundOption.qualification, minimumAge: rule },
+          };
+      }
+    }
     if (local?.unit.unitType === "municipality" && rule.kind === "known") {
       minimumAgeEstimate =
         rule.source.verification === "game-profile"
@@ -897,10 +927,29 @@ export function candidacyEligibility(
         ? "local"
         : "stateLegislative";
   const filingStateUsps = stateJurisdictionKey?.replace(/^US-/, "") ?? null;
-  const filingTerms =
+  let filingTerms =
     option && filingStateUsps
       ? candidateFilingTerms(filingStateUsps, filingFamily)
       : null;
+  if (filingTerms && congress && filingStateUsps) {
+    const family = congress.seat.chamberKey;
+    const year = Number(world.currentDate.slice(0, 4));
+    const plan = nominationPlan(world, {
+      stateUsps: filingStateUsps,
+      family,
+      year,
+      onDate: world.currentDate,
+    });
+    // A primary on general-election day has no held nomination stage, but
+    // the same researched filing row still governs its deadline.
+    const filing = nominationRuleRow(filingStateUsps)?.filing;
+    const deadline = plan.known
+      ? plan.filingDeadline
+      : year === 2026
+        ? (filing?.deadlines2026[family] ?? filing?.deadlines2026.all)
+        : null;
+    if (deadline) filingTerms = { ...filingTerms, deadline: deadline.slice(5) };
+  }
 
   return {
     eligible: blocks.length === 0,

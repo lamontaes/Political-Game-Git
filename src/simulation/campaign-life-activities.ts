@@ -1,4 +1,5 @@
 import { inventedPersonBirthDate } from "./invented-person-age";
+import { composeGroundedLine } from "../presentation/english-composition";
 import { eventById } from "./event-index";
 import { modelCampaignFieldReach } from "./campaign-contact-calibration";
 import { wasRefused } from "./scheduled-activity-answer";
@@ -1190,10 +1191,78 @@ function guidanceValue<T>(rule: RuleValue<T>): CampaignGuidanceValue<T> {
     : { state: "not-applicable", note: rule.note };
 }
 
-const FILING_ESTABLISHED: CampaignGuidanceEstablished = {
-  state: "established",
-  note: "The election clerk applies the terms listed with each office.",
-};
+function filingGuidanceLine(
+  world: World,
+  personId: EntityId,
+  office: CampaignGuidanceOffice,
+  topic: "authority" | "deadline" | "fees" | "petitions",
+): string {
+  const terms = office.filingTerms;
+  const requirement =
+    typeof terms.signatures === "number"
+      ? `${terms.signatures} signatures`
+      : `${terms.signatures.percent}% of ${terms.signatures.base}`;
+  const facts = {
+    office: office.chamberName,
+    deadline: terms.deadline,
+    fee: `$${(terms.feeMinorUnits / 100).toFixed(2)}`,
+    petitions:
+      terms.signatures === 0
+        ? "No petition is required."
+        : `The petition needs ${requirement}${terms.feeInLieuOfSignatures ? ", or you may pay the filing fee instead" : ""}. Circulation opens ${terms.circulationOpens}.${terms.sameDistrictOnly ? " Signers must live in the district." : ""}${terms.onePerSigner ? " Each signer may sign once." : ""}`,
+    estimate: terms.estimated
+      ? " These filing terms are ESTIMATED FROM AVERAGE."
+      : " These are the recorded filing terms for this office.",
+  };
+  const templates = {
+    authority: "For {{office}}, file with the election clerk.{{estimate}}",
+    deadline:
+      "For {{office}}, the filing deadline is {{deadline}}.{{estimate}}",
+    fees: "For {{office}}, the filing fee is {{fee}}.{{estimate}}",
+    petitions: "For {{office}}: {{petitions}}{{estimate}}",
+  };
+  const sourceRecordIds = [
+    createStableId("fact", `candidate-filing-terms:${office.officeKey}`),
+  ];
+  const line = composeGroundedLine(
+    {
+      surface: "dialogue",
+      worldSeed: world.seed,
+      momentKey: `filing-guidance:${personId}:${office.officeKey}:${world.currentDate}:${topic}`,
+      bankVersion: "1",
+      stage: "adult",
+      sourceRecordIds,
+      facts: Object.fromEntries(
+        Object.entries(facts).map(([key, text]) => [
+          key,
+          { text, sourceRecordIds },
+        ]),
+      ),
+      speaker: { personId, traits: {} },
+      knowledge: Object.keys(facts).map((factKey) => ({
+        personId,
+        factKey,
+        sourceRecordIds,
+      })),
+    },
+    {
+      key: `campaign.filing-guidance.${topic}`,
+      version: "1",
+      surface: "dialogue",
+      act: "tell",
+      parts: {
+        core: {
+          variants: [{ key: topic, kind: "template", text: templates[topic] }],
+        },
+      },
+    },
+  );
+  if (line.kind !== "rendered")
+    throw new Error(
+      `Filing guidance could not be composed: ${line.reasons.join("; ")}`,
+    );
+  return line.text;
+}
 
 function requireGuidanceFilingTerms(
   world: World,
@@ -1217,7 +1286,7 @@ function requireGuidanceFilingTerms(
 /**
  * What a host can honestly tell this person about running for office where
  * they live. Pure. Every value is either read from an accepted rule source or
- * reported as unknown; filing mechanics are never invented.
+ * disclosed as an estimate; filing mechanics come through the eligibility gate.
  */
 export function projectCampaignGuidance(
   world: World,
@@ -1248,6 +1317,15 @@ export function projectCampaignGuidance(
       option.officeKey,
     ),
   }));
+  const filing = (
+    topic: "authority" | "deadline" | "fees" | "petitions",
+  ): CampaignGuidanceEstablished => ({
+    state: "established",
+    note:
+      offices
+        .map((office) => filingGuidanceLine(world, personId, office, topic))
+        .join(" ") || "There is no offered office to file for here.",
+  });
   return {
     personId,
     jurisdictionId: person.homeJurisdictionId,
@@ -1261,10 +1339,10 @@ export function projectCampaignGuidance(
         : authority.stateJurisdictionKey === null
           ? "The game has not read any elected office for this place."
           : "The game has not read this state's elected offices yet.",
-    filingAuthority: FILING_ESTABLISHED,
-    filingDeadline: FILING_ESTABLISHED,
-    filingFees: FILING_ESTABLISHED,
-    petitions: FILING_ESTABLISHED,
+    filingAuthority: filing("authority"),
+    filingDeadline: filing("deadline"),
+    filingFees: filing("fees"),
+    petitions: filing("petitions"),
     runningNow: activeCampaignForCandidate(world, personId) !== null,
   };
 }
@@ -1280,10 +1358,10 @@ function guidanceText(view: CampaignGuidanceView): string {
       : view.offices
           .map(
             (office) =>
-              `${office.chamberName}: ${describe("minimum age", office.minimumAge)}; ${describe("residency", office.residency)}; ${describe("term in years", office.termYears)}; filing deadline ${office.filingTerms.deadline}; fee $${(office.filingTerms.feeMinorUnits / 100).toFixed(2)}; ${typeof office.filingTerms.signatures === "number" ? office.filingTerms.signatures : `${office.filingTerms.signatures.percent}% of ${office.filingTerms.signatures.base}`} signatures${office.filingTerms.feeInLieuOfSignatures ? " or the fee" : ""}`,
+              `${office.chamberName}: ${describe("minimum age", office.minimumAge)}; ${describe("residency", office.residency)}; ${describe("term in years", office.termYears)}`,
           )
           .join(". ");
-  return `${offices}. The election clerk accepts the filing and applies those terms.`;
+  return `${offices}. ${view.filingAuthority.note} ${view.filingDeadline.note} ${view.filingFees.note} ${view.petitions.note}`;
 }
 
 /* -------------------------------------------------------------------------- */
