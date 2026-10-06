@@ -26,6 +26,8 @@ import type { OutcomeRangeViolation } from ".";
  */
 
 export interface PlaceOutcomeRecord {
+  /** Stable identity for this exact saved month, measure and place. */
+  readonly id?: EntityId;
   readonly measure: string;
   /**
    * `US-XX` for a state; for a city or county with its own record, its place
