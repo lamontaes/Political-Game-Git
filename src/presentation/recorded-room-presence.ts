@@ -15,7 +15,9 @@ export function recordedRoomPresence(world: World, personId: EntityId) {
         event.type === "civic.meeting-entered" ||
         event.type === "civic.meeting-attended") &&
       event.context.location !== null &&
-      event.occurredAt <= world.currentDate,
+      event.occurredAt <= world.currentDate &&
+      event.recordedAt <= world.currentDate &&
+      event.sequence < world.history.nextSequence,
   );
   const event = places
     .filter((entry) =>
