@@ -9,6 +9,8 @@ import {
   payRentOwed,
 } from "../simulation/living-world/town-rent";
 import { reportOffenseToPolice } from "../simulation/crime/producer";
+import { closeConstituentCase } from "../simulation/constituent-cases";
+import { playerRoutedConstituentCase } from "../simulation/constituent-case-routing";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
 import {
   adaptiveSelectionSeed,
@@ -390,6 +392,10 @@ export function chooseAdultOption(
     throw new Error("That is not an adult situation.");
   }
   const context = buildAdultLifeContext(world, input.personId);
+  const constituentCase =
+    input.situationKey === "adult.constituent-case"
+      ? playerRoutedConstituentCase(world, input.personId)
+      : null;
   const baseSituation = adultSituation(input.situationKey);
   const situation = baseSituation
     ? bindRequestSituation(context, baseSituation)
@@ -437,10 +443,22 @@ export function chooseAdultOption(
   // An eviction case's answer is written after the choice is on record: paid
   // or moved out, the case is closed, and the scene could no longer be read
   // as the one that was answered.
-  const result = {
-    ...answered,
-    world: applyCaseAnswer(answered.world, input.personId, option),
-  };
+  let answeredWorld = applyCaseAnswer(answered.world, input.personId, option);
+  if (
+    constituentCase &&
+    (input.optionKey === "help" ||
+      input.optionKey === "refer" ||
+      input.optionKey === "cannot-help" ||
+      input.optionKey === "ignore")
+  ) {
+    answeredWorld = closeConstituentCase(
+      answeredWorld,
+      constituentCase.id,
+      input.personId,
+      input.optionKey,
+    );
+  }
+  const result = { ...answered, world: answeredWorld };
   // What follows, decided here and from the world. Nothing about how the
   // situation was selected is in scope — `scheduleAftermath` cannot see the
   // selector's reason or the stakes tier, because they are not in its input

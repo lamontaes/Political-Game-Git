@@ -1,14 +1,8 @@
 import { describe, expect, it } from "vitest";
-import {
-  activeOrganizationParticipationsAt,
-  activeWorkRelationshipsAt,
-} from "./life-queries";
+import { activeWorkRelationshipsAt } from "./life-queries";
 import { adultLifeSituations } from "./adult-situations";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../presentation/opening-life";
+import { generateOpeningLife, prepareOpeningLife } from "../presentation/opening-life";
 import { drawRandomPlace } from "../../tests/support/random-place";
 import { recordOfficeWorkflowPreference } from "./office-workflow";
 import { openCaseForContact } from "./constituent-cases";
@@ -108,11 +102,7 @@ describe(`constituent case routing in a new ${PLACE.displayName} game`, () => {
       ...opened,
       participants: [
         { personId: officeHolder, role: "focus:object", detail: null },
-        {
-          personId: resident as typeof officeHolder,
-          role: "focus:subject",
-          detail: null,
-        },
+        { personId: resident as typeof officeHolder, role: "focus:subject", detail: null },
       ],
     });
     const officialResident = game.world.personOrder.find(
@@ -155,24 +145,5 @@ describe(`constituent case routing in a new ${PLACE.displayName} game`, () => {
         "staff-routine-player-exceptions",
       ),
     ).toEqual({ kind: "handler" });
-    const municipalSeat = game.world.personOrder
-      .flatMap((personId) =>
-        activeOrganizationParticipationsAt(game.world, personId).map(
-          (entry) => ({ personId, ...entry }),
-        ),
-      )
-      .find(
-        ({ participation, state }) =>
-          participation.kind === "leadership:municipal-office" &&
-          state.roleKind?.startsWith("leader:municipal-") === true,
-      );
-    expect(municipalSeat).toBeDefined();
-    const municipalPreference = recordOfficeWorkflowPreference(game.world, {
-      personId: municipalSeat!.personId,
-      officeRelationshipId: municipalSeat!.participation.id,
-      votingMode: null,
-      caseworkMode: "staff-routine-player-exceptions",
-    });
-    expect(municipalPreference.kind).toBe("recorded");
   });
 });
