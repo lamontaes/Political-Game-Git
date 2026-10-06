@@ -209,6 +209,10 @@ describe("A167 city population across two counties", () => {
       });
       const world = worldAt("2026-02-01", laws);
       const records = placeOutcomesForMonth(world, world.currentDate);
+      expect(records.every((record) => record.id?.length)).toBe(true);
+      expect(new Set(records.map((record) => record.id)).size).toBe(
+        records.length,
+      );
       const stateRecord = records.find(
         (record) =>
           record.measure === UNINSURED &&
