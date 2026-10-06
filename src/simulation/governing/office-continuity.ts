@@ -62,7 +62,7 @@ import {
   seatedStateLegislators,
 } from "./joint-assembly";
 import {
-  SENATE_APPOINTMENT_PLACEHOLDER_DAYS,
+  SENATE_APPOINTMENT_ESTIMATED_DAYS,
   SENATE_SPECIAL_ELECTION_ESTIMATED_DAYS,
   senateVacancyLaw,
 } from "../nationwide-world/senate-vacancy-law";
@@ -501,8 +501,8 @@ function openSenateVacancy(
   const appointmentDay = addDays(
     from,
     deadline === null
-      ? SENATE_APPOINTMENT_PLACEHOLDER_DAYS
-      : Math.min(SENATE_APPOINTMENT_PLACEHOLDER_DAYS, deadline),
+      ? SENATE_APPOINTMENT_ESTIMATED_DAYS
+      : Math.min(SENATE_APPOINTMENT_ESTIMATED_DAYS, deadline),
   );
   const window = seatTermWindow(seat, vacancyDate);
   const regular = congressionalElectionDay(

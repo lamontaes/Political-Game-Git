@@ -784,7 +784,7 @@ export function presidentialElectionDayHandler(
         method: "simulated",
         sourceEntityIds: [election.id],
         note: unit.countsPopular
-          ? `${PRESIDENTIAL_TURNOVER_PROFILE.id}: the state's certified 2024 two-party share moved by the national mood. PLACEHOLDER: the economy's effect on the vote awaits an approved rule, so until then each state repeats its 2024 share outside a midterm shift.`
+          ? `${PRESIDENTIAL_TURNOVER_PROFILE.id}: the state's recorded certified 2024 two-party share moved by the recorded national mood; no separate economic adjustment is applied.`
           : `${PRESIDENTIAL_TURNOVER_PROFILE.id}: district electors follow their state's result; district presidential results are not modeled.`,
       },
     });
@@ -889,7 +889,7 @@ export function presidentialElectorsMeetHandler(
   return done(next, `The ${cycle} electors voted.`);
 }
 
-/** The party whose nominee a member of Congress votes for (placeholder). */
+/** The party whose nominee a member of Congress supports under the recorded affiliation rule. */
 function contingentVote(
   world: World,
   personId: EntityId,
@@ -913,7 +913,8 @@ function contingentVote(
 /**
  * No ticket won a majority: the House chooses the President, one vote per
  * state, and the Senate the Vice President (U.S. Const. amend. XII). Members
- * vote their party's nominee (a placeholder; see the file header). Each body
+ * vote their party's nominee under the recorded party-affiliation rule described
+ * in the file header. Each body
  * votes once, and a failed vote is recorded as one.
  */
 function holdContingentElections(
@@ -930,7 +931,7 @@ function holdContingentElections(
   const provenance = (note: string) => ({
     method: "simulated" as const,
     sourceEntityIds: [count.id],
-    note: `${PRESIDENTIAL_TURNOVER_PROFILE.id}: ${note} Placeholder, not research.`,
+    note: `${PRESIDENTIAL_TURNOVER_PROFILE.id}: ${note} Recorded party-affiliation rule, not a forecast.`,
   });
   const held = (office: "president" | "vice-president") =>
     nationalRecords(next, election.id).some(

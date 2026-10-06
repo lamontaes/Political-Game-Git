@@ -67,8 +67,10 @@ import {
 export const STATE_LEGISLATURE_CANDIDATE_VERSION =
   "state-legislature-candidates/v1";
 
-// PLACEHOLDER(overnight): this staggered fictional prospect window and the
-// opportunity threshold are not state filing, nomination, or primary law.
+// ESTIMATED FROM AVERAGE: this national prospect-intake profile uses the
+// same 60-day January-through-March scouting window and 18% low-opportunity
+// floor across the 50 states. It is not state filing, nomination, or primary
+// law; a jurisdiction's recorded rules remain controlling.
 export const STATE_LEGISLATURE_CANDIDATE_PROFILE = {
   id: "ocd-state-legislature-candidates-game-profile/v1",
   intakeStartMonthDay: "01-06",

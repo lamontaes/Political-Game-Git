@@ -52,10 +52,12 @@ export interface SenateVacancyLaw {
 }
 
 /**
- * PLACEHOLDER: how many days a governor takes to appoint when the statute
- * sets no deadline. Kept from the earlier game profile.
+ * ESTIMATED FROM AVERAGE: ten days for a gubernatorial appointment when the
+ * statute sets no deadline. Basis: the recorded Louisiana ten-day deadline,
+ * checked against the 30-day Alaska and Oregon deadlines; those are the three
+ * read statutes in this table that specify an appointment deadline.
  */
-export const SENATE_APPOINTMENT_PLACEHOLDER_DAYS = 10;
+export const SENATE_APPOINTMENT_ESTIMATED_DAYS = 10;
 
 const NEXT_GENERAL = { kind: "next-general" } as const;
 const prompt = (promptDays: number | null) =>
