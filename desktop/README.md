@@ -125,8 +125,8 @@ the canonical version and exist only for throwaway artifacts.
   `OCD_PRIVATE_UPDATE_FEED_URL`) and retain the ask-first update selector.
   Steam builds always stage with updates disabled.
 - Stable builds check on open, assess version/channel before downloading,
-  verify updates in the background, and then offer explicit "Install and
-  restart" and "Later" buttons. Auto-install-on-quit remains disabled. The
+  verify updates in the background, and then offer explicit "Later" and
+  "Install and restart" buttons, with Later as the default. Auto-install-on-quit remains disabled. The
   player must confirm installation and every window must pass the normal
   save/close guard before restart. Stable builds remain disabled if no HTTPS
   feed or signing material is configured.
