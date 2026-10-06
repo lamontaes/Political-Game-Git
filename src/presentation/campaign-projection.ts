@@ -84,6 +84,14 @@ import { personPronouns } from "../simulation/person-identity";
 import { municipalSeatChoiceByKey } from "../simulation/municipal-seat-identity";
 import { stateCandidacyPack } from "../simulation/candidacy-packs";
 import { stateSeatsInDistrict } from "../simulation/nationwide-world/state-legislature-opening";
+import {
+  buyCampaignUnits,
+  campaignPlaceCounts,
+  campaignPurchases,
+  CAMPAIGN_UNIT_PRICES,
+  type CampaignPurchaseKind,
+} from "../simulation/campaign-operating-costs";
+import { campaignSpendingComparison } from "../simulation/campaign-spending-benchmark";
 
 /**
  * What a candidate can actually see.
@@ -322,6 +330,13 @@ export interface CampaignView {
   readonly electionDate: string | null;
   readonly daysLeft: number | null;
   readonly treasury: MoneyAmount;
+  readonly households: number;
+  readonly householdBasis: string;
+  readonly unitPrices: typeof CAMPAIGN_UNIT_PRICES;
+  readonly purchases: ReturnType<typeof campaignPurchases>;
+  readonly comparableSpending: ReturnType<
+    typeof campaignSpendingComparison
+  > | null;
   readonly offers: readonly CampaignActionOffer[];
   readonly donors: readonly {
     personId: EntityId;
@@ -562,6 +577,7 @@ export function projectCampaign(
     minorUnits: 0,
     currency: campaign.treasuryCurrency,
   };
+  const placeCounts = campaignPlaceCounts(world, campaign.id);
   const committee =
     world.history.organizationProfiles
       .filter((profile) => profile.organizationId === campaign.organizationId)
@@ -593,6 +609,16 @@ export function projectCampaign(
     daysLeft:
       state.status === "active" ? daysUntilElection(world, campaign) : null,
     treasury,
+    households: placeCounts.households,
+    householdBasis:
+      placeCounts.basis === "acs-population-estimate"
+        ? "ACS 2020–2024 population estimate, converted at 2.5 people per household"
+        : placeCounts.basis === "census-place-population"
+          ? "2020 Census place population, converted at an estimated 2.5 people per household"
+          : "households recorded in this game",
+    unitPrices: CAMPAIGN_UNIT_PRICES,
+    purchases: campaignPurchases(world, campaign.id),
+    comparableSpending: campaignSpendingComparison(world, campaign.id),
     offers:
       state.status === "active" ? offersFor(world, campaign, treasury) : [],
     donors: campaignAsks(world, campaign.id).map((ask, index, asks) => ({
@@ -710,6 +736,15 @@ export function askCampaignDonorForContribution(
   amountMinorUnits = 10_000,
 ) {
   return askCampaignDonor(world, { campaignId, personId, amountMinorUnits });
+}
+
+export function buyCampaignOperatingUnits(
+  world: World,
+  campaignId: EntityId,
+  item: CampaignPurchaseKind,
+  units: number,
+): World {
+  return buyCampaignUnits(world, { campaignId, item, units });
 }
 
 export function offerCampaignManagerJob(
@@ -875,6 +910,11 @@ function notYetFiled(
     electionDate: null,
     daysLeft: null,
     treasury: emptyTreasury,
+    households: 0,
+    householdBasis: "recorded-world-households",
+    unitPrices: CAMPAIGN_UNIT_PRICES,
+    purchases: [],
+    comparableSpending: null,
     offers: [] as readonly CampaignActionOffer[],
     managerCandidates: [] as const,
     donors: [] as const,
