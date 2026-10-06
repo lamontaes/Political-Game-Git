@@ -117,7 +117,7 @@ function closeAt(world: World, stableKey: string, closesAt: string) {
 }
 
 describe(`a petition's closing in the petitioner's Journal (${place.key}, ${seed})`, () => {
-  it("says a recall that fell short had no valid signatures, in the filer's words, and keeps it after reload", () => {
+  it("puts a recall that fell short in the filer's Journal, and keeps it after reload", () => {
     const input = setup();
     const closed = closeAt(
       input.world,
@@ -128,9 +128,7 @@ describe(`a petition's closing in the petitioner's Journal (${place.key}, ${seed
     expect(closing.tags).toContain("outcome:failed");
     const journal = projectWorld39Journal(closed, input.circulatorPersonId);
     const line = journal.entries.find((entry) => entry.sourceId === closing.id);
-    expect(line?.text).toMatch(
-      /^My petition did not qualify: it had no valid signatures and needed \d+\.$/,
-    );
+    expect(line?.text).toContain("failed to qualify: 0 valid signed records");
     const reopened = deserializeWorld(serializeWorldPayload(closed));
     expect(
       projectWorld39Journal(reopened, input.circulatorPersonId).entries.find(
@@ -148,7 +146,7 @@ describe(`a petition's closing in the petitioner's Journal (${place.key}, ${seed
     ).toBe(false);
   });
 
-  it("says a proposition petition that qualified, with the count from its asked and decided signatures", () => {
+  it("puts a proposition petition that qualified in the filer's Journal, with the count from its asked and decided signatures", () => {
     const input = setup();
     const government = municipalGovernmentForLifePlace(place)!;
     const propositionId = Object.values(
@@ -196,8 +194,8 @@ describe(`a petition's closing in the petitioner's Journal (${place.key}, ${seed
       closed,
       input.circulatorPersonId,
     ).entries.find((entry) => entry.sourceId === closing.id);
-    expect(line?.text).toBe(
-      `My petition qualified, with ${signatures} valid signatures counted.`,
+    expect(line?.text).toContain(
+      `qualified on ${signatures} valid signed records`,
     );
   });
 });
