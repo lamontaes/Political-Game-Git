@@ -10,6 +10,9 @@ import {
 import { addDays, ageOnDate, makeIsoDate } from "../dates";
 import {
   createEducationEnrollment,
+  createHousehold,
+  recordHouseholdLocation,
+  startHouseholdMembership,
   recordEducationEnrollmentState,
 } from "../life";
 import { educationEnrollmentStateAt } from "../life-queries";
@@ -82,6 +85,35 @@ function threeAlike() {
     })),
   );
   const id = (key: string) => characterHistoryContextPersonId(world, key);
+  for (const key of Object.values(keys)) {
+    const personId = id(key);
+    world = createHousehold(world, {
+      stableKey: `${key}:home`,
+      formedAt: born,
+      label: "Recorded resident home",
+      provenance: PROVENANCE,
+    });
+    const householdId = world.history.households.at(-1)!.id;
+    world = recordHouseholdLocation(world, {
+      stableKey: `${key}:location`,
+      householdId,
+      effectiveAt: born,
+      jurisdictionId: town,
+      kind: "residence:home",
+      label: "Recorded resident home",
+      provenance: PROVENANCE,
+      supersedesLocationId: null,
+    });
+    world = startHouseholdMembership(world, {
+      stableKey: `${key}:membership`,
+      personId,
+      householdId,
+      startedAt: born,
+      residenceRole: "primary",
+      kind: "resident:member",
+      provenance: PROVENANCE,
+    });
+  }
   const started = yearsAfter(born, 14);
   // A school the world already has, standing by the day they started.
   const secondary = new Set(
