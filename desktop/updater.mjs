@@ -152,8 +152,9 @@ export function assessCandidate({ currentVersion, channel, updateInfo }) {
  *                          actually closed (the game finished persisting)
  *
  * Stable builds download an assessed, signature-verified candidate without
- * interrupting play and arm installation on the player's next quit. Internal
- * builds retain the explicit ask-first flow.
+ * interrupting play, then require a direct player confirmation before
+ * closing any window or installing. Auto-install-on-quit stays disabled.
+ * Internal builds retain the explicit ask-first download flow.
  */
 export async function runUpdateCheck(deps) {
   const { activation } = deps;
@@ -213,12 +214,31 @@ export async function runUpdateCheck(deps) {
       );
       return "download-failed";
     }
-    updater.setAutoInstallOnAppQuit(true);
-    await deps.notify(
+    const installNow = await deps.ask(
       `Version ${result.updateInfo.version} is ready.`,
-      "It will install the next time you quit and open the app. Your current play and saves stay in place.",
+      "Install and restart now? Nothing will install until you confirm. Your current play and saves stay in place.",
+      ["Install and restart", "Later"],
     );
-    return "stable-downloaded-for-next-quit";
+    if (installNow !== 0) {
+      updater.setAutoInstallOnAppQuit(false);
+      await deps.notify(
+        "The update is ready when you are.",
+        "Nothing was installed. Choose Check for Updates when you are ready to install it.",
+      );
+      return "stable-player-deferred";
+    }
+    const allClosed = await deps.closeAllWindows();
+    if (!allClosed) {
+      updater.setAutoInstallOnAppQuit(false);
+      await deps.notify(
+        "The update was not installed.",
+        "A window stayed open, so your play was left untouched. Choose Check for Updates when you are ready to install it.",
+      );
+      return "stable-install-blocked";
+    }
+    updater.setAutoInstallOnAppQuit(false);
+    updater.quitAndInstall();
+    return "stable-installing";
   }
 
   const wanted = await deps.ask(
@@ -244,9 +264,7 @@ export async function runUpdateCheck(deps) {
     ["Restart and install", "Later"],
   );
   if (installNow !== 0) {
-    // Make the promise in the copy true: the verified download installs
-    // on the player's own next quit, and not before.
-    updater.setAutoInstallOnAppQuit(true);
+    updater.setAutoInstallOnAppQuit(false);
     return "deferred-to-quit";
   }
 
@@ -254,10 +272,10 @@ export async function runUpdateCheck(deps) {
   if (!allClosed) {
     // A window declined to close (the game is mid-something). Keep the
     // player's install decision for their own quit instead of forcing it.
-    updater.setAutoInstallOnAppQuit(true);
+    updater.setAutoInstallOnAppQuit(false);
     await deps.notify(
-      "The update will finish when you quit.",
-      "A window stayed open, so nothing was interrupted. The downloaded update installs the next time you quit the app yourself.",
+      "The update was not installed.",
+      "A window stayed open, so nothing was interrupted. Choose Check for Updates when you are ready to install it.",
     );
     return "install-blocked-deferred";
   }
