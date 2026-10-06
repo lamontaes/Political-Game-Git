@@ -15,6 +15,7 @@ import {
   lawExposuresOf,
   recordHeardExposure,
   recordLawExposure,
+  recordPlaceOutcomeLawExposure,
 } from "./law-exposure";
 import {
   followsNewsClosely,
@@ -708,5 +709,41 @@ describe("starting and passed wage laws share the exposure record", () => {
         input(`starting-law:US-AK:${questionKey}` as EntityId),
       ),
     ).toThrow("recorded law in force");
+  });
+  it("stores a dated zero place exposure against its exact named cause", () => {
+    const cause = {
+      id: "place-outcome:zero-measure" as EntityId,
+      measure: "env.particulates",
+      placeKey: "US-AK",
+      jurisdictionId: "jurisdiction:US-AK" as EntityId,
+      month: makeIsoDate("2027-01-01"),
+      base: 0,
+      multiplier: 1,
+      value: 0,
+      causes: [],
+    };
+    const world = {
+      ...writerWorld(),
+      placeOutcomes: { months: [{ month: cause.month, records: [cause] }] },
+    } as unknown as World;
+    const recorded = recordPlaceOutcomeLawExposure(world, {
+      person: personId,
+      lawKey: questionKey,
+      measureId: passedId,
+      cause: cause.id,
+      kind: "EXPOSURE",
+      value: 0,
+      month: cause.month,
+    });
+    const row = lawExposuresOf(recorded, personId)[0]!;
+    expect(row).toMatchObject({
+      personId,
+      measureId: passedId,
+      sourceRecordId: cause.id,
+      channel: "outcome-web",
+      relation: "own",
+      outcome: { kind: "EXPOSURE", value: 0, month: cause.month },
+    });
+    expect(() => assertLawExposureIntegrity(recorded, new Set())).not.toThrow();
   });
 });
