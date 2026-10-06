@@ -3,7 +3,7 @@ import {
   evaluateDecision,
   recordDurableDecisionTrace,
 } from "./decisions";
-import { favorRecords, recordFavor } from "./favors";
+import { favorRecords } from "./favors";
 import { recordWorldEvent } from "./world";
 import { appointmentCircle } from "./patronage/appointments";
 import { projectEligiblePressReporters } from "./press-interview-producers";
@@ -34,6 +34,7 @@ export interface AfterOfficeEndorsementResponse {
 
 export interface AfterOfficeEndorsementScene {
   readonly requestEventId: EntityId;
+  readonly campaignId: EntityId;
   readonly candidatePersonId: EntityId;
   readonly candidateName: string;
   readonly lines: readonly [
@@ -210,21 +211,13 @@ export function decideAfterOfficeEndorsement(
     campaign.candidatePersonId !== input.candidatePersonId ||
     !afterOfficeEndorsementCandidates(world, input.formerOfficialPersonId).some(
       (row) => row.campaignId === input.campaignId,
-    )
+    ) ||
+    !validEndorsementRequest(world, input) ||
+    endorsementRequestAlreadyAnswered(world, input.requestEventId)
   ) {
     throw new Error(
       "An endorsement ask requires an active campaign by somebody the former official knows.",
     );
-  }
-  const request = world.history.events.find(
-    (row) => row.id === input.requestEventId,
-  );
-  if (
-    !request ||
-    !request.involvedEntityIds.includes(input.candidatePersonId) ||
-    !request.involvedEntityIds.includes(input.formerOfficialPersonId)
-  ) {
-    throw new Error("The endorsement request event must name both people.");
   }
   const considerations = endorsementConsiderations(
     world,
@@ -326,6 +319,13 @@ export function projectAfterOfficeEndorsementScenes(
       );
       if (!candidatePersonId || !campaign || !active || alreadyAnswered)
         return [];
+      const request = {
+        requestEventId: event.id,
+        formerOfficialPersonId,
+        candidatePersonId,
+        campaignId: campaign.id,
+      };
+      if (!validEndorsementRequest(world, request)) return [];
       const reasons = endorsementConsiderations(
         world,
         formerOfficialPersonId,
@@ -335,6 +335,7 @@ export function projectAfterOfficeEndorsementScenes(
       return [
         {
           requestEventId: event.id,
+          campaignId: campaign.id,
           candidatePersonId,
           candidateName: personName(world.people[candidatePersonId]!),
           lines: [
@@ -379,7 +380,12 @@ export function answerAfterOfficeEndorsementScene(
     !projectAfterOfficeEndorsementScenes(
       world,
       input.formerOfficialPersonId,
-    ).some((scene) => scene.requestEventId === input.requestEventId)
+    ).some(
+      (scene) =>
+        scene.requestEventId === input.requestEventId &&
+        scene.candidatePersonId === input.candidatePersonId &&
+        scene.campaignId === input.campaignId,
+    )
   ) {
     throw new Error("That endorsement request is no longer available.");
   }
@@ -404,10 +410,16 @@ function recordEndorsementOutcome(
   const campaign = (world.history.campaigns ?? []).find(
     (row) => row.id === input.campaignId,
   );
-  if (!campaign) throw new Error("The endorsement campaign is not recorded.");
+  if (
+    !campaign ||
+    campaign.candidatePersonId !== input.candidatePersonId ||
+    !validEndorsementRequest(world, input) ||
+    endorsementRequestAlreadyAnswered(world, input.requestEventId)
+  )
+    throw new Error("The endorsement request no longer matches this campaign.");
   const endorsed = input.endorsed;
   const chosen = endorsed ? "endorsed" : "declined";
-  let next = recordWorldEvent(world, {
+  const next = recordWorldEvent(world, {
     stableKey: `${input.stableKey}:response-event`,
     type: "career.endorsement-response",
     occurredAt: world.currentDate,
@@ -427,7 +439,7 @@ function recordEndorsementOutcome(
       },
     ],
     personFactConstraints: [],
-    visibility: "public",
+    visibility: endorsed ? "public" : "private",
     tags: [
       "career:after-office",
       `request:${input.requestEventId}`,
@@ -446,33 +458,10 @@ function recordEndorsementOutcome(
     },
   });
   const responseEventId = next.history.events.at(-1)!.id;
-  const openReciprocalFavor = endorsed
-    ? unreturnedFavorFrom(
-        next,
-        input.candidatePersonId,
-        input.formerOfficialPersonId,
-      )
-    : null;
-  let returnedFavorId: EntityId | null = null;
-  if (openReciprocalFavor) {
-    next = recordFavor(next, {
-      stableKey: `${input.stableKey}:reciprocal-favor`,
-      giverPersonId: input.formerOfficialPersonId,
-      receiverPersonId: input.candidatePersonId,
-      kind: "political:endorsement",
-      description: "endorsed the candidate in return for earlier help",
-      givenAt: next.currentDate,
-      eventId: responseEventId,
-      subject: { kind: "none" },
-      motive: "trade",
-      weight: "moderate",
-      audience: "public",
-      witnessPersonIds: [input.candidatePersonId],
-      inReturnForFavorId: openReciprocalFavor.id,
-      undertakingId: null,
-    });
-    returnedFavorId = next.history.favors?.at(-1)?.id ?? null;
-  }
+  // An earlier favor is context, not proof that this endorsement was given
+  // in return. This interaction has no explicit reciprocity choice, so it
+  // must not create a trade-motive favor.
+  const returnedFavorId: EntityId | null = null;
   return {
     world: next,
     decisionTraceId: input.decisionTraceId ?? null,
@@ -517,6 +506,70 @@ function candidateKnowsFormerOfficial(
   );
 }
 
+interface EndorsementRequestIdentity {
+  readonly formerOfficialPersonId: EntityId;
+  readonly candidatePersonId: EntityId;
+  readonly campaignId: EntityId;
+  readonly requestEventId: EntityId;
+}
+
+/** The request event is the authority for who asked whom, and for which campaign. */
+function validEndorsementRequest(
+  world: World,
+  input: EndorsementRequestIdentity,
+): boolean {
+  const request = world.history.events.find(
+    (row) => row.id === input.requestEventId,
+  );
+  const campaign = (world.history.campaigns ?? []).find(
+    (row) => row.id === input.campaignId,
+  );
+  const filing = campaign
+    ? world.history.events.find((row) => row.id === campaign.filingEventId)
+    : undefined;
+  if (
+    !request ||
+    !campaign ||
+    !filing ||
+    campaign.candidatePersonId !== input.candidatePersonId ||
+    campaign.jurisdictionId !== request.jurisdictionId ||
+    request.type !== "career.endorsement-request" ||
+    request.visibility !== "private" ||
+    request.occurredAt > world.currentDate ||
+    request.recordedAt > world.currentDate ||
+    request.occurredAt < filing.occurredAt ||
+    request.recordedAt < request.occurredAt ||
+    !request.tags.includes(`campaign:${input.campaignId}`) ||
+    request.involvedEntityIds.length !== 2 ||
+    !request.involvedEntityIds.includes(input.candidatePersonId) ||
+    !request.involvedEntityIds.includes(input.formerOfficialPersonId)
+  )
+    return false;
+  const asker = request.participants.filter(
+    (row) => row.personId === input.candidatePersonId,
+  );
+  const askedOf = request.participants.filter(
+    (row) => row.personId === input.formerOfficialPersonId,
+  );
+  return (
+    asker.length === 1 &&
+    asker[0]!.role === "agency:asked" &&
+    askedOf.length === 1 &&
+    askedOf[0]!.role === "focus:asked-of"
+  );
+}
+
+function endorsementRequestAlreadyAnswered(
+  world: World,
+  requestEventId: EntityId,
+): boolean {
+  return world.history.events.some(
+    (event) =>
+      event.type === "career.endorsement-response" &&
+      event.tags.includes(`request:${requestEventId}`),
+  );
+}
+
 function endorsementConsiderations(
   world: World,
   formerId: EntityId,
@@ -525,12 +578,17 @@ function endorsementConsiderations(
 ): readonly DecisionConsideration[] {
   const considerations: DecisionConsideration[] = [];
   const formerPositions = latestPositions(world, formerId);
-  const candidatePositions = latestPositions(world, candidateId);
+  const candidatePositions = knownPositions(world, formerId, candidateId);
   for (const [propositionId, former] of formerPositions) {
-    const candidate = candidatePositions.get(propositionId);
-    if (!candidate) continue;
+    const knownCandidate = candidatePositions.get(propositionId);
+    if (!knownCandidate) continue;
+    const { position: candidate, knowledge } = knownCandidate;
     const same = former.stance === candidate.stance;
-    const refs = [former, candidate].flatMap(positionReference);
+    const refs = [
+      ...positionReference(former),
+      ...positionReference(candidate),
+      { kind: "event-knowledge" as const, knowledgeId: knowledge.id },
+    ];
     considerations.push({
       stableKey: `${key}:agreement:${propositionId}`,
       optionKey: "endorse",
@@ -593,30 +651,54 @@ function latestPositions(
   return positions;
 }
 
+function knownPositions(
+  world: World,
+  observerId: EntityId,
+  personId: EntityId,
+): ReadonlyMap<
+  EntityId,
+  {
+    readonly position: PublicPositionRecord;
+    readonly knowledge: World["history"]["knowledge"][number];
+  }
+> {
+  const learnedByEvent = new Map(
+    world.history.knowledge
+      .filter(
+        (record) =>
+          record.personId === observerId &&
+          record.accuracy === "accurate" &&
+          record.learnedAt <= world.currentDate,
+      )
+      .map((record) => [record.eventId, record]),
+  );
+  const positions = new Map<
+    EntityId,
+    {
+      readonly position: PublicPositionRecord;
+      readonly knowledge: World["history"]["knowledge"][number];
+    }
+  >();
+  for (const position of world.history.publicPositions
+    .filter(
+      (row) =>
+        row.personId === personId &&
+        row.audience === "public" &&
+        row.statedAt <= world.currentDate &&
+        row.sourceEventId !== null,
+    )
+    .sort((a, b) => a.sequence - b.sequence)) {
+    const knowledge = learnedByEvent.get(position.sourceEventId!);
+    if (knowledge)
+      positions.set(position.propositionId, { position, knowledge });
+  }
+  return positions;
+}
+
 function positionReference(
   position: PublicPositionRecord,
 ): readonly MindSourceReference[] {
   return position.sourceEventId
     ? [{ kind: "historical-event", eventId: position.sourceEventId }]
     : [];
-}
-
-function unreturnedFavorFrom(
-  world: World,
-  giverPersonId: EntityId,
-  receiverPersonId: EntityId,
-) {
-  const returned = new Set(
-    favorRecords(world)
-      .map((row) => row.inReturnForFavorId)
-      .filter((id): id is EntityId => id !== null),
-  );
-  return (
-    favorRecords(world).find(
-      (row) =>
-        row.giverPersonId === giverPersonId &&
-        row.receiverPersonId === receiverPersonId &&
-        !returned.has(row.id),
-    ) ?? null
-  );
 }
