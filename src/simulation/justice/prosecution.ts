@@ -48,6 +48,8 @@ import {
   stateKeyForJurisdiction,
 } from "../life-places";
 import { ensureOpeningJudiciary } from "../judiciary/opening";
+import { controlledPersonId } from "../judiciary/court-for";
+import { judicialCaseHandling } from "../office-workflow";
 import { personName } from "../people";
 import { ensurePeopleTraits } from "../people-traits";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
@@ -1058,6 +1060,12 @@ export function advanceProsecutions(
     const ended = existingEnd ?? next.history.events.at(-1)!;
     pleaded = pleaded || ended.tags.includes(`${OUTCOME_TAG}plea`);
 
+    if (
+      judgeId === controlledPersonId(next) &&
+      judicialCaseHandling(next, judgeId, "criminal-sentence") === "hear-myself"
+    )
+      continue;
+
     // The sitting judge who allowed this case to proceed chooses the sentence.
     next = prepareJudge(next, judgeId);
     const decision = sentenceDecisionForCase(next, judgeId, courtCase, pleaded);
@@ -1193,6 +1201,11 @@ function decideBeforeTrial(
       motivation:
         "The law presumes release before trial, and no judge on the state's trial court could hear a request to hold them.",
     });
+  if (
+    judgeId === controlledPersonId(next) &&
+    judicialCaseHandling(next, judgeId, "pretrial-detention") === "hear-myself"
+  )
+    return next;
   next = prepareJudge(next, judgeId);
   const decision = evaluateDetention(next, judgeId, courtCase);
   next = recordDurableDecisionTrace(next, decision);
