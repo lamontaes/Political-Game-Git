@@ -119,8 +119,8 @@ function sentenceFor(line: LawEffectLine): string {
       return `${line.heading}: it allows up to ${ceiling}, but provides no money itself. ${used}`;
     }
     case "not-modeled":
-      // PLACEHOLDER: the effect of this part is waiting on research. The
-      // sentence says only that nothing acts on it, never what it would do.
+      // A recorded no-op: this effect kind expressly carries no simulation
+      // behavior. The sentence says only that nothing acts on it.
       return `${line.heading}: nothing in the world acts on this part of the law yet.`;
     case "no-operative-text":
       return "This law has no operative text, so it changes nothing in the world.";
@@ -170,10 +170,10 @@ function dutySentence(line: Extract<LawEffectLine, { kind: "duty" }>): string {
   const found = [
     line.complied > 0 ? `${line.complied} of ${total} met it` : null,
     line.complianceUnknown > 0
-      ? `for ${line.complianceUnknown}, whether it was met is not known`
+      ? `the record does not establish compliance for ${line.complianceUnknown}`
       : null,
     line.coverageUnknown > 0
-      ? `for ${line.coverageUnknown}, whether it applies is not known`
+      ? `the record does not establish coverage for ${line.coverageUnknown}`
       : null,
   ].filter((part): part is string => part !== null);
   return `${line.heading}: this applies to ${line.coveredLabel}, in effect since ${from}. Of those on record, ${found.join("; ")}.`;
@@ -185,11 +185,11 @@ function eligibilitySentence(
   const who = `${line.heading}: it applies to ${line.coveredLabel}.`;
   const unsure =
     line.unknown === 1
-      ? "1 more is on record, but whether it applies to it is not known"
-      : `${line.unknown} more are on record, but whether it applies to them is not known`;
+      ? "1 more is on record without established eligibility"
+      : `${line.unknown} more are on record without established eligibility`;
   if (line.qualifying === null)
     return line.unknown === 0
-      ? `${who} Who meets that test is not known yet.`
+      ? `${who} The record does not establish who meets that test yet.`
       : `${who} ${unsure.replace(" more", "")}.`;
   const count =
     line.qualifying === 0

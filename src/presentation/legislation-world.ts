@@ -133,7 +133,8 @@ export function resolveLegislativeAssignmentForMeasure(
   if (!measure)
     return {
       kind: "unavailable",
-      reason: "This measure is not recorded in the current world.",
+      reason:
+        "The current world's legislative history does not contain this measure.",
     };
   const membership = resolveActiveMemberSeat(world, input.playerPersonId, {
     governingJurisdictionId: measure.jurisdictionId,

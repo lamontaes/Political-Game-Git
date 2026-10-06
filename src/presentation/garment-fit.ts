@@ -810,7 +810,9 @@ export function transformShapeErrors(transform: unknown): readonly string[] {
       }
       for (const key of Object.keys(point as object)) {
         if (!(CONTROL_POINT_KEYS as readonly string[]).includes(key)) {
-          errors.push(`Control point ${index} carries unknown field '${key}'.`);
+          errors.push(
+            `Control point ${index} carries unrecognized field '${key}'.`,
+          );
         }
       }
       for (const key of CONTROL_POINT_KEYS) {

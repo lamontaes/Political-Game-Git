@@ -276,7 +276,7 @@ export function buildLifeIntroduction(
 function householdAbsenceLine(recorded: boolean): string {
   return recorded
     ? "No one else is recorded in your current household."
-    : "Your current household is not recorded.";
+    : "Your history has no current household membership.";
 }
 
 /** An explicit initialization fact is current only while its exact household,

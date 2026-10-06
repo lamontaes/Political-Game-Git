@@ -506,7 +506,7 @@ function topicPath(
 function location(spec: LocationSpec): LegislationContentLocation {
   const subject = subjectByKey.get(spec.subjectKey);
   if (!subject)
-    throw new Error(`Unknown legislation subject ${spec.subjectKey}.`);
+    throw new Error(`Unrecognized legislation subject ${spec.subjectKey}.`);
   return {
     subjectKey: subject.key,
     subjectLabel: subject.label,
@@ -573,7 +573,7 @@ export function legislationContentCatalog(
   for (const option of options) {
     const key = `${option.familyKey}/${option.variantKey}`;
     if (!configurations.has(key))
-      throw new Error(`Unknown draft option ${key}.`);
+      throw new Error(`Unrecognized draft option ${key}.`);
     if (seen.has(key)) throw new Error(`Repeated draft option ${key}.`);
     seen.add(key);
     const placement = PLACEMENTS[key];

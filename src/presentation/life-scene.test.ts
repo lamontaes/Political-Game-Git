@@ -187,7 +187,7 @@ describe("What the game says about the family it wrote", () => {
     const introduction = buildLifeIntroduction(emptied, game.playerPersonId)!;
     expect(introduction.household).toEqual([]);
     expect(introduction.sentences).toContain(
-      "Your current household is not recorded.",
+      "Your history has no current household membership.",
     );
     expect(introduction.personName).toBe(
       buildLifeIntroduction(game.world, game.playerPersonId)!.personName,

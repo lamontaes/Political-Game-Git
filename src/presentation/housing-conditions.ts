@@ -106,7 +106,7 @@ export function projectHousingConditions(
     reasonKeys: [],
     basis:
       householdId === null
-        ? "This person is not recorded in a household."
+        ? "This person's history has no household membership."
         : "No proposed housing cost was given, so nothing was assessed.",
   };
   if (householdId !== null && proposedHousingCost !== null) {

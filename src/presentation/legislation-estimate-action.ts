@@ -212,7 +212,9 @@ export function requestBillEstimate(
     );
     return projection
       ? { kind: "estimated", world, estimate: existing, projection }
-      : refuse("The existing analysis is not known to this person.");
+      : refuse(
+          "This person's knowledge history does not include the existing analysis.",
+        );
   }
   if (input.expectedHistorySequence !== world.history.nextSequence)
     return refuse(

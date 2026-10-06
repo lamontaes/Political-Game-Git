@@ -989,7 +989,7 @@ describe("garment fit — the transform schema is closed", () => {
         { at: 1, scaleX: 1, offsetX: 0 },
       ],
     });
-    expect(errors.join(" ")).toContain("unknown field 'rotate'");
+    expect(errors.join(" ")).toContain("unrecognized field 'rotate'");
   });
 
   it("refuses a sheared profile through bank validation and at runtime", () => {

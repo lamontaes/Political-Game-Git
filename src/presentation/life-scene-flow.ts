@@ -147,7 +147,7 @@ function definitionAtStage(
   stageKey: string,
 ): LifeSceneDefinition {
   const atStage = openingLifeSceneAtStage(definition, stageKey);
-  if (!atStage) throw new Error("Unknown opening stage.");
+  if (!atStage) throw new Error("Unrecognized opening stage.");
   return atStage;
 }
 

@@ -131,7 +131,7 @@ export function projectLegislativeOfficeContext(
   let measure: LegislativeOfficeContext["measure"] = {
     kind: "unavailable",
     reason: measureId
-      ? "The requested bill is not recorded in this World."
+      ? "The World's legislative history does not contain the requested bill."
       : "No bill is selected.",
   };
   if (record) {

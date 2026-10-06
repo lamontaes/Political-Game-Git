@@ -242,7 +242,9 @@ export function offerNegotiatedAmendment(
 
   const amendment = (next.history.legislativeAmendments ?? []).at(-1);
   if (!amendment || amendment.stableKey !== stableKey) {
-    throw new Error("The amendment was not recorded where it was expected.");
+    throw new Error(
+      "The legislative amendment writer did not append the expected amendment.",
+    );
   }
   if (amendment.status !== "adopted") {
     return {
