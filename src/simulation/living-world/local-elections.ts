@@ -96,6 +96,7 @@ import {
   homePosition,
   isWardSeat,
   redrawTownWards,
+  establishVotingPrecinctMembership,
   seatWard,
   townWardMap,
   wardAt,
@@ -1529,6 +1530,7 @@ export function redistrictAfterCensus(
   unit: GovernmentUnitIdentity,
   town: EntityId,
 ): World {
+  world = establishVotingPrecinctMembership(world, town, "census");
   const map = townWardMap(world, unit);
   const year = Number(world.currentDate.slice(0, 4));
   if (!map || year % 10 !== 1 || map.drawnAt >= `${year}-01-01`) return world;

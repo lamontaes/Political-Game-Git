@@ -1,4 +1,8 @@
 import methods from "../../../data/research/local-government/council-election-methods.json" with { type: "json" };
+import precinctPopulation from "../../districts/place-precinct-population.generated.json" with { type: "json" };
+import countyReadings from "../../../data/research/local-government/county-governing-bodies.json" with { type: "json" };
+import { lifePlaceByJurisdictionId } from "../life-places";
+import { recordsWithFieldValue } from "../history-index";
 import { governmentUnitsForState } from "../government-units";
 import type { GovernmentUnitIdentity } from "../government-units";
 import { householdMembershipsAt } from "../life-queries";
@@ -530,4 +534,409 @@ export function redrawTownWards(
       immediateReaction: null,
     },
   });
+}
+
+/** Precincts are voting geography beside wards, never legislative districts. */
+export interface VotingPrecinctPlan {
+  readonly version: "voting-precinct-population/v1";
+  readonly assignmentBasis: "estimated-address-free-population-share";
+  readonly townId: EntityId;
+  readonly placeGeoid: string | null;
+  readonly populationVintage: "census-2020";
+  readonly basis:
+    | "census-vtd-population"
+    | "estimated-from-state-vtd-average"
+    | "estimated-from-compiled-vtd-average";
+  readonly sourceStateFips: readonly string[];
+  readonly precincts: readonly {
+    readonly key: string;
+    readonly population: number;
+  }[];
+}
+
+interface PrecinctPopulationCatalog {
+  readonly format: string;
+  readonly populations: Readonly<
+    Record<string, Readonly<Record<string, number>>>
+  >;
+  readonly stateAverages: Readonly<
+    Record<
+      string,
+      {
+        readonly population: number | null;
+        readonly vtdCount: number | null;
+        readonly meanPopulation: number | null;
+      }
+    >
+  >;
+}
+const precinctCatalog =
+  precinctPopulation as unknown as PrecinctPopulationCatalog;
+if (precinctCatalog.format !== "ocd-place-precinct-population/v1")
+  throw new Error("Unrecognized voting-precinct population source.");
+const precinctStateCodes = countyReadings.municipalCodes as Readonly<
+  Record<string, { readonly stateFips: string }>
+>;
+const PRECINCT_MAP = "local.voting-precinct-map";
+const PRECINCT_ARRIVAL = "local.voting-precinct-arrival";
+const PRECINCT_TAG = "voting-precinct-record:";
+interface SavedPrecinctMap {
+  readonly plan: VotingPrecinctPlan;
+  readonly assignments: Readonly<Record<EntityId, string>>;
+}
+interface SavedPrecinctArrival {
+  readonly mapId: EntityId;
+  readonly personId: EntityId;
+  readonly precinctKey: string;
+}
+const parsedPrecinctRecords = new WeakMap<
+  HistoricalEvent,
+  SavedPrecinctMap | SavedPrecinctArrival
+>();
+function precinctRecord(
+  event: HistoricalEvent,
+): SavedPrecinctMap | SavedPrecinctArrival {
+  const cached = parsedPrecinctRecords.get(event);
+  if (cached) return cached;
+  const tag = event.tags.find((value) => value.startsWith(PRECINCT_TAG));
+  if (!tag) throw new Error(`Missing saved precinct payload: ${event.id}`);
+  const record = JSON.parse(tag.slice(PRECINCT_TAG.length)) as
+    SavedPrecinctMap | SavedPrecinctArrival;
+  parsedPrecinctRecords.set(event, record);
+  return record;
+}
+function latestPrecinctMap(
+  world: World,
+  townId: EntityId,
+  asOf: IsoDate,
+): HistoricalEvent | null {
+  let latest: HistoricalEvent | null = null;
+  for (const event of recordsWithFieldValue(
+    world.history.events,
+    "jurisdictionId",
+    townId,
+  )) {
+    if (event.type !== PRECINCT_MAP || event.occurredAt > asOf) continue;
+    if (
+      !latest ||
+      event.occurredAt > latest.occurredAt ||
+      (event.occurredAt === latest.occurredAt &&
+        event.sequence > latest.sequence)
+    )
+      latest = event;
+  }
+  return latest;
+}
+function primaryPrecinctHome(
+  world: World,
+  personId: EntityId,
+  asOf: IsoDate,
+): EntityId | null {
+  const person = world.people[personId];
+  if (!person || person.birthDate > asOf) return null;
+  if (
+    recordsWithFieldValue(
+      world.history.personDeaths,
+      "personId",
+      personId,
+    ).some((death) => death.diedAt <= asOf)
+  )
+    return null;
+  const homes = householdMembershipsAt(world, personId, {
+    asOfDate: asOf,
+    historySequenceExclusive: world.history.nextSequence,
+  });
+  const primary = homes.filter(
+    (row) => row.state.residenceRole === "primary" && row.location !== null,
+  );
+  if (primary.length > 1) return null;
+  if (primary.length === 1) return primary[0]!.location!.jurisdictionId;
+  // Old saves without primary-home records retain their canonical person home.
+  return homes.length === 0 ? person.homeJurisdictionId : null;
+}
+
+/** Population inputs stay sourced; membership is an estimated address-free join. */
+export function votingPrecinctPlan(
+  world: World,
+  townId: EntityId,
+): VotingPrecinctPlan {
+  const place = lifePlaceByJurisdictionId(townId);
+  if (!place || !world.jurisdictions[townId])
+    throw new Error("Precinct membership requires a recorded home place.");
+  const placeGeoid = place.sourceGeoid ?? null;
+  const recorded = placeGeoid
+    ? precinctCatalog.populations[`${placeGeoid}:voting-precinct`]
+    : undefined;
+  const rows = Object.entries(recorded ?? {})
+    .filter(([, count]) => Number.isSafeInteger(count) && count > 0)
+    .sort(([left], [right]) => left.localeCompare(right));
+  if (rows.length > 0)
+    return {
+      version: "voting-precinct-population/v1",
+      assignmentBasis: "estimated-address-free-population-share",
+      townId,
+      placeGeoid,
+      populationVintage: "census-2020",
+      basis: "census-vtd-population",
+      sourceStateFips: [placeGeoid!.slice(0, 2)],
+      precincts: rows.map(([key, population]) => ({ key, population })),
+    };
+  const stateUsps = place.stateJurisdictionKey?.slice(3);
+  const stateFips = stateUsps
+    ? precinctStateCodes[stateUsps]?.stateFips
+    : undefined;
+  const own = stateFips ? precinctCatalog.stateAverages[stateFips] : undefined;
+  const donors = Object.entries(precinctCatalog.stateAverages).filter(
+    ([, value]) =>
+      value.population !== null &&
+      value.vtdCount !== null &&
+      value.vtdCount > 0 &&
+      value.population > 0,
+  );
+  const ownAverage = own?.meanPopulation;
+  const average =
+    ownAverage && ownAverage > 0
+      ? ownAverage
+      : donors.reduce((sum, [, value]) => sum + value.population!, 0) /
+        donors.reduce((sum, [, value]) => sum + value.vtdCount!, 0);
+  if (!Number.isFinite(average) || average <= 0)
+    throw new Error(
+      "No admitted VTD population average for a precinct estimate.",
+    );
+  const reference = placeGeoid
+    ? placeReferencePopulation(placeGeoid)?.value
+    : undefined;
+  const residents = world.personOrder.filter(
+    (id) => primaryPrecinctHome(world, id, world.currentDate) === townId,
+  ).length;
+  const population = Math.max(
+    reference ?? townRoster(townId).population,
+    residents,
+    1,
+  );
+  const count = Math.max(1, Math.round(population / average));
+  return {
+    version: "voting-precinct-population/v1",
+    assignmentBasis: "estimated-address-free-population-share",
+    townId,
+    placeGeoid,
+    populationVintage: "census-2020",
+    basis:
+      ownAverage && ownAverage > 0
+        ? "estimated-from-state-vtd-average"
+        : "estimated-from-compiled-vtd-average",
+    sourceStateFips:
+      ownAverage && ownAverage > 0
+        ? [stateFips!]
+        : donors.map(([fips]) => fips).sort(),
+    precincts: Array.from({ length: count }, (_, index) => ({
+      key: `estimated:${townId}:${index + 1}`,
+      population: population / count,
+    })),
+  };
+}
+
+interface PrecinctSnapshot {
+  readonly map: HistoricalEvent;
+  readonly record: SavedPrecinctMap;
+  readonly assignments: ReadonlyMap<string, string>;
+}
+const precinctSnapshots = new WeakMap<
+  readonly HistoricalEvent[],
+  Map<string, PrecinctSnapshot | null>
+>();
+function savedPrecinctSnapshot(
+  world: World,
+  townId: EntityId,
+  asOf: IsoDate,
+): PrecinctSnapshot | null {
+  let snapshots = precinctSnapshots.get(world.history.events);
+  if (!snapshots) {
+    snapshots = new Map();
+    precinctSnapshots.set(world.history.events, snapshots);
+  }
+  const key = JSON.stringify([townId, asOf]);
+  if (snapshots.has(key)) return snapshots.get(key)!;
+  const map = latestPrecinctMap(world, townId, asOf);
+  if (!map) {
+    snapshots.set(key, null);
+    return null;
+  }
+  const record = precinctRecord(map) as SavedPrecinctMap;
+  const assignments = new Map(Object.entries(record.assignments));
+  const latest = new Map<EntityId, HistoricalEvent>();
+  for (const event of recordsWithFieldValue(
+    world.history.events,
+    "jurisdictionId",
+    townId,
+  )) {
+    if (event.type !== PRECINCT_ARRIVAL || event.occurredAt > asOf) continue;
+    const arrival = precinctRecord(event) as SavedPrecinctArrival;
+    if (arrival.mapId !== map.id) continue;
+    const previous = latest.get(arrival.personId);
+    if (
+      !previous ||
+      event.occurredAt > previous.occurredAt ||
+      (event.occurredAt === previous.occurredAt &&
+        event.sequence > previous.sequence)
+    ) {
+      latest.set(arrival.personId, event);
+      assignments.set(arrival.personId, arrival.precinctKey);
+    }
+  }
+  const snapshot = { map, record, assignments };
+  snapshots.set(key, snapshot);
+  return snapshot;
+}
+
+/** Saved membership only: never manufactures a precinct while reading a vote. */
+export function votingPrecinctOfPerson(
+  world: World,
+  townId: EntityId,
+  personId: EntityId,
+  asOf: IsoDate = world.currentDate,
+): {
+  readonly precinctKey: string;
+  readonly mapId: EntityId;
+  readonly plan: VotingPrecinctPlan;
+} | null {
+  if (primaryPrecinctHome(world, personId, asOf) !== townId) return null;
+  const snapshot = savedPrecinctSnapshot(world, townId, asOf);
+  if (!snapshot) return null;
+  const key = snapshot.assignments.get(personId);
+  return key
+    ? { precinctKey: key, mapId: snapshot.map.id, plan: snapshot.record.plan }
+    : null;
+}
+
+function writePrecinctEvent(
+  world: World,
+  townId: EntityId,
+  type: typeof PRECINCT_MAP | typeof PRECINCT_ARRIVAL,
+  stableKey: string,
+  payload: SavedPrecinctMap | SavedPrecinctArrival,
+  people: readonly EntityId[],
+): World {
+  return recordWorldEvent(world, {
+    stableKey,
+    type,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: townId,
+    involvedEntityIds: [townId, ...people],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [
+      "voting-precinct-population/v1",
+      `${PRECINCT_TAG}${JSON.stringify(payload)}`,
+    ],
+    summary:
+      "Voting precinct membership follows the recorded home and population-share plan.",
+    context: {
+      location: {
+        jurisdictionId: townId,
+        label: world.jurisdictions[townId]!.name,
+        setting: null,
+      },
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+}
+
+/** Opening/census producer: personOrder fills exact largest-remainder shares. */
+export function establishVotingPrecinctMembership(
+  world: World,
+  townId: EntityId,
+  reason: "opening" | "census" = "opening",
+): World {
+  if (reason === "census" && Number(world.currentDate.slice(0, 4)) % 10 !== 1)
+    return world;
+  const previous = latestPrecinctMap(world, townId, world.currentDate);
+  if (previous && reason === "opening") return world;
+  if (
+    reason === "census" &&
+    (!previous ||
+      Number(world.currentDate.slice(0, 4)) % 10 !== 1 ||
+      previous.occurredAt.slice(0, 4) === world.currentDate.slice(0, 4))
+  )
+    return world;
+  const plan = votingPrecinctPlan(world, townId);
+  const residents = world.personOrder.filter(
+    (id) => primaryPrecinctHome(world, id, world.currentDate) === townId,
+  );
+  const total = plan.precincts.reduce((sum, row) => sum + row.population, 0);
+  const shares = plan.precincts.map((row) => {
+    const exact = (residents.length * row.population) / total;
+    return {
+      key: row.key,
+      count: Math.floor(exact),
+      remainder: exact - Math.floor(exact),
+    };
+  });
+  const remainder =
+    residents.length - shares.reduce((sum, row) => sum + row.count, 0);
+  for (const row of [...shares]
+    .sort((a, b) => b.remainder - a.remainder || a.key.localeCompare(b.key))
+    .slice(0, remainder))
+    row.count += 1;
+  const assignments: Record<EntityId, string> = {};
+  let at = 0;
+  for (const share of shares)
+    for (let n = 0; n < share.count; n += 1)
+      assignments[residents[at++]!] = share.key;
+  return writePrecinctEvent(
+    world,
+    townId,
+    PRECINCT_MAP,
+    `voting-precinct-map:${townId}:${world.currentDate}:${reason}`,
+    { plan, assignments },
+    residents,
+  );
+}
+
+/** Arrival producer: keeps all prior assignments, fills the largest shortfall. */
+export function syncVotingPrecinctArrival(
+  world: World,
+  personId: EntityId,
+): World {
+  const townId = primaryPrecinctHome(world, personId, world.currentDate);
+  if (!townId) return world;
+  let next = establishVotingPrecinctMembership(world, townId);
+  if (votingPrecinctOfPerson(next, townId, personId)) return next;
+  const map = latestPrecinctMap(next, townId, next.currentDate)!;
+  const { plan } = precinctRecord(map) as SavedPrecinctMap;
+  const counts = new Map(plan.precincts.map((row) => [row.key, 0]));
+  let residents = 0;
+  for (const id of next.personOrder) {
+    if (primaryPrecinctHome(next, id, next.currentDate) !== townId) continue;
+    residents += 1;
+    const membership = votingPrecinctOfPerson(next, townId, id);
+    if (membership)
+      counts.set(
+        membership.precinctKey,
+        counts.get(membership.precinctKey)! + 1,
+      );
+  }
+  const total = plan.precincts.reduce((sum, row) => sum + row.population, 0);
+  const winner = [...plan.precincts].sort(
+    (a, b) =>
+      (residents * b.population) / total -
+        counts.get(b.key)! -
+        ((residents * a.population) / total - counts.get(a.key)!) ||
+      a.key.localeCompare(b.key),
+  )[0]!;
+  next = writePrecinctEvent(
+    next,
+    townId,
+    PRECINCT_ARRIVAL,
+    `voting-precinct-arrival:${map.id}:${personId}:${next.history.nextSequence}`,
+    { mapId: map.id, personId, precinctKey: winner.key },
+    [personId],
+  );
+  return next;
 }
