@@ -1586,7 +1586,7 @@ export function evaluateMunicipalManagerElection(
   if (input.dispositions.length === 0) {
     return {
       ok: false,
-      reason: `${reading.bodyName ?? reading.displayName} has not recorded a collective decision to elect its manager. One member's standing is not that election.`,
+      reason: `${reading.bodyName ?? reading.displayName} has made no collective decision to elect its manager. One member's standing is not that election.`,
     };
   }
   const seatedByPerson = new Map(

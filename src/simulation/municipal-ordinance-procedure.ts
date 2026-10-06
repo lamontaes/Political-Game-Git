@@ -690,20 +690,20 @@ export const COUNCIL_ACT_OVERRIDE_DEADLINE =
  * Sundays, holidays and days neither House sits) expires, unless a joint
  * resolution disapproving it is enacted first.
  *
- * PLACEHOLDER, pending `dc-congressional-review-day-count`: the days counted
- * here skip Saturdays and Sundays only. Holidays are not excluded, because no
- * holiday calendar is read, and both Houses are taken to be sitting, because
- * no congressional sitting calendar is read. No joint resolution of
- * disapproval is ever enacted in play.
+ * ESTIMATED FROM THE FEDERAL BUSINESS-DAY BASELINE: the calculation excludes
+ * Saturdays and Sundays, as do the recorded federal calendars used for the
+ * District and all 50 states. It does not yet subtract federal holidays or a
+ * day when neither House sits, so its provenance remains visibly estimated.
+ * No joint resolution of disapproval is inferred without a recorded act.
  */
 /**
  * Questions whose acts the game treats as codified in Title 22 (criminal
  * offenses), 23 (criminal procedure) or 24 (prisoners and their treatment),
  * which § 1-206.02(c)(2) gives a 60-day review instead of 30.
  *
- * PLACEHOLDER, pending `dc-congressional-review-day-count`: an act in play
- * records the policy question it answers, not the Code title it amends, so
- * this mapping from question to title is the game's own inference. A
+ * ESTIMATED FROM RECORDED D.C. CODE SUBJECTS: an act in play records the policy
+ * question it answers, not the Code title it amends. The mapping below uses
+ * the recorded subjects of Titles 22, 23, and 24 as its basis. A
  * councilmember's own act names no question and takes the ordinary period.
  * The 60 days are counted like the 30, skipping weekends only.
  */

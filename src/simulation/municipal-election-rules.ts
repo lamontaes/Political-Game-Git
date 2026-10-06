@@ -101,7 +101,7 @@ export function assertMunicipalSourceRef(
     !/[A-Za-z0-9]/.test(citation)
   ) {
     throw new Error(
-      `${label} carries a placeholder or malformed citation: "${source.citation}".`,
+      `${label} carries a provisional or malformed citation: "${source.citation}".`,
     );
   }
   if (source.corpusId.trim().length === 0) {

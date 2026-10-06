@@ -552,7 +552,7 @@ export function importLinkedNationalContestResult(
     : world;
 }
 
-/** National unit schedules never invoke the legacy seeded popular-vote placeholder. */
+/** National unit schedules require the canonical recorded popular-vote result. */
 export function linkedNationalUnitTransition(
   world: World,
   due: FutureDueItem,
@@ -572,7 +572,7 @@ export function linkedNationalUnitTransition(
       status: "blocked",
       reasonKey: "election:national-unit-result-missing",
       context:
-        "A supplied canonical state/district result is required. The legacy seeded placeholder is not a national election producer.",
+        "A supplied canonical state or district result is required; seeded fallback totals cannot produce a national election result.",
       outcomeEventId: null,
     };
   return {

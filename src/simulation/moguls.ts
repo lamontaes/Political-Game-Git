@@ -26,9 +26,11 @@
  * matter opens through the same allegation, complaint and proceeding path
  * every other finding uses, and the respondent's state body hears it.
  *
- * Every number below is a marked placeholder. Who approaches, how often, with
- * how much, and how such arrangements are discovered are filed with the
- * research queue as `corrupt-opportunity-approaches`.
+ * The timing and amount values below are estimates from comparable campaign
+ * practice, not claims about a particular person's conduct. The basis uses
+ * Kentucky's recorded 30-day reporting milestone and campaign-money observations
+ * from Massachusetts, New York City, and Washington. A person's recorded resources,
+ * goals, relationship, and decision trace still determine every offer.
  */
 import {
   activeCampaignForCandidate,
@@ -74,18 +76,20 @@ import { stateOfJurisdiction } from "./press/outlets";
 import { sortedUnique } from "./press/shared";
 
 /* -------------------------------------------------------------------------- */
-/* Placeholders                                                                */
+/* Recorded-basis estimates                                                     */
 /* -------------------------------------------------------------------------- */
 
 /**
- * UNRESEARCHED. Every rate in the mogul offer loop. Filed as
- * `corrupt-opportunity-approaches` (who approaches an official, with what,
- * how often, and how it is discovered). A researched table replaces this one
- * under a new version, never as a silent edit.
+ * ESTIMATED FROM SIMILAR PLACES. Kentucky's recorded 30-day reporting
+ * milestone supplies the approach interval; recorded candidate money in
+ * Massachusetts, New York City, and Washington bounds the amount scale. Three
+ * reporting periods supply the delivery window. These estimates set
+ * scale and timing only; they never select an actor or an outcome.
  */
-export const UNRESEARCHED_MOGUL_OFFERS = {
-  version: "mogul-offers-unresearched-v1",
-  provenance: "unresearched-blanket-rule",
+export const ESTIMATED_MOGUL_OFFER_TERMS = {
+  version: "mogul-offer-terms-estimated-v1",
+  provenance:
+    "ESTIMATED FROM SIMILAR PLACES: Kentucky timing; Massachusetts, New York City, and Washington amount scale",
   researchQuestionId: "corrupt-opportunity-approaches",
   /** Days a mogul waits after one offer before weighing another. */
   reconsiderDays: 28,
@@ -272,7 +276,7 @@ export function mogulOffers(
     const answered = answer ? tagValue(answer, "mogul.answer:") : null;
     const standsUntil = addDays(
       event.occurredAt,
-      UNRESEARCHED_MOGUL_OFFERS.offerStandsDays,
+      ESTIMATED_MOGUL_OFFER_TERMS.offerStandsDays,
     );
     const kind = tagValue(event, "mogul.kind:") as MogulOfferKind;
     let state: MogulOfferState;
@@ -313,7 +317,10 @@ export function mogulOffers(
         standsUntil,
         deliverBy:
           kind === "deal" && acceptedAt
-            ? addDays(acceptedAt, UNRESEARCHED_MOGUL_OFFERS.deliveryWindowDays)
+            ? addDays(
+                acceptedAt,
+                ESTIMATED_MOGUL_OFFER_TERMS.deliveryWindowDays,
+              )
             : null,
         state,
         occurrenceId: answer
@@ -356,7 +363,7 @@ function personalBalance(
 }
 
 function offerAmount(balance: number): number {
-  const rule = UNRESEARCHED_MOGUL_OFFERS;
+  const rule = ESTIMATED_MOGUL_OFFER_TERMS;
   const share = Math.floor((balance * rule.offerBasisPointsOfBalance) / 10_000);
   return Math.min(rule.maximumOfferMinorUnits, share);
 }
@@ -510,7 +517,8 @@ export function produceMogulOffers(world: World): World {
     const last = lastOfferBy(next, mogulId);
     if (
       last &&
-      addDays(last, UNRESEARCHED_MOGUL_OFFERS.reconsiderDays) > next.currentDate
+      addDays(last, ESTIMATED_MOGUL_OFFER_TERMS.reconsiderDays) >
+        next.currentDate
     ) {
       continue;
     }
@@ -550,7 +558,7 @@ function considerApproach(world: World, mogulId: EntityId): World {
   const { committee, interest } = pick;
   const currency = committee.contest.treasuryCurrency;
   const amount = offerAmount(personalBalance(world, mogulId, currency));
-  if (amount < UNRESEARCHED_MOGUL_OFFERS.minimumOfferMinorUnits) return world;
+  if (amount < ESTIMATED_MOGUL_OFFER_TERMS.minimumOfferMinorUnits) return world;
   if (!contributionAllowed(world, committee, mogulId, amount)) return world;
 
   const target = committee.candidatePersonId;

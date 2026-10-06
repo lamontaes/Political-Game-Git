@@ -21,7 +21,7 @@ import {
   openMogulOffersFor,
   produceMogulOffers,
   recordMogulInterest,
-  UNRESEARCHED_MOGUL_OFFERS,
+  ESTIMATED_MOGUL_OFFER_TERMS,
 } from "../simulation/moguls";
 import { pressRecordsOfKind } from "../simulation/press";
 import { stateOfJurisdiction } from "../simulation/press/outlets";
@@ -154,10 +154,10 @@ describe("a very rich person with an interest makes offers", () => {
         expect(offer.propositionId).toBe(race.propositionId);
         expect(offer.wants).toBe("oppose");
         expect(offer.amount.minorUnits).toBeGreaterThanOrEqual(
-          UNRESEARCHED_MOGUL_OFFERS.minimumOfferMinorUnits,
+          ESTIMATED_MOGUL_OFFER_TERMS.minimumOfferMinorUnits,
         );
         expect(offer.amount.minorUnits).toBeLessThanOrEqual(
-          UNRESEARCHED_MOGUL_OFFERS.maximumOfferMinorUnits,
+          ESTIMATED_MOGUL_OFFER_TERMS.maximumOfferMinorUnits,
         );
       }
       // Each approach is the mogul's own recorded decision, not a draw.
@@ -245,7 +245,7 @@ describe("the player takes a deal and never delivers", () => {
         answer: "decline",
       }).world;
       world = untilOfferToPlayer(
-        passOrdinaryDays(world, UNRESEARCHED_MOGUL_OFFERS.reconsiderDays),
+        passOrdinaryDays(world, ESTIMATED_MOGUL_OFFER_TERMS.reconsiderDays),
         race.personId,
       );
       offer = openMogulOffersFor(world, race.personId)[0];
@@ -343,7 +343,7 @@ describe("the player takes a deal and never delivers", () => {
       // may let it go. Either end is recorded; neither is silent.
       for (
         let days = 0;
-        days < UNRESEARCHED_MOGUL_OFFERS.deliveryWindowDays + 60;
+        days < ESTIMATED_MOGUL_OFFER_TERMS.deliveryWindowDays + 60;
         days += 7
       ) {
         after = passOrdinaryDays(after, 7);
@@ -395,7 +395,7 @@ describe("the player takes a deal and never delivers", () => {
       ).toBe("oppose");
       for (
         let days = 0;
-        days < UNRESEARCHED_MOGUL_OFFERS.deliveryWindowDays + 30;
+        days < ESTIMATED_MOGUL_OFFER_TERMS.deliveryWindowDays + 30;
         days += 7
       ) {
         after = passOrdinaryDays(after, 7);

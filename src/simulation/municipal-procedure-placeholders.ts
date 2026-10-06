@@ -1,50 +1,44 @@
 /**
- * PLACEHOLDERS for the parts of a council's ordinance procedure that its read
- * instruments leave to the body's own rules, pending research.
+ * Sourced supplements for parts of a council's ordinance procedure that its
+ * enacted charter leaves to the body's own rules.
  *
- * Each entry is the game's own stand-in, never a claim about the law, and
- * names the research question that replaces it. `municipalRulePackFor` reads
- * an entry only where the compiled reading is silent on that field, so a
- * sourced value always wins.
+ * `municipalRulePackFor` reads an entry only where the compiled charter reading
+ * is silent on that field, so the more specific sourced value always wins.
  *
  * The District of Columbia is the only entry. The Home Rule Act fixes the
  * Council's vote, quorum, readings, the Mayor's action and congressional
  * review (D.C. Code §§ 1-204.04(e), 1-204.12, 1-206.02(c)(1)), and requires
  * the Council to adopt its own rules of procedure (§ 1-204.04(c)). Those rules
- * were not read, so who introduces an act, whether a committee must report
- * it, and whether the Council votes at first reading are filed as
- * `dc-council-rules-of-organization-and-procedure`.
+ * are recorded in the Council Period XXVI Rules of Organization and Procedure:
+ * Rule 401 permits members to introduce bills, while Rules 231 and 315 require
+ * committee action before the first-reading vote and a later final vote.
  */
 
-export const MUNICIPAL_PROCEDURE_PLACEHOLDER_VERSION =
-  "ocd-municipal-procedure-placeholder/v1" as const;
+export const MUNICIPAL_PROCEDURE_SUPPLEMENT_VERSION =
+  "ocd-municipal-procedure-supplement/cp26-v1" as const;
 
-export interface MunicipalProcedurePlaceholder {
+export interface MunicipalProcedureSupplement {
   /** Who may introduce a measure. */
   readonly introductionSponsorship: string;
-  /**
-   * Whether each earlier reading is put to the same vote as final passage.
-   * Without it an earlier reading decides nothing and the engine cannot
-   * advance past it.
-   */
+  /** Whether each earlier reading is put to the same vote as final passage. */
   readonly everyReadingVoted: boolean;
   readonly researchQuestionId: string;
   readonly note: string;
 }
 
-const PLACEHOLDERS: Readonly<Record<string, MunicipalProcedurePlaceholder>> = {
+const SUPPLEMENTS: Readonly<Record<string, MunicipalProcedureSupplement>> = {
   "us-dc-washington": {
     introductionSponsorship:
-      "Any member of the Council may introduce an act. (A placeholder: the Council's own rules were not read.)",
+      "A Councilmember may introduce a bill by filing it with the Secretary under Council Period XXVI Rule 401.",
     everyReadingVoted: true,
     researchQuestionId: "dc-council-rules-of-organization-and-procedure",
-    note: `${MUNICIPAL_PROCEDURE_PLACEHOLDER_VERSION}: any member introduces an act, no committee stage is modeled, and each of the two readings is put to a vote of a majority of the members present and voting. Pending dc-council-rules-of-organization-and-procedure; not the Council's record.`,
+    note: `${MUNICIPAL_PROCEDURE_SUPPLEMENT_VERSION}: Council Period XXVI Rules 231, 315, and 401 record member introduction, committee action before first reading, a first-reading vote, and a final vote after at least 13 days. The engine's committee stage is recorded separately from this supplement. Source: https://dccouncil.gov/wp-content/uploads/2026/01/PR26-0001-FINAL-1-29-26.pdf.`,
   },
 };
 
-/** The placeholder procedure for one government, or null where none is set. */
-export function municipalProcedurePlaceholder(
+/** The sourced procedure supplement for one government, or null if absent. */
+export function municipalProcedureSupplement(
   governmentKey: string,
-): MunicipalProcedurePlaceholder | null {
-  return PLACEHOLDERS[governmentKey] ?? null;
+): MunicipalProcedureSupplement | null {
+  return SUPPLEMENTS[governmentKey] ?? null;
 }

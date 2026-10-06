@@ -34,7 +34,7 @@ import {
  * in local-ordinance-game-profile; it is never quoted as that unit's law.
  */
 
-import { municipalProcedurePlaceholder } from "./municipal-procedure-placeholders";
+import { municipalProcedureSupplement } from "./municipal-procedure-placeholders";
 import type {
   LegalInstrument,
   LocalAuthorityNarrowing,
@@ -800,18 +800,19 @@ export function municipalRulePackFor(
       reason:
         "Research reports are inspectable evidence, not operative procedure.",
     });
-  const placeholder = municipalProcedurePlaceholder(government.key);
-  if (reading.procedure.introductionSponsorship === null && placeholder)
-    outside.push(placeholder.note);
-  if (reading.procedure.introductionSponsorship === null && !placeholder)
+  const supplement = municipalProcedureSupplement(government.key);
+  if (reading.procedure.introductionSponsorship === null && supplement)
+    outside.push(supplement.note);
+  if (reading.procedure.introductionSponsorship === null && !supplement)
     missing.push({
       field: "introduction",
-      reason: "Introduction authority is UNKNOWN.",
+      reason: "The admitted instruments do not record introduction authority.",
     });
   if (reading.procedure.readings === null)
     missing.push({
       field: "readings",
-      reason: "The required floor sequence is UNKNOWN.",
+      reason:
+        "The admitted instruments do not record the required floor sequence.",
     });
   if (reading.procedure.publicHearing !== null)
     missing.push({
@@ -957,7 +958,7 @@ export function municipalRulePackFor(
           reading,
           passage,
           passageSource,
-          placeholder?.everyReadingVoted === true,
+          supplement?.everyReadingVoted === true,
         ),
         amendments: {
           floorAmendmentsAllowed:
@@ -1249,8 +1250,8 @@ function buildFloorStages(
             ),
           }
         : {}),
-      // A placeholder, where one is set: the reading is put to the same vote
-      // as final passage (municipal-procedure-placeholders.ts).
+      // A sourced supplement, where one is set, puts the reading to the same
+      // vote as final passage.
       vote: everyReadingVoted
         ? knownRule(passage, passageSource)
         : unknownRule(
