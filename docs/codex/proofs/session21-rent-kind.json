@@ -1,0 +1,220 @@
+{
+  "testedCodeHead": "c71541561d793589f7ca4ac3c34870356c389419",
+  "baselineHead": "f432038125d7f0fab2d14443019360e9ba7623e6",
+  "scope": "Retire two rent stamp writer labels. Production changes only three agreed effectKind literals; amounts, formula, schedules and decisions unchanged. Controlled fixtures are edge-case evidence, not generated-world law-route acceptance.",
+  "producerReservation": "Session20 ACK6006237153",
+  "focusedTests": {
+    "passed": 7,
+    "failed": 0,
+    "durationSeconds": 33.97
+  },
+  "originalStampFixtureBaseline": {
+    "passed": 0,
+    "failed": 5,
+    "durationSeconds": 36.29,
+    "failure": "Expected private numeric rent cap branch, but production cap input is absent/Infinity; native shared dispatch owns adopted cap."
+  },
+  "bedroomBaseline": {
+    "passed": 0,
+    "failed": 5,
+    "durationSeconds": 181.72,
+    "failure": "Five30000ms timeouts independently reproduced on clean main without concurrent typecheck."
+  },
+  "intermediateCandidate": {
+    "testedCodeHead": "5b940212dfc99b5ddbbeaa08f7d3b828ffb53c6e",
+    "passed": 7,
+    "failed": 5,
+    "durationSeconds": 224.15,
+    "failure": "Same five bedroom timeouts; full typecheck TS2322 widened fixture classification string. Repaired annotation only."
+  },
+  "guardFindings": [
+    "Fixture control must stay with actual governor for player-required governing work.",
+    "Filed provisions need existing beneficiary and application scope fields.",
+    "Actual desk dates must precede later household facts.",
+    "Future due items must be resolved through existing authoritative clock, not skipped."
+  ],
+  "authoredInputs": {
+    "capRatio": 0.05,
+    "capCoverage": ["market:residential:house"],
+    "inclusionaryShare": 1,
+    "marketPriceRatio": 1.4,
+    "priorAffordablePriceRatio": 0.9,
+    "monthlyFixtureIncomeMinor": 10000,
+    "currency": "USD",
+    "status": "Controlled fixture inputs, not researched law values or runtime admissions."
+  },
+  "canonicalStampKind": "price-cost",
+  "historicalStampKinds": [
+    "inclusionary-affordable-rent",
+    "rent-stabilization-renewal"
+  ],
+  "fixture": {
+    "seed": "session21-price-kind-canonical-save",
+    "placeKey": "4752006",
+    "state": "TN",
+    "eligibleHudPlaces": 50,
+    "scope": "Controlled canonical enacted laws, ownership, income and price path; no natural opening or year performance claim.",
+    "tenant": "John Marshall",
+    "affordableTenant": "Erica Gray",
+    "landlord": "Roland Hardy",
+    "initialAffordable": {
+      "id": "resource-flow-terms_eee4385c77203d43",
+      "stableKey": "town-rent-v1:lease:housing-tenure_33890b241361ec36:person_73f97fc3467e58f8:terms:initial",
+      "sequence": 1795,
+      "resourceFlowId": "resource-flow_aa7f2a646ded33ba",
+      "effectiveAt": "2026-02-03",
+      "status": "active",
+      "amount": {
+        "minorUnits": 120540,
+        "currency": "USD"
+      },
+      "cadenceKind": "schedule:monthly",
+      "reason": null,
+      "provenance": {
+        "kind": "authored",
+        "note": "town-rent-v1: an efficiency, rent set by an affordable home under Controlled Rent Act, 30% of 60% of area median income."
+      },
+      "supersedesTermsId": null,
+      "lawEffectStamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "legislative-measure_088131fea442ed50",
+          "source": "enacted",
+          "effectKind": "price-cost",
+          "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+          "jurisdictionId": "jurisdiction_cc7c86c0fd644af9",
+          "operativeAt": "2026-02-02",
+          "appliedAt": "2026-02-03",
+          "sourceRecordIds": [
+            "legislative-measure_088131fea442ed50",
+            "legislative-enactment_6187e88c0e495280",
+            "legislative-provision_837b4589c3049a7f",
+            "resource-flow_aa7f2a646ded33ba",
+            "resource-flow-terms_eee4385c77203d43",
+            "housing-tenure_33890b241361ec36",
+            "dwelling_77da878f7625c298",
+            "person_73f97fc3467e58f8"
+          ]
+        }
+      ]
+    },
+    "marketRequested": {
+      "stableKey": "town-rent-v1:lease:housing-tenure_3bc4817d4b41c7dc:person_73f980c3467e5aab:renewal:1",
+      "resourceFlowId": "resource-flow_71ac34ce79d56cd0",
+      "effectiveAt": "2027-02-01",
+      "status": "active",
+      "amount": {
+        "minorUnits": 233800,
+        "currency": "USD"
+      },
+      "cadenceKind": "schedule:monthly",
+      "reason": "The landlord renewed the lease at this year's rent.",
+      "provenance": {
+        "kind": "generated",
+        "generatorKey": "town-rent-v1"
+      },
+      "supersedesTermsId": "resource-flow-terms_615f53c8a5bf5cc9",
+      "id": "resource-flow-terms_40866f3477e8d92d",
+      "sequence": 2350
+    },
+    "marketRenewal": {
+      "stableKey": "law-price-cost:[\"price-cost:recorded-rent-stabilization\",\"legislative-measure_08a3f431d5825a43\",\"2026-01-19\",\"person_73f980c3467e5aab\",\"resource-flow-terms_40866f3477e8d92d\",\"2027-02-01\"]",
+      "resourceFlowId": "resource-flow_71ac34ce79d56cd0",
+      "effectiveAt": "2027-02-01",
+      "status": "active",
+      "amount": {
+        "minorUnits": 166845,
+        "currency": "USD"
+      },
+      "cadenceKind": "schedule:monthly",
+      "reason": "Price terms under legislative-measure_08a3f431d5825a43.",
+      "provenance": {
+        "kind": "authored",
+        "note": "Applied law consequence price-cost:recorded-rent-stabilization to the recorded price activity."
+      },
+      "supersedesTermsId": "resource-flow-terms_40866f3477e8d92d",
+      "lawEffectStamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "legislative-measure_08a3f431d5825a43",
+          "source": "enacted",
+          "effectKind": "price-cost",
+          "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+          "jurisdictionId": "jurisdiction_cc7c86c0fd644af9",
+          "operativeAt": "2026-01-19",
+          "appliedAt": "2027-02-01",
+          "sourceRecordIds": [
+            "resource-flow_71ac34ce79d56cd0",
+            "resource-flow-terms_40866f3477e8d92d",
+            "person_73f980c3467e5aab",
+            "legislative-measure_08a3f431d5825a43",
+            "legislative-enactment_654dc11719030a72",
+            "legislative-provision_84301f08aaa38258",
+            "housing-tenure_3bc4817d4b41c7dc",
+            "dwelling_00b7eafa4ee6be7e",
+            "resource-flow-terms_615f53c8a5bf5cc9",
+            "legislative-measure_08a3f431d5825a43",
+            "legislative-enactment_654dc11719030a72",
+            "legislative-provision_84301f08aaa38258"
+          ]
+        }
+      ],
+      "id": "resource-flow-terms_e2b517cfd9a27e16",
+      "sequence": 2351
+    },
+    "affordableRenewal": {
+      "stableKey": "town-rent-v1:lease:housing-tenure_33890b241361ec36:person_73f97fc3467e58f8:renewal:1",
+      "resourceFlowId": "resource-flow_aa7f2a646ded33ba",
+      "effectiveAt": "2027-02-01",
+      "status": "active",
+      "amount": {
+        "minorUnits": 120500,
+        "currency": "USD"
+      },
+      "cadenceKind": "schedule:monthly",
+      "reason": "The affordable rent was reset to this year's income limit.",
+      "provenance": {
+        "kind": "generated",
+        "generatorKey": "town-rent-v1"
+      },
+      "supersedesTermsId": "resource-flow-terms_2da40ae2175d969b",
+      "lawEffectStamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "legislative-measure_088131fea442ed50",
+          "source": "enacted",
+          "effectKind": "price-cost",
+          "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+          "jurisdictionId": "jurisdiction_cc7c86c0fd644af9",
+          "operativeAt": "2026-02-02",
+          "appliedAt": "2027-02-01",
+          "sourceRecordIds": [
+            "resource-flow_aa7f2a646ded33ba",
+            "resource-flow-terms_2da40ae2175d969b",
+            "housing-tenure_33890b241361ec36",
+            "dwelling_77da878f7625c298",
+            "person_73f97fc3467e58f8"
+          ]
+        }
+      ],
+      "id": "resource-flow-terms_b701706e01ca1bf7",
+      "sequence": 2352
+    },
+    "canonicalReload": true,
+    "historicalReload": true,
+    "repeatedRenewalIdempotent": true
+  },
+  "typecheck": {
+    "exitCode": 0,
+    "testedCodeHead": "c71541561d793589f7ca4ac3c34870356c389419",
+    "unresolvedTestImports": 0
+  },
+  "checks": {
+    "lint": "PASS",
+    "release": "PASS",
+    "zeroDice": "PASS",
+    "diffCheck": "PASS",
+    "mergeTree": "PASS",
+    "mergeTreeMainHead": "22d20831d9569c2c133371b3d1db77fb06a55f01"
+  }
+}
