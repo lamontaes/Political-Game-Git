@@ -6,30 +6,32 @@ Date: 2026-10-06
 
 - PR #2459 (draft): `b29 P1: targeted two-state calendar proof — not whole-world chronological acceptance.`
 - Branch: `session-53-b29-p1`.
-- Current candidate before this marker: `b31648bf82f62cae73c451584f54af24a7c45c3d` (base `main` at `f88508186b78f526ecf89a420b5fb584171e039a`; not merged).
-- Previous broad runner remains stopped; PID 773 is `Z`/`[npm run world:a] <defunct>`, not executing. Stop request receipt and terminal verification are preserved in `/tmp/session53-run-evidence.txt`; broad-run OOM log is `/tmp/session53-nationwide-calendar-attempt-oom.txt`.
+- Code head: `d2f97bc10abf4337a5c5d43691d9a54e8d6ed6a7`; base `main` at `f88508186b78f526ecf89a420b5fb584171e039a`; not merged.
+- Prior broad runner remains stopped; PID 773 is `Z`/`[npm run world:a] <defunct>`, not executing. Stop request receipt and terminal verification are preserved in `/tmp/session53-run-evidence.txt`; broad-run OOM log is `/tmp/session53-nationwide-calendar-attempt-oom.txt`.
 
 ## Done
 
-- P1 state bill-season scheduler uses the existing member-agenda filer; D.C. Council calendar is seeded for every nationwide opening.
-- Added first Congress monthly intake due row through exported `scheduleCongressIntake`, consumed by the existing `congressIntakeHandler` / `fileMemberAgendaBills` path. Async and synchronous openings seed state and D.C. rows.
-- Corrected session-end evidence: Apr. 30's 2,347 rows / 77 batches / 179.133 seconds / 85 state filings / 14 state enactments and 5 D.C. Council filings / 4 enactments are bounded progress, not per-jurisdiction full-session acceptance. The saved artifact lacks `sessionAdjournments`; source dates must not be described as simulation end records reached.
-- Focused calendar/intake tests: 69 passed. `git diff --check` passed.
-- Opening-life integration run failed at its existing Congress principles assertion (expected >3,500 saved rows; observed 0). It passed the calendar-row assertions before this failure; no Congress passage count is claimed from this change.
-- CTO owner question posted on #2424 comment 6014404450: name owner or confirm Session 53 ownership for territorial packs/rosters and source-backed session-end coverage/instrumentation.
+- P1 state bill-season scheduler uses the existing member-agenda filer; D.C. Council calendar is seeded for every nationwide opening; Congress's first monthly intake is seeded through `scheduleCongressIntake` and consumed by the existing `congressIntakeHandler`/`fileMemberAgendaBills` path.
+- Current opening Congress roster public service now goes through `createWorkRelationships` before canonical life-based principle preparation. The work input uses saved seated terms and chamber organizations; current versioned opening only. No principle rows or bills are authored directly.
+- Same Columbus fixture/seed on code head d2f97, sync and async: 535 seated Congress members, 540 canonical `life-principles/v1:` rows among those member IDs, 369 members with at least one, and zero `officeholder-principles/v1:` draw-prefix rows. Exact base f885 sync/async and candidate 3186 sync/async each recorded 342 total principle rows and zero draw-prefix rows. See `docs/codex/evidence/b29-world-keeps-governing/p1-opening-principles.md` and `.json`.
+- Single dated Feb. 1 Congress intake on d2f97 filed H.R. 6, 119th Congress, sponsor Emma Mendoza: House filed 1; committee admitted/floor-passed/failed/enacted all 0; Senate all 0. It is nonterminal. This is an intake diagnostic, not chronological acceptance.
+- Instrumented all-due Apr. 30 artifact (source 3186): 2,353 rows / 77 batches / 187.857 seconds; 85 state filings / 14 state enactments; D.C. B26-0011 through 15: 5 filed, 10 floor passages, 4 enacted, 1 pending; Congress 0 in that earlier artifact; `sessionAdjournments: []`. These are bounded progress, not per-jurisdiction full-session acceptance.
+- Focused calendar/member-agenda checks: 69 passed. Targeted public-work test: 1 passed. `npm run typecheck`: passed. `git diff --check`: passed.
+- Full opening-life test at d2f97: 6 passed, 2 failed. The existing assertion at `opening-life.test.ts:135` expects >3,500 legacy draw-prefix rows and observes 0; a separate age-12 case times out at the existing 10-second limit. The assertion was not changed. Exact-base sync/async diagnostics prove the prefix result predates P1; see report and preserved `/tmp/session53-...` diagnostic files. PR remains draft/not READY.
 
-## Still blocked / bounded work
+## Still open
 
-- 28 annual-session states have no finite 2026 end date in the current source table; four states have no regular session in 2026; Michigan and North Carolina dates are estimates. The source table has 15 published state adjournment dates (12 on/before Apr. 30, 3 later), but this run did not serialize actual session-end records.
-- PR has a generic pack but no territorial seated roster/intake. GU, VI, AS, MP have no canonical legislative packs/rosters. D.C. Council is year-round; Congress has no state-style session-end contract in the coverage table.
-- No whole-world annual/daily run, heap increase, build, or merge. Keep OOM route as the Session5 speed issue, not a b29 blocker.
+- Full-session acceptance must process all due rows in date order through each jurisdiction's own recorded regular-session end, including D.C. and territories. The Apr. 30 artifact captured zero actual `sessionAdjournments`; no reached-end claim is made.
+- Territory coverage remains incomplete: PR has a generic pack without a territorial seated roster/intake; GU, VI, AS and MP lack canonical legislative packs/rosters. D.C. Council is year-round; federal Congress has no state-style session-end contract in the current coverage table.
+- A CTO question was attempted on #2052 with the exact base/candidate principle contract and requested intended producer/test contract. GitHub rejected the comment because the issue reached its 2,500-comment limit (`Commenting is disabled on issues with more than 2500 comments`). No comment was created. Do not claim an answer.
+- Session5 owns daily-turnover/performance repair; no annual daily loop, heap increase, new tree, build, or merge was run.
 
 ## Next safe step
 
-Refresh #2424 / CTO rulings; in parallel, inspect the exact compiled session-end source and institution-pack contract locations, then prepare per-jurisdiction coverage instrumentation that records `sessionAdjournments` from the calendar-only resolver. Continue only bounded calendar runs with ordinary heap. Do not claim acceptance until every jurisdiction has a source-backed own session end and the all-due resolver records that end reached.
+Continue bounded source-backed per-jurisdiction coverage and determine which existing due transitions can record genuine session adjournments without daily advancement. Preserve the Apr. 30 empty-adjournment result and route absent territory/federal contracts to the CTO when the authorized board channel is available. Keep the opening assertion intact pending contract resolution. Do not claim full-session acceptance or mark the PR READY.
 
 Next command:
 
 ```bash
-rg -n "function stateSessionEnds|function stateSessionEndEstimate|NO_STATE_LEGISLATURE|sessionAdjournments" src/simulation/governing/statute-effective-date.ts src/simulation/legislature-game-profile.ts src/simulation/types.ts
+rg -n "recordSessionAdjournment|considerSessionAdjournment|sessionClosesOn|sessionAdjournments" src/simulation/governing src/simulation/nationwide-world
 ```

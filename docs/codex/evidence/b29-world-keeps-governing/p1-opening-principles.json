@@ -1,0 +1,79 @@
+{
+  "proofLabel": "opening Congress work-ledger and one dated member-agenda filing diagnostic; not nationwide calendar acceptance",
+  "sourceHead": "d2f97bc10abf4337a5c5d43691d9a54e8d6ed6a7",
+  "baseHead": "f88508186b78f526ecf89a420b5fb584171e039a",
+  "setup": {
+    "place": "Columbus, Ohio",
+    "seed": "timing-columbus-0925",
+    "openingDate": "2026-01-05"
+  },
+  "principleDiagnostics": {
+    "exactBase": {
+      "sync": { "seatedCongressMembers": 535, "totalPrincipleRows": 342, "officeholderDrawPrefixRows": 0 },
+      "async": { "seatedCongressMembers": 535, "totalPrincipleRows": 342, "officeholderDrawPrefixRows": 0 }
+    },
+    "candidateBeforeWorkLedger": {
+      "head": "3186f2d0c2add2182290b1b73686a7b65d453520",
+      "sync": { "seatedCongressMembers": 535, "totalPrincipleRows": 342, "officeholderDrawPrefixRows": 0 },
+      "async": { "seatedCongressMembers": 535, "totalPrincipleRows": 342, "officeholderDrawPrefixRows": 0 }
+    },
+    "currentCandidate": {
+      "sync": {
+        "elapsedMs": 6245,
+        "seatedCongressMembers": 535,
+        "congressLifePrincipleRows": 540,
+        "membersWithLifePrinciples": 369,
+        "totalPrincipleRows": 540,
+        "officeholderDrawPrefixRows": 0
+      },
+      "async": {
+        "elapsedMs": 7133,
+        "seatedCongressMembers": 535,
+        "congressLifePrincipleRows": 540,
+        "membersWithLifePrinciples": 369,
+        "totalPrincipleRows": 540,
+        "officeholderDrawPrefixRows": 0
+      }
+    }
+  },
+  "singleIntake": {
+    "date": "2026-02-01",
+    "processedDueRows": 1,
+    "filed": 1,
+    "committeeAdmitted": 0,
+    "floorPassages": 0,
+    "failed": 0,
+    "enacted": 0,
+    "bill": {
+      "id": "legislative-measure_6c12bfebec80fd39",
+      "designation": "H.R. 6",
+      "session": "119th Congress",
+      "chamber": "House",
+      "sponsor": "Emma Mendoza",
+      "sponsorPersonId": "person_8c2991a1399213e2",
+      "introducedAt": "2026-02-01",
+      "terminal": false
+    }
+  },
+  "integrationAssertion": {
+    "file": "src/presentation/opening-life.test.ts",
+    "line": 135,
+    "expected": "> 3500 officeholder-principles/v1 rows",
+    "observed": 0,
+    "unchanged": true,
+    "canonicalWriterNamespace": "life-principles/v1:"
+  },
+  "sessionEnds": {
+    "artifact": "/tmp/session53-all-due-apr30-sessionends.json",
+    "sourceHead": "3186f2d0c2add2182290b1b73686a7b65d453520",
+    "cutoff": "2026-04-30",
+    "recordedSessionAdjournments": 0
+  },
+  "checks": {
+    "typecheck": "pass",
+    "calendarAndAgendaFocusedTests": "69 pass",
+    "targetedWorkLedgerTest": "1 pass",
+    "fullOpeningLifeSuite": "6 pass, 2 fail (legacy-prefix assertion; age-12 timeout)",
+    "gitDiffCheck": "pass"
+  }
+}
