@@ -26,6 +26,7 @@ import {
   assertRulePackIntegrity,
   chamberByKey,
   defaultOriginChamber,
+  resolveRequiredVotes,
 } from "./legislature-rules";
 import { lifePlaceStateIdentities } from "./life-places";
 
@@ -659,6 +660,37 @@ describe("real law overrides the draw", () => {
     );
     expect(overrideThresholdFor("US-WV", [2, 3]).numerator).toBe(1);
     expect(overrideThresholdFor("US-WV", [2, 3]).denominatorParts).toBe(2);
+  });
+
+  it("keeps Indiana's sourced majority strict through the generated profile", () => {
+    const choice = overrideThresholdFor("US-IN", [1, 2]);
+    expect(choice).toMatchObject({
+      numerator: 1,
+      denominatorParts: 2,
+      rounding: "strictly-greater-than-fraction",
+      label: "A majority of all the members elected to that House",
+      countedAgainst: "members-elected",
+    });
+    const pack = legislatureForState("US-IN")!;
+    expect(pack.executive.override.kind).toBe("each-chamber");
+    if (pack.executive.override.kind !== "each-chamber") return;
+    expect(pack.executive.override.threshold).toMatchObject({
+      numerator: 1,
+      denominatorParts: 2,
+      rounding: "strictly-greater-than-fraction",
+      label: "A majority of all the members elected to that House",
+      countedAgainst: "members-elected",
+    });
+    expect(pack.executive.override.threshold.source.citation).toContain(
+      "Article 5, section 14(a)(2)(B)",
+    );
+    expect(
+      resolveRequiredVotes(pack.executive.override.threshold, 100)
+        .requiredVotes,
+    ).toBe(51);
+    expect(
+      resolveRequiredVotes(pack.executive.override.threshold, 50).requiredVotes,
+    ).toBe(26);
   });
 
   it("leaves a generated pack passing the integrity check while holding read law", () => {
