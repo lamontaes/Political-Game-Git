@@ -23,8 +23,9 @@ export interface SkinRamp {
  * Seven shades, lightest to darkest (Lamontae: "six or seven shades, from
  * lightest to darkest"). Shades 1–6 were sampled from the art team's six-tone
  * skin reference sheet (forearm shading: 2–10th, 45–60th and 98.5–99.8th
- * luminance percentiles). PLACEHOLDER(wave2): shade 7 is shade 6 darkened by
- * 22 percent until it is painted.
+ * luminance percentiles). ESTIMATED FROM ADJACENT RECORDED SHADE 6: shade 7
+ * darkens each shade-6 channel by approximately 22%; its shadow, base, and
+ * highlight remain explicitly recorded below.
  */
 export const SKIN_RAMPS: readonly SkinRamp[] = [
   {

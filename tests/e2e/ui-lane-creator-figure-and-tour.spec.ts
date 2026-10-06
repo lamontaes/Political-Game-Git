@@ -1,14 +1,16 @@
 import { expect, test, type Page } from "./fixtures";
 
 import { fillCreator } from "./support/creator";
+import { drawRandomPlace } from "../support/random-place";
+import { stateJurisdictionForKey } from "../../src/simulation/life-places";
 
 /*
  * Two things Lamontae saw on build 13a0757f.
  *
  * The creator's Reset appearance / Undo / Begin row sat over the standing
  * figure's legs, and the morning note opened over the first stop of the
- * opening tour. Both are layout facts, so both are measured in a real window
- * at the sizes the owner plays at.
+ * opening tour. The note was removed entirely; the figure remains measured
+ * in a real window at the sizes the owner plays at.
  */
 
 async function freshBrowser(page: Page) {
@@ -39,6 +41,32 @@ async function reachAppearance(page: Page) {
     age: 25,
     state: "Kentucky",
     place: "Lexington",
+  });
+  await expect(page.getByTestId("creator-engine-figure")).toBeVisible();
+}
+
+const MORNING_NOTE_SEED = "session8-remove-morning-note-2026-10-06";
+const MORNING_NOTE_PLACE = drawRandomPlace(
+  MORNING_NOTE_SEED,
+  (place) => place.scope === "locality",
+);
+const MORNING_NOTE_STATE_NAME = (() => {
+  const stateKey = MORNING_NOTE_PLACE.stateJurisdictionKey;
+  const state = stateKey ? stateJurisdictionForKey(stateKey) : null;
+  if (!state)
+    throw new Error(
+      `seed ${MORNING_NOTE_SEED} must select a locality with a state`,
+    );
+  return state.name;
+})();
+
+async function reachRandomAppearance(page: Page) {
+  await freshBrowser(page);
+  await fillCreator(page, {
+    route: "normal",
+    age: 25,
+    state: MORNING_NOTE_STATE_NAME,
+    place: MORNING_NOTE_PLACE.displayName,
   });
   await expect(page.getByTestId("creator-engine-figure")).toBeVisible();
 }
@@ -104,12 +132,12 @@ for (const viewport of [
   { width: 1280, height: 800 },
   { width: 1440, height: 1000 },
 ]) {
-  test(`no morning note during the opening tour at ${viewport.width}x${viewport.height}`, async ({
+  test(`morning note is removed in ${MORNING_NOTE_PLACE.displayName} (seed ${MORNING_NOTE_SEED}) at ${viewport.width}x${viewport.height}`, async ({
     page,
-  }) => {
+  }, testInfo) => {
     test.setTimeout(240_000);
     await page.setViewportSize(viewport);
-    await reachAppearance(page);
+    await reachRandomAppearance(page);
     await page.getByTestId("begin").click();
     await expect(page.getByTestId("world-orientation")).toBeVisible({
       timeout: 120_000,
@@ -120,9 +148,14 @@ for (const viewport of [
       await expect(page.getByTestId("morning-thought")).toHaveCount(0);
       await page.getByTestId("orientation-next").click();
     }
-    // Once the tour is over and play has begun, the note is offered.
     await expect(tour).toBeHidden();
-    await expect(page.getByTestId("morning-thought")).toBeVisible();
+    await expect(page.getByTestId("morning-thought")).toHaveCount(0);
+    const screenshot = testInfo.outputPath("morning-note-removed.png");
+    await page.screenshot({ path: screenshot, fullPage: false });
+    await testInfo.attach("morning-note-removed", {
+      path: screenshot,
+      contentType: "image/png",
+    });
   });
 }
 

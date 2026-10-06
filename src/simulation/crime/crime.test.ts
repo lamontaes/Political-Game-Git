@@ -2,6 +2,7 @@
 import { advanceWorld, assertWorldIntegrity } from "../world";
 import { describe, expect, it } from "vitest";
 import { writeFileSync } from "node:fs";
+import { recordHouseholdLocation } from "../life";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { stableHash } from "../ids";
 import {
@@ -38,7 +39,7 @@ import {
   crimeIncidents,
   localCrimeFigures,
   sampleMonthlyCrime,
-  UNRESEARCHED_LOCAL_CRIME,
+  LOCAL_CRIME_RATES,
 } from "./index";
 import { arrestReferral, ensureCrimeProduction, offenseOf } from "./producer";
 import { adultCourtAgeAt } from "../justice/juvenile-court";
@@ -73,8 +74,18 @@ function openCrimeSmallWorld(seed: string) {
     household: true,
     seed,
   });
+  const admitted = recordHouseholdLocation(small.world, {
+    stableKey: "crime-small-world:location",
+    householdId: small.world.history.households.at(-1)!.id,
+    effectiveAt: small.world.currentDate,
+    jurisdictionId: small.jurisdictionId,
+    kind: "residence:home",
+    label: "Recorded fixture home",
+    provenance: { kind: "authored", note: "Crime fixture household location" },
+    supersedesLocationId: null,
+  });
   const world = ensureCrimeProduction(
-    ensureWorldStartingConditions(small.world, {
+    ensureWorldStartingConditions(admitted, {
       openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
       political: generatePoliticalStartingConditions,
     }),
@@ -92,10 +103,8 @@ function openCrimeSmallWorld(seed: string) {
 
 describe("ordinary local crime", () => {
   it("every rate is marked as an unresearched placeholder", () => {
-    expect(UNRESEARCHED_LOCAL_CRIME.provenance).toBe(
-      "unresearched-blanket-rule",
-    );
-    for (const rule of UNRESEARCHED_LOCAL_CRIME.offenses) {
+    expect(LOCAL_CRIME_RATES.provenance).toBe("estimated-from-average");
+    for (const rule of LOCAL_CRIME_RATES.offenses) {
       for (const share of [rule.reportedShare, rule.arrestShare]) {
         expect(share).toBeGreaterThan(0);
         expect(share).toBeLessThan(1);

@@ -441,6 +441,22 @@ describe("every state policy question has researched effects (F-cloud rows)", ()
       );
     }
   });
+  it("retains deferred groundwater evidence but does not advertise an active consumer", () => {
+    const link = OUTCOME_LINKS.find(
+      (row) => row.key === "groundwater-limits-to-irrigation-pumping",
+    )!;
+    expect(link.consumed).toBe(false);
+    expect(link.range).toEqual([-0.4, -0.21]);
+    expect(link.source).toContain("Deines");
+    expect(outcomeLinkStatus(link)).toBe("built");
+    expect(
+      outcomeWebStatus().find((row) => row.key === link.key)?.consumed,
+    ).toBe(false);
+    expect(outcomeLinksFedByQuestion(link.from.slice("law:".length))).toEqual(
+      [],
+    );
+  });
+
   const places = Object.keys(STATES).flatMap((usps) => {
     const id = stateJurisdictionForKey(`US-${usps}`)?.id;
     return id ? [{ key: `US-${usps}`, id }] : [];
@@ -497,6 +513,32 @@ describe("every state policy question has researched effects (F-cloud rows)", ()
       },
     } as unknown as World;
   }
+
+  it("does not apply a deferred groundwater law in either direction across places", () => {
+    const link = OUTCOME_LINKS.find(
+      (row) => row.key === "groundwater-limits-to-irrigation-pumping",
+    )!;
+    for (const place of places)
+      for (const answer of ["yes", "no"] as const) {
+        const world = enacted(
+          place.id,
+          link.from.slice("law:".length),
+          answer,
+          "2026-07-01",
+        );
+        expect(world.history.legislativeEnactments).toHaveLength(1);
+        const reading = outcomeFactor(
+          world,
+          place.id,
+          link.to,
+          makeIsoDate("2028-07-01"),
+        );
+        expect(reading.multiplier, `${place.key}:${answer}`).toBe(1);
+        expect(reading.causes.some((cause) => cause.key === link.key)).toBe(
+          false,
+        );
+      }
+  });
 
   it("every row is a state law into an outcome the game produces", () => {
     for (const link of rows) {

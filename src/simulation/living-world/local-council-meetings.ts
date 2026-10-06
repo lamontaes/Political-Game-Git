@@ -1,14 +1,8 @@
 import { nextSessionCalendarDate } from "../legislative-session-calendar";
 import { LEGISLATIVE_SESSION_CALENDARS } from "../legislative-session-calendar-data";
 import { applyInstitutionStep } from "../governing/legislative-clock";
-import { offerPlannedAmendment } from "../governing/amendment-authors";
-import {
-  amendmentAdmissible,
-  floorStageTakesAmendments,
-} from "../governing/chamber-procedure";
-import { councilBallotPartisanship } from "../governing/body-partisanship";
-import { publicPartyOf } from "../governing/chamber-votes";
-import { personName } from "../people";
+import { legislativeSittingHandler } from "../governing/legislative-sittings";
+import { legislativeRulePackForWorld } from "../legislative-procedure-world";
 import {
   councilRules,
   lawJurisdiction,
@@ -54,6 +48,7 @@ import {
 import { PUBLIC_MEETING_KEY } from "../life-opportunities";
 import { playerTown } from "./town-residents";
 import { epidemicCouncilMeetingDecision } from "../crisis/epidemic";
+import { peopleKnownTo } from "./official-views";
 
 /**
  * The player's town council meets and votes.
@@ -87,6 +82,127 @@ export const LOCAL_COUNCIL_MEETINGS_VERSION = "local-council-meetings/v1";
 const V = LOCAL_COUNCIL_MEETINGS_VERSION;
 
 export const LOCAL_COUNCIL_MEETING = "civic:local-council-meeting" as const;
+
+export type CouncilMeetingMatterReason =
+  | "player-sponsored"
+  | "player-amended"
+  | "player-campaign-stand"
+  | "known-person-contacted"
+  | "known-person-will-speak"
+  | "recorded-opposing-stance"
+  | "known-person-reached";
+
+export interface CouncilMeetingAgendaItem {
+  readonly measure: LegislativeMeasureRecord;
+  /** Every saved fact that makes this item matter; an empty list means quiet. */
+  readonly reasons: readonly CouncilMeetingMatterReason[];
+}
+
+/**
+ * Reads the agenda for one scheduled council meeting and explains, without an
+ * importance score, which items matter to the player. Later producers attach
+ * contacts, speakers, and reached people to the measure by including its ID in
+ * the event's involved entities; this reader never invents that relationship.
+ */
+export function meetingItemsThatMatter(
+  world: World,
+  playerId: EntityId,
+  meetingDueItemId: EntityId,
+): readonly CouncilMeetingAgendaItem[] {
+  const due = world.history.futureDueItems.find(
+    (item) => item.id === meetingDueItemId,
+  );
+  if (!due?.jurisdictionId || due.transitionKey !== LOCAL_COUNCIL_MEETING)
+    return [];
+
+  const known = new Set(peopleKnownTo(world, playerId));
+  const measures = (world.history.legislativeMeasures ?? []).filter(
+    (measure) =>
+      measure.jurisdictionId === due.jurisdictionId &&
+      !measurePosition(world, measure.id).terminal,
+  );
+
+  return measures.map((measure) => {
+    const reasons = new Set<CouncilMeetingMatterReason>();
+    if (measure.sponsorPersonId === playerId) reasons.add("player-sponsored");
+    if (
+      (world.history.legislativeAmendments ?? []).some(
+        (row) =>
+          row.measureId === measure.id && row.offeredByPersonId === playerId,
+      )
+    )
+      reasons.add("player-amended");
+
+    const propositionIds = new Set(measure.propositionIds ?? []);
+    if (
+      world.history.campaignCommitments.some(
+        (row) =>
+          row.personId === playerId && propositionIds.has(row.propositionId),
+      )
+    )
+      reasons.add("player-campaign-stand");
+
+    const relatedEvents = world.history.events.filter((event) =>
+      event.involvedEntityIds.includes(measure.id),
+    );
+    if (
+      relatedEvents.some(
+        (event) =>
+          event.type === "life.contacted-official" &&
+          event.involvedEntityIds.some((id) => known.has(id)),
+      )
+    )
+      reasons.add("known-person-contacted");
+    if (
+      relatedEvents.some(
+        (event) =>
+          event.type === "life.attended-public-meeting" &&
+          event.involvedEntityIds.some((id) => known.has(id)),
+      )
+    )
+      reasons.add("known-person-will-speak");
+
+    const latestPublicPositions = new Map<
+      string,
+      (typeof world.history.publicPositions)[number]
+    >();
+    for (const position of world.history.publicPositions)
+      if (propositionIds.has(position.propositionId))
+        latestPublicPositions.set(
+          `${position.personId}:${position.propositionId}`,
+          position,
+        );
+    const answers = new Map(
+      (measure.propositionAnswers ?? []).map((row) => [
+        row.propositionId,
+        row.answer,
+      ]),
+    );
+    if (
+      [...latestPublicPositions.values()].some((position) => {
+        if (position.audience !== "public") return false;
+        const answer = answers.get(position.propositionId);
+        return (
+          answer !== undefined &&
+          ((answer === "yes" && position.stance === "oppose") ||
+            (answer === "no" && position.stance === "support"))
+        );
+      })
+    )
+      reasons.add("recorded-opposing-stance");
+
+    if (
+      relatedEvents.some(
+        (event) =>
+          event.tags.includes("legislative-effect") &&
+          event.involvedEntityIds.some((id) => known.has(id)),
+      )
+    )
+      reasons.add("known-person-reached");
+
+    return { measure, reasons: [...reasons] };
+  });
+}
 
 /** The ordinance the posted public meeting takes up, for one town. */
 export function postedMeetingOrdinanceKey(town: EntityId): string {
@@ -270,73 +386,42 @@ function moveOrdinances(
   rules: CouncilRules,
   player: EntityId | null,
 ): World {
-  let next = world;
   const law = lawJurisdiction(world, unit, town).jurisdictionId;
-  for (const measure of councilMeasures(world, rules, law)) {
-    if (player && measure.sponsorPersonId === player) continue;
-    const phase = measurePosition(next, measure.id).phase;
-    if (phase !== "awaiting-referral" && phase !== "on-floor") continue;
-    // Taken up at a meeting after the one it was introduced at.
-    if (phase === "on-floor" && measure.introducedAt >= next.currentDate)
-      continue;
-    if (phase === "on-floor") {
-      const position = measurePosition(next, measure.id);
-      const pack = rulePackById(rules.packId);
-      const chamber = chamberByKey(pack, "council");
-      const stage = chamber.floorStages.find(
-        (row) => row.stageKey === position.floorStageKey,
+  const pack = legislativeRulePackForWorld(world, rules.packId);
+  const measures = councilMeasures(world, rules, law);
+  return legislativeSittingHandler(world, {
+    chambers: pack.chambers,
+    session: pack.session,
+    measureIds: measures.map((measure) => measure.id),
+    eligible: (current, measureId) => {
+      const measure = measures.find((row) => row.id === measureId);
+      if (!measure || (player && measure.sponsorPersonId === player))
+        return false;
+      const phase = measurePosition(current, measureId).phase;
+      // A newly introduced ordinance is first taken up at the next meeting.
+      return (
+        (phase === "awaiting-referral" || phase === "on-floor") &&
+        !(phase === "on-floor" && measure.introducedAt >= current.currentDate)
       );
-      const seats = members(next, unit);
-      if (
-        stage &&
-        seats.length > 0 &&
-        seats.every((seat) => next.people[seat.personId]) &&
-        (!position.earliestNextFloorDate ||
-          position.earliestNextFloorDate <= next.currentDate) &&
-        floorStageTakesAmendments(chamber, stage)
-      ) {
-        next = offerPlannedAmendment(next, {
-          measureId: measure.id,
-          chamber,
-          stage,
-          members: seats.map((seat, index) => ({
-            memberKey: `council:${index + 1}`,
-            personId: seat.personId,
-            name: personName(next.people[seat.personId]!),
-            caucusLabel: publicPartyOf(next, seat.personId) ?? "No party",
-          })),
-          stableKey: `${measure.stableKey}:reading:${stage.stageKey}:amendment`,
-          nonpartisan: councilBallotPartisanship(unit).nonpartisan,
-          admissible: (bill, part) =>
-            mayAnswerQuestion(
-              next,
-              measure.jurisdictionId,
-              part.propositionId,
-            ) &&
-            amendmentAdmissible(next, pack, chamber.chamberKey, bill, part)
-              .admissible,
-        });
-      }
-    }
-    const result = applyInstitutionStep(
-      next,
-      measure.id,
-      (unchanged) => unchanged,
-      {
+    },
+    takeStep: (current, measureId) =>
+      applyInstitutionStep(current, measureId, (unchanged) => unchanged, {
         localCouncil: {
           governmentUnitId: unit.id,
           townJurisdictionId: town,
           playerPersonId: player,
         },
-      },
-    );
-    // The shared writer preserves every compiled reading interval and quorum.
-    if (result.kind !== "applied") continue;
-    next = result.world;
-    if (measurePosition(next, measure.id).phase === "awaiting-enrollment")
-      next = completeCouncilPassage(next, measure, rules.governmentKey);
-  }
-  return next;
+      }),
+    applyResult: (current, measureId, result) => {
+      if (result.kind !== "applied") return current;
+      const measure = measures.find((row) => row.id === measureId);
+      if (!measure) return current;
+      const moved = result.world;
+      return measurePosition(moved, measureId).phase === "awaiting-enrollment"
+        ? completeCouncilPassage(moved, measure, rules.governmentKey)
+        : moved;
+    },
+  });
 }
 
 /* -------------------------------------------------------------------------- */

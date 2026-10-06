@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../tests/fixtures/small-world";
-import { recordCampaignFundraiserReceipts } from "./campaign-money-sources";
+import {
+  CANDIDATE_OWN_MONEY_RULE,
+  recordCampaignFundraiserReceipts,
+} from "./campaign-money-sources";
 import { createOrganization } from "./life";
 import { SeededRng } from "./rng";
 import { STATES } from "./state-reference";
@@ -85,6 +88,14 @@ function fundraiser() {
 }
 
 describe("recorded fundraiser sources", () => {
+  it("records the constitutional no-limit basis for a candidate's own money", () => {
+    expect(CANDIDATE_OWN_MONEY_RULE.limitMinorUnits).toBeNull();
+    expect(CANDIDATE_OWN_MONEY_RULE.provenance).toBe(
+      "recorded-constitutional-rule",
+    );
+    expect(CANDIDATE_OWN_MONEY_RULE.sources).toHaveLength(2);
+  });
+
   it("records the unavailable ask in the existing evaluator despite recorded cash; never invents a donor or gift", () => {
     const fixture = fundraiser();
     console.info(`A66 place=${fixture.place} seed=${fixture.seed}`);

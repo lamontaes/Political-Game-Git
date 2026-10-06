@@ -12,7 +12,7 @@ import {
   municipalGovernmentForRulePackId,
 } from "./municipal-government";
 import type { LegislativeRulePack } from "./legislature-rules";
-import { US_CONGRESS_PACK_ID } from "./congress-rule-pack";
+import { isCongressRulePack } from "./congress-rule-pack";
 import { addDays, makeIsoDate, yearOf } from "./dates";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import {
@@ -421,7 +421,7 @@ function checkPredicateAuthority(
           localFiscalAuthorityScopeForRulePackId(authority.rulePackId)
             ?.jurisdictionId ===
             authority.publicGovernmentIdentity.jurisdictionId
-        : authority.rulePackId !== US_CONGRESS_PACK_ID ||
+        : !isCongressRulePack(authority.rulePackId) ||
           authority.publicGovernmentIdentity.jurisdictionId ===
             NATIONAL_ELECTION_JURISDICTION.id;
     if (
@@ -521,7 +521,7 @@ export function enactingGovernmentForPack(pack: LegislativeRulePack): {
   readonly government: EnactingGovernment;
   readonly narrowing: readonly LocalAuthorityNarrowing[];
 } | null {
-  if (pack.packId === US_CONGRESS_PACK_ID)
+  if (isCongressRulePack(pack.packId))
     return { government: "federal", narrowing: [] };
   const state = stateJurisdictionForKey(pack.jurisdictionKey);
   if (

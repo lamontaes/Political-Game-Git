@@ -28,14 +28,14 @@
 .ux39-calendar-grid th {
   font-weight: normal;
   padding: 0.4rem 0.15rem;
-  color: var(--pg-muted, #776340);
+  color: var(--text-2);
 }
 .ux39-calendar-grid abbr {
   text-decoration: none;
 }
 .ux39-calendar-grid td {
   padding: 0;
-  border: 1px solid var(--pg-hairline, #7c643c);
+  border: 1px solid var(--pg-hairline, var(--brass));
   vertical-align: top;
 }
 .ux39-calendar-date {
@@ -49,20 +49,23 @@
   border: 0;
   border-radius: 0;
   color: inherit;
-  background: var(--kit12-glass);
+  background: transparent;
   text-align: left;
   cursor: pointer;
   font: inherit;
 }
-.ux39-calendar-date:hover,
+.ux39-calendar-date:hover {
+  background: var(--glass-top);
+}
 .ux39-calendar-date[aria-pressed="true"] {
-  background: rgba(194, 155, 72, 0.16);
+  background: var(--glass-bottom);
+  color: var(--gold);
 }
 .ux39-calendar-date[aria-current="date"] {
-  box-shadow: inset 0 0 0 2px var(--pg-brass, #c29b48);
+  box-shadow: inset 0 0 0 1px var(--brass);
 }
 .ux39-calendar-date:focus-visible {
-  outline: 2px solid #f3d18c;
+  outline: 2px solid var(--gold);
   outline-offset: -3px;
 }
 .ux39-calendar-grid td[data-outside-month="true"] .ux39-calendar-number {
@@ -76,7 +79,7 @@
 }
 .ux39-calendar-number small,
 .ux39-calendar-entry {
-  font-size: 0.68rem;
+  font-size: 0.78rem;
   line-height: 1.3;
 }
 .ux39-calendar-entry {
@@ -113,7 +116,7 @@
   font-size: 0.85rem;
 }
 .ux39-calendar-date-order input {
-  accent-color: var(--pg-brass, #c29b48);
+  accent-color: var(--brass);
 }
 @media (max-width: 600px) {
   .ux39-calendar-grid {
