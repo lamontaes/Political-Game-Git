@@ -471,7 +471,7 @@ export function deserializeWorld(payload: WorldPayload): World {
  * the memory a big save took to open and threw away the lookups the check had
  * just built.
  */
-export function readWorldSnapshot(payload: WorldPayload): {
+export function readWorldSnapshot(payload: WorldPayload | Iterable<string>): {
   readonly world: World;
   readonly formatVersion: WorldSnapshotFormatVersion;
 } {
