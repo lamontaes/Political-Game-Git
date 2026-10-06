@@ -18,7 +18,7 @@ function setup({
   channel = "stable",
   updateInfo = { version: "0.3.0", channel: "stable" },
   downloadError = null,
-  installChoice = 0,
+  installChoice = 1,
   closes = true,
 } = {}) {
   const state = {
@@ -108,7 +108,7 @@ test("stable install requires a player confirmation and stays off auto-install",
 });
 
 test("stable deferral never arms installation on quit", async () => {
-  const { deps, state } = setup({ installChoice: 1 });
+  const { deps, state } = setup({ installChoice: 0 });
   assert.equal(await runUpdateCheck(deps), "stable-player-deferred");
   assert.equal(state.downloads, 1);
   assert.equal(state.installs, 0);
