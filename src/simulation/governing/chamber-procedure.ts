@@ -1,5 +1,7 @@
 import germanenessTable from "../../../data/research/legislative-procedure/germaneness.json" with { type: "json" };
-import singleSubjectTable from "../../../data/research/legislative-procedure/single-subject.json" with { type: "json" };
+import { singleSubjectRule } from "./single-subject-rule";
+export { singleSubjectRule } from "./single-subject-rule";
+export type { SingleSubjectRule } from "./single-subject-rule";
 import { createStableId } from "../ids";
 import type {
   ChamberRule,
@@ -81,16 +83,7 @@ interface GermanenessRow {
   readonly evidence: string;
 }
 
-interface SingleSubjectRow {
-  readonly code: string;
-  readonly singleSubject: string;
-  readonly scope: string | null;
-  readonly appropriationsException: string | null;
-  readonly citation: string;
-}
-
 const GERMANENESS_ROWS = (germanenessTable as { rows: GermanenessRow[] }).rows;
-const SINGLE_SUBJECT_ROWS = singleSubjectTable as SingleSubjectRow[];
 
 function placeCode(pack: LegislativeRulePack): string {
   return pack.jurisdictionKey.replace(/^US-/, "");
@@ -228,43 +221,6 @@ export function amendmentAccessRule(
   return change
     ? { ...start, value: change.value as AmendmentAccess, change }
     : start;
-}
-
-export interface SingleSubjectRule {
-  readonly generalBills: boolean;
-  /** A money bill may carry nothing but appropriations. */
-  readonly appropriationBills: boolean;
-  readonly citation: string;
-}
-
-/**
- * The constitution's single-subject rule for a place. The scope text is read
- * as written: a rule for "all bills" or "all laws" binds general bills; a
- * rule for "appropriation bills only", or an exception that confines the
- * general appropriation bill to appropriations, binds money bills.
- */
-export function singleSubjectRule(
-  pack: LegislativeRulePack,
-): SingleSubjectRule | null {
-  const row = SINGLE_SUBJECT_ROWS.find(
-    (candidate) => candidate.code === placeCode(pack),
-  );
-  if (!row || row.singleSubject !== "yes") return null;
-  const scope = (row.scope ?? "").toLowerCase();
-  const exception = (row.appropriationsException ?? "").toLowerCase();
-  const localOnly = scope.includes("private or local");
-  const moneyOnly = scope.includes("appropriation bills only");
-  const generalBills = !localOnly && !moneyOnly;
-  const appropriationBills =
-    moneyOnly ||
-    /nothing but|embrace only|only ordinary|shall contain only|confined to/.test(
-      exception,
-    ) ||
-    (generalBills &&
-      (exception === "" ||
-        exception === "n/a" ||
-        exception.startsWith("none stated")));
-  return { generalBills, appropriationBills, citation: row.citation };
 }
 
 /** The policy domains a bill already answers a question in, as it now reads. */

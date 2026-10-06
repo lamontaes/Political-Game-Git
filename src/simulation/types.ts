@@ -4952,6 +4952,8 @@ export interface LegislativeAmendmentRecord {
    * has to pass. Omitted for the player's amendments and older records.
    */
   readonly authorMotive?: LegislativeAmendmentMotive;
+  /** The local single-subject rule in force when an adopted rider entered. */
+  readonly singleSubjectRuleCitationAtAdoption?: string;
 }
 
 export type LegislativeAmendmentMotive = "pass" | "sink" | "record" | "ride";

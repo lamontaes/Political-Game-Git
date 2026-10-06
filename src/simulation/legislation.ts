@@ -3,6 +3,7 @@ import { scheduleFutureDueItem } from "./future-transitions";
 import { createStableId } from "./ids";
 import { resolveLegislativeEffectiveDate } from "./legislative-effective-date";
 import { statuteEffectiveRule } from "./governing/statute-effective-date";
+import { singleSubjectRule } from "./governing/single-subject-rule";
 import { enactingGovernmentForPack } from "./legislation-drafting";
 import { recordedSessionAdjournment } from "./governing/session-adjournments";
 import {
@@ -2107,6 +2108,7 @@ export function offerFloorAmendment(
     pack,
     position.chamberKey ?? measure.originChamberKey,
   );
+  const singleSubject = singleSubjectRule(pack);
   const stage = floorStageByKey(chamber, position.floorStageKey ?? "");
   if (stage.amendable.kind !== "known") {
     throw new Error(
@@ -2163,6 +2165,9 @@ export function offerFloorAmendment(
     description: input.description,
     status: adopted ? "adopted" : "rejected",
     voteId: vote.id,
+    ...(adopted && input.proposedSections?.length && singleSubject
+      ? { singleSubjectRuleCitationAtAdoption: singleSubject.citation }
+      : {}),
     ...(input.proposedSections && input.proposedSections.length > 0
       ? {
           proposedSections: input.proposedSections.map((section) => ({
