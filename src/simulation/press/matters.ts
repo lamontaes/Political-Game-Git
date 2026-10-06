@@ -46,6 +46,11 @@ import {
   PRESS_MATTER_TAG,
   sortedUnique,
 } from "./shared";
+import {
+  decidePublicMisconductRecordResponse,
+  publicMisconductRecords,
+  readPublicMisconductRecords,
+} from "./public-record-readers";
 import { generatedStateOversightBody } from "./generated-state-oversight";
 import { stateOfJurisdiction } from "./outlets";
 import {
@@ -1099,7 +1104,65 @@ function bookkeeperGoesOutside(
  * occurrence, and the procedure should dismiss it.
  */
 export function produceRivalComplaints(world: World): World {
-  return produceVendorPaymentComplaint(produceCandidatePaymentComplaint(world));
+  return producePublicRecordRivalComplaints(
+    produceVendorPaymentComplaint(produceCandidatePaymentComplaint(world)),
+  );
+}
+
+/** A candidate can act on an act record only after reading the public artifact. */
+function producePublicRecordRivalComplaints(world: World): World {
+  let next = world;
+  for (const { occurrence, artifact } of publicMisconductRecords(next)) {
+    const actorId = occurrence.actorPersonIds[0];
+    const campaign = actorId ? campaignForCandidate(next, actorId) : null;
+    if (!actorId || !campaign || occurrence.actorPersonIds.length === 0)
+      continue;
+    const contest = requireElectionContest(next, campaign.contestId);
+    const rivalId = contest.candidatePersonIds.find(
+      (personId) =>
+        personId !== actorId &&
+        !occurrence.actorPersonIds.includes(personId) &&
+        Boolean(next.people[personId]),
+    );
+    if (!rivalId) continue;
+    const stableKey = `press:public-record-rival:${occurrence.id}:${artifact.id}:${rivalId}`;
+    if (pressRecordByKey(next, "matter-proceeding", stableKey)) continue;
+    const read = readPublicMisconductRecords(next, rivalId);
+    next = read.world;
+    if (!read.artifactIds.includes(artifact.id)) continue;
+    const decision = decidePublicMisconductRecordResponse(next, {
+      readerPersonId: rivalId,
+      occurrenceId: occurrence.id,
+      artifactId: artifact.id,
+    });
+    next = decision.world;
+    if (decision.action !== "refer") continue;
+    const matterKey = `${stableKey}:matter`;
+    const opened = openMatter(next, {
+      stableKey: matterKey,
+      family: occurrence.family,
+      subjectPersonIds: occurrence.actorPersonIds,
+      occurrenceId: occurrence.id,
+      originEventId: occurrence.occurrenceEventId,
+      jurisdictionId: occurrence.jurisdictionId ?? campaign.jurisdictionId,
+    });
+    next = opened.world;
+    if (!pressRecordByKey(next, "matter-evidence-link", `${matterKey}:record`))
+      next = appendPressRecord(next, "matter-evidence-link", {
+        stableKey: `${matterKey}:record`,
+        matterId: opened.matter.id,
+        evidenceArtifactId: artifact.id,
+        bearing: "supports",
+        linkedAt: next.currentDate,
+      }).world;
+    next = fileComplaint(next, {
+      stableKey,
+      matterId: opened.matter.id,
+      complainantPersonId: rivalId,
+      procedureKey: procedureForSubject(next, actorId, campaign),
+    }).world;
+  }
+  return next;
 }
 
 /**
