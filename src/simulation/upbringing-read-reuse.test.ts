@@ -58,16 +58,20 @@ describe(`upbringing read reuse (${place.displayName}, seed ${seed})`, () => {
       }
       expect(adulthoodCalls()).toBe(firstRevisionCalls);
 
+      const changedPersonId = personId;
       const newPeopleRevision = {
         ...world,
-        people: { ...world.people },
+        people: {
+          ...world.people,
+          [changedPersonId]: { ...world.people[changedPersonId]! },
+        },
         history: {
           ...world.history,
           householdLocations: [...world.history.householdLocations],
         },
       };
       upbringingFor(newPeopleRevision, personId);
-      expect(adulthoodCalls()).toBe(firstRevisionCalls * 2);
+      expect(adulthoodCalls()).toBe(firstRevisionCalls + 1);
     } finally {
       ageAt.mockRestore();
     }
