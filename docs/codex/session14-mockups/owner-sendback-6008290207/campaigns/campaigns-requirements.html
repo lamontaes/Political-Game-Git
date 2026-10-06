@@ -1,0 +1,194 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      @font-face {
+        font-family: F;
+        src: url(fira-sans-400.ttf);
+      }
+      @font-face {
+        font-family: C;
+        src: url(cinzel-800.ttf);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: url(room-art.jpg) center/cover;
+        font: 20px/1.45 F;
+        color: #f6eee0;
+      }
+      .panel {
+        position: absolute;
+        left: 400px;
+        top: 220px;
+        width: 1120px;
+        height: 650px;
+        background: rgba(24, 24, 25, 0.95);
+        border: 2px solid #c4a55e;
+        border-radius: 9px;
+        box-shadow:
+          0 0 0 1px #171717,
+          inset 0 0 0 1px #d3ae6380;
+        padding: 38px 44px;
+      }
+      .corner {
+        position: absolute;
+        width: 32px;
+        height: 32px;
+        background: url(sheet.png);
+        background-size: 973.2px 581.4px;
+      }
+      .tl {
+        top: 0;
+        left: 0;
+        background-position: -33px -29.4px;
+      }
+      .tr {
+        top: 0;
+        right: 0;
+        background-position: -906px -29.4px;
+      }
+      .bl {
+        bottom: 0;
+        left: 0;
+        background-position: -33px -513px;
+      }
+      .br {
+        bottom: 0;
+        right: 0;
+        background-position: -906px -513px;
+      }
+      h1 {
+        font: 32px C;
+        color: #e7d3a7;
+        margin: 0 0 7px;
+      }
+      header p {
+        margin: 0;
+        color: #d3c6b0;
+      }
+      .tabs {
+        display: flex;
+        gap: 26px;
+        margin: 25px 0 28px;
+        align-items: center;
+      }
+      .tab {
+        font: 21px F;
+        color: #ede6d8;
+        background: none;
+        border: 0;
+        padding: 10px 18px;
+      }
+      .tab.selected {
+        color: #e8ca86;
+        background: rgba(56, 56, 52, 0.96);
+        border: 3px solid transparent;
+        border-image: url(iron-frame.svg) 3 stretch;
+        box-shadow: inset 0 0 0 1px #777365;
+      }
+      h2 {
+        font: 22px C;
+        color: #e5c996;
+        margin: 0 0 22px;
+      }
+      h3 {
+        font: 20px F;
+        margin: 0 0 5px;
+      }
+      p {
+        margin: 0 0 8px;
+      }
+      small {
+        font: 16px F;
+        color: #bfb9ac;
+      }
+      .records {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px 40px;
+      }
+      .entry {
+        margin: 0;
+      }
+      .requirements {
+        max-width: 990px;
+      }
+      .requirements p {
+        margin-bottom: 16px;
+      }
+      .x {
+        position: absolute;
+        right: 24px;
+        top: 18px;
+        background: none;
+        border: 0;
+        font: 26px F;
+        color: #eee9df;
+      }
+      footer {
+        position: absolute;
+        left: 44px;
+        bottom: 28px;
+        font: 16px F;
+        color: #c0b6a5;
+      }
+      .note {
+        position: absolute;
+        top: 24px;
+        right: 24px;
+        background: #171919bc;
+        padding: 9px 13px;
+        font: 14px F;
+      }
+    </style>
+  </head>
+  <body>
+    <aside class="note">
+      P3 · Campaigns tabs · owner review candidate · actual record boundaries ·
+      not implemented
+    </aside>
+    <main class="panel">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i
+      ><i class="corner br"></i><button class="x" aria-label="Close">×</button>
+      <header>
+        <h1>Campaigns</h1>
+        <p>Kaitlyn Watkins · Ashland, Oregon</p>
+      </header>
+      <nav class="tabs" role="tablist">
+        <button class="tab" role="tab" aria-selected="false">Elections</button
+        ><button class="tab selected" role="tab" aria-selected="true">
+          Filing requirements
+        </button>
+      </nav>
+      <section role="tabpanel">
+        <h2>Local filing rules</h2>
+        <div class="requirements">
+          <p>
+            Ashland’s form of government is not recorded. The record does not
+            establish whether council seats are at large or by ward, or whether
+            the mayor is elected separately.
+          </p>
+          <p>
+            Ashland’s filing deadline, filing officer and ballot-access rules
+            are not recorded.
+          </p>
+          <p>
+            Jackson County’s district boundaries, seat schedule and selection
+            rules are not recorded.
+          </p>
+          <p>Jackson County’s nomination and filing rules are not recorded.</p>
+        </div>
+      </section>
+      <footer>
+        These missing records do not establish whether you qualify.
+      </footer>
+    </main>
+  </body>
+</html>

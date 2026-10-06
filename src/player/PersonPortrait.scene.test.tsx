@@ -1,6 +1,7 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
 import type { EntityId, Person, World } from "../simulation/types";
+import type * as AppearanceEngineRuntime from "../presentation/appearance-engine/runtime";
 import {
   PART_PALETTES,
   type EngineRecipe,
@@ -18,9 +19,9 @@ vi.mock("./SavedAppearance", () => ({
   useSavedWardrobe: () => undefined,
 }));
 vi.mock("../presentation/appearance-engine/runtime", async () => {
-  const actual = await vi.importActual<
-    typeof import("../presentation/appearance-engine/runtime")
-  >("../presentation/appearance-engine/runtime");
+  const actual = await vi.importActual<typeof AppearanceEngineRuntime>(
+    "../presentation/appearance-engine/runtime",
+  );
   return { ...actual, peoplePackAvailable: () => true };
 });
 vi.mock("./EnginePerson", () => ({

@@ -7,7 +7,7 @@
  * fact about the world (13B B5).
  */
 
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import {
   sha256HexOfUtf8,
@@ -49,6 +49,12 @@ export interface SourceManifest {
   readonly manifestVersion: string;
   readonly domains: readonly SourceManifestEntry[];
   readonly gatedDomains: readonly GatedDomainEntry[];
+  readonly researchFiles?: readonly {
+    readonly path: string;
+    readonly sha256: string;
+    readonly asOf: string;
+    readonly recordCount: number;
+  }[];
 }
 
 /** Build the manifest by reading the compiled tree at `root`. */
@@ -96,7 +102,36 @@ export async function buildManifest(root: string): Promise<SourceManifest> {
     });
   }
 
-  return { manifestVersion: "1", domains: entries, gatedDomains: gated };
+  const researchPath = resolve(
+    root,
+    "../research/places/local-institutions.json",
+  );
+  const researchText = existsSync(researchPath)
+    ? readFileSync(researchPath, "utf-8")
+    : null;
+  const researchCorpus = researchText
+    ? (JSON.parse(researchText) as {
+        asOf: string;
+        places: Record<string, unknown>;
+      })
+    : null;
+  const researchFiles =
+    researchText && researchCorpus
+      ? [
+          {
+            path: "data/research/places/local-institutions.json",
+            sha256: sha256HexOfUtf8(researchText),
+            asOf: researchCorpus.asOf,
+            recordCount: Object.keys(researchCorpus.places).length,
+          },
+        ]
+      : [];
+  return {
+    manifestVersion: "1",
+    domains: entries,
+    gatedDomains: gated,
+    ...(researchFiles.length ? { researchFiles } : {}),
+  };
 }
 
 async function main(): Promise<void> {

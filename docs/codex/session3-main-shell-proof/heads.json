@@ -1,0 +1,27 @@
+{
+  "playedSource": "6ec4981523040065247d6b43887b4d2199586ab9",
+  "actualShellMainMerge": "c83bcaf8d97e289a095820eb283a9da75cb65085",
+  "correctedReferenceMain": "6048b1331b9f1be7948b8827db75dcc4d6b5c1f4",
+  "heads": [
+    {
+      "branch": "codex/session3-contacts-people",
+      "headBeforePackaging": "26da55ac1e3436812c6269e596d376db6f2b9629"
+    },
+    {
+      "branch": "codex/session3-money-governing",
+      "headBeforePackaging": "634f45d2800a645f57a49fae05ce86f807d9d932"
+    },
+    {
+      "branch": "codex/session3-calendar-news",
+      "headBeforePackaging": "18393bb51bd78cda4df5bb48199334c7e684c2e8"
+    },
+    {
+      "branch": "codex/session3-places-transit",
+      "headBeforePackaging": "380c00453dbbb68f28f523b5b36f08fb9e60d355"
+    },
+    {
+      "branch": "codex/session3-campaign",
+      "headBeforePackaging": "a22ce03dec31a06914342308ea43a212c99da7d3"
+    }
+  ]
+}

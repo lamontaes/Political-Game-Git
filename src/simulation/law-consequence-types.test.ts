@@ -3,6 +3,14 @@ import type {
   LawConsequenceKind,
   LegacyEffectKind,
 } from "./law-consequence-types";
+import {
+  lawTermApplicabilitiesMatch,
+  lawTermApplicabilityKey,
+  lawTermScopeKey,
+  lawTermScopesMatch,
+  type LawTermApplicability,
+  type LawTermScope,
+} from "./law-consequence-types";
 import type { LawEffectContext } from "./law-effect-stamp";
 
 it("closes new writer labels while listing the legacy labels to retire", () => {
@@ -51,4 +59,103 @@ it("closes new writer labels while listing the legacy labels to retire", () => {
   const retiredRentCap: LawEffectContext["effectKind"] =
     "rent-stabilization-renewal";
   void retiredRentCap;
+});
+
+it("requires exact typed law-term scopes and canonicalizes charge-key sets", () => {
+  const first: LawTermScope = {
+    kind: "consumer-credit",
+    lenderClass: "licensed-finance-company",
+    productClass: "small-loan",
+    rateBasis: "annual-percentage-rate",
+    includedChargeKeys: ["origination", "servicing"],
+    exceptionSetKey: "statutory-exceptions-v1",
+  };
+  const reordered: LawTermScope = {
+    ...first,
+    includedChargeKeys: ["servicing", "origination"],
+  };
+  expect(lawTermScopesMatch(first, reordered)).toBe(true);
+  expect(lawTermScopesMatch(first, undefined)).toBe(false);
+  expect(
+    lawTermScopeKey({
+      ...first,
+      includedChargeKeys: ["origination", "origination"],
+    }),
+  ).toBeNull();
+  expect(
+    lawTermScopeKey({
+      ...first,
+      extra: "not part of the closed contract",
+    } as LawTermScope),
+  ).toBeNull();
+  expect(
+    lawTermScopesMatch(first, {
+      ...first,
+      exceptionSetKey: "different-exceptions",
+    }),
+  ).toBe(false);
+});
+
+it("matches explicit regional and place applicability without widening unknowns", () => {
+  const region: LawTermApplicability = {
+    kind: "census-regions",
+    regions: ["midwest", "west"],
+  };
+  expect(
+    lawTermApplicabilitiesMatch(region, {
+      kind: "census-regions",
+      regions: ["west", "midwest"],
+    }),
+  ).toBe(true);
+  expect(
+    lawTermApplicabilitiesMatch(region, {
+      kind: "census-regions",
+      regions: ["midwest"],
+    }),
+  ).toBe(false);
+  expect(lawTermApplicabilitiesMatch(region, undefined)).toBe(false);
+  expect(
+    lawTermApplicabilityKey({
+      kind: "census-regions",
+      regions: ["north"],
+    } as unknown as LawTermApplicability),
+  ).toBeNull();
+  expect(
+    lawTermApplicabilityKey({
+      kind: "place-set",
+      placeKeys: ["US-MI", "US-MI"],
+    }),
+  ).toBeNull();
+  expect(
+    lawTermApplicabilitiesMatch(
+      { kind: "place-set", placeKeys: ["US-MI"] },
+      { kind: "census-regions", regions: ["midwest"] },
+    ),
+  ).toBe(false);
+  const bailCohort: LawTermApplicability = {
+    kind: "court-charge-cohort",
+    courtLevelKey: "state-trial-court",
+    courtKey: null,
+    offenseKey: "crime:robbery",
+    offenseClassKey: "felony",
+    region: "south",
+  };
+  expect(
+    lawTermApplicabilitiesMatch(bailCohort, {
+      ...bailCohort,
+      offenseClassKey: "misdemeanor",
+    }),
+  ).toBe(false);
+  expect(
+    lawTermApplicabilitiesMatch(bailCohort, {
+      ...bailCohort,
+      region: "west",
+    }),
+  ).toBe(false);
+  expect(
+    lawTermApplicabilityKey({
+      ...bailCohort,
+      offenseClassKey: " ",
+    }),
+  ).toBeNull();
 });

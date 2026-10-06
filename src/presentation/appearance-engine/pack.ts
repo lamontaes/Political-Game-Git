@@ -1,5 +1,7 @@
+import type { SceneSlotKind } from "../scene-slot-contract";
 import type { BodyAnchors } from "./anchors";
 import { OPAQUE_ALPHA } from "./anchors";
+import { clothEdgeMask } from "./cloth-edges";
 import { assemblePerson, type PersonLayer } from "./assemble";
 import type { Raster } from "./raster";
 import { SKIN_RAMPS, recolorSkin, type MeasuredRamp } from "./skin";
@@ -684,6 +686,10 @@ export function mirrorToFace(
 }
 
 export interface PeoplePackManifest {
+  /** Presentation metadata only; no raster, identity, or approval changes. */
+  readonly slotKindsByPose?: Partial<
+    Readonly<Record<BodyPose, readonly SceneSlotKind[]>>
+  >;
   readonly version: string;
   readonly canvas: { readonly width: number; readonly height: number };
   readonly presentations: Readonly<Record<BodyPresentation, PackPresentation>>;
@@ -976,9 +982,22 @@ export function composeEnginePerson(
       body.skin,
       outfit.skin ? image(outfit.skin) : undefined,
     );
-    for (const [part, file] of Object.entries(outfit.regions ?? {})) {
+    const regions = Object.entries(outfit.regions ?? {}).map(
+      ([part, file]) => [part, image(file)] as const,
+    );
+    for (const [part, mask] of regions) {
       const color = recipe.colors?.[part];
-      if (color) clothes = recolorPart(clothes, image(file), fabricRamp(color));
+      if (color)
+        clothes = recolorPart(
+          clothes,
+          clothEdgeMask(
+            clothes,
+            mask,
+            outfit.skin ? image(outfit.skin) : undefined,
+            regions.filter(([other]) => other !== part).map(([, mask]) => mask),
+          ),
+          fabricRamp(color),
+        );
     }
     layers.push({ slot: "outfit", raster: clothes, hidesBody: mask });
   }
