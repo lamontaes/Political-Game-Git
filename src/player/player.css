@@ -5878,9 +5878,8 @@
 /* Title tableau                                                              */
 /*                                                                            */
 /* The title screen paints a room behind itself when there is a truthful one  */
-/* to paint. Every rule below is written so that the no-art case is not a     */
-/* degraded version of the art case: with `data-has-plate="false"` the page   */
-/* is the pale sheet it has always been, and the panel below adds nothing.    */
+/* to paint. The front-door layer gives both art and no-art cases the same    */
+/* Kit 13 glass menu, while this layer holds the illustrated room beneath it. */
 /* -------------------------------------------------------------------------- */
 
 .title-tableau {
@@ -5892,10 +5891,10 @@
 
 /*
  * When a room is actually painted, the layer behind the stages is a deep
- * neutral rather than the pale page — so if a frame ever slips between an
+ * neutral — so if a frame ever slips between an
  * outgoing room being removed and an incoming one painting, what shows is dark,
- * not the white flash the transition must never produce. The no-art case is
- * untouched and stays the pale sheet it has always been.
+ * not the white flash the transition must never produce. The front-door CSS
+ * gives the no-art case the same dark glass ground.
  */
 .title-tableau[data-has-plate="true"] {
   background: var(--kit12-glass);
@@ -6077,15 +6076,9 @@
   /* Controls belong on the left of the scene (Task C/R), so the room keeps the
      larger, open side of the frame. */
   justify-content: flex-start;
-  /* Fixed height, not min-height: an owner composition (shell.css's accepted
-     R1 title grouping) overrides this rule's own padding with its own
-     viewport-relative clamp(), so the padding this rule's max-height budget
-     assumed does not always hold. With min-height, a taller actual padding
-     let the panel's own max-height:calc(100dvh - Nrem) still fit inside the
-     panel but push this container — and the whole page — past the viewport.
-     A fixed height plus overflow:hidden keeps the composition honest
-     regardless of which padding rule wins: the panel's own overflow-y:auto
-     is the one and only scroll region, never the page. */
+  /* The front-door layer supplies natural height and page scrolling when a
+     short viewport cannot fit the menu. The menu itself stays at its natural
+     height. */
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
