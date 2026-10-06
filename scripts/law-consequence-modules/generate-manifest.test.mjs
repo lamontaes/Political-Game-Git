@@ -3,6 +3,7 @@ import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
+import prettier from "prettier";
 import {
   checkLawConsequenceManifest,
   discoverLawConsequenceModules,
@@ -70,5 +71,19 @@ test("module directories without an index are rejected instead of silently omitt
     );
   } finally {
     rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("generated manifests use Prettier-clean output for empty and populated registries", async () => {
+  for (const keys of [
+    [],
+    ["civil-family-services"],
+    ["civil-family-services", "government-operations"],
+  ]) {
+    const manifest = renderLawConsequenceManifest(keys);
+    assert.equal(
+      await prettier.format(manifest, { filepath: "law-consequence-module-manifest.ts" }),
+      manifest,
+    );
   }
 });
