@@ -23,7 +23,7 @@ Measured generated-person receipts are retained in docs/codex/progress/session-1
 | T9-facet-polite           | `87f6b255282a22a214cf3696868b4d12d289c871` | Isabel Pruitt     | yea → present-not-voting |
 | T9-facet-informal         | `19e7031dc4cf7ee7095ccede9f0a14cd65f735a3` | Brianna York      | present-not-voting → yea |
 | T9-facet-sassy            | `ca0146ef78fb7fa065b2bce7ea81f12037cd7671` | Beverly Nunez     | present-not-voting → yea |
-| T9-facet-mischievous      | `27ffec52dbb412a0ec6d53ad99ebdbd4ef658194` | Ariana Roth       | undecided → town-hall         |
+| T9-facet-mischievous      | `27ffec52dbb412a0ec6d53ad99ebdbd4ef658194` | Ariana Roth       | undecided → town-hall    |
 | T9-facet-dramatic         | `892fcf7602f77c47031b2b6b787a85abaf122ee1` | Manuel Garcia     | present-not-voting → yea |
 
 Mischievous's actual outreach handler proof initializes parties through ensureLivingWorldOpening before the home-chapter writer. Ariana Roth changes from organizer-undecided to a town-hall offer; other personality reasons, a peer, and replay after save/reload are preserved (src/simulation/traits/effects/facet-mischievous.test.ts:80). Its reader intentionally has no legislative effect because the current declaration lacks a low-stakes social context predicate (src/simulation/traits/effects/facet-mischievous.ts:3). T1 remains unmet; the exact seam question is logged in [board receipt 6019866725](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6019866725).
