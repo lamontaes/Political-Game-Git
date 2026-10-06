@@ -35,7 +35,7 @@ Restricting fully opaque cloth further creates
 zero-sample standing cells: /tmp/session127-cuff-measure-opaque.log.
 These are one-output diagnostic measurements. Neither proves a cuff fix or a
 halo-free composite. Define a nonvacuous cuff/cloth-edge mask, separate genuine
-shading and authored white cuffs from discoloration, retain native alpha edges,
+shading and authored white cuffs from discoloration, and retain native alpha edges.
 Record actual old/new measurements before selecting a cuff acceptance bound
 or editing production.
 The new probe covers fourteen front category cells and fourteen requested turned
@@ -79,7 +79,7 @@ Previous items:
   assemble.ts unchanged. Marker is on its own branch.
 
 Focused strict TypeScript, ESLint, Prettier, diff, no-dice, report and release
-checks pass for the bounded probe. CTO dispatch6020150829 requires #2733 to
+checks pass for the bounded probe. [CTO dispatch 6020150829](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6020150829) requires #2733 to
 land before repository gate recovery; preserve clock/trait owners and rerun
 checks on any resulting new head. Do not transfer old CI.
 
