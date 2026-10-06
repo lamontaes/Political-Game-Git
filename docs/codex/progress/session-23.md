@@ -1,5 +1,13 @@
 # Session 23 executive track
 
+Executives can prepare a dollar request without being forced to answer it before
+time continues. A request still records the chosen program amounts, and the desk
+compares them with what the legislature authorized. The latest repair also keeps
+an earlier saved deadline from making the optional request lapse. The new browser
+capture is pending; the natural mayor election journey remains incomplete.
+
+## Method and remaining work
+
 Part 4 is being composed for the ordered #2448, #2458, #2452 landings. Main
 `e591ffc637d1f6db84d2ff920e8662ce123202ed` is preserved in merge `916e2e62f`.
 The extra budget request initially broke the unchanged priority test by requiring
