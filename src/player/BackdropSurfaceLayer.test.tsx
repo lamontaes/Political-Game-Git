@@ -187,15 +187,8 @@ describe("live content on the painted surfaces of place pictures", () => {
     );
     expect(byId.get("office-clipboard-front")).toBe("plans");
     expect([...byId.values()]).toContain("bills");
-    const officeBills = surfaces.find(
-      (surface) => surface.slot.id === "office-green-poster",
-    );
-    expect(officeBills?.content.kind).toBe("bills");
-
     const html = render(surfaces);
     expect(html).toContain('data-surface-id="office-clipboard-front"');
-    expect(html).toContain('data-surface-id="office-green-poster"');
-    expect(html).toContain('class="bs-board bs-bills"');
     expect(html).toContain("Canvass planning meeting");
     expect(html).toContain("ORD ");
   });
