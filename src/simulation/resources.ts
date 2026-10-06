@@ -1,3 +1,4 @@
+import { CURRENCY_CODE } from "./currency-code";
 import { validateEarnedLawPayAssessment } from "./earned-law-pay-integrity";
 import { payPayerAt } from "./pay-coverage-predicates";
 import type { LawEffectStampedRecord } from "./law-effect-stamp";
@@ -74,7 +75,6 @@ import type {
 } from "./types";
 import { assertWorldIntegrity } from "./world";
 
-const CURRENCY_CODE = /^[A-Z]{3}$/;
 
 export function makeCurrencyCode(value: string): CurrencyCode {
   if (!CURRENCY_CODE.test(value)) {
