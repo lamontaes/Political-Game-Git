@@ -35,10 +35,14 @@ async function readObserverSnapshot(file: File): Promise<World> {
 }
 
 /** Development entry only. The worker owns the clock; the inspector sees acknowledged checkpoints. */
-export function ObserverDevRoute() {
+export function ObserverDevRoute({
+  initialWorld,
+}: {
+  readonly initialWorld?: World;
+} = {}) {
   const params = new URLSearchParams(window.location.search);
   const [seed, setSeed] = useState(params.get("seed") ?? "observer-dev");
-  const [world, setWorld] = useState<World | null>(null);
+  const [world, setWorld] = useState<World | null>(initialWorld ?? null);
   const [problem, setProblem] = useState<string | null>(null);
   return world ? (
     <LiveObserver initialWorld={world} />

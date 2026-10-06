@@ -7,7 +7,6 @@ import {
   projectObserverRecord,
 } from "../presentation/observer-world";
 import { proseDate } from "../presentation/prose-dates";
-import { CausalTraceView } from "../ui/CausalTraceView";
 import type { ObserverRunController } from "./observer-run-controller";
 
 /**
@@ -97,15 +96,6 @@ export function ObserverClock({
       ) : null}
     </div>
   );
-}
-
-/** Read the exact settled Observer checkpoint; never substitute a fixture. */
-export function ObserverInspectorWorkspace({
-  world,
-}: {
-  readonly world: World;
-}) {
-  return <CausalTraceView reviewWorld={world} />;
 }
 
 /**
