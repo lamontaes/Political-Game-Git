@@ -1,0 +1,54 @@
+{
+  "candidateBaseHead": "3445972c6afc80e502365980ab8deee4bcd1fe14",
+  "dirtyCandidate": true,
+  "initialTypecheck": {
+    "reportedTerminalExit": -1,
+    "reportedDurationSeconds": 72.9,
+    "pid": 26501,
+    "observedStateAfterTermination": "Z (defunct), RSS 0; parent PIDs 26494 and 26493 also defunct",
+    "logSha256": "4d3f6173cbafe2b1e865b4b8bf1550ee99ef3f3f5d0b1917e172b03880c7b7d0",
+    "typescriptDiagnosticsPresent": false,
+    "sessionPoll": "Unknown process id 17352"
+  },
+  "resourceEvidence": {
+    "memory.events": "low 0\nhigh 0\nmax 245\noom 2\noom_kill 1\noom_group_kill 0",
+    "memory.events.local": "low 0\nhigh 0\nmax 245\noom 2\noom_kill 0\noom_group_kill 0",
+    "memory.max": "17179869184",
+    "memory.peak": "17179869184",
+    "memory.current": "2395537408"
+  },
+  "limitation": "Cgroup counters do not attribute an OOM victim to this PID. Interrupted check is neither PASS nor a type-error diagnosis.",
+  "retryPolicy": "One separate full typecheck with NODE_OPTIONS=--max-old-space-size=6144; preserve initial log.",
+  "reviewedCrosswalkRetention": {
+    "base": "139ed9935",
+    "source": "src/presentation/economic-context-bindings.ts",
+    "providerFactsIdentical": true,
+    "onlyChangedField": {
+      "placeKey": {
+        "before": "lexington-fayette",
+        "after": "2146027"
+      }
+    },
+    "normalizedSha256": "a4edf7ecf1a09746a99bd5edeeafabf5815c7d33d2bff8509980e52c5f0fc3f8"
+  },
+  "boundedRetry": {
+    "command": "NODE_OPTIONS=--max-old-space-size=6144 npm run typecheck",
+    "exitCode": 0,
+    "logSha256": "83a14eeeb25a86a76ee70661c64dbbd9b7a171f85de4da9d8569cab1f42bf812",
+    "terminalLog": "> political-life-rpg@0.4.0 typecheck\n> node --import tsx scripts/dev-lab/typecheck.ts && node --import tsx scripts/dev-lab/typecheck-test-imports.ts\n\ntypecheck-test-imports: 802 test files no typecheck project covers (src/authoring 19, src/connectivity 2, src/player 84, src/presentation 535, src/r1-review 9, src/research 2, src/devtools 1, tests 150), 0 unresolved import(s)."
+  },
+  "focusedChecks": {
+    "command": "npx vitest run src/player/PersonalFinancesWorkspace.test.tsx tests/nationwide/economic-context-nationwide.test.ts src/presentation/economic-context-panel.test.ts --reporter=json --outputFile=test-results/session12/economic-retention-repair.json",
+    "passed": 9,
+    "failed": 0,
+    "ordinaryMetroGuardFollowup": {
+      "passed": 4,
+      "failed": 0
+    },
+    "eslint": "PASS changed TS/TSX files",
+    "prettier": "PASS all correction files",
+    "zeroDice": "PASS no new lines",
+    "reportCheck": "PASS",
+    "releaseCheck": "PASS dirty candidate; committed-range check recorded in handoff"
+  }
+}

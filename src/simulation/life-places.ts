@@ -1012,6 +1012,16 @@ export function lifePlaceByKey(key: string): LifePlace | null {
   return acceptedLifePlaceProvider.byKey(key);
 }
 
+/** Resolve recorded hometown keys without adding retired entries to the chooser. */
+export function lifePlaceByRecordedKey(key: string): LifePlace | null {
+  const current = lifePlaceByKey(key);
+  if (current) return current;
+  const retained = RETAINED_SCENARIO_PLACE_INPUTS.find(
+    (place) => place.key === key,
+  );
+  return retained?.sourceGeoid ? lifePlaceByKey(retained.sourceGeoid) : null;
+}
+
 export function lifePlaceByJurisdictionId(
   jurisdictionId: EntityId,
 ): LifePlace | null {
