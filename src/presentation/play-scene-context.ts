@@ -4,6 +4,7 @@ import {
   householdMembershipsAt,
   organizationProfileAt,
   describePersonContext,
+  personName,
   introducePerson,
   peopleInHouseholdAt,
   type EntityId,
@@ -91,6 +92,46 @@ export function resolveOpeningPlaySceneContext(
   scenes: SceneRegistry = SCENE_REGISTRY,
   library: RuntimeVisualLibrary = PRODUCTION_VISUAL_LIBRARY,
 ): PlaySceneContext {
+  const presence = recordedRoomPresence(world, personId);
+  const presenceEvent =
+    presence &&
+    world.history.events.find((event) => event.id === presence.eventId);
+  const activity =
+    presence &&
+    presenceEvent &&
+    world.history.scheduledActivities.find(
+      (row) =>
+        row.kind !== "travel" &&
+        presenceEvent.involvedEntityIds.includes(row.id) &&
+        row.location.label === presence.location.label &&
+        row.location.jurisdictionId === presence.location.jurisdictionId,
+    );
+  if (activity && presence) {
+    const venue = sceneVenueForLocationKey(activity.location.locationKey);
+    const plate = venue?.sceneId ? scenes.scenes.get(venue.sceneId) : null;
+    return {
+      purpose: "activity",
+      locationKey: activity.location.locationKey,
+      sceneId:
+        plate?.raster &&
+        plate.presentationStatus === "production" &&
+        library.has(plate.raster.assetId)
+          ? plate.sceneId
+          : null,
+      reason: "Recorded presence at this activity's actual venue.",
+      placeLabel: presence.location.label,
+      presentPeople: presence.personIds
+        .filter((id) => id !== personId)
+        .map((id) => ({
+          personId: id,
+          name: personName(world.people[id]!),
+          relationship: null,
+          introduction:
+            presenceEvent!.participants.find((row) => row.personId === id)
+              ?.detail ?? "",
+        })),
+    };
+  }
   const opening = currentOpeningLifeScene(world, personId);
   const location = openingLifeLocation(world, personId);
   const recordedSetting =

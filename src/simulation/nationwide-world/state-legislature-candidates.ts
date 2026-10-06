@@ -51,6 +51,7 @@ import type {
 } from "../types";
 import { recordWorldEvent } from "../world";
 import { createStableId } from "../ids";
+import { publishPublicEvent } from "../public-information";
 import { stateResidenceSince } from "./residence-duration";
 import {
   decideSelfStarterRun,
@@ -593,6 +594,12 @@ export function prepareStateCandidateSlates(
       );
   });
   let next = createCharacterHistoryContextPeople(world, prospective);
+  let publishedCurrentFiling = (world.history.publications ?? []).some(
+    (publication) =>
+      publication.stableKey.startsWith(
+        `${STATE_LEGISLATURE_CANDIDATE_VERSION}:slate:`,
+      ) && publication.publishedAt === world.currentDate,
+  );
   for (const plan of pending) {
     const seatKey = stateCandidateSeatKey(
       plan.packId,
@@ -813,8 +820,9 @@ export function prepareStateCandidateSlates(
         ]);
       candidates.push({ personId, party, incumbent: false, selfStarter: true });
     }
+    const slateStableKey = stateSlateKey(seatKey, year);
     next = recordWorldEvent(next, {
-      stableKey: stateSlateKey(seatKey, year),
+      stableKey: slateStableKey,
       type: "election.state-legislative-candidate-slate",
       occurredAt: plan.intakeDate,
       recordedAt: next.currentDate,
@@ -853,6 +861,14 @@ export function prepareStateCandidateSlates(
         immediateReaction: null,
       },
     });
+    if (plan.intakeDate === next.currentDate && !publishedCurrentFiling) {
+      const slateEvent = next.history.events.at(-1)!;
+      next = publishPublicEvent(next, {
+        stableKey: `${slateStableKey}:publication`,
+        sourceEventId: slateEvent.id,
+      });
+      publishedCurrentFiling = true;
+    }
   }
   return next;
 }

@@ -43,6 +43,7 @@ const CHANNEL_REACHES: ReadonlySet<string> = new Set<LawExposureChannel>([
   "business-rule",
   "public-service",
   "court-rule",
+  "sentence-rule",
   "rent",
 ]);
 
