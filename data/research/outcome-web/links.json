@@ -2340,27 +2340,6 @@
       "evidence": "about-zero"
     },
     {
-      "key": "polling-distance-to-turnout",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
-      "to": "voting.turnout-pct",
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": -0.14,
-      "per": "mile farther to the polling place (a quarter mile: 2 to 5% fewer ballots)",
-      "lagMonths": 0,
-      "group": "non-white areas, local elections most",
-      "owner": "C",
-      "anchor": "At precinct boundaries in nine Massachusetts and Minnesota towns, a 0.245-mile longer trip to the polls (one standard deviation) cut ballots cast 2 to 5% across four elections, three times as much in high-minority areas in non-presidential years; per mile that is -8% to -20%, about -14% at the middle. Los Angeles precinct consolidation: -1.85 points net.",
-      "source": "Cantoni 2020 (AEJ: Applied); Brady and McNulty 2011 (APSR)",
-      "from": "voting.polling-place-distance-miles",
-      "evidence": "researched",
-      "range": [-0.2, -0.08],
-      "notes": "Unsupported until measured: no public source gives the average distance to a polling place by state, so no starting value was added; filed as research question state-polling-place-distance-in-miles. Turnout is kept, so this acts once one exists."
-    },
-    {
       "key": "newspaper-closure-to-borrowing-cost",
       "status": "size-not-set",
       "unsupportedReason": "size-not-set",

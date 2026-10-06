@@ -10,7 +10,7 @@ import type {
 } from "../types";
 import { worldOpeningVersionOf } from "../world-setup/conditions";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
-import { outcomeFactor } from ".";
+import { outcomeFactor, outcomeRangeViolations } from ".";
 import {
   DEFAULT_PLACE_OUTCOME_DRIFT,
   localOutcomeKey,
@@ -177,6 +177,7 @@ export function placeOutcomesForMonth(
           multiplier: own.multiplier,
           value: Math.round(valueOf(own) * 100) / 100,
           causes: movedBy(own.causes),
+          rangeViolations: outcomeRangeViolations(own),
         });
         if (local.weight !== null) {
           shares.push({
@@ -208,6 +209,7 @@ export function placeOutcomesForMonth(
         multiplier,
         value: Math.round(value * 100) / 100,
         causes: movedBy(reading.causes),
+        rangeViolations: outcomeRangeViolations(reading),
         ...(shares.length
           ? {
               places: shares,
