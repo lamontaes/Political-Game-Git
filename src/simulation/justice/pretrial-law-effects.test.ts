@@ -1,11 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { appendFileSync } from "node:fs";
 
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
+import { smallWorld } from "../../../tests/fixtures/small-world";
+import { personName } from "../people";
 import { addDays } from "../dates";
 import { isLawEffectStamp } from "../law-effect-stamp";
 import type { LawEffectStampedRecord } from "../law-effect-stamp";
@@ -38,15 +35,11 @@ describe("saved pretrial law attribution", () => {
             stateJurisdictionKey: state.jurisdictionKey,
             scope: "state",
           })[0]!;
-      const game = generateOpeningLife(
-        prepareOpeningLife({
-          ...DEFAULT_NEW_GAME_SETUP,
-          seed,
-          placeKey: place.key,
-          startAge: 40,
-          questionnaire: "skipped",
-        }),
-      ).game!;
+      // This is a controlled referral writer proof, not a natural opening.
+      // Keep the sampled place, production catalog and actual saved person;
+      // unrelated town populations are not inputs to this case.
+      const fixture = smallWorld({ place: place.key, seed, people: 6 });
+      const game = { world: fixture.world, playerPersonId: fixture.personId };
       const subjectId = game.playerPersonId;
       const jurisdictionId = game.world.people[subjectId]!.homeJurisdictionId;
       const referral = referForProsecution(game.world, {
@@ -132,6 +125,8 @@ describe("saved pretrial law attribution", () => {
         seed,
         place: place.key,
         personId: subjectId,
+        personName: personName(world.people[subjectId]!),
+        scope: "controlled small-world referral; not natural opening",
         consequence: events[0]!.summary,
         lawKey: stamp.governingLawKey,
         stampedConsequences: events.length,
