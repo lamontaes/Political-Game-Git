@@ -6,6 +6,7 @@ import type {
   World,
   PublicProgramAppropriationRecord,
 } from "./types";
+import type { CensusRegion } from "./world-setup/census-regions";
 
 export type LawConsequenceKind =
   | "pay"
@@ -101,6 +102,71 @@ export type LawTermScope =
       readonly taxableBaseKey: string;
       readonly purchaserClass: string;
     };
+
+/**
+ * Explicit availability boundary for a rule term. This is a game applicability
+ * filter, not evidence that a law in one jurisdiction governs another.
+ * Missing applicability is unknown and cannot match a modeled peer.
+ */
+export type LawTermApplicability =
+  | {
+      readonly kind: "census-regions";
+      readonly regions: readonly CensusRegion[];
+    }
+  | { readonly kind: "place-set"; readonly placeKeys: readonly string[] }
+  | {
+      readonly kind: "workplace-set";
+      readonly workplaceKeys: readonly string[];
+    };
+
+/** Canonical exact key; sets are order-insensitive and duplicates are invalid. */
+export function lawTermApplicabilityKey(
+  applicability: LawTermApplicability | undefined,
+): string | null {
+  if (!applicability || typeof applicability !== "object") return null;
+  const exactKeys: Readonly<
+    Record<LawTermApplicability["kind"], readonly string[]>
+  > = {
+    "census-regions": ["kind", "regions"],
+    "place-set": ["kind", "placeKeys"],
+    "workplace-set": ["kind", "workplaceKeys"],
+  };
+  const expected = exactKeys[applicability.kind];
+  if (!expected) return null;
+  const actual = Object.keys(applicability).sort();
+  if (JSON.stringify(actual) !== JSON.stringify([...expected].sort()))
+    return null;
+  const values =
+    applicability.kind === "census-regions"
+      ? applicability.regions
+      : applicability.kind === "place-set"
+        ? applicability.placeKeys
+        : applicability.workplaceKeys;
+  if (
+    !Array.isArray(values) ||
+    values.length === 0 ||
+    values.some((value) => typeof value !== "string" || !value.trim()) ||
+    new Set(values).size !== values.length
+  )
+    return null;
+  if (
+    applicability.kind === "census-regions" &&
+    values.some(
+      (value) => !["northeast", "midwest", "south", "west"].includes(value),
+    )
+  )
+    return null;
+  return JSON.stringify([applicability.kind, [...values].sort()]);
+}
+
+/** Exact applicability only; absent or malformed boundaries stay unknown. */
+export function lawTermApplicabilitiesMatch(
+  target: LawTermApplicability | undefined,
+  donor: LawTermApplicability | undefined,
+): boolean {
+  const targetKey = lawTermApplicabilityKey(target);
+  return targetKey !== null && targetKey === lawTermApplicabilityKey(donor);
+}
 
 /** Canonical structural key; absent, malformed or extended scopes stay unknown. */
 export function lawTermScopeKey(
