@@ -4535,6 +4535,29 @@ export type ChildhoodRecordEntry =
       readonly optionKey: string;
     });
 
+export type CampaignAskOutcome = "gave" | "declined" | "deferred";
+export interface CampaignAsk {
+  readonly id: EntityId;
+  readonly candidateId: EntityId;
+  readonly residentId: EntityId;
+  readonly askedOn: IsoDate;
+  readonly amountMinorUnits: number;
+  readonly outcome: CampaignAskOutcome;
+  readonly reasonBeliefId: EntityId | null;
+}
+
+export interface CampaignPurchaseRecord {
+  readonly id: EntityId;
+  readonly campaignId: EntityId;
+  readonly purchasedOn: IsoDate;
+  readonly item:
+    "yard-sign" | "palm-card" | "postage" | "print-ad" | "filing-fee";
+  readonly units: number;
+  readonly unitPriceMinorUnits: number;
+  readonly totalMinorUnits: number;
+  readonly flowId: EntityId;
+}
+
 export interface HistoryStore {
   /** Childhood entries, one record per person, read with `childhoodRecord`. */
   readonly childhoodRecords?: readonly ChildhoodRecordEntry[];
@@ -4645,6 +4668,8 @@ export interface HistoryStore {
   readonly campaignActions?: readonly CampaignActionRecord[];
   readonly campaignActionResults?: readonly CampaignActionResultRecord[];
   readonly campaignComplianceDocuments?: readonly CampaignComplianceDocumentRecord[];
+  readonly campaignAsks?: readonly CampaignAsk[];
+  readonly campaignPurchases?: readonly CampaignPurchaseRecord[];
   /** CRUNCH46 CAMPAIGN; optional so pre-CRUNCH46 snapshots stay readable. */
   readonly campaignLifeActivities?: readonly CampaignLifeActivityRecord[];
   readonly campaignLifeOutcomes?: readonly CampaignLifeOutcomeRecord[];

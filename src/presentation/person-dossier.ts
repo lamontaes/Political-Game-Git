@@ -100,7 +100,7 @@ export interface PersonDossier {
   /** Player-known, outstanding reminders about this person. */
   readonly reminders: readonly DossierFact[];
   readonly notesMode: "full" | "light" | "none";
-  readonly lastInteraction: string;
+  readonly lastInteraction: string | null;
   /**
    * Where the two of them stand, in the player's own words.
    *
@@ -172,7 +172,10 @@ function describeInteraction(
   world: World,
   playerId: EntityId,
   personId: EntityId,
-): string {
+): string | null {
+  // Observation has no player whose acquaintance can be described as "you."
+  // Keep the relationship record intact, but make no player-relative claim.
+  if (world.control.kind === "observer") return null;
   // The player's own card is not somebody the player has or has not spoken to.
   if (personId === playerId) return "This is you.";
   const summary = deriveRelationshipSummary(world, playerId, personId);
