@@ -412,17 +412,125 @@ function hearersOf(
   world: World,
   exposure: LawExposureRecord,
 ): readonly EntityId[] {
+  return hearersOfPerson(world, exposure.personId);
+}
+
+/** The people one person talks politics with: see `hearersOf`. */
+export function hearersOfPerson(
+  world: World,
+  personId: EntityId,
+): readonly EntityId[] {
   const conflict = latestPersonalityTendency(
     world,
-    exposure.personId,
+    personId,
     SYNTHETIC_MIND_IDS.tendencies.conflictApproach,
   )?.expressionKey;
   if (conflict === "conflict-averse") return [];
   // The player can hear it too; they just decide for themselves what it means.
-  const known = new Set(peopleKnownTo(world, exposure.personId));
-  return confidantsOf(world, exposure.personId)
-    .filter((personId) => known.has(personId))
+  const known = new Set(peopleKnownTo(world, personId));
+  return confidantsOf(world, personId)
+    .filter((id) => known.has(id))
     .slice(0, DISCUSSION_PARTNERS);
+}
+
+// ESTIMATED FROM AVERAGE (research: opinions-travel-by-word-of-mouth): a view
+// passed on by someone close counts for less than what a person lived or read
+// themselves (Katz and Lazarsfeld, 1955, on personal influence; no table gives
+// the ratio). A third of a first-hand reason's weight, before the hearer's own
+// temperament and party.
+const TOLD_VIEW_WEIGHT = 0.33;
+
+/**
+ * Word of mouth about an official: a person who has just formed a view of
+ * one, from what happened to them or from what they read, tells the people
+ * they talk politics with (`hearersOfPerson`; someone who avoids conflict
+ * tells no one). Each hearer learns it as told by that person. A hearer the
+ * player does not control weighs it as one reason, a third as heavy as a
+ * first-hand one, through their own temperament and party, with the view they
+ * already hold. What a hearer was told is not told again: only a view formed
+ * first-hand reaches this function, and the hearer's own view is written
+ * without it.
+ */
+export function tellViewToHearers(
+  world: World,
+  input: {
+    readonly holderId: EntityId;
+    readonly officialId: EntityId;
+    /** The holder's dated thinking-over, which the hearers' knowledge names. */
+    readonly eventId: EntityId;
+    readonly stableKey: string;
+  },
+): World {
+  const held = viewOfOfficial(world, input.holderId, input.officialId).belief;
+  if (!held || (held.position !== "support" && held.position !== "oppose"))
+    return world;
+  const holder = world.people[input.holderId];
+  const official = world.people[input.officialId];
+  if (!holder || !official) return world;
+  const favors = held.position === "support" ? "support" : "opposition";
+  let next = world;
+  for (const hearerId of hearersOfPerson(world, input.holderId)) {
+    if (hearerId === input.officialId) continue;
+    const key = `${input.stableKey}:told:${hearerId}`;
+    if (next.history.knowledge.some((row) => row.stableKey === key)) continue;
+    next = recordEventKnowledge(next, {
+      stableKey: key,
+      personId: hearerId,
+      eventId: input.eventId,
+      learnedAt: next.currentDate,
+      believedSummary: `${holder.givenName} ${holder.familyName} told them what they think of ${official.givenName} ${official.familyName}.`,
+      accuracy: "accurate",
+      confidence: "medium",
+      source: {
+        kind: "told-by",
+        sourcePersonId: input.holderId,
+        claimId: null,
+      },
+    });
+    if (next.control.kind === "person" && next.control.personId === hearerId)
+      continue;
+    const knowledge = next.history.knowledge.find(
+      (row) => row.stableKey === key,
+    )!;
+    let felt = TOLD_VIEW_WEIGHT * reactionLens(next, hearerId);
+    const mine = affiliationAt(next, hearerId).partyOrganizationId;
+    const theirs = affiliationAt(next, input.officialId).partyOrganizationId;
+    // A friend's word against an official of the hearer's own party, or for
+    // one of the other party, is held at arm's length.
+    if (
+      mine !== null &&
+      theirs !== null &&
+      ((mine === theirs && favors === "opposition") ||
+        (mine !== theirs && favors === "support"))
+    )
+      felt *= PARTY_ANCHOR;
+    if (felt <= 0) continue;
+    next = formViewFromFactor(
+      next,
+      hearerId,
+      input.officialId,
+      {
+        felt,
+        factor: {
+          stableKey: `told-view:${key}`,
+          favors,
+          sourceType: "information:told-view",
+          importance: IMPORTANCE_FROM.find(([from]) => felt >= from)![1],
+          confidence: "medium",
+          explanation: `Someone close to the person told them they ${
+            favors === "support" ? "think well" : "think poorly"
+          } of this official.`,
+          sourceRefs: [
+            { kind: "historical-event", eventId: input.eventId },
+            { kind: "event-knowledge", knowledgeId: knowledge.id },
+          ],
+        },
+      },
+      `${V}:told:${key}`,
+      "What they were told runs against the view of this official the person already held.",
+    );
+  }
+  return next;
 }
 
 /** The dated event of a person thinking over what a law did to them. */
@@ -625,6 +733,12 @@ function reflectOnLivedOutcome(
     `${V}:lived-outcome:${outcome.sourceRecordId}:${personId}:${officialId}`,
     "What happened to them runs against the view of this official the person already held.",
   );
+  next = tellViewToHearers(next, {
+    holderId: personId,
+    officialId,
+    eventId,
+    stableKey: `${V}:lived-outcome-view:${outcome.sourceRecordId}:${personId}`,
+  });
   return done(next, "reflected");
 }
 
