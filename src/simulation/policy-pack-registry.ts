@@ -12,6 +12,7 @@ import {
 import { TAX_TERMS_POLICY_PACK } from "./policy-pack-tax-terms";
 import { COVERAGE_ELIGIBILITY_ROWS } from "./law-consequences/coverage-eligibility-rows";
 import { SERVICE_DELIVERED_LAW_ROWS } from "./law-consequences/service-delivered-data";
+import { INFRASTRUCTURE_EXPOSURE_ROWS } from "./law-consequences/infrastructure-exposure-rows";
 import {
   loadPolicyPacks,
   type PolicyPack,
@@ -50,13 +51,21 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
       const key = `${US_POLICY_POSITIONS_PACK.pack}:${row.key}`;
       const coverage = COVERAGE_ELIGIBILITY_ROWS[key];
       const pay = MINIMUM_WAGE_PAY_ROWS[key];
+      const infrastructure = INFRASTRUCTURE_EXPOSURE_ROWS[key];
       const service = [
         ...(SERVICE_DELIVERED_LAW_ROWS[key] ?? []),
         ...(STATUTORY_WAGE_TAX_ROWS[key] ?? []),
       ];
       const rent = key === RENT_STABILIZATION_QUESTION;
       const tuition = key === TUITION_FREEZE_QUESTION;
-      if (!coverage && !pay && service.length === 0 && !rent && !tuition)
+      if (
+        !coverage &&
+        !pay &&
+        !infrastructure &&
+        service.length === 0 &&
+        !rent &&
+        !tuition
+      )
         return row;
       return {
         ...row,
@@ -75,6 +84,7 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
           ...(tuition ? [TUITION_FREEZE_ROW] : []),
           ...(coverage ? [coverage] : []),
           ...(pay ? [pay] : []),
+          ...(infrastructure ? [infrastructure] : []),
           ...service,
         ],
       };

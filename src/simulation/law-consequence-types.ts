@@ -17,6 +17,7 @@ export type LawConsequenceKind =
   | "service-delivered"
   | "legal-outcome"
   | "institution-rule"
+  | "infrastructure-exposure"
   | "public-library-service"
   | "parks-service-spending";
 
