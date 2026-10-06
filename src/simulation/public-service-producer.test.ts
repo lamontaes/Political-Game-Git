@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { createCampaignElectionTransitionRegistry } from "./campaigns";
+import {
+  composeWorldTimeHandlers,
+  createCampaignElectionTransitionRegistry,
+} from "./campaigns";
 import { addDays } from "./dates";
-import { scheduleFutureDueItem } from "./future-transitions";
 import { PUBLIC_PROGRAM_INSTALLMENT } from "./governing/public-program";
 import { stableHash } from "./ids";
 import { createOrganization, createWorkRelationship } from "./life";
@@ -13,8 +15,12 @@ import { createCharacterHistoryContextPeople } from "./character-history";
 import {
   SUBSTANCE_USE_DISORDER_KEY,
   holdsPackCondition,
-  recordStartingConditions,
 } from "./crisis/condition-pack";
+import { ensureCrisisMortality } from "./crisis/mortality";
+import {
+  resolveFutureDueItemsThrough,
+  scheduleFutureDueItem,
+} from "./future-transitions";
 import { createMindProvenance, recordGoalState } from "./mind";
 import {
   LIVELIHOOD_GOAL_KEY,
@@ -422,14 +428,15 @@ describe("residents ask for a paid service on their own records, then take part"
       })),
     );
     const cohortIds = world.personOrder.slice(-80);
-    world = recordStartingConditions(
+    // The model's own first exposure writes the starting conditions.
+    world = ensureCrisisMortality(world);
+    const window = world.history.futureDueItems.find(
+      (item) => item.transitionKey === "crisis:mortality-window",
+    )!;
+    world = resolveFutureDueItemsThrough(
       world,
-      cohortIds.map((personId) => ({
-        personId,
-        category: "equal-mixture" as const,
-      })),
-      date,
-      f.commitmentId,
+      window.dueAt,
+      composeWorldTimeHandlers(),
     );
     const holders = cohortIds.filter((id) =>
       holdsPackCondition(world, id, SUBSTANCE_USE_DISORDER_KEY),
