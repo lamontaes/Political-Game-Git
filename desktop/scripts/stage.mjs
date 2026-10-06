@@ -34,6 +34,7 @@ import {
   defaultComposition,
 } from "../../scripts/client-provenance.mjs";
 import { gateEntryPoint } from "../../scripts/storage/storage-guard.mjs";
+import { updateConfigForBuild } from "../updater.mjs";
 
 const desktopRoot = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const repoRoot = path.dirname(desktopRoot);
@@ -50,6 +51,13 @@ const distribution =
   distributionIndex >= 0 ? (args[distributionIndex + 1] ?? "direct") : "direct";
 if (!["direct", "steam"].includes(distribution)) {
   console.error(`Unknown distribution "${distribution}" (direct|steam).`);
+  process.exit(1);
+}
+const channelIndex = args.indexOf("--channel");
+const channel =
+  channelIndex >= 0 ? (args[channelIndex + 1] ?? "internal") : "internal";
+if (!["internal", "private", "stable"].includes(channel)) {
+  console.error(`Unknown channel "${channel}" (internal|private|stable).`);
   process.exit(1);
 }
 
@@ -139,7 +147,7 @@ const identity = {
   revisionShort: revision === "unknown" ? "unknown" : revision.slice(0, 7),
   dirty,
   distribution,
-  channel: "internal",
+  channel,
   composition,
   profile: provenance.profile,
   clientTreeSha256: treeSha256,
@@ -156,7 +164,16 @@ writeFileSync(
 writeFileSync(
   path.join(stagedRoot, "update-config.json"),
   JSON.stringify(
-    { enabled: false, channel: "internal", feedURL: null },
+    updateConfigForBuild({
+      channel,
+      distribution,
+      feedURL: {
+        stable: process.env.OCD_STABLE_UPDATE_FEED_URL,
+        internal: process.env.OCD_INTERNAL_UPDATE_FEED_URL,
+        private: process.env.OCD_PRIVATE_UPDATE_FEED_URL,
+      }[channel],
+      signingConfigured: Boolean(process.env.CSC_LINK || process.env.CSC_NAME),
+    }),
     null,
     2,
   ) + "\n",
