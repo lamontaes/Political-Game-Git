@@ -106,6 +106,11 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
     reader:
       "career.consider-another-term — src/simulation/traits/effects/self-confidence.ts",
   },
+  {
+    trait: "personality-v1:facet-tactful",
+    kind: "decision",
+    reader: "contact.answer — src/simulation/traits/effects/facet-tactful.ts",
+  },
 ];
 
 /**
@@ -143,7 +148,6 @@ export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:facet-friendly",
   "personality-v1:facet-charming",
   "personality-v1:facet-blunt",
-  "personality-v1:facet-tactful",
   "personality-v1:facet-polite",
   "personality-v1:facet-informal",
   "personality-v1:facet-sassy",
