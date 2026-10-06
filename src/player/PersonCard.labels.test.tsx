@@ -169,3 +169,23 @@ it("recognizes a person whose card was opened from their figure as present in th
   expect(html).toContain("Recorded office fact.");
   expect(JSON.stringify({ world, entry })).toBe(before);
 });
+
+it("prints a refusal to talk once, not twice, on the card", () => {
+  const refusal = "Nobody is being played, so nothing can be done.";
+  const html = renderToStaticMarkup(
+    <PersonCard
+      world={world}
+      playerId={selfId}
+      dossier={dossier()}
+      pinned={false}
+      expanded
+      mode="workspace"
+      onTogglePin={() => {}}
+      onOpenLink={() => {}}
+      talkUnavailable={refusal}
+      onFullRecord={() => {}}
+    />,
+  );
+  expect(html.split(refusal).length - 1).toBe(1);
+  expect(html).toContain('data-testid="dossier-talk-unavailable"');
+});
