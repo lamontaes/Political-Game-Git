@@ -90,6 +90,8 @@ export interface OpeningLifeGenerationProgress {
   readonly label: string;
   readonly completed: number;
   readonly total: number;
+  readonly world?: World;
+  readonly playerPersonId?: EntityId;
 }
 
 export interface OpeningLifeGenerationOptions {
@@ -239,8 +241,21 @@ interface OpeningPreparationStep {
   readonly world?: World;
 }
 
-function openingStage(label: string, world?: World): OpeningPreparationStep {
-  return { progress: { label, completed: 0, total: 0 }, world };
+function openingStage(
+  label: string,
+  world?: World,
+  playerPersonId?: EntityId,
+): OpeningPreparationStep {
+  return {
+    progress: {
+      label,
+      completed: 0,
+      total: 0,
+      ...(world ? { world } : {}),
+      ...(playerPersonId ? { playerPersonId } : {}),
+    },
+    world,
+  };
 }
 
 /** Both paths run the same preparation steps in the same order. */
