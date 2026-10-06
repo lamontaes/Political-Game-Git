@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-06T13:00:00Z",
+  "updatedAt": "2026-10-06T13:02:00Z",
   "updatedBy": "Session 45",
   "source": {
     "issue": "#2424",
@@ -607,7 +607,7 @@
         "doc": "docs/codex/roster.json"
       },
       "currentPr": "https://github.com/lamontaes/Political-Game-Git/pull/2549 (open)",
-      "head": "99c2c2529860415110c6ba9a13ca6c5676a67e4a",
+      "head": "d9fa7ad194e0174c91946be2c4a17c0daa610d24",
       "lastPostAt": "2026-10-06T13:00:00Z",
       "state": "active; PR #2549 open"
     }
@@ -875,8 +875,8 @@
       "appStatus": "active",
       "updatedAtEpoch": 1791289761,
       "updatedAt": "2026-10-06T12:29:21.000Z",
-      "currentTask": "unknown; app title is a label, not verified task",
-      "workProof": "unknown pending turn/tool marker",
+      "currentTask": "T13 expression chooser",
+      "workProof": "focused/type checks and retained processes reported working (coordinator-reported; no exact receipt timestamp/head supplied)",
       "latestReceiptAt": "unknown"
     },
     {
@@ -930,8 +930,8 @@
       "appStatus": "active",
       "updatedAtEpoch": 1791288479,
       "updatedAt": "2026-10-06T12:07:59.000Z",
-      "currentTask": "unknown; app title is a label, not verified task",
-      "workProof": "unknown pending turn/tool marker",
+      "currentTask": "adapter test / canonical entity publication",
+      "workProof": "test exit 1 due missing fixture; evidence-artifact case passes; repair directed (coordinator-reported; no exact receipt timestamp/head supplied)",
       "latestReceiptAt": "unknown"
     },
     {
@@ -1084,8 +1084,8 @@
       "appStatus": "active",
       "updatedAtEpoch": 1791267944,
       "updatedAt": "2026-10-06T06:25:44.000Z",
-      "currentTask": "unknown; app title is a label, not verified task",
-      "workProof": "unknown pending turn/tool marker",
+      "currentTask": "T5 Vitest route",
+      "workProof": "waiting for exact Vitest handle; queried (coordinator-reported; no exact receipt timestamp/head supplied)",
       "latestReceiptAt": "unknown"
     },
     {
@@ -1095,8 +1095,8 @@
       "appStatus": "active",
       "updatedAtEpoch": 1791266794,
       "updatedAt": "2026-10-06T06:06:34.000Z",
-      "currentTask": "unknown; app title is a label, not verified task",
-      "workProof": "unknown pending turn/tool marker",
+      "currentTask": "P6 draft PR #2522; current-main stack file edit",
+      "workProof": "active; exact head/time not supplied (coordinator-reported; no exact receipt timestamp/head supplied)",
       "latestReceiptAt": "unknown"
     },
     {
@@ -1106,8 +1106,8 @@
       "appStatus": "active",
       "updatedAtEpoch": 1791265884,
       "updatedAt": "2026-10-06T05:51:24.000Z",
-      "currentTask": "unknown; app title is a label, not verified task",
-      "workProof": "unknown pending turn/tool marker",
+      "currentTask": "library part PR #2544 / curriculum integration",
+      "workProof": "curriculum blocked by missing EntityKind and shared fundedServiceFixture failure; separate library PR reported blocked (coordinator-reported; no exact receipt timestamp/head supplied)",
       "latestReceiptAt": "unknown"
     },
     {
@@ -1369,6 +1369,54 @@
       "receiptTimestamp": "board comment 6016741814; exact comment time not supplied",
       "exactHead": "not applicable",
       "source": "board comment"
+    },
+    {
+      "session": 26,
+      "task": "library part PR #2544 / curriculum integration",
+      "state": "curriculum blocked by missing EntityKind and shared fundedServiceFixture failure; separate library PR reported blocked",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "latest coordinator activity audit; reported, not independently re-executed"
+    },
+    {
+      "session": 28,
+      "task": "T5 Vitest route",
+      "state": "waiting for exact Vitest handle; queried",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "latest coordinator activity audit; reported, not independently re-executed"
+    },
+    {
+      "session": 29,
+      "task": "B07 P3 draft PR #2536; P2 active",
+      "state": "current-main fixture fix routed; exact head/time not supplied",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "latest coordinator activity audit; reported, not independently re-executed"
+    },
+    {
+      "session": 30,
+      "task": "P6 draft PR #2522; current-main stack file edit",
+      "state": "active; exact head/time not supplied",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "latest coordinator activity audit; reported, not independently re-executed"
+    },
+    {
+      "session": 36,
+      "task": "adapter test / canonical entity publication",
+      "state": "test exit 1 due missing fixture; evidence-artifact case passes; repair directed",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "latest coordinator activity audit; reported, not independently re-executed"
+    },
+    {
+      "session": 39,
+      "task": "T13 expression chooser",
+      "state": "focused/type checks and retained processes reported working",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "latest coordinator activity audit; reported, not independently re-executed"
     }
   ],
   "coordinatorChat": {
@@ -1480,8 +1528,16 @@
     },
     {
       "pr": 2466,
-      "state": "open; rerun required on fresh main after #2470",
-      "mergeCondition": "merge only if rerun is green"
+      "state": "merged",
+      "mergeCondition": "merge only if rerun is green",
+      "mergeCommit": "fac1af7",
+      "checks": "pending/unknown; do not infer PASS"
+    },
+    {
+      "pr": 2549,
+      "state": "open; documentation-only roster reconciliation",
+      "head": "d9fa7ad194e0174c91946be2c4a17c0daa610d24",
+      "checks": "not reported"
     }
   ]
 }
