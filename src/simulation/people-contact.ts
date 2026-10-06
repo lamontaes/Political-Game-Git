@@ -986,8 +986,16 @@ export function lapseStaleProposals(world: World): World {
   return next;
 }
 
-/** Days between one NPC reaching out and the next one doing so. */
-const REACH_OUT_SPACING_DAYS = 45;
+/**
+ * Days between one NPC reaching out and the next one doing so.
+ *
+ * CALIBRATION: this was 45, which let one friend in a month and a half ring
+ * the player, however many people had long been out of touch (BG-69 measured
+ * two contact proposals in 56 days). Each person's own decision and the
+ * per-pair spacing below already keep one friend from being the only one who
+ * rings, so this only keeps two calls from landing in the same week.
+ */
+const REACH_OUT_SPACING_DAYS = 7;
 /**
  * How long the same person leaves it before asking again.
  *
@@ -1151,7 +1159,16 @@ export function produceReachingOut(
   if (recent) return world;
   for (const basis of contactBases(world, playerPersonId)) {
     if (basis.gap !== "long-gap" && basis.gap !== "reconnected") continue;
-    if (!basis.lastContactOn) continue;
+    // Family who live elsewhere have no recorded contact on day one: nothing
+    // was ever written down for them, which is a gap in the record and not a
+    // fact about the family. Skipping them left a life of five relatives with
+    // nobody ringing in 56 days (BG-69). A housemate sees the player every
+    // day, and anybody else with no contact on record has no basis yet.
+    const keptUpWithByKin =
+      basis.lastContactOn === null &&
+      basis.basis.includes("family") &&
+      !basis.basis.includes("shares your home");
+    if (!basis.lastContactOn && !keptUpWithByKin) continue;
     // They ring on a day off, not at work (see the placeholder above).
     if (workingToday(world, basis.personId)) continue;
     const on = addDays(
@@ -1256,7 +1273,9 @@ export function produceReachingOut(
       fromPersonId: basis.personId,
       toPersonId: playerPersonId,
       on,
-      purpose: "Catch up, after a long while",
+      purpose: basis.lastContactOn
+        ? "Catch up, after a long while"
+        : "Catch up",
       answerInPerson: true,
     });
     /*

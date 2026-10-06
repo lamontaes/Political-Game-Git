@@ -974,3 +974,17 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | MR-17 | Strip every authored sentence, helper line, explanation and developer word from the Municipal screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.              | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | open   | Builder L3 (anyone if silent 60 min) |
 | MR-18 | Strip every authored sentence, helper line, explanation and developer word from the Measure paper screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.          | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | open   | Builder L3 (anyone if silent 60 min) |
 | MR-19 | Strip every authored sentence, helper line, explanation and developer word from the Press screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                  | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | open   | Builder L3 (anyone if silent 60 min) |
+
+## County (owner order Oct 6: essential; waits behind nothing)
+
+| item | what it is                                                                                   | doc and part                                        | status | claimer                   |
+| ---- | -------------------------------------------------------------------------------------------- | --------------------------------------------------- | ------ | ------------------------- |
+| CO-1 | County election calendar for every county. Owner L2.                                         | scratchpad county-audit; brief on #2424 (6:33 p.m.) | open   | L2                        |
+| CO-2 | Row officers as electable offices. Owner H3.                                                 | scratchpad county-audit; brief on #2424 (6:33 p.m.) | open   | H3                        |
+| CO-3 | County structure type and executive. Owner L2 (data) then H3 (office).                       | scratchpad county-audit; brief on #2424 (6:33 p.m.) | open   | L2 then H3                |
+| CO-4 | Sheriff and district attorney do recorded work. Owner H1 after its rescue list, else anyone. | scratchpad county-audit; brief on #2424 (6:33 p.m.) | open   | H1 after rescue or anyone |
+| CO-5 | County budget and tax hearings. Owner M1 after its rescue list, else anyone.                 | scratchpad county-audit; brief on #2424 (6:33 p.m.) | open   | M1 after rescue or anyone |
+| CO-6 | County powers cells. Owner L2 after CO-1, else anyone.                                       | scratchpad county-audit; brief on #2424 (6:33 p.m.) | open   | L2 after CO-1 or anyone   |
+| CO-7 | County places routed. Owner H2 with ART-1.                                                   | scratchpad county-audit; brief on #2424 (6:33 p.m.) | open   | H2 with ART-1             |
+| CO-8 | County court. Anyone (same as SC-2).                                                         | scratchpad county-audit; brief on #2424 (6:33 p.m.) | open   | anyone                    |
+| CO-9 | The fair, roads and the health department as county services. Anyone, after CO-5.            | scratchpad county-audit; brief on #2424 (6:33 p.m.) | open   | anyone after CO-5         |

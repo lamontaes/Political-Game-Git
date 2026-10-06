@@ -45,6 +45,7 @@ import { PUBLIC_MEETING_KEY } from "../life-opportunities";
 import { playerTown } from "./town-residents";
 import { epidemicCouncilMeetingDecision } from "../crisis/epidemic";
 import { peopleKnownTo } from "./official-views";
+import { settleQuietCouncilItems } from "./council-quiet-items";
 
 /**
  * The player's town council meets and votes.
@@ -691,7 +692,19 @@ export function localCouncilMeetingHandler(
     return done(next, `The ${identity.bodyName} did not meet.`);
   }
   const votesBefore = (world.history.legislativeVotes ?? []).length;
-  let next = moveOrdinances(world, unit, town, rules, player);
+  // A member's quiet items follow the voting workflow they chose, before the
+  // roll call reads their ballots.
+  const settled = player
+    ? settleQuietCouncilItems(world, {
+        unit,
+        town,
+        playerId: player,
+        quiet: meetingItemsThatMatter(world, player, due.id)
+          .filter((item) => item.reasons.length === 0)
+          .map((item) => item.measure),
+      })
+    : world;
+  let next = moveOrdinances(settled, unit, town, rules, player);
   next = fileOrdinances(next, unit, town, rules, player);
   const votes = (next.history.legislativeVotes ?? []).slice(votesBefore);
   const measuresById = new Map(
