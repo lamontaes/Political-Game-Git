@@ -35,11 +35,11 @@
     "No saved-world/seed/recipe proof was supplied in private notes",
     "Only Congress/Courier composition studies, not all eight opening cards",
     "Missouri Capitol used as disclosed existing-art reference for Courier; not an Ava scene",
-    "Existing manifest assets carry owner-placeholder-2026-09-27 approval, not new art approval",
     "Resolute desk art changes reserved to Session11",
     "No cinematic black bars; no scene selection or dialogue implementation",
     "Scene/talking proposal waits for Session4 checked data-row specification",
-    "No-scroll fit covers static content in two mockup views only"
+    "No-scroll fit covers static content in two mockup views only",
+    "Existing U.S. Capitol asset: owner-placeholder-2026-09-27; Missouri Capitol: live-owner-reviews-in-play-2026-09-28; no new art approval"
   ],
   "references": "References studied before proposal A2 redraw:\nCK3 Royal Court developer interface screenshot: https://forumcontent.paradoxplaza.com/public/759354/pasted%20image%200%20%284%29.png\nCK3 scene-dominant composition with separate readable event/interaction region.\nFootball Manager 2024 Mobile official interface manual: https://community.sports-interactive.com/sigames-manual/football-manager-mobile-2024/the-interface-r5223/\nStable screen title/sections and fixed bottom action bar; not claiming FM universally avoids scroll.\nOwner CTO6006178823: one-view/no inner scroll/no box stacks; preserve no-build-until-owner-pick.\n",
   "fitReceipts": [
@@ -91,5 +91,6 @@
         "height": 768
       }
     }
-  ]
+  ],
+  "sceneAuthority": "CTO6006184070 no black bars; CTO6006227813/6006222661 no fixed trigger list, record-driven replies, evolving core, 3\u20134 played actual-history scenes; Session4 checked SPEC before code"
 }
