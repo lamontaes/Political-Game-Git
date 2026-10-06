@@ -106,6 +106,11 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
     reader:
       "career.consider-another-term — src/simulation/traits/effects/self-confidence.ts",
   },
+  {
+    trait: "personality-v1:bond-loyalty",
+    kind: "decision",
+    reader: "contact.answer — src/simulation/traits/effects/bond-loyalty.ts",
+  },
 ];
 
 /**
@@ -120,7 +125,6 @@ export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:voluntary-effort",
   "personality-v1:concern-for-distress",
   "personality-v1:initial-trust",
-  "personality-v1:bond-loyalty",
   "personality-v1:truthfulness",
   "personality-v1:method-revision",
   "personality-v1:patience",
