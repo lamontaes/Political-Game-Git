@@ -24,6 +24,7 @@ import { facetSupportiveEffects } from "./facet-supportive";
 import { facetTenderHeartedEffects } from "./facet-tender-hearted";
 import { facetZealousEffects } from "./facet-zealous";
 import { initialTrustEffects } from "./initial-trust";
+import { facetDutyBoundEffects } from "./facet-duty-bound";
 import { selfConfidenceEffects } from "./self-confidence";
 
 /**
@@ -47,6 +48,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetDefensiveEffects,
     ...facetCruelEffects,
     ...facetEnviousEffects,
+    ...facetDutyBoundEffects,
     ...facetGentleEffects,
     ...facetMeticulousEffects,
     ...facetNurturingEffects,
