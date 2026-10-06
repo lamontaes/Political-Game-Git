@@ -78,7 +78,7 @@ describe("The Senate on the opening card", () => {
   // vacant seat and the card left it out. Places are drawn from all 56;
   // seed s99-b drew a vacant Hawaii seat before the fix.
   const senateCount = (line: string) =>
-    [...line.matchAll(/(\d+) [A-Z]/g)].reduce(
+    [...line.matchAll(/(\d+) [A-Za-z]/g)].reduce(
       (sum, match) => sum + Number(match[1]),
       0,
     );
@@ -193,7 +193,9 @@ describe("Your county and town", () => {
     expect(minneapolis.officials.some((line) => /, Mayor of /.test(line))).toBe(
       true,
     );
-    expect(minneapolis.matters.length).toBeGreaterThan(0);
+    // No ready-made local proposal is seeded into a new life
+    // (ensureLivingWorldDevelopments); a matter appears only once a real
+    // writer records one, and then it is a posted proposal.
     for (const matter of minneapolis.matters)
       expect(matter).toMatch(/posted a proposal/);
     // Lexington records no seated mayor, so none is named.

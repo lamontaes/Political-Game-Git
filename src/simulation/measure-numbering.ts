@@ -2,7 +2,7 @@ import {
   stateBillNumberingStyle,
   stateChamberStyle,
 } from "./bill-numbering-styles";
-import { US_CONGRESS_PACK_ID } from "./congress-rule-pack";
+import { isCongressRulePack } from "./congress-rule-pack";
 import billIntroductionTable from "../../data/research/laws/bill-introductions-2022.json" with { type: "json" };
 import { rulePackById } from "./legislature-rule-packs";
 import { isFederalDistrictUsps } from "./state-reference";
@@ -90,11 +90,21 @@ export function openingBillNumber(
   return 1 + Math.floor((perYear / Math.max(1, chambers)) * (daysGone / 365));
 }
 
+/** Where the council ordinance pace comes from. */
+export const COUNCIL_ORDINANCE_ESTIMATE = {
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "about one ordinance a week for a town council; no town's legislative volume has been read yet (research key local-council-legislative-volume)",
+  researchQuestionId: "local-council-legislative-volume",
+} as const;
+
 /**
  * Where a town council's ordinance count sits on the day a world opens: about
  * one ordinance a week since January 1, so a life that opens in the first
- * week of January meets ORD 1. PLACEHOLDER, pending
- * `local-council-legislative-volume`: no town's volume has been read.
+ * week of January meets ORD 1. ESTIMATED FROM AVERAGE (see
+ * `COUNCIL_ORDINANCE_ESTIMATE`), pending `local-council-legislative-volume`:
+ * no town's volume has been read.
  */
 export function councilOpeningNumber(startedAt: string): number {
   const date = new Date(`${startedAt.slice(0, 10)}T00:00:00Z`);
@@ -192,7 +202,7 @@ function schemeFor(
       firstNumberOf: FROM_ONE,
     };
   }
-  if (pack.packId === US_CONGRESS_PACK_ID) {
+  if (isCongressRulePack(pack.packId)) {
     return {
       kind: "congress",
       template: plainTemplate,

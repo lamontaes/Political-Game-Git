@@ -193,7 +193,7 @@ export function PlayerOffice() {
   );
   const primaryDossier = dossiers[fixture.scenePerson.personId];
   if (!primaryDossier) {
-    throw new Error("Run B fixture is missing its primary dossier.");
+    throw new Error("The office scene is missing its primary dossier.");
   }
 
   useEffect(() => {
@@ -351,7 +351,7 @@ export function PlayerOffice() {
     setWorld(delegateRunDMeetingBrief(world, fixture));
     planningDispatch({
       type: "set-feedback",
-      message: `${world.people[fixture.dLite.collinsPersonId]!.familyName} now owns the meeting brief and can work on it while you handle other commitments.`,
+      message: `${world.people[fixture.dLite.collinsPersonId]!.familyName} is now responsible for the meeting brief and can work on it while you handle other commitments.`,
     });
   }
 

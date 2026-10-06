@@ -1880,7 +1880,7 @@
         "title": "Cambridge municipal elections",
         "issuingAuthority": "City of Cambridge, Massachusetts",
         "url": "https://www.cambridgema.gov/departments/electioncommission/cambridgemunicipalelections",
-        "claimSupported": "A charter adopted by the voters in 2025 under which nine City Councillors are elected at large for two-year terms by proportional representation and then elect one of themselves as Mayor."
+        "claimSupported": "A charter adopted by the voters in 2025 under which nine City Council members are elected at large for two-year terms by proportional representation and then elect one of themselves as Mayor."
       },
       {
         "key": "cambridge-clerk",
@@ -1906,10 +1906,10 @@
         "districtSeats": null,
         "atLargeSeats": 9,
         "wardSeats": null,
-        "note": "Nine Councillors elected at large by proportional representation."
+        "note": "Nine Council members elected at large by proportional representation."
       },
       "presidingOffice": "Mayor",
-      "executiveSelection": "After taking office the nine Councillors elect one of themselves as Mayor.",
+      "executiveSelection": "After taking office the nine Council members elect one of themselves as Mayor.",
       "sourceKey": "cambridge-elections"
     },
     "separation": "EXECUTIVE_AND_LEGISLATIVE_FUSED_IN_BODY",
@@ -1928,7 +1928,7 @@
     "partisanship": null,
     "terms": [
       {
-        "seatClass": "councillor",
+        "seatClass": "councilmember",
         "years": 2,
         "sourceKey": "cambridge-elections"
       }
