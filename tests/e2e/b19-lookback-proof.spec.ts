@@ -149,6 +149,7 @@ test(`B19 look-back death and save in ${PLACES.displayName} (${state.name}), see
       sentence: row.sentence,
     })),
     deathId: death!.id,
+    deathEventId: death!.eventId,
     deathAt: death!.diedAt,
     deathCause: death!.causeKey,
     deathSaveBytes: serializeWorld(reopened).length,
