@@ -342,6 +342,36 @@ export const QUALIFICATION_TRANSCRIPTIONS: readonly ReviewedTranscription[] = [
   {
     batch: "31C",
     stateUsps: "NV",
+    officeFamily: "GOVERNOR",
+    field: "MINIMUM_AGE",
+    artifactId: "nv-constitution-governor",
+    locator: "Nev. Const. art. 5, § 3",
+    excerpt:
+      "at the time of such election, has not attained the age of twenty five years",
+  },
+  {
+    batch: "31C",
+    stateUsps: "NV",
+    officeFamily: "GOVERNOR",
+    field: "STATE_RESIDENCE",
+    artifactId: "nv-constitution-governor",
+    locator: "Nev. Const. art. 5, § 3",
+    excerpt:
+      "citizen resident of this State for two years next preceding the election",
+  },
+  {
+    batch: "31C",
+    stateUsps: "NV",
+    officeFamily: "GOVERNOR",
+    field: "TERM_LIMIT",
+    artifactId: "nv-constitution-governor",
+    locator: "Nev. Const. art. 5, § 3",
+    excerpt:
+      "nor shall any person be elected to the Office of Governor more than twice; and no person who has held the Office of Governor, or acted as Governor for more than two years of a term to which some other person was elected Governor shall be elected to the Office of Governor more than once.",
+  },
+  {
+    batch: "31C",
+    stateUsps: "NV",
     officeFamily: "ATTORNEY_GENERAL",
     field: "MINIMUM_AGE",
     artifactId: "nv-nrs-228",
