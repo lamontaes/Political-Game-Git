@@ -332,7 +332,7 @@ export function validateMunicipalGovernanceCorpus(
       findings.push({
         severity: "error",
         code: "municipal/current-partisanship-cardinality",
-        message: `${id} has ${currentPartisanship.length} current partisanship rows; at most one is permitted. Unknown partisanship does not invalidate other municipal facts.`,
+        message: `${id} has ${currentPartisanship.length} current partisanship rows; at most one is permitted. An unestablished partisanship field does not invalidate other municipal facts.`,
         recordId: id,
       });
     }

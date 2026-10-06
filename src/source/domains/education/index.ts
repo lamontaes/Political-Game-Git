@@ -227,7 +227,7 @@ export function compileEducation(
               D: "Out of business",
               G: "Child campus",
             } as Record<string, string>
-          )[d.ACT!] ?? "Unknown status",
+          )[d.ACT!] ?? `Unrecognized status code ${d.ACT}`,
         statusEffectiveDate: null,
         foundingDate: null,
         capabilities: caps,

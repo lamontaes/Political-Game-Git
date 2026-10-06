@@ -149,7 +149,7 @@ export function normalizeEmployment(
       defects.push({
         kind: "unparsable-record",
         line: row.line,
-        message: `Line ${row.line}: "${estimateBasisRaw}" is not a known estimate basis; the sample/universe distinction must be explicit.`,
+        message: `Line ${row.line}: "${estimateBasisRaw}" is not a supported estimate basis; the sample/universe distinction must be explicit.`,
       });
       continue;
     }
