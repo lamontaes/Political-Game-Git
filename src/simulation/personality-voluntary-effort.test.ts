@@ -9,7 +9,10 @@ import { createMindProvenance, recordPersonalityTendency } from "./mind";
 import { ensurePeopleTraitCatalog } from "./people-traits";
 import { traitDefinitionFromPack, type RegisteredTrait } from "./trait-packs";
 import { traitRegistryFor } from "./trait-registry";
-import { decideAnotherTerm } from "./careers/another-term";
+import {
+  decideAnotherTerm,
+  lifeWeighsAgainstOffice,
+} from "./careers/another-term";
 import { drawRandomPlace } from "../../tests/support/random-place";
 import type { EntityId, World } from "./types";
 import {
@@ -119,6 +122,33 @@ describe("voluntary effort in career choices", () => {
       decisionType: "election.consider-another-term",
       traitsPrepared: true,
     } as const;
+    const lifeConsiderations = (personId: EntityId) =>
+      lifeWeighsAgainstOffice(withTraitDefinition, {
+        personId,
+        keyPrefix: "comparison",
+        onDate: base.currentDate,
+        termEnds: base.currentDate,
+        optionKey: "step-down",
+      }).map(
+        ({
+          optionKey,
+          sourceType,
+          direction,
+          importance,
+          confidence,
+          explanation,
+        }) => ({
+          optionKey,
+          sourceType,
+          direction,
+          importance,
+          confidence,
+          explanation,
+        }),
+      );
+    expect(lifeConsiderations(highPersonId)).toEqual(
+      lifeConsiderations(lowPersonId),
+    );
     const high = decideAnotherTerm(highWorld, {
       ...decision,
       personId: highPersonId,
@@ -136,6 +166,29 @@ describe("voluntary effort in career choices", () => {
     );
     const lowReason = lowTrace.context.considerations.find((row) =>
       row.stableKey.includes(TRAIT_KEY),
+    );
+    const nonTraitConsiderations = (trace: typeof highTrace) =>
+      trace.context.considerations
+        .filter((row) => !row.stableKey.includes(TRAIT_KEY))
+        .map(
+          ({
+            optionKey,
+            sourceType,
+            direction,
+            importance,
+            confidence,
+            explanation,
+          }) => ({
+            optionKey,
+            sourceType,
+            direction,
+            importance,
+            confidence,
+            explanation,
+          }),
+        );
+    expect(nonTraitConsiderations(highTrace)).toEqual(
+      nonTraitConsiderations(lowTrace),
     );
 
     expect(highTrace.selectedOptionKey).toBe("seek");
