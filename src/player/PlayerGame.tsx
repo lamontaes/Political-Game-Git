@@ -94,6 +94,8 @@ import { PlaceConditionsPanel } from "./PlaceConditions";
 import { MoneyLawsPanel } from "./MoneyLaws";
 import { PoliticsTabs, type PoliticsTab } from "./politics/PoliticsTabs";
 import { issuesPlaceForSelection } from "../presentation/politics-government";
+import { projectBudgetEconomy } from "../presentation/budget-economy";
+import { resolveActiveMemberSeat } from "../presentation/legislative-member-seat";
 import {
   ISSUE_WITHHELD,
   politicsIssueAccess,
@@ -2376,6 +2378,7 @@ function PlayingScreen({
     shell,
     dispatch,
     capabilities,
+    holdsOffice,
     assignment,
     floorNote,
     onWorldChange,
@@ -3028,6 +3031,7 @@ function renderWorkspace({
   shell,
   dispatch,
   capabilities,
+  holdsOffice,
   assignment,
   floorNote,
   onWorldChange,
@@ -3051,6 +3055,7 @@ function renderWorkspace({
   readonly shell: ShellState;
   readonly dispatch: (action: ShellAction) => void;
   readonly capabilities: ReturnType<typeof resolvePlayerCapabilities>;
+  readonly holdsOffice: boolean;
   readonly assignment: LegislativeAssignment | null;
   readonly floorNote: string | null;
   readonly onWorldChange: (world: World) => void;
@@ -3267,20 +3272,34 @@ function renderWorkspace({
         dispatch({ type: "go-to-subroute", surface: "government" });
       else if (tab === "parties")
         dispatch({ type: "go-to-subroute", surface: "parties" });
-      else dispatch({ type: "go-to-subroute", surface: "politics" });
+      else
+        dispatch({
+          type: "go-to-subroute",
+          surface: hasBudget ? "politics" : access.transit ? "transit" : "tax",
+        });
     };
     /*
      * Transit and tax configuration are an office's tools: offered only to a
      * life whose office can use them or that has such a record to follow.
      */
-    const access =
-      active === "issues"
-        ? politicsIssueAccess(session.world, session.personId)
-        : null;
+    const access = politicsIssueAccess(session.world, session.personId);
+    const issuesPlace = issuesPlaceForSelection(
+      session.world,
+      session.personId,
+      {
+        place: shell.preferences.politicsPlace,
+        scope: shell.preferences.governmentScope,
+      },
+    );
+    const hasBudget =
+      issuesPlace.jurisdictionId !== null &&
+      projectBudgetEconomy(session.world, issuesPlace.jurisdictionId)
+        .fiscalAvailability.status === "available";
+    const hasIssues = hasBudget || access.transit || access.tax;
     const subItems =
       active === "issues"
         ? [
-            { key: "budget", label: "Budget and constitution" },
+            ...(hasBudget ? [{ key: "budget", label: "Budget" }] : []),
             { key: "conditions", label: "Conditions" },
             ...(access?.transit || section === "transit"
               ? [{ key: "transit", label: "Transit" }]
@@ -3300,9 +3319,22 @@ function renderWorkspace({
       <PoliticsTabs
         active={active}
         onSelect={goTo}
-        hidden={
-          capabilities.formativeYears || readOnly ? ["office", "campaigns"] : []
-        }
+        hidden={[
+          ...(!holdsOffice ||
+          readOnly ||
+          (capabilities.legislation &&
+            resolveActiveMemberSeat(session.world, session.personId).kind !==
+              "seated")
+            ? ["office" as const]
+            : []),
+          ...(capabilities.formativeYears || readOnly
+            ? ["campaigns" as const]
+            : []),
+          ...(projectPartyChapters(session.world, session.personId).length === 0
+            ? ["parties" as const]
+            : []),
+          ...(!hasIssues ? ["issues" as const] : []),
+        ]}
         subItems={subItems.map((item) => ({
           ...item,
           current: item.key === section,
