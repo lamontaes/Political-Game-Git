@@ -249,13 +249,13 @@ describe("migration scaffold", () => {
         ],
       },
     });
-    // Four points above the nation: 20 percent more likely to leave.
+    // The town's recorded unemployment is compared directly with the nation.
     expect(
       townJobsPush(withTownMonth(nation.unemploymentPct + 4), town),
-    ).toBeCloseTo(1.2);
+    ).toBeCloseTo(8.2 / 4.2);
     expect(
       townJobsPush(withTownMonth(nation.unemploymentPct - 2), town),
-    ).toBeCloseTo(0.9);
+    ).toBeCloseTo(2.2 / 4.2);
   });
 
   it("an unusually bad quarter of crime in town pushes people out", () => {
@@ -283,9 +283,9 @@ describe("migration scaffold", () => {
           immediateReaction: null,
         },
       });
-    // About 2.5 assaults and robberies are the usual quarter; 10 is 7.5 more.
-    expect(townCrimePush(world, town)).toBeGreaterThan(1.3);
-    expect(townCrimePush(world, town)).toBeLessThan(1.45);
+    // Ten reports across the 91-day review contribute their recorded daily
+    // share instead of an invented adjustment for each report.
+    expect(townCrimePush(world, town)).toBeCloseTo(1 + 10 / 91);
   });
 
   it("reading moves and waves writes nothing", () => {
