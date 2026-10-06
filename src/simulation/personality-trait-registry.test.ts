@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { loadedTraitRegistry } from "./trait-registry";
 
 import {
   PERSONALITY_TRAIT_READERS,
@@ -72,7 +73,28 @@ describe("the one personality trait registry", () => {
   it("names real behavior readers and makes every other trait explicit debt", () => {
     expect(traitsWithoutReaderOrDebt()).toEqual([]);
     expect(PERSONALITY_TRAIT_READERS).toHaveLength(20);
-    expect(NOT_YET_CONNECTED_TRAITS).toHaveLength(77);
+    const effectReaders = loadedTraitRegistry().report.packs.flatMap(
+      ({ consumedBy }) =>
+        Object.entries(consumedBy)
+          .filter(([, decisions]) => decisions.length > 0)
+          .map(([trait]) => trait),
+    );
+    const knownTraits = new Set(
+      PERSONALITY_TRAIT_REGISTRY.map(({ qualifiedKey }) => qualifiedKey),
+    );
+    const connected = new Set(
+      [
+        ...PERSONALITY_TRAIT_READERS.map(({ trait }) => trait),
+        ...effectReaders,
+      ].filter((trait) => knownTraits.has(trait)),
+    );
+    expect(new Set([...NOT_YET_CONNECTED_TRAITS, ...connected]).size).toBe(
+      PERSONALITY_TRAIT_REGISTRY.length,
+    );
+    expect(connected.has("personality-v1:facet-proud")).toBe(true);
+    expect(NOT_YET_CONNECTED_TRAITS).not.toContain(
+      "personality-v1:facet-proud",
+    );
     expect(
       new Set(PERSONALITY_TRAIT_READERS.map(({ trait }) => trait)).size,
     ).toBe(PERSONALITY_TRAIT_READERS.length);
