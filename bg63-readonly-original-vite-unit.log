@@ -1,0 +1,16 @@
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ✓ src/player/ScenePersonSelection.test.tsx > the rendered scene recipe selection producer > does not render floating nameplates in any place scene 6ms
+ ✓ src/player/ScenePersonSelection.test.tsx > the rendered scene recipe selection producer > scene-person-recorded-person passes the exact drawn recipe and colors 27ms
+ ✓ src/player/ScenePersonSelection.test.tsx > the rendered scene recipe selection producer > scene-name-recorded-person passes the exact drawn recipe and colors 2ms
+ ✓ src/player/ScenePersonSelection.test.tsx > the rendered scene recipe selection producer > old/modular scene art passes no invented recipe 2ms
+ ✓ src/player/ScenePersonSelection.test.tsx > the rendered scene recipe selection producer > the saved place click closure passes the very same recipe the figure binds 77ms
+ ✓ src/player/ScenePersonSelection.test.tsx > the rendered scene recipe selection producer > SceneBackdrop forwards the callback unchanged to the place layer 2ms
+ ✓ src/player/ScenePersonSelection.test.tsx > the rendered scene recipe selection producer > a legacy one-argument callback still receives the actual selected person 2ms
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  13:01:34
+   Duration  71.01s (transform 54.44s, setup 44ms, import 70.47s, tests 122ms, environment 1ms)
+
