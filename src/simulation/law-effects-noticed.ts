@@ -29,7 +29,7 @@ export const LAW_EFFECTS_NOTICED_VERSION = "law-effects-noticed/v1";
 const LOOK_BACK_DAYS = 35;
 
 /** Pay periods in a year, read from the flow's cadence. */
-function periodsPerYear(cadenceKind: string): number | null {
+export function periodsPerYear(cadenceKind: string): number | null {
   const match = /(semimonthly|biweekly|weekly|monthly)/.exec(cadenceKind);
   if (!match) return null;
   return { weekly: 52, biweekly: 26, semimonthly: 24, monthly: 12 }[
@@ -76,8 +76,18 @@ export function noticeLawPayChanges(world: World, since: IsoDate): World {
       row.supersedesTermsId,
     );
     const periods = periodsPerYear(row.cadenceKind);
-    if (!before || periods === null) continue;
-    const change = row.amount.minorUnits - before.amount.minorUnits;
+    const beforePeriods = before ? periodsPerYear(before.cadenceKind) : null;
+    if (
+      !before ||
+      periods === null ||
+      beforePeriods === null ||
+      before.amount.currency !== row.amount.currency
+    )
+      continue;
+    // Compare annual amounts: changing pay frequency alone is not a raise.
+    const change =
+      row.amount.minorUnits * periods -
+      before.amount.minorUnits * beforePeriods;
     if (change === 0) continue;
     next = recordLawExposure(next, {
       stableKey,
@@ -85,10 +95,7 @@ export function noticeLawPayChanges(world: World, since: IsoDate): World {
       measureId,
       channel: "paycheck",
       direction: change > 0 ? "gain" : "cost",
-      amount: money(
-        Math.round((Math.abs(change) * periods) / 12),
-        row.amount.currency,
-      ),
+      amount: money(Math.round(Math.abs(change) / 12), row.amount.currency),
       cadence: "monthly",
       sourceRecordId: row.id,
     });

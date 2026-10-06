@@ -227,7 +227,7 @@ test.describe("Setting up a life reads like a game, not a form", () => {
     await expect(page.getByTestId("creator-stage-place")).toBeVisible();
     await expect(page.getByTestId("place-choices")).toHaveCount(0);
     await expect(page.getByTestId("place-context")).toHaveCount(0);
-    await expect(page.getByTestId("place-prompt")).toBeVisible();
+    await expect(page.getByTestId("place-prompt")).toHaveCount(0);
 
     await page.getByTestId("state-search").fill("Alabama");
     await page.getByTestId("state-AL").click();

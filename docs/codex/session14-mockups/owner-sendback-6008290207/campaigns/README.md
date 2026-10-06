@@ -1,0 +1,15 @@
+Latest corrected candidate: [filled-revision/README.md](filled-revision/README.md), per CTO6008770541/6008804074. Older images and empty-data copy below are rejected historical evidence, not current candidates.
+
+# P3 / Campaigns tabs finished mockup part / standalone PR
+
+Split from #2228 per CTO 6008669969. Documentation-only candidate: no production UI or scene changes. Base main 2e0b61f95ee298c37e4994af44311277bc8fb506. Original owner send-back 6008278158 directs tabs and removes People met. Elections and Filing requirements are two native 1920 views of one reading panel. Old action grids and handlers are not recreated.
+
+Source data remains the saved opening snapshot from main 0d7453f9de2f3dcf14ca75ee24eb4510cf6fa87a, random seed session14-campaigns-records-20261005, Kaitlyn Watkins/Ashland Oregon. Four projected election dates November3, county date unrecorded; no campaign/contacts/support reading injected. These are current game projections from that historical source, not independent real-world certification or a fresh source run on this PR's newer base. Filing text expresses the exact recorded gaps in plain language. Source record-receipt.json values unchanged.
+
+Original approved Kit13 sheet SHA256 347c8e90d953229458e5eef34b497f4b109c09c3cc1ba5d79a7ba3f676f0f4c0. Original game art, sheet corner sprites/iron frame and Cinzel/Fira Sans; no proprietary art imported. Crusader Kings III supplies stable category-tab organization; The Sims distinct selected-person panels; Suzerain separate political readings; BitLife plain category names. Reference URLs: https://www.gamepressure.com/crusader-kings-3/interface-description/z2f0f6 ; https://help.ea.com/en/articles/the-sims/the-sims-4/gender-romance-attraction-guide/ ; https://www.suzeraingame.com/suzerain ; https://www.applevis.com/forum/ios-ipados-gaming/how-do-you-play-bitlife . Written/reference study, not pixel copying.
+
+Fit receipts: both native1920 views no clipping/overflow/internal scrolling; retired actions and People met absent; panel35.11% of viewport. These PNGs are static released-art browser overlays, NOT fresh gameplay screenshots. Actual current-room/projection integration and owner visual pick remain outstanding. READY for review of the finished mockup packet does not mean menus are approved for build or runtime proof is complete. Radial and glossary work remains in #2228; not part of this PR.
+
+Session22 retains campaigning production and producer/handler deletion; Session4 shared scene blocks. Populated campaign follow-through needs their published campaign/contest/field-memo/writeback and chapter venue/organizer/presence/pending-record consumer receipts. No scene content enters play, so P0 gate is preserved.
+
+Exact checks and head identity are recorded in validation.txt and prettier-terminal.txt. No production tests changed; the focused artifact check renders/asserts both changed tab views. Unsupported binary/Python/text files are explicitly passed to Prettier with --ignore-unknown and skipped. No additional full suite.

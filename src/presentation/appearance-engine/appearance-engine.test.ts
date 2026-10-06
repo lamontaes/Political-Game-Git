@@ -709,3 +709,10 @@ describe("the people engine in the game", () => {
     expect(clipped).toEqual([]);
   }, 120_000);
 });
+
+describe("resource currency startup", () => {
+  it("creates a validated money amount after the appearance suite initializes", async () => {
+    const { money } = await import("../../simulation/resources");
+    expect(money(125, "USD")).toEqual({ minorUnits: 125, currency: "USD" });
+  });
+});

@@ -13749,5 +13749,23 @@
         }
       }
     }
+  },
+  "slotKindsByPose": {
+    "standing": ["stand"],
+    "seated": ["sit"],
+    "arms-folded": ["stand"],
+    "explaining": ["stand"],
+    "hand-on-hip": ["stand"],
+    "podium": ["podium"],
+    "seated-leaning": ["sit"],
+    "seated-legs-crossed": ["sit"],
+    "seated-reading": ["sit"],
+    "seated-writing": ["sit"],
+    "seated-phone": ["sit"],
+    "seated-hands-folded": ["sit"],
+    "seated-listening": ["sit"],
+    "seated-relaxed": ["sit"],
+    "hands-in-pockets": ["stand"],
+    "seated-ankle-on-knee": ["sit"]
   }
 }

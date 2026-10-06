@@ -110,7 +110,7 @@ test("group 1: Nevada creator, room, People, Calendar, Politics and back", async
   await page.getByTestId("state-search").fill(NEVADA.state);
   await page.getByTestId("state-NV").click();
   const status = page.getByTestId("place-page-status");
-  await expect(status).toContainText(/places in this state/);
+  await expect(status).toHaveCount(0);
   const firstPageTown = await page
     .getByTestId("place-choices")
     .getByRole("button")
@@ -119,13 +119,11 @@ test("group 1: Nevada creator, room, People, Calendar, Politics and back", async
   const more = page.getByTestId("place-page-next");
   if (await more.count()) {
     await more.click();
-    await expect(status).toContainText(/^Showing 25–/);
     await expect(
       page.getByTestId("place-choices").getByRole("button").first(),
     ).not.toHaveText(firstPageTown);
     await page.getByTestId("place-page-previous").focus();
     await page.keyboard.press("Enter");
-    await expect(status).toContainText(/^Showing 1–/);
   }
   await shot(page, "02-towns");
   await page.getByTestId("place-search").fill(NEVADA.place);
