@@ -60,6 +60,7 @@ import { placeReferencePopulation } from "../simulation/nationwide-world/place-p
 import { SeededRng } from "../simulation/rng";
 import type { LawEffectStampedRecord } from "../simulation/law-effect-stamp";
 import type { EntityId, IsoDate, World } from "../simulation/types";
+import { lawExposuresOf } from "../simulation/law-exposure";
 import { LEGISLATIVE_TERM_LIMIT_QUESTION } from "../simulation/nationwide-world/state-legislative-term-limits";
 import { applyStateLegislatureTurnover } from "../simulation/nationwide-world/state-legislature-turnover";
 import { observerSetup, openObserverWorld } from "./observer-world";
@@ -305,6 +306,30 @@ describe("an independent ward commission law", { timeout: 600_000 }, () => {
           appliedAt: world.currentDate,
         }),
       ]);
+      // Each member the saved map pairs with another in one district carries
+      // a recorded exposure to the commission law; no one else does.
+      const pairedIds = (
+        drawn.tags
+          .find((tag) => tag.startsWith("paired:"))!
+          .slice("paired:".length)
+          .split(",") as string[]
+      ).filter((id) => id.length > 0);
+      const exposed = Object.keys(world.people).filter((id) =>
+        lawExposuresOf(world, id as EntityId).some(
+          (exposure) => exposure.sourceRecordId === drawn.id,
+        ),
+      );
+      expect(exposed.sort()).toEqual([...pairedIds].sort());
+      for (const id of exposed)
+        expect(
+          lawExposuresOf(world, id as EntityId).find(
+            (exposure) => exposure.sourceRecordId === drawn.id,
+          ),
+        ).toMatchObject({
+          measureId: commissionLaw.measureId,
+          channel: "election-rule",
+          direction: "none",
+        });
       expect(drawn.summary).toMatch(
         /drawn by an independent commission, the independent district commission law took effect/,
       );
