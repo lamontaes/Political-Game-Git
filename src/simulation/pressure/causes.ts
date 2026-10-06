@@ -17,11 +17,11 @@ import { angerCausesInPeriod } from "./anger";
 import type { PressureContribution } from "./contract";
 
 /**
- * BLANKET: how much one declared hazard episode adds to the pressure to leave
- * its state, and to fear there, by magnitude. Not researched; filed as
+ * ESTIMATED FROM AVERAGE: how much one declared hazard episode adds to the pressure to leave
+ * its state, and to fear there, by magnitude. Filed as
  * `state-to-state-moves-what-pushes-and-pulls`.
  */
-export const BLANKET_HAZARD_PRESSURE: Readonly<
+export const HAZARD_PRESSURE_ESTIMATE: Readonly<
   Record<HazardMagnitude, number>
 > = {
   minor: 0.02,
@@ -31,20 +31,20 @@ export const BLANKET_HAZARD_PRESSURE: Readonly<
 };
 
 /**
- * BLANKET: pressure per unit of tax rate change. A one-point rise (0.01) adds
+ * ESTIMATED FROM AVERAGE: pressure per unit of tax rate change. A one-point rise (0.01) adds
  * 0.05 to the pressure to leave; a one-point cut adds 0.05 to the pull to
- * arrive. Not researched.
+ * arrive.
  */
-export const BLANKET_TAX_RATE_PRESSURE = 5;
+export const TAX_RATE_PRESSURE_ESTIMATE = 5;
 
 /**
- * BLANKET: how much one reported offense beyond a town's ordinary police log
+ * ESTIMATED FROM AVERAGE: how much one reported offense beyond a town's ordinary police log
  * adds to fear in its state. Violent offenses count double. Only fear: the
  * pressure to leave a town over crime is the migration lane's town push, and
- * counting it here too would count it twice. Not researched; filed as
+ * counting it here too would count it twice. Filed as
  * `what-crime-does-to-a-town-and-its-people`.
  */
-export const BLANKET_CRIME_PRESSURE: Readonly<Record<CrimeOffense, number>> = {
+export const CRIME_PRESSURE_ESTIMATE: Readonly<Record<CrimeOffense, number>> = {
   assault: 0.002,
   robbery: 0.002,
   burglary: 0.001,
@@ -52,10 +52,10 @@ export const BLANKET_CRIME_PRESSURE: Readonly<Record<CrimeOffense, number>> = {
 };
 
 /**
- * BLANKET: pressure per percentage point a state's recorded unemployment sits
- * above the nation's, to leave; below it, to arrive. Not researched.
+ * ESTIMATED FROM AVERAGE: pressure per percentage point a state's recorded unemployment sits
+ * above the nation's, to leave; below it, to arrive.
  */
-export const BLANKET_UNEMPLOYMENT_GAP_PRESSURE = 0.02;
+export const UNEMPLOYMENT_GAP_PRESSURE_ESTIMATE = 0.02;
 
 /** Contributions by state key for one quarter, `periodStart` to `periodEnd` inclusive. */
 export function causesInPeriod(
@@ -75,7 +75,7 @@ export function causesInPeriod(
     if (record.kind !== "hazard-episode" || !within(record.effectiveAt))
       continue;
     const stateKey = `US-${record.stateUsps}`;
-    const amount = BLANKET_HAZARD_PRESSURE[record.magnitude];
+    const amount = HAZARD_PRESSURE_ESTIMATE[record.magnitude];
     const causeKey = `hazard:${record.family}:${record.magnitude}`;
     add(stateKey, { causeKey, kind: "leave", amount, sourceId: record.id });
     add(stateKey, { causeKey, kind: "fear", amount, sourceId: record.id });
@@ -111,7 +111,7 @@ export function causesInPeriod(
     add(stateKey, {
       causeKey: `tax:${proposal.terms.seriesKey}`,
       kind: change > 0 ? "leave" : "arrive",
-      amount: Math.abs(change) * BLANKET_TAX_RATE_PRESSURE,
+      amount: Math.abs(change) * TAX_RATE_PRESSURE_ESTIMATE,
       sourceId: policy.id,
     });
   }
@@ -146,7 +146,7 @@ export function causesInPeriod(
       add(stateKey, {
         causeKey: `crime:${offense}`,
         kind: "fear",
-        amount: BLANKET_CRIME_PRESSURE[offense],
+        amount: CRIME_PRESSURE_ESTIMATE[offense],
         sourceId: event.id,
       });
     }
@@ -178,7 +178,7 @@ export function causesInPeriod(
     add(stateKey, {
       causeKey: "jobs:unemployment-gap",
       kind: gap > 0 ? "leave" : "arrive",
-      amount: Math.abs(gap) * BLANKET_UNEMPLOYMENT_GAP_PRESSURE,
+      amount: Math.abs(gap) * UNEMPLOYMENT_GAP_PRESSURE_ESTIMATE,
       sourceId: row.key as EntityId,
     });
   }

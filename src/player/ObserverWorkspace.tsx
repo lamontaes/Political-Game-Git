@@ -33,7 +33,6 @@ export function ObserverClock({
 
   return (
     <div className="pg-observer-clock" data-testid="observer-clock">
-      <span data-testid="observer-date">{proseDate(view.date)}</span>
       <button
         type="button"
         className="ui-action"
