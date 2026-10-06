@@ -8,6 +8,10 @@ import {
   judicialOfficeFollowUps,
   receiveJudicialOfficeWork,
 } from "../simulation/judicial-office-work";
+import {
+  currentOfficeWorkflowPreference,
+  judicialCaseHandlingSettings,
+} from "../simulation/office-workflow";
 import type { EntityId, World } from "../simulation/types";
 
 /** Pure feature-local Work adapter. UI-core owns its registration in PlayerGame. */
@@ -19,9 +23,16 @@ export function projectJudicialOffice(
     (o) => o.courtOrganizationId === courtOrganizationId,
   );
   if (!office) return null;
+  const preference = currentOfficeWorkflowPreference(
+    world,
+    office.principalId,
+    office.workRelationshipId,
+  );
   const assignments = judicialOfficeAssignments(world, courtOrganizationId);
   return {
     office,
+    preference,
+    judicialCaseHandling: judicialCaseHandlingSettings(preference),
     assignments: assignments.map((a) => ({
       ...a,
       participants: a.source.participants.map((p) => ({
