@@ -16,8 +16,9 @@ import {
   municipalGovernments,
 } from "../municipal-government";
 import {
+  canonicalPublicGovernmentAccountKey,
+  canonicalSavedPublicGovernmentAccountKey,
   assertPublicGovernmentIdentity,
-  publicGovernmentOrganizationKey,
 } from "../public-government-identity";
 import { ensureLocalGovernmentOrganization } from "../nationwide-world/local-governments";
 import { ensureStateJurisdictionForKey } from "../nationwide-world/state-executives";
@@ -171,7 +172,10 @@ export function selectLocalOpeningAccount(
   // evidence reader below decides whether its actual ownership is usable.
   for (const organization of world.history.organizations) {
     let identity: PublicGovernmentIdentity | null = null;
-    if (organization.stableKey === publicGovernmentOrganizationKey(legacy))
+    if (
+      canonicalSavedPublicGovernmentAccountKey(organization.stableKey) ===
+      canonicalPublicGovernmentAccountKey(legacy)
+    )
       identity = legacy;
     else if (organization.stableKey.startsWith(prefix)) {
       let governmentKey: string;

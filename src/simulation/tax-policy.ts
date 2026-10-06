@@ -20,15 +20,9 @@ import {
 import { createOrganization } from "./life";
 import { rulePackById } from "./legislature-rule-packs";
 import {
-  lifePlaceByKey,
   stateJurisdictionForKey,
   stateKeyForJurisdiction,
 } from "./life-places";
-import {
-  governmentUnit,
-  governmentUnitJurisdictionId,
-} from "./government-units";
-import { municipalGovernmentByKey } from "./municipal-government";
 import { chiefExecutiveJurisdiction } from "./nationwide-world/government-jurisdiction";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import { PUBLIC_CASH_OPENING_PROFILE_VERSION } from "./world-setup/types";
@@ -38,6 +32,8 @@ import {
   stateTaxServiceStartingConditions,
 } from "./world-setup/state-tax-service-profiles";
 import {
+  canonicalPublicGovernmentAccountKey,
+  canonicalSavedPublicGovernmentAccountKey,
   assertPublicGovernmentIdentity,
   publicGovernmentIdentityForRecord,
   publicGovernmentOrganizationKey,
@@ -112,7 +108,6 @@ const PUBLIC_ACCOUNT_INDEX = new WeakMap<
     object,
     {
       byKey: Map<string, PublicAccountOrganization[]>;
-      byJurisdiction: Map<EntityId, PublicAccountOrganization[]>;
       order: Map<PublicAccountOrganization, number>;
     }
   >
@@ -124,7 +119,10 @@ function publicAccountCandidates(
   cutoff?: HistoricalCutoff,
 ) {
   const desired = accountGovernmentJurisdiction(world, identity.jurisdictionId);
-  const exactKey = publicGovernmentOrganizationKey(identity);
+  const exactKey = canonicalPublicGovernmentAccountKey({
+    ...identity,
+    jurisdictionId: desired,
+  });
   const organizations = world.history.organizations;
   let byWorld = PUBLIC_ACCOUNT_INDEX.get(organizations);
   if (!byWorld) {
@@ -133,56 +131,32 @@ function publicAccountCandidates(
   }
   let index = byWorld.get(world.jurisdictions);
   if (!index) {
-    index = { byKey: new Map(), byJurisdiction: new Map(), order: new Map() };
+    index = { byKey: new Map(), order: new Map() };
     for (const [position, organization] of organizations.entries()) {
       index.order.set(organization, position);
-      const keyed = index.byKey.get(organization.stableKey) ?? [];
+      const canonicalKey =
+        organization.stableKey.startsWith("public-government:") &&
+        !organization.stableKey.startsWith("public-government:local:")
+          ? canonicalPublicGovernmentAccountKey({
+              kind: "jurisdiction",
+              jurisdictionId: accountGovernmentJurisdiction(
+                world,
+                organization.stableKey.slice(
+                  "public-government:".length,
+                ) as EntityId,
+              ),
+            })
+          : canonicalSavedPublicGovernmentAccountKey(organization.stableKey);
+      if (!canonicalKey) continue;
+      const keyed = index.byKey.get(canonicalKey) ?? [];
       keyed.push(organization);
-      index.byKey.set(organization.stableKey, keyed);
-      let jurisdictionId: EntityId | null = null;
-      const localPrefix = "public-government:local:";
-      if (organization.stableKey.startsWith(localPrefix)) {
-        let governmentKey: string;
-        try {
-          governmentKey = decodeURIComponent(
-            organization.stableKey.slice(localPrefix.length),
-          );
-        } catch {
-          continue;
-        }
-        const unit = governmentUnit(governmentKey);
-        const municipal = unit ? null : municipalGovernmentByKey(governmentKey);
-        jurisdictionId =
-          unit?.functionalActive &&
-          (unit.unitType === "county" ||
-            unit.unitType === "municipality" ||
-            unit.unitType === "township")
-            ? governmentUnitJurisdictionId(unit)
-            : municipal?.placeGeoid
-              ? (lifePlaceByKey(municipal.placeGeoid)?.context.jurisdiction
-                  .id ?? null)
-              : null;
-      } else if (organization.stableKey.startsWith("public-government:")) {
-        jurisdictionId = organization.stableKey.slice(
-          "public-government:".length,
-        ) as EntityId;
-      }
-
-      if (jurisdictionId !== null) {
-        const key = accountGovernmentJurisdiction(world, jurisdictionId);
-        const rows = index.byJurisdiction.get(key) ?? [];
-        rows.push(organization);
-        index.byJurisdiction.set(key, rows);
-      }
+      index.byKey.set(canonicalKey, keyed);
     }
     byWorld.set(world.jurisdictions, index);
   }
-  const candidates = [
-    ...new Set([
-      ...(index.byKey.get(exactKey) ?? []),
-      ...(index.byJurisdiction.get(desired) ?? []),
-    ]),
-  ].sort((left, right) => index.order.get(left)! - index.order.get(right)!);
+  const candidates = [...new Set([...(index.byKey.get(exactKey) ?? [])])].sort(
+    (left, right) => index.order.get(left)! - index.order.get(right)!,
+  );
   if (!cutoff) return candidates;
   // Retain the canonical cutoff validation and availability reader.
   return organizationsAt(world, cutoff, candidates);
@@ -293,7 +267,7 @@ export function ensurePublicGovernmentAccount(
     );
   assertPublicGovernmentIdentity(world, identity);
   const jurisdiction = world.jurisdictions[identity.jurisdictionId]!;
-  const key = publicGovernmentOrganizationKey(identity);
+  const key = canonicalPublicGovernmentAccountKey(identity);
   let next = world;
   const candidates = publicAccountCandidates(next, identity);
   if (candidates.length > 1)
