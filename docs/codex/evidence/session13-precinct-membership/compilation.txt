@@ -1,0 +1,57 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run build -- python scripts/source/compile-place-precinct-population.py
+
+[storage-guard] OVERRIDDEN for build: CTO6009033958 verified cloud-only exemption; b03 Census precinct compile with explicit absent-member coverage; no deletion or global policy change
+AL: 593 place joins, 1837 populated VTDs; published-vtd-block-assignments
+AK: 355 place joins, 448 populated VTDs; published-vtd-block-assignments
+AZ: 467 place joins, 1530 populated VTDs; published-vtd-block-assignments
+AR: 626 place joins, 2726 populated VTDs; published-vtd-block-assignments
+CA: 0 place joins, None populated VTDs; vtd-member-not-published
+CO: 482 place joins, 3099 populated VTDs; published-vtd-block-assignments
+CT: 215 place joins, 764 populated VTDs; published-vtd-block-assignments
+DE: 79 place joins, 411 populated VTDs; published-vtd-block-assignments
+DC: 1 place joins, 143 populated VTDs; published-vtd-block-assignments
+FL: 955 place joins, 6880 populated VTDs; published-vtd-block-assignments
+GA: 675 place joins, 2685 populated VTDs; published-vtd-block-assignments
+HI: 0 place joins, None populated VTDs; vtd-member-not-published
+ID: 237 place joins, 931 populated VTDs; published-vtd-block-assignments
+IL: 1466 place joins, 10081 populated VTDs; published-vtd-block-assignments
+IN: 696 place joins, 5111 populated VTDs; published-vtd-block-assignments
+IA: 1028 place joins, 2522 populated VTDs; published-vtd-block-assignments
+KS: 740 place joins, 3678 populated VTDs; published-vtd-block-assignments
+KY: 555 place joins, 3647 populated VTDs; published-vtd-block-assignments
+LA: 488 place joins, 3531 populated VTDs; published-vtd-block-assignments
+ME: 69 place joins, 198 populated VTDs; published-vtd-block-assignments
+MD: 536 place joins, 2002 populated VTDs; published-vtd-block-assignments
+MA: 248 place joins, 2151 populated VTDs; published-vtd-block-assignments
+MI: 745 place joins, 4758 populated VTDs; published-vtd-block-assignments
+MN: 913 place joins, 4081 populated VTDs; published-vtd-block-assignments
+MS: 428 place joins, 1829 populated VTDs; published-vtd-block-assignments
+MO: 1082 place joins, 4385 populated VTDs; published-vtd-block-assignments
+MT: 497 place joins, 665 populated VTDs; published-vtd-block-assignments
+NE: 590 place joins, 1400 populated VTDs; published-vtd-block-assignments
+NV: 133 place joins, 1812 populated VTDs; published-vtd-block-assignments
+NH: 100 place joins, 311 populated VTDs; published-vtd-block-assignments
+NJ: 701 place joins, 6354 populated VTDs; published-vtd-block-assignments
+NM: 527 place joins, 1976 populated VTDs; published-vtd-block-assignments
+NY: 1293 place joins, 13978 populated VTDs; published-vtd-block-assignments
+NC: 776 place joins, 2666 populated VTDs; published-vtd-block-assignments
+ND: 406 place joins, 421 populated VTDs; published-vtd-block-assignments
+OH: 1265 place joins, 8933 populated VTDs; published-vtd-block-assignments
+OK: 843 place joins, 1936 populated VTDs; published-vtd-block-assignments
+OR: 0 place joins, None populated VTDs; vtd-member-not-published
+PA: 1888 place joins, 9176 populated VTDs; published-vtd-block-assignments
+RI: 36 place joins, 422 populated VTDs; published-vtd-block-assignments
+SC: 475 place joins, 2266 populated VTDs; published-vtd-block-assignments
+SD: 486 place joins, 784 populated VTDs; published-vtd-block-assignments
+TN: 504 place joins, 1961 populated VTDs; published-vtd-block-assignments
+TX: 1860 place joins, 8771 populated VTDs; published-vtd-block-assignments
+UT: 333 place joins, 2602 populated VTDs; published-vtd-block-assignments
+VT: 180 place joins, 283 populated VTDs; published-vtd-block-assignments
+VA: 672 place joins, 2464 populated VTDs; published-vtd-block-assignments
+WA: 639 place joins, 7337 populated VTDs; published-vtd-block-assignments
+WV: 276 place joins, 1050 populated VTDs; published-vtd-block-assignments
+WI: 804 place joins, 6744 populated VTDs; published-vtd-block-assignments
+WY: 205 place joins, 508 populated VTDs; published-vtd-block-assignments
+PR: 292 place joins, 1370 populated VTDs; published-vtd-block-assignments
