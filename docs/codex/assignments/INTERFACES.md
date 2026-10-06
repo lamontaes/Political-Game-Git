@@ -140,6 +140,17 @@ export const LAW_CONSEQUENCE_MODULE_REGISTRATIONS: readonly AnyLawConsequenceKin
   [...civilFamilyServiceRegistrations];
 ```
 
+The manifest is generated from every folder under
+`src/simulation/law-consequences/modules/` that contains `index.ts`. Module
+owners add their own module folder and run
+`npm run generate:law-consequence-modules` in that same PR. The generated
+`LAW_CONSEQUENCE_MODULE_KEYS` list and static imports are checked by
+`npm run check:law-consequence-modules`; `npm run typecheck` runs that check as
+well. A folder without `index.ts`, stale manifest, or unlisted folder fails.
+Generator filesystem access stays under `scripts/law-consequence-modules/`,
+outside simulation runtime. Browser, Vitest, Node, profile, and source replay
+consume only the checked-in static TypeScript imports.
+
 In `apply`,
 call the canonical domain writer and pass the ID of the actual saved effect
 record to `recordLawExposure` with the affected person, canonical `measureId`,
@@ -202,3 +213,26 @@ links do not supply that evidence.
 ## Not verified
 
 Param types of `memberVoteConsiderations`; the single situation-row type; any campaign staff seam; line numbers inside open PRs (names only).
+
+### Public program capacity outturn receiver seam (Session 20)
+
+`src/simulation/public-program-capacity-outturn.ts` exports
+`PublicProgramCapacityOutturnReceiverRegistration` and
+`applyPublicProgramCapacityOutturnReceivers(before, after, commitment, installment, registrations)`.
+Each registration is `{ key, receive }`, with
+`receive(world: World, context: PublicProgramCapacityOutturnContext): World`.
+The immutable context carries the saved `outturn`, its linked saved
+`commitment`, `installment`, and `appropriation`, `eventDate` from the
+outturn's canonical event `occurredAt`, and nullable `sourceMeasureId` from
+the appropriation. The receiver is called only when `recordCapacityOutturn`
+actually appended a new saved outturn, at both canonical writer call sites,
+in checked-in manifest order. Receivers are pure deterministic reducers and
+must not use dice or write a competing public-program record. The saved
+outturn is passed through unchanged when `restoredUnits` is `0` or `null`;
+zero creates no downstream capacity delta, and `null` remains unknown.
+
+Register receivers by exporting
+`publicProgramCapacityOutturnReceivers` from the owning law-consequence
+module's `index.ts`. The generated static module manifest gathers them. Module
+folders must not import `governing/public-program`; use this standalone typed
+contract to avoid a runtime cycle.

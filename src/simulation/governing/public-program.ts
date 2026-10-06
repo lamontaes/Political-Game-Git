@@ -17,6 +17,8 @@ import { recordDailyGovernmentFiscalFlow } from "../government-fiscal-metrics";
 import { recordPaidTransitProgramService } from "./public-program-transit";
 import { scheduleResidentServiceRequests } from "../public-service-producer";
 import { reviewGoverningOutturns } from "./state-governing";
+import { PUBLIC_PROGRAM_CAPACITY_OUTTURN_RECEIVERS } from "../law-consequence-module-manifest";
+import { applyPublicProgramCapacityOutturnReceivers } from "../public-program-capacity-outturn";
 import {
   appropriationCommittedMinorUnits,
   appropriationPinnedPaymentsMinorUnits,
@@ -1134,8 +1136,17 @@ export function settleProgramInstallment(
       jurisdictionId: commitment.jurisdictionId,
       provenance: { kind: "simulated", sourceEntityIds: [installment.eventId] },
     });
-  else if (!reason && plan.purpose === "maintenance")
+  else if (!reason && plan.purpose === "maintenance") {
+    const beforeOutturn = next;
     next = recordCapacityOutturn(next, commitment, installment);
+    next = applyPublicProgramCapacityOutturnReceivers(
+      beforeOutturn,
+      next,
+      commitment,
+      installment,
+      PUBLIC_PROGRAM_CAPACITY_OUTTURN_RECEIVERS,
+    );
+  }
   next = closeWorkIfDone(next, commitment);
   if (installment.status === "posted")
     next = bindFederalClaimsForPaidStateInstallment(next, installment);
@@ -1392,7 +1403,14 @@ export function programDeliveryHandler(
     ).some((r) => r.installmentId === installment.id)
   )
     return resolved(world, "Already delivered.", null);
-  let next = recordCapacityOutturn(world, target.commitment, installment);
+  const recorded = recordCapacityOutturn(world, target.commitment, installment);
+  let next = applyPublicProgramCapacityOutturnReceivers(
+    world,
+    recorded,
+    target.commitment,
+    installment,
+    PUBLIC_PROGRAM_CAPACITY_OUTTURN_RECEIVERS,
+  );
   const outturn = programOutturns(
     next,
     target.commitment.programKey,
