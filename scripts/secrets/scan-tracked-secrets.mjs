@@ -1,4 +1,4 @@
-/* global console, process */
+/* global Buffer, console, process */
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";

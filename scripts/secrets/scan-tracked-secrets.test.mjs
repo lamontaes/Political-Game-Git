@@ -1,3 +1,4 @@
+import { Buffer } from "node:buffer";
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
@@ -6,7 +7,7 @@ import { scanTrackedEntries } from "./scan-tracked-secrets.mjs";
 test("scanner flags key-like values without echoing credential text", () => {
   const fakeCredential = ["gh", "p_", "A".repeat(32)].join("");
   const findings = scanTrackedEntries([
-    { path: "src/credential.ts", content: `token = \"${fakeCredential}\"` },
+    { path: "src/credential.ts", content: `token = "${fakeCredential}"` },
   ]);
 
   assert.deepEqual(findings, [
