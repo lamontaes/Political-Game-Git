@@ -154,14 +154,14 @@ export function projectContacts(
         })
           ? {
               kind: "ask-to-meet",
-              label: `Ask ${basis.name} to meet`,
+              label: "ask-to-meet",
               available: false,
               unavailableReason:
                 "Seeing an adult outside your family is something your parent or guardian arranges.",
             }
           : {
               kind: "ask-to-meet",
-              label: `Ask ${basis.name} to meet`,
+              label: "ask-to-meet",
               available: !outstanding,
               unavailableReason:
                 waiting ??
@@ -271,7 +271,7 @@ function romanticActions(
   const actions: ContactAction[] = [
     {
       kind: "ask-on-a-date",
-      label: `Ask ${name} out`,
+      label: "ask-on-a-date",
       available: !state.outstanding,
       unavailableReason:
         state.waiting ??

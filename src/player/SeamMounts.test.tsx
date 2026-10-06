@@ -15,7 +15,6 @@ import { projectDisclosure } from "../presentation/press-disclosure";
 import type { EntityId, World } from "../simulation";
 import { ChildhoodMomentPanel } from "./ChildhoodMomentPanel";
 import { availablePlayerConversations } from "../presentation/player-conversation";
-import { ContactDialog } from "./ContactDialog";
 import { ContactsPanel } from "./ContactsPanel";
 import { ConversationStarters, SceneConversation } from "./SceneConversation";
 import { PressSourceDesk } from "./PressSourceDesk";
@@ -154,17 +153,13 @@ describe("Getting in touch", () => {
     expect(html).not.toContain('data-testid="contacts-meeting-window"');
     expect(html).not.toContain("A meeting can be arranged");
     expect(html).not.toContain(`A day between ${view.earliestMeetingSpoken}`);
-    if (ask.available) {
-      expect(html).toContain(`data-testid="contact-ask-${first.personId}"`);
-      expect(html).toContain("<span>When?</span>");
-      expect(html).toContain(`min="${view.earliestMeetingOn}"`);
-      expect(html).toContain(`max="${view.latestMeetingOn}"`);
-    } else {
-      expect(html).toContain(
-        `data-testid="contact-ask-unavailable-${first.personId}"`,
-      );
-      expect(html).toContain(ask.unavailableReason!);
-    }
+    // The meeting question and its date picker are gone from the screen.
+    expect(ask).toBeTruthy();
+    expect(html).not.toContain(`data-testid="contact-ask-${first.personId}"`);
+    expect(html).not.toContain("<span>When?</span>");
+    expect(html).not.toContain(
+      `data-testid="contact-ask-unavailable-${first.personId}"`,
+    );
   });
 
   it("carries no design commentary, and gives each part of a row its own line", () => {
@@ -184,29 +179,6 @@ describe("Getting in touch", () => {
     }
   });
 
-  it("opens one person's contact as its own screen", () => {
-    const first = projectContacts(adult.world, adult.personId).contacts[0]!;
-    const html = renderToStaticMarkup(
-      <ContactDialog
-        world={adult.world}
-        playerPersonId={adult.personId}
-        personId={first.personId}
-        onWorldChange={() => {}}
-        onClose={() => {}}
-      />,
-    );
-    expect(html).toContain('data-testid="contact-dialog"');
-    expect(html).toContain(`>${first.name}</h2>`);
-    expect(html).toContain('data-testid="contact-dialog-close"');
-    // Its own ids, so the People list underneath is never mistaken for it.
-    expect(html).toContain(`data-testid="contact-focus-${first.personId}"`);
-    expect(html).not.toContain(`data-testid="contact-${first.personId}"`);
-    // Only that person.
-    for (const other of projectContacts(adult.world, adult.personId).contacts)
-      if (other.personId !== first.personId)
-        expect(html).not.toContain(`contact-focus-${other.personId}"`);
-  });
-
   it("says whose turn it is once a request is outstanding", () => {
     const view = projectContacts(asked.world, asked.personId);
     const waiting = view.contacts.find(
@@ -218,15 +190,13 @@ describe("Getting in touch", () => {
     )!;
     expect(ask.available).toBe(false);
     const html = contacts(asked);
-    // No second ask while the first is unanswered; the reason stands in place
-    // of the control.
+    // No ask control and no ask line, whether or not one is outstanding.
     expect(html).not.toContain(
       `data-testid="contact-ask-${waiting!.personId}"`,
     );
-    expect(html).toContain(
+    expect(html).not.toContain(
       `data-testid="contact-ask-unavailable-${waiting!.personId}"`,
     );
-    expect(html).toContain(ask.unavailableReason!);
   });
 });
 

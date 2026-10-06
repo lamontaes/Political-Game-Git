@@ -128,7 +128,6 @@ export function PersonCard({
   onTogglePin,
   onOpenPerson,
   onTalk,
-  onContact,
   onMeet,
   onTravel,
   onFullRecord,
@@ -153,7 +152,6 @@ export function PersonCard({
   readonly onTogglePin: () => void;
   readonly onOpenPerson?: (personId: EntityId) => void;
   readonly onTalk?: () => void;
-  readonly onContact?: () => void;
   readonly onMeet?: () => void;
   readonly onTravel?: () => void;
   /** The full record page, with appearance controls for your own character. */
@@ -643,17 +641,6 @@ export function PersonCard({
             Meet
           </button>
         ) : null}
-        {reachable && contact.contact.available && onContact ? (
-          <button
-            type="button"
-            className="ui-action"
-            data-testid="person-contact"
-            onClick={onContact}
-            aria-describedby={`person-contact-reason-${dossier.personId}`}
-          >
-            Contact
-          </button>
-        ) : null}
         {onFullRecord ? (
           <button
             type="button"
@@ -675,11 +662,6 @@ export function PersonCard({
         {talkUnavailable ??
           "Starts the established conversation with this person."}
       </p>
-      {reachable && contact.contact.available && onContact ? (
-        <p className="sr-only" id={`person-contact-reason-${dossier.personId}`}>
-          {contact.contact.reason}
-        </p>
-      ) : null}
       {reachable && contact.meet.available && onMeet ? (
         <p className="sr-only" id={`person-meet-reason-${dossier.personId}`}>
           {contact.meet.reason}
