@@ -66,6 +66,11 @@
     "releaseExit": 1,
     "releaseOutput": "\n> political-life-rpg@0.4.0 release:check\n> node --import tsx scripts/release/index.ts check --base ff4bf7cc91bdec86902e9c7a0a89b98112931b18 --head HEAD\n\nrelease:check \u2014 docs/release/changes/medicaid-coverage-reads-enacted-income-limit.md: id 'medicaid-coverage-enacted-income-limit' does not match its filename stem 'medicaid-coverage-reads-enacted-income-limit'.\nnpm notice\nnpm notice New major version of npm available! 11.9.0 -> 12.2.0\nnpm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0\nnpm notice To update run: npm install -g npm@12.2.0\nnpm notice\n",
     "finalChange": "Terminal evidence JSON only; exact source/config/test bytes preserved",
-    "releaseCorrection": "Prior fresh-main status0 was incorrectly taken from the later successful git push in a sequential shell; actual release check failed on inherited Medicaid declaration ID mismatch. One-line ID alignment preserves content; corrected check pending."
+    "releaseCorrection": "Prior fresh-main status0 was incorrectly taken from the later successful git push in a sequential shell; actual release check failed on inherited Medicaid declaration ID mismatch. One-line ID alignment preserves content; corrected standalone check terminal0.",
+    "correctedRelease": {
+      "source": "c78253662162ffc66f4ed735fbadccfdd173e824",
+      "exit": 0,
+      "output": "\n> political-life-rpg@0.4.0 release:check\n> node --import tsx scripts/release/index.ts check --base ff4bf7cc91bdec86902e9c7a0a89b98112931b18 --head HEAD\n\nrelease:check \u2014 version 0.4.0, revision unknown, 1660 pending declaration(s), declaration range ff4bf7cc91bdec86902e9c7a0a89b98112931b18..HEAD (pr). OK.\n"
+    }
   }
 }
