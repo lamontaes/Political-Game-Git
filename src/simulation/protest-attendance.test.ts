@@ -13,11 +13,13 @@ import { localProtestCauses } from "./pressure/ladder";
 import { ensurePressMediaOpening } from "./press/outlets";
 import {
   ensurePressDeskSchedule,
+  assignStory,
   eventIsNewsCandidate,
-  pressDeskSweepHandler,
-  publishOpeningPublicRecords,
+  latestDisposition,
   storyLeads,
 } from "./press/desk";
+import { createCampaignElectionTransitionRegistry } from "./campaigns";
+import { advanceWorld } from "./world";
 import { onShiftAt, workSchedulesFor } from "./living-world/work-schedules";
 import {
   holdProtest,
@@ -31,6 +33,7 @@ import {
 } from "./living-world/protests";
 import type { World } from "./types";
 
+const TRANSITIONS = createCampaignElectionTransitionRegistry();
 const seed = "session110-protest-named-turnout";
 const place = drawRandomPlace(
   seed,
@@ -288,17 +291,26 @@ describe(`recorded protest attendance in ${place.displayName} (${seed})`, () => 
     world = holdProtest(atStart(f, world), f.key);
     const held = world.history.events.find((row) => row.type === PROTEST_HELD)!;
     expect(eventIsNewsCandidate(world, held)).toBe(true);
-    const due = world.history.futureDueItems.find(
-      (row) => row.stableKey === "press46:desk-sweep:0",
-    )!;
-    const swept = pressDeskSweepHandler(world, due).world;
+    // Today's protest is not an archived record: the weekly desk sweep has to
+    // find it, the outlet has to assign it, and a reporter has to file it.
+    let filed = world;
+    const ledBy = (source: World) =>
+      storyLeads(source).find((row) => row.basisEventIds.includes(held.id));
+    for (let day = 0; day < 21; day += 1) {
+      const lead = ledBy(filed);
+      if (lead && latestDisposition(filed, lead.id)?.decision === "published")
+        break;
+      if (lead && latestDisposition(filed, lead.id) === null)
+        filed = assignStory(filed, lead.id);
+      else filed = advanceWorld(filed, 1, TRANSITIONS);
+    }
+    const lead = ledBy(filed)!;
+    expect(lead).toBeDefined();
+    const disposition = latestDisposition(filed, lead.id)!;
+    expect(disposition.decision).toBe("published");
     expect(
-      storyLeads(swept).some((row) => row.basisEventIds.includes(held.id)),
-    ).toBe(true);
-    const published = publishOpeningPublicRecords(swept);
-    expect(
-      (published.history.publications ?? []).some(
-        (row) => row.sourceEventId === held.id,
+      (filed.history.publications ?? []).some(
+        (row) => row.id === disposition.publicationId,
       ),
     ).toBe(true);
   });
