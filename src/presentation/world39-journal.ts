@@ -19,6 +19,7 @@ import {
 } from "./law-exposure-lines";
 import { INTRODUCTION_EVENT } from "../simulation/social-introductions";
 import { crimeJournalLine } from "../simulation/crime/journal";
+import { playSettingsOf } from "../simulation/play-settings";
 import { ownElectionResultSentence } from "./own-election";
 import { proseDate, proseMonthYear, proseYear } from "./prose-dates";
 import {
@@ -252,7 +253,11 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
     if (isRoutineSocialOccasion(consequentialEvents, event.id, event.type))
       continue;
     // A crime says what happened to its victim; nobody else's Journal has it.
-    const crimeLine = crimeJournalLine(event, personId);
+    const crimeLine = crimeJournalLine(
+      event,
+      personId,
+      playSettingsOf(world).personalLifeDepiction,
+    );
     if (crimeLine === null) continue;
     const text = livedWorld39Sentence(
       crimeLine ??
