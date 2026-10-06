@@ -27,7 +27,9 @@ import {
   type LegislativeRulePack,
   type VoteDenominator,
   type VoteThresholdRule,
+  type MinorityProcedureMotion,
 } from "./legislature-rules";
+import { minorityPartyProcedureRows } from "./minority-party-procedure";
 import {
   legislativeRulePackForWorld,
   legislativeProcedureForPack,
@@ -268,6 +270,15 @@ const REGULAR_SESSION_ACTIONS: ReadonlySet<LegislativeActionKind> = new Set([
   "amendment-rejected",
   "floor-stage-passed",
   "floor-stage-failed",
+  "procedural-motion-failed",
+  "tabled",
+  "postponed",
+  "recommitted",
+  "recorded-vote-demanded",
+  "full-reading-demanded",
+  "rules-suspended",
+  "quorum-not-present",
+  "debate-extended",
   "transmitted",
   "concurred",
   "concurrence-failed",
@@ -442,6 +453,43 @@ function applyRecordedAction(
         chamber.chamberKey !== measure.originChamberKey
       ) {
         state.secondChamberAmended = true;
+      }
+      return LEGAL;
+    }
+    case "procedural-motion-failed":
+    case "tabled":
+    case "postponed":
+    case "recommitted":
+    case "recorded-vote-demanded":
+    case "full-reading-demanded":
+    case "rules-suspended":
+    case "quorum-not-present":
+    case "debate-extended": {
+      const gate = requirePhase(state, action.kind, ["on-floor"]);
+      if (!gate.ok) return gate;
+      const chamber = currentChamber();
+      if (!chamber) return illegal("the measure is not in a chamber");
+      if (action.chamberKey !== chamber.chamberKey)
+        return illegal("the procedural action names a different chamber");
+      if (action.kind === "postponed" || action.kind === "tabled") {
+        if (!action.resumeAt || action.resumeAt <= action.occurredAt)
+          return illegal(
+            "a postponed or tabled measure needs a later resume date",
+          );
+        state.earliestNextFloorDate = action.resumeAt;
+      }
+      if (action.kind === "recommitted") {
+        if (!action.committeeKey)
+          return illegal("a recommitted measure must name its committee");
+        committeeByKey(chamber, action.committeeKey);
+        state.phase = "in-committee";
+        state.committeeKey = action.committeeKey;
+        state.floorStageKey = null;
+      }
+      if (action.kind === "debate-extended" && action.resumeAt) {
+        if (action.resumeAt <= action.occurredAt)
+          return illegal("extended debate must resume after the motion date");
+        state.earliestNextFloorDate = action.resumeAt;
       }
       return LEGAL;
     }
@@ -1205,6 +1253,113 @@ export function buildLegislativeVoteRecord<
   };
 }
 
+export interface RecordProceduralMotionInput {
+  readonly measureId: EntityId;
+  readonly stableKey: string;
+  readonly chamberKey: string;
+  readonly motion: MinorityProcedureMotion;
+  readonly vote: LegislativeVoteRecord & {
+    readonly purpose: "procedural-motion";
+  };
+  readonly actorLabel: string;
+  readonly rationale: string;
+  readonly resumeAt?: IsoDate | null;
+  readonly committeeKey?: string | null;
+}
+
+/** Record a procedure vote decided by the shared chamber vote engine. */
+export function recordProceduralMotion(
+  world: World,
+  input: RecordProceduralMotionInput,
+): World {
+  const measure = requireMeasure(world, input.measureId);
+  const position = assertPhase(
+    world,
+    measure.id,
+    ["on-floor"],
+    "take a procedural motion",
+  );
+  if (position.chamberKey !== input.chamberKey)
+    throw new Error(
+      "A procedural motion must name the measure's current chamber.",
+    );
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  const rules = minorityPartyProcedureRows(pack).find(
+    (row) => row.chamberKey === input.chamberKey,
+  );
+  if (
+    !rules ||
+    rules.motions.kind !== "known" ||
+    !rules.motions.value.includes(input.motion)
+  )
+    throw new Error(
+      `The ${input.motion} motion is not available in this chamber.`,
+    );
+  if (
+    input.vote.measureId !== measure.id ||
+    input.vote.purpose !== "procedural-motion" ||
+    input.vote.forum.kind !== "chamber" ||
+    input.vote.forum.chamberKey !== input.chamberKey
+  )
+    throw new Error(
+      "A procedural-motion record needs its own vote in the same chamber.",
+    );
+  const thresholdRule =
+    input.motion === "suspend-rules" ? rules.suspendRulesBar : rules.motionBar;
+  if (
+    thresholdRule.kind !== "known" ||
+    input.vote.thresholdLabel !== thresholdRule.value.label
+  )
+    throw new Error("The recorded vote used a different procedural threshold.");
+  if (input.resumeAt && input.resumeAt <= input.vote.takenAt)
+    throw new Error("A procedural delay must resume after the motion date.");
+  if (
+    (input.motion === "postpone" || input.motion === "table") &&
+    !input.resumeAt
+  )
+    throw new Error("A postpone or table motion must name its return date.");
+  if (input.motion === "recommit" && !input.committeeKey)
+    throw new Error("A recommit motion must name its committee.");
+  if (input.motion === "recommit" && input.committeeKey)
+    committeeByKey(chamberByKey(pack, input.chamberKey), input.committeeKey);
+
+  const acceptedKind: Record<MinorityProcedureMotion, LegislativeActionKind> = {
+    table: "tabled",
+    postpone: "postponed",
+    recommit: "recommitted",
+    "recorded-vote": "recorded-vote-demanded",
+    "full-reading": "full-reading-demanded",
+    "suspend-rules": "rules-suspended",
+  };
+  const passed = input.vote.outcome === "passed";
+  const kind = passed ? acceptedKind[input.motion] : "procedural-motion-failed";
+  const chamber = chamberByKey(pack, input.chamberKey);
+  const motionText: Record<MinorityProcedureMotion, string> = {
+    table: "lay the measure on the table",
+    postpone: "postpone the measure",
+    recommit: "send the measure back to committee",
+    "recorded-vote": "demand a recorded vote",
+    "full-reading": "demand the full reading",
+    "suspend-rules": "suspend the rules",
+  };
+  return appendAction(world, {
+    measure,
+    kind,
+    stableKey: input.stableKey,
+    chamberKey: chamber.chamberKey,
+    committeeKey: input.committeeKey ?? null,
+    floorStageKey: position.floorStageKey,
+    actorLabel: input.actorLabel,
+    rationale: input.rationale,
+    summary: `${chamber.name} ${passed ? "agreed to" : "rejected"} a motion to ${motionText[input.motion]} (${input.vote.tally.yea}-${input.vote.tally.nay}).`,
+    eventType: "legislation.procedural-motion",
+    tags: ["legislation.procedure"],
+    vote: input.vote,
+    proceduralMotion: input.motion,
+    resumeAt: input.resumeAt,
+  });
+}
+
 // ---------------------------------------------------------------------------
 // Internal append helpers
 // ---------------------------------------------------------------------------
@@ -1224,6 +1379,8 @@ interface AppendActionInput {
   readonly participants?: readonly EventParticipant[];
   readonly involvedEntityIds?: readonly EntityId[];
   readonly vote?: LegislativeVoteRecord | null;
+  readonly proceduralMotion?: MinorityProcedureMotion;
+  readonly resumeAt?: IsoDate | null;
   readonly amendment?: LegislativeAmendmentRecord | null;
   readonly occurredAt?: IsoDate;
 }
@@ -1331,6 +1488,10 @@ function appendAction(world: World, input: AppendActionInput): World {
     chamberKey: input.chamberKey,
     committeeKey: input.committeeKey,
     floorStageKey: input.floorStageKey,
+    ...(input.proceduralMotion === undefined
+      ? {}
+      : { proceduralMotion: input.proceduralMotion }),
+    ...(input.resumeAt === undefined ? {} : { resumeAt: input.resumeAt }),
     actorLabel: input.actorLabel,
     rationale: input.rationale,
     eventId: event.id,

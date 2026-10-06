@@ -531,6 +531,8 @@ function questionInWords(question: LegislativeQuestionIdentity): string {
       return "reporting the bill out of committee";
     case "amendment":
       return "the amendment";
+    case "procedural-motion":
+      return "the procedural motion";
   }
 }
 

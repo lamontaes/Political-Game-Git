@@ -1,5 +1,6 @@
 import {
   knownRule,
+  majorityOf,
   notApplicableRule,
   type ChamberRule,
   type LegislativeRulePack,
@@ -65,6 +66,14 @@ export function minorityPartyProcedureForChamber(
     packId: pack.packId,
     chamberKey,
     motions: knownRule(ESTIMATED_MOTIONS, PROFILE_SOURCE),
+    motionBar: knownRule(
+      majorityOf(
+        "members-present",
+        "a majority of members present",
+        PROFILE_SOURCE,
+      ),
+      PROFILE_SOURCE,
+    ),
     suspendRulesBar: knownRule(
       {
         numerator: 1,

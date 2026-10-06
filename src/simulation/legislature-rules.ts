@@ -414,6 +414,7 @@ export interface MinorityPartyProcedureRow {
   readonly packId: string;
   readonly chamberKey: string;
   readonly motions: RuleValue<readonly MinorityProcedureMotion[]>;
+  readonly motionBar: RuleValue<VoteThresholdRule>;
   readonly suspendRulesBar: RuleValue<VoteThresholdRule>;
   readonly unlimitedDebate: RuleValue<boolean>;
   readonly clotureBar: RuleValue<VoteThresholdRule>;

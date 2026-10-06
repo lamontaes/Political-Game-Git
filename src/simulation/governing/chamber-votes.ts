@@ -16,12 +16,19 @@ import { legislativeRulePackForWorld } from "../legislative-procedure-world";
 import { chamberByKey } from "../legislature-rules";
 import { seatsForChamber } from "../legislature-game-profile";
 import { organizationProfileAt, workStatusAt } from "../life-queries";
-import { requireMeasure } from "../legislation";
+import {
+  buildLegislativeVoteRecord,
+  measurePosition,
+  recordProceduralMotion,
+  requireMeasure,
+} from "../legislation";
 import {
   memberVoteConsiderations,
   withParts,
 } from "../legislative-member-decisions";
 import { measureAnswersAt } from "../vote-bundle";
+import { minorityPartyProcedureRows } from "../minority-party-procedure";
+import type { MinorityProcedureMotion } from "../legislature-rules";
 import {
   principleVoteConsideration,
   spendingPrincipleConsideration,
@@ -49,6 +56,7 @@ import type {
   DecisionConsideration,
   DecisionSubject,
   EntityId,
+  IsoDate,
   LegislativeMemberDisposition,
   LegislativeVoteDisposition,
   World,
@@ -787,6 +795,9 @@ function billVoteContext(
         cueParties,
         contested,
         input.nonpartisan ?? false,
+        input.question.proceduralMotion === "table" ||
+          input.question.proceduralMotion === "postpone" ||
+          input.question.proceduralMotion === "recommit",
       );
       // A member's own view is worked out only when it is needed: when the
       // member decides, or when an undecided member who trusts them asks how
@@ -1003,6 +1014,123 @@ export function decideChamberVote(
   }
 }
 
+export interface DecideProceduralMotionInput {
+  readonly measureId: EntityId;
+  readonly chamberKey: string;
+  readonly stableKey: string;
+  readonly motion: MinorityProcedureMotion;
+  readonly playerPersonId?: EntityId | null;
+  readonly playerBallot?: LegislativeMemberDisposition | null;
+  readonly resumeAt?: IsoDate | null;
+  readonly committeeKey?: string | null;
+  readonly actorLabel: string;
+  readonly rationale: string;
+}
+
+/** Have the seated members decide a permitted motion and append its roll call. */
+export function decideProceduralMotion(
+  world: World,
+  input: DecideProceduralMotionInput,
+): World {
+  const measure = requireMeasure(world, input.measureId);
+  const position = measurePosition(world, measure.id);
+  if (position.phase !== "on-floor" || position.chamberKey !== input.chamberKey)
+    throw new Error(
+      "A procedural motion must be taken in the measure's current floor chamber.",
+    );
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  const chamber = chamberByKey(pack, input.chamberKey);
+  const procedure = minorityPartyProcedureRows(pack).find(
+    (row) => row.chamberKey === input.chamberKey,
+  );
+  if (
+    !procedure ||
+    procedure.motions.kind !== "known" ||
+    !procedure.motions.value.includes(input.motion)
+  )
+    throw new Error(
+      `The ${input.motion} motion is not available in this chamber.`,
+    );
+  const thresholdRule =
+    input.motion === "suspend-rules"
+      ? procedure.suspendRulesBar
+      : procedure.motionBar;
+  if (thresholdRule.kind !== "known")
+    throw new Error(
+      `The ${chamber.name} has no resolved procedural motion threshold.`,
+    );
+  const seated = seatedChamberForPack(
+    world,
+    pack.packId,
+    chamber.chamberKey,
+    chamber.name,
+  );
+  if (!seated)
+    throw new Error(
+      `The ${chamber.name} has no recorded members for this vote.`,
+    );
+  const questionLabel: Record<MinorityProcedureMotion, string> = {
+    table: "whether to table the measure",
+    postpone: "whether to postpone the measure",
+    recommit: "whether to recommit the measure",
+    "recorded-vote": "whether to require a recorded vote",
+    "full-reading": "whether to require the full reading",
+    "suspend-rules": "whether to suspend the rules",
+  };
+  const dispositions = decideChamberVote(world, {
+    stableKey: input.stableKey,
+    members: seated.body.members,
+    playerPersonId: input.playerPersonId,
+    playerBallot: input.playerBallot,
+    question: {
+      question: {
+        measureId: measure.id,
+        purpose: "procedural-motion",
+        forumKey: input.chamberKey,
+        floorStageKey: position.floorStageKey,
+        amendmentStableKey: null,
+        provisionKey: null,
+      },
+      questionLabel: questionLabel[input.motion],
+      proceduralMotion: input.motion,
+    },
+    contested: true,
+  });
+  const presentMembers = dispositions.filter(
+    (row) =>
+      row.disposition === "yea" ||
+      row.disposition === "nay" ||
+      row.disposition === "present-not-voting",
+  ).length;
+  const vote = buildLegislativeVoteRecord(world, {
+    stableKey: `${input.stableKey}:vote`,
+    measureId: measure.id,
+    forum: { kind: "chamber", chamberKey: input.chamberKey },
+    purpose: "procedural-motion",
+    floorStageKey: position.floorStageKey,
+    threshold: thresholdRule.value,
+    eligibleMembers: seated.seats,
+    presentMembers,
+    dispositions,
+    provenance: {
+      method: "member-decisions",
+      note: "Each seated member decided the procedural motion from their own bill view and recorded cues.",
+      sourceEntityIds: [measure.id],
+    },
+  });
+  return recordProceduralMotion(world, {
+    measureId: measure.id,
+    stableKey: input.stableKey,
+    chamberKey: input.chamberKey,
+    motion: input.motion,
+    vote,
+    actorLabel: input.actorLabel,
+    rationale: input.rationale,
+    resumeAt: input.resumeAt,
+    committeeKey: input.committeeKey,
+  });
+}
+
 /** A member's own bill, or one they put their name on: a view, not a cue. */
 const OWN_BILL_KEYS: ReadonlySet<string> = new Set([
   "member:own-bill",
@@ -1172,17 +1300,20 @@ function partyCue(
   sponsorParties: ReadonlySet<string>,
   contested: boolean,
   nonpartisan: boolean,
+  invertForDelay: boolean,
 ): readonly DecisionConsideration[] {
   if (sponsorPersonId === personId)
     return [
       {
         stableKey: "member:own-bill",
-        optionKey: "vote-yea",
+        optionKey: invertForDelay ? "vote-nay" : "vote-yea",
         sourceType: "context:own-bill",
         direction: "supports",
         importance: "strong",
         confidence: "high",
-        explanation: "The member is carrying this bill.",
+        explanation: invertForDelay
+          ? "The member is carrying this measure, which weighs against delaying it."
+          : "The member is carrying this bill.",
         sourceRefs: [],
       },
     ];
@@ -1190,12 +1321,14 @@ function partyCue(
     return [
       {
         stableKey: "member:cosponsor",
-        optionKey: "vote-yea",
+        optionKey: invertForDelay ? "vote-nay" : "vote-yea",
         sourceType: "context:own-bill",
         direction: "supports",
         importance: "strong",
         confidence: "high",
-        explanation: "The member put their name on this bill.",
+        explanation: invertForDelay
+          ? "The member put their name on this measure, which weighs against delaying it."
+          : "The member put their name on this bill.",
         sourceRefs: [],
       },
     ];
@@ -1210,17 +1343,23 @@ function partyCue(
   // default (CTO ruling, September 29, 12:54 a.m.): with no view of their
   // own, they take the other cues (`decideChamberVote`).
   if (!same && !contested) return [];
+  const supportsMeasure = same;
+  const supportsMotion = invertForDelay ? !supportsMeasure : supportsMeasure;
   return [
     {
       stableKey: same ? "member:party-cue:same" : "member:party-cue:other",
-      optionKey: same ? "vote-yea" : "vote-nay",
+      optionKey: supportsMotion ? "vote-yea" : "vote-nay",
       sourceType: "context:sponsor-party",
       direction: "supports",
       importance: same ? "moderate" : "slight",
       confidence: "medium",
-      explanation: same
-        ? "The bill is carried by a member of the member's own party."
-        : "The bill is carried by a member of the other party.",
+      explanation: invertForDelay
+        ? supportsMotion
+          ? "The member's party is on the other side of this measure, which weighs in favor of delaying it."
+          : "The member's party is carrying this measure, which weighs against delaying it."
+        : supportsMotion
+          ? "The bill is carried by a member of the member's own party."
+          : "The bill is carried by a member of the other party.",
       sourceRefs: [],
     },
   ];

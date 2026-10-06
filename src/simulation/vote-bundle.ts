@@ -44,6 +44,7 @@ export type VoteQuestionKind =
   | "passage"
   | "concurrence"
   | "veto-override"
+  | "procedural-motion"
   | "constitutional-proposal";
 
 /** One part of what a vote decided. */

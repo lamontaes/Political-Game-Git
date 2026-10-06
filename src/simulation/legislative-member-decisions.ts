@@ -27,6 +27,7 @@ import type {
   PublicPositionRecord,
   World,
 } from "./types";
+import type { MinorityProcedureMotion } from "./legislature-rules";
 
 /**
  * How one simulated member decides one question.
@@ -96,6 +97,11 @@ export interface MemberVoteQuestion {
    * sponsor. Omitted where the author is not recorded as a person.
    */
   readonly offeredBy?: EntityId;
+  /**
+   * When present, the chamber is deciding whether to delay the underlying
+   * bill. Its own position on the bill bears on table, postpone and recommit.
+   */
+  readonly proceduralMotion?: MinorityProcedureMotion;
 }
 
 export interface DeriveMemberDispositionInput {
@@ -206,7 +212,34 @@ export function memberVoteConsiderations(
   world: World,
   input: DeriveMemberDispositionInput,
 ): readonly DecisionConsideration[] {
-  return memberConsiderations(world, input);
+  const considerations = memberConsiderations(world, input);
+  const motion = input.question.proceduralMotion;
+  if (motion !== "table" && motion !== "postpone" && motion !== "recommit")
+    return considerations;
+  const billConsiderations = memberConsiderations(world, {
+    ...input,
+    question: {
+      ...input.question,
+      proceduralMotion: undefined,
+      question: { ...input.question.question, purpose: "floor-stage" },
+    },
+  });
+  const delayReasons = billConsiderations.flatMap((reason) => {
+    if (reason.optionKey !== "vote-yea" && reason.optionKey !== "vote-nay")
+      return [];
+    const wantsBill = reason.optionKey === "vote-yea";
+    return [
+      {
+        ...reason,
+        stableKey: `member:procedural-motion:${motion}:${reason.stableKey}`,
+        optionKey: wantsBill ? "vote-nay" : "vote-yea",
+        explanation: wantsBill
+          ? "The member wants the measure to advance, so their view weighs against delaying it."
+          : "The member opposes the measure, so their view weighs in favor of delaying it.",
+      },
+    ];
+  });
+  return [...considerations, ...delayReasons];
 }
 
 function memberConsiderations(
