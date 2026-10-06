@@ -11,16 +11,25 @@ import {
   writeLawConsequenceManifest,
 } from "./generate-manifest.mjs";
 
-test("nonempty module manifests satisfy the repository formatter", async () => {
-  const rendered = renderLawConsequenceManifest([
-    "election-local-landings",
-    "election-state-landings",
-  ]);
+test("empty, single and multiple module manifests satisfy the formatter", async () => {
   const options = await resolveConfig(import.meta.filename);
-  assert.equal(
-    rendered,
-    await format(rendered, { ...options, parser: "typescript" }),
-  );
+  for (const keys of [
+    [],
+    ["a"],
+    ["a", "b"],
+    ["election-state-landings"],
+    ["election-local-landings", "election-state-landings"],
+    [
+      "long-election-local-landings-module",
+      "long-election-state-landings-module",
+    ],
+  ]) {
+    const rendered = renderLawConsequenceManifest(keys);
+    assert.equal(
+      rendered,
+      await format(rendered, { ...options, parser: "typescript" }),
+    );
+  }
 });
 
 test("checked-in manifest lists exactly the module folders", () => {
