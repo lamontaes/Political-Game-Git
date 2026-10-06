@@ -1607,6 +1607,28 @@ export function introduceMeasure(
         "An executive instrument needs an authority-grounded clause.",
       );
     for (const check of input.executiveAuthorityChecks) {
+      if (check.clause.kind === "revoke-executive-order") {
+        const targetMeasureId = check.clause.targetMeasureId;
+        const target = (world.history.legislativeMeasures ?? []).find(
+          (candidate) => candidate.id === targetMeasureId,
+        );
+        const targetEnactment = (
+          world.history.legislativeEnactments ?? []
+        ).find((candidate) => candidate.measureId === targetMeasureId);
+        if (
+          !target ||
+          target.governmentInstrument !== "executive-order" ||
+          target.jurisdictionId !== input.jurisdictionId ||
+          targetEnactment?.outcome !== "enacted" ||
+          targetEnactment.effectiveAt === null ||
+          targetEnactment.effectiveAt > world.currentDate ||
+          (targetEnactment.expiresAt != null &&
+            targetEnactment.expiresAt < world.currentDate)
+        )
+          throw new Error(
+            "Only an inherited executive order still in force can be revoked.",
+          );
+      }
       const currentLaw =
         check.clause.kind === "delegated-term" ||
         check.clause.kind === "enforcement-priority"
