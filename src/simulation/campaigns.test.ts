@@ -45,7 +45,11 @@ import {
   assessContribution,
   assessSecondCommittee,
 } from "./index";
-import { contributeOwnMoneyToCampaign } from "./campaign-money-sources";
+import {
+  contributeOwnMoneyToCampaign,
+  leftoverCampaignBalance,
+  leftoverFundsRuleForState,
+} from "./campaign-money-sources";
 import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
 import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
 import {
@@ -1121,6 +1125,40 @@ function playToElection(seed: string, outreachSessions: number) {
 }
 
 describe("election day", () => {
+  it("keeps a losing campaign's balance in its committee for an allowed later use", () => {
+    const filed = fileKentuckyCampaign("probe-3");
+    const cash = createResourcePosition(filed.world, {
+      stableKey: "leftover-funds:recorded-candidate-cash",
+      owner: { kind: "person", personId: filed.candidatePersonId },
+      openedAt: filed.world.currentDate,
+      openingBalance: {
+        minorUnits: 50_000,
+        currency: filed.campaign.treasuryCurrency,
+      },
+      provenance: { kind: "authored", note: "Recorded campaign balance fixture" },
+    });
+    const funded = contributeOwnMoneyToCampaign(
+      cash,
+      filed.candidatePersonId,
+      50_000,
+    );
+    const lost = advanceWorld(
+      funded,
+      25,
+      createCampaignElectionTransitionRegistry(),
+    );
+    expect(campaignState(lost, filed.campaign.id).status).toBe("lost");
+    expect(
+      campaignTreasuryPosition(lost, filed.campaign)?.liquidBalance.minorUnits,
+    ).toBe(50_000);
+    expect(leftoverCampaignBalance(lost, filed.campaign.id)?.minorUnits).toBe(
+      50_000,
+    );
+    expect(leftoverFundsRuleForState("US-KY")?.allowedUses).toContain(
+      "keep-for-future-race",
+    );
+  });
+
   it("resolves through the ordinary time advance", () => {
     const played = playToElection("probe-3", 3);
     const result = electionContestResult(
