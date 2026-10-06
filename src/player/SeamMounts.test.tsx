@@ -141,6 +141,35 @@ describe("Getting in touch", () => {
     }
   });
 
+  it("draws the contact's dated look-back when recorded history exists", () => {
+    const contact = projectContacts(adult.world, adult.personId).contacts[0]!;
+    const html = renderToStaticMarkup(
+      <ContactsPanel
+        world={adult.world}
+        personId={adult.personId}
+        onWorldChange={() => {}}
+        contactEntry={{
+          ...contact,
+          lookBack: [
+            {
+              id: "lookback-test-favor" as EntityId,
+              at: adult.world.currentDate,
+              sequence: 1,
+              kind: "favor",
+              text: "You helped them move.",
+            },
+          ],
+        }}
+        focused
+      />,
+    );
+    expect(html).toContain(
+      `data-testid="contact-focus-lookback-${contact.personId}"`,
+    );
+    expect(html).toContain("Past between you");
+    expect(html).toContain("You helped them move.");
+  });
+
   it("holds a request inside the day window with a plain When? picker", () => {
     const view = projectContacts(adult.world, adult.personId);
     const html = contacts(adult);

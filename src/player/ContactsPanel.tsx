@@ -13,6 +13,7 @@ import {
   projectContacts,
 } from "../presentation/people-contacts";
 import type { ContactEntry } from "../presentation/people-contacts";
+import { proseDate } from "../presentation/prose-dates";
 import "./contacts.css";
 
 /**
@@ -327,6 +328,21 @@ function ContactRow({
         >
           {contact.standing}
         </p>
+      ) : null}
+      {contact.lookBack.length > 0 ? (
+        <details
+          className="pg-contact-line"
+          data-testid={tid(`contact-lookback-${contact.personId}`)}
+        >
+          <summary>Past between you</summary>
+          <ul>
+            {contact.lookBack.map((entry) => (
+              <li key={entry.id}>
+                {proseDate(entry.at)}: {entry.text}
+              </li>
+            ))}
+          </ul>
+        </details>
       ) : null}
 
       {/*
