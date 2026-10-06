@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-06T13:07:20Z",
+  "updatedAt": "2026-10-06T13:08:26Z",
   "updatedBy": "Session 45",
   "source": {
     "issue": "#2424",
@@ -647,7 +647,12 @@
     "Session20 published #2529 formatting correction at f728f910; fresh exact-head audit queued and checks are not PASS.",
     "Session55 now has a completed command receipt for P1 schema validation; this supersedes earlier idle/no-output state.",
     "Session49 is running a two-day random-locale engine multi-life packet; command completed and batch publication pending.",
-    "Session15 Steam work is newly visible but parked and not pinged."
+    "Session15 Steam work is newly visible but parked and not pinged.",
+    "Session25 published producer contract #2599 at a9343fc and routed exact API/head/readiness to Sessions36/42; local tests 14 PASS, type/hosted pending, runtime acceptance absent.",
+    "Session5 published read-only census diagnostic at d52e48da; diagnostic terminal EXIT 0. Precise one-capped late-boundary replay question 6016919404 sent to Claude; no live-processor new run claimed.",
+    "Session56 LW02 claim 6016919458 may overlap Session14's known ownership; handoff requested from both and overlap held.",
+    "Session48 published P6 #2601; reported local fixture errors are stale relative to published base; source-blob comparison requested.",
+    "PR #2448 fresh head 03ab658e mergeable with audit queued; PR #2452 remains at old conflicting state."
   ],
   "localChatInventory": [
     {
@@ -1550,6 +1555,38 @@
       "receiptTimestamp": "not supplied",
       "exactHead": "not applicable",
       "source": "coordinator-provided latest recovery delta"
+    },
+    {
+      "session": 25,
+      "task": "producer contract PR #2599",
+      "state": "published at a9343fc; exact API/head/readiness routed to Sessions36/42; local tests 14 PASS, type and hosted checks pending, runtime acceptance absent",
+      "receiptTimestamp": "board comment 6016934132",
+      "exactHead": "a9343fc",
+      "source": "coordinator-provided activity delta"
+    },
+    {
+      "session": 5,
+      "task": "read-only census diagnostic",
+      "state": "terminal EXIT 0; published; precise one-capped late-boundary replay question sent to Claude; no live-processor new run claimed",
+      "receiptTimestamp": "board comment 6016919404",
+      "exactHead": "d52e48da",
+      "source": "coordinator-provided activity delta"
+    },
+    {
+      "session": 56,
+      "task": "LW02 claim",
+      "state": "claim may overlap Session14 known owner; explicit handoff requested from both; overlap held",
+      "receiptTimestamp": "board comment 6016919458",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided activity delta"
+    },
+    {
+      "session": 48,
+      "task": "P6 PR #2601",
+      "state": "published; reported local fixture errors are stale relative to published base; source-blob comparison requested",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "coordinator-provided activity delta"
     }
   ],
   "coordinatorChat": {
@@ -1678,6 +1715,17 @@
       "repositoryJob": "format correction published",
       "freshAudit": "queued",
       "checks": "not PASS"
+    },
+    {
+      "pr": 2448,
+      "head": "03ab658e",
+      "state": "fresh head; mergeable; audit queued",
+      "checks": "queued, not PASS"
+    },
+    {
+      "pr": 2452,
+      "state": "open; old conflict remains",
+      "checks": "current rerun/head not supplied"
     }
   ],
   "handoffs": [
