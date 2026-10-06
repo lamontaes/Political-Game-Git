@@ -357,6 +357,20 @@ export function isEligibleVoterIn(
     })
   )
     return false;
+  return residesForVoting(world, personId, jurisdictionId, asOf);
+}
+
+/**
+ * Whether the person lives in this jurisdiction by the same records a
+ * residence qualification reads: the state's for a state, the home
+ * jurisdiction's for anything smaller. Age and life are the caller's to ask.
+ */
+export function residesForVoting(
+  world: World,
+  personId: EntityId,
+  jurisdictionId: EntityId,
+  asOf: IsoDate,
+): boolean {
   const jurisdiction = world.jurisdictions[jurisdictionId];
   if (!jurisdiction) return false;
   const stateKey = stateKeyForJurisdiction(jurisdiction);

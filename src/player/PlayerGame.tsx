@@ -134,7 +134,6 @@ import {
   ROOM_TELEVISION_SLOT_ID,
 } from "../presentation/room-media";
 import { CampaignLifePanel } from "./CampaignLifePanel";
-import { CandidateGuidancePanel } from "./CandidateGuidancePanel";
 import { resolveExecutiveOffice } from "../simulation/executive-work-context";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import {
@@ -212,6 +211,10 @@ import {
   electionNightLocationKey,
 } from "../presentation/place-backdrops";
 import { placeBackdropPeople } from "../presentation/backdrop-people";
+import {
+  courtroomLocationKey,
+  courtroomPresentPeople,
+} from "../presentation/courtroom-presence";
 import { projectBackdropSurfaces } from "../presentation/backdrop-surfaces";
 import { projectLivingSceneSurface } from "../presentation/living-scene-surfaces";
 import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-scene";
@@ -220,7 +223,6 @@ import {
   PUBLIC_MEETING_ROOM_SCENE_ID,
   SCENE_REGISTRY,
 } from "../presentation/scene-registry";
-import { OrdinaryMeetingPanel } from "./OrdinaryMeetingPanel";
 import {
   AmbientTableau,
   TitleScreen,
@@ -1721,7 +1723,8 @@ function PlayingScreen({
             // Election night wins over the home screen, never over an
             // activity in progress.
             (playScene.purpose !== "activity"
-              ? electionNightLocationKey(session.world, session.personId)
+              ? (electionNightLocationKey(session.world, session.personId) ??
+                courtroomLocationKey(session.world, session.personId))
               : null) ??
               // An unspecified moment resolves to the home room above it in
               // play-scene-context, so its place picture is home too; without
@@ -1749,8 +1752,14 @@ function PlayingScreen({
             session.personId,
             placeBackdrop.place,
             session.world.currentMoment,
-            // The scene's own people (a meeting's seated officers) first.
-            playScene.presentPeople,
+            // The scene's own people (a meeting's seated officers) first;
+            // on a day the court sat, the judge and jurors the records name.
+            placeBackdrop.place === "county-courtroom"
+              ? [
+                  ...playScene.presentPeople,
+                  ...courtroomPresentPeople(session.world, session.personId),
+                ]
+              : playScene.presentPeople,
             {
               speakerId:
                 conversation && conversation.addressee !== "everyone"
@@ -2657,32 +2666,6 @@ function PlayingScreen({
                 });
               }}
             >
-              {view.surface === "scene" &&
-              !readOnly &&
-              !showOrientation &&
-              !conversation ? (
-                <>
-                  <OrdinaryMeetingPanel
-                    world={session.world}
-                    personId={session.personId}
-                    onWorldChange={onWorldChange}
-                    onOpenEntity={openEntity}
-                    onOutcome={setPassOutcome}
-                  />
-                </>
-              ) : null}
-              {view.surface === "scene" &&
-              !readOnly &&
-              !showOrientation &&
-              !conversation ? (
-                <CandidateGuidancePanel
-                  world={session.world}
-                  personId={session.personId}
-                  onWorldChange={onWorldChange}
-                  onOpenEntity={openEntity}
-                  onOutcome={setPassOutcome}
-                />
-              ) : null}
               {view.surface === "scene" && !readOnly ? (
                 <OpeningLifeFlow
                   key={`${session.world.id}:${session.personId}`}
