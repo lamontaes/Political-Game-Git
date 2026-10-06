@@ -1,3 +1,4 @@
+import { tallyDispositions } from "../legislation";
 import {
   constitutionalActions,
   constitutionalPosition,
@@ -852,6 +853,11 @@ function recordStateProposalVotes(
           ]),
       ),
     });
+    const tally = tallyDispositions(dispositions);
+    const present = tally.yea + tally.nay + tally.presentNotVoting;
+    // Dated vacancies and absent members cannot become an authenticated vote.
+    // Leave the existing proposal in consideration for a later actual quorum.
+    if (present <= seated.seats / 2) return next;
     const reasonCounts = new Map<string, number>();
     for (const disposition of dispositions) {
       if (disposition.reason)
