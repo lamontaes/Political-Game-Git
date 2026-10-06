@@ -1,92 +1,58 @@
-# Session 127: Front hair clears measured face-side overlap
+# Session 127: The slot contract has unresolved gaps
 
-The front-hair candidate clears measured overlap on every supplied front style
-while preserving bangs and original art. Turned inputs remain missing. The CTO
-authorized explicit input-gap reporting while retaining pixel checks for any
-supplied turned layers. Continue the independent queue after the scoped checks.
+Away-facing people request front art, lean is absent from the body-pose list,
+and surface declarations are incomplete. The independent audit also checks
+whether painted production rooms retain the older anchor contract. Existing
+data and runtime writers remain protected.
 
 ## Resume state
 
-Current item: b24-p1-s2. Branch: codex/session127-b24-p1-s2.
-Base: ae27b4da00da3d9391a9d4c34776f1ef28f436cc on main.
+Current item: b24-p3. Branch: codex/session127-b24-p3.
+Starting main: 4695fe7c2afc323dc4a4db0da7ae5f6141f22deb.
+Received main f67c37470979af4a0d2a7eb82268df34c400ddde before publication;
+merged without conflicts. Run fresh changed-file checks on the published head.
+The claim is on the [assignment board](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6020811408).
 
-Previous item b24-p1-s1 is published as draft PR #2725, exact head
-ef9d9ed6e290398fd5cf8def16856e539628fcbf. Its native composite harness passed
-four front cells with before=0 and after=0, and rejected all four missing turned
-cells. assemble.ts is unchanged because no supplied front cell reproduces the
-fringe. Its resume marker remains on that branch.
+The [slot audit](../../../src/presentation/slot-contract.test.ts#L17) checks
+all four facing values, lean, every staged place's surface declaration, existing
+measured surface references, and production-room anchor retirement. Fixture
+exceptions are listed from the actual registry. It adds no surface geometry.
 
-Claim for b24-p1-s2 is delivered on #2424, comment 6019027259. Session 11 received
-the exact hair-layering boundary question there; manifest/tag files are untouched.
-Native measurement reproduced opaque face-side overlap in 24 of 26 styles. The
-candidate modifies only pack.ts hair layering, measuring the selected face's
-widest opaque row and clearing front-hair alpha in the outer quarters of the
-face below it. The mask follows actual face support below the body neck anchor.
-Bangs, RGB, back hair, body anchors and original PNG files remain unchanged.
-The mask writer is [pack.ts:1007](../../../src/presentation/appearance-engine/pack.ts#L1007).
+Measured metadata contains 117 staged places, 59 surface declarations, and
+58 places without a declaration. Existing staging has 56 surface references.
+BodyView supports front and three-quarter, not back. That type boundary must
+be resolved before away-facing people can request back art. The data owner
+must reconcile surface declarations and the shared reader boundary before
+production changes. No tag, staging, surface, pack, or registry file is changed.
 
-The new source-bound native test covers all 26 front hairstyles in standing and
-seated poses on one build. All 52 front cases pass. Under the
-[CTO ruling](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6019622068),
-one explicit assertion reports the empty turned arrays instead of treating
-missing inputs as a candidate defect. When turned arrays are nonempty, both
-poses still require the requested view and zero opaque face-side overlap. The
-existing four hair-face-window tests pass unchanged. Latest combined result:
-57 passed, with one recorded input gap and no turned pixel proof. Art approval,
-installed runtime and merge are not claimed.
+## Earlier work
 
-Strict focused TypeScript validation includes the production code and the new
-test's typed PNG decoder interface.
-Formatter, ESLint and whitespace checks were executed. Final validation results
-are recorded below. Logs are /tmp/session127-hair-test.log and
-/tmp/session127-hair-typecheck.log.
+[Hair](https://github.com/lamontaes/Political-Game-Git/pull/2730) merged into
+main at 34bfffa3f1f343524e5a15449beb826fb6358088. Its authorized input-gap
+assertion records empty turned arrays; it provides no turned pixel proof.
 
-Historical receipts before the CTO-authorized assertion change, on candidate
-89d6ed33d8ced52425fbf0a08c823e12f1769461:
-all 52 front cases log 7,632 opaque overlap pixels before and zero after. The
-other selected pack tests pass (35 tests). After retrieving declared JSON and
-runtime raster inputs omitted by the sparse checkout, the remaining four
-integration suites pass unchanged (70 tests). Total across the disjoint checks:
-157 passed / 4 failed; all failures require the absent turned hair. Strict
-production+new-test TypeScript, formatting, ESLint, diff, report and no-dice
-checks pass. Release check passes after metadata history was fetched. The
-required speed:years command cannot run because main has no such npm script.
-These are actual executed results, published in the
-[scoped board receipt](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6019561755).
-The source-bound measurement and preservation assertions are in
-[front-hair-sides.test.ts:106](../../../src/presentation/appearance-engine/front-hair-sides.test.ts#L106).
+[Collar](https://github.com/lamontaes/Political-Game-Git/pull/2732) is READY
+for CTO review at fa83b89e98088772e3c6e75c72a2a3f01e347253. At that exact head,
+formatter and ESLint pass. The changed test passes 104 front cases and fails
+eight missing-native turned assertions. All eight assertions remain intact.
+The [receipt](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6020703617)
+reports the input gap separately from the READY instruction.
 
-The unrelated repository job 112337327269 on PR #2725 at ef9d9ed6 fails on
-time-command.ts moment fields and facet-opportunistic.test.ts preferences.
-Session 10 delivered that exact receipt; Session 127 preserves those owners'
-files and does not create another baseline or writer for them.
+[Rim](https://github.com/lamontaes/Political-Game-Git/pull/2725),
+[cuff](https://github.com/lamontaes/Political-Game-Git/pull/2734), and
+[tag validation](https://github.com/lamontaes/Political-Game-Git/pull/2739)
+remain drafts with explicit input or owner-data gaps. Native originals remain
+unchanged. These receipts establish neither visual approval nor installed
+runtime behavior.
 
-Complete immutable turned pack and supported cloud staging are still requested
-on #2424, comment 6018953167; Session 10 acknowledged the exact source-bank gap.
-Continue the independent queue after publishing this candidate. Next id is
-b24-p1-s3; check for an open cloud-task PR and post the claim before working.
+## Next action and checks
 
-CTO-scope receipts: /tmp/session127-hair-cto-tests.log records 57 passing tests
-and the plain turned-input gap message, as posted in the
-[current board receipt](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6019766375).
-Formatter, ESLint, whitespace, no-dice
-and Lexington grep on both changed source files pass (grep has no matches).
-Before landed main was incorporated, full npm run typecheck failed at time-command.ts lines 325, 326, 327 and 396
-with TS2339 missing moment; these unrelated baseline failures stay with their
-existing owner. The focused strict production/test typecheck passed. The earlier 157/4
-receipt above describes the superseded missing-input assertion, not a new failure.
-
-Gate recovery: verified #2733 merged at 99f04b3113ba7604707b9e06ff7472f520f356d0.
-This branch incorporates actual landed main without changing clock/trait writers.
-All earlier CI/typecheck results above belong to their stated older heads.
-Run required checks on the new published head and record exact outcomes on
-#2424; do not transfer old CI. The source/input-gap scope is unchanged.
-
-Exact next command (from /workspace/game, with subprocess execution enabled):
-
-```sh
-OCD_STORAGE_STATE_DIR=/workspace/session127-storage npm run storage -- run test -- npx vitest run src/presentation/appearance-engine/front-hair-sides.test.ts src/presentation/appearance-engine/hair-face-window.test.ts --silent=false
-```
-
-PEOPLE_PACK_ROOT selects the supplied immutable pack when it becomes available.
-Do not count missing turned cells or candidate pixel QA as visual acceptance.
+Executed slot-contract.test.ts: 4 passed and 4 failed. The failures are away
+facing, missing lean, incomplete surface declarations, and legacy production
+anchors. All 56 measured surface references pass. Formatter and ESLint pass.
+The test log is /tmp/session127-slot-test.log. Record the published head on
+the board. Under the
+[current CTO gate](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6020443625),
+full typecheck and GitHub jobs are not waiting gates. A failing contract audit
+stays draft. Continue with the independent b24-p4 demand list after publication.
+Read outfit specs from the existing builder without executing its art writes.
