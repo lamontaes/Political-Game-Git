@@ -4,6 +4,7 @@ import type * as Observer from "../../src/presentation/observer-world";
 import type * as Aging from "../dev-lab/world-aging";
 /** One real watched month, with an explicit people/decision/event comparison. */
 import { createHash } from "node:crypto";
+import { cpuUsage } from "node:process";
 import { execFileSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
@@ -30,6 +31,14 @@ export interface MonthReceipt {
   readonly seconds: number;
   /** One normal, untimed-by-profiler sample for each measured day 2–31. */
   readonly dailySeconds: readonly number[];
+  readonly dailyCpuSeconds: readonly number[];
+  readonly executionId: string;
+  readonly actionDays: readonly {
+    readonly day: number;
+    readonly date: string;
+    readonly decisions: readonly MonthDecision[];
+    readonly appendedPayloadDigest: string;
+  }[];
   readonly date: string;
   readonly fingerprint: string;
   readonly people: readonly { readonly id: string; readonly hash: string }[];
@@ -64,10 +73,18 @@ export function compareMonth(before: MonthReceipt, after: MonthReceipt) {
   const afterMean =
     after.dailySeconds.reduce((sum, seconds) => sum + seconds, 0) /
     after.dailySeconds.length;
-  if (!(afterMean < beforeMean))
+  const beforeCpuMean =
+    before.dailyCpuSeconds.reduce((sum, cpu) => sum + cpu, 0) /
+    before.dailyCpuSeconds.length;
+  const afterCpuMean =
+    after.dailyCpuSeconds.reduce((sum, cpu) => sum + cpu, 0) /
+    after.dailyCpuSeconds.length;
+  if (!(afterCpuMean < beforeCpuMean))
     errors.push(
-      `Days 2–31 mean ${afterMean.toFixed(6)}s/day is not below main ${beforeMean.toFixed(6)}s/day`,
+      `Days 2–31 process CPU mean ${afterCpuMean.toFixed(6)}s/day is not below main ${beforeCpuMean.toFixed(6)}s/day`,
     );
+  if (JSON.stringify(before.actionDays) !== JSON.stringify(after.actionDays))
+    errors.push("Per-day accepted actions or appended payload digests differ");
   if (JSON.stringify(before.people) !== JSON.stringify(after.people))
     errors.push("People, their facts, appearances or person order differ");
   if (before.decisions.length !== after.decisions.length)
@@ -102,6 +119,8 @@ export function compareMonth(before: MonthReceipt, after: MonthReceipt) {
     errors,
     baselineMeanSecondsPerDay: beforeMean,
     candidateMeanSecondsPerDay: afterMean,
+    baselineMeanCpuSecondsPerDay: beforeCpuMean,
+    candidateMeanCpuSecondsPerDay: afterCpuMean,
     meanReductionPercent:
       beforeMean > 0 ? ((beforeMean - afterMean) / beforeMean) * 100 : null,
     fingerprintsIdentical: before.fingerprint === after.fingerprint,
@@ -118,6 +137,10 @@ async function main() {
   const seed = option("seed", "b18-f375512c")!;
   const place = option("place", "4272168")!;
   const out = option("out");
+  const executionId = option(
+    "execution-id",
+    process.env.PG_RUN_ID ?? "unspecified",
+  )!;
   if (!out) throw new Error("Provide --out <receipt.json>");
   const { openWatchedWorld } = (await import(
     `${root}/scripts/dev-lab/world-aging.ts`
@@ -146,14 +169,42 @@ async function main() {
     throw new Error("The observer did not complete day 1");
   world = firstDay;
   const measuredFromDate = world.currentDate;
+  // The accepted action before this checkpoint and the first measured-day
+  // action share the day-2 bucket; the checkpoint itself is day-1 warm-up.
+  let priorDecisionCount = 0;
+  let priorEventCount = 0;
+  const hash = (value: unknown) =>
+    createHash("sha256").update(canonicalJson(value)).digest("hex");
   const dailySeconds: number[] = [];
+  const dailyCpuSeconds: number[] = [];
+  const actionDays: MonthReceipt["actionDays"][number][] = [];
   for (let day = 2; day <= 31; day += 1) {
     const dayBegan = performance.now();
+    const cpuBegan = cpuUsage();
     const next = advanceObservedWorld(world, 1);
+    const cpu = cpuUsage(cpuBegan);
     const daySeconds = (performance.now() - dayBegan) / 1000;
     if (next.currentDate <= world.currentDate)
       throw new Error(`The observer did not complete day ${day}`);
     dailySeconds.push(daySeconds);
+    dailyCpuSeconds.push((cpu.user + cpu.system) / 1_000_000);
+    const decisions = next.history.decisionTraces
+      .slice(priorDecisionCount)
+      .map((row) => ({
+        key: row.stableKey,
+        choice: row.selectedOptionKey,
+        hash: hash(withoutHistoryPositions(row)),
+        sequence: row.sequence,
+        cutoffSequence: row.context.cutoff.historySequenceExclusive,
+      }));
+    actionDays.push({
+      day,
+      date: next.currentDate,
+      decisions,
+      appendedPayloadDigest: hash(next.history.events.slice(priorEventCount)),
+    });
+    priorDecisionCount = next.history.decisionTraces.length;
+    priorEventCount = next.history.events.length;
     world = next;
   }
   const next = world;
@@ -164,10 +215,8 @@ async function main() {
   )
     throw new Error("The observer did not complete all 30 days");
   console.log(
-    `Days 2–31 mean: ${(seconds / dailySeconds.length).toFixed(6)}s/day; total ${seconds.toFixed(3)}s through ${next.currentDate}`,
+    `Days 2–31 wall mean: ${(seconds / dailySeconds.length).toFixed(6)}s/day; CPU mean: ${(dailyCpuSeconds.reduce((sum, cpu) => sum + cpu, 0) / dailyCpuSeconds.length).toFixed(6)}s/day; total wall ${seconds.toFixed(3)}s through ${next.currentDate}`,
   );
-  const hash = (value: unknown) =>
-    createHash("sha256").update(canonicalJson(value)).digest("hex");
   const payload = serializeWorldPayload(next);
   const fingerprint = createHash("sha256");
   for (const chunk of typeof payload === "string" ? [payload] : payload)
@@ -179,6 +228,9 @@ async function main() {
     head,
     seconds,
     dailySeconds,
+    dailyCpuSeconds,
+    executionId,
+    actionDays,
     date: next.currentDate,
     fingerprint: fingerprint.digest("hex"),
     people: next.personOrder.map((id) => ({ id, hash: hash(next.people[id]) })),
@@ -209,6 +261,8 @@ async function main() {
         errors: comparison.errors,
         baselineMeanSecondsPerDay: comparison.baselineMeanSecondsPerDay,
         candidateMeanSecondsPerDay: comparison.candidateMeanSecondsPerDay,
+        baselineMeanCpuSecondsPerDay: comparison.baselineMeanCpuSecondsPerDay,
+        candidateMeanCpuSecondsPerDay: comparison.candidateMeanCpuSecondsPerDay,
         meanReductionPercent: comparison.meanReductionPercent,
         fingerprintsIdentical: comparison.fingerprintsIdentical,
         people: receipt.people.length,

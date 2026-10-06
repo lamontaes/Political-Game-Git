@@ -11,6 +11,11 @@ const baseline: MonthReceipt = {
   head: "before",
   seconds: 100,
   dailySeconds: Array.from({ length: 30 }, () => 1),
+  dailyCpuSeconds: Array.from({ length: 30 }, () => 0.8),
+  executionId: "baseline-run",
+  actionDays: [
+    { day: 2, date: "2026-01-07", decisions: [], appendedPayloadDigest: "d" },
+  ],
   date: "2026-02-04",
   fingerprint: "before",
   people: [{ id: "p1", hash: "person" }],
@@ -28,14 +33,16 @@ const baseline: MonthReceipt = {
 const faster = (patch: Partial<MonthReceipt>): MonthReceipt => ({
   ...baseline,
   dailySeconds: Array.from({ length: 30 }, () => 0.9),
+  dailyCpuSeconds: Array.from({ length: 30 }, () => 0.7),
   ...patch,
 });
 describe("batch month semantic proof", () => {
-  it("requires exact accepted-action sequence and cutoff while reporting day means", () => {
+  it("requires exact accepted-action sequence and cutoff while reporting CPU and wall means", () => {
     const after = {
       ...baseline,
       fingerprint: "after",
       dailySeconds: Array.from({ length: 30 }, () => 0.9),
+      dailyCpuSeconds: Array.from({ length: 30 }, () => 0.7),
       decisions: [
         { ...baseline.decisions[0]!, sequence: 4, cutoffSequence: 4 },
       ],
@@ -47,6 +54,8 @@ describe("batch month semantic proof", () => {
     expect(result.fingerprintsIdentical).toBe(false);
     expect(result.baselineMeanSecondsPerDay).toBe(1);
     expect(result.candidateMeanSecondsPerDay).toBeCloseTo(0.9);
+    expect(result.baselineMeanCpuSecondsPerDay).toBeCloseTo(0.8);
+    expect(result.candidateMeanCpuSecondsPerDay).toBeCloseTo(0.7);
     expect(result.meanReductionPercent).toBeCloseTo(10);
     expect(
       withoutHistoryPositions({
@@ -90,13 +99,13 @@ describe("batch month semantic proof", () => {
       ).errors,
     ).toHaveLength(1);
   });
-  it("requires the candidate mean per day to improve", () => {
+  it("requires process CPU mean per day to improve", () => {
     const slower = {
       ...baseline,
-      dailySeconds: Array.from({ length: 30 }, () => 1.01),
+      dailyCpuSeconds: Array.from({ length: 30 }, () => 0.81),
     };
     expect(compareMonth(baseline, slower).errors).toContain(
-      "Days 2–31 mean 1.010000s/day is not below main 1.000000s/day",
+      "Days 2–31 process CPU mean 0.810000s/day is not below main 0.800000s/day",
     );
   });
 });
