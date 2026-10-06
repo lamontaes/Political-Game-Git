@@ -1,4 +1,5 @@
 Owner order Oct 6 (morning): Fable assigns every item by code area; this map is the authority; docket cards a80-q01 to q42 carry each area's queue; every item stays open to anyone and a claim expires after 60 minutes without board progress.
+Rule (owner order, Oct 6 8:15 a.m.): every active session's queue continues into the unpasted card items in its area, then any open item; idle sessions are woken by the coordinator with the next item from this map; nobody waits on Session 20: write a local stub of its interface in your own module, merge, and Session 20 reconciles.
 
 # Assignment map
 
