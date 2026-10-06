@@ -42,12 +42,15 @@ import type {
  *    one, is not moved by the record either way, but still counts in the
  *    electorate: most of a real electorate has no view on most bills.
  *
- * The magnitudes below are UNRESEARCHED blanket rules, filed with the research
- * queue as `issue-record-electoral-magnitudes`.
+ * The magnitudes below are ESTIMATED FROM AVERAGE game-scale values, filed with
+ * the research queue as `issue-record-electoral-magnitudes`.
  */
-export const UNRESEARCHED_ISSUE_RECORD = {
+export const ISSUE_RECORD_ESTIMATE = {
   version: "issue-record-unresearched-v1",
-  provenance: "unresearched-blanket-rule",
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "game scale ordered by how much a question matters to a voter; no survey gives the ratios (research request `issue-record-electoral-magnitudes`)",
   /**
    * How much each voter's view counts, by how much the question matters to
    * them. Ordered only; the ratios are not a finding.
@@ -348,7 +351,7 @@ export function isEligibleVoterIn(
 ): boolean {
   const person = world.people[personId];
   if (!person) return false;
-  if (ageOnDate(person.birthDate, asOf) < UNRESEARCHED_ISSUE_RECORD.votingAge)
+  if (ageOnDate(person.birthDate, asOf) < ISSUE_RECORD_ESTIMATE.votingAge)
     return false;
   if (
     !isPersonAliveAt(world, personId, {
@@ -395,7 +398,7 @@ export function judgeIssueRecord(
   );
   if (voters.length === 0) return null;
 
-  const rule = UNRESEARCHED_ISSUE_RECORD;
+  const rule = ISSUE_RECORD_ESTIMATE;
   let net = 0;
   const issues = standings.map((standing): IssueVerdict => {
     let agreeing = 0;

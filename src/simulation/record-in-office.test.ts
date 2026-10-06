@@ -15,7 +15,7 @@ import {
 import {
   recordInOffice,
   startingSupportAdjustment,
-  UNRESEARCHED_RECORD_IN_OFFICE,
+  RECORD_IN_OFFICE_ESTIMATE,
 } from "./record-in-office";
 import type { World } from "./types";
 
@@ -58,12 +58,12 @@ describe("a governor's record on the economy", { timeout: SLOW }, () => {
       ) ?? macroConditionsAt(later, "national", later.currentDate)!;
     expect(record.unemploymentNowPct).toBe(now.unemploymentPct);
     const expected = Math.max(
-      -UNRESEARCHED_RECORD_IN_OFFICE.maxAbsoluteWeight,
+      -RECORD_IN_OFFICE_ESTIMATE.maxAbsoluteWeight,
       Math.min(
-        UNRESEARCHED_RECORD_IN_OFFICE.maxAbsoluteWeight,
+        RECORD_IN_OFFICE_ESTIMATE.maxAbsoluteWeight,
         Math.round(
           (record.unemploymentAtStartPct - record.unemploymentNowPct) *
-            UNRESEARCHED_RECORD_IN_OFFICE.weightPerUnemploymentPoint,
+            RECORD_IN_OFFICE_ESTIMATE.weightPerUnemploymentPoint,
         ),
       ),
     );
