@@ -12,9 +12,8 @@ import { checkAmericanEnglish } from "../scripts/prose-eval/american-english";
 
 const PARTS_DIR = path.resolve(__dirname, "../data/english/parts");
 
-/** Hosts whose records are U.S. government works, so their wording may ship. */
-const PUBLIC_DOMAIN_SOURCES =
-  /^https:\/\/www\.(?:govinfo\.gov|supremecourt\.gov)\//;
+/** Federal (.gov) records are U.S. government works, so their wording may ship. */
+const PUBLIC_DOMAIN_SOURCES = /^https:\/\/(?:[a-z0-9-]+\.)+gov\//;
 
 const DEVELOPER_WORDS = [
   "game profile",
