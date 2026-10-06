@@ -1,4 +1,4 @@
-# Scenes composed from the live place, with council and work examples
+# Shared blocks for scenes composed from live records
 
 Before: The owner rejected all existing dialogue and the public meeting panel and its flow.
 
@@ -6,7 +6,7 @@ After: This proposed data-row specification composes played situations from actu
 
 Replaces: EVERY existing chat interface and its button-grid experience, including the meeting panel. Council and first-day work are worked examples of composable situations, not a finite scene list.
 
-Next: CTO checks this bounded specification before code or new bank content. Sessions 2, 3 and 14 remain at mockups until the owner picks. No implementation or acceptance proof is claimed.
+Next: Implement the five shared blocks together through existing engines under CTO ruling 6006516319. The previous spec-before-code hold is superseded. Presentation mockups still require the owner pick. No implementation or acceptance proof is claimed by this documentation checkpoint.
 
 ## Governing instructions
 
@@ -29,6 +29,18 @@ Recovered October 4 owner text, chat `01a0feb5-0cc6-7b90-8c9a-e37db416d4eb`, tur
 > This is what I mean, is that it needs to be modular. Maybe you walk into something, and maybe sometimes you don't.
 
 The subsequent black-bar instruction was corrected, not silently reconciled with these words. There are no black bars in the proposed experience.
+
+## Superseding implementation ruling: five shared blocks
+
+Measured instruction: [CTO 6006516319](https://github.com/lamontaes/Political-Game-Git/issues/2052#issuecomment-6006516319) records the owner's correction: “all at once. we are building blocks, not specific scenes. that's what the sim does. that's the entire project.” Implementation is now authorized. Council and work rows below are historical illustrations of evidence boundaries, not authored templates, delivery order, or the implementation unit.
+
+1. **Live situation reader:** read the current place, actual pending state and recorded wants at the current moment. Quiet arrival remains valid. No fixed scene trigger list chooses an outcome.
+2. **Recorded participants:** distinguish actual current presence from expected attendance. Only actual people may speak or appear; knowledge and hearing remain separate from presence.
+3. **Existing English exchange:** compose supported beats and every line through the existing English engine. Reply meanings come from her lived record, relationships, knowledge, money and standing. Lie remains present. The same blocks serve different situations and players.
+4. **Existing art:** select place art and person images from those same records through existing art selectors. No fabricated cast, new art engine, or black bars.
+5. **Canonical writeback:** dispatch the existing validated action writers and retain actual words, meanings, listeners, consequences and source records. Reading a scene creates no event; scheduled intent does not masquerade as completed action.
+
+Acceptance requires arrival in a random town and whatever the simulation composes, shown in a real-game screenshot and clip. Two different players must produce two different scenes through these same blocks. Fixed council/work templates, handpicked contrast records and a prose-only report cannot satisfy that proof. Exact file claims and producer/consumer handoffs must precede overlapping edits.
 
 ## Shared data row: all four requirements
 
