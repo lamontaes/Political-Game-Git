@@ -167,7 +167,7 @@ export const JOB_TURNOVER = {
  * sourced occupation/workplace median is an estimated vacant-role offer
  * (owner approval, October 1, 9:47 p.m.), not this government's pay scale.
  */
-export const PUBLIC_BODY_ROLE_PLACEHOLDER = {
+export const PUBLIC_BODY_ROLE_PROFILE = {
   researchQuestionId: "public-employer-roles-and-pay",
   title: "Office clerk",
   occupationClassification: "occupation:office-clerk",
@@ -272,7 +272,7 @@ function publicBodyRolePay(
   currency: string;
   source: EmployerRole["source"];
 } | null {
-  const role = PUBLIC_BODY_ROLE_PLACEHOLDER;
+  const role = PUBLIC_BODY_ROLE_PROFILE;
   const offeredHours =
     (role.weeklyHours.minimumHours + role.weeklyHours.maximumHours) / 2;
   const cutoff = currentLifeCutoff(world);
@@ -329,7 +329,7 @@ export function townEmployerRoles(
   for (const organizationId of publicBodyOrganizations(world, personId)) {
     const profile = organizationProfileAt(world, organizationId);
     if (!profile?.locationJurisdictionId) continue;
-    const role = PUBLIC_BODY_ROLE_PLACEHOLDER;
+    const role = PUBLIC_BODY_ROLE_PROFILE;
     const pay = publicBodyRolePay(
       world,
       organizationId,
@@ -888,7 +888,7 @@ export function openWeeklyListings(world: World, personId: EntityId): World {
         kind: "authored",
         note:
           role.source === "public-body-profile"
-            ? `Opening, answer and start timing are drawn from the placeholder calibration in job-market.ts. The role remains the public-body profile (research: ${PUBLIC_BODY_ROLE_PLACEHOLDER.researchQuestionId}). ESTIMATE FROM SOURCE: its vacant-role offer uses the BLS May 2025 OEWS occupation median for the recorded workplace's state or territory, with the source reader's national fallback where that cell is withheld (https://www.bls.gov/oes/); occupation ${role.occupationClassification}, workplace ${role.jurisdictionId}, annual base ${role.annualMinor} USD cents at the stated hours. Recorded employer pay replaces this estimate when read; this is not an observed employer pay scale.`
+            ? `Opening, answer and start timing are drawn from the placeholder calibration in job-market.ts. The role remains the public-body profile (research: ${PUBLIC_BODY_ROLE_PROFILE.researchQuestionId}). ESTIMATE FROM SOURCE: its vacant-role offer uses the BLS May 2025 OEWS occupation median for the recorded workplace's state or territory, with the source reader's national fallback where that cell is withheld (https://www.bls.gov/oes/); occupation ${role.occupationClassification}, workplace ${role.jurisdictionId}, annual base ${role.annualMinor} USD cents at the stated hours. Recorded employer pay replaces this estimate when read; this is not an observed employer pay scale.`
             : PROVENANCE_NOTE,
       },
     });
