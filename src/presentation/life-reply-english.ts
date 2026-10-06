@@ -32,7 +32,7 @@ const CORES = {
     "The money. A campaign costs a lot, and you could lose.",
   "running-worry-conflict": "The arguing. People get nasty in an election.",
   "running-worry-sociability": "Being in front of people all the time.",
-  "running-worry-none": "Nothing yet. Just go in with your eyes open.",
+  "running-worry-none": "Nothing yet.",
   "running-election-soon": "That is not far off.",
   "running-election-later": "That gives you some time.",
   "running-election-unknown": "When is it, again?",
@@ -43,7 +43,7 @@ const CORES = {
   "running-remember": "I remember that.",
   "running-no-memory": "What do you mean?",
   "tell-privacy": "Can it wait? I need a little quiet right now.",
-  "tell-shared-plan": "Me too. I've been meaning to {{plan}}.",
+  "tell-shared-plan": "I've been meaning to {{plan}}.",
   "tell-guarded": "All right.",
   "tell-parent-plan": "That sounds like a good idea.",
   "tell-warm-plan": "That sounds good. I hope you find the time.",
@@ -153,7 +153,6 @@ const CORES = {
   "proposal-accepted": "Yes, let's {{activity}}.",
   "time-spent-on-proposal": "I'm glad we took time to {{activity}}.",
   "first-greeting": "Hi, {{listener}}.",
-  "remembered-topic": "I remember you bringing up “{{topic}}”",
   "remembered-words": "I remember saying, “{{quote}}”",
 } as const;
 export type LifeReplyKey = keyof typeof CORES;
@@ -179,7 +178,6 @@ const FOLLOWUPS: Partial<Record<LifeReplyKey, string>> = {
   "do-you-want-to-ask-about-another": "Would you rather keep the class?",
   "i-was-involved-in-that": "What have you heard about it?",
   "i-heard-about-that": "How did you hear about it?",
-  "remembered-topic": "What happened after that?",
 };
 
 export const LIFE_REPLY_BANKS: Readonly<
