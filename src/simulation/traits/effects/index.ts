@@ -10,7 +10,6 @@ import { facetOpportunisticEffects } from "./facet-opportunistic";
 import { facetStudiousEffects } from "./facet-studious";
 import { facetSupportiveEffects } from "./facet-supportive";
 import { facetTenderHeartedEffects } from "./facet-tender-hearted";
-import facetThrillSeekingEffects from "./facet-thrill-seeking";
 import { facetZealousEffects } from "./facet-zealous";
 import { selfConfidenceEffects } from "./self-confidence";
 
@@ -31,7 +30,6 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetStudiousEffects,
     ...facetSupportiveEffects,
     ...facetTenderHeartedEffects,
-    ...facetThrillSeekingEffects,
     ...facetZealousEffects,
     ...selfConfidenceEffects,
   ];
