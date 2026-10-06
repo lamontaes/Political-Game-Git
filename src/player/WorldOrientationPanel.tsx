@@ -34,6 +34,7 @@ import { SavedPersonFigure } from "./SavedPersonFigure";
 import { PlacePeopleLayer } from "./PlacePeopleLayer";
 import { placeBackdropPeople } from "../presentation/backdrop-people";
 import { SceneChapterTransition } from "./SceneChapterTransition";
+import { introPlacementTrace } from "../presentation/intro-placement-trace";
 import { projectLivingSceneOpening } from "../presentation/living-scene-facts";
 import {
   projectOpeningFamily,
@@ -406,6 +407,16 @@ export function WorldOrientationPanel({
       aria-labelledby={`pg-orientation-title-${step.key}`}
       data-testid="world-orientation"
       data-step={step.key}
+      data-placement-trace={JSON.stringify(
+        introPlacementTrace(
+          officeStaged
+            ? officePeople
+            : step.key === "legislature"
+              ? legislaturePeople
+              : [],
+          chapter?.actors ?? [],
+        ),
+      )}
       onKeyDown={(event) => {
         if (event.key !== "Escape") return;
         event.stopPropagation();

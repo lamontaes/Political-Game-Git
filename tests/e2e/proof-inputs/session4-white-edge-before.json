@@ -1,0 +1,143 @@
+{
+  "worldId": "world_ad5214c46f1daa43",
+  "seed": "session4-session11-intro-tags:0",
+  "canonicalSeed": "setup-v3:9bcef4a54e29c908:{\"v\":3,\"seed\":\"session4-session11-intro-tags:0\",\"placeKey\":\"1352416\",\"startAge\":18,\"birthMonth\":1,\"birthDay\":1,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":\"Avery\",\"familyName\":\"Morgan\",\"gender\":\"female\",\"pronouns\":\"she-her\"}",
+  "moment": {
+    "date": "2026-01-05",
+    "minuteOfDay": 550,
+    "timeZone": "America/New_York",
+    "utcOffsetMinutes": -300
+  },
+  "place": {
+    "key": "1352416",
+    "displayName": "Monticello, Georgia",
+    "formalName": "Monticello",
+    "withinName": "Georgia",
+    "context": {
+      "jurisdiction": {
+        "id": "jurisdiction_dfea1e17f0d2ce13",
+        "slug": "us-place-1352416",
+        "name": "Monticello, Georgia",
+        "kind": "census-place",
+        "parentName": "Georgia",
+        "provenance": {
+          "asOf": "2026-01-05",
+          "source": "census-gazetteer-2025-places-zip",
+          "jurisdiction": "jurisdiction_dfea1e17f0d2ce13",
+          "status": "approved"
+        }
+      },
+      "initialMoment": {
+        "date": "2026-01-05",
+        "minuteOfDay": 550,
+        "timeZone": "America/New_York",
+        "utcOffsetMinutes": -300
+      },
+      "creationSummary": "Seeded world in Monticello, Georgia, from the 2025 Census Gazetteer place identity.",
+      "goalScope": "Monticello, Georgia",
+      "householdLocationLabel": "Monticello, Georgia"
+    },
+    "scope": "locality",
+    "stateJurisdictionKey": "US-GA",
+    "capabilities": {
+      "legislativeScenarioKey": null,
+      "candidacyPackId": null
+    },
+    "sourceGeoid": "1352416"
+  },
+  "card": "legislature",
+  "personId": "person_45a3b1d4d9d42313",
+  "fullResolvedArt": {
+    "packVersion": "people-engine-pack-v1",
+    "recipe": {
+      "presentation": "masculine",
+      "build": "average",
+      "shade": 6,
+      "face": "20s30s-05",
+      "hair": "curly-top",
+      "hairColor": "black",
+      "outfit": "formal",
+      "colors": {
+        "suit": "gray",
+        "shirt": "cream",
+        "tie": "navy"
+      }
+    },
+    "files": [
+      "body-masculine-average.png",
+      "face-masculine-20s30s-05.png",
+      "hair-masculine-curly-top-back.png",
+      "hair-masculine-curly-top-front.png",
+      "outfit-masculine-formal-average.png",
+      "outfit-masculine-formal-average-hides.png",
+      "outfit-masculine-formal-average-suit.png",
+      "outfit-masculine-formal-average-shirt.png",
+      "outfit-masculine-formal-average-tie.png"
+    ]
+  },
+  "placement": {
+    "personId": "person_45a3b1d4d9d42313",
+    "slotId": "state-legislative-chamber-bicameral:spot:0",
+    "slotRole": "general",
+    "pose": "standing",
+    "view": "front",
+    "facing": "viewer",
+    "depth": 80,
+    "selection": null,
+    "selectionGap": "missing-actor",
+    "art": {
+      "packVersion": "people-engine-pack-v1",
+      "recipe": {
+        "presentation": "masculine",
+        "build": "average",
+        "shade": 6,
+        "face": "20s30s-05",
+        "hair": "curly-top",
+        "hairColor": "black",
+        "outfit": "formal",
+        "colors": {
+          "suit": "gray",
+          "shirt": "cream",
+          "tie": "navy"
+        }
+      },
+      "files": [
+        "body-masculine-average.png",
+        "face-masculine-20s30s-05.png",
+        "hair-masculine-curly-top-back.png",
+        "hair-masculine-curly-top-front.png",
+        "outfit-masculine-formal-average.png",
+        "outfit-masculine-formal-average-hides.png",
+        "outfit-masculine-formal-average-suit.png",
+        "outfit-masculine-formal-average-shirt.png",
+        "outfit-masculine-formal-average-tie.png"
+      ]
+    }
+  },
+  "beforeScreenshot": {
+    "originalPath": "/workspace/Political-Game-Git/test-results/runs/session4-intro-six-2257-full-v3/results/session4-intro-placement-p-ed9fc-apture-0-Monticello-Georgia-chromium/0-3-legislature-full-size.png",
+    "publishedPath": "docs/codex/evidence/session4-intro-six-2257-v3/0-3-legislature-full-size.png",
+    "sha256": "47a700fd813f9e6a70d8503cd6e6649d927bf6f7fbcfda8cbb5f242a7fdc0c42",
+    "width": 1920,
+    "height": 1080
+  },
+  "beforeSource": "487921d051fc034fb266a2a488ab1ff397dc6693",
+  "beforeCaptureHead": "75de2212c01adfcec5fa2d5e6e08a4a96fa8bb86",
+  "afterSource": null,
+  "afterScreenshot": null,
+  "measuredFigureRectangle": null,
+  "actualDpr": null,
+  "rendererFromSource": "src/player/PlacePeopleLayer.tsx:159 EngineFigure canvas; source inspection, not a separately recorded renderer flag",
+  "pairStatus": "BEFORE recipe captured; AFTER and measured rectangle/DPR pending",
+  "registeredSourceFileHashes": {
+    "art/people-engine/v1/body-masculine-average.png": "77f5253fe4e3f652f6a55f55547bdd1f7b7dddb6ad9a25e0812a35547a1b96e4",
+    "art/people-engine/v1/face-masculine-20s30s-05.png": "8859c3e17f9e95480eadc699b08567069dc0bc98f9e2621b304b1eb1932da8c5",
+    "art/people-engine/v1/hair-masculine-curly-top-back.png": "1fa916caa5fda6315012092141551a72b0f909f6cc093df9e4c78733f0bc92ce",
+    "art/people-engine/v1/hair-masculine-curly-top-front.png": "d046473285ef76f9e84f2f311b9e172bc5ff5c8cb02bbeac2b08eb59bb935144",
+    "art/people-engine/v1/outfit-masculine-formal-average.png": "2389e02f4e776f6391c7d76fcc3bb2ba1a07ab86bcb488a6f2b3dfc271137384",
+    "art/people-engine/v1/outfit-masculine-formal-average-hides.png": "11dc0794c802149cf6e5a56dd02cd4b709b6a0ada3f516cf3848d14f7aad19f0",
+    "art/people-engine/v1/outfit-masculine-formal-average-suit.png": "0a0f207326a14dd0a53493578160c28ce4f566b35f7f94641aef9c62a2a90a38",
+    "art/people-engine/v1/outfit-masculine-formal-average-shirt.png": "711456c65f68643a9989744cfa0bf885a2fe56f3889ae26f5942bc7dc57693e3",
+    "art/people-engine/v1/outfit-masculine-formal-average-tie.png": "ee9dfe0254f4e65ae768453e38271f87c573de5e3379b440ad91a50b87a534b6"
+  }
+}

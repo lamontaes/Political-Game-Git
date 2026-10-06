@@ -1,3 +1,4 @@
+import type { SceneSlotRole } from "./scene-slot-contract";
 import staging from "../../art/backdrops/staging.json" with { type: "json" };
 import { peopleAtWorkAt } from "../simulation/living-world/work-schedules";
 import { playerTown } from "../simulation/living-world/town-residents";
@@ -49,6 +50,16 @@ import { isPersonAliveAt } from "../simulation/vitality-integrity";
 /** A person standing in a place picture, in percent of the picture. */
 export interface BackdropPerson {
   readonly personId: EntityId;
+  readonly resolvedPose: BodyPose;
+  readonly resolvedView: BodyView;
+  readonly slotId: string;
+  readonly slotRole: SceneSlotRole;
+  readonly facing: SpotFacing;
+  readonly selection: {
+    readonly basis:
+      "computed-work-schedule" | "recorded-attendance" | "supplied-roster";
+    readonly recordId: EntityId | null;
+  };
   readonly name: string;
   readonly title: string;
   readonly leftPercent: number;
@@ -70,6 +81,8 @@ export type SpotPose = "stand" | "sit" | "podium" | "lean";
 export type SpotFacing = "viewer" | "left" | "right" | "away";
 
 export interface StagingSpot {
+  readonly id?: string;
+  readonly role?: SceneSlotRole;
   /** The foot point, in percent of the picture (a seated person's too). */
   readonly x: number;
   readonly y: number;
@@ -288,6 +301,8 @@ export function placeBackdropPeople(
   present: readonly {
     readonly personId: EntityId;
     readonly title?: string;
+    readonly role?: SceneSlotRole;
+    readonly presenceRecordId?: EntityId;
   }[] = [],
   options: {
     /** The scene's people stand on the open floor instead of taking seats. */
@@ -482,6 +497,31 @@ export function placeBackdropPeople(
         : recipe;
     placed.push({
       personId: worker.personId,
+      resolvedPose: resolved.pose,
+      resolvedView: resolved.view,
+      slotId: spot.id ?? `${place}:spot:${stage.spots.indexOf(spot)}`,
+      slotRole: spot.role ?? "general",
+      facing: spot.facing ?? "viewer",
+      selection: (() => {
+        const sourceId = present.find(
+          (person) => person.personId === worker.personId,
+        )?.presenceRecordId;
+        const source = sourceId
+          ? world.history.events.find(
+              (event) =>
+                event.id === sourceId &&
+                event.participants.some((p) => p.personId === worker.personId),
+            )
+          : undefined;
+        if (source)
+          return { basis: "recorded-attendance" as const, recordId: source.id };
+        if (onShift)
+          return {
+            basis: "computed-work-schedule" as const,
+            recordId: shiftByPerson.get(worker.personId)!.workRelationshipId,
+          };
+        return { basis: "supplied-roster" as const, recordId: null };
+      })(),
       name: personName(record),
       title: worker.title,
       ...spotFigure(stage, spot, engine),
