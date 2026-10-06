@@ -6,6 +6,7 @@ import {
 } from "./player-conversation";
 import type { ConversationSubjectKey } from "./run-b-conversation-progress";
 import { personName, type EntityId, type World } from "../simulation";
+import { projectPlayedSceneExchange } from "./scene-conversation";
 
 /**
  * Talking to the person you actually chose.
@@ -51,6 +52,16 @@ export function openConversationWith(
   if (personId === playerPersonId) {
     return { kind: "unavailable", reason: "That is you." };
   }
+
+  const scene = projectPlayedSceneExchange(world, playerPersonId, personId);
+  if (scene)
+    return {
+      kind: "available",
+      subject: "life-talk",
+      topicLabel: "Talk here",
+      addressee: personId,
+      settled: false,
+    };
 
   if (completedActivityHere(world, playerPersonId)) {
     return {
