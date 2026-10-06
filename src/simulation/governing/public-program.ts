@@ -74,7 +74,7 @@ import type {
  * due date only if the authority still holds and the account actually has the
  * cash; otherwise it fails and says why. Maintenance returns units to service
  * after its delivery lead, and only as far as a declared restoration cost
- * supports; without one the outturn says the number is unknown. Nothing here
+ * supports; without one the commitment has no unit forecast. Nothing here
  * turns a decision into a promised percentage of better service.
  */
 
@@ -763,7 +763,7 @@ export function forecastProgramAlternative(
         );
       } else
         lines.push(
-          `No restoration cost is declared, so how many idle ${capacity.unitLabel} return is unknown.`,
+          `No restoration cost is declared, so this commitment has no forecast for idle ${capacity.unitLabel} returning to service.`,
         );
     }
   }

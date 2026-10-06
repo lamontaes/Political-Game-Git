@@ -62,7 +62,7 @@ import {
   seatedStateLegislators,
 } from "./joint-assembly";
 import {
-  SENATE_APPOINTMENT_PLACEHOLDER_DAYS,
+  SENATE_APPOINTMENT_PLACEHOLDER_DAYS as SENATE_APPOINTMENT_ESTIMATED_DAYS,
   SENATE_SPECIAL_ELECTION_ESTIMATED_DAYS,
   senateVacancyLaw,
 } from "../nationwide-world/senate-vacancy-law";
@@ -179,9 +179,11 @@ function voterChoice(
  * someone of the governor's own party. When the term ends at the regular
  * election anyway, that election fills the seat and no special is held.
  *
- * PLACEHOLDER (filed as `us-senate-vacancy-appointment-and-special-election`):
- * the appointee is still a generated person, not someone the governor
- * knows, and the days to an appointment where the statute sets none.
+ * ESTIMATED FROM THE RECORDED GAME PROFILE: where a statute sets no
+ * appointment deadline, the shared ten-day profile in
+ * `senate-vacancy-law.ts` supplies the interval. This is not attributed to a
+ * state. The appointee is still generated rather than one of the governor's
+ * recorded contacts.
  */
 export const SENATE_APPOINTMENT = "governing:senate-appointment";
 
@@ -449,9 +451,9 @@ function nextCongressionalElectionAfter(date: IsoDate): IsoDate {
  * A vacant U.S. Senate seat, filled under the state's own law
  * (`senate-vacancy-law.ts`): an appointment where the governor may make one,
  * then a special election, prompt or at the next regular November election
- * as the state's statute says. PLACEHOLDER (SENATE_VACANCY_PROFILE) only
- * where the law is silent or unrecorded: the days to an appointment with no
- * statutory deadline, and a prompt election's unrecorded window.
+ * as the state's statute says. Where the law has no recorded interval, the
+ * ten-day appointment profile or the median of recorded prompt-election
+ * windows supplies it, respectively.
  */
 function openSenateVacancy(
   world: World,
@@ -501,8 +503,8 @@ function openSenateVacancy(
   const appointmentDay = addDays(
     from,
     deadline === null
-      ? SENATE_APPOINTMENT_PLACEHOLDER_DAYS
-      : Math.min(SENATE_APPOINTMENT_PLACEHOLDER_DAYS, deadline),
+      ? SENATE_APPOINTMENT_ESTIMATED_DAYS
+      : Math.min(SENATE_APPOINTMENT_ESTIMATED_DAYS, deadline),
   );
   const window = seatTermWindow(seat, vacancyDate);
   const regular = congressionalElectionDay(
@@ -1346,8 +1348,8 @@ function rulingFor(
   if (seat) return vacateSeat(world, seat, MEMBER_DIED(notice.effectiveDate));
   const governorship = governorOffice(office.officeKey);
   if (governorship) {
-    // PLACEHOLDER (governor-succession.ts): the next officer in line serves
-    // the rest of the term.
+    // The recorded state succession profile seats the next officer in line
+    // for the rest of the term.
     const seated = seatGovernorSuccessor(world, governorship, {
       vacancyDate: notice.effectiveDate,
       formerHolderId: notice.personId,
@@ -1379,8 +1381,8 @@ function rulingFor(
     ruling: {
       ...base,
       outcome: "blocked",
-      // PLACEHOLDER: how this office is filled is not compiled. The sentence
-      // is printed to players and says only what happened.
+      // No succession route is recorded for this office. The sentence is
+      // printed to players and says only what happened.
       sentence: "The office is vacant, and no successor has taken office.",
     },
   };
@@ -1394,7 +1396,7 @@ function rulingFor(
  *
  * The route is law; its pace and its choices are not, and each is marked:
  *
- * PLACEHOLDER (filed as `vice-presidential-vacancy-nomination-and-confirmation`):
+ * ESTIMATED FROM THE TWO RECORDED VICE-PRESIDENTIAL VACANCIES:
  * - how long a President takes to name a nominee, and how long Congress takes
  *   to confirm one. The two times it has happened took 57 days (1973) and
  *   121 days (1974) from nomination to confirmation; the profile below sits

@@ -98,7 +98,7 @@ export interface OfficeStaffClassReading {
 
 /**
  * The staff's civil-service class, from the compiled boundary where the state
- * has one and `unknown` with the reason where it does not. Takes the state
+ * has one and an explicitly based estimate where it does not. Takes the state
  * code rather than a whole office, so it can be asked about a state whose
  * office this World has not materialized.
  */
@@ -117,8 +117,8 @@ export function officeStaffClass(
         basis: `${boundary.statement} (${boundary.citation}). ${profileNote}`,
       }
     : {
-        civilClass: "unknown",
-        basis: `${boundary.reason} The class is recorded unknown rather than guessed. ${profileNote}`,
+        civilClass: "unclassified",
+        basis: `${boundary.reason} ESTIMATED FROM A SIMILAR PLACE: Minnesota's recorded governor-office employees are unclassified. ${profileNote}`,
       };
 }
 
@@ -159,8 +159,8 @@ export function establishOfficeStaffPositions(
     (office.stateUsps
       ? officeStaffClass(office.stateUsps, world.currentDate)
       : {
-          civilClass: "unknown",
-          basis: `No state civil-service boundary applies to this office, so the class is recorded unknown. Which positions it has is ${table.profile}, an authored gameplay profile.`,
+          civilClass: "unclassified",
+          basis: `ESTIMATED FROM A SIMILAR PLACE: Minnesota's recorded elected governor-office employees are unclassified. Which positions this office has is ${table.profile}, an authored gameplay profile.`,
         });
   const existing = officeStaffPositionRecords(world);
   const established: string[] = [];

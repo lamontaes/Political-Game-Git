@@ -261,7 +261,7 @@ export function questionAuthority(
       reason:
         reach === null
           ? "No level is recorded for this question."
-          : "This jurisdiction's level of government is not known.",
+          : "No recorded jurisdiction level grants this government authority over the question.",
     };
   const own = levels.filter((level) =>
     REACH_OF[level].some((kind) => reach.includes(kind)),

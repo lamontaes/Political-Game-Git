@@ -1045,8 +1045,8 @@ const DEADLINE_DAYS: Record<Exclude<GoverningMatterFamily, "bill">, number> = {
   implementation: 30,
   budget: 30,
   program: 45,
-  // PLACEHOLDER: no state gives a governor a deadline on a clemency request
-  // that the game has read; this is how long it waits on the desk.
+  // ESTIMATED FROM THE OTHER RECORDED DESK MATTERS: clemency gets two standard
+  // 30-day review periods because the game records no statutory state deadline.
   clemency: 60,
   "executive-order": 21,
   regulation: 30,

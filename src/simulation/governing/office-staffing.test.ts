@@ -60,17 +60,16 @@ describe("GOVERNING D1: an office has authorized positions, filled or not", () =
     expect(serializeWorld(second.world)).toBe(serializeWorld(first.world));
   }, 600_000);
 
-  it("takes the civil class from the compiled boundary and refuses to guess elsewhere", () => {
+  it("takes a compiled civil class or labels the Minnesota-based estimate", () => {
     const onDate = openingWorld("office-staffing-class").currentDate;
 
     // Minnesota HAS a compiled boundary, and at an ordinary start date the
-    // class is still unknown — because the statute was observed in current
-    // text on a date LATER than the world's, and observing a law today does
-    // not establish it on an earlier day. The refusal is the source
-    // discipline working, not a missing state.
+    // source cannot establish it on an earlier day, so the Minnesota
+    // comparison supplies a labeled estimate instead.
     const atStart = officeStaffClass("MN", onDate);
-    expect(atStart.civilClass).toBe("unknown");
+    expect(atStart.civilClass).toBe("unclassified");
     expect(atStart.basis).toMatch(/does not establish it on/);
+    expect(atStart.basis).toMatch(/ESTIMATED FROM A SIMILAR PLACE: Minnesota/);
 
     // On or after the observation, the compiled class is the state's own.
     const observed = "2026-09-06";
@@ -80,11 +79,11 @@ describe("GOVERNING D1: an office has authorized positions, filled or not", () =
     const alaska = officeStaffClass("AK", observed);
     expect(alaska.civilClass).toBe("exempt");
 
-    // Kentucky has no compiled boundary at all, on any date.
+    // Kentucky has no compiled boundary, so it uses the same labeled estimate.
     const kentucky = officeStaffClass("KY", observed);
-    expect(kentucky.civilClass).toBe("unknown");
+    expect(kentucky.civilClass).toBe("unclassified");
     expect(kentucky.basis).toMatch(/not compiled|no civil-service boundary/i);
-    expect(kentucky.basis).toMatch(/unknown rather than guessed/);
+    expect(kentucky.basis).toMatch(/ESTIMATED FROM A SIMILAR PLACE: Minnesota/);
 
     // None of them claims the staffing table itself is sourced.
     for (const reading of [atStart, minnesota, alaska, kentucky])

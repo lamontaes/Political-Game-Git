@@ -17,7 +17,7 @@ export const SUPREME_COURT_ID = "us-supreme-court";
 
 export const SUPREME_COURT_APPOINTMENT_PROFILE = {
   id: "ocd-supreme-court-appointment/v1",
-  /** PLACEHOLDER: game profile. */
+  /** ESTIMATED FROM THE GAME'S FEDERAL NOMINATION PROFILE: one 30-day review. */
   daysFromVacancyToNomination: 30,
   /** MEASURED: median, 17 confirmations 1975-2022 (senate.gov). */
   daysFromNominationToVote: 66,

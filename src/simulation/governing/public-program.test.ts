@@ -508,7 +508,7 @@ describe("GOVERNING 6: public programs keep appropriation, commitment, cash and 
     };
     expect(
       forecastProgramAlternative(world, parks, repair).lines.join(" "),
-    ).toMatch(/unknown/);
+    ).toMatch(/no forecast/);
     const committed = commitPublicProgram(world, {
       appropriationId: parks.id,
       alternative: repair,

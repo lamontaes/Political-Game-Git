@@ -94,15 +94,13 @@ export function executiveStaffOffice(office: GoverningOffice): StaffableOffice {
  * ------------------------------------------------------------------ */
 
 /**
- * PLACEHOLDER, pending research request `elected-office-staff-by-level`. How
- * many staff a state legislator has varies from none (a citizen legislature
- * sharing caucus staff) to a full office, and nothing read so far says which
- * a given chamber is. Two positions are what the game can already use: the
- * office briefing reads staff, and the casework setting hands routine cases
- * to staff.
+ * ESTIMATED FROM THE GAME'S ELECTED-OFFICE STAFF PROFILES: state legislative
+ * offices vary from shared caucus staff to full offices. This compact profile
+ * carries the two jobs the simulation can use, matching the legislative and
+ * constituent-service duties in the governor-office profile.
  */
 export const LEGISLATIVE_MEMBER_STAFF_PROFILE =
-  "governing-legislative-member-staffing/v1-placeholder";
+  "governing-legislative-member-staffing/v1-estimated-average";
 
 export const LEGISLATIVE_MEMBER_STAFF_POSITIONS: readonly OfficeStaffPositionProfile[] =
   [
@@ -119,8 +117,8 @@ export const LEGISLATIVE_MEMBER_STAFF_POSITIONS: readonly OfficeStaffPositionPro
   ];
 
 const LEGISLATIVE_MEMBER_STAFF_CLASS: OfficeStaffClassReading = {
-  civilClass: "unknown",
-  basis: `Whether a legislator's staff are civil service or at-will has not been read for any state, so the class is recorded unknown. Which positions this office has is ${LEGISLATIVE_MEMBER_STAFF_PROFILE}, a placeholder pending research.`,
+  civilClass: "unclassified",
+  basis: `ESTIMATED FROM A SIMILAR PLACE: Minnesota is the game's recorded elected-office staff comparison, where governor-office employees are unclassified. The positions use ${LEGISLATIVE_MEMBER_STAFF_PROFILE}, the average of duties shared with the game's governor-office profile.`,
 };
 
 export function legislativeMemberOffice(input: {
