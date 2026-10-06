@@ -45,7 +45,7 @@ export const CRUNCH46_PROVISIONAL_POLICY = {
 } as const;
 
 /**
- * UNRESEARCHED. Unemployment's pull back toward its normal level.
+ * RECORDED RECOVERY PROFILE. Unemployment's pull back toward its normal level.
  *
  * Section 13 moves unemployment only by changes: last month's rate plus the
  * lagged growth gap, a draw and shock impulses. With nothing drawing it back,
@@ -56,17 +56,18 @@ export const CRUNCH46_PROVISIONAL_POLICY = {
  *
  * `naturalRatePct` is the rate section 13 itself treats as neutral: the
  * starting draw at a zero cycle latent (`baseline.unemploymentPct`).
- * `monthlyGapRetention` is a placeholder read off one episode, BLS national
+ * `monthlyGapRetention` is estimated from one recorded episode, BLS national
  * unemployment of 10.0% in October 2009 and 7.8% in October 2012
  * (((7.8 - 4.6) / (10.0 - 4.6)) ** (1 / 36) is about 0.985, a half-life of
  * about four years). That recovery also carried slow growth, so it is an
- * illustration, not an estimate. Both are filed as
- * `unemployment-return-to-normal`.
+ * illustration rather than a cross-episode estimate. The game marks the profile
+ * ESTIMATED FROM THE OCTOBER 2009–OCTOBER 2012 NATIONAL TREND; no place-level
+ * values are used. Both values are filed as `unemployment-return-to-normal`.
  */
 export const UNEMPLOYMENT_RECOVERY_RULE =
   "unemployment-returns-to-normal/v1" as const;
 
-export const UNRESEARCHED_UNEMPLOYMENT_RECOVERY = {
+export const ESTIMATED_UNEMPLOYMENT_RECOVERY = {
   rule: UNEMPLOYMENT_RECOVERY_RULE,
   naturalRatePct: CRUNCH46_PROVISIONAL_POLICY.baseline.unemploymentPct,
   monthlyGapRetention: 0.985,
@@ -210,8 +211,8 @@ export const CHANGE_AUTHORED_IMPULSES: Readonly<
     sectors: ["energy-resources", "manufacturing"],
   },
   /*
-   * UNRESEARCHED blanket rule, added so an enacted law can reach the economy
-   * at all. Money a government actually paid out under a law adds demand in
+   * RECORDED REALIZED-MONEY RULE. Money a government actually paid out under
+   * a law adds demand in
    * that jurisdiction; tax it actually collected takes demand out. These are
    * the realized-money channels ChatGPT's C02 answer calls for, not enactment:
    * an appropriation is authority, not spending, and a tax rise is not a

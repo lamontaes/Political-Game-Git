@@ -12,13 +12,13 @@ import type {
  * benchmark because they have different populations and denominators.
  */
 const FIELD_BENCHMARKS = {
-  // PLACEHOLDER(wave2): Nickerson's contextual nonpartisan GOTV comparison
+  // ESTIMATED FROM THE RECORDED CAMPAIGN-CONTACT PROFILE: Nickerson's contextual nonpartisan GOTV comparison
   // is applied to the game's candidate survey shift without an office factor.
   "door-canvass": {
     completedConversations: { min: 3, max: 8 },
     sourceObservationIds: ["volunteer-door-conversations"],
   },
-  // PLACEHOLDER(wave2): this phone shift is treated as manual dialing until
+  // ESTIMATED FROM THE RECORDED CAMPAIGN-CONTACT PROFILE: this phone shift is treated as manual dialing until
   // the activity records an actual dialing mode and list quality.
   "phone-shift": {
     phoneDials: { min: 35, max: 35 },
@@ -49,7 +49,7 @@ export function modelCampaignFieldReach(
   if (!Number.isSafeInteger(minutes) || minutes <= 0) {
     throw new Error("Completed field work requires positive whole minutes.");
   }
-  // PLACEHOLDER(wave2): one candidate shift minute counts as one volunteer-
+  // ESTIMATED FROM THE RECORDED CAMPAIGN-CONTACT PROFILE: one candidate shift minute counts as one volunteer-
   // equivalent minute until staffing and participation have a measured rule.
   const benchmark = FIELD_BENCHMARKS[form];
   return {

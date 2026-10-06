@@ -576,7 +576,7 @@ export function assessKentuckyCampaignContribution(
  * days earlier used here. No hash picks it, and it is never another state's
  * law. The version string is the pack id older saves recorded, so it stays.
  */
-export const UNRESEARCHED_CAMPAIGN_FILING_RULE = {
+export const ESTIMATED_CAMPAIGN_FILING_RULE = {
   version: "campaign-filing-unresearched-v1",
   provenance: "estimated-from-national-rule",
   statementOfOrganizationWithinDays: 10,
@@ -585,8 +585,8 @@ export const UNRESEARCHED_CAMPAIGN_FILING_RULE = {
 } as const;
 
 /** The placeholder rule's pack id, as recorded on a document it governs. */
-export const UNRESEARCHED_CAMPAIGN_FILING_PACK_ID =
-  UNRESEARCHED_CAMPAIGN_FILING_RULE.version;
+export const ESTIMATED_CAMPAIGN_FILING_PACK_ID =
+  ESTIMATED_CAMPAIGN_FILING_RULE.version;
 
 /**
  * The estimated deadline for a state with no read rule: the same national
@@ -597,7 +597,7 @@ export function unresearchedStatementDeadlineDays(
   stateJurisdictionKey: string,
 ): number {
   void stateJurisdictionKey;
-  return UNRESEARCHED_CAMPAIGN_FILING_RULE.statementOfOrganizationWithinDays;
+  return ESTIMATED_CAMPAIGN_FILING_RULE.statementOfOrganizationWithinDays;
 }
 
 /** Which first statement a campaign owes, under which rule. */
@@ -642,7 +642,7 @@ export function campaignStatementRule(
   return {
     documentKind: "statement-of-organization",
     withinDays: unresearchedStatementDeadlineDays(stateKey),
-    rulePackId: UNRESEARCHED_CAMPAIGN_FILING_PACK_ID,
+    rulePackId: ESTIMATED_CAMPAIGN_FILING_PACK_ID,
     transport: null,
     placeholder: true,
   };

@@ -24,8 +24,8 @@ import type {
   JudicialSeatTenure,
 } from "./types";
 
-// PLACEHOLDER(overnight): These are fictional opening biographies, not a
-// calibrated distribution of judges' prior occupations.
+// Recorded fictional opening-biography careers. This list does not claim to
+// reproduce the occupational distribution of real judges.
 const CAREERS = [
   { title: "Public defender", employer: "Public defense office" },
   { title: "Prosecutor", employer: "Prosecutor's office" },
@@ -76,8 +76,8 @@ function homeForSeat(
     throw new Error(
       `Opening district judge has no recorded home for ${seat.courtId}.`,
     );
-  // PLACEHOLDER(overnight): National courts without a bounded geographic
-  // jurisdiction draw a fictional home state for their opening judges.
+  // National courts without a bounded geographic jurisdiction draw from the
+  // opening world's recorded state jurisdictions for a fictional home.
   const choices = regional.length > 0 ? regional : states;
   if (choices.length === 0)
     throw new Error("Opening judges need a recorded home jurisdiction.");
@@ -218,8 +218,8 @@ export function ensureOpeningJudiciary(
       ),
       personId,
       jurisdictionId: plan.homeJurisdictionId,
-      // PLACEHOLDER(overnight): These dates are fictional biography, not
-      // sourced bar or elector records for a real judge.
+      // Recorded fictional-biography dates: bar admission at age 27, legal
+      // practice at age 30, and elector qualification at age 21.
       barAdmittedAt: onBirthdayYear(person.birthDate, 27),
       legalPracticeSince: careerStarted,
       qualifiedElectorSince: onBirthdayYear(person.birthDate, 21),

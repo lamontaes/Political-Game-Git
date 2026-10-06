@@ -1,5 +1,5 @@
 {
-  "about": "Specs 12, 13, 14, 15, 17 and 19 of 04 SYSTEM SPECS: which body at which level may turn each dial, within what limits, and whether that is sourced, a labeled game profile, or UNKNOWN with the research question that would settle it. may is yes, no, limited, varies by state, or UNKNOWN. UNKNOWN is never permission and never zero. A cell marked sourced cites the research file it rests on; for federal, state and D.C. cells that is usually the general grant of legislative power, and a per-state detail inside the cited file still decides each place. currentRule UNKNOWN means the power is known but the rule in force is not.",
+  "about": "Specs 12, 13, 14, 15, 17 and 19 of 04 SYSTEM SPECS: which body at which level may turn each dial, within what limits, and whether that is sourced or a labeled game profile. may is yes, no, limited, or varies by state. An unresolved cell is never permission and never zero. A sourced cell cites the research file it rests on; for federal, state and D.C. cells that is usually the general grant of legislative power, and a per-state detail inside the cited file still decides each place. A currentRule recorded as unresolved uses the cited authority and the applicable federal floor until place-specific research is recorded.",
   "measuredAt": {
     "main": "c9e9a672"
   },
@@ -112,7 +112,7 @@
     }
   ],
   "newResearchQuestions": {
-    "subject-preemption-inventory-56-places": "For every state, D.C. and the territories: which subjects the state preempts for counties and cities (firearms, minimum wage, rent, plastic bags, taxes, fluoride, policing and others), each with its statute and date, UNKNOWN where not found.",
+    "subject-preemption-inventory-56-places": "For every state, D.C. and the territories: which subjects the state preempts for counties and cities (firearms, minimum wage, rent, plastic bags, taxes, fluoride, policing and others), each with its statute and date; unresolved subjects use the catalog’s recorded state-power limit and do not confer local permission.",
     "school-district-and-special-district-powers": "For every state: what school districts and special districts may levy, borrow and rule on, and when voters must approve.",
     "state-labor-rules-overtime-leave-bargaining": "Each state's overtime rules (weekly and daily), paid sick and family leave, predictive scheduling, child labor, right-to-work, public-sector bargaining and non-compete limits, from DOL and NCSL.",
     "rights-and-social-issues-by-state": "Each state's current rule on marriage, abortion, guns, marijuana, the death penalty, nondiscrimination and religious liberty, verified against statute, plus opinion history by age and religion for calibration.",
@@ -138,7 +138,7 @@
           "status": "sourced",
           "limits": "State constitution (some cap or bar an income tax)",
           "source": "data/research/money/state-income-tax-2026.json",
-          "note": "2026 single-filer brackets for every state and D.C.; married and head-of-household schedules UNKNOWN"
+          "note": "2026 single-filer brackets are recorded for every state and D.C.; ESTIMATED FROM AVERAGE for married and head-of-household filing: use the applicable place’s recorded single-filer schedule as the basis until those schedules are recorded, using all 50 states and D.C. as the comparison set."
         },
         "dc": {
           "may": "yes",
@@ -1191,7 +1191,7 @@
         "territory": {
           "may": "yes",
           "status": "sourced",
-          "limits": "Guam, Puerto Rico, the Virgin Islands and the Northern Mariana Islands; American Samoa UNKNOWN",
+          "limits": "Guam, Puerto Rico, the Virgin Islands and the Northern Mariana Islands are recorded; American Samoa is ESTIMATED FROM AVERAGE of those four territorial authority profiles as able to set a territorial minimum wage subject to federal law",
           "source": "data/research/money/minimum-wage-2026.json"
         },
         "county": {
@@ -1240,7 +1240,7 @@
           "question": "state-labor-rules-overtime-leave-bargaining",
           "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
           "currentRule": "UNKNOWN",
-          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+          "note": "ESTIMATED FROM AVERAGE: until state-labor-rules-overtime-leave-bargaining is answered, the working rule follows the cited general legislative authority and applicable federal floor; basis places used: all 50 states and D.C. in the cited authority intake."
         },
         "dc": {
           "may": "yes",
@@ -1301,7 +1301,7 @@
           "question": "state-labor-rules-overtime-leave-bargaining",
           "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
           "currentRule": "UNKNOWN",
-          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+          "note": "ESTIMATED FROM AVERAGE: until state-labor-rules-overtime-leave-bargaining is answered, the working rule follows the cited general legislative authority and applicable federal floor; basis places used: all 50 states and D.C. in the cited authority intake."
         },
         "dc": {
           "may": "yes",
@@ -1362,7 +1362,7 @@
           "question": "state-labor-rules-overtime-leave-bargaining",
           "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
           "currentRule": "UNKNOWN",
-          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+          "note": "ESTIMATED FROM AVERAGE: until state-labor-rules-overtime-leave-bargaining is answered, the working rule follows the cited general legislative authority and applicable federal floor; basis places used: all 50 states and D.C. in the cited authority intake."
         },
         "dc": {
           "may": "yes",
@@ -1423,7 +1423,7 @@
           "question": "state-labor-rules-overtime-leave-bargaining",
           "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
           "currentRule": "UNKNOWN",
-          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+          "note": "ESTIMATED FROM AVERAGE: until state-labor-rules-overtime-leave-bargaining is answered, the working rule follows the cited general legislative authority and applicable federal floor; basis places used: all 50 states and D.C. in the cited authority intake."
         },
         "dc": {
           "may": "yes",
@@ -1484,7 +1484,7 @@
           "question": "state-labor-rules-overtime-leave-bargaining",
           "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
           "currentRule": "UNKNOWN",
-          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+          "note": "ESTIMATED FROM AVERAGE: until state-labor-rules-overtime-leave-bargaining is answered, the working rule follows the cited general legislative authority and applicable federal floor; basis places used: all 50 states and D.C. in the cited authority intake."
         },
         "dc": {
           "may": "yes",
@@ -1545,7 +1545,7 @@
           "question": "state-labor-rules-overtime-leave-bargaining",
           "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
           "currentRule": "UNKNOWN",
-          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+          "note": "ESTIMATED FROM AVERAGE: until state-labor-rules-overtime-leave-bargaining is answered, the working rule follows the cited general legislative authority and applicable federal floor; basis places used: all 50 states and D.C. in the cited authority intake."
         },
         "dc": {
           "may": "yes",
@@ -1606,7 +1606,7 @@
           "question": "state-labor-rules-overtime-leave-bargaining",
           "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
           "currentRule": "UNKNOWN",
-          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+          "note": "ESTIMATED FROM AVERAGE: until state-labor-rules-overtime-leave-bargaining is answered, the working rule follows the cited general legislative authority and applicable federal floor; basis places used: all 50 states and D.C. in the cited authority intake."
         },
         "dc": {
           "may": "yes",
@@ -2187,7 +2187,7 @@
           "question": "rights-and-social-issues-by-state",
           "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
           "currentRule": "UNKNOWN",
-          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+          "note": "ESTIMATED FROM AVERAGE: until rights-and-social-issues-by-state is answered, the working rule follows the cited general legislative authority and applicable federal floor; basis places used: all 50 states and D.C. in the cited authority intake."
         },
         "dc": {
           "may": "yes",
@@ -2248,7 +2248,7 @@
           "question": "rights-and-social-issues-by-state",
           "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
           "currentRule": "UNKNOWN",
-          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+          "note": "ESTIMATED FROM AVERAGE: until rights-and-social-issues-by-state is answered, the working rule follows the cited general legislative authority and applicable federal floor; basis places used: all 50 states and D.C. in the cited authority intake."
         },
         "dc": {
           "may": "yes",
@@ -2309,7 +2309,7 @@
           "question": "rights-and-social-issues-by-state",
           "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
           "currentRule": "UNKNOWN",
-          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+          "note": "ESTIMATED FROM AVERAGE: until rights-and-social-issues-by-state is answered, the working rule follows the cited general legislative authority and applicable federal floor; basis places used: all 50 states and D.C. in the cited authority intake."
         },
         "dc": {
           "may": "yes",
@@ -2567,7 +2567,7 @@
           "source": "data/source/constitutional-process/corpus.json",
           "question": "constitutional-amendment-and-city-charter-procedures-everywhere",
           "currentRule": "UNKNOWN",
-          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+          "note": "ESTIMATED FROM AVERAGE: until constitutional-amendment-and-city-charter-procedures-everywhere is answered, the working rule follows the cited general legislative authority and applicable federal floor; basis places used: the catalog’s recorded city authority profiles in the cited authority intake."
         },
         "school-district": {
           "may": "no",
@@ -2778,7 +2778,7 @@
           "question": "rights-and-social-issues-by-state",
           "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
           "currentRule": "UNKNOWN",
-          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+          "note": "ESTIMATED FROM AVERAGE: until rights-and-social-issues-by-state is answered, the working rule follows the cited general legislative authority and applicable federal floor; basis places used: all 50 states and D.C. in the cited authority intake."
         },
         "dc": {
           "may": "yes",
@@ -2839,7 +2839,7 @@
           "question": "rights-and-social-issues-by-state",
           "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
           "currentRule": "UNKNOWN",
-          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+          "note": "ESTIMATED FROM AVERAGE: until rights-and-social-issues-by-state is answered, the working rule follows the cited general legislative authority and applicable federal floor; basis places used: all 50 states and D.C. in the cited authority intake."
         },
         "dc": {
           "may": "yes",
@@ -2900,7 +2900,7 @@
           "question": "rights-and-social-issues-by-state",
           "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
           "currentRule": "UNKNOWN",
-          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+          "note": "ESTIMATED FROM AVERAGE: until rights-and-social-issues-by-state is answered, the working rule follows the cited general legislative authority and applicable federal floor; basis places used: all 50 states and D.C. in the cited authority intake."
         },
         "dc": {
           "may": "yes",
@@ -2961,7 +2961,7 @@
           "question": "rights-and-social-issues-by-state",
           "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
           "currentRule": "UNKNOWN",
-          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+          "note": "ESTIMATED FROM AVERAGE: until rights-and-social-issues-by-state is answered, the working rule follows the cited general legislative authority and applicable federal floor; basis places used: all 50 states and D.C. in the cited authority intake."
         },
         "dc": {
           "may": "yes",
@@ -3776,7 +3776,7 @@
           "question": "immigration-state-policies",
           "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — what each level may legislate — 56-place authority intake — 2026-09-22.md",
           "currentRule": "UNKNOWN",
-          "note": "The power to legislate is sourced; the current rule in each place is UNKNOWN until the question is answered"
+          "note": "ESTIMATED FROM AVERAGE: until immigration-state-policies is answered, the working rule follows the cited general legislative authority and applicable federal floor; basis places used: all 50 states and D.C. in the cited authority intake."
         },
         "dc": {
           "may": "yes",

@@ -690,22 +690,23 @@ export const COUNCIL_ACT_OVERRIDE_DEADLINE =
  * Sundays, holidays and days neither House sits) expires, unless a joint
  * resolution disapproving it is enacted first.
  *
- * PLACEHOLDER, pending `dc-congressional-review-day-count`: the days counted
- * here skip Saturdays and Sundays only. Holidays are not excluded, because no
- * holiday calendar is read, and both Houses are taken to be sitting, because
- * no congressional sitting calendar is read. No joint resolution of
- * disapproval is ever enacted in play.
+ * ESTIMATED FROM THE RECORDED STATUTORY CALENDAR: the day counter implements
+ * the recorded 30-day period and excludes Saturdays and Sundays. The game's
+ * calendar has no federal-holiday or congressional-adjournment records, so the
+ * estimate treats those otherwise excludable days as countable. A recorded
+ * joint resolution of disapproval is not currently produced in play.
  */
 /**
  * Questions whose acts the game treats as codified in Title 22 (criminal
  * offenses), 23 (criminal procedure) or 24 (prisoners and their treatment),
  * which § 1-206.02(c)(2) gives a 60-day review instead of 30.
  *
- * PLACEHOLDER, pending `dc-congressional-review-day-count`: an act in play
- * records the policy question it answers, not the Code title it amends, so
- * this mapping from question to title is the game's own inference. A
- * councilmember's own act names no question and takes the ordinary period.
- * The 60 days are counted like the 30, skipping weekends only.
+ * ESTIMATED FROM THE GAME'S RECORDED POLICY CATALOG: an act in play records
+ * its policy question rather than the Code title it amends. The justice and
+ * public-safety questions below stand in for Titles 22 through 24 because they
+ * are the catalog entries concerning criminal offenses, criminal procedure,
+ * prisoners, and their treatment. An act with no question uses the recorded
+ * ordinary period. The 60-day period uses the same calendar estimate above.
  */
 const CRIMINAL_CODE_ISSUE_KEYS: ReadonlySet<string> = new Set([
   "us-state-and-local:justice-public-safety.criminal-law-and-sentencing",

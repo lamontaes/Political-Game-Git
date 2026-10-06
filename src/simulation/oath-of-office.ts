@@ -71,8 +71,11 @@ export function isOathSwornOn(value: string): value is OathSwornOn {
   );
 }
 
-/** Version of the blanket phrases, recorded with every oath taken on them. */
-export const BLANKET_STATE_OATH_VERSION = "blanket-state-oath-v1";
+/**
+ * Version of the shared state profile, recorded with each oath that uses it.
+ * The stored value retains its original spelling for save compatibility.
+ */
+export const SHARED_STATE_OATH_VERSION = "blanket-state-oath-v1";
 
 /**
  * The oath of a state officeholder, in the phrases an officiant reads and the

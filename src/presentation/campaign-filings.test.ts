@@ -15,7 +15,7 @@ import {
   publicCampaignComplianceDocuments,
   searchLifePlaces,
   unresearchedStatementDeadlineDays,
-  UNRESEARCHED_CAMPAIGN_FILING_RULE,
+  ESTIMATED_CAMPAIGN_FILING_RULE,
   stateExecutiveIdentity,
   stateJurisdictionForKey,
 } from "../simulation";
@@ -115,7 +115,7 @@ describe("campaign filings on the campaign screen", () => {
       expect(records).toHaveLength(1);
       expect(records[0]!.kind).toBe("statement-of-organization");
       expect(records[0]!.rulePackId).toBe(
-        UNRESEARCHED_CAMPAIGN_FILING_RULE.version,
+        ESTIMATED_CAMPAIGN_FILING_RULE.version,
       );
       expect(renderFilings({ ...race, world: filed })).toContain(
         "Statement of organization: filed",
@@ -148,7 +148,7 @@ describe("campaign filings on the campaign screen", () => {
     ];
     const days = keys.map(unresearchedStatementDeadlineDays);
     expect(new Set(days)).toEqual(new Set([10]));
-    expect(UNRESEARCHED_CAMPAIGN_FILING_RULE.source).toMatch(
+    expect(ESTIMATED_CAMPAIGN_FILING_RULE.source).toMatch(
       /^ESTIMATED FROM AVERAGE: .*52 U\.S\.C\. 30103\(a\)/,
     );
   });

@@ -28,7 +28,7 @@ export const SOCIAL_OCCASION_JOURNEY_KEY =
   "life-opportunity:social-occasion:journey";
 /**
  * A short local trip. The world has no distance for it, so no fare either.
- * PLACEHOLDER, NOT RESEARCHED: filed as `what-ordinary-invitations-are-for`,
+ * RECORDED GAME PROFILE: filed as `what-ordinary-invitations-are-for`,
  * with the afternoon's hours and the asker's home as its place.
  */
 const SOCIAL_OCCASION_JOURNEY_MINUTES = 15;

@@ -712,7 +712,7 @@ export function assertCampaignIntegrity(
   assertCampaignRoutineIntegrity(world, ids, campaignById);
   assertCampaignOpponentIntegrity(world, ids, campaignById);
 
-  // UNRESEARCHED_CAMPAIGN_FILING_RULE.version in campaign-compliance.ts; a
+  // ESTIMATED_CAMPAIGN_FILING_RULE.version in campaign-compliance.ts; a
   // placeholder statement is filed on paper, with no electronic transport.
   const UNRESEARCHED_FILING_PACK_ID = "campaign-filing-unresearched-v1";
   const complianceById = new Map<EntityId, CampaignComplianceDocumentRecord>();

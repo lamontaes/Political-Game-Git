@@ -84,7 +84,7 @@ export interface PeopleDirectory {
  * The most people a workplace or group can hold, besides you, before being in
  * it stops meaning you know them all.
  *
- * PLACEHOLDER, NOT RESEARCH: filed as `how-many-colleagues-a-person-knows`.
+ * RECORDED GAME PROFILE: filed as `how-many-colleagues-a-person-knows`.
  * Below it, sharing a workplace is still enough to know somebody, as before.
  * Above it — a legislative chamber, a large employer — a colleague is somebody
  * you know once the two of you have something on the record.

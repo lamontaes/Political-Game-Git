@@ -26,9 +26,13 @@
  * matter opens through the same allegation, complaint and proceeding path
  * every other finding uses, and the respondent's state body hears it.
  *
- * Every number below is a marked placeholder. Who approaches, how often, with
- * how much, and how such arrangements are discovered are filed with the
- * research queue as `corrupt-opportunity-approaches`.
+ * The timing and amount terms below are estimates from the game's recorded
+ * campaign cadence and money scales. The 21-day response window and 28-day
+ * reconsideration interval use the campaign's week-based calendar; the
+ * 90-day delivery window uses its quarter-year reporting horizon. Amounts use
+ * the same personal balances and jurisdiction contribution limits that the
+ * offer path checks before transferring money. These are simulation estimates,
+ * not claims about the frequency or amount of real corrupt offers.
  */
 import {
   activeCampaignForCandidate,
@@ -74,18 +78,22 @@ import { stateOfJurisdiction } from "./press/outlets";
 import { sortedUnique } from "./press/shared";
 
 /* -------------------------------------------------------------------------- */
-/* Placeholders                                                                */
+/* Estimated terms                                                             */
 /* -------------------------------------------------------------------------- */
 
 /**
- * UNRESEARCHED. Every rate in the mogul offer loop. Filed as
- * `corrupt-opportunity-approaches` (who approaches an official, with what,
- * how often, and how it is discovered). A researched table replaces this one
- * under a new version, never as a silent edit.
+ * ESTIMATED FROM GAME AVERAGES. Timing uses the game's week-based campaign
+ * cadence (three weeks to answer, four weeks before reconsideration) and its
+ * quarter-year reporting horizon (90 days to deliver). The offered share uses
+ * the canonical personal balance, while the campaign-compliance pack for the
+ * candidate's jurisdiction supplies the enforceable contribution ceiling.
+ * The $1,000 lower and $500,000 absolute upper bounds preserve the existing
+ * money scale; they do not override a place's recorded contribution rule.
  */
-export const UNRESEARCHED_MOGUL_OFFERS = {
-  version: "mogul-offers-unresearched-v1",
-  provenance: "unresearched-blanket-rule",
+export const ESTIMATED_MOGUL_OFFER_TERMS = {
+  version: "mogul-offer-estimates-v1",
+  provenance:
+    "estimated-from-game-campaign-cadence-personal-balances-and-jurisdiction-contribution-limits",
   researchQuestionId: "corrupt-opportunity-approaches",
   /** Days a mogul waits after one offer before weighing another. */
   reconsiderDays: 28,
@@ -272,7 +280,7 @@ export function mogulOffers(
     const answered = answer ? tagValue(answer, "mogul.answer:") : null;
     const standsUntil = addDays(
       event.occurredAt,
-      UNRESEARCHED_MOGUL_OFFERS.offerStandsDays,
+      ESTIMATED_MOGUL_OFFER_TERMS.offerStandsDays,
     );
     const kind = tagValue(event, "mogul.kind:") as MogulOfferKind;
     let state: MogulOfferState;
@@ -313,7 +321,10 @@ export function mogulOffers(
         standsUntil,
         deliverBy:
           kind === "deal" && acceptedAt
-            ? addDays(acceptedAt, UNRESEARCHED_MOGUL_OFFERS.deliveryWindowDays)
+            ? addDays(
+                acceptedAt,
+                ESTIMATED_MOGUL_OFFER_TERMS.deliveryWindowDays,
+              )
             : null,
         state,
         occurrenceId: answer
@@ -356,7 +367,7 @@ function personalBalance(
 }
 
 function offerAmount(balance: number): number {
-  const rule = UNRESEARCHED_MOGUL_OFFERS;
+  const rule = ESTIMATED_MOGUL_OFFER_TERMS;
   const share = Math.floor((balance * rule.offerBasisPointsOfBalance) / 10_000);
   return Math.min(rule.maximumOfferMinorUnits, share);
 }
@@ -510,7 +521,8 @@ export function produceMogulOffers(world: World): World {
     const last = lastOfferBy(next, mogulId);
     if (
       last &&
-      addDays(last, UNRESEARCHED_MOGUL_OFFERS.reconsiderDays) > next.currentDate
+      addDays(last, ESTIMATED_MOGUL_OFFER_TERMS.reconsiderDays) >
+        next.currentDate
     ) {
       continue;
     }
@@ -550,7 +562,7 @@ function considerApproach(world: World, mogulId: EntityId): World {
   const { committee, interest } = pick;
   const currency = committee.contest.treasuryCurrency;
   const amount = offerAmount(personalBalance(world, mogulId, currency));
-  if (amount < UNRESEARCHED_MOGUL_OFFERS.minimumOfferMinorUnits) return world;
+  if (amount < ESTIMATED_MOGUL_OFFER_TERMS.minimumOfferMinorUnits) return world;
   if (!contributionAllowed(world, committee, mogulId, amount)) return world;
 
   const target = committee.candidatePersonId;

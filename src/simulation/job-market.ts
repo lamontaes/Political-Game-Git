@@ -99,6 +99,9 @@ const PROVENANCE_NOTE =
 export const JOB_TIMING = {
   recruitmentWindowDays: { minimum: 7, maximum: 28 },
   offerReplyDays: { minimum: 3, maximum: 7 },
+  startLeadDays: { minimum: 1, maximum: 7 },
+  missedStartGraceDays: 2,
+  followUpStartDays: { minimum: 3, maximum: 7 },
 } as const;
 
 /**
@@ -118,18 +121,6 @@ export const JOB_MARKET_PLACEHOLDER = {
    * works there put the applicant forward, the long end otherwise.
    */
   decisionDays: { minimum: 2, maximum: 7 },
-  /**
-   * Days from the reply deadline to the start date: the long end when the
-   * applicant has a job to leave first.
-   */
-  startLeadDays: { minimum: 1, maximum: 7 },
-  /** Days after a start date before the employer treats it as missed. */
-  missedStartGraceDays: 2,
-  /**
-   * Days from a follow-up to the new start date: the long end when the
-   * applicant has a job to leave first.
-   */
-  followUpStartDays: { minimum: 3, maximum: 7 },
   /** An existing job this many hours a week rules out a full-time second. */
   fullTimeHours: 30,
 } as const;
@@ -1435,8 +1426,8 @@ function decide(world: World, application: JobApplicationRecord): World {
   const leadStart = addDays(
     replyBy,
     leaving
-      ? JOB_MARKET_PLACEHOLDER.startLeadDays.maximum
-      : JOB_MARKET_PLACEHOLDER.startLeadDays.minimum,
+      ? JOB_TIMING.startLeadDays.maximum
+      : JOB_TIMING.startLeadDays.minimum,
   );
   const startAt =
     opening.earliestStartAt && opening.earliestStartAt > leadStart
@@ -2026,10 +2017,7 @@ function advanceApplication(
     }
     if (latest.kind === "accepted" || latest.kind === "followed-up") {
       const startAt = expectedStart(next, application.id)!;
-      const missedOn = addDays(
-        startAt,
-        JOB_MARKET_PLACEHOLDER.missedStartGraceDays,
-      );
+      const missedOn = addDays(startAt, JOB_TIMING.missedStartGraceDays);
       if (today <= missedOn) return next;
       const occurredAt = addDays(missedOn, 1);
       // The employer calls when somebody who works there vouched for them,
@@ -2042,8 +2030,8 @@ function advanceApplication(
         const newStart = addDays(
           occurredAt,
           holdsWork(next, application.personId)
-            ? JOB_MARKET_PLACEHOLDER.followUpStartDays.maximum
-            : JOB_MARKET_PLACEHOLDER.followUpStartDays.minimum,
+            ? JOB_TIMING.followUpStartDays.maximum
+            : JOB_TIMING.followUpStartDays.minimum,
         );
         next = addStep(next, application, {
           kind: "followed-up",

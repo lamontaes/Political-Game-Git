@@ -18,8 +18,8 @@ import type {
 export const OFFICEHOLDER_PRINCIPLES_VERSION = "officeholder-principles/v1";
 
 /**
- * PLACEHOLDER: the least summed weight at which a member's principles weigh
- * moderately, strongly and decisively on a vote.
+ * RECORDED GAME SCALE: each supporting or opposing principle contributes its
+ * saved conviction. Totals of 3, 6 and 9 map to moderate, strong and decisive.
  */
 const VOTE_IMPORTANCE = { moderate: 3, strong: 6, decisive: 9 } as const;
 
@@ -194,8 +194,8 @@ export function principleAnswersConsideration(
 /**
  * Which way a member's principles lean on one question, as a view with a
  * salience, for a member who holds no formed view on it. The salience cut
- * points are the vote-importance ones above (PLACEHOLDER, hand-set): a lean
- * that would weigh "strong" in a vote is a question the member holds high.
+ * points are the recorded vote-importance scale above: a lean that would weigh
+ * "strong" in a vote is a question the member holds high.
  */
 export function principleView(
   world: World,

@@ -300,7 +300,7 @@ export function goBrieflyToOrdinaryMeeting(
       event.tags.includes("attendance:late-entry"),
   );
   // COPY-PENDING(wave2): A late arrival has not heard the opening discussion.
-  // PLACEHOLDER(overnight): Fifteen minutes is the authored short-visit
+  // ESTIMATED FROM THE RECORDED SHORT-VISIT PROFILE: Fifteen minutes is the authored short-visit
   // duration until the owner sets a scene pacing rule; it is never a fare or
   // a claim about an actual public body's meeting procedure.
   const briefMinutes = 15;

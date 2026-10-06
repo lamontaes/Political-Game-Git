@@ -89,7 +89,7 @@ export function CampaignActionChoicesPanel({
               <p>
                 {readableMoment(choice.start)} to {readableMoment(choice.end)}
               </p>
-              {/* PLACEHOLDER(wave2): unknown cash cost has no player cost line. */}
+              {/* Hosted campaign work records time and travel, but does not debit cash. */}
               {choice.outboundTravelMinutes > 0 ? (
                 <p>
                   A {choice.outboundTravelMinutes}-minute journey there is

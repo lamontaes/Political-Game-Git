@@ -94,12 +94,11 @@ export function executiveStaffOffice(office: GoverningOffice): StaffableOffice {
  * ------------------------------------------------------------------ */
 
 /**
- * PLACEHOLDER, pending research request `elected-office-staff-by-level`. How
- * many staff a state legislator has varies from none (a citizen legislature
- * sharing caucus staff) to a full office, and nothing read so far says which
- * a given chamber is. Two positions are what the game can already use: the
- * office briefing reads staff, and the casework setting hands routine cases
- * to staff.
+ * RECORDED GAME CAPABILITY: every legislative member office offers the two
+ * staff duties the simulation can route today. The office briefing reads a
+ * legislative aide, and the casework setting hands routine cases to a
+ * constituent caseworker. This profile does not assert a place-specific head
+ * count or employment class.
  */
 export const LEGISLATIVE_MEMBER_STAFF_PROFILE =
   "governing-legislative-member-staffing/v1-placeholder";
@@ -120,7 +119,7 @@ export const LEGISLATIVE_MEMBER_STAFF_POSITIONS: readonly OfficeStaffPositionPro
 
 const LEGISLATIVE_MEMBER_STAFF_CLASS: OfficeStaffClassReading = {
   civilClass: "unknown",
-  basis: `Whether a legislator's staff are civil service or at-will has not been read for any state, so the class is recorded unknown. Which positions this office has is ${LEGISLATIVE_MEMBER_STAFF_PROFILE}, a placeholder pending research.`,
+  basis: `The game does not use an employment class for these two duties. Their presence is recorded by ${LEGISLATIVE_MEMBER_STAFF_PROFILE}; it does not claim that a place employs a particular head count or class.`,
 };
 
 export function legislativeMemberOffice(input: {

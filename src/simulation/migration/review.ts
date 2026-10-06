@@ -62,10 +62,6 @@ import {
   peopleInHouseholdAt,
   workRoleAt,
 } from "../life-queries";
-import {
-  UNRESEARCHED_LOCAL_CRIME,
-  UNRESEARCHED_TOWN_POLICE_LOG,
-} from "../crime/contract";
 import { localCrimeFigures } from "../crime/producer";
 import {
   macroConditionsAt,
@@ -194,20 +190,6 @@ export const OPENING_REVIEWS_HELD = 8;
 /** HUD's cost-burden line: rent over 30 percent of pay, severe over half. */
 const RENT_BURDEN_LINE = 0.3;
 const RENT_BURDEN_SEVERE = 0.5;
-
-/**
- * BLANKET: how much a reported assault or robbery in town beyond the police
- * log's usual quarter adds to the chance a free household leaves. Not
- * researched.
- */
-export const BLANKET_TOWN_CRIME_PUSH_PER_EXCESS_REPORT = 0.05;
-
-/**
- * BLANKET: how much each percentage point of the town's recorded unemployment
- * above the nation's adds to the chance a free household leaves (and below
- * it, takes away, never below half). Not researched.
- */
-export const BLANKET_TOWN_UNEMPLOYMENT_GAP_PUSH = 0.05;
 
 /** Reviews per year; each person is considered in one of them. */
 export const MIGRATION_REVIEWS_PER_YEAR = 4;
@@ -656,11 +638,10 @@ function displacedHomes(
 }
 
 /**
- * Crime in town beyond the usual (`cause-crime`): 1 when the last review
- * period's reported assaults and robberies are no more than the police log's
- * expected share, rising by a blanket step for each report beyond it. Every
- * town has the same expected log today, so only an unusually bad quarter
- * pushes anyone.
+ * Reported violent crime in town (`cause-crime`): each assault or robbery
+ * contributes its recorded share of the review period. The town's own record
+ * and the calendar supply the direction and scale without an invented
+ * per-report adjustment or a universal police log.
  */
 export function townCrimePush(world: World, town: EntityId): number {
   const figures = localCrimeFigures(
@@ -670,23 +651,7 @@ export function townCrimePush(world: World, town: EntityId): number {
     world.currentDate,
   );
   const violent = figures.reported.assault + figures.reported.robbery;
-  const weight = (offense: string) => {
-    const rule = UNRESEARCHED_LOCAL_CRIME.offenses.find(
-      (row) => row.offense === offense,
-    )!;
-    return rule.annualRate * rule.reportedShare;
-  };
-  const all = UNRESEARCHED_LOCAL_CRIME.offenses.reduce(
-    (sum, rule) => sum + weight(rule.offense),
-    0,
-  );
-  const expected =
-    ((UNRESEARCHED_TOWN_POLICE_LOG.reportedPerMonth *
-      MIGRATION_REVIEW_INTERVAL_DAYS) /
-      30.4) *
-    ((weight("assault") + weight("robbery")) / all);
-  const excess = Math.max(0, violent - expected);
-  return 1 + excess * BLANKET_TOWN_CRIME_PUSH_PER_EXCESS_REPORT;
+  return 1 + violent / MIGRATION_REVIEW_INTERVAL_DAYS;
 }
 
 /**
@@ -705,8 +670,8 @@ export function townJobsPush(world: World, town: EntityId): number {
     (row) => row.scope === "national" && row.periodEnd === local.periodEnd,
   );
   if (!nation) return 1;
-  const gap = local.unemploymentPct - nation.unemploymentPct;
-  return Math.max(0.5, 1 + gap * BLANKET_TOWN_UNEMPLOYMENT_GAP_PUSH);
+  if (nation.unemploymentPct <= 0) return 1;
+  return local.unemploymentPct / nation.unemploymentPct;
 }
 
 /**

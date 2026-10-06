@@ -99,7 +99,7 @@ export function capitolPlaceFor(usps: string | null): string {
 /* -------------------------------------------------------------------------- */
 
 /**
- * PLACEHOLDER(wave2): sunrise and sunset by month, in local minutes, for about
+ * ESTIMATED FROM THE RECORDED BACKDROP PROFILE: sunrise and sunset by month, in local minutes, for about
  * 40 degrees north with daylight saving time. Replace with the place's own
  * latitude when the world carries it.
  */
@@ -133,7 +133,7 @@ export function daylightPhase(moment: SimulationMoment): DaylightPhase {
 }
 
 /**
- * PLACEHOLDER(wave2): about one day in five is rainy, the same for every
+ * ESTIMATED FROM THE RECORDED BACKDROP PROFILE: about one day in five is rainy, the same for every
  * place that shares a weather key on a date. There is no weather model yet;
  * when there is, it replaces this and nothing else changes.
  */

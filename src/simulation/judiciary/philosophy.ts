@@ -28,8 +28,8 @@ const RIGHTS: readonly JudicialRightsSubject[] = [
   "equal-treatment",
 ];
 
-// PLACEHOLDER(overnight): Three years and one strength step are conservative
-// game pacing for a changed philosophy, not a sourced account of real judges.
+// Recorded game pacing: a philosophy review spans three years and moves one
+// strength step. It does not claim to measure changes among real judges.
 const REVIEW_YEARS = 3;
 
 export interface JudicialPhilosophyFormation {

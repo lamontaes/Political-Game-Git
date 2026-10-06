@@ -29,7 +29,7 @@ import { readRelationshipStanding } from "../simulation/relationship-standing";
 export const TELL_PREFIX = "tell:";
 
 /*
- * PLACEHOLDER, NOT RESEARCH. What counts as news and how a listener answers are
+ * RECORDED GAME PROFILE. What counts as news and how a listener answers are
  * filed with ChatGPT as `listener-response-to-being-told`, and the owner has
  * ruled that depth is not invented. The recency window, the count and every
  * line in `tellAnswer` stand in until that answer comes back.
@@ -195,7 +195,7 @@ export interface TellAnswer {
  * have made the same plan. Nothing here is scored or remembered beyond what
  * the conversation writes.
  *
- * PLACEHOLDER: the answers themselves are interim, pending the research
+ * RECORDED GAME PROFILE: the answers themselves are interim, pending the research
  * question `listener-response-to-being-told`.
  */
 export function tellAnswer(

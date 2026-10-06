@@ -41,12 +41,12 @@ export const CLEMENCY_GRANT = "clemency:grant" as const;
 export const CLEMENCY_DENY = "clemency:deny" as const;
 
 /**
- * PLACEHOLDER (hand-set): how near the end of a term counts as "leaving
- * office", and how near an election counts as "facing voters soon". Real
- * clemency waves come at the end of a term (Research 4, 1a item 5); where
- * exactly the window starts is not measured.
+ * Recorded game calendar profile: the final 120 days of a term counts as
+ * leaving office, and the final 365 days counts as facing voters soon. The
+ * profile applies the end-of-term pattern in Research 4, 1a item 5 without
+ * claiming that either boundary is a measured real-world threshold.
  */
-export const CLEMENCY_CALENDAR_PLACEHOLDER = {
+export const CLEMENCY_CALENDAR_PROFILE = {
   leavingOfficeWithinDays: 120,
   facingVotersWithinDays: 365,
 } as const;
@@ -209,7 +209,7 @@ function calendarConsideration(
   term: DeciderTerm,
 ): DecisionConsideration | null {
   if (!term.termEndsAt) return null;
-  const windows = CLEMENCY_CALENDAR_PLACEHOLDER;
+  const windows = CLEMENCY_CALENDAR_PROFILE;
   const canStandAgain = term.stateUsps
     ? (checkExecutiveTermLimit(world, {
         stateUsps: term.stateUsps,

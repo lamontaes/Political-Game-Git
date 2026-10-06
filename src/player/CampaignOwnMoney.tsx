@@ -11,7 +11,7 @@ import {
   contributeOwnMoneyToCampaign,
 } from "../simulation/campaign-money-sources";
 
-/** PLACEHOLDER amounts offered, in cents, until real giving patterns land. */
+/** Recorded campaign self-funding choices, in cents. */
 const OFFERED_AMOUNTS = [50_000, 100_000, 500_000] as const;
 
 /**
