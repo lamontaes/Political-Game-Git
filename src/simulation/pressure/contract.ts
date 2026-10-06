@@ -152,7 +152,7 @@ export const PRESSURE_SEAMS: readonly PressureSeam[] = [
     status: "built",
     rule: "BLANKET: when the economy records a state's own month, each percentage point its unemployment sits above the nation's adds 0.02 to the pressure to leave, and each point below adds 0.02 to the pull to arrive. The economy records a place separately only after a disaster or public spending there, so most states read as the nation. On the town side, each point of the player's town's unemployment above the nation's adds 5 percent to the town's push, which a resident with a recorded cause weighs on leaving. Wages are not recorded.",
     where:
-      "src/simulation/pressure/causes.ts BLANKET_UNEMPLOYMENT_GAP_PRESSURE",
+      "src/simulation/pressure/causes.ts unemployment-gap pressure calibration",
   },
   {
     key: "cause-job-loss",
@@ -166,8 +166,7 @@ export const PRESSURE_SEAMS: readonly PressureSeam[] = [
     connects: "Crime in the player's town driving people away.",
     status: "built",
     rule: "BLANKET: each reported assault or robbery in town beyond the police log's usual quarter adds 5 percent to the town's push, which a resident with a recorded cause weighs on leaving. Every town has the same usual log, so only an unusually bad quarter pushes. Crime is not compared between states.",
-    where:
-      "src/simulation/migration/review.ts BLANKET_TOWN_CRIME_PUSH_PER_EXCESS_REPORT",
+    where: "src/simulation/migration/review.ts town-crime push calibration",
   },
   {
     key: "cause-family",
@@ -266,7 +265,7 @@ export const PRESSURE_SEAMS: readonly PressureSeam[] = [
     connects: "Pressure passing when nothing keeps feeding it.",
     status: "built",
     rule: "BLANKET: every pressure loses 25 percent of its level every quarter.",
-    where: "src/simulation/pressure/step.ts BLANKET_FADE_PER_QUARTER",
+    where: "src/simulation/pressure/step.ts ESTIMATED_FADE_PER_QUARTER",
   },
   {
     key: "state-flows",

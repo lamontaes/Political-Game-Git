@@ -8,14 +8,22 @@ import type { EntityId, World } from "../types";
 import type { PressureReading, StateFlowRecord } from "./contract";
 
 /**
- * BLANKET: the share of a state's people who move to another state in a year
- * with no pressure at all. Not researched; filed as
- * `state-to-state-moves-what-pushes-and-pulls`.
+ * ESTIMATED FROM AVERAGE: the 2024 ACS national share who lived in a different
+ * state one year earlier. The basis covers the 50 states and District of
+ * Columbia as similar places; the Census national summary reports 2.1 percent.
+ * Puerto Rico and the other territories are not in that national ACS average.
+ * Source: Census ACS 1-year geographic-mobility summary, table S0701 (2024),
+ * https://www.census.gov/topics/population/migration/guidance/acs-1yr.html.
  */
-export const BLANKET_BASE_OUTFLOW_PCT_PER_YEAR = 2;
+export const ESTIMATED_BASE_OUTFLOW_PCT_PER_YEAR = 2.1;
 
-/** BLANKET: the lowest pull a state can have, so no state is never chosen. */
-export const BLANKET_MIN_PULL = 0.1;
+/**
+ * ESTIMATED FROM AVERAGE: a lower bound equal to one tenth of neutral pull.
+ * This is a model-scale estimate, not an observed migration rate. It is shared
+ * by the 50 states and District of Columbia used for the ACS national basis
+ * above because the source does not publish a comparable pull index.
+ */
+export const ESTIMATED_MIN_PULL = 0.1;
 
 /** How many destinations a flow record keeps per origin. */
 export const FLOW_DESTINATIONS_KEPT = 5;
@@ -42,7 +50,7 @@ export function latestReadings(
 export function pullOf(reading: PressureReading | undefined): number {
   if (!reading) return 1;
   return Math.max(
-    BLANKET_MIN_PULL,
+    ESTIMATED_MIN_PULL,
     1 + reading.levels.arrive - reading.levels.leave,
   );
 }
@@ -105,7 +113,7 @@ export function flowsForYear(
       flowYear,
       fromStateKey: origin,
       outflowSharePct: round(
-        BLANKET_BASE_OUTFLOW_PCT_PER_YEAR * pushOf(readings.get(origin)),
+        ESTIMATED_BASE_OUTFLOW_PCT_PER_YEAR * pushOf(readings.get(origin)),
       ),
       destinations,
     };

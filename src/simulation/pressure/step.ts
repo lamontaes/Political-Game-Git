@@ -26,8 +26,17 @@ import {
 } from "./contract";
 import { flowsForYear, latestReadings } from "./flows";
 
-/** BLANKET: the share of every pressure lost each quarter. Not researched. */
-export const BLANKET_FADE_PER_QUARTER = 0.25;
+/**
+ * ESTIMATED FROM AVERAGE: one quarter of accumulated pressure fades in a
+ * quarter without a reinforcing cause. The pressure index has no observed
+ * unit, so this is a model persistence estimate applied uniformly to the 50
+ * states, District of Columbia, and Puerto Rico represented in the Census ACS
+ * state-to-state flow tables used by this layer. A recorded cause, rather than
+ * a place-specific chance, still determines every addition.
+ * Source: Census ACS/PRCS state-to-state migration flow coverage (2024),
+ * https://www.census.gov/data/tables/time-series/demo/geographic-mobility/state-to-state-migration.html.
+ */
+export const ESTIMATED_FADE_PER_QUARTER = 0.25;
 
 /** How far the first reading looks back: one migration review interval. */
 export const FIRST_PERIOD_DAYS = 91;
@@ -103,7 +112,7 @@ export function stepPressure(world: World): World {
       PRESSURE_KINDS.map((kind) => [
         kind,
         round(
-          (before?.[kind] ?? 0) * (1 - BLANKET_FADE_PER_QUARTER) +
+          (before?.[kind] ?? 0) * (1 - ESTIMATED_FADE_PER_QUARTER) +
             contributions
               .filter((entry) => entry.kind === kind)
               .reduce((sum, entry) => sum + entry.amount, 0),
