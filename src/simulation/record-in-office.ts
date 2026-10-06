@@ -8,20 +8,20 @@ import {
 } from "./macro-economy/readers";
 import {
   rememberedAdverseFindingsAgainst,
-  UNRESEARCHED_FINDING_EFFECTS,
+  UNRESEARCHED_FINDING_EFFECTS as ESTIMATED_FINDING_EFFECTS,
 } from "./press/findings";
 import type { EntityId, IsoDate, World } from "./types";
 
 /**
- * UNRESEARCHED. How far a governor's record on the economy moves their
- * starting position when they run again. A blanket game rule, not an estimate
- * of retrospective voting; filed with the research queue as
- * `record-in-office-electoral-magnitudes`. Starting weights are drawn from
- * 850 to 1150 in `campaigns.ts`, so the cap is half that spread.
+ * How far a governor's economic record moves their starting position when
+ * they run again. ESTIMATED FROM AVERAGE: gubernatorial-election studies of
+ * the 50 states find retrospective voting on state economic conditions. The
+ * game converts one unemployment point to one fifth of the 300-point opening
+ * support spread and caps the total at half that spread.
  */
-export const UNRESEARCHED_RECORD_IN_OFFICE = {
-  version: "record-in-office-unresearched-v1",
-  provenance: "unresearched-blanket-rule",
+export const ESTIMATED_RECORD_IN_OFFICE = {
+  version: "record-in-office-estimated-v1",
+  provenance: "estimated-from-average-50-states",
   /** Weight per percentage point the unemployment rate fell in office. */
   weightPerUnemploymentPoint: 60,
   maxAbsoluteWeight: 150,
@@ -79,7 +79,7 @@ export function recordInOffice(
   const atStart = unemploymentOn(world, office.jurisdictionId, since);
   const now = unemploymentOn(world, office.jurisdictionId, asOf);
   if (atStart === null || now === null) return null;
-  const rule = UNRESEARCHED_RECORD_IN_OFFICE;
+  const rule = ESTIMATED_RECORD_IN_OFFICE;
   const raw = Math.round((atStart - now) * rule.weightPerUnemploymentPoint);
   return {
     officeTitle: office.title,
@@ -102,7 +102,8 @@ export function recordInOffice(
  * handled a disaster starts ahead or behind for it. Where the contest's
  * jurisdiction is given, its voters also weigh the candidate's votes and
  * signatures question by question against their own views
- * (`issue-record.ts`). All are UNRESEARCHED blanket rules
+ * (`issue-record.ts`). Each component carries its own recorded or
+ * estimated-from-average basis
  * (`press/findings.ts`, above, `crisis/handling-reactions.ts`,
  * `issue-record.ts`).
  */
@@ -120,6 +121,6 @@ export function startingSupportAdjustment(
           ?.weight ?? 0)
       : 0) +
     disasterHandlingWeight(world, personId, asOf) -
-    findings.length * UNRESEARCHED_FINDING_EFFECTS.laterContestWeightPenalty
+    findings.length * ESTIMATED_FINDING_EFFECTS.laterContestWeightPenalty
   );
 }

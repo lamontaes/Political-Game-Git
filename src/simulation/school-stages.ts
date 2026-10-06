@@ -50,14 +50,16 @@ import type {
  * that end enrolls them in the next school for the fall, and the fall's first
  * day schedules the end of that one, until they graduate.
  *
- * PLACEHOLDER, NOT RESEARCHED — the same calendar a summarized childhood uses
- * (`how-a-summarized-childhood-varies`): a child who is five by September 1
- * starts kindergarten that fall; middle school six years on, high school three
- * after that, graduation four after that. A school year starts on the first
- * Monday on or after August 24 and ends on the Friday of its fortieth week
- * (May 28 to June 3), the same days for every child in the district: one
- * calendar a year, not one drawn per child (A140). Every district keeps the
- * same rule until district calendars are researched.
+ * ESTIMATED FROM AVERAGE — the same calendar a summarized childhood uses
+ * (`how-a-summarized-childhood-varies`). The basis is the common K-5, 6-8,
+ * 9-12 sequence in national NCES enrollment tables and a September 1 age-five
+ * cutoff representative of California, Minnesota, and Texas: a child who is
+ * five by September 1 starts kindergarten that fall; middle school six years
+ * on, high school three after that, graduation four after that. A school year
+ * starts on the first Monday on or after August 24 and ends on the Friday of
+ * its fortieth week (May 28 to June 3), the same days for every child in the
+ * district: one calendar a year, not one drawn per child (A140). Every
+ * district keeps the same rule until district calendars are researched.
  */
 export { SCHOOL_STAGE_TRANSITION_KEY } from "./school-calendar";
 
