@@ -1,5 +1,9 @@
 import { inventedPersonBirthDate } from "../invented-person-age";
-import { applyItemVetoes } from "./item-veto";
+import {
+  applyItemVetoes,
+  executiveItemVetoSelectionProblem,
+  type ExecutiveItemVetoSelection,
+} from "./item-veto";
 import { eventById } from "../event-index";
 import { applyCharacterHistoryPlan } from "../character-history";
 import { addDays, compareSimulationMoments, makeIsoDate } from "../dates";
@@ -2031,6 +2035,7 @@ function applyConsequence(
   option: GoverningMatterOption | null,
   decisionEventId: EntityId,
   billReasons?: string,
+  itemSelection?: ExecutiveItemVetoSelection,
 ): World {
   if (!option) {
     if (matter.family === "bill" && matter.measureId) return world;
@@ -2162,7 +2167,12 @@ function applyConsequence(
         // A signing governor with an item veto strikes the floor-added
         // sections they cannot accept (Build 25 step 5).
         if (signed)
-          next = applyItemVetoes(next, matter.measureId, office.holderPersonId);
+          next = applyItemVetoes(
+            next,
+            matter.measureId,
+            office.holderPersonId,
+            itemSelection,
+          );
         next = scheduleInstitutionStep(next, matter.measureId);
         return signed && office.organizationId
           ? openMatter(next, office, {
@@ -2277,6 +2287,7 @@ function recordDecision(
   mode: GoverningDecisionMode | "lapsed",
   deciderPersonId: EntityId,
   billReasons?: string,
+  itemSelection?: ExecutiveItemVetoSelection,
 ): World {
   const office = governingOfficeByKey(world, matter.officeKey);
   if (!office || office.holderPersonId !== matter.holderPersonId)
@@ -2321,6 +2332,12 @@ function recordDecision(
       `matter:${matter.id}`,
       `choice:${option?.key ?? "lapsed"}`,
       `decided-by:${mode}`,
+      ...(itemSelection
+        ? [
+            `item-veto-snapshot:${itemSelection.measureActionSequence}`,
+            ...itemSelection.provisionIds.map((id) => `item-veto-item:${id}`),
+          ]
+        : []),
     ],
     summary,
     context: { ...emptyContext(), choice: option?.label ?? "No decision" },
@@ -2339,6 +2356,7 @@ function recordDecision(
     option,
     decision.id,
     billReasons,
+    itemSelection,
   );
   if (matter.family === "clemency" && option) {
     const petitionId = tagValue(matter.openedEvent, "source-event:");
@@ -2395,12 +2413,33 @@ export function decideGoverningMatter(
   matterId: EntityId,
   optionKey: string,
   billReasons?: string,
+  itemSelection?: ExecutiveItemVetoSelection,
 ): GoverningActionResult {
   const matter = openMatterForPlayer(world, matterId);
   if (typeof matter === "string") return { ok: false, world, reason: matter };
   const option = matter.options.find((o) => o.key === optionKey);
   if (!option)
     return { ok: false, world, reason: "That choice is not available." };
+  if (itemSelection) {
+    if (
+      matter.family !== "bill" ||
+      !matter.measureId ||
+      option.key !== BILL_SIGN ||
+      itemSelection.matterId !== matter.openedEvent.id
+    )
+      return {
+        ok: false,
+        world,
+        reason:
+          "An item-veto selection belongs to this bill's signature decision only.",
+      };
+    const problem = executiveItemVetoSelectionProblem(
+      world,
+      matter.measureId,
+      itemSelection,
+    );
+    if (problem) return { ok: false, world, reason: problem };
+  }
   let next = world;
   if (matter.family === "bill" && matter.measureId) {
     const measure = world.history.legislativeMeasures?.find(
@@ -2437,6 +2476,7 @@ export function decideGoverningMatter(
     "player",
     matter.holderPersonId,
     billReasons,
+    itemSelection,
   );
   if (decided === world)
     return {
