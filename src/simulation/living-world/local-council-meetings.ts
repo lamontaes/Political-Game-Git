@@ -75,7 +75,7 @@ import { settleQuietCouncilItems } from "./council-quiet-items";
  * answer (`townQuestions`); what it does beyond being recorded goes through
  * the one enacted-law effects step.
  *
- * PLACEHOLDER, pending `local-council-legislative-volume`: the council meets
+ * ESTIMATED FROM AVERAGE, pending `local-council-legislative-volume`: the council meets
  * on the shared game timetable, which is not any town's sourced schedule.
  */
 

@@ -206,20 +206,31 @@ export function studyPathFor(
     studyDefinition(institution, capability)
   );
 }
+/** Where the admission decision time and fall term start come from. */
+export const ADMISSION_TIMETABLE_ESTIMATE = {
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "a 45-day answer to an application and a late-August fall term start stand for a typical US college; no college's own calendar has been read yet",
+  researchQuestionId: "when-college-applications-are-decided-and-terms-begin",
+} as const;
+
 /**
  * How long a college takes to answer an application.
  *
- * PLACEHOLDER(research: when-college-applications-are-decided-and-terms-begin):
- * every application is answered 45 days after it is sent.
+ * ESTIMATED FROM AVERAGE (`ADMISSION_TIMETABLE_ESTIMATE`; research:
+ * when-college-applications-are-decided-and-terms-begin): every application
+ * is answered 45 days after it is sent.
  */
 export const ADMISSION_DECISION_DAYS = 45;
 
 /**
  * The day a college's fall term starts.
  *
- * PLACEHOLDER(research: when-college-applications-are-decided-and-terms-begin):
- * every college starts its fall term on August 25, and a new student starts
- * only in the fall.
+ * ESTIMATED FROM AVERAGE (`ADMISSION_TIMETABLE_ESTIMATE`; research:
+ * when-college-applications-are-decided-and-terms-begin): every college
+ * starts its fall term on August 25, and a new student starts only in the
+ * fall.
  */
 export const COLLEGE_FALL_TERM_START = { month: 8, day: 25 } as const;
 
