@@ -1,5 +1,6 @@
 import { futureDueItemStateAt } from "../future-transitions";
 import { recordByStableKey } from "../history-index";
+import { openCaseForContact } from "../constituent-cases";
 import { LOCAL_COUNCIL_MEETING } from "./local-council-meetings";
 import { addDays, ageOnDate, daysBetween } from "../dates";
 import { currentGovernorOf } from "../crisis/offices";
@@ -369,7 +370,7 @@ function record(
   if (action === "attended" && !meeting) return world;
   const ids = officialId ? [personId, officialId] : [personId];
   if (meeting) ids.push(meeting.item.id);
-  return recordWorldEvent(world, {
+  let next = recordWorldEvent(world, {
     stableKey: `${CIVIC_ACTIONS_VERSION}:${town}:${reviewKey}:${action}:${personId}`,
     type: CIVIC_ACTION_EVENTS[action],
     occurredAt: meeting?.occurredAt ?? today,
@@ -425,6 +426,15 @@ function record(
       immediateReaction: null,
     },
   });
+  if (action === "contacted") {
+    const contact = next.history.events.find(
+      (event) =>
+        event.stableKey ===
+        `${CIVIC_ACTIONS_VERSION}:${town}:${reviewKey}:${action}:${personId}`,
+    );
+    if (contact) next = openCaseForContact(next, contact);
+  }
+  return next;
 }
 
 /** How many of each civic action a town's residents took. */

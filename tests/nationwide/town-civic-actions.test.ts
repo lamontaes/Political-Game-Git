@@ -177,6 +177,31 @@ describe(
         if (reason === "reason:general-opinion") expect(sources).toEqual([]);
         else expect(sources.length).toBeGreaterThan(0);
       }
+      const openedCases = world.history.events.filter(
+        (event) => event.type === "office.case-opened",
+      );
+      expect(openedCases.length).toBeGreaterThan(0);
+      for (const opened of openedCases) {
+        const contactId = opened.tags
+          .find((tag) => tag.startsWith("contact:"))
+          ?.slice("contact:".length);
+        const contact = contacts.find((event) => event.id === contactId);
+        expect(contact).toBeDefined();
+        for (const role of ["focus:subject", "focus:object"] as const) {
+          const personId = contact!.participants.find(
+            (participant) => participant.role === role,
+          )!.personId;
+          expect(opened.participants.map((row) => row.personId)).toContain(
+            personId,
+          );
+        }
+        for (const tag of contact!.tags.filter(
+          (value) =>
+            value.startsWith("reason:") ||
+            value.startsWith("source-record:"),
+        ))
+          expect(opened.tags).toContain(tag);
+      }
       process.stdout.write(
         `${JSON.stringify({ receipt: "B06 contact reason provenance", seed: SEED, place: PLACE.displayName, placeKey: PLACE.key, worldId: world.id, simulationDate: world.currentDate, examples: contacts.slice(0, 3).map((event) => ({ eventId: event.id, reason: event.tags.find((tag) => tag.startsWith("reason:")), sources: event.tags.filter((tag) => tag.startsWith("source-record:")) })) })}\n`,
       );
