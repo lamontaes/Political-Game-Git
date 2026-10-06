@@ -216,7 +216,6 @@ export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:facet-shy",
   "personality-v1:facet-slow-to-warm-up",
   "personality-v1:facet-independent",
-  "personality-v1:facet-friendly",
   "personality-v1:facet-charming",
   "personality-v1:facet-tactful",
   "personality-v1:facet-polite",
