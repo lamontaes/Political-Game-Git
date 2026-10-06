@@ -245,6 +245,7 @@ describe("meetingItemsThatMatter", { timeout: 60_000 }, () => {
     expect(summary?.items).toHaveLength(1);
     expect(summary?.items[0]?.line).toContain("2-1");
     expect(summary?.items[0]?.line).toContain("yea");
+    expect(summary?.items[0]?.line).toContain("roll call passed by 2-1");
     expect(summary?.items[0]?.line).toContain(
       fixture.world.history.legislativeMeasures!.find(
         (measure) => measure.id === fixture.measureId,

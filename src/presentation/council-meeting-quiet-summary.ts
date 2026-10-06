@@ -21,7 +21,7 @@ const QUIET_SUMMARY_BANK = {
         {
           key: "quiet-vote-result",
           kind: "template",
-          text: "{{designation}} — {{title}}: {{what-it-does}} The measure was {{outcome}} by {{tally}}; your recorded vote was {{player-vote}}.",
+          text: "{{designation}} — {{title}}: {{what-it-does}} The roll call {{outcome}} by {{tally}}; your recorded vote was {{player-vote}}.",
         },
       ],
     },
@@ -131,7 +131,7 @@ export function projectCouncilMeetingQuietSummary(
               sourceRecordIds: [measure.id],
             },
             outcome: {
-              text: vote.outcome === "passed" ? "adopted" : "rejected",
+              text: vote.outcome === "passed" ? "passed" : "failed",
               sourceRecordIds: [vote.id],
             },
             tally: {
