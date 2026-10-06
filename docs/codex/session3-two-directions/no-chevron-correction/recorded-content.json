@@ -1,0 +1,24 @@
+{
+  "identity": {
+    "name": "Brianna Kennedy",
+    "date": "Monday, January 5, 2026",
+    "time": "9:10 AM",
+    "home": "Scarville, Iowa",
+    "portrait": "<figure class=\"person-portrait person-portrait--small\" data-testid=\"person-portrait\" data-likeness=\"engine\" data-refusal=\"\"><span aria-hidden=\"true\" class=\"person-portrait-mark\" style=\"position: relative; overflow: hidden; flex-shrink: 0;\"><img class=\"engine-portrait\" alt=\"\" aria-hidden=\"true\" draggable=\"false\" data-testid=\"person-portrait-engine\" data-engine-recipe=\"feminine|average|6|20s30s-04|afro|black|hoodie-jeans|standing|bottom=khaki|top=navy\" src=\"blob:http://127.0.0.1:5344/b870d8a9-b816-4501-93b3-5867c72791d5\" style=\"position: absolute; height: 342.954%; width: auto; max-width: none; top: -17.8947%; left: 50%; transform: translateX(-49.3164%); pointer-events: none;\"></span><figcaption><strong>Brianna Kennedy</strong></figcaption></figure>"
+  },
+  "facts": {
+    "age": "34",
+    "work": "Production worker at Chapman Tool and Die, since 2026.",
+    "household": "Joshua Snow, your roommate",
+    "family": "Your parents were Nancy Kennedy and Malik Kennedy, in Scarville, Iowa. You grew up with 1 sibling."
+  },
+  "names": {
+    "parents": ["Nancy Kennedy", "Malik Kennedy"],
+    "housemate": "Joshua Snow",
+    "relationship": "roommate"
+  },
+  "sourceHead": "58468eccd118734fa52ad99f84aea6f32aecf7e9",
+  "stage": "Mockup-only browser overlays; actual rendered records/art, sheet-derived corners/icons, existing Kit13 action assets",
+  "referenceMain": "6048b1331",
+  "referenceSha256": "347c8e90d953229458e5eef34b497f4b109c09c3cc1ba5d79a7ba3f676f0f4c0"
+}
