@@ -23,10 +23,13 @@ import { deserializeWorld, serializeWorldPayload } from "./serialization";
 import { lawInForce } from "./governing/law-in-force";
 import {
   constitutionalReformBallotHandler,
+  citizenMeasureChangeBackRule,
+  citizenMeasureChangeBackAdmission,
   recordedBallotTally,
   referOrdinaryBallotMeasure,
 } from "./living-world/constitutional-reform";
 import type { EntityId, World } from "./types";
+import { CHIEF_EXECUTIVE_JURISDICTIONS } from "./nationwide-world/state-executive-candidacy-packs";
 
 const seed = "session-110-ballot-measure-referral";
 const place = drawRandomPlace(seed, (row) => {
@@ -147,6 +150,52 @@ function fixture() {
   return { world, measure, due, adults, government };
 }
 describe("ordinary ballot measures share the recorded electorate and referral calendar", () => {
+  it("returns nonblank change-back terms for both measure forms in all 56 places", () => {
+    expect(CHIEF_EXECUTIVE_JURISDICTIONS).toHaveLength(56);
+    for (const state of CHIEF_EXECUTIVE_JURISDICTIONS)
+      for (const kind of ["ordinance", "statute"] as const) {
+        const row = citizenMeasureChangeBackRule(state, kind);
+        expect(row.reason.trim()).not.toBe("");
+        expect(row.sources.length).toBeGreaterThan(0);
+        if (row.basis === "estimated-from-average")
+          expect(row.reason).toContain("ESTIMATED FROM AVERAGE");
+      }
+  });
+  it("distinguishes protected legislative amendment from repeal and voter change", () => {
+    const rule = citizenMeasureChangeBackRule("WA", "statute");
+    const request = {
+      rule,
+      enactedAt: "2026-11-03",
+      changeAt: "2027-11-03",
+      authority: "legislature",
+      change: "amend",
+    } as const;
+    expect(citizenMeasureChangeBackAdmission(request).requiredShare).toEqual({
+      numerator: 2,
+      denominator: 3,
+      base: "all-elected-members-per-house",
+    });
+    const refused = citizenMeasureChangeBackAdmission({
+      ...request,
+      change: "repeal",
+    });
+    expect(refused.allowed).toBe(false);
+    expect(refused.reason).toContain("may not repeal");
+    expect(
+      citizenMeasureChangeBackAdmission({
+        ...request,
+        change: "repeal",
+        authority: "voters",
+      }).allowed,
+    ).toBe(true);
+    expect(
+      citizenMeasureChangeBackAdmission({
+        ...request,
+        change: "repeal",
+        changeAt: "2028-11-03",
+      }).requiredShare,
+    ).toBeNull();
+  });
   it("refuses an uncertified source or a local petition presented as a statute", () => {
     const f = fixture();
     expect(() =>
