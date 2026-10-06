@@ -1,5 +1,6 @@
 import unitPriceResearch from "../../data/research/campaign-reality/campaign-unit-prices.json" with { type: "json" };
 import placePopulations from "../../data/research/money/place-population-acs-2024.json" with { type: "json" };
+import decennialPlacePopulations from "../../data/research/money/place-population-census-2020.json" with { type: "json" };
 import {
   campaignActionResult,
   campaignActions,
@@ -52,7 +53,10 @@ export const CAMPAIGN_UNIT_PRICES = unitPriceResearch.prices;
 export type CampaignPurchaseKind = keyof typeof CAMPAIGN_UNIT_PRICES;
 export interface CampaignPlaceCounts {
   readonly households: number;
-  readonly basis: "census-population-estimate" | "recorded-world-households";
+  readonly basis:
+    | "acs-population-estimate"
+    | "census-place-population"
+    | "recorded-world-households";
   readonly estimated: true;
 }
 
@@ -72,7 +76,16 @@ export function campaignPlaceCounts(
   if (population !== undefined)
     return {
       households: Math.max(1, Math.ceil(population / 2.5)),
-      basis: "census-population-estimate",
+      basis: "acs-population-estimate",
+      estimated: true,
+    };
+  const decennialPopulation = geoid
+    ? (decennialPlacePopulations.places as Record<string, number>)[geoid]
+    : undefined;
+  if (decennialPopulation !== undefined)
+    return {
+      households: Math.max(1, Math.ceil(decennialPopulation / 2.5)),
+      basis: "census-place-population",
       estimated: true,
     };
   const currentLocations = new Map<

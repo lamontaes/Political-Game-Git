@@ -740,6 +740,7 @@ function decisionSubjectExists(world: World, id: EntityId): boolean {
     resourceHousingEntityExists(world, id) ||
     policySemanticsEntityExists(world, id) ||
     world.history.events.some((record) => record.id === id) ||
+    world.history.campaigns?.some((campaign) => campaign.id === id) ||
     world.history.goalStates.some((record) => record.goalId === id)
   );
 }

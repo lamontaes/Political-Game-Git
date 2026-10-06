@@ -11,6 +11,7 @@ import {
   askCampaignHelper,
   offerCampaignManagerJob,
   askCampaignDonorForContribution,
+  buyCampaignOperatingUnits,
   groupCampaignSessions,
   projectCampaign,
   spendAnAfternoon,
@@ -165,6 +166,7 @@ export function CampaignWorkspace({
   const [problem, setProblem] = useState<string | null>(null);
   const [helperNotice, setHelperNotice] = useState<string | null>(null);
   const [donorAskDollars, setDonorAskDollars] = useState(100);
+  const [purchaseUnits, setPurchaseUnits] = useState(10);
   const [selectedGeography, setSelectedGeography] = useState<string | null>(
     null,
   );
@@ -746,6 +748,138 @@ export function CampaignWorkspace({
 
             {planning.slots.includes("immediate") ? (
               <section
+                aria-label="Campaign purchases"
+                data-testid="campaign-purchases"
+              >
+                <h3>Campaign costs in this place</h3>
+                <p>
+                  About {view.households.toLocaleString()} households (
+                  {view.householdBasis}); prices and household totals are
+                  estimates.
+                </p>
+                {view.comparableSpending ? (
+                  <p>
+                    Races like this here usually spend about{" "}
+                    {displayMoney({
+                      minorUnits: view.comparableSpending.amountMinorUnits,
+                      currency: view.treasury.currency,
+                    })}
+                    {view.comparableSpending.basis ===
+                    "recorded-comparable-races"
+                      ? `, from ${view.comparableSpending.sampleSize} similar-size race(s) recorded in this game.`
+                      : ", a research estimate until this game records a similar-size race."}
+                  </p>
+                ) : null}
+                <ul>
+                  {Object.entries(view.unitPrices).map(([item, price]) => (
+                    <li key={item}>
+                      {price.label}:{" "}
+                      {displayMoney({
+                        minorUnits: price.priceMinorUnits,
+                        currency: view.treasury.currency,
+                      })}{" "}
+                      per {price.unit} (estimated)
+                    </li>
+                  ))}
+                </ul>
+                <label>
+                  Units to buy{" "}
+                  <input
+                    aria-label="Campaign purchase units"
+                    type="number"
+                    min="1"
+                    step="1"
+                    value={purchaseUnits}
+                    onChange={(event) =>
+                      setPurchaseUnits(Number(event.target.value))
+                    }
+                  />
+                </label>
+                {Object.entries(view.unitPrices).map(([item, price]) => (
+                  <button
+                    key={item}
+                    type="button"
+                    onClick={() => {
+                      try {
+                        onWorldChange(
+                          buyCampaignOperatingUnits(
+                            world,
+                            view.campaignId!,
+                            item as keyof typeof view.unitPrices,
+                            purchaseUnits,
+                          ),
+                        );
+                        setProblem(null);
+                      } catch (error) {
+                        setProblem(
+                          error instanceof Error
+                            ? error.message
+                            : String(error),
+                        );
+                      }
+                    }}
+                  >
+                    Buy {purchaseUnits} {price.unit}
+                    {purchaseUnits === 1 ? "" : "s"}
+                  </button>
+                ))}
+                {Object.entries(view.unitPrices).map(([item, price]) => {
+                  const units =
+                    item === "yard-sign"
+                      ? Math.max(1, Math.ceil(view.households / 10))
+                      : item === "palm-card" || item === "postage"
+                        ? Math.max(1, view.households)
+                        : 1;
+                  return (
+                    <button
+                      key={`place-${item}`}
+                      type="button"
+                      onClick={() => {
+                        try {
+                          onWorldChange(
+                            buyCampaignOperatingUnits(
+                              world,
+                              view.campaignId!,
+                              item as keyof typeof view.unitPrices,
+                              units,
+                            ),
+                          );
+                          setProblem(null);
+                        } catch (error) {
+                          setProblem(
+                            error instanceof Error
+                              ? error.message
+                              : String(error),
+                          );
+                        }
+                      }}
+                    >
+                      Buy estimated place coverage: {units.toLocaleString()}{" "}
+                      {price.unit}s
+                    </button>
+                  );
+                })}
+                {view.purchases.length ? (
+                  <ul aria-label="Campaign purchases">
+                    {view.purchases.map((purchase, index) => (
+                      <li key={`${purchase.id}-${index}`}>
+                        {purchase.units} {view.unitPrices[purchase.item].unit}
+                        (s):{" "}
+                        {displayMoney({
+                          minorUnits: purchase.totalMinorUnits,
+                          currency: view.treasury.currency,
+                        })}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>No campaign purchases yet.</p>
+                )}
+              </section>
+            ) : null}
+
+            {planning.slots.includes("immediate") ? (
+              <section
                 aria-labelledby="campaign-donors-title"
                 data-testid="campaign-donors"
               >
@@ -799,7 +933,7 @@ export function CampaignWorkspace({
                               );
                               onWorldChange(result.world);
                               setHelperNotice(
-                                `${donor.name} ${result.ask.outcome === "gave" ? `gave ${displayMoney({ minorUnits: result.ask.amountMinorUnits, currency: view.treasury.currency })}` : result.ask.outcome}: ${result.reasons.join(" ") || result.view}. Recorded means: ${result.meansMinorUnits ?? "unknown"}; contribution limit: ${result.limit.minorUnits} ${view.treasury.currency}${result.limit.estimated ? " (estimated)" : ""}.`,
+                                `${donor.name} ${result.ask.outcome === "gave" ? `gave ${displayMoney({ minorUnits: result.ask.amountMinorUnits, currency: view.treasury.currency })}` : result.ask.outcome}: Their view: ${result.view}. ${result.reasons.join(" ")} Recorded means: ${result.meansMinorUnits ?? "unknown"}; contribution limit: ${result.limit.minorUnits} ${view.treasury.currency}${result.limit.estimated ? " (estimated)" : ""}.`,
                               );
                               setProblem(null);
                             } catch (error) {

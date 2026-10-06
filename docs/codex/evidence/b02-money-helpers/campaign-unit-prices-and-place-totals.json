@@ -1,0 +1,19 @@
+{
+  "unitPricesMinorUnits": {
+    "yard-sign": 1500,
+    "palm-card": 15,
+    "postage": 73,
+    "print-ad": 36500,
+    "filing-fee": 7500
+  },
+  "smallTown": {
+    "place": "Lamont, Oklahoma",
+    "households": 121,
+    "estimatedCoverageTotalMinorUnits": 74148
+  },
+  "largeCity": {
+    "place": "San Antonio, Texas",
+    "households": 573850,
+    "estimatedCoverageTotalMinorUnits": 136620300
+  }
+}
