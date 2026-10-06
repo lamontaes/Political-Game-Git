@@ -52,7 +52,6 @@ import {
   recordRelationshipInteraction,
   recordWorldEvent,
   advanceWorldMinutes,
-  kinshipRelationshipsAt,
   simulationMinutesBetween,
   controlledCommitmentsBlockingMinuteAdvance,
   addSimulationMinutes,
@@ -86,7 +85,6 @@ export const LIFE_TALK_INTENTS = {
   remember: "Talk about an earlier conversation",
   acknowledge: "Let them know you heard",
   leave: "Say goodbye",
-  date: "Ask if they would like this to be a date",
   spendTime: "Spend half an hour together",
   acceptProposal: "Agree to their suggestion",
   declineProposal: "Decline their suggestion",
@@ -245,32 +243,6 @@ export function projectLifeConversation(
   )
     intents.push("explain");
   if (history.length > 0) intents.push("remember", "acknowledge");
-  const adults = [playerPersonId, personId].every(
-    (id) => ageOnDate(world.people[id]!.birthDate, world.currentDate) >= 18,
-  );
-  const kin = kinshipRelationshipsAt(world, playerPersonId).some((record) =>
-    record.personIds.includes(personId),
-  );
-  const care = world.history.childAuthorities.some(
-    (record) =>
-      (record.childPersonId === playerPersonId &&
-        record.holder.kind === "person" &&
-        record.holder.personId === personId) ||
-      (record.childPersonId === personId &&
-        record.holder.kind === "person" &&
-        record.holder.personId === playerPersonId),
-  );
-  if (
-    adults &&
-    !kin &&
-    !care &&
-    !history.some(
-      (event) =>
-        event.occurredAt === world.currentDate &&
-        event.tags.includes("life.talk:date"),
-    )
-  )
-    intents.push("date");
   const currentSceneId = currentLifeTalkScene(world, playerPersonId)!.eventId;
   const proposal = currentTalkProposal(
     world,
@@ -286,8 +258,8 @@ export function projectLifeConversation(
       (event) =>
         event.occurredAt === world.currentDate &&
         event.tags.includes(`scene:${currentSceneId}`) &&
-        ["date", "suggestGame", "suggestQuiet", "spendTime", "leave"].some(
-          (intent) => event.tags.includes(`life.talk:${intent}`),
+        ["suggestGame", "suggestQuiet", "spendTime", "leave"].some((intent) =>
+          event.tags.includes(`life.talk:${intent}`),
         ),
     )
     .at(-1);
@@ -300,11 +272,7 @@ export function projectLifeConversation(
     (proposal?.status === "accepted" ||
       (!proposal &&
         latestProposal &&
-        ((adults &&
-          !kin &&
-          !care &&
-          latestProposal.tags.includes("life.answer:date-accepted")) ||
-          latestProposal.tags.includes("life.answer:company-accepted"))))
+        latestProposal.tags.includes("life.answer:company-accepted")))
   )
     intents.push("spendTime");
   intents.push("leave");
@@ -357,14 +325,6 @@ function parentOfYoungPlayer(
       relation ?? "",
     ) &&
     ageOnDate(world.people[playerPersonId]!.birthDate, world.currentDate) < 13
-  );
-}
-
-function willingToDate(world: World, personId: EntityId): boolean {
-  return (
-    !activeOrdinaryGoal(world, personId, "privacy") &&
-    latestPersonalValue(world, personId, LIFE_MIND_IDS.connection)
-      ?.orientation === "embraces"
   );
 }
 
@@ -466,26 +426,28 @@ function replyFor(
     );
   // Yes is short and no comes with its reason (design D-3, step 2); the
   // plain line stays for a moment the record cannot word.
-  const invitationLine = (kind: InvitationKind, yes: boolean) => {
+  const invitationLine = (
+    kind: Exclude<InvitationKind, "date">,
+    yes: boolean,
+  ) => {
     const sceneKey = currentLifeTalkScene(world, playerPersonId)!.eventId;
-    const line =
-      yes && kind !== "date"
-        ? invitationAgreeLine(
-            world,
-            personId,
-            playerPersonId,
-            history,
-            sceneKey,
-            kind,
-          )
-        : invitationDeclineLine(
-            world,
-            personId,
-            playerPersonId,
-            history,
-            sceneKey,
-            kind,
-          );
+    const line = yes
+      ? invitationAgreeLine(
+          world,
+          personId,
+          playerPersonId,
+          history,
+          sceneKey,
+          kind,
+        )
+      : invitationDeclineLine(
+          world,
+          personId,
+          playerPersonId,
+          history,
+          sceneKey,
+          kind,
+        );
     return line ? worded(line) : null;
   };
   if (isTellIntent(intent)) {
@@ -543,11 +505,6 @@ function replyFor(
       // worry or a fabricated past exchange attributed to this person.
       return "What would you like to do?";
     }
-    case "date":
-      return willingToDate(world, personId)
-        ? "Yes. I'd like that. We could sit and talk for a while."
-        : (invitationLine("date", false) ??
-            "No, thank you. I'd like to keep this as it is.");
     case "suggestGame":
       return acceptsActivity(world, personId, intent)
         ? (invitationLine("game", true) ??
@@ -864,25 +821,18 @@ export function commitLifeConversation(
       ? accepted
         ? "company-accepted"
         : "company-declined"
-      : input.intent === "date"
-        ? willingToDate(world, input.personId)
-          ? "date-accepted"
-          : "date-declined"
-        : input.intent === "activity"
-          ? leisure
-          : input.intent === "matter" && view.matter
-            ? `matter-${matterAwareness(world, input.personId, view.matter.eventId)}`
-            : told
-              ? told.heard
-                ? "told"
-                : "not-now"
-              : latestPersonalValue(
-                    world,
-                    input.personId,
-                    LIFE_MIND_IDS.privacy,
-                  )?.orientation === "embraces"
-                ? "private"
-                : "open";
+      : input.intent === "activity"
+        ? leisure
+        : input.intent === "matter" && view.matter
+          ? `matter-${matterAwareness(world, input.personId, view.matter.eventId)}`
+          : told
+            ? told.heard
+              ? "told"
+              : "not-now"
+            : latestPersonalValue(world, input.personId, LIFE_MIND_IDS.privacy)
+                  ?.orientation === "embraces"
+              ? "private"
+              : "open";
   const intentLabel = lifeTalkIntentLabel(
     world,
     input.playerPersonId,
@@ -991,7 +941,6 @@ export function commitLifeConversation(
     occurredAt: advanced.currentDate,
     // Agreeing to a game is a plan; the half hour is the time together.
     timeTogether: input.intent === "spendTime",
-    date: input.intent === "date" && answer === "date-accepted",
   });
   if (input.intent === "spendTime") {
     next = completeOrdinaryGoal(
@@ -1015,12 +964,11 @@ export function commitLifeConversation(
  *
  * One day's talk is one episode, whatever the number of turns, so the record
  * says the two of them spoke that day and not that they spoke eleven times, as
- * the conduct rubric for `what-moves-a-relationship` asks. All of it is contact
- * that keeps the two of them in touch and moves none of the five lines on its
- * own: a chat is slight, half an hour together or an agreed date is more, and
- * none of it is affection earned by repetition. What either of them does with
- * that time is its own conduct. A refusal writes no extra record: it is the
- * other person's answer, not a mark against anyone.
+ * the conduct rubric for `what-moves-a-relationship` asks. A chat keeps them
+ * in touch; half an hour together records meaningful time. Neither creates
+ * affection by itself. What either of them does with that time is its own
+ * conduct. A refusal writes no extra record: it is the other person's answer,
+ * not a mark against anyone.
  */
 function recordConversationContact(
   world: World,
@@ -1030,7 +978,6 @@ function recordConversationContact(
     readonly eventId: EntityId;
     readonly occurredAt: IsoDate;
     readonly timeTogether: boolean;
-    readonly date: boolean;
   },
 ): World {
   const base = `life-talk:${input.occurredAt}:${input.playerPersonId}:${input.personId}`;
@@ -1053,14 +1000,6 @@ function recordConversationContact(
       kind: "contact:time-together",
       significance: "meaningful",
       summary: "Spent time together.",
-    });
-  }
-  if (input.date) {
-    episodes.push({
-      key: `${base}:date`,
-      kind: "contact:date",
-      significance: "meaningful",
-      summary: "Agreed this was a date.",
     });
   }
   let next = world;

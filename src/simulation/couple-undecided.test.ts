@@ -4,15 +4,17 @@ import type { DecisionContext, World } from "./types";
 import { createDemoWorld } from "./demo";
 import { recordWorldEvent, assertWorldIntegrityFully } from "./world";
 import { recordRelationshipInteraction } from "./records";
+import { addDays } from "./dates";
 import { serializeWorld, deserializeWorld } from "./serialization";
 import {
   COUPLE_DECLINED_EVENT,
   COUPLE_FORMED_EVENT,
-  DATE_KIND,
-  DATES_BEFORE_ASKING,
   coupleAskRefusal,
   coupleBetween,
   dateRefusal,
+  romanticConsiderations,
+  sharedInteractionDays,
+  sharedDaysBeforeCoupleAsk,
 } from "./couples";
 import { askToBeTogether } from "../presentation/people-contacts";
 
@@ -30,11 +32,16 @@ function eligibleRequest() {
     throw new Error("The fixture requires two eligible recorded adults.");
   // Control is fixture context; people and the dated history remain canonical.
   world = { ...world, control: { kind: "person", personId: pair.personId } };
-  for (let date = 0; date < DATES_BEFORE_ASKING; date++) {
+  const requiredDays = sharedDaysBeforeCoupleAsk(
+    world,
+    pair.personId,
+    pair.otherPersonId,
+  );
+  for (let day = 0; day < requiredDays; day++) {
     world = recordWorldEvent(world, {
-      stableKey: `c8:kept-date:${date}`,
-      type: "life.date-held",
-      occurredAt: world.currentDate,
+      stableKey: `c8:shared-time:${day}`,
+      type: "life.time-together",
+      occurredAt: addDays(world.currentDate, day - requiredDays),
       recordedAt: world.currentDate,
       jurisdictionId: world.people[pair.personId]!.homeJurisdictionId,
       involvedEntityIds: [pair.personId, pair.otherPersonId],
@@ -42,21 +49,21 @@ function eligibleRequest() {
         {
           personId: pair.personId,
           role: "presence:participant",
-          detail: "Went on the recorded date",
+          detail: "Spent time together",
         },
         {
           personId: pair.otherPersonId,
           role: "presence:participant",
-          detail: "Went on the recorded date",
+          detail: "Spent time together",
         },
       ],
       personFactConstraints: [],
       visibility: "private",
-      tags: ["life.date"],
-      summary: "The pair went on a date.",
+      tags: ["life.time-together"],
+      summary: "The pair spent time together.",
       context: {
         location: null,
-        socialContext: "A recorded date.",
+        socialContext: "A shared afternoon.",
         pressure: null,
         choice: null,
         motivation: null,
@@ -64,15 +71,15 @@ function eligibleRequest() {
       },
     });
     world = recordRelationshipInteraction(world, {
-      stableKey: `c8:date-interaction:${date}`,
+      stableKey: `c8:time-interaction:${day}`,
       personIds: [pair.personId, pair.otherPersonId],
       eventId: world.history.events.at(-1)!.id,
-      occurredAt: world.currentDate,
-      kind: DATE_KIND,
+      occurredAt: addDays(world.currentDate, day - requiredDays),
+      kind: "contact:time-together",
       change: "maintained",
       significance: "meaningful",
-      summary: "The pair went on a date.",
-      tags: ["life.date"],
+      summary: "The pair spent time together.",
+      tags: ["life.time-together"],
     });
   }
   expect(coupleAskRefusal(world, pair.personId, pair.otherPersonId)).toBeNull();
@@ -80,6 +87,44 @@ function eligibleRequest() {
   return { world, pair };
 }
 afterEach(() => vi.restoreAllMocks());
+describe("romance grows through recorded time together", () => {
+  it("uses ordinary shared time instead of a fixed number of dates", () => {
+    const { world, pair } = eligibleRequest();
+    expect(
+      sharedInteractionDays(world, pair.personId, pair.otherPersonId).length,
+    ).toBeGreaterThanOrEqual(
+      sharedDaysBeforeCoupleAsk(world, pair.personId, pair.otherPersonId),
+    );
+    const consideration = romanticConsiderations(
+      world,
+      "time-together-test",
+      pair.otherPersonId,
+      pair.personId,
+    ).find((item) => item.stableKey === "time-together-test:shared-time");
+    expect(consideration).toMatchObject({
+      optionKey: "accept",
+      sourceType: "social:relationship",
+      explanation: "They have spent time together recently.",
+    });
+  });
+
+  it("does not make couple status available before the pair shares time", () => {
+    const world = createDemoWorld("c8-no-shared-time");
+    const pair = world.personOrder
+      .flatMap((personId) =>
+        world.personOrder.map((otherPersonId) => ({ personId, otherPersonId })),
+      )
+      .find(
+        ({ personId, otherPersonId }) =>
+          dateRefusal(world, personId, otherPersonId) === null &&
+          sharedInteractionDays(world, personId, otherPersonId).length === 0,
+      );
+    if (!pair) throw new Error("The fixture needs two unconnected adults.");
+    expect(coupleAskRefusal(world, pair.personId, pair.otherPersonId)).toBe(
+      "You have not spent time together yet.",
+    );
+  });
+});
 describe("an unanswered couple request reaches the actual contact consumer", () => {
   it.each(["undecided", "no-available-option", "selected-null"] as const)(
     "does not record or say no for %s, including reload and repeat",
@@ -100,6 +145,10 @@ describe("an unanswered couple request reaches the actual contact consumer", () 
         });
       for (const input of [fixture.world, deserializeWorld(before)]) {
         const first = askToBeTogether(input, fixture.pair);
+        expect(spy.mock.calls.at(-1)?.[1]).toMatchObject({
+          decisionType: "people.couple-answer",
+          randomness: "none",
+        });
         expect(first.world).toBe(input);
         expect(first.said).toBe("No answer yet.");
         expect(serializeWorld(first.world)).toBe(before);

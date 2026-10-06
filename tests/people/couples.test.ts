@@ -99,17 +99,17 @@ function metSomebody(town: string, placeKey: string) {
 
 describe("two people become a couple", () => {
   for (const [town, placeKey] of TOWNS) {
-    it(`${town}: two dates, then asked, then together`, () => {
+    it(`${town}: shared time, then asked, then together`, () => {
       const met = metSomebody(town, placeKey);
       const { playerId, otherId } = met;
       let world = met.world;
-      // Nothing to ask about before the two of them have been out.
+      // Nothing to ask about before they have spent time together.
       expect(action(world, playerId, otherId, "ask-to-be-a-couple")).toBe(
         undefined,
       );
-      for (let day = 0; day < 21; day += 1) {
+      for (let day = 0; day < 60; day += 1) {
         if (
-          keptDates(world, playerId, otherId).length < 2 &&
+          coupleAskRefusal(world, playerId, otherId) !== null &&
           action(world, playerId, otherId, "ask-on-a-date")?.available
         ) {
           world = askOnADate(world, {
@@ -119,19 +119,11 @@ describe("two people become a couple", () => {
           });
         }
         world = attendDueMeetings(world, playerId);
-        if (keptDates(world, playerId, otherId).length === 1) {
-          // One evening is not enough to ask, and the screen says why.
-          expect(
-            action(world, playerId, otherId, "ask-to-be-a-couple"),
-          ).toMatchObject({
-            available: false,
-            unavailableReason: "You have only been out together once.",
-          });
-        }
-        if (keptDates(world, playerId, otherId).length >= 2) break;
+        if (coupleAskRefusal(world, playerId, otherId) === null) break;
         world = passOrdinaryDays(world, 1);
       }
-      expect(keptDates(world, playerId, otherId)).toHaveLength(2);
+      expect(keptDates(world, playerId, otherId).length).toBeGreaterThan(0);
+      expect(coupleAskRefusal(world, playerId, otherId)).toBeNull();
       expect(
         action(world, playerId, otherId, "ask-to-be-a-couple")?.available,
       ).toBe(true);
