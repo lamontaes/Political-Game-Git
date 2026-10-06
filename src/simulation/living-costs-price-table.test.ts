@@ -1,9 +1,15 @@
 import { describe, expect, it } from "vitest";
+import { drawRandomPlace } from "../../tests/support/random-place";
+import {
+  createNewGameWorld,
+  DEFAULT_NEW_GAME_SETUP,
+} from "../presentation/new-game";
 import {
   LIVING_COSTS_PRICE_TABLE,
   livingCostsPriceLevel,
 } from "./living-costs-price-table";
 import { estimatedMonthlyHouseholdLivingCosts } from "./living-costs-data";
+import { estimatedHouseholdLivingCostsAt } from "./cost-of-living";
 
 describe("household living-cost price table", () => {
   it("retains one sourced base, size spread, and shared price measure per category", () => {
@@ -38,6 +44,30 @@ describe("household living-cost price table", () => {
     );
     expect(doubled.categories.every((row) => row.linkedMeasure)).toBe(true);
   });
+
+  it("reads an index-linked basket from a random-place new game", () => {
+    const seed = "session7-b27-p2-random-new-game";
+    const place = drawRandomPlace(seed);
+    const game = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed,
+      placeKey: place.key,
+      startAge: 30,
+      startingLife: "ordinary-life",
+      household: "lives-alone",
+      questionnaire: "skipped",
+    });
+    const estimate = estimatedHouseholdLivingCostsAt(
+      game.world,
+      game.playerPersonId,
+    );
+    expect(estimate).not.toBeNull();
+    expect(estimate!.monthlyMinor).toBeGreaterThan(0);
+    expect(estimate!.categories.every((row) => row.linkedMeasure)).toBe(true);
+    console.log(
+      `b27-p2 random new game seed=${seed} place=${place.displayName} world=${game.world.id} person=${game.playerPersonId} monthlyMinor=${estimate!.monthlyMinor}`,
+    );
+  }, 30_000);
 
   it("rejects invalid price indices rather than inventing a fallback", () => {
     expect(() => livingCostsPriceLevel(0, 100)).toThrow(
