@@ -9,11 +9,11 @@ Updated: 2026-10-06 UTC
 - CTO wake list #6015919040 routes Session 7 to household bills and prices. b27-p2 was claimed on #2424 comment #6016060082 with exact file receipts; draft PR #2513 is open at head 664755a0d.
 - Current branch: codex/session7-b27-p2, based on e591ffc637d1f6db84d2ff920e8662ce123202ed.
 - Implemented the shared living-cost price table, national macro price-index scaling, and focused test. Prettier and ESLint pass.
-- The focused price-table suite passes 4/4 using /tmp/session7-vitest.config.mts, including a seeded random-place new game in Tukwila, Washington (monthly estimate 100652 minor units). New-game setup exceeded Vitest’s default 5-second per-test limit, so the integration case explicitly uses a 30-second timeout. The related full small-world regression suite was stopped after nearly four minutes without output; no passing result is claimed for it. The default Vitest config cannot spawn git in this sandbox. This is simulation estimate-path proof; it does not yet show the Personal money screen.
-- Configured typecheck reports only the two existing press-premise.test.ts personalLifeDepiction errors; no b27-p2 type errors were reported.
+- The focused price-table suite passes 4/4, and the seeded random-place rendered household-cost panel passes 1/1 (Northeast Harbor, Maine). The render shows all linked categories and a household total; it is markup-level UI evidence, not an in-browser gameplay screenshot. New-game setup exceeds Vitest’s default 5-second limit, so both integration tests use a 30-second timeout. The related full small-world regression suite was stopped after nearly four minutes without output; no pass is claimed. Default Vitest cannot spawn git in this sandbox.
+- Configured typecheck reports only the two existing press-premise.test.ts personalLifeDepiction errors; no b27-p2 diagnostics remain.
 
 ## Next commands
 
 1. Run release checks, diff checks, and changed-file formatting/lint once more.
 2. Update PR #2513's body and #2424 progress after publishing each verified head.
-3. Capture the Personal money-screen proof for p2 (current test only proves the new-game estimate path). Then continue with the next b27 item only after checking #2424 claims and exact files; preserve the loading PR and return to its populated-cap fix independently.
+3. Capture an in-browser Personal money-screen proof in the random place for p2; this environment has no browser tool and the current evidence is rendered markup. Keep PR #2513 draft. Then continue only after a fresh #2424 claim/files check; preserve loading PR #2189 and return to its populated-cap fix independently.

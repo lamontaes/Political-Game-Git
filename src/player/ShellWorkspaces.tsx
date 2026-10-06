@@ -24,6 +24,7 @@ import { DIAGNOSTICS } from "./diagnostics-profile";
 import { playerEconomicContextLines } from "../presentation/economic-context";
 import { buildIdentity } from "../release/build-identity";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { HouseholdLivingCostsPanel } from "./HouseholdLivingCostsPanel";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import type {
   ChallengeIntensity,
@@ -1679,6 +1680,8 @@ export function PersonalFinancesWorkspace({
           ))}
         </ul>
       </section>
+
+      <HouseholdLivingCostsPanel world={world} personId={personId} />
 
       {/*
         The place, not the person. Same data, same source, stated as what it
