@@ -237,9 +237,13 @@ import {
 import {
   addDays,
   ageOnDate,
+  currentOfficeWorkflowPreference,
   personName,
+  recordOfficeWorkflowPreference,
   requireLifePlace,
 } from "../simulation";
+import { OFFICE_CASEWORK_CHOICES } from "../presentation/office-casework-choices";
+import { GameSelect } from "./controls/GameSelect";
 import type { EntityId, World } from "../simulation";
 import {
   openLegislativeWork,
@@ -4813,6 +4817,11 @@ function renderWorkspace({
           ? localGoverningSeatFor(session.world, session.personId)
           : null;
       if (townSeat) {
+        const townCaseworkPreference = currentOfficeWorkflowPreference(
+          session.world,
+          session.personId,
+          townSeat.officeRelationshipId,
+        );
         /*
          * A seat on the town's own governing body. Sourced and disclosed game
          * profiles both open the local screen; an otherwise unprofiled seat
@@ -4838,6 +4847,30 @@ function renderWorkspace({
                   ? "Its meetings and business are under Government, in Local meetings and records."
                   : "The game has not read this town's charter yet, so its meetings, votes and powers are not established here. The seat is yours all the same."}
               </p>
+              <h3>Casework</h3>
+              <GameSelect
+                aria-label="How your town office handles constituent cases"
+                value={townCaseworkPreference?.caseworkMode ?? ""}
+                placeholder="Choose how cases are handled"
+                options={OFFICE_CASEWORK_CHOICES.map((choice) => ({
+                  value: choice.mode,
+                  label: choice.label,
+                  disabled: false,
+                }))}
+                onChange={(event) => {
+                  const choice = OFFICE_CASEWORK_CHOICES.find(
+                    (item) => item.mode === event.target.value,
+                  );
+                  if (!choice) return;
+                  const result = recordOfficeWorkflowPreference(session.world, {
+                    personId: session.personId,
+                    officeRelationshipId: townSeat.officeRelationshipId,
+                    votingMode: null,
+                    caseworkMode: choice.mode,
+                  });
+                  if (result.kind === "recorded") onWorldChange(result.world);
+                }}
+              />
             </div>
           ),
         });

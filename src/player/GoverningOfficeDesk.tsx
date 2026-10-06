@@ -10,11 +10,11 @@ import {
   type World,
 } from "../simulation";
 import {
-  CASEWORK_CHOICES,
   projectGoverningOfficeDesk,
   type OfficeProgram,
   type OfficeProgramAppropriation,
 } from "../presentation/governing-office-desk";
+import { OFFICE_CASEWORK_CHOICES } from "../presentation/office-casework-choices";
 import { GameSelect } from "./controls/GameSelect";
 import { OfficeStaffHiring } from "./OfficeStaffHiring";
 import { ExecutiveBillResults } from "./ExecutiveBillResults";
@@ -147,7 +147,7 @@ export function GoverningOfficeDesk({
             data-testid="office-casework-mode"
             value={casework.mode ?? ""}
             onChange={(event) => {
-              const chosen = CASEWORK_CHOICES.find(
+              const chosen = OFFICE_CASEWORK_CHOICES.find(
                 (choice) => choice.mode === event.target.value,
               );
               if (chosen)
@@ -163,20 +163,50 @@ export function GoverningOfficeDesk({
                 Not chosen yet
               </option>
             ) : null}
-            {CASEWORK_CHOICES.map((choice) => (
+            {OFFICE_CASEWORK_CHOICES.map((choice) => (
               <option key={choice.mode} value={choice.mode}>
                 {choice.label}
               </option>
             ))}
           </GameSelect>
           <p className="game-note">
-            {CASEWORK_CHOICES.find((choice) => choice.mode === casework.mode)
-              ?.detail ??
+            {OFFICE_CASEWORK_CHOICES.find(
+              (choice) => choice.mode === casework.mode,
+            )?.detail ??
               "Nothing is recorded about how this office handles casework."}
           </p>
           {casework.recordedLine ? (
             <p className="game-note">{casework.recordedLine}</p>
           ) : null}
+          <section
+            aria-label="Constituent cases waiting for you"
+            data-testid="office-open-cases"
+          >
+            <h3>Cases waiting for you</h3>
+            {casework.openCases.length > 0 ? (
+              <ul>
+                {casework.openCases.map((item) => (
+                  <li key={item.id}>
+                    {item.residentName}, about {item.reasonLine}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="game-note">No cases are waiting for you.</p>
+            )}
+            <h3>This week</h3>
+            {casework.weeklyLines.length > 0 ? (
+              <ul>
+                {casework.weeklyLines.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
+            ) : (
+              <p className="game-note">
+                No background casework was completed this week.
+              </p>
+            )}
+          </section>
         </div>
       ) : (
         <p className="game-note" data-testid="office-casework-none">

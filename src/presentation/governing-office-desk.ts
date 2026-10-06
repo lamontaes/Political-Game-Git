@@ -107,6 +107,12 @@ export interface OfficeCasework {
    * never invents a voting preference the player did not choose.
    */
   readonly votingMode: OfficeVotingWorkflowMode | null;
+  readonly openCases: readonly {
+    readonly id: EntityId;
+    readonly residentName: string;
+    readonly reasonLine: string;
+  }[];
+  readonly weeklyLines: readonly string[];
 }
 
 export interface GoverningOfficeDesk {
@@ -122,31 +128,6 @@ export interface GoverningOfficeDesk {
   readonly casework: OfficeCasework | null;
   readonly caseworkNote: string | null;
 }
-
-export const CASEWORK_CHOICES: readonly {
-  readonly mode: OfficeCaseworkWorkflowMode;
-  readonly label: string;
-  readonly detail: string;
-}[] = [
-  {
-    mode: "player-handles-all",
-    label: "Handle casework yourself",
-    detail:
-      "Every constituent request reaches you. Staff may gather the facts; they do not answer for you.",
-  },
-  {
-    mode: "staff-routine-player-exceptions",
-    label: "Staff handle the routine, you take the exceptions",
-    detail:
-      "Routine requests are worked by staff. Anything unusual stops and waits for you.",
-  },
-  {
-    mode: "staff-handles-and-briefs",
-    label: "Staff handle it and brief you",
-    detail:
-      "Staff work the caseload and tell you what happened. You keep the record, not the decision.",
-  },
-];
 
 function assignmentOf(classification: string | null): string | null {
   if (!classification) return null;
@@ -386,6 +367,85 @@ export function projectGoverningOfficeDesk(
   const preference = relationshipId
     ? currentOfficeWorkflowPreference(world, personId, relationshipId)
     : null;
+  const openEvents = relationshipId
+    ? world.history.events.filter(
+        (event) =>
+          event.type === "office.case-opened" &&
+          event.tags.includes(`office-relationship:${relationshipId}`) &&
+          !world.history.events.some(
+            (closed) =>
+              closed.type === "office.case-closed" &&
+              closed.tags.includes(`case:${event.id}`),
+          ),
+      )
+    : [];
+  const openCases =
+    preference?.caseworkMode === "player-handles-all" ||
+    preference?.caseworkMode === "staff-routine-player-exceptions"
+      ? openEvents.map((event) => {
+          const residentId = event.participants.find(
+            ({ role }) => role === "focus:subject",
+          )?.personId;
+          const reason = event.tags.find((tag) => tag.startsWith("reason:"));
+          const reasonLine =
+            reason === "reason:law-cost"
+              ? "a law that cost them something"
+              : reason === "reason:lived-outcome"
+                ? "what happened to them"
+                : reason === "reason:official-view"
+                  ? "your recorded actions"
+                  : reason === "reason:organized-opposition"
+                    ? "a law they organized against"
+                    : "a general opinion call";
+          return {
+            id: event.id,
+            residentName: residentId
+              ? personName(world.people[residentId]!)
+              : "A constituent",
+            reasonLine,
+          };
+        })
+      : [];
+  const weekStart = new Date(`${world.currentDate}T00:00:00Z`);
+  weekStart.setUTCDate(weekStart.getUTCDate() - 7);
+  const weeklyLines = relationshipId
+    ? world.history.events
+        .filter(
+          (event) =>
+            event.type === "office.case-closed" &&
+            event.tags.includes(`office-relationship:${relationshipId}`) &&
+            Date.parse(`${event.occurredAt}T00:00:00Z`) >= weekStart.getTime(),
+        )
+        .map((event) => {
+          const residentId = event.participants.find(
+            ({ role }) => role === "focus:subject",
+          )?.personId;
+          const reason = event.tags.find((tag) => tag.startsWith("reason:"));
+          const answer = event.tags
+            .find((tag) => tag.startsWith("answer:"))
+            ?.slice("answer:".length);
+          const about =
+            reason === "reason:law-cost"
+              ? "the effect of a law"
+              : reason === "reason:lived-outcome"
+                ? "what happened to them"
+                : reason === "reason:official-view"
+                  ? "your record in office"
+                  : reason === "reason:organized-opposition"
+                    ? "a law they organized against"
+                    : "a general opinion call";
+          const result =
+            answer === "help"
+              ? "helped"
+              : answer === "refer"
+                ? "referred them"
+                : answer === "cannot-help"
+                  ? "could not help"
+                  : "ignored the request";
+          const resident = residentId ? world.people[residentId] : null;
+          return `${resident ? personName(resident) : "A constituent"}, about ${about}: ${result}.`;
+        })
+    : [];
   return {
     officeTitle: office.title,
     termLine: office.termEndsAt
@@ -414,6 +474,8 @@ export function projectGoverningOfficeDesk(
             ? `Recorded ${proseDate(preference.recordedAt)}.`
             : null,
           votingMode: preference?.votingMode ?? null,
+          openCases,
+          weeklyLines,
         }
       : null,
     caseworkNote:

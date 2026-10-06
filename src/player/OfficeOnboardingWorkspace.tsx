@@ -12,13 +12,13 @@ import {
   recordOfficeWorkflowPreference,
 } from "../simulation";
 import {
-  OFFICE_CASEWORK_CHOICES,
   OFFICE_INSTRUCTION_CHOICES,
   OFFICE_VOTING_CHOICES,
   memberStaffOffice,
   officeOnboardingDraftResetKey,
   projectOfficeOnboarding,
 } from "../presentation/office-onboarding";
+import { OFFICE_CASEWORK_CHOICES } from "../presentation/office-casework-choices";
 import { OfficeStaffHiring } from "./OfficeStaffHiring";
 import "./office-onboarding.css";
 
