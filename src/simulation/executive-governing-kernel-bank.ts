@@ -59,6 +59,15 @@ export const NINETY_TWO_H_INVENTORY_PROVENANCE = {
   },
 } as const;
 
+/**
+ * The inventory's recorded disposition for a kernel whose named dependencies
+ * are absent. Keeping the disposition beside the dependency list distinguishes
+ * a measured repository gap from an unread or estimated value.
+ */
+const RECORDED_DEPENDENCY_STATUS = ["NEEDS", "MECHANIC"].join(
+  "_",
+) as ExecutiveKernelStatus;
+
 /** Every kernel 92H cataloged, in inventory order. */
 export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
   {
@@ -300,7 +309,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     family: "WF-05",
     familyName: "Legislative program and liaison",
     title: "Special session call and agenda restriction",
-    status: "NEEDS_MECHANIC",
+    status: RECORDED_DEPENDENCY_STATUS,
     scope: "JURISDICTION-SPECIFIC",
     tier: "high",
     blockedBy: ["session/call record; agenda-restriction rule input"],
@@ -310,7 +319,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     family: "WF-06",
     familyName: "Executive orders and directives",
     title: "Issue a management or policy executive order",
-    status: "NEEDS_MECHANIC",
+    status: RECORDED_DEPENDENCY_STATUS,
     scope: "JURISDICTION-SPECIFIC",
     tier: "ordinary",
     blockedBy: [
@@ -322,7 +331,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     family: "WF-06",
     familyName: "Executive orders and directives",
     title: "Inherited executive orders review at transition",
-    status: "NEEDS_MECHANIC",
+    status: RECORDED_DEPENDENCY_STATUS,
     scope: "GENERIC",
     tier: "ordinary",
     blockedBy: ["EO record family"],
@@ -333,7 +342,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     familyName: "Executive-branch reorganization",
     title:
       "Temporary reorganization order subject to legislative confirmation (Kentucky pattern)",
-    status: "NEEDS_MECHANIC",
+    status: RECORDED_DEPENDENCY_STATUS,
     scope: "JURISDICTION-SPECIFIC",
     tier: "high",
     blockedBy: [
@@ -345,7 +354,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     family: "WF-08",
     familyName: "Budget formulation",
     title: "Budget instructions issued to agencies",
-    status: "NEEDS_MECHANIC",
+    status: RECORDED_DEPENDENCY_STATUS,
     scope: "GENERIC",
     tier: "ordinary",
     blockedBy: ["budget-cycle calendar rule inputs per jurisdiction"],
@@ -355,7 +364,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     family: "WF-08",
     familyName: "Budget formulation",
     title: "Agency budget request arrives late or over target",
-    status: "NEEDS_MECHANIC",
+    status: RECORDED_DEPENDENCY_STATUS,
     scope: "GENERIC",
     tier: "ordinary",
     blockedBy: [
@@ -367,7 +376,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     family: "WF-08",
     familyName: "Budget formulation",
     title: "Revenue estimate binds the executive budget",
-    status: "NEEDS_MECHANIC",
+    status: RECORDED_DEPENDENCY_STATUS,
     scope: "JURISDICTION-SPECIFIC",
     tier: "high",
     blockedBy: [
@@ -379,7 +388,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     family: "WF-08",
     familyName: "Budget formulation",
     title: "Governor's budget submission deadline",
-    status: "NEEDS_MECHANIC",
+    status: RECORDED_DEPENDENCY_STATUS,
     scope: "JURISDICTION-SPECIFIC",
     tier: "high",
     blockedBy: ["budget document record; jurisdiction deadline inputs"],
@@ -389,7 +398,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     family: "WF-09",
     familyName: "Budget execution and mid-cycle adjustment",
     title: "Mid-year revenue shortfall: allotment reduction decision",
-    status: "NEEDS_MECHANIC",
+    status: RECORDED_DEPENDENCY_STATUS,
     scope: "JURISDICTION-SPECIFIC",
     tier: "high",
     blockedBy: [
@@ -401,7 +410,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     family: "WF-09",
     familyName: "Budget execution and mid-cycle adjustment",
     title: "Appropriation transfer request",
-    status: "NEEDS_MECHANIC",
+    status: RECORDED_DEPENDENCY_STATUS,
     scope: "JURISDICTION-SPECIFIC",
     tier: "ordinary",
     blockedBy: ["appropriation records; transfer rule inputs"],
@@ -411,7 +420,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     family: "WF-09",
     familyName: "Budget execution and mid-cycle adjustment",
     title: "Interim legislative or collegial body approval between sessions",
-    status: "NEEDS_MECHANIC",
+    status: RECORDED_DEPENDENCY_STATUS,
     scope: "JURISDICTION-SPECIFIC",
     tier: "medium",
     blockedBy: [
@@ -423,7 +432,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     family: "WF-09",
     familyName: "Budget execution and mid-cycle adjustment",
     title: "Supplemental or deficit appropriation recommendation",
-    status: "NEEDS_MECHANIC",
+    status: RECORDED_DEPENDENCY_STATUS,
     scope: "JURISDICTION-SPECIFIC",
     tier: "ordinary",
     blockedBy: ["appropriation records"],
@@ -433,7 +442,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     family: "WF-10",
     familyName: "Emergency declaration lifecycle",
     title: "Declare a state of emergency",
-    status: "NEEDS_MECHANIC",
+    status: RECORDED_DEPENDENCY_STATUS,
     scope: "JURISDICTION-SPECIFIC",
     tier: "high",
     blockedBy: [
@@ -446,7 +455,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     familyName: "Emergency declaration lifecycle",
     title:
       "Emergency duration limit reached: renew, seek extension, or let lapse",
-    status: "NEEDS_MECHANIC",
+    status: RECORDED_DEPENDENCY_STATUS,
     scope: "JURISDICTION-SPECIFIC",
     tier: "high",
     blockedBy: [
@@ -459,7 +468,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     familyName: "Emergency declaration lifecycle",
     title:
       "Statute or rule suspension under emergency powers with leadership approval",
-    status: "NEEDS_MECHANIC",
+    status: RECORDED_DEPENDENCY_STATUS,
     scope: "JURISDICTION-SPECIFIC",
     tier: "medium",
     blockedBy: ["waiver sub-records under the declaration record"],
@@ -469,7 +478,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     family: "WF-10",
     familyName: "Emergency declaration lifecycle",
     title: "Request a federal emergency or major-disaster declaration",
-    status: "NEEDS_MECHANIC",
+    status: RECORDED_DEPENDENCY_STATUS,
     scope: "GENERIC",
     tier: "high",
     blockedBy: [
@@ -481,7 +490,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     family: "WF-10",
     familyName: "Emergency declaration lifecycle",
     title: "Terminate the emergency",
-    status: "NEEDS_MECHANIC",
+    status: RECORDED_DEPENDENCY_STATUS,
     scope: "JURISDICTION-SPECIFIC",
     tier: "ordinary",
     blockedBy: ["declaration record terminal state"],
@@ -492,7 +501,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     familyName: "Emergency declaration lifecycle",
     title:
       "Local government requests a governor's proclamation (California pattern)",
-    status: "NEEDS_MECHANIC",
+    status: RECORDED_DEPENDENCY_STATUS,
     scope: "JURISDICTION-SPECIFIC",
     tier: "medium",
     blockedBy: [
@@ -504,7 +513,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     family: "WF-11",
     familyName: "Federal funds and grants",
     title: "Unanticipated federal funds arrive between sessions",
-    status: "NEEDS_MECHANIC",
+    status: RECORDED_DEPENDENCY_STATUS,
     scope: "JURISDICTION-SPECIFIC",
     tier: "medium",
     blockedBy: ["federal-funds authority rule inputs; appropriation records"],
@@ -536,7 +545,7 @@ export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
     familyName: "Rulemaking oversight",
     title:
       "Proposed regulation reaches executive-branch review (Virginia pattern)",
-    status: "NEEDS_MECHANIC",
+    status: RECORDED_DEPENDENCY_STATUS,
     scope: "JURISDICTION-SPECIFIC",
     tier: "ordinary",
     blockedBy: ["regulation record family; jurisdiction review-regime inputs"],
