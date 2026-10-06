@@ -23,9 +23,7 @@
 - Branch: `session29-b07-p6`, based on `origin/main` at `e591ffc`.
 - Scope: B07 numbered step 6 only. The isolated checkout is the working copy;
   leave the original dirty branch untouched.
-- Focused `campaign-polling.test.ts`: 1 test passed under a temporary minimal
-  Vitest config; the repository config could not spawn `git` from Vite's build
-  identity plugin in this sandbox (`EPERM`).
+- Focused `campaign-polling.test.ts`: 1 test passed under the repository Vitest config. This check was rerun with the installed project dependencies linked into the worktree.
 - Typecheck: both TypeScript stages reached completion; it reports only the two
   known unrelated missing `personalLifeDepiction` properties in
   `src/simulation/press/press-premise.test.ts` (lines 35 and 125).
