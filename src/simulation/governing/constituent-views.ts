@@ -6,6 +6,7 @@ import type {
   PropositionAnswerRef,
   World,
 } from "../types";
+import { CONSTITUENT_CONTACT_TAGS } from "./public-pressure-channels";
 
 /**
  * How the voters of `jurisdictionId` hold the answers on the table, as a
@@ -75,5 +76,47 @@ export function constituentsConsideration(
     confidence: "medium",
     explanation: `Of the ${people} voters here who hold a settled view, those who care most lean ${favor ? "for" : "against"} it.`,
     sourceRefs: [],
+  };
+}
+
+/** Recorded constituents who directly asked this member to vote a direction. */
+export function constituentContactsConsideration(
+  world: World,
+  personId: EntityId,
+  measureId: EntityId,
+): DecisionConsideration | null {
+  const contacts = (world.history.events ?? []).filter(
+    (event) =>
+      event.tags.includes(CONSTITUENT_CONTACT_TAGS.event) &&
+      event.tags.includes(CONSTITUENT_CONTACT_TAGS.forMeasure(measureId)) &&
+      (world.history.knowledge ?? []).some(
+        (record) => record.personId === personId && record.eventId === event.id,
+      ) &&
+      event.participants.some(
+        (participant) =>
+          participant.personId === personId &&
+          participant.role === CONSTITUENT_CONTACT_TAGS.targetRole,
+      ) &&
+      (event.tags.includes(CONSTITUENT_CONTACT_TAGS.forVote) ||
+        event.tags.includes(CONSTITUENT_CONTACT_TAGS.againstVote)),
+  );
+  const yea = contacts.filter((event) =>
+    event.tags.includes(CONSTITUENT_CONTACT_TAGS.forVote),
+  ).length;
+  const nay = contacts.length - yea;
+  if (yea === nay) return null;
+  const direction = yea > nay ? "yea" : "nay";
+  return {
+    stableKey: `member:constituent-contacts:${measureId}`,
+    optionKey: direction === "yea" ? "vote-yea" : "vote-nay",
+    sourceType: "context:constituent-contact",
+    direction: "supports",
+    importance: "slight",
+    confidence: "medium",
+    explanation: `Recorded constituents contacted the member to urge a ${direction} vote.`,
+    sourceRefs: contacts.map((event) => ({
+      kind: "historical-event" as const,
+      eventId: event.id,
+    })),
   };
 }
