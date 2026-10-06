@@ -171,7 +171,7 @@ export const RESIDENCE_SUBURBAN_HOUSE_WAVE2_SCENES: readonly EnvironmentSceneSpe
         },
       ],
       explicit_unknowns: [
-        "PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.",
+        "CANDIDATE REVIEW STATUS: geometry only. Owner pixel review and exact-image scene/actor proof remain required. No approved or installed character placement is asserted.",
         "Full-frame camera only. safe_area and essential_content_area preserve the entire source; UI overlays, responsive crops and client-scale interaction proof are NOT RUN.",
         "Standing points are proposed contacts on visible open foreground floor. No actor has been tested: floor calibration, standard body width, standing height, permitted poses/facings and footprints remain deliberately unset.",
         "Tabletop vertices are image-edge pixel estimates in clockwise order, including any occupied portions of that plane. They are reference geometry, not a paper hotspot or foreground alpha mask. Furniture occlusion and hand/table contact remain untested.",
@@ -342,7 +342,7 @@ export const RESIDENCE_SUBURBAN_HOUSE_WAVE2_SCENES: readonly EnvironmentSceneSpe
         },
       ],
       explicit_unknowns: [
-        "PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.",
+        "CANDIDATE REVIEW STATUS: geometry only. Owner pixel review and exact-image scene/actor proof remain required. No approved or installed character placement is asserted.",
         "Full-frame camera only. safe_area and essential_content_area preserve the entire source; UI overlays, responsive crops and client-scale interaction proof are NOT RUN.",
         "Standing points are proposed contacts on visible open foreground floor. No actor has been tested: floor calibration, standard body width, standing height, permitted poses/facings and footprints remain deliberately unset.",
         "Tabletop vertices are image-edge pixel estimates in clockwise order, including any occupied portions of that plane. They are reference geometry, not a paper hotspot or foreground alpha mask. Furniture occlusion and hand/table contact remain untested.",
@@ -513,7 +513,7 @@ export const RESIDENCE_SUBURBAN_HOUSE_WAVE2_SCENES: readonly EnvironmentSceneSpe
         },
       ],
       explicit_unknowns: [
-        "PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.",
+        "CANDIDATE REVIEW STATUS: geometry only. Owner pixel review and exact-image scene/actor proof remain required. No approved or installed character placement is asserted.",
         "Full-frame camera only. safe_area and essential_content_area preserve the entire source; UI overlays, responsive crops and client-scale interaction proof are NOT RUN.",
         "Standing points are proposed contacts on visible open foreground floor. No actor has been tested: floor calibration, standard body width, standing height, permitted poses/facings and footprints remain deliberately unset.",
         "Tabletop vertices are image-edge pixel estimates in clockwise order, including any occupied portions of that plane. They are reference geometry, not a paper hotspot or foreground alpha mask. Furniture occlusion and hand/table contact remain untested.",
@@ -684,7 +684,7 @@ export const RESIDENCE_SUBURBAN_HOUSE_WAVE2_SCENES: readonly EnvironmentSceneSpe
         },
       ],
       explicit_unknowns: [
-        "PLACEHOLDER(wave2): candidate geometry only. Replace after owner pixel review and exact-image scene/actor proof. No approved or installed character placement is asserted.",
+        "CANDIDATE REVIEW STATUS: geometry only. Owner pixel review and exact-image scene/actor proof remain required. No approved or installed character placement is asserted.",
         "Full-frame camera only. safe_area and essential_content_area preserve the entire source; UI overlays, responsive crops and client-scale interaction proof are NOT RUN.",
         "Standing points are proposed contacts on visible open foreground floor. No actor has been tested: floor calibration, standard body width, standing height, permitted poses/facings and footprints remain deliberately unset.",
         "Tabletop vertices are image-edge pixel estimates in clockwise order, including any occupied portions of that plane. They are reference geometry, not a paper hotspot or foreground alpha mask. Furniture occlusion and hand/table contact remain untested.",

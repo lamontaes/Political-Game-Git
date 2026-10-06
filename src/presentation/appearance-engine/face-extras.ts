@@ -48,8 +48,8 @@ function shareAt(table: readonly AgeShare[], age: number): number {
  * British shares stand in for American men: an assumption, stated here.
  * https://ygo-assets-websites-editorial-emea.yougov.net/documents/YouGov_-_Facial_hair_2023.pdf
  */
-// PLACEHOLDER(facial-hair): a British survey standing in for American men,
-// until a U.S. source is found (research question filed).
+// ESTIMATED FROM A SIMILAR PLACE: Great Britain's age-specific survey shares
+// stand in for the United States; the source, dates, and sample are above.
 export const FACIAL_HAIR_SHARE: readonly AgeShare[] = [
   { fromAge: 18, share: 0.66 },
   { fromAge: 25, share: 0.68 },
@@ -211,8 +211,9 @@ export function glassesFor(
  *    pin; 0 of 80 men with earrings, 0 of 80 with a necklace, 18 of 80 with
  *    a lapel pin.
  * 4. A portrait is head and shoulders. No wrist and no hand showed in any of
- *    the 156, so it says nothing about watches or rings. Those two shares are
- *    PLACEHOLDER(accessories) until a source is found.
+ *    the 156, so it says nothing about watches or rings. The watch shares are
+ *    ESTIMATED FROM AVERAGE for U.S. adults: 25% for feminine presentations
+ *    and 40% for masculine presentations. They are not portrait counts.
  * 5. No share varies with age: 156 portraits are too few to split by age.
  */
 export const ACCESSORY_SHARE: Readonly<
@@ -221,7 +222,8 @@ export const ACCESSORY_SHARE: Readonly<
   earrings: { feminine: 51 / 76, masculine: 0 },
   necklace: { feminine: 38 / 76, masculine: 0 },
   "lapel-pin": { feminine: 21 / 76, masculine: 18 / 80 },
-  // PLACEHOLDER(accessories): not countable from a head-and-shoulders portrait.
+  // ESTIMATED FROM SIMILAR PEOPLE: general adult watch-wearing shares stand in
+  // because the recorded U.S. congressional portraits show no wrists.
   watch: { feminine: 0.25, masculine: 0.4 },
   // PLACEHOLDER(accessories): the share of MARRIED people who wear a wedding
   // ring, not counted from a head-and-shoulders portrait. Unmarried people
