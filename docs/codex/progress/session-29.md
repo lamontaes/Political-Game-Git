@@ -12,9 +12,9 @@
 ## Next
 
 - Reconcile consumer contracts after the Session 4 and Session 14 owners answer the parent on #2424; preserve their file ownership and change only the call site owned by the relevant session in its own PR.
-- Focused Vitest passed (2 tests), Prettier, ESLint, and `git diff --check` passed in this checkout after linking the repository's existing `node_modules`. Test-inclusive repository typecheck reports only two unrelated `press-premise.test.ts` fixture errors missing `personalLifeDepiction`. Added the explicit `impact: none` release declaration because no interface is connected by this read-model change.
+- After composing the branch onto current `origin/main` (`e597ec933`), focused Vitest passed (2 tests), test-inclusive `npm run typecheck` passed, `npm run release:check -- --mode pr` passed, and Prettier/ESLint/`git diff --check` passed. The #2470 merge fixed the previous unrelated press fixture errors; no duplicate fixture patch was added. The explicit `impact: none` release declaration is present because no interface is connected by this read-model change.
 - The focused tests are the available new-game/random-place proof; no separate watched generated-world route was run.
 
 ## Exact resume
 
-Branch `session29-b07-p3`, based on `origin/main` e591ffc. Continue with `src/simulation/player-known-views.ts` and its focused test. Run typecheck and PR release check, record outcomes, then commit and publish the separate draft PR. Reconcile any later consumer call site without editing another session's protected files.
+Branch `session29-b07-p3`, composed onto `origin/main` e597ec933. PR #2536 remains a draft. Continue consumer contract reconciliation only when a real Session 4/14 consumer seam becomes available, preserving their file ownership.
