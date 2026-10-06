@@ -7763,6 +7763,20 @@ body:where(.pg-game) .game-campaign-tallies {
   border-color: #b4642f;
 }
 
+.life-hud-note--outcome {
+  animation: life-hud-outcome-fade 6s ease-out forwards;
+}
+
+@keyframes life-hud-outcome-fade {
+  0%,
+  83% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 /* --- Secondary systems, opened over the room --------------------------- */
 
 /* A dimmed room behind the panel: the scene is still there, focus is on the

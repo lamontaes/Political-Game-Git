@@ -61,7 +61,6 @@ import {
   skipToLabel,
   stoppedEarlyLabel,
 } from "../presentation/time-target-label";
-import { routineOutcomeAfterClock } from "../presentation/routine-outcome";
 import { authorityDecisions } from "../presentation/crisis-shell";
 import { CrisisNoticesPanel } from "./CrisisNoticesPanel";
 import { useCrisisStop } from "./use-crisis-stop";
@@ -1381,6 +1380,11 @@ function PlayingScreen({
    * said in the HUD so the player reads where time actually stopped and why.
    */
   const [passOutcome, setPassOutcome] = useState<string | null>(null);
+  useEffect(() => {
+    if (passOutcome === null) return;
+    const timeout = window.setTimeout(() => setPassOutcome(null), 6000);
+    return () => window.clearTimeout(timeout);
+  }, [passOutcome]);
   /*
    * Where the clicked scene person stands, kept with that person. A card
    * reached any other way, or for somebody else, has no anchor and uses the
@@ -1442,7 +1446,7 @@ function PlayingScreen({
           return;
         }
         // The corner shows the new date; the notice is for what else happened.
-        const news = routineOutcomeAfterClock(report.outcome);
+        const news = report.outcome.trim() || null;
         setPassOutcome(
           report.stoppedEarly && report.target
             ? `${stoppedEarlyLabel(report.target)}${news ? ` ${news}` : ""}`
