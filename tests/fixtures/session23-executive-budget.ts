@@ -1,3 +1,9 @@
+import {
+  stateExecutiveOffice,
+  stateExecutiveTenureKeyPrefix,
+  STATE_EXECUTIVE_WRITER_VERSION,
+} from "../../src/simulation/nationwide-world/state-executives";
+import { personName } from "../../src/simulation/people";
 import { lifePlaceByJurisdictionId } from "../../src/simulation/life-places";
 import { legislativePackForJurisdiction } from "../../src/simulation/legislative-institutions";
 import { legislativeRulePackForWorld } from "../../src/simulation/legislative-procedure-world";
@@ -89,7 +95,55 @@ export function recordedGovernorBudgetPreview(
   const office = governorOfficeForJurisdiction(world, stateKey);
   if (!office) throw new Error("No actual governor is recorded for this life.");
   let next = ensureStateLegislatureOpening(world, person.id, stateKey.slice(3));
-  next = control(next, office.holderPersonId, `${seed}:governor-control`);
+  if (person.id !== office.holderPersonId) {
+    const identity = stateExecutiveOffice(office.stateUsps);
+    if (!identity || !office.organizationId)
+      throw new Error("The actual executive office identity is required.");
+    // An explicitly authored seat for the original generated life. Preserve
+    // its household, home, age and identity; supply no election or resignation.
+    // The existing tenure reader consumes this canonical World event.
+    next = recordWorldEvent(next, {
+      stableKey: `${stateExecutiveTenureKeyPrefix(identity)}${next.currentDate}:controlled-budget-preview:${seed}`,
+      type: "world.office-tenure",
+      occurredAt: next.currentDate,
+      recordedAt: next.currentDate,
+      jurisdictionId: office.jurisdictionId,
+      involvedEntityIds: [
+        person.id,
+        office.organizationId,
+        office.holderPersonId,
+      ],
+      participants: [
+        { personId: person.id, role: "focus:subject", detail: office.title },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [
+        STATE_EXECUTIVE_WRITER_VERSION,
+        `office:${office.officeKey}`,
+        `state:${office.stateUsps}`,
+        "provenance:authored-controlled-desk-seat",
+        `source-event:${office.termId}`,
+        ...(office.termEndsAt
+          ? [`term-end:${office.termEndsAt}`]
+          : ["term-end:unknown"]),
+      ],
+      summary: `${personName(person)} holds ${office.title} in this explicitly authored desk fixture; no election result is supplied.`,
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+  }
+  const controlled = governorOfficeForJurisdiction(next, stateKey);
+  if (controlled?.holderPersonId !== person.id)
+    throw new Error(
+      "The canonical tenure reader did not admit the authored desk seat.",
+    );
   return openTransitionMatters(next, office.officeKey);
 }
 

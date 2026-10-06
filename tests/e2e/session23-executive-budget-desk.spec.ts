@@ -17,7 +17,7 @@ const place = drawRandomPlace(
 );
 test.use({ actionTimeout: 120_000 });
 
-test("controlled actual governor: a new life requests dollars and reloads a different enacted amount", async ({
+test("authored governor seat: a new life requests dollars and reloads a different enacted amount", async ({
   page,
 }, info) => {
   test.setTimeout(600_000);
@@ -90,7 +90,7 @@ test("controlled actual governor: a new life requests dollars and reloads a diff
       randomPlace: place.displayName,
       randomPlaceKey: place.key,
       proofKind:
-        "controlled actual governor and supplied legislative votes; no natural election or NPC bargaining proof",
+        "authored governor seat for the original new life and supplied legislative votes; no natural election or NPC bargaining proof",
       ...before,
     }),
   );

@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { enactedBudgetComparisonPreview } from "../../../tests/fixtures/session23-executive-budget";
+import {
+  enactedBudgetComparisonPreview,
+  recordedGovernorBudgetPreview,
+} from "../../../tests/fixtures/session23-executive-budget";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { city } from "../../../tests/fixtures/public-program-fixture";
 import { addDays, daysBetween, makeIsoDate } from "../dates";
@@ -20,7 +23,6 @@ import {
   governingOfficeForPerson,
   governorOfficeForJurisdiction,
   governingSeasonHandler,
-  openTransitionMatters,
   synchronizeMunicipalGoverningOffices,
 } from "./state-governing";
 import {
@@ -197,12 +199,19 @@ describe("executive dollar requests", () => {
       seed: "session23-budget-comparison",
       offices: ["governor", "state-legislature"],
     });
-    const office = governorOfficeForJurisdiction(fixture.world, "US-NE")!;
-    const asGovernor: World = {
-      ...fixture.world,
-      control: { kind: "person", personId: office.holderPersonId },
-    };
-    const opened = openTransitionMatters(asGovernor, office.officeKey);
+    const former = governorOfficeForJurisdiction(fixture.world, "US-NE")!;
+    const originalPerson = fixture.world.people[fixture.personId]!;
+    const opened = recordedGovernorBudgetPreview(
+      fixture.world,
+      "session23-budget-comparison",
+    );
+    const office = governingOfficeForPerson(opened, fixture.personId)!;
+    expect(office.holderPersonId).toBe(fixture.personId);
+    expect(office.termEndsAt).toBe(former.termEndsAt);
+    expect(opened.people[fixture.personId]).toEqual(originalPerson);
+    expect(opened.history.electionContestResults).toEqual(
+      fixture.world.history.electionContestResults,
+    );
     const matter = governingMatters(opened, office.officeKey).find(
       (entry) => entry.family === "budget",
     )!;
