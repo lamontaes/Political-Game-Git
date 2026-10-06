@@ -13,6 +13,8 @@ import { MOGUL_APPROACH_DECISION } from "./mogul-decisions";
 import type { WorldContentPacks } from "./runtime-content-packs";
 import { loadTraitPacks, type TraitRegistry } from "./trait-packs";
 import type { World } from "./types";
+import { VOTES_AND_OUTREACH_DECISIONS } from "./traits/votes-and-outreach-decisions";
+import { FACET_PROUD_EFFECTS } from "./traits/effects/facet-proud";
 import {
   FACET_AFFECTIONATE_DECISIONS,
   FACET_AFFECTIONATE_EFFECTS,
@@ -40,10 +42,11 @@ export const BUILT_IN_TRAIT_DECISIONS = [
   MOGUL_APPROACH_DECISION,
   ...FACET_AFFECTIONATE_DECISIONS,
   ...JOB_TRAIT_DECISION_DECLARATIONS,
+  ...VOTES_AND_OUTREACH_DECISIONS,
 ];
 
 /** Effect readers are separate packs so each trait can be added independently. */
-const EFFECT_PACKS = [FACET_AFFECTIONATE_EFFECTS] as const;
+const EFFECT_PACKS = [FACET_AFFECTIONATE_EFFECTS, FACET_PROUD_EFFECTS] as const;
 
 let cached: TraitRegistry | null = null;
 

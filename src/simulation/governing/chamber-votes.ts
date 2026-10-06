@@ -1018,7 +1018,7 @@ export function decideChamberVote(
     });
     input.onDecision?.(evaluation);
     const selected = evaluation.selectedOptionKey ?? "withhold";
-    const decisive = considerations
+    const decisive = evaluation.context.considerations
       .filter((consideration) => consideration.optionKey === selected)
       .sort(
         (l, r) =>
