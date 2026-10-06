@@ -28,10 +28,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "public",
-      "tags": [
-        "life.started",
-        "world.created"
-      ],
+      "tags": ["life.started", "world.created"],
       "summary": "Brandon Mejia is 57, and lives in Wabash County, Illinois. This is where their life is picked up.",
       "context": {
         "location": {
@@ -72,9 +69,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.household-move"
-      ],
+      "tags": ["life.household-move"],
       "summary": "A household move changed the child's local routine.",
       "context": {
         "location": {
@@ -115,9 +110,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.lunch-table-choice"
-      ],
+      "tags": ["life.lunch-table-choice"],
       "summary": "At lunch you made room at the table for another kid.",
       "context": {
         "location": {
@@ -158,9 +151,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.teacher-guidance"
-      ],
+      "tags": ["life.teacher-guidance"],
       "summary": "A teacher offered concrete guidance.",
       "context": {
         "location": {
@@ -183,9 +174,7 @@
       "occurredAt": "1979-06-13",
       "recordedAt": "1979-06-13",
       "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
-      "involvedEntityIds": [
-        "person_ea53c0cac6fc366d"
-      ],
+      "involvedEntityIds": ["person_ea53c0cac6fc366d"],
       "participants": [
         {
           "personId": "person_ea53c0cac6fc366d",
@@ -195,9 +184,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.civic-volunteering"
-      ],
+      "tags": ["life.civic-volunteering"],
       "summary": "The teenager joined a local volunteer effort.",
       "context": {
         "location": {
@@ -220,9 +207,7 @@
       "occurredAt": "1980-05-13",
       "recordedAt": "1980-05-13",
       "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
-      "involvedEntityIds": [
-        "person_ea53c0cac6fc366d"
-      ],
+      "involvedEntityIds": ["person_ea53c0cac6fc366d"],
       "participants": [
         {
           "personId": "person_ea53c0cac6fc366d",
@@ -232,9 +217,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.teen-work"
-      ],
+      "tags": ["life.teen-work"],
       "summary": "The teenager took a limited local job.",
       "context": {
         "location": {
@@ -257,9 +240,7 @@
       "occurredAt": "1981-05-07",
       "recordedAt": "1981-05-07",
       "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
-      "involvedEntityIds": [
-        "person_ea53c0cac6fc366d"
-      ],
+      "involvedEntityIds": ["person_ea53c0cac6fc366d"],
       "participants": [
         {
           "personId": "person_ea53c0cac6fc366d",
@@ -269,9 +250,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.future-preparation"
-      ],
+      "tags": ["life.future-preparation"],
       "summary": "The teenager prepared a next education, training, work, or service step.",
       "context": {
         "location": {
@@ -312,10 +291,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "family.birth",
-        "people-family-v1"
-      ],
+      "tags": ["family.birth", "people-family-v1"],
       "summary": "Brandon Mejia was born to Margaret Mejia.",
       "context": {
         "location": null,
@@ -352,9 +328,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Margaret spent time together in 1966.",
       "context": {
         "location": {
@@ -395,9 +369,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Margaret spent time together in 1973.",
       "context": {
         "location": {
@@ -438,9 +410,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Margaret spent time together at age 18.",
       "context": {
         "location": {
@@ -481,9 +451,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Margaret spent time together at age 19.",
       "context": {
         "location": {
@@ -524,9 +492,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Margaret spent time together at age 20.",
       "context": {
         "location": {
@@ -567,9 +533,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Margaret spent time together at age 21.",
       "context": {
         "location": {
@@ -610,9 +574,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Margaret spent time together at age 22.",
       "context": {
         "location": {
@@ -653,9 +615,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Margaret spent time together at age 23.",
       "context": {
         "location": {
@@ -696,9 +656,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Margaret spent time together at age 24.",
       "context": {
         "location": {
@@ -739,9 +697,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Margaret spent time together at age 25.",
       "context": {
         "location": {
@@ -782,9 +738,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Margaret spent time together at age 26.",
       "context": {
         "location": {
@@ -825,9 +779,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Margaret spent time together at age 27.",
       "context": {
         "location": {
@@ -868,9 +820,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Margaret spent time together at age 28.",
       "context": {
         "location": {
@@ -911,9 +861,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Margaret spent time together at age 29.",
       "context": {
         "location": {
@@ -954,9 +902,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Margaret spent time together at age 30.",
       "context": {
         "location": {
@@ -997,9 +943,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Margaret spent time together at age 31.",
       "context": {
         "location": {
@@ -1040,9 +984,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Margaret spent time together at age 32.",
       "context": {
         "location": {
@@ -1083,9 +1025,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Margaret spent time together at age 33.",
       "context": {
         "location": {
@@ -1126,9 +1066,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Margaret spent time together at age 34.",
       "context": {
         "location": {
@@ -1169,9 +1107,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Seth spent time together at age 35.",
       "context": {
         "location": {
@@ -1212,9 +1148,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Seth spent time together at age 36.",
       "context": {
         "location": {
@@ -1255,9 +1189,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Seth spent time together at age 37.",
       "context": {
         "location": {
@@ -1298,9 +1230,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Seth spent time together at age 38.",
       "context": {
         "location": {
@@ -1341,9 +1271,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Seth spent time together at age 39.",
       "context": {
         "location": {
@@ -1384,9 +1312,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Seth spent time together at age 40.",
       "context": {
         "location": {
@@ -1427,9 +1353,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Seth spent time together at age 41.",
       "context": {
         "location": {
@@ -1470,9 +1394,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Seth spent time together at age 42.",
       "context": {
         "location": {
@@ -1513,9 +1435,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Seth spent time together at age 43.",
       "context": {
         "location": {
@@ -1556,9 +1476,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Seth spent time together at age 44.",
       "context": {
         "location": {
@@ -1599,9 +1517,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Seth spent time together at age 45.",
       "context": {
         "location": {
@@ -1642,9 +1558,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Seth spent time together at age 46.",
       "context": {
         "location": {
@@ -1685,9 +1599,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Seth spent time together at age 47.",
       "context": {
         "location": {
@@ -1728,9 +1640,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Seth spent time together at age 48.",
       "context": {
         "location": {
@@ -1766,9 +1676,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.work-routine"
-      ],
+      "tags": ["life.work-routine"],
       "summary": "Brandon Mejia continued working at Ray Construction at age 49.",
       "context": {
         "location": {
@@ -1804,9 +1712,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.work-routine"
-      ],
+      "tags": ["life.work-routine"],
       "summary": "Brandon Mejia continued working at Ray Construction at age 50.",
       "context": {
         "location": {
@@ -1842,9 +1748,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.work-routine"
-      ],
+      "tags": ["life.work-routine"],
       "summary": "Brandon Mejia continued working at Ray Construction at age 51.",
       "context": {
         "location": {
@@ -1885,9 +1789,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Seth spent time together at age 52.",
       "context": {
         "location": {
@@ -1923,9 +1825,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.work-routine"
-      ],
+      "tags": ["life.work-routine"],
       "summary": "Brandon Mejia continued working at Ray Construction at age 53.",
       "context": {
         "location": {
@@ -1961,9 +1861,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.work-routine"
-      ],
+      "tags": ["life.work-routine"],
       "summary": "Brandon Mejia continued working at Ray Construction at age 54.",
       "context": {
         "location": {
@@ -1999,9 +1897,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.work-routine"
-      ],
+      "tags": ["life.work-routine"],
       "summary": "Brandon Mejia continued working at Ray Construction at age 55.",
       "context": {
         "location": {
@@ -2042,9 +1938,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "limited",
-      "tags": [
-        "life.family-time"
-      ],
+      "tags": ["life.family-time"],
       "summary": "Brandon Mejia and Seth spent time together at age 56.",
       "context": {
         "location": {
@@ -2080,9 +1974,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "private",
-      "tags": [
-        "playtest65:initial-placement"
-      ],
+      "tags": ["playtest65:initial-placement"],
       "summary": "You are at home.",
       "context": {
         "location": {
@@ -2105,9 +1997,7 @@
       "occurredAt": "2021-01-08",
       "recordedAt": "2021-01-08",
       "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
-      "involvedEntityIds": [
-        "person_ea53c0cac6fc366d"
-      ],
+      "involvedEntityIds": ["person_ea53c0cac6fc366d"],
       "participants": [
         {
           "personId": "person_ea53c0cac6fc366d",
@@ -2117,11 +2007,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "private",
-      "tags": [
-        "crisis",
-        "crisis.health",
-        "severity:acute"
-      ],
+      "tags": ["crisis", "crisis.health", "severity:acute"],
       "summary": "Became acutely unwell.",
       "context": {
         "location": null,
@@ -2153,9 +2039,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "private",
-      "tags": [
-        "vitality.capacity"
-      ],
+      "tags": ["vitality.capacity"],
       "summary": "Able to work with limits during a health episode.",
       "context": {
         "location": null,
@@ -2174,9 +2058,7 @@
       "occurredAt": "2021-01-08",
       "recordedAt": "2021-01-08",
       "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
-      "involvedEntityIds": [
-        "person_ea53c0cac6fc366d"
-      ],
+      "involvedEntityIds": ["person_ea53c0cac6fc366d"],
       "participants": [
         {
           "personId": "person_ea53c0cac6fc366d",
@@ -2229,10 +2111,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "private",
-      "tags": [
-        "goal-call.purpose:learning",
-        "goal-call.v1"
-      ],
+      "tags": ["goal-call.purpose:learning", "goal-call.v1"],
       "summary": "Brandon Mejia called Barbara Merritt to ask about learning something.",
       "context": {
         "location": null,
@@ -2264,9 +2143,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "private",
-      "tags": [
-        "vitality.capacity"
-      ],
+      "tags": ["vitality.capacity"],
       "summary": "Able to carry out ordinary work again.",
       "context": {
         "location": null,
@@ -2303,10 +2180,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "private",
-      "tags": [
-        "goal-call.purpose:learning",
-        "goal-call.v1"
-      ],
+      "tags": ["goal-call.purpose:learning", "goal-call.v1"],
       "summary": "Brandon Mejia called Barbara Merritt to ask about learning something.",
       "context": {
         "location": null,
@@ -2343,10 +2217,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "private",
-      "tags": [
-        "goal-call.purpose:learning",
-        "goal-call.v1"
-      ],
+      "tags": ["goal-call.purpose:learning", "goal-call.v1"],
       "summary": "Brandon Mejia called Barbara Merritt to ask about learning something.",
       "context": {
         "location": null,
@@ -2383,10 +2254,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "private",
-      "tags": [
-        "goal-call.purpose:learning",
-        "goal-call.v1"
-      ],
+      "tags": ["goal-call.purpose:learning", "goal-call.v1"],
       "summary": "Brandon Mejia called Barbara Merritt to ask about learning something.",
       "context": {
         "location": null,
@@ -2423,10 +2291,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "private",
-      "tags": [
-        "goal-call.purpose:learning",
-        "goal-call.v1"
-      ],
+      "tags": ["goal-call.purpose:learning", "goal-call.v1"],
       "summary": "Brandon Mejia called Barbara Merritt to ask about learning something.",
       "context": {
         "location": null,
@@ -2445,9 +2310,7 @@
       "occurredAt": "2021-10-15",
       "recordedAt": "2021-10-15",
       "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
-      "involvedEntityIds": [
-        "person_ea53c0cac6fc366d"
-      ],
+      "involvedEntityIds": ["person_ea53c0cac6fc366d"],
       "participants": [
         {
           "personId": "person_ea53c0cac6fc366d",
@@ -2457,11 +2320,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "private",
-      "tags": [
-        "crisis",
-        "crisis.health",
-        "severity:serious"
-      ],
+      "tags": ["crisis", "crisis.health", "severity:serious"],
       "summary": "Became seriously unwell.",
       "context": {
         "location": null,
@@ -2493,9 +2352,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "private",
-      "tags": [
-        "vitality.capacity"
-      ],
+      "tags": ["vitality.capacity"],
       "summary": "Unable to carry out ordinary work because of a health episode.",
       "context": {
         "location": null,
@@ -2514,9 +2371,7 @@
       "occurredAt": "2021-10-15",
       "recordedAt": "2021-10-15",
       "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
-      "involvedEntityIds": [
-        "person_ea53c0cac6fc366d"
-      ],
+      "involvedEntityIds": ["person_ea53c0cac6fc366d"],
       "participants": [
         {
           "personId": "person_ea53c0cac6fc366d",
@@ -2564,9 +2419,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "private",
-      "tags": [
-        "vitality.capacity"
-      ],
+      "tags": ["vitality.capacity"],
       "summary": "Able to work with limits during a health episode.",
       "context": {
         "location": null,
@@ -2603,10 +2456,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "private",
-      "tags": [
-        "goal-call.purpose:learning",
-        "goal-call.v1"
-      ],
+      "tags": ["goal-call.purpose:learning", "goal-call.v1"],
       "summary": "Brandon Mejia called Barbara Merritt to ask about learning something.",
       "context": {
         "location": null,
@@ -2638,9 +2488,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "private",
-      "tags": [
-        "vitality.capacity"
-      ],
+      "tags": ["vitality.capacity"],
       "summary": "Able to carry out ordinary work again.",
       "context": {
         "location": null,
@@ -2677,10 +2525,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "private",
-      "tags": [
-        "goal-call.purpose:learning",
-        "goal-call.v1"
-      ],
+      "tags": ["goal-call.purpose:learning", "goal-call.v1"],
       "summary": "Brandon Mejia called Barbara Merritt to ask about learning something.",
       "context": {
         "location": null,
@@ -2717,10 +2562,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "private",
-      "tags": [
-        "goal-call.purpose:learning",
-        "goal-call.v1"
-      ],
+      "tags": ["goal-call.purpose:learning", "goal-call.v1"],
       "summary": "Brandon Mejia called Barbara Merritt to ask about learning something.",
       "context": {
         "location": null,
@@ -2757,10 +2599,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "private",
-      "tags": [
-        "goal-call.purpose:learning",
-        "goal-call.v1"
-      ],
+      "tags": ["goal-call.purpose:learning", "goal-call.v1"],
       "summary": "Brandon Mejia called Barbara Merritt to ask about learning something.",
       "context": {
         "location": null,
@@ -2797,10 +2636,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "private",
-      "tags": [
-        "goal-call.purpose:learning",
-        "goal-call.v1"
-      ],
+      "tags": ["goal-call.purpose:learning", "goal-call.v1"],
       "summary": "Brandon Mejia called Barbara Merritt to ask about learning something.",
       "context": {
         "location": null,
@@ -2837,10 +2673,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "private",
-      "tags": [
-        "goal-call.purpose:learning",
-        "goal-call.v1"
-      ],
+      "tags": ["goal-call.purpose:learning", "goal-call.v1"],
       "summary": "Brandon Mejia called Barbara Merritt to ask about learning something.",
       "context": {
         "location": null,
@@ -2859,9 +2692,7 @@
       "occurredAt": "2022-10-21",
       "recordedAt": "2022-10-21",
       "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
-      "involvedEntityIds": [
-        "person_ea53c0cac6fc366d"
-      ],
+      "involvedEntityIds": ["person_ea53c0cac6fc366d"],
       "participants": [
         {
           "personId": "person_ea53c0cac6fc366d",
@@ -2871,11 +2702,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "private",
-      "tags": [
-        "crisis",
-        "crisis.health",
-        "severity:serious"
-      ],
+      "tags": ["crisis", "crisis.health", "severity:serious"],
       "summary": "Became seriously unwell.",
       "context": {
         "location": null,
@@ -2907,9 +2734,7 @@
       ],
       "personFactConstraints": [],
       "visibility": "private",
-      "tags": [
-        "vitality.capacity"
-      ],
+      "tags": ["vitality.capacity"],
       "summary": "Unable to carry out ordinary work because of a health episode.",
       "context": {
         "location": null,
@@ -2928,9 +2753,7 @@
       "occurredAt": "2022-10-21",
       "recordedAt": "2022-10-21",
       "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
-      "involvedEntityIds": [
-        "person_ea53c0cac6fc366d"
-      ],
+      "involvedEntityIds": ["person_ea53c0cac6fc366d"],
       "participants": [
         {
           "personId": "person_ea53c0cac6fc366d",
@@ -3461,10 +3284,7 @@
         "id": "kinship_67fe0a966c8bb355",
         "stableKey": "production:earlier-life:kinship",
         "sequence": 17,
-        "personIds": [
-          "person_52c2ae3d2a214b4a",
-          "person_ea53c0cac6fc366d"
-        ],
+        "personIds": ["person_52c2ae3d2a214b4a", "person_ea53c0cac6fc366d"],
         "establishedAt": "1963-12-27",
         "kind": "lineal:parent-child",
         "provenance": {
@@ -3476,10 +3296,7 @@
         "id": "kinship_1641301aec990a4e",
         "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:grandparent:1:1:grandchild",
         "sequence": 405,
-        "personIds": [
-          "person_aa0c189467c5fc3d",
-          "person_ea53c0cac6fc366d"
-        ],
+        "personIds": ["person_aa0c189467c5fc3d", "person_ea53c0cac6fc366d"],
         "establishedAt": "1963-12-27",
         "kind": "lineal:grandparent-grandchild",
         "provenance": {
@@ -3491,10 +3308,7 @@
         "id": "kinship_80c87758901907b5",
         "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:grandparent:1:2:grandchild",
         "sequence": 407,
-        "personIds": [
-          "person_aa0c159467c5f724",
-          "person_ea53c0cac6fc366d"
-        ],
+        "personIds": ["person_aa0c159467c5f724", "person_ea53c0cac6fc366d"],
         "establishedAt": "1963-12-27",
         "kind": "lineal:grandparent-grandchild",
         "provenance": {
@@ -3506,10 +3320,7 @@
         "id": "kinship_314a223162fe50ca",
         "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:child-of:person_ea53c0cac6fc366d",
         "sequence": 410,
-        "personIds": [
-          "person_d56adbaf484421d9",
-          "person_ea53c0cac6fc366d"
-        ],
+        "personIds": ["person_d56adbaf484421d9", "person_ea53c0cac6fc366d"],
         "establishedAt": "1994-06-26",
         "kind": "lineal:parent-child",
         "provenance": {
@@ -3523,10 +3334,7 @@
         "id": "partnership_2b0b6bce82041432",
         "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:partnership",
         "sequence": 408,
-        "personIds": [
-          "person_784daaa5959de17d",
-          "person_ea53c0cac6fc366d"
-        ],
+        "personIds": ["person_784daaa5959de17d", "person_ea53c0cac6fc366d"],
         "startedAt": "1990-12-28",
         "kind": "romantic:couple",
         "provenance": {
@@ -3560,9 +3368,7 @@
         "recordedAt": "2021-01-01",
         "eventId": "event_0f95206fc0c549c3",
         "causeKey": "cause:unknown",
-        "sourceEntityIds": [
-          "person_aa0c189467c5fc3d"
-        ],
+        "sourceEntityIds": ["person_aa0c189467c5fc3d"],
         "provenance": {
           "kind": "authored",
           "note": "Generated fictional family history; the death day follows the game's ordinary mortality and no cause is inferred."
@@ -3577,9 +3383,7 @@
         "recordedAt": "2021-01-01",
         "eventId": "event_72477dff11b8b131",
         "causeKey": "cause:unknown",
-        "sourceEntityIds": [
-          "person_aa0c159467c5f724"
-        ],
+        "sourceEntityIds": ["person_aa0c159467c5f724"],
         "provenance": {
           "kind": "authored",
           "note": "Generated fictional family history; the death day follows the game's ordinary mortality and no cause is inferred."

@@ -20,14 +20,14 @@ The streamed writer uses the existing stored form and JSON writer without retain
 
 The requested initial run used a seeded random place: Opelousas, Louisiana. That existing pre-start world contained 64 people. Its results establish the sparse world's speed, not the populated life-start route. The [initial receipt](https://github.com/lamontaes/Political-Game-Git/issues/2052#issuecomment-6004130074) contains the annual table below.
 
-| Period | Clock seconds | Saved bytes |
-| --- | ---: | ---: |
-| 2021 | 0.122 | 920,319 |
-| 2022 | 0.050 | 949,563 |
-| 2023 | 0.040 | 999,041 |
-| 2024 | 0.041 | 1,047,926 |
-| 2025 | 0.040 | 1,096,057 |
-| January 1–4, 2026 | 0.001 | 1,096,818 |
+| Period            | Clock seconds | Saved bytes |
+| ----------------- | ------------: | ----------: |
+| 2021              |         0.122 |     920,319 |
+| 2022              |         0.050 |     949,563 |
+| 2023              |         0.040 |     999,041 |
+| 2024              |         0.041 |   1,047,926 |
+| 2025              |         0.040 |   1,096,057 |
+| January 1–4, 2026 |         0.001 |   1,096,818 |
 
 Measured: the populated shared-seed opening in Wabash County, Illinois contained 9,421 people. Advancing through 2021 took 211.015 seconds and reached 11,019 people. Serialization then exhausted a 4 GiB heap and exited with code 134. It produced no complete annual save-size receipt. See the [terminal OOM receipt](https://github.com/lamontaes/Political-Game-Git/issues/2052#issuecomment-6004747317).
 
@@ -45,10 +45,10 @@ Measured: an intake profile spent about 17 of 30 sampled seconds rebuilding date
 
 Measured: the current public life factory opened Paul Cole in Wabash County at age 62, with 9,421 people. The same seed, place and age were used for earlier populated diagnostics. The character and world IDs changed with the public factory, so these runs do not establish a controlled speed ratio. The [terminal receipt](https://github.com/lamontaes/Political-Game-Git/issues/2052#issuecomment-6007366119) records the two completed years.
 
-| Period | Clock seconds | Saved bytes | Byte-measurement seconds |
-| --- | ---: | ---: | ---: |
-| 2021 | 119.379 | 829,871,593 | 17.133 |
-| 2022 | 593.336 | 1,769,785,431 | 37.298 |
+| Period | Clock seconds |   Saved bytes | Byte-measurement seconds |
+| ------ | ------------: | ------------: | -----------------------: |
+| 2021   |       119.379 |   829,871,593 |                   17.133 |
+| 2022   |       593.336 | 1,769,785,431 |                   37.298 |
 
 Measured: the 2022 checkpoint contained 1,529,955 statutory tax liabilities, 177,291 flows, 347,126 terms and 169,834 transfers. It also retained 11,260 decisions, 391 deaths and 428 functional-capacity records. Heap usage was 3,010,511,552 bytes; resident memory was 3,802,718,208 bytes. The two-year clock alone exceeds the full five-year limit.
 
