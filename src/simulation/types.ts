@@ -4523,6 +4523,13 @@ export type ChildhoodRecordEntry =
       readonly kind: "no-school-on-record";
       readonly toJurisdictionId: EntityId;
       readonly grade: number;
+    })
+  | (ChildhoodRecordEntryBase & {
+      /** A controlled person's recorded formative faith choice. */
+      readonly kind: "faith-choice";
+      readonly congregationId: EntityId | null;
+      readonly situationKey: string;
+      readonly optionKey: string;
     });
 
 export interface HistoryStore {

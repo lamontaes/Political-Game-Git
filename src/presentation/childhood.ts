@@ -126,6 +126,8 @@ export function playChildhoodMoment(
   input: {
     readonly personId: EntityId;
     readonly optionKey?: string;
+    /** A faith choice only when the player made faith part of this scene. */
+    readonly faithChoice?: EntityId | null;
   },
 ): World {
   const moment = projectChildhoodMoment(world, input.personId);
@@ -144,11 +146,20 @@ export function playChildhoodMoment(
       true,
     );
     if (!decided.optionKey) return decided.world;
-    return chooseFormativeOption(decided.world, {
+    const chosen = chooseFormativeOption(decided.world, {
       personId: input.personId,
       situationKey: scene.situationKey,
       optionKey: decided.optionKey,
       withPersonId: scene.withPersonId,
+    });
+    return recordFormativePlayerTraitChoice(world, chosen, {
+      personId: input.personId,
+      situationKey: scene.situationKey,
+      optionKey: decided.optionKey,
+      choiceLabel:
+        scene.options.find((option) => option.key === decided.optionKey)
+          ?.label ?? decided.optionKey,
+      faithChoice: input.faithChoice,
     });
   }
   if (moment.action === "choose") {
@@ -168,6 +179,7 @@ export function playChildhoodMoment(
       choiceLabel:
         scene.options.find((option) => option.key === input.optionKey)?.label ??
         input.optionKey,
+      faithChoice: input.faithChoice,
     });
   }
   if (input.optionKey) {
