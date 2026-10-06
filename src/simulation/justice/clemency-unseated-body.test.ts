@@ -39,7 +39,7 @@ import {
   referForProsecution,
   PROSECUTION_CHARGED_EVENT,
   PROSECUTION_SENTENCED_EVENT,
-  UNRESEARCHED_PROSECUTION,
+  PROSECUTION_TIMING_PROFILE,
 } from "./prosecution";
 import { prosecutionTimingFor } from "./prosecution-timing";
 
@@ -146,7 +146,7 @@ function caseFixture(
               ...event,
               occurredAt: addDays(
                 sentenceDate,
-                -UNRESEARCHED_PROSECUTION.chargeDecisionDays -
+                -PROSECUTION_TIMING_PROFILE.chargeDecisionDays -
                   prosecutionTimingFor(state.jurisdictionKey).resolveAfterDays,
               ),
             }

@@ -130,7 +130,7 @@ describe("incomplete actual-person panels leave trials pending", () => {
         .spyOn(reasoning, "empanelJury")
         .mockImplementation((w, c, n) => {
           const eligible = original(w, c, n);
-          expect(eligible).toHaveLength(reasoning.UNRESEARCHED_JURY_PANEL.size);
+          expect(eligible).toHaveLength(reasoning.JURY_PANEL_ESTIMATE.size);
           selected = eligible.slice(0, panelSize);
           return eligible.slice(0, panelSize);
         });
@@ -169,7 +169,7 @@ describe("incomplete actual-person panels leave trials pending", () => {
       expect(empty.history.events).toEqual(pending.history.events);
       // A real complete panel resumes the original saved case without a new
       // referral, fake verdict, timing rule or polling schedule.
-      panelSize = reasoning.UNRESEARCHED_JURY_PANEL.size;
+      panelSize = reasoning.JURY_PANEL_ESTIMATE.size;
       const resumed = advanceProsecutions(empty);
       expect(trialEvents(resumed).length).toBeGreaterThan(0);
       assertWorldIntegrity(resumed);
@@ -184,7 +184,7 @@ describe("incomplete actual-person panels leave trials pending", () => {
         emptyPanelPending: true,
         replayPreservesCase: true,
         completePanelResumed: true,
-        panelContract: reasoning.UNRESEARCHED_JURY_PANEL,
+        panelContract: reasoning.JURY_PANEL_ESTIMATE,
         controlledSelector: true,
         smallWorldPeople: opening.world.personOrder.length,
         judgeId,
@@ -301,7 +301,7 @@ describe("small towns summon a complete estimated county jury", () => {
       const jurors = [
         ...new Set(trialTraces.map((trace) => trace.context.actorPersonId)),
       ];
-      expect(jurors).toHaveLength(reasoning.UNRESEARCHED_JURY_PANEL.size);
+      expect(jurors).toHaveLength(reasoning.JURY_PANEL_ESTIMATE.size);
       const county = juryCountyForPlace(opening.jurisdictionId);
       expect(county).not.toBeNull();
       for (const id of jurors) {
@@ -325,7 +325,7 @@ describe("small towns summon a complete estimated county jury", () => {
         "justice.jury-catchment-basis:estimated-county-default",
       );
       expect(outcome!.tags).toContain(
-        `justice.jury-panel-basis:${reasoning.UNRESEARCHED_JURY_PANEL.provenance}`,
+        `justice.jury-panel-basis:${reasoning.JURY_PANEL_ESTIMATE.provenance}`,
       );
       expect(tried.personOrder.length).toBeGreaterThan(base.personOrder.length);
       assertWorldIntegrity(tried);
@@ -346,7 +346,7 @@ describe("small towns summon a complete estimated county jury", () => {
         outcomeId: outcome!.id,
         outcomeType: outcome!.type,
         jurors,
-        panelContract: reasoning.UNRESEARCHED_JURY_PANEL,
+        panelContract: reasoning.JURY_PANEL_ESTIMATE,
         generatedPeople: tried.personOrder.length - base.personOrder.length,
       });
     },

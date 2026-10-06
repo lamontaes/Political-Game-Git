@@ -19,7 +19,7 @@ import {
   PROSECUTION_CHARGED_EVENT,
   PROSECUTION_SENTENCED_EVENT,
   enterPlea,
-  UNRESEARCHED_PROSECUTION,
+  PROSECUTION_TIMING_PROFILE,
 } from "./prosecution";
 import { prosecutionTimingFor } from "./prosecution-timing";
 import { PROSECUTION_STAGE_TRANSITION_KEY } from "./prosecution-transitions";
@@ -109,7 +109,7 @@ describe("a saved NPC sentence wakes its existing clemency decision", () => {
       expect(item.dueAt).toBe(
         addDays(
           isolated.currentDate,
-          UNRESEARCHED_PROSECUTION.chargeDecisionDays,
+          PROSECUTION_TIMING_PROFILE.chargeDecisionDays,
         ),
       );
       const registry = composeWorldTimeHandlers();

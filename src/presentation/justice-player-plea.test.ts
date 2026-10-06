@@ -5,7 +5,7 @@ import {
   enterPlea,
   referForProsecution,
   sentencesOf,
-  UNRESEARCHED_PROSECUTION,
+  PROSECUTION_TIMING_PROFILE,
 } from "../simulation/justice/prosecution";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { observerPlace } from "./observer-world";
@@ -44,7 +44,7 @@ describe("the player enters their own plea", () => {
   const referralId = referred.referralId;
   const charged = passOrdinaryDays(
     referred.world,
-    UNRESEARCHED_PROSECUTION.chargeDecisionDays + 14,
+    PROSECUTION_TIMING_PROFILE.chargeDecisionDays + 14,
   );
 
   it(`learns of the case only once charged (${place.key})`, () => {
@@ -89,7 +89,7 @@ describe("the player enters their own plea", () => {
 
     const later = passOrdinaryDays(
       entered.world,
-      UNRESEARCHED_PROSECUTION.resolveAfterDays + 14,
+      PROSECUTION_TIMING_PROFILE.resolveAfterDays + 14,
     );
     const [closed] = courtCasesOf(later, playerId);
     expect(closed).toMatchObject({ outcome: "plea", hearingOn: null });

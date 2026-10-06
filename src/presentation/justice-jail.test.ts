@@ -11,7 +11,7 @@ import {
 import {
   jailTermOn,
   referForProsecution,
-  UNRESEARCHED_PROSECUTION,
+  PROSECUTION_TIMING_PROFILE,
 } from "../simulation/justice/prosecution";
 import { ensurePressOpening } from "../simulation/press/transitions";
 import { passOrdinaryDays } from "./ordinary-life";
@@ -48,8 +48,8 @@ describe("a legislator sentenced to jail", () => {
   }).world;
   const later = passOrdinaryDays(
     referred,
-    UNRESEARCHED_PROSECUTION.chargeDecisionDays +
-      UNRESEARCHED_PROSECUTION.resolveAfterDays +
+    PROSECUTION_TIMING_PROFILE.chargeDecisionDays +
+      PROSECUTION_TIMING_PROFILE.resolveAfterDays +
       14,
   );
 

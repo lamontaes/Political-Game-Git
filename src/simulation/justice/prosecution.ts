@@ -82,7 +82,7 @@ import {
   CONVICT,
   PLEA,
   PRETRIAL_HOLD,
-  UNRESEARCHED_JURY_PANEL,
+  JURY_PANEL_ESTIMATE,
   SENTENCE_JAIL,
   type CourtCase,
   type EvidenceStrength,
@@ -115,19 +115,17 @@ export {
 export type { EvidenceStrength } from "./court-reasoning";
 
 /**
- * The hand-set parts of a criminal case: how long each step takes, and how
- * long charging and trial stages take. None of
+ * The recorded or labeled-estimate parts of a criminal case: how long each
+ * step takes, and how long charging and trial stages take. None of
  * these decides whether anybody is charged, pleads, is convicted or goes to
  * jail; the people in the case decide that (`court-reasoning.ts`).
  *
- * PLACEHOLDER. Every number here is set by hand and filed with the research
- * queue as `criminal-sentence-consequences`: how long charging, trial and
- * retrial take. Sentence lengths now use the applicable sourced range and
- * the actual judge's recorded term decision; no placeholder midpoint remains.
+ * Trial timing reads `time-to-disposition-2026.json`. Sentence lengths use the
+ * applicable sourced range and the actual judge's recorded term decision.
  */
-export const UNRESEARCHED_PROSECUTION = {
+export const PROSECUTION_TIMING_PROFILE = {
   version: "prosecution-decided-v3",
-  provenance: "unresearched-blanket-rule",
+  provenance: "time-to-disposition-2026-v1",
   /**
    * ESTIMATED FROM AVERAGE. The labeled fallback only: a case reads its own
    * state's days through `prosecutionTimingFor` (`prosecution-timing.ts`),
@@ -146,14 +144,13 @@ export const UNRESEARCHED_PROSECUTION = {
 } as const;
 
 /**
- * UNRESEARCHED. What a jail sentence does, filed with the research queue as
- * `criminal-sentence-consequences`. Whether an officeholder keeps the office,
- * and whether a jailed candidate stays on the ballot, varies by state and by
- * office; until that is read, one blanket rule applies everywhere.
+ * The simulation boundary for jail effects. Office removal is decided by the
+ * applicable law in `recordOfficeConsequence`; this profile records only the
+ * physical inability to campaign while confined.
  */
-export const UNRESEARCHED_JAIL_EFFECTS = {
-  version: "jail-effects-unresearched-v1",
-  provenance: "unresearched-blanket-rule",
+export const JAIL_EFFECTS_PROFILE = {
+  version: "jail-effects-recorded-boundary-v1",
+  provenance: "recorded-confinement-and-office-consequence-boundary",
   /** A jail sentence removes the holder from every office they hold. */
   removedFromOffice: true,
   /** Nobody in jail can campaign; they stay on the ballot. */
@@ -309,7 +306,7 @@ function recordedProsecutorForCase(world: World, courtCase: CourtCase) {
 }
 
 function referralStableKey(stableKey: string): string {
-  return `${UNRESEARCHED_PROSECUTION.version}:referral:${stableKey}`;
+  return `${PROSECUTION_TIMING_PROFILE.version}:referral:${stableKey}`;
 }
 
 /**
@@ -356,7 +353,7 @@ export function referForProsecution(
     personFactConstraints: [],
     visibility: "private",
     tags: [
-      UNRESEARCHED_PROSECUTION.version,
+      PROSECUTION_TIMING_PROFILE.version,
       `${OFFENSE_TAG}${input.offenseKey}`,
       `${EVIDENCE_TAG}${input.evidence}`,
       `${STANDING_TAG}${input.standingFindings}`,
@@ -468,7 +465,7 @@ function recordFollowUp(
     personFactConstraints: [],
     visibility: detail.visibility ?? "public",
     tags: [
-      UNRESEARCHED_PROSECUTION.version,
+      PROSECUTION_TIMING_PROFILE.version,
       `${REFERRAL_TAG}${referral.id}`,
       `justice.follows-event:${after.id}`,
       ...referral.tags.filter((tag) => tag.startsWith(OFFENSE_TAG)),
@@ -573,7 +570,7 @@ function removeFromOffice(
   personId: EntityId,
   sentenced: HistoricalEvent,
 ): World {
-  if (!UNRESEARCHED_JAIL_EFFECTS.removedFromOffice) return world;
+  if (!JAIL_EFFECTS_PROFILE.removedFromOffice) return world;
   let next = world;
   for (const office of officesHeldBy(world, personId)) {
     next = recordOfficeConsequence(next, {
@@ -678,11 +675,11 @@ function holdTrial(
   let next = summonJuryResidents(
     world,
     courtCase.venueJurisdictionId,
-    UNRESEARCHED_JURY_PANEL.size,
+    JURY_PANEL_ESTIMATE.size,
     (candidate) => juryPool(candidate, courtCase),
   );
   const jurors = empanelJury(next, courtCase, trialNumber);
-  if (jurors.length < UNRESEARCHED_JURY_PANEL.size)
+  if (jurors.length < JURY_PANEL_ESTIMATE.size)
     return {
       world: next,
       verdict: "pending",
@@ -760,7 +757,7 @@ export function advanceProsecutions(
   world: World,
   referralId?: EntityId,
 ): World {
-  const rule = UNRESEARCHED_PROSECUTION;
+  const rule = PROSECUTION_TIMING_PROFILE;
   let next = world;
   const byReferral = (type: FollowUpType, referral: HistoricalEvent) =>
     eventsOfType(next, type).filter((event) =>
@@ -1040,7 +1037,7 @@ export function advanceProsecutions(
         : null;
       const juryTags = [
         `justice.jury-panel-size:${trial.jurors}`,
-        `justice.jury-panel-basis:${UNRESEARCHED_JURY_PANEL.provenance}`,
+        `justice.jury-panel-basis:${JURY_PANEL_ESTIMATE.provenance}`,
         ...(juryCounty
           ? [
               `justice.jury-catchment:${juryCounty}`,

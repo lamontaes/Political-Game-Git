@@ -96,8 +96,9 @@ import {
  */
 
 /**
- * PLACEHOLDER (hand-set, not measured). How a body whose members the game has
- * not seated answers, read from the case alone:
+ * RECORDED GAME PROFILE. When a required body has no seated members, this
+ * case-record profile preserves the existing contract: it waits until half the
+ * sentence is served and 30 days have passed. It then reads the case alone:
  * - it takes a request up no sooner than `answersAfterDays` after the
  *   request reached it, and not until half the sentence has been served
  *   (a waiting period, as many real boards have);
@@ -106,18 +107,19 @@ import {
  * Replaced by the members' own reasoning when an appointments build seats
  * them (Build 20).
  */
-export const UNSEATED_BODY_READING = {
-  version: "clemency-unseated-body-placeholder-v1",
+export const CASE_RECORD_BODY_ESTIMATE = {
+  version: "clemency-unseated-body-estimate-v1",
+  basis: "Recorded unseated-body clemency contract",
   servedShareBeforeTakenUp: 0.5,
   violentOffenses: ["crime:assault", "crime:robbery"] as readonly string[],
   answersAfterDays: 30,
 } as const;
 
 /**
- * PLACEHOLDER (hand-set): a sentence this close to its end is not worth a
- * request to the person serving it.
+ * RECORDED GAME PROFILE. The existing clemency-request contract treats the
+ * final 60 days as nearly served; this is not represented as a measured rate.
  */
-export const NEARLY_SERVED_DAYS = 60;
+export const NEARLY_SERVED_ESTIMATE_DAYS = 60;
 
 const OFFENSE_TAG = "justice.offense:";
 const REFERRAL_TAG = "justice.referral:";
@@ -478,7 +480,8 @@ function decideWhetherToAsk(
   });
   if (
     sentence.until !== null &&
-    addDays(withTraits.currentDate, NEARLY_SERVED_DAYS) >= sentence.until
+    addDays(withTraits.currentDate, NEARLY_SERVED_ESTIMATE_DAYS) >=
+      sentence.until
   )
     considerations.push({
       stableKey: `${key}:nearly-served`,
@@ -678,8 +681,8 @@ function produceRequests(world: World): World {
  * ------------------------------------------------------------------ */
 
 /**
- * The case-record answer of a body the game has not seated (PLACEHOLDER; see
- * `UNSEATED_BODY_READING`). Returns the answer and the reason in plain words,
+ * The estimated case-record answer of a body the game has not seated (see
+ * `CASE_RECORD_BODY_ESTIMATE`). Returns the answer and the reason in plain words,
  * or null while the body has not taken the request up.
  */
 export function unseatedBodyReading(
@@ -688,7 +691,7 @@ export function unseatedBodyReading(
   sentenced: HistoricalEvent,
   sentence: Sentence,
 ): { readonly favorable: boolean; readonly reason: string } | null {
-  const rule = UNSEATED_BODY_READING;
+  const rule = CASE_RECORD_BODY_ESTIMATE;
   // A life term has no served-share endpoint. No board recommendation is invented.
   if (sentence.until === null) return null;
   const total =
@@ -783,7 +786,9 @@ function recordAnswer(
       `${ROLE_TAG}${step.role}`,
       `${ANSWER_TAG}${favorable ? "favorable" : "unfavorable"}`,
       `${ANSWERED_BY_TAG}${answeredBy}`,
-      ...(answeredBy === "case-record" ? [UNSEATED_BODY_READING.version] : []),
+      ...(answeredBy === "case-record"
+        ? [CASE_RECORD_BODY_ESTIMATE.version]
+        : []),
     ],
     summary:
       `${answerSentence(label, step.role, answeredBy, favorable)} ${reason}`.trim(),

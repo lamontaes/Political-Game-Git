@@ -143,7 +143,9 @@ export function clemencyTableProblems(input: unknown): readonly string[] {
         problems.push(`${where}: body ${body.key} is repeated or reserved.`);
       bodyKeys.add(body.key);
       if (!VOTES.includes(body.vote))
-        problems.push(`${where}: body ${body.key} has an unknown vote rule.`);
+        problems.push(
+          `${where}: body ${body.key} has an unsupported vote rule.`,
+        );
       if (
         body.vote === "majority-including-executive" &&
         !body.includesExecutive
@@ -168,7 +170,9 @@ export function clemencyTableProblems(input: unknown): readonly string[] {
             `${where}: gate ${index + 1} is advised by a missing body.`,
           );
         if (!REFERRALS.includes(gate.advisory.referral))
-          problems.push(`${where}: gate ${index + 1} has an unknown referral.`);
+          problems.push(
+            `${where}: gate ${index + 1} has an unsupported referral.`,
+          );
         if (!REFERRAL_BASES.includes(gate.advisory.referralBasis))
           problems.push(
             `${where}: gate ${index + 1} does not say whether its referral rule was read.`,

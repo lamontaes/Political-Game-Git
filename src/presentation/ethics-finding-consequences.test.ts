@@ -44,7 +44,7 @@ import {
   PROSECUTION_REFERRED_EVENT,
   PROSECUTION_SENTENCED_EVENT,
   referForProsecution,
-  UNRESEARCHED_PROSECUTION,
+  PROSECUTION_TIMING_PROFILE,
 } from "../simulation/justice/prosecution";
 import { successorCandidates } from "../simulation/people-continuation";
 import { resourcePositionAt } from "../simulation/resource-queries";
@@ -542,8 +542,8 @@ describe("a Washington candidate who keeps taking after a finding", () => {
         (referral) =>
           addDays(
             referral.occurredAt,
-            UNRESEARCHED_PROSECUTION.chargeDecisionDays +
-              UNRESEARCHED_PROSECUTION.resolveAfterDays +
+            PROSECUTION_TIMING_PROFILE.chargeDecisionDays +
+              PROSECUTION_TIMING_PROFILE.resolveAfterDays +
               14,
           ) <= w.currentDate,
       );
@@ -612,8 +612,8 @@ describe("a Washington candidate who keeps taking after a finding", () => {
     }).world;
     const jailed = passOrdinaryDays(
       referred,
-      UNRESEARCHED_PROSECUTION.chargeDecisionDays +
-        UNRESEARCHED_PROSECUTION.resolveAfterDays +
+      PROSECUTION_TIMING_PROFILE.chargeDecisionDays +
+        PROSECUTION_TIMING_PROFILE.resolveAfterDays +
         14,
     );
     const term = jailTermOn(jailed, run.personId)!;

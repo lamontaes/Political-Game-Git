@@ -22,10 +22,9 @@ import {
  * keeps the seat is the law's answer at sentencing (`recordOfficeConsequence`),
  * so an office never goes on leave here.
  *
- * PLACEHOLDER (hand-set): the employer holds the job through the term. No
- * employer in the game is a person who decides yet, so whether one lets a
- * worker go while they are away, or takes them back after, is not decided
- * here; the leave is only the fact that they were not there.
+ * This records absence only. No employer in the game is a person who can yet
+ * decide whether to dismiss a worker or rehire them, so this module neither
+ * records dismissal nor promises reinstatement.
  */
 
 export const JAIL_ABSENCE_VERSION = "justice-jail-absence-v1";

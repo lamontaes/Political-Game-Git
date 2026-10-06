@@ -28,7 +28,7 @@ import {
   PROSECUTION_CHARGED_EVENT,
   PROSECUTION_SENTENCED_EVENT,
   enterPlea,
-  UNRESEARCHED_PROSECUTION,
+  PROSECUTION_TIMING_PROFILE,
 } from "../justice/prosecution";
 import { sentencingJudge, type CourtCase } from "../justice/court-reasoning";
 import { createProsecutionTransitionRegistry } from "../justice/prosecution-transitions";
@@ -219,7 +219,7 @@ describe("one finder reads saved courts", () => {
       expect(sentencingJudge(unseated, input, 0)).toBeNull();
       const dueAt = addDays(
         base.currentDate,
-        UNRESEARCHED_PROSECUTION.chargeDecisionDays,
+        PROSECUTION_TIMING_PROFILE.chargeDecisionDays,
       );
       const charged = resolveFutureDueItemsThrough(
         referred.world,
@@ -249,7 +249,10 @@ describe("one finder reads saved courts", () => {
       });
       expect(chargedPlea.ok).toBe(true);
       expect(pendingPlea.ok).toBe(true);
-      const trialAt = addDays(dueAt, UNRESEARCHED_PROSECUTION.resolveAfterDays);
+      const trialAt = addDays(
+        dueAt,
+        PROSECUTION_TIMING_PROFILE.resolveAfterDays,
+      );
       const sentenced = resolveFutureDueItemsThrough(
         chargedPlea.world,
         trialAt,

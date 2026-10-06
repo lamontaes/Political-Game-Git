@@ -17,7 +17,7 @@ import { pretrialGoverningLawAt, bailMinorUnits } from "./pretrial";
 import {
   advanceProsecutions,
   referForProsecution,
-  UNRESEARCHED_PROSECUTION,
+  PROSECUTION_TIMING_PROFILE,
   PROSECUTION_CHARGED_EVENT,
 } from "./prosecution";
 
@@ -73,7 +73,7 @@ describe("saved pretrial law attribution", () => {
                   ...event,
                   occurredAt: addDays(
                     referral.world.currentDate,
-                    -UNRESEARCHED_PROSECUTION.chargeDecisionDays,
+                    -PROSECUTION_TIMING_PROFILE.chargeDecisionDays,
                   ),
                 }
               : event,

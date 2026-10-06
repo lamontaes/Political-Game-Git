@@ -47,7 +47,7 @@ import {
 import {
   PROSECUTION_CHARGED_EVENT,
   PROSECUTION_SENTENCED_EVENT,
-  UNRESEARCHED_PROSECUTION,
+  PROSECUTION_TIMING_PROFILE,
   advanceProsecutions,
   enterPlea,
   referForProsecution,
@@ -175,7 +175,7 @@ describe("a saved executive decision immediately reaches its actual petition", (
                     ...event,
                     occurredAt: addDays(
                       plea.world.currentDate,
-                      -UNRESEARCHED_PROSECUTION.resolveAfterDays,
+                      -PROSECUTION_TIMING_PROFILE.resolveAfterDays,
                     ),
                   }
                 : event,
@@ -212,8 +212,8 @@ describe("a saved executive decision immediately reaches its actual petition", (
                     ...event,
                     occurredAt: addDays(
                       sentenceDate,
-                      -UNRESEARCHED_PROSECUTION.chargeDecisionDays -
-                        UNRESEARCHED_PROSECUTION.resolveAfterDays,
+                      -PROSECUTION_TIMING_PROFILE.chargeDecisionDays -
+                        PROSECUTION_TIMING_PROFILE.resolveAfterDays,
                     ),
                   }
                 : event.type === PROSECUTION_CHARGED_EVENT &&
@@ -222,7 +222,7 @@ describe("a saved executive decision immediately reaches its actual petition", (
                       ...event,
                       occurredAt: addDays(
                         sentenceDate,
-                        -UNRESEARCHED_PROSECUTION.resolveAfterDays,
+                        -PROSECUTION_TIMING_PROFILE.resolveAfterDays,
                       ),
                     }
                   : event.id === sentenceId

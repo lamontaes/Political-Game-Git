@@ -4,7 +4,7 @@ import { fileClemencyPetition } from "../simulation/justice/clemency";
 import {
   enterPlea,
   referForProsecution,
-  UNRESEARCHED_PROSECUTION,
+  PROSECUTION_TIMING_PROFILE,
 } from "../simulation/justice/prosecution";
 import { prosecutionTimingFor } from "../simulation/justice/prosecution-timing";
 import { smallWorld } from "../../tests/fixtures/small-world";
@@ -53,7 +53,7 @@ describe("the player's legal record", () => {
     });
     const charged = passDays(
       referred.world,
-      UNRESEARCHED_PROSECUTION.chargeDecisionDays + 14,
+      PROSECUTION_TIMING_PROFILE.chargeDecisionDays + 14,
     );
     const before = charged.history.events.length;
     const [open] = projectLegalRecord(charged, playerId).cases;

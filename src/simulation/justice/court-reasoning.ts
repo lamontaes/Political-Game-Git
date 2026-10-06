@@ -265,10 +265,17 @@ export function juryPool(world: World, courtCase: CourtCase): EntityId[] {
  * jury statute draws its panels by lot. The draw picks who sits; it decides
  * nothing any of them does.
  */
-/** Existing blanket panel target; jurisdiction-specific legal sizes are unread. */
-export const UNRESEARCHED_JURY_PANEL = {
+/**
+ * ESTIMATED FROM AVERAGE. Twelve is the recorded federal felony-jury size used
+ * as the national fallback until a jurisdiction-specific panel-size table is
+ * available. Basis and place used: the United States federal felony jury.
+ */
+export const JURY_PANEL_ESTIMATE = {
   size: 12,
-  provenance: "unresearched-existing-panel-size",
+  label: "ESTIMATED FROM AVERAGE",
+  basis: "Federal felony-jury size",
+  placesUsed: "United States federal jurisdiction",
+  provenance: "estimated-from-federal-felony-panel-size",
 } as const;
 
 export function empanelJury(
@@ -282,7 +289,7 @@ export function empanelJury(
   );
   const drawn: EntityId[] = [];
   const remaining = [...pool];
-  while (drawn.length < UNRESEARCHED_JURY_PANEL.size && remaining.length > 0)
+  while (drawn.length < JURY_PANEL_ESTIMATE.size && remaining.length > 0)
     drawn.push(remaining.splice(rng.integer(0, remaining.length), 1)[0]!);
   return drawn;
 }

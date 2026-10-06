@@ -6,7 +6,7 @@ import {
   enterPlea,
   jailTermOn,
   referForProsecution,
-  UNRESEARCHED_PROSECUTION,
+  PROSECUTION_TIMING_PROFILE,
 } from "../simulation/justice/prosecution";
 import type { EntityId, World } from "../simulation/types";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
@@ -69,7 +69,7 @@ describe("a jail term keeps a person from work", () => {
     });
     const charged = passOrdinaryDays(
       referred.world,
-      UNRESEARCHED_PROSECUTION.chargeDecisionDays + 14,
+      PROSECUTION_TIMING_PROFILE.chargeDecisionDays + 14,
     );
     const pleaded = enterPlea(charged, {
       personId: workerId!,
@@ -79,7 +79,7 @@ describe("a jail term keeps a person from work", () => {
     expect(pleaded.ok).toBe(true);
     const sentenced = passOrdinaryDays(
       pleaded.world,
-      UNRESEARCHED_PROSECUTION.resolveAfterDays + 14,
+      PROSECUTION_TIMING_PROFILE.resolveAfterDays + 14,
     );
     const term = jailTermOn(sentenced, workerId!);
     expect(term, "the judge chose jail in this life").not.toBeNull();

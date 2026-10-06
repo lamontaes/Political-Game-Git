@@ -59,7 +59,7 @@ import { sentencesOf } from "./jail-terms";
 import {
   PROSECUTION_CHARGED_EVENT,
   PROSECUTION_SENTENCED_EVENT,
-  UNRESEARCHED_PROSECUTION,
+  PROSECUTION_TIMING_PROFILE,
   advanceProsecutions,
   enterPlea,
   referForProsecution,
@@ -196,7 +196,7 @@ for (const state of states)
                   ...event,
                   occurredAt: addDays(
                     sentenceDate,
-                    -UNRESEARCHED_PROSECUTION.chargeDecisionDays -
+                    -PROSECUTION_TIMING_PROFILE.chargeDecisionDays -
                       prosecutionTimingFor(state.jurisdictionKey)
                         .resolveAfterDays,
                   ),

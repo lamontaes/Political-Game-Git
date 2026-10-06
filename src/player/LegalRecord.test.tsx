@@ -14,7 +14,7 @@ import {
 import {
   enterPlea,
   referForProsecution,
-  UNRESEARCHED_PROSECUTION,
+  PROSECUTION_TIMING_PROFILE,
 } from "../simulation/justice/prosecution";
 import { LegalRecordPanel, SelfRecordTabs } from "./LegalRecord";
 
@@ -72,7 +72,7 @@ describe("the Legal tab of the player's own record", () => {
     });
     const charged = passOrdinaryDays(
       referred.world,
-      UNRESEARCHED_PROSECUTION.chargeDecisionDays + 14,
+      PROSECUTION_TIMING_PROFILE.chargeDecisionDays + 14,
     );
     const open = panel(charged);
     expect(open).toContain("taking campaign money for personal use");

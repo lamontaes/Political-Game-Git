@@ -33,7 +33,7 @@ import {
   PROSECUTION_ENDED_EVENT,
   PROSECUTION_SENTENCED_EVENT,
   PROSECUTION_MISTRIAL_EVENT,
-  UNRESEARCHED_PROSECUTION,
+  PROSECUTION_TIMING_PROFILE,
 } from "../../src/simulation/justice/prosecution";
 import type { World } from "../../src/simulation/types";
 
@@ -129,7 +129,7 @@ function preparedCase(
               ...event,
               occurredAt: addDays(
                 charged.currentDate,
-                -UNRESEARCHED_PROSECUTION.resolveAfterDays,
+                -PROSECUTION_TIMING_PROFILE.resolveAfterDays,
               ),
             }
           : event,

@@ -18,7 +18,7 @@ import {
 import { pretrialLawAt } from "../simulation/justice/pretrial";
 import {
   referForProsecution,
-  UNRESEARCHED_PROSECUTION,
+  PROSECUTION_TIMING_PROFILE,
 } from "../simulation/justice/prosecution";
 import { SeededRng } from "../simulation/rng";
 import type { EntityId, HistoricalEvent, World } from "../simulation/types";
@@ -119,11 +119,11 @@ function watch(seed: string, placeKey: string) {
   }
   const charged = passOrdinaryDays(
     world,
-    UNRESEARCHED_PROSECUTION.chargeDecisionDays + 14,
+    PROSECUTION_TIMING_PROFILE.chargeDecisionDays + 14,
   );
   const ended = passOrdinaryDays(
     charged,
-    UNRESEARCHED_PROSECUTION.resolveAfterDays + 14,
+    PROSECUTION_TIMING_PROFILE.resolveAfterDays + 14,
   );
   return { workers, referrals, charged, ended };
 }

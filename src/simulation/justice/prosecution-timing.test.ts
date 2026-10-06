@@ -8,7 +8,7 @@ import { SeededRng, pickDistinct } from "../rng";
 import type { World } from "../types";
 import {
   PROSECUTION_CHARGED_EVENT,
-  UNRESEARCHED_PROSECUTION,
+  PROSECUTION_TIMING_PROFILE,
   referForProsecution,
   courtCasesOf,
 } from "./prosecution";
@@ -101,7 +101,7 @@ describe("per-state criminal time to disposition research file", () => {
     );
     expect(NATIONAL_RESOLVE_AFTER_DAYS).toBe(expected);
     expect(table.nationalResolveAfterDays.days).toBe(expected);
-    expect(UNRESEARCHED_PROSECUTION.resolveAfterDays).toBe(expected);
+    expect(PROSECUTION_TIMING_PROFILE.resolveAfterDays).toBe(expected);
   });
 
   it("reads a sourced state's days, and the labeled estimate for an unread state or no state", () => {

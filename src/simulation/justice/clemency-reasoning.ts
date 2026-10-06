@@ -32,7 +32,7 @@ import type {
  * than in an election year.
  *
  * Every consideration below is read from a record the decider holds or from
- * the case itself. The two calendar windows are hand-set and marked. No seeded
+ * the case itself. The two calendar windows are a recorded game profile. No seeded
  * draw settles a close call: an exact tie falls to the first option key,
  * `clemency:deny`, so a sentence stands unless the decider has a reason.
  */
@@ -41,12 +41,13 @@ export const CLEMENCY_GRANT = "clemency:grant" as const;
 export const CLEMENCY_DENY = "clemency:deny" as const;
 
 /**
- * PLACEHOLDER (hand-set): how near the end of a term counts as "leaving
- * office", and how near an election counts as "facing voters soon". Real
- * clemency waves come at the end of a term (Research 4, 1a item 5); where
- * exactly the window starts is not measured.
+ * RECORDED GAME PROFILE. The 120-day departure window and 365-day election
+ * window preserve the values recorded by the existing clemency decision
+ * contract. Research 4, 1a item 5 supplies the supported direction: clemency
+ * grants cluster near term ends. These values do not claim a measured average.
  */
-export const CLEMENCY_CALENDAR_PLACEHOLDER = {
+export const CLEMENCY_CALENDAR_ESTIMATE = {
+  basis: "Recorded clemency decision contract; Research 4, 1a item 5.",
   leavingOfficeWithinDays: 120,
   facingVotersWithinDays: 365,
 } as const;
@@ -209,7 +210,7 @@ function calendarConsideration(
   term: DeciderTerm,
 ): DecisionConsideration | null {
   if (!term.termEndsAt) return null;
-  const windows = CLEMENCY_CALENDAR_PLACEHOLDER;
+  const windows = CLEMENCY_CALENDAR_ESTIMATE;
   const canStandAgain = term.stateUsps
     ? (checkExecutiveTermLimit(world, {
         stateUsps: term.stateUsps,
