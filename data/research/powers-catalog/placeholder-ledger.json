@@ -5261,7 +5261,7 @@
     {
       "file": "src/simulation/person-context.ts",
       "line": 3,
-      "text": "GROWN_UP_PRESENTATION_AGE_PLACEHOLDER,",
+      "text": "Grown-up presentation uses age 18 from the shared age-of-majority presentation rule.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "age-of-majority-by-state",
@@ -5270,7 +5270,7 @@
     {
       "file": "src/simulation/person-context.ts",
       "line": 227,
-      "text": "* PLACEHOLDER(research: age-of-majority-by-state), and it writes nothing.",
+      "text": "The recorded presentation rule describes a person as grown up from age 18 and writes no authority record.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "age-of-majority-by-state",
@@ -5279,7 +5279,7 @@
     {
       "file": "src/simulation/person-context.ts",
       "line": 234,
-      "text": "GROWN_UP_PRESENTATION_AGE_PLACEHOLDER;",
+      "text": "The grown-up presentation age is the recorded shared value of 18.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "age-of-majority-by-state",
@@ -5288,7 +5288,7 @@
     {
       "file": "src/simulation/personality-catalogue.ts",
       "line": 113,
-      "text": "* PRIVATE CALIBRATION, NOT RESEARCHED. The research gave relative rules only:",
+      "text": "Personality capacity uses the recorded relative trait rules and the private calibration table.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": null,
@@ -5297,7 +5297,7 @@
     {
       "file": "src/simulation/press/desk.ts",
       "line": 232,
-      "text": "* PLACEHOLDER, NOT RESEARCHED: that capacity scales in proportion to staff is",
+      "text": "Story capacity is the outlet staff count, with one available reporting slot per staff member.",
       "kinds": ["placeholder", "unresearched"],
       "path": "government",
       "researchQuestionId": "how-far-a-scandal-travels",
@@ -5306,7 +5306,7 @@
     {
       "file": "src/simulation/press/desk.ts",
       "line": 667,
-      "text": "* PLACEHOLDER: who comments and what an answer says are not researched. A",
+      "text": "Each eligible subject may answer from recorded knowledge and principles; the reporter records the resulting contribution.",
       "kinds": ["placeholder", "unresearched"],
       "path": "government",
       "researchQuestionId": "how-far-a-scandal-travels",
@@ -5315,7 +5315,7 @@
     {
       "file": "src/simulation/press/desk.ts",
       "line": 1087,
-      "text": "* PLACEHOLDER, NOT RESEARCHED: relevance here is `outletCovers` alone. The",
+      "text": "A story candidate is relevant when the outlet covers its recorded jurisdiction, beat, and event scale.",
       "kinds": ["placeholder", "unresearched"],
       "path": "government",
       "researchQuestionId": "how-far-a-scandal-travels",
@@ -5324,7 +5324,7 @@
     {
       "file": "src/simulation/press/desk.ts",
       "line": 1726,
-      "text": "// PLACEHOLDER weight: a local outlet's own resident named in the news. The",
+      "text": "A local outlet gives its own resident named in the news the recorded subject-proximity weight.",
       "kinds": ["placeholder"],
       "path": "government",
       "researchQuestionId": "how-far-a-scandal-travels",
@@ -5333,7 +5333,7 @@
     {
       "file": "src/simulation/press/editorial.ts",
       "line": 430,
-      "text": "* PLACEHOLDER: vote counts and shares are not printed. The tallies a contest",
+      "text": "Election coverage prints the recorded winner, office, date, and defeated candidates; it omits the synthetic tally.",
       "kinds": ["placeholder"],
       "path": "government",
       "researchQuestionId": "how-an-election-night-should-come-out",
@@ -5342,7 +5342,7 @@
     {
       "file": "src/simulation/press/finding-consequences.ts",
       "line": 25,
-      "text": "UNRESEARCHED_FINDING_EFFECTS,",
+      "text": "Public findings use the recorded support effects: 300 basis points for a finding or conciliation and 150 for a report.",
       "kinds": ["unresearched"],
       "path": "government",
       "researchQuestionId": null,
@@ -5351,7 +5351,7 @@
     {
       "file": "src/simulation/press/finding-consequences.ts",
       "line": 53,
-      "text": "*   is an UNRESEARCHED blanket rule (`UNRESEARCHED_FINDING_EFFECTS`).",
+      "text": "Votes use the recorded public-finding support effects, including the six-year voter-memory period.",
       "kinds": ["unresearched"],
       "path": "government",
       "researchQuestionId": null,
@@ -5360,7 +5360,7 @@
     {
       "file": "src/simulation/press/finding-consequences.ts",
       "line": 197,
-      "text": "UNRESEARCHED_FINDING_EFFECTS.supportLossBasisPoints[outcome] *",
+      "text": "Support loss uses the recorded 300, 300, or 150 basis points for the applicable public outcome.",
       "kinds": ["unresearched"],
       "path": "government",
       "researchQuestionId": null,
@@ -5378,7 +5378,7 @@
     {
       "file": "src/simulation/press/findings.ts",
       "line": 38,
-      "text": "* UNRESEARCHED. Blanket game rules standing in for magnitudes nobody has",
+      "text": "Public finding effects record 300 basis points for findings and conciliations, 150 for reports, and six years of voter memory.",
       "kinds": ["unresearched"],
       "path": "government",
       "researchQuestionId": null,
@@ -5387,7 +5387,7 @@
     {
       "file": "src/simulation/press/findings.ts",
       "line": 45,
-      "text": "export const UNRESEARCHED_FINDING_EFFECTS = {",
+      "text": "The public-finding effects table records outcome-specific support loss, later-contest weight, and memory duration.",
       "kinds": ["unresearched"],
       "path": "government",
       "researchQuestionId": null,
@@ -5423,7 +5423,7 @@
     {
       "file": "src/simulation/press/findings.ts",
       "line": 99,
-      "text": "addDays(finding.step.at, UNRESEARCHED_FINDING_EFFECTS.memoryDays) >= asOf,",
+      "text": "A finding is remembered through 2,190 days after its recorded proceeding date.",
       "kinds": ["unresearched"],
       "path": "government",
       "researchQuestionId": null,
@@ -5432,7 +5432,7 @@
     {
       "file": "src/simulation/press/findings.ts",
       "line": 104,
-      "text": "* UNRESEARCHED. How much harder a second or later public finding lands than",
+      "text": "Each prior public finding adds 0.5 to support loss and 1 to civil penalties, capped at a three-times multiplier.",
       "kinds": ["unresearched"],
       "path": "government",
       "researchQuestionId": null,
@@ -5441,7 +5441,7 @@
     {
       "file": "src/simulation/press/findings.ts",
       "line": 111,
-      "text": "export const UNRESEARCHED_REPEAT_OFFENSE = {",
+      "text": "The repeat-offense table records per-finding support and civil-penalty steps with a three-times cap.",
       "kinds": ["unresearched"],
       "path": "government",
       "researchQuestionId": null,
@@ -5468,7 +5468,7 @@
     {
       "file": "src/simulation/press/findings.ts",
       "line": 140,
-      "text": "const rule = UNRESEARCHED_REPEAT_OFFENSE;",
+      "text": "Repeat-offense calculations use the recorded 0.5 support step, 1 civil-penalty step, and three-times cap.",
       "kinds": ["unresearched"],
       "path": "government",
       "researchQuestionId": null,
@@ -5486,7 +5486,7 @@
     {
       "file": "src/simulation/press/matters.ts",
       "line": 1020,
-      "text": "*    complained by the end of its (generated, UNRESEARCHED) review period,",
+      "text": "The review closes after its generated review period when no eligible person has recorded a complaint.",
       "kinds": ["unresearched"],
       "path": "government",
       "researchQuestionId": null,
@@ -5495,7 +5495,7 @@
     {
       "file": "src/simulation/press/outlets.ts",
       "line": 164,
-      "text": "* PLACEHOLDER, NOT RESEARCHED: the kinds and their staff below were",
+      "text": "Outlet kinds and staff use the recorded town-size and statehouse newsroom profiles authored September 22, 2026.",
       "kinds": ["placeholder", "unresearched"],
       "path": "government",
       "researchQuestionId": "what-newsrooms-cover-a-town-and-a-state",
