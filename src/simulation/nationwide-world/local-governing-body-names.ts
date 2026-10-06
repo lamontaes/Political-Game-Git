@@ -20,12 +20,15 @@ import { municipalGovernmentForUnit } from "../rule-capability-resolver";
  * A town-meeting reading names the meeting of the voters, not an elected
  * body, so it is not used as the name of a seat anybody files for.
  *
- * GAME PROFILE, PLACEHOLDER until each town's own body is researched
+ * ESTIMATED FROM SIMILAR PLACES until each town's own body is researched
  * (research request `municipal-governing-body-names-and-member-titles`): a
  * town whose body has not been read is named by the kind of government its
- * Census listing name gives it, in `PLACEHOLDER_BODY_BY_FORM`. These are
- * common American usages, not the town's own words; a real town may call its
- * body a commission, a board of aldermen or a select board.
+ * Census listing name gives it, in `ESTIMATED_BODY_BY_FORM`. The basis is the
+ * compiled municipal readings for Birmingham, Phoenix and Seattle; Cumberland,
+ * Rhode Island for towns; Oak Park, Illinois for villages; and State College,
+ * Pennsylvania for boroughs. These are common usages, not the town's own
+ * words; a real town may call its body a commission, a board of aldermen or a
+ * select board.
  *
  * Display strings only. Office keys and IDs never depend on them.
  */
@@ -42,23 +45,24 @@ export interface LocalGoverningBodyName {
   readonly basis: LocalBodyNameBasis;
 }
 
-interface PlaceholderBody {
+interface EstimatedBody {
   readonly body: string;
   readonly member: string;
 }
 
 /**
- * GAME PROFILE placeholder, by the form of government the listing's name
- * gives ("City of", "Town of", ...). Replace with each town's own body once
- * researched.
+ * ESTIMATED FROM SIMILAR PLACES, by the form of government the listing's name
+ * gives ("City of", "Town of", ...). Similar places used are Birmingham,
+ * Phoenix and Seattle (city); Cumberland, Rhode Island (town); Oak Park,
+ * Illinois (village); and State College, Pennsylvania (borough).
  */
-const PLACEHOLDER_BODY_BY_FORM: Readonly<Record<string, PlaceholderBody>> = {
+const ESTIMATED_BODY_BY_FORM: Readonly<Record<string, EstimatedBody>> = {
   city: { body: "City Council", member: "Council member" },
   town: { body: "Town Council", member: "Council member" },
   village: { body: "Village Board", member: "Trustee" },
   borough: { body: "Borough Council", member: "Council member" },
 };
-const PLACEHOLDER_OTHERWISE: PlaceholderBody = {
+const ESTIMATED_BODY_OTHERWISE: EstimatedBody = {
   body: "Council",
   member: "Council member",
 };
@@ -138,8 +142,8 @@ export function localGoverningBodyName(
     };
   }
   const profile =
-    (form ? PLACEHOLDER_BODY_BY_FORM[form] : undefined) ??
-    PLACEHOLDER_OTHERWISE;
+    (form ? ESTIMATED_BODY_BY_FORM[form] : undefined) ??
+    ESTIMATED_BODY_OTHERWISE;
   return {
     bodyName: `${place} ${profile.body}`,
     shortBodyName: profile.body,

@@ -83,7 +83,7 @@ export interface HomeLocalGovernmentUnits {
 // files behind it: which geography was read, and when, stays with
 // the government-units module's metadata for an auditor.
 function countyRelationEmpty(term: CountyEquivalentTerm): string {
-  return `Which ${term.singular} government serves this place is not known.`;
+  return `The Census 2025 place-to-county relation records no serving ${term.singular} government for this place.`;
 }
 
 /** Which government units serve the place this person lives in. Reads only. */

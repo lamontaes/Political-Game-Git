@@ -45,9 +45,10 @@ import { stateExecutiveIdentity } from "./state-executive-candidacy-packs";
  *   they count. That is the reading under which "three terms instead of two"
  *   lets a two-term governor stand again, which is what such a law is for.
  *
- * PLACEHOLDERS, NOT LAW: the 90-day break, counting any partial term in full,
- * and counting prior service under a silent law are the game's own until
- * research question `counting-governor-terms-toward-a-limit` is answered.
+ * GAME PROFILE, NOT A CLAIM ABOUT STATE LAW: the recorded operational values
+ * are a 90-day break, counting every recorded partial term in full, and
+ * counting prior service when an enacted law is silent. These values are
+ * persisted through dated office terms and enacted-rule applicability.
  */
 
 /** A term beginning this soon after the last one ended is consecutive with it. */

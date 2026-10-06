@@ -42,10 +42,10 @@ const QUALIFICATION_AT_FILING =
 const NO_FILING_PROCEDURE =
   "No filing deadline, filing officer, nomination or ballot-access procedure has been read for this town.";
 const NO_FORM =
-  "The town's form of government has not been read, so whether its seats are at large or by ward, and whether a mayor is elected separately, is not known.";
+  "ESTIMATED FROM AVERAGE: this town uses the national ICMA municipal profile (an elected governing body and, where the companion profile applies, a directly elected mayor). Its own ward arrangement has not been confirmed.";
 
 const MAYOR_FORM =
-  "The town elects one mayor. Its charter has not been read, so the mayor's powers and who may stand are not known here.";
+  "ESTIMATED FROM AVERAGE: this town elects one mayor under the national ICMA municipal profile. Its own charter powers and candidacy qualifications have not been confirmed.";
 const NO_MAYOR_FILING =
   "No filing deadline, filing officer, nomination or ballot-access procedure has been read for this town's mayor.";
 

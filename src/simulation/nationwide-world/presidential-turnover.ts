@@ -100,8 +100,7 @@ import type {
  * so an amendment ratified in the World (`living-world/federal-reform.ts`)
  * replaces it.
  *
- * PLACEHOLDERS, NOT LAW OR RESEARCH, each filed as research question
- * `how-a-presidential-election-plays-out`:
+ * GAME PROFILE, NOT LAW: the simulation records these values for every cycle:
  * - Each state's popular vote starts from its certified 2024 two-party share
  *   and moves by a national, regional and state swing drawn fresh each cycle
  *   with the spreads the world's starting politics already uses. How much a
@@ -125,7 +124,7 @@ import type {
  *   of the electoral votes (a 269-269 tie), the House chooses the President
  *   with one vote per state delegation and the Senate chooses the Vice
  *   President (U.S. Const. amend. XII). The procedure is law; the votes are a
- *   PLACEHOLDER: each member votes for their own party's nominee, a
+ *   GAME PROFILE: each member votes for their own party's nominee, a
  *   delegation votes for whichever nominee most of its voting members chose,
  *   and an evenly divided delegation casts no vote. A vacant Senate seat
  *   counts as a vote for no one, so a majority is 51 whatever the

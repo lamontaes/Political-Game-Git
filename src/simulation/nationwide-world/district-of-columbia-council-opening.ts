@@ -35,9 +35,9 @@ export { dcCouncilSeatLabels } from "../municipal-seat-identity";
  * the District (D.C. Code § 1-204.02), and an elector is 18 or older
  * (§ 1-1001.02(2)).
  *
- * PLACEHOLDER, pending `dc-council-membership-at-the-opening`: nobody is given
- * a party, because the save's generated political conditions carry no share
- * for the District and the Council's party composition was not read.
+ * The opening records no party affiliation. The generated District household
+ * records from which these members are drawn do not carry party affiliation,
+ * so the Council record preserves only the members and seats it actually has.
  */
 
 export const DC_COUNCIL_OPENING_VERSION = "dc-council-opening/v1" as const;

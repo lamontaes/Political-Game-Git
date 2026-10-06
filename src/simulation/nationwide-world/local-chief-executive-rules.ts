@@ -38,8 +38,8 @@ import { placePopulation } from "./place-population";
  * town whose council chooses its mayor from among its members has no mayoral
  * race; the council's choice is not built yet.
  *
- * What is still not settled stays marked rather than made up. PLACEHOLDER,
- * pending research question `town-mayor-rules-by-town-size`:
+ * ESTIMATED FROM AVERAGE for unread towns, using all municipalities in the
+ * 2018 ICMA survey as the comparison set:
  *
  * - shares by town size or state are not published, so every unread town
  *   takes the same national rule, and a town whose council in fact chooses

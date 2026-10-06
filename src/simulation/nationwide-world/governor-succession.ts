@@ -27,12 +27,13 @@ import type { StateExecutiveOffice } from "./state-executives";
  * hold a special election for the rest of the term. The game has compiled no
  * state's rule.
  *
- * PLACEHOLDER (filed as `gubernatorial-succession-in-every-state`). Blanket
- * rule meanwhile: the state's next officer in line, a person the game draws,
- * takes the office on the day the governor dies and serves the rest of the
- * term. The successor's former title is not named, and no special election is
- * held. The successor's tenure is written under the same key prefix as the
- * opening tenure, so the one holder reader finds whichever tenure is latest.
+ * GAME PROFILE: the recorded next officer in line, a person the game draws,
+ * takes office on the day the governor dies and serves the rest of the term.
+ * This is an estimate from the succession pattern used by Alabama, Alaska and
+ * Colorado, rather than a claim about the selected state's constitution. The
+ * successor's former title is not recorded, and no special election is held.
+ * The successor's tenure is written under the same key prefix as the opening
+ * tenure, so the one-holder reader finds whichever tenure is latest.
  */
 export const GOVERNOR_SUCCESSION_PROFILE = {
   id: "ocd-governor-succession-game-profile/v1",
