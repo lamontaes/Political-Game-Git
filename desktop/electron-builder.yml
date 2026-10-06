@@ -38,14 +38,15 @@ publish: null
 mac:
   icon: build/icon.icns
   category: public.app-category.simulation-games
+  # electron-builder signs when CSC_LINK/CSC_NAME are supplied by the build
+  # environment and emits an unsigned internal app when they are absent.
+  # Never package a credential in this file.
+  hardenedRuntime: true
   target:
     - target: dmg
     - target: zip
-  # Unsigned/ad-hoc internal builds until signing credentials exist. Hooks:
-  # set CSC_LINK/CSC_KEY_PASSWORD (or identity below) and notarize to enable.
-  identity: null
-  hardenedRuntime: false
-  notarize: false
+  # electron-builder discovers the certificate from its environment; the
+  # same signed identity is checked by electron-updater before an update runs.
 
 dmg:
   writeUpdateInfo: false
