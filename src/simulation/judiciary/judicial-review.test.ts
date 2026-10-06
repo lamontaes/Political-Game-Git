@@ -455,6 +455,19 @@ describe(`court review (seed ${SEED}, opened in ${observerPlace(SEED).key}, law 
       ruledAt: world.currentDate,
     });
     expect(votes).toHaveLength(1);
+    const playerOnBench: World = {
+      ...world,
+      control: { kind: "person", personId: justices[0]! },
+    };
+    expect(
+      justiceVotes(playerOnBench, {
+        stableKey: "test:gas:player",
+        justiceIds: [justices[0]!],
+        reviewed: { ...gas, rulings: gas.rulings },
+        propositionId: pid,
+        ruledAt: world.currentDate,
+      }),
+    ).toEqual([]);
     // Only strike rulings: struck. Only uphold rulings: stands.
     const onlyStrike = justiceVotes(world, {
       stableKey: "test:gas:strike",
