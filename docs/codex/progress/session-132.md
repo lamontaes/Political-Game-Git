@@ -1,10 +1,10 @@
 # Session 132: priority Senate provenance repair
 
-The committee report command now follows the clock's referral and canonical NPC assignment list when its caller list is incomplete. Its focused regressions passed and A78 is merged. Proud has landed; humility is based on that actual main and its fresh changed-file checks passed. The remaining trait queue is preserved separately.
+The Senate appointment tests now verify authored provenance before reading the existing model note. Their nine focused tests and the required compiler checks passed. The separate legacy continuity file still fails; its terminal evidence and every assertion are preserved. Trait donor candidates remain independent preparation.
 
 ## Current branch
 
-Sole registered writer `/workspace/session132`, branch `session132/a120-provenance-contract`, actual main base `c779549bb09b2a6f37379ba601a365f4343affe1`. CTO priority 6022003401 requires repairing the four appointment-test accesses to a union variant's note, then changed tests and npm run typecheck before READY. Code head `ea9a9600972b5f3390cbb52c1b65b2d97f811123` changes only that test plus an own impact-none declaration.
+Sole registered writer `/workspace/session132`, branch `session132/a120-provenance-contract`, actual main base `c779549bb09b2a6f37379ba601a365f4343affe1`. [CTO priority 6022003401](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6022003401) requires repairing the four appointment-test accesses to a union variant's note, then changed tests and npm run typecheck before READY. Code head `ea9a9600972b5f3390cbb52c1b65b2d97f811123` changes only that test plus an own impact-none declaration.
 
 The authored provenance variant already declares note, and the actual appointment producer writes it. The test now checks the due item exists and is authored before reading that existing field. All timing, model/proxy/late-notice and reload assertions remain. No type assertion, suppression, generic provenance schema change or production authority edit.
 
