@@ -21,7 +21,7 @@ import { SeededRng } from "../rng";
 import { TERRITORY_PLACE_ROWS } from "../territory-places";
 import type { EntityId, IsoDate, World } from "../types";
 import {
-  UNRESEARCHED_DIPLOMA_OFFENDING,
+  NATIONAL_DIPLOMA_OFFENDING_ESTIMATE,
   diplomaWeight,
   offenderForVictims,
   offenderWeight,
@@ -181,22 +181,22 @@ function weigh(
 }
 
 describe(`a resident's recorded diploma in the offender weight (place ${PLACE} drawn from all ${PLACES.length} by seed ${PLACE_SEED})`, () => {
-  it("is labeled a placeholder size, with the study it follows and no race term", () => {
+  it("records an estimated size, its study basis, and no race term", () => {
     // The test place is drawn by seed from every state, D.C. and territory.
     expect(PLACES).toHaveLength(56);
     expect(PLACES).toContain(PLACE);
-    expect(UNRESEARCHED_DIPLOMA_OFFENDING.provenance).toBe(
-      "unresearched-blanket-rule",
+    expect(NATIONAL_DIPLOMA_OFFENDING_ESTIMATE.provenance).toBe(
+      "estimated-from-national-study",
     );
-    expect(UNRESEARCHED_DIPLOMA_OFFENDING.source).toMatch(
+    expect(NATIONAL_DIPLOMA_OFFENDING_ESTIMATE.source).toMatch(
       /Lochner and Moretti 2004/,
     );
-    expect(Object.keys(UNRESEARCHED_DIPLOMA_OFFENDING).join(" ")).not.toMatch(
-      /race|black|white/i,
-    );
+    expect(
+      Object.keys(NATIONAL_DIPLOMA_OFFENDING_ESTIMATE).join(" "),
+    ).not.toMatch(/race|black|white/i);
     // Split evenly either side of the resident whose schooling is unknown.
     expect(diplomaWeight("left-without") - diplomaWeight("graduated")).toBe(
-      UNRESEARCHED_DIPLOMA_OFFENDING.gap,
+      NATIONAL_DIPLOMA_OFFENDING_ESTIMATE.gap,
     );
     expect(diplomaWeight("left-without")).toBe(-diplomaWeight("graduated"));
     expect(diplomaWeight("not-on-record")).toBe(0);
@@ -225,7 +225,7 @@ describe(`a resident's recorded diploma in the offender weight (place ${PLACE} d
         12,
       );
       expect(leftWithout.score - graduated.score).toBeCloseTo(
-        UNRESEARCHED_DIPLOMA_OFFENDING.gap,
+        NATIONAL_DIPLOMA_OFFENDING_ESTIMATE.gap,
         12,
       );
       expect(graduated.reasons).toEqual(unrecorded.reasons);

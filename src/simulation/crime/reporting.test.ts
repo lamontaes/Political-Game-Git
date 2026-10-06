@@ -38,7 +38,7 @@ import {
   priorVictimizations,
   reportConsiderations,
   reportLean,
-  UNRESEARCHED_REPORTING,
+  NATIONAL_REPORTING_ESTIMATE,
   victimReports,
 } from "./reporting";
 
@@ -169,9 +169,12 @@ function assaultOn(
 describe(`victims decide whether to report a crime (place ${PLACE}, place seed ${PLACE_SEED})`, () => {
   const first = open("a131-first");
 
-  it("the weights are marked as unresearched placeholders", () => {
-    expect(UNRESEARCHED_REPORTING.provenance).toBe("unresearched-blanket-rule");
-    expect(UNRESEARCHED_REPORTING.researchQuestions).toContain(
+  it("the weights record their national estimate basis", () => {
+    expect(NATIONAL_REPORTING_ESTIMATE.provenance).toBe(
+      "estimated-from-national-average",
+    );
+    expect(NATIONAL_REPORTING_ESTIMATE.placesUsed).toEqual(["United States"]);
+    expect(NATIONAL_REPORTING_ESTIMATE.researchQuestions).toContain(
       "why-victims-report-to-police",
     );
   });

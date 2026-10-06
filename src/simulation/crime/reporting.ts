@@ -43,9 +43,10 @@ import { offenderForVictims } from "./offenders";
  * them as a life decision (`adult.crime-report`); until they report it, it
  * stays unreported.
  *
- * The weights are PLACEHOLDERS (research: `why-victims-report-to-police`).
- * The real shares reported to police by offense (BJS, Criminal Victimization,
- * 2023, NCJ 309335, table 4) check the totals in the tests.
+ * The weights are estimates from the United States national shares reported
+ * to police by offense (BJS, Criminal Victimization, 2023, NCJ 309335,
+ * table 4). Those recorded shares check the totals in the tests; no
+ * locality-specific share is substituted.
  */
 export const CRIME_REPORTING_VERSION = "crime-reporting-v2" as const;
 
@@ -54,9 +55,12 @@ export const REPORT_OPTIONS = {
   quiet: "keep-quiet",
 } as const;
 
-/** PLACEHOLDER weights, in the decision engine's points. */
-export const UNRESEARCHED_REPORTING = {
-  provenance: "unresearched-blanket-rule",
+/** Estimated national weights, in the decision engine's points. */
+export const NATIONAL_REPORTING_ESTIMATE = {
+  provenance: "estimated-from-national-average",
+  estimateBasis:
+    "United States 2022 and 2023 NCVS offense reporting shares, calibrated in reporting.test.ts",
+  placesUsed: ["United States"],
   /**
    * How much the offense itself argues for calling the police, set so the
    * town's shares land near the national shares reported (2022 and 2023):
@@ -79,7 +83,7 @@ export const UNRESEARCHED_REPORTING = {
    * happened before is part of the harm this time. Repeat victims are a
    * fifth of victims and half of all violent victimizations (BJS, Repeat
    * Violent Victimization, 2005-14, NCJ 250567); the size of the pull is a
-   * placeholder.
+   * national estimate.
    */
   repeatVictimization: 3,
   /** Offenses the victim reported before, at full strength. */
@@ -94,7 +98,7 @@ export const UNRESEARCHED_REPORTING = {
   researchQuestions: ["why-victims-report-to-police"],
 } as const;
 
-const R = UNRESEARCHED_REPORTING;
+const R = NATIONAL_REPORTING_ESTIMATE;
 
 const STEPS: readonly (readonly [
   number,

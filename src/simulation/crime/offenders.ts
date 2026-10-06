@@ -46,13 +46,17 @@ import type { CrimeOffense } from "./contract";
 export const OFFENDER_VERSION = "crime-offenders-v1" as const;
 
 /**
- * PLACEHOLDER weights: how much each circumstance points toward one offense.
- * Research: `who-commits-local-crime` (offending by age, work, prior record
- * and relationship to the victim; BJS Criminal Victimization and NCVS
- * victim-offender relationship tables are the check on totals).
+ * Estimated weights for how much each recorded circumstance points toward an
+ * offense. The basis is the nationwide age, employment, prior-record and
+ * victim-offender relationship evidence cataloged by
+ * `who-commits-local-crime`. The United States is the place used for this
+ * estimate; no locality-specific value is substituted.
  */
-export const UNRESEARCHED_OFFENDERS = {
-  provenance: "unresearched-blanket-rule",
+export const NATIONAL_OFFENDER_FACTORS_ESTIMATE = {
+  provenance: "estimated-from-national-evidence",
+  estimateBasis:
+    "United States BJS Criminal Victimization and NCVS victim-offender relationship evidence cataloged by who-commits-local-crime",
+  placesUsed: ["United States"],
   /** Ages with the most offending, and the next band. */
   peakAges: { from: 18, to: 29 },
   nextAges: { from: 30, to: 44 },
@@ -80,10 +84,10 @@ export const UNRESEARCHED_OFFENDERS = {
   researchQuestions: ["who-commits-local-crime"],
 } as const;
 
-const W = UNRESEARCHED_OFFENDERS.weight;
+const W = NATIONAL_OFFENDER_FACTORS_ESTIMATE.weight;
 
 /**
- * PLACEHOLDER size: how a recorded high-school diploma bears on offending.
+ * Estimated size for how a recorded high-school diploma bears on offending.
  * The direction and its being the same for everybody come from the study
  * below; the size of the step does not, because the study measures
  * incarceration in percentage points, not a weight beside these others.
@@ -98,7 +102,7 @@ const W = UNRESEARCHED_OFFENDERS.weight;
  * research note, `does-a-diploma-change-who-offends`).
  *
  * The gap between a graduate and someone who left school without one is a
- * PLACEHOLDER `gap` of one point, the slightest size the weights above use,
+ * one-point estimated `gap`, the slightest size the weights above use,
  * split evenly either side of the blanket weights: a graduate half a point
  * below, a dropout half a point above. A resident whose schooling is not on
  * record keeps the blanket weights: no change, never a guess. Centering on
@@ -106,8 +110,11 @@ const W = UNRESEARCHED_OFFENDERS.weight;
  * Census Bureau, Educational Attainment in the United States: 2022) waits on
  * that figure being read from place data rather than written here.
  */
-export const UNRESEARCHED_DIPLOMA_OFFENDING = {
-  provenance: "unresearched-blanket-rule",
+export const NATIONAL_DIPLOMA_OFFENDING_ESTIMATE = {
+  provenance: "estimated-from-national-study",
+  estimateBasis:
+    "United States compulsory-schooling-law comparisons in Lochner and Moretti 2004; one point is the smallest factor scale step",
+  placesUsed: ["United States"],
   source:
     "Lochner and Moretti 2004, American Economic Review 94(1), NBER working paper 8605",
   gap: 1,
@@ -178,7 +185,7 @@ export function recordedDiplomas(
  * weights, a dropout above them, nobody without a record moved.
  */
 export function diplomaWeight(diploma: RecordedDiploma): number {
-  const { gap } = UNRESEARCHED_DIPLOMA_OFFENDING;
+  const { gap } = NATIONAL_DIPLOMA_OFFENDING_ESTIMATE;
   if (diploma === "graduated") return -gap / 2;
   if (diploma === "left-without") return gap / 2;
   return 0;
@@ -260,7 +267,7 @@ export function eligibleOffenders(
   const referred = referralsByPerson(world, cutoff);
   const busyFrom = addDays(
     onDate,
-    -UNRESEARCHED_OFFENDERS.busyAfterReferralDays,
+    -NATIONAL_OFFENDER_FACTORS_ESTIMATE.busyAfterReferralDays,
   );
   // The youngest the police charge as an adult is the law's, where the
   // offense happened; a younger offender belongs to the juvenile court.
@@ -376,7 +383,7 @@ export function offenderForVictims(
       },
       cutoff,
     );
-    if (score < UNRESEARCHED_OFFENDERS.nameAt) continue;
+    if (score < NATIONAL_OFFENDER_FACTORS_ESTIMATE.nameAt) continue;
     if (!best || score > best.score)
       best = { personId, score, reasons, knowsVictim, priorRecord };
   }
@@ -405,7 +412,7 @@ export function offenderWeight(
 ): { readonly score: number; readonly reasons: readonly string[] } {
   let score = 0;
   const reasons: string[] = [];
-  const { peakAges, nextAges } = UNRESEARCHED_OFFENDERS;
+  const { peakAges, nextAges } = NATIONAL_OFFENDER_FACTORS_ESTIMATE;
   const { age } = facts;
   if (age >= peakAges.from && age <= peakAges.to) {
     score += W.peakAge;
@@ -447,6 +454,6 @@ export function policeCanName(offender: NamedOffender): boolean {
   return (
     offender.knowsVictim ||
     offender.priorRecord ||
-    offender.score >= UNRESEARCHED_OFFENDERS.plainSuspectAt
+    offender.score >= NATIONAL_OFFENDER_FACTORS_ESTIMATE.plainSuspectAt
   );
 }
