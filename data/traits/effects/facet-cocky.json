@@ -1,0 +1,13 @@
+[
+  {
+    "decision": "career.consider-another-term",
+    "leans": [
+      {
+        "option": "seek",
+        "trait": "personality-v1:facet-cocky",
+        "pole": "high",
+        "explanation": "They figure they can win again."
+      }
+    ]
+  }
+]
