@@ -32,7 +32,7 @@ export const PRESS_BANKS: Readonly<Record<string, ComposedLineBank>> = {
           {
             key: "question",
             kind: "template",
-            text: "What is established, and what is still open?",
+            text: "What happened?",
           },
         ],
       },

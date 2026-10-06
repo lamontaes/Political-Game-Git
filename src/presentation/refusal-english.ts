@@ -84,12 +84,6 @@ const COMPANY_DECLINE: ComposedLineBank = {
           requiresFacts: ["privacy"],
         },
         {
-          key: "something-new",
-          kind: "template",
-          text: "I'd rather try something new.",
-          requiresFacts: ["wants-new"],
-        },
-        {
           key: "something-different",
           kind: "template",
           text: "I'm in the mood for something different.",
