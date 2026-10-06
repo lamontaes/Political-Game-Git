@@ -12,7 +12,8 @@ test("Observer inspector uses the paused current world and returns to the same r
   const record = page.getByTestId("world-record-summary");
   await expect(record).toBeVisible();
   const summary = await record.textContent();
-  const date = await page.getByTestId("observer-date").textContent();
+  const date = await page.getByTestId("story-when").textContent();
+  await expect(page.getByTestId("observer-date")).toHaveCount(0);
   await page.getByTestId("open-observer-inspector").focus();
   await page.getByTestId("open-observer-inspector").press("Enter");
   await expect(page.getByTestId("observer-inspector-workspace")).toBeVisible();
@@ -21,12 +22,12 @@ test("Observer inspector uses the paused current world and returns to the same r
   expect(seed).toBeTruthy();
   expect(seed).not.toMatch(/^causal-trace-/);
   await expect(page.getByTestId("trace-record-count")).not.toHaveText("0");
-  expect(await page.getByTestId("observer-date").textContent()).toBe(date);
+  expect(await page.getByTestId("story-when").textContent()).toBe(date);
   await page.getByTestId("observer-inspector-workspace-back").click();
   await expect(page.getByTestId("observer-inspector-workspace")).toHaveCount(0);
   await expect(record).toBeVisible();
   expect(await record.textContent()).toBe(summary);
-  expect(await page.getByTestId("observer-date").textContent()).toBe(date);
+  expect(await page.getByTestId("story-when").textContent()).toBe(date);
   await page.getByTestId("open-observer-inspector").focus();
   await page.getByTestId("open-observer-inspector").press("Enter");
   await expect(page.getByTestId("trace-seed")).toHaveText(seed!);

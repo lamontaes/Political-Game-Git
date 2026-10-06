@@ -2,7 +2,25 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { createDemoWorld } from "../simulation/demo";
 import { recordWorldEvent } from "../simulation/world";
-import { ObserverRecordWorkspace } from "./ObserverWorkspace";
+import { ObserverRunController } from "./observer-run-controller";
+import { ObserverClock, ObserverRecordWorkspace } from "./ObserverWorkspace";
+
+describe("ObserverClock", () => {
+  it("leaves the current date on the player card instead of repeating it in the Observing bar", () => {
+    const world = createDemoWorld("bg-13-observer-date");
+    const html = renderToStaticMarkup(
+      <ObserverClock
+        runner={new ObserverRunController(world)}
+        onOpenRecord={() => {}}
+      />,
+    );
+
+    expect(html).toContain('data-testid="observer-clock"');
+    expect(html).toContain('data-testid="observer-run"');
+    expect(html).not.toContain('data-testid="observer-date"');
+    expect(html).not.toContain(world.currentDate);
+  });
+});
 
 describe("ObserverRecordWorkspace legislative results", () => {
   it("shows saved summary events in bounded pages without inventing contests", () => {
