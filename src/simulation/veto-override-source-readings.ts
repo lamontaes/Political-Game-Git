@@ -1,5 +1,5 @@
 import constitutionReadings from "../../data/research/laws/veto-override-readings-2026.json" with { type: "json" };
-import type { VoteDenominator } from "./legislature-rules";
+import type { VoteDenominator, VoteRounding } from "./legislature-rules";
 
 /**
  * Veto override arithmetic read from each jurisdiction's own instruments.
@@ -23,6 +23,8 @@ import type { VoteDenominator } from "./legislature-rules";
 export interface VetoOverrideThresholdReading {
   readonly numerator: number;
   readonly denominatorParts: number;
+  /** Explicit legal meaning when the recorded fraction alone is ambiguous. */
+  readonly rounding?: VoteRounding;
   /** The basis in the instrument's own words. */
   readonly readBasis: string;
   /** The project's denominator, where the basis maps cleanly. */
@@ -324,6 +326,7 @@ interface ConstitutionReadingRow {
   readonly name: string;
   readonly numerator: number;
   readonly denominatorParts: number;
+  readonly rounding?: VoteRounding;
   readonly readBasis: string;
   readonly countedAgainst: VoteDenominator;
   readonly locator: string;
@@ -351,6 +354,7 @@ const CONSTITUTION_READINGS: readonly VetoOverrideSourceReading[] = (
         {
           numerator: row.numerator,
           denominatorParts: row.denominatorParts,
+          ...(row.rounding === undefined ? {} : { rounding: row.rounding }),
           readBasis: row.readBasis,
           countedAgainst: row.countedAgainst,
         },
