@@ -56,6 +56,12 @@ import type {
   World,
 } from "../types";
 import { affiliationAt } from "./party-evolution";
+import { latestPrivateBelief } from "../queries";
+import {
+  PRESS_STORY_EVENT_TYPE,
+  PRESS_STORY_LEAD_TAG,
+} from "../public-information-integrity";
+import { pressRecordsOfKind } from "../press/store";
 
 /**
  * People credit or blame the officials behind a law that reached them
@@ -545,6 +551,100 @@ function formViewFromFactor(
     factors,
   });
   return applyNpcPoliticalBeliefFormation(world, proposal);
+}
+
+/** A published account reaches a reader only through that reader's saved media knowledge. */
+export function formOfficialViewFromPublishedStory(
+  world: World,
+  knowledgeId: EntityId,
+  basisEventId: EntityId,
+): World {
+  const knowledge = world.history.knowledge.find(
+    (row) => row.id === knowledgeId,
+  );
+  if (
+    !knowledge ||
+    knowledge.learnedAt > world.currentDate ||
+    knowledge.source.kind !== "media" ||
+    !knowledge.source.reference
+  )
+    return world;
+  const publicationId = knowledge.source.reference;
+  const publication = world.history.publications?.find(
+    (row) => row.id === publicationId,
+  );
+  if (!publication || publication.publishedAt > knowledge.learnedAt)
+    return world;
+  const story = world.history.events.find(
+    (row) => row.id === publication.sourceEventId,
+  );
+  if (
+    !story ||
+    story.type !== PRESS_STORY_EVENT_TYPE ||
+    story.id !== knowledge.eventId
+  )
+    return world;
+  const leadTag = story.tags.find((tag) =>
+    tag.startsWith(PRESS_STORY_LEAD_TAG),
+  );
+  if (!leadTag) return world;
+  const lead = pressRecordsOfKind(world, "story-lead").find(
+    (row) => row.id === leadTag.slice(PRESS_STORY_LEAD_TAG.length),
+  );
+  if (!lead?.basisEventIds.includes(basisEventId)) return world;
+  const action = (world.history.legislativeActions ?? []).find(
+    (row) => row.eventId === basisEventId,
+  );
+  if (!action?.voteId) return world;
+  const vote = (world.history.legislativeVotes ?? []).find(
+    (row) => row.id === action.voteId,
+  );
+  const measure = (world.history.legislativeMeasures ?? []).find(
+    (row) => row.id === action.measureId,
+  );
+  if (!vote || !measure) return world;
+  let next = world;
+  for (const disposition of vote.dispositions) {
+    const officialId = disposition.personId;
+    if (
+      !officialId ||
+      officialId === knowledge.personId ||
+      !world.people[officialId] ||
+      (disposition.disposition !== "yea" && disposition.disposition !== "nay")
+    )
+      continue;
+    for (const answer of measure.propositionAnswers ?? []) {
+      const held = latestPrivateBelief(
+        next,
+        knowledge.personId,
+        answer.propositionId,
+        knowledge.learnedAt,
+      );
+      if (!held || held.position === "uncertain") continue;
+      const approved = held.position === "support";
+      const enactedSupport =
+        (disposition.disposition === "yea") === (answer.answer === "yes");
+      const favors = approved === enactedSupport ? "support" : "opposition";
+      const factor: PoliticalBeliefFormationFactor = {
+        stableKey: `published-official-act:${knowledge.id}:${basisEventId}:${officialId}:${answer.propositionId}`,
+        favors,
+        sourceType: "information:public-record",
+        importance: "moderate",
+        confidence: "high",
+        explanation: `This published story reports that the official voted on a measure concerning a question the reader already holds a view about.`,
+        sourceRefs: [{ kind: "event-knowledge", knowledgeId: knowledge.id }],
+      };
+      next = formViewFromFactor(
+        next,
+        knowledge.personId,
+        officialId,
+        { factor, felt: reactionLens(next, knowledge.personId) * 0.6 },
+        factor.stableKey,
+        "The reported act conflicts with the reader's held view on the question.",
+      );
+    }
+  }
+  return next;
 }
 
 /**

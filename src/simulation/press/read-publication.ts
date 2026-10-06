@@ -8,6 +8,7 @@ import { isPersonAliveAt } from "../vitality-integrity";
 import type { EntityId, World } from "../types";
 import { pressRecordsOfKind } from "./store";
 import { recordStoryHeardExposure } from "./story-exposure";
+import { formOfficialViewFromPublishedStory } from "../living-world/official-views";
 
 /** An explicit player read, using the same saved knowledge and news writer as the desk. */
 export function readPressPublication(
@@ -84,6 +85,8 @@ export function readPressPublication(
     (row) => row.id === leadId,
   );
   if (!lead) return next;
+  for (const basisEventId of lead.basisEventIds)
+    next = formOfficialViewFromPublishedStory(next, knowledge.id, basisEventId);
   for (const basisEventId of lead.basisEventIds)
     next = recordStoryHeardExposure(next, {
       knowledgeId: knowledge.id,
