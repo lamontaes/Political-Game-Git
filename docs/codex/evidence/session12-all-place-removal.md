@@ -30,6 +30,16 @@ The added Personal finances regression renders the actual workspace, captures it
 | `tests/nationwide/economic-context-nationwide.test.ts`                  | Restore county/HUD/metro fact assertions and retained-key parity.                     |
 | `src/player/PersonalFinancesWorkspace.test.tsx`                         | Exercise retained hometown finance binding and real provider without World writes.    |
 
+## Current-main composition
+
+Session 9's independent receipt `6009463931` closes the economic regression at `b185eba`: nine affected tests and a separate saved/reloaded Personal finances receiver passed. Its older historical archive failed the unchanged integrity guard before rendering; historical rendering is unverified.
+
+Normal composition `d2e2825` includes current main `d8dcd3a`, with merge-tree exit 0 and no manual conflict edits. Seventy-seven focused economics, docket and ordinary-place tests pass. Sequential 6 GiB-heap full typing, test-import resolution, changed-file lint/formatting, whitespace and zero-dice checks pass. The reviewed economic, consumer and docket files are byte-identical to `b185eba`.
+
+Release checking now fails on the newer main Medicaid declaration's id/filename mismatch. This PR has no change to that file, and the same production parser reproduces the failure against immutable main bytes. The owner question is `6009558090`; the inherited declaration is preserved. `session12-economic-retention-composition.json` records the exact source, checks and remaining limits. The earlier Walsh browser proof remains at its named head; no composition-head browser or main landing is claimed.
+
+B23 ownership moved to Session 41. Source-only head `f8d45f98d119f91db7b92994997491b89fd29587` preserves the existing CMS/FDIC inputs and acquisition limits. No catalog or additional institution writer is published by this PR.
+
 ## Measured checks and limits
 
 The controlled supplied-seat regressions verify omitted-docket refusal without changing serialized World bytes, controlled-person validation, explicit broadband-bill entry, saved content identity and unchanged re-entry after reload. They do not prove a naturally won seat.
