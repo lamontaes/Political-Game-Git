@@ -4,7 +4,8 @@
 
 - Branch: `session52/lw15-health-human-services`
 - Base at start: `origin/main` `e591ffc637d1f6db84d2ff920e8662ce123202ed`
-- Current source tree: clean; no implementation changes committed yet.
+- Current head before this work is committed: `13f8d3f` (resume marker commit)
+- LW-15 source changes are in the working tree and not yet committed.
 
 ## Done
 
@@ -12,12 +13,15 @@
 - Posted initial b28 cash/sales trace on issue #2424, comment 6015776372.
 - Traced town pay: `settleTownCompensations` settles actual organization-to-person resource flows against the dated cash reader. Public employers use public-budget accounts.
 - Traced town sales: `recordTownSalesReceipts` credits each business with quarterly `annualRevenue / 4 * priceLevel`, net of prior actual incoming sales-like transfers. No household-to-individual-business purchase route exists yet, so the existing quarterly formula does not establish actual customer sales.
-- Read the direct SNAP ruling in #2424 comment 6015614534 and the exact SNAP row in #2466. Contract: household `program.snap-receipt` participation record with enrollment, monthly benefit, effective date and cause; rank by actual income vs starting-law threshold, household size and recorded work hours; zero changes are dated and caused; benefit uses a cited state average and is labeled ESTIMATED; no notification.
+- Implemented the approved LW-15 SNAP participation record and monthly law-consequence module. Benefits use cited USDA FY2023 state averages and are labeled estimated; enrollment rankings use recorded income, household size and recorded work hours; caused zero changes are dated; no notices are emitted.
+- Added a random new-game proof for a household in the selected place. It exercises the actual place-outcome due-item handler and asserts that the named household's enrollment ends under the starting law.
+- Proof passes: `npx vitest run src/simulation/crisis/snap-participation.test.ts` (1 test; 62 seconds).
+- Law consequence manifest check passes. Full `npm run typecheck` currently fails only on existing `press-premise.test.ts` PlaySettings fixtures missing `personalLifeDepiction`; it reports no errors in LW-15 code.
 
 ## Next
 
-Continue active LW-15 implementation, with Medicaid kept separate from SNAP. Add the SNAP household record and monthly ranked landing through a law-consequence module/data row and existing registry. Prove an actual named household in a random new game and a month where enrollment ends. Then run focused tests and typecheck. After LW-15, return to b28 numbered parts one PR per part, beginning with b28-p1.
+Run the source-only typecheck and `git diff --check`, review the final diff, commit/push LW-15 as its own PR, and report status on #2052. Then return to b28 numbered parts one PR per part, beginning with b28-p1. Preserve the business customer-counterparty gap trace.
 
 ## Exact next command
 
-`rg -n "CrisisRecordInput|case \"health-coverage\"|placeOutcomesHandler" src/simulation/crisis/types.ts src/simulation/crisis/records.ts src/simulation/outcome-web/place-outcomes.ts`
+`node --import tsx scripts/dev-lab/typecheck.ts`

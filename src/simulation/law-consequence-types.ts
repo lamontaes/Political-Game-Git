@@ -13,6 +13,7 @@ export type LawConsequenceKind =
   | "tax"
   | "price-cost"
   | "coverage-eligibility"
+  | "snap-participation"
   | "right-permission"
   | "service-delivered"
   | "legal-outcome"
