@@ -32,6 +32,7 @@ import { addDays } from "./dates";
 import { applyEnactedLawEffects } from "./enacted-law-effects";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { admitLocalFiscalMeasure } from "./local-fiscal-authority";
+import { taxPolicyEffectiveDate } from "./tax-policy";
 import { currentMeasureProvisions } from "./legislative-politics";
 import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
 import {
@@ -838,9 +839,12 @@ export function completeCouncilPassage(
       // Compiled publication rules retain their existing adapter until typed.
       ...(governmentKey
         ? {
-            effectiveAt: effectiveFromPassage
-              ? next.currentDate
-              : addDays(next.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS),
+            // A filed typed levy states its own delay; the later date rules.
+            effectiveAt:
+              filedTaxEffectiveDate(next, measure.id) ??
+              (effectiveFromPassage
+                ? next.currentDate
+                : addDays(next.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS)),
           }
         : {}),
     });
@@ -905,15 +909,17 @@ function enactCouncilMeasure(
     ? criminalReview
     : review;
   const effectiveAt =
-    review !== null
-      ? reviewDays !== null
-        ? congressionalReviewEffectiveOn(world.currentDate, reviewDays)
-        : null
-      : reading.procedure.effectivePublication?.includes(
-            "from the date of its passage",
-          )
-        ? world.currentDate
-        : addDays(world.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS);
+    review === null && filedTaxEffectiveDate(world, measure.id)
+      ? filedTaxEffectiveDate(world, measure.id)
+      : review !== null
+        ? reviewDays !== null
+          ? congressionalReviewEffectiveOn(world.currentDate, reviewDays)
+          : null
+        : reading.procedure.effectivePublication?.includes(
+              "from the date of its passage",
+            )
+          ? world.currentDate
+          : addDays(world.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS);
   const next = recordEnactment(world, {
     stableKey: `${measure.stableKey}:enactment`,
     measureId: measure.id,
@@ -1173,6 +1179,24 @@ function councilOfMeasure(measure: LegislativeMeasureRecord): string | null {
   } catch {
     return null;
   }
+}
+
+/** A filed typed levy takes effect on its own delay from passage, not from the
+ * ordinance's default publication date; the same date function the tax policy
+ * uses decides it, and a measure with no filed levy has none. */
+function filedTaxEffectiveDate(
+  world: World,
+  measureId: EntityId,
+): IsoDate | null {
+  const proposal = world.history.taxProposals?.find(
+    (row) => row.measureId === measureId,
+  );
+  return proposal
+    ? taxPolicyEffectiveDate(
+        { resolvedAt: world.currentDate, effectiveAt: null },
+        proposal.terms,
+      )
+    : null;
 }
 
 /** A scheduled ordinary council reading uses the seated roll and saved ballot. */
