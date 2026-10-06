@@ -102,8 +102,9 @@ export function occasionDetailsForRecipient(
 /**
  * How far ahead somebody asks, and how recent a move or a new job still counts.
  *
- * PLACEHOLDER(research: what-ordinary-invitations-are-for): these are pacing
- * windows, not researched rates. Filed with ChatGPT on 2026-09-23.
+ * RECORDED GAME PACING: invitations give 2 to 12 days' notice; a move remains
+ * recent for 45 days and a job for 30. These are authored calendar windows,
+ * not population rates, and the occasion's dated records determine eligibility.
  */
 export const OCCASION_NOTICE_MIN_DAYS = 2;
 export const OCCASION_NOTICE_MAX_DAYS = 12;
@@ -425,9 +426,9 @@ export interface InitiatorFavour {
 }
 
 /**
- * PLACEHOLDER(research: what-ordinary-requests-come-from): an age past which
- * living alone is read as a reason to ask for a hand, not a researched rate.
- * Filed with ChatGPT on 2026-09-23.
+ * RECORDED GAME PACING: at age 70, a person living alone may cite that recorded
+ * circumstance when asking for a hand. This is an authored eligibility age,
+ * not a rate or a claim that every older person asks.
  */
 export const OLDER_ALONE_AGE = 70;
 

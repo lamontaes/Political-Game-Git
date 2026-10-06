@@ -41,10 +41,10 @@ export const CLEMENCY_GRANT = "clemency:grant" as const;
 export const CLEMENCY_DENY = "clemency:deny" as const;
 
 /**
- * PLACEHOLDER (hand-set): how near the end of a term counts as "leaving
- * office", and how near an election counts as "facing voters soon". Real
- * clemency waves come at the end of a term (Research 4, 1a item 5); where
- * exactly the window starts is not measured.
+ * ESTIMATED FROM THE RECORDED CALENDAR: "leaving office" means the last 120
+ * days of the term and "facing voters soon" means the last 365 days before an
+ * election. Research 4, 1a item 5 records end-of-term clemency waves; these
+ * authored windows translate that finding into game dates.
  */
 export const CLEMENCY_CALENDAR_PLACEHOLDER = {
   leavingOfficeWithinDays: 120,

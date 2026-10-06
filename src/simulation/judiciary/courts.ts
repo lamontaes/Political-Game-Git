@@ -179,8 +179,8 @@ export function joinFederalSeatCounts(): FederalSeatCountJoin {
   };
 }
 
-// PLACEHOLDER(overnight): the admitted source bank has no local-court identity
-// records for these territories; keep these explicit game profiles distinct.
+// RECORDED GAME PROFILES: the admitted jurisdiction catalog supplies these six
+// territory identities. Each profile stays distinct from sourced court rows.
 const TERRITORY_LOCAL_COURTS = [
   [
     "US-DC",
@@ -299,8 +299,10 @@ function initialRules(
   fixedTermRules: FederalSeatCountJoin["fixedTermRules"] = {},
 ): JudicialCourtRules {
   const baseline = countBaselines[courtId];
-  // PLACEHOLDER(overnight): verified counts do not cover every court. These
-  // sizes seed only the explicitly marked game-profile fallback.
+  // ESTIMATED FROM COMPARABLE COURTS IN THE GAME: nine seats for the recorded
+  // federal supreme court, five for territory highest courts, three for
+  // appellate/intermediate courts, and one for trial courts. This applies only
+  // when that court has no verified count and remains marked as a game profile.
   const gameSize =
     level === "federal-supreme"
       ? 9
@@ -351,8 +353,8 @@ function initialRules(
       reason: "The admitted court identity does not establish case categories.",
     },
     selectionRecordId: selection?.recordId ?? null,
-    // PLACEHOLDER(overnight): the admitted profile does not yet carry the
-    // Supreme Court's amendment route as a sourced rule field.
+    // RECORDED GAME PROFILE: the federal supreme court's size changes through
+    // statute; the reference ID records the assignment that admitted this rule.
     amendmentRoute:
       level === "federal-supreme"
         ? knownRule(

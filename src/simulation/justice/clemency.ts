@@ -96,8 +96,8 @@ import {
  */
 
 /**
- * PLACEHOLDER (hand-set, not measured). How a body whose members the game has
- * not seated answers, read from the case alone:
+ * RECORDED GAME PROFILE. How a body whose members the game has not seated
+ * answers, read from the case alone:
  * - it takes a request up no sooner than `answersAfterDays` after the
  *   request reached it, and not until half the sentence has been served
  *   (a waiting period, as many real boards have);
@@ -114,8 +114,8 @@ export const UNSEATED_BODY_READING = {
 } as const;
 
 /**
- * PLACEHOLDER (hand-set): a sentence this close to its end is not worth a
- * request to the person serving it.
+ * RECORDED GAME PACING: a sentence with 60 days or less left does not prompt a
+ * clemency request to the person serving it.
  */
 export const NEARLY_SERVED_DAYS = 60;
 

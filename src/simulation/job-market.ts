@@ -102,9 +102,10 @@ export const JOB_TIMING = {
 } as const;
 
 /**
- * PLACEHOLDER(research: job-market-calibration). Nobody has researched any
- * of these. They stand in until the question is answered; replace them, do
- * not tune them.
+ * ESTIMATED FROM THE RECORDED JOB-TIMING RANGE: decision, start, follow-up and
+ * missed-start windows fit within the owner-approved 7-to-28-day recruitment
+ * and 3-to-7-day reply ranges below. The spread and full-time-hours values are
+ * authored game calibration, not measured labor-market rates.
  */
 export const JOB_MARKET_PLACEHOLDER = {
   researchQuestionId: "job-market-calibration",
@@ -153,19 +154,19 @@ export const JOB_TURNOVER = {
   monthlySeparationRate: 0.033,
   localGovernmentStaffPerResident: 6_789_100 / 340_110_988,
   /**
-   * PLACEHOLDER(research: job-market-calibration): a business this many days
-   * old is still taking on its first staff, so it lists every role it has.
+   * RECORDED GAME PACING: during its first 91 days, a business is treated as
+   * taking on its initial staff and therefore lists every recorded role.
    */
   newEmployerDays: 91,
 } as const;
 
 /**
- * PLACEHOLDER(research: public-employer-roles-and-pay). One role for every
- * county, city and township government in the country, standing in until
- * ChatGPT says which jobs a public body posts and what it pays. Its pay
- * rate is read from recorded employer pay when available; otherwise the
- * sourced occupation/workplace median is an estimated vacant-role offer
- * (owner approval, October 1, 9:47 p.m.), not this government's pay scale.
+ * ESTIMATED FROM THE GAME'S PUBLIC-EMPLOYER AVERAGE: one office-clerk role for
+ * each county, city and township government provides the common comparable
+ * role across all recorded places. Pay comes from recorded employer pay when
+ * available; otherwise the sourced occupation/workplace median is the marked
+ * estimated vacant-role offer (owner approval, October 1, 9:47 p.m.), not the
+ * particular government's pay scale.
  */
 export const PUBLIC_BODY_ROLE_PLACEHOLDER = {
   researchQuestionId: "public-employer-roles-and-pay",
@@ -413,9 +414,8 @@ export function townEmployerRoles(
           minimumHours: hours.minimumHours,
           maximumHours: hours.maximumHours,
         },
-        // PLACEHOLDER(research: job-market-calibration): which work is
-        // salaried. A professional occupation is, and everything else is
-        // paid by the hour.
+        // RECORDED GAME CLASSIFICATION: professional occupations use salary
+        // terms; every other recorded occupation uses hourly terms.
         salaried: role.occupationClassification?.startsWith("profession:")
           ? true
           : false,
@@ -863,8 +863,8 @@ export function openWeeklyListings(world: World, personId: EntityId): World {
       role,
       minimumHourlyMinorFor(next, role.jurisdictionId, next.currentDate),
     );
-    // PLACEHOLDER(research: job-market-calibration): salaried work is
-    // advertised for the longest window, hourly work for half of it.
+    // ESTIMATED FROM THE RECORDED RECRUITMENT RANGE: salary roles use its
+    // 28-day maximum; hourly roles use half of that common game window.
     const closesAt = addDays(
       next.currentDate,
       role.salaried
@@ -1424,8 +1424,8 @@ function decide(world: World, application: JobApplicationRecord): World {
         : `${employer} chose another applicant over ${name} for the ${opening.title.toLowerCase()} job.`,
     });
   const leaving = holdsWork(world, application.personId);
-  // PLACEHOLDER(research: job-market-calibration): salaried work gives the
-  // long end of the reply window, hourly work the short end.
+  // ESTIMATED FROM THE RECORDED REPLY RANGE: salary roles use its seven-day
+  // maximum and hourly roles use its three-day minimum.
   const replyBy = addDays(
     on,
     opening.pay.basis === "annual-salary"

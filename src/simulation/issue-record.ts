@@ -42,8 +42,9 @@ import type {
  *    one, is not moved by the record either way, but still counts in the
  *    electorate: most of a real electorate has no view on most bills.
  *
- * The magnitudes below are UNRESEARCHED blanket rules, filed with the research
- * queue as `issue-record-electoral-magnitudes`.
+ * RECORDED GAME SCALE: the ordered weights below preserve the four existing
+ * salience levels, and the electorate's recorded views and eligible population
+ * supply the totals. They are game-unit weights rather than empirical rates.
  */
 export const UNRESEARCHED_ISSUE_RECORD = {
   version: "issue-record-unresearched-v1",

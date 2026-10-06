@@ -148,9 +148,9 @@ function movesOutToBuy(
 ): boolean {
   const person = world.people[personId];
   if (!person) return false;
-  // PLACEHOLDER(research: age-of-majority-by-state). Leaving home to buy one
-  // reads the same threshold the labels do. It does not wait for the
-  // authority to end, and whether it has ended is not asked.
+  // RECORDED GAME RULE: leaving home to buy reads the same adulthood age as
+  // the presentation labels. It does not infer that a separate authority has
+  // ended; the recorded child-authority relationship below supplies that fact.
   if (
     ageOnDate(person.birthDate, world.currentDate) <
     GROWN_UP_PRESENTATION_AGE_PLACEHOLDER
