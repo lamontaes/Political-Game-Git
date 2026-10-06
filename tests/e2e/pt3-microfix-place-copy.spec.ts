@@ -65,7 +65,6 @@ test("scopes the unavailable message to the legislative staff start", async ({
   await page.getByTestId("creator-continue-character").click();
   await expect(page.getByTestId("creator-stage-place")).toBeVisible();
   await chooseStateThenTown(page, "Kentucky", "lex", /Lexington/i);
-  await page.getByTestId("creator-continue-place").click();
   await expect(page.getByTestId("creator-stage-background")).toBeVisible();
   const office = page.getByTestId("office-start");
   await expect(office).toBeDisabled();

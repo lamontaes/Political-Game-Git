@@ -178,7 +178,7 @@ async function createAndKeepLife(page) {
     .getByRole("button", { name: /Kentucky/i })
     .first()
     .click();
-  await page.getByTestId("creator-continue-place").click();
+  await page.getByTestId("creator-skip-difficulty").click();
   await page.getByTestId("creator-stage-whoareyou").waitFor();
   await page.getByTestId("whoareyou-play").click();
   await page.getByTestId("begin").click();
@@ -402,7 +402,7 @@ let expected;
     .getByRole("button", { name: /Kentucky/i })
     .first()
     .click();
-  await branchPage.getByTestId("creator-continue-place").click();
+  await branchPage.getByTestId("creator-skip-difficulty").click();
   await branchPage.getByTestId("creator-stage-whoareyou").waitFor();
   await branchPage.getByTestId("whoareyou-play").click();
   const stage = branchPage.getByTestId("creator-stage-appearance");

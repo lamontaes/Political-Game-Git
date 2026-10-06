@@ -56,7 +56,8 @@ test("towns are alphabetical before the visible limit and changing state does no
   await page.getByTestId("place-search").fill("Lexington");
   await expect(towns.first()).toContainText("Lexington");
   await towns.first().click();
-  await expect(page.getByTestId("creator-continue-place")).toBeEnabled();
+  await expect(page.getByTestId("creator-stage-difficulty")).toBeVisible();
+  await page.getByTestId("creator-summary-place").click();
   await page.getByTestId("creator-change-state").click();
   await page.getByTestId("state-search").fill("Arkansas");
   await page.getByTestId("state-AR").press("Enter");

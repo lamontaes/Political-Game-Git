@@ -81,9 +81,10 @@ test.describe("The creator stays inside the viewport", () => {
       );
       expect(pageScroll).toBeLessThanOrEqual(1);
 
-      // Selecting a place keeps its Next reachable without hunting below fold.
+      // Selecting a place proceeds immediately, and the next real step still
+      // fits without hunting below the fold.
       await choices.getByRole("button").first().click();
-      const next = page.getByTestId("creator-continue-place");
+      const next = page.getByTestId("creator-skip-difficulty");
       await expect(next).toBeVisible();
       const box = await next.boundingBox();
       expect(box).not.toBeNull();

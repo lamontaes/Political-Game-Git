@@ -133,7 +133,7 @@ test("group 1: Nevada creator, room, People, Calendar, Politics and back", async
     .filter({ hasText: /^Alamo, Nevada/ })
     .first()
     .click();
-  await page.getByTestId("creator-continue-place").click();
+  await page.getByTestId("creator-skip-difficulty").click();
 
   await expect(page.getByTestId("whoareyou-play")).toHaveText(
     "Discover through play",

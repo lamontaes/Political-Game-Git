@@ -64,6 +64,31 @@ async function verticalOverflow(page: Page): Promise<number> {
 }
 
 test.describe("The creator is a panel on the room, not a scrolling form", () => {
+  test("choosing any hometown goes straight to the next real step", async ({
+    page,
+  }) => {
+    await freshBrowser(page);
+    await openCreator(page);
+    await page.getByTestId("start-normal").click();
+    await completeCharacterStep(page, 30);
+    await page.getByTestId("creator-continue-character").click();
+
+    // Pick from the live catalogs rather than naming a jurisdiction in the
+    // test. The same selection handler serves every hometown in all 56 places.
+    const states = page.getByTestId("state-choices").getByRole("button");
+    const stateCount = await states.count();
+    expect(stateCount).toBeGreaterThan(0);
+    await states.nth("bg20-fresh-game".length % stateCount).click();
+
+    const hometowns = page.getByTestId("place-choices").getByRole("button");
+    await expect(hometowns.first()).toBeVisible();
+    await hometowns.first().click();
+
+    await expect(page.getByTestId("creator-stage-difficulty")).toBeVisible();
+    await expect(page.getByTestId("creator-stage-place")).toHaveCount(0);
+    await expect(page.getByTestId("creator-continue-place")).toHaveCount(0);
+  });
+
   test("replaces the title menu in the same upper-left card", async ({
     page,
   }) => {

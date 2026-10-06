@@ -272,12 +272,17 @@ test.describe("Setting up a life reads like a game, not a form", () => {
       .getByTestId("place-choices")
       .getByRole("button", { name: /Lexington, Kentucky/i })
       .press("Enter");
+    await expect(page.getByTestId("creator-stage-difficulty")).toBeVisible();
+    await expect(page.getByTestId("creator-summary-place")).toHaveText(
+      /Lexington, Kentucky/,
+    );
+    await page.getByTestId("creator-summary-place").press("Enter");
     await expect(page.getByTestId("place-canonical")).toHaveText(
       /Lexington, Kentucky/,
     );
     await expect(page.getByTestId("place-choices")).toHaveCount(0);
-    await expect(page.getByTestId("creator-continue-place")).toBeVisible();
 
+    await page.getByTestId("creator-change-place").press("Enter");
     await page.getByTestId("place-search").fill("bowl");
     await expect(page.getByTestId("place-canonical")).toHaveText(
       /Lexington, Kentucky/,
@@ -286,12 +291,11 @@ test.describe("Setting up a life reads like a game, not a form", () => {
       .getByTestId("place-choices")
       .getByRole("button", { name: /Bowling Green, Kentucky/i })
       .press("Enter");
-    await expect(page.getByTestId("place-canonical")).toHaveText(
+    await expect(page.getByTestId("creator-summary-place")).toHaveText(
       /Bowling Green, Kentucky/,
     );
-    await expect(page.getByTestId("place-choices")).toHaveCount(0);
 
-    await page.getByTestId("creator-continue-place").press("Enter");
+    await page.getByTestId("creator-skip-difficulty").press("Enter");
     await expect(page.getByTestId("creator-stage-whoareyou")).toBeVisible();
     await page.getByTestId("creator-summary-place").press("Enter");
     await expect(page.getByTestId("creator-stage-place")).toBeVisible();
@@ -305,11 +309,11 @@ test.describe("Setting up a life reads like a game, not a form", () => {
       .getByTestId("place-choices")
       .getByRole("button", { name: /Frankfort, Kentucky/i })
       .press("Enter");
-    await expect(page.getByTestId("place-canonical")).toHaveText(
+    await expect(page.getByTestId("creator-summary-place")).toHaveText(
       /Frankfort, Kentucky/,
     );
 
-    await page.getByTestId("creator-continue-place").press("Enter");
+    await page.getByTestId("creator-skip-difficulty").press("Enter");
     await page.getByTestId("whoareyou-play").press("Enter");
     await expect(page.getByTestId("begin")).toBeEnabled();
     await page.getByTestId("begin").press("Enter");
@@ -336,6 +340,7 @@ test.describe("Setting up a life reads like a game, not a form", () => {
       .getByTestId("place-choices")
       .getByRole("button", { name: /Lexington, Kentucky/i })
       .press("Enter");
+    await page.getByTestId("creator-summary-place").press("Enter");
     await expect(page.getByTestId("place-canonical")).toHaveText(
       /Lexington, Kentucky/,
     );
@@ -349,6 +354,7 @@ test.describe("Setting up a life reads like a game, not a form", () => {
       .getByTestId("place-choices")
       .getByRole("button", { name: /Richmond, Virginia/i })
       .click();
+    await page.getByTestId("creator-summary-place").click();
     await expect(page.getByTestId("place-canonical")).toHaveText(
       /Richmond, Virginia/,
     );
@@ -360,7 +366,12 @@ test.describe("Setting up a life reads like a game, not a form", () => {
     await expect(page.getByTestId("place-population")).not.toContainText(/BEA/);
     await expect(page.getByTestId("place-population-source")).toHaveCount(0);
 
-    await page.getByTestId("creator-continue-place").press("Enter");
+    await page.getByTestId("creator-change-place").click();
+    await page
+      .getByTestId("place-choices")
+      .getByRole("button", { name: /Richmond, Virginia/i })
+      .click();
+    await page.getByTestId("creator-skip-difficulty").press("Enter");
     await page.getByTestId("whoareyou-play").press("Enter");
     await expect(page.getByTestId("begin")).toBeEnabled();
     await page.getByTestId("begin").press("Enter");

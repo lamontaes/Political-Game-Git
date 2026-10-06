@@ -147,7 +147,6 @@ export async function chooseCreatorLocation(
       throw new Error("Statewide start is a custom-only control.");
     }
     await page.getByTestId("place-statewide-choice").click();
-    await page.getByTestId("creator-continue-place").click();
     return;
   }
 
@@ -179,7 +178,6 @@ export async function chooseCreatorLocation(
       .filter({ hasText: new RegExp(hometown.townMatch ?? "^$", "i") })
       .first()
       .click();
-  await page.getByTestId("creator-continue-place").click();
 }
 
 function escapeForRegExp(value: string): string {
@@ -291,6 +289,8 @@ export async function fillCreator(
     await page.getByTestId("creator-continue-background").click();
   }
 
+  await expect(page.getByTestId("creator-stage-difficulty")).toBeVisible();
+  await page.getByTestId("creator-skip-difficulty").click();
   await expect(page.getByTestId("creator-stage-whoareyou")).toBeVisible();
   const calibration = life.calibration ?? "skipped";
   let answeredMoments = false;

@@ -81,7 +81,7 @@ for (const viewport of [
     await expect(page.getByTestId("creator-stage-place")).toBeVisible();
     await expect(page.getByTestId("begin")).toHaveCount(0);
     await chooseKentucky(page);
-    await page.getByTestId("creator-continue-place").click();
+    await page.getByTestId("creator-skip-difficulty").click();
     await page.getByTestId("whoareyou-play").click();
     await expect(page.getByTestId("begin")).toBeEnabled();
     await expectFooterInsideViewport(page, viewport);
@@ -122,7 +122,7 @@ test("bounds long search results and preserves Back/edit with keyboard", async (
   ).toBeLessThanOrEqual(1);
 
   await choices.getByRole("button").first().click();
-  await expect(page.getByTestId("creator-continue-place")).toBeVisible();
+  await expect(page.getByTestId("creator-skip-difficulty")).toBeVisible();
   await expectFooterInsideViewport(page, viewport);
 
   await page.getByTestId("creator-summary-character").click();

@@ -76,7 +76,7 @@ for (const viewport of [
       page.getByRole("heading", { name: "Where are you from?", exact: true }),
     ).toBeVisible();
     await chooseStateThenTown(page, "Kentucky", "Lexingto", /Lexington/i);
-    await page.getByTestId("creator-continue-place").click();
+    await page.getByTestId("creator-skip-difficulty").click();
     await page.getByTestId("whoareyou-answer").click();
     await page.getByTestId("begin").click();
     await expect(page.getByTestId("questionnaire-screen")).toBeVisible();
