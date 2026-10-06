@@ -2333,7 +2333,69 @@
               "unit": "ratio"
             }
           ],
-          "note": "Cap is 7% plus CPI; SB 611 (effective 2023-07-06) added a 10% ceiling; units under 15 years old are exempt; ORS 91.225 still preempts local rent control."
+          "note": "Cap is 7% plus CPI; SB 611 (effective 2023-07-06) added a 10% ceiling; units under 15 years old are exempt; ORS 91.225 still preempts local rent control.",
+          "constructionSource": "https://olis.oregonlegislature.gov/liz/2023R1/Downloads/MeasureDocument/SB611/Enrolled",
+          "constructionQuote": "The first certificate of occupancy for the dwelling unit was issued less than 15 years from the date of the notice of the rent increase.",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "preempts": false,
+              "cite": "ORS 90.323 and 90.324; Oregon Office of Economic Analysis 2026 maximum annual rent increase",
+              "source": "https://www.oregon.gov/das/oea/pages/rent-stabilization.aspx",
+              "sourceQuote": "The allowable rent increase percentage for the previous year, 2026, was 9.5%.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "new-construction-exemption-years",
+                  "value": 15,
+                  "unit": "years"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap",
+                  "value": 0.095,
+                  "unit": "ratio"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap-inflation-offset",
+                  "value": 0.07,
+                  "unit": "ratio"
+                }
+              ],
+              "note": "The annual cap replaces the ceiling scalar for this calendar year. The 15-year construction exemption remains. ORS 90.323(5)(b) also exempts specified regulated-affordable rent changes; recorded tenancy regimes do not establish every exemption fact."
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "preempts": false,
+              "cite": "ORS 90.323 and 90.324; Oregon Office of Economic Analysis 2027 maximum annual rent increase",
+              "source": "https://www.oregon.gov/das/oea/pages/rent-stabilization.aspx",
+              "sourceQuote": "For 2027, the maximum allowable rent increase percentage for tenancies subject to ORS 90.324(b) is 10%.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "new-construction-exemption-years",
+                  "value": 15,
+                  "unit": "years"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap",
+                  "value": 0.1,
+                  "unit": "ratio"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap-inflation-offset",
+                  "value": 0.07,
+                  "unit": "ratio"
+                }
+              ],
+              "note": "The annual cap replaces the ceiling scalar for this calendar year. The 15-year construction exemption remains. ORS 90.323(5)(b) also exempts specified regulated-affordable rent changes; recorded tenancy regimes do not establish every exemption fact."
+            }
+          ]
         },
         "US-PA": {
           "answer": "no",
@@ -2438,7 +2500,67 @@
               "unit": "ratio"
             }
           ],
-          "note": "Cap is the lesser of 7% plus CPI or 10% over 12 months (9.683% for 2026); RCW 59.18.710(1)(a): first certificate of occupancy issued 12 or less years before notice is exempt; expires 2040-07-01; RCW 35.21.830 still preempts local rent control."
+          "note": "Cap is the lesser of 7% plus CPI or 10% over 12 months (9.683% for 2026); RCW 59.18.710(1)(a): first certificate of occupancy issued 12 or less years before notice is exempt; expires 2040-07-01; RCW 35.21.830 still preempts local rent control.",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "preempts": false,
+              "cite": "RCW 59.18.700; Washington Department of Commerce 2026 maximum annual rent increase",
+              "source": "https://www.commerce.wa.gov/housing-policy/hb1217-landlord-resource-center/",
+              "sourceQuote": "Maximum annual rent increase percent through 12/31/2026: 9.683%",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "new-construction-exemption-years",
+                  "value": 12,
+                  "unit": "years"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap",
+                  "value": 0.09683,
+                  "unit": "ratio"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap-inflation-offset",
+                  "value": 0.07,
+                  "unit": "ratio"
+                }
+              ],
+              "note": "The announced calendar-year maximum replaces the statutory ceiling scalar. The sourced 12-year construction exemption remains; RCW 59.18.710 contains additional property and landlord exemptions not established by a tenancy regime alone."
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "preempts": false,
+              "cite": "RCW 59.18.700; Washington Department of Commerce 2027 maximum annual rent increase",
+              "source": "https://www.commerce.wa.gov/housing-policy/hb1217-landlord-resource-center/",
+              "sourceQuote": "Maximum annual rent increase percent through 12/31/2027: 10%",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "new-construction-exemption-years",
+                  "value": 12,
+                  "unit": "years"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap",
+                  "value": 0.1,
+                  "unit": "ratio"
+                },
+                {
+                  "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                  "key": "cap-inflation-offset",
+                  "value": 0.07,
+                  "unit": "ratio"
+                }
+              ],
+              "note": "The announced calendar-year maximum replaces the statutory ceiling scalar. The sourced 12-year construction exemption remains; RCW 59.18.710 contains additional property and landlord exemptions not established by a tenancy regime alone."
+            }
+          ]
         },
         "US-WI": {
           "answer": "no",
@@ -17831,8 +17953,36 @@
           "answer": "yes",
           "preempts": true,
           "cite": "Iowa Code § 257.11B",
-          "source": "https://www.edchoice.org/school-choice/programs/education-savings-account-program/",
-          "note": "Universal education savings accounts (Students First) since 2023, plus a tax-credit scholarship."
+          "source": "https://www.legis.iowa.gov/docs/code/257.11B.pdf",
+          "note": "Students First ESA: $7,988 (798800 USD minor units) per approved pupil for the 2025-26 school budget year, July 1, 2025 through June 30, 2026; not a monthly or calendar-year payment. Eligible pupils are Iowa residents in K-12 attending an accredited nonpublic school located in Iowa full-time, regardless of family income; an approved application is required each school year. The existing tax-credit scholarship answer is preserved; this award term describes Students First only.",
+          "operativeAt": "2025-07-01",
+          "operativeBasis": "source-stated-effective-date",
+          "quote": "257.11B(2)(a)(3): For school budget years beginning on or after July 1, 2025, resident pupils eligible to enroll in kindergarten through grade twelve who attend a nonpublic school are eligible. 257.11B(4): Each payment equals the regular program state cost per pupil for the same school budget year.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+              "key": "award",
+              "value": 798800,
+              "unit": "minor"
+            }
+          ],
+          "before": {
+            "answer": "yes",
+            "preempts": true
+          },
+          "phases": [
+            {
+              "answer": "yes",
+              "preempts": true,
+              "operativeAt": "2026-07-01",
+              "source": "https://www.legis.iowa.gov/docs/code/257.11B.pdf",
+              "note": "Annual applications and a same-school-budget-year award are required. The 2025-26 amount is not carried into a later school year."
+            }
+          ],
+          "awardSource": "https://drive.google.com/uc?id=1jRZY13wU6vWnWw5s4ZbEHN0n5B714v9K&export=download",
+          "awardSourceField": "Iowa Department of Management, Aid and Levy, Tax Certification, and Program Summary FY2026: Aid&Levy F214/G214 labels L729 FY26 Regular Program State Cost Per Pupil; Data_AidAndLevy GN1=L729, GN2=7988 (also GN3/GN4=7988). Linked by https://dom.iowa.gov/local-government/school-resources.",
+          "eligibilitySource": "https://educate.iowa.gov/press-release/2025-04-15/iowa-department-education-announces-opening-2025-26-students-first-education-savings-account",
+          "eligibilitySourceDate": "2025-04-15"
         },
         "US-ID": {
           "answer": "yes",
@@ -20213,9 +20363,22 @@
         "US-ME": {
           "answer": "yes",
           "preempts": true,
-          "cite": "20-A M.R.S. § 13407",
+          "operativeAt": "2022-07-01",
+          "before": {
+            "answer": "yes",
+            "preempts": true
+          },
+          "cite": "20-A M.R.S. § 13407(3)",
           "source": "https://legislature.maine.gov/statutes/20-A/title20-Asec13407.html",
-          "note": "$40,000 minimum salary for certified teachers since the 2022-23 school year."
+          "note": "$40,000 minimum salary for certified teachers and career and technical education teachers for the school year starting after June 30, 2022, and each subsequent school year, in force on 1/1/2026.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 4000000,
+              "unit": "minor"
+            }
+          ]
         },
         "US-MI": {
           "answer": "no",

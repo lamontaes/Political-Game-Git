@@ -7,6 +7,7 @@ import {
   projectObserverRecord,
 } from "../presentation/observer-world";
 import { proseDate } from "../presentation/prose-dates";
+import { CausalTraceView } from "../ui/CausalTraceView";
 import type { ObserverRunController } from "./observer-run-controller";
 
 /**
@@ -19,9 +20,11 @@ import type { ObserverRunController } from "./observer-run-controller";
 export function ObserverClock({
   runner,
   onOpenRecord,
+  onOpenInspector,
 }: {
   readonly runner: ObserverRunController;
   readonly onOpenRecord: () => void;
+  readonly onOpenInspector?: (pausedWorld: World) => void;
 }) {
   const view = useSyncExternalStore(
     runner.subscribe,
@@ -71,6 +74,22 @@ export function ObserverClock({
       >
         World record
       </button>
+      {onOpenInspector ? (
+        <button
+          type="button"
+          className="ui-action ui-action--subtle"
+          data-testid="open-observer-inspector"
+          disabled={view.busy}
+          onClick={() => {
+            void runner
+              .pause()
+              .then(onOpenInspector)
+              .catch(() => undefined);
+          }}
+        >
+          Developer inspector
+        </button>
+      ) : null}
       {view.problem ? (
         <span className="pg-observer-problem" role="alert">
           {view.problem}
@@ -78,6 +97,15 @@ export function ObserverClock({
       ) : null}
     </div>
   );
+}
+
+/** Read the exact settled Observer checkpoint; never substitute a fixture. */
+export function ObserverInspectorWorkspace({
+  world,
+}: {
+  readonly world: World;
+}) {
+  return <CausalTraceView reviewWorld={world} />;
 }
 
 /**
