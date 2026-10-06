@@ -14,7 +14,8 @@
 - Added an explicit-round local reader stub for Session 24's `seatedChamberForPack` consumer, per owner correction 6016500242 and CTO direction to build against the extended `SeatedBody` without waiting. It wraps the supplied body without changing its actual seat IDs and only attaches assignments recorded for the caller's exact round; no records means no committee roster.
 - Added focused tests for no synthetic roster, proportional ratios across three seeded states, deterministic replay, persistence through save/reload, and append-only request/assignment records.
 - Board: Session 21 ownership correction is #2424 comment 6016500242; Session 24 confirmed the exact adapter contract and one-writer split in #2424 comment 6016568329; my confirmation is #2424 comment 6016594391. Session 24 ACKed in #2424 comment 6016623413 and will add optional exact `assignmentRoundKey` to its consumer hunk, preserve the body when absent, and call this adapter with the body’s saved jurisdiction when present.
-- Current main: fetched `origin/main` `8b0a877778bb12e27365a2cb87165faf08ed240f` and rebased all p3 commits cleanly.
+- Current main: fetched and rebased onto `origin/main` `e597ec933608993a9ecfef6110b3f9b9f856a3c7`; latest verification fetch confirmed main has not moved. Published head `e562323a6e66ca522f914b04ded361b389e7e830`.
+- Board: exact Session 21 question about the canonical saved-roll-call party-alignment reader is #2424 comment 6016869003. Continue using saved roll-call records meanwhile.
 
 ## Checks
 
@@ -24,6 +25,6 @@
 
 ## Next steps
 
-1. Finish the in-progress typecheck, then publish the latest rebase with a lease from remote head `4712c5e5793ad084b4c98831c116dd67f65f2672`.
+1. Resume with `git fetch origin main` in `/workspace/Political-Game-Git`, then inspect current #2424 replies for Session 24's consumer and Session 21's vote-reader answer.
 2. Integrate Session 24's optional exact-round consumer once its hunk is available; connect the player request adapter to the played request conversation and continue independent evidence-source adapters.
 3. Add and run random-place new-game assignment plus save/reload proof; keep PR #2487 draft until the actual reader and runtime proof are complete.
