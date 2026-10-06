@@ -28,6 +28,8 @@ import { beginHealthEpisode } from "./health";
 import { closeHealthEpisodesForDeath } from "./health-queries";
 import { currentGovernorOf, currentPresidentOf } from "./offices";
 import { appendCrisisRecord, crisisRecordId, crisisRecords } from "./records";
+import { openEmergencyMatter } from "../governing/state-governing";
+import { activeExecutiveEmergency } from "../executive-emergency-reader";
 import {
   CRISIS_PROVISIONAL_POLICY,
   type DisasterAssessmentRecord,
@@ -350,6 +352,14 @@ export function declareHazardEpisode(
     eventType: "crisis.disaster-local-response",
     summary: "Local emergency services responded and began assessing damage.",
   });
+  next = openEmergencyMatter(
+    next,
+    `us-${input.stateUsps.toLowerCase()}-governor`,
+    {
+      instance: `hazard:${episode.id}`,
+      episodeId: episode.id,
+    },
+  );
   next = scheduleEpisodeItem(
     next,
     episode,
@@ -595,6 +605,7 @@ function recordResponse(
     readonly programs: readonly string[];
     readonly eventType: `${string}.${string}`;
     readonly summary: string;
+    readonly emergencyDeclarationId?: EntityId;
   },
 ): World {
   const key = `${episode.stableKey}:response:${input.stage}`;
@@ -605,6 +616,7 @@ function recordResponse(
     involvedEntityIds: [
       episode.id,
       ...(input.actor ? [input.actor.personId] : []),
+      ...(input.emergencyDeclarationId ? [input.emergencyDeclarationId] : []),
     ],
     participants: input.actor
       ? [
@@ -617,6 +629,9 @@ function recordResponse(
       : [],
     tags: [
       `response:${input.stage}`,
+      ...(input.emergencyDeclarationId
+        ? [`emergency-declaration:${input.emergencyDeclarationId}`]
+        : []),
       ...input.programs.map((program) => `program:${program}`),
     ],
     summary: input.summary,
@@ -640,6 +655,9 @@ function recordResponse(
     decidedBy: input.decidedBy,
     reason: input.reason,
     programs: [...input.programs],
+    ...(input.emergencyDeclarationId
+      ? { emergencyDeclarationId: input.emergencyDeclarationId }
+      : {}),
   });
 }
 
@@ -709,6 +727,10 @@ function applyStateDecision(
   decidedBy: DisasterResponseRecord["decidedBy"],
   reason?: string,
 ): World {
+  const emergency = activeExecutiveEmergency(
+    world,
+    episode.jurisdictionIds[0]!,
+  );
   if (choice === "decline" || !governor)
     return recordResponse(world, episode, {
       stage: "no-state-request",
@@ -718,6 +740,7 @@ function applyStateDecision(
       programs: [],
       eventType: "crisis.disaster-no-federal-request",
       summary: "The state did not ask for a federal disaster declaration.",
+      ...(emergency ? { emergencyDeclarationId: emergency.declarationId } : {}),
     });
   const next = recordResponse(world, episode, {
     stage: "state-request",
@@ -729,6 +752,7 @@ function applyStateDecision(
     eventType: "crisis.disaster-federal-request",
     summary:
       "The governor asked the President for a federal disaster declaration.",
+    ...(emergency ? { emergencyDeclarationId: emergency.declarationId } : {}),
   });
   return scheduleEpisodeItem(
     next,

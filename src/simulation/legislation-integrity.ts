@@ -16,6 +16,7 @@ import {
   type VoteThresholdRule,
 } from "./legislature-rules";
 import { legislativeRulePackForWorld } from "./legislative-procedure-world";
+import { executiveRulePackForJurisdiction } from "./executive-authority-rule-packs";
 import {
   measureActions,
   measurePosition,
@@ -159,16 +160,34 @@ export function assertLegislationIntegrity(
       );
     }
     const pack = legislativeRulePackForWorld(world, measure.rulePackId);
-    chamberByKey(pack, measure.originChamberKey);
-    // Where the measure claims to have begun must satisfy the jurisdiction's
-    // own sourced origination rule, whoever wrote the record. This holds even
-    // for a measure carrying no introduction action at all, so the boundary
-    // cannot be stepped around by omitting the action that would be checked.
-    assertOriginationPermitted(
-      pack,
-      measure.subjectClass,
-      measure.originChamberKey,
-    );
+    const executiveInstrument =
+      measure.governmentInstrument === "regulation" ||
+      measure.governmentInstrument === "executive-order";
+    if (executiveInstrument && measure.executiveAuthorityJurisdictionKey) {
+      const authorityPack = executiveRulePackForJurisdiction(
+        measure.executiveAuthorityJurisdictionKey,
+      );
+      if (
+        measure.origin !== "executive-request" ||
+        measure.originChamberKey !==
+          `executive:${authorityPack.office.officeKey}` ||
+        !measure.executiveAuthorityChecks?.length
+      )
+        throw new Error(
+          `Executive measure has an incomplete authority record: ${measure.id}`,
+        );
+    } else {
+      // Where the measure claims to have begun must satisfy the jurisdiction's
+      // own sourced origination rule, whoever wrote the record. This holds even
+      // for a measure carrying no introduction action at all, so the boundary
+      // cannot be stepped around by omitting the action that would be checked.
+      chamberByKey(pack, measure.originChamberKey);
+      assertOriginationPermitted(
+        pack,
+        measure.subjectClass,
+        measure.originChamberKey,
+      );
+    }
     makeIsoDate(measure.introducedAt);
     if (measure.designation.trim().length === 0) {
       throw new Error(`Legislative measure has no designation: ${measure.id}`);
