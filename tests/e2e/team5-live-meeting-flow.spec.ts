@@ -3,7 +3,7 @@ import { enterLife, goTo, startLife, saveLife } from "./support/creator";
 
 // Same three distinct random draws as the source proof, including county-only Dyer.
 const places = [
-  { key: "3220700", place: "Dyer", state: "Nevada", route: "today" },
+  { key: "3220700", place: "Dyer", state: "Nevada", route: "calendar" },
   {
     key: "2537385",
     place: "Lunenburg",
@@ -32,6 +32,11 @@ for (const place of places)
       route: "custom",
       household: "shares-a-home",
     });
+    // The current opening cards precede the play screen. Use their existing
+    // Skip action before the shared helper waits for that screen.
+    const opening = page.getByTestId("world-orientation");
+    await opening.waitFor({ state: "visible", timeout: 60_000 });
+    await opening.getByTestId("orientation-skip").click();
     await enterLife(page);
     if (place.route === "journey") {
       await page.getByTestId("shell-pass-day").click();
@@ -51,29 +56,16 @@ for (const place of places)
     }
     await goTo(page, "nav-calendar");
     await expect(page.getByTestId("ordinary-section")).toBeVisible();
-    if (place.route === "calendar") {
-      const entry = page
-        .locator('[data-testid^="calendar-entry-"]')
-        .filter({ hasText: "Posted public meeting" })
-        .first();
-      await entry.click();
-      await page.getByTestId("calendar-play-event").focus();
-      await page.keyboard.press("Enter");
-    } else {
-      const planned = page.getByTestId("venue-activities");
-      const row = planned
-        .locator(":scope > div")
-        .filter({
-          hasText:
-            place.route === "journey"
-              ? "Go to the public meeting"
-              : "Posted public meeting",
-        })
-        .first();
-      await row.locator("button[data-activity-id]").click();
-    }
+    const entry = page
+      .getByTestId("calendar-upcoming")
+      .locator('[data-testid^="calendar-entry-"]')
+      .filter({ hasText: "Posted public meeting" })
+      .first();
+    await entry.click();
+    await page.getByTestId("calendar-play-event").focus();
+    await page.keyboard.press("Enter");
     const panel = page.getByTestId("ordinary-meeting-panel");
-    await expect(panel).toBeVisible();
+    await expect(panel).toBeVisible({ timeout: 60_000 });
     await expect(panel.getByTestId("ordinary-meeting-people")).toBeVisible();
     await expect(
       panel.getByTestId("ordinary-meeting-agenda-order").locator("li"),
@@ -84,18 +76,22 @@ for (const place of places)
       path: info.outputPath(`${place.key}-open-meeting.png`),
       fullPage: true,
     });
-    const speak = panel.getByTestId("speak-ordinary-meeting");
-    await speak.click();
-    await panel
-      .getByRole("button", {
-        name: "What hours are proposed, and how would the extra evening be funded?",
-        exact: true,
-      })
-      .focus();
-    await page.keyboard.press("Enter");
+    await expect(panel.getByTestId("speak-ordinary-meeting")).toHaveCount(0);
+    await expect(panel.locator('[data-testid^="meeting-speech-"]')).toHaveCount(
+      0,
+    );
     await expect(
       panel.getByTestId("ordinary-meeting-spoken-words"),
-    ).toContainText("how would the extra evening be funded");
+    ).toHaveCount(0);
+    await expect(panel.getByTestId("stay-ordinary-meeting")).toHaveText(
+      "Stay through the meeting",
+    );
+    await expect(panel.getByTestId("brief-ordinary-meeting")).toHaveText(
+      "Go briefly",
+    );
+    await expect(panel.getByTestId("leave-ordinary-meeting")).toHaveText(
+      "Leave and return home",
+    );
     await saveLife(page);
     await page.getByTestId("shell-nav-cluster").click();
     await expect(page.getByTestId("shell-nav-flyout")).not.toBeVisible();
