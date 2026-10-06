@@ -4,7 +4,10 @@ import { LOCAL_COUNCIL_MEETING } from "./local-council-meetings";
 import { addDays, ageOnDate, daysBetween } from "../dates";
 import { currentGovernorOf } from "../crisis/offices";
 import { lifePlaceByJurisdictionId } from "../life-places";
-import { activeWorkRelationshipsAt } from "../life-queries";
+import {
+  activeOrganizationParticipationsAt,
+  activeWorkRelationshipsAt,
+} from "../life-queries";
 import { homeLocalGovernmentUnits } from "../nationwide-world/local-governments";
 import { homeJurisdictionResidenceSince } from "../nationwide-world/residence-duration";
 import {
@@ -258,7 +261,20 @@ export function reviewTownCivicActions(
     localHeadOfGovernment(world, residents[0]!) ??
     (stateKey ? currentGovernorOf(world, stateKey.slice(3)) : null)?.personId ??
     null;
-  const groupMembers = lawInterestMembersInTown(world, town);
+  // A standing campaign group is an ordinary organization participation.
+  // Its active resident members carry the same civic stake as law-interest
+  // members, without a group-size target or another attendance path.
+  // STUB until b04-p3-s1 publishes the canonical participation kind;
+  // the brief's standing-group-member suffix uses the existing namespace.
+  const groupMembers = new Set(lawInterestMembersInTown(world, town));
+  for (const personId of residents) {
+    if (
+      activeOrganizationParticipationsAt(world, personId).some((row) =>
+        row.participation.kind.endsWith(":standing-group-member"),
+      )
+    )
+      groupMembers.add(personId);
+  }
   const wardRepresentative = (personId: EntityId): EntityId | null => {
     const position = homePosition(world, town, personId);
     if (position === null) return null;
