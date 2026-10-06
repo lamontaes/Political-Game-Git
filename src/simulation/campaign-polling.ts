@@ -44,11 +44,7 @@ export type CampaignPollingReader =
 
 export interface CampaignPollingQuality {
   readonly reader: CampaignPollingReader;
-  /** Each of three independent draws is uniform on plus or minus this. */
-  readonly drawBasisPoints: number;
 }
-
-const SEASONED_SURVEY_DAYS = 3 * 365;
 
 function isSurveyOccupation(classification: string | null): boolean {
   if (!classification?.startsWith("custom:onet-")) return false;
@@ -110,11 +106,5 @@ export function campaignPollingQuality(
     )
       best = { kind: "experienced", personId, surveyDays };
   }
-  const drawBasisPoints =
-    best.kind === "volunteer"
-      ? 400
-      : best.surveyDays >= SEASONED_SURVEY_DAYS
-        ? 200
-        : 300;
-  return { reader: best, drawBasisPoints };
+  return { reader: best };
 }
