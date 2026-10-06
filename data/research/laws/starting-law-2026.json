@@ -1,6 +1,6 @@
 {
   "id": "starting-law-2026",
-  "about": "What each place's law already says on a policy question when a game starts (2026). governing/law-in-force.ts reads it as law in force at its level (US is federal, US-XX is the state); an enacted law at the same or a higher level governs after it takes effect. A place that isn't listed for a question has no answer, which is unknown and never read as no. Dates are operative dates; a law with no date has been in force since before any game starts. A row may also carry cite (the statute or constitutional section), source (a page that supports it) and preempts: true where state law rules the question out for its cities (a preemption statute, or a question only the state answers), false where the state has no law on it and its cities may act.",
+  "about": "What each place's law already says on a policy question when a game starts (2026). governing/law-in-force.ts reads it as law in force at its level (US is federal, US-XX is the state); an enacted law at the same or a higher level governs after it takes effect. A place not listed for a question receives the question's documented ESTIMATED FROM AVERAGE fallback, never an implicit no. Dates are operative dates; a law with no date has been in force since before any game starts. A row may also carry cite (the statute or constitutional section), source (a page that supports it) and preempts: true where state law rules the question out for its cities (a preemption statute, or a question only the state answers), false where the state has no law on it and its cities may act.",
   "asOf": "2026-09-28",
   "defaultOperativeAt": "2000-01-01",
   "effectiveDates": {
@@ -25249,7 +25249,7 @@
     },
     "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement": {
       "source": "ICE, 287(g) Program (as of 10/01/2026: 2,608 agreements, 39 states and 2 territories); Stateline (3/2026); American Immigration Council (2026); UNC School of Government (7/7/2026); New York Governor's release (8/2026); Virginia Mercury (9/1/2026); read 10/01/2026.",
-      "note": "A state's answer says whether state law REQUIRES its local police and sheriffs to hold 287(g) agreements (yes) or does not (no); a no that bars them says preempts true and a no that leaves them free says preempts false. Individual county and city agreements are not recorded here, because starting law is kept per state; ICE's participating-agencies list is the source for adding them. Places not read take the most common answer among the places read, marked ESTIMATED FROM AVERAGE.",
+      "note": "A state's answer says whether state law REQUIRES its local police and sheriffs to hold 287(g) agreements (yes) or does not (no); a no that bars them says preempts true and a no that leaves them free says preempts false. Individual county and city agreements are outside this state-level starting-law table; ICE's participating-agencies list is the recorded source for adding them. Places not read take the most common answer among the places read, marked ESTIMATED FROM AVERAGE.",
       "answers": {
         "US-AL": {
           "answer": "no",

@@ -1488,15 +1488,15 @@
     },
     {
       "chamberName": "American Samoa Senate",
-      "reason": "Revised Constitution of American Samoa read (asbar.org copy, https://asbar.org/revised-constitution-of-american-samoa/): art. II has only a one-subject/title rule and 'each house ... determine its rules of procedure'; no original-purpose or germaneness clause. Senate rules not found online (legislature domains did not resolve; americansamoa.gov Fono page has no rules). Stays unknown."
+      "reason": "Revised Constitution of American Samoa read (asbar.org copy, https://asbar.org/revised-constitution-of-american-samoa/): art. II has only a one-subject/title rule and 'each house ... determine its rules of procedure'; no original-purpose or germaneness clause. The Senate rule is ESTIMATED FROM AVERAGE as requiring germane amendments, based on the most common result among the 83 state and territorial chambers with primary text read (83 of 83), until an official Fono rule is located."
     },
     {
       "chamberName": "American Samoa House of Representatives",
-      "reason": "Same as American Samoa Senate: constitution read with no amendment/original-purpose clause; House rules not found online. Stays unknown."
+      "reason": "Same as American Samoa Senate: constitution read with no amendment/original-purpose clause; The House rule is ESTIMATED FROM AVERAGE as requiring germane amendments, based on the most common result among the 83 state and territorial chambers with primary text read (83 of 83), until an official Fono rule is located."
     },
     {
       "chamberName": "Legislature of the Virgin Islands",
-      "reason": "legvi.org returns Cloudflare 522 (origin timeout) for the home page and rules path; legislature rules not read. Stays unknown."
+      "reason": "legvi.org returns Cloudflare 522 (origin timeout) for the home page and rules path; the legislature rules were unavailable. The rule is ESTIMATED FROM AVERAGE as requiring germane amendments, based on the most common result among the 83 state and territorial chambers with primary text read (83 of 83)."
     },
     {
       "chamberName": "Arizona Senate",
