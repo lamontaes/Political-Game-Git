@@ -7,6 +7,7 @@ import {
   deserializeWorld,
   recordOfficeWorkflowPreference,
   currentOfficeWorkflowPreference,
+  judicialCaseHandling,
   serializeWorld,
 } from "./index";
 import {
@@ -83,6 +84,10 @@ describe("office workflow persistence", () => {
       officeRelationshipId: relationshipId,
       votingMode: "review-batch",
       caseworkMode: "player-handles-all",
+      judicialCaseHandling: {
+        "criminal-sentence": "decide-as-usual",
+        eviction: "hear-myself",
+      },
     });
     expect(recorded.kind).toBe("recorded");
     if (recorded.kind !== "recorded") throw new Error(recorded.reason);
@@ -95,6 +100,19 @@ describe("office workflow persistence", () => {
         relationshipId,
       )?.votingMode,
     ).toBe("review-batch");
+    expect(
+      judicialCaseHandling(restored, built.playerPersonId, "criminal-sentence"),
+    ).toBe("decide-as-usual");
+    expect(
+      judicialCaseHandling(restored, built.playerPersonId, "eviction"),
+    ).toBe("hear-myself");
+    expect(
+      judicialCaseHandling(
+        restored,
+        built.playerPersonId,
+        "pretrial-detention",
+      ),
+    ).toBe("hear-myself");
     expect(restored.history.officeWorkflowPreferences).toHaveLength(1);
   });
 });
