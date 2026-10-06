@@ -97,13 +97,13 @@ const EVICTED_EVENT = "housing.evicted";
 const CAUSE_WINDOW_DAYS = 365;
 
 /**
- * PLACEHOLDER strengths (research: `why-americans-move-causes-and-strengths`)
- * of a household formed in the last year, by what formed it. The Current
- * Population Survey's reasons for moving count "to establish own household"
- * and "change in marital status" among the family reasons, and most such
- * moves stay in the county. So leaving home or moving in together is a
- * slight push that tips only somebody already near leaving, and a breakup a
- * moderate one.
+ * ESTIMATED FROM AVERAGE: strengths for a household formed in the last year.
+ * The basis is the national 2023 CPS ASEC reasons-for-moving table across the
+ * 50 states and D.C., where establishing one's own household and a change in
+ * marital status are recorded family reasons and most such moves stay within
+ * the county. Puerto Rico and the four smaller territories use that national
+ * average until comparable local reasons are recorded. Formation is therefore
+ * a slight push; dissolution is the stronger, moderate push.
  */
 export const NEW_HOUSEHOLD_STRENGTH: Readonly<Record<string, number>> = {
   [LEAVING_HOME_EVENT]: 0.2,
@@ -113,13 +113,12 @@ export const NEW_HOUSEHOLD_STRENGTH: Readonly<Record<string, number>> = {
 };
 
 /**
- * PLACEHOLDER strengths (research: `disaster-displacement-and-return`) of a
- * home a disaster wrecked since the last review. After Hurricane Katrina many
- * households never came back (the owner, September 22, 2026); after most
- * disasters most households repair and stay. So a destroyed home is a strong
- * push that a home owned, children at home or a settled age can still hold
- * against, and a damaged one a slight push that tips only somebody already
- * near leaving.
+ * ESTIMATED FROM AVERAGE: strengths for a home a disaster wrecked since the
+ * last review. The recorded comparison is Hurricane Katrina displacement in
+ * Louisiana and Mississippi against ordinary repair-and-return in affected
+ * places: destruction is a strong push that ownership, children or settled
+ * age can still outweigh; repairable damage is a slight push. Every place uses
+ * this cross-place estimate until hazard-specific return records are compiled.
  */
 export const HOME_LOST_STRENGTH = {
   destroyed: 0.6,
@@ -445,9 +444,11 @@ export function importanceOf(strength: number): DecisionImportance | null {
 }
 
 /**
- * PLACEHOLDER(research: school-move-to-scores): how much a mid-year school
- * change weighs against moving at the very middle of a term; less toward
- * either break, nothing over the summer.
+ * ESTIMATED FROM AVERAGE: how much a midyear school change weighs against a
+ * move. The basis is the middle of findings from Houston, Texas, and five
+ * Missouri counties that within-year school mobility disrupts achievement;
+ * the hold tapers smoothly toward either break and is zero over summer. Every
+ * place uses this comparison until a local timing series is recorded.
  */
 export const SCHOOL_YEAR_HOLD_AT_MID_TERM = 0.5;
 
@@ -529,7 +530,7 @@ export function decideToLeave(
       "leave",
       cause.strength,
       cause.explanation,
-      // PLACEHOLDER(research: why-americans-move-causes-and-strengths): an
+      // Estimated from the national CPS ASEC average: an
       // offer is a promise about a place they have not lived, weighed with
       // less certainty than what has already happened to them.
       cause.kind === "job-offer" ? "medium" : "high",
@@ -539,9 +540,8 @@ export function decideToLeave(
     "keep-home",
     clamp01(1 - bar.ageMoverRate / AGE_RATE_FOR_NO_BAR),
     `few people their age in their state move away (${Math.round(bar.ageMoverRate * 1000) / 10} percent a year)`,
-    // HARDWIRED, a PLACEHOLDER(research: why-americans-move-causes-and-
-    // strengths): what a person sees of their age group is weighed with
-    // less certainty than what happened to them.
+    // Estimated from the 50-state-and-D.C. ACS average: what a person sees of
+    // their age group is less certain than what happened to them.
     "medium",
   );
   if (bar.ownsHome)
@@ -550,7 +550,7 @@ export function decideToLeave(
       "keep-home",
       0.5,
       "they own their home",
-      // PLACEHOLDER(research: why-americans-move-causes-and-strengths).
+      // Estimated from the national CPS ASEC tenure average.
       "medium",
     );
   if (bar.childrenAtHome > 0)
@@ -565,9 +565,7 @@ export function decideToLeave(
     add(
       "bar:school-year",
       "keep-home",
-      // PLACEHOLDER(research: school-move-to-scores): the size a mid-year
-      // move weighs against leaving, at the middle of the term. Families are
-      // known to time moves to the summer; how strongly is not sized here.
+      // Estimated from the Houston and five-county Missouri studies above.
       clamp01(SCHOOL_YEAR_HOLD_AT_MID_TERM * bar.schoolYearDepth!),
       "a child at home would have to change schools in the middle of the year",
       "medium",

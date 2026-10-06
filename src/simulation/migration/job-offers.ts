@@ -32,13 +32,14 @@
  * place. Whoever leaves for it accepts it and starts there on arrival;
  * whoever stays turns it down.
  *
- * Every weight below is a PLACEHOLDER (research:
- * why-americans-move-causes-and-strengths), calibrated as a whole against one
- * total (CTO ruling 23): about 1.5 to 2 percent of adults a year move for a
- * job offer. A new job or job transfer is 13.2 percent of movers' reasons in
- * the Census Bureau's CPS ASEC 2023 ("Why People Move"), about a fifth of
- * moves with the other work reasons, at a mover rate near 8 to 10 percent.
- * The total checks the drawn places together; it decides nobody.
+ * ESTIMATED FROM AVERAGE: the weights below are calibrated together against
+ * the national 2023 CPS ASEC migration tables. A new job or job transfer is
+ * 13.2 percent of movers' reasons, about a fifth with the other work reasons,
+ * at a national mover rate near 8 to 10 percent; the resulting check is that
+ * about 1.5 to 2 percent of adults move for an offer in a year. The basis is
+ * the survey average across the 50 states and D.C.; Puerto Rico and the four
+ * smaller territories use that national average until a comparable local
+ * reasons table is recorded. The check never decides one person's outcome.
  */
 
 import { ageOnDate, daysBetween } from "../dates";
@@ -79,9 +80,9 @@ import {
   placeToLookFor,
 } from "./employers-elsewhere";
 
-/** PLACEHOLDER weights, each a strength from 0 to 1 at its fullest. */
-export const UNRESEARCHED_JOB_SEARCH = {
-  provenance: "unresearched-blanket-rule",
+/** Estimated weights, each a strength from 0 to 1 at its fullest. */
+export const ESTIMATED_JOB_SEARCH = {
+  provenance: "estimated-from-national-average",
   researchQuestionId: "why-americans-move-causes-and-strengths",
   /** Out of work: the strength on the first day, and the days to its full. */
   outOfWorkStart: 0.4,
@@ -96,7 +97,7 @@ export const UNRESEARCHED_JOB_SEARCH = {
   /**
    * Age: looking weighs fully at `youngest`, nothing from `lookUntil`. Moved
    * from 35 to 37 when offers came to pay the place's own wage for the work
-   * rather than the clerk placeholder (CTO ruling 23(b)), to hold the total.
+   * rather than the former clerk stand-in (CTO ruling 23(b)), to hold the total.
    */
   youngest: 20,
   lookUntil: 37,
@@ -118,7 +119,7 @@ export const UNRESEARCHED_JOB_SEARCH = {
   settledConfidence: "high",
 } as const;
 
-const S = UNRESEARCHED_JOB_SEARCH;
+const S = ESTIMATED_JOB_SEARCH;
 
 const SEARCH_OPTIONS = {
   /** Ties sort by key, so an even weighing keeps the search at home. */

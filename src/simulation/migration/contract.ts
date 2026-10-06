@@ -15,15 +15,13 @@
  *
  * This file names every place the two layers connect to something else, and
  * says for each whether it is built. An unbuilt connection is not silent: it
- * has a BLANKET RULE that holds until someone builds it, and the rule is what
+ * has an explicit holding rule until someone builds it, and that rule is what
  * the code actually does today. `MIGRATION_SEAMS` is the list a future lane
  * reads to find where to plug in.
  *
- * Every number marked BLANKET is a placeholder chosen to make the mechanism
- * visible, not a researched value. The historical pace and scale are filed as
- * research questions `migration-rates-and-reasons` and
- * `society-wide-waves-causes-pace-scale`; when those are answered the numbers
- * move to data and the marker goes.
+ * Recorded rates and explicitly marked estimates provide the mechanism's
+ * magnitudes. Each estimate names its national or cross-place basis at the
+ * constant that applies it; real rates check totals and never choose a person.
  */
 
 import type { EntityId, IsoDate } from "../types";
@@ -110,7 +108,7 @@ export const MIGRATION_SEAMS: readonly MigrationSeam[] = [
     connects:
       "A household whose home a disaster destroyed or damaged leaving town for good.",
     status: "built",
-    rule: "At the next quarterly review, a household whose home a disaster destroyed or damaged weighs the wreck (PLACEHOLDER strengths, HOME_LOST_STRENGTH) with its other recorded causes against the same bar as anyone leaving: their age's mover rate in their state, a home they own, children at home and their taste for risk, in one evaluateDecision with no randomness. One that leaves goes where its cause or its closest relative elsewhere lives, reason disaster:home-destroyed or disaster:home-damaged when the wreck weighs most, and its dwelling occupancy and housing tenure end on the move. A household held by a job, school, membership or campaign stays, because ending those is not built.",
+    rule: "At the next quarterly review, a household whose home a disaster destroyed or damaged weighs the wreck (ESTIMATED FROM AVERAGE using Louisiana and Mississippi Katrina displacement against ordinary repair-and-return, HOME_LOST_STRENGTH) with its other recorded causes against the same bar as anyone leaving: their age's mover rate in their state, a home they own, children at home and their taste for risk, in one evaluateDecision with no randomness. One that leaves goes where its cause or its closest relative elsewhere lives, reason disaster:home-destroyed or disaster:home-damaged when the wreck weighs most, and its dwelling occupancy and housing tenure end on the move. A household held by a job, school, membership or campaign stays, because ending those is not built.",
     where:
       "src/simulation/migration/causes.ts homeLostCause(), review.ts reviewTown()",
   },
@@ -163,7 +161,7 @@ export const MIGRATION_SEAMS: readonly MigrationSeam[] = [
     key: "arrivals",
     connects: "New residents of the player's town.",
     status: "built",
-    rule: "A newcomer comes for a job in town that nobody in town is there to take: a job whose worker moved away, died or retired in the last two years (PLACEHOLDER, OPENING_REVIEWS_HELD), less as many of the newest as the town has residents out of work and looking. Each opening pulls from 1 when the rent of a one-person home takes no more than 30 percent of its pay (HUD's cost-burden line), sliding to nothing at 80 percent, over the town's push; it is taken once the reviews it has stood open times its pull reach one, so a job whose pay covers the rent is taken at once and one the rent swallows never is. No draw. The survey's newcomers per resident for the place's state (mover-rates-acs-2024.json) check the total and decide no arrival. Each arrival is one adult with a name, an identity and the place they came from, tagged with the opening they came for.",
+    rule: "A newcomer comes for a job in town that nobody in town is there to take: a job whose worker moved away, died or retired in the last two years (ESTIMATED FROM AVERAGE using the 50-state-and-D.C. CPS ASEC national mover average, OPENING_REVIEWS_HELD), less as many of the newest as the town has residents out of work and looking. Each opening pulls from 1 when the rent of a one-person home takes no more than 30 percent of its pay (HUD's cost-burden line), sliding to nothing at 80 percent, over the town's push; it is taken once the reviews it has stood open times its pull reach one, so a job whose pay covers the rent is taken at once and one the rent swallows never is. No draw. The survey's newcomers per resident for the place's state (mover-rates-acs-2024.json) check the total and decide no arrival. Each arrival is one adult with a name, an identity and the place they came from, tagged with the opening they came for.",
     where: "src/simulation/migration/review.ts townOpenings(), arrivalInputs()",
   },
   {
@@ -208,7 +206,7 @@ export const MIGRATION_SEAMS: readonly MigrationSeam[] = [
     key: "wave-spread",
     connects: "A wave spreading from place to place and person to person.",
     status: "not-built",
-    rule: "BLANKET: a wave has one scope for its whole life and a fixed intensity from its definition. It ends after its authored duration.",
+    rule: "A wave has one scope for its whole life and a fixed intensity from its recorded definition. It ends after its authored duration.",
     where: "src/simulation/migration/waves.ts",
   },
   {

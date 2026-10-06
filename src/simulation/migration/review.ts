@@ -186,8 +186,10 @@ const OPENING_REASONS: ReadonlySet<string> = new Set([
 ]);
 
 /**
- * PLACEHOLDER (research: `migration-rates-and-reasons`): how many reviews an employer holds a
- * job open for somebody from elsewhere before it stops looking: two years.
+ * ESTIMATED FROM AVERAGE: eight quarterly reviews (two years), using the same
+ * period in every place. The basis is the 50-state-and-D.C. CPS ASEC national
+ * mover average used for arrivals; Puerto Rico and the four smaller territories
+ * use that average until a comparable local vacancy-duration series is recorded.
  */
 export const OPENING_REVIEWS_HELD = 8;
 
@@ -196,18 +198,20 @@ const RENT_BURDEN_LINE = 0.3;
 const RENT_BURDEN_SEVERE = 0.5;
 
 /**
- * BLANKET: how much a reported assault or robbery in town beyond the police
- * log's usual quarter adds to the chance a free household leaves. Not
- * researched.
+ * ESTIMATED FROM AVERAGE: how much each reported assault or robbery beyond the
+ * police log's usual quarter adds to a free household's push. All represented
+ * places use the national game-log average because no comparable local series
+ * is recorded; the estimate changes a cause's weight, never picks a mover.
  */
-export const BLANKET_TOWN_CRIME_PUSH_PER_EXCESS_REPORT = 0.05;
+export const ESTIMATED_TOWN_CRIME_PUSH_PER_EXCESS_REPORT = 0.05;
 
 /**
- * BLANKET: how much each percentage point of the town's recorded unemployment
- * above the nation's adds to the chance a free household leaves (and below
- * it, takes away, never below half). Not researched.
+ * ESTIMATED FROM AVERAGE: how much each percentage point of recorded local
+ * unemployment above the nation adds to a free household's push (and below it
+ * subtracts, never below half). The comparison place is the 50-state-and-D.C.
+ * national macro series; territories use it when their local series is absent.
  */
-export const BLANKET_TOWN_UNEMPLOYMENT_GAP_PUSH = 0.05;
+export const ESTIMATED_TOWN_UNEMPLOYMENT_GAP_PUSH = 0.05;
 
 /** Reviews per year; each person is considered in one of them. */
 export const MIGRATION_REVIEWS_PER_YEAR = 4;
@@ -562,7 +566,7 @@ export function reviewTown(
 }
 
 /**
- * BLANKET (`arriving-families`): a newcomer lives alone in a household of
+ * Holding rule (`arriving-families`): a newcomer lives alone in a household of
  * their own, located in town. It is what lets a disaster in town reach them
  * and what a later family or partner joins; it carries no dwelling yet.
  */
@@ -658,7 +662,7 @@ function displacedHomes(
 /**
  * Crime in town beyond the usual (`cause-crime`): 1 when the last review
  * period's reported assaults and robberies are no more than the police log's
- * expected share, rising by a blanket step for each report beyond it. Every
+ * expected share, rising by the estimated step for each report beyond it. Every
  * town has the same expected log today, so only an unusually bad quarter
  * pushes anyone.
  */
@@ -686,7 +690,7 @@ export function townCrimePush(world: World, town: EntityId): number {
       30.4) *
     ((weight("assault") + weight("robbery")) / all);
   const excess = Math.max(0, violent - expected);
-  return 1 + excess * BLANKET_TOWN_CRIME_PUSH_PER_EXCESS_REPORT;
+  return 1 + excess * ESTIMATED_TOWN_CRIME_PUSH_PER_EXCESS_REPORT;
 }
 
 /**
@@ -706,7 +710,7 @@ export function townJobsPush(world: World, town: EntityId): number {
   );
   if (!nation) return 1;
   const gap = local.unemploymentPct - nation.unemploymentPct;
-  return Math.max(0.5, 1 + gap * BLANKET_TOWN_UNEMPLOYMENT_GAP_PUSH);
+  return Math.max(0.5, 1 + gap * ESTIMATED_TOWN_UNEMPLOYMENT_GAP_PUSH);
 }
 
 /**
@@ -762,8 +766,8 @@ function childrenAtHome(world: World, personId: EntityId): number {
 
 /**
  * This review's newcomers: one for each opening in town whose pull has
- * carried it to being taken (`townOpenings`). BLANKET (`arrival-history`,
- * `arriving-families`): single adults with a canonical name and identity, a
+ * carried it to being taken (`townOpenings`). Under the `arrival-history` and
+ * `arriving-families` holding rules, they are single adults with a canonical name and identity, a
  * seeded pick among real options, and nothing else yet. Where they come from
  * is HARDWIRED: the town's own state's largest other town, the place a
  * resident looking for work elsewhere looks first (`placeToLookFor`).

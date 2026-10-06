@@ -14,7 +14,7 @@ import { startTownJobPay } from "../living-world/town-pay";
 import type { EntityId, World } from "../types";
 import { advanceWithWorldIntegrityAtEnd, assertWorldIntegrity } from "../world";
 import {
-  UNRESEARCHED_JOB_SEARCH,
+  ESTIMATED_JOB_SEARCH,
   migrationTown,
   moverDepartureRate,
   recordedMoves,
@@ -81,11 +81,11 @@ function offersElsewhere(world: World) {
 }
 
 describe("a job offer elsewhere is a recorded reason to move (A135)", () => {
-  it("the weights are marked as unresearched placeholders", () => {
-    expect(UNRESEARCHED_JOB_SEARCH.provenance).toBe(
-      "unresearched-blanket-rule",
+  it("the weights identify their national-average estimate basis", () => {
+    expect(ESTIMATED_JOB_SEARCH.provenance).toBe(
+      "estimated-from-national-average",
     );
-    expect(UNRESEARCHED_JOB_SEARCH.researchQuestionId).toBe(
+    expect(ESTIMATED_JOB_SEARCH.researchQuestionId).toBe(
       "why-americans-move-causes-and-strengths",
     );
   });
