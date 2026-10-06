@@ -20,6 +20,7 @@ import {
   constitutionalMemberConsiderations,
   type Voter,
 } from "../governing/article-v";
+import { lawInForce } from "../governing/law-in-force";
 import {
   decideChamberVote,
   publicPartyOf,
@@ -37,6 +38,7 @@ import type { ConstitutionalRatificationChamberVote } from "../constitutional-ty
 import { seatedCongressChamber } from "../governing/congress-chambers";
 import { ensureOfficeholderPrinciples } from "../governing/officeholder-principles";
 import { relationshipConsiderations } from "../governing/standing-considerations";
+import { livedOutcomeVoteConsiderations } from "../legislative-member-decisions";
 import {
   NATIONAL_ELECTION_JURISDICTION,
   ensureNationalElectionJurisdiction,
@@ -448,6 +450,16 @@ export function decideArticleVStateMemberVotes(
           holderPersonId: holder,
         }
       : null;
+  const existingPolicyLaw =
+    delta?.kind === "policy-provision"
+      ? lawInForce(next, NATIONAL_ELECTION_JURISDICTION.id, delta.propositionId)
+      : null;
+  const proposedPolicyAnswer =
+    delta?.kind === "policy-provision"
+      ? delta.stance === "adopt"
+        ? "yes"
+        : "no"
+      : null;
   return {
     world: next,
     chambers: rosters.map(({ bodyKey, roster }) => {
@@ -474,12 +486,30 @@ export function decideArticleVStateMemberVotes(
                     [
                       member.memberKey,
                       delta?.kind === "policy-provision"
-                        ? constitutionalMemberConsiderations(
-                            next,
-                            member.personId,
-                            delta.propositionId,
-                            delta.stance === "adopt" ? "yes" : "no",
-                          )
+                        ? [
+                            ...constitutionalMemberConsiderations(
+                              next,
+                              member.personId,
+                              delta.propositionId,
+                              proposedPolicyAnswer!,
+                            ),
+                            ...(existingPolicyLaw
+                              ? livedOutcomeVoteConsiderations({
+                                  world: next,
+                                  officialId: member.personId,
+                                  lawMeasureId: existingPolicyLaw.measureId,
+                                  currentAnswer: existingPolicyLaw.answer,
+                                  proposedAnswer: proposedPolicyAnswer!,
+                                  groupAnswer: proposedPolicyAnswer!,
+                                  subjectQuestion:
+                                    next.policyCatalog.propositions[
+                                      delta.propositionId
+                                    ]?.question ?? null,
+                                  proposalLabel: "proposal",
+                                  keySuffix: `article-v:${measure.id}`,
+                                })
+                              : []),
+                          ]
                         : termLimitConsiderations(
                             next,
                             {
