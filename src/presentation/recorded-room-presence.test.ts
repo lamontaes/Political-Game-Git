@@ -83,7 +83,7 @@ describe("N1 school presence", () => {
     expect(neighborhoodConversationRoom(alone, id)).toBeNull();
     expect(serializeWorld(alone)).toBe(before);
   });
-  it("does not infer home presence from shared household membership", () => {
+  it("reads home presence from the household and who is home now, and a saved scene overrides it", () => {
     const game = pupil("kentucky", "n1-home-presence", 34);
     const id = game.playerPersonId;
     const membership = householdMembershipsAt(game.world, id).find(
@@ -94,7 +94,11 @@ describe("N1 school presence", () => {
       membership.household.id,
     ).filter((candidate) => candidate !== id);
     expect(companions.length).toBeGreaterThan(0);
-    expect(householdConversationRoom(game.world, id)).toBeNull();
+    // With no scene saved for this moment, the room is the household's home
+    // and holds only residents who are home now: never anyone else.
+    const atHome = householdConversationRoom(game.world, id);
+    for (const other of atHome?.eligibleAddresseePersonIds ?? [])
+      expect(companions).toContain(other);
     const alone = schoolPresence(game.world, [id], "home-alone", "home");
     expect(householdConversationRoom(alone, id)).toBeNull();
     const together = schoolPresence(
@@ -124,9 +128,12 @@ describe("N1 school presence", () => {
         seed,
       );
       const id = game.playerPersonId;
-      expect(
-        resolveOpeningPlaySceneContext(game.world, id).presentPeople,
-      ).toEqual([]);
+      const household = householdMembershipsAt(game.world, id).flatMap(
+        (entry) => peopleInHouseholdAt(game.world, entry.household.id),
+      );
+      for (const person of resolveOpeningPlaySceneContext(game.world, id)
+        .presentPeople)
+        expect(household, `${place.name}/${seed}`).toContain(person.personId);
       expect(
         schoolConversationRoom(game.world, id),
         `${place.name}/${seed}`,
@@ -165,9 +172,12 @@ describe("N1 school presence", () => {
       expect(schoolConversationRoom(continued, id)).toEqual(room);
       expect(serializeWorld(world)).toBe(before);
       expect(schoolConversationRoom(world, id)).toEqual(room);
+      // The school record lapses with its moment; whatever room follows is
+      // not that school room.
       expect(
-        recordedRoomPresence(advanceWorldMinutes(world, 1), id),
-      ).toBeNull();
+        recordedRoomPresence(advanceWorldMinutes(world, 1), id)?.location
+          .setting,
+      ).not.toBe("school");
     }
   }, 120_000);
 

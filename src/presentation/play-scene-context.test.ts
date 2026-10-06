@@ -186,15 +186,18 @@ describe("The foreground owns opening presence", () => {
     expect(current.presentPeople).toEqual(ordinary.presentPeople);
   });
 
-  it("does not introduce household residents without a current presence record", () => {
+  it("a new life opens with the household members who are home now, and nobody else", () => {
     const { world, playerPersonId } = createNewGameWorld(childSetup());
     const before = serializeWorld(world);
     const context = resolveOpeningPlaySceneContext(world, playerPersonId);
     expect(context.purpose).toBe("home");
     expect(DOMESTIC_SCENE_IDS).toContain(context.sceneId);
-    expect(
-      context.presentPeople.map((person) => person.personId).sort(),
-    ).toEqual([]);
+    const household = householdMembershipsAt(world, playerPersonId).flatMap(
+      (entry) => peopleInHouseholdAt(world, entry.household.id),
+    );
+    expect(context.presentPeople.length).toBeGreaterThan(0);
+    for (const person of context.presentPeople)
+      expect(household).toContain(person.personId);
     expect(serializeWorld(world)).toBe(before);
   });
 
