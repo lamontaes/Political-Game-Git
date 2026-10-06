@@ -751,19 +751,17 @@ export function proposeAndVote(
 }
 
 /** One state legislature acts on a proposed amendment. */
-export function federalReformStateActionHandler(
+export function constitutionalStateActionHandler(
   world: World,
   due: FutureDueItem,
 ): FutureTransitionHandlerResult {
-  const match = /^(federal-reform\/v1:US:\d{4}):state:(US-[A-Z]{2})$/.exec(
-    due.stableKey,
-  );
+  const match = /^(.+):state:(US-[A-Z]{2})$/.exec(due.stableKey);
   const measure = match
     ? (world.history.constitutionalMeasures ?? []).find(
         (candidate) => candidate.stableKey === match[1],
       )
     : undefined;
-  if (!match || !measure)
+  if (!match || !measure || measure.processKind !== "federal-amendment")
     return done(world, "No amendment matches this state action.");
   const stateKey = match[2]!;
   const position = constitutionalPosition(world, measure.id);
@@ -790,9 +788,12 @@ export function federalReformStateActionHandler(
   );
 }
 
+/** @deprecated Use the shared constitutional state-action handler. */
+export const federalReformStateActionHandler = constitutionalStateActionHandler;
+
 export function federalReformHandlers() {
   return [
     [FEDERAL_REFORM_REVIEW, federalReformReviewHandler],
-    [FEDERAL_REFORM_STATE_ACTION, federalReformStateActionHandler],
+    [FEDERAL_REFORM_STATE_ACTION, constitutionalStateActionHandler],
   ] as const;
 }

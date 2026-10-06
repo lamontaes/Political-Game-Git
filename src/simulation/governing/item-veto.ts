@@ -1,12 +1,18 @@
 import itemVetoTable from "../../../data/research/legislative-procedure/item-veto.json" with { type: "json" };
 import { createStableId } from "../ids";
-import { requireMeasure } from "../legislation";
+import {
+  requireMeasure,
+  measureActions,
+  measurePosition,
+  rulePackForMeasure,
+} from "../legislation";
 import { rulePackById } from "../legislature-rule-packs";
 import { latestPrivateBelief } from "../queries";
 import type { EntityId, ItemVetoRecord, World } from "../types";
 import { sectionsBefore } from "../vote-bundle";
 import { recordWorldEvent } from "../world";
 import { formViewFromRecordedPrinciples } from "../principled-view-formation";
+import { eventById } from "../event-index";
 
 /**
  * The executive's item veto (Build 25 step 5, design D-5).
@@ -39,6 +45,14 @@ export interface ItemVetoPower {
   readonly citation: string;
 }
 
+/** The player's selection is bound to the opened matter and the current bill
+ * snapshot. It never supplies a signature, section text or legal authority. */
+export interface ExecutiveItemVetoSelection {
+  readonly matterId: EntityId;
+  readonly measureActionSequence: number;
+  readonly provisionIds: readonly EntityId[];
+}
+
 /**
  * The item-veto power of the executive who acts on bills of this pack, or
  * null where there is none. A scope the table records as "other" (a narrower
@@ -46,7 +60,14 @@ export interface ItemVetoPower {
  * ESTIMATED FROM AVERAGE, 44 of the 50 places with an item veto.
  */
 export function itemVetoPower(rulePackId: string): ItemVetoPower | null {
-  const code = rulePackById(rulePackId).jurisdictionKey.replace(/^US-/, "");
+  const pack = rulePackById(rulePackId);
+  // A council pack's unknown grant is not the governor's grant for its state.
+  if (
+    pack.executive.lineItemVeto.kind !== "known" ||
+    !pack.executive.lineItemVeto.value
+  )
+    return null;
+  const code = pack.jurisdictionKey.replace(/^US-/, "");
   const row = PLACES.find((candidate) => candidate.code === code);
   if (!row || row.itemVeto !== "yes") return null;
   return {
@@ -56,11 +77,13 @@ export function itemVetoPower(rulePackId: string): ItemVetoPower | null {
 }
 
 /** The executive's item veto where it reaches this bill, or null. */
-function itemVetoReaching(
+export function itemVetoReaching(
   world: World,
   measureId: EntityId,
 ): ItemVetoPower | null {
   const measure = requireMeasure(world, measureId);
+  const grant = rulePackForMeasure(world, measureId).executive.lineItemVeto;
+  if (grant.kind !== "known" || !grant.value) return null;
   const power = itemVetoPower(measure.rulePackId);
   if (!power) return null;
   if (
@@ -69,6 +92,51 @@ function itemVetoReaching(
   )
     return null;
   return power;
+}
+
+/** The existing modeled scope: current floor-added sections, not arbitrary
+ * base clauses or sections introduced after the executive's snapshot. */
+export function executiveItemVetoOptions(world: World, measureId: EntityId) {
+  if (!itemVetoReaching(world, measureId)) return [];
+  const struck = new Set(
+    (world.history.itemVetoes ?? [])
+      .filter((record) => record.measureId === measureId)
+      .map((record) => record.provisionId),
+  );
+  return sectionsBefore(world, measureId, world.history.nextSequence).filter(
+    (section) =>
+      !!section.originAmendmentId &&
+      !!section.answers &&
+      !struck.has(section.id),
+  );
+}
+
+/** Called before any governing decision or signature is written. */
+export function executiveItemVetoSelectionProblem(
+  world: World,
+  measureId: EntityId,
+  selection: ExecutiveItemVetoSelection,
+): string | null {
+  if (!Array.isArray(selection.provisionIds))
+    return "The item-veto selection must identify current bill items.";
+  const action = measureActions(world, measureId).at(-1);
+  if (
+    !action ||
+    !Number.isSafeInteger(selection.measureActionSequence) ||
+    selection.measureActionSequence !== action.sequence
+  )
+    return "The bill changed after this item-veto choice was opened.";
+  if (new Set(selection.provisionIds).size !== selection.provisionIds.length)
+    return "An item may be selected only once.";
+  if (selection.provisionIds.length === 0) return null;
+  if (!itemVetoReaching(world, measureId))
+    return "No executable item-veto power reaches this bill.";
+  const eligible = new Set(
+    executiveItemVetoOptions(world, measureId).map((section) => section.id),
+  );
+  return selection.provisionIds.every((id) => eligible.has(id))
+    ? null
+    : "That section is not an eligible item in the presented bill.";
 }
 
 /**
@@ -120,11 +188,14 @@ export function applyItemVetoes(
   world: World,
   measureId: EntityId,
   signerPersonId: EntityId | null,
+  selection?: ExecutiveItemVetoSelection,
 ): World {
   if (!signerPersonId) return world;
+  if (selection && !Array.isArray(selection.provisionIds)) return world;
   if (
     world.control.kind === "person" &&
-    world.control.personId === signerPersonId
+    world.control.personId === signerPersonId &&
+    !selection
   )
     return world;
   const signing = (world.history.executiveDispositions ?? [])
@@ -133,14 +204,74 @@ export function applyItemVetoes(
   if (!signing || signing.action !== "signed") return world;
   const measure = requireMeasure(world, measureId);
   if (!itemVetoReaching(world, measureId)) return world;
+  if (selection) {
+    const action = measureActions(world, measureId).find(
+      (record) =>
+        record.kind === "signed" &&
+        eventById(world, record.eventId)?.involvedEntityIds.includes(
+          signing.id,
+        ),
+    );
+    const event = action ? eventById(world, action.eventId) : null;
+    const matter = world.history.events.find(
+      (record) =>
+        record.id === selection.matterId &&
+        record.type === "governing.matter-opened" &&
+        record.tags.includes(`measure:${measureId}`),
+    );
+    const decision = world.history.events.find(
+      (record) =>
+        record.type === "governing.matter-decided" &&
+        record.tags.includes(`matter:${selection.matterId}`) &&
+        record.tags.includes("choice:bill:sign") &&
+        record.tags.includes("decided-by:player") &&
+        record.tags.includes(
+          `item-veto-snapshot:${selection.measureActionSequence}`,
+        ) &&
+        record.participants.some(
+          (person) =>
+            person.personId === signerPersonId &&
+            person.role === "agency:decider",
+        ),
+    );
+    if (
+      world.control.kind !== "person" ||
+      world.control.personId !== signerPersonId ||
+      measurePosition(world, measureId).phase !== "awaiting-enactment" ||
+      !decision ||
+      !event ||
+      decision.sequence >= event.sequence ||
+      decision.tags.filter((tag) => tag.startsWith("item-veto-item:"))
+        .length !== selection.provisionIds.length ||
+      !selection.provisionIds.every((id) =>
+        decision.tags.includes(`item-veto-item:${id}`),
+      ) ||
+      !event?.participants.some(
+        (person) =>
+          person.personId === signerPersonId && person.role === "focus:subject",
+      ) ||
+      !matter?.participants.some(
+        (person) =>
+          person.personId === signerPersonId &&
+          person.role === "agency:officeholder",
+      )
+    )
+      return world;
+    const eligible = executiveItemVetoOptions(world, measureId);
+    if (
+      new Set(selection.provisionIds).size !== selection.provisionIds.length ||
+      !selection.provisionIds.every((id) =>
+        eligible.some((section) => section.id === id),
+      )
+    )
+      return world;
+  }
   let next = world;
   // A signer with no view on a floor-added question forms one from their
   // recorded principles before deciding what to strike.
-  for (const section of sectionsBefore(
-    world,
-    measureId,
-    world.history.nextSequence,
-  )) {
+  for (const section of selection
+    ? []
+    : sectionsBefore(world, measureId, world.history.nextSequence)) {
     if (!section.originAmendmentId || !section.answers) continue;
     next = formViewFromRecordedPrinciples(next, {
       stableKey: `item-veto-view:${signing.id}:${section.answers.propositionId}`,
@@ -148,7 +279,15 @@ export function applyItemVetoes(
       propositionId: section.answers.propositionId,
     });
   }
-  for (const item of itemsToStrike(next, measureId, signerPersonId)) {
+  const chosen = selection
+    ? executiveItemVetoOptions(next, measureId)
+        .filter((section) => selection.provisionIds.includes(section.id))
+        .map((section) => ({
+          provisionId: section.id,
+          reason: `The executive struck "${section.heading}" from ${measure.designation} by recorded player choice (${itemVetoReaching(next, measureId)!.citation}).`,
+        }))
+    : itemsToStrike(next, measureId, signerPersonId);
+  for (const item of chosen) {
     const stableKey = `item-veto:${signing.id}:${item.provisionId}`;
     if ((next.history.itemVetoes ?? []).some((r) => r.stableKey === stableKey))
       continue;

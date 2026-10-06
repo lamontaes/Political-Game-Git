@@ -14,8 +14,9 @@ import {
 } from "./fabric";
 
 /**
- * Hair colors, applied by code to hair painted in dark brown. "natural" keeps
- * the painting. PLACEHOLDER(wave2): picked by eye.
+ * Recorded v1 hair-color ramps, applied by code to hair painted in dark brown.
+ * "natural" keeps the painting; every other entry records the shadow, base,
+ * and highlight used throughout the current people pack.
  */
 export const HAIR_COLORS: readonly (FabricRamp & { readonly label: string })[] =
   [
@@ -698,9 +699,9 @@ export interface PeoplePackManifest {
 }
 
 /**
- * The colors a garment part may take, by palette, from fabric.ts. Each
- * outfit names a palette for each of its parts. PLACEHOLDER(wave2): picked by
- * eye for variety; suits, shirts and ties stay in conservative colors.
+ * The colors a garment part may take, by palette, from fabric.ts. Each outfit
+ * names a recorded v1 palette for each part. The current generator reads these
+ * lists directly; suits, shirts, and ties retain their narrower recorded lists.
  */
 export const PART_PALETTES: Readonly<Record<string, readonly string[]>> = {
   top: [
@@ -1003,6 +1004,49 @@ export function composeEnginePerson(
     }
     layers.push({ slot: "outfit", raster: clothes, hidesBody: mask });
   }
+  // The face's widest opaque row marks its cheek/ear band. Below it, the
+  // outer quarters belong to the visible face sides, rather than front hair.
+  // Measure the selected face, so the same contract follows every head/view;
+  // bangs above that band and hair outside face support retain their pixels.
+  const faceRaster = image(face.file);
+  const faceSides = new Int32Array(front.height * 2).fill(-1);
+  let cheekRow = canonical.head.top;
+  let widest = 0;
+  for (let y = canonical.head.top; y < faceRaster.height; y += 1) {
+    let left = -1;
+    let right = -1;
+    for (let x = 0; x < faceRaster.width; x += 1)
+      if (faceRaster.data[(y * faceRaster.width + x) * 4 + 3]! >= 250) {
+        if (left < 0) left = x;
+        right = x;
+      }
+    faceSides[y * 2] = left;
+    faceSides[y * 2 + 1] = right;
+    if (left >= 0 && right - left + 1 > widest) {
+      widest = right - left + 1;
+      cheekRow = y;
+    }
+  }
+  const windowed = hairWithFaceWindow(
+    front,
+    faceRaster,
+    hair.front,
+    hair.faceWindow,
+  );
+  let sideHair: Uint8ClampedArray | undefined;
+  for (let y = cheekRow; y < faceRaster.height; y += 1) {
+    const left = faceSides[y * 2]!;
+    const right = faceSides[y * 2 + 1]!;
+    if (left < 0) continue;
+    const sideWidth = Math.floor((right - left + 1) / 4);
+    for (let x = left; x <= right; x += 1) {
+      if (x >= left + sideWidth && x <= right - sideWidth) continue;
+      const at = (y * front.width + x) * 4 + 3;
+      if (windowed.data[at] === 0 || faceRaster.data[at] === 0) continue;
+      sideHair ??= new Uint8ClampedArray(windowed.data);
+      sideHair[at] = windowed.data[at]! * (1 - faceRaster.data[at]! / 255);
+    }
+  }
   layers.push(
     {
       slot: "head",
@@ -1038,14 +1082,7 @@ export function composeEnginePerson(
     ),
     {
       slot: "front-hair",
-      raster: tint(
-        hairWithFaceWindow(
-          front,
-          image(face.file),
-          hair.front,
-          hair.faceWindow,
-        ),
-      ),
+      raster: tint(sideHair ? { ...windowed, data: sideHair } : windowed),
       authoredFor: canonical,
     },
   );

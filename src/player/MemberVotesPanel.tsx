@@ -37,7 +37,7 @@ export function MemberVotesPanel({
             <p>
               {row.asks} {row.when}
             </p>
-            <div role="group" aria-label={`Your vote on ${row.bill}`}>
+            <div role="group" aria-label={`Choose a vote on ${row.bill}`}>
               {BALLOTS.map((ballot) => (
                 <button
                   key={ballot}

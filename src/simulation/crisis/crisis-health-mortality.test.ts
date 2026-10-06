@@ -41,7 +41,7 @@ import {
   strainCrossingDay,
   OFFICIAL_FUNERAL_EVENT_TYPES,
   publicOfficesHeldBy,
-  UNRESEARCHED_OFFICIAL_FUNERAL,
+  ESTIMATED_OFFICIAL_FUNERAL,
 } from "./index";
 
 const REGISTRY = createCrisisTransitionRegistry();
@@ -699,7 +699,7 @@ describe("CRISIS K3 continuity notices for GOVERNING", () => {
       expect(funeral).toBeDefined();
       expect(funeral.visibility).toBe("public");
       expect(funeral.occurredAt).toBe(
-        addDays(death.diedAt, UNRESEARCHED_OFFICIAL_FUNERAL.daysToFuneral),
+        addDays(death.diedAt, ESTIMATED_OFFICIAL_FUNERAL.daysToFuneral),
       );
       expect(funeral.summary).toMatch(
         /^The funeral of .+, who died while serving as President of the United States, was held/,

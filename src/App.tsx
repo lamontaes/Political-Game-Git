@@ -1,10 +1,10 @@
+import { lazy, Suspense } from "react";
 import { LocationCompositionReview } from "./ui/LocationCompositionReview";
 import { DeveloperReviewHub } from "./ui/DeveloperReviewHub";
 import { LegislationDevRoute } from "./player/LegislationWorkspace";
 import { MeasureFloorView } from "./player/MeasureFloorView";
 import { PlayerGame } from "./player/PlayerGame";
 import { PlayerOffice } from "./player/PlayerOffice";
-import { CausalTraceView } from "./ui/CausalTraceView";
 import { CharacterProofView } from "./ui/CharacterProofView";
 import { ContentBrowserView } from "./ui/ContentBrowserView";
 import { DeveloperViewer } from "./ui/DeveloperViewer";
@@ -30,13 +30,39 @@ import { ScenePresentationProofView } from "./ui/ScenePresentationProofView";
  * the second draws the prompt30 development fixture and its two authored legacy
  * sitters, and is kept only as regression evidence.
  */
+const ObserverDevRoute = import.meta.env.DEV
+  ? lazy(() =>
+      import("./ui/ObserverDevRoute").then((module) => ({
+        default: module.ObserverDevRoute,
+      })),
+    )
+  : () => null;
+const CausalTraceView = import.meta.env.DEV
+  ? lazy(() =>
+      import("./ui/CausalTraceView").then((module) => ({
+        default: module.CausalTraceView,
+      })),
+    )
+  : () => null;
+
 export function App() {
   const view = new URLSearchParams(window.location.search).get("view");
   if (import.meta.env.DEV && view === "location-review")
     return <LocationCompositionReview />;
+  if (import.meta.env.DEV && view === "observer-dev")
+    return (
+      <Suspense fallback={<p>Opening Observer…</p>}>
+        <ObserverDevRoute />
+      </Suspense>
+    );
   if (view === "review") return <DeveloperReviewHub />;
   if (view === "developer") return <DeveloperViewer />;
-  if (view === "causal-trace") return <CausalTraceView />;
+  if (import.meta.env.DEV && view === "causal-trace")
+    return (
+      <Suspense fallback={<p>Opening trace…</p>}>
+        <CausalTraceView />
+      </Suspense>
+    );
   if (view === "character-proof") return <CharacterProofView />;
   if (view === "content") return <ContentBrowserView />;
   if (view === "production-office") return <ProductionOfficeProofView />;

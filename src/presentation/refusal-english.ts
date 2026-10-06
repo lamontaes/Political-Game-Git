@@ -1,3 +1,4 @@
+import { speakerTraits } from "./speaker-traits";
 import { ageOnDate } from "../simulation";
 import { LIFE_MIND_IDS } from "../simulation/life-mind-content";
 import {
@@ -280,8 +281,11 @@ function packetFor(
     // The people themselves: the player asked, the speaker answers.
     sourceRecordIds: [speakerId, playerPersonId],
     facts,
-    speaker: { personId: speakerId, traits: {} },
-    viewer: { personId: playerPersonId, traits: {} },
+    speaker: { personId: speakerId, traits: speakerTraits(world, speakerId) },
+    viewer: {
+      personId: playerPersonId,
+      traits: speakerTraits(world, playerPersonId),
+    },
     // Every fact here is about the speaker's own wishes or the invitation
     // they just heard, so the speaker knows it from the same records.
     knowledge: Object.entries(facts).map(([factKey, fact]) => ({

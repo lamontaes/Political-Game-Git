@@ -26,7 +26,7 @@ import { InlineDayControl } from "./controls/InlineDayControl";
 import { nationalMedianWageSentence } from "../presentation/career-wage";
 import { proseDate } from "../presentation/prose-dates";
 import { addDays } from "../simulation/dates";
-import { JOB_MARKET_PLACEHOLDER } from "../simulation/job-market";
+import { JOB_MARKET_PLACEHOLDER as JOB_MARKET_TIMING } from "../simulation/job-market";
 export function CareerPathsPanel({
   world,
   onWorldChange,
@@ -133,7 +133,7 @@ export function CareerPathsPanel({
         const calledBack = expectedStart !== r.startedAt;
         const beginBy = addDays(
           expectedStart,
-          JOB_MARKET_PLACEHOLDER.missedStartGraceDays,
+          JOB_MARKET_TIMING.missedStartGraceDays,
         );
         return (
           <article key={r.id}>

@@ -9,10 +9,13 @@ import {
 import { serializeWorld } from "../serialization";
 import type { World } from "../types";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
+import { stateJurisdictionForKey } from "../life-places";
 import { projectCongress } from "../living-world/congress";
 import { NATIONAL_REACH_SCALE, recordedScale } from "../press/desk";
 import {
   officeConsequences,
+  officesHeldBy,
+  playerOfficeScope,
   recordOfficeConsequence,
 } from "./office-consequence";
 
@@ -28,6 +31,39 @@ function openingWorld(seed: string): World {
 }
 
 describe("GOVERNING D2: what an office does about an allegation", () => {
+  it("projects every held office with its jurisdiction and level", () => {
+    const world = openingWorld("office-scope-reader");
+    const governor = currentStateExecutiveHolders(world)[0]!;
+    const expected = officesHeldBy(world, governor.personId);
+    const scopes = playerOfficeScope(world, governor.personId);
+
+    expect(scopes).toEqual(
+      expect.arrayContaining(
+        expected.map(({ officeKey, title }) =>
+          expect.objectContaining({ officeKey, title }),
+        ),
+      ),
+    );
+    expect(
+      scopes.find((row) => row.officeKey === governor.officeKey),
+    ).toMatchObject({
+      jurisdictionId: stateJurisdictionForKey(`US-${governor.stateUsps}`)?.id,
+      level: "state-executive",
+    });
+
+    const seat = projectCongress(world)!.house.seats.find(
+      (row) => row.occupant.kind === "member",
+    )!;
+    if (seat.occupant.kind !== "member") throw new Error("fixture");
+    const memberScopes = playerOfficeScope(
+      world,
+      seat.occupant.member.personId,
+    );
+    expect(
+      memberScopes.find((row) => row.officeKey === seat.seatKey),
+    ).toMatchObject({ level: "congress" });
+  });
+
   it("records answers without changing the office, and a resignation that does", () => {
     const world = openingWorld("office-consequence");
     const governor = currentStateExecutiveHolders(world)[0]!;

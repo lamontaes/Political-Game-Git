@@ -1,0 +1,50 @@
+[
+  {
+    "game": "Crusader Kings III",
+    "url": "https://www.gamepressure.com/crusader-kings-3/interface-description/z2f0f6",
+    "adaptation": "Character-focused edge controls; inferred grouping adaptation.",
+    "assetImported": false
+  },
+  {
+    "game": "The Sims 4",
+    "url": "https://eaassets-a.akamaihd.net/eahelp/manuals/the-sims-4-ps4-ukanz.pdf",
+    "adaptation": "Live-mode person and lower-edge controls; adaptation uses Kit13 instead of white Sims controls.",
+    "assetImported": false
+  },
+  {
+    "game": "Suzerain",
+    "url": "https://www.torporgames.com/presskit",
+    "adaptation": "Political reading/report hierarchy; desk folio is original layout interpretation.",
+    "assetImported": false
+  },
+  {
+    "game": "Disco Elysium",
+    "url": "https://www.gamepressure.com/disco-elysium/user-interface/z5e3e8",
+    "adaptation": "Reading column and textual hierarchy, without dialogue or skill checks.",
+    "assetImported": false
+  },
+  {
+    "game": "Frostpunk",
+    "url": "https://news.xbox.com/en-us/2019/09/20/frostpunk-console-edition-radial-driven-design-of-gameplay-and-controls/amp/",
+    "adaptation": "Command hub and peripheral routes; no generator or survival statistics copied.",
+    "assetImported": false
+  },
+  {
+    "game": "Baldur\u2019s Gate 3",
+    "url": "https://bg3guides.com/guides/bg3-combat-ui-explained/",
+    "adaptation": "Lower action toolbar; no spell icons or fantasy frames imported.",
+    "assetImported": false
+  },
+  {
+    "game": "Civilization VI",
+    "url": "https://interfaceingame.com/screenshots/sid-meiers-civilization-vi-main-menu/",
+    "adaptation": "Edge-level navigation; no map, yields or turn counter copied.",
+    "assetImported": false
+  },
+  {
+    "game": "Football Manager",
+    "url": "https://community.sports-interactive.com/forums/topic/578692-fm24skin-football-manager-2024-base-skins/",
+    "adaptation": "Persistent sidebar and selected workspace heading; no sports records or table copied.",
+    "assetImported": false
+  }
+]

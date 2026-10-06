@@ -1176,7 +1176,7 @@ export function validateCharacterComponentLibrary(
         for (const blocked of definition.blocked_slots) {
           const slot = catalog.slots.find((entry) => entry.slot_id === blocked);
           if (!slot) {
-            errors.push(`${label} blocks unknown character slot '${blocked}'.`);
+            errors.push(`${label} blocks absent character slot '${blocked}'.`);
           } else if (slot.required) {
             errors.push(
               `${label} blocks required character slot '${blocked}'; a required slot can never be left empty.`,
@@ -1255,12 +1255,12 @@ export function validateCharacterComponentLibrary(
 
     for (const family of definition.compatible_body_families ?? []) {
       if (!bodyFamilies.has(family)) {
-        errors.push(`${label} references unknown body family '${family}'.`);
+        errors.push(`${label} references absent body family '${family}'.`);
       }
     }
     for (const family of definition.compatible_head_families ?? []) {
       if (!headFamilies.has(family)) {
-        errors.push(`${label} references unknown head family '${family}'.`);
+        errors.push(`${label} references absent head family '${family}'.`);
       }
     }
     if (definition.compatible_pose_families !== undefined) {
@@ -1271,7 +1271,7 @@ export function validateCharacterComponentLibrary(
       } else {
         for (const pose of definition.compatible_pose_families) {
           if (!poseFamilies.has(pose)) {
-            errors.push(`${label} references unknown pose family '${pose}'.`);
+            errors.push(`${label} references absent pose family '${pose}'.`);
           }
         }
       }
@@ -1285,7 +1285,7 @@ export function validateCharacterComponentLibrary(
         for (const orientation of definition.compatible_head_orientations) {
           if (!headOrientations.has(orientation)) {
             errors.push(
-              `${label} references unknown head orientation '${orientation}'.`,
+              `${label} references absent head orientation '${orientation}'.`,
             );
           }
         }
@@ -1564,7 +1564,7 @@ export function validateCharacterComponentLibrary(
       !ledgerIds.has(assetId)
     ) {
       errors.push(
-        `Character component '${assetId}' is not recorded in any catalog generation.`,
+        `Character component '${assetId}' is absent from every catalog generation.`,
       );
     }
   }
@@ -2699,7 +2699,7 @@ export function resolveCharacterRecipe(
             ? `has no art for pose '${poseFamily}'`
             : forBody.length === 0
               ? `has no derivative fitted to body family '${bodyFamily}'`
-              : `has no art facing '${headOrientation ?? "unknown"}', which body '${body.assetId}' presents`;
+              : `has no art facing '${headOrientation ?? "an unspecified orientation"}', which body '${body.assetId}' presents`;
         diagnostics.push({
           code: slot.required ? "required-slot-empty" : code,
           slotId: slot.slot_id,

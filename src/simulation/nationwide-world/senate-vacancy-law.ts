@@ -51,12 +51,6 @@ export interface SenateVacancyLaw {
   readonly source: "crs-r44781-2017" | "statute-read-2026";
 }
 
-/**
- * PLACEHOLDER: how many days a governor takes to appoint when the statute
- * sets no deadline. Kept from the earlier game profile.
- */
-export const SENATE_APPOINTMENT_PLACEHOLDER_DAYS = 10;
-
 const NEXT_GENERAL = { kind: "next-general" } as const;
 const prompt = (promptDays: number | null) =>
   ({ kind: "prompt", promptDays }) as const;
@@ -251,4 +245,59 @@ export function senateVacancyLaw(stateUsps: string): SenateVacancyLaw | null {
 /** Every recorded row, for tests and reports. */
 export function senateVacancyLawRows(): readonly SenateVacancyLaw[] {
   return ROWS;
+}
+
+export interface SenateAppointmentTiming {
+  readonly days: number;
+  readonly basis: "recorded-deadline" | "estimated-deadline-proxy";
+  readonly comparatorCount: number;
+  readonly comparison: "same-appointment-rule" | "all-appointment-rules" | null;
+}
+
+/** A legal deadline is a latest day, not an observed appointment duration.
+ * Schedule at that bound where recorded. Otherwise use the median recorded
+ * deadline for the same appointment rule, falling back to all appointing
+ * rules. This is explicitly an estimate from legal windows, not observed
+ * governor behavior; no appointment is scheduled where the law forbids one.
+ */
+export function senateAppointmentTiming(
+  law: SenateVacancyLaw | null,
+): SenateAppointmentTiming | null {
+  if (law?.appointment === "none") return null;
+  if (
+    law?.appointmentDeadlineDays !== null &&
+    law?.appointmentDeadlineDays !== undefined
+  )
+    return {
+      days: law.appointmentDeadlineDays,
+      basis: "recorded-deadline",
+      comparatorCount: 0,
+      comparison: null,
+    };
+  const recorded = ROWS.filter(
+    (row) => row.appointment !== "none" && row.appointmentDeadlineDays !== null,
+  );
+  const similar = law
+    ? recorded.filter((row) => row.appointment === law.appointment)
+    : [];
+  const comparators = similar.length ? similar : recorded;
+  const days = comparators
+    .map((row) => row.appointmentDeadlineDays!)
+    .sort((a, b) => a - b);
+  if (!days.length)
+    throw new Error(
+      "No recorded Senate appointment deadlines to estimate from.",
+    );
+  const middle = Math.floor(days.length / 2);
+  return {
+    days:
+      days.length % 2
+        ? days[middle]!
+        : Math.floor((days[middle - 1]! + days[middle]!) / 2),
+    basis: "estimated-deadline-proxy",
+    comparatorCount: days.length,
+    comparison: similar.length
+      ? "same-appointment-rule"
+      : "all-appointment-rules",
+  };
 }

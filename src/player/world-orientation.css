@@ -410,32 +410,6 @@
 .pg-orientation-staged .pg-orientation-backdrop-image {
   object-position: 50% 62%;
 }
-/* A small engraved plate over each person's head: name, then office. */
-.pg-orientation-staged .scene-place-nameplate {
-  transform: translate(-50%, -100%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1px;
-  padding: 4px 10px 5px;
-  border: 1px solid rgb(201 162 90 / 70%);
-  border-radius: 3px;
-  background: rgb(24 20 14 / 82%);
-  color: #f3e7cc;
-  text-align: center;
-  pointer-events: none;
-}
-.pg-orientation-staged .scene-place-nameplate-name {
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-.pg-orientation-staged .scene-place-nameplate-title {
-  font-size: 10.5px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #d8b878;
-}
 .pg-orientation-backdrop-image {
   display: block;
   width: 100%;
@@ -735,6 +709,26 @@
   padding: 0;
   background: none;
 }
+.pg-opening-person-trigger {
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+.pg-opening-person-trigger:focus-visible {
+  outline: 2px solid #c9a25a;
+  outline-offset: 3px;
+}
+.pg-white-house-presentation[data-has-plate="true"] .pg-opening-person-trigger {
+  pointer-events: none;
+}
+.pg-white-house-presentation[data-has-plate="true"]
+  .pg-opening-person-trigger
+  > * {
+  pointer-events: auto;
+}
 .pg-white-house-presentation[data-has-plate="true"] .pg-opening-figure {
   position: absolute !important;
   left: var(--pg-figure-x);
@@ -774,14 +768,6 @@
 .pg-opening-vice-president .person-portrait figcaption > strong {
   display: none;
 }
-.pg-opening-official-labels {
-  display: grid;
-  gap: 0.5rem;
-}
-.pg-opening-official-labels .pg-orientation-person {
-  background: rgb(238 229 213 / 92%);
-}
-
 /* The state card's reading surface: government, population, voting. */
 .pg-regional-state-information {
   display: flex;

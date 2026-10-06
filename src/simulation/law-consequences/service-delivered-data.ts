@@ -193,6 +193,31 @@ export const SERVICE_REQUEST_FORMS: Readonly<
     },
     visit: { startMinuteOfDay: 15 * 60, minutes: 90 },
   },
+  "us-policy-positions:education.public-funds-for-private-schooling": {
+    asked: "a private-school program spot",
+    activityTitle: "Private-school program at {operator}",
+    membership:
+      "Enrolled in the private-school program with {operator}; home is in {place}.",
+    activityKind: "confirmed",
+    need: "child-in-household",
+    // The saved enrollment records the delivered program. The law's sourced
+    // award and eligibility terms still decide what may be funded; this form
+    // never treats an appropriation or application as attendance.
+    forChild: {
+      minimumAge: 6,
+      maximumAge: 17,
+      programKind: "schooling:private-school-program",
+      contextKind: "program:private-school-choice",
+      notAlreadyEnrolled: [
+        "schooling:elementary",
+        "schooling:middle",
+        "schooling:secondary",
+        "schooling:private-school-program",
+      ],
+    },
+    // An authored service-day profile, not a statutory school-day rule.
+    visit: { startMinuteOfDay: 8 * 60, minutes: 360 },
+  },
   "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours":
     TRANSIT_TRIP,
   "us-policy-positions:transportation-infrastructure.fare-free-transit":

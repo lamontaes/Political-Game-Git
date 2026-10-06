@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { projectJournalView } from "./journal-views";
 import { createNewGameWorld } from "./new-game";
 import { projectWorld39Journal } from "./world39-journal";
+import { personName } from "../simulation";
 
 function newLife(seed: string) {
   const game = createNewGameWorld({
@@ -22,6 +23,51 @@ const ids = (sections: ReturnType<typeof projectJournalView>["sections"]) =>
   sections.flatMap((section) => section.entries.map((entry) => entry.id));
 
 describe("Journal Chapters and Years", () => {
+  it("includes the recorded family in a generated life story", () => {
+    const { world, personId } = newLife("bg-26-family-in-life-story");
+    const family = world.history.kinshipRelationships.filter((relationship) =>
+      relationship.personIds.includes(personId),
+    );
+    expect(family.length).toBeGreaterThan(0);
+
+    const story = projectWorld39Journal(world, personId).entries;
+    for (const relationship of family) {
+      const relativeId = relationship.personIds.find((id) => id !== personId)!;
+      expect(story).toContainEqual(
+        expect.objectContaining({
+          id: `kinship:${relationship.id}`,
+          text: expect.stringContaining(personName(world.people[relativeId]!)),
+        }),
+      );
+    }
+  });
+
+  it("explains a recorded school transfer instead of presenting an unexplained move", () => {
+    const { world, personId } = newLife("bg-26-school-transfer-reason");
+    const state = world.history.educationEnrollmentStates.find(
+      (record) => record.status === "completed",
+    )!;
+    const reason = "The family moved closer to a new school.";
+    const transferred = {
+      ...world,
+      history: {
+        ...world.history,
+        educationEnrollmentStates: world.history.educationEnrollmentStates.map(
+          (record) =>
+            record.id === state.id
+              ? { ...record, status: "transferred" as const, reason }
+              : record,
+        ),
+      },
+    };
+
+    expect(
+      projectWorld39Journal(transferred, personId).entries.find(
+        (entry) => entry.id === `education:${state.id}`,
+      )?.text,
+    ).toContain("because the family moved closer to a new school");
+  });
+
   it("shows the same entries once in either view, in the same order", () => {
     const { world, personId } = newLife("ui-follow-journal");
     const all = projectWorld39Journal(world, personId)

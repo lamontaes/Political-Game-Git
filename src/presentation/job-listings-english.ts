@@ -1,3 +1,4 @@
+import { speakerTraits } from "./speaker-traits";
 import { openJobListings } from "../simulation/job-market";
 import type { EntityId, World } from "../simulation/types";
 import {
@@ -55,7 +56,7 @@ export function emptyJobListingsPacket(
         sourceRecordIds,
       },
     },
-    viewer: { personId, traits: {} },
+    viewer: { personId, traits: speakerTraits(world, personId) },
     knowledge: [{ personId, factKey: "empty-listings", sourceRecordIds }],
   };
 }

@@ -226,7 +226,7 @@ export function assertReferenceCatalog(c: ReferenceCatalog): void {
           !("magnitude" in g.value) &&
           !("confidence" in g.value) &&
           !("value" in g.value),
-        "unknown geometry cannot carry numbers/confidence",
+        "unresolved geometry cannot carry numbers/confidence",
       );
     } else {
       requireValue(g.value.state === "reported", "geometry state");

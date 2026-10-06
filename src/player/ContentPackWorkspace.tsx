@@ -54,7 +54,7 @@ export function ContentPackWorkspace({
             let next: World;
             try {
               if (file.size > CONTENT_PACK_MAX_CHARACTERS * 4)
-                throw new Error("Content pack is too large.");
+                throw new Error("This collection is too large to import.");
               const text = await file.text();
               if (latestWorld.current !== original)
                 throw new Error(
@@ -63,7 +63,7 @@ export function ContentPackWorkspace({
               next = importContentPack(original, text);
             } catch (error) {
               setMessage(
-                `${error instanceof Error ? error.message : "The content pack could not be read."} This life is unchanged.`,
+                `${error instanceof Error ? error.message : "The selected collection could not be read."} This life is unchanged.`,
               );
               return;
             } finally {
@@ -72,7 +72,7 @@ export function ContentPackWorkspace({
             }
             onWorldChange(next);
             setMessage(
-              "Content pack added. Save this life to keep it; its encounters use the ordinary scene choices.",
+              "Collection added. Save this life to keep it; its encounters use the ordinary scene choices.",
             );
           }}
         />

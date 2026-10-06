@@ -1,0 +1,48 @@
+{
+  "pr": 2306,
+  "base": "47c2ecb0eb9984be6c4f30696eb4daf56a0b88fd",
+  "testedHead": "4bbdcc1afb0a7ca7b979119b45291918741070a2",
+  "checks": [
+    {
+      "label": "base",
+      "checkout": "47c2ecb0eb9984be6c4f30696eb4daf56a0b88fd",
+      "command": [
+        "npm",
+        "run",
+        "release:check",
+        "--",
+        "--base",
+        "47c2ecb0eb9984be6c4f30696eb4daf56a0b88fd",
+        "--head",
+        "47c2ecb0eb9984be6c4f30696eb4daf56a0b88fd",
+        "--mode",
+        "pr"
+      ],
+      "exitCode": 1,
+      "log": "base.txt"
+    },
+    {
+      "label": "head",
+      "checkout": "4bbdcc1afb0a7ca7b979119b45291918741070a2",
+      "command": [
+        "npm",
+        "run",
+        "release:check",
+        "--",
+        "--base",
+        "47c2ecb0eb9984be6c4f30696eb4daf56a0b88fd",
+        "--head",
+        "4bbdcc1afb0a7ca7b979119b45291918741070a2",
+        "--mode",
+        "pr"
+      ],
+      "exitCode": 1,
+      "log": "head.txt"
+    }
+  ],
+  "inheritedPath": "docs/release/changes/medicaid-coverage-reads-enacted-income-limit.md",
+  "baseBlob": "c560ef475f48985e39fce88cf299a85b95d353e3",
+  "headBlob": "c560ef475f48985e39fce88cf299a85b95d353e3",
+  "ownDefectFixed": "Evidence-only declaration now has impact:none and no section/title.",
+  "remainingFailure": "Inherited Medicaid declaration filename/id mismatch. No gate exemption or unrelated source fix."
+}

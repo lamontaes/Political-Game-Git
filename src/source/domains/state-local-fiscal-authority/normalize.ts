@@ -506,7 +506,7 @@ export function normalizeFiscalAuthority(
     );
     if (status === "SUPPRESSED") {
       fail(
-        "SUPPRESSED describes a publisher withholding a value it holds. A legal authority does not suppress; an unreadable provision is UNKNOWN.",
+        "SUPPRESSED describes a publisher withholding a value it holds. A legal authority does not suppress; an unreadable provision is unresolved.",
       );
       continue;
     }

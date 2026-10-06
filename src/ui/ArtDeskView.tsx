@@ -2120,7 +2120,7 @@ function RequestDetail({
       <p className="art-desk-meta">
         {viewed ? (candidateReviewView(viewed) ?? "Artwork") : "Request"}
         {viewed
-          ? ` · Revision ${viewed.revision} · ${["installed", "in-game"].includes(viewed.status) && usage?.state !== "used" ? (usage?.state === "unknown" ? "Game use not yet checked" : "Approved / waiting to be implemented") : candidateWorkflowLabel(viewed)}`
+          ? ` · Revision ${viewed.revision} · ${["installed", "in-game"].includes(viewed.status) && usage?.state !== "used" ? (usage?.state === "unknown" ? "Usage audit status: unchecked" : "Approved / waiting to be implemented") : candidateWorkflowLabel(viewed)}`
           : " · Waiting for an image"}
       </p>
       {usage ? (
