@@ -39,9 +39,14 @@ export function LifeContinuationPanel({
   const headingRef = useRef<HTMLHeadingElement>(null);
   const [problem, setProblem] = useState<string | null>(null);
   const [busy, setBusy] = useState<EntityId | "observe" | null>(null);
+  const [page, setPage] = useState<"story" | "record">("story");
 
   useEffect(() => {
     headingRef.current?.focus();
+  }, [view.predecessorId]);
+
+  useEffect(() => {
+    setPage("story");
   }, [view.predecessorId]);
 
   useEffect(() => {
@@ -101,107 +106,189 @@ export function LifeContinuationPanel({
           {view.heading}
         </h2>
 
-        {view.choices.length > 0 ? (
-          <ul
-            className="pg-continuation-choices"
-            data-testid="life-continuation-choices"
+        {page === "story" ? (
+          <section
+            aria-label="Your life in your own words"
+            data-testid="life-lookback-story"
           >
-            {view.choices.map((choice) => {
-              const noteId = `pg-continuation-note-${choice.personId}`;
-              return (
-                <li key={choice.personId}>
-                  <button
-                    type="button"
-                    className="ui-action ui-action--primary"
-                    data-testid={`continue-as-${choice.personId}`}
-                    disabled={busy !== null}
-                    aria-describedby={noteId}
-                    onClick={() =>
-                      run(
-                        choice.personId,
-                        () =>
-                          continueAs(
-                            world,
-                            view.predecessorId,
-                            choice.personId,
-                          ),
-                        choice.personId,
-                      )
-                    }
+            {view.lookBack.chapters.map((chapter) => (
+              <section key={chapter.key}>
+                <h3>{chapter.title}</h3>
+                {chapter.paragraphs.map((paragraph, index) => (
+                  <p key={`${chapter.key}:${index}`}>{paragraph}</p>
+                ))}
+              </section>
+            ))}
+            {view.lookBack.remembered.length > 0 ? (
+              <section aria-label="Things I remember">
+                <h3>Things I remember</h3>
+                {view.lookBack.remembered.map((entry) => (
+                  <blockquote
+                    key={entry.key}
+                    data-testid="life-lookback-remembered"
                   >
-                    {busy === choice.personId
-                      ? choice.availableNow
-                        ? "Continuing…"
-                        : "Waiting…"
-                      : choice.label}
-                  </button>
-                  <p className="pg-continuation-note" id={noteId}>
-                    {choice.relation
-                      ? `${sentenceCase(choice.relation)}, ${choice.age}.`
-                      : `Not someone close to you, ${choice.age}.`}
-                    {choice.waitDisclosure ? ` ${choice.waitDisclosure}` : ""}
-                  </p>
-                </li>
-              );
-            })}
-          </ul>
-        ) : null}
-        {view.noSuccessorReason ? (
-          <p
-            className="pg-continuation-note"
-            data-testid="life-continuation-no-successor"
-          >
-            {view.noSuccessorReason}
-          </p>
-        ) : null}
-
-        <div className="pg-continuation-actions">
-          <button
-            type="button"
-            className="ui-action"
-            data-testid="life-continuation-record"
-            disabled={busy !== null}
-            onClick={onViewRecord}
-          >
-            View this life&rsquo;s record
-          </button>
-          {view.canKeepObserving ? (
+                    {entry.text}
+                  </blockquote>
+                ))}
+              </section>
+            ) : null}
             <button
               type="button"
-              className="ui-action"
-              data-testid="life-continuation-observe"
-              disabled={busy !== null}
-              onClick={() =>
-                observing && onClose
-                  ? onClose()
-                  : run(
-                      "observe",
-                      () => observeWorld(world, view.predecessorId),
-                      null,
-                    )
-              }
+              className="ui-action ui-action--primary"
+              data-testid="life-lookback-turn-page"
+              onClick={() => setPage("record")}
             >
-              Keep observing
+              Turn the page
             </button>
-          ) : null}
-        </div>
+          </section>
+        ) : (
+          <>
+            <section aria-label="The record" data-testid="life-lookback-record">
+              {view.lookBack.record.offices.length > 0 ? (
+                <section>
+                  <h3>Offices</h3>
+                  {view.lookBack.record.offices.map((line) => (
+                    <p key={line}>{line}</p>
+                  ))}
+                </section>
+              ) : null}
+              {view.lookBack.record.races.length > 0 ? (
+                <section>
+                  <h3>Races</h3>
+                  {view.lookBack.record.races.map((line) => (
+                    <p key={line}>{line}</p>
+                  ))}
+                </section>
+              ) : null}
+              {view.lookBack.record.laws.length > 0 ? (
+                <section>
+                  <h3>Laws</h3>
+                  {view.lookBack.record.laws.map((line) => (
+                    <p key={line}>{line}</p>
+                  ))}
+                </section>
+              ) : null}
+              {view.lookBack.record.family.length > 0 ? (
+                <section>
+                  <h3>Family</h3>
+                  {view.lookBack.record.family.map((line) => (
+                    <p key={line}>{line}</p>
+                  ))}
+                </section>
+              ) : null}
+              {view.lookBack.record.causeOfDeath ? (
+                <section>
+                  <h3>How my life ended</h3>
+                  <p>{view.lookBack.record.causeOfDeath}</p>
+                </section>
+              ) : null}
+            </section>
 
-        {view.lineage.length > 1 ? (
-          <p className="pg-continuation-note" data-testid="life-lineage">
-            Played in this world so far:{" "}
-            {view.lineage.map((entry) => entry.name).join(", then ")}.
-          </p>
-        ) : null}
+            {view.choices.length > 0 ? (
+              <ul
+                className="pg-continuation-choices"
+                data-testid="life-continuation-choices"
+              >
+                {view.choices.map((choice) => {
+                  const noteId = `pg-continuation-note-${choice.personId}`;
+                  return (
+                    <li key={choice.personId}>
+                      <button
+                        type="button"
+                        className="ui-action ui-action--primary"
+                        data-testid={`continue-as-${choice.personId}`}
+                        disabled={busy !== null}
+                        aria-describedby={noteId}
+                        onClick={() =>
+                          run(
+                            choice.personId,
+                            () =>
+                              continueAs(
+                                world,
+                                view.predecessorId,
+                                choice.personId,
+                              ),
+                            choice.personId,
+                          )
+                        }
+                      >
+                        {busy === choice.personId
+                          ? choice.availableNow
+                            ? "Continuing…"
+                            : "Waiting…"
+                          : choice.label}
+                      </button>
+                      <p className="pg-continuation-note" id={noteId}>
+                        {choice.relation
+                          ? `${sentenceCase(choice.relation)}, ${choice.age}.`
+                          : `Not someone close to you, ${choice.age}.`}
+                        {choice.waitDisclosure
+                          ? ` ${choice.waitDisclosure}`
+                          : ""}
+                      </p>
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : null}
+            {view.noSuccessorReason ? (
+              <p
+                className="pg-continuation-note"
+                data-testid="life-continuation-no-successor"
+              >
+                {view.noSuccessorReason}
+              </p>
+            ) : null}
 
-        {problem ? (
-          <p
-            className="pg-continuation-problem"
-            role="alert"
-            data-testid="life-continuation-problem"
-          >
-            {problem}
-          </p>
-        ) : null}
+            <div className="pg-continuation-actions">
+              <button
+                type="button"
+                className="ui-action"
+                data-testid="life-continuation-record"
+                disabled={busy !== null}
+                onClick={onViewRecord}
+              >
+                View this life&rsquo;s record
+              </button>
+              {view.canKeepObserving ? (
+                <button
+                  type="button"
+                  className="ui-action"
+                  data-testid="life-continuation-observe"
+                  disabled={busy !== null}
+                  onClick={() =>
+                    observing && onClose
+                      ? onClose()
+                      : run(
+                          "observe",
+                          () => observeWorld(world, view.predecessorId),
+                          null,
+                        )
+                  }
+                >
+                  Keep observing
+                </button>
+              ) : null}
+            </div>
+
+            {view.lineage.length > 1 ? (
+              <p className="pg-continuation-note" data-testid="life-lineage">
+                Played in this world so far:{" "}
+                {view.lineage.map((entry) => entry.name).join(", then ")}.
+              </p>
+            ) : null}
+
+            {problem ? (
+              <p
+                className="pg-continuation-problem"
+                role="alert"
+                data-testid="life-continuation-problem"
+              >
+                {problem}
+              </p>
+            ) : null}
+          </>
+        )}
       </section>
     </div>
   );
