@@ -71,6 +71,34 @@ import {
 import { homeStateKeyOf } from "./anger";
 import type { PressureReading } from "./contract";
 import { worldStates } from "./step";
+import { PROTEST_HELD, protests } from "../living-world/protests";
+import { recordsWithFieldValue } from "../history-index";
+
+/** Named local causes for a local ladder consumer. This does not convert
+ * turnout into state anger or change the statewide ladder's units. */
+export function localProtestCauses(world: World, jurisdictionId: EntityId) {
+  const plans = new Map(protests(world).map((plan) => [plan.stableKey, plan]));
+  return recordsWithFieldValue(world.history.events, "type", PROTEST_HELD)
+    .filter((event) => event.jurisdictionId === jurisdictionId)
+    .flatMap((event) => {
+      const key = event.tags
+        .find((tag) => tag.startsWith("protest:"))
+        ?.slice(8);
+      const plan = key ? plans.get(key) : undefined;
+      if (!plan) return [];
+      return [
+        {
+          causeKey: `protest:${plan.stableKey}`,
+          jurisdictionId,
+          sourceEventId: event.id,
+          propositionId: plan.propositionId,
+          stance: plan.stance,
+          attendeePersonIds: event.participants.map((row) => row.personId),
+          turnout: event.participants.length,
+        },
+      ];
+    });
+}
 
 /** BLANKET placeholders; see the file comment. None is researched. */
 export const BLANKET_POLITICAL_VIOLENCE = Object.freeze({
