@@ -35,6 +35,7 @@ import type {
   World,
 } from "./types";
 import { recordWorldEvent } from "./world";
+import { favorRecords } from "./favors";
 
 /**
  * The political layer over the legislative process.
@@ -765,6 +766,20 @@ export function commitmentObligation(
   if (direction === null) return { kind: "no-direction" };
   if (conditions.length === 0) return { kind: "owed", direction };
 
+  if (stance === "oppose-if") {
+    if (conditions.every((condition) => condition.state === "met")) {
+      return { kind: "owed", direction };
+    }
+    if (conditions.some((condition) => condition.state === "unmet")) {
+      return { kind: "released", direction };
+    }
+    return {
+      kind: "not-yet-owed",
+      direction,
+      outstanding: conditions.filter((condition) => condition.state !== "met"),
+    };
+  }
+
   const allMet = conditions.every((condition) => condition.state === "met");
   if (conditionsRelease(stance)) {
     return allMet
@@ -1019,6 +1034,8 @@ export function describeExchangeCharacter(
       return "advocacy on behalf of the people back home";
     case "public-interest-appeal":
       return "an appeal to what the bill would do for everyone";
+    case "pressure":
+      return "a warning of political consequences for opposing the bill";
     case "personal-inducement":
       return "an offer of personal benefit to the officeholder";
   }
@@ -1329,6 +1346,8 @@ const DECIDABLE_CONDITION_KINDS: Readonly<
   "fiscal-ceiling": true,
   "analysis-delivered": true,
   "reciprocal-support": true,
+  "endorsement-given": true,
+  "counterparty-opposed": true,
   procedural: true,
 };
 
@@ -1518,6 +1537,54 @@ function assessCondition(
           : "No promise of support has been made back about the other measure.",
       };
     }
+    case "endorsement-given": {
+      const favor = favorRecords(world).find(
+        (record) => record.stableKey === condition.favorStableKey,
+      );
+      const given =
+        favor?.kind === "political:endorsement" &&
+        favor.giverPersonId === condition.giverPersonId &&
+        favor.receiverPersonId === condition.receiverPersonId;
+      return {
+        ...base,
+        state: given ? "met" : "unmet",
+        basis: given
+          ? "The recorded endorsement favor was given to the named colleague."
+          : "No matching endorsement favor is on record for this colleague.",
+      };
+    }
+    case "counterparty-opposed": {
+      const vote = (world.history.legislativeVotes ?? []).find(
+        (record) =>
+          record.measureId === condition.triggerMeasureId &&
+          record.sequence > commitment.sequence &&
+          record.dispositions.some(
+            (row) =>
+              row.personId === condition.counterpartyPersonId &&
+              row.disposition !== "absent" &&
+              row.disposition !== "excused" &&
+              row.disposition !== "present-not-voting",
+          ),
+      );
+      const disposition = vote?.dispositions.find(
+        (row) => row.personId === condition.counterpartyPersonId,
+      )?.disposition;
+      return {
+        ...base,
+        state:
+          disposition === undefined
+            ? "undetermined"
+            : disposition === "nay"
+              ? "met"
+              : "unmet",
+        basis:
+          disposition === "nay"
+            ? "The named colleague voted against the measure that triggered the warning."
+            : disposition === undefined
+              ? "The named colleague has not cast a recorded vote on the triggering measure."
+              : "The named colleague did not vote against the triggering measure, so the warning has not been triggered.",
+      };
+    }
     case "procedural": {
       const taken = measureActions(world, measureId).some(
         (action) => action.kind === condition.requiredBeforeAction,
@@ -1574,6 +1641,7 @@ function promisedDirection(
     case "reciprocal-support":
       return "yea";
     case "oppose":
+    case "oppose-if":
     case "oppose-unless":
       return "nay";
     case "offer-amendment":

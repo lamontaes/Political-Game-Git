@@ -17,6 +17,10 @@ import {
   measureAmendments,
   measureCommitments,
   measureNegotiations,
+  favorRecords,
+  recordFavor,
+  introduceMeasure,
+  scheduleElectionContest,
   serializeWorld,
   type EntityId,
   type World,
@@ -914,5 +918,139 @@ describe("the motif layer", () => {
     });
     expect(keys.length).toBeGreaterThan(0);
     expect(keys.some((key) => key.endsWith(":capped"))).toBe(false);
+  });
+});
+
+describe("recorded bargaining moves", () => {
+  it("records an accepted endorsement offer as a pledge due when its favor is given", () => {
+    const session = openSession();
+    const measure = session.world.history.legislativeMeasures?.find(
+      (row) => row.id === session.fixture.measureId,
+    );
+    if (!measure) throw new Error("The fixture measure is missing.");
+    expect(intentKeys(session, session.fixture.guardianPersonId)).not.toContain(
+      "offer-endorsement",
+    );
+    session.world = scheduleElectionContest(session.world, {
+      stableKey: "probe:guardian-race",
+      jurisdictionId: measure.jurisdictionId,
+      office: {
+        officeKey: "state-house:member",
+        title: "State House seat",
+        seatKey: "district-1",
+        occupationClassification: null,
+      },
+      electionDate: "2027-11-02",
+      candidatePersonIds: [session.fixture.guardianPersonId],
+      provenance: {
+        method: "simulated",
+        sourceEntityIds: [],
+        note: "Fixture contest for endorsement move coverage.",
+      },
+    });
+    expect(intentKeys(session, session.fixture.guardianPersonId)).toContain(
+      "offer-endorsement",
+    );
+    speak(session, session.fixture.guardianPersonId, "offer-endorsement");
+    expect(
+      measureNegotiations(session.world, session.fixture.measureId).at(-1)
+        ?.disposition,
+    ).toBe("accepted");
+    const endorsement = favorRecords(session.world).find(
+      (favor) => favor.kind === "political:endorsement",
+    );
+    expect(endorsement).toBeUndefined();
+    const pledge = measureCommitments(
+      session.world,
+      session.fixture.measureId,
+    ).find(
+      (commitment) =>
+        commitment.holderPersonId === session.fixture.playerPersonId &&
+        commitment.conditions.some(
+          (condition) => condition.kind === "endorsement-given",
+        ),
+    );
+    expect(pledge).toBeDefined();
+    expect(
+      assessCommitment(session.world, pledge!.id).conditions,
+    ).toContainEqual(
+      expect.objectContaining({ kind: "endorsement-given", state: "unmet" }),
+    );
+  });
+
+  it("offers to call in a favor only when the addressee owes one", () => {
+    const session = openSession();
+    const target = session.fixture.guardianPersonId;
+    const source = session.world.history.events.findLast((event) =>
+      event.involvedEntityIds.includes(target),
+    );
+    if (!source) throw new Error("The fixture has no favor occasion.");
+    session.world = recordFavor(session.world, {
+      stableKey: "probe:callable-favor",
+      giverPersonId: session.fixture.playerPersonId,
+      receiverPersonId: target,
+      kind: "personal:help",
+      description: "helped with a campaign event",
+      givenAt: session.world.currentDate,
+      eventId: source.id,
+      subject: { kind: "none" },
+      motive: "trade",
+      weight: "great",
+      audience: "limited",
+      witnessPersonIds: [],
+      inReturnForFavorId: null,
+      undertakingId: null,
+    });
+    expect(intentKeys(session, target)).toContain("call-in-favor");
+    speak(session, target, "call-in-favor");
+    expect(
+      measureNegotiations(session.world, session.fixture.measureId).at(-1)
+        ?.disposition,
+    ).toBe("accepted");
+    expect(
+      favorRecords(session.world).some(
+        (favor) => favor.inReturnForFavorId !== null,
+      ),
+    ).toBe(true);
+  });
+
+  it("warns by naming the addressee's recorded pending item", () => {
+    const session = openSession();
+    const target = session.fixture.guardianPersonId;
+    const measure = session.world.history.legislativeMeasures?.find(
+      (row) => row.id === session.fixture.measureId,
+    );
+    if (!measure) throw new Error("The fixture measure is missing.");
+    session.world = introduceMeasure(session.world, {
+      stableKey: "probe:guardian-pending-measure",
+      jurisdictionId: measure.jurisdictionId,
+      rulePackId: measure.rulePackId,
+      designation: "HB 9999",
+      shortTitle: "The pending member item",
+      summary: "A test item used to ground a warning.",
+      origin: "member-introduction",
+      subjectClass: "general-policy",
+      sponsorPersonId: target,
+      originChamberKey: session.fixture.openedChamberKey,
+    });
+    expect(intentKeys(session, target)).toContain("warn");
+    speak(session, target, "warn");
+    expect(
+      session.world.history.claims.some((claim) =>
+        claim.statement.includes("I will oppose HB 9999"),
+      ),
+    ).toBe(true);
+    expect(
+      session.world.history.legislativeNegotiations?.some(
+        (negotiation) => negotiation.character === "pressure",
+      ),
+    ).toBe(true);
+    expect(
+      session.world.history.legislativeCommitments?.some(
+        (commitment) =>
+          commitment.holderPersonId === session.fixture.playerPersonId &&
+          commitment.subject.question.measureId !== session.fixture.measureId,
+      ),
+    ).toBe(true);
   });
 });

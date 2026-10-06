@@ -9,6 +9,7 @@ import {
   LEGISLATIVE_COMMITMENT_CONDITION_KINDS,
   legislativeQuestionAnswers,
   questionPutByVote,
+  recordFavor,
   recordLegislativeCommitment,
   sameLegislativeQuestion,
   type DecisionConsideration,
@@ -16,6 +17,7 @@ import {
   type LegislativeCommitmentCondition,
   type LegislativeCommitmentRecord,
   type LegislativeCommitmentStance,
+  type LegislativeConditionStanding,
   type LegislativeQuestionIdentity,
   type World,
 } from "../simulation";
@@ -572,6 +574,84 @@ describe("a promise is tested by the question it was actually about", () => {
 
 // 6 --------------------------------------------------------------------------
 describe("the contract only offers conditions the world can decide", () => {
+  it("keeps a warning pledge pending until its trigger vote, then releases it or makes it owed", () => {
+    const condition = (
+      state: LegislativeConditionStanding["state"],
+    ): LegislativeConditionStanding => ({
+      key: "trigger",
+      kind: "counterparty-opposed",
+      description: "The colleague opposes the triggering measure.",
+      state,
+      basis: "test evidence",
+    });
+    expect(
+      commitmentObligation("oppose-if", [condition("undetermined")]),
+    ).toMatchObject({
+      kind: "not-yet-owed",
+      direction: "nay",
+    });
+    expect(commitmentObligation("oppose-if", [condition("met")])).toEqual({
+      kind: "owed",
+      direction: "nay",
+    });
+    expect(commitmentObligation("oppose-if", [condition("unmet")])).toEqual({
+      kind: "released",
+      direction: "nay",
+    });
+  });
+
+  it("can prove an endorsement condition from its matching favor record", () => {
+    const fixture = createLegislativeBargainingFixture();
+    const favorStableKey = "probe:endorsement";
+    const condition: LegislativeCommitmentCondition = {
+      key: "endorsement",
+      kind: "endorsement-given",
+      favorStableKey,
+      giverPersonId: fixture.playerPersonId,
+      receiverPersonId: fixture.guardianPersonId,
+      description: "The promised endorsement is given.",
+    };
+    const promised = say(fixture.world, {
+      key: "probe:endorsement:commitment",
+      holderPersonId: fixture.playerPersonId,
+      question: passageQuestion(fixture.measureId),
+      questionLabel: "Final passage",
+      stance: "support-if",
+      conditions: [condition],
+      statement: "I will endorse your measure.",
+      heardByPersonIds: [fixture.guardianPersonId],
+    });
+    expect(
+      assessCommitment(promised.world, promised.commitment.id).conditions[0]
+        ?.state,
+    ).toBe("unmet");
+    const endorsementEvent = promised.world.history.events.findLast((event) =>
+      event.involvedEntityIds.includes(fixture.playerPersonId),
+    );
+    if (!endorsementEvent)
+      throw new Error("The fixture has no endorsement event.");
+    const endorsed = recordFavor(promised.world, {
+      stableKey: favorStableKey,
+      giverPersonId: fixture.playerPersonId,
+      receiverPersonId: fixture.guardianPersonId,
+      kind: "political:endorsement",
+      description: "endorsed the colleague's measure",
+      givenAt: promised.world.currentDate,
+      eventId: endorsementEvent.id,
+      subject: { kind: "none" },
+      motive: "trade",
+      weight: "moderate",
+      audience: "public",
+      witnessPersonIds: [],
+      inReturnForFavorId: null,
+      undertakingId: null,
+    });
+
+    expect(
+      assessCommitment(endorsed, promised.commitment.id).conditions[0]?.state,
+    ).toBe("met");
+  });
+
   it("no longer offers a provision removal nothing can perform", () => {
     expect(LEGISLATIVE_COMMITMENT_CONDITION_KINDS).not.toContain(
       "provision-removed",
@@ -633,9 +713,24 @@ describe("the contract only offers conditions the world can decide", () => {
         description: "The other side says the same about their own bill.",
       },
       {
+        key: "endorsement",
+        kind: "endorsement-given",
+        favorStableKey: "no-such-endorsement",
+        giverPersonId: fixture.playerPersonId,
+        receiverPersonId: fixture.guardianPersonId,
+        description: "The endorsement is recorded.",
+      },
+      {
+        key: "threat-trigger",
+        kind: "counterparty-opposed",
+        counterpartyPersonId: fixture.guardianPersonId,
+        triggerMeasureId: fixture.measureId,
+        description: "The colleague opposes the triggering measure.",
+      },
+      {
         key: "before-the-vote",
         kind: "procedural",
-        requiredBeforeAction: "take-floor-vote",
+        requiredBeforeAction: "floor-stage-passed",
         description: "The promise is only good before the bill is called.",
       },
     ];
@@ -786,7 +881,7 @@ describe("a reciprocal-support condition is met only by promised support", () =>
         {
           key: "before-the-vote",
           kind: "procedural",
-          requiredBeforeAction: "take-floor-vote",
+          requiredBeforeAction: "floor-stage-passed",
           description: "Good until the bill is called.",
         },
       ],

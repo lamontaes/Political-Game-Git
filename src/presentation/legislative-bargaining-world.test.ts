@@ -23,6 +23,7 @@ import {
   measureNegotiations,
   requireLifePlace,
   serializeWorld,
+  type EntityId,
   type World,
 } from "../simulation";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
@@ -470,7 +471,7 @@ describe("proof B — save and reload continuity", () => {
 
 describe("proof C — losing continues life and leaks nothing", () => {
   it("withholds the bargaining route from a lost candidacy, in words", () => {
-    let lost: { world: World; personId: string } | null = null;
+    let lost: { world: World; personId: EntityId } | null = null;
     for (let index = 0; index < 10 && !lost; index += 1) {
       const played = playUntilDecided(`79f-loss-${index}`, false);
       if (projectCampaign(played.world, played.personId).phase === "lost") {

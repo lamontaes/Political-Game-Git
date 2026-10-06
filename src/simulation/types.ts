@@ -5433,6 +5433,7 @@ export interface ItemVetoRecord {
 export type LegislativeCommitmentStance =
   | "support"
   | "oppose"
+  | "oppose-if"
   | "support-if"
   | "oppose-unless"
   | "cosponsor-if-amended"
@@ -5497,6 +5498,17 @@ export type LegislativeCommitmentCondition = {
       readonly kind: "reciprocal-support";
       /** The other measure the holder expects help on in return. */
       readonly reciprocalMeasureStableKey: string;
+    }
+  | {
+      readonly kind: "endorsement-given";
+      readonly favorStableKey: string;
+      readonly giverPersonId: EntityId;
+      readonly receiverPersonId: EntityId;
+    }
+  | {
+      readonly kind: "counterparty-opposed";
+      readonly counterpartyPersonId: EntityId;
+      readonly triggerMeasureId: EntityId;
     }
   | {
       readonly kind: "procedural";
@@ -5589,6 +5601,7 @@ export type LegislativeExchangeCharacter =
   | "coalition-coordination"
   | "constituent-advocacy"
   | "public-interest-appeal"
+  | "pressure"
   | "personal-inducement";
 
 export type LegislativeNegotiationDisposition =

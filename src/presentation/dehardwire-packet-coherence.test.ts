@@ -82,7 +82,7 @@ function wonSeatedAndOnTheFloor(seed: string) {
 }
 
 function measureIn(world: World, measureId: string) {
-  const record = world.history.legislativeMeasures.find(
+  const record = (world.history.legislativeMeasures ?? []).find(
     (entry) => entry.id === measureId,
   );
   if (!record) throw new Error("The bill is not in this world.");
@@ -165,7 +165,7 @@ describe("the sitting and the bill are the same bill", () => {
     const played = wonSeatedAndOnTheFloor("p85c-owner-0");
     const before = {
       date: played.world.currentDate,
-      minute: played.world.minuteOfDay,
+      minute: played.world.currentMoment.minuteOfDay,
     };
     const entry = openLegislativeBargaining(played.world, {
       playerPersonId: played.personId,
@@ -173,7 +173,7 @@ describe("the sitting and the bill are the same bill", () => {
     expect(entry.kind).toBe("available");
     if (entry.kind !== "available") return;
     expect(entry.world.currentDate).toBe(before.date);
-    expect(entry.world.minuteOfDay).toBe(before.minute);
+    expect(entry.world.currentMoment.minuteOfDay).toBe(before.minute);
   });
 
   it("still describes the same bill after a save and a reopen", () => {
