@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { proseDate } from "../presentation/prose-dates";
 import { makeIsoDate } from "../simulation/dates";
 import {
   enactedFamilyAppropriations,
@@ -107,8 +108,7 @@ export function ExecutiveBudgetRequestEditor({
       </label>
       {period ? (
         <p className="game-note">
-          The suggested dates follow this government's fiscal year (
-          {period.basis}).
+          The suggested dates follow this government's fiscal year.
         </p>
       ) : (
         <p className="game-note">
@@ -168,8 +168,9 @@ export function ExecutiveBudgetRequestEditor({
         <details>
           <summary>Current modeled budget totals</summary>
           <p>
-            {baseline.startsOn} through {baseline.endsOn}. These category totals
-            are not allocations to individual program families.
+            {proseDate(baseline.startsOn)} through {proseDate(baseline.endsOn)}.
+            These category totals are not allocations to individual program
+            families.
           </p>
           <dl>
             {baseline.categories.map((entry) => (
@@ -181,14 +182,6 @@ export function ExecutiveBudgetRequestEditor({
               </div>
             ))}
           </dl>
-          <details>
-            <summary>Budget sources</summary>
-            <ul>
-              {baseline.sourceNotes.map((note, index) => (
-                <li key={index}>{note}</li>
-              ))}
-            </ul>
-          </details>
         </details>
       ) : (
         <p className="game-note">
@@ -218,7 +211,10 @@ export function ExecutiveBudgetRequestComparison({
   return (
     <section data-testid="executive-budget-comparison">
       <h4>Requested and appropriated</h4>
-      <p>{request.event.summary}</p>
+      <p>
+        Budget request for {proseDate(request.startsOn)} through{" "}
+        {proseDate(request.endsOn)}.
+      </p>
       <table>
         <thead>
           <tr>
@@ -241,7 +237,7 @@ export function ExecutiveBudgetRequestComparison({
                   {dollarText(line.amount)}
                   <small>
                     {" "}
-                    {request.startsOn}–{request.endsOn}
+                    {proseDate(request.startsOn)}–{proseDate(request.endsOn)}
                   </small>
                 </td>
                 <td>
@@ -252,7 +248,8 @@ export function ExecutiveBudgetRequestComparison({
                           {dollarText(record.amount)}
                           <small>
                             {" "}
-                            {record.availableFrom}–{record.availableThrough}
+                            {proseDate(record.availableFrom)}–
+                            {proseDate(record.availableThrough)}
                           </small>
                         </li>
                       ))}
