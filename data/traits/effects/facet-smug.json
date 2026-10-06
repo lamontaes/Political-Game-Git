@@ -1,0 +1,13 @@
+[
+  {
+    "decision": "career.consider-another-term",
+    "leans": [
+      {
+        "option": "step-down",
+        "trait": "personality-v1:facet-smug",
+        "pole": "high",
+        "explanation": "They are satisfied with what they have achieved."
+      }
+    ]
+  }
+]
