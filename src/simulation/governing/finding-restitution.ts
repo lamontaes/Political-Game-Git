@@ -205,7 +205,8 @@ export function applyFindingRestitution(
  * uses until its own is read, estimated from the FEC's average
  * (`generated-state-oversight.ts`), times the payments found, paid to the
  * state. Researched bodies impose none here, because nothing researched says
- * what they may impose; the FEC's conciliation penalties are unresearched too.
+ * what they may impose; the FEC's conciliation penalties are not modeled, so
+ * a federal finding orders restitution only.
  */
 function civilPenaltyConsequence(
   world: World,

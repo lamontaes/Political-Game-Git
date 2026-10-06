@@ -17,8 +17,15 @@ export const SUPREME_COURT_ID = "us-supreme-court";
 
 export const SUPREME_COURT_APPOINTMENT_PROFILE = {
   id: "ocd-supreme-court-appointment/v1",
-  /** PLACEHOLDER: game profile. */
-  daysFromVacancyToNomination: 30,
+  /**
+   * ESTIMATED FROM AVERAGE: the median of four recent vacancies from the
+   * announcement or death to the nomination (Garland 32 days, 2016; Kavanaugh
+   * 12, 2018; Barrett 8, 2020; Jackson 29, 2022), 20.5 days, rounded to 21.
+   */
+  daysFromVacancyToNomination: 21,
+  daysFromVacancyToNominationEstimated: true,
+  daysFromVacancyToNominationEstimatedFrom:
+    "Median of Garland (Feb 13 to Mar 16, 2016), Kavanaugh (Jun 27 to Jul 9, 2018), Barrett (Sep 18 to Sep 26, 2020) and Jackson (Jan 27 to Feb 25, 2022): vacancy or announcement to nomination",
   /** MEASURED: median, 17 confirmations 1975-2022 (senate.gov). */
   daysFromNominationToVote: 66,
 } as const;
