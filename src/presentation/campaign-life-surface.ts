@@ -300,7 +300,7 @@ export function projectPartyAndCommunityWork(
       organizationName: organizationName(world, view.hostOrganizationId),
       state: view.state,
       stateLabel: awaitingRecord
-        ? "It has happened. What came of it is not recorded yet."
+        ? "Attendance is complete; its consequence entry is pending."
         : (lapsedAnswerSentence(world, view) ?? STATE_LABELS[view.state]),
       when: readableMoment(view.start),
       placeLabel: hold?.location.label ?? "",

@@ -64,6 +64,7 @@ import {
 } from "./ordinary-meeting-actions";
 import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
 import { composeFutureTransitionHandlerRegistries } from "../simulation/future-transitions";
+import { playChildhoodMoment, projectChildhoodMoment } from "./childhood";
 
 /**
  * A day in an ordinary life.
@@ -402,7 +403,19 @@ function passOrdinaryDaysUnchecked(
   // A birthday the stretch just crossed is answered in the same stretch, not
   // the next time somebody passes a day.
   const stepped = advanceStoppingAtOwnDeath(world, days, supplied);
-  const advanced = stepped === world ? stepped : catchUpComingOfAge(stepped);
+  let advanced = stepped === world ? stepped : catchUpComingOfAge(stepped);
+  const preStartPersonId = advanced.preStartLife?.personId;
+  if (
+    preStartPersonId &&
+    advanced !== world &&
+    isPersonAliveAt(advanced, preStartPersonId, {
+      asOfDate: advanced.currentDate,
+      historySequenceExclusive: advanced.history.nextSequence,
+    }) &&
+    projectChildhoodMoment(advanced, preStartPersonId)?.scene
+  ) {
+    advanced = playChildhoodMoment(advanced, { personId: preStartPersonId });
+  }
   // A stretch that actually passed is a transition at which the world may bind
   // the situations it has made answerable (PROSE B). A refused advance writes
   // nothing.

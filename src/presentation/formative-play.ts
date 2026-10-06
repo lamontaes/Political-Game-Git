@@ -1,4 +1,5 @@
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
+import { playSettingsOf } from "../simulation/play-settings";
 import { ORDINARY_DAY_START_MINUTE, passOrdinaryDays } from "./ordinary-life";
 import type { OrdinaryLifeDayAdvance } from "./life-time-handlers";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
@@ -181,6 +182,7 @@ function nextScene(
   // from the save rather than from the order the browser happened to render in.
   const history = playedSituationKeys(world, personId);
   const selection = selectSituation({
+    intensity: playSettingsOf(world).challenge,
     selectionSeed: adaptiveSelectionSeed(world),
     personKey: personId,
     ordinal: played,

@@ -4762,10 +4762,11 @@
   width: 2.6rem;
   height: 2.6rem;
   border-radius: 50%;
-  border: 1px solid #b4b4a8;
-  background: #eceade;
-  color: #32291b;
-  font-weight: 700;
+  border: 1px solid var(--pg-hairline);
+  background: var(--glass-bottom);
+  color: var(--text-1);
+  font-family: var(--ui);
+  font-weight: 600;
   letter-spacing: 0.02em;
 }
 
@@ -5005,9 +5006,6 @@
 
 .game-search input {
   padding: 0.55rem 0.7rem;
-  border: 1px solid #b4b4a8;
-  border-radius: 0.42rem;
-  background: var(--kit12-glass);
   color: var(--text-strong);
   font: inherit;
   font-weight: 400;
@@ -5880,9 +5878,8 @@
 /* Title tableau                                                              */
 /*                                                                            */
 /* The title screen paints a room behind itself when there is a truthful one  */
-/* to paint. Every rule below is written so that the no-art case is not a     */
-/* degraded version of the art case: with `data-has-plate="false"` the page   */
-/* is the pale sheet it has always been, and the panel below adds nothing.    */
+/* to paint. The front-door layer gives both art and no-art cases the same    */
+/* Kit 13 glass menu, while this layer holds the illustrated room beneath it. */
 /* -------------------------------------------------------------------------- */
 
 .title-tableau {
@@ -5894,10 +5891,10 @@
 
 /*
  * When a room is actually painted, the layer behind the stages is a deep
- * neutral rather than the pale page — so if a frame ever slips between an
+ * neutral — so if a frame ever slips between an
  * outgoing room being removed and an incoming one painting, what shows is dark,
- * not the white flash the transition must never produce. The no-art case is
- * untouched and stays the pale sheet it has always been.
+ * not the white flash the transition must never produce. The front-door CSS
+ * gives the no-art case the same dark glass ground.
  */
 .title-tableau[data-has-plate="true"] {
   background: var(--kit12-glass);
@@ -6079,15 +6076,9 @@
   /* Controls belong on the left of the scene (Task C/R), so the room keeps the
      larger, open side of the frame. */
   justify-content: flex-start;
-  /* Fixed height, not min-height: an owner composition (shell.css's accepted
-     R1 title grouping) overrides this rule's own padding with its own
-     viewport-relative clamp(), so the padding this rule's max-height budget
-     assumed does not always hold. With min-height, a taller actual padding
-     let the panel's own max-height:calc(100dvh - Nrem) still fit inside the
-     panel but push this container — and the whole page — past the viewport.
-     A fixed height plus overflow:hidden keeps the composition honest
-     regardless of which padding rule wins: the panel's own overflow-y:auto
-     is the one and only scroll region, never the page. */
+  /* The front-door layer supplies natural height and page scrolling when a
+     short viewport cannot fit the menu. The menu itself stays at its natural
+     height. */
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
@@ -6100,9 +6091,6 @@
   max-width: none;
   margin: 0;
   padding: 1.5rem 1.35rem 1.6rem;
-  background: var(--kit12-glass);
-  backdrop-filter: blur(6px);
-  border-radius: 1rem;
   box-shadow: 0 1.4rem 3rem rgb(46 30 12 / 15%);
 }
 
@@ -7763,6 +7751,20 @@ body:where(.pg-game) .game-campaign-tallies {
   border-color: #b4642f;
 }
 
+.life-hud-note--outcome {
+  animation: life-hud-outcome-fade 6s ease-out forwards;
+}
+
+@keyframes life-hud-outcome-fade {
+  0%,
+  83% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 /* --- Secondary systems, opened over the room --------------------------- */
 
 /* A dimmed room behind the panel: the scene is still there, focus is on the
@@ -8166,8 +8168,8 @@ body:where(.pg-game) .game-campaign-tallies {
   gap: var(--pg-space-1);
   padding: var(--pg-space-3);
   border: 1px solid var(--pg-hairline);
-  border-radius: var(--pg-radius);
-  background: var(--pg-glass);
+  border-radius: 2px;
+  background: transparent;
 }
 
 .governing-matter h5,

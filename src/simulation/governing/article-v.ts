@@ -2,12 +2,12 @@ import {
   ARTICLE_V_CONVENTION_BODY,
   ARTICLE_V_STATE_KEYS,
   constitutionalPosition,
-  recordArticleVRatification,
   constitutionalActions,
   recordConstitutionalProposalVote,
 } from "../constitutional-process";
 import { hasStableKey } from "../history-index";
 import { proposeAmendment } from "../living-world/constitutional-reform";
+import { constitutionalStateActionHandler } from "../living-world/federal-reform";
 import { addDays, makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { stateCandidacyPack } from "../candidacy-packs";
@@ -822,51 +822,10 @@ export function articleVConventionHandler(
   );
 }
 
-/** One state legislature acts on a proposed amendment. */
-export function articleVStateActionHandler(
-  world: World,
-  due: FutureDueItem,
-): FutureTransitionHandlerResult {
-  const match = /^(.+):state:(US-[A-Z]{2})$/.exec(due.stableKey);
-  const measure = match
-    ? (world.history.constitutionalMeasures ?? []).find(
-        (candidate) => candidate.stableKey === match[1],
-      )
-    : undefined;
-  if (!match || !measure || measure.ruleDelta.kind !== "policy-provision")
-    return done(world, "No amendment matches this state action.");
-  if (constitutionalPosition(world, measure.id).phase !== "ratification")
-    return done(world, "The amendment is no longer before the states.");
-  const stateKey = match[2]!;
-  const voice = stateVoice(world, stateKey.slice(3));
-  let next = ensureOfficeholderPrinciples(world, voice.personIds);
-  const approved = mostLeanYes(
-    next,
-    voice.personIds,
-    measure.ruleDelta.propositionId,
-  );
-  next = recordArticleVRatification(next, measure.id, {
-    kind: "state-ratification",
-    stateKey,
-    body: "state-legislature",
-    approved,
-    authenticationKey: `${measure.stableKey}:${stateKey}:${next.currentDate}`,
-  });
-  const after = constitutionalPosition(next, measure.id);
-  return done(
-    next,
-    after.phase === "operative" || after.phase === "ratified"
-      ? `${stateKey.slice(3)} ratified ${measure.designation}, the ${after.ratifiedStates.length}th state; it is now part of the Constitution.`
-      : approved
-        ? `${stateKey.slice(3)} ratified ${measure.designation}.`
-        : `${stateKey.slice(3)} declined to ratify ${measure.designation}.`,
-  );
-}
-
 export function articleVHandlers() {
   return [
     [ARTICLE_V_REVIEW, articleVReviewHandler],
     [ARTICLE_V_CONVENTION, articleVConventionHandler],
-    [ARTICLE_V_STATE_ACTION, articleVStateActionHandler],
+    [ARTICLE_V_STATE_ACTION, constitutionalStateActionHandler],
   ] as const;
 }

@@ -28,7 +28,6 @@ import { crimeIncidents } from "../../../src/simulation/crime/producer";
 import { measurePosition } from "../../../src/simulation/legislation";
 import { electionContestResult } from "../../../src/simulation/election-contests";
 import { currentPresidentOf } from "../../../src/simulation/crisis/offices";
-import { composeFutureTransitionHandlerRegistries } from "../../../src/simulation/future-transitions";
 import { projectWorld39Journal } from "../../../src/presentation/world39-journal";
 import { openingNeighborhoodWalkOffer } from "../../../src/presentation/life-scene-flow";
 import {
@@ -71,17 +70,13 @@ import {
 import { shellReadOnly } from "../../../src/presentation/life-continuation-shell";
 import {
   careerEligibility,
-  performCareerWork,
   respondCareerOffer,
   resignCareer,
   seekCareerOffer,
   startCareerWork,
   careerOfferAccepted,
 } from "../../../src/simulation/career-path7";
-import {
-  lifePaths2Handlers,
-  pathForRelationship,
-} from "../../../src/simulation/life-paths2";
+import { pathForRelationship } from "../../../src/simulation/life-paths2";
 import {
   assertWorldIntegrity,
   createCampaignElectionTransitionRegistry,
@@ -758,23 +753,6 @@ export function playGame(spec: GameSpec): GameResult {
             run: (world) => startCareerWork(world, r.id, p).world,
           });
         } else if (status === "active") {
-          list.push({
-            name: "work:shift",
-            offered: true,
-            weight: w(0.8, { terrible: 0.1, idle: 0.05 }),
-            run: (world) =>
-              // The shell's Life paths panel composes the ordinary-day
-              // registry on top of the life-path handlers.
-              performCareerWork(
-                world,
-                r.id,
-                p,
-                composeFutureTransitionHandlerRegistries(
-                  lifePaths2Handlers(),
-                  handlers,
-                ),
-              ).world,
-          });
           list.push({
             name: "work:resign",
             offered: true,

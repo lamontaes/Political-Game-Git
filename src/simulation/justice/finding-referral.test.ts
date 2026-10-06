@@ -23,6 +23,7 @@ import {
 } from "../world";
 import { appendPressRecord } from "../press/store";
 import { applyFindingConsequences as applyPressConsequences } from "../press/finding-consequences";
+import { priorAdverseFindings } from "../press/findings";
 
 const USD = makeCurrencyCode("USD");
 const seed = "team8-n3-finding-replay-all56";
@@ -299,7 +300,8 @@ function canonicalExpected(f: ReturnType<typeof fixture>) {
     },
     basisEventIds: [f.event.id],
     evidence: "documentary",
-    standingFindings: 2,
+    standingFindings:
+      priorAdverseFindings(f.world, f.person.id, f.step).length + 1,
   }).world;
 }
 
@@ -307,7 +309,7 @@ describe("A152 finding referral ownership", () => {
   // Controlled saved findings exercise the extracted boundary; they are not
   // evidence of a natural investigation or newly seated regulator.
   it.each(places)(
-    "preserves the canonical repeated-finding referral in %s",
+    "refers a supported finding for the prosecutor's decision in %s",
     (usps) => {
       const f = fixture(usps, "both", true, true);
       const after = applyFindingReferral(
@@ -339,18 +341,22 @@ describe("A152 finding referral ownership", () => {
     },
   );
   it.each(places)(
-    "leaves a first undenied finding without referral in %s",
+    "refers a first finding for the prosecutor to assess in %s",
     (usps) => {
       const f = fixture(usps);
-      expect(
-        applyFindingReferral(
-          f.world,
-          f.proceeding,
-          f.person.id,
-          f.step,
-          f.event,
-        ),
-      ).toBe(f.world);
+      const after = applyFindingReferral(
+        f.world,
+        f.proceeding,
+        f.person.id,
+        f.step,
+        f.event,
+      );
+      expect(after.history.events).toHaveLength(
+        f.world.history.events.length + 1,
+      );
+      expect(after.history.events.at(-1)!.tags).toContain(
+        "justice.standing-findings:1",
+      );
     },
   );
   it("does not create a prosecution referral from the press-only entrypoint", () => {

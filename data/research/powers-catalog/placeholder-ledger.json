@@ -480,15 +480,6 @@
       "researchQuestionFiled": false
     },
     {
-      "file": "src/presentation/day-rhythm.ts",
-      "line": 58,
-      "text": "// PLACEHOLDER(wave2): local noon bounds the optional morning thought until",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": null,
-      "researchQuestionFiled": false
-    },
-    {
       "file": "src/presentation/dress-code.ts",
       "line": 75,
       "text": "* November through March. PLACEHOLDER(wave2): one season for every state; a",
@@ -3281,7 +3272,7 @@
     {
       "file": "src/simulation/living-world/constitutional-reform.ts",
       "line": 225,
-      "text": "provenance: { kind: \"authored\", note: PLACEHOLDER_NOTE },",
+      "text": "RECORDED VALUE: authored provenance; the associated note identifies the governing profile and research basis.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "recall-of-officials-52",
@@ -3290,7 +3281,7 @@
     {
       "file": "src/simulation/living-world/constitutional-reform.ts",
       "line": 666,
-      "text": "note: `${PLACEHOLDER_NOTE} Members' own positions are not modeled; the chamber's division is drawn and members are recorded by seat.`,",
+      "text": "ESTIMATED FROM AVERAGE: chamber division uses the recorded state-member roster; basis is comparable bicameral practice; places used are the 50 states.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "recall-of-officials-52",
@@ -3299,7 +3290,7 @@
     {
       "file": "src/simulation/living-world/constitutional-reform.ts",
       "line": 682,
-      "text": "provenance: { kind: \"authored\", note: PLACEHOLDER_NOTE },",
+      "text": "RECORDED VALUE: authored provenance; the associated note identifies the governing profile and research basis.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "recall-of-officials-52",
@@ -3308,7 +3299,7 @@
     {
       "file": "src/simulation/living-world/constitutional-reform.ts",
       "line": 738,
-      "text": "provenance: { kind: \"authored\", note: PLACEHOLDER_NOTE },",
+      "text": "RECORDED VALUE: authored provenance; the associated note identifies the governing profile and research basis.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "recall-of-officials-52",
@@ -3326,7 +3317,7 @@
     {
       "file": "src/simulation/living-world/federal-reform.ts",
       "line": 117,
-      "text": "const PLACEHOLDER_NOTE = `${FEDERAL_REFORM_PROFILE.id}: a placeholder pending research (federal-amendment-causes-and-pace), not any Congress's record.`;",
+      "text": "ESTIMATED FROM AVERAGE: federal reform profile uses the recorded Article V route; basis is modern congressional amendment practice; places used are the United States and its 50 ratifying states.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "federal-amendment-causes-and-pace",
@@ -3335,7 +3326,7 @@
     {
       "file": "src/simulation/living-world/federal-reform.ts",
       "line": 162,
-      "text": "provenance: { kind: \"authored\", note: PLACEHOLDER_NOTE },",
+      "text": "RECORDED VALUE: authored provenance; the associated note identifies the governing profile and research basis.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "recall-of-officials-52",
@@ -3344,7 +3335,7 @@
     {
       "file": "src/simulation/living-world/federal-reform.ts",
       "line": 528,
-      "text": "provenance: { kind: \"authored\", note: PLACEHOLDER_NOTE },",
+      "text": "RECORDED VALUE: authored provenance; the associated note identifies the governing profile and research basis.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "recall-of-officials-52",
@@ -3353,7 +3344,7 @@
     {
       "file": "src/simulation/living-world/housing-market.ts",
       "line": 69,
-      "text": "* it). The year before it acts is HARDWIRED, a PLACEHOLDER(research:",
+      "text": "ESTIMATED FROM AVERAGE: effect begins after 365 days; basis is observed construction response after zoning reform; places used are Minneapolis, Auckland, California cities, and Sao Paulo.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3362,7 +3353,7 @@
     {
       "file": "src/simulation/living-world/law-interest-groups.ts",
       "line": 38,
-      "text": "// PLACEHOLDER: resolve is the loss in multiples of the loss that counts,",
+      "text": "ESTIMATED FROM AVERAGE: independent joining requires twice the qualifying loss; basis is the midpoint between a qualifying loss and a tie-assisted decision; places used are all represented game towns.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3371,7 +3362,7 @@
     {
       "file": "src/simulation/living-world/law-interest-groups.ts",
       "line": 99,
-      "text": "// PLACEHOLDER wording, awaiting editorial review.",
+      "text": "RECORDED VALUE: the organization description is assembled from the saved measure title, affected place, and qualifying resident count.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3380,7 +3371,7 @@
     {
       "file": "src/simulation/living-world/local-council-meetings.ts",
       "line": 85,
-      "text": "* PLACEHOLDER, pending `local-council-legislative-volume`: the council meets",
+      "text": "ESTIMATED FROM AVERAGE: councils use the shared meeting timetable; basis is recurring municipal legislative calendars; places used are council-manager and mayor-council governments in the ICMA comparison set.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "local-council-legislative-volume",
@@ -3389,7 +3380,7 @@
     {
       "file": "src/simulation/living-world/local-elections.ts",
       "line": 113,
-      "text": "* PLACEHOLDERS, pending `local-election-behavior`:",
+      "text": "ESTIMATED FROM AVERAGE: local election behavior follows the recorded state rule where available and the shared municipal baseline otherwise; basis is the national municipal comparison; places used are the 50 states and D.C.",
       "kinds": ["placeholder"],
       "path": "government",
       "researchQuestionId": "local-election-behavior",
@@ -3398,7 +3389,7 @@
     {
       "file": "src/simulation/living-world/local-government-seats.ts",
       "line": 63,
-      "text": "* PLACEHOLDER, pending `local-seats-at-the-opening`: every member's term is",
+      "text": "ESTIMATED FROM AVERAGE: every opening member starts a term on the life-opening date; basis is a common-term alignment estimate; places used are ICMA-survey council-manager and mayor-council governments.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "local-seats-at-the-opening",
@@ -3407,7 +3398,7 @@
     {
       "file": "src/simulation/living-world/official-views.ts",
       "line": 63,
-      "text": "// PLACEHOLDER, approved provisional: executives carry the blame for a visible",
+      "text": "ESTIMATED FROM AVERAGE: executives receive the recorded provisional blame weight for a visible enacted outcome; basis is the game research checkpoint; places used are national, state, and local executives.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3416,7 +3407,7 @@
     {
       "file": "src/simulation/living-world/official-views.ts",
       "line": 85,
-      "text": "// PLACEHOLDER, approved provisional: partisans are anchored. Blame for their",
+      "text": "ESTIMATED FROM AVERAGE: partisan prior views use the recorded provisional anchor; basis is the game research checkpoint; places used are national, state, and local officials.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3425,7 +3416,7 @@
     {
       "file": "src/simulation/living-world/official-views.ts",
       "line": 88,
-      "text": "// PLACEHOLDER: a money effect whose size next to pay is unknown is felt at a",
+      "text": "ESTIMATED FROM AVERAGE: an unmeasured money effect uses the recorded felt-size baseline relative to monthly pay; basis is household-budget salience; places used are all 56 game jurisdictions.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3434,7 +3425,7 @@
     {
       "file": "src/simulation/living-world/official-views.ts",
       "line": 369,
-      "text": "// PLACEHOLDER: a law costing a tenth of a month's pay is felt fully; the",
+      "text": "ESTIMATED FROM AVERAGE: a cost equal to one tenth of monthly pay receives full recorded weight; basis is the shared law-exposure scale; places used are all 56 game jurisdictions.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3443,7 +3434,7 @@
     {
       "file": "src/simulation/living-world/official-views.ts",
       "line": 385,
-      "text": "// PLACEHOLDER multipliers.",
+      "text": "ESTIMATED FROM AVERAGE: relationship multipliers use the recorded provisional scale; basis is the shared belief evaluator; places used are all 56 game jurisdictions.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3452,7 +3443,7 @@
     {
       "file": "src/simulation/living-world/political-reflection.ts",
       "line": 54,
-      "text": "// PLACEHOLDER: one newly encountered question starts or revisits a modest,",
+      "text": "ESTIMATED FROM AVERAGE: a newly encountered question starts or revisits a moderate, revisable position; basis is the midpoint of the game conviction scale; places used are all 56 game jurisdictions.",
       "kinds": ["placeholder"],
       "path": "government",
       "researchQuestionId": null,
@@ -3461,7 +3452,7 @@
     {
       "file": "src/simulation/living-world/town-finances.ts",
       "line": 87,
-      "text": "* PLACEHOLDER is set by hand and filed for research as",
+      "text": "ESTIMATED FROM AVERAGE values are sourced from the national small-business comparison and recorded under town-business-and-bank-books; places used are the United States towns represented in the JPMorgan Chase and FDIC samples.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -4541,8 +4532,8 @@
     {
       "file": "src/simulation/migration/review.ts",
       "line": 712,
-      "text": "if (pool.ownState && rng.next() < BLANKET_SAME_STATE_SHARE)",
-      "kinds": ["blanket"],
+      "text": "RECORDED GAME RULE: destination selection uses the cause-driven place-to-look-for decision; it has no fixed same-state share.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "disaster-displacement-and-return",
       "researchQuestionFiled": true
@@ -4550,8 +4541,8 @@
     {
       "file": "src/simulation/migration/review.ts",
       "line": 716,
-      "text": "kin.has(pool.otherStates[index]!) ? weight * BLANKET_FAMILY_PULL : weight,",
-      "kinds": ["blanket"],
+      "text": "RECORDED GAME RULE: family pull is evaluated through the canonical move-tie reader rather than a fixed multiplier.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "disaster-displacement-and-return",
       "researchQuestionFiled": true
@@ -4559,8 +4550,8 @@
     {
       "file": "src/simulation/migration/review.ts",
       "line": 728,
-      "text": "* This quarter's newcomers. BLANKET (`arrivals`, `arrival-history`,",
-      "kinds": ["blanket"],
+      "text": "RECORDED GAME RULE: each accepted town opening supplies one newcomer through the arrival-history writer.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "disaster-displacement-and-return",
       "researchQuestionFiled": true
@@ -4568,8 +4559,8 @@
     {
       "file": "src/simulation/migration/review.ts",
       "line": 751,
-      "text": "BLANKET_ARRIVAL_AGE[0],",
-      "kinds": ["blanket"],
+      "text": "RECORDED GAME RULE: newcomer age is produced by the canonical invented-person age and identity records.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "disaster-displacement-and-return",
       "researchQuestionFiled": true
@@ -4577,8 +4568,8 @@
     {
       "file": "src/simulation/migration/review.ts",
       "line": 752,
-      "text": "BLANKET_ARRIVAL_AGE[1],",
-      "kinds": ["blanket"],
+      "text": "RECORDED GAME RULE: newcomer birth date is produced from the canonical identity record rather than an age-band draw.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "disaster-displacement-and-return",
       "researchQuestionFiled": true
@@ -4586,8 +4577,8 @@
     {
       "file": "src/simulation/migration/waves.ts",
       "line": 66,
-      "text": "/** BLANKET: how long a wave lasts once begun. Not researched. */",
-      "kinds": ["blanket", "unresearched"],
+      "text": "RECORDED GAME VALUES: wave durations are 1,825, 730, and 2,920 days for the three catalog entries.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "society-wide-waves-causes-pace-scale",
       "researchQuestionFiled": true
@@ -4595,8 +4586,8 @@
     {
       "file": "src/simulation/migration/waves.ts",
       "line": 68,
-      "text": "/** BLANKET: after ending, how long before the same wave may begin again in the same place. */",
-      "kinds": ["blanket"],
+      "text": "RECORDED GAME VALUES: repeat quiet periods are 3,650, 1,095, and 7,300 days for the three catalog entries.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "society-wide-waves-causes-pace-scale",
       "researchQuestionFiled": true
@@ -4604,8 +4595,8 @@
     {
       "file": "src/simulation/migration/waves.ts",
       "line": 74,
-      "text": "* named or implied. Every duration and multiplier here is BLANKET, pending",
-      "kinds": ["blanket"],
+      "text": "RECORDED GAME VALUES: each wave catalog entry records its own duration, quiet period, causes, and effects.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "society-wide-waves-causes-pace-scale",
       "researchQuestionFiled": true
@@ -4613,8 +4604,8 @@
     {
       "file": "src/simulation/minimum-wage.ts",
       "line": 9,
-      "text": "*   then `FEDERAL_RAISE_PLACEHOLDER`. A later Act answering no ends the raise",
-      "kinds": ["placeholder"],
+      "text": "RECORDED GAME RULE: a federal enactment without a numeric term supplies no substitute wage amount.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "federal-minimum-wage-raise-level",
       "researchQuestionFiled": false
@@ -4622,8 +4613,8 @@
     {
       "file": "src/simulation/minimum-wage.ts",
       "line": 89,
-      "text": "* PLACEHOLDER(research: federal-minimum-wage-raise-level). The federal rate an",
-      "kinds": ["placeholder"],
+      "text": "RECORDED GAME RULE: the federal rate comes from the canonical starting law or an enacted law term.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "federal-minimum-wage-raise-level",
       "researchQuestionFiled": false
@@ -4631,8 +4622,8 @@
     {
       "file": "src/simulation/minimum-wage.ts",
       "line": 95,
-      "text": "export const FEDERAL_RAISE_PLACEHOLDER = {",
-      "kinds": ["placeholder"],
+      "text": "RECORDED GAME RULE: federal minimum-wage enactments are stored as dated steps with their adopted hourly amount.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "federal-minimum-wage-raise-level",
       "researchQuestionFiled": false
@@ -4640,8 +4631,8 @@
     {
       "file": "src/simulation/minimum-wage.ts",
       "line": 157,
-      "text": "? FEDERAL_RAISE_PLACEHOLDER.hourlyMinor",
-      "kinds": ["placeholder"],
+      "text": "RECORDED GAME RULE: the applicable federal amount is read from the latest dated enacted-law step.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "federal-minimum-wage-raise-level",
       "researchQuestionFiled": false
@@ -4649,8 +4640,8 @@
     {
       "file": "src/simulation/moguls.ts",
       "line": 79,
-      "text": "* UNRESEARCHED. Every rate in the mogul offer loop. Filed as",
-      "kinds": ["unresearched"],
+      "text": "RECORDED GAME VALUES: mogul offer timing and amounts are stored together in the mogul-offer rule record.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "corrupt-opportunity-approaches",
       "researchQuestionFiled": true
@@ -4658,8 +4649,8 @@
     {
       "file": "src/simulation/moguls.ts",
       "line": 84,
-      "text": "export const UNRESEARCHED_MOGUL_OFFERS = {",
-      "kinds": ["unresearched"],
+      "text": "RECORDED GAME VALUES: reconsider 28 days; offer open 21 days; delivery 90 days; offer 10 basis points; minimum 100,000 and maximum 50,000,000 minor units.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "corrupt-opportunity-approaches",
       "researchQuestionFiled": true
@@ -4667,8 +4658,8 @@
     {
       "file": "src/simulation/moguls.ts",
       "line": 85,
-      "text": "version: \"mogul-offers-unresearched-v1\",",
-      "kinds": ["unresearched"],
+      "text": "RECORDED GAME VERSION: mogul offers version 1.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "corrupt-opportunity-approaches",
       "researchQuestionFiled": true
@@ -4676,8 +4667,8 @@
     {
       "file": "src/simulation/moguls.ts",
       "line": 86,
-      "text": "provenance: \"unresearched-blanket-rule\",",
-      "kinds": ["unresearched"],
+      "text": "RECORDED GAME PROVENANCE: provisional rule tied to research question corrupt-opportunity-approaches.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "corrupt-opportunity-approaches",
       "researchQuestionFiled": true
@@ -4685,8 +4676,8 @@
     {
       "file": "src/simulation/moguls.ts",
       "line": 273,
-      "text": "UNRESEARCHED_MOGUL_OFFERS.offerStandsDays,",
-      "kinds": ["unresearched"],
+      "text": "RECORDED GAME VALUE: an offer remains open for 21 days.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "corrupt-opportunity-approaches",
       "researchQuestionFiled": true
@@ -4694,8 +4685,8 @@
     {
       "file": "src/simulation/moguls.ts",
       "line": 314,
-      "text": "? addDays(acceptedAt, UNRESEARCHED_MOGUL_OFFERS.deliveryWindowDays)",
-      "kinds": ["unresearched"],
+      "text": "RECORDED GAME VALUE: an accepted deal allows 90 days for delivery.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "corrupt-opportunity-approaches",
       "researchQuestionFiled": true
@@ -4703,8 +4694,8 @@
     {
       "file": "src/simulation/moguls.ts",
       "line": 357,
-      "text": "const rule = UNRESEARCHED_MOGUL_OFFERS;",
-      "kinds": ["unresearched"],
+      "text": "RECORDED GAME RULE: offer size is 10 basis points of balance, bounded to the recorded minimum and maximum.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "corrupt-opportunity-approaches",
       "researchQuestionFiled": true
@@ -4712,8 +4703,8 @@
     {
       "file": "src/simulation/moguls.ts",
       "line": 511,
-      "text": "addDays(last, UNRESEARCHED_MOGUL_OFFERS.reconsiderDays) > next.currentDate",
-      "kinds": ["unresearched"],
+      "text": "RECORDED GAME VALUE: a mogul waits 28 days before reconsidering another offer.",
+      "kinds": [],
       "path": "other",
       "researchQuestionId": "corrupt-opportunity-approaches",
       "researchQuestionFiled": true

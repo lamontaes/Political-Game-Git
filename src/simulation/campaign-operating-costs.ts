@@ -27,24 +27,23 @@ import type {
 } from "./types";
 import { recordWorldEvent } from "./world";
 
-/** Persisted legacy version label; no new amount or schedule comes from it. */
-export const UNRESEARCHED_OPERATING_COSTS = {
-  version: "campaign-operating-costs-unresearched-v1",
-  categories: {
-    office: {},
-    printing: {},
-    postage: {},
-    travel: {},
-    events: {},
-    "phones-and-software": {},
-    food: {},
-    "bank-fees": {},
-  },
+/**
+ * Recorded expenditure classes used to classify saved campaign bills. Amounts,
+ * payees, and due dates come from each bill rather than from estimated costs.
+ */
+export const OPERATING_COST_CATEGORIES = {
+  office: {},
+  printing: {},
+  postage: {},
+  travel: {},
+  events: {},
+  "phones-and-software": {},
+  food: {},
+  "bank-fees": {},
 } as const;
-export type OperatingCategory =
-  keyof typeof UNRESEARCHED_OPERATING_COSTS.categories;
+export type OperatingCategory = keyof typeof OPERATING_COST_CATEGORIES;
 export const OPERATING_CATEGORIES = Object.keys(
-  UNRESEARCHED_OPERATING_COSTS.categories,
+  OPERATING_COST_CATEGORIES,
 ) as readonly OperatingCategory[];
 export const CAMPAIGN_OPERATING_PAYMENT_KEY = "campaign:operating-payment";
 export const CAMPAIGN_OPERATING_PAYMENT_EVENT =

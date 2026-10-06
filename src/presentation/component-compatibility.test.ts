@@ -436,7 +436,7 @@ describe("blocked slots", () => {
     ]);
     expect(
       errors.some((error) =>
-        error.includes("blocks unknown character slot 'cape'"),
+        error.includes("blocks absent character slot 'cape'"),
       ),
     ).toBe(true);
   });

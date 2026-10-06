@@ -1,0 +1,196 @@
+[
+  {
+    "direction": "a",
+    "state": "rest",
+    "cardDocked": true,
+    "timeControlsOutsideCard": true,
+    "menuChevronCount": 0,
+    "clipped": [],
+    "overflow": [],
+    "surfaces": [
+      {
+        "class": "hub",
+        "x": 25,
+        "y": 888,
+        "width": 112,
+        "height": 170
+      },
+      {
+        "class": "clock",
+        "x": 150,
+        "y": 976.40625,
+        "width": 330,
+        "height": 79.59375
+      }
+    ],
+    "summedSurfaceFraction": 0.02184892819251543,
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "devSaveStatus": false
+  },
+  {
+    "direction": "a",
+    "state": "open",
+    "cardDocked": true,
+    "timeControlsOutsideCard": true,
+    "menuChevronCount": 0,
+    "clipped": [],
+    "overflow": [],
+    "surfaces": [
+      {
+        "class": "hub",
+        "x": 25,
+        "y": 888,
+        "width": 112,
+        "height": 170
+      },
+      {
+        "class": "clock",
+        "x": 640,
+        "y": 976.40625,
+        "width": 330,
+        "height": 79.59375
+      },
+      {
+        "class": "sheet-frame a-card",
+        "x": 150,
+        "y": 856.203125,
+        "width": 465,
+        "height": 201.796875
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 30,
+        "y": 604,
+        "width": 128,
+        "height": 46
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 160,
+        "y": 644,
+        "width": 128,
+        "height": 46
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 275,
+        "y": 714,
+        "width": 128,
+        "height": 46
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 345,
+        "y": 787,
+        "width": 128,
+        "height": 46
+      }
+    ],
+    "summedSurfaceFraction": 0.07845943498022763,
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "devSaveStatus": false
+  },
+  {
+    "direction": "b",
+    "state": "rest",
+    "cardDocked": true,
+    "timeControlsOutsideCard": true,
+    "menuChevronCount": 0,
+    "clipped": [],
+    "overflow": [],
+    "surfaces": [
+      {
+        "class": "clock",
+        "x": 150,
+        "y": 956.8125,
+        "width": 330,
+        "height": 99.1875
+      },
+      {
+        "class": "hub",
+        "x": 25,
+        "y": 888,
+        "width": 112,
+        "height": 170
+      }
+    ],
+    "summedSurfaceFraction": 0.024967146508487654,
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "devSaveStatus": false
+  },
+  {
+    "direction": "b",
+    "state": "open",
+    "cardDocked": true,
+    "timeControlsOutsideCard": true,
+    "menuChevronCount": 0,
+    "clipped": [],
+    "overflow": [],
+    "surfaces": [
+      {
+        "class": "sheet-frame b-card",
+        "x": 150,
+        "y": 777.640625,
+        "width": 465,
+        "height": 280.359375
+      },
+      {
+        "class": "clock",
+        "x": 640,
+        "y": 956.8125,
+        "width": 330,
+        "height": 99.1875
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 30,
+        "y": 604,
+        "width": 128,
+        "height": 46
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 160,
+        "y": 644,
+        "width": 128,
+        "height": 46
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 275,
+        "y": 714,
+        "width": 128,
+        "height": 46
+      },
+      {
+        "class": "ui-action menu-item",
+        "x": 410,
+        "y": 709,
+        "width": 128,
+        "height": 46
+      },
+      {
+        "class": "hub",
+        "x": 25,
+        "y": 888,
+        "width": 112,
+        "height": 170
+      }
+    ],
+    "summedSurfaceFraction": 0.09919511206356095,
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "devSaveStatus": false
+  }
+]

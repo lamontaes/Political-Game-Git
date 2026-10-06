@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { observerPlace, observerSetup } from "./observer-world";
 import { projectGovernmentBrowser } from "./politics-government";
@@ -8,6 +8,8 @@ import {
   openingFamilyPeople,
   openingTourStagedPeople,
 } from "./opening-tour-people";
+import { projectLivingSceneOpening } from "./living-scene-facts";
+import { introPlacementTrace } from "./intro-placement-trace";
 import { SeededRng } from "../simulation/rng";
 import { projectOpeningFamily } from "./opening-story";
 import { orientationBackdrop } from "../player/WorldOrientationPanel";
@@ -98,16 +100,66 @@ describe("recorded representatives on the opening legislature card", () => {
         "state-legislative-chamber-bicameral",
         people,
       );
-      expect(staged.map((person) => person.personId).sort()).toEqual(
-        people.map((person) => person.personId).sort(),
-      );
+      expect(
+        [...staged, ...staged.overflow].map((person) => person.personId).sort(),
+      ).toEqual(people.map((person) => person.personId).sort());
       for (const person of staged)
         expect(person.title).toBe(
           people.find((record) => record.personId === person.personId)!.title,
         );
+      const chapters = projectLivingSceneOpening(
+        world,
+        playerPersonId,
+      ).chapters;
+      const legislature = chapters.find(
+        (chapter) => chapter.key === "legislature",
+      )!.actors;
+      expect(legislature.map((actor) => actor.person.personId)).toEqual(
+        people.map((person) => person.personId),
+      );
+      for (const actor of legislature) {
+        const work = world.history.workRelationships.find(
+          (record) => record.id === actor.recordIds[0],
+        );
+        expect(work?.personId).toBe(actor.person.personId);
+        expect(actor.presenceBasis).toBe("illustrative-public-role");
+        expect(actor.provenance.kind).toBe("state-legislator-work");
+      }
+      const furniture = openingTourStagedPeople(
+        world,
+        playerPersonId,
+        "state-legislative-chamber-bicameral",
+        people,
+        {
+          furniture: true,
+          memberIds: new Set(people.map((person) => person.personId)),
+        },
+      );
+      const trace = introPlacementTrace(furniture, legislature);
+      expect(trace.people.length).toBeGreaterThan(0);
+      expect(trace.people.every((person) => person.selectionGap === null)).toBe(
+        true,
+      );
+      expect(
+        [...furniture, ...furniture.overflow]
+          .map((person) => person.personId)
+          .sort(),
+      ).toEqual(people.map((person) => person.personId).sort());
       const family = openingFamilyPeople(world, playerPersonId);
       const saved = projectOpeningFamily(world, playerPersonId);
       expect(family.length).toBeGreaterThan(0);
+      const parents = chapters.find(
+        (chapter) => chapter.key === "parents",
+      )!.actors;
+      expect(parents.map((actor) => actor.person.personId)).toEqual(
+        family.map((person) => person.personId),
+      );
+      for (const actor of parents) {
+        expect(actor.recordIds.length).toBeGreaterThan(0);
+        expect(actor.presenceBasis).toBe("illustrative-family-record");
+        expect(["kinship", "child-authority"]).toContain(actor.provenance.kind);
+      }
+
       expect(family.map((person) => person.personId)).toEqual(
         saved.parents.map((member) => member.personId),
       );
@@ -121,11 +173,13 @@ describe("recorded representatives on the opening legislature card", () => {
       expect(openingFamilyPeople(JSON.parse(before), playerPersonId)).toEqual(
         family,
       );
+      mkdirSync("test-results/team8", { recursive: true });
       writeFileSync(
         `test-results/team8/${seed}-family.json`,
         JSON.stringify({ game, family, seed, placeKey: place.key }),
       );
       expect(JSON.stringify(world)).toBe(before);
+      mkdirSync("test-results/team8", { recursive: true });
       writeFileSync(
         `test-results/team8/${seed}.json`,
         JSON.stringify({
@@ -141,3 +195,63 @@ describe("recorded representatives on the opening legislature card", () => {
       );
     });
 });
+
+it(
+  "traces actual chosen intro spots and saved public-role records without claiming attendance",
+  { timeout: 120_000 },
+  () => {
+    const { seed, place } = cases[0]!;
+    const game = generateOpeningLife(
+      prepareOpeningLife(observerSetup(seed, place.key)),
+    ).game!;
+    const { world, playerPersonId } = game;
+    const before = JSON.stringify(world);
+    const chapters = projectLivingSceneOpening(world, playerPersonId).chapters;
+    const executives = chapters.find((c) => c.key === "executive")!.actors;
+    expect(executives.length).toBeGreaterThan(0);
+    const oval = openingTourStagedPeople(
+      world,
+      playerPersonId,
+      "oval-office",
+      executives.map((a) => a.person),
+    );
+    // Existing turned head/hair source is unavailable: the proof must expose it.
+    expect(oval).toHaveLength(0);
+    expect(oval.overflow).toHaveLength(executives.length);
+    expect(oval.overflow.every((p) => p.reason === "missing-art")).toBe(true);
+    expect(introPlacementTrace(oval, executives).unstagedActors).toHaveLength(
+      executives.length,
+    );
+    const actors = chapters.find((c) => c.key === "congress")!.actors;
+    const placements = openingTourStagedPeople(
+      world,
+      playerPersonId,
+      "us-capitol-exterior",
+      actors.map((a) => a.person),
+    );
+    const trace = introPlacementTrace(placements, actors);
+    expect(trace.people.length).toBeGreaterThan(0);
+    for (const row of trace.people) {
+      const chosen = placements.find((p) => p.personId === row.personId)!;
+      const actor = actors.find((a) => a.person.personId === row.personId)!;
+      expect(row.slotId).toBe(chosen.slotId);
+      expect(row.slotRole).toBe(chosen.slotRole);
+      expect(row.pose).toBe(chosen.resolvedPose);
+      expect(row.facing).toBe(chosen.facing);
+      expect(row.depth).toBe(chosen.depth);
+      expect(row.selection?.recordIds).toEqual(actor.recordIds);
+      expect(row.selection?.presenceBasis).toBe("illustrative-public-role");
+      expect(row.selectionGap).toBeNull();
+      expect(row.art.files.length).toBeGreaterThan(0);
+    }
+    expect(introPlacementTrace([], actors).unstagedActors).toHaveLength(
+      actors.length,
+    );
+    expect(
+      introPlacementTrace(placements, []).people.every(
+        (p) => p.selection === null && p.selectionGap === "missing-actor",
+      ),
+    ).toBe(true);
+    expect(JSON.stringify(world)).toBe(before);
+  },
+);

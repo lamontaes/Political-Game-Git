@@ -490,20 +490,6 @@
       "kind": "roll",
       "build": "Build 21",
       "count": 1,
-      "code": "confidenceRoll < 300_000"
-    },
-    {
-      "file": "src/simulation/crisis/international.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
-      "code": ": confidenceRoll < 750_000"
-    },
-    {
-      "file": "src/simulation/crisis/international.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
       "code": "counterRoll < shares.deEscalate - shift"
     },
     {
@@ -834,13 +820,6 @@
       "build": "Build 24",
       "count": 1,
       "code": "if (u < cumulative) return regime;"
-    },
-    {
-      "file": "src/simulation/world-setup/political-start.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": "return openUniform(worldSetupRng(world, `tie:${key}`)) < 0.5"
     }
   ]
 }

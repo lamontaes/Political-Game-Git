@@ -28,17 +28,6 @@
   color: var(--run-a-ink);
 }
 
-.pg-recap {
-  background: linear-gradient(
-    180deg,
-    rgb(239 231 217 / 94%),
-    rgb(241 234 221 / 96%)
-  );
-  border: 1px solid var(--run-a-line);
-  border-radius: 0.9rem;
-  box-shadow: 0 1.2rem 3rem rgb(46 30 12 / 29%);
-}
-
 .pg-orientation-kicker {
   margin: 0 0 0.35rem;
   font-size: 0.76rem;
@@ -309,8 +298,7 @@
  * fades in, so two cards' titles are never drawn over each other.
  */
 .pg-orientation {
-  --pg-orientation-ground: #f1eadd;
-  --pg-orientation-panel: rgb(241 234 221 / 92%);
+  --pg-orientation-ground: var(--iron);
   --pg-orientation-actions-height: 4.25rem;
   position: fixed;
   inset: 0;
@@ -422,32 +410,6 @@
 .pg-orientation-staged .pg-orientation-backdrop-image {
   object-position: 50% 62%;
 }
-/* A small engraved plate over each person's head: name, then office. */
-.pg-orientation-staged .scene-place-nameplate {
-  transform: translate(-50%, -100%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1px;
-  padding: 4px 10px 5px;
-  border: 1px solid rgb(201 162 90 / 70%);
-  border-radius: 3px;
-  background: rgb(24 20 14 / 82%);
-  color: #f3e7cc;
-  text-align: center;
-  pointer-events: none;
-}
-.pg-orientation-staged .scene-place-nameplate-name {
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-.pg-orientation-staged .scene-place-nameplate-title {
-  font-size: 10.5px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #d8b878;
-}
 .pg-orientation-backdrop-image {
   display: block;
   width: 100%;
@@ -482,12 +444,12 @@
     linear-gradient(
       90deg,
       transparent 0 70%,
-      rgb(242 235 224 / 15%) 85%,
-      rgb(242 235 224 / 35%) 100%
+      rgb(28 26 24 / 15%) 85%,
+      rgb(28 26 24 / 35%) 100%
     ),
     linear-gradient(
       0deg,
-      rgb(242 235 224 / 92%) 0,
+      rgb(28 26 24 / 92%) 0,
       transparent calc(var(--pg-orientation-actions-height) + 3rem)
     );
 }
@@ -495,7 +457,65 @@
   display: none;
 }
 
-/* The words. */
+/* The words share the existing Kit 13 glass surface, not stacked paper cards. */
+.pg-orientation-panel {
+  position: relative;
+  --run-a-ink: var(--text-strong);
+  --run-a-muted: var(--text-2);
+  --run-a-gold: var(--gold);
+  --run-a-line: var(--brass);
+  min-height: 0;
+  flex: 0 1 auto;
+  color: var(--text-strong);
+  font-family: var(--speech);
+}
+/* Original approved sheet pixels; no new corner art or altered source image. */
+.pg-orientation-panel > .pg-orientation-corners {
+  position: absolute;
+  inset: -2px;
+  pointer-events: none;
+}
+.pg-orientation-corners > span {
+  position: absolute;
+  width: 54px;
+  height: 54px;
+  background-image: url("/ui/kit13/approved-controls-sheet.png");
+  background-repeat: no-repeat;
+  background-size: 1622px 969px;
+  pointer-events: none;
+}
+.pg-orientation-corners [data-corner="top-left"] {
+  top: 0;
+  left: 0;
+  background-position: -54px -47px;
+}
+.pg-orientation-corners [data-corner="top-right"] {
+  top: 0;
+  right: 0;
+  background-position: -1512px -47px;
+}
+.pg-orientation-corners [data-corner="bottom-left"] {
+  bottom: 0;
+  left: 0;
+  background-position: -54px -857px;
+}
+.pg-orientation-corners [data-corner="bottom-right"] {
+  bottom: 0;
+  right: 0;
+  background-position: -1512px -857px;
+}
+.pg-orientation-panel .pg-orientation-title {
+  font-family: var(--name);
+  color: var(--gold);
+}
+.pg-orientation-panel .pg-orientation-kicker {
+  font-family: var(--ui);
+}
+.pg-orientation-panel
+  :is(small, .pg-orientation-legend, .pg-orientation-state) {
+  color: var(--text-2);
+}
+
 .pg-orientation-copy {
   position: absolute;
   z-index: 4;
@@ -508,39 +528,34 @@
   justify-content: flex-end;
   pointer-events: none;
 }
-.pg-orientation-copy > * {
+.pg-orientation-panel > * {
   pointer-events: auto;
 }
-.pg-orientation-copy > .pg-orientation-kicker,
-.pg-orientation-copy > .pg-orientation-title,
-.pg-orientation-copy > .pg-orientation-summary,
-.pg-orientation-copy > .pg-orientation-reading {
-  background: var(--pg-orientation-panel);
+.pg-orientation-panel > .pg-orientation-kicker,
+.pg-orientation-panel > .pg-orientation-title,
+.pg-orientation-panel > .pg-orientation-summary,
+.pg-orientation-panel > .pg-orientation-reading {
   padding-inline: 1.3rem;
 }
-.pg-orientation-copy > .pg-orientation-kicker {
+.pg-orientation-panel > .pg-orientation-kicker {
   margin: 0;
   padding-top: 1.1rem;
   padding-bottom: 0.35rem;
-  border-radius: 0.7rem 0.7rem 0 0;
 }
-.pg-orientation-copy > .pg-orientation-title {
+.pg-orientation-panel > .pg-orientation-title {
   margin: 0;
   padding-bottom: 0.5rem;
 }
-.pg-orientation-copy > .pg-orientation-summary {
+.pg-orientation-panel > .pg-orientation-summary {
   margin: 0;
   padding-bottom: 0.8rem;
 }
-.pg-orientation-copy > .pg-orientation-reading {
+.pg-orientation-panel > .pg-orientation-reading {
   min-height: 0;
   flex: 0 1 auto;
-  overflow-y: auto;
   padding-bottom: 1.1rem;
-  border-radius: 0 0 0.7rem 0.7rem;
-  scrollbar-gutter: stable;
 }
-.pg-orientation-copy > .pg-orientation-reading:empty {
+.pg-orientation-panel > .pg-orientation-reading:empty {
   padding-bottom: 0.4rem;
 }
 
@@ -598,7 +613,7 @@
   gap: 0.5rem;
   margin: 0;
   padding: 0.7rem clamp(1rem, 3vw, 3rem);
-  background: linear-gradient(0deg, rgb(242 235 224 / 92%), rgb(38 26 14 / 0%));
+  background: linear-gradient(0deg, rgb(28 26 24 / 92%), rgb(38 26 14 / 0%));
 }
 
 /* The officials who stand in a place, feet on the foot of the scene. */
@@ -694,6 +709,26 @@
   padding: 0;
   background: none;
 }
+.pg-opening-person-trigger {
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+.pg-opening-person-trigger:focus-visible {
+  outline: 2px solid #c9a25a;
+  outline-offset: 3px;
+}
+.pg-white-house-presentation[data-has-plate="true"] .pg-opening-person-trigger {
+  pointer-events: none;
+}
+.pg-white-house-presentation[data-has-plate="true"]
+  .pg-opening-person-trigger
+  > * {
+  pointer-events: auto;
+}
 .pg-white-house-presentation[data-has-plate="true"] .pg-opening-figure {
   position: absolute !important;
   left: var(--pg-figure-x);
@@ -733,14 +768,6 @@
 .pg-opening-vice-president .person-portrait figcaption > strong {
   display: none;
 }
-.pg-opening-official-labels {
-  display: grid;
-  gap: 0.5rem;
-}
-.pg-opening-official-labels .pg-orientation-person {
-  background: rgb(238 229 213 / 92%);
-}
-
 /* The state card's reading surface: government, population, voting. */
 .pg-regional-state-information {
   display: flex;
@@ -873,7 +900,7 @@
   .pg-orientation-scrim {
     background: linear-gradient(
       0deg,
-      rgb(242 235 224 / 92%) 0 45%,
+      rgb(28 26 24 / 92%) 0 45%,
       transparent 75%
     );
   }
@@ -892,7 +919,7 @@
 }
 
 @media (forced-colors: active) {
-  .pg-orientation-copy > * {
+  .pg-orientation-panel > * {
     border: 1px solid CanvasText;
   }
 }

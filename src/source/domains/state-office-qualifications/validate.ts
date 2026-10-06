@@ -18,13 +18,13 @@ import { isOfficeExistence } from "./types";
 import type { QualificationRecord } from "./types";
 
 /** The citation PR #72 used 1,819 times. It does not resolve and never did. */
-export const REJECTED_PLACEHOLDER_CITATIONS: readonly string[] = [
+export const REJECTED_STAND_IN_CITATIONS: readonly string[] = [
   "elections.gov/official-sources",
   "www.elections.gov",
 ];
 
 /** Phrases #72 used in place of a term-limit rule it had not looked up. */
-export const REJECTED_PLACEHOLDER_VALUES: readonly string[] = [
+export const REJECTED_STAND_IN_VALUES: readonly string[] = [
   "Standard state term limit",
   "Standard state term rule",
 ];
@@ -40,8 +40,8 @@ export function validateQualificationCorpus(
   for (const record of records) {
     const authority = record.citedAuthority;
 
-    for (const placeholder of REJECTED_PLACEHOLDER_CITATIONS) {
-      if (authority.authorityUrl.includes(placeholder)) {
+    for (const standIn of REJECTED_STAND_IN_CITATIONS) {
+      if (authority.authorityUrl.includes(standIn)) {
         findings.push({
           severity: "error",
           code: "qualifications/rejected-placeholder-citation",
@@ -106,12 +106,12 @@ export function validateQualificationCorpus(
 
     if (record.requirement.state === "KNOWN") {
       const value = record.requirement.value;
-      for (const placeholder of REJECTED_PLACEHOLDER_VALUES) {
-        if (String(value) === placeholder) {
+      for (const standIn of REJECTED_STAND_IN_VALUES) {
+        if (String(value) === standIn) {
           findings.push({
             severity: "error",
             code: "qualifications/rejected-placeholder-value",
-            message: `${record.recordId} holds "${placeholder}", which is the string PR #72 wrote where it had not established a rule.`,
+            message: `${record.recordId} holds "${standIn}", which is the string PR #72 wrote where it had not established a rule.`,
             recordId: record.recordId,
           });
         }

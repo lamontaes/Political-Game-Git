@@ -920,7 +920,7 @@ export function localElectionFilingHandler(
         label: office.governmentName,
         involved: [holder.personId],
         tags: [`unit:${unit.id}`, `seat:${seat}`, "barred:ward"],
-        summary: `${nameOf(next, holder.personId)} may not run again for ${phrase}: their home is in Ward ${holderWard} under the map ${wardMap!.drawnBy === "commission" ? "an independent commission" : "the council"} drew, and the seat represents Ward ${ward}.`,
+        summary: `${nameOf(next, holder.personId)} may not run again for ${phrase}: their home is in district ${holderWard} under the map ${wardMap!.drawnBy === "commission" ? "an independent commission" : "the council"} drew, and the seat represents district ${ward}.`,
       });
     }
     if (holder && alive(next, holder.personId) && !drawnOut) {
@@ -1567,7 +1567,7 @@ export function redistrictForWardCommission(
     town,
     drawnBy: "commission",
     members: wardMembers(world, unit),
-    reason: "the independent ward commission law took effect",
+    reason: "the independent district commission law took effect",
   });
 }
 

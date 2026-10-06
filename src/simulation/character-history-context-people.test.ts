@@ -9,8 +9,11 @@ import {
   createCharacterHistoryContextPerson,
   drawCanonicalNameForGender,
   generatePersonIdentity,
+  lifePlaceStateIdentities,
   makeIsoDate,
+  searchLifePlaces,
   SeededRng,
+  stableHash,
 } from ".";
 import type { CharacterHistoryContextPersonInput } from ".";
 import type { EntityId } from "./types";
@@ -145,5 +148,36 @@ describe("batched context-person writer", () => {
         },
       ]),
     ).toThrow("existing home jurisdiction");
+  });
+});
+
+describe("BG-14: generated family mortality dates", () => {
+  it("does not give a grandparent couple one birthday and one death day", () => {
+    const seed = "bg-14-0";
+    const states = lifePlaceStateIdentities();
+    const state =
+      states[parseInt(stableHash(seed).slice(0, 8), 16) % states.length]!;
+    const place = searchLifePlaces("", 1, {
+      stateJurisdictionKey: state.jurisdictionKey,
+      scope: "locality",
+    })[0]!;
+    const game = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed,
+      placeKey: place.key,
+      startAge: 40,
+      questionnaire: "skipped",
+    });
+    const deaths = game.world.history.personDeaths;
+    const birthDates = deaths.map(
+      ({ personId }) => game.world.people[personId]!.birthDate,
+    );
+
+    expect(states).toHaveLength(56);
+    expect(deaths.length).toBeGreaterThan(1);
+    expect(new Set(birthDates).size).toBe(birthDates.length);
+    expect(new Set(deaths.map(({ diedAt }) => diedAt)).size).toBe(
+      deaths.length,
+    );
   });
 });

@@ -19,9 +19,11 @@ import type { ObserverRunController } from "./observer-run-controller";
 export function ObserverClock({
   runner,
   onOpenRecord,
+  onOpenInspector,
 }: {
   readonly runner: ObserverRunController;
   readonly onOpenRecord: () => void;
+  readonly onOpenInspector?: (pausedWorld: World) => void;
 }) {
   const view = useSyncExternalStore(
     runner.subscribe,
@@ -71,6 +73,22 @@ export function ObserverClock({
       >
         World record
       </button>
+      {onOpenInspector ? (
+        <button
+          type="button"
+          className="ui-action ui-action--subtle"
+          data-testid="open-observer-inspector"
+          disabled={view.busy}
+          onClick={() => {
+            void runner
+              .pause()
+              .then(onOpenInspector)
+              .catch(() => undefined);
+          }}
+        >
+          Developer inspector
+        </button>
+      ) : null}
       {view.problem ? (
         <span className="pg-observer-problem" role="alert">
           {view.problem}
@@ -85,12 +103,16 @@ export function ObserverClock({
  * law, every amendment, every election, who holds office, everyone alive,
  * the news and what has happened lately.
  */
+export const OBSERVER_RECORD_PAGE_SIZE = 8;
+
 export function ObserverRecordWorkspace({
   world,
   onOpenPerson,
+  onTrace,
 }: {
   readonly world: World;
   readonly onOpenPerson: (personId: EntityId) => void;
+  readonly onTrace?: (id: EntityId | readonly EntityId[]) => void;
 }) {
   const record = useMemo(() => projectObserverRecord(world), [world]);
   const [query, setQuery] = useState("");
@@ -100,7 +122,7 @@ export function ObserverRecordWorkspace({
   const [expandedSummaryId, setExpandedSummaryId] = useState<EntityId | null>(
     null,
   );
-  const summaryPageSize = 8;
+  const summaryPageSize = OBSERVER_RECORD_PAGE_SIZE;
   const summaryPageCount = Math.max(
     1,
     Math.ceil(record.electionSummaries.length / summaryPageSize),
@@ -123,6 +145,7 @@ export function ObserverRecordWorkspace({
         className="ui-link"
         onClick={() => {
           setSelected(personId);
+          onTrace?.(personId);
           top.current?.scrollIntoView?.({ block: "start" });
         }}
       >
@@ -130,6 +153,18 @@ export function ObserverRecordWorkspace({
       </button>
     ) : (
       (name ?? "Nobody")
+    );
+
+  const traceText = (
+    id: EntityId | readonly EntityId[],
+    text: React.ReactNode,
+  ) =>
+    onTrace ? (
+      <button type="button" className="ui-link" onClick={() => onTrace(id)}>
+        {text}
+      </button>
+    ) : (
+      text
     );
 
   return (
@@ -141,10 +176,12 @@ export function ObserverRecordWorkspace({
         >
           <h3>{file.name}</h3>
           <p>
-            Born {proseDate(file.born)}
-            {file.died
-              ? `, died ${file.diedHow ? `${file.diedHow} on ` : ""}${proseDate(file.died)} at ${file.age}`
-              : `, ${file.age} years old`}
+            Born {traceText(file.personId, proseDate(file.born))}
+            {file.died ? (
+              `, died ${file.diedHow ? `${file.diedHow} on ` : ""}${proseDate(file.died)} at ${file.age}`
+            ) : (
+              <>, {traceText(file.personId, file.age)} years old</>
+            )}
             {file.home ? `. Lives in ${file.home}` : ""}.
           </p>
           <p>
@@ -153,6 +190,25 @@ export function ObserverRecordWorkspace({
               : "No current job on record."}{" "}
             {file.party ? `Belongs to the ${file.party}.` : "No party."}
           </p>
+          {onTrace ? (
+            <section aria-label="Recorded decisions">
+              <h4>Their decisions</h4>
+              <ul>
+                {world.history.decisionTraces
+                  .filter(
+                    (trace) => trace.context.actorPersonId === file.personId,
+                  )
+                  .map((trace) => (
+                    <li key={trace.id}>
+                      {traceText(
+                        trace.id,
+                        `${proseDate(trace.recordedAt)}: ${trace.context.decisionType} — ${trace.context.options.find((option) => option.key === trace.selectedOptionKey)?.label ?? trace.outcomeKind}`,
+                      )}
+                    </li>
+                  ))}
+              </ul>
+            </section>
+          ) : null}
           <h4>Everything recorded about them</h4>
           {file.record.length === 0 ? (
             <p className="game-note">Nothing has been recorded yet.</p>
@@ -160,7 +216,7 @@ export function ObserverRecordWorkspace({
             <ul>
               {file.record.map((item) => (
                 <li key={item.id}>
-                  {proseDate(item.at)}: {item.text}
+                  {proseDate(item.at)}: {traceText(item.id, item.text)}
                 </li>
               ))}
             </ul>
@@ -183,10 +239,34 @@ export function ObserverRecordWorkspace({
       ) : null}
       <p className="game-note" data-testid="world-record-summary">
         Watching since {proseDate(record.startedOn)}. It is now{" "}
-        {proseDate(record.date)}. {record.livingCount.toLocaleString("en-US")}{" "}
-        people are alive, and {record.deathCount.toLocaleString("en-US")} have
-        died. {record.laws.length} bills have been introduced and{" "}
-        {record.enactedCount} became law.
+        {proseDate(record.date)}.{" "}
+        {traceText(
+          world.personOrder.filter(
+            (id) =>
+              !world.history.personDeaths.some(
+                (death) => death.personId === id,
+              ),
+          ),
+          record.livingCount.toLocaleString("en-US"),
+        )}{" "}
+        people are alive, and{" "}
+        {traceText(
+          world.history.personDeaths.map((death) => death.personId),
+          record.deathCount.toLocaleString("en-US"),
+        )}{" "}
+        have died.{" "}
+        {traceText(
+          record.laws.map((law) => law.id),
+          record.laws.length,
+        )}{" "}
+        bills have been introduced and{" "}
+        {traceText(
+          record.laws
+            .filter((law) => law.status === "enacted")
+            .map((law) => law.id),
+          record.enactedCount,
+        )}{" "}
+        became law.
       </p>
 
       <section data-testid="world-record-laws">
@@ -209,7 +289,7 @@ export function ObserverRecordWorkspace({
               {record.laws.slice(0, 100).map((law) => (
                 <tr key={law.id}>
                   <td>
-                    {law.designation} · {law.title}
+                    {traceText(law.id, `${law.designation} · ${law.title}`)}
                   </td>
                   <td>{law.place}</td>
                   <td>{proseDate(law.introducedAt)}</td>
@@ -233,7 +313,7 @@ export function ObserverRecordWorkspace({
             {record.amendments.map((amendment) => (
               <li key={amendment.id}>
                 <strong>{amendment.status}</strong>, {proseDate(amendment.at)}:{" "}
-                {amendment.text}
+                {traceText(amendment.id, amendment.text)}
                 {amendment.cause ? ` (${amendment.cause}.)` : ""}
               </li>
             ))}
@@ -251,7 +331,8 @@ export function ObserverRecordWorkspace({
           <ul>
             {record.elections.slice(0, 60).map((election) => (
               <li key={election.id}>
-                {proseDate(election.date)}: {election.office}
+                {proseDate(election.date)}:{" "}
+                {traceText(election.id, election.office)}
                 {election.place ? `, ${election.place}` : ""}. Won by{" "}
                 {personLink(election.winnerPersonId, election.winnerName)}.
               </li>
@@ -260,7 +341,6 @@ export function ObserverRecordWorkspace({
         ) : null}
         {record.electionSummaries.length > 0 ? (
           <div data-testid="world-record-election-summaries">
-            {/* PLACEHOLDER(overnight): Claude/CC1 must review these new record labels before publication. */}
             <h4>Legislative results on record</h4>
             <ul>
               {visibleSummaries.map((summary) => (
@@ -272,9 +352,15 @@ export function ObserverRecordWorkspace({
                   {summary.place ? `, ${summary.place}` : ""} ·{" "}
                   {proseDate(summary.date)}
                   <p>
-                    {summary.seatCount.toLocaleString("en-US")}{" "}
+                    {traceText(
+                      summary.id,
+                      summary.seatCount.toLocaleString("en-US"),
+                    )}{" "}
                     {summary.seatCount === 1 ? "seat" : "seats"} counted;{" "}
-                    {summary.winnerCount.toLocaleString("en-US")}{" "}
+                    {traceText(
+                      summary.id,
+                      summary.winnerCount.toLocaleString("en-US"),
+                    )}{" "}
                     {summary.winnerCount === 1 ? "winner" : "winners"} named in
                     this summary.
                     {summary.separateContestCount > 0
@@ -380,7 +466,8 @@ export function ObserverRecordWorkspace({
         <ul>
           {people.rows.map((row) => (
             <li key={row.personId}>
-              {personLink(row.personId, row.name)}, {row.age}
+              {personLink(row.personId, row.name)},{" "}
+              {traceText(row.personId, row.age)}
               {row.place ? `, ${row.place}` : ""}
             </li>
           ))}
@@ -395,7 +482,7 @@ export function ObserverRecordWorkspace({
           <ul>
             {record.news.map((item) => (
               <li key={item.id}>
-                {proseDate(item.at)}: {item.text}
+                {proseDate(item.at)}: {traceText(item.id, item.text)}
               </li>
             ))}
           </ul>
@@ -407,8 +494,15 @@ export function ObserverRecordWorkspace({
         <ul>
           {record.happenings.map((item) => (
             <li key={item.id}>
-              {proseDate(item.at)}: {item.text}
-              {item.count > 1 ? ` (${item.count} times)` : ""}
+              {proseDate(item.at)}: {traceText(item.id, item.text)}
+              {item.count > 1 ? (
+                <>
+                  {" ("}
+                  {traceText(item.id, item.count)} times)
+                </>
+              ) : (
+                ""
+              )}
             </li>
           ))}
         </ul>

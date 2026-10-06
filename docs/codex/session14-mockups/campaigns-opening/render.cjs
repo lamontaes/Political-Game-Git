@@ -1,0 +1,61 @@
+const { createRequire } = require("module");
+const req = createRequire("/workspace/Political-Game-Git/package.json");
+const { chromium } = req("@playwright/test");
+const fs = require("fs");
+(async () => {
+  const b = await chromium.launch({
+    executablePath: "/usr/bin/chromium",
+    args: ["--no-sandbox"],
+  });
+  const p = await b.newPage({ viewport: { width: 1920, height: 1080 } });
+  await p.goto("http://127.0.0.1:8144/campaigns/campaigns.html");
+  await p.evaluate(async () => {
+    await document.fonts.ready;
+    await Promise.all([...document.images].map((i) => i.decode()));
+  });
+  const fit = await p.evaluate(() => {
+    const elements = [
+      ...document.querySelectorAll(
+        ".panel,.columns,section,h1,h2,h3,p,small,footer,.x",
+      ),
+    ];
+    return {
+      viewport: [innerWidth, innerHeight],
+      clipped: elements
+        .filter((e) => {
+          let r = e.getBoundingClientRect();
+          return (
+            r.x < 0 || r.y < 0 || r.right > innerWidth || r.bottom > innerHeight
+          );
+        })
+        .map((e) => e.outerHTML),
+      overflow: elements
+        .filter(
+          (e) =>
+            e.scrollWidth > e.clientWidth + 1 ||
+            e.scrollHeight > e.clientHeight + 1,
+        )
+        .map((e) => e.outerHTML),
+      retiredActions:
+        /Ask for something|Put your name in|Door canvass|Phone shift|Go briefly|Leave and return/.test(
+          document.body.innerText,
+        ),
+      text: document.querySelector(".panel").innerText,
+      panelAreaFraction: (() => {
+        let r = document.querySelector(".panel").getBoundingClientRect();
+        return (r.width * r.height) / (innerWidth * innerHeight);
+      })(),
+    };
+  });
+  fs.writeFileSync(
+    "/tmp/session14-mockups/campaigns/fit.json",
+    JSON.stringify(fit, null, 2),
+  );
+  if (fit.clipped.length || fit.overflow.length || fit.retiredActions)
+    throw Error("Fit/content failed");
+  await p.screenshot({
+    path: "/tmp/session14-mockups/campaigns/campaigns-1920.png",
+  });
+  await b.close();
+  console.log(JSON.stringify(fit));
+})();

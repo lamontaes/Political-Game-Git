@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import campusManifest from "../../art/campuses/manifest.json" with { type: "json" };
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import {
   backdropPlaces,
@@ -7,6 +8,7 @@ import {
   hasBackdrop,
   homePlaceFor,
   isRainyDay,
+  middayBackdropUrl,
   placeBackdrop,
   workplacePlaceFor,
 } from "./place-backdrops";
@@ -40,6 +42,26 @@ const PLACES_WITH_A_CAPITOL = [
 ];
 
 describe("place backdrops", () => {
+  it("routes the actual quad picker through campus tags without a shared-image bypass", () => {
+    const moment = at("2027-06-15", 13);
+    expect(placeBackdrop("college-quad", moment, "k")).toBeNull();
+    expect(middayBackdropUrl("college-quad")).toBeNull();
+    for (const record of campusManifest.campuses) {
+      const target = { ...record, kind: "flagship" as const };
+      expect(
+        placeBackdrop("college-quad", moment, "k", target)?.url,
+      ).toBeTruthy();
+      for (const key of campusManifest.selection.requiredMatch) {
+        expect(
+          placeBackdrop("college-quad", moment, "k", {
+            ...target,
+            [key]: "incompatible",
+          }),
+        ).toBeNull();
+      }
+    }
+  });
+
   it("has all 223 shared pictures for 61 places, each with a midday picture", () => {
     const ownCapitol = /^state-capitol-[a-z]{2}$/;
     expect(

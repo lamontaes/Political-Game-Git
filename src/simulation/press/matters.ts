@@ -15,6 +15,7 @@ import { requireElectionContest } from "../election-contests";
 import {
   hasPersonDiscoveredEvidence,
   recordEvidenceArtifact,
+  type RecordEvidenceArtifactInput,
   recordEvidenceDiscovery,
 } from "../evidence";
 import { scheduleFutureDueItem } from "../future-transitions";
@@ -26,6 +27,8 @@ import { recordClaim, recordEventKnowledge } from "../records";
 import {
   createResourceFlow,
   recordResourceTransferOutcome,
+  type CreateResourceFlowInput,
+  type RecordResourceTransferOutcomeInput,
 } from "../resources";
 import type {
   CampaignRecord,
@@ -52,8 +55,11 @@ import {
 import { openProceeding, proceedingSteps } from "./procedures";
 import {
   MISCONDUCT_FAMILY_LABELS,
+  MISCONDUCT_FAMILY_ROWS,
   PRESS_CONTRACT_VERSION,
+  PERSONAL_LIFE_MATTER_FAMILY,
   type FinancialOccurrenceRecord,
+  type MatterFamily,
   type MatterRecord,
   type MisconductFamily,
   type ProcedureKey,
@@ -86,6 +92,159 @@ export interface CampaignPersonalUseInput {
   readonly amountMinorUnits: number;
   /** What the money actually paid for, in the player's own words. */
   readonly purpose: string;
+}
+
+export interface MisconductFlowInput {
+  readonly flow: Omit<CreateResourceFlowInput, "provenance">;
+  readonly outcome: Omit<
+    RecordResourceTransferOutcomeInput,
+    "resourceFlowId" | "provenance"
+  > | null;
+}
+
+export type MisconductArtifactInput = Omit<
+  RecordEvidenceArtifactInput,
+  "relatedEntityIds" | "provenance"
+>;
+
+export interface RecordMisconductActInput {
+  readonly stableKey: string;
+  readonly eventStableKey?: string;
+  readonly eventType?: HistoricalEvent["type"];
+  readonly family: MisconductFamily;
+  readonly actorPersonIds: readonly EntityId[];
+  /** Every person who handled or received part of this act. */
+  readonly participantPersonIds: readonly EntityId[];
+  readonly relatedEntityIds?: readonly EntityId[];
+  readonly flows: readonly MisconductFlowInput[];
+  readonly artifacts: readonly MisconductArtifactInput[];
+  readonly occurredAt?: IsoDate;
+  readonly jurisdictionId: EntityId | null;
+  readonly summary: string;
+  readonly choice: string;
+  readonly tags?: readonly string[];
+}
+
+/** The single writer for a private misconduct act and the people who know it. */
+export function recordMisconductAct(
+  world: World,
+  input: RecordMisconductActInput,
+): {
+  readonly world: World;
+  readonly event: HistoricalEvent;
+  readonly occurrence: FinancialOccurrenceRecord;
+} {
+  const row = MISCONDUCT_FAMILY_ROWS[input.family];
+  const actorPersonIds = sortedUnique(input.actorPersonIds);
+  const participantPersonIds = sortedUnique(input.participantPersonIds);
+  if (actorPersonIds.length === 0)
+    throw new Error("A misconduct act needs at least one actor.");
+  if (
+    actorPersonIds.some((personId) => !participantPersonIds.includes(personId))
+  ) {
+    throw new Error("Every misconduct actor must know about the act.");
+  }
+  if (!input.summary.trim() || !input.choice.trim())
+    throw new Error("A misconduct act needs a summary and choice.");
+  const providedKinds = new Set(
+    input.artifacts.map((artifact) => artifact.evidenceKind),
+  );
+  for (const kind of row.actArtifactKinds) {
+    if (!providedKinds.has(kind))
+      throw new Error(`A ${input.family} act must leave ${kind} evidence.`);
+  }
+
+  const occurredAt = input.occurredAt ?? world.currentDate;
+  let next = recordWorldEvent(world, {
+    stableKey: input.eventStableKey ?? `${input.stableKey}:act`,
+    type:
+      input.eventType ?? `press.misconduct-act.${input.family.toLowerCase()}`,
+    occurredAt,
+    recordedAt: world.currentDate,
+    jurisdictionId: input.jurisdictionId,
+    involvedEntityIds: sortedUnique([
+      ...participantPersonIds,
+      ...(input.relatedEntityIds ?? []),
+    ]),
+    participants: participantPersonIds.map((personId) => ({
+      personId,
+      role: actorPersonIds.includes(personId)
+        ? "agency:actor"
+        : "agency:participant",
+      detail: actorPersonIds.includes(personId)
+        ? row.label
+        : "Handled or received something in the act",
+    })),
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [
+      PRESS_CONTRACT_VERSION,
+      `misconduct:${input.family}`,
+      ...(input.tags ?? []),
+    ],
+    summary: input.summary,
+    context: {
+      location: null,
+      socialContext: row.label,
+      pressure: null,
+      choice: input.choice,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const event = next.history.events.at(-1)!;
+  const provenance = { kind: "simulated-event" as const, eventId: event.id };
+  const resourceFlowIds: EntityId[] = [];
+  for (const item of input.flows) {
+    next = createResourceFlow(next, {
+      ...item.flow,
+      provenance,
+    });
+    const flow = next.history.resourceFlows.at(-1)!;
+    resourceFlowIds.push(flow.id);
+    if (item.outcome) {
+      next = recordResourceTransferOutcome(next, {
+        ...item.outcome,
+        resourceFlowId: flow.id,
+        provenance,
+      });
+    }
+  }
+  const recordEvidenceArtifactIds: EntityId[] = [];
+  for (const artifact of input.artifacts) {
+    next = recordEvidenceArtifact(next, {
+      ...artifact,
+      relatedEntityIds: [event.id],
+      provenance: { kind: "simulated", sourceEntityIds: [event.id] },
+    });
+    recordEvidenceArtifactIds.push(next.history.evidenceArtifacts.at(-1)!.id);
+  }
+  const appended = appendPressRecord(next, "financial-occurrence", {
+    stableKey: input.stableKey,
+    family: input.family,
+    actorPersonIds,
+    occurrenceEventId: event.id,
+    resourceFlowIds,
+    recordEvidenceArtifactIds,
+    dutyReference: row.dutyReference,
+    intentional: true,
+    occurredAt,
+    jurisdictionId: input.jurisdictionId,
+  });
+  next = appended.world;
+  for (const personId of participantPersonIds) {
+    next = recordEventKnowledge(next, {
+      stableKey: `${input.stableKey}:knowledge:${personId}`,
+      personId,
+      eventId: event.id,
+      learnedAt: occurredAt,
+      believedSummary: input.summary,
+      accuracy: "accurate",
+      confidence: "high",
+      source: { kind: "direct" },
+    });
+  }
+  return { world: next, event, occurrence: appended.record };
 }
 
 /**
@@ -159,108 +318,84 @@ export function spendCampaignFundsPersonally(
     minorUnits: input.amountMinorUnits,
     currency: campaign.treasuryCurrency,
   };
-  let next = recordWorldEvent(world, {
-    stableKey: `${input.stableKey}:act`,
-    type: "finance.campaign-funds-personal-use",
-    occurredAt: world.currentDate,
-    recordedAt: world.currentDate,
-    jurisdictionId: campaign.jurisdictionId,
-    involvedEntityIds: sortedUnique([personId, campaign.organizationId]),
-    participants: [
-      {
-        personId,
-        role: "agency:actor",
-        detail: "Paid a personal expense from the campaign account",
-      },
-    ],
-    personFactConstraints: [],
-    visibility: "private",
-    tags: [PRESS_CONTRACT_VERSION, "misconduct:M1", "provenance:player-choice"],
-    summary: `You paid a personal expense from campaign money: ${purpose}.`,
-    context: {
-      location: null,
-      socialContext: DELIBERATE_MISUSE_LABEL,
-      pressure: null,
-      choice: purpose,
-      motivation: null,
-      immediateReaction: null,
-    },
-  });
-  const act = next.history.events.at(-1)!;
   // The money lands in the candidate's own account. Without a tracked
   // personal position a completed transfer reached nobody: the committee lost
   // it and the candidate never had it (Nome, Alaska playtest, 2026-09-22).
   // The checkpoint carries any earlier recorded money, so a life that already
   // took some finds all of it here.
-  next = ensureLifePathPersonalPosition(next, personId, amount.currency);
-  next = createResourceFlow(next, {
-    stableKey: `${input.stableKey}:flow`,
-    source: { kind: "organization", organizationId: campaign.organizationId },
-    recipient: { kind: "person", personId },
-    startsAt: next.currentDate,
-    initialStatus: "active",
-    amount,
-    cadenceKind: "schedule:one-time",
-    basisKind: "custom:campaign-expenditure",
-    basisReference: { kind: "general" },
-    restrictionKind: "purpose:campaign",
-    jurisdictionId: campaign.jurisdictionId,
-    provenance: { kind: "simulated-event", eventId: act.id },
-  });
-  const flow = next.history.resourceFlows.at(-1)!;
-  next = recordResourceTransferOutcome(next, {
-    stableKey: `${input.stableKey}:transfer`,
-    resourceFlowId: flow.id,
-    periodStartsAt: next.currentDate,
-    periodEndsAt: next.currentDate,
-    occurredAt: next.currentDate,
-    status: "completed",
-    attemptedAmount: amount,
-    transferredAmount: amount,
-    reasonKind: null,
-    note: `Recorded in the committee's books as paid to the candidate: ${purpose}.`,
-    provenance: { kind: "simulated-event", eventId: act.id },
-  });
-  next = recordEvidenceArtifact(next, {
-    stableKey: `${input.stableKey}:ledger`,
-    evidenceKind: "record:campaign-ledger-entry",
-    createdAt: next.currentDate,
-    recordedAt: next.currentDate,
-    relatedEntityIds: [act.id],
-    access: "restricted",
-    description: `Committee ledger entry: a payment to the candidate for ${purpose}.`,
-    provenance: { kind: "simulated", sourceEntityIds: [act.id] },
-  });
-  const ledger = next.history.evidenceArtifacts.at(-1)!;
-  const appended = appendPressRecord(next, "financial-occurrence", {
+  let next = ensureLifePathPersonalPosition(world, personId, amount.currency);
+  const recorded = recordMisconductAct(next, {
     stableKey: input.stableKey,
+    eventStableKey: `${input.stableKey}:act`,
+    eventType: "finance.campaign-funds-personal-use",
     family: "M1",
     actorPersonIds: [personId],
-    occurrenceEventId: act.id,
-    resourceFlowIds: [flow.id],
-    recordEvidenceArtifactIds: [ledger.id],
-    dutyReference: null,
-    intentional: true,
-    occurredAt: next.currentDate,
+    participantPersonIds: [personId],
+    relatedEntityIds: [campaign.organizationId],
+    flows: [
+      {
+        flow: {
+          stableKey: `${input.stableKey}:flow`,
+          source: {
+            kind: "organization",
+            organizationId: campaign.organizationId,
+          },
+          recipient: { kind: "person", personId },
+          startsAt: next.currentDate,
+          initialStatus: "active",
+          amount,
+          cadenceKind: "schedule:one-time",
+          basisKind: "custom:campaign-expenditure",
+          basisReference: { kind: "general" },
+          restrictionKind: "purpose:campaign",
+          jurisdictionId: campaign.jurisdictionId,
+        },
+        outcome: {
+          stableKey: `${input.stableKey}:transfer`,
+          periodStartsAt: next.currentDate,
+          periodEndsAt: next.currentDate,
+          occurredAt: next.currentDate,
+          status: "completed",
+          attemptedAmount: amount,
+          transferredAmount: amount,
+          reasonKind: null,
+          note: `Recorded in the committee's books as paid to the candidate: ${purpose}.`,
+        },
+      },
+    ],
+    artifacts: [
+      {
+        stableKey: `${input.stableKey}:ledger`,
+        evidenceKind: "record:campaign-ledger-entry",
+        createdAt: next.currentDate,
+        recordedAt: next.currentDate,
+        access: "restricted",
+        description: `Committee ledger entry: a payment to the candidate for ${purpose}.`,
+      },
+    ],
     jurisdictionId: campaign.jurisdictionId,
+    summary: `You paid a personal expense from campaign money: ${purpose}.`,
+    choice: purpose,
+    tags: ["provenance:player-choice"],
   });
-  next = scheduleFutureDueItem(appended.world, {
-    stableKey: `press46:ledger-review:${appended.record.id}`,
+  next = scheduleFutureDueItem(recorded.world, {
+    stableKey: `press46:ledger-review:${recorded.occurrence.id}`,
     dueAt: addDays(next.currentDate, LEDGER_REVIEW_DAYS),
     transitionKey: PRESS_LEDGER_REVIEW_TRANSITION_KEY,
-    entityIds: sortedUnique([act.id, personId]),
+    entityIds: sortedUnique([recorded.event.id, personId]),
     jurisdictionId: campaign.jurisdictionId,
-    provenance: { kind: "simulated", sourceEntityIds: [act.id] },
+    provenance: { kind: "simulated", sourceEntityIds: [recorded.event.id] },
   });
-  return { world: next, occurrence: appended.record };
+  return { world: next, occurrence: recorded.occurrence };
 }
 
 export interface OpenMatterInput {
   readonly stableKey: string;
-  readonly family: MisconductFamily;
+  readonly family: MatterFamily;
   readonly subjectPersonIds: readonly EntityId[];
   readonly occurrenceId: EntityId | null;
   readonly originEventId: EntityId;
+  readonly personalEventId?: EntityId | null;
   readonly jurisdictionId: EntityId | null;
 }
 
@@ -272,10 +407,112 @@ export function openMatter(
   if (existing) return { world, matter: existing };
   const appended = appendPressRecord(world, "matter", {
     ...input,
+    personalEventId: input.personalEventId ?? null,
     subjectPersonIds: sortedUnique(input.subjectPersonIds),
     openedAt: world.currentDate,
   });
   return { world: appended.world, matter: appended.record };
+}
+
+/** Open a press matter from an existing personal event with an on-record
+ * source. A private event needs a public claim that points to that event. */
+export function openPersonalLifeMatter(
+  world: World,
+  input: {
+    readonly stableKey: string;
+    readonly sourceEventId: EntityId;
+    readonly subjectPersonIds: readonly EntityId[];
+    readonly publicClaimId?: EntityId;
+  },
+): { readonly world: World; readonly matter: MatterRecord } {
+  const event = eventById(world, input.sourceEventId);
+  if (!event) throw new Error("A personal-life matter needs a recorded event.");
+  const allowedPersonalEvent =
+    event.type === "crime.arrest-made" || event.type === "life.couple-ended";
+  if (!allowedPersonalEvent && !input.publicClaimId) {
+    throw new Error(
+      "A personal-life matter needs an arrest, breakup, or public claim.",
+    );
+  }
+  const publicClaim = input.publicClaimId
+    ? world.history.claims.find((claim) => claim.id === input.publicClaimId)
+    : undefined;
+  if (
+    input.publicClaimId &&
+    (!publicClaim ||
+      publicClaim.eventId !== input.sourceEventId ||
+      publicClaim.audience !== "public")
+  ) {
+    throw new Error(
+      "A claim-based personal matter needs a matching public claim.",
+    );
+  }
+  if (event.visibility !== "public" && !publicClaim) {
+    throw new Error(
+      "A private personal event needs a public claim on the record.",
+    );
+  }
+  const subjects = sortedUnique(input.subjectPersonIds);
+  if (
+    subjects.length === 0 ||
+    subjects.some((personId) => !world.people[personId]) ||
+    !subjects.some((personId) =>
+      event.participants.some(
+        (participant) => participant.personId === personId,
+      ),
+    )
+  ) {
+    throw new Error(
+      "A personal-life matter must name a person in its source record.",
+    );
+  }
+  const opened = openMatter(world, {
+    stableKey: input.stableKey,
+    family: PERSONAL_LIFE_MATTER_FAMILY,
+    subjectPersonIds: subjects,
+    occurrenceId: null,
+    originEventId: event.id,
+    personalEventId: event.id,
+    jurisdictionId: event.jurisdictionId,
+  });
+  const openedEventKey = `${input.stableKey}:on-record`;
+  const existing = opened.world.history.events.find(
+    (candidate) => candidate.stableKey === openedEventKey,
+  );
+  if (existing) return opened;
+  const names = subjects
+    .map((personId) => world.people[personId]!)
+    .map(personName);
+  const publicEvent = recordWorldEvent(opened.world, {
+    stableKey: openedEventKey,
+    type: "matter.personal-life-opened",
+    occurredAt: opened.world.currentDate,
+    recordedAt: opened.world.currentDate,
+    jurisdictionId: event.jurisdictionId,
+    involvedEntityIds: sortedUnique([...subjects, opened.matter.id]),
+    participants: subjects.map((personId) => ({
+      personId,
+      role: "focus:personal-matter-subject",
+      detail: "Named in a matter based on a recorded personal event",
+    })),
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      PRESS_CONTRACT_VERSION,
+      `${PRESS_MATTER_TAG}${opened.matter.id}`,
+      "time-neutral",
+    ],
+    summary: `A recorded personal event involving ${names.join(" and ")} became public.`,
+    context: {
+      location: null,
+      socialContext: MISCONDUCT_FAMILY_LABELS[PERSONAL_LIFE_MATTER_FAMILY],
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  return { ...opened, world: publicEvent };
 }
 
 export interface RecordAllegationInput {

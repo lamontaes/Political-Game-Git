@@ -1,3 +1,7 @@
+import {
+  decisionConsiderationScore,
+  compareDecisionOptionScores,
+} from "../simulation/decision-scores";
 import type {
   AppraisalRecord,
   CampaignCommitmentRecord,
@@ -40,6 +44,8 @@ import type {
   SubjectKnowledgeRecord,
   TemporaryStateRecord,
   World,
+  IsoDate,
+  LifeRecordProvenance,
 } from "../simulation";
 import {
   createTraceNode,
@@ -838,14 +844,24 @@ function eventNode(record: HistoricalEvent): TraceNode {
         entityId: participant.personId,
       })),
     ],
-    links: [],
-    unrecordedLinks: [
-      {
-        kind: "causal-parent",
-        role: "history.events",
-        note: "A historical event is a root record: the family carries no parent pointer.",
-      },
-    ],
+    links: record.tags
+      .filter((tag) => tag.startsWith("decision-trace:"))
+      .map((tag) => ({
+        kind: "causal-parent" as const,
+        role: "tags.decision-trace",
+        targetId: tag.slice("decision-trace:".length) as EntityId,
+      })),
+    unrecordedLinks: record.tags.some((tag) =>
+      tag.startsWith("decision-trace:"),
+    )
+      ? []
+      : [
+          {
+            kind: "causal-parent",
+            role: "history.events",
+            note: "A historical event is a root record: the family carries no parent pointer.",
+          },
+        ],
     developmentSummary: `event type=${record.type} visibility=${record.visibility} participants=${record.participants.length} tags=${record.tags.join("|")}`,
     recordText: record.summary,
   });
@@ -1464,6 +1480,56 @@ function relationshipInteractionNode(
  * snapshots of whatever each consideration actually cited. Collapsing them
  * would lose the distinction between what was available and what was used.
  */
+/** Read-only projection: saved ranks stay separate from today's score calculation. */
+export function projectDecisionTraceDetails(record: DecisionTraceRecord) {
+  const options = record.context.options.map((option) => {
+    const components = record.context.considerations
+      .filter((item) => item.optionKey === option.key)
+      .map((consideration) => ({
+        consideration,
+        importanceWeight: decisionConsiderationScore({
+          ...consideration,
+          confidence: "low",
+          direction: "supports",
+        }),
+        confidenceWeight: decisionConsiderationScore({
+          ...consideration,
+          importance: "slight",
+          direction: "supports",
+        }),
+        contribution: decisionConsiderationScore(consideration),
+      }));
+    return {
+      optionKey: option.key,
+      components,
+      sum: components.reduce((sum, item) => sum + item.contribution, 0),
+      tiedWith: record.context.options
+        .filter(
+          (other) =>
+            other.key !== option.key &&
+            record.optionEvaluations.find((row) => row.optionKey === option.key)
+              ?.available === true &&
+            record.optionEvaluations.find((row) => row.optionKey === other.key)
+              ?.available === true &&
+            compareDecisionOptionScores(
+              record.context,
+              option.key,
+              other.key,
+            ) === 0,
+        )
+        .map((other) => other.key),
+    };
+  });
+  return {
+    saved: record,
+    currentCodeCalculation: {
+      label: "CURRENT-CODE CALCULATION — not a historically stored total",
+      note: "Weights, sums and ties use the current shared decision-scores calculator on saved considerations and peer estimates. Saved availability and ranks are shown separately.",
+      options,
+    },
+  };
+}
+
 function decisionTraceNode(record: DecisionTraceRecord): TraceNode {
   const considerationLinks = record.context.considerations.flatMap(
     (consideration, index) =>
@@ -1526,6 +1592,18 @@ function decisionTraceNode(record: DecisionTraceRecord): TraceNode {
           ]),
     ],
     links: [
+      ...((record.context.subject.kind === "context:legislative-question" ||
+        (record.context.subject.kind === "context:life" &&
+          record.context.subject.key === "job-offer")) &&
+      record.context.subject.entityId
+        ? [
+            {
+              kind: "source-record" as const,
+              role: "context.subject.entityId",
+              targetId: record.context.subject.entityId,
+            },
+          ]
+        : []),
       ...perceptionLinks,
       ...considerationLinks,
       ...constraintLinks,
@@ -1533,7 +1611,7 @@ function decisionTraceNode(record: DecisionTraceRecord): TraceNode {
     ],
     unrecordedLinks,
     developmentSummary: `decision-trace type=${record.context.decisionType} outcome=${record.outcomeKind} selected=${record.selectedOptionKey ?? "none"} cutoffSequence=${record.context.cutoff.historySequenceExclusive}`,
-    recordText: null,
+    recordText: JSON.stringify(projectDecisionTraceDetails(record), null, 2),
   });
 }
 
@@ -1745,6 +1823,57 @@ function source<T>(
   };
 }
 
+function recordNode(
+  family: string,
+  record: {
+    readonly id: EntityId;
+    readonly stableKey: string;
+    readonly sequence: number;
+  },
+  at: IsoDate,
+  text: string,
+  entityIds: readonly EntityId[],
+  links: readonly TraceLink[],
+  provenance?: LifeRecordProvenance,
+): TraceNode {
+  return createTraceNode({
+    id: record.id,
+    family,
+    recordClass:
+      !family.startsWith("history.work") && !family.startsWith("history.job")
+        ? "civic-record"
+        : "life-record",
+    truthOrigin:
+      provenance?.kind === "authored"
+        ? "authored"
+        : provenance?.kind === "generated"
+          ? "generated"
+          : provenance?.kind === "source-record"
+            ? "source-record"
+            : "simulated",
+    stableKey: record.stableKey,
+    sequence: record.sequence,
+    occurredAt: at,
+    recordedAt: null,
+    entityRefs: entityRefsFromIds("entities", entityIds),
+    links: [
+      ...links,
+      ...(provenance?.kind === "simulated-event"
+        ? [
+            {
+              kind: "causal-parent" as const,
+              role: "provenance.eventId",
+              targetId: provenance.eventId,
+            },
+          ]
+        : []),
+    ],
+    unrecordedLinks: [],
+    developmentSummary: text,
+    recordText: text,
+  });
+}
+
 /**
  * Every record family the accepted architecture already links.
  *
@@ -1754,6 +1883,307 @@ function source<T>(
  * packet that needs one registers it.
  */
 export const BUILT_IN_TRACE_SOURCES: readonly TraceSource[] = [
+  source(
+    "history.constitutionalMeasures",
+    "history.constitutionalMeasures",
+    "civic-record",
+    (world) => world.history.constitutionalMeasures ?? [],
+    (record) =>
+      recordNode(
+        "history.constitutionalMeasures",
+        record,
+        record.introducedAt,
+        `${record.designation}: ${record.text}`,
+        [
+          record.jurisdictionId,
+          ...(record.sponsorPersonId ? [record.sponsorPersonId] : []),
+        ],
+        record.ordinaryMeasureId
+          ? [
+              {
+                kind: "source-record",
+                role: "ordinaryMeasureId",
+                targetId: record.ordinaryMeasureId,
+              },
+            ]
+          : [],
+      ),
+  ),
+  source(
+    "history.constitutionalActions",
+    "history.constitutionalActions",
+    "civic-record",
+    (world) => world.history.constitutionalActions ?? [],
+    (record) =>
+      recordNode(
+        "history.constitutionalActions",
+        record,
+        record.occurredAt,
+        JSON.stringify(record.detail),
+        [record.measureId],
+        [
+          {
+            kind: "source-record",
+            role: "measureId",
+            targetId: record.measureId,
+          },
+          { kind: "causal-parent", role: "eventId", targetId: record.eventId },
+        ],
+      ),
+  ),
+  source(
+    "history.electionContests",
+    "history.electionContests",
+    "civic-record",
+    (world) => world.history.electionContests ?? [],
+    (record) =>
+      recordNode(
+        "history.electionContests",
+        record,
+        record.scheduledAt,
+        `${record.office.title}: election on ${record.electionDate}`,
+        [record.jurisdictionId, ...record.candidatePersonIds],
+        [],
+      ),
+  ),
+  source(
+    "history.electionContestResults",
+    "history.electionContestResults",
+    "civic-record",
+    (world) => world.history.electionContestResults ?? [],
+    (record) =>
+      recordNode(
+        "history.electionContestResults",
+        record,
+        record.resolvedAt,
+        record.tallies
+          .map((tally) => `${tally.votes} votes for ${tally.candidatePersonId}`)
+          .join("; "),
+        [
+          record.winnerPersonId,
+          ...record.tallies.map((tally) => tally.candidatePersonId),
+        ],
+        [
+          {
+            kind: "source-record",
+            role: "contestId",
+            targetId: record.contestId,
+          },
+          {
+            kind: "causal-parent",
+            role: "outcomeEventId",
+            targetId: record.outcomeEventId,
+          },
+        ],
+      ),
+  ),
+  source(
+    "history.legislativeMeasures",
+    "history.legislativeMeasures",
+    "civic-record",
+    (world) => world.history.legislativeMeasures ?? [],
+    (record) =>
+      recordNode(
+        "history.legislativeMeasures",
+        record,
+        record.introducedAt,
+        `${record.designation}: ${record.shortTitle}. ${record.summary}`,
+        [
+          record.jurisdictionId,
+          ...(record.sponsorPersonId ? [record.sponsorPersonId] : []),
+        ],
+        [],
+      ),
+  ),
+  source(
+    "history.legislativeVotes",
+    "history.legislativeVotes",
+    "civic-record",
+    (world) => world.history.legislativeVotes ?? [],
+    (record) =>
+      recordNode(
+        "history.legislativeVotes",
+        record,
+        record.takenAt,
+        `${record.purpose}: ${record.tally.yea} yes, ${record.tally.nay} no. ${record.outcome}. ${record.dispositions.map((member) => member.reason ?? member.disposition).join("; ")}`,
+        [
+          record.measureId,
+          ...record.dispositions.flatMap((member) =>
+            member.personId ? [member.personId] : [],
+          ),
+        ],
+        [
+          {
+            kind: "source-record",
+            role: "measureId",
+            targetId: record.measureId,
+          },
+          ...linksFromIds(
+            "source-record",
+            "provenance.sourceEntityIds",
+            record.provenance.sourceEntityIds.filter(
+              (id) => id !== record.measureId,
+            ),
+          ),
+        ],
+      ),
+  ),
+  source(
+    "history.workRelationships",
+    "history.workRelationships",
+    "life-record",
+    (world) => world.history.workRelationships,
+    (record) =>
+      recordNode(
+        "history.workRelationships",
+        record,
+        record.startedAt,
+        `${record.kind} work began on ${record.startedAt}.`,
+        [
+          record.personId,
+          ...(record.organizationId ? [record.organizationId] : []),
+        ],
+        [],
+        record.provenance,
+      ),
+  ),
+  source(
+    "history.workStatuses",
+    "history.workStatuses",
+    "life-record",
+    (world) => world.history.workStatuses,
+    (record) =>
+      recordNode(
+        "history.workStatuses",
+        record,
+        record.effectiveAt,
+        `${record.status}: ${record.reason ?? record.status}`,
+        [record.workRelationshipId],
+        [
+          {
+            kind: "source-record",
+            role: "workRelationshipId",
+            targetId: record.workRelationshipId,
+          },
+        ],
+        record.provenance,
+      ),
+  ),
+  source(
+    "history.workRoles",
+    "history.workRoles",
+    "life-record",
+    (world) => world.history.workRoles,
+    (record) =>
+      recordNode(
+        "history.workRoles",
+        record,
+        record.effectiveAt,
+        record.title,
+        [record.workRelationshipId],
+        [
+          {
+            kind: "source-record",
+            role: "workRelationshipId",
+            targetId: record.workRelationshipId,
+          },
+        ],
+        record.provenance,
+      ),
+  ),
+  source(
+    "history.jobApplications",
+    "history.jobApplications",
+    "life-record",
+    (world) => world.history.jobApplications ?? [],
+    (record) =>
+      recordNode(
+        "history.jobApplications",
+        record,
+        record.submittedAt,
+        `Applied on ${record.submittedAt}. Employer answer due ${record.decisionAt}.`,
+        [record.personId, record.openingId],
+        [
+          {
+            kind: "source-record",
+            role: "openingId",
+            targetId: record.openingId,
+          },
+        ],
+      ),
+  ),
+  source(
+    "history.jobOpenings",
+    "history.jobOpenings",
+    "life-record",
+    (world) => world.history.jobOpenings ?? [],
+    (record) =>
+      recordNode(
+        "history.jobOpenings",
+        record,
+        record.opensAt,
+        `${record.title}: ${record.pay.amount.minorUnits} minor units, ${record.pay.basis}.`,
+        [record.organizationId, record.jurisdictionId],
+        [],
+        record.provenance,
+      ),
+  ),
+  source(
+    "history.jobApplicationSteps",
+    "history.jobApplicationSteps",
+    "life-record",
+    (world) => {
+      const peopleByApplication = new Map(
+        (world.history.jobApplications ?? []).map((record) => [
+          record.id,
+          record.personId,
+        ]),
+      );
+      const summariesByEvent = new Map(
+        world.history.events.map((event) => [event.id, event.summary]),
+      );
+      return (world.history.jobApplicationSteps ?? []).map((record) => ({
+        record,
+        personId: peopleByApplication.get(record.applicationId),
+        text:
+          (record.eventId ? summariesByEvent.get(record.eventId) : null) ??
+          `${record.kind}: ${record.reason ?? record.kind}`,
+      }));
+    },
+    ({ record, personId, text }) =>
+      recordNode(
+        "history.jobApplicationSteps",
+        record,
+        record.occurredAt,
+        text,
+        [record.applicationId, ...(personId ? [personId] : [])],
+        [
+          {
+            kind: "source-record",
+            role: "applicationId",
+            targetId: record.applicationId,
+          },
+          ...(record.eventId
+            ? [
+                {
+                  kind: "causal-parent" as const,
+                  role: "eventId",
+                  targetId: record.eventId,
+                },
+              ]
+            : []),
+          ...(record.workRelationshipId
+            ? [
+                {
+                  kind: "source-record" as const,
+                  role: "workRelationshipId",
+                  targetId: record.workRelationshipId,
+                },
+              ]
+            : []),
+        ],
+      ),
+  ),
   source(
     "history.events",
     "history.events",

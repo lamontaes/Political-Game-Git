@@ -346,7 +346,8 @@ export function assertNpcAutonomousApplication(
   }
   if (
     world.control.kind === "person" &&
-    world.control.personId === actorPersonId
+    world.control.personId === actorPersonId &&
+    world.preStartLife?.personId !== actorPersonId
   ) {
     throw new Error(
       "Autonomous application cannot make a major choice for the controlled person.",
@@ -734,6 +735,8 @@ function decisionSubjectExists(world: World, id: EntityId): boolean {
     !!world.policyCatalog.principles[id] ||
     !!world.mindCatalog.tendencies[id] ||
     !!world.mindCatalog.values[id] ||
+    (world.history.jobApplications?.some((record) => record.id === id) ??
+      false) ||
     lifeEntityExists(world, id) ||
     legislationEntityExists(world, id) ||
     legislativePoliticsEntityExists(world, id) ||

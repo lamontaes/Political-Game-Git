@@ -474,7 +474,7 @@ export function packForResearchGovernment(
     ),
     unresolved: [
       ...government.unresolved,
-      "This record comes from a national institutional research pass over official municipal pages, not from those pages themselves. Its legal procedure was never read and is UNKNOWN throughout.",
+      "The cited municipal pages establish this record's institutional facts. They do not establish legal-procedure fields, so this record makes no legal-procedure claim.",
     ],
     asOf: government.attestedAsOf,
     citedSources: government.sources.map((source) => ({

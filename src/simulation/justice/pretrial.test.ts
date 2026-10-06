@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { makeIsoDate } from "../dates";
-import { stateJurisdictionForKey } from "../life-places";
+import { lifePlaceByKey, stateJurisdictionForKey } from "../life-places";
 import { SeededRng } from "../rng";
 import type {
   EntityId,
@@ -12,7 +12,14 @@ import type {
 } from "../types";
 import { mandatoryJailUnderLaw, type CourtCase } from "./court-reasoning";
 import { adultCourtAgeAt } from "./juvenile-court";
-import { bailDueMinorUnits, bailMinorUnits, pretrialLawAt } from "./pretrial";
+import {
+  bailDueMinorUnits,
+  bailMinorUnits,
+  estimatedBailMinorUnits,
+  recordedChargeBailMinorUnits,
+  pretrialLawAt,
+  pretrialLawTermAt,
+} from "./pretrial";
 
 /**
  * The two justice laws the court reads, in both directions: the law the game
@@ -143,13 +150,141 @@ describe("cash bail, as the law in force answers it", () => {
     );
   });
 
-  it("sets bail at the 2009 median for the charge, in 2025 dollars, and a tenth of it sends the defendant home", () => {
+  it("keeps the sourced research estimate separate from legal bail authority", () => {
     // $50,000 x 321.943 / 214.537 = $75,032.46, rounded to whole dollars.
-    expect(bailMinorUnits("crime:robbery")).toBe(7_503_200);
-    expect(bailDueMinorUnits("crime:robbery")).toBe(750_320);
-    expect(bailMinorUnits("crime:assault")).toBe(2_251_000);
-    expect(bailMinorUnits("crime:vandalism")).toBe(750_300);
-    expect(bailMinorUnits("something-unread")).toBe(1_500_600);
+    expect(estimatedBailMinorUnits("crime:robbery")).toBe(7_503_200);
+    expect(
+      bailMinorUnits(worldWith("2026-01-10", []), {
+        venueJurisdictionId: state,
+        offenseKey: "crime:robbery",
+      }),
+    ).toBeNull();
+    expect(estimatedBailMinorUnits("crime:assault")).toBe(2_251_000);
+    expect(estimatedBailMinorUnits("crime:vandalism")).toBe(750_300);
+    expect(estimatedBailMinorUnits("something-unread")).toBe(1_500_600);
+  });
+});
+
+describe("operative cash amounts", () => {
+  const place = drawPlace("operative-bail", "no");
+  const state = stateJurisdictionForKey(place)!.id;
+  const input = { venueJurisdictionId: state, offenseKey: "crime:robbery" };
+  const fixtureAmount = estimatedBailMinorUnits(input.offenseKey);
+  function enactedAmount(value = fixtureAmount, unit = "minor") {
+    const adopted = law(state, BAIL_ID, "no", "2026-02-01");
+    const world = worldWith("2026-03-01", [adopted]);
+    // Controlled adopted-text fixture, not a claim about any state's actual schedule.
+    return {
+      ...world,
+      history: {
+        ...world.history,
+        legislativeProvisions: [
+          {
+            id: "bail-provision" as EntityId,
+            measureId: adopted.measure.id,
+            sequence: adopted.enactment.sequence - 1,
+            recordedAt: makeIsoDate("2026-01-05"),
+            supersedesProvisionId: null,
+            answers: null,
+            applicationScope: { jurisdictionId: state, segmentKey: null },
+            lawTerms: [
+              {
+                questionKey: CASH_BAIL,
+                key: `cash-bail:${input.offenseKey}`,
+                value,
+                unit,
+              },
+            ],
+          },
+        ],
+      },
+    } as unknown as World;
+  }
+  it("reads adopted offense-specific cash, with no cross-offense or cross-state fallback", () => {
+    const world = enactedAmount();
+    const term = pretrialLawTermAt(world, state, {
+      questionKey: CASH_BAIL,
+      termKey: `cash-bail:${input.offenseKey}`,
+      unit: "minor",
+    });
+    expect(bailMinorUnits(world, input)).toBe(fixtureAmount);
+    expect(bailDueMinorUnits(world, input)).toBe(fixtureAmount);
+    expect(term).toMatchObject({
+      value: fixtureAmount,
+      measureId: world.history.legislativeMeasures![0]!.id,
+    });
+    expect(term!.sourceRecordIds).toContain(
+      world.history.legislativeMeasures![0]!.id,
+    );
+    console.info(
+      `WATCHED PRETRIAL RULE — ${lifePlaceByKey(place)?.displayName ?? place}: enacted law ${term!.measureId} supplies ${input.offenseKey} cash-bail amount ${term!.value} minor units; the same reader returns no term when the jurisdiction is missing.`,
+    );
+    expect(
+      pretrialLawTermAt(world, null, {
+        questionKey: CASH_BAIL,
+        termKey: `cash-bail:${input.offenseKey}`,
+        unit: "minor",
+      }),
+    ).toBeNull();
+    expect(
+      bailMinorUnits(world, { ...input, offenseKey: "crime:assault" }),
+    ).toBeNull();
+    const other = stateJurisdictionForKey(
+      drawPlace("operative-bail-other", "yes"),
+    )!.id;
+    expect(
+      bailMinorUnits(world, { ...input, venueJurisdictionId: other }),
+    ).toBeNull();
+    expect(
+      bailMinorUnits(
+        { ...world, currentDate: makeIsoDate("2026-01-10") },
+        input,
+      ),
+    ).toBeNull();
+    expect(
+      bailMinorUnits(enactedAmount(fixtureAmount, "months"), input),
+    ).toBeNull();
+    expect(bailMinorUnits(enactedAmount(-fixtureAmount), input)).toBeNull();
+  });
+  it("preserves a saved amount after legal changes and rejects ambiguous or invalid records", () => {
+    const id = "saved-charge" as EntityId;
+    const event = {
+      id,
+      type: "justice.charged",
+      occurredAt: makeIsoDate("2026-01-10"),
+      tags: [`justice.cash-bail-amount:${fixtureAmount}`],
+    };
+    const world = {
+      ...worldWith("2026-03-01", []),
+      history: { ...worldWith("2026-03-01", []).history, events: [event] },
+    } as unknown as World;
+    expect(recordedChargeBailMinorUnits(world, id)).toBe(fixtureAmount);
+    const invalid = (patch: object) =>
+      ({
+        ...world,
+        history: { ...world.history, events: [{ ...event, ...patch }] },
+      }) as unknown as World;
+    expect(
+      recordedChargeBailMinorUnits(
+        invalid({ tags: [...event.tags, ...event.tags] }),
+        id,
+      ),
+    ).toBeNull();
+    expect(
+      recordedChargeBailMinorUnits(invalid({ type: "justice.referred" }), id),
+    ).toBeNull();
+    expect(
+      recordedChargeBailMinorUnits(
+        invalid({ tags: ["justice.cash-bail-amount:NaN"] }),
+        id,
+      ),
+    ).toBeNull();
+    expect(
+      recordedChargeBailMinorUnits(
+        invalid({ occurredAt: makeIsoDate("2027-01-10") }),
+        id,
+      ),
+    ).toBeNull();
   });
 });
 

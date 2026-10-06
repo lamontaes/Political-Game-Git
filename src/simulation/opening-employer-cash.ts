@@ -4,6 +4,7 @@ import {
   workStatusAt,
 } from "./life-queries";
 import { LIFE_PATHS2_CATALOG } from "./life-paths2-catalog";
+import { lifePlaceByJurisdictionId } from "./life-places";
 import {
   resourceFlowTermsAt,
   resourcePositionAt,
@@ -105,6 +106,118 @@ export function readOpeningEmployerCashEstimate(
   };
 }
 
+/**
+ * When the exact classification cohort is absent, compare active paid
+ * employers with saved cash in the worker's recorded place or state.
+ * Life-path employers currently have no saved worksite; in that case the
+ * worker's home jurisdiction is used only as the comparison context and is
+ * named as such in the estimate provenance.
+ */
+function readStaffedPlaceEmployerCashEstimate(
+  world: World,
+  organizationId: EntityId,
+  currency: CurrencyCode,
+): OpeningEmployerCashEstimate {
+  const targetProfile = organizationProfileAt(world, organizationId);
+  if (!targetProfile || targetProfile.closed)
+    return { status: "blocked", reason: "missing-employer-profile" };
+  const activePaid = world.history.workRelationships.filter(
+    (work) =>
+      work.organizationId &&
+      work.compensation === "paid" &&
+      work.startedAt <= world.currentDate &&
+      workStatusAt(world, work.id)?.status === "active",
+  );
+  const targetStaff = activePaid.filter(
+    (work) => work.organizationId === organizationId,
+  );
+  const targetPlaces = targetProfile.locationJurisdictionId
+    ? [targetProfile.locationJurisdictionId]
+    : targetStaff.flatMap((work) => {
+        const role = workRoleAt(world, work.id);
+        const jurisdictionId =
+          role?.locationJurisdictionId ??
+          role?.timeDemand.locationJurisdictionId ??
+          world.people[work.personId]?.homeJurisdictionId ??
+          null;
+        return jurisdictionId ? [jurisdictionId] : [];
+      });
+  if (!targetPlaces.length)
+    return { status: "blocked", reason: "empty-comparable-cash-cohort" };
+  const targetStateKeys = new Set(
+    targetPlaces.flatMap((id) => {
+      const key = lifePlaceByJurisdictionId(id)?.stateJurisdictionKey;
+      return key ? [key] : [];
+    }),
+  );
+  const placeMatches = (candidateId: EntityId | null): boolean => {
+    if (!candidateId) return false;
+    if (targetPlaces.includes(candidateId)) return true;
+    const key = lifePlaceByJurisdictionId(candidateId)?.stateJurisdictionKey;
+    return !!key && targetStateKeys.has(key);
+  };
+
+  const donorOrganizations = new Set(
+    activePaid
+      .filter((work) => work.organizationId !== organizationId)
+      .map((work) => work.organizationId!),
+  );
+  const donors = [...donorOrganizations].flatMap((donorId) => {
+    const organization = world.history.organizations.find(
+      (row) => row.id === donorId && row.formedAt <= world.currentDate,
+    );
+    const profile = organizationProfileAt(world, donorId);
+    if (!organization || !profile || profile.closed) return [];
+    const donorWork = activePaid.filter(
+      (work) => work.organizationId === donorId,
+    );
+    const donorPlaces = profile.locationJurisdictionId
+      ? [profile.locationJurisdictionId]
+      : donorWork.flatMap((work) => {
+          const role = workRoleAt(world, work.id);
+          const jurisdictionId =
+            role?.locationJurisdictionId ??
+            role?.timeDemand.locationJurisdictionId ??
+            world.people[work.personId]?.homeJurisdictionId ??
+            null;
+          return jurisdictionId ? [jurisdictionId] : [];
+        });
+    if (!donorPlaces.some(placeMatches)) return [];
+    const cash = resourcePositionAt(
+      world,
+      { kind: "organization", organizationId: donorId },
+      currency,
+    );
+    if (!cash) return [];
+    return [
+      {
+        organizationId: donorId,
+        profileId: profile.id,
+        positionId: cash.positionId,
+        outcomeIds: cash.outcomeIds,
+        spendableMinorUnits: Math.max(0, cash.liquidBalance.minorUnits),
+      },
+    ];
+  });
+  if (!donors.length)
+    return { status: "blocked", reason: "empty-comparable-cash-cohort" };
+  const mean = Math.round(
+    donors.reduce(
+      (sum, donor) => sum + donor.spendableMinorUnits / donors.length,
+      0,
+    ),
+  );
+  const placeDescription = targetProfile.locationJurisdictionId
+    ? `recorded employer place ${targetProfile.locationJurisdictionId}`
+    : `recorded worker home jurisdiction(s) ${targetPlaces.join(", ")} because the employer worksite is unknown`;
+  return {
+    status: "estimated",
+    amount: money(mean, currency),
+    donors,
+    note: `ESTIMATED FROM AVERAGE: ${donors.length} active paid employers with saved staff and cash in a comparable place to ${placeDescription}; current recorded spendable ${currency} cash, each employer counted once. Negative balances supply zero spendable cash. Source positions: ${donors.map((donor) => donor.positionId).join(", ")}. No cash written or payment recorded.`,
+  };
+}
+
 /** Calendar unit conversions, matching the saved work-compensation cadences. */
 const annualPeriods: Readonly<Record<string, number>> = {
   weekly: 52,
@@ -123,6 +236,7 @@ const annualPeriods: Readonly<Record<string, number>> = {
 export function ensureEmployerCashPositions(
   world: World,
   phase: "opening" | "later",
+  onlyOrganizations?: ReadonlySet<EntityId>,
 ): World {
   const USD = makeCurrencyCode("USD");
   const payroll = new Map<
@@ -200,6 +314,7 @@ export function ensureEmployerCashPositions(
   return writeWithWorldIntegrityOnce(world, () => {
     let next = world;
     for (const [organizationId, pay] of payroll) {
+      if (onlyOrganizations && !onlyOrganizations.has(organizationId)) continue;
       const owner = { kind: "organization" as const, organizationId };
       if (
         resourcePositionsOf(world, owner).some(
@@ -215,14 +330,23 @@ export function ensureEmployerCashPositions(
       let amount: MoneyAmount;
       let note: string;
       if (phase === "later") {
-        const peer = readOpeningEmployerCashEstimate(
+        const classificationPeer = readOpeningEmployerCashEstimate(
           world,
           organizationId,
           USD,
         );
+        const peer =
+          classificationPeer.status === "estimated"
+            ? classificationPeer
+            : classificationPeer.reason === "empty-comparable-cash-cohort"
+              ? readStaffedPlaceEmployerCashEstimate(world, organizationId, USD)
+              : classificationPeer;
         if (peer.status === "blocked") continue;
         amount = peer.amount;
-        note = peer.note;
+        note = `ESTIMATED OPENING STOCK recorded before payroll settlement. ${peer.note.replace(
+          "No cash written or payment recorded.",
+          "This estimate records opening stock only; no transfer or payment was recorded.",
+        )}`;
       } else {
         const kind =
           townWorkplaceFor(organization.stableKey, profile.classification)
@@ -261,6 +385,48 @@ export function ensureEmployerCashPositions(
         openingBalance: amount,
         provenance: { kind: "authored", note },
       });
+    }
+    if (phase === "opening") {
+      // A paid employer without annualizable opening payroll can still use its
+      // saved classification cohort. Freeze donors before admitting estimates so
+      // one estimated account never becomes the source for another in this pass.
+      const cohortWorld = next;
+      const employers = new Set(
+        cohortWorld.history.workRelationships
+          .filter(
+            (work) =>
+              work.compensation === "paid" &&
+              work.startedAt <= cohortWorld.currentDate &&
+              workStatusAt(cohortWorld, work.id)?.status === "active",
+          )
+          .map((work) => work.organizationId),
+      );
+      for (const organizationId of employers) {
+        if (!organizationId) continue;
+        const owner = { kind: "organization" as const, organizationId };
+        if (
+          resourcePositionsOf(cohortWorld, owner).some(
+            (position) => position.openingBalance.currency === USD,
+          )
+        )
+          continue;
+        const peer = readOpeningEmployerCashEstimate(
+          cohortWorld,
+          organizationId,
+          USD,
+        );
+        if (peer.status === "blocked") continue;
+        next = createResourcePosition(next, {
+          stableKey: `employer-cash:${organizationId}:USD`,
+          owner,
+          openedAt: cohortWorld.currentDate,
+          openingBalance: peer.amount,
+          provenance: {
+            kind: "authored",
+            note: `ESTIMATED OPENING STOCK from the recorded classification cohort. ${peer.note}`,
+          },
+        });
+      }
     }
     return phase === "opening"
       ? ensureTownOpeningBusinessBooks(

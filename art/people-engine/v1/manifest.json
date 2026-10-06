@@ -1313,7 +1313,21 @@
         {
           "id": "afro",
           "back": "hair-feminine-afro-back.png",
-          "front": "hair-feminine-afro-front.png"
+          "front": "hair-feminine-afro-front.png",
+          "faceWindow": {
+            "sourceFront": "hair-feminine-afro-front.png",
+            "sourceSha256": "c3896011eba3c030ceb90daece3b541cc3891ef9090d28eff6876b285589558e",
+            "canvas": {
+              "width": 512,
+              "height": 808
+            },
+            "view": "front",
+            "fromRow": 108,
+            "throughRow": 160,
+            "insetPixels": 1,
+            "featherRows": 3,
+            "approval": "candidate"
+          }
         },
         {
           "id": "bob-bangs",
@@ -13749,5 +13763,23 @@
         }
       }
     }
+  },
+  "slotKindsByPose": {
+    "standing": ["stand"],
+    "seated": ["sit"],
+    "arms-folded": ["stand"],
+    "explaining": ["stand"],
+    "hand-on-hip": ["stand"],
+    "podium": ["podium"],
+    "seated-leaning": ["sit"],
+    "seated-legs-crossed": ["sit"],
+    "seated-reading": ["sit"],
+    "seated-writing": ["sit"],
+    "seated-phone": ["sit"],
+    "seated-hands-folded": ["sit"],
+    "seated-listening": ["sit"],
+    "seated-relaxed": ["sit"],
+    "hands-in-pockets": ["stand"],
+    "seated-ankle-on-knee": ["sit"]
   }
 }

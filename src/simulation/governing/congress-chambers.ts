@@ -2,6 +2,7 @@ import { nextSessionCalendarDate } from "../legislative-session-calendar";
 import { LEGISLATIVE_SESSION_CALENDARS } from "../legislative-session-calendar-data";
 import {
   CONGRESS_COMMITTEE_BY_DOMAIN,
+  isCongressRulePack,
   US_CONGRESS_PACK_ID,
   US_CONGRESS_RULE_PACK,
 } from "../congress-rule-pack";
@@ -42,7 +43,7 @@ const CHAMBER_FOR_PACK: Readonly<Record<string, ChamberKey>> = {
 };
 
 export function isCongressMeasure(measure: LegislativeMeasureRecord): boolean {
-  return measure.rulePackId === US_CONGRESS_PACK_ID;
+  return isCongressRulePack(measure.rulePackId);
 }
 
 /** Each national party's key, by its organization id, as of today. */
@@ -126,6 +127,8 @@ function seatCongressChamber(
       memberKey: `${US_CONGRESS_PACK_ID}:${chamberKey}:${seat.seatKey}`,
       name: member.personName,
       personId: member.personId,
+      tenureStartedAt: member.startedAt,
+      seatingEventId: member.termId,
       caucusLabel: partyKey
         ? `${partyKey.charAt(0).toUpperCase()}${partyKey.slice(1)}`
         : "No party",

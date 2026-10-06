@@ -104,6 +104,13 @@ export function resolvePriceCostConsequences(
   if (!flow) {
     // Payment dispatch also carries statutory tax outcomes, which are not priced flows.
     if (context.activity === "payment" && !activity) return [];
+    // The shared renewal dispatch also serves recorded health coverage reviews.
+    if (
+      context.activity === "renewal" &&
+      recordById(world.history.futureDueItems, context.activityId)
+        ?.transitionKey === "crisis:health-coverage"
+    )
+      return [];
     throw new Error("Missing price-cost resource-flow activity");
   }
   const conditions = [...row.who.predicates, ...row.conditions];

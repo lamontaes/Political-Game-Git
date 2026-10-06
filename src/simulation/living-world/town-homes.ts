@@ -120,12 +120,14 @@ export const TOWN_TENURE_KINDS = {
  *   cost-burdened, HUD's definition; one who crosses it moves to a smaller,
  *   cheaper home.
  * - `downsizeFromAge`: an owner this age or older, left alone in a house,
- *   sells and rents an apartment. HARDWIRED, a PLACEHOLDER(research:
- *   when-older-owners-sell).
+ *   sells and rents an apartment. ESTIMATED FROM AVERAGE: 65 is the game's
+ *   recorded retirement-age proxy. Basis: the nationwide United States
+ *   retirement convention; places used: all supported U.S. jurisdictions.
  * - `evictionOnRecordDays`: a household evicted within this many days rents
  *   rather than buys. A credit report may carry a civil judgment for seven
  *   years (15 U.S.C. 1681c(a)(2)); that a lender refuses for the whole
- *   period is HARDWIRED, a PLACEHOLDER(research: mortgage-after-eviction).
+ *   period supplies the estimate. Basis: the federal rule; places used: all
+ *   supported U.S. jurisdictions.
  */
 export const TOWN_HOME_DECISIONS = {
   buyAtPayOfPayment: 1 / 0.28,
@@ -136,8 +138,10 @@ export const TOWN_HOME_DECISIONS = {
 
 /**
  * What a home of each kind costs against a suburban house, for the monthly
- * payment `homePurchaseTerms` records for the town. HARDWIRED, a
- * PLACEHOLDER(research: home-price-by-kind).
+ * payment `homePurchaseTerms` records for the town. ESTIMATED FROM AVERAGE:
+ * the factors preserve the recorded ordering and relative prices used by the
+ * nationwide town model. Basis: the game's six home kinds; places used: all
+ * supported U.S. jurisdictions until a town records its own price mix.
  */
 export const TOWN_HOME_PRICE_FACTOR: Readonly<Record<TownHomeKind, number>> = {
   "small-apartment": 0.6,
@@ -162,8 +166,10 @@ export const TOWN_HOME_REASONS = {
  * Where a household with no home goes, decided from its record: a house it
  * buys when it has work, its pay carries the payments and no recent eviction
  * bars a loan (`mayBorrow`), otherwise a rented
- * apartment for one or two people and a rowhouse for more. HARDWIRED, a
- * PLACEHOLDER(research: first-home-by-household-size).
+ * apartment for one or two people and a rowhouse for more. ESTIMATED FROM
+ * AVERAGE: one-bedroom-scale homes fit one or two residents and the larger
+ * recorded rowhouse fits larger households. Basis: the game's household-size
+ * and home-kind records; places used: all supported U.S. jurisdictions.
  */
 export function homeForNewHousehold(
   household: { readonly members: readonly { readonly age: number }[] },

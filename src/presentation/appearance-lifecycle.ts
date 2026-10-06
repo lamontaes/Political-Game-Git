@@ -80,7 +80,7 @@ export function appearanceForNewPerson(
   library: CharacterComponentLibrary,
 ): PersonAppearance | undefined {
   const person = world.people[personId];
-  if (!person) throw new Error(`Unknown person '${personId}'.`);
+  if (!person) throw new Error(`No person has the recorded id '${personId}'.`);
   if (person.appearance)
     throw new Error(
       "This person already has an appearance; it is not rerolled.",

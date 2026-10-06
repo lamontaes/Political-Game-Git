@@ -6,6 +6,10 @@ import type { RuleValue } from "./legislature-rules";
 import type { QualificationOfficeFamily } from "./office-qualification-rules";
 import type { CandidacyPack, ElectiveOfficeOption } from "./candidacy-packs";
 import {
+  municipalMinimumAgeSentence,
+  type MunicipalMinimumAgeEstimate,
+} from "./municipal-qualification-estimate";
+import {
   assessSecondCommittee,
   campaignStateJurisdictionKey,
 } from "./campaign-compliance-rules";
@@ -53,6 +57,11 @@ import {
   recordedDistrictResidenceSince,
 } from "./district-residence";
 import { districtIdentityCatalog } from "../districts/catalog";
+import {
+  candidateFilingTerms,
+  type CandidateFilingTerms,
+  type FilingOfficeFamily,
+} from "./candidate-filing-terms";
 import {
   gazetteerChamberForOfficeChamberKey,
   listDistrictIdentities,
@@ -116,23 +125,36 @@ export function electiveOfficesForJurisdiction(
   const offices = [
     ...(authority.pack?.offices ?? []),
     ...localGoverningBodiesForJurisdiction(jurisdictionId).flatMap(
-      (identity) => localGoverningBodyCandidacyPack(identity).offices,
+      (identity) =>
+        localGoverningBodyCandidacyPack(
+          identity,
+          stateCandidacyPack(authority.stateJurisdictionKey),
+        ).offices,
     ),
   ];
   if (onDate === undefined) return offices;
-  return offices.map((office) => ({
-    ...office,
-    qualification: {
-      ...office.qualification,
-      minimumAge: recordedMinimumAge(
-        office,
-        authority.stateJurisdictionKey,
-        officeFamilyForChamberKey(office.officeKey.split(":").at(-1)!),
-        onDate,
-        world,
-      ),
-    },
-  }));
+  return offices.map((office) => {
+    const minimumAge = recordedMinimumAge(
+      office,
+      authority.stateJurisdictionKey,
+      officeFamilyForChamberKey(office.officeKey.split(":").at(-1)!),
+      onDate,
+      world,
+    );
+    const { minimumAgeEstimate, ...qualification } = office.qualification;
+    return {
+      ...office,
+      qualification: {
+        ...qualification,
+        minimumAge,
+        ...(minimumAge.kind === "known" &&
+        minimumAge.source.verification === "game-profile" &&
+        minimumAgeEstimate
+          ? { minimumAgeEstimate }
+          : {}),
+      },
+    };
+  });
 }
 
 /** The town governing body this office names, if this place has it. */
@@ -311,10 +333,14 @@ function noSourcedOfficeReason(authority: CandidacyAuthority): string {
 
 export interface CandidacyEligibility {
   readonly eligible: boolean;
+  readonly minimumAgeEstimate: MunicipalMinimumAgeEstimate | null;
+  readonly minimumAgeRequirement: string | null;
   readonly personId: EntityId;
   /** The pack the jurisdiction itself declares, if it declares one. */
   readonly pack: CandidacyPack | null;
   readonly office: ElectiveOfficeOption | null;
+  /** The fee, petition, and filing dates read through the one place data path. */
+  readonly filingTerms: CandidateFilingTerms | null;
   /** Every production-compiled field checked for this candidate. */
   readonly qualificationAssessments: readonly QualificationAssessment[];
   readonly blocks: readonly CandidacyBlock[];
@@ -501,6 +527,8 @@ export function candidacyEligibility(
   input: CandidacyEligibilityInput,
 ): CandidacyEligibility {
   const blocks: CandidacyBlock[] = [];
+  let minimumAgeEstimate: MunicipalMinimumAgeEstimate | null = null;
+  let minimumAgeRequirement: string | null = null;
   const authority = candidacyAuthority(input.jurisdictionId);
   // A state's executive office is the state's own, whatever legislature pack
   // governs the place: it is filed for statewide, against its own pack.
@@ -521,7 +549,10 @@ export function candidacyEligibility(
     : congress
       ? congressCandidacyPack(congress)
       : local
-        ? localGoverningBodyCandidacyPack(local)
+        ? localGoverningBodyCandidacyPack(
+            local,
+            stateCandidacyPack(authority.stateJurisdictionKey),
+          )
         : authority.pack;
   const stateJurisdictionKey = executive
     ? executive.jurisdictionKey
@@ -788,13 +819,24 @@ export function candidacyEligibility(
       officeFamily,
       world.currentDate,
     );
+    if (local?.unit.unitType === "municipality" && rule.kind === "known") {
+      minimumAgeEstimate =
+        rule.source.verification === "game-profile"
+          ? (option.qualification.minimumAgeEstimate ?? null)
+          : null;
+      minimumAgeRequirement = minimumAgeEstimate
+        ? municipalMinimumAgeSentence(minimumAgeEstimate)
+        : `You must be at least ${rule.value} to run for this office.`;
+    }
     if (rule.kind === "known" && age < rule.value) {
       blocks.push({
         kind:
           rule.kind === "known" && rule.source.verification === "game-profile"
             ? "profile-minimum-age"
             : "sourced-minimum-age",
-        reason: `You must be at least ${rule.value} to run for this office.`,
+        reason:
+          minimumAgeRequirement ??
+          `You must be at least ${rule.value} to run for this office.`,
       });
     } else if (rule.kind === "unknown") {
       blocks.push({
@@ -847,11 +889,27 @@ export function candidacyEligibility(
     });
   }
 
+  const filingFamily: FilingOfficeFamily = executive
+    ? "statewideExecutive"
+    : congress
+      ? "federalLegislative"
+      : local
+        ? "local"
+        : "stateLegislative";
+  const filingStateUsps = stateJurisdictionKey?.replace(/^US-/, "") ?? null;
+  const filingTerms =
+    option && filingStateUsps
+      ? candidateFilingTerms(filingStateUsps, filingFamily)
+      : null;
+
   return {
     eligible: blocks.length === 0,
+    minimumAgeEstimate,
+    minimumAgeRequirement,
     personId: input.personId,
     pack,
     office: boundOption,
+    filingTerms,
     qualificationAssessments,
     blocks: distinctBlocks(blocks),
   };

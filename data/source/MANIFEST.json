@@ -45,7 +45,7 @@
       "domain": "acs-pums",
       "isCompleteUniverse": false,
       "recordCount": 220,
-      "universeDescription": "Sampled housing units and persons from the U.S. Census Bureau's 2023 American Community Survey 1-year Public Use Microdata Sample for Wyoming. PUMS is a weighted sample supporting estimates at the public use microdata area level; it is not an enumeration, and it is not national — the national product (csv_pus.zip) is roughly a gigabyte, is not retrieved here, and is not claimed."
+      "universeDescription": "Housing units and persons represented in the U.S. Census Bureau's 2023 American Community Survey 1-year Public Use Microdata for Wyoming. The published person and housing weights support estimates at the public use microdata area level; these records are not an enumeration or a national corpus. The national product (csv_pus.zip) is roughly a gigabyte, is not retrieved here, and is not claimed."
     },
     {
       "artifacts": [
@@ -375,7 +375,7 @@
       "domain": "civil-service-labor",
       "isCompleteUniverse": true,
       "recordCount": 51,
-      "universeDescription": "The United States federal government and fifty states, each carrying separate civil-service and labor-bargaining profiles. Field coverage is intentionally partial and unsupported facts remain UNKNOWN."
+      "universeDescription": "The United States federal government and fifty states, each carrying separate civil-service and labor-bargaining profiles. Field coverage is intentionally partial; a field without retrieved authority remains UNRESOLVED with its recorded reason and evidence."
     },
     {
       "artifacts": [
@@ -524,12 +524,12 @@
       ],
       "asOf": "2024-07-01",
       "boundedSampleReason": "Publisher product scope: public K-12 and IPEDS reporting institutions only; Alaska preliminary submission limitations and all source-year limits remain. Not all real schools or historical years; no admissions, attendance, exact tuition or major-level offerings.",
-      "canonicalSha256": "813e0e7c824ec4b18dd20f19e0cb1e59dd481b4295ef7a9dd4817c03ff861464",
+      "canonicalSha256": "6b4e0bc672d30bf4c4ff7fda52475303070bf45828f48725016e06f687010f6c",
       "compiler": {
         "name": "education",
         "version": "1.0.0"
       },
-      "corpusFileSha256": "813e0e7c824ec4b18dd20f19e0cb1e59dd481b4295ef7a9dd4817c03ff861464",
+      "corpusFileSha256": "6b4e0bc672d30bf4c4ff7fda52475303070bf45828f48725016e06f687010f6c",
       "corpusId": "education",
       "domain": "education",
       "isCompleteUniverse": false,
@@ -699,7 +699,7 @@
         }
       ],
       "asOf": "2024-09-30",
-      "boundedSampleReason": "First 25 sorted publisher IDs and their published item rows. Annual survey sample, not complete universe. The Census Bureau has not reviewed individual units as time series or sanctioned downstream analyses; nonsampling errors and imputation may affect values. See locked publisher disclaimer.",
+      "boundedSampleReason": "First 25 sorted publisher IDs and their published item rows. This bounded annual-survey subset is not the complete published universe. The Census Bureau has not reviewed individual units as time series or sanctioned downstream analyses; nonsampling errors and imputation may affect values. See locked publisher disclaimer.",
       "canonicalSha256": "d24581818239ed84442fa44db09f358aa1eded72c38f96358c92d804587cce4c",
       "compiler": {
         "name": "government-finances",
@@ -710,7 +710,7 @@
       "domain": "government-finances",
       "isCompleteUniverse": false,
       "recordCount": 886,
-      "universeDescription": "2024 Census finance sample inputs, not reviewed individual-unit time series."
+      "universeDescription": "Bounded 2024 Census finance survey inputs, not reviewed individual-unit time series."
     },
     {
       "artifacts": [
@@ -885,16 +885,22 @@
           "sha256": "e393d8d0372b2261a76f3d085d5a8b0ed8ff92190fe387c553b60db8a4cdb12a",
           "sliceOfParent": null,
           "storage": "committed"
+        },
+        {
+          "artifactId": "va-code-15-2-1420",
+          "sha256": "5b7c5b8c5e3bb7fd8e19249b0123e06c49173f34cf7416fee78c46b4b8be417f",
+          "sliceOfParent": null,
+          "storage": "committed"
         }
       ],
       "asOf": "2026-09-08",
       "boundedSampleReason": "Coverage is limited to reviewed, acquired and compiled enacted provisions for these named governments. Uncompiled fields remain unresolved; national research transcriptions remain separate and this is not nationwide coverage.",
-      "canonicalSha256": "d991c2349ec3b0ee9bc083d386f74aa077421bfb02bc88432ec5cd809f509342",
+      "canonicalSha256": "f29235a609c2c0908303b45d5572b00367ec6a387a88a108310b58dcd4caee87",
       "compiler": {
         "name": "municipal-governance",
         "version": "3.0.0"
       },
-      "corpusFileSha256": "d991c2349ec3b0ee9bc083d386f74aa077421bfb02bc88432ec5cd809f509342",
+      "corpusFileSha256": "f29235a609c2c0908303b45d5572b00367ec6a387a88a108310b58dcd4caee87",
       "corpusId": "municipal-governance",
       "domain": "municipal-governance",
       "isCompleteUniverse": false,
@@ -904,6 +910,30 @@
     {
       "artifacts": [
         {
+          "artifactId": "census-bef-sldl24",
+          "sha256": "0d916eb6f901a891014a881ac951de40148f2ce391a275fe86ff172d47cada13",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-bef-sldu24",
+          "sha256": "52e4d2b1ebdf8470d906c8de9b2824fa86f936e8c016ce9b5598fb2b7271b55d",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-bef-cd119",
+          "sha256": "1433feb5178dc7b4188ee30f5f7f715851f4400740b8fe1ce606a876c6294bd6",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-bef-cd120",
+          "sha256": "f3074ac5a3b353f9da22baaeb73c47ddd1c9040fffe7f5131f947f35c25a1097",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
           "artifactId": "census-pl2020-al-archive",
           "sha256": "bd3fbbf22615b166869f9119aa12017b9a7b82baf0f22a9170e92a88a397cd77",
           "sliceOfParent": null,
@@ -912,6 +942,18 @@
         {
           "artifactId": "census-pl2020-al-place-county-parts",
           "sha256": "ef26ff8f24a9795c2e37c9b372c2d2839bef652cf3cc1d466daec227f395e84a",
+          "sliceOfParent": "census-pl2020-al-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-baf2020-place-al",
+          "sha256": "4031d99d9acc6b0d40fb72123ed2029dc1e66525c6fd1d87ef01228ada18411d",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-al-place-district-population",
+          "sha256": "4ee8ba043a0cf4021d001b8a3dbe345adceafcbd22f25e0299942730044be4a9",
           "sliceOfParent": "census-pl2020-al-archive",
           "storage": "derived-qa-slice"
         },
@@ -928,6 +970,18 @@
           "storage": "derived-qa-slice"
         },
         {
+          "artifactId": "census-baf2020-place-ak",
+          "sha256": "686f4283976326621be7173a21036ba2ea65e0b08346e6aac0952718d23b31db",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ak-place-district-population",
+          "sha256": "743ffe2d90a85fbc70f7944266ebaafd6683af9081991753cac63806a620682d",
+          "sliceOfParent": "census-pl2020-ak-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
           "artifactId": "census-pl2020-az-archive",
           "sha256": "56997e8b1b5175148fd3e1157ab57eee7c1722221cafebfd5d12fe2e687b2aff",
           "sliceOfParent": null,
@@ -936,6 +990,18 @@
         {
           "artifactId": "census-pl2020-az-place-county-parts",
           "sha256": "b2f26c1d8da40bb165c4814147594dd8443344b496fb7b46a8717f48be66e36b",
+          "sliceOfParent": "census-pl2020-az-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-baf2020-place-az",
+          "sha256": "0fe372e474a5aea77ebc421f926185a7318fc7c963cf74813ac7bd4c2af0e1cd",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-az-place-district-population",
+          "sha256": "f67f5de7958837655516f846df9b04c6e3cbcf31c67445945894b8d665d056e8",
           "sliceOfParent": "census-pl2020-az-archive",
           "storage": "derived-qa-slice"
         },
@@ -952,6 +1018,18 @@
           "storage": "derived-qa-slice"
         },
         {
+          "artifactId": "census-baf2020-place-ar",
+          "sha256": "199b6bd6c96f2e7b868d307d13c393dffe76f55e15e0df7a67932412351de996",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ar-place-district-population",
+          "sha256": "61537f2406847bbd336a47891ebab3cf6c5daeda829400af07878e012aa8370a",
+          "sliceOfParent": "census-pl2020-ar-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
           "artifactId": "census-pl2020-ca-archive",
           "sha256": "e02c83c85a9a5d69ded4bf0d4c8ebe3f4bcd2d8e5911db765e9e42915ad1f753",
           "sliceOfParent": null,
@@ -960,6 +1038,18 @@
         {
           "artifactId": "census-pl2020-ca-place-county-parts",
           "sha256": "ea28115379e6263cda2cbf150d1284fd013cd76fe9ebe62888875048d12a91ff",
+          "sliceOfParent": "census-pl2020-ca-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-baf2020-place-ca",
+          "sha256": "edc540d7e782507c080d6caea087b302f3f406c8572629763f0f7017ebe427a1",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ca-place-district-population",
+          "sha256": "3cf20cdd73e67233016117ae42c24882a230e9af04dc4f4dfb065947cd47d77a",
           "sliceOfParent": "census-pl2020-ca-archive",
           "storage": "derived-qa-slice"
         },
@@ -976,6 +1066,18 @@
           "storage": "derived-qa-slice"
         },
         {
+          "artifactId": "census-baf2020-place-co",
+          "sha256": "9199c97ed89fe42cfea45492095a26c02ae8eda42656abd220a907fdf39c917c",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-co-place-district-population",
+          "sha256": "234238114362e1354716f2e5af9a4110fcdc074016c7b2e68fec6af9f1281161",
+          "sliceOfParent": "census-pl2020-co-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
           "artifactId": "census-pl2020-ct-archive",
           "sha256": "c4a2d42a79c52de10ea9397cca43db59c2df38e6d6e66b4396a0de8bd3f66780",
           "sliceOfParent": null,
@@ -984,6 +1086,18 @@
         {
           "artifactId": "census-pl2020-ct-place-county-parts",
           "sha256": "c1131c9866c0fe38897a1497d96ed63c6340c127361aecff9654dbdebe830544",
+          "sliceOfParent": "census-pl2020-ct-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-baf2020-place-ct",
+          "sha256": "1125c49564224cced90844ab2345df9a2c191a0084c5029ff53ddc9c320c54ba",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ct-place-district-population",
+          "sha256": "0d8126eeec45ec96743d19b179781ca5f25f2c2c3ed6bca742e56c197e5bcf96",
           "sliceOfParent": "census-pl2020-ct-archive",
           "storage": "derived-qa-slice"
         },
@@ -1000,6 +1114,18 @@
           "storage": "derived-qa-slice"
         },
         {
+          "artifactId": "census-baf2020-place-de",
+          "sha256": "8f81f5239dca88f378f098325ae630d215bf0c5fd8986a088d2b2b2c4746f6d9",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-de-place-district-population",
+          "sha256": "de85c17552cf0848ec88ff3b2e272a25d3e2dfbf28d533af8a2200917f60ac95",
+          "sliceOfParent": "census-pl2020-de-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
           "artifactId": "census-pl2020-dc-archive",
           "sha256": "21b5189f45ce260c4607c9579f4ad52d11920133af827b14b183121b48d40ce4",
           "sliceOfParent": null,
@@ -1008,6 +1134,18 @@
         {
           "artifactId": "census-pl2020-dc-place-county-parts",
           "sha256": "fb062bce66945f4a6c3495654bfe4de37045e346be4a8320b3219a64487ac298",
+          "sliceOfParent": "census-pl2020-dc-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-baf2020-place-dc",
+          "sha256": "c789c1df0921dfdd9925d1c9747cec0b1c51895f3c1cfd5ee8938e15277eaa48",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-dc-place-district-population",
+          "sha256": "1ce0e3516e6a6f82a0c55a729c1b49c858ad0207f32c967d972836e56b27df4d",
           "sliceOfParent": "census-pl2020-dc-archive",
           "storage": "derived-qa-slice"
         },
@@ -1024,6 +1162,18 @@
           "storage": "derived-qa-slice"
         },
         {
+          "artifactId": "census-baf2020-place-fl",
+          "sha256": "a8eeda07f30d1010f984950dae030bb6276c6d11a99f64a0a4bbebccd9996451",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-fl-place-district-population",
+          "sha256": "e33f7730a47b3caf53c31e514b87334e3c18e610680178d81139f85e4bba20e9",
+          "sliceOfParent": "census-pl2020-fl-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
           "artifactId": "census-pl2020-ga-archive",
           "sha256": "26434588ceab435fa33a138ff999e4187c923a74732fcc488c3a0597b4adebcb",
           "sliceOfParent": null,
@@ -1032,6 +1182,18 @@
         {
           "artifactId": "census-pl2020-ga-place-county-parts",
           "sha256": "dd3803a17e0411da7bb06613904ccb7e73515d28f62dfe76c65bb7d7cf75f36c",
+          "sliceOfParent": "census-pl2020-ga-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-baf2020-place-ga",
+          "sha256": "97fee9eee9eb0b338e9f8ea937c2d667c5293a4c1e38182bfe1c4786c4dbd111",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ga-place-district-population",
+          "sha256": "ae3701fd4c3968203c645f9fad46f50d6ba10ea0d42df88b767276702df93990",
           "sliceOfParent": "census-pl2020-ga-archive",
           "storage": "derived-qa-slice"
         },
@@ -1048,6 +1210,18 @@
           "storage": "derived-qa-slice"
         },
         {
+          "artifactId": "census-baf2020-place-hi",
+          "sha256": "99ff6595ad6566804cc4682c9e73b9d854ae127154bffb9b0f2e6e97a7fa8147",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-hi-place-district-population",
+          "sha256": "e1069ac6c96027f062f21a5e47cbb0fb13cf437b3c72338baa59871d8d719a83",
+          "sliceOfParent": "census-pl2020-hi-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
           "artifactId": "census-pl2020-id-archive",
           "sha256": "89345b6d5d12ccdec8af4039b0a6f1f5ba4cd7ca86c8f73ad6250b5713e3df47",
           "sliceOfParent": null,
@@ -1056,6 +1230,18 @@
         {
           "artifactId": "census-pl2020-id-place-county-parts",
           "sha256": "28429d8b487a10e86ae7e8a3bb39709df03aebd1019acb0a731d7823896bbeb2",
+          "sliceOfParent": "census-pl2020-id-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-baf2020-place-id",
+          "sha256": "31c1e32901138ff732f9eded36bde73231af5e1529fd3a9317d106561a7a4f8a",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-id-place-district-population",
+          "sha256": "b08259d7b72feaefa3f72bd27055c699725f44809af97fb23ac4ea82221464d5",
           "sliceOfParent": "census-pl2020-id-archive",
           "storage": "derived-qa-slice"
         },
@@ -1072,6 +1258,18 @@
           "storage": "derived-qa-slice"
         },
         {
+          "artifactId": "census-baf2020-place-il",
+          "sha256": "97c913144c29b33ebaa17546e4976bb19e5cf65d33b26a1ea7609736aeb2c9b6",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-il-place-district-population",
+          "sha256": "f787a95ef5c1096943f817f3e8565223385236f17cbb3a11943c670b2080ffbd",
+          "sliceOfParent": "census-pl2020-il-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
           "artifactId": "census-pl2020-in-archive",
           "sha256": "5f4999237a9bf3b3337865494d0d62c0a1dc620cad7e48caebaa83811f95901a",
           "sliceOfParent": null,
@@ -1080,6 +1278,18 @@
         {
           "artifactId": "census-pl2020-in-place-county-parts",
           "sha256": "5a5480031667f8765d6e7a9d86196ae9f6eae72964e0a55988bfa575d0f2a6c4",
+          "sliceOfParent": "census-pl2020-in-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-baf2020-place-in",
+          "sha256": "3158704fa33bc433087d21eff4f93702d0999b3f405085fb58fb64e72cc58eb0",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-in-place-district-population",
+          "sha256": "4118bfb98fa8c593b9f0e22876d4c572ddfd52b27a749cca7917053a689e07af",
           "sliceOfParent": "census-pl2020-in-archive",
           "storage": "derived-qa-slice"
         },
@@ -1096,6 +1306,18 @@
           "storage": "derived-qa-slice"
         },
         {
+          "artifactId": "census-baf2020-place-ia",
+          "sha256": "883baba3cc35a45b585293e58ce23c08d3644c5f4e59a92dc329c76d4fde1447",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ia-place-district-population",
+          "sha256": "ae3a14ff74c4bdad6d4d186ad30a07db168a021507265fdc3e0a2bb3da06a521",
+          "sliceOfParent": "census-pl2020-ia-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
           "artifactId": "census-pl2020-ks-archive",
           "sha256": "ac6b4ae5e2af4c8d639b46748d55927ee7821756f6073cc4f8238c1fb00498ee",
           "sliceOfParent": null,
@@ -1104,6 +1326,18 @@
         {
           "artifactId": "census-pl2020-ks-place-county-parts",
           "sha256": "a0366af75b8c7f9bbff7eacfd858a0fb0a94fe53564164bf3bb6b1f4a666a6cc",
+          "sliceOfParent": "census-pl2020-ks-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-baf2020-place-ks",
+          "sha256": "d331ad02ad4ba10a15bce5691c22834b3ca853357637bd3f6df02cc9c75fb816",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ks-place-district-population",
+          "sha256": "cc27b68ab0e20d03cdebb725f492e16de4b0a872d1b5917cb31959dec4a71463",
           "sliceOfParent": "census-pl2020-ks-archive",
           "storage": "derived-qa-slice"
         },
@@ -1120,6 +1354,18 @@
           "storage": "derived-qa-slice"
         },
         {
+          "artifactId": "census-baf2020-place-ky",
+          "sha256": "e3b7573bbad03ab78db313535b0e763ddb1268f0b0d59d760aa0e688793d055a",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ky-place-district-population",
+          "sha256": "30df769dbca065b553029f9a9db2db0f2830bd02ce33b0b15a3a2fa4f9586d55",
+          "sliceOfParent": "census-pl2020-ky-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
           "artifactId": "census-pl2020-la-archive",
           "sha256": "d8d9ea96195f2b848be70ef33dcb224d433d8d58025e11aaa0432c5211e5345c",
           "sliceOfParent": null,
@@ -1128,6 +1374,18 @@
         {
           "artifactId": "census-pl2020-la-place-county-parts",
           "sha256": "6d982f5f88e738ee66b910207d8accbc93b6247a9d120d91ad4cea87b3f05ab0",
+          "sliceOfParent": "census-pl2020-la-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-baf2020-place-la",
+          "sha256": "4b160562136f38e136b4384d591c5fcda351c6da2486bab07b39cc7576afe79e",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-la-place-district-population",
+          "sha256": "b2b50bd73cafa796a15fd263df77227efa8f4ea6dfd7fc5376c8428c90110b62",
           "sliceOfParent": "census-pl2020-la-archive",
           "storage": "derived-qa-slice"
         },
@@ -1144,6 +1402,18 @@
           "storage": "derived-qa-slice"
         },
         {
+          "artifactId": "census-baf2020-place-me",
+          "sha256": "431631b3352f8bab61258626a824529434e3f51e421e62890f215e47d46cda64",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-me-place-district-population",
+          "sha256": "1f19afab050721df34bf6b27223cfbd602e7bea61c1a471a43001490a8a7250e",
+          "sliceOfParent": "census-pl2020-me-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
           "artifactId": "census-pl2020-md-archive",
           "sha256": "9af1e1f0185b6219a9432132ef78e47c2d74c474948d2ed6004c7061412393f3",
           "sliceOfParent": null,
@@ -1152,6 +1422,18 @@
         {
           "artifactId": "census-pl2020-md-place-county-parts",
           "sha256": "92e8a3fd27b9d5a16b8ed865a4a597edeca2227aa9570934912679666a6aabc8",
+          "sliceOfParent": "census-pl2020-md-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-baf2020-place-md",
+          "sha256": "0cff392f34e07b00f2705bab056c902d67c63a32cfbbe30534777ea147d79b93",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-md-place-district-population",
+          "sha256": "77a8dad11852410fd13399b16294957af17b56ac1c34c4a54e551a8c48e61ed3",
           "sliceOfParent": "census-pl2020-md-archive",
           "storage": "derived-qa-slice"
         },
@@ -1168,6 +1450,18 @@
           "storage": "derived-qa-slice"
         },
         {
+          "artifactId": "census-baf2020-place-ma",
+          "sha256": "6d77b72047fef535efe396b675d4ec8cedfbc975e4cab9460431b861353e4f18",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ma-place-district-population",
+          "sha256": "3f3df8b3f94449f55546a0600d21e87080bb663fdf6400bb1ff3621ec5c772ef",
+          "sliceOfParent": "census-pl2020-ma-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
           "artifactId": "census-pl2020-mi-archive",
           "sha256": "971bd53abeb1d905bb9b09bfe4dc1afe8514a916f24d285b289e0f66ec5cfb62",
           "sliceOfParent": null,
@@ -1176,6 +1470,18 @@
         {
           "artifactId": "census-pl2020-mi-place-county-parts",
           "sha256": "d84d61623f6990691249903d6ca25287e2a1367f869cbde925d1695352345698",
+          "sliceOfParent": "census-pl2020-mi-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-baf2020-place-mi",
+          "sha256": "d819d7d0d2b5d83e0e5aab54d2674b5a625bde51add10f257a1511abd6014a88",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-mi-place-district-population",
+          "sha256": "1dab42b9bac3263cf952c87e722b007460e49e5598239d5ef992586b750c5d47",
           "sliceOfParent": "census-pl2020-mi-archive",
           "storage": "derived-qa-slice"
         },
@@ -1192,6 +1498,18 @@
           "storage": "derived-qa-slice"
         },
         {
+          "artifactId": "census-baf2020-place-mn",
+          "sha256": "afc53ab51e43091e4454f54e0d57b61f60a73f0d521977a4165965fefabc3e61",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-mn-place-district-population",
+          "sha256": "462dad403725310ac0b2f5e5cbaa4e0da3ceca8bdb5c2d86d726309822e322f4",
+          "sliceOfParent": "census-pl2020-mn-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
           "artifactId": "census-pl2020-ms-archive",
           "sha256": "cb64e3465cee9623dc574605f4dfcada33eaea6833062d31f769811fd20a5f26",
           "sliceOfParent": null,
@@ -1200,6 +1518,18 @@
         {
           "artifactId": "census-pl2020-ms-place-county-parts",
           "sha256": "0b5a1c5c9c61eeab34c169b4a71642ffad0c5e90fb6dec98449bf4353e238211",
+          "sliceOfParent": "census-pl2020-ms-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-baf2020-place-ms",
+          "sha256": "d8e4d0ef5f467650394cc902883669143724cd31699a601e52ef185d52c60b8f",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ms-place-district-population",
+          "sha256": "9285fa5747f5784cd540148a3727e2541ace471a5a85a0c9d4e5097dad761449",
           "sliceOfParent": "census-pl2020-ms-archive",
           "storage": "derived-qa-slice"
         },
@@ -1216,6 +1546,18 @@
           "storage": "derived-qa-slice"
         },
         {
+          "artifactId": "census-baf2020-place-mo",
+          "sha256": "9d72554bbb23c0f859741641fcadd98bd2bd4858067ad010eddc881b9f14ccad",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-mo-place-district-population",
+          "sha256": "186d234a86ab9ea09e5de70467f31612149853188a3510b478f8ebd8328db2c0",
+          "sliceOfParent": "census-pl2020-mo-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
           "artifactId": "census-pl2020-mt-archive",
           "sha256": "e01288ce3ae37ae732eb61d40268c6ac3ec8f9772c8609c6e9ca538bdd0bc130",
           "sliceOfParent": null,
@@ -1224,6 +1566,18 @@
         {
           "artifactId": "census-pl2020-mt-place-county-parts",
           "sha256": "a5ae296df183de915e37db88da93839134d6f811cf4785d99d149de414c10400",
+          "sliceOfParent": "census-pl2020-mt-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-baf2020-place-mt",
+          "sha256": "7e5fde3990b536705f337bc7c3ffde2da3b2a49b7c9e58c22d6c198c7c0a93a8",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-mt-place-district-population",
+          "sha256": "117c732481763a4e5084a75533d14dbc2e18744f9ab8d2f6740df4910434d419",
           "sliceOfParent": "census-pl2020-mt-archive",
           "storage": "derived-qa-slice"
         },
@@ -1240,6 +1594,18 @@
           "storage": "derived-qa-slice"
         },
         {
+          "artifactId": "census-baf2020-place-ne",
+          "sha256": "9065e5d1e048af09777e815294c201ae548ebeb73f02195cfb2c895aa89ae39e",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ne-place-district-population",
+          "sha256": "7990f682a7397529e40170099feb4b59d635b27147a22d18be8f7b0840ca53a9",
+          "sliceOfParent": "census-pl2020-ne-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
           "artifactId": "census-pl2020-nv-archive",
           "sha256": "ac7e792e0a1d6248ff1700159f4ec6a3a7b3330ebe10899bb4f47ab97c19952d",
           "sliceOfParent": null,
@@ -1248,6 +1614,18 @@
         {
           "artifactId": "census-pl2020-nv-place-county-parts",
           "sha256": "f4263f2ec3d3cb78dac92b771259b4307faea59add81fefb365aa2ece54c9b80",
+          "sliceOfParent": "census-pl2020-nv-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-baf2020-place-nv",
+          "sha256": "ea0e6834f8389127a74eb4be4e28b86659fe067af7d4fa0ab91f746060d4adb9",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-nv-place-district-population",
+          "sha256": "27c675a33ce5ce7abee3299481239328e977cebd272325e81f98b62475b0285e",
           "sliceOfParent": "census-pl2020-nv-archive",
           "storage": "derived-qa-slice"
         },
@@ -1264,6 +1642,18 @@
           "storage": "derived-qa-slice"
         },
         {
+          "artifactId": "census-baf2020-place-nh",
+          "sha256": "c06b3a004317849b253ef32972f2a6a7e0abf9f71c496e4ddf5578c66c6b7c17",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-nh-place-district-population",
+          "sha256": "4683ec97f8a7f0182e8c40165d782bf2379300a288718a198a99e29dcfc37288",
+          "sliceOfParent": "census-pl2020-nh-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
           "artifactId": "census-pl2020-nj-archive",
           "sha256": "caf0da4a9e9d46ced3f8020a7a2bf5240cd8805ed0679716f0cb2b8fcc65e811",
           "sliceOfParent": null,
@@ -1272,6 +1662,18 @@
         {
           "artifactId": "census-pl2020-nj-place-county-parts",
           "sha256": "3fca2706de381da571fc914ec5288684008c10ff264a176d8a2b13e0ffdb81d3",
+          "sliceOfParent": "census-pl2020-nj-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-baf2020-place-nj",
+          "sha256": "179a04d0e2f07f516298218002afe304999fbf272b59387ebb18d550eb34e430",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-nj-place-district-population",
+          "sha256": "509ab91ae7ac833a5e29c27800676dca3d55a8b4c049be5670e2ab3bd0b3c085",
           "sliceOfParent": "census-pl2020-nj-archive",
           "storage": "derived-qa-slice"
         },
@@ -1288,6 +1690,18 @@
           "storage": "derived-qa-slice"
         },
         {
+          "artifactId": "census-baf2020-place-nm",
+          "sha256": "e7507ee4cb1780233151c87aa2a84901dc86fede8680709e71fa14ad13b4df1e",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-nm-place-district-population",
+          "sha256": "93cd2c7fa22642b70108b71b6519f78392499909f1330dcb228e0f07b5278650",
+          "sliceOfParent": "census-pl2020-nm-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
           "artifactId": "census-pl2020-ny-archive",
           "sha256": "9d046014bee6b61afa808c5dfe841a6d036c77bff70197472fbdd291a40b8ce2",
           "sliceOfParent": null,
@@ -1296,6 +1710,18 @@
         {
           "artifactId": "census-pl2020-ny-place-county-parts",
           "sha256": "bc107abbd524afe38f2d5e75b0498c833819ebdadb5ed2035b48806b5d02a876",
+          "sliceOfParent": "census-pl2020-ny-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-baf2020-place-ny",
+          "sha256": "7cf9a890beb47baca04bfa35c74db9300e1044c8a99b2cff559ade8fc1a89236",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ny-place-district-population",
+          "sha256": "36246878961aa4f0391bbd69a695413f85d17be06d62c4a3009160cd043e0644",
           "sliceOfParent": "census-pl2020-ny-archive",
           "storage": "derived-qa-slice"
         },
@@ -1312,6 +1738,18 @@
           "storage": "derived-qa-slice"
         },
         {
+          "artifactId": "census-baf2020-place-nc",
+          "sha256": "9619665fc781f4ab45891a4bea3160d7bc3877d9570ba64e7b1b42224c225bf0",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-nc-place-district-population",
+          "sha256": "d317fc65f742e08e6df35eb9f84b51d2f25120764b4ca3236c086355b0009369",
+          "sliceOfParent": "census-pl2020-nc-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
           "artifactId": "census-pl2020-nd-archive",
           "sha256": "a37d18e05a73b311a8fd7ade36dd5b17cac16ff125318c9ec6d2edd7f6968b71",
           "sliceOfParent": null,
@@ -1320,6 +1758,18 @@
         {
           "artifactId": "census-pl2020-nd-place-county-parts",
           "sha256": "0b293a413d20a1b956c81c66f16472bc9167ec91f3f0ede21349613f8c16ca09",
+          "sliceOfParent": "census-pl2020-nd-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-baf2020-place-nd",
+          "sha256": "a89f5f58b9882aaf520c5c77c52b3b49dc198ff533b8436bf04ebfed252529fa",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-nd-place-district-population",
+          "sha256": "9e321082b7ba67392fb3e37649f9af24f1a0bd79fd0796027e65bef7d44ded1e",
           "sliceOfParent": "census-pl2020-nd-archive",
           "storage": "derived-qa-slice"
         },
@@ -1336,6 +1786,18 @@
           "storage": "derived-qa-slice"
         },
         {
+          "artifactId": "census-baf2020-place-oh",
+          "sha256": "c2b0b18a5a5230572e7ca9a73ca3a0bcbab6e2ffb83505230f614cc23641c1c5",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-oh-place-district-population",
+          "sha256": "de1641163d4c951d83e3cb4bcb5cb552b0aec335c5ce01cdd7d57b65ae7cea7d",
+          "sliceOfParent": "census-pl2020-oh-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
           "artifactId": "census-pl2020-ok-archive",
           "sha256": "e95c99e6385f4ed3a5ea67962444a53ad7a731f26d1dd88df2efde504f101dff",
           "sliceOfParent": null,
@@ -1344,6 +1806,18 @@
         {
           "artifactId": "census-pl2020-ok-place-county-parts",
           "sha256": "d6c969a69fb67ced73fdaa8b9d696d130922e51ad415fd7a6da4ce8a6769d1b9",
+          "sliceOfParent": "census-pl2020-ok-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-baf2020-place-ok",
+          "sha256": "3859f1e17929d0ce91d09b750d31a3da39de398a3fc607044d2a6025452996f6",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ok-place-district-population",
+          "sha256": "bd2163ecf426124489eb0883776b500c951d5aaa2e4615164584361c084c3708",
           "sliceOfParent": "census-pl2020-ok-archive",
           "storage": "derived-qa-slice"
         },
@@ -1360,6 +1834,18 @@
           "storage": "derived-qa-slice"
         },
         {
+          "artifactId": "census-baf2020-place-or",
+          "sha256": "ad8fe9e57a32aa434b38b92cfff510e0fccbc367721f0c7043732ba9233cc674",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-or-place-district-population",
+          "sha256": "ef707a571a6b178e3aa4332d616b5d15bb75b1b312a7895267a2cfa437264bc5",
+          "sliceOfParent": "census-pl2020-or-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
           "artifactId": "census-pl2020-pa-archive",
           "sha256": "2d33a7dab29c8dd5692bbde203d253e06eebbc44fcbaa96b1caa958d454026ae",
           "sliceOfParent": null,
@@ -1368,6 +1854,18 @@
         {
           "artifactId": "census-pl2020-pa-place-county-parts",
           "sha256": "33a0b480b524ff5befb70622c86fd35192cf4bdaac5dba3e609e16dcf0435780",
+          "sliceOfParent": "census-pl2020-pa-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-baf2020-place-pa",
+          "sha256": "f61fb24709191cb1ee9f97b915fe37ef483e4b5f8bca79385790da8ad6d80bf3",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-pa-place-district-population",
+          "sha256": "c1d0b188869a7193af7205612b3886ab125ff16b1ac95a637d4ac0872b890b96",
           "sliceOfParent": "census-pl2020-pa-archive",
           "storage": "derived-qa-slice"
         },
@@ -1384,6 +1882,18 @@
           "storage": "derived-qa-slice"
         },
         {
+          "artifactId": "census-baf2020-place-ri",
+          "sha256": "0833228c38a62f9c005b0ac9cb238e2c003e270380679657f7eb2f574966c896",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ri-place-district-population",
+          "sha256": "b9563136d3c2340b8f51ee44086607da193b1d59a94467ce203d1d8591655197",
+          "sliceOfParent": "census-pl2020-ri-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
           "artifactId": "census-pl2020-sc-archive",
           "sha256": "e8996f6873405d6c048c42e8878231fc7f152564295498ff586a041648a46bb5",
           "sliceOfParent": null,
@@ -1392,6 +1902,18 @@
         {
           "artifactId": "census-pl2020-sc-place-county-parts",
           "sha256": "5c0c81452fae79263a624ccf1e4a786149931e6224ee4318e200c82233814ae3",
+          "sliceOfParent": "census-pl2020-sc-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-baf2020-place-sc",
+          "sha256": "ee313741c4dff930cd8959855f6651cf823daf1f82f2f5e28bef17abb67d0d59",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-sc-place-district-population",
+          "sha256": "ddacc8c697eaf3467e8072101de1190f6e5521cc3f0a8b57e06594a1c0e12183",
           "sliceOfParent": "census-pl2020-sc-archive",
           "storage": "derived-qa-slice"
         },
@@ -1408,6 +1930,18 @@
           "storage": "derived-qa-slice"
         },
         {
+          "artifactId": "census-baf2020-place-sd",
+          "sha256": "b790819eb1f0ea1d0c4fe98c87c61989230817e66804c2ae1d79c379547d8eaa",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-sd-place-district-population",
+          "sha256": "c1ad15fa0464b430e51d0cf481bf7c522fe62fe58ab0c1add1fa4fb4552d81b7",
+          "sliceOfParent": "census-pl2020-sd-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
           "artifactId": "census-pl2020-tn-archive",
           "sha256": "89f843dbc717409169fef44df2682548c308c06c0d825451bf2e78340234daf2",
           "sliceOfParent": null,
@@ -1416,6 +1950,18 @@
         {
           "artifactId": "census-pl2020-tn-place-county-parts",
           "sha256": "299447cf8d48019fa94328c6679b3b300fa463781d7b76558512f510337bf16b",
+          "sliceOfParent": "census-pl2020-tn-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-baf2020-place-tn",
+          "sha256": "96dc990f409bbfbd02dedfd75caf6c18d65d70b8102e54100bc1b5a4e3812744",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-tn-place-district-population",
+          "sha256": "2b552b141e89c54b778378b882a2bddecb240af8ee2a80f8a03a4593f9f2809a",
           "sliceOfParent": "census-pl2020-tn-archive",
           "storage": "derived-qa-slice"
         },
@@ -1432,6 +1978,18 @@
           "storage": "derived-qa-slice"
         },
         {
+          "artifactId": "census-baf2020-place-tx",
+          "sha256": "db3f1a4e06aca3d61fb15f1d3581cd08d65120588f33cf00c8265c9f043aa725",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-tx-place-district-population",
+          "sha256": "fee38ba8bae15497c6d1f371a4c9d79e70a30e1fe917149a8713aae0655d4209",
+          "sliceOfParent": "census-pl2020-tx-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
           "artifactId": "census-pl2020-ut-archive",
           "sha256": "4e6de13cd7b5307bfdd327446dd7107e2fdb790903f59186bb8285881531d0f0",
           "sliceOfParent": null,
@@ -1440,6 +1998,18 @@
         {
           "artifactId": "census-pl2020-ut-place-county-parts",
           "sha256": "8919afae51840d3589a194caca0f76c8aee945c224716c93ae386a2218e0bc01",
+          "sliceOfParent": "census-pl2020-ut-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-baf2020-place-ut",
+          "sha256": "57ebe75d5353f004a466d4a7df6897207b1ef19d47849b61b188f9969c0bc2ce",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ut-place-district-population",
+          "sha256": "1905c62b9be21d4ebb908b7b9330dff1e1bb03ca850752477c2186bd3868e0ae",
           "sliceOfParent": "census-pl2020-ut-archive",
           "storage": "derived-qa-slice"
         },
@@ -1456,6 +2026,18 @@
           "storage": "derived-qa-slice"
         },
         {
+          "artifactId": "census-baf2020-place-vt",
+          "sha256": "6869df8eecd778986f116f4138ce5d0f692468b944056eb58984dfa51ba3909d",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-vt-place-district-population",
+          "sha256": "49e25bfc9a68852bca4b44efb22b26ab266f6809539e2303e9575e112b44830e",
+          "sliceOfParent": "census-pl2020-vt-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
           "artifactId": "census-pl2020-va-archive",
           "sha256": "e33c7c1ac0aa84b5fe5ba20188d2e562c5c96b1c02f59e766e18d037b23df9e8",
           "sliceOfParent": null,
@@ -1464,6 +2046,18 @@
         {
           "artifactId": "census-pl2020-va-place-county-parts",
           "sha256": "4a73bb5498983684ea67ae8bf09de8f95f6d04f4a89c747f1dd46d067529dad2",
+          "sliceOfParent": "census-pl2020-va-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-baf2020-place-va",
+          "sha256": "87ebb3582232400286fb0ff4e6a51fdfb1449221c780c9d1a3a574f752010f36",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-va-place-district-population",
+          "sha256": "904676b5aa69aa55f81c91528ebb5cc6d28b0dd9b8c5f8d815f13b405c4af240",
           "sliceOfParent": "census-pl2020-va-archive",
           "storage": "derived-qa-slice"
         },
@@ -1480,6 +2074,18 @@
           "storage": "derived-qa-slice"
         },
         {
+          "artifactId": "census-baf2020-place-wa",
+          "sha256": "58114c250c830d81ac8f499f29ae71ecae545624f484a1f9cce448182cf09001",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-wa-place-district-population",
+          "sha256": "00ebf7fb861029137524a0db5bb98237fdd83bcf244a1db56aed8baab4905f6c",
+          "sliceOfParent": "census-pl2020-wa-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
           "artifactId": "census-pl2020-wv-archive",
           "sha256": "8356c49f300e9c18658de56c06e551f5e8cb591c395fc3d1748077d46322889b",
           "sliceOfParent": null,
@@ -1488,6 +2094,18 @@
         {
           "artifactId": "census-pl2020-wv-place-county-parts",
           "sha256": "372261070603d282705d1703c37fc1387b4a89a8faf5affd635a142f2db592fc",
+          "sliceOfParent": "census-pl2020-wv-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-baf2020-place-wv",
+          "sha256": "949ed08edf0a082f6a9a0c4300fb3c850358115cf2cc0354437116d7da7c060e",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-wv-place-district-population",
+          "sha256": "25c8a4293b1ae4b1b0417454090b1d7142b52874abcb9a817eada8607bdd966d",
           "sliceOfParent": "census-pl2020-wv-archive",
           "storage": "derived-qa-slice"
         },
@@ -1504,6 +2122,18 @@
           "storage": "derived-qa-slice"
         },
         {
+          "artifactId": "census-baf2020-place-wi",
+          "sha256": "75bed98fefe7454b6fc6c5e972744380bf99400d3c6a3b839e7a5e1fb13d093c",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-wi-place-district-population",
+          "sha256": "3c7dd26414511b00e46fff0373fa1ba56d73a53eecf6ea6bf2588e72a389e5a6",
+          "sliceOfParent": "census-pl2020-wi-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
           "artifactId": "census-pl2020-wy-archive",
           "sha256": "98dd7d035942fea2758e0fcabe71efa0588a7ec7c9c33110bcde493fe8e8b942",
           "sliceOfParent": null,
@@ -1514,21 +2144,33 @@
           "sha256": "6565d7bc188fbeaaba6d17e17ad7f8316c7ef9339452379fbc99fa588845de39",
           "sliceOfParent": "census-pl2020-wy-archive",
           "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-baf2020-place-wy",
+          "sha256": "e4ce0356da93caff0870166d44e8491dc5b386580dd4e8504ad1957e76f37f09",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-wy-place-district-population",
+          "sha256": "d3eafb422d8c9e287e0b85d4c3f91f0f4cc21b94c951ba0273c41be393e558da",
+          "sliceOfParent": "census-pl2020-wy-archive",
+          "storage": "derived-qa-slice"
         }
       ],
       "asOf": "2020-04-01",
       "boundedSampleReason": null,
-      "canonicalSha256": "9ca2e0f8de4d00b0e75873b91e5a3b6dae8573f3a6adba7245a8f6bff2f8bf6c",
+      "canonicalSha256": "4656473def3c17e1dc468da00d01663be259d53d4cc27b3af0be469f329471ea",
       "compiler": {
         "name": "place-county-relations",
-        "version": "1.1.0"
+        "version": "1.2.0"
       },
-      "corpusFileSha256": "9ca2e0f8de4d00b0e75873b91e5a3b6dae8573f3a6adba7245a8f6bff2f8bf6c",
+      "corpusFileSha256": "4656473def3c17e1dc468da00d01663be259d53d4cc27b3af0be469f329471ea",
       "corpusId": "place-county-relations",
       "domain": "place-county-relations",
       "isCompleteUniverse": true,
-      "recordCount": 33037,
-      "universeDescription": "Every part of a 2020 Census place (incorporated place or census designated place) lying in one county or county equivalent, as the 2020 Census Redistricting Data (P.L. 94-171) geographic headers publish at summary level 155 for the 50 states and the District of Columbia, with each part's land area, water area and POP100 population count. Puerto Rico is not included."
+      "recordCount": 147766,
+      "universeDescription": "Every part of a 2020 Census place (incorporated place or census designated place) lying in one county or county equivalent, as the 2020 Census Redistricting Data (P.L. 94-171) geographic headers publish at summary level 155 for the 50 states and the District of Columbia, with each part's land area, water area and POP100 population count. Puerto Rico is not included. Legislative district parts additionally join 2020 block P1 population to 2024 SLD, 119th Congress and catalog dated 120th Congress block assignments; their denominators sum the place parts within each chamber and vintage."
     },
     {
       "artifacts": [
@@ -1622,7 +2264,7 @@
         }
       ],
       "asOf": "2025-03-31",
-      "boundedSampleReason": "Committed QA slice: first 25 nonzero legacy IDs sorted lexicographically in 25empid.txt and all matching 25empst.txt rows. Annual survey sample, not census universe. Reported/imputed flags retained; FTE unavailable. Census has not reviewed individual-unit time series or sanctioned analyses; sampling and nonsampling errors may affect these data. See locked publisher disclaimer.",
+      "boundedSampleReason": "Committed QA slice: first 25 nonzero legacy IDs sorted lexicographically in 25empid.txt and all matching 25empst.txt rows. This is an annual survey sample rather than the census universe. Reported/imputed flags are retained; FTE is unavailable. The publisher has not validated individual-unit time series or sanctioned analyses; sampling and nonsampling errors may affect these data. See the locked publisher disclaimer.",
       "canonicalSha256": "11be2f26896149e2ba161f0b28aac29cd138cd9de09952e259dd62f437cf1ece",
       "compiler": {
         "name": "public-employment",
@@ -1633,7 +2275,7 @@
       "domain": "public-employment",
       "isCompleteUniverse": false,
       "recordCount": 298,
-      "universeDescription": "2025 ASPEP individual-government sample observations; Census Bureau source data, not a reviewed individual-unit time series."
+      "universeDescription": "2025 ASPEP individual-government sample observations from Census Bureau source data. The publisher has not validated these as individual-unit time series."
     },
     {
       "artifacts": [
@@ -1834,7 +2476,7 @@
       "domain": "state-legislatures",
       "isCompleteUniverse": true,
       "recordCount": 50,
-      "universeDescription": "The fifty United States, one identity record each. Facts inside a record are KNOWN only where a locked state instrument states them; a state whose authority could not be retrieved carries UNKNOWN values and a gap naming the obstacle."
+      "universeDescription": "The fifty United States, one identity record each. Facts inside a record are recorded only where a locked state instrument states them; a state whose authority could not be retrieved carries unresolved values and a gap naming the obstacle."
     },
     {
       "artifacts": [
@@ -2058,20 +2700,26 @@
           "sha256": "7bc9daf91ecaa3be278bacdcdde04ed0c860904a8fb6f6c501caf499ef2aec4c",
           "sliceOfParent": null,
           "storage": "committed"
+        },
+        {
+          "artifactId": "nv-constitution-governor",
+          "sha256": "726067b645f47709f00c2cf23ee6a514f7fc64381fd6c1f6eb0b1f48b31c51cc",
+          "sliceOfParent": null,
+          "storage": "committed"
         }
       ],
       "asOf": "2026-09-09",
       "boundedSampleReason": "A bounded set of states, not a national corpus. The other forty-odd states are absent because their authorities were not retrieved in this pass, which is a fact about this repository and never a fact about those states. docs/research/qualification-source-ledger.md accounts for every research row.",
-      "canonicalSha256": "68f8fea97605c104194a9fa9a35dff11baea6bc2e4ee9ff3ddc248e6841df0df",
+      "canonicalSha256": "ae033fef4e51547060d1cd1da02e061b38271cd59cef4fb50dc1f146cd38cf54",
       "compiler": {
         "name": "state-office-qualifications",
         "version": "2.1.1"
       },
-      "corpusFileSha256": "68f8fea97605c104194a9fa9a35dff11baea6bc2e4ee9ff3ddc248e6841df0df",
+      "corpusFileSha256": "ae033fef4e51547060d1cd1da02e061b38271cd59cef4fb50dc1f146cd38cf54",
       "corpusId": "state-office-qualifications",
       "domain": "state-office-qualifications",
       "isCompleteUniverse": false,
-      "recordCount": 69,
+      "recordCount": 72,
       "universeDescription": "Office qualifications for MA, MN, MO, NE, NJ, NV, OH, compiled only where a research claim's words were found in an authority this repository retrieved and hashed."
     }
   ],
@@ -2081,5 +2729,13 @@
       "productionGate": "The official 2025 archive is now retrieved and locked. Its actual five-tab XLSX/PID6 format differs from the historical TSV/14-digit-GID fixture contract. The general-purpose publisher identity reader is available for MUNI; full legacy corpus production remains gated until all tabs, native identifiers, dormant-versus-inventory status and unavailable legacy GIDs are reconciled without dropping usable units or guessing joins."
     }
   ],
-  "manifestVersion": "1"
+  "manifestVersion": "1",
+  "researchFiles": [
+    {
+      "asOf": "2025-06-30",
+      "path": "data/research/places/local-institutions.json",
+      "recordCount": 12261,
+      "sha256": "1be993de758d18376ec66c234f32a604fd17cbce9ab82b681ed965cbc82cb382"
+    }
+  ]
 }

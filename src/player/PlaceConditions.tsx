@@ -42,7 +42,7 @@ export function PlaceConditionsPanel({
               <span data-testid="place-condition-now">{row.now}</span>
               <span className="pg-condition-start">
                 {row.change === "steady"
-                  ? `, the same as in ${row.startMonth}`
+                  ? `, unchanged from ${row.startMonth}`
                   : `, ${row.change === "up" ? "up" : "down"} from ${row.atStart} in ${row.startMonth}`}
               </span>
             </p>

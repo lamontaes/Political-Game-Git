@@ -30,6 +30,7 @@ import {
 } from "./state-legislative-term-limits";
 import { lawInForce } from "../governing/law-in-force";
 import { lawEffectStamp } from "../law-effect-stamp";
+import { applyStateElectionLawLandings } from "../law-consequences/modules/election-state-landings";
 import { clampShare, logit, logistic } from "../world-setup/deterministic-math";
 import {
   isStateLegislativeSeatDue,
@@ -70,6 +71,7 @@ import {
 import {
   hasStableKey,
   recordByStableKey,
+  recordsByKey,
   recordsWithFieldValue,
   withHistoryAppendTransaction,
 } from "../history-index";
@@ -473,6 +475,12 @@ function prepareStateIntake(
           immediateReaction: null,
         },
       });
+      if (stamp) {
+        next = applyStateElectionLawLandings(
+          next,
+          next.history.events[next.history.events.length - 1]!.id,
+        );
+      }
     }
     const office = pack.offices.find(
       (candidate) => candidate.officeKey === row.officeKey,
@@ -1227,7 +1235,11 @@ const STATE_SLATE_EVENT = "election.state-legislative-candidate-slate";
  * The nomination stage for the legislative fields filed this year: each
  * state's primary on its own date, and any runoff it leaves open.
  */
-function holdStateLegislativeNominations(before: IsoDate, world: World): World {
+function holdStateLegislativeNominations(
+  before: IsoDate,
+  world: World,
+  onlyPackId?: string,
+): World {
   const after = world.currentDate;
   let next = world;
   for (
@@ -1259,6 +1271,7 @@ function holdStateLegislativeNominations(before: IsoDate, world: World): World {
         if (!seatKey || field.stableKey !== stateSlateKey(seatKey, year))
           return null;
         const [packId, officeKey, ordinalText] = seatKey.split("|");
+        if (onlyPackId !== undefined && packId !== onlyPackId) return null;
         const pack = packId ? candidacyPackById(packId) : null;
         const ordinal = Number(ordinalText);
         const title = pack ? titleOf(packId!, officeKey!, ordinal) : null;
@@ -1410,4 +1423,159 @@ export function applyStateLegislatureTurnover(
     }
   }
   return next;
+}
+
+/** Producer contract; consumers register its queue before advancing the clock. */
+export interface StateLegislatureWake {
+  readonly packId: string;
+  readonly electionDay: IsoDate;
+  readonly stage: "intake" | "nomination" | "ballot" | "election" | "term";
+  readonly dueAt: IsoDate;
+}
+
+/** All prefixes preserve the original startsWith(`${packId}|`) test exactly. */
+function stateWakeEventPackKeys(event: HistoricalEvent): readonly string[] {
+  const seatKey = tagValue(event, "seat:");
+  if (!seatKey) return [];
+  const keys: string[] = [];
+  for (
+    let at = seatKey.indexOf("|");
+    at >= 0;
+    at = seatKey.indexOf("|", at + 1)
+  )
+    keys.push(seatKey.slice(0, at));
+  return keys;
+}
+
+/** Exact calendar boundaries, not a substitute for any election decision. */
+export function stateLegislatureWakePlan(
+  world: World,
+  packId: string,
+  throughYear: number,
+  includeCurrentDate = false,
+): readonly StateLegislatureWake[] {
+  const pack = candidacyPackById(packId);
+  if (!pack || !seatedPacks(world).includes(packId)) return [];
+  const usps = pack.jurisdictionKey.replace(/^US-/, "");
+  const rule = stateLegislativeElectionRule(usps);
+  const seats = stateLegislativeSeats(world, packId);
+  const filedEvents = recordsByKey(
+    world.history.events,
+    "state-legislature:wake-events-by-pack:v1",
+    stateWakeEventPackKeys,
+    packId,
+  );
+  const wakes = new Map<string, StateLegislatureWake>();
+  const add = (
+    electionDay: IsoDate,
+    stage: StateLegislatureWake["stage"],
+    dueAt: IsoDate,
+  ) => {
+    if (
+      dueAt > world.currentDate ||
+      (includeCurrentDate && dueAt === world.currentDate)
+    )
+      wakes.set(`${electionDay}|${stage}|${dueAt}`, {
+        packId,
+        electionDay,
+        stage,
+        dueAt,
+      });
+  };
+  for (
+    let year = Number(world.currentDate.slice(0, 4)) - 4;
+    year <= throughYear;
+    year++
+  ) {
+    if (!isElectionYear(rule, year)) continue;
+    const electionDay = generalElectionDay(rule, year);
+    const plan = stateNominationPlan(world, pack.jurisdictionKey, year);
+    seats.forEach((seat, index) => {
+      if (isStateLegislativeSeatDue(usps, seat.officeKey, seat.ordinal, year))
+        add(
+          electionDay,
+          "intake",
+          fieldIntakeDay(stateCandidateIntakeDay(year, index), plan, year),
+        );
+    });
+    if (plan.known && plan.primaryDate < electionDay)
+      add(electionDay, "nomination", plan.primaryDate);
+    // Actual filed fields and primary results may pin a date different from a later law.
+    for (const event of filedEvents) {
+      const seatKey = tagValue(event, "seat:");
+      if (
+        !seatKey?.startsWith(`${packId}|`) ||
+        ![
+          stateSlateKey(seatKey, year),
+          `${stateSlateKey(seatKey, year)}:primary`,
+          `${stateSlateKey(seatKey, year)}:runoff`,
+        ].includes(event.stableKey)
+      )
+        continue;
+      for (const prefix of ["primary-date:", "runoff-date:"]) {
+        const date = tagValue(event, prefix);
+        if (date) add(electionDay, "nomination", makeIsoDate(date));
+      }
+    }
+    add(electionDay, "ballot", addDays(electionDay, -STATE_BALLOT_SET_DAYS));
+    add(electionDay, "election", electionDay);
+    const results = recordByStableKey(
+      world.history.events,
+      resultsKey(packId, electionDay),
+    );
+    for (const tag of results?.tags ?? [])
+      if (tag.startsWith("term-start:"))
+        add(electionDay, "term", makeIsoDate(tag.slice("term-start:".length)));
+  }
+  return [...wakes.values()].sort((a, b) => a.dueAt.localeCompare(b.dueAt));
+}
+
+/** Runs one affected pack through the same canonical writers on its due date. */
+export function dispatchStateLegislatureWake(
+  world: World,
+  wake: StateLegislatureWake,
+): World {
+  if (world.currentDate !== wake.dueAt)
+    throw new Error(
+      "State legislature wake requires its exact canonical due date.",
+    );
+  const pack = candidacyPackById(wake.packId);
+  if (!pack || !seatedPacks(world).includes(wake.packId)) return world;
+  const year = Number(wake.electionDay.slice(0, 4));
+  if (wake.stage === "nomination")
+    return holdStateLegislativeNominations(
+      addDays(wake.dueAt, -1),
+      world,
+      wake.packId,
+    );
+  if (wake.stage === "ballot")
+    return openStateBallots(world, wake.packId, wake.electionDay);
+  if (wake.stage === "election")
+    return holdStateLegislativeElection(world, wake.packId, wake.electionDay);
+  if (wake.stage === "term") {
+    const results = recordByStableKey(
+      world.history.events,
+      resultsKey(wake.packId, wake.electionDay),
+    );
+    return results
+      ? seatStateLegislativeWinners(world, wake.packId, results, wake.dueAt)
+      : world;
+  }
+  const usps = pack.jurisdictionKey.replace(/^US-/, "");
+  const plan = stateNominationPlan(world, pack.jurisdictionKey, year);
+  const due = stateLegislativeSeats(world, wake.packId).flatMap(
+    (seat, index) => {
+      if (!isStateLegislativeSeatDue(usps, seat.officeKey, seat.ordinal, year))
+        return [];
+      const intakeDate = fieldIntakeDay(
+        stateCandidateIntakeDay(year, index),
+        plan,
+        year,
+      );
+      return intakeDate === wake.dueAt
+        ? [{ officeKey: seat.officeKey, ordinal: seat.ordinal, intakeDate }]
+        : [];
+    },
+  );
+  return prepareStateIntake(world, wake.packId, wake.electionDay, due);
 }

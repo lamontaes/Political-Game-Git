@@ -319,7 +319,7 @@ async function captureRoleFlow(page: Page, seed?: string) {
   await delegate.focus();
   await page.keyboard.press("Enter");
   await expect(page.getByTestId("work-feedback")).toContainText(
-    `${lead.familyName} now owns the meeting brief`,
+    `${lead.familyName} is now responsible for the meeting brief`,
   );
   await capture("work-pending-workspace");
   await work.getByRole("button", { name: "Return to office" }).click();

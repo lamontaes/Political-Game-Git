@@ -1,3 +1,4 @@
+import type { HistoricalPastMode } from "./historical-past-mode";
 import type { WorkPayCoverageDeterminationRecord } from "./pay-coverage-types";
 import type { LawScheduleTerm } from "./law-structured-terms";
 import type {
@@ -6,6 +7,7 @@ import type {
 } from "./permit-types";
 import type {
   LawAmountUnit,
+  LawTermScope,
   RentalPriceRule,
   LawConsequenceRow,
   ResolvedHourlyLawPayConsequence,
@@ -106,6 +108,7 @@ export type EntityKind =
   | "constitutional-action"
   | "crisis-record"
   | "constitutional-rule-version"
+  | "legislative-proposal"
   | "rule-change-provision"
   | "rule-change-consequence-binding"
   | "tax-proposal"
@@ -932,6 +935,7 @@ export type LawExposureChannel =
   | "tax-payment"
   | "benefit"
   | "job-rule"
+  | "election-rule"
   | "business-rule"
   | "public-service"
   | "rent";
@@ -4520,6 +4524,13 @@ export type ChildhoodRecordEntry =
       readonly kind: "no-school-on-record";
       readonly toJurisdictionId: EntityId;
       readonly grade: number;
+    })
+  | (ChildhoodRecordEntryBase & {
+      /** A controlled person's recorded formative faith choice. */
+      readonly kind: "faith-choice";
+      readonly congregationId: EntityId | null;
+      readonly situationKey: string;
+      readonly optionKey: string;
     });
 
 export interface HistoryStore {
@@ -4647,6 +4658,8 @@ export interface HistoryStore {
   /** CRISIS severe-event records; absent in Worlds written before them. */
   readonly crisisRecords?: readonly CrisisRecord[];
   readonly legislativeMeasures?: readonly LegislativeMeasureRecord[];
+  /** Separate from filed measures: a proposal has not entered the chamber. */
+  readonly legislativeProposals?: readonly LegislativeProposalRecord[];
   readonly legislativeActions?: readonly LegislativeActionRecord[];
   readonly committeeReferrals?: readonly CommitteeReferralRecord[];
   readonly committeeActions?: readonly CommitteeActionRecord[];
@@ -4758,6 +4771,19 @@ export interface LegislativeMeasureNumberingSession {
   readonly fullDesignation: string;
 }
 
+/** A member's saved ordinance draft before any chamber has received it. */
+export interface LegislativeProposalRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly governmentKey: string;
+  readonly jurisdictionId: EntityId;
+  readonly sponsorPersonId: EntityId;
+  readonly title: string;
+  readonly operativeText: string;
+  readonly proposedAt: IsoDate;
+}
+
 export interface LegislativeMeasureRecord {
   readonly id: EntityId;
   readonly stableKey: string;
@@ -4774,6 +4800,8 @@ export interface LegislativeMeasureRecord {
    */
   readonly numberingSession?: LegislativeMeasureNumberingSession;
   readonly shortTitle: string;
+  /** Omitted on existing measures, which are statutes by default. */
+  readonly governmentInstrument?: "statute" | "regulation" | "executive-order";
   readonly summary: string;
   readonly origin: LegislativeMeasureOrigin;
   readonly subjectClass: LegislativeSubjectClass;
@@ -5091,6 +5119,10 @@ export interface LegislativeEnactmentRecord {
    * saves may carry null and retain their original game-interval reading.
    */
   readonly effectiveAt: IsoDate | null;
+  /** Publication is recorded separately from filing and taking effect. */
+  readonly publishedAt?: IsoDate | null;
+  /** An instrument ceases to govern after this date; null means no expiry. */
+  readonly expiresAt?: IsoDate | null;
   /** New records distinguish source dates from game defaults. */
   readonly effectiveDateBasis?: "source-default" | "game-default";
   /** A new game's fallback stays fixed when future profiles change. */
@@ -5285,6 +5317,8 @@ export interface LegislativeProvisionRecord {
     readonly key: string;
     readonly value: number;
     readonly unit: LawAmountUnit;
+    /** Missing legacy scope is unknown, never an implicit statewide rule. */
+    readonly scope?: LawTermScope;
     readonly rentalPriceRule?: RentalPriceRule;
   }[];
   /** Explicit annual amount; omission preserves older whole-program records. */
@@ -5758,7 +5792,31 @@ export interface SetupPriorStore {
   readonly answers: readonly SetupAnswerRecord[];
 }
 
+export type ChallengeIntensity = "quiet" | "standard" | "relentless";
+export type NotebookNotesSetting = "full" | "light" | "none";
+export type SaveMode = "free" | "one-save";
+export type FamilyMoneyPremise = "comfortable" | "ordinary" | "tight";
+export type PressPremise = "gentler" | "realistic" | "tougher";
+export type PersonalLifeDepiction = "full" | "softened" | "summary-only";
+
+/** Player-facing choices kept on the World; absent legacy data means defaults. */
+export interface PlaySettings {
+  readonly challenge: ChallengeIntensity;
+  readonly notes: NotebookNotesSetting;
+  readonly saves: SaveMode;
+  /** Changes how recorded personal-life events are worded, never world facts. */
+  readonly personalLifeDepiction: PersonalLifeDepiction;
+  readonly premises: {
+    readonly familyMoney: FamilyMoneyPremise;
+    readonly press: PressPremise;
+    /** Placeholder for the unresolved ongoing-cost choice; currently standard. */
+    readonly ongoingMoneyCosts: "standard";
+  };
+}
+
 export interface World {
+  /** Loading-only routine summary mode; removed at the recorded Begin boundary. */
+  readonly pastMode?: HistoricalPastMode;
   /** Saved courts and seated judges; absent in lives created before courts opened. */
   readonly judiciary?: JudiciaryState;
   /** Immutable validated definitions accepted for this life; absent in legacy saves. */
@@ -5782,7 +5840,14 @@ export interface World {
   readonly incidentCatalog: IncidentCatalog;
   readonly vitalityCatalog: VitalityCatalog;
   readonly control: ControlState;
+  /** The prospective player acts as a resident until the recorded Begin date. */
+  readonly preStartLife?: {
+    readonly personId: EntityId;
+    readonly targetStartDate: IsoDate;
+  };
   readonly history: HistoryStore;
+  /** Optional so worlds saved before player settings remain readable. */
+  readonly playSettings?: PlaySettings;
   /**
    * What the player answered at setup, kept beside the world rather than in
    * it.

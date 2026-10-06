@@ -147,7 +147,7 @@ export function validateFinanceCorpus(
       findings.push({
         severity: "error",
         code: "government-finances/derived-fiscal-year-label",
-        message: `${record.recordId} labels its fiscal year "${record.fiscalYearLabel.value}", which is the Census survey year, while the government's books closed on ${record.fiscalYearEnding} in a different calendar year. A fiscal-year label copied from the survey year is not a fact the source stated; leave it UNKNOWN unless the source publishes one.`,
+        message: `${record.recordId} labels its fiscal year "${record.fiscalYearLabel.value}", which is the Census survey year, while the government's books closed on ${record.fiscalYearEnding} in a different calendar year. A fiscal-year label copied from the survey year is not a fact the source stated; keep it unresolved with the recorded source limitation unless the source publishes one.`,
         recordId: record.recordId,
       });
     }

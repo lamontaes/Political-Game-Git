@@ -69,6 +69,7 @@ export function MeasurePaperWorkspace({
   const provisions = currentMeasureProvisions(world, seat.measureId);
   const position = measurePosition(world, seat.measureId);
   const amendments = measureAmendments(world, seat.measureId);
+  const negotiations = measureNegotiations(world, seat.measureId);
   const sectionInBill = provisions.some(
     (provision) => provision.provisionKey === facts.requestedProvisionKey,
   );
@@ -366,15 +367,13 @@ export function MeasurePaperWorkspace({
               })
             )}
           </ul>
-          {measureNegotiations(world, seat.measureId).length > 0 ? (
+          {negotiations.length > 0 ? (
             <>
               <h4>What was asked for</h4>
               <ul data-testid="record-negotiations">
-                {measureNegotiations(world, seat.measureId).map(
-                  (negotiation) => (
-                    <li key={negotiation.id}>{negotiation.request}</li>
-                  ),
-                )}
+                {negotiations.map((negotiation) => (
+                  <li key={negotiation.id}>{negotiation.request}</li>
+                ))}
               </ul>
             </>
           ) : null}

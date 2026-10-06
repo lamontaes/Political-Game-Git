@@ -1,11 +1,14 @@
 import type { World } from "../simulation/types";
-import { useMemo, useState } from "react";
+import { personName } from "../simulation/people";
+import { useEffect, useMemo, useState } from "react";
 
 import {
   buildTraceExport,
   buildTraceIndex,
+  mindSourceTarget,
   createCausalTraceFixture,
   projectConversationObserverTrace,
+  projectDecisionTraceDetails,
   traceExportJson,
   traceExportMarkdown,
   TRACE_RECORD_CLASSES,
@@ -14,7 +17,7 @@ import {
   type TraceNode,
   type TraceRecordClass,
 } from "../devtools";
-import type { EntityId } from "../simulation";
+import type { EntityId, DecisionTraceRecord } from "../simulation";
 import type { ConversationAudibility } from "../presentation/run-b-conversation";
 import "./causal-trace.css";
 
@@ -22,16 +25,13 @@ import "./causal-trace.css";
  * The inspector, as a development route.
  *
  * It reads a world and never writes one. Every control here filters, selects
- * or walks; none of them records anything, and the world this page holds is
- * the same object from the first render to the last. That is the property the
- * tests assert, and it is the reason the page can be opened against a save
- * without the act of looking changing what is being looked at.
+ * or walks; none of them records anything. Each inspection names the supplied
+ * checkpoint and its content hash. The Observer may supply a later paused
+ * checkpoint, but looking at either one cannot alter its history.
  *
- * The page builds its own fixture world rather than reaching into a running
- * game. A diagnostic that can only be used while reproducing a bug is a
- * diagnostic nobody uses; this one opens on a deterministic conversation whose
- * causality is already interesting, and the seed is in the URL so a report can
- * name the exact world it is talking about.
+ * Without a supplied checkpoint the standalone route still opens its existing
+ * deterministic conversation fixture. The live Observer route supplies the
+ * acknowledged worker checkpoint instead of constructing a second world.
  */
 
 const AUDIBILITY_OPTIONS: readonly ConversationAudibility[] = [
@@ -65,7 +65,13 @@ function matches(node: TraceNode, query: string): boolean {
 
 export function CausalTraceView({
   reviewWorld,
-}: { readonly reviewWorld?: World } = {}) {
+  initialRootId,
+  reviewIndex,
+}: {
+  readonly reviewWorld?: World;
+  readonly initialRootId?: EntityId;
+  readonly reviewIndex?: ReturnType<typeof buildTraceIndex>;
+} = {}) {
   const [seed, setSeed] = useState(
     () => readParam("seed") ?? "causal-trace-observer",
   );
@@ -75,10 +81,12 @@ export function CausalTraceView({
     "all",
   );
   const [sourceFilter, setSourceFilter] = useState<string>("all");
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(reviewWorld ? (initialRootId ?? "") : "");
   const [direction, setDirection] = useState<TraceDirection>("upstream");
   const [depth, setDepth] = useState(8);
-  const [selectedId, setSelectedId] = useState<EntityId | null>(null);
+  const [selectedId, setSelectedId] = useState<EntityId | null>(
+    initialRootId ?? null,
+  );
   const [exportFormat, setExportFormat] = useState<"markdown" | "json">(
     "markdown",
   );
@@ -89,7 +97,16 @@ export function CausalTraceView({
     [audibility, seed, reviewWorld],
   );
   const world = reviewWorld ?? fixture!.world;
-  const index = useMemo(() => buildTraceIndex(world), [world]);
+  const index = useMemo(
+    () => reviewIndex ?? buildTraceIndex(world),
+    [world, reviewIndex],
+  );
+  useEffect(() => {
+    setSelectedId(initialRootId ?? null);
+    if (reviewWorld) setQuery(initialRootId ?? "");
+    setDirection("upstream");
+    setDepth(8);
+  }, [initialRootId, reviewWorld]);
 
   const defaultRootId =
     world.history.decisionTraces.at(-1)?.id ?? index.nodes.at(-1)?.id ?? null;
@@ -106,6 +123,13 @@ export function CausalTraceView({
   const walk = rootId
     ? walkTrace(index, { rootId, direction, maxDepth: depth })
     : null;
+  const decisionsById = new Map(
+    world.history.decisionTraces.map((record) => [record.id, record]),
+  );
+  const decision = (walk?.steps ?? [])
+    .filter((step) => step.direction !== "downstream")
+    .map((step) => decisionsById.get(step.nodeId))
+    .find((record) => record !== undefined);
   const exportDocument = rootId
     ? buildTraceExport(index, { rootId, direction, maxDepth: depth })
     : null;
@@ -145,6 +169,12 @@ export function CausalTraceView({
         It is not part of the game.
       </p>
       <h1>Causal trace inspector</h1>
+      {world.history.decisionTraces.length === 0 ? (
+        <p data-testid="decision-traces-empty">
+          No saved decision traces in this snapshot. Inspection does not
+          evaluate or reconstruct missing decisions.
+        </p>
+      ) : null}
       <p>
         Every link shown here is a field the record itself carries. Where the
         repository recorded no parent, this page says UNKNOWN rather than
@@ -361,6 +391,73 @@ export function CausalTraceView({
                 </tbody>
               </table>
 
+              {selected.recordClass === "decision-trace"
+                ? (() => {
+                    const record = world.history.decisionTraces.find(
+                      (row) => row.id === selected.id,
+                    );
+                    return record ? (
+                      <DecisionDetails record={record} />
+                    ) : (
+                      <p>
+                        The selected decision record is missing from this
+                        snapshot.
+                      </p>
+                    );
+                  })()
+                : null}
+              {decision ? (
+                <section aria-label="Recorded considerations">
+                  <h3>What they considered</h3>
+                  <p>
+                    {personName(world.people[decision.context.actorPersonId]!)}
+                    {": "}
+                    <button
+                      type="button"
+                      onClick={() => setSelectedId(decision.id)}
+                    >
+                      <code>{decision.id}</code>
+                    </button>
+                  </p>
+                  <p>
+                    {decision.context.options.find(
+                      (option) => option.key === decision.selectedOptionKey,
+                    )?.label ?? "The decision is pending."}
+                  </p>
+                  <ul>
+                    {decision.context.considerations.map((consideration) => (
+                      <li key={consideration.stableKey}>
+                        <p>
+                          {consideration.explanation} ({consideration.direction}
+                          , {consideration.importance})
+                        </p>
+                        <ul>
+                          {consideration.sourceRefs.map((ref, position) => {
+                            const id = mindSourceTarget(ref);
+                            const snapshot = decision.sourceSnapshots.find(
+                              (source) =>
+                                JSON.stringify(source.reference) ===
+                                JSON.stringify(ref),
+                            );
+                            return (
+                              <li key={position}>
+                                <button
+                                  type="button"
+                                  onClick={() => setSelectedId(id)}
+                                >
+                                  {snapshot
+                                    ? `${snapshot.label}: ${snapshot.content}`
+                                    : (index.byId.get(id)?.recordText ?? id)}
+                                </button>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              ) : null}
               <h3>Recorded links ({selected.links.length})</h3>
               {selected.links.length === 0 ? (
                 <p className="causal-trace__unknown">
@@ -442,7 +539,12 @@ export function CausalTraceView({
                       <td>{step.depth}</td>
                       <td>{step.direction}</td>
                       <td>
-                        <code>{step.nodeId}</code>
+                        <button
+                          type="button"
+                          onClick={() => setSelectedId(step.nodeId)}
+                        >
+                          <code>{step.nodeId}</code>
+                        </button>
                       </td>
                       <td>{index.byId.get(step.nodeId)?.recordClass ?? "—"}</td>
                       <td>
@@ -582,5 +684,166 @@ export function CausalTraceView({
         value={exportText}
       />
     </main>
+  );
+}
+
+/** The inspector never evaluates or applies a decision. */
+export function DecisionDetails({
+  record,
+}: {
+  readonly record: DecisionTraceRecord;
+}) {
+  const detail = projectDecisionTraceDetails(record);
+  const context = record.context;
+  return (
+    <section aria-label="Decision details" data-testid="decision-details">
+      <h3>Saved decision</h3>
+      <p>
+        Outcome: {record.outcomeKind}. Selected option:{" "}
+        {record.selectedOptionKey ?? "none"}.
+      </p>
+      <p>
+        Actor: {context.actorPersonId}. Type: {context.decisionType}. Cutoff:{" "}
+        {context.cutoff.asOfDate}, history sequence exclusive{" "}
+        {context.cutoff.historySequenceExclusive}.
+      </p>
+      <h4>Saved options and ranks</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Option</th>
+            <th>Description</th>
+            <th>Saved availability</th>
+            <th>Saved rank</th>
+            <th>Saved preference</th>
+            <th>Saved blockers</th>
+          </tr>
+        </thead>
+        <tbody>
+          {context.options.map((option) => {
+            const result = record.optionEvaluations.find(
+              (row) => row.optionKey === option.key,
+            );
+            return (
+              <tr key={option.key}>
+                <th scope="row">
+                  {option.label} ({option.key})
+                </th>
+                <td>{option.description}</td>
+                <td>
+                  {result
+                    ? result.available
+                      ? "available"
+                      : "blocked"
+                    : "absent from saved evaluations"}
+                </td>
+                <td>{result?.finalRank ?? "unranked"}</td>
+                <td>
+                  {result?.preference ??
+                    "no preference saved for this evaluation"}
+                </td>
+                <td>
+                  {result
+                    ? result.blockedByConstraintKeys.join(", ") ||
+                      "none recorded"
+                    : "absent from saved evaluations"}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <details>
+        <summary>Complete saved context and option evaluations</summary>
+        <pre>
+          {JSON.stringify(
+            { context, optionEvaluations: record.optionEvaluations },
+            null,
+            2,
+          )}
+        </pre>
+      </details>
+      <h4>Saved constraints</h4>
+      {context.constraints.length ? (
+        <ul>
+          {context.constraints.map((row) => (
+            <li key={row.stableKey}>
+              {row.optionKey}: {row.kind} — {row.explanation}
+              <pre>{JSON.stringify(row.sourceRefs, null, 2)}</pre>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No constraints recorded.</p>
+      )}
+      <h4>{detail.currentCodeCalculation.label}</h4>
+      <p>{detail.currentCodeCalculation.note}</p>
+      {detail.currentCodeCalculation.options.map((option) => (
+        <div key={option.optionKey}>
+          <h5>
+            {option.optionKey}: current-code sum {option.sum}
+          </h5>
+          <p>
+            Current-code ties among saved available options:{" "}
+            {option.tiedWith.join(", ") || "none"}.
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Saved consideration</th>
+                <th>Direction</th>
+                <th>Importance / current weight</th>
+                <th>Confidence / current weight</th>
+                <th>Current contribution</th>
+              </tr>
+            </thead>
+            <tbody>
+              {option.components.map((row) => (
+                <tr key={row.consideration.stableKey}>
+                  <th scope="row">
+                    {row.consideration.explanation} (
+                    {row.consideration.sourceType})
+                    <pre>
+                      {JSON.stringify(row.consideration.sourceRefs, null, 2)}
+                    </pre>
+                  </th>
+                  <td>{row.consideration.direction}</td>
+                  <td>
+                    {row.consideration.importance} / {row.importanceWeight}
+                  </td>
+                  <td>
+                    {row.consideration.confidence} / {row.confidenceWeight}
+                  </td>
+                  <td>{row.contribution}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ))}
+      <h4>Saved peer estimates</h4>
+      {context.peerEstimates?.length ? (
+        <pre>{JSON.stringify(context.peerEstimates, null, 2)}</pre>
+      ) : (
+        <p>No peer estimates recorded.</p>
+      )}
+      <h4>Saved source snapshots</h4>
+      {record.sourceSnapshots.length ? (
+        <ul>
+          {record.sourceSnapshots.map((row, index) => (
+            <li key={index}>
+              {row.label}
+              <pre>{JSON.stringify(row.reference, null, 2)}</pre>
+              <pre>{row.content}</pre>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>
+          No source snapshots recorded. No missing source or causal edge has
+          been reconstructed.
+        </p>
+      )}
+    </section>
   );
 }

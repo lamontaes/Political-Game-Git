@@ -1,7 +1,11 @@
 import { governmentUnitDisplayName } from "./government-unit-names";
 import { governmentUnit } from "../government-units";
 import type { GovernmentUnitIdentity } from "../government-units";
-import { unknownRule } from "../legislature-rules";
+import { knownRule, unknownRule } from "../legislature-rules";
+import {
+  municipalMinimumAgeEstimate,
+  municipalMinimumAgeSource,
+} from "../municipal-qualification-estimate";
 import type { CandidacyPack, ElectiveOfficeOption } from "../candidacy-packs";
 import { localChiefExecutiveRules } from "./local-chief-executive-rules";
 import { countyGoverningBodyRules } from "./county-governing-body-rules";
@@ -18,11 +22,10 @@ import { localGoverningBodyName } from "./local-governing-body-names";
  * governing body its residents elect. That is the one thing this file adds,
  * and it is labeled as the game's, not the law's.
  *
- * Everything a real charter or statute would settle stays UNKNOWN here on
- * purpose: how many seats, whether they are at large or by ward, who may
- * stand, for how long, and whether a mayor is elected separately. Candidacy
- * eligibility reads those from RULES at filing time, so admitting a town's
- * facts changes behavior with no edit to this file.
+ * An unread municipal minimum age uses a disclosed estimate from the same
+ * state's other elected offices. It does not establish municipal law. Seat
+ * count, wards, residence, term and filing remain unresolved; dated admitted
+ * rules take precedence over the estimate at filing time.
  *
  * A mayor is offered where the town elects one directly
  * (`local-chief-executive-rules.ts`): read where the town's government was
@@ -32,14 +35,14 @@ import { localGoverningBodyName } from "./local-governing-body-names";
  */
 
 export const LOCAL_GOVERNING_BODY_PROFILE_NOTE =
-  "The game holds that every town with a government of its own elects its governing body. It has not read this town's charter, so the number of seats, wards, term and who may stand are not known here.";
+  "The game holds that every town with a government of its own elects its governing body. The town's seat count, districts, residence requirements and term are unconfirmed. An estimated minimum age does not settle those requirements.";
 
 const QUALIFICATION_AT_FILING =
-  "Read from RULES at filing time for this town's governing body; not recorded in this pack.";
+  "The age and residence requirements for this municipal office are unconfirmed.";
 const NO_FILING_PROCEDURE =
   "No filing deadline, filing officer, nomination or ballot-access procedure has been read for this town.";
 const NO_FORM =
-  "The town's form of government has not been read, so whether its seats are at large or by ward, and whether a mayor is elected separately, is not known.";
+  "The town's form of government has not been read, so whether its seats are at large or by district, and whether a mayor is elected separately, is not known.";
 
 const MAYOR_FORM =
   "The town elects one mayor. Its charter has not been read, so the mayor's powers and who may stand are not known here.";
@@ -165,9 +168,17 @@ export function localGoverningBodyIdentityForPackId(
 
 export function localGoverningBodyCandidacyPack(
   identity: LocalGoverningBodyIdentity,
+  similarOffices: CandidacyPack | null = null,
 ): CandidacyPack {
   const mayor = identity.seat === "chief-executive";
   const county = identity.unit.unitType === "county";
+  const estimate = county
+    ? null
+    : municipalMinimumAgeEstimate(
+        `US-${identity.unit.stateUsps}`,
+        identity.officeKey,
+        similarOffices,
+      );
   const form = county
     ? "This county's district boundaries, seat phases and selection procedure have not been recorded in this candidacy pack."
     : mayor
@@ -196,7 +207,10 @@ export function localGoverningBodyCandidacyPack(
       packName: identity.governmentName,
     },
     qualification: {
-      minimumAge: unknownRule(qualification),
+      minimumAge: estimate
+        ? knownRule(estimate.minimumAge, municipalMinimumAgeSource(estimate))
+        : unknownRule(qualification),
+      ...(estimate ? { minimumAgeEstimate: estimate } : {}),
       residency: unknownRule(qualification),
       termYears: unknownRule(qualification),
       filing: unknownRule(filing),

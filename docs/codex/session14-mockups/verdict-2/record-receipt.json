@@ -1,0 +1,415 @@
+{
+  "sourceHead": "6048b1331b9f1be7948b8827db75dcc4d6b5c1f4",
+  "seed": "session14-real-art-mockups-20261005",
+  "place": {
+    "key": "4011300",
+    "displayName": "Cameron, Oklahoma",
+    "formalName": "Cameron",
+    "withinName": "Oklahoma",
+    "context": {
+      "jurisdiction": {
+        "id": "jurisdiction_9a8ecfbb16dd982a",
+        "slug": "us-place-4011300",
+        "name": "Cameron, Oklahoma",
+        "kind": "census-place",
+        "parentName": "Oklahoma",
+        "provenance": {
+          "asOf": "2026-01-05",
+          "source": "census-gazetteer-2025-places-zip",
+          "jurisdiction": "jurisdiction_9a8ecfbb16dd982a",
+          "status": "approved"
+        }
+      },
+      "initialMoment": {
+        "date": "2026-01-05",
+        "minuteOfDay": 550,
+        "timeZone": "America/Chicago",
+        "utcOffsetMinutes": -360
+      },
+      "creationSummary": "Seeded world in Cameron, Oklahoma, from the 2025 Census Gazetteer place identity.",
+      "goalScope": "Cameron, Oklahoma",
+      "householdLocationLabel": "Cameron, Oklahoma"
+    },
+    "scope": "locality",
+    "stateJurisdictionKey": "US-OK",
+    "capabilities": {
+      "legislativeScenarioKey": null,
+      "candidacyPackId": null
+    },
+    "sourceGeoid": "4011300"
+  },
+  "date": "2026-01-05",
+  "personId": "person_e30bd8f858b1335c",
+  "person": {
+    "name": "Kendall Nielsen",
+    "age": 55,
+    "born": "1970-12-17",
+    "home": "Cameron, Oklahoma",
+    "work": ["Stocker, Country Mercantile"]
+  },
+  "education": [
+    {
+      "key": "education-enrollment_d5002cf803f74dab",
+      "text": "Cameron Elementary School, 1975 to 1977."
+    },
+    {
+      "key": "education-enrollment_d661f83b39978d5b",
+      "text": "Cameron Middle School, 1981 to 1984."
+    },
+    {
+      "key": "education-enrollment_476bf79556202ddc",
+      "text": "Hickory Ridge High School, 1984 to 1988."
+    }
+  ],
+  "livingCount": 9412,
+  "officeholders": [
+    {
+      "key": "us-president:person_903cd42fb49455ec",
+      "title": "President of the United States",
+      "personId": "person_903cd42fb49455ec",
+      "personName": "Jason Le"
+    },
+    {
+      "key": "us-chief-justice:person_cb8f7eff785946c7",
+      "title": "Chief Justice of the United States",
+      "personId": "person_cb8f7eff785946c7",
+      "personName": "Gregory O'Neill"
+    },
+    {
+      "key": "us-vice-president:person_011ce8f3257e21e0",
+      "title": "Vice President of the United States",
+      "personId": "person_011ce8f3257e21e0",
+      "personName": "Aditi Emerson"
+    },
+    {
+      "key": "us-al-governor:person_52b0b38a2619c134",
+      "title": "Governor of Alabama",
+      "personId": "person_52b0b38a2619c134",
+      "personName": "Brianna Gibbs"
+    },
+    {
+      "key": "us-ak-governor:person_02db18c958054e03",
+      "title": "Governor of Alaska",
+      "personId": "person_02db18c958054e03",
+      "personName": "Connor Ware"
+    },
+    {
+      "key": "us-az-governor:person_074468405186de26",
+      "title": "Governor of Arizona",
+      "personId": "person_074468405186de26",
+      "personName": "Haley Trujillo"
+    },
+    {
+      "key": "us-ar-governor:person_fc54aa2ac0d2dc9e",
+      "title": "Governor of Arkansas",
+      "personId": "person_fc54aa2ac0d2dc9e",
+      "personName": "Aisha Sweet"
+    },
+    {
+      "key": "us-ca-governor:person_37ef590c78f52cb5",
+      "title": "Governor of California",
+      "personId": "person_37ef590c78f52cb5",
+      "personName": "Bo Marshall"
+    },
+    {
+      "key": "us-co-governor:person_5212d6f7dfa9018b",
+      "title": "Governor of Colorado",
+      "personId": "person_5212d6f7dfa9018b",
+      "personName": "Alicia Moseley"
+    },
+    {
+      "key": "us-ct-governor:person_02ac0805156a9afe",
+      "title": "Governor of Connecticut",
+      "personId": "person_02ac0805156a9afe",
+      "personName": "Kieran Santana"
+    },
+    {
+      "key": "us-de-governor:person_3d1d42cdef3d3649",
+      "title": "Governor of Delaware",
+      "personId": "person_3d1d42cdef3d3649",
+      "personName": "Karim Wu"
+    },
+    {
+      "key": "us-fl-governor:person_83ea70da9e79142a",
+      "title": "Governor of Florida",
+      "personId": "person_83ea70da9e79142a",
+      "personName": "Harper Wagner"
+    },
+    {
+      "key": "us-ga-governor:person_62b06436259b62b9",
+      "title": "Governor of Georgia",
+      "personId": "person_62b06436259b62b9",
+      "personName": "Leon Pruitt"
+    },
+    {
+      "key": "us-hi-governor:person_ee1e64aed3c9e848",
+      "title": "Governor of Hawaii",
+      "personId": "person_ee1e64aed3c9e848",
+      "personName": "Alan Banks"
+    },
+    {
+      "key": "us-id-governor:person_03f741b659b2fba4",
+      "title": "Governor of Idaho",
+      "personId": "person_03f741b659b2fba4",
+      "personName": "Jeremiah Valencia"
+    },
+    {
+      "key": "us-il-governor:person_0f3a330526972f7c",
+      "title": "Governor of Illinois",
+      "personId": "person_0f3a330526972f7c",
+      "personName": "Arjun Mathews"
+    },
+    {
+      "key": "us-in-governor:person_a004048ce47755fc",
+      "title": "Governor of Indiana",
+      "personId": "person_a004048ce47755fc",
+      "personName": "Avery Moreno"
+    },
+    {
+      "key": "us-ia-governor:person_d98fd2619a26fcdb",
+      "title": "Governor of Iowa",
+      "personId": "person_d98fd2619a26fcdb",
+      "personName": "Frances Matthews"
+    },
+    {
+      "key": "us-ks-governor:person_9f516981a45d9737",
+      "title": "Governor of Kansas",
+      "personId": "person_9f516981a45d9737",
+      "personName": "Zane Elliott"
+    },
+    {
+      "key": "us-ky-governor:person_6397b70f27041b19",
+      "title": "Governor of Kentucky",
+      "personId": "person_6397b70f27041b19",
+      "personName": "Julia York"
+    },
+    {
+      "key": "us-la-governor:person_a0420f1d1d5c13e7",
+      "title": "Governor of Louisiana",
+      "personId": "person_a0420f1d1d5c13e7",
+      "personName": "Leonard York"
+    },
+    {
+      "key": "us-me-governor:person_33ffafeb341e6b71",
+      "title": "Governor of Maine",
+      "personId": "person_33ffafeb341e6b71",
+      "personName": "Joel Hardy"
+    },
+    {
+      "key": "us-md-governor:person_fe45fb6cdf0ea760",
+      "title": "Governor of Maryland",
+      "personId": "person_fe45fb6cdf0ea760",
+      "personName": "Sabrina Watson"
+    },
+    {
+      "key": "us-ma-governor:person_65500cec84ffd04f",
+      "title": "Governor of Massachusetts",
+      "personId": "person_65500cec84ffd04f",
+      "personName": "Alex Ross"
+    },
+    {
+      "key": "us-mi-governor:person_60369a69c2a42db7",
+      "title": "Governor of Michigan",
+      "personId": "person_60369a69c2a42db7",
+      "personName": "Oliver Montgomery"
+    },
+    {
+      "key": "us-mn-governor:person_8d8f8b019ec27696",
+      "title": "Governor of Minnesota",
+      "personId": "person_8d8f8b019ec27696",
+      "personName": "Emerson May"
+    },
+    {
+      "key": "us-ms-governor:person_a0b0986ffe9d4409",
+      "title": "Governor of Mississippi",
+      "personId": "person_a0b0986ffe9d4409",
+      "personName": "Mira Snider"
+    },
+    {
+      "key": "us-mo-governor:person_9de5473f8c78b95f",
+      "title": "Governor of Missouri",
+      "personId": "person_9de5473f8c78b95f",
+      "personName": "Devon Patterson"
+    },
+    {
+      "key": "us-mt-governor:person_6b957ff8a1b6cebe",
+      "title": "Governor of Montana",
+      "personId": "person_6b957ff8a1b6cebe",
+      "personName": "Isaac Whitehead"
+    },
+    {
+      "key": "us-ne-governor:person_82c6b5025772cb78",
+      "title": "Governor of Nebraska",
+      "personId": "person_82c6b5025772cb78",
+      "personName": "Hannah Pittman"
+    },
+    {
+      "key": "us-nv-governor:person_301f171d7dcbcd91",
+      "title": "Governor of Nevada",
+      "personId": "person_301f171d7dcbcd91",
+      "personName": "Eric Clayton"
+    },
+    {
+      "key": "us-nh-governor:person_d4d189aca84c23f1",
+      "title": "Governor of New Hampshire",
+      "personId": "person_d4d189aca84c23f1",
+      "personName": "Jacob Newton"
+    },
+    {
+      "key": "us-nj-governor:person_b0ff55c46bc4541b",
+      "title": "Governor of New Jersey",
+      "personId": "person_b0ff55c46bc4541b",
+      "personName": "Diego Newton"
+    },
+    {
+      "key": "us-nm-governor:person_5bef9ad762ce12d0",
+      "title": "Governor of New Mexico",
+      "personId": "person_5bef9ad762ce12d0",
+      "personName": "Jesse Vincent"
+    },
+    {
+      "key": "us-ny-governor:person_a812804a58fd90ac",
+      "title": "Governor of New York",
+      "personId": "person_a812804a58fd90ac",
+      "personName": "Angela Hamilton"
+    },
+    {
+      "key": "us-nc-governor:person_650bac08d28ef944",
+      "title": "Governor of North Carolina",
+      "personId": "person_650bac08d28ef944",
+      "personName": "Sam Rivers"
+    },
+    {
+      "key": "us-nd-governor:person_cb8679a08a629c7d",
+      "title": "Governor of North Dakota",
+      "personId": "person_cb8679a08a629c7d",
+      "personName": "Oliver Mays"
+    },
+    {
+      "key": "us-oh-governor:person_9edd9d6665d5f36e",
+      "title": "Governor of Ohio",
+      "personId": "person_9edd9d6665d5f36e",
+      "personName": "Anika McPherson"
+    },
+    {
+      "key": "us-ok-governor:person_fb183eaaeaeb5983",
+      "title": "Governor of Oklahoma",
+      "personId": "person_fb183eaaeaeb5983",
+      "personName": "Timothy Walters"
+    },
+    {
+      "key": "us-or-governor:person_ef861dc8baf02fd8",
+      "title": "Governor of Oregon",
+      "personId": "person_ef861dc8baf02fd8",
+      "personName": "Ariana Morales"
+    },
+    {
+      "key": "us-pa-governor:person_ac73693995651f8e",
+      "title": "Governor of Pennsylvania",
+      "personId": "person_ac73693995651f8e",
+      "personName": "Taylor Greene"
+    },
+    {
+      "key": "us-ri-governor:person_1dfcce212dbb88c0",
+      "title": "Governor of Rhode Island",
+      "personId": "person_1dfcce212dbb88c0",
+      "personName": "Holly Schroeder"
+    },
+    {
+      "key": "us-sc-governor:person_bb4f4e120988569f",
+      "title": "Governor of South Carolina",
+      "personId": "person_bb4f4e120988569f",
+      "personName": "Kaitlyn Ray"
+    },
+    {
+      "key": "us-sd-governor:person_342d6ceced39fc1e",
+      "title": "Governor of South Dakota",
+      "personId": "person_342d6ceced39fc1e",
+      "personName": "Bianca Meyer"
+    },
+    {
+      "key": "us-tn-governor:person_0d55070206f155e3",
+      "title": "Governor of Tennessee",
+      "personId": "person_0d55070206f155e3",
+      "personName": "Haley Patrick"
+    },
+    {
+      "key": "us-tx-governor:person_8e7b578b37b07065",
+      "title": "Governor of Texas",
+      "personId": "person_8e7b578b37b07065",
+      "personName": "Matthew Alvarez"
+    },
+    {
+      "key": "us-ut-governor:person_7ca384505abbc636",
+      "title": "Governor of Utah",
+      "personId": "person_7ca384505abbc636",
+      "personName": "Douglas Hall"
+    },
+    {
+      "key": "us-vt-governor:person_16ec4707fef04805",
+      "title": "Governor of Vermont",
+      "personId": "person_16ec4707fef04805",
+      "personName": "Raymond Liu"
+    },
+    {
+      "key": "us-va-governor:person_2eaa9ec24deeaf49",
+      "title": "Governor of Virginia",
+      "personId": "person_2eaa9ec24deeaf49",
+      "personName": "Jesse Holmes"
+    },
+    {
+      "key": "us-wa-governor:person_9d440ef29ed7bb3b",
+      "title": "Governor of Washington",
+      "personId": "person_9d440ef29ed7bb3b",
+      "personName": "Luke Stewart"
+    },
+    {
+      "key": "us-wv-governor:person_ca627e8a3613fe3a",
+      "title": "Governor of West Virginia",
+      "personId": "person_ca627e8a3613fe3a",
+      "personName": "Julian Ochoa"
+    },
+    {
+      "key": "us-wi-governor:person_2f33c4f02ebdd191",
+      "title": "Governor of Wisconsin",
+      "personId": "person_2f33c4f02ebdd191",
+      "personName": "David Valentine"
+    },
+    {
+      "key": "us-wy-governor:person_52a7d3076b2c5501",
+      "title": "Governor of Wyoming",
+      "personId": "person_52a7d3076b2c5501",
+      "personName": "Jenna Small"
+    }
+  ],
+  "enactedCount": 0,
+  "laws": [],
+  "elections": [],
+  "electionSummaries": [],
+  "news": [],
+  "artFiles": [
+    "body-masculine-fuller.png",
+    "face-masculine-50s-03.png",
+    "hair-masculine-buzz-back.png",
+    "hair-masculine-buzz-front.png",
+    "outfit-masculine-hoodie-jeans-fuller.png",
+    "outfit-masculine-hoodie-jeans-fuller-hides.png",
+    "outfit-masculine-hoodie-jeans-fuller-top.png",
+    "outfit-masculine-hoodie-jeans-fuller-bottom.png",
+    "outfit-masculine-hoodie-jeans-fuller-skin.png"
+  ],
+  "recipe": {
+    "presentation": "masculine",
+    "build": "fuller",
+    "shade": 6,
+    "face": "50s-03",
+    "hair": "buzz",
+    "hairColor": "brown",
+    "outfit": "hoodie-jeans",
+    "colors": {
+      "top": "navy",
+      "bottom": "denim"
+    }
+  },
+  "method": "generateOpeningLife(prepareOpeningLife(setup)); no World advance or injected events"
+}
