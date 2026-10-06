@@ -136,6 +136,7 @@ import {
 } from "./life";
 import { lifeTransitionHandlers } from "./life-callbacks";
 import { PEOPLE_CONTACT_HANDLERS } from "./people-contact";
+import { STATE_LEGISLATURE_QUEUE_HANDLERS } from "./nationwide-world/state-legislature-queue";
 import { PEOPLE_GOAL_HANDLERS } from "./people-goal-review";
 import { peopleFamilyHandlers } from "./people-family-plan";
 import {
@@ -205,6 +206,7 @@ import type {
   DistrictSeatBinding,
   ElectionContestRecord,
   EntityId,
+  IsoDate,
   FutureDueItem,
   FutureTransitionHandlerRegistry,
   FutureTransitionHandlerResult,
@@ -2277,6 +2279,7 @@ export function composeWorldTimeHandlers(
   const ordinary = composeExecutiveWorkHandlers(
     composeFutureTransitionHandlerRegistries(
       createNationalElectionTransitionRegistry(),
+      STATE_LEGISLATURE_QUEUE_HANDLERS,
       createLegislativeTermTransitionRegistry(),
       createTransitTransitionRegistry((world, input, resolver) =>
         settlePublicResourcePayment(world, input, resolver),
