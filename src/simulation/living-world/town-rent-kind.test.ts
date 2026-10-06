@@ -165,7 +165,7 @@ function addHome(
   town: EntityId,
   key: string,
   establishedAt: string,
-  classification = "residential:house",
+  classification: World["history"]["dwellings"][number]["classification"] = "residential:house",
 ): { world: World; tenureId: EntityId } {
   world = createHousehold(world, {
     stableKey: `${key}:household`,
