@@ -1,6 +1,10 @@
 import powers from "../../data/research/powers-catalog/catalog.json" with { type: "json" };
 import type { PolicyPack, PolicyPropositionRow } from "./policy-packs";
 import { TAX_LAW_TERM_KEYS } from "./tax-law-term-keys";
+import {
+  LW06_TAX_TERM_CONSEQUENCE_ROWS,
+  type TaxTermQuestionKey,
+} from "./law-consequences/modules/lw06-county-city-tax-terms";
 
 /** Questions name decisions; they grant no taxing power and set no rate or base. */
 export const TAX_QUESTION_FAMILIES = [
@@ -61,61 +65,68 @@ export const TAX_TERM_QUESTION_ROWS: readonly PolicyPropositionRow[] =
       (family) =>
         powers.dials.find((dial) => dial.id === family.dial)?.levels[level.key]
           ?.may !== "no",
-    ).map((family) => ({
-      key: `${level.key}.${family.key}-tax-terms`,
-      issue:
-        level.key === "federal"
-          ? `us-federal:${family.federalIssue}`
-          : `us-state-and-local:${family.issue}`,
-      name: `Set ${level.name} ${family.name} tax terms`,
-      question: `Should the ${level.name} change its ${family.name} tax rate, base or exemptions?`,
-      parameters: Object.entries(TAX_LAW_TERM_KEYS).map(([field, key]) => ({
+    ).map((family) => {
+      const key = `${level.key}.${family.key}-tax-terms`;
+      const lw06 = LW06_TAX_TERM_CONSEQUENCE_ROWS[key as TaxTermQuestionKey];
+      return {
         key,
-        value: field,
-      })),
-      ...(family.key === "excise"
-        ? {
-            consequences: [
-              {
-                id: `tax:${level.key}:excise:recorded-base`,
-                kind: "tax" as const,
-                when: "assessment" as const,
-                who: {
-                  selector: "recorded-tax-base-payer",
-                  predicates: [
-                    {
-                      capability: "has-operative-typed-tax-policy",
-                      parameters: {},
-                    },
-                  ],
+        issue:
+          level.key === "federal"
+            ? `us-federal:${family.federalIssue}`
+            : `us-state-and-local:${family.issue}`,
+        name: `Set ${level.name} ${family.name} tax terms`,
+        question: `Should the ${level.name} change its ${family.name} tax rate, base or exemptions?`,
+        parameters: Object.entries(TAX_LAW_TERM_KEYS).map(([field, key]) => ({
+          key,
+          value: field,
+        })),
+        ...(family.key === "excise"
+          ? {
+              consequences: [
+                {
+                  id: `tax:${level.key}:excise:recorded-base`,
+                  kind: "tax" as const,
+                  when: "assessment" as const,
+                  who: {
+                    selector: "recorded-tax-base-payer",
+                    predicates: [
+                      {
+                        capability: "has-operative-typed-tax-policy",
+                        parameters: {},
+                      },
+                    ],
+                  },
+                  what: "assess-enacted-tax-base",
+                  amount: {
+                    op: "record" as const,
+                    key: "enacted-tax-assessment",
+                    unit: "minor" as const,
+                  },
+                  conditions: [],
+                  lag: { days: 0, sourceIds: [] },
+                  onRepeal: "preserve-completed" as const,
+                  evidence: {
+                    sourceIds: [
+                      "src/simulation/tax-policy.ts",
+                      "src/fiscal-authority/tax-powers.generated.json",
+                    ],
+                    population:
+                      "The actual payer of a saved taxable occurrence.",
+                    scope:
+                      "Only an operative law with supported saved taxing authority and exact adopted terms.",
+                    why: "The adopted rate and allowance apply to the saved base; collection uses the existing due payment writer.",
+                    uncertainty:
+                      "This row supplies no rate, authority, taxable occurrence or recipient. Missing bindings refuse assessment.",
+                  },
                 },
-                what: "assess-enacted-tax-base",
-                amount: {
-                  op: "record" as const,
-                  key: "enacted-tax-assessment",
-                  unit: "minor" as const,
-                },
-                conditions: [],
-                lag: { days: 0, sourceIds: [] },
-                onRepeal: "preserve-completed" as const,
-                evidence: {
-                  sourceIds: [
-                    "src/simulation/tax-policy.ts",
-                    "src/fiscal-authority/tax-powers.generated.json",
-                  ],
-                  population: "The actual payer of a saved taxable occurrence.",
-                  scope:
-                    "Only an operative law with supported saved taxing authority and exact adopted terms.",
-                  why: "The adopted rate and allowance apply to the saved base; collection uses the existing due payment writer.",
-                  uncertainty:
-                    "This row supplies no rate, authority, taxable occurrence or recipient. Missing bindings refuse assessment.",
-                },
-              },
-            ],
-          }
-        : {}),
-      tags: ["tax", "adopted-terms-required"],
-    })),
+              ],
+            }
+          : lw06
+            ? { consequences: [lw06] }
+            : {}),
+        tags: ["tax", "adopted-terms-required"],
+      };
+    }),
   );
 
 export const TAX_TERMS_POLICY_PACK: PolicyPack = {

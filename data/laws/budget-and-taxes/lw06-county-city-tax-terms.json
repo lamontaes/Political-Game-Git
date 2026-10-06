@@ -1,0 +1,22 @@
+[
+  {
+    "questionKey": "county.payroll-tax-terms",
+    "id": "tax:county:payroll:recorded-base",
+    "tax": "county payroll"
+  },
+  {
+    "questionKey": "county.corporate-tax-terms",
+    "id": "tax:county:corporate:recorded-base",
+    "tax": "county corporate-income"
+  },
+  {
+    "questionKey": "city.income-tax-terms",
+    "id": "tax:city:income:recorded-base",
+    "tax": "city personal-income"
+  },
+  {
+    "questionKey": "city.sales-tax-terms",
+    "id": "tax:city:sales:recorded-base",
+    "tax": "city sales"
+  }
+]

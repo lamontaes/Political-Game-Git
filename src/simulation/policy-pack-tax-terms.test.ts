@@ -11,6 +11,7 @@ import {
   TAX_TERM_QUESTION_ROWS,
 } from "./policy-pack-tax-terms";
 import { TAX_LAW_TERM_KEYS, TAX_NUMERIC_LAW_TERMS } from "./tax-law-term-keys";
+import { LW06_TAX_TERM_QUESTION_KEYS } from "./law-consequences/modules/lw06-county-city-tax-terms";
 
 it("loads tax questions without assigning any rates or replacing existing questions", () => {
   const original = loadPolicyPacks(
@@ -42,6 +43,23 @@ it("loads tax questions without assigning any rates or replacing existing questi
         what: "assess-enacted-tax-base",
         amount: { op: "record", key: "enacted-tax-assessment", unit: "minor" },
       });
+    } else if (
+      LW06_TAX_TERM_QUESTION_KEYS.some((questionKey) => questionKey === row.key)
+    ) {
+      expect(row.consequences).toHaveLength(1);
+      expect(row.consequences![0]).toMatchObject({
+        kind: "tax",
+        when: "assessment",
+        who: {
+          selector: "recorded-tax-base-payer",
+          predicates: [{ capability: "has-operative-typed-tax-policy" }],
+        },
+        what: "assess-enacted-tax-base",
+        amount: { op: "record", key: "enacted-tax-assessment", unit: "minor" },
+      });
+      expect(row.consequences![0].evidence.uncertainty).toMatch(
+        /Unsupported authority or terms remain unavailable/,
+      );
     } else expect(row.consequences).toBeUndefined();
     expect(row.principles).toBeUndefined();
   }
