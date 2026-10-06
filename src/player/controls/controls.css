@@ -378,7 +378,10 @@ body:where(.pg-game) button:focus-visible {
 /* Letterpress actions; text actions and the title list keep their own roles. */
 .pg-game.pg-game .ui-action,
 .pg-game.pg-game .pg-talk-return,
-.pg-game.pg-game .front-door .game-creator button,
+.pg-game.pg-game
+  .front-door
+  .game-creator
+  button:not(.creator-summary, .pg-search-icon),
 .pg-game.pg-game .front-door .game-saves button,
 .pg-game.pg-game .game-setup > button,
 .pg-game.pg-game .creator-navigation > button {
@@ -417,7 +420,10 @@ body:where(.pg-game) button:focus-visible {
 
 .pg-game.pg-game .ui-action:hover:not(:disabled),
 .pg-game.pg-game .pg-talk-return:hover:not(:disabled),
-.pg-game.pg-game .front-door .game-creator button:hover:not(:disabled),
+.pg-game.pg-game
+  .front-door
+  .game-creator
+  button:not(.creator-summary, .pg-search-icon):hover:not(:disabled),
 .pg-game.pg-game .front-door .game-saves button:hover:not(:disabled),
 .pg-game.pg-game .game-setup > button:hover:not(:disabled) {
   border-color: #85817a;
@@ -428,7 +434,10 @@ body:where(.pg-game) button:focus-visible {
 .pg-game.pg-game .ui-action:active:not(:disabled),
 .pg-game.pg-game .pg-talk-return:active:not(:disabled),
 .pg-game.pg-game .front-door .game-saves button:active:not(:disabled),
-.pg-game.pg-game .front-door .game-creator button:active:not(:disabled) {
+.pg-game.pg-game
+  .front-door
+  .game-creator
+  button:not(.creator-summary, .pg-search-icon):active:not(:disabled) {
   box-shadow: inset 0 1px 3px rgb(0 0 0 / 36%);
 }
 
@@ -460,15 +469,17 @@ body:where(.pg-game) button:focus-visible {
   text-shadow: var(--kit12-hover-glow);
 }
 
-.pg-game.pg-game .front-door .game-title button {
+.pg-game.pg-game .front-door .game-title:not(.game-creator) button {
   border-color: transparent;
   background: transparent;
   box-shadow: none;
 }
 
-.pg-game.pg-game .front-door .game-title button:hover:not(:disabled) {
+.pg-game.pg-game
+  .front-door
+  .game-title:not(.game-creator)
+  button:hover:not(:disabled) {
   text-shadow: 0 0 3px rgb(242 237 228 / 22%);
-  transform: scale(1.01);
 }
 
 /* The selected surface is short; no strip or underline behind all tabs. */
@@ -758,4 +769,19 @@ body:where(.pg-game) button:focus-visible {
   .pg-game.pg-game :is(.ui-action, .pg-select, .game-creator button) {
     transition: none;
   }
+}
+
+/* Flat search affordances shared by People and Creator. */
+.pg-game.pg-game .pg-search-icon {
+  flex: none;
+  border: 0;
+  padding: 0.25rem;
+  background: transparent;
+  box-shadow: none;
+  color: var(--text-3);
+  font: 400 1.25rem/1 var(--ui);
+  cursor: pointer;
+}
+.pg-game.pg-game .pg-search-icon:hover {
+  color: var(--text-strong);
 }
