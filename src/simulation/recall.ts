@@ -7,6 +7,10 @@ import { modelCampaignFieldReach } from "./campaign-contact-calibration";
 import { peopleTiedTo } from "./neighbor-news";
 import { recordEventKnowledge } from "./records";
 import { recordsByKey, recordsWithFieldValue } from "./history-index";
+import statePetitionData from "../../data/research/elections/state-initiative-rules.json" with { type: "json" };
+import { stateKeyForJurisdiction } from "./life-places";
+import { municipalRulePackFor } from "./municipal-election-rule-packs";
+import { municipalValueOrNull } from "./municipal-election-rules";
 import { addDays } from "./dates";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { organizationParticipationStateHistory } from "./life-queries";
@@ -163,6 +167,233 @@ export function municipalRecallRule(
   };
 }
 
+/** A single legal gate for official and proposition petitions. */
+export type PetitionKind =
+  | "recall"
+  | "local-initiative"
+  | "protest-referendum"
+  | "state-initiative"
+  | "state-referendum"
+  | "constitutional-initiative";
+
+export interface PetitionRuleRow {
+  readonly kind: PetitionKind;
+  readonly stateUsps: string;
+  readonly available: boolean;
+  readonly reason: string;
+  readonly basis: string;
+  readonly threshold: Readonly<Record<string, string | number>>;
+  readonly window: Readonly<Record<string, string | number | null>>;
+  readonly distribution: Readonly<Record<string, string | number>>;
+  readonly review: Readonly<Record<string, string>>;
+  readonly source: string;
+}
+
+/** The clerk reads an actual refusal from a row; unread terms remain marked estimates. */
+export function petitionRule(
+  kind: PetitionKind,
+  stateUsps: string,
+  input: { readonly governmentKey?: string; readonly world?: World } = {},
+): PetitionRuleRow {
+  const usps = stateUsps.replace(/^US-/, "").toUpperCase();
+  const place = (
+    statePetitionData.places as Record<
+      string,
+      {
+        readonly name: string;
+        readonly kinds: Record<
+          string,
+          {
+            readonly available: boolean;
+            readonly reason: string;
+            readonly basis: string;
+            readonly threshold: PetitionRuleRow["threshold"];
+            readonly window: PetitionRuleRow["window"];
+            readonly distribution: PetitionRuleRow["distribution"];
+            readonly review: PetitionRuleRow["review"];
+            readonly source?: string;
+          }
+        >;
+      }
+    >
+  )[`US-${usps}`];
+  if (!place)
+    throw new Error("A petition rule requires a canonical place identity.");
+  if (
+    kind === "state-initiative" ||
+    kind === "state-referendum" ||
+    kind === "constitutional-initiative"
+  ) {
+    const row = place.kinds[kind]!;
+    return {
+      ...row,
+      kind,
+      stateUsps: usps,
+      source: row.source ?? statePetitionData.estimateNote,
+    };
+  }
+  if (kind === "recall" && input.governmentKey) {
+    const government = municipalGovernmentByKey(input.governmentKey);
+    if (!government || government.state !== usps)
+      throw new Error(
+        "The petition government must belong to the rule's place.",
+      );
+    const rule = municipalRecallRule(input.governmentKey, input.world);
+    if (!rule.available)
+      return {
+        kind,
+        stateUsps: usps,
+        available: false,
+        reason: rule.reason,
+        basis: "municipal-rule",
+        threshold: { kind: "not-applicable", reason: rule.reason },
+        window: { kind: "not-applicable", reason: rule.reason },
+        distribution: { kind: "not-applicable", reason: rule.reason },
+        review: { authority: "election clerk", text: rule.reason },
+        source: "Canonical municipal recall resolver, including enacted rules.",
+      };
+    return {
+      kind,
+      stateUsps: usps,
+      available: true,
+      reason: "Residents may petition to recall this official.",
+      basis: rule.doctrineBasis,
+      threshold: rule.threshold
+        ? { ...rule.threshold }
+        : {
+            percent: statePetitionData.localEstimates.initiativePercent,
+            base: "registered-voters",
+            basis: "estimated-from-average",
+          },
+      window: {
+        kind: "days",
+        days: rule.circulationDays,
+        anchor: "petition-start",
+        basis: rule.circulationBasis,
+      },
+      distribution: {
+        requiredFraction: 0,
+        unit: "none",
+        basis: "estimated-from-average",
+        note: "No additional geographic requirement is modeled by the municipal recall resolver.",
+      },
+      review: {
+        authority: "election clerk",
+        text: rule.groundsRequired
+          ? "Stated grounds are required; the clerk checks petition records."
+          : "The clerk checks petition records.",
+      },
+      source:
+        "Canonical municipal recall resolver; original doctrine and circulation provenance retained.",
+    };
+  }
+  const democracy = municipalRulePackFor(usps)?.directDemocracy;
+  const form =
+    kind === "recall"
+      ? democracy?.recallDoctrine
+      : kind === "local-initiative"
+        ? democracy?.initiativeForm
+        : democracy?.protestReferendum;
+  const resolved = form ? municipalValueOrNull(form) : null;
+  const available =
+    resolved !== "prohibited" && resolved !== "judicial-cause-removal-trial";
+  const reason = !available
+    ? `${place.name}'s general municipal rule does not authorize this citizen petition form${resolved === "judicial-cause-removal-trial" ? "; removal requires a court proceeding" : ""}.`
+    : resolved === null
+      ? statePetitionData.estimateNote
+      : "The compiled general municipal rule authorizes this petition form.";
+  const thresholdField =
+    kind === "recall"
+      ? democracy?.recallPetitionThreshold
+      : kind === "local-initiative"
+        ? democracy?.initiativePetitionThreshold
+        : democracy?.protestReferendumThreshold;
+  const threshold = thresholdField
+    ? municipalValueOrNull(thresholdField)
+    : null;
+  const windowField =
+    kind === "recall"
+      ? democracy?.recallCirculationWindowDays
+      : kind === "protest-referendum"
+        ? democracy?.protestReferendumWindowDays
+        : null;
+  const windowDays = windowField ? municipalValueOrNull(windowField) : null;
+  const source =
+    form && (form.kind === "known" || form.kind === "locally-selectable")
+      ? `${form.source.citation}; ${form.source.verification}`
+      : statePetitionData.estimateNote;
+  return {
+    kind,
+    stateUsps: usps,
+    available,
+    reason,
+    basis:
+      resolved === null ? "estimated-from-average" : "state-law-unverified",
+    threshold: !available
+      ? { kind: "not-applicable", reason }
+      : threshold
+        ? { ...threshold }
+        : {
+            percent:
+              kind === "protest-referendum"
+                ? statePetitionData.localEstimates.referendumPercent
+                : statePetitionData.localEstimates.initiativePercent,
+            base: "registered-voters",
+            basis: "estimated-from-average",
+          },
+    window: !available
+      ? { kind: "not-applicable", reason }
+      : {
+          kind: "days",
+          days:
+            windowDays ??
+            (kind === "protest-referendum"
+              ? statePetitionData.localEstimates.referendumWindowDays
+              : statePetitionData.localEstimates.circulationDays),
+          anchor:
+            kind === "protest-referendum"
+              ? "ordinance-enacted"
+              : "petition-start",
+          basis:
+            windowDays === null
+              ? "estimated-from-average"
+              : "state-law-unverified",
+        },
+    distribution: !available
+      ? { kind: "not-applicable", reason }
+      : {
+          requiredFraction: 0,
+          unit: "none",
+          basis: "estimated-from-average",
+          note: "Additional geographic requirements not compiled; no quota is an explicit estimate.",
+        },
+    review: {
+      authority: "election clerk",
+      text: !available
+        ? reason
+        : kind === "local-initiative" && resolved === "indirect-council-first"
+          ? "The clerk certifies signatures; the council considers the proposition before ballot referral."
+          : kind === "local-initiative" && resolved === "town-meeting-warrant"
+            ? "The clerk places the certified proposition on the town-meeting warrant."
+            : "The clerk certifies eligible signed records before ballot referral.",
+    },
+    source,
+  };
+}
+
+/** Clerk refusal wording is exactly the row's legal reason. */
+export function petitionFilingCheck(
+  row: PetitionRuleRow,
+):
+  | { readonly allowed: true; readonly rule: PetitionRuleRow }
+  | { readonly allowed: false; readonly reason: string } {
+  return row.available
+    ? { allowed: true, rule: row }
+    : { allowed: false, reason: row.reason };
+}
+
+export const PETITION_STARTED = "civic.petition-started";
+
 export type RecallPhase =
   | "circulating"
   | "failed-to-qualify"
@@ -173,6 +404,7 @@ export type RecallPhase =
 
 export interface RecallPetition {
   readonly stableKey: string;
+  readonly kind: "recall";
   readonly governmentKey: string;
   readonly jurisdictionId: EntityId;
   readonly petitionerPersonId: EntityId;
@@ -186,26 +418,39 @@ export interface RecallPetition {
   readonly no: number | null;
 }
 
+export interface PropositionPetition extends Omit<
+  RecallPetition,
+  "kind" | "targetPersonId" | "threshold"
+> {
+  readonly kind: Exclude<PetitionKind, "recall">;
+  readonly targetPersonId: null;
+  readonly propositionId: EntityId;
+  readonly rule: PetitionRuleRow;
+}
+export type CitizenPetition = RecallPetition | PropositionPetition;
+
 function tagValue(tags: readonly string[], prefix: string): string | null {
   return (
     tags.find((tag) => tag.startsWith(prefix))?.slice(prefix.length) ?? null
   );
 }
 
-/** Every recall petition in this World, read from its public records. */
-export function recallPetitions(world: World): readonly RecallPetition[] {
-  const petitions = new Map<string, RecallPetition>();
+/** Every petition kind in this World, read through the same public event stream. */
+export function citizenPetitions(world: World): readonly CitizenPetition[] {
+  const petitions = new Map<string, CitizenPetition>();
   for (const event of world.history.events) {
     if (!event.tags.includes(RECALL_VERSION)) continue;
     const key = tagValue(event.tags, "petition:");
     if (!key) continue;
-    if (event.type === RECALL_PETITION_STARTED) {
-      petitions.set(key, {
+    if (
+      event.type === RECALL_PETITION_STARTED ||
+      event.type === PETITION_STARTED
+    ) {
+      const common = {
         stableKey: key,
         governmentKey: tagValue(event.tags, "government:")!,
         jurisdictionId: event.jurisdictionId!,
         petitionerPersonId: tagValue(event.tags, "petitioner:")! as EntityId,
-        targetPersonId: tagValue(event.tags, "target:")! as EntityId,
         startedAt: event.occurredAt,
         closesAt: tagValue(event.tags, "closes:") as IsoDate,
         threshold:
@@ -218,11 +463,33 @@ export function recallPetitions(world: World): readonly RecallPetition[] {
                   "threshold-base:",
                 ) as PetitionThreshold["base"],
               },
-        phase: "circulating",
+        phase: "circulating" as const,
         electionAt: null,
         yes: null,
         no: null,
-      });
+      };
+      const kind = tagValue(event.tags, "petition-kind:") ?? "recall";
+      if (kind === "recall")
+        petitions.set(key, {
+          ...common,
+          kind,
+          targetPersonId: tagValue(event.tags, "target:")! as EntityId,
+        });
+      else {
+        const serialized = tagValue(event.tags, "rule-row:");
+        const propositionId = tagValue(event.tags, "proposition:");
+        if (!serialized || !propositionId)
+          throw new Error(
+            "A proposition petition requires its filed subject and legal terms.",
+          );
+        petitions.set(key, {
+          ...common,
+          kind: kind as PropositionPetition["kind"],
+          targetPersonId: null,
+          propositionId: propositionId as EntityId,
+          rule: JSON.parse(serialized) as PetitionRuleRow,
+        });
+      }
       continue;
     }
     const petition = petitions.get(key);
@@ -259,6 +526,13 @@ export function recallPetitions(world: World): readonly RecallPetition[] {
       });
   }
   return [...petitions.values()];
+}
+
+/** Compatibility projection over the same petition event reader. */
+export function recallPetitions(world: World): readonly RecallPetition[] {
+  return citizenPetitions(world).filter(
+    (row): row is RecallPetition => row.kind === "recall",
+  );
 }
 
 function openPetitionAgainst(
@@ -368,34 +642,16 @@ export function startRecallPetition(
   const threshold = rule.threshold
     ? ` It needs signatures from ${rule.threshold.percent}% of ${thresholdBase(rule.threshold)}.`
     : "";
-  let next = recordWorldEvent(world, {
-    stableKey: `${key}:started`,
-    type: RECALL_PETITION_STARTED,
-    occurredAt: world.currentDate,
-    recordedAt: world.currentDate,
+  return writePetitionStart(world, {
+    key,
+    kind: "recall",
     jurisdictionId,
-    involvedEntityIds: [input.petitionerPersonId, input.targetPersonId].sort(),
-    participants: [
-      {
-        personId: input.petitionerPersonId,
-        role: "focus:actor",
-        detail: "recall-petitioner",
-      },
-      {
-        personId: input.targetPersonId,
-        role: "focus:subject",
-        detail: "recall-target",
-      },
-    ],
-    personFactConstraints: [],
-    visibility: "public",
+    petitionerPersonId: input.petitionerPersonId,
+    subjectId: input.targetPersonId,
+    governmentKey: input.governmentKey,
+    closesAt,
     tags: [
-      RECALL_VERSION,
-      `petition:${key}`,
-      `government:${input.governmentKey}`,
-      `petitioner:${input.petitionerPersonId}`,
       `target:${input.targetPersonId}`,
-      `closes:${closesAt}`,
       `circulation:${rule.circulationBasis}`,
       ...(rule.threshold
         ? [
@@ -405,23 +661,192 @@ export function startRecallPetition(
         : []),
     ],
     summary: `A petition to recall ${personName(target)} began circulating. It closes on ${closesAt}.${threshold}${rule.groundsRequired ? " The law requires stated grounds." : ""}`,
+    note:
+      rule.circulationBasis === "national-estimated"
+        ? `The circulation window is the national modal window, ESTIMATED FROM AVERAGE; ${rule.stateUsps}'s own is not settled.`
+        : `The petition circulates for ${rule.circulationDays} days under ${rule.stateUsps} law.`,
+  });
+}
+
+function writePetitionStart(
+  world: World,
+  input: {
+    readonly key: string;
+    readonly kind: PetitionKind;
+    readonly jurisdictionId: EntityId;
+    readonly petitionerPersonId: EntityId;
+    readonly subjectId: EntityId;
+    readonly governmentKey: string;
+    readonly closesAt: IsoDate;
+    readonly tags: readonly string[];
+    readonly summary: string;
+    readonly note: string;
+  },
+): World {
+  const next = recordWorldEvent(world, {
+    stableKey: `${input.key}:started`,
+    type: input.kind === "recall" ? RECALL_PETITION_STARTED : PETITION_STARTED,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: input.jurisdictionId,
+    involvedEntityIds: [
+      input.petitionerPersonId,
+      input.kind === "recall" ? input.subjectId : input.jurisdictionId,
+    ].sort(),
+    participants: [
+      {
+        personId: input.petitionerPersonId,
+        role: "focus:actor",
+        detail:
+          input.kind === "recall" ? "recall-petitioner" : "petition-circulator",
+      },
+      ...(input.kind === "recall"
+        ? [
+            {
+              personId: input.subjectId,
+              role: "focus:subject" as const,
+              detail: "recall-target",
+            },
+          ]
+        : []),
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      RECALL_VERSION,
+      `petition-kind:${input.kind}`,
+      `petition:${input.key}`,
+      `government:${input.governmentKey}`,
+      `petitioner:${input.petitionerPersonId}`,
+      `closes:${input.closesAt}`,
+      ...input.tags,
+    ],
+    summary: input.summary,
     context: eventContext(),
   });
-  next = scheduleFutureDueItem(next, {
-    stableKey: `${key}:closes`,
-    dueAt: closesAt,
+  return scheduleFutureDueItem(next, {
+    stableKey: `${input.key}:closes`,
+    dueAt: input.closesAt,
     transitionKey: RECALL_PETITION_CLOSES,
-    entityIds: [jurisdictionId],
-    jurisdictionId,
-    provenance: {
-      kind: "authored",
-      note:
-        rule.circulationBasis === "national-estimated"
-          ? `The circulation window is the national modal window, ESTIMATED FROM AVERAGE; ${rule.stateUsps}'s own is not settled.`
-          : `The petition circulates for ${rule.circulationDays} days under ${rule.stateUsps} law.`,
-    },
+    entityIds: [input.jurisdictionId],
+    jurisdictionId: input.jurisdictionId,
+    provenance: { kind: "authored", note: input.note },
   });
-  return next;
+}
+
+/** Official and proposition petitions share one start writer and close transition. */
+export function startCitizenPetition(
+  world: World,
+  input:
+    | {
+        readonly kind: "recall";
+        readonly petitionerPersonId: EntityId;
+        readonly governmentKey: string;
+        readonly targetPersonId: EntityId;
+      }
+    | {
+        readonly kind: Exclude<PetitionKind, "recall">;
+        readonly petitionerPersonId: EntityId;
+        readonly jurisdictionId: EntityId;
+        readonly stateUsps: string;
+        readonly governmentKey?: string;
+        readonly propositionId: EntityId;
+        readonly electionDate?: IsoDate;
+        readonly anchorDate?: IsoDate;
+      },
+): World {
+  if (input.kind === "recall") return startRecallPetition(world, input);
+  const rule = petitionRule(input.kind, input.stateUsps, {
+    governmentKey: input.governmentKey,
+    world,
+  });
+  const check = petitionFilingCheck(rule);
+  if (!check.allowed) throw new Error(check.reason);
+  if (
+    !isEligibleVoterIn(
+      world,
+      input.petitionerPersonId,
+      input.jurisdictionId,
+      world.currentDate,
+    )
+  )
+    throw new Error("Only an eligible resident may file this petition.");
+  if (
+    input.kind === "local-initiative" ||
+    input.kind === "protest-referendum"
+  ) {
+    const government = input.governmentKey
+      ? municipalGovernmentByKey(input.governmentKey)
+      : null;
+    if (
+      !government ||
+      government.state !== rule.stateUsps ||
+      municipalGovernmentJurisdictionId(world, government.key) !==
+        input.jurisdictionId
+    )
+      throw new Error(
+        "A local petition must name its own recorded municipal government.",
+      );
+  } else {
+    const jurisdiction = world.jurisdictions[input.jurisdictionId];
+    if (
+      !jurisdiction ||
+      stateKeyForJurisdiction(jurisdiction) !== `US-${rule.stateUsps}`
+    )
+      throw new Error(
+        "A state petition must name the jurisdiction governed by its rule row.",
+      );
+  }
+  const proposition = world.policyCatalog.propositions[input.propositionId];
+  if (!proposition)
+    throw new Error("The petition must name a recorded proposition.");
+  let closesAt: IsoDate;
+  if (rule.window.kind === "election-lead") {
+    if (!input.electionDate)
+      throw new Error(
+        "The clerk needs the lawful election date to apply this filing deadline.",
+      );
+    if (typeof rule.window.months === "number") {
+      const date = new Date(`${input.electionDate}T00:00:00Z`);
+      const day = date.getUTCDate();
+      date.setUTCDate(1);
+      date.setUTCMonth(date.getUTCMonth() - rule.window.months);
+      const lastDay = new Date(
+        Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, 0),
+      ).getUTCDate();
+      date.setUTCDate(Math.min(day, lastDay));
+      closesAt = date.toISOString().slice(0, 10) as IsoDate;
+    } else
+      closesAt = addDays(input.electionDate, -Number(rule.window.days) - 1);
+  } else {
+    const anchor =
+      rule.window.anchor === "petition-start"
+        ? world.currentDate
+        : input.anchorDate;
+    if (!anchor)
+      throw new Error(
+        "The clerk needs the recorded law or session date to apply this petition window.",
+      );
+    closesAt = addDays(anchor, Number(rule.window.days));
+  }
+  if (closesAt <= world.currentDate)
+    throw new Error("The petition filing window has already closed.");
+  const key = `${RECALL_VERSION}:${input.kind}:${input.jurisdictionId}:${input.propositionId}:${world.currentDate}`;
+  return writePetitionStart(world, {
+    key,
+    kind: input.kind,
+    jurisdictionId: input.jurisdictionId,
+    petitionerPersonId: input.petitionerPersonId,
+    subjectId: input.propositionId,
+    governmentKey: input.governmentKey ?? "",
+    closesAt,
+    tags: [
+      `proposition:${input.propositionId}`,
+      `rule-row:${JSON.stringify(rule)}`,
+    ],
+    summary: `A ${input.kind} petition on the recorded proposition began circulating. It closes on ${closesAt}. ${rule.reason}`,
+    note: `${rule.source} ${rule.window.basis ?? rule.basis}`,
+  });
 }
 
 /** The stable key of a petition started on this date against this official. */
@@ -528,7 +953,7 @@ export function openPetitionAsksFor(
         row.sequence < sequence,
     )
     .sort((a, b) => a.sequence - b.sequence);
-  const petitions = recallPetitions({
+  const petitions = citizenPetitions({
     ...world,
     history: { ...world.history, events },
   });
@@ -559,7 +984,7 @@ export function openPetitionAsksFor(
 export function askToSign(
   world: World,
   input: {
-    readonly petition: RecallPetition;
+    readonly petition: CitizenPetition;
     readonly signerPersonId: EntityId;
     readonly circulatorPersonId: EntityId;
     readonly subject?: PetitionSubject;
@@ -567,10 +992,19 @@ export function askToSign(
   },
 ): World {
   const petition = input.petition;
-  const subject: PetitionSubject = input.subject ?? {
-    kind: "official",
-    personId: petition.targetPersonId,
-  };
+  const subject: PetitionSubject =
+    input.subject ??
+    (petition.kind === "recall"
+      ? { kind: "official", personId: petition.targetPersonId }
+      : { kind: "proposition", propositionId: petition.propositionId });
+  if (
+    petition.kind === "recall"
+      ? subject.kind !== "official" ||
+        subject.personId !== petition.targetPersonId
+      : subject.kind !== "proposition" ||
+        subject.propositionId !== petition.propositionId
+  )
+    throw new Error("The request must use the filed petition's own subject.");
   if (petition.phase !== "circulating" || world.currentDate > petition.closesAt)
     throw new Error("This petition is no longer circulating.");
   if (
@@ -871,7 +1305,7 @@ export function circulatePetition(
     readonly form?: "door-canvass" | "phone-shift";
   },
 ): World {
-  const petition = recallPetitions(world).find(
+  const petition = citizenPetitions(world).find(
     (row) => row.stableKey === input.petitionKey,
   );
   if (!petition) throw new Error("No such petition.");
@@ -957,7 +1391,7 @@ export function circulatePetition(
 /** One signature rule: invalidity needs an eligibility, duplicate, decision or clerk record. */
 export function recordedPetitionSignatures(
   world: World,
-  petition: RecallPetition,
+  petition: CitizenPetition,
 ) {
   const events = world.history.events.filter(
     (event) =>
@@ -1074,7 +1508,7 @@ function thresholdBase(threshold: PetitionThreshold): string {
 
 function petitionForDue(world: World, due: FutureDueItem) {
   const key = due.stableKey.replace(/:(closes|election)$/, "");
-  return recallPetitions(world).find((p) => p.stableKey === key) ?? null;
+  return citizenPetitions(world).find((p) => p.stableKey === key) ?? null;
 }
 
 function done(world: World, context: string): FutureTransitionHandlerResult {
@@ -1131,6 +1565,15 @@ export function recallPetitionClosesHandler(
   const petition = petitionForDue(world, due);
   if (!petition || petition.phase !== "circulating")
     return done(world, "No circulating recall petition matches.");
+  if (petition.kind !== "recall")
+    return {
+      world,
+      status: "blocked",
+      reasonKey: "petition:signed-record-close-pending",
+      context:
+        "This proposition petition is filed with its legal terms; the shared signed-record close integration is pending.",
+      outcomeEventId: null,
+    };
   const name = personName(world.people[petition.targetPersonId]!);
   if (!seatOf(world, petition.governmentKey, petition.targetPersonId))
     return done(
@@ -1256,7 +1699,11 @@ export function recallElectionHandler(
   due: FutureDueItem,
 ): FutureTransitionHandlerResult {
   const petition = petitionForDue(world, due);
-  if (!petition || petition.phase !== "awaiting-election")
+  if (
+    !petition ||
+    petition.kind !== "recall" ||
+    petition.phase !== "awaiting-election"
+  )
     return done(world, "No recall election matches.");
   const name = personName(world.people[petition.targetPersonId]!);
   const seat = seatOf(world, petition.governmentKey, petition.targetPersonId);
