@@ -1,0 +1,13 @@
+[
+  {
+    "decision": "career.consider-another-term",
+    "leans": [
+      {
+        "option": "seek",
+        "trait": "personality-v1:facet-entitled",
+        "pole": "high",
+        "explanation": "They expect another term as their due."
+      }
+    ]
+  }
+]
