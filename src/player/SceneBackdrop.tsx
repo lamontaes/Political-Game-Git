@@ -100,7 +100,7 @@ function panelHeightAt(panel: HTMLElement, width: number): number {
   return height;
 }
 
-/** The shell's own cards standing over the room, such as the morning note. */
+/** The shell's own cards standing over the room, such as the day recap. */
 function shellCardsOverTheRoom(): ScreenRect[] {
   return [...document.querySelectorAll(".life-shell .pg-recap")]
     .map((element) => element.getBoundingClientRect())

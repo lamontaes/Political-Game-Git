@@ -1,4 +1,6 @@
 import moneyBail from "../../../data/research/justice/money-bail-2026.json" with { type: "json" };
+import { readFinalEnactedLawTerm } from "../governing/final-law-term-query";
+import { eventById } from "../event-index";
 import { lawInForce, type LawInForce } from "../governing/law-in-force";
 import { resourcePositionAt } from "../resource-queries";
 import { money } from "../resources";
@@ -24,11 +26,10 @@ export const END_CASH_BAIL_QUESTION =
   "us-policy-positions:justice-public-safety.end-cash-bail";
 
 /**
- * The bail schedule, the dollar conversion and what a defendant pays to go
- * home are data (`data/research/justice/money-bail-2026.json`) with their
+ * The research estimate and its dollar conversion are data (`data/research/justice/money-bail-2026.json`) with their
  * sources: the median bail for the charge (Bureau of Justice Statistics, NCJ
- * 243777, table 16) in 2025 dollars. The supported court route posts this
- * amount in full cash. A commercial premium is not a court deposit; state
+ * 243777, table 16) in 2025 dollars. This is not legal authority.
+ * The supported court route posts an operative or saved amount in full cash. A commercial premium is not a court deposit; state
  * deposit exceptions require separately researched current authority.
  */
 const BAIL_2009_DOLLARS: Readonly<Record<string, number>> =
@@ -36,16 +37,59 @@ const BAIL_2009_DOLLARS: Readonly<Record<string, number>> =
 const CPI_2009 = moneyBail.cpiU["2009"];
 const CPI_2025 = moneyBail.cpiU["2025"];
 
-/** The bail the court sets for an offense, in cents of 2025 dollars. */
-export function bailMinorUnits(offenseKey: string): number {
+/** Research estimate only, never authority for a new court cash-bail charge. */
+export function estimatedBailMinorUnits(offenseKey: string): number {
   const dollars2009 =
     BAIL_2009_DOLLARS[offenseKey] ?? BAIL_2009_DOLLARS.default!;
   return Math.round((dollars2009 * CPI_2025) / CPI_2009) * 100;
 }
 
-/** What a defendant has to pay to go home on that bail, in cents. */
-export function bailDueMinorUnits(offenseKey: string): number {
-  return bailMinorUnits(offenseKey);
+/** Offense-specific adopted amount, in USD minor units; no schedule is inferred. */
+export function bailMinorUnits(
+  world: World,
+  input: {
+    readonly venueJurisdictionId: EntityId | null;
+    readonly offenseKey: string;
+  },
+): number | null {
+  const law = pretrialGoverningLawAt(world, input.venueJurisdictionId);
+  if (!law || law.answer !== "no") return null;
+  const term = readFinalEnactedLawTerm(world, law, {
+    questionKey: END_CASH_BAIL_QUESTION,
+    termKey: `cash-bail:${input.offenseKey}`,
+    unit: "minor",
+  });
+  return term && Number.isSafeInteger(term.value) && term.value > 0
+    ? term.value
+    : null;
+}
+
+/** The saved charge is authoritative for payment, including preserved old saves. */
+export function recordedChargeBailMinorUnits(
+  world: World,
+  chargedEventId: EntityId,
+): number | null {
+  const charged = eventById(world, chargedEventId);
+  if (
+    !charged ||
+    charged.type !== "justice.charged" ||
+    charged.occurredAt > world.currentDate
+  )
+    return null;
+  const tags = charged.tags.filter((tag) =>
+    tag.startsWith("justice.cash-bail-amount:"),
+  );
+  if (tags.length !== 1) return null;
+  const amount = Number(tags[0]!.slice("justice.cash-bail-amount:".length));
+  return Number.isSafeInteger(amount) && amount > 0 ? amount : null;
+}
+
+/** Full cash deposit; commercial premiums are not court deposits. */
+export function bailDueMinorUnits(
+  world: World,
+  input: Parameters<typeof bailMinorUnits>[1],
+): number | null {
+  return bailMinorUnits(world, input);
 }
 
 /** The catalog's proposition whose stable key ends with `suffix`. */

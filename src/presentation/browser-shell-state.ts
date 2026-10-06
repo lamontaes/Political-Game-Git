@@ -9,11 +9,8 @@ import {
 } from "./browser-world-repository";
 import {
   DEFAULT_PREFERENCES,
-  EMPTY_JOURNAL,
   LEGACY_INTERFACE_PROGRESS,
   type InterfaceProgress,
-  type PrivateJournal,
-  type JournalNote,
   refKey,
   type PinSize,
   type ShellPin,
@@ -21,10 +18,8 @@ import {
   type ShellRef,
 } from "./shell-navigation";
 import {
-  makeIsoDate,
   makeSimulationMoment,
   type EntityId,
-  type IsoDate,
   type SimulationMoment,
 } from "../simulation";
 
@@ -81,13 +76,6 @@ const REF_KINDS: readonly ShellRef["kind"][] = [
 
 export interface StoredShellState {
   readonly personWardrobes?: Readonly<Record<string, PersonWardrobePreference>>;
-  /**
-   * The slot-wide notebook older records kept. Read back as written; the
-   * shell hands it to the person who was played when it was written.
-   */
-  readonly journal?: PrivateJournal;
-  /** Private notebooks keyed by the played person they belong to. */
-  readonly journals?: Readonly<Record<string, PrivateJournal>>;
   readonly pins: readonly ShellPin[];
   readonly preferences: ShellPreferences;
   readonly progress?: InterfaceProgress;
@@ -96,8 +84,6 @@ export interface StoredShellState {
 export const EMPTY_SHELL_STATE: StoredShellState = {
   pins: [],
   preferences: DEFAULT_PREFERENCES,
-  journal: EMPTY_JOURNAL,
-  journals: {},
   personWardrobes: {},
   progress: LEGACY_INTERFACE_PROGRESS,
 };
@@ -221,10 +207,6 @@ function readPreferences(value: unknown): ShellPreferences {
     defaultPinSize,
     followedNewsOutletKeys,
     interruptions,
-    morningThoughts:
-      typeof value.morningThoughts === "boolean"
-        ? value.morningThoughts
-        : DEFAULT_PREFERENCES.morningThoughts,
     proposalLayout,
     newsMode,
     newsOutletKey,
@@ -253,8 +235,6 @@ export function readStoredShellState(value: unknown): StoredShellState | null {
   if (!isRecord(value)) return null;
   if (!SHELL_RECORD_VERSIONS.includes(value.version as number)) return null;
   return {
-    journal: readJournal(value.journal),
-    journals: readJournals(value.journals),
     personWardrobes: readWardrobes(value.personWardrobes),
     pins: readPins(value.pins),
     preferences: readPreferences(value.preferences),
@@ -274,7 +254,6 @@ function readProgress(value: unknown): InterfaceProgress {
   if (!isRecord(value)) return LEGACY_INTERFACE_PROGRESS;
   const frontier = value.recapFrontier;
   const throughMoment = readSimulationMoment(value.recapThroughMoment);
-  const seenOn = readIsoDate(value.morningThoughtSeenOn);
   return {
     orientationSeen:
       typeof value.orientationSeen === "boolean"
@@ -287,17 +266,7 @@ function readProgress(value: unknown): InterfaceProgress {
         ? frontier
         : null,
     ...(throughMoment ? { recapThroughMoment: throughMoment } : {}),
-    ...(seenOn ? { morningThoughtSeenOn: seenOn } : {}),
   };
-}
-
-function readIsoDate(value: unknown): IsoDate | null {
-  if (typeof value !== "string") return null;
-  try {
-    return makeIsoDate(value);
-  } catch {
-    return null;
-  }
 }
 
 function readSimulationMoment(value: unknown): SimulationMoment | null {
@@ -329,113 +298,10 @@ export function encodeStoredShellState(
   return {
     saveId,
     version: SHELL_RECORD_VERSION,
-    journal: readJournal(state.journal),
-    journals: readJournals(state.journals),
     personWardrobes: readWardrobes(state.personWardrobes),
     pins: readPins(state.pins).map((pin) => ({ ref: pin.ref, size: pin.size })),
     preferences: readPreferences(state.preferences),
     progress: readProgress(state.progress),
-  };
-}
-
-function readJournals(
-  value: unknown,
-): Readonly<Record<string, PrivateJournal>> {
-  if (!isRecord(value)) return {};
-  const journals: Record<string, PrivateJournal> = {};
-  for (const [personId, journal] of Object.entries(value)) {
-    if (!personId || !isRecord(journal)) continue;
-    journals[personId] = readJournal(journal);
-  }
-  return journals;
-}
-
-function isEmptyJournal(journal: PrivateJournal): boolean {
-  return journal.ambition === "" && journal.notes.length === 0;
-}
-
-/**
- * Gives a slot-wide notebook from an older record to the person it was
- * written by: the save's original controlled person, since notebooks were
- * slot-wide only before anybody could be continued. Nothing is dropped — a
- * notebook that person already has keeps its own intentions and gains the old
- * notes it does not already hold. With nobody to give it to, it stays
- * unassigned rather than being shown to whoever is played now.
- */
-export function assignLegacyJournal(
-  stored: Pick<StoredShellState, "journal" | "journals">,
-  originalPersonId: EntityId | null,
-): {
-  readonly journals: Readonly<Record<string, PrivateJournal>>;
-  readonly legacyJournal: PrivateJournal;
-} {
-  const journals = stored.journals ?? {};
-  const legacy = stored.journal ?? EMPTY_JOURNAL;
-  if (isEmptyJournal(legacy)) return { journals, legacyJournal: EMPTY_JOURNAL };
-  if (originalPersonId === null) return { journals, legacyJournal: legacy };
-  const existing = journals[originalPersonId];
-  if (!existing) {
-    return {
-      journals: { ...journals, [originalPersonId]: legacy },
-      legacyJournal: EMPTY_JOURNAL,
-    };
-  }
-  const held = new Set(existing.notes.map((note) => note.id));
-  const ambition =
-    existing.ambition === ""
-      ? legacy.ambition
-      : legacy.ambition === "" || existing.ambition.includes(legacy.ambition)
-        ? existing.ambition
-        : `${existing.ambition}\n\n${legacy.ambition}`;
-  return {
-    journals: {
-      ...journals,
-      [originalPersonId]: {
-        ambition,
-        notes: [
-          ...existing.notes,
-          ...legacy.notes.filter((note) => !held.has(note.id)),
-        ],
-      },
-    },
-    legacyJournal: EMPTY_JOURNAL,
-  };
-}
-
-function readJournal(value: unknown): PrivateJournal {
-  if (!isRecord(value)) return EMPTY_JOURNAL;
-  const notes: JournalNote[] = [];
-  const seen = new Set<string>();
-  if (Array.isArray(value.notes))
-    for (const entry of value.notes) {
-      if (
-        !isRecord(entry) ||
-        typeof entry.id !== "string" ||
-        seen.has(entry.id)
-      )
-        continue;
-      if (
-        typeof entry.title !== "string" ||
-        typeof entry.body !== "string" ||
-        typeof entry.group !== "string"
-      )
-        continue;
-      seen.add(entry.id);
-      notes.push({
-        id: entry.id,
-        title: entry.title,
-        body: entry.body,
-        group: entry.group,
-        personId:
-          typeof entry.personId === "string"
-            ? (entry.personId as EntityId)
-            : null,
-        eventKey: typeof entry.eventKey === "string" ? entry.eventKey : null,
-      });
-    }
-  return {
-    ambition: typeof value.ambition === "string" ? value.ambition : "",
-    notes,
   };
 }
 

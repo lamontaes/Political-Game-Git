@@ -436,15 +436,6 @@
       "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
     },
     {
-      "file": "src/presentation/day-rhythm.ts",
-      "line": 58,
-      "text": "// PLACEHOLDER(wave2): local noon bounds the optional morning thought until",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
       "file": "src/presentation/dress-code.ts",
       "line": 75,
       "text": "* November through March. PLACEHOLDER(wave2): one season for every state; a",

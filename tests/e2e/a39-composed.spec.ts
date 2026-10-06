@@ -80,12 +80,14 @@ test("A39 composed readers, municipal and constitutional routes preserve saved l
     "I was born",
   );
   text.journal = await page.getByTestId("world39-journal").innerText();
-  await page
-    .getByTestId("world39-journal")
-    .locator("summary")
-    .filter({ hasText: /^Record$/ })
-    .press("Enter");
-  await expect(page.locator(".world39-record")).toHaveAttribute("open", "");
+  await expect(
+    page
+      .getByTestId("world39-journal")
+      .getByText("Private notes and intentions", { exact: true }),
+  ).toHaveCount(0);
+  await expect(
+    page.getByTestId("world39-journal").getByText("Record", { exact: true }),
+  ).toHaveCount(0);
   await page.screenshot({ path: info.outputPath("03-journal-private.png") });
   await navigate(page, "nav-municipal", "politics");
   await page.getByTestId("municipal-search").fill("Charlottesville");
