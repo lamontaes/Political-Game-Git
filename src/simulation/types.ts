@@ -164,6 +164,7 @@ export type EntityKind =
   | "national-election-record"
   | "election-contest"
   | "election-contest-result"
+  | "player-election-choice"
   | "executive-disposition"
   | "legislative-action"
   | "legislative-amendment"
@@ -3835,8 +3836,27 @@ export interface ElectionContestResultRecord {
   readonly resolvedAt: IsoDate;
   readonly winnerPersonId: EntityId;
   readonly tallies: readonly CandidateTally[];
+  /** Individual choices from the same count that produced these tallies. */
+  readonly ballots?: readonly ElectionBallotRecord[];
   readonly outcomeEventId: EntityId;
   readonly provenance: ElectionContestProvenance;
+}
+
+export interface ElectionBallotRecord {
+  readonly voterPersonId: EntityId;
+  readonly selectedOptionKey: EntityId | "abstain";
+  readonly source: "player-choice" | "evaluated";
+}
+
+/** A private, changeable choice saved before election day. */
+export interface PlayerElectionChoiceRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly contestId: EntityId;
+  readonly voterPersonId: EntityId;
+  readonly selectedOptionKey: EntityId | "abstain";
+  readonly recordedAt: IsoDate;
 }
 
 export interface ScheduleElectionContestInput {
@@ -4628,6 +4648,7 @@ export interface HistoryStore {
   readonly nationalElectionRecords?: readonly NationalElectionRecord[];
   readonly electionContests?: readonly ElectionContestRecord[];
   readonly electionContestResults?: readonly ElectionContestResultRecord[];
+  readonly playerElectionChoices?: readonly PlayerElectionChoiceRecord[];
   readonly campaigns?: readonly CampaignRecord[];
   readonly campaignStates?: readonly CampaignStateRecord[];
   readonly campaignActions?: readonly CampaignActionRecord[];

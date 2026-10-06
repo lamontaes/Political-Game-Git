@@ -16,11 +16,13 @@ import {
   pendingElectionContests,
   requireElectionContest,
   resolveElectionContest,
+  recordPlayerElectionChoice,
   resolvedElectionContests,
   scheduleElectionContest,
 } from "./election-contests";
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";
 import { createStableId } from "./ids";
+import { isEligibleVoterIn } from "./issue-record";
 import { createPortabilityFixture } from "./portability-fixture";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import type {
@@ -746,6 +748,68 @@ describe("Election Contest Substrate", () => {
     ]);
 
     assertWorldIntegrity(world);
+  });
+
+  it("counts the controlled person's saved election choice as their ballot", () => {
+    let world = createDemoWorld("player-election-choice-seed");
+    const jurisdictionId = getJurisdictionId(world);
+    const candidate1 = getPersonId(world, 0);
+    const candidate2 = getPersonId(world, 1);
+    const electionDate = addDays(world.currentDate, 5);
+    const voterId = world.personOrder.find(
+      (personId) =>
+        personId !== candidate1 &&
+        personId !== candidate2 &&
+        isEligibleVoterIn(world, personId, jurisdictionId, world.currentDate),
+    );
+    if (!voterId) throw new Error("Fixture has no eligible player voter.");
+    world = { ...world, control: { kind: "person", personId: voterId } };
+
+    world = scheduleElectionContest(world, {
+      stableKey: "player-choice:mayor",
+      jurisdictionId,
+      office: {
+        officeKey: "mayor",
+        title: "Mayor",
+        seatKey: null,
+        occupationClassification: null,
+      },
+      electionDate,
+      candidatePersonIds: [candidate1, candidate2],
+      provenance: { method: "authored", sourceEntityIds: [], note: null },
+    });
+    const contest = world.history.electionContests!.at(-1)!;
+    const chosen = recordPlayerElectionChoice(world, {
+      contestId: contest.id,
+      selectedOptionKey: candidate2,
+    });
+    expect(
+      recordPlayerElectionChoice(chosen, {
+        contestId: contest.id,
+        selectedOptionKey: candidate2,
+      }),
+    ).toBe(chosen);
+    expect(chosen.history.playerElectionChoices?.at(-1)).toMatchObject({
+      contestId: contest.id,
+      voterPersonId: voterId,
+      selectedOptionKey: candidate2,
+    });
+
+    const resolved = advanceWorld(
+      chosen,
+      5,
+      createElectionTransitionRegistry(),
+    );
+    const result = electionContestResult(resolved, contest.id)!;
+    expect(result.ballots).toContainEqual({
+      voterPersonId: voterId,
+      selectedOptionKey: candidate2,
+      source: "player-choice",
+    });
+    expect(
+      result.tallies.find((row) => row.candidatePersonId === candidate2)?.votes,
+    ).toBeGreaterThan(0);
+    assertWorldIntegrity(resolved);
   });
 
   it("supports manual cancellation of a pending contest before election day", () => {

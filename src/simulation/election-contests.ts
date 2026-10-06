@@ -17,12 +17,14 @@ import type {
   ElectionContestRecord,
   ElectionContestResultRecord,
   ElectionContestStatus,
+  ElectionBallotRecord,
   ElectiveOfficeRef,
   EntityId,
   EventParticipant,
   FutureDueItem,
   FutureTransitionHandlerResult,
   IsoDate,
+  PlayerElectionChoiceRecord,
   ResolveElectionContestInput,
   ScheduleElectionContestInput,
   World,
@@ -149,10 +151,7 @@ export function scheduleElectionContest(
 export function evaluateDeterministicContestOutcome(
   world: World,
   contest: ElectionContestRecord,
-): {
-  readonly winnerPersonId: EntityId;
-  readonly tallies: readonly CandidateTally[];
-} | null {
+): RecordedVoterCountResult | null {
   assertNotPresidentialOffice(contest.office.officeKey);
   if (contest.candidatePersonIds.length === 0) {
     throw new Error(
@@ -176,22 +175,99 @@ export interface RecordedVoterCountInput {
   readonly admitVoter?: (personId: EntityId) => boolean | null;
 }
 
+/** Save the controlled person's private ballot choice before election day. */
+export function recordPlayerElectionChoice(
+  world: World,
+  input: {
+    readonly contestId: EntityId;
+    readonly selectedOptionKey: EntityId | "abstain";
+  },
+): World {
+  if (world.control.kind !== "person") {
+    throw new Error("An election choice requires control of a person.");
+  }
+  const voterPersonId = world.control.personId;
+  const contest = requireElectionContest(world, input.contestId);
+  if (electionContestStatus(world, contest.id) !== "pending") {
+    throw new Error("A choice can only be saved for a pending election.");
+  }
+  if (world.currentDate >= contest.electionDate) {
+    throw new Error("An election choice must be saved before election day.");
+  }
+  if (
+    input.selectedOptionKey !== "abstain" &&
+    !contest.candidatePersonIds.includes(input.selectedOptionKey)
+  ) {
+    throw new Error("The selected candidate is not on this ballot.");
+  }
+
+  const choices = world.history.playerElectionChoices ?? [];
+  const latest = choices
+    .filter(
+      (choice) =>
+        choice.contestId === contest.id &&
+        choice.voterPersonId === voterPersonId,
+    )
+    .sort((a, b) => b.sequence - a.sequence)[0];
+  if (latest?.selectedOptionKey === input.selectedOptionKey) return world;
+
+  const sequence = world.history.nextSequence;
+  const stableKey = `${contest.stableKey}:player-choice:${voterPersonId}:${sequence}`;
+  const choice: PlayerElectionChoiceRecord = {
+    id: createStableId("player-election-choice", `${world.id}:${stableKey}`),
+    stableKey,
+    sequence,
+    contestId: contest.id,
+    voterPersonId,
+    selectedOptionKey: input.selectedOptionKey,
+    recordedAt: world.currentDate,
+  };
+  return {
+    ...world,
+    history: {
+      ...world.history,
+      nextSequence: sequence + 1,
+      playerElectionChoices: [...choices, choice],
+    },
+  };
+}
+
+export interface RecordedVoterCountResult {
+  readonly winnerPersonId: EntityId;
+  readonly tallies: readonly CandidateTally[];
+  readonly ballots: readonly ElectionBallotRecord[];
+}
+
 /** Evaluate actual saved candidate views through the one decision function.
  * A missing consideration is omitted, never estimated from party shares.
  */
 export function countRecordedVoterBallots(
   world: World,
   input: RecordedVoterCountInput,
-): {
-  readonly winnerPersonId: EntityId;
-  readonly tallies: readonly CandidateTally[];
-} | null {
+): RecordedVoterCountResult | null {
   const candidates = new Set<string>(input.candidatePersonIds);
   if (
     candidates.size === 0 ||
     candidates.size !== input.candidatePersonIds.length
   )
     throw new Error("A voter count requires distinct candidate records.");
+  const contestIds = new Set(
+    (world.history.electionContests ?? [])
+      .filter((contest) => contest.stableKey === input.stableKey)
+      .map((contest) => contest.id),
+  );
+  const playerChoices = new Map<EntityId, PlayerElectionChoiceRecord>();
+  for (const choice of world.history.playerElectionChoices ?? []) {
+    if (
+      !contestIds.has(choice.contestId) ||
+      choice.recordedAt > input.electionDate
+    )
+      continue;
+    const previous = playerChoices.get(choice.voterPersonId);
+    if (!previous || choice.sequence > previous.sequence) {
+      playerChoices.set(choice.voterPersonId, choice);
+    }
+  }
   // Index saved candidate views once for this election, never once per voter.
   const views = new Map<EntityId, Map<EntityId, PrivateBeliefRecord>>();
   for (const belief of world.history.privateBeliefs) {
@@ -291,6 +367,7 @@ export function countRecordedVoterBallots(
   }
   if (contexts.size === 0) return null;
   const votes = new Map(input.candidatePersonIds.map((id) => [id, 0]));
+  const ballots: ElectionBallotRecord[] = [];
   for (const [voterId, context] of contexts) {
     if (
       !isEligibleVoterIn(
@@ -313,15 +390,32 @@ export function countRecordedVoterBallots(
       )
     )
       return null;
-    const evaluation = evaluateDecision(world, context);
-    if (isSelectedDecision(evaluation)) {
-      if (evaluation.selectedOptionKey === "abstain") continue;
-      const id = input.candidatePersonIds.find(
-        (candidateId) => candidateId === evaluation.selectedOptionKey,
-      );
-      if (!id) return null;
-      votes.set(id, votes.get(id)! + 1);
+    const playerChoice = playerChoices.get(voterId);
+    const evaluation = playerChoice ? null : evaluateDecision(world, context);
+    const selectedOptionKey =
+      playerChoice?.selectedOptionKey ??
+      (evaluation && isSelectedDecision(evaluation)
+        ? evaluation.selectedOptionKey
+        : null);
+    if (selectedOptionKey === null) continue;
+    if (selectedOptionKey === "abstain") {
+      ballots.push({
+        voterPersonId: voterId,
+        selectedOptionKey,
+        source: playerChoice ? "player-choice" : "evaluated",
+      });
+      continue;
     }
+    const id = input.candidatePersonIds.find(
+      (candidateId) => candidateId === selectedOptionKey,
+    );
+    if (!id) return null;
+    ballots.push({
+      voterPersonId: voterId,
+      selectedOptionKey: id,
+      source: playerChoice ? "player-choice" : "evaluated",
+    });
+    votes.set(id, votes.get(id)! + 1);
   }
   const total = [...votes.values()].reduce((sum, value) => sum + value, 0);
   if (total === 0) return null;
@@ -334,7 +428,7 @@ export function countRecordedVoterBallots(
     .sort((a, b) => b.votes - a.votes);
   if (tallies.length > 1 && tallies[0]!.votes === tallies[1]!.votes)
     return null;
-  return { winnerPersonId: tallies[0]!.candidatePersonId, tallies };
+  return { winnerPersonId: tallies[0]!.candidatePersonId, tallies, ballots };
 }
 
 export function resolveElectionContest(
@@ -383,6 +477,7 @@ export function resolveElectionContest(
 
   let winnerPersonId: EntityId;
   let tallies: readonly CandidateTally[];
+  let ballots: readonly ElectionBallotRecord[] | undefined;
 
   if (hasWinner && hasTallies) {
     if (!contest.candidatePersonIds.includes(input.winnerPersonId!)) {
@@ -411,6 +506,7 @@ export function resolveElectionContest(
     if (!outcome) return world;
     winnerPersonId = outcome.winnerPersonId;
     tallies = outcome.tallies;
+    ballots = outcome.ballots;
   }
 
   const winner = world.people[winnerPersonId];
@@ -501,6 +597,7 @@ export function resolveElectionContest(
     resolvedAt,
     winnerPersonId,
     tallies,
+    ...(ballots ? { ballots } : {}),
     outcomeEventId: outcomeEvent.id,
     provenance: cloneElectionContestProvenance(provenance),
   };
@@ -783,10 +880,15 @@ export function resolvedElectionContests(
 
 export function electionContestHistoryRecords(
   world: World,
-): readonly (ElectionContestRecord | ElectionContestResultRecord)[] {
+): readonly (
+  | ElectionContestRecord
+  | ElectionContestResultRecord
+  | PlayerElectionChoiceRecord
+)[] {
   return [
     ...(world.history.electionContests ?? []),
     ...(world.history.electionContestResults ?? []),
+    ...(world.history.playerElectionChoices ?? []),
   ];
 }
 
@@ -810,7 +912,11 @@ export function electionContestEntityAvailableAt(
   );
   if (!record || record.sequence >= sequenceExclusive) return false;
   const date =
-    "electionDate" in record ? record.scheduledAt : record.resolvedAt;
+    "recordedAt" in record
+      ? record.recordedAt
+      : "electionDate" in record
+        ? record.scheduledAt
+        : record.resolvedAt;
   return date <= asOfDate;
 }
 
@@ -820,11 +926,14 @@ export function assertElectionContestIntegrity(
 ): void {
   const contests = world.history.electionContests ?? [];
   const results = world.history.electionContestResults ?? [];
+  const playerChoices = world.history.playerElectionChoices ?? [];
 
   assertSequenceOrdered(contests, "election contest");
   assertSequenceOrdered(results, "election contest result");
+  assertSequenceOrdered(playerChoices, "player election choice");
   assertUniqueStableKeys(contests, "election contest");
   assertUniqueStableKeys(results, "election contest result");
+  assertUniqueStableKeys(playerChoices, "player election choice");
 
   const contestById = new Map<EntityId, ElectionContestRecord>();
   for (const contest of contests) {
@@ -868,6 +977,22 @@ export function assertElectionContestIntegrity(
       contest.sequence,
       "Election contest",
     );
+  }
+
+  for (const choice of playerChoices) {
+    assertHistoryIdentity(ids, choice, "player-election-choice");
+    const contest = contestById.get(choice.contestId);
+    if (
+      !contest ||
+      choice.sequence <= contest.sequence ||
+      !world.people[choice.voterPersonId] ||
+      choice.recordedAt < contest.scheduledAt ||
+      choice.recordedAt >= contest.electionDate ||
+      (choice.selectedOptionKey !== "abstain" &&
+        !contest.candidatePersonIds.includes(choice.selectedOptionKey))
+    ) {
+      throw new Error(`Player election choice is invalid: ${choice.id}`);
+    }
   }
 
   const resultByContest = new Set<EntityId>();
@@ -1120,7 +1245,8 @@ function assertUniqueStableKeys(
 function assertHistoryIdentity(
   ids: Set<EntityId>,
   record: { readonly id: EntityId; readonly sequence: number },
-  kind: "election-contest" | "election-contest-result",
+  kind:
+    "election-contest" | "election-contest-result" | "player-election-choice",
 ): void {
   if (ids.has(record.id)) {
     throw new Error(`Duplicate history record identity: ${record.id}`);
