@@ -4794,6 +4794,11 @@ export interface LegislativeMeasureRecord {
   readonly shortTitle: string;
   /** Omitted on existing measures, which are statutes by default. */
   readonly governmentInstrument?: "statute" | "regulation" | "executive-order";
+  /** Authority pack used for an executive-issued regulation or order. */
+  readonly executiveAuthorityJurisdictionKey?: string;
+  readonly executiveAuthorityChecks?: readonly {
+    readonly clause: import("./executive-action-authority").ExecutiveActionClause;
+  }[];
   /** Statute whose delegated term this regulation implements. */
   readonly delegatedFromMeasureId?: EntityId;
   readonly summary: string;

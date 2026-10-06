@@ -5,6 +5,10 @@ import type { EntityId } from "./types";
 
 export type ExecutiveActionClause =
   | {
+      readonly kind: "emergency-declaration";
+      readonly topicKey: string;
+    }
+  | {
       readonly kind: "executive-branch-management";
       readonly topicKey:
         "agency-instructions" | "internal-procedure" | "staff-assignments";
@@ -39,6 +43,21 @@ export function decideExecutiveActionAuthority(
   clause: ExecutiveActionClause,
   law: LawInForce | null,
 ): ExecutiveActionAuthorityDecision {
+  if (clause.kind === "emergency-declaration") {
+    const rule = pack.emergencyDeclaration.executiveMayDeclare;
+    return rule.kind === "known" && rule.value
+      ? {
+          allowed: true,
+          reason: "This office has recorded authority to declare an emergency.",
+        }
+      : {
+          allowed: false,
+          reason:
+            rule.kind === "known"
+              ? "This office's recorded rules do not authorize an emergency declaration."
+              : "This office has no recorded authority to declare an emergency.",
+        };
+  }
   if (clause.kind === "executive-branch-management") {
     if (
       resolvedTrue(pack.executiveDirective.hasDirectiveAuthority) &&
