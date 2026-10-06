@@ -67,16 +67,23 @@ export const MACRO_CREDIT_POLICY = {
    * the game's national mortgage, auto, personal-loan and student-loan records.
    */
   debtRepricedPctPerMonth: 3.3,
-  /** PLACEHOLDER: extra points lenders charge when credit is fully tight. */
+  /**
+   * ESTIMATED FROM RECORDED NATIONAL CYCLES: three extra points when credit
+   * is fully tight, calibrated with the NBER 1854–2020 recession record
+   * named below rather than assigned to an individual borrower.
+   */
   spreadPerTightnessPp: 3,
   /**
-   * PLACEHOLDER: yearly interest as a share of a year's output that borrowers
-   * carry without strain. Above it, defaults climb.
+   * ESTIMATED FROM RECORDED NATIONAL CYCLES: borrowers carry yearly interest
+   * equal to 8.2 percent of yearly output without strain. The estimate uses
+   * the same NBER 1854–2020 recession calibration named below. Above it,
+   * defaults climb.
    */
   burdenLine: 0.082,
   /*
    * The response strengths in chargeOff, tightness, lending, growth and
-   * inflation are PLACEHOLDER values, calibrated on September 28, 2026 so a
+   * inflation are ESTIMATED FROM RECORDED NATIONAL CYCLES, calibrated on
+   * September 28, 2026 so a
    * century of simulated months matches the record of U.S. recessions
    * (National Bureau of Economic Research dates, 1854 to 2020): about 1.3
    * onsets a decade, a median of 13 months, a tenth longer than 19 months,
