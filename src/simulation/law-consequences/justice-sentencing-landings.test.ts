@@ -7,10 +7,9 @@ import {
   stateJurisdictionForKey,
 } from "../life-places";
 import { createLightweightPerson } from "../people";
-import { deserializeWorld, serializeWorld } from "../serialization";
+import { SeededRng } from "../rng";
 import { createWorld, createWorldId, recordWorldEvent } from "../world";
-import { lawExposureSentence } from "../../presentation/law-exposure-lines";
-import type { World } from "../types";
+import type { EntityId, World } from "../types";
 import { applySentencingLawLandings } from "./modules/justice-sentencing-landings";
 
 const QUESTION_KEY =
@@ -69,71 +68,23 @@ function build(stateKey: string) {
   return { world, event, personId: person.id, law };
 }
 
-// A place drawn at random from all 56, then the first that answers as asked.
+// A place drawn at random from all 56 by the seed.
 const KEYS = lifePlaceStateIdentities().map((row) => row.jurisdictionKey);
-const START = Math.abs(
-  [...SEED].reduce((n, c) => (n * 31 + c.charCodeAt(0)) | 0, 7),
-);
-const answering = (answer: "yes" | "no") => {
-  for (let step = 0; step < KEYS.length; step += 1) {
-    const key = KEYS[(START + step) % KEYS.length]!;
-    if (build(key).law?.answer === answer) return key;
-  }
-  return null;
-};
+const PLACE = new SeededRng(SEED).pick(KEYS);
 
 describe("mandatory minimum sentencing landings", () => {
-  const yes = answering("yes");
-  const no = answering("no");
+  it(`writes nothing where no minimum law is in force (${PLACE}, seed ${SEED})`, () => {
+    const { world, event, personId, law } = build(PLACE);
+    // No state's starting law answers this question, so only an enacted
+    // minimum can reach a defendant.
+    expect(law).toBeNull();
+    expect(
+      applySentencingLawLandings(world, event.id, "measure:other" as EntityId),
+    ).toBe(world);
+    expect(lawExposuresOf(world, personId)).toEqual([]);
+  });
 
-  it.skipIf(!yes)(
-    "lands a bound jail sentence on the named defendant and survives save/continue",
-    () => {
-      const { world, event, personId, law } = build(yes!);
-      const landed = applySentencingLawLandings(
-        world,
-        event.id,
-        law!.measureId,
-      );
-      expect(lawExposuresOf(landed, personId)).toMatchObject([
-        {
-          measureId: law!.measureId,
-          channel: "sentence-rule",
-          relation: "own",
-          direction: "cost",
-          sourceRecordId: event.id,
-        },
-      ]);
-      expect(
-        lawExposureSentence(
-          landed,
-          personId,
-          lawExposuresOf(landed, personId)[0]!,
-        ),
-      ).toMatch(
-        /^The .* law set a jail term for you that the judge could not go below\.$/,
-      );
-      expect(applySentencingLawLandings(landed, event.id, law!.measureId)).toBe(
-        landed,
-      );
-      const restored = deserializeWorld(serializeWorld(landed));
-      expect(lawExposuresOf(restored, personId)).toEqual(
-        lawExposuresOf(landed, personId),
-      );
-    },
+  it.todo(
+    "lands a bound jail sentence on the named defendant once a state law can be enacted in a test world (enactLawFixture stalls at awaiting-executive on main)",
   );
-
-  it.skipIf(!no)("writes nothing where no minimum is in force", () => {
-    const { world, event, law } = build(no!);
-    expect(applySentencingLawLandings(world, event.id, law!.measureId)).toBe(
-      world,
-    );
-  });
-
-  it("writes nothing when the bound law is not the one in force", () => {
-    const { world, event } = build(KEYS[START % KEYS.length]!);
-    expect(applySentencingLawLandings(world, event.id, "measure:other")).toBe(
-      world,
-    );
-  });
 });
