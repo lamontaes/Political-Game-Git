@@ -105,6 +105,9 @@ function adoptFromPrefix<V>(
     )
       continue;
     cache.delete(prior);
+    // The direct person view aliases this field table. Once its groups move
+    // to an appended revision, an older array must rebuild its own view.
+    if (cache === RECORDS_BY_STRING_FIELD) PERSON_RECORDS.delete(prior);
     recent.splice(at, 1);
     return { value, from: prior.length };
   }
@@ -224,7 +227,6 @@ const RECENT_BY_STRING_FIELD: (readonly unknown[])[] = [];
 // Person-owned histories are the hot read path. Keep their grouping directly
 // under the immutable record revision instead of traversing the field table.
 const PERSON_RECORDS = new WeakMap<object, Map<string, readonly unknown[]>>();
-const RECENT_PERSON_RECORDS: (readonly unknown[])[] = [];
 // Missing groups are immutable too. Reusing their empty view avoids allocating
 // a new list for every absent-person read and makes absence a stable dependency.
 const NO_FIELD_RECORDS: readonly unknown[] = Object.freeze([]);
@@ -236,17 +238,8 @@ export function recordsByStringField<T>(
   value: string,
 ): readonly T[] {
   if (field === "personId") {
-    let people = PERSON_RECORDS.get(records);
-    if (!people) {
-      people = indexFollowingAppends(
-        PERSON_RECORDS,
-        RECENT_PERSON_RECORDS,
-        records,
-        () => extendGroups(new Map(), records, 0, field),
-        (groups, from) => extendGroups(groups, records, from, field),
-      );
-    }
-    return (people.get(value) ?? NO_FIELD_RECORDS) as readonly T[];
+    const people = PERSON_RECORDS.get(records);
+    if (people) return (people.get(value) ?? NO_FIELD_RECORDS) as readonly T[];
   }
   let fields = RECORDS_BY_STRING_FIELD.get(records);
   if (!fields) {
@@ -279,6 +272,9 @@ export function recordsByStringField<T>(
     groups = extendGroups(new Map(), records, 0, field);
     fields.set(fieldName, groups);
   }
+  // Alias the existing grouping; do not keep a second append-candidate list
+  // or a second grouping map that retains another set of large histories.
+  if (field === "personId") PERSON_RECORDS.set(records, groups);
   return (groups.get(value) ?? NO_FIELD_RECORDS) as readonly T[];
 }
 
@@ -700,7 +696,7 @@ export function releaseHistoryReadIndexes(records: readonly unknown[]): void {
     }
   };
   release(RECORDS_BY_STRING_FIELD, RECENT_BY_STRING_FIELD);
-  release(PERSON_RECORDS, RECENT_PERSON_RECORDS);
+  PERSON_RECORDS.delete(records);
   for (const slot of KEYED_INDEXES.values()) release(slot.cache, slot.recent);
   for (const slot of GROUPED_BY_FIELD.values())
     release(slot.cache, slot.recent);
