@@ -20,6 +20,8 @@ import {
 } from "./appearance-engine/runtime";
 import { placeWear } from "./dress-code";
 import { workUniform } from "./work-uniform";
+import { selectedWorkplaceForPerson } from "./place-backdrops";
+import { isPersonAliveAt } from "../simulation/vitality-integrity";
 
 /**
  * PEOPLE AT WORK IN A PLACE PICTURE.
@@ -249,7 +251,9 @@ export function placeBackdropPeople(
 ): readonly BackdropPerson[] {
   const stage = backdropStaging(place);
   if (!stage) return [];
-  const town = playerTown(world, playerId);
+  const workplace = selectedWorkplaceForPerson(world, playerId);
+  const selected = workplace?.place === place ? workplace : null;
+  const town = selected?.jurisdictionId ?? playerTown(world, playerId);
   const wear = STAFF_WEAR[place] ?? placeWear(place, world.currentDate);
   const presentIds = new Set(
     present
@@ -258,6 +262,19 @@ export function placeBackdropPeople(
   );
   const workers = (town ? peopleAtWorkAt(world, town, place, moment) : [])
     .filter((worker) => worker.personId !== playerId)
+    .filter(
+      (worker) =>
+        !selected ||
+        (selected.organizationId !== null &&
+          worker.organizationId === selected.organizationId),
+    )
+    .filter((worker) =>
+      isPersonAliveAt(world, worker.personId, {
+        asOfDate:
+          moment.date <= world.currentDate ? moment.date : world.currentDate,
+        historySequenceExclusive: world.history.nextSequence,
+      }),
+    )
     .filter((worker) => !presentIds.has(worker.personId));
   // The scene's own people take the raised or grouped seats first (the
   // dais, the bench), then the open floor. Counter jobs take the spots behind
