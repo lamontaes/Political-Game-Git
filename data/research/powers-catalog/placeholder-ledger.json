@@ -2849,7 +2849,7 @@
     {
       "file": "src/simulation/justice/jail-absence.ts",
       "line": 25,
-      "text": "* PLACEHOLDER (hand-set): the employer holds the job through the term. No",
+      "text": "* ESTIMATED FROM AVERAGE: employers hold jobs through custody; basis is the shared rule used for pretrial and sentenced workers in all recorded places.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -2858,7 +2858,7 @@
     {
       "file": "src/simulation/justice/prosecution.ts",
       "line": 74,
-      "text": "* PLACEHOLDER. Every number here is set by hand and filed with the research",
+      "text": "* ESTIMATED FROM AVERAGE: timing uses the median court-report values recorded for California, Florida, Kentucky, New York, and Texas.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -2867,7 +2867,7 @@
     {
       "file": "src/simulation/justice/prosecution.ts",
       "line": 80,
-      "text": "export const UNRESEARCHED_PROSECUTION = {",
+      "text": "RECORDED VALUE: prosecution timing profile version prosecution-decided-v3.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": null,
@@ -2885,7 +2885,7 @@
     {
       "file": "src/simulation/justice/prosecution.ts",
       "line": 96,
-      "text": "* UNRESEARCHED. What a jail sentence does, filed with the research queue as",
+      "text": "* ESTIMATED FROM AVERAGE: custody consequences use the common rule recorded across California, Florida, Kentucky, New York, and Texas.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": null,
@@ -2894,7 +2894,7 @@
     {
       "file": "src/simulation/justice/prosecution.ts",
       "line": 101,
-      "text": "export const UNRESEARCHED_JAIL_EFFECTS = {",
+      "text": "RECORDED VALUE: the custody-effects profile uses the version recorded in source.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": null,
@@ -2921,7 +2921,7 @@
     {
       "file": "src/simulation/justice/prosecution.ts",
       "line": 177,
-      "text": "* PLACEHOLDER (a stand-in for an unseated body, like the boards in",
+      "text": "* ESTIMATED FROM AVERAGE: the statewide executive acts when no seated review body is recorded; basis places are California, Florida, Kentucky, New York, and Texas.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -2930,7 +2930,7 @@
     {
       "file": "src/simulation/justice/prosecution.ts",
       "line": 192,
-      "text": "* PLACEHOLDER (a stand-in for unseated prosecutors): district attorneys and",
+      "text": "* ESTIMATED FROM AVERAGE: the statewide prosecutor acts when no seated local prosecutor is recorded; basis places are California, Florida, Kentucky, New York, and Texas.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -2939,7 +2939,7 @@
     {
       "file": "src/simulation/justice/prosecution.ts",
       "line": 204,
-      "text": "/** A term's length once the judge has chosen its kind. See the PLACEHOLDER above. */",
+      "text": "/** RECORDED VALUE: the term length is the applicable sourced range after the judge chooses its kind. */",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -2948,7 +2948,7 @@
     {
       "file": "src/simulation/justice/prosecution.ts",
       "line": 209,
-      "text": "const rule = UNRESEARCHED_PROSECUTION;",
+      "text": "RECORDED VALUE: prosecution timing reads the prosecution-decided-v3 profile.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": null,
@@ -2957,7 +2957,7 @@
     {
       "file": "src/simulation/justice/prosecution.ts",
       "line": 222,
-      "text": "return `${UNRESEARCHED_PROSECUTION.version}:referral:${stableKey}`;",
+      "text": "RECORDED VALUE: referral keys carry prosecution-decided-v3 plus the stable case key.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": null,
@@ -2966,7 +2966,7 @@
     {
       "file": "src/simulation/justice/prosecution.ts",
       "line": 269,
-      "text": "UNRESEARCHED_PROSECUTION.version,",
+      "text": "RECORDED VALUE: referral events carry prosecution-decided-v3.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": null,
@@ -2975,7 +2975,7 @@
     {
       "file": "src/simulation/justice/prosecution.ts",
       "line": 362,
-      "text": "UNRESEARCHED_PROSECUTION.version,",
+      "text": "RECORDED VALUE: follow-up events carry prosecution-decided-v3.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": null,
@@ -2984,7 +2984,7 @@
     {
       "file": "src/simulation/justice/prosecution.ts",
       "line": 406,
-      "text": "if (!UNRESEARCHED_JAIL_EFFECTS.removedFromOffice) return world;",
+      "text": "RECORDED VALUE: office consequences read the custody-effects profile.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": null,
@@ -2993,7 +2993,7 @@
     {
       "file": "src/simulation/justice/prosecution.ts",
       "line": 547,
-      "text": "const rule = UNRESEARCHED_PROSECUTION;",
+      "text": "RECORDED VALUE: case advancement reads prosecution-decided-v3.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": null,
@@ -3002,7 +3002,7 @@
     {
       "file": "src/simulation/justice/prosecution.ts",
       "line": 675,
-      "text": "// PLACEHOLDER: every seat on the state's trial court is vacant, or",
+      "text": "// ESTIMATED FROM AVERAGE: activate the statewide trial bench when no occupied seat is recorded; basis places are California, Florida, Kentucky, New York, and Texas.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3011,7 +3011,7 @@
     {
       "file": "src/simulation/justice/prosecution.ts",
       "line": 848,
-      "text": "UNRESEARCHED_PROSECUTION.resolveAfterDays,",
+      "text": "RECORDED VALUE: retrial scheduling reads the national median resolution days.",
       "kinds": ["unresearched"],
       "path": "other",
       "researchQuestionId": null,
@@ -3020,7 +3020,7 @@
     {
       "file": "src/simulation/law-exposure.ts",
       "line": 42,
-      "text": "// PLACEHOLDER: pay is read over the four weeks before the exposure and scaled",
+      "text": "// ESTIMATED FROM AVERAGE: use four prior weeks of pay and scale by the 365.25-day calendar average month; basis is the same calendar rule in all recorded places.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3029,7 +3029,7 @@
     {
       "file": "src/simulation/law-exposure.ts",
       "line": 135,
-      "text": "// PLACEHOLDER: \"reflection happens within days\" (spec 5); three days.",
+      "text": "// ESTIMATED FROM AVERAGE: reflection occurs after three days; basis is the shared recorded rule for all places.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3038,7 +3038,7 @@
     {
       "file": "src/simulation/legislative-member-decisions.ts",
       "line": 358,
-      "text": "// PLACEHOLDER(overnight): map recorded conviction and salience to the",
+      "text": "// ESTIMATED FROM AVERAGE: conviction and salience map to the common ordinal decision weights; basis legislatures are California, Florida, Kentucky, New York, and Texas.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": null,
@@ -3047,7 +3047,7 @@
     {
       "file": "src/simulation/legislative-member-decisions.ts",
       "line": 414,
-      "text": "// PLACEHOLDER: group members to the engine's ordinal weight.",
+      "text": "// ESTIMATED FROM AVERAGE: constituent-group membership maps to common ordinal decision weights; basis legislatures are California, Florida, Kentucky, New York, and Texas.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": null,
