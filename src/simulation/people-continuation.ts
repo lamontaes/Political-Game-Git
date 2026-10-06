@@ -36,6 +36,7 @@ import {
 import { isPersonAliveAt } from "./vitality-integrity";
 import { recordWorldEvent } from "./world";
 import { composeWorldTimeHandlers } from "./campaigns";
+import { succeedRetiredLeader } from "./living-world/movement-succession";
 
 /**
  * Playing on after a life ends (CRUNCH46 P5).
@@ -213,7 +214,7 @@ export function retireControlledCharacter(
   }
   if (retirementOf(world, personId)) return world;
   const person = world.people[personId]!;
-  return recordWorldEvent(world, {
+  const retired = recordWorldEvent(world, {
     stableKey: `${PEOPLE_CONTINUATION_VERSION}:retired:${personId}`,
     type: CHARACTER_RETIRED_EVENT,
     occurredAt: world.currentDate,
@@ -234,6 +235,7 @@ export function retireControlledCharacter(
       immediateReaction: null,
     },
   });
+  return succeedRetiredLeader(retired, personId);
 }
 
 export type SuccessorRelation =

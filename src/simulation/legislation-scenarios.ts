@@ -16,6 +16,7 @@ import {
 import { personName } from "./people";
 import type {
   EntityId,
+  IsoDate,
   LegislativeMemberDisposition,
   LegislativeVoteDisposition,
   World,
@@ -33,6 +34,9 @@ import type {
  */
 
 export interface SeatedMember {
+  /** Actual dated seating event; absent evidence never establishes seniority. */
+  readonly tenureStartedAt?: IsoDate | null;
+  readonly seatingEventId?: EntityId | null;
   readonly memberKey: string;
   readonly name: string;
   readonly personId: EntityId | null;

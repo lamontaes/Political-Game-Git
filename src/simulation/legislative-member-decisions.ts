@@ -177,7 +177,7 @@ export function deriveMemberDisposition(
 
   const selected = evaluation.selectedOptionKey ?? "withhold";
 
-  const decisive = considerations
+  const decisive = evaluation.context.considerations
     .filter((consideration) => consideration.optionKey === selected)
     .sort(
       (a, b) =>

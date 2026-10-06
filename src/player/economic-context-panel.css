@@ -1,10 +1,8 @@
 .economic-context-panel {
   width: min(100%, 72rem);
-  max-height: min(88svh, 58rem);
   margin: auto;
   padding: clamp(1rem, 2.5vw, 2rem);
-  overflow: auto;
-  border-radius: 0.35rem;
+  border-radius: 2px;
 }
 
 .economic-context-header {
@@ -49,12 +47,12 @@
   gap: 0.35rem;
   min-width: 0;
   padding: 0.8rem;
-  background: rgb(92 64 28 / 4%);
-  border-left: 0.25rem solid #64a8c9;
+  background: transparent;
+  border-left: 1px solid var(--brass);
 }
 
 .economic-availability li[data-status="unavailable"] {
-  border-left-color: #a69a84;
+  border-left-color: var(--pg-hairline);
 }
 
 .economic-availability span,
@@ -76,8 +74,8 @@
   min-width: 0;
   margin: 0;
   padding: 1rem;
-  background: var(--kit12-glass);
-  border: 1px solid rgba(180, 201, 220, 0.32);
+  background: transparent;
+  border: 1px solid var(--pg-hairline);
 }
 
 .economic-graph figcaption {

@@ -10,6 +10,9 @@ import {
 import { addDays, ageOnDate, makeIsoDate } from "../dates";
 import {
   createEducationEnrollment,
+  createHousehold,
+  recordHouseholdLocation,
+  startHouseholdMembership,
   recordEducationEnrollmentState,
 } from "../life";
 import { educationEnrollmentStateAt } from "../life-queries";
@@ -18,7 +21,7 @@ import { SeededRng } from "../rng";
 import { TERRITORY_PLACE_ROWS } from "../territory-places";
 import type { EntityId, IsoDate, World } from "../types";
 import {
-  UNRESEARCHED_DIPLOMA_OFFENDING,
+  DIPLOMA_OFFENDING_ESTIMATE,
   diplomaWeight,
   offenderForVictims,
   offenderWeight,
@@ -82,6 +85,35 @@ function threeAlike() {
     })),
   );
   const id = (key: string) => characterHistoryContextPersonId(world, key);
+  for (const key of Object.values(keys)) {
+    const personId = id(key);
+    world = createHousehold(world, {
+      stableKey: `${key}:home`,
+      formedAt: born,
+      label: "Recorded resident home",
+      provenance: PROVENANCE,
+    });
+    const householdId = world.history.households.at(-1)!.id;
+    world = recordHouseholdLocation(world, {
+      stableKey: `${key}:location`,
+      householdId,
+      effectiveAt: born,
+      jurisdictionId: town,
+      kind: "residence:home",
+      label: "Recorded resident home",
+      provenance: PROVENANCE,
+      supersedesLocationId: null,
+    });
+    world = startHouseholdMembership(world, {
+      stableKey: `${key}:membership`,
+      personId,
+      householdId,
+      startedAt: born,
+      residenceRole: "primary",
+      kind: "resident:member",
+      provenance: PROVENANCE,
+    });
+  }
   const started = yearsAfter(born, 14);
   // A school the world already has, standing by the day they started.
   const secondary = new Set(
@@ -153,18 +185,18 @@ describe(`a resident's recorded diploma in the offender weight (place ${PLACE} d
     // The test place is drawn by seed from every state, D.C. and territory.
     expect(PLACES).toHaveLength(56);
     expect(PLACES).toContain(PLACE);
-    expect(UNRESEARCHED_DIPLOMA_OFFENDING.provenance).toBe(
-      "unresearched-blanket-rule",
+    expect(DIPLOMA_OFFENDING_ESTIMATE.provenance).toBe(
+      "estimated-from-average",
     );
-    expect(UNRESEARCHED_DIPLOMA_OFFENDING.source).toMatch(
+    expect(DIPLOMA_OFFENDING_ESTIMATE.source).toMatch(
       /Lochner and Moretti 2004/,
     );
-    expect(Object.keys(UNRESEARCHED_DIPLOMA_OFFENDING).join(" ")).not.toMatch(
+    expect(Object.keys(DIPLOMA_OFFENDING_ESTIMATE).join(" ")).not.toMatch(
       /race|black|white/i,
     );
     // Split evenly either side of the resident whose schooling is unknown.
     expect(diplomaWeight("left-without") - diplomaWeight("graduated")).toBe(
-      UNRESEARCHED_DIPLOMA_OFFENDING.gap,
+      DIPLOMA_OFFENDING_ESTIMATE.gap,
     );
     expect(diplomaWeight("left-without")).toBe(-diplomaWeight("graduated"));
     expect(diplomaWeight("not-on-record")).toBe(0);
@@ -193,7 +225,7 @@ describe(`a resident's recorded diploma in the offender weight (place ${PLACE} d
         12,
       );
       expect(leftWithout.score - graduated.score).toBeCloseTo(
-        UNRESEARCHED_DIPLOMA_OFFENDING.gap,
+        DIPLOMA_OFFENDING_ESTIMATE.gap,
         12,
       );
       expect(graduated.reasons).toEqual(unrecorded.reasons);

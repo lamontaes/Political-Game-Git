@@ -1,0 +1,80 @@
+{
+  "sourceHead": "d516a3d67c36242d33b5bc9e03f3ca936331f1cc",
+  "baseMain": "f88508186b78f526ecf89a420b5fb584171e039a",
+  "browser": {
+    "command": "PG_RUN_ID=session23-p5-veto-overrides NODE_OPTIONS='--import=tsx' OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev npm run storage -- run test -- npx playwright test tests/e2e/session23-executive-veto.spec.ts --config /tmp/session23-playwright.config.ts --project chromium --workers 1",
+    "exitCode": 0,
+    "passed": 2,
+    "reportedDuration": "13.0m",
+    "images": [
+      {
+        "file": "new-game-nebraska-desk.png",
+        "sha256": "84ab245066e3292dd1e28f45170da317f0090250109f26845ededa7167ecdc68",
+        "sourceHead": "d516a3d67c36242d33b5bc9e03f3ca936331f1cc"
+      },
+      {
+        "file": "new-game-indiana-desk.png",
+        "sha256": "7ccb93f7af7a4f401898ca68b40f090f6ffb294a2693588fac1fa0886ed904b0",
+        "sourceHead": "d516a3d67c36242d33b5bc9e03f3ca936331f1cc"
+      }
+    ],
+    "evidence": "record-lines.json; source-identity.json",
+    "portableConfig": "Normal playwright.config.ts, absolute testDir/globalSetup/globalTeardown/webServer.cwd, Chromium channel unset and launchOptions.executablePath=/usr/bin/chromium; normal identity/evidence verification preserved."
+  },
+  "focusedTests": {
+    "command": "OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev npm run storage -- run test -- npx vitest run src/simulation/governing/executive-item-veto.test.ts src/simulation/governing/item-veto.test.ts src/simulation/governing/executive-bill-desk.test.ts src/presentation/executive-bill-results.test.ts",
+    "exitCode": 0,
+    "filesPassed": 4,
+    "testsPassed": 17,
+    "reportedDurationSeconds": 63.67
+  },
+  "configuredTypecheck": {
+    "command": "OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev npm run storage -- run test -- npm run typecheck",
+    "exitCode": 0,
+    "scope": "tsconfig.app and tsconfig.node, including their configured test files; import scan is not an additional full typecheck"
+  },
+  "explicitChangedRootsTypecheck": {
+    "exitCode": 0,
+    "command": "npx tsc --noEmit --target ES2023 --lib ES2023,DOM,DOM.Iterable --module ESNext --moduleResolution Bundler --skipLibCheck --strict --resolveJsonModule --jsx react-jsx --types node,vite/client src/release/build-globals.d.ts src/player/ExecutiveBillResults.tsx src/player/GoverningOfficeDesk.tsx src/presentation/executive-bill-results.ts src/presentation/executive-scene-offers.ts src/simulation/governing/item-veto.ts src/simulation/governing/state-governing.ts src/simulation/governing/governor-bill-decision.ts src/simulation/governing/executive-item-veto.test.ts tests/fixtures/session23-executive-veto.ts tests/e2e/session23-executive-veto.spec.ts",
+    "followupFinalRootsCommand": "npx tsc --noEmit --target ES2023 --lib ES2023,DOM,DOM.Iterable --module ESNext --moduleResolution Bundler --skipLibCheck --strict --resolveJsonModule --jsx react-jsx --types node,vite/client src/release/build-globals.d.ts src/player/ExecutiveBillResults.tsx src/presentation/executive-scene-offers.ts src/simulation/governing/item-veto.ts src/presentation/executive-bill-results.test.ts tests/e2e/session23-executive-veto.spec.ts",
+    "followupExitCode": 0
+  },
+  "changedFileLint": {
+    "exitCode": 0,
+    "command": "npx eslint src/player/ExecutiveBillResults.tsx src/player/GoverningOfficeDesk.tsx src/presentation/executive-bill-results.ts src/presentation/executive-bill-results.test.ts src/presentation/executive-scene-offers.ts src/simulation/governing/item-veto.ts src/simulation/governing/state-governing.ts src/simulation/governing/governor-bill-decision.ts src/simulation/governing/executive-item-veto.test.ts tests/fixtures/session23-executive-veto.ts tests/e2e/session23-executive-veto.spec.ts"
+  },
+  "changedFileFormat": {
+    "exitCode": 0,
+    "command": "npx prettier --check src/player/ExecutiveBillResults.tsx src/player/GoverningOfficeDesk.tsx src/presentation/executive-bill-results.ts src/presentation/executive-bill-results.test.ts src/presentation/executive-scene-offers.ts src/simulation/governing/item-veto.ts src/simulation/governing/state-governing.ts src/simulation/governing/governor-bill-decision.ts src/simulation/governing/executive-item-veto.test.ts tests/fixtures/session23-executive-veto.ts tests/e2e/session23-executive-veto.spec.ts docs/release/changes/session23-executive-veto-results.md docs/codex/progress/session-23.md"
+  },
+  "diffCheck": {
+    "command": "git diff --check",
+    "exitCode": 0
+  },
+  "zeroDice": {
+    "command": "npm run zero-dice",
+    "exitCode": 0,
+    "receipt": "\n> political-life-rpg@0.4.0 zero-dice\n> node scripts/zero-dice-guard.mjs\n\nzero-dice: nothing new; 122 allowed lines left.\n"
+  },
+  "committedReleaseCheck": {
+    "command": "npm run release:check -- --mode pr",
+    "exitCode": 0,
+    "receipt": "\n> political-life-rpg@0.4.0 release:check\n> node --import tsx scripts/release/index.ts check --mode pr\n\nrelease:check \u2014 version 0.4.0, revision d516a3d, 1681 pending declaration(s), declaration range f88508186b78f526ecf89a420b5fb584171e039a..d516a3d67c36242d33b5bc9e03f3ca936331f1cc (pr). OK.\n"
+  },
+  "retainedSetupFailure": {
+    "sourceState": "uncommitted Part5 setup over main f88508186b78f526ecf89a420b5fb584171e039a; not a clean-head browser receipt",
+    "command": "npx vitest run src/presentation/executive-bill-results.test.ts",
+    "passed": 1,
+    "failed": 1,
+    "reportedDurationSeconds": 54.74,
+    "refusal": "The regular session is not scheduled in 2026.",
+    "jurisdiction": "NV",
+    "resolution": "Use an annual-session no-item-veto jurisdiction (IN); no Nevada rule, calendar, assertion or timeout changed."
+  },
+  "limits": [
+    "Authored original-person governor seats and supplied roll calls; not natural election, NPC bargaining or payment proofs.",
+    "Played veto scene awaits Session4 central hooks; pure producer data and domain tests are not played-scene evidence.",
+    "Existing floor-added-section-as-item scope is a marked game assumption.",
+    "IN compiled override threshold currently records 50/25 for 100/50 elected; primary majority rounding question sent to Session21 in6013178706. The unanimous outcome passes stricter51/26 as well."
+  ]
+}

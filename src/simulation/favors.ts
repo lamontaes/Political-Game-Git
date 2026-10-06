@@ -2,6 +2,7 @@ import { daysBetween, makeIsoDate } from "./dates";
 import { eventById } from "./event-index";
 import { createStableId } from "./ids";
 import { personTrait } from "./people-traits";
+import { inferredProtegeOf } from "./person-context";
 import type { StandingBand } from "./relationship-standing";
 import type {
   ClaimAudience,
@@ -336,7 +337,7 @@ export interface FavorStanding {
  * person who has since done a lot for their patron feels the account is less
  * one-sided even without naming it.
  */
-export function favorStandingBetween(
+function directFavorStandingBetween(
   world: World,
   receiverPersonId: EntityId,
   giverPersonId: EntityId,
@@ -385,6 +386,53 @@ export function favorStandingBetween(
     giverExpectation: toBand(Math.max(0, expectation - backTheOtherWay)),
     openFavorIds: given.map((record) => record.id),
   };
+}
+
+function oneBandLower(band: StandingBand): StandingBand {
+  if (band === "strong") return "marked";
+  if (band === "marked") return "slight";
+  return "none";
+}
+
+/**
+ * Direct favor records remain the basis. An observer who knows somebody as an
+ * elder's repeated companion extends a smaller share of their felt debt to
+ * that protégé; this is social standing, not a new favor or expectation.
+ */
+export function favorStandingBetween(
+  world: World,
+  receiverPersonId: EntityId,
+  giverPersonId: EntityId,
+  asOf: IsoDate = world.currentDate,
+): FavorStanding {
+  const direct = directFavorStandingBetween(
+    world,
+    receiverPersonId,
+    giverPersonId,
+    asOf,
+  );
+  const inferred = inferredProtegeOf(
+    world,
+    receiverPersonId,
+    giverPersonId,
+    asOf,
+  );
+  if (!inferred) return direct;
+  const elderStanding = directFavorStandingBetween(
+    world,
+    receiverPersonId,
+    inferred.elderPersonId,
+    asOf,
+  );
+  const shared = oneBandLower(elderStanding.receiverDebt);
+  const rank: Readonly<Record<StandingBand, number>> = {
+    none: 0,
+    slight: 1,
+    marked: 2,
+    strong: 3,
+  };
+  if (rank[shared] <= rank[direct.receiverDebt]) return direct;
+  return { ...direct, receiverDebt: shared };
 }
 
 /** Every favor one person has given another, either way, oldest first. */

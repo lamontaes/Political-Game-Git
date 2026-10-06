@@ -6,6 +6,7 @@ import { makeIsoDate } from "../simulation/dates";
 import { createStableId } from "../simulation/ids";
 import { serializeWorld } from "../simulation/serialization";
 import { createLightweightPerson } from "../simulation/people";
+import { recordFavor } from "../simulation/favors";
 import type { OccupationFact, World } from "../simulation/types";
 
 function recordedLife() {
@@ -18,6 +19,46 @@ function recordedLife() {
 }
 
 describe("a dossier's own recorded history", () => {
+  it("shows only recorded, player-known reminders according to the notes setting", () => {
+    const game = recordedLife();
+    const otherPersonId = game.world.personOrder.find(
+      (personId) => personId !== game.playerPersonId,
+    )!;
+    const sourceEventId = game.world.history.events[0]!.id;
+    const world = recordFavor(game.world, {
+      stableKey: "dossier:known-favor",
+      giverPersonId: otherPersonId,
+      receiverPersonId: game.playerPersonId,
+      kind: "personal:help",
+      description: "carried the groceries home",
+      givenAt: game.world.currentDate,
+      eventId: sourceEventId,
+      subject: { kind: "none" },
+      motive: "kindness",
+      weight: "great",
+      audience: "private",
+      witnessPersonIds: [],
+      inReturnForFavorId: null,
+      undertakingId: null,
+    });
+    const full = projectPersonDossier(
+      world,
+      game.playerPersonId,
+      otherPersonId,
+    )!;
+    const none = projectPersonDossier(
+      { ...world, playSettings: { ...world.playSettings!, notes: "none" } },
+      game.playerPersonId,
+      otherPersonId,
+    )!;
+
+    expect(full.reminders.map((reminder) => reminder.text)).toEqual([
+      expect.stringContaining("carried the groceries home"),
+    ]);
+    expect(full.reminders[0]?.text).not.toContain("kindness");
+    expect(none.reminders).toEqual([]);
+  });
+
   it("shows public votes involving the person, even when they are not a tenure focus", () => {
     const game = recordedLife();
     const world = recordWorldEvent(game.world, {

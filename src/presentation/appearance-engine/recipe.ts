@@ -40,11 +40,17 @@ import {
  * Nothing here decides anything else about a person.
  */
 
-/** Share of adults in each build, drawn from the seed. PLACEHOLDER(wave2). */
+/**
+ * Adult build shares from measured U.S. BMI prevalence, August 2021-August
+ * 2023. The three painted builds map underweight/healthy weight to lean,
+ * overweight to average, and obesity to fuller. CDC/NCHS records 72.4% as
+ * overweight including 40.3% with obesity, leaving 27.6%, 32.1%, and 40.3%.
+ * https://www.cdc.gov/nchs/data/hestat/hestat111.htm
+ */
 const BUILD_SHARE: Readonly<Record<BodyBuild, number>> = {
-  lean: 0.3,
-  average: 0.45,
-  fuller: 0.25,
+  lean: 0.276,
+  average: 0.321,
+  fuller: 0.403,
 };
 
 /** A number in [0, 1) from the person's seed and one named question. */
@@ -79,8 +85,13 @@ function buildFor(seed: string): BodyBuild {
 
 /**
  * Hair color from the seed, independent of skin and face (Lamontae: hair,
- * face and skin are separate). Gray and white grow likelier with age.
- * PLACEHOLDER(wave2) shares.
+ * face and skin are separate). Natural-color shares use the recorded counts
+ * from 3,521 NHANES respondents ages 20-59: red 91, blonde 363, light brown
+ * 472, medium brown 545, dark brown 943, and black 1,107. Light and medium
+ * brown share the pack's brown ramp. ESTIMATED FROM AGE-BAND AVERAGES: the
+ * gray/white shares use the same national mix at ages under 40, 40-49, 50-59,
+ * 60-69, and 70+ because the game has no place-specific gray-hair record.
+ * https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2001/DataFiles/DEQ_B.htm
  */
 function hairColorFor(seed: string, age: number): string {
   const roll = draw(seed, "hair-color");
@@ -98,11 +109,11 @@ function hairColorFor(seed: string, age: number): string {
     return draw(seed, "white") < (age >= 70 ? 0.5 : 0.2) ? "white" : "gray";
   const rest = (roll - gray) / (1 - gray);
   const shares: readonly (readonly [string, number])[] = [
-    ["black", 0.3],
-    ["natural", 0.32],
-    ["brown", 0.2],
-    ["auburn", 0.06],
-    ["blonde", 0.12],
+    ["black", 0.314],
+    ["natural", 0.267],
+    ["brown", 0.29],
+    ["auburn", 0.026],
+    ["blonde", 0.103],
   ];
   let edge = 0;
   for (const [id, share] of shares) {

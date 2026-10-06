@@ -266,16 +266,16 @@ describe("Modular character component contract", () => {
         FIXTURE_CATALOG,
       );
       expect(errors).toContain(
-        "Character component 'head_round_tql_v1' references unknown body family 'adult-giant'.",
+        "Character component 'head_round_tql_v1' references absent body family 'adult-giant'.",
       );
       expect(errors).toContain(
-        "Character component 'eyewear_round_glasses_tql_v1' references unknown head family 'square'.",
+        "Character component 'eyewear_round_glasses_tql_v1' references absent head family 'square'.",
       );
       expect(errors).toContain(
-        "Character component 'eyewear_round_glasses_tql_v1' references unknown head orientation 'profile'.",
+        "Character component 'eyewear_round_glasses_tql_v1' references absent head orientation 'profile'.",
       );
       expect(errors).toContain(
-        "Character component 'top_blazer_navy_seated_v1' references unknown pose family 'lying-down'.",
+        "Character component 'top_blazer_navy_seated_v1' references absent pose family 'lying-down'.",
       );
     });
 

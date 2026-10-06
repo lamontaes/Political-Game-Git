@@ -37,7 +37,6 @@
   box-sizing: border-box;
   padding: 0.35rem 0;
   border: 0;
-  border-bottom: 1px solid var(--pg-hairline);
   border-radius: 0;
   outline: none;
   background: none;
@@ -51,7 +50,6 @@
   > .pg-field
   input:is(:hover, :focus, :focus-visible) {
   border: 0;
-  border-bottom: 1px solid var(--gold);
   outline: none;
   background: none;
   box-shadow: none;
@@ -74,7 +72,7 @@
   height: min(26rem, 48vh);
   border: 1px solid var(--pg-hairline);
   border-radius: 2px;
-  background: var(--kit12-glass);
+  background: transparent;
 }
 
 .pg-relationship-web-edge {
@@ -105,7 +103,7 @@
 }
 
 .pg-relationship-web-node circle {
-  fill: rgb(50 41 27 / 92%);
+  fill: var(--glass-bottom);
   stroke: var(--pg-brass-dim);
   stroke-width: 1.5;
 }
@@ -138,12 +136,6 @@
 
 .pg-relationship-web-node[data-match="false"] {
   opacity: 0.32;
-}
-
-.pg-relationship-web-node text {
-  fill: var(--run-a-ink);
-  font-size: 0.7rem;
-  pointer-events: none;
 }
 
 .pg-people-list-alt[hidden] {
@@ -184,7 +176,7 @@
   display: block;
 }
 .pg-relationship-web-portrait .person-portrait-mark {
-  display: block;
+  display: grid;
   max-width: none;
   border: 0;
   box-sizing: border-box;
@@ -204,12 +196,15 @@
   cursor: pointer;
 }
 .pg-relationship-web-node text {
+  fill: var(--run-a-ink);
   /* The label box beneath takes the click, whole, in every engine. */
   pointer-events: none;
   font-size: 0.78rem;
   paint-order: stroke;
-  stroke: rgb(241 234 221 / 92%);
-  stroke-width: 3px;
+  stroke: var(--iron);
+  stroke-width: 2px;
+  font-family: var(--ui);
+  font-weight: 500;
 }
 .pg-relationship-web-node[data-category="false"],
 .pg-relationship-web-edge[data-category="false"] {
@@ -228,19 +223,19 @@
   stroke-width: 2.5;
 }
 .pg-relationship-web-node[data-selected="true"] circle {
-  stroke: #f1dc9a;
+  stroke: var(--gold);
   stroke-width: 3.5;
 }
 .pg-relationship-web-edge[data-path="true"] {
-  stroke: #f1dc9a;
+  stroke: var(--gold);
   stroke-width: 4;
   opacity: 1;
 }
 .pg-relationship-web-node:hover circle {
-  stroke: #fff5d4;
+  stroke: var(--text-strong);
 }
 .pg-relationship-web-ring:focus-visible {
-  stroke: #fff5d4;
+  stroke: var(--text-strong);
   stroke-width: 4;
   outline: none;
 }
