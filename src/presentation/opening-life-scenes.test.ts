@@ -4,7 +4,11 @@ import {
   serializeWorld,
   deserializeWorld,
 } from "../simulation";
-import { isArchivedRoutineOpeningSceneKey } from "../simulation/opening-life-content";
+import {
+  isArchivedRoutineOpeningSceneKey,
+  OPENING_LIFE_FOLLOWUPS,
+  OPENING_LIFE_SCENES,
+} from "../simulation/opening-life-content";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 
 import {
@@ -88,4 +92,12 @@ describe("OPENING-LIFE1 canonical scenes", () => {
   });
 });
 
-describe("ordinary conversation follow-through", () => {});
+describe("the authored opening-scene bank is gone", () => {
+  it("offers no authored opening scene and still opens a life", () => {
+    const game = start("en1-no-authored-scenes", 34);
+    expect(OPENING_LIFE_SCENES).toHaveLength(0);
+    expect(Object.keys(OPENING_LIFE_FOLLOWUPS)).toHaveLength(0);
+    expect(game.world.personOrder).toContain(game.playerPersonId);
+    expect(() => assertWorldIntegrity(game.world)).not.toThrow();
+  });
+});
