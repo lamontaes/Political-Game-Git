@@ -213,14 +213,12 @@ test("choice: Not now downloads nothing and changes nothing", async () => {
   assert.equal(record.autoInstallOnAppQuit, false);
 });
 
-test("choice: Later downloads, then defers install to the player's own quit", async () => {
+test("choice: Later downloads without arming install-on-quit", async () => {
   const { record, deps: d } = deps({ answers: [0, 1] });
   assert.equal(await runUpdateCheck(d), "deferred-to-quit");
   assert.equal(record.downloads, 1);
   assert.equal(record.installedNow, 0);
-  // The dialog's promise — "installs the next time you quit" — is made
-  // true here rather than merely said.
-  assert.equal(record.autoInstallOnAppQuit, true);
+  assert.equal(record.autoInstallOnAppQuit, false);
 });
 
 test("choice: Restart and install closes windows first, then installs", async () => {
@@ -230,11 +228,11 @@ test("choice: Restart and install closes windows first, then installs", async ()
   assert.equal(record.installedNow, 1);
 });
 
-test("choice: a window that refuses to close blocks the restart and defers instead", async () => {
+test("choice: a window that refuses to close blocks install without deferring", async () => {
   const { record, deps: d } = deps({ answers: [0, 0], allClosed: false });
   assert.equal(await runUpdateCheck(d), "install-blocked-deferred");
   assert.equal(record.installedNow, 0);
-  assert.equal(record.autoInstallOnAppQuit, true);
+  assert.equal(record.autoInstallOnAppQuit, false);
   assert.match(record.notices[0].detail, /nothing was interrupted/);
 });
 
