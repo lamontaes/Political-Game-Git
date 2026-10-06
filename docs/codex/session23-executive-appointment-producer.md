@@ -109,3 +109,59 @@ death record. It rechecks current seats through the existing causal vacancy
 writer, then opens the actual executive matter. A saved incumbent resignation
 also closes its existing canonical membership. Portable controlled-test and
 failure receipts are in `session23-appointment-producer-proof/checks.json`.
+
+## Confirmation caller and one seating writer
+
+This producer now composes Session 21's exact nomination API from #2463 head
+`6133f05526b213000af15087758722817605cb00`. That PR is open, so this is a
+candidate dependency composition, not an admitted-main claim.
+
+`governing/executive-appointment-confirmation.ts` exports:
+
+- `confirmExecutiveAppointment(world, nominationEventId)` returning
+  `ExecutiveAppointmentConfirmationResult`: `world`, `status`
+  (`pending|refused|confirmed|rejected`), `reason`, `rollCallEventId` and
+  `tenureEventId`. It takes the saved nomination identity, rechecks current
+  appointer/vacancy/authority eligibility, reads the confirming rosters from
+  the shared authority data and calls `decideChamberVote` once. Alaska combines
+  both House and Senate. Its denominator is all 60 authorized seats and its
+  requirement is 31 yes votes. It does not use two independent passage tests.
+- `scheduleExecutiveAppointmentConfirmation(world, nominationEventId)` writes
+  one canonical future item keyed by the actual nomination. It uses the
+  existing disclosed hearing calendar, not a legal deadline or evidence of
+  actual attendance. The `executiveAppointmentConfirmationHandler` adjacent
+  to the existing term-expiry handler consumes that item. Closed sessions and
+  missing rosters remain pending; no confirming roster is generated here.
+
+The roll call is a public `executive.appointment-confirmation` world event,
+written through `recordWorldEvent`, with each actual member's disposition and
+recorded reason. Tags retain post, seat, source nomination, causal vacancy,
+eligible members, denominator, required votes, yes/no counts, majority rule and
+outcome. A quiet result stays pending; its content key avoids duplicate
+unchanged attempts while allowing actual changed reasons or rosters.
+
+Only the private `seatConfirmedExecutiveAppointment` writes the new named-post
+tenure and canonical membership after confirmation, then schedules its term
+expiry and calls the existing favor writer. Judicial seating remains in its
+existing domain writers. No Supreme Court or bill vote record is impersonated
+by this board roll call. Supportive personal reasons and a better merit record
+passed over are both required for an appointment debt.
+
+Controlled scenario: seed `session23-actual-joint-confirmation`, Alex Taylor,
+actual dated board resignation and acquaintance, both canonical opening
+legislative rosters, then deliberately authored saved supportive experiences
+for 31 actual members. The canonical clock reaches February 8, 2026, consumes
+the scheduled confirmation and seats Alex. Save/reload retains the same
+roll-call and tenure IDs. Exact records and source/check/failure receipts are
+in `session23-appointment-producer-proof/controlled-confirmation-records.json`
+and `confirmation-checks.json`. This is an edge-case fixture, not proof of a
+natural election, ordinary generated executive route, played hearing, or a
+new-game browser screenshot. Those remain pending with the other Part 3
+appointment domains and cabinet depth.
+
+Saved member reasons currently retain the shared vote API's shortened reason
+keys. Its complete member evaluation/context is ephemeral and not returned.
+Session 21 received the bounded retention question in board comment 6014999878.
+This caller does not re-evaluate or forge a durable member vote. Full saved
+consideration/source snapshots remain a limitation until the canonical vote
+producer supplies that packet.

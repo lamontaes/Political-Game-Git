@@ -1,0 +1,18 @@
+{
+  "seed": "session23-actual-joint-confirmation",
+  "worldId": "world_705902d4912703d8",
+  "date": "2026-02-08",
+  "postOfficeKey": "us-ak-personnel-board",
+  "nomineeId": "person_5507cef85f595250",
+  "formerTermId": "event_4abd139ce0f6ddd8",
+  "vacancyEventId": "event_59033c2696404fb7",
+  "nominationEventId": "event_7408281c8bdb5753",
+  "confirmationDueItemId": "future-due-item_4f5b6acf9ebdb385",
+  "confirmationDueAt": "2026-02-08",
+  "rollCallEventId": "event_71a13ed0cbf8a1c0",
+  "tenureEventId": "event_92d22e0859dbf4b3",
+  "yeas": 31,
+  "eligibleMembers": 60,
+  "requiredVotes": 31,
+  "method": "Controlled authored departure, acquaintance, and supportive member experiences; canonical writers and clock; not natural election, new-game browser, or played hearing evidence."
+}

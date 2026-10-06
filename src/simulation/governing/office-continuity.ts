@@ -1,3 +1,7 @@
+import {
+  EXECUTIVE_APPOINTMENT_CONFIRMATION,
+  confirmExecutiveAppointment,
+} from "./executive-appointment-confirmation";
 import { inventedPersonBirthDate } from "../invented-person-age";
 import {
   EXECUTIVE_APPOINTMENT_TERM_EXPIRY,
@@ -1987,13 +1991,37 @@ export function executiveAppointmentTermExpiryHandler(
   const vacancy = vacant.history.events.at(-1)!;
   return resolved(
     openExecutiveAppointmentMatter(vacant, vacancy.id),
-    "The recorded term expired; its named vacancy is on the current executive's desk.",
+    "The recorded term expired and created its named vacancy.",
+  );
+}
+
+export function executiveAppointmentConfirmationHandler(
+  world: World,
+  due: FutureDueItem,
+): FutureTransitionHandlerResult {
+  const nominationId = due.entityIds[0];
+  if (!nominationId || due.dueAt > world.currentDate)
+    return resolved(
+      world,
+      "The recorded confirmation is not due on this date.",
+    );
+  const confirmation = confirmExecutiveAppointment(world, nominationId);
+  // A quiet vote remains a pending nomination, not an invented obligation or
+  // automatic approval. Later recorded reasons can support a new consideration.
+  return resolved(
+    confirmation.world,
+    confirmation.reason,
+    confirmation.rollCallEventId,
   );
 }
 
 export function officeContinuityHandlers() {
   return [
     [EXECUTIVE_APPOINTMENT_TERM_EXPIRY, executiveAppointmentTermExpiryHandler],
+    [
+      EXECUTIVE_APPOINTMENT_CONFIRMATION,
+      executiveAppointmentConfirmationHandler,
+    ],
     [HOUSE_SPECIAL_ELECTION, houseSpecialElectionHandler],
     [SENATE_APPOINTMENT, senateAppointmentHandler],
     [VICE_PRESIDENT_NOMINATION, vicePresidentNominationHandler],

@@ -628,6 +628,17 @@ export function wasPersonalAppointment(
   considerations: readonly DecisionConsideration[],
   chosenOptionKey: string,
 ): boolean {
+  const personalSupport = scoreOf(
+    considerations.filter(
+      (row) =>
+        row.optionKey === chosenOptionKey &&
+        PERSONAL_SOURCES.includes(row.sourceType),
+    ),
+  );
+  // Choosing a weaker merit record alone does not establish a personal tie or
+  // a debt. The recorded choice must actually include supportive personal
+  // reasons as well as passing over a better merit record.
+  if (personalSupport <= 0) return false;
   const merit = new Map<string, number>();
   for (const row of considerations) {
     if (!row.optionKey.startsWith("person:")) continue;

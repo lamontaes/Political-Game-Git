@@ -23,9 +23,8 @@ Nomination does not seat the person or record an appointment favor.
 Checked producer milestone: 23 tests passed across appointments, appointment
 favors, named executive posts, and the existing canonical vitality regression
 file. Explicit changed-root typechecking includes tests and the death hook and
-passes. Cabinet/opening and death-hook changed lint pass. Configured typecheck
-is running in `/tmp/session23-p3-opening-configured-types.log`; inspect its exit
-before claiming that check. Portable source hashes, executed receipts, and
+passes. Cabinet/opening and death-hook changed lint pass. Configured opening typecheck completed with exit 0; its 803 uncovered-test
+import checks are not full typing of all 803 test files. Portable source hashes, executed receipts, and
 retained failure tails are in `docs/codex/session23-appointment-producer-proof/checks.json`.
 
 The same opening producer now saves three board incumbents with disclosed term
@@ -37,17 +36,37 @@ opens the actual governor's matter. Defense eligibility remains unverified
 without positive civilian-life and complete commissioned-service history.
 Cabinet sources retain their official editions and limited researched scope.
 
-Next: compose Session 21's exact #2463 head
-`6133f05526b213000af15087758722817605cb00` as a labeled candidate dependency,
-then implement one exported confirmation caller and one seating writer. The
-caller takes the saved nomination, resolves actual House and Senate rosters,
-combines the Alaska joint body, and calls `decideChamberVote` once. Do not use
-two chamber passage requirements or a Senate-only proxy. Still required: other
-appointment domains, cabinet depth, additive scene packet, actual confirmation
-and seating, new-game desk screenshot and saved follow-through, final changed
-checks and one ready Part 3 PR. The natural route and played scene remain
-unverified. Session 13's citizenship reader is an open dependency; do not write
-a citizenship transition to qualify an appointment.
+Session 21's exact #2463 head
+`6133f05526b213000af15087758722817605cb00` is composed as a candidate dependency.
+The new exported `confirmExecutiveAppointment(world, nominationEventId)`
+resolves actual saved rosters, combines both Alaska chambers once, and calls
+`decideChamberVote` once. The joint threshold is 31 of 60 seats. A quiet roll call
+stays pending; changed actual member reasons support a new consideration.
+Confirmed seating is one domain writer, with canonical membership and expiry
+scheduling. The canonical nomination writer schedules one existing-calendar
+confirmation item; its handler sits beside the term-expiry handler. Protected
+succession and daily-turnover bodies remain unchanged. Appointment favor
+classification now requires supportive personal reasons as well as a better
+merit record passed over; choosing a stranger alone does not create a debt.
+
+Current focused milestone: 91 PASS across six files. Explicit changed-root
+source/test types, changed lint/format/zero-dice pass. A receipt-only capture
+using the same assertions writes actual controlled IDs; its test rerun is
+3 PASS. Portable receipts, prior failures and source hashes are in
+`session23-appointment-producer-proof/confirmation-checks.json`; actual IDs are
+in `controlled-confirmation-records.json`. This is controlled authored
+resignation, acquaintance and member experience evidence, not generated-world,
+natural election, browser or played hearing evidence. Configured typecheck
+still must be rerun for the finished final composition, and final release
+checks remain pending.
+
+Next: publish the exact checked caller/API/scenario packet to Session 21;
+continue the controlled President's judicial choice seam before the existing
+SCOTUS/chief-justice chooser and reuse their nomination/confirmation/seating
+tails. Still required for Part 3: other appointment domains, cabinet depth,
+additive scene packet, new-game desk screenshot and saved follow-through,
+final checks and one ready PR. Session 13's citizenship reader remains an open
+dependency; no transition may be written to qualify an appointment.
 
 Separate unfinished work: the natural mayor election journey stalled at the
 January 31–February 1 scheduled navigation; its preserved compact trace receipt

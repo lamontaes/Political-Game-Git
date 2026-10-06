@@ -196,4 +196,41 @@ describe("appointments read and write the one favor record", () => {
       ),
     ).toBe(false);
   });
+  test("a weaker merit record without supportive personal reasons creates no appointment debt", () => {
+    const row = (
+      optionKey: string,
+      sourceType: DecisionConsideration["sourceType"],
+      importance: DecisionConsideration["importance"],
+      direction: DecisionConsideration["direction"] = "supports",
+    ): DecisionConsideration => ({
+      stableKey: `${optionKey}:${sourceType}`,
+      optionKey,
+      sourceType,
+      direction,
+      importance,
+      confidence: "high",
+      explanation: "Controlled favor classification fixture.",
+      sourceRefs: [],
+    });
+    const merit = [
+      row("person:chosen", "context:party", "slight"),
+      row("person:other", "context:public-record", "strong"),
+    ];
+    expect(wasPersonalAppointment(merit, "person:chosen")).toBe(false);
+    expect(
+      wasPersonalAppointment(
+        [
+          ...merit,
+          row("person:chosen", "social:relationship", "strong", "opposes"),
+        ],
+        "person:chosen",
+      ),
+    ).toBe(false);
+    expect(
+      wasPersonalAppointment(
+        [...merit, row("person:chosen", "social:relationship", "strong")],
+        "person:chosen",
+      ),
+    ).toBe(true);
+  });
 });

@@ -1,3 +1,4 @@
+import { scheduleExecutiveAppointmentConfirmation } from "./executive-appointment-confirmation";
 import { eventById } from "../event-index";
 import { growingIndex, type GrowingIndexKind } from "../history-index";
 import { makeIsoDate } from "../dates";
@@ -77,7 +78,7 @@ export function recordExecutiveAppointmentNomination(
   const stableKey = `${matter.stableKey}:nominated`;
   if (world.history.events.some((event) => event.stableKey === stableKey))
     return world;
-  return recordWorldEvent(world, {
+  const nominated = recordWorldEvent(world, {
     stableKey,
     type: EXECUTIVE_APPOINTMENT_NOMINATED,
     occurredAt: world.currentDate,
@@ -113,6 +114,10 @@ export function recordExecutiveAppointmentNomination(
       immediateReaction: null,
     },
   });
+  return scheduleExecutiveAppointmentConfirmation(
+    nominated,
+    nominated.history.events.at(-1)!.id,
+  );
 }
 
 export const EXECUTIVE_APPOINTMENT_NOMINATED =
