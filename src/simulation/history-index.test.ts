@@ -18,6 +18,42 @@ import {
 import type { HistoricalEvent } from "./types";
 import type { EntityId, World } from "./types";
 
+describe("person revision groups", () => {
+  it("builds once, extends only appended rows, and preserves a held old group", () => {
+    let reads = 0;
+    const row = (id: string) => ({
+      id,
+      get personId() {
+        reads += 1;
+        return "person";
+      },
+    });
+    const first = [row("first"), row("second")];
+    const held = recordsByStringField(first, "personId", "person");
+    expect(reads).toBe(2);
+    expect(recordsByStringField(first, "personId", "person")).toBe(held);
+    expect(reads).toBe(2);
+    const next = appendedList(first, [row("third")]);
+    expect(
+      recordsByStringField(next, "personId", "person").map((r) => r.id),
+    ).toEqual(["first", "second", "third"]);
+    expect(reads).toBe(3);
+    expect(held.map((r) => r.id)).toEqual(["first", "second"]);
+    expect(recordsByStringField(first, "personId", "person")).toEqual(held);
+    const corrected = [first[0]!, { id: "second", personId: "other" }];
+    expect(recordsByStringField(corrected, "personId", "person")).toEqual([
+      first[0],
+    ]);
+    expect(recordsByStringField(corrected, "personId", "other")).toEqual([
+      corrected[1],
+    ]);
+    releaseHistoryReadIndexes(next);
+    expect(
+      recordsByStringField(next, "personId", "person").map((r) => r.id),
+    ).toEqual(["first", "second", "third"]);
+  });
+});
+
 describe("state-intake history copy transaction", () => {
   const row = (id: string, personId = "p") => ({
     id: id as EntityId,

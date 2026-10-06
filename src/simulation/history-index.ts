@@ -221,6 +221,10 @@ const RECORDS_BY_STRING_FIELD = new WeakMap<
   Map<string, Map<string, readonly unknown[]>>
 >();
 const RECENT_BY_STRING_FIELD: (readonly unknown[])[] = [];
+// Person-owned histories are the hot read path. Keep their grouping directly
+// under the immutable record revision instead of traversing the field table.
+const PERSON_RECORDS = new WeakMap<object, Map<string, readonly unknown[]>>();
+const RECENT_PERSON_RECORDS: (readonly unknown[])[] = [];
 
 /** Preserve array order while narrowing a history scan to one owner. */
 export function recordsByStringField<T>(
@@ -228,6 +232,19 @@ export function recordsByStringField<T>(
   field: keyof T,
   value: string,
 ): readonly T[] {
+  if (field === "personId") {
+    let people = PERSON_RECORDS.get(records);
+    if (!people) {
+      people = indexFollowingAppends(
+        PERSON_RECORDS,
+        RECENT_PERSON_RECORDS,
+        records,
+        () => extendGroups(new Map(), records, 0, field),
+        (groups, from) => extendGroups(groups, records, from, field),
+      );
+    }
+    return (people.get(value) ?? []) as readonly T[];
+  }
   let fields = RECORDS_BY_STRING_FIELD.get(records);
   if (!fields) {
     const adopted = adoptFromPrefix(
@@ -680,6 +697,7 @@ export function releaseHistoryReadIndexes(records: readonly unknown[]): void {
     }
   };
   release(RECORDS_BY_STRING_FIELD, RECENT_BY_STRING_FIELD);
+  release(PERSON_RECORDS, RECENT_PERSON_RECORDS);
   for (const slot of KEYED_INDEXES.values()) release(slot.cache, slot.recent);
   for (const slot of GROUPED_BY_FIELD.values())
     release(slot.cache, slot.recent);

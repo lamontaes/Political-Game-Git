@@ -676,7 +676,10 @@ describe("Stage 5.1 households, kinship, partnership, and care", () => {
       kind: "custom:seasonal-base",
       provenance: AUTHORED,
     });
-    expect(householdMembershipsAt(world, person)).toHaveLength(2);
+    const originalWorld = world;
+    const originalMemberships = householdMembershipsAt(world, person);
+    expect(originalMemberships).toHaveLength(2);
+    expect(householdMembershipsAt(world, person)).toBe(originalMemberships);
     const secondaryMembership = world.history.householdMemberships.find(
       (membership) => membership.stableKey === "membership:secondary",
     );
@@ -703,6 +706,39 @@ describe("Stage 5.1 households, kinship, partnership, and care", () => {
       }),
     ).toHaveLength(2);
     expect(householdMembershipsAt(world, person)).toHaveLength(1);
+    const corrected = {
+      ...world,
+      history: {
+        ...world.history,
+        householdMembershipStates: world.history.householdMembershipStates.map(
+          (state) =>
+            state.stableKey === "membership:secondary:ended"
+              ? { ...state, status: "resident" as const }
+              : state,
+        ),
+      },
+    };
+    expect(householdMembershipsAt(corrected, person)).toHaveLength(2);
+    expect(householdMembershipsAt(world, person)).toHaveLength(1);
+    expect(householdMembershipsAt(originalWorld, person)).toEqual(
+      originalMemberships,
+    );
+    expect(householdMembershipsAt(world, person)).toHaveLength(1);
+    const beforeEnding = {
+      asOfDate: world.currentDate,
+      historySequenceExclusive:
+        world.history.householdMembershipStates.at(-1)!.sequence,
+    };
+    expect(householdMembershipsAt(world, person, beforeEnding)).toHaveLength(2);
+    expect(
+      householdMembershipsAt(world, person, {
+        ...beforeEnding,
+        historySequenceExclusive: beforeEnding.historySequenceExclusive + 1,
+      }),
+    ).toHaveLength(1);
+    expect(
+      householdMembershipsAt(deserializeWorld(serializeWorld(world)), person),
+    ).toEqual(householdMembershipsAt(world, person));
     expect(() =>
       startHouseholdMembership(world, {
         stableKey: "membership:invalid-second-primary",

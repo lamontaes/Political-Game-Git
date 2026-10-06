@@ -590,13 +590,50 @@ export function householdMembershipStateAt(
   return householdMembershipStateHistory(world, membershipId, cutoff).at(-1);
 }
 
+// A membership revision owns one resolved by-person view for one exact cutoff.
+// Other contributing revisions invalidate it, including same-length corrections.
+// Keeping only the latest view bounds retention; reading an older World rebuilds.
+const HOUSEHOLD_VIEWS = new WeakMap<
+  object,
+  {
+    readonly states: World["history"]["householdMembershipStates"];
+    readonly households: World["history"]["households"];
+    readonly locations: World["history"]["householdLocations"];
+    readonly date: string;
+    readonly sequence: number;
+    readonly people: Map<EntityId, readonly ActiveHouseholdMembership[]>;
+  }
+>();
+
 export function householdMembershipsAt(
   world: World,
   personId: EntityId,
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly ActiveHouseholdMembership[] {
   validatePersonCutoff(world, personId, cutoff);
-  return recordsByStringField(
+  const history = world.history;
+  let view = HOUSEHOLD_VIEWS.get(history.householdMemberships);
+  if (
+    !view ||
+    view.states !== history.householdMembershipStates ||
+    view.households !== history.households ||
+    view.locations !== history.householdLocations ||
+    view.date !== cutoff.asOfDate ||
+    view.sequence !== cutoff.historySequenceExclusive
+  ) {
+    view = {
+      states: history.householdMembershipStates,
+      households: history.households,
+      locations: history.householdLocations,
+      date: cutoff.asOfDate,
+      sequence: cutoff.historySequenceExclusive,
+      people: new Map(),
+    };
+    HOUSEHOLD_VIEWS.set(history.householdMemberships, view);
+  }
+  const cached = view.people.get(personId);
+  if (cached) return cached;
+  const result = recordsByStringField(
     world.history.householdMemberships,
     "personId",
     personId,
@@ -619,6 +656,8 @@ export function householdMembershipsAt(
       },
     ];
   });
+  view.people.set(personId, result);
+  return result;
 }
 
 export function peopleInHouseholdAt(
