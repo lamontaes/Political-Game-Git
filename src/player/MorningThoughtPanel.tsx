@@ -15,7 +15,7 @@ export function MorningThoughtPanel({
   const { today } = thought;
   return (
     <section
-      className="pg-recap pg-morning-thought"
+      className="pg-recap pg-morning-thought pg-glass-panel"
       aria-labelledby="pg-morning-thought-title"
       data-testid="morning-thought"
     >
