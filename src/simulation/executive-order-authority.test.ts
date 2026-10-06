@@ -306,7 +306,7 @@ describe("executive action authority", () => {
           event.tags.includes(`matter:${matter.id}`),
       )?.summary,
     ).toContain(
-      "an executive action cannot create independent policy; the legislature must enact it or a law must delegate the term.",
+      "An executive action cannot create independent policy; the legislature must enact it or a law must delegate the term.",
     );
     expect(
       (refusal.world.history.legislativeMeasures ?? []).some(
