@@ -93,7 +93,11 @@ describe("people at work in place pictures", { timeout: 180_000 }, () => {
       world.currentMoment,
       [
         { personId: customer.id, title: "Customer" },
-        { personId: cashier.id, title: "Cashier" },
+        {
+          personId: cashier.id,
+          title: "Cashier",
+          role: "staff-behind-counter",
+        },
       ],
     );
     const counterTop = staging.places.store.spots.find(
@@ -167,7 +171,10 @@ describe("people at work in place pictures", { timeout: 180_000 }, () => {
     const officers = Object.values(world.people)
       .filter((person) => person.id !== player && person.appearance)
       .slice(0, 5)
-      .map((person) => ({ personId: person.id }));
+      .map((person) => ({
+        personId: person.id,
+        role: "member-at-dais" as const,
+      }));
     expect(officers).toHaveLength(5);
     const chamber = placeBackdropPeople(
       world,
