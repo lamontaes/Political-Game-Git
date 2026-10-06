@@ -1,4 +1,4 @@
-import { ageOnDate } from "./dates";
+import { ageOnDate, daysBetween } from "./dates";
 import { evaluateDecision, isSelectedDecision } from "./decisions";
 import { createPartnership, recordPartnershipState } from "./life";
 import { LIFE_MIND_IDS } from "./life-mind-content";
@@ -9,6 +9,7 @@ import {
   partnershipStateHistory,
 } from "./life-queries";
 import { personName } from "./people";
+import { personTrait } from "./people-traits";
 import { latestPersonalValue } from "./queries";
 import { recordRelationshipInteraction } from "./records";
 import { readRelationshipStanding } from "./relationship-standing";
@@ -23,23 +24,18 @@ import { recordWorldEvent } from "./world";
 /**
  * Two people going out together, and becoming a couple.
  *
- * The owner ruled on 2026-09-23 that couples go all the way (dating, living
- * together, marriage) and that one-night stands exist. This file holds the
- * first two steps: a date, which is an ordinary meeting both people agreed was
- * a date, and becoming a couple, which one of them asks and the other answers.
- * Living together, marriage, and the rest build on the partnership this
- * writes; nothing in play created one before.
+ * The owner ruled that romance grows from a shared life, not a prompt to label
+ * an outing as a date. This file reads the pair's ordinary contact record and
+ * lets either person ask to be a couple when their own deliberation styles
+ * and time together make that plausible. Living together and marriage build on
+ * the partnership this writes; nothing in play created one before.
  *
  * Every answer is the other person's, weighed from their own side through the
  * shared decision evaluator, and a no is as real as a yes.
  *
- * PLACEHOLDER, NOT RESEARCH: which considerations bear on saying yes, how much
- * each weighs, and how many dates come before asking are filed with ChatGPT as
- * `how-two-people-become-a-couple` (the rules) and
- * `how-american-couples-form-in-numbers` (the measured pace). The game has no
- * model of attraction; openness to company, how the two of them already
- * stand, and whether the person asked is already with somebody stand in until
- * those answers land.
+ * A relationship is never ranked or shown as a score. The evaluator reads the
+ * recorded interactions, each person's openness to connection, and whether
+ * either is already partnered.
  */
 
 export const DATE_OCCASION = "date";
@@ -49,9 +45,6 @@ export const COUPLE_KIND = "romantic:couple";
 export const COUPLE_FORMED_EVENT = "life.couple-formed";
 export const COUPLE_DECLINED_EVENT = "life.couple-declined";
 export const COUPLE_ENDED_EVENT = "life.couple-ended";
-
-/** Calibration: kept dates before either of them may ask. See header. */
-export const DATES_BEFORE_ASKING = 2;
 
 const ADULT_AGE = 18;
 
@@ -137,7 +130,31 @@ export function coupleBetween(
   );
 }
 
-/** Dates the two of them actually went on, oldest first. */
+function sharedRomanticInteractions(world: World, a: EntityId, b: EntityId) {
+  return world.history.relationshipInteractions.filter(
+    (interaction) =>
+      interaction.occurredAt <= world.currentDate &&
+      interaction.personIds.includes(a) &&
+      interaction.personIds.includes(b) &&
+      (interaction.kind === "contact:conversation" ||
+        interaction.kind === "contact:time-together" ||
+        interaction.kind === DATE_KIND ||
+        interaction.kind.startsWith("experience:")),
+  );
+}
+
+/** Distinct days with recorded contact between the pair, oldest first. */
+export function sharedInteractionDays(world: World, a: EntityId, b: EntityId) {
+  return [
+    ...new Set(
+      sharedRomanticInteractions(world, a, b).map(
+        (interaction) => interaction.occurredAt,
+      ),
+    ),
+  ].sort();
+}
+
+/** Date records remain readable for older saves and contact-service callers. */
 export function keptDates(world: World, a: EntityId, b: EntityId) {
   return world.history.relationshipInteractions.filter(
     (interaction) =>
@@ -145,6 +162,18 @@ export function keptDates(world: World, a: EntityId, b: EntityId) {
       interaction.personIds.includes(a) &&
       interaction.personIds.includes(b),
   );
+}
+
+/** More deliberate people want a longer shared history before naming it. */
+export function sharedDaysBeforeCoupleAsk(
+  world: World,
+  a: EntityId,
+  b: EntityId,
+): number {
+  const deliberation =
+    personTrait(world, a, "deliberation").value +
+    personTrait(world, b, "deliberation").value;
+  return Math.max(1, Math.min(4, 2 + Math.ceil(deliberation / 4)));
 }
 
 /** Whether somebody is with anyone other than this person right now. */
@@ -162,8 +191,8 @@ function withSomebodyElse(
 
 /**
  * What bears on somebody's answer to a romantic question from somebody else:
- * whether they are already with somebody, whether they want company at all,
- * and how the two of them stand. Used for a date and for becoming a couple.
+ * partnership, their own desire for connection, the pair's shared contact and
+ * warmth, and whether that connection is still current.
  */
 export function romanticConsiderations(
   world: World,
@@ -219,6 +248,41 @@ export function romanticConsiderations(
         interaction.personIds.includes(askerId),
     )
     .at(-1);
+  const sharedDays = sharedInteractionDays(world, answererId, askerId);
+  const latestShared = sharedRomanticInteractions(
+    world,
+    answererId,
+    askerId,
+  ).at(-1);
+  if (sharedDays.length > 0) {
+    const latestDay = sharedDays.at(-1)!;
+    const daysApart = daysBetween(latestDay, world.currentDate);
+    const stillCurrent = daysApart <= 365;
+    considerations.push({
+      stableKey: `${stableKey}:shared-time`,
+      optionKey: stillCurrent ? "accept" : "decline",
+      sourceType: "social:relationship",
+      direction: "supports",
+      importance:
+        sharedDays.length >= 3 && daysApart <= 90
+          ? "strong"
+          : sharedDays.length >= 2 && stillCurrent
+            ? "moderate"
+            : "slight",
+      confidence: "high",
+      explanation: stillCurrent
+        ? "They have spent time together recently."
+        : "They have not spent time together for a long while.",
+      sourceRefs: latestShared
+        ? [
+            {
+              kind: "relationship-interaction",
+              interactionId: latestShared.id,
+            },
+          ]
+        : [],
+    });
+  }
   const between = latest
     ? [
         {
@@ -270,11 +334,12 @@ export function coupleAskRefusal(
   if (refusal) return refusal;
   if (coupleBetween(world, personId, otherId))
     return "You are already together.";
-  const dates = keptDates(world, personId, otherId).length;
-  if (dates < DATES_BEFORE_ASKING) {
-    return dates === 0
-      ? "You have not been out together yet."
-      : "You have only been out together once.";
+  const sharedDays = sharedInteractionDays(world, personId, otherId).length;
+  const needed = sharedDaysBeforeCoupleAsk(world, personId, otherId);
+  if (sharedDays < needed) {
+    return sharedDays === 0
+      ? "You have not spent time together yet."
+      : "You have not spent enough time together to know each other well yet.";
   }
   if (
     world.history.events.some(
@@ -330,7 +395,7 @@ export function askToBeACouple(
     constraints: [],
     considerations: romanticConsiderations(world, key, otherPersonId, personId),
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "ephemeral",
   });
   if (!isSelectedDecision(evaluation)) {

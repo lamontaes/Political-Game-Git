@@ -34,7 +34,7 @@ import {
   coupleBetween,
   dateRefusal,
   endCouple,
-  keptDates,
+  sharedInteractionDays,
 } from "../simulation/couples";
 import { proseDate, proseWeekdayDate } from "./prose-dates";
 
@@ -244,12 +244,7 @@ function childAskingAnAdult(
   );
 }
 
-/**
- * Asking somebody out, asking to be a couple, and ending it, where each is
- * something these two could do. A date is offered only between adults who
- * are not family; becoming a couple only after dates actually kept. A
- * refusal that says why is shown, not hidden, once there has been a date.
- */
+/** Asking to be a couple, or ending it, when the pair's history allows it. */
 function romanticActions(
   world: World,
   personId: EntityId,
@@ -268,7 +263,10 @@ function romanticActions(
       },
     ];
   }
-  const actions: ContactAction[] = [
+  const refusal = coupleAskRefusal(world, personId, otherId);
+  const canTalkAboutBeingACouple =
+    sharedInteractionDays(world, personId, otherId).length > 0;
+  return [
     {
       kind: "ask-on-a-date",
       label: `Ask ${name} out`,
@@ -279,20 +277,20 @@ function romanticActions(
           ? `${name} has asked you first; answer that.`
           : null),
     },
+    ...(canTalkAboutBeingACouple
+      ? [
+          {
+            kind: "ask-to-be-a-couple" as const,
+            label: `Ask ${name} to be a couple`,
+            available: !refusal,
+            unavailableReason: refusal,
+          },
+        ]
+      : []),
   ];
-  if (keptDates(world, personId, otherId).length > 0) {
-    const refusal = coupleAskRefusal(world, personId, otherId);
-    actions.push({
-      kind: "ask-to-be-a-couple",
-      label: `Ask ${name} to be a couple`,
-      available: !refusal,
-      unavailableReason: refusal,
-    });
-  }
-  return actions;
 }
 
-/** Ask somebody out on a day. They answer it as a date. */
+/** Explicit Contacts command for proposing a date with somebody. */
 export function askOnADate(
   world: World,
   input: {

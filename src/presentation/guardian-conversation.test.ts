@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { drawRandomPlace } from "../../tests/support/random-place";
 
 import { createNewGameWorld } from "./new-game";
 import type { NewGameSetup } from "./new-game";
@@ -315,9 +316,10 @@ describe("GUARDIAN12 — guardian and known-person conversation entry", () => {
   });
 
   it("supports an adult known person in the same opening-life scene", () => {
+    const place = drawRandomPlace("session6-time-together-romance");
     const game = createNewGameWorld({
       startKind: "custom",
-      placeKey: "kentucky",
+      placeKey: place.key,
       startAge: 24,
       depth: "play-formative-years",
       startingLife: "ordinary-life",
@@ -342,7 +344,7 @@ describe("GUARDIAN12 — guardian and known-person conversation entry", () => {
       projectPlayerConversation(world, game.playerPersonId, "life-talk", {
         addressee: other,
       })!.intents.some((option) => option.key === "date"),
-    ).toBe(true);
+    ).toBe(false);
   });
 
   it("regresses the original household-member gate failure at age 10", () => {
