@@ -1360,7 +1360,7 @@ export function adoptPartyInitiative(
         PARTY_EVOLUTION_EVENT,
         [source],
         leavers,
-        `${leavers.length} members left ${sourceUnit.name} to form ${name}.`,
+        `${leavers.length} ${leavers.length === 1 ? "member" : "members"} left ${sourceUnit.name} to form ${name}.`,
         ["change:split-off"],
         sourceUnit.jurisdictionId,
       );

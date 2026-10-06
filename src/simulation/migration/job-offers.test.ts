@@ -14,7 +14,7 @@ import { startTownJobPay } from "../living-world/town-pay";
 import type { EntityId, World } from "../types";
 import { advanceWithWorldIntegrityAtEnd, assertWorldIntegrity } from "../world";
 import {
-  UNRESEARCHED_JOB_SEARCH,
+  JOB_SEARCH_ESTIMATE,
   migrationTown,
   moverDepartureRate,
   recordedMoves,
@@ -81,11 +81,9 @@ function offersElsewhere(world: World) {
 }
 
 describe("a job offer elsewhere is a recorded reason to move (A135)", () => {
-  it("the weights are marked as unresearched placeholders", () => {
-    expect(UNRESEARCHED_JOB_SEARCH.provenance).toBe(
-      "unresearched-blanket-rule",
-    );
-    expect(UNRESEARCHED_JOB_SEARCH.researchQuestionId).toBe(
+  it("the weights are marked as estimated from the average, with a source", () => {
+    expect(JOB_SEARCH_ESTIMATE.provenance).toBe("estimated-from-average");
+    expect(JOB_SEARCH_ESTIMATE.researchQuestionId).toBe(
       "why-americans-move-causes-and-strengths",
     );
   });
@@ -231,4 +229,11 @@ describe("a job offer elsewhere is a recorded reason to move (A135)", () => {
       expect(searched.size).toBeGreaterThan(0);
     },
   );
+});
+
+describe("every migration value says where it comes from", () => {
+  it("the job-search weights carry an estimate flag and the survey they rest on", () => {
+    expect(JOB_SEARCH_ESTIMATE.estimated).toBe(true);
+    expect(JOB_SEARCH_ESTIMATE.estimatedFrom).toMatch(/CPS ASEC 2023/);
+  });
 });

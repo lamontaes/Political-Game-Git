@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { US_CONGRESS_RULE_PACK } from "../congress-rule-pack";
-import type { World } from "../types";
+import type { EntityId, World } from "../types";
 import { legislativeSittingHandler } from "./legislative-sittings";
+
+const measure = (id: string): EntityId => id as EntityId;
 
 type TestWorld = World & { readonly sequence: readonly string[] };
 
@@ -14,10 +16,10 @@ describe("the generic legislative sitting loop", () => {
     const started = worldWithSequence();
     const visited: string[] = [];
 
-    const ended = legislativeSittingHandler(started, {
+    const ended = legislativeSittingHandler<readonly string[]>(started, {
       chambers: US_CONGRESS_RULE_PACK.chambers,
       session: US_CONGRESS_RULE_PACK.session,
-      measureIds: ["first", "player-held", "second"],
+      measureIds: [measure("first"), measure("player-held"), measure("second")],
       eligible: (_world, measureId) => measureId !== "player-held",
       takeStep: (current, measureId) => {
         visited.push(measureId);
@@ -38,7 +40,7 @@ describe("the generic legislative sitting loop", () => {
     const ended = legislativeSittingHandler(started, {
       chambers: [],
       session: US_CONGRESS_RULE_PACK.session,
-      measureIds: ["first"],
+      measureIds: [measure("first")],
       eligible: () => true,
       takeStep: () => {
         called = true;

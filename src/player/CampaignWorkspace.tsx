@@ -8,6 +8,8 @@ import { displayMoney } from "../presentation/money-display";
 import {
   fileForOffice,
   giveElectionSpeech,
+  askCampaignHelper,
+  offerCampaignManagerJob,
   groupCampaignSessions,
   projectCampaign,
   spendAnAfternoon,
@@ -170,6 +172,7 @@ export function CampaignWorkspace({
     return petitionSignaturesForCampaign(world, view.campaignId).length;
   }, [world, view.campaignId]);
   const [problem, setProblem] = useState<string | null>(null);
+  const [helperNotice, setHelperNotice] = useState<string | null>(null);
   const [selectedGeography, setSelectedGeography] = useState<string | null>(
     null,
   );
@@ -751,6 +754,173 @@ export function CampaignWorkspace({
                   Changing the plan does not use any time. The work happens when
                   you choose it below.
                 </p>
+              </section>
+            ) : null}
+
+            {planning.slots.includes("immediate") &&
+            view.managerCandidates.length ? (
+              <section
+                aria-labelledby="campaign-manager-title"
+                data-testid="campaign-manager-offers"
+              >
+                <h3 id="campaign-manager-title">Campaign manager</h3>
+                <ul>
+                  {view.managerCandidates.map((candidate) => (
+                    <li key={candidate.personId}>
+                      <span>
+                        {candidate.name} has campaign experience. Estimated pay
+                        is {displayMoney(candidate.monthlySalary)} a month;{" "}
+                        {displayMoney(candidate.totalCost)} through election
+                        day.
+                      </span>
+                      {candidate.affordable ? (
+                        <button
+                          type="button"
+                          data-testid={`offer-campaign-manager-${candidate.personId}`}
+                          onClick={() => {
+                            try {
+                              const result = offerCampaignManagerJob(
+                                world,
+                                view.campaignId!,
+                                candidate.personId,
+                              );
+                              onWorldChange(result.world);
+                              setHelperNotice(
+                                `${candidate.name} ${result.accepted ? "accepted the manager job" : "declined the manager job"}. ${result.reasons.join(" ")}`,
+                              );
+                              setProblem(null);
+                            } catch (error) {
+                              setProblem(
+                                error instanceof Error
+                                  ? error.message
+                                  : String(error),
+                              );
+                            }
+                          }}
+                        >
+                          Offer manager job to {candidate.name}
+                        </button>
+                      ) : (
+                        <span>
+                          The treasury cannot cover the salary through election
+                          day.
+                        </span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
+
+            {planning.slots.includes("immediate") ? (
+              <section
+                className="game-campaign-helpers"
+                aria-labelledby="campaign-helpers-title"
+                data-testid="campaign-helpers"
+              >
+                <h3 id="campaign-helpers-title">People helping</h3>
+                <p>
+                  {view.helpers.length
+                    ? view.helpers.map((helper) => helper.name).join(", ")
+                    : "You are running this campaign alone."}
+                </p>
+                {view.helperCandidates.length ? (
+                  <ul aria-label="People you know who could help">
+                    {view.helperCandidates.map((candidate) => (
+                      <li key={candidate.personId}>
+                        <button
+                          type="button"
+                          data-testid={`ask-campaign-helper-${candidate.personId}`}
+                          onClick={() => {
+                            try {
+                              const decision = askCampaignHelper(
+                                world,
+                                view.campaignId!,
+                                candidate.personId,
+                              );
+                              onWorldChange(decision.world);
+                              const response =
+                                decision.outcome === "help"
+                                  ? "agreed to help"
+                                  : decision.outcome === "decline"
+                                    ? "declined"
+                                    : "is still deciding";
+                              setHelperNotice(
+                                `${candidate.name} ${response}${decision.reasons[0] ? `: ${decision.reasons.join(" ")}` : "."}`,
+                              );
+                              setProblem(null);
+                            } catch (error) {
+                              setProblem(
+                                error instanceof Error
+                                  ? error.message
+                                  : String(error),
+                              );
+                            }
+                          }}
+                        >
+                          Ask {candidate.name} to help
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+                {helperNotice ? <p role="status">{helperNotice}</p> : null}
+              </section>
+            ) : null}
+
+            {planning.slots.includes("immediate") ? (
+              <section
+                className="game-campaign-helpers"
+                aria-labelledby="campaign-helpers-title"
+                data-testid="campaign-helpers"
+              >
+                <h3 id="campaign-helpers-title">People helping</h3>
+                <p>
+                  {view.helpers.length
+                    ? view.helpers.map((helper) => helper.name).join(", ")
+                    : "You are running this campaign alone."}
+                </p>
+                {view.helperCandidates.length ? (
+                  <ul aria-label="People you know who could help">
+                    {view.helperCandidates.map((candidate) => (
+                      <li key={candidate.personId}>
+                        <button
+                          type="button"
+                          data-testid={`ask-campaign-helper-${candidate.personId}`}
+                          onClick={() => {
+                            try {
+                              const decision = askCampaignHelper(
+                                world,
+                                view.campaignId!,
+                                candidate.personId,
+                              );
+                              onWorldChange(decision.world);
+                              const response =
+                                decision.outcome === "help"
+                                  ? "agreed to help"
+                                  : decision.outcome === "decline"
+                                    ? "declined"
+                                    : "is still deciding";
+                              setHelperNotice(
+                                `${candidate.name} ${response}${decision.reasons[0] ? `: ${decision.reasons.join(" ")}` : "."}`,
+                              );
+                              setProblem(null);
+                            } catch (error) {
+                              setProblem(
+                                error instanceof Error
+                                  ? error.message
+                                  : String(error),
+                              );
+                            }
+                          }}
+                        >
+                          Ask {candidate.name} to help
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+                {helperNotice ? <p role="status">{helperNotice}</p> : null}
               </section>
             ) : null}
 

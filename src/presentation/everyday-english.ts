@@ -3,6 +3,7 @@ import { readRelationshipStanding } from "../simulation/relationship-standing";
 import {
   composeGroundedLine,
   type ComposedLineBank,
+  type ComposedPart,
 } from "./english-composition";
 import type { GroundedEnglishFact } from "./grounded-english";
 import { speakerTraits } from "./speaker-traits";
@@ -40,6 +41,25 @@ export function everydayText(
   facts: Readonly<Record<string, GroundedEnglishFact>> = {},
   listenerPersonId: EntityId = personId,
 ): string {
+  return everydayLine(
+    world,
+    personId,
+    key,
+    sourceRecordIds,
+    facts,
+    listenerPersonId,
+  ).text;
+}
+
+/** The same line with the reviewed parts it was built from, for review tooling. */
+export function everydayLine(
+  world: World,
+  personId: EntityId,
+  key: EverydayEnglishKey,
+  sourceRecordIds: readonly EntityId[],
+  facts: Readonly<Record<string, GroundedEnglishFact>> = {},
+  listenerPersonId: EntityId = personId,
+): { readonly text: string; readonly parts: readonly ComposedPart[] } {
   const surface = key.endsWith("-reply") ? "dialogue" : "scene";
   const bank: ComposedLineBank = {
     key: `everyday.${key}`,
@@ -92,5 +112,5 @@ export function everydayText(
     throw new Error(
       `Cannot word everyday action ${key}: ${line.reasons.join("; ")}`,
     );
-  return line.text;
+  return { text: line.text, parts: line.parts };
 }
