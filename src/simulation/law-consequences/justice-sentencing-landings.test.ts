@@ -83,8 +83,4 @@ describe("mandatory minimum sentencing landings", () => {
     ).toBe(world);
     expect(lawExposuresOf(world, personId)).toEqual([]);
   });
-
-  it.todo(
-    "lands a bound jail sentence on the named defendant once a state law can be enacted in a test world (enactLawFixture stalls at awaiting-executive on main)",
-  );
 });
