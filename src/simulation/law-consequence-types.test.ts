@@ -20,7 +20,6 @@ it("closes new writer labels while listing the legacy labels to retire", () => {
     "government-program-payment",
     "health-coverage",
     "housing-permit-units",
-    "inclusionary-affordable-rent",
     "justice.held-before-trial",
     "justice.released-before-trial",
     "law.pay-compensation",
@@ -31,7 +30,6 @@ it("closes new writer labels while listing the legacy labels to retire", () => {
     "paid-leave-benefit",
     "paid-leave-budget-cost",
     "public-program-appropriation",
-    "rent-stabilization-renewal",
     "state-revenue-loss",
     "state-spending",
     "tax-assessment",
@@ -45,4 +43,12 @@ it("closes new writer labels while listing the legacy labels to retire", () => {
   // @ts-expect-error A new bespoke outcome label must not enter the shared writer.
   const invented: LawEffectContext["effectKind"] = "invented-new-effect";
   void invented;
+  // @ts-expect-error Old affordable-rent labels remain readable, not writer inputs.
+  const retiredAffordable: LawEffectContext["effectKind"] =
+    "inclusionary-affordable-rent";
+  void retiredAffordable;
+  // @ts-expect-error Old stabilization labels remain readable, not writer inputs.
+  const retiredRentCap: LawEffectContext["effectKind"] =
+    "rent-stabilization-renewal";
+  void retiredRentCap;
 });
