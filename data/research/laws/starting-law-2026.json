@@ -13986,9 +13986,10 @@
           "note": "Payday loans are not made, and consumer discount loans are limited to discount interest and small fees (NCLC: 27% maximum on a $500 six-month loan)."
         },
         "US-PR": {
-          "answer": "yes",
-          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (3 answer yes), because this place's own law could not be read.",
-          "note": "Tried: Ley 4-1985 (bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/4-1985.pdf) lets the Junta Financiera set maximum rates or leave them to free competition and names no cap itself; Ley 106-1965 (bvirtualogp.pr.gov) was tried, and ocif.pr.gov/interes-aplicable and /leyes-reglamentos-y-cartas-circulares list no current Junta Financiera rate regulation."
+          "answer": "no",
+          "cite": "Puerto Rico OCIF Regulation 5782, arts. 2-4, 7, 11, 17; OCIF 2024 Regulations-in-Force Inventory",
+          "source": "https://docs.pr.gov/files/OCIF/LEYES-REGLAMENTOS-CARTAS-CIRCULARES/Reglamentos/Regl.%205782%20Tasas%20Inter%C3%A9s%20Pr%C3%A9stamos%20Personales%20Peque%C3%B1os.pdf",
+          "note": "For cash advances of $5,000 or less to natural persons under Law 106-1965, repaid in substantially equal monthly installments, Regulation 5782 article 4 fixes no maximum annual interest rate and allows rates set by free competition; article 17 repeals the former maximum-rate rule. Separately regulated banks, credit unions, pawnshops, and bona fide credit sales are excluded. The 2024 OCIF inventory lists the regulation as in force; this finding does not establish that every consumer credit product has no separate limit."
         },
         "US-RI": {
           "answer": "no",
