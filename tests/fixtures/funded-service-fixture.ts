@@ -9,6 +9,10 @@ import {
 import { applyLegislativeStep } from "../../src/presentation/legislation-session";
 import { recordGovernorDecisionOnMeasure } from "../../src/simulation/governing/legislative-clock";
 import { createProductionPolicyCatalog } from "../../src/simulation/production-catalog";
+import {
+  FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+  STATE_MINIMUM_WAGE_QUESTION_KEY,
+} from "../../src/simulation/minimum-wage";
 import { createOrganization } from "../../src/simulation/life";
 import { stateJurisdictionForKey } from "../../src/simulation/life-places";
 import { publicProgramRecordId } from "../../src/simulation/public-program-integrity";
@@ -44,7 +48,30 @@ export const provenance = {
   note: "Explicit L1 test contract; no production amount or forecast.",
 };
 export const procedure = createLegislativeScenario("alaska");
-const catalog = createProductionPolicyCatalog();
+const productionCatalog = createProductionPolicyCatalog();
+// The scenario world's saved pay-coverage determinations were made against its
+// own wage questions; the production catalog's wage questions carry starting
+// laws and pay rows those records do not name, so the scenario's two stay.
+const WAGE_KEYS = [
+  FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+  STATE_MINIMUM_WAGE_QUESTION_KEY,
+];
+const wageIds = new Set(
+  Object.values(productionCatalog.propositions)
+    .filter((p) => WAGE_KEYS.includes(p.stableKey))
+    .map((p) => p.id),
+);
+const catalog = {
+  ...productionCatalog,
+  propositions: Object.fromEntries(
+    Object.entries(productionCatalog.propositions).filter(
+      ([id]) => !wageIds.has(id),
+    ),
+  ),
+  propositionOrder: productionCatalog.propositionOrder.filter(
+    (id) => !wageIds.has(id),
+  ),
+};
 export const base = {
   ...procedure.world,
   policyCatalog: {

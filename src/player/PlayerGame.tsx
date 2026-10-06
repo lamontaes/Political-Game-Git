@@ -3021,9 +3021,11 @@ function PlayingScreen({
                 </p>
               ) : null}
               {session.unsavedSeed !== null ? (
-                <p className="sr-only" data-testid="unsaved-note">
-                  This life has not been saved yet.
-                </p>
+                <p
+                  className="sr-only"
+                  data-testid="unsaved-note"
+                  data-problem="unsaved"
+                />
               ) : null}
               <p className="sr-only" role="status">
                 {shell.announcement}
