@@ -7,6 +7,11 @@ import {
 } from "../simulation";
 import { STATES } from "../simulation/state-reference";
 import { seatedCongressChamber } from "../simulation/governing/congress-chambers";
+import {
+  readStateLegislatureSavedWake,
+  reconcileStateLegislatureQueue,
+  STATE_LEGISLATURE_WAKE_TRANSITION,
+} from "../simulation/nationwide-world/state-legislature-queue";
 import { DEFAULT_NEW_GAME_SETUP, type NewGameSetup } from "./new-game";
 import {
   createOpeningLifeController,
@@ -73,6 +78,26 @@ describe("truthful opening preparation", () => {
         ]).toContain(step.label);
     }
     const world = opened.game!.world;
+    const wakes = world.history.futureDueItems.filter(
+      (item) => item.transitionKey === STATE_LEGISLATURE_WAKE_TRANSITION,
+    );
+    expect(wakes.length).toBeGreaterThan(0);
+    const packs = new Set(
+      world.history.events
+        .filter((event) => event.type === "world.state-legislature-opening")
+        .flatMap((event) =>
+          event.tags
+            .filter((tag) => tag.startsWith("pack:"))
+            .map((tag) => tag.slice(5)),
+        ),
+    );
+    expect(
+      new Set(wakes.map((item) => readStateLegislatureSavedWake(item).packId)),
+    ).toEqual(packs);
+    for (const item of wakes) expect(item.dueAt > world.currentDate).toBe(true);
+    expect(progress.at(-1)!.world).toBe(world);
+    expect(world.currentDate).toBe(place.context.initialMoment.date);
+    expect(world.currentMoment).toEqual(place.context.initialMoment);
     const members = new Set(
       ["house", "senate"].flatMap(
         (key) =>
@@ -98,6 +123,16 @@ describe("truthful opening preparation", () => {
       ),
     ).toBe(bytes);
     expect(serializeWorld(deserializeWorld(bytes))).toBe(bytes);
+    let loaded = deserializeWorld(bytes);
+    for (const item of wakes) {
+      const wake = readStateLegislatureSavedWake(item);
+      loaded = reconcileStateLegislatureQueue(
+        loaded,
+        wake.packId,
+        wake.throughYear,
+      );
+    }
+    expect(serializeWorld(loaded)).toBe(bytes);
     expect(await controller.finishTransitionWithProgress()).toBe(opened);
   });
 
@@ -126,6 +161,11 @@ describe("truthful opening preparation", () => {
         generateOpeningLife(prepareOpeningLife(legacy)).game!.world,
       ),
     );
+    expect(
+      opened.game!.world.history.futureDueItems.some(
+        (item) => item.transitionKey === STATE_LEGISLATURE_WAKE_TRANSITION,
+      ),
+    ).toBe(false);
   });
 
   it("does not publish an aborted preparation and allows a retry", async () => {
