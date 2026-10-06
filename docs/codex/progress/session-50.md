@@ -1,11 +1,9 @@
 # Session 50 resume marker
 
-Assignment: LW-32 (science/communications and DC statehood), from POOL order #2424, assignment map #6015544696.
-Branch: codex/session50-lw32
-Base at resume: e591ffc637d1f6db84d2ff920e8662ce123202ed
+Routing correction from live Fable map #6015577087: Session 50 is not assigned LW-32. The POOL row still assigns Session 50 the b05 council bank; current implementation is on `codex/session50-b05-p1`. Do not continue the LW-32 item unless the owner assigns it.
 
-Statehood implementation is in progress in src/simulation/living-world/statehood-seats.ts and its focused test. It records law exposure for each newly seated person, linked to the corresponding tenure event. No commit or pull request exists yet.
+Preserved preliminary LW-32 work: local branch `codex/session50-lw32` at base e591ffc637d1f6db84d2ff920e8662ce123202ed, with uncommitted changes in `src/simulation/living-world/statehood-seats.ts` and its test in worktree `/workspace/Political-Game-Git-LW32`. Those source changes are not on this remote marker branch and have no PR. Privacy owner question #6015692664 is still unanswered; no privacy code was written.
 
-Verification: npm run typecheck completed with two pre-existing errors in src/simulation/press/press-premise.test.ts (missing PlaySettings.personalLifeDepiction at lines 35 and 125). Focused Vitest printed four passing test dots but the process disconnected before reporting a completion status; treat the test as unverified and rerun after the execution service recovers.
+Statehood change records named-person law exposure linked to the tenure event. Verification is not complete: typecheck showed the two then-existing `PlaySettings.personalLifeDepiction` errors in press-premise.test.ts; focused Vitest was interrupted before completion. Current b05 work separately corrects the typecheck fixture.
 
-Outstanding: finish statehood implementation/review and focused test; continue independent LW-32 privacy work without claiming individual worker amounts or coverage until the CTO answers question #6015692664; inspect queue for other non-overlapping open items per newest Fable map and complete one bounded item per PR. Preserve paycheck path for Session 8.
+Next command when resuming this preliminary work: `git -C /workspace/Political-Game-Git-LW32 status --short --branch`.
