@@ -1,17 +1,30 @@
-# Session 132
+# Session 132: committee referral landed; proud current-main checks next
 
-Working repository: `/workspace/session132`, registered writer Session132.
-Branch: `session132/t9-facet-proud`. Base: `ae27b4da00da3d9391a9d4c34776f1ef28f436cc`.
-The earlier completed checkout `/workspace/Political-Game-Git` is preserved read-only.
+The committee report command now follows the clock's referral and canonical NPC assignment list when its caller list is incomplete. Its focused regressions passed and A78 is merged. Proud is now composed with actual main; its fresh changed-file checks are next. The remaining trait queue is preserved separately.
 
-Proud reader, registry entry, debt removal, and generic vote/outreach/press-request hooks are implemented. The shared effects index is unchanged. Registry accounting reads loaded effects and preserves existing manual readers.
+## Current branch
 
-Executed proof: seed `session132-facet-proud-generated-proof`, world `world_6dafe8d50a9cdea7`, January 5, 2026, Chester, Illinois. Barbara Pollard (`person_69d606b65db43e01`) changed from present-not-voting to yea when recorded pride changed. Decision `decision_f57bd7e3752ed82f` retained its reason after save and reload. The position and review considerations are controlled test context; this is a production decision-hook proof, not an elapsed-world election result.
+Registered writer: `/workspace/session132`. Branch: `session132/t9-facet-proud`. Main composition: `4695fe7c2afc323dc4a4db0da7ae5f6141f22deb`. The only actual conflict was this add/add session marker; it preserves both the A78 landing and ordered trait receipts. Registry and source files merged without conflict. Main's #2733 repair is preserved; no duplicate clock/trait repair was written.
 
-Checks: proud proof 1/1; five producer/registry regression files 105/105; changed-source ESLint, zero-dice, test-import checks, and law-manifest checks passed. Typecheck reports four errors in untouched `src/presentation/time-command.ts`; read-only clean-main comparison reproduced those four before a later compiler heap failure. Release comparison ancestry was recovered after the shallow checkout. Final release/format checks and publication are next.
+Measured A78 [#2737 merged](https://github.com/lamontaes/Political-Game-Git/pull/2737) at `4695fe7c2afc323dc4a4db0da7ae5f6141f22deb`, from producer `be7f84291b3c9710d48e2d0405a821df4eb252e3`. Its final changed-file tests passed 13 of 13 implemented tests in two files, with one existing TODO. A full typecheck passed at the earlier `34357ffdd` composition; it is not transferred to the later A78 head or proud.
 
-Next command: `npm run release:check -- --mode pr --base origin/main --head HEAD` after committing the scoped changes and release declaration. Then push, publish the proud READY PR, and post its exact head and executed receipt on #2424. Land in order under the current merge rules, then take T9-facet-humble.
+A78's controlled caller checks used canonical introduction, referral, hearing, and report writers. The command was `npx vitest run src/presentation/legislation-session-committee-report.test.ts src/presentation/legislation-session-hearing-calendar.test.ts --reporter=verbose`. House/Senate contrasting authored vote plans, valid saved referral precedence, NPC roster preservation, save/reload, and uncompiled refusal are checked (src/presentation/legislation-session-committee-report.test.ts:116). These are controlled caller fixtures, not elapsed-world legislative outcomes.
 
-Remaining queue: humble, self-conscious, approval-seeking, smug, entitled, assertive, deferential, friendly, polite, informal, sassy, mischievous, dramatic. Check live claims and open cloud-task PRs before each. One registry writer; no changes to `src/simulation/traits/effects/index.ts`.
+A78 changed-source ESLint/Prettier, whitespace, zero-dice, and its release comparison passed. Proud's newly composed head still needs its own changed-source checks; no old CI or test result transfers. No full repository CI, runtime, art, or source acceptance is inferred. [The current CTO instruction](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6020443625) requires changed tests, ESLint, and Prettier for merging. It explicitly removes waiting for typecheck or GitHub checks.
 
-Runtime: child-process checks require the supported additional network permission in this cloud sandbox. Use `OCD_STORAGE_STATE_DIR=/workspace/.ocd-storage` for storage commands. The deliberate override records the 32 GiB cloud filesystem and preservation of both checkouts. Dependencies are installed once in the intended workspace; use `/workspace/.npm-cache`. Never create another checkout for a timeout.
+## Preserved traits
+
+Remote `session132/trait-queue-preparation` remains at `b8f13b5593b6762c1f785bf9a33df765120a0950`, code `892fcf7602f77c47031b2b6b787a85abaf122ee1`. Its marker and session-132-receipts.json preserve all 13 ordered leaf commits and measured generated people. That old preparation code passed 119 of 119 tests in 19 of 19 files; those receipts do not transfer to a new main composition. Its full node compiler had the five then-shared errors, now repaired on main.
+
+Proud #2729 remains published at `62f8ab85140d46100691626339dba874901108d9`; no accepted landing is claimed here. The preparation stack is not main-based implementation. Donor57 absorb/supersede requirements for approval-seeking #2535, smug #2539, and entitled #2526 remain separate. Mischievous's actual outreach proof passed, but its T1 low-stakes context boundary remains unmet. Preserve registry/counter/index owners; do not absorb unrelated donor changes.
+
+## Exact next commands
+
+```sh
+cd /workspace/session132
+npx vitest run src/simulation/traits/effects/facet-proud.test.ts src/simulation/personality-trait-registry.test.ts src/simulation/governing/member-vote-decision.test.ts src/simulation/legislative-member-decisions.test.ts src/simulation/campaign-life-activities.test.ts src/simulation/press-interview-producers.test.ts --reporter=verbose
+```
+
+Commit this actual marker conflict resolution, execute proud's changed tests and changed-file ESLint/Prettier at its new exact head, publish fast-forward, and post READY per the current CTO rule. Land one trait at a time; create humble from current main and cherry-pick `c55abb8331d19fbbabca8fb6c87a9e55745bb655` only after proud's actual landing. Continue ordered leaves while preserving donor and mischievous boundaries. A78 covers only AU-05(a); parts (b)/(c) remain outside this work.
+
+Runtime: reuse this sole writer and installed dependencies; `/workspace/Political-Game-Git` remains read-only. No reset, clean, stash, new clone, deletion, or force-push. Use `/workspace/.npm-cache`, `OCD_STORAGE_STATE_DIR=/workspace/.ocd-storage`, and supported additional network permission. The storage override preserves both checkouts on the 32 GiB filesystem. Exact Git blob/tree/commit hashes are published through Git data API because smart-HTTP push failed; fast-forward refs use force=false.
