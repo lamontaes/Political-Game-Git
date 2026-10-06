@@ -147,12 +147,26 @@ async function assertSavedMayorDesk(page: Page, testInfo: TestInfo) {
   await expect(briefing).toBeVisible();
   await expect(briefing).toContainText("Set the budget request");
   await expect(briefing).toContainText("first priority");
+  await briefing
+    .getByRole("heading", { name: "Set the budget request", exact: true })
+    .scrollIntoViewIfNeeded();
   await page.screenshot({
     path: testInfo.outputPath("new-game-mayor-desk.png"),
     fullPage: true,
   });
   await testInfo.attach("new-game-mayor-desk", {
     path: testInfo.outputPath("new-game-mayor-desk.png"),
+    contentType: "image/png",
+  });
+  await briefing
+    .getByRole("heading", { name: "Set the first priority", exact: true })
+    .scrollIntoViewIfNeeded();
+  await page.screenshot({
+    path: testInfo.outputPath("new-game-mayor-agenda.png"),
+    fullPage: true,
+  });
+  await testInfo.attach("new-game-mayor-agenda", {
+    path: testInfo.outputPath("new-game-mayor-agenda.png"),
     contentType: "image/png",
   });
   await briefing
@@ -164,7 +178,15 @@ async function assertSavedMayorDesk(page: Page, testInfo: TestInfo) {
   await expect(briefing.getByTestId("governing-recent")).toBeVisible();
   await saveLife(page);
   const before = await savedDeskEvidence(page);
-  expect(before.seed).toBe(seed);
+  // The canonical creator binds the caller's seed and setup into world.seed.
+  expect(JSON.parse(before.seed.slice(before.seed.indexOf("{")))).toMatchObject(
+    {
+      seed,
+      placeKey: place.key,
+      startAge: 40,
+      startingLife: "ordinary-life",
+    },
+  );
   expect(before.matters.map((m) => m.family)).toEqual(
     expect.arrayContaining(["agenda", "budget"]),
   );
