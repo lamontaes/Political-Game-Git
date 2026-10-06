@@ -33,7 +33,10 @@ import {
   membersAgainstLaw,
   officialViewReflectionEventKey,
 } from "./official-view-reads";
-import { decideChamberVote, type ChamberVoteMemberEvaluation } from "./governing/chamber-votes";
+import {
+  decideChamberVote,
+  type ChamberVoteMemberEvaluation,
+} from "./governing/chamber-votes";
 import { joinLawInterestGroup } from "./living-world/law-interest-groups";
 import { recordEventKnowledge, recordRelationshipInteraction } from "./records";
 import { money } from "./resources";
