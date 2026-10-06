@@ -37,6 +37,19 @@ export interface AfterOfficeEndorsementScene {
   readonly campaignId: EntityId;
   readonly candidatePersonId: EntityId;
   readonly candidateName: string;
+  readonly facts: readonly [
+    {
+      readonly sourceEventId: EntityId;
+      readonly occurredAt: World["currentDate"];
+      readonly jurisdictionId: EntityId | null;
+      readonly visibility: "private";
+      readonly summary: string;
+    },
+  ];
+  readonly peoplePresent: readonly {
+    readonly personId: EntityId;
+    readonly role: string;
+  }[];
   readonly lines: readonly [
     {
       readonly speakerPersonId: EntityId;
@@ -381,6 +394,19 @@ export function projectAfterOfficeEndorsementScenes(
           campaignId: campaign.id,
           candidatePersonId,
           candidateName: personName(world.people[candidatePersonId]!),
+          facts: [
+            {
+              sourceEventId: event.id,
+              occurredAt: event.occurredAt,
+              jurisdictionId: event.jurisdictionId,
+              visibility: "private" as const,
+              summary: event.summary,
+            },
+          ] as const,
+          peoplePresent: event.participants.map((participant) => ({
+            personId: participant.personId,
+            role: participant.role,
+          })),
           lines: [
             {
               speakerPersonId: candidatePersonId,

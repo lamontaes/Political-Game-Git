@@ -217,9 +217,31 @@ describe("after-office endorsement asks", () => {
       playerAsk.world,
       formerId,
     );
+    const requestEvent = playerAsk.world.history.events.find(
+      (row) => row.id === playerAsk.requestEventId,
+    )!;
     expect(scene).toMatchObject({
       candidatePersonId: candidateId,
-      lines: [{ speechAct: "request-endorsement" }],
+      facts: [
+        {
+          sourceEventId: requestEvent.id,
+          occurredAt: requestEvent.occurredAt,
+          jurisdictionId: requestEvent.jurisdictionId,
+          visibility: requestEvent.visibility,
+          summary: requestEvent.summary,
+        },
+      ],
+      peoplePresent: requestEvent.participants.map(({ personId, role }) => ({
+        personId,
+        role,
+      })),
+      lines: [
+        {
+          speakerPersonId: candidateId,
+          speechAct: "request-endorsement",
+          sourceEventId: requestEvent.id,
+        },
+      ],
       replies: [
         { optionKey: "endorse", label: "Endorse" },
         { optionKey: "decline", label: "Decline" },

@@ -11,7 +11,26 @@ vi.mock("../simulation/after-office-endorsements", () => ({
       campaignId: "campaign-1",
       candidatePersonId: "candidate-1",
       candidateName: "Jordan Lee",
-      lines: [],
+      facts: [
+        {
+          sourceEventId: "request-1",
+          occurredAt: "2032-01-01",
+          jurisdictionId: "place-1",
+          visibility: "private",
+          summary: "Saved request event summary.",
+        },
+      ],
+      peoplePresent: [
+        { personId: "candidate-1", role: "agency:asked" },
+        { personId: "former-1", role: "focus:asked-of" },
+      ],
+      lines: [
+        {
+          speakerPersonId: "candidate-1",
+          speechAct: "request-endorsement",
+          sourceEventId: "request-1",
+        },
+      ],
       replies: [
         { optionKey: "endorse", label: "Endorse" },
         {
@@ -36,7 +55,12 @@ describe("after-office endorsement controls", () => {
       }),
     );
 
-    expect(html).toContain("Jordan Lee asks you to endorse their campaign.");
+    expect(html).toContain("Saved request event summary.");
+    expect(html).toContain('data-visibility="private"');
+    expect(html).toContain('data-person-id="candidate-1"');
+    expect(html).toContain('data-role="agency:asked"');
+    expect(html).toContain('data-speaker-person-id="candidate-1"');
+    expect(html).toContain('data-speech-act="request-endorsement"');
     expect(html).toContain('data-testid="endorsement-reply-endorse"');
     expect(html).toContain('data-testid="endorsement-reply-repay-favor-1"');
     expect(html).toContain('data-testid="endorsement-reply-decline"');

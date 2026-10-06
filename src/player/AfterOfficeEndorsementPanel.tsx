@@ -32,11 +32,51 @@ export function AfterOfficeEndorsementPanel({
         </p>
       ) : null}
       {scenes.map((scene) => (
+        // Session 4's scene composer is not on main yet. Keep the player reply
+        // controls live and expose the saved packet as structured data here.
         <article
           key={scene.requestEventId}
           data-testid={`endorsement-request-${scene.requestEventId}`}
+          data-request-event-id={scene.requestEventId}
         >
-          <p>{scene.candidateName} asks you to endorse their campaign.</p>
+          <h4>Endorsement request</h4>
+          <ul aria-label="Saved scene facts">
+            {scene.facts.map((fact) => (
+              <li
+                key={fact.sourceEventId}
+                data-testid={`endorsement-fact-${fact.sourceEventId}`}
+                data-source-event-id={fact.sourceEventId}
+                data-visibility={fact.visibility}
+              >
+                {fact.summary}
+              </li>
+            ))}
+          </ul>
+          <ul aria-label="People present">
+            {scene.peoplePresent.map((person) => (
+              <li
+                key={`${person.personId}:${person.role}`}
+                data-testid={`endorsement-person-${person.personId}`}
+                data-person-id={person.personId}
+                data-role={person.role}
+              >
+                {person.personId} — {person.role}
+              </li>
+            ))}
+          </ul>
+          <ul aria-label="Recorded scene lines">
+            {scene.lines.map((line) => (
+              <li
+                key={`${line.sourceEventId}:${line.speakerPersonId}`}
+                data-testid={`endorsement-line-${line.sourceEventId}`}
+                data-speaker-person-id={line.speakerPersonId}
+                data-source-event-id={line.sourceEventId}
+                data-speech-act={line.speechAct}
+              >
+                {line.speakerPersonId}: {line.speechAct} ({line.sourceEventId})
+              </li>
+            ))}
+          </ul>
           <div className="pg-contact-actions">
             {scene.replies.map((reply) => (
               <button
