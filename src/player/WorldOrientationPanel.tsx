@@ -27,6 +27,8 @@ import type {
 } from "../presentation/regional-opening-plate";
 import type { EntityId, World } from "../simulation";
 import { GameSelect } from "./controls/GameSelect";
+import { EngineFigure } from "./EnginePerson";
+import { engineRecipeKey } from "../presentation/appearance-engine/pack";
 import { isTerritoryUsps } from "../simulation/state-reference";
 import { OpeningStatePopulation } from "./OpeningStatePopulation";
 import { OpeningStateVoting } from "./OpeningStateVoting";
@@ -386,6 +388,22 @@ export function WorldOrientationPanel({
         : [],
     [measuredPlace, world, personId, sceneRoster, chapter],
   );
+  // The White House establishing plate has its own composition, but its
+  // officeholders still use the exact Oval Office actor recipes. Rebuilding a
+  // second portrait recipe here could silently choose different saved clothes.
+  const executiveScenePeople = useMemo(
+    () =>
+      step?.key === "executive" && world && personId
+        ? openingTourStagedPeople(
+            world,
+            personId,
+            "oval-office",
+            step.people,
+            { furniture: true },
+          )
+        : [],
+    [step, world, personId],
+  );
   const sceneStaged = measuredPlace !== null && sceneRoster.length > 0;
   const layout =
     backdrop.kind === "neutral" && cast.length === 0 && !executiveWithoutPlate
@@ -500,14 +518,46 @@ export function WorldOrientationPanel({
                       }
                     >
                       {renderFigure?.(person.personId) ??
-                        (world ? (
-                          <SavedPersonFigure
-                            world={world}
-                            personId={person.personId}
-                            className="pg-opening-figure"
-                            wear="formal"
-                          />
-                        ) : null)}
+                        (() => {
+                          const actor = executiveScenePeople.find(
+                            (placed) =>
+                              placed.personId === person.personId,
+                          );
+                          if (!actor) {
+                            // Turned officeholder art is still incomplete in
+                            // the current people bank. Keep the saved person
+                            // visible until the scene can draw that pose.
+                            return world ? (
+                              <SavedPersonFigure
+                                world={world}
+                                personId={person.personId}
+                                className="pg-opening-figure"
+                                wear="formal"
+                              />
+                            ) : null;
+                          }
+                          return (
+                            <figure
+                              className="pg-opening-figure"
+                              data-person-id={person.personId}
+                              data-engine-recipe={engineRecipeKey(
+                                actor.engine,
+                              )}
+                              aria-label={`${person.name} — saved appearance`}
+                              style={{
+                                position: "relative",
+                                aspectRatio: "1 / 2",
+                                margin: 0,
+                                isolation: "isolate",
+                              }}
+                            >
+                              <EngineFigure
+                                recipe={actor.engine}
+                                testId="opening-official-figure"
+                              />
+                            </figure>
+                          );
+                        })()}
                     </article>
                   ))}
                 </div>
