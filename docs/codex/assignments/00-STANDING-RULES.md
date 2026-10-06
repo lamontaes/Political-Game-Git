@@ -1,3 +1,5 @@
+Board: issue #2424 (from Oct 6 3:15 a.m.; #2052 is full)
+
 ## Standing rule (owner, Oct 5)
 
 NEVER STOP WORK WAITING ON THE OWNER. When a decision is open, build everything that does not depend on the answer, plus the switch for it (a data row, a setting, or one function with the options stubbed), log the question in the docket, and keep building.
@@ -8,7 +10,7 @@ Others may touch this file; work anyway; whoever merges second rebases; message 
 
 ## Asking another session (Oct 6)
 
-Cloud sessions have no direct message tool. The direct channel is a board post on GitHub issue #2052 starting "@Session N:" with the exact question. The default answer is docs/codex/assignments/INTERFACES.md: read it first. Never wait for the reply; stub the seam with the shape INTERFACES.md gives and keep building.
+Cloud sessions have no direct message tool. The direct channel is a board post on GitHub issue #2424 starting "@Session N:" with the exact question. The default answer is docs/codex/assignments/INTERFACES.md: read it first. Never wait for the reply; stub the seam with the shape INTERFACES.md gives and keep building.
 
 ## KEEP BUILDING (owner, Oct 6 1:55 a.m.)
 

@@ -2,7 +2,7 @@
 
 Pool rules (same as POOL.md):
 
-- Post "Session N takes BG-nn" on #2052, then build it.
+- Post "Session N takes BG-nn" on #2424, then build it.
 - One PR per bug, with changed tests and `npm run typecheck`.
 - Proof from a new game in a random place (a screenshot or run record in the PR), never a fixed fixture.
 - Delete what you replace; no duplicate screens or systems.
@@ -10,7 +10,7 @@ Pool rules (same as POOL.md):
 - Items marked "verify" are partly fixed on main: confirm, finish, or close with proof.
 - Owner guess is the session whose area it is (INTERFACES.md sections); anyone free may take any item.
 
-Sources: Claude playtest of Oct 5, owner words Oct 1-5, the docket Known bugs list. Items already fixed on main were left out (morning note, paycheck pop-ups, journal Record and Private notes, "It is now" toasts, Creator county and population). Checked against main 40d67708d; no BLOCKED reports on #2052 since 2026-10-06T03:00:00Z.
+Sources: Claude playtest of Oct 5, owner words Oct 1-5, the docket Known bugs list. Items already fixed on main were left out (morning note, paycheck pop-ups, journal Record and Private notes, "It is now" toasts, Creator county and population). Checked against main 40d67708d; no BLOCKED reports on #2424 since 2026-10-06T03:00:00Z.
 
 | id    | bug                                                                                                                                                                                                        | where                                                                                                                            | done when                                                                                                    | owner guess  |
 | ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ------------ |

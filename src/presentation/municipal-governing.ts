@@ -9,6 +9,8 @@ import {
   appointMunicipalManager,
   attendMunicipalPublicMeeting,
   introduceMunicipalOrdinance,
+  introduceMunicipalProposal,
+  proposeMunicipalOrdinance,
   municipalActionAuthority,
   municipalGovernmentJurisdictionId,
   municipalMeetings,
@@ -150,6 +152,9 @@ export function projectMunicipalGoverning(
             : null,
         };
       },
+    ),
+    proposals: (world.history.legislativeProposals ?? []).filter(
+      (proposal) => proposal.governmentKey === government.key,
     ),
     managerAppointment: world.history.events.find(
       (event) =>
@@ -297,6 +302,35 @@ export function introduceProjectedOrdinance(
     ...(numberingSession ? { numberingSession } : {}),
     shortTitle: title,
     summary: `${noun === "act" ? "An act" : "A general ordinance"} a councilor introduced: ${title}.`,
+  });
+}
+
+/** Save a proposed draft separately; this does not introduce a measure. */
+export function proposeProjectedOrdinance(
+  world: World,
+  governmentKey: string,
+  title: string,
+  operativeText: string,
+) {
+  return proposeMunicipalOrdinance(world, {
+    governmentKey,
+    title,
+    operativeText,
+  });
+}
+
+export function introduceProjectedProposal(
+  world: World,
+  governmentKey: string,
+  proposalId: EntityId,
+  designation: string,
+  numberingSession?: LegislativeMeasureNumberingSession,
+) {
+  return introduceMunicipalProposal(world, {
+    governmentKey,
+    proposalId,
+    designation,
+    ...(numberingSession ? { numberingSession } : {}),
   });
 }
 
