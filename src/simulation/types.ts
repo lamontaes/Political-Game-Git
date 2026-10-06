@@ -935,6 +935,7 @@ export type LawExposureChannel =
   | "tax-payment"
   | "benefit"
   | "job-rule"
+  | "election-rule"
   | "business-rule"
   | "public-service"
   | "rent";
