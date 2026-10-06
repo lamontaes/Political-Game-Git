@@ -72,7 +72,10 @@ export function OpeningLifeFlow(props: OpeningLifeFlowProps) {
         addressee={currentSpeaker}
         onWorldChange={props.onWorldChange}
         onChange={(next) => {
-          if (next.addressee !== "everyone") props.onTalkTo(next.addressee);
+          if (next.addressee !== "everyone") {
+            setDismissedPresence(presence.eventId);
+            props.onTalkTo(next.addressee);
+          }
         }}
         onBack={() => setDismissedPresence(presence.eventId)}
         transitionHandlers={props.transitionHandlers}

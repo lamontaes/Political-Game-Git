@@ -1,7 +1,10 @@
 import { describePersonContext, personName } from "../simulation";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../simulation";
 import { claimStanceOf } from "../simulation/claim-stances";
-import { recordedConversationTurns } from "./conversation-continuity";
+import {
+  recordedConversationTurns,
+  recognizes,
+} from "./conversation-continuity";
 import { currentLifeTalkScene } from "./life-talk-presence";
 import type { ConversationSubjectKey } from "./run-b-conversation-progress";
 import {
@@ -48,6 +51,7 @@ export function nextPlayedSceneSpeaker(world: World, viewer: EntityId) {
         .filter(
           (person) =>
             person.role.startsWith("coordination:") &&
+            situation.currentActivity !== null &&
             source.context.socialContext,
         )
         .map((person) => person.personId),
@@ -80,6 +84,7 @@ export interface PlayedSceneExchange {
   }[];
   readonly replies: readonly PlayedSceneReply[];
   readonly art: ReturnType<typeof resolveOpeningPlaySceneContext>;
+  readonly recognition: ReturnType<typeof recognizes>;
   readonly portraits: readonly {
     readonly personId: EntityId;
     readonly visual: ReturnType<typeof resolvePersonPortrait>;
@@ -298,6 +303,7 @@ export function projectPlayedSceneExchange(
         participantPersonIds.includes(person.personId),
       ),
     },
+    recognition: recognizes(world, viewer, addresseePersonId),
     portraits: participantPersonIds
       .filter((id) => id !== viewer)
       .map((personId) => ({

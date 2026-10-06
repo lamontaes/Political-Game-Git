@@ -5,6 +5,9 @@ section: Fixed
 title: Read the current place from its recorded state
 ---
 
-The Day view uses supported current placement records for its location. The
-shared scene reader separates current activities and pending recorded requests
-from quiet arrivals, without creating attendees, conversations or knowledge.
+Shared scenes read current placement, recorded people and pending requests. They
+compose offered words through the existing English engine and retain exchanges
+through canonical conversation, claim, knowledge and contact writers. The Day
+view uses supported placement records. Historical recognition retains recorded
+family, encounter and overlapping past-work reasons without creating attendance
+or friendship. Already-recorded opening beats remain readable.
