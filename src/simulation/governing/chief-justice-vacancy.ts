@@ -1,3 +1,8 @@
+import { openJudicialAppointmentMatter } from "./state-governing";
+import {
+  judicialNominationInstruction,
+  type JudicialNominationInstruction,
+} from "./executive-judicial-appointments";
 import {
   CHIEF_JUSTICE_VACANCY_VERSION,
   CHIEF_JUSTICE_NOMINATION,
@@ -245,6 +250,7 @@ function legacyNominee(
 export function chiefJusticeNominationHandler(
   world: World,
   due: FutureDueItem,
+  instruction?: JudicialNominationInstruction,
 ): FutureTransitionHandlerResult {
   const match = /:nomination:(\d{4}-\d{2}-\d{2}):/.exec(due.stableKey);
   if (!match) return resolved(world, "No vacancy matches this nomination.");
@@ -270,12 +276,31 @@ export function chiefJusticeNominationHandler(
         .filter((row) => row.role === "focus:subject")
         .map((row) => row.personId),
     );
-  const chosen = choosePresidentialNominee(world, {
-    stableKey: due.stableKey,
-    presidentId: president.personId,
-    office: "chief",
-    exclude: rejected,
-  });
+  if (
+    world.control.kind === "person" &&
+    world.control.personId === president.personId &&
+    !instruction
+  )
+    return resolved(
+      openJudicialAppointmentMatter(world, due),
+      "The President's nomination choice is on the shared desk.",
+    );
+  const instructed = instruction
+    ? judicialNominationInstruction(world, due, instruction)
+    : null;
+  if (instruction && !instructed)
+    return resolved(
+      world,
+      "No recorded player nomination authorizes this appointment.",
+    );
+  const chosen =
+    instructed?.candidate ??
+    choosePresidentialNominee(world, {
+      stableKey: due.stableKey,
+      presidentId: president.personId,
+      office: "chief",
+      exclude: rejected,
+    });
   const legacy =
     chosen || world.judiciary
       ? null
@@ -317,6 +342,7 @@ export function chiefJusticeNominationHandler(
       `vacancy:${vacancyDate}`,
       `provenance:${CHIEF_JUSTICE_VACANCY_PROFILE.id}`,
       ...(chosen ? [`nominee-bench:${chosen.bench}`] : []),
+      ...(instructed ? instructed.sourceTags : []),
     ],
     summary: `President ${presidentName} nominated ${nomineeName} to be Chief Justice of the United States. The Senate must confirm the nomination.`,
     context: CONTEXT,

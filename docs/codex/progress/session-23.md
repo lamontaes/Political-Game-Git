@@ -60,10 +60,21 @@ natural election, browser or played hearing evidence. Configured typecheck
 still must be rerun for the finished final composition, and final release
 checks remain pending.
 
-Next: publish the exact checked caller/API/scenario packet to Session 21;
-continue the controlled President's judicial choice seam before the existing
-SCOTUS/chief-justice chooser and reuse their nomination/confirmation/seating
-tails. Still required for Part 3: other appointment domains, cabinet depth,
+The exact confirmation caller/API/controlled IDs are published in board
+comment 6015051279. The controlled President's judicial choice now opens the
+shared appointment matter from the actual scheduled vacancy, uses the existing
+Court reasons and canonical player trace, and admits the actual governing
+decision to the existing nomination handler. It preserves the confirmation
+interval and seating writers. Nine focused tests pass; explicit changed
+source/test roots, changed lint/format/zero-dice pass. Portable source hashes
+and retained failed fixture receipts are in `judicial-checks.json`. The unchanged Court integration file has two passes and one failure: no
+nomination record at the associate death-route assertion after ordinary time.
+Clean main-baseline reproduction and the actual chief-justice-act regression
+are pending. No final Part 3 claim.
+
+Next: compose Session 21's exact 83bb21714d137f7ebe94201878c80568843af9a8
+callback and retain its actual member evaluations without re-evaluation. Continue
+other actual appointment callers and the additive scene adapter. Still required for Part 3: other appointment domains, cabinet depth,
 additive scene packet, new-game desk screenshot and saved follow-through,
 final checks and one ready PR. Session 13's citizenship reader remains an open
 dependency; no transition may be written to qualify an appointment.

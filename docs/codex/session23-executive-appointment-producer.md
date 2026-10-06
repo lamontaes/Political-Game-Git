@@ -165,3 +165,37 @@ Session 21 received the bounded retention question in board comment 6014999878.
 This caller does not re-evaluate or forge a durable member vote. Full saved
 consideration/source snapshots remain a limitation until the canonical vote
 producer supplies that packet.
+
+## Player President chooses the judicial nominee
+
+`executive-judicial-appointments.ts` reads a scheduled, recorded Court vacancy,
+the current President, the still-vacant seat, rejected nominees and the existing
+sitting-judge pool. A missing seat holder does not establish a vacancy. The
+controlled President's due handler opens the same appointment matter instead
+of automatically choosing a judge. The desk's eight-name limit orders actual
+candidates by the existing Court reasons; it generates no nominees.
+
+`recordPlayerJudicialNominee(world, matterEventId, personId)` uses the existing
+Court decision packet with the actual alternatives and reasons, recorded
+player constraints, no random choice, and the canonical durable trace writer.
+The trace precedes the governing decision. The existing chief or associate
+nomination handler admits an optional `JudicialNominationInstruction` only
+when the actual matter, governing decision, current vacancy, eligible judge
+and earlier trace agree. It then uses its existing nomination event and
+confirmation schedule. Nomination retains `appointment-matter`,
+`appointment-decision`, `appointment-vacancy` and `source-event` IDs. No Senate
+confirmation, judicial seating, nominee generation, time interval or knowledge
+writer is duplicated. The unselected NPC Court chooser keeps its prior packet.
+
+Controlled chief and associate fixtures save/reload the open matter, choose an
+actual seated appeals judge, check trace → governing decision → nomination,
+check the one confirmation due item, and keep the nominee on the lower bench.
+An unoffered person is refused, with no changed world. These are edge fixtures,
+not an ordinary new-game or played-scene receipt. The nine focused tests and
+explicit changed source/test type check pass; portable hashes and retained
+failed fixture receipts are in
+`session23-appointment-producer-proof/judicial-checks.json`. The unchanged Court integration file finished with two passes and one failed
+associate death-route assertion: no nomination record was present after
+`passOrdinaryDays`. A clean main-baseline reproduction is pending. The mistaken
+`chief-justice-vacancy.test.ts` filename matched no file; the actual separate
+chief regression is `chief-justice-act.test.ts` and has not run yet.

@@ -21,7 +21,18 @@ export {
   SUPREME_COURT_APPOINTMENT_PROFILE,
 } from "./supreme-court-appointment-profile";
 import { addDays, makeIsoDate } from "../dates";
-import { evaluateDecision, isSelectedDecision } from "../decisions";
+import {
+  considerationScore,
+  evaluateDecision,
+  isSelectedDecision,
+  recordDurableDecisionTrace,
+} from "../decisions";
+import { openJudicialAppointmentMatter } from "./state-governing";
+import {
+  judicialAppointmentContext,
+  judicialNominationInstruction,
+  type JudicialNominationInstruction,
+} from "./executive-judicial-appointments";
 import { currentFederalTenure } from "../federal-tenures";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { stateJurisdictionForKey } from "../life-places";
@@ -43,6 +54,7 @@ import {
 } from "./officeholder-principles";
 import type {
   DecisionConsideration,
+  DecisionContext,
   EntityId,
   FutureDueItem,
   FutureTransitionHandlerResult,
@@ -277,22 +289,22 @@ function candidateReasons(
   return reasons;
 }
 
-/** The sitting President weighs every candidate and names one. */
-export function choosePresidentialNominee(
+export interface PresidentialNomineeInput {
+  readonly stableKey: string;
+  readonly presidentId: EntityId;
+  readonly office: "chief" | "associate";
+  readonly exclude?: readonly EntityId[];
+}
+
+function presidentialNomineeContext(
   world: World,
-  input: {
-    readonly stableKey: string;
-    readonly presidentId: EntityId;
-    readonly office: "chief" | "associate";
-    readonly exclude?: readonly EntityId[];
-  },
-): SupremeCourtCandidate | null {
+  input: PresidentialNomineeInput,
+): DecisionContext {
   const pool = supremeCourtNomineePool(world, input.office, [
     input.presidentId,
     ...(input.exclude ?? []),
   ]);
-  if (pool.length === 0) return null;
-  const evaluation = evaluateDecision(world, {
+  return {
     stableKey: `${input.stableKey}:president-choice`,
     decisionType: "governing.supreme-court-nomination",
     actorPersonId: input.presidentId,
@@ -321,10 +333,133 @@ export function choosePresidentialNominee(
     perceptionIds: [],
     randomness: "close-choices",
     retention: "ephemeral",
-  });
+  };
+}
+
+/** A bounded desk list ordered by the existing Court reasons. No new judges. */
+export function presidentialNomineeShortList(
+  world: World,
+  input: PresidentialNomineeInput,
+): readonly SupremeCourtCandidate[] {
+  const score = (candidate: SupremeCourtCandidate) =>
+    candidateReasons(world, candidate, input.presidentId).reduce(
+      (total, reason) => total + considerationScore(reason),
+      0,
+    );
+  return [
+    ...supremeCourtNomineePool(world, input.office, [
+      input.presidentId,
+      ...(input.exclude ?? []),
+    ]),
+  ]
+    .sort(
+      (left, right) =>
+        score(right) - score(left) ||
+        left.personId.localeCompare(right.personId),
+    )
+    .slice(0, 8);
+}
+
+/** NPC choice only. The controlled President chooses through the shared desk. */
+export function choosePresidentialNominee(
+  world: World,
+  input: PresidentialNomineeInput,
+): SupremeCourtCandidate | null {
+  if (controlledPersonId(world) === input.presidentId) return null;
+  const pool = supremeCourtNomineePool(world, input.office, [
+    input.presidentId,
+    ...(input.exclude ?? []),
+  ]);
+  if (!pool.length) return null;
+  const evaluation = evaluateDecision(
+    world,
+    presidentialNomineeContext(world, input),
+  );
   if (!isSelectedDecision(evaluation)) return null;
-  const chosen = evaluation.selectedOptionKey;
-  return pool.find((candidate) => candidate.personId === chosen) ?? null;
+  return (
+    pool.find(
+      (candidate) => candidate.personId === evaluation.selectedOptionKey,
+    ) ?? null
+  );
+}
+
+/** Keep the existing Court reasons and actual alternatives, with a recorded
+ * player instruction instead of selecting on the President's behalf. */
+export function recordPlayerJudicialNominee(
+  world: World,
+  matterEventId: EntityId,
+  personId: EntityId,
+): World | null {
+  const matter = world.history.events.find(
+    (event) => event.id === matterEventId,
+  );
+  const dueId = matter?.tags
+    .find((tag) => tag.startsWith("appointment-due:"))
+    ?.slice("appointment-due:".length);
+  const due = world.history.futureDueItems.find((row) => row.id === dueId);
+  const context = due ? judicialAppointmentContext(world, due) : null;
+  if (
+    !matter ||
+    matter.type !== "governing.matter-opened" ||
+    matter.occurredAt > world.currentDate ||
+    matter.recordedAt > world.currentDate ||
+    !context ||
+    controlledPersonId(world) !== context.presidentId ||
+    !matter.tags.includes("appointment-domain:judicial") ||
+    !matter.tags.includes("office:us-president") ||
+    !matter.tags.includes(`source-event:${context.vacancyEventId}`) ||
+    !matter.participants.some(
+      (row) =>
+        row.role === "agency:officeholder" &&
+        row.personId === context.presidentId,
+    ) ||
+    !matter.participants.some(
+      (row) => row.role === "focus:candidate" && row.personId === personId,
+    ) ||
+    !context.candidates.some((row) => row.personId === personId) ||
+    world.history.events.some(
+      (event) =>
+        event.type === "governing.matter-decided" &&
+        event.tags.includes(`matter:${matterEventId}`),
+    )
+  )
+    return null;
+  const packet = presidentialNomineeContext(world, {
+    stableKey: due!.stableKey,
+    presidentId: context.presidentId,
+    office: context.office,
+    exclude: context.rejected,
+  });
+  const prior = world.history.decisionTraces.find(
+    (trace) => trace.stableKey === `${packet.stableKey}:trace`,
+  );
+  if (prior)
+    return prior.context.actorPersonId === context.presidentId &&
+      prior.context.subject.key === due!.stableKey &&
+      prior.selectedOptionKey === personId
+      ? world
+      : null;
+  const evaluation = evaluateDecision(world, {
+    ...packet,
+    randomness: "none",
+    retention: "durable",
+    constraints: packet.options
+      .filter((option) => option.key !== personId)
+      .map((option) => ({
+        stableKey: `${packet.stableKey}:player-instruction:${option.key}`,
+        optionKey: option.key,
+        kind: "player:recorded-choice",
+        explanation:
+          "The controlled President explicitly chose another nominee.",
+        sourceRefs: [
+          { kind: "historical-event" as const, eventId: matterEventId },
+        ],
+      })),
+  });
+  return isSelectedDecision(evaluation) &&
+    evaluation.selectedOptionKey === personId
+    ? recordDurableDecisionTrace(world, evaluation)
+    : null;
 }
 
 function benchOf(world: World, personId: EntityId): BenchService {
@@ -797,6 +932,7 @@ function rejectedNominees(world: World, tag: string): EntityId[] {
 export function associateJusticeNominationHandler(
   world: World,
   due: FutureDueItem,
+  instruction?: JudicialNominationInstruction,
 ): FutureTransitionHandlerResult {
   const match = /:associate-nomination:(\d+):(\d{4}-\d{2}-\d{2}):/.exec(
     due.stableKey,
@@ -817,12 +953,27 @@ export function associateJusticeNominationHandler(
       "There is no sitting President to nominate a justice.",
     );
   const vacancyTag = `vacancy:${ordinal}:${vacancyDate}`;
-  const nominee = choosePresidentialNominee(world, {
-    stableKey: due.stableKey,
-    presidentId: president.personId,
-    office: "associate",
-    exclude: rejectedNominees(world, vacancyTag),
-  });
+  if (controlledPersonId(world) === president.personId && !instruction)
+    return resolved(
+      openJudicialAppointmentMatter(world, due),
+      "The President's nomination choice is on the shared desk.",
+    );
+  const instructed = instruction
+    ? judicialNominationInstruction(world, due, instruction)
+    : null;
+  if (instruction && !instructed)
+    return resolved(
+      world,
+      "No recorded player nomination authorizes this appointment.",
+    );
+  const nominee =
+    instructed?.candidate ??
+    choosePresidentialNominee(world, {
+      stableKey: due.stableKey,
+      presidentId: president.personId,
+      office: "associate",
+      exclude: rejectedNominees(world, vacancyTag),
+    });
   if (!nominee)
     return {
       world,
@@ -859,6 +1010,7 @@ export function associateJusticeNominationHandler(
       `judicial-seat:${seatId}`,
       vacancyTag,
       `nominee-bench:${nominee.bench}`,
+      ...(instructed ? instructed.sourceTags : []),
     ],
     summary: `President ${personName(world.people[president.personId]!)} nominated ${nomineeName} to the Supreme Court. The Senate must confirm the nomination.`,
     context: CONTEXT,

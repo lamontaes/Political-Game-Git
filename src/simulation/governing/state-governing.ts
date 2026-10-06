@@ -1,3 +1,10 @@
+import { judicialAppointmentContext } from "./executive-judicial-appointments";
+import {
+  associateJusticeNominationHandler,
+  recordPlayerJudicialNominee,
+  presidentialNomineeShortList,
+} from "./supreme-court-appointments";
+import { chiefJusticeNominationHandler } from "./chief-justice-vacancy";
 import { inventedPersonBirthDate } from "../invented-person-age";
 import { ensureExecutiveAppointmentOpening } from "./executive-appointment-opening";
 import { ensurePeopleTraits } from "../people-traits";
@@ -731,6 +738,35 @@ function optionsFor(
 ): readonly GoverningMatterOption[] {
   switch (family) {
     case "appointment": {
+      if (event.tags.includes("appointment-domain:judicial")) {
+        const dueId = tagValue(event, "appointment-due:");
+        const due = world.history.futureDueItems.find(
+          (row) => row.id === dueId,
+        );
+        const context = due ? judicialAppointmentContext(world, due) : null;
+        if (
+          !context ||
+          !event.tags.includes(`source-event:${context.vacancyEventId}`)
+        )
+          return [];
+        return event.participants
+          .filter(
+            (row) =>
+              row.role === "focus:candidate" &&
+              context.candidates.some(
+                (candidate) => candidate.personId === row.personId,
+              ),
+          )
+          .map(({ personId }) => ({
+            key: `person:${personId}`,
+            label: `Nominate ${personName(world.people[personId]!)}`,
+            effect: `Send the nomination for ${context.title} to the Senate.`,
+            tradeoff:
+              "The Senate must confirm before the nominee takes the seat.",
+            personId,
+            assessment: null,
+          }));
+      }
       const postKey = tagValue(event, "appointment-post:");
       const post = postKey ? executiveAppointmentPost(postKey) : null;
       if (!post || !event.jurisdictionId) return [];
@@ -1099,7 +1135,9 @@ function matterFromEvent(
     title: text.title(
       family === "appointment"
         ? (executiveAppointmentPost(tagValue(event, "appointment-post:") ?? "")
-            ?.title ?? "the vacant post")
+            ?.title ??
+            tagValue(event, "appointment-title:") ??
+            "the vacant post")
         : family === "clemency"
           ? petitionerLabel(world, event)
           : (measureTitle(world, measureId) ?? subjectLabel(subjectKey)),
@@ -1656,6 +1694,39 @@ export function openExecutiveAppointmentMatter(
   });
 }
 
+/** A scheduled judicial vacancy uses the existing appointment family. */
+export function openJudicialAppointmentMatter(
+  world: World,
+  due: FutureDueItem,
+): World {
+  const context = judicialAppointmentContext(world, due);
+  const office = presidentGoverningOffice(world);
+  if (
+    !context ||
+    !office ||
+    office.holderPersonId !== context.presidentId ||
+    !office.controlledByPlayer
+  )
+    return world;
+  return openMatter(world, office, {
+    family: "appointment",
+    instance: `judicial-due:${due.id}`,
+    titleSubject: context.title,
+    candidatePersonIds: presidentialNomineeShortList(world, {
+      stableKey: due.stableKey,
+      presidentId: context.presidentId,
+      office: context.office,
+      exclude: context.rejected,
+    }).map((row) => row.personId),
+    sourceEventId: context.vacancyEventId,
+    extraTags: [
+      "appointment-domain:judicial",
+      `appointment-due:${due.id}`,
+      `appointment-title:${context.title}`,
+    ],
+  });
+}
+
 function openMatter(
   world: World,
   office: GoverningOffice,
@@ -2094,7 +2165,7 @@ function decisionSummary(
   switch (matter.family) {
     case "appointment":
       return {
-        summary: `${who}, ${office.title}, nominated ${option.personId ? personName(world.people[option.personId]!) : "a candidate"} for ${executiveAppointmentPost(tagValue(matter.openedEvent, "appointment-post:") ?? "")?.title ?? "the vacant post"}.`,
+        summary: `${who}, ${office.title}, nominated ${option.personId ? personName(world.people[option.personId]!) : "a candidate"} for ${executiveAppointmentPost(tagValue(matter.openedEvent, "appointment-post:") ?? "")?.title ?? tagValue(matter.openedEvent, "appointment-title:") ?? "the vacant post"}.`,
         visibility: "public",
       };
     case "chief-of-staff": {
@@ -2200,6 +2271,27 @@ function applyConsequence(
   }
   switch (matter.family) {
     case "appointment":
+      if (
+        matter.openedEvent.tags.includes("appointment-domain:judicial") &&
+        option.personId
+      ) {
+        const dueId = tagValue(matter.openedEvent, "appointment-due:");
+        const due = world.history.futureDueItems.find(
+          (row) => row.id === dueId,
+        );
+        const context = due ? judicialAppointmentContext(world, due) : null;
+        if (!due || !context) return world;
+        const instruction = {
+          matterEventId: matter.id,
+          governingDecisionEventId: decisionEventId,
+          nomineePersonId: option.personId,
+        };
+        return (
+          context.office === "chief"
+            ? chiefJusticeNominationHandler(world, due, instruction)
+            : associateJusticeNominationHandler(world, due, instruction)
+        ).world;
+      }
       return option.personId
         ? recordExecutiveAppointmentNomination(world, {
             matterEventId: matter.id,
@@ -2570,7 +2662,22 @@ export function decideGoverningMatter(
   if (!option)
     return { ok: false, world, reason: "That choice is not available." };
   let next = world;
-  if (matter.family === "appointment") {
+  if (
+    matter.family === "appointment" &&
+    matter.openedEvent.tags.includes("appointment-domain:judicial")
+  ) {
+    const chosen = option.personId
+      ? recordPlayerJudicialNominee(world, matter.id, option.personId)
+      : null;
+    if (!chosen)
+      return {
+        ok: false,
+        world,
+        reason:
+          "This judge or the President's vacancy authority is no longer current.",
+      };
+    next = chosen;
+  } else if (matter.family === "appointment") {
     const vacancyId = tagValue(
       matter.openedEvent,
       "appointment-vacancy:",
