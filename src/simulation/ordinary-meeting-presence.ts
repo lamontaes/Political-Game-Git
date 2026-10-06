@@ -12,11 +12,13 @@ import { personName } from "./people";
 import { recordEventKnowledge } from "./records";
 import { canPersonAccess, scheduledActivityState } from "./time-work";
 import type {
+  DecisionConsideration,
   EntityId,
   HistoricalEvent,
   ScheduledActivityRecord,
   World,
 } from "./types";
+import { readRelationshipStanding } from "./relationship-standing";
 import { recordWorldEvent } from "./world";
 import {
   localCouncilChair,
@@ -30,8 +32,6 @@ export const ORDINARY_MEETING_PRESENCE = "ordinary-meeting-presence-v1";
 
 export type OrdinaryMeetingSpeechChoice = "support" | "oppose" | "ask";
 
-// PLACEHOLDER(overnight): COPY-PENDING exact public-comment wording awaits
-// the English engine. These are choices shown before the writer records one.
 export const ORDINARY_MEETING_SPEECH_CHOICES: readonly {
   readonly key: OrdinaryMeetingSpeechChoice;
   readonly words: string;
@@ -59,6 +59,7 @@ export function speakAtOrdinaryMeeting(
   personId: EntityId,
   activityId: EntityId,
   choice: OrdinaryMeetingSpeechChoice,
+  agendaMeasureId?: EntityId,
 ): World {
   const offered = ordinaryMeetingEntry(world, personId, activityId);
   const words = ORDINARY_MEETING_SPEECH_CHOICES.find(
@@ -115,6 +116,7 @@ export function speakAtOrdinaryMeeting(
       `activity:${activityId}`,
       `entry:${entry.id}`,
       `position:${choice}`,
+      ...(agendaMeasureId ? [`measure:${agendaMeasureId}`] : []),
     ],
     summary: `You told the meeting: “${words}”`,
     context: {
@@ -141,6 +143,59 @@ export function speakAtOrdinaryMeeting(
     });
   }
   return heard;
+}
+
+/** Supply a member's source reasons for an agenda item. Only explicit links
+ * count: a comment at a general meeting cannot be guessed to concern a bill. */
+export function ordinaryMeetingCommentConsiderationsForMember(
+  world: World,
+  memberId: EntityId,
+  measureId: EntityId,
+): readonly DecisionConsideration[] {
+  return world.history.events.flatMap((event) => {
+    if (
+      event.type !== "civic.meeting-public-comment" ||
+      !event.tags.includes(`measure:${measureId}`)
+    )
+      return [];
+    const speaker = event.participants.find((p) => p.role === "agency:actor");
+    if (
+      !speaker ||
+      speaker.personId === memberId ||
+      !event.participants.some(
+        (p) => p.personId === memberId && p.role === "observation:witness",
+      )
+    )
+      return [];
+    const position = event.tags
+      .find((tag) => tag.startsWith("position:"))
+      ?.slice(9);
+    if (position !== "support" && position !== "oppose") return [];
+    const standing = readRelationshipStanding(
+      world,
+      memberId,
+      speaker.personId,
+    );
+    const respect = standing.readings.respect.band;
+    const importance =
+      respect === "strong"
+        ? "strong"
+        : respect === "marked"
+          ? "moderate"
+          : "slight";
+    return [
+      {
+        stableKey: `ordinary-meeting-comment:${event.id}:${memberId}`,
+        optionKey: "pass",
+        sourceType: "social:public-meeting-comment",
+        direction: position === "support" ? "supports" : "opposes",
+        importance,
+        confidence: "high",
+        explanation: `${personName(world.people[speaker.personId]!)} ${position === "support" ? "supported" : "opposed"} this measure at a public meeting; you heard the comment.`,
+        sourceRefs: [{ kind: "historical-event", eventId: event.id }],
+      } satisfies DecisionConsideration,
+    ];
+  });
 }
 
 /** Prospective attendance hook only. Requiring the pre-action World prevents
