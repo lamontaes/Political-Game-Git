@@ -1,0 +1,5 @@
+
+> political-life-rpg@0.4.0 release:check
+> node --import tsx scripts/release/index.ts check --base codex/session13-election-night-reporting --head HEAD --mode pr
+
+release:check — version 0.4.0, revision unknown, 1676 pending declaration(s), declaration range codex/session13-election-night-reporting..HEAD (pr). OK.
