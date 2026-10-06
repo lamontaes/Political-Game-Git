@@ -106,6 +106,12 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
     reader:
       "career.consider-another-term — src/simulation/traits/effects/self-confidence.ts",
   },
+  {
+    trait: "personality-v1:facet-independent",
+    kind: "decision",
+    reader:
+      "contact.answer — src/simulation/traits/effects/facet-independent.ts",
+  },
 ];
 
 /**
@@ -139,7 +145,6 @@ export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:facet-deferential",
   "personality-v1:facet-shy",
   "personality-v1:facet-slow-to-warm-up",
-  "personality-v1:facet-independent",
   "personality-v1:facet-friendly",
   "personality-v1:facet-charming",
   "personality-v1:facet-blunt",
