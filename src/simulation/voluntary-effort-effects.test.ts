@@ -31,7 +31,8 @@ describe("voluntary-effort effect rows", () => {
         option: "step-down",
         trait: "personality-v1:voluntary-effort",
         pole: "low",
-        explanation: "They prefer a less demanding path when the stakes allow it.",
+        explanation:
+          "They prefer a less demanding path when the stakes allow it.",
       },
     ]);
   });
