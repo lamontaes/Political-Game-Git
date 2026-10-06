@@ -73,6 +73,7 @@ describe("NEXT24 combined private-citizen routine route", () => {
     const paid = advanceWorld(worked.world, 1, lifePaths2Handlers());
     expect(recordedPayStubs(paid, personId)).toHaveLength(1);
     const notice = describeRoutineOutcome(worked.world, paid, personId);
+    expect(notice).toBe("");
     expect(notice).not.toContain("Paycheck:");
     expect(notice).not.toContain("gross received");
     expect(notice).not.toContain("net received");
