@@ -1,0 +1,325 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      @font-face {
+        font-family: F;
+        src: url(fira-sans-400.ttf);
+      }
+      @font-face {
+        font-family: C;
+        src: url(cinzel-800.ttf);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: url(room-art.jpg) center/cover;
+        color: #f2ede4;
+        font: 15px/1.4 F;
+      }
+      .surface {
+        position: absolute;
+        left: 21px;
+        bottom: 20px;
+        width: 560px;
+        height: 112px;
+        background: rgba(24, 24, 25, 0.5);
+        border: 1px solid #86754e;
+        box-shadow: inset 0 0 0 1px #151616;
+        backdrop-filter: blur(3px);
+        border-radius: 5px;
+      }
+      .surface:hover,
+      .open .surface {
+        background: rgba(24, 24, 25, 0.85);
+      }
+      .bust {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 135px;
+        height: 180px;
+        overflow: hidden;
+        mask-image: linear-gradient(#000 65%, transparent 100%);
+      }
+      .bust img {
+        position: absolute;
+        width: 240px;
+        left: -53px;
+        top: -8px;
+      }
+      .open .bust {
+        width: 160px;
+        height: 215px;
+      }
+      .open .bust img {
+        width: 280px;
+        left: -60px;
+      }
+      .clock {
+        position: absolute;
+        left: 155px;
+        top: 12px;
+      }
+      .clock strong {
+        font: 18px C;
+        display: block;
+      }
+      .time-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      .ui-action {
+        font: 15px F;
+        color: #efe5d2;
+        background: rgba(44, 43, 39, 0.8);
+        border: 1px solid #9d8553;
+        padding: 7px 12px;
+        position: relative;
+      }
+      .ui-action:active:before {
+        content: "›";
+        position: absolute;
+        left: 2px;
+      }
+      .sheet-frame {
+        position: absolute;
+        background: rgba(24, 24, 25, 0.83);
+        border: 2px solid #c4a55e;
+        border-radius: 9px;
+        box-shadow:
+          0 0 0 1px #171717,
+          inset 0 0 0 1px #d3ae6380;
+        backdrop-filter: blur(2px);
+        padding: 26px 30px 20px;
+      }
+      .corner {
+        position: absolute;
+        width: 32px;
+        height: 32px;
+        background-image: url(sheet.png);
+        background-size: 973.2px 581.4px;
+      }
+      .tl {
+        top: 0;
+        left: 0;
+        background-position: -33px -29.4px;
+      }
+      .tr {
+        top: 0;
+        right: 0;
+        background-position: -906px -29.4px;
+      }
+      .bl {
+        bottom: 0;
+        left: 0;
+        background-position: -33px -513px;
+      }
+      .br {
+        bottom: 0;
+        right: 0;
+        background-position: -906px -513px;
+      }
+      .a-card {
+        left: 168px;
+        bottom: 150px;
+        width: 510px;
+      }
+      .open .a-card {
+        left: 850px;
+        bottom: 150px;
+        width: 510px;
+      }
+      h2 {
+        font: 24px/1.2 C;
+        color: #e7d3a7;
+        margin: 0 0 12px;
+      }
+      .facts {
+        margin: 0;
+        display: grid;
+        grid-template-columns: 75px 1fr;
+        gap: 6px 10px;
+      }
+      .facts dt {
+        color: #d6bd84;
+      }
+      .facts dd {
+        margin: 0;
+      }
+      .entry {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        width: 160px;
+        height: 26px;
+        border: 3px solid transparent;
+        border-image: url(iron-frame.svg) 3 stretch;
+        background: rgba(30, 32, 33, 0.82);
+        color: #efe9df;
+        font: 14px F;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      .entry i {
+        position: absolute;
+        top: 0;
+        height: 20px;
+        width: 50px;
+        background: url(sheet.png) -147px -248px/1622px 969px;
+        opacity: 0.5;
+      }
+      .entry i:last-of-type {
+        width: 4px;
+      }
+      .entry span {
+        position: relative;
+      }
+      .entry:before,
+      .entry:after {
+        content: none !important;
+      }
+      .rest .fan {
+        display: none;
+      }
+      .note {
+        position: absolute;
+        right: 24px;
+        top: 24px;
+        font: 14px F;
+        background: #171919bc;
+        padding: 9px 13px;
+      }
+    </style>
+    <link rel="stylesheet" href="card-content.css" />
+  </head>
+  <body>
+    <main id="direction-a" class="open">
+      <div class="surface">
+        <div class="bust">
+          <img src="person.png" alt="Brianna Kennedy, recorded game recipe" />
+        </div>
+        <div class="clock"><strong>9:10 AM</strong>Monday, January 5, 2026</div>
+      </div>
+      <section class="sheet-frame a-card">
+        <i class="corner tl"></i><i class="corner tr"></i
+        ><i class="corner bl"></i><i class="corner br"></i>
+        <h2></h2>
+        <dl class="facts"></dl>
+        <div class="time-actions">
+          <button class="ui-action">Day</button
+          ><button class="ui-action">Week</button
+          ><button class="ui-action">Until needed</button>
+        </div>
+      </section>
+      <nav class="fan">
+        <button class="entry" data-angle="0" style="left: 733px; top: 998px">
+          <i style="left: 0"></i><i style="left: 50px"></i
+          ><i style="left: 100px"></i><i style="left: 150px"></i
+          ><span>Calendar</span></button
+        ><button
+          class="entry"
+          data-angle="3"
+          style="left: 732.109197590473px; top: 963.9816284420865px"
+        >
+          <i style="left: 0"></i><i style="left: 50px"></i
+          ><i style="left: 100px"></i><i style="left: 150px"></i
+          ><span>People</span></button
+        ><button
+          class="entry"
+          data-angle="6"
+          style="left: 729.4392319893776px; top: 930.0564988760252px"
+        >
+          <i style="left: 0"></i><i style="left: 50px"></i
+          ><i style="left: 100px"></i><i style="left: 150px"></i
+          ><span>Politics</span></button
+        ><button
+          class="entry"
+          data-angle="9"
+          style="left: 724.9974213868395px; top: 896.31759772385px"
+        >
+          <i style="left: 0"></i><i style="left: 50px"></i
+          ><i style="left: 100px"></i><i style="left: 150px"></i
+          ><span>News</span></button
+        ><button
+          class="entry"
+          data-angle="12"
+          style="left: 718.7959404769737px; top: 862.8574009684564px"
+        >
+          <i style="left: 0"></i><i style="left: 50px"></i
+          ><i style="left: 100px"></i><i style="left: 150px"></i
+          ><span>Journal</span></button
+        ><button
+          class="entry"
+          data-angle="15"
+          style="left: 710.8517870878944px; top: 829.7676206833615px"
+        >
+          <i style="left: 0"></i><i style="left: 50px"></i
+          ><i style="left: 100px"></i><i style="left: 150px"></i
+          ><span>Who you are</span></button
+        ><button
+          class="entry"
+          data-angle="18"
+          style="left: 701.1867355918498px; top: 797.1389536562842px"
+        >
+          <i style="left: 0"></i><i style="left: 50px"></i
+          ><i style="left: 100px"></i><i style="left: 150px"></i
+          ><span>Money & property</span></button
+        ><button
+          class="entry"
+          data-angle="21"
+          style="left: 689.8272772231811px; top: 765.0608327955548px"
+        >
+          <i style="left: 0"></i><i style="left: 50px"></i
+          ><i style="left: 100px"></i><i style="left: 150px"></i
+          ><span>Jobs & study</span></button
+        ><button
+          class="entry"
+          data-angle="24"
+          style="left: 676.8045474676906px; top: 733.6211820007298px"
+        >
+          <i style="left: 0"></i><i style="left: 50px"></i
+          ><i style="left: 100px"></i><i style="left: 150px"></i
+          ><span>Travel</span></button
+        ><button
+          class="entry"
+          data-angle="27"
+          style="left: 662.1542407224391px; top: 702.9061751692946px"
+        >
+          <i style="left: 0"></i><i style="left: 50px"></i
+          ><i style="left: 100px"></i><i style="left: 150px"></i
+          ><span>Guide</span></button
+        ><button
+          class="entry"
+          data-angle="30"
+          style="left: 645.9165124598852px; top: 673px"
+        >
+          <i style="left: 0"></i><i style="left: 50px"></i
+          ><i style="left: 100px"></i><i style="left: 150px"></i
+          ><span>Options</span>
+        </button>
+      </nav>
+    </main>
+    <aside class="note">
+      Session 14 + 3 · OPEN review candidate · real game art / recorded handoff
+      · not implemented
+    </aside>
+    <script type="module">
+      import { reviseACard } from "./card-content.js";
+      const recorded = await fetch("recorded-content.json").then((r) =>
+        r.json(),
+      );
+      const card = document.querySelector(".a-card");
+      const actions = reviseACard(card, recorded);
+      document.querySelector(".clock").append(actions);
+      await document.fonts.ready;
+      window.ready = true;
+    </script>
+  </body>
+</html>
