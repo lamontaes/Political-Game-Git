@@ -38,7 +38,7 @@ import {
   priorVictimizations,
   reportConsiderations,
   reportLean,
-  UNRESEARCHED_REPORTING,
+  REPORTING_WEIGHTS,
   victimReports,
 } from "./reporting";
 
@@ -169,9 +169,12 @@ function assaultOn(
 describe(`victims decide whether to report a crime (place ${PLACE}, place seed ${PLACE_SEED})`, () => {
   const first = open("a131-first");
 
-  it("the weights are marked as unresearched placeholders", () => {
-    expect(UNRESEARCHED_REPORTING.provenance).toBe("unresearched-blanket-rule");
-    expect(UNRESEARCHED_REPORTING.researchQuestions).toContain(
+  it("the weights carry an estimate flag and the source of the average", () => {
+    expect(REPORTING_WEIGHTS.provenance).toBe("estimated-from-average");
+    expect(REPORTING_WEIGHTS.estimated).toBe(true);
+    expect(REPORTING_WEIGHTS.estimatedFrom).toContain("NCJ 309335");
+    expect(REPORTING_WEIGHTS.provenance).not.toMatch(/unresearched|blanket/);
+    expect(REPORTING_WEIGHTS.researchQuestions).toContain(
       "why-victims-report-to-police",
     );
   });
