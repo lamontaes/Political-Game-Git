@@ -149,9 +149,11 @@ async function checkForUpdates() {
       loadUpdater: async () => {
         const { default: updaterModule } = await import("electron-updater");
         const { autoUpdater } = updaterModule;
-        autoUpdater.autoDownload = false;
+        autoUpdater.autoDownload = updateConfig.channel === "stable";
         autoUpdater.autoInstallOnAppQuit = false;
         autoUpdater.channel = updateConfig.channel ?? "internal";
+        if (updateConfig.channel === "stable")
+          autoUpdater.verifyUpdateCodeSignature = true;
         autoUpdater.setFeedURL({
           provider: "generic",
           url: updateConfig.feedURL,
@@ -353,6 +355,8 @@ if (!app.requestSingleInstanceLock()) {
 
     buildMenu();
     createWindow();
+    if (activation.active && identity.channel === "stable")
+      void checkForUpdates();
 
     app.on("activate", () => {
       if (BrowserWindow.getAllWindows().length === 0) createWindow();
