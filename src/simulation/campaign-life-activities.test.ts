@@ -752,7 +752,7 @@ describe(
       ).toBeNull();
     });
 
-    it("candidate guidance reports what is known and leaves filing unknown", () => {
+    it("candidate guidance reports sourced qualifications and filing terms", () => {
       const life = adultLife("life-a");
       const guided = attend(
         offer(
@@ -773,15 +773,16 @@ describe(
         kind: "told-by",
         sourcePersonId: life.organizerId,
       });
-      expect(knowledge.believedSummary).toMatch(
-        /not established by this game's sourced rules/,
-      );
+      expect(knowledge.believedSummary).toMatch(/filing:/);
       const view = projectCampaignGuidance(guided, life.personId);
       expect(view.offices.length).toBeGreaterThan(0);
-      expect(view.filingAuthority.state).toBe("not-established");
-      expect(view.filingDeadline.state).toBe("not-established");
+      expect(view).not.toHaveProperty("filingAuthority");
+      expect(view).not.toHaveProperty("filingFees");
+      expect(view).not.toHaveProperty("petitions");
       for (const office of view.offices) {
         expect(office.filing.state).toBe("unknown");
+        expect(office.filingTerms.deadline).not.toBe("");
+        expect(office.filingTerms.signatures).toBeTruthy();
         if (office.minimumAge.state === "known")
           expect(office.minimumAge.value).toBeGreaterThan(0);
       }
@@ -1437,3 +1438,4 @@ describe(
     });
   },
 );
+

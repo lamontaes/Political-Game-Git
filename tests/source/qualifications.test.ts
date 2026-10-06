@@ -322,6 +322,66 @@ describe("PR #72's failures are permanent validation errors", () => {
       ),
     ).toBe(true);
   });
+
+  it("normalizes filing fee and petition signature fields and rejects invalid values", () => {
+    const fee = withRow([
+      "XX",
+      "GOVERNOR",
+      "Filing Fee",
+      "KNOWN",
+      "25",
+      "Statute",
+      "§ 1",
+      "2020-01-01",
+      "DIRECT",
+      "false",
+      "https://example.gov/elections",
+      "fee",
+    ]);
+    const signatures = withRow([
+      "XX",
+      "GOVERNOR",
+      "Petition Signatures",
+      "KNOWN",
+      "25",
+      "Statute",
+      "§ 2",
+      "2020-01-01",
+      "DIRECT",
+      "false",
+      "https://example.gov/elections",
+      "signatures",
+    ]);
+    expect(
+      fee.records.find(
+        (record) => "requirement" in record && record.field === "FILING_FEE",
+      ),
+    ).toBeDefined();
+    expect(
+      signatures.records.find(
+        (record) =>
+          "requirement" in record && record.field === "PETITION_SIGNATURES",
+      ),
+    ).toBeDefined();
+
+    const invalidFee = withRow([
+      "XX",
+      "GOVERNOR",
+      "Filing Fee",
+      "KNOWN",
+      "-1",
+      "Statute",
+      "§ 1",
+      "2020-01-01",
+      "DIRECT",
+      "false",
+      "https://example.gov/elections",
+      "fee",
+    ]);
+    expect(validateQualificationCorpus(invalidFee).findings).toContainEqual(
+      expect.objectContaining({ code: "qualifications/invalid-filing-fee" }),
+    );
+  });
 });
 
 describe("the production source boundary", () => {
@@ -584,3 +644,4 @@ describe("the production source boundary", () => {
     expect(lines[0]?.split("\t")).toEqual([...QUALIFICATION_COLUMNS]);
   });
 });
+

@@ -1,0 +1,103 @@
+{
+  "format": "candidate-filing-terms/v1",
+  "asOf": "2026-10-06",
+  "about": "No 50-state candidate-filing research table was present when this file was built. The seven examples below are carried only where the assignment supplied them; all other terms come from bounded estimates and must not be described as sourced law. Interim fallback bounds are $10-$500 in fees and 10-1,200 signatures depending on office family; point estimates below are inside those bounds. Filing dates are placeholders from January 1 through June 1, 2026. Replace estimates with researched rows as evidence arrives.",
+  "places": {},
+  "examples": [
+    {
+      "place": "Provo, UT",
+      "officeFamily": "LOCAL_COUNCIL",
+      "feeMinorUnits": 7500,
+      "signatures": 250,
+      "source": "provo.municipal.codes/Code/2.05.015"
+    },
+    {
+      "place": "Berkeley, CA",
+      "officeFamily": "LOCAL_COUNCIL",
+      "feeMinorUnits": 15000,
+      "signatures": null,
+      "source": "berkeley.municipal.codes/Charter/6.1"
+    },
+    {
+      "place": "Temple, TX",
+      "officeFamily": "LOCAL_COUNCIL",
+      "feeMinorUnits": 10000,
+      "signatures": 25,
+      "source": "templetx.gov city secretary elections page"
+    },
+    {
+      "place": "Lycoming County, PA",
+      "officeFamily": "LOCAL_COUNCIL",
+      "feeMinorUnits": 2500,
+      "signatures": 100,
+      "source": "lyco.org 2025 municipal primary instructions"
+    },
+    {
+      "place": "North Plains, OR",
+      "officeFamily": "LOCAL_COUNCIL",
+      "feeMinorUnits": null,
+      "signatures": { "percent": 1, "base": "last gubernatorial turnout" },
+      "source": "North Plains code ch. 33"
+    },
+    {
+      "place": "Cottage Grove, OR",
+      "officeFamily": "LOCAL_COUNCIL",
+      "feeMinorUnits": null,
+      "signatures": 20,
+      "source": "Cottage Grove code 2.06"
+    },
+    {
+      "place": "Seattle, WA",
+      "officeFamily": "LOCAL_COUNCIL",
+      "feeMinorUnits": null,
+      "signatures": 1200,
+      "source": "assignment search-result summary; verification required"
+    }
+  ],
+  "boundedFallbackByOfficeFamily": {
+    "STATEWIDE": {
+      "feeMinorUnits": 10000,
+      "signatures": 250,
+      "feeInLieuOfSignatures": true,
+      "circulationOpens": "2026-01-01",
+      "deadline": "2026-06-01",
+      "sameDistrictOnly": false,
+      "onePerSigner": true,
+      "estimated": true,
+      "estimatedFrom": "Bounded interim planning fallback: fee $100 and 250 signatures; no same-family state research was available. This is not a sourced rule."
+    },
+    "CONGRESSIONAL": {
+      "feeMinorUnits": 10000,
+      "signatures": 250,
+      "feeInLieuOfSignatures": true,
+      "circulationOpens": "2026-01-01",
+      "deadline": "2026-06-01",
+      "sameDistrictOnly": false,
+      "onePerSigner": true,
+      "estimated": true,
+      "estimatedFrom": "Bounded interim planning fallback: fee $100 and 250 signatures; no same-family place research was available. This is not a sourced rule."
+    },
+    "STATE_LEGISLATIVE": {
+      "feeMinorUnits": 5000,
+      "signatures": 100,
+      "feeInLieuOfSignatures": true,
+      "circulationOpens": "2026-01-01",
+      "deadline": "2026-06-01",
+      "sameDistrictOnly": true,
+      "onePerSigner": true,
+      "estimated": true,
+      "estimatedFrom": "Bounded interim planning fallback: fee $50 and 100 signatures; no same-family state research was available. This is not a sourced rule."
+    },
+    "LOCAL_COUNCIL": {
+      "feeMinorUnits": 8800,
+      "signatures": 100,
+      "feeInLieuOfSignatures": true,
+      "circulationOpens": "2026-01-01",
+      "deadline": "2026-06-01",
+      "sameDistrictOnly": true,
+      "onePerSigner": true,
+      "estimated": true,
+      "estimatedFrom": "Interim estimate centered on the assignment's disclosed municipal examples (numeric signature median 100; fee median $87.50 rounded to $88). The sample spans unlike local rules and is not a researched median for this place."
+    }
+  }
+}

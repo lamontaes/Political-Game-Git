@@ -77,7 +77,6 @@ export {
 } from "./campaign-life-activities";
 export type {
   CampaignGuidanceOffice,
-  CampaignGuidanceUnestablished,
   CampaignGuidanceValue,
   CampaignGuidanceView,
   CampaignLifeActivityState,
@@ -336,3 +335,4 @@ export * from "./crisis/handling-reactions";
 export * from "./nationwide-world/presidential-turnover";
 export * from "./living-world/federal-reform";
 export * from "./federal-tenures";
+

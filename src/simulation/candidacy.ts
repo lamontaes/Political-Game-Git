@@ -61,6 +61,72 @@ import {
   gazetteerChamberForOfficeChamberKey,
   listDistrictIdentities,
 } from "../districts/query";
+import candidateFilingData from "../../data/research/elections/candidate-filing-terms.json";
+
+export type CandidateFilingOfficeFamily =
+  "STATEWIDE" | "CONGRESSIONAL" | "STATE_LEGISLATIVE" | "LOCAL_COUNCIL";
+
+export interface CandidateFilingTerms {
+  readonly feeMinorUnits: number;
+  readonly signatures:
+    number | { readonly percent: number; readonly base: string };
+  readonly feeInLieuOfSignatures: boolean;
+  readonly circulationOpens: string;
+  readonly deadline: string;
+  readonly sameDistrictOnly: boolean;
+  readonly onePerSigner: boolean;
+  readonly estimated: boolean;
+  readonly estimatedFrom: string;
+}
+
+interface CandidateFilingTermsData {
+  readonly places: Readonly<
+    Record<
+      string,
+      Partial<Record<CandidateFilingOfficeFamily, CandidateFilingTerms>>
+    >
+  >;
+  readonly boundedFallbackByOfficeFamily: Readonly<
+    Record<CandidateFilingOfficeFamily, CandidateFilingTerms>
+  >;
+}
+
+const FILING_TERMS = candidateFilingData as CandidateFilingTermsData;
+
+function filingTermsFor(
+  placeKey: string | null,
+  family: CandidateFilingOfficeFamily,
+): CandidateFilingTerms {
+  const place = placeKey?.replace(/^US-/, "") ?? "";
+  return (
+    FILING_TERMS.places[place]?.[family] ??
+    FILING_TERMS.boundedFallbackByOfficeFamily[family]
+  );
+}
+
+/** Filing terms projection shared by the candidacy gate and host guidance. */
+export function candidateFilingTermsForOffice(
+  jurisdictionId: EntityId,
+  officeKey: string,
+): CandidateFilingTerms {
+  const authority = candidacyAuthority(jurisdictionId);
+  const executive = stateExecutiveIdentityForOfficeKey(officeKey);
+  const congress = executive
+    ? null
+    : congressSeatIdentityForOfficeKey(officeKey);
+  const local =
+    executive || congress
+      ? null
+      : localGoverningBodyHere(jurisdictionId, officeKey);
+  const family: CandidateFilingOfficeFamily = local
+    ? "LOCAL_COUNCIL"
+    : executive
+      ? "STATEWIDE"
+      : congress
+        ? "CONGRESSIONAL"
+        : "STATE_LEGISLATIVE";
+  return filingTermsFor(authority.stateJurisdictionKey, family);
+}
 
 /**
  * Whether a particular character may stand, and where.
@@ -334,6 +400,8 @@ export interface CandidacyEligibility {
   /** The pack the jurisdiction itself declares, if it declares one. */
   readonly pack: CandidacyPack | null;
   readonly office: ElectiveOfficeOption | null;
+  /** Filing terms from this place's row, or its explicitly estimated fallback. */
+  readonly filingTerms: CandidateFilingTerms | null;
   /** Every production-compiled field checked for this candidate. */
   readonly qualificationAssessments: readonly QualificationAssessment[];
   readonly blocks: readonly CandidacyBlock[];
@@ -660,6 +728,10 @@ export function candidacyEligibility(
       : chamberKey === null
         ? null
         : officeFamilyForChamberKey(chamberKey);
+  const filingTerms = candidateFilingTermsForOffice(
+    input.jurisdictionId,
+    input.officeKey,
+  );
   const boundDistrict = boundOption?.office.districtBinding ?? null;
   // A district-residence rule is asked about before any seat is bound, which
   // is every time the player looks at whether they could stand at all. With no
@@ -889,6 +961,7 @@ export function candidacyEligibility(
     personId: input.personId,
     pack,
     office: boundOption,
+    filingTerms,
     qualificationAssessments,
     blocks: distinctBlocks(blocks),
   };
@@ -959,3 +1032,4 @@ export function citizenByBirthSince(
   if (stateKey === null || !birthConfersCitizenship(stateKey)) return null;
   return person.birthDate;
 }
+

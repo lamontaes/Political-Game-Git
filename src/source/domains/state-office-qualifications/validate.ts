@@ -132,6 +132,30 @@ export function validateQualificationCorpus(
           });
         }
       }
+      if (
+        record.field === "FILING_FEE" &&
+        (typeof value !== "number" || !Number.isFinite(value) || value < 0)
+      ) {
+        findings.push({
+          severity: "error",
+          code: "qualifications/invalid-filing-fee",
+          message: `${record.recordId} carries a filing fee that is not a non-negative number.`,
+          recordId: record.recordId,
+        });
+      }
+      if (
+        record.field === "PETITION_SIGNATURES" &&
+        ((typeof value === "number" &&
+          (!Number.isFinite(value) || value <= 0)) ||
+          (typeof value === "string" && value.trim() === ""))
+      ) {
+        findings.push({
+          severity: "error",
+          code: "qualifications/invalid-petition-signatures",
+          message: `${record.recordId} carries an empty or non-positive petition-signature requirement.`,
+          recordId: record.recordId,
+        });
+      }
     }
   }
 
@@ -177,3 +201,4 @@ export function validateQualificationCorpus(
     findings,
   };
 }
+

@@ -65,22 +65,90 @@ function eligibility(
 }
 
 describe("one recorded office-age route across all places", () => {
+  it("returns nonblank filing terms through the gate across the 56 places", () => {
+    expect(identities).toHaveLength(56);
+    for (const place of identities) {
+      const { world, personId } = smallWorld({
+        place: place.jurisdictionKey,
+        seed,
+      });
+      const pack = candidacyPackForJurisdiction(
+        world.people[personId]!.homeJurisdictionId,
+      );
+      const offices = pack?.offices ?? [];
+      const officeKeys =
+        offices.length > 0
+          ? offices.map((office) => office.officeKey)
+          : ["unknown-office"];
+      for (const officeKey of officeKeys) {
+        const result = candidacyEligibility(world, {
+          personId,
+          jurisdictionId: world.people[personId]!.homeJurisdictionId,
+          officeKey,
+          alreadyACandidate: false,
+        });
+        expect(result.filingTerms, `${place.usps}/${officeKey}`).not.toBeNull();
+        expect(result.filingTerms!.feeMinorUnits).toBeGreaterThan(0);
+        expect(result.filingTerms!.deadline).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      }
+    }
+  });
+
+  it("gives an unread place estimated terms without adding a filing-research block", () => {
+    const place = identities.find(
+      (candidate) =>
+        packs.stateCandidacyPack(candidate.jurisdictionKey) === null,
+    )!;
+    const { world, personId } = smallWorld({
+      place: place.jurisdictionKey,
+      seed,
+    });
+    const result = candidacyEligibility(world, {
+      personId,
+      jurisdictionId: world.people[personId]!.homeJurisdictionId,
+      officeKey: "unresearched-office",
+      alreadyACandidate: false,
+    });
+    expect(result.filingTerms?.estimated).toBe(true);
+    expect(
+      result.blocks.some((block) =>
+        /filing terms|petition|fee research/i.test(block.reason),
+      ),
+    ).toBe(false);
+  });
+
   it("opens a new game in a randomly selected accepted place", () => {
-    const places = lifePlaces();
+    const places = lifePlaces().filter(
+      (place) =>
+        place.scope === "state" &&
+        packs.stateCandidacyPack(place.stateJurisdictionKey)?.offices.length,
+    );
     const place = places[randomInt(places.length)]!;
     const built = createNewGameWorld({
       ...DEFAULT_NEW_GAME_SETUP,
       placeKey: place.key,
       seed,
     });
+    const office = candidacyPackForJurisdiction(
+      built.world.people[built.playerPersonId]!.homeJurisdictionId,
+    )!.offices[0]!;
+    const filing = candidacyEligibility(built.world, {
+      personId: built.playerPersonId,
+      jurisdictionId:
+        built.world.people[built.playerPersonId]!.homeJurisdictionId,
+      officeKey: office.officeKey,
+      alreadyACandidate: false,
+    }).filingTerms!;
     expect(built.place.key).toBe(place.key);
     expect(Object.keys(built.world.people).length).toBeGreaterThan(0);
     process.stdout.write(
       `${JSON.stringify({
-        receipt: "A116 random-place new-game",
+        receipt: "B01 Part 1 random-place new-game filing terms",
         placeKey: place.key,
         worldId: built.world.id,
         currentDate: built.world.currentDate,
+        officeKey: office.officeKey,
+        filingTerms: filing,
       })}\n`,
     );
   });
