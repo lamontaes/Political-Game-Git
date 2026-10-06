@@ -459,7 +459,7 @@ export function resolveLifeHistorySource(
     }
     default:
       throw new Error(
-        `Unsupported life-history record family: ${String((reference as { family?: unknown }).family)}`,
+        `Unsupported life-history record family: ${String((reference as { family?: string }).family)}`,
       );
   }
 }

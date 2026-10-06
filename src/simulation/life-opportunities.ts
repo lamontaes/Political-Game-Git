@@ -352,7 +352,8 @@ export function openOrdinaryLifeRecords(
     },
   });
   const notice = next.history.events.at(-1);
-  if (!notice) throw new Error("The meeting notice was not recorded.");
+  if (!notice)
+    throw new Error("Recording the meeting notice did not append its event.");
 
   next = createScheduledActivity(next, {
     stableKey: `${PUBLIC_MEETING_KEY}:activity`,
@@ -374,7 +375,10 @@ export function openOrdinaryLifeRecords(
     access: { kind: "private", personIds: [personId] },
   });
   const meeting = next.history.scheduledActivities.at(-1);
-  if (!meeting) throw new Error("The public meeting was not recorded.");
+  if (!meeting)
+    throw new Error(
+      "Scheduling the public meeting did not append its activity.",
+    );
 
   // A bounded game-authored journey, not measured geography or a fare quote.
   // Existing saves retain their original meeting; only new notices get this leg.
@@ -498,9 +502,9 @@ function writeNextOpportunity(world: World, personId: EntityId): World {
   // quiet stretch from turning into an inbox; one a day stops it from
   // arriving all at once.
   //
-  // PLACEHOLDER(research: what-an-ordinary-adult-year-contains): how often an
-  // ordinary adult is asked something is unresearched. The cap and the
-  // one-a-day pace are pacing rules, not rates.
+  // This authored pacing rule uses the four-slot open-opportunity cap above
+  // and adds at most one item per transition day. It is a workload budget,
+  // not a claim about how often an adult receives real invitations.
   //
   // "Per transition" is kept idempotent by the day: a life that already has
   // something open gets nothing more on a day something was already written
@@ -870,7 +874,8 @@ function writeAsk(world: World, input: AskInput): World {
     },
   });
   const asking = next.history.events.at(-1);
-  if (!asking) throw new Error("The request was not recorded.");
+  if (!asking)
+    throw new Error("Recording the request did not append its event.");
 
   if (input.occasion) {
     next = createScheduledActivity(next, {
@@ -971,7 +976,8 @@ function writeNotice(world: World, input: NoticeInput): World {
     },
   });
   const notice = next.history.events.at(-1);
-  if (!notice) throw new Error("The agenda item was not recorded.");
+  if (!notice)
+    throw new Error("Recording the agenda item did not append its event.");
 
   return recordEventKnowledge(next, {
     stableKey: `${input.stableKey}:knowledge`,

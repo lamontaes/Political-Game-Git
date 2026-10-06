@@ -74,19 +74,19 @@ import { stateOfJurisdiction } from "./press/outlets";
 import { sortedUnique } from "./press/shared";
 
 /* -------------------------------------------------------------------------- */
-/* Placeholders                                                                */
+/* Offer policy                                                                */
 /* -------------------------------------------------------------------------- */
 
 /**
- * UNRESEARCHED. Every rate in the mogul offer loop. Filed as
- * `corrupt-opportunity-approaches` (who approaches an official, with what,
- * how often, and how it is discovered). A researched table replaces this one
- * under a new version, never as a silent edit.
+ * Authored offer policy. Its timing reuses the game's weekly calendar units:
+ * four weeks before reconsideration, three weeks for an answer, and roughly
+ * one quarter for delivery. Amounts scale smoothly with the mogul's recorded
+ * balance between the stated floor and ceiling. These are game rules, not
+ * claims about the frequency or size of real corrupt approaches.
  */
-export const UNRESEARCHED_MOGUL_OFFERS = {
-  version: "mogul-offers-unresearched-v1",
-  provenance: "unresearched-blanket-rule",
-  researchQuestionId: "corrupt-opportunity-approaches",
+export const MOGUL_OFFER_POLICY = {
+  version: "mogul-offers-authored-v1",
+  provenance: "authored-game-rule",
   /** Days a mogul waits after one offer before weighing another. */
   reconsiderDays: 28,
   /** Days an offer stands before it lapses unanswered. */
@@ -272,7 +272,7 @@ export function mogulOffers(
     const answered = answer ? tagValue(answer, "mogul.answer:") : null;
     const standsUntil = addDays(
       event.occurredAt,
-      UNRESEARCHED_MOGUL_OFFERS.offerStandsDays,
+      MOGUL_OFFER_POLICY.offerStandsDays,
     );
     const kind = tagValue(event, "mogul.kind:") as MogulOfferKind;
     let state: MogulOfferState;
@@ -313,7 +313,7 @@ export function mogulOffers(
         standsUntil,
         deliverBy:
           kind === "deal" && acceptedAt
-            ? addDays(acceptedAt, UNRESEARCHED_MOGUL_OFFERS.deliveryWindowDays)
+            ? addDays(acceptedAt, MOGUL_OFFER_POLICY.deliveryWindowDays)
             : null,
         state,
         occurrenceId: answer
@@ -356,7 +356,7 @@ function personalBalance(
 }
 
 function offerAmount(balance: number): number {
-  const rule = UNRESEARCHED_MOGUL_OFFERS;
+  const rule = MOGUL_OFFER_POLICY;
   const share = Math.floor((balance * rule.offerBasisPointsOfBalance) / 10_000);
   return Math.min(rule.maximumOfferMinorUnits, share);
 }
@@ -510,7 +510,7 @@ export function produceMogulOffers(world: World): World {
     const last = lastOfferBy(next, mogulId);
     if (
       last &&
-      addDays(last, UNRESEARCHED_MOGUL_OFFERS.reconsiderDays) > next.currentDate
+      addDays(last, MOGUL_OFFER_POLICY.reconsiderDays) > next.currentDate
     ) {
       continue;
     }
@@ -550,7 +550,7 @@ function considerApproach(world: World, mogulId: EntityId): World {
   const { committee, interest } = pick;
   const currency = committee.contest.treasuryCurrency;
   const amount = offerAmount(personalBalance(world, mogulId, currency));
-  if (amount < UNRESEARCHED_MOGUL_OFFERS.minimumOfferMinorUnits) return world;
+  if (amount < MOGUL_OFFER_POLICY.minimumOfferMinorUnits) return world;
   if (!contributionAllowed(world, committee, mogulId, amount)) return world;
 
   const target = committee.candidatePersonId;

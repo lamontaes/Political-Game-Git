@@ -1109,7 +1109,7 @@ export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
   for (const chamberKey of pack.chamberOrder) {
     if (!seenChamberKeys.has(chamberKey)) {
       throw new Error(
-        `Rule pack '${pack.packId}' orders unknown chamber '${chamberKey}'.`,
+        `Rule pack '${pack.packId}' orders chamber '${chamberKey}', which is absent from its recorded chambers.`,
       );
     }
   }

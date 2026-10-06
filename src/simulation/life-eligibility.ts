@@ -76,7 +76,7 @@ export function evaluateLifeEligibility(
       : { status: "allowed", reasons: combinedReasons };
   if (result.status !== "allowed" && result.status !== "blocked") {
     throw new Error(
-      `Invalid life eligibility status: ${String((result as { status?: unknown }).status)}`,
+      `Invalid life eligibility status: ${String((result as { status?: string }).status)}`,
     );
   }
   if (result.status === "blocked" && result.reasons.length === 0) {

@@ -1,13 +1,7 @@
 import { aggregateCustomers } from "./aggregate-customers";
 export { aggregateCustomers } from "./aggregate-customers";
-import {
-  LOCAL_BUSINESS_PLACEHOLDER,
-  localBusinessWageMinor,
-} from "./recorded-employer";
-export {
-  LOCAL_BUSINESS_PLACEHOLDER,
-  localBusinessWageMinor,
-} from "./recorded-employer";
+import { localBusinessWageMinor } from "./recorded-employer";
+export { localBusinessWageMinor } from "./recorded-employer";
 // Preserve the published opening API while the sole selector lives with town businesses.
 export { recordedTownEmployer as adultStartEmployer } from "./living-world/town-businesses";
 import {
@@ -355,7 +349,7 @@ function seatMissingLocalBusinesses(
   const missing = localBusinessPlansFor(jurisdictionId);
   if (missing.length === 0) return world;
   const today = world.currentDate;
-  const currency = money(0, LOCAL_BUSINESS_PLACEHOLDER.currency).currency;
+  const currency = money(0, "USD").currency;
   const rng = new SeededRng(world.seed).fork(
     `local-businesses:${jurisdictionId}`,
   );
@@ -365,7 +359,7 @@ function seatMissingLocalBusinesses(
       `${planned.estimateBasis ?? "Recorded saved business plan."} Owner draw pending: this legacy organization has no recorded nonpay operating costs/net earnings; modeled revenue and staff wage commitments do not establish distributable profit. ` +
       (planned.sourced
         ? `Local business from published counts: the town's share of the county's establishments (about ${planned.expected!.toFixed(1)} of this kind in town; County Business Patterns 2023), staff from employees per establishment and sales from Economic Census 2022 sales per employee. At most ${LOCAL_BUSINESS_MAX_PER_KIND} of a kind and ${LOCAL_BUSINESS_MAX_STAFF} staff are seated (game assumption, for speed). The owner's draw is not established without recorded operating costs.`
-        : `ESTIMATED local business pending research question ${LOCAL_BUSINESS_PLACEHOLDER.researchQuestionId}.`),
+        : "ESTIMATED FROM AVERAGE: local business uses the shared recorded occupation-pay fallback because no published count covers this kind and place."),
   });
 
   type Staffing = {

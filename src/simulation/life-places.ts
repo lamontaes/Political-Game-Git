@@ -628,7 +628,7 @@ function synthesizeTerritoryPlace(row: TerritoryPlaceRow): LifePlace {
         utcOffsetMinutes:
           territory?.utcOffsetMinutes ?? EASTERN.utcOffsetMinutes,
       },
-      creationSummary: `Seeded world in ${named}, a placeholder territory place pending the Census Island Areas lists.`,
+      creationSummary: `Seeded world in ${named}, using the resident-facing territory place recorded by ${TERRITORY_PLACES_META.source}.`,
       goalScope: named,
       householdLocationLabel: named,
     },

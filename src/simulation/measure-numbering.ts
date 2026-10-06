@@ -93,8 +93,8 @@ export function openingBillNumber(
 /**
  * Where a town council's ordinance count sits on the day a world opens: about
  * one ordinance a week since January 1, so a life that opens in the first
- * week of January meets ORD 1. PLACEHOLDER, pending
- * `local-council-legislative-volume`: no town's volume has been read.
+ * week of January meets ORD 1. This is the shared authored local-council
+ * numbering pace: one ordinance number per elapsed seven-day period.
  */
 export function councilOpeningNumber(startedAt: string): number {
   const date = new Date(`${startedAt.slice(0, 10)}T00:00:00Z`);

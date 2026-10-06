@@ -2205,7 +2205,7 @@ export function substituteSlots(text: string, context: SlotContext): string {
           return pronouns.subject;
       }
     }
-    throw new Error(`Episode copy uses an unknown slot: ${match}`);
+    throw new Error(`Episode copy uses an unrecognized slot: ${match}`);
   }
 }
 

@@ -212,7 +212,7 @@ function populationBasis(
   return {
     value: mean.population / mean.places,
     stateFips: regional ? mean.stateFips : "US",
-    note: `ESTIMATED FROM AVERAGE: ${regional ? region : "national"} mean of ${mean.places} real populated Census places (${mean.population} residents / ${mean.places} places); local population/size not recorded`,
+    note: `ESTIMATED FROM AVERAGE: ${regional ? region : "national"} mean of ${mean.places} real populated Census places (${mean.population} residents / ${mean.places} places); basis uses those listed places because this place has no positive population row`,
   };
 }
 

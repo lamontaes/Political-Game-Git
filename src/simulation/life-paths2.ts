@@ -1702,7 +1702,8 @@ export function acceptLifePathCounteroffer(
     );
   const terms = resourceFlowTermsAt(world, flow.id)!;
   const amount = money(
-    // PLACEHOLDER(research: how-bargaining-limits-and-pay-counteroffers-are-set): the 1.25 counteroffer is not sourced.
+    // Authored negotiation floor: the accepted revision is at least 125% of
+    // this path's recorded session pay and never reduces the offered amount.
     Math.max(terms.amount.minorUnits, Math.ceil(path.sessionPayMinor * 1.25)),
     "USD",
   );

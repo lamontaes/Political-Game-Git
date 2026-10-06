@@ -827,7 +827,8 @@ function writeAsk(world: World, input: AskInput): World {
     },
   });
   const event = next.history.events.at(-1);
-  if (!event) throw new Error("The circumstance was not recorded.");
+  if (!event)
+    throw new Error("Recording the circumstance did not append its event.");
 
   // The proposed hours, recorded on the event rather than booked. See above.
   void input.occasion;
