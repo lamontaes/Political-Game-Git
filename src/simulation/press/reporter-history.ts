@@ -10,9 +10,9 @@ export function reporterContactCount(
   return world.history.relationshipInteractions.filter(
     (interaction) =>
       interaction.personIds.includes(reporterPersonId) &&
-      interaction.personIds.some((personId) => subjects.has(personId)) &&
-      interaction.tags.some(
-        (tag) => tag === "press.contact" || tag.startsWith("press."),
-      ),
+      interaction.personIds.some(
+        (personId) => personId !== reporterPersonId && subjects.has(personId),
+      ) &&
+      interaction.tags.some((tag) => tag.startsWith("press.")),
   ).length;
 }
