@@ -91,6 +91,15 @@ function scene(entry = person, onSelectPerson = vi.fn()) {
 }
 
 describe("the rendered scene recipe selection producer", () => {
+  it("does not render floating nameplates in any place scene", () => {
+    const source = readFileSync(
+      new URL("./PlacePeopleLayer.tsx", import.meta.url),
+      "utf8",
+    );
+    expect(source).not.toContain("nameplates");
+    expect(source).not.toContain("scene-place-nameplate");
+  });
+
   it.each(["scene-person-recorded-person", "scene-name-recorded-person"])(
     "%s passes the exact drawn recipe and colors",
     (testId) => {

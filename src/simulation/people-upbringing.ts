@@ -29,6 +29,20 @@ import type { PeopleTrait, TraitValue } from "./people-trait-definitions";
 import type { TraitLifePart } from "./personality-trait-registry";
 import { isPersonAliveAt } from "./vitality-integrity";
 
+// An immutable people map is one revision of birth dates. Cohort sampling can
+// revisit the same household through many index builds; keep the age-18 date
+// outside those loops, and let old revisions disappear with their World data.
+const EIGHTEENTH_BIRTHDAYS = new WeakMap<object, IsoDate>();
+
+function eighteenthBirthday(person: World["people"][EntityId]): IsoDate {
+  let date = EIGHTEENTH_BIRTHDAYS.get(person);
+  if (!date) {
+    date = dateAtAge(person.birthDate, 18);
+    EIGHTEENTH_BIRTHDAYS.set(person, date);
+  }
+  return date;
+}
+
 /** Broad periods preserve change without pretending to know annual household accounts. */
 export type UpbringingPeriod = "early-childhood" | "adolescence";
 export type FamilyMoney = "secure" | "strained" | "severe-scarcity";
@@ -143,12 +157,15 @@ const MONEY_PERIODS: Readonly<
  */
 function moneyRecordDate(
   world: World,
-  birthDate: IsoDate,
+  person: World["people"][EntityId],
   period: UpbringingPeriod,
 ): IsoDate | null {
+  const birthDate = person.birthDate;
   const { from, until, readAt } = MONEY_PERIODS[period];
   if (world.currentDate < dateAtAge(birthDate, from)) return null;
-  if (world.currentDate < dateAtAge(birthDate, until)) return world.currentDate;
+  const end =
+    until === 18 ? eighteenthBirthday(person) : dateAtAge(birthDate, until);
+  if (world.currentDate < end) return world.currentDate;
   const middle = dateAtAge(birthDate, readAt);
   return middle < world.startedAt ? null : middle;
 }
@@ -166,7 +183,7 @@ export function familyMoneyFor(
 ): { readonly level: FamilyMoney; readonly source: UpbringingSource } {
   const estimate = { level: "secure" as const, source: MONEY_ESTIMATE };
   const person = world.people[personId]!;
-  const onDate = moneyRecordDate(world, person.birthDate, period);
+  const onDate = moneyRecordDate(world, person, period);
   if (onDate === null) return estimate;
   const cutoff = {
     asOfDate: onDate,
@@ -291,7 +308,7 @@ function householdContext(world: World, personId: EntityId) {
       world.people[personId]!.homeJurisdictionId,
     parents,
     adultMembers: members.filter(
-      (id) => dateAtAge(world.people[id]!.birthDate, 18) <= world.currentDate,
+      (id) => eighteenthBirthday(world.people[id]!) <= world.currentDate,
     ),
     household,
     members,
@@ -548,7 +565,7 @@ function familyCohortIndex(world: World): FamilyCohortIndex {
       membership.personId,
     );
     const adultMembers = members.filter(
-      (id) => dateAtAge(world.people[id]!.birthDate, 18) <= world.currentDate,
+      (id) => eighteenthBirthday(world.people[id]!) <= world.currentDate,
     );
     const householdId = household?.household.id;
     if (!householdId || seenHouseholds.has(householdId) || !adultMembers.length)
@@ -754,7 +771,7 @@ function recordedChildhoodParentDeath(
   parentIds: readonly EntityId[],
 ): boolean {
   const child = world.people[personId]!;
-  const adulthood = dateAtAge(child.birthDate, 18);
+  const adulthood = eighteenthBirthday(child);
   return world.history.personDeaths.some(
     ({ personId: deceased, diedAt }) =>
       parentIds.includes(deceased) && diedAt < adulthood,

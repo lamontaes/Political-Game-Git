@@ -30,6 +30,7 @@ import {
 } from "./state-legislative-term-limits";
 import { lawInForce } from "../governing/law-in-force";
 import { lawEffectStamp } from "../law-effect-stamp";
+import { applyStateElectionLawLandings } from "../law-consequences/modules/election-state-landings";
 import { clampShare, logit, logistic } from "../world-setup/deterministic-math";
 import {
   isStateLegislativeSeatDue,
@@ -474,6 +475,12 @@ function prepareStateIntake(
           immediateReaction: null,
         },
       });
+      if (stamp) {
+        next = applyStateElectionLawLandings(
+          next,
+          next.history.events[next.history.events.length - 1]!.id,
+        );
+      }
     }
     const office = pack.offices.find(
       (candidate) => candidate.officeKey === row.officeKey,

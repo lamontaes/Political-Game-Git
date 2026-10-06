@@ -7,9 +7,9 @@
   },
   "corpusId": "government-finances",
   "coverage": {
-    "boundedSampleReason": "First 25 sorted publisher IDs and their published item rows. Annual survey sample, not complete universe. The Census Bureau has not reviewed individual units as time series or sanctioned downstream analyses; nonsampling errors and imputation may affect values. See locked publisher disclaimer.",
+    "boundedSampleReason": "First 25 sorted publisher IDs and their published item rows. This bounded annual-survey subset is not the complete published universe. The Census Bureau has not reviewed individual units as time series or sanctioned downstream analyses; nonsampling errors and imputation may affect values. See locked publisher disclaimer.",
     "isCompleteUniverse": false,
-    "universeDescription": "2024 Census finance sample inputs, not reviewed individual-unit time series."
+    "universeDescription": "Bounded 2024 Census finance survey inputs, not reviewed individual-unit time series."
   },
   "inputClass": "production",
   "inputs": [

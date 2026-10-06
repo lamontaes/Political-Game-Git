@@ -1,6 +1,8 @@
 export * from "./dates";
+export * from "./after-office-endorsements";
 export * from "./canonical-json";
 export * from "./character-history";
+export * from "./faith-record";
 export * from "./causal-effects";
 export * from "./candidacy-packs";
 export * from "./candidacy";
@@ -77,7 +79,7 @@ export {
 } from "./campaign-life-activities";
 export type {
   CampaignGuidanceOffice,
-  CampaignGuidanceUnestablished,
+  CampaignGuidanceEstablished,
   CampaignGuidanceValue,
   CampaignGuidanceView,
   CampaignLifeActivityState,
@@ -106,6 +108,14 @@ export {
   petitionSignaturesForCampaign,
 } from "./candidate-petitions";
 export type { AskToSignInput, AskToSignResult } from "./candidate-petitions";
+export {
+  candidateFilingTerms,
+  filingTermsCoverage,
+} from "./candidate-filing-terms";
+export type {
+  CandidateFilingTerms,
+  FilingOfficeFamily,
+} from "./candidate-filing-terms";
 export {
   CAMPAIGN_CONTACT_MET_KIND,
   CAMPAIGN_CONTACT_RECURRING_KIND,
@@ -209,6 +219,7 @@ export * from "./legislation-scenarios";
 export * from "./legislative-politics";
 export * from "./legislative-member-decisions";
 export * from "./legislature-rules";
+export * from "./minority-party-procedure";
 export * from "./measure-numbering";
 export * from "./legislature-rule-packs";
 export * from "./legislature-game-profile";

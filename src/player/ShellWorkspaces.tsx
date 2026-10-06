@@ -1691,7 +1691,7 @@ export function PersonalFinancesWorkspace({
       >
         <h3>The place you live</h3>
         <p className="game-note">
-          {economicPlace?.displayName ?? "Home place not recorded"} ·{" "}
+          {economicPlace?.displayName ?? "Home jurisdiction on this life"} ·{" "}
           {proseDate(world.currentDate)}
         </p>
         {/*
@@ -1836,7 +1836,7 @@ export function PatchNotesWorkspace() {
               ? `Version ${section.version}`
               : "Version not stated"}
             {" · "}
-            {section.releasedOn ?? "Release date not recorded"}
+            {section.releasedOn ?? "This note does not include a release date"}
           </p>
           {section.paragraphs.map((paragraph, index) => (
             <p key={`${section.id}-${index}`}>{paragraph}</p>

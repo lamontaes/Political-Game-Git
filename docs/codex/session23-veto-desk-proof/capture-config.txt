@@ -1,0 +1,10 @@
+import config from '/workspace/Political-Game-Git/playwright.config';
+const root = '/workspace/Political-Game-Git';
+export default {
+  ...config,
+  testDir: `${root}/tests/e2e`,
+  globalSetup: `${root}/scripts/dev-lab/verify-server.ts`,
+  globalTeardown: `${root}/scripts/dev-lab/verify-evidence.ts`,
+  projects: config.projects!.filter(p => p.name === 'chromium').map(p => ({...p, use: {...p.use, channel: undefined, launchOptions: {executablePath: '/usr/bin/chromium'}}})),
+  webServer: {...config.webServer, cwd: root},
+};

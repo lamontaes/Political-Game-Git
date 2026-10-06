@@ -1,3 +1,4 @@
+import { speakerTraits } from "./speaker-traits";
 import {
   organizationProfileAt,
   workRoleAt,
@@ -120,18 +121,7 @@ export function buildSavedWorkStartJournalPacket(
       sourceRecordIds: [role.id],
     };
 
-  // Traits are saved cues available for later reviewed variants. Neither line
-  // above uses them to infer a feeling, motive, or outcome.
-  const traits: Record<string, GroundedEnglishFact> = {};
-  for (const tendency of world.history.personalityTendencies)
-    if (
-      tendency.personId === personId &&
-      tendency.recordedAt <= status.effectiveAt
-    )
-      traits[`expression:${tendency.expressionKey}`] = {
-        text: tendency.strength,
-        sourceRecordIds: [tendency.id],
-      };
+  const traits = speakerTraits(world, personId, cutoff);
 
   return {
     kind: "packet",

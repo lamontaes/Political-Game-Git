@@ -1355,7 +1355,7 @@
             "heading": "Priority for schools and childcare premises",
             "beneficiaryLabel": "school and licensed childcare premises",
             "placeLabel": "statewide",
-            "statedGround": "A priority order written around whole systems can leave a school at the back of its own system's queue, and members will not defend that to a parent.",
+            "statedGround": "A priority order written around whole systems can leave a school at the back of its own system's waiting list, and members will not defend that to a parent.",
             "segmentKey": "water.school-childcare-priority",
             "requestedMinorUnits": 210000000,
             "cappedMinorUnits": 95000000,

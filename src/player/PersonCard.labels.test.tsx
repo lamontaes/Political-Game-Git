@@ -107,6 +107,23 @@ const render = (entry: PersonDossier, expanded = true) =>
     />,
   );
 
+const renderAnchored = (entry: PersonDossier) =>
+  renderToStaticMarkup(
+    <PersonCard
+      world={world}
+      playerId={selfId}
+      dossier={entry}
+      pinned={false}
+      expanded
+      mode="overlay"
+      anchor={{ left: 100, top: 100, width: 40, height: 120 }}
+      presentPersonIds={[]}
+      onTogglePin={() => {}}
+      onOpenLink={() => {}}
+      talkUnavailable={null}
+    />,
+  );
+
 it("removes only the standalone record attribution label, retaining all facts and attribution data", () => {
   const entry = dossier();
   const before = JSON.stringify({ world, entry });
@@ -138,5 +155,17 @@ it("retains another person's recorded relationship and makes no time or knowledg
   expect(html).toContain('data-testid="dossier-relation"');
   expect(html).toContain("Your colleague");
   expect(html).toContain('data-person-id="person-other"');
+  expect(JSON.stringify({ world, entry })).toBe(before);
+});
+
+it("recognizes a person whose card was opened from their figure as present in the room", () => {
+  const entry = dossier("person-other" as EntityId);
+  const before = JSON.stringify({ world, entry });
+  const html = renderAnchored(entry);
+
+  expect(html).toContain('data-testid="person-card-present"');
+  expect(html).toContain("Here in the room with you.");
+  expect(html).not.toContain("Away from your current location.");
+  expect(html).toContain("Recorded office fact.");
   expect(JSON.stringify({ world, entry })).toBe(before);
 });

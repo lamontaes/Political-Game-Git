@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   SENATE_SPECIAL_ELECTION_ESTIMATED_DAYS,
+  senateAppointmentTiming,
   senateVacancyLaw,
   senateVacancyLawRows,
 } from "./senate-vacancy-law";
@@ -47,5 +48,42 @@ describe("Build 27 step 3: each state's Senate vacancy law", () => {
 
   it("estimates an unrecorded special-election window from the other states' median", () => {
     expect(SENATE_SPECIAL_ELECTION_ESTIMATED_DAYS).toBe(107);
+  });
+});
+
+describe("Senate appointment timing bounds and estimates", () => {
+  it("keeps every recorded legal deadline without a ten-day cap", () => {
+    for (const law of senateVacancyLawRows()) {
+      const timing = senateAppointmentTiming(law);
+      if (law.appointment === "none") expect(timing).toBeNull();
+      else if (law.appointmentDeadlineDays !== null)
+        expect(timing).toEqual({
+          days: law.appointmentDeadlineDays,
+          basis: "recorded-deadline",
+          comparatorCount: 0,
+          comparison: null,
+        });
+    }
+  });
+
+  it("uses comparable appointment rules and marks legal-window proxies", () => {
+    const law = senateVacancyLawRows().find(
+      (row) =>
+        row.appointment === "governor-from-party-list" &&
+        row.appointmentDeadlineDays === null,
+    )!;
+    const timing = senateAppointmentTiming(law)!;
+    expect(timing).toMatchObject({
+      days: 20,
+      basis: "estimated-deadline-proxy",
+      comparatorCount: 3,
+      comparison: "same-appointment-rule",
+    });
+    expect(senateAppointmentTiming(null)).toMatchObject({
+      days: 25,
+      basis: "estimated-deadline-proxy",
+      comparatorCount: 6,
+      comparison: "all-appointment-rules",
+    });
   });
 });

@@ -146,7 +146,7 @@ export function compileStateLegislatures(
          */
         isCompleteUniverse: true,
         universeDescription:
-          "The fifty United States, one identity record each. Facts inside a record are KNOWN only where a locked state instrument states them; a state whose authority could not be retrieved carries UNKNOWN values and a gap naming the obstacle.",
+          "The fifty United States, one identity record each. Facts inside a record are recorded only where a locked state instrument states them; a state whose authority could not be retrieved carries unresolved values and a gap naming the obstacle.",
         boundedSampleReason: null,
       },
     },

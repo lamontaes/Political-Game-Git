@@ -3,6 +3,7 @@ import { useState } from "react";
 import { isoDateFromParts } from "../simulation";
 import {
   applyFullBirthday,
+  birthYearChoiceLabel,
   birthYearChoices,
   birthYearForSetup,
   creatorStartDate,
@@ -190,7 +191,7 @@ export function CreatorBirthdayFields({
           >
             {years.map((value) => (
               <option key={value} value={value}>
-                {value}
+                {birthYearChoiceLabel(value, month, day, startDate)}
               </option>
             ))}
           </GameSelect>

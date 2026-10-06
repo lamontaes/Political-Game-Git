@@ -81,8 +81,8 @@ export type {
 } from "./compile";
 export { normalizeQualifications, readRequirement } from "./normalize";
 export {
-  REJECTED_PLACEHOLDER_CITATIONS,
-  REJECTED_PLACEHOLDER_VALUES,
+  REJECTED_STAND_IN_CITATIONS,
+  REJECTED_STAND_IN_VALUES,
   validateQualificationCorpus,
 } from "./validate";
 

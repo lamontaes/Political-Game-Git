@@ -8,6 +8,7 @@ import {
   federalDeficitChangePctOfGdp,
   federalLawAmountAt,
   federalOutlayChangeAt,
+  federalOutlayLawLineChangesAt,
   federalAidFactor,
   INCREASE_FOREIGN_AID_QUESTION,
 } from "../../src/simulation/federal-outlay-laws";
@@ -217,6 +218,14 @@ describe("federal outlay laws use final adopted annual dollar terms", () => {
       aidDollars: 1200,
       lawMeasureIds: [aid.measure.id],
     });
+    expect(federalOutlayLawLineChangesAt(world, world.currentDate)).toEqual([
+      expect.objectContaining({
+        questionKey: INCREASE_FOREIGN_AID_QUESTION,
+        measureId: aid.measure.id,
+        lineIndex: FEDERAL_OUTLAYS.indexOf("internationalAffairs"),
+        amount: 100,
+      }),
+    ]);
     expect(ALL_PLACES).toHaveLength(56);
     for (const place of ALL_PLACES) {
       expect(

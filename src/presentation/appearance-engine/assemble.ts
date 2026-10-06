@@ -307,7 +307,18 @@ export function assemblePerson(
         neckline - layer.dy,
       ),
     }));
-  return composite(canvas.width, canvas.height, [...placed, ...collars]);
+  // A collar sits over the neck, but hair and face accessories sit over the
+  // collar. Appending the collar after every placed layer painted a horizontal
+  // strip from high collars and hoods across the front-hair layer.
+  const firstFaceDetail = placed.findIndex((layer) =>
+    ["facial-hair", "glasses", "earrings", "front-hair"].includes(layer.slot),
+  );
+  const collarIndex = firstFaceDetail < 0 ? placed.length : firstFaceDetail;
+  return composite(canvas.width, canvas.height, [
+    ...placed.slice(0, collarIndex),
+    ...collars,
+    ...placed.slice(collarIndex),
+  ]);
 }
 
 /** The collar band reaches this share of the figure's height below the neck row. */

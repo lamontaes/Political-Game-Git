@@ -109,7 +109,7 @@ export const MUNICIPAL_CORPUS_AS_OF = "2026-09-05";
  * same thing where an auditor reads it.
  */
 export const MUNICIPAL_PRODUCTION_GATE =
-  "Production contains only individually retrieved, scoped and excerpt-checked enacted provisions. The full declared research corpus remains separately attributed research, with unsupported fields UNKNOWN. A source being downloaded or quoted does not itself prove an authored interpretation, nor does a partial charter authorize unsupported procedures.";
+  "Production contains only individually retrieved, scoped and excerpt-checked enacted provisions. The full declared research corpus remains separately attributed research; a field without enacted authority remains unresolved with its recorded reason and evidence. A source being downloaded or quoted does not itself prove an authored interpretation, nor does a partial charter authorize unsupported procedures.";
 
 /** The fixture payload: the three Kentucky pilot packs, inline. */
 export interface MunicipalGovernanceFixtureArtifacts extends MunicipalGovernanceArtifacts {
@@ -165,7 +165,7 @@ export function compileMunicipalFixture(
       coverage: {
         isCompleteUniverse: false,
         universeDescription:
-          "Three Kentucky pilot governments (Lexington-Fayette Urban County, Louisville-Jefferson County Metro, Bowling Green), chosen to exercise the schema across consolidated and non-consolidated forms. It is not a census of Kentucky local governments and must never be read as one.",
+          "Three fixture governments whose recorded forms exercise the schema across consolidated and non-consolidated government. This bounded fixture is not a census of its state's local governments and must never be read as one.",
         boundedSampleReason:
           "Audit fixture only. This research fixture does not claim independently verified law; production provisions have separate locked evidence.",
       },

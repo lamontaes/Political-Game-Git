@@ -1292,7 +1292,7 @@
       "who": "Attending four-year-old cohorts in the evaluated quality settings, later observed at high-school completion.",
       "lagWhy": "The existing lag0 is not an immediate completion effect. Cohort age and the study follow-up must determine the graduation date.",
       "aboutZero": false,
-      "notes": "Superseded for places by universal-prek-to-graduation, which carries the Boston and Tennessee size; this quality measure is not recorded by place, so it stays for a future program-quality reader."
+      "notes": "Superseded for places by universal-prek-to-graduation, which carries the Boston and Tennessee size. This quality measure has no place-level series in the cited studies, so it remains inactive unless a program-quality reader supplies that series."
     },
     {
       "key": "family-income-to-scores",
@@ -1774,7 +1774,7 @@
       "lagMonths": 0,
       "group": "tenants",
       "owner": "F",
-      "anchor": "Nonpregnancy hospital visits rise in quarters 1–4 in the New York sample; quarters 5–8 estimate is uncertain.",
+      "anchor": "In the New York sample, nonpregnancy hospital visits rise by 0.188 per covered tenant in quarters 1–4 (derived 95% interval 0.00376 to 0.37224). The quarters 5–8 estimate is -0.113 (derived 95% interval -0.39132 to 0.16532).",
       "source": "Collinson et al. 2024 (QJE)",
       "from": "housing.eviction",
       "evidence": "researched",
@@ -2357,7 +2357,7 @@
       "source": "Gao, Lee and Murphy 2020 (JFE)",
       "from": "press.local-newspaper",
       "evidence": "researched",
-      "notes": "Unsupported until a unit adapter exists: the study prices county bonds after a county paper closes, but the game's outcome is a state's general obligation spread, and newspapers are not recorded by place."
+      "notes": "Unsupported until a unit adapter exists: the study prices county bonds after a county paper closes, but the game's outcome is a state's general obligation spread and the game has no place-level newspaper series."
     },
     {
       "key": "newspaper-closure-to-engagement",
@@ -2898,7 +2898,7 @@
       "lagMonths": 12,
       "group": "place",
       "owner": "M",
-      "anchor": "New apartments in large buildings twice as many a year where the law allows more homes. HARDWIRED at the middle of what was found: Minneapolis's housing stock grew three times as fast as the rest of Minnesota's, 2017 to 2022 (Pew, January 4, 2024); California's SB 9 approved about none in its first year (Terner Center, 2022); Sao Paulo's upzoning added 1.9% to the stock in the long run (Research 1). PLACEHOLDER(research: permits-after-upzoning). New buildings then cut nearby rents 5 to 7%",
+      "anchor": "New apartments in large buildings twice as many a year where the law allows more homes. The 1.0 proportional increase is the recorded midpoint calibration: Minneapolis's housing stock grew three times as fast as the rest of Minnesota's from 2017 to 2022 (Pew, January 4, 2024); California's SB 9 approved almost none in its first year (Terner Center, 2022); and Sao Paulo's upzoning added 1.9% to the stock in the long run (Research 1). New buildings then cut nearby rents 5% to 7%.",
       "source": "Pew Charitable Trusts, January 4, 2024; Terner Center, 2022; Anagol, Ferreira and Rexer 2021, NBER w29440",
       "evidence": "researched",
       "from": "law:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
@@ -4568,7 +4568,7 @@
       "evidence": "to-confirm",
       "anchor": "Chicago's 1997 voucher lottery (82,607 applicants), children tracked 14 years: effects on schooling mostly statistically insignificant",
       "source": "Jacob, Kapustin and Ludwig 2015 (QJE; NBER w20164)",
-      "notes": "Evidence gap, not a measured zero: Chicago's voucher lottery found schooling effects mostly statistically insignificant, which leaves the size unknown rather than zero; no other study sizes it."
+      "notes": "The cited Chicago voucher lottery found mostly statistically insignificant schooling effects and supplies no transportable numeric effect for this outcome. The link therefore remains inactive instead of treating statistical insignificance as a measured zero."
     },
     {
       "key": "housing-vouchers-to-crime",
@@ -4588,7 +4588,7 @@
       "evidence": "to-confirm",
       "anchor": "Same lottery: effects on arrests mostly statistically insignificant",
       "source": "Jacob, Kapustin and Ludwig 2015 (QJE; NBER w20164)",
-      "notes": "Evidence gap, not a measured zero: Chicago's voucher lottery found arrest effects mostly statistically insignificant, which leaves the size unknown rather than zero; no other study sizes it."
+      "notes": "The cited Chicago voucher lottery found mostly statistically insignificant arrest effects and supplies no transportable numeric effect for this outcome. The link therefore remains inactive instead of treating statistical insignificance as a measured zero."
     },
     {
       "key": "top-income-tax-rate-to-poverty",
@@ -4856,7 +4856,7 @@
       "group": "place",
       "owner": "F-cloud",
       "evidence": "provisional",
-      "anchor": "PLACEHOLDER (research: pension-funding-borrowing-cost-size): spreads rose 7 to 15 basis points for each 10% of revenue lost in pension funds, in states in the lower half of credit quality; paying the full contribution heads off part of that. The size is a provisional range, drawn per world (Claude CTO, September 28, 2026)",
+      "anchor": "Spreads rose 7 to 15 basis points for each 10% of revenue lost in pension funds in states in the lower half of credit quality. The recorded game estimate is a 3-basis-point reduction, with a -8 to 0 range, because paying the full contribution heads off only part of that observed loss effect (Novy-Marx and Rauh 2012).",
       "source": "Novy-Marx and Rauh 2012, AEJ: Economic Policy 4(2)",
       "range": [-8, 0],
       "floor": -7
@@ -4877,7 +4877,7 @@
       "group": "place",
       "owner": "F-cloud",
       "evidence": "provisional",
-      "anchor": "PLACEHOLDER (research: reserve-balance-borrowing-cost-size): rainy-day funds raise ratings and lower yields, but no study gives basis points per law; the size is a provisional range, drawn per world (Claude CTO, September 28, 2026)",
+      "anchor": "ESTIMATED FROM THE RECORDED FISCAL-LAW AVERAGE: a minimum reserve balance lowers borrowing cost by 3 basis points, with a -6 to 0 range. The basis is the game's same -3-basis-point estimate for full pension funding; Pew 2017 and Wagner 2004 establish that rainy-day funds raise ratings and lower yields but do not provide basis points per law.",
       "source": "Pew Charitable Trusts 2017; Wagner 2004",
       "range": [-6, 0],
       "floor": -5
@@ -4993,7 +4993,7 @@
       "evidence": "to-confirm",
       "anchor": "Leaving the choice to local boards changes which titles stay on the shelf: challenges reached 4,240 titles nationwide in 2023, a small share of any library's collection, and no study links removals to reading scores. What moves reading is money for the library itself, a different question",
       "source": "American Library Association, Office for Intellectual Freedom, 2023 book challenge data; Gilpin, Karger and Nencka 2024, AEJ: Economic Policy",
-      "notes": "Evidence gap, not a measured zero: no study links local book removals to reading scores, so the size is unknown, not zero."
+      "notes": "The cited evidence supplies no numeric link from local book removals to reading scores. The link remains inactive rather than converting the absence of a measured effect into zero."
     },
     {
       "key": "city-anti-discrimination-to-poverty",

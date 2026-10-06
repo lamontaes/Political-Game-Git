@@ -1,5 +1,9 @@
 import { inventedPersonBirthDate } from "../invented-person-age";
-import { applyItemVetoes } from "./item-veto";
+import {
+  applyItemVetoes,
+  executiveItemVetoSelectionProblem,
+  type ExecutiveItemVetoSelection,
+} from "./item-veto";
 import { eventById } from "../event-index";
 import { applyCharacterHistoryPlan } from "../character-history";
 import { addDays, compareSimulationMoments, makeIsoDate } from "../dates";
@@ -121,6 +125,13 @@ import {
   principleAnswersConsideration,
 } from "./officeholder-principles";
 import { publicPartyOf } from "./chamber-votes";
+import {
+  BUDGET_DOLLARS,
+  BUDGET_DOLLARS_VERSION,
+  recordExecutiveBudgetRequest,
+  validateExecutiveBudgetRequestLines,
+  type ExecutiveBudgetRequestLine,
+} from "./executive-budget-requests";
 import { decideExecutiveActionAuthority } from "../executive-action-authority";
 import { executiveRulePackForJurisdiction } from "../executive-authority-rule-packs";
 import { legislatureProfilePackId } from "../legislature-game-profile";
@@ -771,6 +782,28 @@ function optionsFor(
       ];
     }
     case "budget": {
+      if (event.tags.includes(BUDGET_DOLLARS_VERSION))
+        return [
+          {
+            key: BUDGET_DOLLARS,
+            label: "Prepare a dollar request",
+            effect:
+              "Choose amounts by program family for the legislature to consider.",
+            tradeoff:
+              "The legislature may change the request; only its enacted appropriation authorizes spending.",
+            personId: null,
+            assessment: null,
+          },
+          {
+            key: BUDGET_FLAT,
+            label: "Keep the existing priorities",
+            effect: "Record no new dollar request.",
+            tradeoff:
+              "Existing plans continue; this does not enact a budget or renew expired spending authority.",
+            personId: null,
+            assessment: null,
+          },
+        ];
       const keys = event.tags
         .filter((tag) => tag.startsWith("program:"))
         .map((tag) => tag.slice("program:".length));
@@ -991,9 +1024,9 @@ const FAMILY_TEXT: Record<
   },
   budget: {
     title: () => "Set the budget request",
-    ask: "The budget office needs your priorities before the request goes to the legislature.",
+    ask: "The budget office needs your requested amounts and priorities before the request goes to the legislature.",
     ifIgnored:
-      "The budget office sends a request that keeps this year's priorities.",
+      "No new dollar request is recorded; existing plans retain only their existing spending authority.",
   },
   bill: {
     title: (subject) => `A bill on ${subject} is on your desk`,
@@ -1063,7 +1096,13 @@ function matterFromEvent(
   const family = tagValue(event, "matter-family:");
   const officeKey = tagValue(event, "office:");
   const deadline = tagValue(event, "deadline:");
-  if (!isFamily(family) || !officeKey || (!deadline && family !== "bill"))
+  const optionalBudget =
+    family === "budget" && event.tags.includes(BUDGET_DOLLARS_VERSION);
+  if (
+    !isFamily(family) ||
+    !officeKey ||
+    (!deadline && family !== "bill" && !optionalBudget)
+  )
     return null;
   const holderPersonId = event.participants.find(
     (participant) => participant.role === "agency:officeholder",
@@ -1109,7 +1148,9 @@ function matterFromEvent(
     deadline:
       family === "bill"
         ? (executiveWindow?.lastActionDate ?? null)
-        : makeIsoDate(deadline!),
+        : optionalBudget
+          ? null
+          : makeIsoDate(deadline!),
     title: text.title(
       family === "clemency"
         ? petitionerLabel(world, event)
@@ -1822,7 +1863,9 @@ function openMatter(
   const deadline =
     input.family === "bill"
       ? (executiveWindow?.lastActionDate ?? null)
-      : addDays(world.currentDate, DEADLINE_DAYS[input.family]);
+      : input.family === "budget"
+        ? null
+        : addDays(world.currentDate, DEADLINE_DAYS[input.family]);
   const text = FAMILY_TEXT[input.family];
   const title = text.title(
     input.titleSubject ??
@@ -1857,6 +1900,7 @@ function openMatter(
     tags: [
       STATE_GOVERNING_VERSION,
       `matter-family:${input.family}`,
+      ...(input.family === "budget" ? [BUDGET_DOLLARS_VERSION] : []),
       `office:${office.officeKey}`,
       ...(deadline ? [`deadline:${deadline}`] : []),
       ...(input.subjectKey ? [`subject:${input.subjectKey}`] : []),
@@ -1904,13 +1948,14 @@ function openMatter(
       effort: null,
       access: { kind: "private", personIds: [office.holderPersonId] },
       assignedPersonIds: [office.holderPersonId],
-      playerRequirement: "decision",
+      playerRequirement: input.family === "budget" ? "none" : "decision",
       waitingOnPersonIds: [],
       blocker: null,
       scheduledActivityId: null,
     });
     // A real bill lapses only through an executable, declared legal window.
-    if (input.family === "bill") return next;
+    // Dollar requests are optional planning; they have no invented action window.
+    if (input.family === "bill" || input.family === "budget") return next;
     return scheduleFutureDueItem(next, {
       stableKey: `${stableKey}:deadline`,
       dueAt: deadline!,
@@ -1979,7 +2024,7 @@ export function openClemencyMatter(
 
 /**
  * The first days in office: the office needs a chief of staff and a first
- * priority. Opened once per term, the day after entry.
+ * priority and a dollar budget request. Opened once per term, the day after entry.
  */
 export function openTransitionMatters(world: World, officeKey: string): World {
   const office = governingOfficeByKey(world, officeKey);
@@ -2007,6 +2052,11 @@ export function openTransitionMatters(world: World, officeKey: string): World {
   next = openMatter(next, office, {
     family: "agenda",
     instance: "first-year",
+    programKeys,
+  });
+  next = openMatter(next, office, {
+    family: "budget",
+    instance: `entry:${office.termId}`,
     programKeys,
   });
   // Money the government has already adopted is waiting for this office.
@@ -2262,9 +2312,14 @@ function decisionSummary(
             visibility: "public",
           };
     case "budget":
+      if (option.key === BUDGET_DOLLARS)
+        return {
+          summary: `${who}, ${office.title}, prepared a dollar budget request for the legislature.`,
+          visibility: "public",
+        };
       return option.key === BUDGET_FLAT
         ? {
-            summary: `${who}, ${office.title}, sent the legislature a budget that holds spending where it is.`,
+            summary: `${who}, ${office.title}, kept the existing budget priorities without recording a new dollar request.`,
             visibility: "public",
           }
         : {
@@ -2370,6 +2425,7 @@ function applyConsequence(
   option: GoverningMatterOption | null,
   decisionEventId: EntityId,
   billReasons?: string,
+  itemSelection?: ExecutiveItemVetoSelection,
 ): World {
   if (!option) {
     if (matter.family === "bill" && matter.measureId) return world;
@@ -2551,7 +2607,12 @@ function applyConsequence(
         // A signing governor with an item veto strikes the floor-added
         // sections they cannot accept (Build 25 step 5).
         if (signed)
-          next = applyItemVetoes(next, matter.measureId, office.holderPersonId);
+          next = applyItemVetoes(
+            next,
+            matter.measureId,
+            office.holderPersonId,
+            itemSelection,
+          );
         next = scheduleInstitutionStep(next, matter.measureId);
         return signed && office.organizationId
           ? openMatter(next, office, {
@@ -2666,6 +2727,7 @@ function recordDecision(
   mode: GoverningDecisionMode | "lapsed",
   deciderPersonId: EntityId,
   billReasons?: string,
+  itemSelection?: ExecutiveItemVetoSelection,
 ): World {
   const office = governingOfficeByKey(world, matter.officeKey);
   if (!office || office.holderPersonId !== matter.holderPersonId)
@@ -2710,6 +2772,12 @@ function recordDecision(
       `matter:${matter.id}`,
       `choice:${option?.key ?? "lapsed"}`,
       `decided-by:${mode}`,
+      ...(itemSelection
+        ? [
+            `item-veto-snapshot:${itemSelection.measureActionSequence}`,
+            ...itemSelection.provisionIds.map((id) => `item-veto-item:${id}`),
+          ]
+        : []),
     ],
     summary,
     context: { ...emptyContext(), choice: option?.label ?? "No decision" },
@@ -2728,6 +2796,7 @@ function recordDecision(
     option,
     decision.id,
     billReasons,
+    itemSelection,
   );
   if (matter.family === "clemency" && option) {
     const petitionId = tagValue(matter.openedEvent, "source-event:");
@@ -2784,12 +2853,39 @@ export function decideGoverningMatter(
   matterId: EntityId,
   optionKey: string,
   billReasons?: string,
+  itemSelection?: ExecutiveItemVetoSelection,
 ): GoverningActionResult {
   const matter = openMatterForPlayer(world, matterId);
   if (typeof matter === "string") return { ok: false, world, reason: matter };
   const option = matter.options.find((o) => o.key === optionKey);
   if (!option)
     return { ok: false, world, reason: "That choice is not available." };
+  if (option.key === BUDGET_DOLLARS)
+    return {
+      ok: false,
+      world,
+      reason: "Choose the budget period and requested dollar amounts first.",
+    };
+  if (itemSelection) {
+    if (
+      matter.family !== "bill" ||
+      !matter.measureId ||
+      option.key !== BILL_SIGN ||
+      itemSelection.matterId !== matter.openedEvent.id
+    )
+      return {
+        ok: false,
+        world,
+        reason:
+          "An item-veto selection belongs to this bill's signature decision only.",
+      };
+    const problem = executiveItemVetoSelectionProblem(
+      world,
+      matter.measureId,
+      itemSelection,
+    );
+    if (problem) return { ok: false, world, reason: problem };
+  }
   let next = world;
   if (matter.family === "bill" && matter.measureId) {
     const measure = world.history.legislativeMeasures?.find(
@@ -2826,6 +2922,7 @@ export function decideGoverningMatter(
     "player",
     matter.holderPersonId,
     billReasons,
+    itemSelection,
   );
   if (decided === world)
     return {
@@ -2837,6 +2934,63 @@ export function decideGoverningMatter(
     ok: true,
     world: decided,
   };
+}
+
+/** The same decision writer, with actual dollar lines rather than a priority slogan. */
+export function decideGoverningBudgetRequest(
+  world: World,
+  matterId: EntityId,
+  input: {
+    readonly startsOn: IsoDate;
+    readonly endsOn: IsoDate;
+    readonly lines: readonly ExecutiveBudgetRequestLine[];
+  },
+): GoverningActionResult {
+  const matter = openMatterForPlayer(world, matterId);
+  if (typeof matter === "string") return { ok: false, world, reason: matter };
+  const option =
+    matter.family === "budget"
+      ? matter.options.find((entry) => entry.key === BUDGET_DOLLARS)
+      : null;
+  if (!option)
+    return {
+      ok: false,
+      world,
+      reason: "This matter does not accept a dollar request.",
+    };
+  try {
+    validateExecutiveBudgetRequestLines(input.lines);
+    const start = makeIsoDate(input.startsOn);
+    const end = makeIsoDate(input.endsOn);
+    if (end < start)
+      throw new Error("The requested budget period ends before it starts.");
+    const decided = recordDecision(
+      world,
+      matter,
+      option,
+      "player",
+      matter.holderPersonId,
+    );
+    const decision = governingMatterById(decided, matter.id)?.decision;
+    if (!decision) throw new Error("The budget decision was not recorded.");
+    return {
+      ok: true,
+      world: recordExecutiveBudgetRequest(decided, {
+        ...input,
+        matterId,
+        decisionEventId: decision.id,
+      }),
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      world,
+      reason:
+        error instanceof Error
+          ? error.message
+          : "The budget request could not be recorded.",
+    };
+  }
 }
 
 /** Hand the matter to the chief of staff, who takes their own recommendation. */
@@ -3024,6 +3178,14 @@ export function governingDeadlineHandler(
   const matter = matterForDue(world, due);
   if (!matter || matter.status !== "open")
     return resolved(world, "The matter was already settled.");
+  if (
+    matter.family === "budget" &&
+    matter.openedEvent.tags.includes(BUDGET_DOLLARS_VERSION)
+  )
+    return resolved(
+      world,
+      "A dollar request has no compulsory action deadline.",
+    );
   const office = governingOfficeByKey(world, matter.officeKey);
   if (!office || office.holderPersonId !== matter.holderPersonId)
     return resolved(world, "The office changed hands before the deadline.");

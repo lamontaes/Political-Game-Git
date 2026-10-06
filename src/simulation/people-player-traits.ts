@@ -10,6 +10,7 @@ import {
 } from "./people-trait-definitions";
 import { ensurePeopleTraitCatalog, personTrait } from "./people-traits";
 import { latestPersonalityTendency } from "./queries";
+import { appendChildhoodEntry } from "./childhood-record";
 import type { EntityId, World } from "./types";
 
 /**
@@ -182,12 +183,13 @@ export function recordFormativePlayerTraitChoice(
     readonly situationKey: string;
     readonly optionKey: string;
     readonly choiceLabel: string;
+    /** Undefined means this formative choice did not concern faith. */
+    readonly faithChoice?: EntityId | null;
   },
 ): World {
   const trait =
     FORMATIVE_CHOICE_TRAITS[`${input.situationKey}:${input.optionKey}`];
   if (
-    !trait ||
     after.control.kind !== "person" ||
     after.control.personId !== input.personId
   )
@@ -205,12 +207,26 @@ export function recordFormativePlayerTraitChoice(
         event.tags.includes(`choice.${input.optionKey}`),
     );
   if (!choiceEvent) return after;
-  return recordPlayerTraitChoice(after, {
-    personId: input.personId,
-    ...trait,
-    choice: input.choiceLabel,
-    stableKey: choiceEvent.id,
-  });
+  let next = after;
+  if (trait)
+    next = recordPlayerTraitChoice(next, {
+      personId: input.personId,
+      ...trait,
+      choice: input.choiceLabel,
+      stableKey: choiceEvent.id,
+    });
+  if (input.faithChoice !== undefined)
+    next = appendChildhoodEntry(next, {
+      kind: "faith-choice",
+      stableKey: `faith-choice:${choiceEvent.id}`,
+      personId: input.personId,
+      effectiveAt: choiceEvent.occurredAt,
+      sourceRecordId: choiceEvent.id,
+      congregationId: input.faithChoice,
+      situationKey: input.situationKey,
+      optionKey: input.optionKey,
+    });
+  return next;
 }
 
 /**

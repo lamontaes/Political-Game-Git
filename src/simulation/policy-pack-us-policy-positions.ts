@@ -641,7 +641,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         { key: "reserved-subjects", value: "state-reserved-subjects" },
       ],
       issue: "us-state-and-local:government-operations.state-local-powers",
-      name: "Broaden local authority",
+      name: "Broaden local government power",
       question:
         "Should localities be free to act on matters the state has not expressly reserved to itself?",
       tags: ["home-rule", "contested"],
@@ -3132,7 +3132,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         { key: "coverage", value: "covered-council-districts" },
       ],
       issue: "us-state-and-local:government-operations.redistricting",
-      name: "Independent ward commission",
+      name: "Independent district commission",
       question:
         "Should the city's council districts be drawn by an independent commission rather than by the council?",
       tags: ["contested"],
