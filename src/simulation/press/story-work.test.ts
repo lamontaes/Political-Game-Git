@@ -6,7 +6,8 @@ import {
   recordWorkRole,
   recordWorkStatus,
 } from "../life";
-import { negotiateGroundRules } from "./sources";
+import { answerPressRequest, negotiateGroundRules } from "./sources";
+import { pressAnswerStance, projectPressDesk } from "./views";
 import { addDays } from "../dates";
 import { activeWorkRelationshipsAt, workStatusAt } from "../life-queries";
 import { deserializeWorld, serializeWorld } from "../serialization";
@@ -191,6 +192,36 @@ describe.each(samples)(
       );
       expect(responseRequest).toBeDefined();
       expect(responseRequest!.involvedEntityIds).toContain(familiar.personId);
+      const playerRequest = projectPressDesk(
+        assigned,
+        f.personId,
+      ).incomingRequests.find((request) => request.leadId === recorded.lead.id);
+      expect(playerRequest).toMatchObject({
+        leadId: recorded.lead.id,
+        reporterPersonId: familiar.personId,
+      });
+      expect(playerRequest!.answerOptions.length).toBeGreaterThan(0);
+      const chosenAnswer = playerRequest!.answerOptions[0]!;
+      const stance = pressAnswerStance(
+        assigned,
+        recorded.lead.id,
+        f.personId,
+        chosenAnswer.choice,
+      );
+      const answered = answerPressRequest(assigned, {
+        leadId: recorded.lead.id,
+        ...stance,
+      });
+      const response = answered.history.events.find(
+        (event) =>
+          event.stableKey ===
+          `${recorded.lead.stableKey}:response:${f.personId}`,
+      );
+      expect(response).toBeDefined();
+      expect(response!.involvedEntityIds).toContain(familiar.personId);
+      expect(latestDisposition(answered, recorded.lead.id)?.decision).toBe(
+        "subject-responded",
+      );
       expect(storyWorkItem(assigned, recorded.lead.id)).not.toBeNull();
       expect(
         assigned.history.futureDueItems.some(
@@ -198,7 +229,7 @@ describe.each(samples)(
         ),
       ).toBe(true);
       console.info(
-        `WATCHED PRESS JOURNEY — ${place.displayName}: ${contact.id} press.contact survived save/reload; ${familiar.personId} received lead ${recorded.lead.id}; response request ${responseRequest!.id} entered the story queue after source event ${f.source.id}.`,
+        `WATCHED PRESS JOURNEY — ${place.displayName}: recorded contact ${contact.id} survived save/reload; the familiar reporter ${familiar.personId} received lead ${recorded.lead.id}; source event ${f.source.id} led to response request ${responseRequest!.id} and queued story work; the press desk offered ${chosenAnswer.choice}, which the player recorded as response event ${response!.id}.`,
       );
     });
 
