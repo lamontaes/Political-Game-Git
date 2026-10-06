@@ -71,8 +71,8 @@ describe("the one personality trait registry", () => {
 
   it("names real behavior readers and makes every other trait explicit debt", () => {
     expect(traitsWithoutReaderOrDebt()).toEqual([]);
-    expect(PERSONALITY_TRAIT_READERS).toHaveLength(5);
-    expect(NOT_YET_CONNECTED_TRAITS).toHaveLength(92);
+    expect(PERSONALITY_TRAIT_READERS).toHaveLength(6);
+    expect(NOT_YET_CONNECTED_TRAITS).toHaveLength(91);
     expect(
       new Set(PERSONALITY_TRAIT_READERS.map(({ trait }) => trait)).size,
     ).toBe(PERSONALITY_TRAIT_READERS.length);
