@@ -12,3 +12,5 @@ Bound joined household projections to one protected current result plus one hist
 Alias the person fast lookup to the existing field grouping and append-candidate list. Invalidate the prior direct alias on adoption; retain no second strong list of history arrays.
 
 Add a bounded, explicitly untimed Inspector allocation-survivor diagnostic using the existing canonical Day runner. Sampling weights are not exact retained bytes or performance acceptance.
+
+Add a diagnostic-only read-only loader and short cache census runner. Count visible current and older array references without updating source records or cache contents. Publish allocation and reference evidence with explicit ownership and byte-measurement limits.

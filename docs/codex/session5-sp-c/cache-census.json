@@ -1,0 +1,868 @@
+{
+  "source": "2017f179c5ba133b5b6b6a312a538c766bc70f9d",
+  "productionSource": "82444c69de858b80bfe8f529af7f39e9da8ba420",
+  "exec": 62210,
+  "pid": 63826,
+  "exitCode": 0,
+  "acceptedActions": 8,
+  "window": ["2026-01-05", "2026-01-12"],
+  "acceptance": false,
+  "input": {
+    "source": "2017f179c5ba133b5b6b6a312a538c766bc70f9d",
+    "seed": "session5-one-month-3c40ddf2-3ead-4375-b68a-a9eedaf046ec",
+    "place": {
+      "key": "5568175",
+      "displayName": "Ripon, Wisconsin",
+      "formalName": "Ripon",
+      "withinName": "Wisconsin",
+      "context": {
+        "jurisdiction": {
+          "id": "jurisdiction_49f20ed9755d8146",
+          "slug": "us-place-5568175",
+          "name": "Ripon, Wisconsin",
+          "kind": "census-place",
+          "parentName": "Wisconsin",
+          "provenance": {
+            "asOf": "2026-01-05",
+            "source": "census-gazetteer-2025-places-zip",
+            "jurisdiction": "jurisdiction_49f20ed9755d8146",
+            "status": "approved"
+          }
+        },
+        "initialMoment": {
+          "date": "2026-01-05",
+          "minuteOfDay": 550,
+          "timeZone": "America/Chicago",
+          "utcOffsetMinutes": -360
+        },
+        "creationSummary": "Seeded world in Ripon, Wisconsin, from the 2025 Census Gazetteer place identity.",
+        "goalScope": "Ripon, Wisconsin",
+        "householdLocationLabel": "Ripon, Wisconsin"
+      },
+      "scope": "locality",
+      "stateJurisdictionKey": "US-WI",
+      "capabilities": {
+        "legislativeScenarioKey": null,
+        "candidacyPackId": null
+      },
+      "sourceGeoid": "5568175"
+    },
+    "setup": {
+      "playSettings": {
+        "challenge": "standard",
+        "notes": "full",
+        "saves": "free",
+        "premises": {
+          "familyMoney": "ordinary",
+          "press": "realistic",
+          "ongoingMoneyCosts": "standard"
+        }
+      },
+      "startKind": "normal",
+      "placeKey": "5568175",
+      "startAge": 40,
+      "depth": "play-formative-years",
+      "startingLife": "ordinary-life",
+      "household": "shares-a-home",
+      "givenName": null,
+      "familyName": null,
+      "gender": "female",
+      "appearanceRecipeVersion": "appearance-recipe-v2",
+      "givenNameGenerationVersion": "given-name-v3",
+      "childhoodGenerationVersion": "childhood-v2",
+      "partyChapterNameVersion": "resident-names-v1",
+      "schoolNameVersion": "school-names-v3",
+      "placeNameVersion": "place-names-v1",
+      "schoolStageVersion": "school-stages-v2",
+      "familyBirthdayVersion": "family-birthdays-v1",
+      "parentPartnerVersion": "parent-partners-v1",
+      "adultStartWorkVersion": "adult-start-work-v1",
+      "districtHomeJoinVersion": "congressional-home-join-v1",
+      "questionnaireCopyVersion": "playtest65-v2",
+      "questionnaireSelectionVersion": "curated-v1",
+      "openingWorkLocationVersion": "schedule-v1",
+      "worldOpeningVersion": "world-opening-crunch46-v1",
+      "openingDataVersion": "playtest65-v3",
+      "livingWorldMemberNameVersion": "cohort-v1",
+      "questionnaire": "skipped",
+      "priors": [],
+      "birthMonth": 1,
+      "birthDay": 1,
+      "seed": "session5-one-month-3c40ddf2-3ead-4375-b68a-a9eedaf046ec"
+    },
+    "pid": 63826,
+    "heapLimit": 4496293888,
+    "window": ["2026-01-05", "2026-01-12"],
+    "route": "ordinary generated normal life, canonical daily Day action, no campaign or fixture injection",
+    "samplingIntervalUs": 1000,
+    "preciseCoverage": false,
+    "cacheCensusDiagnostic": true,
+    "timingAcceptance": false,
+    "limitations": [
+      "New random route, not Session48 retained seed",
+      "Headless Day computation excludes browser navigation/render",
+      "Sampled inclusive producer costs overlap; no annual/save/Continue acceptance",
+      "Appended row body bytes exclude save containers; no full World payload written"
+    ]
+  },
+  "terminal": {
+    "source": "2017f179c5ba133b5b6b6a312a538c766bc70f9d",
+    "worldId": "world_5f9b74dcb02d14ae",
+    "personId": "person_e54ea866a602ad62",
+    "date": "2026-01-12",
+    "people": 11831,
+    "heap": {
+      "rss": 1797242880,
+      "heapTotal": 1572880384,
+      "heapUsed": 1481330632,
+      "external": 3742632,
+      "arrayBuffers": 1192643
+    },
+    "days": 8
+  },
+  "stages": [
+    {
+      "source": "2017f179c5ba133b5b6b6a312a538c766bc70f9d",
+      "seed": "session5-one-month-3c40ddf2-3ead-4375-b68a-a9eedaf046ec",
+      "pid": 63826,
+      "date": "2026-01-06",
+      "observedAtUTC": "2026-10-06T13:02:32.329Z",
+      "memory": {
+        "rss": 1016983552,
+        "heapTotal": 794632192,
+        "heapUsed": 716785184,
+        "external": 29225693,
+        "arrayBuffers": 1590947
+      },
+      "counters": {
+        "currentSourceArrays": 27,
+        "priorSourceArrays": 44,
+        "currentSourceSlots": 74979,
+        "priorSourceSlots": 41926,
+        "indexEntries": 147855,
+        "groupArrays": 54818,
+        "groupSlots": 95639
+      },
+      "entries": [
+        {
+          "name": "recordsByStringField",
+          "currentArrays": 14,
+          "currentSlots": 50040,
+          "priorArrays": 2,
+          "priorSlots": 1
+        },
+        {
+          "name": "key:life-queries:kinship-person-ids",
+          "currentArrays": 1,
+          "currentSlots": 57,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "key:state-executives:holder-events",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 1,
+          "priorSlots": 3934
+        },
+        {
+          "name": "key:state-executives:executive-office-by-organization",
+          "currentArrays": 1,
+          "currentSlots": 7473,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "key:state-executives:death-by-person",
+          "currentArrays": 1,
+          "currentSlots": 4,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "key:confidants:relationship-interactions:person",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 1,
+          "priorSlots": 11
+        },
+        {
+          "name": "key:crime-victim",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 1,
+          "priorSlots": 710
+        },
+        {
+          "name": "key:council-agenda-measures-by-proposition",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 1,
+          "priorSlots": 1
+        },
+        {
+          "name": "key:governing:municipal-organizations",
+          "currentArrays": 1,
+          "currentSlots": 223,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "key:relationship-interactions-by-person",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 1,
+          "priorSlots": 11
+        },
+        {
+          "name": "field:workRelationshipId",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 2,
+          "priorSlots": 23
+        },
+        {
+          "name": "field:type",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 1,
+          "priorSlots": 3938
+        },
+        {
+          "name": "field:dwellingOccupancyId",
+          "currentArrays": 1,
+          "currentSlots": 60,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "field:personId",
+          "currentArrays": 3,
+          "currentSlots": 2271,
+          "priorArrays": 1,
+          "priorSlots": 0
+        },
+        {
+          "name": "field:resourceFlowId",
+          "currentArrays": 1,
+          "currentSlots": 7471,
+          "priorArrays": 2,
+          "priorSlots": 17
+        },
+        {
+          "name": "field:resourceObligationId",
+          "currentArrays": 1,
+          "currentSlots": 4,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "field:housingTenureId",
+          "currentArrays": 1,
+          "currentSlots": 60,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "field:kind",
+          "currentArrays": 1,
+          "currentSlots": 7473,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "field:organizationId",
+          "currentArrays": 1,
+          "currentSlots": 7473,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "field:electionDate",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 16,
+          "priorSlots": 0
+        },
+        {
+          "name": "stableKeys",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 16,
+          "priorSlots": 32165
+        },
+        {
+          "name": "firstStableKey",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 3,
+          "priorSlots": 5063
+        },
+        {
+          "name": "firstId",
+          "currentArrays": 14,
+          "currentSlots": 48127,
+          "priorArrays": 2,
+          "priorSlots": 25
+        }
+      ],
+      "limitation": "Exact counts of visible current/recent references and grouping slots; no byte-size estimate, weak-key enumeration, reference dominators or baseline-relative heap proof. Source arrays deduplicated across slots; slots can share canonical rows.",
+      "timingAcceptance": false,
+      "rawSHA256": "781102ba71b945df382bef09d42404687bcc42dd1e48ea3d5f9ca4839ce847e6",
+      "rawBytes": 4472
+    },
+    {
+      "source": "2017f179c5ba133b5b6b6a312a538c766bc70f9d",
+      "seed": "session5-one-month-3c40ddf2-3ead-4375-b68a-a9eedaf046ec",
+      "pid": 63826,
+      "date": "2026-01-11",
+      "observedAtUTC": "2026-10-06T13:02:42.380Z",
+      "memory": {
+        "rss": 1424830464,
+        "heapTotal": 1201168384,
+        "heapUsed": 1097404224,
+        "external": 3745086,
+        "arrayBuffers": 1195097
+      },
+      "counters": {
+        "currentSourceArrays": 28,
+        "priorSourceArrays": 42,
+        "currentSourceSlots": 79355,
+        "priorSourceSlots": 55649,
+        "indexEntries": 203519,
+        "groupArrays": 69521,
+        "groupSlots": 118986
+      },
+      "entries": [
+        {
+          "name": "recordsByStringField",
+          "currentArrays": 11,
+          "currentSlots": 44881,
+          "priorArrays": 3,
+          "priorSlots": 3
+        },
+        {
+          "name": "key:life-queries:kinship-person-ids",
+          "currentArrays": 1,
+          "currentSlots": 57,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "key:state-executives:holder-events",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 1,
+          "priorSlots": 6817
+        },
+        {
+          "name": "key:state-executives:executive-office-by-organization",
+          "currentArrays": 1,
+          "currentSlots": 7473,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "key:state-executives:death-by-person",
+          "currentArrays": 1,
+          "currentSlots": 4,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "key:confidants:relationship-interactions:person",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 1,
+          "priorSlots": 11
+        },
+        {
+          "name": "key:crime-victim",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 1,
+          "priorSlots": 710
+        },
+        {
+          "name": "key:council-agenda-measures-by-proposition",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 1,
+          "priorSlots": 1
+        },
+        {
+          "name": "key:governing:municipal-organizations",
+          "currentArrays": 1,
+          "currentSlots": 223,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "key:relationship-interactions-by-person",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 1,
+          "priorSlots": 11
+        },
+        {
+          "name": "field:workRelationshipId",
+          "currentArrays": 1,
+          "currentSlots": 7472,
+          "priorArrays": 1,
+          "priorSlots": 0
+        },
+        {
+          "name": "field:type",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 1,
+          "priorSlots": 6817
+        },
+        {
+          "name": "field:dwellingOccupancyId",
+          "currentArrays": 1,
+          "currentSlots": 60,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "field:personId",
+          "currentArrays": 3,
+          "currentSlots": 4154,
+          "priorArrays": 1,
+          "priorSlots": 0
+        },
+        {
+          "name": "field:resourceFlowId",
+          "currentArrays": 1,
+          "currentSlots": 7475,
+          "priorArrays": 2,
+          "priorSlots": 23
+        },
+        {
+          "name": "field:resourceObligationId",
+          "currentArrays": 1,
+          "currentSlots": 4,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "field:housingTenureId",
+          "currentArrays": 1,
+          "currentSlots": 60,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "field:kind",
+          "currentArrays": 1,
+          "currentSlots": 7473,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "field:organizationId",
+          "currentArrays": 1,
+          "currentSlots": 7473,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "field:electionDate",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 16,
+          "priorSlots": 0
+        },
+        {
+          "name": "stableKeys",
+          "currentArrays": 1,
+          "currentSlots": 233,
+          "priorArrays": 15,
+          "priorSlots": 52585
+        },
+        {
+          "name": "firstStableKey",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 3,
+          "priorSlots": 9164
+        },
+        {
+          "name": "firstId",
+          "currentArrays": 13,
+          "currentSlots": 48841,
+          "priorArrays": 3,
+          "priorSlots": 3
+        }
+      ],
+      "limitation": "Exact counts of visible current/recent references and grouping slots; no byte-size estimate, weak-key enumeration, reference dominators or baseline-relative heap proof. Source arrays deduplicated across slots; slots can share canonical rows.",
+      "timingAcceptance": false,
+      "rawSHA256": "b9fa4ba50d38d372fa950683ea60c4919ab9123a6b96a1030fbf0b581eabff83",
+      "rawBytes": 4477
+    },
+    {
+      "source": "2017f179c5ba133b5b6b6a312a538c766bc70f9d",
+      "seed": "session5-one-month-3c40ddf2-3ead-4375-b68a-a9eedaf046ec",
+      "pid": 63826,
+      "date": "2026-01-12",
+      "observedAtUTC": "2026-10-06T13:02:52.652Z",
+      "memory": {
+        "rss": 1797242880,
+        "heapTotal": 1572880384,
+        "heapUsed": 1481122072,
+        "external": 3742632,
+        "arrayBuffers": 1192643
+      },
+      "counters": {
+        "currentSourceArrays": 26,
+        "priorSourceArrays": 47,
+        "currentSourceSlots": 206529,
+        "priorSourceSlots": 130796,
+        "indexEntries": 418965,
+        "groupArrays": 123265,
+        "groupSlots": 241919
+      },
+      "entries": [
+        {
+          "name": "recordsByStringField",
+          "currentArrays": 10,
+          "currentSlots": 46301,
+          "priorArrays": 4,
+          "priorSlots": 6826
+        },
+        {
+          "name": "key:life-queries:kinship-person-ids",
+          "currentArrays": 1,
+          "currentSlots": 57,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "key:state-executives:holder-events",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 1,
+          "priorSlots": 7287
+        },
+        {
+          "name": "key:state-executives:executive-office-by-organization",
+          "currentArrays": 1,
+          "currentSlots": 7473,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "key:state-executives:death-by-person",
+          "currentArrays": 1,
+          "currentSlots": 4,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "key:confidants:relationship-interactions:person",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 1,
+          "priorSlots": 11
+        },
+        {
+          "name": "key:crime-victim",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 1,
+          "priorSlots": 710
+        },
+        {
+          "name": "key:council-agenda-measures-by-proposition",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 1,
+          "priorSlots": 1
+        },
+        {
+          "name": "key:governing:municipal-organizations",
+          "currentArrays": 1,
+          "currentSlots": 223,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "key:relationship-interactions-by-person",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 1,
+          "priorSlots": 44
+        },
+        {
+          "name": "field:workRelationshipId",
+          "currentArrays": 1,
+          "currentSlots": 7472,
+          "priorArrays": 1,
+          "priorSlots": 0
+        },
+        {
+          "name": "field:type",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 1,
+          "priorSlots": 7287
+        },
+        {
+          "name": "field:dwellingOccupancyId",
+          "currentArrays": 1,
+          "currentSlots": 60,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "field:personId",
+          "currentArrays": 3,
+          "currentSlots": 4469,
+          "priorArrays": 1,
+          "priorSlots": 0
+        },
+        {
+          "name": "field:resourceFlowId",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 3,
+          "priorSlots": 38967
+        },
+        {
+          "name": "field:resourceObligationId",
+          "currentArrays": 1,
+          "currentSlots": 4,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "field:housingTenureId",
+          "currentArrays": 1,
+          "currentSlots": 60,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "field:kind",
+          "currentArrays": 1,
+          "currentSlots": 7473,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "field:organizationId",
+          "currentArrays": 1,
+          "currentSlots": 7473,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "field:electionDate",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 16,
+          "priorSlots": 0
+        },
+        {
+          "name": "field:sourceOutcomeId",
+          "currentArrays": 1,
+          "currentSlots": 68303,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "field:liabilityId",
+          "currentArrays": 1,
+          "currentSlots": 13643,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "stableKeys",
+          "currentArrays": 1,
+          "currentSlots": 241,
+          "priorArrays": 15,
+          "priorSlots": 86545
+        },
+        {
+          "name": "firstStableKey",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 3,
+          "priorSlots": 9792
+        },
+        {
+          "name": "firstId",
+          "currentArrays": 11,
+          "currentSlots": 161074,
+          "priorArrays": 5,
+          "priorSlots": 14874
+        }
+      ],
+      "limitation": "Exact counts of visible current/recent references and grouping slots; no byte-size estimate, weak-key enumeration, reference dominators or baseline-relative heap proof. Source arrays deduplicated across slots; slots can share canonical rows.",
+      "timingAcceptance": false,
+      "rawSHA256": "cab91489dd97efe2700ae34504072f45cf08c6bff32ff6339c66656dd8a8a65f",
+      "rawBytes": 4790
+    },
+    {
+      "source": "2017f179c5ba133b5b6b6a312a538c766bc70f9d",
+      "seed": "session5-one-month-3c40ddf2-3ead-4375-b68a-a9eedaf046ec",
+      "pid": 63826,
+      "date": "2026-01-05",
+      "observedAtUTC": "2026-10-06T13:02:29.027Z",
+      "memory": {
+        "rss": 891224064,
+        "heapTotal": 676446208,
+        "heapUsed": 575725432,
+        "external": 29225773,
+        "arrayBuffers": 1591027
+      },
+      "counters": {
+        "currentSourceArrays": 24,
+        "priorSourceArrays": 29,
+        "currentSourceSlots": 61049,
+        "priorSourceSlots": 26387,
+        "indexEntries": 117155,
+        "groupArrays": 46421,
+        "groupSlots": 55404
+      },
+      "entries": [
+        {
+          "name": "recordsByStringField",
+          "currentArrays": 11,
+          "currentSlots": 38246,
+          "priorArrays": 5,
+          "priorSlots": 971
+        },
+        {
+          "name": "key:life-queries:kinship-person-ids",
+          "currentArrays": 1,
+          "currentSlots": 57,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "key:state-executives:holder-events",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 1,
+          "priorSlots": 66
+        },
+        {
+          "name": "key:state-executives:executive-office-by-organization",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 1,
+          "priorSlots": 72
+        },
+        {
+          "name": "key:state-executives:death-by-person",
+          "currentArrays": 1,
+          "currentSlots": 4,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "key:confidants:relationship-interactions:person",
+          "currentArrays": 1,
+          "currentSlots": 11,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "key:crime-victim",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 1,
+          "priorSlots": 660
+        },
+        {
+          "name": "field:workRelationshipId",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 2,
+          "priorSlots": 23
+        },
+        {
+          "name": "field:type",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 1,
+          "priorSlots": 702
+        },
+        {
+          "name": "field:dwellingOccupancyId",
+          "currentArrays": 1,
+          "currentSlots": 60,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "field:personId",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 2,
+          "priorSlots": 2
+        },
+        {
+          "name": "field:resourceFlowId",
+          "currentArrays": 1,
+          "currentSlots": 7471,
+          "priorArrays": 2,
+          "priorSlots": 17
+        },
+        {
+          "name": "field:resourceObligationId",
+          "currentArrays": 1,
+          "currentSlots": 4,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "field:housingTenureId",
+          "currentArrays": 1,
+          "currentSlots": 60,
+          "priorArrays": 0,
+          "priorSlots": 0
+        },
+        {
+          "name": "stableKeys",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 16,
+          "priorSlots": 24166
+        },
+        {
+          "name": "firstStableKey",
+          "currentArrays": 0,
+          "currentSlots": 0,
+          "priorArrays": 1,
+          "priorSlots": 705
+        },
+        {
+          "name": "firstId",
+          "currentArrays": 14,
+          "currentSlots": 45663,
+          "priorArrays": 2,
+          "priorSlots": 21
+        }
+      ],
+      "limitation": "Exact counts of visible current/recent references and grouping slots; no byte-size estimate, weak-key enumeration, reference dominators or baseline-relative heap proof. Source arrays deduplicated across slots; slots can share canonical rows.",
+      "timingAcceptance": false,
+      "rawSHA256": "84b2db9c68b5dd7d1c03791ed89782539e5fcb19f9f0bcc43045d80eb3adabec",
+      "rawBytes": 3520
+    }
+  ],
+  "driverHashes": {
+    "cache-census-loader.mjs": "e2806ae9f0547292f34685acd8de8d8eea9a30fe6306a8d996ae823561dca713",
+    "register-cache-census.mjs": "e62c4b625c78e20f80c08ee77533f6bcd6b7799c206da373938cea7db4f755c7",
+    "cache-census-run.mjs": "7c621b7a68dfe6d636e00b3fa861d45960c66de86072318c3c21b46c2ecb76f2"
+  },
+  "limitations": [
+    "Counts are visible strong recent-array and currently reachable index references, not heap bytes or reference dominators.",
+    "WeakMap keys cannot be enumerated; caches outside history-index and household projections are not counted.",
+    "No baseline census exists; no baseline-relative retention or CPU/memory acceptance follows.",
+    "Distinct array slots may point to shared canonical rows; per-cache entries overlap and must not be summed as unique sources."
+  ]
+}
