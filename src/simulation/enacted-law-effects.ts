@@ -798,10 +798,11 @@ export function applyLawConsequences(
   context: LawConsequenceContext,
   registrations: readonly AnyLawConsequenceKindRegistration[] = lawConsequenceRegistrations(),
 ): World {
+  const baselineRegistrations = lawConsequenceRegistrations();
   const registry = createLawConsequenceRegistry([
-    ...LAW_CONSEQUENCE_REGISTRATIONS,
+    ...baselineRegistrations,
     ...registrations.filter(
-      (entry) => !LAW_CONSEQUENCE_REGISTRATIONS.includes(entry),
+      (entry) => !baselineRegistrations.includes(entry),
     ),
   ]);
   let next = world;
