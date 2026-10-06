@@ -36,6 +36,7 @@ import {
   activePartnershipsAt,
   activeWorkRelationshipsAt,
   householdMembershipsAt,
+  kinshipRelationshipsAt,
 } from "../life-queries";
 import { SYNTHETIC_MIND_IDS } from "../mind-catalog";
 import { latestPersonalityTendency } from "../queries";
@@ -433,23 +434,35 @@ export function hearersOfPerson(
     .slice(0, DISCUSSION_PARTNERS);
 }
 
-// ESTIMATED FROM AVERAGE (research: opinions-travel-by-word-of-mouth): a view
-// passed on by someone close counts for less than what a person lived or read
-// themselves (Katz and Lazarsfeld, 1955, on personal influence; no table gives
-// the ratio). A third of a first-hand reason's weight, before the hearer's own
-// temperament and party.
-const TOLD_VIEW_WEIGHT = 0.33;
+/** Whether `other` is the person's kin or lives in their household. */
+export function closeKin(
+  world: World,
+  personId: EntityId,
+  other: EntityId,
+): boolean {
+  return (
+    kinshipRelationshipsAt(world, personId).some((kin) =>
+      kin.personIds.includes(other),
+    ) ||
+    householdMembershipsAt(world, personId).some((entry) =>
+      householdMembershipsAt(world, other).some(
+        (theirs) => theirs.household.id === entry.household.id,
+      ),
+    )
+  );
+}
 
 /**
  * Word of mouth about an official: a person who has just formed a view of
  * one, from what happened to them or from what they read, tells the people
  * they talk politics with (`hearersOfPerson`; someone who avoids conflict
- * tells no one). Each hearer learns it as told by that person. A hearer the
- * player does not control weighs it as one reason, a third as heavy as a
- * first-hand one, through their own temperament and party, with the view they
- * already hold. What a hearer was told is not told again: only a view formed
- * first-hand reaches this function, and the hearer's own view is written
- * without it.
+ * tells no one). Each hearer learns it as told by that person. A hearer who is
+ * the teller's kin or housemate, and not the player, weighs it as one reason
+ * through their own temperament and party, with the view they already hold;
+ * a warm tie further out knows what the person thinks and decides nothing yet
+ * (a friend's word alone does not settle a view). What a hearer was told is
+ * not told again: only a view formed first-hand reaches this function, and a
+ * hearer's own view is written without it.
  */
 export function tellViewToHearers(
   world: World,
@@ -492,10 +505,15 @@ export function tellViewToHearers(
     const knowledge = next.history.knowledge.find(
       (row) => row.stableKey === key,
     )!;
-    let felt = TOLD_VIEW_WEIGHT * reactionLens(next, hearerId);
+    if (!closeKin(next, input.holderId, hearerId)) continue;
+    // How much it matters to the hearer follows how much it matters to the
+    // person who told them: a view held centrally is passed on as one.
+    let felt =
+      ((SALIENCE_ORDER.indexOf(held.salience) + 1) / SALIENCE_ORDER.length) *
+      reactionLens(next, hearerId);
     const mine = affiliationAt(next, hearerId).partyOrganizationId;
     const theirs = affiliationAt(next, input.officialId).partyOrganizationId;
-    // A friend's word against an official of the hearer's own party, or for
+    // A relative's word against an official of the hearer's own party, or for
     // one of the other party, is held at arm's length.
     if (
       mine !== null &&
@@ -515,9 +533,9 @@ export function tellViewToHearers(
           stableKey: `told-view:${key}`,
           favors,
           sourceType: "information:told-view",
-          importance: IMPORTANCE_FROM.find(([from]) => felt >= from)![1],
+          importance: "strong",
           confidence: "medium",
-          explanation: `Someone close to the person told them they ${
+          explanation: `A relative told the person they ${
             favors === "support" ? "think well" : "think poorly"
           } of this official.`,
           sourceRefs: [
