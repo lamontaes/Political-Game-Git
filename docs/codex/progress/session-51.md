@@ -1,22 +1,21 @@
 # Session 51 resume marker
 
-## Active item
+## Active work
 
-- b27-p1, rent and housing bill never unknown, on branch `session-51-b27-p1` from main `e591ffc637d1f6db84d2ff920e8662ce123202ed`.
-- Current live POOL still lists b27-p1 through b27-p6 as claimed by S51. Latest Fable routing map is issue #2424 comment 6015577087; economy-bank queue includes b27. The current CTO wake list #6015919040 names b27 for Session 7, while this existing S51 claim and prior assignment are still in progress.
+- b27-p1: draft PR #2518 at `d945b62e9`; required random-place new-game money-screen proof is still outstanding. Latest CTO queue #6015919040 routes the bank to Session 7; p2 is already active there as draft PR #2513.
+- b27-p2: preserve the isolated uncommitted worktree `/tmp/Political-Game-Git-b27-p2` on `session-51-b27-p2`. It duplicates Session 7's p2 area, so do not publish it; keep its files intact until the owner resolves/merges that queue.
+- b27-p3: current branch `session-51-b27-p3`, based on p1's published head `d945b62e9`. It records the local housing-market level change and estimated HUD basis in market lease renewal terms. Focused formatter regression passes 3/3; changed-file lint/format and diff check pass. The broad A56 renewal suite was attempted and all five place cases exceeded Vitest's 30s per-test timeout (individual runtime 30–48s); no assertion failure was reported before timeout. The existing law-stamp fixture also fails its pre-existing `Rent stabilization` reason assertion because no final enacted numeric cap/coverage terms are supplied by that fixture; do not call p3 READY from that run.
+- b27-p4: bounded Luna helper `/root/b27_p4_student_loans` owns a separate p4 implementation in student-debt and narrowly necessary character-history paths. Do not edit those paths while it works.
 
-## Done in the local draft
+## Completed code on p3
 
-- Added population-weighted HUD state/territory rent aggregates and estimated provenance for playable place fallbacks without a Census county link.
-- Updated the housing bill read API so no household contract is an empty result rather than a null/unknown amount.
-- Updated selected-jurisdiction and lease tests, including American Samoa's estimated HUD-based lease.
-- Wired the ordinary new-game opening to create the primary player's rented-home lease immediately; later homes still enter through scheduled rent day. The random rent-place opening test now checks the player's own primary household lease.
-- Posted initial measured progress to #2424 comment 6015959629, opening/test status to comment 6016150465, and test results to comment 6016302548.
+- `marketRentRenewalReason` records the annual local housing-market price-level percentage on a market rent renewal and keeps `estimateBasis` when the HUD row was estimated.
+- Release declaration is `market-rent-renewal-names-price-driver`.
+- Exact focused command: `npm test -- --run src/simulation/living-world/town-rent-market-driver.test.ts` (3 passed; the standard Vite config needs permission to run `git` for source identity).
 
-## Still to do
+## Next
 
-- Focused p1 Vitest: 67 passed, 63 skipped by name filter across the opening, mortgage, and territory regressions. After correcting state aggregates to use county rows only (no double-counting town rows), a second focused run passed 57 tests (all 56 rent rows plus the territory estimate). No test failures. Typecheck shows only unchanged `press-premise.test.ts` `personalLifeDepiction` errors. ESLint, Prettier, `git diff --check`, `zero-dice`, and `export-town-rent.ts --check` pass.
-- Complete a random-place opening proof that confirms the player's actual primary household has a rent bill before money screens are shown.
-- b27-p2 has an isolated draft branch `/tmp/Political-Game-Git-b27-p2` with the six-category price table; its five tests passed with a documented bounded storage override. The integration into `cost-of-living.ts` remains to be done after p1 is published/rebased.
-- Complete one b27-p1 PR and keep remaining b27 parts separate. New-game random-place proof and integration after other numbered parts remain required by the assignment.
-- After p1 is done, continue the next b27 part from fresh POOL/board status; do not switch ownership based on the wake-list session number without checking current progress.
+1. Inspect and run the changed-file checks, then `npm run release:check` after the p3 commit.
+2. Continue the p3 law-to-price contract question from #2424 comment 6016611510 without waiting on an answer; rent-market evidence is implemented, household price-category multipliers remain unverified.
+3. Complete random-place new-game Personal money proof for p1/p2/p3 before any READY status.
+4. Keep numbered parts separate and rebase the second merge where `cost-of-living.ts` overlaps.
