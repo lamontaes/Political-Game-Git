@@ -332,19 +332,112 @@ export function knowsVote(
  * retirement age with no job to go to has the time and the habit of the older
  * news audience.
  */
-export function followsNewsClosely(world: World, personId: EntityId): boolean {
+export interface NewsHabit {
+  /** A reader's inclination, on a continuous zero-to-one scale. */
+  readonly closeness: number;
+  readonly age: number;
+  readonly civicInterest: number;
+  readonly curiosity: number;
+  readonly temperament: number;
+  readonly workAvailability: number;
+}
+
+/** Derive news interest from the person's recorded circumstances and mind. */
+export function newsHabitOf(world: World, personId: EntityId): NewsHabit {
   const person = world.people[personId];
-  if (!person) return false;
-  const curiosity = latestPersonalityTendency(
+  if (!person) {
+    return {
+      closeness: 0,
+      age: 0,
+      civicInterest: 0,
+      curiosity: 0,
+      temperament: 0,
+      workAvailability: 0,
+    };
+  }
+  const age = ageOnDate(person.birthDate, world.currentDate);
+  const curiosityKey = latestPersonalityTendency(
     world,
     personId,
     SYNTHETIC_MIND_IDS.tendencies.curiosity,
   )?.expressionKey;
-  if (curiosity === "curious") return true;
-  return (
-    ageOnDate(person.birthDate, world.currentDate) >= RETIREMENT_AGE &&
-    activeWorkRelationshipsAt(world, personId).length === 0
+  const curiosity = curiosityKey === "curious" ? 1 : 0;
+  const responseTempo = latestPersonalityTendency(
+    world,
+    personId,
+    SYNTHETIC_MIND_IDS.tendencies.responseTempo,
+  )?.expressionKey;
+  const temperament =
+    responseTempo === "reactive" ? 1 : responseTempo === "patient" ? 0.5 : 0;
+  const civicValueIds = new Set([
+    SYNTHETIC_MIND_IDS.values.service,
+    SYNTHETIC_MIND_IDS.values.equality,
+    SYNTHETIC_MIND_IDS.values.fairness,
+    SYNTHETIC_MIND_IDS.values.institutionalStability,
+  ]);
+  const civicInterest = Math.min(
+    1,
+    world.history.personalValues
+      .filter(
+        (record) =>
+          record.personId === personId && civicValueIds.has(record.valueId),
+      )
+      .reduce(
+        (sum, record) =>
+          sum +
+          (record.salience === "central"
+            ? 1
+            : record.salience === "high"
+              ? 0.7
+              : record.salience === "moderate"
+                ? 0.4
+                : 0.2),
+        0,
+      ) / 2,
   );
+  const employed = activeWorkRelationshipsAt(world, personId).length > 0;
+  const workAvailability = employed ? 0 : 1;
+  const ageInterest = Math.max(
+    0,
+    Math.min(1, (age - 18) / (RETIREMENT_AGE - 18)),
+  );
+  const closeness = Math.max(
+    0,
+    Math.min(
+      1,
+      ageInterest * 0.35 +
+        civicInterest * 0.25 +
+        curiosity * 0.25 +
+        workAvailability * ageInterest * 0.1 +
+        temperament * 0.05,
+    ),
+  );
+  return {
+    closeness,
+    age,
+    civicInterest,
+    curiosity,
+    temperament,
+    workAvailability,
+  };
+}
+
+export function followsNewsClosely(world: World, personId: EntityId): boolean {
+  return newsHabitOf(world, personId).closeness >= 0.5;
+}
+
+/**
+ * LOCAL STUB: World has no source-backed person-to-outlet readership or
+ * followed-outlet record yet. Keep this boundary conservative until the
+ * canonical producer exists; person-level news habit alone does not establish
+ * that someone reads a particular outlet.
+ */
+export function newsHabitReadsOutlet(
+  _world: World,
+  _personId: EntityId,
+  _outletKey: string,
+): boolean {
+  return false;
 }
 
 /**

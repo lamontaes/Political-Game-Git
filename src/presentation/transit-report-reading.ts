@@ -117,7 +117,7 @@ export function readTransitDecisionReport(
       completed: false,
       outcome: "The report could not be completed after time passed.",
     };
-  const article = projectNewsArticle(advanced, publicationId);
+  const article = projectNewsArticle(advanced, personId, publicationId);
   const event = article
     ? advanced.history.events.find((row) => row.id === article.sourceEventId)
     : null;
