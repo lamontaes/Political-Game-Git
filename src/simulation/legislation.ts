@@ -2935,6 +2935,10 @@ export function recordEnactment(
     "Enactment",
   );
   const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  const scaleTags =
+    world.jurisdictions[measure.jurisdictionId]?.kind === "state"
+      ? ["importance:major"]
+      : [];
 
   // Chamber passage and concurrence only: a veto override is not the
   // passage a state counts an effective date from.
@@ -3016,7 +3020,7 @@ export function recordEnactment(
     rationale: "The measure completed every required step and became law.",
     summary: `${measure.designation} — ${measure.shortTitle} — became law.`,
     eventType: "legislation.measure-enacted",
-    tags: ["legislation.enacted"],
+    tags: ["legislation.enacted", ...scaleTags],
   });
 
   const event = recordByStableKey(

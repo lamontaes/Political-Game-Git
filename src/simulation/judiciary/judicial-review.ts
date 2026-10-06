@@ -438,6 +438,10 @@ function reviewOne(
       `challenge:${input.challenge.id}`,
       `votes:${LAW_STRUCK}:${toStrike}`,
       `votes:${LAW_STANDS}:${votes.length - toStrike}`,
+      ...(next.jurisdictions[input.measure.jurisdictionId]?.kind === "state" &&
+      /supreme/.test(court.courtId)
+        ? ["importance:major"]
+        : []),
       struck ? "outcome:struck" : "outcome:upheld",
     ],
     summary: struck
