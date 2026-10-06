@@ -83,7 +83,11 @@ export function projectOpeningYear(
     const parties = [
       ...chamber.parties
         .filter((party) => party.members > 0)
-        .map((party) => `${party.members} ${party.label}`),
+        .map((party) =>
+          party.noParty || party.label === "Independent"
+            ? `${party.members} ${party.members === 1 ? "independent" : "independents"}`
+            : `${party.members} ${party.label}`,
+        ),
       ...empty,
     ];
     if (parties.length > 0)
@@ -149,13 +153,17 @@ export function projectOpeningLegislature(
                 (known) => known.key === member.party,
               )?.name ??
               member.party ??
-              "No party";
+              "";
             counts.set(party, (counts.get(party) ?? 0) + 1);
           }
         if (counts.size === 0) return [];
         const parties = [...counts]
           .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
-          .map(([party, count]) => `${count} ${party}`);
+          .map(([party, count]) =>
+            party === ""
+              ? `${count} ${count === 1 ? "independent" : "independents"}`
+              : `${count} ${party}`,
+          );
         return [`${plan.chamberName}: ${parties.join(", ")}.`];
       })
     : [];

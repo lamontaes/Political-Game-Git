@@ -7,6 +7,7 @@ import {
   makeIsoDate,
 } from "../../src/simulation/dates";
 import { districtResidenceSince } from "../../src/simulation/district-residence";
+import { recordProspectRunChoice } from "../../src/simulation/election-candidate-prospect";
 import { createOrganization } from "../../src/simulation/life";
 import { lifePlaceStateIdentities } from "../../src/simulation/life-places";
 import { stateResidenceSince } from "../../src/simulation/nationwide-world/residence-duration";
@@ -30,6 +31,7 @@ import {
   serializeWorld,
 } from "../../src/simulation/serialization";
 import { smallWorld } from "../fixtures/small-world";
+import { recordWorldEvent } from "../../src/simulation/world";
 
 const SEED = "elections-a119-required-residence";
 const intake = makeIsoDate("2028-02-29");
@@ -178,6 +180,83 @@ function verifyRequiredResidence(jurisdictionKey: string, seed = SEED) {
 }
 
 describe("A119 invented candidates meet sourced residence at intake", () => {
+  it(`lets recruited people decide from their lives in the watched place ${watched.name}, seed ${SEED}`, () => {
+    const {
+      world: base,
+      personId,
+      stateJurisdictionId,
+    } = smallWorld({
+      place: watched.jurisdictionKey,
+      date: intake,
+      seed: SEED,
+    });
+    const decide = (birthDate: string, key: string) => {
+      let world = {
+        ...base,
+        people: {
+          ...base.people,
+          [personId]: (() => {
+            const person = base.people[personId]!;
+            const date = makeIsoDate(birthDate);
+            return {
+              ...person,
+              birthDate: date,
+              establishedFacts: person.establishedFacts.map((fact) =>
+                fact.kind === "birth-date" || fact.kind === "birthplace"
+                  ? { ...fact, occurredAt: date }
+                  : fact,
+              ),
+            };
+          })(),
+        },
+      };
+      world = recordWorldEvent(world, {
+        stableKey: `${key}:recruitment`,
+        type: "election.state-legislative-recruitment",
+        occurredAt: intake,
+        recordedAt: world.currentDate,
+        jurisdictionId: stateJurisdictionId,
+        involvedEntityIds: [personId],
+        participants: [{ personId, role: "focus:subject", detail: "prospect" }],
+        personFactConstraints: [],
+        visibility: "private",
+        tags: [],
+        summary: "A party asked this person to run.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+      return recordProspectRunChoice({
+        world,
+        stableKey: key,
+        decisionType: "election.consider-state-legislative-run",
+        seatKey: "watched-seat",
+        personId,
+        intakeDate: intake,
+        recruitmentEventId: world.history.events.at(-1)!.id,
+        opportunity: 0.5,
+        lowOpportunityShare: 0.18,
+        termEnds: makeIsoDate("2035-01-01"),
+      });
+    };
+
+    expect(decide("1970-06-15", "young-prospect").runs).toBe(true);
+    const older = decide("1940-06-15", "older-prospect");
+    expect(older.runs).toBe(false);
+    expect(
+      older.world.history.decisionTraces
+        .at(-1)!
+        .context.considerations.some(
+          (consideration) => consideration.sourceType === "context:age",
+        ),
+    ).toBe(true);
+  });
+
   it(`uses the actual producer in the watched place ${watched.name}, seed ${SEED}`, () => {
     expect(identities).toHaveLength(56);
     console.log(

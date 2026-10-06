@@ -15,11 +15,11 @@
  * shape passes through untouched.
  */
 
-const UNKNOWN = "not known to this game";
+const ABSENT_RULE = String.raw`not [a-z ]+ to this game`;
 /** A bracketed citation, allowing one level of brackets inside it. */
 const CITATION = String.raw`(?: \((?:[^()]|\([^()]*\))*\))?`;
 const OFFICE_CLAUSE = new RegExp(
-  String.raw`(^|\. )([^.:;]+): minimum age (\d+|${UNKNOWN})${CITATION}; residency (${UNKNOWN}|[^;()]+?)${CITATION}; term in years (\d+|${UNKNOWN})${CITATION}(?=\.)`,
+  String.raw`(^|\. )([^.:;]+): minimum age (\d+|${ABSENT_RULE})${CITATION}; residency (${ABSENT_RULE}|[^;()]+?)${CITATION}; term in years (\d+|${ABSENT_RULE})${CITATION}(?=\.)`,
   "g",
 );
 
@@ -38,18 +38,15 @@ function officeSentence(
   residency: string,
   term: string,
 ): string {
-  const ageText =
-    age === UNKNOWN
-      ? "the minimum age is not known to this game"
-      : `you must be at least ${age}`;
-  const residencyText =
-    residency === UNKNOWN
-      ? "the residency rule is not known to this game"
-      : `you must have lived ${singularOne(residency.trim()).replace(/\bimmediately preceding filing\b/, "immediately before filing")}`;
-  const termText =
-    term === UNKNOWN
-      ? "the term length is not known to this game"
-      : `a term is ${years(Number(term))}`;
+  const ageText = !/^\d+$/.test(age)
+    ? "the office record does not establish a minimum age"
+    : `you must be at least ${age}`;
+  const residencyText = /^not [a-z ]+ to this game$/.test(residency)
+    ? "the office record does not establish a residency rule"
+    : `you must have lived ${singularOne(residency.trim()).replace(/\bimmediately preceding filing\b/, "immediately before filing")}`;
+  const termText = !/^\d+$/.test(term)
+    ? "the office record does not establish a term length"
+    : `a term is ${years(Number(term))}`;
   return `To run for the ${chamber.trim()}, ${ageText}; ${residencyText}; and ${termText}`;
 }
 

@@ -16,8 +16,8 @@
 
 .pg-news-sections button,
 .pg-news-switch button {
-  border: 1px solid var(--pg-hairline, rgb(111 85 42 / 28%));
-  border-radius: 3px;
+  border: 1px solid var(--pg-hairline, var(--pg-hairline));
+  border-radius: 2px;
   padding: 0.3rem 0.7rem;
   background: var(--kit12-glass);
   color: inherit;
@@ -30,7 +30,7 @@
 .pg-news-switch button[aria-pressed="true"] {
   border-color: var(--pg-brass, #c29b48);
   background: var(--kit12-glass);
-  font-weight: 650;
+  font-weight: 600;
 }
 
 .pg-news-switch label {
@@ -39,29 +39,18 @@
   gap: 0.4rem;
 }
 
-/* The paper itself: a warm sheet with ink, not another dark dashboard. */
+/* Published copy shares the glass reader; speech keeps its own typeface. */
 .pg-news-read {
   display: grid;
   gap: 0.9rem;
   padding: 1rem 1.2rem 1.3rem;
-  border-radius: 4px;
-  background: var(--kit12-glass);
-  color: var(--text-strong);
-}
-
-.pg-news-read .pg-news-switch button {
-  background: var(--kit12-glass);
-  color: var(--text-strong);
-  border-color: #bfb49f;
-}
-
-.pg-news-read .pg-news-switch button[aria-pressed="true"] {
-  background: var(--kit12-glass);
+  border-radius: 2px;
+  background: transparent;
   color: var(--text-strong);
 }
 
 .pg-news-masthead {
-  border-bottom: 3px double #7c643c;
+  border-bottom: 3px double var(--brass);
   padding-bottom: 0.4rem;
   text-align: center;
 }
@@ -81,7 +70,7 @@
 
 .pg-news-masthead--front h2 {
   font-family: var(--name);
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .pg-news-masthead--0 {
@@ -115,7 +104,7 @@
 }
 
 .pg-news-story--lead {
-  border-bottom: 1px solid #bfb49f;
+  border-bottom: 1px solid var(--pg-hairline);
   padding-bottom: 0.8rem;
 }
 
@@ -154,7 +143,7 @@
 }
 
 .pg-news-columns .pg-news-story + .pg-news-story {
-  border-left: 1px solid #d8cfbd;
+  border-left: 1px solid var(--pg-hairline);
   padding-left: 1rem;
 }
 
@@ -191,7 +180,7 @@
 }
 
 .pg-news-desk button:focus-visible {
-  outline: 2px solid #f4d68a;
+  outline: 2px solid var(--gold);
   outline-offset: 2px;
 }
 

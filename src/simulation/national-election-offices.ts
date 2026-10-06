@@ -7,8 +7,6 @@ export function nationalOfficeRef(
 ): ElectiveOfficeRef {
   if (office === "president") {
     const pack = executiveRulePackForJurisdiction("US");
-    if (!pack)
-      throw new Error("Canonical federal presidential office unavailable.");
     return {
       officeKey: pack.office.officeKey,
       title: pack.displayName,

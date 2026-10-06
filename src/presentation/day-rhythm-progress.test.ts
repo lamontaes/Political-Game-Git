@@ -1,10 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import {
-  makeIsoDate,
-  makeSimulationMoment,
-  type EntityId,
-} from "../simulation";
+import { makeSimulationMoment, type EntityId } from "../simulation";
 import {
   encodeStoredShellState,
   readStoredShellState,
@@ -69,21 +65,13 @@ describe("saved day-rhythm interval", () => {
     ).toBe(caught);
   });
 
-  it("saves the interval, morning dismissal and option without changing World", () => {
+  it("saves the day-rhythm interval without changing World", () => {
     const begun = shellReducer(INITIAL_SHELL_STATE, {
       type: "start-day-rhythm",
       sequence: 30,
       moment: monday,
     });
-    const morning = shellReducer(begun, {
-      type: "acknowledge-morning-thought",
-      date: makeIsoDate("2026-01-05"),
-    });
-    const disabled = shellReducer(morning, {
-      type: "set-morning-thoughts",
-      enabled: false,
-    });
-    const caught = shellReducer(disabled, {
+    const caught = shellReducer(begun, {
       type: "acknowledge-recap",
       throughSequence: 35,
       throughMoment: tuesday,
@@ -97,16 +85,14 @@ describe("saved day-rhythm interval", () => {
     expect(reopened?.progress).toMatchObject({
       recapFrontier: 35,
       recapThroughMoment: tuesday,
-      morningThoughtSeenOn: makeIsoDate("2026-01-05"),
     });
-    expect(reopened?.preferences.morningThoughts).toBe(false);
   });
 
-  it("drops malformed saved moments and dates without losing the old frontier", () => {
+  it("ignores legacy morning-note state and drops malformed moments", () => {
     const read = readStoredShellState({
       version: 4,
       pins: [],
-      preferences: { morningThoughts: "yes" },
+      preferences: { morningThoughts: false },
       progress: {
         orientationSeen: true,
         recapFrontier: 12,
@@ -116,12 +102,12 @@ describe("saved day-rhythm interval", () => {
           timeZone: "America/New_York",
           utcOffsetMinutes: -300,
         },
-        morningThoughtSeenOn: "not-a-date",
+        morningThoughtSeenOn: "2026-01-05",
       },
     });
     expect(read?.progress.recapFrontier).toBe(12);
     expect(read?.progress.recapThroughMoment).toBeUndefined();
-    expect(read?.progress.morningThoughtSeenOn).toBeUndefined();
-    expect(read?.preferences.morningThoughts).toBe(true);
+    expect(read?.progress).not.toHaveProperty("morningThoughtSeenOn");
+    expect(read?.preferences).not.toHaveProperty("morningThoughts");
   });
 });

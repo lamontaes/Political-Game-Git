@@ -4,7 +4,8 @@ import { personName } from "../simulation";
 import type { EntityId, World } from "../simulation";
 import { projectContacts } from "../presentation/people-contacts";
 import { ContactsPanel } from "./ContactsPanel";
-import { PersonPortrait } from "./PersonPortrait";
+import { SavedPersonFigure } from "./SavedPersonFigure";
+import "./controls/controls.css";
 
 /**
  * Getting in touch with one person, as its own screen.
@@ -85,9 +86,6 @@ export function ContactDialog({
     >
       <div className="pg-contact-dialog-body">
         <header className="pg-contact-dialog-head">
-          {person ? (
-            <PersonPortrait world={world} personId={personId} size="small" />
-          ) : null}
           <div className="pg-contact-dialog-who">
             <h2 id={titleId}>{name}</h2>
             <p>Get in touch</p>
@@ -101,19 +99,28 @@ export function ContactDialog({
             Close
           </button>
         </header>
-        {entry ? (
-          <ContactsPanel
-            world={world}
-            personId={playerPersonId}
-            contactEntry={entry}
-            onWorldChange={onWorldChange}
-            focused
-          />
-        ) : (
-          <p className="pg-contact-line" data-testid="contact-dialog-none">
-            You have no way of reaching {name} right now.
-          </p>
-        )}
+        <div className="pg-split-record-grid">
+          {person ? (
+            <div className="pg-split-record-figure">
+              <SavedPersonFigure world={world} personId={personId} />
+            </div>
+          ) : null}
+          <div className="pg-split-record-facts">
+            {entry ? (
+              <ContactsPanel
+                world={world}
+                personId={playerPersonId}
+                contactEntry={entry}
+                onWorldChange={onWorldChange}
+                focused
+              />
+            ) : (
+              <p className="pg-contact-line" data-testid="contact-dialog-none">
+                You have no way of reaching {name} right now.
+              </p>
+            )}
+          </div>
+        </div>
       </div>
     </dialog>
   );

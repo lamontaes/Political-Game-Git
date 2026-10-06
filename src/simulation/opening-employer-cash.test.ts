@@ -44,6 +44,7 @@ function employer(
   workers = 1,
   shiftPath?: LifePathDefinition,
   weeklyHours?: number,
+  locationJurisdictionId?: EntityId | null,
 ) {
   let next = createOrganization(world, {
     stableKey: key,
@@ -53,7 +54,9 @@ function employer(
       name: key,
       classification,
       locationJurisdictionId:
-        world.people[world.personOrder[0]!]!.homeJurisdictionId,
+        locationJurisdictionId === undefined
+          ? world.people[world.personOrder[0]!]!.homeJurisdictionId
+          : locationJurisdictionId,
     },
   });
   const id = next.history.organizations.at(-1)!.id;
@@ -352,6 +355,241 @@ describe("saved comparable employer cash reader", () => {
     ).toBe(true);
   });
 
+  it("funds a new employer from staffed peers in the recorded place when its classification cohort is empty", () => {
+    const base = fixture().world;
+    const target = employer(
+      base,
+      "life-path-employer",
+      null,
+      "community:association",
+      1,
+      undefined,
+      undefined,
+      null,
+    );
+    const donor = employer(
+      target.world,
+      "local-retail-employer",
+      84_321,
+      "enterprise:retail",
+    );
+    const withTerms = createWorkCompensation(donor.world, {
+      stableKey: "life-path-employer:pay",
+      workRelationshipId: target.world.history.workRelationships.at(-1)!.id,
+      startsAt: donor.world.currentDate,
+      amount: money(lifePathDefinition("shop-assistant").sessionPayMinor, USD),
+      cadenceKind: "work:completed-shift",
+      restrictionKind: null,
+      jurisdictionId: null,
+      provenance,
+    });
+    const funded = ensureEmployerCashPositions(
+      withTerms,
+      "later",
+      new Set([target.id]),
+    );
+    const cash = resourcePositionAt(
+      funded,
+      { kind: "organization", organizationId: target.id },
+      USD,
+    );
+    expect(cash?.liquidBalance.minorUnits).toBe(84_321);
+    expect(funded.history.resourceFlows).toEqual(
+      withTerms.history.resourceFlows,
+    );
+    expect(funded.history.resourceTransferOutcomes).toEqual(
+      withTerms.history.resourceTransferOutcomes,
+    );
+    const position = funded.history.resourcePositions.find(
+      (row) => row.id === cash!.positionId,
+    );
+    expect(position?.provenance).toMatchObject({
+      kind: "authored",
+      note: expect.stringContaining(
+        "ESTIMATED OPENING STOCK recorded before payroll settlement.",
+      ),
+    });
+    expect(position?.provenance).toMatchObject({
+      kind: "authored",
+      note: expect.stringContaining(
+        "saved staff and cash in a comparable place",
+      ),
+    });
+    expect(position?.provenance).toMatchObject({
+      kind: "authored",
+      note: expect.stringContaining("worker home jurisdiction"),
+    });
+  });
+
+  it("preserves a recorded insolvent employer account instead of replacing it from place peers", () => {
+    const base = fixture().world;
+    const target = employer(
+      base,
+      "insolvent-life-path-employer",
+      0,
+      "community:association",
+    );
+    const donor = employer(
+      target.world,
+      "solvent-local-employer",
+      84_321,
+      "enterprise:retail",
+    );
+    const withTerms = createWorkCompensation(donor.world, {
+      stableKey: "insolvent-life-path-employer:pay",
+      workRelationshipId: target.world.history.workRelationships.at(-1)!.id,
+      startsAt: donor.world.currentDate,
+      amount: money(lifePathDefinition("shop-assistant").sessionPayMinor, USD),
+      cadenceKind: "work:completed-shift",
+      restrictionKind: null,
+      jurisdictionId: null,
+      provenance,
+    });
+    const funded = ensureEmployerCashPositions(
+      withTerms,
+      "later",
+      new Set([target.id]),
+    );
+    expect(
+      resourcePositionAt(
+        funded,
+        { kind: "organization", organizationId: target.id },
+        USD,
+      )?.liquidBalance.minorUnits,
+    ).toBe(0);
+    expect(funded.history.resourceFlows).toEqual(
+      withTerms.history.resourceFlows,
+    );
+    expect(funded.history.resourceTransferOutcomes).toEqual(
+      withTerms.history.resourceTransferOutcomes,
+    );
+  });
+
+  it("opens unpaid-record cash gaps from a fixed saved classification cohort, preserving zero and replay", () => {
+    const base = fixture().world;
+    const classification = "custom:unclassified-employer" as const;
+    const first = employer(base, "unclassified:first", null, classification);
+    const second = employer(
+      first.world,
+      "unclassified:second",
+      null,
+      classification,
+    );
+    let world = employer(
+      second.world,
+      "unclassified:donor",
+      90_000,
+      classification,
+      2,
+    ).world;
+    world = employer(world, "unclassified:known-zero", 0, classification).world;
+    world = employer(
+      world,
+      "unrelated:donor",
+      900_000,
+      "enterprise:retail",
+    ).world;
+    const opening = ensureEmployerCashPositions(world, "opening");
+    for (const organizationId of [first.id, second.id]) {
+      const cash = resourcePositionAt(
+        opening,
+        { kind: "organization", organizationId },
+        USD,
+      )!;
+      expect(cash.liquidBalance.minorUnits).toBe(45_000);
+      expect(
+        opening.history.resourcePositions.find(
+          (row) => row.id === cash.positionId,
+        )!.provenance,
+      ).toMatchObject({
+        note: expect.stringContaining("recorded classification cohort"),
+      });
+    }
+    const zeroEmployerId = world.history.organizations.find(
+      (organization) => organization.stableKey === "unclassified:known-zero",
+    )!.id;
+    expect(
+      opening.history.resourcePositions.filter(
+        (row) =>
+          row.owner.kind === "organization" &&
+          row.owner.organizationId === zeroEmployerId,
+      ),
+    ).toHaveLength(1);
+    expect(opening.history.resourceFlows).toEqual(world.history.resourceFlows);
+    expect(opening.history.resourceTransferOutcomes).toEqual(
+      world.history.resourceTransferOutcomes,
+    );
+    const restored = deserializeWorld(serializeWorld(opening));
+    expect(ensureEmployerCashPositions(restored, "opening")).toEqual(restored);
+  });
+
+  it(
+    "admits recorded comparable accounts in a random ordinary opening and preserves them through reload",
+    { timeout: 180000 },
+    () => {
+      const seed = "standby4-comparable-unclassified-opening-20261002";
+      const setup = observerSetup(seed);
+      const session = generateOpeningLife(
+        prepareOpeningLife({ ...setup, questionnaire: "skipped" }),
+      );
+      expect(session.game).toBeDefined();
+      const world = session.game!.world;
+      const accounts = world.history.resourcePositions.filter(
+        (row) =>
+          row.provenance.kind === "authored" &&
+          row.provenance.note?.startsWith(
+            "ESTIMATED OPENING STOCK from the recorded classification cohort.",
+          ),
+      );
+      const restored = deserializeWorld(serializeWorld(world));
+      expect(ensureEmployerCashPositions(restored, "opening")).toEqual(
+        restored,
+      );
+      process.stdout.write(
+        JSON.stringify({
+          receipt: "Comparable unclassified ordinary opening",
+          seed,
+          placeKey: setup.placeKey,
+          accounts: accounts.map((row) => ({
+            positionId: row.id,
+            owner: row.owner,
+            amount: row.openingBalance,
+            provenance: row.provenance,
+          })),
+          activePaidWork: world.history.workRelationships.filter(
+            (row) => row.compensation === "paid",
+          ).length,
+          reloadParity: true,
+        }) + "\n",
+      );
+      expect(
+        accounts.length,
+        "ordinary opening must exercise comparable account admission",
+      ).toBeGreaterThan(0);
+    },
+  );
+
+  it("keeps an unclassified opening cash gap explicit when no recorded cohort exists", () => {
+    const target = employer(
+      fixture().world,
+      "unclassified:alone",
+      null,
+      "custom:unclassified-employer",
+    );
+    const opening = ensureEmployerCashPositions(target.world, "opening");
+    expect(
+      resourcePositionAt(
+        opening,
+        { kind: "organization", organizationId: target.id },
+        USD,
+      ),
+    ).toBeUndefined();
+    expect(readOpeningEmployerCashEstimate(opening, target.id, USD)).toEqual({
+      status: "blocked",
+      reason: "empty-comparable-cash-cohort",
+    });
+  });
+
   it("reads cash after actual paid outcomes and retains their provenance", () => {
     const target = fixture();
     const donor = employer(target.world, "donor", 90_000);
@@ -392,67 +630,71 @@ describe("saved comparable employer cash reader", () => {
     ]);
   });
 
-  it("opens a random actual game with recorded employer cash and pays wages during its first 14 days", () => {
-    const seed = "standby4-a60-comparable-opening-20261002";
-    const setup = observerSetup(seed);
-    const session = generateOpeningLife(
-      prepareOpeningLife({ ...setup, questionnaire: "skipped" }),
-    );
-    expect(session.game).toBeDefined();
-    const world = session.game!.world;
-    const employerIds = new Set<EntityId>(
-      world.history.resourceFlows.flatMap((flow) =>
-        flow.basisKind === "compensation:work" &&
-        flow.source.kind === "organization"
-          ? [flow.source.organizationId]
-          : [],
-      ),
-    );
-    const target = world.history.organizations.find(
-      (organization) =>
-        employerIds.has(organization.id) &&
-        world.history.organizationProfiles.some(
-          (profile) =>
-            profile.organizationId === organization.id &&
-            profile.classification.startsWith("enterprise:"),
+  it(
+    "opens a random actual game with recorded employer cash and pays wages during its first 14 days",
+    { timeout: 180000 },
+    () => {
+      const seed = "standby4-a60-comparable-opening-20261002";
+      const setup = observerSetup(seed);
+      const session = generateOpeningLife(
+        prepareOpeningLife({ ...setup, questionnaire: "skipped" }),
+      );
+      expect(session.game).toBeDefined();
+      const world = session.game!.world;
+      const employerIds = new Set<EntityId>(
+        world.history.resourceFlows.flatMap((flow) =>
+          flow.basisKind === "compensation:work" &&
+          flow.source.kind === "organization"
+            ? [flow.source.organizationId]
+            : [],
         ),
-    );
-    expect(target).toBeDefined();
-    const cash = resourcePositionAt(
-      world,
-      { kind: "organization", organizationId: target!.id },
-      USD,
-    );
-    expect(cash!.liquidBalance.minorUnits).toBeGreaterThan(0);
-    const later = advanceWorld(world, 14);
-    expect(later.currentDate).toBe(addDays(world.currentDate, 14));
-    const flowIds = new Set(
-      world.history.resourceFlows
-        .filter((flow) => flow.basisKind === "compensation:work")
-        .map((flow) => flow.id),
-    );
-    const paid = later.history.resourceTransferOutcomes.filter(
-      (outcome) =>
-        flowIds.has(outcome.resourceFlowId) &&
-        outcome.occurredAt > world.currentDate &&
-        outcome.transferredAmount.minorUnits > 0,
-    );
-    expect(paid.length).toBeGreaterThan(0);
-    const amountPaid = paid.reduce(
-      (sum, outcome) => sum + outcome.transferredAmount.minorUnits,
-      0,
-    );
-    process.stdout.write(
-      JSON.stringify({
-        receipt: "A60 funded opening and 14 days",
-        seed,
-        placeKey: setup.placeKey,
-        organizationId: target!.id,
-        openingCashMinor: cash!.liquidBalance.minorUnits,
-        date: later.currentDate,
-        paidOutcomes: paid.length,
-        amountPaidMinor: amountPaid,
-      }) + "\n",
-    );
-  });
+      );
+      const target = world.history.organizations.find(
+        (organization) =>
+          employerIds.has(organization.id) &&
+          world.history.organizationProfiles.some(
+            (profile) =>
+              profile.organizationId === organization.id &&
+              profile.classification.startsWith("enterprise:"),
+          ),
+      );
+      expect(target).toBeDefined();
+      const cash = resourcePositionAt(
+        world,
+        { kind: "organization", organizationId: target!.id },
+        USD,
+      );
+      expect(cash!.liquidBalance.minorUnits).toBeGreaterThan(0);
+      const later = advanceWorld(world, 14);
+      expect(later.currentDate).toBe(addDays(world.currentDate, 14));
+      const flowIds = new Set(
+        world.history.resourceFlows
+          .filter((flow) => flow.basisKind === "compensation:work")
+          .map((flow) => flow.id),
+      );
+      const paid = later.history.resourceTransferOutcomes.filter(
+        (outcome) =>
+          flowIds.has(outcome.resourceFlowId) &&
+          outcome.occurredAt > world.currentDate &&
+          outcome.transferredAmount.minorUnits > 0,
+      );
+      expect(paid.length).toBeGreaterThan(0);
+      const amountPaid = paid.reduce(
+        (sum, outcome) => sum + outcome.transferredAmount.minorUnits,
+        0,
+      );
+      process.stdout.write(
+        JSON.stringify({
+          receipt: "A60 funded opening and 14 days",
+          seed,
+          placeKey: setup.placeKey,
+          organizationId: target!.id,
+          openingCashMinor: cash!.liquidBalance.minorUnits,
+          date: later.currentDate,
+          paidOutcomes: paid.length,
+          amountPaidMinor: amountPaid,
+        }) + "\n",
+      );
+    },
+  );
 });

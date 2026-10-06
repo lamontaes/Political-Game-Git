@@ -1,0 +1,7 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run build -- node --max-old-space-size=8192 --input-type=module -
+
+[storage-guard] build: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+Focused reader/test typing diagnostics: 0

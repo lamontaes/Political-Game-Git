@@ -1,3 +1,4 @@
+import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { writeFileSync } from "node:fs";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
@@ -51,7 +52,7 @@ import {
   refundCashBailAtCaseClose,
   heldCashBailMinorUnits,
 } from "./cash-bail";
-import { bailMinorUnits } from "./pretrial";
+import { estimatedBailMinorUnits as bailMinorUnits } from "./pretrial";
 
 const receipts: Record<string, unknown>[] = [];
 afterAll(() => {
@@ -177,6 +178,28 @@ describe("full cash bail reaches a saved court government and returns at case cl
         return advanceProsecutions(plea.world);
       }
       beforeAll(() => {
+        // Controlled numeric authority for the payment fixture only; never
+        // writes the research median into production state law data.
+        const question =
+          "us-policy-positions:justice-public-safety.end-cash-bail";
+        const answers = startingLaw.questions[question]
+          .answers as unknown as Record<string, Record<string, unknown>>;
+        const original = answers[state.jurisdictionKey]!;
+        answers[state.jurisdictionKey] = {
+          ...original,
+          answer: "no",
+          lawTerms: [
+            {
+              questionKey: question,
+              key: "cash-bail:crime:robbery",
+              unit: "minor",
+              value: amount,
+            },
+          ],
+        };
+        afterAll(() => {
+          answers[state.jurisdictionKey] = original;
+        });
         // A small world (tests/fixtures/small-world.ts) plus the opening's
         // judges, through their existing writer: the case needs a court.
         const small = smallWorld({ place: state.jurisdictionKey, seed });
