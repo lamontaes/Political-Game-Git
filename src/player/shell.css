@@ -2950,3 +2950,45 @@
 .pg-people-search-entry input::-webkit-search-cancel-button {
   -webkit-appearance: none;
 }
+
+/* Permanent Kit 13 rule: static button marks appear only while activated.
+ * Radial menu entries are not static buttons and never receive a mark. */
+.pg-game.pg-game :is(.pg-nav, .pg-workspace) .ui-action--primary {
+  background-image: var(--kit13-grain), var(--kit13-button-face);
+  background-size:
+    96px 64px,
+    auto;
+  background-repeat: repeat, no-repeat;
+}
+.pg-game.pg-game
+  :is(.pg-nav, .pg-workspace)
+  .ui-action--primary:not([role="menuitem"]):not(:disabled):not(
+    [aria-disabled="true"]
+  ):is(:active, [aria-pressed="true"], [aria-current="true"]) {
+  background-image:
+    url("/ui/kit13/primary-corner.svg"), var(--kit13-grain),
+    var(--kit13-button-face);
+  background-size:
+    20px 20px,
+    96px 64px,
+    auto;
+  background-repeat: no-repeat, repeat, no-repeat;
+}
+.pg-game.pg-game .pg-nav-day > [aria-hidden="true"] {
+  display: none;
+}
+.pg-game.pg-game
+  .pg-nav-day:not([aria-disabled="true"]):active
+  > [aria-hidden="true"] {
+  display: inline;
+}
+.pg-game.pg-game .pg-nav-flyout:not(.pg-nav-confirm) .pg-nav-more {
+  display: none;
+}
+.pg-game.pg-game .pg-nav-flyout:not(.pg-nav-confirm) button[role="menuitem"] {
+  background-image: var(--kit13-grain), var(--kit13-button-face);
+  background-size:
+    96px 64px,
+    auto;
+  background-repeat: repeat, no-repeat;
+}
