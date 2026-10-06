@@ -1,4 +1,4 @@
-import { createSyntheticCausalMechanismCatalog } from "../../simulation/causal-effects";
+import { createSyntheticCausalMechanismCatalog } from "../../simulation/effect-records";
 import { createSyntheticIncidentCatalog } from "../../simulation/incident-catalog";
 import { createSyntheticMindCatalog } from "../../simulation/mind-catalog";
 import { createSyntheticPolicyCatalog } from "../../simulation/policy";
@@ -117,11 +117,11 @@ export function syntheticCatalogBank(): ContentBank {
     authority: "synthetic-fixture",
     status: "excluded-from-production",
     sourceModule:
-      "src/simulation/{policy,mind-catalog,world-metrics,causal-effects,incident-catalog,vitality-catalog}.ts",
+      "src/simulation/{policy,mind-catalog,world-metrics,effect-records,incident-catalog,vitality-catalog}.ts",
     items: catalogItems(
       catalogs,
       SYNTHETIC_BANK_ID,
-      "src/simulation/{policy,mind-catalog,world-metrics,causal-effects,incident-catalog,vitality-catalog}.ts",
+      "src/simulation/{policy,mind-catalog,world-metrics,effect-records,incident-catalog,vitality-catalog}.ts",
       "synthetic-fixture",
       "excluded-from-production",
       "Built to exercise the engine, not to describe anywhere real. Excluded from production worlds by assertProductionCatalogBoundary.",

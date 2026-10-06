@@ -13,7 +13,7 @@ import { createProductionWorldMetricCatalog } from "./production-catalog";
 import {
   createCausalMechanismCatalog,
   createCausalMechanismDefinition,
-} from "./causal-effects";
+} from "./effect-records";
 import {
   TRANSIT_METRIC_INPUT,
   TRANSIT_MECHANISM_INPUT,

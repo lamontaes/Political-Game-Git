@@ -111,6 +111,7 @@ describe("saved law-effect attribution", () => {
       { ...stamp, governingLawKey: "starting-law:US:question" },
       { ...stamp, sourceRecordIds: [null] },
       { ...stamp, effectKind: "" },
+      { ...stamp, effectKind: "invented-new-effect" },
       { ...stamp, version: "law-effect-stamp/v2" },
     ])
       expect(isLawEffectStamp(invalid)).toBe(false);

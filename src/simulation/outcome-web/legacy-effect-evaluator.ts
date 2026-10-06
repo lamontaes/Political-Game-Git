@@ -14,13 +14,13 @@ export {
   causalEffectEntityAvailableAt,
   causalEffectHistoryRecords,
   assertCausalEffectIntegrity,
-} from "./effect-records";
+} from "../effect-records";
 export type {
   CausalMechanismDefinitionInput,
   CausalMechanismCatalogInput,
   RecordCausalProcessInput,
   ActivateEffectInput,
-} from "./effect-records";
+} from "../effect-records";
 import {
   validateCutoff,
   effectRecordAvailable,
@@ -30,8 +30,8 @@ import {
   effectActivationsAt,
   cloneMetricValue,
   canonicalEntityIds,
-} from "./effect-records";
-import { addDays, daysBetween, makeIsoDate } from "./dates";
+} from "../effect-records";
+import { addDays, daysBetween, makeIsoDate } from "../dates";
 import {
   addExactQuantities,
   compareExactQuantities,
@@ -40,7 +40,7 @@ import {
   scaleExactQuantity,
   scaleSafeIntegerByExactShare,
   subtractExactQuantities,
-} from "./quantity";
+} from "../quantity";
 import type {
   AggregateMetricEvaluation,
   EffectActivationRecord,
@@ -52,14 +52,14 @@ import type {
   MetricReferencePeriod,
   World,
   WorldMetricValue,
-} from "./types";
+} from "../types";
 import {
   recordWorldMetricState,
   requireMetricDefinition,
   sameReferencePeriod,
   validateReferencePeriod,
   worldMetricStateForPeriodAt,
-} from "./world-metrics";
+} from "../world-metrics";
 
 export interface EvaluateEffectContributionInput {
   readonly effectActivationId: EntityId;
