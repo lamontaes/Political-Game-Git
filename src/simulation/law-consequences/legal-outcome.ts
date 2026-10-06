@@ -5,6 +5,7 @@ import {
   type FinalEnactedLawTerm,
 } from "../governing/automatic-legislation";
 import { isLawEffectStamp, lawEffectStamp } from "../law-effect-stamp";
+import { executiveEnforcementPriorityForLaw } from "../executive-enforcement-reader";
 import { appendedList } from "../history-index";
 import { createStableId } from "../ids";
 import type {
@@ -26,6 +27,22 @@ import {
 
 export const MINIMUM_CUSTODY_QUESTION =
   "us-policy-positions:justice-public-safety.mandatory-minimum-sentences";
+
+/** Order saved legal outcomes by the executive's recorded enforcement direction. */
+export function rankLegalOutcomeEnforcement<
+  T extends {
+    readonly enforcementPriority?: "first" | "ordinary" | "lowest";
+    readonly sequence: number;
+  },
+>(records: readonly T[]): readonly T[] {
+  const rank = (priority: T["enforcementPriority"]) =>
+    priority === "first" ? 0 : priority === "lowest" ? 2 : 1;
+  return [...records].sort(
+    (left, right) =>
+      rank(left.enforcementPriority) - rank(right.enforcementPriority) ||
+      left.sequence - right.sequence,
+  );
+}
 
 /** Terms describe the rule; they never supply an invented sentence length. */
 export const minimumCustodyRow: LawConsequenceRow = {
@@ -288,6 +305,18 @@ export const legalOutcomeRegistration: LawConsequenceKindRegistration = {
         throw new Error("Conflicting minimum for the same saved sentence.");
       return world;
     }
+    const enforcementProposition = Object.values(
+      world.policyCatalog.propositions,
+    ).find((proposition) => proposition.stableKey === resolved.questionKey);
+    const enforcementPriority = enforcementProposition
+      ? executiveEnforcementPriorityForLaw(
+          world,
+          resolved.jurisdictionId,
+          enforcementProposition.id,
+          resolved.law.measureId,
+          resolved.effectiveAt,
+        )
+      : null;
     const record: LegalOutcomeConsequenceRecord = {
       id: createStableId("decision", `${world.id}:${stableKey}`),
       stableKey,
@@ -299,6 +328,7 @@ export const legalOutcomeRegistration: LawConsequenceKindRegistration = {
       appliedAt: event.occurredAt,
       effectKind: "minimum-custody-months",
       minimumMonths: resolved.value.value,
+      ...(enforcementPriority ? { enforcementPriority } : {}),
       sourceRecordIds: [...resolved.sourceRecordIds],
       lawEffectStamps: [stamp],
     };

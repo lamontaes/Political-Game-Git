@@ -4480,6 +4480,7 @@ export interface LegalOutcomeConsequenceRecord {
   readonly appliedAt: IsoDate;
   readonly effectKind: "minimum-custody-months";
   readonly minimumMonths: number;
+  readonly enforcementPriority?: "first" | "ordinary" | "lowest";
   readonly sourceRecordIds: readonly EntityId[];
   readonly lawEffectStamps: readonly [LawEffectStamp];
 }

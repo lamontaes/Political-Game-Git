@@ -20,6 +20,12 @@ export type ExecutiveActionClause =
       readonly delegation: LawDelegationTerm;
       readonly value: number;
     }
+  | {
+      readonly kind: "enforcement-priority";
+      readonly propositionId: EntityId;
+      readonly statuteMeasureId: EntityId;
+      readonly priority: "first" | "ordinary" | "lowest";
+    }
   | { readonly kind: "independent-policy"; readonly topicKey: string };
 
 export interface ExecutiveActionAuthorityDecision {
@@ -107,6 +113,33 @@ export function decideExecutiveActionAuthority(
       reason:
         "This term is within the range the statute delegates to the executive.",
     };
+  }
+
+  if (clause.kind === "enforcement-priority") {
+    if (
+      !law ||
+      law.measureId !== clause.statuteMeasureId ||
+      (law.level !== "federal-statute" &&
+        law.level !== "state-statute" &&
+        law.level !== "local-ordinance")
+    )
+      return {
+        allowed: false,
+        reason:
+          "Enforcement priority can be set only for a statute currently in force.",
+      };
+    const duty = pack.administrative.faithfulExecutionDuty;
+    return duty.kind === "known" && duty.value
+      ? {
+          allowed: true,
+          reason:
+            "This office may order enforcement work while faithfully executing the statute.",
+        }
+      : {
+          allowed: false,
+          reason:
+            "This office has no recorded faithful-execution authority for this enforcement directive.",
+        };
   }
 
   return {
