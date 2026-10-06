@@ -213,8 +213,6 @@ export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:outward-emotional-display",
   "personality-v1:uncertain-outlook",
   "personality-v1:facet-cocky",
-  "personality-v1:facet-humble",
-  "personality-v1:facet-self-conscious",
   "personality-v1:facet-approval-seeking",
   "personality-v1:facet-smug",
   "personality-v1:facet-entitled",
