@@ -606,10 +606,10 @@
         "bankId": "roster-keeper",
         "doc": "docs/codex/roster.json"
       },
-      "currentPr": "https://github.com/lamontaes/Political-Game-Git/pull/2322 (merged by another actor)",
-      "head": "e80036e6fbf7085d76cbf8bd75ebf635fb5141dc",
-      "lastPostAt": "2026-10-06T04:46:39Z",
-      "state": "merged; main roster entry awaits receipt sync"
+      "currentPr": "https://github.com/lamontaes/Political-Game-Git/pull/2549 (open)",
+      "head": "52e60dd565f40bcb9e4db3553f9a8c323a9854b3",
+      "lastPostAt": "2026-10-06T12:55:52Z",
+      "state": "active; PR #2549 open"
     }
   ],
   "reserveOrder": [
@@ -684,8 +684,8 @@
       "appStatus": "active",
       "updatedAtEpoch": 1791290774,
       "updatedAt": "2026-10-06T12:46:14.000Z",
-      "currentTask": "unknown; app title is a label, not verified task",
-      "workProof": "unknown pending turn/tool marker",
+      "currentTask": "current assignment not supplied",
+      "workProof": "in-progress turn but no output/tool marker; execution unverified",
       "latestReceiptAt": "unknown"
     },
     {
@@ -706,8 +706,8 @@
       "appStatus": "active",
       "updatedAtEpoch": 1791290648,
       "updatedAt": "2026-10-06T12:44:08.000Z",
-      "currentTask": "unknown; app title is a label, not verified task",
-      "workProof": "unknown pending turn/tool marker",
+      "currentTask": "next independent item after blocked terminal goal",
+      "workProof": "new turn in progress; no activity receipt yet",
       "latestReceiptAt": "unknown"
     },
     {
@@ -717,8 +717,8 @@
       "appStatus": "active",
       "updatedAtEpoch": 1791290621,
       "updatedAt": "2026-10-06T12:43:41.000Z",
-      "currentTask": "unknown; app title is a label, not verified task",
-      "workProof": "unknown pending turn/tool marker",
+      "currentTask": "current assignment not supplied",
+      "workProof": "in-progress turn but no output/tool marker; execution unverified",
       "latestReceiptAt": "unknown"
     },
     {
@@ -728,8 +728,8 @@
       "appStatus": "active",
       "updatedAtEpoch": 1791290607,
       "updatedAt": "2026-10-06T12:43:27.000Z",
-      "currentTask": "unknown; app title is a label, not verified task",
-      "workProof": "unknown pending turn/tool marker",
+      "currentTask": "current assignment not supplied",
+      "workProof": "in-progress turn but no output/tool marker; execution unverified",
       "latestReceiptAt": "unknown"
     },
     {
@@ -739,8 +739,8 @@
       "appStatus": "active",
       "updatedAtEpoch": 1791290574,
       "updatedAt": "2026-10-06T12:42:54.000Z",
-      "currentTask": "unknown; app title is a label, not verified task",
-      "workProof": "unknown pending turn/tool marker",
+      "currentTask": "current assignment not supplied",
+      "workProof": "in-progress turn but no output/tool marker; execution unverified",
       "latestReceiptAt": "unknown"
     },
     {
@@ -794,8 +794,8 @@
       "appStatus": "active",
       "updatedAtEpoch": 1791290039,
       "updatedAt": "2026-10-06T12:33:59.000Z",
-      "currentTask": "ENGINE English hourly 20–40-line batch through exact Session 109 handoff",
-      "workProof": "unknown pending turn/tool marker",
+      "currentTask": "ENGINE English hourly 20–40-line generated batch through exact Session 109 handoff",
+      "workProof": "board claim posted; no accepted batch receipt supplied",
       "latestReceiptAt": "unknown"
     },
     {
@@ -1036,8 +1036,8 @@
       "appStatus": "active",
       "updatedAtEpoch": 1791287068,
       "updatedAt": "2026-10-06T11:44:28.000Z",
-      "currentTask": "unknown; app title is a label, not verified task",
-      "workProof": "unknown pending turn/tool marker",
+      "currentTask": "PR #2465 / SP-A at 054d57b",
+      "workProof": "audit SUCCESS 2026-10-06T12:50:10Z; repo/unit checks still queued",
       "latestReceiptAt": "unknown"
     },
     {
@@ -1135,8 +1135,8 @@
       "appStatus": "active",
       "updatedAtEpoch": 1791265085,
       "updatedAt": "2026-10-06T05:38:05.000Z",
-      "currentTask": "unknown; app title is a label, not verified task",
-      "workProof": "unknown pending turn/tool marker",
+      "currentTask": "Creator-walker repair (Optional settings: Keep defaults) plus random-place proof rerun",
+      "workProof": "coordinator reports measured repair and command/proof rerun; exact timestamp/head unavailable",
       "latestReceiptAt": "unknown"
     },
     {
@@ -1317,6 +1317,14 @@
       "receiptTimestamp": "2026-10-06T12:50:10Z",
       "exactHead": "054d57b (short head supplied)",
       "source": "coordinator-provided activity delta"
+    },
+    {
+      "session": 57,
+      "task": "traits; T9 facet work",
+      "state": "draft PR #2539 at 5cfd66c reported; next distinct open trait",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "short head 5cfd66c",
+      "source": "board comment 6016625228 and user-provided assignment"
     }
   ],
   "coordinatorChat": {
