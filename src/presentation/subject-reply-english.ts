@@ -8,6 +8,7 @@ import {
   LINE_PARTS,
 } from "./english-composition";
 import type { GroundedEnglishFact } from "./grounded-english";
+import { conversationRegister } from "./conversation-register";
 import { speakerTraits } from "./speaker-traits";
 export type SubjectReplyBank = Readonly<
   Record<
@@ -105,7 +106,10 @@ export function composeSubjectReply(
       },
     },
     composedBank,
-    { relationship: standing },
+    {
+      relationship: standing,
+      register: conversationRegister(world, speakerId, listenerId),
+    },
   );
   if (result.kind !== "rendered")
     throw new Error(
