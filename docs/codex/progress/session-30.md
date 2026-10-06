@@ -41,6 +41,6 @@ LW06 draft #2490 and LW07 draft #2481 remain preserved and unmerged. Their law-t
 
 ## B08 P6
 
-- Replayed against P5 PR #2397's current-main head. The isolated random-place cases passed 3/3; typecheck, presentation suites, lint, format, zero-dice, and A160 audit passed on the prior P5 base.
+- Replayed against P5 PR #2397's current-main head. The generated random-place cases passed 3/3; focused P6 presentation run passed 12 tests across 4 files. Full `npm run typecheck` passed, including the 805-file test-import scan and law-manifest check.
 - The broader world suite still has 7 pre-route campaign-polling setup failures (`This save has no recorded district leans`); required council/statehouse/territory bargaining proof remains incomplete.
-- Resume branch: `codex/session30-b08-p6-current-rebased`. Next: verify the exact refreshed-head checks, then update draft PR #2522 and replay P7 on this P6 branch.
+- Resume branch: `codex/session30-b08-p6-current-rebased`. Next: update draft PR #2522 to the exact refreshed head, then replay P7 on this P6 branch.
