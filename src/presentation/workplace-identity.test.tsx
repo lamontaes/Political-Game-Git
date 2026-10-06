@@ -163,7 +163,8 @@ describe("selected workplace identity", { timeout: 60_000 }, () => {
       viewer,
       backdrop.place,
     );
-    expect(pictured).toEqual([]);
+    expect(pictured).toHaveLength(0);
+    expect(pictured.overflow).toEqual([]);
     const html = renderToStaticMarkup(
       createElement(SceneBackdrop, {
         sceneId: null,

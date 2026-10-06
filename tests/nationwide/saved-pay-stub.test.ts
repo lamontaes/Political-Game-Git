@@ -3,10 +3,7 @@ import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
 } from "../../src/presentation/new-game";
-import {
-  describeRoutineOutcome,
-  routineOutcomeAfterClock,
-} from "../../src/presentation/routine-outcome";
+import { describeRoutineOutcome } from "../../src/presentation/routine-outcome";
 import {
   enterLifePath,
   performLifePathSession,
@@ -103,9 +100,7 @@ describe.each(sampled)("saved pay stub in %s", (placeKey) => {
     const cashAfter = resourcePositionAt(paid, owner, money(0, "USD").currency)!
       .liquidBalance.minorUnits;
     expect(stub.netPaid.minorUnits).toBe(cashAfter - cashBefore);
-    const notice = routineOutcomeAfterClock(
-      describeRoutineOutcome(before, paid, personId),
-    )!;
+    const notice = describeRoutineOutcome(before, paid, personId);
     expect(notice).toContain("Paycheck: gross ");
     const federal = stub.taxes.find(
       (row) => row.liability.taxKey === "us-federal:income-tax-withholding",
