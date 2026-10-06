@@ -213,12 +213,24 @@ export function PersonCard({
     ];
   });
 
+  /*
+   * An anchor exists only when the player opened this card from the person's
+   * rendered figure. That direct scene evidence outranks a roster captured by
+   * an earlier render; otherwise the person under the pointer can be labeled
+   * away and offered travel actions while visibly standing in the room.
+   */
+  const openedFromSceneFigure = mode === "overlay" && anchor !== null;
+  const presentNow =
+    openedFromSceneFigure ||
+    (presentPersonIds
+      ? presentPersonIds.includes(dossier.personId)
+      : dossier.presentNow);
+  const contactPresence = presentNow
+    ? Array.from(new Set([...(presentPersonIds ?? []), dossier.personId]))
+    : presentPersonIds;
   const contact = projectPersonContact(world, playerId, dossier.personId, {
-    ...(presentPersonIds ? { presentPersonIds } : {}),
+    ...(contactPresence ? { presentPersonIds: contactPresence } : {}),
   });
-  const presentNow = presentPersonIds
-    ? presentPersonIds.includes(dossier.personId)
-    : dossier.presentNow;
   const facts = dossier.details;
   const testId =
     mode === "overlay" && !expanded ? "quick-dossier" : "full-dossier";
