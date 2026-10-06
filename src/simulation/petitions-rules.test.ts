@@ -1,8 +1,13 @@
 import { describe, expect, it } from "vitest";
+import { drawRandomPlace } from "../../tests/support/random-place";
+import {
+  installMunicipalGovernment,
+  seatMunicipalMember,
+} from "./municipal-public-work";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { isEligibleVoterIn } from "./issue-record";
 import { deserializeWorld, serializeWorldPayload } from "./serialization";
-import { addDays } from "./dates";
+import { simulationMomentOnLocalDate, addDays } from "./dates";
 import { generalElectionDay } from "./nominations/nomination-rules";
 import stateRules from "../../data/research/elections/state-initiative-rules.json" with { type: "json" };
 import { lifePlaceStateIdentities, searchLifePlaces } from "./life-places";
@@ -12,6 +17,9 @@ import {
   citizenPetitions,
   startCitizenPetition,
   RECALL_PETITION_CLOSES,
+  startRecallPetition,
+  recallPetitions,
+  recallPetitionClosesHandler,
   municipalRecallRule,
   petitionFilingCheck,
   petitionRule,
@@ -213,5 +221,70 @@ describe("one petition rule gate", () => {
     expect(petition.closesAt).toBe(
       `${electionDate.slice(0, 4)}-07-${electionDate.slice(8)}`,
     );
+  });
+  it("keeps a canonically seated official's recall on its existing filing and failure clock", () => {
+    const seed = "session-110-small-recall-compatibility";
+    const place = drawRandomPlace(seed, (row) => {
+      const government = municipalGovernmentForLifePlace(row);
+      if (!government) return false;
+      const rule = municipalRecallRule(government.key);
+      return rule.available && rule.threshold !== null;
+    });
+    const fixture = smallWorld({
+      place: place.key,
+      seed,
+      people: 8,
+      household: true,
+    });
+    const government = municipalGovernmentForLifePlace(place)!;
+    let world = installMunicipalGovernment(fixture.world, {
+      governmentKey: government.key,
+      jurisdictionId: fixture.jurisdictionId,
+      formedAt: fixture.world.currentDate,
+    });
+    const adults = world.personOrder.filter((id) =>
+      isEligibleVoterIn(world, id, fixture.jurisdictionId, world.currentDate),
+    );
+    const petitionerPersonId = adults[0]!;
+    const targetPersonId = adults[1]!;
+    world = seatMunicipalMember(world, {
+      governmentKey: government.key,
+      personId: targetPersonId,
+      startedAt: world.currentDate,
+      role: "member",
+      seatLabel: "Seat1",
+    });
+    world = startRecallPetition(world, {
+      petitionerPersonId,
+      targetPersonId,
+      governmentKey: government.key,
+    });
+    const petition = recallPetitions(world)[0]!;
+    expect(petition.kind).toBe("recall");
+    const rule = municipalRecallRule(government.key);
+    if (!rule.available)
+      throw new Error("The fixture requires an available recall.");
+    expect(petition.closesAt).toBe(
+      addDays(petition.startedAt, rule.circulationDays),
+    );
+    expect(petition.threshold).toEqual(rule.threshold);
+    const due = world.history.futureDueItems.find(
+      (row) => row.stableKey === `${petition.stableKey}:closes`,
+    )!;
+    const atClose = {
+      ...world,
+      currentDate: petition.closesAt,
+      currentMoment: simulationMomentOnLocalDate(
+        world.currentMoment,
+        petition.closesAt,
+      ),
+    };
+    const closed = recallPetitionClosesHandler(atClose, due);
+    expect(closed.status).toBe("resolved");
+    expect(recallPetitions(closed.world)[0]!.phase).toBe("failed-to-qualify");
+    expect(
+      recallPetitions(deserializeWorld(serializeWorldPayload(closed.world)))[0]!
+        .phase,
+    ).toBe("failed-to-qualify");
   });
 });
