@@ -146,6 +146,8 @@ export const OTHER_PARENT_MINIMUM_AGE = 5;
 export type OpeningFamilyShape = "one-parent" | "two-parents" | "guardian";
 
 export interface ProductionWorldInput {
+  /** Observe immutable canonical build checkpoints; never advances the clock. */
+  readonly onCharacterCheckpoint?: (world: World, personId: EntityId) => void;
   readonly creatorLifeForks?: readonly CreatorLifeForkChoice[];
   /** The full world seed, already derived from the player's setup. */
   readonly seed: string;
@@ -432,6 +434,7 @@ export function buildProductionWorld(
     );
     if (!birth) throw new Error("The character's birth event was not written.");
     world = recordEarlierConditionOnsets(world, player.id, birth.id);
+    input.onCharacterCheckpoint?.(world, player.id);
   }
   // Early family evidence seated the town before the player's caregivers existed.
   // Complete their employment and home through the existing opening writers.
@@ -478,6 +481,7 @@ export function buildProductionWorld(
     if (!employerName)
       throw new Error("A local employer needs a recorded name.");
     world = establishPreStartAdultHistory(world, {
+      onCheckpoint: input.onCharacterCheckpoint,
       personId: player.id,
       jurisdictionId: jurisdiction.id,
       employerId: employer.organization.id,
