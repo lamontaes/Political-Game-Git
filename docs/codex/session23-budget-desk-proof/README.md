@@ -1,5 +1,31 @@
 # Session 23 dollar budget desk evidence
 
+The budget desk shows $4,000,000.25 requested and $3,000,000.00 authorized for
+transit access. The new capture and saved record comparison passed after reload.
+Preparing the request remains optional and creates no spending authority.
+
+## Current main composition
+
+![Requested and enacted amounts after main composition](main-new-game-dollar-budget-desk.png)
+
+The new ordinary-life proof passed at `83cc2f3bd437aece3368cf129370885fdac0ae06`,
+which preserves main `e591ffc637d1f6db84d2ff920e8662ce123202ed`. One browser test
+passed in 8.6 minutes, including final saved-record equality. The expected and
+served source identities match. See [browser receipt](main-browser-checks.json)
+and [actual saved record lines](main-record-lines.json).
+
+Terre Haute, Indiana, place 1875428; seed
+`session23-part4-dollar-budget-new-game-2026-10-06`. Emerson Stuart is the
+original generated player, with an explicitly authored governor tenure. The bill
+uses supplied votes through canonical writers and honors the fourteen-day reading
+interval. This proves the controlled desk, not a natural election or NPC bargain.
+The two unchanged main press fixture type errors are separately reproduced in
+[composition checks](main-composition-checks.json). The earlier new-main run
+stopped at the added Difficulty screen; its original trace and compact timings
+remain in [creator navigation failure](creator-navigation-failure.json).
+
+## Historical capture
+
 ![Requested and enacted amounts](new-game-dollar-budget-desk.png)
 
 New ordinary life: Emerson Stuart, age 40, Terre Haute, Indiana, place 1875428.
