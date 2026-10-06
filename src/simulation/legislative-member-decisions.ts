@@ -17,6 +17,8 @@ import {
 } from "./legislative-politics";
 import { currentHistoricalCutoff, latestPrivateBelief } from "./queries";
 import { measureAnswersAt } from "./vote-bundle";
+import { traitRegistryFor } from "./trait-registry";
+import { readTrait } from "./trait-readings";
 import type {
   DecisionConsideration,
   DecisionEvaluation,
@@ -25,8 +27,27 @@ import type {
   LegislativeQuestionIdentity,
   PropositionAnswerRef,
   PublicPositionRecord,
+  MindConfidence,
+  DecisionImportance,
   World,
 } from "./types";
+
+const SALIENCE_IMPORTANCE: Readonly<
+  Record<"low" | "moderate" | "high" | "central", DecisionImportance>
+> = {
+  low: "slight",
+  moderate: "moderate",
+  high: "strong",
+  central: "decisive",
+};
+const CONVICTION_CONFIDENCE: Readonly<
+  Record<"tentative" | "moderate" | "strong" | "settled", MindConfidence>
+> = {
+  tentative: "low",
+  moderate: "medium",
+  strong: "high",
+  settled: "high",
+};
 
 /**
  * How one simulated member decides one question.
@@ -346,22 +367,8 @@ function memberConsiderations(
     const agrees =
       (belief.position === "support" && answer.answer === "yes") ||
       (belief.position === "oppose" && answer.answer === "no");
-    // PLACEHOLDER(overnight): map recorded conviction and salience to the
-    // decision engine's ordinal weight until voting calibration is approved.
-    const importance =
-      belief.salience === "central"
-        ? "decisive"
-        : belief.salience === "high"
-          ? "strong"
-          : belief.salience === "moderate"
-            ? "moderate"
-            : "slight";
-    const confidence =
-      belief.conviction === "settled" || belief.conviction === "strong"
-        ? "high"
-        : belief.conviction === "moderate"
-          ? "medium"
-          : "low";
+    const importance = SALIENCE_IMPORTANCE[belief.salience];
+    const confidence = CONVICTION_CONFIDENCE[belief.conviction];
     considerations.push({
       stableKey: `member:private-belief:${answer.propositionId}`,
       optionKey: agrees ? "vote-yea" : "vote-nay",
@@ -402,9 +409,7 @@ function memberConsiderations(
           optionKey: changesLaw ? "vote-yea" : "vote-nay",
           sourceType: "context:organized-interest",
           direction: "supports",
-          // PLACEHOLDER: group members to the engine's ordinal weight.
-          importance:
-            lobbying >= 30 ? "strong" : lobbying >= 10 ? "moderate" : "slight",
+          importance: ordinalByRank(lobbying, [1, 10, 30]),
           confidence: "medium",
           explanation: `Groups of people the current law cost want it ${changesLaw ? "changed, as this bill would" : "changed, and this bill would keep it"}.`,
           sourceRefs: [],
@@ -416,14 +421,13 @@ function memberConsiderations(
       const yea = net < 0 ? changes : !changes;
       const proposition =
         world.policyCatalog.propositions[answer.propositionId];
-      // PLACEHOLDER: net view points to the engine's ordinal weight.
       const size = Math.abs(net);
       considerations.push({
         stableKey: `member:constituents:${law.measureId}:${answer.propositionId}`,
         optionKey: yea ? "vote-yea" : "vote-nay",
         sourceType: "context:constituents-view",
         direction: "supports",
-        importance: size >= 60 ? "strong" : size >= 20 ? "moderate" : "slight",
+        importance: ordinalByRank(size, [1, 20, 60]),
         confidence: "medium",
         explanation: `People the current law on ${proposition?.question ?? "this question"} reached ${net < 0 ? "blame" : "credit"} the member for it, and this bill would ${changes ? "change" : "keep"} that law.`,
         sourceRefs: [],
@@ -563,6 +567,105 @@ function memberConsiderations(
       });
   }
 
+  // A promised endorsement is still outstanding until the one canonical
+  // endorsement favor is written. Its promise is a reason the recipient can
+  // cite on this bill even though they do not hold the commitment themselves.
+  if (sponsorPersonId && sponsorPersonId !== input.personId) {
+    for (const commitment of world.history.legislativeCommitments ?? []) {
+      const condition = commitment.conditions.find(
+        (row) =>
+          row.kind === "endorsement-given" &&
+          row.giverPersonId === sponsorPersonId &&
+          row.receiverPersonId === input.personId,
+      );
+      if (
+        !condition ||
+        commitment.holderPersonId !== sponsorPersonId ||
+        commitment.subject.question.measureId !== measureId ||
+        !commitment.heardByPersonIds.includes(input.personId)
+      )
+        continue;
+      const assessment = assessCommitment(world, commitment.id);
+      if (
+        assessment.conditions.find((row) => row.key === condition.key)
+          ?.state !== "unmet"
+      )
+        continue;
+      considerations.push({
+        stableKey: `member:promised-endorsement:${commitment.stableKey}`,
+        optionKey: "vote-yea",
+        sourceType: "social:stated-commitment",
+        direction: "supports",
+        importance: "moderate",
+        confidence: "high",
+        explanation:
+          "The bill's sponsor promised a public endorsement, and it has not yet been given.",
+        sourceRefs: commitment.claimId
+          ? [{ kind: "claim", claimId: commitment.claimId }]
+          : [{ kind: "historical-event", eventId: commitment.eventId }],
+      });
+    }
+
+    const priorThreats = (world.history.legislativeCommitments ?? [])
+      .filter(
+        (record) =>
+          record.holderPersonId === sponsorPersonId &&
+          record.heardByPersonIds.includes(input.personId) &&
+          record.conditions.some(
+            (row) =>
+              row.kind === "counterparty-opposed" &&
+              row.counterpartyPersonId === input.personId,
+          ),
+      )
+      .sort((a, b) => b.sequence - a.sequence);
+    const testedThreat = priorThreats.find((record) => {
+      const standing = assessCommitment(world, record.id).standing;
+      return standing === "honored" || standing === "departed-from";
+    });
+    if (
+      testedThreat?.conditions.some(
+        (row) => row.kind === "counterparty-opposed",
+      )
+    ) {
+      const standing = assessCommitment(world, testedThreat.id).standing;
+      const credible = standing === "honored";
+      const trait = traitRegistryFor(world).traits.get(
+        "legislature-v1:yielding-to-pressure",
+      );
+      if (trait) {
+        const reading = readTrait(world, input.personId, trait);
+        if (reading.state === "recorded" && reading.value !== 0) {
+          const yieldToPressure = reading.value > 0;
+          considerations.push({
+            stableKey: `member:believed-threat:${testedThreat.stableKey}`,
+            optionKey: yieldToPressure ? "vote-yea" : "vote-nay",
+            sourceType: "social:stated-commitment",
+            direction: "supports",
+            importance: credible ? "moderate" : "slight",
+            confidence: credible ? "high" : "medium",
+            explanation: credible
+              ? `The sponsor has ${standing === "honored" ? "followed through on" : "broken"} a recorded warning to this member before; the member's recorded manner is to ${yieldToPressure ? "yield" : "stand against"} pressure.`
+              : `The sponsor's recorded warning to this member was not followed through on; the member's recorded manner is to ${yieldToPressure ? "yield" : "stand against"} pressure.`,
+            sourceRefs: [
+              ...(testedThreat.claimId
+                ? [{ kind: "claim" as const, claimId: testedThreat.claimId }]
+                : [
+                    {
+                      kind: "historical-event" as const,
+                      eventId: testedThreat.eventId,
+                    },
+                  ]),
+              {
+                kind: "personality-tendency",
+                tendencyRecordId: reading.recordId,
+              },
+            ],
+          });
+        }
+      }
+    }
+  }
+
   if (considerations.length === 0) {
     considerations.push({
       stableKey: "member:nothing-decisive",
@@ -581,6 +684,15 @@ function memberConsiderations(
 
 function capitalize(value: string): string {
   return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+function ordinalByRank(
+  value: number,
+  thresholds: readonly [number, number, number],
+): DecisionImportance {
+  if (value >= thresholds[2]) return "strong";
+  if (value >= thresholds[1]) return "moderate";
+  return value >= thresholds[0] ? "slight" : "slight";
 }
 
 /** The bill's answers with hypothetical parts laid over them. */
