@@ -7,6 +7,7 @@ import { declarePersonalTaxOccurrence } from "../presentation/tax-work";
 import { createCampaignElectionTransitionRegistry } from "./campaigns";
 import { daysBetween, makeIsoDate } from "./dates";
 import { createPartnership } from "./life";
+import { introduceMeasure } from "./legislation";
 import {
   assertLawExposureIntegrity,
   NON_MONEY_FELT_SIZE,
@@ -32,8 +33,12 @@ import {
   membersAgainstLaw,
   officialViewReflectionEventKey,
 } from "./official-view-reads";
+import {
+  decideChamberVote,
+  type ChamberVoteMemberEvaluation,
+} from "./governing/chamber-votes";
 import { joinLawInterestGroup } from "./living-world/law-interest-groups";
-import { recordEventKnowledge, recordRelationshipInteraction } from "./records";
+import { recordRelationshipInteraction } from "./records";
 import { money } from "./resources";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import type { EntityId, PrivateBeliefRecord, World } from "./types";
@@ -163,26 +168,6 @@ describe("a law reaches a person", () => {
       // what the law did to the household.
       expect(view.position).toBe("oppose");
       expect(view.formation.relevantEventIds).toContain(reflection.id);
-      if (
-        known.some(
-          (act) => !act.executive && act.officialId === officialOf(view),
-        )
-      ) {
-        expect(view.formation.eventKnowledgeIds.length).toBeGreaterThan(0);
-        for (const id of view.formation.eventKnowledgeIds) {
-          const knowledge = later.history.knowledge.find(
-            (row) => row.id === id,
-          )!;
-          expect(knowledge.personId).toBe(spouseId);
-          expect(knowledge.learnedAt <= view.formedAt).toBe(true);
-          expect(
-            later.history.legislativeActions!.some(
-              (action) =>
-                action.eventId === knowledge.eventId && action.voteId !== null,
-            ),
-          ).toBe(true);
-        }
-      }
       const trace = later.history.decisionTraces.find(
         (row) => row.id === view.formation.decisionTraceIds[0],
       )!;
@@ -202,31 +187,116 @@ describe("a law reaches a person", () => {
       expect(read.points).toBeLessThan(0);
     }
     expect(officialViewsOf(later, personId)).toEqual([]);
-    expect(
-      later.history.knowledge.filter(
-        (row) =>
-          row.personId === personId &&
-          row.stableKey.startsWith("official-view:vote-knowledge:"),
-      ),
-    ).toEqual([]);
-    const reloaded = deserializeWorld(serializeWorld(later));
-    expect(officialViewsOf(reloaded, spouseId)).toEqual(views);
-    expect(reloaded.history.knowledge).toEqual(later.history.knowledge);
-    const replayed = advanceWorld(
-      reloaded,
+    assertWorldIntegrity(later);
+  });
+
+  it("carries one named legislator's saved law experience into their later ballot", () => {
+    const { world, spouseId, procedure, personId } = collected(true);
+    const later = advanceWorld(
+      world,
       3,
       createCampaignElectionTransitionRegistry(),
     );
-    expect(officialViewsOf(replayed, spouseId)).toEqual(views);
-    for (const knowledge of later.history.knowledge.filter((row) =>
-      row.stableKey.startsWith("official-view:vote-knowledge:"),
-    )) {
-      expect(
-        replayed.history.knowledge.filter((row) => row.id === knowledge.id),
-      ).toHaveLength(1);
-    }
-    assertWorldIntegrity(reloaded);
-    assertWorldIntegrity(later);
+    const existingLaw = later.history.legislativeMeasures!.find(
+      (row) => row.id === later.history.taxProposals![0]!.measureId,
+    )!;
+    const knownOfficialViews = officialViewsOf(later, spouseId);
+    const target = procedure.bodies
+      .flatMap((body) => body.members.map((member) => ({ body, member })))
+      .find(
+        ({ member }) =>
+          member.personId !== null &&
+          member.personId !== personId &&
+          knownOfficialViews.some(
+            (belief) => officialOf(belief) === member.personId,
+          ),
+      );
+    expect(target).toBeDefined();
+    if (!target?.member.personId)
+      throw new Error(
+        "A named legislator with a saved resident view is required.",
+      );
+
+    const propositionId = existingLaw.propositionIds?.[0];
+    if (!propositionId)
+      throw new Error("The enacted tax law must name its policy question.");
+    const next = introduceMeasure(later, {
+      stableKey: "law-exposure-test:later-reconsideration",
+      jurisdictionId: existingLaw.jurisdictionId,
+      rulePackId: existingLaw.rulePackId,
+      designation: "HB 2 (authored proof)",
+      shortTitle: "Reconsider the recorded tax policy",
+      summary: "An authored ballot question used to follow the saved outcome.",
+      origin: "member-introduction",
+      subjectClass: "revenue",
+      sponsorPersonId: personId,
+      propositionIds: [propositionId],
+      propositionAnswers: [{ propositionId, answer: "no" }],
+    });
+    const laterMeasure = next.history.legislativeMeasures!.at(-1)!;
+    const savedBelief = knownOfficialViews.find(
+      (belief) => officialOf(belief) === target.member.personId,
+    )!;
+    expect(savedBelief.position).toBe("oppose");
+    expect(savedBelief.formation.relevantEventIds).toContain(
+      later.history.events.find(
+        (event) =>
+          event.stableKey ===
+          officialViewReflectionEventKey(lawExposuresOf(later, spouseId)[0]!),
+      )?.id,
+    );
+
+    const evaluations: ChamberVoteMemberEvaluation[] = [];
+    const ballots = decideChamberVote(
+      next,
+      {
+        stableKey: laterMeasure.stableKey,
+        members: target.body.members,
+        only: new Set([target.member.memberKey]),
+        question: {
+          question: {
+            measureId: laterMeasure.id,
+            purpose: "floor-stage",
+            forumKey: target.body.chamberKey,
+            floorStageKey: null,
+            amendmentStableKey: null,
+            provisionKey: null,
+          },
+          questionLabel: "Pass this measure?",
+        },
+      },
+      { onMemberEvaluation: (row) => evaluations.push(row) },
+    );
+    expect(ballots).toHaveLength(1);
+    expect(ballots[0]).toMatchObject({
+      memberKey: target.member.memberKey,
+      personId: target.member.personId,
+      disposition: expect.any(String),
+    });
+    expect(evaluations).toHaveLength(1);
+    expect(evaluations[0]!.evaluation?.context.considerations).toContainEqual(
+      expect.objectContaining({
+        stableKey: `member:constituents:${existingLaw.id}:${propositionId}`,
+        sourceType: "context:constituents-view",
+        optionKey: "vote-yea",
+      }),
+    );
+    expect(next.history.knowledge).toEqual(later.history.knowledge);
+    console.info(
+      "Saved law outcome to actual member ballot",
+      JSON.stringify({
+        scenario: procedure.scenarioKey,
+        place: world.people[personId]!.homeJurisdictionId,
+        lawMeasureId: existingLaw.id,
+        exposureId: lawExposuresOf(later, spouseId)[0]!.id,
+        reflectionId: savedBelief.formation.relevantEventIds[0],
+        member: target.member.name,
+        memberId: target.member.personId,
+        ballot: ballots[0]!.disposition,
+        reason: ballots[0]!.reason,
+        evaluationCount: evaluations.length,
+      }),
+    );
   });
 
   it("a town count reads what residents think of a candidate", () => {
@@ -436,64 +506,17 @@ describe("a law reaches a person", () => {
     expect(heardShare(close, heardFrom(close))).toBeGreaterThan(1 / 8);
   });
 
-  it("public recorded votes are knowable at reflection time; private votes require actual event knowledge", () => {
+  it("a close news follower knows a legislator's vote; someone who neither follows nor knows them does not", () => {
     const { world } = collected();
     const exposure = lawExposuresOf(world, world.personOrder[0]!)[0]!;
-    const vote = world.history.legislativeVotes!.find(
-      (row) => row.purpose === "floor-stage",
-    )!;
-    const official = vote.dispositions.find(
-      (row) =>
-        row.personId &&
-        (row.disposition === "yea" || row.disposition === "nay"),
-    )!.personId!;
-    const action = world.history.legislativeActions!.find(
-      (row) => row.voteId === vote.id,
-    )!;
-    const event = world.history.events.find(
-      (row) => row.id === action.eventId,
-    )!;
-    expect(event.visibility).toBe("public");
-    const personId = world.personOrder.find((id) => id !== official)!;
-    const probe = { ...exposure, personId };
-    expect(knowsVote(world, probe, official)).toBe(
-      followsNewsClosely(world, personId) ||
-        peopleKnownTo(world, personId).includes(official),
-    );
-    const privateWorld = {
-      ...world,
-      history: {
-        ...world.history,
-        events: world.history.events.map((row) =>
-          row.id === event.id
-            ? { ...row, visibility: "private" as const }
-            : row,
-        ),
-      },
-    };
-    expect(knowsVote(privateWorld, probe, official)).toBe(false);
-    const informed = recordEventKnowledge(privateWorld, {
-      stableKey: "vote-knowledge-test:actual-event",
-      personId,
-      eventId: event.id,
-      learnedAt: world.currentDate,
-      believedSummary: event.summary,
-      accuracy: "accurate",
-      confidence: "high",
-      source: { kind: "public-record", reference: event.id },
-    });
-    expect(knowsVote(informed, probe, official)).toBe(true);
-    // Restore the actual public event for the canonical save proof: existing
-    // publications still reference this public roll call. The privacy variation
-    // above tests the reader only, not a rewritten historical save.
-    const publicInformed = {
-      ...informed,
-      history: { ...informed.history, events: world.history.events },
-    };
-    const reloaded = deserializeWorld(serializeWorld(publicInformed));
-    expect(knowsVote(reloaded, probe, official)).toBe(true);
-    const beforeVote = { ...informed, currentDate: makeIsoDate("2026-01-01") };
-    expect(knowsVote(beforeVote, probe, official)).toBe(false);
+    const official = world.personOrder[0]!;
+    for (const personId of world.personOrder) {
+      if (personId === official) continue;
+      const probe = { ...exposure, personId };
+      const follows = followsNewsClosely(world, personId);
+      const acquainted = peopleKnownTo(world, personId).includes(official);
+      expect(knowsVote(world, probe, official)).toBe(follows || acquainted);
+    }
   });
 
   it("a cost with no money is felt at one estimated size, labeled PLACEHOLDER", () => {
