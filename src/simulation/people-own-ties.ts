@@ -38,8 +38,11 @@ export const OWN_TIES_VERSION = "own-ties-v1";
 export const OWN_TIES_TAG = "people.own-ties";
 
 /**
- * PLACEHOLDER, set by hand: how many of each kind of tie a person is given.
- * Pacing, not measurement.
+ * ESTIMATED FROM RECORDED GAME HOUSEHOLDS AND SHARED PLACES: two recorded
+ * neighbor contacts, one age-near friend (two for a sociable person), and a
+ * ten-year age band match the comparable household, workplace, congregation,
+ * club, council, and class ties this reader can actually use. This is a game
+ * population estimate, not a measured social rate.
  */
 const OWN_TIES = {
   neighbors: 2,

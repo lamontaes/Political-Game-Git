@@ -283,9 +283,9 @@ export function resolvePersonIdentity(
 /** Rejects an identity the canonical record should not hold. */
 export function assertPersonIdentity(identity: PersonIdentity): void {
   if (!GENDER_IDENTITY_KEYS.includes(identity.gender)) {
-    throw new Error(`Unknown gender identity: ${identity.gender}`);
+    throw new Error(`Unsupported gender identity: ${identity.gender}`);
   }
   if (!PRONOUN_SET_KEYS.includes(identity.pronouns)) {
-    throw new Error(`Unknown pronoun set: ${identity.pronouns}`);
+    throw new Error(`Unsupported pronoun set: ${identity.pronouns}`);
   }
 }

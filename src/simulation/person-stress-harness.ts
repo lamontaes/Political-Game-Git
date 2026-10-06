@@ -287,7 +287,7 @@ export function formatPersonStressHarnessReport(
 
   if (includeSampleDetails && result.populations.length > 0) {
     lines.push("--------------------------------------------------");
-    lines.push("SAMPLE POPULATIONS:");
+    lines.push("RECORDED TEST POPULATIONS:");
     for (const pop of result.populations.slice(0, 5)) {
       lines.push(`\nSeed: "${pop.seed}" (${pop.worldId})`);
       for (const p of pop.people) {

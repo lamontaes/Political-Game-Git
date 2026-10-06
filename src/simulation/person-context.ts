@@ -1,7 +1,4 @@
-import {
-  ageOfMajorityFor,
-  GROWN_UP_PRESENTATION_AGE_PLACEHOLDER,
-} from "./age-of-majority";
+import { ageOfMajorityFor } from "./age-of-majority";
 import { ageOnDate } from "./dates";
 import {
   activeCareResponsibilitiesAt,
@@ -287,14 +284,14 @@ function siblingWord(person: Person, older: boolean | null): string {
  * that age is used; where it has none, the authority's end is unknown and the
  * record stays open (see `coming-of-age.ts`), but a twenty-seven-year-old is
  * still not introduced as having "your guardian". The fallback is
- * PLACEHOLDER(research: age-of-majority-by-state), and it writes nothing.
+ * ESTIMATED FROM THE RECORDED NATIONAL MODAL AGE OF 18 when this person's
+ * state or territory has no sourced rule. The sourced place-specific rule
+ * wins whenever one is recorded, and this display estimate writes nothing.
  */
 function grownForPresentation(world: World, personId: EntityId): boolean {
   const person = world.people[personId];
   if (!person) return false;
-  const age =
-    ageOfMajorityFor(world, personId)?.age ??
-    GROWN_UP_PRESENTATION_AGE_PLACEHOLDER;
+  const age = ageOfMajorityFor(world, personId)?.age ?? 18;
   return ageOnDate(person.birthDate, world.currentDate) >= age;
 }
 

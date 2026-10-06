@@ -37,7 +37,7 @@ import { createMindProvenance, recordGoalState } from "./mind";
 import { personName } from "./people";
 import {
   GOAL_BLOCKER_REASONS,
-  GOAL_PURSUIT_PLACEHOLDER as PACE,
+  GOAL_PURSUIT_ESTIMATE as PACE,
   GOAL_PURSUIT_VERSION,
   GOAL_REVIEW_TRANSITION_KEY,
   LIVELIHOOD_GOAL_DOMAIN,

@@ -110,7 +110,11 @@ export function municipalRecallRule(
 ): RecallRule {
   const government = municipalGovernmentByKey(governmentKey);
   if (!government)
-    return { available: false, reason: "This town's government is not known." };
+    return {
+      available: false,
+      reason:
+        "This town's government is not in the municipal government catalog.",
+    };
   const state = stateName(government.state);
   const enacted = world
     ? ruleValueInWorld(
@@ -565,7 +569,8 @@ export function recallPetitionClosesHandler(
       world,
       status: "blocked",
       reasonKey: "recall:missing-legal-threshold",
-      context: "The jurisdiction's recall signature threshold is not recorded.",
+      context:
+        "The jurisdiction's recall rule does not supply a signature threshold.",
       outcomeEventId: null,
     };
   const counted = recallResidentViews(world, petition);
