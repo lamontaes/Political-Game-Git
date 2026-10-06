@@ -17,7 +17,7 @@ import { householdLocationAt } from "../life-queries";
 import { searchLifePlaces } from "../life-places";
 import type { World } from "../types";
 import {
-  BLANKET_POLITICAL_VIOLENCE,
+  ESTIMATED_POLITICAL_VIOLENCE,
   POLITICAL_THREAT_EVENT,
   PRESSURE_CONTRACT_VERSION,
   THREAT_ATTEMPTED_PHASE,
@@ -203,7 +203,7 @@ describe("what pressure sets off", { timeout: LONG }, () => {
     // No state that never crossed the anger line saw anything.
     const crossed = new Set(
       world.pressure!.readings.flatMap((reading) =>
-        reading.levels.anger > BLANKET_POLITICAL_VIOLENCE.angerLine
+        reading.levels.anger > ESTIMATED_POLITICAL_VIOLENCE.angerLine
           ? [reading.jurisdictionId]
           : [],
       ),

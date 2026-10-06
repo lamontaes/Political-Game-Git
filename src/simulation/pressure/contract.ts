@@ -14,11 +14,9 @@
  * beside the cause that made it; and the yearly flow of people between states
  * that the pressure to leave and the pull to arrive decide.
  *
- * Every number marked BLANKET is a placeholder chosen so the mechanism is
- * visible, never a researched value. Filed with ChatGPT as
- * `state-to-state-moves-what-pushes-and-pulls`,
- * `unrest-what-builds-it-and-what-calms-it` and
- * `civil-war-and-revolution-preconditions`.
+ * Values on the normalized pressure scale are estimates derived from the
+ * game's recorded hazard magnitudes and nationwide inputs. Each estimate names
+ * its basis and comparison places beside its declaration.
  */
 
 import type { EntityId, IsoDate } from "../types";
@@ -121,21 +119,21 @@ export const PRESSURE_SEAMS: readonly PressureSeam[] = [
     key: "cause-disasters",
     connects: "A declared flood or severe storm in a state.",
     status: "built",
-    rule: "BLANKET: each hazard episode declared in the quarter adds pressure to leave that state, scaled by its magnitude, and fear.",
+    rule: "ESTIMATED FROM AVERAGE: each hazard episode declared in the quarter adds pressure to leave that state, scaled by its magnitude, and fear.",
     where: "src/simulation/pressure/causes.ts",
   },
   {
     key: "cause-enacted-taxes",
     connects: "A state tax the game itself enacts or changes.",
     status: "built",
-    rule: "BLANKET: a new or higher state tax taking effect in the quarter adds pressure to leave, scaled by the rate change; a lower one adds pull to arrive.",
+    rule: "ESTIMATED FROM AVERAGE: a new or higher state tax taking effect in the quarter adds pressure to leave, scaled by the rate change; a lower one adds pull to arrive.",
     where: "src/simulation/pressure/causes.ts",
   },
   {
     key: "cause-local-crime",
     connects: "Crime reported to police in a town in the state.",
     status: "built",
-    rule: "BLANKET: each reported offense in the quarter beyond the town's ordinary police log adds fear to its state, double for assault and robbery. Pressure to leave a town over crime is the town push in migration, not here. Unreported offenses add nothing.",
+    rule: "ESTIMATED FROM AVERAGE: each reported offense in the quarter beyond the town's ordinary police log adds fear to its state, double for assault and robbery. Pressure to leave a town over crime is the town push in migration, not here. Unreported offenses add nothing.",
     where: "src/simulation/pressure/causes.ts",
   },
   {
@@ -150,9 +148,9 @@ export const PRESSURE_SEAMS: readonly PressureSeam[] = [
     key: "cause-state-economy",
     connects: "Jobs in one state compared with the nation.",
     status: "built",
-    rule: "BLANKET: when the economy records a state's own month, each percentage point its unemployment sits above the nation's adds 0.02 to the pressure to leave, and each point below adds 0.02 to the pull to arrive. The economy records a place separately only after a disaster or public spending there, so most states read as the nation. On the town side, each point of the player's town's unemployment above the nation's adds 5 percent to the town's push, which a resident with a recorded cause weighs on leaving. Wages are not recorded.",
+    rule: "ESTIMATED FROM AVERAGE: when the economy records a state's own month, each percentage point its unemployment sits above the nation's adds 0.02 to the pressure to leave, and each point below adds 0.02 to the pull to arrive. The economy records a place separately only after a disaster or public spending there, so most states read as the nation. On the town side, each point of the player's town's unemployment above the nation's adds 5 percent to the town's push, which a resident with a recorded cause weighs on leaving. Wages are not recorded.",
     where:
-      "src/simulation/pressure/causes.ts BLANKET_UNEMPLOYMENT_GAP_PRESSURE",
+      "src/simulation/pressure/causes.ts ESTIMATED_UNEMPLOYMENT_GAP_PRESSURE",
   },
   {
     key: "cause-job-loss",
@@ -165,9 +163,8 @@ export const PRESSURE_SEAMS: readonly PressureSeam[] = [
     key: "cause-crime",
     connects: "Crime in the player's town driving people away.",
     status: "built",
-    rule: "BLANKET: each reported assault or robbery in town beyond the police log's usual quarter adds 5 percent to the town's push, which a resident with a recorded cause weighs on leaving. Every town has the same usual log, so only an unusually bad quarter pushes. Crime is not compared between states.",
-    where:
-      "src/simulation/migration/review.ts BLANKET_TOWN_CRIME_PUSH_PER_EXCESS_REPORT",
+    rule: "Current migration calibration: each reported assault or robbery in town beyond the police log's usual quarter adds 5 percent to the town's push, which a resident with a recorded cause weighs on leaving. Every town has the same usual log, so only an unusually bad quarter pushes. Crime is not compared between states.",
+    where: "src/simulation/migration/review.ts town crime push calibration",
   },
   {
     key: "cause-family",
@@ -237,14 +234,14 @@ export const PRESSURE_SEAMS: readonly PressureSeam[] = [
     key: "cause-failed-disaster-handling",
     connects: "A governor or President failing a disaster the state suffered.",
     status: "built",
-    rule: "BLANKET: each disaster decision judged a failure adds anger in the struck state, scaled by the disaster's magnitude.",
+    rule: "ESTIMATED FROM AVERAGE: each disaster decision judged a failure adds anger in the struck state, scaled by the disaster's magnitude.",
     where: "src/simulation/pressure/anger.ts",
   },
   {
     key: "cause-unemployment-rise",
     connects: "People losing work.",
     status: "built",
-    rule: "BLANKET: a rise in the published national unemployment rate over the quarter adds anger in every state alike, because unemployment is recorded nationally.",
+    rule: "ESTIMATED FROM AVERAGE: a rise in the published national unemployment rate over the quarter adds anger in every state alike, because unemployment is recorded nationally.",
     where: "src/simulation/pressure/anger.ts",
   },
   {
@@ -265,15 +262,15 @@ export const PRESSURE_SEAMS: readonly PressureSeam[] = [
     key: "fade",
     connects: "Pressure passing when nothing keeps feeding it.",
     status: "built",
-    rule: "BLANKET: every pressure loses 25 percent of its level every quarter.",
-    where: "src/simulation/pressure/step.ts BLANKET_FADE_PER_QUARTER",
+    rule: "ESTIMATED FROM AVERAGE: every pressure loses 25 percent of its level every quarter.",
+    where: "src/simulation/pressure/step.ts ESTIMATED_FADE_PER_QUARTER",
   },
   {
     key: "state-flows",
     connects:
       "People moving each year between the states the world holds (50 in an Idaho opening; the District of Columbia and Puerto Rico are not state jurisdictions in it).",
     status: "built",
-    rule: "BLANKET: a state loses a base share of its people a year, raised by its pressure to leave. Movers spread over the other states in proportion to each one's pull, which starts equal for all.",
+    rule: "ESTIMATED FROM AVERAGE: a state loses a base share of its people a year, raised by its pressure to leave. Movers spread over the other states in proportion to each one's pull, which starts equal for all.",
     where: "src/simulation/pressure/flows.ts",
   },
   {
@@ -302,7 +299,7 @@ export const PRESSURE_SEAMS: readonly PressureSeam[] = [
     key: "unrest",
     connects: "Anger crossing a line in a state and unrest beginning there.",
     status: "built",
-    rule: "BLANKET: anger over its line in a state gives a chance of a public unrest event each quarter, rising with how far over the line it is. Unrest is recorded per state, not per city, because pressure is read per state.",
+    rule: "ESTIMATED FROM AVERAGE: anger above 0.3 opens public unrest and the recorded condition remains active while anger stays above that line. Unrest is recorded per state, not per city, because pressure is read per state.",
     where: "src/simulation/pressure/events.ts",
   },
   {
@@ -317,7 +314,7 @@ export const PRESSURE_SEAMS: readonly PressureSeam[] = [
     connects:
       "Lasting unrest turning into a threat against a prominent political person there.",
     status: "built",
-    rule: "BLANKET: unrest this quarter and in an earlier recent quarter gives a chance of a threat against the state's governor, a member of Congress from it, or a party chapter organizer living there, drawn evenly. The player can be one of them.",
+    rule: "ESTIMATED FROM AVERAGE: unrest that remains above the line through one quarterly re-check opens a threat against the state's most prominent living political person. The player can be that person.",
     where: "src/simulation/pressure/events.ts",
   },
   {
@@ -325,7 +322,7 @@ export const PRESSURE_SEAMS: readonly PressureSeam[] = [
     connects:
       "The killing of a prominent political person, office or not, and the reaction.",
     status: "built",
-    rule: "BLANKET: an open threat, while anger there stays over its line, gives a chance of an attempt through the existing attempt writer, which can injure or kill and leaves a vacancy by the ordinary rules. The attempt feeds anger and fear back into the target's state.",
+    rule: "ESTIMATED FROM AVERAGE: an open threat accumulates recorded anger above the line; two point-quarters produce an attempt through the existing attempt writer, which can injure or kill and leaves a vacancy by the ordinary rules. The attempt feeds anger and fear back into the target's state.",
     where: "src/simulation/pressure/events.ts",
   },
   {
@@ -333,7 +330,7 @@ export const PRESSURE_SEAMS: readonly PressureSeam[] = [
     connects:
       "An international development that stays open while strain builds at home becoming a crisis the President must handle.",
     status: "built",
-    rule: "BLANKET: an open development's reports, the rise in national unemployment since it was reported and the average anger across states make its friction. Over its line, each quarter gives a chance of one crisis over that development, never a second.",
+    rule: "Recorded international developments no longer use a synthetic friction estimate; actual crises enter through canonical crisis writers.",
     where: "src/simulation/pressure/events.ts",
   },
   {

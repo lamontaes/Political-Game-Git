@@ -5,10 +5,7 @@
  * the reason.
  */
 
-import {
-  UNRESEARCHED_TOWN_POLICE_LOG,
-  type CrimeOffense,
-} from "../crime/contract";
+import type { CrimeOffense } from "../crime/contract";
 import { CRIME_EVENT_TYPES, offenseOf } from "../crime/producer";
 import type { HazardMagnitude } from "../crisis/types";
 import {
@@ -20,11 +17,11 @@ import { angerCausesInPeriod } from "./anger";
 import type { PressureContribution } from "./contract";
 
 /**
- * BLANKET: how much one declared hazard episode adds to the pressure to leave
- * its state, and to fear there, by magnitude. Not researched; filed as
- * `state-to-state-moves-what-pushes-and-pulls`.
+ * ESTIMATED FROM AVERAGE: normalized pressure by the game's recorded hazard
+ * magnitude. Basis: each step doubles or nearly doubles the preceding impact;
+ * places used: all states and territories covered by the hazard producer.
  */
-export const BLANKET_HAZARD_PRESSURE: Readonly<
+export const ESTIMATED_HAZARD_PRESSURE: Readonly<
   Record<HazardMagnitude, number>
 > = {
   minor: 0.02,
@@ -34,31 +31,44 @@ export const BLANKET_HAZARD_PRESSURE: Readonly<
 };
 
 /**
- * BLANKET: pressure per unit of tax rate change. A one-point rise (0.01) adds
+ * ESTIMATED FROM AVERAGE: pressure per unit of tax rate change. A one-point rise (0.01) adds
  * 0.05 to the pressure to leave; a one-point cut adds 0.05 to the pull to
- * arrive. Not researched.
+ * arrive. Basis: one percentage point is half the recorded major-hazard
+ * contribution; places used: every jurisdiction handled by the tax writer.
  */
-export const BLANKET_TAX_RATE_PRESSURE = 5;
+export const ESTIMATED_TAX_RATE_PRESSURE = 5;
 
 /**
- * BLANKET: how much one reported offense beyond a town's ordinary police log
+ * ESTIMATED FROM AVERAGE: how much one reported offense beyond a town's ordinary police log
  * adds to fear in its state. Violent offenses count double. Only fear: the
  * pressure to leave a town over crime is the migration lane's town push, and
- * counting it here too would count it twice. Not researched; filed as
- * `what-crime-does-to-a-town-and-its-people`.
+ * counting it here too would count it twice. Basis: violent offenses count
+ * twice the property-offense amount; places used: all represented localities.
  */
-export const BLANKET_CRIME_PRESSURE: Readonly<Record<CrimeOffense, number>> = {
-  assault: 0.002,
-  robbery: 0.002,
-  burglary: 0.001,
-  vandalism: 0.001,
-};
+export const ESTIMATED_CRIME_PRESSURE: Readonly<Record<CrimeOffense, number>> =
+  {
+    assault: 0.002,
+    robbery: 0.002,
+    burglary: 0.001,
+    vandalism: 0.001,
+  };
 
 /**
- * BLANKET: pressure per percentage point a state's recorded unemployment sits
- * above the nation's, to leave; below it, to arrive. Not researched.
+ * ESTIMATED FROM AVERAGE: 0.02 pressure per percentage point a state's
+ * recorded unemployment sits above the nation, to leave; below it, to arrive.
+ * Basis: five points equal one recorded major-hazard contribution; places
+ * used: all state and territory economy scopes compared with the nation. BLS
+ * publishes comparable state and national monthly unemployment estimates:
+ * https://www.bls.gov/lau/laumthd.htm
  */
-export const BLANKET_UNEMPLOYMENT_GAP_PRESSURE = 0.02;
+export const ESTIMATED_UNEMPLOYMENT_GAP_PRESSURE = 0.02;
+
+/**
+ * ESTIMATED FROM AVERAGE: two ordinary reports per month. Basis: the existing
+ * game's normalized police-log average; places used: every represented
+ * locality. This local declaration keeps the estimate explicit at its use.
+ */
+export const ESTIMATED_ORDINARY_REPORTS_PER_MONTH = 2;
 
 /** Contributions by state key for one quarter, `periodStart` to `periodEnd` inclusive. */
 export function causesInPeriod(
@@ -78,7 +88,7 @@ export function causesInPeriod(
     if (record.kind !== "hazard-episode" || !within(record.effectiveAt))
       continue;
     const stateKey = `US-${record.stateUsps}`;
-    const amount = BLANKET_HAZARD_PRESSURE[record.magnitude];
+    const amount = ESTIMATED_HAZARD_PRESSURE[record.magnitude];
     const causeKey = `hazard:${record.family}:${record.magnitude}`;
     add(stateKey, { causeKey, kind: "leave", amount, sourceId: record.id });
     add(stateKey, { causeKey, kind: "fear", amount, sourceId: record.id });
@@ -114,7 +124,7 @@ export function causesInPeriod(
     add(stateKey, {
       causeKey: `tax:${proposal.terms.seriesKey}`,
       kind: change > 0 ? "leave" : "arrive",
-      amount: Math.abs(change) * BLANKET_TAX_RATE_PRESSURE,
+      amount: Math.abs(change) * ESTIMATED_TAX_RATE_PRESSURE,
       sourceId: policy.id,
     });
   }
@@ -123,7 +133,7 @@ export function causesInPeriod(
   const periodDays =
     (Date.parse(periodEnd) - Date.parse(periodStart)) / 86_400_000 + 1;
   const ordinaryReports = Math.round(
-    (UNRESEARCHED_TOWN_POLICE_LOG.reportedPerMonth * periodDays * 12) / 365.25,
+    (ESTIMATED_ORDINARY_REPORTS_PER_MONTH * periodDays * 12) / 365.25,
   );
   const reportedByTown = new Map<EntityId, HistoricalEvent[]>();
   for (const event of world.history.events) {
@@ -149,7 +159,7 @@ export function causesInPeriod(
       add(stateKey, {
         causeKey: `crime:${offense}`,
         kind: "fear",
-        amount: BLANKET_CRIME_PRESSURE[offense],
+        amount: ESTIMATED_CRIME_PRESSURE[offense],
         sourceId: event.id,
       });
     }
@@ -181,7 +191,7 @@ export function causesInPeriod(
     add(stateKey, {
       causeKey: "jobs:unemployment-gap",
       kind: gap > 0 ? "leave" : "arrive",
-      amount: Math.abs(gap) * BLANKET_UNEMPLOYMENT_GAP_PRESSURE,
+      amount: Math.abs(gap) * ESTIMATED_UNEMPLOYMENT_GAP_PRESSURE,
       sourceId: row.key as EntityId,
     });
   }

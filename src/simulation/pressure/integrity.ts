@@ -6,7 +6,7 @@ export function assertPressureIntegrity(world: World): void {
   const store = world.pressure;
   if (!store) return;
   if (store.contractVersion !== PRESSURE_CONTRACT_VERSION)
-    throw new Error("Pressure store has an unknown contract version.");
+    throw new Error("Pressure store has an unrecognized contract version.");
   if (
     !Number.isSafeInteger(store.quartersStepped) ||
     store.quartersStepped < 0 ||

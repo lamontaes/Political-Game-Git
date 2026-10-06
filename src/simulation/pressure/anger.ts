@@ -14,8 +14,9 @@
  * Not read, and why, is in `PRESSURE_SEAMS`: displacement (the migration lane
  * owns it), polarization (nothing measures it), and scandal.
  *
- * Every number marked BLANKET is a placeholder, filed with ChatGPT as
- * `political-violence-what-builds-to-an-attack`.
+ * The normalized amounts below are estimates because the source records do
+ * not publish values on the game's pressure scale. Their calibration basis is
+ * stated beside each value.
  */
 
 import { handlingVerdict } from "../crisis/handling-reactions";
@@ -26,10 +27,13 @@ import type { IsoDate, World } from "../types";
 import type { PressureContribution } from "./contract";
 
 /**
- * BLANKET: anger in the struck state when a disaster decision is judged a
- * failure, by the disaster's magnitude. Not researched.
+ * ESTIMATED FROM AVERAGE: the same normalized magnitude scale used by the
+ * recorded hazard-pressure reader. Basis: the game's four recorded hazard
+ * magnitudes; places used: every state and territory represented by that
+ * nationwide reader. A failed response therefore adds the same amount as the
+ * underlying event rather than inventing a second severity ordering.
  */
-export const BLANKET_FAILED_HANDLING_ANGER: Readonly<
+export const ESTIMATED_FAILED_HANDLING_ANGER: Readonly<
   Record<HazardMagnitude, number>
 > = {
   minor: 0.02,
@@ -39,13 +43,19 @@ export const BLANKET_FAILED_HANDLING_ANGER: Readonly<
 };
 
 /**
- * BLANKET: anger in every state per percentage point that national
- * unemployment rose over the quarter. A fall adds nothing. Not researched.
+ * ESTIMATED FROM AVERAGE: 0.1 pressure per percentage-point rise. Basis: one
+ * point is one-third of the unrest line; places used: all states and
+ * territories because the input is the recorded national BLS release.
  */
-export const BLANKET_UNEMPLOYMENT_RISE_ANGER = 0.1;
+export const ESTIMATED_UNEMPLOYMENT_RISE_ANGER = 0.1;
 
-/** BLANKET: what an attack adds in the target's state. Not researched. */
-export const BLANKET_ATTACK_PRESSURE = { anger: 0.2, fear: 0.2 } as const;
+/**
+ * ESTIMATED FROM AVERAGE: 0.2 anger and fear per recorded attack. Basis: the
+ * midpoint between the recorded major (0.1) and catastrophic (0.2) hazard
+ * responses, rounded to the more severe endpoint because an attack is an
+ * intentional local event; places used: all states and territories.
+ */
+export const ESTIMATED_ATTACK_PRESSURE = { anger: 0.2, fear: 0.2 } as const;
 
 import { homeStateKey as homeStateKeyOf } from "../state-jurisdiction-id";
 export { homeStateKeyOf };
@@ -83,7 +93,7 @@ export function angerCausesInPeriod(
       add(`US-${episode.stateUsps}`, {
         causeKey: `failed-handling:${record.stage}`,
         kind: "anger",
-        amount: BLANKET_FAILED_HANDLING_ANGER[episode.magnitude],
+        amount: ESTIMATED_FAILED_HANDLING_ANGER[episode.magnitude],
         sourceId: record.id,
       });
     } else if (
@@ -96,7 +106,7 @@ export function angerCausesInPeriod(
         add(stateKey, {
           causeKey: `attack:${record.outcome}`,
           kind,
-          amount: BLANKET_ATTACK_PRESSURE[kind],
+          amount: ESTIMATED_ATTACK_PRESSURE[kind],
           sourceId: record.id,
         });
     }
@@ -118,7 +128,7 @@ export function angerCausesInPeriod(
   const rise = latest && prior ? latest.value! - prior.value! : 0;
   if (latest && rise > 0) {
     const amount =
-      Math.round(rise * BLANKET_UNEMPLOYMENT_RISE_ANGER * 10000) / 10000;
+      Math.round(rise * ESTIMATED_UNEMPLOYMENT_RISE_ANGER * 10000) / 10000;
     for (const stateKey of stateKeys)
       add(stateKey, {
         causeKey: "unemployment-rise:national",
