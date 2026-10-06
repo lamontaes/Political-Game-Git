@@ -620,7 +620,7 @@ export function readFinalEnactedLawTerm(
     input.cutoff,
   );
   if (!enactment) return null;
-  const matches = finalTermProvisions(
+  const statuteMatches = finalTermProvisions(
     world,
     law.measureId,
     enactment.sequence,
@@ -637,16 +637,79 @@ export function readFinalEnactedLawTerm(
           .map((term) => ({ provision, term }))
       : [],
   );
+  const regulations = (world.history.legislativeMeasures ?? [])
+    .filter(
+      (measure) =>
+        measure.governmentInstrument === "regulation" &&
+        measure.delegatedFromMeasureId === law.measureId,
+    )
+    .flatMap((measure) => {
+      const regulationEnactment = (
+        world.history.legislativeEnactments ?? []
+      ).find(
+        (row) =>
+          row.measureId === measure.id &&
+          row.outcome === "enacted" &&
+          row.resolvedAt <= onDate &&
+          (!row.publishedAt || row.publishedAt <= onDate) &&
+          (!row.effectiveAt || row.effectiveAt <= onDate) &&
+          (!row.expiresAt || row.expiresAt >= onDate) &&
+          (!input.cutoff ||
+            (row.sequence < input.cutoff.historySequenceExclusive &&
+              row.resolvedAt <= input.cutoff.asOfDate)),
+      );
+      if (!regulationEnactment) return [];
+      const answers = measureAnswersAt(
+        world,
+        measure.id,
+        regulationEnactment.sequence,
+      );
+      const coversQuestion = (measure.propositionIds ?? []).some((id) =>
+        answers.some(
+          (answer) =>
+            answer.propositionId === id &&
+            world.policyCatalog.propositions[id]?.stableKey ===
+              input.questionKey &&
+            answer.answer === law.answer,
+        ),
+      );
+      if (!coversQuestion) return [];
+      const matches = finalTermProvisions(
+        world,
+        measure.id,
+        regulationEnactment.sequence,
+        onDate,
+        input.cutoff,
+      ).flatMap((provision) =>
+        provision.applicationScope.segmentKey === null
+          ? (provision.lawTerms ?? [])
+              .filter(
+                (term) =>
+                  term.questionKey === input.questionKey &&
+                  term.key === input.termKey,
+              )
+              .map((term) => ({ provision, term }))
+          : [],
+      );
+      return matches.length
+        ? [{ matches, measure, enactment: regulationEnactment }]
+        : [];
+    })
+    .sort((left, right) => right.enactment.sequence - left.enactment.sequence);
+  const selected = regulations[0];
+  const matches = selected?.matches ?? statuteMatches;
   // Conflicting sections are unsupported, rather than selecting whichever appeared first.
   if (matches.length !== 1) return null;
   const { provision, term } = matches[0]!;
   if (term.unit !== input.unit) return null;
+  const measureId = selected?.measure.id ?? law.measureId;
+  const sourceEnactment = selected?.enactment ?? enactment;
   return {
     value: term.value,
     unit: term.unit,
-    measureId: law.measureId,
+    measureId,
     provisionId: provision.id,
-    sourceRecordIds: [law.measureId, enactment.id, provision.id],
+    sourceRecordIds: [measureId, sourceEnactment.id, provision.id],
     ...(term.scope ? { scope: structuredClone(term.scope) } : {}),
     ...(term.rentalPriceRule ? { rentalPriceRule: term.rentalPriceRule } : {}),
   };

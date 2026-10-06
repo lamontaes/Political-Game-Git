@@ -1528,6 +1528,7 @@ export interface IntroduceMeasureInput {
   readonly shortTitle: string;
   readonly summary: string;
   readonly governmentInstrument?: "statute" | "regulation" | "executive-order";
+  readonly delegatedFromMeasureId?: EntityId;
   readonly executiveAuthorityJurisdictionKey?: string;
   readonly executiveActorLabel?: string;
   readonly executiveAuthorityChecks?: readonly {
@@ -1731,6 +1732,9 @@ export function introduceMeasure(
     shortTitle: input.shortTitle,
     ...(input.governmentInstrument
       ? { governmentInstrument: input.governmentInstrument }
+      : {}),
+    ...(input.delegatedFromMeasureId
+      ? { delegatedFromMeasureId: input.delegatedFromMeasureId }
       : {}),
     summary: input.summary,
     origin: input.origin,
@@ -3342,6 +3346,7 @@ export interface IssueExecutiveInstrumentInput {
   readonly jurisdictionId: EntityId;
   readonly legislativeRulePackId: string;
   readonly instrument: "regulation" | "executive-order";
+  readonly delegatedFromMeasureId?: EntityId;
   readonly designation: string;
   readonly shortTitle: string;
   readonly summary: string;
@@ -3399,6 +3404,7 @@ export function issueExecutiveInstrument(
     shortTitle: input.shortTitle,
     summary: input.summary,
     governmentInstrument: input.instrument,
+    delegatedFromMeasureId: input.delegatedFromMeasureId,
     executiveAuthorityJurisdictionKey: input.jurisdictionKey,
     executiveActorLabel: input.actorLabel,
     executiveAuthorityChecks: input.authorityChecks,

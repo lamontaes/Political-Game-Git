@@ -1,4 +1,5 @@
 import { inventedPersonBirthDate } from "../invented-person-age";
+import type { LawDelegationTerm } from "../law-consequence-types";
 import { applyItemVetoes } from "./item-veto";
 import { eventById } from "../event-index";
 import { applyCharacterHistoryPlan } from "../character-history";
@@ -124,6 +125,10 @@ import { publicPartyOf } from "./chamber-votes";
 import { decideExecutiveActionAuthority } from "../executive-action-authority";
 import { executiveRulePackForJurisdiction } from "../executive-authority-rule-packs";
 import { legislatureProfilePackId } from "../legislature-game-profile";
+import {
+  delegatedRegulationAuthority,
+  issueDelegatedRegulation,
+} from "../executive-regulation-issuance";
 
 /**
  * STATE GOVERNING — the shared practical loop every governorship runs.
@@ -414,6 +419,14 @@ export function governingOfficeForPerson(
       ? presidentGoverningOffice(world)
       : null)
   );
+}
+
+/** Read the current office once for executive matter and rulemaking producers. */
+export function currentGoverningOfficeByKey(
+  world: World,
+  officeKey: string,
+): GoverningOffice | null {
+  return governingOfficeByKey(world, officeKey);
 }
 
 function governingOfficeByKey(
@@ -934,18 +947,57 @@ function optionsFor(
           assessment: null,
         },
       ];
-    case "regulation":
+    case "regulation": {
+      const encoded = tagValue(event, "delegation-term:");
+      if (!encoded)
+        return [
+          {
+            key: "regulation:return",
+            label: "Send it back for more work",
+            effect:
+              "Return the proposed rule because its delegating statute and term range are not recorded.",
+            tradeoff: "No delegated term changes until its legal authority is recorded.",
+            personId: null,
+            assessment: null,
+          },
+        ];
+      let delegation: DelegatedRuleDraftMatterInput["delegation"];
+      try {
+        delegation = JSON.parse(decodeURIComponent(encoded));
+      } catch {
+        return [];
+      }
+      if (!delegation) return [];
+      const values =
+        delegation.minimum !== null && delegation.maximum !== null
+          ? [
+              delegation.minimum,
+              (delegation.minimum + delegation.maximum) / 2,
+              delegation.maximum,
+            ]
+          : delegation.minimum !== null || delegation.maximum !== null
+            ? [delegation.minimum ?? delegation.maximum!]
+            : [];
+      const unit = delegation.unit ? ` ${delegation.unit}` : "";
       return [
+        ...[...new Set(values)].map((value) => ({
+          key: `regulation:value:${value}`,
+          label: `Set ${delegation.key} at ${value}${unit}`,
+          effect: `Set this delegated term to ${value}${unit}, within the recorded statutory range.`,
+          tradeoff: `Authority source: ${delegation.sourceIds.join(", ")}.`,
+          personId: null,
+          assessment: null,
+        })),
         {
-          key: "regulation:issue",
-          label: "Issue the delegated rule",
-          effect:
-            "Record an agency rule under the statute that delegates its terms.",
-          tradeoff: "The rule must stay within the statute's recorded terms.",
+          key: "regulation:return",
+          label: "Send it back for more work",
+          effect: "Ask the agency to revise the proposed rule.",
+          tradeoff: "The delegated details stay unchanged for now.",
           personId: null,
           assessment: null,
         },
       ];
+    }
     case "emergency":
       return [
         {
@@ -1684,6 +1736,16 @@ export interface DelegatedRuleDraftMatterInput {
   readonly title: string;
   readonly sourceEventId: EntityId;
   readonly measureId: EntityId;
+  readonly agencyHeadPersonId?: EntityId;
+  readonly propositionId?: EntityId;
+  readonly delegation?: {
+    readonly key: string;
+    readonly questionKey: string;
+    readonly minimum: number | null;
+    readonly maximum: number | null;
+    readonly unit: LawDelegationTerm["unit"];
+    readonly sourceIds: readonly string[];
+  };
 }
 
 /** Open delegated-rule work on the shared inbox in the office's priority order. */
@@ -1703,6 +1765,17 @@ export function openDelegatedRuleDraftMatters(
         titleSubject: draft.title,
         sourceEventId: draft.sourceEventId,
         measureId: draft.measureId,
+        agencyHeadPersonId: draft.agencyHeadPersonId,
+        extraTags: [
+          ...(draft.propositionId
+            ? [`delegation-proposition:${draft.propositionId}`]
+            : []),
+          ...(draft.delegation
+            ? [
+                `delegation-term:${encodeURIComponent(JSON.stringify(draft.delegation))}`,
+              ]
+            : []),
+        ],
       }),
     world,
   );
@@ -1791,6 +1864,7 @@ interface OpenMatterInput {
   readonly sourceEventId?: EntityId | null;
   readonly measureId?: EntityId | null;
   readonly appropriationId?: EntityId | null;
+  readonly agencyHeadPersonId?: EntityId | null;
   /** What the title is about, where it is not a measure or a program. */
   readonly titleSubject?: string;
   readonly extraTags?: readonly string[];
@@ -1839,6 +1913,7 @@ function openMatter(
       office.holderPersonId,
       ...(office.organizationId ? [office.organizationId] : []),
       ...(input.candidatePersonIds ?? []),
+      ...(input.agencyHeadPersonId ? [input.agencyHeadPersonId] : []),
     ],
     participants: [
       {
@@ -1851,6 +1926,15 @@ function openMatter(
         role: "focus:candidate" as const,
         detail: null,
       })),
+      ...(input.agencyHeadPersonId
+        ? [
+            {
+              personId: input.agencyHeadPersonId,
+              role: "agency:drafter" as const,
+              detail: "Appointed head of the implementing agency",
+            },
+          ]
+        : []),
     ],
     personFactConstraints: [],
     visibility: "limited",
@@ -2218,6 +2302,44 @@ function completeWork(
   return next;
 }
 
+function regulationIssueForChoice(
+  world: World,
+  office: GoverningOffice,
+  matter: GoverningMatter,
+  option: GoverningMatterOption,
+) {
+  const encoded = tagValue(matter.openedEvent, "delegation-term:");
+  const propositionId = tagValue(
+    matter.openedEvent,
+    "delegation-proposition:",
+  ) as EntityId | null;
+  const drafterPersonId = matter.openedEvent.participants.find(
+    (participant) => participant.role === "agency:drafter",
+  )?.personId;
+  const valueText = option.key.startsWith("regulation:value:")
+    ? option.key.slice("regulation:value:".length)
+    : null;
+  if (!encoded || !propositionId || !drafterPersonId || !valueText) return null;
+  let delegation: DelegatedRuleDraftMatterInput["delegation"];
+  try {
+    delegation = JSON.parse(decodeURIComponent(encoded));
+  } catch {
+    return null;
+  }
+  const value = Number(valueText);
+  return delegation && Number.isFinite(value)
+    ? {
+        office,
+        matter,
+        actorPersonId: office.holderPersonId,
+        propositionId,
+        delegation,
+        value,
+        drafterPersonId,
+      }
+    : null;
+}
+
 function decisionSummary(
   world: World,
   office: GoverningOffice,
@@ -2346,10 +2468,29 @@ function decisionSummary(
           };
     }
     case "regulation":
-      return {
-        summary: `${who}, ${office.title}, reviewed the proposed rule: ${option.label.toLowerCase()}.`,
-        visibility: "public",
-      };
+      if (option.key === "regulation:return")
+        return {
+          summary: `${who}, ${office.title}, returned the proposed rule to the agency for more work.`,
+          visibility: "public",
+        };
+      {
+        const input = regulationIssueForChoice(world, office, matter, option);
+        if (!input)
+          return {
+            summary: `${who}, ${office.title}, could not approve the proposed rule because its delegation record is incomplete.`,
+            visibility: "limited",
+          };
+        const authority = delegatedRegulationAuthority(world, input);
+        return authority.allowed
+          ? {
+              summary: `${who}, ${office.title}, approved ${option.label.toLowerCase()} under the statute's delegated authority.`,
+              visibility: "public",
+            }
+          : {
+              summary: `${who}, ${office.title}, refused the proposed rule: ${authority.reason}`,
+              visibility: "limited",
+            };
+      }
     case "emergency":
       return option.key === "emergency:declare"
         ? {
@@ -2433,10 +2574,12 @@ function applyConsequence(
       });
       return next;
     }
-    case "regulation":
+    case "regulation": {
+      if (option.key === "regulation:return") return world;
+      const input = regulationIssueForChoice(world, office, matter, option);
+      return input ? issueDelegatedRegulation(world, input) : world;
+    }
     case "emergency":
-      // Their canonical writers are added by the regulation and emergency
-      // steps; these families already share this inbox and decision record.
       return world;
     case "chief-of-staff": {
       if (!office.organizationId) return world;
