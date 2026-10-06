@@ -17,6 +17,8 @@ import {
 import { currentMeasureProvisions } from "./legislative-politics";
 import type {
   EntityId,
+  JudicialChambersCaseKind,
+  JudicialChambersWorkflowMode,
   OfficeBriefingInspectionRecord,
   OfficeBriefingItemKind,
   OfficeCaseworkWorkflowMode,
@@ -39,6 +41,56 @@ const CASEWORK_MODES: readonly OfficeCaseworkWorkflowMode[] = [
   "staff-routine-player-exceptions",
   "staff-handles-and-briefs",
 ];
+
+const JUDICIAL_CASE_KINDS: readonly JudicialChambersCaseKind[] = [
+  "criminal-sentence",
+  "pretrial-detention",
+  "eviction",
+  "law-review",
+];
+const JUDICIAL_WORKFLOW_MODES: readonly JudicialChambersWorkflowMode[] = [
+  "hear-myself",
+  "decide-as-usual",
+];
+
+const DEFAULT_JUDICIAL_CASE_HANDLING: Readonly<
+  Record<JudicialChambersCaseKind, JudicialChambersWorkflowMode>
+> = {
+  "criminal-sentence": "hear-myself",
+  "pretrial-detention": "hear-myself",
+  eviction: "decide-as-usual",
+  "law-review": "hear-myself",
+};
+
+/** A judge's per-case preference; defaults keep consequential rulings with the player. */
+export function judicialCaseHandling(
+  world: World,
+  personId: EntityId,
+  kind: JudicialChambersCaseKind,
+): JudicialChambersWorkflowMode {
+  const preferences = officeWorkflowPreferences(world)
+    .filter(
+      (record) => record.personId === personId && record.judicialCaseHandling,
+    )
+    .sort((left, right) => right.sequence - left.sequence);
+  return (
+    preferences.find((record) => record.judicialCaseHandling?.[kind])
+      ?.judicialCaseHandling?.[kind] ?? DEFAULT_JUDICIAL_CASE_HANDLING[kind]
+  );
+}
+
+/** Complete settings shown by the chambers control, including saved defaults. */
+export function judicialCaseHandlingSettings(
+  preference: OfficeWorkflowPreferenceRecord | null,
+): Readonly<Record<JudicialChambersCaseKind, JudicialChambersWorkflowMode>> {
+  return Object.fromEntries(
+    JUDICIAL_CASE_KINDS.map((kind) => [
+      kind,
+      preference?.judicialCaseHandling?.[kind] ??
+        DEFAULT_JUDICIAL_CASE_HANDLING[kind],
+    ]),
+  ) as Readonly<Record<JudicialChambersCaseKind, JudicialChambersWorkflowMode>>;
+}
 
 const INSTRUCTION_DISPOSITIONS: readonly OfficeVoteInstructionDisposition[] = [
   "yea",
@@ -153,6 +205,9 @@ export interface RecordOfficeWorkflowPreferenceInput {
   /** Null only for an office that casts no votes; a legislative seat needs one. */
   readonly votingMode: OfficeVotingWorkflowMode | null;
   readonly caseworkMode: OfficeCaseworkWorkflowMode;
+  readonly judicialCaseHandling?: Readonly<
+    Partial<Record<JudicialChambersCaseKind, JudicialChambersWorkflowMode>>
+  >;
 }
 
 export function recordOfficeWorkflowPreference(
@@ -186,6 +241,17 @@ export function recordOfficeWorkflowPreference(
   if (!CASEWORK_MODES.includes(input.caseworkMode)) {
     return refused(world, "That casework workflow is not a supported choice.");
   }
+  for (const [kind, mode] of Object.entries(input.judicialCaseHandling ?? {})) {
+    if (
+      !JUDICIAL_CASE_KINDS.includes(kind as JudicialChambersCaseKind) ||
+      !JUDICIAL_WORKFLOW_MODES.includes(mode as JudicialChambersWorkflowMode)
+    ) {
+      return refused(
+        world,
+        "That chambers workflow is not a supported choice.",
+      );
+    }
+  }
   const current = currentOfficeWorkflowPreference(
     world,
     input.personId,
@@ -194,7 +260,11 @@ export function recordOfficeWorkflowPreference(
   if (
     current &&
     current.votingMode === input.votingMode &&
-    current.caseworkMode === input.caseworkMode
+    current.caseworkMode === input.caseworkMode &&
+    canonicalJson(current.judicialCaseHandling ?? {}) ===
+      canonicalJson(
+        input.judicialCaseHandling ?? current.judicialCaseHandling ?? {},
+      )
   ) {
     return { kind: "recorded", world };
   }
@@ -210,6 +280,12 @@ export function recordOfficeWorkflowPreference(
     officeRelationshipId: input.officeRelationshipId,
     votingMode: input.votingMode,
     caseworkMode: input.caseworkMode,
+    ...((input.judicialCaseHandling ?? current?.judicialCaseHandling)
+      ? {
+          judicialCaseHandling:
+            input.judicialCaseHandling ?? current?.judicialCaseHandling,
+        }
+      : {}),
     recordedAt: makeIsoDate(world.currentDate),
     supersedesPreferenceId: current?.id ?? null,
   };
