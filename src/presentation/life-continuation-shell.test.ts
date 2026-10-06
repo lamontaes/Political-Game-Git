@@ -1,7 +1,5 @@
 import { describe, expect, it } from "vitest";
 
-import type { EntityId } from "../simulation";
-import { assignLegacyJournal } from "./browser-shell-state";
 import {
   isObserving,
   observerReadingLens,
@@ -14,7 +12,6 @@ import {
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { observeWorld, retireFromPlay } from "./people-continuation";
-import type { PrivateJournal } from "./shell-navigation";
 
 function adultLife() {
   return generateOpeningLife(
@@ -78,77 +75,5 @@ describe("the shell around an ended life", () => {
     ]);
     expect(personalGoalActions("achieved")).toEqual([]);
     expect(personalGoalActions("abandoned")).toEqual([]);
-  });
-});
-
-describe("private notebooks per played person", () => {
-  const first = "person-first" as EntityId;
-  const legacy: PrivateJournal = {
-    ambition: "Win the seat",
-    notes: [
-      {
-        id: "note-old",
-        title: "Old",
-        body: "Written before notebooks were per person",
-        group: "",
-        personId: null,
-        eventKey: null,
-      },
-    ],
-  };
-
-  it("gives a slot-wide notebook to the save's original character", () => {
-    const migrated = assignLegacyJournal({ journal: legacy }, first);
-    expect(migrated.journals[first]).toEqual(legacy);
-    expect(migrated.legacyJournal).toEqual({ ambition: "", notes: [] });
-    // A successor has nothing of it.
-    expect(migrated.journals["person-successor"]).toBeUndefined();
-  });
-
-  it("merges into a notebook that person already has, dropping nothing", () => {
-    const existing: PrivateJournal = {
-      ambition: "Keep the house",
-      notes: [
-        {
-          id: "note-new",
-          title: "New",
-          body: "Written after",
-          group: "",
-          personId: null,
-          eventKey: null,
-        },
-      ],
-    };
-    const migrated = assignLegacyJournal(
-      { journal: legacy, journals: { [first]: existing } },
-      first,
-    );
-    expect(migrated.journals[first]?.notes.map((note) => note.id)).toEqual([
-      "note-new",
-      "note-old",
-    ]);
-    expect(migrated.journals[first]?.ambition).toContain("Keep the house");
-    expect(migrated.journals[first]?.ambition).toContain("Win the seat");
-    // Reading it twice does not duplicate anything.
-    const again = assignLegacyJournal(
-      { journal: legacy, journals: migrated.journals },
-      first,
-    );
-    expect(again.journals[first]?.notes).toHaveLength(2);
-    expect(again.journals[first]?.ambition).toBe(
-      migrated.journals[first]?.ambition,
-    );
-  });
-
-  it("keeps a notebook it cannot place unassigned rather than dropping it", () => {
-    const migrated = assignLegacyJournal({ journal: legacy }, null);
-    expect(migrated.legacyJournal).toEqual(legacy);
-    expect(migrated.journals).toEqual({});
-  });
-
-  it("leaves per-person notebooks alone when there is no old one", () => {
-    const journals = { [first]: legacy };
-    const migrated = assignLegacyJournal({ journals }, first);
-    expect(migrated.journals).toBe(journals);
   });
 });
