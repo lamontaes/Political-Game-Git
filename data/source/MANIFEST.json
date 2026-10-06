@@ -45,7 +45,7 @@
       "domain": "acs-pums",
       "isCompleteUniverse": false,
       "recordCount": 220,
-      "universeDescription": "Sampled housing units and persons from the U.S. Census Bureau's 2023 American Community Survey 1-year Public Use Microdata Sample for Wyoming. PUMS is a weighted sample supporting estimates at the public use microdata area level; it is not an enumeration, and it is not national — the national product (csv_pus.zip) is roughly a gigabyte, is not retrieved here, and is not claimed."
+      "universeDescription": "Weighted housing-unit and person observations from the U.S. Census Bureau's 2023 American Community Survey 1-year Public Use Microdata Sample for Wyoming. Coverage is the Wyoming product and supports estimates at the public use microdata area level. The committed corpus contains the recorded 200 housing-unit and 20 group-quarters QA records described above."
     },
     {
       "artifacts": [
@@ -375,7 +375,7 @@
       "domain": "civil-service-labor",
       "isCompleteUniverse": true,
       "recordCount": 51,
-      "universeDescription": "The United States federal government and fifty states, each carrying separate civil-service and labor-bargaining profiles. Field coverage is intentionally partial and unsupported facts remain UNKNOWN."
+      "universeDescription": "The United States federal government and fifty states, each carrying separate civil-service and labor-bargaining profiles. Each unsupported field carries its recorded evidence-gap reason."
     },
     {
       "artifacts": [
@@ -699,7 +699,7 @@
         }
       ],
       "asOf": "2024-09-30",
-      "boundedSampleReason": "First 25 sorted publisher IDs and their published item rows. Annual survey sample, not complete universe. The Census Bureau has not reviewed individual units as time series or sanctioned downstream analyses; nonsampling errors and imputation may affect values. See locked publisher disclaimer.",
+      "boundedSampleReason": "The corpus contains the first 25 sorted publisher IDs and their published item rows from the annual survey sample. The locked publisher disclaimer limits individual-unit time-series and downstream analysis; nonsampling errors and imputation may affect values.",
       "canonicalSha256": "d24581818239ed84442fa44db09f358aa1eded72c38f96358c92d804587cce4c",
       "compiler": {
         "name": "government-finances",
@@ -710,7 +710,7 @@
       "domain": "government-finances",
       "isCompleteUniverse": false,
       "recordCount": 886,
-      "universeDescription": "2024 Census finance sample inputs, not reviewed individual-unit time series."
+      "universeDescription": "2024 Census finance sample inputs governed by the publisher's individual-unit time-series disclaimer."
     },
     {
       "artifacts": [
@@ -2264,7 +2264,7 @@
         }
       ],
       "asOf": "2025-03-31",
-      "boundedSampleReason": "Committed QA slice: first 25 nonzero legacy IDs sorted lexicographically in 25empid.txt and all matching 25empst.txt rows. Annual survey sample, not census universe. Reported/imputed flags retained; FTE unavailable. Census has not reviewed individual-unit time series or sanctioned analyses; sampling and nonsampling errors may affect these data. See locked publisher disclaimer.",
+      "boundedSampleReason": "Committed annual-survey QA slice: the first 25 nonzero legacy IDs sorted lexicographically in 25empid.txt and every matching 25empst.txt row. Reported/imputed flags are retained and FTE is unavailable. The locked publisher disclaimer limits individual-unit time-series and downstream analysis; sampling and nonsampling errors may affect these data.",
       "canonicalSha256": "11be2f26896149e2ba161f0b28aac29cd138cd9de09952e259dd62f437cf1ece",
       "compiler": {
         "name": "public-employment",
@@ -2275,7 +2275,7 @@
       "domain": "public-employment",
       "isCompleteUniverse": false,
       "recordCount": 298,
-      "universeDescription": "2025 ASPEP individual-government sample observations; Census Bureau source data, not a reviewed individual-unit time series."
+      "universeDescription": "2025 ASPEP individual-government sample observations governed by the Census Bureau's individual-unit time-series disclaimer."
     },
     {
       "artifacts": [
@@ -2476,7 +2476,7 @@
       "domain": "state-legislatures",
       "isCompleteUniverse": true,
       "recordCount": 50,
-      "universeDescription": "The fifty United States, one identity record each. Facts inside a record are KNOWN only where a locked state instrument states them; a state whose authority could not be retrieved carries UNKNOWN values and a gap naming the obstacle."
+      "universeDescription": "The fifty United States, one identity record each. Every supported fact cites a locked state instrument; every unsupported field carries a recorded evidence gap naming the retrieval obstacle."
     },
     {
       "artifacts": [
