@@ -15,3 +15,7 @@ An ordinary generated day at random place 3823340 produced thirty-six saved legi
 Publish one partial PR per law batch after exact-head checks. Next: publish the checked partial sources, then resume the retained b03 branch. Preserve unknown individual-effect boundaries; never turn aggregate turnout into a person's ballot or knowledge.
 
 Citizenship remains published on `codex/session13-citizenship-status`, PR 2455 at `749f3ac9ade290d06dd2a8aee806c965970f6f2a`. The older clerk/night source remains on `codex/session13-clerk-night-composition`, PR 2405 at `30e21462be278d246bbe1d9132fb78a1db796cdd`. Resume b03 work after this publication; keep actual player proof separate from fixtures.
+
+## Shared fix receipt
+
+Local source 59788f74c54e53a4d6e0a65ce42f262ad33c246b receives merged main 68c8a663. All fourteen focused cases and full configured typing passed with terminal exit zero. The published old-head CI unit log also passes the blocked-candidacy case; its repository failure is only the press fixtures now repaired upstream. No assertion or landing logic was changed to obtain a pass. A separate failing CTO receipt has been requested on the board; natural local tenure-chain and browser scene proof remain unfinished. Next command: switch to the preserved clerk/night branch and implement the bounded saved-report player consumer.
