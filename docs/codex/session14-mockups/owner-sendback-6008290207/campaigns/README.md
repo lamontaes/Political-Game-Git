@@ -1,3 +1,5 @@
+Latest corrected candidate: [filled-revision/README.md](filled-revision/README.md), per CTO6008770541/6008804074. Older images and empty-data copy below are rejected historical evidence, not current candidates.
+
 # P3 / Campaigns tabs finished mockup part / standalone PR
 
 Split from #2228 per CTO 6008669969. Documentation-only candidate: no production UI or scene changes. Base main 2e0b61f95ee298c37e4994af44311277bc8fb506. Original owner send-back 6008278158 directs tabs and removes People met. Elections and Filing requirements are two native 1920 views of one reading panel. Old action grids and handlers are not recreated.
