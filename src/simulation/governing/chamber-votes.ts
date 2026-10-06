@@ -45,6 +45,7 @@ import { personName } from "../people";
 import { readRelationshipStanding } from "../relationship-standing";
 import type { StandingBand } from "../relationship-standing";
 import { currentHistoricalCutoff } from "../queries";
+import { FEDERAL_VACANCY_EVENT } from "../federal-tenures";
 import type {
   DecisionConsideration,
   DecisionSubject,
@@ -239,6 +240,14 @@ export type ChamberNominationVoteInput = ChamberNominationVoteCommonInput &
         readonly jurisdictionId: EntityId;
         readonly boardKey: string;
         readonly seatOrdinal: number;
+      }
+    | {
+        readonly nominationKind: "executive-appointment";
+        readonly postOfficeKey: string;
+        readonly seatOrdinal: number;
+        readonly vacancyEventId: EntityId;
+        readonly incumbentTermEventId: EntityId;
+        readonly appointmentDecisionTraceId: EntityId;
       }
   );
 
@@ -608,6 +617,94 @@ function nominationVoteContext(
     return {
       subject: {
         kind: "context:clemency-board-nomination",
+        key: event.stableKey,
+        entityId: event.id,
+      },
+      committee: null,
+      memberInputs: (member) => ({
+        views: input.considerationsByMember.get(member.memberKey) ?? [],
+        cues: [],
+      }),
+    };
+  }
+  if (input.nominationKind === "executive-appointment") {
+    const vacancy = world.history.events.find(
+      (row) => row.id === input.vacancyEventId,
+    );
+    const incumbentTerm = world.history.events.find(
+      (row) => row.id === input.incumbentTermEventId,
+    );
+    const trace = world.history.decisionTraces.find(
+      (row) => row.id === input.appointmentDecisionTraceId,
+    );
+    const matterTag = event?.tags.find((tag) =>
+      tag.startsWith("appointment-matter:"),
+    );
+    const matterId = matterTag?.slice("appointment-matter:".length);
+    const matter = world.history.events.find((row) => row.id === matterId);
+    if (
+      !event ||
+      event.recordedAt > world.currentDate ||
+      event.occurredAt > world.currentDate ||
+      event.type !== "executive.appointment-nominated" ||
+      !event.jurisdictionId ||
+      !world.jurisdictions[event.jurisdictionId] ||
+      !world.people[input.nomineeId] ||
+      !Number.isInteger(input.seatOrdinal) ||
+      input.seatOrdinal < 1 ||
+      input.officeKey !== input.postOfficeKey ||
+      !event.tags.includes(`appointment-post:${input.postOfficeKey}`) ||
+      !event.tags.includes(`appointment-seat:${input.seatOrdinal}`) ||
+      !event.tags.includes(`appointment-vacancy:${input.vacancyEventId}`) ||
+      !event.tags.includes(`appointment-term:${input.incumbentTermEventId}`) ||
+      !event.tags.includes(
+        `appointment-decision:${input.appointmentDecisionTraceId}`,
+      ) ||
+      !event.participants.some(
+        (row) =>
+          row.role === "agency:appointer" &&
+          row.personId === trace?.context.actorPersonId,
+      ) ||
+      !event.participants.some(
+        (row) =>
+          row.role === "agency:nominee" && row.personId === input.nomineeId,
+      ) ||
+      !vacancy ||
+      vacancy.type !== FEDERAL_VACANCY_EVENT ||
+      vacancy.sequence >= event.sequence ||
+      vacancy.recordedAt > event.recordedAt ||
+      vacancy.occurredAt > event.occurredAt ||
+      !vacancy.tags.includes(`office:${input.postOfficeKey}`) ||
+      !vacancy.tags.includes(
+        `appointment-term:${input.incumbentTermEventId}`,
+      ) ||
+      !vacancy.tags.some((tag) => tag.startsWith("vacancy-cause:")) ||
+      !incumbentTerm ||
+      incumbentTerm.sequence >= vacancy.sequence ||
+      incumbentTerm.recordedAt > vacancy.recordedAt ||
+      incumbentTerm.occurredAt > vacancy.occurredAt ||
+      !incumbentTerm.participants.some(
+        (row) =>
+          row.role === "focus:subject" &&
+          vacancy.involvedEntityIds.includes(row.personId),
+      ) ||
+      !trace ||
+      trace.id !== input.appointmentDecisionTraceId ||
+      trace.sequence >= event.sequence ||
+      trace.recordedAt > event.recordedAt ||
+      !world.people[trace.context.actorPersonId] ||
+      trace.selectedOptionKey !== `person:${input.nomineeId}` ||
+      !matter ||
+      matter.type !== "governing.matter-opened" ||
+      matter.sequence >= event.sequence ||
+      matter.recordedAt > event.recordedAt
+    )
+      throw new Error(
+        "An executive confirmation requires its actual dated nomination, appointer decision, named post and seat, and causal vacancy from a recorded incumbent term.",
+      );
+    return {
+      subject: {
+        kind: "context:executive-appointment-nomination",
         key: event.stableKey,
         entityId: event.id,
       },
