@@ -78,7 +78,8 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
   {
     trait: "people-mind-v1:deliberation",
     kind: "decision",
-    reader: "decideStudyPeerOutcome — src/simulation/people-study.ts; decideChamberVote — src/simulation/governing/chamber-votes.ts",
+    reader:
+      "decideStudyPeerOutcome — src/simulation/people-study.ts; decideChamberVote — src/simulation/governing/chamber-votes.ts",
   },
   {
     trait: "people-mind-v1:sociability",
@@ -99,6 +100,11 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
     trait: "people-mind-v1:risk",
     kind: "decision",
     reader: "answerFamilyPlan — src/simulation/people-family-plan.ts",
+  },
+  {
+    trait: "personality-v1:facet-brazen",
+    kind: "decision",
+    reader: "npcContactAnswer — src/simulation/people-contact.ts",
   },
 ];
 
@@ -129,7 +135,6 @@ export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:facet-approval-seeking",
   "personality-v1:facet-smug",
   "personality-v1:facet-entitled",
-  "personality-v1:facet-brazen",
   "personality-v1:facet-assertive",
   "personality-v1:facet-deferential",
   "personality-v1:facet-shy",

@@ -15,6 +15,7 @@ import {
 } from "./personality-catalogue";
 import { CONTACT_ANSWER_DECISION } from "./people-contact-decisions";
 import * as traitRegistryModule from "./trait-registry";
+import { PERSONALITY_TRAIT_READERS } from "./personality-trait-registry";
 import { npcContactAnswer, proposeContact } from "./people-contact";
 import { isPersonAliveAt } from "./vitality-integrity";
 import {
@@ -143,6 +144,11 @@ afterEach(() => vi.restoreAllMocks());
 
 describe("facet-brazen in a random-place new game", () => {
   it("changes an NPC answer to the same face-to-face request with only this trait added", () => {
+    expect(PERSONALITY_TRAIT_READERS).toContainEqual({
+      trait: `${PERSONALITY_PACK}:facet-brazen`,
+      kind: "decision",
+      reader: "npcContactAnswer — src/simulation/people-contact.ts",
+    });
     const baseline = newGameAtDrawnPlace();
     const withTrait = newGameAtDrawnPlace();
     expect(withTrait.world.people).toEqual(baseline.world.people);
