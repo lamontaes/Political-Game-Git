@@ -1,0 +1,482 @@
+{
+  "asOf": "2026-10-06",
+  "method": "Capital identity comes from the cited government or Census source. Each place GEOID is an accepted 2025 Census Gazetteer corpus row; where that corpus has no capital row, the row minimizing great-circle distance from the capital interior point is an estimate.",
+  "rows": [
+    {
+      "jurisdictionKey": "US-AK",
+      "capitalName": "Juneau",
+      "placeGeoid": "0236400",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-AL",
+      "capitalName": "Montgomery",
+      "placeGeoid": "0151000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-AR",
+      "capitalName": "Little Rock",
+      "placeGeoid": "0541000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-AS",
+      "capitalName": "Pago Pago",
+      "placeGeoid": "1512530",
+      "matchStatus": "estimated-nearest-gazetteer-row",
+      "capitalInteriorPoint": {
+        "latitude": -14.2756,
+        "longitude": -170.702
+      },
+      "estimateReason": "The capital has no row in the accepted 2025 national Places Gazetteer corpus, so this is the geographically nearest row in that corpus.",
+      "capitalEvidenceUrl": "https://www.usa.gov/states/american-samoa",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-AZ",
+      "capitalName": "Phoenix",
+      "placeGeoid": "0455000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-CA",
+      "capitalName": "Sacramento",
+      "placeGeoid": "0664000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-CO",
+      "capitalName": "Denver",
+      "placeGeoid": "0820000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-CT",
+      "capitalName": "Hartford",
+      "placeGeoid": "0937000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-DC",
+      "capitalName": "Washington",
+      "placeGeoid": "1150000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www2.census.gov/geo/pdfs/reference/guidestloc/dc_gslcg.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-DE",
+      "capitalName": "Dover",
+      "placeGeoid": "1021200",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-FL",
+      "capitalName": "Tallahassee",
+      "placeGeoid": "1270600",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-GA",
+      "capitalName": "Atlanta",
+      "placeGeoid": "1304000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-GU",
+      "capitalName": "Hagåtña",
+      "placeGeoid": "0204670",
+      "matchStatus": "estimated-nearest-gazetteer-row",
+      "capitalInteriorPoint": {
+        "latitude": 13.4443,
+        "longitude": 144.7937
+      },
+      "estimateReason": "The capital has no row in the accepted 2025 national Places Gazetteer corpus, so this is the geographically nearest row in that corpus.",
+      "capitalEvidenceUrl": "https://mcog.guam.gov/villages-list",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-HI",
+      "capitalName": "Honolulu",
+      "placeGeoid": "1571550",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-IA",
+      "capitalName": "Des Moines",
+      "placeGeoid": "1921000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-ID",
+      "capitalName": "Boise",
+      "placeGeoid": "1608830",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "capitalName": "Springfield",
+      "placeGeoid": "1772000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-IN",
+      "capitalName": "Indianapolis",
+      "placeGeoid": "1836003",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-KS",
+      "capitalName": "Topeka",
+      "placeGeoid": "2071000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "capitalName": "Frankfort",
+      "placeGeoid": "2128900",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-LA",
+      "capitalName": "Baton Rouge",
+      "placeGeoid": "2205000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-MA",
+      "capitalName": "Boston",
+      "placeGeoid": "2507000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-MD",
+      "capitalName": "Annapolis",
+      "placeGeoid": "2401600",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-ME",
+      "capitalName": "Augusta",
+      "placeGeoid": "2302100",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-MI",
+      "capitalName": "Lansing",
+      "placeGeoid": "2646000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-MN",
+      "capitalName": "St. Paul",
+      "placeGeoid": "2758000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-MO",
+      "capitalName": "Jefferson City",
+      "placeGeoid": "2937000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-MP",
+      "capitalName": "Capitol Hill, Saipan",
+      "placeGeoid": "0204670",
+      "matchStatus": "estimated-nearest-gazetteer-row",
+      "capitalInteriorPoint": {
+        "latitude": 15.2,
+        "longitude": 145.75
+      },
+      "estimateReason": "The capital has no row in the accepted 2025 national Places Gazetteer corpus, so this is the geographically nearest row in that corpus.",
+      "capitalEvidenceUrl": "https://dcca.gov.mp/about-us/",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-MS",
+      "capitalName": "Jackson",
+      "placeGeoid": "2836000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-MT",
+      "capitalName": "Helena",
+      "placeGeoid": "3035600",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-NC",
+      "capitalName": "Raleigh",
+      "placeGeoid": "3755000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-ND",
+      "capitalName": "Bismarck",
+      "placeGeoid": "3807200",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-NE",
+      "capitalName": "Lincoln",
+      "placeGeoid": "3128000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-NH",
+      "capitalName": "Concord",
+      "placeGeoid": "3314200",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-NJ",
+      "capitalName": "Trenton",
+      "placeGeoid": "3474000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-NM",
+      "capitalName": "Santa Fe",
+      "placeGeoid": "3570500",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-NV",
+      "capitalName": "Carson City",
+      "placeGeoid": "3209700",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-NY",
+      "capitalName": "Albany",
+      "placeGeoid": "3601000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-OH",
+      "capitalName": "Columbus",
+      "placeGeoid": "3918000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-OK",
+      "capitalName": "Oklahoma City",
+      "placeGeoid": "4055000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-OR",
+      "capitalName": "Salem",
+      "placeGeoid": "4164900",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-PA",
+      "capitalName": "Harrisburg",
+      "placeGeoid": "4232800",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-PR",
+      "capitalName": "San Juan",
+      "placeGeoid": "7276770",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.pr.gov/directorio-municipos/san-juan",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-RI",
+      "capitalName": "Providence",
+      "placeGeoid": "4459000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-SC",
+      "capitalName": "Columbia",
+      "placeGeoid": "4516000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-SD",
+      "capitalName": "Pierre",
+      "placeGeoid": "4649600",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-TN",
+      "capitalName": "Nashville",
+      "placeGeoid": "4752006",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-TX",
+      "capitalName": "Austin",
+      "placeGeoid": "4805000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-UT",
+      "capitalName": "Salt Lake City",
+      "placeGeoid": "4967000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-VA",
+      "capitalName": "Richmond",
+      "placeGeoid": "5167000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-VI",
+      "capitalName": "Charlotte Amalie",
+      "placeGeoid": "7222589",
+      "matchStatus": "estimated-nearest-gazetteer-row",
+      "capitalInteriorPoint": {
+        "latitude": 18.3419,
+        "longitude": -64.9307
+      },
+      "estimateReason": "The capital has no row in the accepted 2025 national Places Gazetteer corpus, so this is the geographically nearest row in that corpus.",
+      "capitalEvidenceUrl": "https://omb.vi.gov/wp-content/uploads/2025/04/FY-2025-USVI-Proposed-Executive-Budget-Book.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-VT",
+      "capitalName": "Montpelier",
+      "placeGeoid": "5046000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-WA",
+      "capitalName": "Olympia",
+      "placeGeoid": "5351300",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-WI",
+      "capitalName": "Madison",
+      "placeGeoid": "5548000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-WV",
+      "capitalName": "Charleston",
+      "placeGeoid": "5414600",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-WY",
+      "capitalName": "Cheyenne",
+      "placeGeoid": "5613900",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/content/dam/Census/programs-surveys/sis/resources/2020/sis_2020map_stateside_K-6.pdf",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    },
+    {
+      "jurisdictionKey": "US-FEDERAL",
+      "capitalName": "Washington",
+      "placeGeoid": "1150000",
+      "matchStatus": "known",
+      "capitalEvidenceUrl": "https://www.census.gov/quickfacts/fact/table/DC,US/PST045225",
+      "placeEvidenceUrl": "https://www.census.gov/geographies/reference-files/2025/geo/gazetter-file.html"
+    }
+  ]
+}

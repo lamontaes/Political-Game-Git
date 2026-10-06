@@ -25,6 +25,7 @@ import {
   TERRITORY_PLACES_META,
   type TerritoryPlaceRow,
 } from "./territory-places";
+import { SEATS_OF_GOVERNMENT_ROWS } from "./seats-of-government.generated";
 import type { EntityId, Jurisdiction } from "./types";
 
 /**
@@ -1016,6 +1017,44 @@ export {
 
 export function lifePlaceByKey(key: string): LifePlace | null {
   return acceptedLifePlaceProvider.byKey(key);
+}
+
+export type SeatOfGovernmentMatchStatus =
+  "known" | "estimated-nearest-gazetteer-row";
+
+export interface SeatOfGovernmentPlace {
+  readonly jurisdictionKey: string;
+  readonly place: LifePlace;
+  readonly matchStatus: SeatOfGovernmentMatchStatus;
+}
+
+type SeatRow = readonly [
+  jurisdictionKey: string,
+  placeGeoid: string,
+  matchStatus: SeatOfGovernmentMatchStatus,
+];
+
+let seatsOfGovernment: ReadonlyMap<string, SeatRow> | null = null;
+
+function seatIndex(): ReadonlyMap<string, SeatRow> {
+  seatsOfGovernment ??= new Map(
+    (JSON.parse(SEATS_OF_GOVERNMENT_ROWS) as readonly SeatRow[]).map((row) => [
+      row[0],
+      row,
+    ]),
+  );
+  return seatsOfGovernment;
+}
+
+/** Resolve a government's seat through the same GEOID place loader as a town. */
+export function seatOfGovernmentPlace(
+  jurisdictionKey: string,
+): SeatOfGovernmentPlace | null {
+  const row = seatIndex().get(jurisdictionKey);
+  if (!row) return null;
+  const place = lifePlaceByKey(row[1]);
+  if (!place) return null;
+  return { jurisdictionKey: row[0], place, matchStatus: row[2] };
 }
 
 export function lifePlaceByJurisdictionId(

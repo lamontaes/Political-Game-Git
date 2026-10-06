@@ -29,6 +29,7 @@
     "education:check": "node --import tsx scripts/source/check-education.ts",
     "education:export": "node --import tsx scripts/source/export-education.ts",
     "source:replay": "node --import tsx scripts/source/replay.ts",
+    "export:seats-of-government": "node --import tsx scripts/source/export-seats-of-government.ts",
     "source:check-fiscal-disposition": "node --import tsx scripts/source/fiscal-authority-inventory.ts --check",
     "export:economic-context": "node --import tsx scripts/source/export-economic-context.ts",
     "export:regional-measures": "node --import tsx scripts/source/export-regional-measures.ts",
