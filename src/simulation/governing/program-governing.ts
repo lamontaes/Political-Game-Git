@@ -35,7 +35,6 @@ import {
   LEGACY_TRANSIT_COMPILED_STATE,
 } from "../legislation-transit-families";
 import { stateTransitServiceProfileForMeasure } from "../state-transit-service-profile";
-import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
 import { packMayEnactVariant } from "../legislation-drafting";
 import { rulePackById } from "../legislature-rule-packs";
 import type { LegislativeRulePack } from "../legislature-rules";
@@ -890,7 +889,7 @@ function npcProgramServiceCapacityProfileForEnactment(input: {
   } else {
     if (
       measure.jurisdictionId !== NATIONAL_ELECTION_JURISDICTION.id ||
-      measure.rulePackId !== US_CONGRESS_PACK_ID
+      rulePackById(measure.rulePackId)?.institution?.government !== "federal"
     )
       return null;
     governmentLevel = governmentScope.kind;
@@ -1030,7 +1029,7 @@ function publicProgramGovernmentScope(
     readonly rulePackId: string;
   },
 ): PublicProgramGovernmentScope | null {
-  if (measure.rulePackId === US_CONGRESS_PACK_ID)
+  if (rulePackById(measure.rulePackId)?.institution?.government === "federal")
     return measure.jurisdictionId === NATIONAL_ELECTION_JURISDICTION.id
       ? {
           kind: "federal",

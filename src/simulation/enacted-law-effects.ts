@@ -781,7 +781,8 @@ function levelOfGovernment(
   world: World,
   measure: { readonly jurisdictionId: EntityId; readonly rulePackId: string },
 ): LawLevelOfGovernment {
-  if (measure.rulePackId === "us-congress-v1") return "federal";
+  if (rulePackById(measure.rulePackId)?.institution?.government === "federal")
+    return "federal";
   if (municipalRulePackById(measure.rulePackId)) return "local";
   const jurisdiction = world.jurisdictions[measure.jurisdictionId];
   if (!jurisdiction) return "local";

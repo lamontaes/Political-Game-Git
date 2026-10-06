@@ -7,7 +7,7 @@ import {
   recordArticleVRatification,
   recordConstitutionalProposalVote,
 } from "../constitutional-process";
-import { addDays, makeIsoDate } from "../dates";
+import { makeIsoDate } from "../dates";
 import {
   FEDERAL_JURISDICTION_KEY,
   describeRuleChangeValue,
@@ -49,8 +49,11 @@ import {
   presidentialTermLimitAt,
   presidentialTermsCounted,
 } from "../nationwide-world/presidential-turnover";
-import { SeededRng } from "../rng";
-import { proposeAmendment } from "./constitutional-reform";
+import {
+  handleAmendmentStateAction,
+  proposeAmendment,
+  proposeAndVoteAmendment,
+} from "../governing/constitutional-amendments";
 import type {
   DecisionConsideration,
   EntityId,
@@ -311,7 +314,7 @@ export function federalReformReviewHandler(
   // Save the proposal before members decide on it. A rejection is an action,
   // recorded by the same constitutional rollcall writer as an approval.
   return done(
-    proposeAndVote(next, year, cause),
+    advanceFederalAmendment(next, year, cause),
     `Congress considered an amendment on the President's term limit because ${cause.reason}.`,
   );
 }
@@ -690,7 +693,7 @@ function proposeTermLimitMeasure(
 }
 
 /** Save the actual proposal, decide through the shared engine, and record its votes. */
-export function proposeAndVote(
+export function advanceFederalAmendment(
   world: World,
   year: number,
   cause: FederalReformCause,
@@ -703,51 +706,49 @@ export function proposeAndVote(
     constitutionalPosition(world, existing.id).phase !== "consideration"
   )
     return world;
-  const count = termLimitCount(world, year, cause);
-  let next = count.world;
-  const measureId = count.measureId;
   const key = measureKey(year);
-  // A repeated callback cannot append another rollcall or schedule another action.
-  if (constitutionalPosition(next, measureId).phase !== "consideration")
-    return next;
-  for (const house of count.houses) {
-    const dispositions: LegislativeVoteDisposition[] = house.rows.map(
-      (row) => ({
-        memberKey: row.voter.memberKey,
-        personId: row.voter.personId,
-        disposition: row.ballot,
-        ...(row.ballot === "absent" ? {} : { reason: row.reason }),
-      }),
-    );
-    next = recordConstitutionalProposalVote(
-      next,
-      measureId,
-      house.bodyKey,
-      dispositions,
-      house.rows.length,
-      {
-        method: "member-decisions",
-        note: "Each member voted by their party, their relationship with the President and the bar of amending the Constitution.",
-        sourceEntityIds: [],
-      },
-    );
-    if (constitutionalPosition(next, measureId).phase === "rejected")
-      return next;
-  }
   const [low, high] = FEDERAL_REFORM_PROFILE.stateActionDays;
-  const spread = new SeededRng(next.seed).fork(key);
-  for (const stateKey of ARTICLE_V_STATE_KEYS) {
-    const days = spread.fork(`state:${stateKey}:day`).integer(low, high);
-    next = scheduleFutureDueItem(next, {
-      stableKey: `${key}:state:${stateKey}`,
-      dueAt: addDays(next.currentDate, days),
+  const proposed = proposeTermLimitMeasure(world, year, cause);
+  return proposeAndVoteAmendment(proposed, {
+    proposal: proposed.history.constitutionalMeasures!.find(
+      (measure) => measure.stableKey === key,
+    )!,
+    recordProposalVotes: (started, measureId) => {
+      const count = termLimitCount(started, year, cause);
+      let next = count.world;
+      for (const house of count.houses) {
+        const dispositions: LegislativeVoteDisposition[] = house.rows.map(
+          (row) => ({
+            memberKey: row.voter.memberKey,
+            personId: row.voter.personId,
+            disposition: row.ballot,
+            ...(row.ballot === "absent" ? {} : { reason: row.reason }),
+          }),
+        );
+        next = recordConstitutionalProposalVote(
+          next,
+          measureId,
+          house.bodyKey,
+          dispositions,
+          house.rows.length,
+          {
+            method: "member-decisions",
+            note: "Each member voted by their party, their relationship with the President and the bar of amending the Constitution.",
+            sourceEntityIds: [],
+          },
+        );
+        if (constitutionalPosition(next, measureId).phase === "rejected") break;
+      }
+      return next;
+    },
+    stateSchedule: {
       transitionKey: FEDERAL_REFORM_STATE_ACTION,
-      entityIds: [NATIONAL_ELECTION_JURISDICTION.id],
       jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-      provenance: { kind: "authored", note: PLACEHOLDER_NOTE },
-    });
-  }
-  return next;
+      minimumDays: low,
+      maximumDays: high,
+      provenanceNote: PLACEHOLDER_NOTE,
+    },
+  });
 }
 
 /** One state legislature acts on a proposed amendment. */
@@ -755,38 +756,14 @@ export function federalReformStateActionHandler(
   world: World,
   due: FutureDueItem,
 ): FutureTransitionHandlerResult {
-  const match = /^(federal-reform\/v1:US:\d{4}):state:(US-[A-Z]{2})$/.exec(
-    due.stableKey,
-  );
-  const measure = match
-    ? (world.history.constitutionalMeasures ?? []).find(
-        (candidate) => candidate.stableKey === match[1],
-      )
-    : undefined;
-  if (!match || !measure)
-    return done(world, "No amendment matches this state action.");
-  const stateKey = match[2]!;
-  const position = constitutionalPosition(world, measure.id);
-  if (position.phase !== "ratification")
-    return done(world, "The amendment is no longer before the states.");
-  const next = recordArticleVStateMemberVote(world, measure.id, stateKey);
-  if (!next)
-    return done(
-      world,
-      "The state action remains pending: its actual chambers, quorum or sourced ratification admission are unavailable.",
-    );
-  const approved = constitutionalPosition(
-    next,
-    measure.id,
-  ).ratifiedStates.includes(stateKey);
-  const after = constitutionalPosition(next, measure.id);
-  return done(
-    next,
-    after.phase === "operative" || after.phase === "ratified"
-      ? `${stateKey.slice(3)} ratified ${measure.designation}, the ${after.ratifiedStates.length}th state; it is now part of the Constitution.`
-      : approved
-        ? `${stateKey.slice(3)} ratified ${measure.designation}.`
-        : `${stateKey.slice(3)} declined to ratify ${measure.designation}.`,
+  return handleAmendmentStateAction(
+    world,
+    due,
+    recordArticleVStateMemberVote,
+    (started, measureId) =>
+      started.history.constitutionalMeasures
+        ?.find((measure) => measure.id === measureId)
+        ?.stableKey.startsWith(`${FEDERAL_REFORM_VERSION}:`) === true,
   );
 }
 

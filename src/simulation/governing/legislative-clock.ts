@@ -69,7 +69,10 @@ import {
   type ChamberQuestion,
   type MemberBallot,
 } from "./member-ballots";
-import { offerPlannedAmendment } from "./amendment-authors";
+import {
+  offerPlannedAmendment,
+  type AmendmentAuthorsInput,
+} from "./amendment-authors";
 import {
   amendmentAdmissible,
   floorStageTakesAmendments,
@@ -927,7 +930,7 @@ export function applyInstitutionStep(
       body.members.every((member) => member.personId) &&
       isSeatedChamber(world, blueprint) &&
       floorStageTakesAmendments(chamber, stage)
-        ? offerPlannedAmendment(world, {
+        ? offerClockAmendment(world, {
             measureId,
             chamber,
             stage,
@@ -1782,3 +1785,10 @@ function noticeMemberVote(
  * ------------------------------------------------------------------ */
 
 export const LEGISLATIVE_INTAKE_VERSION = "legislative-intake/v1";
+/** The single legislative-clock admission point for computer-authored amendments. */
+export function offerClockAmendment(
+  world: World,
+  input: AmendmentAuthorsInput,
+): World {
+  return offerPlannedAmendment(world, input);
+}

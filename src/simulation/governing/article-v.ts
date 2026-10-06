@@ -7,7 +7,6 @@ import {
   recordConstitutionalProposalVote,
 } from "../constitutional-process";
 import { hasStableKey } from "../history-index";
-import { proposeAmendment } from "../living-world/constitutional-reform";
 import { addDays, makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { stateCandidacyPack } from "../candidacy-packs";
@@ -20,7 +19,6 @@ import {
   stateLegislators,
 } from "../nationwide-world/state-legislature-opening";
 import { constitutionalPolicyProvisions } from "../policy-provisions";
-import { SeededRng } from "../rng";
 import type {
   DecisionConsideration,
   EntityId,
@@ -37,6 +35,10 @@ import {
   type ChamberConstitutionalVoteInput,
 } from "./chamber-votes";
 import { lawInForce } from "./law-in-force";
+import {
+  handleAmendmentStateAction,
+  proposeAndVoteAmendment,
+} from "./constitutional-amendments";
 import {
   ensureOfficeholderPrinciples,
   principleAnswersConsideration,
@@ -410,48 +412,24 @@ function proposalText(world: World, propositionId: EntityId): string {
   return `The policy "${name}" shall be the law of the United States.`;
 }
 
-/** Puts a proposed amendment before each state's legislature, each on its own day. */
-function scheduleStateActions(world: World, measureKey: string): World {
-  let next = world;
-  for (const stateKey of ARTICLE_V_STATE_KEYS) {
-    const days =
-      1 +
-      new SeededRng(world.seed)
-        .fork(`${measureKey}:${stateKey}:day`)
-        .integer(0, ARTICLE_V_PROFILE.stateActionWindowDays);
-    next = scheduleFutureDueItem(next, {
-      stableKey: `${measureKey}:state:${stateKey}`,
-      dueAt: addDays(next.currentDate, days),
-      transitionKey: ARTICLE_V_STATE_ACTION,
-      entityIds: [NATIONAL_ELECTION_JURISDICTION.id],
-      jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-      provenance: {
-        kind: "authored",
-        note: "A state legislature takes up a proposed amendment (its day is a placeholder spread).",
-      },
-    });
-  }
-  return next;
-}
-
 function yearsLater(date: IsoDate, years: number): IsoDate {
   const year = Number(date.slice(0, 4)) + years;
   const monthDay = date.slice(5) === "02-29" ? "02-28" : date.slice(5);
   return makeIsoDate(`${year}-${monthDay}`);
 }
 
-function propose(
+function proposal(
   world: World,
   input: {
     readonly measureKey: string;
     readonly propositionId: EntityId;
     readonly byConvention: boolean;
   },
-): { readonly world: World; readonly measureId: EntityId } {
+): Parameters<typeof proposeAndVoteAmendment>[1]["proposal"] {
   const name =
     world.policyCatalog.propositions[input.propositionId]?.name ?? "";
   const year = world.currentDate.slice(0, 4);
-  const next = proposeAmendment(ensureNationalElectionJurisdiction(world), {
+  return {
     stableKey: input.measureKey,
     jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
     jurisdictionKey: "US",
@@ -473,10 +451,6 @@ function propose(
       stance: "adopt",
     },
     ...(input.byConvention ? { proposedBy: "convention" as const } : {}),
-  });
-  return {
-    world: next,
-    measureId: next.history.constitutionalMeasures!.at(-1)!.id,
   };
 }
 
@@ -506,34 +480,43 @@ function congressRoute(world: World, year: number): World {
       (row) => !repeatsLastRejection(world, row.id, { house, senate }),
     ) ?? null;
   if (!best) return world;
-  const proposed = propose(world, {
-    measureKey,
-    propositionId: best.id,
-    byConvention: false,
-  });
-  const measureId = proposed.measureId;
-  let next = proposed.world;
-  for (const [bodyKey, voters] of [
-    ["house", house],
-    ["senate", senate],
-  ] as const) {
-    const dispositions = articleVProposalBallots(next, measureId, bodyKey);
-    next = recordConstitutionalProposalVote(
-      next,
-      measureId,
-      bodyKey,
-      dispositions,
-      voters.length,
-      {
-        method: "member-decisions",
-        note: "Each member voted by their own principles against the bar of amending the Constitution.",
-        sourceEntityIds: [],
-      },
-    );
-    if (constitutionalPosition(next, measureId).phase === "rejected")
+  return proposeAndVoteAmendment(ensureNationalElectionJurisdiction(world), {
+    proposal: proposal(world, {
+      measureKey,
+      propositionId: best.id,
+      byConvention: false,
+    }),
+    recordProposalVotes: (started, measureId) => {
+      let next = started;
+      for (const [bodyKey, voters] of [
+        ["house", house],
+        ["senate", senate],
+      ] as const) {
+        next = recordConstitutionalProposalVote(
+          next,
+          measureId,
+          bodyKey,
+          articleVProposalBallots(next, measureId, bodyKey),
+          voters.length,
+          {
+            method: "member-decisions",
+            note: "Each member voted by their own principles against the bar of amending the Constitution.",
+            sourceEntityIds: [],
+          },
+        );
+        if (constitutionalPosition(next, measureId).phase === "rejected") break;
+      }
       return next;
-  }
-  return scheduleStateActions(next, measureKey);
+    },
+    stateSchedule: {
+      transitionKey: ARTICLE_V_STATE_ACTION,
+      jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+      minimumDays: 1,
+      maximumDays: ARTICLE_V_PROFILE.stateActionWindowDays + 1,
+      provenanceNote:
+        "A state legislature takes up a proposed amendment (its day is a placeholder spread).",
+    },
+  });
 }
 
 /**
@@ -776,50 +759,57 @@ export function articleVConventionHandler(
       "The question was already settled or before the states.",
     );
   const measureKey = `${ARTICLE_V_VERSION}:US:convention:${propositionId}`;
-  const proposed = propose(world, {
-    measureKey,
-    propositionId,
-    byConvention: true,
-  });
-  const measureId = proposed.measureId;
-  let next = proposed.world;
+  let prepared = world;
   // Members seated since the review hold principles of their own before they
   // vote; unknown is never counted as no.
   for (const stateKey of ARTICLE_V_STATE_KEYS)
-    next = ensureOfficeholderPrinciples(
-      next,
-      stateVoice(next, stateKey.slice(3)).personIds,
+    prepared = ensureOfficeholderPrinciples(
+      prepared,
+      stateVoice(prepared, stateKey.slice(3)).personIds,
     );
-  const dispositions: LegislativeVoteDisposition[] = ARTICLE_V_STATE_KEYS.map(
-    (stateKey) => {
-      const voice = stateVoice(next, stateKey.slice(3));
-      return {
-        memberKey: `${ARTICLE_V_CONVENTION_BODY}:${stateKey}`,
-        personId: null,
-        disposition: mostLeanYes(next, voice.personIds, propositionId)
-          ? ("yea" as const)
-          : ("nay" as const),
-      };
-    },
-  );
-  next = recordConstitutionalProposalVote(
-    next,
-    measureId,
-    ARTICLE_V_CONVENTION_BODY,
-    dispositions,
-    ARTICLE_V_STATE_KEYS.length,
+  const next = proposeAndVoteAmendment(
+    ensureNationalElectionJurisdiction(prepared),
     {
-      method: "member-decisions",
-      note: "Each state's delegation voted as most of its legislature's members lean (ESTIMATED from the state's members of Congress where the legislature is not seated).",
-      sourceEntityIds: [],
+      proposal: proposal(prepared, {
+        measureKey,
+        propositionId,
+        byConvention: true,
+      }),
+      recordProposalVotes: (started, measureId) =>
+        recordConstitutionalProposalVote(
+          started,
+          measureId,
+          ARTICLE_V_CONVENTION_BODY,
+          ARTICLE_V_STATE_KEYS.map((stateKey) => {
+            const voice = stateVoice(started, stateKey.slice(3));
+            return {
+              memberKey: `${ARTICLE_V_CONVENTION_BODY}:${stateKey}`,
+              personId: null,
+              disposition: mostLeanYes(started, voice.personIds, propositionId)
+                ? ("yea" as const)
+                : ("nay" as const),
+            };
+          }),
+          ARTICLE_V_STATE_KEYS.length,
+          {
+            method: "member-decisions",
+            note: "Each state's delegation voted as most of its legislature's members lean (ESTIMATED from the state's members of Congress where the legislature is not seated).",
+            sourceEntityIds: [],
+          },
+        ),
+      stateSchedule: {
+        transitionKey: ARTICLE_V_STATE_ACTION,
+        jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+        minimumDays: 1,
+        maximumDays: ARTICLE_V_PROFILE.stateActionWindowDays + 1,
+        provenanceNote:
+          "A state legislature takes up a proposed amendment (its day is a placeholder spread).",
+      },
     },
   );
   if (constitutionalPosition(next, measureId).phase === "rejected")
     return done(next, "The convention did not propose the amendment.");
-  return done(
-    scheduleStateActions(next, measureKey),
-    "The convention proposed the amendment to the states.",
-  );
+  return done(next, "The convention proposed the amendment to the states.");
 }
 
 /** One state legislature acts on a proposed amendment. */
@@ -827,39 +817,33 @@ export function articleVStateActionHandler(
   world: World,
   due: FutureDueItem,
 ): FutureTransitionHandlerResult {
-  const match = /^(.+):state:(US-[A-Z]{2})$/.exec(due.stableKey);
-  const measure = match
-    ? (world.history.constitutionalMeasures ?? []).find(
-        (candidate) => candidate.stableKey === match[1],
-      )
-    : undefined;
-  if (!match || !measure || measure.ruleDelta.kind !== "policy-provision")
-    return done(world, "No amendment matches this state action.");
-  if (constitutionalPosition(world, measure.id).phase !== "ratification")
-    return done(world, "The amendment is no longer before the states.");
-  const stateKey = match[2]!;
-  const voice = stateVoice(world, stateKey.slice(3));
-  let next = ensureOfficeholderPrinciples(world, voice.personIds);
-  const approved = mostLeanYes(
-    next,
-    voice.personIds,
-    measure.ruleDelta.propositionId,
-  );
-  next = recordArticleVRatification(next, measure.id, {
-    kind: "state-ratification",
-    stateKey,
-    body: "state-legislature",
-    approved,
-    authenticationKey: `${measure.stableKey}:${stateKey}:${next.currentDate}`,
-  });
-  const after = constitutionalPosition(next, measure.id);
-  return done(
-    next,
-    after.phase === "operative" || after.phase === "ratified"
-      ? `${stateKey.slice(3)} ratified ${measure.designation}, the ${after.ratifiedStates.length}th state; it is now part of the Constitution.`
-      : approved
-        ? `${stateKey.slice(3)} ratified ${measure.designation}.`
-        : `${stateKey.slice(3)} declined to ratify ${measure.designation}.`,
+  return handleAmendmentStateAction(
+    world,
+    due,
+    (started, measureId, stateKey) => {
+      const measure = started.history.constitutionalMeasures?.find(
+        (candidate) => candidate.id === measureId,
+      );
+      if (!measure || measure.ruleDelta.kind !== "policy-provision")
+        return null;
+      const voice = stateVoice(started, stateKey.slice(3));
+      const next = ensureOfficeholderPrinciples(started, voice.personIds);
+      return recordArticleVRatification(next, measureId, {
+        kind: "state-ratification",
+        stateKey,
+        body: "state-legislature",
+        approved: mostLeanYes(
+          next,
+          voice.personIds,
+          measure.ruleDelta.propositionId,
+        ),
+        authenticationKey: `${measure.stableKey}:${stateKey}:${next.currentDate}`,
+      });
+    },
+    (started, measureId) =>
+      started.history.constitutionalMeasures?.find(
+        (row) => row.id === measureId,
+      )?.ruleDelta.kind === "policy-provision",
   );
 }
 

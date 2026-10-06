@@ -17,7 +17,10 @@ import { pickDistinct, SeededRng } from "../rng";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { assertWorldIntegrity, createWorld } from "../world";
 import * as reform from "./constitutional-reform";
-import { proposeAndVote, FEDERAL_REFORM_PROFILE } from "./federal-reform";
+import {
+  advanceFederalAmendment,
+  FEDERAL_REFORM_PROFILE,
+} from "./federal-reform";
 
 const seed = "a86-shared-proposal-20261002";
 const places = pickDistinct(new SeededRng(seed), lifePlaceStateIdentities(), 5);
@@ -191,7 +194,7 @@ describe.each(places.map((place) => [place.jurisdictionKey]))(
       };
       const spy = vi.spyOn(reform, "proposeAmendment");
       try {
-        const next = proposeAndVote(
+        const next = advanceFederalAmendment(
           at,
           Number(at.currentDate.slice(0, 4)),
           cause,
@@ -218,7 +221,11 @@ describe.each(places.map((place) => [place.jurisdictionKey]))(
         expect(votes.length).toBeGreaterThan(0);
         expect(votes.length).toBeLessThanOrEqual(2);
         expect(
-          proposeAndVote(next, Number(at.currentDate.slice(0, 4)), cause),
+          advanceFederalAmendment(
+            next,
+            Number(at.currentDate.slice(0, 4)),
+            cause,
+          ),
         ).toBe(next);
         expect(spy).toHaveBeenCalledOnce();
         expect(deserializeWorld(serializeWorld(next)).history).toEqual(

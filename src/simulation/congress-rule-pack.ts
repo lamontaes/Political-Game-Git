@@ -357,6 +357,18 @@ export const US_CONGRESS_RULE_PACK: LegislativeRulePack = {
   packId: US_CONGRESS_PACK_ID,
   jurisdictionKey: US_CONGRESS_JURISDICTION_KEY,
   displayName: "Congress of the United States",
+  institution: {
+    government: "federal",
+    workKey: "institution:us-congress-v1",
+    numberingCycle: "biennial-congress",
+    context: {
+      goalScope: "United States",
+      householdLocationLabel: "Washington, D.C.",
+      timeZone: "America/New_York",
+      utcOffsetMinutes: -300,
+      creationSummary: "Legislative work in the Congress of the United States.",
+    },
+  },
   seatRollSource: {
     kind: "national-election-seats",
     partyCueScope: "institution",

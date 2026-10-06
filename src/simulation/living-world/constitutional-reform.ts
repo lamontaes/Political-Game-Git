@@ -3,12 +3,10 @@ import {
   constitutionalActions,
   constitutionalPosition,
   constitutionalProposalRuleForWorld,
-  proposeConstitutionalMeasure,
   recordConstitutionalProposalVote,
   recordStatewideRatification,
   sameRuleChanged,
   stateAmendmentProfile,
-  type ProposeConstitutionalMeasureInput,
 } from "../constitutional-process";
 import type {
   ConstitutionalMeasureRecord,
@@ -43,6 +41,8 @@ import {
   type TermLimitHolder,
 } from "./federal-reform";
 import { writeWithWorldIntegrityOnce } from "../world";
+import { proposeAndVoteAmendment } from "../governing/constitutional-amendments";
+export { proposeAmendment } from "../governing/constitutional-amendments";
 import type {
   DecisionConsideration,
   EntityId,
@@ -669,7 +669,7 @@ function reviewTermLimit(
   if (voice.voters.length === 0)
     return "Nobody speaks for the legislature in this world.";
   return done(
-    proposeAndVote(voice.world, stateUsps, year, spec, cause),
+    advanceStateAmendment(voice.world, stateUsps, year, spec, cause),
     `An amendment on the governor's term limit was proposed because ${cause.reason}.`,
   );
 }
@@ -709,7 +709,7 @@ function reviewBackground(
   const route = routeOpen();
   if (!route.available) return route.reason;
   return done(
-    proposeAndVote(voice.world, stateUsps, year, spec),
+    advanceStateAmendment(voice.world, stateUsps, year, spec),
     `An amendment on ${spec.shortTitle.toLowerCase()} was proposed, from the legislators' own principles.`,
   );
 }
@@ -889,7 +889,7 @@ function recordStateProposalVotes(
   return next;
 }
 
-function proposeAndVote(
+function advanceStateAmendment(
   world: World,
   stateUsps: string,
   year: number,
@@ -899,52 +899,11 @@ function proposeAndVote(
   // The proposal, each chamber's vote and the ballot are checked once
   // together, against the World before the proposal.
   return writeWithWorldIntegrityOnce(world, () =>
-    proposeAndVoteUnchecked(world, stateUsps, year, spec, cause),
+    advanceStateAmendmentUnchecked(world, stateUsps, year, spec, cause),
   );
 }
 
-/**
- * The shared initial amendment writer. Automatic proposals use the same
- * initial text version and unset sponsor/operative/ordinary-measure fields;
- * an explicit caller value remains authoritative. The canonical producer
- * still validates identity, authority, dates, and the jurisdiction's rule.
- */
-export function proposeAmendment(
-  world: World,
-  input: Omit<
-    ProposeConstitutionalMeasureInput,
-    | "textVersion"
-    | "sponsorPersonId"
-    | "delayedOperativeAt"
-    | "ordinaryMeasureId"
-  > &
-    Partial<
-      Pick<
-        ProposeConstitutionalMeasureInput,
-        | "textVersion"
-        | "sponsorPersonId"
-        | "delayedOperativeAt"
-        | "ordinaryMeasureId"
-      >
-    >,
-): World {
-  const {
-    textVersion = "v1",
-    sponsorPersonId = null,
-    delayedOperativeAt = null,
-    ordinaryMeasureId = null,
-    ...proposal
-  } = input;
-  return proposeConstitutionalMeasure(world, {
-    ...proposal,
-    textVersion,
-    sponsorPersonId,
-    delayedOperativeAt,
-    ordinaryMeasureId,
-  });
-}
-
-function proposeAndVoteUnchecked(
+function advanceStateAmendmentUnchecked(
   world: World,
   stateUsps: string,
   year: number,
@@ -955,47 +914,48 @@ function proposeAndVoteUnchecked(
   const stateName = world.jurisdictions[stateId]?.name ?? stateUsps;
   const key = spec.key;
   const policy = isPolicyReform(key);
-  let next = proposeAmendment(world, {
-    stableKey: key,
-    jurisdictionId: stateId,
-    jurisdictionKey: `US-${stateUsps}`,
-    processKind: "state-amendment",
-    // A second amendment in one state and year needs its own designation.
-    designation: policy
-      ? `Proposed Amendment (${year}): ${spec.shortTitle}`
-      : `Proposed Amendment (${year})`,
-    shortTitle: spec.shortTitle,
-    text: spec.text,
-    sponsoringAuthority: `The ${stateName} Legislature`,
-    ratificationMode: "statewide-electors",
-    deadlineAt: null,
-    ruleDelta: spec.ruleDelta,
-  });
-  const measureId = next.history.constitutionalMeasures!.at(-1)!.id;
-  if (policy) {
-    next = recordStatePolicyProposalVotes(next, measureId);
-    if (constitutionalPosition(next, measureId).phase === "rejected")
-      return next;
-  } else {
-    if (!cause)
-      throw new Error(
-        "A governor term-limit proposal requires its existing cause.",
+  return proposeAndVoteAmendment(world, {
+    proposal: {
+      stableKey: key,
+      jurisdictionId: stateId,
+      jurisdictionKey: `US-${stateUsps}`,
+      processKind: "state-amendment",
+      // A second amendment in one state and year needs its own designation.
+      designation: policy
+        ? `Proposed Amendment (${year}): ${spec.shortTitle}`
+        : `Proposed Amendment (${year})`,
+      shortTitle: spec.shortTitle,
+      text: spec.text,
+      sponsoringAuthority: `The ${stateName} Legislature`,
+      ratificationMode: "statewide-electors",
+      deadlineAt: null,
+      ruleDelta: spec.ruleDelta,
+    },
+    recordProposalVotes: (started, measureId) => {
+      let next = policy
+        ? recordStatePolicyProposalVotes(started, measureId)
+        : cause
+          ? recordStateGovernorTermLimitProposalVotes(started, measureId, cause)
+          : (() => {
+              throw new Error(
+                "A governor term-limit proposal requires its existing cause.",
+              );
+            })();
+      if (constitutionalPosition(next, measureId).phase === "rejected")
+        return next;
+      const electionDay = nextGeneralElectionDay(
+        addDays(next.currentDate, CONSTITUTIONAL_REFORM_PROFILE.ballotLeadDays),
       );
-    next = recordStateGovernorTermLimitProposalVotes(next, measureId, cause);
-    if (constitutionalPosition(next, measureId).phase === "rejected")
+      next = scheduleFutureDueItem(next, {
+        stableKey: `${key}:ballot:${electionDay.slice(0, 4)}`,
+        dueAt: electionDay,
+        transitionKey: CONSTITUTIONAL_REFORM_BALLOT,
+        entityIds: [stateId],
+        jurisdictionId: stateId,
+        provenance: { kind: "authored", note: PLACEHOLDER_NOTE },
+      });
       return next;
-  }
-
-  const electionDay = nextGeneralElectionDay(
-    addDays(next.currentDate, CONSTITUTIONAL_REFORM_PROFILE.ballotLeadDays),
-  );
-  return scheduleFutureDueItem(next, {
-    stableKey: `${key}:ballot:${electionDay.slice(0, 4)}`,
-    dueAt: electionDay,
-    transitionKey: CONSTITUTIONAL_REFORM_BALLOT,
-    entityIds: [stateId],
-    jurisdictionId: stateId,
-    provenance: { kind: "authored", note: PLACEHOLDER_NOTE },
+    },
   });
 }
 

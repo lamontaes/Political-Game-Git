@@ -1,7 +1,10 @@
 import { nextSessionCalendarDate } from "./legislative-session-calendar";
 import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
 import { fileMemberAgendaBills } from "./governing/member-agenda";
-import { applyInstitutionSessionEnd } from "./governing/legislative-clock";
+import {
+  applyInstitutionSessionEnd,
+  offerClockAmendment,
+} from "./governing/legislative-clock";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { mayAnswerQuestion } from "./governing/question-authority";
 import {
@@ -12,7 +15,6 @@ import {
 import { measurePosition, placeMeasureOnCalendar } from "./legislation";
 import { chamberByKey } from "./legislature-rules";
 import { rulePackById } from "./legislature-rule-packs";
-import { offerPlannedAmendment } from "./governing/amendment-authors";
 import {
   amendmentAdmissible,
   floorStageTakesAmendments,
@@ -200,7 +202,7 @@ function moveActs(world: World): World {
           position.earliestNextFloorDate <= next.currentDate) &&
         floorStageTakesAmendments(chamber, stage)
       ) {
-        next = offerPlannedAmendment(next, {
+        next = offerClockAmendment(next, {
           measureId: measure.id,
           chamber,
           stage,

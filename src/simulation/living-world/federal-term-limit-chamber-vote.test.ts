@@ -32,7 +32,7 @@ import type { World } from "../types";
 import * as chamber from "../governing/chamber-votes";
 import { congressVoters } from "../governing/article-v";
 import {
-  proposeAndVote,
+  advanceFederalAmendment,
   decideArticleVStateMemberVotes,
   recordArticleVStateMemberVote,
   federalReformStateActionHandler,
@@ -209,7 +209,7 @@ describe("A79 recorded presidential term-limit proposal uses the shared chamber"
   );
 
   it("retains the real rejection rollcall and its IDs across repeat and Save/Continue", () => {
-    const result = proposeAndVote(world, 2027, cause);
+    const result = advanceFederalAmendment(world, 2027, cause);
     const measure = result.history.constitutionalMeasures!.at(-1)!;
     const actions = constitutionalActions(result, measure.id);
     expect(actions.length).toBeGreaterThan(0);
@@ -222,10 +222,10 @@ describe("A79 recorded presidential term-limit proposal uses the shared chamber"
         (row) => row.transitionKey === "governing:federal-reform-state-action",
       ),
     ).toHaveLength(0);
-    expect(proposeAndVote(result, 2027, cause)).toBe(result);
+    expect(advanceFederalAmendment(result, 2027, cause)).toBe(result);
     const loaded = deserializeWorld(serializeWorld(result));
     expect(constitutionalActions(loaded, measure.id)).toEqual(actions);
-    expect(proposeAndVote(loaded, 2027, cause)).toBe(loaded);
+    expect(advanceFederalAmendment(loaded, 2027, cause)).toBe(loaded);
     expect(serializeWorld(loaded)).toBe(serializeWorld(result));
   });
 
@@ -233,7 +233,7 @@ describe("A79 recorded presidential term-limit proposal uses the shared chamber"
     const supported = supportedWorld();
     const count = termLimitCount(supported, 2027, cause);
     expect(count.carries).toBe(true);
-    const result = proposeAndVote(supported, 2027, cause);
+    const result = advanceFederalAmendment(supported, 2027, cause);
     const measure = result.history.constitutionalMeasures!.at(-1)!;
     const votes = constitutionalActions(result, measure.id).filter(
       (row) => row.detail.kind === "proposal-vote",
@@ -249,14 +249,14 @@ describe("A79 recorded presidential term-limit proposal uses the shared chamber"
       (row) => row.transitionKey === "governing:federal-reform-state-action",
     );
     expect(due).toHaveLength(50);
-    expect(proposeAndVote(result, 2027, cause)).toBe(result);
+    expect(advanceFederalAmendment(result, 2027, cause)).toBe(result);
     const loaded = deserializeWorld(serializeWorld(result));
     expect(
       loaded.history.futureDueItems.filter(
         (row) => row.transitionKey === "governing:federal-reform-state-action",
       ),
     ).toEqual(due);
-    expect(proposeAndVote(loaded, 2027, cause)).toBe(loaded);
+    expect(advanceFederalAmendment(loaded, 2027, cause)).toBe(loaded);
 
     // A supplied successful federal proposal; the state body is produced by
     // its ordinary saved legislature opening, not a congressional proxy.
@@ -449,7 +449,7 @@ describe("A79 recorded presidential term-limit proposal uses the shared chamber"
   describe("sourced actual chamber rollcalls", () => {
     let result: World;
     beforeAll(() => {
-      result = proposeAndVote(supportedWorld(), 2027, cause);
+      result = advanceFederalAmendment(supportedWorld(), 2027, cause);
     });
     const admitted = ARTICLE_V_STATE_KEYS.filter((key) =>
       stateRatificationChambers(key),
