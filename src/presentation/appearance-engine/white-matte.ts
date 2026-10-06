@@ -19,7 +19,7 @@ export function withoutWhiteMatte(raster: Raster): Raster {
       const alpha = source[at + 3]!;
       if (
         alpha === 0 ||
-        alpha > 128 ||
+        alpha >= 250 ||
         source[at]! < 235 ||
         source[at + 1]! < 235 ||
         source[at + 2]! < 235

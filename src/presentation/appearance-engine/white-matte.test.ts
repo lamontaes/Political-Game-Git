@@ -24,6 +24,23 @@ describe("white matte rendering derivative", () => {
     expect(withoutWhiteMatte(source)).toBe(out);
   });
 
+  it("removes a mostly opaque white fringe before it is composited over a dark scene", () => {
+    const source = createRaster(3, 1);
+    source.data.set([24, 52, 88, 255, 250, 250, 250, 192, 0, 0, 0, 0]);
+
+    const cleaned = withoutWhiteMatte(source);
+    expect(Array.from(cleaned.data.slice(4, 8))).toEqual([24, 52, 88, 192]);
+
+    const darkScene = [16, 20, 28];
+    const coverage = cleaned.data[7]! / 255;
+    const displayed = darkScene.map((channel, index) =>
+      Math.round(
+        cleaned.data[4 + index]! * coverage + channel * (1 - coverage),
+      ),
+    );
+    expect(displayed).toEqual([22, 44, 73]);
+  });
+
   it("does not guess colors for isolated edges or alter colored antialiasing", () => {
     const source = createRaster(4, 1);
     source.data.set([
