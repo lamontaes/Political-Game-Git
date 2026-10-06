@@ -124,6 +124,37 @@ describe("romance grows through recorded time together", () => {
       "You have not spent time together yet.",
     );
   });
+
+  it("does not treat an adverse experience as positive shared time", () => {
+    let world = createDemoWorld("c8-adverse-experience-is-not-shared-time");
+    const pair = world.personOrder
+      .flatMap((personId) =>
+        world.personOrder.map((otherPersonId) => ({ personId, otherPersonId })),
+      )
+      .find(
+        ({ personId, otherPersonId }) =>
+          dateRefusal(world, personId, otherPersonId) === null &&
+          sharedInteractionDays(world, personId, otherPersonId).length === 0,
+      );
+    if (!pair) throw new Error("The fixture needs two unconnected adults.");
+    world = recordRelationshipInteraction(world, {
+      stableKey: "c8:adverse-experience",
+      personIds: [pair.personId, pair.otherPersonId],
+      eventId: null,
+      occurredAt: world.currentDate,
+      kind: "experience:family",
+      change: "strained",
+      significance: "meaningful",
+      summary: "The shared experience left them worse off.",
+      tags: [],
+    });
+    expect(sharedInteractionDays(world, pair.personId, pair.otherPersonId)).toEqual(
+      [],
+    );
+    expect(coupleAskRefusal(world, pair.personId, pair.otherPersonId)).toBe(
+      "You have not spent time together yet.",
+    );
+  });
 });
 describe("an unanswered couple request reaches the actual contact consumer", () => {
   it.each(["undecided", "no-available-option", "selected-null"] as const)(

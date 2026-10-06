@@ -139,7 +139,9 @@ function sharedRomanticInteractions(world: World, a: EntityId, b: EntityId) {
       (interaction.kind === "contact:conversation" ||
         interaction.kind === "contact:time-together" ||
         interaction.kind === DATE_KIND ||
-        interaction.kind.startsWith("experience:")),
+        (interaction.kind.startsWith("experience:") &&
+          interaction.change !== "strained" &&
+          interaction.change !== "ended")),
   );
 }
 
