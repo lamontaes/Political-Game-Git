@@ -233,6 +233,7 @@ export function meetingItemsThatMatter(
   world: World,
   playerId: EntityId,
   meetingDueItemId: EntityId,
+  agendaMeasureIds?: readonly EntityId[],
 ): readonly CouncilMeetingMatter[] {
   const due = world.history.futureDueItems.find(
     (item) => item.id === meetingDueItemId,
@@ -255,11 +256,13 @@ export function meetingItemsThatMatter(
     members(world, unit).map((seat) => seat.personId),
   );
   const knownPeople = new Set(peopleKnownTo(world, playerId));
+  const recordedAgenda = agendaMeasureIds ? new Set(agendaMeasureIds) : null;
   const candidates = councilMeasures(
     world,
     rules,
     lawJurisdiction(world, unit, due.jurisdictionId).jurisdictionId,
   ).filter((measure) => {
+    if (recordedAgenda) return recordedAgenda.has(measure.id);
     const phase = measurePosition(world, measure.id).phase;
     return (
       (phase === "awaiting-referral" || phase === "on-floor") &&

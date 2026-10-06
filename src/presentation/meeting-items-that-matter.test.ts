@@ -13,6 +13,7 @@ import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLifeRecords } from "../simulation/life-opportunities";
 import { projectCouncilMeetingAgendaNotice } from "./council-meeting-agenda";
+import { projectCouncilMeetingQuietSummary } from "./council-meeting-quiet-summary";
 
 const MATTER_SEED = "council-matters:opening-agenda";
 const PROPOSITION_ID = "council-matters:policy-question" as EntityId;
@@ -153,6 +154,114 @@ describe("meetingItemsThatMatter", { timeout: 60_000 }, () => {
     expect(wholeMeeting?.selectedDepth).toBe("everything");
     expect(wholeMeeting?.items[0]?.plays).toBe(true);
     expect(fixture.world.history.officeWorkflowPreferences).toBeUndefined();
+  });
+
+  it("summarizes a quiet roll call from its held event and recorded vote", () => {
+    const fixture = openingMeetingWorld();
+    const due = fixture.world.history.futureDueItems.find(
+      (item) => item.id === fixture.dueItemId,
+    )!;
+    const heldEventId = "council-matter-held-event" as EntityId;
+    const voteId = "council-matter-held-vote" as EntityId;
+    const heldEvent = {
+      id: heldEventId,
+      stableKey: `${due.stableKey}:held`,
+      sequence: fixture.world.history.nextSequence,
+      type: "local.council-meeting-held",
+      occurredAt: due.dueAt,
+      recordedAt: due.dueAt,
+      jurisdictionId: due.jurisdictionId,
+      involvedEntityIds: [due.jurisdictionId, fixture.measureId],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [],
+      summary: "The council adopted the meeting-room ordinance.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    } as unknown as World["history"]["events"][number];
+    const heldVote = {
+      id: voteId,
+      stableKey: "council-matter-held-vote",
+      sequence: fixture.world.history.nextSequence + 1,
+      measureId: fixture.measureId,
+      forum: { kind: "chamber", chamberKey: "council" },
+      purpose: "floor-stage",
+      floorStageKey: null,
+      takenAt: due.dueAt,
+      eligibleMembers: 3,
+      presentMembers: 3,
+      dispositions: [
+        {
+          memberKey: "player",
+          personId: fixture.playerId,
+          disposition: "yea",
+        },
+        {
+          memberKey: "member-2",
+          personId: null,
+          disposition: "yea",
+        },
+        {
+          memberKey: "member-3",
+          personId: null,
+          disposition: "nay",
+        },
+      ],
+      tally: {
+        yea: 2,
+        nay: 1,
+        presentNotVoting: 0,
+        absent: 0,
+        excused: 0,
+      },
+      thresholdLabel: "majority",
+      denominatorKind: "members-present",
+      denominatorValue: 3,
+      requiredVotes: 2,
+      outcome: "passed",
+      provenance: {
+        method: "member-decisions",
+        note: "Recorded council roll call.",
+        sourceEntityIds: [],
+      },
+    } as const;
+    const world = withHistory(fixture.world, {
+      events: [...fixture.world.history.events, heldEvent],
+      legislativeVotes: [heldVote],
+    });
+    const summary = projectCouncilMeetingQuietSummary(
+      world,
+      fixture.playerId,
+      heldEventId,
+      "what-matters",
+    );
+    expect(summary?.items).toHaveLength(1);
+    expect(summary?.items[0]?.line).toContain("2-1");
+    expect(summary?.items[0]?.line).toContain("yea");
+    expect(summary?.items[0]?.line).toContain(
+      fixture.world.history.legislativeMeasures!.find(
+        (measure) => measure.id === fixture.measureId,
+      )!.summary,
+    );
+    expect(summary?.items[0]?.sourceRecordIds).toEqual(
+      expect.arrayContaining([heldEventId, voteId, fixture.measureId]),
+    );
+    expect(
+      projectCouncilMeetingQuietSummary(
+        world,
+        fixture.playerId,
+        heldEventId,
+        "everything",
+      )?.items,
+    ).toEqual([]);
+    expect(world.history.events.at(-1)).toBe(heldEvent);
   });
 
   it("plays an item for each independent recorded reason", () => {
