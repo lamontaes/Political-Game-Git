@@ -1,0 +1,8 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- node /tmp/session13-zero-dice-baseline-readback.mjs
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+Candidate scan failed at src/simulation/place-county-relations.generated.ts: RangeError: Maximum call stack size exceeded
+Same current-main baseline failure: RangeError: Maximum call stack size exceeded
+Candidate bytes identical to current main: true

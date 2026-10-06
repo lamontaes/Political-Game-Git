@@ -1,0 +1,11 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- node /tmp/session13-zero-dice-owned-readback.mjs
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+src/presentation/election-clerk.ts: 0 guarded findings
+src/presentation/election-clerk-offices.ts: 0 guarded findings
+src/presentation/election-clerk-scene.ts: 0 guarded findings
+src/presentation/election-night-scene.ts: 0 guarded findings
+src/simulation/office-filers.ts: 0 guarded findings
+Received lookup helper guarded findings unchanged from current main: true
