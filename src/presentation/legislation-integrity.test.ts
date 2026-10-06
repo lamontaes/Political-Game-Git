@@ -310,7 +310,9 @@ describe("Identity belongs to the saved world", () => {
 
     // Amend, save, reload, amend again, save, reload, amend a third time.
     for (let round = 0; round < 3; round += 1) {
-      world = applyLegislativeStep(scenario, world, "offer-amendment").world;
+      world = applyLegislativeStep(scenario, world, "offer-amendment", {
+        amendmentMotive: "record",
+      }).world;
       world = deserializeWorld(serializeWorld(world));
       assertWorldIntegrity(world);
     }

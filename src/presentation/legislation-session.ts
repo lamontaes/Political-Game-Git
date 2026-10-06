@@ -161,6 +161,7 @@ export function applyLegislativeStep(
   scenario: LegislativeProcedureContext,
   world: World,
   step: MeasureStepKey,
+  options: { readonly amendmentMotive?: "pass" | "sink" | "record" | "ride" } = {},
 ): StepResult {
   const measureId = scenario.measureId;
   const sessionEnd = applyInstitutionSessionEnd(world, measureId);
@@ -339,9 +340,9 @@ export function applyLegislativeStep(
         description:
           "Narrow the pilot so it starts in the counties already served.",
         offeredByLabel: "Floor sponsor",
-        // This player action is a messaging amendment: its purpose is to put
-        // the other side's vote on the record, whether the amendment passes.
-        authorMotive: "record",
+        ...(options.amendmentMotive
+          ? { authorMotive: options.amendmentMotive }
+          : {}),
         dispositions,
         presentMembers: presentFor(scenario, body.members, dispositions),
         electedMembers: body.members.length,
