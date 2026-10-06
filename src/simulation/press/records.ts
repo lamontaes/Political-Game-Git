@@ -137,6 +137,10 @@ export const MISCONDUCT_FAMILIES = [
   "M13",
 ] as const;
 export type MisconductFamily = (typeof MISCONDUCT_FAMILIES)[number];
+/** A matter can also start from a recorded personal event. */
+export const PERSONAL_LIFE_MATTER_FAMILY = "personal-life" as const;
+export type MatterFamily =
+  MisconductFamily | typeof PERSONAL_LIFE_MATTER_FAMILY;
 
 /** Statute families identify the duty under review; place-specific law remains
  * a research-backed input to later case decisions, never a universal rule. */
@@ -262,14 +266,16 @@ export const MISCONDUCT_FAMILY_ROWS: Readonly<
   },
 };
 
-export const MISCONDUCT_FAMILY_LABELS: Readonly<
-  Record<MisconductFamily, string>
-> = Object.fromEntries(
-  MISCONDUCT_FAMILIES.map((family) => [
-    family,
-    MISCONDUCT_FAMILY_ROWS[family].label,
-  ]),
-) as Record<MisconductFamily, string>;
+export const MISCONDUCT_FAMILY_LABELS: Readonly<Record<MatterFamily, string>> =
+  {
+    ...(Object.fromEntries(
+      MISCONDUCT_FAMILIES.map((family) => [
+        family,
+        MISCONDUCT_FAMILY_ROWS[family].label,
+      ]),
+    ) as Record<MisconductFamily, string>),
+    [PERSONAL_LIFE_MATTER_FAMILY]: "A recorded personal event",
+  };
 
 export const EVIDENCE_BEARINGS = [
   "supports",
@@ -473,12 +479,14 @@ export interface FinancialOccurrenceRecord extends PressRecordBase {
 
 export interface MatterRecord extends PressRecordBase {
   readonly kind: "matter";
-  readonly family: MisconductFamily;
+  readonly family: MatterFamily;
   readonly subjectPersonIds: readonly EntityId[];
   /** Null when nothing actually happened: a false or mistaken allegation. */
   readonly occurrenceId: EntityId | null;
   readonly openedAt: IsoDate;
   readonly originEventId: EntityId;
+  /** The actual personal event when family is `personal-life`; never copied. */
+  readonly personalEventId?: EntityId | null;
   readonly jurisdictionId: EntityId | null;
 }
 

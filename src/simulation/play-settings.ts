@@ -3,6 +3,7 @@ import type {
   ChallengeIntensity,
   FamilyMoneyPremise,
   NotebookNotesSetting,
+  PersonalLifeDepiction,
   PlaySettings,
   PressPremise,
   SaveMode,
@@ -13,6 +14,7 @@ export const DEFAULT_PLAY_SETTINGS: PlaySettings = {
   challenge: "standard",
   notes: "full",
   saves: "free",
+  personalLifeDepiction: "full",
   premises: {
     familyMoney: "ordinary",
     press: "realistic",
@@ -24,7 +26,15 @@ export const DEFAULT_PLAY_SETTINGS: PlaySettings = {
 export const ONE_SAVE_OFFERED = false;
 
 export function playSettingsOf(world: World): PlaySettings {
-  return world.playSettings ?? DEFAULT_PLAY_SETTINGS;
+  const saved = world.playSettings;
+  if (!saved) return DEFAULT_PLAY_SETTINGS;
+  return {
+    ...DEFAULT_PLAY_SETTINGS,
+    ...saved,
+    personalLifeDepiction:
+      saved.personalLifeDepiction ??
+      DEFAULT_PLAY_SETTINGS.personalLifeDepiction,
+  };
 }
 
 /** Record one player-visible option change as a private, non-canonical event. */
@@ -40,8 +50,13 @@ export function setPlaySetting(
 ): World;
 export function setPlaySetting(
   world: World,
-  key: "challenge" | "notes",
-  value: ChallengeIntensity | NotebookNotesSetting,
+  key: "personalLifeDepiction",
+  value: PersonalLifeDepiction,
+): World;
+export function setPlaySetting(
+  world: World,
+  key: "challenge" | "notes" | "personalLifeDepiction",
+  value: ChallengeIntensity | NotebookNotesSetting | PersonalLifeDepiction,
 ): World {
   const current = playSettingsOf(world);
   if (current[key] === value) return world;
@@ -76,6 +91,7 @@ export function initialPlaySettings(input: {
   readonly challenge?: ChallengeIntensity;
   readonly notes?: NotebookNotesSetting;
   readonly saves?: SaveMode;
+  readonly personalLifeDepiction?: PersonalLifeDepiction;
   readonly familyMoney?: FamilyMoneyPremise;
   readonly press?: PressPremise;
 }): PlaySettings {
@@ -83,6 +99,9 @@ export function initialPlaySettings(input: {
     challenge: input.challenge ?? DEFAULT_PLAY_SETTINGS.challenge,
     notes: input.notes ?? DEFAULT_PLAY_SETTINGS.notes,
     saves: input.saves ?? DEFAULT_PLAY_SETTINGS.saves,
+    personalLifeDepiction:
+      input.personalLifeDepiction ??
+      DEFAULT_PLAY_SETTINGS.personalLifeDepiction,
     premises: {
       familyMoney:
         input.familyMoney ?? DEFAULT_PLAY_SETTINGS.premises.familyMoney,
