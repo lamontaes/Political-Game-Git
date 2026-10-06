@@ -176,10 +176,14 @@ describe("The foreground owns opening presence", () => {
       "activity",
     );
     expect(next.currentDate).not.toBe(game.world.currentDate);
-    expect(current.purpose).toBe("home");
+    // Main now shows only recorded home presence, so the ordinary day may
+    // legitimately have no bound room or visitors. What must hold is that the
+    // opening workplace is no longer the live room and the people shown are
+    // exactly the ordinary day's.
+    expect(current.purpose).not.toBe("activity");
+    expect(current.locationKey).not.toBe(opening.locationKey);
     expect(current.placeLabel).not.toBe(opening.placeLabel);
     expect(current.presentPeople).toEqual(ordinary.presentPeople);
-    expect(current.presentPeople.length).toBeGreaterThan(0);
   });
 
   it("does not introduce household residents without a current presence record", () => {
