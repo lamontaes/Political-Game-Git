@@ -13,6 +13,7 @@ import { projectCongress } from "../living-world/congress";
 import { NATIONAL_REACH_SCALE, recordedScale } from "../press/desk";
 import {
   officeConsequences,
+  playerOfficeScope,
   recordOfficeConsequence,
 } from "./office-consequence";
 
@@ -28,6 +29,34 @@ function openingWorld(seed: string): World {
 }
 
 describe("GOVERNING D2: what an office does about an allegation", () => {
+  it("reads governor and congressional scopes from their canonical records", () => {
+    const world = openingWorld("player-office-scope");
+    const governors = currentStateExecutiveHolders(world);
+    expect(new Set(governors.map((governor) => governor.stateUsps))).toHaveSize(
+      56,
+    );
+    for (const governor of governors)
+      expect(playerOfficeScope(world, governor.personId)).toContainEqual({
+        officeKey: governor.officeKey,
+        title: governor.title,
+        jurisdictionId: expect.any(String),
+        level: "state-executive",
+      });
+
+    const seat = projectCongress(world)!.house.seats.find(
+      (candidate) => candidate.occupant.kind === "member",
+    )!;
+    if (seat.occupant.kind !== "member") throw new Error("fixture");
+    expect(
+      playerOfficeScope(world, seat.occupant.member.personId),
+    ).toContainEqual({
+      officeKey: seat.seatKey,
+      title: seat.occupant.member.title,
+      jurisdictionId: expect.any(String),
+      level: "congress",
+    });
+  }, 600_000);
+
   it("records answers without changing the office, and a resignation that does", () => {
     const world = openingWorld("office-consequence");
     const governor = currentStateExecutiveHolders(world)[0]!;

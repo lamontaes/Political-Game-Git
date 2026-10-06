@@ -11,6 +11,9 @@ import { personName } from "../people";
 import type { EntityId, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import { currentGoverningOffices } from "./state-governing";
+import { currentPresidentOf } from "../crisis/offices";
+import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
+import { localGoverningBodyIdentityForOfficeKey } from "../nationwide-world/local-governing-body-candidacy-packs";
 import { scheduleSeatFilling } from "./office-continuity";
 import { congressSeats } from "../living-world/congress-seats";
 import { projectCongress } from "../living-world/congress";
@@ -377,6 +380,105 @@ export const OFFICE_EMPLOYMENT_KINDS: readonly string[] = [
   "employment:state-agency-director",
   "employment:judicial-office",
 ];
+
+export type PlayerOfficeLevel =
+  | "town"
+  | "county"
+  | "state-legislature"
+  | "state-executive"
+  | "congress"
+  | "federal-executive"
+  | "judicial";
+
+export interface PlayerOfficeScope {
+  readonly officeKey: string;
+  readonly title: string;
+  readonly jurisdictionId: EntityId;
+  readonly level: PlayerOfficeLevel;
+}
+
+/**
+ * Every public office a person holds today, with the authority and place that
+ * economy projections need. This is a read-only composition of the existing
+ * governing, Congress and work records; it is not another office store.
+ */
+export function playerOfficeScope(
+  world: World,
+  personId: EntityId,
+): readonly PlayerOfficeScope[] {
+  const held = new Map<string, PlayerOfficeScope>();
+  const add = (scope: PlayerOfficeScope): void => {
+    if (!held.has(scope.officeKey)) held.set(scope.officeKey, scope);
+  };
+
+  for (const office of currentGoverningOffices(world)) {
+    if (office.holderPersonId !== personId) continue;
+    const local = localGoverningBodyIdentityForOfficeKey(office.officeKey);
+    add({
+      officeKey: office.officeKey,
+      title: office.title,
+      jurisdictionId: office.jurisdictionId,
+      level: local
+        ? local.unit.unitType === "county"
+          ? "county"
+          : "town"
+        : "state-executive",
+    });
+  }
+
+  const president = currentPresidentOf(world);
+  if (president?.personId === personId)
+    add({
+      officeKey: president.officeKey,
+      title: president.title,
+      jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+      level: "federal-executive",
+    });
+
+  const congress = projectCongress(world);
+  for (const chamber of congress ? [congress.house, congress.senate] : [])
+    for (const seat of chamber.seats)
+      if (
+        seat.occupant.kind === "member" &&
+        seat.occupant.member.personId === personId
+      )
+        add({
+          officeKey: seat.seatKey,
+          title: seat.occupant.member.title,
+          jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+          level: "congress",
+        });
+
+  for (const entry of activeWorkRelationshipsAt(world, personId)) {
+    if (
+      !OFFICE_EMPLOYMENT_KINDS.includes(entry.relationship.kind) &&
+      !entry.relationship.kind.startsWith("office:")
+    )
+      continue;
+    const officeKey = entry.relationship.stableKey;
+    const title = entry.role.title;
+    const jurisdictionId = entry.role.locationJurisdictionId;
+    if (!officeKey || !title || !jurisdictionId || held.has(officeKey))
+      continue;
+    const local = localGoverningBodyIdentityForOfficeKey(officeKey);
+    const level: PlayerOfficeLevel = local
+      ? local.unit.unitType === "county"
+        ? "county"
+        : "town"
+      : entry.relationship.kind === "employment:legislative-member"
+        ? "state-legislature"
+        : entry.relationship.kind === "employment:judicial-office"
+          ? "judicial"
+          : jurisdictionId === NATIONAL_ELECTION_JURISDICTION.id
+            ? "federal-executive"
+            : "state-executive";
+    add({ officeKey, title, jurisdictionId, level });
+  }
+
+  return [...held.values()].sort((a, b) =>
+    a.officeKey.localeCompare(b.officeKey),
+  );
+}
 
 /**
  * Every office `personId` holds today, by the key `recordOfficeConsequence`
