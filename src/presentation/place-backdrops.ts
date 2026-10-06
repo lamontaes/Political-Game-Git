@@ -396,6 +396,8 @@ const LOCATION_PLACE: Readonly<Record<string, string>> = {
 
 const LOCATION_PREFIX_PLACE: Readonly<Record<string, string>> = {
   journey: "main-street",
+  // The day the court sat on the player's own case (`courtroomLocationKey`).
+  "court-case": "county-courtroom",
   "judicial-office": "county-courtroom",
   municipal: "council-chamber",
   "municipal-notes": "council-chamber",
