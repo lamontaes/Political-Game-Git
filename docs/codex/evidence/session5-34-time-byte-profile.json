@@ -1,0 +1,8237 @@
+{
+  "sourceHead": "34dcc8b6814d64dec99e74362a4429d427b5d097",
+  "snapshotId": "snapshot_020d90140cb565cd",
+  "canonicalFileBytes": 1640898649,
+  "method": "read-only streaming byte spans; history record bodies excluding commas; no World loaded or advanced",
+  "rowDateSelection": [
+    "recordedAt string or recordedAt.date",
+    "otherwise effectiveAt",
+    "otherwise occurredAt",
+    "otherwise onDate"
+  ],
+  "storedArrayBytes": [
+    ["world", 1640339135],
+    ["world.history", 1522298241],
+    ["world.history.resourceFlowTerms", 486359472],
+    ["world.history.resourceFlows", 304452711],
+    ["world.history.resourceTransferOutcomes", 268692967],
+    ["world.history.events", 102164656],
+    ["world.history.decisionTraces", 82869753],
+    ["world.history.statutoryTaxLiabilities", 47687221],
+    ["world.history.crisisRecords", 44636402],
+    ["world.people", 42938714],
+    ["world.placeOutcomes", 39569129],
+    ["world.publicBudgets", 31903409],
+    ["world.history.futureDueItemStates", 20402246],
+    ["world.history.workPayCoverageDeterminations", 12112704],
+    ["world.history.futureDueItems", 11660890],
+    ["world.history.principles", 10595020],
+    ["world.history.organizationParticipationStates", 10328207],
+    ["world.history.householdMembershipStates", 9561857],
+    ["world.history.householdLocations", 9561505],
+    ["world.history.organizationParticipations", 9193769],
+    ["world.history.electionContests", 9021186],
+    ["world.history.districtResidenceIntervals", 8740542],
+    ["world.history.householdMemberships", 7960080],
+    ["world.history.workRoles", 7782529],
+    ["world.history.knowledge", 7214372],
+    ["world.history.households", 6868043],
+    ["world.history.constitutionalActions", 5912850],
+    ["world.history.workStatuses", 5652212],
+    ["world.history.workRelationships", 5337885],
+    ["world.history.statutoryTaxPayments", 4719112],
+    ["world.history.goalStates", 4210280],
+    ["world.history.resourcePositions", 4116047],
+    ["world.history.personalityTendencies", 3218656],
+    ["world.history.relationshipInteractions", 2463674],
+    ["world.judiciary", 2024546],
+    ["world.history.worldConditions", 1471313],
+    ["world.history.pressRecords", 1361141],
+    ["world.history.personFunctionalCapacities", 825992],
+    ["world.history.personDeaths", 778912],
+    ["world.personOrder", 742977],
+    ["world.history.legislativeActions", 675793],
+    ["world.history.workItemStates", 482112],
+    ["world.history.nationalElectionRecords", 432386],
+    ["world.history.publications", 398835],
+    ["world.history.workItems", 376203],
+    ["world.history.ruleChangeConsequenceBindings", 331725],
+    ["world.pressure", 312016],
+    ["world.history.constitutionalMeasures", 291461],
+    ["tendenciesPacking", 283732],
+    ["tendenciesPacking.strings", 283720],
+    ["world.policyCatalog", 279586],
+    ["rollCalls", 275579],
+    ["rollCalls.rosters", 275414],
+    ["world.history.legislativeMeasures", 249834],
+    ["world.history.privateBeliefs", 249679],
+    ["world.history.legislativeVotes", 232656],
+    ["world.macroEconomy", 231623],
+    ["world.history.propositionExposures", 140166],
+    ["world.history.organizationProfiles", 115039],
+    ["world.history.personalValues", 110683],
+    ["world.history.committeeReferrals", 94132],
+    ["world.history.committeeActions", 77013],
+    ["world.history.organizations", 73422],
+    ["world.jurisdictions", 24259],
+    ["world.mindCatalog", 9431],
+    ["world.history.legislativeEnactments", 9248],
+    ["world.history.executiveDispositions", 6832],
+    ["world.history.kinshipRelationships", 3269],
+    ["world.history.educationEnrollmentStates", 3091],
+    ["world.jurisdictionOrder", 2593],
+    ["world.history.educationEnrollments", 1553],
+    ["world.metricCatalog", 1362],
+    ["world.history.appraisals", 862],
+    ["world.history.childAuthorityStates", 834],
+    ["world.history.nationalElections", 833],
+    ["world.history.partyRecords", 687],
+    ["world.history.careResponsibilityStates", 624],
+    ["world.history.lifeCommitments", 599],
+    ["world.history.memories", 470],
+    ["world.history.partnershipStates", 370],
+    ["world.history.childAuthorities", 363],
+    ["world.history.partnerships", 349],
+    ["world.history.careResponsibilities", 348],
+    ["world.history.childhoodRecords", 335],
+    ["rollCalls.reasons", 142],
+    ["world.currentMoment", 92],
+    ["world.causalMechanismCatalog", 86],
+    ["world.vitalityCatalog", 86],
+    ["world.setupPriors", 83],
+    ["world.incidentCatalog", 78],
+    ["world.control", 54],
+    ["world.history.lifeLoadResolutions", 2],
+    ["world.history.earnedLawPayAssessments", 2],
+    ["world.history.resourceObligations", 2],
+    ["world.history.resourceObligationStates", 2],
+    ["world.history.dwellings", 2],
+    ["world.history.dwellingOccupancies", 2],
+    ["world.history.dwellingOccupancyStates", 2],
+    ["world.history.housingTenures", 2],
+    ["world.history.housingTenureStates", 2],
+    ["world.history.metricStates", 2],
+    ["world.history.metricObservations", 2],
+    ["world.history.causalProcesses", 2],
+    ["world.history.effectActivations", 2],
+    ["world.history.policyAlternatives", 2],
+    ["world.history.policyBaselines", 2],
+    ["world.history.policyOperations", 2],
+    ["world.history.policyImplementationProfiles", 2],
+    ["world.history.policyEstimates", 2],
+    ["world.history.policyRealizations", 2],
+    ["world.history.incidents", 2],
+    ["world.history.incidentStates", 2],
+    ["world.history.incidentTransitionPlans", 2],
+    ["world.history.mortalityCheckPlans", 2],
+    ["world.history.mortalityCheckResults", 2],
+    ["world.history.evidenceArtifacts", 2],
+    ["world.history.evidenceDiscoveries", 2],
+    ["world.history.scheduledActivities", 2],
+    ["world.history.scheduledActivityStates", 2],
+    ["world.history.claims", 2],
+    ["world.history.publicPositions", 2],
+    ["world.history.campaignCommitments", 2],
+    ["world.history.subjectKnowledge", 2],
+    ["world.history.perceptions", 2],
+    ["world.history.temporaryStates", 2]
+  ],
+  "bodyGroups": [
+    {
+      "family": "resourceFlows",
+      "groups": [
+        {
+          "kind": "custom:historical-office-summary",
+          "count": 385931,
+          "recordBodyBytes": 287346347,
+          "distinctDatedFields": 60
+        },
+        {
+          "kind": "compensation:work",
+          "count": 10041,
+          "recordBodyBytes": 10274360,
+          "distinctDatedFields": 8
+        },
+        {
+          "kind": "custom:tax-withholding",
+          "count": 10529,
+          "recordBodyBytes": 6337051,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "compensation:wages",
+          "count": 46,
+          "recordBodyBytes": 66269,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "custom:business-revenue",
+          "count": 15,
+          "recordBodyBytes": 22121,
+          "distinctDatedFields": 1
+        }
+      ]
+    },
+    {
+      "family": "resourceFlowTerms",
+      "groups": [
+        {
+          "kind": "ended",
+          "count": 385931,
+          "recordBodyBytes": 251777422,
+          "distinctDatedFields": 75
+        },
+        {
+          "kind": "active",
+          "count": 406563,
+          "recordBodyBytes": 233789555,
+          "distinctDatedFields": 80
+        }
+      ]
+    },
+    {
+      "family": "resourceTransferOutcomes",
+      "groups": [
+        {
+          "kind": "completed",
+          "count": 402961,
+          "recordBodyBytes": 268290005,
+          "distinctDatedFields": 77
+        }
+      ]
+    },
+    {
+      "family": "events",
+      "groups": [
+        {
+          "kind": "life.fictional-candidate-residence-background",
+          "count": 17216,
+          "recordBodyBytes": 17077361,
+          "distinctDatedFields": 288
+        },
+        {
+          "kind": "election.state-legislative-candidate-slate",
+          "count": 15288,
+          "recordBodyBytes": 16819001,
+          "distinctDatedFields": 316
+        },
+        {
+          "kind": "election.state-legislative-candidacy-intent",
+          "count": 15288,
+          "recordBodyBytes": 16335369,
+          "distinctDatedFields": 316
+        },
+        {
+          "kind": "election.party-nomination",
+          "count": 12404,
+          "recordBodyBytes": 13647853,
+          "distinctDatedFields": 49
+        },
+        {
+          "kind": "election.state-legislative-recruitment",
+          "count": 10382,
+          "recordBodyBytes": 10275233,
+          "distinctDatedFields": 312
+        },
+        {
+          "kind": "life.goal-call",
+          "count": 5240,
+          "recordBodyBytes": 4321170,
+          "distinctDatedFields": 230
+        },
+        {
+          "kind": "election.state-legislative-seat-vacancy",
+          "count": 3162,
+          "recordBodyBytes": 2820635,
+          "distinctDatedFields": 7
+        },
+        {
+          "kind": "law.effect-reached-town",
+          "count": 972,
+          "recordBodyBytes": 2530173,
+          "distinctDatedFields": 56
+        },
+        {
+          "kind": "election.state-legislative-general-results",
+          "count": 100,
+          "recordBodyBytes": 2219788,
+          "distinctDatedFields": 5
+        },
+        {
+          "kind": "election.state-legislative-primary-entry",
+          "count": 1945,
+          "recordBodyBytes": 2070618,
+          "distinctDatedFields": 191
+        },
+        {
+          "kind": "world.legislative-seat-tenure",
+          "count": 1518,
+          "recordBodyBytes": 1635335,
+          "distinctDatedFields": 35
+        },
+        {
+          "kind": "person.capacity-changed",
+          "count": 1610,
+          "recordBodyBytes": 1180050,
+          "distinctDatedFields": 921
+        },
+        {
+          "kind": "election.congress-recruitment",
+          "count": 1344,
+          "recordBodyBytes": 1163993,
+          "distinctDatedFields": 137
+        },
+        {
+          "kind": "person.died",
+          "count": 1528,
+          "recordBodyBytes": 1070714,
+          "distinctDatedFields": 880
+        },
+        {
+          "kind": "health.episode-began",
+          "count": 1586,
+          "recordBodyBytes": 1057477,
+          "distinctDatedFields": 911
+        },
+        {
+          "kind": "election.congress-candidate-slate",
+          "count": 1019,
+          "recordBodyBytes": 1033011,
+          "distinctDatedFields": 137
+        },
+        {
+          "kind": "election.congress-candidacy-intent",
+          "count": 1019,
+          "recordBodyBytes": 923721,
+          "distinctDatedFields": 137
+        },
+        {
+          "kind": "world.legislative-seat-vacancy",
+          "count": 824,
+          "recordBodyBytes": 694057,
+          "distinctDatedFields": 16
+        },
+        {
+          "kind": "press.story-published",
+          "count": 429,
+          "recordBodyBytes": 526775,
+          "distinctDatedFields": 69
+        },
+        {
+          "kind": "civic.official-funeral",
+          "count": 16,
+          "recordBodyBytes": 498813,
+          "distinctDatedFields": 16
+        },
+        {
+          "kind": "world.state-legislature-opening",
+          "count": 50,
+          "recordBodyBytes": 479391,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "work.item-ready-for-review",
+          "count": 431,
+          "recordBodyBytes": 425742,
+          "distinctDatedFields": 118
+        },
+        {
+          "kind": "constitution.process-action",
+          "count": 405,
+          "recordBodyBytes": 319972,
+          "distinctDatedFields": 5
+        },
+        {
+          "kind": "press.response-requested",
+          "count": 236,
+          "recordBodyBytes": 318126,
+          "distinctDatedFields": 73
+        },
+        {
+          "kind": "legislation.measure-introduced",
+          "count": 275,
+          "recordBodyBytes": 274675,
+          "distinctDatedFields": 10
+        },
+        {
+          "kind": "legislation.measure-referred",
+          "count": 273,
+          "recordBodyBytes": 243919,
+          "distinctDatedFields": 13
+        },
+        {
+          "kind": "election.congress-primary-entry",
+          "count": 233,
+          "recordBodyBytes": 214750,
+          "distinctDatedFields": 110
+        },
+        {
+          "kind": "legislation.committee-hearing",
+          "count": 265,
+          "recordBodyBytes": 213534,
+          "distinctDatedFields": 12
+        },
+        {
+          "kind": "governing.matter-opened",
+          "count": 165,
+          "recordBodyBytes": 209409,
+          "distinctDatedFields": 6
+        },
+        {
+          "kind": "crime.offense-reported",
+          "count": 246,
+          "recordBodyBytes": 194655,
+          "distinctDatedFields": 232
+        },
+        {
+          "kind": "legislation.committee-not-reported",
+          "count": 138,
+          "recordBodyBytes": 126324,
+          "distinctDatedFields": 10
+        },
+        {
+          "kind": "legislation.member-filing-limit-not-applied",
+          "count": 80,
+          "recordBodyBytes": 94810,
+          "distinctDatedFields": 9
+        },
+        {
+          "kind": "governing.article-v-convention-application",
+          "count": 128,
+          "recordBodyBytes": 93319,
+          "distinctDatedFields": 2
+        },
+        {
+          "kind": "economy.release-published",
+          "count": 127,
+          "recordBodyBytes": 85057,
+          "distinctDatedFields": 60
+        },
+        {
+          "kind": "governing.outcome",
+          "count": 113,
+          "recordBodyBytes": 71954,
+          "distinctDatedFields": 9
+        },
+        {
+          "kind": "election.party-candidate-named",
+          "count": 79,
+          "recordBodyBytes": 60644,
+          "distinctDatedFields": 5
+        },
+        {
+          "kind": "world.office-tenure",
+          "count": 65,
+          "recordBodyBytes": 60146,
+          "distinctDatedFields": 2
+        },
+        {
+          "kind": "economy.policy-rate-decided",
+          "count": 40,
+          "recordBodyBytes": 57637,
+          "distinctDatedFields": 40
+        },
+        {
+          "kind": "legislation.committee-reported",
+          "count": 61,
+          "recordBodyBytes": 57349,
+          "distinctDatedFields": 6
+        },
+        {
+          "kind": "legislation.floor-stage-passed",
+          "count": 61,
+          "recordBodyBytes": 53669,
+          "distinctDatedFields": 6
+        },
+        {
+          "kind": "legislation.placed-on-calendar",
+          "count": 61,
+          "recordBodyBytes": 50310,
+          "distinctDatedFields": 6
+        },
+        {
+          "kind": "simulation.minutes-advanced",
+          "count": 61,
+          "recordBodyBytes": 46690,
+          "distinctDatedFields": 61
+        },
+        {
+          "kind": "election.congress-general-results",
+          "count": 2,
+          "recordBodyBytes": 42449,
+          "distinctDatedFields": 2
+        },
+        {
+          "kind": "election.governor-candidacy-intent",
+          "count": 54,
+          "recordBodyBytes": 41546,
+          "distinctDatedFields": 5
+        },
+        {
+          "kind": "legislation.measure-died",
+          "count": 45,
+          "recordBodyBytes": 34882,
+          "distinctDatedFields": 8
+        },
+        {
+          "kind": "life.family-time",
+          "count": 36,
+          "recordBodyBytes": 31324,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "legislation.measure-transmitted",
+          "count": 35,
+          "recordBodyBytes": 27523,
+          "distinctDatedFields": 4
+        },
+        {
+          "kind": "world.house-delegate-tenure",
+          "count": 23,
+          "recordBodyBytes": 21848,
+          "distinctDatedFields": 4
+        },
+        {
+          "kind": "governing.matter-decided",
+          "count": 23,
+          "recordBodyBytes": 21261,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "legislation.measure-signed",
+          "count": 23,
+          "recordBodyBytes": 20683,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "legislation.measure-presented",
+          "count": 26,
+          "recordBodyBytes": 19374,
+          "distinctDatedFields": 2
+        },
+        {
+          "kind": "legislation.measure-enrolled",
+          "count": 26,
+          "recordBodyBytes": 19296,
+          "distinctDatedFields": 2
+        },
+        {
+          "kind": "legislation.measure-enacted",
+          "count": 23,
+          "recordBodyBytes": 18367,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "epidemic.illness-caught",
+          "count": 20,
+          "recordBodyBytes": 16755,
+          "distinctDatedFields": 20
+        },
+        {
+          "kind": "economy.central-bank-appointed",
+          "count": 20,
+          "recordBodyBytes": 16640,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "governing.office-continuity",
+          "count": 16,
+          "recordBodyBytes": 15500,
+          "distinctDatedFields": 16
+        },
+        {
+          "kind": "crisis.officeholder-died",
+          "count": 16,
+          "recordBodyBytes": 12974,
+          "distinctDatedFields": 16
+        },
+        {
+          "kind": "press.reporter-joined-outlet",
+          "count": 9,
+          "recordBodyBytes": 9288,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "life.work-routine",
+          "count": 5,
+          "recordBodyBytes": 3995,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "migration.state-flows",
+          "count": 5,
+          "recordBodyBytes": 3612,
+          "distinctDatedFields": 5
+        },
+        {
+          "kind": "crisis.disaster-recovery-reviewed",
+          "count": 4,
+          "recordBodyBytes": 2725,
+          "distinctDatedFields": 4
+        },
+        {
+          "kind": "crisis.disaster-local-response",
+          "count": 4,
+          "recordBodyBytes": 2724,
+          "distinctDatedFields": 4
+        },
+        {
+          "kind": "crisis.hazard-occurred",
+          "count": 4,
+          "recordBodyBytes": 2517,
+          "distinctDatedFields": 4
+        },
+        {
+          "kind": "governing.repair-funding",
+          "count": 2,
+          "recordBodyBytes": 2130,
+          "distinctDatedFields": 2
+        },
+        {
+          "kind": "election.national-office-entered",
+          "count": 2,
+          "recordBodyBytes": 1798,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "election.presidential-nomination",
+          "count": 2,
+          "recordBodyBytes": 1715,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "crisis.disaster-reaction-settled",
+          "count": 2,
+          "recordBodyBytes": 1682,
+          "distinctDatedFields": 2
+        },
+        {
+          "kind": "crisis.disaster-federal-request",
+          "count": 2,
+          "recordBodyBytes": 1610,
+          "distinctDatedFields": 2
+        },
+        {
+          "kind": "governing.supreme-court-vacancy",
+          "count": 2,
+          "recordBodyBytes": 1385,
+          "distinctDatedFields": 2
+        },
+        {
+          "kind": "crisis.disaster-request-undecided",
+          "count": 2,
+          "recordBodyBytes": 1380,
+          "distinctDatedFields": 2
+        },
+        {
+          "kind": "crisis.disaster-no-federal-request",
+          "count": 2,
+          "recordBodyBytes": 1372,
+          "distinctDatedFields": 2
+        },
+        {
+          "kind": "economy.recession-began",
+          "count": 1,
+          "recordBodyBytes": 1315,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "life.death-learned",
+          "count": 1,
+          "recordBodyBytes": 1068,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "civic.official-lay-in-state",
+          "count": 1,
+          "recordBodyBytes": 947,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "world.municipal-council-opening",
+          "count": 1,
+          "recordBodyBytes": 941,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "municipal.government-recognized",
+          "count": 1,
+          "recordBodyBytes": 929,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "world.created",
+          "count": 1,
+          "recordBodyBytes": 900,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "life.scene.arrived",
+          "count": 1,
+          "recordBodyBytes": 874,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "election.presidential-electoral-count",
+          "count": 1,
+          "recordBodyBytes": 853,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "life.lunch-table-choice",
+          "count": 1,
+          "recordBodyBytes": 835,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "election.presidential-popular-vote",
+          "count": 1,
+          "recordBodyBytes": 830,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "life.household-move",
+          "count": 1,
+          "recordBodyBytes": 825,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "life.teacher-guidance",
+          "count": 1,
+          "recordBodyBytes": 816,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "life.family-member-added",
+          "count": 1,
+          "recordBodyBytes": 768,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "setup.living-world-opening",
+          "count": 1,
+          "recordBodyBytes": 758,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "life.future-preparation",
+          "count": 1,
+          "recordBodyBytes": 747,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "economy.recession-ended",
+          "count": 1,
+          "recordBodyBytes": 725,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "life.civic-volunteering",
+          "count": 1,
+          "recordBodyBytes": 719,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "life.teen-work",
+          "count": 1,
+          "recordBodyBytes": 693,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "setup.party-governing-bodies",
+          "count": 1,
+          "recordBodyBytes": 591,
+          "distinctDatedFields": 1
+        }
+      ]
+    },
+    {
+      "family": "decisionTraces",
+      "groups": [
+        {
+          "kind": "unclassified",
+          "count": 28706,
+          "recordBodyBytes": 82841046,
+          "distinctDatedFields": 491
+        }
+      ]
+    },
+    {
+      "family": "crisisRecords",
+      "groups": [
+        {
+          "kind": "health-coverage",
+          "count": 14383,
+          "recordBodyBytes": 17927112,
+          "distinctDatedFields": 55
+        },
+        {
+          "kind": "health-state",
+          "count": 18495,
+          "recordBodyBytes": 9855770,
+          "distinctDatedFields": 1519
+        },
+        {
+          "kind": "health-episode",
+          "count": 12757,
+          "recordBodyBytes": 9382848,
+          "distinctDatedFields": 928
+        },
+        {
+          "kind": "health-disclosure",
+          "count": 12757,
+          "recordBodyBytes": 6617549,
+          "distinctDatedFields": 928
+        },
+        {
+          "kind": "mortality-window",
+          "count": 20,
+          "recordBodyBytes": 752819,
+          "distinctDatedFields": 20
+        },
+        {
+          "kind": "disaster-damage",
+          "count": 28,
+          "recordBodyBytes": 16362,
+          "distinctDatedFields": 3
+        },
+        {
+          "kind": "official-continuity",
+          "count": 16,
+          "recordBodyBytes": 10578,
+          "distinctDatedFields": 16
+        },
+        {
+          "kind": "disaster-response",
+          "count": 14,
+          "recordBodyBytes": 8500,
+          "distinctDatedFields": 14
+        },
+        {
+          "kind": "hazard-episode",
+          "count": 4,
+          "recordBodyBytes": 2793,
+          "distinctDatedFields": 4
+        },
+        {
+          "kind": "disaster-assessment",
+          "count": 4,
+          "recordBodyBytes": 2552,
+          "distinctDatedFields": 4
+        },
+        {
+          "kind": "repair-progress",
+          "count": 2,
+          "recordBodyBytes": 1038,
+          "distinctDatedFields": 2
+        }
+      ]
+    },
+    {
+      "family": "statutoryTaxLiabilities",
+      "groups": [
+        {
+          "kind": "rule-unknown",
+          "count": 51387,
+          "recordBodyBytes": 34673986,
+          "distinctDatedFields": 61
+        },
+        {
+          "kind": "assessed",
+          "count": 13322,
+          "recordBodyBytes": 11569969,
+          "distinctDatedFields": 1
+        },
+        {
+          "kind": "not-imposed",
+          "count": 1773,
+          "recordBodyBytes": 1285929,
+          "distinctDatedFields": 61
+        },
+        {
+          "kind": "base-unknown",
+          "count": 129,
+          "recordBodyBytes": 90725,
+          "distinctDatedFields": 61
+        }
+      ]
+    }
+  ],
+  "dailyRecordedOrEffectiveBodyBytes": {
+    "2021-01-01": {
+      "recordBodyBytes": 28629499,
+      "rows": 38621
+    },
+    "2025-01-20": {
+      "recordBodyBytes": 58371,
+      "rows": 52
+    },
+    "2021-01-06": {
+      "recordBodyBytes": 61088,
+      "rows": 68
+    },
+    "2021-01-07": {
+      "recordBodyBytes": 71023,
+      "rows": 86
+    },
+    "2021-01-08": {
+      "recordBodyBytes": 136195,
+      "rows": 169
+    },
+    "2021-01-09": {
+      "recordBodyBytes": 68446,
+      "rows": 78
+    },
+    "2021-01-10": {
+      "recordBodyBytes": 65026,
+      "rows": 74
+    },
+    "2021-01-11": {
+      "recordBodyBytes": 72953,
+      "rows": 86
+    },
+    "2021-01-12": {
+      "recordBodyBytes": 76044,
+      "rows": 94
+    },
+    "2021-01-13": {
+      "recordBodyBytes": 66454,
+      "rows": 76
+    },
+    "2021-01-14": {
+      "recordBodyBytes": 69900,
+      "rows": 79
+    },
+    "2021-01-15": {
+      "recordBodyBytes": 79810,
+      "rows": 101
+    },
+    "2021-01-16": {
+      "recordBodyBytes": 64845,
+      "rows": 72
+    },
+    "2021-01-17": {
+      "recordBodyBytes": 72146,
+      "rows": 81
+    },
+    "2021-01-18": {
+      "recordBodyBytes": 64070,
+      "rows": 71
+    },
+    "2021-01-19": {
+      "recordBodyBytes": 69717,
+      "rows": 86
+    },
+    "2021-01-20": {
+      "recordBodyBytes": 55675,
+      "rows": 58
+    },
+    "2021-01-21": {
+      "recordBodyBytes": 64288,
+      "rows": 72
+    },
+    "2021-01-22": {
+      "recordBodyBytes": 79081,
+      "rows": 96
+    },
+    "2021-01-23": {
+      "recordBodyBytes": 63913,
+      "rows": 72
+    },
+    "2021-01-24": {
+      "recordBodyBytes": 71936,
+      "rows": 74
+    },
+    "2021-01-25": {
+      "recordBodyBytes": 67555,
+      "rows": 75
+    },
+    "2021-01-26": {
+      "recordBodyBytes": 166498,
+      "rows": 262
+    },
+    "2021-01-27": {
+      "recordBodyBytes": 51799,
+      "rows": 53
+    },
+    "2021-01-28": {
+      "recordBodyBytes": 51378,
+      "rows": 56
+    },
+    "2021-01-29": {
+      "recordBodyBytes": 13971933,
+      "rows": 22233
+    },
+    "2021-01-30": {
+      "recordBodyBytes": 46159,
+      "rows": 46
+    },
+    "2021-01-31": {
+      "recordBodyBytes": 64582,
+      "rows": 68
+    },
+    "2021-02-01": {
+      "recordBodyBytes": 1658308,
+      "rows": 388
+    },
+    "2021-02-02": {
+      "recordBodyBytes": 194065,
+      "rows": 317
+    },
+    "2021-02-03": {
+      "recordBodyBytes": 55103,
+      "rows": 52
+    },
+    "2021-02-04": {
+      "recordBodyBytes": 61430,
+      "rows": 58
+    },
+    "2021-02-05": {
+      "recordBodyBytes": 5771991,
+      "rows": 7751
+    },
+    "2021-02-06": {
+      "recordBodyBytes": 47192,
+      "rows": 49
+    },
+    "2021-02-07": {
+      "recordBodyBytes": 43437,
+      "rows": 43
+    },
+    "2021-02-08": {
+      "recordBodyBytes": 51542,
+      "rows": 58
+    },
+    "2021-02-09": {
+      "recordBodyBytes": 42434,
+      "rows": 38
+    },
+    "2021-02-10": {
+      "recordBodyBytes": 42547,
+      "rows": 40
+    },
+    "2021-02-11": {
+      "recordBodyBytes": 43705,
+      "rows": 44
+    },
+    "2021-02-12": {
+      "recordBodyBytes": 56714,
+      "rows": 69
+    },
+    "2021-02-13": {
+      "recordBodyBytes": 47983,
+      "rows": 50
+    },
+    "2021-02-14": {
+      "recordBodyBytes": 49518,
+      "rows": 52
+    },
+    "2021-02-15": {
+      "recordBodyBytes": 297259,
+      "rows": 521
+    },
+    "2021-02-16": {
+      "recordBodyBytes": 457956,
+      "rows": 228
+    },
+    "2021-02-17": {
+      "recordBodyBytes": 48930,
+      "rows": 48
+    },
+    "2021-02-18": {
+      "recordBodyBytes": 238440,
+      "rows": 396
+    },
+    "2021-02-19": {
+      "recordBodyBytes": 73418,
+      "rows": 83
+    },
+    "2021-02-20": {
+      "recordBodyBytes": 50480,
+      "rows": 53
+    },
+    "2021-02-21": {
+      "recordBodyBytes": 156602,
+      "rows": 319
+    },
+    "2021-02-22": {
+      "recordBodyBytes": 43718,
+      "rows": 42
+    },
+    "2021-02-23": {
+      "recordBodyBytes": 51037,
+      "rows": 46
+    },
+    "2021-02-24": {
+      "recordBodyBytes": 58655,
+      "rows": 54
+    },
+    "2021-02-25": {
+      "recordBodyBytes": 43336,
+      "rows": 40
+    },
+    "2021-02-26": {
+      "recordBodyBytes": 13963476,
+      "rows": 22208
+    },
+    "2021-02-27": {
+      "recordBodyBytes": 44653,
+      "rows": 42
+    },
+    "2021-02-28": {
+      "recordBodyBytes": 199305,
+      "rows": 310
+    },
+    "2021-03-01": {
+      "recordBodyBytes": 232556,
+      "rows": 355
+    },
+    "2021-03-02": {
+      "recordBodyBytes": 52229,
+      "rows": 53
+    },
+    "2021-03-03": {
+      "recordBodyBytes": 45185,
+      "rows": 44
+    },
+    "2021-03-04": {
+      "recordBodyBytes": 108255,
+      "rows": 157
+    },
+    "2021-03-05": {
+      "recordBodyBytes": 5632675,
+      "rows": 7572
+    },
+    "2021-03-06": {
+      "recordBodyBytes": 91878,
+      "rows": 92
+    },
+    "2021-09-03": {
+      "recordBodyBytes": 5606817,
+      "rows": 7563
+    },
+    "2021-11-01": {
+      "recordBodyBytes": 3275318,
+      "rows": 2810
+    },
+    "2021-11-16": {
+      "recordBodyBytes": 1282662,
+      "rows": 1265
+    },
+    "2021-12-06": {
+      "recordBodyBytes": 1931653,
+      "rows": 1729
+    },
+    "2021-12-24": {
+      "recordBodyBytes": 1646280,
+      "rows": 1491
+    },
+    "2022-01-01": {
+      "recordBodyBytes": 841255,
+      "rows": 1381
+    },
+    "2022-01-06": {
+      "recordBodyBytes": 1311754,
+      "rows": 1166
+    },
+    "2022-01-07": {
+      "recordBodyBytes": 9227267,
+      "rows": 10800
+    },
+    "2022-01-08": {
+      "recordBodyBytes": 1360195,
+      "rows": 1216
+    },
+    "2022-01-09": {
+      "recordBodyBytes": 1290971,
+      "rows": 1183
+    },
+    "2022-01-10": {
+      "recordBodyBytes": 1270004,
+      "rows": 1133
+    },
+    "2022-01-11": {
+      "recordBodyBytes": 1358970,
+      "rows": 1210
+    },
+    "2022-01-12": {
+      "recordBodyBytes": 1362014,
+      "rows": 1230
+    },
+    "2022-01-13": {
+      "recordBodyBytes": 1298836,
+      "rows": 1162
+    },
+    "2022-01-14": {
+      "recordBodyBytes": 1441209,
+      "rows": 1390
+    },
+    "2022-01-15": {
+      "recordBodyBytes": 3498357,
+      "rows": 2932
+    },
+    "2022-01-16": {
+      "recordBodyBytes": 1314914,
+      "rows": 1187
+    },
+    "2022-01-17": {
+      "recordBodyBytes": 1214070,
+      "rows": 1099
+    },
+    "2022-01-18": {
+      "recordBodyBytes": 1220463,
+      "rows": 1111
+    },
+    "2022-01-19": {
+      "recordBodyBytes": 1290794,
+      "rows": 1146
+    },
+    "2022-01-20": {
+      "recordBodyBytes": 1158555,
+      "rows": 1035
+    },
+    "2022-01-21": {
+      "recordBodyBytes": 1421650,
+      "rows": 1162
+    },
+    "2022-01-22": {
+      "recordBodyBytes": 1180737,
+      "rows": 1052
+    },
+    "2022-01-23": {
+      "recordBodyBytes": 1134479,
+      "rows": 1021
+    },
+    "2022-01-24": {
+      "recordBodyBytes": 1166722,
+      "rows": 1062
+    },
+    "2022-01-25": {
+      "recordBodyBytes": 1174395,
+      "rows": 1064
+    },
+    "2022-01-26": {
+      "recordBodyBytes": 1057972,
+      "rows": 940
+    },
+    "2022-01-27": {
+      "recordBodyBytes": 1120402,
+      "rows": 1023
+    },
+    "2022-01-28": {
+      "recordBodyBytes": 16440775,
+      "rows": 24387
+    },
+    "2022-01-29": {
+      "recordBodyBytes": 1672497,
+      "rows": 1502
+    },
+    "2022-01-30": {
+      "recordBodyBytes": 1048113,
+      "rows": 950
+    },
+    "2022-01-31": {
+      "recordBodyBytes": 1016474,
+      "rows": 903
+    },
+    "2022-02-01": {
+      "recordBodyBytes": 2675376,
+      "rows": 1311
+    },
+    "2022-02-02": {
+      "recordBodyBytes": 2106194,
+      "rows": 1772
+    },
+    "2022-02-03": {
+      "recordBodyBytes": 998792,
+      "rows": 907
+    },
+    "2022-02-04": {
+      "recordBodyBytes": 7226288,
+      "rows": 9030
+    },
+    "2022-02-05": {
+      "recordBodyBytes": 997018,
+      "rows": 908
+    },
+    "2022-02-06": {
+      "recordBodyBytes": 888873,
+      "rows": 773
+    },
+    "2022-02-07": {
+      "recordBodyBytes": 906860,
+      "rows": 798
+    },
+    "2022-02-08": {
+      "recordBodyBytes": 1321162,
+      "rows": 1204
+    },
+    "2022-02-09": {
+      "recordBodyBytes": 886254,
+      "rows": 789
+    },
+    "2022-02-10": {
+      "recordBodyBytes": 847367,
+      "rows": 744
+    },
+    "2022-02-11": {
+      "recordBodyBytes": 910045,
+      "rows": 838
+    },
+    "2022-02-12": {
+      "recordBodyBytes": 924717,
+      "rows": 845
+    },
+    "2022-02-13": {
+      "recordBodyBytes": 911646,
+      "rows": 810
+    },
+    "2022-02-14": {
+      "recordBodyBytes": 867302,
+      "rows": 760
+    },
+    "2022-02-15": {
+      "recordBodyBytes": 6069014,
+      "rows": 5076
+    },
+    "2022-02-16": {
+      "recordBodyBytes": 898279,
+      "rows": 797
+    },
+    "2022-02-17": {
+      "recordBodyBytes": 892801,
+      "rows": 797
+    },
+    "2022-02-18": {
+      "recordBodyBytes": 1340748,
+      "rows": 989
+    },
+    "2022-02-19": {
+      "recordBodyBytes": 905527,
+      "rows": 825
+    },
+    "2022-02-20": {
+      "recordBodyBytes": 869937,
+      "rows": 775
+    },
+    "2022-02-21": {
+      "recordBodyBytes": 931055,
+      "rows": 849
+    },
+    "2022-02-22": {
+      "recordBodyBytes": 852338,
+      "rows": 767
+    },
+    "2022-02-23": {
+      "recordBodyBytes": 817140,
+      "rows": 737
+    },
+    "2022-02-24": {
+      "recordBodyBytes": 902620,
+      "rows": 835
+    },
+    "2022-02-25": {
+      "recordBodyBytes": 14828179,
+      "rows": 22985
+    },
+    "2022-02-26": {
+      "recordBodyBytes": 830938,
+      "rows": 749
+    },
+    "2022-02-27": {
+      "recordBodyBytes": 811235,
+      "rows": 730
+    },
+    "2022-02-28": {
+      "recordBodyBytes": 846814,
+      "rows": 770
+    },
+    "2022-03-01": {
+      "recordBodyBytes": 1220576,
+      "rows": 1110
+    },
+    "2022-03-02": {
+      "recordBodyBytes": 800485,
+      "rows": 726
+    },
+    "2022-03-03": {
+      "recordBodyBytes": 725851,
+      "rows": 643
+    },
+    "2022-03-04": {
+      "recordBodyBytes": 6440884,
+      "rows": 8367
+    },
+    "2022-03-05": {
+      "recordBodyBytes": 708620,
+      "rows": 617
+    },
+    "2022-03-06": {
+      "recordBodyBytes": 760633,
+      "rows": 696
+    },
+    "2022-09-09": {
+      "recordBodyBytes": 417448,
+      "rows": 603
+    },
+    "2023-01-01": {
+      "recordBodyBytes": 3659002,
+      "rows": 5499
+    },
+    "2023-01-05": {
+      "recordBodyBytes": 57027,
+      "rows": 109
+    },
+    "2023-01-06": {
+      "recordBodyBytes": 7132375,
+      "rows": 9578
+    },
+    "2023-01-07": {
+      "recordBodyBytes": 102506,
+      "rows": 95
+    },
+    "2023-01-08": {
+      "recordBodyBytes": 110927,
+      "rows": 129
+    },
+    "2023-01-09": {
+      "recordBodyBytes": 142806,
+      "rows": 148
+    },
+    "2023-01-10": {
+      "recordBodyBytes": 96031,
+      "rows": 90
+    },
+    "2023-01-11": {
+      "recordBodyBytes": 80574,
+      "rows": 71
+    },
+    "2023-01-12": {
+      "recordBodyBytes": 105747,
+      "rows": 108
+    },
+    "2023-01-14": {
+      "recordBodyBytes": 107685,
+      "rows": 118
+    },
+    "2023-01-15": {
+      "recordBodyBytes": 819925,
+      "rows": 667
+    },
+    "2023-01-16": {
+      "recordBodyBytes": 97667,
+      "rows": 109
+    },
+    "2023-01-17": {
+      "recordBodyBytes": 86554,
+      "rows": 78
+    },
+    "2023-01-18": {
+      "recordBodyBytes": 945902,
+      "rows": 946
+    },
+    "2023-01-19": {
+      "recordBodyBytes": 83963,
+      "rows": 95
+    },
+    "2023-01-20": {
+      "recordBodyBytes": 170598,
+      "rows": 103
+    },
+    "2023-01-21": {
+      "recordBodyBytes": 53533,
+      "rows": 46
+    },
+    "2023-01-22": {
+      "recordBodyBytes": 84674,
+      "rows": 84
+    },
+    "2023-01-23": {
+      "recordBodyBytes": 83159,
+      "rows": 76
+    },
+    "2023-01-24": {
+      "recordBodyBytes": 61456,
+      "rows": 58
+    },
+    "2023-01-25": {
+      "recordBodyBytes": 60777,
+      "rows": 50
+    },
+    "2023-01-26": {
+      "recordBodyBytes": 55494,
+      "rows": 54
+    },
+    "2023-01-27": {
+      "recordBodyBytes": 10500032,
+      "rows": 16635
+    },
+    "2023-01-28": {
+      "recordBodyBytes": 59247,
+      "rows": 61
+    },
+    "2023-01-29": {
+      "recordBodyBytes": 65486,
+      "rows": 76
+    },
+    "2023-01-30": {
+      "recordBodyBytes": 63714,
+      "rows": 60
+    },
+    "2023-01-31": {
+      "recordBodyBytes": 50106,
+      "rows": 35
+    },
+    "2023-02-01": {
+      "recordBodyBytes": 1199739,
+      "rows": 354
+    },
+    "2023-02-02": {
+      "recordBodyBytes": 61725,
+      "rows": 61
+    },
+    "2023-02-03": {
+      "recordBodyBytes": 4313933,
+      "rows": 5790
+    },
+    "2023-02-04": {
+      "recordBodyBytes": 136260,
+      "rows": 129
+    },
+    "2023-02-05": {
+      "recordBodyBytes": 54559,
+      "rows": 56
+    },
+    "2023-02-06": {
+      "recordBodyBytes": 47940,
+      "rows": 42
+    },
+    "2023-02-07": {
+      "recordBodyBytes": 50031,
+      "rows": 45
+    },
+    "2023-02-08": {
+      "recordBodyBytes": 39927,
+      "rows": 28
+    },
+    "2023-02-09": {
+      "recordBodyBytes": 68811,
+      "rows": 67
+    },
+    "2023-02-10": {
+      "recordBodyBytes": 67439,
+      "rows": 78
+    },
+    "2023-02-11": {
+      "recordBodyBytes": 40628,
+      "rows": 30
+    },
+    "2023-02-12": {
+      "recordBodyBytes": 62509,
+      "rows": 59
+    },
+    "2023-02-13": {
+      "recordBodyBytes": 76701,
+      "rows": 82
+    },
+    "2023-02-14": {
+      "recordBodyBytes": 74619,
+      "rows": 80
+    },
+    "2023-02-15": {
+      "recordBodyBytes": 484034,
+      "rows": 504
+    },
+    "2023-02-16": {
+      "recordBodyBytes": 109923,
+      "rows": 77
+    },
+    "2023-02-17": {
+      "recordBodyBytes": 107039,
+      "rows": 80
+    },
+    "2023-02-18": {
+      "recordBodyBytes": 74356,
+      "rows": 88
+    },
+    "2023-02-19": {
+      "recordBodyBytes": 52907,
+      "rows": 58
+    },
+    "2023-02-20": {
+      "recordBodyBytes": 58230,
+      "rows": 51
+    },
+    "2023-02-21": {
+      "recordBodyBytes": 70338,
+      "rows": 92
+    },
+    "2023-02-22": {
+      "recordBodyBytes": 79338,
+      "rows": 92
+    },
+    "2023-02-23": {
+      "recordBodyBytes": 63429,
+      "rows": 61
+    },
+    "2023-02-24": {
+      "recordBodyBytes": 10366014,
+      "rows": 16447
+    },
+    "2023-02-25": {
+      "recordBodyBytes": 35154,
+      "rows": 23
+    },
+    "2023-02-26": {
+      "recordBodyBytes": 53771,
+      "rows": 50
+    },
+    "2023-02-27": {
+      "recordBodyBytes": 52173,
+      "rows": 43
+    },
+    "2023-02-28": {
+      "recordBodyBytes": 89904,
+      "rows": 107
+    },
+    "2023-03-01": {
+      "recordBodyBytes": 90813,
+      "rows": 120
+    },
+    "2023-03-02": {
+      "recordBodyBytes": 64184,
+      "rows": 60
+    },
+    "2023-03-03": {
+      "recordBodyBytes": 4363424,
+      "rows": 5866
+    },
+    "2023-03-04": {
+      "recordBodyBytes": 84472,
+      "rows": 75
+    },
+    "2023-03-06": {
+      "recordBodyBytes": 67582,
+      "rows": 64
+    },
+    "2023-09-08": {
+      "recordBodyBytes": 197173,
+      "rows": 302
+    },
+    "2023-11-06": {
+      "recordBodyBytes": 2080586,
+      "rows": 1225
+    },
+    "2023-11-14": {
+      "recordBodyBytes": 1613895,
+      "rows": 1434
+    },
+    "2023-12-08": {
+      "recordBodyBytes": 2062368,
+      "rows": 1833
+    },
+    "2023-12-11": {
+      "recordBodyBytes": 2308461,
+      "rows": 1820
+    },
+    "2023-12-20": {
+      "recordBodyBytes": 1764467,
+      "rows": 1108
+    },
+    "2023-12-22": {
+      "recordBodyBytes": 1883156,
+      "rows": 1579
+    },
+    "2023-12-26": {
+      "recordBodyBytes": 2062975,
+      "rows": 1261
+    },
+    "2023-12-29": {
+      "recordBodyBytes": 10269653,
+      "rows": 16281
+    },
+    "2024-01-01": {
+      "recordBodyBytes": 750715,
+      "rows": 1207
+    },
+    "2024-01-06": {
+      "recordBodyBytes": 1316327,
+      "rows": 1050
+    },
+    "2024-01-07": {
+      "recordBodyBytes": 1344591,
+      "rows": 1076
+    },
+    "2024-01-08": {
+      "recordBodyBytes": 1261878,
+      "rows": 1002
+    },
+    "2024-01-09": {
+      "recordBodyBytes": 1270260,
+      "rows": 1037
+    },
+    "2024-01-10": {
+      "recordBodyBytes": 1250142,
+      "rows": 995
+    },
+    "2024-01-11": {
+      "recordBodyBytes": 1285844,
+      "rows": 1042
+    },
+    "2024-01-12": {
+      "recordBodyBytes": 2715578,
+      "rows": 2016
+    },
+    "2024-01-13": {
+      "recordBodyBytes": 1240180,
+      "rows": 992
+    },
+    "2024-01-14": {
+      "recordBodyBytes": 1237584,
+      "rows": 991
+    },
+    "2024-01-15": {
+      "recordBodyBytes": 1972027,
+      "rows": 1577
+    },
+    "2024-01-16": {
+      "recordBodyBytes": 1239252,
+      "rows": 1003
+    },
+    "2024-01-17": {
+      "recordBodyBytes": 1315521,
+      "rows": 1055
+    },
+    "2024-01-18": {
+      "recordBodyBytes": 1220719,
+      "rows": 1010
+    },
+    "2024-01-19": {
+      "recordBodyBytes": 1330532,
+      "rows": 1014
+    },
+    "2024-01-20": {
+      "recordBodyBytes": 1187622,
+      "rows": 977
+    },
+    "2024-01-21": {
+      "recordBodyBytes": 1218859,
+      "rows": 988
+    },
+    "2024-01-22": {
+      "recordBodyBytes": 1174704,
+      "rows": 929
+    },
+    "2024-01-23": {
+      "recordBodyBytes": 1167839,
+      "rows": 934
+    },
+    "2024-01-24": {
+      "recordBodyBytes": 1190675,
+      "rows": 951
+    },
+    "2024-01-25": {
+      "recordBodyBytes": 1170625,
+      "rows": 955
+    },
+    "2024-01-26": {
+      "recordBodyBytes": 12392231,
+      "rows": 17866
+    },
+    "2024-01-27": {
+      "recordBodyBytes": 1079169,
+      "rows": 879
+    },
+    "2024-01-28": {
+      "recordBodyBytes": 1104209,
+      "rows": 911
+    },
+    "2024-01-29": {
+      "recordBodyBytes": 1034179,
+      "rows": 832
+    },
+    "2024-01-30": {
+      "recordBodyBytes": 1096690,
+      "rows": 898
+    },
+    "2024-01-31": {
+      "recordBodyBytes": 1043067,
+      "rows": 851
+    },
+    "2024-02-01": {
+      "recordBodyBytes": 2193958,
+      "rows": 1155
+    },
+    "2024-02-02": {
+      "recordBodyBytes": 5194465,
+      "rows": 6411
+    },
+    "2024-02-03": {
+      "recordBodyBytes": 1707365,
+      "rows": 1395
+    },
+    "2024-02-04": {
+      "recordBodyBytes": 1087405,
+      "rows": 866
+    },
+    "2024-02-05": {
+      "recordBodyBytes": 1002431,
+      "rows": 819
+    },
+    "2024-02-06": {
+      "recordBodyBytes": 1384084,
+      "rows": 1124
+    },
+    "2024-02-07": {
+      "recordBodyBytes": 928665,
+      "rows": 701
+    },
+    "2024-02-08": {
+      "recordBodyBytes": 940511,
+      "rows": 754
+    },
+    "2024-02-09": {
+      "recordBodyBytes": 1622772,
+      "rows": 1427
+    },
+    "2024-02-10": {
+      "recordBodyBytes": 903528,
+      "rows": 718
+    },
+    "2024-02-11": {
+      "recordBodyBytes": 933496,
+      "rows": 750
+    },
+    "2024-02-12": {
+      "recordBodyBytes": 930112,
+      "rows": 761
+    },
+    "2024-02-13": {
+      "recordBodyBytes": 902753,
+      "rows": 720
+    },
+    "2024-02-14": {
+      "recordBodyBytes": 866933,
+      "rows": 700
+    },
+    "2024-02-15": {
+      "recordBodyBytes": 2571387,
+      "rows": 2168
+    },
+    "2024-02-16": {
+      "recordBodyBytes": 1078876,
+      "rows": 755
+    },
+    "2024-02-17": {
+      "recordBodyBytes": 882576,
+      "rows": 737
+    },
+    "2024-02-18": {
+      "recordBodyBytes": 915400,
+      "rows": 761
+    },
+    "2024-02-19": {
+      "recordBodyBytes": 841309,
+      "rows": 676
+    },
+    "2024-02-20": {
+      "recordBodyBytes": 843073,
+      "rows": 677
+    },
+    "2024-02-21": {
+      "recordBodyBytes": 922785,
+      "rows": 801
+    },
+    "2024-02-22": {
+      "recordBodyBytes": 816041,
+      "rows": 651
+    },
+    "2024-02-23": {
+      "recordBodyBytes": 10908520,
+      "rows": 16714
+    },
+    "2024-02-24": {
+      "recordBodyBytes": 848137,
+      "rows": 668
+    },
+    "2024-02-25": {
+      "recordBodyBytes": 797584,
+      "rows": 643
+    },
+    "2024-02-26": {
+      "recordBodyBytes": 817653,
+      "rows": 658
+    },
+    "2024-02-27": {
+      "recordBodyBytes": 826432,
+      "rows": 651
+    },
+    "2024-02-28": {
+      "recordBodyBytes": 857923,
+      "rows": 754
+    },
+    "2024-02-29": {
+      "recordBodyBytes": 811185,
+      "rows": 690
+    },
+    "2024-03-01": {
+      "recordBodyBytes": 4957078,
+      "rows": 6197
+    },
+    "2024-03-02": {
+      "recordBodyBytes": 736738,
+      "rows": 600
+    },
+    "2024-03-03": {
+      "recordBodyBytes": 776745,
+      "rows": 615
+    },
+    "2024-03-04": {
+      "recordBodyBytes": 738575,
+      "rows": 579
+    },
+    "2024-03-05": {
+      "recordBodyBytes": 1481361,
+      "rows": 1284
+    },
+    "2024-09-06": {
+      "recordBodyBytes": 4256519,
+      "rows": 5779
+    },
+    "2025-01-01": {
+      "recordBodyBytes": 5678327,
+      "rows": 10221
+    },
+    "2025-01-06": {
+      "recordBodyBytes": 84475,
+      "rows": 50
+    },
+    "2025-01-07": {
+      "recordBodyBytes": 52785,
+      "rows": 41
+    },
+    "2025-01-08": {
+      "recordBodyBytes": 64137,
+      "rows": 71
+    },
+    "2025-01-09": {
+      "recordBodyBytes": 118650,
+      "rows": 156
+    },
+    "2025-01-10": {
+      "recordBodyBytes": 133250,
+      "rows": 165
+    },
+    "2025-01-11": {
+      "recordBodyBytes": 63738,
+      "rows": 60
+    },
+    "2025-01-12": {
+      "recordBodyBytes": 60636,
+      "rows": 65
+    },
+    "2025-01-13": {
+      "recordBodyBytes": 242520,
+      "rows": 362
+    },
+    "2025-01-14": {
+      "recordBodyBytes": 66058,
+      "rows": 60
+    },
+    "2025-01-15": {
+      "recordBodyBytes": 1699849,
+      "rows": 1263
+    },
+    "2025-01-16": {
+      "recordBodyBytes": 72172,
+      "rows": 64
+    },
+    "2025-01-18": {
+      "recordBodyBytes": 52680,
+      "rows": 44
+    },
+    "2025-01-21": {
+      "recordBodyBytes": 58709,
+      "rows": 49
+    },
+    "2025-01-22": {
+      "recordBodyBytes": 86149,
+      "rows": 75
+    },
+    "2025-01-23": {
+      "recordBodyBytes": 68626,
+      "rows": 71
+    },
+    "2025-01-24": {
+      "recordBodyBytes": 212844,
+      "rows": 267
+    },
+    "2025-01-25": {
+      "recordBodyBytes": 69956,
+      "rows": 56
+    },
+    "2025-01-26": {
+      "recordBodyBytes": 45333,
+      "rows": 39
+    },
+    "2025-01-27": {
+      "recordBodyBytes": 55683,
+      "rows": 48
+    },
+    "2025-01-28": {
+      "recordBodyBytes": 59815,
+      "rows": 53
+    },
+    "2025-02-01": {
+      "recordBodyBytes": 1132641,
+      "rows": 294
+    },
+    "2025-02-02": {
+      "recordBodyBytes": 57190,
+      "rows": 51
+    },
+    "2025-02-05": {
+      "recordBodyBytes": 57631,
+      "rows": 48
+    },
+    "2025-02-06": {
+      "recordBodyBytes": 48142,
+      "rows": 42
+    },
+    "2025-02-07": {
+      "recordBodyBytes": 5222042,
+      "rows": 7024
+    },
+    "2025-02-09": {
+      "recordBodyBytes": 55083,
+      "rows": 43
+    },
+    "2025-02-10": {
+      "recordBodyBytes": 50983,
+      "rows": 42
+    },
+    "2025-02-12": {
+      "recordBodyBytes": 53731,
+      "rows": 33
+    },
+    "2025-02-13": {
+      "recordBodyBytes": 46211,
+      "rows": 32
+    },
+    "2025-02-15": {
+      "recordBodyBytes": 293084,
+      "rows": 447
+    },
+    "2025-02-16": {
+      "recordBodyBytes": 341462,
+      "rows": 167
+    },
+    "2025-02-17": {
+      "recordBodyBytes": 61169,
+      "rows": 49
+    },
+    "2025-02-19": {
+      "recordBodyBytes": 50036,
+      "rows": 50
+    },
+    "2025-02-20": {
+      "recordBodyBytes": 53810,
+      "rows": 46
+    },
+    "2025-02-22": {
+      "recordBodyBytes": 55018,
+      "rows": 53
+    },
+    "2025-02-23": {
+      "recordBodyBytes": 52228,
+      "rows": 48
+    },
+    "2025-02-24": {
+      "recordBodyBytes": 48163,
+      "rows": 42
+    },
+    "2025-02-26": {
+      "recordBodyBytes": 129613,
+      "rows": 168
+    },
+    "2025-02-27": {
+      "recordBodyBytes": 64215,
+      "rows": 62
+    },
+    "2025-02-28": {
+      "recordBodyBytes": 12484053,
+      "rows": 19830
+    },
+    "2025-03-01": {
+      "recordBodyBytes": 87936,
+      "rows": 125
+    },
+    "2025-03-02": {
+      "recordBodyBytes": 46037,
+      "rows": 34
+    },
+    "2025-03-03": {
+      "recordBodyBytes": 47201,
+      "rows": 41
+    },
+    "2025-03-04": {
+      "recordBodyBytes": 41566,
+      "rows": 35
+    },
+    "2025-03-05": {
+      "recordBodyBytes": 45671,
+      "rows": 36
+    },
+    "2025-09-05": {
+      "recordBodyBytes": 5021094,
+      "rows": 6771
+    },
+    "2025-11-03": {
+      "recordBodyBytes": 1927369,
+      "rows": 1057
+    },
+    "2025-11-11": {
+      "recordBodyBytes": 1415724,
+      "rows": 1107
+    },
+    "2025-12-08": {
+      "recordBodyBytes": 2098805,
+      "rows": 1400
+    },
+    "2025-12-19": {
+      "recordBodyBytes": 1850167,
+      "rows": 1480
+    },
+    "2025-12-26": {
+      "recordBodyBytes": 8673645,
+      "rows": 13145
+    },
+    "2026-01-01": {
+      "recordBodyBytes": 434883,
+      "rows": 761
+    },
+    "2021-12-31": {
+      "recordBodyBytes": 14050422,
+      "rows": 22362
+    },
+    "2022-12-31": {
+      "recordBodyBytes": 1217718,
+      "rows": 2475
+    },
+    "2023-01-04": {
+      "recordBodyBytes": 19053,
+      "rows": 38
+    },
+    "2023-12-31": {
+      "recordBodyBytes": 92723,
+      "rows": 189
+    },
+    "2024-12-31": {
+      "recordBodyBytes": 308787,
+      "rows": 656
+    },
+    "2025-12-31": {
+      "recordBodyBytes": 96621,
+      "rows": 165
+    },
+    "2022-12-30": {
+      "recordBodyBytes": 14180648,
+      "rows": 21305
+    },
+    "2023-01-13": {
+      "recordBodyBytes": 268960,
+      "rows": 348
+    },
+    "2023-03-05": {
+      "recordBodyBytes": 46908,
+      "rows": 43
+    },
+    "2022-12-20": {
+      "recordBodyBytes": 73927,
+      "rows": 135
+    },
+    "2025-01-17": {
+      "recordBodyBytes": 251238,
+      "rows": 101
+    },
+    "2025-01-31": {
+      "recordBodyBytes": 12390484,
+      "rows": 19669
+    },
+    "2025-02-08": {
+      "recordBodyBytes": 108284,
+      "rows": 92
+    },
+    "2025-02-18": {
+      "recordBodyBytes": 171123,
+      "rows": 267
+    },
+    "2025-03-06": {
+      "recordBodyBytes": 41343,
+      "rows": 33
+    },
+    "2024-01-05": {
+      "recordBodyBytes": 4377116,
+      "rows": 5812
+    },
+    "2025-01-03": {
+      "recordBodyBytes": 9135780,
+      "rows": 12012
+    },
+    "2026-01-02": {
+      "recordBodyBytes": 11520248,
+      "rows": 13538
+    },
+    "2021-04-02": {
+      "recordBodyBytes": 5756429,
+      "rows": 7787
+    },
+    "2021-05-07": {
+      "recordBodyBytes": 5718332,
+      "rows": 7725
+    },
+    "2021-06-04": {
+      "recordBodyBytes": 5601543,
+      "rows": 7549
+    },
+    "2021-07-02": {
+      "recordBodyBytes": 5605628,
+      "rows": 7563
+    },
+    "2021-08-06": {
+      "recordBodyBytes": 5600833,
+      "rows": 7552
+    },
+    "2021-10-01": {
+      "recordBodyBytes": 5633349,
+      "rows": 7601
+    },
+    "2021-11-05": {
+      "recordBodyBytes": 5846221,
+      "rows": 8063
+    },
+    "2021-12-03": {
+      "recordBodyBytes": 5613518,
+      "rows": 7567
+    },
+    "2022-04-01": {
+      "recordBodyBytes": 12677432,
+      "rows": 19207
+    },
+    "2022-05-06": {
+      "recordBodyBytes": 5722046,
+      "rows": 7730
+    },
+    "2022-06-03": {
+      "recordBodyBytes": 5614845,
+      "rows": 7569
+    },
+    "2022-07-01": {
+      "recordBodyBytes": 5651975,
+      "rows": 7652
+    },
+    "2022-08-05": {
+      "recordBodyBytes": 5618598,
+      "rows": 7579
+    },
+    "2022-09-02": {
+      "recordBodyBytes": 5591519,
+      "rows": 7541
+    },
+    "2022-10-07": {
+      "recordBodyBytes": 5608101,
+      "rows": 7557
+    },
+    "2022-11-04": {
+      "recordBodyBytes": 5593200,
+      "rows": 7537
+    },
+    "2022-12-02": {
+      "recordBodyBytes": 5612105,
+      "rows": 7561
+    },
+    "2023-04-07": {
+      "recordBodyBytes": 4200543,
+      "rows": 5663
+    },
+    "2023-05-05": {
+      "recordBodyBytes": 4302041,
+      "rows": 5810
+    },
+    "2023-06-02": {
+      "recordBodyBytes": 4302324,
+      "rows": 5809
+    },
+    "2023-07-07": {
+      "recordBodyBytes": 4301277,
+      "rows": 5809
+    },
+    "2023-08-04": {
+      "recordBodyBytes": 4334352,
+      "rows": 5857
+    },
+    "2023-09-01": {
+      "recordBodyBytes": 4201163,
+      "rows": 5678
+    },
+    "2023-10-06": {
+      "recordBodyBytes": 4320581,
+      "rows": 5845
+    },
+    "2023-11-03": {
+      "recordBodyBytes": 4198276,
+      "rows": 5653
+    },
+    "2023-12-01": {
+      "recordBodyBytes": 4237476,
+      "rows": 5761
+    },
+    "2024-04-05": {
+      "recordBodyBytes": 4094008,
+      "rows": 5518
+    },
+    "2024-05-03": {
+      "recordBodyBytes": 4094215,
+      "rows": 5519
+    },
+    "2024-06-07": {
+      "recordBodyBytes": 4093847,
+      "rows": 5512
+    },
+    "2024-07-05": {
+      "recordBodyBytes": 4097438,
+      "rows": 5519
+    },
+    "2024-08-02": {
+      "recordBodyBytes": 4234975,
+      "rows": 5721
+    },
+    "2024-10-04": {
+      "recordBodyBytes": 4232407,
+      "rows": 5724
+    },
+    "2024-11-01": {
+      "recordBodyBytes": 4101768,
+      "rows": 5543
+    },
+    "2024-12-06": {
+      "recordBodyBytes": 4223373,
+      "rows": 5707
+    },
+    "2025-03-07": {
+      "recordBodyBytes": 5012054,
+      "rows": 6748
+    },
+    "2025-04-04": {
+      "recordBodyBytes": 5021201,
+      "rows": 6759
+    },
+    "2025-05-02": {
+      "recordBodyBytes": 5011760,
+      "rows": 6752
+    },
+    "2025-06-06": {
+      "recordBodyBytes": 5016797,
+      "rows": 6752
+    },
+    "2025-07-04": {
+      "recordBodyBytes": 5019755,
+      "rows": 6759
+    },
+    "2025-08-01": {
+      "recordBodyBytes": 5131468,
+      "rows": 6926
+    },
+    "2025-10-03": {
+      "recordBodyBytes": 5162224,
+      "rows": 6962
+    },
+    "2025-11-07": {
+      "recordBodyBytes": 5033766,
+      "rows": 6799
+    },
+    "2025-12-05": {
+      "recordBodyBytes": 5148815,
+      "rows": 6950
+    },
+    "2026-01-05": {
+      "recordBodyBytes": 65619808,
+      "rows": 103700
+    },
+    "2021-03-26": {
+      "recordBodyBytes": 13923444,
+      "rows": 22171
+    },
+    "2021-04-30": {
+      "recordBodyBytes": 13933149,
+      "rows": 22184
+    },
+    "2021-05-28": {
+      "recordBodyBytes": 13920338,
+      "rows": 22168
+    },
+    "2021-06-25": {
+      "recordBodyBytes": 14050649,
+      "rows": 22360
+    },
+    "2021-07-30": {
+      "recordBodyBytes": 13924398,
+      "rows": 22173
+    },
+    "2021-08-27": {
+      "recordBodyBytes": 14055430,
+      "rows": 22369
+    },
+    "2021-09-24": {
+      "recordBodyBytes": 13927798,
+      "rows": 22179
+    },
+    "2021-10-29": {
+      "recordBodyBytes": 14047862,
+      "rows": 22354
+    },
+    "2021-11-26": {
+      "recordBodyBytes": 13928863,
+      "rows": 22181
+    },
+    "2022-03-25": {
+      "recordBodyBytes": 13917155,
+      "rows": 22161
+    },
+    "2022-04-29": {
+      "recordBodyBytes": 13923653,
+      "rows": 22172
+    },
+    "2022-05-27": {
+      "recordBodyBytes": 13934277,
+      "rows": 22194
+    },
+    "2022-06-24": {
+      "recordBodyBytes": 14046735,
+      "rows": 22353
+    },
+    "2022-07-29": {
+      "recordBodyBytes": 13922066,
+      "rows": 22169
+    },
+    "2022-08-26": {
+      "recordBodyBytes": 14062679,
+      "rows": 22373
+    },
+    "2022-09-30": {
+      "recordBodyBytes": 13922158,
+      "rows": 22172
+    },
+    "2022-10-28": {
+      "recordBodyBytes": 14045793,
+      "rows": 22342
+    },
+    "2022-11-25": {
+      "recordBodyBytes": 14068564,
+      "rows": 22354
+    },
+    "2023-03-31": {
+      "recordBodyBytes": 10448111,
+      "rows": 16601
+    },
+    "2023-04-28": {
+      "recordBodyBytes": 10337096,
+      "rows": 16440
+    },
+    "2023-05-26": {
+      "recordBodyBytes": 10327873,
+      "rows": 16420
+    },
+    "2023-06-30": {
+      "recordBodyBytes": 10329015,
+      "rows": 16427
+    },
+    "2023-07-28": {
+      "recordBodyBytes": 10331578,
+      "rows": 16431
+    },
+    "2023-08-25": {
+      "recordBodyBytes": 10346549,
+      "rows": 16457
+    },
+    "2023-09-29": {
+      "recordBodyBytes": 10350537,
+      "rows": 16457
+    },
+    "2023-10-27": {
+      "recordBodyBytes": 10325261,
+      "rows": 16419
+    },
+    "2023-11-24": {
+      "recordBodyBytes": 10437813,
+      "rows": 16580
+    },
+    "2024-03-29": {
+      "recordBodyBytes": 10223568,
+      "rows": 16244
+    },
+    "2024-04-26": {
+      "recordBodyBytes": 10100362,
+      "rows": 16061
+    },
+    "2024-05-31": {
+      "recordBodyBytes": 10210184,
+      "rows": 16220
+    },
+    "2024-06-28": {
+      "recordBodyBytes": 10097137,
+      "rows": 16058
+    },
+    "2024-07-26": {
+      "recordBodyBytes": 10103105,
+      "rows": 16059
+    },
+    "2024-08-30": {
+      "recordBodyBytes": 10090724,
+      "rows": 16043
+    },
+    "2024-09-27": {
+      "recordBodyBytes": 10126999,
+      "rows": 16113
+    },
+    "2024-10-25": {
+      "recordBodyBytes": 10098748,
+      "rows": 16061
+    },
+    "2024-11-29": {
+      "recordBodyBytes": 10092590,
+      "rows": 16048
+    },
+    "2024-12-27": {
+      "recordBodyBytes": 9734865,
+      "rows": 15426
+    },
+    "2025-01-29": {
+      "recordBodyBytes": 147133,
+      "rows": 205
+    },
+    "2025-03-28": {
+      "recordBodyBytes": 12472687,
+      "rows": 19821
+    },
+    "2025-03-26": {
+      "recordBodyBytes": 99345,
+      "rows": 160
+    },
+    "2025-04-25": {
+      "recordBodyBytes": 12454393,
+      "rows": 19788
+    },
+    "2025-04-30": {
+      "recordBodyBytes": 100017,
+      "rows": 162
+    },
+    "2025-05-30": {
+      "recordBodyBytes": 12467424,
+      "rows": 19809
+    },
+    "2025-05-28": {
+      "recordBodyBytes": 95453,
+      "rows": 152
+    },
+    "2025-06-27": {
+      "recordBodyBytes": 12461777,
+      "rows": 19804
+    },
+    "2025-06-25": {
+      "recordBodyBytes": 108510,
+      "rows": 179
+    },
+    "2025-07-25": {
+      "recordBodyBytes": 12334957,
+      "rows": 19615
+    },
+    "2025-07-30": {
+      "recordBodyBytes": 90624,
+      "rows": 144
+    },
+    "2025-08-29": {
+      "recordBodyBytes": 12468807,
+      "rows": 19804
+    },
+    "2025-08-27": {
+      "recordBodyBytes": 107192,
+      "rows": 176
+    },
+    "2025-09-26": {
+      "recordBodyBytes": 12357338,
+      "rows": 19648
+    },
+    "2025-09-24": {
+      "recordBodyBytes": 103951,
+      "rows": 168
+    },
+    "2025-10-31": {
+      "recordBodyBytes": 12455569,
+      "rows": 19789
+    },
+    "2025-10-29": {
+      "recordBodyBytes": 107798,
+      "rows": 177
+    },
+    "2025-11-28": {
+      "recordBodyBytes": 12347302,
+      "rows": 19637
+    },
+    "2025-11-26": {
+      "recordBodyBytes": 100686,
+      "rows": 162
+    },
+    "2021-05-02": {
+      "recordBodyBytes": 24873,
+      "rows": 41
+    },
+    "2021-05-04": {
+      "recordBodyBytes": 14719,
+      "rows": 27
+    },
+    "2021-05-09": {
+      "recordBodyBytes": 5202,
+      "rows": 10
+    },
+    "2021-05-10": {
+      "recordBodyBytes": 10096,
+      "rows": 18
+    },
+    "2021-05-11": {
+      "recordBodyBytes": 7558,
+      "rows": 15
+    },
+    "2021-05-15": {
+      "recordBodyBytes": 8180,
+      "rows": 15
+    },
+    "2021-05-18": {
+      "recordBodyBytes": 14798,
+      "rows": 26
+    },
+    "2021-05-19": {
+      "recordBodyBytes": 7726,
+      "rows": 14
+    },
+    "2021-05-24": {
+      "recordBodyBytes": 5202,
+      "rows": 10
+    },
+    "2021-05-25": {
+      "recordBodyBytes": 5863,
+      "rows": 12
+    },
+    "2021-05-31": {
+      "recordBodyBytes": 9546,
+      "rows": 18
+    },
+    "2021-06-01": {
+      "recordBodyBytes": 16369,
+      "rows": 31
+    },
+    "2021-06-02": {
+      "recordBodyBytes": 6747,
+      "rows": 11
+    },
+    "2021-06-03": {
+      "recordBodyBytes": 12219,
+      "rows": 22
+    },
+    "2021-06-05": {
+      "recordBodyBytes": 42033,
+      "rows": 57
+    },
+    "2021-06-07": {
+      "recordBodyBytes": 15846,
+      "rows": 29
+    },
+    "2021-06-09": {
+      "recordBodyBytes": 3865,
+      "rows": 7
+    },
+    "2021-06-15": {
+      "recordBodyBytes": 142888,
+      "rows": 146
+    },
+    "2021-06-16": {
+      "recordBodyBytes": 5054,
+      "rows": 9
+    },
+    "2021-06-17": {
+      "recordBodyBytes": 13336,
+      "rows": 24
+    },
+    "2021-06-26": {
+      "recordBodyBytes": 3301,
+      "rows": 6
+    },
+    "2021-06-28": {
+      "recordBodyBytes": 3296,
+      "rows": 6
+    },
+    "2021-06-30": {
+      "recordBodyBytes": 3969,
+      "rows": 8
+    },
+    "2021-07-03": {
+      "recordBodyBytes": 20668,
+      "rows": 26
+    },
+    "2021-07-05": {
+      "recordBodyBytes": 7723,
+      "rows": 14
+    },
+    "2021-07-07": {
+      "recordBodyBytes": 8112,
+      "rows": 15
+    },
+    "2021-07-12": {
+      "recordBodyBytes": 3294,
+      "rows": 6
+    },
+    "2021-07-13": {
+      "recordBodyBytes": 4249,
+      "rows": 8
+    },
+    "2021-07-17": {
+      "recordBodyBytes": 4647,
+      "rows": 8
+    },
+    "2021-07-18": {
+      "recordBodyBytes": 17206,
+      "rows": 31
+    },
+    "2021-07-23": {
+      "recordBodyBytes": 20141,
+      "rows": 38
+    },
+    "2021-07-25": {
+      "recordBodyBytes": 3301,
+      "rows": 6
+    },
+    "2021-08-01": {
+      "recordBodyBytes": 14647,
+      "rows": 29
+    },
+    "2021-08-02": {
+      "recordBodyBytes": 6176,
+      "rows": 10
+    },
+    "2021-08-09": {
+      "recordBodyBytes": 8676,
+      "rows": 16
+    },
+    "2021-08-17": {
+      "recordBodyBytes": 8033,
+      "rows": 16
+    },
+    "2021-08-18": {
+      "recordBodyBytes": 17603,
+      "rows": 32
+    },
+    "2021-08-19": {
+      "recordBodyBytes": 8887,
+      "rows": 16
+    },
+    "2021-08-20": {
+      "recordBodyBytes": 7934,
+      "rows": 16
+    },
+    "2021-08-21": {
+      "recordBodyBytes": 4652,
+      "rows": 8
+    },
+    "2021-08-23": {
+      "recordBodyBytes": 12741,
+      "rows": 23
+    },
+    "2021-08-26": {
+      "recordBodyBytes": 11586,
+      "rows": 21
+    },
+    "2021-08-29": {
+      "recordBodyBytes": 4089,
+      "rows": 7
+    },
+    "2021-09-05": {
+      "recordBodyBytes": 17589,
+      "rows": 32
+    },
+    "2021-09-06": {
+      "recordBodyBytes": 3296,
+      "rows": 6
+    },
+    "2021-09-07": {
+      "recordBodyBytes": 13523,
+      "rows": 25
+    },
+    "2021-09-10": {
+      "recordBodyBytes": 138028,
+      "rows": 210
+    },
+    "2021-09-13": {
+      "recordBodyBytes": 3292,
+      "rows": 6
+    },
+    "2021-09-14": {
+      "recordBodyBytes": 14010,
+      "rows": 27
+    },
+    "2021-09-16": {
+      "recordBodyBytes": 4249,
+      "rows": 8
+    },
+    "2021-09-17": {
+      "recordBodyBytes": 17820,
+      "rows": 36
+    },
+    "2021-09-18": {
+      "recordBodyBytes": 103698,
+      "rows": 261
+    },
+    "2021-09-19": {
+      "recordBodyBytes": 13347,
+      "rows": 24
+    },
+    "2021-09-21": {
+      "recordBodyBytes": 9271,
+      "rows": 17
+    },
+    "2021-09-23": {
+      "recordBodyBytes": 10229,
+      "rows": 19
+    },
+    "2021-09-25": {
+      "recordBodyBytes": 18538,
+      "rows": 34
+    },
+    "2021-09-27": {
+      "recordBodyBytes": 10076,
+      "rows": 18
+    },
+    "2021-09-28": {
+      "recordBodyBytes": 22944,
+      "rows": 43
+    },
+    "2021-10-02": {
+      "recordBodyBytes": 11196,
+      "rows": 19
+    },
+    "2021-10-03": {
+      "recordBodyBytes": 4083,
+      "rows": 7
+    },
+    "2021-10-04": {
+      "recordBodyBytes": 4249,
+      "rows": 8
+    },
+    "2021-10-05": {
+      "recordBodyBytes": 7714,
+      "rows": 14
+    },
+    "2021-10-06": {
+      "recordBodyBytes": 6599,
+      "rows": 12
+    },
+    "2021-10-08": {
+      "recordBodyBytes": 18892,
+      "rows": 33
+    },
+    "2021-10-10": {
+      "recordBodyBytes": 4249,
+      "rows": 8
+    },
+    "2021-10-15": {
+      "recordBodyBytes": 143667,
+      "rows": 216
+    },
+    "2021-10-18": {
+      "recordBodyBytes": 5051,
+      "rows": 9
+    },
+    "2021-10-20": {
+      "recordBodyBytes": 7555,
+      "rows": 14
+    },
+    "2021-10-21": {
+      "recordBodyBytes": 8356,
+      "rows": 15
+    },
+    "2021-10-22": {
+      "recordBodyBytes": 9704,
+      "rows": 20
+    },
+    "2021-10-24": {
+      "recordBodyBytes": 8356,
+      "rows": 15
+    },
+    "2021-10-26": {
+      "recordBodyBytes": 8024,
+      "rows": 16
+    },
+    "2021-10-27": {
+      "recordBodyBytes": 6597,
+      "rows": 12
+    },
+    "2021-10-28": {
+      "recordBodyBytes": 3296,
+      "rows": 6
+    },
+    "2021-10-30": {
+      "recordBodyBytes": 3296,
+      "rows": 6
+    },
+    "2021-10-31": {
+      "recordBodyBytes": 14004,
+      "rows": 26
+    },
+    "2021-11-02": {
+      "recordBodyBytes": 187439,
+      "rows": 270
+    },
+    "2021-11-09": {
+      "recordBodyBytes": 5683,
+      "rows": 12
+    },
+    "2021-11-13": {
+      "recordBodyBytes": 5380,
+      "rows": 10
+    },
+    "2021-11-20": {
+      "recordBodyBytes": 6161,
+      "rows": 12
+    },
+    "2021-11-21": {
+      "recordBodyBytes": 8887,
+      "rows": 16
+    },
+    "2021-11-24": {
+      "recordBodyBytes": 8887,
+      "rows": 16
+    },
+    "2021-12-01": {
+      "recordBodyBytes": 148046,
+      "rows": 245
+    },
+    "2021-12-04": {
+      "recordBodyBytes": 46797,
+      "rows": 54
+    },
+    "2021-12-21": {
+      "recordBodyBytes": 5685,
+      "rows": 12
+    },
+    "2021-12-26": {
+      "recordBodyBytes": 3294,
+      "rows": 6
+    },
+    "2022-01-02": {
+      "recordBodyBytes": 10752,
+      "rows": 16
+    },
+    "2022-01-03": {
+      "recordBodyBytes": 3301,
+      "rows": 6
+    },
+    "2022-01-04": {
+      "recordBodyBytes": 17633,
+      "rows": 34
+    },
+    "2022-01-05": {
+      "recordBodyBytes": 3301,
+      "rows": 6
+    },
+    "2022-03-12": {
+      "recordBodyBytes": 9271,
+      "rows": 17
+    },
+    "2022-03-15": {
+      "recordBodyBytes": 2789053,
+      "rows": 2448
+    },
+    "2022-03-16": {
+      "recordBodyBytes": 267518,
+      "rows": 109
+    },
+    "2022-03-17": {
+      "recordBodyBytes": 10617,
+      "rows": 19
+    },
+    "2022-03-21": {
+      "recordBodyBytes": 65189,
+      "rows": 169
+    },
+    "2022-03-22": {
+      "recordBodyBytes": 5209,
+      "rows": 10
+    },
+    "2022-03-24": {
+      "recordBodyBytes": 6597,
+      "rows": 12
+    },
+    "2022-03-26": {
+      "recordBodyBytes": 4090,
+      "rows": 7
+    },
+    "2022-03-28": {
+      "recordBodyBytes": 92017,
+      "rows": 160
+    },
+    "2022-03-29": {
+      "recordBodyBytes": 103603,
+      "rows": 167
+    },
+    "2022-04-02": {
+      "recordBodyBytes": 35441,
+      "rows": 45
+    },
+    "2022-04-09": {
+      "recordBodyBytes": 37229,
+      "rows": 42
+    },
+    "2022-04-13": {
+      "recordBodyBytes": 21849,
+      "rows": 41
+    },
+    "2022-04-20": {
+      "recordBodyBytes": 23417,
+      "rows": 42
+    },
+    "2022-04-21": {
+      "recordBodyBytes": 17612,
+      "rows": 35
+    },
+    "2022-04-24": {
+      "recordBodyBytes": 16672,
+      "rows": 30
+    },
+    "2022-05-02": {
+      "recordBodyBytes": 14885,
+      "rows": 25
+    },
+    "2022-05-03": {
+      "recordBodyBytes": 292913,
+      "rows": 273
+    },
+    "2022-05-04": {
+      "recordBodyBytes": 7550,
+      "rows": 14
+    },
+    "2022-05-10": {
+      "recordBodyBytes": 154901,
+      "rows": 167
+    },
+    "2022-05-12": {
+      "recordBodyBytes": 14120,
+      "rows": 26
+    },
+    "2022-05-13": {
+      "recordBodyBytes": 18087,
+      "rows": 36
+    },
+    "2022-05-14": {
+      "recordBodyBytes": 11803,
+      "rows": 22
+    },
+    "2022-05-15": {
+      "recordBodyBytes": 30423,
+      "rows": 38
+    },
+    "2022-05-16": {
+      "recordBodyBytes": 14862,
+      "rows": 27
+    },
+    "2022-05-18": {
+      "recordBodyBytes": 7374,
+      "rows": 13
+    },
+    "2022-05-19": {
+      "recordBodyBytes": 14649,
+      "rows": 27
+    },
+    "2022-05-20": {
+      "recordBodyBytes": 169525,
+      "rows": 245
+    },
+    "2022-05-21": {
+      "recordBodyBytes": 20493,
+      "rows": 30
+    },
+    "2022-05-22": {
+      "recordBodyBytes": 17210,
+      "rows": 31
+    },
+    "2022-05-23": {
+      "recordBodyBytes": 22448,
+      "rows": 40
+    },
+    "2022-05-24": {
+      "recordBodyBytes": 368536,
+      "rows": 356
+    },
+    "2022-05-25": {
+      "recordBodyBytes": 20530,
+      "rows": 37
+    },
+    "2022-05-29": {
+      "recordBodyBytes": 5378,
+      "rows": 10
+    },
+    "2022-05-30": {
+      "recordBodyBytes": 4247,
+      "rows": 8
+    },
+    "2022-05-31": {
+      "recordBodyBytes": 9731,
+      "rows": 19
+    },
+    "2022-06-04": {
+      "recordBodyBytes": 26746,
+      "rows": 32
+    },
+    "2022-06-05": {
+      "recordBodyBytes": 7891,
+      "rows": 16
+    },
+    "2022-06-07": {
+      "recordBodyBytes": 451194,
+      "rows": 452
+    },
+    "2022-06-08": {
+      "recordBodyBytes": 9838,
+      "rows": 18
+    },
+    "2022-06-10": {
+      "recordBodyBytes": 6860,
+      "rows": 16
+    },
+    "2022-06-11": {
+      "recordBodyBytes": 26437,
+      "rows": 48
+    },
+    "2022-06-13": {
+      "recordBodyBytes": 12306,
+      "rows": 23
+    },
+    "2022-06-14": {
+      "recordBodyBytes": 382949,
+      "rows": 371
+    },
+    "2022-06-15": {
+      "recordBodyBytes": 32637,
+      "rows": 41
+    },
+    "2022-06-16": {
+      "recordBodyBytes": 16219,
+      "rows": 30
+    },
+    "2022-06-18": {
+      "recordBodyBytes": 6000,
+      "rows": 11
+    },
+    "2022-06-19": {
+      "recordBodyBytes": 15479,
+      "rows": 28
+    },
+    "2022-06-21": {
+      "recordBodyBytes": 80298,
+      "rows": 84
+    },
+    "2022-06-22": {
+      "recordBodyBytes": 10846,
+      "rows": 20
+    },
+    "2022-06-23": {
+      "recordBodyBytes": 15101,
+      "rows": 28
+    },
+    "2022-06-25": {
+      "recordBodyBytes": 4249,
+      "rows": 8
+    },
+    "2022-06-26": {
+      "recordBodyBytes": 20488,
+      "rows": 37
+    },
+    "2022-06-29": {
+      "recordBodyBytes": 6592,
+      "rows": 12
+    },
+    "2022-07-02": {
+      "recordBodyBytes": 25814,
+      "rows": 44
+    },
+    "2022-07-03": {
+      "recordBodyBytes": 11737,
+      "rows": 22
+    },
+    "2022-07-04": {
+      "recordBodyBytes": 5209,
+      "rows": 10
+    },
+    "2022-07-06": {
+      "recordBodyBytes": 8358,
+      "rows": 15
+    },
+    "2022-07-11": {
+      "recordBodyBytes": 11621,
+      "rows": 21
+    },
+    "2022-07-13": {
+      "recordBodyBytes": 16667,
+      "rows": 30
+    },
+    "2022-07-14": {
+      "recordBodyBytes": 8283,
+      "rows": 15
+    },
+    "2022-07-15": {
+      "recordBodyBytes": 81945,
+      "rows": 88
+    },
+    "2022-07-17": {
+      "recordBodyBytes": 4807,
+      "rows": 9
+    },
+    "2022-07-19": {
+      "recordBodyBytes": 64267,
+      "rows": 72
+    },
+    "2022-07-20": {
+      "recordBodyBytes": 8117,
+      "rows": 15
+    },
+    "2022-07-26": {
+      "recordBodyBytes": 3296,
+      "rows": 6
+    },
+    "2022-07-28": {
+      "recordBodyBytes": 4245,
+      "rows": 8
+    },
+    "2022-07-30": {
+      "recordBodyBytes": 21729,
+      "rows": 39
+    },
+    "2022-08-02": {
+      "recordBodyBytes": 518300,
+      "rows": 491
+    },
+    "2022-08-03": {
+      "recordBodyBytes": 13743,
+      "rows": 25
+    },
+    "2022-08-04": {
+      "recordBodyBytes": 136148,
+      "rows": 151
+    },
+    "2022-08-06": {
+      "recordBodyBytes": 61761,
+      "rows": 73
+    },
+    "2022-08-08": {
+      "recordBodyBytes": 13909,
+      "rows": 25
+    },
+    "2022-08-11": {
+      "recordBodyBytes": 13307,
+      "rows": 24
+    },
+    "2022-08-12": {
+      "recordBodyBytes": 15307,
+      "rows": 30
+    },
+    "2022-08-13": {
+      "recordBodyBytes": 58293,
+      "rows": 64
+    },
+    "2022-08-14": {
+      "recordBodyBytes": 17594,
+      "rows": 32
+    },
+    "2022-08-17": {
+      "recordBodyBytes": 13483,
+      "rows": 24
+    },
+    "2022-08-20": {
+      "recordBodyBytes": 17544,
+      "rows": 33
+    },
+    "2022-08-23": {
+      "recordBodyBytes": 118224,
+      "rows": 120
+    },
+    "2022-08-25": {
+      "recordBodyBytes": 15813,
+      "rows": 29
+    },
+    "2022-08-30": {
+      "recordBodyBytes": 16527,
+      "rows": 31
+    },
+    "2022-08-31": {
+      "recordBodyBytes": 10890,
+      "rows": 21
+    },
+    "2022-09-01": {
+      "recordBodyBytes": 34690,
+      "rows": 62
+    },
+    "2022-09-03": {
+      "recordBodyBytes": 70426,
+      "rows": 97
+    },
+    "2022-09-04": {
+      "recordBodyBytes": 12854,
+      "rows": 23
+    },
+    "2022-09-05": {
+      "recordBodyBytes": 6595,
+      "rows": 12
+    },
+    "2022-09-06": {
+      "recordBodyBytes": 12404,
+      "rows": 22
+    },
+    "2022-09-07": {
+      "recordBodyBytes": 10855,
+      "rows": 20
+    },
+    "2022-09-08": {
+      "recordBodyBytes": 6981,
+      "rows": 13
+    },
+    "2022-09-10": {
+      "recordBodyBytes": 23895,
+      "rows": 30
+    },
+    "2022-09-11": {
+      "recordBodyBytes": 12188,
+      "rows": 23
+    },
+    "2022-09-12": {
+      "recordBodyBytes": 8880,
+      "rows": 16
+    },
+    "2022-09-13": {
+      "recordBodyBytes": 438795,
+      "rows": 436
+    },
+    "2022-09-14": {
+      "recordBodyBytes": 7728,
+      "rows": 14
+    },
+    "2022-09-18": {
+      "recordBodyBytes": 8354,
+      "rows": 15
+    },
+    "2022-09-19": {
+      "recordBodyBytes": 13099,
+      "rows": 24
+    },
+    "2022-09-20": {
+      "recordBodyBytes": 260765,
+      "rows": 235
+    },
+    "2022-09-21": {
+      "recordBodyBytes": 9241,
+      "rows": 17
+    },
+    "2022-09-25": {
+      "recordBodyBytes": 4080,
+      "rows": 7
+    },
+    "2022-09-26": {
+      "recordBodyBytes": 7559,
+      "rows": 14
+    },
+    "2022-09-27": {
+      "recordBodyBytes": 4737,
+      "rows": 10
+    },
+    "2022-09-28": {
+      "recordBodyBytes": 6592,
+      "rows": 12
+    },
+    "2022-10-02": {
+      "recordBodyBytes": 27593,
+      "rows": 48
+    },
+    "2022-10-03": {
+      "recordBodyBytes": 3296,
+      "rows": 6
+    },
+    "2022-10-04": {
+      "recordBodyBytes": 11619,
+      "rows": 21
+    },
+    "2022-10-05": {
+      "recordBodyBytes": 13345,
+      "rows": 24
+    },
+    "2022-10-06": {
+      "recordBodyBytes": 8709,
+      "rows": 16
+    },
+    "2022-10-09": {
+      "recordBodyBytes": 9527,
+      "rows": 18
+    },
+    "2022-10-12": {
+      "recordBodyBytes": 8907,
+      "rows": 16
+    },
+    "2022-10-18": {
+      "recordBodyBytes": 7723,
+      "rows": 14
+    },
+    "2022-10-20": {
+      "recordBodyBytes": 4252,
+      "rows": 8
+    },
+    "2022-10-21": {
+      "recordBodyBytes": 32051,
+      "rows": 39
+    },
+    "2022-10-23": {
+      "recordBodyBytes": 6604,
+      "rows": 12
+    },
+    "2022-10-25": {
+      "recordBodyBytes": 10330,
+      "rows": 21
+    },
+    "2022-10-30": {
+      "recordBodyBytes": 3861,
+      "rows": 7
+    },
+    "2022-10-31": {
+      "recordBodyBytes": 9904,
+      "rows": 19
+    },
+    "2022-11-01": {
+      "recordBodyBytes": 14978,
+      "rows": 30
+    },
+    "2022-11-02": {
+      "recordBodyBytes": 19548,
+      "rows": 33
+    },
+    "2022-11-05": {
+      "recordBodyBytes": 38404,
+      "rows": 48
+    },
+    "2022-11-07": {
+      "recordBodyBytes": 10029,
+      "rows": 18
+    },
+    "2022-11-12": {
+      "recordBodyBytes": 18896,
+      "rows": 34
+    },
+    "2022-11-17": {
+      "recordBodyBytes": 15838,
+      "rows": 29
+    },
+    "2022-11-18": {
+      "recordBodyBytes": 26064,
+      "rows": 34
+    },
+    "2022-11-19": {
+      "recordBodyBytes": 12743,
+      "rows": 23
+    },
+    "2022-11-21": {
+      "recordBodyBytes": 12776,
+      "rows": 23
+    },
+    "2022-11-26": {
+      "recordBodyBytes": 3861,
+      "rows": 7
+    },
+    "2022-11-27": {
+      "recordBodyBytes": 3296,
+      "rows": 6
+    },
+    "2022-11-29": {
+      "recordBodyBytes": 3858,
+      "rows": 7
+    },
+    "2022-11-30": {
+      "recordBodyBytes": 26762,
+      "rows": 50
+    },
+    "2022-12-04": {
+      "recordBodyBytes": 12955,
+      "rows": 24
+    },
+    "2022-12-07": {
+      "recordBodyBytes": 2737,
+      "rows": 5
+    },
+    "2022-12-11": {
+      "recordBodyBytes": 9866,
+      "rows": 19
+    },
+    "2022-12-12": {
+      "recordBodyBytes": 10472,
+      "rows": 19
+    },
+    "2022-12-13": {
+      "recordBodyBytes": 16324,
+      "rows": 30
+    },
+    "2022-12-15": {
+      "recordBodyBytes": 50460,
+      "rows": 65
+    },
+    "2022-12-17": {
+      "recordBodyBytes": 9738,
+      "rows": 18
+    },
+    "2022-12-19": {
+      "recordBodyBytes": 9131,
+      "rows": 16
+    },
+    "2022-12-21": {
+      "recordBodyBytes": 8333,
+      "rows": 15
+    },
+    "2022-12-22": {
+      "recordBodyBytes": 9914,
+      "rows": 18
+    },
+    "2022-12-23": {
+      "recordBodyBytes": 9885,
+      "rows": 21
+    },
+    "2022-12-24": {
+      "recordBodyBytes": 17797,
+      "rows": 32
+    },
+    "2022-12-25": {
+      "recordBodyBytes": 7945,
+      "rows": 15
+    },
+    "2022-12-26": {
+      "recordBodyBytes": 3309,
+      "rows": 6
+    },
+    "2022-12-28": {
+      "recordBodyBytes": 3302,
+      "rows": 6
+    },
+    "2023-01-02": {
+      "recordBodyBytes": 19017,
+      "rows": 32
+    },
+    "2023-01-03": {
+      "recordBodyBytes": 571838,
+      "rows": 938
+    },
+    "2023-03-07": {
+      "recordBodyBytes": 7751,
+      "rows": 14
+    },
+    "2023-03-09": {
+      "recordBodyBytes": 8331,
+      "rows": 15
+    },
+    "2023-03-10": {
+      "recordBodyBytes": 17061,
+      "rows": 34
+    },
+    "2023-03-11": {
+      "recordBodyBytes": 21531,
+      "rows": 39
+    },
+    "2023-03-12": {
+      "recordBodyBytes": 3309,
+      "rows": 6
+    },
+    "2023-03-13": {
+      "recordBodyBytes": 13601,
+      "rows": 25
+    },
+    "2023-03-16": {
+      "recordBodyBytes": 14431,
+      "rows": 27
+    },
+    "2023-03-17": {
+      "recordBodyBytes": 161292,
+      "rows": 213
+    },
+    "2023-03-20": {
+      "recordBodyBytes": 12452,
+      "rows": 23
+    },
+    "2023-03-22": {
+      "recordBodyBytes": 13364,
+      "rows": 24
+    },
+    "2023-03-24": {
+      "recordBodyBytes": 22992,
+      "rows": 44
+    },
+    "2023-03-26": {
+      "recordBodyBytes": 4103,
+      "rows": 7
+    },
+    "2023-03-27": {
+      "recordBodyBytes": 19373,
+      "rows": 35
+    },
+    "2023-04-01": {
+      "recordBodyBytes": 367953,
+      "rows": 620
+    },
+    "2023-04-02": {
+      "recordBodyBytes": 27993,
+      "rows": 49
+    },
+    "2023-04-03": {
+      "recordBodyBytes": 590513,
+      "rows": 762
+    },
+    "2023-04-04": {
+      "recordBodyBytes": 3300,
+      "rows": 6
+    },
+    "2023-04-05": {
+      "recordBodyBytes": 4253,
+      "rows": 8
+    },
+    "2023-04-09": {
+      "recordBodyBytes": 5832,
+      "rows": 12
+    },
+    "2023-04-10": {
+      "recordBodyBytes": 6037,
+      "rows": 11
+    },
+    "2023-04-11": {
+      "recordBodyBytes": 6652,
+      "rows": 14
+    },
+    "2023-04-12": {
+      "recordBodyBytes": 7562,
+      "rows": 14
+    },
+    "2023-04-13": {
+      "recordBodyBytes": 8184,
+      "rows": 14
+    },
+    "2023-04-16": {
+      "recordBodyBytes": 212027,
+      "rows": 97
+    },
+    "2023-04-17": {
+      "recordBodyBytes": 20272,
+      "rows": 37
+    },
+    "2023-04-18": {
+      "recordBodyBytes": 78943,
+      "rows": 141
+    },
+    "2023-04-19": {
+      "recordBodyBytes": 8329,
+      "rows": 15
+    },
+    "2023-04-20": {
+      "recordBodyBytes": 12939,
+      "rows": 19
+    },
+    "2023-04-22": {
+      "recordBodyBytes": 4257,
+      "rows": 8
+    },
+    "2023-04-23": {
+      "recordBodyBytes": 9325,
+      "rows": 17
+    },
+    "2023-04-27": {
+      "recordBodyBytes": 7775,
+      "rows": 14
+    },
+    "2023-04-29": {
+      "recordBodyBytes": 15956,
+      "rows": 26
+    },
+    "2023-05-02": {
+      "recordBodyBytes": 10383,
+      "rows": 17
+    },
+    "2023-05-03": {
+      "recordBodyBytes": 8531,
+      "rows": 15
+    },
+    "2023-05-04": {
+      "recordBodyBytes": 11605,
+      "rows": 21
+    },
+    "2023-05-07": {
+      "recordBodyBytes": 19371,
+      "rows": 36
+    },
+    "2023-05-08": {
+      "recordBodyBytes": 3692,
+      "rows": 7
+    },
+    "2023-05-09": {
+      "recordBodyBytes": 5702,
+      "rows": 12
+    },
+    "2023-05-12": {
+      "recordBodyBytes": 12443,
+      "rows": 25
+    },
+    "2023-05-17": {
+      "recordBodyBytes": 9258,
+      "rows": 17
+    },
+    "2023-05-19": {
+      "recordBodyBytes": 180409,
+      "rows": 252
+    },
+    "2023-05-21": {
+      "recordBodyBytes": 13388,
+      "rows": 24
+    },
+    "2023-05-22": {
+      "recordBodyBytes": 12830,
+      "rows": 23
+    },
+    "2023-05-27": {
+      "recordBodyBytes": 14682,
+      "rows": 27
+    },
+    "2023-05-28": {
+      "recordBodyBytes": 5212,
+      "rows": 10
+    },
+    "2023-05-31": {
+      "recordBodyBytes": 19997,
+      "rows": 37
+    },
+    "2023-06-01": {
+      "recordBodyBytes": 19312,
+      "rows": 34
+    },
+    "2023-06-05": {
+      "recordBodyBytes": 16229,
+      "rows": 30
+    },
+    "2023-06-06": {
+      "recordBodyBytes": 151480,
+      "rows": 145
+    },
+    "2023-06-07": {
+      "recordBodyBytes": 15666,
+      "rows": 29
+    },
+    "2023-06-08": {
+      "recordBodyBytes": 10308,
+      "rows": 19
+    },
+    "2023-06-10": {
+      "recordBodyBytes": 27149,
+      "rows": 40
+    },
+    "2023-06-11": {
+      "recordBodyBytes": 8586,
+      "rows": 16
+    },
+    "2023-06-13": {
+      "recordBodyBytes": 23499,
+      "rows": 42
+    },
+    "2023-06-15": {
+      "recordBodyBytes": 43009,
+      "rows": 58
+    },
+    "2023-06-16": {
+      "recordBodyBytes": 36763,
+      "rows": 41
+    },
+    "2023-06-17": {
+      "recordBodyBytes": 12172,
+      "rows": 22
+    },
+    "2023-06-18": {
+      "recordBodyBytes": 8894,
+      "rows": 16
+    },
+    "2023-06-19": {
+      "recordBodyBytes": 7008,
+      "rows": 13
+    },
+    "2023-06-20": {
+      "recordBodyBytes": 140091,
+      "rows": 146
+    },
+    "2023-06-21": {
+      "recordBodyBytes": 9652,
+      "rows": 18
+    },
+    "2023-06-22": {
+      "recordBodyBytes": 4257,
+      "rows": 8
+    },
+    "2023-06-23": {
+      "recordBodyBytes": 14917,
+      "rows": 30
+    },
+    "2023-06-25": {
+      "recordBodyBytes": 8331,
+      "rows": 15
+    },
+    "2023-06-26": {
+      "recordBodyBytes": 23570,
+      "rows": 43
+    },
+    "2023-06-27": {
+      "recordBodyBytes": 12389,
+      "rows": 23
+    },
+    "2023-06-28": {
+      "recordBodyBytes": 5217,
+      "rows": 10
+    },
+    "2023-07-01": {
+      "recordBodyBytes": 417162,
+      "rows": 756
+    },
+    "2023-07-02": {
+      "recordBodyBytes": 20843,
+      "rows": 36
+    },
+    "2023-07-03": {
+      "recordBodyBytes": 5602,
+      "rows": 11
+    },
+    "2023-07-04": {
+      "recordBodyBytes": 20244,
+      "rows": 38
+    },
+    "2023-07-05": {
+      "recordBodyBytes": 14742,
+      "rows": 27
+    },
+    "2023-07-08": {
+      "recordBodyBytes": 48045,
+      "rows": 60
+    },
+    "2023-07-09": {
+      "recordBodyBytes": 17467,
+      "rows": 33
+    },
+    "2023-07-11": {
+      "recordBodyBytes": 3302,
+      "rows": 6
+    },
+    "2023-07-12": {
+      "recordBodyBytes": 8331,
+      "rows": 15
+    },
+    "2023-07-13": {
+      "recordBodyBytes": 9858,
+      "rows": 18
+    },
+    "2023-07-14": {
+      "recordBodyBytes": 22093,
+      "rows": 43
+    },
+    "2023-07-15": {
+      "recordBodyBytes": 38253,
+      "rows": 46
+    },
+    "2023-07-16": {
+      "recordBodyBytes": 8129,
+      "rows": 15
+    },
+    "2023-07-19": {
+      "recordBodyBytes": 3692,
+      "rows": 7
+    },
+    "2023-07-20": {
+      "recordBodyBytes": 9251,
+      "rows": 17
+    },
+    "2023-07-22": {
+      "recordBodyBytes": 8128,
+      "rows": 15
+    },
+    "2023-07-25": {
+      "recordBodyBytes": 7949,
+      "rows": 15
+    },
+    "2023-07-26": {
+      "recordBodyBytes": 13719,
+      "rows": 25
+    },
+    "2023-07-27": {
+      "recordBodyBytes": 4257,
+      "rows": 8
+    },
+    "2023-07-30": {
+      "recordBodyBytes": 4257,
+      "rows": 8
+    },
+    "2023-07-31": {
+      "recordBodyBytes": 10381,
+      "rows": 20
+    },
+    "2023-08-01": {
+      "recordBodyBytes": 31292,
+      "rows": 56
+    },
+    "2023-08-03": {
+      "recordBodyBytes": 9255,
+      "rows": 17
+    },
+    "2023-08-05": {
+      "recordBodyBytes": 40314,
+      "rows": 47
+    },
+    "2023-08-07": {
+      "recordBodyBytes": 14322,
+      "rows": 26
+    },
+    "2023-08-08": {
+      "recordBodyBytes": 8331,
+      "rows": 15
+    },
+    "2023-08-09": {
+      "recordBodyBytes": 10479,
+      "rows": 19
+    },
+    "2023-08-10": {
+      "recordBodyBytes": 8305,
+      "rows": 15
+    },
+    "2023-08-11": {
+      "recordBodyBytes": 105275,
+      "rows": 94
+    },
+    "2023-08-12": {
+      "recordBodyBytes": 29503,
+      "rows": 54
+    },
+    "2023-08-14": {
+      "recordBodyBytes": 23686,
+      "rows": 43
+    },
+    "2023-08-15": {
+      "recordBodyBytes": 72272,
+      "rows": 111
+    },
+    "2023-08-16": {
+      "recordBodyBytes": 32549,
+      "rows": 59
+    },
+    "2023-08-18": {
+      "recordBodyBytes": 48814,
+      "rows": 67
+    },
+    "2023-08-24": {
+      "recordBodyBytes": 14645,
+      "rows": 27
+    },
+    "2023-08-26": {
+      "recordBodyBytes": 14683,
+      "rows": 27
+    },
+    "2023-08-27": {
+      "recordBodyBytes": 30202,
+      "rows": 55
+    },
+    "2023-08-28": {
+      "recordBodyBytes": 28858,
+      "rows": 52
+    },
+    "2023-08-29": {
+      "recordBodyBytes": 19809,
+      "rows": 37
+    },
+    "2023-08-30": {
+      "recordBodyBytes": 15697,
+      "rows": 29
+    },
+    "2023-09-02": {
+      "recordBodyBytes": 33020,
+      "rows": 59
+    },
+    "2023-09-05": {
+      "recordBodyBytes": 16637,
+      "rows": 31
+    },
+    "2023-09-07": {
+      "recordBodyBytes": 12512,
+      "rows": 24
+    },
+    "2023-09-11": {
+      "recordBodyBytes": 41816,
+      "rows": 76
+    },
+    "2023-09-12": {
+      "recordBodyBytes": 16644,
+      "rows": 34
+    },
+    "2023-09-13": {
+      "recordBodyBytes": 16333,
+      "rows": 30
+    },
+    "2023-09-14": {
+      "recordBodyBytes": 14483,
+      "rows": 26
+    },
+    "2023-09-15": {
+      "recordBodyBytes": 109434,
+      "rows": 149
+    },
+    "2023-09-16": {
+      "recordBodyBytes": 22027,
+      "rows": 41
+    },
+    "2023-09-17": {
+      "recordBodyBytes": 35190,
+      "rows": 64
+    },
+    "2023-09-18": {
+      "recordBodyBytes": 23469,
+      "rows": 44
+    },
+    "2023-09-19": {
+      "recordBodyBytes": 37151,
+      "rows": 69
+    },
+    "2023-09-20": {
+      "recordBodyBytes": 33978,
+      "rows": 62
+    },
+    "2023-09-21": {
+      "recordBodyBytes": 21908,
+      "rows": 40
+    },
+    "2023-09-22": {
+      "recordBodyBytes": 171277,
+      "rows": 258
+    },
+    "2023-09-23": {
+      "recordBodyBytes": 227373,
+      "rows": 534
+    },
+    "2023-09-24": {
+      "recordBodyBytes": 67896,
+      "rows": 40
+    },
+    "2023-09-25": {
+      "recordBodyBytes": 23461,
+      "rows": 44
+    },
+    "2023-09-26": {
+      "recordBodyBytes": 37032,
+      "rows": 69
+    },
+    "2023-09-27": {
+      "recordBodyBytes": 30044,
+      "rows": 55
+    },
+    "2023-09-28": {
+      "recordBodyBytes": 40237,
+      "rows": 74
+    },
+    "2023-09-30": {
+      "recordBodyBytes": 20919,
+      "rows": 39
+    },
+    "2023-10-01": {
+      "recordBodyBytes": 101376,
+      "rows": 170
+    },
+    "2023-10-02": {
+      "recordBodyBytes": 11862,
+      "rows": 21
+    },
+    "2023-10-05": {
+      "recordBodyBytes": 6611,
+      "rows": 12
+    },
+    "2023-10-07": {
+      "recordBodyBytes": 57482,
+      "rows": 64
+    },
+    "2023-10-08": {
+      "recordBodyBytes": 25296,
+      "rows": 49
+    },
+    "2023-10-09": {
+      "recordBodyBytes": 37046,
+      "rows": 67
+    },
+    "2023-10-10": {
+      "recordBodyBytes": 22031,
+      "rows": 42
+    },
+    "2023-10-11": {
+      "recordBodyBytes": 8343,
+      "rows": 16
+    },
+    "2023-10-12": {
+      "recordBodyBytes": 10640,
+      "rows": 20
+    },
+    "2023-10-13": {
+      "recordBodyBytes": 33788,
+      "rows": 58
+    },
+    "2023-10-14": {
+      "recordBodyBytes": 11035,
+      "rows": 22
+    },
+    "2023-10-15": {
+      "recordBodyBytes": 34094,
+      "rows": 43
+    },
+    "2023-10-16": {
+      "recordBodyBytes": 11204,
+      "rows": 22
+    },
+    "2023-10-20": {
+      "recordBodyBytes": 71114,
+      "rows": 107
+    },
+    "2023-10-21": {
+      "recordBodyBytes": 9169,
+      "rows": 17
+    },
+    "2023-10-22": {
+      "recordBodyBytes": 12735,
+      "rows": 23
+    },
+    "2023-10-23": {
+      "recordBodyBytes": 13809,
+      "rows": 25
+    },
+    "2023-10-24": {
+      "recordBodyBytes": 9777,
+      "rows": 20
+    },
+    "2023-10-25": {
+      "recordBodyBytes": 8213,
+      "rows": 15
+    },
+    "2023-10-26": {
+      "recordBodyBytes": 15446,
+      "rows": 28
+    },
+    "2023-10-28": {
+      "recordBodyBytes": 24904,
+      "rows": 44
+    },
+    "2023-10-29": {
+      "recordBodyBytes": 11917,
+      "rows": 22
+    },
+    "2023-10-30": {
+      "recordBodyBytes": 35616,
+      "rows": 65
+    },
+    "2023-10-31": {
+      "recordBodyBytes": 5317,
+      "rows": 11
+    },
+    "2023-11-01": {
+      "recordBodyBytes": 28851,
+      "rows": 53
+    },
+    "2023-11-02": {
+      "recordBodyBytes": 8464,
+      "rows": 13
+    },
+    "2023-11-04": {
+      "recordBodyBytes": 48297,
+      "rows": 59
+    },
+    "2023-11-09": {
+      "recordBodyBytes": 12768,
+      "rows": 23
+    },
+    "2023-11-10": {
+      "recordBodyBytes": 212578,
+      "rows": 366
+    },
+    "2023-11-11": {
+      "recordBodyBytes": 12978,
+      "rows": 24
+    },
+    "2023-11-13": {
+      "recordBodyBytes": 4098,
+      "rows": 7
+    },
+    "2023-11-19": {
+      "recordBodyBytes": 10191,
+      "rows": 19
+    },
+    "2023-11-22": {
+      "recordBodyBytes": 13151,
+      "rows": 24
+    },
+    "2023-11-23": {
+      "recordBodyBytes": 10477,
+      "rows": 19
+    },
+    "2023-11-25": {
+      "recordBodyBytes": 3300,
+      "rows": 6
+    },
+    "2023-11-30": {
+      "recordBodyBytes": 14919,
+      "rows": 28
+    },
+    "2023-12-03": {
+      "recordBodyBytes": 3692,
+      "rows": 7
+    },
+    "2023-12-10": {
+      "recordBodyBytes": 4311,
+      "rows": 9
+    },
+    "2023-12-12": {
+      "recordBodyBytes": 9293,
+      "rows": 17
+    },
+    "2023-12-14": {
+      "recordBodyBytes": 5217,
+      "rows": 10
+    },
+    "2023-12-16": {
+      "recordBodyBytes": 5875,
+      "rows": 10
+    },
+    "2023-12-18": {
+      "recordBodyBytes": 4490,
+      "rows": 8
+    },
+    "2023-12-23": {
+      "recordBodyBytes": 3305,
+      "rows": 6
+    },
+    "2023-12-25": {
+      "recordBodyBytes": 6046,
+      "rows": 11
+    },
+    "2024-03-09": {
+      "recordBodyBytes": 46961,
+      "rows": 55
+    },
+    "2024-03-10": {
+      "recordBodyBytes": 20922,
+      "rows": 39
+    },
+    "2024-03-17": {
+      "recordBodyBytes": 3309,
+      "rows": 6
+    },
+    "2024-03-19": {
+      "recordBodyBytes": 399253,
+      "rows": 368
+    },
+    "2024-03-20": {
+      "recordBodyBytes": 12947,
+      "rows": 24
+    },
+    "2024-03-22": {
+      "recordBodyBytes": 21036,
+      "rows": 41
+    },
+    "2024-03-23": {
+      "recordBodyBytes": 13387,
+      "rows": 24
+    },
+    "2024-03-24": {
+      "recordBodyBytes": 11821,
+      "rows": 22
+    },
+    "2024-03-30": {
+      "recordBodyBytes": 9080,
+      "rows": 17
+    },
+    "2024-03-31": {
+      "recordBodyBytes": 18008,
+      "rows": 33
+    },
+    "2024-04-01": {
+      "recordBodyBytes": 2503129,
+      "rows": 4141
+    },
+    "2024-04-02": {
+      "recordBodyBytes": 22610,
+      "rows": 39
+    },
+    "2024-04-03": {
+      "recordBodyBytes": 18360,
+      "rows": 33
+    },
+    "2024-04-07": {
+      "recordBodyBytes": 7132,
+      "rows": 16
+    },
+    "2024-04-08": {
+      "recordBodyBytes": 3302,
+      "rows": 6
+    },
+    "2024-04-10": {
+      "recordBodyBytes": 15798,
+      "rows": 31
+    },
+    "2024-04-12": {
+      "recordBodyBytes": 133547,
+      "rows": 203
+    },
+    "2024-04-14": {
+      "recordBodyBytes": 8300,
+      "rows": 15
+    },
+    "2024-04-20": {
+      "recordBodyBytes": 8553,
+      "rows": 15
+    },
+    "2024-04-21": {
+      "recordBodyBytes": 21697,
+      "rows": 39
+    },
+    "2024-04-25": {
+      "recordBodyBytes": 15646,
+      "rows": 30
+    },
+    "2024-04-27": {
+      "recordBodyBytes": 2739,
+      "rows": 5
+    },
+    "2024-04-30": {
+      "recordBodyBytes": 4927,
+      "rows": 10
+    },
+    "2024-05-02": {
+      "recordBodyBytes": 12123,
+      "rows": 20
+    },
+    "2024-05-04": {
+      "recordBodyBytes": 35279,
+      "rows": 44
+    },
+    "2024-05-05": {
+      "recordBodyBytes": 13003,
+      "rows": 25
+    },
+    "2024-05-06": {
+      "recordBodyBytes": 8366,
+      "rows": 15
+    },
+    "2024-05-09": {
+      "recordBodyBytes": 3307,
+      "rows": 6
+    },
+    "2024-05-10": {
+      "recordBodyBytes": 15269,
+      "rows": 32
+    },
+    "2024-05-11": {
+      "recordBodyBytes": 10210,
+      "rows": 19
+    },
+    "2024-05-12": {
+      "recordBodyBytes": 14286,
+      "rows": 26
+    },
+    "2024-05-14": {
+      "recordBodyBytes": 171266,
+      "rows": 156
+    },
+    "2024-05-16": {
+      "recordBodyBytes": 7857,
+      "rows": 17
+    },
+    "2024-05-21": {
+      "recordBodyBytes": 1051390,
+      "rows": 939
+    },
+    "2024-05-22": {
+      "recordBodyBytes": 20648,
+      "rows": 39
+    },
+    "2024-05-23": {
+      "recordBodyBytes": 22409,
+      "rows": 40
+    },
+    "2024-05-25": {
+      "recordBodyBytes": 17747,
+      "rows": 34
+    },
+    "2024-05-26": {
+      "recordBodyBytes": 34242,
+      "rows": 62
+    },
+    "2024-05-27": {
+      "recordBodyBytes": 8340,
+      "rows": 15
+    },
+    "2024-06-01": {
+      "recordBodyBytes": 22124,
+      "rows": 41
+    },
+    "2024-06-04": {
+      "recordBodyBytes": 467853,
+      "rows": 427
+    },
+    "2024-06-05": {
+      "recordBodyBytes": 7179,
+      "rows": 13
+    },
+    "2024-06-06": {
+      "recordBodyBytes": 21896,
+      "rows": 42
+    },
+    "2024-06-08": {
+      "recordBodyBytes": 36080,
+      "rows": 44
+    },
+    "2024-06-09": {
+      "recordBodyBytes": 9114,
+      "rows": 19
+    },
+    "2024-06-13": {
+      "recordBodyBytes": 10693,
+      "rows": 20
+    },
+    "2024-06-14": {
+      "recordBodyBytes": 137375,
+      "rows": 211
+    },
+    "2024-06-15": {
+      "recordBodyBytes": 46663,
+      "rows": 59
+    },
+    "2024-06-17": {
+      "recordBodyBytes": 11460,
+      "rows": 21
+    },
+    "2024-06-19": {
+      "recordBodyBytes": 17830,
+      "rows": 32
+    },
+    "2024-06-20": {
+      "recordBodyBytes": 4257,
+      "rows": 8
+    },
+    "2024-06-21": {
+      "recordBodyBytes": 51615,
+      "rows": 64
+    },
+    "2024-06-23": {
+      "recordBodyBytes": 25532,
+      "rows": 46
+    },
+    "2024-06-24": {
+      "recordBodyBytes": 11982,
+      "rows": 24
+    },
+    "2024-06-25": {
+      "recordBodyBytes": 443476,
+      "rows": 427
+    },
+    "2024-06-27": {
+      "recordBodyBytes": 24749,
+      "rows": 47
+    },
+    "2024-06-30": {
+      "recordBodyBytes": 10097,
+      "rows": 21
+    },
+    "2024-07-01": {
+      "recordBodyBytes": 119687,
+      "rows": 264
+    },
+    "2024-07-08": {
+      "recordBodyBytes": 8220,
+      "rows": 15
+    },
+    "2024-07-10": {
+      "recordBodyBytes": 9652,
+      "rows": 18
+    },
+    "2024-07-12": {
+      "recordBodyBytes": 9668,
+      "rows": 22
+    },
+    "2024-07-15": {
+      "recordBodyBytes": 38840,
+      "rows": 53
+    },
+    "2024-07-17": {
+      "recordBodyBytes": 22483,
+      "rows": 40
+    },
+    "2024-07-19": {
+      "recordBodyBytes": 172327,
+      "rows": 235
+    },
+    "2024-07-21": {
+      "recordBodyBytes": 5947,
+      "rows": 13
+    },
+    "2024-07-22": {
+      "recordBodyBytes": 14550,
+      "rows": 26
+    },
+    "2024-07-23": {
+      "recordBodyBytes": 85700,
+      "rows": 83
+    },
+    "2024-07-25": {
+      "recordBodyBytes": 7560,
+      "rows": 14
+    },
+    "2024-07-27": {
+      "recordBodyBytes": 18795,
+      "rows": 35
+    },
+    "2024-07-28": {
+      "recordBodyBytes": 14181,
+      "rows": 26
+    },
+    "2024-07-29": {
+      "recordBodyBytes": 6042,
+      "rows": 11
+    },
+    "2024-07-30": {
+      "recordBodyBytes": 15685,
+      "rows": 32
+    },
+    "2024-07-31": {
+      "recordBodyBytes": 8232,
+      "rows": 16
+    },
+    "2024-08-01": {
+      "recordBodyBytes": 184036,
+      "rows": 192
+    },
+    "2024-08-05": {
+      "recordBodyBytes": 4992,
+      "rows": 11
+    },
+    "2024-08-10": {
+      "recordBodyBytes": 112179,
+      "rows": 126
+    },
+    "2024-08-11": {
+      "recordBodyBytes": 16560,
+      "rows": 33
+    },
+    "2024-08-15": {
+      "recordBodyBytes": 78463,
+      "rows": 122
+    },
+    "2024-08-16": {
+      "recordBodyBytes": 166151,
+      "rows": 238
+    },
+    "2024-08-17": {
+      "recordBodyBytes": 35935,
+      "rows": 67
+    },
+    "2024-08-18": {
+      "recordBodyBytes": 37184,
+      "rows": 67
+    },
+    "2024-08-23": {
+      "recordBodyBytes": 26214,
+      "rows": 52
+    },
+    "2024-08-25": {
+      "recordBodyBytes": 22762,
+      "rows": 41
+    },
+    "2024-08-26": {
+      "recordBodyBytes": 5562,
+      "rows": 12
+    },
+    "2024-08-28": {
+      "recordBodyBytes": 23294,
+      "rows": 42
+    },
+    "2024-08-31": {
+      "recordBodyBytes": 7281,
+      "rows": 14
+    },
+    "2024-09-02": {
+      "recordBodyBytes": 18086,
+      "rows": 32
+    },
+    "2024-09-03": {
+      "recordBodyBytes": 12125,
+      "rows": 23
+    },
+    "2024-09-11": {
+      "recordBodyBytes": 11728,
+      "rows": 22
+    },
+    "2024-09-12": {
+      "recordBodyBytes": 26018,
+      "rows": 48
+    },
+    "2024-09-13": {
+      "recordBodyBytes": 24435,
+      "rows": 49
+    },
+    "2024-09-14": {
+      "recordBodyBytes": 19782,
+      "rows": 37
+    },
+    "2024-09-15": {
+      "recordBodyBytes": 62809,
+      "rows": 85
+    },
+    "2024-09-16": {
+      "recordBodyBytes": 56064,
+      "rows": 104
+    },
+    "2024-09-17": {
+      "recordBodyBytes": 291613,
+      "rows": 304
+    },
+    "2024-09-18": {
+      "recordBodyBytes": 20566,
+      "rows": 39
+    },
+    "2024-09-19": {
+      "recordBodyBytes": 52490,
+      "rows": 98
+    },
+    "2024-09-20": {
+      "recordBodyBytes": 190345,
+      "rows": 272
+    },
+    "2024-09-21": {
+      "recordBodyBytes": 2464773,
+      "rows": 6326
+    },
+    "2024-09-22": {
+      "recordBodyBytes": 38200,
+      "rows": 71
+    },
+    "2024-09-23": {
+      "recordBodyBytes": 31426,
+      "rows": 57
+    },
+    "2024-09-24": {
+      "recordBodyBytes": 34759,
+      "rows": 64
+    },
+    "2024-09-25": {
+      "recordBodyBytes": 50686,
+      "rows": 95
+    },
+    "2024-09-26": {
+      "recordBodyBytes": 36450,
+      "rows": 66
+    },
+    "2024-09-29": {
+      "recordBodyBytes": 16978,
+      "rows": 31
+    },
+    "2024-09-30": {
+      "recordBodyBytes": 19366,
+      "rows": 36
+    },
+    "2024-10-01": {
+      "recordBodyBytes": 102566,
+      "rows": 180
+    },
+    "2024-10-02": {
+      "recordBodyBytes": 11696,
+      "rows": 21
+    },
+    "2024-10-06": {
+      "recordBodyBytes": 27292,
+      "rows": 51
+    },
+    "2024-10-07": {
+      "recordBodyBytes": 9375,
+      "rows": 20
+    },
+    "2024-10-09": {
+      "recordBodyBytes": 41570,
+      "rows": 76
+    },
+    "2024-10-10": {
+      "recordBodyBytes": 19859,
+      "rows": 39
+    },
+    "2024-10-13": {
+      "recordBodyBytes": 30703,
+      "rows": 58
+    },
+    "2024-10-14": {
+      "recordBodyBytes": 24575,
+      "rows": 47
+    },
+    "2024-10-15": {
+      "recordBodyBytes": 28883,
+      "rows": 36
+    },
+    "2024-10-16": {
+      "recordBodyBytes": 19980,
+      "rows": 40
+    },
+    "2024-10-17": {
+      "recordBodyBytes": 12723,
+      "rows": 24
+    },
+    "2024-10-18": {
+      "recordBodyBytes": 156059,
+      "rows": 221
+    },
+    "2024-10-19": {
+      "recordBodyBytes": 17147,
+      "rows": 35
+    },
+    "2024-10-20": {
+      "recordBodyBytes": 22032,
+      "rows": 41
+    },
+    "2024-10-21": {
+      "recordBodyBytes": 15430,
+      "rows": 28
+    },
+    "2024-10-22": {
+      "recordBodyBytes": 18745,
+      "rows": 37
+    },
+    "2024-10-23": {
+      "recordBodyBytes": 8215,
+      "rows": 15
+    },
+    "2024-10-24": {
+      "recordBodyBytes": 9166,
+      "rows": 17
+    },
+    "2024-10-26": {
+      "recordBodyBytes": 23817,
+      "rows": 44
+    },
+    "2024-10-27": {
+      "recordBodyBytes": 13694,
+      "rows": 25
+    },
+    "2024-10-28": {
+      "recordBodyBytes": 19641,
+      "rows": 38
+    },
+    "2024-10-29": {
+      "recordBodyBytes": 20203,
+      "rows": 37
+    },
+    "2024-10-30": {
+      "recordBodyBytes": 19474,
+      "rows": 36
+    },
+    "2024-10-31": {
+      "recordBodyBytes": 28051,
+      "rows": 54
+    },
+    "2024-11-04": {
+      "recordBodyBytes": 14319,
+      "rows": 26
+    },
+    "2024-11-06": {
+      "recordBodyBytes": 13553,
+      "rows": 30
+    },
+    "2024-11-08": {
+      "recordBodyBytes": 71666,
+      "rows": 104
+    },
+    "2024-11-09": {
+      "recordBodyBytes": 42260,
+      "rows": 47
+    },
+    "2024-11-10": {
+      "recordBodyBytes": 8618,
+      "rows": 18
+    },
+    "2024-11-11": {
+      "recordBodyBytes": 6041,
+      "rows": 11
+    },
+    "2024-11-12": {
+      "recordBodyBytes": 10553,
+      "rows": 21
+    },
+    "2024-11-13": {
+      "recordBodyBytes": 7768,
+      "rows": 14
+    },
+    "2024-11-14": {
+      "recordBodyBytes": 8785,
+      "rows": 16
+    },
+    "2024-11-15": {
+      "recordBodyBytes": 63908,
+      "rows": 70
+    },
+    "2024-11-17": {
+      "recordBodyBytes": 11182,
+      "rows": 20
+    },
+    "2024-11-19": {
+      "recordBodyBytes": 10704,
+      "rows": 21
+    },
+    "2024-11-30": {
+      "recordBodyBytes": 11481,
+      "rows": 23
+    },
+    "2024-12-01": {
+      "recordBodyBytes": 88832,
+      "rows": 182
+    },
+    "2024-12-02": {
+      "recordBodyBytes": 11520,
+      "rows": 19
+    },
+    "2024-12-04": {
+      "recordBodyBytes": 2739,
+      "rows": 5
+    },
+    "2024-12-07": {
+      "recordBodyBytes": 53035,
+      "rows": 59
+    },
+    "2024-12-09": {
+      "recordBodyBytes": 15411,
+      "rows": 30
+    },
+    "2024-12-10": {
+      "recordBodyBytes": 8725,
+      "rows": 16
+    },
+    "2024-12-14": {
+      "recordBodyBytes": 9645,
+      "rows": 18
+    },
+    "2024-12-16": {
+      "recordBodyBytes": 8366,
+      "rows": 15
+    },
+    "2024-12-18": {
+      "recordBodyBytes": 21341,
+      "rows": 40
+    },
+    "2024-12-20": {
+      "recordBodyBytes": 157613,
+      "rows": 218
+    },
+    "2024-12-21": {
+      "recordBodyBytes": 25203,
+      "rows": 48
+    },
+    "2024-12-23": {
+      "recordBodyBytes": 13721,
+      "rows": 25
+    },
+    "2024-12-24": {
+      "recordBodyBytes": 18924,
+      "rows": 36
+    },
+    "2024-12-30": {
+      "recordBodyBytes": 10713,
+      "rows": 23
+    },
+    "2025-01-02": {
+      "recordBodyBytes": 13243,
+      "rows": 24
+    },
+    "2025-01-04": {
+      "recordBodyBytes": 47158,
+      "rows": 59
+    },
+    "2025-01-05": {
+      "recordBodyBytes": 8080,
+      "rows": 18
+    },
+    "2025-01-19": {
+      "recordBodyBytes": 61344,
+      "rows": 50
+    },
+    "2025-02-14": {
+      "recordBodyBytes": 49960,
+      "rows": 46
+    },
+    "2025-03-08": {
+      "recordBodyBytes": 41307,
+      "rows": 48
+    },
+    "2025-03-09": {
+      "recordBodyBytes": 6569,
+      "rows": 15
+    },
+    "2025-03-11": {
+      "recordBodyBytes": 9186,
+      "rows": 18
+    },
+    "2025-03-12": {
+      "recordBodyBytes": 8849,
+      "rows": 18
+    },
+    "2025-03-13": {
+      "recordBodyBytes": 4647,
+      "rows": 9
+    },
+    "2025-03-15": {
+      "recordBodyBytes": 112700,
+      "rows": 184
+    },
+    "2025-03-17": {
+      "recordBodyBytes": 5212,
+      "rows": 10
+    },
+    "2025-03-18": {
+      "recordBodyBytes": 19330,
+      "rows": 37
+    },
+    "2025-03-24": {
+      "recordBodyBytes": 15021,
+      "rows": 29
+    },
+    "2025-03-25": {
+      "recordBodyBytes": 9775,
+      "rows": 19
+    },
+    "2025-03-29": {
+      "recordBodyBytes": 17788,
+      "rows": 32
+    },
+    "2025-03-31": {
+      "recordBodyBytes": 11179,
+      "rows": 21
+    },
+    "2025-04-01": {
+      "recordBodyBytes": 138914,
+      "rows": 232
+    },
+    "2025-04-02": {
+      "recordBodyBytes": 13773,
+      "rows": 25
+    },
+    "2025-04-06": {
+      "recordBodyBytes": 4872,
+      "rows": 10
+    },
+    "2025-04-09": {
+      "recordBodyBytes": 2735,
+      "rows": 5
+    },
+    "2025-04-19": {
+      "recordBodyBytes": 4654,
+      "rows": 9
+    },
+    "2025-04-23": {
+      "recordBodyBytes": 7701,
+      "rows": 16
+    },
+    "2025-04-24": {
+      "recordBodyBytes": 6046,
+      "rows": 11
+    },
+    "2025-04-27": {
+      "recordBodyBytes": 9255,
+      "rows": 17
+    },
+    "2025-04-28": {
+      "recordBodyBytes": 20330,
+      "rows": 37
+    },
+    "2025-05-01": {
+      "recordBodyBytes": 17491,
+      "rows": 33
+    },
+    "2025-05-04": {
+      "recordBodyBytes": 16887,
+      "rows": 31
+    },
+    "2025-05-05": {
+      "recordBodyBytes": 6517,
+      "rows": 14
+    },
+    "2025-05-06": {
+      "recordBodyBytes": 10704,
+      "rows": 21
+    },
+    "2025-05-09": {
+      "recordBodyBytes": 31211,
+      "rows": 52
+    },
+    "2025-05-11": {
+      "recordBodyBytes": 11379,
+      "rows": 23
+    },
+    "2025-05-17": {
+      "recordBodyBytes": 5560,
+      "rows": 12
+    },
+    "2025-05-18": {
+      "recordBodyBytes": 9731,
+      "rows": 18
+    },
+    "2025-05-19": {
+      "recordBodyBytes": 3690,
+      "rows": 7
+    },
+    "2025-05-22": {
+      "recordBodyBytes": 3307,
+      "rows": 6
+    },
+    "2025-05-24": {
+      "recordBodyBytes": 8300,
+      "rows": 15
+    },
+    "2025-05-29": {
+      "recordBodyBytes": 9988,
+      "rows": 20
+    },
+    "2025-05-31": {
+      "recordBodyBytes": 10885,
+      "rows": 21
+    },
+    "2025-06-01": {
+      "recordBodyBytes": 23803,
+      "rows": 44
+    },
+    "2025-06-05": {
+      "recordBodyBytes": 3302,
+      "rows": 6
+    },
+    "2025-06-07": {
+      "recordBodyBytes": 45020,
+      "rows": 54
+    },
+    "2025-06-10": {
+      "recordBodyBytes": 4990,
+      "rows": 11
+    },
+    "2025-06-11": {
+      "recordBodyBytes": 3300,
+      "rows": 6
+    },
+    "2025-06-13": {
+      "recordBodyBytes": 131559,
+      "rows": 200
+    },
+    "2025-06-14": {
+      "recordBodyBytes": 4255,
+      "rows": 8
+    },
+    "2025-06-28": {
+      "recordBodyBytes": 5786,
+      "rows": 12
+    },
+    "2025-06-30": {
+      "recordBodyBytes": 6270,
+      "rows": 13
+    },
+    "2025-07-01": {
+      "recordBodyBytes": 311754,
+      "rows": 521
+    },
+    "2025-07-02": {
+      "recordBodyBytes": 10957,
+      "rows": 18
+    },
+    "2025-07-03": {
+      "recordBodyBytes": 7766,
+      "rows": 14
+    },
+    "2025-07-06": {
+      "recordBodyBytes": 6399,
+      "rows": 13
+    },
+    "2025-07-07": {
+      "recordBodyBytes": 16506,
+      "rows": 32
+    },
+    "2025-07-10": {
+      "recordBodyBytes": 8292,
+      "rows": 17
+    },
+    "2025-07-11": {
+      "recordBodyBytes": 14273,
+      "rows": 27
+    },
+    "2025-07-12": {
+      "recordBodyBytes": 11993,
+      "rows": 22
+    },
+    "2025-07-16": {
+      "recordBodyBytes": 16570,
+      "rows": 32
+    },
+    "2025-07-17": {
+      "recordBodyBytes": 8758,
+      "rows": 16
+    },
+    "2025-07-18": {
+      "recordBodyBytes": 41829,
+      "rows": 45
+    },
+    "2025-07-19": {
+      "recordBodyBytes": 5947,
+      "rows": 13
+    },
+    "2025-07-23": {
+      "recordBodyBytes": 2737,
+      "rows": 5
+    },
+    "2025-07-26": {
+      "recordBodyBytes": 17886,
+      "rows": 32
+    },
+    "2025-07-27": {
+      "recordBodyBytes": 8329,
+      "rows": 15
+    },
+    "2025-07-28": {
+      "recordBodyBytes": 6900,
+      "rows": 15
+    },
+    "2025-07-29": {
+      "recordBodyBytes": 4753,
+      "rows": 10
+    },
+    "2025-07-31": {
+      "recordBodyBytes": 5662,
+      "rows": 13
+    },
+    "2025-08-02": {
+      "recordBodyBytes": 12502,
+      "rows": 21
+    },
+    "2025-08-06": {
+      "recordBodyBytes": 11508,
+      "rows": 23
+    },
+    "2025-08-08": {
+      "recordBodyBytes": 38112,
+      "rows": 62
+    },
+    "2025-08-13": {
+      "recordBodyBytes": 6602,
+      "rows": 12
+    },
+    "2025-08-15": {
+      "recordBodyBytes": 201446,
+      "rows": 254
+    },
+    "2025-08-16": {
+      "recordBodyBytes": 19554,
+      "rows": 34
+    },
+    "2025-08-17": {
+      "recordBodyBytes": 8305,
+      "rows": 15
+    },
+    "2025-08-19": {
+      "recordBodyBytes": 9288,
+      "rows": 17
+    },
+    "2025-08-22": {
+      "recordBodyBytes": 27749,
+      "rows": 41
+    },
+    "2025-08-23": {
+      "recordBodyBytes": 52237,
+      "rows": 11
+    },
+    "2025-08-24": {
+      "recordBodyBytes": 6508,
+      "rows": 14
+    },
+    "2025-08-31": {
+      "recordBodyBytes": 5713,
+      "rows": 12
+    },
+    "2025-09-04": {
+      "recordBodyBytes": 9647,
+      "rows": 18
+    },
+    "2025-09-07": {
+      "recordBodyBytes": 6219,
+      "rows": 13
+    },
+    "2025-09-08": {
+      "recordBodyBytes": 5947,
+      "rows": 13
+    },
+    "2025-09-10": {
+      "recordBodyBytes": 6046,
+      "rows": 11
+    },
+    "2025-09-11": {
+      "recordBodyBytes": 15943,
+      "rows": 31
+    },
+    "2025-09-12": {
+      "recordBodyBytes": 19290,
+      "rows": 36
+    },
+    "2025-09-13": {
+      "recordBodyBytes": 23807,
+      "rows": 43
+    },
+    "2025-09-14": {
+      "recordBodyBytes": 10549,
+      "rows": 21
+    },
+    "2025-09-15": {
+      "recordBodyBytes": 42211,
+      "rows": 50
+    },
+    "2025-09-18": {
+      "recordBodyBytes": 16886,
+      "rows": 30
+    },
+    "2025-09-19": {
+      "recordBodyBytes": 57126,
+      "rows": 62
+    },
+    "2025-09-22": {
+      "recordBodyBytes": 9295,
+      "rows": 17
+    },
+    "2025-09-29": {
+      "recordBodyBytes": 12744,
+      "rows": 24
+    },
+    "2025-09-30": {
+      "recordBodyBytes": 4927,
+      "rows": 10
+    },
+    "2025-10-04": {
+      "recordBodyBytes": 59617,
+      "rows": 66
+    },
+    "2025-10-05": {
+      "recordBodyBytes": 9035,
+      "rows": 20
+    },
+    "2025-10-06": {
+      "recordBodyBytes": 51232,
+      "rows": 9
+    },
+    "2025-10-11": {
+      "recordBodyBytes": 10978,
+      "rows": 22
+    },
+    "2025-10-13": {
+      "recordBodyBytes": 25572,
+      "rows": 46
+    },
+    "2025-10-15": {
+      "recordBodyBytes": 36877,
+      "rows": 45
+    },
+    "2025-10-16": {
+      "recordBodyBytes": 7003,
+      "rows": 13
+    },
+    "2025-10-17": {
+      "recordBodyBytes": 169256,
+      "rows": 240
+    },
+    "2025-10-18": {
+      "recordBodyBytes": 4645,
+      "rows": 9
+    },
+    "2025-10-22": {
+      "recordBodyBytes": 6611,
+      "rows": 12
+    },
+    "2025-10-25": {
+      "recordBodyBytes": 6607,
+      "rows": 12
+    },
+    "2025-10-26": {
+      "recordBodyBytes": 8304,
+      "rows": 17
+    },
+    "2025-10-27": {
+      "recordBodyBytes": 7737,
+      "rows": 14
+    },
+    "2025-11-09": {
+      "recordBodyBytes": 13834,
+      "rows": 25
+    },
+    "2025-11-13": {
+      "recordBodyBytes": 5562,
+      "rows": 12
+    },
+    "2025-11-14": {
+      "recordBodyBytes": 38681,
+      "rows": 58
+    },
+    "2025-11-15": {
+      "recordBodyBytes": 182006,
+      "rows": 163
+    },
+    "2025-11-17": {
+      "recordBodyBytes": 14284,
+      "rows": 26
+    },
+    "2025-11-18": {
+      "recordBodyBytes": 4742,
+      "rows": 10
+    },
+    "2025-11-21": {
+      "recordBodyBytes": 94077,
+      "rows": 115
+    },
+    "2025-11-24": {
+      "recordBodyBytes": 9262,
+      "rows": 17
+    },
+    "2025-11-30": {
+      "recordBodyBytes": 20412,
+      "rows": 38
+    },
+    "2025-12-02": {
+      "recordBodyBytes": 8923,
+      "rows": 16
+    },
+    "2025-12-03": {
+      "recordBodyBytes": 13545,
+      "rows": 25
+    },
+    "2025-12-06": {
+      "recordBodyBytes": 72134,
+      "rows": 81
+    },
+    "2025-12-10": {
+      "recordBodyBytes": 16539,
+      "rows": 32
+    },
+    "2025-12-11": {
+      "recordBodyBytes": 20303,
+      "rows": 37
+    },
+    "2025-12-12": {
+      "recordBodyBytes": 16886,
+      "rows": 34
+    },
+    "2025-12-13": {
+      "recordBodyBytes": 11157,
+      "rows": 23
+    },
+    "2025-12-14": {
+      "recordBodyBytes": 4260,
+      "rows": 8
+    },
+    "2025-12-16": {
+      "recordBodyBytes": 22685,
+      "rows": 45
+    },
+    "2025-12-20": {
+      "recordBodyBytes": 21256,
+      "rows": 39
+    },
+    "2025-12-22": {
+      "recordBodyBytes": 6517,
+      "rows": 14
+    },
+    "2025-12-23": {
+      "recordBodyBytes": 17852,
+      "rows": 32
+    },
+    "2025-12-24": {
+      "recordBodyBytes": 12952,
+      "rows": 24
+    },
+    "2025-12-25": {
+      "recordBodyBytes": 18120,
+      "rows": 35
+    },
+    "2025-12-27": {
+      "recordBodyBytes": 21095,
+      "rows": 38
+    },
+    "2025-12-28": {
+      "recordBodyBytes": 18275,
+      "rows": 35
+    },
+    "2025-12-29": {
+      "recordBodyBytes": 10434,
+      "rows": 20
+    },
+    "2025-12-30": {
+      "recordBodyBytes": 9795,
+      "rows": 19
+    },
+    "2026-01-03": {
+      "recordBodyBytes": 37356,
+      "rows": 52
+    },
+    "2026-01-04": {
+      "recordBodyBytes": 13381,
+      "rows": 25
+    },
+    "2021-04-04": {
+      "recordBodyBytes": 5055,
+      "rows": 9
+    },
+    "2021-04-09": {
+      "recordBodyBytes": 149930,
+      "rows": 224
+    },
+    "2021-04-10": {
+      "recordBodyBytes": 21350,
+      "rows": 27
+    },
+    "2021-04-11": {
+      "recordBodyBytes": 22269,
+      "rows": 55
+    },
+    "2021-04-15": {
+      "recordBodyBytes": 352769,
+      "rows": 363
+    },
+    "2021-04-18": {
+      "recordBodyBytes": 5055,
+      "rows": 9
+    },
+    "2021-04-19": {
+      "recordBodyBytes": 10110,
+      "rows": 18
+    },
+    "2021-04-24": {
+      "recordBodyBytes": 6367,
+      "rows": 12
+    },
+    "2021-04-25": {
+      "recordBodyBytes": 7062,
+      "rows": 13
+    },
+    "2021-05-01": {
+      "recordBodyBytes": 22648,
+      "rows": 41
+    },
+    "2021-05-03": {
+      "recordBodyBytes": 5055,
+      "rows": 9
+    },
+    "2021-05-06": {
+      "recordBodyBytes": 5055,
+      "rows": 9
+    },
+    "2021-05-08": {
+      "recordBodyBytes": 63685,
+      "rows": 71
+    },
+    "2021-05-16": {
+      "recordBodyBytes": 16292,
+      "rows": 32
+    },
+    "2021-05-17": {
+      "recordBodyBytes": 5022,
+      "rows": 9
+    },
+    "2021-05-27": {
+      "recordBodyBytes": 5022,
+      "rows": 9
+    },
+    "2021-05-29": {
+      "recordBodyBytes": 5022,
+      "rows": 9
+    },
+    "2021-06-12": {
+      "recordBodyBytes": 5022,
+      "rows": 9
+    },
+    "2021-06-13": {
+      "recordBodyBytes": 5022,
+      "rows": 9
+    },
+    "2021-06-18": {
+      "recordBodyBytes": 17145,
+      "rows": 32
+    },
+    "2021-06-23": {
+      "recordBodyBytes": 5975,
+      "rows": 11
+    },
+    "2021-07-09": {
+      "recordBodyBytes": 136808,
+      "rows": 205
+    },
+    "2021-07-10": {
+      "recordBodyBytes": 15895,
+      "rows": 21
+    },
+    "2021-07-19": {
+      "recordBodyBytes": 15099,
+      "rows": 27
+    },
+    "2021-07-20": {
+      "recordBodyBytes": 6491,
+      "rows": 13
+    },
+    "2021-07-21": {
+      "recordBodyBytes": 5055,
+      "rows": 9
+    },
+    "2021-07-26": {
+      "recordBodyBytes": 5055,
+      "rows": 9
+    },
+    "2021-07-27": {
+      "recordBodyBytes": 5055,
+      "rows": 9
+    },
+    "2021-07-29": {
+      "recordBodyBytes": 5975,
+      "rows": 11
+    },
+    "2021-08-07": {
+      "recordBodyBytes": 34204,
+      "rows": 46
+    },
+    "2021-08-08": {
+      "recordBodyBytes": 7881,
+      "rows": 15
+    },
+    "2021-08-10": {
+      "recordBodyBytes": 6008,
+      "rows": 11
+    },
+    "2021-08-11": {
+      "recordBodyBytes": 5022,
+      "rows": 9
+    },
+    "2021-08-14": {
+      "recordBodyBytes": 5022,
+      "rows": 9
+    },
+    "2021-08-15": {
+      "recordBodyBytes": 13564,
+      "rows": 25
+    },
+    "2021-08-16": {
+      "recordBodyBytes": 6768,
+      "rows": 12
+    },
+    "2021-08-22": {
+      "recordBodyBytes": 5022,
+      "rows": 9
+    },
+    "2021-08-25": {
+      "recordBodyBytes": 5022,
+      "rows": 9
+    },
+    "2021-08-28": {
+      "recordBodyBytes": 26063,
+      "rows": 47
+    },
+    "2021-08-31": {
+      "recordBodyBytes": 8077,
+      "rows": 17
+    },
+    "2021-09-01": {
+      "recordBodyBytes": 13237,
+      "rows": 28
+    },
+    "2021-09-04": {
+      "recordBodyBytes": 28771,
+      "rows": 40
+    },
+    "2021-09-20": {
+      "recordBodyBytes": 5975,
+      "rows": 11
+    },
+    "2021-09-26": {
+      "recordBodyBytes": 10044,
+      "rows": 18
+    },
+    "2021-09-29": {
+      "recordBodyBytes": 5022,
+      "rows": 9
+    },
+    "2021-09-30": {
+      "recordBodyBytes": 6641,
+      "rows": 13
+    },
+    "2021-10-09": {
+      "recordBodyBytes": 23133,
+      "rows": 31
+    },
+    "2021-10-13": {
+      "recordBodyBytes": 6041,
+      "rows": 11
+    },
+    "2021-10-19": {
+      "recordBodyBytes": 6008,
+      "rows": 11
+    },
+    "2021-11-03": {
+      "recordBodyBytes": 5835,
+      "rows": 11
+    },
+    "2021-11-14": {
+      "recordBodyBytes": 2613,
+      "rows": 5
+    },
+    "2021-12-02": {
+      "recordBodyBytes": 11159,
+      "rows": 17
+    },
+    "2021-12-05": {
+      "recordBodyBytes": 6198,
+      "rows": 12
+    },
+    "2021-12-08": {
+      "recordBodyBytes": 10044,
+      "rows": 18
+    },
+    "2021-12-09": {
+      "recordBodyBytes": 5055,
+      "rows": 9
+    },
+    "2021-12-10": {
+      "recordBodyBytes": 8461,
+      "rows": 18
+    },
+    "2021-12-15": {
+      "recordBodyBytes": 317482,
+      "rows": 273
+    },
+    "2021-12-28": {
+      "recordBodyBytes": 6928,
+      "rows": 13
+    },
+    "2021-12-30": {
+      "recordBodyBytes": 29275,
+      "rows": 61
+    },
+    "2022-03-08": {
+      "recordBodyBytes": 206289,
+      "rows": 205
+    },
+    "2022-03-20": {
+      "recordBodyBytes": 5022,
+      "rows": 9
+    },
+    "2022-03-23": {
+      "recordBodyBytes": 10044,
+      "rows": 18
+    },
+    "2022-03-31": {
+      "recordBodyBytes": 6478,
+      "rows": 12
+    },
+    "2022-04-03": {
+      "recordBodyBytes": 10110,
+      "rows": 18
+    },
+    "2022-04-10": {
+      "recordBodyBytes": 16453,
+      "rows": 31
+    },
+    "2022-04-12": {
+      "recordBodyBytes": 11513,
+      "rows": 22
+    },
+    "2022-04-14": {
+      "recordBodyBytes": 6782,
+      "rows": 12
+    },
+    "2022-04-15": {
+      "recordBodyBytes": 97455,
+      "rows": 170
+    },
+    "2022-04-16": {
+      "recordBodyBytes": 34921,
+      "rows": 34
+    },
+    "2022-04-17": {
+      "recordBodyBytes": 5055,
+      "rows": 9
+    },
+    "2022-04-18": {
+      "recordBodyBytes": 13255,
+      "rows": 24
+    },
+    "2022-04-19": {
+      "recordBodyBytes": 10077,
+      "rows": 18
+    },
+    "2022-04-23": {
+      "recordBodyBytes": 12903,
+      "rows": 24
+    },
+    "2022-04-25": {
+      "recordBodyBytes": 5055,
+      "rows": 9
+    },
+    "2022-04-27": {
+      "recordBodyBytes": 5820,
+      "rows": 10
+    },
+    "2022-04-30": {
+      "recordBodyBytes": 7594,
+      "rows": 15
+    },
+    "2022-05-01": {
+      "recordBodyBytes": 22594,
+      "rows": 40
+    },
+    "2022-05-05": {
+      "recordBodyBytes": 10997,
+      "rows": 20
+    },
+    "2022-05-08": {
+      "recordBodyBytes": 8104,
+      "rows": 16
+    },
+    "2022-05-09": {
+      "recordBodyBytes": 12610,
+      "rows": 22
+    },
+    "2022-05-11": {
+      "recordBodyBytes": 6994,
+      "rows": 13
+    },
+    "2022-05-17": {
+      "recordBodyBytes": 500193,
+      "rows": 482
+    },
+    "2022-05-28": {
+      "recordBodyBytes": 5975,
+      "rows": 11
+    },
+    "2022-06-01": {
+      "recordBodyBytes": 18322,
+      "rows": 35
+    },
+    "2022-06-02": {
+      "recordBodyBytes": 9193,
+      "rows": 15
+    },
+    "2022-06-12": {
+      "recordBodyBytes": 18878,
+      "rows": 35
+    },
+    "2022-06-17": {
+      "recordBodyBytes": 35507,
+      "rows": 43
+    },
+    "2022-06-20": {
+      "recordBodyBytes": 10077,
+      "rows": 18
+    },
+    "2022-06-28": {
+      "recordBodyBytes": 508573,
+      "rows": 482
+    },
+    "2022-06-30": {
+      "recordBodyBytes": 13207,
+      "rows": 24
+    },
+    "2022-07-07": {
+      "recordBodyBytes": 5975,
+      "rows": 11
+    },
+    "2022-07-09": {
+      "recordBodyBytes": 38746,
+      "rows": 43
+    },
+    "2022-07-12": {
+      "recordBodyBytes": 5022,
+      "rows": 9
+    },
+    "2022-07-16": {
+      "recordBodyBytes": 6367,
+      "rows": 12
+    },
+    "2022-07-18": {
+      "recordBodyBytes": 5022,
+      "rows": 9
+    },
+    "2022-07-21": {
+      "recordBodyBytes": 11063,
+      "rows": 20
+    },
+    "2022-07-23": {
+      "recordBodyBytes": 6792,
+      "rows": 13
+    },
+    "2022-07-31": {
+      "recordBodyBytes": 6674,
+      "rows": 13
+    },
+    "2022-08-01": {
+      "recordBodyBytes": 30112,
+      "rows": 52
+    },
+    "2022-08-07": {
+      "recordBodyBytes": 12173,
+      "rows": 23
+    },
+    "2022-08-09": {
+      "recordBodyBytes": 581545,
+      "rows": 553
+    },
+    "2022-08-10": {
+      "recordBodyBytes": 5975,
+      "rows": 11
+    },
+    "2022-08-18": {
+      "recordBodyBytes": 5022,
+      "rows": 9
+    },
+    "2022-08-19": {
+      "recordBodyBytes": 56828,
+      "rows": 62
+    },
+    "2022-08-22": {
+      "recordBodyBytes": 5022,
+      "rows": 9
+    },
+    "2022-08-27": {
+      "recordBodyBytes": 9437,
+      "rows": 17
+    },
+    "2022-08-28": {
+      "recordBodyBytes": 12734,
+      "rows": 24
+    },
+    "2022-09-24": {
+      "recordBodyBytes": 1929787,
+      "rows": 5012
+    },
+    "2022-09-29": {
+      "recordBodyBytes": 11030,
+      "rows": 20
+    },
+    "2022-10-14": {
+      "recordBodyBytes": 13608,
+      "rows": 28
+    },
+    "2022-10-15": {
+      "recordBodyBytes": 21969,
+      "rows": 26
+    },
+    "2022-10-16": {
+      "recordBodyBytes": 4989,
+      "rows": 9
+    },
+    "2022-10-17": {
+      "recordBodyBytes": 5022,
+      "rows": 9
+    },
+    "2022-10-26": {
+      "recordBodyBytes": 10110,
+      "rows": 18
+    },
+    "2022-10-27": {
+      "recordBodyBytes": 26063,
+      "rows": 47
+    },
+    "2022-10-29": {
+      "recordBodyBytes": 10044,
+      "rows": 18
+    },
+    "2022-11-03": {
+      "recordBodyBytes": 5055,
+      "rows": 9
+    },
+    "2022-11-08": {
+      "recordBodyBytes": 3615320,
+      "rows": 5106
+    },
+    "2022-11-10": {
+      "recordBodyBytes": 10077,
+      "rows": 18
+    },
+    "2022-11-14": {
+      "recordBodyBytes": 5022,
+      "rows": 9
+    },
+    "2022-11-16": {
+      "recordBodyBytes": 5975,
+      "rows": 11
+    },
+    "2022-11-20": {
+      "recordBodyBytes": 10306,
+      "rows": 19
+    },
+    "2022-11-22": {
+      "recordBodyBytes": 7444,
+      "rows": 15
+    },
+    "2022-11-23": {
+      "recordBodyBytes": 10997,
+      "rows": 20
+    },
+    "2022-12-03": {
+      "recordBodyBytes": 32189,
+      "rows": 40
+    },
+    "2022-12-05": {
+      "recordBodyBytes": 6941,
+      "rows": 13
+    },
+    "2022-12-09": {
+      "recordBodyBytes": 30678,
+      "rows": 51
+    },
+    "2022-12-10": {
+      "recordBodyBytes": 17219,
+      "rows": 22
+    },
+    "2022-12-27": {
+      "recordBodyBytes": 5953,
+      "rows": 11
+    },
+    "2022-12-29": {
+      "recordBodyBytes": 6941,
+      "rows": 13
+    },
+    "2023-03-08": {
+      "recordBodyBytes": 12005,
+      "rows": 22
+    },
+    "2023-03-15": {
+      "recordBodyBytes": 146738,
+      "rows": 201
+    },
+    "2023-03-18": {
+      "recordBodyBytes": 15093,
+      "rows": 27
+    },
+    "2023-03-19": {
+      "recordBodyBytes": 5031,
+      "rows": 9
+    },
+    "2023-03-23": {
+      "recordBodyBytes": 6908,
+      "rows": 13
+    },
+    "2023-03-25": {
+      "recordBodyBytes": 4998,
+      "rows": 9
+    },
+    "2023-03-29": {
+      "recordBodyBytes": 6908,
+      "rows": 13
+    },
+    "2023-04-25": {
+      "recordBodyBytes": 12457,
+      "rows": 24
+    },
+    "2023-04-30": {
+      "recordBodyBytes": 16718,
+      "rows": 31
+    },
+    "2023-05-06": {
+      "recordBodyBytes": 37829,
+      "rows": 42
+    },
+    "2023-05-10": {
+      "recordBodyBytes": 11972,
+      "rows": 22
+    },
+    "2023-05-11": {
+      "recordBodyBytes": 5031,
+      "rows": 9
+    },
+    "2023-05-14": {
+      "recordBodyBytes": 5031,
+      "rows": 9
+    },
+    "2023-05-15": {
+      "recordBodyBytes": 54714,
+      "rows": 68
+    },
+    "2023-05-16": {
+      "recordBodyBytes": 11050,
+      "rows": 20
+    },
+    "2023-05-18": {
+      "recordBodyBytes": 5064,
+      "rows": 9
+    },
+    "2023-05-23": {
+      "recordBodyBytes": 17984,
+      "rows": 33
+    },
+    "2023-05-24": {
+      "recordBodyBytes": 5986,
+      "rows": 11
+    },
+    "2023-05-25": {
+      "recordBodyBytes": 11811,
+      "rows": 21
+    },
+    "2023-05-29": {
+      "recordBodyBytes": 6714,
+      "rows": 12
+    },
+    "2023-05-30": {
+      "recordBodyBytes": 6908,
+      "rows": 13
+    },
+    "2023-06-03": {
+      "recordBodyBytes": 31403,
+      "rows": 40
+    },
+    "2023-06-12": {
+      "recordBodyBytes": 5986,
+      "rows": 11
+    },
+    "2023-06-14": {
+      "recordBodyBytes": 10984,
+      "rows": 20
+    },
+    "2023-07-06": {
+      "recordBodyBytes": 5064,
+      "rows": 9
+    },
+    "2023-07-10": {
+      "recordBodyBytes": 11772,
+      "rows": 21
+    },
+    "2023-07-17": {
+      "recordBodyBytes": 5986,
+      "rows": 11
+    },
+    "2023-07-29": {
+      "recordBodyBytes": 6785,
+      "rows": 12
+    },
+    "2023-08-06": {
+      "recordBodyBytes": 11634,
+      "rows": 22
+    },
+    "2023-08-13": {
+      "recordBodyBytes": 25776,
+      "rows": 47
+    },
+    "2023-08-17": {
+      "recordBodyBytes": 16745,
+      "rows": 30
+    },
+    "2023-08-19": {
+      "recordBodyBytes": 15785,
+      "rows": 28
+    },
+    "2023-08-20": {
+      "recordBodyBytes": 20780,
+      "rows": 37
+    },
+    "2023-08-21": {
+      "recordBodyBytes": 40939,
+      "rows": 74
+    },
+    "2023-08-22": {
+      "recordBodyBytes": 16048,
+      "rows": 29
+    },
+    "2023-08-23": {
+      "recordBodyBytes": 4998,
+      "rows": 9
+    },
+    "2023-08-31": {
+      "recordBodyBytes": 7441,
+      "rows": 14
+    },
+    "2023-09-03": {
+      "recordBodyBytes": 23944,
+      "rows": 44
+    },
+    "2023-09-04": {
+      "recordBodyBytes": 19802,
+      "rows": 37
+    },
+    "2023-09-06": {
+      "recordBodyBytes": 32630,
+      "rows": 61
+    },
+    "2023-09-09": {
+      "recordBodyBytes": 80650,
+      "rows": 93
+    },
+    "2023-09-10": {
+      "recordBodyBytes": 15232,
+      "rows": 29
+    },
+    "2023-10-03": {
+      "recordBodyBytes": 17892,
+      "rows": 33
+    },
+    "2023-10-04": {
+      "recordBodyBytes": 6941,
+      "rows": 13
+    },
+    "2023-10-17": {
+      "recordBodyBytes": 9638,
+      "rows": 18
+    },
+    "2023-10-19": {
+      "recordBodyBytes": 9806,
+      "rows": 19
+    },
+    "2023-11-08": {
+      "recordBodyBytes": 13112,
+      "rows": 25
+    },
+    "2023-11-16": {
+      "recordBodyBytes": 4998,
+      "rows": 9
+    },
+    "2023-11-20": {
+      "recordBodyBytes": 5031,
+      "rows": 9
+    },
+    "2023-11-26": {
+      "recordBodyBytes": 5031,
+      "rows": 9
+    },
+    "2023-11-29": {
+      "recordBodyBytes": 5953,
+      "rows": 11
+    },
+    "2023-12-06": {
+      "recordBodyBytes": 15093,
+      "rows": 27
+    },
+    "2023-12-07": {
+      "recordBodyBytes": 5953,
+      "rows": 11
+    },
+    "2023-12-17": {
+      "recordBodyBytes": 5784,
+      "rows": 11
+    },
+    "2023-12-19": {
+      "recordBodyBytes": 6471,
+      "rows": 13
+    },
+    "2023-12-24": {
+      "recordBodyBytes": 15093,
+      "rows": 27
+    },
+    "2023-12-27": {
+      "recordBodyBytes": 5783,
+      "rows": 10
+    },
+    "2024-01-02": {
+      "recordBodyBytes": 9693,
+      "rows": 17
+    },
+    "2024-01-04": {
+      "recordBodyBytes": 5031,
+      "rows": 9
+    },
+    "2024-03-06": {
+      "recordBodyBytes": 11670,
+      "rows": 21
+    },
+    "2024-03-07": {
+      "recordBodyBytes": 6598,
+      "rows": 11
+    },
+    "2024-03-08": {
+      "recordBodyBytes": 33337,
+      "rows": 53
+    },
+    "2024-03-11": {
+      "recordBodyBytes": 5031,
+      "rows": 9
+    },
+    "2024-03-26": {
+      "recordBodyBytes": 12597,
+      "rows": 25
+    },
+    "2024-04-06": {
+      "recordBodyBytes": 26400,
+      "rows": 30
+    },
+    "2024-04-09": {
+      "recordBodyBytes": 16397,
+      "rows": 29
+    },
+    "2024-04-23": {
+      "recordBodyBytes": 235161,
+      "rows": 223
+    },
+    "2024-04-29": {
+      "recordBodyBytes": 6019,
+      "rows": 11
+    },
+    "2024-05-01": {
+      "recordBodyBytes": 22565,
+      "rows": 44
+    },
+    "2024-05-07": {
+      "recordBodyBytes": 162266,
+      "rows": 157
+    },
+    "2024-05-08": {
+      "recordBodyBytes": 4998,
+      "rows": 9
+    },
+    "2024-05-13": {
+      "recordBodyBytes": 14192,
+      "rows": 28
+    },
+    "2024-05-15": {
+      "recordBodyBytes": 40193,
+      "rows": 52
+    },
+    "2024-05-17": {
+      "recordBodyBytes": 154756,
+      "rows": 213
+    },
+    "2024-05-19": {
+      "recordBodyBytes": 13073,
+      "rows": 25
+    },
+    "2024-05-20": {
+      "recordBodyBytes": 15126,
+      "rows": 27
+    },
+    "2024-05-24": {
+      "recordBodyBytes": 11581,
+      "rows": 24
+    },
+    "2024-05-28": {
+      "recordBodyBytes": 8239,
+      "rows": 17
+    },
+    "2024-05-29": {
+      "recordBodyBytes": 6738,
+      "rows": 12
+    },
+    "2024-06-03": {
+      "recordBodyBytes": 9194,
+      "rows": 19
+    },
+    "2024-06-10": {
+      "recordBodyBytes": 6908,
+      "rows": 13
+    },
+    "2024-06-11": {
+      "recordBodyBytes": 570410,
+      "rows": 517
+    },
+    "2024-06-18": {
+      "recordBodyBytes": 145375,
+      "rows": 142
+    },
+    "2024-06-22": {
+      "recordBodyBytes": 4998,
+      "rows": 9
+    },
+    "2024-06-26": {
+      "recordBodyBytes": 10817,
+      "rows": 19
+    },
+    "2024-06-29": {
+      "recordBodyBytes": 16015,
+      "rows": 29
+    },
+    "2024-07-02": {
+      "recordBodyBytes": 9726,
+      "rows": 17
+    },
+    "2024-07-04": {
+      "recordBodyBytes": 5783,
+      "rows": 10
+    },
+    "2024-07-09": {
+      "recordBodyBytes": 7284,
+      "rows": 15
+    },
+    "2024-07-14": {
+      "recordBodyBytes": 11906,
+      "rows": 22
+    },
+    "2024-07-16": {
+      "recordBodyBytes": 8348,
+      "rows": 17
+    },
+    "2024-07-24": {
+      "recordBodyBytes": 55014,
+      "rows": 17
+    },
+    "2024-08-03": {
+      "recordBodyBytes": 101887,
+      "rows": 61
+    },
+    "2024-08-04": {
+      "recordBodyBytes": 7727,
+      "rows": 15
+    },
+    "2024-08-09": {
+      "recordBodyBytes": 34738,
+      "rows": 51
+    },
+    "2024-08-12": {
+      "recordBodyBytes": 27595,
+      "rows": 49
+    },
+    "2024-08-13": {
+      "recordBodyBytes": 783381,
+      "rows": 727
+    },
+    "2024-08-14": {
+      "recordBodyBytes": 34217,
+      "rows": 64
+    },
+    "2024-08-19": {
+      "recordBodyBytes": 36040,
+      "rows": 65
+    },
+    "2024-08-20": {
+      "recordBodyBytes": 317811,
+      "rows": 295
+    },
+    "2024-08-21": {
+      "recordBodyBytes": 19992,
+      "rows": 36
+    },
+    "2024-08-22": {
+      "recordBodyBytes": 5986,
+      "rows": 11
+    },
+    "2024-08-24": {
+      "recordBodyBytes": 5953,
+      "rows": 11
+    },
+    "2024-08-27": {
+      "recordBodyBytes": 37253,
+      "rows": 68
+    },
+    "2024-08-29": {
+      "recordBodyBytes": 12249,
+      "rows": 24
+    },
+    "2024-09-04": {
+      "recordBodyBytes": 35139,
+      "rows": 66
+    },
+    "2024-09-05": {
+      "recordBodyBytes": 14804,
+      "rows": 28
+    },
+    "2024-09-08": {
+      "recordBodyBytes": 19661,
+      "rows": 39
+    },
+    "2024-09-09": {
+      "recordBodyBytes": 24800,
+      "rows": 46
+    },
+    "2024-09-10": {
+      "recordBodyBytes": 653678,
+      "rows": 596
+    },
+    "2024-09-28": {
+      "recordBodyBytes": 26797,
+      "rows": 53
+    },
+    "2024-10-05": {
+      "recordBodyBytes": 56065,
+      "rows": 60
+    },
+    "2024-10-08": {
+      "recordBodyBytes": 18156,
+      "rows": 36
+    },
+    "2024-10-12": {
+      "recordBodyBytes": 10728,
+      "rows": 21
+    },
+    "2024-11-02": {
+      "recordBodyBytes": 11013,
+      "rows": 18
+    },
+    "2024-11-21": {
+      "recordBodyBytes": 14192,
+      "rows": 28
+    },
+    "2024-11-24": {
+      "recordBodyBytes": 12315,
+      "rows": 24
+    },
+    "2024-11-26": {
+      "recordBodyBytes": 5986,
+      "rows": 11
+    },
+    "2024-12-05": {
+      "recordBodyBytes": 6777,
+      "rows": 12
+    },
+    "2024-12-13": {
+      "recordBodyBytes": 14738,
+      "rows": 29
+    },
+    "2024-12-15": {
+      "recordBodyBytes": 35068,
+      "rows": 41
+    },
+    "2024-12-17": {
+      "recordBodyBytes": 369064,
+      "rows": 617
+    },
+    "2024-12-22": {
+      "recordBodyBytes": 26011,
+      "rows": 47
+    },
+    "2024-12-25": {
+      "recordBodyBytes": 5986,
+      "rows": 11
+    },
+    "2024-12-26": {
+      "recordBodyBytes": 4998,
+      "rows": 9
+    },
+    "2025-01-30": {
+      "recordBodyBytes": 41579,
+      "rows": 29
+    },
+    "2025-03-20": {
+      "recordBodyBytes": 6941,
+      "rows": 13
+    },
+    "2025-03-22": {
+      "recordBodyBytes": 4998,
+      "rows": 9
+    },
+    "2025-03-23": {
+      "recordBodyBytes": 10029,
+      "rows": 18
+    },
+    "2025-03-30": {
+      "recordBodyBytes": 7284,
+      "rows": 15
+    },
+    "2025-04-05": {
+      "recordBodyBytes": 33993,
+      "rows": 42
+    },
+    "2025-04-07": {
+      "recordBodyBytes": 5031,
+      "rows": 9
+    },
+    "2025-04-10": {
+      "recordBodyBytes": 5815,
+      "rows": 10
+    },
+    "2025-04-11": {
+      "recordBodyBytes": 134072,
+      "rows": 204
+    },
+    "2025-04-12": {
+      "recordBodyBytes": 6941,
+      "rows": 13
+    },
+    "2025-04-16": {
+      "recordBodyBytes": 6908,
+      "rows": 13
+    },
+    "2025-04-17": {
+      "recordBodyBytes": 13204,
+      "rows": 26
+    },
+    "2025-04-18": {
+      "recordBodyBytes": 39768,
+      "rows": 40
+    },
+    "2025-04-21": {
+      "recordBodyBytes": 10847,
+      "rows": 19
+    },
+    "2025-05-07": {
+      "recordBodyBytes": 6941,
+      "rows": 13
+    },
+    "2025-05-08": {
+      "recordBodyBytes": 8239,
+      "rows": 17
+    },
+    "2025-05-26": {
+      "recordBodyBytes": 8206,
+      "rows": 17
+    },
+    "2025-05-27": {
+      "recordBodyBytes": 15982,
+      "rows": 29
+    },
+    "2025-06-02": {
+      "recordBodyBytes": 9773,
+      "rows": 15
+    },
+    "2025-06-04": {
+      "recordBodyBytes": 7317,
+      "rows": 15
+    },
+    "2025-06-08": {
+      "recordBodyBytes": 6570,
+      "rows": 13
+    },
+    "2025-06-09": {
+      "recordBodyBytes": 20843,
+      "rows": 37
+    },
+    "2025-06-12": {
+      "recordBodyBytes": 5031,
+      "rows": 9
+    },
+    "2025-06-15": {
+      "recordBodyBytes": 42028,
+      "rows": 43
+    },
+    "2025-06-16": {
+      "recordBodyBytes": 9161,
+      "rows": 19
+    },
+    "2025-06-17": {
+      "recordBodyBytes": 156324,
+      "rows": 148
+    },
+    "2025-06-21": {
+      "recordBodyBytes": 6908,
+      "rows": 13
+    },
+    "2025-06-22": {
+      "recordBodyBytes": 7317,
+      "rows": 15
+    },
+    "2025-06-23": {
+      "recordBodyBytes": 10029,
+      "rows": 18
+    },
+    "2025-06-24": {
+      "recordBodyBytes": 9996,
+      "rows": 18
+    },
+    "2025-07-09": {
+      "recordBodyBytes": 6533,
+      "rows": 11
+    },
+    "2025-07-13": {
+      "recordBodyBytes": 7317,
+      "rows": 15
+    },
+    "2025-07-14": {
+      "recordBodyBytes": 6774,
+      "rows": 12
+    },
+    "2025-07-22": {
+      "recordBodyBytes": 8239,
+      "rows": 17
+    },
+    "2025-08-03": {
+      "recordBodyBytes": 7251,
+      "rows": 15
+    },
+    "2025-08-04": {
+      "recordBodyBytes": 5031,
+      "rows": 9
+    },
+    "2025-08-07": {
+      "recordBodyBytes": 5953,
+      "rows": 11
+    },
+    "2025-08-09": {
+      "recordBodyBytes": 50324,
+      "rows": 57
+    },
+    "2025-08-10": {
+      "recordBodyBytes": 11601,
+      "rows": 22
+    },
+    "2025-08-11": {
+      "recordBodyBytes": 5953,
+      "rows": 11
+    },
+    "2025-08-12": {
+      "recordBodyBytes": 19646,
+      "rows": 39
+    },
+    "2025-08-14": {
+      "recordBodyBytes": 10029,
+      "rows": 18
+    },
+    "2025-08-18": {
+      "recordBodyBytes": 7284,
+      "rows": 15
+    },
+    "2025-08-25": {
+      "recordBodyBytes": 4998,
+      "rows": 9
+    },
+    "2025-08-30": {
+      "recordBodyBytes": 14058,
+      "rows": 27
+    },
+    "2025-09-02": {
+      "recordBodyBytes": 12383,
+      "rows": 23
+    },
+    "2025-09-09": {
+      "recordBodyBytes": 7397,
+      "rows": 15
+    },
+    "2025-09-16": {
+      "recordBodyBytes": 4998,
+      "rows": 9
+    },
+    "2025-09-17": {
+      "recordBodyBytes": 8069,
+      "rows": 16
+    },
+    "2025-09-20": {
+      "recordBodyBytes": 107933,
+      "rows": 271
+    },
+    "2025-09-21": {
+      "recordBodyBytes": 5953,
+      "rows": 11
+    },
+    "2025-09-25": {
+      "recordBodyBytes": 53605,
+      "rows": 13
+    },
+    "2025-09-28": {
+      "recordBodyBytes": 6646,
+      "rows": 12
+    },
+    "2025-10-10": {
+      "recordBodyBytes": 24869,
+      "rows": 39
+    },
+    "2025-10-14": {
+      "recordBodyBytes": 14192,
+      "rows": 28
+    },
+    "2025-10-20": {
+      "recordBodyBytes": 7284,
+      "rows": 15
+    },
+    "2025-10-23": {
+      "recordBodyBytes": 8072,
+      "rows": 16
+    },
+    "2025-10-30": {
+      "recordBodyBytes": 11017,
+      "rows": 20
+    },
+    "2025-11-02": {
+      "recordBodyBytes": 19270,
+      "rows": 33
+    },
+    "2025-11-05": {
+      "recordBodyBytes": 21861,
+      "rows": 40
+    },
+    "2025-11-06": {
+      "recordBodyBytes": 5953,
+      "rows": 11
+    },
+    "2025-11-08": {
+      "recordBodyBytes": 74028,
+      "rows": 85
+    },
+    "2025-11-12": {
+      "recordBodyBytes": 15845,
+      "rows": 28
+    },
+    "2025-11-16": {
+      "recordBodyBytes": 57462,
+      "rows": 22
+    },
+    "2025-11-19": {
+      "recordBodyBytes": 8239,
+      "rows": 17
+    },
+    "2025-11-20": {
+      "recordBodyBytes": 10062,
+      "rows": 18
+    },
+    "2025-11-22": {
+      "recordBodyBytes": 8632,
+      "rows": 18
+    },
+    "2025-11-23": {
+      "recordBodyBytes": 5817,
+      "rows": 11
+    },
+    "2025-11-25": {
+      "recordBodyBytes": 22377,
+      "rows": 42
+    },
+    "2025-11-27": {
+      "recordBodyBytes": 10761,
+      "rows": 21
+    },
+    "2025-12-04": {
+      "recordBodyBytes": 7284,
+      "rows": 15
+    },
+    "2025-12-07": {
+      "recordBodyBytes": 9811,
+      "rows": 21
+    },
+    "2025-12-09": {
+      "recordBodyBytes": 6941,
+      "rows": 13
+    },
+    "2025-12-15": {
+      "recordBodyBytes": 26805,
+      "rows": 30
+    },
+    "2025-12-21": {
+      "recordBodyBytes": 10984,
+      "rows": 20
+    },
+    "2025-02-21": {
+      "recordBodyBytes": 260040,
+      "rows": 404
+    },
+    "2021-12-17": {
+      "recordBodyBytes": 157089,
+      "rows": 206
+    },
+    "2022-12-16": {
+      "recordBodyBytes": 35524,
+      "rows": 36
+    },
+    "2023-12-15": {
+      "recordBodyBytes": 264445,
+      "rows": 191
+    },
+    "2021-03-12": {
+      "recordBodyBytes": 8457,
+      "rows": 16
+    },
+    "2021-03-19": {
+      "recordBodyBytes": 6331,
+      "rows": 13
+    },
+    "2021-04-23": {
+      "recordBodyBytes": 157549,
+      "rows": 227
+    },
+    "2021-11-19": {
+      "recordBodyBytes": 33515,
+      "rows": 21
+    },
+    "2022-04-08": {
+      "recordBodyBytes": 40563,
+      "rows": 60
+    },
+    "2022-07-08": {
+      "recordBodyBytes": 146930,
+      "rows": 218
+    },
+    "2022-07-22": {
+      "recordBodyBytes": 157412,
+      "rows": 219
+    },
+    "2022-11-11": {
+      "recordBodyBytes": 143506,
+      "rows": 210
+    },
+    "2023-06-09": {
+      "recordBodyBytes": 20124,
+      "rows": 34
+    },
+    "2023-07-21": {
+      "recordBodyBytes": 155790,
+      "rows": 211
+    },
+    "2023-11-17": {
+      "recordBodyBytes": 40131,
+      "rows": 31
+    },
+    "2021-04-01": {
+      "recordBodyBytes": 8503776,
+      "rows": 14122
+    },
+    "2021-07-01": {
+      "recordBodyBytes": 64705,
+      "rows": 115
+    },
+    "2021-09-02": {
+      "recordBodyBytes": 2882,
+      "rows": 4
+    },
+    "2022-10-01": {
+      "recordBodyBytes": 105301,
+      "rows": 183
+    },
+    "2022-12-01": {
+      "recordBodyBytes": 137514,
+      "rows": 228
+    },
+    "2023-05-01": {
+      "recordBodyBytes": 14546,
+      "rows": 28
+    },
+    "2023-08-02": {
+      "recordBodyBytes": 4177,
+      "rows": 6
+    },
+    "2023-12-02": {
+      "recordBodyBytes": 8291,
+      "rows": 9
+    },
+    "2024-06-02": {
+      "recordBodyBytes": 5132,
+      "rows": 8
+    },
+    "2024-09-01": {
+      "recordBodyBytes": 31647,
+      "rows": 58
+    },
+    "2025-09-01": {
+      "recordBodyBytes": 22842,
+      "rows": 41
+    },
+    "2025-10-01": {
+      "recordBodyBytes": 85766,
+      "rows": 157
+    },
+    "2025-10-02": {
+      "recordBodyBytes": 7385,
+      "rows": 14
+    },
+    "2025-11-01": {
+      "recordBodyBytes": 24173,
+      "rows": 43
+    },
+    "2025-12-01": {
+      "recordBodyBytes": 65743,
+      "rows": 152
+    },
+    "2021-01-02": {
+      "recordBodyBytes": 65262,
+      "rows": 204
+    },
+    "2021-01-05": {
+      "recordBodyBytes": 2213,
+      "rows": 5
+    },
+    "2021-03-07": {
+      "recordBodyBytes": 62088,
+      "rows": 112
+    },
+    "2021-03-10": {
+      "recordBodyBytes": 56349,
+      "rows": 112
+    },
+    "2021-03-13": {
+      "recordBodyBytes": 60725,
+      "rows": 111
+    },
+    "2021-03-15": {
+      "recordBodyBytes": 70490,
+      "rows": 155
+    },
+    "2021-03-16": {
+      "recordBodyBytes": 34816,
+      "rows": 84
+    },
+    "2021-03-18": {
+      "recordBodyBytes": 2195,
+      "rows": 4
+    },
+    "2021-03-21": {
+      "recordBodyBytes": 1104,
+      "rows": 3
+    },
+    "2021-03-24": {
+      "recordBodyBytes": 57656,
+      "rows": 101
+    },
+    "2021-03-27": {
+      "recordBodyBytes": 47930,
+      "rows": 93
+    },
+    "2021-03-30": {
+      "recordBodyBytes": 51818,
+      "rows": 96
+    },
+    "2021-03-31": {
+      "recordBodyBytes": 666,
+      "rows": 2
+    },
+    "2021-04-05": {
+      "recordBodyBytes": 44768,
+      "rows": 92
+    },
+    "2021-04-08": {
+      "recordBodyBytes": 46390,
+      "rows": 92
+    },
+    "2021-04-13": {
+      "recordBodyBytes": 1432,
+      "rows": 4
+    },
+    "2021-04-14": {
+      "recordBodyBytes": 17968,
+      "rows": 47
+    },
+    "2021-04-16": {
+      "recordBodyBytes": 24452,
+      "rows": 10
+    },
+    "2021-04-17": {
+      "recordBodyBytes": 191298,
+      "rows": 233
+    },
+    "2021-04-27": {
+      "recordBodyBytes": 5809,
+      "rows": 12
+    },
+    "2021-05-14": {
+      "recordBodyBytes": 5692,
+      "rows": 13
+    },
+    "2021-05-21": {
+      "recordBodyBytes": 11187,
+      "rows": 20
+    },
+    "2021-06-08": {
+      "recordBodyBytes": 138718,
+      "rows": 124
+    },
+    "2021-06-11": {
+      "recordBodyBytes": 130010,
+      "rows": 194
+    },
+    "2021-06-22": {
+      "recordBodyBytes": 1436,
+      "rows": 4
+    },
+    "2021-07-06": {
+      "recordBodyBytes": 2231,
+      "rows": 5
+    },
+    "2021-07-15": {
+      "recordBodyBytes": 2319,
+      "rows": 6
+    },
+    "2021-07-16": {
+      "recordBodyBytes": 7574,
+      "rows": 16
+    },
+    "2021-07-31": {
+      "recordBodyBytes": 666,
+      "rows": 2
+    },
+    "2021-08-03": {
+      "recordBodyBytes": 1436,
+      "rows": 4
+    },
+    "2021-08-13": {
+      "recordBodyBytes": 132064,
+      "rows": 197
+    },
+    "2021-09-15": {
+      "recordBodyBytes": 2319,
+      "rows": 6
+    },
+    "2021-10-12": {
+      "recordBodyBytes": 2220,
+      "rows": 5
+    },
+    "2021-11-12": {
+      "recordBodyBytes": 123803,
+      "rows": 185
+    },
+    "2021-11-15": {
+      "recordBodyBytes": 339279,
+      "rows": 276
+    },
+    "2021-11-23": {
+      "recordBodyBytes": 2389,
+      "rows": 6
+    },
+    "2021-11-30": {
+      "recordBodyBytes": 666,
+      "rows": 2
+    },
+    "2021-12-07": {
+      "recordBodyBytes": 1436,
+      "rows": 4
+    },
+    "2022-03-11": {
+      "recordBodyBytes": 5618,
+      "rows": 13
+    },
+    "2022-03-18": {
+      "recordBodyBytes": 438248,
+      "rows": 432
+    },
+    "2022-04-04": {
+      "recordBodyBytes": 8507,
+      "rows": 14
+    },
+    "2022-04-07": {
+      "recordBodyBytes": 4026,
+      "rows": 8
+    },
+    "2022-04-22": {
+      "recordBodyBytes": 132061,
+      "rows": 197
+    },
+    "2022-04-26": {
+      "recordBodyBytes": 1436,
+      "rows": 4
+    },
+    "2022-07-05": {
+      "recordBodyBytes": 1436,
+      "rows": 4
+    },
+    "2022-08-15": {
+      "recordBodyBytes": 31392,
+      "rows": 29
+    },
+    "2022-08-16": {
+      "recordBodyBytes": 127245,
+      "rows": 120
+    },
+    "2022-09-15": {
+      "recordBodyBytes": 25430,
+      "rows": 28
+    },
+    "2022-09-16": {
+      "recordBodyBytes": 23072,
+      "rows": 23
+    },
+    "2022-09-23": {
+      "recordBodyBytes": 128713,
+      "rows": 194
+    },
+    "2022-10-11": {
+      "recordBodyBytes": 2389,
+      "rows": 6
+    },
+    "2022-11-15": {
+      "recordBodyBytes": 16732,
+      "rows": 18
+    },
+    "2022-12-06": {
+      "recordBodyBytes": 2395,
+      "rows": 6
+    },
+    "2023-03-14": {
+      "recordBodyBytes": 130965,
+      "rows": 126
+    },
+    "2023-03-28": {
+      "recordBodyBytes": 2395,
+      "rows": 6
+    },
+    "2023-04-14": {
+      "recordBodyBytes": 8787,
+      "rows": 17
+    },
+    "2023-04-15": {
+      "recordBodyBytes": 165812,
+      "rows": 299
+    },
+    "2023-04-21": {
+      "recordBodyBytes": 39175,
+      "rows": 55
+    },
+    "2023-07-18": {
+      "recordBodyBytes": 2395,
+      "rows": 6
+    },
+    "2023-11-07": {
+      "recordBodyBytes": 312412,
+      "rows": 435
+    },
+    "2023-11-15": {
+      "recordBodyBytes": 182285,
+      "rows": 150
+    },
+    "2023-11-21": {
+      "recordBodyBytes": 1440,
+      "rows": 4
+    },
+    "2023-12-05": {
+      "recordBodyBytes": 3194,
+      "rows": 7
+    },
+    "2024-03-12": {
+      "recordBodyBytes": 16525,
+      "rows": 28
+    },
+    "2024-03-15": {
+      "recordBodyBytes": 1103122,
+      "rows": 1002
+    },
+    "2024-04-04": {
+      "recordBodyBytes": 5847,
+      "rows": 12
+    },
+    "2024-04-13": {
+      "recordBodyBytes": 3208,
+      "rows": 8
+    },
+    "2024-04-15": {
+      "recordBodyBytes": 69397,
+      "rows": 125
+    },
+    "2024-04-16": {
+      "recordBodyBytes": 3208,
+      "rows": 8
+    },
+    "2024-04-19": {
+      "recordBodyBytes": 36879,
+      "rows": 38
+    },
+    "2024-04-22": {
+      "recordBodyBytes": 4163,
+      "rows": 10
+    },
+    "2024-04-28": {
+      "recordBodyBytes": 3208,
+      "rows": 8
+    },
+    "2024-06-12": {
+      "recordBodyBytes": 3208,
+      "rows": 8
+    },
+    "2024-07-03": {
+      "recordBodyBytes": 4163,
+      "rows": 10
+    },
+    "2024-07-06": {
+      "recordBodyBytes": 35510,
+      "rows": 40
+    },
+    "2024-07-18": {
+      "recordBodyBytes": 4957,
+      "rows": 11
+    },
+    "2024-08-08": {
+      "recordBodyBytes": 2253,
+      "rows": 6
+    },
+    "2024-09-07": {
+      "recordBodyBytes": 63921,
+      "rows": 70
+    },
+    "2024-10-11": {
+      "recordBodyBytes": 8484,
+      "rows": 19
+    },
+    "2024-11-03": {
+      "recordBodyBytes": 5118,
+      "rows": 12
+    },
+    "2024-11-05": {
+      "recordBodyBytes": 4456537,
+      "rows": 6390
+    },
+    "2024-11-18": {
+      "recordBodyBytes": 2253,
+      "rows": 6
+    },
+    "2024-11-22": {
+      "recordBodyBytes": 126072,
+      "rows": 188
+    },
+    "2024-11-27": {
+      "recordBodyBytes": 3208,
+      "rows": 8
+    },
+    "2024-12-03": {
+      "recordBodyBytes": 4652,
+      "rows": 12
+    },
+    "2024-12-12": {
+      "recordBodyBytes": 3208,
+      "rows": 8
+    },
+    "2025-02-04": {
+      "recordBodyBytes": 47430,
+      "rows": 30
+    },
+    "2025-02-11": {
+      "recordBodyBytes": 37788,
+      "rows": 26
+    },
+    "2025-02-25": {
+      "recordBodyBytes": 41558,
+      "rows": 34
+    },
+    "2025-03-14": {
+      "recordBodyBytes": 5628,
+      "rows": 13
+    },
+    "2025-03-21": {
+      "recordBodyBytes": 43528,
+      "rows": 52
+    },
+    "2025-03-27": {
+      "recordBodyBytes": 2253,
+      "rows": 6
+    },
+    "2025-04-08": {
+      "recordBodyBytes": 6176,
+      "rows": 14
+    },
+    "2025-04-14": {
+      "recordBodyBytes": 4007,
+      "rows": 9
+    },
+    "2025-04-15": {
+      "recordBodyBytes": 70832,
+      "rows": 133
+    },
+    "2025-04-20": {
+      "recordBodyBytes": 6240,
+      "rows": 12
+    },
+    "2025-04-22": {
+      "recordBodyBytes": 14348,
+      "rows": 27
+    },
+    "2025-04-26": {
+      "recordBodyBytes": 2253,
+      "rows": 6
+    },
+    "2025-04-29": {
+      "recordBodyBytes": 3933,
+      "rows": 9
+    },
+    "2025-05-14": {
+      "recordBodyBytes": 2253,
+      "rows": 6
+    },
+    "2025-05-15": {
+      "recordBodyBytes": 31176,
+      "rows": 30
+    },
+    "2025-05-16": {
+      "recordBodyBytes": 32987,
+      "rows": 30
+    },
+    "2025-05-20": {
+      "recordBodyBytes": 5607,
+      "rows": 14
+    },
+    "2025-05-23": {
+      "recordBodyBytes": 8443,
+      "rows": 19
+    },
+    "2025-06-03": {
+      "recordBodyBytes": 137906,
+      "rows": 124
+    },
+    "2025-06-19": {
+      "recordBodyBytes": 3208,
+      "rows": 8
+    },
+    "2025-06-20": {
+      "recordBodyBytes": 35918,
+      "rows": 33
+    },
+    "2025-07-15": {
+      "recordBodyBytes": 37889,
+      "rows": 42
+    },
+    "2025-08-21": {
+      "recordBodyBytes": 3052,
+      "rows": 7
+    },
+    "2025-08-26": {
+      "recordBodyBytes": 1444,
+      "rows": 4
+    },
+    "2025-09-23": {
+      "recordBodyBytes": 4652,
+      "rows": 12
+    },
+    "2025-10-07": {
+      "recordBodyBytes": 2399,
+      "rows": 6
+    },
+    "2025-10-08": {
+      "recordBodyBytes": 2253,
+      "rows": 6
+    },
+    "2025-10-21": {
+      "recordBodyBytes": 1444,
+      "rows": 4
+    },
+    "2025-10-24": {
+      "recordBodyBytes": 5460,
+      "rows": 12
+    },
+    "2025-11-04": {
+      "recordBodyBytes": 185932,
+      "rows": 271
+    },
+    "2025-11-10": {
+      "recordBodyBytes": 3208,
+      "rows": 8
+    },
+    "2021-03-23": {
+      "recordBodyBytes": 44982,
+      "rows": 78
+    },
+    "2021-03-28": {
+      "recordBodyBytes": 1735,
+      "rows": 3
+    },
+    "2021-03-29": {
+      "recordBodyBytes": 2699,
+      "rows": 4
+    },
+    "2021-04-03": {
+      "recordBodyBytes": 21325,
+      "rows": 23
+    },
+    "2021-04-22": {
+      "recordBodyBytes": 2859,
+      "rows": 6
+    },
+    "2021-04-29": {
+      "recordBodyBytes": 953,
+      "rows": 2
+    },
+    "2021-05-05": {
+      "recordBodyBytes": 1746,
+      "rows": 3
+    },
+    "2021-05-22": {
+      "recordBodyBytes": 953,
+      "rows": 2
+    },
+    "2021-05-23": {
+      "recordBodyBytes": 953,
+      "rows": 2
+    },
+    "2021-05-26": {
+      "recordBodyBytes": 1740,
+      "rows": 3
+    },
+    "2021-05-30": {
+      "recordBodyBytes": 953,
+      "rows": 2
+    },
+    "2021-06-06": {
+      "recordBodyBytes": 953,
+      "rows": 2
+    },
+    "2021-06-20": {
+      "recordBodyBytes": 953,
+      "rows": 2
+    },
+    "2021-06-27": {
+      "recordBodyBytes": 1906,
+      "rows": 4
+    },
+    "2021-07-08": {
+      "recordBodyBytes": 2693,
+      "rows": 5
+    },
+    "2021-07-22": {
+      "recordBodyBytes": 1906,
+      "rows": 4
+    },
+    "2021-08-12": {
+      "recordBodyBytes": 1906,
+      "rows": 4
+    },
+    "2021-08-30": {
+      "recordBodyBytes": 2521,
+      "rows": 5
+    },
+    "2021-09-08": {
+      "recordBodyBytes": 953,
+      "rows": 2
+    },
+    "2021-09-11": {
+      "recordBodyBytes": 953,
+      "rows": 2
+    },
+    "2021-09-12": {
+      "recordBodyBytes": 953,
+      "rows": 2
+    },
+    "2021-10-07": {
+      "recordBodyBytes": 953,
+      "rows": 2
+    },
+    "2021-10-11": {
+      "recordBodyBytes": 953,
+      "rows": 2
+    },
+    "2021-10-16": {
+      "recordBodyBytes": 1906,
+      "rows": 4
+    },
+    "2021-10-17": {
+      "recordBodyBytes": 953,
+      "rows": 2
+    },
+    "2021-11-06": {
+      "recordBodyBytes": 16677,
+      "rows": 18
+    },
+    "2021-11-10": {
+      "recordBodyBytes": 953,
+      "rows": 2
+    },
+    "2021-12-11": {
+      "recordBodyBytes": 953,
+      "rows": 2
+    },
+    "2021-12-14": {
+      "recordBodyBytes": 1743,
+      "rows": 3
+    },
+    "2021-12-16": {
+      "recordBodyBytes": 953,
+      "rows": 2
+    },
+    "2021-12-22": {
+      "recordBodyBytes": 953,
+      "rows": 2
+    },
+    "2021-12-23": {
+      "recordBodyBytes": 953,
+      "rows": 2
+    },
+    "2021-12-25": {
+      "recordBodyBytes": 953,
+      "rows": 2
+    },
+    "2021-12-29": {
+      "recordBodyBytes": 1740,
+      "rows": 3
+    },
+    "2022-03-07": {
+      "recordBodyBytes": 1906,
+      "rows": 4
+    },
+    "2022-03-13": {
+      "recordBodyBytes": 953,
+      "rows": 2
+    },
+    "2022-03-14": {
+      "recordBodyBytes": 953,
+      "rows": 2
+    },
+    "2022-04-28": {
+      "recordBodyBytes": 5166,
+      "rows": 9
+    },
+    "2022-05-07": {
+      "recordBodyBytes": 47936,
+      "rows": 48
+    },
+    "2022-05-26": {
+      "recordBodyBytes": 953,
+      "rows": 2
+    },
+    "2022-06-06": {
+      "recordBodyBytes": 2859,
+      "rows": 6
+    },
+    "2022-06-09": {
+      "recordBodyBytes": 3645,
+      "rows": 7
+    },
+    "2022-07-10": {
+      "recordBodyBytes": 3082,
+      "rows": 7
+    },
+    "2022-07-24": {
+      "recordBodyBytes": 2690,
+      "rows": 6
+    },
+    "2022-07-25": {
+      "recordBodyBytes": 2499,
+      "rows": 4
+    },
+    "2022-07-27": {
+      "recordBodyBytes": 953,
+      "rows": 2
+    },
+    "2022-08-21": {
+      "recordBodyBytes": 3652,
+      "rows": 7
+    },
+    "2022-08-24": {
+      "recordBodyBytes": 12130,
+      "rows": 10
+    },
+    "2022-08-29": {
+      "recordBodyBytes": 953,
+      "rows": 2
+    },
+    "2022-09-17": {
+      "recordBodyBytes": 1906,
+      "rows": 4
+    },
+    "2022-10-08": {
+      "recordBodyBytes": 21564,
+      "rows": 22
+    },
+    "2022-10-10": {
+      "recordBodyBytes": 1906,
+      "rows": 4
+    },
+    "2022-10-13": {
+      "recordBodyBytes": 953,
+      "rows": 2
+    },
+    "2022-10-19": {
+      "recordBodyBytes": 953,
+      "rows": 2
+    },
+    "2022-10-22": {
+      "recordBodyBytes": 3812,
+      "rows": 8
+    },
+    "2022-11-06": {
+      "recordBodyBytes": 3082,
+      "rows": 7
+    },
+    "2022-11-09": {
+      "recordBodyBytes": 14993,
+      "rows": 38
+    },
+    "2023-03-21": {
+      "recordBodyBytes": 1910,
+      "rows": 4
+    },
+    "2023-03-30": {
+      "recordBodyBytes": 955,
+      "rows": 2
+    },
+    "2023-04-06": {
+      "recordBodyBytes": 1372,
+      "rows": 3
+    },
+    "2023-04-08": {
+      "recordBodyBytes": 29307,
+      "rows": 31
+    },
+    "2023-04-24": {
+      "recordBodyBytes": 1568,
+      "rows": 2
+    },
+    "2023-04-26": {
+      "recordBodyBytes": 955,
+      "rows": 2
+    },
+    "2023-05-20": {
+      "recordBodyBytes": 74628,
+      "rows": 70
+    },
+    "2023-06-04": {
+      "recordBodyBytes": 3480,
+      "rows": 7
+    },
+    "2023-06-29": {
+      "recordBodyBytes": 955,
+      "rows": 2
+    },
+    "2023-07-23": {
+      "recordBodyBytes": 1910,
+      "rows": 4
+    },
+    "2023-07-24": {
+      "recordBodyBytes": 955,
+      "rows": 2
+    },
+    "2023-10-18": {
+      "recordBodyBytes": 5730,
+      "rows": 12
+    },
+    "2023-11-12": {
+      "recordBodyBytes": 1910,
+      "rows": 4
+    },
+    "2023-11-27": {
+      "recordBodyBytes": 1910,
+      "rows": 4
+    },
+    "2023-11-28": {
+      "recordBodyBytes": 955,
+      "rows": 2
+    },
+    "2023-12-09": {
+      "recordBodyBytes": 57067,
+      "rows": 56
+    },
+    "2023-12-21": {
+      "recordBodyBytes": 1910,
+      "rows": 4
+    },
+    "2023-12-28": {
+      "recordBodyBytes": 4616,
+      "rows": 9
+    },
+    "2023-12-30": {
+      "recordBodyBytes": 5604,
+      "rows": 12
+    },
+    "2024-01-03": {
+      "recordBodyBytes": 955,
+      "rows": 2
+    },
+    "2024-03-13": {
+      "recordBodyBytes": 1910,
+      "rows": 4
+    },
+    "2024-03-18": {
+      "recordBodyBytes": 1910,
+      "rows": 4
+    },
+    "2024-03-21": {
+      "recordBodyBytes": 955,
+      "rows": 2
+    },
+    "2024-03-25": {
+      "recordBodyBytes": 955,
+      "rows": 2
+    },
+    "2024-03-27": {
+      "recordBodyBytes": 955,
+      "rows": 2
+    },
+    "2024-03-28": {
+      "recordBodyBytes": 955,
+      "rows": 2
+    },
+    "2024-04-24": {
+      "recordBodyBytes": 2865,
+      "rows": 6
+    },
+    "2024-06-16": {
+      "recordBodyBytes": 1910,
+      "rows": 4
+    },
+    "2024-07-07": {
+      "recordBodyBytes": 3482,
+      "rows": 8
+    },
+    "2024-07-11": {
+      "recordBodyBytes": 955,
+      "rows": 2
+    },
+    "2024-07-13": {
+      "recordBodyBytes": 1910,
+      "rows": 4
+    },
+    "2024-07-20": {
+      "recordBodyBytes": 4044,
+      "rows": 9
+    },
+    "2024-08-06": {
+      "recordBodyBytes": 709477,
+      "rows": 627
+    },
+    "2024-08-07": {
+      "recordBodyBytes": 1739,
+      "rows": 3
+    },
+    "2024-11-20": {
+      "recordBodyBytes": 955,
+      "rows": 2
+    },
+    "2024-11-23": {
+      "recordBodyBytes": 955,
+      "rows": 2
+    },
+    "2024-11-28": {
+      "recordBodyBytes": 955,
+      "rows": 2
+    },
+    "2024-12-11": {
+      "recordBodyBytes": 1740,
+      "rows": 3
+    },
+    "2024-12-29": {
+      "recordBodyBytes": 955,
+      "rows": 2
+    },
+    "2025-03-16": {
+      "recordBodyBytes": 19648,
+      "rows": 8
+    },
+    "2025-04-03": {
+      "recordBodyBytes": 593863,
+      "rows": 760
+    },
+    "2025-04-13": {
+      "recordBodyBytes": 955,
+      "rows": 2
+    },
+    "2025-05-03": {
+      "recordBodyBytes": 22243,
+      "rows": 23
+    },
+    "2025-05-10": {
+      "recordBodyBytes": 11383,
+      "rows": 12
+    },
+    "2025-05-13": {
+      "recordBodyBytes": 1751,
+      "rows": 3
+    },
+    "2025-05-25": {
+      "recordBodyBytes": 1743,
+      "rows": 3
+    },
+    "2025-06-29": {
+      "recordBodyBytes": 955,
+      "rows": 2
+    },
+    "2025-07-05": {
+      "recordBodyBytes": 32266,
+      "rows": 32
+    },
+    "2025-07-08": {
+      "recordBodyBytes": 955,
+      "rows": 2
+    },
+    "2025-08-05": {
+      "recordBodyBytes": 955,
+      "rows": 2
+    },
+    "2025-08-28": {
+      "recordBodyBytes": 1910,
+      "rows": 4
+    },
+    "2025-09-06": {
+      "recordBodyBytes": 47368,
+      "rows": 46
+    },
+    "2025-10-12": {
+      "recordBodyBytes": 1741,
+      "rows": 4
+    },
+    "2025-12-17": {
+      "recordBodyBytes": 2516,
+      "rows": 4
+    },
+    "2025-12-18": {
+      "recordBodyBytes": 955,
+      "rows": 2
+    },
+    "2021-03-20": {
+      "recordBodyBytes": 392,
+      "rows": 1
+    },
+    "2021-11-07": {
+      "recordBodyBytes": 1176,
+      "rows": 3
+    },
+    "2022-11-13": {
+      "recordBodyBytes": 784,
+      "rows": 2
+    },
+    "2023-11-05": {
+      "recordBodyBytes": 1572,
+      "rows": 4
+    },
+    "2023-11-18": {
+      "recordBodyBytes": 393,
+      "rows": 1
+    },
+    "2024-12-08": {
+      "recordBodyBytes": 1572,
+      "rows": 4
+    },
+    "2024-03-14": {
+      "recordBodyBytes": 417,
+      "rows": 1
+    },
+    "2021-01-03": {
+      "recordBodyBytes": 5702,
+      "rows": 6
+    },
+    "2025-02-03": {
+      "recordBodyBytes": 36254,
+      "rows": 20
+    },
+    "2021-03-11": {
+      "recordBodyBytes": 784,
+      "rows": 1
+    },
+    "2021-03-25": {
+      "recordBodyBytes": 795,
+      "rows": 1
+    },
+    "2021-11-25": {
+      "recordBodyBytes": 784,
+      "rows": 1
+    },
+    "2021-11-29": {
+      "recordBodyBytes": 793,
+      "rows": 1
+    },
+    "2022-09-22": {
+      "recordBodyBytes": 783,
+      "rows": 1
+    },
+    "2024-05-18": {
+      "recordBodyBytes": 7636,
+      "rows": 7
+    },
+    "2024-10-03": {
+      "recordBodyBytes": 794,
+      "rows": 1
+    },
+    "2025-03-19": {
+      "recordBodyBytes": 791,
+      "rows": 1
+    },
+    "2025-05-21": {
+      "recordBodyBytes": 791,
+      "rows": 1
+    },
+    "2025-09-27": {
+      "recordBodyBytes": 794,
+      "rows": 1
+    }
+  },
+  "sampleDates": {
+    "2024-01-15": [
+      {
+        "family": "organizationParticipations",
+        "kind": "affiliation:political-party",
+        "count": 88,
+        "bytes": 42570
+      },
+      {
+        "family": "organizationParticipationStates",
+        "kind": "active",
+        "count": 88,
+        "bytes": 47498
+      },
+      {
+        "family": "householdLocations",
+        "kind": "residence:home",
+        "count": 66,
+        "bytes": 36785
+      },
+      {
+        "family": "householdMembershipStates",
+        "kind": "resident:member",
+        "count": 66,
+        "bytes": 36785
+      },
+      {
+        "family": "futureDueItemStates",
+        "kind": "scheduled",
+        "count": 2,
+        "bytes": 613
+      },
+      {
+        "family": "futureDueItemStates",
+        "kind": "resolved",
+        "count": 4,
+        "bytes": 1566
+      },
+      {
+        "family": "events",
+        "kind": "election.state-legislative-candidacy-intent",
+        "count": 106,
+        "bytes": 111449
+      },
+      {
+        "family": "events",
+        "kind": "life.fictional-candidate-residence-background",
+        "count": 69,
+        "bytes": 68779
+      },
+      {
+        "family": "events",
+        "kind": "election.state-legislative-recruitment",
+        "count": 101,
+        "bytes": 100520
+      },
+      {
+        "family": "events",
+        "kind": "election.state-legislative-candidate-slate",
+        "count": 106,
+        "bytes": 119205
+      },
+      {
+        "family": "events",
+        "kind": "election.state-legislative-primary-entry",
+        "count": 14,
+        "bytes": 15011
+      },
+      {
+        "family": "events",
+        "kind": "election.congress-candidacy-intent",
+        "count": 4,
+        "bytes": 3679
+      },
+      {
+        "family": "events",
+        "kind": "election.congress-recruitment",
+        "count": 7,
+        "bytes": 6033
+      },
+      {
+        "family": "events",
+        "kind": "election.congress-candidate-slate",
+        "count": 4,
+        "bytes": 4095
+      },
+      {
+        "family": "events",
+        "kind": "election.congress-primary-entry",
+        "count": 2,
+        "bytes": 1820
+      },
+      {
+        "family": "decisionTraces",
+        "kind": "unclassified",
+        "count": 196,
+        "bytes": 561215
+      },
+      {
+        "family": "crisisRecords",
+        "kind": "health-state",
+        "count": 2,
+        "bytes": 1106
+      },
+      {
+        "family": "crisisRecords",
+        "kind": "health-coverage",
+        "count": 652,
+        "bytes": 813298
+      }
+    ],
+    "2024-01-16": [
+      {
+        "family": "organizationParticipations",
+        "kind": "affiliation:political-party",
+        "count": 111,
+        "bytes": 53936
+      },
+      {
+        "family": "organizationParticipationStates",
+        "kind": "active",
+        "count": 111,
+        "bytes": 60152
+      },
+      {
+        "family": "householdLocations",
+        "kind": "residence:home",
+        "count": 59,
+        "bytes": 32852
+      },
+      {
+        "family": "householdMembershipStates",
+        "kind": "resident:member",
+        "count": 59,
+        "bytes": 32852
+      },
+      {
+        "family": "personFunctionalCapacities",
+        "kind": "limited",
+        "count": 1,
+        "bytes": 511
+      },
+      {
+        "family": "futureDueItemStates",
+        "kind": "scheduled",
+        "count": 4,
+        "bytes": 1300
+      },
+      {
+        "family": "futureDueItemStates",
+        "kind": "resolved",
+        "count": 3,
+        "bytes": 1278
+      },
+      {
+        "family": "events",
+        "kind": "election.state-legislative-candidacy-intent",
+        "count": 107,
+        "bytes": 109593
+      },
+      {
+        "family": "events",
+        "kind": "life.fictional-candidate-residence-background",
+        "count": 65,
+        "bytes": 64758
+      },
+      {
+        "family": "events",
+        "kind": "election.state-legislative-recruitment",
+        "count": 115,
+        "bytes": 114340
+      },
+      {
+        "family": "events",
+        "kind": "election.state-legislative-candidate-slate",
+        "count": 107,
+        "bytes": 122306
+      },
+      {
+        "family": "events",
+        "kind": "health.episode-began",
+        "count": 1,
+        "bytes": 667
+      },
+      {
+        "family": "events",
+        "kind": "person.capacity-changed",
+        "count": 1,
+        "bytes": 733
+      },
+      {
+        "family": "events",
+        "kind": "election.state-legislative-primary-entry",
+        "count": 28,
+        "bytes": 29935
+      },
+      {
+        "family": "events",
+        "kind": "election.congress-candidacy-intent",
+        "count": 3,
+        "bytes": 2750
+      },
+      {
+        "family": "events",
+        "kind": "election.congress-recruitment",
+        "count": 5,
+        "bytes": 4337
+      },
+      {
+        "family": "events",
+        "kind": "election.congress-candidate-slate",
+        "count": 3,
+        "bytes": 2885
+      },
+      {
+        "family": "events",
+        "kind": "election.congress-primary-entry",
+        "count": 2,
+        "bytes": 1846
+      },
+      {
+        "family": "decisionTraces",
+        "kind": "unclassified",
+        "count": 215,
+        "bytes": 600239
+      },
+      {
+        "family": "crisisRecords",
+        "kind": "health-episode",
+        "count": 1,
+        "bytes": 932
+      },
+      {
+        "family": "crisisRecords",
+        "kind": "health-disclosure",
+        "count": 1,
+        "bytes": 504
+      },
+      {
+        "family": "crisisRecords",
+        "kind": "health-state",
+        "count": 1,
+        "bytes": 546
+      }
+    ],
+    "2026-01-05": [
+      {
+        "family": "resourceFlows",
+        "kind": "custom:tax-withholding",
+        "count": 10529,
+        "bytes": 6337051
+      },
+      {
+        "family": "resourceFlowTerms",
+        "kind": "active",
+        "count": 10529,
+        "bytes": 4926068
+      },
+      {
+        "family": "resourceTransferOutcomes",
+        "kind": "completed",
+        "count": 10529,
+        "bytes": 6179378
+      },
+      {
+        "family": "personDeaths",
+        "kind": "unclassified",
+        "count": 1,
+        "bytes": 509
+      },
+      {
+        "family": "personFunctionalCapacities",
+        "kind": "limited",
+        "count": 2,
+        "bytes": 1022
+      },
+      {
+        "family": "futureDueItemStates",
+        "kind": "scheduled",
+        "count": 4,
+        "bytes": 1312
+      },
+      {
+        "family": "futureDueItemStates",
+        "kind": "resolved",
+        "count": 5,
+        "bytes": 2185
+      },
+      {
+        "family": "events",
+        "kind": "person.died",
+        "count": 1,
+        "bytes": 701
+      },
+      {
+        "family": "events",
+        "kind": "health.episode-began",
+        "count": 2,
+        "bytes": 1334
+      },
+      {
+        "family": "events",
+        "kind": "person.capacity-changed",
+        "count": 2,
+        "bytes": 1466
+      },
+      {
+        "family": "events",
+        "kind": "simulation.minutes-advanced",
+        "count": 1,
+        "bytes": 764
+      },
+      {
+        "family": "crisisRecords",
+        "kind": "health-episode",
+        "count": 2,
+        "bytes": 1831
+      },
+      {
+        "family": "crisisRecords",
+        "kind": "health-disclosure",
+        "count": 2,
+        "bytes": 1008
+      },
+      {
+        "family": "crisisRecords",
+        "kind": "health-state",
+        "count": 7,
+        "bytes": 3878
+      },
+      {
+        "family": "statutoryTaxLiabilities",
+        "kind": "rule-unknown",
+        "count": 45507,
+        "bytes": 30941460
+      },
+      {
+        "family": "statutoryTaxLiabilities",
+        "kind": "not-imposed",
+        "count": 1233,
+        "bytes": 894207
+      },
+      {
+        "family": "statutoryTaxLiabilities",
+        "kind": "base-unknown",
+        "count": 69,
+        "bytes": 48507
+      },
+      {
+        "family": "statutoryTaxLiabilities",
+        "kind": "assessed",
+        "count": 13322,
+        "bytes": 11569969
+      },
+      {
+        "family": "statutoryTaxPayments",
+        "kind": "unclassified",
+        "count": 11953,
+        "bytes": 4707158
+      }
+    ]
+  },
+  "validation": {
+    "includedRowsMatchFinalHistoryReceiptExceptPackedTendencies": true,
+    "personalityTendenciesStoredRows": 132,
+    "personalityTendenciesUnpackedReceiptRows": 85716
+  },
+  "profile": {
+    "sampleSeconds": 31.444406,
+    "inclusiveNested": [
+      {
+        "function": "applyStateLegislatureTurnover",
+        "path": "src/simulation/nationwide-world/state-legislature-turnover.ts",
+        "line": 1306,
+        "seconds": 26.069708,
+        "share": 0.8290729995026778
+      },
+      {
+        "function": "prepareStateIntake",
+        "path": "src/simulation/nationwide-world/state-legislature-turnover.ts",
+        "line": 235,
+        "seconds": 25.250514,
+        "share": 0.8030208616438803
+      },
+      {
+        "function": "prepareStateCandidateSlates",
+        "path": "src/simulation/nationwide-world/state-legislature-candidates.ts",
+        "line": 539,
+        "seconds": 21.229199,
+        "share": 0.6751343625317648
+      }
+    ],
+    "limits": [
+      "Nested shares overlap.",
+      "Sample is from2024 and does not establish whole-year shares.",
+      "Transpiled frame names mapped to declarations in checked34."
+    ]
+  },
+  "saveContinue": {
+    "exec": 28116,
+    "pid": 27883,
+    "terminalExit": 128,
+    "heapLimitMiB": 4096,
+    "failure": "JavaScript heap out of memory",
+    "lastGCMilliseconds": 708657,
+    "phase": "not instrumented; no phase claim",
+    "resultProduced": false
+  },
+  "limits": [
+    "Dates identify recorded/effective facts, not wall-clock writer invocations.",
+    "Record body byte groups exclude array separators; array spans include them.",
+    "No claim that every recurring record is a removable daily snapshot.",
+    "Health/death/decision and priced authority meaning must be preserved.",
+    "No new annual benchmark or World mutation."
+  ]
+}

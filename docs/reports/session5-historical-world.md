@@ -66,9 +66,23 @@ Measured: election lookup controls preserve first matches, equal-sequence status
 
 The final English journal contains five dated education and work entries plus current status. A 2013 work entry precedes a 1979 work entry in that projection. This establishes a journal ordering defect, not absence of all underlying family or work records. No missing chapters or scenes were invented.
 
+## Why time and saved bytes grow
+
+Measured: a read-only scan of the completed canonical save found 486,359,472 bytes in flow terms, 304,452,711 bytes in flows, and 268,692,967 bytes in transfer outcomes. Together those arrays occupy 64.57% of the 1,640,898,649-byte file. Of 406,562 flows, 385,931 are historical monthly office summaries. Their record bodies alone occupy 287,346,347 bytes across 60 recorded dates. They are monthly financial records, not measured daily snapshots.
+
+Measured: the recurring writer creates a summary flow and initial terms, then closing terms and a transfer outcome. The salary writer starts this chain at [`office-salary.ts:407`](https://github.com/lamontaes/Political-Game-Git/blob/34dcc8b6814d64dec99e74362a4429d427b5d097/src/simulation/office-salary.ts#L407). This explains the large monthly financial record families; it does not establish that every financial row is safe to remove.
+
+Measured: January 15, 2024 contains 1,577 dated record bodies occupying 1,972,027 bytes. That includes 652 health-coverage rows occupying 813,298 bytes and 196 decisions occupying 561,215 bytes. January 16 contains 1,003 bodies occupying 1,239,252 bytes, including 215 decisions occupying 600,239 bytes. Candidate recruitment, slates and residence records account for much of the remaining growth. These are stored record dates, not instrumented writer call counts.
+
+Measured by source inspection: [`applyDateBoundary` at time-work.ts:2027](https://github.com/lamontaes/Political-Game-Git/blob/34dcc8b6814d64dec99e74362a4429d427b5d097/src/simulation/time-work.ts#L2027) invokes the lifecycle chain on each new date. State turnover calls nominations before its broad calendar guard and scans seated packs inside an intake window. The retained CPU sample identifies that intake chain as the largest measured time center. Payroll and councils already have dated queue handlers; their existing pattern can replace repeated lifecycle polling.
+
+The [time and byte packet](../codex/evidence/session5-34-time-byte-profile.json) preserves measured array spans, record-kind groups and dated body bytes. Existing packed tendencies store 132 rows that expand to 85,716 history rows; those stored counts are intentionally different. Every other included history family's row count matches the final receipt. No World was loaded or advanced by this scan.
+
+Measured: the separate canonical Save/Continue check exhausted its 4 GB heap. Its [terminal receipt](https://github.com/lamontaes/Political-Game-Git/issues/2052#issuecomment-6008495407) records exit code 128 and no proof result. The failing internal phase was not instrumented. Parsing, snapshot verification and ordinary continuation therefore remain unproved at this save size. The heap was not increased and the failed run was not repeated.
+
 ## What remains open
 
-The populated five-year clock and final canonical save are measured. The two-minute cap failed. Save/Continue is executing separately on the same source; its result is pending. Browser acceptance and research-range checks remain unproved. The loading clip belongs to Session 7. No READY claim is made. The CTO now requires yearly coarse records outside the player county and touching state offices, plus a canonical save under 50 MB. The [file plan](https://github.com/lamontaes/Political-Game-Git/issues/2052#issuecomment-6008409134) reserves that resolution change and identifies shared owner seams before editing.
+The populated five-year clock and final canonical save are measured. The two-minute cap failed. Save/Continue exhausted its 4 GB heap and exited with code 128; no result was produced. Browser acceptance and research-range checks remain unproved. The loading clip belongs to Session 7. No READY claim is made. The latest owner correction requires profiling and event-driven processing inside the player county as well as distant places. The targets remain under 120 seconds and a canonical save under 50 MB. The earlier coarse-only plan is superseded. The [profile-first receipt](https://github.com/lamontaes/Political-Game-Git/issues/2052#issuecomment-6008485460) identifies the measured offenders before engine edits.
 
 Historical wage annual alignment and missing law observations remain estimates. They are labeled in developer records. Previous district boundaries are not reconstructed; institutional seat counts are dated, and missing political observations use labeled same-state estimates.
 
