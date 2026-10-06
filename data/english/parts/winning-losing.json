@@ -1,0 +1,483 @@
+{
+  "schema": "english-parts/1",
+  "register": "winning-losing",
+  "description": "Sourced parts for how a vote is won or lost on the floor: the count, a question carried and a question lost, mined from the Congressional Record (public domain). timesRecorded counts how often the shape appears in the days read.",
+  "slots": {
+    "n": "A whole number of votes."
+  },
+  "maxWords": 20,
+  "mining": {
+    "tool": "scripts/english-mining/mine-vote-outcomes.py",
+    "daysRead": "33 Congressional Record days, October 27 to December 18, 2025, House and Senate pages"
+  },
+  "parts": [
+    {
+      "key": "winning-losing.carried.the-motion-was-agreed-to",
+      "move": "carried",
+      "text": "The motion was agreed to.",
+      "timesRecorded": 62,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-10-28",
+        "granule": "CREC-2025-10-28-pt1-PgS7757-8",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-10-28/CREC-2025-10-28-pt1-PgS7757-8"
+      }
+    },
+    {
+      "key": "winning-losing.carried.the-yeas-and-nays-were-ordered",
+      "move": "carried",
+      "text": "The yeas and nays were ordered.",
+      "timesRecorded": 62,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-12",
+        "granule": "CREC-2025-11-12-pt1-PgH4595-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-12/CREC-2025-11-12-pt1-PgH4595-3"
+      }
+    },
+    {
+      "key": "winning-losing.carried.the-bill-was-ordered-to-be-engrossed-and-read-a-third-time-and-was-read-the-third-time",
+      "move": "carried",
+      "text": "The bill was ordered to be engrossed and read a third time, and was read the third time.",
+      "timesRecorded": 23,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-19",
+        "granule": "CREC-2025-11-19-pt1-PgH4796",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-19/CREC-2025-11-19-pt1-PgH4796"
+      }
+    },
+    {
+      "key": "winning-losing.carried.the-motion-is-agreed-to",
+      "move": "carried",
+      "text": "The motion is agreed to.",
+      "timesRecorded": 17,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-10-28",
+        "granule": "CREC-2025-10-28-pt1-PgS7764",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-10-28/CREC-2025-10-28-pt1-PgS7764"
+      }
+    },
+    {
+      "key": "winning-losing.carried.a-recorded-vote-was-ordered",
+      "move": "carried",
+      "text": "A recorded vote was ordered.",
+      "timesRecorded": 13,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-12",
+        "granule": "CREC-2025-11-12-pt1-PgH4595-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-12/CREC-2025-11-12-pt1-PgH4595-3"
+      }
+    },
+    {
+      "key": "winning-losing.carried.the-amendment-was-agreed-to",
+      "move": "carried",
+      "text": "The amendment was agreed to.",
+      "timesRecorded": 12,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-10",
+        "granule": "CREC-2025-12-10-pt1-PgH5528",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-10/CREC-2025-12-10-pt1-PgH5528"
+      }
+    },
+    {
+      "key": "winning-losing.carried.the-resolution-was-agreed-to",
+      "move": "carried",
+      "text": "The resolution was agreed to.",
+      "timesRecorded": 10,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-12",
+        "granule": "CREC-2025-11-12-pt1-PgH4664-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-12/CREC-2025-11-12-pt1-PgH4664-2"
+      }
+    },
+    {
+      "key": "winning-losing.carried.the-yeas-and-nays-are-ordered",
+      "move": "carried",
+      "text": "The yeas and nays are ordered.",
+      "timesRecorded": 8,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-10",
+        "granule": "CREC-2025-11-10-pt1-PgS8125",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-10/CREC-2025-11-10-pt1-PgS8125"
+      }
+    },
+    {
+      "key": "winning-losing.carried.the-resolutions-were-agreed-to",
+      "move": "carried",
+      "text": "The resolutions were agreed to.",
+      "timesRecorded": 6,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-10-29",
+        "granule": "CREC-2025-10-29-pt1-PgS7830-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-10-29/CREC-2025-10-29-pt1-PgS7830-3"
+      }
+    },
+    {
+      "key": "winning-losing.carried.the-committee-reported-amendment-in-the-nature-of-a-substitute-was-agreed-to",
+      "move": "carried",
+      "text": "The committee-reported amendment, in the nature of a substitute, was agreed to.",
+      "timesRecorded": 6,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-20",
+        "granule": "CREC-2025-11-20-pt1-PgS8259-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-20/CREC-2025-11-20-pt1-PgS8259-2"
+      }
+    },
+    {
+      "key": "winning-losing.carried.the-joint-resolution-was-ordered-to-be-engrossed-for-a-third-reading-and-was-read-the-third-time",
+      "move": "carried",
+      "text": "The joint resolution was ordered to be engrossed for a third reading and was read the third time.",
+      "timesRecorded": 5,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-10-28",
+        "granule": "CREC-2025-10-28-pt1-PgS7766-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-10-28/CREC-2025-10-28-pt1-PgS7766-3"
+      }
+    },
+    {
+      "key": "winning-losing.carried.the-committee-reported-amendment-in-the-nature-of-a-substitute-was-agreed-to",
+      "move": "carried",
+      "text": "The committee-reported amendment in the nature of a substitute was agreed to.",
+      "timesRecorded": 5,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-04",
+        "granule": "CREC-2025-11-04-pt1-PgS7904-4",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-04/CREC-2025-11-04-pt1-PgS7904-4"
+      }
+    },
+    {
+      "key": "winning-losing.carried.under-the-rule-the-previous-question-is-ordered",
+      "move": "carried",
+      "text": "Under the rule, the previous question is ordered.",
+      "timesRecorded": 4,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-10",
+        "granule": "CREC-2025-12-10-pt1-PgH5528",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-10/CREC-2025-12-10-pt1-PgH5528"
+      }
+    },
+    {
+      "key": "winning-losing.carried.the-amendments-were-agreed-to",
+      "move": "carried",
+      "text": "The amendments were agreed to.",
+      "timesRecorded": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-10",
+        "granule": "CREC-2025-12-10-pt1-PgH5528",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-10/CREC-2025-12-10-pt1-PgH5528"
+      }
+    },
+    {
+      "key": "winning-losing.carried.the-previous-question-was-ordered",
+      "move": "carried",
+      "text": "The previous question was ordered.",
+      "timesRecorded": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-18",
+        "granule": "CREC-2025-11-18-pt1-PgH4737",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-18/CREC-2025-11-18-pt1-PgH4737"
+      }
+    },
+    {
+      "key": "winning-losing.carried.without-objection-the-previous-question-is-ordered-on-the-resolution",
+      "move": "carried",
+      "text": "Without objection, the previous question is ordered on the resolution.",
+      "timesRecorded": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-18",
+        "granule": "CREC-2025-11-18-pt1-PgH4737",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-18/CREC-2025-11-18-pt1-PgH4737"
+      }
+    },
+    {
+      "key": "winning-losing.carried.the-concurrent-resolution-was-agreed-to",
+      "move": "carried",
+      "text": "The concurrent resolution was agreed to.",
+      "timesRecorded": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-20",
+        "granule": "CREC-2025-11-20-pt1-PgH4851",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-20/CREC-2025-11-20-pt1-PgH4851"
+      }
+    },
+    {
+      "key": "winning-losing.carried.the-joint-resolution-was-ordered-to-a-third-reading-and-was-read-the-third-time",
+      "move": "carried",
+      "text": "The joint resolution was ordered to a third reading and was read the third time.",
+      "timesRecorded": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-20",
+        "granule": "CREC-2025-11-20-pt1-PgS8250",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-20/CREC-2025-11-20-pt1-PgS8250"
+      }
+    },
+    {
+      "key": "winning-losing.carried.the-joint-resolution-was-ordered-to-be-engrossed-for-a-third-reading-and-was-read-a-third-time",
+      "move": "carried",
+      "text": "The joint resolution was ordered to be engrossed for a third reading and was read a third time.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-10-30",
+        "granule": "CREC-2025-10-30-pt1-PgS7842",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-10-30/CREC-2025-10-30-pt1-PgS7842"
+      }
+    },
+    {
+      "key": "winning-losing.carried.the-preamble-as-amended-was-agreed-to",
+      "move": "carried",
+      "text": "The preamble, as amended, was agreed to.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-09",
+        "granule": "CREC-2025-11-09-pt1-PgS8036-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-09/CREC-2025-11-09-pt1-PgS8036-3"
+      }
+    },
+    {
+      "key": "winning-losing.carried.the-amendment-was-ordered-to-be-engrossed-and-the-bill-to-be-read-a-third-time",
+      "move": "carried",
+      "text": "The amendment was ordered to be engrossed and the bill to be read a third time.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-10",
+        "granule": "CREC-2025-11-10-pt1-PgS8125",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-10/CREC-2025-11-10-pt1-PgS8125"
+      }
+    },
+    {
+      "key": "winning-losing.carried.the-bill-as-amended-is-passed",
+      "move": "carried",
+      "text": "The bill, as amended, is passed.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-10",
+        "granule": "CREC-2025-11-10-pt1-PgS8125",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-10/CREC-2025-11-10-pt1-PgS8125"
+      }
+    },
+    {
+      "key": "winning-losing.carried.without-objection-the-previous-question-is-ordered",
+      "move": "carried",
+      "text": "Without objection, the previous question is ordered.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-17",
+        "granule": "CREC-2025-11-17-pt1-PgH4692-2",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-17/CREC-2025-11-17-pt1-PgH4692-2"
+      }
+    },
+    {
+      "key": "winning-losing.carried.the-joint-resolution-was-ordered-to-be-read-a-third-time-and-was-read-the-third-time",
+      "move": "carried",
+      "text": "The joint resolution was ordered to be read a third time, and was read the third time.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-18",
+        "granule": "CREC-2025-11-18-pt1-PgH4753",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-18/CREC-2025-11-18-pt1-PgH4753"
+      }
+    },
+    {
+      "key": "winning-losing.carried.on-this-vote-the-yeas-are-n-the-nays-are-n-and-the-motion-is-agreed-to",
+      "move": "carried",
+      "text": "On this vote, the yeas are {n}, the nays are {n}, and the motion is agreed to.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-18",
+        "granule": "CREC-2025-11-18-pt1-PgS8194",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-18/CREC-2025-11-18-pt1-PgS8194"
+      }
+    },
+    {
+      "key": "winning-losing.carried.the-committee-reported-amendment-was-agreed-to",
+      "move": "carried",
+      "text": "The committee-reported amendment was agreed to.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-19",
+        "granule": "CREC-2025-11-19-pt1-PgS8245-4",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-19/CREC-2025-11-19-pt1-PgS8245-4"
+      }
+    },
+    {
+      "key": "winning-losing.carried.the-bill-was-ordered-to-be-engrossed-for-a-third-reading-and-was-read-the-third-time",
+      "move": "carried",
+      "text": "The bill was ordered to be engrossed for a third reading and was read the third time.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-20",
+        "granule": "CREC-2025-11-20-pt1-PgS8270-31",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-20/CREC-2025-11-20-pt1-PgS8270-31"
+      }
+    },
+    {
+      "key": "winning-losing.carried.the-committee-reported-amendments-were-agreed-to",
+      "move": "carried",
+      "text": "The committee-reported amendments were agreed to.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-10",
+        "granule": "CREC-2025-12-10-pt1-PgS8628-5",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-10/CREC-2025-12-10-pt1-PgS8628-5"
+      }
+    },
+    {
+      "key": "winning-losing.carried.the-bill-was-passed-as-follows",
+      "move": "carried",
+      "text": "The bill was passed, as follows:",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-16",
+        "granule": "CREC-2025-12-16-pt1-PgS8762",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-16/CREC-2025-12-16-pt1-PgS8762"
+      }
+    },
+    {
+      "key": "winning-losing.carried.the-bills-were-ordered-to-a-third-reading-and-were-read-the-third-time-en-bloc",
+      "move": "carried",
+      "text": "The bills were ordered to a third reading and were read the third time en bloc.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-16",
+        "granule": "CREC-2025-12-16-pt1-PgS8766",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-16/CREC-2025-12-16-pt1-PgS8766"
+      }
+    },
+    {
+      "key": "winning-losing.carried.the-committee-reported-amendment-in-the-nature-of-a-substitute-as-amended-was-agreed-to",
+      "move": "carried",
+      "text": "The committee-reported amendment, in the nature of a substitute, as amended, was agreed to.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-18",
+        "granule": "CREC-2025-12-18-pt1-PgS8895-4",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-18/CREC-2025-12-18-pt1-PgS8895-4"
+      }
+    },
+    {
+      "key": "winning-losing.count.on-this-vote-the-yeas-are-n-the-nays-are-n",
+      "move": "count",
+      "text": "On this vote, the yeas are {n}, the nays are {n}.",
+      "timesRecorded": 26,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-10-28",
+        "granule": "CREC-2025-10-28-pt1-PgS7757-8",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-10-28/CREC-2025-10-28-pt1-PgS7757-8"
+      }
+    },
+    {
+      "key": "winning-losing.count.the-yeas-are-n-the-nays-are-n",
+      "move": "count",
+      "text": "The yeas are {n}, the nays are {n}.",
+      "timesRecorded": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-02",
+        "granule": "CREC-2025-12-02-pt1-PgS8432-4",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-02/CREC-2025-12-02-pt1-PgS8432-4"
+      }
+    },
+    {
+      "key": "winning-losing.count.on-this-vote-the-yeas-are-n-and-the-nays-are-n",
+      "move": "count",
+      "text": "On this vote, the yeas are {n}, and the nays are {n}.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-09",
+        "granule": "CREC-2025-12-09-pt1-PgS8555-3",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-09/CREC-2025-12-09-pt1-PgS8555-3"
+      }
+    },
+    {
+      "key": "winning-losing.lost.the-motion-was-rejected",
+      "move": "lost",
+      "text": "The motion was rejected.",
+      "timesRecorded": 6,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-10-28",
+        "granule": "CREC-2025-10-28-pt1-PgS7757-8",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-10-28/CREC-2025-10-28-pt1-PgS7757-8"
+      }
+    },
+    {
+      "key": "winning-losing.lost.the-amendment-was-rejected",
+      "move": "lost",
+      "text": "The amendment was rejected.",
+      "timesRecorded": 1,
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-10",
+        "granule": "CREC-2025-12-10-pt1-PgH5534",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-10/CREC-2025-12-10-pt1-PgH5534"
+      }
+    }
+  ]
+}
