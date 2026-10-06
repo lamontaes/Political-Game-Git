@@ -1,8 +1,22 @@
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
-import { activeWorkRelationshipsAt } from "../simulation/life-queries";
+import {
+  activeWorkRelationshipsAt,
+  organizationProfileAt,
+} from "../simulation/life-queries";
 import { activeDwellingOccupanciesAt } from "../simulation/resource-queries";
-import { householdMembershipsAt } from "../simulation";
+import {
+  householdMembershipsAt,
+  mediaOutlets,
+  pressInterviewByLocationKey,
+  reporterRoles,
+} from "../simulation";
 import { ELECTION_NIGHT_LOCATION_KEY } from "../simulation/campaign-speeches";
+import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import {
+  campusPictureFor,
+  campusRecords,
+  type CollegeToPicture,
+} from "./campus-backdrops";
 import { backdropUrl } from "./backdrop-urls";
 import { openingWorkLocation } from "./opening-work-location";
 import type {
@@ -64,6 +78,7 @@ export function hasBackdrop(place: string): boolean {
 
 /** The daytime picture, for establishing shots that are not a moment in play. */
 export function middayBackdropUrl(place: string): string | null {
+  if (place === "college-quad") return null;
   return BY_PLACE.get(place)?.get("midday") ?? null;
 }
 
@@ -143,8 +158,15 @@ export function placeBackdrop(
   place: string | null,
   moment: SimulationMoment,
   weatherKey: string,
+  college?: CollegeToPicture,
 ): PlaceBackdrop | null {
   if (!place) return null;
+  // The shared quad has no regional or size contract. Never bypass the
+  // campus registry with it when actual place tags are absent or incompatible.
+  if (place === "college-quad") {
+    const picture = college ? campusPictureFor(college) : null;
+    return picture?.url ? { place, variant: "midday", url: picture.url } : null;
+  }
   const variants = BY_PLACE.get(place);
   const midday = variants?.get("midday");
   if (!variants || !midday) return null;
@@ -343,6 +365,8 @@ export function placeForLocationKey(
   if (exact === "home") return homePlaceForPerson(world, personId);
   if (exact) return exact;
   const prefix = locationKey.slice(0, locationKey.indexOf(":"));
+  if (prefix === "press-planned")
+    return pressInterviewPlace(world, locationKey);
   if (prefix === "municipal" || prefix === "municipal-notes") {
     if (/county/.test(locationKey)) return "county-commission";
     if (/township|town-board/.test(locationKey))
@@ -351,6 +375,39 @@ export function placeForLocationKey(
         : "council-chamber";
   }
   return LOCATION_PREFIX_PLACE[prefix] ?? null;
+}
+
+/**
+ * Where an arranged press exchange is held: the reporter's own outlet decides.
+ * A broadcaster takes a spoken exchange to its studio, an audio-only outlet to
+ * its booth, and every other outlet, written or spoken, to its newsroom. The
+ * briefing room has no released picture, so no exchange resolves to it. Null
+ * when no saved arrangement carries the key. A reporter with no outlet record
+ * still works from a newsroom, since the interview needs a journalism role.
+ */
+function pressInterviewPlace(world: World, locationKey: string): string | null {
+  const interview = pressInterviewByLocationKey(world, locationKey);
+  if (!interview) return null;
+  const role = [...reporterRoles(world)]
+    .reverse()
+    .find((candidate) => candidate.personId === interview.reporterPersonId);
+  const outlet = role
+    ? mediaOutlets(world).find((candidate) => candidate.id === role.outletId)
+    : null;
+  return pressVenuePlace(interview.channel, outlet?.mediums ?? []);
+}
+
+/** The place picture for a press channel and the mediums its outlet works in. */
+export function pressVenuePlace(
+  channel: "written" | "spoken",
+  mediums: readonly string[],
+): string {
+  if (channel === "spoken") {
+    if (mediums.includes("broadcast")) return "tv-studio";
+    if (mediums.includes("audio") && !mediums.includes("text"))
+      return "radio-booth";
+  }
+  return "newsroom";
 }
 
 const LOCATION_PLACE: Readonly<Record<string, string>> = {
@@ -410,9 +467,46 @@ export function backdropForLocation(
   personId: EntityId,
   locationKey: string | null,
 ): PlaceBackdrop | null {
+  const place = placeForLocationKey(world, personId, locationKey);
+  const college =
+    place === "college-quad"
+      ? campusForSelectedWorkplace(world, personId)
+      : undefined;
   return placeBackdrop(
-    placeForLocationKey(world, personId, locationKey),
+    place,
     world.currentMoment,
     weatherKeyForPerson(world, personId),
+    college,
   );
+}
+
+/** Only an exact registered institution and its recorded state supply tags.
+ * No enrollment count, employer name fragment, or home state estimates a campus.
+ * Stand-ins require an actual target tag record, which legacy worlds lack.
+ */
+function campusForSelectedWorkplace(
+  world: World,
+  personId: EntityId,
+): CollegeToPicture | undefined {
+  const selected = selectedWorkplaceForPerson(world, personId);
+  const work = selected
+    ? activeWorkRelationshipsAt(world, personId).find(
+        (entry) => entry.relationship.id === selected.workRelationshipId,
+      )
+    : activeWorkRelationshipsAt(world, personId)[0];
+  if (!work?.relationship.organizationId) return undefined;
+  const profile = organizationProfileAt(
+    world,
+    work.relationship.organizationId,
+  );
+  if (!profile || profile.closed || !profile.locationJurisdictionId)
+    return undefined;
+  const place = lifePlaceByJurisdictionId(profile.locationJurisdictionId);
+  const state = place?.stateJurisdictionKey?.slice("US-".length).toLowerCase();
+  const matches = campusRecords().filter(
+    (record) => record.name === profile.name && record.state === state,
+  );
+  if (matches.length !== 1) return undefined;
+  const record = matches[0]!;
+  return { ...record, kind: record.kind as CollegeToPicture["kind"] };
 }
