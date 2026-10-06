@@ -418,6 +418,11 @@ export interface LawConsequenceRow {
     key: string;
     type: "boolean" | "decision";
   };
+  /**
+   * A statute can leave a bounded term for an implementing agency to set.
+   * Only rows carrying this explicit delegation may support a regulation.
+   */
+  delegations?: readonly LawDelegationTerm[];
   conditions: LawConsequencePredicate[];
   lag: { days: number; sourceIds: string[] };
   onRepeal:
@@ -430,6 +435,15 @@ export interface LawConsequenceRow {
     uncertainty: string;
   };
   onward?: LawConsequenceRow[];
+}
+
+export interface LawDelegationTerm {
+  readonly key: string;
+  readonly questionKey: string;
+  readonly minimum: number | null;
+  readonly maximum: number | null;
+  readonly unit: LawAmountUnit | null;
+  readonly sourceIds: readonly string[];
 }
 export interface LawConsequenceContext {
   completedShift?: { eventId: EntityId; termsId: EntityId };
