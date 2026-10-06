@@ -21,6 +21,7 @@ import {
   RECALL_PETITION_CLOSES,
   RECALL_PETITION_CLOSED,
   RECALL_VERSION,
+  askRecallPetitionToSign,
   recallElectionHandler,
   recallResidentViews,
   canStartRecallPetition,
@@ -357,7 +358,7 @@ describe("recalling a town official", () => {
   );
 
   it(
-    "qualifies exactly at the sourced threshold using recorded supporters and registered residents",
+    "qualifies exactly at the sourced threshold using recorded asks and registered residents",
     { timeout: 120_000 },
     () => {
       const town = ordinaryStart(GRAND_ISLAND, "recall-A");
@@ -377,7 +378,7 @@ describe("recalling a town official", () => {
       expect(residents).toHaveLength(required);
       for (const signatures of [required - 1, required]) {
         const supporters = residents.slice(0, signatures);
-        const started = petition(
+        let started = petition(
           withViews(
             town.world,
             town.member,
@@ -388,6 +389,14 @@ describe("recalling a town official", () => {
           town.player,
           town.member,
         );
+        const openPetition = recallPetitions(started)[0]!;
+        for (const signerPersonId of supporters) {
+          started = askRecallPetitionToSign(started, {
+            petitionKey: openPetition.stableKey,
+            signerPersonId,
+            circulatorPersonId: town.player,
+          }).world;
+        }
         const due = started.history.futureDueItems.find(
           (row) => row.transitionKey === RECALL_PETITION_CLOSES,
         )!;
