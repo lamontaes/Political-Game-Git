@@ -12350,6 +12350,16 @@
     "releaseCheckInitial": {
       "exit": 1,
       "reason": "Newnote missing section; metadata correction follows candidate source."
+    },
+    "releaseCheckCorrected": {
+      "exit": 0,
+      "head": "f0b1e2ce3",
+      "log": "\n> political-life-rpg@0.4.0 release:check\n> node --import tsx scripts/release/index.ts check --base f88508186b78f526ecf89a420b5fb584171e039a --head HEAD\n\nrelease:check \u2014 version 0.4.0, revision f0b1e2c, 1681 pending declaration(s), declaration range f88508186b78f526ecf89a420b5fb584171e039a..HEAD (pr). OK.\nnpm notice\nnpm notice New major version of npm available! 11.9.0 -> 12.2.0\nnpm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0\nnpm notice To update run: npm install -g npm@12.2.0\nnpm notice\n"
+    },
+    "portableHarnessLint": {
+      "firstAttempt": "23 no-undef errors for Nodeglobals; corrected with explicit node:process/node:console/node:buffer imports",
+      "correctedExec": 8052,
+      "exit": 0
     }
   },
   "nextMeasuredRepair": "Scheduled prepareStateIntake still pays for trait/upbringing reads on each actual seat intake day. Inspect/reuse sequence/date-valid cohort reads with retained owner before any next PR; do not allocate payday/routine simply from initial profile.",
@@ -12359,5 +12369,6 @@
     "Sampled inclusive producer costs overlap; no annual/save/Continue acceptance",
     "Appended row body bytes exclude save containers; no full World payload written",
     "Worlds not fully serialized; no full-save/hash comparison. Original baseline and candidate raw artifact directories retained."
-  ]
+  ],
+  "review": "civic_report_reviewer PASS: portable output rejects prior artifacts; candidate summary/days/terminal/first19 values match raw evidence. Worsened walltime establishes no speed gain or isolated causal effect."
 }

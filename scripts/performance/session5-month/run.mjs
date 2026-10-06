@@ -1,3 +1,5 @@
+import process from "node:process";
+import console from "node:console";
 import assert from "node:assert/strict";
 import { randomInt, randomUUID } from "node:crypto";
 import {

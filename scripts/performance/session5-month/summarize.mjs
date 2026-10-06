@@ -1,3 +1,5 @@
+import process from "node:process";
+import console from "node:console";
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 const root = process.argv[2];
 if (!root) throw new Error("Profile output directory required");

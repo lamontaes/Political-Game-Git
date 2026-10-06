@@ -1,3 +1,5 @@
+import process from "node:process";
+import { Buffer } from "node:buffer";
 import inspector from "node:inspector";
 import { performance } from "node:perf_hooks";
 import { writeFileSync } from "node:fs";
