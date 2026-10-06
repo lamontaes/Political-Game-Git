@@ -1,6 +1,10 @@
 import type { EntityId, HistoricalCutoff, IsoDate, World } from "../types";
-import type { LawAmountUnit } from "../law-consequence-types";
-import type { RentalPriceRule } from "../law-consequence-types";
+import {
+  lawTermScopesMatch,
+  type LawAmountUnit,
+  type LawTermScope,
+  type RentalPriceRule,
+} from "../law-consequence-types";
 import {
   reciprocalRankedReferences,
   weightedReferenceMean,
@@ -30,6 +34,7 @@ export interface FinalEnactedLawTerm {
   readonly measureId: EntityId;
   readonly provisionId: EntityId | null;
   readonly sourceRecordIds: readonly EntityId[];
+  readonly scope?: LawTermScope;
   readonly rentalPriceRule?: RentalPriceRule;
 }
 
@@ -68,7 +73,7 @@ export interface ModeledFinalEnactedLawTerm {
     readonly requestedAt: IsoDate;
     readonly operativeAt: IsoDate;
     readonly cutoff: HistoricalCutoff | null;
-    readonly scope: "statewide";
+    readonly scope: LawTermScope;
     readonly lawLevel: LawInForce["level"];
     readonly governmentForm: string;
     readonly targetPopulation: number;
@@ -79,6 +84,7 @@ export interface ModeledFinalEnactedLawTerm {
       readonly stateKey: string;
       readonly lawMeasureId: EntityId;
       readonly sourceRecordIds: readonly EntityId[];
+      readonly scope: LawTermScope;
       readonly value: number;
       readonly population: number;
       readonly region: string;
@@ -313,6 +319,7 @@ export function readFinalEnactedLawTerm(
     readonly onDate?: IsoDate;
     readonly cutoff?: HistoricalCutoff;
     readonly workplaceKey?: string;
+    readonly scope?: LawTermScope;
   },
 ): FinalEnactedLawTerm | null {
   const onDate = structuredQueryDate(world, law, input);
@@ -336,6 +343,7 @@ export function readFinalEnactedLawTerm(
       measureId: law.measureId,
       provisionId: null,
       sourceRecordIds: [law.measureId],
+      ...(term.scope ? { scope: structuredClone(term.scope) } : {}),
       ...(term.rentalPriceRule
         ? { rentalPriceRule: term.rentalPriceRule }
         : {}),
@@ -376,6 +384,7 @@ export function readFinalEnactedLawTerm(
     measureId: law.measureId,
     provisionId: provision.id,
     sourceRecordIds: [law.measureId, enactment.id, provision.id],
+    ...(term.scope ? { scope: structuredClone(term.scope) } : {}),
     ...(term.rentalPriceRule ? { rentalPriceRule: term.rentalPriceRule } : {}),
   };
 }
@@ -396,10 +405,19 @@ export function readOrEstimateFinalEnactedLawTerm(
     readonly onDate?: IsoDate;
     readonly cutoff?: HistoricalCutoff;
     readonly workplaceKey?: string;
+    readonly scope?: LawTermScope;
   },
 ): FinalEnactedLawTermResolution {
   const source = readFinalEnactedLawTerm(world, law, input);
   if (source) {
+    if (
+      input.scope !== undefined &&
+      (!source.scope || !lawTermScopesMatch(source.scope, input.scope))
+    )
+      return {
+        kind: "unsupported",
+        reason: "The sourced amount does not match the requested legal scope.",
+      };
     return Number.isFinite(source.value)
       ? { kind: "source", term: source }
       : { kind: "unsupported", reason: "The sourced amount is not finite." };
@@ -431,6 +449,13 @@ export function readOrEstimateFinalEnactedLawTerm(
             : explicit === "present"
               ? "An explicit term exists but is conflicting, malformed, or has a different unit."
               : "The law term cannot be validated at the requested historical cutoff.",
+    };
+
+  if (!input.scope)
+    return {
+      kind: "unsupported",
+      reason:
+        "A modeled amount requires an explicit, validated target scope; missing scope is unknown.",
     };
 
   const targetPlaceKey = startingLawPlaceKey(input.jurisdictionId);
@@ -517,12 +542,19 @@ export function readOrEstimateFinalEnactedLawTerm(
       onDate,
       cutoff: input.cutoff,
     });
-    if (!donorTerm || !Number.isFinite(donorTerm.value)) continue;
+    if (
+      !donorTerm ||
+      !Number.isFinite(donorTerm.value) ||
+      !donorTerm.scope ||
+      !lawTermScopesMatch(donorTerm.scope, input.scope)
+    )
+      continue;
     donors.push({
       stateKey: government.stateKey,
       lawMeasureId: donorTerm.measureId,
       sourceRecordIds: donorTerm.sourceRecordIds,
       value: donorTerm.value,
+      scope: donorTerm.scope,
       population: government.population,
       region: censusRegionOf(government.stateKey.slice(3)),
       governmentForm: targetForm,
@@ -550,7 +582,7 @@ export function readOrEstimateFinalEnactedLawTerm(
   const spread = spreadOf(references.map((donor) => donor.value));
   const selectionKey =
     `starting-law-term/v1:${targetPlaceKey}:${input.questionKey}:` +
-    `${input.termKey}:${input.unit}:${onDate}`;
+    `${input.termKey}:${input.unit}:${onDate}:${JSON.stringify(input.scope)}`;
   const totalWeight = references.reduce(
     (total, donor) => total + donor.weight,
     0,
@@ -585,7 +617,7 @@ export function readOrEstimateFinalEnactedLawTerm(
       requestedAt: onDate,
       operativeAt: law.operativeAt,
       cutoff: input.cutoff ? { ...input.cutoff } : null,
-      scope: "statewide",
+      scope: structuredClone(input.scope),
       lawLevel: law.level,
       governmentForm: targetForm,
       targetPopulation: targetGovernment.population,
@@ -599,6 +631,7 @@ export function readOrEstimateFinalEnactedLawTerm(
         lawMeasureId: donor.lawMeasureId,
         sourceRecordIds: donor.sourceRecordIds,
         value: donor.value,
+        scope: structuredClone(donor.scope),
         population: donor.population,
         region: donor.region,
         governmentForm: donor.governmentForm,
@@ -617,6 +650,7 @@ interface LawTermDonor {
   readonly lawMeasureId: EntityId;
   readonly sourceRecordIds: readonly EntityId[];
   readonly value: number;
+  readonly scope: LawTermScope;
   readonly population: number;
   readonly region: string;
   readonly governmentForm: string;
