@@ -350,7 +350,7 @@ export function settleAllOfficeSalaries(world: World): World {
               next.history.resourceTransferOutcomes,
             ).get(flow.id);
             // No weekly history is authored for a distant routine. Close its own
-            // recorded earnings once a year, or at the explicit Begin boundary.
+            // recorded earnings by completed month, or at the explicit Begin boundary.
             const closing = next.currentDate >= next.pastMode!.throughDate;
             const firstUnpaidDue = addDays(
               last ?? flow.startsAt,
@@ -358,22 +358,22 @@ export function settleAllOfficeSalaries(world: World): World {
             );
             if (
               !closing &&
-              firstUnpaidDue.slice(0, 4) >= next.currentDate.slice(0, 4)
+              firstUnpaidDue.slice(0, 7) >= next.currentDate.slice(0, 7)
             )
               continue;
             const due = dueOfficePeriods(next, work, flow).filter(
               (period) =>
                 closing ||
-                period.onDate.slice(0, 4) < next.currentDate.slice(0, 4),
+                period.onDate.slice(0, 7) < next.currentDate.slice(0, 7),
             );
-            const years = new Map<string, TownCompensationPeriod[]>();
+            const months = new Map<string, TownCompensationPeriod[]>();
             for (const period of due) {
-              const year = period.onDate.slice(0, 4);
-              const list = years.get(year) ?? [];
+              const month = period.onDate.slice(0, 7);
+              const list = months.get(month) ?? [];
               list.push(period);
-              years.set(year, list);
+              months.set(month, list);
             }
-            for (const list of years.values()) {
+            for (const list of months.values()) {
               const first = list[0]!;
               const final = list.at(-1)!;
               if (!historicalWorldInputs(first.onDate).historical) {
@@ -401,7 +401,7 @@ export function settleAllOfficeSalaries(world: World): World {
                 );
               const provenance = {
                 kind: "authored" as const,
-                note: "ESTIMATED FROM AVERAGE: distant historical routine salary summarized from this job's recorded period terms; private goals and nearby residents use ordinary payroll.",
+                note: "Distant historical routine salary summarized by month from this job's recorded period terms; the player and touched towns use ordinary payroll.",
               };
               next = createResourceFlow(next, {
                 stableKey: `past-office-summary-flow:${flow.id}:${first.periodStartsAt}:${final.periodEndsAt}`,
@@ -415,7 +415,7 @@ export function settleAllOfficeSalaries(world: World): World {
                   ),
                   currency,
                 ),
-                cadenceKind: "schedule:annual",
+                cadenceKind: "schedule:monthly",
                 basisKind: "custom:historical-office-summary",
                 basisReference: flow.basisReference,
                 restrictionKind: flow.restrictionKind,

@@ -1,12 +1,8 @@
-import {
-  growingIndex,
-  recordsByKey,
-  type GrowingIndexKind,
-} from "./history-index";
+import { recordsByKey } from "./history-index";
 import { settleAllOfficeSalaries } from "./office-salary";
-import type { EntityId, GoalStateRecord, IsoDate, World } from "./types";
+import type { EntityId, IsoDate, World } from "./types";
 
-/** The same clock runs every decision; only distant routine pay is summarized. */
+/** The same clock retains full player history and summarizes distant routine. */
 export interface HistoricalPastMode {
   readonly kind: "historical-past-v1";
   readonly focusPersonId: EntityId;
@@ -43,24 +39,129 @@ export function endHistoricalPastMode(world: World): World {
   return preserved;
 }
 
-const GOAL_PEOPLE: GrowingIndexKind<Set<EntityId>> = {
-  create: () => new Set(),
-  add: (people, row) => people.add((row as GoalStateRecord).personId),
-};
 const NEAR_PEOPLE = new WeakMap<object, Map<EntityId, Set<EntityId>>>();
+interface TouchedJurisdictionCache {
+  readonly focusId: EntityId;
+  readonly date: IsoDate;
+  readonly sources: readonly object[];
+  readonly answers: Map<EntityId, boolean>;
+}
+const TOUCHED_JURISDICTIONS = new WeakMap<object, TouchedJurisdictionCache>();
 
-/** Residents with private goals, relatives and contacts retain ordinary payroll. */
+/** All places actually recorded for the focus, rather than a fixed town list.
+ * Future-dated plans do not make a town touched before the recorded date. */
+export function historicalPlayerTouchesJurisdiction(
+  world: World,
+  jurisdictionId: EntityId,
+): boolean {
+  const focusId = world.pastMode?.focusPersonId;
+  if (!focusId) return false;
+  const sources = [
+    world.history.events,
+    world.history.householdMemberships,
+    world.history.householdLocations,
+    world.history.workRelationships,
+    world.history.workRoles,
+  ];
+  let cache = TOUCHED_JURISDICTIONS.get(world.people);
+  const priorSources = cache?.sources;
+  if (
+    !cache ||
+    cache.focusId !== focusId ||
+    cache.date !== world.currentDate ||
+    sources.some((source, index) => source !== priorSources?.[index])
+  ) {
+    cache = { focusId, date: world.currentDate, sources, answers: new Map() };
+    TOUCHED_JURISDICTIONS.set(world.people, cache);
+  }
+  const known = cache.answers.get(jurisdictionId);
+  if (known !== undefined) return known;
+  const answer = readHistoricalPlayerTouchesJurisdiction(
+    world,
+    focusId,
+    jurisdictionId,
+  );
+  cache.answers.set(jurisdictionId, answer);
+  return answer;
+}
+
+function readHistoricalPlayerTouchesJurisdiction(
+  world: World,
+  focusId: EntityId,
+  jurisdictionId: EntityId,
+): boolean {
+  if (world.people[focusId]?.homeJurisdictionId === jurisdictionId) return true;
+  const events = recordsByKey(
+    world.history.events,
+    "historical-past:focus-events",
+    (row) => [
+      ...row.involvedEntityIds,
+      ...row.participants.map((p) => p.personId),
+    ],
+    focusId,
+  );
+  if (
+    events.some(
+      (row) =>
+        row.occurredAt <= world.currentDate &&
+        (row.jurisdictionId === jurisdictionId ||
+          row.context.location?.jurisdictionId === jurisdictionId),
+    )
+  )
+    return true;
+  const memberships = recordsByKey(
+    world.history.householdMemberships,
+    "historical-past:focus-memberships",
+    (row) => [row.personId],
+    focusId,
+  );
+  for (const membership of memberships) {
+    if (membership.startedAt > world.currentDate) continue;
+    if (
+      recordsByKey(
+        world.history.householdLocations,
+        "historical-past:household-locations",
+        (row) => [row.householdId],
+        membership.householdId,
+      ).some(
+        (row) =>
+          row.effectiveAt <= world.currentDate &&
+          row.jurisdictionId === jurisdictionId,
+      )
+    )
+      return true;
+  }
+  const work = recordsByKey(
+    world.history.workRelationships,
+    "historical-past:focus-work",
+    (row) => [row.personId],
+    focusId,
+  );
+  return work.some(
+    (relationship) =>
+      relationship.startedAt <= world.currentDate &&
+      recordsByKey(
+        world.history.workRoles,
+        "historical-past:work-locations",
+        (row) => [row.workRelationshipId],
+        relationship.id,
+      ).some(
+        (row) =>
+          row.effectiveAt <= world.currentDate &&
+          row.locationJurisdictionId === jurisdictionId,
+      ),
+  );
+}
+
+/** Player-touched towns, relatives and contacts retain ordinary payroll.
+ * A distant actor's goal does not change their town's historical resolution. */
 export function distantHistoricalRoutine(
   world: World,
   personId: EntityId,
 ): boolean {
   const mode = world.pastMode;
   if (!mode || world.currentDate > mode.throughDate) return false;
-  if (
-    personId === mode.focusPersonId ||
-    growingIndex(GOAL_PEOPLE, world.history.goalStates).has(personId)
-  )
-    return false;
+  if (personId === mode.focusPersonId) return false;
   const focus = world.people[mode.focusPersonId];
   if (!focus) throw new Error("The historical resident is missing.");
   let byFocus = NEAR_PEOPLE.get(world.people);
@@ -79,6 +180,8 @@ export function distantHistoricalRoutine(
     byFocus.set(mode.focusPersonId, nearby);
   }
   if (nearby.has(personId)) return false;
+  const home = world.people[personId]?.homeJurisdictionId;
+  if (home && historicalPlayerTouchesJurisdiction(world, home)) return false;
   const families: readonly (readonly [
     string,
     readonly { readonly personIds: readonly EntityId[] }[],

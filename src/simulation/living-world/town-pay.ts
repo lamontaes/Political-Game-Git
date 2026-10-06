@@ -1,4 +1,5 @@
 import { historicalWorldInputs } from "../historical-world-inputs";
+import { distantHistoricalRoutine } from "../historical-past-mode";
 import { settleAllOfficeSalaries } from "../office-salary";
 import { assessedCompletedHourlyGrossMinor } from "../completed-hourly-gross";
 import { payPayerAt, payWorkplaceAt } from "../pay-coverage-predicates";
@@ -576,6 +577,9 @@ export function nextRecordedPaydayDate(world: World): IsoDate {
       flow.basisReference.workRelationshipId,
     );
     if (!work || workStatusAt(world, work.id)?.status !== "active") continue;
+    // The full player's town still supplies ordinary payday boundaries;
+    // unrelated office holders no longer add weekly boundaries to the clock.
+    if (distantHistoricalRoutine(world, work.personId)) continue;
     const week = Math.max(
       1,
       Math.floor(daysBetween(flow.startsAt, world.currentDate) / 7) + 1,
