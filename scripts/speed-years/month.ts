@@ -135,7 +135,7 @@ async function main() {
     cwd: root,
     encoding: "utf8",
   }).trim();
-  const world = openWatchedWorld(seed, place).world;
+  let world = openWatchedWorld(seed, place).world;
   console.log(
     `head=${head} seed=${seed} place=${place} from=${world.currentDate}`,
   );
@@ -145,6 +145,7 @@ async function main() {
   if (firstDay.currentDate <= world.currentDate)
     throw new Error("The observer did not complete day 1");
   world = firstDay;
+  const measuredFromDate = world.currentDate;
   const dailySeconds: number[] = [];
   for (let day = 2; day <= 31; day += 1) {
     const dayBegan = performance.now();
@@ -158,8 +159,7 @@ async function main() {
   const next = world;
   const seconds = dailySeconds.reduce((sum, day) => sum + day, 0);
   if (
-    (Date.parse(next.currentDate) - Date.parse(world.currentDate)) /
-      86400000 !==
+    (Date.parse(next.currentDate) - Date.parse(measuredFromDate)) / 86400000 !==
     30
   )
     throw new Error("The observer did not complete all 30 days");
