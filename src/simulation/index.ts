@@ -52,6 +52,17 @@ export type {
   ScheduledCampaignActionResult,
 } from "./campaigns";
 export {
+  addCampaignHelper,
+  askToHelp,
+  campaignHasHelper,
+  campaignHelperCandidates,
+} from "./campaign-helpers";
+export type {
+  AddCampaignHelperInput,
+  AskToHelpResult,
+  CampaignHelperRole,
+} from "./campaign-helpers";
+export {
   CAMPAIGN_LIFE_CATALOG,
   CAMPAIGN_LIFE_TRAVEL_COST_DISCLOSURE,
   campaignLifeCatalogEntry,
@@ -347,3 +358,5 @@ export * from "./crisis/handling-reactions";
 export * from "./nationwide-world/presidential-turnover";
 export * from "./living-world/federal-reform";
 export * from "./federal-tenures";
+
+export * from "./campaign-managers";

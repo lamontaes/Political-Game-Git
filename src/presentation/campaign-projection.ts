@@ -19,6 +19,8 @@ import {
   ageOnDate,
   campaignActionResult,
   campaignActions,
+  askToHelp,
+  campaignHelperCandidates,
   campaignForCandidate,
   campaignResultsFor,
   campaignState,
@@ -63,9 +65,15 @@ import type {
   EntityId,
   IsoDate,
   MoneyAmount,
+  AskToHelpResult,
   World,
 } from "../simulation";
 import { moneyText } from "../simulation/money-text";
+import {
+  campaignManagerCandidates,
+  campaignManagerOffer,
+  offerCampaignManager,
+} from "../simulation/campaign-managers";
 import { personPronouns } from "../simulation/person-identity";
 import { municipalSeatChoiceByKey } from "../simulation/municipal-seat-identity";
 import { stateCandidacyPack } from "../simulation/candidacy-packs";
@@ -281,6 +289,21 @@ export interface CampaignView {
   readonly daysLeft: number | null;
   readonly treasury: MoneyAmount;
   readonly offers: readonly CampaignActionOffer[];
+  readonly managerCandidates: readonly {
+    personId: EntityId;
+    name: string;
+    affordable: boolean;
+    monthlySalary: MoneyAmount;
+    totalCost: MoneyAmount;
+  }[];
+  readonly helpers: readonly {
+    readonly personId: EntityId;
+    readonly name: string;
+  }[];
+  readonly helperCandidates: readonly {
+    readonly personId: EntityId;
+    readonly name: string;
+  }[];
   readonly sessions: readonly CampaignSessionRecord[];
   readonly reading: CampaignReading | null;
   readonly tallies: readonly CampaignTallyLine[];
@@ -529,6 +552,39 @@ export function projectCampaign(
     treasury,
     offers:
       state.status === "active" ? offersFor(world, campaign, treasury) : [],
+    managerCandidates:
+      state.status === "active"
+        ? campaignManagerCandidates(world, campaign.id).flatMap((candidate) => {
+            const offer = campaignManagerOffer(
+              world,
+              campaign.id,
+              candidate.personId,
+            );
+            const person = world.people[candidate.personId];
+            return offer && person
+              ? [
+                  {
+                    personId: candidate.personId,
+                    name: personName(person),
+                    affordable: offer.affordable,
+                    monthlySalary: offer.salary,
+                    totalCost: offer.totalCost,
+                  },
+                ]
+              : [];
+          })
+        : [],
+    helpers: campaign.staffWorkRelationshipIds.flatMap((workId) => {
+      const relationship = world.history.workRelationships.find(
+        (row) => row.id === workId,
+      );
+      const helper = relationship ? world.people[relationship.personId] : null;
+      return helper ? [{ personId: helper.id, name: personName(helper) }] : [];
+    }),
+    helperCandidates:
+      state.status === "active"
+        ? campaignHelperCandidates(world, campaign.id)
+        : [],
     sessions: sessionsFor(world, campaign),
     reading: latestReading(world, campaign),
     // A speech already given stays on the record; one not given is offered
@@ -583,6 +639,22 @@ export function projectCampaign(
           ? `${candidateName} lost${resultMargin(result, personId)}.`
           : null,
   };
+}
+
+export function offerCampaignManagerJob(
+  world: World,
+  campaignId: EntityId,
+  personId: EntityId,
+) {
+  return offerCampaignManager(world, campaignId, personId);
+}
+
+export function askCampaignHelper(
+  world: World,
+  campaignId: EntityId,
+  personId: EntityId,
+): AskToHelpResult {
+  return askToHelp(world, { campaignId, personId });
 }
 
 /**
@@ -733,6 +805,9 @@ function notYetFiled(
     daysLeft: null,
     treasury: emptyTreasury,
     offers: [] as readonly CampaignActionOffer[],
+    managerCandidates: [] as const,
+    helpers: [] as const,
+    helperCandidates: [] as const,
     sessions: [] as readonly CampaignSessionRecord[],
     reading: null,
     tallies: [] as readonly CampaignTallyLine[],

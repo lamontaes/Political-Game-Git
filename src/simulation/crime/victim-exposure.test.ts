@@ -28,8 +28,8 @@ import {
   recordSampledCrime,
   sampleMonthlyCrime,
   sampleTownPoliceLog,
-  UNRESEARCHED_LOCAL_CRIME,
-  UNRESEARCHED_TOWN_POLICE_LOG,
+  LOCAL_CRIME_RATES,
+  TOWN_POLICE_LOG,
   type CrimeExposure,
 } from "./index";
 import { eligibleOffenders } from "./offenders";
@@ -157,7 +157,7 @@ describe(`crime victims come from causes, not dice (A131; ${label})`, () => {
       (row) => row.jurisdictionId === jurisdictionId,
     );
     expect(exposures.length).toBeGreaterThan(0);
-    for (const rule of UNRESEARCHED_LOCAL_CRIME.offenses) {
+    for (const rule of LOCAL_CRIME_RATES.offenses) {
       const rows = exposures.filter((row) => row.offense === rule.offense);
       if (rows.length === 0) continue;
       const total = rows.reduce((sum, row) => sum + row.annualRate, 0);
@@ -356,7 +356,7 @@ describe(`crime victims come from causes, not dice (A131; ${label})`, () => {
       );
       // About the blanket expectation a month, moved by the place's causes.
       expect(expected.length).toBeLessThanOrEqual(
-        UNRESEARCHED_TOWN_POLICE_LOG.reportedPerMonth * 2 + 1,
+        TOWN_POLICE_LOG.reportedPerMonth * 2 + 1,
       );
     }
     for (const event of logged) {
