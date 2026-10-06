@@ -332,7 +332,7 @@ export function committeeAssignmentBodyForRound(
 }
 
 /**
- * STUB until Session 21 wires saved assignments into seatedChamberForPack.
+ * STUB until Session 24 wires saved assignments into seatedChamberForPack.
  * This adapter enriches the real seated body only with seat events already in
  * world history for the caller's exact organizing round; it preserves the
  * current member keys and never guesses an assignment round or seat.

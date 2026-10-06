@@ -2,7 +2,7 @@
 
 ## Current item
 
-`b10-p3` — committee requests and assignment. Branch: `codex/session-33-b10-p3`, rebasing onto refreshed `origin/main` `8b0a87777` after the shared repair.
+`b10-p3` — committee requests and assignment. Branch: `codex/session-33-b10-p3`, based on refreshed `origin/main` `8b0a87777` after the shared repair.
 
 ## Done on this branch
 
@@ -13,17 +13,17 @@
 - Added a player committee-request adapter that accepts only the controlled seated member's ordered durable choice traces and links those traces from the request event. The conversation producer still needs a caller.
 - Added an explicit-round local reader stub for Session 24's `seatedChamberForPack` consumer, per owner correction 6016500242 and CTO direction to build against the extended `SeatedBody` without waiting. It wraps the supplied body without changing its actual seat IDs and only attaches assignments recorded for the caller's exact round; no records means no committee roster.
 - Added focused tests for no synthetic roster, proportional ratios across three seeded states, deterministic replay, persistence through save/reload, and append-only request/assignment records.
-- Board: Session 21 ownership correction is #2424 comment 6016500242; Session 24 confirmed the exact adapter contract and one-writer split in #2424 comment 6016568329; my confirmation is #2424 comment 6016594391.
+- Board: Session 21 ownership correction is #2424 comment 6016500242; Session 24 confirmed the exact adapter contract and one-writer split in #2424 comment 6016568329; my confirmation is #2424 comment 6016594391. Session 24 ACKed in #2424 comment 6016623413 and will add optional exact `assignmentRoundKey` to its consumer hunk, preserve the body when absent, and call this adapter with the body’s saved jurisdiction when present.
+- Current main: fetched `origin/main` `8b0a877778bb12e27365a2cb87165faf08ed240f` and rebased all p3 commits cleanly.
 
 ## Checks
 
-- `npx vitest run src/simulation/governing/committee-assignment.test.ts src/simulation/governing/committee-assignment-records.test.ts` — PASS, 2 files / 7 tests (latest run 2026-10-06 12:36 UTC).
-- `npm run typecheck` — overall command fails on two unchanged errors in `src/simulation/press/press-premise.test.ts` lines 35 and 125 (`personalLifeDepiction` missing). The command reported no errors in this branch; that file is owned by Session 25 and unchanged from base.
+- `npx vitest run src/simulation/governing/committee-assignment.test.ts src/simulation/governing/committee-assignment-records.test.ts` — PASS, 2 files / 7 tests on rebased main `8b0a87777` (latest run 2026-10-06 12:55 UTC; required subprocess permission for Vite's source identity check).
+- `npm run typecheck` — PASS on rebased main `8b0a87777`; includes test-import audit (804 uncovered test files, 0 unresolved imports) and current law consequence manifest validation.
 - No random-place new-game roster/save proof yet. `seatedChamberForPack` does not yet call the saved-assignment adapter; it is Session 24's sole-owned consumer file. The narrow handoff was requested directly; continue independent work meanwhile.
 
 ## Next steps
 
-1. Rebase onto refreshed `origin/main` `8b0a87777`, preserving Session 24's consumer ownership and the shared repair.
-2. Connect the player request adapter to the played request conversation and wait for Session 24's confirmed narrow consumer hunk while continuing independent request-source adapters.
-3. Add and run random-place new-game assignment plus save/reload proof; rerun focused tests and `npm run typecheck`.
-4. Commit and push, then update draft PR #2487 with a `PROGRESS:` note until the actual reader and runtime proof are complete.
+1. Commit and publish with a lease from remote head `85d8ae8c9e51bbb2fb40d12bea72b241a5680d9a`.
+2. Integrate Session 24's optional exact-round consumer once its hunk is available; connect the player request adapter to the played request conversation and continue independent evidence-source adapters.
+3. Add and run random-place new-game assignment plus save/reload proof; keep PR #2487 draft until the actual reader and runtime proof are complete.
