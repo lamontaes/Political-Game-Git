@@ -41,7 +41,8 @@ Formatter, ESLint and whitespace checks were executed. Final validation results
 are recorded below. Logs are /tmp/session127-hair-test.log and
 /tmp/session127-hair-typecheck.log.
 
-Final scoped receipts on candidate 89d6ed33d8ced52425fbf0a08c823e12f1769461:
+Historical receipts before the CTO-authorized assertion change, on candidate
+89d6ed33d8ced52425fbf0a08c823e12f1769461:
 all 52 front cases log 7,632 opaque overlap pixels before and zero after. The
 other selected pack tests pass (35 tests). After retrieving declared JSON and
 runtime raster inputs omitted by the sparse checkout, the remaining four
@@ -66,11 +67,13 @@ Continue the independent queue after publishing this candidate. Next id is
 b24-p1-s3; check for an open cloud-task PR and post the claim before working.
 
 CTO-scope receipts: /tmp/session127-hair-cto-tests.log records 57 passing tests
-and the plain turned-input gap message. Formatter, ESLint, whitespace, no-dice
+and the plain turned-input gap message, as posted in the
+[current board receipt](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6019766375).
+Formatter, ESLint, whitespace, no-dice
 and Lexington grep on both changed source files pass (grep has no matches).
 Full npm run typecheck fails at time-command.ts lines 325, 326, 327 and 396
 with TS2339 missing moment; these unrelated baseline failures stay with their
-existing owner. The focused production/test typecheck is run separately. The earlier 157/4
+existing owner. The focused strict production/test typecheck passed. The earlier 157/4
 receipt above describes the superseded missing-input assertion, not a new failure.
 
 Exact next command (from /workspace/game, with subprocess execution enabled):
