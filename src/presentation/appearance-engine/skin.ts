@@ -156,14 +156,24 @@ export function recolorSkin(
    * a camel coat or brown shoes are skin-colored but are not skin.
    */
   within?: Raster,
+  /** Garment regions take precedence where their painted coverage is stronger. */
+  cloth: readonly Raster[] = [],
 ): Raster {
   const data = new Uint8ClampedArray(raster.data);
   for (let i = 0; i < data.length; i += 4) {
     const r = data[i]!;
     const g = data[i + 1]!;
     const b = data[i + 2]!;
-    if (
-      within ? within.data[i + 3]! <= 128 : !isSkinPixel(r, g, b, data[i + 3]!)
+    if (within) {
+      const skinCoverage = within.data[i + 3]!;
+      if (
+        skinCoverage === 0 ||
+        cloth.some((region) => region.data[i + 3]! >= skinCoverage)
+      )
+        continue;
+    } else if (
+      cloth.some((region) => region.data[i + 3]! > 0) ||
+      !isSkinPixel(r, g, b, data[i + 3]!)
     )
       continue;
     const color = rampColor(target, rampPosition(luminance(r, g, b), source));

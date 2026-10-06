@@ -11,14 +11,14 @@ export function clothEdgeMask(
   const { width, height } = layer;
   const alpha = (raster: Raster, p: number) => raster.data[p * 4 + 3]!;
   const protectedAt = (p: number) =>
-    (skin && alpha(skin, p) > 0) ||
-    otherParts.some((part) => alpha(part, p) > 0);
+    (skin && alpha(skin, p) > alpha(mask, p)) ||
+    otherParts.some((part) => alpha(part, p) > alpha(mask, p));
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
       const p = y * width + x;
       const coverage = alpha(layer, p);
       if (
-        alpha(mask, p) > 0 ||
+        alpha(mask, p) > 128 ||
         coverage === 0 ||
         coverage > 128 ||
         protectedAt(p)

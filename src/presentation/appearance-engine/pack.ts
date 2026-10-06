@@ -978,14 +978,15 @@ export function composeEnginePerson(
     const mask = new Uint8Array(hides.width * hides.height);
     for (let p = 0; p < mask.length; p += 1)
       mask[p] = hides.data[p * 4 + 3]! > OPAQUE_ALPHA ? 1 : 0;
+    const regions = Object.entries(outfit.regions ?? {}).map(
+      ([part, file]) => [part, image(file)] as const,
+    );
     let clothes = recolorSkin(
       image(outfit.file),
       ramp,
       body.skin,
       outfit.skin ? image(outfit.skin) : undefined,
-    );
-    const regions = Object.entries(outfit.regions ?? {}).map(
-      ([part, file]) => [part, image(file)] as const,
+      regions.map(([, region]) => region),
     );
     for (const [part, mask] of regions) {
       const color = recipe.colors?.[part];
