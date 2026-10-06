@@ -576,7 +576,7 @@ const NE_QUORUM: RuleSourceRef = {
   sourceUrl: "https://nebraskalegislature.gov/laws/articles.php?article=III-10",
   retrievedAt: "2026-10-01",
   verification: "verified",
-  note: '"A majority of the members elected to the Legislature shall constitute a quorum." This expressly uses members elected, so a vacancy changes the denominator; neither attendance nor authorized seats substitutes for elected members.',
+  note: '"A majority of the members elected to the Legislature shall constitute a quorum." This expressly uses members elected, so a vacancy changes the denominator; neither attendance nor authorized seats substitutes for members elected.',
 };
 
 const NE_LAWMAKING = source(
