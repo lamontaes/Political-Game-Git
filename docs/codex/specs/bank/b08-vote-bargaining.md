@@ -46,7 +46,7 @@ New game in a random town (`tests/support/random-place.ts`); player on council w
 
 ## Depends on
 
-Session 4 (scene rows, Lie), Session 21 (member vote reasons; the council vote moment), Session 9 (bill paper, for amendment offers), Session 20 (lived outcomes), the unowned local-reporter item.
+Session 4 (scene rows, Lie), Session 21 (member vote reasons; the council vote moment), Session 9 (bill paper, for amendment offers), Session 20 (lived outcomes), b14 (corruption owns what follows the existing private-inducement move: the crime record and how it is caught), the unowned local-reporter item.
 
 ## Open questions for the owner
 
