@@ -183,7 +183,7 @@ const OPENING_REASONS: ReadonlySet<string> = new Set([
 ]);
 
 /**
- * PLACEHOLDER (research: `migration-rates-and-reasons`): how many reviews an employer holds a
+ * ESTIMATED (research: `migration-rates-and-reasons`): how many reviews an employer holds a
  * job open for somebody from elsewhere before it stops looking: two years.
  */
 export const OPENING_REVIEWS_HELD = 8;
@@ -193,18 +193,18 @@ const RENT_BURDEN_LINE = 0.3;
 const RENT_BURDEN_SEVERE = 0.5;
 
 /**
- * BLANKET: how much a reported assault or robbery in town beyond the police
- * log's usual quarter adds to the chance a free household leaves. Not
- * researched.
+ * ESTIMATED: how much a reported assault or robbery in town beyond the police
+ * log's usual quarter adds to the chance a free household leaves. Estimated
+ * from the national average.
  */
-export const BLANKET_TOWN_CRIME_PUSH_PER_EXCESS_REPORT = 0.05;
+export const TOWN_CRIME_PUSH_ESTIMATE_PER_EXCESS_REPORT = 0.05;
 
 /**
- * BLANKET: how much each percentage point of the town's recorded unemployment
+ * ESTIMATED: how much each percentage point of the town's recorded unemployment
  * above the nation's adds to the chance a free household leaves (and below
- * it, takes away, never below half). Not researched.
+ * it, takes away, never below half). Estimated from the national average.
  */
-export const BLANKET_TOWN_UNEMPLOYMENT_GAP_PUSH = 0.05;
+export const TOWN_UNEMPLOYMENT_GAP_PUSH_ESTIMATE = 0.05;
 
 /** Reviews per year; each person is considered in one of them. */
 export const MIGRATION_REVIEWS_PER_YEAR = 4;
@@ -559,7 +559,7 @@ export function reviewTown(
 }
 
 /**
- * BLANKET (`arriving-families`): a newcomer lives alone in a household of
+ * ESTIMATED (`arriving-families`): a newcomer lives alone in a household of
  * their own, located in town. It is what lets a disaster in town reach them
  * and what a later family or partner joins; it carries no dwelling yet.
  */
@@ -655,7 +655,7 @@ function displacedHomes(
 /**
  * Crime in town beyond the usual (`cause-crime`): 1 when the last review
  * period's reported assaults and robberies are no more than the police log's
- * expected share, rising by a blanket step for each report beyond it. Every
+ * expected share, rising by an estimated step for each report beyond it. Every
  * town has the same expected log today, so only an unusually bad quarter
  * pushes anyone.
  */
@@ -682,7 +682,7 @@ export function townCrimePush(world: World, town: EntityId): number {
       30.4) *
     ((weight("assault") + weight("robbery")) / all);
   const excess = Math.max(0, violent - expected);
-  return 1 + excess * BLANKET_TOWN_CRIME_PUSH_PER_EXCESS_REPORT;
+  return 1 + excess * TOWN_CRIME_PUSH_ESTIMATE_PER_EXCESS_REPORT;
 }
 
 /**
@@ -702,7 +702,7 @@ export function townJobsPush(world: World, town: EntityId): number {
   );
   if (!nation) return 1;
   const gap = local.unemploymentPct - nation.unemploymentPct;
-  return Math.max(0.5, 1 + gap * BLANKET_TOWN_UNEMPLOYMENT_GAP_PUSH);
+  return Math.max(0.5, 1 + gap * TOWN_UNEMPLOYMENT_GAP_PUSH_ESTIMATE);
 }
 
 /**
@@ -758,7 +758,7 @@ function childrenAtHome(world: World, personId: EntityId): number {
 
 /**
  * This review's newcomers: one for each opening in town whose pull has
- * carried it to being taken (`townOpenings`). BLANKET (`arrival-history`,
+ * carried it to being taken (`townOpenings`). ESTIMATED (`arrival-history`,
  * `arriving-families`): single adults with a canonical name and identity, a
  * seeded pick among real options, and nothing else yet. Where they come from
  * is HARDWIRED: the town's own state's largest other town, the place a
