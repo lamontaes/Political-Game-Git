@@ -1,0 +1,5 @@
+
+> political-life-rpg@0.4.0 typecheck
+> node --import tsx scripts/dev-lab/typecheck.ts && node --import tsx scripts/dev-lab/typecheck-test-imports.ts
+
+src/simulation/governing/chamber-votes.ts(1,44): error TS6307: File '/workspace/Political-Game-Git/src/simulation/governing/member-seating.ts' is not listed within the file list of project '/workspace/Political-Game-Git/test-results/runs/5a1c7557-6844-4211-b269-2f201a09ea33/typecheck/tsconfig.node.json'. Projects must list all files or use an 'include' pattern.

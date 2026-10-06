@@ -1,0 +1,1 @@
+{"extends":"/workspace/Political-Game-Git/tsconfig.node.json","compilerOptions":{"types":["/workspace/Political-Game-Git/node_modules/@types/node/index.d.ts","/workspace/Political-Game-Git/node_modules/vite/client.d.ts"],"tsBuildInfoFile":"/workspace/Political-Game-Git/test-results/runs/5a1c7557-6844-4211-b269-2f201a09ea33/typecheck/node.tsbuildinfo"}}

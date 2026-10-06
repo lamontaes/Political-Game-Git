@@ -1,0 +1,42 @@
+{
+  "failedRun": "5a1c7557-6844-4211-b269-2f201a09ea33",
+  "generatedConfigs": {
+    "tsconfig.app.json": {
+      "bytes": 284,
+      "mtimeUtc": "2026-10-06T01:26:34.641027+00:00"
+    },
+    "tsconfig.node.json": {
+      "bytes": 354,
+      "mtimeUtc": "2026-10-06T01:26:34.645027+00:00"
+    }
+  },
+  "originalCommand": "npm run typecheck > /tmp/session2-affiliation-typecheck-final.log 2>&1",
+  "startSource": "uncommitted narrow affiliation repair on main96a1a08ff; no head printed by typecheck",
+  "sourceSwitchDuringRun": [
+    "commit226ae0987",
+    "fetch main",
+    "rebase onto c76514832",
+    "new clean candidatef35c8e61685cfd957a26c76503c2b187f4f09aca"
+  ],
+  "diagnostic": "TS6307 member-seating.ts not in enumerated Node root files while chamber-votes.ts imported it",
+  "nodeConfigShape": {
+    "extends": "/workspace/Political-Game-Git/tsconfig.node.json",
+    "compilerOptions": {
+      "types": [
+        "/workspace/Political-Game-Git/node_modules/@types/node/index.d.ts",
+        "/workspace/Political-Game-Git/node_modules/vite/client.d.ts"
+      ],
+      "tsBuildInfoFile": "/workspace/Political-Game-Git/test-results/runs/5a1c7557-6844-4211-b269-2f201a09ea33/typecheck/node.tsbuildinfo"
+    }
+  },
+  "originalNodeInclude": "src/simulation/**/*.ts",
+  "overridesInFailedRun": "none; original generated app/node configs, no files/include overrides",
+  "buildInfoMemberSeatingPaths": [
+    "../../../../src/simulation/governing/member-seating.ts"
+  ],
+  "stableRun": "286c26a6-e9e9-4cb9-9a69-541c44932299",
+  "stableCommand": "npm run typecheck > /tmp/session2-affiliation-typecheck-stable.log 2>&1",
+  "stableSource": "f35c8e61685cfd957a26c76503c2b187f4f09aca unchanged clean",
+  "separateDiagnostic": "tsc --project <failed-generated-node-config> --composite false --incremental false --noEmit exited0; explicitly not configured pass, no repository edit",
+  "mainFailureClaim": "withdrawn; no independently executed clean-main terminal failure"
+}
