@@ -44,3 +44,10 @@ LW06 draft #2490 and LW07 draft #2481 remain preserved and unmerged. Their law-t
 - Replayed against P5 PR #2397's current-main head. The generated random-place cases passed 3/3; focused P6 presentation run passed 12 tests across 4 files. Full `npm run typecheck` passed, including the 805-file test-import scan and law-manifest check.
 - The broader world suite still has 7 pre-route campaign-polling setup failures (`This save has no recorded district leans`); required council/statehouse/territory bargaining proof remains incomplete.
 - Resume branch: `codex/session30-b08-p6-current-rebased`. Next: update draft PR #2522 to the exact refreshed head, then replay P7 on this P6 branch.
+
+## B08 P7
+
+- Replayed on P6 head `4f85c2b5eef7fcb9e47b034c538a890f2a973261`. Focused adapter test passes 3/3; full `npm run typecheck` passes, including test imports and manifest validation.
+- The adapter remains deliberately unintegrated: there is no confirmed shared calendar identity or canonical background conversation/event/claim context. Session 21 contract question is issue #2424 comment #6016659593.
+- The required two-member NPC bargaining and live roll-call proof is not complete. Keep P7 draft.
+- Resume branch: `codex/session30-b08-p7-current-rebased`. Next: publish against P6 PR #2522, then take the next mapped open pool item only after a fresh board check.
