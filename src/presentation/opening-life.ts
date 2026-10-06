@@ -239,8 +239,21 @@ interface OpeningPreparationStep {
   readonly world?: World;
 }
 
-function openingStage(label: string, world?: World): OpeningPreparationStep {
-  return { progress: { label, completed: 0, total: 0 }, world };
+function openingStage(
+  label: string,
+  world?: World,
+  playerPersonId?: EntityId,
+): OpeningPreparationStep {
+  return {
+    progress: {
+      label,
+      completed: 0,
+      total: 0,
+      ...(world ? { world } : {}),
+      ...(playerPersonId ? { playerPersonId } : {}),
+    },
+    world,
+  };
 }
 
 /** Both paths run the same preparation steps in the same order. */
