@@ -504,6 +504,17 @@ export function startingLawTerms(
   return active.length === 1 ? active[0]!.lawTerms : [];
 }
 
+/** Whether the starting law's scalar terms are statewide or region-scoped. */
+export function startingLawTermScope(
+  law: LawInForce,
+  questionKey: string,
+  onDate: IsoDate,
+): "statewide" | "regional" | null {
+  const row = selectedStartingLawRow(law, questionKey, onDate);
+  if (!row) return null;
+  return row.regionalTerms === undefined ? "statewide" : "regional";
+}
+
 export function startingLawCategories(
   law: LawInForce,
   questionKey: string,
