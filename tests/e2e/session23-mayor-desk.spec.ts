@@ -2,7 +2,6 @@ import { expect, test, type Page } from "./fixtures";
 import { campaignUntilDecided, fileCandidacy } from "./support/campaign";
 import {
   enterLife,
-  leaveGame,
   openElsewhere,
   passShellTime,
   saveLife,
@@ -10,6 +9,10 @@ import {
 } from "./support/creator";
 import { localGoverningBodiesForJurisdiction } from "../../src/simulation";
 import { drawRandomPlace } from "../support/random-place";
+import type { TestInfo } from "@playwright/test";
+import type * as MayorDeskFixture from "../fixtures/session23-mayor-desk";
+import type * as SaveRepository from "../../src/presentation/browser-world-repository";
+import type * as Governing from "../../src/simulation/governing/state-governing";
 
 const seed = "session23-part1-ordinary-mayor-2026-10-06";
 const place = drawRandomPlace(
@@ -106,16 +109,19 @@ test("controlled downstream preview: the new life's recorded mayor gets the shar
   });
   await enterLife(page);
   await saveLife(page);
-  await leaveGame(page);
+  await page.reload();
+  await expect(page.getByTestId("title-screen")).toBeVisible({
+    timeout: 30_000,
+  });
   await page.evaluate(async () => {
     const fixturePath = "/tests/fixtures/session23-mayor-desk.ts";
     const storePath = "/src/presentation/browser-world-repository.ts";
-    const fixture: typeof import("../fixtures/session23-mayor-desk") =
-      await import(/* @vite-ignore */ fixturePath);
-    const {
-      BrowserSaveStore,
-    }: typeof import("../../src/presentation/browser-world-repository") =
-      await import(/* @vite-ignore */ storePath);
+    const fixture: typeof MayorDeskFixture = await import(
+      /* @vite-ignore */ fixturePath
+    );
+    const { BrowserSaveStore }: typeof SaveRepository = await import(
+      /* @vite-ignore */ storePath
+    );
     const store = new BrowserSaveStore();
     const recent = await store.mostRecent();
     if (!recent) throw new Error("The new game has no retained world.");
@@ -128,15 +134,15 @@ test("controlled downstream preview: the new life's recorded mayor gets the shar
   });
   await page.reload();
   await page.getByTestId("continue").click();
+  await expect(page.getByTestId("play-screen")).toBeVisible({
+    timeout: 180_000,
+  });
   await enterLife(page);
   await openElsewhere(page, "work");
   await assertSavedMayorDesk(page, testInfo);
 });
 
-async function assertSavedMayorDesk(
-  page: Page,
-  testInfo: import("@playwright/test").TestInfo,
-) {
+async function assertSavedMayorDesk(page: Page, testInfo: TestInfo) {
   const briefing = page.getByTestId("governing-briefing");
   await expect(briefing).toBeVisible();
   await expect(briefing).toContainText("Set the budget request");
@@ -170,8 +176,14 @@ async function assertSavedMayorDesk(
     body: JSON.stringify(before, null, 2),
     contentType: "application/json",
   });
-  await leaveGame(page);
+  await page.reload();
+  await expect(page.getByTestId("title-screen")).toBeVisible({
+    timeout: 30_000,
+  });
   await page.getByTestId("continue").click();
+  await expect(page.getByTestId("play-screen")).toBeVisible({
+    timeout: 180_000,
+  });
   await enterLife(page);
   await openElsewhere(page, "work");
   await expect(page.getByTestId("governing-briefing")).toContainText(
@@ -185,12 +197,12 @@ async function savedDeskEvidence(page: Page) {
   return page.evaluate(async () => {
     const storePath = "/src/presentation/browser-world-repository.ts";
     const governingPath = "/src/simulation/governing/state-governing.ts";
-    const {
-      BrowserSaveStore,
-    }: typeof import("../../src/presentation/browser-world-repository") =
-      await import(/* @vite-ignore */ storePath);
-    const governing: typeof import("../../src/simulation/governing/state-governing") =
-      await import(/* @vite-ignore */ governingPath);
+    const { BrowserSaveStore }: typeof SaveRepository = await import(
+      /* @vite-ignore */ storePath
+    );
+    const governing: typeof Governing = await import(
+      /* @vite-ignore */ governingPath
+    );
     const store = new BrowserSaveStore();
     const recent = await store.mostRecent();
     if (!recent) throw new Error("The new life was not retained.");
@@ -212,14 +224,12 @@ async function savedDeskEvidence(page: Page) {
       organizationId: office.organizationId,
       jurisdictionId: office.jurisdictionId,
       termId: office.termId,
-      matters: governing
-        .governingMatters(world, office.officeKey)
-        .map((m) => ({
-          id: m.id,
-          family: m.family,
-          status: m.status,
-          openedEventId: m.openedEvent.id,
-        })),
+      matters: governing.governingMatters(world, office.officeKey).map((m) => ({
+        id: m.id,
+        family: m.family,
+        status: m.status,
+        openedEventId: m.openedEvent.id,
+      })),
       records: world.history.events
         .filter((event) => event.tags.includes(`office:${office.officeKey}`))
         .map((event) => ({

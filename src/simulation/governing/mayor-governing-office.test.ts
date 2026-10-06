@@ -159,12 +159,11 @@ describe("a mayor joins the shared governing desk", () => {
     };
     const office = governingOfficeForPerson(observer, fixture.personId)!;
     expect(governingMatters(observer, office.officeKey)).toHaveLength(0);
-    const moved = advanceWorld(observer, {
-      days: 1,
-      transitionHandlers: createFutureTransitionHandlerRegistry(
-        stateGoverningHandlers(),
-      ),
-    });
+    const moved = advanceWorld(
+      observer,
+      1,
+      createFutureTransitionHandlerRegistry(stateGoverningHandlers()),
+    );
     expect(moved.currentDate).not.toBe(observer.currentDate);
     expect(
       governingMatters(moved, office.officeKey).map((m) => m.family),
