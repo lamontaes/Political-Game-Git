@@ -35,6 +35,7 @@ import { facetPersistentEffects } from "./facet-persistent";
 import { facetPhilanthropicEffects } from "./facet-philanthropic";
 import { facetPoliteEffects } from "./facet-polite";
 import { facetProudEffects } from "./facet-proud";
+import { facetRestlessEffects } from "./facet-restless";
 import { facetSelfConsciousEffects } from "./facet-self-conscious";
 import { facetSkepticalEffects } from "./facet-skeptical";
 import { facetStudiousEffects } from "./facet-studious";
@@ -91,6 +92,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetPhilanthropicEffects,
     ...facetPoliteEffects,
     ...facetProudEffects,
+    ...facetRestlessEffects,
     ...facetSelfConsciousEffects,
     ...facetSkepticalEffects,
     ...facetStudiousEffects,
