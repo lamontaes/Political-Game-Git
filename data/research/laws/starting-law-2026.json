@@ -21100,7 +21100,15 @@
           "preempts": true,
           "cite": "W. Va. Code § 18A-4-2",
           "source": "https://code.wvlegislature.gov/18A-4-2/",
-          "note": "Teachers receive at least the State Minimum Salary Schedule in the statute (A.B., zero years: $43,015 on the schedule effective for 2026-27), plus county supplements."
+          "note": "The enforceable State Minimum Salary Schedule entry cell for a bachelor’s degree and zero years is $43,015 for 2026–27; county supplements are additional.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 4301500,
+              "unit": "minor"
+            }
+          ]
         },
         "US-WY": {
           "answer": "no",
