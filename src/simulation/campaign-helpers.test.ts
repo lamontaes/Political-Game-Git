@@ -4,6 +4,10 @@ import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 import {
   addDays,
   campaignHelperCandidates,
+  campaignManagerCandidates,
+  campaignManagerOffer,
+  offerCampaignManager,
+  createWorkRelationship,
   candidacyPackById,
   createScenarioWorld,
   ensureCampaignOpponents,
@@ -117,6 +121,63 @@ describe("campaign helpers", () => {
         pay: null,
       }),
     ).toThrow("A campaign manager requires a funded salary.");
+  });
+
+  it("does not offer a manager salary the campaign cannot cover through election day", () => {
+    const filed = filedCampaign();
+    const personId = filed.people[0]!;
+    const knownWorld = recordRelationshipInteraction(filed.world, {
+      stableKey: "campaign-helper-test:known-manager",
+      personIds: [filed.candidatePersonId, personId],
+      eventId: null,
+      occurredAt: filed.world.currentDate,
+      kind: "contact:met-in-community",
+      change: "formed",
+      significance: "meaningful",
+      summary: "They met in their community.",
+      tags: [],
+    });
+    const experiencedWorld = createWorkRelationship(knownWorld, {
+      stableKey: "prior-campaign-work",
+      personId,
+      organizationId: null,
+      startedAt: addDays(knownWorld.currentDate, -60),
+      kind: "volunteer:campaign-staff",
+      compensation: "unpaid",
+      authority: "shared",
+      dependency: "independent",
+      economicRisk: "person-borne",
+      provenance: { kind: "authored", note: "Fixture campaign history." },
+      initialRole: {
+        title: "Campaign volunteer",
+        occupationClassification: "service:campaign-volunteer",
+        locationJurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
+        timeDemand: {
+          expectedWeekly: { minimumHours: 2, maximumHours: 12 },
+          attention: "moderate",
+          concurrency: "partly-concurrent",
+          scheduleRigidity: "flexible",
+          interruptibility: "interruptible",
+          locationJurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
+        },
+      },
+    });
+    expect(
+      campaignManagerCandidates(experiencedWorld, filed.campaignId),
+    ).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ personId, campaignWorkDays: 60 }),
+      ]),
+    );
+    expect(
+      campaignManagerOffer(experiencedWorld, filed.campaignId, personId)
+        ?.affordable,
+    ).toBe(false);
+    expect(() =>
+      offerCampaignManager(experiencedWorld, filed.campaignId, personId),
+    ).toThrow(
+      "The campaign cannot cover a manager's salary through election day.",
+    );
   });
 
   it("asks a known person through a deterministic decision and records the answer", () => {
