@@ -2037,13 +2037,13 @@ function resolveFutureDueItemsWithStateLegislatureQueue(
   const throughYear = Number(throughDate.slice(0, 4)) + 4;
   let prepared = world;
   for (const packId of packs) {
-    prepared = reconcileStateLegislatureQueue(
-      prepared,
-      packId,
-      throughYear,
-    );
+    prepared = reconcileStateLegislatureQueue(prepared, packId, throughYear);
   }
-  return resolveFutureDueItemsThrough(prepared, throughDate, transitionHandlers);
+  return resolveFutureDueItemsThrough(
+    prepared,
+    throughDate,
+    transitionHandlers,
+  );
 }
 
 function setCurrentMoment(
