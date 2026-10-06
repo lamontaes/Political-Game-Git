@@ -1,0 +1,66 @@
+[
+  {
+    "label": "main",
+    "head": "47c2ecb0eb9984be6c4f30696eb4daf56a0b88fd",
+    "tree": "d9bc9e8f6639c441b4e15044a7eb56d7dc2c56b5",
+    "root": "/tmp/session2-newspaper-baselines/main-47c2ecb",
+    "command": [
+      "./node_modules/.bin/vitest",
+      "run",
+      "src/presentation/living-scene-facts.test.ts",
+      "-t",
+      "updates real newspaper content only after a canonical publication correction",
+      "--reporter=verbose"
+    ],
+    "exitCode": 1,
+    "elapsedSeconds": 49.64,
+    "sourceCleanBefore": true,
+    "sourceCleanAfter": true,
+    "log": "/tmp/session2-newspaper-baselines/main-terminal.log",
+    "assertionLine": 358,
+    "actualError": "AssertionError: expected 'empty' to be 'bound' // Object.is equality",
+    "testName": "saved living-scene roles and content > updates real newspaper content only after a canonical publication correction",
+    "testSourceSha256": "5f648faec07d644522d51ccf5a08634cc2ffeee55af7786ef084eb4f1670daa9",
+    "configSha256": "fec68ee468fc1498d230b63fb4c9a4d9e3b119124df1f4c07a0adbf8e25f0db6",
+    "setupSha256": "ad688450f5134f820db89857c9436fa59d1de4545bea214b06c003022b3b6b17",
+    "logSha256": "cafb9605621258b80399deb217e64ba9b2d0358a0071573e945ea3da70bbc3fc",
+    "fixture": {
+      "placeKey": "2309585",
+      "seed": "living-scenes-news",
+      "startAge": 34,
+      "household": "shares-a-home"
+    }
+  },
+  {
+    "label": "placement",
+    "head": "570d776ef60a87bb12e84c8041f23639d0d673ac",
+    "tree": "eb804c71c49c06f6c8afef8c8758073f1b1e0a84",
+    "root": "/tmp/session2-newspaper-baselines/placement-570d776",
+    "command": [
+      "./node_modules/.bin/vitest",
+      "run",
+      "src/presentation/living-scene-facts.test.ts",
+      "-t",
+      "updates real newspaper content only after a canonical publication correction",
+      "--reporter=verbose"
+    ],
+    "exitCode": 1,
+    "elapsedSeconds": 49.78,
+    "sourceCleanBefore": true,
+    "sourceCleanAfter": true,
+    "log": "/tmp/session2-newspaper-baselines/placement-terminal.log",
+    "assertionLine": 360,
+    "actualError": "AssertionError: expected 'empty' to be 'bound' // Object.is equality",
+    "testName": "saved living-scene roles and content > updates real newspaper content only after a canonical publication correction",
+    "testSourceSha256": "03f8178474c3f98c6c44b66d393d6f68a19ec81fba19d596a0c502f578ee6aa1",
+    "configSha256": "fec68ee468fc1498d230b63fb4c9a4d9e3b119124df1f4c07a0adbf8e25f0db6",
+    "setupSha256": "ad688450f5134f820db89857c9436fa59d1de4545bea214b06c003022b3b6b17",
+    "logSha256": "31a842c12232b836f834f2c85758c9948561988f75a66841e106d89961f9161a",
+    "fixture": {
+      "placeKey": "2309585",
+      "seed": "living-scenes-news",
+      "startAge": 34,
+      "household": "shares-a-home"
+    }
+  }
+]

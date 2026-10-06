@@ -1,0 +1,48 @@
+
+ RUN  v4.1.1 /tmp/session2-newspaper-baselines/placement-570d776
+
+ ↓ src/presentation/living-scene-facts.test.ts > saved living-scene roles and content > keeps the generic executive-briefing caption independent of saved people
+ ↓ src/presentation/living-scene-facts.test.ts > saved living-scene roles and content > keeps the generic office-document-review caption independent of saved people
+ ↓ src/presentation/living-scene-facts.test.ts > saved living-scene roles and content > keeps the generic public-office-work caption independent of saved people
+ ↓ src/presentation/living-scene-facts.test.ts > saved living-scene roles and content > keeps the generic congressional-corridor caption independent of saved people
+ ↓ src/presentation/living-scene-facts.test.ts > saved living-scene roles and content > keeps the generic seated-civic-meeting caption independent of saved people
+ ↓ src/presentation/living-scene-facts.test.ts > saved living-scene roles and content > keeps the generic ordinary-errand caption independent of saved people
+ ↓ src/presentation/living-scene-facts.test.ts > saved living-scene roles and content > keeps the generic home-conversation caption independent of saved people
+ ↓ src/presentation/living-scene-facts.test.ts > saved living-scene roles and content > keeps the generic regional-leisure caption independent of saved people
+ ↓ src/presentation/living-scene-facts.test.ts > saved living-scene roles and content > names a House member only when the member is certainly this home's (4865000: San Antonio, a city split across House districts)
+ ↓ src/presentation/living-scene-facts.test.ts > saved living-scene roles and content > names a House member only when the member is certainly this home's (5613900: Casper, in an at-large state)
+ ↓ src/presentation/living-scene-facts.test.ts > saved living-scene roles and content > binds actual roles and geographic alternatives in 2743000 without navigation writes
+ ↓ src/presentation/living-scene-facts.test.ts > saved living-scene roles and content > binds actual roles and geographic alternatives in 1150000 without navigation writes
+ ↓ src/presentation/living-scene-facts.test.ts > saved living-scene roles and content > follows a canonical successor and actual office absence without name patches
+ ↓ src/presentation/living-scene-facts.test.ts > saved living-scene roles and content > reads the old saved life without synthesizing officials or events
+ ↓ src/presentation/living-scene-facts.test.ts > saved living-scene roles and content > names visible document review only when compatible actors and props are actually supplied
+ ↓ src/presentation/living-scene-facts.test.ts > saved living-scene roles and content > requires current, local, directly known leisure for the actual visible person
+ × src/presentation/living-scene-facts.test.ts > saved living-scene roles and content > updates real newspaper content only after a canonical publication correction 7080ms
+   → expected 'empty' to be 'bound' // Object.is equality
+ ↓ src/presentation/living-scene-facts.test.ts > saved living-scene roles and content > reads the actual agenda but withholds private calendar content from another person
+ ↓ src/presentation/living-scene-facts.test.ts > saved living-scene roles and content > withholds an old venue sign after further travel or a recorded return home
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/presentation/living-scene-facts.test.ts > saved living-scene roles and content > updates real newspaper content only after a canonical publication correction
+AssertionError: expected 'empty' to be 'bound' // Object.is equality
+
+Expected: "bound"
+Received: "empty"
+
+ ❯ src/presentation/living-scene-facts.test.ts:360:26
+    358|       kind: "news",
+    359|     });
+    360|     expect(first.status).toBe("bound");
+       |                          ^
+    361|     if (first.detail?.kind !== "article")
+    362|       throw Error("Expected actual article");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 18 skipped (19)
+   Start at  04:22:39
+   Duration  48.66s (transform 32.81s, setup 28ms, import 41.35s, tests 7.08s, environment 1ms)
+
