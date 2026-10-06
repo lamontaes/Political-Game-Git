@@ -2226,8 +2226,8 @@
         {
           "kind": "present",
           "file": "src/simulation/world.ts",
-          "pattern": "return\\s+advanceWorldMinutes\\(",
-          "why": "advanceWorld delegates to advanceWorldMinutes; setCurrentMoment applies the shared date boundary. Existing day-adapter tests compare complete saved state and preserve blocked advancement."
+          "pattern": "applyDateBoundary\\(",
+          "why": "the shared date boundary both clocks call (world.ts:1427, #1324)"
         },
         {
           "kind": "present",
@@ -2284,7 +2284,7 @@
           "why": "character-history.ts moves time on the minute clock"
         }
       ],
-      "note": "The day entry delegates to the canonical minute clock instead of applying a second date boundary. The unchecked day body, separate due-item resolution and three legacy callers are absent. Existing day-adapter assertions cover thirty daily presses and an actual blocked commitment; this criterion repair adds no runtime result."
+      "note": "Two present checks pass (shared applyDateBoundary, #1324) and eight fail (the unchecked body, its own due-item resolution and the three callers), so partly as verified."
     },
     "A4": {
       "covers": "part",
@@ -3161,17 +3161,17 @@
         {
           "kind": "present",
           "file": "src/simulation/living-world/local-council-meetings.ts",
-          "pattern": "completeCouncilPassage\\(",
-          "why": "The town council delegates adopted ordinances to the canonical passage writer, preserving its pack-based presentment branch and executive action."
+          "pattern": "presentmentRequired",
+          "why": "afterAdoption branches on the town pack's presentmentRequired"
         },
         {
           "kind": "present",
-          "file": "src/simulation/municipal-ordinance-procedure.ts",
-          "pattern": "presentmentRequired",
-          "why": "The called canonical passage writer reads the executive presentment requirement; the preceding evaluator check requires the shared executive decision call in that same module."
+          "file": "src/simulation/living-world/local-council-meetings.ts",
+          "pattern": "evaluateGovernorBill\\(",
+          "why": "where presentment is required the town ordinance is decided through evaluateGovernorBill"
         }
       ],
-      "note": "Whole delegate chain: player executiveDesk; congressional evaluateGovernorBill; council completeCouncilPassage call; canonical municipal presentmentRequired branch and evaluateGovernorBill call. This recognizes existing production delegation instead of demanding duplicate executive logic in local-council-meetings.ts. No runtime behavior is changed by this criterion repair."
+      "note": "Whole: executiveDesk in the player session, evaluateGovernorBill in congress-lawmaking.ts and municipal-ordinance-procedure.ts pass; town councils branching on presentmentRequired and deciding through evaluateGovernorBill still fail. Scans partly, matching verified."
     },
     "A81": {
       "covers": "whole",

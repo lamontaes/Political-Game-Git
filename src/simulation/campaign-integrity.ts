@@ -265,19 +265,19 @@ function assertCampaignRoots(
     new Set(workIds).size !== workIds.length ||
     !candidateWork ||
     candidateWork.personId !== campaign.candidatePersonId ||
+    candidateWork.sequence >= campaign.sequence ||
     staffWork.some(
       (work) => !work || work.personId === campaign.candidatePersonId,
     ) ||
     new Set(staffWork.map((work) => work?.personId)).size !==
       staffWork.length ||
-    workIds.some(
-      (id) =>
-        !world.history.workRelationships.some(
-          (work) =>
-            work.id === id &&
-            work.organizationId === campaign.organizationId &&
-            work.sequence < campaign.sequence,
-        ),
+    !world.history.workRelationships.some(
+      (work) =>
+        work.id === campaign.candidateWorkRelationshipId &&
+        work.organizationId === campaign.organizationId,
+    ) ||
+    staffWork.some(
+      (work) => !work || work.organizationId !== campaign.organizationId,
     )
   ) {
     throw new Error(`Campaign work linkage is invalid: ${campaign.id}`);
