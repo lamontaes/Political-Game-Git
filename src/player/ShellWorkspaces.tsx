@@ -25,11 +25,7 @@ import { DIAGNOSTICS } from "./diagnostics-profile";
 import { playerEconomicContextLines } from "../presentation/economic-context";
 import { buildIdentity } from "../release/build-identity";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
-import { PrivateJournalEditor } from "./PrivateJournalEditor";
-import type {
-  PrivateJournal,
-  ShellSection,
-} from "../presentation/shell-navigation";
+import type { ShellSection } from "../presentation/shell-navigation";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
 import {
@@ -308,7 +304,7 @@ export function WorkspaceFrame({
   return (
     <section
       ref={frame}
-      className="pg-workspace civic-glass"
+      className="pg-workspace pg-glass-panel"
       data-closing={closing || undefined}
       style={
         shown
@@ -387,7 +383,7 @@ export function WorkspaceFrame({
             data-testid={`${testid}-close`}
             onClick={close}
           >
-            <span aria-hidden="true">✕</span>
+            <span aria-hidden="true">×</span>
           </button>
         </div>
       </header>
@@ -536,7 +532,7 @@ export function PeopleWorkspace({
             }
           }}
           onKeyDown={(event) => {
-            if (event.key === "Escape") {
+            if (event.key === "Escape" && event.currentTarget.open) {
               event.stopPropagation();
               event.currentTarget.open = false;
               event.currentTarget.querySelector("summary")?.focus();
@@ -550,14 +546,10 @@ export function PeopleWorkspace({
             </svg>
             Find somebody
           </summary>
-          <label className="pg-field pg-people-search-entry">
-            <span className="sr-only">Find somebody</span>
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <circle cx="10" cy="10" r="6" />
-              <path d="M 14.5 14.5 L 21 21" />
-            </svg>
+          <div className="pg-field pg-people-search-entry">
             <input
               type="search"
+              aria-label="Find somebody"
               value={state.peopleQuery}
               data-testid="people-search"
               onChange={(event) =>
@@ -567,7 +559,33 @@ export function PeopleWorkspace({
                 })
               }
             />
-          </label>
+            {state.peopleQuery ? (
+              <button
+                type="button"
+                className="pg-search-icon"
+                aria-label="Clear search"
+                onClick={() => {
+                  dispatch({ type: "set-people-query", query: "" });
+                  searchRef.current?.querySelector("input")?.focus();
+                }}
+              >
+                <span aria-hidden="true">×</span>
+              </button>
+            ) : null}
+            <button
+              type="button"
+              className="pg-search-icon"
+              aria-label="Return to people"
+              onClick={() => {
+                if (searchRef.current) {
+                  searchRef.current.open = false;
+                  searchRef.current.querySelector("summary")?.focus();
+                }
+              }}
+            >
+              <span aria-hidden="true">↵</span>
+            </button>
+          </div>
         </details>
         <div
           className="pg-people-web-toolbar"
@@ -1976,108 +1994,6 @@ export function WorkWorkspace({
   );
 }
 
-/* ----------------------------------------------------------------- journal */
-
-export function JournalWorkspace({
-  journal,
-  onJournalChange,
-  world,
-  personId,
-  onOpenPerson,
-}: {
-  readonly journal: PrivateJournal;
-  readonly onJournalChange: (journal: PrivateJournal) => void;
-  readonly world: World;
-  readonly personId: EntityId;
-  readonly onOpenPerson: (id: EntityId) => void;
-}) {
-  const record = useMemo(
-    () => projectLifeRecord(world, personId),
-    [world, personId],
-  );
-
-  return (
-    <>
-      <PrivateJournalEditor
-        journal={journal}
-        onChange={onJournalChange}
-        people={record.people}
-        events={record.chapters.flatMap((chapter) => chapter.entries)}
-        onOpenPerson={onOpenPerson}
-      />
-      <p className="game-note">{record.summary}</p>
-
-      <h3>What has happened</h3>
-      {record.chapters.length === 0 ? (
-        <p className="game-note" data-testid="journal-empty">
-          Nothing has been written down yet. It will fill up as the life goes
-          on.
-        </p>
-      ) : (
-        <ol data-testid="journal-entries">
-          {record.chapters.map((chapter) => (
-            <li key={chapter.key}>
-              <strong>{chapter.heading}</strong>
-              <ul>
-                {chapter.entries.map((entry) => (
-                  <li
-                    key={entry.key}
-                    id={`journal-entry-${encodeURIComponent(entry.key)}`}
-                  >
-                    {entry.sentence}
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ol>
-      )}
-
-      {/*
-        People are linked by the id the record already carries. No name is
-        parsed out of a sentence to find a link: a reference exists because the
-        record established it, or it does not exist at all.
-      */}
-      {record.people.length > 0 ? (
-        <>
-          <h3>People</h3>
-          <ul data-testid="journal-people">
-            {record.people.map((person) => (
-              <li key={person.personId}>
-                <button
-                  type="button"
-                  className="pg-inline-link"
-                  data-testid={`journal-person-${person.personId}`}
-                  onClick={() => onOpenPerson(person.personId)}
-                >
-                  {person.name}
-                </button>
-                <span> {person.sentence.slice(person.name.length)}</span>
-              </li>
-            ))}
-          </ul>
-        </>
-      ) : null}
-
-      {record.open.length > 0 ? (
-        <>
-          <h3>Still open</h3>
-          <ul data-testid="journal-open">
-            {record.open.map((entry) => (
-              <li
-                key={entry.key}
-                id={`journal-entry-${encodeURIComponent(entry.key)}`}
-              >
-                {entry.sentence}
-              </li>
-            ))}
-          </ul>
-        </>
-      ) : null}
-    </>
-  );
-}
-
 /* ------------------------------------------------------------ patch notes */
 
 /**
@@ -2219,28 +2135,6 @@ export function OptionsWorkspace({
             </button>
           ))}
         </div>
-      </section>
-
-      <section className="pg-personal-section">
-        <h3>Daily notes</h3>
-        <p className="game-note">
-          A morning note reads your current plans and decisions. You can turn it
-          off here; the day remains available in Calendar.
-        </p>
-        <label>
-          <input
-            type="checkbox"
-            checked={state.preferences.morningThoughts}
-            data-testid="option-morning-thoughts"
-            onChange={(event) =>
-              dispatch({
-                type: "set-morning-thoughts",
-                enabled: event.currentTarget.checked,
-              })
-            }
-          />{" "}
-          Show morning note
-        </label>
       </section>
 
       <section className="pg-personal-section">

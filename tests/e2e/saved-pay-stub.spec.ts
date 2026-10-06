@@ -1,12 +1,14 @@
 import { expect, test } from "./fixtures";
 import { enterLife, goTo } from "./support/creator";
+import { drawRandomPlace } from "../support/random-place";
 
-test("payday displays actual starting federal and state withholding on the player's stub", async ({
+test("routine notice omits the clock and fades after actual paycheck details", async ({
   page,
 }, info) => {
+  const place = drawRandomPlace("session8-clock-toast-2026-10-05");
   await page.goto("/");
   await expect(page.getByTestId("new-game")).toBeVisible();
-  await page.evaluate(async () => {
+  await page.evaluate(async (placeKey) => {
     const gamePath = "/src/presentation/new-game.ts";
     const lifePath = "/src/simulation/life-paths2.ts";
     const storePath = "/src/presentation/browser-world-repository.ts";
@@ -16,17 +18,17 @@ test("payday displays actual starting federal and state withholding on the playe
     const { enterLifePath, scheduleLifePathSession, performLifePathSession } =
       await import(/* @vite-ignore */ lifePath);
     const { BrowserSaveStore } = await import(/* @vite-ignore */ storePath);
-    // One of the five sampled nationwide projection cases, with real recorded
-    // starting federal/state taxes. No invented paycheck or rendered stub.
+    // A randomly drawn locality with actual recorded earnings and taxes.
+    // This path reads saved world facts and does not invent a paycheck.
     const game = createNewGameWorld({
       ...DEFAULT_NEW_GAME_SETUP,
       startAge: 30,
-      placeKey: "2743000",
+      placeKey,
       startingLife: "ordinary-life",
       household: "lives-alone",
       questionnaire: "skipped",
       priors: [],
-      seed: "saved-pay-stub:2743000",
+      seed: `saved-pay-stub:${placeKey}`,
     });
     const entered = enterLifePath(game.world, "shop-assistant");
     if (!entered.ok) throw new Error(entered.message);
@@ -44,7 +46,7 @@ test("payday displays actual starting federal and state withholding on the playe
     const saved = await store.save(worked.world, store.newSaveId(worked.world));
     if (saved.status !== "saved")
       throw new Error(`Payday fixture refused: ${saved.status}`);
-  });
+  }, place.key);
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
@@ -72,10 +74,9 @@ test("payday displays actual starting federal and state withholding on the playe
   await page.getByRole("button", { name: "Close", exact: true }).click();
   await page.getByTestId("shell-pass-day").click();
   const notice = page.getByTestId("pass-outcome");
-  await expect(notice).toContainText("Paycheck: gross $72");
-  await expect(notice).toContainText("Federal income tax withheld $1.01");
-  await expect(notice).toContainText("State income tax withheld $0.70");
-  await expect(notice).toContainText("net received $64.47");
-  await expect(notice).toContainText("Other payroll tax not priced");
+  await expect(notice).not.toContainText("It is now");
+  await expect(notice).toContainText("Paycheck: gross");
+  await expect(notice).toContainText("net received");
   await page.screenshot({ path: info.outputPath("saved-pay-stub-1440.png") });
+  await expect(notice).toBeHidden({ timeout: 10000 });
 });

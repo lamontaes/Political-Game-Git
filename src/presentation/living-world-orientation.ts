@@ -3,7 +3,10 @@ import {
   municipalOrientationHolders,
   type MunicipalOrientationHolder,
 } from "./municipal-orientation-holder";
-import { stateJurisdictionForKey } from "../simulation/life-places";
+import {
+  residentNameForJurisdiction,
+  stateJurisdictionForKey,
+} from "../simulation/life-places";
 import { isFederalDistrictUsps } from "../simulation/state-reference";
 import {
   LIVING_WORLD_CONTRACT_VERSION,
@@ -123,6 +126,7 @@ export function projectWorldOrientation(
     : undefined;
   const governor = governorRecord ? holderView(governorRecord) : null;
 
+  const homeJurisdiction = world.jurisdictions[player.homeJurisdictionId];
   const congress = projectCongress(world);
   const local = homeLocalGovernmentStatus(world, playerPersonId);
   const localGovernments = local.governments.map((government) => ({
@@ -167,7 +171,12 @@ export function projectWorldOrientation(
       : null,
     locality: {
       jurisdictionId: player.homeJurisdictionId,
-      name: world.jurisdictions[player.homeJurisdictionId]?.name ?? null,
+      name: homeJurisdiction
+        ? residentNameForJurisdiction(
+            homeJurisdiction.name,
+            homeJurisdiction.parentName,
+          )
+        : null,
       governments: localGovernments.map((government) => ({
         organizationId: government.organizationId,
         name: government.name,

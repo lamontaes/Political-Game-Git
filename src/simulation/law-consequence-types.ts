@@ -56,6 +56,8 @@ export const LAW_AMOUNT_UNITS = [
   "minor/container",
   "minor/tonne-co2-equivalent",
   "hours",
+  "share-of-federal-poverty-level",
+  "share-of-local-poverty-level",
   "people",
   "count",
   "ratio",

@@ -5005,9 +5005,6 @@
 
 .game-search input {
   padding: 0.55rem 0.7rem;
-  border: 1px solid #b4b4a8;
-  border-radius: 0.42rem;
-  background: var(--kit12-glass);
   color: var(--text-strong);
   font: inherit;
   font-weight: 400;
@@ -6100,9 +6097,6 @@
   max-width: none;
   margin: 0;
   padding: 1.5rem 1.35rem 1.6rem;
-  background: var(--kit12-glass);
-  backdrop-filter: blur(6px);
-  border-radius: 1rem;
   box-shadow: 0 1.4rem 3rem rgb(46 30 12 / 15%);
 }
 
@@ -7761,6 +7755,20 @@ body:where(.pg-game) .game-campaign-tallies {
 
 .life-hud-note--problem {
   border-color: #b4642f;
+}
+
+.life-hud-note--outcome {
+  animation: life-hud-outcome-fade 6s ease-out forwards;
+}
+
+@keyframes life-hud-outcome-fade {
+  0%,
+  83% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 /* --- Secondary systems, opened over the room --------------------------- */
