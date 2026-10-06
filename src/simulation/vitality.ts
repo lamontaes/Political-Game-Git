@@ -1,6 +1,7 @@
 import { makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
 import { recordWorldEvent, assertWorldIntegrity } from "./world";
+import { succeedDeceasedLeader } from "./living-world/movement-succession";
 import type {
   EntityId,
   PersonDeathRecord,
@@ -150,7 +151,7 @@ export function recordPersonDeath(
     },
   };
   assertWorldIntegrity(next);
-  return next;
+  return succeedDeceasedLeader(next, input.personId);
 }
 
 export function recordPersonFunctionalCapacity(
