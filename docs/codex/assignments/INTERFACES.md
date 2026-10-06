@@ -119,13 +119,28 @@ Situation-row shape: there is no single exported "situation row" on main. Neares
 
 Put each handler at `src/simulation/law-consequences/modules/<module-key>/index.ts`
 and export `registrations: readonly AnyLawConsequenceKindRegistration[]` (or
-the narrower `LawConsequenceKindRegistration<T>[]`). The shared registry
-eagerly loads modules in sorted path order; duplicate kind owners fail registry
-creation. This avoids editing the registry for a new module, but
-`LawConsequenceKind` remains a closed union: introducing a new kind also needs
-a shared type-union edit. The current union admits `public-library-service` and
-`parks-service-spending`. Session 41 owns those modules and scoped effect
-adapters. In `apply`,
+the narrower `LawConsequenceKindRegistration<T>[]`). The synchronous registry
+reads the checked-in pure TypeScript manifest at
+`src/simulation/law-consequence-module-manifest.ts`; Session 20 is its sole
+writer and adds reviewed module exports there. Do not use host filesystem or
+presentation/Vite discovery in simulation. Duplicate kind owners fail registry
+creation. `LawConsequenceKind` remains a closed union: introducing a new kind
+also needs a shared type-union edit. The current union admits
+`public-library-service` and `parks-service-spending`. Session 41 owns those
+modules and scoped effect adapters. Its candidate module is
+`src/simulation/law-consequences/modules/civil-family-services/index.ts`,
+exporting `registrations: readonly LawConsequenceKindRegistration<ResolvedLawConsequence>[]`;
+it is not in the manifest until that source is available on this branch. The
+sole-writer admission hunk is:
+
+```ts
+import { registrations as civilFamilyServiceRegistrations } from "./law-consequences/modules/civil-family-services";
+
+export const LAW_CONSEQUENCE_MODULE_REGISTRATIONS: readonly AnyLawConsequenceKindRegistration[] =
+  [...civilFamilyServiceRegistrations];
+```
+
+In `apply`,
 call the canonical domain writer and pass the ID of the actual saved effect
 record to `recordLawExposure` with the affected person, canonical `measureId`,
 channel, direction, and supported amount. For a non-money effect use direction
@@ -133,6 +148,35 @@ channel, direction, and supported amount. For a non-money effect use direction
 exposure and schedules the normal official reflection. Aggregate reports and
 catalog rows do not count as a landing. Session 19's `lawInForce` remains
 unchanged.
+
+For the LW-28 parks landing, the law-linked saved effect is a
+`PublicProgramCapacityOutturnRecord` whose `commitmentId` resolves to the
+`PublicProgramCommitmentRecord`, then its `appropriationId` resolves to the
+`PublicProgramAppropriationRecord.sourceMeasureId`. Use the actual outturn ID
+as the exposure source and the appropriation's source measure as attribution;
+the current receipt/outturn date is the effect cutoff. Session 41 owns the
+person residence and area-wide consumer. The public-program writer must invoke
+the consequence receiver only after it has saved this actual outturn, passing
+that outturn identity and law attribution; do not dispatch from a budget amount
+or invent resident service hours. The typed receiver route is
+`applyLawConsequences(world, context, registrations)` with
+`context.activity: "service"`, `activityId: outturn.id`,
+`onDate: outturnEvent.occurredAt`,
+`governingLawId: appropriation.sourceMeasureId`, the parking law's
+`questionKey`, and `subjectIds` restricted by Session 41's actual household
+residence at that same event cutoff. The parks resolver must be outturn-specific:
+Session 41's current candidate delegates to `resolveLawServiceConsequence`,
+which looks up a completed scheduled activity by `activityId` and therefore
+cannot consume a capacity-outturn ID. Resolution must carry `outturn.id` in
+`sourceRecordIds` and the resolved person's own ID as `subject.id`; apply uses
+those to write the named-person exposure against the canonical measure. Dispatch
+for every law-linked saved outturn, including a saved zero-change outturn. Keep
+the zero record and its cause identity; do not synthesize a positive change.
+Whether a zero-change outturn should create a named-person no-change exposure
+or only remain a caused public zero record is pending an exact CTO ruling. The
+outturn links to `outturn.eventId` for its effect date. The writer call site is
+`recordCapacityOutturn` in `src/simulation/governing/public-program.ts` and its
+owning hunk must be coordinated with that file's current owner before editing.
 
 The `abortion-access` landing is not registered here: it needs an actual
 recorded pregnancy decision and person-level result from the family/births

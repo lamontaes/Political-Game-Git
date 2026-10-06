@@ -11,85 +11,9 @@ import type {
   AnyLawConsequenceKindRegistration,
 } from "./law-consequence-types";
 import type { LawConsequenceCapabilities } from "./law-consequence-validation";
-import { globUnavailable, optionalGlob } from "../presentation/optional-glob";
+import { LAW_CONSEQUENCE_MODULE_REGISTRATIONS } from "./law-consequence-module-manifest";
 
-type LawConsequenceModule = {
-  registrations: readonly AnyLawConsequenceKindRegistration[];
-};
-
-// Every folder under modules owns its registration export. Vite eagerly
-// collects them in browser builds and Vitest, so adding a kind does not edit
-// this shared registry. Keep eager loading: resolve/apply are synchronous.
-const viteLawConsequenceModuleFiles = optionalGlob(() =>
-  import.meta.glob<LawConsequenceModule>(
-    "./law-consequences/modules/*/index.ts",
-    { eager: true },
-  ),
-);
-
-async function nodeLawConsequenceModules(): Promise<
-  Record<string, LawConsequenceModule>
-> {
-  // Keep Node-only discovery out of Vite's static module graph. The importer
-  // is used only by headless TS/JS entrypoints where import.meta.glob is absent.
-  const nativeImport = (specifier: string) =>
-    import(/* @vite-ignore */ specifier) as Promise<
-      {
-        readdir: (
-          path: URL,
-          options: { withFileTypes: true },
-        ) => Promise<Array<{ name: string; isDirectory(): boolean }>>;
-        access: (path: URL) => Promise<void>;
-      } & LawConsequenceModule
-    >;
-  const fs = await nativeImport("node:fs/promises");
-  const root = new URL("./law-consequences/modules/", import.meta.url);
-  let directories: Array<{ name: string; isDirectory(): boolean }>;
-  try {
-    directories = await fs.readdir(root, { withFileTypes: true });
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === "ENOENT") return {};
-    throw error;
-  }
-
-  const modules: Record<string, LawConsequenceModule> = {};
-  for (const directory of directories
-    .filter((entry) => entry.isDirectory())
-    .sort((left, right) => left.name.localeCompare(right.name))) {
-    const moduleUrl = new URL(
-      `${encodeURIComponent(directory.name)}/index.ts`,
-      root,
-    );
-    try {
-      await fs.access(moduleUrl);
-    } catch (error) {
-      if ((error as NodeJS.ErrnoException).code === "ENOENT") continue;
-      throw error;
-    }
-    const loaded = await import(/* @vite-ignore */ moduleUrl.href);
-    modules[`./law-consequences/modules/${directory.name}/index.ts`] = loaded;
-  }
-  return modules;
-}
-
-// `applyLawConsequences` is synchronous, so finish module discovery before the
-// registry is exported in both browser/Vitest and headless Node processes.
-const lawConsequenceModuleFiles = globUnavailable(viteLawConsequenceModuleFiles)
-  ? await nodeLawConsequenceModules()
-  : viteLawConsequenceModuleFiles;
-
-const extensionRegistrations = Object.entries(lawConsequenceModuleFiles)
-  .sort(([left], [right]) => left.localeCompare(right))
-  .flatMap(([file, module]) => {
-    const candidate = module as Partial<LawConsequenceModule>;
-    if (!Array.isArray(candidate.registrations))
-      throw new Error(
-        `Law consequence module ${file} must export registrations.`,
-      );
-    return candidate.registrations;
-  });
-
-/** Sole registration surface. Coordinator appends reviewed kind exports here. */
+/** Shared registration surface. Session 20 wires reviewed module exports. */
 export const LAW_CONSEQUENCE_REGISTRATIONS: readonly AnyLawConsequenceKindRegistration[] =
   [
     PAY_REGISTRATION,
@@ -100,7 +24,7 @@ export const LAW_CONSEQUENCE_REGISTRATIONS: readonly AnyLawConsequenceKindRegist
     SERVICE_DELIVERED_REGISTRATION,
     RIGHT_PERMISSION_REGISTRATION,
     INSTITUTION_RULE_REGISTRATION,
-    ...extensionRegistrations,
+    ...LAW_CONSEQUENCE_MODULE_REGISTRATIONS,
   ];
 
 export function createLawConsequenceRegistry(
