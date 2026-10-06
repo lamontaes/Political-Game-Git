@@ -5056,6 +5056,7 @@
     },
     {
       "key": "groundwater-limits-to-irrigation-pumping",
+      "consumed": false,
       "status": "built",
       "unsupportedReason": null,
       "from": "law:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",

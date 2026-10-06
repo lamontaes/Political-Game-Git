@@ -1,7 +1,17 @@
 import { juryCountyForPlace, summonJuryResidents } from "./jury-catchment";
 import { applyLawConsequences } from "../enacted-law-effects";
 import { custodyFloorAt } from "../law-consequences/legal-outcome";
-import { recordByStableKey } from "../history-index";
+import {
+  recordByStableKey,
+  recordById,
+  recordsByStringField,
+} from "../history-index";
+import {
+  activeWorkRelationshipsAt,
+  currentLifeCutoff,
+  organizationProfileAt,
+} from "../life-queries";
+import { isPersonAliveAt } from "../vitality";
 import { addDays } from "../dates";
 import {
   ESTIMATED_CHARGE_DECISION_DAYS,
@@ -18,7 +28,11 @@ import {
   refundCashBailAtCaseClose,
   type CashBailPayer,
 } from "./cash-bail";
-import { isSelectedDecision, recordDurableDecisionTrace } from "../decisions";
+import {
+  evaluateDecision,
+  isSelectedDecision,
+  recordDurableDecisionTrace,
+} from "../decisions";
 import { evaluateCustodyTerm } from "./sentencing-term";
 import {
   sentencingApplicabilityOf,
@@ -55,6 +69,7 @@ import {
   empanelJury,
   juryPool,
   evaluateJurorVote,
+  jurorConsiderations,
   evaluateDetention,
   evaluatePlea,
   evaluateSentence,
@@ -254,23 +269,56 @@ export function regulatorRefers(finding: FindingForReferral): boolean {
   return finding.standingFindings >= 2 || finding.deniedIt;
 }
 
-/**
- * Whether prosecutors charge a referred case. The standard is the one the
- * Justice Manual writes down (§ 9-27.220): charge when "the admissible
- * evidence will probably be sufficient to obtain and sustain a conviction."
- * Records and a witness meet it; inference alone meets it only when more than
- * one recorded event points the same way.
- *
- * PLACEHOLDER (a stand-in for unseated prosecutors): district attorneys and
- * attorneys general are not people in the world yet. When they are, each
- * weighs this standard with their own caseload, principles and next election.
- * Pure.
- */
-export function prosecutorsCharge(
-  evidence: EvidenceStrength,
-  basisEvents: number,
-): boolean {
-  return evidence !== "circumstantial" || basisEvents >= 2;
+/** A saved active prosecutor role must explicitly cover this case's venue. */
+function recordedProsecutorForCase(world: World, courtCase: CourtCase) {
+  if (!courtCase.venueJurisdictionId) return null;
+  const cutoff = currentLifeCutoff(world);
+  const holders = new Map<
+    EntityId,
+    { personId: EntityId; workRelationshipId: EntityId }
+  >();
+  for (const recordedRole of recordsByStringField(
+    world.history.workRoles,
+    "occupationClassification",
+    "profession:prosecutor",
+  )) {
+    const relationship = recordById(
+      world.history.workRelationships,
+      recordedRole.workRelationshipId,
+    );
+    if (
+      !relationship ||
+      relationship.personId === courtCase.defendantId ||
+      !world.people[relationship.personId] ||
+      !isPersonAliveAt(world, relationship.personId, cutoff) ||
+      isPlayer(world, relationship.personId)
+    )
+      continue;
+    const active = activeWorkRelationshipsAt(
+      world,
+      relationship.personId,
+      cutoff,
+    ).find(
+      (entry) =>
+        entry.relationship.id === relationship.id &&
+        entry.role.id === recordedRole.id &&
+        entry.role.locationJurisdictionId === courtCase.venueJurisdictionId,
+    );
+    const profile = relationship.organizationId
+      ? organizationProfileAt(world, relationship.organizationId, cutoff)
+      : null;
+    if (
+      !active ||
+      profile?.classification !== "sector:government" ||
+      profile.closed
+    )
+      continue;
+    holders.set(relationship.personId, {
+      personId: relationship.personId,
+      workRelationshipId: relationship.id,
+    });
+  }
+  return holders.size === 1 ? [...holders.values()][0]! : null;
 }
 
 function referralStableKey(stableKey: string): string {
@@ -765,18 +813,112 @@ export function advanceProsecutions(
         next.currentDate
       )
         continue;
-      const basisEvents = referral.tags.filter((tag) =>
-        tag.startsWith("justice.basis-event:"),
-      ).length;
-      if (!prosecutorsCharge(courtCase.evidence, basisEvents)) {
+      const prosecutor = recordedProsecutorForCase(next, courtCase);
+      if (!prosecutor) continue;
+      const decisionKey = `${referral.stableKey}:charge:${prosecutor.workRelationshipId}`;
+      const saved = recordByStableKey(
+        next.history.decisionTraces,
+        `${decisionKey}:trace`,
+      );
+      const receiptKey = `${decisionKey}:referral-received`;
+      const received = saved
+        ? next
+        : recordWorldEvent(next, {
+            stableKey: receiptKey,
+            type: "justice.referral-received",
+            occurredAt: next.currentDate,
+            recordedAt: next.currentDate,
+            jurisdictionId: referral.jurisdictionId,
+            involvedEntityIds: [prosecutor.personId],
+            participants: [
+              {
+                personId: prosecutor.personId,
+                role: "other:prosecutor",
+                detail: "Received the referral for charging review",
+              },
+            ],
+            personFactConstraints: [],
+            visibility: "private",
+            tags: [`justice.referral:${referral.id}`],
+            summary: `${personName(next.people[prosecutor.personId]!)} received the referral: ${referral.summary}`,
+            context: {
+              location: null,
+              socialContext: "Prosecution referral review",
+              pressure: null,
+              choice: null,
+              motivation: null,
+              immediateReaction: null,
+            },
+          });
+      const receipt = recordByStableKey(received.history.events, receiptKey);
+      const prepared = saved
+        ? next
+        : ensurePeopleTraits(received, [prosecutor.personId]);
+      const decision =
+        saved ??
+        evaluateDecision(prepared, {
+          stableKey: decisionKey,
+          decisionType: "justice.charge",
+          actorPersonId: prosecutor.personId,
+          cutoff: currentLifeCutoff(prepared),
+          subject: {
+            kind: "context:criminal-case",
+            key: courtCase.caseKey,
+            entityId: referral.id,
+          },
+          options: [
+            {
+              key: CONVICT,
+              label: "Charge",
+              description: "Bring the referred charge.",
+            },
+            {
+              key: ACQUIT,
+              label: "Decline",
+              description: "Decline the referred charge.",
+            },
+          ],
+          constraints: [],
+          // Reuse the court's recorded evidence and actor-trait scales. No new weights.
+          considerations: jurorConsiderations(
+            prepared,
+            courtCase,
+            prosecutor.personId,
+            decisionKey,
+            null,
+            null,
+          ).map((reason) => ({
+            ...reason,
+            ...(reason.sourceType === "context:burden-of-proof"
+              ? {
+                  explanation:
+                    "The charging standard asks whether admissible evidence can obtain and sustain a conviction.",
+                }
+              : {}),
+            ...(reason.sourceType === "context:evidence"
+              ? {
+                  sourceRefs: [
+                    { kind: "historical-event" as const, eventId: receipt!.id },
+                  ],
+                }
+              : {}),
+          })),
+          perceptionIds: [],
+          randomness: "none",
+          retention: "durable",
+        });
+      next = saved ? next : recordDurableDecisionTrace(prepared, decision);
+      if (!isSelectedDecision(decision)) continue;
+      if (decision.selectedOptionKey === ACQUIT) {
         next = followUp(next, referral, referral, PROSECUTION_DECLINED_EVENT, {
           summary: `Prosecutors declined to charge ${name} with ${offense}.`,
           visibility: "private",
-          motivation:
-            "The evidence rests on inference, and nothing else in the record points the same way.",
+          motivation: chosenReasons(decision),
+          decidedBy: { personId: prosecutor.personId, role: "Prosecutor" },
         });
         continue;
       }
+      if (decision.selectedOptionKey !== CONVICT) continue;
       next = followUp(next, referral, referral, PROSECUTION_CHARGED_EVENT, {
         extraTags: (() => {
           const courtId = savedTrialCourtForCase(next, courtCase);
@@ -794,10 +936,8 @@ export function advanceProsecutions(
             : [];
         })(),
         summary: `Prosecutors charged ${name} with ${offense}.`,
-        motivation:
-          courtCase.evidence === "documentary"
-            ? "The records would probably be enough to convict."
-            : "A witness's account would probably be enough to convict.",
+        motivation: chosenReasons(decision),
+        decidedBy: { personId: prosecutor.personId, role: "Prosecutor" },
       });
       charged = next.history.events.at(-1)!;
       next = ensureProsecutionStageSchedule(
@@ -840,8 +980,13 @@ export function advanceProsecutions(
           });
       } else if (!isPlayer(next, subjectId)) {
         next = ensurePeopleTraits(next, [subjectId]);
-        const plea = evaluatePlea(next, courtCase);
-        next = recordDurableDecisionTrace(next, plea);
+        const savedPlea = recordByStableKey(
+          next.history.decisionTraces,
+          `${courtCase.caseKey}:plea:trace`,
+        );
+        const plea = savedPlea ?? evaluatePlea(next, courtCase);
+        if (!savedPlea) next = recordDurableDecisionTrace(next, plea);
+        if (!isSelectedDecision(plea)) continue;
         pleaded = plea.selectedOptionKey === PLEA;
         if (pleaded) {
           next = followUp(next, last, referral, PROSECUTION_ENDED_EVENT, {
