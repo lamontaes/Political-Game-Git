@@ -1,4 +1,9 @@
 import { describe, expect, it } from "vitest";
+import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
+import {
+  generateOpeningLife,
+  prepareOpeningLife,
+} from "../../presentation/opening-life";
 import {
   base,
   enact,
@@ -17,11 +22,20 @@ import {
 } from "../life-places";
 import { createMindProvenance, recordPersonalityTendency } from "../mind";
 import { SYNTHETIC_MIND_IDS } from "../mind-catalog";
+import { createFormationContext, recordPrivateBelief } from "../politics";
+import { recordEventKnowledge } from "../records";
 import { lawInterestGroup, lawInterestMembers } from "../official-view-reads";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import type { EntityId, Person, World } from "../types";
-import { assertWorldIntegrity } from "../world";
-import { joinLawInterestGroup } from "./law-interest-groups";
+import { assertWorldIntegrity, recordWorldEvent } from "../world";
+import {
+  foundSharedCauseGroup,
+  decideSharedCauseGroupAction,
+  joinLawInterestGroup,
+  joinSharedCauseGroup,
+  recordSharedCauseActionArgument,
+  sharedCauseGroupKey,
+} from "./law-interest-groups";
 import { reactionLens } from "./official-views";
 
 /** A place from all 56 with a playable locality, named by its seed. */
@@ -199,5 +213,175 @@ describe("a rights loss or an eligibility loss founds an interest group", () => 
     const groupId = lawInterestGroup(founded, town, measureId)!;
     expect(groupId, label).toBeTruthy();
     expect(lawInterestMembers(founded, groupId), label).toEqual([eager]);
+  });
+
+  it("forms and joins a cause group from two recorded views in a generated place", () => {
+    const game = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed: "shared-cause-generated-place-46",
+        placeKey: drawn.town.key,
+        startAge: 35,
+        questionnaire: "skipped",
+      }),
+    ).game!;
+    let world: World = game.world;
+    const local = world.personOrder.filter(
+      (id) =>
+        world.people[id]!.homeJurisdictionId ===
+        game.world.people[game.playerPersonId]!.homeJurisdictionId,
+    );
+    const [founder, neighbor] = local
+      .filter((id) => id !== game.playerPersonId)
+      .slice(0, 2);
+    expect(
+      founder,
+      "two generated neighbors in the selected place",
+    ).toBeDefined();
+    expect(
+      neighbor,
+      "two generated neighbors in the selected place",
+    ).toBeDefined();
+    const jurisdictionId = world.people[founder!]!.homeJurisdictionId;
+    const proposition = Object.values(world.policyCatalog.propositions)[0]!;
+    const causeKey = `random-place-cause:${jurisdictionId}`;
+    const cause = {
+      key: causeKey,
+      title: "Library access",
+      goal: "keep neighborhood libraries open",
+      jurisdictionId,
+      sourceEventId: "pending" as EntityId,
+      propositionId: proposition.id,
+      desiredPosition: "support" as const,
+    };
+    world = recordWorldEvent(world, {
+      stableKey: `${causeKey}:source`,
+      type: "civic.shared-cause.raised",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId,
+      involvedEntityIds: [founder!],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: ["civic.shared-cause"],
+      summary: "Neighbors raised the library access question.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const eventId = world.history.events.at(-1)!.id;
+    const recordedCause = { ...cause, sourceEventId: eventId };
+    for (const [index, personId] of [founder!, neighbor!].entries())
+      world = recordPrivateBelief(world, {
+        stableKey: `${causeKey}:view:${index}`,
+        personId,
+        propositionId: proposition.id,
+        formedAt: world.currentDate,
+        position: "support",
+        conviction: "strong",
+        salience: "high",
+        flexibility: "open",
+        rationale: null,
+        formation: createFormationContext("reflection:initial"),
+        supersedesBeliefId: null,
+      });
+
+    const founded = foundSharedCauseGroup(world, {
+      cause: recordedCause,
+      founderPersonId: founder!,
+    });
+    expect(founded.outcome).toBe("formed");
+    expect(founded.decisionTraceId).toBeTruthy();
+    const joined = joinSharedCauseGroup(founded.world, {
+      cause: recordedCause,
+      organizationId: founded.organizationId!,
+      personId: neighbor!,
+    });
+    expect(joined.outcome).toBe("joined");
+    expect(
+      joined.world.history.organizations.find(
+        (organization) => organization.id === founded.organizationId,
+      )?.stableKey,
+    ).toBe(sharedCauseGroupKey(jurisdictionId, causeKey));
+    expect(
+      joined.world.history.organizationParticipations.filter(
+        (row) => row.organizationId === founded.organizationId,
+      ),
+    ).toHaveLength(2);
+    let argued = recordWorldEvent(joined.world, {
+      stableKey: `${causeKey}:argument`,
+      type: "civic.shared-cause.member-argument",
+      occurredAt: joined.world.currentDate,
+      recordedAt: joined.world.currentDate,
+      jurisdictionId,
+      involvedEntityIds: [neighbor!, founder!],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [`shared-cause-action:protest`],
+      summary: "A member asked the group to hold a protest.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const argumentEvent = argued.history.events.at(-1)!;
+    argued = recordSharedCauseActionArgument(argued, {
+      causeKey,
+      organizationId: founded.organizationId!,
+      personId: neighbor!,
+      action: "protest",
+      eventId: argumentEvent.id,
+    });
+    argued = recordEventKnowledge(argued, {
+      stableKey: `${causeKey}:heard-argument`,
+      personId: founder!,
+      eventId: argumentEvent.id,
+      learnedAt: argued.currentDate,
+      believedSummary: argumentEvent.summary,
+      accuracy: "accurate",
+      confidence: "high",
+      source: { kind: "direct" },
+    });
+    const knowledge = argued.history.knowledge.at(-1)!;
+    argued = recordWorldEvent(argued, {
+      stableKey: `${causeKey}:decision-day`,
+      type: "civic.shared-cause.decision-day",
+      occurredAt: argued.currentDate,
+      recordedAt: argued.currentDate,
+      jurisdictionId,
+      involvedEntityIds: [founder!],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: ["civic.shared-cause.decision-day"],
+      summary: "The group considered what to do next.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const action = decideSharedCauseGroupAction(argued, {
+      cause: recordedCause,
+      organizationId: founded.organizationId!,
+      decisionEventId: argued.history.events.at(-1)!.id,
+      heardArguments: [{ action: "protest", knowledgeId: knowledge.id }],
+    });
+    expect(action.action).toBe("protest");
+    assertWorldIntegrity(action.world);
   });
 });
