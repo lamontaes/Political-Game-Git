@@ -82,7 +82,7 @@ import {
   CONVICT,
   PLEA,
   PRETRIAL_HOLD,
-  UNRESEARCHED_JURY_PANEL,
+  JURY_PANEL_ESTIMATE,
   SENTENCE_JAIL,
   type CourtCase,
   type EvidenceStrength,
@@ -678,11 +678,11 @@ function holdTrial(
   let next = summonJuryResidents(
     world,
     courtCase.venueJurisdictionId,
-    UNRESEARCHED_JURY_PANEL.size,
+    JURY_PANEL_ESTIMATE.size,
     (candidate) => juryPool(candidate, courtCase),
   );
   const jurors = empanelJury(next, courtCase, trialNumber);
-  if (jurors.length < UNRESEARCHED_JURY_PANEL.size)
+  if (jurors.length < JURY_PANEL_ESTIMATE.size)
     return {
       world: next,
       verdict: "pending",
@@ -1040,7 +1040,7 @@ export function advanceProsecutions(
         : null;
       const juryTags = [
         `justice.jury-panel-size:${trial.jurors}`,
-        `justice.jury-panel-basis:${UNRESEARCHED_JURY_PANEL.provenance}`,
+        `justice.jury-panel-basis:${JURY_PANEL_ESTIMATE.provenance}`,
         ...(juryCounty
           ? [
               `justice.jury-catchment:${juryCounty}`,
