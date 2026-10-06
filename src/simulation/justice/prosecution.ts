@@ -1,3 +1,4 @@
+import { applyPretrialLawLandings } from "../law-consequences/modules/justice-pretrial-landings";
 import { juryCountyForPlace, summonJuryResidents } from "./jury-catchment";
 import { applyLawConsequences } from "../enacted-law-effects";
 import { custodyFloorAt } from "../law-consequences/legal-outcome";
@@ -519,13 +520,16 @@ function recordFollowUp(
     ...event,
     lawEffectStamps: [stamp],
   };
-  return {
-    ...recorded,
-    history: {
-      ...recorded.history,
-      events: [...recorded.history.events.slice(0, -1), stampedEvent],
+  return applyPretrialLawLandings(
+    {
+      ...recorded,
+      history: {
+        ...recorded.history,
+        events: [...recorded.history.events.slice(0, -1), stampedEvent],
+      },
     },
-  };
+    stampedEvent.id,
+  );
 }
 
 /** Run consequence rows only after the court has saved its actual stage. */
