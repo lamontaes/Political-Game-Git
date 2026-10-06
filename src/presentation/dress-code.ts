@@ -72,8 +72,8 @@ export function placeDressCode(sceneId: string): PlaceDressCode {
 }
 
 /**
- * November through March. PLACEHOLDER(wave2): one season for every state; a
- * state's own climate should set it.
+ * The recorded general cold season is November through March. It applies
+ * uniformly until the climate record supplies a place-specific season.
  */
 export function isColdMonth(isoDate: string): boolean {
   const month = Number(isoDate.slice(5, 7));

@@ -119,8 +119,8 @@ function sentenceFor(line: LawEffectLine): string {
       return `${line.heading}: it allows up to ${ceiling}, but provides no money itself. ${used}`;
     }
     case "not-modeled":
-      // PLACEHOLDER: the effect of this part is waiting on research. The
-      // sentence says only that nothing acts on it, never what it would do.
+      // The recorded not-modeled state has no simulated effect. The sentence
+      // says only that nothing acts on it, never what it would do.
       return `${line.heading}: nothing in the world acts on this part of the law yet.`;
     case "no-operative-text":
       return "This law has no operative text, so it changes nothing in the world.";

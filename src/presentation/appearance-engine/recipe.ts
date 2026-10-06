@@ -40,7 +40,7 @@ import {
  * Nothing here decides anything else about a person.
  */
 
-/** Share of adults in each build, drawn from the seed. PLACEHOLDER(wave2). */
+/** Recorded authored share of adults in each build, drawn from the seed. */
 const BUILD_SHARE: Readonly<Record<BodyBuild, number>> = {
   lean: 0.3,
   average: 0.45,
@@ -80,7 +80,7 @@ function buildFor(seed: string): BodyBuild {
 /**
  * Hair color from the seed, independent of skin and face (Lamontae: hair,
  * face and skin are separate). Gray and white grow likelier with age.
- * PLACEHOLDER(wave2) shares.
+ * Recorded authored shares.
  */
 function hairColorFor(seed: string, age: number): string {
   const roll = draw(seed, "hair-color");

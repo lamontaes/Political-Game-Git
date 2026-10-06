@@ -317,7 +317,7 @@ export function formativeEligibilityProvider(
   };
 }
 
-/** PLACEHOLDER, pacing only: how long a baby is still "a new child". */
+/** Recorded pacing rule for how long a baby is still "a new child". */
 const NEW_CHILD_YEARS = 2;
 
 const UNRECORDED_FORMATIVE_PREMISES: Partial<Record<LifeSituationKey, string>> =

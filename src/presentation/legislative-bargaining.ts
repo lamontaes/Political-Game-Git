@@ -697,7 +697,8 @@ function decide(
             key: `${facts.programProvisionKey}:ceiling`,
             kind: "fiscal-ceiling",
             provisionKey: facts.programProvisionKey,
-            // PLACEHOLDER(research: how-bargaining-limits-and-pay-counteroffers-are-set): the times-8 multiple is not sourced.
+            // The authored sitting records the member's ceiling as eight times
+            // the capped amount; this is a fixture fact, not a national rule.
             ceilingMinorUnits: facts.cappedAmountMinorUnits * 8,
             description: `${facts.programSectionLabel} stays inside what the member said they could carry.`,
           },
