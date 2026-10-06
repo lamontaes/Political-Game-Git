@@ -419,7 +419,7 @@ export function PersonCard({
                 <FactList facts={dossier.reminders} testId="dossier-reminder" />
               </div>
             ) : null}
-            {dossier.lastInteraction === null ? null : (
+            {dossier.lastInteraction === null || dossier.neverSpoken ? null : (
               <p
                 className="pg-person-card-read"
                 data-testid={
@@ -669,9 +669,8 @@ export function PersonCard({
           className="sr-only"
           id={`person-talk-reason-${dossier.personId}`}
           data-testid="dossier-talk-unavailable"
-        >
-          {talkUnavailable}
-        </p>
+          data-reason={talkUnavailable}
+        />
       ) : null}
       {reachable && contact.contact.available && onContact ? (
         <p className="sr-only" id={`person-contact-reason-${dossier.personId}`}>

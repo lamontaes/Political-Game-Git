@@ -206,3 +206,9 @@ describe("the personal screens carry no authored sentence", () => {
     expect(text.match(/>\s*[A-Z][a-z]+ [a-z ,'&;]{25,}/g) ?? []).toEqual([]);
   });
 });
+
+it("renders the talk refusal and the first-contact line as trace fields, not text", () => {
+  const text = readFileSync(join(__dirname, "PersonCard.tsx"), "utf8");
+  expect(text).toContain("data-reason={talkUnavailable}");
+  expect(text).toContain("dossier.neverSpoken");
+});
