@@ -1,3 +1,4 @@
+import type { HistoricalPastMode } from "./historical-past-mode";
 import type { WorkPayCoverageDeterminationRecord } from "./pay-coverage-types";
 import type { LawScheduleTerm } from "./law-structured-terms";
 import type {
@@ -5787,6 +5788,8 @@ export interface PlaySettings {
 }
 
 export interface World {
+  /** Loading-only routine summary mode; removed at the recorded Begin boundary. */
+  readonly pastMode?: HistoricalPastMode;
   /** Saved courts and seated judges; absent in lives created before courts opened. */
   readonly judiciary?: JudiciaryState;
   /** Immutable validated definitions accepted for this life; absent in legacy saves. */
@@ -5810,6 +5813,11 @@ export interface World {
   readonly incidentCatalog: IncidentCatalog;
   readonly vitalityCatalog: VitalityCatalog;
   readonly control: ControlState;
+  /** The prospective player acts as a resident until the recorded Begin date. */
+  readonly preStartLife?: {
+    readonly personId: EntityId;
+    readonly targetStartDate: IsoDate;
+  };
   readonly history: HistoryStore;
   /** Optional so worlds saved before player settings remain readable. */
   readonly playSettings?: PlaySettings;

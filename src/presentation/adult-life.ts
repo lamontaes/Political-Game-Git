@@ -1,4 +1,5 @@
 import { refreshContextualScenes } from "./contextual-scene-producers";
+import { playSettingsOf } from "../simulation/play-settings";
 import { settleSocialInvitationFromScene } from "./social-invitation";
 import { passOrdinaryDays } from "./ordinary-life";
 import type { OrdinaryLifeDayAdvance } from "./life-time-handlers";
@@ -215,6 +216,7 @@ export function selectAdultSituation(
   if (candidates.length === 0) return null;
 
   const selection = selectSituation({
+    intensity: playSettingsOf(world).challenge,
     selectionSeed: adaptiveSelectionSeed(world),
     personKey: personId,
     ordinal: history.length,

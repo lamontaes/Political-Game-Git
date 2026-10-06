@@ -358,7 +358,7 @@ export interface StartingLawScope {
   }[];
 }
 
-interface StartingLawRow {
+export interface StartingLawRow {
   /** Exact recorded workplace identities; no name or county-containment guess. */
   readonly regionalTerms?: readonly {
     readonly workplaceKeys: readonly string[];
