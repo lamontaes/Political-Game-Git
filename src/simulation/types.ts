@@ -1,3 +1,4 @@
+import type { ExecutiveActionClause } from "./executive-action-authority";
 import type { HistoricalPastMode } from "./historical-past-mode";
 import type { WorkPayCoverageDeterminationRecord } from "./pay-coverage-types";
 import type { LawScheduleTerm } from "./law-structured-terms";
@@ -4806,7 +4807,7 @@ export interface LegislativeMeasureRecord {
   /** Authority pack used for an executive-issued regulation or order. */
   readonly executiveAuthorityJurisdictionKey?: string;
   readonly executiveAuthorityChecks?: readonly {
-    readonly clause: import("./executive-action-authority").ExecutiveActionClause;
+    readonly clause: ExecutiveActionClause;
   }[];
   /** Statute whose delegated term this regulation implements. */
   readonly delegatedFromMeasureId?: EntityId;

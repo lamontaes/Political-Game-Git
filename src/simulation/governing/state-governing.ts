@@ -1,6 +1,5 @@
 import { inventedPersonBirthDate } from "../invented-person-age";
 import type { LawDelegationTerm } from "../law-consequence-types";
-import { applyItemVetoes } from "./item-veto";
 import {
   applyItemVetoes,
   executiveItemVetoSelectionProblem,
