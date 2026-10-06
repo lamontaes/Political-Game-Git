@@ -53,6 +53,7 @@ export interface Setup {
   /** A question in another policy domain than the bill's. */
   readonly offSubjectId: EntityId;
   readonly measureId: EntityId;
+  readonly chamberKey: string;
   readonly memberId: EntityId;
   readonly jurisdictionId: EntityId;
 }
@@ -151,8 +152,10 @@ export function withQuestions(world: World) {
 
 export function billOnTheFloor(
   subjectClass: LegislativeSubjectClass = "general-policy",
+  scenarioKey = "nebraska",
 ): Setup {
-  const scenario = createLegislativeScenario("nebraska");
+  const scenario = createLegislativeScenario(scenarioKey);
+  const chamberKey = scenario.pack.chamberOrder[0]!;
   const {
     world: withCatalog,
     transitId,
@@ -171,16 +174,16 @@ export function billOnTheFloor(
     summary: "Written to exercise what a vote was on.",
     origin: "member-introduction",
     subjectClass,
-    originChamberKey: CHAMBER,
+    originChamberKey: chamberKey,
     propositionIds: [transitId],
     propositionAnswers: [{ propositionId: transitId, answer: "yes" }],
   });
   const measureId = world.history.legislativeMeasures!.find(
     (measure) => measure.stableKey === "vote-bundle:bill",
   )!.id;
-  const chamber = chamberByKey(scenario.pack, CHAMBER);
+  const chamber = chamberByKey(scenario.pack, chamberKey);
   const committee = chamber.committees[0]!;
-  const body = bodyForChamber(scenario, CHAMBER);
+  const body = bodyForChamber(scenario, chamberKey);
   world = referMeasure(world, {
     stableKey: "vote-bundle:referral",
     measureId,
@@ -211,6 +214,7 @@ export function billOnTheFloor(
     workRuleId,
     offSubjectId,
     measureId,
+    chamberKey,
     memberId: body.members[0]!.personId!,
     jurisdictionId,
   };
@@ -221,11 +225,13 @@ export function everyone(
   disposition: LegislativeMemberDisposition,
   theirs: LegislativeMemberDisposition = disposition,
 ) {
-  return bodyForChamber(setup.scenario, CHAMBER).members.map((member) => ({
-    memberKey: member.memberKey,
-    personId: member.personId,
-    disposition: member.personId === setup.memberId ? theirs : disposition,
-  }));
+  return bodyForChamber(setup.scenario, setup.chamberKey).members.map(
+    (member) => ({
+      memberKey: member.memberKey,
+      personId: member.personId,
+      disposition: member.personId === setup.memberId ? theirs : disposition,
+    }),
+  );
 }
 
 export const WORK_SECTION = (workRuleId: EntityId) => ({
@@ -248,7 +254,8 @@ export function amend(
     description: "Require adults receiving assistance to work.",
     offeredByLabel: "Senator for District 12",
     dispositions: everyone(setup, disposition, theirs),
-    electedMembers: bodyForChamber(setup.scenario, CHAMBER).members.length,
+    electedMembers: bodyForChamber(setup.scenario, setup.chamberKey).members
+      .length,
     provenance: AUTHORED,
     proposedSections: [WORK_SECTION(setup.workRuleId)],
   });
@@ -287,7 +294,8 @@ export function floor(
     stableKey: "vote-bundle:floor",
     measureId: setup.measureId,
     dispositions: everyone(setup, "yea", theirs),
-    electedMembers: bodyForChamber(setup.scenario, CHAMBER).members.length,
+    electedMembers: bodyForChamber(setup.scenario, setup.chamberKey).members
+      .length,
     provenance: AUTHORED,
   });
 }
@@ -301,7 +309,7 @@ export function seatEveryone(setup: Setup): {
   readonly setup: Setup;
   readonly members: readonly SeatedMember[];
 } {
-  const body = bodyForChamber(setup.scenario, CHAMBER);
+  const body = bodyForChamber(setup.scenario, setup.chamberKey);
   const empty = body.members.filter((member) => member.personId === null);
   const world = createCharacterHistoryContextPeople(
     setup.world,
