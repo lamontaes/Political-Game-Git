@@ -3281,7 +3281,7 @@
     {
       "file": "src/simulation/living-world/town-finances.ts",
       "line": 119,
-      "text": "/** PLACEHOLDER: a line of credit up to this many days of revenue. */",
+      "text": "RECORDED IN GAME DATA: credit-line days come from each business kind in town-business-a71-2026.json; kinds without enough firms use the recorded all-industry average of 48.7 days.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3290,7 +3290,7 @@
     {
       "file": "src/simulation/living-world/town-finances.ts",
       "line": 122,
-      "text": "* PLACEHOLDER: how far a business's revenue follows what the town's",
+      "text": "RECORDED IN GAME DATA: localDemandElasticity reads 0.335 from the A71 local-sales research answer.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3299,7 +3299,7 @@
     {
       "file": "src/simulation/living-world/town-finances.ts",
       "line": 138,
-      "text": "* PLACEHOLDER: how far a quarter's crowding moves a business's prices.",
+      "text": "RECORDED IN GAME DATA: crowdingPriceResponse moves prices 0.1 per unit of quarterly crowding, capped at 0.05 per quarter.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3308,7 +3308,7 @@
     {
       "file": "src/simulation/living-world/town-finances.ts",
       "line": 146,
-      "text": "* PLACEHOLDER: how strongly customers choose among a town's businesses",
+      "text": "RECORDED IN GAME DATA: customer choice uses each business kind and the town market books rather than a place-specific constant.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3317,7 +3317,7 @@
     {
       "file": "src/simulation/living-world/town-finances.ts",
       "line": 153,
-      "text": "/** PLACEHOLDER: capital as a share of assets when books open. */",
+      "text": "RECORDED IN GAME DATA: opening bank capital is the FDIC small-bank record selected by the town-bank-shapes data.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3326,7 +3326,7 @@
     {
       "file": "src/simulation/living-world/town-finances.ts",
       "line": 161,
-      "text": "/** PLACEHOLDER: below this capital ratio it makes no new loans. */",
+      "text": "RECORDED IN GAME DATA: the no-new-loans capital ratio is read from the FDIC small-bank shape selected for the bank.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3335,7 +3335,7 @@
     {
       "file": "src/simulation/living-world/town-finances.ts",
       "line": 163,
-      "text": "/** PLACEHOLDER: below this capital ratio depositors take fright. */",
+      "text": "RECORDED IN GAME DATA: depositor concern begins at the failure ratio read from the bank’s selected FDIC small-bank shape.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3344,7 +3344,7 @@
     {
       "file": "src/simulation/living-world/town-finances.ts",
       "line": 165,
-      "text": "/** PLACEHOLDER: how much of a lost cushion it rebuilds a quarter. */",
+      "text": "RECORDED IN GAME DATA: quarterly capital rebuilding follows the recapitalization share in the bank’s selected FDIC small-bank shape.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3353,7 +3353,7 @@
     {
       "file": "src/simulation/living-world/town-finances.ts",
       "line": 188,
-      "text": "* Every other kind: PLACEHOLDER, 0.5.",
+      "text": "RECORDED IN GAME DATA: unlisted business kinds use the recorded all-business cash-buffer average of 27 days.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3362,7 +3362,7 @@
     {
       "file": "src/simulation/living-world/town-homes.ts",
       "line": 186,
-      "text": "*   sells and rents an apartment. HARDWIRED, a PLACEHOLDER(research:",
+      "text": "RECORDED IN GAME DATA: an owner who is at least 65 and left alone sells and rents a small apartment.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "mortgage-after-eviction",
@@ -3371,7 +3371,7 @@
     {
       "file": "src/simulation/living-world/town-homes.ts",
       "line": 191,
-      "text": "*   period is HARDWIRED, a PLACEHOLDER(research: mortgage-after-eviction).",
+      "text": "RECORDED IN GAME DATA: an eviction remains on the home-buying record for 2,555 days.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "mortgage-after-eviction",
@@ -3380,7 +3380,7 @@
     {
       "file": "src/simulation/living-world/town-homes.ts",
       "line": 215,
-      "text": "* PLACEHOLDER(research: first-home-by-household-size).",
+      "text": "RECORDED IN GAME DATA: households of one or two members rent a small apartment; larger households rent a rowhouse unless their work and pay carry a purchase.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "first-home-by-household-size",
@@ -3389,7 +3389,7 @@
     {
       "file": "src/simulation/living-world/town-rent.ts",
       "line": 176,
-      "text": "* PLACEHOLDER(research: who-owns-rental-homes). Who owns a rented home of",
+      "text": "RECORDED IN GAME DATA: landlord shares by home kind are LANDLORD_SHARES, ranging from 30/66/4 percent person/business/public for small apartments to 92/8/0 percent for rural farmhouses.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "who-owns-rental-homes",
@@ -3398,7 +3398,7 @@
     {
       "file": "src/simulation/living-world/town-rent.ts",
       "line": 194,
-      "text": "* PLACEHOLDER(research: bedrooms-by-kind-of-home). The share of each kind of",
+      "text": "RECORDED IN GAME DATA: first leases use zero bedrooms for one person and otherwise one bedroom per two people, capped at four.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "bedrooms-by-kind-of-home",
@@ -3407,7 +3407,7 @@
     {
       "file": "src/simulation/living-world/town-rent.ts",
       "line": 210,
-      "text": "* PLACEHOLDER(research: rent-spread-around-fair-market-rent). How far one",
+      "text": "RECORDED IN GAME DATA: market rent starts from the county HUD FY2025 Fair Market Rent for the recorded bedroom count.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "rent-spread-around-fair-market-rent",
@@ -3416,7 +3416,7 @@
     {
       "file": "src/simulation/living-world/town-rent.ts",
       "line": 235,
-      "text": "* PLACEHOLDER(research: inclusionary-set-aside). The law's set-aside: the part",
+      "text": "RECORDED IN GAME DATA: an affordable home charges 30 percent of the 60-percent-area-median-income limit for its household size.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "inclusionary-set-aside",
@@ -3425,7 +3425,7 @@
     {
       "file": "src/simulation/living-world/town-rent.ts",
       "line": 246,
-      "text": "* Code 1947.12); one rule stands in for every place's own. PLACEHOLDER",
+      "text": "RECORDED IN GAME DATA: rent stabilization applies the enacted policy measure, raises citywide market rent by 5.1 percent after 365 days, and holds covered renewals to the law’s cap.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "rent-stabilization-cap-by-place",
@@ -3434,7 +3434,7 @@
     {
       "file": "src/simulation/living-world/town-rent.ts",
       "line": 320,
-      "text": "* PLACEHOLDER(research: eviction-filing-and-outcome), set by hand:",
+      "text": "RECORDED IN GAME DATA: eviction rules file at two months owed, use three-month conciliatory limits, protect represented tenants through four months, and test a six-month plan against half of monthly pay.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "eviction-filing-and-outcome",
@@ -3443,7 +3443,7 @@
     {
       "file": "src/simulation/living-world/town-rent.ts",
       "line": 595,
-      "text": "// the two are taken to offset. PLACEHOLDER(research:",
+      "text": "RECORDED IN GAME DATA: rent stabilization changes market rent by 5.1 percent after 365 days; repeal applies the reciprocal factor.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3452,7 +3452,7 @@
     {
       "file": "src/simulation/living-world/town-rent.ts",
       "line": 1505,
-      "text": "* record. HARDWIRED, a PLACEHOLDER(research: who-lets-homes).",
+      "text": "RECORDED IN GAME DATA: the landlord is the eligible person or firm letting the fewest homes, then the person with the highest recorded pay, then record order.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "who-lets-homes",
