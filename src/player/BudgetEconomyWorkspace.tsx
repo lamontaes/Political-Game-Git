@@ -1,6 +1,10 @@
 import { useMemo } from "react";
 
-import { projectBudgetEconomy } from "../presentation/budget-economy";
+import {
+  economyVisibilityForOfficeScope,
+  playerOfficeScope,
+  projectBudgetEconomy,
+} from "../presentation/budget-economy";
 import { proseDate } from "../presentation/prose-dates";
 import { projectModeledAccountHistory } from "../presentation/modeled-account-history";
 import type { EntityId, World } from "../simulation";
@@ -12,10 +16,12 @@ import "./budget-economy-workspace.css";
 
 export function BudgetEconomyWorkspace({
   world,
+  personId,
   jurisdictionId,
   diagnostics = DIAGNOSTICS,
 }: {
   readonly world: World;
+  readonly personId: EntityId;
   readonly jurisdictionId: EntityId;
   /**
    * Show the ingestion record behind the figures.
@@ -37,6 +43,20 @@ export function BudgetEconomyWorkspace({
     () => projectModeledAccountHistory(world, jurisdictionId),
     [jurisdictionId, world],
   );
+  const visibility = useMemo(
+    () =>
+      economyVisibilityForOfficeScope(
+        playerOfficeScope(world, personId),
+        jurisdictionId,
+      ),
+    [jurisdictionId, personId, world],
+  );
+  const canReadBudget =
+    visibility.projections.has("government-budget") ||
+    visibility.lookItUp === "full";
+  const canReadStateMacro =
+    visibility.projections.has("state-macro-series") ||
+    visibility.projections.has("national-macro-series");
 
   return (
     <section
@@ -55,36 +75,40 @@ export function BudgetEconomyWorkspace({
         </p>
       </header>
 
-      <MacroConditionsPanel world={world} jurisdictionId={jurisdictionId} />
+      {canReadStateMacro ? (
+        <MacroConditionsPanel world={world} jurisdictionId={jurisdictionId} />
+      ) : null}
 
-      <section
-        className="budget-economy-availability"
-        aria-label="Budget record availability"
-        data-status={model.fiscalAvailability.status}
-      >
-        <h4>Budget record</h4>
-        {model.fiscalAvailability.status === "available" ? (
-          <p>
-            {model.fiscalAvailability.graphCount.toLocaleString("en-US")} exact
-            fiscal{" "}
-            {model.fiscalAvailability.graphCount === 1 ? "graph" : "graphs"} for{" "}
-            {model.jurisdictionLabel}.
-          </p>
-        ) : (
-          <p data-testid="budget-history-unavailable">
-            {model.fiscalAvailability.reason}
-          </p>
-        )}
-      </section>
+      {canReadBudget ? (
+        <section
+          className="budget-economy-availability"
+          aria-label="Budget record availability"
+          data-status={model.fiscalAvailability.status}
+        >
+          <h4>Budget record</h4>
+          {model.fiscalAvailability.status === "available" ? (
+            <p>
+              {model.fiscalAvailability.graphCount.toLocaleString("en-US")}{" "}
+              exact fiscal{" "}
+              {model.fiscalAvailability.graphCount === 1 ? "graph" : "graphs"}{" "}
+              for {model.jurisdictionLabel}.
+            </p>
+          ) : (
+            <p data-testid="budget-history-unavailable">
+              {model.fiscalAvailability.reason}
+            </p>
+          )}
+        </section>
+      ) : null}
 
-      {model.economicBinding ? (
+      {canReadBudget && model.economicBinding ? (
         <EconomicContextPanel
           binding={model.economicBinding}
           simulationDate={model.simulationDate}
           fiscalGraphs={model.fiscalGraphs}
           diagnostics={diagnostics}
         />
-      ) : (
+      ) : canReadBudget ? (
         <section
           className="budget-economy-unavailable"
           aria-label="Economic graph availability"
@@ -103,9 +127,11 @@ export function BudgetEconomyWorkspace({
             </div>
           ) : null}
         </section>
-      )}
+      ) : null}
 
-      <ModeledAccountHistory history={modeledAccount} />
+      {visibility.projections.has("account-history") ? (
+        <ModeledAccountHistory history={modeledAccount} />
+      ) : null}
     </section>
   );
 }

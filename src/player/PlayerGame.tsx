@@ -93,7 +93,11 @@ import { PlaceConditionsPanel } from "./PlaceConditions";
 import { MoneyLawsPanel } from "./MoneyLaws";
 import { PoliticsTabs, type PoliticsTab } from "./politics/PoliticsTabs";
 import { issuesPlaceForSelection } from "../presentation/politics-government";
-import { projectBudgetEconomy } from "../presentation/budget-economy";
+import {
+  economyVisibilityForOfficeScope,
+  playerOfficeScope,
+  projectBudgetEconomy,
+} from "../presentation/budget-economy";
 import { resolveActiveMemberSeat } from "../presentation/legislative-member-seat";
 import {
   ISSUE_WITHHELD,
@@ -3406,8 +3410,15 @@ function renderWorkspace({
         scope: shell.preferences.governmentScope,
       },
     );
+    const officeScope = playerOfficeScope(session.world, session.personId);
+    const budgetVisibility = economyVisibilityForOfficeScope(
+      officeScope,
+      issuesPlace.jurisdictionId,
+    );
     const hasBudget =
       issuesPlace.jurisdictionId !== null &&
+      (budgetVisibility.projections.has("government-budget") ||
+        budgetVisibility.lookItUp === "full") &&
       projectBudgetEconomy(session.world, issuesPlace.jurisdictionId)
         .fiscalAvailability.status === "available";
     const hasIssues = hasBudget || access.transit || access.tax;
@@ -3979,6 +3990,7 @@ function renderWorkspace({
         "news-workspace",
         <NewsDesk
           world={session.world}
+          personId={session.personId}
           context={
             view.section === "news-around"
               ? "around"

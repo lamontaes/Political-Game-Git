@@ -12,6 +12,97 @@ import {
   type World,
   type WorldMetricStateRecord,
 } from "../simulation";
+import economyVisibility from "../../data/content/economy-visibility.json" with { type: "json" };
+
+export type EconomyVisibilityLevel =
+  | "resident"
+  | "town"
+  | "county"
+  | "state-legislature"
+  | "state-executive"
+  | "congress"
+  | "federal-executive"
+  | "judicial";
+export type EconomyProjection =
+  | "personal-money"
+  | "home-town-conditions"
+  | "home-town-budget-stories"
+  | "government-budget"
+  | "bill-fiscal-notes"
+  | "program-lines"
+  | "account-history"
+  | "state-macro-series"
+  | "federal-budget-categories"
+  | "national-macro-series";
+type EconomyVisibilityTable = {
+  readonly defaultLevel: EconomyVisibilityLevel;
+  readonly levels: Readonly<
+    Record<
+      EconomyVisibilityLevel,
+      {
+        readonly lookItUp: "full" | "summary" | "none";
+        readonly projections: readonly EconomyProjection[];
+      }
+    >
+  >;
+};
+const visibilityTable = economyVisibility as unknown as EconomyVisibilityTable;
+
+/** Local contract matching the b22-p1 office reader until it lands. */
+export interface PlayerOfficeScopeEntry {
+  readonly officeKey: string;
+  readonly title: string;
+  readonly jurisdictionId: EntityId | null;
+  readonly level: Exclude<EconomyVisibilityLevel, "resident">;
+}
+
+export interface EconomyVisibility {
+  readonly projections: ReadonlySet<EconomyProjection>;
+  readonly officeLevels: readonly EconomyVisibilityLevel[];
+  readonly lookItUp: "full" | "summary" | "none";
+}
+
+/**
+ * Temporary, typed seam for b22-p1. Replace this body with the shared reader
+ * once that item lands; the interface is intentionally kept local here.
+ */
+export function playerOfficeScope(
+  _world: World,
+  _personId: EntityId,
+): readonly PlayerOfficeScopeEntry[] {
+  // STUB until b22-p1 lands: no guessed office or jurisdiction mapping.
+  return [];
+}
+
+/** Resolve the table's union for offices whose jurisdiction covers the target. */
+export function economyVisibilityForOfficeScope(
+  officeScope: readonly PlayerOfficeScopeEntry[],
+  jurisdictionId: EntityId | null,
+): EconomyVisibility {
+  const matching = officeScope.filter((office) =>
+    office.level === "congress" || office.level === "federal-executive"
+      ? jurisdictionId === null
+      : office.jurisdictionId === jurisdictionId,
+  );
+  const matchingLevels = matching.map(
+    (office): EconomyVisibilityLevel => office.level,
+  );
+  const levels: EconomyVisibilityLevel[] = matching.length
+    ? [...new Set(matchingLevels)]
+    : [visibilityTable.defaultLevel];
+  const projections = new Set<EconomyProjection>();
+  let lookItUp: EconomyVisibility["lookItUp"] = "none";
+  for (const level of levels) {
+    const row = visibilityTable.levels[level];
+    row.projections.forEach((projection) => projections.add(projection));
+    if (
+      row.lookItUp === "full" ||
+      (row.lookItUp === "summary" && lookItUp === "none")
+    )
+      lookItUp = row.lookItUp;
+  }
+  return { projections, officeLevels: levels, lookItUp };
+}
 
 const BUDGET_FLOW_METRICS = [
   "government.revenue",

@@ -360,7 +360,11 @@ export function PoliticsWorkspace({
         </button>
       </nav>
       {tab === "budget" ? (
-        <BudgetEconomyWorkspace world={world} jurisdictionId={jurisdictionId} />
+        <BudgetEconomyWorkspace
+          world={world}
+          personId={personId}
+          jurisdictionId={jurisdictionId}
+        />
       ) : (
         <ConstitutionalWorkspace
           world={world}

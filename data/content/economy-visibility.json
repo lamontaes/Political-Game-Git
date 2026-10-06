@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "defaultLevel": "resident",
+  "levels": {
+    "resident": {
+      "lookItUp": "full",
+      "projections": [
+        "personal-money",
+        "home-town-conditions",
+        "home-town-budget-stories"
+      ]
+    },
+    "town": {
+      "lookItUp": "full",
+      "projections": ["government-budget", "bill-fiscal-notes"]
+    },
+    "county": {
+      "lookItUp": "full",
+      "projections": ["government-budget", "bill-fiscal-notes"]
+    },
+    "state-legislature": {
+      "lookItUp": "full",
+      "projections": ["government-budget", "bill-fiscal-notes"]
+    },
+    "state-executive": {
+      "lookItUp": "full",
+      "projections": [
+        "government-budget",
+        "program-lines",
+        "account-history",
+        "state-macro-series"
+      ]
+    },
+    "congress": {
+      "lookItUp": "full",
+      "projections": ["federal-budget-categories", "national-macro-series"]
+    },
+    "federal-executive": {
+      "lookItUp": "full",
+      "projections": ["federal-budget-categories", "national-macro-series"]
+    },
+    "judicial": {
+      "lookItUp": "none",
+      "projections": []
+    }
+  }
+}
