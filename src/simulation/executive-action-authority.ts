@@ -26,6 +26,7 @@ export type ExecutiveActionClause =
       readonly statuteMeasureId: EntityId;
       readonly priority: "first" | "ordinary" | "lowest";
     }
+  | { readonly kind: "revoke-executive-order"; readonly targetMeasureId: EntityId }
   | { readonly kind: "independent-policy"; readonly topicKey: string };
 
 export interface ExecutiveActionAuthorityDecision {
@@ -79,6 +80,12 @@ export function decideExecutiveActionAuthority(
       reason:
         "This office has no recorded authority to direct this executive-branch matter.",
     };
+  }
+
+  if (clause.kind === "revoke-executive-order") {
+    return resolvedTrue(pack.executiveDirective.hasDirectiveAuthority)
+      ? { allowed: true, reason: "This office may revoke an executive order within its recorded directive authority." }
+      : { allowed: false, reason: "This office has no recorded authority to revoke an executive order." };
   }
 
   if (clause.kind === "delegated-term") {

@@ -134,6 +134,7 @@ import {
 import { recordExecutiveEmergency } from "../executive-emergencies";
 import { issueExecutiveEnforcementDirective } from "../executive-enforcement";
 import { executiveEnforcementPriorityForLaw } from "../executive-enforcement-reader";
+import { inheritedExecutiveOrders } from "../inherited-executive-orders";
 
 /**
  * STATE GOVERNING — the shared practical loop every governorship runs.
@@ -193,7 +194,8 @@ export type GoverningMatterFamily =
   | "executive-order"
   | "regulation"
   | "emergency"
-  | "enforcement-directive";
+  | "enforcement-directive"
+  | "inherited-executive-order";
 
 export interface GoverningOffice {
   readonly officeKey: string;
@@ -953,6 +955,11 @@ function optionsFor(
           assessment: null,
         },
       ];
+    case "inherited-executive-order":
+      return [
+        { key: "inherited-order:keep", label: "Keep this order", effect: "Leave the inherited order in force.", tradeoff: "The prior executive's direction continues.", personId: null, assessment: null },
+        { key: "inherited-order:revoke", label: "Revoke this order", effect: "End the inherited order by executive action.", tradeoff: "Agencies will no longer follow this order.", personId: null, assessment: null },
+      ];
     case "regulation": {
       const encoded = tagValue(event, "delegation-term:");
       if (!encoded)
@@ -1102,6 +1109,11 @@ const FAMILY_TEXT: Record<
     ask: "Choose how urgently agencies should enforce this law, within the duty to execute it faithfully.",
     ifIgnored: "The law stays on the ordinary enforcement schedule.",
   },
+  "inherited-executive-order": {
+    title: (subject) => `Inherited executive order: ${subject}`,
+    ask: "This order is still in force. Decide whether to keep it or revoke it, for your own reasons.",
+    ifIgnored: "The inherited order remains in force.",
+  },
   implementation: {
     title: (subject) => `Direct the agencies on ${subject}`,
     ask: "The agencies are ready to act on your priority and need to know how fast to move.",
@@ -1122,6 +1134,7 @@ const DEADLINE_DAYS: Record<Exclude<GoverningMatterFamily, "bill">, number> = {
   regulation: 30,
   emergency: 7,
   "enforcement-directive": 14,
+  "inherited-executive-order": 30,
 };
 
 // Preserve the existing NPC review pace; this is not a legal action window.
@@ -1466,6 +1479,7 @@ export function staffRecommendation(
     case "regulation":
     case "emergency":
     case "enforcement-directive":
+    case "inherited-executive-order":
       return null;
     case "agenda": {
       const priority = currentPriority(world, office);
@@ -1569,6 +1583,7 @@ export function staffRecommendation(
             reason: "Thinks the agencies are ready and delay costs momentum.",
           };
   }
+  return null;
 }
 
 /** The office's current first priority, from its latest agenda decision. */
@@ -2197,6 +2212,14 @@ export function openTransitionMatters(world: World, officeKey: string): World {
     instance: "first-year",
     programKeys,
   });
+  for (const order of inheritedExecutiveOrders(next, office.jurisdictionId, office.holderPersonId)) {
+    next = openMatter(next, office, {
+      family: "inherited-executive-order",
+      instance: order.id,
+      measureId: order.id,
+      titleSubject: `${order.designation}, ${order.shortTitle}`,
+    });
+  }
   // Money the government has already adopted is waiting for this office.
   return openProgramMatters(next, office);
 }
@@ -2569,8 +2592,12 @@ function decisionSummary(
         : {
             summary: `${who}, ${office.title}, requested an executive order on ${matter.subjectKey ?? "this matter"}. The request was refused: ${authority.reason}`,
             visibility: "limited",
-          };
+        };
     }
+    case "inherited-executive-order":
+      return option.key === "inherited-order:revoke"
+        ? { summary: `${who}, ${office.title}, revoked the inherited order ${measureTitle(world, matter.measureId) ?? ""} for their own reasons.`, visibility: "public" }
+        : { summary: `${who}, ${office.title}, kept the inherited order ${measureTitle(world, matter.measureId) ?? ""} in force.`, visibility: "public" };
     case "regulation":
       if (option.key === "regulation:return")
         return {
@@ -2682,6 +2709,32 @@ function applyConsequence(
         authorityChecks: [{ clause }],
       });
       return next;
+    }
+    case "inherited-executive-order": {
+      if (option.key !== "inherited-order:revoke" || !matter.measureId) return world;
+      const jurisdictionKey = authorityJurisdictionForOffice(world, office);
+      const target = (world.history.legislativeMeasures ?? []).find((row) => row.id === matter.measureId);
+      if (!jurisdictionKey || !target) return world;
+      return issueExecutiveInstrument(world, {
+        stableKey: `${matter.stableKey}:revocation`,
+        jurisdictionKey,
+        jurisdictionId: office.jurisdictionId,
+        legislativeRulePackId: legislatureProfilePackId(jurisdictionKey),
+        instrument: "executive-order",
+        designation: `Executive Order ${(world.history.legislativeMeasures ?? []).filter((row) => row.governmentInstrument === "executive-order" && row.jurisdictionId === office.jurisdictionId).length + 1}`,
+        shortTitle: `Revoke ${target.designation}`,
+        summary: `Revoke ${target.designation}: ${billReasons?.trim() || option.effect}`,
+        actorLabel: executiveRulePackForJurisdiction(jurisdictionKey).displayName,
+        actorPersonId: office.holderPersonId,
+        rationale: billReasons?.trim() || option.effect,
+        sourceDocumentKey: `session9:executive-order:${jurisdictionKey}:revoke:${target.id}`,
+        publishedAt: world.currentDate,
+        effectiveAt: world.currentDate,
+        expiresAt: null,
+        propositionIds: [],
+        propositionAnswers: [],
+        authorityChecks: [{ clause: { kind: "revoke-executive-order", targetMeasureId: target.id } }],
+      });
     }
     case "regulation": {
       if (option.key === "regulation:return") return world;
