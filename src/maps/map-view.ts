@@ -20,6 +20,15 @@ export const HOME_VIEW: ViewBox = {
   h: MAP_CANVAS.height,
 };
 
+/**
+ * Keep map text legible at the normal embedded play size while preserving a
+ * stable on-screen size as the player zooms. SVG text uses view-box units, so
+ * the value must shrink with the view rather than staying numerically fixed.
+ */
+export function readableMapLabelSize(view: ViewBox, baseSize = 16): number {
+  return baseSize * (view.w / MAP_CANVAS.width);
+}
+
 function clampWidth(width: number): number {
   return Math.min(MAX_WIDTH, Math.max(MIN_WIDTH, width));
 }

@@ -23,6 +23,7 @@ import {
   fitViewBox,
   zoomViewBox,
   HOME_VIEW,
+  readableMapLabelSize,
 } from "./map-view";
 import {
   districtsHeldBy,
@@ -74,6 +75,14 @@ const STATE_GEOIDS = [
 const seattle = openLife("5363000", "maps-seattle");
 const columbus = openLife("3918000", "maps-columbus");
 const lexington = openLife("2146027", "maps-lexington");
+
+describe("political map: readable labels", () => {
+  it("uses a legible play-size label and keeps its screen size while zooming", () => {
+    expect(readableMapLabelSize(HOME_VIEW)).toBe(16);
+    expect(readableMapLabelSize(zoomViewBox(HOME_VIEW, 2))).toBe(8);
+    expect(readableMapLabelSize(HOME_VIEW, 12)).toBe(12);
+  });
+});
 
 describe("political map: national House view", () => {
   it("covers 435 voting districts plus D.C. and colors only recorded facts", () => {

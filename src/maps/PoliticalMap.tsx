@@ -62,6 +62,7 @@ import {
   zoomViewBox,
   panViewBox,
   HOME_VIEW,
+  readableMapLabelSize,
 } from "./map-view";
 import "./political-map.css";
 import { MapPlaceContext } from "./MapPlaceContext";
@@ -610,7 +611,7 @@ export function PoliticalMap(props: PoliticalMapProps) {
     Boolean(entry),
   );
 
-  const labelSize = 11 * scaleHint;
+  const labelSize = readableMapLabelSize(view);
   const insetFrames = useMemo(
     () =>
       (["alaska", "hawaii"] as const).flatMap((inset) => {
@@ -1007,7 +1008,7 @@ export function PoliticalMap(props: PoliticalMapProps) {
                         <text
                           x={frame.x + 3}
                           y={frame.y + frame.height - 3}
-                          fontSize={8 * scaleHint}
+                          fontSize={readableMapLabelSize(view, 12)}
                         >
                           {inset === "alaska"
                             ? "Alaska (not to scale)"
