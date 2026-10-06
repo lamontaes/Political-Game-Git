@@ -2,6 +2,7 @@ import { applyLawConsequences } from "./enacted-law-effects";
 import { settleJobPay } from "./job-market";
 import { applyEnactedCourtSizes } from "./governing/court-size-law";
 import { applyJudicialReview } from "./judiciary/judicial-review";
+import { synchronizeMunicipalGoverningOffices } from "./governing/state-governing";
 import { applyOfficeLifecycle } from "./governing/office-continuity";
 import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { applyNationalTermTransitions } from "./national-election-consumer";
@@ -2036,13 +2037,13 @@ function resolveFutureDueItemsWithStateLegislatureQueue(
   const throughYear = Number(throughDate.slice(0, 4)) + 4;
   let prepared = world;
   for (const packId of packs) {
-    prepared = reconcileStateLegislatureQueue(
-      prepared,
-      packId,
-      throughYear,
-    );
+    prepared = reconcileStateLegislatureQueue(prepared, packId, throughYear);
   }
-  return resolveFutureDueItemsThrough(prepared, throughDate, transitionHandlers);
+  return resolveFutureDueItemsThrough(
+    prepared,
+    throughDate,
+    transitionHandlers,
+  );
 }
 
 function setCurrentMoment(
@@ -2077,12 +2078,14 @@ export function applyDateBoundary(
     crossedFrom,
     applyCrisisRepairFunding(
       applyEnactedCourtSizes(
-        applyOfficeLifecycle(crossedFrom, moved, (afterTerms) =>
-          applyCongressLawmaking(
-            crossedFrom,
-            applyFederalReform(
+        synchronizeMunicipalGoverningOffices(
+          applyOfficeLifecycle(crossedFrom, moved, (afterTerms) =>
+            applyCongressLawmaking(
               crossedFrom,
-              applyArticleV(crossedFrom, afterTerms),
+              applyFederalReform(
+                crossedFrom,
+                applyArticleV(crossedFrom, afterTerms),
+              ),
             ),
           ),
         ),
