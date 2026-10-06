@@ -37,6 +37,48 @@
   border: 0.08em solid #0d0b09;
 }
 
+.bs-bills {
+  /* The office art is a green paper pinned to cork. Write on that sheet. */
+  gap: 0.1em;
+  padding: 0.18em 0.24em;
+  color: #173b25;
+  background: transparent;
+  border: 0;
+}
+
+.bs-bills .bs-board-heading {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.62em;
+  text-transform: none;
+  letter-spacing: 0.01em;
+  color: #163a24;
+  border-bottom-color: rgba(22, 58, 36, 0.48);
+  padding-bottom: 0.08em;
+}
+
+.bs-bills .bs-board-sub {
+  color: #244a31;
+  opacity: 0.9;
+}
+
+.bs-bills .bs-board-rows {
+  gap: 0.1em;
+}
+
+.bs-bills .bs-row {
+  display: block;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.52em;
+  color: #173b25;
+}
+
+.bs-bills .bs-row-note {
+  font-size: 0.78em;
+  opacity: 0.95;
+  color: #294b34;
+  -webkit-line-clamp: 1;
+}
+
 .bs-board-heading {
   flex: none;
   font-size: 0.7em;
