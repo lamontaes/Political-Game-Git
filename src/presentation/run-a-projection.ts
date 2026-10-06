@@ -176,7 +176,7 @@ function projectHomePlace(world: World, personId: EntityId): PlayerVisibleFact {
   return {
     id: "hometown",
     label: "Hometown",
-    value: "Not known",
+    value: "Not in this person's record",
     access: "unknown",
   };
 }

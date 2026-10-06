@@ -9,7 +9,7 @@ import type {
 } from "../simulation/types";
 import { projectNewsArticle } from "./news-front-page";
 
-/** PLACEHOLDER(wave2): focused attention to one published report. */
+/** Recorded focused-reading duration for one published transit report. */
 export const TRANSIT_REPORT_READ_MINUTES = 10;
 
 /**

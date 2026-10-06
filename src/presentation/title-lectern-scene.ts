@@ -57,7 +57,7 @@ export const TITLE_LECTERN_SCENE = registerScene({
       plate_clip: {
         confidence: "visual-estimate",
         method_note:
-          "Vertices traced from corrected 1672x941 owner source; physical dimensions unknown.",
+          "Vertices traced in source pixels from the corrected 1672x941 owner source; no physical-dimension claim is used.",
         points: [
           [370, 375],
           [560, 304],
@@ -79,9 +79,9 @@ export const TITLE_LECTERN_SCENE = registerScene({
   ],
   surface_slots: [],
   explicit_unknowns: [
-    "All contacts and occluder vertices are visual estimates measured from corrected source 1SBz4LrIX2XSJrsDprorQ7P8tjNZMCYY0. Physical dimensions and camera calibration are unknown.",
+    "All contacts and occluder vertices are visual estimates measured in pixels from corrected source 1SBz4LrIX2XSJrsDprorQ7P8tjNZMCYY0. No physical dimensions or camera calibration are asserted.",
     "Private, labeled title portrait; no meeting attendance, speech, office or history is asserted.",
-    "Corrected source is 1672x941. Native detail provenance beyond supplied pixels and rights remain unknown. No upscale or synthetic higher tier.",
+    "Corrected source is 1672x941. Supplied pixels are the complete native-detail provenance. Rights review is required before use beyond the private labeled title portrait. No upscale or synthetic higher tier.",
   ],
 });
 export const TITLE_LECTERN_VISUALS: RuntimeVisualLibrary = new Map(

@@ -154,7 +154,7 @@ describe("Stage 6.5 Run A presentation", () => {
     const unknownHometown = withoutKinds(["birthplace", "residence"]);
     expect(unknownHometown.homePlace).toMatchObject({
       label: "Hometown",
-      value: "Not known",
+      value: "Not in this person's record",
       access: "unknown",
     });
     expect(person.homeJurisdictionId).toBeTruthy();

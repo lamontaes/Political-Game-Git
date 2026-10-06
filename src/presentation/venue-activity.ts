@@ -436,7 +436,7 @@ export function venueActivities(
           } else if (!refusal && workedFromHome) {
             const origin = openingLifeLocation(world, personId);
             if (origin?.setting !== "home") {
-              refusal = `This is worked from home, and you are at ${origin?.label ?? "a place the game has not recorded"}.`;
+              refusal = `This is worked from home, and you are at ${origin?.label ?? "your current activity location"}.`;
               // Going home first keeps it. Only when there is no getting home
               // in time is it the dead end that giving it up exists for.
               unperformable =

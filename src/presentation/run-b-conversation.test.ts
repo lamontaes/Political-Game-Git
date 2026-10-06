@@ -287,7 +287,7 @@ describe("Stage 6.5 Run B conversation semantics", () => {
     );
     const visibleContext = `${briefing} ${opening.dialogue}`;
     expect(progress.subjectFacts).toMatchObject({
-      constituentDescription: "three Lexington tenants",
+      constituentDescription: "three local tenants",
       officeRole: "constituent-services referral",
       referralDestination: "county emergency-rent program",
       requiredDocument: "proof-of-income form",
@@ -296,7 +296,7 @@ describe("Stage 6.5 Run B conversation semantics", () => {
       proposedOfficeProcedure: "pre-referral document checklist",
     });
     expect(briefing).toMatch(
-      /Three Lexington tenants.*this office.*emergency-rent help/i,
+      /Three local tenants.*this office.*emergency-rent help/i,
     );
     expect(briefing).toMatch(
       /county could not process two referrals.*proof-of-income form/i,

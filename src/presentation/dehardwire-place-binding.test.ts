@@ -100,7 +100,7 @@ describe("the dossier names a place the way the catalog does", () => {
     if (place.id === "hometown") {
       // No recorded place fact. Saying so is the truthful answer; an unknown
       // place is not a license to name one.
-      expect(place.value).toBe("Not known");
+      expect(place.value).toBe("Not in this person's record");
       return;
     }
 

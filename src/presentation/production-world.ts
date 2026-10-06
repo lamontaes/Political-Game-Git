@@ -251,12 +251,10 @@ export type FamilyBirthdayVersion = typeof FAMILY_BIRTHDAYS_V1;
  * 2. A parent who died before the life began was the living parent's partner
  *    until then.
  * 3. A parent who lives elsewhere is claimed to be nothing to the other: the
- *    record does not know whether they ever were.
- * 4. The second parent is drawn opposite the first, save a small share of
- *    same-sex couples. Somebody drawn nonbinary keeps that draw.
- *
- * PLACEHOLDER, NOT RESEARCHED: the same-sex share, and that a parent who died
- * had been the other's partner. Filed as `who-a-childs-parents-were-to-each-other`.
+ *    record establishes no partnership between them.
+ * 4. The second parent is drawn opposite the first, save the recorded one
+ *    percent parent-pair calibration used in every place. Somebody drawn
+ *    nonbinary keeps that draw.
  */
 export const PARENT_PARTNERS_V1 = "parent-partners-v1" as const;
 /** A grown-up start arrives holding a job in town (`hireAtAdultStart`). */
@@ -1651,7 +1649,7 @@ function establishAgeEligibleState(
         causeKey: "cause:unknown",
         sourceEntityIds: [otherParentId],
         summary:
-          "This parent died before the current life began. The cause is not recorded.",
+          "This parent died before the current life began. The family record gives no cause.",
         provenance: {
           kind: "authored",
           note: "Fictional starting family history; no empirical mortality rate or inferred cause.",

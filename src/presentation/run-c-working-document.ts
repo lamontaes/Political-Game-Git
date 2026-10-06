@@ -451,7 +451,7 @@ export function createRunCLegislativeConversationProgress(
       preparedEstimateId: prepared.policyEstimateId,
       analysisKnowledgeId: collinsKnowledge.id,
       targetScopeLabel:
-        "Lexington transit-pilot eligible-rider segment for the twelve-month pilot period",
+        "local transit-pilot eligible-rider segment for the twelve-month pilot period",
     },
     phase: "opening",
     latestProposition: null,
@@ -773,7 +773,7 @@ function createDocumentDefinition(
     stableKey: RUN_C_DOCUMENT_STABLE_KEY,
     title: "Working Draft — Transit Access Pilot",
     statusLabel: "Office working draft · not introduced",
-    jurisdictionLabel: "Lexington synthetic development fixture",
+    jurisdictionLabel: "Synthetic development fixture jurisdiction",
     quantitativeProvisionId,
     amountSelectionId,
     preparedByPersonId: input.collinsPersonId,
@@ -820,7 +820,7 @@ function createVariant(input: {
       simpleProvision(
         2,
         "Pilot establishment and eligibility",
-        "The proposed pilot would support Lexington residents whose access to fixed-route transit is limited by household cost or mobility barriers, under eligibility standards stated in a later administering instrument.",
+        "The proposed pilot would support local residents whose access to fixed-route transit is limited by household cost or mobility barriers, under eligibility standards stated in a later administering instrument.",
       ),
       {
         id: input.quantitativeProvisionId,
@@ -902,7 +902,7 @@ function projectKnownAnalysis(
       "Projection under the fixture assumptions. This is not an appropriation, enactment, or guarantee of implementation.",
     modeledChange: `${formatMoneyMinorUnits(consequence.estimatedChange.money.minorUnits)} in modeled added outlays`,
     scopeLabel:
-      "Lexington · transit pilot eligible-rider scope · twelve-month pilot period",
+      "Local transit pilot eligible-rider scope · twelve-month pilot period",
     knowledgeId: knowledge.id,
   };
 }

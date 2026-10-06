@@ -613,7 +613,7 @@ export function validatePoseFamilyRegistry(
     } else {
       for (const slot of family.prop_attachment_slots) {
         if (!(POSE_PROP_SLOTS as readonly string[]).includes(slot)) {
-          errors.push(`${label} declares unknown prop slot '${slot}'.`);
+          errors.push(`${label} declares unrecognized prop slot '${slot}'.`);
         }
       }
     }
@@ -785,7 +785,7 @@ function validateRegistryAgainstComponents(
       if (definition.contacts === undefined) {
         if (!legacyContactless.has(definition.family)) {
           errors.push(
-            `Character component '${record.asset_id}' claims pose '${poseId}', which declares contacts, but the body declares none of its own and body family '${definition.family}' is not recorded in 'legacy_contactless_body_families'; placement would silently fall back to the pelvis root.`,
+            `Character component '${record.asset_id}' claims pose '${poseId}', which declares contacts, but the body declares none of its own and body family '${definition.family}' is absent from 'legacy_contactless_body_families'; placement would silently fall back to the pelvis root.`,
           );
         }
       } else {

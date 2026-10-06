@@ -750,9 +750,7 @@ export function commitConversationTurn(
   });
   const event = world.history.events.at(-1);
   if (!event || event.stableKey !== `${turnKey}:event`) {
-    throw new Error(
-      "Conversation event was not recorded at the expected frontier.",
-    );
+    throw new Error("Conversation event is absent at the expected frontier.");
   }
 
   const claimAudience: ClaimAudience | null = resolved.speakerPersonId
@@ -782,9 +780,7 @@ export function commitConversationTurn(
     resolved.speakerPersonId !== null &&
     (!claim || claim.stableKey !== `${turnKey}:claim`)
   ) {
-    throw new Error(
-      "Conversation claim was not recorded at the expected frontier.",
-    );
+    throw new Error("Conversation claim is absent at the expected frontier.");
   }
 
   for (const personId of participantPersonIds) {
@@ -836,7 +832,7 @@ export function commitConversationTurn(
       });
       const knowledge = world.history.knowledge.at(-1);
       if (!knowledge) {
-        throw new Error("Conversation claim knowledge was not recorded.");
+        throw new Error("Conversation claim knowledge is absent.");
       }
       // An opinion about this person, on this subject. Carrying the subject in
       // the key is what keeps a revision a revision: without it, what somebody

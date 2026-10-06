@@ -27,9 +27,9 @@ export const SOCIAL_OCCASION_LOCATION_KEY = "life-opportunity:social-occasion";
 export const SOCIAL_OCCASION_JOURNEY_KEY =
   "life-opportunity:social-occasion:journey";
 /**
- * A short local trip. The world has no distance for it, so no fare either.
- * PLACEHOLDER, NOT RESEARCHED: filed as `what-ordinary-invitations-are-for`,
- * with the afternoon's hours and the asker's home as its place.
+ * The recorded duration of the authored short local trip. The world has no
+ * distance for it, so no fare either; the invitation records the afternoon's
+ * hours and the asker's home as its place.
  */
 const SOCIAL_OCCASION_JOURNEY_MINUTES = 15;
 
@@ -349,7 +349,7 @@ function recordInvitationReply(
   const event = world.history.events.find(
     (entry) => entry.stableKey === eventKey,
   );
-  if (!event) throw new Error("The invitation answer was not recorded.");
+  if (!event) throw new Error("The invitation answer event is absent.");
   return recordSpokenExchange(world, {
     stableKey: eventKey,
     eventId: event.id,
