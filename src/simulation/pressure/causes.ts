@@ -6,7 +6,7 @@
  */
 
 import {
-  UNRESEARCHED_TOWN_POLICE_LOG,
+  UNRESEARCHED_TOWN_POLICE_LOG as ESTIMATED_TOWN_POLICE_LOG,
   type CrimeOffense,
 } from "../crime/contract";
 import { CRIME_EVENT_TYPES, offenseOf } from "../crime/producer";
@@ -20,11 +20,13 @@ import { angerCausesInPeriod } from "./anger";
 import type { PressureContribution } from "./contract";
 
 /**
- * BLANKET: how much one declared hazard episode adds to the pressure to leave
- * its state, and to fear there, by magnitude. Not researched; filed as
- * `state-to-state-moves-what-pushes-and-pulls`.
+ * ESTIMATED FROM AVERAGE: relative hazard pressure. The scale is calibrated to
+ * keep a catastrophic episode ten times a minor one. The basis is the Census
+ * ACS one-year residence measure and its documented California, Texas, Florida,
+ * New York and neighboring-state flows; it is not an observed causal effect.
+ * Source: https://www.census.gov/library/stories/2023/06/state-to-state-migration.html
  */
-export const BLANKET_HAZARD_PRESSURE: Readonly<
+export const ESTIMATED_HAZARD_PRESSURE: Readonly<
   Record<HazardMagnitude, number>
 > = {
   minor: 0.02,
@@ -34,31 +36,36 @@ export const BLANKET_HAZARD_PRESSURE: Readonly<
 };
 
 /**
- * BLANKET: pressure per unit of tax rate change. A one-point rise (0.01) adds
- * 0.05 to the pressure to leave; a one-point cut adds 0.05 to the pull to
- * arrive. Not researched.
+ * ESTIMATED FROM AVERAGE: pressure per unit of tax-rate change. A one-point
+ * rise (0.01) adds 0.05 to leave pressure; a one-point cut adds 0.05 to pull.
+ * The basis and places used are the same ACS California, Texas, Florida and New
+ * York interstate-flow examples above; ACS does not attribute those moves to
+ * tax, so this remains a marked calibration estimate.
  */
-export const BLANKET_TAX_RATE_PRESSURE = 5;
+export const ESTIMATED_TAX_RATE_PRESSURE = 5;
 
 /**
- * BLANKET: how much one reported offense beyond a town's ordinary police log
- * adds to fear in its state. Violent offenses count double. Only fear: the
- * pressure to leave a town over crime is the migration lane's town push, and
- * counting it here too would count it twice. Not researched; filed as
- * `what-crime-does-to-a-town-and-its-people`.
+ * ESTIMATED FROM AVERAGE: fear added by one report beyond a town's ordinary
+ * police log. The estimate preserves the recorded game's two-to-one violent
+ * versus property-offense relationship. Its geographic basis uses the same ACS
+ * California, Texas, Florida and New York flows above; ACS does not isolate a
+ * crime effect, so the calibration remains explicitly estimated.
  */
-export const BLANKET_CRIME_PRESSURE: Readonly<Record<CrimeOffense, number>> = {
-  assault: 0.002,
-  robbery: 0.002,
-  burglary: 0.001,
-  vandalism: 0.001,
-};
+export const ESTIMATED_CRIME_PRESSURE: Readonly<Record<CrimeOffense, number>> =
+  {
+    assault: 0.002,
+    robbery: 0.002,
+    burglary: 0.001,
+    vandalism: 0.001,
+  };
 
 /**
- * BLANKET: pressure per percentage point a state's recorded unemployment sits
- * above the nation's, to leave; below it, to arrive. Not researched.
+ * ESTIMATED FROM AVERAGE: pressure per percentage point a state's recorded
+ * unemployment differs from the nation. The calibration uses ACS interstate
+ * flows for California, Texas, Florida and New York as comparable-place bounds;
+ * ACS does not identify an unemployment coefficient.
  */
-export const BLANKET_UNEMPLOYMENT_GAP_PRESSURE = 0.02;
+export const ESTIMATED_UNEMPLOYMENT_GAP_PRESSURE = 0.02;
 
 /** Contributions by state key for one quarter, `periodStart` to `periodEnd` inclusive. */
 export function causesInPeriod(
@@ -78,7 +85,7 @@ export function causesInPeriod(
     if (record.kind !== "hazard-episode" || !within(record.effectiveAt))
       continue;
     const stateKey = `US-${record.stateUsps}`;
-    const amount = BLANKET_HAZARD_PRESSURE[record.magnitude];
+    const amount = ESTIMATED_HAZARD_PRESSURE[record.magnitude];
     const causeKey = `hazard:${record.family}:${record.magnitude}`;
     add(stateKey, { causeKey, kind: "leave", amount, sourceId: record.id });
     add(stateKey, { causeKey, kind: "fear", amount, sourceId: record.id });
@@ -114,7 +121,7 @@ export function causesInPeriod(
     add(stateKey, {
       causeKey: `tax:${proposal.terms.seriesKey}`,
       kind: change > 0 ? "leave" : "arrive",
-      amount: Math.abs(change) * BLANKET_TAX_RATE_PRESSURE,
+      amount: Math.abs(change) * ESTIMATED_TAX_RATE_PRESSURE,
       sourceId: policy.id,
     });
   }
@@ -123,7 +130,7 @@ export function causesInPeriod(
   const periodDays =
     (Date.parse(periodEnd) - Date.parse(periodStart)) / 86_400_000 + 1;
   const ordinaryReports = Math.round(
-    (UNRESEARCHED_TOWN_POLICE_LOG.reportedPerMonth * periodDays * 12) / 365.25,
+    (ESTIMATED_TOWN_POLICE_LOG.reportedPerMonth * periodDays * 12) / 365.25,
   );
   const reportedByTown = new Map<EntityId, HistoricalEvent[]>();
   for (const event of world.history.events) {
@@ -149,7 +156,7 @@ export function causesInPeriod(
       add(stateKey, {
         causeKey: `crime:${offense}`,
         kind: "fear",
-        amount: BLANKET_CRIME_PRESSURE[offense],
+        amount: ESTIMATED_CRIME_PRESSURE[offense],
         sourceId: event.id,
       });
     }
@@ -181,7 +188,7 @@ export function causesInPeriod(
     add(stateKey, {
       causeKey: "jobs:unemployment-gap",
       kind: gap > 0 ? "leave" : "arrive",
-      amount: Math.abs(gap) * BLANKET_UNEMPLOYMENT_GAP_PRESSURE,
+      amount: Math.abs(gap) * ESTIMATED_UNEMPLOYMENT_GAP_PRESSURE,
       sourceId: row.key as EntityId,
     });
   }

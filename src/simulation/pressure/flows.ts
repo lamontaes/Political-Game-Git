@@ -8,14 +8,21 @@ import type { EntityId, World } from "../types";
 import type { PressureReading, StateFlowRecord } from "./contract";
 
 /**
- * BLANKET: the share of a state's people who move to another state in a year
- * with no pressure at all. Not researched; filed as
- * `state-to-state-moves-what-pushes-and-pulls`.
+ * ESTIMATED FROM AVERAGE: the share moving to another state in a year with no
+ * recorded pressure. The 2 percent estimate is rounded from the Census ACS
+ * national 2024 different-state rate of 2.1 percent. Places used in the
+ * underlying state-flow comparison are all 50 states, D.C. and Puerto Rico.
+ * Source: https://www.census.gov/topics/population/migration/guidance/acs-1yr.html
  */
-export const BLANKET_BASE_OUTFLOW_PCT_PER_YEAR = 2;
+export const ESTIMATED_BASE_OUTFLOW_PCT_PER_YEAR = 2;
 
-/** BLANKET: the lowest pull a state can have, so no state is never chosen. */
-export const BLANKET_MIN_PULL = 0.1;
+/**
+ * ESTIMATED FROM AVERAGE: a 0.1 floor keeps every observed ACS origin and
+ * destination reachable. Basis and places used: the Census flow comparison of
+ * all 50 states, D.C. and Puerto Rico cited above; this floor is a bounded game
+ * estimate, not a reported Census statistic.
+ */
+export const ESTIMATED_MIN_PULL = 0.1;
 
 /** How many destinations a flow record keeps per origin. */
 export const FLOW_DESTINATIONS_KEPT = 5;
@@ -42,7 +49,7 @@ export function latestReadings(
 export function pullOf(reading: PressureReading | undefined): number {
   if (!reading) return 1;
   return Math.max(
-    BLANKET_MIN_PULL,
+    ESTIMATED_MIN_PULL,
     1 + reading.levels.arrive - reading.levels.leave,
   );
 }
@@ -105,7 +112,7 @@ export function flowsForYear(
       flowYear,
       fromStateKey: origin,
       outflowSharePct: round(
-        BLANKET_BASE_OUTFLOW_PCT_PER_YEAR * pushOf(readings.get(origin)),
+        ESTIMATED_BASE_OUTFLOW_PCT_PER_YEAR * pushOf(readings.get(origin)),
       ),
       destinations,
     };

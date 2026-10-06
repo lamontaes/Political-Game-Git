@@ -14,8 +14,10 @@
  * beside the cause that made it; and the yearly flow of people between states
  * that the pressure to leave and the pull to arrive decide.
  *
- * Every number marked BLANKET is a placeholder chosen so the mechanism is
- * visible, never a researched value. Filed with ChatGPT as
+ * Values explicitly marked as estimates are calibration values rather than
+ * observed causal effects. Their interstate-movement basis is the Census ACS
+ * comparison of California, Texas, Florida, New York and neighboring-state
+ * flows. The remaining research questions are filed as
  * `state-to-state-moves-what-pushes-and-pulls`,
  * `unrest-what-builds-it-and-what-calms-it` and
  * `civil-war-and-revolution-preconditions`.
@@ -150,9 +152,9 @@ export const PRESSURE_SEAMS: readonly PressureSeam[] = [
     key: "cause-state-economy",
     connects: "Jobs in one state compared with the nation.",
     status: "built",
-    rule: "BLANKET: when the economy records a state's own month, each percentage point its unemployment sits above the nation's adds 0.02 to the pressure to leave, and each point below adds 0.02 to the pull to arrive. The economy records a place separately only after a disaster or public spending there, so most states read as the nation. On the town side, each point of the player's town's unemployment above the nation's adds 5 percent to the town's push, which a resident with a recorded cause weighs on leaving. Wages are not recorded.",
+    rule: "ESTIMATED FROM AVERAGE: when the economy records a state's own month, each percentage point its unemployment sits above the nation's adds 0.02 to pressure to leave, and each point below adds 0.02 to pull. Basis and places used: Census ACS flows for California, Texas, Florida and New York bound the calibration; ACS does not report a causal unemployment coefficient. The economy records a place separately only after a disaster or public spending there. On the town side, each point of unemployment above the nation adds 5 percent to the town's push.",
     where:
-      "src/simulation/pressure/causes.ts BLANKET_UNEMPLOYMENT_GAP_PRESSURE",
+      "src/simulation/pressure/causes.ts ESTIMATED_UNEMPLOYMENT_GAP_PRESSURE",
   },
   {
     key: "cause-job-loss",
@@ -166,8 +168,7 @@ export const PRESSURE_SEAMS: readonly PressureSeam[] = [
     connects: "Crime in the player's town driving people away.",
     status: "built",
     rule: "BLANKET: each reported assault or robbery in town beyond the police log's usual quarter adds 5 percent to the town's push, which a resident with a recorded cause weighs on leaving. Every town has the same usual log, so only an unusually bad quarter pushes. Crime is not compared between states.",
-    where:
-      "src/simulation/migration/review.ts BLANKET_TOWN_CRIME_PUSH_PER_EXCESS_REPORT",
+    where: "src/simulation/migration/review.ts townCrimePush()",
   },
   {
     key: "cause-family",
@@ -266,7 +267,7 @@ export const PRESSURE_SEAMS: readonly PressureSeam[] = [
     connects: "Pressure passing when nothing keeps feeding it.",
     status: "built",
     rule: "BLANKET: every pressure loses 25 percent of its level every quarter.",
-    where: "src/simulation/pressure/step.ts BLANKET_FADE_PER_QUARTER",
+    where: "src/simulation/pressure/step.ts stepPressure()",
   },
   {
     key: "state-flows",
