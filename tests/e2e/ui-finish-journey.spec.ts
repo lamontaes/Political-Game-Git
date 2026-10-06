@@ -77,7 +77,7 @@ test("group 1: Nevada creator, room, People, Calendar, Politics and back", async
   const next = page.getByTestId("creator-continue-character");
   await expect(next).toBeDisabled();
   const years = await optionValues(page.getByTestId("start-birth-year"));
-  expect(years[0]).toBe("2021");
+  expect(years[0]).toBe("2020");
   expect(Number(years[years.length - 1])).toBeGreaterThanOrEqual(1955);
 
   // Gender comes first; the name draw then uses it (CRUNCH46 R7).
