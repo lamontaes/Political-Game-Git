@@ -1,5 +1,6 @@
 /** Mockup-only A-card content. No radial, bust, clock or game command ownership. */
 export function reviseACard(card, recorded) {
+  const document = card.ownerDocument;
   const title = card.querySelector("h2");
   title.replaceChildren();
   const name = document.createElement("span");
