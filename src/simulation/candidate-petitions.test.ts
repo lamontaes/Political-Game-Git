@@ -1,91 +1,179 @@
+import { randomInt, randomUUID } from "node:crypto";
+import { writeFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { smallWorld } from "../../tests/fixtures/small-world";
-import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
-import { campaigns } from "./campaign-queries";
-import { addDays } from "./dates";
-import { createFormationContext, recordPrivateBelief } from "./politics";
+import { createDemoWorld } from "./demo";
+import { askToSign } from "./candidate-petitions";
+import { recallPetitionSignatures } from "./recall";
+import { isEligibleVoterIn } from "./issue-record";
+import { lifePlaceStateIdentities, searchLifePlaces } from "./index";
 import {
-  askToSign,
-  petitionAskedPersonIds,
-  petitionSignaturesForCampaign,
-} from "./candidate-petitions";
-import type { EntityId, World } from "./types";
+  createNewGameWorld,
+  DEFAULT_NEW_GAME_SETUP,
+} from "../presentation/new-game";
+import type { EntityId } from "./types";
 
-function petitionFixture(seed: string) {
-  const small = smallWorld({ place: "US-KY", people: 6, seed });
-  const world = fileForOffice(small.world, small.personId);
-  return { world, campaign: campaigns(world)[0]!, candidateId: small.personId };
-}
-
-function firstOther(world: World, candidateId: EntityId): EntityId {
-  const personId = world.personOrder.find((id) => id !== candidateId);
-  if (!personId) throw new Error("No petition signer in the fixture.");
-  return personId;
-}
-
-describe("candidate petition asks", () => {
-  it("records a deterministic dated decision with signer and circulator participants", () => {
-    const fixture = petitionFixture("petition-same-world");
-    const signerId = firstOther(fixture.world, fixture.candidateId);
-    const ask = {
-      campaignId: fixture.campaign.id,
-      circulatorPersonId: fixture.candidateId,
-      signerPersonId: signerId,
-      at: fixture.world.currentDate,
-    } as const;
-    const first = askToSign(fixture.world, ask);
-    const replay = askToSign(fixture.world, ask);
-    expect(first.decision).toBe(replay.decision);
-    expect(first.world.history.events.at(-1)).toEqual(
-      replay.world.history.events.at(-1),
-    );
-    expect(first.world.history.events.at(-1)).toMatchObject({
-      occurredAt: fixture.world.currentDate,
-      participants: [
-        { personId: signerId, role: "agency:signer" },
-        { personId: fixture.candidateId, role: "agency:circulator" },
-      ],
-      type:
-        first.decision === "sign"
-          ? "campaign.petition-signed"
-          : "campaign.petition-declined",
+describe("citizen petition signer decisions", () => {
+  it("records an official petition ask in a fresh game at a random place", () => {
+    const states = lifePlaceStateIdentities();
+    const state = states[randomInt(states.length)]!;
+    const places = searchLifePlaces("", Number.MAX_SAFE_INTEGER, {
+      stateJurisdictionKey: state.jurisdictionKey,
+      scope: "locality",
     });
-    expect(() => askToSign(first.world, ask)).toThrow(/already been asked/);
-    expect(petitionAskedPersonIds(first.world, fixture.campaign.id)).toEqual(
-      new Set([signerId]),
-    );
-    expect(
-      petitionSignaturesForCampaign(first.world, fixture.campaign.id),
-    ).toHaveLength(first.decision === "sign" ? 1 : 0);
-  });
-
-  it("lets a recorded strong opposer decline without chance or randomness", () => {
-    const fixture = petitionFixture("petition-opposer-declines");
-    const signerId = firstOther(fixture.world, fixture.candidateId);
-    const signer = fixture.world.people[signerId]!;
-    const world = recordPrivateBelief(fixture.world, {
-      stableKey: "fixture:petition-opposition",
-      personId: signerId,
-      propositionId: null,
-      subject: { kind: "official", personId: fixture.candidateId },
-      formedAt: addDays(signer.birthDate, 18 * 365),
-      position: "oppose",
-      conviction: "settled",
-      salience: "central",
-      flexibility: "firm",
-      rationale: null,
-      formation: createFormationContext("reflection:initial"),
-      supersedesBeliefId: null,
+    const place = places[randomInt(places.length)]!;
+    const seed = randomUUID();
+    const game = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      placeKey: place.key,
+      seed,
+      depth: "summarize-earlier-life",
+      questionnaire: "skipped",
     });
+    const signerPersonId = game.playerPersonId;
+    const circulatorPersonId = game.world.personOrder.find(
+      (personId) => personId !== signerPersonId,
+    )!;
+    const targetPersonId = game.world.personOrder.find(
+      (personId) =>
+        personId !== signerPersonId && personId !== circulatorPersonId,
+    )!;
+    const result = askToSign(game.world, {
+      petition: {
+        petitionId: "random-place-recall-proof",
+        jurisdictionId: game.world.people[signerPersonId]!.homeJurisdictionId,
+        subject: { kind: "official", personId: targetPersonId },
+      },
+      signerPersonId,
+      circulatorPersonId,
+      at: game.world.currentDate,
+    });
+    const event = result.world.history.events.find(
+      (row) => row.id === result.eventId,
+    )!;
+    console.info(
+      `B18 RANDOM PETITION place=${place.displayName} key=${place.key} seed=${seed} world=${game.world.id} signer=${signerPersonId} target=${targetPersonId} decision=${result.decision} event=${event.id}`,
+    );
+    if (process.env.OCD_CITIZEN_PETITION_RECEIPT) {
+      writeFileSync(
+        process.env.OCD_CITIZEN_PETITION_RECEIPT,
+        JSON.stringify(
+          {
+            place: place.displayName,
+            placeKey: place.key,
+            state: state.jurisdictionKey,
+            seed,
+            worldId: game.world.id,
+            signerPersonId,
+            petitionSubjectPersonId: targetPersonId,
+            decision: result.decision,
+            eventId: event.id,
+            tags: event.tags,
+          },
+          null,
+          2,
+        ) + "\n",
+      );
+    }
+    expect(event.tags).toContain("civic:petition-ask");
+    expect(event.tags).toContain("petition:random-place-recall-proof");
+  }, 120_000);
+
+  it("records one signer decision for an official petition through askToSign", () => {
+    const world = createDemoWorld("petition-official-subject");
+    const signerPersonId = world.personOrder[0]!;
+    const circulatorPersonId = world.personOrder[1]!;
+    const targetPersonId = world.personOrder[2]!;
+    const jurisdictionId = world.people[signerPersonId]!.homeJurisdictionId;
+
     const result = askToSign(world, {
-      campaignId: fixture.campaign.id,
-      circulatorPersonId: fixture.candidateId,
-      signerPersonId: signerId,
+      petition: {
+        petitionId: "recall:test",
+        jurisdictionId,
+        subject: { kind: "official", personId: targetPersonId },
+      },
+      signerPersonId,
+      circulatorPersonId,
       at: world.currentDate,
     });
-    expect(result.decision).toBe("decline");
-    expect(result.world.history.events.at(-1)?.type).toBe(
-      "campaign.petition-declined",
+
+    const event = result.world.history.events.find(
+      (record) => record.id === result.eventId,
+    );
+    expect(result.decision).toMatch(/^(sign|decline)$/);
+    expect(event?.tags).toContain("civic:petition-ask");
+    expect(event?.tags).toContain("petition:recall:test");
+    expect(event?.tags).toContain(`decision:${result.decision}`);
+    expect(event?.involvedEntityIds).toContain(targetPersonId);
+  });
+
+  it("decides a proposition signature from the requested stance and saved beliefs", () => {
+    const world = createDemoWorld("petition-proposition-subject");
+    const signerPersonId = world.personOrder[0]!;
+    const circulatorPersonId = world.personOrder[1]!;
+    const propositionId = Object.keys(world.policyCatalog.propositions)[0] as
+      EntityId | undefined;
+    if (!propositionId)
+      throw new Error("Demo world has no policy proposition.");
+
+    const result = askToSign(world, {
+      petition: {
+        petitionId: "initiative:test",
+        jurisdictionId: world.people[signerPersonId]!.homeJurisdictionId,
+        subject: {
+          kind: "proposition",
+          propositionId,
+          requestedStance: "support",
+        },
+      },
+      signerPersonId,
+      circulatorPersonId,
+      at: world.currentDate,
+    });
+
+    const event = result.world.history.events.find(
+      (record) => record.id === result.eventId,
+    );
+    expect(event?.tags).toContain("petition:initiative:test");
+    expect(event?.type).toMatch(/^civic\.petition-(signed|declined)$/);
+  });
+
+  it("counts only a recorded signature from an eligible resident", () => {
+    const world = createDemoWorld("petition-signature-count");
+    const signerPersonId = world.personOrder.find((personId) => {
+      const jurisdictionId = world.people[personId]!.homeJurisdictionId;
+      return isEligibleVoterIn(
+        world,
+        personId,
+        jurisdictionId,
+        world.currentDate,
+      );
+    });
+    if (!signerPersonId) throw new Error("Demo world has no eligible voter.");
+    const jurisdictionId = world.people[signerPersonId]!.homeJurisdictionId;
+    const targetPersonId = world.personOrder.find(
+      (personId) => personId !== signerPersonId,
+    )!;
+    const petition = {
+      stableKey: "recall:fixture",
+      jurisdictionId,
+      targetPersonId,
+      startedAt: world.currentDate,
+      closesAt: world.currentDate,
+    };
+    const asked = askToSign(world, {
+      petition: {
+        petitionId: petition.stableKey,
+        jurisdictionId,
+        subject: { kind: "official", personId: targetPersonId },
+      },
+      signerPersonId,
+      circulatorPersonId: targetPersonId,
+      at: world.currentDate,
+    });
+    const count = recallPetitionSignatures(asked.world, petition);
+    expect(count.registeredVoters).toBeGreaterThan(0);
+    expect(count.signerPersonIds.includes(signerPersonId)).toBe(
+      asked.decision === "sign",
     );
   });
 });

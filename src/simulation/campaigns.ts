@@ -47,6 +47,7 @@ import {
 } from "./living-world/political-reflection";
 import { presidentialTurnoverHandlers } from "./nationwide-world/presidential-turnover";
 import { recallHandlers } from "./recall";
+import { citizenPetitionHandlers } from "./citizen-petitions";
 import { councilActHandlers } from "./municipal-ordinance-procedure";
 import { dcCouncilSittingHandlers } from "./dc-council-sittings";
 import { localCouncilMeetingHandlers } from "./living-world/local-council-meetings";
@@ -2373,6 +2374,7 @@ export function composeWorldTimeHandlers(
         ...presidentialTurnoverHandlers(),
         // Voters recalling a town official: petition, then recall election.
         ...recallHandlers(),
+        ...citizenPetitionHandlers(),
         // The player's town electing its council and mayor on its own.
         ...localElectionHandlers(),
         // Local councils enact on their own clocks. Money they appropriate
