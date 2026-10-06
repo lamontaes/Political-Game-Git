@@ -11,7 +11,7 @@
     "created": "2024-10-18"
   },
   "populationSource": "BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents",
-  "scope": "The nation, 50 states and D.C., each as state and local combined, the state alone and local governments alone. Combined values exclude duplicative intergovernmental transfers, so state plus local is more than combined for revenue and spending. A '-' in the table (zero or rounds to zero) is 0 here. The territories are not in this table and stay UNKNOWN.",
+  "scope": "The nation, 50 states and D.C., each as state and local combined, the state alone and local governments alone. Combined values exclude duplicative intergovernmental transfers, so state plus local is more than combined for revenue and spending. A '-' in the table (zero or rounds to zero) is 0 here. Territories are outside the source table and must use separately labeled island-area estimates rather than these state values.",
   "lines": {
     "1": "revenue",
     "2": "generalRevenue",
