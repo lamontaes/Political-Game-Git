@@ -1,0 +1,43 @@
+{
+  "testedSource": "a5eb17c0724f951cd241b92a56ab308b231ff06c",
+  "cleanCheckout": true,
+  "command": "VITE_CONFIG_NATIVE_IGNORE_WARNING=true npx vitest run src/presentation/opening-life-staged.test.ts src/presentation/browser-world-repository.test.ts",
+  "exitCode": 0,
+  "filesPassed": 2,
+  "testsPassed": 69,
+  "stagedTests": 4,
+  "saveTests": 65,
+  "scope": "Canonical source/fixture checks only; not populated browser Save/Continue or scene/clip acceptance.",
+  "browserAttempt": {
+    "source": "a5eb17c0724f951cd241b92a56ab308b231ff06c",
+    "exitCode": 130,
+    "runnerResult": "1 did not run",
+    "reason": "Stopped for explicit owner release and priority joint six-place capture.",
+    "port": 4193,
+    "processesReleased": true,
+    "acceptance": false
+  },
+  "session4ObservedFailure": {
+    "source": "b38adecd1102f9d615dfc2fce80f3d52e46ff295",
+    "reportedBy": "Session4 board 6007824646",
+    "symptom": "Avery reload Continue remained Title with enabled Continue at original five-second enterLife assertion.",
+    "reproducedBySession7": false,
+    "classifiedAsInherited": false
+  },
+  "continueComparison": {
+    "baseline": "b38adecd1102f9d615dfc2fce80f3d52e46ff295",
+    "candidate": "a5eb17c0724f951cd241b92a56ab308b231ff06c",
+    "unchangedFunctions": [
+      "PlayerGame.continueMostRecent",
+      "PlayerGame.loadSave",
+      "PlayerGame.startPlaying"
+    ],
+    "unchangedFiles": [
+      "src/presentation/browser-world-repository.ts",
+      "src/presentation/open-saved-played-life.ts"
+    ],
+    "repairClaimed": false
+  },
+  "annualBenchmarkStarted": false,
+  "ready": false
+}
