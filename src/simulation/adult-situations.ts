@@ -38,6 +38,8 @@ import type {
   LifeCommitmentKind,
   LifeSituationKey,
   LifeSituationOption,
+  LegislativeCommitmentRecord,
+  LegislativeNegotiationRecord,
   World,
 } from "./types";
 
@@ -237,6 +239,10 @@ export interface AdultLifeContext {
    * the player made, and the two must not be confused.
    */
   readonly playerMadeCommitmentCount: number;
+  /** Recorded bargaining promises this person holds or actually heard. */
+  readonly legislativeCommitments: readonly LegislativeCommitmentRecord[];
+  /** Recorded bargaining requests and answers involving this person. */
+  readonly legislativeNegotiations: readonly LegislativeNegotiationRecord[];
   readonly obligationCount: number;
   /**
    * Whether an active obligation with a `housing:` basis exists. A scene about
@@ -483,6 +489,20 @@ export function buildAdultLifeContext(
       personId,
       lifeCutoff,
     ).filter((record) => record.stableKey.startsWith("adult-life:")).length,
+    legislativeCommitments: (world.history.legislativeCommitments ?? []).filter(
+      (record) =>
+        record.statedAt <= asOfDate &&
+        (record.holderPersonId === personId ||
+          record.heardByPersonIds.includes(personId)),
+    ),
+    legislativeNegotiations: (
+      world.history.legislativeNegotiations ?? []
+    ).filter(
+      (record) =>
+        record.occurredAt <= asOfDate &&
+        (record.initiatorPersonId === personId ||
+          record.counterpartyPersonId === personId),
+    ),
     obligationCount,
     hasHousingObligation,
     civicParticipationCount: participations.length,

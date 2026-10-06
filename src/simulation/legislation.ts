@@ -36,6 +36,7 @@ import {
 import { personName } from "./people";
 import { recordPropositionExposure } from "./politics";
 import { schedulePoliticalReflectionForExposure } from "./living-world/political-reflection-schedule";
+import { resolveCommitmentsAfterVote } from "./legislative-commitment-consequences";
 import type {
   PolicyPropositionDefinition,
   CommitteeActionRecord,
@@ -1392,7 +1393,9 @@ function appendAction(world: World, input: AppendActionInput): World {
       legislativeActions: [...(next.history.legislativeActions ?? []), action],
     },
   };
-  return written;
+  return voteRecord
+    ? resolveCommitmentsAfterVote(written, voteRecord.id)
+    : written;
 }
 
 function assertPhase(
