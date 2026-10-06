@@ -1,0 +1,58 @@
+{
+  "phase": "P1",
+  "piece": "inclusionary share basis mapping",
+  "status": "OWNER QUESTION",
+  "selectedOption": null,
+  "productionConsumer": "src/simulation/living-world/town-rent.ts:inclusionaryHome",
+  "existingQuery": "readOrEstimateFinalEnactedLawTerm(world, law, { questionKey, termKey, unit, jurisdictionId, onDate, cutoff, scope })",
+  "canonicalOutput": "LawTermResolutionProvenance on inclusionaryHome return and LawEffectStamp.termResolution",
+  "decision": "Choose the treatment of a floor-area-category rule when the existing allocation consumer counts dwelling units.",
+  "options": [
+    {
+      "key": "modeled-unit-share-proxy",
+      "behavior": "Use the existing category-average scalar as a modeled unit-share proxy; leave source floor-area categories intact.",
+      "requiredProducerEvidence": [
+        "Explicit modeled classification for the existing category-average term, not inferred from prose or place identity",
+        "Actual category references and values, averaging method and resulting scalar",
+        "Requested date, unit, scope and applicable governing-law identity"
+      ],
+      "canonicalKind": "modeled",
+      "consumerJoin": "Forward the supplied shared resolution record unchanged; never classify this proxy as source."
+    },
+    {
+      "key": "category-aware-floor-area",
+      "behavior": "Preserve the sourced floor-area categories and allocate against their actual recorded construction category and floor area.",
+      "requiredProducerEvidence": [
+        "Actual category-specific governing rule and dated applicability",
+        "Actual dwelling/building category and covered floor area",
+        "A released category-aware allocation contract; no unit-count conversion by assumption"
+      ],
+      "canonicalKind": "source",
+      "consumerJoin": "Needs a separately owned category-aware consumer; current unit-count share logic cannot assert this basis."
+    }
+  ],
+  "constraints": [
+    "No production option is selected by this developer contract.",
+    "Compatible primary unit-share rules remain source-first.",
+    "No donor, lease, term identity, scalar or schedule is invented.",
+    "Research, estimated labels and donor evidence remain developer-only.",
+    "Missing source/model classification remains an explicit missing-source boundary rather than inferred termResolution.",
+    "This contract changes no money, lease formula, price stamp or schedule."
+  ],
+  "existingRecord": {
+    "path": "data/research/laws/starting-law-2026.json",
+    "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+    "answerKey": "US-DC",
+    "operativeAt": "2007-03-14",
+    "term": {
+      "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+      "key": "share",
+      "value": 0.09,
+      "unit": "ratio"
+    },
+    "cite": "D.C. Code \u00a7 6-1041.01 et seq.; 11-C DCMR ch. 10",
+    "source": "https://dcoz.dc.gov/sites/default/files/dc/sites/dcoz/publication/attachments/Subtitle%20C.pdf",
+    "developerNote": "The District's own inclusionary zoning law and zoning regulations require affordable units in covered new residential developments across the District. ESTIMATED FROM AVERAGE: 0.09 = (0.10 + 0.08) / 2, the two residential floor-area minimums in 11-C DCMR 1003.1-1003.2. The game has no frame, height, bonus-density or floor-area facts; this is the equal-weight two-category average represented as a share of comparable-sized game homes, not an exact project compliance finding.",
+    "boundary": "This diagnostic copies the actual data row; it supplies no canonical LawTermResolutionProvenance and is not a production classification parser."
+  }
+}

@@ -1,0 +1,163 @@
+{
+  "phase": "P1",
+  "testedHead": "71648944efd1af27b2c6c64535e739d3467a431a",
+  "seed": "session21-rent-record-trace-30-days",
+  "placeKey": "3627859",
+  "worldId": "world_1a82fdb43e2d5d17",
+  "startDate": "2026-01-05",
+  "endDate": "2026-02-04",
+  "durationDays": 30,
+  "scope": "Ordinary generated tenancies; explicit existing startTownLeases producer at opening date, followed by monthly rent producer; no authored lease, amount, law or donor; no natural opening-dispatch or year timing claim.",
+  "openingLeaseCount": 0,
+  "lease": {
+    "flow": {
+      "id": "resource-flow_f52be81e41b6f89e",
+      "stableKey": "town-rent-v1:lease:housing-tenure_cf0dfce82ca8f79c:person_095c5189519f6554",
+      "sequence": 69643,
+      "source": {
+        "kind": "person",
+        "personId": "person_095c5189519f6554"
+      },
+      "recipient": {
+        "kind": "organization",
+        "organizationId": "organization_4d5e44a20fb2e1e5"
+      },
+      "recordedAt": "2026-01-05",
+      "startsAt": "2026-01-05",
+      "basisKind": "housing:rent",
+      "basisReference": {
+        "kind": "housing",
+        "housingTenureId": "housing-tenure_cf0dfce82ca8f79c"
+      },
+      "restrictionKind": null,
+      "jurisdictionId": "jurisdiction_337b8a5602e1a4f1",
+      "provenance": {
+        "kind": "authored",
+        "note": "town-rent-v1: 1 bedroom, rent set by the market, near the county's Fair Market Rent of $864 (HUD FY2025, area 36057)."
+      }
+    },
+    "tenureId": "housing-tenure_cf0dfce82ca8f79c",
+    "dwellingId": "dwelling_b5bc02b90b4f119e",
+    "leaseholderId": "person_095c5189519f6554",
+    "regime": "market"
+  },
+  "initialTerms": {
+    "id": "resource-flow-terms_1dec91245468d1c7",
+    "stableKey": "town-rent-v1:lease:housing-tenure_cf0dfce82ca8f79c:person_095c5189519f6554:terms:initial",
+    "sequence": 69644,
+    "resourceFlowId": "resource-flow_f52be81e41b6f89e",
+    "effectiveAt": "2026-01-05",
+    "status": "active",
+    "amount": {
+      "minorUnits": 86400,
+      "currency": "USD"
+    },
+    "cadenceKind": "schedule:monthly",
+    "reason": null,
+    "provenance": {
+      "kind": "authored",
+      "note": "town-rent-v1: 1 bedroom, rent set by the market, near the county's Fair Market Rent of $864 (HUD FY2025, area 36057)."
+    },
+    "supersedesTermsId": null
+  },
+  "law": null,
+  "query": null,
+  "outcomes": [
+    {
+      "stableKey": "town-rent-v1:lease:housing-tenure_cf0dfce82ca8f79c:person_095c5189519f6554:2026-02-01",
+      "resourceFlowId": "resource-flow_f52be81e41b6f89e",
+      "periodStartsAt": "2026-02-01",
+      "periodEndsAt": "2026-02-01",
+      "occurredAt": "2026-02-01",
+      "status": "completed",
+      "attemptedAmount": {
+        "minorUnits": 86400,
+        "currency": "USD"
+      },
+      "transferredAmount": {
+        "minorUnits": 86400,
+        "currency": "USD"
+      },
+      "reasonKind": null,
+      "note": "Rent.",
+      "provenance": {
+        "kind": "generated",
+        "generatorKey": "town-rent-v1"
+      },
+      "id": "resource-transfer-outcome_c57e6fd7747f3ea7",
+      "sequence": 529016
+    }
+  ],
+  "before": {
+    "positionId": "resource-position_c5928af5994b1970",
+    "owner": {
+      "kind": "person",
+      "personId": "person_095c5189519f6554"
+    },
+    "cutoff": {
+      "asOfDate": "2026-01-05",
+      "historySequenceExclusive": 69777
+    },
+    "openingBalance": {
+      "minorUnits": 0,
+      "currency": "USD"
+    },
+    "inflows": {
+      "minorUnits": 0,
+      "currency": "USD"
+    },
+    "outflows": {
+      "minorUnits": 0,
+      "currency": "USD"
+    },
+    "liquidBalance": {
+      "minorUnits": 0,
+      "currency": "USD"
+    },
+    "outcomeIds": []
+  },
+  "after": {
+    "positionId": "resource-position_c5928af5994b1970",
+    "owner": {
+      "kind": "person",
+      "personId": "person_095c5189519f6554"
+    },
+    "cutoff": {
+      "asOfDate": "2026-02-04",
+      "historySequenceExclusive": 673248
+    },
+    "openingBalance": {
+      "minorUnits": 0,
+      "currency": "USD"
+    },
+    "inflows": {
+      "minorUnits": 468616,
+      "currency": "USD"
+    },
+    "outflows": {
+      "minorUnits": 184452,
+      "currency": "USD"
+    },
+    "liquidBalance": {
+      "minorUnits": 284164,
+      "currency": "USD"
+    },
+    "outcomeIds": [
+      "resource-transfer-outcome_0745863bc3d5cba7",
+      "resource-transfer-outcome_5e31dacd93739bef",
+      "resource-transfer-outcome_351aca5fdc34d96f",
+      "resource-transfer-outcome_0748853bc3d7ffcb",
+      "resource-transfer-outcome_2fa23a50726e3d23",
+      "resource-transfer-outcome_706b735f4946f9bb",
+      "resource-transfer-outcome_07487e3bc3d7f3e6",
+      "resource-transfer-outcome_f7dd16ef8e68f0ad",
+      "resource-transfer-outcome_ba6961a20991e8d1",
+      "resource-transfer-outcome_c57e6fd7747f3ea7",
+      "resource-transfer-outcome_074c073bc3db1288",
+      "resource-transfer-outcome_9056ce219f5af229",
+      "resource-transfer-outcome_8bf04cd7616d2385"
+    ]
+  },
+  "canonicalReload": true,
+  "missingSourceBoundary": "No applicable inclusionary law at the actual dwelling date; no inclusionary term or provenance inferred."
+}
