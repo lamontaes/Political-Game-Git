@@ -24,7 +24,7 @@ export function applyWardCommissionLandings(
   const event = world.history.events.find(
     (candidate) => candidate.id === eventId,
   );
-  if (!event) throw new Error("Ward-map landing needs a saved source event.");
+  if (!event) throw new Error("District-map landing needs a saved source event.");
   if (
     event.type !== SOURCE_EVENT_TYPE ||
     event.recordedAt !== world.currentDate ||
