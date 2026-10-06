@@ -873,10 +873,6 @@ export function SetupScreen({
                 </p>
               ))}
             </div>
-          ) : location.stateJurisdictionKey ? (
-            <p className="game-note" data-testid="place-need-locality">
-              Next waits until you choose a place in this state.
-            </p>
           ) : null}
         </section>
       ) : null}

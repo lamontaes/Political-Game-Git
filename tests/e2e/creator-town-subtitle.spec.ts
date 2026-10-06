@@ -24,13 +24,11 @@ test("Creator renders recorded town subtitle without list helper copy", async ({
   await page
     .getByTestId(`state-${place.stateJurisdictionKey.slice(-2)}`)
     .click();
-  await page.getByTestId("place-search").fill(place.displayName);
-  const choice = page
-    .getByTestId("place-choices")
-    .getByRole("button", {
-      name: `${place.displayName} ${hometownChoiceSubtitle(place)}`,
-      exact: true,
-    });
+  await page.getByTestId("place-search").fill(place.displayName.split(",")[0]!);
+  const choice = page.getByTestId("place-choices").getByRole("button", {
+    name: `${place.displayName} ${hometownChoiceSubtitle(place)}`,
+    exact: true,
+  });
   await expect(choice.locator("small")).toHaveText(
     hometownChoiceSubtitle(place),
   );
