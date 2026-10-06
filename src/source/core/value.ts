@@ -163,7 +163,7 @@ function requireEvidence(
 ): readonly [Evidence, ...Evidence[]] {
   if (evidence.length === 0) {
     throw new SourceValueError(
-      `${state} requires at least one piece of evidence. Only UNKNOWN may carry none.`,
+      `${state} requires at least one piece of evidence; use the evidence-free source state when investigation produced an empty evidence list.`,
     );
   }
   for (const item of evidence) {

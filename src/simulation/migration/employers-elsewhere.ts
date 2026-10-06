@@ -2,7 +2,7 @@
  * The employers a resident looking for work outside town applies to (A135,
  * CTO ruling 23(b), October 1, 2026).
  *
- * Offers used to come from a state government, as the placeholder public
+ * Offers used to come from a state government, as the stand-in public
  * clerk job. They now come from the private employers the place really has:
  * its share of the county's establishments of each kind (County Business
  * Patterns 2023, `localBusinessSupplyFor`, the same data the town's own

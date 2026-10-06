@@ -29,7 +29,7 @@ describe("candidate guidance read back as prose", () => {
     expect(text).not.toMatch(RAW_TOKEN);
     expect(text).not.toMatch(/\b1 years\b/);
     expect(text).toBe(
-      "Tracy Middleton went over what is known about running for office here. To run for the House of Representatives, you must be at least 21; you must have lived 1 year in the state immediately before filing; and a term is 2 years. To run for the Senate, you must be at least 30; you must have lived 5 years in the state immediately before filing; and a term is 4 years. To run for the City of Seattle governing body, the minimum age is not known to this game; the residency rule is not known to this game; and the term length is not known to this game. Who accepts filings, the deadline, any fee and any petition requirement are not established by this game's sourced rules. The game itself will not put anyone under 21 on a ballot.",
+      "Tracy Middleton went over what is known about running for office here. To run for the House of Representatives, you must be at least 21; you must have lived 1 year in the state immediately before filing; and a term is 2 years. To run for the Senate, you must be at least 30; you must have lived 5 years in the state immediately before filing; and a term is 4 years. To run for the City of Seattle governing body, the office record does not establish a minimum age; the office record does not establish a residency rule; and the office record does not establish a term length. Who accepts filings, the deadline, any fee and any petition requirement are not established by this game's sourced rules. The game itself will not put anyone under 21 on a ballot.",
     );
   });
 

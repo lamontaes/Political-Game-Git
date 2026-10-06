@@ -1,0 +1,30 @@
+{
+  "schema": "law-person-landing-projection/v1",
+  "supported": [
+    {
+      "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+      "sourceEventType": "election.state-legislative-candidacy-intent",
+      "sourceTag": "barred:term-limit",
+      "personSelector": "focus:subject",
+      "landedFact": "actual-candidacy-blocked",
+      "channel": "election-rule",
+      "direction": "cost",
+      "amount": null,
+      "cadence": null
+    }
+  ],
+  "unsupported": [
+    {
+      "questionKey": "us-policy-positions:government-operations.independent-redistricting",
+      "reason": "The saved redistricting output does not identify a changed election rule for each named person affected."
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.automatic-voter-registration",
+      "reason": "No saved per-person registration transition exists to establish that a named person was registered under this law."
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.broaden-local-authority",
+      "reason": "The authority rule changes which questions a local body may answer; there is no saved person-level exercise or loss of authority to expose."
+    }
+  ]
+}
