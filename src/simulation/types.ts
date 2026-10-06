@@ -5772,6 +5772,25 @@ export interface SetupPriorStore {
   readonly answers: readonly SetupAnswerRecord[];
 }
 
+export type ChallengeIntensity = "quiet" | "standard" | "relentless";
+export type NotebookNotesSetting = "full" | "light" | "none";
+export type SaveMode = "free" | "one-save";
+export type FamilyMoneyPremise = "comfortable" | "ordinary" | "tight";
+export type PressPremise = "gentler" | "realistic" | "tougher";
+
+/** Player-facing choices kept on the World; absent legacy data means defaults. */
+export interface PlaySettings {
+  readonly challenge: ChallengeIntensity;
+  readonly notes: NotebookNotesSetting;
+  readonly saves: SaveMode;
+  readonly premises: {
+    readonly familyMoney: FamilyMoneyPremise;
+    readonly press: PressPremise;
+    /** Placeholder for the unresolved ongoing-cost choice; currently standard. */
+    readonly ongoingMoneyCosts: "standard";
+  };
+}
+
 export interface World {
   /** Saved courts and seated judges; absent in lives created before courts opened. */
   readonly judiciary?: JudiciaryState;
@@ -5797,6 +5816,8 @@ export interface World {
   readonly vitalityCatalog: VitalityCatalog;
   readonly control: ControlState;
   readonly history: HistoryStore;
+  /** Optional so worlds saved before player settings remain readable. */
+  readonly playSettings?: PlaySettings;
   /**
    * What the player answered at setup, kept beside the world rather than in
    * it.

@@ -13,6 +13,10 @@ import {
   type PluralExecutiveConstraint,
   type RemovalMode,
 } from "./executive-authority-rules";
+import {
+  executiveAuthorityGameProfileForJurisdiction,
+  executiveProfileForOfficeKey,
+} from "./executive-authority-game-profile";
 
 /**
  * Runtime executive-authority rule packs, compiled from the independently
@@ -58,9 +62,9 @@ import {
  *   Article II — removal doctrine, reorganization, the emergency-powers regime,
  *   and the budget-submission duty — stays `unknown`.
  *
- * Wisconsin is named in the intended corpus but is absent here on purpose: it
- * is outside the verified six-jurisdiction subset and no accepted research
- * resolves it. See {@link UNRESEARCHED_JURISDICTIONS}.
+ * Runtime readers preserve this six-pack research set. The game-profile layer
+ * supplies estimates for every remaining state, the District and the
+ * territories without adding synthetic packs to this research registry.
  *
  * Presentment, veto, line-item veto and override are NOT restated here. Where a
  * legislative rule pack owns those facts, this pack points at it by id through
@@ -118,25 +122,6 @@ function presentmentRef(legislativePackId: string): ExecutiveRuleValue<string> {
     legislativePack.executive.source,
   );
 }
-
-/**
- * Jurisdictions named in the intended corpus that no completed research
- * supports, listed so the gap is a value in the module rather than an omission
- * a reader has to notice. A later research pass fills these; until then, a pack
- * for one of them would be fabricated, and there is none.
- */
-export const UNRESEARCHED_JURISDICTIONS: readonly {
-  readonly jurisdictionKey: string;
-  readonly displayName: string;
-  readonly reason: string;
-}[] = [
-  {
-    jurisdictionKey: "US-WI",
-    displayName: "Wisconsin",
-    reason:
-      "Wisconsin was not part of the 92A jurisdiction-authority research wave and no executive-authority research resolves it; no pack is compiled rather than invent Wisconsin constitutional citations.",
-  },
-];
 
 // ---------------------------------------------------------------------------
 // R3H accepted-node compilation
@@ -1504,24 +1489,16 @@ export function executiveRulePackById(
   return pack;
 }
 
-/** The executive pack for a jurisdiction key (e.g. "US-KY"), or null. */
+/** The read or estimated executive pack for a state, district or territory. */
 export function executiveRulePackForJurisdiction(
   jurisdictionKey: string,
-): ExecutiveAuthorityRulePack | null {
-  return (
-    EXECUTIVE_AUTHORITY_RULE_PACKS.find(
-      (candidate) => candidate.jurisdictionKey === jurisdictionKey,
-    ) ?? null
-  );
+): ExecutiveAuthorityRulePack {
+  return executiveAuthorityGameProfileForJurisdiction(jurisdictionKey).pack;
 }
 
-/** The accepted pack whose own office key matches, or null. Titles are never used. */
+/** The read or estimated pack whose office key matches, or null for other offices. */
 export function executiveRulePackForOfficeKey(
   officeKey: string,
 ): ExecutiveAuthorityRulePack | null {
-  return (
-    EXECUTIVE_AUTHORITY_RULE_PACKS.find(
-      (candidate) => candidate.office.officeKey === officeKey,
-    ) ?? null
-  );
+  return executiveProfileForOfficeKey(officeKey)?.pack ?? null;
 }

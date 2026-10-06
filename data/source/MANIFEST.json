@@ -2700,20 +2700,26 @@
           "sha256": "7bc9daf91ecaa3be278bacdcdde04ed0c860904a8fb6f6c501caf499ef2aec4c",
           "sliceOfParent": null,
           "storage": "committed"
+        },
+        {
+          "artifactId": "nv-constitution-governor",
+          "sha256": "726067b645f47709f00c2cf23ee6a514f7fc64381fd6c1f6eb0b1f48b31c51cc",
+          "sliceOfParent": null,
+          "storage": "committed"
         }
       ],
       "asOf": "2026-09-09",
       "boundedSampleReason": "A bounded set of states, not a national corpus. The other forty-odd states are absent because their authorities were not retrieved in this pass, which is a fact about this repository and never a fact about those states. docs/research/qualification-source-ledger.md accounts for every research row.",
-      "canonicalSha256": "68f8fea97605c104194a9fa9a35dff11baea6bc2e4ee9ff3ddc248e6841df0df",
+      "canonicalSha256": "ae033fef4e51547060d1cd1da02e061b38271cd59cef4fb50dc1f146cd38cf54",
       "compiler": {
         "name": "state-office-qualifications",
         "version": "2.1.1"
       },
-      "corpusFileSha256": "68f8fea97605c104194a9fa9a35dff11baea6bc2e4ee9ff3ddc248e6841df0df",
+      "corpusFileSha256": "ae033fef4e51547060d1cd1da02e061b38271cd59cef4fb50dc1f146cd38cf54",
       "corpusId": "state-office-qualifications",
       "domain": "state-office-qualifications",
       "isCompleteUniverse": false,
-      "recordCount": 69,
+      "recordCount": 72,
       "universeDescription": "Office qualifications for MA, MN, MO, NE, NJ, NV, OH, compiled only where a research claim's words were found in an authority this repository retrieved and hashed."
     }
   ],
@@ -2723,5 +2729,13 @@
       "productionGate": "The official 2025 archive is now retrieved and locked. Its actual five-tab XLSX/PID6 format differs from the historical TSV/14-digit-GID fixture contract. The general-purpose publisher identity reader is available for MUNI; full legacy corpus production remains gated until all tabs, native identifiers, dormant-versus-inventory status and unavailable legacy GIDs are reconciled without dropping usable units or guessing joins."
     }
   ],
-  "manifestVersion": "1"
+  "manifestVersion": "1",
+  "researchFiles": [
+    {
+      "asOf": "2025-06-30",
+      "path": "data/research/places/local-institutions.json",
+      "recordCount": 12261,
+      "sha256": "1be993de758d18376ec66c234f32a604fd17cbce9ab82b681ed965cbc82cb382"
+    }
+  ]
 }
