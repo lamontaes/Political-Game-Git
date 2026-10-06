@@ -46,6 +46,8 @@ import { canonicalJson } from "./canonical-json";
 import { favorRecords } from "./favors";
 import { campaignCompliancePackFor } from "./campaign-compliance";
 import { candidacyPackById } from "./candidacy-packs";
+import { addCampaignHelper } from "./campaign-helpers";
+import { workSchedulesFor } from "./living-world/work-schedules";
 import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
 import {
   advanceWorld,
@@ -1210,6 +1212,66 @@ describe(
           weight: "slight",
         });
       }
+    });
+
+    it("counts a campaign helper's scheduled hours in field reach", () => {
+      const seed = "b02-helper-reach-random-place";
+      const places = lifePlaceStateIdentities();
+      const state = new SeededRng(seed).pick(places);
+      const place = searchLifePlaces("", 1, {
+        stateJurisdictionKey: `US-${state.usps}`,
+        scope: "locality",
+      })[0]!;
+      const life = withCampaign(adultLife(seed, place.key));
+      const campaign = activeCampaignForCandidate(life.world, life.personId)!;
+      const helperPersonId = life.world.personOrder.find(
+        (personId) =>
+          personId !== life.personId && personId !== life.organizerId,
+      );
+      if (!helperPersonId) throw new Error("The fixture needs another person.");
+      const staffedWorld = addCampaignHelper(life.world, {
+        campaignId: campaign.id,
+        personId: helperPersonId,
+        role: "volunteer",
+        pay: null,
+      });
+
+      const workday = Array.from({ length: 7 }, (_, index) => index + 1)
+        .map((daysLater) => ({
+          daysLater,
+          date: addDays(life.world.currentDate, daysLater),
+        }))
+        .flatMap(({ daysLater, date }) =>
+          workSchedulesFor(staffedWorld, helperPersonId, date)
+            .filter((schedule) => schedule.worksOn(date))
+            .map((schedule) => ({ daysLater, date, schedule })),
+        )[0];
+      if (!workday) throw new Error("The helper needs a scheduled work shift.");
+      const start = simulationMomentAtLocalTime({
+        date: workday.date,
+        minuteOfDay: workday.schedule.shift.startMinute + 15,
+        timeZone: life.world.currentMoment.timeZone,
+        preferredUtcOffsetMinutes: life.world.currentMoment.utcOffsetMinutes,
+      });
+      const fieldReachFor = (world: World, stableKey: string) => {
+        const offered = offer(life, world, "door-canvass", start, stableKey, {
+          campaignId: campaign.id,
+          origin: "subject-request",
+        });
+        return campaignLifeOutcomeRecords(attend(offered, life.personId)).at(
+          -1,
+        )!.fieldReach!.volunteerEquivalentMinutes;
+      };
+      const withoutHelper = fieldReachFor(life.world, "test:b02:base-reach");
+      const withHelper = fieldReachFor(staffedWorld, "test:b02:staffed-reach");
+
+      expect(withHelper).toBeGreaterThan(withoutHelper);
+      expect(withHelper - withoutHelper).toBe(
+        CAMPAIGN_LIFE_CATALOG["door-canvass"].defaultMinutes,
+      );
+      console.info(
+        `B02 helper reach place=${place.displayName} helper=${helperPersonId} base=${withoutHelper} staffed=${withHelper}`,
+      );
     });
 
     it("a declined support request leaves the contest, ballot and campaign untouched", () => {
