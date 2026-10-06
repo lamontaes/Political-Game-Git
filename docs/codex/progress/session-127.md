@@ -1,9 +1,9 @@
 # Session 127: Front hair clears measured face-side overlap
 
 The front-hair candidate clears measured overlap on every supplied front style
-while preserving bangs and original art. Complete turned inputs remain missing,
-so the candidate is a draft and its full acceptance test still fails. Continue
-the independent queue while the source holder supplies those inputs.
+while preserving bangs and original art. Turned inputs remain missing. The CTO
+authorized explicit input-gap reporting while retaining pixel checks for any
+supplied turned layers. Continue the independent queue after the scoped checks.
 
 ## Resume state
 
@@ -26,10 +26,14 @@ Bangs, RGB, back hair, body anchors and original PNG files remain unchanged.
 The mask writer is [pack.ts:1007](../../../src/presentation/appearance-engine/pack.ts#L1007).
 
 The new source-bound native test covers all 26 front hairstyles in standing and
-seated poses on one build. All 52 front cases pass; four three-quarter layer
-requirements fail because the manifest has no turned hair. The existing four
-hair-face-window tests pass unchanged. Full combined result: 56 passed / 4 failed.
-No turned pixel proof, READY, art approval, installed runtime or merge is claimed.
+seated poses on one build. All 52 front cases pass. Under the
+[CTO ruling](https://github.com/lamontaes/Political-Game-Git/issues/2424#issuecomment-6019622068),
+one explicit assertion reports the empty turned arrays instead of treating
+missing inputs as a candidate defect. When turned arrays are nonempty, both
+poses still require the requested view and zero opaque face-side overlap. The
+existing four hair-face-window tests pass unchanged. Latest combined result:
+57 passed, with one recorded input gap and no turned pixel proof. Art approval,
+installed runtime and merge are not claimed.
 
 Strict focused TypeScript validation includes the production code and the new
 test's typed PNG decoder interface.
@@ -60,6 +64,14 @@ Complete immutable turned pack and supported cloud staging are still requested
 on #2424, comment 6018953167; Session 10 acknowledged the exact source-bank gap.
 Continue the independent queue after publishing this candidate. Next id is
 b24-p1-s3; check for an open cloud-task PR and post the claim before working.
+
+CTO-scope receipts: /tmp/session127-hair-cto-tests.log records 57 passing tests
+and the plain turned-input gap message. Formatter, ESLint, whitespace, no-dice
+and Lexington grep on both changed source files pass (grep has no matches).
+Full npm run typecheck fails at time-command.ts lines 325, 326, 327 and 396
+with TS2339 missing moment; these unrelated baseline failures stay with their
+existing owner. The focused production/test typecheck is run separately. The earlier 157/4
+receipt above describes the superseded missing-input assertion, not a new failure.
 
 Exact next command (from /workspace/game, with subprocess execution enabled):
 

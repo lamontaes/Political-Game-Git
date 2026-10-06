@@ -101,6 +101,22 @@ function overlap(hair: Raster, mask: Uint8Array): number {
 }
 
 describe("front hair leaves the face sides visible", () => {
+  const missingTurned = (["feminine", "masculine"] as const).filter(
+    (presentation) =>
+      !manifest.presentations[presentation].views?.["three-quarter"]?.hair
+        .length,
+  );
+  if (missingTurned.length > 0)
+    it("records the input gap when turned hair arrays are empty", () => {
+      const message = `Input gap: no three-quarter hair for ${missingTurned.join(", ")}; turned pixel checks require supplied native layers.`;
+      process.stdout.write(`${message}\n`);
+      for (const presentation of missingTurned)
+        expect(
+          manifest.presentations[presentation].views?.["three-quarter"]?.hair ??
+            [],
+          message,
+        ).toEqual([]);
+    });
   for (const presentation of ["feminine", "masculine"] as const)
     for (const pose of ["standing", "seated"] as const) {
       const pack = manifest.presentations[presentation];
@@ -168,29 +184,81 @@ describe("front hair leaves the face sides visible", () => {
           ).toBe(0);
         });
 
-      it(`${presentation} average three-quarter ${pose} has its required layers`, () => {
-        const turned = pack.views?.["three-quarter"];
-        expect(
-          turned?.hair.length,
-          "Missing three-quarter front-hair layers",
-        ).toBeGreaterThan(0);
-        for (const hair of turned!.hair) {
-          const pieces = posedPieces(pack, {
-            presentation,
-            pose,
-            view: "three-quarter",
-            build: "average",
-            shade: 4,
-            face: "20s30s-01",
-            hair: hair.id,
-            hairColor: "natural",
-            outfit: "casual",
-          });
-          expect({ pose: pieces.pose, view: pieces.view }).toEqual({
-            pose,
-            view: "three-quarter",
-          });
-        }
-      });
+      if (pack.views?.["three-quarter"]?.hair.length)
+        it(`${presentation} average three-quarter ${pose} has its required layers`, () => {
+          const turned = pack.views?.["three-quarter"];
+          expect(
+            turned?.hair.length,
+            "Missing three-quarter front-hair layers",
+          ).toBeGreaterThan(0);
+          for (const hair of turned!.hair) {
+            const pieces = posedPieces(pack, {
+              presentation,
+              pose,
+              view: "three-quarter",
+              build: "average",
+              shade: 4,
+              face: "20s30s-01",
+              hair: hair.id,
+              hairColor: "natural",
+              outfit: "casual",
+            });
+            expect({ pose: pieces.pose, view: pieces.view }).toEqual({
+              pose,
+              view: "three-quarter",
+            });
+            const face = image(pieces.face.file);
+            let widestRow = 0;
+            let widest = 0;
+            for (let y = 0; y < face.height; y += 1) {
+              let width = 0;
+              for (let x = 0; x < face.width; x += 1)
+                if (face.data[(y * face.width + x) * 4 + 3]! >= 250) width += 1;
+              if (width > widest) {
+                widest = width;
+                widestRow = y;
+              }
+            }
+            const mask = sideMask(face, widestRow, face.height - 1);
+            expect(mask.some((pixel) => pixel === 1)).toBe(true);
+            const original = image(pieces.hair.front);
+            const immutable = new Uint8ClampedArray(original.data);
+            const before = overlap(
+              hairWithFaceWindow(
+                original,
+                face,
+                pieces.hair.front,
+                pieces.hair.faceWindow,
+              ),
+              mask,
+            );
+            const result = composeEnginePerson(manifest, image, {
+              presentation,
+              pose,
+              view: "three-quarter",
+              build: "average",
+              shade: 4,
+              face: pieces.face.id,
+              hair: hair.id,
+              hairColor: "natural",
+              outfit: "casual",
+            });
+            expect({ pose: result.pose, view: result.view }).toEqual({
+              pose,
+              view: "three-quarter",
+            });
+            const after = overlap(captured.front!, mask);
+            process.stdout.write(
+              `face-side ${presentation}/average/three-quarter/${pose}/${hair.id}: before=${before} after=${after} bound=0\n`,
+            );
+            expect(after).toBe(0);
+            expect(
+              Buffer.compare(
+                Buffer.from(original.data),
+                Buffer.from(immutable),
+              ),
+            ).toBe(0);
+          }
+        });
     }
 });
