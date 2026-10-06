@@ -1,5 +1,5 @@
 import { viewOfOfficial } from "./official-view-reads";
-import type { EntityId, EventKnowledgeRecord, World } from "./types";
+import type { EntityId, World } from "./types";
 
 /** A saved statement the player learned from someone or witnessed being said. */
 export interface PlayerHeardStatement {
@@ -21,17 +21,20 @@ export function statementsHeardByPlayer(
   world: World,
   playerId: EntityId,
 ): readonly PlayerHeardStatement[] {
-  if (world.control.kind !== "person" || world.control.personId !== playerId) return [];
+  if (world.control.kind !== "person" || world.control.personId !== playerId)
+    return [];
   const entries: PlayerHeardStatement[] = [];
   for (const knowledge of world.history.knowledge) {
     if (knowledge.personId !== playerId) continue;
-    if (knowledge.source.kind !== "told-by" || knowledge.source.claimId === null) continue;
-    const claim = world.history.claims.find((row) => row.id === knowledge.source.claimId);
+    const source = knowledge.source;
+    if (source.kind !== "told-by" || source.claimId === null) continue;
+    const claim = world.history.claims.find((row) => row.id === source.claimId);
     if (
       !claim ||
       claim.eventId !== knowledge.eventId ||
-      claim.speakerPersonId !== knowledge.source.sourcePersonId
-    ) continue;
+      claim.speakerPersonId !== source.sourcePersonId
+    )
+      continue;
     const speaker = world.people[claim.speakerPersonId];
     if (!speaker) continue;
     entries.push({
