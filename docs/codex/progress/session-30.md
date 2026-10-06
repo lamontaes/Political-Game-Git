@@ -20,3 +20,9 @@ LW06 draft #2490 and LW07 draft #2481 remain preserved and unmerged. Their law-t
 - Rebased onto P1, whose base is current main `8b0a877778bb12e27365a2cb87165faf08ed240f`.
 - Focused changed tests `legislative-bargaining.test.ts` and `legislative-commitment-standing.test.ts`: 53/53 passed.
 - Resume branch: `codex/session30-b08-p2-current-rebased`. Next: publish its draft against P1 PR #2538, then replay P3 on this branch and test its changed tests.
+
+## B08 P3
+
+- Replayed on the P2 branch; focused `legislative-member-decisions.test.ts` passes 9/9.
+- Asked Session 21 for the exact shared-writer contract/head in board comment #6016659593. P3 continues with source-backed considerations while awaiting the interface; it does not claim that Session 21's shared-kind work has landed.
+- Resume branch: `codex/session30-b08-p3-current-rebased`. Next: publish the P3 draft against P2 PR #2541; replay P4 only after recording its separate tests.
