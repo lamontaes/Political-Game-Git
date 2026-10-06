@@ -12,7 +12,7 @@
 
 ## Next
 
-- Publish one PR for b18-p5.
+- PR #2533 is published from `session46/b18-p5-protests` at `91124bf41633230b77ac1f281631009196e3dfb3`.
 
 ## Current limit
 
