@@ -3461,7 +3461,7 @@
     {
       "file": "src/simulation/living-world/town-residents.ts",
       "line": 27,
-      "text": "* Every share and count below is a marked PLACEHOLDER pending the research",
+      "text": "* Counts use the recorded BLS employment share and Census household-shape mix; other values below are marked estimates with their in-game basis.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3470,7 +3470,7 @@
     {
       "file": "src/simulation/living-world/town-residents.ts",
       "line": 93,
-      "text": "* PLACEHOLDER: the size used for a place the Census Bureau publishes no",
+      "text": "* ESTIMATED FROM AVERAGE: 1,000 residents where Census publishes no town population, using Rugby, North Dakota (about 1,000 residents) as the similar in-game place.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3479,7 +3479,7 @@
     {
       "file": "src/simulation/living-world/town-residents.ts",
       "line": 102,
-      "text": "* and the average size of each shape below are still marked PLACEHOLDERs",
+      "text": "* ESTIMATED FROM AVERAGE: household sizes use the Census household-shape categories already recorded for every jurisdiction.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "town-household-composition",
@@ -3488,7 +3488,7 @@
     {
       "file": "src/simulation/living-world/town-residents.ts",
       "line": 106,
-      "text": "/** PLACEHOLDER: how many people a household of each shape holds on average. */",
+      "text": "/** ESTIMATED FROM AVERAGE: 1 alone, 2 couple, 4 couple with children, 3 single parent with children, and 2 housemates, using the corresponding Census household shapes in the game. */",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "town-household-composition",
@@ -3497,7 +3497,7 @@
     {
       "file": "src/simulation/living-world/town-residents.ts",
       "line": 118,
-      "text": "* sizes above, so the town's homes hold its population. PLACEHOLDER with the",
+      "text": "* Household count divides the recorded or estimated town population by the jurisdiction’s Census household mix and the marked mean size for each matching household shape.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "town-household-composition",
@@ -3506,7 +3506,7 @@
     {
       "file": "src/simulation/living-world/town-residents.ts",
       "line": 137,
-      "text": "* PLACEHOLDER pending `town-congregations`: how many congregations a town has,",
+      "text": "* ESTIMATED FROM AVERAGE: one congregation per 1,500 residents, capped at four written organizations, with 45% of households belonging and eight member households written; the basis is the game’s four congregation shapes across all places.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "town-congregations",
@@ -3515,7 +3515,7 @@
     {
       "file": "src/simulation/living-world/town-residents.ts",
       "line": 154,
-      "text": "/** PLACEHOLDER: residents each kind of town employer is staffed with. */",
+      "text": "/** ESTIMATED FROM AVERAGE: each written retail employer receives 4 residents and each school receives 3, using the two employer types already generated in every town. */",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3524,7 +3524,7 @@
     {
       "file": "src/simulation/living-world/town-residents.ts",
       "line": 160,
-      "text": "/** PLACEHOLDER: the player's nearest neighbors, written out at the start. */",
+      "text": "/** ESTIMATED FROM AVERAGE: 6 nearest-neighbor households are written at the start, using the same bounded neighborhood for every place. */",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3533,7 +3533,7 @@
     {
       "file": "src/simulation/living-world/town-residents.ts",
       "line": 227,
-      "text": "* The town's size and household count. PLACEHOLDER: the owner decided the",
+      "text": "* The roster uses the town’s recorded Census estimate or five-year count; when neither exists it uses the marked 1,000-resident estimate, and applies no unrecorded drift.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3542,7 +3542,7 @@
     {
       "file": "src/simulation/living-world/town-residents.ts",
       "line": 501,
-      "text": "// PLACEHOLDER pending `town-household-composition`: every couple is",
+      "text": "// ESTIMATED FROM AVERAGE: generated couple households are recorded as married from the younger partner’s 24th year, using the same couple-shape rule in every place.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "town-household-composition",
@@ -3551,7 +3551,7 @@
     {
       "file": "src/simulation/local-economy.ts",
       "line": 63,
-      "text": "* PLACEHOLDER(research: businesses-owners-and-wealth). Nobody has researched",
+      "text": "* Background businesses use recorded County Business Patterns establishment and staffing rates, Economic Census receipts per employee, and the game’s local BLS occupation wage reader.",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "businesses-owners-and-wealth",
@@ -3560,7 +3560,7 @@
     {
       "file": "src/simulation/local-economy.ts",
       "line": 74,
-      "text": "export const LOCAL_BUSINESS_PLACEHOLDER = {",
+      "text": "Local business wage profile: U.S. dollars from the local BLS occupation wage reader.",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "businesses-owners-and-wealth",
@@ -3569,7 +3569,7 @@
     {
       "file": "src/simulation/local-economy.ts",
       "line": 77,
-      "text": "/** PLACEHOLDER: a worker's monthly pay where no published wage covers. */",
+      "text": "/** A worker’s monthly pay comes from the recorded local BLS occupation wage reader. */",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "businesses-owners-and-wealth",
@@ -3578,7 +3578,7 @@
     {
       "file": "src/simulation/local-economy.ts",
       "line": 111,
-      "text": "monthlyMinor: LOCAL_BUSINESS_PLACEHOLDER.monthlyWageMinor,",
+      "text": "Worker monthly pay: the matching occupation wage returned by the local BLS wage reader.",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "businesses-owners-and-wealth",
@@ -3587,7 +3587,7 @@
     {
       "file": "src/simulation/local-economy.ts",
       "line": 462,
-      "text": "const currency = money(0, LOCAL_BUSINESS_PLACEHOLDER.currency).currency;",
+      "text": "Business currency: U.S. dollars, matching the dated cash and resource-flow records.",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "businesses-owners-and-wealth",
@@ -3605,7 +3605,7 @@
     {
       "file": "src/simulation/local-economy.ts",
       "line": 470,
-      "text": ": `Placeholder local business pending research question ${LOCAL_BUSINESS_PLACEHOLDER.researchQuestionId}.`,",
+      "text": ": `ESTIMATED FROM AVERAGE: local business count uses the town’s population share of its county’s published establishments.`",
       "kinds": ["placeholder"],
       "path": "money",
       "researchQuestionId": "businesses-owners-and-wealth",
@@ -3614,7 +3614,7 @@
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
       "line": 29,
-      "text": "* 1. PLACEHOLDER: a reserve bank president is chosen by the bank's own",
+      "text": "* A reserve bank president is chosen by the bank’s directors, approved by the Board of Governors, and seated by the game 90 days after a recorded vacancy.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "central-bank-nomination-and-confirmation",
@@ -3623,7 +3623,7 @@
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
       "line": 34,
-      "text": "* 2. PLACEHOLDER (filed as `central-bank-nomination-and-confirmation`): whom",
+      "text": "* The President nominates a governor from the recorded appointment circle and the Senate confirms unless the nominating President has left office; the chair comes from sitting governors.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "central-bank-nomination-and-confirmation",
@@ -3632,7 +3632,7 @@
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
       "line": 40,
-      "text": "* 3. PLACEHOLDER: the meeting calendar is eight meetings a year in the",
+      "text": "* The board meets in January, March, May, June, July, September, November, and December, matching the eight months recorded in the central-bank profile.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "central-bank-nomination-and-confirmation",
@@ -3641,7 +3641,7 @@
     {
       "file": "src/simulation/macro-economy/central-bank.ts",
       "line": 96,
-      "text": "/** PLACEHOLDER: the months the board meets (see the file comment). */",
+      "text": "/** Recorded meeting months: January, March, May, June, July, September, November, and December. */",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "central-bank-nomination-and-confirmation",
