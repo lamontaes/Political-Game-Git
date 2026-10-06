@@ -17,17 +17,24 @@ export interface MonthDecision {
   readonly sequence: number;
   readonly cutoffSequence: number;
 }
+export interface MonthEvent {
+  readonly key: string;
+  readonly hash: string;
+  readonly sequence: number;
+}
 export interface MonthReceipt {
   readonly seed: string;
   readonly place: string;
   readonly days: number;
   readonly head: string;
   readonly seconds: number;
+  /** One normal, untimed-by-profiler sample for each measured day 2–31. */
+  readonly dailySeconds: readonly number[];
   readonly date: string;
   readonly fingerprint: string;
   readonly people: readonly { readonly id: string; readonly hash: string }[];
   readonly decisions: readonly MonthDecision[];
-  readonly events: readonly { readonly key: string; readonly hash: string }[];
+  readonly events: readonly MonthEvent[];
 }
 
 /** Only history positions may differ under the owner's batch exception. */
@@ -49,42 +56,54 @@ export function compareMonth(before: MonthReceipt, after: MonthReceipt) {
   const errors: string[] = [];
   for (const key of ["seed", "place", "days", "date"] as const)
     if (before[key] !== after[key]) errors.push(`${key} differs`);
+  if (before.dailySeconds.length !== 30 || after.dailySeconds.length !== 30)
+    errors.push("Both runs must contain 30 measured days (days 2–31)");
+  const beforeMean =
+    before.dailySeconds.reduce((sum, seconds) => sum + seconds, 0) /
+    before.dailySeconds.length;
+  const afterMean =
+    after.dailySeconds.reduce((sum, seconds) => sum + seconds, 0) /
+    after.dailySeconds.length;
+  if (!(afterMean < beforeMean))
+    errors.push(
+      `Days 2–31 mean ${afterMean.toFixed(6)}s/day is not below main ${beforeMean.toFixed(6)}s/day`,
+    );
   if (JSON.stringify(before.people) !== JSON.stringify(after.people))
     errors.push("People, their facts, appearances or person order differ");
-  if (JSON.stringify(before.events) !== JSON.stringify(after.events))
-    errors.push("Recorded events or results differ beyond history positions");
-  const old = new Map(before.decisions.map((row) => [row.key, row]));
-  const positions: {
-    key: string;
-    sequenceBefore: number;
-    sequenceAfter: number;
-    cutoffBefore: number;
-    cutoffAfter: number;
-    choice: string | null;
-  }[] = [];
-  if (old.size !== after.decisions.length)
+  if (before.decisions.length !== after.decisions.length)
     errors.push("Decision count differs");
-  for (const row of after.decisions) {
-    const prior = old.get(row.key);
-    if (!prior || prior.choice !== row.choice || prior.hash !== row.hash)
-      errors.push(`Decision ${row.key}: choice or decision facts differ`);
+  for (let index = 0; index < after.decisions.length; index += 1) {
+    const row = after.decisions[index]!;
+    const prior = before.decisions[index];
     if (
-      prior &&
-      (prior.sequence !== row.sequence ||
-        prior.cutoffSequence !== row.cutoffSequence)
+      !prior ||
+      prior.key !== row.key ||
+      prior.choice !== row.choice ||
+      prior.hash !== row.hash ||
+      prior.sequence !== row.sequence ||
+      prior.cutoffSequence !== row.cutoffSequence
     )
-      positions.push({
-        key: row.key,
-        sequenceBefore: prior.sequence,
-        sequenceAfter: row.sequence,
-        cutoffBefore: prior.cutoffSequence,
-        cutoffAfter: row.cutoffSequence,
-        choice: row.choice,
-      });
+      errors.push(`Decision ${row.key} differs in facts, order, or cutoff`);
+  }
+  if (before.events.length !== after.events.length)
+    errors.push("Event count differs");
+  for (let index = 0; index < after.events.length; index += 1) {
+    const row = after.events[index]!;
+    const prior = before.events[index];
+    if (
+      !prior ||
+      prior.key !== row.key ||
+      prior.hash !== row.hash ||
+      prior.sequence !== row.sequence
+    )
+      errors.push(`Event ${row.key} differs in facts or order`);
   }
   return {
     errors,
-    positions,
+    baselineMeanSecondsPerDay: beforeMean,
+    candidateMeanSecondsPerDay: afterMean,
+    meanReductionPercent:
+      beforeMean > 0 ? ((beforeMean - afterMean) / beforeMean) * 100 : null,
     fingerprintsIdentical: before.fingerprint === after.fingerprint,
   };
 }
@@ -120,16 +139,33 @@ async function main() {
   console.log(
     `head=${head} seed=${seed} place=${place} from=${world.currentDate}`,
   );
-  const began = performance.now();
-  const next = advanceObservedWorld(world, 30);
-  const seconds = (performance.now() - began) / 1000;
+  // Day 1 is the same warm-up action in both runs. Time only the ordinary
+  // daily steps that the assigned speed gate compares: days 2 through 31.
+  const firstDay = advanceObservedWorld(world, 1);
+  if (firstDay.currentDate <= world.currentDate)
+    throw new Error("The observer did not complete day 1");
+  world = firstDay;
+  const dailySeconds: number[] = [];
+  for (let day = 2; day <= 31; day += 1) {
+    const dayBegan = performance.now();
+    const next = advanceObservedWorld(world, 1);
+    const daySeconds = (performance.now() - dayBegan) / 1000;
+    if (next.currentDate <= world.currentDate)
+      throw new Error(`The observer did not complete day ${day}`);
+    dailySeconds.push(daySeconds);
+    world = next;
+  }
+  const next = world;
+  const seconds = dailySeconds.reduce((sum, day) => sum + day, 0);
   if (
     (Date.parse(next.currentDate) - Date.parse(world.currentDate)) /
       86400000 !==
     30
   )
     throw new Error("The observer did not complete all 30 days");
-  console.log(`30 days: ${seconds.toFixed(3)}s through ${next.currentDate}`);
+  console.log(
+    `Days 2–31 mean: ${(seconds / dailySeconds.length).toFixed(6)}s/day; total ${seconds.toFixed(3)}s through ${next.currentDate}`,
+  );
   const hash = (value: unknown) =>
     createHash("sha256").update(canonicalJson(value)).digest("hex");
   const payload = serializeWorldPayload(next);
@@ -142,24 +178,22 @@ async function main() {
     days: 30,
     head,
     seconds,
+    dailySeconds,
     date: next.currentDate,
     fingerprint: fingerprint.digest("hex"),
     people: next.personOrder.map((id) => ({ id, hash: hash(next.people[id]) })),
-    decisions: next.history.decisionTraces
-      .map((row) => ({
-        key: row.stableKey,
-        choice: row.selectedOptionKey,
-        hash: hash(withoutHistoryPositions(row)),
-        sequence: row.sequence,
-        cutoffSequence: row.context.cutoff.historySequenceExclusive,
-      }))
-      .sort((a, b) => a.key.localeCompare(b.key)),
-    events: next.history.events
-      .map((row) => ({
-        key: row.stableKey,
-        hash: hash(withoutHistoryPositions(row)),
-      }))
-      .sort((a, b) => a.key.localeCompare(b.key)),
+    decisions: next.history.decisionTraces.map((row) => ({
+      key: row.stableKey,
+      choice: row.selectedOptionKey,
+      hash: hash(withoutHistoryPositions(row)),
+      sequence: row.sequence,
+      cutoffSequence: row.context.cutoff.historySequenceExclusive,
+    })),
+    events: next.history.events.map((row) => ({
+      key: row.stableKey,
+      hash: hash(withoutHistoryPositions(row)),
+      sequence: row.sequence,
+    })),
   };
   mkdirSync(dirname(out), { recursive: true });
   writeFileSync(out, JSON.stringify(receipt));
@@ -173,7 +207,9 @@ async function main() {
     console.log(
       JSON.stringify({
         errors: comparison.errors,
-        positionChanges: comparison.positions.length,
+        baselineMeanSecondsPerDay: comparison.baselineMeanSecondsPerDay,
+        candidateMeanSecondsPerDay: comparison.candidateMeanSecondsPerDay,
+        meanReductionPercent: comparison.meanReductionPercent,
         fingerprintsIdentical: comparison.fingerprintsIdentical,
         people: receipt.people.length,
         decisions: receipt.decisions.length,
