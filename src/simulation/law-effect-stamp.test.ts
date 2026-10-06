@@ -48,6 +48,20 @@ describe("saved law-effect attribution", () => {
     expect(lawEffectStamp(starting, context)?.source).toBe("in-force-at-start");
   });
   it("persists source versus modeled term evidence and clones donor references", () => {
+    const sourced = {
+      kind: "source" as const,
+      termKey: "housing-land-use.inclusionary-requirement",
+      value: 0.2,
+      unit: "ratio" as const,
+      requestedAt: makeIsoDate("2026-09-01"),
+      lawMeasureId: "measure_nj" as EntityId,
+      sourceRecordIds: ["provision_nj" as EntityId, "source_nj" as EntityId],
+    };
+    expect(
+      isLawEffectStamp(
+        lawEffectStamp(law, { ...context, termResolution: sourced }),
+      ),
+    ).toBe(true);
     const modeled = {
       kind: "modeled" as const,
       termKey: "housing-land-use.inclusionary-requirement",
