@@ -1,0 +1,951 @@
+{
+  "baselineSource": "f88508186b78f526ecf89a420b5fb584171e039a",
+  "candidateSource": "82444c69de858b80bfe8f529af7f39e9da8ba420",
+  "seed": "session5-one-month-3c40ddf2-3ead-4375-b68a-a9eedaf046ec",
+  "place": "Ripon, Wisconsin",
+  "baseline": {
+    "steadyCalendarDays": 30,
+    "steadyActions": 31,
+    "meanDailyCpuMs": 5547.7166,
+    "meanEndOfDayHeapUsedBytes": 1174588483.7333333,
+    "maxEndOfDayHeapUsedBytes": 1704212008,
+    "rows": [
+      {
+        "from": "2026-01-06",
+        "to": "2026-01-07",
+        "actions": [1, 2],
+        "cpuMs": 2449.555,
+        "heapUsedBytes": 729351424
+      },
+      {
+        "from": "2026-01-07",
+        "to": "2026-01-08",
+        "actions": [3],
+        "cpuMs": 2359.097,
+        "heapUsedBytes": 583650824
+      },
+      {
+        "from": "2026-01-08",
+        "to": "2026-01-09",
+        "actions": [4],
+        "cpuMs": 2705.024,
+        "heapUsedBytes": 644312856
+      },
+      {
+        "from": "2026-01-09",
+        "to": "2026-01-10",
+        "actions": [5],
+        "cpuMs": 2038.751,
+        "heapUsedBytes": 723696752
+      },
+      {
+        "from": "2026-01-10",
+        "to": "2026-01-11",
+        "actions": [6],
+        "cpuMs": 2082.511,
+        "heapUsedBytes": 825451632
+      },
+      {
+        "from": "2026-01-11",
+        "to": "2026-01-12",
+        "actions": [7],
+        "cpuMs": 11606.246,
+        "heapUsedBytes": 1174034200
+      },
+      {
+        "from": "2026-01-12",
+        "to": "2026-01-13",
+        "actions": [8],
+        "cpuMs": 2590.2650000000003,
+        "heapUsedBytes": 1244208064
+      },
+      {
+        "from": "2026-01-13",
+        "to": "2026-01-14",
+        "actions": [9],
+        "cpuMs": 2413.786,
+        "heapUsedBytes": 1301384560
+      },
+      {
+        "from": "2026-01-14",
+        "to": "2026-01-15",
+        "actions": [10],
+        "cpuMs": 2548.8489999999997,
+        "heapUsedBytes": 1391463680
+      },
+      {
+        "from": "2026-01-15",
+        "to": "2026-01-16",
+        "actions": [11],
+        "cpuMs": 3087.944,
+        "heapUsedBytes": 1559031032
+      },
+      {
+        "from": "2026-01-16",
+        "to": "2026-01-17",
+        "actions": [12],
+        "cpuMs": 2594.2650000000003,
+        "heapUsedBytes": 1608781256
+      },
+      {
+        "from": "2026-01-17",
+        "to": "2026-01-18",
+        "actions": [13],
+        "cpuMs": 2504.6800000000003,
+        "heapUsedBytes": 1704212008
+      },
+      {
+        "from": "2026-01-18",
+        "to": "2026-01-19",
+        "actions": [14],
+        "cpuMs": 17285.434,
+        "heapUsedBytes": 803517592
+      },
+      {
+        "from": "2026-01-19",
+        "to": "2026-01-20",
+        "actions": [15],
+        "cpuMs": 3169.397,
+        "heapUsedBytes": 915456120
+      },
+      {
+        "from": "2026-01-20",
+        "to": "2026-01-21",
+        "actions": [16],
+        "cpuMs": 3071.72,
+        "heapUsedBytes": 1046849720
+      },
+      {
+        "from": "2026-01-21",
+        "to": "2026-01-22",
+        "actions": [17],
+        "cpuMs": 2971.99,
+        "heapUsedBytes": 1150193992
+      },
+      {
+        "from": "2026-01-22",
+        "to": "2026-01-23",
+        "actions": [18],
+        "cpuMs": 4528.488,
+        "heapUsedBytes": 1286108120
+      },
+      {
+        "from": "2026-01-23",
+        "to": "2026-01-24",
+        "actions": [19],
+        "cpuMs": 2865.058,
+        "heapUsedBytes": 1428746592
+      },
+      {
+        "from": "2026-01-24",
+        "to": "2026-01-25",
+        "actions": [20],
+        "cpuMs": 2941.2389999999996,
+        "heapUsedBytes": 1508504824
+      },
+      {
+        "from": "2026-01-25",
+        "to": "2026-01-26",
+        "actions": [21],
+        "cpuMs": 18755.885000000002,
+        "heapUsedBytes": 924982832
+      },
+      {
+        "from": "2026-01-26",
+        "to": "2026-01-27",
+        "actions": [22],
+        "cpuMs": 3663.532,
+        "heapUsedBytes": 1043408392
+      },
+      {
+        "from": "2026-01-27",
+        "to": "2026-01-28",
+        "actions": [23],
+        "cpuMs": 3493.732,
+        "heapUsedBytes": 1165804832
+      },
+      {
+        "from": "2026-01-28",
+        "to": "2026-01-29",
+        "actions": [24],
+        "cpuMs": 3375.315,
+        "heapUsedBytes": 1227894688
+      },
+      {
+        "from": "2026-01-29",
+        "to": "2026-01-30",
+        "actions": [25],
+        "cpuMs": 6455.751,
+        "heapUsedBytes": 1155599480
+      },
+      {
+        "from": "2026-01-30",
+        "to": "2026-01-31",
+        "actions": [26],
+        "cpuMs": 4756.997,
+        "heapUsedBytes": 1343958048
+      },
+      {
+        "from": "2026-01-31",
+        "to": "2026-02-01",
+        "actions": [27],
+        "cpuMs": 9340.410000000002,
+        "heapUsedBytes": 1618050304
+      },
+      {
+        "from": "2026-02-01",
+        "to": "2026-02-02",
+        "actions": [28],
+        "cpuMs": 26190.129,
+        "heapUsedBytes": 1055364416
+      },
+      {
+        "from": "2026-02-02",
+        "to": "2026-02-03",
+        "actions": [29],
+        "cpuMs": 4542.073,
+        "heapUsedBytes": 1157049776
+      },
+      {
+        "from": "2026-02-03",
+        "to": "2026-02-04",
+        "actions": [30],
+        "cpuMs": 6100.3279999999995,
+        "heapUsedBytes": 1397173136
+      },
+      {
+        "from": "2026-02-04",
+        "to": "2026-02-05",
+        "actions": [31],
+        "cpuMs": 3943.047,
+        "heapUsedBytes": 1519413360
+      }
+    ]
+  },
+  "candidate": {
+    "steadyCalendarDays": 30,
+    "steadyActions": 31,
+    "meanDailyCpuMs": 5915.321766666666,
+    "meanEndOfDayHeapUsedBytes": 1301053461.0666666,
+    "maxEndOfDayHeapUsedBytes": 2187667216,
+    "rows": [
+      {
+        "from": "2026-01-06",
+        "to": "2026-01-07",
+        "actions": [1, 2],
+        "cpuMs": 2641.852,
+        "heapUsedBytes": 784861832
+      },
+      {
+        "from": "2026-01-07",
+        "to": "2026-01-08",
+        "actions": [3],
+        "cpuMs": 2075.283,
+        "heapUsedBytes": 608023200
+      },
+      {
+        "from": "2026-01-08",
+        "to": "2026-01-09",
+        "actions": [4],
+        "cpuMs": 2735.073,
+        "heapUsedBytes": 804632264
+      },
+      {
+        "from": "2026-01-09",
+        "to": "2026-01-10",
+        "actions": [5],
+        "cpuMs": 2050.755,
+        "heapUsedBytes": 895035864
+      },
+      {
+        "from": "2026-01-10",
+        "to": "2026-01-11",
+        "actions": [6],
+        "cpuMs": 2043.097,
+        "heapUsedBytes": 1005569568
+      },
+      {
+        "from": "2026-01-11",
+        "to": "2026-01-12",
+        "actions": [7],
+        "cpuMs": 10730.419,
+        "heapUsedBytes": 1368043648
+      },
+      {
+        "from": "2026-01-12",
+        "to": "2026-01-13",
+        "actions": [8],
+        "cpuMs": 2564.3770000000004,
+        "heapUsedBytes": 1507552448
+      },
+      {
+        "from": "2026-01-13",
+        "to": "2026-01-14",
+        "actions": [9],
+        "cpuMs": 2604.436,
+        "heapUsedBytes": 1650407544
+      },
+      {
+        "from": "2026-01-14",
+        "to": "2026-01-15",
+        "actions": [10],
+        "cpuMs": 2843.2670000000003,
+        "heapUsedBytes": 1835098128
+      },
+      {
+        "from": "2026-01-15",
+        "to": "2026-01-16",
+        "actions": [11],
+        "cpuMs": 3209.868,
+        "heapUsedBytes": 2008282344
+      },
+      {
+        "from": "2026-01-16",
+        "to": "2026-01-17",
+        "actions": [12],
+        "cpuMs": 3924.529,
+        "heapUsedBytes": 692821448
+      },
+      {
+        "from": "2026-01-17",
+        "to": "2026-01-18",
+        "actions": [13],
+        "cpuMs": 2383.7589999999996,
+        "heapUsedBytes": 857967208
+      },
+      {
+        "from": "2026-01-18",
+        "to": "2026-01-19",
+        "actions": [14],
+        "cpuMs": 17798.055,
+        "heapUsedBytes": 773584656
+      },
+      {
+        "from": "2026-01-19",
+        "to": "2026-01-20",
+        "actions": [15],
+        "cpuMs": 3233.303,
+        "heapUsedBytes": 981425296
+      },
+      {
+        "from": "2026-01-20",
+        "to": "2026-01-21",
+        "actions": [16],
+        "cpuMs": 4207.087,
+        "heapUsedBytes": 972654176
+      },
+      {
+        "from": "2026-01-21",
+        "to": "2026-01-22",
+        "actions": [17],
+        "cpuMs": 3068.697,
+        "heapUsedBytes": 1129899616
+      },
+      {
+        "from": "2026-01-22",
+        "to": "2026-01-23",
+        "actions": [18],
+        "cpuMs": 4978.843,
+        "heapUsedBytes": 1464888496
+      },
+      {
+        "from": "2026-01-23",
+        "to": "2026-01-24",
+        "actions": [19],
+        "cpuMs": 3317.7439999999997,
+        "heapUsedBytes": 1666492128
+      },
+      {
+        "from": "2026-01-24",
+        "to": "2026-01-25",
+        "actions": [20],
+        "cpuMs": 3471.144,
+        "heapUsedBytes": 1885410328
+      },
+      {
+        "from": "2026-01-25",
+        "to": "2026-01-26",
+        "actions": [21],
+        "cpuMs": 18054.486,
+        "heapUsedBytes": 907553328
+      },
+      {
+        "from": "2026-01-26",
+        "to": "2026-01-27",
+        "actions": [22],
+        "cpuMs": 3500.1530000000002,
+        "heapUsedBytes": 1167613512
+      },
+      {
+        "from": "2026-01-27",
+        "to": "2026-01-28",
+        "actions": [23],
+        "cpuMs": 3276.835,
+        "heapUsedBytes": 1371977688
+      },
+      {
+        "from": "2026-01-28",
+        "to": "2026-01-29",
+        "actions": [24],
+        "cpuMs": 3494.205,
+        "heapUsedBytes": 1583969544
+      },
+      {
+        "from": "2026-01-29",
+        "to": "2026-01-30",
+        "actions": [25],
+        "cpuMs": 6049.388,
+        "heapUsedBytes": 1919040384
+      },
+      {
+        "from": "2026-01-30",
+        "to": "2026-01-31",
+        "actions": [26],
+        "cpuMs": 5205.3910000000005,
+        "heapUsedBytes": 2187667216
+      },
+      {
+        "from": "2026-01-31",
+        "to": "2026-02-01",
+        "actions": [27],
+        "cpuMs": 11170.178,
+        "heapUsedBytes": 955686160
+      },
+      {
+        "from": "2026-02-01",
+        "to": "2026-02-02",
+        "actions": [28],
+        "cpuMs": 31947.711,
+        "heapUsedBytes": 1072050320
+      },
+      {
+        "from": "2026-02-02",
+        "to": "2026-02-03",
+        "actions": [29],
+        "cpuMs": 4524.542,
+        "heapUsedBytes": 1336885384
+      },
+      {
+        "from": "2026-02-03",
+        "to": "2026-02-04",
+        "actions": [30],
+        "cpuMs": 6147.295,
+        "heapUsedBytes": 1716227376
+      },
+      {
+        "from": "2026-02-04",
+        "to": "2026-02-05",
+        "actions": [31],
+        "cpuMs": 4207.881,
+        "heapUsedBytes": 1920282728
+      }
+    ]
+  },
+  "dailyCpuChangePercent": 6.626242707975849,
+  "capturedActionParity": true,
+  "cpuDown": false,
+  "actions": [
+    {
+      "action": 0,
+      "from": "2026-01-05",
+      "to": "2026-01-06",
+      "sequence": 88883,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 1,
+      "from": "2026-01-06",
+      "to": "2026-01-06",
+      "sequence": 88884,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 2,
+      "from": "2026-01-06",
+      "to": "2026-01-07",
+      "sequence": 91457,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 3,
+      "from": "2026-01-07",
+      "to": "2026-01-08",
+      "sequence": 94032,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 4,
+      "from": "2026-01-08",
+      "to": "2026-01-09",
+      "sequence": 99790,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 5,
+      "from": "2026-01-09",
+      "to": "2026-01-10",
+      "sequence": 102146,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 6,
+      "from": "2026-01-10",
+      "to": "2026-01-11",
+      "sequence": 104600,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 7,
+      "from": "2026-01-11",
+      "to": "2026-01-12",
+      "sequence": 232859,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 8,
+      "from": "2026-01-12",
+      "to": "2026-01-13",
+      "sequence": 235344,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 9,
+      "from": "2026-01-13",
+      "to": "2026-01-14",
+      "sequence": 237645,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 10,
+      "from": "2026-01-14",
+      "to": "2026-01-15",
+      "sequence": 240060,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 11,
+      "from": "2026-01-15",
+      "to": "2026-01-16",
+      "sequence": 242850,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 12,
+      "from": "2026-01-16",
+      "to": "2026-01-17",
+      "sequence": 245193,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 13,
+      "from": "2026-01-17",
+      "to": "2026-01-18",
+      "sequence": 247395,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 14,
+      "from": "2026-01-18",
+      "to": "2026-01-19",
+      "sequence": 375215,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 15,
+      "from": "2026-01-19",
+      "to": "2026-01-20",
+      "sequence": 377439,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 16,
+      "from": "2026-01-20",
+      "to": "2026-01-21",
+      "sequence": 379677,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 17,
+      "from": "2026-01-21",
+      "to": "2026-01-22",
+      "sequence": 381925,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 18,
+      "from": "2026-01-22",
+      "to": "2026-01-23",
+      "sequence": 386859,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 19,
+      "from": "2026-01-23",
+      "to": "2026-01-24",
+      "sequence": 388965,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 20,
+      "from": "2026-01-24",
+      "to": "2026-01-25",
+      "sequence": 391089,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 21,
+      "from": "2026-01-25",
+      "to": "2026-01-26",
+      "sequence": 518743,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 22,
+      "from": "2026-01-26",
+      "to": "2026-01-27",
+      "sequence": 520872,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 23,
+      "from": "2026-01-27",
+      "to": "2026-01-28",
+      "sequence": 522909,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 24,
+      "from": "2026-01-28",
+      "to": "2026-01-29",
+      "sequence": 524900,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 25,
+      "from": "2026-01-29",
+      "to": "2026-01-30",
+      "sequence": 527608,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 26,
+      "from": "2026-01-30",
+      "to": "2026-01-31",
+      "sequence": 531411,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 27,
+      "from": "2026-01-31",
+      "to": "2026-02-01",
+      "sequence": 541538,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 28,
+      "from": "2026-02-01",
+      "to": "2026-02-02",
+      "sequence": 669438,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 29,
+      "from": "2026-02-02",
+      "to": "2026-02-03",
+      "sequence": 672379,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 30,
+      "from": "2026-02-03",
+      "to": "2026-02-04",
+      "sequence": 676143,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    },
+    {
+      "action": 31,
+      "from": "2026-02-04",
+      "to": "2026-02-05",
+      "sequence": 677863,
+      "accepted": true,
+      "differences": [],
+      "allAppendedFullFieldDigestsEqual": true
+    }
+  ],
+  "packets": [
+    {
+      "action": 4,
+      "exactPacketBytesEqual": true,
+      "baselineBytes": 5282838,
+      "candidateBytes": 5282838,
+      "sha256": "931204890c9a72dc71908f440e30b7b34d5d83674c0aa7ad2272a02098f056cd"
+    },
+    {
+      "action": 5,
+      "exactPacketBytesEqual": true,
+      "baselineBytes": 2136088,
+      "candidateBytes": 2136088,
+      "sha256": "adb0918fa86745c5bff602b18ba8b4eef839e923b58dbb3834b202df66957ac9"
+    }
+  ],
+  "limits": [
+    "Headless canonical Day computation; no browser navigation, annual speed or save/Continue acceptance.",
+    "Outer process CPU includes the identical portable runner sampling and digest accounting. Precise coverage is not enabled.",
+    "Exact digests cover all appended record payload fields and order; packet equality covers changed people definitions in actions4/5. Earlier prefix revisions and other state dictionaries were not captured.",
+    "CalendarDay1 action0 is excluded. CalendarDay2 includes same-date action1 plus action2; actions1\u201331 are grouped into30calendar days."
+  ],
+  "execution": {
+    "baselineExec": 72328,
+    "candidateExec": 18689,
+    "candidatePid": 61214,
+    "candidateTerminalExit": 0,
+    "candidateInputWrittenUTC": "2026-10-06T12:25:19.471302+00:00",
+    "metric": "Outer process.cpuUsage user+system milliseconds; actions1\u201331 grouped by from-date into30calendar days; action0 excluded",
+    "executablePath": "/tmp/session5-row-proof-runner/run.mjs",
+    "runnerHashes": {
+      "run.mjs": "88d8c8488540fb66203e3fe43dfce797e2f2ed008e20a9d4b18911777d16fc75",
+      "instrument.mjs": "daa456aa3a94efe3f753ab986d744445300bcf26e3c5312082b75ea80a1f184d",
+      "row-evidence.mjs": "975cbd4867937bb2beaec1c5fadb14bbba7300041d7c9dcdd88546a33820e947"
+    },
+    "preciseCoverage": false,
+    "configuredOldSpaceMb": 4096,
+    "baselineHeapLimitBytes": 4496293888,
+    "candidateHeapLimitBytes": 4496293888,
+    "separateBaseline": "Session48 SP-A5155.261ms is a different comparison, not combined here"
+  },
+  "maximumEndpointHeapAtOrBelowBaseline": false,
+  "acceptancePass": false,
+  "priorTrials": [
+    {
+      "candidateSource": "25723fe0485efa9dbc77d2e42159bc3b9844e27c",
+      "dailyCpuChangePercent": -0.3141935308423327,
+      "capturedActionParity": true,
+      "cpuDown": true,
+      "candidateMeanDailyCpuMs": 5530.286033333334,
+      "candidateMaxEndpointHeapBytes": 2148529440,
+      "candidateMeanEndpointHeapBytes": 1210254661.0666666
+    },
+    {
+      "candidateSource": "9c8cee55f785503c41441ca4b54a9eeb13822ba1",
+      "dailyCpuChangePercent": 4.617458289055354,
+      "capturedActionParity": true,
+      "cpuDown": false,
+      "candidateMeanDailyCpuMs": 5803.880099999999,
+      "candidateMaxEndpointHeapBytes": 2216818400,
+      "candidateMeanEndpointHeapBytes": 1339863818.6666667
+    },
+    {
+      "candidateSource": "eb5475b8bd97a666ca18bb19929e1d54e5165c05",
+      "dailyCpuChangePercent": 9.018247255095924,
+      "capturedActionParity": true,
+      "cpuDown": false,
+      "candidateMeanDailyCpuMs": 6048.0234,
+      "candidateMaxEndpointHeapBytes": 2249180792,
+      "candidateMeanEndpointHeapBytes": 1403470258.4
+    },
+    {
+      "candidateSource": "d9caec2fab7e0b955d9c03b38337574a21a205a5",
+      "dailyCpuChangePercent": 3.4200184871255646,
+      "capturedActionParity": true,
+      "cpuDown": false,
+      "candidateMeanDailyCpuMs": 5737.449533333333,
+      "candidateMaxEndpointHeapBytes": 2223464840,
+      "candidateMeanEndpointHeapBytes": 1245625966.9333334
+    },
+    {
+      "candidateSource": "ff40143adf3d9301d46099982c73dc88832416ea",
+      "dailyCpuChangePercent": 8.48857528158522,
+      "capturedActionParity": true,
+      "cpuDown": false,
+      "candidateMeanDailyCpuMs": 6018.6386999999995,
+      "candidateMaxEndpointHeapBytes": 1991610136,
+      "candidateMeanEndpointHeapBytes": 1388596942.9333334
+    },
+    {
+      "candidateSource": "84cfe9c46d5f7236f9df9ef417df98256f0d7611",
+      "dailyCpuChangePercent": -2.397425996850655,
+      "capturedActionParity": true,
+      "cpuDown": true,
+      "candidateMeanDailyCpuMs": 5414.7142,
+      "candidateMaxEndpointHeapBytes": 2210699632,
+      "candidateMeanEndpointHeapBytes": 1237753120.2666667
+    },
+    {
+      "candidateSource": "43de063ebd6bb08a4f21256f7b504e4363d5d49d",
+      "dailyCpuChangePercent": 12.41382926205472,
+      "capturedActionParity": true,
+      "cpuDown": false,
+      "candidateMeanDailyCpuMs": 6236.400666666666,
+      "candidateMaxEndpointHeapBytes": 2396572232,
+      "candidateMeanEndpointHeapBytes": 1348235361.3333333
+    },
+    {
+      "candidateSource": "b9cd037cd33e56beb64462ea3c6725f33a44acdc",
+      "dailyCpuChangePercent": -3.895930204269371,
+      "capturedActionParity": true,
+      "cpuDown": true,
+      "candidateMeanDailyCpuMs": 5331.581433333334,
+      "candidateMaxEndpointHeapBytes": 2159869440,
+      "candidateMeanEndpointHeapBytes": 1264382321.3333333
+    },
+    {
+      "candidateSource": "78bbb5818a7ac8374146ef29f0bafdb846743a06",
+      "dailyCpuChangePercent": -1.0754761096964827,
+      "capturedActionParity": true,
+      "cpuDown": true,
+      "candidateMeanDailyCpuMs": 5488.052233333334,
+      "candidateMaxEndpointHeapBytes": 2290541320,
+      "candidateMeanEndpointHeapBytes": 1278980812.0
+    }
+  ],
+  "untimedFailedCandidate": {
+    "source": "2a8871d816d72715b1cfedcab1baef38948f413d",
+    "configuredTypecheckExit": 0,
+    "testsPassed": 40,
+    "testsTotal": 41,
+    "failure": "life-foundation.test.ts current household-view identity reuse after unrelated commitment write; preserved and repaired without assertion change",
+    "timed": false
+  },
+  "focusedChecks": {
+    "configuredTypecheckExit": 0,
+    "focusedTestsPassed": 41,
+    "lintExit": 0,
+    "source": "82444c69de858b80bfe8f529af7f39e9da8ba420",
+    "capacityRegressionDistinctRevisions": 32769,
+    "unchangedOriginalAssertions": true
+  },
+  "sampledFunctions": {
+    "source": "82444c69de858b80bfe8f529af7f39e9da8ba420",
+    "allSampledMs": 146396.94900000052,
+    "targets": [
+      {
+        "name": "recordsByStringField",
+        "selfSampledMs": 5600.818000000051,
+        "shareOfAllSamples": 0.03825775084971225
+      },
+      {
+        "name": "householdMembershipsAt",
+        "selfSampledMs": 6514.812000000067,
+        "shareOfAllSamples": 0.04450100937554405
+      },
+      {
+        "name": "describeRoutineOutcome",
+        "selfSampledMs": 26005.624000000127,
+        "shareOfAllSamples": 0.17763774571558888
+      },
+      {
+        "name": "familyCohortIndex",
+        "selfSampledMs": 11306.156999999926,
+        "shareOfAllSamples": 0.07722945783521681
+      },
+      {
+        "name": "makeIsoDate",
+        "selfSampledMs": 4197.9230000000225,
+        "shareOfAllSamples": 0.02867493502204071
+      }
+    ],
+    "top5ApplicationSelf": [
+      {
+        "url": "file:///workspace/session5-integration-proof/src/presentation/routine-outcome.ts",
+        "name": "describeRoutineOutcome",
+        "selfSampledMs": 26005.624000000127,
+        "shareOfAllSamples": 0.17763774571558888
+      },
+      {
+        "url": "file:///workspace/session5-integration-proof/src/simulation/people-upbringing.ts",
+        "name": "familyCohortIndex",
+        "selfSampledMs": 11306.156999999926,
+        "shareOfAllSamples": 0.07722945783521681
+      },
+      {
+        "url": "file:///workspace/session5-integration-proof/src/simulation/life-queries.ts",
+        "name": "householdMembershipsAt",
+        "selfSampledMs": 6514.812000000067,
+        "shareOfAllSamples": 0.04450100937554405
+      },
+      {
+        "url": "file:///workspace/session5-integration-proof/src/simulation/history-index.ts",
+        "name": "recordsByStringField",
+        "selfSampledMs": 5600.818000000051,
+        "shareOfAllSamples": 0.03825775084971225
+      },
+      {
+        "url": "file:///workspace/session5-integration-proof/src/simulation/dates.ts",
+        "name": "makeIsoDate",
+        "selfSampledMs": 4197.9230000000225,
+        "shareOfAllSamples": 0.02867493502204071
+      }
+    ],
+    "scope": "All32action CPUprofiles includinginitialaction0; sampled self-time only, NOT callcounts and not the steadyCPU bucket"
+  },
+  "cachePolicy": {
+    "maximumPersonGroups": 16,
+    "maximumCutoffResultsPerPerson": 2,
+    "scope": "world.id and world.currentDate calendar month",
+    "sortedHistoryCopiesRetained": false,
+    "additionalStrongHistoryArrayList": false,
+    "canonicalHistoryWrittenOrRemoved": false
+  }
+}
