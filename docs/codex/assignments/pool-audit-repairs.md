@@ -4,12 +4,12 @@ Source: the three Sept 30 audits (Claude, Cursor, Codex; `cto-notes/audit-2026-0
 
 ## Pool rules
 
-1. Post "Session N takes AU-nn" on #2425, then build. One item, one PR. Nothing waits on main green.
+1. Post "Session N takes AU-nn" on #2424, then build. One item, one PR. Nothing waits on main green.
 2. Zero dice. Never add a roll, a hash pick or an alphabetical tie-break to decide an outcome.
 3. Nothing blank, pending or zero by default. Where the record is missing, estimate from similar places and mark the estimate as an estimate.
 4. Each PR: changed tests + `npm run typecheck`, the old path deleted in the same PR (see "Replaces:"), audit IDs in the title.
 5. A second merger rebases on whatever landed first. Do not hold a PR for another one.
-6. An item marked "(unverified: check first)" gets one grep at current main before any code; if already fixed, say so on #2425 and take another.
+6. An item marked "(unverified: check first)" gets one grep at current main before any code; if already fixed, say so on #2424 and take another.
 
 ## Laws and engines
 
