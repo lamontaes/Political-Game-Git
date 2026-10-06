@@ -17,6 +17,9 @@ import {
   type FloorVoteInput,
   type MeasureStepKey,
 } from "../simulation/legislation";
+import { adoptProvisionRevision } from "../simulation/legislative-politics";
+import { amendmentAdmissible } from "../simulation/governing/chamber-procedure";
+import type { CompiledClause } from "../simulation/legislation-drafting";
 import {
   bodyForChamber,
   committeeMembers,
@@ -37,11 +40,14 @@ import { passOrdinaryDays } from "./ordinary-life";
 import { COMMITTEE_HEARING_TRANSITION_KEY } from "../simulation/legislation";
 import { daysBetween, spokenDate } from "../simulation/dates";
 import { enactingGovernmentForPack } from "../simulation/legislation-drafting";
+import { personName } from "../simulation/people";
 import { nextSessionCalendarDate } from "../simulation/legislative-session-calendar";
 import { LEGISLATIVE_SESSION_CALENDARS } from "../simulation/legislative-session-calendar-data";
 import { typedTaxEnactmentDate } from "../simulation/tax-policy-activation";
 import type {
+  EntityId,
   LegislativeQuestionIdentity,
+  PropositionAnswerRef,
   LegislativeVoteDisposition,
   World,
 } from "../simulation/types";
@@ -72,6 +78,150 @@ import { dispositionsHonoringOfficeInstructions } from "./office-vote-instructio
 export interface StepResult {
   readonly world: World;
   readonly message: string;
+}
+
+/**
+ * Offers a clause selected from the bill paper's compiled clause menu without
+ * requiring a prior negotiation. The selected text and terms stay those of
+ * the compiler; the chamber's recorded member vote remains the only adoption
+ * path.
+ */
+export function offerDirectPlayerAmendment(
+  scenario: LegislativeProcedureContext,
+  world: World,
+  input: {
+    readonly measureId: EntityId;
+    readonly playerPersonId: EntityId;
+    readonly clause: CompiledClause;
+    readonly answer: PropositionAnswerRef;
+  },
+): StepResult {
+  if (scenario.measureId !== input.measureId)
+    throw new Error("This bill paper does not belong to the active measure.");
+  const measure = world.history.legislativeMeasures?.find(
+    (row) => row.id === input.measureId,
+  );
+  if (!measure) throw new Error("This measure is not recorded in the world.");
+  const position = measurePosition(world, input.measureId);
+  if (position.phase !== "on-floor" || !position.chamberKey)
+    throw new Error(
+      "An amendment can only be offered while the bill is on a chamber floor.",
+    );
+  const admissibility = amendmentAdmissible(
+    world,
+    scenario.pack,
+    position.chamberKey,
+    measure,
+    input.answer,
+  );
+  if (!admissibility.admissible)
+    return { world, message: admissibility.reason };
+
+  const chamberKey = position.chamberKey;
+  const body = bodyForChamber(scenario, chamberKey);
+  const stableKey = nextMeasureStableKey(
+    world,
+    measure.id,
+    `direct-amendment:${chamberKey}`,
+  );
+  const sectionAlreadyFiled = (world.history.legislativeProvisions ?? []).some(
+    (record) =>
+      record.measureId === measure.id &&
+      record.provisionKey === input.clause.provisionKey &&
+      record.supersedesProvisionId === null,
+  );
+  if (sectionAlreadyFiled)
+    throw new Error("That clause is already in the bill.");
+  const dispositions = dispositionsHonoringOfficeInstructions(world, {
+    measureId: measure.id,
+    chamberKey,
+    dispositions: recordedDispositions(
+      { ...scenario, measureId: measure.id },
+      body.members,
+      votePlanKeyForAmendment(chamberKey),
+      {
+        world,
+        stableKey,
+        question: {
+          purpose: "amendment",
+          forumKey: chamberKey,
+          floorStageKey: position.floorStageKey,
+        },
+      },
+    ),
+  });
+  const proposedSections = [
+    {
+      provisionKey: input.clause.provisionKey,
+      heading: input.clause.heading,
+      supersedesProvisionId: null,
+      answers: input.answer,
+    },
+  ];
+  const next = offerFloorAmendment(world, {
+    stableKey,
+    measureId: measure.id,
+    description: `Add ${input.clause.heading} to the bill.`,
+    offeredByPersonId: input.playerPersonId,
+    offeredByLabel: personName(world.people[input.playerPersonId]!),
+    dispositions,
+    presentMembers: body.members.length,
+    electedMembers: body.members.length,
+    provenance: {
+      method: scenario.memberDecisions
+        ? "member-decisions"
+        : "authored-fixture",
+      note: "The chamber decided the selected bill-paper clause through its recorded floor vote.",
+      sourceEntityIds: scenario.recordedSittingEventId
+        ? [scenario.recordedSittingEventId]
+        : [],
+    },
+    proposedSections,
+  });
+  const amendment = (next.history.legislativeAmendments ?? []).at(-1);
+  if (!amendment || amendment.stableKey !== stableKey)
+    throw new Error("The amendment was not recorded where it was expected.");
+  if (amendment.status !== "adopted")
+    return {
+      world: next,
+      message: `The ${body.chamberName ?? "chamber"} rejected the amendment. The bill is unchanged.`,
+    };
+
+  const sectionNumber =
+    Math.max(
+      0,
+      ...(world.history.legislativeProvisions ?? [])
+        .filter((record) => record.measureId === measure.id)
+        .map((record) => record.sectionNumber),
+    ) + 1;
+  const adopted = adoptProvisionRevision(next, {
+    stableKey: `${stableKey}:${input.clause.provisionKey}`,
+    measureId: measure.id,
+    amendmentId: amendment.id,
+    supersedesProvisionId: null,
+    provisionKey: input.clause.provisionKey,
+    sectionNumber,
+    heading: input.clause.heading,
+    text: input.clause.text,
+    ...(input.clause.fiscalPeriod !== undefined
+      ? { fiscalPeriod: input.clause.fiscalPeriod }
+      : {}),
+    ...(input.clause.operativeEffect !== undefined
+      ? { operativeEffect: input.clause.operativeEffect }
+      : {}),
+    beneficiary: input.clause.beneficiary,
+    applicationScope: {
+      jurisdictionId: measure.jurisdictionId,
+      segmentKey: null,
+    },
+    fiscalExposureLabel: input.clause.fiscalExposureLabel,
+    fiscalExposureMinorUnits: input.clause.fiscalExposureMinorUnits,
+    answers: input.answer,
+  });
+  return {
+    world: adopted,
+    message: `The chamber adopted the amendment. ${input.clause.heading} is now part of the bill.`,
+  };
 }
 
 function counts(scenario: LegislativeProcedureContext, key: string) {
