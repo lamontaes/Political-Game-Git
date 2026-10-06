@@ -1,6 +1,9 @@
 import { futureDueItemStateAt } from "../future-transitions";
 import { recordByStableKey } from "../history-index";
-import { openCaseForContact } from "../constituent-cases";
+import {
+  handleBackgroundConstituentCase,
+  openCaseForContact,
+} from "../constituent-cases";
 import { LOCAL_COUNCIL_MEETING } from "./local-council-meetings";
 import { addDays, ageOnDate, daysBetween } from "../dates";
 import { currentGovernorOf } from "../crisis/offices";
@@ -432,7 +435,13 @@ function record(
         event.stableKey ===
         `${CIVIC_ACTIONS_VERSION}:${town}:${reviewKey}:${action}:${personId}`,
     );
-    if (contact) next = openCaseForContact(next, contact);
+    if (contact) {
+      next = openCaseForContact(next, contact);
+      const opened = next.history.events.find(
+        (event) => event.stableKey === `office.case-opened:${contact.id}`,
+      );
+      if (opened) next = handleBackgroundConstituentCase(next, opened.id);
+    }
   }
   return next;
 }
