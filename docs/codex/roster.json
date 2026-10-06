@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-06T13:12:12Z",
+  "updatedAt": "2026-10-06T13:14:19Z",
   "updatedBy": "Session 45",
   "source": {
     "issue": "#2424",
@@ -664,7 +664,10 @@
     "Session21 shared release gate resolved: Session8 diagnosed identical corrected blob on main and #2547, with exact PR-range PASS (6016968574); no repair needed; Session21 notified to continue proof.",
     "Historical failures are retained as historical evidence and are not treated as current without a current-head failure.",
     "Correction: Session49 actual evidence is command exec-aaab6fc4 EXIT 0/8.46s producing one Greasewood Arizona opening world (9,413 people; presentPeople empty); do not represent earlier commentary as an executed 20-world/20–40-line batch.",
-    "Session2 original work exact ownership 6016994640 is fully merged/no UI writer; local composition has 7 tests and type PASS, but browser storage failed (299 MiB short; private art missing), so no browser PASS. Current Session2 counterpart owns #2469 only."
+    "Session2 original work exact ownership 6016994640 is fully merged/no UI writer; local composition has 7 tests and type PASS, but browser storage failed (299 MiB short; private art missing), so no browser PASS. Current Session2 counterpart owns #2469 only.",
+    "Session17 and Session19 durable chat IDs and idle inventory timestamps were newly exposed and recorded exactly; assignments and model/effort remain unknown absent evidence.",
+    "Session49 meaningful-English artifact #2606 supersedes the earlier one-world probe-only status; board reports a real 20-life, 2-day artifact but flags it NOT READY for 0/23 composition keys, missing personality/relationship/stable-event facts and unknown docket route. Exact PR head/source verification pending.",
+    "Session12 #2190 READY (eda7f9c) and #2298 blocked (096c6e, OOM, summary absent, gates queued) are distinct; narrow proof is not whole-observer acceptance."
   ],
   "localChatInventory": [
     {
@@ -828,8 +831,8 @@
       "appStatus": "active",
       "updatedAtEpoch": 1791290039,
       "updatedAt": "2026-10-06T12:33:59.000Z",
-      "currentTask": "ENGINE English batch; actual next reachable encounter requested",
-      "workProof": "independently read command exec-aaab6fc4 EXIT 0 in 8.46s produced one Greasewood, Arizona opening world (9,413 people; presentPeople=[]); temporary runner removed; no confirmed live 20-world batch or 20–40-line output",
+      "currentTask": "ENGINE English batch; published artifact #2606 under exact-head/source verification",
+      "workProof": "board reports published artifact #2606: actual 20 lives over 2 days, 19 conversations, 23 saved turns, 20 verbatim lines; reported 0/23 composition keys, missing personality/relationship/stable-event facts, docket route unknown; NOT READY. This supersedes the earlier one-world probe-only status; exact PR head/source check pending.",
       "latestReceiptAt": "not supplied"
     },
     {
@@ -1204,6 +1207,28 @@
       "updatedAt": "2026-10-06T05:26:15.000Z",
       "currentTask": "unknown; app title is a label, not verified task",
       "workProof": "unknown pending turn/tool marker",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10e3b-e0b5-73c3-8b88-2502ee0b4033",
+      "host": "durable",
+      "title": "Session 19 — Law schema, applicability and coverage",
+      "appStatus": "idle",
+      "updatedAtEpoch": 1791292296,
+      "updatedAt": "2026-10-06T13:11:36.000Z",
+      "currentTask": "unknown; exact assignment not supplied",
+      "workProof": "unknown pending turn/tool receipt",
+      "latestReceiptAt": "unknown"
+    },
+    {
+      "id": "01a10e3b-730b-73da-86f3-43a1d52d603e",
+      "host": "durable",
+      "title": "Session 17 — Environment, transport and agriculture",
+      "appStatus": "idle",
+      "updatedAtEpoch": 1791292176,
+      "updatedAt": "2026-10-06T13:09:36.000Z",
+      "currentTask": "unknown; exact assignment not supplied",
+      "workProof": "unknown pending turn/tool receipt",
       "latestReceiptAt": "unknown"
     }
   ],
@@ -1687,6 +1712,22 @@
       "receiptTimestamp": "ownership reference 6016994640; exact receipt times not supplied",
       "exactHead": "not supplied",
       "source": "coordinator-provided ownership and proof audit"
+    },
+    {
+      "session": 49,
+      "task": "published meaningful-English artifact #2606",
+      "state": "board reports actual 20 lives across 2 days, 19 conversations, 23 saved turns, 20 verbatim lines; 0/23 composition keys; personality/relationship/stable-event facts missing; docket route unknown; NOT READY; exact PR head/source check next",
+      "receiptTimestamp": "board comment 6017032288",
+      "exactHead": "unknown pending exact PR head/source check",
+      "source": "board publication report"
+    },
+    {
+      "session": 12,
+      "task": "observer proof #2190 and #2298",
+      "state": "#2190 READY at eda7f9c; #2298 blocked at 096c6e with OOM and summary absent; gates queued; narrow proof is not whole-observer acceptance",
+      "receiptTimestamp": "board comment 6017034469",
+      "exactHead": "#2190 eda7f9c; #2298 096c6e",
+      "source": "coordinator-provided activity delta"
     }
   ],
   "coordinatorChat": {
