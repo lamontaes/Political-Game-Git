@@ -14,12 +14,19 @@ passed in 8.6 minutes, including final saved-record equality. The expected and
 served source identities match. See [browser receipt](main-browser-checks.json)
 and [actual saved record lines](main-record-lines.json).
 
+The final composition `d7ef7cc2f61a191a2c94e874eb9b682d49bc4fa7` adds actual
+main's shared gate repair `68c8a66307085d38c5db741ce46be9141cff3e18`. Its runtime,
+browser and configuration files match the passing proof; the only source-tree
+difference is two owner-supplied press fixture defaults. Configured typecheck,
+changed-file lint and formatting, release range and zero-dice pass. See the
+[final main-gate receipt](final-main-gate-checks.json).
+
 Terre Haute, Indiana, place 1875428; seed
 `session23-part4-dollar-budget-new-game-2026-10-06`. Emerson Stuart is the
 original generated player, with an explicitly authored governor tenure. The bill
 uses supplied votes through canonical writers and honors the fourteen-day reading
 interval. This proves the controlled desk, not a natural election or NPC bargain.
-The two unchanged main press fixture type errors are separately reproduced in
+The earlier unchanged main press fixture type errors are separately reproduced in
 [composition checks](main-composition-checks.json). The earlier new-main run
 stopped at the added Difficulty screen; its original trace and compact timings
 remain in [creator navigation failure](creator-navigation-failure.json).

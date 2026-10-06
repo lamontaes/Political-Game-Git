@@ -26,10 +26,12 @@ legislative votes remain distinct from a natural election and NPC bargaining.
 The new evidence is in `docs/codex/session23-budget-desk-proof/`. Earlier captures,
 failed traces, the own priority regression and exact-main baselines remain intact.
 
-Configured typecheck independently reproduces two unchanged main press fixture
-errors. Session 25 supplied their two default settings to Session 20's #2470.
-Hosted unit and audit passed at the published Part 4 head; repository validation
-was still running when this progress record was written. No merge is claimed.
+Part 4 now composes actual main `68c8a6630` at `d7ef7cc2f`, including the merged
+two-default press fixture repair. Configured typecheck, test imports and law-module
+drift check now pass; the earlier exact-main errors remain retained. Final lint,
+formatting, release range and zero-dice pass. Runtime, browser and configuration
+files match the passing screenshot head. The final hosted gate is pending; no
+merge is claimed.
 
 ## Next actions
 
@@ -44,6 +46,10 @@ player judicial choice and a private member-scoped vote evidence reader. Its
 controlled producer tests do not establish a played hearing or new-game desk.
 Continue cabinet depth and actual vacancy domains, canonical citizenship reader
 integration, the minor-party cap, scene data adapters and the new-game proof.
+The party-cap work is retained separately at `9f61922e1`: two focused minor-party
+and unknown-affiliation tests pass, along with changed-test typing, lint and
+formatting. Existing nomination fixtures without positive affiliation evidence
+remain red with their assertions intact. This is incomplete producer work.
 
 The natural mayor route remains separately blocked at the January 31 to February
 1 navigation failure; retained read-only timings were sent to Session 5. No win
