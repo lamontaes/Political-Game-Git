@@ -49,7 +49,7 @@ export const LEAVING_HOME_ESTIMATE = {
   provenance: "estimated-from-average",
   estimated: true,
   estimatedFrom:
-    "HUD 30 percent cost-burden line; Census Bureau Current Population Survey shares of young adults living with parents; strengths are game estimates",
+    "Census Bureau Current Population Survey, \"Living Arrangements Varied Across Age Groups\" (May 2024): 57 percent of men and 55 percent of women aged 18 to 24 and 19 and 12 percent at 25 to 34 live in a parent's home; HUD's 30 percent rent-burden line. The strengths themselves (easierToStay, noPay, partner) are game values with no survey ratio behind them",
   /** Age at which age argues neither way, and the years to full strength. */
   ageFrom: 18,
   ageYearsToFull: 10,

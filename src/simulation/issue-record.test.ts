@@ -24,7 +24,7 @@ import {
   issueRecordFor,
   issueStandingsFor,
   judgeIssueRecord,
-  ISSUE_RECORD_ESTIMATE,
+  UNRESEARCHED_ISSUE_RECORD,
 } from "./issue-record";
 import { startingSupportAdjustment } from "./record-in-office";
 import type {
@@ -283,9 +283,9 @@ describe("voters weighing an officeholder's record, question by question", () =>
     });
     expect(liked.weight).toBe(
       Math.min(
-        ISSUE_RECORD_ESTIMATE.maxAbsoluteWeight,
-        ISSUE_RECORD_ESTIMATE.salienceWeight.high *
-          ISSUE_RECORD_ESTIMATE.weightPerNetAgreement,
+        UNRESEARCHED_ISSUE_RECORD.maxAbsoluteWeight,
+        UNRESEARCHED_ISSUE_RECORD.salienceWeight.high *
+          UNRESEARCHED_ISSUE_RECORD.weightPerNetAgreement,
       ),
     );
 
@@ -303,8 +303,8 @@ describe("voters weighing an officeholder's record, question by question", () =>
       disagreeing: voters.length,
     });
     expect(disliked.weight).toBe(
-      -ISSUE_RECORD_ESTIMATE.salienceWeight.low *
-        ISSUE_RECORD_ESTIMATE.weightPerNetAgreement,
+      -UNRESEARCHED_ISSUE_RECORD.salienceWeight.low *
+        UNRESEARCHED_ISSUE_RECORD.weightPerNetAgreement,
     );
     // The same weight reaches where a candidate starts in a race here.
     expect(

@@ -2,9 +2,9 @@
 id: ph-voter-and-home-estimates-marked
 impact: patch
 section: Changed
-title: Leaving-home, issue-record and record-in-office values are marked as estimates
+title: Leaving-home weights are marked as estimates with their sources
 ---
 
-Before, the weights behind a grown child leaving home and how a voter weighs a
-candidate's record were labeled unresearched. Now they are marked estimates with
-a source note; the values are unchanged.
+Before, the weights behind a grown child leaving home were labeled unresearched.
+
+Now they are marked as estimated from the average and name the Census Bureau and HUD figures they rest on; the strengths themselves stay labeled as game values. The values are unchanged.

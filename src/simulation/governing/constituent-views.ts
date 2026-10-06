@@ -1,4 +1,4 @@
-import { ISSUE_RECORD_ESTIMATE } from "../issue-record";
+import { UNRESEARCHED_ISSUE_RECORD } from "../issue-record";
 import { whoCaresAbout } from "../provision-public-face";
 import type {
   DecisionConsideration,
@@ -12,7 +12,7 @@ import type {
  * reason for a member who answers to them. Read from the people of the place:
  * every eligible voter's own held view, weighted by how much the question
  * matters to them with the issue record's salience weights
- * (`ISSUE_RECORD_ESTIMATE`), so a member counts a voter as that voter's
+ * (`UNRESEARCHED_ISSUE_RECORD`), so a member counts a voter as that voter's
  * own judgment of the record does. Null when nobody there holds a settled
  * view, the sides are even, or too few hold one to tell a lean from chance.
  *
@@ -41,7 +41,7 @@ export function constituentsConsideration(
   jurisdictionId: EntityId,
   answers: readonly PropositionAnswerRef[],
 ): DecisionConsideration | null {
-  const weight = ISSUE_RECORD_ESTIMATE.salienceWeight;
+  const weight = UNRESEARCHED_ISSUE_RECORD.salienceWeight;
   let forIt = 0;
   let against = 0;
   let people = 0;

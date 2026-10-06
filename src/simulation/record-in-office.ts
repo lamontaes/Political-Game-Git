@@ -13,18 +13,15 @@ import {
 import type { EntityId, IsoDate, World } from "./types";
 
 /**
- * ESTIMATED FROM AVERAGE. How far a governor's record on the economy moves their
- * starting position when they run again. A game estimate drawn from the
- * published research on economic voting in governors' elections; filed with the research queue as
+ * UNRESEARCHED. How far a governor's record on the economy moves their
+ * starting position when they run again. A blanket game rule, not an estimate
+ * of retrospective voting; filed with the research queue as
  * `record-in-office-electoral-magnitudes`. Starting weights are drawn from
  * 850 to 1150 in `campaigns.ts`, so the cap is half that spread.
  */
-export const RECORD_IN_OFFICE_ESTIMATE = {
+export const UNRESEARCHED_RECORD_IN_OFFICE = {
   version: "record-in-office-unresearched-v1",
-  provenance: "estimated-from-average",
-  estimated: true,
-  estimatedFrom:
-    "published research on economic voting in governors' elections; the weight is a game estimate",
+  provenance: "unresearched-blanket-rule",
   /** Weight per percentage point the unemployment rate fell in office. */
   weightPerUnemploymentPoint: 60,
   maxAbsoluteWeight: 150,
@@ -82,7 +79,7 @@ export function recordInOffice(
   const atStart = unemploymentOn(world, office.jurisdictionId, since);
   const now = unemploymentOn(world, office.jurisdictionId, asOf);
   if (atStart === null || now === null) return null;
-  const rule = RECORD_IN_OFFICE_ESTIMATE;
+  const rule = UNRESEARCHED_RECORD_IN_OFFICE;
   const raw = Math.round((atStart - now) * rule.weightPerUnemploymentPoint);
   return {
     officeTitle: office.title,
@@ -105,7 +102,7 @@ export function recordInOffice(
  * handled a disaster starts ahead or behind for it. Where the contest's
  * jurisdiction is given, its voters also weigh the candidate's votes and
  * signatures question by question against their own views
- * (`issue-record.ts`). All are ESTIMATED FROM AVERAGE game values
+ * (`issue-record.ts`). All are UNRESEARCHED blanket rules
  * (`press/findings.ts`, above, `crisis/handling-reactions.ts`,
  * `issue-record.ts`).
  */
