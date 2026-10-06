@@ -77,7 +77,13 @@ export function noticeLawPayChanges(world: World, since: IsoDate): World {
     );
     const periods = periodsPerYear(row.cadenceKind);
     const beforePeriods = before ? periodsPerYear(before.cadenceKind) : null;
-    if (!before || periods === null || beforePeriods === null) continue;
+    if (
+      !before ||
+      periods === null ||
+      beforePeriods === null ||
+      before.amount.currency !== row.amount.currency
+    )
+      continue;
     // Compare annual amounts: changing pay frequency alone is not a raise.
     const change =
       row.amount.minorUnits * periods -

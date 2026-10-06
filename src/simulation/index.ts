@@ -100,6 +100,13 @@ export type {
   CampaignSupportDecision,
 } from "./campaign-life-types";
 export {
+  askToSign,
+  petitionAskedPersonIds,
+  petitionEventsForCampaign,
+  petitionSignaturesForCampaign,
+} from "./candidate-petitions";
+export type { AskToSignInput, AskToSignResult } from "./candidate-petitions";
+export {
   CAMPAIGN_CONTACT_MET_KIND,
   CAMPAIGN_CONTACT_RECURRING_KIND,
   CAMPAIGN_OPPONENT_EVENTS,

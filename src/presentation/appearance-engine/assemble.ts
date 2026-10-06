@@ -1,5 +1,6 @@
 import { neckOffset, type BodyAnchors } from "./anchors";
 import { createRaster, type Raster } from "./raster";
+import { withoutWhiteMatte } from "./white-matte";
 
 /**
  * One layer order for everybody. The head goes ABOVE the clothes, so a
@@ -263,7 +264,20 @@ export function assemblePerson(
 ): Raster {
   const canvas = layers.find((layer) => layer.slot === "body")?.raster;
   if (!canvas) throw new Error("A person needs a body layer.");
-  const drawn = placeLayers(body, layers);
+  const drawn = placeLayers(
+    body,
+    layers.map((layer) =>
+      CLOTHING.has(layer.slot) || layer.slot === "bottoms"
+        ? {
+            ...layer,
+            raster: withoutWhiteMatte(layer.raster),
+            ...(layer.tuckTail
+              ? { tuckTail: withoutWhiteMatte(layer.tuckTail) }
+              : {}),
+          }
+        : layer,
+    ),
+  );
   const kept = new Set(drawn.map((layer) => layer.slot));
   const hides = layers.filter(
     (layer) => layer.hidesBody && kept.has(layer.slot),

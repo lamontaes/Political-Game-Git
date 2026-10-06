@@ -1,4 +1,5 @@
 import { recordCampaignFundraiserReceipts } from "./campaign-money-sources";
+import { addCampaignHelper } from "./campaign-helpers";
 import { inventedPersonBirthDate } from "./invented-person-age";
 import { createProsecutionTransitionRegistry } from "./justice/prosecution-transitions";
 import {
@@ -125,6 +126,7 @@ import {
 import {
   composeFutureTransitionHandlerRegistries,
   createFutureTransitionHandlerRegistry,
+  scheduleFutureDueItem,
 } from "./future-transitions";
 import { createStableId, stableHash } from "./ids";
 import {
@@ -136,6 +138,7 @@ import {
 } from "./life";
 import { lifeTransitionHandlers } from "./life-callbacks";
 import { PEOPLE_CONTACT_HANDLERS } from "./people-contact";
+import { STATE_LEGISLATURE_QUEUE_HANDLERS } from "./nationwide-world/state-legislature-queue";
 import { PEOPLE_GOAL_HANDLERS } from "./people-goal-review";
 import { peopleFamilyHandlers } from "./people-family-plan";
 import {
@@ -205,6 +208,7 @@ import type {
   DistrictSeatBinding,
   ElectionContestRecord,
   EntityId,
+  IsoDate,
   FutureDueItem,
   FutureTransitionHandlerRegistry,
   FutureTransitionHandlerResult,
@@ -795,37 +799,6 @@ export function fileCampaign(
   const candidateWorkRelationshipId = lastWorkRelationshipId(world);
 
   const staffWorkRelationshipIds: EntityId[] = [];
-  for (const staffPersonId of staffPersonIds) {
-    world = createWorkRelationship(world, {
-      stableKey: `${input.stableKey}:work:staff:${staffPersonId}`,
-      personId: staffPersonId,
-      organizationId,
-      startedAt: world.currentDate,
-      kind: "volunteer:campaign-staff",
-      compensation: "unpaid",
-      authority: "shared",
-      dependency: "partly-dependent",
-      economicRisk: "organization-borne",
-      provenance: {
-        kind: "authored",
-        note: "Somebody who agreed to help, recorded as the work it is.",
-      },
-      initialRole: {
-        title: "Campaign volunteer",
-        occupationClassification: "service:campaign-volunteer",
-        locationJurisdictionId: input.jurisdictionId,
-        timeDemand: {
-          expectedWeekly: { minimumHours: 2, maximumHours: 12 },
-          attention: "moderate",
-          concurrency: "partly-concurrent",
-          scheduleRigidity: "flexible",
-          interruptibility: "interruptible",
-          locationJurisdictionId: input.jurisdictionId,
-        },
-      },
-    });
-    staffWorkRelationshipIds.push(lastWorkRelationshipId(world));
-  }
 
   const candidate = inputWorld.people[input.candidatePersonId]!;
   world = recordWorldEvent(world, {
@@ -885,7 +858,7 @@ export function fileCampaign(
     "campaign",
     `${world.id}:${input.stableKey}`,
   );
-  const campaignRecord: CampaignRecord = {
+  let campaignRecord: CampaignRecord = {
     id: campaignId,
     stableKey: input.stableKey,
     sequence: world.history.nextSequence,
@@ -932,6 +905,15 @@ export function fileCampaign(
       campaignStates: [...(world.history.campaignStates ?? []), initialState],
     },
   };
+  for (const staffPersonId of staffPersonIds) {
+    world = addCampaignHelper(world, {
+      campaignId,
+      personId: staffPersonId,
+      role: "volunteer",
+      pay: null,
+    });
+  }
+  campaignRecord = campaignById(world, campaignId)!;
   assertWorldIntegrity(world);
   world = recordInitialSupport(world, campaignRecord);
   assertWorldIntegrity(world);
@@ -2140,10 +2122,7 @@ function closeCampaignAfterElection(
     },
   };
   assertWorldIntegrity(next);
-  for (const workRelationshipId of [
-    campaign.candidateWorkRelationshipId,
-    ...campaign.staffWorkRelationshipIds,
-  ]) {
+  for (const workRelationshipId of [campaign.candidateWorkRelationshipId]) {
     const previous = workStatusHistory(next, workRelationshipId).at(-1);
     if (previous && previous.status !== "ended") {
       next = recordWorkStatus(next, {
@@ -2156,6 +2135,26 @@ function closeCampaignAfterElection(
         supersedesStatusId: previous.id,
       });
     }
+  }
+  // Staff remain on the record for the election-night gathering. Their
+  // work ends tomorrow through the existing clock, never a future-dated
+  // work-status record written today.
+  if (campaign.staffWorkRelationshipIds.length > 0) {
+    const endedAt = addDays(result.resolvedAt, 1);
+    if (endedAt <= next.currentDate) {
+      next = endCampaignStaff(next, campaign, endedAt, result.outcomeEventId);
+    } else
+      next = scheduleFutureDueItem(next, {
+        stableKey: `${campaign.stableKey}:staff-close:${result.id}`,
+        dueAt: addDays(result.resolvedAt, 1),
+        transitionKey: CAMPAIGN_STAFF_CLOSE_TRANSITION_KEY,
+        entityIds: [campaign.contestId, result.id].sort(),
+        jurisdictionId: campaign.jurisdictionId,
+        provenance: {
+          kind: "simulated",
+          sourceEntityIds: [result.id, result.outcomeEventId].sort(),
+        },
+      });
   }
   // CRUNCH46 CAMPAIGN: campaign work still on the calendar can no longer be
   // performed once the race is decided, so release it instead of leaving a
@@ -2275,6 +2274,67 @@ export function campaignElectionTransitionHandler(
   };
 }
 
+const CAMPAIGN_STAFF_CLOSE_TRANSITION_KEY = "campaign:staff-close" as const;
+
+function closeCampaignStaffOnDueDate(
+  world: World,
+  dueItem: FutureDueItem,
+): FutureTransitionHandlerResult {
+  const campaign =
+    dueItem.entityIds
+      .map((id) => campaignForContest(world, id))
+      .find((row) => row !== null) ?? null;
+  const result = campaign
+    ? electionContestResult(world, campaign.contestId)
+    : null;
+  if (
+    !campaign ||
+    !result ||
+    !dueItem.entityIds.includes(result.id) ||
+    dueItem.dueAt !== addDays(result.resolvedAt, 1) ||
+    campaignState(world, campaign.id).status === "active"
+  )
+    throw new Error(
+      "Campaign staff closure requires its saved election result and next-day date.",
+    );
+  const next = endCampaignStaff(
+    world,
+    campaign,
+    dueItem.dueAt,
+    result.outcomeEventId,
+  );
+  return {
+    world: next,
+    status: "resolved",
+    reasonKey: null,
+    context: "Campaign staff work ended after election night.",
+    outcomeEventId: null,
+  };
+}
+
+function endCampaignStaff(
+  world: World,
+  campaign: CampaignRecord,
+  endedAt: IsoDate,
+  outcomeEventId: EntityId,
+): World {
+  let next = world;
+  for (const workRelationshipId of campaign.staffWorkRelationshipIds) {
+    const previous = workStatusHistory(next, workRelationshipId).at(-1);
+    if (previous && previous.status !== "ended")
+      next = recordWorkStatus(next, {
+        stableKey: `${campaign.stableKey}:work-ended:${workRelationshipId}`,
+        workRelationshipId,
+        effectiveAt: endedAt,
+        status: "ended",
+        reason: "Campaign staff work ended the day after the election.",
+        provenance: { kind: "simulated-event", eventId: outcomeEventId },
+        supersedesStatusId: previous.id,
+      });
+  }
+  return next;
+}
+
 export function composeWorldTimeHandlers(
   additional?: FutureTransitionHandlerRegistry,
 ): FutureTransitionHandlerRegistry {
@@ -2285,6 +2345,7 @@ export function composeWorldTimeHandlers(
   const ordinary = composeExecutiveWorkHandlers(
     composeFutureTransitionHandlerRegistries(
       createNationalElectionTransitionRegistry(),
+      STATE_LEGISLATURE_QUEUE_HANDLERS,
       createLegislativeTermTransitionRegistry(),
       createTransitTransitionRegistry((world, input, resolver) =>
         settlePublicResourcePayment(world, input, resolver),
@@ -2300,6 +2361,7 @@ export function composeWorldTimeHandlers(
       createClemencyTransitionRegistry(),
       createFutureTransitionHandlerRegistry([
         [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],
+        [CAMPAIGN_STAFF_CLOSE_TRANSITION_KEY, closeCampaignStaffOnDueDate],
         // GOVERNING: state office matters, their deadlines and reports.
         ...stateGoverningHandlers(),
         ...governorTurnoverHandlers(),
