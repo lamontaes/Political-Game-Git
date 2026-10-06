@@ -170,7 +170,7 @@ describe(`constituent case routing in a new ${PLACE.displayName} game`, () => {
     const municipalPreference = recordOfficeWorkflowPreference(game.world, {
       personId: municipalSeat!.personId,
       officeRelationshipId: municipalSeat!.participation.id,
-      votingMode: null,
+      votingMode: "handle-individually",
       caseworkMode: "staff-routine-player-exceptions",
     });
     expect(municipalPreference.kind).toBe("recorded");
