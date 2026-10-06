@@ -1,3 +1,4 @@
+import { addDays } from "../dates";
 import { candidacyPackById } from "../candidacy-packs";
 import { createStableId } from "../ids";
 import { stateJurisdictionForKey } from "../life-places";
@@ -462,5 +463,52 @@ export function prepareStateLegislatureQueue(
   );
   for (const packId of packs)
     next = reconcileStateLegislatureQueue(next, packId, throughYear);
+  return next;
+}
+
+/** Prepare the canonical clock once, then revise only recorded pack calendars.
+ * The durable wake is the bootstrap marker, so reload does not repeat intake.
+ */
+export function prepareStateLegislatureClock(world: World): World {
+  const openings = recordsWithFieldValue(
+    world.history.events,
+    "type",
+    "world.state-legislature-opening",
+  ).filter((e) => e.tags.includes(STATE_LEGISLATURE_OPENING_VERSION));
+  if (openings.length === 0) return world;
+  const packs = new Set(
+    openings.flatMap((e) =>
+      e.tags.filter((t) => t.startsWith("pack:")).map((t) => t.slice(5)),
+    ),
+  );
+  const horizon = Number(world.currentDate.slice(0, 4)) + 4;
+  const saved = recordsWithFieldValue(
+    world.history.futureDueItems,
+    "transitionKey",
+    STATE_LEGISLATURE_WAKE_TRANSITION,
+  );
+  let next = world;
+  const needsCatchUp = [...packs].some((packId) => {
+    const opening = openings.find((e) => e.tags.includes(`pack:${packId}`))!;
+    const revision = stateLegislatureQueueRevision(world, packId);
+    return !saved.some((item) => {
+      const wake = readStateLegislatureSavedWake(item);
+      return (
+        wake.packId === packId &&
+        wake.revision === revision &&
+        item.entityIds.includes(opening.id)
+      );
+    });
+  });
+  // A changed recorded source can create a late intake obligation. Catch it up
+  // once through the original writer; an unchanged date does no intake work.
+  if (needsCatchUp)
+    next = prepareStateLegislatureQueue(
+      next,
+      addDays(next.currentDate, -1),
+      horizon,
+    );
+  for (const packId of packs)
+    next = reconcileStateLegislatureQueue(next, packId, horizon);
   return next;
 }

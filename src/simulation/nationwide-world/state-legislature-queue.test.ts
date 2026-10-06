@@ -10,7 +10,7 @@ import {
   setFutureDueItemTerminalState,
 } from "../future-transitions";
 import { serializeWorld, deserializeWorld } from "../serialization";
-import { recordWorldEvent } from "../world";
+import { recordWorldEvent, advanceWorld } from "../world";
 import { stateSlateKey } from "./state-legislature-candidates";
 import { stateLegislativeSeats } from "./state-legislature-opening";
 import type { IsoDate, World } from "../types";
@@ -22,6 +22,7 @@ import {
 import {
   reconcileStateLegislatureQueue,
   prepareStateLegislatureQueue,
+  prepareStateLegislatureClock,
   readStateLegislatureSavedWake,
   stateLegislatureQueueRevision,
   stateLegislatureWakeHandler,
@@ -367,4 +368,49 @@ describe("saved state legislative dated queue producer", () => {
     });
     expect(stateLegislatureWakePlan(unrelated, packId, 2022)).toEqual(plan);
   });
+});
+
+it("bootstraps dated clock once and preserves an unchanged day's people/history after reload", () => {
+  const prepared = prepareStateLegislatureClock(original);
+  expect(pending(prepared).length).toBeGreaterThan(0);
+  const same = prepareStateLegislatureClock(prepared);
+  expect(same.history).toEqual(prepared.history);
+  const loaded = deserializeWorld(serializeWorld(prepared));
+  const nextDay = at(loaded, addDays(loaded.currentDate, 1));
+  const next = prepareStateLegislatureClock(nextDay);
+  expect(next.personOrder).toEqual(loaded.personOrder);
+  expect(next.history.events).toEqual(loaded.history.events);
+  expect(next.history.personalityTendencies).toEqual(
+    loaded.history.personalityTendencies,
+  );
+});
+
+it("installs a random state's intake before canonical multi-day midnight resolution", () => {
+  const prepared = prepareStateLegislatureClock(original);
+  const wake = stateLegislatureWakePlan(prepared, packId, 2025).find(
+    (p) => p.stage === "intake",
+  )!;
+  expect(wake).toBeDefined();
+  const start = at(
+    deserializeWorld(serializeWorld(prepared)),
+    addDays(wake.dueAt, -1),
+  );
+  const actual = advanceWorld(start, 2);
+  const item = actual.history.futureDueItems.find((i) => {
+    if (
+      i.transitionKey !== STATE_LEGISLATURE_WAKE_TRANSITION ||
+      i.dueAt !== wake.dueAt
+    )
+      return false;
+    const saved = readStateLegislatureSavedWake(i);
+    return saved.packId === packId && saved.stage === "intake";
+  });
+  expect(item).toBeDefined();
+  expect(
+    futureDueItemStateAt(actual, item!.id, {
+      asOfDate: actual.currentDate,
+      historySequenceExclusive: actual.history.nextSequence,
+    })?.status,
+  ).toBe("resolved");
+  expect(actual.currentDate).toBe(addDays(wake.dueAt, 1));
 });

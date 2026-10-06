@@ -1,7 +1,6 @@
 import { inventedPersonBirthDate } from "../invented-person-age";
 import { crisisRecords } from "../crisis/records";
 import { crisisOfficeContinuityNotices } from "../crisis/notices";
-import { applyStateLegislatureTurnover } from "../nationwide-world/state-legislature-turnover";
 import { applyCongressTurnover } from "../living-world/congress-turnover";
 import { applyGovernorTurnover } from "../nationwide-world/state-executive-turnover-calendar";
 import { applyPresidentialTurnover } from "../nationwide-world/presidential-turnover";
@@ -1918,8 +1917,9 @@ export function applyOfficeLifecycle(
   world: World,
   afterTermTurnover: (world: World) => World,
 ): World {
-  let next = applyStateLegislatureTurnover(before, world);
-  next = applyCongressTurnover(before, next);
+  // State intake, ballots and terms dispatch through the canonical dated queue.
+  // Recorded death/vacancy continuity remains below on the actual boundary.
+  let next = applyCongressTurnover(before, world);
   next = applyGovernorTurnover(before, next);
   next = applyPresidentialTurnover(before, next);
   next = applyConstitutionalReform(before, next);

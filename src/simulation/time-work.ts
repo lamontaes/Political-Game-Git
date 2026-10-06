@@ -3,6 +3,7 @@ import { settleJobPay } from "./job-market";
 import { applyEnactedCourtSizes } from "./governing/court-size-law";
 import { applyJudicialReview } from "./judiciary/judicial-review";
 import { synchronizeMunicipalGoverningOffices } from "./governing/state-governing";
+import { prepareStateLegislatureClock } from "./nationwide-world/state-legislature-queue";
 import { applyOfficeLifecycle } from "./governing/office-continuity";
 import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { applyNationalTermTransitions } from "./national-election-consumer";
@@ -1607,6 +1608,7 @@ function advanceCanonicalMinutes(
       // Resolving due items moves the date to each due day; the continuity
       // producers must still see the whole span this boundary crossed.
       const crossedFrom = world.currentDate;
+      world = prepareStateLegislatureClock(world);
       world = resolveFutureDueItemsThrough(
         world,
         transition.at.date,
@@ -2004,6 +2006,7 @@ function setCurrentMomentWithDue(
 ): World {
   if (moment.date === world.currentDate) return setCurrentMoment(world, moment);
   const crossedFrom = world.currentDate;
+  world = prepareStateLegislatureClock(world);
   return setCurrentMoment(
     resolveFutureDueItemsThrough(world, moment.date, transitionHandlers),
     moment,
