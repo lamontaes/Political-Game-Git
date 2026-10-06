@@ -21,7 +21,7 @@ async function inspect(label:string,sel:string){const v=await page.locator(sel).
 function assert(v:boolean,msg:string){if(!v)throw Error(msg)}
 async function load(state:any){await page.goto('http://proof.test/');await page.setContent(html(state));await page.evaluate(()=>document.fonts.ready);}
 const checkedStyles=styles;
-const baseline=execFileSync('git',['rev-parse','HEAD^'],{encoding:'utf8'}).trim();
+const baseline=execFileSync('git',['rev-parse','1ee0abcdabd4dadba0bc0a0737789f7c31decfa4'],{encoding:'utf8'}).trim();
 styles=['player.css','kit12.css','controls/controls.css'].map(p=>readFileSync(resolve(root,'src/player',p),'utf8')).join('\n')+execFileSync('git',['show',baseline+':src/player/shell.css'],{encoding:'utf8'});
 await load({...INITIAL_SHELL_STATE,confirmingLeave:true});
 assert((await inspect('baseline-static-rest','[data-testid="leave-save-first"]')).background.includes('primary-corner'),'baseline failed to reproduce');

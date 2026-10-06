@@ -1,8 +1,8 @@
 {
-  "head": "87ce19687d75db1e002f2a1e4faaae43afd3be36",
+  "head": "ce81a7b1d0956304293d10f4e14a50106d6db407",
   "baseline": "1ee0abcdabd4dadba0bc0a0737789f7c31decfa4",
   "sourceClean": true,
-  "stylesheetSha256": "e4c9ab6abf6e5f2024a28bcb851c76bb53b597a423ec9c6b03a4984414a62b7e",
+  "stylesheetSha256": "29756e08a2cd6d6fe3e8fe7297580cca31267cb21c80d85fe97bea878bc7f074",
   "browserVersion": "151.0.7922.173",
   "kind": "controlled actual ShellNav markup and repository CSS; no generated world or intro proof",
   "viewport": {
@@ -103,7 +103,7 @@
     },
     {
       "label": "submenu-held",
-      "background": "url(\"http://proof.test/ui/kit13/button-grain.svg\"), linear-gradient(170deg, rgb(52, 52, 54), rgb(34, 34, 36))",
+      "background": "linear-gradient(rgba(42, 42, 44, 0.72), rgba(22, 22, 24, 0.82))",
       "display": "grid",
       "active": false
     }
