@@ -288,9 +288,10 @@ async function reportOpeningStage(
 
 function* beginOpeningLifeSteps(
   session: OpeningLifeSession,
+  suppliedGame?: NewGame,
 ): Generator<OpeningPreparationStep, OpeningLifeBuildStart, void> {
   yield openingStage("Preparing your life");
-  const game = createNewGameWorld(session.setup);
+  const game = suppliedGame ?? createNewGameWorld(session.setup);
   // Begin persists this save's generated starting conditions first, so every
   // later opening step reads the same world. A legacy descriptor writes none.
   const conditioned = ensureWorldStartingConditions(game.world, {
