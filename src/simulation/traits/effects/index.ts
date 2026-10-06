@@ -40,6 +40,7 @@ import { facetEnterprisingEffects } from "./facet-enterprising";
 import { facetWorkCenteredEffects } from "./facet-work-centered";
 import { facetZealousEffects } from "./facet-zealous";
 import { initialTrustEffects } from "./initial-trust";
+import { facetCalmEffects } from "./facet-calm";
 import { methodRevisionEffects } from "./method-revision";
 import { outwardEmotionalDisplayEffects } from "./outward-emotional-display";
 import { patienceEffects } from "./patience";
@@ -59,6 +60,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetArgumentativeEffects,
     ...facetEnterprisingEffects,
     ...facetAssertiveEffects,
+    ...facetCalmEffects,
     ...facetBluntEffects,
     ...facetBrazenEffects,
     ...facetCockyEffects,
