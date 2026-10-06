@@ -1222,9 +1222,6 @@ export function SetupScreen({
       {isCurrent("difficulty") ? (
         <section data-testid="creator-stage-difficulty">
           <h2>Difficulty</h2>
-          <p className="game-note">
-            These settings are optional. You can keep the defaults and continue.
-          </p>
           <div
             role="group"
             aria-label="Challenge intensity"

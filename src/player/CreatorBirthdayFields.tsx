@@ -6,13 +6,11 @@ import {
   birthYearChoices,
   birthYearForSetup,
   creatorStartDate,
-  creatorBirthdayAgeRange,
   randomFullBirthday,
 } from "../presentation/creator-full-birthday";
 import { birthdayProblemForSetup } from "../presentation/new-game-birthday";
 import type { NewGameSetup } from "../presentation/new-game";
 import { GameSelect } from "./controls/GameSelect";
-import { world39Date } from "./World39News";
 import "./creator-finish.css";
 
 /**
@@ -62,8 +60,8 @@ export interface BirthdayPatch {
  *
  * Month, day and year are the game's own selects. The year is what sets the
  * starting age; month and day stay optional, and without them the game picks
- * the anniversary as before. The age and the day play begins are shown, not
- * typed. Randomize draws a whole adult birthday from the life's seed.
+ * the anniversary as before. Randomize draws a whole adult birthday from the
+ * life's seed.
  */
 export function CreatorBirthdayFields({
   setup,
@@ -83,11 +81,6 @@ export function CreatorBirthdayFields({
   const year = yearChosen ? birthYearForSetup(setup) : null;
   const years = birthYearChoices(month, day, startDate);
   const problem = birthdayProblemForSetup(setup);
-  const ageRange =
-    year === null
-      ? null
-      : creatorBirthdayAgeRange({ year, month, day }, startDate);
-
   /** Keeps the chosen year when month or day changes, if it still works. */
   const withParts = (nextMonth: number | null, nextDay: number | null) => {
     if (year === null) {
@@ -212,13 +205,6 @@ export function CreatorBirthdayFields({
           Randomize birthday
         </button>
       </div>
-      <p className="game-hint" data-testid="creator-derived-age">
-        {yearChosen && month !== null && day !== null
-          ? `You begin at age ${setup.startAge}, on ${world39Date(startDate)}.`
-          : ageRange
-            ? `Age ${ageRange.minimum === ageRange.maximum ? ageRange.minimum : `${ageRange.minimum}–${ageRange.maximum}`} on ${world39Date(startDate)}. Next fills the remaining birthday fields.`
-            : `Play begins on ${world39Date(startDate)}. Next fills any blank birthday fields.`}
-      </p>
       {problem ? (
         <p role="alert" data-testid="creator-birthday-problem">
           {problem}
