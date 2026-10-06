@@ -414,7 +414,6 @@ export function PressInterviewPanel({
             </button>
           </header>
           <p>{activeConcept.fullDefinition}</p>
-          <p>Reading this explanation does not change the saved agreement.</p>
         </aside>
       ) : null}
     </section>
