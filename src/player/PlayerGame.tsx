@@ -5154,10 +5154,7 @@ function JournalView({
 
       <h3>What has happened</h3>
       {chapters.chapters.length === 0 ? (
-        <p className="game-note" data-testid="journal-empty">
-          Nothing has been written down yet. It will fill up as the life goes
-          on.
-        </p>
+        <p data-testid="journal-empty" />
       ) : (
         <ol data-testid="journal-entries">
           {chapters.chapters.map((chapter) => (
