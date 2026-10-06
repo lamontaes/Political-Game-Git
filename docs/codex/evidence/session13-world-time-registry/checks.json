@@ -10,7 +10,11 @@
     "testsPassed": 2,
     "receipt": "runtime.txt"
   },
-  "focusedTyping": { "errors": 0, "roots": 5, "receipt": "focused-typing.txt" },
+  "focusedTyping": {
+    "errors": 0,
+    "roots": 5,
+    "receipt": "focused-typing.txt"
+  },
   "evidenceKind": "authored focused fixtures using canonical writers and serialization",
   "doesNotEstablish": [
     "natural player clerk or election-night route",
@@ -23,5 +27,10 @@
     "timeWorkDispatchAndReconciliation": "Session 1",
     "openingPreparation": "Session 7"
   },
-  "cloudStorageOverride": "CTO6009033958 verified cloud-only exemption; scoped commands, no deletion or global policy change"
+  "cloudStorageOverride": "CTO6009033958 verified cloud-only exemption; scoped commands, no deletion or global policy change",
+  "configuredTyping": {
+    "exitCode": 0,
+    "unresolvedTestImports": 0,
+    "receipt": "configured-typing.txt"
+  }
 }
