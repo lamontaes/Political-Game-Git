@@ -45,10 +45,19 @@ These are design proposals, not a second production theme. Any selected treatmen
 
 Session 3 owns only this bottom-left card mockup and evidence. The confirmed split leaves opening cards with Session 2 and radial, Options, person-card and World-record proposals with Session 14. The selected design must later fit the adjacent radial menu. No shared stylesheet or component has been edited.
 
-The owner pick remains required before build. The five functional draft PRs remain unchanged. Their original browser and thirty-day proof stays bound to its earlier source; these design previews are separate evidence. The shell chain still requires actual prerequisite merge, with no READY or merge authorization inferred.
+The owner pick remains required before build. The five functional draft PRs remain unchanged. Their original browser and thirty-day proof stays bound to its earlier source; these design previews are separate evidence. The shell chain requires Session 2's actual shell-to-main receipt before fresh screen checks. The earlier shell PR merged only into its stacked branch. No READY or merge authorization is inferred.
 
 ## VITAL STATISTICS
 
 Measured: One browser capture case passed. Human inspection found the full name, separate save label and all four context rows visible at both native viewports. Keyboard-focus captures are included. The preview buttons have no game action handlers. Pointer routing, canonical advancement, Save/Continue, Observer behavior and longer-name fitting have not been verified for an implementation.
+
+## Later one-view measurement and reference study
+
+Measured: A later browser case passed on clean source `25a3e55394e885158f299f4ab451ec5eed003fbe`, with the same recorded character and browser-only card overlay. The four layouts show zero overflowing text/control elements and zero clipped panel elements. The card measures 620 by 375.5 pixels at 1920 by 1080, and 580 by 375.5 pixels at 1024 by 768. Its rectangle leaves about 89% and 72% of the room area uncovered, respectively. The design caption is excluded from those percentages. `fit-receipt.json` contains the measurements; `fit-provenance.json` binds this follow-up to its actual source. Original captures and provenance remain unchanged.
+
+Measured: The later reference study inspected CK3's character/family pane and Football Manager 2024's Danny Welbeck player overview. Both emphasize portrait-led identity and compact related facts. Exact source links are in the adjacent Money mockup notes. This study occurred after the original player-card drawing and before the Money drawing; it is not claimed as prior research for the old captures. No production implementation followed.
+
+Method: The storage guard initially refused the follow-up before starting a browser. Five byte-identical report trace copies were linked to their retained original traces, preserving every path and SHA-256 while freeing about 103 MiB. The guard then admitted the run with its reserve intact. No failure receipt or original screenshot was deleted.
+
 
 Method: Clean game source `772d1bfdc36d44e23bdc34e5e07082493888e026`; random locality `1971040`; seed `session3-kit13-20261005`. Art and facts came from an ordinary native new-life opening. The first identity-only comparison is preserved separately under ignored test results and is not the final proposal. No year job ran. The exact private notes were relayed as text without screenshots, seed or recipe; none was fabricated.

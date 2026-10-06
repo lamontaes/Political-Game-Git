@@ -1,0 +1,84 @@
+import { test, expect } from '../../tests/e2e/fixtures';
+import { startLife, enterLife, goTo } from '../../tests/e2e/support/creator';
+import { drawRandomPlace } from '../../tests/support/random-place';
+import { writeFileSync } from 'node:fs';
+test('real-art player-card mockup comparison only', async ({page}, info)=>{
+ test.setTimeout(180000);
+ await page.setViewportSize({width:1920,height:1080});
+ const seed='session3-kit13-20261005';
+ const place=drawRandomPlace(seed,p=>p.scope==='locality');
+ await page.goto('/?seed='+seed);
+ await startLife(page,{age:34,place:place.displayName});
+ await page.getByTestId('orientation-skip').waitFor({state:'visible',timeout:60000});
+ await page.getByTestId('orientation-skip').click();
+ await enterLife(page);
+ await page.evaluate(async()=>{await document.fonts.ready;await Promise.all(Array.from(document.images).map(i=>i.decode().catch(()=>{})));});
+ await page.screenshot({path:info.outputPath('current-player-card.png')});
+ const payload=await page.evaluate(()=>{
+  const text=(s:string)=>document.querySelector(s)?.textContent?.trim()||'';
+  return {name:text('[data-testid="story-who"]'),date:text('[data-testid="story-when"]'),time:text('[data-testid="story-time"]'),place:text('.pg-nav-place'),portrait:document.querySelector('[data-testid="shell-nav-portrait"]')?.innerHTML||''};
+ });
+ expect(payload.name).not.toBe('');expect(payload.portrait).not.toBe('');
+ await goTo(page,'nav-personal');
+ await expect(page.getByTestId('personal-age')).toBeVisible();
+ const context=await page.evaluate(()=>{
+  const text=(s:string)=>document.querySelector(s)?.textContent?.trim()||'';
+  const upbringing=Array.from(document.querySelectorAll('[data-testid="personal-upbringing"] li')).map(n=>n.textContent?.trim()||'');
+  return {age:text('[data-testid="personal-age"]').split('·')[0].trim(),work:text('[data-testid="personal-work"] li:last-child'),household:text('[data-testid="personal-household"]'),family:upbringing.filter(t=>/parents|sibling/.test(t)).join(' '),saved:document.querySelector('.pg-nav-unsaved')?'Not saved yet':'Saved'};
+ });
+ expect(context.work).not.toBe('');expect(context.household).not.toBe('');expect(context.family).not.toBe('');
+
+ await page.addStyleTag({content:`
+ .pg-nav,.pg-workspace {visibility:hidden!important} .pg-morning-thought,.morning-thought{visibility:hidden!important}
+ #s3-design{position:fixed;z-index:9999;bottom:18px;left:18px;width:620px;color:#f3eee5;background:#25272a;border:1px solid #a89669;box-shadow:0 4px 20px #0007;padding:18px;box-sizing:border-box;font-family:var(--pg-font-ui);border-radius:2px}
+ #s3-design[data-skin="warm"]{background:#332c25;border-color:#b69a61}
+ #s3-design .identity{display:grid;grid-template-columns:112px 1fr;gap:18px;align-items:center}
+ #s3-design .portrait{height:120px;width:112px;display:grid;place-items:center;overflow:visible}
+ #s3-design .portrait .person-portrait{width:100%;height:100%;margin:0}
+ #s3-design .portrait .person-portrait-mark{width:100%;height:100%;border:0;background:none;border-radius:0}
+ #s3-design .portrait figcaption{display:none}
+ #s3-design h2{font-family:var(--pg-font-display);font-weight:800;font-size:22px;line-height:1.28;margin:0 0 7px;color:#d7bf83;overflow-wrap:anywhere}
+ #s3-design .copy{font-size:15px;line-height:1.5} #s3-design .save-state{display:block;font-size:13px;color:#d4cbbc;margin-top:7px}
+ #s3-design .facts{font-size:15px;line-height:1.5;margin-top:12px} #s3-design .fact{display:grid;grid-template-columns:85px 1fr;gap:10px;margin-top:7px} #s3-design .fact strong{color:#d7bf83;font-weight:600}
+ #s3-design .actions{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;border-top:1px solid #72674f;margin-top:15px;padding-top:14px}
+ #s3-design button{border:1px solid #8e8065;background:#1d1e20;color:#f3eee5;font:600 14px var(--pg-font-ui);min-height:42px;padding:7px;border-radius:2px}
+ #s3-design[data-skin="warm"] button{background:#29231f}
+ #s3-design button:hover{border-color:#dfc581;background:#41403a} #s3-design button:focus-visible{outline:2px solid #dfc581;outline-offset:3px}
+ #s3-design-note{position:fixed;z-index:9999;top:20px;right:20px;padding:10px 15px;background:#202123;color:#e7dcc6;font:500 14px var(--pg-font-ui);border:1px solid #a89669;max-width:550px}
+ @media(max-width:1100px){#s3-design{width:580px;bottom:14px;left:14px}#s3-design h2{font-size:21px}}
+ `});
+ await page.evaluate(({payload:p,context:c})=>{
+  const panel=document.createElement('section');panel.id='s3-design';panel.dataset.skin='graphite';
+  const identity=document.createElement('div');identity.className='identity';
+  const portrait=document.createElement('div');portrait.className='portrait';portrait.innerHTML=p.portrait;
+  const copy=document.createElement('div');copy.className='copy';
+  const name=document.createElement('h2');name.textContent=p.name;
+  copy.append(name);
+  for(const v of [c.age+' years old',p.date+' · '+p.time]){const line=document.createElement('div');line.textContent=v;copy.append(line);}
+  const save=document.createElement('span');save.className='save-state';save.textContent=c.saved;copy.append(save);
+  identity.append(portrait,copy);panel.append(identity);
+  const facts=document.createElement('div');facts.className='facts';
+  for(const [label,value] of [['Home',p.place],['Work',c.work],['Household',c.household],['Family',c.family]]){const fact=document.createElement('div');fact.className='fact';const title=document.createElement('strong');title.textContent=label;const valueNode=document.createElement('span');valueNode.textContent=value;fact.append(title,valueNode);facts.append(fact);}panel.append(facts);
+  const actions=document.createElement('div');actions.className='actions';
+  for(const label of ['Your life','Day ›','Week »','Until needed »']){const button=document.createElement('button');button.textContent=label;actions.append(button);}
+  panel.append(actions);document.body.append(panel);
+  const note=document.createElement('div');note.id='s3-design-note';note.textContent='DESIGN MOCKUP A — Graphite · Real game art · Not implemented';document.body.append(note);
+ },{payload,context});
+ const fits:any[]=[];
+ async function checkFit(skin:string){const fit=await page.evaluate(()=>{const panel=document.getElementById('s3-design')!,r=panel.getBoundingClientRect();const nodes=Array.from(panel.querySelectorAll('.copy,.copy *, .facts,.facts *, .actions,.actions *'));const overflow=nodes.filter(n=>n.scrollWidth>n.clientWidth+1||n.scrollHeight>n.clientHeight+1).map(n=>n.className||n.tagName);const clipped=nodes.filter(n=>{const b=n.getBoundingClientRect();return b.left<r.left||b.top<r.top||b.right>r.right||b.bottom>r.bottom}).map(n=>n.className||n.tagName);return {panel:{x:r.x,y:r.y,width:r.width,height:r.height},viewport:{width:innerWidth,height:innerHeight},overflow,clipped,roomVisibleFraction:1-r.width*r.height/(innerWidth*innerHeight)};});expect(fit.overflow).toEqual([]);expect(fit.clipped).toEqual([]);expect(fit.panel.x+fit.panel.width).toBeLessThanOrEqual(fit.viewport.width);expect(fit.panel.y+fit.panel.height).toBeLessThanOrEqual(fit.viewport.height);fits.push({skin,...fit});}
+ for(const skin of ['graphite','warm']){
+  await page.evaluate(s=>{document.getElementById('s3-design')!.dataset.skin=s;document.getElementById('s3-design-note')!.textContent=`DESIGN MOCKUP ${s==='graphite'?'A — Graphite':'B — Warm iron'} · Real game art · Not implemented`;},skin);
+  await page.setViewportSize({width:1920,height:1080});
+  await checkFit(skin);
+  await page.screenshot({path:info.outputPath(skin+'-1920.png')});
+  await page.locator('#s3-design button').first().focus();
+  await page.screenshot({path:info.outputPath(skin+'-focus-1920.png')});
+  await page.locator('#s3-design button').first().evaluate((b:HTMLElement)=>b.blur());
+  await page.setViewportSize({width:1024,height:768});
+  await expect(page.locator('#s3-design')).toBeInViewport();
+  await checkFit(skin);
+  await page.screenshot({path:info.outputPath(skin+'-1024.png')});
+ }
+ writeFileSync(info.outputPath('fit-receipt.json'),JSON.stringify({stage:'Browser-only player-card overlay; not production implementation',fits},null,2));
+ writeFileSync(info.outputPath('recorded-content.json'),JSON.stringify({seed,place,payload,context,stage:'mockup only',source:'clean772d1bfdc; isolated browser DOM styles; production unchanged'},null,2));
+});

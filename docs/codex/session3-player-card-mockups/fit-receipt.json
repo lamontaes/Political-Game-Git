@@ -1,0 +1,69 @@
+{
+  "stage": "Browser-only player-card overlay; not production implementation",
+  "fits": [
+    {
+      "skin": "graphite",
+      "panel": {
+        "x": 18,
+        "y": 686.5,
+        "width": 620,
+        "height": 375.5
+      },
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "overflow": [],
+      "clipped": [],
+      "roomVisibleFraction": 0.8877266589506173
+    },
+    {
+      "skin": "graphite",
+      "panel": {
+        "x": 14,
+        "y": 378.5,
+        "width": 580,
+        "height": 375.5
+      },
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "overflow": [],
+      "clipped": [],
+      "roomVisibleFraction": 0.723065694173177
+    },
+    {
+      "skin": "warm",
+      "panel": {
+        "x": 18,
+        "y": 686.5,
+        "width": 620,
+        "height": 375.5
+      },
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "overflow": [],
+      "clipped": [],
+      "roomVisibleFraction": 0.8877266589506173
+    },
+    {
+      "skin": "warm",
+      "panel": {
+        "x": 14,
+        "y": 378.5,
+        "width": 580,
+        "height": 375.5
+      },
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "overflow": [],
+      "clipped": [],
+      "roomVisibleFraction": 0.723065694173177
+    }
+  ]
+}
