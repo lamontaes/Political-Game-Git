@@ -39,10 +39,10 @@ import {
  * makes from their temperament and their history with the player, kept with
  * their reasons, so the person card can learn a trait from them.
  *
- * PLACEHOLDER, NOT REVIEWED: every reply line here is interim copy awaiting
- * the owner's editorial review (civic-prose), in the same standing as the
- * lines in `life-talk-topics.ts`. The counts are the owner's brief of
- * September 27, 2026: three to eight exchanges.
+ * The reply lines are the currently recorded copy and still await the owner's
+ * editorial review (civic-prose), in the same standing as the lines in
+ * `life-talk-topics.ts`. The counts are the owner's brief of September 27,
+ * 2026: three to eight exchanges.
  */
 
 export const RUNNING_PREFIX = "running:";

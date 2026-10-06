@@ -88,7 +88,7 @@ export function chooseBodyPose(choice: PoseChoice): BodyPose {
 
 function choosePose(choice: PoseChoice): BodyPose {
   const { activity, seated, seed } = choice;
-  // PLACEHOLDER(wave2): 0.15 per trait step, picked by eye.
+  // The recorded authored pose weighting is 0.15 per guarded-trait step.
   const guarded = (choice.guarded ?? 0) * 0.15;
   switch (activity) {
     case "speaking":

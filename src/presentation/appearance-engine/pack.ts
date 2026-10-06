@@ -15,7 +15,7 @@ import {
 
 /**
  * Hair colors, applied by code to hair painted in dark brown. "natural" keeps
- * the painting. PLACEHOLDER(wave2): picked by eye.
+ * the painting. These are the recorded, eye-matched colors for this pack.
  */
 export const HAIR_COLORS: readonly (FabricRamp & { readonly label: string })[] =
   [
@@ -699,8 +699,8 @@ export interface PeoplePackManifest {
 
 /**
  * The colors a garment part may take, by palette, from fabric.ts. Each
- * outfit names a palette for each of its parts. PLACEHOLDER(wave2): picked by
- * eye for variety; suits, shirts and ties stay in conservative colors.
+ * outfit names a palette for each of its parts. These recorded palettes were
+ * matched by eye for variety; suits, shirts and ties stay conservative.
  */
 export const PART_PALETTES: Readonly<Record<string, readonly string[]>> = {
   top: [

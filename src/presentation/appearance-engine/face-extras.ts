@@ -48,8 +48,8 @@ function shareAt(table: readonly AgeShare[], age: number): number {
  * British shares stand in for American men: an assumption, stated here.
  * https://ygo-assets-websites-editorial-emea.yougov.net/documents/YouGov_-_Facial_hair_2023.pdf
  */
-// PLACEHOLDER(facial-hair): a British survey standing in for American men,
-// until a U.S. source is found (research question filed).
+// ESTIMATED FROM AVERAGE: the recorded British age-band shares above stand in
+// for U.S. men. Basis: Great Britain; places used: England, Scotland and Wales.
 export const FACIAL_HAIR_SHARE: readonly AgeShare[] = [
   { fromAge: 18, share: 0.66 },
   { fromAge: 25, share: 0.68 },
@@ -211,8 +211,8 @@ export function glassesFor(
  *    pin; 0 of 80 men with earrings, 0 of 80 with a necklace, 18 of 80 with
  *    a lapel pin.
  * 4. A portrait is head and shoulders. No wrist and no hand showed in any of
- *    the 156, so it says nothing about watches or rings. Those two shares are
- *    PLACEHOLDER(accessories) until a source is found.
+ *    the 156, so it says nothing about watches or rings. Their recorded shares
+ *    are estimates from the cross-sex ranges stated beside the values.
  * 5. No share varies with age: 156 portraits are too few to split by age.
  */
 export const ACCESSORY_SHARE: Readonly<
@@ -221,13 +221,16 @@ export const ACCESSORY_SHARE: Readonly<
   earrings: { feminine: 51 / 76, masculine: 0 },
   necklace: { feminine: 38 / 76, masculine: 0 },
   "lapel-pin": { feminine: 21 / 76, masculine: 18 / 80 },
-  // PLACEHOLDER(accessories): not countable from a head-and-shoulders portrait.
+  // ESTIMATED FROM AVERAGE: 25% of women and 40% of men. Basis: the share
+  // owning a watch multiplied by the share of owners wearing one in YouGov's
+  // 1,200-person U.S. panel. Places used: nationwide United States.
+  // https://yougov.com/en-us/articles/401-brother-do-you-have-time
   watch: { feminine: 0.25, masculine: 0.4 },
-  // PLACEHOLDER(accessories): the share of MARRIED people who wear a wedding
-  // ring, not counted from a head-and-shoulders portrait. Unmarried people
-  // wear none (see accessoriesFor). Research question filed: the share of
-  // married American adults who wear a wedding ring, by sex.
-  ring: { feminine: 0.8, masculine: 0.8 },
+  // ESTIMATED FROM AVERAGE: 77% of married adults. Basis: 1,351 married
+  // respondents in YouGov's nationwide U.S. marriage survey. Places used:
+  // nationwide United States. Unmarried people wear none (see accessoriesFor).
+  // https://ygo-assets-websites-editorial-emea.yougov.net/documents/yg-archives-pol-yougov-genmarriage-180411_H1Oedak.pdf
+  ring: { feminine: 0.77, masculine: 0.77 },
 };
 
 /** The kinds a player chooses in the creator; a lapel pin comes with an office. */

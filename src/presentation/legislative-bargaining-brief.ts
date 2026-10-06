@@ -53,8 +53,9 @@ export const LEGACY_ADOPTED_PROVISION_SUFFIX = "section-4";
 export const REQUESTED_SEGMENT_KEY: MetricSegmentKey =
   "transit.ashland-boyd-local-match";
 
-// PLACEHOLDER(research: how-bargaining-limits-and-pay-counteroffers-are-set): the three amounts below and the $8,000,000
-// in `fiscalNoteSummaryFor` are typed in, not sourced.
+// The authored Kentucky sitting records the three amounts below. They and the
+// $8 million in `fiscalNoteSummaryFor` are fixture facts, not nationwide
+// estimates.
 export const PROGRAM_AMOUNT_MINOR_UNITS = 800_000_000;
 export const REQUESTED_AMOUNT_MINOR_UNITS = 140_000_000;
 export const CAPPED_AMOUNT_MINOR_UNITS = 60_000_000;

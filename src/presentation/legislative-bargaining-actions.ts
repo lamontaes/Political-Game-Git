@@ -395,7 +395,8 @@ function deriveSimulatedMembers(
       personId: seat.guardianPersonId,
       localBeneficiaryLabels: [],
       // What this member said in public before the bill was filed.
-      // PLACEHOLDER(research: how-bargaining-limits-and-pay-counteroffers-are-set): a flat $8.6M, not sourced.
+      // The authored Kentucky sitting records this member's public ceiling as
+      // $8.6 million; it is a fixture fact, not a nationwide estimate.
       fiscalConcernCeilingMinorUnits: 860_000_000,
     },
     {

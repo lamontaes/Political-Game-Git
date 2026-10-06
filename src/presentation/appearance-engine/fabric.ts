@@ -23,9 +23,9 @@ export interface FabricRamp {
 }
 
 /**
- * The first fabric colors. PLACEHOLDER(wave2): picked by eye for the first
- * two outfits (Lamontae, Sept. 27: a formal and a non-formal outfit); the art
- * team's approved palette replaces them.
+ * These are the recorded fabric colors, selected by eye for the first two
+ * outfits (Lamontae, September 27: a formal and a non-formal outfit). The art
+ * team's approved palette may replace them.
  */
 export const FABRIC_RAMPS: readonly FabricRamp[] = [
   { id: "navy", shadow: "#141c33", base: "#253459", highlight: "#34467a" },
