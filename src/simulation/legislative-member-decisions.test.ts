@@ -4,7 +4,13 @@ import { makeIsoDate } from "./dates";
 import { memberVoteConsiderations } from "./legislative-member-decisions";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import { createPortabilityFixture } from "./portability-fixture";
-import type { EntityId, PrivateBeliefRecord, World } from "./types";
+import type {
+  BeliefConviction,
+  EntityId,
+  PoliticalSalience,
+  PrivateBeliefRecord,
+  World,
+} from "./types";
 
 const memberId = "person_member" as EntityId;
 const measureId = "measure_formed_view" as EntityId;
@@ -14,6 +20,8 @@ function belief(
   position: PrivateBeliefRecord["position"],
   sequence: number,
   formedAt = "2026-01-04",
+  conviction: BeliefConviction = "strong",
+  salience: PoliticalSalience = "high",
 ): PrivateBeliefRecord {
   return {
     id: `belief_${sequence}` as EntityId,
@@ -23,8 +31,8 @@ function belief(
     propositionId,
     formedAt: makeIsoDate(formedAt),
     position,
-    conviction: "strong",
-    salience: "high",
+    conviction,
+    salience,
     flexibility: "negotiable",
     rationale: null,
     formation: {
@@ -127,6 +135,24 @@ describe("member votes from formed views on an explicit bill answer", () => {
     expect(
       considerations(worldWith("yes", [belief("support", 1)]), "amendment"),
     ).toEqual([]);
+  });
+
+  it("maps each recorded salience and conviction to the decision engine's ordinal levels", () => {
+    const expected = [
+      ["tentative", "low", "slight", "low"],
+      ["moderate", "moderate", "moderate", "medium"],
+      ["strong", "high", "strong", "high"],
+      ["settled", "central", "decisive", "high"],
+    ] as const;
+    for (const [conviction, salience, importance, confidence] of expected) {
+      expect(
+        considerations(
+          worldWith("yes", [
+            belief("support", 1, "2026-01-04", conviction, salience),
+          ]),
+        )[0],
+      ).toMatchObject({ importance, confidence });
+    }
   });
 });
 

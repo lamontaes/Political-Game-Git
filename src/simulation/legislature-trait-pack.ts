@@ -11,10 +11,9 @@ import type { TraitMovability, TraitPack, TraitScale } from "./trait-packs";
  * a person can be dependable with their friends and hard to pin down in a
  * chamber without either reading being evidence for the other.
  *
- * **Nothing is conferred yet, and that is deliberate.** The trait below is
- * `conferred-only`, so no person is born with it and no existing save gains
- * anything from this pack being loaded. Until a writer confers it, every
- * reading is `unrecorded` and every sitting decides exactly as it does today.
+ * These traits are `conferred-only`, so no person is born with them and no
+ * existing save gains anything from this pack being loaded. Until a writer
+ * confers a reading, it remains `unrecorded`.
  * What ought to confer it — a member's own record of how they have negotiated
  * before — is modeling work with its own provenance question, and it is not
  * smuggled in here.
@@ -88,6 +87,29 @@ export function legislatureTraitPack(): TraitPack {
           },
         },
         scopes: ["government:bargaining"],
+        conferredBy: "conferred-only",
+        scale: LEGISLATURE_TRAIT_SCALE,
+        movability: LEGISLATURE_TRAIT_MOVABILITY,
+        seed: null,
+      },
+      {
+        key: "yielding-to-pressure",
+        label: "Answering a warning",
+        description:
+          "Whether a member yields to a colleague's recorded political warning or stands against it.",
+        poles: {
+          low: {
+            key: "stands-against-pressure",
+            label: "Stands against pressure",
+            description: "Keeps their vote when a colleague warns them.",
+          },
+          high: {
+            key: "yields-to-pressure",
+            label: "Yields to pressure",
+            description: "Changes their vote when a colleague warns them.",
+          },
+        },
+        scopes: ["government:member-vote"],
         conferredBy: "conferred-only",
         scale: LEGISLATURE_TRAIT_SCALE,
         movability: LEGISLATURE_TRAIT_MOVABILITY,
