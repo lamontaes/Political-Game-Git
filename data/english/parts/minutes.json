@@ -1,0 +1,472 @@
+{
+  "schema": "english-parts/1",
+  "register": "minutes",
+  "description": "Sourced minutes-register parts: how formal minutes record attendance, discussion, agreement, the weight of opinion, votes and dissents, mined from Federal Open Market Committee minutes (public domain). minutesUsing counts how many of the 45 sets of minutes read use the shape; each source is the most recent one.",
+  "slots": {
+    "day": "A weekday, such as Tuesday.",
+    "topic": "An agenda topic.",
+    "session": "A session of the meeting, such as Tuesday's session.",
+    "member": "A member's name.",
+    "members": "The members who voted that way, by name.",
+    "view": "A judgment or observation, as a clause.",
+    "action": "What the body did or should do, in a verb phrase.",
+    "subject": "What was assessed.",
+    "judgment": "How it was assessed, such as uncertain.",
+    "body": "The body meeting, such as the Committee or the Council.",
+    "reason": "Why the member dissented.",
+    "alternative": "What the member wanted instead.",
+    "date": "A month/day/year date.",
+    "time": "A clock time, such as 11:15 a.m."
+  },
+  "maxWords": 16,
+  "mining": {
+    "tool": "scripts/english-mining/mine-meeting-minutes.py",
+    "read": "45 sets of FOMC minutes linked from https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
+  },
+  "parts": [
+    {
+      "key": "minutes.attendance.attended-days-session-only",
+      "move": "attendance",
+      "text": "Attended {day}'s session only.",
+      "minutesUsing": 33,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2026-07-29",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      }
+    },
+    {
+      "key": "minutes.attendance.attended-through-the-discussion-of-topic",
+      "move": "attendance",
+      "text": "Attended through the discussion of {topic}.",
+      "minutesUsing": 45,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2026-07-29",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      }
+    },
+    {
+      "key": "minutes.attendance.attended-opening-remarks-for-session-only",
+      "move": "attendance",
+      "text": "Attended opening remarks for {session} only.",
+      "minutesUsing": 9,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2026-07-29",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      }
+    },
+    {
+      "key": "minutes.attendance.member-voted-as-an-alternate-member-at-this-meeting",
+      "move": "attendance",
+      "text": "{member} voted as an alternate member at this meeting.",
+      "minutesUsing": 6,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2025-05-07",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20250507.htm"
+      }
+    },
+    {
+      "key": "minutes.discussion.the-manager-turned-first-to-topic",
+      "move": "discussion",
+      "text": "The manager turned first to {topic}.",
+      "minutesUsing": 36,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2026-06-17",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260617.htm"
+      }
+    },
+    {
+      "key": "minutes.discussion.the-manager-then-turned-to-topic",
+      "move": "discussion",
+      "text": "The manager then turned to {topic}.",
+      "minutesUsing": 11,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2026-03-18",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260318.htm"
+      }
+    },
+    {
+      "key": "minutes.discussion.the-manager-turned-next-to-topic",
+      "move": "discussion",
+      "text": "The manager turned next to {topic}.",
+      "minutesUsing": 22,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2026-04-29",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260429.htm"
+      }
+    },
+    {
+      "key": "minutes.discussion.the-staff-provided-an-update-on-topic",
+      "move": "discussion",
+      "text": "The staff provided an update on {topic}.",
+      "minutesUsing": 17,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2025-01-29",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20250129.htm"
+      }
+    },
+    {
+      "key": "minutes.discussion.participants-discussed-topic",
+      "move": "discussion",
+      "text": "Participants discussed {topic}.",
+      "minutesUsing": 24,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2025-12-10",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20251210.htm"
+      }
+    },
+    {
+      "key": "minutes.discussion.in-their-discussion-of-topic-participants-view",
+      "move": "discussion",
+      "text": "In their discussion of {topic}, participants {view}.",
+      "minutesUsing": 39,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2025-10-29",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20251029.htm"
+      }
+    },
+    {
+      "key": "minutes.discussion.in-their-consideration-of-topic-participants-noted-that-view",
+      "move": "discussion",
+      "text": "In their consideration of {topic}, participants noted that {view}.",
+      "minutesUsing": 15,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2026-03-18",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260318.htm"
+      }
+    },
+    {
+      "key": "minutes.discussion.against-this-background-view",
+      "move": "discussion",
+      "text": "Against this background, {view}.",
+      "minutesUsing": 11,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2023-07-26",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20230726.htm"
+      }
+    },
+    {
+      "key": "minutes.discussion.the-staff-judged-that-view",
+      "move": "discussion",
+      "text": "The staff judged that {view}.",
+      "minutesUsing": 21,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2026-07-29",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      }
+    },
+    {
+      "key": "minutes.agreement.members-concurred-that-view",
+      "move": "agreement",
+      "text": "Members concurred that {view}.",
+      "minutesUsing": 24,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2026-04-29",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260429.htm"
+      }
+    },
+    {
+      "key": "minutes.agreement.members-also-concurred-that-view",
+      "move": "agreement",
+      "text": "Members also concurred that {view}.",
+      "minutesUsing": 9,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2023-09-20",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20230920.htm"
+      }
+    },
+    {
+      "key": "minutes.agreement.participants-agreed-that-view",
+      "move": "agreement",
+      "text": "Participants agreed that {view}.",
+      "minutesUsing": 26,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2026-04-29",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260429.htm"
+      }
+    },
+    {
+      "key": "minutes.agreement.members-agreed-that-view",
+      "move": "agreement",
+      "text": "Members agreed that {view}.",
+      "minutesUsing": 35,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2026-04-29",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260429.htm"
+      }
+    },
+    {
+      "key": "minutes.agreement.almost-all-members-agreed-that-view",
+      "move": "agreement",
+      "text": "Almost all members agreed that {view}.",
+      "minutesUsing": 6,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2026-07-29",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      }
+    },
+    {
+      "key": "minutes.agreement.all-participants-judged-it-appropriate-to-action",
+      "move": "agreement",
+      "text": "All participants judged it appropriate to {action}.",
+      "minutesUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2025-09-17",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20250917.htm"
+      }
+    },
+    {
+      "key": "minutes.agreement.participants-judged-that-it-was-appropriate-to-action",
+      "move": "agreement",
+      "text": "Participants judged that it was appropriate to {action}.",
+      "minutesUsing": 4,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2025-01-29",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20250129.htm"
+      }
+    },
+    {
+      "key": "minutes.agreement.members-also-acknowledged-that-view",
+      "move": "agreement",
+      "text": "Members also acknowledged that {view}.",
+      "minutesUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2022-01-26",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20220126.htm"
+      }
+    },
+    {
+      "key": "minutes.agreement.they-also-agreed-that-view",
+      "move": "agreement",
+      "text": "They also agreed that {view}.",
+      "minutesUsing": 14,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2025-12-10",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20251210.htm"
+      }
+    },
+    {
+      "key": "minutes.agreement.members-viewed-subject-as-judgment",
+      "move": "agreement",
+      "text": "Members viewed {subject} as {judgment}.",
+      "minutesUsing": 9,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2025-01-29",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20250129.htm"
+      }
+    },
+    {
+      "key": "minutes.weighing.many-participants-noted-that-view",
+      "move": "weighing",
+      "text": "Many participants noted that {view}.",
+      "minutesUsing": 31,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2026-07-29",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      }
+    },
+    {
+      "key": "minutes.weighing.several-participants-noted-that-view",
+      "move": "weighing",
+      "text": "Several participants noted that {view}.",
+      "minutesUsing": 38,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2026-07-29",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      }
+    },
+    {
+      "key": "minutes.weighing.some-participants-noted-that-view",
+      "move": "weighing",
+      "text": "Some participants noted that {view}.",
+      "minutesUsing": 37,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2026-07-29",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      }
+    },
+    {
+      "key": "minutes.weighing.a-few-participants-noted-that-view",
+      "move": "weighing",
+      "text": "A few participants noted that {view}.",
+      "minutesUsing": 33,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2026-07-29",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      }
+    },
+    {
+      "key": "minutes.weighing.a-couple-of-participants-noted-that-view",
+      "move": "weighing",
+      "text": "A couple of participants noted that {view}.",
+      "minutesUsing": 29,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2026-07-29",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      }
+    },
+    {
+      "key": "minutes.weighing.most-participants-noted-that-view",
+      "move": "weighing",
+      "text": "Most participants noted that {view}.",
+      "minutesUsing": 14,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2026-06-17",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260617.htm"
+      }
+    },
+    {
+      "key": "minutes.weighing.the-extent-of-these-effects-remains-uncertain",
+      "move": "weighing",
+      "text": "The extent of these effects remains uncertain.",
+      "minutesUsing": 6,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2023-12-13",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20231213.htm"
+      }
+    },
+    {
+      "key": "minutes.vote.by-unanimous-vote-the-body-action",
+      "move": "vote",
+      "text": "By unanimous vote, the {body} {action}.",
+      "minutesUsing": 44,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2026-07-29",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      }
+    },
+    {
+      "key": "minutes.vote.voting-for-this-action-members",
+      "move": "vote",
+      "text": "Voting for this action: {members}.",
+      "minutesUsing": 43,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2026-07-29",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      }
+    },
+    {
+      "key": "minutes.vote.voting-against-this-action-members",
+      "move": "vote",
+      "text": "Voting against this action: {members}.",
+      "minutesUsing": 41,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2026-07-29",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      }
+    },
+    {
+      "key": "minutes.vote.member-dissented-because-reason",
+      "move": "vote",
+      "text": "{member} dissented because {reason}.",
+      "minutesUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2024-12-18",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20241218.htm"
+      }
+    },
+    {
+      "key": "minutes.vote.member-preferred-to-alternative",
+      "move": "vote",
+      "text": "{member} preferred to {alternative}.",
+      "minutesUsing": 15,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2026-07-29",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      }
+    },
+    {
+      "key": "minutes.vote.it-was-agreed-that-the-next-meeting-of-the-body-would-be-held-on-date",
+      "move": "vote",
+      "text": "It was agreed that the next meeting of the {body} would be held on {date}.",
+      "minutesUsing": 45,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2026-07-29",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      }
+    },
+    {
+      "key": "minutes.vote.the-meeting-adjourned-at-time",
+      "move": "vote",
+      "text": "The meeting adjourned at {time}.",
+      "minutesUsing": 45,
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2026-07-29",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      }
+    }
+  ]
+}
