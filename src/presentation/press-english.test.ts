@@ -106,7 +106,7 @@ it("keeps a reporter's fallible belief and actual source across Save/Continue", 
     terms: "on-record",
     grounding: packet,
   });
-  expect(question.ok && question.statement).toContain("The bill passed.");
+  expect(question.ok && question.statement).toBe("What's your side of it?");
   expect(serializeWorld(world)).toBe(before);
   expect(
     reporterQuestionPacket(

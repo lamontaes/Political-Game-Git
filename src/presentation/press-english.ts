@@ -20,19 +20,18 @@ export const PRESS_BANKS: Readonly<Record<string, ComposedLineBank>> = {
     version: "1",
     surface: "dialogue",
     act: "ask",
+    // The reporter asks from their own question parts only. The development
+    // they know is the matter on the desk, not something they read aloud: a
+    // finished news line ("declined to comment. Reported by…") belongs to the
+    // story after the answer, never to the question.
     parts: {
-      opener: {
-        required: true,
-        variants: [
-          { key: "development", kind: "template", text: "{{subject}}" },
-        ],
-      },
       core: {
         variants: [
           {
-            key: "question",
+            key: "your-side",
             kind: "template",
-            text: "What is established, and what is still open?",
+            text: "What's your side of it?",
+            requiresFacts: ["subject"],
           },
         ],
       },
