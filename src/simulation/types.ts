@@ -5785,7 +5785,7 @@ export interface World {
   readonly incidentCatalog: IncidentCatalog;
   readonly vitalityCatalog: VitalityCatalog;
   readonly control: ControlState;
-  /** Prospective player identity and recorded Begin boundary; absent in legacy saves. */
+  /** The prospective player acts as a resident until the recorded Begin date. */
   readonly preStartLife?: {
     readonly personId: EntityId;
     readonly targetStartDate: IsoDate;
