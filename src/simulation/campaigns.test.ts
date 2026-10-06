@@ -36,7 +36,7 @@ import {
   serializeWorld,
   simulationMomentAtLocalTime,
   addDays,
-  assessKentuckyCampaignContribution,
+  assessCampaignContributionForPack,
   campaignCompliancePackFor,
   campaignObligations,
   committeeCampaignComplianceDocuments,
@@ -47,6 +47,7 @@ import {
 } from "./index";
 import { contributeOwnMoneyToCampaign } from "./campaign-money-sources";
 import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
+import { KENTUCKY_CAMPAIGN_COMPLIANCE_PACK } from "./campaign-compliance";
 import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
 import {
   CAMPAIGN_SUPPORT_METRIC_STABLE_KEY,
@@ -672,7 +673,8 @@ describe("filing", () => {
   });
 
   it("keeps candidate money in the committee contribution path and refuses unsupported donors", () => {
-    const candidateMoney = assessKentuckyCampaignContribution({
+    const candidateMoney = assessCampaignContributionForPack({
+      pack: KENTUCKY_CAMPAIGN_COMPLIANCE_PACK,
       onDate: makeIsoDate("2026-07-15"),
       contributorKind: "candidate",
       amountMinorUnits: 25_000,
@@ -687,7 +689,8 @@ describe("filing", () => {
       classification: "candidate-contribution",
       requiresItemization: true,
     });
-    const unsupported = assessKentuckyCampaignContribution({
+    const unsupported = assessCampaignContributionForPack({
+      pack: KENTUCKY_CAMPAIGN_COMPLIANCE_PACK,
       onDate: makeIsoDate("2026-07-15"),
       contributorKind: "unknown",
       amountMinorUnits: 25_000,
@@ -700,7 +703,8 @@ describe("filing", () => {
     expect(unsupported.acceptableForRecording).toBe(false);
     expect(unsupported.refusals.join(" ")).toMatch(/cannot infer|itemization/i);
 
-    const historicalUnknown = assessKentuckyCampaignContribution({
+    const historicalUnknown = assessCampaignContributionForPack({
+      pack: KENTUCKY_CAMPAIGN_COMPLIANCE_PACK,
       onDate: makeIsoDate("2026-07-14"),
       contributorKind: "individual",
       amountMinorUnits: 25_000,
