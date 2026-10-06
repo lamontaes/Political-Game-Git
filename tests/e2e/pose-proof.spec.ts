@@ -1,4 +1,5 @@
 import { expect, test, type Page } from "./fixtures";
+import families from "../../art/manifest/pose_families.json" with { type: "json" };
 
 /**
  * Browser proof for the pose contract.
@@ -32,12 +33,17 @@ test.describe("pose and contact proof", () => {
     );
     expect(new Set(bodyFamilies).size).toBe(2);
 
-    // Six registered families per person: four P0 and two P1.
-    await expect(page.getByTestId("pose-proof-cell")).toHaveCount(12);
+    const people = Number(await proof.getAttribute("data-person-count"));
+    await expect(page.getByTestId("pose-proof-cell")).toHaveCount(
+      people * families.families.length,
+    );
     const p0 = page.locator(
       '[data-testid="pose-proof-cell"][data-priority="P0"]',
     );
-    await expect(p0).toHaveCount(8);
+    await expect(p0).toHaveCount(
+      people *
+        families.families.filter((family) => family.priority === "P0").length,
+    );
   });
 
   test("keeps one identity across every pose family", async ({ page }) => {
@@ -176,7 +182,9 @@ test.describe("pose and contact proof", () => {
     await openProof(page);
     const table = page.getByTestId("pose-proof-coverage");
     await expect(table).toBeVisible();
-    await expect(page.getByTestId("pose-proof-coverage-row")).toHaveCount(6);
+    await expect(page.getByTestId("pose-proof-coverage-row")).toHaveCount(
+      families.families.length,
+    );
     await expect(
       page.locator(
         '[data-testid="pose-proof-coverage-row"][data-covered="true"]',
