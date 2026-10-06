@@ -104,6 +104,7 @@ const PROFILE_SCOPES: Readonly<Record<CatalogueProfile, readonly string[]>> = {
     "life:ordinary",
     "career:choice",
     "governing:deliberation",
+    "government:bargaining",
     "crisis:response",
   ],
 };

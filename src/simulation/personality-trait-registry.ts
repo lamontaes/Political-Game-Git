@@ -106,6 +106,12 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
     reader:
       "career.consider-another-term — src/simulation/traits/effects/self-confidence.ts",
   },
+  {
+    trait: "personality-v1:facet-calm",
+    kind: "decision",
+    reader:
+      "legislation.bargaining.answer-offer — src/simulation/traits/effects/calm.ts",
+  },
 ];
 
 /**
@@ -193,7 +199,6 @@ export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:facet-defensive",
   "personality-v1:facet-hostile",
   "personality-v1:facet-thrill-seeking",
-  "personality-v1:facet-calm",
   "personality-v1:facet-hot-headed",
   "personality-v1:facet-sensitive",
   "personality-v1:facet-tender-hearted",
