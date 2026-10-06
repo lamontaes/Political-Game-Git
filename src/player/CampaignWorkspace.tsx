@@ -10,6 +10,7 @@ import {
   giveElectionSpeech,
   askCampaignHelper,
   offerCampaignManagerJob,
+  askCampaignDonorForContribution,
   groupCampaignSessions,
   projectCampaign,
   spendAnAfternoon,
@@ -173,6 +174,7 @@ export function CampaignWorkspace({
   }, [world, view.campaignId]);
   const [problem, setProblem] = useState<string | null>(null);
   const [helperNotice, setHelperNotice] = useState<string | null>(null);
+  const [donorAskDollars, setDonorAskDollars] = useState(100);
   const [selectedGeography, setSelectedGeography] = useState<string | null>(
     null,
   );
@@ -757,6 +759,82 @@ export function CampaignWorkspace({
               </section>
             ) : null}
 
+            {planning.slots.includes("immediate") ? (
+              <section
+                aria-labelledby="campaign-donors-title"
+                data-testid="campaign-donors"
+              >
+                <h3 id="campaign-donors-title">People who gave</h3>
+                <label>
+                  Ask each person for $
+                  <input
+                    aria-label="Contribution ask in dollars"
+                    type="number"
+                    min="1"
+                    step="1"
+                    value={donorAskDollars}
+                    onChange={(event) =>
+                      setDonorAskDollars(Number(event.target.value))
+                    }
+                  />
+                </label>
+                {view.donors.length ? (
+                  <ul>
+                    {view.donors.map((donor, index) => (
+                      <li key={`${donor.personId}-${index}`}>
+                        {donor.name}: {donor.outcome}
+                        {donor.outcome === "gave"
+                          ? ` ${displayMoney({ minorUnits: donor.amountMinorUnits, currency: view.treasury.currency })}`
+                          : ""}
+                        {donor.reason
+                          ? ` — ${donor.reason}`
+                          : donor.reasonBeliefId
+                            ? " — based on their view of you"
+                            : ""}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>No one has been asked to give yet.</p>
+                )}
+                {view.donorCandidates.length ? (
+                  <ul aria-label="People you know who could give">
+                    {view.donorCandidates.map((donor) => (
+                      <li key={donor.personId}>
+                        <button
+                          type="button"
+                          data-testid={`ask-campaign-donor-${donor.personId}`}
+                          onClick={() => {
+                            try {
+                              const result = askCampaignDonorForContribution(
+                                world,
+                                view.campaignId!,
+                                donor.personId,
+                                Math.max(1, Math.floor(donorAskDollars * 100)),
+                              );
+                              onWorldChange(result.world);
+                              setHelperNotice(
+                                `${donor.name} ${result.ask.outcome === "gave" ? `gave ${displayMoney({ minorUnits: result.ask.amountMinorUnits, currency: view.treasury.currency })}` : result.ask.outcome}: ${result.reasons.join(" ") || result.view}. Recorded means: ${result.meansMinorUnits ?? "unknown"}; contribution limit: ${result.limit.minorUnits} ${view.treasury.currency}${result.limit.estimated ? " (estimated)" : ""}.`,
+                              );
+                              setProblem(null);
+                            } catch (error) {
+                              setProblem(
+                                error instanceof Error
+                                  ? error.message
+                                  : String(error),
+                              );
+                            }
+                          }}
+                        >
+                          Ask {donor.name} for ${donorAskDollars}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+              </section>
+            ) : null}
+
             {planning.slots.includes("immediate") &&
             view.managerCandidates.length ? (
               <section
@@ -809,62 +887,6 @@ export function CampaignWorkspace({
                     </li>
                   ))}
                 </ul>
-              </section>
-            ) : null}
-
-            {planning.slots.includes("immediate") ? (
-              <section
-                className="game-campaign-helpers"
-                aria-labelledby="campaign-helpers-title"
-                data-testid="campaign-helpers"
-              >
-                <h3 id="campaign-helpers-title">People helping</h3>
-                <p>
-                  {view.helpers.length
-                    ? view.helpers.map((helper) => helper.name).join(", ")
-                    : "You are running this campaign alone."}
-                </p>
-                {view.helperCandidates.length ? (
-                  <ul aria-label="People you know who could help">
-                    {view.helperCandidates.map((candidate) => (
-                      <li key={candidate.personId}>
-                        <button
-                          type="button"
-                          data-testid={`ask-campaign-helper-${candidate.personId}`}
-                          onClick={() => {
-                            try {
-                              const decision = askCampaignHelper(
-                                world,
-                                view.campaignId!,
-                                candidate.personId,
-                              );
-                              onWorldChange(decision.world);
-                              const response =
-                                decision.outcome === "help"
-                                  ? "agreed to help"
-                                  : decision.outcome === "decline"
-                                    ? "declined"
-                                    : "is still deciding";
-                              setHelperNotice(
-                                `${candidate.name} ${response}${decision.reasons[0] ? `: ${decision.reasons.join(" ")}` : "."}`,
-                              );
-                              setProblem(null);
-                            } catch (error) {
-                              setProblem(
-                                error instanceof Error
-                                  ? error.message
-                                  : String(error),
-                              );
-                            }
-                          }}
-                        >
-                          Ask {candidate.name} to help
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
-                {helperNotice ? <p role="status">{helperNotice}</p> : null}
               </section>
             ) : null}
 

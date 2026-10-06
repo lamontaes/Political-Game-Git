@@ -33,7 +33,6 @@ import type { EntityId, World } from "../../src/simulation";
 import { lifePlaceStateIdentities } from "../../src/simulation/life-places";
 import { LIFE_MIND_IDS } from "../../src/simulation/life-mind-content";
 import { activeOrdinaryGoal } from "../../src/simulation/life-personality";
-import { OPENING_LIFE_SCENES } from "../../src/simulation/opening-life-content";
 import { describePersonContext } from "../../src/simulation/person-context";
 import {
   latestPersonalValue,
@@ -460,96 +459,6 @@ function greeting(
     speaker,
     line: line.text,
     parts: line.parts,
-  };
-}
-
-/** The scene question's key, as the conversation maps a scene to a reply. */
-const SCENE_QUESTION: Readonly<Record<string, LifeReplyKey>> = {
-  "early.school.lunchbox-swap": "do-you-want-to-keep-your-snack",
-  "early.peer.sidewalk-game": "shall-we-try-one-round-with-that",
-  "early.peer.secret-whisper": "do-you-want-to-talk-about-the",
-  "early.peer.dropped-treat": "can-you-stay-with-me-for-a",
-  "early.peer.roughhouse-line": "do-you-want-to-stop-playing-tag",
-  "early.community.library-quiet": "should-we-move-farther-apart-so-we",
-  "early.school.crayon-sharing": "can-i-use-the-crayon-when-you",
-  "early.school.playground-turn": "do-you-want-a-turn-on-the",
-  "early.school.spilled-paint": "can-you-help-blot-the-paper",
-  "early.peer.toy-damage-accidental": "can-you-show-me-the-wheel",
-  "adult.home.shared-time": "would-you-like-to-talk-about-your",
-  "early.community.lost-pet-flyer": "shall-we-look-at-the-flyer-together",
-  "early.community.sidewalk-curb": "will-you-wait-here-with-me",
-  "early.family.packing-boxes": "is-there-a-toy-you-want-to",
-  "adult.trans.college-vs-work": "what-would-you-like-to-know-before",
-  "adult.trans.drop-class-keep-job": "do-you-want-to-ask-about-another",
-  "young.home.ask-about-childhood": "what-would-you-like-to-know-about",
-  "early.community.curious-neighbor": "do-you-like-your-teacher",
-};
-const SCENE_BY_PARENT: Readonly<
-  Record<string, readonly [LifeReplyKey, LifeReplyKey]>
-> = {
-  "early.home.broken-mug": [
-    "tell-me-what-happened-leave-the-pieces",
-    "we-should-ask-for-help-with-the",
-  ],
-  "early.home.bedtime-delay": [
-    "it-is-bedtime-put-the-toy-away",
-    "it-is-time-to-put-the-toy",
-  ],
-  "early.home.food-refusal": [
-    "would-you-try-one-bite-you-can",
-    "you-do-not-have-to-pretend-you",
-  ],
-};
-
-function sceneQuestion(
-  setting: "home" | "school" | "neighborhood",
-): (ctx: WorldContext) => Produced {
-  return (ctx) => {
-    const options = OPENING_LIFE_SCENES.filter(
-      (scene) =>
-        scene.setting === setting &&
-        ctx.playerAge >= scene.ages[0] &&
-        ctx.playerAge <= scene.ages[1] &&
-        (SCENE_QUESTION[scene.key] || SCENE_BY_PARENT[scene.key]),
-    ).flatMap((scene) => {
-      const speakers = ctx.cast.filter((person) =>
-        scene.cast === "guardian"
-          ? isParent(person)
-          : scene.cast === "peer"
-            ? isPeer(person)
-            : scene.cast === "sibling"
-              ? isSibling(person)
-              : scene.cast === "housemate"
-                ? /housemate|roommate|partner|spouse|husband|wife/.test(
-                    person.relation ?? "",
-                  )
-                : false,
-      );
-      return speakers.map((speaker) => ({ scene, speaker }));
-    });
-    if (options.length === 0)
-      skip(
-        `no authored ${setting} scene fits a ${ctx.playerAge}-year-old with someone from the cast`,
-      );
-    const { scene, speaker } =
-      options[Math.floor(ctx.random() * options.length)]!;
-    const byParent = SCENE_BY_PARENT[scene.key];
-    const key = byParent
-      ? byParent[isParent(speaker) ? 0 : 1]
-      : SCENE_QUESTION[scene.key]!;
-    const line = reply(ctx, speaker, key);
-    return {
-      axis: "place",
-      composer: "lifeReplyLine (scene question) in life-reply-english.ts",
-      situation: `${setting === "home" ? "At home" : setting === "school" ? "At school" : "In the neighborhood"}, in the authored scene "${scene.key}" (${scene.premise.replace(/\{\w+\}/g, speaker.given)}), ${ctx.playerName} asks ${describeWho(speaker)} what is happening here.`,
-      speaker,
-      line: line.text,
-      parts: line.parts,
-      harness: [
-        `The scene is authored content for ages ${scene.ages.join("-")}; it was not live in the world's own record, so the harness set it and chose the speaker whose relation the scene's cast asks for.`,
-        `Reply key ${key} is the one the conversation maps this scene to.`,
-      ],
-    };
   };
 }
 
@@ -1067,8 +976,6 @@ const SITUATIONS: readonly Situation[] = [
       );
     },
   },
-  { id: "scene-home", run: sceneQuestion("home") },
-  { id: "scene-school", run: sceneQuestion("school") },
   { id: "invite-game-accept", run: invitationAccept },
   { id: "invite-game-decline", run: invitationDecline },
   { id: "remember-news-topic", run: rememberTopic },
@@ -1083,7 +990,6 @@ const SITUATIONS: readonly Situation[] = [
   { id: "officials-view", run: officialsView },
   // Fallbacks, used only when one above cannot be worded in any world.
   { id: "told-plan-second-listener", run: toldPlan(1) },
-  { id: "scene-neighborhood", run: sceneQuestion("neighborhood") },
   { id: "school-offer", run: schoolReply("offer") },
   { id: "invite-date-decline", run: dateDecline },
   { id: "matter-heard", run: matterHeard },

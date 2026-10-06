@@ -118,6 +118,40 @@ describe("skin recolor", () => {
     for (let k = 1; k < lums.length; k += 1)
       expect(lums[k]).toBeLessThan(lums[k - 1]!);
   });
+
+  it("keeps cloth-colored cuff overlap unchanged across every skin tone", () => {
+    const outfit = createRaster(3, 1);
+    const skin = createRaster(3, 1);
+    const cuff = createRaster(3, 1);
+    fill(outfit, 0, 0, 2, 0, SKIN);
+    skin.data[3] = 255;
+    skin.data[7] = 96;
+    cuff.data[7] = 128;
+    cuff.data[11] = 255;
+
+    for (const ramp of SKIN_RAMPS) {
+      const recolored = recolorSkin(
+        outfit,
+        ramp,
+        measureSkinLuminance(outfit),
+        skin,
+        [cuff],
+      );
+      expect(Array.from(recolored.data.slice(4, 8))).toEqual([...SKIN]);
+      expect(Array.from(recolored.data.slice(8, 12))).toEqual([...SKIN]);
+      expect(Array.from(recolored.data.slice(0, 4))).not.toEqual([...SKIN]);
+
+      const withoutSkinMask = recolorSkin(
+        outfit,
+        ramp,
+        measureSkinLuminance(outfit),
+        undefined,
+        [cuff],
+      );
+      expect(Array.from(withoutSkinMask.data.slice(4, 8))).toEqual([...SKIN]);
+      expect(Array.from(withoutSkinMask.data.slice(8, 12))).toEqual([...SKIN]);
+    }
+  });
 });
 
 describe("assembly", () => {
