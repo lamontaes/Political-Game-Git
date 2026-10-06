@@ -3,8 +3,10 @@ import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { campaigns } from "./campaign-queries";
 import {
+  answerAfterOfficeEndorsementScene,
   afterOfficeEndorsementCandidates,
   decideAfterOfficeEndorsement,
+  projectAfterOfficeEndorsementScenes,
   recordAfterOfficeEndorsementRequest,
 } from "./after-office-endorsements";
 import { recordFavor } from "./favors";
@@ -155,6 +157,45 @@ describe("after-office endorsement asks", () => {
     );
     expect(ordinary.endorsed).toBe(true);
     expect(ordinary.returnedFavorId).toBeNull();
+
+    const controlled = {
+      ...world,
+      control: { kind: "person" as const, personId: formerId },
+    };
+    const playerAsk = recordAfterOfficeEndorsementRequest(controlled, {
+      stableKey: `${seed}:player-ask`,
+      formerOfficialPersonId: formerId,
+      candidatePersonId: candidateId,
+      campaignId,
+    });
+    const [scene] = projectAfterOfficeEndorsementScenes(
+      playerAsk.world,
+      formerId,
+    );
+    expect(scene).toMatchObject({
+      candidatePersonId: candidateId,
+      lines: [{ speechAct: "request-endorsement" }],
+      replies: [
+        { optionKey: "endorse", label: "Endorse" },
+        { optionKey: "decline", label: "Decline" },
+      ],
+      reasons: expect.arrayContaining([
+        expect.objectContaining({
+          stableKey: expect.stringContaining(`agreement:${propositionId}`),
+        }),
+      ]),
+    });
+    const playerDecline = answerAfterOfficeEndorsementScene(playerAsk.world, {
+      stableKey: `${seed}:player-decline`,
+      formerOfficialPersonId: formerId,
+      candidatePersonId: candidateId,
+      campaignId,
+      requestEventId: playerAsk.requestEventId,
+      endorsed: false,
+    });
+    expect(playerDecline.endorsed).toBe(false);
+    expect(playerDecline.returnedFavorId).toBeNull();
+    expect(playerDecline.decisionTraceId).toBeNull();
 
     const reciprocalWorld = recordFavor(world, {
       stableKey: `${seed}:earlier-help`,

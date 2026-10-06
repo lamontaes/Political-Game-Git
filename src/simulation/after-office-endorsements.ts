@@ -1,9 +1,14 @@
-import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
+import {
+  assertNpcAutonomousApplication,
+  evaluateDecision,
+  recordDurableDecisionTrace,
+} from "./decisions";
 import { favorRecords, recordFavor } from "./favors";
 import { recordWorldEvent } from "./world";
 import { appointmentCircle } from "./patronage/appointments";
 import { projectEligiblePressReporters } from "./press-interview-producers";
 import { projectCampaignLifeActivities } from "./campaign-life-activities";
+import { personName } from "./people";
 import type {
   DecisionConsideration,
   EntityId,
@@ -21,14 +26,32 @@ export interface AfterOfficeEndorsementCandidate {
 
 export interface AfterOfficeEndorsementResponse {
   readonly world: World;
-  readonly decisionTraceId: EntityId;
+  readonly decisionTraceId: EntityId | null;
   readonly responseEventId: EntityId | null;
   readonly endorsed: boolean | null;
   readonly returnedFavorId: EntityId | null;
 }
 
+export interface AfterOfficeEndorsementScene {
+  readonly requestEventId: EntityId;
+  readonly candidatePersonId: EntityId;
+  readonly candidateName: string;
+  readonly lines: readonly [
+    {
+      readonly speakerPersonId: EntityId;
+      readonly speechAct: "request-endorsement";
+      readonly sourceEventId: EntityId;
+    },
+  ];
+  readonly replies: readonly [
+    { readonly optionKey: "endorse"; readonly label: "Endorse" },
+    { readonly optionKey: "decline"; readonly label: "Decline" },
+  ];
+  readonly reasons: readonly DecisionConsideration[];
+}
+
 export interface AfterOfficeOpportunitySources {
-  readonly appointmentCirclePersonIds: readonly EntityId[];
+  readonly eligibleAppointmentAppointerIds: readonly EntityId[];
   readonly eligibleReporters: ReturnType<typeof projectEligiblePressReporters>;
   readonly campaignActivities: ReturnType<typeof projectCampaignLifeActivities>;
 }
@@ -37,6 +60,7 @@ export interface AfterOfficeOpportunitySources {
 export function afterOfficeOpportunitySources(
   world: World,
   formerOfficialPersonId: EntityId,
+  vacancyAppointerPersonIds: readonly EntityId[] = [],
 ): AfterOfficeOpportunitySources {
   const longViewEvents = world.history.events
     .filter(
@@ -62,10 +86,11 @@ export function afterOfficeOpportunitySources(
     }
   }
   return {
-    appointmentCirclePersonIds: appointmentCircle(
-      world,
-      formerOfficialPersonId,
-      [],
+    eligibleAppointmentAppointerIds: vacancyAppointerPersonIds.filter(
+      (appointerPersonId) =>
+        appointmentCircle(world, appointerPersonId, []).includes(
+          formerOfficialPersonId,
+        ),
     ),
     eligibleReporters: [...reporterByRole.values()],
     campaignActivities: projectCampaignLifeActivities(
@@ -176,6 +201,7 @@ export function decideAfterOfficeEndorsement(
     readonly requestEventId: EntityId;
   },
 ): AfterOfficeEndorsementResponse {
+  assertNpcAutonomousApplication(world, input.formerOfficialPersonId);
   const campaign = (world.history.campaigns ?? []).find(
     (row) => row.id === input.campaignId,
   );
@@ -234,7 +260,7 @@ export function decideAfterOfficeEndorsement(
     randomness: "none",
     retention: "durable",
   });
-  let next = recordDurableDecisionTrace(world, evaluation);
+  const next = recordDurableDecisionTrace(world, evaluation);
   const decisionTraceId = next.history.decisionTraces.at(-1)!.id;
   if (evaluation.selectedOptionKey === null) {
     return {
@@ -246,12 +272,146 @@ export function decideAfterOfficeEndorsement(
     };
   }
   const endorsed = evaluation.selectedOptionKey === "endorse";
+  const outcome = recordEndorsementOutcome(next, {
+    stableKey: input.stableKey,
+    formerOfficialPersonId: input.formerOfficialPersonId,
+    candidatePersonId: input.candidatePersonId,
+    campaignId: input.campaignId,
+    requestEventId: input.requestEventId,
+    endorsed,
+    decisionTraceId,
+  });
+  return outcome;
+}
+
+/** Session 4 scene-row adapter: request facts and the two player replies. */
+export function projectAfterOfficeEndorsementScenes(
+  world: World,
+  formerOfficialPersonId: EntityId,
+): readonly AfterOfficeEndorsementScene[] {
+  if (
+    world.control.kind !== "person" ||
+    world.control.personId !== formerOfficialPersonId
+  )
+    return [];
+  const pending = world.history.events
+    .filter(
+      (event) =>
+        event.type === "career.endorsement-request" &&
+        event.involvedEntityIds.includes(formerOfficialPersonId),
+    )
+    .flatMap((event) => {
+      const candidatePersonId = event.involvedEntityIds.find(
+        (id) => id !== formerOfficialPersonId,
+      );
+      const campaignId = event.tags
+        .find((tag) => tag.startsWith("campaign:"))
+        ?.slice("campaign:".length) as EntityId | undefined;
+      const campaign = (world.history.campaigns ?? []).find(
+        (row) =>
+          row.id === campaignId && row.candidatePersonId === candidatePersonId,
+      );
+      const active =
+        (world.history.campaignStates ?? [])
+          .filter(
+            (row) =>
+              row.campaignId === campaignId &&
+              row.effectiveAt <= world.currentDate,
+          )
+          .sort((a, b) => b.sequence - a.sequence)[0]?.status === "active";
+      const alreadyAnswered = world.history.events.some(
+        (row) =>
+          row.type === "career.endorsement-response" &&
+          row.tags.includes(`request:${event.id}`),
+      );
+      if (!candidatePersonId || !campaign || !active || alreadyAnswered)
+        return [];
+      const reasons = endorsementConsiderations(
+        world,
+        formerOfficialPersonId,
+        candidatePersonId,
+        `after-office:scene:${event.id}`,
+      );
+      return [
+        {
+          requestEventId: event.id,
+          candidatePersonId,
+          candidateName: personName(world.people[candidatePersonId]!),
+          lines: [
+            {
+              speakerPersonId: candidatePersonId,
+              speechAct: "request-endorsement" as const,
+              sourceEventId: event.id,
+            },
+          ] as const,
+          replies: [
+            { optionKey: "endorse" as const, label: "Endorse" as const },
+            { optionKey: "decline" as const, label: "Decline" as const },
+          ] as const,
+          reasons,
+        },
+      ];
+    });
+  return pending;
+}
+
+/** Apply the controlled character's reply from the after-office scene. */
+export function answerAfterOfficeEndorsementScene(
+  world: World,
+  input: {
+    readonly stableKey: string;
+    readonly formerOfficialPersonId: EntityId;
+    readonly candidatePersonId: EntityId;
+    readonly campaignId: EntityId;
+    readonly requestEventId: EntityId;
+    readonly endorsed: boolean;
+  },
+): AfterOfficeEndorsementResponse {
+  if (
+    world.control.kind !== "person" ||
+    world.control.personId !== input.formerOfficialPersonId
+  ) {
+    throw new Error(
+      "Only the controlled former official can answer this scene.",
+    );
+  }
+  if (
+    !projectAfterOfficeEndorsementScenes(
+      world,
+      input.formerOfficialPersonId,
+    ).some((scene) => scene.requestEventId === input.requestEventId)
+  ) {
+    throw new Error("That endorsement request is no longer available.");
+  }
+  const response = recordEndorsementOutcome(world, input);
+  return { ...response, decisionTraceId: null };
+}
+
+function recordEndorsementOutcome(
+  world: World,
+  input: {
+    readonly stableKey: string;
+    readonly formerOfficialPersonId: EntityId;
+    readonly candidatePersonId: EntityId;
+    readonly campaignId: EntityId;
+    readonly requestEventId: EntityId;
+    readonly endorsed: boolean;
+    readonly decisionTraceId?: EntityId;
+  },
+): Omit<AfterOfficeEndorsementResponse, "decisionTraceId"> & {
+  readonly decisionTraceId: EntityId | null;
+} {
+  const campaign = (world.history.campaigns ?? []).find(
+    (row) => row.id === input.campaignId,
+  );
+  if (!campaign) throw new Error("The endorsement campaign is not recorded.");
+  const endorsed = input.endorsed;
   const chosen = endorsed ? "endorsed" : "declined";
-  next = recordWorldEvent(next, {
+  let next = recordWorldEvent(world, {
     stableKey: `${input.stableKey}:response-event`,
     type: "career.endorsement-response",
-    occurredAt: next.currentDate,
-    recordedAt: next.currentDate,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
     jurisdictionId: campaign.jurisdictionId,
     involvedEntityIds: [input.formerOfficialPersonId, input.candidatePersonId],
     participants: [
@@ -268,7 +428,11 @@ export function decideAfterOfficeEndorsement(
     ],
     personFactConstraints: [],
     visibility: "public",
-    tags: ["career:after-office", `decision:${decisionTraceId}`],
+    tags: [
+      "career:after-office",
+      `request:${input.requestEventId}`,
+      ...(input.decisionTraceId ? [`decision:${input.decisionTraceId}`] : []),
+    ],
     summary: endorsed
       ? "The former officeholder endorsed the candidate."
       : "The former officeholder declined to endorse the candidate.",
@@ -311,7 +475,7 @@ export function decideAfterOfficeEndorsement(
   }
   return {
     world: next,
-    decisionTraceId,
+    decisionTraceId: input.decisionTraceId ?? null,
     responseEventId,
     endorsed,
     returnedFavorId,
