@@ -60,6 +60,8 @@ import { placeReferencePopulation } from "../simulation/nationwide-world/place-p
 import { SeededRng } from "../simulation/rng";
 import type { LawEffectStampedRecord } from "../simulation/law-effect-stamp";
 import type { EntityId, IsoDate, World } from "../simulation/types";
+import { lawExposuresOf } from "../simulation/law-exposure";
+import { lawExposureSentence } from "./law-exposure-lines";
 import { LEGISLATIVE_TERM_LIMIT_QUESTION } from "../simulation/nationwide-world/state-legislative-term-limits";
 import { applyStateLegislatureTurnover } from "../simulation/nationwide-world/state-legislature-turnover";
 import { observerSetup, openObserverWorld } from "./observer-world";
@@ -430,8 +432,35 @@ describe("the council term-limit saved restriction", () => {
             appliedAt: dueAt,
           }),
         ]);
+        // The saved bar reaches the named member as a recorded personal cost.
+        const member = row.participants.find(
+          (participant) => participant.role === "focus:subject",
+        )!.personId;
+        expect(
+          lawExposuresOf(filed, member).filter(
+            (exposure) => exposure.sourceRecordId === row.id,
+          ),
+        ).toMatchObject([
+          {
+            measureId: law.measureId,
+            channel: "election-rule",
+            relation: "own",
+            direction: "cost",
+          },
+        ]);
       }
       const named = restrictions[0]!;
+      const memberExposure = lawExposuresOf(
+        filed,
+        named.participants.find((p) => p.role === "focus:subject")!.personId,
+      ).find((exposure) => exposure.sourceRecordId === named.id)!;
+      expect(
+        lawExposureSentence(
+          filed,
+          named.participants.find((p) => p.role === "focus:subject")!.personId,
+          memberExposure,
+        ),
+      ).toMatch(/ law prevented you from seeking another term\.$/);
       const personId = named.involvedEntityIds.find((id) => filed.people[id])!;
       console.log(
         JSON.stringify({
