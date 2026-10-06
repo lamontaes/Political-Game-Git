@@ -17,3 +17,7 @@ If the coordinator, the board or the CTO goes quiet, keep building. When your pa
 ## Subagents (owner, Oct 6)
 
 Traits and law batches are subagent work: the coordinator and any session with subagents fan out, one subagent per trait (after the per-trait registry split T9-0) and one per law batch, each one PR.
+
+## Luna subagents for everyone (owner, Oct 6 2:13 a.m.)
+
+Every session, not only the coordinator, may launch Luna subagents to work pool items in parallel (per-trait items, law batches, placeholder chunks, bug items): one subagent per item, one PR each, claimed in POOL.md first.
