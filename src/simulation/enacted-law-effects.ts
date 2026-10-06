@@ -801,9 +801,7 @@ export function applyLawConsequences(
   const baselineRegistrations = lawConsequenceRegistrations();
   const registry = createLawConsequenceRegistry([
     ...baselineRegistrations,
-    ...registrations.filter(
-      (entry) => !baselineRegistrations.includes(entry),
-    ),
+    ...registrations.filter((entry) => !baselineRegistrations.includes(entry)),
   ]);
   let next = world;
   for (const id of world.policyCatalog.propositionOrder) {
