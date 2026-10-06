@@ -9,6 +9,19 @@ Date: 2026-10-06
 - Published producer/opening code head: `d2f97bc10abf4337a5c5d43691d9a54e8d6ed6a7`. Current PR #2459 head: `c26c3d766da620ce80ebeaa49376f9451409cc26`, rebased on `main` `e591ffc637d1f6db84d2ff920e8662ce123202ed`; this candidate is pushed and remains unmerged/draft.
 - Prior broad runner remains stopped; PID 773 is `Z`/`[npm run world:a] <defunct>`, not executing. Stop request receipt and terminal verification are preserved in `/tmp/session53-run-evidence.txt`; broad-run OOM log is `/tmp/session53-nationwide-calendar-attempt-oom.txt`.
 
+## Resume after #2470
+
+- #2470 is merged at `68c8a66307085d38c5db741ce46be9141cff3e18`. The retained local branch was rebased there and contains no duplicate inherited press-fixture or generator-lint hunk. Current local implementation commit: `472f5bec1aaa144d2fe0b1c3a0a2684ee467372c`. The PR branch is still at `eebc158b6ba3bab3e74bda89301da8ee2ad5196a`; the guarded remote update is pending.
+- This resume commit removes an explicit D.C. exception from the state legal-limit lookup. D.C. now follows the same marked regional-estimate fallback as jurisdictions without a rule row. This is provenance-marked, not claimed as a statutory date, and does not establish D.C. Council's full session calendar or nationwide coverage.
+- Rebased source gates: full `npm run typecheck` PASS (the two inherited `press-premise` fixture failures disappeared with #2470); completion test 4/4 PASS; `npm run zero-dice` PASS; changed-file ESLint, Prettier, `git diff --check`, and `npm run release:check -- --base origin/main --head HEAD --mode pr` PASS. No full calendar or annual simulation was rerun.
+- Player/save browser evidence remains missing. I attempted the existing UI46 observed-world Save/Continue tests using a disposable artifact run, but Playwright's identity probe failed before browser launch: `spawnSync git EPERM` from `scripts/dev-lab/identity.ts` under this sandbox. A separate Node child-process probe returned the same EPERM. The exact retry command when process spawning is available is:
+
+  ```bash
+  OCD_STORAGE_STATE_DIR=/tmp/session53-storage-state PG_RUN_ID=session53-player-save-rebase68c8 npm run test:e2e -- --grep 'observed world saves, reloads and continues as itself|continue as an adult child, then save and reload as them' tests/e2e/ui46-life-continuation.spec.ts
+  ```
+
+- The Mississippi/West Virginia and Apr. 30 all-due artifacts remain bounded diagnostics at their recorded source baselines, not results from this resume commit and not full-session acceptance. No player/save passage or consequence is claimed.
+
 ## Done
 
 - P1 state bill-season scheduler uses the existing member-agenda filer; D.C. Council calendar is seeded for every nationwide opening; Congress's first monthly intake is seeded through `scheduleCongressIntake` and consumed by the existing `congressIntakeHandler`/`fileMemberAgendaBills` path.
@@ -26,7 +39,7 @@ Date: 2026-10-06
 - Full-session acceptance must process all due rows in date order through each jurisdiction's own session end, including D.C. Council and territories. The old `sessionAdjournments` ledger remains empty. Current event artifact has no completion rows for 24 coverage entries (17 states plus D.C., PR, GU, VI, AS, NMI and federal Congress); dates beyond Apr. 30, second sessions, and absent institutional/call contracts remain uncovered. See `p1-session-completion-coverage.json` and cause-specific evidence in `p1-session-end-contract.md`.
 - Territory coverage remains incomplete: PR has a generic pack without a territorial seated roster/intake; GU, VI, AS and MP lack canonical legislative packs/rosters. D.C. Council is year-round; federal Congress has no state-style session-end contract in the current coverage table.
 - #2052 is full; current board is #2424. CTO ruling `6015318118` authorizes legal-limit and sine-die completion and removes appropriation as a sine-die prerequisite; newer CTO special-session design `6015836831` defines `scope-disposed` when every called subject has been acted on. The exact sine-die API/payload contract and cause correction were delivered to Session 35 in receipts `6016008781` and `6016073585`. Session 23 was asked for the canonical saved special-session call/scope contract in `6016084915`. Do not confuse the `6015682543` due-row intake with actual completion-event count.
-- Session5 owns daily-turnover/performance repair; no annual daily loop, heap increase, new tree, build, or merge was run. PR #2459 was rebased from base `f885081` onto refreshed `origin/main` `e591ffc637d1f6db84d2ff920e8662ce123202ed`, pushed with a guarded force-with-lease, and its body distinguishes the bounded run from full-session acceptance. Current PR head is `c26c3d766da620ce80ebeaa49376f9451409cc26`. `npm run typecheck` at the changed code head `fef16e58` exits 2 only on the two current-main `press-premise.test.ts` fixtures lacking `personalLifeDepiction` (35, 125); the changed completion module had no reported type errors.
+- Session5 owns daily-turnover/performance repair; no annual daily loop, heap increase, new tree, build, or merge was run. PR #2459's current published head and rebased base are pending the guarded branch update described above; its title and body retain the exact targeted-scope label and do not claim nationwide acceptance.
 
 ## Next safe step
 
