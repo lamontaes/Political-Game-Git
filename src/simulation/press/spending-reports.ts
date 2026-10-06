@@ -12,14 +12,18 @@ import { PRESS_CONTRACT_VERSION } from "./records";
 import { sortedUnique } from "./shared";
 
 /**
- * UNRESEARCHED. When a committee files its spending report and what each line
- * says. A game schedule, not any jurisdiction's filing calendar or line-item
- * rules; filed with the research queue as `campaign-expenditure-reports`. A
- * researched schedule replaces this one under a new version.
+ * ESTIMATED FROM AVERAGE. When a committee files its spending report and what
+ * each line says. Monthly matches the federal monthly filer schedule; it is
+ * not any one jurisdiction's filing calendar or line-item rules. Filed with
+ * the research queue as `campaign-expenditure-reports`. A researched schedule
+ * replaces this one under a new version.
  */
-export const UNRESEARCHED_SPENDING_REPORTS = {
+export const SPENDING_REPORTS_ESTIMATE = {
   version: "campaign-spending-reports-unresearched-v1",
-  provenance: "unresearched-blanket-rule",
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "the Federal Election Commission's monthly filer schedule for committees",
   /** A committee files a report covering its new spending once a month. */
   intervalDays: 30,
 } as const;
@@ -162,7 +166,7 @@ export function produceCampaignSpendingReports(world: World): World {
     const last = own.at(-1);
     if (
       last &&
-      addDays(last.occurredAt, UNRESEARCHED_SPENDING_REPORTS.intervalDays) >
+      addDays(last.occurredAt, SPENDING_REPORTS_ESTIMATE.intervalDays) >
         world.currentDate
     )
       continue;
@@ -199,7 +203,7 @@ export function produceCampaignSpendingReports(world: World): World {
       visibility: "public",
       tags: [
         PRESS_CONTRACT_VERSION,
-        UNRESEARCHED_SPENDING_REPORTS.version,
+        SPENDING_REPORTS_ESTIMATE.version,
         "campaign-finance:spending-report",
         // A routine filing is a record to read, not news by itself: what a
         // reader finds in it reaches the paper through the scrutiny routes.

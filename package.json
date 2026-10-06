@@ -139,7 +139,8 @@
     "kit:art": "node --import tsx scripts/art-asset-factory/cli-kit41.ts",
     "validate:ci-sharded": "npm run format && npm run lint && npm run typecheck && npm run release:check && npm run zero-dice && npm run source:validate && npm run source:check-fiscal-disposition && npm run source:replay && npm run education:check && npm run check:local-institutions && npm run check:municipal-generated && npm run check:chief-executive-baseline && npm run build && npm run demo -- validation-seed && npm run validate:art && npm run admit:wave-a-candidates -- --check && npm run derive:wave-a-wardrobe -- --check",
     "test:modular:public": "node scripts/art-asset-factory/modular_fit/verify.mjs public",
-    "test:modular:private": "node scripts/art-asset-factory/modular_fit/verify.mjs private"
+    "test:modular:private": "node scripts/art-asset-factory/modular_fit/verify.mjs private",
+    "secrets:scan": "node scripts/secrets/scan-tracked-secrets.mjs"
   },
   "dependencies": {
     "react": "19.2.6",
