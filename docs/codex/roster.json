@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-06T12:54:12Z",
+  "updatedAt": "2026-10-06T12:56:59Z",
   "updatedBy": "Session 45",
   "source": {
     "issue": "#2424",
-    "lastReadCommentId": 6016636348,
+    "lastReadCommentId": 6016755226,
     "mainHead": "e597ec933608993a9ecfef6110b3f9b9f856a3c7",
     "localInventorySource": "user-provided supported app inventory"
   },
@@ -630,7 +630,10 @@
     "Duplicate Session 11 and Session 56 chat IDs are retained separately; no ownership reassignment was made.",
     "Session 10 is the listed active coordinator chat; the separately reactivated coordinator chat is unknown pending human identity confirmation.",
     "49 inventory rows were supplied, including distinct original/current duplicates for Sessions 11 and 56.",
-    "Execution and latest receipt are recorded only when an activity audit or timestamped board receipt supplied evidence; app status/update time is separate."
+    "Execution and latest receipt are recorded only when an activity audit or timestamped board receipt supplied evidence; app status/update time is separate.",
+    "New CTO instruction: every open PR composes fresh origin/main lint fixes and reruns exact-head checks; merge #2452/#2458/#2466 only after their reruns are green.",
+    "Sessions 20, 24, 48 and 55 have already received continue-independent-unclaimed-POOL requests; no duplicate pings or assignments sent by Session45.",
+    "Session105 BG-53 is a board claim without supported chat ID/host mapping."
   ],
   "localChatInventory": [
     {
@@ -772,8 +775,8 @@
       "appStatus": "active",
       "updatedAtEpoch": 1791290204,
       "updatedAt": "2026-10-06T12:36:44.000Z",
-      "currentTask": "unknown; app title is a label, not verified task",
-      "workProof": "unknown pending turn/tool marker",
+      "currentTask": "#2484 rebase / Part 3 evidence question",
+      "workProof": "idle after rebase/question in latest audit; continuation request delivered; no new turn receipt supplied",
       "latestReceiptAt": "unknown"
     },
     {
@@ -827,8 +830,8 @@
       "appStatus": "active",
       "updatedAtEpoch": 1791289905,
       "updatedAt": "2026-10-06T12:31:45.000Z",
-      "currentTask": "unknown; app title is a label, not verified task",
-      "workProof": "unknown pending turn/tool marker",
+      "currentTask": "cycle replacement PR #2529; #2510 closed",
+      "workProof": "authoritative 240-local PASS; hosted check pending; idle in latest audit; continuation request delivered; no new turn receipt supplied",
       "latestReceiptAt": "unknown"
     },
     {
@@ -1003,8 +1006,8 @@
       "appStatus": "active",
       "updatedAtEpoch": 1791287832,
       "updatedAt": "2026-10-06T11:57:12.000Z",
-      "currentTask": "unknown; app title is a label, not verified task",
-      "workProof": "unknown pending turn/tool marker",
+      "currentTask": "p5 signed Mac proof blocked; p6 READY",
+      "workProof": "idle in latest audit; explicit independent-unclaimed-POOL continuation request delivered; continuation request delivered; no new turn receipt supplied",
       "latestReceiptAt": "unknown"
     },
     {
@@ -1036,8 +1039,8 @@
       "appStatus": "active",
       "updatedAtEpoch": 1791287068,
       "updatedAt": "2026-10-06T11:44:28.000Z",
-      "currentTask": "PR #2465 / SP-A at 054d57b",
-      "workProof": "audit SUCCESS 2026-10-06T12:50:10Z; repo/unit checks still queued",
+      "currentTask": "#2540 declaration repair; #2465 SP-A",
+      "workProof": "#2540 ad26b7b; #2465 merged f7cdc693 at 2026-10-06T12:45:52Z; merge does not imply checks PASS; idle; continuation request delivered; no new turn receipt supplied",
       "latestReceiptAt": "unknown"
     },
     {
@@ -1325,6 +1328,46 @@
       "receiptTimestamp": "not supplied",
       "exactHead": "short head 5cfd66c",
       "source": "board comment 6016625228 and user-provided assignment"
+    },
+    {
+      "session": 48,
+      "task": "#2540 declaration repair and #2465 SP-A",
+      "state": "idle after declaration repair; #2465 merged",
+      "receiptTimestamp": "2026-10-06T12:45:52Z for #2465 merge",
+      "exactHead": "#2540 short head ad26b7b; #2465 merge f7cdc693",
+      "source": "new coordinator audit; no check-pass inference"
+    },
+    {
+      "session": 55,
+      "task": "p5 signed Mac proof; p6",
+      "state": "p5 blocked; p6 READY; now idle after explicit independent-item continuation request",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "new coordinator activity audit"
+    },
+    {
+      "session": 24,
+      "task": "#2484 rebase and Part 3 evidence question",
+      "state": "idle after rebase/question; continuation request delivered",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "#2484 exact head not supplied in this delta",
+      "source": "new coordinator activity audit"
+    },
+    {
+      "session": 20,
+      "task": "#2529 authoritative 240-local result and #2510 closed",
+      "state": "hosted check pending; now idle after continuation request",
+      "receiptTimestamp": "not supplied",
+      "exactHead": "not supplied",
+      "source": "new coordinator activity audit"
+    },
+    {
+      "session": 105,
+      "task": "BG-53 running-for-office item",
+      "state": "claimed on board; handle/host not mapped",
+      "receiptTimestamp": "board comment 6016741814; exact comment time not supplied",
+      "exactHead": "not applicable",
+      "source": "board comment"
     }
   ],
   "coordinatorChat": {
@@ -1332,7 +1375,7 @@
     "id": "01a10e3a-0cc5-71b3-812c-48715915742c",
     "host": "local",
     "title": "Session 10 — Coordinator",
-    "status": "active",
+    "status": "active; confirmed current coordinator, not separate reactivated coordinator",
     "identity": "current coordinator chat per inventory"
   },
   "unreturnedChats": {
@@ -1383,12 +1426,61 @@
     ],
     "status": "not returned by current 50-chat list",
     "handles": "unknown",
-    "coordinatorReactivatedChat": "unknown pending human confirmation; do not infer from Session 10 or Session 45"
+    "coordinatorReactivatedChat": "not identified; Session 10 is confirmed current coordinator, not the separate reactivated chat"
   },
   "reactivatedCoordinatorChat": {
     "id": "unknown",
     "host": "unknown",
     "title": "unknown",
-    "status": "identity pending human confirmation"
-  }
+    "status": "not found in supported 49-row inventory or checked recent board handoff"
+  },
+  "newAssignments": [
+    {
+      "session": 24,
+      "task": "deliberation trait reader registry entry",
+      "source": "CTO note 6016713632",
+      "state": "routed; exact handle not resolved"
+    },
+    {
+      "session": 54,
+      "task": "rewrite hotbed campus generator over cited-source scoring rule; campus migration",
+      "source": "CTO send-back 6016670438 as referenced by coordinator audit",
+      "state": "routed; exact activity receipt pending"
+    },
+    {
+      "session": 32,
+      "task": "B09 Lie ClaimRecord and roll-call contradiction route",
+      "source": "CTO answer 6016732670",
+      "state": "routed; exact activity receipt pending"
+    },
+    {
+      "session": 105,
+      "task": "BG-53",
+      "source": "board comment 6016741814",
+      "state": "claimed; chat ID/host unknown"
+    }
+  ],
+  "mergeAndCheckNotes": [
+    {
+      "pr": 2449,
+      "mergeCommit": "5ea3cee2",
+      "state": "merged",
+      "checks": "source CI queued/running; not a PASS"
+    },
+    {
+      "pr": 2452,
+      "state": "open; rerun required on fresh main after #2470",
+      "mergeCondition": "merge only if rerun is green"
+    },
+    {
+      "pr": 2458,
+      "state": "open; rerun required on fresh main after #2470",
+      "mergeCondition": "merge only if rerun is green"
+    },
+    {
+      "pr": 2466,
+      "state": "open; rerun required on fresh main after #2470",
+      "mergeCondition": "merge only if rerun is green"
+    }
+  ]
 }
