@@ -232,7 +232,7 @@ function exposureTouches(world: World, sinceSequence: number): Touch[] {
   for (let index = exposures.length - 1; index >= 0; index -= 1) {
     const row: LawExposureRecord = exposures[index]!;
     if (row.sequence <= sinceSequence) break;
-    if (row.relation !== "own") continue;
+    if (row.relation !== "own" || row.channel === "outcome-web") continue;
     // An exposure written from a law-set pay or rent row repeats that row,
     // which `flowTermTouches` already reads: one change is one story.
     termIds ??= new Set(world.history.resourceFlowTerms.map((t) => t.id));
