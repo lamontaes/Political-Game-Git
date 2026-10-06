@@ -16,12 +16,12 @@ export type MinorityPartyProcedureRules = MinorityPartyProcedureRow;
 
 const PROFILE_SOURCE: RuleSourceRef = {
   authority: "research-reference",
-  citation: "minority-party-procedure-profile/v1",
+  citation: "b12-comparable-chamber-profile/v1",
   sourceTitle: "B12 comparable-chamber estimate",
   sourceUrl: null,
   retrievedAt: null,
   verification: "partial",
-  note: "An estimated shared rule used until this chamber's motion, debate and attendance rules have been entered from its own instruments. It is not a claim about an unread body's law.",
+  note: "Estimated from the shared comparable-chamber profile; this is not a claim about an unread body's law.",
 };
 
 const ESTIMATED_MOTIONS: readonly ProceduralMotion[] = [
@@ -34,13 +34,7 @@ const ESTIMATED_MOTIONS: readonly ProceduralMotion[] = [
   "sine-die",
 ];
 
-/**
- * Resolve one complete minority-procedure row for every chamber. The
- * chamber's existing quorum and any recorded cloture floor stage are the
- * authoritative inputs; unread procedural permissions come from the marked
- * shared profile and can later be replaced by a sourced row without changing
- * the decision path.
- */
+/** Resolve one complete, explicitly sourced or estimated row per chamber. */
 export function minorityPartyProcedureForChamber(
   pack: LegislativeRulePack,
   chamberKey: string,
@@ -56,11 +50,10 @@ export function minorityPartyProcedureForChamber(
   const clotureStage = chamber.floorStages.find(
     (stage) => stage.stageKey === "cloture",
   );
-  const hasCloture = clotureStage !== undefined;
-  const clotureBar = hasCloture
+  const clotureBar = clotureStage
     ? clotureStage.vote
     : notApplicableRule<VoteThresholdRule>(
-        "This chamber's rules do not provide unlimited debate with a cloture vote.",
+        "No cloture vote is recorded for this chamber.",
       );
 
   return {
@@ -86,10 +79,9 @@ export function minorityPartyProcedureForChamber(
       },
       PROFILE_SOURCE,
     ),
-    unlimitedDebate: knownRule(
-      hasCloture,
-      hasCloture ? clotureStage.source : PROFILE_SOURCE,
-    ),
+    unlimitedDebate: clotureStage
+      ? knownRule(true, clotureStage.source)
+      : knownRule(false, PROFILE_SOURCE),
     clotureBar,
     quorum: chamber.quorum,
     mayCompelAttendance: knownRule(true, PROFILE_SOURCE),
@@ -97,7 +89,7 @@ export function minorityPartyProcedureForChamber(
   };
 }
 
-/** All resolved body rows in a pack, in the pack's own chamber order. */
+/** All chamber rows in pack order. */
 export function minorityPartyProcedureRows(
   pack: LegislativeRulePack,
 ): readonly MinorityPartyProcedureRules[] {
@@ -109,7 +101,7 @@ export function minorityPartyProcedureRows(
   );
 }
 
-/** Attach one explicit, versioned procedure row to every chamber in a pack. */
+/** Attach a complete row to every chamber before the pack enters play. */
 export function withMinorityPartyProcedureRows(
   pack: LegislativeRulePack,
 ): LegislativeRulePack {

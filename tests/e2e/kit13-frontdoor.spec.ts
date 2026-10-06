@@ -118,3 +118,20 @@ test("title and creator keep pointer and keyboard choices reachable", async ({
   await enterLife(page);
   await expect(page.getByTestId("shell-nav-cluster")).toBeVisible();
 });
+
+test("the title menu stays on the page instead of scrolling inside its frame", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1000, height: 320 });
+  await page.goto(`/?seed=${seed}`);
+  const menu = page.getByTestId("title-screen");
+  await expect(menu).toBeVisible();
+  const overflow = await menu.evaluate((element) => ({
+    clientHeight: element.clientHeight,
+    scrollHeight: element.scrollHeight,
+    overflowY: getComputedStyle(element).overflowY,
+  }));
+  expect(overflow.scrollHeight).toBe(overflow.clientHeight);
+  expect(overflow.overflowY).not.toBe("auto");
+  expect(overflow.overflowY).not.toBe("scroll");
+});

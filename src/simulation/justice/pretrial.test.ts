@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { makeIsoDate } from "../dates";
-import { stateJurisdictionForKey } from "../life-places";
+import { lifePlaceByKey, stateJurisdictionForKey } from "../life-places";
 import { SeededRng } from "../rng";
 import type {
   EntityId,
@@ -18,6 +18,7 @@ import {
   estimatedBailMinorUnits,
   recordedChargeBailMinorUnits,
   pretrialLawAt,
+  pretrialLawTermAt,
 } from "./pretrial";
 
 /**
@@ -201,8 +202,30 @@ describe("operative cash amounts", () => {
   }
   it("reads adopted offense-specific cash, with no cross-offense or cross-state fallback", () => {
     const world = enactedAmount();
+    const term = pretrialLawTermAt(world, state, {
+      questionKey: CASH_BAIL,
+      termKey: `cash-bail:${input.offenseKey}`,
+      unit: "minor",
+    });
     expect(bailMinorUnits(world, input)).toBe(fixtureAmount);
     expect(bailDueMinorUnits(world, input)).toBe(fixtureAmount);
+    expect(term).toMatchObject({
+      value: fixtureAmount,
+      measureId: world.history.legislativeMeasures![0]!.id,
+    });
+    expect(term!.sourceRecordIds).toContain(
+      world.history.legislativeMeasures![0]!.id,
+    );
+    console.info(
+      `WATCHED PRETRIAL RULE — ${lifePlaceByKey(place)?.displayName ?? place}: enacted law ${term!.measureId} supplies ${input.offenseKey} cash-bail amount ${term!.value} minor units; the same reader returns no term when the jurisdiction is missing.`,
+    );
+    expect(
+      pretrialLawTermAt(world, null, {
+        questionKey: CASH_BAIL,
+        termKey: `cash-bail:${input.offenseKey}`,
+        unit: "minor",
+      }),
+    ).toBeNull();
     expect(
       bailMinorUnits(world, { ...input, offenseKey: "crime:assault" }),
     ).toBeNull();

@@ -49,6 +49,11 @@ export interface CollegeToPicture {
   /** Two-letter postal code, lower case ("ky", "pr"). */
   readonly state: string;
   readonly kind: CollegeKind;
+  /** Actual place tags; never inferred from the painting being selected. */
+  readonly region: string;
+  readonly climate: string;
+  readonly terrain: string;
+  readonly size: string;
 }
 
 export interface CampusPicture {
@@ -112,27 +117,30 @@ export function campusRecords(): readonly CampusRecord[] {
 export function campusPictureFor(
   college: CollegeToPicture,
 ): CampusPicture | null {
+  if (!STATES[college.state]) return null;
   const own = college.campus
     ? MIDDAY.find((record) => record.campus === college.campus)
     : undefined;
-  if (own) return pictureOf(own, "own");
+  const compatible = (record: CampusRecord): boolean =>
+    manifest.selection.requiredMatch.every((tag) => {
+      const key = tag as "region" | "climate" | "terrain" | "size";
+      return Boolean(college[key]) && record[key] === college[key];
+    });
+  if (own && own.state === college.state && compatible(own))
+    return pictureOf(own, "own");
+  // An explicit identity must never silently become another campus.
+  if (college.campus) return null;
 
-  const fitting = MIDDAY.filter((record) => canServe(record, college.kind));
+  const fitting = MIDDAY.filter(
+    (record) => canServe(record, college.kind) && compatible(record),
+  );
   const sameState = fitting.filter((record) => record.state === college.state);
   if (sameState.length > 0) {
     return pictureOf(stablePick(sameState, college.name), "same-state");
   }
 
-  const ground = STATES[college.state];
-  if (!ground) return null;
-  const sameClimate = fitting.filter(
-    (record) =>
-      record.region === ground.region &&
-      record.climate === ground.climate &&
-      record.terrain === ground.terrain,
-  );
-  if (sameClimate.length > 0) {
-    return pictureOf(stablePick(sameClimate, college.name), "same-climate");
+  if (fitting.length > 0) {
+    return pictureOf(stablePick(fitting, college.name), "same-climate");
   }
   return null;
 }

@@ -266,7 +266,7 @@ export function projectBillPaper(
   if (enacted) {
     stamp = enactment?.effectiveAt
       ? `LAW · IN EFFECT ${upperDate(enactment.effectiveAt)}`
-      : "LAW · EFFECTIVE DATE NOT RECORDED";
+      : "LAW · ENACTED";
   } else if (position.outcome === "vetoed-and-sustained") {
     stamp = "VETOED · NOT LAW";
   } else if (position.terminal) {

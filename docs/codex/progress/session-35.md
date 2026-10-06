@@ -2,17 +2,24 @@
 
 Updated: 2026-10-06
 
-## Current bounded item
+## Current work
 
-Implemented the sine-die motion extension on `session35/b12-part2`.
+### b12-p1 — delay rules as data
 
-- Commit: `5e988f23c6edda7ac4c818656021c2a3da3781b1`
-- PR: #2346 (draft)
-- The motion uses the existing chamber vote evaluator and records the actual roll-call vote ID on the procedural action. A carried sine-die vote is represented distinctly; it does not claim the legislative session has completed.
-- Verification: focused procedural-motion tests, `npm run typecheck`, `npm run release:check -- --mode pr`, `npm run zero-dice`, Prettier/ESLint, and `git diff --check` passed.
+- Branch: `session35/b12-part1`, rebased on main `8b0a87777`; current head `4790005e3`.
+- Complete per-chamber rows are attached to compiled/generated state packs, Congress, sourced municipalities, and local game-profile councils.
+- Chamber quorum is reused; a cloture threshold is read from the chamber's existing cloture stage. Shared motion, suspension, and attendance defaults are explicitly marked as comparable-chamber estimates.
+- Focused tests pass 5/5, including a fresh Seattle-area game. Test import scan, changed-file lint and `git diff --check` pass.
+- On fresh main after #2470 and #2502, full `npm run typecheck` passes without local fixture edits; test import scan reports 804 files and zero unresolved imports. Full repo Prettier, ESLint, release check, zero-dice, and diff checks pass at this head.
+- Remaining p1 work: add the required chamber/state source survey rows and replace estimates wherever sources have been read. This draft does not claim the per-state research table is complete.
 
-## Handoff
+### b12-p2 — recorded procedural motions / sine die
 
-CTO order #6015318118 approves `legislative-session-completed` records on Session 53's dated legislative queue, including cause `sine-die-vote`, while preserving pending business. Session 53's published writer/API is not yet available in `origin/main` or PR #2459 head `1332ee0`. Integrate the completion record against that writer once its exact contract is published; do not create another ballot engine.
+- Branch: `session35/b12-part2`, pushed at `ab768b6d0`; draft PR #2346.
+- The carried motion uses the existing chamber-vote evaluator and retains its actual roll-call vote ID.
+- Session 53's exact producer is now published on PR #2459 at `5d05d67e415d16a20deb5670bf6122d4ae108b60`: `recordLegislativeSessionCompletion` from `governing/legislative-session-completion.ts`. Inputs: jurisdiction ID/key, chamber keys, session ID, date, cause (`legal-limit`, `sine-die-vote`, or `scope-disposed`), and `estimate` only for `legal-limit`. It requires `date === world.currentDate`; stable event key is `event:legislative-session-completion/v1:<sessionId>`.
+- Next p2 action: rebase the draft on the published producer, call it only after the actual chamber vote carries, then verify save/continue and pending-measure carryover/dying behavior. No appropriation gate; do not touch Session 53/56 clock hunks.
 
-External coordination comments to #2424 and PR #2459 were rejected by automatic review because the prior authorization restricted GitHub posts to issue #2052. No alternate messaging route was attempted.
+## Next resume order
+
+Keep both numbered-part drafts separate. Continue p2 integration and actual vote/carryover proof; then continue p1 source research and proof. Rebase whichever PR merges second.

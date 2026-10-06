@@ -41,6 +41,10 @@ export function childServiceFixture(
   const QUESTION = service.question;
   const SEED = seed;
   const place = drawRandomPlace(SEED);
+  // The family home exists from the day before the child's birth, so an older
+  // child is a member of it too (a household cannot take in a child born
+  // before it was formed).
+  const homeSince = `${Math.min(2020, 2026 - service.age - 1)}-12-31`;
   const provenance = {
     kind: "authored" as const,
     note: "Explicit child-service test contract; amounts and ballots are fixture inputs.",
@@ -58,7 +62,7 @@ export function childServiceFixture(
   const parentId = small.personId;
   world = createHousehold(world, {
     stableKey: "fixture:family-home",
-    formedAt: "2020-01-01",
+    formedAt: homeSince,
     label: "The recorded family home",
     provenance,
   });
@@ -66,7 +70,7 @@ export function childServiceFixture(
   world = recordHouseholdLocation(world, {
     stableKey: "fixture:family-location",
     householdId,
-    effectiveAt: "2020-01-01",
+    effectiveAt: homeSince,
     jurisdictionId: small.jurisdictionId,
     label: place.displayName,
     kind: "residence:community-base",
@@ -77,7 +81,7 @@ export function childServiceFixture(
     stableKey: "fixture:parent-home",
     personId: parentId,
     householdId,
-    startedAt: "2020-01-01",
+    startedAt: homeSince,
     residenceRole: "primary",
     kind: "resident:adult",
     provenance,
