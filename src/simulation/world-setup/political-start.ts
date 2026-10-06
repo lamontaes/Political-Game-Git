@@ -1,5 +1,6 @@
+import { congressSeats } from "../living-world/congress-seats";
 import { canonicalJson } from "../canonical-json";
-import { ELECTORAL_ALLOCATION } from "../national-election-rules";
+import { electoralAllocationForCycle } from "../national-election-rules";
 import { sha256Hex } from "../sha256";
 import type { World } from "../types";
 import calibrationJson from "./electoral-calibration.generated.json" with { type: "json" };
@@ -290,7 +291,11 @@ export function generatePresidency(
   const add = (party: string, votes: number) => {
     electoralVotes[party] = (electoralVotes[party] ?? 0) + votes;
   };
-  for (const usps of Object.keys(ELECTORAL_ALLOCATION).sort()) {
+  for (const usps of Object.keys(
+    electoralAllocationForCycle(
+      Math.floor(Number(world.currentDate.slice(0, 4)) / 4) * 4,
+    ),
+  ).sort()) {
     const row = calibrationRow(`us-president:${usps}`);
     const baseline = row?.democraticTwoPartyShare ?? null;
     const winner =
@@ -302,14 +307,20 @@ export function generatePresidency(
             applySwing(baseline, sharedSwing(latents, usps)),
           );
     stateWinners[usps] = winner;
-    add(winner, ELECTORAL_ALLOCATION[usps]!);
+    add(
+      winner,
+      electoralAllocationForCycle(
+        Math.floor(Number(world.currentDate.slice(0, 4)) / 4) * 4,
+      )[usps]!,
+    );
   }
-  const totalElectors = Object.values(ELECTORAL_ALLOCATION).reduce(
-    (sum, value) => sum + value,
-    0,
-  );
+  const totalElectors = Object.values(
+    electoralAllocationForCycle(
+      Math.floor(Number(world.currentDate.slice(0, 4)) / 4) * 4,
+    ),
+  ).reduce((sum, value) => sum + value, 0);
   const majority = Math.floor(totalElectors / 2) + 1;
-  const reference = referencePresidentialWinner();
+  const reference = referencePresidentialWinner(world);
   for (const [party, votes] of Object.entries(electoralVotes)) {
     if (votes >= majority) {
       return {
@@ -335,10 +346,14 @@ export function generatePresidency(
   };
 }
 
-function referencePresidentialWinner(): string | null {
+function referencePresidentialWinner(world: World): string | null {
   let democratic = 0;
   let republican = 0;
-  for (const [usps, votes] of Object.entries(ELECTORAL_ALLOCATION)) {
+  for (const [usps, votes] of Object.entries(
+    electoralAllocationForCycle(
+      Math.floor(Number(world.currentDate.slice(0, 4)) / 4) * 4,
+    ),
+  )) {
     const row = calibrationRow(`us-president:${usps}`);
     if (!row?.referenceAffiliation) return null;
     if (row.referenceAffiliation === "democratic") democratic += votes;
@@ -391,13 +406,42 @@ function conditionsFor(
   regime: StartingRegime,
   latents: PoliticalLatents,
 ): Draft {
-  const seats = [
-    ...calibrationRows("us-house"),
-    ...calibrationRows("us-senate"),
-  ]
-    .slice()
-    .sort((a, b) => a.contestKey.localeCompare(b.contestKey))
-    .map((row) => generateContest(world, latents, row));
+  const seats = congressSeats(world.currentDate)
+    .map((seat) => {
+      const exact = calibrationRow(seat.seatKey);
+      if (exact) return generateContest(world, latents, exact);
+      // A retired district has no row in the current source. Retain this
+      // state's recorded House observations as an explicitly estimated mean.
+      const peers = calibrationRows("us-house").filter(
+        (row) => row.stateUsps === seat.stateUsps,
+      );
+      const shares = peers.flatMap((row) =>
+        row.democraticTwoPartyShare === null
+          ? []
+          : [row.democraticTwoPartyShare],
+      );
+      const share = shares.length
+        ? shares.reduce((sum, value) => sum + value, 0) / shares.length
+        : null;
+      const source = peers[0];
+      if (!source) throw new Error(`No House evidence for ${seat.stateUsps}.`);
+      const generated = generateContest(world, latents, {
+        ...source,
+        contestKey: seat.seatKey,
+        totalVotes: null,
+        democraticTwoPartyShare: share,
+        twoPartyMargin: share === null ? null : share * 2 - 1,
+        sourceRef: peers.map((row) => row.sourceRef).join("; "),
+        uncertaintyReason:
+          "estimated-retired-district-from-own-state-house-mean",
+      });
+      return {
+        ...generated,
+        uncertaintyReason:
+          "estimated-retired-district-from-own-state-house-mean",
+      };
+    })
+    .sort((a, b) => a.seatKey.localeCompare(b.seatKey));
   return {
     kind: "political-starting-conditions",
     stableKey: "world-setup:crunch46-v1:political-starting-conditions",

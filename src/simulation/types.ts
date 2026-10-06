@@ -5759,6 +5759,8 @@ export interface SetupPriorStore {
 }
 
 export interface World {
+  /** Loading-only routine summary mode; removed at the recorded Begin boundary. */
+  readonly pastMode?: import("./historical-past-mode").HistoricalPastMode;
   /** Saved courts and seated judges; absent in lives created before courts opened. */
   readonly judiciary?: JudiciaryState;
   /** Immutable validated definitions accepted for this life; absent in legacy saves. */

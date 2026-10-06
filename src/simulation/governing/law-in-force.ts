@@ -1,7 +1,7 @@
 import { recordById, recordByStableKey } from "../history-index";
 import { operativeDateForEnactment } from "../legislative-effective-date";
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
-import { makeIsoDate } from "../dates";
+import { historicalStartingLawRow } from "../historical-world-inputs";
 import {
   enactmentStatuteDateContext,
   stateRuleBasis,
@@ -343,7 +343,7 @@ export interface StartingLawScope {
   }[];
 }
 
-interface StartingLawRow {
+export interface StartingLawRow {
   /** Exact recorded workplace identities; no name or county-containment guess. */
   readonly regionalTerms?: readonly {
     readonly workplaceKeys: readonly string[];
@@ -419,39 +419,6 @@ export function startingLawPlaceKey(
   return startingLawPlaceKeys.get(jurisdictionId);
 }
 
-/** The same dated legal text is used by authority selection and numeric readers. */
-function startingLawRowAt(
-  dated: StartingLawRow,
-  onDate: IsoDate,
-): {
-  readonly row: StartingLawRow;
-  readonly operativeAt: IsoDate;
-} | null {
-  const defaultAt = makeIsoDate(STARTING_LAW.defaultOperativeAt);
-  const answerAt = makeIsoDate(dated.operativeAt ?? defaultAt);
-  let selected: { row: StartingLawRow; operativeAt: IsoDate } | null =
-    answerAt <= onDate
-      ? { row: dated, operativeAt: answerAt }
-      : dated.before && defaultAt <= onDate
-        ? { row: dated.before, operativeAt: defaultAt }
-        : null;
-  const seen = new Set<string>([answerAt]);
-  for (const phase of dated.phases ?? []) {
-    const operativeAt = makeIsoDate(phase.operativeAt);
-    if (operativeAt <= answerAt || seen.has(operativeAt))
-      throw new Error(
-        "Starting law phases require distinct dates after the initial rule",
-      );
-    seen.add(operativeAt);
-    if (
-      operativeAt <= onDate &&
-      (!selected || operativeAt > selected.operativeAt)
-    )
-      selected = { row: phase, operativeAt };
-  }
-  return selected;
-}
-
 /** Numeric text belonging to the canonical starting row, not an invented enactment. */
 function selectedStartingLawRow(
   law: LawInForce,
@@ -469,9 +436,7 @@ function selectedStartingLawRow(
   if (!law.measureId.startsWith(prefix) || !law.measureId.endsWith(suffix))
     return null;
   const placeKey = law.measureId.slice(prefix.length, -suffix.length);
-  const dated = STARTING_LAW.questions[questionKey]?.answers[placeKey];
-  if (!dated) return null;
-  const selected = startingLawRowAt(dated, onDate);
+  const selected = historicalStartingLawRow(questionKey, placeKey, onDate);
   if (
     !selected ||
     selected.row.answer !== law.answer ||
@@ -560,9 +525,12 @@ function startingLawCandidate(
   if (starting) {
     for (const [placeId, level] of chain) {
       const placeKey = startingLawPlaceKey(placeId);
-      const dated = placeKey ? starting.answers[placeKey] : undefined;
-      if (!dated) continue;
-      const selected = startingLawRowAt(dated, onDate);
+      if (!placeKey) continue;
+      const selected = historicalStartingLawRow(
+        questionKey!,
+        placeKey!,
+        onDate,
+      );
       if (!selected) continue;
       const { row, operativeAt } = selected;
       const candidate: Candidate = {
@@ -578,7 +546,9 @@ function startingLawCandidate(
           cutoff,
         ),
         operativeAt,
-        operativeBasis: "enacted-date" as const,
+        operativeBasis: selected.estimated
+          ? ("estimated-state-rule" as const)
+          : ("enacted-date" as const),
         origin: "in-force-at-start" as const,
         // Before any enactment: a law enacted in play on the same day governs.
         sequence: -1,

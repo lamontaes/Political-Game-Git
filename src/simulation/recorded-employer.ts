@@ -1,3 +1,5 @@
+import { historicalWorldInputs } from "./historical-world-inputs";
+import { minimumHourlyAt } from "./minimum-wage";
 import {
   stateMedianAnnualWage,
   townMinimumHourly,
@@ -52,7 +54,15 @@ export function localBusinessWageMinor(
       sourced: true,
     };
   const annual = stateMedianAnnualWage(kind.workerOccupation, jurisdictionId);
-  const minimum = townMinimumHourly(jurisdictionId);
+  const context = world ? historicalWorldInputs(world.currentDate) : null;
+  const datedAnnual =
+    annual === null
+      ? null
+      : annual * (context?.historical ? context.nominalFactor : 1);
+  const minimum =
+    world && jurisdictionId
+      ? minimumHourlyAt(world, jurisdictionId, world.currentDate)
+      : townMinimumHourly(jurisdictionId);
   const minimumAnnual =
     minimum !== null && weeklyHours !== null
       ? minimum * weeklyHours * 52
@@ -60,7 +70,7 @@ export function localBusinessWageMinor(
   return annual !== null
     ? {
         monthlyMinor: Math.round(
-          (Math.max(annual, minimumAnnual ?? annual) * 100) / 12,
+          (Math.max(datedAnnual!, minimumAnnual ?? datedAnnual!) * 100) / 12,
         ),
         sourced: true,
       }

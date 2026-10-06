@@ -1,3 +1,4 @@
+import { historicalWorldInputs } from "./historical-world-inputs";
 import { createOrganization } from "./life";
 import {
   LIVING_COSTS_CATEGORY_DATA,
@@ -160,18 +161,20 @@ export function estimatedHouseholdLivingCostsAt(
     residents.size,
   );
   const jurisdictionId = place?.context.jurisdiction.id ?? locationId;
+  const context = historicalWorldInputs(asOfDate);
+  const nominalFactor = context.historical ? context.nominalFactor : 1;
   return {
     householdId,
     jurisdictionId,
     ...estimate,
-    averageMonthlyMinor: estimate.monthlyMinor,
+    averageMonthlyMinor: Math.round(estimate.monthlyMinor * nominalFactor),
     // Reuse the world's established estimate spread, never a payment/outcome roll.
     monthlyMinor: Math.round(
       drawnLinkSize(
         world,
         {
           key: `living-costs:household:${householdId}:size:${estimate.sizeColumn}`,
-          size: estimate.monthlyMinor,
+          size: estimate.monthlyMinor * nominalFactor,
           evidence: "researched",
         },
         jurisdictionId,
@@ -335,7 +338,7 @@ function prepareHouseholdCosts(
 ): World {
   if (!payerIsControlled(world, personId)) return world;
   const estimate = estimatedHouseholdLivingCostsAt(world, personId);
-  if (!estimate || world.currentDate < livingCostsProvenance.asOf) return world;
+  if (!estimate) return world;
   let next = world;
   // End all replaced personal estimates for this household, retaining old receipts.
   for (const id of peopleInHouseholdAt(world, estimate.householdId)) {
@@ -446,7 +449,14 @@ function prepareHouseholdCosts(
       amount,
       cadenceKind: terms.cadenceKind,
       reason,
-      provenance: livingCostsProvenance,
+      provenance: {
+        ...livingCostsProvenance,
+        asOf:
+          world.currentDate < livingCostsProvenance.asOf
+            ? world.currentDate
+            : livingCostsProvenance.asOf,
+        reference: `${livingCostsProvenance.reference} Earlier-year amounts use the recorded price-series drift.`,
+      },
       supersedesTermsId: terms.id,
     });
   }

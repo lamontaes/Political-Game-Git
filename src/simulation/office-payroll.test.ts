@@ -1,3 +1,8 @@
+import {
+  beginHistoricalPastMode,
+  endHistoricalPastMode,
+  distantHistoricalRoutine,
+} from "./historical-past-mode";
 import { expect, it } from "vitest";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { addDays, simulationMomentOnLocalDate } from "./dates";
@@ -25,16 +30,22 @@ import { workRoleAt } from "./life-queries";
 import { requireLifePlace, stateJurisdictionForKey } from "./life-places";
 import { resourceFlowTermsAt, resourcePositionAt } from "./resource-queries";
 import {
+  createResourceFlow,
   createResourcePosition,
   money,
   recordResourceTransferOutcomes,
 } from "./resources";
 import { serializeWorld, deserializeWorld } from "./serialization";
+import { assessPaycheckTaxes } from "./statutory-tax";
 import { SeededRng } from "./rng";
 import { PLACE_POPULATION_ROWS } from "./nationwide-world/place-population.generated";
 import { TERRITORY_PLACE_ROWS } from "./territory-places";
-import { personName } from "./people";
-import { withWorldIntegrityDeferred } from "./world";
+import { personName, createLightweightPerson } from "./people";
+import {
+  withWorldIntegrityDeferred,
+  createWorld,
+  recordWorldEvent,
+} from "./world";
 import type { World, IsoDate } from "./types";
 
 const places = new Map<string, [string, number]>();
@@ -114,10 +125,10 @@ it("A37 preserves recorded employer cash over two office pay periods", () => {
     ),
   ).toBe(serializeWorld(office));
 });
-function officeFixture(placeKey: string, governor = false) {
+function officeFixture(placeKey: string, governor = false, date?: string) {
   const seed = `office-payroll:${placeKey}`;
   // These are authored office-period controls, not opening-population tests.
-  const game = smallWorld({ place: placeKey, seed });
+  const game = smallWorld({ place: placeKey, seed, date });
   const opened = game.world;
   if (opened.control.kind !== "person")
     throw new Error("Actual player required");
@@ -442,4 +453,217 @@ it("resumes after out-of-order partial and blocked periods without changing held
   expect(serializeWorld(heldSettled)).toBe(
     serializeWorld(settleAllOfficeSalaries(deserializeWorld(heldSave))),
   );
+});
+
+it("summarizes distant historical routine earnings and resumes ordinary payroll without duplicate pay", () => {
+  const f = officeFixture(sampled[0]!, false, "2021-01-01");
+  const farPlace = requireLifePlace(sampled.find((key) => key !== f.placeKey)!);
+  const focus = createLightweightPerson({
+    worldId: f.world.id,
+    worldSeed: f.world.seed,
+    index: f.world.personOrder.length,
+    currentDate: f.world.currentDate,
+    homeJurisdictionId: farPlace.context.jurisdiction.id,
+  });
+  // Admit a genuinely distant authored fixture resident through the same
+  // person and World constructors; never rewrite a canonical residence fact.
+  const admitted = createWorld({
+    seed: f.world.seed,
+    currentDate: f.world.currentDate,
+    currentMoment: f.world.currentMoment,
+    people: [...f.world.personOrder.map((id) => f.world.people[id]!), focus],
+    jurisdictions: [
+      ...f.world.jurisdictionOrder.map((id) => f.world.jurisdictions[id]!),
+      farPlace.context.jurisdiction,
+    ],
+    policyCatalog: f.world.policyCatalog,
+  });
+  const focusId = focus.id;
+  let initial: World = {
+    ...f.world,
+    control: { kind: "observer" },
+    people: admitted.people,
+    personOrder: admitted.personOrder,
+    jurisdictions: admitted.jurisdictions,
+    jurisdictionOrder: admitted.jurisdictionOrder,
+  };
+  initial = createResourcePosition(initial, {
+    stableKey: "past-proof:employer-funds",
+    owner: { kind: "organization", organizationId: f.work.organizationId! },
+    openedAt: initial.currentDate,
+    openingBalance: money(1_000_000_000, "USD"),
+    provenance: {
+      kind: "authored",
+      note: "Controlled comparison account, not a population wage.",
+    },
+  });
+  const through = addDays(initial.currentDate, 365);
+  const past = beginHistoricalPastMode(initial, focusId, through);
+  expect(distantHistoricalRoutine(past, f.personId)).toBe(true);
+  expect(distantHistoricalRoutine(past, focusId)).toBe(false);
+  const role = workRoleAt(past, f.work.id)!;
+  const commutes = recordWorkRole(past, {
+    stableKey: "past-proof:commutes-to-touched-town",
+    workRelationshipId: f.work.id,
+    effectiveAt: past.currentDate,
+    title: role.title,
+    occupationClassification: role.occupationClassification,
+    locationJurisdictionId: focus.homeJurisdictionId,
+    timeDemand: {
+      ...role.timeDemand,
+      locationJurisdictionId: focus.homeJurisdictionId,
+    },
+    provenance: {
+      kind: "authored",
+      note: "Controlled recorded commuting fixture.",
+    },
+    supersedesRoleId: role.id,
+  });
+  expect(distantHistoricalRoutine(commutes, f.personId)).toBe(false);
+  const touched = recordWorldEvent(past, {
+    stableKey: "past-proof:recorded-visit",
+    type: "life.household-move",
+    occurredAt: past.currentDate,
+    recordedAt: past.currentDate,
+    jurisdictionId: past.people[f.personId]!.homeJurisdictionId,
+    involvedEntityIds: [focusId],
+    participants: [
+      { personId: focusId, role: "presence:participant", detail: null },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: ["life.household-move"],
+    summary: "The authored fixture focus moved to the office holder's town.",
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  expect(distantHistoricalRoutine(touched, f.personId)).toBe(false);
+  expect(
+    distantHistoricalRoutine(
+      deserializeWorld(serializeWorld(touched)),
+      f.personId,
+    ),
+  ).toBe(false);
+  const at = (world: World, days: number): World => {
+    const date = addDays(initial.currentDate, days);
+    return {
+      ...world,
+      currentDate: date,
+      currentMoment: simulationMomentOnLocalDate(world.currentMoment, date),
+    };
+  };
+  const early = settleAllOfficeSalaries(at(past, 30));
+  expect(early.history.resourceTransferOutcomes).toBe(
+    initial.history.resourceTransferOutcomes,
+  );
+  const firstMonth = settleAllOfficeSalaries(at(past, 31));
+  expect(
+    firstMonth.history.resourceTransferOutcomes.filter((row) =>
+      row.stableKey.startsWith(`past-office-summary:${f.flow.id}:`),
+    ),
+  ).toHaveLength(1);
+  // Two actual controlled installments in the same distant month must retain
+  // both money transfers without repeating the identical unknown authority.
+  const installment = firstMonth.history.resourceTransferOutcomes.at(-1)!;
+  const monthlyFlow = firstMonth.history.resourceFlows.find(
+    (row) => row.id === installment.resourceFlowId,
+  )!;
+  const payAnotherInstallment = (historical: boolean) => {
+    let next = createResourceFlow(firstMonth, {
+      stableKey: historical
+        ? "past-office-summary-flow:fixture:second-installment"
+        : "fixture:ordinary-second-installment",
+      source: monthlyFlow.source,
+      recipient: monthlyFlow.recipient,
+      startsAt: monthlyFlow.startsAt,
+      amount: installment.transferredAmount,
+      cadenceKind: "schedule:monthly",
+      basisKind: historical
+        ? "custom:historical-office-summary"
+        : "custom:fixture-second-installment",
+      basisReference: monthlyFlow.basisReference,
+      restrictionKind: monthlyFlow.restrictionKind,
+      jurisdictionId: monthlyFlow.jurisdictionId,
+      provenance: monthlyFlow.provenance,
+    });
+    const flow = next.history.resourceFlows.at(-1)!;
+    next = recordResourceTransferOutcomes(next, [
+      {
+        stableKey: `${flow.stableKey}:payment`,
+        resourceFlowId: flow.id,
+        periodStartsAt: installment.periodStartsAt,
+        periodEndsAt: installment.periodEndsAt,
+        occurredAt: installment.occurredAt,
+        status: installment.status,
+        attemptedAmount: installment.transferredAmount,
+        transferredAmount: installment.transferredAmount,
+        reasonKind: "capacity:fixture-second-installment",
+        note: "Controlled second salary installment for authority observation parity.",
+        provenance: monthlyFlow.provenance,
+      },
+    ]);
+    const paid = next.history.resourceTransferOutcomes.at(-1)!;
+    return { world: assessPaycheckTaxes(next, paid.id), outcomeId: paid.id };
+  };
+  const compacted = payAnotherInstallment(true);
+  expect(compacted.world.history.resourceTransferOutcomes.length).toBe(
+    firstMonth.history.resourceTransferOutcomes.length + 1,
+  );
+  expect(compacted.world.history.statutoryTaxLiabilities).toBe(
+    firstMonth.history.statutoryTaxLiabilities,
+  );
+  const ordinaryInstallment = payAnotherInstallment(false);
+  expect(
+    ordinaryInstallment.world.history.statutoryTaxLiabilities!.length,
+  ).toBeGreaterThan(firstMonth.history.statutoryTaxLiabilities!.length);
+  const compactReopened = deserializeWorld(serializeWorld(compacted.world));
+  expect(
+    serializeWorld(assessPaycheckTaxes(compactReopened, compacted.outcomeId)),
+  ).toBe(serializeWorld(compactReopened));
+  const ordinary = settleAllOfficeSalaries(at(initial, 365));
+  const summarized = settleAllOfficeSalaries(at(past, 365));
+  const outcomes = (world: World) =>
+    world.history.resourceTransferOutcomes.filter(
+      (row) =>
+        row.resourceFlowId === f.flow.id ||
+        row.stableKey.startsWith(`past-office-summary:${f.flow.id}:`),
+    );
+  expect(outcomes(summarized)).toHaveLength(12);
+  expect(
+    outcomes(summarized).reduce(
+      (sum, row) => sum + row.attemptedAmount.minorUnits,
+      0,
+    ),
+  ).toBe(
+    outcomes(ordinary).reduce(
+      (sum, row) => sum + row.attemptedAmount.minorUnits,
+      0,
+    ),
+  );
+  expect(summarized.history.decisionTraces).toBe(
+    initial.history.decisionTraces,
+  );
+  const reopened = deserializeWorld(serializeWorld(summarized));
+  expect(serializeWorld(settleAllOfficeSalaries(reopened))).toBe(
+    serializeWorld(summarized),
+  );
+  const finished = endHistoricalPastMode(summarized);
+  expect(finished.pastMode).toBeUndefined();
+  expect(finished.id).toBe(initial.id);
+  expect(finished.history).toBe(summarized.history);
+  const resumed = settleAllOfficeSalaries(at(finished, 372));
+  expect(outcomes(resumed).length).toBeGreaterThan(outcomes(finished).length);
+  expect(
+    outcomes(resumed)
+      .slice(outcomes(finished).length)
+      .every(
+        (row) => row.periodStartsAt > outcomes(finished).at(-1)!.periodEndsAt,
+      ),
+  ).toBe(true);
 });

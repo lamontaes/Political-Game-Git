@@ -1,0 +1,3524 @@
+{
+  "worldId": "world_29a45f98328c70c4",
+  "seed": "session6-birth-resident-handoff",
+  "sourceHead": "14747a3a15370177ccdbae1eb99bdd7e796a6b78",
+  "retainedHandle": 14701,
+  "date": "2022-11-08",
+  "focusPersonId": "person_ea53c0cac6fc366d",
+  "selection": "all recorded focus events on/before retained date; not selected scenes",
+  "events": [
+    {
+      "id": "event_4c34a9c26b4007c3",
+      "stableKey": "production:world-created",
+      "sequence": 0,
+      "type": "world.created",
+      "occurredAt": "2021-01-01",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "jurisdiction_ae2c0f23ba34d23c",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "focus:subject",
+          "detail": "The character this life follows"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "public",
+      "tags": ["life.started", "world.created"],
+      "summary": "Brandon Mejia is 57, and lives in Wabash County, Illinois. This is where their life is picked up.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Wabash County, Illinois",
+          "setting": "The start of a life"
+        },
+        "socialContext": "An ordinary adult life already under way.",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_ed7348f5e0508db8",
+      "stableKey": "production:earlier-life:event:move",
+      "sequence": 25,
+      "type": "life.household-move",
+      "occurredAt": "1970-07-09",
+      "recordedAt": "1970-07-09",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_52c2ae3d2a214b4a",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_52c2ae3d2a214b4a",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "focus:subject",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.household-move"],
+      "summary": "A household move changed the child's local routine.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Life context",
+          "setting": null
+        },
+        "socialContext": null,
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_f2f445c692b90523",
+      "stableKey": "production:earlier-life:event:lunch",
+      "sequence": 38,
+      "type": "life.lunch-table-choice",
+      "occurredAt": "1974-05-14",
+      "recordedAt": "1974-05-14",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_7d72f5489c5c3412",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_7d72f5489c5c3412",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "focus:subject",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.lunch-table-choice"],
+      "summary": "At lunch you made room at the table for another kid.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Life context",
+          "setting": null
+        },
+        "socialContext": null,
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_cc330ce884787c68",
+      "stableKey": "production:earlier-life:event:mentor",
+      "sequence": 43,
+      "type": "life.teacher-guidance",
+      "occurredAt": "1976-09-30",
+      "recordedAt": "1976-09-30",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_24dc4780f4b5d514",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_24dc4780f4b5d514",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "focus:subject",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.teacher-guidance"],
+      "summary": "A teacher offered concrete guidance.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Life context",
+          "setting": null
+        },
+        "socialContext": null,
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_39dcd407f2bb73d9",
+      "stableKey": "production:earlier-life:event:civic",
+      "sequence": 48,
+      "type": "life.civic-volunteering",
+      "occurredAt": "1979-06-13",
+      "recordedAt": "1979-06-13",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": ["person_ea53c0cac6fc366d"],
+      "participants": [
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "focus:subject",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.civic-volunteering"],
+      "summary": "The teenager joined a local volunteer effort.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Life context",
+          "setting": null
+        },
+        "socialContext": null,
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_7a0f46c528391414",
+      "stableKey": "production:earlier-life:event:work",
+      "sequence": 49,
+      "type": "life.teen-work",
+      "occurredAt": "1980-05-13",
+      "recordedAt": "1980-05-13",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": ["person_ea53c0cac6fc366d"],
+      "participants": [
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "focus:subject",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.teen-work"],
+      "summary": "The teenager took a limited local job.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Life context",
+          "setting": null
+        },
+        "socialContext": null,
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_7c7f51c30fc82aa2",
+      "stableKey": "production:earlier-life:event:future",
+      "sequence": 53,
+      "type": "life.future-preparation",
+      "occurredAt": "1981-05-07",
+      "recordedAt": "1981-05-07",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": ["person_ea53c0cac6fc366d"],
+      "participants": [
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "focus:subject",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.future-preparation"],
+      "summary": "The teenager prepared a next education, training, work, or service step.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Life context",
+          "setting": null
+        },
+        "socialContext": null,
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_19d1d85e31633fc7",
+      "stableKey": "production:character-birth:event",
+      "sequence": 61,
+      "type": "life.family-member-added",
+      "occurredAt": "1963-12-27",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_52c2ae3d2a214b4a",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_52c2ae3d2a214b4a",
+          "role": "agency:parent",
+          "detail": "Parent at the birth"
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "focus:subject",
+          "detail": "Was born"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["family.birth", "people-family-v1"],
+      "summary": "Brandon Mejia was born to Margaret Mejia.",
+      "context": {
+        "location": null,
+        "socialContext": "A family grew.",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_e7d4aa8287319d12",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:early-family-time",
+      "sequence": 422,
+      "type": "life.family-time",
+      "occurredAt": "1966-04-13",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_52c2ae3d2a214b4a",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_52c2ae3d2a214b4a",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "presence:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Margaret spent time together in 1966.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_11625b13443990ef",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:childhood-gap:1973",
+      "sequence": 423,
+      "type": "life.family-time",
+      "occurredAt": "1973-07-30",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_52c2ae3d2a214b4a",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_52c2ae3d2a214b4a",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "presence:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Margaret spent time together in 1973.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a17690d967993d4e",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:18",
+      "sequence": 424,
+      "type": "life.family-time",
+      "occurredAt": "1982-11-09",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_52c2ae3d2a214b4a",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_52c2ae3d2a214b4a",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Margaret spent time together at age 18.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a17691d967993f01",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:19",
+      "sequence": 425,
+      "type": "life.family-time",
+      "occurredAt": "1983-09-12",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_52c2ae3d2a214b4a",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_52c2ae3d2a214b4a",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Margaret spent time together at age 19.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a17322d967964c8d",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:20",
+      "sequence": 426,
+      "type": "life.family-time",
+      "occurredAt": "1984-02-13",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_52c2ae3d2a214b4a",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_52c2ae3d2a214b4a",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Margaret spent time together at age 20.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a17321d967964ada",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:21",
+      "sequence": 427,
+      "type": "life.family-time",
+      "occurredAt": "1985-10-15",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_52c2ae3d2a214b4a",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_52c2ae3d2a214b4a",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Margaret spent time together at age 21.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a17320d967964927",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:22",
+      "sequence": 428,
+      "type": "life.family-time",
+      "occurredAt": "1986-04-09",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_52c2ae3d2a214b4a",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_52c2ae3d2a214b4a",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Margaret spent time together at age 22.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a1731fd967964774",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:23",
+      "sequence": 429,
+      "type": "life.family-time",
+      "occurredAt": "1987-12-21",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_52c2ae3d2a214b4a",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_52c2ae3d2a214b4a",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Margaret spent time together at age 23.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a1731ed9679645c1",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:24",
+      "sequence": 430,
+      "type": "life.family-time",
+      "occurredAt": "1988-06-03",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_52c2ae3d2a214b4a",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_52c2ae3d2a214b4a",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Margaret spent time together at age 24.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a1731dd96796440e",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:25",
+      "sequence": 431,
+      "type": "life.family-time",
+      "occurredAt": "1989-03-08",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_52c2ae3d2a214b4a",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_52c2ae3d2a214b4a",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Margaret spent time together at age 25.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a1731cd96796425b",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:26",
+      "sequence": 432,
+      "type": "life.family-time",
+      "occurredAt": "1990-10-20",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_52c2ae3d2a214b4a",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_52c2ae3d2a214b4a",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Margaret spent time together at age 26.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a1731bd9679640a8",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:27",
+      "sequence": 433,
+      "type": "life.family-time",
+      "occurredAt": "1991-01-10",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_52c2ae3d2a214b4a",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_52c2ae3d2a214b4a",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Margaret spent time together at age 27.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a1731ad967963ef5",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:28",
+      "sequence": 434,
+      "type": "life.family-time",
+      "occurredAt": "1992-07-20",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_52c2ae3d2a214b4a",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_52c2ae3d2a214b4a",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Margaret spent time together at age 28.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a17319d967963d42",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:29",
+      "sequence": 435,
+      "type": "life.family-time",
+      "occurredAt": "1993-11-05",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_52c2ae3d2a214b4a",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_52c2ae3d2a214b4a",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Margaret spent time together at age 29.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a16f9cd967933304",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:30",
+      "sequence": 436,
+      "type": "life.family-time",
+      "occurredAt": "1994-09-13",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_52c2ae3d2a214b4a",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_52c2ae3d2a214b4a",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Margaret spent time together at age 30.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a16f9dd9679334b7",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:31",
+      "sequence": 437,
+      "type": "life.family-time",
+      "occurredAt": "1995-02-19",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_52c2ae3d2a214b4a",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_52c2ae3d2a214b4a",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Margaret spent time together at age 31.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a16f9ed96793366a",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:32",
+      "sequence": 438,
+      "type": "life.family-time",
+      "occurredAt": "1996-07-21",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_52c2ae3d2a214b4a",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_52c2ae3d2a214b4a",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Margaret spent time together at age 32.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a16f9fd96793381d",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:33",
+      "sequence": 439,
+      "type": "life.family-time",
+      "occurredAt": "1997-09-28",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_52c2ae3d2a214b4a",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_52c2ae3d2a214b4a",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Margaret spent time together at age 33.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a16f98d967932c38",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:34",
+      "sequence": 440,
+      "type": "life.family-time",
+      "occurredAt": "1998-12-26",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_52c2ae3d2a214b4a",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_52c2ae3d2a214b4a",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Margaret spent time together at age 34.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a16f99d967932deb",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:35",
+      "sequence": 441,
+      "type": "life.family-time",
+      "occurredAt": "1999-04-07",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_784daaa5959de17d",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_784daaa5959de17d",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Seth spent time together at age 35.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a16f9ad967932f9e",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:36",
+      "sequence": 442,
+      "type": "life.family-time",
+      "occurredAt": "2000-06-15",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_784daaa5959de17d",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_784daaa5959de17d",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Seth spent time together at age 36.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a16f9bd967933151",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:37",
+      "sequence": 443,
+      "type": "life.family-time",
+      "occurredAt": "2001-11-28",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_784daaa5959de17d",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_784daaa5959de17d",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Seth spent time together at age 37.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a16f94d96793256c",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:38",
+      "sequence": 444,
+      "type": "life.family-time",
+      "occurredAt": "2002-10-31",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_784daaa5959de17d",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_784daaa5959de17d",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Seth spent time together at age 38.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a16f95d96793271f",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:39",
+      "sequence": 445,
+      "type": "life.family-time",
+      "occurredAt": "2003-05-10",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_784daaa5959de17d",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_784daaa5959de17d",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Seth spent time together at age 39.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a16c16d96790197b",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:40",
+      "sequence": 446,
+      "type": "life.family-time",
+      "occurredAt": "2004-02-26",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_784daaa5959de17d",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_784daaa5959de17d",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Seth spent time together at age 40.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a16c15d9679017c8",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:41",
+      "sequence": 447,
+      "type": "life.family-time",
+      "occurredAt": "2005-01-28",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_784daaa5959de17d",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_784daaa5959de17d",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Seth spent time together at age 41.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a16c18d967901ce1",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:42",
+      "sequence": 448,
+      "type": "life.family-time",
+      "occurredAt": "2006-03-24",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_784daaa5959de17d",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_784daaa5959de17d",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Seth spent time together at age 42.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a16c17d967901b2e",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:43",
+      "sequence": 449,
+      "type": "life.family-time",
+      "occurredAt": "2006-12-28",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_784daaa5959de17d",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_784daaa5959de17d",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Seth spent time together at age 43.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a16c1ad967902047",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:44",
+      "sequence": 450,
+      "type": "life.family-time",
+      "occurredAt": "2008-07-11",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_784daaa5959de17d",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_784daaa5959de17d",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Seth spent time together at age 44.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a16c19d967901e94",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:45",
+      "sequence": 451,
+      "type": "life.family-time",
+      "occurredAt": "2009-10-25",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_784daaa5959de17d",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_784daaa5959de17d",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Seth spent time together at age 45.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a16c1cd9679023ad",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:46",
+      "sequence": 452,
+      "type": "life.family-time",
+      "occurredAt": "2010-01-13",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_784daaa5959de17d",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_784daaa5959de17d",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Seth spent time together at age 46.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a16c1bd9679021fa",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:47",
+      "sequence": 453,
+      "type": "life.family-time",
+      "occurredAt": "2011-06-13",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_784daaa5959de17d",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_784daaa5959de17d",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Seth spent time together at age 47.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a16c0ed967900be3",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:48",
+      "sequence": 454,
+      "type": "life.family-time",
+      "occurredAt": "2012-08-25",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_784daaa5959de17d",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_784daaa5959de17d",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Seth spent time together at age 48.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a16c0dd967900a30",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:49",
+      "sequence": 455,
+      "type": "life.work-routine",
+      "occurredAt": "2013-11-27",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "organization_ac6e740967000855",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.work-routine"],
+      "summary": "Brandon Mejia continued working at Ray Construction at age 49.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded employment",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a16890d9678cfff2",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:50",
+      "sequence": 456,
+      "type": "life.work-routine",
+      "occurredAt": "2014-05-25",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "organization_ac6e740967000855",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.work-routine"],
+      "summary": "Brandon Mejia continued working at Ray Construction at age 50.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded employment",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a16891d9678d01a5",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:51",
+      "sequence": 457,
+      "type": "life.work-routine",
+      "occurredAt": "2015-02-25",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "organization_ac6e740967000855",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.work-routine"],
+      "summary": "Brandon Mejia continued working at Ray Construction at age 51.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded employment",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a1688ed9678cfc8c",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:52",
+      "sequence": 458,
+      "type": "life.family-time",
+      "occurredAt": "2016-09-09",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_784daaa5959de17d",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_784daaa5959de17d",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Seth spent time together at age 52.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a1688fd9678cfe3f",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:53",
+      "sequence": 459,
+      "type": "life.work-routine",
+      "occurredAt": "2017-03-14",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "organization_ac6e740967000855",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.work-routine"],
+      "summary": "Brandon Mejia continued working at Ray Construction at age 53.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded employment",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a1688cd9678cf926",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:54",
+      "sequence": 460,
+      "type": "life.work-routine",
+      "occurredAt": "2018-04-03",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "organization_ac6e740967000855",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.work-routine"],
+      "summary": "Brandon Mejia continued working at Ray Construction at age 54.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded employment",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a1688dd9678cfad9",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:55",
+      "sequence": 461,
+      "type": "life.work-routine",
+      "occurredAt": "2019-08-05",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "organization_ac6e740967000855",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.work-routine"],
+      "summary": "Brandon Mejia continued working at Ray Construction at age 55.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded employment",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a1688ad9678cf5c0",
+      "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:year:56",
+      "sequence": 462,
+      "type": "life.family-time",
+      "occurredAt": "2020-06-16",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_784daaa5959de17d",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_784daaa5959de17d",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": ["life.family-time"],
+      "summary": "Brandon Mejia and Seth spent time together at age 56.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+          "label": "Home area",
+          "setting": null
+        },
+        "socialContext": "Recorded time with family",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_6b45dc7cd2941a9a",
+      "stableKey": "playtest65:starting-location:person_ea53c0cac6fc366d",
+      "sequence": 866,
+      "type": "life.scene.arrived",
+      "occurredAt": "2021-01-01",
+      "recordedAt": "2021-01-01",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "household_8554a5f10a509d81",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "presence:participant",
+          "detail": "At home when play begins"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": ["playtest65:initial-placement"],
+      "summary": "You are at home.",
+      "context": {
+        "location": {
+          "setting": "home",
+          "label": "Home",
+          "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c"
+        },
+        "socialContext": null,
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_3b67bdb8e4a8cf4f",
+      "stableKey": "crisis:health:epidemic/v1:pass:2021-01-08:person_ea53c0cac6fc366d:event",
+      "sequence": 69830,
+      "type": "health.episode-began",
+      "occurredAt": "2021-01-08",
+      "recordedAt": "2021-01-08",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": ["person_ea53c0cac6fc366d"],
+      "participants": [
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "focus:patient",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": ["crisis", "crisis.health", "severity:acute"],
+      "summary": "Became acutely unwell.",
+      "context": {
+        "location": null,
+        "socialContext": null,
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_1a257c476a8f9e90",
+      "stableKey": "crisis:health:epidemic/v1:pass:2021-01-08:person_ea53c0cac6fc366d:onset:capacity:event",
+      "sequence": 69833,
+      "type": "person.capacity-changed",
+      "occurredAt": "2021-01-08",
+      "recordedAt": "2021-01-08",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "crisis-record_af7cefd44e3f5834",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "impact:capacity-change",
+          "detail": "limited"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": ["vitality.capacity"],
+      "summary": "Able to work with limits during a health episode.",
+      "context": {
+        "location": null,
+        "socialContext": null,
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_203cd0b59657e68a",
+      "stableKey": "epidemic/v1:pass:2021-01-08:person_ea53c0cac6fc366d:caught",
+      "sequence": 69838,
+      "type": "epidemic.illness-caught",
+      "occurredAt": "2021-01-08",
+      "recordedAt": "2021-01-08",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": ["person_ea53c0cac6fc366d"],
+      "participants": [
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "focus:patient",
+          "detail": "acute"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": [
+        "epidemic",
+        "epidemic:outbreak:jurisdiction_ae2c0f23ba34d23c:2021-01-08",
+        "epidemic:setting:arrived",
+        "policy:epidemic/v1",
+        "severity:acute"
+      ],
+      "summary": "Brandon Mejia came down sick with the illness going around Wabash County, which had just reached town.",
+      "context": {
+        "location": null,
+        "socialContext": null,
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_01edd0dd675606ec",
+      "stableKey": "goal-call:person_ea53c0cac6fc366d:person_24dc4780f4b5d514:2021-01-08:event",
+      "sequence": 69944,
+      "type": "life.goal-call",
+      "occurredAt": "2021-01-08",
+      "recordedAt": "2021-01-08",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_24dc4780f4b5d514",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_24dc4780f4b5d514",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": ["goal-call.purpose:learning", "goal-call.v1"],
+      "summary": "Brandon Mejia called Barbara Merritt to ask about learning something.",
+      "context": {
+        "location": null,
+        "socialContext": "A phone call.",
+        "pressure": null,
+        "choice": null,
+        "motivation": "to ask about learning something",
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_7f3711d0aba6f271",
+      "stableKey": "crisis:health:epidemic/v1:pass:2021-01-08:person_ea53c0cac6fc366d:state:course-1:capacity:event",
+      "sequence": 72030,
+      "type": "person.capacity-changed",
+      "occurredAt": "2021-01-29",
+      "recordedAt": "2021-01-29",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "crisis-record_af7cefd44e3f5834",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "impact:capacity-change",
+          "detail": "capable"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": ["vitality.capacity"],
+      "summary": "Able to carry out ordinary work again.",
+      "context": {
+        "location": null,
+        "socialContext": null,
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_ba12d12bb2d028f9",
+      "stableKey": "goal-call:person_ea53c0cac6fc366d:person_24dc4780f4b5d514:2021-03-12:event",
+      "sequence": 87578,
+      "type": "life.goal-call",
+      "occurredAt": "2021-03-12",
+      "recordedAt": "2021-03-12",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_24dc4780f4b5d514",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_24dc4780f4b5d514",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": ["goal-call.purpose:learning", "goal-call.v1"],
+      "summary": "Brandon Mejia called Barbara Merritt to ask about learning something.",
+      "context": {
+        "location": null,
+        "socialContext": "A phone call.",
+        "pressure": null,
+        "choice": null,
+        "motivation": "to ask about learning something",
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_84c372c51f8984f5",
+      "stableKey": "goal-call:person_ea53c0cac6fc366d:person_24dc4780f4b5d514:2021-05-14:event",
+      "sequence": 106085,
+      "type": "life.goal-call",
+      "occurredAt": "2021-05-14",
+      "recordedAt": "2021-05-14",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_24dc4780f4b5d514",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_24dc4780f4b5d514",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": ["goal-call.purpose:learning", "goal-call.v1"],
+      "summary": "Brandon Mejia called Barbara Merritt to ask about learning something.",
+      "context": {
+        "location": null,
+        "socialContext": "A phone call.",
+        "pressure": null,
+        "choice": null,
+        "motivation": "to ask about learning something",
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_496652656ba40d91",
+      "stableKey": "goal-call:person_ea53c0cac6fc366d:person_24dc4780f4b5d514:2021-07-16:event",
+      "sequence": 108773,
+      "type": "life.goal-call",
+      "occurredAt": "2021-07-16",
+      "recordedAt": "2021-07-16",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_24dc4780f4b5d514",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_24dc4780f4b5d514",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": ["goal-call.purpose:learning", "goal-call.v1"],
+      "summary": "Brandon Mejia called Barbara Merritt to ask about learning something.",
+      "context": {
+        "location": null,
+        "socialContext": "A phone call.",
+        "pressure": null,
+        "choice": null,
+        "motivation": "to ask about learning something",
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_3604db496e50e0fc",
+      "stableKey": "goal-call:person_ea53c0cac6fc366d:person_24dc4780f4b5d514:2021-09-17:event",
+      "sequence": 110978,
+      "type": "life.goal-call",
+      "occurredAt": "2021-09-17",
+      "recordedAt": "2021-09-17",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_24dc4780f4b5d514",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_24dc4780f4b5d514",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": ["goal-call.purpose:learning", "goal-call.v1"],
+      "summary": "Brandon Mejia called Barbara Merritt to ask about learning something.",
+      "context": {
+        "location": null,
+        "socialContext": "A phone call.",
+        "pressure": null,
+        "choice": null,
+        "motivation": "to ask about learning something",
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_4f4931ce806f9ba3",
+      "stableKey": "crisis:health:epidemic/v1:pass:2021-10-15:person_ea53c0cac6fc366d:event",
+      "sequence": 112485,
+      "type": "health.episode-began",
+      "occurredAt": "2021-10-15",
+      "recordedAt": "2021-10-15",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": ["person_ea53c0cac6fc366d"],
+      "participants": [
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "focus:patient",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": ["crisis", "crisis.health", "severity:serious"],
+      "summary": "Became seriously unwell.",
+      "context": {
+        "location": null,
+        "socialContext": null,
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_9a583558e9dd91d4",
+      "stableKey": "crisis:health:epidemic/v1:pass:2021-10-15:person_ea53c0cac6fc366d:onset:capacity:event",
+      "sequence": 112488,
+      "type": "person.capacity-changed",
+      "occurredAt": "2021-10-15",
+      "recordedAt": "2021-10-15",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "crisis-record_fa72174a0c7a9bf8",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "impact:capacity-change",
+          "detail": "incapacitated"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": ["vitality.capacity"],
+      "summary": "Unable to carry out ordinary work because of a health episode.",
+      "context": {
+        "location": null,
+        "socialContext": null,
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_96cf0fea2d7bb366",
+      "stableKey": "epidemic/v1:pass:2021-10-15:person_ea53c0cac6fc366d:caught",
+      "sequence": 112493,
+      "type": "epidemic.illness-caught",
+      "occurredAt": "2021-10-15",
+      "recordedAt": "2021-10-15",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": ["person_ea53c0cac6fc366d"],
+      "participants": [
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "focus:patient",
+          "detail": "serious"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": [
+        "epidemic",
+        "epidemic:outbreak:jurisdiction_ae2c0f23ba34d23c:2021-10-15",
+        "epidemic:setting:arrived",
+        "policy:epidemic/v1",
+        "severity:serious"
+      ],
+      "summary": "Brandon Mejia came down seriously ill with the illness going around Wabash County, which had just reached town.",
+      "context": {
+        "location": null,
+        "socialContext": null,
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_a12a1db1bed2df28",
+      "stableKey": "crisis:health:epidemic/v1:pass:2021-10-15:person_ea53c0cac6fc366d:state:course-0:capacity:event",
+      "sequence": 120380,
+      "type": "person.capacity-changed",
+      "occurredAt": "2021-11-14",
+      "recordedAt": "2021-11-14",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "crisis-record_fa72174a0c7a9bf8",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "impact:capacity-change",
+          "detail": "limited"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": ["vitality.capacity"],
+      "summary": "Able to work with limits during a health episode.",
+      "context": {
+        "location": null,
+        "socialContext": null,
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_5d5e66308e660ded",
+      "stableKey": "goal-call:person_ea53c0cac6fc366d:person_24dc4780f4b5d514:2021-11-19:event",
+      "sequence": 123607,
+      "type": "life.goal-call",
+      "occurredAt": "2021-11-19",
+      "recordedAt": "2021-11-19",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_24dc4780f4b5d514",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_24dc4780f4b5d514",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": ["goal-call.purpose:learning", "goal-call.v1"],
+      "summary": "Brandon Mejia called Barbara Merritt to ask about learning something.",
+      "context": {
+        "location": null,
+        "socialContext": "A phone call.",
+        "pressure": null,
+        "choice": null,
+        "motivation": "to ask about learning something",
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_44fb931bbf069d85",
+      "stableKey": "crisis:health:epidemic/v1:pass:2021-10-15:person_ea53c0cac6fc366d:state:course-1:capacity:event",
+      "sequence": 248612,
+      "type": "person.capacity-changed",
+      "occurredAt": "2022-01-13",
+      "recordedAt": "2022-01-13",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "crisis-record_fa72174a0c7a9bf8",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "impact:capacity-change",
+          "detail": "capable"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": ["vitality.capacity"],
+      "summary": "Able to carry out ordinary work again.",
+      "context": {
+        "location": null,
+        "socialContext": null,
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_cb8d21755e610b04",
+      "stableKey": "goal-call:person_ea53c0cac6fc366d:person_24dc4780f4b5d514:2022-01-21:event",
+      "sequence": 271795,
+      "type": "life.goal-call",
+      "occurredAt": "2022-01-21",
+      "recordedAt": "2022-01-21",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_24dc4780f4b5d514",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_24dc4780f4b5d514",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": ["goal-call.purpose:learning", "goal-call.v1"],
+      "summary": "Brandon Mejia called Barbara Merritt to ask about learning something.",
+      "context": {
+        "location": null,
+        "socialContext": "A phone call.",
+        "pressure": null,
+        "choice": null,
+        "motivation": "to ask about learning something",
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_f27d422e9954c61a",
+      "stableKey": "goal-call:person_ea53c0cac6fc366d:person_24dc4780f4b5d514:2022-03-25:event",
+      "sequence": 381616,
+      "type": "life.goal-call",
+      "occurredAt": "2022-03-25",
+      "recordedAt": "2022-03-25",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_24dc4780f4b5d514",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_24dc4780f4b5d514",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": ["goal-call.purpose:learning", "goal-call.v1"],
+      "summary": "Brandon Mejia called Barbara Merritt to ask about learning something.",
+      "context": {
+        "location": null,
+        "socialContext": "A phone call.",
+        "pressure": null,
+        "choice": null,
+        "motivation": "to ask about learning something",
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_20b9d73c7fb4e2aa",
+      "stableKey": "goal-call:person_ea53c0cac6fc366d:person_24dc4780f4b5d514:2022-05-27:event",
+      "sequence": 397425,
+      "type": "life.goal-call",
+      "occurredAt": "2022-05-27",
+      "recordedAt": "2022-05-27",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_24dc4780f4b5d514",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_24dc4780f4b5d514",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": ["goal-call.purpose:learning", "goal-call.v1"],
+      "summary": "Brandon Mejia called Barbara Merritt to ask about learning something.",
+      "context": {
+        "location": null,
+        "socialContext": "A phone call.",
+        "pressure": null,
+        "choice": null,
+        "motivation": "to ask about learning something",
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_ebfee93076220f82",
+      "stableKey": "goal-call:person_ea53c0cac6fc366d:person_24dc4780f4b5d514:2022-07-29:event",
+      "sequence": 401647,
+      "type": "life.goal-call",
+      "occurredAt": "2022-07-29",
+      "recordedAt": "2022-07-29",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_24dc4780f4b5d514",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_24dc4780f4b5d514",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": ["goal-call.purpose:learning", "goal-call.v1"],
+      "summary": "Brandon Mejia called Barbara Merritt to ask about learning something.",
+      "context": {
+        "location": null,
+        "socialContext": "A phone call.",
+        "pressure": null,
+        "choice": null,
+        "motivation": "to ask about learning something",
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_89c060dfa18edeaa",
+      "stableKey": "goal-call:person_ea53c0cac6fc366d:person_24dc4780f4b5d514:2022-09-30:event",
+      "sequence": 422204,
+      "type": "life.goal-call",
+      "occurredAt": "2022-09-30",
+      "recordedAt": "2022-09-30",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "person_24dc4780f4b5d514",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_24dc4780f4b5d514",
+          "role": "presence:participant",
+          "detail": null
+        },
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "agency:participant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": ["goal-call.purpose:learning", "goal-call.v1"],
+      "summary": "Brandon Mejia called Barbara Merritt to ask about learning something.",
+      "context": {
+        "location": null,
+        "socialContext": "A phone call.",
+        "pressure": null,
+        "choice": null,
+        "motivation": "to ask about learning something",
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_fb3fa7ed5d53dbe5",
+      "stableKey": "crisis:health:epidemic/v1:pass:2022-10-21:person_ea53c0cac6fc366d:event",
+      "sequence": 422952,
+      "type": "health.episode-began",
+      "occurredAt": "2022-10-21",
+      "recordedAt": "2022-10-21",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": ["person_ea53c0cac6fc366d"],
+      "participants": [
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "focus:patient",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": ["crisis", "crisis.health", "severity:serious"],
+      "summary": "Became seriously unwell.",
+      "context": {
+        "location": null,
+        "socialContext": null,
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_5b885be82c3101ae",
+      "stableKey": "crisis:health:epidemic/v1:pass:2022-10-21:person_ea53c0cac6fc366d:onset:capacity:event",
+      "sequence": 422955,
+      "type": "person.capacity-changed",
+      "occurredAt": "2022-10-21",
+      "recordedAt": "2022-10-21",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": [
+        "crisis-record_b0d482c1513919a6",
+        "person_ea53c0cac6fc366d"
+      ],
+      "participants": [
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "impact:capacity-change",
+          "detail": "incapacitated"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": ["vitality.capacity"],
+      "summary": "Unable to carry out ordinary work because of a health episode.",
+      "context": {
+        "location": null,
+        "socialContext": null,
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_1b6eb41927eeb24c",
+      "stableKey": "epidemic/v1:pass:2022-10-21:person_ea53c0cac6fc366d:caught",
+      "sequence": 422960,
+      "type": "epidemic.illness-caught",
+      "occurredAt": "2022-10-21",
+      "recordedAt": "2022-10-21",
+      "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+      "involvedEntityIds": ["person_ea53c0cac6fc366d"],
+      "participants": [
+        {
+          "personId": "person_ea53c0cac6fc366d",
+          "role": "focus:patient",
+          "detail": "serious"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": [
+        "epidemic",
+        "epidemic:outbreak:jurisdiction_ae2c0f23ba34d23c:2022-10-21",
+        "epidemic:setting:arrived",
+        "policy:epidemic/v1",
+        "severity:serious"
+      ],
+      "summary": "Brandon Mejia came down seriously ill with the illness going around Wabash County, which had just reached town.",
+      "context": {
+        "location": null,
+        "socialContext": null,
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    }
+  ],
+  "people": [
+    {
+      "id": "person_ea53c0cac6fc366d",
+      "givenName": "Brandon",
+      "familyName": "Mejia",
+      "birthDate": "1963-12-27"
+    },
+    {
+      "id": "person_52c2ae3d2a214b4a",
+      "givenName": "Margaret",
+      "familyName": "Mejia",
+      "birthDate": "1936-12-17"
+    },
+    {
+      "id": "person_7d72f5489c5c3412",
+      "givenName": "Leonard",
+      "familyName": "Monroe",
+      "birthDate": "1963-08-03"
+    },
+    {
+      "id": "person_24dc4780f4b5d514",
+      "givenName": "Barbara",
+      "familyName": "Merritt",
+      "birthDate": "1930-07-29"
+    },
+    {
+      "id": "person_784daaa5959de17d",
+      "givenName": "Seth",
+      "familyName": "Montoya",
+      "birthDate": "1965-12-27"
+    },
+    {
+      "id": "person_aa0c189467c5fc3d",
+      "givenName": "Chloe",
+      "familyName": "Mejia",
+      "birthDate": "1909-12-17"
+    },
+    {
+      "id": "person_aa0c159467c5f724",
+      "givenName": "Leon",
+      "familyName": "Mejia",
+      "birthDate": "1909-12-17"
+    },
+    {
+      "id": "person_d56adbaf484421d9",
+      "givenName": "Brian",
+      "familyName": "Mejia",
+      "birthDate": "1994-06-26"
+    }
+  ],
+  "supportingRecords": {
+    "workRelationships": [
+      {
+        "id": "work-relationship_9cdb6f87c9ec468c",
+        "stableKey": "production:earlier-life:work:teacher",
+        "sequence": 30,
+        "personId": "person_24dc4780f4b5d514",
+        "organizationId": "organization_fbbe838941b0ea28",
+        "recordedAt": "2021-01-01",
+        "startedAt": "1975-08-25",
+        "kind": "employment:education",
+        "compensation": "paid",
+        "authority": "directs-others",
+        "dependency": "dependent",
+        "economicRisk": "organization-borne",
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "character-history-v1:production:earlier-life"
+        }
+      },
+      {
+        "id": "work-relationship_7ab0859a01543302",
+        "stableKey": "production:earlier-life:work:teen",
+        "sequence": 50,
+        "personId": "person_ea53c0cac6fc366d",
+        "organizationId": "organization_1c9f543393941d6e",
+        "recordedAt": "2021-01-01",
+        "startedAt": "1980-05-13",
+        "kind": "employment:part-time",
+        "compensation": "paid",
+        "authority": "directed",
+        "dependency": "dependent",
+        "economicRisk": "organization-borne",
+        "provenance": {
+          "kind": "simulated-event",
+          "eventId": "event_7a0f46c528391414"
+        }
+      },
+      {
+        "id": "work-relationship_c0368151fd589ecf",
+        "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:local-work",
+        "sequence": 416,
+        "personId": "person_ea53c0cac6fc366d",
+        "organizationId": "organization_ac6e740967000855",
+        "recordedAt": "2021-01-01",
+        "startedAt": "2013-01-01",
+        "kind": "employment:local-business",
+        "compensation": "paid",
+        "authority": "directed",
+        "dependency": "dependent",
+        "economicRisk": "organization-borne",
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d"
+        }
+      }
+    ],
+    "workStatuses": [
+      {
+        "id": "work-status_4d5ff6a936138c9a",
+        "stableKey": "production:earlier-life:work:teacher:status:initial",
+        "sequence": 31,
+        "workRelationshipId": "work-relationship_9cdb6f87c9ec468c",
+        "effectiveAt": "1975-08-25",
+        "status": "active",
+        "reason": null,
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "character-history-v1:production:earlier-life"
+        },
+        "supersedesStatusId": null
+      },
+      {
+        "id": "work-status_e56ce42c818f3ae0",
+        "stableKey": "production:earlier-life:work:teen:status:initial",
+        "sequence": 51,
+        "workRelationshipId": "work-relationship_7ab0859a01543302",
+        "effectiveAt": "1980-05-13",
+        "status": "active",
+        "reason": null,
+        "provenance": {
+          "kind": "simulated-event",
+          "eventId": "event_7a0f46c528391414"
+        },
+        "supersedesStatusId": null
+      },
+      {
+        "stableKey": "production:earlier-life:teen-work:ended",
+        "effectiveAt": "1981-12-27",
+        "status": "ended",
+        "reason": "The job the character had at school did not follow them out of it.",
+        "workRelationshipId": "work-relationship_7ab0859a01543302",
+        "supersedesStatusId": "work-status_e56ce42c818f3ae0",
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "production-world-v1"
+        },
+        "id": "work-status_ac12c5fab7856a77",
+        "sequence": 56
+      },
+      {
+        "id": "work-status_ea757ba5a43f5063",
+        "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:local-work:status:initial",
+        "sequence": 417,
+        "workRelationshipId": "work-relationship_c0368151fd589ecf",
+        "effectiveAt": "2013-01-01",
+        "status": "active",
+        "reason": null,
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d"
+        },
+        "supersedesStatusId": null
+      }
+    ],
+    "workRoles": [
+      {
+        "id": "work-role_b709180ad414776e",
+        "stableKey": "production:earlier-life:work:teacher:role:initial",
+        "sequence": 32,
+        "workRelationshipId": "work-relationship_9cdb6f87c9ec468c",
+        "effectiveAt": "1975-08-25",
+        "title": "Teacher",
+        "occupationClassification": "profession:teacher",
+        "locationJurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+        "timeDemand": {
+          "expectedWeekly": {
+            "minimumHours": 20,
+            "maximumHours": 40
+          },
+          "attention": "moderate",
+          "concurrency": "partly-concurrent",
+          "scheduleRigidity": "mixed",
+          "interruptibility": "limited",
+          "locationJurisdictionId": "jurisdiction_ae2c0f23ba34d23c"
+        },
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "character-history-v1:production:earlier-life"
+        },
+        "supersedesRoleId": null
+      },
+      {
+        "id": "work-role_af0b61a7f2bb9ad4",
+        "stableKey": "production:earlier-life:work:teen:role:initial",
+        "sequence": 52,
+        "workRelationshipId": "work-relationship_7ab0859a01543302",
+        "effectiveAt": "1980-05-13",
+        "title": "Store assistant",
+        "occupationClassification": "occupation:retail-assistant",
+        "locationJurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+        "timeDemand": {
+          "expectedWeekly": {
+            "minimumHours": 2,
+            "maximumHours": 8
+          },
+          "attention": "low",
+          "concurrency": "mostly-concurrent",
+          "scheduleRigidity": "flexible",
+          "interruptibility": "interruptible",
+          "locationJurisdictionId": "jurisdiction_ae2c0f23ba34d23c"
+        },
+        "provenance": {
+          "kind": "simulated-event",
+          "eventId": "event_7a0f46c528391414"
+        },
+        "supersedesRoleId": null
+      },
+      {
+        "id": "work-role_e9607f8c26cf1f9f",
+        "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:local-work:role:initial",
+        "sequence": 418,
+        "workRelationshipId": "work-relationship_c0368151fd589ecf",
+        "effectiveAt": "2013-01-01",
+        "title": "Carpenter",
+        "occupationClassification": "trade:carpenter",
+        "locationJurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+        "timeDemand": {
+          "expectedWeekly": {
+            "minimumHours": 30,
+            "maximumHours": 40
+          },
+          "attention": "moderate",
+          "concurrency": "partly-concurrent",
+          "scheduleRigidity": "mixed",
+          "interruptibility": "interruptible",
+          "locationJurisdictionId": "jurisdiction_ae2c0f23ba34d23c"
+        },
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d"
+        },
+        "supersedesRoleId": null
+      }
+    ],
+    "organizations": [
+      {
+        "id": "organization_fbbe838941b0ea28",
+        "stableKey": "production:earlier-life:middle-school",
+        "sequence": 3,
+        "formedAt": "1963-12-27",
+        "detailLevel": "lightweight",
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "character-history-v1:production:earlier-life"
+        }
+      },
+      {
+        "id": "organization_1c9f543393941d6e",
+        "stableKey": "production:earlier-life:teen-employer",
+        "sequence": 9,
+        "formedAt": "1963-12-27",
+        "detailLevel": "lightweight",
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "character-history-v1:production:earlier-life"
+        }
+      },
+      {
+        "id": "organization_ac6e740967000855",
+        "stableKey": "local-business:jurisdiction_ae2c0f23ba34d23c:construction",
+        "sequence": 88,
+        "formedAt": "1998-01-01",
+        "detailLevel": "lightweight",
+        "provenance": {
+          "kind": "authored",
+          "note": "ESTIMATED FROM AVERAGE: CBP 2023 establishments per resident (state), scaled by ESTIMATED FROM AVERAGE: IL mean of 1461 real populated Census places (11247418 residents / 1461 places); local population/size not recorded population 7698.438056125941; staff from weighted geographic CBP employees/establishment; sales from Economic Census 2022 receipts/employee (state). Owner draw pending: this legacy organization has no recorded nonpay operating costs/net earnings; modeled revenue and staff wage commitments do not establish distributable profit. Local business from published counts: the town's share of the county's establishments (about 6.8 of this kind in town; County Business Patterns 2023), staff from employees per establishment and sales from Economic Census 2022 sales per employee. At most 2 of a kind and 3 staff are seated (game assumption, for speed). The owner's draw is not established without recorded operating costs."
+        }
+      }
+    ],
+    "organizationProfiles": [
+      {
+        "id": "organization-profile_5b86654deb6b6a15",
+        "stableKey": "production:earlier-life:middle-school:profile:initial",
+        "sequence": 4,
+        "organizationId": "organization_fbbe838941b0ea28",
+        "effectiveAt": "1963-12-27",
+        "name": "Ralph Waldo Emerson Middle School",
+        "classification": "service:school",
+        "locationJurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "character-history-v1:production:earlier-life"
+        },
+        "supersedesProfileId": null
+      },
+      {
+        "id": "organization-profile_e9875e1fe2c90ec3",
+        "stableKey": "production:earlier-life:teen-employer:profile:initial",
+        "sequence": 10,
+        "organizationId": "organization_1c9f543393941d6e",
+        "effectiveAt": "1963-12-27",
+        "name": "Wabash County, Illinois Market",
+        "classification": "enterprise:retail",
+        "locationJurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "character-history-v1:production:earlier-life"
+        },
+        "supersedesProfileId": null
+      },
+      {
+        "id": "organization-profile_65e52c96e899c26c",
+        "stableKey": "local-business:jurisdiction_ae2c0f23ba34d23c:construction:profile:initial",
+        "sequence": 89,
+        "organizationId": "organization_ac6e740967000855",
+        "effectiveAt": "1998-01-01",
+        "name": "Ray Construction",
+        "classification": "enterprise:construction",
+        "locationJurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+        "provenance": {
+          "kind": "authored",
+          "note": "ESTIMATED FROM AVERAGE: CBP 2023 establishments per resident (state), scaled by ESTIMATED FROM AVERAGE: IL mean of 1461 real populated Census places (11247418 residents / 1461 places); local population/size not recorded population 7698.438056125941; staff from weighted geographic CBP employees/establishment; sales from Economic Census 2022 receipts/employee (state). Owner draw pending: this legacy organization has no recorded nonpay operating costs/net earnings; modeled revenue and staff wage commitments do not establish distributable profit. Local business from published counts: the town's share of the county's establishments (about 6.8 of this kind in town; County Business Patterns 2023), staff from employees per establishment and sales from Economic Census 2022 sales per employee. At most 2 of a kind and 3 staff are seated (game assumption, for speed). The owner's draw is not established without recorded operating costs."
+        },
+        "supersedesProfileId": null
+      }
+    ],
+    "householdMemberships": [
+      {
+        "id": "household-membership_0538175d1939db3e",
+        "stableKey": "production:earlier-life:household:child",
+        "sequence": 13,
+        "personId": "person_ea53c0cac6fc366d",
+        "householdId": "household_0c3f7e8caad35075",
+        "startedAt": "1963-12-27",
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "character-history-v1:production:earlier-life"
+        }
+      },
+      {
+        "id": "household-membership_47a740c024bccdf8",
+        "stableKey": "production:earlier-life:household:parent",
+        "sequence": 15,
+        "personId": "person_52c2ae3d2a214b4a",
+        "householdId": "household_0c3f7e8caad35075",
+        "startedAt": "1963-12-27",
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "character-history-v1:production:earlier-life"
+        }
+      },
+      {
+        "id": "household-membership_da52b8d00f1d732c",
+        "stableKey": "production:initial-life:membership:player",
+        "sequence": 59,
+        "personId": "person_ea53c0cac6fc366d",
+        "householdId": "household_8554a5f10a509d81",
+        "startedAt": "2021-01-01",
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "production-world-v1"
+        }
+      }
+    ],
+    "householdMembershipStates": [
+      {
+        "id": "household-membership-state_7b890f2baa2e3857",
+        "stableKey": "production:earlier-life:household:child:state:initial",
+        "sequence": 14,
+        "membershipId": "household-membership_0538175d1939db3e",
+        "effectiveAt": "1963-12-27",
+        "status": "resident",
+        "residenceRole": "primary",
+        "kind": "resident:child",
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "character-history-v1:production:earlier-life"
+        },
+        "supersedesStateId": null
+      },
+      {
+        "id": "household-membership-state_3ce29581148e0b49",
+        "stableKey": "production:earlier-life:household:parent:state:initial",
+        "sequence": 16,
+        "membershipId": "household-membership_47a740c024bccdf8",
+        "effectiveAt": "1963-12-27",
+        "status": "resident",
+        "residenceRole": "primary",
+        "kind": "resident:adult",
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "character-history-v1:production:earlier-life"
+        },
+        "supersedesStateId": null
+      },
+      {
+        "stableKey": "production:earlier-life:childhood-home:ended",
+        "effectiveAt": "2020-12-31",
+        "status": "ended",
+        "residenceRole": "primary",
+        "kind": "resident:child",
+        "membershipId": "household-membership_0538175d1939db3e",
+        "supersedesStateId": "household-membership-state_7b890f2baa2e3857",
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "production-world-v1"
+        },
+        "id": "household-membership-state_e0eee65b44dae78b",
+        "sequence": 55
+      },
+      {
+        "id": "household-membership-state_3d5347445fb4972d",
+        "stableKey": "production:initial-life:membership:player:state:initial",
+        "sequence": 60,
+        "membershipId": "household-membership_da52b8d00f1d732c",
+        "effectiveAt": "2021-01-01",
+        "status": "resident",
+        "residenceRole": "primary",
+        "kind": "resident:member",
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "production-world-v1"
+        },
+        "supersedesStateId": null
+      }
+    ],
+    "households": [
+      {
+        "id": "household_0c3f7e8caad35075",
+        "stableKey": "production:earlier-life:household",
+        "sequence": 11,
+        "formedAt": "1963-12-27",
+        "label": "Childhood household",
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "character-history-v1:production:earlier-life"
+        }
+      },
+      {
+        "id": "household_8554a5f10a509d81",
+        "stableKey": "production:initial-life:household",
+        "sequence": 57,
+        "formedAt": "2021-01-01",
+        "label": "Brandon Mejia's household",
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "production-world-v1"
+        }
+      }
+    ],
+    "householdLocations": [
+      {
+        "stableKey": "production:earlier-life:household:location:birth",
+        "effectiveAt": "1963-12-27",
+        "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+        "label": "Initial family residence",
+        "kind": "residence:family-home",
+        "householdId": "household_0c3f7e8caad35075",
+        "supersedesLocationId": null,
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "character-history-v1:production:earlier-life"
+        },
+        "id": "household-location_01da550414b96f59",
+        "sequence": 12
+      },
+      {
+        "stableKey": "production:earlier-life:household:location:move",
+        "effectiveAt": "1970-07-09",
+        "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+        "label": "Later family residence",
+        "kind": "residence:family-home",
+        "householdId": "household_0c3f7e8caad35075",
+        "supersedesLocationId": "household-location_01da550414b96f59",
+        "provenance": {
+          "kind": "simulated-event",
+          "eventId": "event_ed7348f5e0508db8"
+        },
+        "id": "household-location_be04caee0ce4e30d",
+        "sequence": 26
+      },
+      {
+        "stableKey": "production:initial-life:household:location",
+        "effectiveAt": "2021-01-01",
+        "jurisdictionId": "jurisdiction_ae2c0f23ba34d23c",
+        "label": "Wabash County, Illinois",
+        "kind": "residence:home",
+        "householdId": "household_8554a5f10a509d81",
+        "supersedesLocationId": null,
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "production-world-v1"
+        },
+        "id": "household-location_ef40bf0de3808936",
+        "sequence": 58
+      }
+    ],
+    "kinshipRelationships": [
+      {
+        "id": "kinship_67fe0a966c8bb355",
+        "stableKey": "production:earlier-life:kinship",
+        "sequence": 17,
+        "personIds": ["person_52c2ae3d2a214b4a", "person_ea53c0cac6fc366d"],
+        "establishedAt": "1963-12-27",
+        "kind": "lineal:parent-child",
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "character-history-v1:production:earlier-life"
+        }
+      },
+      {
+        "id": "kinship_1641301aec990a4e",
+        "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:grandparent:1:1:grandchild",
+        "sequence": 405,
+        "personIds": ["person_aa0c189467c5fc3d", "person_ea53c0cac6fc366d"],
+        "establishedAt": "1963-12-27",
+        "kind": "lineal:grandparent-grandchild",
+        "provenance": {
+          "kind": "authored",
+          "note": "ESTIMATED: averaged from this game's recorded families, with their current game spread. Unrecorded relatives are not inferred absent; no birth dates are created. Comparable people: person_ea53c0cac6fc366d; kinships: kinship_67fe0a966c8bb355."
+        }
+      },
+      {
+        "id": "kinship_80c87758901907b5",
+        "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:grandparent:1:2:grandchild",
+        "sequence": 407,
+        "personIds": ["person_aa0c159467c5f724", "person_ea53c0cac6fc366d"],
+        "establishedAt": "1963-12-27",
+        "kind": "lineal:grandparent-grandchild",
+        "provenance": {
+          "kind": "authored",
+          "note": "ESTIMATED: averaged from this game's recorded families, with their current game spread. Unrecorded relatives are not inferred absent; no birth dates are created. Comparable people: person_ea53c0cac6fc366d; kinships: kinship_67fe0a966c8bb355."
+        }
+      },
+      {
+        "id": "kinship_314a223162fe50ca",
+        "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:child-of:person_ea53c0cac6fc366d",
+        "sequence": 410,
+        "personIds": ["person_d56adbaf484421d9", "person_ea53c0cac6fc366d"],
+        "establishedAt": "1994-06-26",
+        "kind": "lineal:parent-child",
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d"
+        }
+      }
+    ],
+    "partnerships": [
+      {
+        "id": "partnership_2b0b6bce82041432",
+        "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:partnership",
+        "sequence": 408,
+        "personIds": ["person_784daaa5959de17d", "person_ea53c0cac6fc366d"],
+        "startedAt": "1990-12-28",
+        "kind": "romantic:couple",
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d"
+        }
+      }
+    ],
+    "partnershipStates": [
+      {
+        "id": "partnership-state_e9c3e01b578e8a7f",
+        "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:partnership:state:initial",
+        "sequence": 409,
+        "partnershipId": "partnership_2b0b6bce82041432",
+        "effectiveAt": "1990-12-28",
+        "status": "active",
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d"
+        },
+        "supersedesStateId": null
+      }
+    ],
+    "personDeaths": [
+      {
+        "id": "person-death_a1d66ba8142f521d",
+        "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:relative-death:person_aa0c189467c5fc3d",
+        "sequence": 413,
+        "personId": "person_aa0c189467c5fc3d",
+        "diedAt": "2001-04-03",
+        "recordedAt": "2021-01-01",
+        "eventId": "event_0f95206fc0c549c3",
+        "causeKey": "cause:unknown",
+        "sourceEntityIds": ["person_aa0c189467c5fc3d"],
+        "provenance": {
+          "kind": "authored",
+          "note": "Generated fictional family history; the death day follows the game's ordinary mortality and no cause is inferred."
+        }
+      },
+      {
+        "id": "person-death_1ac36b235d63b22f",
+        "stableKey": "pre-start-adult-history-v2:person_ea53c0cac6fc366d:relative-death:person_aa0c159467c5f724",
+        "sequence": 415,
+        "personId": "person_aa0c159467c5f724",
+        "diedAt": "2001-04-03",
+        "recordedAt": "2021-01-01",
+        "eventId": "event_72477dff11b8b131",
+        "causeKey": "cause:unknown",
+        "sourceEntityIds": ["person_aa0c159467c5f724"],
+        "provenance": {
+          "kind": "authored",
+          "note": "Generated fictional family history; the death day follows the game's ordinary mortality and no cause is inferred."
+        }
+      }
+    ]
+  },
+  "jurisdictions": [
+    {
+      "id": "jurisdiction_ae2c0f23ba34d23c",
+      "name": "Wabash County, Illinois"
+    }
+  ],
+  "sourceIds": [
+    "event_4c34a9c26b4007c3",
+    "event_ed7348f5e0508db8",
+    "event_f2f445c692b90523",
+    "event_cc330ce884787c68",
+    "event_39dcd407f2bb73d9",
+    "event_7a0f46c528391414",
+    "event_7c7f51c30fc82aa2",
+    "event_19d1d85e31633fc7",
+    "event_e7d4aa8287319d12",
+    "event_11625b13443990ef",
+    "event_a17690d967993d4e",
+    "event_a17691d967993f01",
+    "event_a17322d967964c8d",
+    "event_a17321d967964ada",
+    "event_a17320d967964927",
+    "event_a1731fd967964774",
+    "event_a1731ed9679645c1",
+    "event_a1731dd96796440e",
+    "event_a1731cd96796425b",
+    "event_a1731bd9679640a8",
+    "event_a1731ad967963ef5",
+    "event_a17319d967963d42",
+    "event_a16f9cd967933304",
+    "event_a16f9dd9679334b7",
+    "event_a16f9ed96793366a",
+    "event_a16f9fd96793381d",
+    "event_a16f98d967932c38",
+    "event_a16f99d967932deb",
+    "event_a16f9ad967932f9e",
+    "event_a16f9bd967933151",
+    "event_a16f94d96793256c",
+    "event_a16f95d96793271f",
+    "event_a16c16d96790197b",
+    "event_a16c15d9679017c8",
+    "event_a16c18d967901ce1",
+    "event_a16c17d967901b2e",
+    "event_a16c1ad967902047",
+    "event_a16c19d967901e94",
+    "event_a16c1cd9679023ad",
+    "event_a16c1bd9679021fa",
+    "event_a16c0ed967900be3",
+    "event_a16c0dd967900a30",
+    "event_a16890d9678cfff2",
+    "event_a16891d9678d01a5",
+    "event_a1688ed9678cfc8c",
+    "event_a1688fd9678cfe3f",
+    "event_a1688cd9678cf926",
+    "event_a1688dd9678cfad9",
+    "event_a1688ad9678cf5c0",
+    "event_6b45dc7cd2941a9a",
+    "event_3b67bdb8e4a8cf4f",
+    "event_1a257c476a8f9e90",
+    "event_203cd0b59657e68a",
+    "event_01edd0dd675606ec",
+    "event_7f3711d0aba6f271",
+    "event_ba12d12bb2d028f9",
+    "event_84c372c51f8984f5",
+    "event_496652656ba40d91",
+    "event_3604db496e50e0fc",
+    "event_4f4931ce806f9ba3",
+    "event_9a583558e9dd91d4",
+    "event_96cf0fea2d7bb366",
+    "event_a12a1db1bed2df28",
+    "event_5d5e66308e660ded",
+    "event_44fb931bbf069d85",
+    "event_cb8d21755e610b04",
+    "event_f27d422e9954c61a",
+    "event_20b9d73c7fb4e2aa",
+    "event_ebfee93076220f82",
+    "event_89c060dfa18edeaa",
+    "event_fb3fa7ed5d53dbe5",
+    "event_5b885be82c3101ae",
+    "event_1b6eb41927eeb24c"
+  ],
+  "artifactKind": "read-only retained-world record extract; not a World or scene plan",
+  "canonicalClockAdvancedByQuery": false,
+  "sceneSelection": null,
+  "roomOrSituationInference": null,
+  "consumerLimits": [
+    "Source is the old diagnostic integration retained in handle14701, not a reconstructed Ava playtest or the later composed consumer head.",
+    "Events are the entire recorded focus-involvement scope through extract date, not an approved scene trigger list.",
+    "world.created and life.scene.arrived are included for source completeness, not admitted as historical life scenes.",
+    "Life context/Home area/county names do not establish a room or its occupants. Read canonical place/household/work state as of the selected anchor date; missing state remains unknown.",
+    "Supporting rows retain their own dates and sequences; current/latest state must not be projected back onto earlier anchors."
+  ],
+  "supportingSourceIds": [
+    "work-relationship_9cdb6f87c9ec468c",
+    "work-relationship_7ab0859a01543302",
+    "work-relationship_c0368151fd589ecf",
+    "work-status_4d5ff6a936138c9a",
+    "work-status_e56ce42c818f3ae0",
+    "work-status_ac12c5fab7856a77",
+    "work-status_ea757ba5a43f5063",
+    "work-role_b709180ad414776e",
+    "work-role_af0b61a7f2bb9ad4",
+    "work-role_e9607f8c26cf1f9f",
+    "organization_fbbe838941b0ea28",
+    "organization_1c9f543393941d6e",
+    "organization_ac6e740967000855",
+    "organization-profile_5b86654deb6b6a15",
+    "organization-profile_e9875e1fe2c90ec3",
+    "organization-profile_65e52c96e899c26c",
+    "household-membership_0538175d1939db3e",
+    "household-membership_47a740c024bccdf8",
+    "household-membership_da52b8d00f1d732c",
+    "household-membership-state_7b890f2baa2e3857",
+    "household-membership-state_3ce29581148e0b49",
+    "household-membership-state_e0eee65b44dae78b",
+    "household-membership-state_3d5347445fb4972d",
+    "household_0c3f7e8caad35075",
+    "household_8554a5f10a509d81",
+    "household-location_01da550414b96f59",
+    "household-location_be04caee0ce4e30d",
+    "household-location_ef40bf0de3808936",
+    "kinship_67fe0a966c8bb355",
+    "kinship_1641301aec990a4e",
+    "kinship_80c87758901907b5",
+    "kinship_314a223162fe50ca",
+    "partnership_2b0b6bce82041432",
+    "partnership-state_e9c3e01b578e8a7f",
+    "person-death_a1d66ba8142f521d",
+    "person-death_1ac36b235d63b22f"
+  ]
+}

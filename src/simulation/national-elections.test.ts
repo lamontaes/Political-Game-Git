@@ -185,7 +185,8 @@ describe("National electoral resolution (supplied fictional results)", () => {
     expect(later.countDate).toBe("2033-01-06");
     expect(later.units.reduce((sum, u) => sum + u.electors, 0)).toBe(538);
     expect(() => nationalElectionRules(2030)).toThrow(/presidential/);
-    expect(() => nationalElectionRules(2020)).toThrow(/presidential/);
+    expect(nationalElectionRules(2020).version).toBe("nara-2010-census-v1");
+    expect(() => nationalElectionRules(2016)).toThrow(/presidential/);
   });
   it("keeps popular totals, certification, allocation, ballots, count and possession distinct with divergence and district splits", () => {
     const { world, electionId, a, av, b, bv } = setup();

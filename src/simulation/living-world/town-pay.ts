@@ -1,3 +1,5 @@
+import { historicalWorldInputs } from "../historical-world-inputs";
+import { distantHistoricalRoutine } from "../historical-past-mode";
 import { settleAllOfficeSalaries } from "../office-salary";
 import { assessedCompletedHourlyGrossMinor } from "../completed-hourly-gross";
 import { payPayerAt, payWorkplaceAt } from "../pay-coverage-predicates";
@@ -366,6 +368,7 @@ export function townJobRate(
   jurisdictionId: EntityId | null,
   percentile: number,
   minimum: number | null = townMinimumHourly(jurisdictionId),
+  onDate?: IsoDate,
 ): TownJobRate | null {
   const soc = occupation ? TOWN_JOB_SOC[occupation] : undefined;
   const byArea = soc ? wageTable().get(soc) : undefined;
@@ -375,7 +378,11 @@ export function townJobRate(
     const cells = byArea.get(area);
     const annual = cells ? interpolate(cells, percentile) : null;
     if (annual === null) continue;
-    const hourly = annual / HOURS_PER_YEAR;
+    const hourly =
+      (annual / HOURS_PER_YEAR) *
+      (onDate && historicalWorldInputs(onDate).historical
+        ? historicalWorldInputs(onDate).nominalFactor
+        : 1);
     return {
       soc,
       area,
@@ -570,6 +577,9 @@ export function nextRecordedPaydayDate(world: World): IsoDate {
       flow.basisReference.workRelationshipId,
     );
     if (!work || workStatusAt(world, work.id)?.status !== "active") continue;
+    // The full player's town still supplies ordinary payday boundaries;
+    // unrelated office holders no longer add weekly boundaries to the clock.
+    if (distantHistoricalRoutine(world, work.personId)) continue;
     const week = Math.max(
       1,
       Math.floor(daysBetween(flow.startsAt, world.currentDate) / 7) + 1,
@@ -990,6 +1000,7 @@ export function startTownJobPay(
       role.locationJurisdictionId,
       townPayPercentile(tenure),
       minimum,
+      startsAt,
     );
     if (!baseline) continue;
     const credentialPay = recordedCredentialHourlyPay(world, work.id, startsAt);
@@ -1987,9 +1998,7 @@ export function settleTownCompensations(
       unpaidDays === 0
         ? gross
         : money(
-            Math.round(
-              (terms.amount.minorUnits * (workdays - unpaidDays)) / workdays,
-            ),
+            Math.round((gross.minorUnits * (workdays - unpaidDays)) / workdays),
             terms.amount.currency,
           );
     const caring =
@@ -2112,7 +2121,9 @@ export function settleTownCompensations(
     ["resourceFlows", "resourceFlowTerms", "resourceTransferOutcomes"],
     (initial) => assessPaychecksTaxes(initial, ids),
   );
-  next = recordPaycheckTaxBases(next, ids);
+  next = withHistoryAppendTransaction(next, ["taxBases"], (initial) =>
+    recordPaycheckTaxBases(initial, ids),
+  );
 
   next = attributePaycheckTaxLaws(next, ids);
   // Benefits are paid after the premiums of the same paychecks reach the

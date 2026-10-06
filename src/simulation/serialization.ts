@@ -163,6 +163,14 @@ export function serializeWorldSnapshotPayload(
   return payloadOf(storedForm(snapshot), chunkLength);
 }
 
+/** Stream the existing stored form to a sink without retaining a second payload. */
+export function writeWorldPayload(
+  world: World,
+  emit: (part: string) => void,
+): void {
+  writeJson(storedForm(createWorldSnapshot(world)), emit);
+}
+
 /** `serializeWorld`, in pieces only when it must be. */
 export function serializeWorldPayload(world: World): WorldPayload {
   return serializeWorldSnapshotPayload(createWorldSnapshot(world));
@@ -463,7 +471,7 @@ export function deserializeWorld(payload: WorldPayload): World {
  * the memory a big save took to open and threw away the lookups the check had
  * just built.
  */
-export function readWorldSnapshot(payload: WorldPayload): {
+export function readWorldSnapshot(payload: WorldPayload | Iterable<string>): {
   readonly world: World;
   readonly formatVersion: WorldSnapshotFormatVersion;
 } {

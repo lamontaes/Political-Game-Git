@@ -1,9 +1,13 @@
+import { resourceFlowTermsAt } from "./resource-queries";
+import { historicalWorldInputs } from "./historical-world-inputs";
+import { distantHistoricalRoutine } from "./historical-past-mode";
 import {
   settleTownCompensations,
   type TownCompensationPeriod,
 } from "./living-world/town-pay";
 import {
   growingIndex,
+  withHistoryAppendTransaction,
   recordById,
   type GrowingIndexKind,
 } from "./history-index";
@@ -30,6 +34,7 @@ import {
 import {
   createResourceFlow,
   createResourceFlows,
+  recordResourceFlowTerms,
   money,
   type CreateResourceFlowInput,
 } from "./resources";
@@ -107,9 +112,15 @@ const LAST_RECORDED_PERIOD: GrowingIndexKind<Map<EntityId, IsoDate>> = {
   create: () => new Map(),
   add: (periods, record) => {
     const outcome = record as ResourceTransferOutcome;
-    const latest = periods.get(outcome.resourceFlowId);
-    if (latest === undefined || outcome.periodStartsAt > latest)
-      periods.set(outcome.resourceFlowId, outcome.periodStartsAt);
+    const originalFlowId = outcome.stableKey.startsWith("past-office-summary:")
+      ? (outcome.stableKey.split(":")[1] as EntityId)
+      : outcome.resourceFlowId;
+    const latest = periods.get(originalFlowId);
+    const period = outcome.stableKey.startsWith("past-office-summary:")
+      ? addDays(outcome.periodEndsAt, -(WEEK_DAYS - 1))
+      : outcome.periodStartsAt;
+    if (latest === undefined || period > latest)
+      periods.set(originalFlowId, period);
   },
 };
 
@@ -311,23 +322,143 @@ export function initializeAllOfficeSalaryFlows(world: World): World {
 
 /** Calendar adapter only; every transfer still uses settleTownCompensations. */
 export function settleAllOfficeSalaries(world: World): World {
-  return advanceWithWorldIntegrityAtEnd(() => {
-    const next = initializeAllOfficeSalaryFlows(world);
-    const periods: TownCompensationPeriod[] = [];
-    for (const flow of growingIndex(
-      OFFICE_PAY_FLOWS,
-      next.history.resourceFlows,
-    )) {
-      if (flow.basisReference.kind !== "work") continue;
-      const work = recordById(
-        next.history.workRelationships,
-        flow.basisReference.workRelationshipId,
-      );
-      if (!work) continue;
-      periods.push(...dueOfficePeriods(next, work, flow));
-    }
-    return periods.length ? settleTownCompensations(next, periods) : next;
-  }, world);
+  return advanceWithWorldIntegrityAtEnd(
+    () =>
+      withHistoryAppendTransaction(
+        world,
+        ["resourceFlows", "resourceFlowTerms"],
+        (initial) => {
+          let next = initializeAllOfficeSalaryFlows(initial);
+          const summaries: { flow: ResourceFlow; onDate: IsoDate }[] = [];
+          const periods: TownCompensationPeriod[] = [];
+          for (const flow of growingIndex(
+            OFFICE_PAY_FLOWS,
+            next.history.resourceFlows,
+          )) {
+            if (flow.basisReference.kind !== "work") continue;
+            const work = recordById(
+              next.history.workRelationships,
+              flow.basisReference.workRelationshipId,
+            );
+            if (!work) continue;
+            if (!distantHistoricalRoutine(next, work.personId)) {
+              periods.push(...dueOfficePeriods(next, work, flow));
+              continue;
+            }
+            const last = growingIndex(
+              LAST_RECORDED_PERIOD,
+              next.history.resourceTransferOutcomes,
+            ).get(flow.id);
+            // No weekly history is authored for a distant routine. Close its own
+            // recorded earnings by completed month, or at the explicit Begin boundary.
+            const closing = next.currentDate >= next.pastMode!.throughDate;
+            const firstUnpaidDue = addDays(
+              last ?? flow.startsAt,
+              last === undefined ? WEEK_DAYS : WEEK_DAYS + WEEK_DAYS,
+            );
+            if (
+              !closing &&
+              firstUnpaidDue.slice(0, 7) >= next.currentDate.slice(0, 7)
+            )
+              continue;
+            const due = dueOfficePeriods(next, work, flow).filter(
+              (period) =>
+                closing ||
+                period.onDate.slice(0, 7) < next.currentDate.slice(0, 7),
+            );
+            const months = new Map<string, TownCompensationPeriod[]>();
+            for (const period of due) {
+              const month = period.onDate.slice(0, 7);
+              const list = months.get(month) ?? [];
+              list.push(period);
+              months.set(month, list);
+            }
+            for (const list of months.values()) {
+              const first = list[0]!;
+              const final = list.at(-1)!;
+              if (!historicalWorldInputs(first.onDate).historical) {
+                periods.push(...list);
+                continue;
+              }
+              const ownTerms = list.map((period) =>
+                resourceFlowTermsAt(next, flow.id, {
+                  asOfDate: period.periodStartsAt,
+                  historySequenceExclusive: next.history.nextSequence,
+                }),
+              );
+              const currency = ownTerms[0]?.amount.currency;
+              if (
+                !currency ||
+                ownTerms.some(
+                  (terms) =>
+                    !terms ||
+                    terms.status !== "active" ||
+                    terms.amount.currency !== currency,
+                )
+              )
+                throw new Error(
+                  "Historical routine summary requires its job's recorded active terms.",
+                );
+              const provenance = {
+                kind: "authored" as const,
+                note: "Distant historical routine salary summarized by month from this job's recorded period terms; the player and touched towns use ordinary payroll.",
+              };
+              next = createResourceFlow(next, {
+                stableKey: `past-office-summary-flow:${flow.id}:${first.periodStartsAt}:${final.periodEndsAt}`,
+                source: flow.source,
+                recipient: flow.recipient,
+                startsAt: first.periodStartsAt,
+                amount: money(
+                  ownTerms.reduce(
+                    (sum, terms) => sum + terms!.amount.minorUnits,
+                    0,
+                  ),
+                  currency,
+                ),
+                cadenceKind: "schedule:monthly",
+                basisKind: "custom:historical-office-summary",
+                basisReference: flow.basisReference,
+                restrictionKind: flow.restrictionKind,
+                jurisdictionId: flow.jurisdictionId,
+                provenance,
+              });
+              const summaryFlow = next.history.resourceFlows.at(-1)!;
+              summaries.push({ flow: summaryFlow, onDate: final.onDate });
+              periods.push({
+                ...first,
+                payFlowId: summaryFlow.id,
+                activityId: summaryFlow.id,
+                stableKey: `past-office-summary:${flow.id}:${first.periodStartsAt}:${final.periodEndsAt}`,
+                periodEndsAt: final.periodEndsAt,
+                onDate: final.onDate,
+                note: "Salary for the period.",
+                provenance,
+              });
+            }
+          }
+          let settled = periods.length
+            ? settleTownCompensations(next, periods)
+            : next;
+          for (const { flow, onDate } of summaries) {
+            const terms = resourceFlowTermsAt(settled, flow.id)!;
+            settled = recordResourceFlowTerms(settled, {
+              stableKey: `${flow.stableKey}:closed`,
+              resourceFlowId: flow.id,
+              supersedesTermsId: terms.id,
+              effectiveAt: onDate,
+              status: "ended",
+              reason:
+                "The historical salary statement covers a completed period.",
+              amount: terms.amount,
+              cadenceKind: terms.cadenceKind,
+              provenance: flow.provenance,
+            });
+          }
+          return settled;
+        },
+      ),
+    world,
+  );
 }
 
 /** Read each flow's latest recorded period before the one common batch settlement. */

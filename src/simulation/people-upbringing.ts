@@ -327,7 +327,36 @@ interface FamilyCohortIndex {
     childCount: number;
   }[];
 }
-const FAMILY_COHORTS = new WeakMap<object, FamilyCohortIndex>();
+interface FamilyCohortCache {
+  readonly dependencies: WeakMap<object, FamilyCohortCache>;
+  readonly intervals: FamilyCohortIndex[];
+}
+const FAMILY_COHORTS = new WeakMap<object, FamilyCohortCache>();
+function cohortCache(
+  key: object,
+  inputs: readonly object[],
+): FamilyCohortCache {
+  const existing = FAMILY_COHORTS.get(key);
+  let slot: FamilyCohortCache = existing ?? {
+    dependencies: new WeakMap(),
+    intervals: [],
+  };
+  if (!existing) {
+    FAMILY_COHORTS.set(key, slot);
+  }
+  // Intake seeds people at their own historical dates. Keep every valid
+  // interval for these exact immutable inputs, rather than evicting one
+  // date whenever the next person's intake reads an earlier date.
+  for (const input of inputs) {
+    let next: FamilyCohortCache | undefined = slot.dependencies.get(input);
+    if (!next) {
+      next = { dependencies: new WeakMap(), intervals: [] };
+      slot.dependencies.set(input, next);
+    }
+    slot = next;
+  }
+  return slot;
+}
 // Keep dependency tokens across irrelevant appends; revised/unknown prefixes
 // build new tokens. Every extension copies before changing a handed-out index.
 type CompensationFlows = readonly World["history"]["resourceFlows"][number][];
@@ -439,14 +468,14 @@ function familyCohortIndex(world: World): FamilyCohortIndex {
     world.history.workStatuses,
     world.history.workRoles,
   ];
-  const prior = FAMILY_COHORTS.get(key);
-  if (
-    prior &&
-    prior.date <= world.currentDate &&
-    world.currentDate < prior.validUntil &&
-    prior.inputs.every((value, index) => value === inputs[index])
-  )
-    return prior;
+  const cache = cohortCache(key, inputs);
+  const prior = cache.intervals.find(
+    (row) =>
+      row.date <= world.currentDate &&
+      world.currentDate < row.validUntil &&
+      row.inputs.every((value, index) => value === inputs[index]),
+  );
+  if (prior) return prior;
   const estimate = recordedFamilyEstimates(world);
   // One immutable build can encounter the same person in both ordered loops.
   // Keep this map local: it must not retain contexts across snapshots or dates.
@@ -584,7 +613,7 @@ function familyCohortIndex(world: World): FamilyCohortIndex {
     exact,
     places,
   };
-  FAMILY_COHORTS.set(key, result);
+  cache.intervals.push(result);
   return result;
 }
 function childhoodFamilyContext(

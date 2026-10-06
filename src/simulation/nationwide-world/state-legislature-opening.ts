@@ -547,7 +547,7 @@ export function ensureStateLegislatureOpening(
   // differ from each other across the whole save. Both numbers are read from
   // this save's own generated conditions; neither is another state's.
   const houseShares = new Map<string, number[]>();
-  for (const seat of congressSeats()) {
+  for (const seat of congressSeats(world.currentDate)) {
     if (seat.chamberKey !== "us-house") continue;
     const share = political.seats.find(
       (row) => row.seatKey === seat.seatKey,
@@ -563,7 +563,7 @@ export function ensureStateLegislatureOpening(
   // A state whose House seats carry no two-party margin (an at-large seat
   // decided another way) is centered on its own statewide Senate contests
   // instead, generated from the same conditions. Never a neighbor's.
-  const statewide = congressSeats()
+  const statewide = congressSeats(world.currentDate)
     .filter(
       (seat) => seat.chamberKey === "us-senate" && seat.stateUsps === stateUsps,
     )

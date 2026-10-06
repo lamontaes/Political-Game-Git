@@ -20,6 +20,7 @@ import {
 } from "./policy";
 import { createFormationContext, recordPrivateBelief } from "./politics";
 import {
+  eligibleVotersIn,
   isEligibleVoterIn,
   issueRecordFor,
   issueStandingsFor,
@@ -36,6 +37,7 @@ import type {
   World,
 } from "./types";
 import { assertWorldIntegrity } from "./world";
+import { addDays } from "./dates";
 
 // Nebraska's one-house legislature keeps the path to a recorded roll call
 // short. The question is authored for the test and names no real bill.
@@ -215,6 +217,32 @@ function otherVoters(setup: Setup, world: World): readonly EntityId[] {
 }
 
 describe("voters weighing an officeholder's record, question by question", () => {
+  it("keeps dated voter eligibility consistent across unrelated legislative records", () => {
+    const setup = billOnTheFloor("yes");
+    for (const world of [setup.world, floorVote(setup, setup.world, "yea")]) {
+      for (const asOf of [
+        world.currentDate,
+        addDays(world.currentDate, -365),
+        world.currentDate,
+      ]) {
+        const fresh = { ...world, people: { ...world.people } };
+        expect(eligibleVotersIn(world, setup.jurisdictionId, asOf)).toEqual(
+          fresh.personOrder.filter((id) =>
+            isEligibleVoterIn(fresh, id, setup.jurisdictionId, asOf),
+          ),
+        );
+        expect(
+          world.personOrder.map((id) =>
+            isEligibleVoterIn(world, id, setup.jurisdictionId, asOf),
+          ),
+        ).toEqual(
+          world.personOrder.map((id) =>
+            isEligibleVoterIn(fresh, id, setup.jurisdictionId, asOf),
+          ),
+        );
+      }
+    }
+  });
   it("reads a yea on a bill that answers yes as a vote for the question", () => {
     const setup = billOnTheFloor("yes");
     const world = floorVote(setup, setup.world, "yea");

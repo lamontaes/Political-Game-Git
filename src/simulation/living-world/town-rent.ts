@@ -1,3 +1,4 @@
+import { historicalWorldInputs } from "../historical-world-inputs";
 import { rentConstructionCovered } from "../law-consequences/rent-construction-coverage";
 import { recordedMonthlyPayByPerson } from "../household-pay";
 /**
@@ -279,7 +280,12 @@ export function marketRentLevel(
   town: EntityId,
   date: IsoDate,
 ): number {
-  return homePriceLevel(world, town, date) * rentLawLevel(world, town, date);
+  const opening = historicalWorldInputs(world.startedAt);
+  return (
+    homePriceLevel(world, town, date) *
+    rentLawLevel(world, town, date) *
+    (opening.historical ? opening.nominalFactor : 1)
+  );
 }
 
 /**

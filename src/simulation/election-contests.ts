@@ -1,5 +1,5 @@
 import { evaluateDecision, isSelectedDecision } from "./decisions";
-import { isEligibleVoterIn } from "./issue-record";
+import { eligibleVotersIn, isEligibleVoterIn } from "./issue-record";
 import { eventById } from "./event-index";
 import { makeIsoDate } from "./dates";
 import {
@@ -7,6 +7,11 @@ import {
   scheduleFutureDueItem,
 } from "./future-transitions";
 import { createStableId } from "./ids";
+import {
+  growingIndex,
+  recordById,
+  type GrowingIndexKind,
+} from "./history-index";
 import { personName } from "./people";
 import type {
   CandidateTally,
@@ -21,6 +26,7 @@ import type {
   EntityId,
   EventParticipant,
   FutureDueItem,
+  FutureDueItemStateRecord,
   FutureTransitionHandlerResult,
   IsoDate,
   ResolveElectionContestInput,
@@ -210,16 +216,11 @@ export function countRecordedVoterBallots(
     }
   }
   const contexts = new Map<EntityId, DecisionContext>();
-  for (const voterId of world.personOrder) {
-    if (
-      !isEligibleVoterIn(
-        world,
-        voterId,
-        input.jurisdictionId,
-        input.electionDate,
-      )
-    )
-      continue;
+  for (const voterId of eligibleVotersIn(
+    world,
+    input.jurisdictionId,
+    input.electionDate,
+  )) {
     const considerations: DecisionContext["considerations"][number][] = [];
     for (const [candidateId, belief] of views.get(voterId) ?? []) {
       if (belief.position !== "support" && belief.position !== "oppose")
@@ -606,15 +607,47 @@ export function electionContestTransitionHandler(
   };
 }
 
+// Transient indices preserve the original read order; canonical history is unchanged.
+const FIRST_CONTEST_RESULT: GrowingIndexKind<
+  Map<EntityId, ElectionContestResultRecord>
+> = {
+  create: () => new Map(),
+  add(index, raw) {
+    const record = raw as ElectionContestResultRecord;
+    if (!index.has(record.contestId)) index.set(record.contestId, record);
+  },
+};
+const FIRST_CONTEST_DUE_ITEM: GrowingIndexKind<Map<EntityId, FutureDueItem>> = {
+  create: () => new Map(),
+  add(index, raw) {
+    const item = raw as FutureDueItem;
+    if (
+      item.transitionKey !== ELECTION_CONTEST_TRANSITION_KEY ||
+      item.entityIds.length !== 1
+    )
+      return;
+    const contestId = item.entityIds[0]!;
+    if (!index.has(contestId)) index.set(contestId, item);
+  },
+};
+const LATEST_CONTEST_DUE_STATE: GrowingIndexKind<
+  Map<EntityId, FutureDueItemStateRecord>
+> = {
+  create: () => new Map(),
+  add(index, raw) {
+    const state = raw as FutureDueItemStateRecord;
+    const prior = index.get(state.dueItemId);
+    // Stable ascending sort followed by at(-1) selected the last equal sequence.
+    if (!prior || state.sequence >= prior.sequence)
+      index.set(state.dueItemId, state);
+  },
+};
+
 export function electionContestById(
   world: World,
   contestId: EntityId,
 ): ElectionContestRecord | null {
-  return (
-    (world.history.electionContests ?? []).find(
-      (record) => record.id === contestId,
-    ) ?? null
-  );
+  return recordById(world.history.electionContests ?? [], contestId) ?? null;
 }
 
 export function requireElectionContest(
@@ -633,9 +666,10 @@ export function electionContestResult(
   contestId: EntityId,
 ): ElectionContestResultRecord | null {
   return (
-    (world.history.electionContestResults ?? []).find(
-      (record) => record.contestId === contestId,
-    ) ?? null
+    growingIndex(
+      FIRST_CONTEST_RESULT,
+      world.history.electionContestResults ?? [],
+    ).get(contestId) ?? null
   );
 }
 
@@ -644,17 +678,15 @@ export function electionContestStatus(
   contestId: EntityId,
 ): ElectionContestStatus {
   const contest = requireElectionContest(world, contestId);
-  const dueItem = world.history.futureDueItems.find(
-    (item) =>
-      item.transitionKey === ELECTION_CONTEST_TRANSITION_KEY &&
-      item.entityIds.length === 1 &&
-      item.entityIds[0] === contest.id,
-  );
+  const dueItem = growingIndex(
+    FIRST_CONTEST_DUE_ITEM,
+    world.history.futureDueItems,
+  ).get(contest.id);
   if (dueItem) {
-    const states = world.history.futureDueItemStates.filter(
-      (state) => state.dueItemId === dueItem.id,
-    );
-    const latestState = states.sort((a, b) => a.sequence - b.sequence).at(-1);
+    const latestState = growingIndex(
+      LATEST_CONTEST_DUE_STATE,
+      world.history.futureDueItemStates,
+    ).get(dueItem.id);
     if (latestState?.status === "cancelled") {
       return "cancelled";
     }

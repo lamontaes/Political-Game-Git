@@ -22,7 +22,9 @@ export interface NationalElection {
   /** A presidential election year: 2024, 2028, and every fourth year after. */
   readonly cycle: number;
   readonly ruleVersion:
-    "nara-2020-census-v1" | "nara-2020-census-carried-forward-v1";
+    | "nara-2010-census-v1"
+    | "nara-2020-census-v1"
+    | "nara-2020-census-carried-forward-v1";
   readonly tickets: readonly PresidentialTicket[];
   readonly provenance: ElectionContestProvenance;
 }
