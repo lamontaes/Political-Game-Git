@@ -1,0 +1,5 @@
+$ npx prettier --check --ignore-unknown src/player/GuideHighlighter.tsx docs/codex/session14-guide-underlines/README.md docs/codex/session14-guide-underlines/source.json docs/codex/session14-guide-underlines/validation.txt docs/release/changes/guide-underlines-open-entry.md tests/e2e/guide-underlines-fixture.tsx tests/e2e/guide-underlines.config.ts tests/e2e/guide-underlines.html tests/e2e/guide-underlines.spec.ts docs/codex/session14-guide-underlines/prettier-terminal.txt
+Checking formatting...
+All matched files use Prettier code style!
+Exit0
+All added paths explicitly supplied; plain-text unsupported files skipped.
