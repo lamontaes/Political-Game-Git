@@ -17,10 +17,7 @@ import {
 } from "../../presentation/opening-life";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import { addDays, simulationMomentOnLocalDate } from "../dates";
-import type {
-  EntityId,
-  World,
-} from "../types";
+import type { EntityId, World } from "../types";
 import {
   advanceWithWorldIntegrityAtEnd,
   advanceWorld,
@@ -855,14 +852,18 @@ describe("a twenty-year party drift run", () => {
         (record) => record.kind === "party-platform",
       );
       const changedPlatforms = platforms.filter((platform) => {
-        if (platform.kind !== "party-platform" || !platform.supersedesPlatformId)
+        if (
+          platform.kind !== "party-platform" ||
+          !platform.supersedesPlatformId
+        )
           return false;
         const previous = platforms.find(
           (candidate) => candidate.id === platform.supersedesPlatformId,
         );
         return (
           previous?.kind === "party-platform" &&
-          JSON.stringify(previous.positions) !== JSON.stringify(platform.positions)
+          JSON.stringify(previous.positions) !==
+            JSON.stringify(platform.positions)
         );
       });
       const changes = partyEvolutionRecords(world);
