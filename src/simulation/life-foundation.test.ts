@@ -752,6 +752,81 @@ describe("Stage 5.1 households, kinship, partnership, and care", () => {
     expect(
       householdMembershipsAt(deserializeWorld(serializeWorld(world)), person),
     ).toEqual(householdMembershipsAt(world, person));
+    // Independent scan oracle: preserve the original filtering and stable
+    // effective-date/sequence ordering, without using any projection cache.
+    const oracle = (
+      snapshot: World,
+      cutoff: ReturnType<typeof currentLifeCutoff>,
+    ) => {
+      const available = (sequence: number, date: string) =>
+        sequence < cutoff.historySequenceExclusive && date <= cutoff.asOfDate;
+      const ordered = <T extends { effectiveAt: string; sequence: number }>(
+        rows: readonly T[],
+      ) =>
+        rows
+          .filter((row) => available(row.sequence, row.effectiveAt))
+          .sort(
+            (a, b) =>
+              a.effectiveAt.localeCompare(b.effectiveAt) ||
+              a.sequence - b.sequence,
+          )
+          .at(-1);
+      return snapshot.history.householdMemberships
+        .filter(
+          (membership) =>
+            membership.personId === person &&
+            available(membership.sequence, membership.startedAt),
+        )
+        .flatMap((membership) => {
+          const state = ordered(
+            snapshot.history.householdMembershipStates.filter(
+              (row) => row.membershipId === membership.id,
+            ),
+          );
+          const household = snapshot.history.households.find(
+            (row) => row.id === membership.householdId,
+          );
+          if (!state || state.status !== "resident" || !household) return [];
+          const location =
+            ordered(
+              snapshot.history.householdLocations.filter(
+                (row) => row.householdId === household.id,
+              ),
+            ) ?? null;
+          return [{ membership, state, household, location }];
+        });
+    };
+    const snapshots = [
+      originalWorld,
+      world,
+      corrected,
+      deserializeWorld(serializeWorld(world)),
+      {
+        ...world,
+        history: { ...world.history, householdLocations: [] },
+      },
+    ];
+    for (const snapshot of snapshots) {
+      const cutoffs = [
+        "2018-01-01",
+        "2020-01-01",
+        snapshot.currentDate,
+      ].flatMap((date) =>
+        [
+          0,
+          snapshot.history.nextSequence - 1,
+          snapshot.history.nextSequence,
+        ].map((sequence) => ({
+          asOfDate: makeIsoDate(date),
+          historySequenceExclusive: sequence,
+        })),
+      );
+      for (const cutoff of [...cutoffs, ...cutoffs.slice().reverse()]) {
+        expect(householdMembershipsAt(snapshot, person, cutoff)).toEqual(
+          oracle(snapshot, cutoff),
+        );
+      }
+    }
     expect(() =>
       startHouseholdMembership(world, {
         stableKey: "membership:invalid-second-primary",

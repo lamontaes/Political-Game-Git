@@ -1,6 +1,5 @@
 import { makeIsoDate } from "./dates";
 import {
-  indexFollowingAppends,
   recordById,
   recordsByKey,
   recordsByStringField,
@@ -591,46 +590,38 @@ export function householdMembershipStateAt(
   return householdMembershipStateHistory(world, membershipId, cutoff).at(-1);
 }
 
-const HOUSEHOLD_SEQUENCE_CEILINGS = new WeakMap<object, number>();
-const RECENT_HOUSEHOLD_SEQUENCE_ARRAYS: (readonly unknown[])[] = [];
-
-function householdSequenceCeiling(
-  records: readonly { readonly sequence: number }[],
-): number {
-  const cached = HOUSEHOLD_SEQUENCE_CEILINGS.get(records);
-  if (cached !== undefined) return cached;
-  const extend = (maximum: number, from: number): number => {
-    for (let at = from; at < records.length; at += 1) {
-      maximum = Math.max(maximum, records[at]!.sequence);
-    }
-    return maximum;
-  };
-  return indexFollowingAppends(
-    HOUSEHOLD_SEQUENCE_CEILINGS,
-    RECENT_HOUSEHOLD_SEQUENCE_ARRAYS,
-    records,
-    () => extend(-1, 0),
-    extend,
-  );
+interface HouseholdPersonProjection {
+  readonly rows: readonly {
+    readonly membership: HouseholdMembership;
+    readonly household: Household | undefined;
+    readonly states: readonly HouseholdMembershipStateRecord[];
+    readonly locations: readonly HouseholdLocationRecord[];
+  }[];
+  readonly sequenceCeiling: number;
+  readonly results: Map<string, readonly ActiveHouseholdMembership[]>;
 }
 
-// A membership revision owns resolved views grouped by person and exact cutoff.
-// Other contributing revisions invalidate them, including same-length corrections.
-// Eight recent cutoffs per person bound retention without one person's historical
-// query evicting every other person's current view. Older Worlds rebuild safely.
-const HOUSEHOLD_VIEWS = new WeakMap<
+// Join a person's recorded membership histories once per contributing revision.
+// Cutoff queries only choose available rows; public history readers remain intact.
+const HOUSEHOLD_PROJECTIONS = new WeakMap<
   object,
   {
     readonly states: World["history"]["householdMembershipStates"];
     readonly households: World["history"]["households"];
     readonly locations: World["history"]["householdLocations"];
-    readonly sequenceCeiling: number;
-    readonly people: Map<
-      EntityId,
-      Map<string, readonly ActiveHouseholdMembership[]>
-    >;
+    readonly people: Map<EntityId, HouseholdPersonProjection>;
   }
 >();
+
+function lastHouseholdRowAt<
+  T extends { readonly sequence: number; readonly effectiveAt: string },
+>(rows: readonly T[], cutoff: HistoricalCutoff): T | undefined {
+  for (let at = rows.length - 1; at >= 0; at -= 1) {
+    const row = rows[at]!;
+    if (available(row.sequence, row.effectiveAt, cutoff)) return row;
+  }
+  return undefined;
+}
 
 export function householdMembershipsAt(
   world: World,
@@ -639,69 +630,73 @@ export function householdMembershipsAt(
 ): readonly ActiveHouseholdMembership[] {
   validatePersonCutoff(world, personId, cutoff);
   const history = world.history;
-  let view = HOUSEHOLD_VIEWS.get(history.householdMemberships);
+  let index = HOUSEHOLD_PROJECTIONS.get(history.householdMemberships);
   if (
-    !view ||
-    view.states !== history.householdMembershipStates ||
-    view.households !== history.households ||
-    view.locations !== history.householdLocations
+    !index ||
+    index.states !== history.householdMembershipStates ||
+    index.households !== history.households ||
+    index.locations !== history.householdLocations
   ) {
-    // Once the exclusive cutoff includes every contributing row, later
-    // unrelated history sequences cannot change this view. Earlier cutoffs
-    // remain exact; appending any contributing row still invalidates it.
-    const sequenceCeiling =
-      Math.max(
-        householdSequenceCeiling(history.householdMemberships),
-        householdSequenceCeiling(history.householdMembershipStates),
-        householdSequenceCeiling(history.households),
-        householdSequenceCeiling(history.householdLocations),
-      ) + 1;
-    view = {
+    index = {
       states: history.householdMembershipStates,
       households: history.households,
       locations: history.householdLocations,
-      sequenceCeiling,
       people: new Map(),
     };
-    HOUSEHOLD_VIEWS.set(history.householdMemberships, view);
+    HOUSEHOLD_PROJECTIONS.set(history.householdMemberships, index);
   }
-  let cutoffs = view.people.get(personId);
-  if (!cutoffs) {
-    cutoffs = new Map();
-    view.people.set(personId, cutoffs);
+  let person = index.people.get(personId);
+  if (!person) {
+    let maximum = -1;
+    const rows = recordsByStringField(
+      history.householdMemberships,
+      "personId",
+      personId,
+    ).map((membership) => {
+      const states = [
+        ...recordsByStringField(
+          history.householdMembershipStates,
+          "membershipId",
+          membership.id,
+        ),
+      ].sort(byEffectiveDateThenSequence);
+      const household = recordById(history.households, membership.householdId);
+      const locations = household
+        ? [
+            ...recordsByStringField(
+              history.householdLocations,
+              "householdId",
+              household.id,
+            ),
+          ].sort(byEffectiveDateThenSequence)
+        : [];
+      maximum = Math.max(maximum, membership.sequence);
+      for (const row of states) maximum = Math.max(maximum, row.sequence);
+      for (const row of locations) maximum = Math.max(maximum, row.sequence);
+      return { membership, household, states, locations };
+    });
+    person = { rows, sequenceCeiling: maximum + 1, results: new Map() };
+    index.people.set(personId, person);
   }
-  const cutoffKey = `${cutoff.asOfDate}|${Math.min(cutoff.historySequenceExclusive, view.sequenceCeiling)}`;
-  const cached = cutoffs.get(cutoffKey);
-  if (cached) {
-    cutoffs.delete(cutoffKey);
-    cutoffs.set(cutoffKey, cached);
-    return cached;
+  const key = `${cutoff.asOfDate}|${Math.min(cutoff.historySequenceExclusive, person.sequenceCeiling)}`;
+  const cached = person.results.get(key);
+  if (cached) return cached;
+  const result: ActiveHouseholdMembership[] = [];
+  for (const row of person.rows) {
+    const { membership, household } = row;
+    if (!available(membership.sequence, membership.startedAt, cutoff)) continue;
+    const state = lastHouseholdRowAt(row.states, cutoff);
+    if (!state || state.status !== "resident" || !household) continue;
+    result.push({
+      membership,
+      household,
+      state,
+      location: lastHouseholdRowAt(row.locations, cutoff) ?? null,
+    });
   }
-  const result = recordsByStringField(
-    world.history.householdMemberships,
-    "personId",
-    personId,
-  ).flatMap((membership) => {
-    if (!available(membership.sequence, membership.startedAt, cutoff)) {
-      return [];
-    }
-    const state = householdMembershipStateAt(world, membership.id, cutoff);
-    const household = recordById(
-      world.history.households,
-      membership.householdId,
-    );
-    if (!state || state.status !== "resident" || !household) return [];
-    return [
-      {
-        membership,
-        state,
-        household,
-        location: householdLocationAt(world, household.id, cutoff) ?? null,
-      },
-    ];
-  });
-  cutoffs.set(cutoffKey, result);
-  if (cutoffs.size > 8) cutoffs.delete(cutoffs.keys().next().value!);
+  person.results.set(key, result);
+  if (person.results.size > 8)
+    person.results.delete(person.results.keys().next().value!);
   return result;
 }
 
