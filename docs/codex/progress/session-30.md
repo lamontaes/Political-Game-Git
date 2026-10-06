@@ -26,3 +26,9 @@ LW06 draft #2490 and LW07 draft #2481 remain preserved and unmerged. Their law-t
 - Replayed on the P2 branch; focused `legislative-member-decisions.test.ts` passes 9/9.
 - Asked Session 21 for the exact shared-writer contract/head in board comment #6016659593. P3 continues with source-backed considerations while awaiting the interface; it does not claim that Session 21's shared-kind work has landed.
 - Resume branch: `codex/session30-b08-p3-current-rebased`. Next: publish the P3 draft against P2 PR #2541; replay P4 only after recording its separate tests.
+
+## B08 P4
+
+- Replayed on the P3 branch; focused `vote-bargaining-public-pressure.test.ts` passes 3/3.
+- Public-pressure channel rows and contact-driven consideration are in the P4 commit. This does not add a knowledge writer.
+- Resume branch: `codex/session30-b08-p4-current-rebased`. Next: publish the P4 draft against P3 PR #2543, then replay P5 and its commitment-outcome tests.
