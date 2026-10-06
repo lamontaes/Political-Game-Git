@@ -21,7 +21,7 @@ import {
   GOVERNMENT_OPERATIONS_LAW_ROWS,
   GOVERNMENT_OPERATIONS_QUESTION_KEYS,
 } from "../government-operations-rows";
-import { GOVERNMENT_OPERATIONS_REGISTRATION } from "./government-operations/index";
+import { registrations } from "./government-operations/index";
 
 const { photoId, lobbying, sameDayRegistration } =
   GOVERNMENT_OPERATIONS_QUESTION_KEYS;
@@ -75,9 +75,7 @@ const stateStarts = lifePlaces()
 
 describe("government-operations law consequences", () => {
   it("validates all three rows against the module's explicit pending-registry stub", () => {
-    const registry = createLawConsequenceRegistry([
-      GOVERNMENT_OPERATIONS_REGISTRATION,
-    ]);
+    const registry = createLawConsequenceRegistry(registrations);
     expect(
       validateLawConsequences(
         Object.values(GOVERNMENT_OPERATIONS_LAW_ROWS),
@@ -128,7 +126,7 @@ describe("government-operations law consequences", () => {
         subjectIds: [personId],
         questionKey: photoId,
       },
-      [GOVERNMENT_OPERATIONS_REGISTRATION],
+      registrations,
     );
     const photoRecord = lawPermissionRecords(photoResult).find(
       (record) =>
@@ -217,7 +215,7 @@ describe("government-operations law consequences", () => {
         subjectIds: [residentId],
         questionKey: sameDayRegistration,
       },
-      [GOVERNMENT_OPERATIONS_REGISTRATION],
+      registrations,
     );
     const registrationRecord = lawPermissionRecords(registrationResult).find(
       (record) =>
@@ -319,7 +317,7 @@ describe("government-operations law consequences", () => {
         subjectIds: [lobbyPersonId],
         questionKey: lobbying,
       },
-      [GOVERNMENT_OPERATIONS_REGISTRATION],
+      registrations,
     );
     expect(lawPermissionRecords(lobbyResult)).toEqual(
       lawPermissionRecords(lobbyWorld),
