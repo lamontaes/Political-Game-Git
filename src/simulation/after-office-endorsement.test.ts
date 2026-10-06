@@ -16,6 +16,7 @@ import { pickDistinct, SeededRng } from "./rng";
 import { recordEventKnowledge, recordRelationshipInteraction } from "./records";
 import type { EntityId, World } from "./types";
 import { recordWorldEvent } from "./world";
+import { deserializeWorld, serializeWorld } from "./serialization";
 
 const seed = "a117-recorded-standing";
 const [place] = pickDistinct(
@@ -296,10 +297,113 @@ describe("after-office endorsement asks", () => {
       requestEventId: reciprocalAsk.requestEventId,
     });
     expect(reciprocal.endorsed).toBe(true);
-    expect(reciprocal.returnedFavorId).toBeNull();
-    expect(reciprocal.world.history.favors).toEqual(
-      reciprocalWorld.history.favors,
+    expect(reciprocal.returnedFavorId).not.toBeNull();
+    const reciprocalTrace = reciprocal.world.history.decisionTraces.find(
+      (row) => row.id === reciprocal.decisionTraceId,
+    )!;
+    expect(reciprocalTrace.selectedOptionKey).toBe(
+      `repay:${reciprocalWorld.history.favors?.at(-1)?.id}`,
     );
+    expect(reciprocalTrace.context.considerations).toContainEqual(
+      expect.objectContaining({
+        optionKey: `repay:${reciprocalWorld.history.favors?.at(-1)?.id}`,
+        sourceType: "social:favor",
+        direction: "supports",
+      }),
+    );
+    expect(
+      reciprocal.world.history.favors?.find(
+        (row) => row.id === reciprocal.returnedFavorId,
+      ),
+    ).toMatchObject({
+      motive: "trade",
+      inReturnForFavorId: reciprocalWorld.history.favors?.at(-1)?.id,
+    });
+
+    const controlledReciprocalWorld = {
+      ...reciprocalWorld,
+      control: { kind: "person" as const, personId: formerId },
+    };
+    const controlledOrdinaryAsk = recordAfterOfficeEndorsementRequest(
+      controlledReciprocalWorld,
+      {
+        stableKey: `${seed}:player-ordinary-ask-with-open-favor`,
+        formerOfficialPersonId: formerId,
+        candidatePersonId: candidateId,
+        campaignId,
+      },
+    );
+    const controlledOrdinary = answerAfterOfficeEndorsementScene(
+      controlledOrdinaryAsk.world,
+      {
+        stableKey: `${seed}:player-ordinary-answer-with-open-favor`,
+        formerOfficialPersonId: formerId,
+        candidatePersonId: candidateId,
+        campaignId,
+        requestEventId: controlledOrdinaryAsk.requestEventId,
+        optionKey: "endorse",
+      },
+    );
+    expect(controlledOrdinary.returnedFavorId).toBeNull();
+    expect(controlledOrdinary.world.history.favors).toEqual(
+      controlledReciprocalWorld.history.favors,
+    );
+
+    const controlledReciprocalAsk = recordAfterOfficeEndorsementRequest(
+      controlledReciprocalWorld,
+      {
+        stableKey: `${seed}:player-reciprocal-ask`,
+        formerOfficialPersonId: formerId,
+        candidatePersonId: candidateId,
+        campaignId,
+      },
+    );
+    const [reciprocalScene] = projectAfterOfficeEndorsementScenes(
+      controlledReciprocalAsk.world,
+      formerId,
+    );
+    const repayOption = reciprocalScene!.replies.find((reply) =>
+      reply.optionKey.startsWith("repay:"),
+    )!;
+    const controlledReciprocal = answerAfterOfficeEndorsementScene(
+      controlledReciprocalAsk.world,
+      {
+        stableKey: `${seed}:player-reciprocal-answer`,
+        formerOfficialPersonId: formerId,
+        candidatePersonId: candidateId,
+        campaignId,
+        requestEventId: controlledReciprocalAsk.requestEventId,
+        optionKey: repayOption.optionKey,
+      },
+    );
+    expect(controlledReciprocal.returnedFavorId).not.toBeNull();
+    const repaidFavor = controlledReciprocal.world.history.favors?.find(
+      (row) => row.id === controlledReciprocal.returnedFavorId,
+    );
+    expect(repaidFavor).toBeDefined();
+    const originalFavorId = reciprocalWorld.history.favors?.at(-1)?.id;
+    expect(originalFavorId).toBeTruthy();
+    expect(repaidFavor).toMatchObject({
+      giverPersonId: formerId,
+      receiverPersonId: candidateId,
+      inReturnForFavorId: originalFavorId,
+      motive: "trade",
+    });
+    const responseEvent = controlledReciprocal.world.history.events.find(
+      (event) => event.id === controlledReciprocal.responseEventId,
+    )!;
+    expect(responseEvent.involvedEntityIds).toEqual([formerId, candidateId]);
+    expect(responseEvent.context.choice).toBe(
+      "Endorse in return for earlier help",
+    );
+    const continued = deserializeWorld(
+      serializeWorld(controlledReciprocal.world),
+    );
+    expect(continued.history.events).toContainEqual(responseEvent);
+    expect(continued.history.favors).toContainEqual(repaidFavor);
+    expect(
+      projectAfterOfficeEndorsementScenes(continued, formerId),
+    ).toHaveLength(0);
 
     expect(() =>
       decideAfterOfficeEndorsement(ask.world, {

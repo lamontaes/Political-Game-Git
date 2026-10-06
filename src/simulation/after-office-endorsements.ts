@@ -3,7 +3,7 @@ import {
   evaluateDecision,
   recordDurableDecisionTrace,
 } from "./decisions";
-import { favorRecords } from "./favors";
+import { favorRecords, recordFavor } from "./favors";
 import { recordWorldEvent } from "./world";
 import { appointmentCircle } from "./patronage/appointments";
 import { projectEligiblePressReporters } from "./press-interview-producers";
@@ -44,12 +44,17 @@ export interface AfterOfficeEndorsementScene {
       readonly sourceEventId: EntityId;
     },
   ];
-  readonly replies: readonly [
-    { readonly optionKey: "endorse"; readonly label: "Endorse" },
-    { readonly optionKey: "decline"; readonly label: "Decline" },
-  ];
+  readonly replies: readonly AfterOfficeEndorsementReply[];
   readonly reasons: readonly DecisionConsideration[];
 }
+
+export type AfterOfficeEndorsementReply =
+  | { readonly optionKey: "endorse"; readonly label: "Endorse" }
+  | {
+      readonly optionKey: `repay:${string}`;
+      readonly label: "Endorse in return for earlier help";
+    }
+  | { readonly optionKey: "decline"; readonly label: "Decline" };
 
 export interface AfterOfficeOpportunitySources {
   readonly eligibleAppointmentAppointerIds: readonly EntityId[];
@@ -219,11 +224,17 @@ export function decideAfterOfficeEndorsement(
       "An endorsement ask requires an active campaign by somebody the former official knows.",
     );
   }
+  const reciprocalFavor = unreturnedFavorFrom(
+    world,
+    input.candidatePersonId,
+    input.formerOfficialPersonId,
+  );
   const considerations = endorsementConsiderations(
     world,
     input.formerOfficialPersonId,
     input.candidatePersonId,
     input.stableKey,
+    reciprocalFavor,
   );
   const evaluation = evaluateDecision(world, {
     stableKey: `${input.stableKey}:decision`,
@@ -241,6 +252,16 @@ export function decideAfterOfficeEndorsement(
         label: "Endorse",
         description: "Publicly back the candidate.",
       },
+      ...(reciprocalFavor
+        ? [
+            {
+              key: `repay:${reciprocalFavor.id}`,
+              label: "Endorse in return for earlier help",
+              description:
+                "Publicly back the candidate and return their earlier help.",
+            },
+          ]
+        : []),
       {
         key: "decline",
         label: "Decline",
@@ -264,7 +285,10 @@ export function decideAfterOfficeEndorsement(
       returnedFavorId: null,
     };
   }
-  const endorsed = evaluation.selectedOptionKey === "endorse";
+  const reciprocityFavorId = evaluation.selectedOptionKey.startsWith("repay:")
+    ? (evaluation.selectedOptionKey.slice("repay:".length) as EntityId)
+    : null;
+  const endorsed = evaluation.selectedOptionKey !== "decline";
   const outcome = recordEndorsementOutcome(next, {
     stableKey: input.stableKey,
     formerOfficialPersonId: input.formerOfficialPersonId,
@@ -272,6 +296,7 @@ export function decideAfterOfficeEndorsement(
     campaignId: input.campaignId,
     requestEventId: input.requestEventId,
     endorsed,
+    reciprocityFavorId,
     decisionTraceId,
   });
   return outcome;
@@ -326,12 +351,30 @@ export function projectAfterOfficeEndorsementScenes(
         campaignId: campaign.id,
       };
       if (!validEndorsementRequest(world, request)) return [];
+      const reciprocalFavor = unreturnedFavorFrom(
+        world,
+        candidatePersonId,
+        formerOfficialPersonId,
+      );
       const reasons = endorsementConsiderations(
         world,
         formerOfficialPersonId,
         candidatePersonId,
         `after-office:scene:${event.id}`,
+        reciprocalFavor,
       );
+      const replies: AfterOfficeEndorsementReply[] = [
+        { optionKey: "endorse", label: "Endorse" },
+        ...(reciprocalFavor
+          ? [
+              {
+                optionKey: `repay:${reciprocalFavor.id}` as const,
+                label: "Endorse in return for earlier help" as const,
+              },
+            ]
+          : []),
+        { optionKey: "decline", label: "Decline" },
+      ];
       return [
         {
           requestEventId: event.id,
@@ -345,10 +388,7 @@ export function projectAfterOfficeEndorsementScenes(
               sourceEventId: event.id,
             },
           ] as const,
-          replies: [
-            { optionKey: "endorse" as const, label: "Endorse" as const },
-            { optionKey: "decline" as const, label: "Decline" as const },
-          ] as const,
+          replies,
           reasons,
         },
       ];
@@ -365,7 +405,8 @@ export function answerAfterOfficeEndorsementScene(
     readonly candidatePersonId: EntityId;
     readonly campaignId: EntityId;
     readonly requestEventId: EntityId;
-    readonly endorsed: boolean;
+    readonly optionKey?: string;
+    readonly endorsed?: boolean;
   },
 ): AfterOfficeEndorsementResponse {
   if (
@@ -376,20 +417,32 @@ export function answerAfterOfficeEndorsementScene(
       "Only the controlled former official can answer this scene.",
     );
   }
+  const scene = projectAfterOfficeEndorsementScenes(
+    world,
+    input.formerOfficialPersonId,
+  ).find(
+    (candidate) =>
+      candidate.requestEventId === input.requestEventId &&
+      candidate.candidatePersonId === input.candidatePersonId &&
+      candidate.campaignId === input.campaignId,
+  );
+  const optionKey = input.optionKey ?? (input.endorsed ? "endorse" : "decline");
   if (
-    !projectAfterOfficeEndorsementScenes(
-      world,
-      input.formerOfficialPersonId,
-    ).some(
-      (scene) =>
-        scene.requestEventId === input.requestEventId &&
-        scene.candidatePersonId === input.candidatePersonId &&
-        scene.campaignId === input.campaignId,
-    )
+    !scene ||
+    !scene.replies.some((reply) => reply.optionKey === optionKey) ||
+    (input.optionKey === undefined) === (input.endorsed === undefined) ||
+    (input.optionKey !== undefined && input.endorsed !== undefined)
   ) {
     throw new Error("That endorsement request is no longer available.");
   }
-  const response = recordEndorsementOutcome(world, input);
+  const reciprocityFavorId = optionKey.startsWith("repay:")
+    ? (optionKey.slice("repay:".length) as EntityId)
+    : null;
+  const response = recordEndorsementOutcome(world, {
+    ...input,
+    endorsed: optionKey !== "decline",
+    reciprocityFavorId,
+  });
   return { ...response, decisionTraceId: null };
 }
 
@@ -402,6 +455,7 @@ function recordEndorsementOutcome(
     readonly campaignId: EntityId;
     readonly requestEventId: EntityId;
     readonly endorsed: boolean;
+    readonly reciprocityFavorId?: EntityId | null;
     readonly decisionTraceId?: EntityId;
   },
 ): Omit<AfterOfficeEndorsementResponse, "decisionTraceId"> & {
@@ -417,9 +471,26 @@ function recordEndorsementOutcome(
     endorsementRequestAlreadyAnswered(world, input.requestEventId)
   )
     throw new Error("The endorsement request no longer matches this campaign.");
+  const reciprocalFavor = input.reciprocityFavorId
+    ? unreturnedFavorFrom(
+        world,
+        input.candidatePersonId,
+        input.formerOfficialPersonId,
+      )
+    : null;
+  if (
+    input.reciprocityFavorId &&
+    (reciprocalFavor?.id !== input.reciprocityFavorId || !input.endorsed)
+  ) {
+    throw new Error("The selected repayment is not an open favor to return.");
+  }
   const endorsed = input.endorsed;
-  const chosen = endorsed ? "endorsed" : "declined";
-  const next = recordWorldEvent(world, {
+  const chosen = input.reciprocityFavorId
+    ? "endorsed in return for earlier help"
+    : endorsed
+      ? "endorsed"
+      : "declined";
+  let next = recordWorldEvent(world, {
     stableKey: `${input.stableKey}:response-event`,
     type: "career.endorsement-response",
     occurredAt: world.currentDate,
@@ -452,16 +523,38 @@ function recordEndorsementOutcome(
       location: null,
       socialContext: "A candidate's campaign asked for public support.",
       pressure: null,
-      choice: endorsed ? "Endorse" : "Decline",
-      motivation: null,
+      choice: input.reciprocityFavorId
+        ? "Endorse in return for earlier help"
+        : endorsed
+          ? "Endorse"
+          : "Decline",
+      motivation: reciprocalFavor
+        ? `Returned favor ${reciprocalFavor.id}.`
+        : null,
       immediateReaction: null,
     },
   });
   const responseEventId = next.history.events.at(-1)!.id;
-  // An earlier favor is context, not proof that this endorsement was given
-  // in return. This interaction has no explicit reciprocity choice, so it
-  // must not create a trade-motive favor.
-  const returnedFavorId: EntityId | null = null;
+  let returnedFavorId: EntityId | null = null;
+  if (reciprocalFavor) {
+    next = recordFavor(next, {
+      stableKey: `${input.stableKey}:reciprocal-favor`,
+      giverPersonId: input.formerOfficialPersonId,
+      receiverPersonId: input.candidatePersonId,
+      kind: "political:endorsement",
+      description: "endorsed the candidate in return for earlier help",
+      givenAt: next.currentDate,
+      eventId: responseEventId,
+      subject: { kind: "none" },
+      motive: "trade",
+      weight: "moderate",
+      audience: "public",
+      witnessPersonIds: [input.candidatePersonId],
+      inReturnForFavorId: reciprocalFavor.id,
+      undertakingId: null,
+    });
+    returnedFavorId = next.history.favors?.at(-1)?.id ?? null;
+  }
   return {
     world: next,
     decisionTraceId: input.decisionTraceId ?? null,
@@ -575,6 +668,7 @@ function endorsementConsiderations(
   formerId: EntityId,
   candidateId: EntityId,
   key: string,
+  reciprocalFavor: ReturnType<typeof unreturnedFavorFrom> = null,
 ): readonly DecisionConsideration[] {
   const considerations: DecisionConsideration[] = [];
   const formerPositions = latestPositions(world, formerId);
@@ -632,6 +726,28 @@ function endorsementConsiderations(
         { kind: "relationship-interaction", interactionId: interaction.id },
       ],
     });
+  }
+  if (reciprocalFavor) {
+    const repayOptionKey = `repay:${reciprocalFavor.id}`;
+    considerations.push(
+      ...considerations.map((consideration) => ({
+        ...consideration,
+        stableKey: `${consideration.stableKey}:repay`,
+        optionKey: repayOptionKey,
+      })),
+      {
+        stableKey: `${key}:reciprocity:${reciprocalFavor.id}`,
+        optionKey: repayOptionKey,
+        sourceType: "social:favor",
+        direction: "supports",
+        importance: "strong",
+        confidence: "high",
+        explanation: `They can endorse ${candidateId} in return for earlier help (${reciprocalFavor.id}).`,
+        sourceRefs: [
+          { kind: "historical-event", eventId: reciprocalFavor.eventId },
+        ],
+      },
+    );
   }
   return considerations;
 }
@@ -701,4 +817,27 @@ function positionReference(
   return position.sourceEventId
     ? [{ kind: "historical-event", eventId: position.sourceEventId }]
     : [];
+}
+
+function unreturnedFavorFrom(
+  world: World,
+  giverPersonId: EntityId,
+  receiverPersonId: EntityId,
+) {
+  const returned = new Set(
+    favorRecords(world)
+      .map((row) => row.inReturnForFavorId)
+      .filter((id): id is EntityId => id !== null),
+  );
+  return (
+    favorRecords(world)
+      .filter(
+        (row) =>
+          row.giverPersonId === giverPersonId &&
+          row.receiverPersonId === receiverPersonId &&
+          row.givenAt <= world.currentDate &&
+          !returned.has(row.id),
+      )
+      .at(-1) ?? null
+  );
 }
