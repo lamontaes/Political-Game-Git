@@ -272,6 +272,7 @@ test("a seated Charlottesville councilor passes an ordinance by keyboard and it 
   // charter's intervening days are over. A day can stop early for something
   // that happens in the life, so the clock is passed until the vote opens.
   await page.keyboard.press("Escape");
+  panel = await openLocalGovernment(page);
   let onFloor = mine(panel);
   let vote = onFloor.getByRole("button", { name: "Record the council vote" });
   let outcome = onFloor.getByTestId("municipal-ordinance-outcome");
