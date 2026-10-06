@@ -3,6 +3,7 @@ import { stateJurisdictionForKey } from "./life-places";
 import { STATES } from "./state-reference";
 import { questionAuthority } from "./governing/question-authority";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
+import { createLawConsequenceRegistry } from "./law-consequence-registry";
 import { expect, it } from "vitest";
 import { loadPolicyPacks } from "./policy-packs";
 import { POLICY_PACKS } from "./policy-pack-registry";
@@ -29,11 +30,39 @@ it("loads tax questions without assigning any rates or replacing existing questi
       ),
     ).toBe(true);
   }
+  const federalTaxTermKeys = [
+    "federal.income-tax-terms",
+    "federal.sales-tax-terms",
+    "federal.payroll-tax-terms",
+    "federal.corporate-tax-terms",
+  ];
+  for (const key of federalTaxTermKeys) {
+    const row = TAX_TERM_QUESTION_ROWS.find((entry) => entry.key === key);
+    expect(row?.consequences).toHaveLength(1);
+    expect(row?.consequences?.[0]).toMatchObject({
+      kind: "tax",
+      when: "assessment",
+      who: { selector: "recorded-tax-base-payer" },
+      what: "assess-enacted-tax-base",
+      amount: { op: "record", key: "enacted-tax-assessment", unit: "minor" },
+      evidence: {
+        sourceIds: expect.arrayContaining([
+          "src/simulation/law-consequences/tax.ts",
+          "src/simulation/tax-law-term-binding.ts",
+        ]),
+        uncertainty: expect.stringContaining(
+          "bindTaxLawTerms(world, { law, questionKey, proposalId, onDate, cutoff })",
+        ),
+      },
+    });
+  }
   for (const row of TAX_TERM_QUESTION_ROWS) {
     expect(row.parameters?.map((term) => term.key)).toEqual(
       Object.values(TAX_LAW_TERM_KEYS),
     );
-    if (row.key.endsWith(".excise-tax-terms")) {
+    if (federalTaxTermKeys.includes(row.key)) {
+      expect(row.consequences).toHaveLength(1);
+    } else if (row.key.endsWith(".excise-tax-terms")) {
       expect(row.consequences).toHaveLength(1);
       expect(row.consequences![0]).toMatchObject({
         kind: "tax",
@@ -62,6 +91,30 @@ it("keeps exact rational rates separate from occurrence allowances and timing", 
       (row) => row.key === "federal.property-tax-terms",
     ),
   ).toBe(false);
+});
+
+it("routes federal tax-term rows through the existing registered tax consumer", () => {
+  const registry = createLawConsequenceRegistry();
+  const handler = registry.handlers.get("tax");
+  expect(handler?.owner).toBe("team-6");
+  const federalRows = TAX_TERM_QUESTION_ROWS.filter((row) =>
+    ["income", "sales", "payroll", "corporate"].some(
+      (family) => row.key === `federal.${family}-tax-terms`,
+    ),
+  );
+  expect(federalRows).toHaveLength(4);
+  for (const row of federalRows) {
+    const consequence = row.consequences?.[0];
+    expect(consequence).toBeDefined();
+    expect(
+      registry.capabilities.actions.get("tax")?.has(consequence!.what),
+    ).toBe(true);
+    expect(
+      registry.capabilities.selectorsByKind
+        ?.get("tax")
+        ?.has(consequence!.who.selector),
+    ).toBe(true);
+  }
 });
 
 it("keeps state tax questions at their own level across all 56 jurisdictions", () => {
