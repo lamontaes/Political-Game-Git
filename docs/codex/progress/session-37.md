@@ -8,6 +8,12 @@ The local place-outcome landing seam is not the Session 20 shared generic regist
 
 Verification so far: LW-26 module tests and the zero-cause writer test pass; both changed test files typecheck. The full typecheck passed. Existing `law-exposure.test.ts` word-of-mouth failure and two existing `place-outcomes.test.ts` failures reproduce unchanged at base `1ee0abcda`.
 
+## Published draft
+
+Draft PR #2555 is open from `session37/lw26-environment-landings`. The branch was created from `main`; two unrelated main commits landed during publication, so the compare currently reports the PR two commits behind. Review/status APIs return no reviews or checks yet. Keep it draft and do not merge before a reviewed exact head and green required checks.
+
+The source diff and generated module manifest were ported onto current-main file contents through the GitHub contents API. The code question remains unposted because issue #2052 has disabled comments above 2,500.
+
 ## Next
 
-Re-run `npx vitest run --config .codex-vitest.config.ts src/simulation/law-consequences/modules/lw26-environment-landings/index.test.ts` to capture the current random-place proof; then port the diff onto current `main` using the GitHub contents API, update the generated module manifest, open the honest draft PR, and check its exact head/checks.
+Reconcile the local landing receiver with Session 20's shared generic registry when it becomes available, then rerun `npm run typecheck` and the LW-26 module test suite on the exact PR head. Keep building independently while the event-writer question remains unanswered.
