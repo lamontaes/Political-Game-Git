@@ -10,7 +10,8 @@ import {
 import { populationCaption } from "./OpeningStatePopulation";
 
 /**
- * The locality card keeps its recorded text and navigation, with no picture.
+ * The inherited intro filter removes the locality card; the remaining cards
+ * retain their recorded text, picture rules and navigation.
  * Backdrop selection for the other cards remains independently covered.
  */
 
@@ -41,10 +42,13 @@ const PLATE: RegionalOpeningResult = {
   },
 };
 
-function render(regionalPlate?: RegionalOpeningResult): string {
+function render(
+  regionalPlate?: RegionalOpeningResult,
+  view: OrientationView = VIEW,
+): string {
   return renderToStaticMarkup(
     <WorldOrientationPanel
-      view={VIEW}
+      view={view}
       homeStateUsps="AZ"
       regionalPlate={regionalPlate}
       mode="first"
@@ -54,73 +58,44 @@ function render(regionalPlate?: RegionalOpeningResult): string {
   );
 }
 
-describe("the text-only locality step", () => {
-  it("keeps the recorded place and government text without a regional picture", () => {
-    const markup = render(PLATE);
-    expect(markup).not.toContain("<img");
-    expect(markup).not.toContain("orientation-region-plate");
-    expect(markup).not.toContain("/assets/env_regional_sonoran_desert_v1.png");
-    expect(markup).toContain("Tucson");
-    expect(markup).toContain("Regina Romero is Mayor.");
+describe("the received locality filter", () => {
+  it("safely renders no rejected locality-only card", () => {
+    expect(render(PLATE)).toBe("");
+    expect(render(undefined)).toBe("");
   });
 
-  it("keeps the text without a city-hall fallback when a regional picture is unavailable", () => {
-    for (const miss of [
-      undefined,
-      {
-        kind: "none",
-        reason: "no-region-covers-this-place",
-        regionKeys: [],
-      } as RegionalOpeningResult,
-      {
-        kind: "none",
-        reason: "conflicting-coverage",
-        regionKeys: ["a-region", "another-region"],
-      } as RegionalOpeningResult,
-      {
-        kind: "none",
-        reason: "no-picture-fits-this-context",
-        regionKeys: ["green-mountain-forest"],
-      } as RegionalOpeningResult,
-      {
-        kind: "none",
-        reason: "plate-file-missing",
-        regionKeys: ["sonoran-desert"],
-      } as RegionalOpeningResult,
-    ]) {
-      const markup = render(miss);
-      expect(markup).not.toContain("<img");
-      expect(markup).not.toContain("orientation-place-backdrop");
-      expect(markup).not.toContain("orientation-region-plate");
-      expect(markup).toContain("Tucson");
-      expect(markup).toContain("Regina Romero is Mayor.");
-    }
-  });
-});
-
-describe("the full-screen opening card", () => {
-  it("keeps the full-screen text and navigation without motion controls", () => {
-    const markup = render(PLATE);
+  it("keeps the remaining recorded card and navigation", () => {
+    const remaining: OrientationView = {
+      ...VIEW,
+      steps: [
+        ...VIEW.steps,
+        {
+          key: "state",
+          title: "Arizona",
+          summary: "Recorded state summary.",
+          people: [],
+          chambers: [],
+        },
+      ],
+    };
+    const markup = render(PLATE, remaining);
     expect(markup).toContain('class="pg-orientation"');
     expect(markup).toContain('class="pg-orientation-stage"');
+    expect(markup).toContain('data-step="state"');
     expect(markup).toContain('data-backdrop="region"');
     expect(markup).toContain('class="pg-orientation-scrim"');
     expect(markup).toContain('class="pg-orientation-copy"');
+    expect(markup).toContain("Recorded state summary.");
+    expect(markup).not.toContain("Regina Romero is Mayor.");
+    expect(markup).not.toContain('data-step="locality"');
     expect(markup).not.toContain("Pause motion");
     expect(markup).not.toContain("Resume motion");
     expect(markup).not.toContain("aria-pressed");
-    // Navigation stays. This one-card fixture is its own last card, so Next
-    // reads Done and there is nothing left to skip.
     expect(markup).toContain('data-testid="orientation-back"');
     expect(markup).toContain('data-testid="orientation-next"');
+    // This filter-only receiving patch preserves the current main label;
+    // required intro completion is independently received through #2135.
     expect(markup).toContain(">Done</button>");
-  });
-
-  it("omits the city-hall picture when no regional picture resolves", () => {
-    const markup = render(undefined);
-    expect(markup).toContain('data-backdrop="place"');
-    expect(markup).not.toContain("orientation-place-backdrop");
-    expect(markup).not.toContain("orientation-region-plate");
   });
 });
 
