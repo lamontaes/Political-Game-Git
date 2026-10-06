@@ -277,9 +277,9 @@ function meetUpAnswers(context: SceneContext): SceneAnswer[] {
   return [
     {
       key: "say-yes",
-      label: `Say ${spoken} works`,
+      label: "Say yes",
       description: "Put it on the calendar.",
-      statement: `${spoken.charAt(0).toUpperCase()}${spoken.slice(1)} works. I\u2019ll be there.`,
+      statement: `I can make it ${spoken}. I\u2019ll be there.`,
       replies: says(context, [
         "\u201cGood. It\u2019s been too long,\u201d {name} says.",
         "\u201cThat\u2019s settled, then,\u201d {name} says.",
@@ -303,7 +303,7 @@ function meetUpAnswers(context: SceneContext): SceneAnswer[] {
       key: "offer-another-day",
       label: "Offer a different day",
       description: `Say you could do ${proseDate(later)} instead.`,
-      statement: `I can\u2019t do ${spoken}. Could you do ${proseDate(later)}?`,
+      statement: `I can\u2019t make it ${spoken}. Could you make it ${proseDate(later)}?`,
       replies: says(context, [
         "\u201cLet me look at that and come back to you,\u201d {name} says.",
         "\u201cMaybe. I\u2019ll check,\u201d {name} says.",
@@ -563,7 +563,7 @@ const favor: SceneFamilyDefinition = {
     const spoken = spokenDay(context.binding.date!, context.world.currentDate);
     return says(context, [
       `“It’s been a long time. Are you free ${spoken}?” {name} asks.`,
-      `“I was thinking about you. Could you do ${spoken}?” {name} asks.`,
+      `“I was thinking about you. Could you make it ${spoken}?” {name} asks.`,
     ]);
   },
   answers: (context) =>

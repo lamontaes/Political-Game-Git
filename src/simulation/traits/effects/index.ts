@@ -1,15 +1,22 @@
 import type { TraitEffectDeclaration } from "../../trait-packs";
+import { bondLoyaltyEffects } from "./bond-loyalty";
 import { facetSelfConsciousEffects } from "./facet-self-conscious";
 import { facetHumbleEffects } from "./facet-humble";
+import { facetOpenMindedEffects } from "./facet-open-minded";
 import { facetProudEffects } from "./facet-proud";
+import { facetArgumentativeEffects } from "./facet-argumentative";
 import { facetBluntEffects } from "./facet-blunt";
 import { facetBrazenEffects } from "./facet-brazen";
+import { facetCockyEffects } from "./facet-cocky";
 import { facetComfortingEffects } from "./facet-comforting";
+import { facetDefensiveEffects } from "./facet-defensive";
+import { facetCruelEffects } from "./facet-cruel";
 import { facetEnviousEffects } from "./facet-envious";
 import { facetGentleEffects } from "./facet-gentle";
 import { facetMeticulousEffects } from "./facet-meticulous";
 import { facetNurturingEffects } from "./facet-nurturing";
 import { facetOpportunisticEffects } from "./facet-opportunistic";
+import { facetSkepticalEffects } from "./facet-skeptical";
 import { facetStudiousEffects } from "./facet-studious";
 import { facetSupportiveEffects } from "./facet-supportive";
 import { facetTenderHeartedEffects } from "./facet-tender-hearted";
@@ -24,19 +31,26 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
   return [
     ...facetSelfConsciousEffects,
     ...facetHumbleEffects,
+    ...facetOpenMindedEffects,
     ...facetProudEffects,
+    ...facetArgumentativeEffects,
     ...facetBluntEffects,
     ...facetBrazenEffects,
+    ...facetCockyEffects,
     ...facetComfortingEffects,
+    ...facetDefensiveEffects,
+    ...facetCruelEffects,
     ...facetEnviousEffects,
     ...facetGentleEffects,
     ...facetMeticulousEffects,
     ...facetNurturingEffects,
     ...facetOpportunisticEffects,
+    ...facetSkepticalEffects,
     ...facetStudiousEffects,
     ...facetSupportiveEffects,
     ...facetTenderHeartedEffects,
     ...facetZealousEffects,
     ...selfConfidenceEffects,
+    ...bondLoyaltyEffects,
   ];
 }
