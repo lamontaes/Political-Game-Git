@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 import { addDays, makeIsoDate, simulationMomentOnLocalDate } from "../dates";
 import { createStableId } from "../ids";
 import { createOrganization } from "../life";
+import { recordEvidenceArtifact } from "../evidence";
 import { stateJurisdictionForKey } from "../life-places";
 import { createLightweightPerson, personName } from "../people";
 import {
@@ -200,6 +201,17 @@ function fixture(
     visibility: "public",
   });
   const event = world.history.events.at(-1)!;
+  world = recordEvidenceArtifact(world, {
+    stableKey: "fixture:finding-evidence",
+    evidenceKind: "record:campaign-ledger-entry",
+    createdAt: date,
+    recordedAt: date,
+    relatedEntityIds: [event.id],
+    access: "restricted",
+    description: "Controlled campaign ledger evidence for the finding.",
+    provenance: { kind: "simulated", sourceEntityIds: [event.id] },
+  });
+  const evidenceArtifactId = world.history.evidenceArtifacts.at(-1)!.id;
   const matter = appendPressRecord(world, "matter", {
     stableKey: "fixture:matter",
     family: "M1",
@@ -262,7 +274,7 @@ function fixture(
     outcome: "finding",
     closes: closed,
     publicStep: closed,
-    evidenceArtifactIds: [],
+    evidenceArtifactIds: [evidenceArtifactId],
   });
   world = step.world;
   if (!closed) {
@@ -284,6 +296,7 @@ function fixture(
     proceeding: proceeding.record,
     step: step.record,
     event,
+    evidenceArtifactId,
   };
 }
 
@@ -299,6 +312,7 @@ function canonicalExpected(f: ReturnType<typeof fixture>) {
       personId: null,
     },
     basisEventIds: [f.event.id],
+    basisRecordIds: [f.evidenceArtifactId],
     evidence: "documentary",
     standingFindings:
       priorAdverseFindings(f.world, f.person.id, f.step).length + 1,
@@ -326,6 +340,9 @@ describe("A152 finding referral ownership", () => {
       const referral = after.history.events.at(-1)!;
       expect(referral.summary).toContain(personName(f.person));
       expect(referral.tags).toContain(`justice.basis-event:${f.event.id}`);
+      expect(referral.tags).toContain(
+        `justice.basis-record:${f.evidenceArtifactId}`,
+      );
       expect(referral.tags).toContain("justice.standing-findings:2");
       assertWorldIntegrity(after);
       const loaded = deserializeWorld(serializeWorld(after));

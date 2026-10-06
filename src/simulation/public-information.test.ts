@@ -6,10 +6,11 @@ import {
   correctPublication,
   projectPublicInformationDigest,
   publishPublicEvent,
+  recordJusticeChargeReference,
 } from "./public-information";
 import { recordLegislativeCommitment } from "./legislative-politics";
 import { deserializeWorld, serializeWorld } from "./serialization";
-import type { EntityId, World } from "./types";
+import type { EntityId, PublicationRecord, World } from "./types";
 import { recordWorldEvent } from "./world";
 import {
   applyLegislativeCommand,
@@ -92,6 +93,31 @@ function latestVoteSource(world: World): EntityId {
 }
 
 describe("canonical public information", () => {
+  it("stores a charge reference on the press-story edition it cites", () => {
+    const publicationId = "publication:press-story" as EntityId;
+    const chargeEventId = "event:justice-charged" as EntityId;
+    const publication = {
+      id: publicationId,
+      kind: "press-story",
+      justiceChargeEventIds: [],
+    } as unknown as PublicationRecord;
+    const world = {
+      history: { publications: [publication] },
+    } as unknown as World;
+
+    const linked = recordJusticeChargeReference(
+      world,
+      publicationId,
+      chargeEventId,
+    );
+    expect(linked.history.publications?.[0]?.justiceChargeEventIds).toEqual([
+      chargeEventId,
+    ]);
+    expect(
+      recordJusticeChargeReference(linked, publicationId, chargeEventId),
+    ).toBe(linked);
+  });
+
   it("drives one recorded vote through publication, digest, and television", () => {
     const opened = openWork("news-help2-vote-path");
     const voted = advance(opened, true);

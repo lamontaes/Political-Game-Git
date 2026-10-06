@@ -15,6 +15,7 @@ import * as courtReasoning from "./court-reasoning";
 import { afterAll, afterEach, describe, expect, it, vi } from "vitest";
 import { writeFileSync } from "node:fs";
 import { smallWorld } from "../../../tests/fixtures/small-world";
+import { recordEvidenceArtifact } from "../evidence";
 import { SeededRng, pickDistinct } from "../rng";
 import { lifePlaceStateIdentities } from "../life-places";
 import { addDays } from "../dates";
@@ -29,7 +30,7 @@ import {
   futureDueItemStateAt,
   scheduleFutureDueItem,
 } from "../future-transitions";
-import { assertWorldIntegrity } from "../world";
+import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import { personName } from "../people";
 import type { EntityId, World } from "../types";
@@ -130,6 +131,43 @@ describe("a saved prosecution stage owns its due item", () => {
         small.jurisdictionId,
       ).world;
       const subjectId = small.personId;
+      const evidenceWorld = recordWorldEvent(isolated, {
+        stableKey: "g12-clock-evidence-source",
+        type: "fixture.prosecution-evidence",
+        occurredAt: isolated.currentDate,
+        recordedAt: isolated.currentDate,
+        jurisdictionId: small.jurisdictionId,
+        involvedEntityIds: [subjectId],
+        participants: [],
+        personFactConstraints: [],
+        visibility: "private",
+        tags: ["fixture:recorded-evidence"],
+        summary: "Controlled evidence source for the charging proof.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+      const evidenceSource = evidenceWorld.history.events.at(-1)!;
+      const evidenceWithArtifact = recordEvidenceArtifact(evidenceWorld, {
+        stableKey: "g12-clock-evidence-artifact",
+        evidenceKind: "record:campaign-ledger-entry",
+        createdAt: evidenceWorld.currentDate,
+        recordedAt: evidenceWorld.currentDate,
+        relatedEntityIds: [evidenceSource.id],
+        access: "restricted",
+        description: "Controlled campaign ledger entry supporting the case.",
+        provenance: {
+          kind: "simulated",
+          sourceEntityIds: [evidenceSource.id],
+        },
+      });
+      const evidenceArtifactId =
+        evidenceWithArtifact.history.evidenceArtifacts.at(-1)!.id;
       const input = {
         stableKey: "g12-clock-case",
         subjectPersonId: subjectId,
@@ -137,14 +175,15 @@ describe("a saved prosecution stage owns its due item", () => {
         offenseKey: "crime:robbery",
         evidence: "documentary" as const,
         standingFindings: 6,
-        basisEventIds: [],
+        basisEventIds: [evidenceSource.id],
+        basisRecordIds: [evidenceArtifactId],
         referredBy: {
           kind: "police" as const,
           label: "police",
           personId: null,
         },
       };
-      const referral = referForProsecution(isolated, input);
+      const referral = referForProsecution(evidenceWithArtifact, input);
       expect(referForProsecution(referral.world, input).world).toBe(
         referral.world,
       );
@@ -235,6 +274,13 @@ describe("a saved prosecution stage owns its due item", () => {
         `${seed}: ${personName(charged.people[subjectId]!)}`,
       ).toHaveLength(1);
       expect(events[0]!.occurredAt).toBe(item.dueAt);
+      expect(events[0]!.involvedEntityIds).toContain(evidenceArtifactId);
+      expect(events[0]!.tags).toContain(
+        `justice.basis-record:${evidenceArtifactId}`,
+      );
+      console.info(
+        `WATCHED CHARGE CHAIN — ${place.key}: recorded evidence ${evidenceSource.id} supports artifact ${evidenceArtifactId}; referral ${referral.referralId} names ${personName(charged.people[subjectId]!)}; justice.charged ${events[0]!.id} records the person and artifact.`,
+      );
       expect(
         enterPlea(charged, {
           personId: subjectId,
@@ -311,6 +357,7 @@ describe("A104 an unseated prosecutor leaves the saved case pending", () => {
       evidence: "documentary",
       standingFindings: 0,
       basisEventIds: [],
+      basisRecordIds: [],
       referredBy: {
         kind: "police",
         label: "recorded police referral",

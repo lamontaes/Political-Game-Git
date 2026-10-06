@@ -145,6 +145,32 @@ export function publishPublicEvent(
   return appendPublication(world, publication);
 }
 
+/** Adds the reverse reference when a recorded press story leads to a charge. */
+export function recordJusticeChargeReference(
+  world: World,
+  publicationId: EntityId,
+  chargeEventId: EntityId,
+): World {
+  const publications = world.history.publications ?? [];
+  const index = publications.findIndex(
+    (publication) =>
+      publication.id === publicationId && publication.kind === "press-story",
+  );
+  if (index < 0) return world;
+  const publication = publications[index]!;
+  const justiceChargeEventIds = publication.justiceChargeEventIds ?? [];
+  if (justiceChargeEventIds.includes(chargeEventId)) return world;
+  const nextPublications = [...publications];
+  nextPublications[index] = {
+    ...publication,
+    justiceChargeEventIds: [...justiceChargeEventIds, chargeEventId],
+  };
+  return {
+    ...world,
+    history: { ...world.history, publications: nextPublications },
+  };
+}
+
 /** Appends corrected copy without rewriting any edition the player could know. */
 export function correctPublication(
   world: World,

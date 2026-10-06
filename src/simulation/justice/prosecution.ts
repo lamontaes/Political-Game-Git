@@ -21,6 +21,7 @@ import {
 import { considerClemencyAfterSentence } from "./clemency";
 import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
 import { eventById } from "../event-index";
+import { recordJusticeChargeReference } from "../public-information";
 import { ensureProsecutionStageSchedule } from "./prosecution-transitions";
 import { ensureStartingPersonalMoney } from "../starting-money";
 import {
@@ -167,6 +168,7 @@ export const PROSECUTION_DECLINED_EVENT = "justice.charges-declined";
 const OFFENSE_TAG = "justice.offense:";
 const EVIDENCE_TAG = "justice.evidence:";
 const STANDING_TAG = "justice.standing-findings:";
+const BASIS_RECORD_TAG = "justice.basis-record:";
 const OUTCOME_TAG = "justice.outcome:";
 
 export type CaseOutcome = "dismissed" | "acquitted" | "plea" | "convicted";
@@ -186,6 +188,8 @@ export interface ProsecutionReferralInput {
   };
   /** The recorded events the case rests on: a finding, a report, an arrest. */
   readonly basisEventIds: readonly EntityId[];
+  /** Recorded evidence artifacts or press-story publications behind the case. */
+  readonly basisRecordIds?: readonly EntityId[];
   readonly evidence: EvidenceStrength;
   /** Findings standing against the person, which lengthen a jail term. */
   readonly standingFindings: number;
@@ -361,6 +365,7 @@ export function referForProsecution(
       `${EVIDENCE_TAG}${input.evidence}`,
       `${STANDING_TAG}${input.standingFindings}`,
       `justice.referred-by:${input.referredBy.kind}`,
+      ...(input.basisRecordIds ?? []).map((id) => `${BASIS_RECORD_TAG}${id}`),
       // Events are not entities, so what the case rests on rides as tags.
       ...input.basisEventIds.map((id) => `justice.basis-event:${id}`),
       ...sentencingApplicabilityTags(
@@ -426,6 +431,8 @@ interface FollowUpDetail {
     readonly personId: EntityId;
     readonly role: string;
   } | null;
+  /** Evidence artifacts or press-story publications named by a charge. */
+  readonly basisRecordIds?: readonly EntityId[];
   /** Distinguishes repeats of one type, such as a second mistrial. */
   readonly ordinal?: number;
 }
@@ -449,6 +456,9 @@ function recordFollowUp(
     jurisdictionId: referral.jurisdictionId,
     involvedEntityIds: [
       subjectId,
+      ...(type === PROSECUTION_CHARGED_EVENT
+        ? (detail.basisRecordIds ?? [])
+        : []),
       ...(decidedBy && decidedBy.personId !== subjectId
         ? [decidedBy.personId]
         : []),
@@ -472,6 +482,9 @@ function recordFollowUp(
       `${REFERRAL_TAG}${referral.id}`,
       `justice.follows-event:${after.id}`,
       ...referral.tags.filter((tag) => tag.startsWith(OFFENSE_TAG)),
+      ...(type === PROSECUTION_CHARGED_EVENT
+        ? (detail.basisRecordIds ?? []).map((id) => `${BASIS_RECORD_TAG}${id}`)
+        : []),
       ...(detail.extraTags ?? []),
     ],
     summary: detail.summary,
@@ -487,6 +500,14 @@ function recordFollowUp(
       immediateReaction: null,
     },
   });
+  if (type === PROSECUTION_CHARGED_EVENT) {
+    const chargeEvent = recorded.history.events.at(-1)!;
+    let next = recorded;
+    for (const id of detail.basisRecordIds ?? []) {
+      next = recordJusticeChargeReference(next, id, chargeEvent.id);
+    }
+    return next;
+  }
   if (type === PROSECUTION_ENDED_EVENT)
     return refundCashBailAtCaseClose(
       recorded,
@@ -945,6 +966,9 @@ export function advanceProsecutions(
       }
       if (decision.selectedOptionKey !== CONVICT) continue;
       next = followUp(next, referral, referral, PROSECUTION_CHARGED_EVENT, {
+        basisRecordIds: referral.tags
+          .filter((tag) => tag.startsWith(BASIS_RECORD_TAG))
+          .map((tag) => tag.slice(BASIS_RECORD_TAG.length) as EntityId),
         extraTags: (() => {
           const courtId = savedTrialCourtForCase(next, courtCase);
           const amount = courtId
