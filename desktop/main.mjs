@@ -128,14 +128,18 @@ function readUpdateConfig() {
 
 const updateConfig = readUpdateConfig();
 let activation = updateActivation(updateConfig, identity);
-const directMacStable =
+const directMacPackaged =
   process.platform === "darwin" &&
   app.isPackaged &&
+  identity.distribution !== "steam";
+const directMacStable =
+  directMacPackaged &&
+  identity.channel === "stable" &&
   updateConfig.channel === "stable" &&
   activation.active;
 let retentionStartup = { action: "none" };
 let retentionError = null;
-if (directMacStable) {
+if (directMacPackaged) {
   try {
     retentionStartup = noteMacUpdateStart({
       appBundlePath: macAppBundleFromExecutable(process.execPath),
@@ -173,7 +177,10 @@ async function checkForUpdates() {
       loadUpdater: async () => {
         const { default: updaterModule } = await import("electron-updater");
         const { autoUpdater } = updaterModule;
-        autoUpdater.autoDownload = updateConfig.channel === "stable";
+        // runUpdateCheck assesses version and channel before invoking the
+        // downloader; autoDownload would fetch untrusted metadata candidates
+        // before that gate runs.
+        autoUpdater.autoDownload = false;
         autoUpdater.autoInstallOnAppQuit = false;
         autoUpdater.channel = updateConfig.channel ?? "internal";
         if (updateConfig.channel === "stable")
@@ -261,7 +268,7 @@ function createWindow() {
       preload: undefined,
     },
   });
-  if (directMacStable && !retentionError) {
+  if (directMacPackaged && !retentionError) {
     win.webContents.on("did-finish-load", () => {
       void win.webContents
         .executeJavaScript(
