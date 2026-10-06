@@ -96,7 +96,7 @@ describe("recorded fundraiser sources", () => {
     expect(CANDIDATE_OWN_MONEY_RULE.sources).toHaveLength(2);
   });
 
-  it("records the unavailable ask in the existing evaluator despite recorded cash; never invents a donor or gift", () => {
+  it("does not invent a donor when the fundraiser has no active campaign", () => {
     const fixture = fundraiser();
     console.info(`A66 place=${fixture.place} seed=${fixture.seed}`);
     const result = recordCampaignFundraiserReceipts(
