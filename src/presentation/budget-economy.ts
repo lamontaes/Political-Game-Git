@@ -12,6 +12,27 @@ import {
   type World,
   type WorldMetricStateRecord,
 } from "../simulation";
+import {
+  FEDERAL_OUTLAYS,
+  FEDERAL_RECEIPTS,
+} from "../simulation/public-budgets/federal-budget-categories";
+import {
+  BUDGET_PROGRAMS,
+  publicBudgetFor,
+} from "../simulation/public-budgets/store";
+import { NATIONAL_ELECTION_JURISDICTION } from "../simulation/national-election-geography";
+
+export interface FederalBudgetCategoryReading {
+  readonly category: string;
+  readonly label: string;
+  readonly amount: number | null;
+}
+
+export interface PublicProgramReading {
+  readonly category: string;
+  readonly label: string;
+  readonly amount: number | null;
+}
 
 const BUDGET_FLOW_METRICS = [
   "government.revenue",
@@ -29,6 +50,16 @@ export interface BudgetEconomyReadModel {
   readonly fiscalAvailability:
     | { readonly status: "available"; readonly graphCount: number }
     | { readonly status: "unavailable"; readonly reason: string };
+  readonly federalBudget: {
+    readonly status: "available";
+    readonly month: string | null;
+    readonly receipts: readonly FederalBudgetCategoryReading[];
+    readonly outlays: readonly FederalBudgetCategoryReading[];
+  } | null;
+  readonly programLines: {
+    readonly month: string | null;
+    readonly lines: readonly PublicProgramReading[];
+  } | null;
 }
 
 /**
@@ -56,6 +87,12 @@ export function projectBudgetEconomy(
     jurisdictionId,
     jurisdiction.name,
   );
+  const federalBudget =
+    jurisdictionId === NATIONAL_ELECTION_JURISDICTION.id
+      ? projectFederalBudget(world)
+      : null;
+  const publicBudget = publicBudgetFor(world, jurisdictionId);
+  const latestPublicMonth = publicBudget?.months.at(-1);
   return {
     jurisdictionId,
     jurisdictionLabel: jurisdiction.name,
@@ -70,7 +107,63 @@ export function projectBudgetEconomy(
             status: "unavailable",
             reason: `No aggregate budget-history or outturn records are available for ${jurisdiction.name} on ${world.currentDate}.`,
           },
+    federalBudget,
+    programLines: publicBudget
+      ? {
+          month: latestPublicMonth?.month ?? null,
+          lines: BUDGET_PROGRAMS.map((category, index) => ({
+            category,
+            label: categoryLabel(category),
+            amount: latestPublicMonth?.spending[index] ?? null,
+          })),
+        }
+      : null,
   };
+}
+
+function projectFederalBudget(
+  world: World,
+): NonNullable<BudgetEconomyReadModel["federalBudget"]> {
+  const government = world.publicBudgets?.federalGovernment;
+  const month = government?.months.at(-1);
+  return {
+    status: "available",
+    month: month?.month ?? null,
+    receipts: FEDERAL_RECEIPTS.map((category, index) => ({
+      category,
+      label: categoryLabel(category),
+      amount: month?.revenue[index] ?? null,
+    })),
+    outlays: FEDERAL_OUTLAYS.map((category, index) => ({
+      category,
+      label: categoryLabel(category),
+      amount: month?.spending[index] ?? null,
+    })),
+  };
+}
+
+function categoryLabel(category: string): string {
+  const special: Readonly<Record<string, string>> = {
+    individualIncomeTax: "Individual income tax",
+    payrollTaxes: "Payroll taxes",
+    corporateIncomeTax: "Corporate income tax",
+    customsDuties: "Customs duties",
+    exciseTaxes: "Excise taxes",
+    estateAndGiftTaxes: "Estate and gift taxes",
+    miscellaneousReceipts: "Other receipts",
+    socialSecurity: "Social Security",
+    medicare: "Medicare",
+    netInterest: "Net interest",
+    internationalAffairs: "International affairs",
+    communityAndRegionalDevelopment: "Community and regional development",
+    otherPrograms: "Other programs",
+  };
+  return (
+    special[category] ??
+    category
+      .replace(/([a-z])([A-Z])/g, "$1 $2")
+      .replace(/^./, (s) => s.toUpperCase())
+  );
 }
 
 function projectFiscalGraphs(

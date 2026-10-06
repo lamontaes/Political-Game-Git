@@ -93,7 +93,8 @@ import { PlaceConditionsPanel } from "./PlaceConditions";
 import { MoneyLawsPanel } from "./MoneyLaws";
 import { PoliticsTabs, type PoliticsTab } from "./politics/PoliticsTabs";
 import { issuesPlaceForSelection } from "../presentation/politics-government";
-import { projectBudgetEconomy } from "../presentation/budget-economy";
+import { economyVisibilityFor } from "../presentation/economy-visibility";
+import { playerOfficeScope } from "../simulation/governing/office-consequence";
 import { resolveActiveMemberSeat } from "../presentation/legislative-member-seat";
 import {
   ISSUE_WITHHELD,
@@ -3301,10 +3302,24 @@ function renderWorkspace({
         scope: shell.preferences.governmentScope,
       },
     );
+    const homeBudgetPlace = issuesPlaceForSelection(
+      session.world,
+      session.personId,
+      {
+        place: "home",
+        scope: "local",
+      },
+    );
+    const economyVisibility = economyVisibilityFor(
+      playerOfficeScope(session.world, session.personId),
+      homeBudgetPlace.jurisdictionId,
+      homeBudgetPlace.jurisdictionId
+        ? session.world.jurisdictions[homeBudgetPlace.jurisdictionId]?.kind
+        : null,
+    );
     const hasBudget =
       issuesPlace.jurisdictionId !== null &&
-      projectBudgetEconomy(session.world, issuesPlace.jurisdictionId)
-        .fiscalAvailability.status === "available";
+      economyVisibility.lookItUpFor(issuesPlace.jurisdictionId) !== "none";
     const hasIssues = hasBudget || access.transit || access.tax;
     const subItems =
       active === "issues"
@@ -3874,6 +3889,7 @@ function renderWorkspace({
         "news-workspace",
         <NewsDesk
           world={session.world}
+          personId={session.personId}
           context={
             view.section === "news-around"
               ? "around"
@@ -4027,6 +4043,21 @@ function renderWorkspace({
           scope: shell.preferences.governmentScope,
         },
       );
+      const homeBudgetPlace = issuesPlaceForSelection(
+        session.world,
+        session.personId,
+        {
+          place: "home",
+          scope: "local",
+        },
+      );
+      const economyVisibility = economyVisibilityFor(
+        playerOfficeScope(session.world, session.personId),
+        homeBudgetPlace.jurisdictionId,
+        homeBudgetPlace.jurisdictionId
+          ? session.world.jurisdictions[homeBudgetPlace.jurisdictionId]?.kind
+          : null,
+      );
       return frame(
         "Politics",
         "politics-workspace",
@@ -4060,6 +4091,12 @@ function renderWorkspace({
               world={session.world}
               jurisdictionId={issuesPlace.jurisdictionId}
               personId={session.personId}
+              economyVisibility={economyVisibility}
+              lookItUp={
+                issuesPlace.jurisdictionId
+                  ? economyVisibility.lookItUpFor(issuesPlace.jurisdictionId)
+                  : "none"
+              }
               onWorldChange={onWorldChange}
             />
           ) : null}

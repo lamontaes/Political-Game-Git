@@ -1,8 +1,6 @@
-import { enterSupportedTerm } from "../../tests/fixtures/recorded-legislative-term";
 import { describe, expect, it } from "vitest";
 
 import {
-  addDays,
   createDemoWorld,
   deserializeWorld,
   money,
@@ -14,16 +12,9 @@ import {
   type MetricReferencePeriod,
   type World,
 } from "../simulation";
-import { resolveActiveMemberSeat } from "./legislative-member-seat";
-import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
-import {
-  campaignUntilDecided,
-  namedSeatForFixture,
-} from "../../tests/fixtures/campaign-fixture";
-import { openOrdinaryLife } from "./ordinary-life";
-import { fileForOffice, projectCampaign } from "./campaign-projection";
 import { buildProductionWorld } from "./production-world";
 import { projectBudgetEconomy } from "./budget-economy";
+import { NATIONAL_ELECTION_JURISDICTION } from "../simulation/national-election-geography";
 
 function productionWorld(
   placeKey: "lexington-fayette" | "kentucky",
@@ -39,52 +30,6 @@ function productionWorld(
     depth: "summarize-earlier-life",
     household: "lives-alone",
   }).world;
-}
-
-function seatedFiscalReader(): {
-  readonly world: World;
-  readonly personId: EntityId;
-} {
-  const built = createNewGameWorld({
-    ...DEFAULT_NEW_GAME_SETUP,
-    seed: "recovery25-budget:seated-reader",
-    startAge: 34,
-    placeKey: "lexington-fayette",
-    gender: "female",
-    pronouns: "she-her",
-    questionnaire: "skipped",
-  });
-  let world = openOrdinaryLife(built.world, built.playerPersonId);
-  world = fileForOffice(
-    world,
-    built.playerPersonId,
-    namedSeatForFixture(
-      world,
-      built.playerPersonId,
-      "us-ky-general-assembly-v1:house",
-    ),
-    "us-ky-general-assembly-v1:house",
-    // A seated legislator is the subject here, not the calendar.
-    addDays(world.currentDate, 28),
-  );
-  /*
-   * Plays through the shared helper rather than the weaker hand-rolled
-   * sequence that used to live here: one fundraising afternoon, three outreach
-   * afternoons, then sixty idle days. That sequence won only against a single
-   * opponent. A contest now opens with two to four, so the idle days lost the
-   * race and this fixture stopped reaching a seated member at all. The
-   * assertion is unchanged; only the effort that reaches it is.
-   */
-  world = campaignUntilDecided(world, built.playerPersonId);
-  if (projectCampaign(world, built.playerPersonId).phase !== "won") {
-    throw new Error(
-      "Budget proof seed did not produce the accepted seated route.",
-    );
-  }
-  return {
-    world: enterSupportedTerm(world, built.playerPersonId),
-    personId: built.playerPersonId,
-  };
 }
 
 function interval(startsAt: string, endsAt: string): MetricReferencePeriod {
@@ -118,6 +63,33 @@ function fiscalState(
 }
 
 describe("Budget/economy read model", () => {
+  it("projects federal categories without inventing a month before settlement", () => {
+    const demo = createDemoWorld("recovery25-budget:federal-categories");
+    const world: World = {
+      ...demo,
+      jurisdictions: {
+        ...demo.jurisdictions,
+        [NATIONAL_ELECTION_JURISDICTION.id]: NATIONAL_ELECTION_JURISDICTION,
+      },
+    };
+    const result = projectBudgetEconomy(
+      world,
+      NATIONAL_ELECTION_JURISDICTION.id,
+    );
+
+    expect(result.federalBudget).toMatchObject({
+      status: "available",
+      month: null,
+    });
+    expect(
+      result.federalBudget!.receipts.every((line) => line.amount === null),
+    ).toBe(true);
+    expect(
+      result.federalBudget!.outlays.every((line) => line.amount === null),
+    ).toBe(true);
+    expect(result.programLines).toBeNull();
+  });
+
   it("resolves only the exact supported place and preserves the simulation date", () => {
     const world = productionWorld("lexington-fayette");
     const before = JSON.stringify(world);
@@ -135,17 +107,16 @@ describe("Budget/economy read model", () => {
     expect(JSON.stringify(world)).toBe(before);
   });
 
-  it("does not gate public reading on office and does not lend Lexington data to a state", () => {
-    const seated = seatedFiscalReader();
-    expect(resolveActiveMemberSeat(seated.world, seated.personId).kind).toBe(
-      "seated",
-    );
-
-    const kentuckyJurisdictionId =
-      requireLifePlace("kentucky").context.jurisdiction.id;
-    const result = projectBudgetEconomy(seated.world, kentuckyJurisdictionId);
+  it("does not lend Lexington data to a state scope", () => {
+    const world = productionWorld("lexington-fayette");
+    const kentucky = requireLifePlace("kentucky").context.jurisdiction;
+    const withKentucky: World = {
+      ...world,
+      jurisdictions: { ...world.jurisdictions, [kentucky.id]: kentucky },
+    };
+    const result = projectBudgetEconomy(withKentucky, kentucky.id);
     expect(result.economicBinding).toBeNull();
-    expect(result.simulationDate).toBe(seated.world.currentDate);
+    expect(result.simulationDate).toBe(withKentucky.currentDate);
   });
 
   it("projects exact aggregate fiscal history and excludes proposal segments", () => {
