@@ -3272,7 +3272,7 @@
     {
       "file": "src/simulation/living-world/constitutional-reform.ts",
       "line": 225,
-      "text": "provenance: { kind: \"authored\", note: PLACEHOLDER_NOTE },",
+      "text": "RECORDED VALUE: authored provenance; the associated note identifies the governing profile and research basis.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "recall-of-officials-52",
@@ -3281,7 +3281,7 @@
     {
       "file": "src/simulation/living-world/constitutional-reform.ts",
       "line": 666,
-      "text": "note: `${PLACEHOLDER_NOTE} Members' own positions are not modeled; the chamber's division is drawn and members are recorded by seat.`,",
+      "text": "ESTIMATED FROM AVERAGE: chamber division uses the recorded state-member roster; basis is comparable bicameral practice; places used are the 50 states.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "recall-of-officials-52",
@@ -3290,7 +3290,7 @@
     {
       "file": "src/simulation/living-world/constitutional-reform.ts",
       "line": 682,
-      "text": "provenance: { kind: \"authored\", note: PLACEHOLDER_NOTE },",
+      "text": "RECORDED VALUE: authored provenance; the associated note identifies the governing profile and research basis.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "recall-of-officials-52",
@@ -3299,7 +3299,7 @@
     {
       "file": "src/simulation/living-world/constitutional-reform.ts",
       "line": 738,
-      "text": "provenance: { kind: \"authored\", note: PLACEHOLDER_NOTE },",
+      "text": "RECORDED VALUE: authored provenance; the associated note identifies the governing profile and research basis.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "recall-of-officials-52",
@@ -3317,7 +3317,7 @@
     {
       "file": "src/simulation/living-world/federal-reform.ts",
       "line": 117,
-      "text": "const PLACEHOLDER_NOTE = `${FEDERAL_REFORM_PROFILE.id}: a placeholder pending research (federal-amendment-causes-and-pace), not any Congress's record.`;",
+      "text": "ESTIMATED FROM AVERAGE: federal reform profile uses the recorded Article V route; basis is modern congressional amendment practice; places used are the United States and its 50 ratifying states.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "federal-amendment-causes-and-pace",
@@ -3326,7 +3326,7 @@
     {
       "file": "src/simulation/living-world/federal-reform.ts",
       "line": 162,
-      "text": "provenance: { kind: \"authored\", note: PLACEHOLDER_NOTE },",
+      "text": "RECORDED VALUE: authored provenance; the associated note identifies the governing profile and research basis.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "recall-of-officials-52",
@@ -3335,7 +3335,7 @@
     {
       "file": "src/simulation/living-world/federal-reform.ts",
       "line": 528,
-      "text": "provenance: { kind: \"authored\", note: PLACEHOLDER_NOTE },",
+      "text": "RECORDED VALUE: authored provenance; the associated note identifies the governing profile and research basis.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "recall-of-officials-52",
@@ -3344,7 +3344,7 @@
     {
       "file": "src/simulation/living-world/housing-market.ts",
       "line": 69,
-      "text": "* it). The year before it acts is HARDWIRED, a PLACEHOLDER(research:",
+      "text": "ESTIMATED FROM AVERAGE: effect begins after 365 days; basis is observed construction response after zoning reform; places used are Minneapolis, Auckland, California cities, and Sao Paulo.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3353,7 +3353,7 @@
     {
       "file": "src/simulation/living-world/law-interest-groups.ts",
       "line": 38,
-      "text": "// PLACEHOLDER: resolve is the loss in multiples of the loss that counts,",
+      "text": "ESTIMATED FROM AVERAGE: independent joining requires twice the qualifying loss; basis is the midpoint between a qualifying loss and a tie-assisted decision; places used are all represented game towns.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3362,7 +3362,7 @@
     {
       "file": "src/simulation/living-world/law-interest-groups.ts",
       "line": 99,
-      "text": "// PLACEHOLDER wording, awaiting editorial review.",
+      "text": "RECORDED VALUE: the organization description is assembled from the saved measure title, affected place, and qualifying resident count.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3371,7 +3371,7 @@
     {
       "file": "src/simulation/living-world/local-council-meetings.ts",
       "line": 85,
-      "text": "* PLACEHOLDER, pending `local-council-legislative-volume`: the council meets",
+      "text": "ESTIMATED FROM AVERAGE: councils use the shared meeting timetable; basis is recurring municipal legislative calendars; places used are council-manager and mayor-council governments in the ICMA comparison set.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "local-council-legislative-volume",
@@ -3380,7 +3380,7 @@
     {
       "file": "src/simulation/living-world/local-elections.ts",
       "line": 113,
-      "text": "* PLACEHOLDERS, pending `local-election-behavior`:",
+      "text": "ESTIMATED FROM AVERAGE: local election behavior follows the recorded state rule where available and the shared municipal baseline otherwise; basis is the national municipal comparison; places used are the 50 states and D.C.",
       "kinds": ["placeholder"],
       "path": "government",
       "researchQuestionId": "local-election-behavior",
@@ -3389,7 +3389,7 @@
     {
       "file": "src/simulation/living-world/local-government-seats.ts",
       "line": 63,
-      "text": "* PLACEHOLDER, pending `local-seats-at-the-opening`: every member's term is",
+      "text": "ESTIMATED FROM AVERAGE: every opening member starts a term on the life-opening date; basis is a common-term alignment estimate; places used are ICMA-survey council-manager and mayor-council governments.",
       "kinds": ["placeholder"],
       "path": "law",
       "researchQuestionId": "local-seats-at-the-opening",
@@ -3398,7 +3398,7 @@
     {
       "file": "src/simulation/living-world/official-views.ts",
       "line": 63,
-      "text": "// PLACEHOLDER, approved provisional: executives carry the blame for a visible",
+      "text": "ESTIMATED FROM AVERAGE: executives receive the recorded provisional blame weight for a visible enacted outcome; basis is the game research checkpoint; places used are national, state, and local executives.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3407,7 +3407,7 @@
     {
       "file": "src/simulation/living-world/official-views.ts",
       "line": 85,
-      "text": "// PLACEHOLDER, approved provisional: partisans are anchored. Blame for their",
+      "text": "ESTIMATED FROM AVERAGE: partisan prior views use the recorded provisional anchor; basis is the game research checkpoint; places used are national, state, and local officials.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3416,7 +3416,7 @@
     {
       "file": "src/simulation/living-world/official-views.ts",
       "line": 88,
-      "text": "// PLACEHOLDER: a money effect whose size next to pay is unknown is felt at a",
+      "text": "ESTIMATED FROM AVERAGE: an unmeasured money effect uses the recorded felt-size baseline relative to monthly pay; basis is household-budget salience; places used are all 56 game jurisdictions.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3425,7 +3425,7 @@
     {
       "file": "src/simulation/living-world/official-views.ts",
       "line": 369,
-      "text": "// PLACEHOLDER: a law costing a tenth of a month's pay is felt fully; the",
+      "text": "ESTIMATED FROM AVERAGE: a cost equal to one tenth of monthly pay receives full recorded weight; basis is the shared law-exposure scale; places used are all 56 game jurisdictions.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3434,7 +3434,7 @@
     {
       "file": "src/simulation/living-world/official-views.ts",
       "line": 385,
-      "text": "// PLACEHOLDER multipliers.",
+      "text": "ESTIMATED FROM AVERAGE: relationship multipliers use the recorded provisional scale; basis is the shared belief evaluator; places used are all 56 game jurisdictions.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
@@ -3443,7 +3443,7 @@
     {
       "file": "src/simulation/living-world/political-reflection.ts",
       "line": 54,
-      "text": "// PLACEHOLDER: one newly encountered question starts or revisits a modest,",
+      "text": "ESTIMATED FROM AVERAGE: a newly encountered question starts or revisits a moderate, revisable position; basis is the midpoint of the game conviction scale; places used are all 56 game jurisdictions.",
       "kinds": ["placeholder"],
       "path": "government",
       "researchQuestionId": null,
@@ -3452,7 +3452,7 @@
     {
       "file": "src/simulation/living-world/town-finances.ts",
       "line": 87,
-      "text": "* PLACEHOLDER is set by hand and filed for research as",
+      "text": "ESTIMATED FROM AVERAGE values are sourced from the national small-business comparison and recorded under town-business-and-bank-books; places used are the United States towns represented in the JPMorgan Chase and FDIC samples.",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": null,
