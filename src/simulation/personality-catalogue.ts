@@ -5,6 +5,7 @@ import type {
   TraitPack,
   TraitScale,
 } from "./trait-packs";
+import { compiledPersonalityTraitEffects } from "./traits/effects";
 
 /**
  * The personality catalog: the named qualities a person can be known for,
@@ -32,8 +33,9 @@ import type {
  * **What argues.** Each profile names the kinds of decision its scales are
  * meant for, and a lean is admitted only against a decision that publishes
  * itself. The first is whether an officeholder runs again
- * (`CATALOGUE_EFFECTS`); every other quality is recorded, shown and moved by
- * what happens to people, and changes no outcome yet.
+ * (`CATALOGUE_EFFECTS`). Independently owned readers under `traits/effects`
+ * add further decision arguments without turning this catalog into a shared
+ * editing bottleneck.
  */
 
 export const PERSONALITY_PACK = "personality-v1";
@@ -241,7 +243,7 @@ export function personalityCataloguePack(): TraitPack {
   return {
     pack: PERSONALITY_PACK,
     traits: CATALOGUE_SCALES.map(declarationFor),
-    effects: CATALOGUE_EFFECTS,
+    effects: [...CATALOGUE_EFFECTS, ...compiledPersonalityTraitEffects()],
   };
 }
 
