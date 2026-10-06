@@ -3,6 +3,7 @@ import {
   createCharacterHistoryContextPeople,
   type CharacterHistoryContextPersonInput,
 } from "../character-history";
+import { candidateSlateSummary } from "../candidate-slate-summary";
 import { addDays, makeIsoDate } from "../dates";
 import {
   electionProspectInput,
@@ -544,7 +545,10 @@ export function prepareCongressCandidateSlates(
           ? [`primary-date:${nomination.primaryDate}`]
           : ["nomination:not-held"]),
       ],
-      summary: `${candidates.length} people entered the race for ${congressSeatTitle(seat)}.`,
+      summary: candidateSlateSummary(
+        candidates.length,
+        congressSeatTitle(seat),
+      ),
       context: {
         location: null,
         socialContext: null,

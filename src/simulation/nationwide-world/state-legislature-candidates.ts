@@ -2,6 +2,7 @@ import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
 } from "../character-history";
+import { candidateSlateSummary } from "../candidate-slate-summary";
 import { addDays, ageOnDate, isoDateFromParts, makeIsoDate } from "../dates";
 import { legislativeTermDates } from "../legislative-office-terms";
 import {
@@ -843,7 +844,7 @@ export function prepareStateCandidateSlates(
           ? ["incumbent-qualification:provisional-game-profile"]
           : []),
       ],
-      summary: `${candidates.length} people entered the race for ${plan.title}.`,
+      summary: candidateSlateSummary(candidates.length, plan.title),
       context: {
         location: null,
         socialContext: null,
