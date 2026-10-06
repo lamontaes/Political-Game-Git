@@ -1,0 +1,25 @@
+{
+  "assignment": "b30-p1",
+  "scenario": "A new seeded game selects a place from the accepted life-place list and applies to an IPEDS institution from the shipped postsecondary catalog.",
+  "seed": "b30-p1-new-game-place-proof",
+  "place": {
+    "key": "lexington-fayette",
+    "displayName": "Lexington, Kentucky",
+    "scope": "locality"
+  },
+  "application": {
+    "accepted": true,
+    "institutionId": "ipeds-unit:166027",
+    "name": "Harvard University",
+    "kind": "ivy-league",
+    "campusId": "harvard",
+    "profileClassification": "service:college",
+    "profileProvenanceAsOf": "2025-10-06",
+    "profileProvenanceArtifacts": ["HD2024", "IC2024"]
+  },
+  "validation": {
+    "test": "src/education/named-colleges.test.ts",
+    "result": "5 passed",
+    "productionTypeScript": "npx tsc -b tsconfig.app.json --pretty false passed"
+  }
+}

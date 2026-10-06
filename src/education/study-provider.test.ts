@@ -414,6 +414,18 @@ describe("applying for a degree at a real college", () => {
   const capability = (code: string) =>
     college.capabilities.find((c) => c.code === code)!;
 
+  it("saves the catalog kind and painted identity on the canonical lazy college record", () => {
+    const applied = applyForEducation(fixture(), college, "LEVEL5");
+    expect(applied.ok).toBe(true);
+    const profile = applied.world.history.organizationProfiles.find(
+      (row) => row.collegePlace?.institutionId === college.id,
+    );
+    expect(profile?.name).toBe(college.name);
+    expect(profile?.collegePlace?.kind).toMatch(
+      /^(flagship|ivy-league|political-hotbed|regional-public|private|community)$/,
+    );
+  });
+
   it("leaves an unmatched price pending without a catalog tuition fallback or a payment", () => {
     const w = fixture();
     const missing = {

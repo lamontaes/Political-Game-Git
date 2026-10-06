@@ -37,6 +37,7 @@ import {
   createEducationEnrollment,
 } from "../simulation/life";
 import { recordEvidenceArtifact } from "../simulation/evidence";
+import { collegePlaceFor } from "./college-places";
 import { recordWorldEvent } from "../simulation/world";
 import {
   parseEducationTerms,
@@ -423,6 +424,7 @@ export function applyForEducation(
   const actor = world.control.kind === "person" ? world.control.personId : null;
   if (!actor) throw new Error("No person");
   const stableKey = `edu-path7:institution:${institution.id}`;
+  const collegePlace = collegePlaceFor(institution);
   const state = stateJurisdictionForKey(`US-${institution.state}`);
   let next = world;
   let org = next.history.organizations.find((o) => o.stableKey === stableKey);
@@ -439,6 +441,15 @@ export function applyForEducation(
         name: institution.name,
         classification: "service:college",
         locationJurisdictionId: educationInstitutionLocation(next, institution),
+        ...(collegePlace
+          ? {
+              collegePlace: {
+                institutionId: collegePlace.id,
+                kind: collegePlace.kind,
+                campusId: collegePlace.campus,
+              },
+            }
+          : {}),
         ...(institution.directorySource?.primaryPublicControl === "2" &&
         state &&
         next.jurisdictions[state.id]
